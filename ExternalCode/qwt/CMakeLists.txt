@@ -1,0 +1,15 @@
+FILE( GLOB QWT_SRC *.cpp )
+FILE( GLOB QWT_HDRS *.h )
+
+QT4_WRAP_CPP( QWT_MOC ${QWT_HDRS} )
+
+ADD_LIBRARY( qwt
+  SHARED
+  ${QWT_SRC}
+  ${QWT_MOC}
+  )
+
+TARGET_LINK_LIBRARIES( qwt
+  qwt
+  ${QT_LIBRARIES}
+  )

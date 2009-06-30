@@ -1,0 +1,1 @@
+FILE( GLOB NVECSER_SRC *. c )

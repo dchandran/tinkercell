@@ -1,0 +1,3 @@
+ADD_SUBDIRECTORY( muparser )
+ADD_SUBDIRECTORY( qwt ) 
+ADD_SUBDIRECTORY( cvode_src )

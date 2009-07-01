@@ -1,0 +1,16 @@
+FILE( GLOB DATATOOLS_SRC *.cpp )
+FILE( GLOB DATATOOLS_HDRS *.h )
+
+QT4_WRAP_CPP( DATATOOLS_MOC ${DATATOOLS_SRC} )
+
+ADD_LIBRARY( datatools
+  SHARED
+  ${DATATOOLS_SRC}
+  ${DATATOOLS_MOC}
+  ) 
+
+TARGET_LINK_LIBRARIES( datatools
+  datatools
+  NodesTree
+  ) 
+

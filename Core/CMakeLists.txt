@@ -1,0 +1,71 @@
+SET( TINKERCELL_CORE_HDRS
+  AbstractInputWindow.h
+  ConnectionGraphicsItem.h
+  ConnectionGraphicsReader.h
+  ConnectionGraphicsWriter.h
+  ConvertValue.h
+  CThread.h
+  DataTable.h
+  GraphicsScene.h
+  HistoryStack.h
+  ItemFamily.h
+  ItemHandle.h
+  MainWindow.h
+  ModelReader.h
+  ModelWriter.h
+  NetworkWindow.h
+  NodeGraphicsItem.h
+  NodeGraphicsReader.h
+  NodeGraphicsWriter.h
+  OutputWindow.h
+  SymbolsTable.h
+  TextEditor.h
+  TextGraphicsItem.h
+  TextItem.h
+  Tool.h
+  UndoCommands.h
+)
+
+SET( TINKERCELL_CORE_SRC
+  AbstractInputWindow.cpp
+  ConnectionGraphicsItem.cpp
+  ConnectionGraphicsReader.cpp
+  ConnectionGraphicsWriter.cpp
+  ConvertValue.cpp
+  CThread.cpp
+#   DataTable.cpp
+  GraphicsScene.cpp
+#   HistoryStack.cpp
+  ItemFamily.cpp
+  ItemHandle.cpp
+  MainWindow.cpp
+  ModelReader.cpp
+  ModelWriter.cpp
+  NetworkWindow.cpp
+  NodeGraphicsItem.cpp
+  NodeGraphicsReader.cpp
+  NodeGraphicsWriter.cpp
+  OutputWindow.cpp
+  SymbolsTable.cpp
+  TextEditor.cpp
+  TextGraphicsItem.cpp
+  TextItem.cpp
+  Tool.cpp
+  UndoCommands.cpp
+)
+
+QT4_WRAP_CPP( TINKERCELL_CORE_MOC ${TINKERCELL_CORE_HDRS} )
+
+
+ADD_LIBRARY( TinkerCellCore
+  SHARED
+  ${TINKERCELL_CORE_MOC}
+  ${TINKERCELL_CORE_SRC} 
+)
+
+TARGET_LINK_LIBRARIES( TinkerCellCore
+  TinkerCellCore
+  muparser
+  ${QT_LIBRARIES}
+)
+

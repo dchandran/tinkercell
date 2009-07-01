@@ -74,17 +74,17 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/c/sundials/
     ${TINKERCELL_SOURCE_DIR}/c/nvector/
     ${TINKERCELL_SOURCE_DIR}/c/cvode/
-#    ${TINKERCELL_SOURCE_DIR}/Core/
+    ${TINKERCELL_SOURCE_DIR}/Core/
 #    ${TINKERCELL_SOURCE_DIR}/BasicTools/
 #    ${TINKERCELL_SOURCE_DIR}/OtherTools/
 #    ${TINKERCELL_SOURCE_DIR}/OtherTools/AntinomyEditor/
-#    ${TINKERCELL_SOURCE_DIR}/DataTools/
+    ${TINKERCELL_SOURCE_DIR}/DataTools/
 #    ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
 #    ${TINKERCELL_SOURCE_DIR}/NodesTree/
 #    ${TINKERCELL_SOURCE_DIR}/PlotTools/
 #    ${TINKERCELL_SOURCE_DIR}/ContainerTools/
 #    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
-#    ${TINKERCELL_SOURCE_DIR}/CInputWindows/
+    ${TINKERCELL_SOURCE_DIR}/CInputWindows/
 #    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
 ### includes in BINARY_DIR just in case
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
@@ -99,17 +99,17 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/
     ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/bfp_LUSOL
     ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL
-#    ${TINKERCELL_BINARY_DIR}/Core/
+    ${TINKERCELL_BINARY_DIR}/Core/
 #    ${TINKERCELL_BINARY_DIR}/BasicTools/
 #    ${TINKERCELL_BINARY_DIR}/OtherTools/
 #    ${TINKERCELL_BINARY_DIR}/OtherTools/AntinomyEditor/
-#    ${TINKERCELL_BINARY_DIR}/DataTools/
+    ${TINKERCELL_BINARY_DIR}/DataTools/
 #    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
 #    ${TINKERCELL_BINARY_DIR}/NodesTree/
 #    ${TINKERCELL_BINARY_DIR}/PlotTools/
 #    ${TINKERCELL_BINARY_DIR}/ContainerTools/
 #    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
-#    ${TINKERCELL_BINARY_DIR}/CInputWindows/
+    ${TINKERCELL_BINARY_DIR}/CInputWindows/
 #    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
 
@@ -117,7 +117,7 @@ IF( QT4_FOUND )
 
   ADD_SUBDIRECTORY( c )
   ADD_SUBDIRECTORY( ExternalCode )
-#  ADD_SUBDIRECTORY( Core )
+  ADD_SUBDIRECTORY( Core )
 #  ADD_SUBDIRECTORY( NodeGraphicsItem )
 #  ADD_SUBDIRECTORY( NodesTree )
 #  ADD_SUBDIRECTORY( PlotTools )
@@ -126,7 +126,7 @@ IF( QT4_FOUND )
 #  ADD_SUBDIRECTORY( OtherTools )
 #  ADD_SUBDIRECTORY( ContainerTools )
 #  ADD_SUBDIRECTORY( SegmentationAnimation )
-#  ADD_SUBDIRECTORY( CInputWindows )
+  ADD_SUBDIRECTORY( CInputWindows )
 #  ADD_SUBDIRECTORY( DynamicCodeTools )
 ##  ADD_SUBDIRECTORY( c/lpsolve )
 

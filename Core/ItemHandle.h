@@ -1,0 +1,321 @@
+/****************************************************************************
+
+ Copyright (c) 2008 Deepak Chandran
+ Contact: Deepak Chandran (dchandran1@gmail.com)
+ See COPYRIGHT.TXT
+
+ This is one of the main classes in Tinkercell
+ This file defines the ItemHandle, NodeHandle, and ConnectionHandle classes.
+ Each item in Tinkercell has a graphics item for drawing and a handle. The
+ handle stores data information and family information about the item that is displayed.
+
+ A handle can also have multiple items associate with it. This just means that multiple
+ graphics are used to draw a single item.
+
+****************************************************************************/
+
+#ifndef TINKERCELL_HANDLER_H
+#define TINKERCELL_HANDLER_H
+
+#include <QList>
+#include <QTreeWidgetItem>
+#include <QUndoCommand>
+#include <QGraphicsItem>
+
+#include "DataTable.h"
+#include "ItemFamily.h"
+
+namespace Tinkercell
+{
+
+	class GraphicalsScene;
+	class Tool;
+	class TextGraphicsItem;
+	class ItemHandle;
+	class NodeHandle;
+	class ConnectionHandle;
+	class NodeGraphicsItem;
+	class ConnectionGraphicsItem;
+	class TextItem;
+	class NodeTextItem;
+	class ConnectionTextItem;
+
+	/*! \brief This function replaces disallowed characters in a name string
+	* \ingroup helper
+	* \param QString original string
+	*/
+	QString RemoveDisallowedCharactersFromName(const QString&);
+
+	/*! \brief
+	* This class is used to store information about nodes or connections.
+	* It contains a hashtable of data tables, which is used by different tools to store
+	* specific data.
+	* \ingroup helper
+	*/
+	class ItemData
+	{
+	public:
+		/*! \brief hash table that stores the numerical data for each tool*/
+		QHash<QString,DataTable<qreal> > numericalData;
+		/*! \brief hash table that stores the text data for each tool*/
+		QHash<QString,DataTable<QString> > textData;
+	};
+
+	/*! \brief
+	* The handles are used to bring together data and graphics items.
+	* Item Handle contains pointers to all the graphics items that belong to it, the tools
+	* that apply to this item, the data for this item, and the family that it belongs with
+	* \ingroup core
+	*/
+	class ItemHandle: public QObject
+	{
+		Q_OBJECT;
+
+	public:
+		/*! \brief name of this item*/
+		QString name;
+		/*! \brief list of graphical items used to draw this handle*/
+		QList<QGraphicsItem*> graphicsItems;
+		/*! \brief list of graphical items used to draw this handle*/
+		QList<TextItem*> textItems;
+		/*! \brief list of tools associated with this handle*/
+		QList<Tool*> tools;
+		/*! \brief the data (from each tool) for this handle
+			\sa ItemData*/
+		ItemData* data;
+		/*! \brief this handles immediate parent (main parent if there are more than one)*/
+		ItemHandle * parent;
+		/*! \brief child handles that have this handle as a parent*/
+		QList<ItemHandle*> children;
+		/*! \brief type of this handle (sub-classes can specify type)*/
+		int type;
+
+		/*! \brief default constructor -- does nothing*/
+		ItemHandle();
+		/*! \brief copy constructor */
+		ItemHandle(const ItemHandle&);
+		/*! \brief operator = */
+		virtual ItemHandle& operator = (const ItemHandle&);
+		/*! \brief destructor -- does nothing*/
+		virtual ~ItemHandle();
+		/*! \brief clone the data and lists*/
+		virtual ItemHandle * clone() const;
+		/*! \brief family that this items belongs in. Used for characterizing the nodes and connections.*/
+		virtual ItemFamily* family() const;
+		/*! \brief determines whether this handle belongs to the speicific family.
+		\param QString the family*/
+		virtual bool isA(const ItemFamily* family) const;
+		/*! \brief determines whether this handle belongs to the speicific family.
+		\param QString the family name*/
+		virtual bool isA(const QString& family) const;
+		/*! \brief The full name includes all the parent names appended using a dot
+		\param QString replace the dot with some other separator */
+		virtual QString fullName(const QString& sep = QString(".")) const;
+		/*! \brief Set the parent for this handle
+		\param ItemHandle* parent handle */
+		virtual void setParent(ItemHandle * parent);
+		/*! \brief get the top-level handle such that it is of the specified family. If no family is specified, then gets the top-level handle
+		\param ItemHandle* the family name */
+		virtual ItemHandle* root(const QString& family=QString("")) const;
+		/*! \brief get the bottom-most parent handle such that it is of the specified family. If no family is specified, then gets the top-level handle
+		\param ItemHandle* the family name */
+		virtual ItemHandle* parentOfFamily(const QString& family) const;
+		/*! \brief checks if an item is the parent or parent's parent, or parent's parent's parent, etc. Note: self->isChildOf(self) is false
+		\param ItemHandle* parent handle
+		\return Boolean is child*/
+		virtual bool isChildOf(ItemHandle * handle) const;
+		/*! \brief gets the graphics items belonging to this handle and all child handes
+		\return QList<QGraphicsItem*> list of graphics items*/
+		virtual QList<QGraphicsItem*> allGraphicsItems() const;
+		/*! \brief gets the all child handes and their child handles
+		\return QList<ItemHandle*> list of handles*/
+		virtual QList<ItemHandle*> allChildren() const;
+		/*! \brief does this handle have a numerical data table with this name?
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/
+		virtual bool hasNumericalData(const QString& name) const;
+		/*! \brief does this handle have a text data table with this name?
+		\param QString name of tool, e.g. "Text Attributes"
+		\return bool true = has a text table by this name. false = does not have a text table by this name*/
+		virtual bool hasTextData(const QString& name) const;
+		/*! \brief gets a numerical attribute with the given name, row, column
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\param int row in data table
+		\param int column in data table
+		\return double value*/
+		virtual qreal getNumericalData(const QString& name, int row, int column) const;
+		/*! \brief gets a numerical attribute with the given name, row, column
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\param QString row name in data table
+		\param QString column name data table
+		\return double value*/
+		virtual qreal getNumericalData(const QString& name, const QString& row, const QString& column) const;
+		/*! \brief gets a text attribute with the given name, row, column
+		\param QString name of tool, e.g. "Text Attributes"
+		\param int row in data table
+		\param int column in data table
+		\return QString value*/
+		virtual QString getTextData(const QString& name, int row, int column) const;
+		/*! \brief gets a text attribute with the given name, row, column
+		\param QString name of tool, e.g. "Text Attributes"
+		\param QString row name in data table
+		\param QString column name data table
+		\return QString value*/
+		virtual QString getTextData(const QString& name, const QString& row, const QString& column) const;
+		/*! \brief gets a numerical attribute with the given name, row, column
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\param int row in data table
+		\param int column in data table
+		\param double value*/
+		virtual void setNumericalData(const QString& name, int row, int column, qreal value);
+		/*! \brief gets a numerical attribute with the given name, row, column
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\param QString row name in data table
+		\param QString column name data table
+		\param double value*/
+		virtual void setNumericalData(const QString& name, const QString& row, const QString& column, qreal value);
+		/*! \brief gets a text attribute with the given name, row, column
+		\param QString name of tool, e.g. "Text Attributes"
+		\param int row in data table
+		\param int column in data table
+		\param QString value*/
+		virtual void setTextData(const QString& name, int row, int column, const QString& value);
+		/*! \brief gets a text attribute with the given name, row, column
+		\param QString name of tool, e.g. "Text Attributes"
+		\param QString row name in data table
+		\param QString column name data table
+		\param QString value*/
+		virtual void setTextData(const QString& name, const QString& row, const QString& column, const QString& value);
+	};
+
+	/*! \brief
+	* The handles are used to bring together data and graphics items.
+	* Node Handle contains pointers to all the graphics items that belong to it, the tools
+	* that apply to this item, the data for this item, and the family that it belongs with
+	* \ingroup core
+	*/
+	class NodeHandle : public ItemHandle
+	{
+		Q_OBJECT
+
+	public:
+		/*! \brief this number is used to identify when a handle is a node handle*/
+		static int Type;
+		/*! \brief funcion that returns all the connections from all the nodes in this handle
+			\return QList<ConnectionHandle*> list of connection handles
+		*/
+		virtual QList<ConnectionHandle*> connections() const;
+		/*! \brief node family for this node handle*/
+		NodeFamily* nodeFamily;
+		/*! \brief default constructor -- initialize everything*/
+		NodeHandle();
+		/*! \brief constructor with initial family
+		\param NodeFamily* family for this handle*/
+		NodeHandle(NodeFamily * nodeFamily);
+		/*! \brief copy constructor -- copies all the data (deep). graphic items are shallow copies*/
+		NodeHandle(const NodeHandle & copy);
+		/*! \brief constructor using initial family and graphics item*/
+		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item);
+		/*! \brief constructor using initial family and text item*/
+		NodeHandle(NodeFamily * nodeFamily, NodeTextItem * item);
+		/*! \brief return a clone of this handle
+		\return ItemFamily* node handle as item handle*/
+		virtual ItemHandle * clone() const;
+		/*! \brief get the node family for this handle
+		\return ItemFamily* node family as item family*/
+		virtual ItemFamily* family() const;
+		/*! \brief set the node family for this handle
+		\param NodeFamily* node family*/
+		virtual bool setFamily(NodeFamily *);
+                /*! \brief checks if the item handle is a node handle and casts it as a node item.
+                  Returns 0 if it is not a node item
+                \param ItemHandle* item*/
+                static NodeHandle* asNode(ItemHandle *);
+	};
+
+	/*! \brief
+	* The handles are used to bring together data and graphics items.
+	* Connection Handle contains pointers to all the graphics items that belong to it, the tools
+	* that apply to this item, the data for this item, the family that it belongs with, and pointers
+	* to nodes connected (in and out)
+	* \ingroup core
+	*/
+	class ConnectionHandle : public ItemHandle
+	{
+	public:
+		/*! \brief this number is used to identify when an item handle is a connection handle*/
+		static int Type;
+		/*! \brief returns all the nodes connected to all the connectors in this handle
+			\return QList<NodeHandle*> list of node handles*/
+		virtual QList<NodeHandle*> nodes() const;
+		/*! \brief
+		returns all the nodes that are on the "input" side of this connection.
+		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
+		or by looking at the lhs and rhs lists in text itesm
+			\return QList<NodeHandle*> list of node handles*/
+		virtual QList<NodeHandle*> nodesIn() const;
+		/*! \brief
+		returns all the nodes that are on the "output" side of this connection.
+		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
+		or by looking at the lhs and rhs lists in text itesm
+			\return QList<NodeHandle*> list of node handles*/
+		virtual QList<NodeHandle*> nodesOut() const;
+		/*! \brief the family for this connection handle*/
+		ConnectionFamily* connectionFamily;
+		/*! \brief default constructor -- initializes everything*/
+		ConnectionHandle();
+		/*! \brief one parameter constructor -- initializes everything
+			\param ConnectionFamily* connection family*/
+		ConnectionHandle(ConnectionFamily * family);
+		/*! \brief copy constructor -- deep copy of data, but shallow copy of graphics items*/
+		ConnectionHandle(const ConnectionHandle&);
+		/*! \brief two parameter constructor
+			\param ConnectionFamily* initial family
+			\param ConnectionGraphicsItem* connection graphics item*/
+		ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item);
+		/*! \brief two parameter constructor
+			\param ConnectionFamily* initial family
+			\param ConnectionGraphicsItem* connection text item*/
+		ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item);
+		/*! \brief set the family for this handle
+			\param ConnectionFamily* connection family*/
+		virtual bool setFamily(ConnectionFamily * family);
+		/*! \brief clone of this handle
+			\return ItemFamily* connection handle as item handle*/
+		virtual ItemHandle * clone() const;
+		/*! \brief family for this handle
+			\return ItemFamily* connection family as item family*/
+		virtual ItemFamily* family() const;
+                /*! \brief checks if the item handle is a node handle and casts it as a node item.
+                  Returns 0 if it is not a node item
+                \param ItemHandle* item*/
+                static ConnectionHandle* asConnection(ItemHandle *);
+	};
+
+	/*! \brief get the handle from a graphics item
+	* \param QGraphicsItem* graphics item
+	* \ingroup core
+	* \return ItemHandle* item handle (0 if none)
+	*/
+	ItemHandle * getHandle(QGraphicsItem*);
+	/*! \brief set the handle of a graphics item (use 0 to remove handle)
+	* \param QGraphicsItem* graphics item
+	* \param ItemHandle* handle (use 0 to remove handle)
+	* \ingroup core
+	*/
+	void setHandle(QGraphicsItem*, ItemHandle*);
+	/*! \brief get the handle from a text item
+	* \param TextItem* text item
+	* \ingroup core
+	* \return ItemHandle* item handle (0 if none)
+	*/
+	ItemHandle * getHandle(TextItem*);
+	/*! \brief set the handle of a text item (use 0 to remove handle)
+	* \param TextItem* text item
+	* \param ItemHandle* handle (use 0 to remove handle)
+	* \ingroup core
+	*/
+	void setHandle(TextItem*, ItemHandle*);
+}
+
+#endif

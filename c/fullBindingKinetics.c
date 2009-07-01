@@ -10,7 +10,7 @@
 #include <math.h>
 #include "TCstructs.h"
 
-Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
+Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames )
 {
    int total = (1 << N) * N - N;
 
@@ -152,8 +152,9 @@ int main()
    
    int total;
    char* proteinNames[] = { "P\0", "A\0","B\0" };
+   char* rxname[] = {"j0"};
 
-   Matrix M = fullBindingKinetics(2,"j0",proteinNames);
+   Matrix M = fullBindingKinetics(2, rxname, proteinNames);
    int i=0,j=0;
 
    for (j=0; j < M.cols; ++j)

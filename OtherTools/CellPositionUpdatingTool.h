@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool updates the x,y attribute for "Cell" items when they are moved
 
 ****************************************************************************/
@@ -19,8 +19,8 @@
 #include <QTextEdit>
 #include <QTextCursor>
 
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -38,12 +38,12 @@ namespace Tinkercell
 	public:
 		CellPositionUpdateTool();
 		bool setMainWindow(MainWindow * main);
-
+		
 	public slots:
-
+		
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
-
-
+		
+	
 	};
 
 

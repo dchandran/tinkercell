@@ -3,9 +3,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This class adds the "events" data to each item in Tinkercell.
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_VIEWALLTABLESWIDGET_H
@@ -27,11 +27,11 @@
 #include <QListView>
 #include <QTextEdit>
 
-#include "NodeGraphicsItem.h"
-#include "DataTable.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/DataTable.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
 
 namespace Tinkercell
 {
@@ -44,39 +44,39 @@ namespace Tinkercell
 		ViewTablesTool();
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
-
+	
 	public slots:
-                void select();
-                void deselect();
+                void select(int);
+                void deselect(int);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers );
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles);
-
+		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
+		
 	protected:
 
 		QTextEdit * textEdit;
 		QListWidget numericalTables;
 		QListWidget textTables;
 		void updateList();
-
+		
 	protected slots:
 		void currentNumericalItemChanged(QListWidgetItem *, QListWidgetItem *);
 		void currentTextItemChanged(QListWidgetItem *, QListWidgetItem *);
-
+	
 	private:
 
                 class GraphicsItem2 : public Tool::GraphicsItem
                 {
                     public:
                         GraphicsItem2(Tool * tool);
-                        void setVisible(bool);
+                        void visible(bool);
                 };
-
+	
                 bool openedByUser;
                 NodeGraphicsItem item;
                 ItemHandle* itemHandle;
-		QDockWidget * dockWidget;
+				QDockWidget * dockWidget;
                 QTextCharFormat headerFormat, regularFormat;
-
+		
 	};
 
 

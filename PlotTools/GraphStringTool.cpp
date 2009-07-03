@@ -135,7 +135,7 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			//connect(mainWindow,SIGNAL(historyUpdate(int)),this,SLOT(historyUpdate(int)));
 
 			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
@@ -163,35 +163,35 @@ namespace Tinkercell
 		
 	}
 	
-	void GraphStringTool::pluginLoaded(const QString&)
+	void GraphStringTool::toolLoaded(Tool*)
 	{
 		static bool connected1 = false;
 		static bool connected2 = false;
 		if (connected1 && connected2) return;
 		
-		/*if (!connected1 && mainWindow && mainWindow->tools.contains(tr("Dynamic Library Menu")) && mainWindow->tools.contains(tr("Plot")))
+		if (!connected1 && mainWindow && mainWindow->tool(tr("Dynamic Library Menu")) && mainWindow->tool(tr("Plot")))
 		{
-			QWidget * widget = mainWindow->tools[tr("Dynamic Library Menu")];
+			QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
 			//DynamicLibraryMenu * lib = static_cast<DynamicLibraryMenu*>(widget);
 			//connect(this,SIGNAL(runPythonCode(const QString&)),lib,SLOT(runPythonCode(const QString&)));
 			
-			widget = mainWindow->tools[tr("Plot")];
+			widget = mainWindow->tool(tr("Plot"));
 			PlotTool * plot = static_cast<PlotTool*>(widget);
 			connect(this,SIGNAL(plot(const DataTable<qreal>&,int,const QString&,int)),plot,SLOT(plot(const DataTable<qreal>&,int,const QString&,int)));
 			connect(this,SIGNAL(changeData(const DataTable<qreal>&)),plot,SLOT(changeData(const DataTable<qreal>&)));
 			
 			plotTool = plot;
 			connected1 = true;
-		}*/
+		}
 		
-		/*if (!connected2 && mainWindow && mainWindow->tools.contains(tr("Model Summary")))
+		if (!connected2 && mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
-			QWidget * widget = mainWindow->tools[tr("Model Summary")];
+			QWidget * widget = mainWindow->tool(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
 			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 			connected2 = true;
-		}*/
+		}
 	}
 	
 	void GraphStringTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations)

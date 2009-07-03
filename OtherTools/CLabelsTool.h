@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool provides functions for the C API, allowing temporary labels to be placed on top
  of items.
 
@@ -17,13 +17,13 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
 
-#include "GraphicsScene.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "MainWindow.h"
-#include "NetworkWindow.h"
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/MainWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -56,7 +56,7 @@ namespace Tinkercell
 
 		CLabelsTool();
 		bool setMainWindow(MainWindow * main);
-
+		
 	public slots:
 		void setupFunctionPointers( QLibrary * library );
 		void clearLabels();
@@ -68,13 +68,13 @@ namespace Tinkercell
 		void displayText(ItemHandle*, const QString&);
 		void highlightItem(ItemHandle*,QColor);
 		void setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
-
+		
 	protected:
 		QList<QGraphicsSimpleTextItem*> textItems;
 		QList<QGraphicsRectItem*> rectItems;
 		QList<QGraphicsEllipseItem*> ellipseItems;
 		QColor bgColor, textColor;
-
+		
 		static CLabelsTool_FToS fToS;
 		static void _highlightItem(OBJ,int,int,int);
 		static void _displayText(OBJ,const char*);

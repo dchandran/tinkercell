@@ -38,9 +38,6 @@ namespace Tinkercell
 	AssignmentFunctionsTool::VisualTool::VisualTool() : GraphicalTool(tr("Assignments and Functions"))
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-  		#ifdef Q_WS_MAC
-		appDir += tr("/../../..");
-		#endif
 		openedByUser = false;
 		PartGraphicsReader reader;
 		reader.readXml(&item,appDir + tr("/OtherTools/func.xml"));
@@ -137,14 +134,14 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				         this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
-						  this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
+						  this, SLOT(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
 			
-			connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			
 			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 			
@@ -176,20 +173,20 @@ namespace Tinkercell
 				dockWidget->hide();
 			}
 			
-			pluginLoaded(QString());
+			toolLoaded(0);
 		}
 		return (mainWindow != 0);
 	}
 	
-	void AssignmentFunctionsTool::pluginLoaded(const QString&)
+	void AssignmentFunctionsTool::toolLoaded(Tool*)
 	{
 		static bool connected1 = false;
 		static bool connected2 = false;
 		if (connected1 && connected2) return;
 		
-		if (!connected1 && mainWindow && mainWindow->tools.contains(tr("Model Summary")))
+		if (!connected1 && mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
-			QWidget * widget = mainWindow->tools[tr("Model Summary")];
+			QWidget * widget = mainWindow->tools(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
 			connect(modelSummary,SIGNAL(aboutToDisplayModel(const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 					this,SLOT(aboutToDisplayModel(const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
@@ -197,9 +194,9 @@ namespace Tinkercell
 					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 			connected1 = true;
 		}
-		if (!connected2 && mainWindow && mainWindow->tools.contains(tr("Graph Tool")))
+		if (!connected2 && mainWindow && mainWindow->tool(tr("Graph Tool")))
 		{
-			QWidget * widget = mainWindow->tools[tr("Graph Tool")];
+			QWidget * widget = mainWindow->tool(tr("Graph Tool"));
 			PlotTool * plotTool = static_cast<PlotTool*>(widget);
 			connect(this,SIGNAL(plot(const DataTable<qreal>&,const QString&,int,int)),
 					plotTool,SLOT(plot(const DataTable<qreal>&,const QString&,int,int)));
@@ -250,7 +247,7 @@ namespace Tinkercell
 			updateTable();
 	}
 
-	void AssignmentFunctionsTool::itemsInserted(GraphicsScene* , const QList<QGraphicsItem *>& , const QList<ItemHandle*>& handles)
+	void AssignmentFunctionsTool::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -723,10 +720,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 
 	Tinkercell::AssignmentFunctionsTool * AssignmentFunctionsTool = new Tinkercell::AssignmentFunctionsTool;
-	if (main->tools.contains(AssignmentFunctionsTool->name))
-		delete AssignmentFunctionsTool;
-	else
-		AssignmentFunctionsTool->setMainWindow(main);
+	main->addTool(AssignmentFunctionsTool);
 
 }
 

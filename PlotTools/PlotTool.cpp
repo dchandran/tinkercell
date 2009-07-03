@@ -13,7 +13,6 @@
 #include <QCheckBox>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-// #include "PartGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "OutputWindow.h"
 #include "PlotTool.h"
@@ -121,8 +120,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
 			//dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
-			// mainWindow->addTool(name,this);
-			
+		
 			if (dockWidget)
 			{
 				QPoint p = mainWindow->rect().bottomRight() - QPoint(sizeHint().width(),sizeHint().height());
@@ -149,7 +147,7 @@ namespace Tinkercell
 			}
 			
 			//QToolBar * toolBar = new QToolBar;
-			/*QToolBar * toolBar = mainWindow->secondToolBar;
+                        QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Plot Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/graph.png")));
 			
@@ -167,7 +165,7 @@ namespace Tinkercell
 			}
 			toolBar->addAction(action);
 			//mainWindow->addToolBar(toolBar);
-			*/
+			
 			return true;
 		}
 		return false;	
@@ -179,10 +177,15 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(tr("Plotting...."));
 		
 		if (dockWidget)
+		{
 			dockWidget->show();
+			dockWidget->raise();
+		}
 		else
+		{
 			show();
-		
+			this->raise();
+		}
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
 		
@@ -309,8 +312,8 @@ namespace Tinkercell
 		
 		QList<NetworkWindow*> allWindows = main->allWindows();
 		QList<ItemHandle*> allItems;
-		//for (int i=0; i < allWindows.size(); ++i)
-		//	allItems << allWindows[i]->allHandles();
+		for (int i=0; i < allWindows.size(); ++i)
+			allItems << allWindows[i]->allHandles();
 		QHash<QString,int> names;
 		ItemHandle * handle = 0;
 		
@@ -379,7 +382,7 @@ namespace Tinkercell
 			return;
 		}
 		
-		GraphicsScene * scene = currentScene();
+                NetworkWindow * net = currentWindow();
 		
 		double dx = (end - start)/(double)points;
 		DataTable<qreal> data;
@@ -420,11 +423,11 @@ namespace Tinkercell
 			{
 				parser.SetVarFactory(AddVariable, 0);
 				parser.Eval();
-				if (scene)
+                                if (net)
 				{
 					mu::varmap_type variables = parser.GetVar();
 					mu::varmap_type::const_iterator item = variables.begin();
-					/*SymbolsTable & symbolsTable = scene->symbolsTable;
+                                        SymbolsTable & symbolsTable = net->symbolsTable;
 					for (; item!=variables.end(); ++item)
 					{
 						n = tr(item->first.data());
@@ -432,7 +435,7 @@ namespace Tinkercell
 						if (symbolsTable.handlesFullName.contains(n) && (handle = symbolsTable.handlesFullName[n]))
 						{
 							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-								parser.DefineVar(item->first.data(), &(handle->hasNumericalData(tr("Initial Value")).value(0,0)));
+                                                                parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
 								
 							continue;
 						}
@@ -440,7 +443,7 @@ namespace Tinkercell
 						if (symbolsTable.handlesFirstName.contains(n) && (handle = symbolsTable.handlesFirstName[n]))
 						{
 							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-								parser.DefineVar(item->first.data(), &(handle->hasNumericalData(tr("Initial Value")).value(0,0)));
+                                                                parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
 								
 							continue;
 						}
@@ -459,7 +462,7 @@ namespace Tinkercell
 									parser.DefineVar(item->first.data(), &(handle->data->numericalData[p].value(n,0)));
 								}
 						}
-					}*/
+					}
 				}
 			}
 			catch(mu::Parser::exception_type &e)

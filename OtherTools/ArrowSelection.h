@@ -22,12 +22,12 @@
 #include <QFile>
 #include <QListWidget>
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "NodeGraphicsWriter.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "GraphicsTransformTool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/NodeGraphicsWriter.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "BasicTools/GraphicsTransformTool.h"
 
 namespace Tinkercell
 {
@@ -43,7 +43,7 @@ public:
 	bool setMainWindow(MainWindow * main);
 	
 public slots:
-    void select(int);
+        void select(int);
 	void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 	void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 	//void toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers);
@@ -51,18 +51,18 @@ public slots:
 	void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton , Qt::KeyboardModifiers modifiers);
 	void sceneClosed(NetworkWindow*,bool*);
 	void sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers);
-	void pluginLoaded(const QString&);
+	void toolLoaded(Tool*);
 signals:
 	void replaceNode();
 private slots:
 	void replaceNodeSlot();
 private:
 
-    GraphicsTransformTool * transformTool;
+        GraphicsTransformTool * transformTool;
 	QAction showArrowSelection;
 	QAction * separator;
 	NodeGraphicsItem arrowPic;
-    void turnOnGraphicalTools(const QList<QGraphicsItem*>& items,GraphicsScene * scene);
+        void turnOnGraphicalTools(const QList<QGraphicsItem*>& items,GraphicsScene * scene);
 };
 
 }

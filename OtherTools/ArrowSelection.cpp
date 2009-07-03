@@ -10,15 +10,15 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QFileInfoList>
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ArrowSelection.h"
-#include "GraphicsTransformTool.h"
-#include "CopyPasteTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "OtherTools/ArrowSelection.h"
+#include "BasicTools/GraphicsTransformTool.h"
+#include "BasicTools/GraphicsReplaceTool.h"
 
 namespace Tinkercell
 {
@@ -28,15 +28,15 @@ namespace Tinkercell
         replaceNodeSlot();
     }
 
-    void ArrowSelectionTool::pluginLoaded(const QString&)
+    void ArrowSelectionTool::toolLoaded(Tool*)
     {
         static bool alreadyConnected = false;
         if (alreadyConnected || !mainWindow) return;
 
-        if (!alreadyConnected && mainWindow->tool(tr("Copy and Paste")))
+        if (!alreadyConnected && mainWindow->tool(tr("Graphics Replace Tool")))
         {
             alreadyConnected = true;
-            CopyPasteTool * copyPaste = static_cast<CopyPasteTool*>(mainWindow->tool(tr("Copy and Paste")));
+            GraphicsReplaceTool * copyPaste = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
             connect(this,SIGNAL(replaceNode()),copyPaste,SLOT(substituteNodeGraphics()));
         }
     }
@@ -58,9 +58,9 @@ namespace Tinkercell
         arrowPic.scale(40.0/arrowPic.sceneBoundingRect().width(),40.0/arrowPic.sceneBoundingRect().height());
         arrowPic.setToolTip(tr("Select arrow head"));
 
-//         graphicsItems += new GraphicsItem(this);
-//         graphicsItems[0]->addToGroup(&arrowPic);
-//         graphicsItems[0]->setToolTip(tr("Select arrow head"));
+        graphicsItems += new GraphicsItem(this);
+        graphicsItems[0]->addToGroup(&arrowPic);
+        graphicsItems[0]->setToolTip(tr("Select arrow head"));
     }
 
     bool ArrowSelectionTool::setMainWindow(MainWindow * main)
@@ -81,15 +81,14 @@ namespace Tinkercell
             //connect(mainWindow,SIGNAL(toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers)),
             //	this,SLOT(toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-            //connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),this ,SLOT(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-            connect(mainWindow,SIGNAL(sceneClosing(NetworkWindow*,bool*)),this,SLOT(sceneClosed(NetworkWindow*,bool*)));
+            connect(mainWindow,SIGNAL(windowClosing(NetworkWindow*,bool*)),this,SLOT(sceneClosed(NetworkWindow*,bool*)));
 
             if (mainWindow)
             {
-                connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
+                connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
             }
-            pluginLoaded(QString());
+            toolLoaded(0);
 
             return true;
         }
@@ -98,9 +97,9 @@ namespace Tinkercell
 
     void ArrowSelectionTool::turnOnGraphicalTools(const QList<QGraphicsItem*>& ,GraphicsScene * scene)
     {
-//         if (!scene || graphicsItems.isEmpty() || !graphicsItems[0]) return;
+        if (!scene || graphicsItems.isEmpty() || !graphicsItems[0]) return;
 
-//         GraphicsItem * graphicsItem = graphicsItems[0];
+        GraphicsItem * graphicsItem = graphicsItems[0];
 
         QRectF rect;
 
@@ -157,29 +156,29 @@ namespace Tinkercell
             }
         }
 
-//         if (transformTool && transformTool->graphicsItems.size() > 0 && transformTool->graphicsItems[0])
-//         {
-//             graphicsItem = transformTool->graphicsItems[0];
-//             if (graphicsItem->scene() != scene)
-//             {
-//                 if (graphicsItem->parentItem())
-//                     graphicsItem->setParentItem(0);
-//
-//                 if (graphicsItem->scene() != 0)
-//                     graphicsItem->scene()->removeItem(graphicsItem);
-//
-//                 scene->addItem(graphicsItem);
-//             }
-//
-//             if (!graphicsItem->isVisible())
-//             {
-//                 graphicsItem->setVisible(true);
-//                 graphicsItem->setZValue(scene->ZValue()+0.1);
-//                 graphicsItem->resetTransform();
-//                 graphicsItem->scale(1.0/scalex,1.0/scaley);
-//                 graphicsItem->setPos(QPointF(maxx,miny));
-//             }
-//         }
+        if (transformTool && transformTool->graphicsItems.size() > 0 && transformTool->graphicsItems[0])
+        {
+            graphicsItem = transformTool->graphicsItems[0];
+            if (graphicsItem->scene() != scene)
+            {
+                if (graphicsItem->parentItem())
+                    graphicsItem->setParentItem(0);
+
+                if (graphicsItem->scene() != 0)
+                    graphicsItem->scene()->removeItem(graphicsItem);
+
+                scene->addItem(graphicsItem);
+            }
+
+            if (!graphicsItem->isVisible())
+            {
+                graphicsItem->setVisible(true);
+                graphicsItem->setZValue(scene->ZValue()+0.1);
+                graphicsItem->resetTransform();
+                graphicsItem->scale(1.0/scalex,1.0/scaley);
+                graphicsItem->setPos(QPointF(maxx,miny));
+            }
+        }
     }
 
     void ArrowSelectionTool::sceneClicked(GraphicsScene *scene, QPointF , Qt::MouseButton , Qt::KeyboardModifiers )
@@ -257,27 +256,27 @@ namespace Tinkercell
 
     void ArrowSelectionTool::escapeSignal(const QWidget * )
     {
-//         if (graphicsItems.isEmpty() || !graphicsItems[0]) return;
-//
-//         GraphicsItem * graphicsItem = graphicsItems[0];
-//
-//         if (graphicsItem && graphicsItem->scene())
-//         {
-//             graphicsItem->scene()->removeItem(graphicsItem);
-//         }
-//         graphicsItem->setVisible(false);
-//
-//         if (transformTool && transformTool->graphicsItems.size() > 0 && transformTool->graphicsItems[0]
-//             && currentScene() && currentScene()->selected().isEmpty())
-//         {
-//             graphicsItem = transformTool->graphicsItems[0];
-//             if (graphicsItem->scene())
-//             {
-//                 graphicsItem->scene()->removeItem(graphicsItem);
-//             }
-//             graphicsItem->setVisible(false);
-//             graphicsItem->deselect();
-//         }
+        if (graphicsItems.isEmpty() || !graphicsItems[0]) return;
+
+        GraphicsItem * graphicsItem = graphicsItems[0];
+
+        if (graphicsItem && graphicsItem->scene())
+        {
+            graphicsItem->scene()->removeItem(graphicsItem);
+        }
+        graphicsItem->setVisible(false);
+
+        if (transformTool && transformTool->graphicsItems.size() > 0 && transformTool->graphicsItems[0]
+            && currentScene() && currentScene()->selected().isEmpty())
+        {
+            graphicsItem = transformTool->graphicsItems[0];
+            if (graphicsItem->scene())
+            {
+                graphicsItem->scene()->removeItem(graphicsItem);
+            }
+            graphicsItem->setVisible(false);
+            graphicsItem->deselect();
+        }
     }
 
     void ArrowSelectionTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& handles)

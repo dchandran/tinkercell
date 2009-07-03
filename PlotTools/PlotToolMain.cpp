@@ -16,19 +16,8 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 	
 	Tinkercell::PlotTool * plotTool = new Tinkercell::PlotTool;
-/*	if (main->tools.contains(plotTool->name))
-	{
-		delete plotTool;
-	}
-	else
-	{
-		plotTool->setMainWindow(main);
-	}
-*/	
+	main->addTool(plotTool);
 	/*Tinkercell::GraphStringTool * graphTool = new Tinkercell::GraphStringTool;
-	if (main->tools.contains(graphTool->name))
-		delete graphTool;
-	else
-		graphTool->setMainWindow(main);*/
+	main->addTool(graphTool);*/
 }
 

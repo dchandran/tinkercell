@@ -49,7 +49,7 @@ namespace Tinkercell
 	public slots:
 		void visibilityChanged(bool);
 		void graph(const QStringList&, const QStringList& names, const QList<qreal>& values);
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void historyUpdate(int);
 	signals:

@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  Automatically manage gene regulatory network matters
 
 ****************************************************************************/
@@ -19,10 +19,10 @@
 #include <QTextEdit>
 #include <QTextCursor>
 
-#include "NodeGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "CLabelsTool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "OtherTools/CLabelsTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -32,24 +32,24 @@
 
 namespace Tinkercell
 {
-
+	
 	class DNASequenceViewerTextEdit : public QTextEdit
 	{
 		Q_OBJECT
-
+		
 	public:
-
+		
 		DNASequenceViewerTextEdit(QWidget * parent = 0);
 		void updateText(const QList<ItemHandle*>& nodes);
 		void updateNodes();
 	signals:
 		void highlight(ItemHandle*,QColor);
-
+		
 	protected:
 		virtual void contextMenuEvent ( QContextMenuEvent * event );
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 		virtual void keyPressEvent ( QKeyEvent * event );
-
+		
 		int currentNodeIndex();
 		QList<ItemHandle*> nodes;
 		QList<QColor> colors;
@@ -62,24 +62,24 @@ namespace Tinkercell
 		DNASequenceViewer();
 		bool setMainWindow(MainWindow*);
 	public slots:
-                void select();
-                void deselect();
-		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
+                void select(int);
+                void deselect(int);
+		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
 		void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 		void itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		void textChanged();
-
+		
 	private:
-
+	
 		DNASequenceViewerTextEdit textEdit;
 		bool updateText(GraphicsScene *,const QList<QGraphicsItem*>&);
-
+		
 		bool openedByUser;
 		NodeGraphicsItem item;
 		QDockWidget * dockWidget;
-
+		
 		friend class DNASequenceViewerTextEdit;
 	};
 }

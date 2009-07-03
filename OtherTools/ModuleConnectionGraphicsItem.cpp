@@ -3,20 +3,20 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A special ConnectionGraphicsItem for connecting modules
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
-#include "ModuleConnectionGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "OtherTools/ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {
 
 	QString ModuleConnectionGraphicsItem::class_name = QString("ModuleConnectionGraphicsItem");
 	QString ModuleLinkerItem::class_name = QString("ModuleLinkerItem");
-
+	
 	bool ModuleConnectionGraphicsItem::isModuleConnectionItem(ConnectionGraphicsItem* connection)
 	{
 		if (!connection || connection->className != ModuleConnectionGraphicsItem::class_name)
@@ -27,16 +27,13 @@ namespace Tinkercell
 				return false;
 		return true;
 	}
-
-	ModuleLinkerItem::ModuleLinkerItem(NodeGraphicsItem * mod, QGraphicsItem * parent, TextGraphicsItem * text) :
+ 
+	ModuleLinkerItem::ModuleLinkerItem(NodeGraphicsItem * mod, QGraphicsItem * parent, TextGraphicsItem * text) : 
 		NodeGraphicsItem(parent)
 	{
 		className = ModuleLinkerItem::class_name;
-
+		
 		QString appDir = QCoreApplication::applicationDirPath();
-  		#ifdef Q_WS_MAC
-		appDir += QString("/../../..");
-		#endif
 		NodeGraphicsReader reader;
 		reader.readXml(this,appDir + QString("/OtherTools/moduleLinker.xml"));
 		normalize();
@@ -48,19 +45,19 @@ namespace Tinkercell
 		lineItem->setPen(QPen(QColor(255,100,0,255),10.0,Qt::DotLine));
 		setPosOnEdge();
 	}
-
+	
 	NodeGraphicsItem * ModuleLinkerItem::clone() const
 	{
 		return new ModuleLinkerItem(*this);
 	}
-
+	
 	void ModuleLinkerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
 	{
 		setPosOnEdge();
 
 		NodeGraphicsItem::paint(painter,option,widget);
 	}
-
+	
 	void ModuleLinkerItem::setPosOnEdge()
 	{
 		if (boundaryControlPoints.size() > 0)
@@ -81,26 +78,26 @@ namespace Tinkercell
 			{
 				//qreal 	w = sceneBoundingRect().width(),
 					//	h = sceneBoundingRect().height();
-
-				qreal 	w = setWidth;
+				
+				qreal 	w = setWidth;				
 				resetTransform();
-
+				
 				scale(w/sceneBoundingRect().width(),w/sceneBoundingRect().width());
 				QPointF scenePos = this->scenePos();
 				QRectF rect = module->sceneBoundingRect();
-				QRectF nodeRect;
+				QRectF nodeRect; 
 				QPointF point;// = pointOnEdge(rect, scenePos);
-
+				
 				qreal dist = -1.0;
 				QGraphicsItem * closest = 0;
-
+				
 				for (int i=0; i < itemHandle->graphicsItems.size(); ++i)
 					if (itemHandle->graphicsItems[i] && itemHandle->graphicsItems[i] != this)
 					{
 						nodeRect = itemHandle->graphicsItems[i]->sceneBoundingRect();
 						if (qgraphicsitem_cast<NodeGraphicsItem*>(itemHandle->graphicsItems[i]) &&
 							rect.intersects(nodeRect))
-							if (closest == 0 ||
+							if (closest == 0 || 
 								((nodeRect.left() - rect.left()) > 0 && (nodeRect.left() - rect.left()) < dist) ||
 								((nodeRect.top() - rect.top()) > 0 && (nodeRect.top() - rect.top()) < dist) ||
 								((rect.right() - nodeRect.right()) > 0 && (rect.right() - nodeRect.right()) < dist) ||
@@ -109,18 +106,18 @@ namespace Tinkercell
 									closest = itemHandle->graphicsItems[i];
 								}
 					}
-
+				
 				if (!closest) return;
-
-
-
+				
+				
+				
 				nodeRect = closest->sceneBoundingRect();
 				dist = (nodeRect.left() - rect.left());
 				point.rx() = rect.left();
 				point.ry() = nodeRect.center().y();
 				p1 = point;
 				p2 = QPointF(nodeRect.left(),point.y());
-
+				
 				if (dist < 0 || dist > (nodeRect.top() - rect.top()))
 				{
 					dist = (nodeRect.top() - rect.top());
@@ -145,7 +142,7 @@ namespace Tinkercell
 					p1 = point;
 					p2 = QPointF(point.x(),nodeRect.bottom());
 				}
-
+				
 				qreal dx=0, dy=0;
 				if ((point.rx() - rect.left())*(point.rx() - rect.left()) < 1)
 				{
@@ -168,9 +165,9 @@ namespace Tinkercell
 				{
 					dx += w/2.0;
 				}
-
+				
 				setPos( point );
-
+				
 				if (textItem)
 				{
 					textItem->setPos( point + QPointF(dx,dy));
@@ -184,7 +181,7 @@ namespace Tinkercell
 				lineItem->setLine(QLineF(p1,p2));
 		}
 	}
-
+	
 	/*! Constructor: sets the class name as ModuleConnectionGraphicsItem */
     ModuleConnectionGraphicsItem::ModuleConnectionGraphicsItem(QGraphicsItem * parent ) : ConnectionGraphicsItem(parent)
 	{
@@ -192,23 +189,23 @@ namespace Tinkercell
 		setPen(defaultPen = QPen(QColor(255,100,0,255),2.0));
 		command = 0;
 	}
-
+	
 	ModuleConnectionGraphicsItem::ModuleConnectionGraphicsItem(const ModuleConnectionGraphicsItem& copy) : ConnectionGraphicsItem(copy)
 	{
 		command = 0;
 	}
-
+	
 	ConnectionGraphicsItem* ModuleConnectionGraphicsItem::clone() const
 	{
 		return new ModuleConnectionGraphicsItem(*this);
 	}
-
+	
 	ModuleConnectionGraphicsItem::~ModuleConnectionGraphicsItem()
 	{
 		//if (command) delete command;
 		command = 0;
 	}
-
+	
 	void ModuleConnectionGraphicsItem::adjustEndPoints()
 	{
 		ControlPoint * firstPoint, *lastPoint;
@@ -217,10 +214,10 @@ namespace Tinkercell
 		{
 			firstPoint = pathVectors[i].first();
 			lastPoint = pathVectors[i].last();
-
+				
 			if (firstPoint != 0 && firstPoint->parentItem() != 0)
 			{
-				QRectF parentRect = firstPoint->parentItem()->sceneBoundingRect();
+				QRectF parentRect = firstPoint->parentItem()->sceneBoundingRect();				
 
 				if (firstPoint->isVisible()) firstPoint->setVisible(false);
 				QPointF p = parentRect.center();
@@ -229,7 +226,7 @@ namespace Tinkercell
 				if (node && node->className == ModuleLinkerItem::class_name)
 				{
 					parentNode = static_cast<ModuleLinkerItem*>(node)->module;
-				}
+				}				
 				if (parentNode)
 				{
 					if (parentRect.right()  > parentNode->sceneBoundingRect().right())
@@ -244,13 +241,13 @@ namespace Tinkercell
 					if (parentRect.bottom()  > parentNode->sceneBoundingRect().bottom())
 						p.ry() = parentRect.bottom();
 				}
-
+				
 				firstPoint->setPos( firstPoint->parentItem()->mapFromScene(p) );
 			}
-
+			
 			if (lastPoint != 0 && lastPoint->parentItem() != 0)
 			{
-				QRectF parentRect = lastPoint->parentItem()->sceneBoundingRect();
+				QRectF parentRect = lastPoint->parentItem()->sceneBoundingRect();				
 
 				if (lastPoint->isVisible()) lastPoint->setVisible(false);
 				QPointF p = parentRect.center();
@@ -259,7 +256,7 @@ namespace Tinkercell
 				if (node && node->className == ModuleLinkerItem::class_name)
 				{
 					parentNode = static_cast<ModuleLinkerItem*>(node)->module;
-				}
+				}	
 				if (parentNode)
 				{
 					if (parentRect.right()  > parentNode->sceneBoundingRect().right())
@@ -274,7 +271,7 @@ namespace Tinkercell
 					if (parentRect.bottom()  > parentNode->sceneBoundingRect().bottom())
 						p.ry() = parentRect.bottom();
 				}
-
+				
 				lastPoint->setPos( lastPoint->parentItem()->mapFromScene(p) );
 			}
 

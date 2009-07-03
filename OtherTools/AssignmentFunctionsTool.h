@@ -64,7 +64,7 @@ namespace Tinkercell
 		QSize sizeHint() const;
 	
 	public slots:
-		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers );
 		void addFunction();
 		void removeFunctions();
@@ -104,7 +104,7 @@ namespace Tinkercell
 		//void visibilityChanged(bool);
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		
 		void assignmentTableChanged(int,int);
 		void functionsTableChanged(int,int);

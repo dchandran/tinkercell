@@ -16,7 +16,7 @@
 #include "MainWindow.h"
 #include "GraphicsTransformTool.h"
 #include "ConnectionSelection.h"
-#include "CopyPasteTool.h"
+#include "GraphicsReplaceTool.h"
 
 
 namespace Tinkercell
@@ -43,7 +43,7 @@ namespace Tinkercell
             }
         }
 
-        void GraphicsTransformTool::deselect()
+        void GraphicsTransformTool::deselect(int)
 	{
                 if (openedByUser)
 		{
@@ -66,77 +66,76 @@ namespace Tinkercell
 		}
 	}
 
-	void GraphicsTransformTool::pluginLoaded(const QString&)
+	
+	void GraphicsTransformTool::toolLoaded(Tool*)
 	{
 		connectionSelectionTool();
 	}
 
+	
 	void GraphicsTransformTool::connectionSelectionTool()
 	{
 		static bool alreadyConnected = false;
-		static bool alreadyConnected2 = false;
+		static bool alreadyConnected2 = false; 
 		if ((alreadyConnected && alreadyConnected2) || !mainWindow) return;
 
-// 		if (!alreadyConnected && mainWindow->tools.contains(tr("Connection Selection")))
-// 		{
-// 			QWidget * widget = mainWindow->tools[tr("Connection Selection")];
-// 			ConnectionSelection * connectionSelection = static_cast<ConnectionSelection*>(widget);
-// 			if (connectionSelection && connectionsTableWidget)
-// 			{
-// 				alreadyConnected = true;
-//
-// 				QComboBox * lineTypes = new QComboBox(this);
-// 				lineTypes->addItems(QStringList() << tr("Bezier curves") << tr("straight lines"));
-// 				connect(lineTypes,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(setLineType(int)));
-//
-// 				connectionsTableWidget->setCellWidget(0,0,lineTypes);
-//
-// 				QComboBox * penTypes = new QComboBox(this);
-// 				penTypes->addItems(QStringList() << tr("solid") << tr("dashed") << tr("dotted"));
-// 				connect(penTypes,SIGNAL(currentIndexChanged(int)),this,SLOT(changePenType(int)));
-//
-// 				connectionsTableWidget->setCellWidget(1,0,penTypes);
-//
-// 				QComboBox * centerBox = new QComboBox(this);
-// 				centerBox->addItems(QStringList() << tr("hide") << tr("show") );
-// 				connect(centerBox,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(showMiddleBox(int)));
-//
-// 				connectionsTableWidget->setCellWidget(3,0,centerBox);
-//
-// 				QDoubleSpinBox * arrowHeadDist = new QDoubleSpinBox(this);
-// 				arrowHeadDist->setSingleStep(1.0);
-// 				arrowHeadDist->setValue(20.0);
-// 				arrowHeadDist->setRange(0.0,200.0);
-// 				connect(arrowHeadDist,SIGNAL(valueChanged(double)),connectionSelection,SLOT(arrowHeadDistance(double)));
-//
-// 				connectionsTableWidget->setCellWidget(2,0,arrowHeadDist);
-//
-// 			}
-// 		}
-//
-// 		if (!alreadyConnected2 && replaceButton && mainWindow->tools.contains(tr("Copy and Paste")))
-// 		{
-// 			alreadyConnected2 = true;
-// 			CopyPasteTool * copyPaste = static_cast<CopyPasteTool*>(mainWindow->tools[tr("Copy and Paste")]);
-// 			connect(replaceButton,SIGNAL(pressed()),copyPaste,SLOT(substituteNodeGraphics()));
-// 		}
+                if (!alreadyConnected && mainWindow->tool(tr("Connection Selection")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Connection Selection"));
+			ConnectionSelection * connectionSelection = static_cast<ConnectionSelection*>(widget);
+			if (connectionSelection && connectionsTableWidget)
+			{
+				alreadyConnected = true;
+				
+				QComboBox * lineTypes = new QComboBox(this);
+				lineTypes->addItems(QStringList() << tr("Bezier curves") << tr("straight lines"));
+				connect(lineTypes,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(setLineType(int)));
+				
+				connectionsTableWidget->setCellWidget(0,0,lineTypes);
+				
+				QComboBox * penTypes = new QComboBox(this);
+				penTypes->addItems(QStringList() << tr("solid") << tr("dashed") << tr("dotted"));
+				connect(penTypes,SIGNAL(currentIndexChanged(int)),this,SLOT(changePenType(int)));
+				
+				connectionsTableWidget->setCellWidget(1,0,penTypes);
+				
+				QComboBox * centerBox = new QComboBox(this);
+				centerBox->addItems(QStringList() << tr("hide") << tr("show") );
+				connect(centerBox,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(showMiddleBox(int)));
+				
+				connectionsTableWidget->setCellWidget(3,0,centerBox);
+				
+				QDoubleSpinBox * arrowHeadDist = new QDoubleSpinBox(this);
+				arrowHeadDist->setSingleStep(1.0);
+				arrowHeadDist->setValue(20.0);
+				arrowHeadDist->setRange(0.0,200.0);
+				connect(arrowHeadDist,SIGNAL(valueChanged(double)),connectionSelection,SLOT(arrowHeadDistance(double)));
+				
+				connectionsTableWidget->setCellWidget(2,0,arrowHeadDist);
+				
+			}
+		}
+		
+		if (!alreadyConnected2 && replaceButton && mainWindow->tool(tr("Graphics Replace Tool")))
+		{
+			alreadyConnected2 = true;
+			GraphicsReplaceTool * copyPaste = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
+			connect(replaceButton,SIGNAL(pressed()),copyPaste,SLOT(substituteNodeGraphics()));
+		}
 	}
 
 	GraphicsTransformTool::GraphicsTransformTool() : Tool(tr("Basic Transformations"))
 	{
                 QString appDir = QCoreApplication::applicationDirPath();
-                 #ifdef Q_WS_MAC
-                 appDir += tr("/../../..");
-                 #endif
                 NodeGraphicsReader reader;
                 reader.readXml(&eye,appDir + tr("/BasicTools/eye.xml"));
                 eye.normalize();
                 eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
                 eye.setToolTip(tr("Appearance"));
                 openedByUser = false;
-                graphicsItem = new GraphicsItem(this);
-                graphicsItem->setToolTip(tr("Appearance"));
-                graphicsItem->addToGroup(&eye);
+                graphicsItems += new GraphicsItem(this);
+                graphicsItems[0]->setToolTip(tr("Appearance"));
+                graphicsItems[0]->addToGroup(&eye);
 
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
@@ -289,13 +288,12 @@ namespace Tinkercell
 
 				mainWindow->contextItemsMenu.addAction(menuAction);
 			}
-// 			mainWindow->addTool(name,this);
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )),
 					this, SLOT(itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&,const QList<ItemHandle*>&)),
 					this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
-
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			
 			connectionSelectionTool();
 		}
 		return true;

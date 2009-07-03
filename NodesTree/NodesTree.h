@@ -139,6 +139,8 @@ namespace Tinkercell
         /*! \brief user requested changing the nodes tree xml file*/
         void selectNewNodeFile();
 
+		/*! \brief enter pressed or double clicked*/
+		void itemActivated( QListWidgetItem * );
     private:
 
         /*! \brief replaces the nodes graphics file with a new one*/

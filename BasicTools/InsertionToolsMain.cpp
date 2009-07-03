@@ -16,22 +16,13 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 
 	Tinkercell::CollisionDetection * collisionDetection = new Tinkercell::CollisionDetection;
-// 	if (main->tools.contains(collisionDetection->name))
-// 		delete collisionDetection;
-// 	else
-// 		collisionDetection->setMainWindow(main);
+	main->addTool(collisionDetection);
 
 	Tinkercell::ConnectionInsertion * connectionInsertion = new Tinkercell::ConnectionInsertion;
-// 	if (main->tools.contains(connectionInsertion->name))
-// 		delete connectionInsertion;
-// 	else
-// 		connectionInsertion->setMainWindow(main);
+	main->addTool(connectionInsertion);
 
 	Tinkercell::NodeInsertion * nodeInsertion = new Tinkercell::NodeInsertion;
-// 	if (main->tools.contains(nodeInsertion->name))
-// 		delete nodeInsertion;
-// 	else
-// 		nodeInsertion->setMainWindow(main);
+	main->addTool(nodeInsertion);
 
 }
 

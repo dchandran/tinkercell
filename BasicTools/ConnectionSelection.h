@@ -131,7 +131,7 @@ of the selected objects and displaying tools and widgets that point to that obje
 
         void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 
-        void pluginLoaded(const QString&);
+        void toolLoaded(Tool*);
 
         void setupFunctionPointers( QLibrary * );
 

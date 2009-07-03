@@ -55,7 +55,6 @@ namespace Tinkercell
                treeItem = pair.second;
                if (node)
                {
-                    node->parentFamilies.clear();
                     if (treeItem)
                     {
                          tree->widget().addTopLevelItem(treeItem);
@@ -92,6 +91,7 @@ namespace Tinkercell
                }
           }
 
+/*
           QString text;
           for (int i=0; i < compositeNodes.size(); ++i)
           {
@@ -108,7 +108,7 @@ namespace Tinkercell
                               node->includedFamilies << subNode;
                     }
                }
-          }
+          }*/
      }
 
      QPair<NodeFamily*,QTreeWidgetItem*> NodesTreeReader::readNode(NodesTree* tree, NodeFamily* parentNode)
@@ -116,7 +116,7 @@ namespace Tinkercell
           NodeFamily * node = 0;
           QTreeWidgetItem * treeItem = 0;
 
-          bool isComposite = false;
+          //bool isComposite = false;
 
           if (tree && isStartElement() && name().toString().toLower() == QObject::tr("node"))
           {
@@ -184,9 +184,6 @@ namespace Tinkercell
 
                //node file
                QString appDir = QCoreApplication::applicationDirPath();
-#ifdef Q_WS_MAC
-               appDir += QObject::tr("/../../..");
-#endif
 
                QCoreApplication::setOrganizationName("TinkerCell");
                QCoreApplication::setOrganizationDomain("www.tinkercell.com");
@@ -255,7 +252,7 @@ namespace Tinkercell
                */
 
                if (parentNode)
-                    node->parentFamilies += parentNode;
+                    node->setParent(parentNode);
 
                if (parentNode)
                {
@@ -287,19 +284,18 @@ namespace Tinkercell
                               node->description = readElementText();
                          }
                          else
-                              if (name().toString().toLower() == QObject::tr("node"))
-                              {
+                         if (name().toString().toLower() == QObject::tr("node"))
+                         {
                               childNode = readNode(tree, node);
                               treeItem->addChild(childNode.second);
-                              //childNode.first->parentFamily = node;
                          }
-                         else
-                              if (name().toString().toLower() == QObject::tr("subnode"))
+                         /*else
+                             if (name().toString().toLower() == QObject::tr("subnode"))
                               {
                               text = readElementText();
                               compositeNodes += QPair<NodeFamily*,QString>(node,text);
                               isComposite = true;
-                         }
+                         }*/
                     }
                     readNext();
                }

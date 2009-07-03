@@ -3,11 +3,13 @@
 
 #include <QTextDocument>
 #include <QSyntaxHighlighter>
+#include <QTextCharFormat>
 #include "TextEditor.h"
 #include "TextItem.h"
 
 namespace Tinkercell
 {
+     class TextEditorParser;
      /*! \brief used to highlight node and connections and other syntax
                in the TextEditor
      \ingroup plugins*/
@@ -16,18 +18,17 @@ namespace Tinkercell
      public:
           QString searchString;
           /*! \brief constructor*/
-          TextEditorSyntaxHighlighter(TextEditor * editor);
-          /*! \brief pointer to the TextEditor that this highlighter belongs with*/
-          TextEditor * textEditor;
-          /*! \brief list of node types*/
-          QStringList nodeTypes;
-          /*! \brief list of lines defining connections*/
-          QHash<QString,ConnectionTextItem*> connections;
-          /*! \brief list of lines defining operations*/
-          QHash<QString,OpTextItem*> operations;
+          TextEditorSyntaxHighlighter(TextEditorParser * listener, QTextDocument * );
+
      protected:
           /*! \brief highlights based on the families and connectionSyntax hash tables*/
           virtual void highlightBlock(const QString &text);
+
+          TextEditorParser * textParser;
+          QTextCharFormat commentFormat;
+          QTextCharFormat declarationFormat;
+          QTextCharFormat connectionFormat;
+          QTextCharFormat opFormat;
      };
 }
 #endif // TINKERCELL_TEXTEDITORSYNTAXHIGHLIGHTER_H

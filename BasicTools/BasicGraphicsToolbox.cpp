@@ -1017,7 +1017,7 @@ namespace Tinkercell
 					{
 						mode = this->none;
 						mainWindow->setCursor(Qt::ArrowCursor);
-						return;
+						//return;
 					}
 				}
 				else
@@ -1073,9 +1073,14 @@ namespace Tinkercell
 					}
 				}
 			}
-                        mode = this->none;
-                        scene->actionsEnabled = true;
-                        mainWindow->setCursor(Qt::ArrowCursor);
+			if (mode != none)
+			{
+					mode = this->none;
+					scene->actionsEnabled = true;
+					mainWindow->setCursor(Qt::ArrowCursor);
+					if (zoomRect.isVisible()) 
+						zoomRect.setVisible(false);
+			}
 		}
 	}
 

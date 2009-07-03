@@ -19,14 +19,22 @@ namespace Tinkercell
      int ConnectionTextItem::Type = 2;
      int OpTextItem::Type = 3;
 
-     TextItem::TextItem(): itemHandle(0) {}
-     TextItem::TextItem(ItemHandle * h): itemHandle(h)
+     TextItem::TextItem(): type(0), itemHandle(0) {}
+     TextItem::TextItem(ItemHandle * h): type(0), itemHandle(h)
      {
           if (h)
           {
                h->textItems += this;
           }
      }
+     NodeTextItem::NodeTextItem(): TextItem() { type = NodeTextItem::Type; }
+     NodeTextItem::NodeTextItem(ItemHandle * h): TextItem(h) { type = NodeTextItem::Type; }
+
+     ConnectionTextItem::ConnectionTextItem(): TextItem() { type = ConnectionTextItem::Type; }
+     ConnectionTextItem::ConnectionTextItem(ItemHandle * h): TextItem(h) { type = ConnectionTextItem::Type; }
+
+     OpTextItem::OpTextItem(): TextItem() { type = OpTextItem::Type; }
+     OpTextItem::OpTextItem(ItemHandle * h): TextItem(h) { type = OpTextItem::Type; }
 
      ConnectionTextItem * TextItem::asConnection()
      {

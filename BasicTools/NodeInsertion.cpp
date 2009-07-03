@@ -42,7 +42,7 @@ namespace Tinkercell
 
                connectToNodesTree();
 
-               connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
+               connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
                return nodesTree != 0;
           }
@@ -111,15 +111,15 @@ namespace Tinkercell
                {
                     QPointF point = scene->lastPoint();
 
-                    QList<ItemFamily*> subfamilies = selectedFamily->subFamilies();
+                    //QList<ItemFamily*> subfamilies = selectedFamily->parents();
                     QList<NodeFamily*> allFamilies;
-                    if (!subfamilies.isEmpty() && selectedFamily->graphicsItems.isEmpty())
+                    /*if (!subfamilies.isEmpty() && selectedFamily->graphicsItems.isEmpty())
                     {
                          for (int i=0; i < subfamilies.size(); ++i)
                               if (subfamilies[i] && subfamilies[i]->isA("node"))
                                    allFamilies += static_cast<NodeFamily*>(subfamilies[i]);
                     }
-                    if (allFamilies.isEmpty())
+                    if (allFamilies.isEmpty())*/
                          allFamilies += selectedFamily;
 
                     QString text;
@@ -217,7 +217,7 @@ namespace Tinkercell
      }
 
 
-     void NodeInsertion::pluginLoaded(const QString&)
+     void NodeInsertion::toolLoaded(Tool*)
      {
           connectToNodesTree();
      }
@@ -228,15 +228,15 @@ namespace Tinkercell
           {
                if (button == Qt::LeftButton)
                {
-                    QList<ItemFamily*> subfamilies = selectedNodeFamily->subFamilies();
+                    //QList<ItemFamily*> subfamilies = selectedNodeFamily->subFamilies();
                     QList<NodeFamily*> allFamilies;
-                    if (!subfamilies.isEmpty() && selectedNodeFamily->graphicsItems.isEmpty())
+                    /*if (!subfamilies.isEmpty() && selectedNodeFamily->graphicsItems.isEmpty())
                     {
                          for (int i=0; i < subfamilies.size(); ++i)
                               if (subfamilies[i] && subfamilies[i]->isA("node"))
                                    allFamilies += static_cast<NodeFamily*>(subfamilies[i]);
                     }
-                    if (allFamilies.isEmpty())
+                    if (allFamilies.isEmpty())*/
                          allFamilies += selectedNodeFamily;
 
                     QString text;
@@ -329,16 +329,16 @@ namespace Tinkercell
      {
           if (nodesTree || !mainWindow) return;
 
-/*          if (mainWindow->tools.contains(tr("Nodes Tree")))
+          if (mainWindow->tool(tr("Nodes Tree")))
           {
-               QWidget * treeWidget = mainWindow->tools.value(tr("Nodes Tree"));
+               QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
                nodesTree = static_cast<NodesTree*>(treeWidget);
                if (nodesTree != 0)
                {
                     connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelected(NodeFamily*)));
                     connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
                }
-          }*/
+          }
      }
 
      void NodeInsertion::clear(bool setArrows)

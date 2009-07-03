@@ -51,7 +51,6 @@ namespace Tinkercell
                treeItem = pair.second;
                if (family && treeItem)
                {
-                    family->parentFamilies.clear();
                     tree->widget().addTopLevelItem(treeItem);
                     treeItem->setExpanded(true);
                }
@@ -69,7 +68,7 @@ namespace Tinkercell
                if (parentFamily)
                {
                    family->color = parentFamily->color;
-                   //family->string = parentFamily->string;
+                   family->string = parentFamily->string;
                }
 
                treeItem = new QTreeWidgetItem;
@@ -131,9 +130,6 @@ namespace Tinkercell
                }
                readNext();
                QString appDir = QCoreApplication::applicationDirPath();
-#ifdef Q_WS_MAC
-               appDir += QObject::tr("/../../..");
-#endif
                //set icon
                if (family->pixmap.load(appDir + QString("/") + ConnectionsTree::iconFile(family)))
                     family->pixmap.setMask(family->pixmap.createMaskFromColor(QColor(255,255,255)));
@@ -197,8 +193,7 @@ namespace Tinkercell
                               {
                               pair = readConnection(tree, family);
                               treeItem->addChild(pair.second);
-                              if (!pair.first->parentFamilies.contains(family))
-                                   pair.first->parentFamilies += family;
+                              pair.first->setParent(family);
                          }
                     }
                     readNext();

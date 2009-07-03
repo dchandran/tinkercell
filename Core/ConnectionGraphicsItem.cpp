@@ -99,11 +99,8 @@ namespace Tinkercell
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_MAC
-		appDir += QString("/../../..");
-		#endif
-
-		ArrowHeadItem * node = new ArrowHeadItem;
+		
+		ArrowHeadItem * node = new ArrowHeadItem;	
 		node->connectionItem = this;
 		NodeGraphicsReader imageReader;
 		imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
@@ -250,11 +247,7 @@ namespace Tinkercell
 		else
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			#ifdef Q_WS_MAC
-			appDir += QString("/../../..");
-			#endif
-
-			ArrowHeadItem * node = new ArrowHeadItem;
+			ArrowHeadItem * node = new ArrowHeadItem;	
 			node->connectionItem = this;
 			NodeGraphicsReader imageReader;
 			imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
@@ -853,11 +846,7 @@ namespace Tinkercell
 		if (!centerRegionItem)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			#ifdef Q_WS_MAC
-			appDir += QString("/../../..");
-			#endif
-
-			ArrowHeadItem * node = new ArrowHeadItem;
+			ArrowHeadItem * node = new ArrowHeadItem;	
 			node->connectionItem = this;
 			NodeGraphicsReader imageReader;
 			imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
@@ -2144,13 +2133,13 @@ namespace Tinkercell
 		}
 		else
 		{
-			//this->setParentItem(0);
-			//if (this->scene())
-				//scene()->removeItem(this);
+			this->setParentItem(0);
+			if (this->scene())
+				scene()->removeItem(this);
 		}
 	}
-
-	ConnectionGraphicsItem::PathVector::PathVector() : QVector<ConnectionGraphicsItem::ControlPoint*>()
+	
+	ConnectionGraphicsItem::PathVector::PathVector() : QVector<ConnectionGraphicsItem::ControlPoint*>() 
 	{
 		arrowStart = arrowEnd = 0;
 	}

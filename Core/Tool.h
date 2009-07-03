@@ -15,8 +15,11 @@
 
 #include <QWidget>
 #include <QList>
+#include <QButtonGroup>
 #include <QToolButton>
 #include <QGraphicsItemGroup>
+
+#include "MainWindow.h"
 
 namespace Tinkercell
 {
@@ -63,6 +66,10 @@ public:
         public:
                 /*! \brief constructor must have an associated Tool*/
                 GraphicsItem(Tool*);
+                /*! \brief this item has been selected*/
+                virtual void select();
+                /*! \brief this item has been deselected*/
+                virtual void deselect();
 		/*! \brief main window for this tool*/
 		Tool * tool;
 		/*! \brief for enabling dynamic_cast*/
@@ -74,19 +81,19 @@ public:
 			return Type;
 		}
 		/*! \brief show or hide this graphical tool. The graphical tool may choose whether or not to be visible based on other factors.*/
-		virtual void setVisible(bool);
+		virtual void visible(bool);
 	};
 	
 	/*! \brief optional graphics item used to display this tool */
-        GraphicsItem * graphicsItem;
+        QList<GraphicsItem*> graphicsItems;
 	/*! \brief optional button used to display this tool */
-        QToolButton * toolButton;
+        QButtonGroup buttons;
 	
 public slots:
 	/*! \brief what happens when this tool is selected */
-	virtual void select();
+        virtual void select(int);
 	/*! \brief what happens when this tool is deselected */
-	virtual void deselect();
+        virtual void deselect(int);
 
 signals:
 	/*! \brief this tool is selected */

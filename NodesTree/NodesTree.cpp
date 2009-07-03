@@ -10,7 +10,6 @@
 ****************************************************************************/
 
 #include "NodesTree.h"
-#include "TextEditor.h"
 #include <QtDebug>
 #include <QRegExp>
 
@@ -68,17 +67,15 @@ namespace Tinkercell
 
           NodesTreeReader reader;
           QString appDir = QCoreApplication::applicationDirPath();
-#ifdef Q_WS_MAC
-          appDir += tr("/../../..");
-#endif
 
           QCoreApplication::setOrganizationName("TinkerCell");
           QCoreApplication::setOrganizationDomain("www.tinkercell.com");
           QCoreApplication::setApplicationName("TinkerCell");
           QSettings settings("TinkerCell", "TinkerCell");
           settings.beginGroup("NodesTree");
-          QString xmlFile = settings.value("file", filename).toString();
+          //QString xmlFile = settings.value("file", filename).toString();
 
+          QString xmlFile ;
           if (xmlFile.isNull() || xmlFile.isEmpty())
                xmlFile = (appDir + tr("/NodesTree/NodesTree.xml"));
 
@@ -91,9 +88,6 @@ namespace Tinkercell
                NodeFamily * node = nodeFamilies.value(keys[i]);
                if (!node)
                    continue;
-
-               //Arnaud: this method does not exist
-               //TextEditor::addNodeFamily(node->name,node->color);
 
                QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
                if (node && !treeItem.isEmpty())
@@ -208,14 +202,16 @@ namespace Tinkercell
           if (event)
                menu->exec(pos);
      }
+	 
+	 void NodesTree::itemActivated( QListWidgetItem * ) 
+	 {
+		nodeFileAccepted();
+	 }
 
 
      void NodesTree::makeNodeSelectionDialog()
      {
           QString appDir = QCoreApplication::applicationDirPath();
-#ifdef Q_WS_MAC
-          appDir += tr("/../../..");
-#endif
 
           QDir dir(appDir + tr("/NodeItems/"));
           dir.setFilter(QDir::Files);
@@ -267,6 +263,7 @@ namespace Tinkercell
           QVBoxLayout * layout = new QVBoxLayout;
 
           layout->addWidget(nodesListWidget);
+		  connect(nodesListWidget,SIGNAL(itemActivated( QListWidgetItem * )),this,SLOT(itemActivated( QListWidgetItem * )));
 
           QHBoxLayout * buttonsLayout = new QHBoxLayout;
           QPushButton * ok = new QPushButton(tr("Replace"));

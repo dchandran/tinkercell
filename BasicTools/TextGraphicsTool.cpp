@@ -3,20 +3,20 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool allows users to edit a text graphics item on the sceen.
  The tool also updates the name of a handle when the text item is changed (and vise versa)
 
 ****************************************************************************/
 
 #include <QKeyEvent>
-#include "MainWindow.h"
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "ConnectionGraphicsItem.h"
-#include "NodeGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "TextGraphicsTool.h"
+#include "Core/MainWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/TextGraphicsTool.h"
 
 namespace Tinkercell
 {
@@ -38,9 +38,9 @@ namespace Tinkercell
 		insertText->setMenu(fontMenu);
 		insertText->setPopupMode(QToolButton::MenuButtonPopup);
 		toolBar->addWidget(insertText);
-
+		
 		font.setPointSize(22);
-
+		
 		/*
 
 
@@ -73,28 +73,28 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			mainWindow->addToolBar(toolBar);
-
+			
 			QAction * insertText = new QAction("Insert text",this);
 			insertText->setIcon(QIcon(tr(":/images/text.png")));
 			insertText->setToolTip(tr("Insert text"));
 			connect(insertText,SIGNAL(triggered()),this,SLOT(insertTextWith()));
-
+			
 			mainWindow->contextItemsMenu.addAction(insertText);
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this, SLOT(escapeSignal(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this, SLOT(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-
+			
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
+				
 			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
 				this, SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
-
+		
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
+		
                         //connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
                          //       mainWindow,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
@@ -106,12 +106,12 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent*)),
 				this ,SLOT(keyPressed(GraphicsScene*,QKeyEvent*)));
-
+		
 
 		}
 		return (mainWindow != 0);
 	}
-
+	
 	void TextGraphicsTool::itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
 	{
 		ItemHandle * handle = 0;
@@ -132,7 +132,7 @@ namespace Tinkercell
 							if (connection && connection->centerPoint())
 							{
 								p1 = connection->centerLocation();
-
+								
 								if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 								{
 									dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
@@ -146,7 +146,7 @@ namespace Tinkercell
 								{
 									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
 										if (node->boundaryControlPoints[k])
-										{
+										{	
 											p1 = node->boundaryControlPoints[k]->scenePos();
 											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 											{
@@ -161,19 +161,19 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
 	void TextGraphicsTool::itemsMoved(GraphicsScene* scene,const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
 	{
 		static bool selfCall = false;
-
+		
 		if (!scene || selfCall) return;
 		ItemHandle * handle = 0;
-
+		
 		selfCall = false;
-
+		
 		QList<QGraphicsItem*> nonTextItems;
 		QList<ItemHandle*> visited;
-
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
@@ -206,7 +206,7 @@ namespace Tinkercell
 								{
 									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
 										if (node->boundaryControlPoints[k])
-										{
+										{	
 											p1 = node->boundaryControlPoints[k]->scenePos();
 											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 											{
@@ -227,28 +227,28 @@ namespace Tinkercell
 				if (node) nonTextItems << node->connectionsAsGraphicsItems();
 			}
 		}
-
+		
 		ConnectionGraphicsItem::ControlPoint * ccp = 0;
 		NodeGraphicsItem::ControlPoint * pcp = 0;
-
-
+		
+		
 		QList<QGraphicsItem*> itemsToMove;
 		QList<QPointF> moveBy;
 		for (int i=0; i < nonTextItems.size(); ++i)
 		{
 			handle = getHandle(nonTextItems[i]);
-
+			
 			if (!handle)
 			{
 				if ((ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(nonTextItems[i]))
 					&& ccp->connectionItem && ccp->connectionItem->itemHandle)
 					handle = ccp->connectionItem->itemHandle;
-
+				
 				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(nonTextItems[i]))
 					&& pcp->nodeItem && pcp->nodeItem->itemHandle)
 					handle = pcp->nodeItem->itemHandle;
 			}
-
+	
 			if (handle && !visited.contains(handle))
 				for (int j=0; j < handle->graphicsItems.size(); ++j)
 				{
@@ -262,12 +262,12 @@ namespace Tinkercell
 								QPointF p1;
 								QPair<QGraphicsItem*,QPointF> relativePoisition = (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))->relativePosition;
 								if (!relativePoisition.first) continue;
-
+								
 								if (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))
 									p1 = (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))->centerLocation();
 								else
 									p1 = relativePoisition.first->scenePos();
-
+									
 								p = relativePoisition.second + p1 - p0;
 							}
 						if (p.rx() != 0 || p.ry() != 0)
@@ -300,9 +300,9 @@ namespace Tinkercell
 	void TextGraphicsTool::setText(TextGraphicsItem * item, const QString& name0)
 	{
 		if (item == 0) return;
-
+		
 		QString oldText = item->toPlainText();
-
+		
 		QString name = name0.trimmed();
 
 		if (oldText.trimmed() == name) return;
@@ -311,7 +311,7 @@ namespace Tinkercell
 		{
 			QUndoCommand * command = 0;
 			if (!name.isEmpty() && mainWindow->currentScene() && item->itemHandle && item->itemHandle->name == oldText)
-			{
+			{	
 				//mainWindow->currentScene()->rename(item,name);
 				QList<QGraphicsItem*> items; items << item;
 				QList<QString> oldNames; oldNames << oldText;
@@ -319,7 +319,7 @@ namespace Tinkercell
 				QString fullname = item->itemHandle->fullName();
 				QList<QString> newNames; newNames << item->itemHandle->name;
 				item->itemHandle->name = oldText;
-
+				
 				if (currentScene())
 					currentScene()->rename(items,newNames);
 			}
@@ -349,7 +349,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			itemHandle = getHandle(items[i]);
-
+			
 			if (itemHandle)
 				for (int j=0; j < itemHandle->graphicsItems.size(); ++j)
 				{
@@ -369,7 +369,7 @@ namespace Tinkercell
 		if (!textItems.isEmpty() && !newNames.isEmpty())
 		{
 			ChangeTextCommand * command = new ChangeTextCommand(tr("text changed"),textItems,newNames);
-			if (mainWindow)
+			if (mainWindow)		
 				if (mainWindow->historyStack())
 					mainWindow->historyStack()->push(command);
 				else
@@ -387,7 +387,7 @@ namespace Tinkercell
 			inserting = true;
 		}
 	}
-
+	
 	void TextGraphicsTool::insertTextWith()
 	{
 		if (mainWindow && mainWindow->currentScene())
@@ -402,7 +402,7 @@ namespace Tinkercell
 					TextGraphicsItem * newText = new TextGraphicsItem;
 					newText->setPlainText("new text");
 					newText->setFont(font);
-					newText->setPos(selected[i]->sceneBoundingRect().center().x() - 5.0, selected[i]->sceneBoundingRect().bottom() + 5.0);
+					newText->setPos(selected[i]->sceneBoundingRect().center().x() - 5.0, selected[i]->sceneBoundingRect().bottom() + 5.0); 
 					setHandle(newText,handle);
 					textItems += newText;
 				}
@@ -439,7 +439,7 @@ namespace Tinkercell
                             }
 
                 if (!targetItem) return;
-		for (int i=0; i < items.size(); ++i)
+		for (int i=0; i < items.size(); ++i)		
 			if (targetItem == items[i])
 			{
 				if (command)
@@ -467,7 +467,7 @@ namespace Tinkercell
 		{
 			command->undo();
 			delete command;
-			command = 0;
+			command = 0;				
 		}
 	}
 	void TextGraphicsTool::mousePressed(GraphicsScene * scene,QPointF point, Qt::MouseButton , Qt::KeyboardModifiers )
@@ -476,13 +476,13 @@ namespace Tinkercell
 		{
 			TextGraphicsItem * textItem = new TextGraphicsItem(tr(""));
 			textItem->setFont(font);
-			textItem->setPos(point);
-
+			textItem->setPos(point); 
+			
 			scene->insert(tr("text inserted"),textItem);
 			mainWindow->setCursor(Qt::ArrowCursor);
 			mainWindow->currentScene()->actionsEnabled = true;
 			inserting = false;
-
+			
 			oldText = textItem->toPlainText();
 			targetItem = textItem;
 			targetItem->showBorder(true);
@@ -492,7 +492,7 @@ namespace Tinkercell
 			//c.movePosition(QTextCursor::EndOfLine);
 			//c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
 			//targetItem->setTextCursor(c);
-
+			
 			scene->selected() << textItem;
 		}
 		else
@@ -503,22 +503,22 @@ namespace Tinkercell
 	void TextGraphicsTool::itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
 	{
 		if (scene == 0) return;
-
+		
 		if (items.size() == 1)
 		{
 			TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0]);
-
+			
 			if (targetItem)
 					clear();
-
+					
 			if (!textItem)
 			{
 				return;
 			}
-
+			
 			ItemHandle * handle = getHandle(items[0]);
 			ItemHandle * handle2 = 0;
-
+			
 			QList<QGraphicsItem*> itemsAt = scene->items(items[0]->sceneBoundingRect().adjusted(-50.0,-50.0,50.0,50.0));
 			if (handle)
 			{
@@ -542,9 +542,9 @@ namespace Tinkercell
 						break;
 					}
 			}
-
+			
 			oldText = textItem->toPlainText();
-			targetItem = textItem;
+			targetItem = textItem;			
 			targetItem->setSelected(true);
 			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
 			QTextCursor c = targetItem->textCursor();
@@ -567,7 +567,7 @@ namespace Tinkercell
 				if (textItem)
 				{
 					oldText = textItem->toPlainText();
-					targetItem = textItem;
+					targetItem = textItem;			
 					targetItem->setSelected(true);
 					textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
 					QTextCursor c = targetItem->textCursor();
@@ -576,12 +576,12 @@ namespace Tinkercell
 					targetItem->setTextCursor(c);
 				}
 			}
-
+			
 			if (!targetItem) return;
-
+			
 			int key = keyEvent->key();
 			if (key == Qt::Key_Enter || key == Qt::Key_Return || key == Qt::Key_Escape)
-				clear();
+				clear();	
 			keyEvent->accept();
 		}
 	}
@@ -593,7 +593,7 @@ namespace Tinkercell
 		if (textItem)
 		{
 			oldText = textItem->toPlainText();
-			targetItem = textItem;
+			targetItem = textItem;			
 			targetItem->setSelected(true);
 			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
 			QTextCursor c = targetItem->textCursor();
@@ -605,9 +605,9 @@ namespace Tinkercell
 
 	void TextGraphicsTool::getFont()
 	{
-		GraphicsScene * scene = currentScene();
+		GraphicsScene * scene = currentScene(); 
 		if (!scene) return;
-
+		
 		bool ok;
 		QFont newFont = QFontDialog::getFont(&ok, font, mainWindow, tr("Select Font"));
 		if (ok)
@@ -616,10 +616,10 @@ namespace Tinkercell
 			QList<QGraphicsItem*> items;
 			QList<QString> texts;
 			QList<QFont> fonts;
-
+			
 			QList<QGraphicsItem*>& selected = scene->selected();
 			TextGraphicsItem * textItem;
-			for (int i=0; i < selected.size(); ++i)
+			for (int i=0; i < selected.size(); ++i) 
 			{
 				if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(selected[i])))
 				{
@@ -653,7 +653,7 @@ namespace Tinkercell
 		oldFont.clear();
 
 		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
-
+		
 		if (text)
 		{
 			textItems.append(text);
@@ -675,7 +675,7 @@ namespace Tinkercell
 		{
 
 			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
-
+		
 			if (text)
 			{
 				textItems.append(text);
@@ -684,7 +684,7 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
 	ChangeTextCommand::ChangeTextCommand(const QString& name, QGraphicsItem * item, const QString& newname, const QFont& font)
 		: QUndoCommand(name)
 	{
@@ -695,7 +695,7 @@ namespace Tinkercell
 		oldFont.clear();
 
 		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
-
+		
 		if (text)
 		{
 			textItems.append(text);
@@ -719,18 +719,18 @@ namespace Tinkercell
 		{
 
 			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
-
+		
 			if (text)
 			{
 				textItems.append(text);
 				oldText.append(text->toPlainText());
-				newText.append(newnames[i]);
+				newText.append(newnames[i]);								
 				oldFont.append(text->font());
 				newFont.append(fonts[i]);
 			}
 		}
-	}
-
+	}	
+	
 	void ChangeTextCommand::redo()
 	{
 		for (int i=0; i < textItems.size() && i < newText.size() && i < oldText.size(); ++i)
@@ -738,7 +738,7 @@ namespace Tinkercell
 			if (textItems[i] != 0)
 			{
 				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
-
+		
 				if (text)
 				{
 					text->setPlainText(newText.at(i));
@@ -756,7 +756,7 @@ namespace Tinkercell
 			if (textItems[i] != 0)
 			{
 				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
-
+		
 				if (text)
 				{
 					text->setPlainText(oldText.at(i));

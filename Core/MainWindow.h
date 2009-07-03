@@ -10,11 +10,12 @@
  signals are then emitted by the MainWindow; in this way, a plugin does not need
  to listen to each of the GraphicsScene signals but only the MainWindow's signals.
 
- The MainWindow also has its own signals, such as a pluginLoaded, modelSaved, etc.
-
- The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
-
-
+ 
+ The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
+ 
+ The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins. 
+ 
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_MAINWINDOW_H
@@ -46,6 +47,7 @@
 #include <QPrinter>
 #include <QGridLayout>
 #include <QSemaphore>
+#include <QLibrary>
 
 #include "HistoryStack.h"
 #include "DataTable.h"
@@ -53,9 +55,12 @@
 
 namespace Tinkercell
 {
-    const static QString PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    const static QString ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    const static QString PROJECTNAME = QObject::tr("Tinkercell");
+    static QString PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    static QString ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    static QString PROJECTNAME = QObject::tr("Tinkercell");
+    static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
+    static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
+    typedef void (*MatrixInputFunction)(Matrix);
 
     class OutputWindow;
     class NodeGraphicsItem;
@@ -75,7 +80,7 @@ namespace Tinkercell
          Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
          All three of these classes emit various signals. Those signals are relayed by the MainWindow.
          In this way, a Tool does not need to listen to each of the GraphicsScene and TextEditor signals
-         but only the MainWindow's signals.	 The MainWindow also has its own signals, such as a pluginLoaded, modelSaved, etc.
+         but only the MainWindow's signals.	 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
          The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
          \ingroup core
         */
@@ -536,6 +541,12 @@ namespace Tinkercell
         */
         void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&);
         /*!
+        * \brief make a new input window. This function is designed to be used with the C API framework
+        * \param QSemaphore* semaphore
+        * \return void
+        */
+        void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction);
+        /*!
         * \brief change a input window. This function is designed to be used with the C API framework
         * \param QSemaphore* semaphore
         * \return void
@@ -753,11 +764,11 @@ namespace Tinkercell
         * \return void
         */
         void funtionPointersToMainThread( QSemaphore* , QLibrary * );
-        /*! \brief signals when a new dll (plugin) is loaded
-        * \param QString& the new dll's file name
+        /*! \brief signals when a new tool (plugin) is loaded
+        * \param Tool* the new tool
         * \return void
         */
-        void pluginLoaded(const QString& );
+        void toolLoaded(Tool * tool);
         /*!
         * \brief signals when a new FuntionToSignal is constructed
         * \param QLibrary * the new FuntionToSignal instance
@@ -800,6 +811,12 @@ namespace Tinkercell
         * \return void
         */
         void modelLoaded(NetworkWindow*);
+         /*!
+        * \brief signals whenever the new window is opened
+        * \param NetworkWindow* the current new window
+        * \return void
+        */
+        void windowOpened(NetworkWindow*);
         /*!
         * \brief signals whenever the current window changes
         * \param NetworkWindow* the previous windpw
@@ -929,6 +946,31 @@ namespace Tinkercell
         * \param OpTextItem* old operation
         * \param OpTextItem* modified operation */
         void operationChanged(TextEditor * editor, OpTextItem * from, OpTextItem * to);
+        /*! \brief request to find the given text
+            \param QString string to find*/
+        void findText(const QString&);
+        /*! \brief request to find and replace the given text
+            \param QRegExp regex to find
+            \param QString string to replace with*/
+        void replaceText(const QRegExp&, const QString&);
+        /*! \brief new text has been inserted
+            \param QString new text
+        */
+        void textInserted(const QString&);
+        /*! \brief some text has been removed
+            \param QString new text
+        */
+        void textRemoved(const QString&);
+        /*! \brief some text inside this editor has been changed
+            \param QString old text
+            \param QString new text
+        */
+        void textChanged(const QString&, const QString&);
+        /*! \brief the cursor has moved to a different line
+            \param int index of the current line
+            \param QString current line text
+        */
+        void lineChanged(int, const QString&);
         /*! \brief signals whenever mouse moves, and indicates whether it is on top of an item
         * \param GraphicsScene * scene where the event took place
         * \param QGraphicsItem* pointer to item that mouse is on top of
@@ -1155,7 +1197,11 @@ namespace Tinkercell
         /*!
                 * \brief part of the C API framework.
                 */
-        static void _createInputWindow(Matrix, const char*, const char*,const char*);
+        static void _createInputWindow1(Matrix, const char*, const char*,const char*);
+        /*!
+                * \brief part of the C API framework.
+                */
+        static void _createInputWindow2(Matrix, const char*, MatrixInputFunction);
         /*!
                 * \brief part of the C API framework.
                 */
@@ -1290,6 +1336,7 @@ namespace Tinkercell
         void clearText(QSemaphore*);
         void outputTable(QSemaphore*,const DataTable<qreal>&);
         void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&,const QString&);
+        void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString &, MatrixInputFunction);
         void addInputWindowOptions(QSemaphore*, const QString&, int i, int j, const QStringList&);
         void openNewWindow(QSemaphore*,const QString&);
         void isWindows(QSemaphore*,int*);
@@ -1345,6 +1392,7 @@ namespace Tinkercell
         void clearText();
         void printFile(const char*);
         void createInputWindow(Matrix, const char*, const char*,const char*);
+        void createInputWindow(Matrix, const char*, MatrixInputFunction);
         void addInputWindowOptions(const char*, int i, int j, char **);
         void openNewWindow(const char*);
         int isWindows();

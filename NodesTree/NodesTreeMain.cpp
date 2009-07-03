@@ -16,15 +16,9 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 
      Tinkercell::NodesTree * nodesTree = new Tinkercell::NodesTree;
-     /*if (main->tools.contains(nodesTree->name))
-          delete nodesTree;
-	else
-          nodesTree->setMainWindow(main);*/
+     main->addTool(nodesTree);
 
      Tinkercell::ConnectionsTree * connectionsTree = new Tinkercell::ConnectionsTree;
-     /*if (main->tools.contains(connectionsTree->name))
-          delete connectionsTree;
-     else
-          connectionsTree->setMainWindow(main);*/
+	 main->addTool(connectionsTree);
 }
 

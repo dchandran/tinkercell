@@ -66,11 +66,12 @@ namespace Tinkercell
 
 			//connectCollisionDetector();
 
+			
 			connect(this,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			//connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
-
+			//connect(mainWindow,SIGNAL(toolLoaded(Tool*),this,SLOT(toolLoaded(Tool*)));
+			
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			return true;
@@ -83,20 +84,20 @@ namespace Tinkercell
 		static bool alreadyConnected = false;
 		if (alreadyConnected || !mainWindow) return;
 
-// 		if (mainWindow->tools.contains(tr("Collision Detection")))
-// 		{
-// 			QWidget * widget = mainWindow->tools[tr("Collision Detection")];
-// 			CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
-// 			if (collisionDetection)
-// 			{
-// 				alreadyConnected = true;
-// 				connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )),
-// 						this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )));
-// 			}
-// 		}
+                if (mainWindow->tool(tr("Collision Detection")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Collision Detection"));
+			CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
+			if (collisionDetection)
+			{
+				alreadyConnected = true;
+				connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )),
+						this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )));
+			}
+		}
 	}
 
-	void GroupHandlerTool::pluginLoaded(const QString&)
+	void GroupHandlerTool::toolLoaded(Tool*)
 	{
 		connectCollisionDetector();
 	}

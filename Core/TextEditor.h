@@ -28,12 +28,15 @@
 #include <QMainWindow>
 #include <QHash>
 #include <QPair>
+#include <QSet>
 #include <QLabel>
 #include <QSplitter>
+#include <QListWidget>
 #include <QSyntaxHighlighter>
 #include <QUndoCommand>
 
 #include "DataTable.h"
+#include "CodeEditor.h"
 #include "HistoryStack.h"
 #include "SymbolsTable.h"
 #include "TextItem.h"
@@ -44,49 +47,34 @@ namespace Tinkercell
     class ItemData;
     class TextEditor;
 
-    /*! \brief this command performs a text change
-     * \ingroup undo*/
-    class TextUndoCommand : public QUndoCommand
-    {
-    public:
-         /*! \brief constructor
-          * \param TextEdit* editor where change happened
-          * \param QGraphicsItem * items that are affected
-          * \param QPointF& amount to move
-          */
-         TextUndoCommand(TextEditor * scene, QGraphicsItem * item, const QPointF& distance);
-         /*! \brief redo the change*/
-         void redo();
-         /*! \brief undo the change*/
-         void undo();
-    private:
-         /*! \brief the last text in the text editor*/
-         QString prevText;
-         /*! \brief the last text in the text editor*/
-         QString nextText;
-         /*! \brief TextEditor where the change happened*/
-         TextEditor * textEditor;
-    };
+    class TextUndoCommand;
 
     /*! \brief This class is just for the use of TextEditor.
           It is a simple text editor that records when a line has been changed.
      */
-    class Editor : public QTextEdit
+    class Editor : public CodeEditor
     {
         Q_OBJECT
 
         friend class TextEditor;
         friend class TextUndoCommand;
-    private:
+    protected:
+        /*! \brief constructor. A TextEdior is required*/
         Editor(TextEditor *);
+        /*! \brief previously accessed line number. This is to keep track of when a line is modified*/
         int prevBlockNumber;
+        /*! \brief current line number. This is to keep track of when a line is modified*/
         int changedBlockNumber;
+        /*! \brief previously accessed line. This is to keep track of when a line is modified*/
         QString prevBlockText;
+        /*! \brief current line. This is to keep track of when a line is modified*/
         QString changedBlockText;
+        /*! \brief the text editor containing this text edit*/
         TextEditor* textEditor;
-        virtual void wheelEvent ( QWheelEvent * wheelEvent );
+        /*! \brief listens to keyboard events in order to determine when the current line has changed*/
         virtual void keyPressEvent ( QKeyEvent * event );
-    private slots:
+    protected slots:
+        /*! \brief listens to textChanged signal to detemine when current line has been modified*/
         void textChangedSlot();
     };
 
@@ -112,62 +100,39 @@ namespace Tinkercell
         Q_OBJECT
 
     public:
-         /*! \brief background color*/
-        static QString RegularBackgroundColor;
-        /*! \brief plain text color*/
-        static QString RegularTextColor;
-        /*! \brief highlighted text (e.g. nodes and connections) color*/
-        static QString SpecialTextColor;
-        /*! \brief commented text background color*/
-        static QString CommentsBackgroundColor;
-        /*! \brief name of nodes and connections text background color*/
-        static QString NameBackgroundColor;
-        /*! \brief background color when highlighting (find/replace)*/
-        static QString HighlightBackgroundColor;
-
-        /*! \brief multiple node connections allowed? Otherwise, all connections will be between exactly two nodes*/
-        static bool MultipleNodesAllowed;
-        /*! \brief syntax to use when multiple node connections are allowed; default is "+"*/
-        static QString MultipleNodeSeparator;
-        /*! \brief description text on connections allowed? */
-        static bool ConnectionDescriptionAllowed;
-        /*! \brief syntax for inserting descriptions on connections ; default is ";"*/
-        static QString ConnectionDescriptionSeparator;
-        /*! \brief whether or not to show the node types at the top of the text; default = true*/
-        static bool ShowNodeDeclarations;
-        /*! \brief whether or not to show the operations at the top of the text; default = true*/
-        static bool ShowOperations;
-
         /*! \brief all the text items in this network indexed by the text block that contains each*/
-        QHash<QString, TextItem*> textItems;
+        QSet<TextItem*>& items();
         /*! \brief all the allowed syntax for represecting a conenction*/
-        static QStringList ConnectionSyntax;
+        //static QStringList ConnectionSyntax;
         /*! \brief all the different types that should be recognized as declarations*/
-        static QStringList TypeNames;
-
+        //static QStringList TypeNames;
 
         /*! \brief default constructor*/
         TextEditor();
-        /*! \brief insert nodes*/
-        void insertNode(const QList<NodeTextItem*>&);
-        /*! \brief insert node*/
-        void insertNode(NodeTextItem*);
-        /*! \brief insert connections*/
-        void insertConnection(const QList<ConnectionTextItem*>&);
-        /*! \brief insert connection*/
-        void insertConnection( ConnectionTextItem*);
+        /*! \brief destructor -- removes all the text items*/
+        ~TextEditor();
+        /*! \brief insert a text item
+            \param TextItem* the item*/
+        void insertItem( TextItem* );
+        /*! \brief insert text items
+            \param QList<TextItem*> the items*/
+        void insertItems( const QList<TextItem*>& );
+        /*! \brief remove an item
+            \param TextItem* the item*/
+        void removeItem( TextItem* );
+        /*! \brief remove text items
+            \param QList<TextItem*> the items*/
+        void removeItems( const QList<TextItem*>& );
         /*! \brief document inside this editor*/
         QTextDocument * document();
-        /*! \brief the underlying text editor*/
-        //Arnaud: There was one conlict with the member editor
-        QTextEdit * get_editor();
         /*! \brief the network window containing this text editor*/
         NetworkWindow * networkWindow;
-         /*! \brief the undo/redo stack*/
-        QUndoStack* historyStack;
+        /*! \brief push a command to the undo/redo stack
+             \param QUndoCommand* */
+        void push(QUndoCommand*);
 
     signals:
-         /*! \brief new nodes or connections have been inserted
+        /*! \brief new nodes or connections have been inserted
             \param TextEditor* where the editting happened
             \param TextItem* new items*/
         void itemsInserted(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>&);
@@ -184,13 +149,44 @@ namespace Tinkercell
             \param ConnectionTextItem* old connection
             \param ConnectionTextItem* modified connection */
         void connectionChanged(TextEditor * editor, ConnectionTextItem * from, ConnectionTextItem * to);
+        /*! \brief one of the operations, e.g. equations, has been deleted
+            \param TextEditor* where the editting happened
+            \param OpTextItem* operation that was removed*/
+        void operationRemoved(TextEditor * editor, OpTextItem * );
         /*! \brief one of the operations, e.g. equations, has been modified
             \param TextEditor* where the editting happened
             \param OpTextItem* old operation
             \param OpTextItem* modified operation */
         void operationChanged(TextEditor * editor, OpTextItem * from, OpTextItem * to);
+        /*! \brief request to find the given text
+            \param QString string to find*/
+        void findText(const QString&);
+        /*! \brief request to find and replace the given text
+            \param QRegExp regex to find
+            \param QString string to replace with*/
+        void replaceText(const QRegExp&, const QString&);
+        /*! \brief new text has been inserted
+            \param QString new text
+        */
+        void textInserted(const QString&);
+        /*! \brief some text has been removed
+            \param QString new text
+        */
+        void textRemoved(const QString&);
+        /*! \brief some text inside this editor has been changed
+            \param QString old text
+            \param QString new text
+        */
+        void textChanged(const QString&, const QString&);
+        /*! \brief the cursor has moved to a different line
+            \param int index of the current line
+            \param QString current line text
+        */
+        void lineChanged(int, const QString&);
 
     public slots:
+        /*! \brief set the text in the status bar for this text editor*/
+        virtual void setStatusBarText(const QString&);
         /*! \brief undo last edit*/
         virtual void undo();
         /*! \brief redo last undo*/
@@ -207,11 +203,6 @@ namespace Tinkercell
           \param QString text to find
           */
         void find(const QString&);
-        /*! \brief find and replace specified text
-          \param QString text to find
-          \param QString text to replace
-          */
-        void replace(const QString& old_string, const QString& new_string);
         /*! \brief find and replace specified text
           \param QRegExp text to find
           \param QString text to replace
@@ -235,33 +226,59 @@ namespace Tinkercell
             \param bool true = enable, false = disable
           */
         virtual void enableToolBar(bool show=true);
-        /*! \brief the side bar widget.
-          */
-        virtual QWidget* toolBar() const;
         /*! \brief set position of the side bar.
             \param Alignment flag
           */
         virtual void alignToolBar(Qt::Alignment);
 
-    public:
-        /*! \brief the text editor*/
-        Editor * editor;
-
     protected:
+        /*! \brief list of all items in the model*/
+        QSet<TextItem*> textItems;
+        /*! \brief history of document states*/
+        QStringList textHistory;
         /*! \brief how the side bar is aligned*/
         Qt::Alignment alignment;
-
-        /*! \brief the side bar*/
-        QWidget * sideBar;
+        /*! \brief the text editor*/
+        Editor * editor;
         /*! \brief the scroll area with the side bar*/
-        QScrollArea * scrollArea;
+        QListWidget * listWidget;
         /*! \brief the splitter on which the editor and side bar are located*/
         QSplitter * splitter;
         /*! \brief used to show line number and other info*/
         QLabel * informationLine;
+        /*! \brief some text inside this editor has been changed
+            \param QString old text
+            \param QString new text
+        */
+        void emitTextChanged(const QString&, const QString&);
+        /*! \brief the cursor has moved to a different line
+            \param int index of the current line
+            \param QString current line text
+        */
+        void emitLineChanged(int, const QString&);
 
         friend class Editor;
         friend class TextUndoCommand;
+    };
+
+    /*! \brief this command performs a text change
+     * \ingroup undo*/
+    class TextUndoCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor
+          * \param TextEditor* editor where change happened
+          */
+        TextUndoCommand(TextEditor * );
+        /*! \brief redo the change*/
+        void redo();
+        /*! \brief undo the change*/
+        void undo();
+    private:
+        /*! \brief the number in the history stack represented by this undo*/
+        int historyPosition;
+        /*! \brief TextEditor where the change happened*/
+        TextEditor * textEdit;
     };
 }
 #endif

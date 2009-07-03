@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool allows users to edit a text graphics item on the sceen.
  The tool also updates the name of a handle when the text item is changed (and vise versa)
 
@@ -26,9 +26,9 @@
 #include <QButtonGroup>
 #include <QTableView>
 
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "TextGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/TextGraphicsItem.h"
 
 namespace Tinkercell
 {

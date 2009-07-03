@@ -12,6 +12,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "OutputWindow.h"
 #include "StoichiometryTool.h"
+#include "DynamicLibraryMenu.h"
 
 namespace Tinkercell
 {
@@ -101,141 +102,191 @@ namespace Tinkercell
 		min->setChecked(false);
 	}
 
+	
+	void LPSolveInputWindow::exec()
+	{
+		setInput(dataTable);
+		AbstractInputWindow::exec();
+	}
+	
 	bool LPSolveInputWindow::setMainWindow(MainWindow * main)
 	{
 		AbstractInputWindow::setMainWindow(main);
-		if (mainWindow)
+        if (mainWindow)
 		{
+		
+			cthread = new CThread(main,tr("Plugins/c/lpsolve"),false);
+			cthread->setMatrixFunction("run");
+		
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 					this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& )),
-					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& )));
-
-			connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& )),
-					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& )));
-
+			
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )),
+					this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )));
+					
+			connect(mainWindow,SIGNAL(itemsRemoved(NetworkWindow *,const QList<ItemHandle*>& )),
+					this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )));
+			
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
 
+			
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			
+			toolLoaded(0);
+			
 			return true;
 		}
 
 		return false;
 	}
 
+	
+	void LPSolveInputWindow::toolLoaded(Tool *)
+    {
+        static bool alreadyConnected = false;
+        
+		if (alreadyConnected || !mainWindow) return;
+		
+		Tool * tool = 0;
+
+        if (tool = mainWindow->tool(tr("Dynamic Library Menu")))
+        {
+            DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(tool);
+            if (libMenu && this->dockWidget)
+            {
+                alreadyConnected = true;
+				QString appDir = QCoreApplication::applicationDirPath();
+
+				QIcon icon(appDir + tr("/Plugins/c/lpsolve.png"));
+                
+				QToolButton * button = libMenu->addFunction(tr("Controls"), tr("Flux Balance Analysis"), icon);
+				button->setToolTip(tr("uses LPsolve linear programming C library"));
+				
+				QAction * action = libMenu->addMenuItem(tr("Flux Balance Analysis"), icon);
+				action->setToolTip(tr("uses LPsolve linear programming C library"));
+				
+				connect(button,SIGNAL(pressed()),dockWidget,SLOT(show()));
+				connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
+            }
+        }
+    }
+	
 	void LPSolveInputWindow::loadConstraints()
 	{
-		GraphicsScene * scene = mainWindow->currentScene();
-
-// 		if (scene && scene->symbolsTable.modelItem.data && scene->symbolsTable.modelItem.data->numericalData.contains(tr("Flux Constraints")))
-// 		{
-// 			DataTable<qreal> dataTable2 = scene->symbolsTable.modelItem.data->numericalData[tr("Flux Constraints")];
-// 			constraintsTable.setRowCount(dataTable2.rows());
-//
-// 			for (int i=0; i < dataTable2.rows(); ++i)
-// 			{
-// 				for (int j=2; j < dataTable2.cols(); ++j)
-// 				{
-// 					if (dataTable2.value(i,j) > 0)
-// 					{
-// 						constraintsTable.setItem(i,0,new QTableWidgetItem(dataTable2.colName(j)));
-// 						constraintsTable.setItem(i,2,new QTableWidgetItem(QString::number(dataTable2.value(i,j))));
-// 						if (dataTable2.value(i,j) > 0 && dataTable2.value(i,j) < 3)
-// 							constraintsTable.setItem(i,1,new QTableWidgetItem(delegate2.options[1][(int)dataTable2.value(i,j)]));
-// 						break;
-// 					}
-// 				}
-// 			}
-// 		}
-
+                NetworkWindow * scene = mainWindow->currentWindow();
+		
+		if (scene && scene->symbolsTable.modelItem.data && scene->symbolsTable.modelItem.data->numericalData.contains(tr("Flux Constraints")))
+		{
+			DataTable<qreal> dataTable2 = scene->symbolsTable.modelItem.data->numericalData[tr("Flux Constraints")];
+			constraintsTable.setRowCount(dataTable2.rows());
+			
+			for (int i=0; i < dataTable2.rows(); ++i)
+			{
+				for (int j=2; j < dataTable2.cols(); ++j)
+				{
+					if (dataTable2.value(i,j) > 0)
+					{
+						constraintsTable.setItem(i,0,new QTableWidgetItem(dataTable2.colName(j)));
+						constraintsTable.setItem(i,2,new QTableWidgetItem(QString::number(dataTable2.value(i,j))));						
+						if (dataTable2.value(i,j) > 0 && dataTable2.value(i,j) < 3)
+							constraintsTable.setItem(i,1,new QTableWidgetItem(delegate2.options[1][(int)dataTable2.value(i,j)]));
+						break;
+					}
+				}
+			}
+		}
+		
 		update(false);
 	}
 
 	void LPSolveInputWindow::update(bool mustBeVisible)
 	{
-		GraphicsScene * scene = currentScene();
-
+         NetworkWindow * scene = currentWindow();
+		
 		if (!scene || (mustBeVisible && !isVisible())) return;
 
-// 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(scene->symbolsTable.handlesFullName.values(),tr("."));
-// 		dataTable.resize(N.rows()+1,N.cols()+2);
-// 		dataTable.colName(0) = tr("inequality");
-// 		dataTable.colName(1) = tr("constraint");
-// 		dataTable.rowName(0) = tr("objective");
-//
-// 		QVector<qreal> vec(N.cols());
-// 		for (int j=0; j < vec.size(); ++j)
-// 		{
-// 			vec[j] = dataTable.value(0,j+2);
-// 		}
-//
-// 		int k;
-// 		for (int j=0; j < N.cols(); ++j)
-// 		{
-// 			dataTable.colName(j+2) = N.colName(j);
-// 			k = targetFluxes.indexOf(N.colName(j));
-// 			if (k > -1 && k < vec.size())
-// 				dataTable.value(0,j+2) = vec[k];
-// 		}
-//
-// 		for (int i=0; i < N.rows(); ++i)
-// 		{
-// 			dataTable.rowName(i+1) = N.rowName(i);
-// 			for (int j=0; j < N.cols(); ++j)
-// 			{
-// 				dataTable.value(i+1,j+2) = N.value(i,j);
-// 			}
-// 			dataTable.value(i+1,0) = 0.0;
-// 			dataTable.value(i+1,1) = 0.0;
-// 		}
-// 		this->N = N.rows() + 1;
-//
-// 		delegate1.options[0] = N.getColNames();
-// 		delegate2.options[0] = N.getColNames();
-//
-// 		constraintsTableChanged(0,0);
-//
-// 		//update table
-// 		QList<QGraphicsItem*>& selected = scene->selected();
-//
-// 		QStringList rownames = dataTable.getColNames(); //flux names
-// 		targetFluxes.clear();
-// 		objectivesTable.clearContents();
-//
-// 		ItemHandle * handle;
-// 		for (int i=0; i < selected.size(); ++i)
-// 			if (qgraphicsitem_cast<ConnectionGraphicsItem*>(selected[i]))
-// 			{
-// 				handle = getHandle(selected[i]);
-// 				if (handle && rownames.contains(handle->fullName())) //get flux that are selected
-// 					targetFluxes << handle->fullName();
-// 			}
-//
-// 		objectivesTable.setRowCount(targetFluxes.size());
-//
-// 		for (int i=2; i < dataTable.cols(); ++i)
-// 			if (targetFluxes.contains(dataTable.colName(i)))
-// 			{
-// 				if (dataTable.value(0,i) == 0.0)
-// 					dataTable.value(0,i) = 1.0;
-// 			}
-// 			else
-// 				dataTable.value(0,i) = 0.0;
-//
-// 		disconnect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
-// 		for (int i=0; i < targetFluxes.size(); ++i)
-// 		{
-// 			objectivesTable.setItem(i,0,new QTableWidgetItem( targetFluxes[i] ));
-// 			objectivesTable.setItem(i,1,new QTableWidgetItem( QString::number(dataTable.value(0,targetFluxes[i])) ));
-// 		}
-// 		connect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
-//
-// 		objectivesTable.resizeColumnsToContents();
-// 		constraintsTable.resizeColumnsToContents();
-
+		
+		DataTable<qreal> N = StoichiometryTool::getStoichiometry(scene->symbolsTable.handlesFullName.values(),tr("."));
+		dataTable.resize(N.rows()+1,N.cols()+2);
+		dataTable.colName(0) = tr("inequality");
+		dataTable.colName(1) = tr("constraint");
+		dataTable.rowName(0) = tr("objective");
+		
+		QVector<qreal> vec(N.cols());
+		for (int j=0; j < vec.size(); ++j)
+		{
+			vec[j] = dataTable.value(0,j+2);
+		}
+		
+		int k;
+		for (int j=0; j < N.cols(); ++j)
+		{
+			dataTable.colName(j+2) = N.colName(j);
+			k = targetFluxes.indexOf(N.colName(j));
+			if (k > -1 && k < vec.size())
+				dataTable.value(0,j+2) = vec[k];
+		}
+		
+		for (int i=0; i < N.rows(); ++i)
+		{
+			dataTable.rowName(i+1) = N.rowName(i);
+			for (int j=0; j < N.cols(); ++j)
+			{
+				dataTable.value(i+1,j+2) = N.value(i,j);
+			}
+			dataTable.value(i+1,0) = 0.0;
+			dataTable.value(i+1,1) = 0.0;
+		}
+		this->N = N.rows() + 1;
+		
+		delegate1.options[0] = N.getColNames();
+		delegate2.options[0] = N.getColNames();
+		
+		constraintsTableChanged(0,0);
+		
+		//update table
+                QList<ItemHandle*> selected = scene->selectedHandles();
+		
+		QStringList rownames = dataTable.getColNames(); //flux names
+		targetFluxes.clear();
+		objectivesTable.clearContents();
+		
+		ItemHandle * handle;
+		for (int i=0; i < selected.size(); ++i)
+                        if (ConnectionHandle::asConnection(selected[i]))
+			{
+                                handle = selected[i];
+				if (handle && rownames.contains(handle->fullName())) //get flux that are selected
+					targetFluxes << handle->fullName();
+			}
+		
+		objectivesTable.setRowCount(targetFluxes.size());
+		
+		for (int i=2; i < dataTable.cols(); ++i)
+			if (targetFluxes.contains(dataTable.colName(i)))
+			{
+				if (dataTable.value(0,i) == 0.0)
+					dataTable.value(0,i) = 1.0;
+			}
+			else
+				dataTable.value(0,i) = 0.0;
+		
+		disconnect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
+		for (int i=0; i < targetFluxes.size(); ++i)
+		{
+			objectivesTable.setItem(i,0,new QTableWidgetItem( targetFluxes[i] ));
+			objectivesTable.setItem(i,1,new QTableWidgetItem( QString::number(dataTable.value(0,targetFluxes[i])) ));
+		}
+		connect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
+		
+		objectivesTable.resizeColumnsToContents();
+		constraintsTable.resizeColumnsToContents();
+			
 	}
 
-	void LPSolveInputWindow::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)
+	
+	void LPSolveInputWindow::itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>&)
 	{
 		if (!scene || !isVisible()) return;
 		update();
@@ -334,11 +385,12 @@ namespace Tinkercell
 				}
 			}
 
-		GraphicsScene * scene = currentScene();
-// 		if (scene)
-// 			scene->symbolsTable.modelItem.data->numericalData[tr("Flux Constraints")] = dataTable2;
+		
+                NetworkWindow * scene = currentWindow();
+		if (scene)
+			scene->symbolsTable.modelItem.data->numericalData[tr("Flux Constraints")] = dataTable2;
 	}
-
+	
 	void LPSolveInputWindow::setVisible(bool b)
 	{
 		if (b)
@@ -352,18 +404,17 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 	Tinkercell::LPSolveInputWindow * tool = new Tinkercell::LPSolveInputWindow;
-// 	if (main->tools.contains(tool->name))
-// 	{
-// 		main->tools[tool->name]->show();
-// 		if (main->tools[tool->name]->parentWidget())
-// 		{
-// 			main->tools[tool->name]->parentWidget()->show();
-// 		}
-// 		delete tool;
-// 	}
-// 	else
-// 	{
-// 		tool->setMainWindow(main);
-// 		//tool->itemsSelected(main->currentScene(), QList<QGraphicsItem*>() , QPointF() , 0 );
-// 	}
+    if (main->tool(tool->name))
+	{	
+		main->tool(tool->name)->show();
+		if (main->tool(tool->name)->parentWidget())
+		{
+			main->tool(tool->name)->parentWidget()->show();
+		}
+		delete tool;
+	}
+	else
+	{
+		main->addTool(tool);
+	}
 }

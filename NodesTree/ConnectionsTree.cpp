@@ -60,9 +60,6 @@ namespace Tinkercell
         setLayout(layout);
 
         QString appDir = QCoreApplication::applicationDirPath();
-#ifdef Q_WS_MAC
-        appDir += tr("/../../..");
-#endif
         ConnectionsTreeReader reader;
 
         QCoreApplication::setOrganizationName("TinkerCell");
@@ -70,10 +67,11 @@ namespace Tinkercell
         QCoreApplication::setApplicationName("TinkerCell");
         QSettings settings("TinkerCell", "TinkerCell");
         settings.beginGroup("ConnectionsTree");
-        QString xmlFile = settings.value("file", filename).toString();
+       //QString xmlFile = settings.value("file", filename).toString();
         settings.endGroup();
 
 
+        QString xmlFile ;
         if (xmlFile.isNull() || xmlFile.isEmpty())
             xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));
 
@@ -85,9 +83,6 @@ namespace Tinkercell
         {
             ConnectionFamily * family = connectionFamilies.value(keys[i]);
             if (!family) continue;
-
-            //Arnaud: This method does not exist
-            //TextEditor::addConnectionFamily(family->string,family->color);
 
             QList<QTreeWidgetItem*> treeItem = treeItems.values(keys[i]);
             if (family && !treeItem.isEmpty())

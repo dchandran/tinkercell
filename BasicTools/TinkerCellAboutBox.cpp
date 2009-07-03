@@ -1,4 +1,4 @@
-#include "OutputWindow.h"
+#include "Core/OutputWindow.h"
 #include "TinkerCellAboutBox.h"
 #include <QPixmap>
 #include <QBrush>
@@ -10,21 +10,18 @@ namespace Tinkercell
 	TinkercellAboutBox::TinkercellAboutBox() : Tool(tr("TinkerCell About Box"))
 	{
 		QHBoxLayout * layout1 = new QHBoxLayout;
-
+		
 		QString text("TinkerCell\nVersion: ");
 		text += QCoreApplication::applicationVersion() + tr("\n\nAuthor: Deepak Chandran\n\nWebsite: www.tinkercell.com\n\n");
-
+		
 		QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_MAC
-		appDir += tr("/../../..");
-		#endif
-
+	
 		QString filename("about.txt");
-		QString name[] = {	MainWindow::userHome() + tr("/") + PROJECTNAME + tr("/") + filename,
+		QString name[] = {	MainWindow::userHome() + tr("/") + filename,
 							filename,
 							QDir::currentPath() + tr("/") + filename,
 							appDir + tr("/") + filename };
-
+		
 		QFile file;
 		bool opened = false;
 		for (int i=0; i < 4; ++i)
@@ -49,17 +46,17 @@ namespace Tinkercell
 		QTextEdit * edit = new QTextEdit(this);
 		edit->setPlainText(text);
 		edit->setReadOnly(true);
-
+		
 		QPalette palette;
 		palette.setBrush(edit->backgroundRole(), QBrush(QPixmap(":/images/Tinkercell.png").scaled(256,256)));
 		edit->setPalette(palette);
 		layout1->addWidget(edit);
-
-
+		
+		
 		dialog.setLayout(layout1);
-
+		
 	}
-
+	
 	bool TinkercellAboutBox::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -79,34 +76,31 @@ namespace Tinkercell
 		}
 		return false;
 	}
-
+	
 	void TinkercellAboutBox::showAboutBox()
 	{
 		dialog.exec();
 	}
-
+	
 	void TinkercellAboutBox::openDocumentation()
 	{
-
+		
 		QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_MAC
-		appDir += tr("/../../..");
-		#endif
-
+		
 		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.html");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
-
+	
 	void TinkercellAboutBox::openBlog()
 	{
 		QDesktopServices::openUrl(QUrl("http://tinker-cell.blogspot.com/"));
 	}
-
+	
 	void TinkercellAboutBox::openHomePage()
 	{
 		QDesktopServices::openUrl(QUrl("http://www.tinkercell.com/"));
 	}
-
+	
 	void TinkercellAboutBox::emailAuthor()
 	{
 		QDesktopServices::openUrl(QUrl("mailto:admin@tinkercell.com?subject=TinkerCell Report"));
@@ -118,10 +112,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 
 	Tinkercell::TinkercellAboutBox * about = new Tinkercell::TinkercellAboutBox;
-// 	if (main->tools.contains(about->name))
-// 		delete about;
-// 	else
-// 		about->setMainWindow(main);
+	main->addTool(about);
 
 }
 

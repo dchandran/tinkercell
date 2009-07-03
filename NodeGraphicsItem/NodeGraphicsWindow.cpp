@@ -106,10 +106,6 @@
 	{
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_MAC
-		appDir += tr("/../../..");
-		#endif
-		
 		QString doc = tr("file:") + appDir + tr("/Documentation/NodeGraphics_Documentat.html");
 		QDesktopServices::openUrl(QUrl(doc));
 	}

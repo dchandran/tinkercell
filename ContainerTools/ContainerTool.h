@@ -45,7 +45,8 @@ namespace Tinkercell
 
 	public:
 
-		ContainerTreeDelegate(QObject *parent = 0);
+		
+		ContainerTreeDelegate(QTreeView * parent = 0);
 
 		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
 						   const QModelIndex &index) const;
@@ -56,6 +57,8 @@ namespace Tinkercell
 
 		void updateEditorGeometry(QWidget *editor,
 			const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	private:
+		QTreeView * treeView;
 	};
 
 	class ContainerTreeTool : public Tool
@@ -78,7 +81,7 @@ namespace Tinkercell
 		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
 		void itemsMoved(GraphicsScene * , const QList<QGraphicsItem*>& item, const QList<QPointF>& , Qt::KeyboardModifiers );
 		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		void indexSelected(const QModelIndex&);
 	private:
 		ContainerTreeDelegate * treeDelegate;

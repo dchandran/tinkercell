@@ -97,7 +97,7 @@ namespace Tinkercell
 
             connectCollisionDetector();
 
-            connect(mainWindow,SIGNAL(pluginLoaded(const QString&)),this,SLOT(pluginLoaded(const QString&)));
+            connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
             return true;
         }
@@ -105,7 +105,7 @@ namespace Tinkercell
         return false;
     }
 
-    void ConnectionSelection::pluginLoaded(const QString&)
+    void ConnectionSelection::toolLoaded(Tool*)
     {
         connectCollisionDetector();
     }
@@ -431,9 +431,9 @@ namespace Tinkercell
         static bool alreadyConnected = false;
         if (alreadyConnected || !mainWindow) return;
 
-/*        if (mainWindow->tools.contains(tr("Collision Detection")))
+        if (mainWindow->tool(tr("Collision Detection")))
         {
-            QWidget * widget = mainWindow->tools[tr("Collision Detection")];
+            QWidget * widget = mainWindow->tool(tr("Collision Detection"));
             CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
             if (collisionDetection)
             {
@@ -441,7 +441,7 @@ namespace Tinkercell
                 connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )),
                         this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )));
             }
-        }*/
+        }
     }
 
     void ConnectionSelection::newControlPoint()
@@ -1265,9 +1265,6 @@ namespace Tinkercell
         /*ShowHideMiddleRegion * command = new ShowHideMiddleRegion;
                 command->show = (value == 1);
                 QString appDir = QCoreApplication::applicationDirPath();
-                #ifdef Q_WS_MAC
-                appDir += tr("/../../..");
-                #endif
                 if (filename.isNull() || filename.isEmpty())
                         command->filename = appDir + tr("/NodeItems/Rect.xml");
                 else

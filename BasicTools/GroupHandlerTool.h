@@ -63,7 +63,7 @@ namespace Tinkercell
 		void separate();
 		void alias();
 		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers );
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		void setupFunctionPointers( QLibrary * );
 	private slots:
 		void merge(QSemaphore*, QList<ItemHandle*>&);

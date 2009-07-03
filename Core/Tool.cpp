@@ -22,92 +22,100 @@ namespace Tinkercell
      {
      }
 
-     Tool::~Tool()
-     {
-          if (graphicsItem)
-          {
-               if (graphicsItem->scene())
-                    graphicsItem->scene()->removeItem(graphicsItem);
+    void Tool::GraphicsItem::select()
+    {
+        if (tool)
+        {
+            int k = tool->graphicsItems.indexOf(this);
+            tool->select(k);
+        }
+    }
 
-               delete graphicsItem;
-          }
+    void Tool::GraphicsItem::deselect()
+    {
+        if (tool)
+        {
+            int k = tool->graphicsItems.indexOf(this);
+            tool->deselect(k);
+        }
+    }
 
-          if (toolButton)
-          {
-               toolButton->disconnect();
-               if (!toolButton->parentWidget())
-                    delete toolButton;
-          }
-     }
+    Tool::~Tool()
+    {
+        for (int i=0; i < graphicsItems.size(); ++i)
+            if (graphicsItems[i])
+            {
+                if (graphicsItems[i]->scene())
+                    graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
 
-     Tool::Tool()
-     {
-          name = "";
-          mainWindow = 0;
-          graphicsItem = 0;
-          toolButton = 0;
-     }
+                delete graphicsItems[i];
+            }
+    }
 
-     Tool::Tool(const QString& Name, QWidget * parent): QWidget(parent)
-     {
-          name = Name;
-          mainWindow = 0;
-          graphicsItem = 0;
-          toolButton = 0;
-     }
+    Tool::Tool(): buttons(this)
+    {
+        name = "";
+        mainWindow = 0;
+    }
 
-     bool Tool::setMainWindow(MainWindow * main)
-     {
-          disconnect();
-          mainWindow = main;
-          if (toolButton)
-               connect(toolButton,SIGNAL(clicked()),this,SLOT(select()));
-          if (main)
-          {
-//                main->addTool(name,this);
-               return true;
-          }
-          return false;
-     }
+    Tool::Tool(const QString& Name, QWidget * parent): QWidget(parent), buttons(this)
+    {
+        name = Name;
+        mainWindow = 0;
+    }
 
-     void Tool::select()
-     {
-          if (parentWidget() && !parentWidget()->isVisible())
-               parentWidget()->show();
-          show();
-          emit selected();
-     }
+    bool Tool::setMainWindow(MainWindow * main)
+    {
+        disconnect();
+        mainWindow = main;
+        connect(&buttons,SIGNAL( buttonClicked ( int )),this,SLOT( select( int ) ));
+        if (main)
+        {
+            if (!main->tool(name))
+                main->addTool(this);
+            return true;
+        }
+        return false;
+    }
 
-     void Tool::deselect()
-     {
-          hide();
-          emit deselected();
-     }
+    void Tool::select(int)
+    {
+        if (parentWidget() && !parentWidget()->isVisible())
+            parentWidget()->show();
+        show();
+        emit selected();
+    }
 
-     void Tool::GraphicsItem::setVisible(bool b)
-     {
-          QGraphicsItemGroup::setVisible(b);
-     }
+    void Tool::deselect(int)
+    {
+        hide();
+        emit deselected();
+    }
 
-     GraphicsScene* Tool::currentScene() const
-     {
-          if (mainWindow)
-               return mainWindow->currentScene();
-          return 0;
-     }
+    void Tool::GraphicsItem::visible(bool b)
+    {
+        QGraphicsItemGroup::setVisible(b);
+    }
 
-     TextEditor* Tool::currentTextEditor() const
-     {
-          if (mainWindow)
-               return mainWindow->currentTextEditor();
-          return 0;
-     }
+    GraphicsScene* Tool::currentScene() const
+    {
+        if (mainWindow)
+            return mainWindow->currentScene();
+        return 0;
+    }
 
-     NetworkWindow * Tool::currentWindow() const
-     {
-          if (mainWindow)
-               return mainWindow->currentWindow();
-          return 0;
-     }
+    TextEditor* Tool::currentTextEditor() const
+    {
+        if (mainWindow)
+            return mainWindow->currentTextEditor();
+        return 0;
+    }
+
+    NetworkWindow * Tool::currentWindow() const
+    {
+        if (mainWindow)
+            return mainWindow->currentWindow();
+        return 0;
+    }
 
 }

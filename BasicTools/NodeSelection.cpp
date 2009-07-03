@@ -18,6 +18,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "NodeSelection.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {
@@ -42,20 +43,16 @@ namespace Tinkercell
         Tool::setMainWindow(main);
         if (mainWindow)
         {
-            connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-            //connect(mainWindow,SIGNAL(toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers)),
-            //		this,SLOT(toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
+            //connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));
+            //connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
             connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this ,SLOT(itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(windowClosing(NetworkWindow*,bool*)),this,SLOT(windowClosing(NetworkWindow*,bool*)));
 
-            /*if (mainWindow->historyStack())
-                        {
-                                connect(mainWindow->historyStack(),SIGNAL(indexChanged(int)),this,SLOT(historyChanged(int)));
-                        }*/
-
-            return true;
+			
+			return true;
         }
         return false;
     }
@@ -92,7 +89,7 @@ namespace Tinkercell
             Tool::GraphicsItem * tool = visibleTools[i];
             if (tool && scene && tool->scene() == scene)
             {
-                tool->setVisible(true);
+                tool->visible(true);
                 tool->setPos(QPointF(maxx,miny));
                 QRectF bounds = tool->sceneBoundingRect();
                 if (visibleTools.size() > 1)
@@ -279,9 +276,11 @@ namespace Tinkercell
                 for (int j=0; j < itemHandle->tools.size(); ++j)
                 {
                     tool = itemHandle->tools[j];
-                    if (tool && tool->graphicsItem &&
-                        !visibleTools.contains(tool->graphicsItem))
-                        visibleTools += (tool->graphicsItem);
+                    if (tool && !tool->graphicsItems.isEmpty())
+                        for (int k=0; k < tool->graphicsItems.size(); ++k)
+                            if (!visibleTools.contains(tool->graphicsItems[k]))
+                                visibleTools += tool->graphicsItems[k];
+
                 }
             }
         }
@@ -324,7 +323,7 @@ namespace Tinkercell
                     scene->addItem(tool);
                 }
 
-                tool->setVisible(true);
+                tool->visible(true);
 
                 tool->setZValue(scene->ZValue()+0.1);
 
@@ -361,8 +360,8 @@ namespace Tinkercell
                 {
                     tool->scene()->removeItem(tool);
                 }
-                tool->setVisible(false);
-                tool->tool->deselect();
+                tool->visible(false);
+                tool->deselect();
             }
         }
         visibleTools.clear();
@@ -685,6 +684,22 @@ namespace Tinkercell
         deselect();
         if (window && window->scene)
             window->scene->clearSelection();
+        /*if (window && window->textEditor)
+        {
+            QList<Tool*> tools = mainWindow->tools();
+            for (int i=0; i < tools.size(); ++i)
+                if (tools[i])
+                {
+                    QList<QAbstractButton*> buttons = tools[i]->buttons.buttons();
+                    if (!buttons.isEmpty())
+                    {
+                        for (int j=0; j < buttons.size(); ++j)
+                        {
+                            //window->textEditor->removeFromToolBar(buttons[j]);
+                        }
+                    }
+                }
+        }*/
         turnOffGraphicalTools();
     }
 

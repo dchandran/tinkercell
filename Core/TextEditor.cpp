@@ -10,7 +10,8 @@
 
 ****************************************************************************/
 
-
+#include "OutputWindow.h"
+#include "NetworkWindow.h"
 #include "TextEditor.h"
 #include "TextItem.h"
 #include "ItemFamily.h"
@@ -21,277 +22,392 @@
 #include <QTextCharFormat>
 #include <QFont>
 #include <QVBoxLayout>
-#include <QScrollArea>
 #include <QRegExp>
 #include <QTextCursor>
+#include <QListWidgetItem>
 
 namespace Tinkercell
 {
-//Arnaud: TextEditor does not have any field named syntaxHighlighter
-     TextEditor::TextEditor() :
-               editor(new Editor(this)), sideBar(new QWidget), scrollArea(new QScrollArea),
-               splitter(new QSplitter), /*syntaxHighlighter(this), */informationLine(new QLabel("line:",this))
-     {
-          alignment = Qt::AlignLeft;
+    TextEditor::TextEditor() :
+            networkWindow(0),
+			editor(new Editor(this)), 
+			listWidget(0),
+			splitter(0), 
+			informationLine(new QLabel("line:",this))
+    {
+		alignment = Qt::AlignLeft;
 
-          scrollArea->setWidget(sideBar);
-          scrollArea->setMaximumWidth(150);
+        //listWidget->setMaximumWidth(150);
 
-          QWidget * editorAndLine = new QWidget;
-          QVBoxLayout * layout = new QVBoxLayout;
-          layout->addWidget(editor);
-          layout->addWidget(informationLine);
-          editorAndLine->setLayout(layout);
+        //QWidget * editorAndLine = new QWidget;
+        QVBoxLayout * layout = new QVBoxLayout;
+        //layout->addWidget(editor);
+        //layout->addWidget(informationLine);
+        //editorAndLine->setLayout(layout);
 
-          splitter->addWidget(editorAndLine);
-          splitter->addWidget(scrollArea);
+        //splitter->addWidget(editorAndLine);
+        //splitter->addWidget(listWidget);
 
-          layout = new QVBoxLayout;
+        //layout = new QVBoxLayout;
 
-          //Arnaud: regularBackgroundColor is not a member of TinkerCell::TextEditor
-          scrollArea->setStyleSheet(tr("background-color: qlineargradient(x1: 1, y1: 0, x2: 0, y2: 0, stop: 0 #AAAAAA, stop: 0.8 #888888, stop: 1.0 #D9DDEB);"));
-          editor->setStyleSheet(tr("background-color: ") /*+ TextEditor::regularBackgroundColor*/ + tr(";"));
+        //listWidget->setStyleSheet(tr("background-color: qlineargradient(x1: 1, y1: 0, x2: 0, y2: 0, stop: 0 #AAAAAA, stop: 0.8 #888888, stop: 1.0 #D9DDEB);"));
+        //editor->setStyleSheet(tr("background-color: #FFFFFF;"));
+		//editor->setStyleSheet(tr("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #FFFFFF, stop: 0.8 #FFFFFF, stop: 0.9 #C9E8FA, stop: 1.0 #E5F6F9);"));
+		
+        editor->setCursorWidth(3);
 
-          editor->setCursorWidth(3);
+        //layout->addWidget(splitter);
+		layout->addWidget(editor);
+        layout->setContentsMargins(0,0,0,0);
+        layout->setSpacing(0);
+        setLayout(layout);
 
-          layout->addWidget(splitter);
-          layout->setContentsMargins(0,0,0,0);
-          layout->setSpacing(0);
-          setLayout(layout);
-     }
+        textHistory << tr(""); //history at index=0
+		
+		//enableToolBar();
+    }
 
-     void TextEditor::undo()
-     {
-          if (editor)
-               editor->undo();
-     }
+    TextEditor::~TextEditor()
+    {
+        for (QSet<TextItem*>::iterator i = textItems.begin();
+                i != textItems.end();
+                ++i)
+        {
+            if (*i)
+                delete (*i);
+        }
+        textItems.clear();
+    }
 
-     void TextEditor::redo()
-     {
-          if (editor)
-               editor->redo();
-     }
+    QSet<TextItem*>& TextEditor::items()
+    {
+        return textItems;
+    }
 
-     void TextEditor::copy()
-     {
-          if (editor)
-               editor->copy();
-     }
+    void TextEditor::push(QUndoCommand * c)
+    {
+        if (!c) return;
 
-     void TextEditor::cut()
-     {
-          if (editor)
-               editor->cut();
-     }
+        QUndoCommand * composite = new CompositeCommand(c->text(), new TextUndoCommand(this), c);
 
-     void TextEditor::paste()
-     {
-          if (editor)
-               editor->paste();
-     }
+        if (networkWindow)
+            networkWindow->history.push( composite );
+        else
+        {
+            composite->redo();
+            delete composite;
+        }
+    }
 
-     void TextEditor::selectAll()
-     {
-          if (editor)
-               editor->selectAll();
-     }
+    void TextEditor::undo()
+    {
+        if (networkWindow)
+            networkWindow->history.undo();
+    }
 
-     void TextEditor::print(QPrinter * printer)
-     {
-          if (editor)
-               editor->print(printer);
-     }
+    void TextEditor::redo()
+    {
+        if (editor)
+            editor->redo();
+    }
 
-     void TextEditor::find(const QString& s)
-     {
-      //Arnaud: syntaxHighlighter was not declared in this scope
-//           syntaxHighlighter.searchString = s;
-//           syntaxHighlighter.rehighlight();
-     }
+    void TextEditor::copy()
+    {
+        if (editor)
+            editor->copy();
+    }
 
-     void TextEditor::replace(const QString& old_string, const QString& new_string)
-     {
+    void TextEditor::cut()
+    {
+        if (editor)
+            editor->cut();
+    }
 
-     }
+    void TextEditor::paste()
+    {
+        if (editor)
+            editor->paste();
+    }
 
-     void TextEditor::replace(const QRegExp& old_expression, const QString& new_string)
-     {
-     }
+    void TextEditor::selectAll()
+    {
+        if (editor)
+            editor->selectAll();
+    }
 
-     void TextEditor::addToToolBar(QWidget * widget)
-     {
-          if (!sideBar) return;
-          if (!sideBar->layout())
-               sideBar->setLayout(new QVBoxLayout);
+    void TextEditor::print(QPrinter * printer)
+    {
+        if (editor)
+            editor->print(printer);
+    }
 
-          sideBar->layout()->addWidget(widget);
-     }
+    void TextEditor::find(const QString& s)
+    {
+        emit findText(s);
+    }
 
-     void TextEditor::removeFromToolBar(QWidget * widget)
-     {
-          if (!sideBar) return;
-          if (!sideBar->layout())
-               sideBar->setLayout(new QVBoxLayout);
-          sideBar->layout()->removeWidget(widget);
-     }
+    void TextEditor::replace(const QRegExp& old_expression, const QString& new_string)
+    {
+        emit replaceText(old_expression,new_string);
+    }
 
-     void TextEditor::enableToolBar(bool show)
-     {
-          if (!splitter)
-               return;
+    void TextEditor::insertItem( TextItem* item)
+    {
+        textItems.insert(item);
 
-          if (!sideBar)
-               sideBar = new QWidget;
+        QList<TextItem*> list;
+        list << item;
 
-          if (!scrollArea)
-          {
-               scrollArea = new QScrollArea;
-               splitter->addWidget(scrollArea);
-          }
+        ItemHandle * handle = getHandle(item);
+        QList<ItemHandle*> handles;
 
-          if (scrollArea->widget() != sideBar)
-               scrollArea->setWidget(sideBar);
+        if (handle)
+            handles << handle;
 
-          sideBar->setVisible(show);
-     }
+        emit itemsInserted(this,list,handles);
 
-     QWidget* TextEditor::toolBar() const
-     {
-          return this->sideBar;
-     }
+        if (item->asOp())
+            emit operationInserted(this,item->asOp());
+    }
 
-     void TextEditor::alignToolBar(Qt::Alignment align)
-     {
-          if (!splitter || !sideBar || !scrollArea)
-               return;
+    void TextEditor::insertItems( const QList<TextItem*>& items)
+    {
+        ItemHandle * handle = 0;
+        QList<ItemHandle*> handles;
 
-          switch(align)
-          {
-          case Qt::AlignLeft:
-               splitter->setOrientation(Qt::Vertical);
-               splitter->addWidget(scrollArea);
-               splitter->addWidget(editor);
-               break;
-          case Qt::AlignRight:
-               splitter->setOrientation(Qt::Vertical);
-               splitter->addWidget(editor);
-               splitter->addWidget(scrollArea);
-               break;
-          case Qt::AlignTop:
-               splitter->setOrientation(Qt::Horizontal);
-               splitter->addWidget(scrollArea);
-               splitter->addWidget(editor);
-               break;
-          default:
-               splitter->setOrientation(Qt::Horizontal);
-               splitter->addWidget(editor);
-               splitter->addWidget(scrollArea);
-               break;
+        for (int i=0; i < items.size(); ++i)
+            if (items[i])
+            {
+                textItems.insert(items[i]);
+                handle = getHandle(items[i]);
+                if (handle)
+                    handles << handle;
+            }
 
-          }
-     }
+        emit itemsInserted(this,items,handles);
 
-     Editor::Editor(TextEditor * t) : QTextEdit(), textEditor(t)
-     {
-          //setUndoRedoEnabled(false);
-          prevBlockNumber = -1;
-          changedBlockNumber = -1;
-          setWordWrapMode(QTextOption::NoWrap);
-          connect(this,SIGNAL(textChanged()),this,SLOT(textChangedSlot()));
-     }
+        for (int i=0; i < items.size(); ++i)
+            if (items[i])
+            {
+                if (items[i]->asOp())
+                    emit operationInserted(this,items[i]->asOp());
+            }
+    }
 
-     void Editor::wheelEvent ( QWheelEvent * wheelEvent )
-     {
-          if (wheelEvent == 0) return;
+    void TextEditor::removeItem( TextItem* item )
+    {
+        textItems.remove(item);
 
-          if (wheelEvent->modifiers() == Qt::ControlModifier)
-          {
-               if (wheelEvent->delta() > 0)
-                    zoomIn();
-               else
-                    zoomOut();
-          }
-          else
-          {
-               QTextEdit::wheelEvent(wheelEvent);
-          }
-     }
+        QList<TextItem*> list, ops;
+        list << item;
 
-     void Editor::textChangedSlot()
-     {
-      //Arnaud:  'class Tinkercell::TextEditor' has no member named 'syntaxHighlighter'
-//           if (textEditor)
-//                textEditor->syntaxHighlighter.searchString = tr("");
-          changedBlockNumber = textCursor().blockNumber();
-          if (prevBlockNumber == changedBlockNumber)
-               changedBlockText = textCursor().block().text();
-     }
+        ItemHandle * handle = getHandle(item);
+        QList<ItemHandle*> handles;
 
-     void Editor::keyPressEvent ( QKeyEvent * event )
-     {
-          int n0 = textCursor().blockNumber();
+        if (handle)
+            handles << handle;
 
-          if (event->matches(QKeySequence::Redo)) { qDebug() << "redo"; }
-          else
-               if (event->matches(QKeySequence::Undo)) { qDebug() << "undo"; }
-          else
-               QTextEdit::keyPressEvent ( event );
+        emit itemsRemoved(this,list,handles);
 
-          int n1 = textCursor().blockNumber();
-          if (n0 != n1)
-          {
-               if (changedBlockNumber > -1)
-                    qDebug() << prevBlockText << " ==> " << changedBlockText;
-               prevBlockText = textCursor().block().text();
-               prevBlockNumber = n1;
-               changedBlockNumber = -1;
-          }
+         if (item->asOp())
+             emit operationRemoved(this,item->asOp());
+    }
 
-          if (textEditor && textEditor->informationLine)
-               textEditor->informationLine->setText(tr("line: ") + QString::number(n1));
-     }
+    void TextEditor::removeItems( const QList<TextItem*>& items )
+    {
+        ItemHandle * handle = 0;
+        QList<ItemHandle*> handles;
 
-     QTextDocument * TextEditor::document()
-     {
-          if (!editor)
-          {
-//Arnaud:  error: invalid conversion from 'QTextEdit*' to 'Tinkercell::Editor*'
-//                editor = new QTextEdit(this);
-            editor = new Editor( this );
-               if (!splitter)
-                    splitter = new QSplitter(this);
-               splitter->addWidget(editor);
-          }
-          return editor->document();
-     }
+        for (int i=0; i < items.size(); ++i)
+            if (items[i])
+            {
+                textItems.remove(items[i]);
+                handle = getHandle(items[i]);
+                if (handle)
+                    handles << handle;
+            }
 
-     QTextEdit * TextEditor::get_editor()
-     {
-          if (!editor)
-          {
-//Arnaud:  error: invalid conversion from 'QTextEdit*' to 'Tinkercell::Editor*'
-//                editor = new QTextEdit(this);
-               editor = new Editor(this);
-               if (!splitter)
-                    splitter = new QSplitter(this);
-               splitter->addWidget(editor);
-          }
-          return editor;
-     }
+        emit itemsRemoved(this,items,handles);
 
-     //default global settings
+        for (int i=0; i < items.size(); ++i)
+            if (items[i])
+            {
+                if (items[i]->asOp())
+                    emit operationRemoved(this,items[i]->asOp());
+            }
+    }
 
-     QString TextEditor::RegularBackgroundColor("#FFFFFF");
-     QString TextEditor::RegularTextColor("#032763");
-     QString TextEditor::CommentsBackgroundColor("#E3F9E1");
-     QString TextEditor::SpecialTextColor("#F9F6DE");
-     QString TextEditor::NameBackgroundColor("#8CD5FB");
-     QString TextEditor::HighlightBackgroundColor("#FCF00");
+    void TextEditor::addToToolBar(QWidget * widget)
+    {
+		if (!widget || !listWidget) return;
+        
+		QListWidgetItem * item = new QListWidgetItem;
+		listWidget->addItem(item);
+		listWidget->setItemWidget(item, widget);
+    }
 
-     QString TextEditor::ConnectionDescriptionSeparator(";");
-     QString TextEditor::MultipleNodeSeparator("+");
-     bool TextEditor::MultipleNodesAllowed = true;
-     bool TextEditor::ConnectionDescriptionAllowed = true;
-     bool TextEditor::ShowNodeDeclarations = true;
-     bool TextEditor::ShowOperations = true;
+    void TextEditor::removeFromToolBar(QWidget * widget)
+    {
+        if (!listWidget) return;
+		QList<QListWidgetItem*> items;
+		
+		int count = listWidget->count();
+		
+		for (int i=0; i < count; ++i)
+			if (listWidget->item(i) && 
+				listWidget->itemWidget(listWidget->item(i)) && 
+				(listWidget->itemWidget(listWidget->item(i)) != widget))
+				items << listWidget->item(i);
+		
+		listWidget->clear();
+		
+		for (int i=0; i < items.size(); ++i)
+			listWidget->addItem(items[i]);
+    }
+
+    void TextEditor::enableToolBar(bool show)
+    {
+        if (!splitter || !listWidget)
+            return;
+
+        listWidget->setVisible(show);
+    }
+
+    void TextEditor::alignToolBar(Qt::Alignment align)
+    {
+        if (!splitter || !listWidget)
+            return;
+
+        switch(align)
+        {
+        case Qt::AlignLeft:
+            splitter->setOrientation(Qt::Vertical);
+            splitter->addWidget(listWidget);
+            splitter->addWidget(editor);
+            break;
+        case Qt::AlignRight:
+            splitter->setOrientation(Qt::Vertical);
+            splitter->addWidget(editor);
+            splitter->addWidget(listWidget);
+            break;
+        case Qt::AlignTop:
+            splitter->setOrientation(Qt::Horizontal);
+            splitter->addWidget(listWidget);
+            splitter->addWidget(editor);
+            break;
+        default:
+            splitter->setOrientation(Qt::Horizontal);
+            splitter->addWidget(editor);
+            splitter->addWidget(listWidget);
+            break;
+
+        }
+    }
+
+    Editor::Editor(TextEditor * t) : CodeEditor(), textEditor(t)
+    {
+        setUndoRedoEnabled(false);
+        prevBlockNumber = -1;
+        changedBlockNumber = -1;
+        setWordWrapMode(QTextOption::NoWrap);
+        connect(this,SIGNAL(textChanged()),this,SLOT(textChangedSlot()));
+    }
+
+    void Editor::textChangedSlot()
+    {
+        changedBlockNumber = textCursor().blockNumber();
+        if (prevBlockNumber == changedBlockNumber)
+            changedBlockText = textCursor().block().text();
+    }
+
+    void Editor::keyPressEvent ( QKeyEvent * event )
+    {
+        int n0 = textCursor().blockNumber();
+
+        if (event->matches(QKeySequence::Redo)) //redo
+        {
+            if (textEditor && textEditor->networkWindow)
+                textEditor->networkWindow->history.redo();
+            return;
+        }
+        else
+            if (event->matches(QKeySequence::Undo))  //undo
+            {
+            if (textEditor && textEditor->networkWindow)
+                textEditor->networkWindow->history.undo();
+            return;
+        }
+        else
+            CodeEditor::keyPressEvent ( event );
+
+        int n1 = textCursor().blockNumber();
+        if (n0 != n1)
+        {
+            if (changedBlockNumber > -1)
+            {
+                if (textEditor)
+                    textEditor->emitTextChanged(prevBlockText,changedBlockText);
+            }
+            prevBlockText = textCursor().block().text();
+            prevBlockNumber = n1;
+            changedBlockNumber = -1;
+
+            if (textEditor)
+                textEditor->emitLineChanged(n1,prevBlockText);
+        }
+    }
+
+    QTextDocument * TextEditor::document()
+    {
+        if (!editor)
+        {
+            editor = new Editor(this);
+            if (!splitter)
+                splitter = new QSplitter(this);
+            splitter->addWidget(editor);
+        }
+        return editor->document();
+    }
+
+    void TextEditor::emitTextChanged(const QString& s0, const QString& s1)
+    {
+        emit textChanged(s0,s1);
+    }
+
+    void TextEditor::emitLineChanged(int i, const QString& s)
+    {
+        emit lineChanged(i,s);
+    }
+
+    void TextEditor::setStatusBarText(const QString& s)
+    {
+        if (informationLine)
+            informationLine->setText(s);
+    }
+
+    TextUndoCommand::TextUndoCommand(TextEditor * editor)
+        : textEdit(editor)
+    {
+        if (editor && editor->editor)
+        {
+            historyPosition = editor->textHistory.size();
+            editor->textHistory += editor->editor->toPlainText();
+        }
+    }
+
+    void TextUndoCommand::redo()
+    {
+        if (textEdit && textEdit->editor && textEdit->textHistory.size() > historyPosition)
+            textEdit->editor->setPlainText( textEdit->textHistory.value(historyPosition) );
+    }
+
+    void TextUndoCommand::undo()
+    {
+        if (textEdit && textEdit->editor &&
+            textEdit->textHistory.size() > historyPosition &&
+            historyPosition >= 1)
+            textEdit->editor->setPlainText( textEdit->textHistory.value(historyPosition-1) );
+    }
+
+
 }

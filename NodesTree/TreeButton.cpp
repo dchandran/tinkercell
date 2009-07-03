@@ -123,18 +123,6 @@ namespace Tinkercell
 			}
 			else
 				text += tr("none\n\n");
-				
-			QList<ItemFamily*> subfamilies = family->subFamilies();
-			if (!subfamilies.isEmpty())
-			{
-				text += "Sub-families: ";
-				for (int j=0; j < subfamilies.size(); ++j)
-					if (subfamilies[j])
-						if ((j+1) < subfamilies.size())
-							text += subfamilies[j]->name + tr(" , ");
-						else
-							text += subfamilies[j]->name + tr("\n\n");
-			}
 			
 			text += tr("Description: ") + family->description + tr("\n\n");
 			

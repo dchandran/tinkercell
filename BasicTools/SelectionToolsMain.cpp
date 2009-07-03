@@ -14,17 +14,12 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
+	
 	Tinkercell::NodeSelection * partSelection = new Tinkercell::NodeSelection;
-// 	if (main->tools.contains(partSelection->name))
-// 		delete partSelection;
-// 	else
-// 		partSelection->setMainWindow(main);
-
+	main->addTool(partSelection);
+	
 	Tinkercell::ConnectionSelection * connectionSelection = new Tinkercell::ConnectionSelection;
-// 	if (main->tools.contains(connectionSelection->name))
-// 		delete connectionSelection;
-// 	else
-// 		connectionSelection->setMainWindow(main);
+	main->addTool(connectionSelection);
 
 }
 

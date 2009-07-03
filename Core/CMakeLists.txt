@@ -1,5 +1,6 @@
 SET( TINKERCELL_CORE_HDRS
   AbstractInputWindow.h
+  CodeEditor.h
   ConnectionGraphicsItem.h
   ConnectionGraphicsReader.h
   ConnectionGraphicsWriter.h
@@ -28,6 +29,7 @@ SET( TINKERCELL_CORE_HDRS
 
 SET( TINKERCELL_CORE_SRC
   AbstractInputWindow.cpp
+  CodeEditor.cpp
   ConnectionGraphicsItem.cpp
   ConnectionGraphicsReader.cpp
   ConnectionGraphicsWriter.cpp
@@ -60,7 +62,7 @@ QT4_WRAP_CPP( TINKERCELL_CORE_MOC ${TINKERCELL_CORE_HDRS} )
 ADD_LIBRARY( TinkerCellCore
   SHARED
   ${TINKERCELL_CORE_MOC}
-  ${TINKERCELL_CORE_SRC} 
+  ${TINKERCELL_CORE_SRC}
 )
 
 TARGET_LINK_LIBRARIES( TinkerCellCore

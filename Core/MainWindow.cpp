@@ -10,11 +10,12 @@
  signals are then emitted by the MainWindow; in this way, a plugin does not need
  to listen to each of the GraphicsScene signals but only the MainWindow's signals.
 
- The MainWindow also has its own signals, such as a pluginLoaded, modelSaved, etc.
-
- The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
-
-
+ 
+ The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
+ 
+ The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins. 
+ 
+ 
 ****************************************************************************/
 
 #include <QLibrary>
@@ -38,11 +39,13 @@
 #include "MainWindow.h"
 #include "CThread.h"
 #include "OutputWindow.h"
+#include "AbstractInputWindow.h"
 
 namespace Tinkercell
 {
 
-    typedef void (*TinkercellPluginRunFunction)(MainWindow*);
+    typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
+    typedef void (*TinkercellCEntryFunction)();
 
     QString MainWindow::previousFileName;
 
@@ -53,10 +56,19 @@ namespace Tinkercell
         QCoreApplication::setApplicationName(ORGANIZATIONNAME);
 
         QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-        QString home0 = QDir::homePath();
+
+        QDir dir = QDir::homePath();
+        QString tcdir = PROJECTNAME;
+
+        if (!dir.exists(tcdir))
+        {
+            dir.mkdir(tcdir);
+        }
+
+        dir.cd(tcdir);
 
         settings.beginGroup("MainWindow");
-        QString home = settings.value("home", home0).toString();
+        QString home = settings.value("home", dir.absolutePath()).toString();
         settings.endGroup();
 
         return home;
@@ -105,40 +117,51 @@ namespace Tinkercell
 
         if (loaded)
         {
-//             progress_api_initialize f0 = (progress_api_initialize)library->resolve("tc_Progress_api_initialize");
-//             if (f0)
-//             {
-//                 f0(&(ProgressBarSignalItem::setProgress));
-//             }
+            dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
             statusBar()->showMessage(lib->fileName() + tr(" loading ..."));
-            TinkercellPluginRunFunction f = (TinkercellPluginRunFunction)lib->resolve("loadTCTool");
-            if (f)
+            TinkercellPluginEntryFunction f1 = (TinkercellPluginEntryFunction)lib->resolve(CPP_ENTRY_FUNCTION.toAscii().data());
+            if (f1)
             {
                 try
                 {
-                    f(this);
+                    f1(this);
+                    dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
+                    statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));
                 }
                 catch(...)
                 {
+                    lib->unload();
+                    delete lib;
                 }
-                dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
-                statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));
-//                 emit pluginLoaded(lib);
-                emit setupFunctionPointersSlot(0,lib);
             }
             else
             {
-                lib->unload();
-                if (statusBar())
-                    statusBar()->showMessage( tr(" No loadTCTool function in ") + lib->fileName());
-                /*LibraryThread * newThread = new LibraryThread(lib.fileName(),tr("run"),this,emptyMatrix());
-                if (LibraryThread::ThreadDialog(this,newThread,lib.fileName()))
-                    newThread->start();*/
+                TinkercellCEntryFunction f2 = (TinkercellCEntryFunction)lib->resolve(C_ENTRY_FUNCTION.toAscii().data());
+                if (f2)
+                {
+                    try
+                    {
+                        emit setupFunctionPointersSlot(0,lib);
+                        f2();
+                        dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
+                    }
+                    catch(...)
+                    {
+                        lib->unload();
+                        delete lib;
+                    }
+                }
+                else
+                {
+                    lib->unload();
+                    delete lib;
+                }
             }
         }
         else
         {
-//             statusBar()->showMessage(lib.fileName() + tr(" could not be opened"));
+            statusBar()->showMessage(lib->fileName() + tr(" could not be opened"));
+            delete lib;
         }
     }
 
@@ -172,7 +195,7 @@ namespace Tinkercell
 
         setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 
-        addDockingWindow("History",&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+        addDockingWindow("History",&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
 
         connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),
                 this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
@@ -293,6 +316,7 @@ namespace Tinkercell
         subWindow->setVisible(true);
 
         connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
+        emit windowOpened(subWindow);
     }
 
     void MainWindow::newTextWindow()
@@ -306,6 +330,7 @@ namespace Tinkercell
         subWindow->setVisible(true);
 
         connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
+        emit windowOpened(subWindow);
     }
 
     void MainWindow::changeView()
@@ -540,6 +565,8 @@ namespace Tinkercell
                 && !tool->parentWidget())
                 delete tool;
         }
+		
+		emit toolLoaded(tool);
     }
 
     GraphicsScene* MainWindow::currentScene()
@@ -612,7 +639,7 @@ namespace Tinkercell
         if (enableText)
         {
             QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/newtext.png")),tr("New Text Editor"));
-            newAction2->setShortcut(tr("CTRL+M"));
+            newAction2->setShortcut(tr("CTRL+SHIFT+N"));
             connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextWindow()));
             toolBarBasic->addAction(newAction2);
         }
@@ -1002,7 +1029,7 @@ namespace Tinkercell
     {
         QString appDir = QCoreApplication::applicationDirPath();
 
-        QString name[] = {	MainWindow::userHome() + tr("/") + PROJECTNAME + tr("/") + filename,
+        QString name[] = {	MainWindow::userHome() + tr("/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/") + filename };
@@ -1040,21 +1067,25 @@ namespace Tinkercell
 
     void MainWindow::outputTable(QSemaphore* sem,const DataTable<qreal>& table)
     {
-        //if (!app)
-        //OutputWindow::clear();
         OutputWindow::printTable(table);
         if (sem)
             sem->release();
     }
     void MainWindow::createInputWindow(QSemaphore* s,const DataTable<qreal>& data, const QString& dll,const QString& function,const QString& title)
     {
-        CInputWindow::CreateWindow(this,title,dll,function,data);
+        SimpleInputWindow::CreateWindow(this,title,dll,function,data);
+        if (s)
+            s->release();
+    }
+    void MainWindow::createInputWindow(QSemaphore* s,const DataTable<qreal>& dat,const QString& title, MatrixInputFunction f)
+    {
+        SimpleInputWindow::CreateWindow(this,title,f,dat);
         if (s)
             s->release();
     }
     void MainWindow::addInputWindowOptions(QSemaphore* s,const QString& name, int i, int j,const QStringList& options)
     {
-        CInputWindow::AddOptions(name,i,j,options);
+        SimpleInputWindow::AddOptions(name,i,j,options);
         if (s)
             s->release();
     }
@@ -1136,7 +1167,12 @@ namespace Tinkercell
         }
 
         if (returnPtr)
-            (*returnPtr) = win->symbolsTable.handlesFamily.values(family);
+		{
+			QList<ItemHandle*> handles = win->allHandles();
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i] && handles[i]->isA(family))
+					(*returnPtr) += handles[i];
+		}
 
         if (s)
             s->release();
@@ -1885,9 +1921,14 @@ namespace Tinkercell
         return fToS.printFile(c);
     }
 
-    void  MainWindow::_createInputWindow(Matrix m,const char* a,const char* b, const char* c)
+    void  MainWindow::_createInputWindow1(Matrix m,const char* a,const char* b, const char* c)
     {
         return fToS.createInputWindow(m,a,b,c);
+    }
+
+    void  MainWindow::_createInputWindow2(Matrix m,const char* a, MatrixInputFunction f)
+    {
+        return fToS.createInputWindow(m,a,f);
     }
 
     void  MainWindow::_addInputWindowOptions(const char* a,int i, int j, char ** c)
@@ -2292,6 +2333,18 @@ namespace Tinkercell
         delete dat;
     }
 
+    void MainWindow_FtoS::createInputWindow(Matrix m, const char* title, MatrixInputFunction f)
+    {
+        DataTable<qreal>* dat = ConvertValue(m);
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit createInputWindow(s,*dat,ConvertValue(title),f);
+        s->acquire();
+        s->release();
+        delete s;
+        delete dat;
+    }
+
     void MainWindow_FtoS::addInputWindowOptions(const char * a, int i, int j, char** list)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -2625,6 +2678,9 @@ namespace Tinkercell
         connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&)),
                 this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,const QString&,const QString&)));
 
+         connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)),
+                this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)));
+
         connect(&fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
                 this,SLOT(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)));
 
@@ -2694,6 +2750,7 @@ namespace Tinkercell
             char* (*tc_appDir0)(),
 
             void (*tc_createInputWindow0)(Matrix, const char*, const char*,const char*),
+            void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
             void (*tc_addInputWindowOptions)(const char*, int i, int j, char **),
             void (*tc_openNewWindow)(const char*),
 
@@ -2752,7 +2809,8 @@ namespace Tinkercell
                     &(_isMac),
                     &(_isLinux),
                     &(_appDir),
-                    &(_createInputWindow),
+                    &(_createInputWindow1),
+                    &(_createInputWindow2),
                     &(_addInputWindowOptions),
                     &(_openNewWindow),
                     &(_getNumericalData),

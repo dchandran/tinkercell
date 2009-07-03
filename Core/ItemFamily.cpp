@@ -14,146 +14,163 @@
 
 namespace Tinkercell
 {
-     int NodeFamily::Type = 1;
+    int NodeFamily::Type = 1;
+    int ConnectionFamily::Type = 2;
 
-     int ConnectionFamily::Type = 2;
-	/*********************************
-	ITEM FAMILY
-	**********************************/
+    NodeFamily * NodeFamily::asNode(ItemFamily* item)
+    {
+        if (item && item->type == NodeFamily::Type)
+            return static_cast<NodeFamily*>(item);
+        return 0;
+    }
 
-     ItemFamily::ItemFamily() : type(0) {}
+    ConnectionFamily * ConnectionFamily::asConnection(ItemFamily* item)
+    {
+        if (item && item->type == ConnectionFamily::Type)
+            return static_cast<ConnectionFamily*>(item);
+        return 0;
+    }
 
-     ItemFamily::~ItemFamily() {}
+    /*********************************
+        ITEM FAMILY
+    **********************************/
 
-	bool ItemFamily::isA(const QString& ) const { return false; }
+    ItemFamily::ItemFamily() : type(0) {}
 
-	bool ItemFamily::isA(const ItemFamily* family) const
-	{
-		if (!family) return false;
-		return isA(family->name);
-	}
+    ItemFamily::~ItemFamily() {}
 
-	const ItemFamily * ItemFamily::root() const
-	{
-		const ItemFamily * root = this;
-		while (root->parent())
-			root = root->parent();
-		return root;
-	}
+    bool ItemFamily::isA(const QString& ) const { return false; }
 
-	bool ItemFamily::isRelatedTo(const ItemFamily * family) const
-	{
-		if (!family) return false;
-		return isA(family->root()->name);
-	}
+    bool ItemFamily::isA(const ItemFamily* family) const
+    {
+        if (!family) return false;
+        return isA(family->name);
+    }
 
-	/**************************************
-	PART FAMILY
-	**************************************/
+    const ItemFamily * ItemFamily::root() const
+    {
+        const ItemFamily * root = this;
+        while (root->parent())
+            root = root->parent();
+        return root;
+    }
 
-     NodeFamily::NodeFamily()
-     {
-          type = NodeFamily::Type;
-     }
+    bool ItemFamily::isRelatedTo(const ItemFamily * family) const
+    {
+        if (!family) return false;
+        return isA(family->root()->name);
+    }
 
-     NodeFamily::~NodeFamily() {}
+    /**************************************
+        NODE FAMILY
+    **************************************/
 
-	ItemFamily* NodeFamily::parent() const
-	{
-		if (parentFamilies.isEmpty()) return 0;
-		return parentFamilies.at(0);
-	}
+    NodeFamily::NodeFamily()
+    {
+        type = NodeFamily::Type;
+    }
 
-	QList<ItemFamily*> NodeFamily::parents() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			list += parentFamilies[i];
-		return list;
-	}
+    NodeFamily::~NodeFamily() {}
 
-	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool NodeFamily::isA(const QString& familyName) const
-	{
-		if (familyName.toLower() == QObject::tr("node") || familyName.toLower() == name.toLower()) return true;
+    ItemFamily* NodeFamily::parent() const
+    {
+        if (parentFamilies.isEmpty()) return 0;
+        return parentFamilies.at(0);
+    }
 
-		QList<NodeFamily*> families = parentFamilies;
-		for (int i=0; i < families.size(); ++i)
-		{
-			//qDebug() << familyName << " is A? " << families[i]->name;
-			if (families[i]->name.toLower() == familyName.toLower()) return true;
-			families += families[i]->parentFamilies;
-		}
-		/*
-		const NodeFamily * family = this;
-		while (families. && family->parentFamily != family)
-		{
-			if (family->name.toLower() == familyName.toLower()) return true;
-			family = family->parentFamily;
-		}
-		*/
-		return false;
-	}
+    /*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
+    bool NodeFamily::isA(const QString& familyName) const
+    {
+        if (familyName.toLower() == QObject::tr("node") || familyName.toLower() == name.toLower()) return true;
 
-	QList<ItemFamily*> NodeFamily::subFamilies() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < includedFamilies.size(); ++i) list << includedFamilies[i];
-		return list;
-	}
+        QList<NodeFamily*> families = parentFamilies;
+        for (int i=0; i < families.size(); ++i)
+        {
+            //qDebug() << familyName << " is A? " << families[i]->name;
+            if (families[i]->name.toLower() == familyName.toLower()) return true;
+            families += families[i]->parentFamilies;
+        }
+        return false;
+    }
 
-	/*********************************
-	CONNECTION FAMILY
-	**********************************/
+    QList<ItemFamily*> NodeFamily::parents() const
+    {
+        QList<ItemFamily*> list;
+        for (int i=0; i < parentFamilies.size(); ++i)
+            list += parentFamilies.at(i);
+        return list;
+    }
 
-     ConnectionFamily::ConnectionFamily()
-     {
-          type = ConnectionFamily::Type;
-     }
+    QList<ItemFamily*> NodeFamily::children() const
+    {
+        QList<ItemFamily*> list;
+        for (int i=0; i < childFamilies.size(); ++i)
+            list += childFamilies.at(i);
+        return list;
+    }
 
-     ConnectionFamily::~ConnectionFamily() {}
+    void NodeFamily::setParent(NodeFamily* p)
+    {
+        if (!p) return;
+        if (!parentFamilies.contains(p))
+            parentFamilies.append(p);
+        if (!p->childFamilies.contains(this))
+            p->childFamilies.append(this);
+    }
 
-	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
-	bool ConnectionFamily::isA(const QString& familyName) const
-	{
-		if (familyName.toLower() == QObject::tr("connection") || familyName.toLower() == name.toLower()) return true;
+    /*********************************
+        CONNECTION FAMILY
+    **********************************/
 
-		QList<ConnectionFamily*> families = parentFamilies;
-		for (int i=0; i < families.size(); ++i)
-		{
-			if (families[i]->name.toLower() == familyName.toLower()) return true;
-			families += families[i]->parentFamilies;
-		}
-		/*
-		const ConnectionFamily * family = this;
-		while (family && family->parentFamily != family)
-		{
-			if (family->name.toLower() == familyName.toLower()) return true;
-			family = family->parentFamily;
-		}
-		*/
-		return false;
-	}
+    ConnectionFamily::ConnectionFamily()
+    {
+        type = ConnectionFamily::Type;
+    }
 
+    ConnectionFamily::~ConnectionFamily() {}
 
-	ItemFamily* ConnectionFamily::parent() const
-	{
-		if (parentFamilies.isEmpty()) return 0;
-		return parentFamilies.at(0);
-	}
+    /*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
+    bool ConnectionFamily::isA(const QString& familyName) const
+    {
+        if (familyName.toLower() == QObject::tr("connection") || familyName.toLower() == name.toLower()) return true;
 
-	QList<ItemFamily*> ConnectionFamily::parents() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < parentFamilies.size(); ++i)
-			list += parentFamilies[i];
-		return list;
-	}
+        QList<ConnectionFamily*> families = parentFamilies;
+        for (int i=0; i < families.size(); ++i)
+        {
+            if (families[i]->name.toLower() == familyName.toLower()) return true;
+            families += families[i]->parentFamilies;
+        }
+        return false;
+    }
 
-	QList<ItemFamily*> ConnectionFamily::subFamilies() const
-	{
-		QList<ItemFamily*> list;
-		for (int i=0; i < includedFamilies.size(); ++i) list << includedFamilies[i];
-		return list;
-	}
+    ItemFamily* ConnectionFamily::parent() const
+    {
+        if (parentFamilies.isEmpty()) return 0;
+        return parentFamilies.at(0);
+    }
+
+    QList<ItemFamily*> ConnectionFamily::parents() const
+    {
+        QList<ItemFamily*> list;
+        for (int i=0; i < parentFamilies.size(); ++i)
+            list += parentFamilies.at(i);
+        return list;
+    }
+
+    QList<ItemFamily*> ConnectionFamily::children() const
+    {
+        QList<ItemFamily*> list;
+        for (int i=0; i < childFamilies.size(); ++i)
+            list += childFamilies.at(i);
+        return list;
+    }
+
+    void ConnectionFamily::setParent(ConnectionFamily* p)
+    {
+        if (!p) return;
+        if (!parentFamilies.contains(p))
+            parentFamilies.append(p);
+        if (!p->childFamilies.contains(this))
+            p->childFamilies.append(this);
+    }
 }

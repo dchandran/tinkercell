@@ -111,13 +111,14 @@ namespace Tinkercell
 		if (!scene) scene = new GraphicsScene;
 		this->scene = scene;
 
+        scene->networkWindow = this;
+		
 		GraphicsView * view = new GraphicsView(scene);
 		setWidget(view);
 		setAttribute(Qt::WA_DeleteOnClose);
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 
-		scene->networkWindow = this;
 		scene->symbolsTable = &symbolsTable;
 		scene->historyStack = &history;
 		scene->contextItemsMenu = &(main->contextItemsMenu);
@@ -200,9 +201,10 @@ namespace Tinkercell
 
 	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
 	{
-		if (!editor) editor = new TextEditor;
-		this->textEditor = editor;
-
+                if (!editor) editor = new TextEditor;
+                this->textEditor = editor;
+                editor->networkWindow = this;
+		
 		setWidget(editor);
 		setAttribute(Qt::WA_DeleteOnClose);
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
@@ -223,6 +225,23 @@ namespace Tinkercell
 
                        connect(editor,SIGNAL(operationChanged(TextEditor *, OpTextItem *, OpTextItem *)),
                                     main,SIGNAL(operationChanged(TextEditor *, OpTextItem *, OpTextItem *)));
+
+                       connect(editor,SIGNAL(findText(const QString&)),main,SIGNAL(findText(const QString&)));
+
+                       connect(editor,SIGNAL(replaceText(const QRegExp&, const QString&)),
+                               main,SIGNAL(replaceText(const QRegExp&, const QString&)));
+
+                       connect(editor,SIGNAL(textInserted(const QString&)),
+                               main,SIGNAL(textInserted(const QString&)));
+
+                       connect(editor,SIGNAL(textRemoved(const QString&)),
+                               main,SIGNAL(textRemoved(const QString&)));
+
+                       connect(editor,SIGNAL(textChanged(const QString&, const QString&)),
+                               main,SIGNAL(textChanged(const QString&, const QString&)));
+
+                       connect(editor,SIGNAL(lineChanged(int, const QString&)),
+                               main,SIGNAL(lineChanged(int, const QString&)));
 
 			connect(this,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
                                     main ,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
@@ -282,8 +301,9 @@ namespace Tinkercell
 
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this->allHandles(),oldname,newname);
 
-		history.push(command);
-
+		
+		history.push(command);		
+		
 		emit itemsRenamed(this, items, oldNames, newNames);
 	}
 
@@ -515,39 +535,38 @@ namespace Tinkercell
 	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;
-
-		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata2.size(); ++i)
+		QList<DataTable<qreal>*> oldTablesN, newTablesN;
+		
+		int j = 0;
+		for (int i=0; j < handles.size() && j < hashstrings.size() && i < newdata1.size(); ++i, ++j)
 		{
-			if (newdata2[i] && handles[i] && handles[i]->data && handles[i]->data->textData.contains(hashstrings[i]))
+			if (newdata1[i] && handles[j] && handles[j]->data && handles[j]->data->numericalData.contains(hashstrings[j]))
 			{
-				oldTablesS += &(handles[i]->data->textData[ hashstrings[i] ]);
-				newTablesS += newdata2[i];
+				oldTablesN += &(handles[j]->data->numericalData[ hashstrings[j] ]);
+				newTablesN += newdata1[i];
 			}
 		}
 
-		QList<DataTable<qreal>*> oldTablesN, newTablesN;
-
-		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata1.size(); ++i)
+		for (int i=0; j < handles.size() && j < hashstrings.size() && i < newdata2.size(); ++i, ++j)
 		{
-			if (newdata1[i] && handles[i] && handles[i]->data && handles[i]->data->numericalData.contains(hashstrings[i]))
+			if (newdata2[i] && handles[j] && handles[j]->data && handles[j]->data->textData.contains(hashstrings[j]))
 			{
-				oldTablesN += &(handles[i]->data->numericalData[ hashstrings[i] ]);
-				newTablesN += newdata1[i];
+				oldTablesS += &(handles[j]->data->textData[ hashstrings[j] ]);
+				newTablesS += newdata2[i];
 			}
 		}
 
 		if ((oldTablesS.isEmpty() || newTablesS.isEmpty()) &&
 		    (oldTablesN.isEmpty() || newTablesN.isEmpty())) return;
 
-
 		QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("data tables changed"),oldTablesN,newTablesN,oldTablesS,newTablesS);
-
+		
 		history.push(command);
-
+		
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a list of two types of data tables*/
+	/*! \brief change a list of two types of data tables*/	
 	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;

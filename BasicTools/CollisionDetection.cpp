@@ -34,8 +34,6 @@ namespace Tinkercell
         Tool::setMainWindow(main);
         if (mainWindow)
         {
-//             mainWindow->addTool(name,this);
-
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
                     this,SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
@@ -161,8 +159,8 @@ namespace Tinkercell
         static NodeSelection * nodeSelectionTool = 0;
         if (!nodeSelectionTool && mainWindow)
         {
-//             if (mainWindow->tools.contains(tr("Node Selection")))
-//                 nodeSelectionTool = static_cast<NodeSelection*>(mainWindow->tools[tr("Node Selection")]);
+            if (mainWindow->tool(tr("Node Selection")))
+                nodeSelectionTool = static_cast<NodeSelection*>(mainWindow->tool(tr("Node Selection")));
         }
         if (scene && nodeSelectionTool)
         {

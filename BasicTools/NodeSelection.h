@@ -31,6 +31,7 @@
 #include <QGraphicsRectItem>
 #include <QTimeLine>
 #include <QGraphicsWidget>
+#include <QToolBar>
 #include <QFrame>
 
 #include "GraphicsScene.h"
@@ -65,7 +66,6 @@ namespace Tinkercell
      public slots:
 
           void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
-          //void toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers);
           void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
           void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
           void itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
@@ -84,6 +84,7 @@ namespace Tinkercell
           void revertColor();
           void deselect();
           void select();
+		  
      public:
           QList<QGraphicsItem*> allItems;
           QList<NodeGraphicsItem*> selectedNodes;

@@ -93,7 +93,7 @@ namespace Tinkercell
           void escapeSignal(const QWidget * widget);
 
           /*! \brief exit from current operations such as insertion mode*/
-          void pluginLoaded(const QString&);
+          void toolLoaded(Tool*);
 
           /*! \brief this function sets up the C API function pointers whenever a C library is loaded*/
           void setupFunctionPointers( QLibrary * f );

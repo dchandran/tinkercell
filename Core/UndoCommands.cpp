@@ -243,12 +243,20 @@ namespace Tinkercell
 
 	void InsertGraphicsCommand::undo()
 	{
+		ConnectionGraphicsItem * connection = 0;
 		if (graphicsScene)
 			for (int i=0; i<graphicsItems.size(); ++i)
 
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
 				{
 					graphicsScene->removeItem(graphicsItems[i]);
+					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
+					{
+						QList<QGraphicsItem*> arrows = connection->arrowHeadsAsGraphicsItems();
+						for (int j=0; j < arrows.size(); ++j)
+							if (arrows[j] && arrows[j]->scene())
+								arrows[j]->scene()->removeItem(arrows[j]);
+					}
 					setHandle(graphicsItems[i],0);
 				}
 	}
@@ -326,9 +334,9 @@ namespace Tinkercell
 						connection->setControlPointsVisible(false);
 						for (int j=0; j < connection->pathVectors.size(); ++j)
 						{
-							if (connection->pathVectors[j].arrowStart)
+							if (connection->pathVectors[j].arrowStart && connection->pathVectors[j].arrowStart->scene() == graphicsScene)	
 								graphicsScene->removeItem(connection->pathVectors[j].arrowStart);
-							if (connection->pathVectors[j].arrowEnd)
+							if (connection->pathVectors[j].arrowEnd && connection->pathVectors[j].arrowEnd->scene() == graphicsScene)	
 								graphicsScene->removeItem(connection->pathVectors[j].arrowEnd);
 						}
 						if (connection->centerRegionItem)
@@ -1281,7 +1289,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, NetworkWindow * win, ItemHandle * handle, const QString& newname)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		if (win)
 			allhandles = win->allHandles();
@@ -1305,7 +1313,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		this->allhandles = allItems;
 		handles.clear();
@@ -1317,7 +1325,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		this->allhandles = allItems;
 		handles.clear();
@@ -1329,7 +1337,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, ItemHandle * handle, const QString& newname)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		this->allhandles = allItems;
 		handles.clear();
@@ -1351,7 +1359,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, NetworkWindow * win, const QList<ItemHandle*>& items, const QList<QString>& newnames)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		if (win)
 			this->allhandles = win->allHandles();
@@ -1378,7 +1386,7 @@ namespace Tinkercell
 	}
 
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		this->allhandles = allItems;
 		handles.clear();
@@ -1505,17 +1513,35 @@ namespace Tinkercell
 		}
 		return name;
 	}
+	
+	RenameCommand::~RenameCommand()
+	{
+		//if (changeDataCommand)
+			//delete changeDataCommand;
+		//changeDataCommand = 0;
+	}
 
 	void RenameCommand::redo()
 	{
-		bool firstTime = (oldData.isEmpty());
+		bool firstTime = (changeDataCommand == 0);
+		QList< DataTable<qreal>* > oldData1, newData1;
+		QList< DataTable<QString>* > oldData2, newData2;
+		
 		if (firstTime)
 		{
 			for (int i=0; i < allhandles.size(); ++i)
 				if (allhandles[i]->data)
 				{
-					targetHandles += allhandles[i];
-					oldData += ItemData(*allhandles[i]->data);
+					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
+					QList<QString> keys2 = allhandles[i]->data->textData.keys();
+		
+					for (int j=0; j < keys1.size(); ++j)
+						oldData1 += &(allhandles[i]->data->numericalData[ keys1[j] ]);
+						
+					for (int j=0; j < keys2.size(); ++j)
+						oldData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
+					
+					//oldData += ItemData(*allhandles[i]->data);
 				}
 		}
 
@@ -1550,21 +1576,33 @@ namespace Tinkercell
 					}
 		}
 
-		if (newData.isEmpty())
+		
+		if (firstTime)
 		{
 			for (int i=0; i < allhandles.size(); ++i)
 				if (allhandles[i]->data)
 				{
-					newData += ItemData(*allhandles[i]->data);
+					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
+					QList<QString> keys2 = allhandles[i]->data->textData.keys();
+		
+					for (int j=0; j < keys1.size(); ++j)
+						newData1 += &(allhandles[i]->data->numericalData[ keys1[j] ]);
+						
+					for (int j=0; j < keys2.size(); ++j)
+						newData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
 				}
+			changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), oldData1, newData1, oldData2, newData2);
+			for (int i=0; i < newData1.size(); ++i)
+				if (newData1[i])
+					delete newData1[i];
+			for (int i=0; i < newData2.size(); ++i)
+				if (newData2[i])
+					delete newData2[i];
 		}
 		else
 		{
-			for (int i=0; i < targetHandles.size() && i < newData.size() && i < oldData.size(); ++i)
-			{
-				if (targetHandles[i] && targetHandles[i]->data)
-					(*targetHandles[i]->data) = newData[i];
-			}
+			if (changeDataCommand)
+				changeDataCommand->redo();
 		}
 
 		for (int i=0; i < handles.size() && i < newNames.size(); ++i)
@@ -1600,7 +1638,6 @@ namespace Tinkercell
 		QRegExp regexp("\\.([^\\.]+)$");
 		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 		{
-			//findReplaceAllHandleData(allhandles,newNames[i],oldNames[i]);
 			if (handles.size() == 0)
 				for (int j=0; j < allhandles.size(); ++j)
 					if (allhandles[j] && allhandles[j]->fullName() == newNames[i])
@@ -1627,13 +1664,10 @@ namespace Tinkercell
 					}
 		}
 
-		for (int i=0; i < targetHandles.size() && i < newData.size() && i < oldData.size(); ++i)
-		{
-			if (targetHandles[i] && targetHandles[i]->data)
-				(*targetHandles[i]->data) = oldData[i];
-		}
-
-
+		
+		if (changeDataCommand)
+			changeDataCommand->undo();
+		
 		for (int i=0; i < handles.size() && i < oldNames.size(); ++i)
 		{
 			ItemHandle * handle = (handles[i]);

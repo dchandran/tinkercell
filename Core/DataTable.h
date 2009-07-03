@@ -18,6 +18,7 @@
 #include <QVector>
 #include <QSet>
 #include <QUndoCommand>
+#include <QDebug>
 
 namespace Tinkercell
 {

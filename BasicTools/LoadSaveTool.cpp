@@ -64,9 +64,10 @@ namespace Tinkercell
                         connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
-			connect(this,SIGNAL(prepareModelForSaving(GraphicsScene*)),mainWindow,SIGNAL(prepareModelForSaving(GraphicsScene*)));
-			connect(this,SIGNAL(modelSaved(GraphicsScene*)),mainWindow,SIGNAL(modelSaved(GraphicsScene*)));
-			connect(this,SIGNAL(modelLoaded(GraphicsScene*)),mainWindow,SIGNAL(modelLoaded(GraphicsScene*)));
+			
+                        connect(this,SIGNAL(prepareModelForSaving(NetworkWindow*)),mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)));
+                        connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
+                        connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
 			return true;
 		}
 		return false;
@@ -186,8 +187,9 @@ namespace Tinkercell
 			return;
 		}
 
-		emit prepareModelForSaving(scene);
-
+		
+                emit prepareModelForSaving(scene->networkWindow);
+		
 		ModelWriter modelWriter;
 
 		modelWriter.setDevice(&file);
@@ -289,8 +291,9 @@ namespace Tinkercell
 			qDebug() << filename;
 		}
 
-		emit modelSaved(scene);
-
+			
+                emit modelSaved(scene->networkWindow);
+		
 		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
 		OutputWindow::message(tr("model successfully saved in : ") + filename);
 	}
@@ -303,16 +306,17 @@ namespace Tinkercell
 		GraphicsScene * scene = mainWindow->currentScene();
 		if (!scene) return;
 
-// 		if (!mainWindow->tools.contains(tr("Nodes Tree")) || !mainWindow->tools.contains(tr("Connections Tree")))
-// 		{
-// 			//QMessageBox::information(mainWindow,tr("Cannot load model"),tr("No Nodes or Connections tree available."),QMessageBox::Ok,QMessageBox::Ok);
-// 			OutputWindow::error(tr("No Nodes or Connections tree available."));
-// 			return;
-// 		}
-
-// 		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tools[tr("Nodes Tree")]);
-// 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tools[tr("Connections Tree")]);
-
+			
+		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
+		{
+			//QMessageBox::information(mainWindow,tr("Cannot load model"),tr("No Nodes or Connections tree available."),QMessageBox::Ok,QMessageBox::Ok);
+			OutputWindow::error(tr("No Nodes or Connections tree available."));
+			return;
+		}
+		
+		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
+		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
+		
 		QFile file1 (filename);
 
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
@@ -519,42 +523,52 @@ namespace Tinkercell
 				items[i]->setZValue(zValues[i]);
 			}
 
-			scene->insert("file loaded",items);
-			if (scene->historyStack)
-				scene->historyStack->clear();
+			for (int i=0; i < connections.size(); ++i)
+				if (connections[i])
+				{
+					connections[i]->refresh();
+				}
 
+			scene->insert("file loaded",items);
+			
 			for (int i=0; i < items.size(); ++i)
 			{
 				items[i]->setZValue(zValues[i]);
 			}
-
-			scene->fitAll();
-
+			
 			for (int i=0; i < connections.size(); ++i)
 				if (connections[i])
 				{
 					connections[i]->setControlPointsVisible(false);
-					connections[i]->refresh();
 				}
+			
+			scene->fitAll();
+			
+			if (scene->historyStack)
+				scene->historyStack->clear();
 
+			
 			savedScenes[scene] = true;
 
+			
 			QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 			QString filename2 = filename;
 			if (regex.indexIn(filename) >= 0)
 				filename2 = regex.cap(1);
 
+			
 			if (mainWindow->currentWindow())
 				mainWindow->currentWindow()->setWindowTitle(filename2);
 
-			emit modelLoaded(scene);
+			
+            emit modelLoaded(scene->networkWindow);
 		}
 	}
-
+	
 	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
-		{
+		{	
 			bool ok;
 			TextGraphicsItem * text = new TextGraphicsItem;
 			qreal m11=0,m21=0,m12=0,m22=0;
@@ -647,9 +661,9 @@ namespace Tinkercell
 				if (attribs[i].name().toString() == tr("visible"))
 				{
 					visible = (attribs[i].value().toString().toLower() == QString("yes"));
-				}
+				}				
 			}
-
+			
 			while (!nodeReader.atEnd() && !(nodeReader.isEndElement() && nodeReader.name() == QObject::tr("ConnectionItem")))
 			{
 				if (nodeReader.name() == "ConnectionGraphicsItem")
@@ -711,7 +725,7 @@ namespace Tinkercell
 		{
 			if (reader.isStartElement())
 			{
-				if (reader.name() == "NodeGraphicsItem")
+				if (reader.name() == "PartGraphicsItem")
 				{
 					reader.readNodeGraphics(node,reader.device());
 				}
@@ -769,11 +783,9 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
+	
 	Tinkercell::LoadSaveTool * loadSaveTool = new Tinkercell::LoadSaveTool;
-// 	if (main->tools.contains(loadSaveTool->name))
-// 		delete loadSaveTool;
-// 	else
-// 		loadSaveTool->setMainWindow(main);
+	main->addTool(loadSaveTool);
 
 }
 

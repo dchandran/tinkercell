@@ -56,6 +56,8 @@ namespace Tinkercell
      class NodeTextItem : public TextItem
      {
      public:
+          NodeTextItem();
+          NodeTextItem(ItemHandle *);
           /*! \brief this variable is used to determine whether a TextItem is a NodeTextItem*/
           static int Type;
           /*! \brief all the connection that this Node is connected to*/
@@ -68,6 +70,8 @@ namespace Tinkercell
      class ConnectionTextItem : public TextItem
      {
      public:
+          ConnectionTextItem();
+          ConnectionTextItem(ItemHandle *);
           /*! \brief this variable is used to determine whether a TextItem is a ConnectionTextItem*/
           static int Type;
           /*! \brief the Nodes on the left-hand-side of this connection. Corresponds to NodesIn() in ConnectionGraphicsItem*/
@@ -89,6 +93,8 @@ namespace Tinkercell
      class OpTextItem : public TextItem
      {
      public:
+          OpTextItem();
+          OpTextItem(ItemHandle *);
           /*! \brief this variable is used to determine whether a TextItem is a OpTextItem*/
           static int Type;
           /*! \brief the left-hand side*/
@@ -97,6 +103,8 @@ namespace Tinkercell
           QString rhs;
           /*! \brief the operator*/
           QString op;
+          /*! \brief a short description of the operation, e.g. function declaration*/
+          QString description;
      };
 }
 

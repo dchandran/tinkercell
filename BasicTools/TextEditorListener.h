@@ -21,7 +21,8 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QMainWindow>
-#include <QFrame>
+#include <QHash>
+#include <QRegExp>
 
 #include "TextItem.h"
 #include "TextEditor.h"
@@ -29,6 +30,7 @@
 #include "Tool.h"
 #include "ConnectionsTree.h"
 #include "NodesTree.h"
+#include "texteditorsyntaxhighlighter.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -39,46 +41,56 @@
 namespace Tinkercell
 {
 
-     /*! \brief This class is required for providing proper responses from the TextEditor.
+    /*! \brief This class is required for providing proper responses from the TextEditor.
        If this class is not loaded, another must be loaded in order for the TextEditor to be
        operable.
         \ingroup plugins
      */
-     class MY_EXPORT TextEditorListener : public Tool
-     {
-          Q_OBJECT
+    class MY_EXPORT TextEditorListener : public Tool
+    {
+        Q_OBJECT
 
-     public:
+    public:
+        /*! \brief background color*/
+        static QColor CommentsBackgroundColor;
+        /*! \brief plain text color*/
+        static QColor CommentsTextColor;
+        /*! \brief declarations background color*/
+        static QColor NodesBackgroundColor;
+        /*! \brief declarations text color*/
+        static QColor NodesTextColor;
+        /*! \brief connections background color*/
+        static QColor ConnectionsBackgroundColor;
+        /*! \brief connections text color*/
+        static QColor ConnectionsTextColor;
+        /*! \brief operations background color*/
+        static QColor OpBackgroundColor;
+        /*! \brief operations text color*/
+        static QColor OpTextColor;
 
-          /* !\brief default constructor. */
-          TextEditorListener() {}
+        /*! \brief multiple node connections allowed? Otherwise, all connections will be between exactly two nodes*/
+        static bool MultipleNodesAllowed;
+        /*! \brief syntax to use when multiple node connections are allowed; default is "+"*/
+        static QString MultipleNodeSeparator;
+        /*! \brief description text on connections allowed? */
+        static bool ConnectionDescriptionAllowed;
+        /*! \brief syntax for inserting descriptions on connections ; default is ";"*/
+        static QString ConnectionDescriptionSeparator;
+        /*! \brief whether or not to show the node types at the top of the text; default = true*/
+        static bool ShowNodeDeclarations;
+        /*! \brief whether or not to show the operations at the top of the text; default = true*/
+        static bool ShowOperations;
 
-          /* !\brief load this plug-in into the TinkerCell main window
+        /* !\brief default constructor. */
+        TextEditorListener();
+
+        /* !\brief load this plug-in into the TinkerCell main window
         \param MainWindow* TinkerCell's main window*/
-          //bool setMainWindow(MainWindow * main);
+        bool setMainWindow(MainWindow * main);
 
-     public slots:
-          /**/
-          //void lineChanged(const QString&);
-          /**/
-          //void nodeModified(const QString&);
+    public slots:
+        void newWindow(NetworkWindow * network);
 
-    private:
-        /*! \brief the currently selected item from the parts tree*/
-        //NodeFamily * selectedNodeFamily;
-        /*! \brief the parts tree*/
-        //NodesTree * partsTree;
-        /*! \brief returns the mouse cursor to the normal arrow and exists from insertion mode*/
-        //void clear(bool arrows=true);
-        /*! \brief check to see whether the MainWindow has a NodesTree*/
-        //void connectToNodesTree();
-
-        /*! \brief connect the C API signals and slots*/
-        //void connectTCFunctions();
-        /*! \brief the C API function to signal converter*/
-//         static NodeInsertion_FToS fToS;
-        /*! \brief the C API function*/
-        //static OBJ _insertItem(const char* , const char* );
     };
 
 }

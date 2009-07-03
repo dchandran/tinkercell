@@ -62,8 +62,8 @@ namespace Tinkercell
 		GraphicsTransformTool();
 		bool setMainWindow(MainWindow * main);
 	public slots:
-                void select();
-                void deselect();
+                void select(int);
+                void deselect(int);
 
 		void selectPenColor();
 		void selectFillColor();
@@ -81,7 +81,7 @@ namespace Tinkercell
 		
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		
 		void xchanged(double dx);
 		void ychanged(double dy);

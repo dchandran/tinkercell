@@ -15,11 +15,9 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
+	
 	Tinkercell::ContainerTreeTool * containerTool = new Tinkercell::ContainerTreeTool;
-// 	if (main->tools.contains(containerTool->name))
-// 		delete containerTool;
-// 	else
-// 		containerTool->setMainWindow(main);
+	main->addTool(containerTool);
 
 }
 

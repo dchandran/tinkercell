@@ -114,7 +114,7 @@ namespace Tinkercell
         /*!\brief Exit from insertion mode*/
         void escapeSignal(const QWidget * widget);
         /*!\brief connects to ConnectionsTree if it is available in MainWindow's Tool hash*/
-        void pluginLoaded(const QString&);
+        void toolLoaded(Tool*);
         /*!\brief setup the C API pointers when a new C library is loaded*/
         void setupFunctionPointers( QLibrary * );
 

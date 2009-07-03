@@ -15,8 +15,8 @@
 #include <QString>
 #include <QDialog>
 
-#include "Tool.h"
-#include "MainWindow.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
 
 namespace Tinkercell
 {

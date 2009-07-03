@@ -326,7 +326,7 @@ namespace Tinkercell
                {
                     if (gitem->tool)
                     {
-                         gitem->tool->select();
+                         gitem->select();
                          mouseDown = false;
                     }
                     //emit toolSelected(this,gitem,clickedPoint,mouseEvent->modifiers());

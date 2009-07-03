@@ -18,6 +18,8 @@ namespace Tinkercell
 
 	CommandTextEdit::CommandTextEdit(QWidget * parent): QTextEdit(parent)
 	{
+		setUndoRedoEnabled ( false );
+		
 		setCursorWidth(2);
 		QFont font = this->font();
 		font.setPointSize(12);

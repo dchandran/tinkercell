@@ -53,9 +53,9 @@ public:
 
 signals:
 	void sceneChanged(GraphicsScene*);
-	void prepareModelForSaving(GraphicsScene*);
-	void modelSaved(GraphicsScene*);
-	void modelLoaded(GraphicsScene*);
+        void prepareModelForSaving(NetworkWindow*);
+        void modelSaved(NetworkWindow*);
+        void modelLoaded(NetworkWindow*);
 
 public slots:
 	void saveModel(const QString& filename);
@@ -63,6 +63,7 @@ public slots:
 	void historyChanged( int );
         void windowClosing(NetworkWindow * win, bool * close);
 
+	
 protected:
 
 	static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,bool&);
@@ -70,8 +71,8 @@ protected:
 	static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
 	static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
 	static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
-	static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);
-
+	static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
+	
 	QHash<GraphicsScene*,bool> savedScenes;
 };
 

@@ -130,6 +130,31 @@ namespace Tinkercell
 		}
 	}
 
+        ItemHandle * getHandle(TextItem * item)
+        {
+            if (!item) return 0;
+            return item->itemHandle;
+        }
+
+        void setHandle(TextItem* item, ItemHandle* handle)
+        {
+            if (!item) return;
+            if (!handle)
+            {
+                if (item->itemHandle)
+                {
+                    item->itemHandle->textItems.removeAll(item);
+                }
+            }
+            else
+            {
+                if (!handle->textItems.contains(item))
+                    handle->textItems.append(item);
+            }
+
+            item->itemHandle = handle;
+        }
+
 	/**********************************
 	ITEM HANDLE
 	**********************************/
@@ -649,15 +674,29 @@ namespace Tinkercell
 		if (graphicsItems.size() > 0)
 		{
 			ConnectionGraphicsItem * connection;
-			QList<NodeGraphicsItem*> nodesDisconnected, nodesIn;
+			QList<NodeGraphicsItem*> nodesDisconnected, nodesIn, nodesOut;
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
 				connection = ConnectionGraphicsItem::topLevelConnectionItem(graphicsItems[j]);
 				if (connection)
 				{
 					nodesIn = connection->nodesWithoutArrows();
+					nodesOut = connection->nodesWithArrows();
 					nodesDisconnected = connection->nodesDisconnected();
 
+					
+					bool ok = false;
+					for (int i=0; i < nodesOut.size(); ++i)
+					{
+						if (nodesOut[i] && nodesOut[i]->itemHandle)
+						{
+							ok = true;
+							break;
+						}
+					}
+					
+					if (!ok) continue;
+					
 					for (int i=0; i < nodesIn.size(); ++i)
 					{
 						if (nodesIn[i] && !nodesDisconnected.contains(nodesIn[i]) &&
@@ -697,21 +736,35 @@ namespace Tinkercell
 		QList<NodeHandle*> nodesList;
 		if (graphicsItems.size() > 0)
 		{
-			QList<NodeGraphicsItem*> nodesOut, nodesDisconnected;
+			QList<NodeGraphicsItem*> nodesIn, nodesOut, nodesDisconnected;
 			ConnectionGraphicsItem * connection;
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
 				connection = ConnectionGraphicsItem::topLevelConnectionItem(graphicsItems[j]);
 				if (connection)
 				{
+					nodesIn = connection->nodesWithoutArrows();
 					nodesOut = connection->nodesWithArrows();
 					nodesDisconnected = connection->nodesDisconnected();
 
+					
+					bool ok = false;
 					for (int i=0; i < nodesOut.size(); ++i)
 					{
-						if (nodesOut[i] && !nodesDisconnected.contains(nodesOut[i]) &&
+						if (nodesOut[i] && nodesOut[i]->itemHandle)
+						{
+							ok = true;
+							break;
+						}
+					}
+					
+					if (!ok) continue;
+					
+					for (int i=0; i < nodesOut.size(); ++i)
+					{
+						if (nodesOut[i] && !nodesDisconnected.contains(nodesOut[i]) && 
 							nodesOut[i]->itemHandle &&
-							nodesOut[j]->itemHandle->type == NodeHandle::Type)
+							nodesOut[i]->itemHandle->type == NodeHandle::Type)
 							nodesList << static_cast<NodeHandle*>(nodesOut[i]->itemHandle);
 					}
 				}

@@ -33,19 +33,19 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow != 0)
 		{
-// 			if (main->tools.contains("Collision Detection"))
-// 			{
-// 				QWidget * collisionDetection2 = main->tools.value("Collision Detection");
-// 				collisionDetection = static_cast<CollisionDetection*>(collisionDetection2);
-// 				if (collisionDetection != 0)
-// 				{
-// 					//connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)),
-// 				    //        			  this,SLOT(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)));
-//
-// 					//connect(collisionDetection,SIGNAL(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)),
-// 				    //        			  this,SLOT(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)));
-// 				}
-// 			}
+			if (main->tool("Collision Detection"))
+			{
+				QWidget * collisionDetection2 = main->tool("Collision Detection");
+				collisionDetection = static_cast<CollisionDetection*>(collisionDetection2);
+				if (collisionDetection != 0)
+				{
+					//connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)),
+				    //        			  this,SLOT(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)));
+
+					//connect(collisionDetection,SIGNAL(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)),
+				    //        			  this,SLOT(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)));
+				}
+			}
 			connect(main,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
@@ -525,10 +525,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	if (!main) return;
 
 	Tinkercell::ConnectionMaker * connectionMaker = new Tinkercell::ConnectionMaker;
-// 	if (main->tools.contains(connectionMaker->name))
-// 		delete connectionMaker;
-// 	else
-// 		connectionMaker->setMainWindow(main);
+	main->addTool(connectionMaker);
 
 }
 

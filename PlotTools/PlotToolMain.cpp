@@ -1,0 +1,34 @@
+/****************************************************************************
+
+ Copyright (c) 2008 Deepak Chandran
+ Contact: Deepak Chandran (dchandran1@gmail.com)
+ see COPYRIGHT.TXT
+ 
+ Function that loads dll into main window
+
+****************************************************************************/
+
+#include "OutputWindow.h"
+#include "PlotToolMain.h"
+
+extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+{
+	if (!main) return;
+	
+	Tinkercell::PlotTool * plotTool = new Tinkercell::PlotTool;
+/*	if (main->tools.contains(plotTool->name))
+	{
+		delete plotTool;
+	}
+	else
+	{
+		plotTool->setMainWindow(main);
+	}
+*/	
+	/*Tinkercell::GraphStringTool * graphTool = new Tinkercell::GraphStringTool;
+	if (main->tools.contains(graphTool->name))
+		delete graphTool;
+	else
+		graphTool->setMainWindow(main);*/
+}
+

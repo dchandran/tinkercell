@@ -81,11 +81,11 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/DataTools/
 #    ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
-#    ${TINKERCELL_SOURCE_DIR}/PlotTools/
+    ${TINKERCELL_SOURCE_DIR}/PlotTools/
 #    ${TINKERCELL_SOURCE_DIR}/ContainerTools/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
-#    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
+    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
 ### includes in BINARY_DIR just in case
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
@@ -106,11 +106,11 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/DataTools/
 #    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
-#    ${TINKERCELL_BINARY_DIR}/PlotTools/
+    ${TINKERCELL_BINARY_DIR}/PlotTools/
 #    ${TINKERCELL_BINARY_DIR}/ContainerTools/
     ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
     ${TINKERCELL_BINARY_DIR}/CInputWindows/
-#    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
+    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
 
   ADD_DEFINITIONS( -DINLINE=static -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine )
@@ -120,7 +120,7 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( Core )
 #  ADD_SUBDIRECTORY( NodeGraphicsItem )
   ADD_SUBDIRECTORY( NodesTree )
-#  ADD_SUBDIRECTORY( PlotTools )
+  ADD_SUBDIRECTORY( PlotTools )
 ##  ADD_SUBDIRECTORY( DataTools )
   ADD_SUBDIRECTORY( BasicTools )
 #  ADD_SUBDIRECTORY( OtherTools )

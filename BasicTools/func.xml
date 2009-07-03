@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/OtherTools/func.xml" width="308" height="296">
+    <ControlPoints>
+        <ControlPoint x="81" y="61"></ControlPoint>
+        <ControlPoint x="371" y="61"></ControlPoint>
+        <ControlPoint x="371" y="341"></ControlPoint>
+        <ControlPoint x="81" y="341"></ControlPoint>
+        <ControlPoint x="142" y="293"></ControlPoint>
+        <ControlPoint x="215" y="295"></ControlPoint>
+        <ControlPoint x="218" y="243"></ControlPoint>
+        <ControlPoint x="215" y="200"></ControlPoint>
+        <ControlPoint x="147" y="200"></ControlPoint>
+        <ControlPoint x="147" y="181"></ControlPoint>
+        <ControlPoint x="214" y="182"></ControlPoint>
+        <ControlPoint x="206" y="139"></ControlPoint>
+        <ControlPoint x="227" y="93"></ControlPoint>
+        <ControlPoint x="308" y="124"></ControlPoint>
+        <ControlPoint x="245" y="118"></ControlPoint>
+        <ControlPoint x="230" y="146"></ControlPoint>
+        <ControlPoint x="237" y="180"></ControlPoint>
+        <ControlPoint x="308" y="180"></ControlPoint>
+        <ControlPoint x="308" y="201"></ControlPoint>
+        <ControlPoint x="238" y="201"></ControlPoint>
+        <ControlPoint x="237" y="255"></ControlPoint>
+        <ControlPoint x="233" y="304"></ControlPoint>
+        <ControlPoint x="144" y="310"></ControlPoint>
+        <ControlPoint x="308" y="103"></ControlPoint>
+        <ControlPoint x="367" y="90"></ControlPoint>
+        <ControlPoint x="389" y="90"></ControlPoint>
+        <ControlPoint x="389" y="357"></ControlPoint>
+        <ControlPoint x="109" y="357"></ControlPoint>
+        <ControlPoint x="110" y="340"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="3,0,1,2,3"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#55007f" Alpha="255"></Pen>
+            <Fill Color="#e2fdff" Alpha="48"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,6,7,8,9,10,11,12,23,13,14,15,16,17,18,19,20,21,22,4"></ControlPoints>
+            <LineTypes sequence="bezier,line,line,line,bezier,line,bezier,line,line,line,bezier,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#55007f" Alpha="255"></Pen>
+            <Fill Color="#55007f" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="27,28,2,24,25,26,27"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="1" Color="#4d4d4d" Alpha="119"></Pen>
+            <Fill Color="#4d4d4d" Alpha="119"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

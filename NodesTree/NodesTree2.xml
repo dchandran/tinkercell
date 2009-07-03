@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartsTree>
+<PartsTree version="1.0">
+<part family="Part">
+  <text>Parts can be connected to one another using one of the various types of connections. The two main divisions of parts are DNA parts and Species parts.</text>
+  <part family="Gene" units="activity,PoPS" copy="1.0" length="300"  sequence="AAGCTGATGGCTAGAAT">
+	<text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
+  </part>
+  <part family="Species" units="concentration,mM" molecularweight="50000">
+    <text>Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.</text>
+	<part family="SmallMolecule">
+	   <text>Metabolites, ions, and other small molecules</text>
+	   <part family="Phosphate">
+	     <text>Phosphates</text>
+	   </part>
+	</part>
+	<part family="Protein" sequence="GSWTQHNMCP">
+	    <text>Chain of amino acids.</text>
+		<part family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC">
+		   <text>proteins that bind to a regulatory site and influence the activity of the downstream promoter.</text>
+		</part>
+		<part family="Receptor" transmembrane="1">
+		   <text>Receptors usually have a binding domain and can be localized on the plasma membrane.</text>
+		</part>
+		<part family="Reporter" type="fluorescent">
+		   <text>Molecules that are used as indicators, such as fluorescent molecules.</text>
+		</part>
+	</part>
+	<part family="RNA" length="25" sequence="AUGCUAGCU">
+	    <text>RNA molecules</text>
+		<part family="mRNA"></part>
+		<part family="Ribozyme"></part>
+	</part>
+  </part>
+</part>
+<part family="Compartment" units="volume,fL">
+    <text>A region where the contained species are localized</text>
+	<part family="Cell" units="position,um" species="E.coli" count="1" x="0" y="0"></part>
+</part>
+<part family="Module" type="generic">
+   <text>A module is a network that can contain interfaces and can be connected to other modules.</text>
+</part>
+<part family="Empty">
+   <text>This item can be used to represent multiple things such as degradation, dilution, or even an alternative transcriptional terminator.</text>
+</part>
+</PartsTree>

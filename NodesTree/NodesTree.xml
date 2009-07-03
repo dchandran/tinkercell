@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE NodesTree>
+<NodesTree version="1.0">
+<node family="Node" color="#7AAEC8">
+  <text>Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA nodes and Species nodes.</text>
+  <node family="Species" color="#0048FF" units="concentration,uM" molecularweight="50000">
+    <text>Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.</text>
+	<node family="SmallMolecule">
+	   <text>Metabolites, ions, and other small molecules</text>
+	   <node family="Phosphate">
+	     <text>Phosphates</text>
+	   </node>
+	</node>
+	<node family="Protein" sequence="GSWTQHNMCP">
+	    <text>Chain of amino acids.</text>
+		<node family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC">
+		   <text>proteins that bind to a regulatory site and influence the activity of the downstream promoter.</text>
+		</node>
+		<node family="Receptor" transmembrane="1">
+		   <text>Receptors usually have a binding domain and can be localized on the plasma membrane.</text>
+		</node>
+		<node family="Reporter" type="fluorescent">
+		   <text>Molecules that are used as indicators, such as fluorescent molecules.</text>
+		</node>
+	</node>
+	<node family="RNA" color="#AD6E00" length="25" sequence="AUGCUAGCU">
+	    <text>RNA molecules</text>
+		<node family="mRNA"></node>
+		<node family="Ribozyme"></node>
+	</node>
+  </node>
+  <node family="Part" color="#277604" units="activity,PoPS" copy="1.0" length="300"  sequence="AAGCTGATGGCTAGAAT" composite="false">
+	<text>DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc.</text>
+	<node family="Coding">
+	<text>A DNA sequence that encodes for a protein or RNA product.</text>
+	  <node family="Gene" composite="true">
+		<text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
+		<subnode>Regulatory</subnode>
+		<subnode>RBS</subnode>
+		<subnode>Coding</subnode>
+		<subnode>Terminator</subnode>
+	  </node>
+	</node>
+	<node family="Regulatory" strength="5.0">
+	<text>This represents a node that can be bound by a Species and usually regulates a gene.</text>
+	  <node family="Gene" composite="true">
+		<text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
+		<subnode>Regulatory</subnode>
+		<subnode>RBS</subnode>
+		<subnode>Coding</subnode>
+		<subnode>Terminator</subnode>
+	  </node>
+	</node>
+	<node family="RBS" strength="5.0">
+	   <text>Ribosome binding site</text>
+	</node>
+	<node family="Terminator" color="#AF3F33" strength="5.0">
+	   <text>Transcriptional terminator</text>
+	</node>
+  </node>
+</node>
+<node family="Compartment" units="volume,fL">
+    <text>A region where the contained species are localized</text>
+	<node family="Cell" units="position,um" species="E.coli" count="1" x="0" y="0"></node>
+</node>
+<node family="Module" type="generic">
+   <text>A module is a network that can contain interfaces and can be connected to other modules.</text>
+</node>
+<node family="Empty">
+   <text>This item can be used to represent multiple things such as degradation, dilution, or even an alternative transcriptional terminator.</text>
+</node>
+</NodesTree>

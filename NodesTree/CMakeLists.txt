@@ -12,7 +12,5 @@ ADD_LIBRARY( NodesTree
 TARGET_LINK_LIBRARIES( NodesTree
   NodesTree 
   TinkerCellCore
-  muparser
-  ${QT_LIBRARIES}
   )
 

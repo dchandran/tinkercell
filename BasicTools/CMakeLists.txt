@@ -132,10 +132,10 @@ TARGET_LINK_LIBRARIES( TextEditorListener
 # QT4_WRAP_CPP( StoichiometryTool_MOC StoichiometryTool.h )
 # QT4_WRAP_CPP( FunctionDeclarationsTool_MOC FunctionDeclarationsTool.h )
 # QT4_WRAP_CPP( ModelSummaryTool_MOC ModelSummaryTool.h )
-# QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
+#QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
 # QT4_WRAP_CPP( DataToolsMain_MOC DataToolsMain.h )
 
-# ADD_LIBRARY( DataBasicTools
+#ADD_LIBRARY( DataBasicTools
 #  ${SpinBoxDelegate_MOC}
 #  ${DefaultReactionRates_MOC}
 #  ${BasicInformationTool_MOC}
@@ -154,4 +154,9 @@ TARGET_LINK_LIBRARIES( TextEditorListener
 #  ModelSummaryTool.cpp
 #  ModelFileGenerator.cpp
 #  DataToolsMain.cpp
-# )
+#)
+#
+#TARGET_LINK_LIBRARIES( DataBasicTools
+#  DataBasicTools
+#  TinkerCellCore
+#)

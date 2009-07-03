@@ -12,5 +12,7 @@ ADD_LIBRARY( datatools
 TARGET_LINK_LIBRARIES( datatools
   datatools
   NodesTree
+  TinkerCellCore
+  muparser
   ) 
 

@@ -1,0 +1,16 @@
+FILE( GLOB ANTIMONY_HDRS *.h )
+FILE( GLOB ANTIMONY_SRC *.cpp )
+
+QT4_WRAP_CPP( ANTIMONY_MOC ${ANTYMONY_HDRS} )
+
+ADD_LIBRARY( antimony
+  SHARED
+  ${ANTIMONY_MOC}
+  ${ANTIMONY_SRC}
+  )
+
+TARGET_LINK_LIBRARIES( antimony
+  antimony
+  datatools
+  TinkerCellCore
+)

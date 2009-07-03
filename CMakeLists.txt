@@ -83,7 +83,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
 #    ${TINKERCELL_SOURCE_DIR}/PlotTools/
 #    ${TINKERCELL_SOURCE_DIR}/ContainerTools/
-#    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
+    ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
 #    ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
 ### includes in BINARY_DIR just in case
@@ -108,7 +108,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/NodesTree/
 #    ${TINKERCELL_BINARY_DIR}/PlotTools/
 #    ${TINKERCELL_BINARY_DIR}/ContainerTools/
-#    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
+    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
     ${TINKERCELL_BINARY_DIR}/CInputWindows/
 #    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
@@ -125,7 +125,7 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( BasicTools )
 #  ADD_SUBDIRECTORY( OtherTools )
 #  ADD_SUBDIRECTORY( ContainerTools )
-#  ADD_SUBDIRECTORY( SegmentationAnimation )
+  ADD_SUBDIRECTORY( SegmentationAnimation )
   ADD_SUBDIRECTORY( CInputWindows )
 #  ADD_SUBDIRECTORY( DynamicCodeTools )
 ##  ADD_SUBDIRECTORY( c/lpsolve )

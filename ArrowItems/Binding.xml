@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="">
+    <ControlPoints>
+        <ControlPoint x="102" y="13"></ControlPoint>
+        <ControlPoint x="102" y="219"></ControlPoint>
+        <ControlPoint x="135" y="219"></ControlPoint>
+        <ControlPoint x="135" y="14"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="1,0,3,2,1"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="3" Color="#ffc743" Alpha="255"></Pen>
+            <Fill Color="#ca0003" Alpha="255"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

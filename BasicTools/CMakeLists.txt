@@ -86,9 +86,12 @@ QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h )
 #QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h )
 QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h )
 QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h )
+QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h )
 
 ADD_LIBRARY( VisualTools 
   SHARED
+  ${GraphicsReplaceTool_MOC}
+  GraphicsReplaceTool.cpp
   ${BasicGraphicsToolbox_MOC}
   BasicGraphicsToolbox.cpp
   ${GraphicsTransformTool_MOC}

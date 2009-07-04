@@ -9,16 +9,16 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/CThread.h"
-#include "Core/OutputWindow.h"
-#include "BasicTools/NameFamilyDialog.h"
+#include "MainWindow.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "CThread.h"
+#include "OutputWindow.h"
+#include "NameFamilyDialog.h"
 
 namespace Tinkercell
 {

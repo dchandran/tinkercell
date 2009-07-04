@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "BasicTools/VisualToolsMain.h"
+#include "VisualToolsMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

@@ -13,15 +13,15 @@
 
 #include <QClipboard>
 
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/OutputWindow.h"
-#include "BasicTools/GraphicsReplaceTool.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "OutputWindow.h"
+#include "GraphicsReplaceTool.h"
 
 namespace Tinkercell
 {

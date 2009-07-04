@@ -9,7 +9,7 @@
 ****************************************************************************/
 
 
-#include "BasicTools/DataToolsMain.h"
+#include "DataToolsMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {

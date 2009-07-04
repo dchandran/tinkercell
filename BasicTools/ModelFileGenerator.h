@@ -16,10 +16,10 @@
 #include <QString>
 #include <QStringList>
 #include <QLibrary>
-#include "Core/MainWindow.h"
-#include "Core/DataTable.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
+#include "MainWindow.h"
+#include "DataTable.h"
+#include "ItemHandle.h"
+#include "Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

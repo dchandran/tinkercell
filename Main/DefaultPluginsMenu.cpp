@@ -1,40 +1,9 @@
-#ifndef MAIN_H
-#define MAIN_H
-
-#include <QApplication>
-#include <QCoreApplication>
-#include <QLibrary>
-#include <stdio.h>
-#include <stdlib.h>
-#include <QList>
-#include <QString>
-#include <QRegExp>
-#include <QFile>
-#include <QFileInfoList>
-#include <QFileInfo>
-#include <QAction>
-#include <QString>
-#include <QStringList>
-#include <QSplashScreen>
-#include <QMenu>
-#include <QDir>
-#include <QSettings>
-#include <QtDebug>
-
-#include "MainWindow.h"
-#include "ItemHandle.h"
-#include "DataTable.h"
-#include "Tool.h"
+#include "Main.h"
 
 namespace Tinkercell
 {
 
-class DefaultPluginsMenu : public QMenu
-{
-    Q_OBJECT
-
-  public:
-    DefaultPluginsMenu(MainWindow * main)
+DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
         : QMenu(tr("Plug-ins"), main)
     {
       QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
@@ -59,12 +28,12 @@ class DefaultPluginsMenu : public QMenu
 
     }
 
-    virtual ~DefaultPluginsMenu()
+    DefaultPluginsMenu::~DefaultPluginsMenu()
     {
       saveSettings();
     }
 
-    void saveSettings()
+    void DefaultPluginsMenu::saveSettings()
     {
       QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
       QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
@@ -85,8 +54,7 @@ class DefaultPluginsMenu : public QMenu
       settings.endGroup();
     }
 
-  public slots:
-    void toolAboutToBeLoaded( Tool * tool, bool * shouldLoad )
+    void DefaultPluginsMenu::toolAboutToBeLoaded( Tool * tool, bool * shouldLoad )
     {
       if (!tool)
         return;
@@ -110,12 +78,5 @@ class DefaultPluginsMenu : public QMenu
       }
     }
 
-  private:
-    QStringList doNotLoadPluginNames;
-    QList<QAction*> actions;
-};
-
 }
-
-#endif // MAIN_H
 

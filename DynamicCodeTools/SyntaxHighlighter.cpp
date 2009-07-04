@@ -13,12 +13,12 @@ namespace Tinkercell
 		 keywordFormat.setForeground(Qt::darkBlue);
 		 keywordFormat.setFontWeight(QFont::Bold);
 		 QStringList keywordPatterns;
-
-		 keywordPatterns << "\\bchar\\b" << "\\bconst\\b" << "\\bdouble\\b"
-						 << "\\bint\\b" << "\\blong\\b" << "\\bshort\\b"
+		 
+		 keywordPatterns << "\\bchar\\b" << "\\bconst\\b" << "\\bdouble\\b" 
+						 << "\\bint\\b" << "\\blong\\b" << "\\bshort\\b" 
 						 << "\\bsigned\\b" << "\\bstatic\\b" << "\\bstruct\\b"
 						 << "\\btypedef\\b" << "\\btypename\\b" << "\\b#define"
-						 << "\\bunsigned\\b" << "\\bvoid\\b"
+						 << "\\bunsigned\\b" << "\\bvoid\\b" 
 						 << "\\bOBJ\\b" << "\\bimport\\b" << "\\bfor\\b" << "\\bwhile\\b"
 						 << "\\bArray\\b" << "\\barray\\b" << "\\bMatrix\\b"
 						 << "\\bmatrix\\b" << "\\bTCFunctions\\b" << "\\breturn\\b"
@@ -28,13 +28,13 @@ namespace Tinkercell
 			 rule.format = keywordFormat;
 			 highlightingRules.append(rule);
 		 }
-
+		 
 		 loopFormat1.setFontWeight(QFont::Bold);
 		 loopFormat1.setForeground(Qt::blue);
 		 rule.pattern = QRegExp("(for)|(while)\\s*\\[^{]+{");
 		 rule.format = loopFormat1;
 		 highlightingRules.append(rule);
-
+		 
 		 loopFormat2.setFontWeight(QFont::Bold);
 		 loopFormat2.setForeground(Qt::blue);
 		 rule.pattern = QRegExp("(for)|(while) .*:\\s*\\n");

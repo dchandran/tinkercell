@@ -5,9 +5,8 @@
  see COPYRIGHT.TXT
 
  Provides a toolbar with buttons that call C functions (run of separate threads)
-
+ 
 ****************************************************************************/
-
 
 #ifndef TINKERCELL_CFUNCTIONSMENULIST_H
 #define TINKERCELL_CFUNCTIONSMENULIST_H
@@ -57,19 +56,19 @@ namespace Tinkercell
 	public slots:
 		void setupFunctionPointers( QLibrary * );
 		void loadFromFile(DynamicLibraryMenu* , QFile& file);
-		void pluginLoaded(const QString&);
+		void toolLoaded(Tool*);
 		void runPythonCode(const QString&);
 		void runPythonFile(const QString&);
 		void runPythonCode(QSemaphore*,const QString&);
 		void runPythonFile(QSemaphore*,const QString&);
 		void stopPython();
-
+		
 	protected slots:
-		void buttonPressed (int);
+		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
-
+	
 	signals:
-
+	
 		void pythonStarted();
 		void pythonFinished();
 
@@ -79,12 +78,11 @@ namespace Tinkercell
 		QButtonGroup buttonsGroup;
 		QStringList pyFileNames;
 		QHash<QAction*,QString> hashPyFile;
-
+		
 	private:
 		static PythonTool_FToS fToS;
 		static void _runPythonCode(const char*);
-		static void _runPythonFile(const char*);
-
+                static void _runPythonFile(const char*);
 	};
 }
 

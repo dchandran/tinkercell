@@ -2,9 +2,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
-
+ 
  Provides a text window where C code can be written and run dynamically
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CSCRIPT_H
@@ -26,22 +26,22 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
+#include "CodeEditor.h"
 #include "Tool.h"
 #include "CThread.h"
 #include "SyntaxHighlighter.h"
 
 namespace Tinkercell
 {
-	//text editor with zoom and ctrl+A
-	class CodeEditor : public QTextEdit
+	class RuntimeCodeEditor : public CodeEditor
 	{
 		Q_OBJECT
 	public:
 		QCompleter completer;
 		QHash<QString,QString> defaultSavedFilename;
 	protected:
-		virtual void wheelEvent ( QWheelEvent * wheelEvent );
-		virtual void keyPressEvent ( QKeyEvent * keyEvent );
+		//virtual void wheelEvent ( QWheelEvent * wheelEvent );
+		//virtual void keyPressEvent ( QKeyEvent * keyEvent );
 	public slots:
 		void open(const QString&);
 		void save(const QString&);
@@ -53,7 +53,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	public:
-		TCFunctionsListView(const QString&, const QString&, QTextEdit * textEdit);
+		TCFunctionsListView(const QString&, const QString&, CodeEditor * textEdit);
 	signals:
 		void insertText(const QString&);
 	protected:
@@ -75,7 +75,7 @@ namespace Tinkercell
 		void runPy(const QString&);
 		void stopPy();
 		void reloadLibraryList(const QString&, bool);
-
+		
 	public slots:
 		void run();
 		void about();
@@ -88,12 +88,12 @@ namespace Tinkercell
 		void redo();
 		void selectAll();
 		virtual void setVisible(bool);
-
+		
 	protected slots:
 		void convertCodeToButton();
-
+		
 	protected:
-
+		
 		void setupEditor();
 		void setupMenu();
 		void setupDialog();
@@ -102,11 +102,11 @@ namespace Tinkercell
 		QTimeLine timer;
 		QMainWindow * window;
 		QTabWidget * tabWidget;
-		CodeEditor *editorC;
-		CodeEditor *editorPy;
+		RuntimeCodeEditor *editorC; 
+		RuntimeCodeEditor *editorPy;
 		QToolBar * toolBar;
-
-		CodeEditor *editorR;
+		
+		RuntimeCodeEditor *editorR; 
 		QLineEdit *commandCEdit, *commandPyEdit, *fileNameEdit;
 		CandPythonSyntaxHighlighter *highlighterC;
 		CandPythonSyntaxHighlighter *highlighterPy;

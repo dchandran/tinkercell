@@ -5,7 +5,7 @@
  see COPYRIGHT.TXT
 
  The python interpreter that runs as a separate thread and can accept strings to parse and execute
-
+ 
 ****************************************************************************/
 
 
@@ -22,22 +22,26 @@
 namespace Tinkercell
 {
 
-	class PythonInterpreterThread : public LibraryThread
+        class PythonInterpreterThread : public CThread
 	{
-  Q_OBJECT
-
+                 typedef void (*initFunc)();
+                 typedef void (*execFunc)(const char*,const char*);
+                 typedef void (*finalFunc)();
+        signals:
+                 void progress(int);
 	public:
-		PythonInterpreterThread(const QString&, const QString&, MainWindow* main);
+		PythonInterpreterThread(const QString&, MainWindow* main);
 		virtual ~PythonInterpreterThread();
 		void setCPointers();
 		QString outputFile;
 	public slots:
 		void initialize();
 		void runCode(const QString&);
-		void finalize();
+                void finalize();
 	protected:
 		QString pythonCode;
 		virtual void run();
+                execFunc f;
 	};
 }
 

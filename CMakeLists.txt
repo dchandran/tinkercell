@@ -80,7 +80,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/OtherTools/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/include/
-    ${TINKERCELL_SOURCE_DIR}/DataTools/
+#    ${TINKERCELL_SOURCE_DIR}/DataTools/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
@@ -104,7 +104,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/Core/
     ${TINKERCELL_BINARY_DIR}/BasicTools/
     ${TINKERCELL_BINARY_DIR}/OtherTools/
-    ${TINKERCELL_BINARY_DIR}/DataTools/
+#    ${TINKERCELL_BINARY_DIR}/DataTools/
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
     ${TINKERCELL_BINARY_DIR}/PlotTools/

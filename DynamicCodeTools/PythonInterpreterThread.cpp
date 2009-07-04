@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
 The python interpreter that runs as a separate thread and can accept strings to parse and execute
 
 
@@ -20,172 +20,111 @@ The python interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 
-	 PythonInterpreterThread::PythonInterpreterThread(const QString& dll, const QString& func, MainWindow* main)
-	 : LibraryThread(dll,func,main,emptyMatrix()), outputFile("py.out")
-	 {
-		disconnect(this);
-		this->title = tr("runpy");
-// 		progressBars[tr("runpy")] = progressBars[tr("runpy")];
-// 		LibraryThread::progressBars[tr("runpy")] = ProgressBarSignalItem();
-// 		connect(&LibraryThread::progressBars[tr("runpy")],SIGNAL(progress(int)),this,SIGNAL(progress(int)));
-	 }
+    PythonInterpreterThread::PythonInterpreterThread(const QString& dll, MainWindow* main)
+        : CThread(main,dll,false), outputFile("py.out")
+    {
+        f = 0;
+        disconnect(this);
+        CThread::cthreads[tr("python thread")] = this;
+    }
 
-	 typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));
+    typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));
 
-	 void PythonInterpreterThread::setCPointers()
-	 {
-		if (!library ||!mainWindow) return;
-		QSemaphore * s = new QSemaphore(1);
+    void PythonInterpreterThread::setCPointers()
+    {
+        if (!lib ||!mainWindow) return;
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        mainWindow->setupNewThread(s,lib);
 		s->acquire();
-		mainWindow->setupNewThread(s,library);
-		progress_api_initialize f0 = (progress_api_initialize)library->resolve("tc_Progress_api_initialize");
-		if (f0)
-		{
-// 			f0(&(LibraryThread::setProgress));
-		}
-		s->acquire();
-		s->release();
-	 }
+        s->release();
+        progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
+        if (f0)
+        {
+            f0(&(CThread::setProgress));
+        }        
+    }
 
-	 typedef void (*initFunc)();
-	 typedef void (*execFunc)(const char*,const char*);
-	 typedef void (*finalFunc)();
-
-	 void PythonInterpreterThread::runCode(const QString& code)
-	 {
+    void PythonInterpreterThread::runCode(const QString& code)
+    {
+        if (!mainWindow || !lib || !lib->isLoaded() || isRunning()) return;
+		
 		pythonCode = code;
 
-		if (!library || !library->isLoaded())
-			initialize();
+        start();
+    }
 
-		if (isRunning()) return;
-			//terminate();
+    void PythonInterpreterThread::finalize()
+    {
+        if (!lib || !lib->isLoaded()) return;
 
-		if (library->isLoaded())
-			start();
-	 }
+        finalFunc f = (finalFunc)lib->resolve("finalize");
+        if (f)
+        {
+            QString currentDir = QDir::currentPath();
 
-	 void PythonInterpreterThread::finalize()
-	 {
-		if (!library || !library->isLoaded()) return;
+            QDir::setCurrent(MainWindow::userHome());
 
-		finalFunc f = (finalFunc)library->resolve("finalize");
-		if (f)
-		{
-			QString currentDir = QDir::currentPath();
-			QString tcdir("Tinkercell");
-			QDir dir(QDir::home());
-			if (!dir.exists(tcdir))
-			{
-				dir.mkdir(tcdir);
-			}
-			dir.cd(tcdir);
-			QDir::setCurrent(dir.absolutePath());
+            f();
 
-			f();
+            QDir::setCurrent(currentDir);
+        }
+    }
 
-			QDir::setCurrent(currentDir);
-		 }
-	 }
+    void PythonInterpreterThread::initialize()
+    {
+        if (!mainWindow || !lib || !lib->isLoaded()) return;
 
-	 void PythonInterpreterThread::initialize()
-	 {
-		if (!mainWindow || dllFile.isEmpty()) return;
+        QString appDir = QCoreApplication::applicationDirPath();
 
-		QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_MAC
-		appDir += tr("/../../..");
-		#endif
+        initFunc f = (initFunc)lib->resolve("initialize");
+        if (f)
+        {
+            QString currentDir = QDir::currentPath();
 
-		if (library) delete library;
-		library = new QLibrary;
+            QDir::setCurrent(MainWindow::userHome());
 
-		QString name[] = {	MainWindow::userHome() + tr("/") + PROJECTNAME + tr("/") + dllFile,
-					dllFile,
-					QDir::currentPath() + tr("/") + dllFile,
-					appDir + tr("/") + dllFile };
+            setCPointers();
+            f();
 
-		bool loaded = false;
-		for (int i=0; i < 4; ++i) //try different possibilities
-		{
-			library->setFileName(name[i]);
-			loaded = library->load();
-			if (loaded)
-				break;
-		}
+            QDir::setCurrent(currentDir);
+        }
+        mainWindow->statusBar()->showMessage(tr("Python initialized"));
+    }
 
-		if (loaded)
-		{
-			initFunc f = (initFunc)library->resolve("initialize");
-			if (f)
-			{
-				QString currentDir = QDir::currentPath();
+    void PythonInterpreterThread::run()
+    {
+        if (!lib || !lib->isLoaded() || pythonCode.isEmpty()) return;
 
-				QString tcdir("Tinkercell");
+        QString code;
+        if (!outputFile.isEmpty())
+        {
+            code = QString("import sys\n_outfile = open('") + outputFile + QString("','w')\nsys.stdout = _outfile;\n");
+            code += pythonCode;
+            code += QString("\n_outfile.close();\n");
+        }
+        else
+        {
+            code = pythonCode;
+        }
 
-				QDir dir(QDir::home());
-				if (!dir.exists(tcdir))
-				{
-					dir.mkdir(tcdir);
-				}
+        if (!f)
+            f = (execFunc)lib->resolve("exec");
 
-				dir.cd(tcdir);
-				QDir::setCurrent(dir.absolutePath());
+        if (f)
+        {
+            QString currentDir = QDir::currentPath();
+            QDir::setCurrent(MainWindow::userHome());
 
-				setCPointers();
-				f();
+            f(code.toAscii().data(),outputFile.toAscii().data());
 
-				QDir::setCurrent(currentDir);
-			}
-			mainWindow->statusBar()->showMessage(tr("Python initialized"));
-		}
-		else
-		{
-			mainWindow->statusBar()->showMessage(tr("Could not start Python"));
-			OutputWindow::error(QString("Could not start Python"));
-			OutputWindow::unfreeze();
-		}
-	 }
+            QDir::setCurrent(currentDir);
+        }
+    }
 
-	 void PythonInterpreterThread::run()
-	 {
-		if (!library || !library->isLoaded() || pythonCode.isEmpty()) return;
-
-		QString code;
-		if (!outputFile.isEmpty())
-		{
-			code = QString("import sys\n_outfile = open('") + outputFile + QString("','w')\nsys.stdout = _outfile;\n");
-			code += pythonCode;
-			code += QString("\n_outfile.close();\n");
-		}
-		else
-		{
-			code = pythonCode;
-		}
-
-		execFunc f = (execFunc)library->resolve("exec");
-		if (f)
-		{
-			QString currentDir = QDir::currentPath();
-			QString tcdir("Tinkercell");
-			QDir dir(QDir::home());
-			if (!dir.exists(tcdir))
-			{
-				dir.mkdir(tcdir);
-			}
-			dir.cd(tcdir);
-			QDir::setCurrent(dir.absolutePath());
-
-			f(code.toAscii().data(),outputFile.toAscii().data());
-
-			QDir::setCurrent(currentDir);
-		}
-	 }
-
-	 PythonInterpreterThread::~PythonInterpreterThread()
-	 {
-		finalize();
-		unloadLibrary();
-	 }
+    PythonInterpreterThread::~PythonInterpreterThread()
+    {
+        finalize();
+    }
 
 }

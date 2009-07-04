@@ -13,7 +13,7 @@
 #include <QCheckBox>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "ConnectionGraphicsItem.h"
+#include "NetworkWindow.h"
 #include "OutputWindow.h"
 #include "PlotTool.h"
 #include "qwt_scale_engine.h"

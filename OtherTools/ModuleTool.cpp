@@ -8,16 +8,16 @@
 
 ****************************************************************************/
 
-#include "Core/ItemHandle.h"
-#include "Core/GraphicsScene.h"
-#include "Core/OutputWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "OtherTools/ModuleTool.h"
+#include "ItemHandle.h"
+#include "GraphicsScene.h"
+#include "OutputWindow.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ModuleTool.h"
 
 namespace Tinkercell
 {

@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
 
 ****************************************************************************/
 
@@ -17,66 +17,66 @@
 namespace Tinkercell
 {
 
-	LPSolveInputWindow::LPSolveInputWindow() : AbstractInputWindow(tr("Flux Balance Analysis Input Window"),tr("dlls/lpsolve"),tr("run"))
+	LPSolveInputWindow::LPSolveInputWindow() : AbstractInputWindow(tr("Flux Balance Analysis Input Window"),0)
 	{
 		dockWidget = 0;
 		objectivesTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 		constraintsTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
-
+		
 		//objectives table
 		QGroupBox * groupBox1 = new QGroupBox(tr(" Objective Flux Ratios "));
 		QVBoxLayout * layout1 = new QVBoxLayout;
-
+		
 		objectivesTable.setColumnCount(2);
 		objectivesTable.setVerticalHeader(0);
 		objectivesTable.setHorizontalHeaderLabels ( QStringList() << "flux" << "target ratio" );
 		objectivesTable.setItemDelegate(&delegate1);
-
+		
 		QRadioButton * max = new QRadioButton(tr("Maximize"),groupBox1);
 		QRadioButton * min = new QRadioButton(tr("Minimize"),groupBox1);
 		layout1->addWidget(max,0);
 		layout1->addWidget(min,0);
-
+		
 		layout1->addWidget(&objectivesTable,3);
 		groupBox1->setLayout(layout1);
-
+		
 		//constraints table
 		QGroupBox * groupBox2 = new QGroupBox(tr(" Additional Constraints "));
 		QVBoxLayout * layout2 = new QVBoxLayout;
-
+		
 		constraintsTable.setVerticalHeader(0);
 		constraintsTable.setColumnCount(3);
 		constraintsTable.setHorizontalHeaderLabels ( QStringList() << "flux" << "operation" << "bound" );
 		constraintsTable.setItemDelegate(&delegate2);
 		constraintsTable.setShowGrid ( false );
-
+		
 		delegate1.options << (QStringList());
 		delegate2.options << (QStringList()) << (QStringList() << "=" << "<=" << ">=");
-
-
+		
+		
 		layout2->addWidget(&constraintsTable,6);
 		QToolButton * addButton = new QToolButton(this);
 		addButton->setIcon(QIcon(":/images/plus.png"));
 		addButton->setToolTip(tr("add new constraint"));
-
+		
 		QToolButton * removeButton = new QToolButton(this);
 		removeButton->setIcon(QIcon(":/images/minus.png"));
 		removeButton->setToolTip(tr("remove new constraint"));
-
+		
 		QHBoxLayout * hlayout = new QHBoxLayout;  //layout for just the two buttons
 		hlayout->addStretch(6);
 		hlayout->addWidget(addButton,0);
 		hlayout->addWidget(removeButton,0);
 		layout2->addLayout(hlayout,0);
-
+		
 		groupBox2->setLayout(layout2);
-
+		
 		QVBoxLayout * layout3 = new QVBoxLayout;
 		QTabWidget * tabWidget = new QTabWidget;
-
+		
 		tabWidget->addTab(groupBox1,tr("Objective"));
 		tabWidget->addTab(groupBox2,tr("Constraints"));
-
+		
 		layout3->addWidget(tabWidget,4);
 		hlayout = new QHBoxLayout;  //layout for just the two buttons
 		QPushButton * runButton = new QPushButton(this);
@@ -85,9 +85,9 @@ namespace Tinkercell
 		hlayout->addWidget(runButton,0);
 		hlayout->addStretch(6);
 		layout3->addLayout(hlayout,0);
-
+		
 		setLayout(layout3);  //final layout
-
+		
 		//connect buttons to functions
 		connect(runButton,SIGNAL(released()),this,SLOT(exec()));
 		connect(addButton,SIGNAL(released()),this,SLOT(addRow()));
@@ -95,13 +95,12 @@ namespace Tinkercell
 		connect(max,SIGNAL(toggled(bool)),this,SLOT(checkboxSelected(bool)));
 		connect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
 		connect(&constraintsTable,SIGNAL(cellChanged(int,int)),this,SLOT(constraintsTableChanged(int,int)));
-
+		
 		dataTable.value(0,0) = 1.0;
 		dataTable.value(0,1) = 0.0;
 		max->setChecked(true);
 		min->setChecked(false);
 	}
-
 	
 	void LPSolveInputWindow::exec()
 	{
@@ -111,6 +110,7 @@ namespace Tinkercell
 	
 	bool LPSolveInputWindow::setMainWindow(MainWindow * main)
 	{
+
 		AbstractInputWindow::setMainWindow(main);
         if (mainWindow)
 		{
@@ -120,7 +120,6 @@ namespace Tinkercell
 		
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 					this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-
 			
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )),
 					this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )));
@@ -129,7 +128,6 @@ namespace Tinkercell
 					this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>& )));
 			
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
-
 			
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			
@@ -137,10 +135,9 @@ namespace Tinkercell
 			
 			return true;
 		}
-
+		
 		return false;
 	}
-
 	
 	void LPSolveInputWindow::toolLoaded(Tool *)
     {
@@ -199,13 +196,12 @@ namespace Tinkercell
 		
 		update(false);
 	}
-
+	
 	void LPSolveInputWindow::update(bool mustBeVisible)
 	{
          NetworkWindow * scene = currentWindow();
 		
 		if (!scene || (mustBeVisible && !isVisible())) return;
-
 		
 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(scene->symbolsTable.handlesFullName.values(),tr("."));
 		dataTable.resize(N.rows()+1,N.cols()+2);
@@ -284,25 +280,24 @@ namespace Tinkercell
 		constraintsTable.resizeColumnsToContents();
 			
 	}
-
 	
 	void LPSolveInputWindow::itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>&)
 	{
 		if (!scene || !isVisible()) return;
 		update();
 	}
-
+	
 	void LPSolveInputWindow::dataChanged(const QList<ItemHandle*>&)
 	{
 		update();
 	}
-
+	
 	void LPSolveInputWindow::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )
 	{
 		if (!scene || !isVisible()) return;
 		update();
 	}
-
+	
 	void LPSolveInputWindow::checkboxSelected(bool checked)
 	{
 		if (checked)
@@ -310,7 +305,7 @@ namespace Tinkercell
 		else
 			dataTable.value(0,0) = 0.0;
 	}
-
+	
 	//add constraint
 	void LPSolveInputWindow::addRow()
 	{
@@ -320,7 +315,7 @@ namespace Tinkercell
 		constraintsTable.setItem(constraintsTable.rowCount()-1,1,new QTableWidgetItem(">="));
 		constraintsTable.setItem(constraintsTable.rowCount()-1,2,new QTableWidgetItem("0.0"));
 	}
-
+	
 	void LPSolveInputWindow::removeRow()
 	{
 		if (constraintsTable.rowCount() > 0)
@@ -329,12 +324,12 @@ namespace Tinkercell
 			constraintsTable.setItem(constraintsTable.rowCount()-1, 0, new QTableWidgetItem(""));
 		}
 	}
-
+	
 	void LPSolveInputWindow::objectivesTableChanged(int i,int j)
 	{
 		if (objectivesTable.columnCount() < 2) return;
 		bool ok;
-
+		
 		for (int i=2; i < dataTable.cols(); ++i)
 			if (targetFluxes.contains(dataTable.colName(i)))
 			{
@@ -343,20 +338,20 @@ namespace Tinkercell
 			}
 			else
 				dataTable.value(0,i) = 0.0;
-
+		
 		for (int i=0; i < objectivesTable.rowCount(); ++i)
 			if (objectivesTable.item(i,0) && objectivesTable.item(i,1))
 			{
 				double d = objectivesTable.item(i,1)->text().toDouble(&ok);
 				QString s = objectivesTable.item(i,0)->text();
-
+			
 				if (ok)
 					dataTable.value(0,s) = d;
 				else
 					dataTable.value(0,s) = 0.0;
 			}
 	}
-
+	
 	void LPSolveInputWindow::constraintsTableChanged(int i,int j)
 	{
 		DataTable<qreal> dataTable2;
@@ -375,16 +370,15 @@ namespace Tinkercell
 				if (k > -1)
 				{
 					dataTable2.value(i,k) = dataTable.value(i+N,k) = 1.0;
-
+					
 					s = constraintsTable.item(i,1)->text();
 					dataTable.value(i,0) = dataTable.value(i+N,0) = delegate2.options[1].indexOf(s);
-
+					
 					d = constraintsTable.item(i,2)->text().toDouble(&ok);
 					if (!ok) d = 0.0;
 					dataTable2.value(i,1) = dataTable.value(i+N,1) = d;
 				}
 			}
-
 		
                 NetworkWindow * scene = currentWindow();
 		if (scene)

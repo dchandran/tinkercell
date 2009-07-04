@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
 
 ****************************************************************************/
 
@@ -18,53 +18,56 @@ namespace Tinkercell
 class LPSolveInputWindow : public AbstractInputWindow
 {
 	Q_OBJECT
-
+	
 public:
 
 	LPSolveInputWindow();
-
+	
 	bool setMainWindow(MainWindow * main);
-
+	
 	void loadConstraints();
-
+	
 public slots:
-
-	void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
-
+	
+	void itemsInserted(NetworkWindow *, const QList<ItemHandle*>&);
+	
 	void dataChanged(const QList<ItemHandle*>&);
-
+	
 	void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers );
-
+	
 	void checkboxSelected(bool checked);
-
+	
 	//add constraint
 	void addRow();
-
+	
 	void removeRow();
-
+	
 	void setVisible(bool);
-
+	
+	void exec();
+	
 private slots:
 
+	void toolLoaded(Tool * tool);
+	
 	void objectivesTableChanged(int i,int j);
-
+	
 	void constraintsTableChanged(int i,int j);
-
+	
 private:
+	DataTable<qreal> dataTable;
 	int N;
 	QStringList targetFluxes;
 	QTableWidget objectivesTable, constraintsTable;
 	void update(bool mustBeVisible = true);
-
-
-
+	
 	/*! \brief delegate used to change table items */
 	class ComboBoxDelegate : public QItemDelegate
 	{
 	public:
-
+	
 		QList<QStringList> options;
-
+	
 		ComboBoxDelegate(QObject *parent = 0) : QItemDelegate(parent)
 		{
 		}
@@ -125,7 +128,7 @@ private:
 			editor->setGeometry(option.rect);
 		}
 	};
-
+	
 	ComboBoxDelegate delegate1,
 					 delegate2;
 };

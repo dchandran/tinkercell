@@ -1,7 +1,7 @@
 #include "TextEditorParser.h"
-#include "Core/NetworkWindow.h"
-#include "Core/TextEditor.h"
-#include "Core/OutputWindow.h"
+#include "NetworkWindow.h"
+#include "TextEditor.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {

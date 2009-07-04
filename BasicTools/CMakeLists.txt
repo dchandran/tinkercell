@@ -109,12 +109,15 @@ TARGET_LINK_LIBRARIES( VisualTools
 )
 
 QT4_WRAP_CPP( TextEditorListener_MOC TextEditorListener.h )
+QT4_WRAP_CPP( TextEditorParser_MOC TextEditorParser.h )
 QT4_WRAP_CPP( texteditorsyntaxhighlighter_MOC texteditorsyntaxhighlighter.h )
 
 ADD_LIBRARY( TextEditorListener 
   SHARED 
   ${TextEditorListener_MOC} 
   ${texteditorsyntaxhighlighter_MOC} 
+  ${TextEditorParser_MOC}
+  TextEditorParser.cpp
   TextEditorListener.cpp
   texteditorsyntaxhighlighter.cpp
   )

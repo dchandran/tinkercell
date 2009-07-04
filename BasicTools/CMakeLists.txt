@@ -83,7 +83,7 @@ TARGET_LINK_LIBRARIES( SelectionTools
 QT4_WRAP_CPP( BasicGraphicsToolbox_MOC BasicGraphicsToolbox.h )
 QT4_WRAP_CPP( GraphicsTransformTool_MOC GraphicsTransformTool.h )
 QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h )
-QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h )
+#QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h )
 QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h )
 QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h )
 
@@ -95,8 +95,8 @@ ADD_LIBRARY( VisualTools
   GraphicsTransformTool.cpp
   ${TextGraphicsTool_MOC}
   TextGraphicsTool.cpp
-  ${CopyPasteTool_MOC}
-  CopyPasteTool.cpp
+#  ${CopyPasteTool_MOC}
+#  CopyPasteTool.cpp
   ${GroupHandlerTool_MOC}
   GroupHandlerTool.cpp
   ${VisualToolsMain_MOC}

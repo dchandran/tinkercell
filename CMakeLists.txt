@@ -116,6 +116,11 @@ IF( QT4_FOUND )
 
   ADD_DEFINITIONS( -DINLINE=static -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine )
 
+# ---------------------
+# CTEST 
+# INCLUDE( CTest )
+# --------------------
+
   ADD_SUBDIRECTORY( c )
   ADD_SUBDIRECTORY( ExternalCode )
   ADD_SUBDIRECTORY( Core )

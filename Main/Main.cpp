@@ -10,7 +10,7 @@
 ****************************************************************************/
 
 
-#include "Main.h"
+#include "DefaultPluginsMenu.h"
 
 using namespace Tinkercell;
 

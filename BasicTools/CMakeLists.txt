@@ -142,6 +142,7 @@ QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
  QT4_WRAP_CPP( DataToolsMain_MOC DataToolsMain.h )
 
 ADD_LIBRARY( DataBasicTools
+  SHARED
   ${SpinBoxDelegate_MOC}
   ${DefaultReactionRates_MOC}
   ${BasicInformationTool_MOC}

@@ -124,7 +124,15 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( PlotTools )
 #  ADD_SUBDIRECTORY( DataTools )
   ADD_SUBDIRECTORY( BasicTools )
-#  ADD_SUBDIRECTORY( AntimonyEditor )
+
+  OPTION( BUILD_ANTIMONYEDITOR 
+    "Build Antimony Editor. Note that it requires to have antimony editor
+libraries installed." 
+    OFF )
+  IF( BUILD_ANTIMONYEDITOR )
+    ADD_SUBDIRECTORY( AntimonyEditor )
+  ENDIF( BUILD_ANTIMONYEDITOR )
+
   ADD_SUBDIRECTORY( OtherTools )
   ADD_SUBDIRECTORY( ContainerTools )
   ADD_SUBDIRECTORY( SegmentationAnimation )

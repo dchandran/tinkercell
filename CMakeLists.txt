@@ -25,7 +25,7 @@ SET(EXECUTABLE_OUTPUT_PATH
  CACHE PATH "Single output directory for building all executables."
 )
 SET(LIBRARY_OUTPUT_PATH
- ${TINKERCELL_BINARY_DIR}/bin
+ ${TINKERCELL_BINARY_DIR}/bin/Plugins/
  CACHE PATH "Single output directory for building all libraries."
 )
 

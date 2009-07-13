@@ -183,7 +183,7 @@ namespace Tinkercell
 
                 DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
 
-                QString filename(tr("pythonscripts.txt"));
+                QString filename("@TINKERCELL_SOURCE_DIR@/pythonscripts.txt");
 
                 QString appDir = QCoreApplication::applicationDirPath();
 

@@ -7,6 +7,9 @@ SET( DYNAMICTOOLS_HDRS
   PythonTool.h
   SyntaxHighlighter.h
 )
+
+CONFIGURE_FILE( PythonTool.cpp.in PythonTool.cpp @ONLY )
+
 FILE( GLOB DYNAMICTOOLS_SRC *.cpp )
 
 QT4_WRAP_CPP( DYNAMICTOOLS_MOC ${DYNAMICTOOLS_HDRS} )

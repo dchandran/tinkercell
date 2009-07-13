@@ -16,7 +16,7 @@ namespace Tinkercell
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 	
-		QString filename("about.txt");
+		QString filename("@TINKERCELL_SOURCE_DIR@/about.txt");
 		QString name[] = {	MainWindow::userHome() + tr("/") + filename,
 							filename,
 							QDir::currentPath() + tr("/") + filename,

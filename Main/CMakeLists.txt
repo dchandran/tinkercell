@@ -8,16 +8,16 @@ ENDIF( APPLE )
 
 IF( APPLE AND BUILD_BUNDLE )
   SET( MACOSX_BUNDLE_ICON_FILE
-#      ${GOFIGURE2_SOURCE_DIR}/Code/GUI/resources/myapp.icns
+      ${TINKERCELL_SOURCE}/Main/tinkercell.icns
   )
   SET( MACOSX_BUNDLE_SHORT_VERSION_STRING
-#      ${GOFIGURE2_VERSION}
+      ${TINKERCELL_VERSION}
   )
   SET( MACOSX_BUNDLE_VERSION
-#      ${GOFIGURE2_VERSION}
+      ${TINKERCELL_VERSION}
   )
   SET( MACOSX_BUNDLE_LONG_VERSION_STRING
-#      Version ${GOFIGURE2_VERSION}
+      Version ${TINKERCELL_VERSION}
   )
 
   ADD_EXECUTABLE( tinkercell 
@@ -36,6 +36,10 @@ IF( APPLE AND BUILD_BUNDLE )
       COMMAND mkdir ARGS 
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks
+      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
+        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks/
+      COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
+         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
       COMMAND cp ARGS *.qm

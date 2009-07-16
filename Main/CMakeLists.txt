@@ -3,7 +3,7 @@ QT4_WRAP_CPP( DefaultPluginsMenu_MOC DefaultPluginsMenu.h )
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
 IF( APPLE AND BUILD_BUNDLE )
-  SET( MACOSX_BUNDLE_ICON_FILE
+  SET( MACOSX_TINKERCELL_BUNDLE_ICON_FILE
       ${TINKERCELL_SOURCE_DIR}/Main/tinkercell.icns
   )
   SET( MACOSX_BUNDLE_SHORT_VERSION_STRING
@@ -36,7 +36,7 @@ IF( APPLE AND BUILD_BUNDLE )
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks/
       COMMAND cp ARGS ${LIBRARY_OUTPUT_PATH}/libTinkerCellCore.dylib
          ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
-      COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
+      COMMAND cp ARGS ${MACOSX_TINKERCELL_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
       COMMAND cp ARGS -rf ${LIBRARY_OUTPUT_PATH}
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/

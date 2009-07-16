@@ -223,6 +223,13 @@ void SegmentationAnimation::MainWindow::init()
 	drawScene.addItem(&waveItem);
 
 	int rows = steadyStateData.rows();
+
+        //TODO: I guess this condition could be avoided 
+        //by a previous missing condition.
+        //arnaudgelas: 07/16/2009
+        if( rows == 0 ) 
+          return;
+
 	dx = 1000 / rows;
 	qreal w = dx - 2;
 

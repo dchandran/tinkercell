@@ -38,7 +38,7 @@ IF( APPLE AND BUILD_BUNDLE )
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks/
-      COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
+      COMMAND cp ARGS ${LIBRARY_OUTPUT_PATH}/libTinkerCellCore.dylib
          ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources

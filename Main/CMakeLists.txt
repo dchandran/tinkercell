@@ -42,6 +42,8 @@ IF( APPLE AND BUILD_BUNDLE )
          ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
+      COMMAND cp ARGS -rf ${LIBRARY_OUTPUT_PATH}
+        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
 #      COMMAND cp ARGS *.qm
 #        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources 
   )

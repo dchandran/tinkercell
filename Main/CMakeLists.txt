@@ -2,10 +2,6 @@ QT4_WRAP_CPP( DefaultPluginsMenu_MOC DefaultPluginsMenu.h )
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
-IF( APPLE )
-  OPTION( BUILD_BUNDLE "Make a Bundle Application" ON )
-ENDIF( APPLE )
-
 IF( APPLE AND BUILD_BUNDLE )
   SET( MACOSX_BUNDLE_ICON_FILE
       ${TINKERCELL_SOURCE_DIR}/Main/tinkercell.icns

@@ -17,6 +17,10 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( SET CMP0003 NEW )
 ENDIF(COMMAND CMAKE_POLICY)
 
+IF( APPLE )
+  OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
+ENDIF( APPLE )
+
 #---------------------------------------------------------------------------
 # Define EXECUTABLE_OUTPUT_PATH and LIBRARY_OUTPUT_PATH
 #---------------------------------------------------------------------------

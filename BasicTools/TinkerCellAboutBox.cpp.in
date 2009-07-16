@@ -85,9 +85,9 @@ namespace Tinkercell
 	void TinkercellAboutBox::openDocumentation()
 	{
 		
-		QString appDir = QCoreApplication::applicationDirPath();
+		//QString appDir = QCoreApplication::applicationDirPath();
 		
-		QString doc = tr("file:") + appDir + tr("@TINKERCELL_SOURCE_DIR@/Documentation/UserDocumentation.html");
+		QString doc = tr("file:") + tr("@TINKERCELL_SOURCE_DIR@/Documentation/UserDocumentation.html");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 	

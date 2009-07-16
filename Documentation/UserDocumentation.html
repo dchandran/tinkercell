@@ -1,0 +1,1282 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<base target="_top">
+<style type="text/css">
+  
+
+/* default css */
+
+table {
+  font-size: 1em;
+  line-height: inherit;
+  border-collapse: collapse;
+}
+
+
+tr {
+  
+  text-align: left;
+  
+}
+
+
+div, address, ol, ul, li, option, select {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+p {
+  margin: 0px;
+}
+
+
+pre {
+  font-family: Courier New;
+  white-space: pre-wrap;
+  margin:0;
+}
+
+body {
+  margin: 6px;
+  padding: 0px;
+  font-family: Verdana, sans-serif;
+  font-size: 10pt;
+  background-color: #ffffff;
+}
+
+
+img {
+  -moz-force-broken-image-icon: 1;
+}
+
+@media screen {
+  html.pageview {
+    background-color: #f3f3f3 !important;
+  }
+
+  
+
+  body {
+    min-height: 1100px;
+    
+    counter-reset: __goog_page__;
+  }
+  * html body {
+    height: 1100px;
+  }
+  .pageview body {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 2px solid #bbb;
+    border-bottom: 2px solid #bbb;
+    width: 648px !important;
+    margin: 15px auto 25px;
+    padding: 40px 50px;
+  }
+  /* IE6 */
+  * html {
+    overflow-y: scroll;
+  }
+  * html.pageview body {
+    overflow-x: auto;
+  }
+  /* Prevent repaint errors when scrolling in Safari. This "Star-7" css hack
+     targets Safari 3.1, but not WebKit nightlies and presumably Safari 4.
+     That's OK because this bug is fixed in WebKit nightlies/Safari 4 :-). */
+  html*#wys_frame::before {
+    content: '\A0';
+    position: fixed;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+  }
+  
+  
+
+  
+    .writely-callout-data {
+      display: none;
+      *display: inline-block;
+      *width: 0;
+      *height: 0;
+      *overflow: hidden;
+    }
+    .writely-footnote-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      width: 7px;
+      overflow: hidden;
+      height: 16px;
+      vertical-align: top;
+
+      
+      -moz-user-select: none;
+    }
+    .editor .writely-footnote-marker {
+      cursor: move;
+    }
+    .writely-footnote-marker-highlight {
+      background-position: -15px 0;
+      -moz-user-select: text;
+    }
+    .writely-footnote-hide-selection ::-moz-selection, .writely-footnote-hide-selection::-moz-selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection ::selection, .writely-footnote-hide-selection::selection {
+      background: transparent;
+    }
+    .writely-footnote-hide-selection {
+      cursor: move;
+    }
+
+    
+    .editor .writely-comment-yellow {
+      background-color: #FF9;
+      background-position: -240px 0;
+    }
+    .editor .writely-comment-yellow-hover {
+      background-color: #FF0;
+      background-position: -224px 0;
+    }
+    .editor .writely-comment-blue {
+      background-color: #C0D3FF;
+      background-position: -16px 0;
+    }
+    .editor .writely-comment-blue-hover {
+      background-color: #6292FE;
+      background-position: 0 0;
+    }
+    .editor .writely-comment-orange {
+      background-color: #FFDEAD;
+      background-position: -80px 0;
+    }
+    .editor .writely-comment-orange-hover {
+      background-color: #F90;
+      background-position: -64px 0;
+    }
+    .editor .writely-comment-green {
+      background-color: #99FBB3;
+      background-position: -48px 0;
+    }
+    .editor .writely-comment-green-hover {
+      background-color: #00F442;
+      background-position: -32px 0;
+    }
+    .editor .writely-comment-cyan {
+      background-color: #CFF;
+      background-position: -208px 0;
+    }
+    .editor .writely-comment-cyan-hover {
+      background-color: #0FF;
+      background-position: -192px 0;
+    }
+    .editor .writely-comment-purple {
+      background-color: #EBCCFF;
+      background-position: -144px 0;
+    }
+    .editor .writely-comment-purple-hover {
+      background-color: #90F;
+      background-position: -128px 0;
+    }
+    .editor .writely-comment-magenta {
+      background-color: #FCF;
+      background-position: -112px 0;
+    }
+    .editor .writely-comment-magenta-hover {
+      background-color: #F0F;
+      background-position: -96px 0;
+    }
+    .editor .writely-comment-red {
+      background-color: #FFCACA;
+      background-position: -176px 0;
+    }
+    .editor .writely-comment-red-hover {
+      background-color: #FF7A7A;
+      background-position: -160px 0;
+    }
+
+    .editor .writely-comment-marker {
+      background-image: url('MISSING');
+      background-color: transparent;
+      padding-right: 11px;
+      background-repeat: no-repeat;
+      width: 16px;
+      height: 16px;
+      -moz-user-select: none;
+    }
+
+    .editor .writely-comment-hidden {
+      padding: 0;
+      background: none;
+    }
+    .editor .writely-comment-marker-hidden {
+      background: none;
+      padding: 0;
+      width: 0;
+    }
+    .editor .writely-comment-none {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+    .editor .writely-comment-none-hover {
+      opacity: .2;
+      filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+      -moz-opacity: .2;
+    }
+  
+
+
+  
+  .br_fix br:not(:-moz-last-node):not(:-moz-first-node) {
+    
+    position:relative;
+    
+    left: -1ex
+    
+  }
+  
+  .br_fix br+br {
+    position: static !important
+  }
+}
+
+h6 { font-size: 8pt }
+h5 { font-size: 8pt }
+h4 { font-size: 10pt }
+h3 { font-size: 12pt }
+h2 { font-size: 14pt }
+h1 { font-size: 18pt }
+
+blockquote {padding: 10px; border: 1px #DDD dashed }
+
+a img {border: 0}
+
+.pb {
+  border-width: 0;
+  page-break-after: always;
+  /* We don't want this to be resizeable, so enforce a width and height
+     using !important */
+  height: 1px !important;
+  width: 100% !important;
+}
+
+.editor .pb {
+  border-top: 1px dashed #C0C0C0;
+  border-bottom: 1px dashed #C0C0C0;
+}
+
+div.google_header, div.google_footer {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+
+/* Table of contents */
+.editor div.writely-toc {
+  background-color: #f3f3f3;
+  border: 1px solid #ccc;
+}
+.writely-toc > ol {
+  padding-left: 3em;
+  font-weight: bold;
+}
+ol.writely-toc-subheading {
+  padding-left: 1em;
+  font-weight: normal;
+}
+/* IE6 only */
+* html writely-toc ol {
+  list-style-position: inside;
+}
+.writely-toc-none {
+  list-style-type: none;
+}
+.writely-toc-decimal {
+  list-style-type: decimal;
+}
+.writely-toc-upper-alpha {
+  list-style-type: upper-alpha;
+}
+.writely-toc-lower-alpha {
+  list-style-type: lower-alpha;
+}
+.writely-toc-upper-roman {
+  list-style-type: upper-roman;
+}
+.writely-toc-lower-roman {
+  list-style-type: lower-roman;
+}
+.writely-toc-disc {
+  list-style-type: disc;
+}
+
+/* Ordered lists converted to numbered lists can preserve ordered types, and
+   vice versa. This is confusing, so disallow it */
+ul[type="i"], ul[type="I"], ul[type="1"], ul[type="a"], ul[type="A"] {
+  list-style-type: disc;
+}
+
+ol[type="disc"], ol[type="circle"], ol[type="square"] {
+  list-style-type: decimal;
+}
+
+/* end default css */
+
+
+  /* default print css */
+  
+  @media print {
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    div.google_header, div.google_footer {
+      display: block;
+      min-height: 0;
+      border: none;
+    }
+
+    div.google_header {
+      flow: static(header);
+    }
+
+    /* used to insert page numbers */
+    div.google_header::before, div.google_footer::before {
+      position: absolute;
+      top: 0;
+    }
+
+    div.google_footer {
+      flow: static(footer);
+    }
+
+    /* always consider this element at the start of the doc */
+    div#google_footer {
+      flow: static(footer, start);
+    }
+
+    span.google_pagenumber {
+      content: counter(page);
+    }
+
+    span.google_pagecount {
+      content: counter(pages);
+    }
+
+
+    callout.google_footnote {
+      
+      display: prince-footnote;
+      footnote-style-position: inside;
+      /* These styles keep the footnote from taking on the style of the text
+         surrounding the footnote marker. They can be overridden in the
+         document CSS. */
+      color: #000;
+      font-family: Verdana;
+      font-size: 12.0pt;
+      font-weight: normal;
+    }
+
+    /* Table of contents */
+    #WritelyTableOfContents a::after {
+      content: leader('.') target-counter(attr(href), page);
+    }
+
+    #WritelyTableOfContents a {
+      text-decoration: none;
+      color: black;
+    }
+  }
+
+  @page {
+    @top {
+      content: flow(header);
+    }
+    @bottom {
+      content: flow(footer);
+    }
+    @footnotes {
+      border-top: solid black thin;
+      padding-top: 8pt;
+    }
+  }
+  /* end default print css */
+
+
+/* custom css */
+
+
+/* end custom css */
+
+/* ui edited css */
+
+body {
+  font-family: Verdana;
+  
+  font-size: 12.0pt;
+  line-height: 1.5;
+  background-color: #ffffff;
+}
+/* end ui edited css */
+
+
+/* editor CSS */
+.editor a:visited {color: #551A8B}
+.editor table.zeroBorder {border: 1px dotted gray}
+.editor table.zeroBorder td {border: 1px dotted gray}
+.editor table.zeroBorder th {border: 1px dotted gray}
+
+
+.editor div.google_header, .editor div.google_footer {
+  border: 2px #DDDDDD dashed;
+  position: static;
+  width: 100%;
+  min-height: 2em;
+}
+
+.editor .misspell {background-color: yellow}
+
+.editor .writely-comment {
+  font-size: 9pt;
+  line-height: 1.4;
+  padding: 1px;
+  border: 1px dashed #C0C0C0
+}
+
+
+/* end editor CSS */
+
+</style>
+
+  
+  <title>UserDocumentation</title>
+
+</head>
+
+<body 
+    
+    >
+    
+    
+    
+<div class=google_header id=google_header>
+  <p>
+    TinkerCell User Documentation (2009)
+  </p>
+</div>
+<div class=writely-toc id=WritelyTableOfContents toctype=decimal+none>
+  <ol class=writely-toc-decimal>
+    <li>
+      <a href=#Parts_09971120022237301_511159 target=_self>Parts</a>
+      <ol class="writely-toc-subheading writely-toc-none" style=MARGIN-LEFT:0>
+        <li>
+          <a href=#Units_9651249153539538_5881360210478306 target=_self>Units</a>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <a href=#Connections_5288932416588068_1 target=_self>Connections</a>
+    </li>
+    <li>
+      <a href=#Inserting_Parts_54860997479408_6025129901245236 target=_self>Inserting Parts</a>
+    </li>
+    <li>
+      <a href=#Inserting_Connections_01296200 target=_self>Inserting Connections</a>
+    </li>
+    <li>
+      <a href=#Compartments_ target=_self>Compartments</a>
+    </li>
+    <li>
+      <a href=#Parameters_and_Naming_Conventi target=_self>Parameters and Naming Conventions</a>
+    </li>
+    <li>
+      <a href=#Graphical_Tools_ target=_self>Graphical Tools</a>
+    </li>
+    <li>
+      <a href=#Gene_Networks_2203768705949187_10089129582047462 target=_self>Gene Networks</a>
+      <ol class="writely-toc-subheading writely-toc-none" style=MARGIN-LEFT:0>
+        <li>
+          <a href=#simple_method_1514220749959349_6769472062587738 target=_self>simple method</a>
+        </li>
+        <li>
+          <a href=#Part_based_method_829649252817_4667716305702925 target=_self>Part-based method</a>
+        </li>
+        <li>
+          <a href=#Explicit_method_70271807163953_08249189611524343 target=_self>Explicit method</a>
+        </li>
+      </ol>
+    </li>
+    <li>
+      <a href=#Binding_Reactions_967052527703_892013618722558 target=_self>Binding Reactions</a>
+    </li>
+    <li>
+      <a href=#Examining_a_model_911165970377_24834038875997066 target=_self>Examining a model</a>
+    </li>
+    <li>
+      <a href=#Events_06986572686582804_29699 target=_self>Events</a>
+    </li>
+    <li>
+      <a href=#Forcing_Functions_159567945636 target=_self>Forcing Functions</a>
+    </li>
+    <li>
+      <a href=#Command_line_6182109648361802_ target=_self>Command-line</a>
+    </li>
+    <li>
+      <a href=#Programming_37083360087126493_ target=_self>Programming</a>
+      <ol class="writely-toc-subheading writely-toc-none" style=MARGIN-LEFT:0>
+        <li>
+          <a href=#C_16304243728518486_6235035452991724 target=_self>C</a>
+        </li>
+        <li>
+          <a href=#Python_8088377490639687_143074 target=_self>Python</a>
+        </li>
+        <li>
+          <a href=#R_002035045064985752_712266052 target=_self>R</a>
+        </li>
+        <li>
+          <a href=#C_7611875776201487_13684648834_46522006299346685 target=_self>C++</a>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</div>
+<h1>
+  <a id=Parts_09971120022237301_511159 name=Parts_09971120022237301_511159></a> Parts
+</h1>
+<p>
+  <br>
+</p>
+<p>
+  <img src=UserDocumentation_images/dcx9fkfb_165c4mkswhh_b.png style="WIDTH:203px; HEIGHT:409px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+</p>
+<p>
+  <font size=3>The "tree" of parts (shown on the right) are the fundamental components that are used to construct models in TinkerCell. Each component has a unique set of attributes and a designated visual representation. The attributes characterize that part. For example, the attributes for a "Coding" part are its DNA sequence (a text string) and the length of the sequence (a number). The default visual representation of each part can be changed by the user.</font>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The three major divisions in the tree of parts are: Parts, Compartments, and Modules. There is also the empty set at the very end, but that is a unique item. The "Parts" division represents molecules such as proteins, RNA, and metabolites or fragments of DNA such as genes and promoters. The "Compartments" division represents things with volume that can contain other things. Compartments can include sub-cellular regions such as nucleus or mitochondrion. They may also represent general regions that the model wishes to separate. Cells are a specific kind of compartment. The third division, "Modules", represent sub-models that can be connected together to form bigger models. This is described more in a later section.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <font size=3>The philosophy of TinkerCell is to make models well characterized. This is why there are different types of parts, instead of a single generic "molecule". The list of components and their hierarchy are stored in an XML file called PartsTree.xml. Editing this file will alter the tree of parts. This file will eventually be loaded from a database of known biological parts.</font>
+</p>
+<p>
+  <br>
+</p>
+<h2>
+  <a id=Units_9651249153539538_5881360210478306 name=Units_9651249153539538_5881360210478306></a>Units
+</h2>
+<p>
+  Units are not defined in a model but in the tree of parts and connections. TinkerCell models are meant to be compatible with one another, and that is why units are kept away from the models themselves and instead shifted to the tree of parts and connections. It is assumed that the units provided in the XML file that defines the tree of parts and connections will be "standard" units.
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Connections_5288932416588068_1 name=Connections_5288932416588068_1></a> Connections
+</h1>
+<img src=UserDocumentation_images/dcx9fkfb_166hpzhj4gv_b.jpg style="WIDTH:161px; HEIGHT:518px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+<p>
+  The "tree" of connections (shown on the right) is the set of different types of connections that can be used to connect parts. The connections between any two part is not the same type of connection. For example, a reaction where one small molecule such as glucose is converted to another small molecule is classified as a "biochemical" reaction in TinkerCell. However, when a transcription factor regulates a promoter, it is classified under "transcription regulation", which can then be further classified as activation or repression. Some of these connections only allow two parts to be connected, while some allow different number of parts to be connected. The type and number of parts allowed for each connection can be viewed by clicking the right-button on one of the connections in the connections tree.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  Once again, the philosophy in TinkerCell is to make models well characterized. If all the reactions were simply called "reactions", it would be very difficult for TinkerCell to interact with databases or perform other tasks which requires knowledge about the type of connections.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  Connections can be decorated in many ways: the arrow heads can be changed using the "replace graphics" option in the toolbar; the "middle region" can be made visible and replaced using the "replace graphics" option again. The lines can be dashed, dotted, or solid. Modifier connections (bottom-most option in the connections tree) are used to connect a part to a connection. Below is an illustration.
+</p>
+<img src=UserDocumentation_images/dcx9fkfb_167gz2bncgx_b.png style="FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px; WIDTH:320px; HEIGHT:276.364px">
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Inserting_Parts_54860997479408_6025129901245236 name=Inserting_Parts_54860997479408_6025129901245236></a> Inserting Parts
+</h1>
+<p>
+  <br>
+</p>
+<p>
+  <b>How to insert parts:</b>
+</p>
+<p>
+  Parts are inserted by clicking on one of the buttons in the tree of parts and then clicking on the screen. You can quickly insert multiple instances of the same part in this way. Press Escape or the Spacebar to exit the insertion mode.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  &nbsp;
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <b>What happens a part is inserted:</b>
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  Various "plug-ins" in TinkerCell are carefully watching the user. When a part is inserted, the plug-ins carry out various operations. For example, one of the plug-ins called the "Numerical Attributes" plug-in looks at the <i>attributes </i>for a part that are stated in the parts tree and makes sure that the newly inserted part has those numerical attributes, or parameters. See the parameters section for more.
+</p>
+<p>
+  &nbsp;
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Inserting_Connections_01296200 name=Inserting_Connections_01296200></a> Inserting Connections
+</h1>
+<p>
+  &nbsp;
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <b>How to insert connections:</b>
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  Connections are inserted by first clicking on one of the connections in the connections tree and then selecting the parts to connect, one by one. The connections tree imposes some restrictions about what type of parts can be connected with the different types of connections, and those rules are enforced. For example, a user may not connect a promoter and a gene using a "biochemical" reaction, because the definition of a "biochemical" reaction in the connections tree states that it much between two or more "species" parts.
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <br>
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <b>What happens a connection is inserted:</b>
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  Various "plug-ins" in TinkerCell are carefully watching the user. When a connection is inserted, the plug-ins carry out various operations, just as with parts. One of the important plug-ins pertaining to connections is the "Stoichiometry and Rates" plug-in, which ensures that any new reaction has a default rate equation. Genetic networks are somewhat more complicated because TinkerCell offers different ways of modeling genetic networks. See the section on genetic networks for more.
+</p>
+<p style="MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <br>
+</p>
+<h1>
+  <a id=Compartments_ name=Compartments_></a>Compartments<br>
+</h1>
+<p>
+  Compartments represent a space (volume) inside of which certain items are localized. In the screenshot below, two compartments, c1 and c2 belong inside a larger compartment, the cell. While the names appear to be redundant, the "complete" name is unique, because the complete name has the parent item's name as a prefix, which is explained in the next section. The parent of an item is the compartment containing that item.&nbsp;<br>
+</p>
+<p>
+  &nbsp;
+</p>
+<div id=p756 style=TEXT-ALIGN:center>
+  <img src=UserDocumentation_images/dcx9fkfb_170cbvspmgn_b.png style="WIDTH:648px; HEIGHT:368.55px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Parameters_and_Naming_Conventi name=Parameters_and_Naming_Conventi></a>Parameters and Naming Conventions<br>
+</h1>
+<p>
+  <br>
+</p>
+<p>
+  Parameters, also called "Numerical Attributes" in TinkerCell, are constant values that may or may not be used in the model. The important fact is that parameters are local, meaning that they belong with an item. For example, reaction J0 might have parameter k0 and reaction J1 might also have a parameter called k0. The full name of each parameter is J0.k0 and J1.k0, respectively. The window shown to the right is the attributes window corresponding to the diagram above.<br>
+</p>
+<div>
+  <br>
+</div>
+<div>
+  <img src=UserDocumentation_images/dcx9fkfb_171hh6m7cdn_b.png style="WIDTH:290px; HEIGHT:298px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+</div>
+<div>
+  <b>Naming convention:</b>
+</div>
+<div>
+  When an item has a parent item, such as a compartment, the parent's name is prepended to the name. For example, is part "A" is inside compartment or module "B", then the complete name of "A" is "B.A". If part A has a parameter named "k1", then the way to address this parameter in other parts of the model would be "B.A.k1".&nbsp;<br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <b>Internal table and automatic correction:</b>
+</div>
+<div>
+  Every time the model is modified, TinkerCell generates an internal table with all the individual item names and parameter names as well as complete names. If a user enters an incomplete name, TinkerCell will search this table and use the closest matching complete name. If no such name exists, TinkerCell will create a new parameter with that name. The new parameter will belong with the item under consideration.&nbsp;
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <div>
+    <b>Viewing and changing parameters:</b>
+  </div>
+  <div>
+    The easiest way to view all the parameters is probably the "Attributes window", shown to the right. This window lists all the items in the model and their respective parameters. Another way to view and change parameters is by using the "Numerical Attributes" tool or the "Model Summary" tool.
+  </div>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <b>Justification for local parameters:</b>
+</div>
+<div>
+  There are many reasons for using local parameters. One is that is it easier to identify which parameter belongs with which item. But more importantly, the parameters can now be loaded from a database or from some other source which might store information about a part. If parameters did not belong to a part, it would nearly impossible to determine which parameters of the system to modify when a single part is replaced.
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  &nbsp;<br>
+</p>
+<h1>
+  <a id=Graphical_Tools_ name=Graphical_Tools_></a>Graphical Tools<br>
+</h1>
+<p style=" MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  <br>
+</p>
+<p style=" MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+</p>
+<img src=UserDocumentation_images/dcx9fkfb_172dv8n29f2_b.png style="WIDTH:648px; HEIGHT:368.55px">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img src=UserDocumentation_images/dcx9fkfb_1742cd6xqsn_b.png style="WIDTH:392px; HEIGHT:289px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+<p>
+  &nbsp;
+</p>
+<p style=" MARGIN-RIGHT:0px; MARGIN-LEFT:0px">
+  Graphical Tools are small icons that appear when items are selected, as shown above. They are provided by various plug-ins. These tools help view and edit various features of the model. For example, the "Reaction rates" tool allows users to view and edit the reaction rates for all the selected items. The "Reaction stoichiometry" tools allows users to view and edit reaction stoichiometries. Other tools show parameters, events, functions, sequence, graphical transformations, and so on. The "Model summary" tool, shown to the right, is a union of several other tools. The graphical tools are one of the most important components of TinkerCell user interface.
+</p>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<div>
+  <br>
+</div>
+<h1>
+  Modules<br>
+</h1>
+<p>
+  <br>
+</p>
+<p>
+  Modules are models that can be connected to construct a larger model.<br>
+</p>
+<img src=UserDocumentation_images/dcx9fkfb_175frwwqmdk_b.png style="FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px; WIDTH:400px; HEIGHT:250.5px">
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <b>How to construct a module:</b>
+</p>
+<p>
+  step 1: make a network
+</p>
+<p>
+  step 2: place a module from the parts tree on the screen
+</p>
+<p>
+  step 3: adjust the size of the module so that the network can be placed inside
+</p>
+<p>
+  step 4: drag the entire network into the module.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <img src=UserDocumentation_images/dcx9fkfb_176gj7rz9c6_b.png style="WIDTH:648px; HEIGHT:405.81px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+</p>
+<p>
+  Once the network has been places inside the module, the "interface" items can be constructed.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <b>Constructing interfaces:</b>
+</p>
+<p>
+  step 1: select one or more items inside the module
+</p>
+<p>
+  step 2: click on the module input/output tool on the side (or "Set input/output" using right-click)
+</p>
+<p>
+  <br>
+</p>
+<p>
+  A small link should appear for each item that has been selected. These links can be used to connect modules, as shown below.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  &nbsp;
+</p>
+<div id=o77s style=TEXT-ALIGN:left>
+  <img src=UserDocumentation_images/dcx9fkfb_177fkqnb8fk_b.png style="WIDTH:648px; HEIGHT:405.81px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The diagram above indicates that the proteins that have been "linked", i.e. P1 in Module1 and P1 in Cycle, are the <b>same</b>. The two modules have been merged by declaring which items are shared between the two modules. Deleting the connection between the modules will make the items distinct once again.
+</p>
+<p>
+  <br>
+</p>
+<h2>
+  Modules and Synthetic Biology
+</h2>
+<img src=UserDocumentation_images/dcx9fkfb_191gngzczfm_b.png style="FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px; WIDTH:200px; HEIGHT:122.75px">
+<p>
+  <br>
+</p>
+<p>
+  Modules are highly flexible in what they represent. Synthetic biology, at its current state, uses the concept of composites, which are biological parts made of other parts. These can be represented using modules in TinkerCell. Modules will eventually consist of multiple categories.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Gene_Networks_2203768705949187_10089129582047462 name=Gene_Networks_2203768705949187_10089129582047462></a> Gene Networks
+</h1>
+<p>
+  There are three ways of constructing gene regulatory networks in TinkerCell. The first is using a single rate expression to describe the production of a protein or mRNA. The equation will be based on the concentrations of the transcription factors controlling the gene. The second way is similar, but it uses DNA parts that can be connected together. The third way is the most elaborate way: it allows the genetic network network to be represented as a multi-stage process, which can be useful to explicitly model delays in the network.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The first and second methods are made possible through the "Automatic gene regulatory network" plug-in, which detects when transcription networks are constructed and automatically generated Hill equations for the networks. Any automatically derived rate equation is always displayed in the output window (the command-line window), so it is good practice to observe messages in the output window.
+</p>
+<h2>
+  <a id=simple_method_1514220749959349_6769472062587738 name=simple_method_1514220749959349_6769472062587738></a> <font size=5>s</font>imple method<br>
+</h2>
+<p>
+  The simplest way to built a genetic network is as follows:&nbsp;<img src=UserDocumentation_images/dcx9fkfb_178gmfwfrf2_b.png style="FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px; WIDTH:500px; HEIGHT:313.125px">
+</p>
+<p>
+  step 1: insert a gene
+</p>
+<p>
+  step 2: insert a protein
+</p>
+<p>
+  step 3: insert an empty-set symbol
+</p>
+<p>
+  step 4: connect the protein to the empty set (biochemical reaction)
+</p>
+<p>
+  step 5: connect the gene to the protein (transcription reaction)&nbsp;
+</p>
+<p>
+  step 6: insert one or more transcription factors
+</p>
+<p>
+  step 7: use the transcription repression or activation connections to connect the transcription factors to the gene
+</p>
+<p>
+  <br>
+</p>
+<p>
+  More genes and regulations can be added in the same manner or by copying and pasting the already constructed network. Additionally, easier options for insert proteins and transcription factorsare available in the right mouse button menu.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <b>The default kinetics:</b>
+</p>
+<p>
+  The default kinetics uses the Numerical Attributes of each part to generate Hill&nbsp;
+</p>
+<img src=UserDocumentation_images/dcx9fkfb_179fbvpbvh7_b.png style="WIDTH:532px; HEIGHT:110px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+<p>
+  equations. The equation itself is stored as a <i>forcing function</i>. For the network shown to the right, gene1 will contain a function called "rate", and the transcription rate for J0 will be equal to "gene1.rate". A user can double click on the gene1 to see the function (under the <i>function declaration</i>&nbsp;tab), as shown to the right.
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <b>Examine the rate laws in the plot window:</b>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The Plot Window can be used to examine the shape of the rate expression. A user may copy and paste the rate equation (or type any other equation) into the text box at the bottom of the Plot Window. After specifying the x-axis and the other graph parameters, a user can visually inspect an equation. This feature allows a user to plot an equation from the model without moving to another application and redefining all the parameters in the other application. Multiple equations can be specified by using a new-line or semi-colon to separate equations.
+</p>
+<p>
+  <br>
+</p>
+<div id=ly_o style=TEXT-ALIGN:center>
+  <img src=UserDocumentation_images/dcx9fkfb_180g8fv57c9_b.png style="WIDTH:648px; HEIGHT:517.091px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  <br>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h2>
+  <a id=Part_based_method_829649252817_4667716305702925 name=Part_based_method_829649252817_4667716305702925></a> Part-based method
+</h2>
+<p>
+  The part-based method is designed with the synthetic biology community in mind. In synthetic biology, it is a common theme to "assemble" parts, much like assembling toy building blocks. The idea here is the same. The following steps can be used to generate a network similar to the one above.
+</p>
+<p>
+  step 1: insert a regulator part<img src=UserDocumentation_images/dcx9fkfb_18192wfwmgn_b.png style="WIDTH:540px; HEIGHT:338.175px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+</p>
+<p>
+  step 2: insert an RBS part (optional for this example)<br>
+</p>
+<p>
+  step 3: insert a coding part<br>
+</p>
+<p>
+  step 4: insert a terminator part (optional for this example)<br>
+</p>
+<p>
+  step 5: insert a protein and an empty set
+</p>
+<p>
+  step 6: connect the protein to the empty set (biochemical reaction)
+</p>
+<p>
+  step 7: connect the coding to the protein (transcription)
+</p>
+<p>
+  step 8: insert one or more transcription factors
+</p>
+<p>
+  step 9: connect the transcription factors to the regulator
+</p>
+<p>
+  step 10: <i>assemble</i>&nbsp;the parts by placing them next to one another. The parts should all become selected (turn red).
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  Again, the rate expression are all automatically generated as the parts are assembled. The RBS can be more meaningful if the reaction J1 in the diagram
+</p>
+<img src=UserDocumentation_images/dcx9fkfb_182f4w9v2pf_b.png style="WIDTH:385px; HEIGHT:247px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">has an mRNA intermediate step. A user can "insert mRNA step" by using the right mouse button on the transcription reaction, J1. The RBS needs to be moved and then re-assembled for the automated kinetics to take effect. The&nbsp;<i>translation</i>&nbsp;step will be modified by the RBS's parameter, as shown to the right.
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h2>
+  <a id=Explicit_method_70271807163953_08249189611524343 name=Explicit_method_70271807163953_08249189611524343></a> Explicit method
+</h2>
+<p>
+  The automatically generated rate equations are based on equilibrium assumptions. TinkerCell allows a user to model genetic networks just like any other network. This is an uncommon way of modeling genetic network, primarily because it is difficult without automation, but TinkerCell provides the automation.
+</p>
+<p>
+  &nbsp;
+</p>
+<div id=wa56 style=TEXT-ALIGN:left>
+  <div id=eapk style=TEXT-ALIGN:left>
+    <img src=UserDocumentation_images/dcx9fkfb_184g9tj4qgg_b.png style="WIDTH:540px; HEIGHT:338.175px">&nbsp;&nbsp;<img src=UserDocumentation_images/dcx9fkfb_18595s768fc_b.png style="WIDTH:540px; HEIGHT:265.076px">
+  </div>
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  The connections between <b>r1</b>&nbsp;and <b>c1</b>&nbsp;(and <b>c1</b>&nbsp;and <b>c2</b>) represent a <i>flow of RNA polymerase,</i>&nbsp;including the elongation process. Hence. those reactions truly represent a multi-step process, because each stage in the elongation process involves a catalytic reaction. There is a button available, called "Add N intermediate steps", located under the "Generate kinetics" category of functions. This function, written in C, automatically converts a single-step process to a multi-step process by adding N intermediate steps that obey mass-action kinetics. The automatically generate set of reactions are shown above to the right. What is shown are the reaction rates and stoichiometry table.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  This explicit method may be confusing for those who may be new to the field. It is intended for more complicated modeling.
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Binding_Reactions_967052527703_892013618722558 name=Binding_Reactions_967052527703_892013618722558></a> Binding Reactions
+</h1>
+<img src=UserDocumentation_images/dcx9fkfb_187gqfw9whp_b.png style="FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px; WIDTH:300px; HEIGHT:187.875px">
+<p>
+  Binding reactions are a good example of a special feature in TinkerCell, which is representing multiple related reactions with a single visual connection
+</p>
+<p>
+  &nbsp;and hiding intermediate molecular species. A "Binding" reaction represents two events: association and dissociation. There is an intermediate that is formed in this process, but it is not displayed when a user inserts a binding reaction.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  By examining the stoichiometry table, one can see the full kinetics that is represented by this single reaction. The stoichiometry table, shown below, shows that there are two reactions (rows) and three molecular species (columns) represented by the connection named J0. The reaction rates are shown next to the table. Each value in the table shows how many molecules are consumed or produced during each reaction. For example, in the first row -1 -1 1 means that one p1 and rna1 are consumed and one J0.complex is made. The intermediate species J0.complex is local to the reaction J0.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  &nbsp;
+</p>
+<div id=dwwf style=TEXT-ALIGN:center>
+  <img src=UserDocumentation_images/dcx9fkfb_188fn84jxdv_b.png style="WIDTH:648px; HEIGHT:166.246px">
+</div>
+<p>
+  &nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <br>
+</p>
+<h1>
+  <a id=Examining_a_model_911165970377_24834038875997066 name=Examining_a_model_911165970377_24834038875997066></a> Examining a model
+</h1>
+<p>
+  Common procedures for examining a model is as follows:
+</p>
+<p>
+  1. Viewing the summary window, which can be opened using double-click or enter. This window will show parameters, functions, and other such obvious information related to the selected item(s). All the items can be selected to see the summary for the whole model.
+</p>
+<p>
+  2. Using the attributed window on the side to examine all the parameter values.
+</p>
+<p>
+  3. Using the "user defined functions" area to examine rate equations or other functions. Users may copy and paste any equation to this space as well as write their own functions and compare them. The equations will use parameter values defined in the model, thus allowing a user to change parameters and see how the graphs are affected.
+</p>
+<h1>
+  <a id=Events_06986572686582804_29699 name=Events_06986572686582804_29699></a> Events
+</h1>
+<p>
+  Events can be defined using the "Events" graphical tool, which looks like a clock. Events are defined by specifying the trigger and the response. The Events window will display a list of IF...THEN.... statements, listing the set of events.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  Events are also local to items, because it is reasonable to imagine that certain events, such as cell division, belong with an item.
+</p>
+<h1>
+  <a id=Forcing_Functions_159567945636 name=Forcing_Functions_159567945636></a>Forcing Functions
+</h1>
+<p>
+  Forcing functions can be defined using the "Forcing Functions" graphical tool, which has an icon of the letter "f". Functions are also local to items. For example, a user may define a function called "g" for the item "A". In order to use this function elsewhere, "A.g" must be used. The "time" variable is reserved, so users may define functions such as "sin(time)" without explicitly defining "time" anywhere.&nbsp;
+</p>
+<h1>
+  <a id=Command_line_6182109648361802_ name=Command_line_6182109648361802_></a> Command-line
+</h1>
+<p>
+  The command-line input and output window is a space where various messages are printed, such as automatically generated rate equations or errors. In addition, it is an interacting Python window. The Python interface is provided by a plug-in. Various Python functions are available for getting data from the model or editing the model. The data from the plot window can also be obtained, and tabled can be presented in the plot window. Here are some example commands:
+</p>
+<p>
+  <br>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; x = find("s1")</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print parameters(x)</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; setParameter(x,"p",3.14)</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print getParameter(x,"p")<br>
+  </i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; setTextAttribute(x,"sequence", "ACGTACGTACGT")<br>
+  </i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print getTextAttribute(x,"sequence")</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; j = find ("J1")</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print stoichiometry(j)</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print stoichiometry( allItems() )</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print rates( selectedItems() )</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; setRate(j, "1 + sin(time)" )</i></b></span>
+</p>
+<p>
+  <span style=COLOR:#0b5394><b><i>&gt; print getNumericalDataMatrix(0, "Flux constraints")</i></b></span>
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The last command is a very generic command that can be used to get any information stored in the model. There are several such commands that allow full control via the command-line. Of course, such functions are oriented toward a programmer and therefore favor control over easy of use.
+</p>
+<h1>
+  <a id=Programming_37083360087126493_ name=Programming_37083360087126493_></a> Programming
+</h1>
+<p>
+  TinkerCell integrates visual interface with programming. C and Python programs provide all of the functionalities that are available in the Functions window. There are two files located in the TinkerCell directory: "clibraries.txt" and "pythonscripts.txt". These two files list all the C and Python programs that are loaded into TinkerCell as it starts. Programs listed in these files will appear as buttons, menu items, and more. The files themselves contain the necessary documentation about the format.
+</p>
+<h2>
+  <a id=C_16304243728518486_6235035452991724 name=C_16304243728518486_6235035452991724></a><font size=4>C</font>
+</h2>
+<img src=UserDocumentation_images/dcx9fkfb_189cbk626db_b.png style="WIDTH:634px; HEIGHT:371px; FLOAT:right; MARGIN-LEFT:1em; MARGIN-RIGHT:0px">
+<p>
+  The TinkerCell C API allows C programs to select, insert, delete, or move items. It also allows C programs to access and change parameters, rate equations, or other information. C programs automatically run on separate threads, thus taking advantage of multiple processors.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  The best way to see the complete C API is to open the "Coding window" (shown to the right). Users may write C programs and run them inside TinkerCell. A list of available functions is listed in the coding window. Since the list is automatically generated from the C header files, it will always be up-to-date.&nbsp;
+</p>
+<h2>
+  <a id=Python_8088377490639687_143074 name=Python_8088377490639687_143074></a><font size=4>Python</font>
+</h2>
+<p>
+  The Python API is build on the C API. All functions that are available through the C API are also made available for Python. The function calls are often made simpler due to default parameter values.&nbsp;
+</p>
+<p>
+  <br>
+</p>
+<p>
+  Again, the best way to see the available functions is to open the coding window in TinkerCell and look at the list of functions listed in the Python tab.
+</p>
+<h2>
+  <a id=R_002035045064985752_712266052 name=R_002035045064985752_712266052></a><font size=4>R</font>
+</h2>
+<p>
+  R was originally planned to be supported in the same manner as Python. But due to Rpy, which can run R within Python, this seems to be unnecessary.
+</p>
+<h2>
+  <a id=C_7611875776201487_13684648834_46522006299346685 name=C_7611875776201487_13684648834_46522006299346685></a> C++
+</h2>
+Programmer familiar with C++ may download the Qt Toolkit 4.5.x and TinkerCell source code and write new plug-ins. Plug-ins have a great deal of freedom. The TinkerCell Blog is the best source for contributers.
+<div>
+  <br>
+</div>
+<br></body>
+</html>

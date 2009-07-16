@@ -8,7 +8,7 @@ CONFIGURE_FILE( TinkerCellAboutBox.cpp.in
 ADD_LIBRARY( AboutBox 
   SHARED
   ${AboutBox_MOC}
-  TinkerCellAboutBox.cpp )
+  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp )
 
 TARGET_LINK_LIBRARIES( AboutBox
   AboutBox

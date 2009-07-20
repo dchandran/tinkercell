@@ -71,6 +71,21 @@ ELSE( APPLE AND BUILD_BUNDLE )
       ${QT_LIBRARIES}
       muparser
     )
+  ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
+    IF( WIN32 )
+      ADD_EXECUTABLE( NodeGraphics
+        NodeGraphicsMain.cpp
+        ${TINKERCELL_NODEGRAPHICS_MOC_SRC}
+        ${TINKERCELL_NODEGRAPHICS_SRC}
+        ${TINKERCELL_NODEGRAPHICS_QRC}
+      )
 
+      TARGET_LINK_LIBRARIES( NodeGraphics
+        TinkerCellCore
+        ${QT_LIBRARIES}
+        muparser
+      )
+  
+    ENDIF( WIN32 )
   ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
 ENDIF( APPLE AND BUILD_BUNDLE )

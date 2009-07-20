@@ -45,17 +45,30 @@ IF( APPLE AND BUILD_BUNDLE )
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )
-IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
-  ADD_EXECUTABLE( tinkercell 
-    Main.cpp
-    ${DefaultPluginsMenu_MOC}
-    DefaultPluginsMenu.cpp
-    ${TINKERCELL_QRC}
-  )
+  IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
+    ADD_EXECUTABLE( tinkercell 
+      Main.cpp
+      ${DefaultPluginsMenu_MOC}
+      DefaultPluginsMenu.cpp
+      ${TINKERCELL_QRC}
+    )
 
-  TARGET_LINK_LIBRARIES( tinkercell
-    TinkerCellCore
-  )
-ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
+    TARGET_LINK_LIBRARIES( tinkercell
+      TinkerCellCore
+    )
+  ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
+    IF( WIN32 )
+      ADD_EXECUTABLE( tinkercell 
+      Main.cpp
+      ${DefaultPluginsMenu_MOC}
+      DefaultPluginsMenu.cpp
+      ${TINKERCELL_QRC}
+    )
+
+    TARGET_LINK_LIBRARIES( tinkercell
+      TinkerCellCore
+    )
+    ENDIF( WIN32 )
+  ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
 
 ENDIF( APPLE AND BUILD_BUNDLE )

@@ -8,7 +8,7 @@ SET( DYNAMICTOOLS_HDRS
   SyntaxHighlighter.h
 )
 
-CONFIGURE_FILE( PythonTool.cpp.in 
+CONFIGURE_FILE( PythonTool.cpp
   ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/PythonTool.cpp 
   @ONLY )
 

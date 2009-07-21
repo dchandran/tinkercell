@@ -1,6 +1,6 @@
 QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h )
 
-CONFIGURE_FILE( TinkerCellAboutBox.cpp.in 
+CONFIGURE_FILE( TinkerCellAboutBox.cpp
   ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
   @ONLY
 )

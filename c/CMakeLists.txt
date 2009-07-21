@@ -1,4 +1,4 @@
-ADD_LIBRARY( angevin 
+ADD_LIBRARY( langevin 
   mtrand.c
   langevin.c
 )

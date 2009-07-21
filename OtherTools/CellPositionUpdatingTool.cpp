@@ -8,14 +8,14 @@
 
 ****************************************************************************/
 
-#include "ItemHandle.h"
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "CellPositionUpdatingTool.h"
+#include "Core/ItemHandle.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "OtherTools/CellPositionUpdatingTool.h"
 
 namespace Tinkercell
 {

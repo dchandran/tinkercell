@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "NodeGraphicsWindow.h"
+#include "NodeGraphicsItem/NodeGraphicsWindow.h"
 
 int main(int argc, char *argv[])
 {

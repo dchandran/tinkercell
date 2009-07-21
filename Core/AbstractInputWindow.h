@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines an abstract class that is used to create interfaces for C functions.
  LPSolveInputWindow is a good example.
 
@@ -31,23 +31,20 @@
 #include <QFile>
 #include <QListWidget>
 
-#include "muParserDef.h"
-#include "muParser.h"
-#include "muParserInt.h"
-#include "MainWindow.h"
-#include "NetworkWindow.h"
-#include "GraphicsScene.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "OutputWindow.h"
-#include "ConvertValue.h"
-#include "CThread.h"
+#include "Core/MainWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/OutputWindow.h"
+#include "Core/ConvertValue.h"
+#include "Core/CThread.h"
 
 
 namespace Tinkercell
 {
 
-/*!
+    /*!
   \brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).
   \sa LPSolveInput
 */
@@ -89,7 +86,7 @@ namespace Tinkercell
 		\sa CThread
 		*/
         virtual void exec();
-
+		
 		/*!
 		\brief Uses MainWindow's setupNewThread function to setup this window's thread
 		*/
@@ -100,8 +97,6 @@ namespace Tinkercell
         CThread * cthread;
         /*! \brief the docked window for this widget (0 if not a docked widget)*/
         QDockWidget * dockWidget;
-        /*! \brief checks whether a string is a correct formula*/
-        static bool parseMath(NetworkWindow* scene,QString& s);
     };
 
     /*! \brief Used to create an input window that can receive user inputs for C plugins

@@ -21,8 +21,8 @@
 #include <QFile>
 #include <QActionGroup>
 #include <QButtonGroup>
-#include "Tool.h"
-#include "DynamicLibraryMenu.h"
+#include "Core/Tool.h"
+#include "DynamicCodeTools/DynamicLibraryMenu.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -43,13 +43,13 @@ namespace Tinkercell
 			void compileAndRun(QSemaphore*,int*,const QString&,const QString&);
                         void compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&);
 			void loadLibrary(QSemaphore*,const QString&);
-                        void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int);
+                        void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
                         void callback(QSemaphore*,VoidFunction);
 		public slots:
 			int compileAndRun(const char * cfile,const char* args);
                         int compileBuildLoad(const char * cfile,const char* f,const char* title);
 			void loadLibrary(const char*);
-                        void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int);
+                        void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
                         void callback(VoidFunction);
 	};
 
@@ -72,7 +72,7 @@ namespace Tinkercell
 		void compileAndRunC(QSemaphore*,int*,const QString&,const QString&);
                 void compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&);
                 void loadLibrary(QSemaphore*,const QString&);
-                void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int);
+                void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
                 void callback(QSemaphore*,VoidFunction);
                 //void buttonPressed (int);
                 //void actionTriggered(QAction *);
@@ -90,7 +90,7 @@ namespace Tinkercell
 		static int _compileAndRun(const char * cfile,const char* args);
                 static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
 		static void _loadLibrary(const char*);
-                static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int);
+                static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
                 static void _callback(VoidFunction);
             };
 }

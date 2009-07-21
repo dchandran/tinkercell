@@ -9,14 +9,13 @@
 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "TextEditor.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ConnectionsTree.h"
-#include "TreeButton.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "NodesTree/ConnectionsTree.h"
+#include "NodesTree/TreeButton.h"
 #include <QDialog>
 
 namespace Tinkercell
@@ -69,8 +68,6 @@ namespace Tinkercell
         settings.beginGroup("ConnectionsTree");
        //QString xmlFile = settings.value("file", filename).toString();
         settings.endGroup();
-
-
         QString xmlFile ;
         if (xmlFile.isNull() || xmlFile.isEmpty())
             xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));

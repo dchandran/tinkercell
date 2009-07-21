@@ -3,19 +3,19 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool allows insertion of nodes from the NodesTree
 
 ****************************************************************************/
 
 #include <QtDebug>
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "NodeInsertion.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/NodeInsertion.h"
 
 namespace Tinkercell
 {

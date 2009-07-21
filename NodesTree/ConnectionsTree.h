@@ -20,11 +20,11 @@
 #include <QDockWidget>
 #include <QVBoxLayout>
 #include <QTreeWidget>
-#include "MainWindow.h"
-#include "Tool.h"
-#include "ItemHandle.h"
-#include "ConnectionGraphicsItem.h"
-#include "ConnectionsTreeReader.h"
+#include "Core/MainWindow.h"
+#include "Core/Tool.h"
+#include "Core/ItemHandle.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "NodesTree/ConnectionsTreeReader.h"
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
 #else

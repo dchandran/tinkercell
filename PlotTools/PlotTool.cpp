@@ -11,14 +11,14 @@
 #include <QGroupBox>
 #include <QRegExp>
 #include <QCheckBox>
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NetworkWindow.h"
-#include "OutputWindow.h"
-#include "PlotTool.h"
-#include "qwt_scale_engine.h"
-#include "muParser.h"
-#include "muParserInt.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/OutputWindow.h"
+#include "PlotTools/PlotTool.h"
+#include "qwt/qwt_scale_engine.h"
+#include "muparser/muParser.h"
+#include "muparser/muParserInt.h"
 
 
 namespace Tinkercell

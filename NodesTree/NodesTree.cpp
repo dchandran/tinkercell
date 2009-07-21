@@ -9,7 +9,7 @@
 
 ****************************************************************************/
 
-#include "NodesTree.h"
+#include "NodesTree/NodesTree.h"
 #include <QtDebug>
 #include <QRegExp>
 

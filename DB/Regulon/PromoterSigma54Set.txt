@@ -1,0 +1,70 @@
+
+		Copies and Copyright-Notice
+
+User is not entitled to change or erase data sets of the RegulonDB
+database or to eliminate copyright notices from RegulonDB. Furthermore,
+User is not entitled to expand RegulonDB or to integrate RegulonDB partly
+or as a whole into other databank systems, without prior written consent
+from CCG-UNAM.
+
+Citation
+
+User is committed to cite properly the use of RegulonDB. The current most
+update publication concerning RegulonDB is:
+Socorro Gama-Castro, Verónica Jiménez-Jacinto, Martin Peralta-Gil,
+Alberto Santos-Zavaleta, Monica I. Peñaloza-Spindola, Bruno Contreras-Moreira,
+Juan Segura-Salazar, Luis Muñiz-Rascado, Irma Martínez-Flores, Heladia Salgado,
+César Bonavides-Martínez, Cei Abreu-Goodger, Carlos Rodriguez-Penagos, Juan Miranda-Rios,
+Enrique Morett, Enrique Merino, Araceli M. Huerta, Luis Treviño-Quintanilla and Julio Collado-Vides.
+"RegulonDB (Version 6.0): gene regulation model of Escherichia coli K-12 
+beyond transcription, active (experimental) annotated promoters and textpresso navigation"
+Nucleic Acids Research, 2008, vol 36.  D120-D124
+
+Release: 6.3 Date: 30-JAN-09
+_________________________________________________________________________________
+
+Columns:
+	(1)  Promoter identifier assigned by RegulonDB
+	(2)  Promoter Name
+	(3)  DNA strand where the promoter is located
+	(4)  Genome map position of Transcription Start Site (+1)
+	(5)  Sigma Factor that recognize the promoter
+	(6)  Promoter Sequence (+1 upper case)
+	(7)  Evidence that supports the existence of the promoter
+ECK120009973	argTp	reverse	2425871	Sigma54	tatttaacgttgaatgttactgttgtcgtcaagatggcataagacctgcatgaaagagccTgcaaacacacaacacaatac	Automated inference of promoter position
+ECK120009852	astCp2	reverse	1830068	Sigma54	tagcctccgccgtttatgcacttttatcactggctggcacgaaccctgcaatctacatttAcagcgcaaacattacttatt	Human inference of promoter position,RNA polymerase footprinting,Transcription initiation mapping
+ECK120010180	atoDp	forward	2321434	Sigma54	attagttaaataactaaatccaataatctcattctggcactccccttgctattgcctgacTgtacccacaacggtgtatgc	Automated inference of promoter position,Inferred from mutant phenotype
+ECK120033259	chaCp	forward	1271645	Sigma54	agttaaagctattcgtgcggtgttgccttgcaagtggtccgtggattgcatattgtcccgTtagtggtttcaaaatgagca	Automated inference of promoter position,Inferred from expression pattern
+ECK120021266	dcuDp2	forward	3372605	Sigma54	acatcctatcacaggattgaaagtaggggaaaatggcagggttttctctttgtgcctcatCattaccataattaacggaat	Human inference of promoter position
+ECK120009977	ddpXp	reverse	1561134	Sigma54	actttaagccagcattctggcgcttatcccggcatggcatgagatctgcataagcggaaaGcgcagcaatttttgtcttat	Automated inference of promoter position
+ECK120011038	fdhFp	reverse	4297430	Sigma54	cccgtaatatcagggaatgaccccacataaaatgtggcataaaagatgcatactgtagtcGagagcgcgtatgcgtgattt	Transcription initiation mapping
+ECK120032981	glmYp	reverse	2689362	Sigma54	ataatcagtacgttaccaaactattttctttattggcacagttactgcataatagtaaccAgtggctcattcaccgactta	Transcription initiation mapping
+ECK120010268	glnAp2	reverse	4056130	Sigma54	gcatgataacgccttttaggggcaatttaaaagttggcacagatttcgctttatctttttTacggcgacacggccaaaata	Transcription initiation mapping
+ECK120010230	glnHp2	reverse	847270	Sigma54	gccgcatctcgaaaaatcaaggagttgcaaaactggcacgattttttcatatatgtgaatGtcacgcaggggatcgtcccg	Transcription initiation mapping
+ECK120010750	glnKp	forward	471780	Sigma54	ttaacttcctgctctctttctcgtttttcatttctggcacaccgcttgcaataccttcttCgtgtagcagaaccattaccg	Automated inference of promoter position,Human inference of promoter position
+ECK120009978	gltIp	reverse	0	Sigma54	-	Automated inference of promoter position
+ECK120010211	hycAp	reverse	2848483	Sigma54	ttaaaaatctctttaataacaataaattaaaagttggcacaaaaaatgcttaaagctggcAtctctgttaaacgggtaacc	Transcription initiation mapping
+ECK120010719	hydNp	reverse	2836154	Sigma54	aattaatttccttaaataacagtaaattaaaaactggcatgatttgtgaatgtatcggcgCattaactgtcattgctggag	Human inference of promoter position,Transcription initiation mapping
+ECK120010759	hyfAp	forward	2599193	Sigma54	cataacttattgaatatattgagttaatcagaatggcatcctttatgcaatatgaaatgcAatgtttcatatcattttcaa	Human inference of promoter position,Transcription initiation mapping
+ECK120010212	hypAp	forward	2848649	Sigma54	catcgacattattcaccgcagggataatcaacactggcacaattattgcttgtagctggcAatagttaatgggaggcgata	Transcription initiation mapping
+ECK120010057	ibpBp	reverse	3865004	Sigma54	gcgaaaaaaccgcgccgtatcgaaatcaactaattccctaaggccgcctggcgcggcctgAcatctccatgctcgccgtca	Transcription initiation mapping
+ECK120010018	kchp	reverse	1308547	Sigma54	aagaaagtgttctgaatagagattcaatatttaagggcacggtttttgcaaccgtgttctTgtttggcctttccttatagc	Automated inference of promoter position
+ECK120010741	nacp	reverse	2060002	Sigma54	ttggttagcttgtacatcaacaccaaaataaaactggcaagcatcttgcaatctggttgtAagtaatggcggcacttgggc	Human inference of promoter position,Transcription initiation mapping
+ECK120010021	norVp	forward	2830461	Sigma54	ttatttatagagtaaaaacaatcagataaaaaactggcacgcaatctgcaattagcaagaCatctttttagaacacgctga	Automated inference of promoter position,Transcription initiation mapping
+ECK120009957	potFp1	forward	892959	Sigma54	gttctcttttcttacaccgcgccgataaaaaatatgcacgtttattgcatatctttcagtGtgacaacttttgttcgtttg	Automated inference of promoter position
+ECK120009974	prpBp	forward	347870	Sigma54	tgaaattaaacatttaattttattaaggcaattgtggcacaccccttgctttgtctttatCaacgcaaataacaagttgat	Automated inference of promoter position
+ECK120009904	pspAp	forward	1366062	Sigma54	aatcagatctttataaatcaaaaagataaaaaattggcacgcaaattgtattaacagttcAgcaggacaatcctgaacgca	Transcription initiation mapping
+ECK120010088	pspGp	forward	4260839	Sigma54	gggcgttttgctgttaaatcaatagattatttttggcatgattcttgtaatgccagcaagAgatttcatatttgggagagc	Inferred by computational analysis,RNA polymerase footprinting
+ECK120010019	puuPp	reverse	1357393	Sigma54	tccagacatttcccggatgtcgcgttatggagcgcgggcggcaacgggcttccgttaacgAttaagactgtgacgaggaaa	Automated inference of promoter position
+ECK120010697	rpoHp6	reverse	3598836	Sigma54	aacagtgaatgataacctcgttgctcttaagctctggcacagttgttgctaccactgaagCgccagaagatatcgattgag	Human inference of promoter position,RNA polymerase footprinting,Transcription initiation mapping
+ECK120010682	rtcBp	reverse	3556129	Sigma54	tgaattaaaaaattaagctgcttatttaattttctggcacgacggttgcaattatcaggaCagcaaacaacgaaaagagaa	Human inference of promoter position,Transcription initiation mapping
+ECK120016225	rtcRp	forward	0	Sigma54	-	Human inference of promoter position,Inferred by computational analysis
+ECK120009979	rutAp	reverse	1073252	Sigma54	gttaacagattaataacattaactttttaaaaactggcatccgctttgcaaacaagccaaTacgcggctgaaaaggatatg	Automated inference of promoter position
+ECK120010016	yaiSp	reverse	383863	Sigma54	ttaacatctggctgcgccagagattacgtctctgagtgcatcgttgtgcttgtagtataaTaaataaaatggagtgtcatt	Automated inference of promoter position
+ECK120010017	ybhKp	reverse	815915	Sigma54	agaggtagaagaaaatagtttgtatcctcaatattggcaggttaattgctgtttccccgcAatttgcgctactgtagcgcg	Automated inference of promoter position
+ECK120009975	yeaGp	forward	1864839	Sigma54	atcaccgggcacgttgttctcatcgtcgataaaatggcatgagagttgctgtgttttagcAagagacgtcgttcagtttac	Automated inference of promoter position
+ECK120010020	yfhKp	reverse	2689300	Sigma54	tggctcattcaccgacttatgtcagccccttcgggacgtgctacataaaatacgaatgacGcacaacaaggtgcctgccgt	Automated inference of promoter position
+ECK120009956	ygjGp	forward	3217480	Sigma54	gtgtttatcccgattttcgcgatcgcagccggagtggcgcaatccctgcaatacttaaatCggtatcatgtgatacgcgag	Automated inference of promoter position,Transcription initiation mapping
+ECK120009976	yhdWp	forward	3416994	Sigma54	cagcttattgcgacgcgaaatcgtgcgcaaaagctggcactacttttgcttataagaggaTggccacagacaggtaaaaga	Automated inference of promoter position
+ECK120010765	zraPp	reverse	4199735	Sigma54	gccagattacccgtcatatcagcgtttcatcgttggcacggaagatgcaatacccgaagtAagacaaccactggaggatta	Automated inference of promoter position,Human inference of promoter position
+ECK120010766	zraSp	forward	4199928	Sigma54	tgtgttacagcgcagggtaagcgctgataaaagatggcatgatttctgctgtcagaaaggGatgagcaggcaaagaagaag	Automated inference of promoter position,Human inference of promoter position

@@ -1,6 +1,16 @@
 #include "TC_api.h"
 
-int run(Matrix M)
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&run, "Find loops", "loops in the Jacobian can sometimes indicate bistability or oscillations", "Network structure", "Plugins/c/nodedges.PNG", "", 1, 0, 0);
+}
+
+
+void run()
 {
 	Array A;
 	A = tc_selectedItems();
@@ -14,14 +24,14 @@ int run(Matrix M)
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
-			return 0;
+			return;
 	   }
 	}
 	else
 	{
        TCFreeArray(A);
 	   tc_errorReport("No Model\0");
-       return 0;  
+       return;  
 	}
    
    FILE * out = fopen("runloops.c","a");
@@ -39,22 +49,22 @@ int run(Matrix M)\n\
     for (i=0; i < info.numLoops; ++i)\n\
 	{\n\
 		if (info.loopTypes[i] > 0)\n\
-			printf(\"negative loop:\");\n\
+			tc_print(\"negative loop:\");\n\
 		else\n\
-			printf(\"positive loop:\");\n\
+			tc_print(\"positive loop:\");\n\
 		for (j=0; j < info.loopLengths[i]; ++j)\n\
 		{\n\
-			printf(\"\\t%s\",TCvarnames[ info.nodes[i][j] ]);\n\
+			tc_print(TCvarnames[ info.nodes[i][j] ]);\n\
 			if (info.loopTypes[i] > 0) \n\
 				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), 255, 0, 0 );\n\
 			else\n\
 				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), 0, 0, 255 );\n\
 		}\n\
-		printf(\"\\n\");\n\
+		tc_print(\"\\n\");\n\
 	}\n\
    freeLoopsInfo(info);\n\
    free(J);\n\
-   return 1;\n\
+   return;\n\
 }");
 
 
@@ -83,5 +93,5 @@ int run(Matrix M)\n\
    }
    tc_compileBuildLoad(cmd,"run\0");
   */ 
-   return 0;
+   return;
 }

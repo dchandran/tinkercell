@@ -17,10 +17,10 @@
 #include <QIcon>
 #include <QDialog>
 
-#include "NodeGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "NodesTree.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "NodesTree/NodesTree.h"
 
 namespace Tinkercell
 {
@@ -51,7 +51,7 @@ namespace Tinkercell
     public slots:
         void select(int);
         void deselect(int);
-        void showDialog(const QList<ItemHandle*>&);
+        void showDialog(ItemHandle*);
         void closeDialog();
         void itemsInsertedSlot(NetworkWindow * , const QList<ItemHandle*>& handles);
         void dialogFinished();
@@ -60,7 +60,7 @@ namespace Tinkercell
     protected:
         QDialog * dialog;
         QList<QLineEdit*> lineEdits;
-        QList<ItemHandle*> selectedItems;
+        ItemHandle* selectedItem;
         void makeDialog(QWidget*);
         NodeGraphicsItem idcard;
 

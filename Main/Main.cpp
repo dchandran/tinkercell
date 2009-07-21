@@ -10,127 +10,85 @@
 ****************************************************************************/
 
 
-#include "DefaultPluginsMenu.h"
-
+#include "Main.h"
 using namespace Tinkercell;
 
-void LoadPluginsFromDir(const QString&, MainWindow *, QSplashScreen*);
-void RegisterDataTypes();
+void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
 int main(int argc, char *argv[])
 {
-//     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-//     ORGANIZATIONNAME = QObject::tr("TinkerCell");
-//     PROJECTNAME = QObject::tr("Tinkercell");
+    PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    PROJECTNAME = QObject::tr("Tinkercell");
 
-  QApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-  RegisterDataTypes();
-  QString appDir = QCoreApplication::applicationDirPath();
-  QFile styleFile(appDir + QString("/tinkercell.qss"));
+    QString appDir = QCoreApplication::applicationDirPath();
+    QFile styleFile(appDir + QString("/tinkercell.qss"));
 
-  if (styleFile.open(QFile::ReadOnly | QFile::Text))
-  {
-    app.setStyleSheet(styleFile.readAll());
-    styleFile.close();
-  }
+    if (styleFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        app.setStyleSheet(styleFile.readAll());
+        styleFile.close();
+    }
 
-  QString splashFile(":/images/Tinkercell.png");
+    QString splashFile(":/images/Tinkercell.png");
 
 
-  MainWindow mainWindow;
+    MainWindow mainWindow;
+	mainWindow.setWindowTitle(QObject::tr("Tinkercell: design tool for biochemical networks"));
+    mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
-  QSplashScreen splash(QPixmap(splashFile).scaled(250, 250), Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
 
-  QSize sz = mainWindow.size();
-  QPoint pos = mainWindow.pos();
-  splash.move(pos + QPoint(sz.width() - 250 , sz.height() - 250) / 2 );
+    QSplashScreen splash(QPixmap(splashFile).scaled(250,250),Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
 
-  splash.setWindowOpacity(0.75);
+    QSize sz = mainWindow.size();
+    QPoint pos = mainWindow.pos();
+    splash.move(pos + QPoint(sz.width()-250 , sz.height()-250)/2 );
 
-  splash.show();
+    splash.setWindowOpacity(0.75);
 
-  DefaultPluginsMenu menu(&mainWindow);
+    splash.show();
 
-  mainWindow.settingsMenu->addMenu(&menu);
+    DefaultPluginsMenu menu(&mainWindow);
 
-  QString home = MainWindow::userHome();
+    mainWindow.settingsMenu->addMenu(&menu);
 
-  LoadPluginsFromDir(appDir + QString("/Plugins"), &mainWindow, &splash);
-  LoadPluginsFromDir(home + QString("/Plugins"), &mainWindow, &splash);
+    QString home = MainWindow::userHome();
 
-  LoadPluginsFromDir(appDir + QString("/Plugins/c"), &mainWindow, &splash);
-  LoadPluginsFromDir(home + QString("/Plugins/c"), &mainWindow, &splash);
+    LoadPluginsFromDir(appDir + QString("/Plugins"),&mainWindow, &splash);
+    LoadPluginsFromDir(home + QString("/Plugins"),&mainWindow, &splash);
 
-  mainWindow.newTextWindow();
-  mainWindow.newGraphicsWindow();
+    LoadPluginsFromDir(appDir + QString("/Plugins/c"),&mainWindow, &splash);
+    LoadPluginsFromDir(home + QString("/Plugins/c"),&mainWindow, &splash);
 
-  mainWindow.show();
+    mainWindow.newTextWindow();
+    mainWindow.newGraphicsWindow();
 
-  splash.finish(&mainWindow);
+    mainWindow.show();
 
-  int output = app.exec();
+    splash.finish(&mainWindow);
 
-  return output;
+    int output = app.exec();
+
+    return output;
 }
 
-void LoadPluginsFromDir(const QString& dirname, MainWindow * main, QSplashScreen * splash)
+void LoadPluginsFromDir(const QString& dirname,MainWindow * main,QSplashScreen * splash)
 {
-  QDir dir(dirname);
-  dir.setFilter(QDir::Files);
-  dir.setSorting(QDir::Time);
-  QFileInfoList list = dir.entryInfoList();
+    QDir dir(dirname);
+    dir.setFilter(QDir::Files);
+    dir.setSorting(QDir::Time);
+    QFileInfoList list = dir.entryInfoList();
 
-  for (int i = (list.size() - 1); i >= 0; --i)
-  {
-    QFileInfo fileInfo = list.at(i);
-    QString filename = fileInfo.absoluteFilePath();
+    for (int i = (list.size()-1); i >= 0; --i)
+    {
+        QFileInfo fileInfo = list.at(i);
+        QString filename = fileInfo.absoluteFilePath();
+        if (!QLibrary::isLibrary(filename)) continue;
 
-    if (!QLibrary::isLibrary(filename))
-      continue;
-
-    if (splash)
-      splash->showMessage(QString("loading ") + fileInfo.fileName() + QString("..."));
-
-    main->loadDynamicLibrary(filename);
-  }
-}
-
-void RegisterDataTypes()
-{
-  //register new signal/slot data types
-  qRegisterMetaType< QList<QGraphicsItem*> >("QList<QGraphicsItem*>");
-  qRegisterMetaType< QStringList >("QStringList");
-
-  qRegisterMetaType< QList<QGraphicsItem*> >("QList<QGraphicsItem*>&");
-  qRegisterMetaType< QStringList >("QStringList&");
-
-  qRegisterMetaType< QList<QGraphicsItem*>* >("QList<QGraphicsItem*>*");
-  qRegisterMetaType< QStringList* >("QStringList*");
-
-  qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>");
-  qRegisterMetaType< DataTable<QString> >("DataTable<qreal>");
-
-  qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>&");
-  qRegisterMetaType< DataTable<QString> >("DataTable<qreal>&");
-
-  qRegisterMetaType< DataTable<qreal>* >("DataTable<qreal>*");
-  qRegisterMetaType< DataTable<QString>* >("DataTable<qreal>*");
-
-  qRegisterMetaType< ItemHandle* >("ItemHandle*");
-  qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>");
-  qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>&");
-
-  qRegisterMetaType< Tool* >("Tool*");
-  qRegisterMetaType< QList<Tool*> >("QList<Tool*>");
-  qRegisterMetaType< QList<Tool*> >("QList<Tool*>&");
-
-  qRegisterMetaType< QList<QStringList> >("QList<QStringList>");
-  qRegisterMetaType< QList<QStringList> >("QList<QStringList>&");
-
-  qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
-
-
-  qRegisterMetaType< Matrix >("Matrix");
-
+        if (splash)
+            splash->showMessage(QString("loading ") + fileInfo.fileName() + QString("..."));
+        main->loadDynamicLibrary(filename);
+    }
 }

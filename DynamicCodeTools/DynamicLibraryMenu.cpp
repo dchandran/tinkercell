@@ -13,14 +13,14 @@
 #include <QRegExp>
 #include <QDir>
 #include <QFile>
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "OutputWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "DynamicLibraryMenu.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/OutputWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "DynamicCodeTools/DynamicLibraryMenu.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -111,7 +111,7 @@ namespace Tinkercell
         return toolButton;
     }
 
-    QAction * DynamicLibraryMenu::addMenuItem(const QString& functionName, const QIcon& icon)
+    QAction * DynamicLibraryMenu::addMenuItem(const QString& functionName, const QIcon& icon, bool defaultAction)
     {
         QAction * action = new QAction(icon,functionName,this);
 
@@ -119,10 +119,13 @@ namespace Tinkercell
 
         functionsMenu.addAction(action);
 
-        if (!functionsMenu.defaultAction())
+        if (!functionsMenu.defaultAction() || defaultAction)
         {
-            connect(menuButton,SIGNAL(pressed()),action,SIGNAL(triggered()));
-            functionsMenu.setDefaultAction(action);
+            if (functionsMenu.defaultAction())
+				disconnect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
+            
+			functionsMenu.setDefaultAction(action);
+            connect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
         }
 
         actionGroup.addAction(action);

@@ -12,7 +12,7 @@
 #include <QScrollArea>
 #include <QSplitter>
 #include <QDesktopServices>
-#include "NodeGraphicsWindow.h"
+#include "NodeGraphicsItem/NodeGraphicsWindow.h"
 
 	
 	NodeImageDesigner::MainWindow::MainWindow()

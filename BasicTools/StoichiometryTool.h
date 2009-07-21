@@ -29,13 +29,13 @@
 #include <QRegExp>
 #include <QTextEdit>
 
-#include "NodeGraphicsItem.h"
-#include "MainWindow.h"
-#include "NetworkWindow.h"
-#include "DataTable.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "SpinBoxDelegate.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/MainWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/DataTable.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "BasicTools/SpinBoxDelegate.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -74,7 +74,7 @@ namespace Tinkercell
 		void hideMatrix();
 		void showMatrix();
 		
-		static bool parseRateString(GraphicsScene*, ItemHandle *, QString&);
+		static bool parseRateString(NetworkWindow*, ItemHandle *, QString&);
 		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
 		static void setStoichiometry(GraphicsScene*,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
 		static QStringList getRates(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));

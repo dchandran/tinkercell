@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Promoter3.xml" width="80" height="50">
+    <ControlPoints>
+        <ControlPoint x="130" y="247"></ControlPoint>
+        <ControlPoint x="338" y="247"></ControlPoint>
+        <ControlPoint x="130" y="228"></ControlPoint>
+        <ControlPoint x="338" y="228"></ControlPoint>
+        <ControlPoint x="224" y="229"></ControlPoint>
+        <ControlPoint x="243" y="229"></ControlPoint>
+        <ControlPoint x="224" y="143"></ControlPoint>
+        <ControlPoint x="306" y="143"></ControlPoint>
+        <ControlPoint x="291" y="118"></ControlPoint>
+        <ControlPoint x="341" y="153"></ControlPoint>
+        <ControlPoint x="291" y="188"></ControlPoint>
+        <ControlPoint x="306" y="164"></ControlPoint>
+        <ControlPoint x="243" y="164"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,2,3,1,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="1" Color="#959bac" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#414141" Alpha="255"></Stop>
+                <Stop Value="1" Color="#ffffff" Alpha="255"></Stop>
+                <Start x="289" y="242"></Start>
+                <End x="289" y="228"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,6,7,8,9,10,11,12,5,4"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="1" Color="#959bac" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#32e71e" Alpha="255"></Stop>
+                <Stop Value="1" Color="#407936" Alpha="255"></Stop>
+                <Start x="317" y="139"></Start>
+                <End x="319" y="188"></End>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

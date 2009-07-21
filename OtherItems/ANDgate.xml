@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/ANDgate.xml" width="50" height="50">
+    <ControlPoints>
+        <ControlPoint x="120" y="101"></ControlPoint>
+        <ControlPoint x="342" y="101"></ControlPoint>
+        <ControlPoint x="342" y="299"></ControlPoint>
+        <ControlPoint x="120" y="298"></ControlPoint>
+        <ControlPoint x="158" y="265"></ControlPoint>
+        <ControlPoint x="158" y="134"></ControlPoint>
+        <ControlPoint x="264" y="134"></ControlPoint>
+        <ControlPoint x="314" y="134"></ControlPoint>
+        <ControlPoint x="314" y="200"></ControlPoint>
+        <ControlPoint x="313" y="265"></ControlPoint>
+        <ControlPoint x="264" y="265"></ControlPoint>
+        <ControlPoint x="158" y="173"></ControlPoint>
+        <ControlPoint x="158" y="227"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#69849d" Alpha="255"></Pen>
+            <Fill Color="#ffffff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,12,11,5,6,7,8,9,10,4"></ControlPoints>
+            <LineTypes sequence="bezier,bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="3" Color="#343434" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#d6d6d6" Alpha="255"></Stop>
+                <Stop Value="1" Color="#828282" Alpha="255"></Stop>
+                <Start x="253" y="192"></Start>
+                <End x="252" y="218"></End>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

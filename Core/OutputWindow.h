@@ -3,11 +3,11 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines the output window, which is a text area where other tools can post messages or use as a
  scripting interface.
-
-
+ 
+ 
 ****************************************************************************/
 
 
@@ -17,10 +17,12 @@
 #include <QtGui>
 #include <QMainWindow>
 #include <QTextEdit>
+#include <QCompleter>
 #include <QSyntaxHighlighter>
 #include <QRegExp>
-#include "DataTable.h"
-#include "Tool.h"
+#include <QCompleter>
+#include "Core/DataTable.h"
+#include "Core/Tool.h"
 
 namespace Tinkercell
 {
@@ -33,21 +35,25 @@ namespace Tinkercell
 	{
 		Q_OBJECT;
 		public:
-
+		
 			/*! \brief default constructor*/
 			CommandTextEdit(QWidget * parent=0);
-			/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/
+			/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/	
 			bool isFrozen();
-
+			/*! \brief set code completion*/ 
+			void setCompleter(QCompleter *c);
+			/*! \brief code completion*/ 
+			QCompleter *completer() const;
+			
 		signals:
-
+		
 			/*! \brief the user requested to execute the given command*/
 			void commandExecuted(const QString& command);
 			/*! \brief the user requested to interrupt the current process*/
 			void commandInterrupted();
-
+			
 		public slots:
-
+		
 			/*! \brief post an error message to this console text box*/
 			void error(const QString&);
 			/*! \brief post a message to this console text box*/
@@ -60,9 +66,9 @@ namespace Tinkercell
 			void unfreeze();
 			/*! \brief Set frozen state. The text box will not respond to user inputs while it is frozen*/
 			void setFreeze (bool frozen=true);
-
+			
 		protected:
-
+			
 			/*! \brief list of previously executed commands*/
 			QStringList historyStack;
 			/*! \brief current position in the history of commands*/
@@ -81,6 +87,18 @@ namespace Tinkercell
 			virtual void keyPressEvent ( QKeyEvent * event );
 			/*! \brief zoom in or out using mouse wheel*/
 			virtual void wheelEvent ( QWheelEvent * wheelEvent );
+			/*! \brief focus returned from code completer*/
+			void focusInEvent(QFocusEvent *e);
+		
+		private slots:
+			/*! \brief complete the current line*/
+			void insertCompletion(const QString &completion);
+
+		private:
+			/*! \brief text under the cursor*/
+			QString textUnderCursor() const;
+			/*! \brief used for code completion*/
+			QCompleter *c;
 	};
 
 	/*! \brief Used to create an output window that can display outputs
@@ -89,9 +107,9 @@ namespace Tinkercell
 	class OutputWindow : public Tool
 	{
 		Q_OBJECT
-
+		
 	public:
-
+	
 		/*! \brief constructor -- initialize main window*/
 		OutputWindow(MainWindow * main = 0);
 		/*! \brief print a message in the output window*/
@@ -106,21 +124,23 @@ namespace Tinkercell
 		static void freeze();
 		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
 		static void unfreeze();
-		/*! \brief the command window*/
-		CommandTextEdit * commandWindow();
-
+		/*! \brief the global command window*/
+		static OutputWindow * outputWindow();
+		/*! \brief the command window's editor*/
+		CommandTextEdit * outputWindowEditor();
+	
 	signals:
 		/*! \brief the user requested to execute the given command*/
 		void commandExecuted(const QString& command);
 		/*! \brief the user requested to interrupt the current process*/
 		void commandInterrupted();
-
+	
 	protected:
 		/*! \brief store pointer to the main window's output window*/
 		static OutputWindow * instance;
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
-
+	
 	};
 }
 

@@ -3,24 +3,24 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is one of the main classes in Tinkercell
  This file defines the GraphicsScene class where all the drawing takes place.
  In addition to drawing , the GraphicsScene provides serveral signals and functions
  that is useful for plugins, eg. move, insert, delete, changeData, etc.
-
+ 
 ****************************************************************************/
 
-#include "NetworkWindow.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "UndoCommands.h"
-#include "GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/UndoCommands.h"
+#include "Core/GraphicsScene.h"
 #include <QRegExp>
 
 namespace Tinkercell
@@ -286,7 +286,8 @@ namespace Tinkercell
           Tool::GraphicsItem * gitem = 0;
 
           QGraphicsItem * p = itemAt(clickedPoint);
-          if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
+		  
+		  if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
           {
                QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
                if (!ps.isEmpty())
@@ -303,7 +304,7 @@ namespace Tinkercell
 
           if (p)
           {
-               item = getGraphicsItem(p);
+		       item = getGraphicsItem(p);
                if (!item)
                     gitem = qgraphicsitem_cast<Tool::GraphicsItem*>(p->topLevelItem());
           }
@@ -501,7 +502,6 @@ namespace Tinkercell
           {
                if (actionsEnabled && selectionRect.isVisible())
                {
-
                     QRectF rect = selectionRect.rect();
                     selectionRect.setVisible(false);
 
@@ -519,15 +519,14 @@ namespace Tinkercell
                     for (int i=0; i < itemsInRect.size(); ++i)
                          if (itemsInRect[i] != &selectionRect)
                          {
-                         QGraphicsItem* item = getGraphicsItem(itemsInRect[i]);
-                         if (item != 0 && itemsInRect[i] == item)
-                              if (!selectedItems.contains(item))
-                                   selectedItems.append(item);
-                         else
-                              if (mouseEvent->modifiers() == Qt::ShiftModifier)
-                                   selectedItems.removeAll(item);
-
-                    }
+							 QGraphicsItem* item = getGraphicsItem(itemsInRect[i]);
+							 if (item != 0 && itemsInRect[i] == item)
+								  if (!selectedItems.contains(item))
+									   selectedItems.append(item);
+							 else
+								  if (mouseEvent->modifiers() == Qt::ShiftModifier)
+									   selectedItems.removeAll(item);
+						}
                     emit itemsSelected(this, selectedItems,point1,mouseEvent->modifiers());
                }
                if ((change.x()*change.x() + change.y()*change.y()) > 2)
@@ -1520,6 +1519,14 @@ namespace Tinkercell
                                         items << handle->children[j]->graphicsItems[k];
 
                     ItemHandle * handleClone = handle->clone();
+					QList<ItemHandle*> childHandles = handle->allChildren();
+					for (int j=0; j < childHandles.size(); ++j)
+						if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
+						{
+							ItemHandle * childHandleClone = childHandles[j]->clone();
+							childHandleClone->setParent(handleClone);
+						}
+					
                     handleClone->setParent( handle->parent);
                     originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
 
@@ -1646,7 +1653,11 @@ namespace Tinkercell
           QList<ItemHandle*> allNewHandles;
           for (int i=0; i < originalAndCloneHandles.size(); ++i)
           {
-               allNewHandles << originalAndCloneHandles[i].second;
+               if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
+			   {
+					allNewHandles << originalAndCloneHandles[i].second;
+					allNewHandles << originalAndCloneHandles[i].second->allChildren();
+			   }
           }
           //replace parent handles
           bool parentCopied = false;
@@ -1717,6 +1728,14 @@ namespace Tinkercell
 
 
                     ItemHandle * handleClone = handle->clone();
+					QList<ItemHandle*> childHandles = handle->allChildren();
+					for (int j=0; j < childHandles.size(); ++j)
+						if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
+						{
+							ItemHandle * childHandleClone = childHandles[j]->clone();
+							childHandleClone->setParent(handleClone);
+						}
+					
                     handleClone->setParent( handle->parent);
                     originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
 
@@ -1843,7 +1862,11 @@ namespace Tinkercell
           QList<ItemHandle*> allNewHandles;
           for (int i=0; i < originalAndCloneHandles.size(); ++i)
           {
-               allNewHandles << originalAndCloneHandles[i].second;
+               if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
+			   {
+					allNewHandles << originalAndCloneHandles[i].second;
+					allNewHandles << originalAndCloneHandles[i].second->allChildren();
+			   }
           }
           //replace parent handles
           bool parentCopied = false;
@@ -1980,7 +2003,10 @@ namespace Tinkercell
           {
                handle1 = getHandle(items[i]);
                if (handle1 && !handles.contains(handle1))
+			    {
                     handles << handle1;
+					handles << handle1->allChildren();
+				}
           }
 
           for (int i=0; i < handles.size(); ++i)
@@ -2053,6 +2079,14 @@ namespace Tinkercell
                                         items << handle->children[j]->graphicsItems[k];
 
                     ItemHandle * handleClone = handle->clone();
+					QList<ItemHandle*> childHandles = handle->allChildren();
+					for (int j=0; j < childHandles.size(); ++j)
+						if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
+						{
+							ItemHandle * childHandleClone = childHandles[j]->clone();
+							childHandleClone->setParent(handleClone);
+						}
+					
                     handleClone->setParent( handle->parent);
                     originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
 
@@ -2179,7 +2213,11 @@ namespace Tinkercell
           QList<ItemHandle*> allNewHandles;
           for (int i=0; i < originalAndCloneHandles.size(); ++i)
           {
-               allNewHandles << originalAndCloneHandles[i].second;
+                if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
+			    {
+					allNewHandles << originalAndCloneHandles[i].second;
+					allNewHandles << originalAndCloneHandles[i].second->allChildren();
+			    }
           }
           //replace parent handles
           bool parentCopied = false;

@@ -3,8 +3,8 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers).
+ 
+ This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers). 
  A special QUndoCommand is provided for this functionality. Buttons are also placed
  in the MainWindow toolbar.
 
@@ -22,9 +22,9 @@
 #include <QUndoCommand>
 #include <QToolButton>
 
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "MainWindow.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -49,10 +49,10 @@ namespace Tinkercell
 	class MY_EXPORT GroupHandlerTool : public Tool
 	{
 		Q_OBJECT;
-
+	
 	signals:
 		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
-
+		
 	public:
 		GroupHandlerTool();
 		bool setMainWindow(MainWindow * main);

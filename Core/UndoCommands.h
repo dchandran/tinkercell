@@ -3,9 +3,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file contains a collection of commands that perform simple operations that can be redone and undone.
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_BASICUNDOCOMMANDS_H
@@ -32,18 +32,71 @@
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
 
-#include "DataTable.h"
-#include "ItemFamily.h"
-#include "ItemHandle.h"
-#include "TextItem.h"
-#include "DataTable.h"
-#include "NodeGraphicsItem.h"
+#include "Core/DataTable.h"
+#include "Core/ItemFamily.h"
+#include "Core/ItemHandle.h"
+#include "Core/DataTable.h"
+#include "Core/NodeGraphicsItem.h"
 
 namespace Tinkercell
 {
     class NetworkWindow;
     class GraphicsScene;
     class TextEditor;
+	
+	/*! \brief this command inserts new handles to a NetworkWindow
+     * \ingroup undo*/
+    class InsertItemsCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor
+          * \param NetworkWindow* window where items are inserted
+		  * \param QList<ItemHandle*> new items
+          */
+        InsertItemsCommand(TextEditor *, const QList<TextItem*> & );
+		/*! \brief constructor
+          * \param NetworkWindow* window where items are inserted
+		  * \param ItemHandle* new item
+          */
+        InsertItemsCommand(TextEditor *, TextItem*);
+        /*! \brief redo the change*/
+        void redo();
+        /*! \brief undo the change*/
+        void undo();
+		
+    private:
+        /*! \brief inserted handles*/
+        QList<TextItem*> items;
+        /*! \brief TextEditor where the change happened*/
+        TextEditor * textEditor;
+    };
+	
+	/*! \brief this command inserts new handles to a NetworkWindow
+     * \ingroup undo*/
+    class RemoveItemsCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor
+          * \param NetworkWindow* window where items are inserted
+		  * \param QList<ItemHandle*> deleted items
+          */
+        RemoveItemsCommand(TextEditor *, const QList<TextItem*> & );
+		/*! \brief constructor
+          * \param NetworkWindow* window where items are inserted
+		  * \param ItemHandle* deleted item
+          */
+        RemoveItemsCommand(TextEditor *, TextItem*);
+        /*! \brief redo the change*/
+        void redo();
+        /*! \brief undo the change*/
+        void undo();
+
+    private:
+        /*! \brief inserted handles*/
+        QList<TextItem*> items;
+        /*! \brief TextEditor where the change happened*/
+        TextEditor * textEditor;
+    };
 
     /*! \brief this command performs a move and allows redo/undo of that move
         * \ingroup undo*/
@@ -393,140 +446,141 @@ namespace Tinkercell
         Change2DataCommand<qreal,QString> * changeDataCommand;
 		
 		static QString assignUniqueName(const QString&,const QStringList&);
-	};
+    };
 
-	/*! \brief this command can be used to combine multiple commands into one command
-	* \ingroup undo*/
-	class CompositeCommand : public QUndoCommand
-	{
-	public:
-          /*! \brief Constructor. Composite command takes ownership of these commands unless specified otherwise.
-		* \param QString name of command
+    /*! \brief this command can be used to combine multiple commands into one command
+        * \ingroup undo*/
+    class CompositeCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief Constructor. Composite command takes ownership of these commands unless specified otherwise.
+                * \param QString name of command
           * \param QList<QUndoCommand*>& the commands that make up this composite command
           * \param QList<QUndoCommand*>& the commands that should not be deleted by composite command's destructor (default = none)
-		*/
-		CompositeCommand(const QString&, const QList<QUndoCommand*>&, const QList<QUndoCommand*>& noClear = QList<QUndoCommand*>());
-          /*! \brief constructor for grouping two commands. Composite command takes ownership of these commands unless specified otherwise.
+                */
+        CompositeCommand(const QString&, const QList<QUndoCommand*>&, const QList<QUndoCommand*>& noClear = QList<QUndoCommand*>());
+        /*! \brief constructor for grouping two commands. Composite command takes ownership of these commands unless specified otherwise.
           * \param QString name of command
           * \param QUndoCommand* a command to be gouped
           * \param QUndoCommand* another command to be gouped
           * \param bool delete both commands automatically (default = true)
           */
-          CompositeCommand(const QString&, QUndoCommand*, QUndoCommand*, bool deleteCommands = true);
-          /*! \brief destructor automatically deletes any command not in the doNotDelete list*/
-		~CompositeCommand();
-          /*! \brief undo*/
-		void redo();
-          /*! \brief undo*/
-		void undo();
-          /*! \brief commands grouped inside this composite command*/
-		QList<QUndoCommand*> commands;
-          /*! \brief commands that should not be deleted along with the composite command*/
-		QList<QUndoCommand*> doNotDelete;
-	};
+        CompositeCommand(const QString&, QUndoCommand*, QUndoCommand*, bool deleteCommands = true);
+        /*! \brief destructor automatically deletes any command not in the doNotDelete list*/
+        ~CompositeCommand();
+        /*! \brief undo*/
+        void redo();
+        /*! \brief undo*/
+        void undo();
+        /*! \brief commands grouped inside this composite command*/
+        QList<QUndoCommand*> commands;
+        /*! \brief commands that should not be deleted along with the composite command*/
+        QList<QUndoCommand*> doNotDelete;
+    };
 
-	/*! \brief this command can be used to invert another undo command (i.e. flip the redo/undo)
-	* \ingroup undo*/
-	class ReverseUndoCommand : public QUndoCommand
-	{
-	public:
-		/*! \brief constructor
-		* \param QString name of command
-		* \param QList<QUndoCommand*>& the command to invert
-		* \param bool whether or not to delete the inverted command (true = DO delete)
-		*/
-		ReverseUndoCommand(const QString&, QUndoCommand*, bool deleteCommand = true);
-		~ReverseUndoCommand();
-		void redo();
-		void undo();
-		QUndoCommand* command;
-		bool deleteCommand;
-	};
+    /*! \brief this command can be used to invert another undo command (i.e. flip the redo/undo)
+        * \ingroup undo*/
+    class ReverseUndoCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor
+                * \param QString name of command
+                * \param QList<QUndoCommand*>& the command to invert
+                * \param bool whether or not to delete the inverted command (true = DO delete)
+                */
+        ReverseUndoCommand(const QString&, QUndoCommand*, bool deleteCommand = true);
+        ~ReverseUndoCommand();
+        void redo();
+        void undo();
+        QUndoCommand* command;
+        bool deleteCommand;
+    };
 
-	/*! \brief this command can be used to replace the graphical representation of a node from an xml file
-	* \ingroup undo*/
-	class ReplaceNodeGraphicsCommand : public QUndoCommand
-	{
-	public:
-		/*! \brief constructor
-		* \param QString name of command
-		* \param NodeGraphicsItem* the target node
-		* \param QString xml file name
-		*/
-		ReplaceNodeGraphicsCommand(const QString&,NodeGraphicsItem*,const QString&);
-		/*! \brief constructor
-		* \param QString name of command
-		* \param QList<NodeGraphicsItem*> the target nodes
-		* \param QStringList xml file names
-		*/
-		ReplaceNodeGraphicsCommand(const QString&,const QList<NodeGraphicsItem*>&,const QList<QString>&);
-		void undo();
-		void redo();
-		~ReplaceNodeGraphicsCommand();
-	private:
-		QList<NodeGraphicsItem*> targetNodes;
-		QList<NodeGraphicsItem> oldNodes, newNodes;
-		QList< QGraphicsItem* > itemsToDelete;
-		//QList< QVector<NodeGraphicsItem::Shape*> > oldShapes, newShapes;
-		//QList< QVector<NodeGraphicsItem::ControlPoint*> > 	oldBoundaryControlPoints, oldControlPoints,
-		//													newBoundaryControlPoints, newControlPoints;
-		void loadFromFile(NodeGraphicsItem*,const QString&);
-	};
+    /*! \brief this command can be used to replace the graphical representation of a node from an xml file
+        * \ingroup undo*/
+    class ReplaceNodeGraphicsCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor
+                * \param QString name of command
+                * \param NodeGraphicsItem* the target node
+                * \param QString xml file name
+                */
+        ReplaceNodeGraphicsCommand(const QString&,NodeGraphicsItem*,const QString&);
+        /*! \brief constructor
+                * \param QString name of command
+                * \param QList<NodeGraphicsItem*> the target nodes
+                * \param QStringList xml file names
+                */
+        ReplaceNodeGraphicsCommand(const QString&,const QList<NodeGraphicsItem*>&,const QList<QString>&);
+        void undo();
+        void redo();
+        ~ReplaceNodeGraphicsCommand();
+    private:
+        QList<NodeGraphicsItem*> targetNodes;
+        QList<NodeGraphicsItem> oldNodes, newNodes;
+        QList< QGraphicsItem* > itemsToDelete;
+        //QList< QVector<NodeGraphicsItem::Shape*> > oldShapes, newShapes;
+        //QList< QVector<NodeGraphicsItem::ControlPoint*> > 	oldBoundaryControlPoints, oldControlPoints,
+        //													newBoundaryControlPoints, newControlPoints;
+        void loadFromFile(NodeGraphicsItem*,const QString&);
+    };
 
-	/*! \brief this command assigns handles to items
-	* \ingroup undo*/
-	class AssignHandleCommand : public QUndoCommand
-	{
-	public:
-		AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* handle);
-		AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, ItemHandle* handle);
-		AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
-		void redo();
-		void undo();
-		~AssignHandleCommand();
-		QList<QGraphicsItem*> graphicsItems;
-		QList<ItemHandle*> oldHandles;
-		QList<ItemHandle*> newHandles;
-	};
+    /*! \brief this command assigns handles to items
+        * \ingroup undo*/
+    class AssignHandleCommand : public QUndoCommand
+    {
+    public:
+        AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* handle);
+        AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, ItemHandle* handle);
+        AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
+        void redo();
+        void undo();
+        ~AssignHandleCommand();
+        QList<QGraphicsItem*> graphicsItems;
+        QList<ItemHandle*> oldHandles;
+        QList<ItemHandle*> newHandles;
+    };
 
-	/*! \brief this command places all the graphics items inside one handle into the other
-	* \ingroup undo*/
-	class MergeHandlersCommand : public QUndoCommand
-	{
-	public:
-		MergeHandlersCommand(const QString& text, const QList<ItemHandle*>& handles);
-		void redo();
-		void undo();
-		~MergeHandlersCommand();
-		QList<ItemHandle*> oldHandles;
-		ItemHandle* newHandle;
-	};
+    /*! \brief this command places all the graphics items inside one handle into the other
+        * \ingroup undo*/
+    class MergeHandlersCommand : public QUndoCommand
+    {
+    public:
+        MergeHandlersCommand(const QString& text, const QList<ItemHandle*>& handles);
+        void redo();
+        void undo();
+        ~MergeHandlersCommand();
+        QList<ItemHandle*> oldHandles;
+        ItemHandle* newHandle;
+    };
 
-	/*! \brief this command assigns parent(s) to one or more handles
-	* \ingroup undo
-	*/
-	class SetParentHandleCommand : public QUndoCommand
-	{
-	public:
-		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, ItemHandle * child, ItemHandle * parent);
-		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, ItemHandle * parent);
-		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, const QList<ItemHandle*>& parents);
-		/*! \brief redo parent change*/
-		void redo();
-		/*! \brief undo parent change*/
-		void undo();
-		/*! \brief changed children handles*/
-		QList<ItemHandle*> children;
-		/*! \brief assigned parent handles*/
-		QList<ItemHandle*> newParents;
-		/*! \brief changed parent handles*/
-		QList<ItemHandle*> oldParents;
-	private:
-		NetworkWindow * net;
-	};
+    /*! \brief this command assigns parent(s) to one or more handles
+        * \ingroup undo
+        */
+    class SetParentHandleCommand : public QUndoCommand
+    {
+    public:
+        /*! \brief constructor*/
+        SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, ItemHandle * child, ItemHandle * parent);
+        /*! \brief constructor*/
+        SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, ItemHandle * parent);
+        /*! \brief constructor*/
+        SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, const QList<ItemHandle*>& parents);
+        /*! \brief redo parent change*/
+        void redo();
+        /*! \brief undo parent change*/
+        void undo();
+        /*! \brief changed children handles*/
+        QList<ItemHandle*> children;
+        /*! \brief assigned parent handles*/
+        QList<ItemHandle*> newParents;
+        /*! \brief changed parent handles*/
+        QList<ItemHandle*> oldParents;
+    private:
+        NetworkWindow * net;
+    };
+
 }
 
 #endif

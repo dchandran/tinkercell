@@ -114,9 +114,9 @@ public:
 	/*! \brief Tinkercell object that this drawable belongs in */
 	ItemHandle * itemHandle;
 	/*! Constructor: does nothing */
-        NodeGraphicsItem(QGraphicsItem * parent = 0 );
+	NodeGraphicsItem(QGraphicsItem * parent = 0 );
 	/*! Copy Constructor */
-        NodeGraphicsItem(const NodeGraphicsItem& copy);
+	NodeGraphicsItem(const NodeGraphicsItem& copy);
 	/*! Copy operator */
 	NodeGraphicsItem& operator = (const NodeGraphicsItem& copy);
 	/*! \brief make a copy of this node item*/
@@ -143,7 +143,7 @@ public:
 		/*! \brief Copy Constructor */
 		ControlPoint(const ControlPoint& copy);
 		/*! Copy operator */
-		ControlPoint& operator = (const ControlPoint& copy);
+		virtual ControlPoint& operator = (const ControlPoint& copy);
 		/*! \brief make a copy of this control point*/
 		virtual Tinkercell::ControlPoint* clone() const;
 		/*! \brief for enabling dynamic_cast*/
@@ -176,7 +176,7 @@ public:
 		/*! Copy Constructor*/
 		Shape(const Shape & copy);
 		/*! Copy operator */
-		Shape& operator = (const Shape& copy);
+		virtual Shape& operator = (const Shape& copy);
 		/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
 		//void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
 		/*! the NodeGraphicsItem that this shape belongs in */
@@ -202,11 +202,11 @@ public:
 		/*! \brief the path constructed from controls and types vectors */
 		QPainterPath path;
 		/*! \brief gets a path that represents this shape*/
-		QPainterPath shape() const;
+		virtual QPainterPath shape() const;
 		/*! \brief start and stop coordinates for gradient fill */
 		QPair<QPointF,QPointF> gradientPoints;
 		/*! \brief bounding rect*/
-		QRectF boundingRect() const;
+		virtual QRectF boundingRect() const;
 		/*! \brief for enabling dynamic_cast*/
 		enum { Type = UserType + 3 };
 		/*! \brief for enabling dynamic_cast*/
@@ -219,26 +219,26 @@ public:
 		/*! \brief bounding reactangle for this shape */
 		QRectF boundingRectangle;
 		/*! \brief reconstruct bounding rect*/
-		void recomputeBoundingRect();
+		virtual void recomputeBoundingRect();
 	};	
 	/*! \brief add a new control point*/
-	void addControlPoint(ControlPoint * control);
+	virtual void addControlPoint(ControlPoint * control);
 	/*! \brief add a shape to the set of shapes*/
-	void addShape(Shape* shape);
+	virtual void addShape(Shape* shape);
 	/*! \brief remove a control point*/
-	void removeControlPoint(ControlPoint * control);
+	virtual void removeControlPoint(ControlPoint * control);
 	/*! \brief add a shape to the set of shapes*/
-	void removeShape(Shape* shape);
+	virtual void removeShape(Shape* shape);
 	/*! \brief change fill color of all shapes*/
-	void setBrush(const QBrush& newBrush);
+	virtual void setBrush(const QBrush& newBrush);
 	/*! \brief change alpha value for brush and pen of all shapes*/
-	void setAlpha(int value);
+	virtual void setAlpha(int value);
 	/*! \brief change outline color of all shapes*/
-	void setPen(const QPen& newPen);
+	virtual void setPen(const QPen& newPen);
 	/*! \brief gets a polygon that represents this graphicsItem*/
-	QPolygonF polygon() const;
+	virtual QPolygonF polygon() const;
 	/*! \brief gets a path that represents this graphicsItem*/
-	QPainterPath shape() const;
+	virtual QPainterPath shape() const;
 	/*! set of shapes that comprise this figure */
 	QVector<Shape*> shapes;
 	/*! set of control points that control the shapes in this figure */
@@ -248,29 +248,29 @@ public:
 	* Postcondition: NA
 	* \param void
 	* \return void*/
-	void refresh();
+	virtual void refresh();
 	/*! \brief normalizes a node graphics item so that its center is 0,0 and width*height is 10
 	* \param node item pointer to normalize
 	* \return void*/
-	void normalize();
+	virtual void normalize();
 	/*! \brief Clear all shapes and control points
 	* \param void
 	* \return void*/
-	void clear();
+	virtual void clear();
 	/*! \brief bounding rect*/
-	QRectF boundingRect() const;
+	virtual QRectF boundingRect() const;
 	/*! Destructor: deletes all shapes and control points */
 	virtual ~NodeGraphicsItem();
 	/*! set of control points that control the bounding box of this figure */
 	QVector<ControlPoint*> boundaryControlPoints;
 	/*! reset of control points that control the bounding box of this figure */
-	void adjustBoundaryControlPoints();
+	virtual void adjustBoundaryControlPoints();
 	/*! set boundary to match control points that control the bounding box of this figure */
-	void adjustToBoundaryControlPoints();
+	virtual void adjustToBoundaryControlPoints();
 	/*! the bounding box of this figure */
 	QGraphicsRectItem * boundingBoxItem;
 	/*! show or hide the bounding box of this figure */
-	void setBoundingBoxVisible(bool visible = true, bool controlPoints = true);
+	virtual void setBoundingBoxVisible(bool visible = true, bool controlPoints = true);
 	/*! \brief for enabling dynamic_cast*/
 	enum { Type = UserType + 4 };
 	/*! \brief for enabling dynamic_cast*/
@@ -280,20 +280,20 @@ public:
         return Type;
     }
 	/*! \brief get all the connection items linked to this node*/
-	QList<ConnectionGraphicsItem*> connections();
+	virtual QList<ConnectionGraphicsItem*> connections();
 	/*! \brief get all the connection items that have an arrow associated with this node*/
-	QList<ConnectionGraphicsItem*> connectionsWithArrows();
+	virtual QList<ConnectionGraphicsItem*> connectionsWithArrows();
 	/*! \brief get all the connection items that do NOT have an arrow associated with this node*/
-	QList<ConnectionGraphicsItem*> connectionsWithoutArrows();
+	virtual QList<ConnectionGraphicsItem*> connectionsWithoutArrows();
 	/*! \brief get all the connection items where this node is disconnected from the main connection, e.g. modifiers*/
-	QList<ConnectionGraphicsItem*> connectionsDisconnected();
+	virtual QList<ConnectionGraphicsItem*> connectionsDisconnected();
 	/*! \brief get all the connection items linked to this node as a list of qgraphicsitems*/
-	QList<QGraphicsItem*> connectionsAsGraphicsItems();
+	virtual QList<QGraphicsItem*> connectionsAsGraphicsItems();
 protected:
 	/*! \brief bounding rectangle for the whole group*/
 	QRectF boundingRectangle;
 	/*! \brief reconstruct bounding rect*/
-	void recomputeBoundingRect();
+	virtual void recomputeBoundingRect();
 };
 
 }

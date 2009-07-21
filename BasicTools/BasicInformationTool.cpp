@@ -16,18 +16,18 @@
 
 #include <QSettings>
 #include <QMessageBox>
-#include "NetworkWindow.h"
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "OutputWindow.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ModelSummaryTool.h"
-#include "BasicInformationTool.h"
-#include "StoichiometryTool.h"
+#include "Core/NetworkWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/OutputWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/ModelSummaryTool.h"
+#include "BasicTools/BasicInformationTool.h"
+#include "BasicTools/StoichiometryTool.h"
 
 namespace Tinkercell
 {

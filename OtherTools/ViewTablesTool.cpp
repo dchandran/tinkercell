@@ -15,13 +15,13 @@
 ****************************************************************************/
 
 
-#include "GraphicsScene.h"
-#include "NetworkWindow.h"
-#include "MainWindow.h"
-#include "OutputWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ViewTablesTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/OutputWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "OtherTools/ViewTablesTool.h"
 #include <QGroupBox>
 #include <QSplitter>
 

@@ -22,9 +22,7 @@
 #include <QSlider>
 #include <QGraphicsRectItem>
 #include <QGraphicsPathItem>
-#include "DataTable.h"
-#include "NodeGraphicsWriter.h"
-#include "NodeGraphicsReader.h"
+#include "Core/DataTable.h"
 
 namespace SegmentationAnimation
 {
@@ -62,7 +60,7 @@ public:
 			p.lineTo(middle - QPointF(w/2.0,h/2.0));
 		else
 			p.lineTo(start.x(), middle.y() - h/2.0);
-
+		
 		if ((middle.x() + w/2.0) > end.x())
 			p.cubicTo(middle - QPointF(0.0,h/2.0),middle + QPointF(0.0,h/2.0),QPointF(end.x(),middle.y() + h/2.0));
 		else
@@ -84,7 +82,7 @@ public:
 	~MainWindow();
 
 public slots:
-
+	
 	void init();
 	void frameChanged(int value);
 	void getTimeSimFile();
@@ -92,7 +90,7 @@ public slots:
 	void setTimeSimCol(int);
 	void setSSCol(int);
 	void speedChanged(int);
-
+	
 private:
 	DataTable timeSimulationData;
 	DataTable steadyStateData;
@@ -108,7 +106,7 @@ private:
 
 	//QGraphicsRectItem stimulantRect;
 	WaveItem waveItem;
-
+	
 	void readTable(DataTable&, QFile& file);
 	void normalize(DataTable&,int);
 };

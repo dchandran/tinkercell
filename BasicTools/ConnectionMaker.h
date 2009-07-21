@@ -3,10 +3,10 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  Whenever a new connection item is created, this class adds control points to the item
  so that it looks appealing
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONNECTIONMAKERTOOL_H
@@ -31,10 +31,10 @@
 #include <QFrame>
 #include <QUndoCommand>
 
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "ItemHandle.h"
-#include "CollisionDetection.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "BasicTools/CollisionDetection.h"
 #include "Tool.h"
 
 namespace Tinkercell

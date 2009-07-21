@@ -3,14 +3,13 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This file defines the class that is used to create new threads in the
+ 
+ This file defines the class that is used to create new threads in the 
  Tinkercell main window. The threads can be associated with a dialog that provides
  users with the option to terminate the thread.
-
-
+ 
+ 
 ****************************************************************************/
-
 
 #ifndef TINKERCELL_CTHREAD_H
 #define TINKERCELL_CTHREAD_H
@@ -34,9 +33,9 @@
 #include <QProcess>
 #include <QProgressBar>
 #include <QItemDelegate>
-#include "Tool.h"
-#include "TCstructs.h"
-#include "DataTable.h"
+#include "Core/Tool.h"
+#include "c/TCstructs.h"
+#include "Core/DataTable.h"
 
 namespace Tinkercell
 {
@@ -58,6 +57,8 @@ namespace Tinkercell
         void progress(int);
 
     public:
+	
+		static QString style;
 
         /*! \brief emits the progress signal*/
         void emitSignal(int i) { emit progress(i); }
@@ -178,7 +179,7 @@ namespace Tinkercell
         * \param QIcon display icon for the dialog
         * \param bool whether or not to show a progress bar
         */
-        static QDialog * dialog(CThread * , const QString& title, const QIcon& icon = QIcon(), bool progressBar = true);
+        static QWidget * dialog(CThread * , const QString& title, const QIcon& icon = QIcon(), bool progressBar = true);
 
          /*!
         * \brief main window
@@ -251,7 +252,7 @@ namespace Tinkercell
                 * \param QString text to display
                 * \param QIcon icon to display
                 */
-        static QDialog* dialog(MainWindow *, ProcessThread*, const QString& text = QString("Process"), QIcon icon = QIcon());
+        static QWidget * dialog(MainWindow *, ProcessThread*, const QString& text = QString("Process"), QIcon icon = QIcon());
     protected slots:
         /*! \brief unload the library (if loaded) and delete it*/
         void stopProcess();

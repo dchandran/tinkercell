@@ -5,10 +5,24 @@
  
  ****************************************************************************/
  
+#include <string.h>
+
 #include "cvodesim.h"
 #include "TC_api.h"
 
-int run(Matrix input)
+char selected_var[100];
+
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	strcpy(selected_var,"\0");
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&setup, "Steady state analysis", "uses Sundials library (compiles to C program)", "Parameter scan", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+}
+
+void setup()
 {
    int i;
    Matrix m;
@@ -22,38 +36,21 @@ int run(Matrix input)
    m.colnames = cols;
    m.rownames = rows;
    m.values = values;
-     
-   /*Array A;
-   A = tc_allItems();
-   
-   if (A[0] != 0)
-   {
-		
-   }
-   else
-   {
-	   tc_errorReport("no model");
-       TCFreeArray(A);
-       return 0;  
-   }
-   
-   Matrix params = tc_getParametersAndFixedVariables(A);
-   TCFreeArray(A);
-   */
    
    char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
    char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 
-   tc_createInputWindow(m,"dlls/runsteadystate","run2","Steady State Plot");
-   tc_addInputWindowOptions("Steady State Plot",0, 0, options1);
-   tc_addInputWindowOptions("Steady State Plot",4, 0, options2);
+   //tc_createInputWindow(m,"dlls/runsteadystate","run2","Steady State Plot");
+   tc_createInputWindow(m,"Steady state analysis",&run);
+   tc_addInputWindowOptions("Steady state analysis",0, 0, options1);
+   tc_addInputWindowOptions("Steady state analysis",4, 0, options2);
    //tc_addInputWindowOptions("Steady State Plot",1, 0,  params.rownames);   
    
    //TCFreeMatrix(params);
    
-   return 1; 
+   return; 
 }
 
-int run2(Matrix input) 
+void run(Matrix input) 
 { 
    double start = 0.0, end = 50.0;
    double dt = 0.1;
@@ -99,27 +96,28 @@ int run2(Matrix input)
    else
    {
        TCFreeArray(A);
-       return 0;  
+       return;  
    }
    
    Matrix params = tc_getParametersAndFixedVariables(A);
    TCFreeArray(A);
    
-   index = tc_getFromList("Select Independent Variable",params.rownames,0);
+   index = tc_getFromList("Select Independent Variable",params.rownames,selected_var,0);
    
    if (index < 0 || index > params.rows)
    {
        TCFreeMatrix(params);
 	   tc_print("steady state: no valid variable selected\0");
-	   return 0;
+	   return;
    }
    
    char * param = params.rownames[index]; //the parameter to vary
+   strcpy(selected_var,param);
    
    FILE * out = fopen("ss.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-int run(Matrix input) \n\
+void run(Matrix input) \n\
 {\n   Matrix dat;\n" );
    
    fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -169,7 +167,7 @@ int run(Matrix input) \n\
             valueAt(dat,i,j+1) = 0;\n\
       }\n\
       %s += %lf;\n\
-	  tc_showProgress(\"ss\",(100*i)/dat.rows);\n\
+	  tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
    }\n\
    FILE * out = fopen(\"ss.tab\",\"w\");\n\
    for (i=0; i < dat.cols; ++i)\n\
@@ -210,7 +208,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"ss.c -I%s/c -L%s/lib -lodesim\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","Steady state\0");
 /*
    if (tc_isWindows())
    {
@@ -223,6 +221,6 @@ int run(Matrix input) \n\
 */   
    TCFreeMatrix(params);
    free(cmd);
-   return 1;  
+   return;  
  }
 

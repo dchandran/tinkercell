@@ -141,7 +141,12 @@ char* (*tc_appDir)();
  \brief create an input window that can call a dynamic library
  \ingroup Input and output
 */
-void (*tc_createInputWindow)(Matrix input, const char* filename,const char* functionname, const char* title);
+void (*tc_createInputWindowFromFile)(Matrix input, const char* filename,const char* functionname, const char* title);
+/*!
+ \brief create an input window that can call a dynamic library
+ \ingroup Input and output
+*/
+void (*tc_createInputWindow)(Matrix, const char* title, void (*f)(Matrix));
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and output
@@ -275,6 +280,7 @@ void tc_Main_api_initialize(
 		char* (*tc_appDir0)(),
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
+        void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, char **),
 		void (*tc_openNewWindow0)(const char * title),
 		
@@ -333,7 +339,8 @@ void tc_Main_api_initialize(
 	tc_isMac = tc_isMac0;
 	tc_isLinux = tc_isLinux0;
 	tc_appDir = tc_appDir0;
-	tc_createInputWindow = tc_createInputWindow0;
+    tc_createInputWindow = tc_createInputWindow1;
+    tc_createInputWindowFromFile = tc_createInputWindow0;
 	tc_addInputWindowOptions = tc_addInputWindowOptions0;
 	
 	tc_openNewWindow = tc_openNewWindow0;

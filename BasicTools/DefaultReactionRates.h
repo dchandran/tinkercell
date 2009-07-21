@@ -13,11 +13,11 @@
 #ifndef TINKERCELL_DEFAULTREACTIONRATESTOOL_H
 #define TINKERCELL_DEFAULTREACTIONRATESTOOL_H
 
-#include "MainWindow.h"
-#include "DataTable.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "OutputWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/DataTable.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/OutputWindow.h"
 
 
 namespace Tinkercell

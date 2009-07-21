@@ -10,30 +10,7 @@
  
 #include "TC_api.h"
 
-int run(Matrix input)
-{
-
-   Matrix m;
-   m.rows = 4;
-   m.cols = 1;
-   char * cols[] = { "value" };
-   char * rows[] = { "model", "time", "max size", "plot", 0 };
-   double values[] = { 0.0, 100, 100000, 0 };
-   char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-   char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 
-   m.colnames = cols;
-   m.rownames = rows;
-   m.values = values;
-   
-   tc_createInputWindow(m,"dlls/runssa","run2","Stochastic Simulation");
-   tc_addInputWindowOptions("Stochastic Simulation",0, 0,  options1);
-   tc_addInputWindowOptions("Stochastic Simulation",3, 0,  options2);
-   
-   return 1; 
-}
-
-
-int run2(Matrix input)
+void runSSA(Matrix input)
 {
    int maxsz = 100000;
    double time = 50.0;
@@ -62,7 +39,7 @@ int run2(Matrix input)
 			TCFreeArray(A);
 			//A = tc_allItems();
 			tc_errorReport("No Model Selected\0");
-			return 0;
+                        return;
 			
 	   }
    }
@@ -78,14 +55,14 @@ int run2(Matrix input)
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
-			return 0;
+                        return;
 	   }
    }
    else
    {
        TCFreeArray(A);
 	   tc_errorReport("No Model\0");
-       return 0;  
+       return;
    }
    
    FILE * out = fopen("ssa.c","a");
@@ -97,13 +74,13 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
    TCpropensity(time, u, rates, data);\n\
    if (time > _time0_)\n\
    {\n\
-     tc_showProgress(\"ssa\",(int)(100 * time/%lf));\n\
+     tc_showProgress(\"Gillespie algorithm\",(int)(100 * time/%lf));\n\
 	 _time0_ += %lf;\n\
    }\n\
 }\n\
    \n\
    \n\
-int run(Matrix input) \n\
+void run() \n\
 {\n\
    initMTrand();\n\
    TCinitialize();\n\
@@ -112,7 +89,7 @@ int run(Matrix input) \n\
    if (!y) \
    {\n\
       tc_errorReport(\"SSA failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
-      return 0;\n\
+      return;\n\
    }\n\
    Matrix data;\n\
    data.rows = sz;\n\
@@ -158,7 +135,7 @@ int run(Matrix input) \n\
    tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
    free(data.colnames);\n\
    free(y);\n\
-   return 1;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
+   return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
 
    fclose(out);
    
@@ -177,7 +154,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"ssa.c -I%s/c -L%s/lib -lssa\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","Gillespie algorithm\0");
 /*   
    if (tc_isWindows())
    {
@@ -189,5 +166,197 @@ int run(Matrix input) \n\
    }
 */   
    free(cmd);
-   return 1; 
+   return;
+}
+
+void runCellSSA(Matrix input)
+{
+   double time = 50.0;
+   int xaxis = 0;
+   int selection = 0;
+   int numcells = 10;
+   double replication = 0.05;
+   double death = 0.0001;
+   double mutants = 0.001;
+   int gridsz = 100;
+
+   if (input.cols > 0)
+   {
+	  if (input.rows > 0)
+	     selection = (int)valueAt(input,0,0);
+      if (input.rows > 1)
+         time = valueAt(input,1,0);
+	  if (input.rows > 2)
+	     numcells = (int)valueAt(input,2,0);
+      if (input.rows > 3)
+	     replication = valueAt(input,3,0);
+	  if (input.rows > 4)
+	     death = valueAt(input,4,0);
+	  if (input.rows > 5)
+	     mutants = (int)valueAt(input,5,0);
+      if (input.rows > 6)
+	     gridsz = (int)valueAt(input,6,0);
+   }
+   
+   Array A;
+   if (selection > 0)
+   {
+	   A = tc_selectedItems();
+	   if (A[0] == 0)
+	   {
+			TCFreeArray(A);
+			//A = tc_allItems();
+			tc_errorReport("No Model Selected\0");
+                        return;
+			
+	   }
+   }
+   else
+   {
+		A = tc_allItems();
+   }
+   
+   if (A[0] != 0)
+   {
+	   int k = tc_writeModel( "cells_ssa", A );
+       TCFreeArray(A);
+	   if (!k)
+	   {
+			tc_errorReport("No Model\0");
+                        return;
+	   }
+   }
+   else
+   {
+       TCFreeArray(A);
+	   tc_errorReport("No Model\0");
+       return;
+   }
+   
+   FILE * out = fopen("cells_ssa.c","a");
+   
+   fprintf( out , "#include \"TC_api.h\"\n#include \"cells_ssa.h\"\n\n\
+static double _time0_ = 0.0;\n\
+void ssaFunc(double time, double * u, double * rates, void * data)\n\
+{\n\
+   TCpropensity(time, u, rates, data);\n\
+   if (time > _time0_)\n\
+   {\n\
+     tc_showProgress(\"Multi-cell algorithm\",(int)(100 * time/%lf));\n\
+	 _time0_ += %lf;\n\
+   }\n\
+}\n\
+   \n\
+   \n\
+void run() \n\
+{\n\
+   initMTrand();\n\
+   TCinitialize();\n\
+   int sz = 0;\n\
+   double ** y = cells_ssa(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %i, 0, %i, %lf, %lf, %lf);\n\
+   if (!y || !y[0] || !y[1]) \
+   {\n\
+      tc_errorReport(\"Simulation failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
+      return;\n\
+   }\n\
+   Matrix data1;\n\
+   Matrix data2;\n\
+   data2.rows = sz;\n\
+   data2.cols = 2;\n\
+   data2.values = y[0];\n\
+   data2.colnames = malloc(2 * sizeof(char*));\n\
+   data2.colnames[0] = \"time\";\n\
+   data2.colnames[1] = \"cells\";\n\
+   data2.rownames = 0;\n\
+   data1.rows = sz;\n\
+   char ** names = TCvarnames;\n\
+   data1.cols = 1+TCvars;\n\
+   data1.values = y[1];\n\
+   data1.rownames = 0;\n\
+   data1.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+   data1.colnames[0] = \"time\\0\";\n\
+   int i,j;\n\
+   for(i=0; i<TCvars; ++i) data1.colnames[1+i] = names[i];\n\
+   tc_plot(data1,0,\"Multi-cell simulation\",0);\n\
+   tc_plot(data2,0,\"Cell growth\",0);\n\
+   free(data1.colnames);\n\
+   free(data2.colnames);\n\
+   free(y[0]);\n\
+   free(y[1]);\n\
+   free(y);\n\
+   return;\n}\n",time,time/20.0,time,gridsz,numcells,replication,death,mutants);
+
+   fclose(out);
+   
+   char* appDir = tc_appDir();
+   
+   int sz = 0;
+   while (appDir[sz] != 0) ++sz;
+   
+   char* cmd = malloc((sz*3 + 50) * sizeof(char));
+
+   if (tc_isWindows())
+   {
+       sprintf(cmd,"cells_ssa.c \"%s\"/c/cells_ssa.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir);
+   }
+   else
+   {
+       sprintf(cmd,"cells_ssa.c -I%s/c -L%s/lib -lcells_ssa\0",appDir,appDir);
+   }
+   tc_compileBuildLoad(cmd,"run\0","Multi-cell algorithm\0");
+/*   
+   if (tc_isWindows())
+   {
+       tc_compileBuildLoad("c/ssa.o ssa.c -I./include -I./c\0","run\0");
+   }
+   else
+   {
+       tc_compileBuildLoad("ssa.c -I./c -L./lib -lssa\0","run\0");
+   }
+*/   
+   free(cmd);
+   return;
+}
+
+void setupSSA()
+{
+        Matrix m;
+        m.rows = 4;
+        m.cols = 1;
+        char * cols[] = { "value" };
+        char * rows[] = { "model", "time", "max size", "plot", 0 };
+        double values[] = { 0, 100, 100000, 0 };
+        char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+        char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important
+        m.colnames = cols;
+        m.rownames = rows;
+        m.values = values;
+
+        tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
+		tc_addInputWindowOptions("Gillespie algorithm",0, 0,  options1);
+		tc_addInputWindowOptions("Gillespie algorithm",3, 0,  options2);		
+}
+
+void setupCellSSA()
+{
+        Matrix m;
+        m.rows = 7;
+        m.cols = 1;
+        char * cols[] = { "value" };
+        char * rows[] = { "model", "time", "num. cells", "growth rate", "death rate", "mutation rate", "num. points" , 0 };
+		double values[] = { 0, 100, 100, 0.05, 0.001, 0.001, 100 };
+        char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+        m.colnames = cols;
+        m.rownames = rows;
+        m.values = values;
+
+		tc_createInputWindow(m,"Multi-cell stochastic simulation",&runCellSSA);
+		tc_addInputWindowOptions("Multi-cell stochastic simulation",0, 0,  options1);
+}
+
+void tc_main()
+{
+		//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+		tc_addFunction(&setupSSA, "Discreet stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
+		tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/cells.PNG", "", 1, 0, 0);
 }

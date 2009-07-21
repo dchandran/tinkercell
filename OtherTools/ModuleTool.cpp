@@ -8,16 +8,16 @@
 
 ****************************************************************************/
 
-#include "ItemHandle.h"
-#include "GraphicsScene.h"
-#include "OutputWindow.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ModuleTool.h"
+#include "Core/ItemHandle.h"
+#include "Core/GraphicsScene.h"
+#include "Core/OutputWindow.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "OtherTools/ModuleTool.h"
 
 namespace Tinkercell
 {
@@ -51,6 +51,7 @@ namespace Tinkercell
 
     bool ModuleTool::setMainWindow(MainWindow * main)
     {
+		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
             connect(mainWindow,SIGNAL(prepareModelForSaving(GraphicsScene*)),this,SLOT(prepareModelForSaving(GraphicsScene*)));
@@ -59,8 +60,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
-            connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
-                    this, SLOT(itemsRemoved(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
+            connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
+                    this, SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
                     this, SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
@@ -134,18 +135,11 @@ namespace Tinkercell
                 NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
 
                 if (!module) continue;
-                /*
-                TextGraphicsItem * text = new TextGraphicsItem(handle);
-                QFont font = text->font();
-                font.setPointSize(16);
-                text->setFont(font);
-                */
                 ModuleLinkerItem * linker = new ModuleLinkerItem(module,0,0);
                 setHandle(linker,handle);
 
                 linkers += linker;
                 toInsert += linker;
-                //toInsert += text;
             }
         }
 
@@ -210,7 +204,6 @@ namespace Tinkercell
 
     void ModuleTool::VisualTool::visible(bool b)
     {
-        OutputWindow::message("visible");
         if  (!b || !moduleTool)
         {
             Tool::GraphicsItem::visible(false);
@@ -219,13 +212,23 @@ namespace Tinkercell
 
         MainWindow * mainWindow = moduleTool->mainWindow;
 
-        if (!mainWindow || !mainWindow->currentScene())
+        if (!mainWindow)
         {
             Tool::GraphicsItem::visible(false);
             return;
         }
-
+		
+		mainWindow->contextItemsMenu.removeAction(moduleTool->makeLink);
+        if (moduleTool->separator)
+			mainWindow->contextItemsMenu.removeAction(moduleTool->separator);
+        
         GraphicsScene * scene = mainWindow->currentScene();
+
+		if (!scene)
+        {
+            Tool::GraphicsItem::visible(false);
+            return;
+        }
 
         QList<QGraphicsItem*> & items = scene->selected();
         NodeGraphicsItem * node = 0;
@@ -259,8 +262,7 @@ namespace Tinkercell
                             moduleTool->separator = mainWindow->contextItemsMenu.addSeparator();
 
                         mainWindow->contextItemsMenu.addAction(moduleTool->makeLink);
-
-                        Tool::GraphicsItem::visible(true);
+						
                         return;
                     }
                 }
@@ -332,16 +334,17 @@ namespace Tinkercell
 
     void ModuleTool::itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& insertedItems, const QList<ItemHandle*>& handles)
     {
-        if (!scene) return;
+		if (!scene) return;
         NodeGraphicsItem * node = 0;
         ConnectionGraphicsItem * connection = 0;
 
         for (int i=0; i < handles.size(); ++i)
         {
             ItemHandle * handle = handles[i];
+			
             if (NodeHandle::asNode(handle) && !handle->tools.contains(this))
             {
-                handle->tools += this;
+				handle->tools += this;
             }
         }
 
@@ -381,42 +384,12 @@ namespace Tinkercell
                 bool allLinks = true;
 
                 for (int j=0; j < connections.size(); ++j)
-                    if (connections[j])
+                    if (connections[j] && !moduleConnections.contains(connections[j]))
                     {
-                    if (!moduleConnections.contains(connections[j]))
-                    {
-                        allLinks = true;
-                        QList<NodeGraphicsItem*> nodes = connections[j]->nodes();
-                        for (int k=0; k < nodes.size(); ++k)
-                            if (!nodes[k] || !items.contains(nodes[k])
-                                || nodes[k]->className != ModuleLinkerItem::class_name)
-                                {
-                            allLinks = false;
-                            break;
-                        }
-
-                        if (allLinks)
-                            moduleConnections += connections[j];
+                        moduleConnections += connections[j];
                     }
-                }
-
-                /*module = 0;
-                                        ItemHandle * handle = 0;
-                                        for (int j=0; j < itemsAt.size(); ++j)
-                                        {
-                                                module = NodeGraphicsItem::topLevelNodeItem(itemsAt[j]);
-                                                if ((handle = getHandle(module))
-                                                        && node->itemHandle && node->itemHandle->parent == handle
-                                                        && handle->isA("module"))
-                                                {
-
-                                                        break;
-                                                }
-                                                else
-                                                        module = 0;
-                                        }*/
-
-                if (module)
+                
+				if (module)
                 {
                     NodeGraphicsItem * linker = new ModuleLinkerItem(module);
                     setHandle(linker,getHandle(node));
@@ -537,13 +510,6 @@ namespace Tinkercell
         if (!scene) return;
         QList<QGraphicsItem*> & moving = scene->moving();
 
-        if (mainWindow)
-        {
-            mainWindow->contextItemsMenu.removeAction(this->makeLink);
-            if (separator)
-                mainWindow->contextItemsMenu.removeAction(separator);
-        }
-
         NodeGraphicsItem * node = 0;
         ModuleLinkerItem * linker = 0;
         ItemHandle * handle = 0;
@@ -553,10 +519,9 @@ namespace Tinkercell
             if ((node = NodeGraphicsItem::topLevelNodeItem(moving[i]))
                 && (node->className == ModuleLinkerItem::class_name))
                 {
-                if (items.contains(node)) linker = static_cast<ModuleLinkerItem*>(node);
-                moving.removeAt(i);
-                //node->setBoundingBoxVisible(false);
-            }
+					if (items.contains(node)) linker = static_cast<ModuleLinkerItem*>(node);
+					moving.removeAt(i);
+				}
         }
 
         if (linker && linker->module && items.size() == 1 && !linker->module->contains(point))
@@ -703,7 +668,7 @@ namespace Tinkercell
             for (int i=0; i < items.size(); ++i)
             {
                 node1 = NodeGraphicsItem::topLevelNodeItem(items[i]);
-                if (node1 && node1->className == ModuleLinkerItem::class_name)
+                if (node1)// && node1->className == ModuleLinkerItem::class_name)
                     break;
                 else
                     node1 = 0;
@@ -714,17 +679,17 @@ namespace Tinkercell
             for (int i=0; i < items.size(); ++i)
             {
                 node2 = NodeGraphicsItem::topLevelNodeItem(items[i]);
-                if (node2 && node2->className == ModuleLinkerItem::class_name)
+                if (node2)// && node2->className == ModuleLinkerItem::class_name)
                     break;
                 else
                     node2 = 0;
             }
 
             if (node1 && node2 && node1 != node2 && node1->itemHandle && node2->itemHandle && node1->itemHandle != node2->itemHandle
-                && node1->itemHandle->family() && node2->itemHandle->family()
-                && node1->className == ModuleLinkerItem::class_name && node2->className == ModuleLinkerItem::class_name)
+                && node1->itemHandle->family() && node2->itemHandle->family())
+                //&& node1->className == ModuleLinkerItem::class_name && node2->className == ModuleLinkerItem::class_name)
             {
-                if (
+		       if (
                         (node2->itemHandle->data && node2->itemHandle->data->numericalData.contains(tr("Fixed")) &&
                          node2->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0)
 
@@ -744,14 +709,14 @@ namespace Tinkercell
                     (node1->itemHandle->data && node1->itemHandle->data->numericalData.contains(tr("Fixed")) &&
                      node1->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0))
                 {
-
-                    ModuleConnectionGraphicsItem* mc =
-                            MakeModuleConnection(static_cast<ModuleLinkerItem*>(node1),
-                                                 static_cast<ModuleLinkerItem*>(node2),
+		
+					ModuleConnectionGraphicsItem* mc =
+                            MakeModuleConnection(node1,
+                                                 node2,
                                                  scene);
                     if (mc)
                     {
-                        mc->refresh();
+		                mc->refresh();
                         CompositeCommand * command = new CompositeCommand( tr("modules connected"),
                                                                            QList<QUndoCommand*>()
                                                                            << (new InsertGraphicsCommand(tr("modules connected"),scene,mc))
@@ -779,7 +744,7 @@ namespace Tinkercell
             lineItem.scene()->removeItem(&lineItem);
     }
 
-    void ModuleTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
+    void ModuleTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>&)
     {
         ConnectionGraphicsItem * connection = 0;
         for (int i=0; i < items.size(); ++i)
@@ -832,7 +797,7 @@ namespace Tinkercell
         return list;
     }
 
-    ModuleConnectionGraphicsItem * ModuleTool::MakeModuleConnection(ModuleLinkerItem * link1, ModuleLinkerItem * link2,GraphicsScene * scene)
+    ModuleConnectionGraphicsItem * ModuleTool::MakeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
     {
         if (!link1 || !link2) return 0;
 
@@ -844,36 +809,44 @@ namespace Tinkercell
         NodeGraphicsItem * module1 = VisualTool::parentModule(link1);
         NodeGraphicsItem * module2 = VisualTool::parentModule(link2);
 
-        if (!module1 || !module2) return 0;
-
-        QRectF rect1 = module1->sceneBoundingRect(), rect2 = module2->sceneBoundingRect();
-
-        QPointF point1 = link1->scenePos();
-        if (point1.ry() >= rect1.bottom())
-            point1.ry() = link1->sceneBoundingRect().bottom();
-        else
-            if (point1.ry() <= rect1.top())
-                point1.ry() = link1->sceneBoundingRect().top();
-        else
-            if (point1.rx() >= rect1.right())
-                point1.rx() = link1->sceneBoundingRect().right();
-        else
-            if (point1.rx() <= rect1.left())
-                point1.rx() = link1->sceneBoundingRect().left();
-
-        QPointF point2 = link2->scenePos();
-        if (point2.ry() >= rect2.bottom())
-            point2.ry() = link2->sceneBoundingRect().bottom();
-        else
-            if (point2.ry() <= rect2.top())
-                point2.ry() = link2->sceneBoundingRect().top();
-        else
-            if (point2.rx() >= rect2.right())
-                point2.rx() = link2->sceneBoundingRect().right();
-        else
-            if (point2.rx() <= rect2.left())
-                point2.rx() = link2->sceneBoundingRect().left();
-
+		QRectF rect1, rect2;
+		QPointF point1 = link1->scenePos(),
+				point2 = link2->scenePos();
+		if (module1)
+			rect1 = module1->sceneBoundingRect();
+		else
+			rect1 = link1->sceneBoundingRect();
+			
+		if (point1.ry() >= rect1.bottom())
+			point1.ry() = link1->sceneBoundingRect().bottom();
+		else
+			if (point1.ry() <= rect1.top())
+				point1.ry() = link1->sceneBoundingRect().top();
+		else
+			if (point1.rx() >= rect1.right())
+				point1.rx() = link1->sceneBoundingRect().right();
+		else
+			if (point1.rx() <= rect1.left())
+				point1.rx() = link1->sceneBoundingRect().left();
+	
+		if (module2)
+			rect2 = module2->sceneBoundingRect();
+		else
+			rect2 = link2->sceneBoundingRect();
+		
+			
+		if (point2.ry() >= rect2.bottom())
+			point2.ry() = link2->sceneBoundingRect().bottom();
+		else
+			if (point2.ry() <= rect2.top())
+				point2.ry() = link2->sceneBoundingRect().top();
+		else
+			if (point2.rx() >= rect2.right())
+				point2.rx() = link2->sceneBoundingRect().right();
+		else
+			if (point2.rx() <= rect2.left())
+				point2.rx() = link2->sceneBoundingRect().left();
+	
         QPointF midpt1(point1.rx(),point2.ry()), midpt2(point2.rx(),point1.ry());
 
         QList<QPointF> path = pathAroundRect(rect1.adjusted(-20,-20,20,20),rect2.adjusted(-20,-20,20,20),point1,point2);

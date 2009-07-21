@@ -3,23 +3,23 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This class performs some housekeeping operations for selecting and moving connection items.
  Connection items cannot be moved by themselves since their location is defined by the control
  points.
-
+ 
 ****************************************************************************/
 #include <math.h>
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ConnectionSelection.h"
-#include "CollisionDetection.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "NodeGraphicsWriter.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/ConnectionSelection.h"
+#include "BasicTools/CollisionDetection.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/NodeGraphicsWriter.h"
 
 namespace Tinkercell
 {

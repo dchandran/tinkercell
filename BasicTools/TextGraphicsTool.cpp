@@ -10,13 +10,13 @@
 ****************************************************************************/
 
 #include <QKeyEvent>
-#include "MainWindow.h"
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "ConnectionGraphicsItem.h"
-#include "NodeGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "TextGraphicsTool.h"
+#include "Core/MainWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/TextGraphicsTool.h"
 
 namespace Tinkercell
 {
@@ -412,7 +412,7 @@ namespace Tinkercell
 		}
 	}
 
-        void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+    void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 	{
                 if (!scene || items.isEmpty()) return;
 
@@ -474,26 +474,24 @@ namespace Tinkercell
 	{
 		if (mainWindow && scene && inserting)
 		{
-			TextGraphicsItem * textItem = new TextGraphicsItem(tr(""));
+			TextGraphicsItem * textItem = new TextGraphicsItem(tr("new text"));
 			textItem->setFont(font);
-			textItem->setPos(point); 
+			textItem->setPos(point);
 			
 			scene->insert(tr("text inserted"),textItem);
-			mainWindow->setCursor(Qt::ArrowCursor);
-			mainWindow->currentScene()->actionsEnabled = true;
-			inserting = false;
 			
-			oldText = textItem->toPlainText();
 			targetItem = textItem;
-			targetItem->showBorder(true);
+			
 			targetItem->setSelected(true);
 			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
-			//QTextCursor c = targetItem->textCursor();
-			//c.movePosition(QTextCursor::EndOfLine);
-			//c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
-			//targetItem->setTextCursor(c);
+			QTextCursor c = targetItem->textCursor();
+			c.movePosition(QTextCursor::EndOfLine);
+			c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
+			targetItem->setTextCursor(c);
 			
-			scene->selected() << textItem;
+			mainWindow->setCursor(Qt::ArrowCursor);
+			scene->actionsEnabled = true;
+			inserting = false;
 		}
 		else
 		{

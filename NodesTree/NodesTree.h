@@ -12,7 +12,6 @@
 #ifndef TINKERCELL_PARTSTREEWIDGET_H
 #define TINKERCELL_PARTSTREEWIDGET_H
 
-
 #include <QWidget>
 #include <QHash>
 #include <QIcon>
@@ -22,13 +21,13 @@
 #include <QVBoxLayout>
 #include <QTreeWidget>
 #include <QActionGroup>
-#include "MainWindow.h"
-#include "Tool.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ItemHandle.h"
-#include "NodesTreeReader.h"
-#include "TreeButton.h"
+#include "Core/MainWindow.h"
+#include "Core/Tool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ItemHandle.h"
+#include "NodesTree/NodesTreeReader.h"
+#include "NodesTree/TreeButton.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -138,7 +137,6 @@ namespace Tinkercell
         void windowClosing(NetworkWindow * , bool *);
         /*! \brief user requested changing the nodes tree xml file*/
         void selectNewNodeFile();
-
 		/*! \brief enter pressed or double clicked*/
 		void itemActivated( QListWidgetItem * );
     private:

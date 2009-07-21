@@ -15,15 +15,15 @@
 ****************************************************************************/
 
 #include <QSettings>
-#include "GraphicsScene.h"
-#include "NetworkWindow.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ModelSummaryTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/ModelSummaryTool.h"
 
 namespace Tinkercell
 {

@@ -1,23 +1,23 @@
 /****************************************************************************
-
+  
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines the TextEditor class. The TextEditor and Canvas are two ways to define a network.
  The Canvas is used for graphical reprentation of a network, whereas the TextEditor is used for
  text-based representation of a network.
-
+ 
 ****************************************************************************/
 
-#include "OutputWindow.h"
-#include "NetworkWindow.h"
-#include "TextEditor.h"
-#include "TextItem.h"
-#include "ItemFamily.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "UndoCommands.h"
+#include "Core/OutputWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/TextEditor.h"
+#include "Core/TextItem.h"
+#include "Core/ItemFamily.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/UndoCommands.h"
 #include <QTextBlock>
 #include <QTextCharFormat>
 #include <QFont>
@@ -28,67 +28,12 @@
 
 namespace Tinkercell
 {
-    TextEditor::TextEditor() :
-            networkWindow(0),
-			editor(new Editor(this)), 
-			listWidget(0),
-			splitter(0), 
-			informationLine(new QLabel("line:",this))
-    {
-		alignment = Qt::AlignLeft;
-
-        //listWidget->setMaximumWidth(150);
-
-        //QWidget * editorAndLine = new QWidget;
-        QVBoxLayout * layout = new QVBoxLayout;
-        //layout->addWidget(editor);
-        //layout->addWidget(informationLine);
-        //editorAndLine->setLayout(layout);
-
-        //splitter->addWidget(editorAndLine);
-        //splitter->addWidget(listWidget);
-
-        //layout = new QVBoxLayout;
-
-        //listWidget->setStyleSheet(tr("background-color: qlineargradient(x1: 1, y1: 0, x2: 0, y2: 0, stop: 0 #AAAAAA, stop: 0.8 #888888, stop: 1.0 #D9DDEB);"));
-        //editor->setStyleSheet(tr("background-color: #FFFFFF;"));
-		//editor->setStyleSheet(tr("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #FFFFFF, stop: 0.8 #FFFFFF, stop: 0.9 #C9E8FA, stop: 1.0 #E5F6F9);"));
-		
-        editor->setCursorWidth(3);
-
-        //layout->addWidget(splitter);
-		layout->addWidget(editor);
-        layout->setContentsMargins(0,0,0,0);
-        layout->setSpacing(0);
-        setLayout(layout);
-
-        textHistory << tr(""); //history at index=0
-		
-		//enableToolBar();
-    }
-
-    TextEditor::~TextEditor()
-    {
-        for (QSet<TextItem*>::iterator i = textItems.begin();
-                i != textItems.end();
-                ++i)
-        {
-            if (*i)
-                delete (*i);
-        }
-        textItems.clear();
-    }
-
-    QSet<TextItem*>& TextEditor::items()
-    {
-        return textItems;
-    }
 
     void TextEditor::push(QUndoCommand * c)
     {
         if (!c) return;
 
-        QUndoCommand * composite = new CompositeCommand(c->text(), new TextUndoCommand(this), c);
+        QUndoCommand * composite = new CompositeCommand(c->text(), new TextUndoCommand(this, prevText, toPlainText()), c);
 
         if (networkWindow)
             networkWindow->history.push( composite );
@@ -107,307 +52,280 @@ namespace Tinkercell
 
     void TextEditor::redo()
     {
-        if (editor)
-            editor->redo();
+        if (networkWindow)
+            networkWindow->history.redo();
     }
 
     void TextEditor::copy()
     {
-        if (editor)
-            editor->copy();
+        CodeEditor::copy();
     }
 
     void TextEditor::cut()
     {
-        if (editor)
-            editor->cut();
+        CodeEditor::cut();
+		emit textChanged(this, tr(""), tr(""), prevText);
+		prevText = toPlainText();
     }
 
     void TextEditor::paste()
     {
-        if (editor)
-            editor->paste();
+        CodeEditor::paste();
+		emit textChanged(this, tr(""), tr(""), prevText);
+		prevText = toPlainText();
     }
 
     void TextEditor::selectAll()
     {
-        if (editor)
-            editor->selectAll();
+        CodeEditor::selectAll();
     }
 
     void TextEditor::print(QPrinter * printer)
     {
-        if (editor)
-            editor->print(printer);
+        CodeEditor::print(printer);
     }
 
     void TextEditor::find(const QString& s)
     {
-        emit findText(s);
+        CodeEditor::find(s);
     }
 
-    void TextEditor::replace(const QRegExp& old_expression, const QString& new_string)
+    void TextEditor::replace(const QString& old_string, const QString& new_string)
     {
-        emit replaceText(old_expression,new_string);
+		QString text = toPlainText();
+		QString oldText = text;
+		QRegExp regex1(tr("[^A-Za-z_]") + old_string + tr("[^A-Za-z_0-9]"));
+		QRegExp regex2(tr("^") + old_string + tr("[^A-Za-z_0-9]"));
+		QRegExp regex3(tr("[^A-Za-z_]") + old_string + tr("$"));
+		QRegExp regex4(tr("^") + old_string + tr("$"));
+		text.replace(regex1,new_string);
+		text.replace(regex2,new_string);
+		text.replace(regex3,new_string);
+		text.replace(regex4,new_string);
+		setPlainText(text);
+		emit textChanged(this, tr(""), tr(""), oldText);
     }
 
-    void TextEditor::insertItem( TextItem* item)
-    {
-        textItems.insert(item);
-
-        QList<TextItem*> list;
-        list << item;
-
-        ItemHandle * handle = getHandle(item);
-        QList<ItemHandle*> handles;
-
-        if (handle)
-            handles << handle;
-
-        emit itemsInserted(this,list,handles);
-
-        if (item->asOp())
-            emit operationInserted(this,item->asOp());
-    }
-
-    void TextEditor::insertItems( const QList<TextItem*>& items)
-    {
-        ItemHandle * handle = 0;
-        QList<ItemHandle*> handles;
-
-        for (int i=0; i < items.size(); ++i)
-            if (items[i])
-            {
-                textItems.insert(items[i]);
-                handle = getHandle(items[i]);
-                if (handle)
-                    handles << handle;
-            }
-
-        emit itemsInserted(this,items,handles);
-
-        for (int i=0; i < items.size(); ++i)
-            if (items[i])
-            {
-                if (items[i]->asOp())
-                    emit operationInserted(this,items[i]->asOp());
-            }
-    }
-
-    void TextEditor::removeItem( TextItem* item )
-    {
-        textItems.remove(item);
-
-        QList<TextItem*> list, ops;
-        list << item;
-
-        ItemHandle * handle = getHandle(item);
-        QList<ItemHandle*> handles;
-
-        if (handle)
-            handles << handle;
-
-        emit itemsRemoved(this,list,handles);
-
-         if (item->asOp())
-             emit operationRemoved(this,item->asOp());
-    }
-
-    void TextEditor::removeItems( const QList<TextItem*>& items )
-    {
-        ItemHandle * handle = 0;
-        QList<ItemHandle*> handles;
-
-        for (int i=0; i < items.size(); ++i)
-            if (items[i])
-            {
-                textItems.remove(items[i]);
-                handle = getHandle(items[i]);
-                if (handle)
-                    handles << handle;
-            }
-
-        emit itemsRemoved(this,items,handles);
-
-        for (int i=0; i < items.size(); ++i)
-            if (items[i])
-            {
-                if (items[i]->asOp())
-                    emit operationRemoved(this,items[i]->asOp());
-            }
-    }
-
-    void TextEditor::addToToolBar(QWidget * widget)
-    {
-		if (!widget || !listWidget) return;
-        
-		QListWidgetItem * item = new QListWidgetItem;
-		listWidget->addItem(item);
-		listWidget->setItemWidget(item, widget);
-    }
-
-    void TextEditor::removeFromToolBar(QWidget * widget)
-    {
-        if (!listWidget) return;
-		QList<QListWidgetItem*> items;
-		
-		int count = listWidget->count();
-		
-		for (int i=0; i < count; ++i)
-			if (listWidget->item(i) && 
-				listWidget->itemWidget(listWidget->item(i)) && 
-				(listWidget->itemWidget(listWidget->item(i)) != widget))
-				items << listWidget->item(i);
-		
-		listWidget->clear();
-		
-		for (int i=0; i < items.size(); ++i)
-			listWidget->addItem(items[i]);
-    }
-
-    void TextEditor::enableToolBar(bool show)
-    {
-        if (!splitter || !listWidget)
-            return;
-
-        listWidget->setVisible(show);
-    }
-
-    void TextEditor::alignToolBar(Qt::Alignment align)
-    {
-        if (!splitter || !listWidget)
-            return;
-
-        switch(align)
-        {
-        case Qt::AlignLeft:
-            splitter->setOrientation(Qt::Vertical);
-            splitter->addWidget(listWidget);
-            splitter->addWidget(editor);
-            break;
-        case Qt::AlignRight:
-            splitter->setOrientation(Qt::Vertical);
-            splitter->addWidget(editor);
-            splitter->addWidget(listWidget);
-            break;
-        case Qt::AlignTop:
-            splitter->setOrientation(Qt::Horizontal);
-            splitter->addWidget(listWidget);
-            splitter->addWidget(editor);
-            break;
-        default:
-            splitter->setOrientation(Qt::Horizontal);
-            splitter->addWidget(editor);
-            splitter->addWidget(listWidget);
-            break;
-
-        }
-    }
-
-    Editor::Editor(TextEditor * t) : CodeEditor(), textEditor(t)
+    TextEditor::TextEditor()
     {
         setUndoRedoEnabled(false);
-        prevBlockNumber = -1;
-        changedBlockNumber = -1;
+		prevBlockNumber = -1;
+        changedBlockNumber = -1;		
         setWordWrapMode(QTextOption::NoWrap);
         connect(this,SIGNAL(textChanged()),this,SLOT(textChangedSlot()));
     }
+	
+	TextEditor::~TextEditor()
+    {
+		
+	}
+	
+	QString TextEditor::selectedText() const
+	{
+		return textCursor().selectedText();
+	}
+	
+	void TextEditor::contextMenuEvent ( QContextMenuEvent * event )
+	{
+		if (!networkWindow || !networkWindow->mainWindow || !event) return;
+		
+		if (selectedText().isEmpty())
+			networkWindow->mainWindow->contextEditorMenu.exec(event->globalPos());
+		else
+			networkWindow->mainWindow->contextSelectionMenu.exec(event->globalPos());
+	}
+	
+	QList<TextItem*>& TextEditor::items()
+	{
+		return allItems;
+	}
+	
+	void TextEditor::setItems( const QList<TextItem*>& newItems)
+	{
+		QList<QUndoCommand*> commands;
+		commands << new RemoveItemsCommand(this,allItems)
+				 << new InsertItemsCommand(this,newItems);
+		
+		ItemHandle * h = 0;
+		QList<ItemHandle*> handles;
+		for (int i=0; i < newItems.size(); ++i)
+			if ( (h = getHandle(newItems[i])) 
+				&& !handles.contains(h))
+			{
+				handles << h;
+			}
+		emit itemsRemoved(this, newItems, handles);
+		if (prevBlockText.isEmpty())
+			push( new CompositeCommand(tr("line ") + QString::number(prevBlockNumber) + tr(" changed"),commands)  );
+		else
+			push( new CompositeCommand(prevBlockText,commands)  );
+		emit itemsInserted(this, newItems, handles);
+	}
+	
+	void TextEditor::insertItem( TextItem * item )
+	{
+		if (item && !allItems.contains(item))
+		{
+			push( new InsertItemsCommand(this,item) );
+			
+			QList<TextItem*> list;
+			list << item;
+			QList<ItemHandle*> handles;
+			handles << getHandle(item);
+			emit itemsInserted(this, list, handles);
+		}
+	}
 
-    void Editor::textChangedSlot()
+	void TextEditor::insertItems( const QList<TextItem*>& list)
+	{
+		push( new InsertItemsCommand(this,list) );
+			
+		ItemHandle * h = 0;
+		QList<ItemHandle*> handles;
+		for (int i=0; i < list.size(); ++i)
+			if ((h = getHandle(list[i])) && 
+				!handles.contains(h))
+				handles << h;
+		emit itemsInserted(this, list, handles);
+	}
+
+	void TextEditor::removeItem( TextItem * item)
+	{
+		if (item && allItems.contains(item))
+		{
+			push( new RemoveItemsCommand(this,item) );
+			
+			QList<TextItem*> list;
+			list << item;
+			QList<ItemHandle*> handles;
+			handles << getHandle(item);
+			emit itemsRemoved(this, list, handles);
+		}
+		
+	}
+
+	void TextEditor::removeItems( const QList<TextItem*>& list)
+	{
+		push( new RemoveItemsCommand(this,list) );
+			
+		ItemHandle * h = 0;
+		QList<ItemHandle*> handles;
+		for (int i=0; i < list.size(); ++i)
+			if ((h = getHandle(list[i])) && 
+				!handles.contains(h))
+				handles << h;
+		emit itemsRemoved(this, list, handles);
+	}
+	
+    void TextEditor::textChangedSlot()
     {
         changedBlockNumber = textCursor().blockNumber();
         if (prevBlockNumber == changedBlockNumber)
             changedBlockText = textCursor().block().text();
     }
 
-    void Editor::keyPressEvent ( QKeyEvent * event )
+    void TextEditor::keyPressEvent ( QKeyEvent * event )
     {
         int n0 = textCursor().blockNumber();
 
         if (event->matches(QKeySequence::Redo)) //redo
         {
-            if (textEditor && textEditor->networkWindow)
-                textEditor->networkWindow->history.redo();
+            if (networkWindow)
+                networkWindow->history.redo();
             return;
         }
         else
-            if (event->matches(QKeySequence::Undo))  //undo
-            {
-            if (textEditor && textEditor->networkWindow)
-                textEditor->networkWindow->history.undo();
+        if (event->matches(QKeySequence::Undo))  //undo
+        {
+            if (networkWindow)
+                networkWindow->history.undo();
             return;
         }
         else
-            CodeEditor::keyPressEvent ( event );
+		if (event->matches(QKeySequence::Copy)) //redo
+        {
+            copy();
+            return;
+        }
+        else
+        if (event->matches(QKeySequence::Cut))  //undo
+        {
+            cut();
+            return;
+        }
+        else
+        if (event->matches(QKeySequence::Paste))  //undo
+        {
+            paste();
+            return;
+        }
+        else
+			CodeEditor::keyPressEvent(event);
 
         int n1 = textCursor().blockNumber();
+
         if (n0 != n1)
         {
             if (changedBlockNumber > -1)
             {
-                if (textEditor)
-                    textEditor->emitTextChanged(prevBlockText,changedBlockText);
+                emit textChanged(this, prevBlockText, changedBlockText, prevText);
+				prevText = toPlainText();
             }
             prevBlockText = textCursor().block().text();
             prevBlockNumber = n1;
             changedBlockNumber = -1;
 
-            if (textEditor)
-                textEditor->emitLineChanged(n1,prevBlockText);
+            emit lineChanged(this, n1,prevBlockText);
         }
     }
+	
+	void TextEditor::mouseReleaseEvent ( QMouseEvent * event )
+	{
+		int n1 = textCursor().blockNumber();
+		if (changedBlockNumber > -1)
+		{
+			emit textChanged(this, prevBlockText, changedBlockText, prevText);
+			prevText = toPlainText();
+		}
+		
+		prevBlockText = textCursor().block().text();
+		prevBlockNumber = n1;
+		changedBlockNumber = -1;
 
-    QTextDocument * TextEditor::document()
-    {
-        if (!editor)
-        {
-            editor = new Editor(this);
-            if (!splitter)
-                splitter = new QSplitter(this);
-            splitter->addWidget(editor);
-        }
-        return editor->document();
-    }
+		emit lineChanged(this, n1,prevBlockText);
+	}
 
-    void TextEditor::emitTextChanged(const QString& s0, const QString& s1)
-    {
-        emit textChanged(s0,s1);
-    }
-
-    void TextEditor::emitLineChanged(int i, const QString& s)
-    {
-        emit lineChanged(i,s);
-    }
-
-    void TextEditor::setStatusBarText(const QString& s)
-    {
-        if (informationLine)
-            informationLine->setText(s);
-    }
-
-    TextUndoCommand::TextUndoCommand(TextEditor * editor)
+    TextUndoCommand::TextUndoCommand(TextEditor * editor, const QString& oldText, const QString& newText)
         : textEdit(editor)
     {
-        if (editor && editor->editor)
+        if (editor)
         {
-            historyPosition = editor->textHistory.size();
-            editor->textHistory += editor->editor->toPlainText();
+            this->oldText = oldText;
+			this->newText = newText;
         }
     }
 
     void TextUndoCommand::redo()
     {
-        if (textEdit && textEdit->editor && textEdit->textHistory.size() > historyPosition)
-            textEdit->editor->setPlainText( textEdit->textHistory.value(historyPosition) );
+        if (textEdit)
+		{
+			int pos = textEdit->textCursor().position();
+            textEdit->setPlainText( newText );
+			QTextCursor cursor = textEdit->textCursor();
+			cursor.setPosition(pos);
+			textEdit->setTextCursor(cursor);
+		}
     }
 
     void TextUndoCommand::undo()
     {
-        if (textEdit && textEdit->editor &&
-            textEdit->textHistory.size() > historyPosition &&
-            historyPosition >= 1)
-            textEdit->editor->setPlainText( textEdit->textHistory.value(historyPosition-1) );
+        if (textEdit)
+		{
+			int pos = textEdit->textCursor().position();
+            textEdit->setPlainText( oldText );
+			QTextCursor cursor = textEdit->textCursor();
+			cursor.setPosition(pos);
+			textEdit->setTextCursor(cursor);
+		}
     }
-
-
 }

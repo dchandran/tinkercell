@@ -13,23 +13,23 @@
 #include <QSettings>
 #include <QToolBox>
 #include <QMessageBox>
-#include "GraphicsScene.h"
-#include "NetworkWindow.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "ConnectionSelection.h"
-#include "StoichiometryTool.h"
-#include "ModelSummaryTool.h"
-#include "BasicInformationTool.h"
-#include "CThread.h"
-#include "DefaultReactionRates.h"
-#include "muParserDef.h"
-#include "muParser.h"
-#include "muParserInt.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "BasicTools/ConnectionSelection.h"
+#include "BasicTools/StoichiometryTool.h"
+#include "BasicTools/ModelSummaryTool.h"
+#include "BasicTools/BasicInformationTool.h"
+#include "Core/CThread.h"
+#include "BasicTools/DefaultReactionRates.h"
+#include "muparser/muParserDef.h"
+#include "muparser/muParser.h"
+#include "muparser/muParserInt.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -521,9 +521,9 @@ namespace Tinkercell
         return d;
     }
 
-    bool StoichiometryTool::parseRateString(GraphicsScene* scene, ItemHandle * handle, QString& s)
+    bool StoichiometryTool::parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s)
     {
-        if (!scene || !handle || !scene->symbolsTable) return false;
+        if (!win || !handle) return false;
 
         static QStringList reservedWords;
         if (reservedWords.isEmpty())
@@ -536,7 +536,7 @@ namespace Tinkercell
         s.replace(tr("_qqq_"),tr("."));
         parser.SetVarFactory(AddVariable, 0);
 
-        SymbolsTable * symbolsTable = scene->symbolsTable;
+        SymbolsTable * symbolsTable = &win->symbolsTable;
         QList<ItemHandle*> allHandles = symbolsTable->handlesFullName.values();
 
         for (int i=0; i < allHandles.size(); ++i)
@@ -634,7 +634,7 @@ namespace Tinkercell
                                     str.replace(QRegExp(tr("^") + handle->fullName() + tr("\\.")),tr(""));
                                 }
                                 dat.value(str,0) = 1.0;
-                                scene->changeData(handle,tr("Numerical Attributes"),&dat);
+                                win->changeData(handle,tr("Numerical Attributes"),&dat);
                                 OutputWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
                             }
                         }
@@ -687,7 +687,7 @@ namespace Tinkercell
                     for (int k=0; k < sDataTable->rows() && n1 < rates.size(); ++k)
                     {
                         QString s = rates.at(n1);
-                        if (parseRateString(scene, connectionHandles[i],s))
+                        if (parseRateString(scene->networkWindow, connectionHandles[i],s))
                         {
                             sDataTable->value(k,0) = s;
                             change = true;
@@ -1783,7 +1783,7 @@ namespace Tinkercell
                         //sDataTable->rowName(k) = nDataTable->rowName(k) = ; //set row name
                         sDataTable->value(k,0) = list.at(n);
                         sDataTable->value(k,0).replace(regex,QString("\\1.\\2"));
-                        if (parseRateString(scene,connectionHandles[i],sDataTable->value(k,0)))
+                        if (parseRateString(scene->networkWindow,connectionHandles[i],sDataTable->value(k,0)))
                         {
                             change = true;
                         }

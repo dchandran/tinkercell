@@ -1,5 +1,4 @@
-#include "SyntaxHighlighter.h"
-
+#include "DynamicCodeTools/SyntaxHighlighter.h"
 namespace Tinkercell
 {
 	 /********************************

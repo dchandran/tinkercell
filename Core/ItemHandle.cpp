@@ -3,21 +3,21 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYWRITE.TXT
-
+ 
  This is one of the main classes in Tinkercell
  This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
- Each item in Tinkercell has an associated family.
-
+ Each item in Tinkercell has an associated family. 
+ 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "TextGraphicsItem.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextItem.h"
-#include "Tool.h"
-#include "ItemHandle.h"
-#include "UndoCommands.h"
+#include "Core/GraphicsScene.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextItem.h"
+#include "Core/Tool.h"
+#include "Core/ItemHandle.h"
+#include "Core/UndoCommands.h"
 #include <QRegExp>
 
 namespace Tinkercell
@@ -40,7 +40,7 @@ namespace Tinkercell
 	{
 		if (item == 0) return (0);
 		item = getGraphicsItem(item);
-
+		
 		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
 		if (node)
 		{
@@ -69,7 +69,7 @@ namespace Tinkercell
 	{
 		if (item == 0) return;
 		item = getGraphicsItem(item);
-
+		
 		if (handle != 0 && !handle->graphicsItems.contains(item))
 		{
 			handle->graphicsItems += item;
@@ -130,44 +130,44 @@ namespace Tinkercell
 		}
 	}
 
-        ItemHandle * getHandle(TextItem * item)
-        {
-            if (!item) return 0;
-            return item->itemHandle;
-        }
+	ItemHandle * getHandle(TextItem * item)
+	{
+		if (!item) return 0;
+		return item->itemHandle;
+	}
 
-        void setHandle(TextItem* item, ItemHandle* handle)
-        {
-            if (!item) return;
-            if (!handle)
-            {
-                if (item->itemHandle)
-                {
-                    item->itemHandle->textItems.removeAll(item);
-                }
-            }
-            else
-            {
-                if (!handle->textItems.contains(item))
-                    handle->textItems.append(item);
-            }
+	void setHandle(TextItem* item, ItemHandle* handle)
+	{
+		if (!item) return;
+		if (!handle)
+		{
+			if (item->itemHandle)
+			{
+				item->itemHandle->textItems.removeAll(item);
+			}
+		}
+		else
+		{
+			if (!handle->textItems.contains(item))
+				handle->textItems.append(item);
+		}
 
-            item->itemHandle = handle;
-        }
+		item->itemHandle = handle;
+	}
 
 	/**********************************
 	ITEM HANDLE
 	**********************************/
 
 	ItemHandle::~ItemHandle()
-	{
+	{	
 		parent = 0;
-		if (data)
+		if (data) 
 		{
 			delete data;
 			data = 0;
 		}
-
+		
 		tools.clear();
 
 		QList<QGraphicsItem*> list = graphicsItems;
@@ -175,8 +175,17 @@ namespace Tinkercell
 		{
 			setHandle(list[i],0);
 		}
-
+		
 		graphicsItems.clear();
+		
+		QList<TextItem*> list2 = textItems;
+		for (int i=0; i < list2.size(); ++i)
+		{
+			setHandle(list2[i],0);
+			delete list2[i];
+		}
+		
+		textItems.clear();
 
 		if (!children.isEmpty())
 			for (int i=0; i < children.size(); ++i)
@@ -186,13 +195,13 @@ namespace Tinkercell
 			}
 	}
 	ItemHandle::ItemHandle() : QObject()
-	{
-		parent = 0;
-		data = 0;
-		name = tr("");
+	{ 
+		parent = 0; 
+		data = 0; 
+		name = tr(""); 
 		type = 0;
 	}
-
+	
 	ItemHandle::ItemHandle(const ItemHandle& copy) : QObject()
 	{
 		type = copy.type;
@@ -205,7 +214,7 @@ namespace Tinkercell
 			data = 0;
 		parent = copy.parent;
 	}
-
+	
 	/*! \brief operator = */
 	ItemHandle& ItemHandle::operator = (const ItemHandle& copy)
 	{
@@ -214,7 +223,7 @@ namespace Tinkercell
 		for (int i=0; i < graphicsItems.size(); ++i)
 			if (getHandle(graphicsItems[i]) == this)
 				setHandle(graphicsItems[i],0);
-
+			
 		type = copy.type;
 		name = copy.name;
 		tools += copy.tools;
@@ -225,16 +234,16 @@ namespace Tinkercell
 		parent = copy.parent;
 		return *this;
 	}
-
+	
 	ItemHandle * ItemHandle::clone() const
-	{
+	{ 
 		return new ItemHandle(*this);
 	}
 	ItemFamily* ItemHandle::family() const
-	{
-		return 0;
+	{ 
+		return 0; 
 	}
-
+	
 	void ItemHandle::setParent(ItemHandle * p)
 	{
 		if (parent)
@@ -247,22 +256,22 @@ namespace Tinkercell
 			p->children.append(this);
 		}
 	}
-
+	
 	bool ItemHandle::isChildOf(ItemHandle * handle) const
 	{
 		if (!handle) return 0;
-
+		
 		ItemHandle * p = parent;
-
+		
 		while (p)
 		{
 			if (p == handle) return true;
 			p = p->parent;
 		}
-		return false;
+		return false;		
 	}
-
-	QString ItemHandle::fullName(const QString& sep) const
+	
+	QString ItemHandle::fullName(const QString& sep) const 
 	{
 		ItemHandle * p = parent;
 		QString name = this->name;
@@ -294,11 +303,11 @@ namespace Tinkercell
 				q = p;
 			p = p->parent;
 		}
-		if (q && q->isA(name))
+		if (q && q->isA(name)) 
 			return q;
 		return 0;
 	}
-
+	
 	ItemHandle* ItemHandle::parentOfFamily(const QString& family) const
 	{
 		ItemHandle * p = parent;
@@ -308,13 +317,13 @@ namespace Tinkercell
 			p = p->parent;
 		}
 		return 0;
-	}
-
+	}	
+	
 	bool ItemHandle::hasNumericalData(const QString& name) const
 	{
 		return (data && data->numericalData.contains(name));
 	}
-
+	
 	bool ItemHandle::hasTextData(const QString& name) const
 	{
 		return (data && data->textData.contains(name));
@@ -338,7 +347,7 @@ namespace Tinkercell
 		}
 		return list;
 	}
-
+	
 	qreal ItemHandle::getNumericalData(const QString& name, int row, int column) const
 	{
 		if (data && data->numericalData.contains(name))
@@ -347,7 +356,7 @@ namespace Tinkercell
 		}
 		return 0.0;
 	}
-
+	
 	qreal ItemHandle::getNumericalData(const QString& name, const QString& row, const QString& column) const
 	{
 		if (data && data->numericalData.contains(name))
@@ -356,7 +365,7 @@ namespace Tinkercell
 		}
 		return 0.0;
 	}
-
+	
 	QString ItemHandle::getTextData(const QString& name, int row, int column) const
 	{
 		if (data && data->textData.contains(name))
@@ -365,7 +374,7 @@ namespace Tinkercell
 		}
 		return QString();
 	}
-
+	
 	QString ItemHandle::getTextData(const QString& name, const QString& row, const QString& column) const
 	{
 		if (data && data->textData.contains(name))
@@ -374,7 +383,7 @@ namespace Tinkercell
 		}
 		return QString();
 	}
-
+	
 	void ItemHandle::setNumericalData(const QString& name, int row, int column, qreal value)
 	{
 		if (data && data->numericalData.contains(name))
@@ -382,7 +391,7 @@ namespace Tinkercell
 			data->numericalData[name].value(row,column) = value;
 		}
 	}
-
+	
 	void ItemHandle::setNumericalData(const QString& name, const QString& row, const QString& column, qreal value)
 	{
 		if (data && data->numericalData.contains(name))
@@ -390,7 +399,7 @@ namespace Tinkercell
 			data->numericalData[name].value(row,column) = value;
 		}
 	}
-
+	
 	void ItemHandle::setTextData(const QString& name, int row, int column, const QString& value)
 	{
 		if (data && data->textData.contains(name))
@@ -398,7 +407,7 @@ namespace Tinkercell
 			data->textData[name].value(row,column) = value;
 		}
 	}
-
+	
 	void ItemHandle::setTextData(const QString& name, const QString& row, const QString& column, const QString& value)
 	{
 		if (data && data->textData.contains(name))
@@ -406,7 +415,7 @@ namespace Tinkercell
 			data->textData[name].value(row,column) = value;
 		}
 	}
-
+	
 	QList<ItemHandle*> ItemHandle::allChildren() const
 	{
 		QList<ItemHandle*> handles = children;
@@ -444,15 +453,15 @@ namespace Tinkercell
 	}
 
 	NodeHandle::NodeHandle(NodeFamily * family)
-	{
+	{	
 		parent = 0;
 		nodeFamily = family;
 		data = new ItemData();
 		type = NodeHandle::Type;
 	}
-
+		
 	NodeHandle::NodeHandle(NodeFamily * family, NodeGraphicsItem * item)
-	{
+	{	
 		type = NodeHandle::Type;
 		parent = 0;
 		data = new ItemData();
@@ -465,7 +474,7 @@ namespace Tinkercell
 	}
 
 	NodeHandle::NodeHandle(NodeFamily * family, NodeTextItem * item)
-	{
+	{	
 		type = NodeHandle::Type;
 		parent = 0;
 		data = new ItemData();
@@ -492,19 +501,19 @@ namespace Tinkercell
 
 	NodeHandle::NodeHandle(const NodeHandle & copy) : ItemHandle(copy)
 	{
-		nodeFamily = copy.nodeFamily;
+		nodeFamily = copy.nodeFamily;		
 	}
 
 	ItemHandle * NodeHandle::clone() const
 	{
 		return (new NodeHandle(*this));
 	}
-
+	
 	QList<ConnectionHandle*> NodeHandle::connections() const
 	{
 		QList<ConnectionHandle*> list;
-
-		if (graphicsItems.size() > 0)
+		
+		if (graphicsItems.size() > 0)		
 		{
 			QList<ConnectionGraphicsItem*> connections;
 			NodeGraphicsItem * node = 0;
@@ -515,7 +524,7 @@ namespace Tinkercell
 				{
 					connections = node->connections();
 					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && connections[j]->itemHandle &&
+						if (connections[j] && connections[j]->itemHandle && 
 							connections[j]->itemHandle->type == ConnectionHandle::Type)
 							list << static_cast<ConnectionHandle*>(connections[j]->itemHandle);
 				}
@@ -534,13 +543,13 @@ namespace Tinkercell
 					{
 						connections = node->connections;
 						for (int j=0; j < connections.size(); ++j)
-							if (connections[j] && connections[j]->itemHandle &&
+							if (connections[j] && connections[j]->itemHandle && 
 								connections[j]->itemHandle->type == ConnectionHandle::Type)
 								list << static_cast<ConnectionHandle*>(connections[j]->itemHandle);
 					}
 				}
 		}
-
+		
 		return list;
 	}
 
@@ -558,23 +567,23 @@ namespace Tinkercell
         }
 
 	ConnectionHandle::ConnectionHandle()
-	{
+	{	
 		type = ConnectionHandle::Type;
 		parent = 0;
 		connectionFamily = 0;
 		data = new ItemData();
 	}
-
+		
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family)
-	{
+	{	
 		type = ConnectionHandle::Type;
 		parent = 0;
 		data = new ItemData();
 		connectionFamily = family;
 	}
-
+		
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item)
-	{
+	{	
 		type = ConnectionHandle::Type;
 		parent = 0;
 		data = new ItemData();
@@ -585,9 +594,9 @@ namespace Tinkercell
 			graphicsItems += item;
 		}
 	}
-
+	
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item)
-	{
+	{	
 		type = ConnectionHandle::Type;
 		parent = 0;
 		data = new ItemData();
@@ -620,11 +629,11 @@ namespace Tinkercell
 	{
 		return connectionFamily;
 	}
-
+	
 	QList<NodeHandle*> ConnectionHandle::nodes() const
 	{
 		QList<NodeHandle*> nodeslist;
-
+		
 		if (graphicsItems.size() > 0)
 		{
 			for (int j=0; j < graphicsItems.size(); ++j)
@@ -636,8 +645,8 @@ namespace Tinkercell
 				{
 					nodes = connection->nodes();
 					for (int i=0; i < nodes.size(); ++i)
-					{
-						if (nodes[i] && nodes[i]->itemHandle &&
+					{	
+						if (nodes[i] && nodes[i]->itemHandle && 
 							nodes[i]->itemHandle->type == NodeHandle::Type)
 							nodeslist << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 					}
@@ -657,8 +666,8 @@ namespace Tinkercell
 					{
 						nodes = connection->nodes();
 						for (int i=0; i < nodes.size(); ++i)
-						{
-							if (nodes[i] && nodes[i]->itemHandle &&
+						{	
+							if (nodes[i] && nodes[i]->itemHandle && 
 								nodes[i]->itemHandle->type == NodeHandle::Type)
 								nodeslist << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 						}
@@ -683,7 +692,6 @@ namespace Tinkercell
 					nodesIn = connection->nodesWithoutArrows();
 					nodesOut = connection->nodesWithArrows();
 					nodesDisconnected = connection->nodesDisconnected();
-
 					
 					bool ok = false;
 					for (int i=0; i < nodesOut.size(); ++i)
@@ -699,9 +707,9 @@ namespace Tinkercell
 					
 					for (int i=0; i < nodesIn.size(); ++i)
 					{
-						if (nodesIn[i] && !nodesDisconnected.contains(nodesIn[i]) &&
-							nodesIn[i]->itemHandle &&
-							nodesIn[j]->itemHandle->type == NodeHandle::Type)
+						if (nodesIn[i] && !nodesDisconnected.contains(nodesIn[i]) && 
+							nodesIn[i]->itemHandle && 
+							nodesIn[i]->itemHandle->type == NodeHandle::Type)
 							nodesList << static_cast<NodeHandle*>(nodesIn[i]->itemHandle);
 					}
 				}
@@ -718,10 +726,10 @@ namespace Tinkercell
 					connection = textItems[i]->asConnection();
 					if (connection)
 					{
-						nodes = connection->lhs;
+						nodes = connection->nodesIn;
 						for (int i=0; i < nodes.size(); ++i)
-						{
-							if (nodes[i] && nodes[i]->itemHandle &&
+						{	
+							if (nodes[i] && nodes[i]->itemHandle && 
 								nodes[i]->itemHandle->type == NodeHandle::Type)
 								nodesList << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 						}
@@ -730,7 +738,7 @@ namespace Tinkercell
 		}
 		return nodesList;
 	}
-
+	
 	QList<NodeHandle*> ConnectionHandle::nodesOut() const
 	{
 		QList<NodeHandle*> nodesList;
@@ -746,7 +754,6 @@ namespace Tinkercell
 					nodesIn = connection->nodesWithoutArrows();
 					nodesOut = connection->nodesWithArrows();
 					nodesDisconnected = connection->nodesDisconnected();
-
 					
 					bool ok = false;
 					for (int i=0; i < nodesOut.size(); ++i)
@@ -781,10 +788,10 @@ namespace Tinkercell
 					connection = textItems[i]->asConnection();
 					if (connection)
 					{
-						nodes = connection->rhs;
+						nodes = connection->nodesOut;
 						for (int i=0; i < nodes.size(); ++i)
-						{
-							if (nodes[i] && nodes[i]->itemHandle &&
+						{	
+							if (nodes[i] && nodes[i]->itemHandle && 
 								nodes[i]->itemHandle->type == NodeHandle::Type)
 								nodesList << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 						}

@@ -3,13 +3,12 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is source file for Tinkercell's main window
  The MainWindow contains a set of GraphicScenes, which is the class
  that performs all the drawing. Each GraphicsScene emits various signals. Those
  signals are then emitted by the MainWindow; in this way, a plugin does not need
  to listen to each of the GraphicsScene signals but only the MainWindow's signals.
-
  
  The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
  
@@ -25,21 +24,21 @@
 #include <QtDebug>
 #include <QSvgGenerator>
 #include <QImage>
-#include "TextEditor.h"
-#include "TextItem.h"
-#include "NetworkWindow.h"
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "HistoryStack.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "MainWindow.h"
-#include "CThread.h"
-#include "OutputWindow.h"
-#include "AbstractInputWindow.h"
+#include "Core/TextEditor.h"
+#include "Core/TextItem.h"
+#include "Core/NetworkWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/HistoryStack.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
+#include "Core/CThread.h"
+#include "Core/OutputWindow.h"
+#include "Core/AbstractInputWindow.h"
 
 namespace Tinkercell
 {
@@ -177,9 +176,8 @@ namespace Tinkercell
 
     MainWindow::MainWindow()
     {
-        //setAttribute(Qt::WA_DeleteOnClose);
+		RegisterDataTypes();
         prevWindow = 0;
-        //setPalette(QPalette(QColor(250,250,250)));
         setAutoFillBackground(true);
         setAcceptDrops(true);
 
@@ -190,7 +188,7 @@ namespace Tinkercell
         mdiArea.setTabShape(QTabWidget::Triangular);
         connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
 
-        setWindowTitle(tr("Tinkercell: design tool for biochemical networks"));
+        setWindowTitle(tr("Tinkercell"));
         statusBar()->showMessage("Welcome to Tinkercell");
 
         setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
@@ -214,22 +212,25 @@ namespace Tinkercell
         connectTCFunctions();
 
         outputWindow = new OutputWindow(this);
-
+        
         connect(this,SIGNAL(itemsInserted(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
                 this,SLOT(itemsInsertedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
+
         connect(this,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
                 this,SLOT(itemsRemovedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
-        connect(this,SIGNAL(itemsInserted(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
+		
+		connect(this,SIGNAL(itemsInserted(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
                 this,SLOT(itemsInsertedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
+
         connect(this,SIGNAL(itemsRemoved(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
                 this,SLOT(itemsRemovedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
     }
 
-    MainWindow::MainWindow(bool enableScene, bool enableText)
+    MainWindow::MainWindow(bool enableScene, bool enableText, bool enableOutputWindow)
     {
-        //setAttribute(Qt::WA_DeleteOnClose);
+		RegisterDataTypes();
+		outputWindow = 0;
         prevWindow = 0;
-        //setPalette(QPalette(QColor(250,250,250)));
         setAutoFillBackground(true);
         setAcceptDrops(true);
 
@@ -240,7 +241,7 @@ namespace Tinkercell
         mdiArea.setTabShape(QTabWidget::Triangular);
         connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
 
-        setWindowTitle(tr("Tinkercell: design tool for biochemical networks"));
+        setWindowTitle(tr("Tinkercell: CAD for biological networks"));
         statusBar()->showMessage("Welcome to Tinkercell");
 
         setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
@@ -263,7 +264,8 @@ namespace Tinkercell
 
         connectTCFunctions();
 
-        outputWindow = new OutputWindow(this);
+		if (enableOutputWindow)
+			outputWindow = new OutputWindow(this);
     }
 
     void MainWindow::saveSettings()
@@ -304,6 +306,11 @@ namespace Tinkercell
         GraphicsScene::clearStaticItems();
         saveSettings();
     }
+	
+	void MainWindow::setCurrentWindow(NetworkWindow * window)
+	{
+		mdiArea.setActiveSubWindow(window);
+	}
 
     void MainWindow::newGraphicsWindow()
     {
@@ -754,11 +761,20 @@ namespace Tinkercell
         contextScreenMenu.addAction(changeViewAction);
         contextScreenMenu.addAction(undoAction);
         contextScreenMenu.addAction(redoAction);
+		
+		contextEditorMenu.addAction(closeAction);
+        contextEditorMenu.addAction(changeViewAction);
+		contextEditorMenu.addAction(undoAction);
+        contextEditorMenu.addAction(redoAction);
 
         contextItemsMenu.addAction(copyAction);
         contextItemsMenu.addAction(cutAction);
-        contextItemsMenu.addAction(pasteAction);
+        contextScreenMenu.addAction(pasteAction);
         contextItemsMenu.addAction(deleteAction);
+		
+		contextSelectionMenu.addAction(copyAction);
+        contextSelectionMenu.addAction(cutAction);
+        contextEditorMenu.addAction(pasteAction);
 
         contextScreenMenu.addAction(fitAll);
         contextScreenMenu.addAction(closeAction);
@@ -974,17 +990,17 @@ namespace Tinkercell
         if (handles.size() > 0 && scene)
             emit itemsInserted(scene->networkWindow, handles);
     }
-
-    void MainWindow::itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>& handles)
-    {
-        if (handles.size() > 0 && editor)
-            emit itemsInserted(editor->networkWindow, handles);
-    }
-
-    void MainWindow::itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>& handles)
+	
+	void MainWindow::itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles)
     {
         if (handles.size() > 0 && editor)
             emit itemsRemoved(editor->networkWindow, handles);
+    }
+
+    void MainWindow::itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles)
+    {
+        if (handles.size() > 0 && editor)
+            emit itemsInserted(editor->networkWindow, handles);
     }
 
     /***********************************************/
@@ -2839,5 +2855,42 @@ namespace Tinkercell
             s->release();
     }
 
+	void MainWindow::RegisterDataTypes()
+	{
+		//register new signal/slot data types
+		qRegisterMetaType< QList<QGraphicsItem*> >("QList<QGraphicsItem*>");
+		qRegisterMetaType< QStringList >("QStringList");
 
+		qRegisterMetaType< QList<QGraphicsItem*> >("QList<QGraphicsItem*>&");
+		qRegisterMetaType< QStringList >("QStringList&");
+
+		qRegisterMetaType< QList<QGraphicsItem*>* >("QList<QGraphicsItem*>*");
+		qRegisterMetaType< QStringList* >("QStringList*");
+
+		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>");
+		qRegisterMetaType< DataTable<QString> >("DataTable<qreal>");
+
+		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>&");
+		qRegisterMetaType< DataTable<QString> >("DataTable<qreal>&");
+
+		qRegisterMetaType< DataTable<qreal>* >("DataTable<qreal>*");
+		qRegisterMetaType< DataTable<QString>* >("DataTable<qreal>*");
+
+		qRegisterMetaType< ItemHandle* >("ItemHandle*");
+		qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>");
+		qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>&");
+		
+		qRegisterMetaType< Tool* >("Tool*");
+		qRegisterMetaType< QList<Tool*> >("QList<Tool*>");
+		qRegisterMetaType< QList<Tool*> >("QList<Tool*>&");
+
+		qRegisterMetaType< QList<QStringList> >("QList<QStringList>");
+		qRegisterMetaType< QList<QStringList> >("QList<QStringList>&");
+
+		qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
+
+
+		qRegisterMetaType< Matrix >("Matrix");
+
+	}
 }

@@ -16,12 +16,12 @@
 #include <QColor>
 #include <QDir>
 #include <QGraphicsLineItem>
-#include "ItemHandle.h"
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "TextGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
 
 /*! \brief A 1-to-1 connection graphics item without a handle */
 

@@ -3,11 +3,11 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines the TextItem, NodeTextItem, and ConnectionTextItem.
  There are two ways to define and view a network - graphical or text-based.
- Text items are used in the text-based version.
-
+ Text items are used in the text-based version.  
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_TEXTIEMS_H
@@ -37,7 +37,10 @@ namespace Tinkercell
      {
      public:
           TextItem();
+		  virtual ~TextItem();
           TextItem(ItemHandle *);
+		  /*! \brief clone */
+		  virtual TextItem* clone() const;
           /*! \brief used to identify the type of text item (Node or connection)*/
           int type;
           /*! \brief the handle for this text item*/
@@ -46,8 +49,8 @@ namespace Tinkercell
           ConnectionTextItem * asConnection();
           /*! \brief cast this text item to Node text item */
           NodeTextItem * asNode();
-          /*! \brief cast this text item to Operator text item */
-          OpTextItem * asOp();
+		  /*! \brief other information needed to describe this connection in text*/
+          QStringList descriptors;
      };
 
      /*! \brief Text items that represent Nodes.
@@ -58,6 +61,8 @@ namespace Tinkercell
      public:
           NodeTextItem();
           NodeTextItem(ItemHandle *);
+		  /*! \brief clone */
+		  virtual TextItem* clone() const;
           /*! \brief this variable is used to determine whether a TextItem is a NodeTextItem*/
           static int Type;
           /*! \brief all the connection that this Node is connected to*/
@@ -72,39 +77,18 @@ namespace Tinkercell
      public:
           ConnectionTextItem();
           ConnectionTextItem(ItemHandle *);
+		  /*! \brief clone */
+		  virtual TextItem* clone() const;
           /*! \brief this variable is used to determine whether a TextItem is a ConnectionTextItem*/
           static int Type;
-          /*! \brief the Nodes on the left-hand-side of this connection. Corresponds to NodesIn() in ConnectionGraphicsItem*/
-          QList<NodeTextItem*> lhs;
-          /*! \brief the Nodes on the right-hand-side of this connection. Corresponds to NodesOut() in ConnectionGraphicsItem*/
-          QList<NodeTextItem*> rhs;
-          /*! \brief the string that represents the connection between the lhs and rhs*/
-          QString arrow;
-          /*! \brief other information needed to describe this connection in text*/
-          QStringList descriptors;
-          /*! \brief the Nodes on the right-hand-side and left-hand-size of this connection. Corresponds to Nodes() in ConnectionGraphicsItem*/
+          /*! \brief corresponds to nodesWithArrow() in ConnectionGraphicsItem*/
+          QList<NodeTextItem*> nodesIn;
+          /*! \brief corresponds to nodesWithoutArrow() in ConnectionGraphicsItem*/
+          QList<NodeTextItem*> nodesOut;
+          /*! \brief corresponds to nodesDisconnected() in ConnectionGraphicsItem*/
+          QList<NodeTextItem*> nodesOther;
+		  /*! \brief corresponds to nodes() in ConnectionGraphicsItem*/
           QList<NodeTextItem*> nodes() const;
-     };
-
-     /*! \brief Text items that represent operations, such as equations or assignments.
-               These text items are defined by a left side, right side, and an operation
-          \ingroup helper
-     */
-     class OpTextItem : public TextItem
-     {
-     public:
-          OpTextItem();
-          OpTextItem(ItemHandle *);
-          /*! \brief this variable is used to determine whether a TextItem is a OpTextItem*/
-          static int Type;
-          /*! \brief the left-hand side*/
-          QString lhs;
-          /*! \brief the right-hand side*/
-          QString rhs;
-          /*! \brief the operator*/
-          QString op;
-          /*! \brief a short description of the operation, e.g. function declaration*/
-          QString description;
      };
 }
 

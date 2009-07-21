@@ -1,0 +1,12 @@
+BindingSiteSet.txt
+GeneProductSet.txt
+NetWorkSet.txt
+PromoterSigma24Set.txt
+PromoterSigma28Set.txt
+PromoterSigma32Set.txt
+PromoterSigma38Set.txt
+PromoterSigma54Set.txt
+PromoterSigma70Set.txt
+RBSSet.txt
+TerminatorSet.txt
+temp.txt

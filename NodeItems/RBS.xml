@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/RBS.xml" width="50" height="50">
+    <ControlPoints>
+        <ControlPoint x="91" y="28"></ControlPoint>
+        <ControlPoint x="330.995" y="28"></ControlPoint>
+        <ControlPoint x="330.995" y="257"></ControlPoint>
+        <ControlPoint x="91" y="257"></ControlPoint>
+        <ControlPoint x="79.5289" y="18.2329"></ControlPoint>
+        <ControlPoint x="341.476" y="18.2329"></ControlPoint>
+        <ControlPoint x="341.476" y="267.974"></ControlPoint>
+        <ControlPoint x="79.5289" y="267.974"></ControlPoint>
+        <ControlPoint x="127" y="91"></ControlPoint>
+        <ControlPoint x="295" y="196"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,1,0,3,7,4"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#1827f4" Alpha="83"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="1,5,6,7,3,2,1"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#01020c" Alpha="169"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Gradient Type="1">
+                <Stop Value="0" Color="#1827f4" Alpha="56"></Stop>
+                <Stop Value="1" Color="#0f16a6" Alpha="106"></Stop>
+                <Start x="239" y="126"></Start>
+                <End x="95" y="24"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="8,9,8"></ControlPoints>
+            <LineTypes sequence="arc,arc,arc"></LineTypes>
+            <Parameters values="0,360,0,360,0,360"></Parameters>
+            <Pen Width="2" Color="#1da9ff" Alpha="197"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#29ecfd" Alpha="149"></Stop>
+                <Stop Value="1" Color="#0e45f7" Alpha="255"></Stop>
+                <Start x="213" y="112"></Start>
+                <End x="211" y="171"></End>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

@@ -3,16 +3,16 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is the header file for the connection graphics item, which is a Qt graphics path item
- that draws a connection between two or more nodes.
-
- The connection graphics items defines a new control point item inside itself.
-
+ that draws a connection between two or more nodes. 
+ 
+ The connection graphics items defines a new control point item inside itself. 
+ 
  This header file also contains the arrow head item class. The arrow head item inherits from
  node graphics item and is used to draw the arrow heads at the end of the connection items.
-
-
+ 
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONNECTIONGRAPHICSITEM_H
@@ -29,7 +29,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QUndoCommand>
-#include "NodeGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
 
 namespace Tinkercell
 {
@@ -71,7 +71,7 @@ public:
 	/*! \brief paint this arrow item. performs rotation using the angle member.
 	\return void
 	*/
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
+	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);	
 	/*! \brief returns a duplicate of this arrow head
 	\return duplicate arrow head item
 	*/
@@ -79,7 +79,7 @@ public:
 	/*! \brief used for checking type before static casts */
 	static QString class_name;
 };
-
+ 
 /*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
 class ConnectionGraphicsItem : public QGraphicsPathItem
@@ -120,11 +120,11 @@ public:
 	static const int numLineTypes = 2;
 	/*! \brief line or beizier */
 	typedef enum {line, bezier} LineType;
-
+	
 	/*! \brief type of line for this reaction - line or beizier */
 	LineType lineType;
-
-	/*! \brief A control point with a pointer to a ConnectionGraphicsItem
+	
+	/*! \brief A control point with a pointer to a ConnectionGraphicsItem 
 		\ingroup core*/
 	class ControlPoint : public Tinkercell::ControlPoint
 	{
@@ -138,7 +138,7 @@ public:
 		/*! \brief Copy Constructor */
 		ControlPoint(const ControlPoint& copy);
 		/*! Copy operator */
-		ControlPoint& operator = (const ControlPoint& copy);
+		virtual ControlPoint& operator = (const ControlPoint& copy);
 		/*! \brief for enabling dynamic_cast*/
 		enum { Type = UserType + 6 };
 		/*! \brief for enabling dynamic_cast*/
@@ -154,8 +154,8 @@ public:
 		/*! \brief make a copy of this control point*/
 		virtual Tinkercell::ControlPoint* clone() const;
 	};
-
-	/*! \brief A set of control points and two arrow heads
+	
+	/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/
 	class PathVector : public QVector<ConnectionGraphicsItem::ControlPoint*>
 	{
@@ -168,7 +168,7 @@ public:
 	};
 
 	/*! \brief vector of vector of control point*/
-	QList<PathVector> pathVectors;
+	QList<PathVector> pathVectors;	
 	/*! \brief distance from arrow head to the item that it is connected to*/
 	qreal arrowHeadDistance;
 	/*! \brief list of pointers to all the control points*/
@@ -280,7 +280,7 @@ protected:
 	virtual void adjustEndPoints();
 };
 
-/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality
+/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
 class AddControlPointCommand : public QUndoCommand
 {
@@ -290,14 +290,14 @@ public:
 	* \param graphics scene
 	* \param control point(s) that have been added
 	* \return void*/
-	AddControlPointCommand(const QString& name, QGraphicsScene * scene,
+	AddControlPointCommand(const QString& name, QGraphicsScene * scene, 
 		            ConnectionGraphicsItem::ControlPoint * item );
 	/*! \brief constructor that makes the command. If added to history stack, also does redo
 	* \param name
 	* \param graphics scene
 	* \param control point(s) that have been added
 	* \return void*/
-	AddControlPointCommand(const QString& name, QGraphicsScene * scene,
+	AddControlPointCommand(const QString& name, QGraphicsScene * scene, 
 		QList<ConnectionGraphicsItem::ControlPoint *> items);
 	/*! \brief destructor. deletes all control points that do not belong a scene*/
 	virtual ~AddControlPointCommand();
@@ -308,7 +308,7 @@ public:
 	/*! \brief Remove new control points. Control points were set in the constructor
 	* \param void
 	* \return void*/
-	void undo();
+	void undo();	
 	/*! \brief graphics scene to which control points were added*/
 	QGraphicsScene * graphicsScene;
 	/*! \brief control points that were added*/
@@ -327,14 +327,14 @@ public:
 	* \param graphics scene
 	* \param control point(s) that have been added
 	* \return void*/
-	RemoveControlPointCommand(const QString& name, QGraphicsScene * scene,
+	RemoveControlPointCommand(const QString& name, QGraphicsScene * scene, 
 					ConnectionGraphicsItem::ControlPoint * item);
 	/*! \brief constructor that makes the command. If added to history stack, also does redo
 	* \param name
 	* \param graphics scene
 	* \param control point(s) that have been added
 	* \return void*/
-	RemoveControlPointCommand(const QString& name, QGraphicsScene * scene,
+	RemoveControlPointCommand(const QString& name, QGraphicsScene * scene, 
 		             QList<ConnectionGraphicsItem::ControlPoint *> items);
 	/*! \brief Remove new control points. Control points were set in the constructor
 	* \param void
@@ -343,16 +343,16 @@ public:
 	/*! \brief Add new control points. Control points were set in the constructor
 	* \param void
 	* \return void*/
-	void undo();
+	void undo();	
 	/*! \brief control points that were added*/
 	QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
 	/*! \brief graphics scene to which control points were added*/
-	QGraphicsScene * graphicsScene;
+	QGraphicsScene * graphicsScene;	
 	/*! \brief the poisition(s) at which the control points were added*/
 	QList<int> listK1, listK2;
 };
 
-/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality
+/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
 class AddPathVectorCommand : public QUndoCommand
 {
@@ -380,7 +380,7 @@ public:
 	/*! \brief Remove new control points. Control points were set in the constructor
 	* \param void
 	* \return void*/
-	void undo();
+	void undo();	
 	/*! \brief graphics scene to which control points were added*/
 	QGraphicsScene * graphicsScene;
 	/*! \brief graphics item to which control points were added*/
@@ -410,7 +410,7 @@ public:
 	* \return void*/
 	RemovePathVectorCommand(const QString& name, QGraphicsScene * scene, ConnectionGraphicsItem* connection,
 		             QList<ConnectionGraphicsItem::ControlPoint *> items);
-
+	
 	/*! \brief Remove new control points. Control points were set in the constructor
 	* \param void
 	* \return void*/
@@ -418,11 +418,11 @@ public:
 	/*! \brief Add new control points. Control points were set in the constructor
 	* \param void
 	* \return void*/
-	void undo();
+	void undo();	
 	/*! \brief vector of control points that were added*/
 	QList<ConnectionGraphicsItem::PathVector> pathVectors;
 	/*! \brief graphics scene from which control points were removed*/
-	QGraphicsScene * graphicsScene;
+	QGraphicsScene * graphicsScene;	
 	/*! \brief graphics item from which control points were removed*/
 	ConnectionGraphicsItem* connectionItem;
 	/*! \brief the poisition(s) at which the control point vectors were added*/

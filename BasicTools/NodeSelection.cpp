@@ -13,12 +13,12 @@
 ****************************************************************************/
 
 #include <math.h>
-#include "UndoCommands.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "NodeSelection.h"
-#include "OutputWindow.h"
+#include "Core/UndoCommands.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/NodeSelection.h"
+#include "Core/OutputWindow.h"
 
 namespace Tinkercell
 {
@@ -50,13 +50,11 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this ,SLOT(itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(windowClosing(NetworkWindow*,bool*)),this,SLOT(windowClosing(NetworkWindow*,bool*)));
-
 			
 			return true;
         }
         return false;
     }
-
     void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& , Qt::KeyboardModifiers )
     {
         if (!scene) return;

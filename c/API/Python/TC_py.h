@@ -10,10 +10,11 @@
 #include "TC_ModelFileGenerator_py.c"
 #include "TC_StoichiometryTool_py.c"
 #include "TC_EventsAssignments_py.c"
+#include "TC_AutoGeneRegulatoryTool_py.c"
 
 static PyMethodDef pytcMethods[] = {
 //misc
-	{"zoom",pytc_zoom, METH_VARARGS, "zoom by a factor (0-1). example: zoom(1.2);"},
+	{"zoom",pytc_zoom, METH_VARARGS, "zoom by a factor. example: zoom(1.2);"},
 	{"showProgress", pytc_showProgress, METH_VARARGS, "show progress in percent (0-100). example: showProgress(50);"},
 	{"clear", pytc_clearScreen, METH_VARARGS, "clear all text. example: clear();"},
 	{"write", pytc_print, METH_VARARGS, "print text. example: write(\"hello world\")"},
@@ -35,10 +36,10 @@ static PyMethodDef pytcMethods[] = {
 	{"deselect", pytc_deselect, METH_VARARGS, "deselect all selected items. example: deselectItems();"},
 
 //item name and position
-	{"getName", pytc_getName, METH_VARARGS, "get the name of an item. example: Array = selectedItems(); s = getName(Array[0]);"},
+	{"name", pytc_getName, METH_VARARGS, "get the name of an item. example: Array = selectedItems(); s = getName(Array[0]);"},
 	{"rename", pytc_rename, METH_VARARGS, "set the name of an item. example: Array = selectedItems(); rename(Array[0],\"S\");"},
-	{"getNames", pytc_getNames, METH_VARARGS, "get the names of given items. example: Array = selectedItems(); names = getNames(Array[0]);"},
-	{"getFamily", pytc_getFamily, METH_VARARGS, "get the family of an item. example: A = find(\"A\"); s = getFamily(A);"},
+	{"names", pytc_getNames, METH_VARARGS, "get the names of given items. example: Array = selectedItems(); names = getNames(Array[0]);"},
+	{"family", pytc_getFamily, METH_VARARGS, "get the family of an item. example: A = find(\"A\"); s = getFamily(A);"},
 	{"isA", pytc_isA, METH_VARARGS, "checks whether the given item belongs in the given family. example: Array = find(\"A\"); i = isA(A,\"Receptor\");"},
 	{"getX", pytc_getX, METH_VARARGS, "get the X coordinate of an item. example: A = find(\"A\"); x = getX(A);"},
 	{"getY", pytc_getY, METH_VARARGS, "get the Y coordinate of an item. example: A = find(\"A\"); y = getY(A);"},
@@ -156,7 +157,16 @@ static PyMethodDef pytcMethods[] = {
 	{"highlight", pytc_highlight, METH_VARARGS, "display a circle around the given item temporarily. example: a = find(\"A\"); highlight(a); or highlight(a,255,0,0); for color"},
 	{"displayText", pytc_displayText, METH_VARARGS, "display the given text on top of the given item. example: a = find(\"A\"); displayText(a,\"Hello World\");"},
 	{"displayNumber", pytc_displayNumber, METH_VARARGS, "display the given number on top of the given item. example: a = find(\"A\"); displayNumber(a,3.14159);"},
-	
+
+//merge and separate
+	{"merge", pytc_merge, METH_VARARGS, "Merge a list of items. example: a = find(\"A\"); a = find(\"B\"); merge((a,b));"},
+	{"separate", pytc_separate, METH_VARARGS, "Separate an item. example: a = find(\"A\"); separate(a);"},
+
+//genetic parts
+	{"partsIn", pytc_partsIn, METH_VARARGS, "get all the DNA parts inside a Module or Compartment. example: a = find(\"A\"); A = partsIn(a); prints getNames(A);"},
+	{"partsUpstream", pytc_partsUpstream, METH_VARARGS, "get all the DNA parts upstream of this part. example: a = find(\"A\"); A = partsUpstream(a); prints getNames(A);"},
+	{"partsDownstream", pytc_partsDownstream, METH_VARARGS, "get all the DNA parts downstream of this part. example: a = find(\"A\"); A = partsDownstream(a); prints getNames(A);"},
+
 	
 	{NULL, NULL, 0, NULL}
 };

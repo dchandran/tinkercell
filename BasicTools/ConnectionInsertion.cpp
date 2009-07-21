@@ -9,15 +9,15 @@
  
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "CThread.h"
-#include "OutputWindow.h"
-#include "ConnectionInsertion.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/CThread.h"
+#include "Core/OutputWindow.h"
+#include "BasicTools/ConnectionInsertion.h"
 
 namespace Tinkercell
 {

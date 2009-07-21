@@ -3,21 +3,21 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This file defines the class that is used to create new threads in the
+ 
+ This file defines the class that is used to create new threads in the 
  Tinkercell main window. The threads can be associated with a dialog that provides
  users with the option to terminate the thread.
-
-
+ 
+ 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "CThread.h"
-#include "OutputWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/CThread.h"
+#include "Core/OutputWindow.h"
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QDir>
@@ -245,19 +245,25 @@ namespace Tinkercell
      {
          argMatrix = dat;
      }
+	 
+	QString CThread::style = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 1.0 #585858, stop: 0.5 #0E0E0E, stop: 0.5 #9A9A9A, stop: 1.0 #E2E2E2);");
 
-    QDialog * CThread::dialog(CThread * newThread, const QString& title, const QIcon& icon, bool progressBar)
+    QWidget * CThread::dialog(CThread * newThread, const QString& title, const QIcon& icon, bool progressBar)
     {
         if (!newThread || !newThread->mainWindow) return 0;
 
-        QDialog * dialog = new QDialog(newThread->mainWindow);
+        QWidget * dialog = new QWidget(newThread->mainWindow);
+		dialog->setStyleSheet(CThread::style);
+		
+		
         dialog->move(newThread->mainWindow->pos() + QPoint(10,10));
         dialog->setWindowIcon(icon);
 
-        QVBoxLayout * layout = new QVBoxLayout;
+        QHBoxLayout * layout = new QHBoxLayout;
         QPushButton * killButton = new QPushButton("Terminate Program",dialog);
         killButton->setShortcut(QKeySequence(Qt::Key_Escape));
 
+		dialog->setWindowFlags(Qt::Dialog);
         dialog->setAttribute(Qt::WA_DeleteOnClose,true);
 
         QLabel * label1 = new QLabel(title);
@@ -274,13 +280,12 @@ namespace Tinkercell
 
         layout->addWidget(killButton);
         dialog->setWindowTitle(title);
-
-        dialog->setLayout(layout);
-
-        connect(killButton,SIGNAL(released()),dialog,SLOT(reject()));
-        connect(dialog,SIGNAL(rejected()),newThread,SLOT(terminate()));
-        connect(newThread,SIGNAL(finished()),dialog,SLOT(reject()));
-        connect(newThread,SIGNAL(started()),dialog,SLOT(exec()));
+		
+		dialog->setLayout(layout);
+		     
+		connect(killButton,SIGNAL(released()),newThread,SLOT(terminate()));
+        connect(newThread,SIGNAL(finished()),dialog,SLOT(close()));
+        connect(newThread,SIGNAL(started()),dialog,SLOT(show()));
         return dialog;
     }
 
@@ -303,28 +308,33 @@ namespace Tinkercell
          PROCESS THREAD
      *******************/
 
-    QDialog* ProcessThread::dialog(MainWindow * mainWindow, ProcessThread * newThread, const QString& text, QIcon icon)
+    QWidget * ProcessThread::dialog(MainWindow * mainWindow, ProcessThread * newThread, const QString& text, QIcon icon)
     {
-        QDialog * dialog = new QDialog(mainWindow);
-        dialog->move(100,100);
+        QWidget * dialog = new QDialog(mainWindow);
+		
+		dialog->setStyleSheet(tr("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #B7D5FF, stop: 0.5 #FFFFFF, stop: 1.0 #093A7E);"));
+        dialog->hide();
+		
+		dialog->move(newThread->mainWindow->pos() + QPoint(10,10));
         dialog->setWindowIcon(icon);
-
-        QGridLayout * layout = new QGridLayout;
+		
+        QHBoxLayout * layout = new QHBoxLayout;
         QPushButton * killButton = new QPushButton("Terminate Program");
         connect(killButton,SIGNAL(released()),dialog,SLOT(accept()));
-        QLabel * label1 = new QLabel(text + tr(" is Running..."));
+        QLabel * label = new QLabel(text + tr(" is Running..."));
 
-        layout->addWidget(label1,0,0,Qt::AlignCenter);
-        layout->addWidget(killButton,1,0,Qt::AlignCenter);
+        layout->addWidget(label);
+        layout->addWidget(killButton);
         dialog->setWindowTitle(tr("Program Running"));
 
         dialog->setLayout(layout);
-
-        connect(dialog,SIGNAL(accepted()),newThread,SLOT(terminate()));
-        connect(newThread,SIGNAL(finished()),dialog,SLOT(reject()));
-
-        dialog->show();
-
+		dialog->setWindowFlags(Qt::Dialog);
+		dialog->setAttribute(Qt::WA_DeleteOnClose,true);
+		
+        connect(killButton,SIGNAL(released()),newThread,SLOT(terminate()));
+        connect(newThread,SIGNAL(finished()),dialog,SLOT(close()));
+        connect(newThread,SIGNAL(started()),dialog,SLOT(show()));
+        
         return dialog;
     }
 

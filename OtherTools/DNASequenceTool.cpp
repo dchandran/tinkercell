@@ -8,19 +8,19 @@
 
 ****************************************************************************/
 
-#include "ItemHandle.h"
-#include "CThread.h"
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "DNASequenceTool.h"
-#include "AutoGeneRegulatoryTool.h"
-#include "CLabelsTool.h"
-#include "ModelSummaryTool.h"
+#include "Core/ItemHandle.h"
+#include "Core/CThread.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "OtherTools/DNASequenceTool.h"
+#include "OtherTools/AutoGeneRegulatoryTool.h"
+#include "OtherTools/CLabelsTool.h"
+#include "BasicTools/ModelSummaryTool.h"
 
 namespace Tinkercell
 {

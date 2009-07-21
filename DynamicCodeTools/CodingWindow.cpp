@@ -7,14 +7,14 @@
  
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "CodingWindow.h"
-#include "PythonTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "DynamicCodeTools/CodingWindow.h"
+#include "DynamicCodeTools/PythonTool.h"
 #include <QRegExp>
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -350,8 +350,8 @@ namespace Tinkercell
 							
 							connect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
 							connect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
-							connect(pyTool,SIGNAL(pythonStarted()),outWin->commandWindow(),SLOT(freeze()));
-							connect(pyTool,SIGNAL(pythonFinished()),outWin->commandWindow(),SLOT(unfreeze()));
+							connect(pyTool,SIGNAL(pythonStarted()),outWin->outputWindowEditor(),SLOT(freeze()));
+							connect(pyTool,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
 					
 							//connect(this,SIGNAL(reloadLibraryList(const QString&, bool)),libMenu,SLOT(populateList(const QString&, bool)));
 						}
@@ -841,6 +841,8 @@ namespace Tinkercell
 		QFile file(filename);
 		if (!file.open(QFile::ReadOnly)) return;
 		
+		QStringList funcNames;
+		
 		QRegExp regexExample(tr("\"(.+)\",.+,.+,.*\".*(example.+)\""));
 		
 		QTreeWidgetItem * currentItem = new QTreeWidgetItem(QStringList() << tr("pytc"));
@@ -853,6 +855,7 @@ namespace Tinkercell
 			if (regexExample.numCaptures() > 1 && !regexExample.capturedTexts().at(1).isEmpty())
 			{
 				name = regexExample.capturedTexts().at(1);
+				funcNames << name;
 				ex = tr("#") + regexExample.capturedTexts().at(2);
 				ex.replace(tr("\\\""),tr("\""));
 				QTreeWidgetItem * childItem = new QTreeWidgetItem(QStringList() << name << ex);
@@ -861,6 +864,20 @@ namespace Tinkercell
 		}
 		expandAll();
 		file.close();
+		
+		funcNames.sort();
+		OutputWindow * outputWindow = OutputWindow::outputWindow();
+		if (outputWindow && outputWindow->outputWindowEditor())
+		{
+			//funcNames.clear();
+			//funcNames << "apple" << "artichoke" << "beetle" << "crocodile" << "duck";
+			QCompleter * completer = new QCompleter(this);
+			completer->setModel(new QStringListModel(funcNames, completer));
+			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+			completer->setCaseSensitivity(Qt::CaseInsensitive);
+			completer->setWrapAround(false);
+			outputWindow->outputWindowEditor()->setCompleter(completer);
+		}
 	 }
 	 
 	 void TCFunctionsListView::readCHeaders(const QString& dirname)

@@ -9,7 +9,7 @@
  
 ****************************************************************************/
 
-#include "CLabelsTool.h"
+#include "OtherTools/CLabelsTool.h"
 
 namespace Tinkercell
 {	

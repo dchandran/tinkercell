@@ -19,12 +19,12 @@
 #include <QTextEdit>
 #include <QTextCursor>
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "NodeGraphicsWriter.h"
-#include "NodesTree.h"
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/NodeGraphicsWriter.h"
+#include "NodesTree/NodesTree.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -34,8 +34,7 @@
 
 namespace Tinkercell
 {
-
-	class AutoGeneRegulatoryTool_FtoS : public QObject
+	class  MY_EXPORT AutoGeneRegulatoryTool_FtoS : public QObject
 	{
 		Q_OBJECT
 		signals:

@@ -3,10 +3,10 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This file defines the class that stores all symbols, such as node and
- connection names and data columns and rows, for each scene
-
+ 
+ This file defines the class that stores all symbols, such as node and 
+ connection names and data columns and rows, for each scene 
+ 
 ****************************************************************************/
 
 
@@ -73,6 +73,8 @@ namespace Tinkercell
         virtual void update(GraphicsScene *);
         /*! \brief update the symbols table using a text editor*/
         virtual void update(TextEditor *);
+		/*! \brief update the symbols table*/
+        virtual void update(const QList<ItemHandle*>&);
     };
 }
 

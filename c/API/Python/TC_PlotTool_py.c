@@ -224,7 +224,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"ode.c -I%s/c -L%s/lib -lodesim\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","Jacobian\0");
    
    free(cmd);
 

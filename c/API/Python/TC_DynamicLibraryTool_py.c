@@ -3,10 +3,23 @@
 #include <Python.h>
 #include "../../TC_api.h"
 
+static PyObject * pytc_showProgress(PyObject *self, PyObject *args)
+{
+	int i = 0;
+	
+	if (!PyArg_ParseTuple(args, "i", &i))
+		return NULL;
+
+	tc_showProgress("python thread",i);
+	 
+	Py_INCREF(Py_None);
+    	return Py_None;	
+}
+
 static PyObject * pytc_compileAndRun(PyObject *self, PyObject *args)
 {
 	char * a, *b;
-	if(!PyArg_ParseTuple(args, "sss", &a, &b))
+	if(!PyArg_ParseTuple(args, "ss", &a, &b))
         return NULL;
 	
 	int i = tc_compileAndRun(a,b);
@@ -16,11 +29,11 @@ static PyObject * pytc_compileAndRun(PyObject *self, PyObject *args)
 
 static PyObject * pytc_compileBuildLoad(PyObject *self, PyObject *args)
 {
-	char * a, *b;
-	if(!PyArg_ParseTuple(args, "sss", &a, &b))
+	char * a, *b, *c;
+	if(!PyArg_ParseTuple(args, "sss", &a, &b, &c))
         return NULL;
 	
-	int i = tc_compileBuildLoad(a,b);
+	int i = tc_compileBuildLoad(a,b,c);
 	
     return Py_BuildValue("i",i);
 }
@@ -71,10 +84,11 @@ static PyObject * pytc_getFilename(PyObject *self, PyObject *args)
 static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 {
 	char * s;
+	char * s0 = "";
 	PyObject * pylist;
 	int k = 1;
 	
-	if(!PyArg_ParseTuple(args, "sO|i", &s, &pylist,&k))
+	if(!PyArg_ParseTuple(args, "sO|si", &s, &pylist,&s0,&k))
         return NULL;
 		
 	int isList = PyList_Check(pylist);
@@ -93,7 +107,7 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 			array[i] = isList ? PyString_AsString( PyList_GetItem( pylist, i ) ) : PyString_AsString( PyTuple_GetItem( pylist, i ) );
 		}
 	
-		j = tc_getFromList(s,array,k);
+		j = tc_getFromList(s,array,s0, k);
 		TCFreeChars(array);
 	}
 	

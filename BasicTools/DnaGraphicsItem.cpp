@@ -4,14 +4,14 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A special ConnectionGraphicsItem that draws a DNA-like connection
 
 ****************************************************************************/
 
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "DnaGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "BasicTools/DnaGraphicsItem.h"
 
 namespace Tinkercell
 {
@@ -43,7 +43,7 @@ void DnaGraphicsItem::refresh()
 				centerRegionItem->scene()->removeItem(centerRegionItem);
 			if (scene())
 			{
-				scene()->addItem(centerRegionItem);
+				scene()->addItem(centerRegionItem);					
 				centerRegionItem->setZValue(z + 0.001);
 			}
 		}
@@ -67,13 +67,13 @@ void DnaGraphicsItem::refresh()
 					pathVectors[i][j+1]->setZValue(z + 0.02);
 					pathVectors[i][j+2]->setZValue(z + 0.02);
 					pathVectors[i][j+3]->setZValue(z + 0.02);
-
+						
 					pos1 =  pathVectors[i][j+1]->scenePos();
 					pos2 =  pathVectors[i][j+2]->scenePos();
 					pos3 =  pathVectors[i][j+3]->scenePos();
 					path.cubicTo(pos1,pos2,pos3);
 				}
-
+			
 			pos1 =  pathVectors[i][0]->scenePos();
 			dnapath.moveTo(pos1);
 			qreal h = defaultPen.widthF()*8, dl = defaultPen.widthF()*16;
@@ -118,7 +118,7 @@ void DnaGraphicsItem::refresh()
 				QPointF midpt1( pt2.x() + dx, pt2.y() + dy );
 				dnapath.cubicTo(pt1,midpt1,pt3);
 			}
-
+			
 			nucpath.moveTo(pos1);
 			for (qreal l=0; l < path.length(); l += dl)
 			{
@@ -146,7 +146,7 @@ void DnaGraphicsItem::refresh()
 			}
 		}
 	}
-
+	
 	QPainterPathStroker stroker;
 	stroker.setJoinStyle(Qt::RoundJoin);
     stroker.setCapStyle(Qt::RoundCap);

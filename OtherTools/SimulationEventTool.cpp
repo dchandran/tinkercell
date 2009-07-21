@@ -378,10 +378,10 @@ namespace Tinkercell
 
         if (scene)
         {
-            if (!StoichiometryTool::parseRateString(scene, lastItem, ifs))
+            if (!StoichiometryTool::parseRateString(scene->networkWindow, lastItem, ifs))
                 return;
 
-            if (!StoichiometryTool::parseRateString(scene, lastItem, thens))
+            if (!StoichiometryTool::parseRateString(scene->networkWindow, lastItem, thens))
                 return;
 
             DataTable<QString> newData(lastItem->data->textData[tr("Events")]);

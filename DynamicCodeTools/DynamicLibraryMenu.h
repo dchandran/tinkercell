@@ -27,8 +27,8 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QGraphicsPixmapItem>
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -111,7 +111,7 @@ namespace Tinkercell
                 * \param QIcon optional icon
                 * \return QAction* the action that was added
                 */
-        QAction * addMenuItem(const QString& functionName, const QIcon& icon = QIcon());
+        QAction * addMenuItem(const QString& functionName, const QIcon& icon = QIcon(), bool deft = false);
         /*!
                 * \brief add an action to the context menu (right mouse button) for items of the given family
                 * \param QString family that this function targets

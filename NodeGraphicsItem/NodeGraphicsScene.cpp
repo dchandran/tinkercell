@@ -7,8 +7,7 @@
  **
  ****************************************************************************/
 
-#include "NodeGraphicsScene.h"
-#include <typeinfo>
+#include "NodeGraphicsItem/NodeGraphicsScene.h"
 
 namespace Tinkercell
 {
@@ -22,13 +21,13 @@ namespace NodeImageDesigner
 
 /*! \brief Constructor - sets scene size, makes new current shape*/
 DrawScene::DrawScene(QWidget *parent) : QGraphicsScene(parent)
-{
+{   
 	mode = -2;
 	setSceneRect(0,0,500,500);
 	selectedItem = 0;
-
+	
 	currentShape = new NodeGraphicsItem::Shape();
-
+	
 	addItem(&node);
 }
 /*! \brief Destructor - delete current shape*/
@@ -59,18 +58,18 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		node.addControlPoint(controlPoint);
 		return;
 	}
-
+	
 	selectedItem = itemAt(point);
-
+	
 	if (selectedItem)
 	{
 		NodeGraphicsItem::Shape tempShape;
 		if (typeid(*selectedItem) == typeid(tempShape))
 		{
 			if (mode == 4)
-			{
+			{	
 				colorPt1 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
-
+				
 				//selectedItem = 0;
 				return;
 			}
@@ -82,31 +81,31 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 				return;
 			}
 		}
-
+		
 		NodeGraphicsItem::ControlPoint tempPoint;
 		if (typeid(*selectedItem) == typeid(tempPoint))
-		{
+		{			
 			if (currentShape && mode >=0 && mode < NodeGraphicsItem::numShapeTypes)
 			{
-				if (currentShape->controlPoints.size() < 1 ||
+				if (currentShape->controlPoints.size() < 1 || 
 					currentShape->controlPoints[currentShape->controlPoints.size()-1] != (NodeGraphicsItem::ControlPoint*)selectedItem)
 						currentShape->controlPoints.push_back((NodeGraphicsItem::ControlPoint*)selectedItem);
 					else
 						currentShape->types.pop_back();
-
+					
 				currentPoints.push_back((NodeGraphicsItem::ControlPoint*)selectedItem);
-
+				
 				((NodeGraphicsItem::ControlPoint*)selectedItem)->setBrush(QBrush(QColor(0,0,255,100)));
-
+				
 				if (currentShape->controlPoints.size() > 0)
 				{
 					switch (NodeGraphicsItem::ShapeType(mode))
 					{
 						case NodeGraphicsItem::arc:
 							{
-								currentShape->types.push_back(NodeGraphicsItem::arc);
+								currentShape->types.push_back(NodeGraphicsItem::arc);							
 								currentShape->parameters.push_back((qreal)arcStart);
-								currentShape->parameters.push_back((qreal)arcSpan);
+								currentShape->parameters.push_back((qreal)arcSpan);								
 							}
 							break;
 						case NodeGraphicsItem::line:
@@ -123,19 +122,19 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					}
 				}
 				currentShape->refresh();
-
+				
 				if (currentShape->isClosed())
 				{
-					for (int i=0; i < currentShape->controlPoints.size(); ++i)
+					for (int i=0; i < currentShape->controlPoints.size(); ++i) 
 						currentShape->controlPoints[i]->setBrush(QBrush(QColor(0,0,255,10)));
-
+					
 					currentShape->defaultPen = currentShape->pen();
 					currentShape->defaultBrush = currentShape->brush();
 					node.addShape(currentShape);
 					node.refresh();
-
+					
 					currentShape = new NodeGraphicsItem::Shape();
-
+						
 					currentPoints.clear();
 				}
 				selectedItem = 0;
@@ -154,16 +153,16 @@ void DrawScene::keyPressEvent (QKeyEvent * event)
 	switch (event->key())
 	{
 		case Qt::Key_Escape:
-			{
+			{				
 				for (int i=0; i < node.controlPoints.size(); ++i)
 				{
 					if (currentShape)
 					{
-						for (int i=0; i < currentShape->controlPoints.size(); ++i)
+						for (int i=0; i < currentShape->controlPoints.size(); ++i) 
 							currentShape->controlPoints[i]->setBrush(QBrush(QColor(0,0,255,10)));
 						currentShape->controlPoints.clear();
 						currentShape->types.clear();
-					}
+					}					
 					currentPoints.clear();
 				}
 			}
@@ -184,7 +183,7 @@ void DrawScene::keyPressEvent (QKeyEvent * event)
 		default:
 			event->ignore();
 			break;
-
+		
 	//if (event->modifiers() == Qt::ShiftModifier)
 	//Qt::ControlModifier
 	//Qt::AltModifier
@@ -198,11 +197,11 @@ void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	if (mode == -2 && selectedItem && mouseEvent->buttons() == Qt::LeftButton)
 	{
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
-
+		
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
-
+		
 		selectedItem->moveBy(change.x(),change.y());
-
+		
 		if (mouseEvent->modifiers() == Qt::ControlModifier && node.controlPoints.size() > 0)
 		{
 			QPointF closest = selectedItem->pos();
@@ -211,10 +210,10 @@ void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 				if (node.controlPoints[i] != selectedItem)
 				{
 					QPointF p = node.controlPoints[i]->pos();
-
+					
 					if (abs((long)(p.x() - selectedItem->x())) < abs((long)(p.y() - selectedItem->y())) &&
 					    (selectedItem->pos() == closest || abs((long)(p.x() - selectedItem->x())) < abs((long)(closest.x() - selectedItem->x()))) &&
-						abs((long)(p.x() - selectedItem->x())) < 10)
+						abs((long)(p.x() - selectedItem->x())) < 10)						
 						closest.setX(p.x());
 					else
 						if ((selectedItem->pos() == closest || abs((long)(p.y() - selectedItem->y())) < abs((long)(closest.y() - selectedItem->y())))
@@ -224,7 +223,7 @@ void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 			}
 			selectedItem->setPos(closest);
 		}
-
+		
 		node.refresh();
 	}
 }
@@ -236,10 +235,10 @@ void DrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	NodeGraphicsItem::Shape tempShape;
 	if (selectedItem && mode == 4 && typeid(*selectedItem) == typeid(tempShape))
 	{
-		QPointF point = mouseEvent->scenePos();
-
+		QPointF point = mouseEvent->scenePos();	
+		
 		colorPt2 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
-
+		
 		if (fillType == 0)
 		{
 			QLinearGradient gradient(colorPt1,colorPt2);
@@ -253,7 +252,7 @@ void DrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		else
 		if (fillType == 1)
 		{
-			QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) +
+			QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) + 
 													(colorPt2.x()-colorPt1.x())*(colorPt2.x()-colorPt1.x())));
 			gradient.setColorAt(0,color1);
 			gradient.setColorAt(1,color2);

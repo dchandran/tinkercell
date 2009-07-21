@@ -12,7 +12,7 @@ int (*tc_compileAndRun)(const char * command,const char* args);
  \brief compile a c file, generate the library, and load it
  \ingroup Programming interface
 */
-int (*tc_compileBuildLoad)(const char * filename,const char* function);
+int (*tc_compileBuildLoad)(const char * filename,const char* function,const char* title);
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Dialogs
@@ -27,7 +27,7 @@ char* (*tc_getFilename)();
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Dialogs
 */
-int (*tc_getFromList)(const char* title, char** list,int comboBox);
+int (*tc_getFromList)(const char* title, char** list,const char* selectedString, int comboBox);
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Dialogs
@@ -54,18 +54,27 @@ void  (*tc_runPythonFile)(const char* filename);
 */
 void (*tc_callFunction)(const char* functionTitle);
 /*! 
- \brief run a dynamic C library that contains the function "run" or "main"
+ \brief run a dynamic C library that contains the function "tc_main"
  \ingroup Programming interface
 */
 void  (*tc_loadLibrary)(const char* filename);
-
+/*! 
+ \brief add a function to the menu of functions
+ \ingroup Programming interface
+*/
+void  (*tc_addFunction)(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char * target_family, int show_menu, int in_tool_menu, int make_default);
+/*! 
+ \brief this function will be called whenever the model is changed
+ \ingroup Programming interface
+*/
+void  (*tc_callback)(void (*f)(void));
 /*! 
  \brief initialize dialogs and c interface
  \ingroup init
 */
 void tc_DynamicLibraryMenu_api(
 		char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, char**,int),
+		int (*getSelectedString)(const char*, char**,const char*, int),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( char**, double * ),
 		char* (*getFilename)(),
@@ -86,13 +95,17 @@ void tc_DynamicLibraryMenu_api(
 */
 void tc_LoadCLibraries_api(
 		int (*compileAndRun)(const char * ,const char* ),
-		int (*compileBuildLoad)(const char * ,const char* ),
-		void (*loadLibrary)(const char*)
+		int (*compileBuildLoad)(const char * ,const char* , const char*),
+		void (*loadLibrary)(const char*),
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char *, int, int, int),
+		void (*callback)(void (*f)(void))
 )
 {
 	tc_compileAndRun = compileAndRun;
 	tc_compileBuildLoad = compileBuildLoad;
 	tc_loadLibrary = loadLibrary;
+	tc_addFunction = addFunction;
+	tc_callback = callback;
 }
 
 /*! 

@@ -3,15 +3,15 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is one of the main classes in Tinkercell
  This file defines the ItemHandle, NodeHandle, and ConnectionHandle classes.
- Each item in Tinkercell has a graphics item for drawing and a handle. The
- handle stores data information and family information about the item that is displayed.
-
+ Each item in Tinkercell has a graphics item for drawing and a handle. The 
+ handle stores data information and family information about the item that is displayed. 
+ 
  A handle can also have multiple items associate with it. This just means that multiple
  graphics are used to draw a single item.
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_HANDLER_H
@@ -22,8 +22,8 @@
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
-#include "DataTable.h"
-#include "ItemFamily.h"
+#include "Core/DataTable.h"
+#include "Core/ItemFamily.h"
 
 namespace Tinkercell
 {
@@ -46,7 +46,7 @@ namespace Tinkercell
 	*/
 	QString RemoveDisallowedCharactersFromName(const QString&);
 
-	/*! \brief
+	/*! \brief 
 	* This class is used to store information about nodes or connections.
 	* It contains a hashtable of data tables, which is used by different tools to store
 	* specific data.
@@ -60,9 +60,9 @@ namespace Tinkercell
 		/*! \brief hash table that stores the text data for each tool*/
 		QHash<QString,DataTable<QString> > textData;
 	};
-
-	/*! \brief
-	* The handles are used to bring together data and graphics items.
+	
+	/*! \brief 
+	* The handles are used to bring together data and graphics items.  
 	* Item Handle contains pointers to all the graphics items that belong to it, the tools
 	* that apply to this item, the data for this item, and the family that it belongs with
 	* \ingroup core
@@ -89,7 +89,7 @@ namespace Tinkercell
 		QList<ItemHandle*> children;
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
-
+		
 		/*! \brief default constructor -- does nothing*/
 		ItemHandle();
 		/*! \brief copy constructor */
@@ -121,15 +121,15 @@ namespace Tinkercell
 		\param ItemHandle* the family name */
 		virtual ItemHandle* parentOfFamily(const QString& family) const;
 		/*! \brief checks if an item is the parent or parent's parent, or parent's parent's parent, etc. Note: self->isChildOf(self) is false
-		\param ItemHandle* parent handle
+		\param ItemHandle* parent handle 
 		\return Boolean is child*/
 		virtual bool isChildOf(ItemHandle * handle) const;
-		/*! \brief gets the graphics items belonging to this handle and all child handes
+		/*! \brief gets the graphics items belonging to this handle and all child handes 
 		\return QList<QGraphicsItem*> list of graphics items*/
 		virtual QList<QGraphicsItem*> allGraphicsItems() const;
 		/*! \brief gets the all child handes and their child handles
 		\return QList<ItemHandle*> list of handles*/
-		virtual QList<ItemHandle*> allChildren() const;
+		virtual QList<ItemHandle*> allChildren() const;		
 		/*! \brief does this handle have a numerical data table with this name?
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/
@@ -188,8 +188,8 @@ namespace Tinkercell
 		virtual void setTextData(const QString& name, const QString& row, const QString& column, const QString& value);
 	};
 
-	/*! \brief
-	* The handles are used to bring together data and graphics items.
+	/*! \brief 
+	* The handles are used to bring together data and graphics items.  
 	* Node Handle contains pointers to all the graphics items that belong to it, the tools
 	* that apply to this item, the data for this item, and the family that it belongs with
 	* \ingroup core
@@ -197,7 +197,7 @@ namespace Tinkercell
 	class NodeHandle : public ItemHandle
 	{
 		Q_OBJECT
-
+		
 	public:
 		/*! \brief this number is used to identify when a handle is a node handle*/
 		static int Type;
@@ -211,7 +211,7 @@ namespace Tinkercell
 		NodeHandle();
 		/*! \brief constructor with initial family
 		\param NodeFamily* family for this handle*/
-		NodeHandle(NodeFamily * nodeFamily);
+		NodeHandle(NodeFamily * nodeFamily);	
 		/*! \brief copy constructor -- copies all the data (deep). graphic items are shallow copies*/
 		NodeHandle(const NodeHandle & copy);
 		/*! \brief constructor using initial family and graphics item*/
@@ -233,8 +233,8 @@ namespace Tinkercell
                 static NodeHandle* asNode(ItemHandle *);
 	};
 
-	/*! \brief
-	* The handles are used to bring together data and graphics items.
+	/*! \brief 
+	* The handles are used to bring together data and graphics items.  
 	* Connection Handle contains pointers to all the graphics items that belong to it, the tools
 	* that apply to this item, the data for this item, the family that it belongs with, and pointers
 	* to nodes connected (in and out)
@@ -248,14 +248,14 @@ namespace Tinkercell
 		/*! \brief returns all the nodes connected to all the connectors in this handle
 			\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodes() const;
-		/*! \brief
-		returns all the nodes that are on the "input" side of this connection.
+		/*! \brief 
+		returns all the nodes that are on the "input" side of this connection. 
 		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
 		or by looking at the lhs and rhs lists in text itesm
 			\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodesIn() const;
-		/*! \brief
-		returns all the nodes that are on the "output" side of this connection.
+		/*! \brief 
+		returns all the nodes that are on the "output" side of this connection. 
 		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
 		or by looking at the lhs and rhs lists in text itesm
 			\return QList<NodeHandle*> list of node handles*/

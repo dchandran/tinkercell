@@ -663,7 +663,7 @@ namespace Tinkercell
 					this->oldDataTable2 += dat2o;
 					this->targetDataTable2 += (oldDataTable2[i]);
 				}
-		}	
+		}
 		/*! \brief redo the changes*/
 		void redo()
 		{

@@ -9,13 +9,13 @@ The python interpreter that runs as a separate thread and can accept strings to 
 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "PythonInterpreterThread.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "DynamicCodeTools/PythonInterpreterThread.h"
 
 namespace Tinkercell
 {

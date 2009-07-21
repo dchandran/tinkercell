@@ -7,7 +7,19 @@
  
 #include "cvodesim.h"
 #include "TC_api.h"
-int run(Matrix input)
+
+char * selected_var;
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	selected_var = "";
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);
+}
+
+void setup()
 {
    Matrix m;
    m.rows = 6;
@@ -21,14 +33,15 @@ int run(Matrix input)
    m.rownames = rows;
    m.values = values;
    
-   tc_createInputWindow(m,"dlls/runvaluesattime","run2","At Time T");
+   //tc_createInputWindow(m,"dlls/runvaluesattime","run2","At Time T");
+   tc_createInputWindow(m,"At Time T",&run);
    tc_addInputWindowOptions("At Time T",0, 0, options1);
    tc_addInputWindowOptions("At Time T",1, 0, options2);
    
-   return 1; 
+   return; 
 }
 
-int run2(Matrix input) 
+void run(Matrix input) 
 { 
    double start = 0.0, end = 50.0;
    double dt = 0.1, time = 100.0;
@@ -75,27 +88,28 @@ int run2(Matrix input)
    else
    {
        TCFreeArray(A);
-       return 0;  
+       return;  
    }
    
    Matrix params = tc_getParametersAndFixedVariables(A);
    TCFreeArray(A);
    
-   int index = tc_getFromList("Select Independent Variable",params.rownames,0);
+   int index = tc_getFromList("Select Independent Variable",params.rownames,selected_var,0);
    
    if (index < 0 || index > params.rows)
    {
        TCFreeMatrix(params);
 	   tc_print("steady state: no variable selected\0");
-	   return 0;
+	   return;
    }
    
    char * param = params.rownames[index]; //the parameter to vary
+   selected_var = param;
    
    FILE * out = fopen("timet.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\n\n\
-int run(Matrix input) \n\
+void run(Matrix input) \n\
 {\n   initMTrand();\n   Matrix dat;\n" );
    
    fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -132,7 +146,7 @@ int run(Matrix input) \n\
             valueAt(dat,i,j+1) = 0;\n\
       }\n\
       %s += %lf;\n\
-	  tc_showProgress(\"timet\",(100*i)/dat.rows);\n\
+	  tc_showProgress(\"At Time T\",(100*i)/dat.rows);\n\
    }\n\
    FILE * out = fopen(\"valuet.tab\",\"w\");\n\
    for (i=0; i < dat.cols; ++i)\n\
@@ -173,7 +187,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"timet.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","At Time T\0");
 /*   
    if (tc_isWindows())
    {
@@ -186,6 +200,6 @@ int run(Matrix input) \n\
 */
    free(cmd);
    TCFreeMatrix(params);
-   return 1;
+   return;
  }
 

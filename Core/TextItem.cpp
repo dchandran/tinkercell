@@ -3,11 +3,11 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines the TextItem, NodeTextItem, and ConnectionTextItem.
  There are two ways to define and view a network - graphical or text-based.
- Text items are used in the text-based version.
-
+ Text items are used in the text-based version.  
+ 
 ****************************************************************************/
 
 #include "ItemHandle.h"
@@ -17,24 +17,33 @@ namespace Tinkercell
 {
      int NodeTextItem::Type = 1;
      int ConnectionTextItem::Type = 2;
-     int OpTextItem::Type = 3;
 
      TextItem::TextItem(): type(0), itemHandle(0) {}
-     TextItem::TextItem(ItemHandle * h): type(0), itemHandle(h)
+	 
+	 TextItem::TextItem(ItemHandle * h): type(0), itemHandle(h)
      {
           if (h)
           {
                h->textItems += this;
           }
      }
+	 
+	 TextItem::~TextItem()
+	 {
+		if (!itemHandle) return;
+		
+		ItemHandle * h = itemHandle;
+		setHandle(this,0);
+		
+		if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
+			delete h;
+	 }
+
      NodeTextItem::NodeTextItem(): TextItem() { type = NodeTextItem::Type; }
      NodeTextItem::NodeTextItem(ItemHandle * h): TextItem(h) { type = NodeTextItem::Type; }
 
      ConnectionTextItem::ConnectionTextItem(): TextItem() { type = ConnectionTextItem::Type; }
      ConnectionTextItem::ConnectionTextItem(ItemHandle * h): TextItem(h) { type = ConnectionTextItem::Type; }
-
-     OpTextItem::OpTextItem(): TextItem() { type = OpTextItem::Type; }
-     OpTextItem::OpTextItem(ItemHandle * h): TextItem(h) { type = OpTextItem::Type; }
 
      ConnectionTextItem * TextItem::asConnection()
      {
@@ -50,19 +59,30 @@ namespace Tinkercell
           return 0;
      }
 
-     OpTextItem * TextItem::asOp()
-     {
-          if (type == OpTextItem::Type)
-               return static_cast<OpTextItem*>( const_cast<TextItem*>(this) );
-          return 0;
-     }
-
      QList<NodeTextItem*> ConnectionTextItem::nodes() const
      {
-          QList<NodeTextItem*> nodes = lhs;
-          for (int i=0; i < rhs.size(); ++i)
-               if (rhs[i] && !nodes.contains(rhs[i]))
-                    nodes << rhs[i];
-          return nodes;
+          QList<NodeTextItem*> nodes = nodesIn;
+          for (int i=0; i < nodesOut.size(); ++i)
+               if (nodesOut[i] && !nodes.contains(nodesOut[i]))
+                    nodes << nodesOut[i];
+          for (int i=0; i < nodesOther.size(); ++i)
+               if (nodesOther[i] && !nodes.contains(nodesOut[i]))
+                    nodes << nodesOther[i];
+		  return nodes;
      }
+	 
+	 TextItem* TextItem::clone() const
+	 {
+		return new TextItem(*this);
+	 }
+	 
+	 TextItem* NodeTextItem::clone() const
+	 {
+		return new NodeTextItem(*this);
+	 }
+	 
+	 TextItem* ConnectionTextItem::clone() const
+	 {
+		return new ConnectionTextItem(*this);
+	 }
 }

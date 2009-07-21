@@ -22,23 +22,23 @@ namespace Tinkercell
 
 	 public:
 		 AntimonySyntaxHighlighter(QTextDocument *parent = 0);
+	 public slots:
+		 void setValid(bool);
 
 	 protected:
 		 void highlightBlock(const QString &text);
 
 	 private:
-		 struct HighlightingRule
-		 {
-			 QRegExp pattern;
-			 QTextCharFormat format;
-		 };
-		 QVector<HighlightingRule> highlightingRules;
-
-		 QRegExp commentStartExpression;
-		 QRegExp commentEndExpression;
-
+		 bool valid;
+		 QStringList keywordPatterns;
+		 
+		 QRegExp reactionRegexp;
+		 QRegExp assignmentRegexp;
+		 
+		 QTextCharFormat invalidFormat;
 		 QTextCharFormat keywordFormat;
 		 QTextCharFormat functionFormat;
+		 QTextCharFormat reactionFormat;
 	 };
 }
 #endif

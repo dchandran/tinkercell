@@ -1,5 +1,15 @@
 #include "TC_api.h"
-int run(Matrix input)
+
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&run, "Add N intermediate steps", "converts a single step reaction into N reactions using mass-action kinetics", "Generate kinetics", "Plugins/c/tabasco_like.PNG", "Elongation", 1, 1, 0);
+}
+
+void run()
 {
    int i,j,k;
    Array A = tc_selectedItems();
@@ -54,7 +64,7 @@ int run(Matrix input)
 							else
 								sprintf(newN.colnames[k], "%s.leak*%s\0",rxnname,newN.rownames[k-1]);
                      }
-					 if (tc_isA(parts[0],"Regulatory\0"))
+					 if (tc_isA(parts[0],"Regulator\0"))
 						valueAt(newN,0,0) = 0.0;
 					 if (tc_isA(parts[1],"Terminator\0"))
 						valueAt(newN,newN.rows-1,newN.cols-2) = 0.0;
@@ -76,5 +86,5 @@ int run(Matrix input)
 
   TCFreeArray(A);
 
-  return 1; 
+  return; 
 }

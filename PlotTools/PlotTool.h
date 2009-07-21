@@ -28,20 +28,20 @@
 #include <QDoubleSpinBox>
 #include <QPlainTextEdit>
 #include <QLineEdit>
-#include "TCstructs.h"
-#include "Tool.h"
-#include "DataTable.h"
-#include "qwt_plot.h"
-#include "qwt_color_map.h"
-#include "qwt_plot_marker.h"
-#include "qwt_plot_curve.h"
-#include "qwt_legend.h"
-#include "qwt_data.h"
-#include "qwt_text.h"
-#include "qwt_plot_layout.h"
-#include "qwt_plot_zoomer.h"
-#include "qwt_legend_item.h"
-#include "PlotWidget.h"
+#include "c/TCstructs.h"
+#include "Core/Tool.h"
+#include "Core/DataTable.h"
+#include "qwt/qwt_plot.h"
+#include "qwt/qwt_color_map.h"
+#include "qwt/qwt_plot_marker.h"
+#include "qwt/qwt_plot_curve.h"
+#include "qwt/qwt_legend.h"
+#include "qwt/qwt_data.h"
+#include "qwt/qwt_text.h"
+#include "qwt/qwt_plot_layout.h"
+#include "qwt/qwt_plot_zoomer.h"
+#include "qwt/qwt_legend_item.h"
+#include "PlotTools/PlotWidget.h"
 
 namespace Tinkercell
 {

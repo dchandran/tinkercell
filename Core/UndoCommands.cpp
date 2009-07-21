@@ -3,21 +3,22 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file contains a collection of commands that perform simple operations that can be redone and undone.
-
+ 
 ****************************************************************************/
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "Tool.h"
-#include "GraphicsScene.h"
-#include "NetworkWindow.h"
-#include "UndoCommands.h"
-#include "OutputWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/Tool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/UndoCommands.h"
+#include "Core/OutputWindow.h"
 #include <QRegExp>
+#include <QStringList>
 
 namespace Tinkercell
 {
@@ -27,10 +28,10 @@ namespace Tinkercell
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
-
-		change.clear();
+		
+		change.clear();		
 		graphicsItems.clear();
-
+		
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 		for (int i=0; i < items.size(); ++i)
@@ -54,7 +55,7 @@ namespace Tinkercell
 					graphicsItems += items[i];
 					change += amounts[i];
 				}
-
+				
 				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])))
 				{
 					QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
@@ -124,14 +125,14 @@ namespace Tinkercell
 		change += amount;
 		graphicsItems.append(item);
 	}
-
+	
 	void MoveCommand::refreshAllConnectionIn(const QList<QGraphicsItem*>& moving)
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		ConnectionGraphicsItem::ControlPoint* cgp = 0;
 		for (int i=0; i < moving.size(); ++i)
 			if ((cgp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(moving[i]))
-				&& cgp->connectionItem
+				&& cgp->connectionItem 
 				&& !connections.contains(cgp->connectionItem))
 				connections += cgp->connectionItem;
 			else
@@ -141,7 +142,7 @@ namespace Tinkercell
 				if ((cgp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]))
 					&& cgp->connectionItem
 					&& !connections.contains(cgp->connectionItem))
-					connections += cgp->connectionItem;
+					connections += cgp->connectionItem;					
 			}
 
 		for (int i=0; i < connections.size(); ++i)
@@ -164,7 +165,7 @@ namespace Tinkercell
 				if ((ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i])))
 					controlPoints += ccp;
 				else
-				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i])) &&
+				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i])) && 
 					!graphicsItems.contains(pcp->nodeItem))
 					controlPoints += pcp;
 
@@ -193,7 +194,7 @@ namespace Tinkercell
 				if ((ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i])))
 					controlPoints += ccp;
 				else
-				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i])) &&
+				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i])) && 
 					!graphicsItems.contains(pcp->nodeItem))
 					controlPoints += pcp;
 
@@ -204,6 +205,96 @@ namespace Tinkercell
 			controlPoints[i]->sideEffect();
 		}
 		refreshAllConnectionIn(graphicsItems);
+	}
+	
+	InsertItemsCommand::InsertItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
+	{
+		QStringList s;
+		ItemHandle * h = 0;
+		for (int i=0; i < list.size(); ++i)
+			if (h = getHandle(list[i]))
+				s << h->name;
+		setText(s.join(QObject::tr(",")) + QObject::tr(" added"));
+		textEditor = editor;
+		items = list;
+	}
+	
+	InsertItemsCommand::InsertItemsCommand(TextEditor * editor, TextItem * item)
+	{
+		ItemHandle * h = getHandle(item);
+		if (h)
+			setText(h->name + QObject::tr(" added"));
+		else
+			setText(QObject::tr("items added"));
+		textEditor = editor;
+		items << item;
+	}
+    
+	void InsertItemsCommand::redo()
+	{
+		if (textEditor)
+		{
+			QList<TextItem*>& list = textEditor->items();
+			for (int i=0; i < items.size(); ++i)
+				if (items[i] && !list.contains(items[i]))
+					list << items[i];
+		}
+	}
+    
+	void InsertItemsCommand::undo()
+	{
+		if (textEditor)
+		{
+			QList<TextItem*>& list = textEditor->items();
+			for (int i=0; i < items.size(); ++i)
+				if (items[i] && list.contains(items[i]))
+					list.removeAll(items[i]);
+		}
+	}
+	
+	RemoveItemsCommand::RemoveItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
+	{
+		QStringList s;
+		ItemHandle * h = 0;
+		for (int i=0; i < list.size(); ++i)
+			if (h = getHandle(list[i]))
+				s << h->name;
+		setText(s.join(QObject::tr(",")) + QObject::tr(" removed"));
+		textEditor = editor;
+		items = list;
+	}
+	
+	RemoveItemsCommand::RemoveItemsCommand(TextEditor * editor, TextItem * item)
+	{
+		ItemHandle * h = getHandle(item);
+		if (h)
+			setText(h->name + QObject::tr(" removed"));
+		else
+			setText(QObject::tr("items removed"));
+		textEditor = editor;
+		items << item;
+	}
+    
+	void RemoveItemsCommand::undo()
+	{
+		if (textEditor)
+		{
+			QList<TextItem*>& list = textEditor->items();
+			for (int i=0; i < items.size(); ++i)
+				if (items[i] && !list.contains(items[i]))
+					list << items[i];
+		}
+	}
+    
+	void RemoveItemsCommand::redo()
+	{
+		if (textEditor)
+		{
+			QList<TextItem*>& list = textEditor->items();
+			for (int i=0; i < items.size(); ++i)
+				if (items[i] && list.contains(items[i]))
+					list.removeAll(items[i]);
+		}
 	}
 
 	InsertGraphicsCommand::InsertGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item)
@@ -231,7 +322,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection;
 		if (graphicsScene)
 			for (int i=0; i<graphicsItems.size(); ++i)
-
+		
 				if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
 				{
 					graphicsScene->addItem(graphicsItems[i]);
@@ -246,7 +337,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		if (graphicsScene)
 			for (int i=0; i<graphicsItems.size(); ++i)
-
+		
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
 				{
 					graphicsScene->removeItem(graphicsItems[i]);
@@ -286,13 +377,13 @@ namespace Tinkercell
 		graphicsScene = scene;
 		graphicsItems.clear();
 		graphicsItems.append(item);
-
+		
 		itemHandles.append(getHandle(item));
 		if (item)
 			itemParents.append(item->parentItem());
 		else
 			itemParents.append(0);
-
+		
 	}
 
 	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items)
@@ -310,7 +401,7 @@ namespace Tinkercell
 					itemParents.append(items[i]->parentItem());
 				else
 					itemParents.append(0);
-			}
+			}	
 	}
 
 	void RemoveGraphicsCommand::redo()
@@ -339,7 +430,7 @@ namespace Tinkercell
 							if (connection->pathVectors[j].arrowEnd && connection->pathVectors[j].arrowEnd->scene() == graphicsScene)	
 								graphicsScene->removeItem(connection->pathVectors[j].arrowEnd);
 						}
-						if (connection->centerRegionItem)
+						if (connection->centerRegionItem)	
 							graphicsScene->removeItem(connection->centerRegionItem);
 					}
 				}
@@ -352,15 +443,15 @@ namespace Tinkercell
 				{
 					if (itemHandles[i]->parent)
 						itemHandles[i]->parent->children.removeAll(itemHandles[i]);
-
+						
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
 						if (itemHandles[i]->children[j])
 							itemHandles[i]->children[j]->parent = 0;
 				}
 			}
-
+			
 		}
-
+		
 		bool firstTime = (oldData.isEmpty());
 		if (firstTime)
 		{
@@ -368,7 +459,7 @@ namespace Tinkercell
 			for (int i=0; i < itemHandles.size(); ++i)
 				if (itemHandles[i] && itemHandles[i]->graphicsItems.isEmpty())
 					namesToKill << itemHandles[i]->fullName();
-
+			
 			ItemHandle * handle;
 			QList<QGraphicsItem*> items = graphicsScene->items();
 			for (int i=0; i < items.size(); ++i)
@@ -377,25 +468,25 @@ namespace Tinkercell
 				if (handle && handle->data && !itemHandles.contains(handle) && !affectedHandles.contains(handle))
 					affectedHandles += handle;
 			}
-
+			
 			for (int i=0; i < affectedHandles.size(); ++i)
 				oldData += ItemData(*affectedHandles[i]->data);  //SAVE old data
-
+		
 			DataTable<qreal> * nDat = 0;
 			DataTable<QString> * sDat = 0;
-
+			
 			for (int i=0; i < affectedHandles.size(); ++i) //change all the handle data
 			{
 				bool affected = false;
 				for (int i2=0; i2 < namesToKill.size(); ++i2)
 				{
 					QString oldname(namesToKill[i2]);
-
+					
 					QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name
 							regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
 							regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
 							regexp4(QString("([^A-Za-z0-9_.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
-
+								
 					QList< QString > keys = affectedHandles[i]->data->numericalData.keys();
 					for (int j=0; j < keys.size(); ++j)  //go through each numeric data
 					{
@@ -424,9 +515,9 @@ namespace Tinkercell
 						if (affected)
 							OutputWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
-
+					
 					keys = affectedHandles[i]->data->textData.keys();
-
+					
 					for (int j=0; j < keys.size(); ++j)  //go through each text data
 					{
 						affected = false;
@@ -451,13 +542,13 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-
+						
 						QString newname("1.0");
 						for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 							for (int l=0; l < sDat->cols(); ++l)
 							{
 								QString & target = sDat->value(k,l);// = QString("0.0");
-
+								
 								int n = regexp1.indexIn(target);
 								while (n != -1)
 								{
@@ -496,7 +587,7 @@ namespace Tinkercell
 				}
 			}
 		}
-
+		
 		if (newData.isEmpty()) //SAVE new data
 		{
 			for (int i=0; i < affectedHandles.size(); ++i)
@@ -518,21 +609,21 @@ namespace Tinkercell
 	void RemoveGraphicsCommand::undo()
 	{
 		if (!graphicsScene) return;
-
+		
 		for (int i=0; i < affectedHandles.size() && i < newData.size() && i < oldData.size(); ++i)
 		{
 			if (affectedHandles[i] && affectedHandles[i]->data)
 				(*affectedHandles[i]->data) = oldData[i];
 		}
-
+		
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
 			if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
 				graphicsScene->addItem(graphicsItems[i]);
-
+			
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)
-				{
+				{						
 					node->setBoundingBoxVisible(false);
 				}
 				else
@@ -544,18 +635,18 @@ namespace Tinkercell
 						connection->refresh();
 					}
 				}
-
+			
 			if (itemHandles.size() > i && itemHandles[i] != 0)
 			{
 				setHandle(graphicsItems[i],itemHandles[i]);
-
+				
 				if (itemHandles[i]->parent)
 					itemHandles[i]->setParent(itemHandles[i]->parent);
-
+				
 				for (int j=0; j < itemHandles[i]->children.size(); ++j)
 					if (itemHandles[i]->children[j])
 						itemHandles[i]->children[j]->parent = itemHandles[i];
-
+				
 			}
 			if (itemParents.size() > i && itemParents[i] != 0)
 			{
@@ -654,7 +745,7 @@ namespace Tinkercell
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
 			if (shape != 0)
-				shape->setBrush( shape->defaultBrush = newBrush[i] );
+				shape->setBrush( shape->defaultBrush = newBrush[i] );	
 			else
 			if (connection != 0)
 				connection->setBrush( connection->defaultBrush = newBrush[i] );
@@ -897,7 +988,7 @@ namespace Tinkercell
 		}
 
 		newPen.append(pen);
-		newBrush.append(brush);
+		newBrush.append(brush);	
 	}
 
 	ChangeBrushAndPenCommand::ChangeBrushAndPenCommand(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens)
@@ -1069,7 +1160,7 @@ namespace Tinkercell
 		}
 	}
 
-	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, QGraphicsItem * item,
+	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, QGraphicsItem * item, 
 						 const QPointF& sizeChange, qreal changeInAngle,
   						 bool VFlip, bool HFlip)
 						 : QUndoCommand(name)
@@ -1078,21 +1169,21 @@ namespace Tinkercell
 		graphicsItems.append(item);
 		sizeFactor.clear();
 		angleChange.clear();
-
+		
 		sizeFactor.append(sizeChange);
 		angleChange.append(changeInAngle);
 		vFlip = VFlip;
 		hFlip = HFlip;
 	}
 
-	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, const QList<QGraphicsItem *>& items,
+	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, const QList<QGraphicsItem *>& items, 
 						 const QList<QPointF>& sizeChange, const QList<qreal>& changeInAngle,
   						 bool VFlip, bool HFlip)
 						 : QUndoCommand(name)
 	{
 		graphicsScene = scene;
 		graphicsItems = items;
-
+		
 		sizeFactor = sizeChange;
 		angleChange = changeInAngle;
 		vFlip = VFlip;
@@ -1102,12 +1193,12 @@ namespace Tinkercell
 	void TransformCommand::redo()
 	{
 		for (int i=0; i < graphicsItems.size(); ++i)
-
+		
 			if (graphicsItems[i])
 			{
 				if (sizeFactor.size() > i && !sizeFactor[i].isNull())
 					graphicsItems[i]->scale(sizeFactor[i].x(),sizeFactor[i].y());
-
+			
 				if (angleChange.size() > i)
 					graphicsItems[i]->rotate(angleChange[i]);
 
@@ -1128,12 +1219,12 @@ namespace Tinkercell
 	void TransformCommand::undo()
 	{
 		for (int i=0; i < graphicsItems.size(); ++i)
-
+		
 			if (graphicsItems[i])
 			{
 				if (sizeFactor.size() > i && !sizeFactor[i].isNull())
 					graphicsItems[i]->scale(1.0/sizeFactor[i].x(),1.0/sizeFactor[i].y());
-
+			
 				if (angleChange.size() > i)
 					graphicsItems[i]->rotate(-angleChange[i]);
 
@@ -1287,13 +1378,13 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
 	RenameCommand::RenameCommand(const QString& name, NetworkWindow * win, ItemHandle * handle, const QString& newname)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
 		if (win)
 			allhandles = win->allHandles();
-
+		
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
@@ -1309,9 +1400,9 @@ namespace Tinkercell
 			handles += handle;
 			oldNames += handle->fullName();
 			newNames += assignUniqueName(newname,allNames);
-		}
+		}		
 	}
-
+	
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
@@ -1319,11 +1410,11 @@ namespace Tinkercell
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
-
+		
 		oldNames += oldname;
 		newNames += newname;
 	}
-
+	
 	RenameCommand::RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
@@ -1355,9 +1446,9 @@ namespace Tinkercell
 			handles += handle;
 			oldNames += handle->fullName();
 			newNames += assignUniqueName(newname,allNames);
-		}
+		}		
 	}
-
+	
 	RenameCommand::RenameCommand(const QString& name, NetworkWindow * win, const QList<ItemHandle*>& items, const QList<QString>& newnames)
 		: QUndoCommand(name), changeDataCommand(0)
 	{
@@ -1409,13 +1500,13 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
 	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
 	{
 		if (oldname == newname0 || target.size() > 1000) return;
 		QString newname = newname0;
 		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_x_x_x_"));
-
+		
 		//qDebug() << "substitute " << oldname << " with " << newname0 << " in " << target;
 		QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name
 				regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
@@ -1447,12 +1538,12 @@ namespace Tinkercell
 		}
 		target.replace(newname,newname0);
 	}
-
+	
 	void RenameCommand::findReplaceAllHandleData(const QList<ItemHandle*>& handles,const QString& oldname,const QString& newname)
 	{
 		DataTable<qreal> * nDat = 0;
 		DataTable<QString> * sDat = 0;
-
+		
 		for (int i=0; i < handles.size(); ++i)
 		{
 			if (handles[i] && handles[i]->data)  //go through each handles num data and text data
@@ -1544,14 +1635,14 @@ namespace Tinkercell
 					//oldData += ItemData(*allhandles[i]->data);
 				}
 		}
-
+		
 		QRegExp regexp("\\.([^\\.]+)$");
 		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 		{
 			if (firstTime)
 				findReplaceAllHandleData(allhandles,oldNames[i],newNames[i]);
 			if (handles.size() == 0)
-				for (int j=0; j < allhandles.size(); ++j)
+				for (int j=0; j < allhandles.size(); ++j)				
 					if (allhandles[j] && allhandles[j]->fullName() == oldNames[i])
 					{
 						regexp.indexIn(newNames[i]);
@@ -1575,7 +1666,6 @@ namespace Tinkercell
 							allhandles[j]->name = newNames[i];
 					}
 		}
-
 		
 		if (firstTime)
 		{
@@ -1604,7 +1694,7 @@ namespace Tinkercell
 			if (changeDataCommand)
 				changeDataCommand->redo();
 		}
-
+		
 		for (int i=0; i < handles.size() && i < newNames.size(); ++i)
 		{
 			ItemHandle * handle = handles[i];
@@ -1634,12 +1724,12 @@ namespace Tinkercell
 	}
 
 	void RenameCommand::undo()
-	{
+	{		
 		QRegExp regexp("\\.([^\\.]+)$");
 		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 		{
 			if (handles.size() == 0)
-				for (int j=0; j < allhandles.size(); ++j)
+				for (int j=0; j < allhandles.size(); ++j)				
 					if (allhandles[j] && allhandles[j]->fullName() == newNames[i])
 					{
 						regexp.indexIn(oldNames[i]);
@@ -1663,7 +1753,6 @@ namespace Tinkercell
 							allhandles[j]->name = oldNames[i];
 					}
 		}
-
 		
 		if (changeDataCommand)
 			changeDataCommand->undo();
@@ -1701,11 +1790,11 @@ namespace Tinkercell
 	{
 		commands = list;
 		doNotDelete = noDelete;
-
+		
 		for (int i=0; i < noDelete.size(); ++i)
 			if (!list.contains(noDelete[i]))
 				commands += noDelete[i];
-	}
+	}	
      CompositeCommand::CompositeCommand(const QString& name, QUndoCommand* cmd1, QUndoCommand* cmd2, bool deleteCommand)
 		: QUndoCommand(name)
 	{
@@ -1716,7 +1805,7 @@ namespace Tinkercell
                doNotDelete += cmd1;
                doNotDelete += cmd2;
           }
-	}
+	}	
 	CompositeCommand::~CompositeCommand()
 	{
 		for (int i=0; i < commands.size(); ++i)
@@ -1739,7 +1828,7 @@ namespace Tinkercell
 				commands[i]->undo();
 		}
 	}
-
+	
 	ReverseUndoCommand::ReverseUndoCommand(const QString& name, QUndoCommand* cmd, bool deleteCmd)
 		: QUndoCommand(name), command(cmd), deleteCommand(deleteCmd)
 	{
@@ -1756,7 +1845,7 @@ namespace Tinkercell
 	{
 		if (command) command->redo();
 	}
-
+	
 	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,NodeGraphicsItem* node,const QString& filename)
 		: QUndoCommand(text)
 	{
@@ -1765,13 +1854,13 @@ namespace Tinkercell
 			targetNodes += node;
 			NodeGraphicsItem copy1(*node);
 			oldNodes += copy1;
-
+			
 			NodeGraphicsItem copy2(*node);
 			loadFromFile(&copy2,filename);
 			newNodes += copy2;
 		}
 	}
-
+	
 	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,const QList<NodeGraphicsItem*>& nodes,const QList<QString>& filenames)
 		: QUndoCommand(text)
 	{
@@ -1785,7 +1874,7 @@ namespace Tinkercell
 				NodeGraphicsItem copy1(*node);
 				setHandle(&copy1,0);
 				oldNodes += copy1;
-
+				
 				NodeGraphicsItem copy2(*node);
 				setHandle(&copy2,0);
 				loadFromFile(&copy2,filename);
@@ -1793,7 +1882,7 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
 	ReplaceNodeGraphicsCommand::~ReplaceNodeGraphicsCommand()
 	{
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -1804,7 +1893,7 @@ namespace Tinkercell
 				delete itemsToDelete[i];
 			}
 	}
-
+	
 	void ReplaceNodeGraphicsCommand::redo()
 	{
 		for (int i=0; i < targetNodes.size(); ++i)
@@ -1816,25 +1905,25 @@ namespace Tinkercell
 					{
 						itemsToDelete << targetNodes[i]->shapes[j];
 					}
-
+				
 				for (int j=0; j < targetNodes[i]->controlPoints.size(); ++j)
 					if (!itemsToDelete.contains(targetNodes[i]->controlPoints[j]) && targetNodes[i]->controlPoints[j])
 					{
 						itemsToDelete << targetNodes[i]->controlPoints[j];
 					}
-
+				
 				for (int j=0; j < targetNodes[i]->boundaryControlPoints.size(); ++j)
 					if (!itemsToDelete.contains(targetNodes[i]->boundaryControlPoints[j]) && targetNodes[i]->boundaryControlPoints[j])
 					{
 						itemsToDelete << targetNodes[i]->boundaryControlPoints[j];
 					}
-
+				
 				targetNodes[i]->shapes.clear();
 				targetNodes[i]->controlPoints.clear();
 				targetNodes[i]->boundaryControlPoints.clear();
-
+				
 				(*targetNodes[i]) = newNodes[i];
-
+				
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -1852,25 +1941,25 @@ namespace Tinkercell
 					{
 						itemsToDelete << targetNodes[i]->shapes[j];
 					}
-
+				
 				for (int j=0; j < targetNodes[i]->controlPoints.size(); ++j)
 					if (!itemsToDelete.contains(targetNodes[i]->controlPoints[j]) && targetNodes[i]->controlPoints[j])
 					{
 						itemsToDelete << targetNodes[i]->controlPoints[j];
 					}
-
+				
 				for (int j=0; j < targetNodes[i]->boundaryControlPoints.size(); ++j)
 					if (!itemsToDelete.contains(targetNodes[i]->boundaryControlPoints[j]) && targetNodes[i]->boundaryControlPoints[j])
 					{
 						itemsToDelete << targetNodes[i]->boundaryControlPoints[j];
 					}
-
+				
 				targetNodes[i]->shapes.clear();
 				targetNodes[i]->controlPoints.clear();
 				targetNodes[i]->boundaryControlPoints.clear();
-
+				
 				(*targetNodes[i]) = oldNodes[i];
-
+				
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -1882,25 +1971,25 @@ namespace Tinkercell
 		if (!node) return;
 
 		QFile file (fileName);
-
-		if (!file.open(QFile::ReadOnly | QFile::Text))
+			
+		if (!file.open(QFile::ReadOnly | QFile::Text)) 
 		{
 			return;
 		}
-
+		
 		node->setParentItem(0);
-
-		QPointF p = node->scenePos();
+		
+		QPointF p = node->scenePos();			
 		QTransform t0 = node->sceneTransform();
 		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-
+		
 		node->setBoundingBoxVisible(false);
 		node->clear();
 		node->setPos(QPointF());
 		node->resetTransform();
 
 		NodeGraphicsReader reader;
-		reader.readNodeGraphics(node,&file);
+		reader.readNodeGraphics(node,&file);				    
 		node->normalize();
 
 		node->setPos(p);
@@ -1908,7 +1997,7 @@ namespace Tinkercell
 
 		//node->setParentItem(parent);
 	}
-
+	
 	AssignHandleCommand::AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 		: QUndoCommand(text)
 	{
@@ -1916,7 +2005,7 @@ namespace Tinkercell
 		oldHandles.clear();
 		newHandles.clear();
 
-		for (int i=0; i < items.size() && i < handles.size(); ++i)
+		for (int i=0; i < items.size() && i < handles.size(); ++i)		
 		{
 			graphicsItems += items[i];
 			oldHandles += getHandle(items[i]);
@@ -1931,7 +2020,7 @@ namespace Tinkercell
 		oldHandles.clear();
 		newHandles.clear();
 
-		for (int i=0; i < items.size(); ++i)
+		for (int i=0; i < items.size(); ++i)		
 		{
 			graphicsItems += items[i];
 			oldHandles += getHandle(items[i]);
@@ -1949,7 +2038,7 @@ namespace Tinkercell
 
 		graphicsItems += item;
 		oldHandles += getHandle(item);
-		newHandles += handle;
+		newHandles += handle;	
 
 	}
 
@@ -1970,14 +2059,14 @@ namespace Tinkercell
 			}
 		}
 		for (int i=0; i < newHandles.size(); ++i)
-		{
-
+		{	
+			
 			if (newHandles[i] && newHandles[i]->parent && !newHandles[i]->parent->children.contains(newHandles[i]))
 				newHandles[i]->parent->children.append(newHandles[i]);
 		}
 		for (int i=0; i < oldHandles.size(); ++i)
-		{
-
+		{	
+			
 			if (oldHandles[i] && oldHandles[i]->parent)
 				oldHandles[i]->parent->children.removeAll(oldHandles[i]);
 		}
@@ -1996,19 +2085,19 @@ namespace Tinkercell
 					(itemHandle = getHandle(graphicsItems[i])) &&
 					textItem->toPlainText() == itemHandle->name)
 					textItem->setPlainText(oldHandles[i]->name);
-
+					
 				setHandle(graphicsItems[i],oldHandles[i]);
 			}
 		}
 		for (int i=0; i < oldHandles.size(); ++i)
-		{
-
+		{	
+			
 			if (oldHandles[i] && oldHandles[i]->parent && !oldHandles[i]->parent->children.contains(oldHandles[i]))
 				oldHandles[i]->parent->children.append(oldHandles[i]);
 		}
 		for (int i=0; i < newHandles.size(); ++i)
-		{
-
+		{	
+			
 			if (newHandles[i] && newHandles[i]->parent)
 				newHandles[i]->parent->children.removeAll(newHandles[i]);
 		}
@@ -2060,7 +2149,7 @@ namespace Tinkercell
 					newHandles[i] = 0;
 				}
 			}*/
-
+		
 	}
 
 	MergeHandlersCommand::MergeHandlersCommand(const QString& text, const QList<ItemHandle*>& handles) :
@@ -2140,7 +2229,7 @@ namespace Tinkercell
 				newHandle = oldHandles[0]->clone();
 			else
 				return;
-
+		
 		if (newHandle && oldHandles.size() > 0)
 		{
 			//move the children from the old handles to new handle
@@ -2153,13 +2242,13 @@ namespace Tinkercell
 							oldHandles[i]->children[j]->parent = newHandle;
 						}
 		}
-
+		
 		if (newHandle && newHandle->parent && !newHandle->parent->children.contains(newHandle))
 			newHandle->parent->children.append(newHandle);
-
+		
 		for (int i=0; i < oldHandles.size(); ++i)
-		{
-
+		{	
+			
 			if (oldHandles[i] && oldHandles[i]->parent)
 				oldHandles[i]->parent->children.removeAll(oldHandles[i]);
 		}
@@ -2180,9 +2269,9 @@ namespace Tinkercell
 							textItem->setPlainText(newHandle->name);
 						}
 					}
-				oldHandles[i]->graphicsItems = list;	//do not remove -- otherwise cannot undo
+				oldHandles[i]->graphicsItems = list;	//do not remove -- otherwise cannot undo			
 			}
-
+		
 	}
 
 	void MergeHandlersCommand::undo()
@@ -2194,18 +2283,18 @@ namespace Tinkercell
 				QList<QGraphicsItem*> list = oldHandles[i]->graphicsItems;
 				oldHandles[i]->graphicsItems.clear();
 				for (int j=0; j < list.size(); ++j)
-				{
+				{				
 					setHandle(list[j],oldHandles[i]);
 					if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(list[j])) && (textItem->toPlainText() == newHandle->name))
 					{
 						textItem->setPlainText(oldHandles[i]->name);
 					}
 				}
-				//oldHandles[i]->graphicsItems = list;
+				//oldHandles[i]->graphicsItems = list;			
 			}
 		for (int i=0; i < oldHandles.size(); ++i)
 			if (oldHandles[i] && !oldHandles[i]->children.isEmpty())
-				for (int j=0; j < oldHandles[i]->children.size(); ++j)
+				for (int j=0; j < oldHandles[i]->children.size(); ++j)					
 					oldHandles[i]->children[j]->parent = oldHandles[i];
 
 		newHandle->children.clear();
@@ -2218,12 +2307,12 @@ namespace Tinkercell
 			}
 
 		newHandle->graphicsItems.clear();
-
+		
 		if (newHandle && newHandle->parent)
 			newHandle->parent->children.removeAll(newHandle);
-
+				
 		for (int i=0; i < oldHandles.size(); ++i)
-		{
+		{			
 			if (oldHandles[i] && oldHandles[i]->parent && !oldHandles[i]->parent->children.contains(oldHandles[i]))
 				oldHandles[i]->parent->children.append(oldHandles[i]);
 		}
@@ -2276,18 +2365,18 @@ namespace Tinkercell
 					newNames += children[i]->fullName();
 				}
 			}
-
+			
 		if (!net) return;
-
-		QList<ItemHandle*> handles = net->allHandles();
-
+		
+		QList<ItemHandle*> handles = net->allHandles();		
+		
 		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 		{
 			RenameCommand::findReplaceAllHandleData(handles,oldNames[i],newNames[i]);
 		}
 	}
 	void SetParentHandleCommand::undo()
-	{
+	{	
 		QList<QString> newNames, oldNames;
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])
@@ -2299,11 +2388,11 @@ namespace Tinkercell
 					newNames += children[i]->fullName();
 				}
 			}
-
+			
 		if (!net) return;
-
-		QList<ItemHandle*> handles = net->allHandles();
-
+		
+		QList<ItemHandle*> handles = net->allHandles();		
+		
 		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
 		{
 			RenameCommand::findReplaceAllHandleData(handles,oldNames[i],newNames[i]);

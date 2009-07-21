@@ -1,0 +1,212 @@
+
+		Copies and Copyright-Notice
+
+User is not entitled to change or erase data sets of the RegulonDB
+database or to eliminate copyright notices from RegulonDB. Furthermore,
+User is not entitled to expand RegulonDB or to integrate RegulonDB partly
+or as a whole into other databank systems, without prior written consent
+from CCG-UNAM.
+
+Citation
+
+User is committed to cite properly the use of RegulonDB. The current most
+update publication concerning RegulonDB is:
+Socorro Gama-Castro, Verónica Jiménez-Jacinto, Martin Peralta-Gil,
+Alberto Santos-Zavaleta, Monica I. Peñaloza-Spindola, Bruno Contreras-Moreira,
+Juan Segura-Salazar, Luis Muñiz-Rascado, Irma Martínez-Flores, Heladia Salgado,
+César Bonavides-Martínez, Cei Abreu-Goodger, Carlos Rodriguez-Penagos, Juan Miranda-Rios,
+Enrique Morett, Enrique Merino, Araceli M. Huerta, Luis Treviño-Quintanilla and Julio Collado-Vides.
+"RegulonDB (Version 6.0): gene regulation model of Escherichia coli K-12 
+beyond transcription, active (experimental) annotated promoters and textpresso navigation"
+Nucleic Acids Research, 2008, vol 36.  D120-D124
+
+Release: 6.3 Date: 30-JAN-09
+_________________________________________________________________________________
+
+Columns:
+	(1) Identifier assigned by RegulonDB to the gene related to the Ribosome binding site (RBS)
+	(2) Gene related to the RBS
+	(3) RBS left end position in the genome
+	(4) RBS right end position in the genome
+	(5) Center position of  RBS, relative to the gene start
+	(6) RBS sequence
+	(7) Evidence that supports the existence of the RBS
+ECK120000026	ada	2308432	2308437	-7	ccttaaccagGGAGCTgattATG	
+ECK120002270	aegA	2583553	2583558	-8	caaccaaaaaAGAAGGtcgttATG	Human inference based on similarity to consensus sequences
+ECK120001089	aes	499204	499209	-9	gtaatttgaaAGGAGTttttgtATG	Human inference based on similarity to consensus sequences
+ECK120001351	ahpC	638154	638159	-11	atcgaaaacaCGGAGGaagtatagATG	
+ECK120002173	aldB	3754541	3754546	-9	ctcacaccgcAAGGAGacgatcATG	
+ECK120001753	amtB	472178	472183	-9	cacacagcaaCAGGAAcgaaaaATG	Human inference based on similarity to consensus sequences
+ECK120000043	apaG	51615	51620	-11	cgcgcctttgCAGGAGagttaacgATG	Human inference based on similarity to consensus sequences
+ECK120000052	araE	2980208	2980213	-6	tctctgctggCAGGAAaaaATG	
+ECK120000084	asd	3572912	3572917	-13	cacatctttgCAGGAAaaaaacgcttATG	
+ECK120004333	blc	4375752	4375757	-9	aaaaaccagtAAGGAAacatttATG	
+ECK120003524	cedA	1811694	1811699	-9	tatgcgtttaGTGAAGccagtaATG	Human inference based on similarity to consensus sequences
+ECK120001215	chiA	3467881	3467886	-8	tttacgtcacAAGGGAttataATG	Human inference based on similarity to consensus sequences
+ECK120000153	clpB	2732200	2732205	-7	gatccgttatGGGAGGagttATG	Site mutation
+ECK120002868	copA	510610	510615	-9	aactgtcttaAAGGAGtgttttATG	Human inference based on similarity to consensus sequences
+ECK120001425	corA	3999436	3999441	-10	tttaagcattGGGAGTcccggtcATG	
+ECK120000156	cpdB	4434597	4434602	-11	cccgatgataAAAGGAtgtccctgATG	
+ECK120004317	cpxP	4103834	4103839	-6	aagattttggGAGCAAatgATG	Human inference based on similarity to consensus sequences
+ECK120001196	creA	4633533	4633538	-8	atagataaaaATGGTAacaatATG	
+ECK120001197	creB	4634019	4634024	-8	cggcaataacAGAGGCgatttATG	
+ECK120000721	creC	4634705	4634710	-11	gggatatagcCTGAGGggcctgtaATG	
+ECK120000141	creD	4636189	4636194	-9	tgccattgcaAAGGAGaagactATG	
+ECK120003901	csiE	2663444	2663449	-10	ttatgcttatGGGAGAtctacagATG	Human inference based on similarity to consensus sequences
+ECK120000163	cstA	629104	629109	-10	ggacacgcacACGGATaacaactATG	
+ECK120002070	cutA	4363384	4363389	-7	tctgttcttgCGAGGTgtttATG	
+ECK120003611	cutC	1956990	1956995	-8	gatgttgacgGGAATGtcgatATG	
+ECK120001385	cynR	357920	357925	-8	ggatttacttATAGGTtgcgaATG	
+ECK120000181	cysD	2874357	2874362	-8	cggtattgcaAAGGAAcggttATG	
+ECK120000039	cysQ	4434766	4434771	-9	ctcacagagaCGAGGTggagaaATG	
+ECK120000210	dedA	2432768	2432773	-7	agtacaaggcATAGGCaaatATG	Human inference based on similarity to consensus sequences
+ECK120001585	eamA	1619166	1619171	-7	tgaaattcagAGGCGGtagaATG	Human inference based on similarity to consensus sequences
+ECK120001307	endA	3088358	3088363	-8	cgttttaacaCGGAGTaagtgATG	
+ECK120000265	exbB	3150013	3150018	-9	acttgcgtccTGGAGAtacacaGTG	Human inference based on similarity to consensus sequences
+ECK120000266	exbD	3149274	3149279	-11	aaattacgcgCAGGATaatatccgATG	Human inference based on similarity to consensus sequences
+ECK120001484	fadD	1887776	1887781	-8	acgcattttaGAGGTGaagaaTTG	Human inference based on similarity to consensus sequences
+ECK120002681	fadH	3229675	3229680	-9	attttacataCTGGACaattttATG	Human inference based on similarity to consensus sequences
+ECK120000280	fecA	4514704	4514709	-6	aaatgatgatGGGGAAggtATG	
+ECK120000286	fecR	4515748	4515753	-10	ctgttccgtcTGGAGTatgggttATG	
+ECK120000295	fhlA	2852349	2852354	-8	gtgctttcctGGAAGAacaaaATG	
+ECK120000303	fimB	4538966	4538971	-11	gtctgtaattATAAGGgaaaaacgATG	
+ECK120001324	fliA	1999822	1999827	-11	tcatataacgCAGGGCtgtttatcGTG	
+ECK120000832	fliD	2001884	2001889	-9	tcgaaagataAAAGGAaatcgcATG	
+ECK120001355	fliS	2003315	2003320	-9	aatattcatcGGGAGAcaggtcATG	
+ECK120001356	fliT	2003723	2003728	-11	ttctttgattCAGGACccagtctgATG	
+ECK120000223	flk	2435960	2435965	-9	atttcaggtaTAAGGAtacgtaATG	Human inference based on similarity to consensus sequences
+ECK120000350	fumB	4345358	4345363	-11	atacagagttACAGGCtggaagctATG	
+ECK120000358	galS	2239696	2239701	-8	atctcataacAGGTAGtgaatATG	
+ECK120000362	gcd	141233	141238	-10	atgaattgaaATGGTGtctctttATG	Human inference based on similarity to consensus sequences
+ECK120001729	gcvA	2940599	2940604	-12	catttaacatCAAAGTttaatagccATG	
+ECK120002441	glcB	3121836	3121841	-11	taagcgaaaaCGAGGAgataaacaATG	Human inference based on similarity to consensus sequences
+ECK120004106	glcC	3126282	3126287	-9	tacctgtgcaCGAGGTccgggaATG	
+ECK120004105	glcD	3126050	3126055	-9	cacaacaaagCGAAGCctactcATG	
+ECK120004104	glcE	3124552	3124557	-10	ttccctgaacTGGAGCgtttctgATG	Human inference based on similarity to consensus sequences
+ECK120002572	glcF	3123488	3123493	-9	gcggaactttGAGGAGcaggctATG	Human inference based on similarity to consensus sequences
+ECK120004103	glcG	3122260	3122265	-9	gcccttgaaaAGGAATaacaaaATG	Human inference based on similarity to consensus sequences
+ECK120001349	glgS	3189968	3189973	-9	gcgataaccgGAGGATgtgcttATG	
+ECK120001550	glnE	3197674	3197679	-13	ttaatcaggcAAGGATaaaatcgcttATG	
+ECK120002080	glnK	471810	471815	-9	gaattctgacCGGAGGggatctATG	Human inference based on similarity to consensus sequences
+ECK120000387	glpD	3560024	3560029	-9	aacgaaagtgAATGAGggcagcATG	
+ECK120000388	glpE	3559852	3559857	-8	tttgtaaagaAAGAGAgacgcATG	Human inference based on similarity to consensus sequences
+ECK120000389	glpF	4116120	4116125	-9	attaactcttCAGGATccgattATG	
+ECK120000391	glpK	4115253	4115258	-10	atatgactacGGGACAattaaacATG	
+ECK120000393	glpR	3558636	3558641	-10	aaaataattcCAGGGAtttataaATG	Human inference based on similarity to consensus sequences
+ECK120000401	glyA	2683536	2683541	-9	ttagctgagtCAGGAGatgcggATG	
+ECK120002341	gntK	3575623	3575628	-10	tcttgtattgTGGGGGcaccactTTG	Human inference based on similarity to consensus sequences
+ECK120002323	gntP	4549327	4549332	-10	tcaaccaggtAAGGTAaaacgttATG	Human inference based on similarity to consensus sequences
+ECK120002342	gntR	3576751	3576756	-4	tttgtaccttCAGGACgATG	Human inference based on similarity to consensus sequences
+ECK120002247	gntT	3544567	3544572	-11	aacaaatgaaAGGCCAggtaaatcATG	Human inference based on similarity to consensus sequences
+ECK120002343	gntU	3575091	3575096	-9	tattaaaaaaGGCAAAtaagtaGTG	Human inference based on similarity to consensus sequences
+ECK120004290	gntX	3542783	3542788	-118	tgcaacgccaCACTTCggcattcagtccccatccgtgcagcagcacaagatgaacattcccctgacctttggtctgccaccagatgttattcatccgctattgttctcttttgacttacaaggatgaacatATG	Human inference based on similarity to consensus sequences
+ECK120001364	hdeA	3654770	3654775	-9	ctttatagttGAGGATattacgATG	Human inference based on similarity to consensus sequences
+ECK120001624	hpf	3344183	3344188	-9	cccaaccgatAAGGAAgacactATG	
+ECK120002443	hpt	141420	141425	-8	ttaaatcataTGGTTAgagatATG	Human inference based on similarity to consensus sequences
+ECK120002032	hscA	2656964	2656969	-9	ttttaatttcTGGAAGctaaacATG	
+ECK120000461	hyaA	1031344	1031349	-15	ggtgtcgcaaGGAGGAgagacgtgcgatATG	
+ECK120000462	hyaB	1032462	1032467	-12	agccaggcaaTGAGGAtaaacaggcATG	
+ECK120000463	hyaC	1034276	1034281	-10	gttaacagcgAAGGAGaatcatcATG	
+ECK120000464	hyaD	1034982	1034987	-8	aataagtaacAAGGAGcgttcATG	
+ECK120000465	hyaE	1035565	1035570	-9	ggatgacacaGGAGGAgcagggATG	
+ECK120000466	hyaF	1035958	1035963	-11	cgaaccgcagCAGGAGcgtgcctcATG	
+ECK120000476	hypA	2848659	2848664	-7	aatagttaatGGGAGGcgatATG	
+ECK120000477	hypB	2849011	2849016	-9	agaaatagacCAGGAGtgagcgATG	
+ECK120000478	hypC	2849873	2849878	-10	ctgaactggcTGGAGAcacagcgATG	
+ECK120000479	hypD	2850146	2850151	-9	tgttgtatggCGAGGAaaaataATG	
+ECK120000480	hypE	2851305	2851310	-10	cccacggtagCGGCGGccaggcgATG	
+ECK120000484	iclR	4221656	4221661	-7	tacagaaaaaAGAGACtgtcATG	Human inference based on similarity to consensus sequences
+ECK120000488	ilvC	3955980	3955985	-10	gcacaacatcACGAGGaatcaccATG	Human inference based on similarity to consensus sequences
+ECK120000496	ilvY	3955852	3955857	-11	acgtcaacatCGAGGGctgtccctGTG	Human inference based on similarity to consensus sequences
+ECK120001717	intA	2754169	2754174	-9	cctaaacgcaGGGAGActccccATG	
+ECK120000501	ispA	440334	440339	-11	cccttttacaCCGGACaatgagtaATG	Human inference based on similarity to consensus sequences
+ECK120000504	katG	4131842	4131847	-13	gtaacactgtAGAGGGgagcacattgATG	
+ECK120000511	kdsA	1267370	1267375	-15	acattttactCAAGATtaaggcgatcctATG	
+ECK120000512	kdsB	970064	970069	-8	gactgctgatGAGAGTaaatcATG	
+ECK120000516	ksgA	52435	52440	-7	aaaatgattgTTAACAcccaATG	Human inference based on similarity to consensus sequences
+ECK120000530	livG	3592240	3592245	-13	aacggcgcagCGAAAGgagagcaggcATG	
+ECK120000531	livH	3594435	3594440	-11	gggcgggtttAGAAAGgttaccttATG	
+ECK120000533	livK	3595593	3595598	-12	acatcacgaaTGGGGAtttttgactATG	
+ECK120000534	livM	3593514	3593519	-13	ctgggtcgccCGGAGGtagagaaagtATG	
+ECK120001889	lldD	3777837	3777842	-10	gagcattcgaGGGAGAaaaacgcATG	Human inference based on similarity to consensus sequences
+ECK120001887	lldP	3775409	3775414	-10	gcgtggactcCAGGAGacctgcaATG	Human inference based on similarity to consensus sequences
+ECK120001888	lldR	3777062	3777067	-12	atgtcttaacGTGGATgattccttaATG	Human inference based on similarity to consensus sequences
+ECK120002026	lrhA	2404672	2404677	-11	tgagccgccaGTAAGTgataatatATG	
+ECK120000544	lysR	2977031	2977036	-9	accggattgcGAGAGAgcgctaATG	
+ECK120000546	lysU	4352747	4352752	-9	agctggatttAGAGGAaccaaaATG	
+ECK120000556	malX	1697366	1697371	-10	tgttctctacGAGGAGtcgttttATG	
+ECK120000557	malY	1698969	1698974	-9	tgtccaggcaTAAGGAtaagatATG	
+ECK120000558	malZ	421728	421733	-8	gattttcatcACAGGGgaattATG	Human inference based on similarity to consensus sequences
+ECK120001399	marR	1617131	1617136	-10	aattacttgcCAGGGCaactaatGTG	Site mutation
+ECK120000574	metA	4212288	4212293	-12	gcgtatgtagTGAGGTaatcaggttATG	
+ECK120000575	metB	4126680	4126685	-12	gacaaagcccAGGGAActtcatcacATG	
+ECK120000576	metC	3150245	3150250	-10	cgtataaaaaCAGGAAtcccgacATG	
+ECK120000578	metF	4130628	4130633	-8	aagcgattgaTGAGGTaaggtATG	
+ECK120000581	metJ	4126424	4126429	-8	acgaagaggaTTAAGTatctcATG	Human inference based on similarity to consensus sequences
+ECK120000582	metK	3084714	3084719	-11	aattctctttAGGTGAtattaaatATG	
+ECK120000583	metL	4127846	4127851	-9	gggctgcaaaCAAGGGgtaaaaATG	
+ECK120000586	mglB	2238375	2238380	-7	taagaaaaacCGGAGAtaccATG	
+ECK120001761	mobA	4040031	4040036	-11	cccacaataaAAGAGGcgatatcgGTG	
+ECK120002294	mpl	4453794	4453799	-11	cagattaaaaAAGGATagtgacgtATG	Human inference based on similarity to consensus sequences
+ECK120000610	mtr	3303846	3303851	-9	ttttcactggAGAGAAgccctcATG	
+ECK120000636	narL	1275059	1275064	-9	acagacgtccAAGGAGatacccATG	
+ECK120000639	narX	1276849	1276854	-10	aaagcctgaaGGAAGAggtttacATG	
+ECK120000644	nfo	2248849	2248854	-10	gcgggtttaaCAGGAGtcctcgcATG	
+ECK120002015	nlpD	2866780	2866785	-7	caatttttccTGGGGGataaATG	
+ECK120002047	npr	3345977	3345982	-8	tacgctggaaAAACGTaaaccATG	
+ECK120000653	nrdA	2342871	2342876	-13	gaattccaaaAACAGGtacgacatacATG	
+ECK120001988	nuoA	2403100	2403105	-8	gctacttttgATGAGTaagcaATG	
+ECK120001931	osmF	2217510	2217515	-9	gtaaaagaatGAGGAAagcatcATG	Human inference based on similarity to consensus sequences
+ECK120001358	osmY	4609406	4609411	-10	agcaaacataCAGGAAtaaatcgATG	
+ECK120002648	pdxB	2435882	2435887	-11	tcgtctcataCAGGTAacacaaacGTG	Human inference based on similarity to consensus sequences
+ECK120000693	pflB	952783	952788	-8	acttaagaagGTAGGTgttacATG	
+ECK120000720	phoE	259330	259335	-8	taattaaaatCAGGAAtgaaaATG	
+ECK120001673	phoH	1084203	1084208	-9	tcagtcactaTGGAGAtcgcggATG	
+ECK120000722	phoP	1189678	1189683	-10	aattaagacaGGGAGAaataaaaATG	Human inference based on similarity to consensus sequences
+ECK120000727	phr	738717	738722	-10	aacttgcgccATTCAGgagttttATG	
+ECK120000735	pntA	1675933	1675938	-8	aaaccgatggAAGGGAatatcATG	
+ECK120000736	pntB	1674391	1674396	-9	cgcaaaaattAAGGGGtaacatATG	
+ECK120000737	polA	4044978	4044983	-8	tgataaacagGCACGGacattATG	Human inference based on similarity to consensus sequences
+ECK120000762	proV	2802818	2802823	-16	atagacaaatAAAGGAatctttctattgcATG	Human inference based on similarity to consensus sequences
+ECK120000763	proW	2804020	2804025	-9	ttagatcgtgAGGGGGtaaataATG	Human inference based on similarity to consensus sequences
+ECK120000764	proX	2805142	2805147	-9	cctgccaaaaAAAGGAataacaATG	Human inference based on similarity to consensus sequences
+ECK120000725	pstS	3909554	3909559	-8	tgaatcctccCAGGAGacattATG	
+ECK120001625	ptsN	3344588	3344593	-9	gggcaggttcTTAGGTgaaattATG	
+ECK120000784	purE	552335	552340	-14	ttgtgcaccaCAGGAGttttaagacgcATG	
+ECK120000787	purK	551822	551827	-7	ccggacccgcGAGGTGcggcATG	
+ECK120000789	purM	2619206	2619211	-10	agtaacgcgtGGGGACccaagcaGTG	
+ECK120000793	putP	1078515	1078520	-10	taataattttTTGGAGactttagATG	
+ECK120000829	rfaD	3791996	3792001	-11	ctccataattCGAAGGttacagttATG	Human inference based on similarity to consensus sequences
+ECK120000833	rhaR	4096659	4096664	-7	ctctggccgaGGTAGCcacgGTG	
+ECK120000834	rhaS	4095747	4095752	-9	ttgacgacatCAGGAGgccagtATG	
+ECK120001568	rnb	1346940	1346945	-6	gccaccaaaaTAGACAattATG	Human inference based on similarity to consensus sequences
+ECK120000889	rpoN	3342719	3342724	-17	acgttttagcAGGAGAgtacgattctgaacATG	
+ECK120000503	rpoS	2865581	2865586	-10	ggatcacgggTAGGAGccaccttATG	
+ECK120004293	rtcB	3556108	3556113	-9	acaacgaaaaGAGAAAaacaaaATG	Human inference based on similarity to consensus sequences
+ECK120002224	rtcR	3556277	3556282	-10	cgtcttttatAAGGATatctaagATG	Human inference based on similarity to consensus sequences
+ECK120000919	sdaA	1894937	1894942	-16	agtccagtcaCCTTGTcaggagtattatcGTG	Human inference based on similarity to consensus sequences
+ECK120003471	slyA	1718858	1718863	-12	gcaagctaatTATAAGgagatgaaaTTG	Human inference based on similarity to consensus sequences
+ECK120000945	sohB	1327344	1327349	-9	tgtttaaccaAGGTGGggactcGTG	Human inference based on similarity to consensus sequences
+ECK120000946	soxR	4275476	4275481	-13	caagttaactTGAGGTaaagcgatttATG	
+ECK120000947	soxS	4275415	4275420	-11	tgaacactgaAAAGAGgcagatttATG	
+ECK120002029	treB	4464208	4464213	-7	gtcatctgccATGGGGctttATG	
+ECK120002090	treR	4465273	4465278	-6	cacgttacagGACAACaggATG	Human inference based on similarity to consensus sequences
+ECK120000447	truA	2433670	2433675	-14	gaaactggtgCAGGAGtatctgtactaATG	Human inference based on similarity to consensus sequences
+ECK120001024	tsx	431246	431251	-11	ggattttcaaACAGTGgcatacatATG	
+ECK120001029	tyrB	4265123	4265128	-11	cccgtaaaccTGGAGAaccatcgcGTG	
+ECK120001036	ugpB	3590357	3590362	-11	tcggtacaacAAGAGAgataaacgATG	
+ECK120001303	upp	2618902	2618907	-10	ctgcccctcaAAGGAGaaagagtATG	
+ECK120001048	usg	2434680	2434685	-11	ttgctatttcTGGAGTaaaccaccATG	Human inference based on similarity to consensus sequences
+ECK120001051	uvrB	812736	812741	-10	ccaactccttCAGGTAgcgactcATG	
+ECK120004462	xapA	2522906	2522911	-8	ccctacagaaAAAGGAtatgtATG	
+ECK120002428	xapB	2522015	2522020	-10	aatgatgcgaCAAGGAaacgattATG	
+ECK120001130	xapR	2520508	2520513	-11	atttattataTGGAGCacttaattATG	
+ECK120001086	xseB	440580	440585	-15	gaaaaatattGAGAGTcagacattcattATG	Human inference based on similarity to consensus sequences
+ECK120002869	ybaS	510849	510854	-13	catctataaaAAGGAGttaacaaaagATG	Human inference based on similarity to consensus sequences
+ECK120001094	ybgA	738213	738218	-8	gtaaaccgctCAGGAGcagtaATG	
+ECK120001551	ygiF	3198993	3198998	-8	cataaccgatAAGTAAaggccATG	
+ECK120002046	yhbJ	3345123	3345128	-11	agacgttgtgAGGAGAaacagtacATG	
+ECK120002159	yiaJ	3740564	3740569	-11	gcgctaccatCAGGACgcgacaaaATG	Human inference based on similarity to consensus sequences
+ECK120002160	yiaK	3740742	3740747	-11	atcaaaaaaaCAAGGAagcctgggATG	Human inference based on similarity to consensus sequences
+ECK120001766	yihI	4049357	4049362	-10	aaacggctaaAAGACGaaccattATG	Human inference based on similarity to consensus sequences
+ECK120001187	yjaB	4212152	4212157	-8	gaatgactaaAAGGAGagaaaATG	Human inference based on similarity to consensus sequences

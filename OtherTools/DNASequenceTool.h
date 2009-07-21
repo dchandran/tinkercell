@@ -19,10 +19,10 @@
 #include <QTextEdit>
 #include <QTextCursor>
 
-#include "NodeGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "CLabelsTool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "OtherTools/CLabelsTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

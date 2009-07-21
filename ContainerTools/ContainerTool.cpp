@@ -3,20 +3,20 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A tool for displaying all the handles (as a tree) and their attributes. This tool
  also handles move events where an item is moved into a module or Compartment
 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "OutputWindow.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "CollisionDetection.h"
-#include "ContainerTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/OutputWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/CollisionDetection.h"
+#include "ContainerTools/ContainerTool.h"
 #include <QtDebug>
 
 namespace Tinkercell

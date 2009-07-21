@@ -3,13 +3,12 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is header file for Tinkercell's main window
  The MainWindow contains a set of GraphicScenes, which is the class
  that performs all the drawing. Each GraphicsScene emits various signals. Those
  signals are then emitted by the MainWindow; in this way, a plugin does not need
  to listen to each of the GraphicsScene signals but only the MainWindow's signals.
-
  
  The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
  
@@ -49,9 +48,9 @@
 #include <QSemaphore>
 #include <QLibrary>
 
-#include "HistoryStack.h"
-#include "DataTable.h"
-#include "ConvertValue.h"
+#include "Core/HistoryStack.h"
+#include "Core/DataTable.h"
+#include "Core/ConvertValue.h"
 
 namespace Tinkercell
 {
@@ -65,8 +64,6 @@ namespace Tinkercell
     class OutputWindow;
     class NodeGraphicsItem;
     class ConnectionGraphicsItem;
-    class TextItem;
-    class OpTextItem;
     class GraphicsScene;
     class ItemHandle;
     class ItemFamily;
@@ -89,19 +86,22 @@ namespace Tinkercell
         Q_OBJECT
 
     public:
+	
+		/*! \brief register all the TinkerCell data structures with Qt*/
+		static void RegisterDataTypes();
 
         /*!
-                * \brief Defaut constructor: initialize menubars, create first graphics scene.
-                * \param bool enable text-based network construction
-                * \param bool enable graphics-based network construction
-                */
+		* \brief Defaut constructor: initialize menubars, create first graphics scene.
+		* \param bool enable text-based network construction
+		* \param bool enable graphics-based network construction
+		*/
         MainWindow();
         /*!
         * \brief 2-arg constructor allows disabling of text/graphics modes
         * \param bool enable text-based network construction
         * \param bool enable graphics-based network construction
         */
-        MainWindow(bool enableScene, bool enableText);
+        MainWindow(bool enableScene, bool enableText, bool enableOutputWindow = true);
         /*!
         * \brief Destructor: delete all the graphics scenes.
         */
@@ -161,6 +161,11 @@ namespace Tinkercell
         * \return current MDI window
         */
         NetworkWindow * currentWindow();
+		/*!
+        * \brief sets the active window
+        * \param MDI window
+        */
+        void setCurrentWindow(NetworkWindow*);
         /*!
         * \brief gets all the windows in the main window
         * \return list of windows
@@ -189,7 +194,7 @@ namespace Tinkercell
         */
         QMenu* settingsMenu;
         /*!
-        * \brief the context menu that is shown during right-click event on an item.
+        * \brief the context menu that is shown during right-click event on selected graphical items.
                         Plugins can add new actions to this menu.
         */
         QMenu contextItemsMenu;
@@ -198,6 +203,16 @@ namespace Tinkercell
                         Plugins can add new actions to this menu.
         */
         QMenu contextScreenMenu;
+		/*!
+        * \brief the context menu that is shown during right-click event on a text editor with text selected.
+                        Plugins can add new actions to this menu.
+        */
+        QMenu contextSelectionMenu;
+        /*!
+        * \brief the context menu that is shown during right-click event on a text editor with no text selected.
+                        Plugins can add new actions to this menu.
+        */
+        QMenu contextEditorMenu;
         /*!
         * \brief The file menu. Plugins can add new actions to this menu.
         */
@@ -332,18 +347,19 @@ namespace Tinkercell
         * \return void*/
         void itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
         /*!
-        * \brief new nodes or connections have been inserted
-        * \param TextEditor* where the editting happened
-        * \param QList<TextItem*> new test items
-        * \param QList<TextItem*> new item handles*/
-        void itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>&);
+        * \brief signals whenever items are deleted
+        * \param TextEditor * editor where the items were removed
+        * \param QList<TextItem*>& list of items removed
+        * \param QList<ItemHandle*>& list of handles removed (does NOT have to be the same number as items removed)
+        * \return void*/
+        void itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
         /*!
-        * \brief nodes or connections have been removed
-        * \param TextEditor* where the editting happened
-        * \param QList<TextItem*> removed text items
-        * \param QList<TextItem*> removed item handles
-        */
-        void itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>& );
+        * \brief signals whenever items are added
+        * \param TextEditor * editor where the items were added
+        * \param QList<TextItem*>& list of new items
+        * \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
+        * \return void*/
+        void itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
         /*! \brief emit items removed */
         /*!
         * \brief informs the plugins that the current window is about to close
@@ -811,7 +827,7 @@ namespace Tinkercell
         * \return void
         */
         void modelLoaded(NetworkWindow*);
-         /*!
+        /*!
         * \brief signals whenever the new window is opened
         * \param NetworkWindow* the current new window
         * \return void
@@ -902,75 +918,43 @@ namespace Tinkercell
         * \return void*/
         void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
         /*!
-        * \brief new nodes or connections have been inserted
-        * \param TextEditor* where the editting happened
-        * \param QList<TextItem*> new test items
-        * \param QList<TextItem*> new item handles*/
-        void itemsInserted(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>&);
+        * \brief signals whenever items are deleted
+        * \param TextEditor * editor where the items were removed
+        * \param QList<TextItem*>& list of items removed
+        * \param QList<ItemHandle*>& list of handles removed (does NOT have to be the same number as items removed)
+        * \return void*/
+        void itemsRemoved(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
         /*!
-        * \brief nodes or connections have been removed
-        * \param TextEditor* where the editting happened
-        * \param QList<TextItem*> removed text items
-        * \param QList<TextItem*> removed item handles
-        */
-        void itemsRemoved(TextEditor * editor, const QList<TextItem*>& , const QList<ItemHandle*>& );
-        /*!
+        * \brief signals whenever items are added
+        * \param TextEditor * editor where the items were added
+        * \param QList<TextItem*>& list of new items
+        * \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
+        * \return void*/
+        void itemsInserted(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
+		/*!
         * \brief A convenient signal that is emitted when items are inserted from a GraphicsScene
             or TextEditor. Warning: listening to the other itemsInserted signals may cause redundancy
-        * \param TextEditor* where the editting happened
+        * \param NetworkWindow* where the editting happened
         * \param QList<TextItem*> new items
         */
         void itemsInserted(NetworkWindow * win, const QList<ItemHandle*>&);
         /*!
         * \brief A convenient signal that is emitted when items are removed from a GraphicsScene
             or TextEditor. Warning: listening to the other itemsRemoved signals may cause redundancy
-        * \param TextEditor* where the editting happened
-        * \param TextItem* new items
+        * \param NetworkWindow* where the editting happened
+        * \param ItemHandle* removed items
         */
         void itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& );
-        /*!
-        * \brief an operations, e.g. equations, has been inserted
-        * \param TextEditor* where the editting happened
-        * \param OpTextItem* operation
-        */
-        void operationInserted(TextEditor * editor, OpTextItem * );
-        /*!
-        * \brief one of the connections has been modified
-        * \param TextEditor* where the editting happened
-        * \param ConnectionTextItem* old connection
-        * \param ConnectionTextItem* modified connection
-        */
-        void connectionChanged(TextEditor * editor, ConnectionTextItem * from, ConnectionTextItem * to);
-        /*! \brief one of the operations, e.g. equations, has been modified
-        * \param TextEditor* where the editting happened
-        * \param OpTextItem* old operation
-        * \param OpTextItem* modified operation */
-        void operationChanged(TextEditor * editor, OpTextItem * from, OpTextItem * to);
-        /*! \brief request to find the given text
-            \param QString string to find*/
-        void findText(const QString&);
-        /*! \brief request to find and replace the given text
-            \param QRegExp regex to find
-            \param QString string to replace with*/
-        void replaceText(const QRegExp&, const QString&);
-        /*! \brief new text has been inserted
-            \param QString new text
-        */
-        void textInserted(const QString&);
-        /*! \brief some text has been removed
-            \param QString new text
-        */
-        void textRemoved(const QString&);
         /*! \brief some text inside this editor has been changed
-            \param QString old text
-            \param QString new text
+            \param QString old text (usually a line)
+            \param QString new text (usually a line)
         */
-        void textChanged(const QString&, const QString&);
+        void textChanged(TextEditor * , const QString&, const QString&, const QString&);
         /*! \brief the cursor has moved to a different line
             \param int index of the current line
             \param QString current line text
         */
-        void lineChanged(int, const QString&);
+        void lineChanged(TextEditor * , int, const QString&);
         /*! \brief signals whenever mouse moves, and indicates whether it is on top of an item
         * \param GraphicsScene * scene where the event took place
         * \param QGraphicsItem* pointer to item that mouse is on top of

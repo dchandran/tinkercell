@@ -28,11 +28,11 @@
 #include <QButtonGroup>
 #include <QListWidget>
 
-#include "DataTable.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "MainWindow.h"
-#include "PlotTool.h"
+#include "Core/DataTable.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
+#include "PlotTools/PlotTool.h"
 
 namespace Tinkercell
 {

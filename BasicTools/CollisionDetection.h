@@ -3,9 +3,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This class sends a signal whenever two items in the current scene intersect.
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_COLLISIONDETECTIONTOOL_H
@@ -29,10 +29,10 @@
 #include <QGraphicsWidget>
 #include <QFrame>
 
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

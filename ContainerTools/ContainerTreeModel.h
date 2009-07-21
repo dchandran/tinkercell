@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A tree model for storing the tree of handles
 
 ****************************************************************************/
@@ -17,14 +17,14 @@
 #include <QList>
 #include <QVariant>
 
-#include "NetworkWindow.h"
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/NetworkWindow.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 namespace Tinkercell
 {
 	class ContainerTreeModel;
-
+	
 	class ContainerTreeItem
 	{
 		friend class ContainerTreeModel;
@@ -45,7 +45,7 @@ namespace Tinkercell
 		bool isConnection() const;
 		void sortChildren();
 	private:
-		QList<ContainerTreeItem*> childItems;
+		QList<ContainerTreeItem*> childItems;	
 		ContainerTreeItem *parentItem;
 		ItemHandle * itemHandle;
 		QString attributeName;
@@ -72,14 +72,14 @@ namespace Tinkercell
 		int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 		ContainerTreeItem * root();
-
+		
 		virtual void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
-	private:
+	private:	
 		ContainerTreeItem *rootItem;
                 NetworkWindow * window;
 		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*);
-		ContainerTreeItem* findTreeItem(ItemHandle*);
+		ContainerTreeItem* findTreeItem(ItemHandle*);		
 	};
 }
 

@@ -3,10 +3,10 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
-
+ 
+ 
  This file defines an xml reader that reads a ConnectionGraphicsItem
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONNECTIONGRAPHICSITEMREADER_H
@@ -18,9 +18,9 @@
 #include <QList>
 #include <QHash>
 #include <QXmlStreamReader>
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "NodeGraphicsReader.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
 
 
 namespace Tinkercell
@@ -31,9 +31,9 @@ namespace Tinkercell
 	*/
 class ConnectionGraphicsReader : public QXmlStreamReader
 {
-public:
+public: 
  /*! \brief Reads up to the next start node
- * \return Token Typer*/
+ * \return Token Typer*/ 
  QXmlStreamReader::TokenType readNext();
  /*! \brief Reads a ConnectionGraphicsItem from XML, given all the nodes for the connection are already in the scene
  * \param list of nodes
@@ -41,7 +41,7 @@ public:
  * \param xml reader in use
  * \return list of control points*/
  static ConnectionGraphicsItem* readConnectionGraphics(const QList<NodeGraphicsItem*>& nodes, const QList<ConnectionGraphicsItem*>& connections,NodeGraphicsReader * reader);
- /*! \brief Reads all control points from an XML file
+ /*! \brief Reads all control points from an XML file 
  * \param xml reader in use
  * \return list of control points*/
  static QList<ConnectionGraphicsItem::ControlPoint*> readControlPoints(QXmlStreamReader *);
@@ -51,7 +51,7 @@ public:
  * \param the xml reader in use
  * \return path vector with all the control points and nodes and arrows*/
  static ConnectionGraphicsItem::PathVector readPathVector(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader *);
- /*! \brief Reads a control point from an XML file
+ /*! \brief Reads a control point from an XML file 
  * \param XML reader in use
  * \return control point*/
  static ConnectionGraphicsItem::ControlPoint* readControlPoint(QXmlStreamReader *);
@@ -60,12 +60,12 @@ public:
 * \param name of the entry, i.e. ArrowAtStart or ArrowAtEnd
 * \return arrow item*/
 static ArrowHeadItem * readArrow(NodeGraphicsReader & reader,QString name);
- /*! \brief Reads a node item from xml file.
+ /*! \brief Reads a node item from xml file. 
 * \param node reader
 * \param name of the entry
 * \return arrow item*/
 static NodeGraphicsItem * readNode(NodeGraphicsReader & reader,QString name);
- /*! \brief Reads the center region of a connection from xml file.
+ /*! \brief Reads the center region of a connection from xml file. 
 * \param target connection
 * \param name of the entry
 * \return arrow item*/
@@ -73,4 +73,4 @@ static void readCenterRegion(ConnectionGraphicsItem * connection, NodeGraphicsRe
 };
 
 }
-#endif
+#endif 

@@ -3,14 +3,14 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This is one of the main classes in Tinkercell
  This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
- Each item in Tinkercell has an associated family.
-
+ Each item in Tinkercell has an associated family. 
+ 
 ****************************************************************************/
 #include <QtDebug>
-#include "ItemFamily.h"
+#include "Core/ItemFamily.h"
 
 namespace Tinkercell
 {

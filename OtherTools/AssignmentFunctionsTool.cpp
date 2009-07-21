@@ -474,7 +474,7 @@ namespace Tinkercell
 		
 		if (lastItem == 0 || lastItem->data == 0) return;
 		
-		if (!StoichiometryTool::parseRateString(currentScene(), lastItem, func))
+		if (!StoichiometryTool::parseRateString(currentWindow(), lastItem, func))
 			return;
 		
 		if (!lastItem->hasTextData(tr("Assignments")))

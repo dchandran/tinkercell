@@ -19,12 +19,12 @@
 #include <QImage>
 #include <QClipboard>
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "NodeGraphicsWriter.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "GraphicsScene.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/NodeGraphicsWriter.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/GraphicsScene.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

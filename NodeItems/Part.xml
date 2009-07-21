@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/DNA.xml" width="80" height="50">
+    <ControlPoints>
+        <ControlPoint x="102" y="35"></ControlPoint>
+        <ControlPoint x="404" y="35"></ControlPoint>
+        <ControlPoint x="404" y="224"></ControlPoint>
+        <ControlPoint x="102" y="224"></ControlPoint>
+        <ControlPoint x="85" y="18"></ControlPoint>
+        <ControlPoint x="422" y="18"></ControlPoint>
+        <ControlPoint x="422" y="240"></ControlPoint>
+        <ControlPoint x="85" y="240"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Gradient Type="1">
+                <Stop Value="0" Color="#1827f4" Alpha="56"></Stop>
+                <Stop Value="1" Color="#0f16a6" Alpha="106"></Stop>
+                <Start x="239" y="126"></Start>
+                <End x="95" y="24"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="7,4,5,1,0,3,7"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#1827f4" Alpha="83"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="5,1,2,3,7,6,5"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#01020c" Alpha="169"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

@@ -10,7 +10,7 @@
 #include <QRegExp>
 #include <QFile>
 #include <QColor>
-#include "NodesTreeReader.h"
+#include "NodesTree/NodesTreeReader.h"
 namespace Tinkercell
 {
 
@@ -66,7 +66,7 @@ namespace Tinkercell
                }
                readNext();
           }
-
+    
           QList<bool> hasNodeGraphics;
           bool hasGraphics;
           for (int i=0; i < compositeNodes.size(); ++i)
@@ -90,7 +90,6 @@ namespace Tinkercell
                     node->graphicsItems.clear();
                }
           }
-
 /*
           QString text;
           for (int i=0; i < compositeNodes.size(); ++i)

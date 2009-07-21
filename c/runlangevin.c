@@ -10,7 +10,16 @@
  
 #include "TC_api.h"
 
-int run(Matrix input)
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&setup, "Continuous stochastic simulation", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
+}
+
+void setup(Matrix input)
 {
    Matrix m;
    m.rows = 3;
@@ -23,13 +32,14 @@ int run(Matrix input)
    m.rownames = rows;
    m.values = values;
    
-   tc_createInputWindow(m,"dlls/runlangevin","run2","Langevin Simulation");
+   tc_createInputWindow(m,"Langevin simulation",&run);
+   //tc_createInputWindow(m,"dlls/runlangevin","run","Langevin Simulation");
    tc_addInputWindowOptions("Langevin Simulation",0, 0,  options);
    
-   return 1; 
+   return; 
 }
 
-int run2(Matrix input) 
+void run(Matrix input) 
 {
 
    double start = 0.0, end = 50.0;
@@ -60,7 +70,7 @@ int run2(Matrix input)
 			TCFreeArray(A);
 			//A = tc_allItems();
 			tc_errorReport("No Model Selected\0");
-			return 0;
+			return;
 			
 	   }
    }
@@ -76,14 +86,14 @@ int run2(Matrix input)
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
-			return 0;
+			return;
 	   }
    }
    else
    {
        TCFreeArray(A);
 	   tc_errorReport("No Model\0");
-       return 0;  
+       return;  
    }
    
    FILE * out = fopen("langevin.c","a");
@@ -96,13 +106,13 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
    TCpropensity(time, u, rates, data);\n\
    if (time > _time0_)\n\
    {\n\
-     tc_showProgress(\"ssa\",(int)(100 * time/%lf));\n\
+     tc_showProgress(\"Langevin Simulation\",(int)(100 * time/%lf));\n\
 	 _time0_ += %lf;\n\
    }\n\
 }\n\
    \n\
    \n\
-int run(Matrix input) \n\
+void run(Matrix input) \n\
 {\n\
    initMTrand();\n\
    TCinitialize();\n\
@@ -110,7 +120,7 @@ int run(Matrix input) \n\
    if (!y) \
    {\n\
       tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
-      return 0;\n\
+      return;\n\
    }\n\
    Matrix data;\n\
    data.rows = %i;\n\
@@ -146,7 +156,7 @@ int run(Matrix input) \n\
       tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
    tc_plot(data,%i,\"Time Course Simulation\",0);\n\
    free(data.colnames);  free(y);\n\
-   return 1;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
+   return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
    fclose(out);
 
    char* appDir = tc_appDir();
@@ -164,7 +174,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"langevin.c -I%s/c -L%s/lib -llangevin\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","Langevin Simulation\0");
 /*   
    if (tc_isWindows())
    {
@@ -176,7 +186,7 @@ int run(Matrix input) \n\
    }
 */   
    free(cmd);
-   return 1;
+   return;
  
  }
  

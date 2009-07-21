@@ -3,10 +3,10 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This class received signals from the ConnectionsTree class and provides the interface
  for connecting items using the connections in the ConnectionsTree
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONNECTIONINSERTIONTOOL_H
@@ -30,12 +30,12 @@
 #include <QHash>
 #include <QList>
 
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "ConnectionsTree.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "NodesTree/ConnectionsTree.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "NodesTree.h"
+#include "NodesTree/NodesTree.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

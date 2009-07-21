@@ -9,10 +9,10 @@
 
 #include <QTabWidget>
 #include "LPSolveInput.h"
-#include "ConnectionGraphicsItem.h"
-#include "OutputWindow.h"
-#include "StoichiometryTool.h"
-#include "DynamicLibraryMenu.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "BasicTools/StoichiometryTool.h"
+#include "DynamicCodeTools/DynamicLibraryMenu.h"
 
 namespace Tinkercell
 {

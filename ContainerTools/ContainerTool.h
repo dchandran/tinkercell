@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A tool for displaying all the handles (as a tree) and their attributes. This tool
  also handles move events where an item is moved into a module or Compartment
 
@@ -30,11 +30,11 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 
-#include "UndoCommands.h"
-#include "GraphicsScene.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "ContainerTreeModel.h"
+#include "Core/UndoCommands.h"
+#include "Core/GraphicsScene.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "ContainerTools/ContainerTreeModel.h"
 
 namespace Tinkercell
 {
@@ -44,7 +44,6 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-
 		
 		ContainerTreeDelegate(QTreeView * parent = 0);
 
@@ -72,7 +71,7 @@ namespace Tinkercell
 		QSize sizeHint() const;
 	signals:
                 void parentHandleChanged(NetworkWindow * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
-
+		
 	public slots:
                 void updateTree(int);
                 void windowChanged(NetworkWindow * , NetworkWindow * );

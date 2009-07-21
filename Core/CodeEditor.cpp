@@ -1,4 +1,6 @@
  /****************************************************************************
+ ** This file is a combination of two example programs included in the Qt Toolkit.
+ ** Below is the Qt copyright information as included in the example programs:
  **
  ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
  ** Contact: Qt Software Information (qt-info@nokia.com)
@@ -41,19 +43,117 @@
 
  #include <QtGui>
 
- #include "CodeEditor.h"
+ #include "Core/CodeEditor.h"
 
 namespace Tinkercell
 {
 
- CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
+ void CodeEditor::setCompleter(QCompleter *completer)
+ {
+     if (c)
+         QObject::disconnect(c, 0, this, 0);
+
+     c = completer;
+
+     if (!c)
+         return;
+
+     c->setWidget(this);
+     c->setCompletionMode(QCompleter::PopupCompletion);
+     c->setCaseSensitivity(Qt::CaseInsensitive);
+     QObject::connect(c, SIGNAL(activated(const QString&)),
+                      this, SLOT(insertCompletion(const QString&)));
+ }
+
+ QCompleter *CodeEditor::completer() const
+ {
+     return c;
+ }
+ 
+ void CodeEditor::insertCompletion(const QString& completion)
+ {
+     if (c->widget() != this)
+         return;
+     QTextCursor tc = textCursor();
+     int extra = completion.length() - c->completionPrefix().length();
+     tc.movePosition(QTextCursor::Left);
+     tc.movePosition(QTextCursor::EndOfWord);
+     tc.insertText(completion.right(extra));
+     setTextCursor(tc);
+ }
+
+ QString CodeEditor::textUnderCursor() const
+ {
+     QTextCursor tc = textCursor();
+     tc.select(QTextCursor::WordUnderCursor);
+     return tc.selectedText();
+ }
+
+ void CodeEditor::focusInEvent(QFocusEvent *e)
+ {
+     if (c)
+         c->setWidget(this);
+     QPlainTextEdit::focusInEvent(e);
+ }
+
+ void CodeEditor::keyPressEvent(QKeyEvent *e)
+ {
+     if (c && c->popup()->isVisible()) {
+         // The following keys are forwarded by the completer to the widget
+        switch (e->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+             e->ignore();
+             return; // let the completer do default behavior
+        default:
+            break;
+        }
+     }
+
+     bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
+     if (!c || !isShortcut) // dont process the shortcut when we have a completer
+         QPlainTextEdit::keyPressEvent(e);
+
+     const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+     if (!c || (ctrlOrShift && e->text().isEmpty()))
+         return;
+
+     static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
+     bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+     QString completionPrefix = textUnderCursor();
+
+     if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
+                       || eow.contains(e->text().right(1)))) {
+         c->popup()->hide();
+         return;
+     }
+
+     if (completionPrefix != c->completionPrefix()) {
+         c->setCompletionPrefix(completionPrefix);
+         c->popup()->setCurrentIndex(c->completionModel()->index(0, 0));
+     }
+     QRect cr = cursorRect();
+     cr.setWidth(c->popup()->sizeHintForColumn(0)
+                 + c->popup()->verticalScrollBar()->sizeHint().width());
+     c->complete(cr); // popup it up!
+ }
+
+
+ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent), c(0)
  {
      lineNumberArea = new LineNumberArea(this);
+	 
+	 lineHighlightColor = QColor(tr("#FCFFAE"));
+  	 lineNumberBackground = QColor(tr("#E1E1E1"));
+	 lineNumberText = QColor(tr("#002446"));
 
      connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
      connect(this, SIGNAL(updateRequest(const QRect &, int)), this, SLOT(updateLineNumberArea(const QRect &, int)));
      connect(this, SIGNAL(cursorPositionChanged()), this, SLOT(highlightCurrentLine()));
-
+	 
      updateLineNumberAreaWidth(0);
      highlightCurrentLine();
  }
@@ -113,9 +213,7 @@ namespace Tinkercell
      if (!isReadOnly()) {
          QTextEdit::ExtraSelection selection;
 
-         QColor lineColor = QColor(Qt::yellow).lighter(160);
-
-         selection.format.setBackground(lineColor);
+         selection.format.setBackground(lineHighlightColor);
          selection.format.setProperty(QTextFormat::FullWidthSelection, true);
          selection.cursor = textCursor();
          selection.cursor.clearSelection();
@@ -130,7 +228,7 @@ namespace Tinkercell
  void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
  {
      QPainter painter(lineNumberArea);
-     painter.fillRect(event->rect(), Qt::lightGray);
+     painter.fillRect(event->rect(), lineNumberBackground);
 
 
      QTextBlock block = firstVisibleBlock();
@@ -141,7 +239,7 @@ namespace Tinkercell
      while (block.isValid() && top <= event->rect().bottom()) {
          if (block.isVisible() && bottom >= event->rect().top()) {
              QString number = QString::number(blockNumber + 1);
-             painter.setPen(Qt::black);
+             painter.setPen(lineNumberText);
 			 painter.setFont(this->font());
              painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
                               Qt::AlignRight, number);
@@ -153,7 +251,7 @@ namespace Tinkercell
          ++blockNumber;
      }
  }
-
+ 
  /*!
     \fn QTextEdit::zoomIn(int range)
 
@@ -188,11 +286,11 @@ namespace Tinkercell
  {
     zoomIn(-range);
  }
-
+ 
  void CodeEditor::wheelEvent ( QWheelEvent * wheelEvent )
  {
 	 if (wheelEvent == 0) return;
-
+	 
 	 if (wheelEvent->modifiers() == Qt::ControlModifier)
 	 {
 		 if (wheelEvent->delta() > 0)
@@ -206,5 +304,5 @@ namespace Tinkercell
 	 }
  }
 
-
+ 
  }

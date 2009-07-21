@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Ribozyme.xml" width="40" height="60">
+    <ControlPoints>
+        <ControlPoint x="207" y="322"></ControlPoint>
+        <ControlPoint x="207" y="239"></ControlPoint>
+        <ControlPoint x="206" y="186"></ControlPoint>
+        <ControlPoint x="204" y="144"></ControlPoint>
+        <ControlPoint x="203" y="106"></ControlPoint>
+        <ControlPoint x="255" y="102"></ControlPoint>
+        <ControlPoint x="254" y="142"></ControlPoint>
+        <ControlPoint x="254" y="185"></ControlPoint>
+        <ControlPoint x="256" y="237"></ControlPoint>
+        <ControlPoint x="292" y="277"></ControlPoint>
+        <ControlPoint x="76" y="219"></ControlPoint>
+        <ControlPoint x="256" y="312"></ControlPoint>
+        <ControlPoint x="180" y="249"></ControlPoint>
+        <ControlPoint x="213" y="286"></ControlPoint>
+        <ControlPoint x="170" y="106"></ControlPoint>
+        <ControlPoint x="284" y="20"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,6,3,4"></ControlPoints>
+            <LineTypes sequence="line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="15" Color="#00007f" Alpha="255"></Pen>
+            <Fill Color="#3d50ff" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="3,6,7,2,3"></ControlPoints>
+            <LineTypes sequence="line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="15" Color="#00007f" Alpha="255"></Pen>
+            <Fill Color="#3d50ff" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="2,7,8,1,2"></ControlPoints>
+            <LineTypes sequence="line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="15" Color="#00007f" Alpha="255"></Pen>
+            <Fill Color="#3d50ff" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="1,0,10,12,13,11,9,8,1"></ControlPoints>
+            <LineTypes sequence="bezier,line,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="15" Color="#00007f" Alpha="255"></Pen>
+            <Fill Color="#3d50ff" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="14,15,14"></ControlPoints>
+            <LineTypes sequence="arc,arc"></LineTypes>
+            <Parameters values="0,360,0,360"></Parameters>
+            <Pen Width="15" Color="#00007f" Alpha="255"></Pen>
+            <Fill Color="#00007f" Alpha="0"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

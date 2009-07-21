@@ -3,56 +3,56 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This file defines an xml reader that reads a NodeGraphicsItem file
-
+ 
 ****************************************************************************/
 
-#include "NodeGraphicsReader.h"
+#include "Core/NodeGraphicsReader.h"
 #include <QtDebug>
 
 namespace Tinkercell
 {
 /*! \brief Reads up to the next start node
- * \return Token Typer*/
+ * \return Token Typer*/ 
 QXmlStreamReader::TokenType NodeGraphicsReader::readNext()
 {
-	QXmlStreamReader::readNext();
+	QXmlStreamReader::readNext();	
 	while (!atEnd() && !isStartElement() && !isEndElement()) QXmlStreamReader::readNext();
 	return tokenType();
 }
 /*! \brief Reads an NodeGraphicsItem from an XML file using the IO device provided and adds the information to the provided NodeGraphicsItem
  * \param NodeGraphicsItem pointer that will be read into from XML
  * \param QIODevice to use
- * \return void*/
+ * \return void*/ 
  bool NodeGraphicsReader::readXml(NodeGraphicsItem * idrawable, const QString& fileName)
  {
 	QFile file (fileName);
-
-	if (!file.open(QFile::ReadOnly | QFile::Text))
+	
+	if (!file.open(QFile::ReadOnly | QFile::Text)) 
 	{
         return false;
     }
-
+	
 	readNodeGraphics(idrawable,&file);
-
+	
 	idrawable->fileName = fileName;
-
+	
 	return true;
  }
 /*! \brief Reads an NodeGraphicsItem from an XML file using the IO device provided and adds the information to the provided NodeGraphicsItem
  * \param NodeGraphicsItem pointer that will be read into from XML
  * \param QIODevice to use
- * \return void*/
+ * \return void*/ 
 void NodeGraphicsReader::readNodeGraphics(NodeGraphicsItem * idrawable, QIODevice * device)
 {
 	if (!device || !idrawable) return;
-
+	
 	idrawable->clear();
-
+	
 	if (this->device() != device)
 		setDevice(device);
-
+		
 	qreal width = 0.0, height = 0.0;
 	while (!atEnd() && !(isEndElement() && name() == "PartGraphicsItem"))
 	{
@@ -92,7 +92,7 @@ void NodeGraphicsReader::readNodeGraphics(NodeGraphicsItem * idrawable, QIODevic
 						readNext();
 					}
 				}
-
+				
 				readNext();
 				if (isStartElement() && name() == "Shapes")
 				{
@@ -120,7 +120,7 @@ void NodeGraphicsReader::readNodeGraphics(NodeGraphicsItem * idrawable, QIODevic
 	}
 }
 
-/*! \brief Reads a control point into an NodeGraphicsItem from an XML file
+/*! \brief Reads a control point into an NodeGraphicsItem from an XML file 
  * \param NodeGraphicsItem pointer to write as XML
  * \param index of control point in NodeGraphicsItem's control points' vector
  * \return void*/
@@ -129,7 +129,7 @@ void NodeGraphicsReader::readControlPoint(NodeGraphicsItem * idrawable)
 	if (idrawable)
 	{
 		QString x = "0", y = "0";
-
+		
 		QXmlStreamAttributes vec = attributes();
 		for (int i=0; i < vec.size(); ++i)
 		{
@@ -145,8 +145,8 @@ void NodeGraphicsReader::readControlPoint(NodeGraphicsItem * idrawable)
 		}
 
 		NodeGraphicsItem::ControlPoint * cp = new NodeGraphicsItem::ControlPoint;
-		cp->setPos( x.toDouble(), y.toDouble() );
-
+		cp->setPos( x.toDouble(), y.toDouble() );		
+		
 		cp->defaultPen = QPen(cp->pen());
 		cp->defaultBrush = QBrush(cp->brush());
 		idrawable->addControlPoint(cp);
@@ -164,10 +164,10 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 	{
 		QStringList shapeNames;
 		shapeNames << "arc" << "line" << "bezier";
-
+		
 		NodeGraphicsItem::Shape * shape = new NodeGraphicsItem::Shape;
 		idrawable->addShape(shape);
-
+		
 		QXmlStreamAttributes vec = attributes();
 		for (int i=0; i < vec.size(); ++i)
 		{
@@ -177,7 +177,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 				shape->negative = (j > 0);
 			}
 		}
-
+		
 		readNext();
 		QXmlStreamAttributes attribs;
 		QStringList stringList;
@@ -202,7 +202,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 						}
 				else
 				if (name() == "LineTypes")
-						{
+						{	
 							attribs = attributes();
 							if (attribs.size() == 1 && attribs.at(0).name().toString() == "sequence")
 							{
@@ -235,7 +235,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 						{
 							int type = 3;
 							vec = attributes();
-
+							
 							for (int i=0; i < vec.size(); ++i)
 							{
 								if (vec.at(i).name().toString() == QObject::tr("Type"))
@@ -244,16 +244,16 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 								}
 							}
 							readNext();
-
+								
 							QGradientStops stops;
-
+							
 							while (isStartElement() && name() == "Stop")
 							{
 								qreal value = 1;
 								int alpha = 255;
 								QColor color;
 								vec = attributes();
-
+								
 								for (int i=0; i < vec.size(); ++i)
 								{
 									if (vec.at(i).name().toString() == QObject::tr("Value"))
@@ -273,21 +273,21 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 								}
 								color.setAlpha(alpha);
 								stops.push_back( QGradientStop(value,color) );
-
+								
 								readNext();
 								readNext();
 								//qDebug() << value << " " << tokenType() << " " << name().toString();
 							}
-
+							
 							//for (int i=0; i < stops.size(); ++i) stops[i].first /= (stops.size() - 1);
-
-							QPointF start, stop;
+								
+							QPointF start, stop;		
 							QString x = "0", y = "0";
-
+							
 							if (isStartElement() && name() == "Start")
 							{
 								vec = attributes();
-
+								
 								for (int i=0; i < vec.size(); ++i)
 								{
 									if (vec.at(i).name().toString() == QObject::tr("x"))
@@ -300,18 +300,18 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 										y = vec.at(i).value().toString();
 									}
 								}
-
+								
 								start.setX(x.toDouble());
 								start.setY(y.toDouble());
 								readNext();
-							}
-
+							}						
+							
 							readNext();
-
+							
 							if (isStartElement() && name() == "End")
 							{
 								vec = attributes();
-
+								
 								for (int i=0; i < vec.size(); ++i)
 								{
 									if (vec.at(i).name().toString() == QObject::tr("x"))
@@ -324,18 +324,18 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 										y = vec.at(i).value().toString();
 									}
 								}
-
+								
 								stop.setX(x.toDouble());
 								stop.setY(y.toDouble());
 							}
-
+							
 							shape->gradientPoints.first = start;
 							shape->gradientPoints.second = stop;
-
-
+							
+							
 							readNext();
 							if (type == 0)
-							{
+							{					
 								QLinearGradient gradient(start,stop);
 								gradient.setStops(stops);
 								shape->setBrush(gradient);
@@ -344,7 +344,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 							if (type == 1)
 							{
 								QRadialGradient gradient(start,
-													sqrt( (stop.y()-start.y())*(stop.y()-start.y()) +
+													sqrt( (stop.y()-start.y())*(stop.y()-start.y()) + 
 														  (stop.x()-start.x())*(stop.x()-start.x())));
 								gradient.setStops(stops);
 								shape->setBrush(gradient);
@@ -355,7 +355,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 								gradient.setStops(stops);
 								shape->setBrush(gradient);
 							}
-
+							
 							//readNext();
 						}
 				else
@@ -364,7 +364,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 							vec = attributes();
 							QColor color;
 							int alpha=0, width=0;
-
+							
 							for (int i=0; i < vec.size(); ++i)
 							{
 								if (vec.at(i).name().toString() == QObject::tr("Width"))
@@ -382,7 +382,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 									alpha = vec.at(i).value().toString().toInt();
 								}
 							}
-
+							
 							color.setAlpha(alpha);
 							shape->setPen(QPen(color,width));
 						}
@@ -391,7 +391,7 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 							vec = attributes();
 							QColor color;
 							int alpha=0;
-
+							
 							for (int i=0; i < vec.size(); ++i)
 							{
 								if (vec.at(i).name().toString() == QObject::tr("Color"))
@@ -404,11 +404,11 @@ void NodeGraphicsReader::readShape(NodeGraphicsItem * idrawable)
 									alpha = vec.at(i).value().toString().toInt();
 								}
 							}
-
+							
 							color.setAlpha(alpha);
 							shape->setBrush(QBrush(color));
 						}
-			}
+			}					
 			readNext();
 		}
 		shape->defaultPen = QPen(shape->pen());

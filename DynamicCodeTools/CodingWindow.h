@@ -26,10 +26,10 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
-#include "CodeEditor.h"
-#include "Tool.h"
-#include "CThread.h"
-#include "SyntaxHighlighter.h"
+#include "Core/CodeEditor.h"
+#include "Core/Tool.h"
+#include "Core/CThread.h"
+#include "DynamicCodeTools/SyntaxHighlighter.h"
 
 namespace Tinkercell
 {

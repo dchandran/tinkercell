@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Documents/Tinkercell/PartItems/Reporter.xml" width="50" height="60">
+    <ControlPoints>
+        <ControlPoint x="166" y="212"></ControlPoint>
+        <ControlPoint x="148" y="94"></ControlPoint>
+        <ControlPoint x="240" y="82"></ControlPoint>
+        <ControlPoint x="325" y="282"></ControlPoint>
+        <ControlPoint x="383" y="284"></ControlPoint>
+        <ControlPoint x="211" y="301"></ControlPoint>
+        <ControlPoint x="160" y="284"></ControlPoint>
+        <ControlPoint x="269" y="196"></ControlPoint>
+        <ControlPoint x="353" y="96"></ControlPoint>
+        <ControlPoint x="378" y="88"></ControlPoint>
+        <ControlPoint x="295" y="211"></ControlPoint>
+        <ControlPoint x="274" y="217"></ControlPoint>
+        <ControlPoint x="323" y="148"></ControlPoint>
+        <ControlPoint x="314" y="203"></ControlPoint>
+        <ControlPoint x="383" y="216"></ControlPoint>
+        <ControlPoint x="311" y="173"></ControlPoint>
+        <ControlPoint x="362" y="133"></ControlPoint>
+        <ControlPoint x="387" y="220"></ControlPoint>
+        <ControlPoint x="186" y="149"></ControlPoint>
+        <ControlPoint x="266" y="101"></ControlPoint>
+        <ControlPoint x="223" y="171"></ControlPoint>
+        <ControlPoint x="197" y="215"></ControlPoint>
+        <ControlPoint x="231" y="297"></ControlPoint>
+        <ControlPoint x="241" y="232"></ControlPoint>
+        <ControlPoint x="206" y="196"></ControlPoint>
+        <ControlPoint x="285" y="136"></ControlPoint>
+        <ControlPoint x="291" y="299"></ControlPoint>
+        <ControlPoint x="312" y="188"></ControlPoint>
+        <ControlPoint x="340" y="116"></ControlPoint>
+        <ControlPoint x="403" y="97"></ControlPoint>
+        <ControlPoint x="358" y="152"></ControlPoint>
+        <ControlPoint x="335" y="232"></ControlPoint>
+        <ControlPoint x="263" y="225"></ControlPoint>
+        <ControlPoint x="187" y="174"></ControlPoint>
+        <ControlPoint x="128" y="105"></ControlPoint>
+        <ControlPoint x="403" y="100"></ControlPoint>
+        <ControlPoint x="386" y="159"></ControlPoint>
+        <ControlPoint x="393" y="255"></ControlPoint>
+        <ControlPoint x="337" y="295"></ControlPoint>
+        <ControlPoint x="393" y="205"></ControlPoint>
+        <ControlPoint x="358" y="177"></ControlPoint>
+        <ControlPoint x="417" y="-8"></ControlPoint>
+        <ControlPoint x="314" y="75"></ControlPoint>
+        <ControlPoint x="401" y="11"></ControlPoint>
+        <ControlPoint x="359" y="40"></ControlPoint>
+        <ControlPoint x="366" y="19"></ControlPoint>
+        <ControlPoint x="347" y="57"></ControlPoint>
+        <ControlPoint x="398" y="55"></ControlPoint>
+        <ControlPoint x="337" y="47"></ControlPoint>
+        <ControlPoint x="294" y="78"></ControlPoint>
+        <ControlPoint x="340" y="79"></ControlPoint>
+        <ControlPoint x="272" y="97"></ControlPoint>
+        <ControlPoint x="216" y="194"></ControlPoint>
+        <ControlPoint x="130" y="254"></ControlPoint>
+        <ControlPoint x="136" y="239"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="3,10,11,1,12,13,3"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="3" Color="#09b51b" Alpha="255"></Pen>
+            <Fill Color="#65ff43" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,14,15,2,16,17,4"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="3" Color="#09b51b" Alpha="255"></Pen>
+            <Fill Color="#65ff43" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="5,0,18,19,20,21,5"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#5aff1e" Alpha="255"></Pen>
+            <Fill Color="#099119" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="26,27,28,29,30,31,26"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#5aff1e" Alpha="255"></Pen>
+            <Fill Color="#099119" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="22,24,25,8,32,23,22"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#5aff1e" Alpha="255"></Pen>
+            <Fill Color="#099119" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="35,36,37,4,38,39,40,9,35"></ControlPoints>
+            <LineTypes sequence="bezier,line,bezier,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#5aff1e" Alpha="255"></Pen>
+            <Fill Color="#099119" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="19,49,42,48,45,41,35,9,47,43,44,46,50,51,19"></ControlPoints>
+            <LineTypes sequence="bezier,bezier,line,bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="3" Color="#09b51b" Alpha="255"></Pen>
+            <Fill Color="#0ef829" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="5,6,53,33,34,1,52,54,5"></ControlPoints>
+            <LineTypes sequence="line,bezier,line,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#5dff1d" Alpha="255"></Pen>
+            <Fill Color="#2e820f" Alpha="255"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

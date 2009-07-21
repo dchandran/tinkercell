@@ -8,18 +8,19 @@ Each wrapper functions have two versions:
 The wrapper provides support for event functions and user defined structs as parameter.
 
 ****************************************************************/
-#ifndef GA_CVODE_WRAPPER_FILE
-#define GA_CVODE_WRAPPER_FILE
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#include "cvode.h"             /* prototypes for CVODE fcts. and consts. */
-#include "nvector_serial.h"  /* serial N_Vector types, fcts., and macros */
-#include "sundials_band.h"  /* definitions of type BandMat and macros */
-#include "sundials_types.h" /* definition of type realtype */
-#include "sundials_math.h"  /* definition of ABS and EXP */
+#ifndef GA_CVODE_WRAPPER_FILE
+#define GA_CVODE_WRAPPER_FILE
+
+#include <cvode/cvode.h>             /* prototypes for CVODE fcts. and consts. */
+#include <nvector/nvector_serial.h>  /* serial N_Vector types, fcts., and macros */
+#include <sundials/sundials_band.h>  /* definitions of type BandMat and macros */
+#include <sundials/sundials_types.h> /* definition of type realtype */
+#include <sundials/sundials_math.h>  /* definition of ABS and EXP */
 //#include "mathfunc.h"   /*eigenvalue computation */
 
 #define SUNDIALS_DOUBLE_PRECISION 1

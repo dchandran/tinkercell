@@ -3,31 +3,31 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  Whenever a new connection item is created, this class adds control points to the item
  so that it looks appealing
-
+ 
 ****************************************************************************/
 
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "ConnectionMaker.h"
-#include "DnaGraphicsItem.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/ConnectionMaker.h"
+#include "BasicTools/DnaGraphicsItem.h"
 
 
 namespace Tinkercell
 {
 
 	ConnectionMaker::ConnectionMaker() : Tool(tr("Connection Maker"))
-	{
+	{ 
 		mainWindow = 0;
 		collisionDetection = 0;
 	}
-
+		
 	bool ConnectionMaker::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -48,10 +48,10 @@ namespace Tinkercell
 			}
 			connect(main,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
+			
 			return (collisionDetection != 0);
 		}
-
+		
 		return false;
 	}
 
@@ -59,10 +59,10 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 		static bool callBySelf = false;
-
+		
 		QList<QGraphicsItem*> oldItems, newItems;
 		QList<QGraphicsItem*> items;
-
+		
 		if (!callBySelf)
 		{
 			for (int i=0; i < inserts.size(); ++i)
@@ -71,7 +71,7 @@ namespace Tinkercell
 				if (connection)
 				{
 					items << connection;
-
+					
 					/*ItemHandle * handle = getHandle(connection);
 					if (handle && handle->family())
 					{
@@ -88,9 +88,9 @@ namespace Tinkercell
 				}
 			}
 		}
-
+		
 		callBySelf = false;
-
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(items.at(i));
@@ -99,7 +99,7 @@ namespace Tinkercell
 				int inputs = 0;
 				QList<NodeGraphicsItem*> nodes = connection->nodes();
 				QList<ArrowHeadItem*> arrowHeadsStart, arrowHeadsEnd;
-
+				
 				for (int j=0; j < connection->pathVectors.size(); ++j)
 				{
 					arrowHeadsStart += connection->pathVectors[j].arrowStart;
@@ -109,7 +109,7 @@ namespace Tinkercell
 				for (int j=0; j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
 					if (arrowHeadsStart[j] == 0 && arrowHeadsEnd[j] == 0)
 						++inputs;
-
+				
 				if (!connection->isValid())
 				{
 					for (int j=0; j < connection->pathVectors.size(); ++j)
@@ -117,16 +117,16 @@ namespace Tinkercell
 						connection->pathVectors[j].arrowStart = 0;
 						connection->pathVectors[j].arrowEnd = 0;
 					}
-
+					
 					connection->clear();
 					makeSegments(scene, connection, nodes, inputs);
 					connection->refresh();
-
+					
 					if (connection->itemHandle && connection->centerPoint())  //set location of text
 					{
 						TextGraphicsItem * textItem = 0;
 						QPointF centerPoint = connection->centerLocation();
-
+						
 						QPointF p[] = { 	(centerPoint + QPointF(-20.0,0.0) ),
 											(centerPoint + QPointF(20.0,0.0) ),
 											(centerPoint + QPointF(0.0,-20.0) ),
@@ -137,7 +137,7 @@ namespace Tinkercell
 											(centerPoint + QPointF(20.0,20.0) ) };
 						for (int j=0; j < connection->itemHandle->graphicsItems.size(); ++j)
 						{
-							if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(connection->itemHandle->graphicsItems[j]))
+							if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(connection->itemHandle->graphicsItems[j])) 
 								&& !textItem->relativePosition.first)
 							{
 								for (int k=0; k < 8; ++k)
@@ -146,19 +146,19 @@ namespace Tinkercell
 									if (scene->items( connection->itemHandle->graphicsItems[j]->sceneBoundingRect() ).size() < 2)
 										break;
 								}
-								textItem->relativePosition =
+								textItem->relativePosition = 
 									QPair<QGraphicsItem*,QPointF>(connection,connection->itemHandle->graphicsItems[j]->scenePos() - centerPoint);
 							}
 						}
 					}
-
+					
 					if (connection->pathVectors.size() == 1 && arrowHeadsStart.size() > 1)
 					{
 						connection->pathVectors[0].arrowEnd = arrowHeadsStart[1];
 						if (connection->pathVectors[0].arrowEnd) connection->pathVectors[0].arrowEnd->setVisible(true);
 					}
 					else
-					{
+					{					
 						for (int j=0; j < connection->pathVectors.size() && j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
 						{
 							connection->pathVectors[j].arrowStart = arrowHeadsStart[j];
@@ -168,9 +168,9 @@ namespace Tinkercell
 						}
 					}
 					connection->refresh();
-					connection->setControlPointsVisible(false);
+					connection->setControlPointsVisible(false);	
 				}
-
+				
 			}
 		}
 		if (scene)
@@ -185,7 +185,7 @@ namespace Tinkercell
 				callBySelf = true;
 				scene->insert(tr("add DNA connection"),newItems);
 			}
-
+				
 			for (int i=0; i < newItems.size(); ++i)
 				if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(newItems[i])))
 					connection->refresh();
@@ -237,7 +237,7 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> fullList,
 								 inputList,
 								 outputList;
-
+	    
 		for (int i = 0; i < nodes.size(); ++i)
 		{
 			if (i < inputs)
@@ -257,7 +257,7 @@ namespace Tinkercell
 				}
 			}
 		}
-
+		
 		QPointF midpt1(0, 0), midpt2(0, 0), midpt(0, 0);
 		for (int i=0; i < fullList.size(); ++i) //getting the midpoint for inputs and outputs
 			if (fullList[i] != 0)
@@ -271,10 +271,10 @@ namespace Tinkercell
 
 		QVector<QPointF> closePointsIn(inputList.size()),
 						 closePointsOut(outputList.size());
-
+	    
 		for (int i = 0; i < inputList.size(); ++i)
 		{
-			closePointsIn[i] = pointOnEdge(inputList[i]->sceneBoundingRect(), midpt, 20.0);
+			closePointsIn[i] = pointOnEdge(inputList[i]->sceneBoundingRect(), midpt, 20.0);             
 		}
 		for (int i = 0; i < outputList.size(); ++i)
 		{
@@ -283,7 +283,7 @@ namespace Tinkercell
 
 		//find the midpoints again
 		midpt1 = QPointF(0, 0); midpt2 = QPointF(0, 0); midpt = QPointF(0, 0);
-
+	    
 		for (int i=0; i < inputList.size(); ++i) //getting the midpoint for inputs
 		{
 			midpt1.rx() += closePointsIn[i].x();
@@ -297,7 +297,7 @@ namespace Tinkercell
 
 		midpt1.rx() /= inputList.size();   //midpoint between inputs points
 		midpt1.ry() /= inputList.size();
-
+	    
 		midpt2.rx() /= outputList.size();   //midpoint between output points
 		midpt2.ry() /= outputList.size();
 
@@ -330,7 +330,7 @@ namespace Tinkercell
 			connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt1) * 0.5,connection));
 			connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
 			connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
-			connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));
+			connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));    
 		}
 
 		bool loops = false;
@@ -369,7 +369,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem::PathVector middlePiece = connection->pathVectors[0];
 		connection->pathVectors.clear();
 
-		if (middlePiece.size() != 4)
+		if (middlePiece.size() != 4) 
 		{
 			return;
 		}
@@ -382,11 +382,11 @@ namespace Tinkercell
 			center = nodes.at(0)->scenePos();
 			vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(0)->mapFromScene(pointOnEdge(nodes.at(0)->sceneBoundingRect(),(center + middlePiece[0]->scenePos()) * 0.5)), connection, nodes.at(0) ));
 			vector.append(middlePiece[1]);
-			vector.append(middlePiece[2]);
+			vector.append(middlePiece[2]);   
 			center = nodes.at(1)->scenePos();
 			vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(1)->mapFromScene(pointOnEdge(nodes.at(1)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5)),connection, nodes.at(1)) );
 			connection->pathVectors.append(vector);
-
+			
 			delete middlePiece[0];
 			delete middlePiece[3];
 		}
@@ -410,7 +410,7 @@ namespace Tinkercell
 				}
 				else
 				{
-
+					
 					ConnectionGraphicsItem::PathVector vector;
 					QPointF p = pointOnEdge(nodes.at(i)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5);
 					vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(i)->mapFromScene(p),connection, nodes.at(i)) );
@@ -427,7 +427,7 @@ namespace Tinkercell
 
 		FixMultipleConnections(connection,nodes,inputs);
 		connection->lineType = ConnectionGraphicsItem::bezier;
-
+		
 		for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
 			if (nodes[i])
 			{
@@ -441,11 +441,11 @@ namespace Tinkercell
 				if (connection->lineType == ConnectionGraphicsItem::line)
 					break;
 			}
-
-		if (connection->itemHandle &&
-			(connection->itemHandle->isA(tr("Transcription Regulation")) ||
-			connection->itemHandle->isA(tr("Elongation")) ||
-			connection->itemHandle->isA(tr("Transcription")))
+			
+		if (connection->itemHandle && 
+			(connection->itemHandle->isA(tr("Transcription Regulation")) || 
+			connection->itemHandle->isA(tr("Elongation")) || 
+			connection->itemHandle->isA(tr("Transcription"))) 
 			&& nodes.size() > 1 && nodes[0] && nodes[1])
 		{
 			ConnectionGraphicsItem::ControlPoint * cp;
@@ -464,7 +464,7 @@ namespace Tinkercell
 					cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[1]->sceneBoundingRect().left() + 20.0,nodes[0]->scenePos().y()),connection);
 				else
 					cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[1]->sceneBoundingRect().right() - 20.0,nodes[0]->scenePos().y()),connection);
-
+			
 				if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
 				{
 					cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
@@ -481,7 +481,7 @@ namespace Tinkercell
 		if (nodes.size() < 2 || inputs < 1 || inputs >= nodes.size()) return;
 		QPointF center;
 		float invslope, size;
-
+	    
 		for (int i = 1; i < connection->pathVectors.size(); ++i)
 		{
 			for (int j = 0; j < i; ++j)
@@ -493,8 +493,8 @@ namespace Tinkercell
 				{
 					if ( connection->nodeAt(i) != 0 && connection->nodeAt(i) == connection->nodeAt(j) )
 					{
-						center = connection->nodeAt(i)->sceneBoundingRect().center();
-
+						center = connection->nodeAt(i)->sceneBoundingRect().center();						
+						
 						size = 80.0;
 
 						invslope = (p1->scenePos().x() - center.x()) / (p1->scenePos().y() - center.y());

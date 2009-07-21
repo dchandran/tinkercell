@@ -1,6 +1,6 @@
 #include "texteditorsyntaxhighlighter.h"
-#include "TextEditorListener.h"
-#include "TextEditorParser.h"
+#include "BasicTools/TextEditorListener.h"
+#include "BasicTools/TextEditorParser.h"
 
 namespace Tinkercell
 {

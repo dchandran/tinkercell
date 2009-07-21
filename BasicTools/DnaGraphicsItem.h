@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  A special ConnectionGraphicsItem that draws a DNA-like connection
 
 ****************************************************************************/
@@ -22,7 +22,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QList>
-#include "ConnectionGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -35,7 +35,7 @@
 
 namespace Tinkercell
 {
-
+ 
 class MY_EXPORT DnaGraphicsItem : public ConnectionGraphicsItem
 {
 public:

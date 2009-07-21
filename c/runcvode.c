@@ -10,14 +10,23 @@
  
 #include "TC_api.h"
 
-int run(Matrix input)
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&setup, "ODE simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
+}
+
+void setup()
 {
    Matrix m;
    m.rows = 4;
    m.cols = 1;
    char * cols[] = { "value",0 };
    char * rows[] = { "model", "time", "step size", "plot", 0 };
-   double values[] = { 0.0, 100, 0.1, 0 };
+   double values[] = { 0, 100, 0.1, 0 };
    char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
    char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 
    
@@ -25,14 +34,14 @@ int run(Matrix input)
    m.rownames = rows;
    m.values = values;
    
-   tc_createInputWindow(m,"dlls/runcvode","run2","ODE Simulation");
+   tc_createInputWindow(m,"ODE simulation (CVODE)",&run);
    tc_addInputWindowOptions("ODE Simulation",0, 0,  options1);
    tc_addInputWindowOptions("ODE Simulation",3, 0,  options2);
    
-   return 1; 
+   return; 
 }
 
-int run2(Matrix input) 
+void run(Matrix input) 
 {
 
    double start = 0.0, end = 50.0;
@@ -64,7 +73,7 @@ int run2(Matrix input)
 			TCFreeArray(A);
 			//A = tc_allItems();
 			tc_errorReport("No Model Selected\0");
-			return 0;
+			return;
 			
 	   }
    }
@@ -80,14 +89,14 @@ int run2(Matrix input)
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
-			return 0;
+			return;
 	   }
    }
    else
    {
        TCFreeArray(A);
 	   tc_errorReport("No Model\0");
-       return 0;  
+       return;  
    }
    
    FILE * out = fopen("ode.c","a");
@@ -111,13 +120,13 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
    }\n\
    if (time > _time0_)\n\
    {\n\
-     tc_showProgress(\"ode\",(int)(100 * time/%lf));\n\
+     tc_showProgress(\"Deterministic simulation\",(int)(100 * time/%lf));\n\
 	 _time0_ += %lf;\n\
    }\n\
 }\n\
    \n\
    \n\
-int run(Matrix input) \n\
+void run(Matrix input) \n\
 {\n\
    TCinitialize();\n\
    rates = malloc(TCreactions * sizeof(double));\n\
@@ -126,7 +135,7 @@ int run(Matrix input) \n\
    if (!y) \
    {\n\
       tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
-      return 0;\n\
+      return;\n\
    }\n\
    Matrix data;\n\
    data.rows = %i;\n\
@@ -171,7 +180,7 @@ int run(Matrix input) \n\
       tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
    tc_plot(data,%i,\"Time Course Simulation\",0);\n\
    free(data.colnames);  free(y);\n\
-   return 1;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
+   return;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
    fclose(out);
 
    char* appDir = tc_appDir();
@@ -189,7 +198,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"ode.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","Deterministic simulation\0");
 /*   
    if (tc_isWindows())
    {
@@ -201,7 +210,7 @@ int run(Matrix input) \n\
    }
 */   
    free(cmd);
-   return 1;
+   return;
  
  }
  

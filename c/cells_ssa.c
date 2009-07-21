@@ -28,7 +28,7 @@ static void writeToFile(char* filename, double* data, int rows, int cols)
 
 //SSA:
 
-double ** Cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
+double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
 {	
 	initMTrand();
 	
@@ -238,7 +238,7 @@ printf("mid..");
 	printf("5\n");
 	return x;
 }
-
+/*
 double N[] = 
 {
 	0, -1, 0, 0,
@@ -266,3 +266,4 @@ int main()
 	free(x[1]);
 	free(x);
 }
+*/

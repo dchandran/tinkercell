@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Empty.xml" width="30" height="30">
+    <ControlPoints>
+        <ControlPoint x="298" y="277"></ControlPoint>
+        <ControlPoint x="177" y="166"></ControlPoint>
+        <ControlPoint x="177" y="277"></ControlPoint>
+        <ControlPoint x="298" y="166"></ControlPoint>
+        <ControlPoint x="298" y="166"></ControlPoint>
+        <ControlPoint x="177" y="277"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="1,0,1"></ControlPoints>
+            <LineTypes sequence="arc,arc"></LineTypes>
+            <Parameters values="0,360,0,360"></Parameters>
+            <Pen Width="6" Color="#780000" Alpha="255"></Pen>
+            <Fill Color="#780000" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="2,5,4,3,2"></ControlPoints>
+            <LineTypes sequence="line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="6" Color="#780000" Alpha="255"></Pen>
+            <Fill Color="#780000" Alpha="0"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

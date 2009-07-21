@@ -3,19 +3,19 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- Class for drawing text on a GraphicsScene. The text can be associated with
+ 
+ Class for drawing text on a GraphicsScene. The text can be associated with 
  a handle
-
+ 
 ****************************************************************************/
 
 #include <QPainter>
-#include "TextGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
 
 namespace Tinkercell
 {
 	/*! Constructor: sets text edit interaction */
-	TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) :
+	TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) : 
 		QGraphicsTextItem(text,parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 	{
 		setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -28,7 +28,7 @@ namespace Tinkercell
 		boundingRectItem->setVisible(false);
 	}
 	/*! Constructor: sets text edit interaction */
-	TextGraphicsItem::TextGraphicsItem(QGraphicsItem* parent) :
+	TextGraphicsItem::TextGraphicsItem(QGraphicsItem* parent) : 
 		QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 	{
 		setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -41,7 +41,7 @@ namespace Tinkercell
 		boundingRectItem->setVisible(false);
 	}
 	/*! Constructor: sets text edit interaction and name of handle */
-	TextGraphicsItem::TextGraphicsItem(ItemHandle * handle, QGraphicsItem* parent) :
+	TextGraphicsItem::TextGraphicsItem(ItemHandle * handle, QGraphicsItem* parent) : 
 		QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 	{
 		if (handle) setPlainText(handle->name);
@@ -56,7 +56,7 @@ namespace Tinkercell
 		boundingRectItem->setVisible(false);
 	}
 	/*! Copy Constructor */
-	TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) :
+	TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : 
 		QGraphicsTextItem(), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 	{
 		setPos(copy.scenePos());
@@ -75,7 +75,7 @@ namespace Tinkercell
 
 		if (itemHandle)
 			setHandle(this,itemHandle);
-
+			
 		boundingRectItem = new QGraphicsRectItem(this);
 		boundingRectItem->setPen(QPen(QColor(100,100,100),2));
 		boundingRectItem->setBrush(Qt::NoBrush);
@@ -101,7 +101,7 @@ namespace Tinkercell
 		if (option->levelOfDetail < 0.15) return;
 		QGraphicsTextItem::paint(painter,option,widget);
 	}
-
+	
 	void TextGraphicsItem::showBorder(bool showBorder)
 	{
 		boundingRectItem->setRect(this->boundingRect());

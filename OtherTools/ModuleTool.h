@@ -33,13 +33,13 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "NodeGraphicsWriter.h"
-#include "NodesTree.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "ModuleConnectionGraphicsItem.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/NodeGraphicsWriter.h"
+#include "NodesTree/NodesTree.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "OtherTools/ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {
@@ -51,16 +51,17 @@ namespace Tinkercell
 	public:
 		ModuleTool();
 		bool setMainWindow(MainWindow * main);
-        public slots:
+    
+	public slots:
 
-                void select(int);
+        void select(int);
 
-                void modelSaved(GraphicsScene*);
+        void modelSaved(GraphicsScene*);
 		void prepareModelForSaving(GraphicsScene*);
 		void escapeSignal(const QWidget*);
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-		void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
+		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
 		
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
@@ -70,7 +71,7 @@ namespace Tinkercell
 	
 	protected:
 		
-		ModuleConnectionGraphicsItem * MakeModuleConnection(ModuleLinkerItem*,ModuleLinkerItem*,GraphicsScene*);
+		ModuleConnectionGraphicsItem * MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		
 		enum Mode { none, connecting, inserting };
 		Mode mode;

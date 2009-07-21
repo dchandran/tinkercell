@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool allows the loading and saving of models.
 
 ****************************************************************************/
@@ -20,19 +20,19 @@
 #include <QHash>
 #include <QUndoCommand>
 
-#include "MainWindow.h"
-#include "NetworkWindow.h"
-#include "GraphicsScene.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "Tool.h"
-#include "ModelWriter.h"
-#include "ModelReader.h"
-#include "NodeGraphicsWriter.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsWriter.h"
-#include "ConnectionGraphicsReader.h"
+#include "Core/MainWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/Tool.h"
+#include "Core/ModelWriter.h"
+#include "Core/ModelReader.h"
+#include "Core/NodeGraphicsWriter.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsWriter.h"
+#include "Core/ConnectionGraphicsReader.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -62,7 +62,6 @@ public slots:
 	void loadModel(const QString& filename);
 	void historyChanged( int );
         void windowClosing(NetworkWindow * win, bool * close);
-
 	
 protected:
 

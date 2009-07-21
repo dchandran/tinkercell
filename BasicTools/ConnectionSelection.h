@@ -30,10 +30,10 @@
 #include <QGraphicsRectItem>
 #include <QTimeLine>
 
-#include "ConnectionGraphicsItem.h"
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "MainWindow.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/MainWindow.h"
 
 namespace Tinkercell
 {

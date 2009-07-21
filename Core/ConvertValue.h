@@ -3,12 +3,12 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This file defines a set of functions that can be used to convert C data types,
- such as char**, char*, and void* to Qt data types, such as QStringList, QString,
+ 
+ This file defines a set of functions that can be used to convert C data types, 
+ such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
  and QGraphicsItem.
-
-
+ 
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONVERTVALUE_H
@@ -21,14 +21,14 @@
 #include <QGraphicsItem>
 #include <QStringList>
 #include <math.h>
-#include "TCstructs.h"
-#include "ItemHandle.h"
+#include "c/TCstructs.h"
+#include "Core/ItemHandle.h"
 
 namespace Tinkercell
 {
 	/*! \brief construct a Matrix with 0 rows and columns (see TCstructs.h for Matrix)
 	\ingroup helper
-	\return empty matrix
+	\return empty matrix 
 	*/
 	Matrix emptyMatrix();
 	/*! \brief convert void* to QGraphicsItem (item on the scene) pointer
@@ -58,7 +58,7 @@ namespace Tinkercell
 	QString ConvertValue(const char*);
 	/*! \brief convert QString to null-terminated char*
 	\ingroup helper
-	\return null-terminated char*
+	\return null-terminated char* 
 	*/
 	char* ConvertValue(const QString&);
 	/*! \brief convert char** to QStringList
@@ -68,7 +68,7 @@ namespace Tinkercell
 	QStringList ConvertValue(char**);
 	/*! \brief convert QStringList to null-terminated char**
 	\ingroup helper
-	\return array of char*
+	\return array of char* 
 	*/
 	char** ConvertValue(const QStringList&);
 	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
@@ -81,6 +81,6 @@ namespace Tinkercell
 	\return Matrix with null-terminated rownames, colnames, values
 	*/
 	Matrix ConvertValue(const DataTable<qreal>&);
-
+	
 }
 #endif

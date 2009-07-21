@@ -24,14 +24,14 @@
 namespace Tinkercell
 {
 
-	class Tool;
-	class TextGraphicsItem;
-	class ItemHandle;
-	class NodeHandle;
-	class ConnectionHandle;
-	class NodeGraphicsItem;
-	class ArrowHeadItem;
-	class ConnectionGraphicsItem;
+    class Tool;
+    class TextGraphicsItem;
+    class ItemHandle;
+    class NodeHandle;
+    class ConnectionHandle;
+    class NodeGraphicsItem;
+    class ArrowHeadItem;
+    class ConnectionGraphicsItem;
 
     /*! \brief This class defines the family of a node or connection.
                 The class contains the icon for the family, family name, and minimal data that

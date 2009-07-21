@@ -10,7 +10,7 @@
 #include <QtDebug>
 #include <QSpinBox>
 #include <QDir>
-#include "SegmentationWindow.h"
+#include "SegmentationAnimation/SegmentationWindow.h"
 
 SegmentationAnimation::MainWindow::MainWindow()
 {
@@ -18,14 +18,14 @@ SegmentationAnimation::MainWindow::MainWindow()
 	setPalette(QPalette(QColor(255, 255, 255)));
 	drawScene.setBackgroundBrush(QBrush(QColor(0,0,0)));
 	setAutoFillBackground(true);
-
+	
 	QDockWidget * toolBox = makeToolBox();
 	addDockWidget(Qt::TopDockWidgetArea,toolBox);
 	toolBox->setAllowedAreas(Qt::NoDockWidgetArea);
 	toolBox->setFloating(true);
 	graphicsView.setScene(&drawScene);
 	graphicsView.setRenderHint(QPainter::Antialiasing);
-
+	
 	speedSlider.setRange(5,50);
 	speedSlider.setValue(15);
 	timer.setDuration(15000);
@@ -34,7 +34,7 @@ SegmentationAnimation::MainWindow::MainWindow()
 
 	setCentralWidget(&graphicsView);
 	setWindowTitle(tr("Segmentation Animation"));
-
+	
 	statusBar()->showMessage("Welcome to Segmentation Animation....Enjoy!");
 	steadyStateFile = timeSimulationFile = QDir::homePath();
 }
@@ -62,17 +62,17 @@ void SegmentationAnimation::MainWindow::readTable(DataTable& data, QFile& file)
 
 void SegmentationAnimation::MainWindow::getTimeSimFile()
 {
-	QString fileName =
+	QString fileName = 
 			QFileDialog::getOpenFileName(this, tr("Get Time Series Data"),
 										  timeSimulationFile,
 										  tr("Tab-Delimited Files (*.txt *.tab *.out)"));
 	if (fileName.isEmpty())
 		return;
-
+	
 	timeSimulationFile = fileName;
-
+		 
 	QFile file (timeSimulationFile);
-
+	
 	if (!file.open(QFile::ReadOnly | QFile::Text)) {
 		QMessageBox::warning(this, tr("Simulation File"),
 							  tr("Cannot read file %1:\n%2.")
@@ -93,17 +93,17 @@ void SegmentationAnimation::MainWindow::getTimeSimFile()
 
 void SegmentationAnimation::MainWindow::getSSFile()
 {
-	QString fileName =
+	QString fileName = 
 			QFileDialog::getOpenFileName(this, tr("Get Steady State Data"),
 										  steadyStateFile,
 										  tr("Tab-Delimited Files (*.txt *.tab *.out)"));
 	if (fileName.isEmpty())
 		return;
-
+	
 	steadyStateFile = fileName;
-
+		 
 	QFile file (steadyStateFile);
-
+	
 	if (!file.open(QFile::ReadOnly | QFile::Text)) {
 		QMessageBox::warning(this, tr("Steady State File"),
 							  tr("Cannot read file %1:\n%2.")
@@ -139,7 +139,7 @@ QDockWidget* SegmentationAnimation::MainWindow::makeToolBox()
 	QGroupBox * group1 = new QGroupBox("Simulation file");
 	QGroupBox * group2 = new QGroupBox("Steady state file");
 	QGroupBox * group3 = new QGroupBox("Animation speed (x1000ms)");
-
+	
 	QPushButton * button1 = new QPushButton(tr("Open Simulation File"),group1);
 	connect(button1,SIGNAL(released()),this,SLOT(getTimeSimFile()));
 	QSpinBox * spinBox1 = new QSpinBox(group1);
@@ -169,7 +169,7 @@ QDockWidget* SegmentationAnimation::MainWindow::makeToolBox()
 	layout3->addWidget(&speedSlider);
 	speedSlider.setOrientation(Qt::Horizontal);
 	group3->setLayout(layout3);
-
+	
 	QVBoxLayout * layout = new QVBoxLayout;
 	layout->addWidget(group1);
 	layout->addWidget(group2);
@@ -178,7 +178,7 @@ QDockWidget* SegmentationAnimation::MainWindow::makeToolBox()
 	QPushButton * runButton = new QPushButton(tr("START"),dockWidget);
 	connect(runButton,SIGNAL(released()),this,SLOT(init()));
 	layout->addWidget(runButton);
-
+	
 	QWidget * widget = new QWidget(dockWidget);
 	widget->setPalette(QPalette(QColor(222, 221, 238)));
 	widget->setLayout(layout);
@@ -209,28 +209,21 @@ void SegmentationAnimation::MainWindow::init()
 {
 	timer.stop();
 	statusBar()->showMessage(QString("stopped"));
-
+	
 	normalize(steadyStateData,ssCol);
 	normalize(timeSimulationData,simCol);
-
+	
 	statusBar()->showMessage(QString("loaded"));
 	qDeleteAll(cells);
 	statusBar()->showMessage(QString("refreshed"));
 	cells.clear();
-
+	
 	statusBar()->showMessage(QString("cleared"));
-
+	
 	drawScene.addItem(&waveItem);
 
 	int rows = steadyStateData.rows();
-
-        //TODO: I guess this condition could be avoided 
-        //by a previous missing condition.
-        //arnaudgelas: 07/16/2009
-        if( rows == 0 ) 
-          return;
-
-	dx = 1000 / rows;
+	dx = 1000 / rows;	
 	qreal w = dx - 2;
 
 	drawScene.setSceneRect(0,0,dx*rows,400);
@@ -243,7 +236,7 @@ void SegmentationAnimation::MainWindow::init()
 	QLinearGradient gradient(QPointF(-5,0),QPointF(5,0));
 	gradient.setColorAt(0.1,QColor(192,255,0));
 	gradient.setColorAt(1.0,QColor(79,196,5));
-
+	
 	QBrush brush(gradient);
 	for (int i=0; i < rows; ++i)
 	{
@@ -254,12 +247,12 @@ void SegmentationAnimation::MainWindow::init()
 		cell->setBrush(brush);
 		x += dx;
 		cells += cell;
-	}
+	}	
 
 	waveItem.setPen(QPen(QColor(255,250,0),2));
 	waveItem.setBrush(QBrush(QColor(255,168,0)));
 	waveItem.setPoints(QPointF(5.0,200.0),QPointF(10.0,175.0),QPointF(x-dx,150.0),50.0);
-
+	
 	rows = timeSimulationData.rows();
 	timer.setFrameRange(0,rows-1);
 	timer.setLoopCount(0);
@@ -269,9 +262,9 @@ void SegmentationAnimation::MainWindow::frameChanged(int value)
 {
 	int rows = timeSimulationData.rows();
 	if (value >= rows) return;
-
+	
 	qreal currentTime = timeSimulationData.value(value,0);
-
+	
 	qreal g = (timeSimulationData.value(value, simCol));
 	QLinearGradient gradient(QPointF(-5,0),QPointF(5,0));
 	gradient.setColorAt(0.0,QColor(192*g,255*g,0));
@@ -293,7 +286,7 @@ void SegmentationAnimation::MainWindow::frameChanged(int value)
 				cells[i]->setBrush(brush);
 			}
 		}
-
+	
 	qreal maxTime = timeSimulationData.value(rows-1,0);
 	if (value < rows)
 	{
@@ -304,7 +297,7 @@ void SegmentationAnimation::MainWindow::frameChanged(int value)
 }
 
 SegmentationAnimation::MainWindow::~MainWindow()
-{
+{	
 	timer.stop();
 	qDeleteAll(cells);
 }

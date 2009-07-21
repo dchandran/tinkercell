@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  This tool performs several tasks:
  1) highlight selected items
  2) moves text items along with selected items
@@ -34,11 +34,11 @@
 #include <QToolBar>
 #include <QFrame>
 
-#include "GraphicsScene.h"
-#include "NetworkWindow.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "Tool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/NetworkWindow.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/Tool.h"
 
 namespace Tinkercell
 {
@@ -73,7 +73,7 @@ namespace Tinkercell
           void escapeSignal(const QWidget*);
           void windowClosing(NetworkWindow * window, bool*);
           void historyChanged(int);
-
+		  
      private:
           void turnOnGraphicalTools(QList<QGraphicsItem*>&,QList<ItemHandle*>&,GraphicsScene*);
           void turnOffGraphicalTools();

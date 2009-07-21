@@ -3,40 +3,40 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  The ModelReader is used to read an xml file containing the list of handles and their
  data.
-
+ 
 ****************************************************************************/
 
-#include "ModelReader.h"
-#include "OutputWindow.h"
+#include "Core/ModelReader.h"
+#include "Core/OutputWindow.h"
 #include <QtDebug>
 
 namespace Tinkercell
 {
 	/*! \brief Reads up to the next start node
-	 * \return Token Typer*/
+	 * \return Token Typer*/ 
 	QXmlStreamReader::TokenType ModelReader::readNext()
 	{
-		QXmlStreamReader::readNext();
+		QXmlStreamReader::readNext();	
 		while (!atEnd() && !isStartElement() && !isEndElement())
 		{
 			QXmlStreamReader::readNext();
 		}
 		return tokenType();
 	}
-	/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided
+	/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 
 	 * \param QIODevice to use
-	 * \return list of item handles*/
+	 * \return list of item handles*/ 
 	QList< QPair<QString,ItemHandle*> > ModelReader::readHandles(GraphicsScene * scene, QIODevice * device)
 	{
 		QList< QPair<QString,ItemHandle*> > list;
 		if (!device) return list;
-
+		
 		if (this->device() != device)
 			setDevice(device);
-
+		
 		QPair<QString,ItemHandle*> handle(QString(),0);
 		handle = readHandle(list);
 		if (scene && scene->symbolsTable && handle.second && handle.second->name.isEmpty())
@@ -45,7 +45,7 @@ namespace Tinkercell
 			delete handle.second;
 			handle = readHandle(list);
 		}
-
+		
 		while (handle.second)
 		{
 			list << handle;
@@ -60,22 +60,22 @@ namespace Tinkercell
 		{
 			readNext();
 		}
-
+		
 		QPair<QString,ItemHandle*> pair(QString(),0);
-
+		
 		if (!(isStartElement() && name() == "Handle"))
 		{
 			//if (tokenType() == 1)
 			//	qDebug() << errorString();
 			return pair;
 		}
-
+		
 		QXmlStreamAttributes vec = attributes();
-
+		
 		ItemHandle * handle = 0;
-
+		
 		QString itemName, family, parent;
-
+		
 		for (int i=0; i < vec.size(); ++i)
 		{
 			if (!handle && vec.at(i).name().toString() == QObject::tr("type"))
@@ -107,7 +107,7 @@ namespace Tinkercell
 				parent = vec.at(i).value().toString();
 			}
 		}
-
+		
 		if (handle)
 		{
 			handle->name = itemName;
@@ -123,7 +123,7 @@ namespace Tinkercell
 			}
 		}
 		readNext();
-
+		
 		while (handle && !(isEndElement() && name() == "Handle"))
 		{
 			if (isStartElement() && name() == "TableOfReals")
@@ -147,8 +147,8 @@ namespace Tinkercell
 		//qDebug() << "done reading handle : " << name().toString();
 		return pair;
 	}
-
-	/*! \brief Reads a table from an XML file
+	
+	/*! \brief Reads a table from an XML file 
 	 * \return item handle*/
 	void ModelReader::readRealsTable(ItemHandle* handle)
 	{
@@ -161,7 +161,7 @@ namespace Tinkercell
 			QStringList rownames, colnames, values;
 			int rows = 0, cols = 0;
 			bool ok;
-
+			
 			for (int i=0; i < vec.size(); ++i)
 			{
 				if (handle && vec.at(i).name().toString() == QObject::tr("key"))
@@ -198,7 +198,7 @@ namespace Tinkercell
 					values = vec.at(i).value().toString().split(sep);
 				}
 			}
-
+			
 			if (!name.isEmpty() && colnames.size() >= cols && rownames.size() >= rows && values.size() >= rows*cols)
 			{
 				qreal x;
@@ -223,7 +223,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	/*! \brief Reads a table from an XML file
+	/*! \brief Reads a table from an XML file 
 	 * \return item handle*/
 	void ModelReader::readStringsTable(ItemHandle* handle)
 	{
@@ -236,7 +236,7 @@ namespace Tinkercell
 			QStringList rownames, colnames, values;
 			int rows = 0, cols = 0;
 			bool ok;
-
+			
 			for (int i=0; i < vec.size(); ++i)
 			{
 				if (handle && vec.at(i).name().toString() == QObject::tr("key"))
@@ -273,7 +273,7 @@ namespace Tinkercell
 					values = vec.at(i).value().toString().split(sep);
 				}
 			}
-
+			
 			if (!name.isEmpty() && colnames.size() >= cols && rownames.size() >= rows && values.size() >= rows*cols)
 			{
 				DataTable<QString> data;

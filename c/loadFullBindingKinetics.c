@@ -7,14 +7,23 @@
 #include "TC_api.h"
 #include "fullBindingKinetics.c"
 
-int run(Matrix input)
+void run(Matrix);
+void setup();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&run, "Load full binding kinetics", "use on the target of a binding reaction to generate all possible states", "Generate kinetics", "Plugins/c/fullBinding.PNG", "", 1, 0, 0);
+}
+
+void run()
 {
   Array selected = tc_selectedItems();
-  if (selected[0] == 0) return 0;
+  if (selected[0] == 0) return;
 
   OBJ p = selected[0];
 
-  //if (! tc_isA(p,"Regulatory")) return 0;
+  //if (! tc_isA(p,"Regulator")) return;
 
   OBJ* C = tc_getConnections(p);
   int i, j, k, N = 0;
@@ -90,5 +99,5 @@ int run(Matrix input)
   TCFreeChars(names);
   TCFreeChars(jnames);
   TCFreeArray(selected);
-  return 1; 
+  return; 
 }

@@ -15,16 +15,16 @@
 ****************************************************************************/
 
 
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-//#include "PartGraphicsItem.h"
-#include "CThread.h"
-#include "OutputWindow.h"
-#include "GraphStringTool.h"
-#include "ModelSummaryTool.h"
-#include "DynamicLibraryMenu.h"
-#include "muParser.h"
-#include "muParserInt.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/PartGraphicsItem.h"
+#include "Core/CThread.h"
+#include "Core/OutputWindow.h"
+#include "PlotTools/GraphStringTool.h"
+#include "BasicTools/ModelSummaryTool.h"
+#include "DynamicCodeTools/DynamicLibraryMenu.h"
+#include "muparser/muParser.h"
+#include "muparser/muParserInt.h"
 #include <QRegExp>
 #include <QInputDialog>
 

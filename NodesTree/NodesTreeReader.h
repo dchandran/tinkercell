@@ -21,7 +21,7 @@
 #include <QMessageBox>
 #include <QTreeWidget>
 #include <QPair>
-#include "NodesTree.h"
+#include "NodesTree/NodesTree.h"
 
 namespace Tinkercell
 {

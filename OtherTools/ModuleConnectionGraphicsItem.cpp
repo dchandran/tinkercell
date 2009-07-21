@@ -8,8 +8,8 @@
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
-#include "ModuleConnectionGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "OtherTools/ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {
@@ -21,10 +21,6 @@ namespace Tinkercell
 	{
 		if (!connection || connection->className != ModuleConnectionGraphicsItem::class_name)
 			return false;
-		QList<NodeGraphicsItem*> nodes = connection->nodes();
-		for (int i=0; i<nodes.size(); ++i)
-			if (nodes[i] && nodes[i]->className != ModuleLinkerItem::class_name)
-				return false;
 		return true;
 	}
  
@@ -208,12 +204,17 @@ namespace Tinkercell
 	
 	void ModuleConnectionGraphicsItem::adjustEndPoints()
 	{
-		ControlPoint * firstPoint, *lastPoint;
+		ControlPoint * firstPoint, *lastPoint, * cp0, * cp1;
 		NodeGraphicsItem * node, *parentNode;
 		for (int i=0; i < pathVectors.size(); ++i)
 		{
 			firstPoint = pathVectors[i].first();
 			lastPoint = pathVectors[i].last();
+			
+			if (pathVectors[i].size() < 4 || !lastPoint || !firstPoint) continue;
+			
+			cp0 = pathVectors[i][ 3 ];
+			cp1 = pathVectors[i][ pathVectors[i].size()-4 ];
 				
 			if (firstPoint != 0 && firstPoint->parentItem() != 0)
 			{
@@ -241,7 +242,11 @@ namespace Tinkercell
 					if (parentRect.bottom()  > parentNode->sceneBoundingRect().bottom())
 						p.ry() = parentRect.bottom();
 				}
-				
+				else
+				if (cp0)
+				{
+					p = pointOnEdge(node->sceneBoundingRect(),cp0->scenePos(),2.0,true);
+				}
 				firstPoint->setPos( firstPoint->parentItem()->mapFromScene(p) );
 			}
 			
@@ -270,6 +275,11 @@ namespace Tinkercell
 					else
 					if (parentRect.bottom()  > parentNode->sceneBoundingRect().bottom())
 						p.ry() = parentRect.bottom();
+				}
+				else
+				if (cp1)
+				{
+					p = pointOnEdge(node->sceneBoundingRect(),cp1->scenePos(),2.0,true);
 				}
 				
 				lastPoint->setPos( lastPoint->parentItem()->mapFromScene(p) );

@@ -3,12 +3,12 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  Function that loads dll into main window
 
 ****************************************************************************/
 
-#include "InsertionToolsMain.h"
+#include "BasicTools/InsertionToolsMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

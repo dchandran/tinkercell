@@ -1,4 +1,6 @@
 /****************************************************************************
+ ** This file is a combination of two example programs included in the Qt Toolkit.
+ ** Below is the Qt copyright information as included in the example programs:
  **
  ** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
  ** Contact: Qt Software Information (qt-info@nokia.com)
@@ -39,11 +41,13 @@
  **
  ****************************************************************************/
 
- #ifndef QT_DEMO_CODEEDITOR_H
- #define QT_DEMO_CODEEDITOR_H
+ #ifndef QT_DEMO_COMPLETER_AND_CODEEDITOR_H
+ #define QT_DEMO_COMPLETER_AND_CODEEDITOR_H
 
  #include <QPlainTextEdit>
- #include <QObject>
+ #include <QCompleter>
+ #include <QKeyEvent>
+ #include <QAbstractItemView>
 
  class QPaintEvent;
  class QResizeEvent;
@@ -65,31 +69,50 @@ namespace Tinkercell
      void lineNumberAreaPaintEvent(QPaintEvent *event);
      int lineNumberAreaWidth();
 	 
+	 void setCompleter(QCompleter *c);
+     QCompleter *completer() const;
+	 
 	 void zoomIn(int r = 1);
 	 void zoomOut(int r = 1);
-
+	 
+	 QWidget *lineNumberArea;
+	 
+	 QColor lineHighlightColor;
+	 QColor lineNumberBackground;
+	 QColor lineNumberText;
+	 
  protected:
      void resizeEvent(QResizeEvent *event);
 	 virtual void wheelEvent ( QWheelEvent * wheelEvent );
+	 void keyPressEvent(QKeyEvent *e);
+     void focusInEvent(QFocusEvent *e);
 
  private slots:
      void updateLineNumberAreaWidth(int newBlockCount);
      void highlightCurrentLine();
      void updateLineNumberArea(const QRect &, int);
+     void insertCompletion(const QString &completion);
 
  private:
-     QWidget *lineNumberArea;
+     QString textUnderCursor() const;
+
+ private:
+     QCompleter *c;
+     
  };
 
 
  class LineNumberArea : public QWidget
  {
  public:
-     LineNumberArea(CodeEditor *editor) : QWidget(editor) {
-         codeEditor = editor;
+	 
+     LineNumberArea(CodeEditor *editor) : QWidget(editor)
+	 {
+        codeEditor = editor;
      }
 
-     QSize sizeHint() const {
+     QSize sizeHint() const 
+	 {
          return QSize(codeEditor->lineNumberAreaWidth(), 0);
      }
 

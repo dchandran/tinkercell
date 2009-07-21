@@ -8,9 +8,9 @@
 
 ****************************************************************************/
 
-#include "ModelFileGenerator.h"
-#include "StoichiometryTool.h"
-#include "BasicInformationTool.h"
+#include "BasicTools/ModelFileGenerator.h"
+#include "BasicTools/StoichiometryTool.h"
+#include "BasicTools/BasicInformationTool.h"
 
 namespace Tinkercell
 {

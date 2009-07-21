@@ -11,12 +11,12 @@
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
-#include "GraphicsScene.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "GraphicsTransformTool.h"
-#include "ConnectionSelection.h"
-#include "GraphicsReplaceTool.h"
+#include "Core/GraphicsScene.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "BasicTools/GraphicsTransformTool.h"
+#include "BasicTools/ConnectionSelection.h"
+#include "BasicTools/GraphicsReplaceTool.h"
 
 
 namespace Tinkercell

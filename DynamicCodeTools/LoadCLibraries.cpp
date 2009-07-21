@@ -13,15 +13,15 @@
 #include <QRegExp>
 #include <QDir>
 #include <QFile>
-#include "GraphicsScene.h"
-#include "MainWindow.h"
-#include "CThread.h"
-#include "OutputWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "OutputWindow.h"
-#include "LoadCLibraries.h"
+#include "Core/GraphicsScene.h"
+#include "Core/MainWindow.h"
+#include "Core/CThread.h"
+#include "Core/OutputWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "Core/OutputWindow.h"
+#include "DynamicCodeTools/LoadCLibraries.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -151,7 +151,7 @@ namespace Tinkercell
         return false;
     }
     
-    void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu)
+    void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu, int deft)
     {
         if (libMenu)
         {
@@ -186,16 +186,22 @@ namespace Tinkercell
             
             if (show_menu > 0)
             {
-                QAction * action = libMenu->addMenuItem(title,icon);
-                action->setToolTip(desc);
-                connect(action,SIGNAL(triggered()),thread,SLOT(start()));
+                QAction * action = libMenu->addMenuItem(title,icon, deft > 0);
+                if (action)
+				{	
+					action->setToolTip(desc);
+					connect(action,SIGNAL(triggered()),thread,SLOT(start()));
+				}
             }
             
             if (in_tool_menu > 0)
             {
                 QAction * action = libMenu->addContextMenuItem(family,title,pixmap,true);
-                action->setToolTip(desc);
-                connect(action,SIGNAL(triggered()),thread,SLOT(start()));
+                if (action)
+				{
+					action->setToolTip(desc);
+					connect(action,SIGNAL(triggered()),thread,SLOT(start()));
+				}
             }
         }
         if (s)
@@ -259,8 +265,8 @@ namespace Tinkercell
         connect(&fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
         connect(&fToS,SIGNAL(compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&)),this,SLOT(compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&)));
         connect(&fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int)),
-                   this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int)));
+        connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
+                   this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
         connect(&fToS,SIGNAL(callback(QSemaphore*,VoidFunction)),
                     this,SLOT(callback(QSemaphore*,VoidFunction)));
 
@@ -270,7 +276,7 @@ namespace Tinkercell
             int (*compileAndRun)(const char * ,const char* ),
             int (*compileBuildLoad)(const char *, const char* , const char*),
             void (*loadLib)(const char*),
-            void (*addf)(void (*f)(),const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool),
+            void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
             void (*callback)(void (*f)())
             );
     
@@ -458,9 +464,9 @@ namespace Tinkercell
         return fToS.loadLibrary(c);
     }
 
-    void  LoadCLibrariesTool::_addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool)
+    void  LoadCLibrariesTool::_addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool, int deft)
     {
-        fToS.addFunction(f, title, desc, cat, icon, family, inMenu, inTool);
+        fToS.addFunction(f, title, desc, cat, icon, family, inMenu, inTool, deft);
     }
     
     void  LoadCLibrariesTool::_callback(void (*f)(void))
@@ -491,11 +497,11 @@ namespace Tinkercell
         return p;
     }	
 
-    void LoadCLibrariesTool_FToS::addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool)
+    void LoadCLibrariesTool_FToS::addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool, int deft)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit addFunction(s,f,ConvertValue(title),ConvertValue(desc),ConvertValue(cat),ConvertValue(icon),ConvertValue(family),inMenu,inTool);
+        emit addFunction(s,f,ConvertValue(title),ConvertValue(desc),ConvertValue(cat),ConvertValue(icon),ConvertValue(family),inMenu,inTool, deft);
         s->acquire();
         s->release();
         delete s;

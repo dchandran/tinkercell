@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "SegmentationWindow.h"
+#include "SegmentationAnimation/SegmentationWindow.h"
 
 int main(int argc, char *argv[])
 {

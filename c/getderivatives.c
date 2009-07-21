@@ -178,7 +178,7 @@ int run(Matrix input) \n\
    {
        sprintf(cmd,"oderates.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir,appDir);
    }
-   tc_compileBuildLoad(cmd,"run\0");
+   tc_compileBuildLoad(cmd,"run\0","\0");
 /*   
    if (tc_isWindows())
    {

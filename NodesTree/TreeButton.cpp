@@ -7,11 +7,11 @@
 
 ****************************************************************************/
 
-#include "NodeGraphicsItem.h"
-#include "NodeGraphicsReader.h"
-#include "ConnectionGraphicsItem.h"
-//#include "NodesTree.h"
-#include "TreeButton.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/NodeGraphicsReader.h"
+#include "Core/ConnectionGraphicsItem.h"
+//#include "NodesTree/NodesTree.h"
+#include "NodesTree/TreeButton.h"
 
 
 namespace Tinkercell
@@ -123,6 +123,7 @@ namespace Tinkercell
 			}
 			else
 				text += tr("none\n\n");
+
 			
 			text += tr("Description: ") + family->description + tr("\n\n");
 			

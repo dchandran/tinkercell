@@ -174,7 +174,7 @@ namespace Tinkercell
 
                 if (win)
 		{
-                        QList<ItemHandle*> items = win->allHandles();
+            QList<ItemHandle*> items = win->allHandles();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -223,9 +223,9 @@ namespace Tinkercell
 			}
 			
 			ContainerTreeItem * rootItemNew = new ContainerTreeItem;
-                        this->window = win;
+            this->window = win;
 			
-                        QList<ItemHandle*> items = win->allHandles();
+            QList<ItemHandle*> items = win->allHandles();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -277,15 +277,16 @@ namespace Tinkercell
 				childHandle = handle->children[i];
 				if (childHandle && childHandle->family() && childHandle->parent == handle)
 				{
+					/*
 					ok = false;
 					for (int j=0; j < childHandle->graphicsItems.size(); ++j)
 						if (childHandle->graphicsItems[j] && childHandle->graphicsItems[j]->isVisible())
 						{
 							ok = true;
 							break;
-						}
+						}*/
 					
-					if (ok && (child = makeBranch(handle->children[i],item)))
+					if (child = makeBranch(handle->children[i],item))
 						item->appendChild(child);
 				}
 			}

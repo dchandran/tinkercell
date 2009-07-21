@@ -3,26 +3,26 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This file defines an xml reader that reads a ConnectionGraphicsItem
-
+ 
+ This file defines an xml reader that reads a ConnectionGraphicsItem 
+ 
 ****************************************************************************/
 
-#include "ConnectionGraphicsReader.h"
-#include "ItemHandle.h"
+#include "Core/ConnectionGraphicsReader.h"
+#include "Core/ItemHandle.h"
 #include <QtDebug>
 
 namespace Tinkercell
 {
 /*! \brief Reads up to the next start node
- * \return Token Typer*/
+ * \return Token Typer*/ 
 QXmlStreamReader::TokenType ConnectionGraphicsReader::readNext()
 {
-	QXmlStreamReader::readNext();
+	QXmlStreamReader::readNext();	
 	while (!atEnd() && !isStartElement() && !isEndElement()) QXmlStreamReader::readNext();
 	return tokenType();
 }
- /*! \brief Reads a control point from an XML file
+ /*! \brief Reads a control point from an XML file 
  * \param XML reader in use
  * \return void*/
 ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint(QXmlStreamReader * reader)
@@ -30,7 +30,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 	if (reader)
 	{
 		QString x = "0", y = "0";
-
+		
 		QXmlStreamAttributes vec = reader->attributes();
 		for (int i=0; i < vec.size(); ++i)
 		{
@@ -49,12 +49,12 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 		cp->setPos( x.toDouble(), y.toDouble() );
 		cp->defaultPen = QPen(cp->pen());
 		cp->defaultBrush = QBrush(cp->brush());
-
+		
 		return cp;
 	}
 	return 0;
 }
- /*! \brief Reads all control points from an XML file
+ /*! \brief Reads all control points from an XML file 
  * \param xml reader in use
  * \return list of control points*/
  QList<ConnectionGraphicsItem::ControlPoint*> ConnectionGraphicsReader::readControlPoints(QXmlStreamReader * reader)
@@ -162,9 +162,9 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 				}
 			}
 		}
-
+		
 		//qDebug() << "start Handle = " << startNodeHandle << " end Node = " << endNodeHandle;
-
+		
 		while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "Path"))
 		{
 			if (reader->isStartElement())
@@ -199,7 +199,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 			reader->readNext();
 		}
 	}
-
+	
 	if (pathVector.size() > 0 && controlPoints.size() > 1)
 	{
 		if (startNodeHandle && pathVector[0])
@@ -271,7 +271,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 				}
 		}
 	}
-
+	
 	return pathVector;
  }
  /*! \brief Reads a ConnectionGraphicsItem from XML, given all the nodes for the connection are already in the scene
@@ -289,17 +289,17 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 	{
 		return 0;
 	}
-
+	
 	ConnectionGraphicsItem * connection = 0;
-
+	
 	if (reader->isStartElement() && reader->name() == "ConnectionGraphicsItem")
 	{
 		connection = new ConnectionGraphicsItem;
 		QStringList types;
 		types << "line" << "bezier";
-
+		
 		QXmlStreamAttributes attribs = reader->attributes();
-
+		
 		for (int i=0; i < attribs.size(); ++i)
 		{
 			if (attribs.at(i).name().toString() == "color")
@@ -311,7 +311,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 			{
 				bool ok;
 				qreal w = attribs.at(i).value().toString().toDouble(&ok);
-				if (!ok)
+				if (!ok) 
 					w = 2.0;
 				connection->defaultPen.setWidthF(w);
 			}
@@ -319,7 +319,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 			if (attribs.at(i).name().toString() == "type")
 			{
 				int w = types.indexOf(attribs.at(i).value().toString());
-				if (w >= 0)
+				if (w >= 0) 
 					connection->lineType = ConnectionGraphicsItem::LineType(w);
 			}
 			else
@@ -327,7 +327,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 			{
 				bool ok;
 				qreal w = attribs.at(i).value().toString().toDouble(&ok);
-				if (!ok)
+				if (!ok) 
 					w = 2.0;
 				connection->arrowHeadDistance = w;
 			}
@@ -336,7 +336,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 			{
 				bool ok;
 				int w = attribs.at(i).value().toString().toInt(&ok);
-				if (!ok)
+				if (!ok) 
 					w = 1;
 				connection->defaultPen.setStyle(Qt::PenStyle(w));
 			}
@@ -347,7 +347,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 	}
 	else
 		return 0;
-
+	
 	QHash<QString,ItemHandle*> nodesHash, connectionsHash;
 	ItemHandle * handle;
 	for (int i=0; i < nodes.size(); ++i)
@@ -355,20 +355,20 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 		if (nodes.at(i) && (handle = getHandle(nodes.at(i))))
 			nodesHash[handle->fullName()] = handle;
 	}
-
+	
 	for (int i=0; i < connections.size(); ++i)
 	{
 		if (connections.at(i) && (handle = getHandle(connections.at(i))))
 			connectionsHash[handle->fullName()] = handle;
 	}
-
+	
 	QList<ConnectionGraphicsItem::ControlPoint*> controlPoints;
 	while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "ConnectionGraphicsItem"))
 	{
 		if (reader->isStartElement())
 		{
 			if (reader->name() == "ControlPoints")
-			{
+			{		
 				controlPoints = readControlPoints(reader);
 				for (int i=0; i < controlPoints.size(); ++i)
 					controlPoints[i]->connectionItem = connection;
@@ -395,7 +395,7 @@ ConnectionGraphicsItem::ControlPoint* ConnectionGraphicsReader::readControlPoint
 		}
 		reader->readNext();
 	}
-
+	
 	return connection;
  }
 
@@ -415,7 +415,7 @@ void ConnectionGraphicsReader::readCenterRegion(ConnectionGraphicsItem * connect
 				{
 					bool ok;
 					qreal n = attribs.at(i).value().toString().toDouble(&ok);
-					if (ok)
+					if (ok) 
 						w = n;
 				}
 				else
@@ -423,7 +423,7 @@ void ConnectionGraphicsReader::readCenterRegion(ConnectionGraphicsItem * connect
 				{
 					bool ok;
 					qreal n = attribs.at(i).value().toString().toDouble(&ok);
-					if (ok)
+					if (ok) 
 						h = n;
 				}
 			}
@@ -445,17 +445,17 @@ void ConnectionGraphicsReader::readCenterRegion(ConnectionGraphicsItem * connect
 ArrowHeadItem * ConnectionGraphicsReader::readArrow(NodeGraphicsReader & reader,QString name)
 {
 	if (!(reader.isStartElement() && reader.name() == name)) return 0;
-
+	
 	ArrowHeadItem * node = new ArrowHeadItem;
-
+	
 	qreal n=0,m11=0,m12=0,m21=0,m22=0;
 	QPointF pos;
 	QTransform transform;
-
+	
 	while (!reader.atEnd() && !(reader.isEndElement() && reader.name() == name))
 	{
 		reader.readNext();
-
+		
 		if (reader.isStartElement())
 		{
 			if (reader.name() == "PartGraphicsItem")
@@ -472,11 +472,11 @@ ArrowHeadItem * ConnectionGraphicsReader::readArrow(NodeGraphicsReader & reader,
 					n = attribs.at(0).value().toString().toDouble(&ok);
 					if (ok)
 						pos.rx() = n;
-
+						
 					n = attribs.at(1).value().toString().toDouble(&ok);
 					if (ok)
 						pos.ry() = n;
-
+						
 					n = attribs.at(2).value().toString().toDouble(&ok);
 					if (ok)
 						node->angle = n;
@@ -491,13 +491,13 @@ ArrowHeadItem * ConnectionGraphicsReader::readArrow(NodeGraphicsReader & reader,
 				{
 					n = attribs.at(0).value().toString().toDouble(&ok);
 					if (ok) m11 = n;
-
+					
 					n = attribs.at(1).value().toString().toDouble(&ok);
 					if (ok) m12 = n;
-
+					
 					n = attribs.at(2).value().toString().toDouble(&ok);
 					if (ok) m21 = n;
-
+					
 					n = attribs.at(3).value().toString().toDouble(&ok);
 					if (ok) m22 = n;
 				}
@@ -512,24 +512,24 @@ ArrowHeadItem * ConnectionGraphicsReader::readArrow(NodeGraphicsReader & reader,
 		node->setPos(pos);
 		node->setTransform(transform);
 	}
-
+	
 	return node;
 }
 
 NodeGraphicsItem * ConnectionGraphicsReader::readNode(NodeGraphicsReader & reader,QString name)
 {
 	if (!(reader.isStartElement() && reader.name() == name)) return 0;
-
+	
 	NodeGraphicsItem * node = new NodeGraphicsItem;
-
+	
 	qreal n=0,m11=0,m12=0,m21=0,m22=0;
 	QPointF pos;
 	QTransform transform;
-
+	
 	while (!reader.atEnd() && !(reader.isEndElement() && reader.name() == name))
 	{
 		reader.readNext();
-
+		
 		if (reader.isStartElement())
 		{
 			if (reader.name() == "PartGraphicsItem")
@@ -546,7 +546,7 @@ NodeGraphicsItem * ConnectionGraphicsReader::readNode(NodeGraphicsReader & reade
 					n = attribs.at(0).value().toString().toDouble(&ok);
 					if (ok)
 						pos.rx() = n;
-
+						
 					n = attribs.at(1).value().toString().toDouble(&ok);
 					if (ok)
 						pos.ry() = n;
@@ -561,13 +561,13 @@ NodeGraphicsItem * ConnectionGraphicsReader::readNode(NodeGraphicsReader & reade
 				{
 					n = attribs.at(0).value().toString().toDouble(&ok);
 					if (ok) m11 = n;
-
+					
 					n = attribs.at(1).value().toString().toDouble(&ok);
 					if (ok) m12 = n;
-
+					
 					n = attribs.at(2).value().toString().toDouble(&ok);
 					if (ok) m21 = n;
-
+					
 					n = attribs.at(3).value().toString().toDouble(&ok);
 					if (ok) m22 = n;
 				}
@@ -582,8 +582,8 @@ NodeGraphicsItem * ConnectionGraphicsReader::readNode(NodeGraphicsReader & reade
 		node->setPos(pos);
 		node->setTransform(transform);
 	}
-
+	
 	return node;
 }
-
+ 
 }

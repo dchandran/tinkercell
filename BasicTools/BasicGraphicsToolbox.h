@@ -3,11 +3,11 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
+ 
  The BasicGraphicsToolbox is a tool that has various simple function such as
  coloring, zooming, aligning, etc. A toolbar is placed on the main window that has
  buttons for all these functions.
-
+ 
 ****************************************************************************/
 
 #ifndef TINKERCELL_BASICGRAPHICSTOOLBOX_H
@@ -36,9 +36,9 @@
 #include <QButtonGroup>
 #include <QTableView>
 
-#include "MainWindow.h"
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/MainWindow.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 
 namespace Tinkercell
@@ -51,7 +51,7 @@ namespace Tinkercell
 			void getColorG(QSemaphore*,int*,ItemHandle*);
 			void getColorB(QSemaphore*,int*,ItemHandle*);
 			void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
-
+			
 		public slots:
 			int getColorR(OBJ);
 			int getColorG(OBJ);
@@ -66,7 +66,7 @@ namespace Tinkercell
 	public:
 		BasicGraphicsToolbox();
 		bool setMainWindow(MainWindow * main);
-
+		
 	private slots:
 		void getColorRGB(ItemHandle*,int*,int);
 		void getColorR(QSemaphore*,int*,ItemHandle*);
@@ -98,7 +98,7 @@ namespace Tinkercell
 		void linearGradient();
 		void radialGradient();
 		void alignLeft();
-		void alignRight();
+		void alignRight();	
 		void alignTop();
 		void alignBottom();
 		void alignCompactVertical();
@@ -106,19 +106,19 @@ namespace Tinkercell
 		void alignEvenSpacedVertical();
 		void alignEvenSpacedHorizontal();
 		void alignSelected();
-
+		
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void escapeSlot ( const QWidget * );
-
+		
 	protected:
-
+		
 		QList<QGraphicsItem*> itemsToAlign ( QList< QGraphicsItem*>&);
-
+		
 		void moveTextGraphicsItems(QList<QGraphicsItem*> &, QList<QPointF> &);
 		void moveChildItems(QList<QGraphicsItem*> &, QList<QPointF> &);
-
+		
 		QList<QGraphicsItem*> targetItems;
 		QGradient::Type gradientType;
 		QPointF gradientPos1, gradientPos2;
@@ -134,11 +134,11 @@ namespace Tinkercell
 		QIcon linearGradientIcon, radialGradientIcon;
 		enum Mode { none, gradient, brush, pen, zoom, unzoom };
 		Mode mode;
-		QGraphicsRectItem zoomRect;
+		QGraphicsRectItem zoomRect;			
 		QToolButton * alignButton;
 		enum AlignMode { left, right, bottom, top, centervertical, centerhorizontal, evenspacedvertical, evenspacedhorizontal, compactvertical, compacthorizontal };
 		AlignMode alignMode;
-
+		
         private:
 		static BasicGraphicsToolbox_FToS fToS;
 		void connectTCFunctions();

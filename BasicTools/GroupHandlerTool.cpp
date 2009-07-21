@@ -3,24 +3,24 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
-
- This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers).
+ 
+ This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers). 
  A special QUndoCommand is provided for this functionality. Buttons are also placed
  in the MainWindow toolbar.
 
 ****************************************************************************/
 
-#include "NetworkWindow.h"
-#include "GraphicsScene.h"
-#include "CThread.h"
-#include "UndoCommands.h"
-#include "MainWindow.h"
-#include "NodeGraphicsItem.h"
-#include "ConnectionGraphicsItem.h"
-#include "TextGraphicsItem.h"
-#include "GroupHandlerTool.h"
-#include "CollisionDetection.h"
-#include "OutputWindow.h"
+#include "Core/NetworkWindow.h"
+#include "Core/GraphicsScene.h"
+#include "Core/CThread.h"
+#include "Core/UndoCommands.h"
+#include "Core/MainWindow.h"
+#include "Core/NodeGraphicsItem.h"
+#include "Core/ConnectionGraphicsItem.h"
+#include "Core/TextGraphicsItem.h"
+#include "BasicTools/GroupHandlerTool.h"
+#include "BasicTools/CollisionDetection.h"
+#include "Core/OutputWindow.h"
 
 namespace Tinkercell
 {
@@ -50,14 +50,17 @@ namespace Tinkercell
 			QAction * alias = new QAction(QIcon(tr(":/images/alias.png")),tr("Alias"),toolBar);
 			connect(alias,SIGNAL(triggered()),this,SLOT(alias()));
 			alias->setToolTip(tr("Alias selected items"));
-			toolBar->addAction(alias);
+			//toolBar->addAction(alias);
+			
+			if (mainWindow->toolBarEdits)
+				mainWindow->toolBarEdits->addAction(alias);
 
 			mainWindow->addToolBar(toolBar);
 
+			mainWindow->contextItemsMenu.addAction(alias);
 			mainWindow->contextItemsMenu.addAction(group);
 			mainWindow->contextItemsMenu.addAction(ungroup);
-			mainWindow->contextItemsMenu.addAction(alias);
-
+			
 			if (mainWindow->editMenu)
 			{
 				mainWindow->editMenu->addAction(group);
@@ -65,7 +68,6 @@ namespace Tinkercell
 			}
 
 			//connectCollisionDetector();
-
 			
 			connect(this,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
@@ -133,11 +135,11 @@ namespace Tinkercell
 		if (!scene || list.isEmpty()) return;
 
 		QList<QGraphicsItem*> items;
-		QList<ItemHandle*> handles;
+		QList<ItemHandle*> handles;		
 		ItemFamily * family = 0;
 		NodeGraphicsItem* node;
 		bool hasConnections = false;
-
+		
 		for (int i=0; i < list.size(); ++i)
 		{
 			node = NodeGraphicsItem::topLevelNodeItem(list[i]);
@@ -147,7 +149,7 @@ namespace Tinkercell
 				break;
 			}
 		}
-
+		
 		ItemHandle * bestHandle = 0;
 		QGraphicsItem * bestItem = 0;
 
@@ -160,9 +162,9 @@ namespace Tinkercell
 				families += handle->family();
 			}
 		}
-
+		
 		family = findBestFamilyOption(families);
-
+		
 		for (int i=0; i < list.size(); ++i)
 		{
 			ItemHandle * handle = getHandle(list[i]);
@@ -175,14 +177,14 @@ namespace Tinkercell
 			}
 		}
 		if (!bestHandle) return;
-
+		
 		handles += bestHandle;
 		items += bestItem;
-
+		
 		for (int i=0; i < list.size(); ++i)
 		{
 			ItemHandle * handle = getHandle(list[i]);
-
+			
 			//connections cannot be grouped
 			bool notAllowed = false;
 
@@ -197,11 +199,11 @@ namespace Tinkercell
 			}
 
 			if (notAllowed) continue;
-
-			if (handle == 0)
+			
+			if (handle == 0) 
 			{
 				//only text items can be merged without a handle
-				if (qgraphicsitem_cast<TextGraphicsItem*>(list[i]))
+				if (qgraphicsitem_cast<TextGraphicsItem*>(list[i])) 
 				{
 					if (!items.contains(list[i]))
 					{
@@ -213,7 +215,7 @@ namespace Tinkercell
 			else
 			{
 				if (handle && handle->family())
-				{
+				{	
 					if (((family->isRelatedTo(handle->family())) && !hasConnections)
 						|| (hasConnections && family->isA(handle->family())))
 					{
@@ -226,7 +228,7 @@ namespace Tinkercell
 				}
 			}
 		}
-
+		
 		int numHandles = 0;
 		QList<ItemHandle*> oldHandles;
 		for (int i=0; i < items.size(); ++i)
@@ -234,9 +236,9 @@ namespace Tinkercell
 			oldHandles += getHandle(items[i]);
 			if (oldHandles.last()) ++numHandles;
 		}
-
-
-
+		
+		
+		
 		if (numHandles > 1)
 		{
 			MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),handles);
@@ -245,15 +247,15 @@ namespace Tinkercell
 				delete mergeCommand;
 				return;
 			}
-
+			
 			scene->deselect();
-
+			
 			QString newName = mergeCommand->newHandle->fullName();
 			QList<QString> oldNames,newNames;
-
+		
 			QList<QGraphicsItem*> textToDelete;
 			TextGraphicsItem * nameText = 0;
-
+			
 			for (int i=0; i < handles.size(); ++i)
 			{
 				if (handles[i])
@@ -262,26 +264,26 @@ namespace Tinkercell
 							&& nameText->toPlainText() == handles[i]->name)
 						textToDelete += nameText;
 			}
-
+			
 			if (textToDelete.size() > 1)
 				textToDelete.pop_front();
-
+			
 			for (int i=0; i < handles.size(); ++i)
 			{
 				newNames += newName;
 			}
-
+			
 			QList<QUndoCommand*> commands;
 			commands += mergeCommand;
 			if (textToDelete.size() > 0)
 				commands += new RemoveGraphicsCommand(tr("remove text"),scene,textToDelete);
                         commands += new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
 			QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
-
+			
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < items.size(); ++i)
 				oldHandles += getHandle(items[i]);
-
+			
 			if (scene->historyStack)
 				scene->historyStack->push(command);
 			else
@@ -306,11 +308,11 @@ namespace Tinkercell
 				if (!allSame)
 				{
                                         QUndoCommand* command = new AssignHandleCommand(tr("items merged"),items,handles[0]);
-
+					
 					QList<ItemHandle*> oldHandles;
 					for (int i=0; i < items.size(); ++i)
 						oldHandles += getHandle(items[i]);
-
+					
 					if (scene->historyStack)
 						scene->historyStack->push(command);
 					else
@@ -370,7 +372,7 @@ namespace Tinkercell
 					//assign same handle to nearby text items
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 					{
-						if (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))
+						if (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))						
 						{
 							QRectF rect = selected[i]->sceneBoundingRect();
 							rect.adjust(-10,-10,20,20);
@@ -389,32 +391,32 @@ namespace Tinkercell
 		{
 			scene->clearSelection();
                         QUndoCommand * command1 = new AssignHandleCommand(tr(""),list,handles);
-
+				
                         QList<ItemHandle*> allitems = scene->allHandles();
 			QList<QString> newNames;
-
+			
 			QStringList allNames;
 			ItemHandle * itemHandle;
-
+			
 			for (int i=0; i < allitems.size(); ++i)
 			{
                                 if ((itemHandle = allitems[i]))
 					allNames << itemHandle->name << itemHandle->fullName();
 			}
-
+			
 			for (int i=0; i < handles.size() && i < list.size(); ++i)
 			{
 				newNames << findUniqueName(allNames);
 				allNames << newNames.last();
 			}
-
+			
                         QUndoCommand * command2 = new RenameCommand(tr(""),allitems,handles,newNames);
 			QUndoCommand * command = new CompositeCommand(tr("items separated"),(QList<QUndoCommand*>() << command1 << command2));
-
+		
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < list.size(); ++i)
 				oldHandles += getHandle(list[i]);
-
+		
 			if (scene->historyStack)
 				scene->historyStack->push(command);
 			else
@@ -422,26 +424,26 @@ namespace Tinkercell
 				command->redo();
 				delete command;
 			}
-
+			
 			emit handlesChanged(scene,list,oldHandles);
 		}
-
+		
 	}
-
+	
 	void GroupHandlerTool::connectTCFunctions()
 	{
 		connect(&fToS,SIGNAL(merge(QSemaphore*, QList<ItemHandle*>&)),
 			this,SLOT(merge(QSemaphore*, QList<ItemHandle*>&)));
-
+			
 		connect(&fToS,SIGNAL(separate(QSemaphore*,ItemHandle*)),
 			this,SLOT(separate(QSemaphore*,ItemHandle*)));
 	}
-
+	
 	typedef void (*tc_GroupHandlerTool_api)(
 		void (*merge)(Array),
 		void (*separate)(OBJ)
 	);
-
+	
 	void GroupHandlerTool::setupFunctionPointers( QLibrary * library)
 	{
 		tc_GroupHandlerTool_api f = (tc_GroupHandlerTool_api)library->resolve("tc_GroupHandlerTool_api");
@@ -454,7 +456,7 @@ namespace Tinkercell
 			);
 		}
 	}
-
+	
 	void GroupHandlerTool::merge(QSemaphore* sem, QList<ItemHandle*>& handles)
 	{
 		GraphicsScene * scene = currentScene();
@@ -469,7 +471,7 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
-
+	
 	void GroupHandlerTool::separate(QSemaphore* sem,ItemHandle* handle)
 	{
 		GraphicsScene * scene = currentScene();
@@ -481,7 +483,7 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
-
+	
 
 	void GroupHandlerTool::alias()
 	{
@@ -492,19 +494,19 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		for (int i=0; i<selected.size(); ++i)
-			if ((qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && getHandle(selected[i]))
+			if ((qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && getHandle(selected[i])) 
 			    || qgraphicsitem_cast<TextGraphicsItem*>(selected[i]))
 				newItems += cloneGraphicsItem(selected[i]);
 
 		scene->insert(tr("alias inserted"),newItems);
-		scene->move(newItems,QPointF(100,100));
+		scene->move(newItems,QPointF(100,100));		
 	}
 
 	void GroupHandlerTool::nodeCollided(const QList<QGraphicsItem*>& list, NodeGraphicsItem * item, QPointF , Qt::KeyboardModifiers )
 	{
 		if (mainWindow == 0 || mainWindow->currentScene() == 0 || item == 0 || list.isEmpty()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
-
+		
 		QList<QGraphicsItem*> items;
 		QList<ItemHandle*> handles;
 
@@ -512,7 +514,7 @@ namespace Tinkercell
 		ItemFamily * family = 0;
 		NodeGraphicsItem * node = item;
 		bool hasConnections = false;
-
+		
 		if (node && node->itemHandle && !node->connections().isEmpty())
 		{
 			hasConnections = true;
@@ -537,10 +539,10 @@ namespace Tinkercell
 		{
 			return;
 		}
-
+		
 		ItemHandle * bestHandle = handle;
 		family = handle->family();
-
+		
 		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i])
@@ -549,8 +551,8 @@ namespace Tinkercell
 				if (qgraphicsitem_cast<NodeGraphicsItem*>(list.at(i)) && handle && handle->family() && !handles.contains(handle))
 				{
 					if (!( handle->family()->isA(tr("Compartment")) || handle->family()->isA(tr("Module")))
-						&&
-						(((family->isRelatedTo(handle->family())) && !hasConnections)
+						&& 
+						(((family->isRelatedTo(handle->family())) && !hasConnections) 
 						|| (hasConnections && family->isA(handle->family()))))
 					{
 						handles += handle;
@@ -566,7 +568,7 @@ namespace Tinkercell
 					}
 			}
 		}
-
+		
 		if (handle  && handle->family() && handle->family()->isA(tr("DNA")))
 		{
 			QList<QGraphicsItem*> moveItems;
@@ -594,7 +596,7 @@ namespace Tinkercell
 				}
 			}
 		}
-
+		
 		if (handles.size() > 1 && bestHandle)
 		{
 			MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),handles);
@@ -603,15 +605,15 @@ namespace Tinkercell
 				delete mergeCommand;
 				return;
 			}
-
+			
 			scene->deselect();
-
+			
 			QString newName = mergeCommand->newHandle->fullName();
 			QList<QString> oldNames,newNames;
-
+		
 			QList<QGraphicsItem*> textToDelete;
 			TextGraphicsItem * nameText = 0;
-
+			
 			for (int i=0; i < handles.size(); ++i)
 			{
 				if (handles[i])
@@ -622,7 +624,7 @@ namespace Tinkercell
 			}
 			if (textToDelete.size() > 1)
 				textToDelete.pop_front();
-
+			
 			for (int i=0; i < handles.size(); ++i)
 			{
 				newNames += newName;
@@ -634,11 +636,11 @@ namespace Tinkercell
                                 commands += new RemoveGraphicsCommand(tr("remove text"),scene,textToDelete);
                         commands += new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
 			QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
-
+			
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < items.size(); ++i)
 				oldHandles += getHandle(items[i]);
-
+			
 			if (scene->historyStack)
 				scene->historyStack->push(command);
 			else
@@ -652,11 +654,11 @@ namespace Tinkercell
 			if (handles.size() == 1 && handles[0] && !items.isEmpty())
 			{
                                 QUndoCommand * command = new AssignHandleCommand(tr("items merged"),items,handles[0]);
-
+				
 				QList<ItemHandle*> oldHandles;
 				for (int i=0; i < items.size(); ++i)
 					oldHandles += getHandle(items[i]);
-
+				
 				if (scene->historyStack)
 					scene->historyStack->push(command);
 				else
@@ -664,11 +666,11 @@ namespace Tinkercell
 					command->redo();
 					delete command;
 				}
-
+				
 				emit handlesChanged(scene,items,oldHandles);
 			}
 	}
-
+	
 	QString GroupHandlerTool::findUniqueName(const QStringList& names)
 	{
 		int	c = 0;
@@ -677,28 +679,28 @@ namespace Tinkercell
 		{
 			if (c < 26)
 				name = QString((char)((int)'A' + c));
-			else
-				name =  QString((char)((int)'A' + (c % 26))) + QString::number(c/25);
+			else				
+				name =  QString((char)((int)'A' + (c % 26))) + QString::number(c/25);				
 			++c;
 		}
-
+		
 		return name;
 	}
-
+	
 	/************************************************/
-
+	
 	GroupHandlerTool_FToS  GroupHandlerTool::fToS;
-
+	
 	void GroupHandlerTool::_merge( Array A)
 	{
 		return fToS.merge(A);
 	}
-
+	
 	void GroupHandlerTool::_separate(OBJ o)
 	{
 		return fToS.separate(o);
 	}
-
+		
 	void GroupHandlerTool_FToS::merge(Array a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -720,6 +722,6 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-
+	
 
 }

@@ -8,8 +8,8 @@
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
-#include "PlotToolMain.h"
+#include "Core/OutputWindow.h"
+#include "PlotTools/PlotToolMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {

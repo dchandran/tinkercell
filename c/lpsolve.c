@@ -1,7 +1,7 @@
 #include "TC_api.h"
 #include "lp_lib.h"
 
-int run(Matrix input) //first row = objective, rest = contraints, first two cols = arguments
+void run(Matrix input) //first row = objective, rest = contraints, first two cols = arguments
 {
   lprec *lp;
   int i,j,k;
@@ -18,13 +18,15 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
   if (N.rows < 1 || N.cols < 1) 
   {
       tc_errorReport("stoichiometry matrix is empty");
-      return 0;
+      return;
   }*/
+  
+  //tc_printTable(input);
   
   if (input.rows < 2 || input.cols < 3)
   {
       tc_errorReport("Incorrect input matrix");
-      return 0;
+      return;
   }
   
   /**initialize lpsolve***/
@@ -32,10 +34,10 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
   if ((lp=make_lp(0,input.cols - 2)) == NULL)
   {
       tc_errorReport("lpsolve library failed to initialize");
-      return 0;
+      return;
   }
   
-  tc_showProgress("lpsolve",5);
+  //tc_showProgress("lpsolve",5);
   
   /**setup the objective***/
   
@@ -57,7 +59,7 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
   else
 	set_minim(lp);
   
-  tc_showProgress("lpsolve",10);
+  //tc_showProgress("lpsolve",10);
   
   /**setup the constraints***/
   
@@ -120,14 +122,14 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
       
 	  delete_lp(lp);
 	  
-	  return 0;
+	  return;
   }
   if (k != 0)
   {
      tc_print("lpsolve: a sub-optimal solution was found.");
   }
   
-  tc_showProgress("lpsolve",70);
+  //tc_showProgress("lpsolve",70);
   /**get solution and display on the screen***/
   soln = malloc((input.rows + input.cols - 2)*sizeof(double));
   get_primal_solution(lp, soln);
@@ -167,7 +169,7 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
   }
   
   tc_printTable(output);
-  tc_showProgress("lpsolve",100);
+  //tc_showProgress("lpsolve",100);
   
   free(output.colnames);
   free(output.values);
@@ -176,7 +178,7 @@ int run(Matrix input) //first row = objective, rest = contraints, first two cols
   //TCFreeArray(all);
   //TCFreeMatrix(N);
   
-  tc_zoom(0.95);
+  tc_zoom(0.99);
   
-  return(0);
+  return;
 }

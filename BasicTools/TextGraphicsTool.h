@@ -26,9 +26,9 @@
 #include <QButtonGroup>
 #include <QTableView>
 
-#include "ItemHandle.h"
-#include "Tool.h"
-#include "TextGraphicsItem.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
+#include "Core/TextGraphicsItem.h"
 
 namespace Tinkercell
 {

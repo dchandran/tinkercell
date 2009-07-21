@@ -19,8 +19,8 @@
 #include <QTextEdit>
 #include <QTextCursor>
 
-#include "ItemHandle.h"
-#include "Tool.h"
+#include "Core/ItemHandle.h"
+#include "Core/Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

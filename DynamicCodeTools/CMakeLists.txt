@@ -8,9 +8,9 @@ SET( DYNAMICTOOLS_HDRS
   SyntaxHighlighter.h
 )
 
-CONFIGURE_FILE( PythonTool.cpp
-  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/PythonTool.cpp 
-  @ONLY )
+#CONFIGURE_FILE( PythonTool.cpp
+#  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/PythonTool.cpp 
+#  @ONLY )
 
 FILE( GLOB DYNAMICTOOLS_SRC *.cpp )
 
@@ -20,7 +20,6 @@ ADD_LIBRARY( DynamicCodePlugin
   SHARED
   ${DYNAMICTOOLS_SRC}
   ${DYNAMICTOOLS_MOC}
-  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/PythonTool.cpp 
   )
 
 TARGET_LINK_LIBRARIES( DynamicCodePlugin

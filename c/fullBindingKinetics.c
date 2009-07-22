@@ -152,8 +152,10 @@ int main()
    
    int total;
    char* proteinNames[] = { "P\0", "A\0","B\0" };
+   
+   char * rxnNames[] = {"j0"};
 
-   Matrix M = fullBindingKinetics(2,"j0",proteinNames);
+   Matrix M = fullBindingKinetics(2,rxnNames,proteinNames);
    int i=0,j=0;
 
    for (j=0; j < M.cols; ++j)

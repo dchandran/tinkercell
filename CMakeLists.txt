@@ -135,8 +135,7 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( BasicTools )
 
   OPTION( BUILD_ANTIMONYEDITOR 
-    "Build Antimony Editor. Note that it requires to have antimony editor
-libraries installed." 
+    "Build Antimony Editor. Note that it requires to have antimony parser libraries installed." 
     OFF )
   IF( BUILD_ANTIMONYEDITOR )
     ADD_SUBDIRECTORY( AntimonyEditor )

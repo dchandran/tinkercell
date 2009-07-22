@@ -7,7 +7,7 @@
 #include "TC_api.h"
 #include "fullBindingKinetics.c"
 
-void run(Matrix);
+void run();
 void setup();
 
 void tc_main()

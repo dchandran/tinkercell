@@ -1,14 +1,14 @@
 QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h )
 
-CONFIGURE_FILE( TinkerCellAboutBox.cpp
-  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
-  @ONLY
-)
+#CONFIGURE_FILE( TinkerCellAboutBox.cpp
+#  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
+#  @ONLY
+#)
 
 ADD_LIBRARY( AboutBox 
   SHARED
   ${AboutBox_MOC}
-  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp )
+  TinkerCellAboutBox.cpp )
 
 TARGET_LINK_LIBRARIES( AboutBox
   AboutBox

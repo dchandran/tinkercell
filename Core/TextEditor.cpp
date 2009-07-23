@@ -10,14 +10,14 @@
  
 ****************************************************************************/
 
-#include "Core/OutputWindow.h"
-#include "Core/NetworkWindow.h"
-#include "Core/TextEditor.h"
-#include "Core/TextItem.h"
-#include "Core/ItemFamily.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/UndoCommands.h"
+#include "OutputWindow.h"
+#include "NetworkWindow.h"
+#include "TextEditor.h"
+#include "TextItem.h"
+#include "ItemFamily.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "UndoCommands.h"
 #include <QTextBlock>
 #include <QTextCharFormat>
 #include <QFont>

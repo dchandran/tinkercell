@@ -43,7 +43,7 @@
 
  #include <QtGui>
 
- #include "Core/CodeEditor.h"
+ #include "CodeEditor.h"
 
 namespace Tinkercell
 {

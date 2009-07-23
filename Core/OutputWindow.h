@@ -21,8 +21,8 @@
 #include <QSyntaxHighlighter>
 #include <QRegExp>
 #include <QCompleter>
-#include "Core/DataTable.h"
-#include "Core/Tool.h"
+#include "DataTable.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {

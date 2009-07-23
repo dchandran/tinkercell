@@ -11,16 +11,16 @@
  
 ****************************************************************************/
 
-#include "Core/NetworkWindow.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/UndoCommands.h"
-#include "Core/GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "UndoCommands.h"
+#include "GraphicsScene.h"
 #include <QRegExp>
 
 namespace Tinkercell

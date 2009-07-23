@@ -24,21 +24,21 @@
 #include <QtDebug>
 #include <QSvgGenerator>
 #include <QImage>
-#include "Core/TextEditor.h"
-#include "Core/TextItem.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/HistoryStack.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/MainWindow.h"
-#include "Core/CThread.h"
-#include "Core/OutputWindow.h"
-#include "Core/AbstractInputWindow.h"
+#include "TextEditor.h"
+#include "TextItem.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "HistoryStack.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "MainWindow.h"
+#include "CThread.h"
+#include "OutputWindow.h"
+#include "AbstractInputWindow.h"
 
 namespace Tinkercell
 {

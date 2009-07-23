@@ -18,9 +18,9 @@
 #include <QList>
 #include <QHash>
 #include <QXmlStreamReader>
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "NodeGraphicsReader.h"
 
 
 namespace Tinkercell

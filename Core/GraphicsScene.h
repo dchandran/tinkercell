@@ -35,9 +35,9 @@
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
 
-#include "Core/DataTable.h"
-#include "Core/HistoryStack.h"
-#include "Core/SymbolsTable.h"
+#include "DataTable.h"
+#include "HistoryStack.h"
+#include "SymbolsTable.h"
 
 namespace Tinkercell
 {

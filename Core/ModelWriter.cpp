@@ -9,7 +9,7 @@
  
 ****************************************************************************/
 
-#include "Core/ModelWriter.h"
+#include "ModelWriter.h"
 
 namespace Tinkercell
 {

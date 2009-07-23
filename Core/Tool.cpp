@@ -10,11 +10,11 @@
  
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "Core/TextEditor.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/Tool.h"
+#include "MainWindow.h"
+#include "TextEditor.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {

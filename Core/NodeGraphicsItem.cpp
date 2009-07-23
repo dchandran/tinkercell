@@ -17,11 +17,11 @@
  
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ItemHandle.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "ConnectionGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {

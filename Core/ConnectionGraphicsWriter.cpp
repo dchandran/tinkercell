@@ -8,9 +8,9 @@
  
 ****************************************************************************/
 
-#include "Core/ItemHandle.h"
-#include "Core/ConnectionGraphicsWriter.h"
-#include "Core/NodeGraphicsWriter.h"
+#include "ItemHandle.h"
+#include "ConnectionGraphicsWriter.h"
+#include "NodeGraphicsWriter.h"
 
 namespace Tinkercell
 {

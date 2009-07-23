@@ -8,15 +8,15 @@
  
 ****************************************************************************/
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/Tool.h"
-#include "Core/GraphicsScene.h"
-#include "Core/NetworkWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/OutputWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "Tool.h"
+#include "GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "UndoCommands.h"
+#include "OutputWindow.h"
 #include <QRegExp>
 #include <QStringList>
 

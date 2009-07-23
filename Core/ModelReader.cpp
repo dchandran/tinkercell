@@ -9,8 +9,8 @@
  
 ****************************************************************************/
 
-#include "Core/ModelReader.h"
-#include "Core/OutputWindow.h"
+#include "ModelReader.h"
+#include "OutputWindow.h"
 #include <QtDebug>
 
 namespace Tinkercell

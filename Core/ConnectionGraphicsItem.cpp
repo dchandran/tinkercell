@@ -17,11 +17,11 @@
 
 #include <math.h>
 #include <QPainterPathStroker>
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "Core/NodeGraphicsReader.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "ConnectionGraphicsItem.h"
+#include "ItemHandle.h"
+#include "NodeGraphicsReader.h"
 
 namespace Tinkercell
 {

@@ -13,7 +13,7 @@
 
 #include <math.h>
 #include <QtDebug>
-#include "Core/ConvertValue.h"
+#include "ConvertValue.h"
 
 namespace Tinkercell
 {

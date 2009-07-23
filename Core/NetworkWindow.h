@@ -31,11 +31,11 @@
 #include <QMdiSubWindow>
 #include <QGraphicsView>
 
-#include "Core/DataTable.h"
-#include "Core/HistoryStack.h"
-#include "Core/SymbolsTable.h"
-#include "Core/GraphicsScene.h"
-#include "Core/TextEditor.h"
+#include "DataTable.h"
+#include "HistoryStack.h"
+#include "SymbolsTable.h"
+#include "GraphicsScene.h"
+#include "TextEditor.h"
 
 namespace Tinkercell
 {

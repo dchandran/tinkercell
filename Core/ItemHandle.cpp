@@ -10,14 +10,14 @@
  
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextItem.h"
-#include "Core/Tool.h"
-#include "Core/ItemHandle.h"
-#include "Core/UndoCommands.h"
+#include "GraphicsScene.h"
+#include "TextGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextItem.h"
+#include "Tool.h"
+#include "ItemHandle.h"
+#include "UndoCommands.h"
 #include <QRegExp>
 
 namespace Tinkercell

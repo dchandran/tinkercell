@@ -16,7 +16,7 @@
 #include <QFile>
 #include <QStatusBar>
 #include <QXmlStreamReader>
-#include "Core/NodeGraphicsItem.h"
+#include "NodeGraphicsItem.h"
 
 namespace Tinkercell
 {

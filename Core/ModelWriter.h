@@ -17,9 +17,9 @@
 #include <QFile>
 #include <QStatusBar>
 #include <QXmlStreamWriter>
-#include "Core/DataTable.h"
-#include "Core/GraphicsScene.h"
-#include "Core/ItemHandle.h"
+#include "DataTable.h"
+#include "GraphicsScene.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {

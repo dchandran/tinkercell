@@ -33,9 +33,9 @@
 #include <QProcess>
 #include <QProgressBar>
 #include <QItemDelegate>
-#include "Core/Tool.h"
-#include "c/TCstructs.h"
-#include "Core/DataTable.h"
+#include "Tool.h"
+#include "TCstructs.h"
+#include "DataTable.h"
 
 namespace Tinkercell
 {

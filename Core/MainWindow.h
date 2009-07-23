@@ -48,9 +48,9 @@
 #include <QSemaphore>
 #include <QLibrary>
 
-#include "Core/HistoryStack.h"
-#include "Core/DataTable.h"
-#include "Core/ConvertValue.h"
+#include "HistoryStack.h"
+#include "DataTable.h"
+#include "ConvertValue.h"
 
 namespace Tinkercell
 {

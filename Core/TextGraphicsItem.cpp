@@ -10,7 +10,7 @@
 ****************************************************************************/
 
 #include <QPainter>
-#include "Core/TextGraphicsItem.h"
+#include "TextGraphicsItem.h"
 
 namespace Tinkercell
 {

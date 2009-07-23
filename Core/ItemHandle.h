@@ -22,8 +22,8 @@
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
-#include "Core/DataTable.h"
-#include "Core/ItemFamily.h"
+#include "DataTable.h"
+#include "ItemFamily.h"
 
 namespace Tinkercell
 {

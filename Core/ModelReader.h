@@ -18,8 +18,8 @@
 #include <QStatusBar>
 #include <QXmlStreamReader>
 #include <QPair>
-#include "Core/GraphicsScene.h"
-#include "Core/ItemHandle.h"
+#include "GraphicsScene.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {

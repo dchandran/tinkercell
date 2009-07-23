@@ -35,12 +35,12 @@
 #include <QSyntaxHighlighter>
 #include <QUndoCommand>
 
-#include "Core/DataTable.h"
-#include "Core/CodeEditor.h"
-#include "Core/HistoryStack.h"
-#include "Core/SymbolsTable.h"
-#include "Core/Tool.h"
-#include "Core/TextItem.h"
+#include "DataTable.h"
+#include "CodeEditor.h"
+#include "HistoryStack.h"
+#include "SymbolsTable.h"
+#include "Tool.h"
+#include "TextItem.h"
 
 namespace Tinkercell
 {

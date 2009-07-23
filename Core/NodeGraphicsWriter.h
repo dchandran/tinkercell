@@ -15,7 +15,7 @@
 #include <QFile>
 #include <QList>
 #include <QXmlStreamWriter>
-#include "Core/NodeGraphicsItem.h"
+#include "NodeGraphicsItem.h"
 
 namespace Tinkercell
 {

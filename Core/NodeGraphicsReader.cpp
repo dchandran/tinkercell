@@ -8,7 +8,7 @@
  
 ****************************************************************************/
 
-#include "Core/NodeGraphicsReader.h"
+#include "NodeGraphicsReader.h"
 #include <QtDebug>
 
 namespace Tinkercell

@@ -32,11 +32,11 @@
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
 
-#include "Core/DataTable.h"
-#include "Core/ItemFamily.h"
-#include "Core/ItemHandle.h"
-#include "Core/DataTable.h"
-#include "Core/NodeGraphicsItem.h"
+#include "DataTable.h"
+#include "ItemFamily.h"
+#include "ItemHandle.h"
+#include "DataTable.h"
+#include "NodeGraphicsItem.h"
 
 namespace Tinkercell
 {

@@ -11,16 +11,16 @@
 ****************************************************************************/
 
 
-#include "Core/MainWindow.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/GraphicsScene.h"
-#include "Core/TextEditor.h"
-#include "Core/UndoCommands.h"
-#include "Core/NetworkWindow.h"
-#include "muparser/muParserDef.h"
-#include "muparser/muParser.h"
-#include "muparser/muParserInt.h"
+#include "MainWindow.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "GraphicsScene.h"
+#include "TextEditor.h"
+#include "UndoCommands.h"
+#include "NetworkWindow.h"
+#include "muParserDef.h"
+#include "muParser.h"
+#include "muParserInt.h"
 #include <QRegExp>
 
 namespace Tinkercell

@@ -7,16 +7,16 @@
  
 ****************************************************************************/
 
-#include "Core/TextEditor.h"
-#include "Core/NetworkWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/OutputWindow.h"
-#include "NodesTree/NodesTree.h"
-#include "NodesTree/ConnectionsTree.h"
-#include "AntimonyTool/AntimonyEditor.h"
+#include "TextEditor.h"
+#include "NetworkWindow.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "OutputWindow.h"
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
+#include "AntimonyEditor.h"
 #include <QToolButton>
 #include <QFile>
 #include <QPair>

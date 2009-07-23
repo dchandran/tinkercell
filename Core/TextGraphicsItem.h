@@ -15,7 +15,7 @@
 #include <QGraphicsTextItem>
 #include <QTextCursor>
 #include <QUndoCommand>
-#include "Core/ItemHandle.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {

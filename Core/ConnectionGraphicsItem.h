@@ -29,7 +29,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QUndoCommand>
-#include "Core/NodeGraphicsItem.h"
+#include "NodeGraphicsItem.h"
 
 namespace Tinkercell
 {

@@ -10,8 +10,8 @@
  
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "Core/OutputWindow.h"
+#include "MainWindow.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {

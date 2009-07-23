@@ -8,8 +8,8 @@
  
 ****************************************************************************/
 
-#include "Core/ConnectionGraphicsReader.h"
-#include "Core/ItemHandle.h"
+#include "ConnectionGraphicsReader.h"
+#include "ItemHandle.h"
 #include <QtDebug>
 
 namespace Tinkercell

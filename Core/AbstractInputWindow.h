@@ -31,14 +31,14 @@
 #include <QFile>
 #include <QListWidget>
 
-#include "Core/MainWindow.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/OutputWindow.h"
-#include "Core/ConvertValue.h"
-#include "Core/CThread.h"
+#include "MainWindow.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "OutputWindow.h"
+#include "ConvertValue.h"
+#include "CThread.h"
 
 
 namespace Tinkercell

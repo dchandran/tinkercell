@@ -21,8 +21,8 @@
 #include <QGraphicsItem>
 #include <QStringList>
 #include <math.h>
-#include "c/TCstructs.h"
-#include "Core/ItemHandle.h"
+#include "TCstructs.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {

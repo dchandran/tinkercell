@@ -10,7 +10,7 @@
  
 ****************************************************************************/
 #include <QtDebug>
-#include "Core/ItemFamily.h"
+#include "ItemFamily.h"
 
 namespace Tinkercell
 {

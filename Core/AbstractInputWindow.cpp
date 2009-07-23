@@ -8,8 +8,8 @@
  LPSolveInputWindow is a good example.
 
 ****************************************************************************/
-#include "Core/AbstractInputWindow.h"
-#include "Core/CThread.h"
+#include "AbstractInputWindow.h"
+#include "CThread.h"
 
 namespace Tinkercell
 {

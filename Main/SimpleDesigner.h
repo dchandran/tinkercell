@@ -19,14 +19,14 @@ This is an example application that uses the TinkerCell Core library
 #include <QLineEdit>
 #include <QGroupBox>
 #include <QGraphicsSimpleTextItem>
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/Tool.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/OutputWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "Tool.h"
+#include "NodeGraphicsReader.h"
+#include "OutputWindow.h"
 
 using namespace Tinkercell;
 

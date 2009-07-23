@@ -9,16 +9,16 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/CThread.h"
-#include "Core/OutputWindow.h"
-#include "BasicTools/NameFamilyDialog.h"
+#include "MainWindow.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "CThread.h"
+#include "OutputWindow.h"
+#include "NameFamilyDialog.h"
 
 namespace Tinkercell
 {
@@ -29,7 +29,7 @@ namespace Tinkercell
 
             QString appDir = QCoreApplication::applicationDirPath();
             NodeGraphicsReader reader;
-            reader.readXml(&idcard,appDir + tr("/BasicTools/idcard.xml"));
+            reader.readXml(&idcard,tr(":/BasicTools/idcard.xml"));
             idcard.normalize();
             idcard.scale(40.0/idcard.sceneBoundingRect().width(),30.0/idcard.sceneBoundingRect().height());
 

@@ -10,7 +10,7 @@
 #ifndef TINKERCELL_LPSOLVEINPUT_H
 #define TINKERCELL_LPSOLVEINPUT_H
 
-#include "Core/AbstractInputWindow.h"
+#include "AbstractInputWindow.h"
 
 namespace Tinkercell
 {

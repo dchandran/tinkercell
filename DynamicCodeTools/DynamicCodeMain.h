@@ -8,11 +8,11 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "DynamicCodeTools/LoadCLibraries.h"
-#include "DynamicCodeTools/PythonTool.h"
-#include "DynamicCodeTools/CodingWindow.h"
-#include "DynamicCodeTools/DynamicLibraryMenu.h"
+#include "MainWindow.h"
+#include "LoadCLibraries.h"
+#include "PythonTool.h"
+#include "CodingWindow.h"
+#include "DynamicLibraryMenu.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

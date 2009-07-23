@@ -7,7 +7,7 @@
  **
  ****************************************************************************/
 
-#include "NodeGraphicsItem/NodeGraphicsScene.h"
+#include "NodeGraphicsScene.h"
 
 namespace Tinkercell
 {

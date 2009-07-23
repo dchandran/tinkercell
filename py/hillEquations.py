@@ -17,9 +17,9 @@ if (len(promoters) > 0):
 			isRepressor = False;
 			for c in connectors:
 				isRepressor = (k==0 and pytc.isA(c,"Transcription Repression"));
-				cname = pytc.name(c);
+				cname = pytc.getName(c);
 				parts = pytc.getConnectedPartsIn(c);
-				pnames = pytc.names(parts);
+				pnames = pytc.getNames(parts);
 				for n in pnames:
 					s = "((" + n + "/" + cname + ".Kd)^" + cname + ".h)";
 					if not isRepressor:
@@ -37,14 +37,14 @@ if (len(promoters) > 0):
 				rate = " 1.0/(" + "*".join(fracs) + ")";
 			elif k == 6:
 				rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
-			name = pytc.name(i);
+			name = pytc.getName(i);
 			if rate == "1.0/()":
 				rate = name + ".strength";
 			else:
 				rate = name + ".strength*" + rate;
 			if (len(indiv) > 0):
 				pytc.write(name + " has rate : " + rate+"\n");
-				pytc.setTextData(i,"Assignments","rate","function",rate); #pytc.name(i)
+				pytc.setTextData(i,"Assignments","rate","function",rate); #pytc.getName(i)
 				for j in products:
 					pytc.setRate(j,(name + ".rate"));
 else:

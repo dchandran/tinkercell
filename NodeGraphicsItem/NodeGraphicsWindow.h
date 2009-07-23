@@ -18,9 +18,9 @@
 #include <QSlider>
 #include <QAction>
 #include <QFileDialog>
-#include "NodeGraphicsItem/NodeGraphicsScene.h"
-#include "Core/NodeGraphicsWriter.h"
-#include "Core/NodeGraphicsReader.h"
+#include "NodeGraphicsScene.h"
+#include "NodeGraphicsWriter.h"
+#include "NodeGraphicsReader.h"
 
 namespace NodeImageDesigner
 {

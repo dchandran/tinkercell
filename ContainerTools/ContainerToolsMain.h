@@ -8,9 +8,9 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "BasicTools/CollisionDetection.h"
-#include "ContainerTools/ContainerTool.h"
+#include "MainWindow.h"
+#include "CollisionDetection.h"
+#include "ContainerTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

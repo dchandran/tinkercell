@@ -13,21 +13,21 @@
 #include <QRegExp>
 #include <QSettings>
 #include <QMessageBox>
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/OutputWindow.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/ModelSummaryTool.h"
-#include "BasicTools/FunctionDeclarationsTool.h"
-#include "BasicTools/StoichiometryTool.h"
-#include "muparser/muParserDef.h"
-#include "muparser/muParser.h"
-#include "muparser/muParserInt.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "OutputWindow.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ModelSummaryTool.h"
+#include "FunctionDeclarationsTool.h"
+#include "StoichiometryTool.h"
+#include "muParserDef.h"
+#include "muParser.h"
+#include "muParserInt.h"
 
 namespace Tinkercell
 {
@@ -394,7 +394,7 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
 
         NodeGraphicsReader reader;
-        reader.readXml(&item,appDir + tr("/BasicTools/func.xml"));
+        reader.readXml(&item,tr(":/BasicTools/func.xml"));
 
         item.normalize();
         item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
@@ -403,7 +403,7 @@ namespace Tinkercell
         graphicsItems[0]->setToolTip(name);
 
         /*QToolButton * toolButton = new QToolButton(this);
-        toolButton->setIcon(QIcon(appDir + tr("/BasicTools/func.xml")));
+        toolButton->setIcon(QIcon(tr(":/BasicTools/func.xml")));
         toolButton->setToolTip(name);
         this->buttons.addButton(toolButton);*/
 

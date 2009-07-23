@@ -27,6 +27,7 @@
 #include <QColor>
 #include <QPoint>
 #include <QPainter>
+#include <QGraphicsPolygonItem>
 #include <QAbstractGraphicsShapeItem>
 #include <QGraphicsItemGroup>
 #include <QGraphicsRectItem>

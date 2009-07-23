@@ -22,9 +22,9 @@
 #include <QUndoCommand>
 #include <QToolButton>
 
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/MainWindow.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "MainWindow.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

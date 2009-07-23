@@ -9,13 +9,13 @@
 
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "NodesTree/ConnectionsTree.h"
-#include "NodesTree/TreeButton.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ConnectionsTree.h"
+#include "TreeButton.h"
 #include <QDialog>
 
 namespace Tinkercell

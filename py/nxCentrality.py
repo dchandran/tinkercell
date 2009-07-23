@@ -11,7 +11,7 @@ def getIndex(item,array):
 pytc.write("generating adjacency matrix...");
 
 nodes = pytc.itemsOfFamily("node");
-nodeNames = pytc.names(nodes);
+nodeNames = pytc.getNames(nodes);
 connections = pytc.itemsOfFamily("connection");
 
 numNodes = len(nodes);

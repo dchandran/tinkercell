@@ -28,11 +28,11 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
-#include "Core/NetworkWindow.h"
-#include "Core/TextEditor.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "AntimonyTool/AntimonySyntaxHighlighter.h"
+#include "NetworkWindow.h"
+#include "TextEditor.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "AntimonySyntaxHighlighter.h"
 
 namespace Tinkercell
 {

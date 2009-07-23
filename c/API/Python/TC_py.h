@@ -36,9 +36,9 @@ static PyMethodDef pytcMethods[] = {
 	{"deselect", pytc_deselect, METH_VARARGS, "deselect all selected items. example: deselectItems();"},
 
 //item name and position
-	{"name", pytc_getName, METH_VARARGS, "get the name of an item. example: Array = selectedItems(); s = getName(Array[0]);"},
+	{"getName", pytc_getName, METH_VARARGS, "get the name of an item. example: Array = selectedItems(); s = getName(Array[0]);"},
 	{"rename", pytc_rename, METH_VARARGS, "set the name of an item. example: Array = selectedItems(); rename(Array[0],\"S\");"},
-	{"names", pytc_getNames, METH_VARARGS, "get the names of given items. example: Array = selectedItems(); names = getNames(Array[0]);"},
+	{"getNames", pytc_getNames, METH_VARARGS, "get the names of given items. example: Array = selectedItems(); names = getNames(Array[0]);"},
 	{"family", pytc_getFamily, METH_VARARGS, "get the family of an item. example: A = find(\"A\"); s = getFamily(A);"},
 	{"isA", pytc_isA, METH_VARARGS, "checks whether the given item belongs in the given family. example: Array = find(\"A\"); i = isA(A,\"Receptor\");"},
 	{"getX", pytc_getX, METH_VARARGS, "get the X coordinate of an item. example: A = find(\"A\"); x = getX(A);"},

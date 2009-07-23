@@ -9,7 +9,7 @@
 #include "TC_api.h"
 
 char * selected_var;
-void run(Matrix);
+void run();
 void setup();
 
 void tc_main()

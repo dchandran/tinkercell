@@ -15,15 +15,15 @@
 ****************************************************************************/
 
 #include <QSettings>
-#include "Core/GraphicsScene.h"
-#include "Core/NetworkWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/ModelSummaryTool.h"
+#include "GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ModelSummaryTool.h"
 
 namespace Tinkercell
 {
@@ -241,7 +241,7 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
 
         NodeGraphicsReader reader;
-        reader.readXml(&item,appDir + tr("/BasicTools/monitor.xml"));
+        reader.readXml(&item,tr(":/BasicTools/monitor.xml"));
 
         item.normalize();
         item.scale(30.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());

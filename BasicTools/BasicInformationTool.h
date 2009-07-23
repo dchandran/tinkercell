@@ -32,14 +32,14 @@
 #include <QButtonGroup>
 #include <QTableView>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/DataTable.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/MainWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/NetworkWindow.h"
-#include "BasicTools/SpinBoxDelegate.h"
+#include "NodeGraphicsItem.h"
+#include "DataTable.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "MainWindow.h"
+#include "GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "SpinBoxDelegate.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

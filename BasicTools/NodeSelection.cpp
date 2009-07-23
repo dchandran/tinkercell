@@ -13,12 +13,12 @@
 ****************************************************************************/
 
 #include <math.h>
-#include "Core/UndoCommands.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/NodeSelection.h"
-#include "Core/OutputWindow.h"
+#include "UndoCommands.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "NodeSelection.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {

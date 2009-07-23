@@ -9,14 +9,14 @@
  
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/ConnectionMaker.h"
-#include "BasicTools/DnaGraphicsItem.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ConnectionMaker.h"
+#include "DnaGraphicsItem.h"
 
 
 namespace Tinkercell

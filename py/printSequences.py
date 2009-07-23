@@ -2,7 +2,7 @@ import pytc
 A = pytc.itemsOfFamily('Part');
 
 if (len(A) > 0):
-  names = pytc.names(A);
+  names = pytc.getNames(A);
   attribs = ('sequence',);
   seqs = pytc.getAllTextNamed(A,attribs);
 

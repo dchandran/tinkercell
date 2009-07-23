@@ -10,16 +10,16 @@
  
 ****************************************************************************/
 #include <math.h>
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/ConnectionSelection.h"
-#include "BasicTools/CollisionDetection.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/NodeGraphicsWriter.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ConnectionSelection.h"
+#include "CollisionDetection.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "NodeGraphicsWriter.h"
 
 namespace Tinkercell
 {

@@ -212,7 +212,7 @@ static PyObject * pytc_getFamily(PyObject *self, PyObject *args)
 
 	if (i == 0) return NULL;
 	 
-	const char * s = tc_getFamily((void*)i);
+	const char * s = tc_getName((void*)i);
 	 
 	return Py_BuildValue("s",s);
 }

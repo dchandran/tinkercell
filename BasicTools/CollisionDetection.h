@@ -29,10 +29,10 @@
 #include <QGraphicsWidget>
 #include <QFrame>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "ItemHandle.h"
+#include "Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

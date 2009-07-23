@@ -13,23 +13,23 @@
 #include <QSettings>
 #include <QToolBox>
 #include <QMessageBox>
-#include "Core/GraphicsScene.h"
-#include "Core/NetworkWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/OutputWindow.h"
-#include "BasicTools/ConnectionSelection.h"
-#include "BasicTools/StoichiometryTool.h"
-#include "BasicTools/ModelSummaryTool.h"
-#include "BasicTools/BasicInformationTool.h"
-#include "Core/CThread.h"
-#include "BasicTools/DefaultReactionRates.h"
-#include "muparser/muParserDef.h"
-#include "muparser/muParser.h"
-#include "muparser/muParserInt.h"
+#include "GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "OutputWindow.h"
+#include "ConnectionSelection.h"
+#include "StoichiometryTool.h"
+#include "ModelSummaryTool.h"
+#include "BasicInformationTool.h"
+#include "CThread.h"
+#include "DefaultReactionRates.h"
+#include "muParserDef.h"
+#include "muParser.h"
+#include "muParserInt.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -715,12 +715,12 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
         openedByUser = false;
         NodeGraphicsReader reader;
-        reader.readXml(&graphics1,appDir + tr("/BasicTools/stoichiometry.xml"));
+        reader.readXml(&graphics1,tr(":/BasicTools/stoichiometry.xml"));
         graphics1.setToolTip(tr("Reaction rates"));
         graphics1.normalize();
         graphics1.scale(40.0/graphics1.sceneBoundingRect().width(),40.0/graphics1.sceneBoundingRect().height());
 
-        reader.readXml(&graphics2,appDir + tr("/BasicTools/curve.xml"));
+        reader.readXml(&graphics2,tr(":/BasicTools/curve.xml"));
         graphics2.setToolTip(tr("Reaction stoichiometry"));
         graphics2.normalize();
         graphics2.scale(40.0/graphics2.sceneBoundingRect().width(),40.0/graphics2.sceneBoundingRect().height());

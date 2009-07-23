@@ -20,9 +20,9 @@
 #include <QFile>
 #include <QActionGroup>
 #include <QButtonGroup>
-#include "Core/Tool.h"
-#include "DynamicCodeTools/DynamicLibraryMenu.h"
-#include "DynamicCodeTools/PythonInterpreterThread.h"
+#include "Tool.h"
+#include "DynamicLibraryMenu.h"
+#include "PythonInterpreterThread.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

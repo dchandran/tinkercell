@@ -7,7 +7,7 @@
  Function that loads dll into main window
 
 ****************************************************************************/
-#include "BasicTools/SelectionToolsMain.h"
+#include "SelectionToolsMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {

@@ -21,13 +21,13 @@
 #include <QVBoxLayout>
 #include <QTreeWidget>
 #include <QActionGroup>
-#include "Core/MainWindow.h"
-#include "Core/Tool.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ItemHandle.h"
-#include "NodesTree/NodesTreeReader.h"
-#include "NodesTree/TreeButton.h"
+#include "MainWindow.h"
+#include "Tool.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ItemHandle.h"
+#include "NodesTreeReader.h"
+#include "TreeButton.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

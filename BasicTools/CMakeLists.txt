@@ -5,6 +5,8 @@ QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h )
 #  @ONLY
 #)
 
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
+
 ADD_LIBRARY( AboutBox 
   SHARED
   ${AboutBox_MOC}
@@ -19,6 +21,8 @@ QT4_WRAP_CPP( NodeInsertion_MOC NodeInsertion.h )
 QT4_WRAP_CPP( ConnectionInsertion_MOC ConnectionInsertion.h )
 QT4_WRAP_CPP( CollisionDetection_MOC CollisionDetection.h )
 QT4_WRAP_CPP( InsertionToolsMain_MOC InsertionToolsMain.h )
+
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( InsertionTools
   SHARED
@@ -39,6 +43,8 @@ TARGET_LINK_LIBRARIES( InsertionTools
 
 QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h )
 
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
+
 ADD_LIBRARY( LoadSaveTool 
   SHARED
   ${LoadSaveTool_MOC}
@@ -52,6 +58,8 @@ TARGET_LINK_LIBRARIES( LoadSaveTool
 
 QT4_WRAP_CPP( DnaGraphicsItem_MOC DnaGraphicsItem.h )
 QT4_WRAP_CPP( ConnectionMaker_MOC ConnectionMaker.h )
+
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( ConnectionMaker
   SHARED
@@ -69,6 +77,8 @@ TARGET_LINK_LIBRARIES( ConnectionMaker
 QT4_WRAP_CPP( ConnectionSelection_MOC ConnectionSelection.h )
 QT4_WRAP_CPP( NodeSelection_MOC NodeSelection.h )
 QT4_WRAP_CPP( SelectionToolsMain_MOC SelectionToolsMain.h )
+
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( SelectionTools 
   SHARED
@@ -92,6 +102,8 @@ QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h )
 QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h )
 QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h )
 QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h )
+
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( VisualTools 
   SHARED
@@ -120,6 +132,8 @@ QT4_WRAP_CPP( TextEditorListener_MOC TextEditorListener.h )
 QT4_WRAP_CPP( TextEditorParser_MOC TextEditorParser.h )
 QT4_WRAP_CPP( texteditorsyntaxhighlighter_MOC texteditorsyntaxhighlighter.h )
 
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
+
 ADD_LIBRARY( TextEditorListener 
   SHARED 
   ${TextEditorListener_MOC} 
@@ -146,6 +160,8 @@ TARGET_LINK_LIBRARIES( TextEditorListener
 QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
  QT4_WRAP_CPP( DataToolsMain_MOC DataToolsMain.h )
 
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
+
 ADD_LIBRARY( DataBasicTools
   SHARED
   ${SpinBoxDelegate_MOC}
@@ -158,7 +174,6 @@ ADD_LIBRARY( DataBasicTools
   ${ModelFileGenerator_MOC}
   ${DataToolsMain_MOC}
   SpinBoxDelegate.cpp
-#  DefaultReactionRates.cpp
   BasicInformationTool.cpp
   NameFamilyDialog.cpp
   StoichiometryTool.cpp

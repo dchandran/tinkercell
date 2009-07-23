@@ -10,7 +10,7 @@
 #include <QRegExp>
 #include <QFile>
 #include <QColor>
-#include "NodesTree/NodesTreeReader.h"
+#include "NodesTreeReader.h"
 namespace Tinkercell
 {
 

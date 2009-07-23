@@ -36,7 +36,6 @@ IF( APPLE AND BUILD_BUNDLE )
   TARGET_LINK_LIBRARIES( NodeGraphics
     TinkerCellCore
     ${QT_LIBRARIES}
-    muparser
   )
  
   ADD_CUSTOM_COMMAND( TARGET NodeGraphics POST_BUILD
@@ -69,7 +68,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
     TARGET_LINK_LIBRARIES( NodeGraphics
       TinkerCellCore
       ${QT_LIBRARIES}
-      muparser
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
@@ -83,7 +81,6 @@ ELSE( APPLE AND BUILD_BUNDLE )
       TARGET_LINK_LIBRARIES( NodeGraphics
         TinkerCellCore
         ${QT_LIBRARIES}
-        muparser
       )
   
     ENDIF( WIN32 )

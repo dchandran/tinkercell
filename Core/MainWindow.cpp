@@ -924,7 +924,7 @@ namespace Tinkercell
                 }
             }
         }
-        //qDebug() << "done deleting";
+        emit windowClosed();
     }
 
     void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -1287,18 +1287,34 @@ namespace Tinkercell
         else
         {
             QString s = name;
-            s.replace(tr("_"),tr("."));
+            
             if (win->symbolsTable.handlesFullName.contains(s))
                 (*returnPtr) = win->symbolsTable.handlesFullName[s];
             else
             {
-                if (win->symbolsTable.handlesFirstName.contains(name))
-                    (*returnPtr) = win->symbolsTable.handlesFirstName[name];
+                if (win->symbolsTable.handlesFirstName.contains(s))
+                    (*returnPtr) = win->symbolsTable.handlesFirstName[s];
                 else
-                    if (win->symbolsTable.dataRowsAndCols.contains(name))
-                        (*returnPtr) = win->symbolsTable.dataRowsAndCols[name].first;
+                    if (win->symbolsTable.dataRowsAndCols.contains(s))
+                        (*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
             }
+			
+			if ((*returnPtr) == 0)
+			{
+				s.replace(tr("_"),tr("."));
+				if (win->symbolsTable.handlesFullName.contains(s))
+					(*returnPtr) = win->symbolsTable.handlesFullName[s];
+				else
+				{
+					if (win->symbolsTable.handlesFirstName.contains(s))
+						(*returnPtr) = win->symbolsTable.handlesFirstName[s];
+					else
+						if (win->symbolsTable.dataRowsAndCols.contains(s))
+							(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
+				}
+			}
         }
+		
         if (s)
             s->release();
     }

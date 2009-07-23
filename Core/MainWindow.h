@@ -759,7 +759,11 @@ namespace Tinkercell
         */
         void dragAndDropFiles(const QList<QFileInfo>& files);
     signals:
-
+	
+		/*!
+        * \brief main window has been closed
+        */
+        void windowClosed();
         /*!
         * \brief a new tool is about to be added. This signal can be used to prevent the tool from being added
         * \param Tool the tool itself

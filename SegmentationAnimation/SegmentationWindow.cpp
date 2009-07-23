@@ -10,7 +10,7 @@
 #include <QtDebug>
 #include <QSpinBox>
 #include <QDir>
-#include "SegmentationAnimation/SegmentationWindow.h"
+#include "SegmentationWindow.h"
 
 SegmentationAnimation::MainWindow::MainWindow()
 {

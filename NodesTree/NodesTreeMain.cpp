@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "NodesTree/NodesTreeMain.h"
+#include "NodesTreeMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

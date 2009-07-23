@@ -9,12 +9,12 @@
 
 #include <math.h>
 #include <QGroupBox>
-#include "qwt/qwt_scale_engine.h"
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/OutputWindow.h"
-#include "PlotTools/PlotTool.h"
-#include "PlotTools/PlotWidget.h"
+#include "qwt_scale_engine.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "OutputWindow.h"
+#include "PlotTool.h"
+#include "PlotWidget.h"
 
 namespace Tinkercell
 {

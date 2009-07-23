@@ -31,10 +31,10 @@
 #include <QFrame>
 #include <QUndoCommand>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "BasicTools/CollisionDetection.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "ItemHandle.h"
+#include "CollisionDetection.h"
 #include "Tool.h"
 
 namespace Tinkercell

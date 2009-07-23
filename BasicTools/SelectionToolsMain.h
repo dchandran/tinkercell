@@ -8,9 +8,9 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "BasicTools/ConnectionSelection.h"
-#include "BasicTools/NodeSelection.h"
+#include "MainWindow.h"
+#include "ConnectionSelection.h"
+#include "NodeSelection.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

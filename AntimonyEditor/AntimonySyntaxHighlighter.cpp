@@ -1,4 +1,4 @@
-#include "AntimonyTool/AntimonySyntaxHighlighter.h"
+#include "AntimonySyntaxHighlighter.h"
 namespace Tinkercell
 {
 	 /********************************

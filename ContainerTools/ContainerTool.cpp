@@ -9,14 +9,14 @@
 
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/OutputWindow.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/CollisionDetection.h"
-#include "ContainerTools/ContainerTool.h"
+#include "GraphicsScene.h"
+#include "OutputWindow.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "CollisionDetection.h"
+#include "ContainerTool.h"
 #include <QtDebug>
 
 namespace Tinkercell

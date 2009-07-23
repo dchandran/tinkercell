@@ -8,8 +8,8 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "PlotTools/PlotTool.h"
+#include "MainWindow.h"
+#include "PlotTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

@@ -8,14 +8,14 @@
 
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/CollisionDetection.h"
-#include "BasicTools/NodeSelection.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "CollisionDetection.h"
+#include "NodeSelection.h"
 
 namespace Tinkercell
 {

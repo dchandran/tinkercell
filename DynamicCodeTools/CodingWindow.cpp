@@ -7,14 +7,14 @@
  
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/OutputWindow.h"
-#include "DynamicCodeTools/CodingWindow.h"
-#include "DynamicCodeTools/PythonTool.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "OutputWindow.h"
+#include "CodingWindow.h"
+#include "PythonTool.h"
 #include <QRegExp>
 #include <QVBoxLayout>
 #include <QDockWidget>

@@ -1,4 +1,4 @@
-#include "Core/OutputWindow.h"
+#include "OutputWindow.h"
 #include "TinkerCellAboutBox.h"
 #include <QPixmap>
 #include <QBrush>

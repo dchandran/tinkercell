@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
 
 
     MainWindow mainWindow;
+	connect(&mainWindow,SIGNAL(windowClosed()),&app,SLOT(closeAllWindows()));
+	
 	mainWindow.setWindowTitle(QObject::tr("Tinkercell: design tool for biochemical networks"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 

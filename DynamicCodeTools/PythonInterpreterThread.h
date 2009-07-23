@@ -16,8 +16,8 @@
 #include <QThread>
 #include <QDir>
 #include <QFile>
-#include "Core/Tool.h"
-#include "Core/CThread.h"
+#include "Tool.h"
+#include "CThread.h"
 
 namespace Tinkercell
 {

@@ -10,7 +10,7 @@
  
 #include "TC_api.h"
 
-void run(Matrix);
+void run();
 void setup();
 
 void tc_main()
@@ -35,8 +35,8 @@ void setup()
    m.values = values;
    
    tc_createInputWindow(m,"ODE simulation (CVODE)",&run);
-   tc_addInputWindowOptions("ODE Simulation",0, 0,  options1);
-   tc_addInputWindowOptions("ODE Simulation",3, 0,  options2);
+   tc_addInputWindowOptions("ODE Simulation (CVODE)",0, 0,  options1);
+   tc_addInputWindowOptions("ODE Simulation (CVODE)",3, 0,  options2);
    
    return; 
 }

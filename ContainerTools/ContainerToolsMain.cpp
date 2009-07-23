@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "ContainerTools/ContainerToolsMain.h"
+#include "ContainerToolsMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

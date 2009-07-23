@@ -7,11 +7,11 @@
  This tool allows the loading and saving of models.
 
 ****************************************************************************/
-#include "NodesTree/NodesTree.h"
-#include "NodesTree/ConnectionsTree.h"
-#include "BasicTools/LoadSaveTool.h"
-#include "Core/CThread.h"
-#include "Core/OutputWindow.h"
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
+#include "LoadSaveTool.h"
+#include "CThread.h"
+#include "OutputWindow.h"
 #include <QtDebug>
 #include <QRegExp>
 #include <QMessageBox>

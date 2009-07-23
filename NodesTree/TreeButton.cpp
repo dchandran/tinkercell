@@ -7,11 +7,11 @@
 
 ****************************************************************************/
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-//#include "NodesTree/NodesTree.h"
-#include "NodesTree/TreeButton.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+//#include "NodesTree.h"
+#include "TreeButton.h"
 
 
 namespace Tinkercell

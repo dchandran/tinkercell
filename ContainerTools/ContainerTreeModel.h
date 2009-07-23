@@ -17,9 +17,9 @@
 #include <QList>
 #include <QVariant>
 
-#include "Core/NetworkWindow.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
+#include "NetworkWindow.h"
+#include "ItemHandle.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {

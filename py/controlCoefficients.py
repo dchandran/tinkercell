@@ -26,7 +26,7 @@ mod.showCC();
 
 if len(selected) == 1:   #if selected items
    s = selected[0];
-   name = pytc.name(s);
+   name = pytc.getName(s);
    inN = False;
    for i in N[0]:
       if i == name:
@@ -39,7 +39,7 @@ if len(selected) == 1:   #if selected items
            break;
    if inN:
      fluxes = pytc.itemsOfFamily('connection');  #get flux names
-     fluxNames = pytc.names( fluxes );
+     fluxNames = pytc.getNames( fluxes );
      n = min(len(fluxes),len(fluxNames)); #both should be the same, but just in case
      s = selected[0];
      prefix = '';

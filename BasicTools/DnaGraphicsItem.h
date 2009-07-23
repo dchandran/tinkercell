@@ -22,7 +22,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
 #include <QList>
-#include "Core/ConnectionGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

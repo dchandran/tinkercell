@@ -13,14 +13,14 @@
 #include <QRegExp>
 #include <QDir>
 #include <QFile>
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/OutputWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "Core/OutputWindow.h"
-#include "DynamicCodeTools/DynamicLibraryMenu.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "OutputWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "OutputWindow.h"
+#include "DynamicLibraryMenu.h"
 #include <QtDebug>
 
 namespace Tinkercell

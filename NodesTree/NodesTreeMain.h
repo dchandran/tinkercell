@@ -7,9 +7,9 @@
  Function that loads dll into main window
 
 ****************************************************************************/
-#include "Core/MainWindow.h"
-#include "NodesTree/NodesTree.h"
-#include "NodesTree/ConnectionsTree.h"
+#include "MainWindow.h"
+#include "NodesTree.h"
+#include "ConnectionsTree.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

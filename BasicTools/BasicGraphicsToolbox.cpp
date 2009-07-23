@@ -10,16 +10,16 @@
  
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/TextEditor.h"
-#include "Core/NetworkWindow.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/BasicGraphicsToolbox.h"
-#include "BasicTools/GraphicsTransformTool.h"
+#include "GraphicsScene.h"
+#include "TextEditor.h"
+#include "NetworkWindow.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "BasicGraphicsToolbox.h"
+#include "GraphicsTransformTool.h"
 
 namespace Tinkercell
 {
@@ -408,39 +408,56 @@ namespace Tinkercell
 	{
 		GraphicsScene * scene = currentScene();
 		QGraphicsItem* item;
-		for (int i=0; i < handle->graphicsItems.size(); ++i)
-		{
-			item = handle->graphicsItems[i];
-			if (item && scene)
+		if (handle && scene)
+			for (int i=0; i < handle->graphicsItems.size(); ++i)
 			{
-				QList<QGraphicsItem*> items;
-				QList<QBrush> brushes;
-				QList<QPen> pens;
-				QColor color(r,g,b);
-				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
-				if (node != 0)
+				item = handle->graphicsItems[i];
+				if (item && scene)
 				{
-					for (int j=0; j < node->shapes.size(); ++j)
+					QList<QGraphicsItem*> items;
+					QList<QBrush> brushes;
+					QList<QPen> pens;
+					QColor color(r,g,b);
+					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
+					if (node != 0)
 					{
-						NodeGraphicsItem::Shape * aitem = node->shapes[j];
-				
-						if (aitem != 0)
+						for (int j=0; j < node->shapes.size(); ++j)
 						{
-							QBrush brush = aitem->defaultBrush;
-							if (brush.gradient() != 0)
+							NodeGraphicsItem::Shape * aitem = node->shapes[j];
+					
+							if (aitem != 0)
 							{
-								QGradient gradient(*brush.gradient() );
-								QGradientStops stops = gradient.stops();
-								if (stops.size() > 0)
+								QBrush brush = aitem->defaultBrush;
+								if (brush.gradient() != 0)
 								{
-									color.setAlpha(stops[ stops.size() - 1 ].second.alpha());
-									stops[ stops.size() - 1 ].second = color;
-									gradient.setStops(stops);
-									QBrush newBrush(gradient);
+									QGradient gradient(*brush.gradient() );
+									QGradientStops stops = gradient.stops();
+									if (stops.size() > 0)
+									{
+										color.setAlpha(stops[ stops.size() - 1 ].second.alpha());
+										stops[ stops.size() - 1 ].second = color;
+										gradient.setStops(stops);
+										QBrush newBrush(gradient);
+										if (permanent)
+										{
+											brushes += newBrush;
+											items += aitem;
+										}
+										else
+										{
+											aitem->setBrush(newBrush);
+											temporarilyChangedItems << aitem;
+										}
+									}
+								}
+								else
+								{
+									color.setAlpha(brush.color().alpha());
+									QBrush newBrush(color);
 									if (permanent)
 									{
-										brushes += newBrush;
 										items += aitem;
+										brushes += newBrush;
 									}
 									else
 									{
@@ -448,62 +465,46 @@ namespace Tinkercell
 										temporarilyChangedItems << aitem;
 									}
 								}
-							}
-							else
-							{
-								color.setAlpha(brush.color().alpha());
-								QBrush newBrush(color);
+								QPen newPen(aitem->defaultPen);
+								newPen.setColor(color);
 								if (permanent)
 								{
-									items += aitem;
-									brushes += newBrush;
+									pens += newPen;
 								}
 								else
 								{
-									aitem->setBrush(newBrush);
+									aitem->setPen(newPen);
 									temporarilyChangedItems << aitem;
 								}
 							}
-							QPen newPen(aitem->defaultPen);
-							newPen.setColor(color);
+						}
+					}
+					else
+					{
+						ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item);
+						if (connection != 0)
+						{
+							QPen newPen(color,connection->defaultPen.widthF());
+							color.setAlpha(connection->defaultBrush.color().alpha());
+							//QBrush newBrush(color);
 							if (permanent)
 							{
 								pens += newPen;
+								brushes += connection->brush();
+								items += connection;
 							}
 							else
 							{
-								aitem->setPen(newPen);
-								temporarilyChangedItems << aitem;
+								connection->setPen(newPen);
+								//connection->setBrush(newBrush);
+								temporarilyChangedItems << connection;
 							}
 						}
 					}
+					if (permanent)
+						scene->setBrushAndPen(tr("colors changed"),items,brushes,pens);
 				}
-				else
-				{
-					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item);
-					if (connection != 0)
-					{
-						QPen newPen(color,connection->defaultPen.widthF());
-						color.setAlpha(connection->defaultBrush.color().alpha());
-						//QBrush newBrush(color);
-						if (permanent)
-						{
-							pens += newPen;
-							brushes += connection->brush();
-							items += connection;
-						}
-						else
-						{
-							connection->setPen(newPen);
-							//connection->setBrush(newBrush);
-							temporarilyChangedItems << connection;
-						}
-					}
-				}
-				if (permanent)
-					scene->setBrushAndPen(tr("colors changed"),items,brushes,pens);
 			}
-		}
 		if (s)
 			s->release();
 	}

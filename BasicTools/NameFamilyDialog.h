@@ -17,10 +17,10 @@
 #include <QIcon>
 #include <QDialog>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "NodesTree/NodesTree.h"
+#include "NodeGraphicsItem.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "NodesTree.h"
 
 namespace Tinkercell
 {

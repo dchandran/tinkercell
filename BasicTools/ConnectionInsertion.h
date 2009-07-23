@@ -30,12 +30,12 @@
 #include <QHash>
 #include <QList>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "NodesTree/ConnectionsTree.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "ConnectionsTree.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "NodesTree/NodesTree.h"
+#include "NodesTree.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

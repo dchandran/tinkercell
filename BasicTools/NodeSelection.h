@@ -34,11 +34,11 @@
 #include <QToolBar>
 #include <QFrame>
 
-#include "Core/GraphicsScene.h"
-#include "Core/NetworkWindow.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/Tool.h"
+#include "GraphicsScene.h"
+#include "NetworkWindow.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {

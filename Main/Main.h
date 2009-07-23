@@ -21,10 +21,10 @@
 #include <QSettings>
 #include <QtDebug>
 
-#include "Core/MainWindow.h"
-#include "Core/ItemHandle.h"
-#include "Core/DataTable.h"
-#include "Core/Tool.h"
+#include "MainWindow.h"
+#include "ItemHandle.h"
+#include "DataTable.h"
+#include "Tool.h"
 
 namespace Tinkercell
 {

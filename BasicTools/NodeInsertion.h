@@ -29,13 +29,13 @@
 #include <QGraphicsWidget>
 #include <QFrame>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/NodeGraphicsWriter.h"
-#include "NodesTree/NodesTree.h"
-#include "Core/ItemHandle.h"
-#include "NodesTree/ConnectionsTree.h"
-#include "Core/Tool.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "NodeGraphicsWriter.h"
+#include "NodesTree.h"
+#include "ItemHandle.h"
+#include "ConnectionsTree.h"
+#include "Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

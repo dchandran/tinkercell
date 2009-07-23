@@ -10,13 +10,13 @@
 ****************************************************************************/
 
 #include <QKeyEvent>
-#include "Core/MainWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/TextGraphicsTool.h"
+#include "MainWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "ConnectionGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "TextGraphicsTool.h"
 
 namespace Tinkercell
 {

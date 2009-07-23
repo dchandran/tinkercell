@@ -8,11 +8,11 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "BasicTools/CollisionDetection.h"
-#include "BasicTools/ConnectionInsertion.h"
-#include "BasicTools/ConnectionMaker.h"
-#include "BasicTools/NodeInsertion.h"
+#include "MainWindow.h"
+#include "CollisionDetection.h"
+#include "ConnectionInsertion.h"
+#include "ConnectionMaker.h"
+#include "NodeInsertion.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

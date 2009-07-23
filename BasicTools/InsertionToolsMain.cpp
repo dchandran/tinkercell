@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "BasicTools/InsertionToolsMain.h"
+#include "InsertionToolsMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

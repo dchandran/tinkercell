@@ -30,11 +30,11 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 
-#include "Core/UndoCommands.h"
-#include "Core/GraphicsScene.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "ContainerTools/ContainerTreeModel.h"
+#include "UndoCommands.h"
+#include "GraphicsScene.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "ContainerTreeModel.h"
 
 namespace Tinkercell
 {

@@ -20,10 +20,10 @@
 #include <QVBoxLayout>
 #include <QTreeWidget>
 #include <QActionGroup>
-#include "Core/Tool.h"
-#include "Core/ItemFamily.h"
-#include "Core/ItemHandle.h"
-#include "NodesTree/NodesTree.h"
+#include "Tool.h"
+#include "ItemFamily.h"
+#include "ItemHandle.h"
+#include "NodesTree.h"
 
 namespace Tinkercell
 {

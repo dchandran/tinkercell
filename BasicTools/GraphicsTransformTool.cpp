@@ -11,12 +11,12 @@
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "BasicTools/GraphicsTransformTool.h"
-#include "BasicTools/ConnectionSelection.h"
-#include "BasicTools/GraphicsReplaceTool.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "GraphicsTransformTool.h"
+#include "ConnectionSelection.h"
+#include "GraphicsReplaceTool.h"
 
 
 namespace Tinkercell
@@ -126,7 +126,7 @@ namespace Tinkercell
 	{
                 QString appDir = QCoreApplication::applicationDirPath();
                 NodeGraphicsReader reader;
-                reader.readXml(&eye,appDir + tr("/BasicTools/eye.xml"));
+                reader.readXml(&eye,tr(":/BasicTools/eye.xml"));
                 eye.normalize();
                 eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
                 eye.setToolTip(tr("Appearance"));

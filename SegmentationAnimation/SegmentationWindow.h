@@ -22,7 +22,7 @@
 #include <QSlider>
 #include <QGraphicsRectItem>
 #include <QGraphicsPathItem>
-#include "Core/DataTable.h"
+#include "DataTable.h"
 
 namespace SegmentationAnimation
 {

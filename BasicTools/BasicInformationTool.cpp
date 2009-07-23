@@ -16,18 +16,18 @@
 
 #include <QSettings>
 #include <QMessageBox>
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/OutputWindow.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/ModelSummaryTool.h"
-#include "BasicTools/BasicInformationTool.h"
-#include "BasicTools/StoichiometryTool.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "OutputWindow.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ModelSummaryTool.h"
+#include "BasicInformationTool.h"
+#include "StoichiometryTool.h"
 
 namespace Tinkercell
 {
@@ -478,7 +478,7 @@ namespace Tinkercell
 
         if (type == BasicInformationTool::both)
         {
-            reader.readXml(&item,appDir + tr("/BasicTools/textsheet.xml"));
+            reader.readXml(&item,tr(":/BasicTools/textsheet.xml"));
             item.setToolTip(tr("Attributes"));
             graphicsItems[0]->setToolTip(tr("Attributes"));
             //toolButton->setToolTip(tr("Attributes"));
@@ -487,7 +487,7 @@ namespace Tinkercell
         else
         if (type == BasicInformationTool::numerical)
         {
-            reader.readXml(&item,appDir + tr("/BasicTools/datasheet.xml"));
+            reader.readXml(&item,tr(":/BasicTools/datasheet.xml"));
             item.setToolTip(tr("Numerical attributes"));
             graphicsItems[0]->setToolTip(tr("Numerical attributes"));
             //toolButton->setToolTip(tr("Numerical Attributes"));
@@ -495,7 +495,7 @@ namespace Tinkercell
         }
         else
         {
-            reader.readXml(&item,appDir + tr("/BasicTools/textsheet.xml"));
+            reader.readXml(&item,tr(":/BasicTools/textsheet.xml"));
             item.setToolTip(tr("Text attributes"));
             graphicsItems[0]->setToolTip(tr("Text attributes"));
             //toolButton->setToolTip(tr("Text Attributes"));

@@ -13,11 +13,11 @@
 #ifndef TINKERCELL_DEFAULTREACTIONRATESTOOL_H
 #define TINKERCELL_DEFAULTREACTIONRATESTOOL_H
 
-#include "Core/MainWindow.h"
-#include "Core/DataTable.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/OutputWindow.h"
+#include "MainWindow.h"
+#include "DataTable.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "OutputWindow.h"
 
 
 namespace Tinkercell
@@ -33,7 +33,7 @@ namespace Tinkercell
 			
 			bool isElongation = (handle->isA(QString("Elongation")) && 
                                                                         nodes.size() > 0 && (nodes[0]));
-                        bool isRegulatory = (isElongation && nodes.size() > 0 && (nodes[0])->isA(QString("Regulator")));
+            bool isRegulatory = (isElongation && nodes.size() > 0 && (nodes[0])->isA(QString("Regulator")));
 			bool isTermination = (handle->family() && handle->family()->isA(QString("Elongation")) && 
                                                                         nodes.size() > 1 && (nodes[1]) && (nodes[1])->isA(QString("Terminator")));
 			bool isTranscription = (handle->isA(QString("Transcription")));
@@ -43,7 +43,7 @@ namespace Tinkercell
 			DataTable<qreal> stoichiometryMatrix;
 			DataTable<QString> rates;
 
-                        if (handle->hasNumericalData(QString("Numerical Attributes")))
+            if (handle->hasNumericalData(QString("Numerical Attributes")))
 			{
 				if (isBinding)
 				{
@@ -68,18 +68,18 @@ namespace Tinkercell
 					rates.value(1,0) = QString("0.5");
 			}
 
-                        nodes.clear();
+            nodes.clear();
 			QList<NodeHandle*> connectedNodes = handle->nodes();
-                        QList<NodeHandle*> nodesIn = handle->nodesIn();
-                        NodeHandle * node;
-                        QStringList names;
-                        QList<qreal> stoichiometry;
+			QList<NodeHandle*> nodesIn = handle->nodesIn();
+			NodeHandle * node;
+			QStringList names;
+			QList<qreal> stoichiometry;
 
 
 			for (int i=0; i < connectedNodes.size(); ++i)
 			{
 				node = connectedNodes[i];
-				if (node && !(node->isA(QString("Empty"))) && node->isA(QString("Species")))
+				if (node && !(node->isA(QString("Empty"))) && node->isA(QString("Node")))
 				{
 					if (nodesIn.contains(node))
 					{

@@ -8,13 +8,13 @@
 
 ****************************************************************************/
 
-#include "Core/MainWindow.h"
-#include "BasicTools/BasicGraphicsToolbox.h"
-#include "BasicTools/CollisionDetection.h"
-#include "BasicTools/GraphicsReplaceTool.h"
-#include "BasicTools/GraphicsTransformTool.h"
-#include "BasicTools/GroupHandlerTool.h"
-#include "BasicTools/TextGraphicsTool.h"
+#include "MainWindow.h"
+#include "BasicGraphicsToolbox.h"
+#include "CollisionDetection.h"
+#include "GraphicsReplaceTool.h"
+#include "GraphicsTransformTool.h"
+#include "GroupHandlerTool.h"
+#include "TextGraphicsTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

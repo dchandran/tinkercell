@@ -9,9 +9,9 @@
 
 ****************************************************************************/
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "BasicTools/DnaGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "DnaGraphicsItem.h"
 
 namespace Tinkercell
 {

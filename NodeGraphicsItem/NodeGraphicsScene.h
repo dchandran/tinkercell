@@ -16,7 +16,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <math.h>
-#include "Core/NodeGraphicsItem.h"
+#include "NodeGraphicsItem.h"
 
 namespace NodeImageDesigner
 {

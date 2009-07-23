@@ -10,17 +10,17 @@
 
 ****************************************************************************/
 
-#include "Core/NetworkWindow.h"
-#include "Core/GraphicsScene.h"
-#include "Core/CThread.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/GroupHandlerTool.h"
-#include "BasicTools/CollisionDetection.h"
-#include "Core/OutputWindow.h"
+#include "NetworkWindow.h"
+#include "GraphicsScene.h"
+#include "CThread.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "GroupHandlerTool.h"
+#include "CollisionDetection.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {

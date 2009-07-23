@@ -25,7 +25,7 @@
 #include <QSemaphore>
 
 //Antimony headers
-#include "include/antimony_api.h"
+#include "antimony_api.h"
 
 namespace Tinkercell
 {	

@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "DynamicCodeTools/DynamicCodeMain.h"
+#include "DynamicCodeMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {

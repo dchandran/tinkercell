@@ -10,7 +10,7 @@
  
 #include "TC_api.h"
 
-void run(Matrix);
+void run();
 void setup();
 
 void tc_main()

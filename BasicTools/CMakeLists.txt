@@ -186,4 +186,5 @@ ADD_LIBRARY( DataBasicTools
 TARGET_LINK_LIBRARIES( DataBasicTools
   DataBasicTools
   TinkerCellCore
+  muparser
 )

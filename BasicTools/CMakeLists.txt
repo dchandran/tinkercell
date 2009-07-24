@@ -10,7 +10,9 @@ QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 ADD_LIBRARY( AboutBox 
   SHARED
   ${AboutBox_MOC}
-  TinkerCellAboutBox.cpp )
+  TinkerCellAboutBox.cpp 
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
 
 TARGET_LINK_LIBRARIES( AboutBox
   AboutBox
@@ -22,8 +24,6 @@ QT4_WRAP_CPP( ConnectionInsertion_MOC ConnectionInsertion.h )
 QT4_WRAP_CPP( CollisionDetection_MOC CollisionDetection.h )
 QT4_WRAP_CPP( InsertionToolsMain_MOC InsertionToolsMain.h )
 
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
-
 ADD_LIBRARY( InsertionTools
   SHARED
   ${NodeInsertion_MOC}
@@ -34,22 +34,23 @@ ADD_LIBRARY( InsertionTools
   ConnectionInsertion.cpp
   CollisionDetection.cpp
   InsertionToolsMain.cpp
-  )
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
 
 TARGET_LINK_LIBRARIES( InsertionTools
   InsertionTools
   TinkerCellCore
+  ${TINKERCELL_BASICTOOLS_QRC}
 )
 
 QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h )
-
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( LoadSaveTool 
   SHARED
   ${LoadSaveTool_MOC}
   LoadSaveTool.cpp 
-  )
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
 
 TARGET_LINK_LIBRARIES( LoadSaveTool
   LoadSaveTool
@@ -59,15 +60,14 @@ TARGET_LINK_LIBRARIES( LoadSaveTool
 QT4_WRAP_CPP( DnaGraphicsItem_MOC DnaGraphicsItem.h )
 QT4_WRAP_CPP( ConnectionMaker_MOC ConnectionMaker.h )
 
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
-
 ADD_LIBRARY( ConnectionMaker
   SHARED
   ${ConnectionMaker_MOC}
   ${DnaGraphicsItem_MOC}
   ConnectionMaker.cpp
   DnaGraphicsItem.cpp
-  )
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
 
 TARGET_LINK_LIBRARIES( ConnectionMaker
   ConnectionMaker
@@ -78,8 +78,6 @@ QT4_WRAP_CPP( ConnectionSelection_MOC ConnectionSelection.h )
 QT4_WRAP_CPP( NodeSelection_MOC NodeSelection.h )
 QT4_WRAP_CPP( SelectionToolsMain_MOC SelectionToolsMain.h )
 
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
-
 ADD_LIBRARY( SelectionTools 
   SHARED
   ${ConnectionSelection_MOC}
@@ -88,7 +86,8 @@ ADD_LIBRARY( SelectionTools
   NodeSelection.cpp
   ${SelectionToolsMain_MOC}
   SelectionToolsMain.cpp
-  )
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
 
 TARGET_LINK_LIBRARIES( SelectionTools
   SelectionTools
@@ -102,8 +101,6 @@ QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h )
 QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h )
 QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h )
 QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h )
-
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( VisualTools 
   SHARED
@@ -121,33 +118,12 @@ ADD_LIBRARY( VisualTools
   GroupHandlerTool.cpp
   ${VisualToolsMain_MOC}
   VisualToolsMain.cpp
+  ${TINKERCELL_BASICTOOLS_QRC}
 )
 
 TARGET_LINK_LIBRARIES( VisualTools
   VisualTools
   TinkerCellCore 
-)
-
-QT4_WRAP_CPP( TextEditorListener_MOC TextEditorListener.h )
-QT4_WRAP_CPP( TextEditorParser_MOC TextEditorParser.h )
-QT4_WRAP_CPP( texteditorsyntaxhighlighter_MOC texteditorsyntaxhighlighter.h )
-
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
-
-ADD_LIBRARY( TextEditorListener 
-  SHARED 
-  ${TextEditorListener_MOC} 
-  ${texteditorsyntaxhighlighter_MOC} 
-  ${TextEditorParser_MOC}
-  TextEditorParser.cpp
-  TextEditorListener.cpp
-  texteditorsyntaxhighlighter.cpp
-  )
-
-TARGET_LINK_LIBRARIES( TextEditorListener
-  TextEditorListener
-  TinkerCellCore
-  NodesTree
 )
 
  QT4_WRAP_CPP( SpinBoxDelegate_MOC SpinBoxDelegate.h )
@@ -157,10 +133,8 @@ TARGET_LINK_LIBRARIES( TextEditorListener
  QT4_WRAP_CPP( StoichiometryTool_MOC StoichiometryTool.h )
  QT4_WRAP_CPP( FunctionDeclarationsTool_MOC FunctionDeclarationsTool.h )
  QT4_WRAP_CPP( ModelSummaryTool_MOC ModelSummaryTool.h )
-QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
+ QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
  QT4_WRAP_CPP( DataToolsMain_MOC DataToolsMain.h )
-
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
 
 ADD_LIBRARY( DataBasicTools
   SHARED
@@ -181,6 +155,7 @@ ADD_LIBRARY( DataBasicTools
   ModelSummaryTool.cpp
   ModelFileGenerator.cpp
   DataToolsMain.cpp
+  ${TINKERCELL_BASICTOOLS_QRC}
 )
 
 TARGET_LINK_LIBRARIES( DataBasicTools

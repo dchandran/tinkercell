@@ -40,7 +40,6 @@ ADD_LIBRARY( InsertionTools
 TARGET_LINK_LIBRARIES( InsertionTools
   InsertionTools
   TinkerCellCore
-  ${TINKERCELL_BASICTOOLS_QRC}
 )
 
 QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h )

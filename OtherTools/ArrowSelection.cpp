@@ -10,15 +10,15 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QFileInfoList>
-#include "Core/GraphicsScene.h"
-#include "Core/UndoCommands.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "OtherTools/ArrowSelection.h"
-#include "BasicTools/GraphicsTransformTool.h"
-#include "BasicTools/GraphicsReplaceTool.h"
+#include "GraphicsScene.h"
+#include "UndoCommands.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "ArrowSelection.h"
+#include "GraphicsTransformTool.h"
+#include "GraphicsReplaceTool.h"
 
 namespace Tinkercell
 {

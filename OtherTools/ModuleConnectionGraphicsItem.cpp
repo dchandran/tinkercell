@@ -8,8 +8,8 @@
 
 ****************************************************************************/
 
-#include "Core/OutputWindow.h"
-#include "OtherTools/ModuleConnectionGraphicsItem.h"
+#include "OutputWindow.h"
+#include "ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {

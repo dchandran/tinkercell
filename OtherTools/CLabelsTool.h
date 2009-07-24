@@ -17,13 +17,13 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
 
-#include "Core/GraphicsScene.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/MainWindow.h"
-#include "Core/NetworkWindow.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
+#include "GraphicsScene.h"
+#include "NodeGraphicsItem.h"
+#include "ConnectionGraphicsItem.h"
+#include "MainWindow.h"
+#include "NetworkWindow.h"
+#include "ItemHandle.h"
+#include "Tool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

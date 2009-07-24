@@ -22,12 +22,12 @@
 #include <QFile>
 #include <QListWidget>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/NodeGraphicsWriter.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "BasicTools/GraphicsTransformTool.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "NodeGraphicsWriter.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "GraphicsTransformTool.h"
 
 namespace Tinkercell
 {

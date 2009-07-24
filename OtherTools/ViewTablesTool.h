@@ -27,11 +27,11 @@
 #include <QListView>
 #include <QTextEdit>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/DataTable.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "Core/MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "DataTable.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "MainWindow.h"
 
 namespace Tinkercell
 {

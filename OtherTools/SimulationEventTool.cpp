@@ -14,14 +14,14 @@
 
 ****************************************************************************/
 
-#include "Core/GraphicsScene.h"
-#include "Core/MainWindow.h"
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/ConnectionGraphicsItem.h"
-#include "Core/TextGraphicsItem.h"
-#include "BasicTools/StoichiometryTool.h"
-#include "OtherTools/SimulationEventTool.h"
+#include "GraphicsScene.h"
+#include "MainWindow.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "ConnectionGraphicsItem.h"
+#include "TextGraphicsItem.h"
+#include "StoichiometryTool.h"
+#include "SimulationEventTool.h"
 #include <QGroupBox>
 
 namespace Tinkercell

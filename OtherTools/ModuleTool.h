@@ -33,13 +33,13 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 
-#include "Core/NodeGraphicsItem.h"
-#include "Core/NodeGraphicsReader.h"
-#include "Core/NodeGraphicsWriter.h"
-#include "NodesTree/NodesTree.h"
-#include "Core/ItemHandle.h"
-#include "Core/Tool.h"
-#include "OtherTools/ModuleConnectionGraphicsItem.h"
+#include "NodeGraphicsItem.h"
+#include "NodeGraphicsReader.h"
+#include "NodeGraphicsWriter.h"
+#include "NodesTree.h"
+#include "ItemHandle.h"
+#include "Tool.h"
+#include "ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell
 {

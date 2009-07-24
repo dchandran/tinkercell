@@ -8,6 +8,7 @@
  ****************************************************************************/
 
 #include "NodeGraphicsScene.h"
+#include <typeinfo>
 
 namespace Tinkercell
 {

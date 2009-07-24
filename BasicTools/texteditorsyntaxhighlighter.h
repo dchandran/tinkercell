@@ -4,8 +4,8 @@
 #include <QTextDocument>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
-#include "Core/TextEditor.h"
-#include "Core/TextItem.h"
+#include "TextEditor.h"
+#include "TextItem.h"
 
 namespace Tinkercell
 {

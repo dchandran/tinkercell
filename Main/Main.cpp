@@ -10,7 +10,8 @@
 ****************************************************************************/
 
 
-#include "Main.h"
+#include "DefaultPluginsMenu.h"
+
 using namespace Tinkercell;
 
 void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);

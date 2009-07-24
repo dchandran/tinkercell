@@ -1,4 +1,4 @@
-QT4_WRAP_CPP( DefaultPluginsMenu_MOC DefaultPluginsMenu.h )
+#QT4_WRAP_CPP( DefaultPluginsMenu_MOC DefaultPluginsMenu.h )
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
@@ -20,7 +20,7 @@ IF( APPLE AND BUILD_BUNDLE )
     MACOSX_BUNDLE
     Main.cpp
     ${DefaultPluginsMenu_MOC}
-    DefaultPluginsMenu.cpp
+    #DefaultPluginsMenu.cpp
     ${TINKERCELL_QRC}
   )
 
@@ -49,7 +49,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
     ADD_EXECUTABLE( tinkercell 
       Main.cpp
       ${DefaultPluginsMenu_MOC}
-      DefaultPluginsMenu.cpp
+      #DefaultPluginsMenu.cpp
       ${TINKERCELL_QRC}
     )
 
@@ -61,7 +61,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
       ADD_EXECUTABLE( tinkercell 
       Main.cpp
       ${DefaultPluginsMenu_MOC}
-      DefaultPluginsMenu.cpp
+      #DefaultPluginsMenu.cpp
       ${TINKERCELL_QRC}
     )
 

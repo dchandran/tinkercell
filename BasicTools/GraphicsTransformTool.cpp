@@ -1,11 +1,11 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool contains a set of transformation function such as scale, rotate, etc.
- A GraphicsTool is also defined that brings up the transformations window
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool contains a set of transformation function such as scale, rotate, etc.
+A GraphicsTool is also defined that brings up the transformations window
 
 ****************************************************************************/
 
@@ -22,37 +22,37 @@
 namespace Tinkercell
 {
 
-        void GraphicsTransformTool::select(int)
-        {
-            updateTable();
-            openedByUser = true;
-
-            if (parentWidget() != 0)
-            {
-                if (parentWidget()->isVisible())
-                    openedByUser = false;
-                else
-                    parentWidget()->show();
-            }
-            else
-            {
-                if (isVisible())
-                    openedByUser = false;
-                else
-                    show();
-            }
-        }
-
-        void GraphicsTransformTool::deselect(int)
+	void GraphicsTransformTool::select(int)
 	{
-                if (openedByUser)
+		updateTable();
+		openedByUser = true;
+
+		if (parentWidget() != 0)
+		{
+			if (parentWidget()->isVisible())
+				openedByUser = false;
+			else
+				parentWidget()->show();
+		}
+		else
+		{
+			if (isVisible())
+				openedByUser = false;
+			else
+				show();
+		}
+	}
+
+	void GraphicsTransformTool::deselect(int)
+	{
+		if (openedByUser)
 		{
 			openedByUser = false;
-			
-                        if (parentWidget() != 0)
-                                parentWidget()->hide();
+
+			if (parentWidget() != 0)
+				parentWidget()->hide();
 			else
-                                hide();
+				hide();
 		}
 	}
 
@@ -61,59 +61,59 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-                        if (handles[i] && !handles[i]->tools.contains(this))
-                                handles[i]->tools += this;
+			if (handles[i] && !handles[i]->tools.contains(this))
+				handles[i]->tools += this;
 		}
 	}
-	
+
 	void GraphicsTransformTool::toolLoaded(Tool*)
 	{
 		connectionSelectionTool();
 	}
-	
+
 	void GraphicsTransformTool::connectionSelectionTool()
 	{
 		static bool alreadyConnected = false;
 		static bool alreadyConnected2 = false; 
 		if ((alreadyConnected && alreadyConnected2) || !mainWindow) return;
 
-                if (!alreadyConnected && mainWindow->tool(tr("Connection Selection")))
+		if (!alreadyConnected && mainWindow->tool(tr("Connection Selection")))
 		{
 			QWidget * widget = mainWindow->tool(tr("Connection Selection"));
 			ConnectionSelection * connectionSelection = static_cast<ConnectionSelection*>(widget);
 			if (connectionSelection && connectionsTableWidget)
 			{
 				alreadyConnected = true;
-				
+
 				QComboBox * lineTypes = new QComboBox(this);
 				lineTypes->addItems(QStringList() << tr("Bezier curves") << tr("straight lines"));
 				connect(lineTypes,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(setLineType(int)));
-				
+
 				connectionsTableWidget->setCellWidget(0,0,lineTypes);
-				
+
 				QComboBox * penTypes = new QComboBox(this);
 				penTypes->addItems(QStringList() << tr("solid") << tr("dashed") << tr("dotted"));
 				connect(penTypes,SIGNAL(currentIndexChanged(int)),this,SLOT(changePenType(int)));
-				
+
 				connectionsTableWidget->setCellWidget(1,0,penTypes);
-				
+
 				QComboBox * centerBox = new QComboBox(this);
 				centerBox->addItems(QStringList() << tr("hide") << tr("show") );
 				connect(centerBox,SIGNAL(currentIndexChanged(int)),connectionSelection,SLOT(showMiddleBox(int)));
-				
+
 				connectionsTableWidget->setCellWidget(3,0,centerBox);
-				
+
 				QDoubleSpinBox * arrowHeadDist = new QDoubleSpinBox(this);
 				arrowHeadDist->setSingleStep(1.0);
 				arrowHeadDist->setValue(20.0);
 				arrowHeadDist->setRange(0.0,200.0);
 				connect(arrowHeadDist,SIGNAL(valueChanged(double)),connectionSelection,SLOT(arrowHeadDistance(double)));
-				
+
 				connectionsTableWidget->setCellWidget(2,0,arrowHeadDist);
-				
+
 			}
 		}
-		
+
 		if (!alreadyConnected2 && replaceButton && mainWindow->tool(tr("Graphics Replace Tool")))
 		{
 			alreadyConnected2 = true;
@@ -124,16 +124,16 @@ namespace Tinkercell
 
 	GraphicsTransformTool::GraphicsTransformTool() : Tool(tr("Basic Transformations"))
 	{
-                QString appDir = QCoreApplication::applicationDirPath();
-                NodeGraphicsReader reader;
-                reader.readXml(&eye,tr(":/BasicTools/eye.xml"));
-                eye.normalize();
-                eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
-                eye.setToolTip(tr("Appearance"));
-                openedByUser = false;
-                graphicsItems += new GraphicsItem(this);
-                graphicsItems[0]->setToolTip(tr("Appearance"));
-                graphicsItems[0]->addToGroup(&eye);
+		QString appDir = QCoreApplication::applicationDirPath();
+		NodeGraphicsReader reader;
+		reader.readXml(&eye,tr(":/BasicTools/eye.xml"));
+		eye.normalize();
+		eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
+		eye.setToolTip(tr("Appearance"));
+		openedByUser = false;
+		graphicsItems += new GraphicsItem(this);
+		graphicsItems[0]->setToolTip(tr("Appearance"));
+		graphicsItems[0]->addToGroup(&eye);
 
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
@@ -178,17 +178,17 @@ namespace Tinkercell
 
 		QHBoxLayout * buttonsLayout = new QHBoxLayout;
 		QPushButton * fillButton = new QPushButton(this),
-					* penButton = new QPushButton(this);
+			* penButton = new QPushButton(this);
 		replaceButton = new QPushButton(this);
 
 		fillButton->setIcon(QIcon(QPixmap(QString(":/images/bucket.png"))));
-                fillButton->setToolTip(tr("Fill color"));
+		fillButton->setToolTip(tr("Fill color"));
 		fillButton->setFixedSize(40,40);
 		fillButton->setIconSize(QSize(30, 30));
 		fillButton->setCheckable(false);
 		//fillButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		//buttonGroup->addButton(fillButton, 0);
-		
+
 		penButton->setIcon(QIcon(QPixmap(QString(":/images/pencil.png"))));
 		penButton->setToolTip(tr("Outline color"));
 		//penButton->setText(tr("Outline color"));
@@ -197,7 +197,7 @@ namespace Tinkercell
 		penButton->setCheckable(false);
 		//penButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		//buttonGroup->addButton(penButton, 1);
-		
+
 		replaceButton->setIcon(QIcon(QPixmap(QString(":/images/replace.png"))));
 		replaceButton->setToolTip(tr("Replace graphics"));
 		//replaceButton->setText(tr("Replace graphics"));
@@ -206,7 +206,7 @@ namespace Tinkercell
 		replaceButton->setCheckable(false);
 		//replaceButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		//buttonGroup->addButton(replaceButton, 2);
-		
+
 
 		buttonsLayout->addWidget(fillButton);
 		buttonsLayout->addWidget(penButton);
@@ -223,25 +223,25 @@ namespace Tinkercell
 		connect(&rotateSlider,SIGNAL(valueChanged(int)),this,SLOT(rotate(int)));
 		connect(penButton,SIGNAL(pressed()),this,SLOT(selectPenColor()));
 		connect(fillButton,SIGNAL(pressed()),this,SLOT(selectFillColor()));
-		
-		
+
+
 		setupTable();
-		
+
 		sizeGroup = new QGroupBox("Position and Size");
 		connectionsGroup = new QGroupBox("Connection Settings");
-		
+
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		if (tableWidget != 0) 
 			layout1->addWidget(tableWidget);
-		
+
 		sizeGroup->setLayout(layout1);
-		
+
 		QHBoxLayout * layout2 = new QHBoxLayout;
 		if (connectionsTableWidget != 0) 
 			layout2->addWidget(connectionsTableWidget);
-		
+
 		connectionsGroup->setLayout(layout2);
-		
+
 		layout->addWidget(sizeGroup);
 		layout->addWidget(connectionsGroup);
 
@@ -265,7 +265,7 @@ namespace Tinkercell
 
 	bool GraphicsTransformTool::setMainWindow(MainWindow * main)
 	{
-                Tool::setMainWindow(main);
+		Tool::setMainWindow(main);
 
 		if (mainWindow != 0)
 		{
@@ -277,27 +277,27 @@ namespace Tinkercell
 				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
 				dockWidget->setAutoFillBackground(true);
 				dockWidget->setWindowOpacity(0.75);*/
-				
+
 				dockWidget->hide();
 				dockWidget->setFloating(true);
-				
+
 				QAction * menuAction = new QAction(QIcon(tr(":/images/eye.png")),tr("Scale, color, rotate, etc."),this);
 				connect(menuAction,SIGNAL(triggered()),dockWidget,SLOT(show()));
-				
+
 				mainWindow->contextItemsMenu.addAction(menuAction);
 			}
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )),
-					this, SLOT(itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )));
+				this, SLOT(itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&,const QList<ItemHandle*>&)),
-					this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
+				this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			
+
 			connectionSelectionTool();
 		}
 		return true;
 	}
-	
+
 	void GraphicsTransformTool::scale(int value)
 	{
 		if (scaleRef == 0)
@@ -318,17 +318,17 @@ namespace Tinkercell
 				{
 					node = qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]);
 					if (node) node->setBoundingBoxVisible(false);
-					
+
 					targetItems[i]->scale(dx,dx);
 				}
 				else
-				if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
-				{
-					QPen p = connectionPtr->pen();
-					p.setWidthF( p.widthF() * dx );
-					connectionPtr->setPen(p);
-					connectionPtr->refresh();
-				}
+					if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
+					{
+						QPen p = connectionPtr->pen();
+						p.setWidthF( p.widthF() * dx );
+						connectionPtr->setPen(p);
+						connectionPtr->refresh();
+					}
 			}
 		}
 		scaleRef = value;
@@ -431,13 +431,13 @@ namespace Tinkercell
 					rotateList += 0;
 				}
 				else
-				if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
-				{
-					QPen p = connectionPtr->defaultPen;
-					p.setWidthF( p.widthF() * totalScaled );
-					penList += targetItems[i];
-					pens += p;
-				}
+					if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
+					{
+						QPen p = connectionPtr->defaultPen;
+						p.setWidthF( p.widthF() * totalScaled );
+						penList += targetItems[i];
+						pens += p;
+					}
 			}
 			if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			{
@@ -454,9 +454,9 @@ namespace Tinkercell
 			scaleRef = 50;
 			scaleSlider.setValue(50);
 		}
-		
+
 	}
-	
+
 	void GraphicsTransformTool::changePenType(int type)
 	{
 		type += 1;
@@ -464,7 +464,7 @@ namespace Tinkercell
 		{
 			QList<QGraphicsItem*> penList;
 			QList<QPen> pens;
-			
+
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				ConnectionGraphicsItem * connectionPtr = 0;
@@ -568,7 +568,7 @@ namespace Tinkercell
 					for (int j=0; j < node->shapes.size(); ++j)
 					{
 						NodeGraphicsItem::Shape * aitem = node->shapes[j];
-				
+
 						if (aitem != 0)
 						{
 							QPen pen = aitem->defaultPen;
@@ -624,7 +624,7 @@ namespace Tinkercell
 					for (int j=0; j < node->shapes.size(); ++j)
 					{
 						NodeGraphicsItem::Shape * aitem = node->shapes[j];
-				
+
 						if (aitem != 0)
 						{
 							QBrush brush = aitem->defaultBrush;
@@ -684,35 +684,35 @@ namespace Tinkercell
 		spin->setRange(0.0,100000.0);
 		tableWidget->setCellWidget(0,0,spin);
 		connect(spin, SIGNAL(valueChanged(double)), this, SLOT(xchanged(double)));
-		
+
 		spin = new QDoubleSpinBox(this);
 		spin->setRange(0.0,100000.0);
 		tableWidget->setCellWidget(1,0,spin);
 		connect(spin, SIGNAL(valueChanged(double)), this, SLOT(ychanged(double)));
-		
+
 		spin = new QDoubleSpinBox(this);
 		spin->setRange(0.0,100000.0);
 		tableWidget->setCellWidget(2,0,spin);
 		connect(spin, SIGNAL(valueChanged(double)), this, SLOT(wchanged(double)));
-		
+
 		spin = new QDoubleSpinBox(this);
 		spin->setRange(0.0,100000.0);
 		tableWidget->setCellWidget(3,0,spin);
 		connect(spin, SIGNAL(valueChanged(double)), this, SLOT(hchanged(double)));
-		
+
 		spin = new QDoubleSpinBox(this);
 		spin->setRange(0.0,100000.0);
 		tableWidget->setCellWidget(4,0,spin);
 		connect(spin, SIGNAL(valueChanged(double)), this, SLOT(linewchanged(double)));
-		
+
 		connectionsTableWidget = new QTableWidget(4,1);
 		rowNames.clear();
 		rowNames << tr("line type") << tr("pen type") << tr("arrow head distance") << tr("show center box");
-		
+
 		connectionsTableWidget->setHorizontalHeaderLabels(colNames);
 		connectionsTableWidget->setVerticalHeaderLabels(rowNames);
 	}
-	
+
 	void GraphicsTransformTool::xchanged(double value)
 	{
 		if (value == 0 || targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -725,9 +725,9 @@ namespace Tinkercell
 				dx += QPointF(value - targetItems[k]->scenePos().x(), 0);
 				list += targetItems[k];
 			}
-		scene->move(list,dx);
+			scene->move(list,dx);
 	}
-	
+
 	void GraphicsTransformTool::ychanged(double value)
 	{
 		if (value == 0 || targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -740,9 +740,9 @@ namespace Tinkercell
 				dy += QPointF(0, value - targetItems[k]->scenePos().y());
 				list += targetItems[k];
 			}
-		scene->move(list,dy);
+			scene->move(list,dy);
 	}
-	
+
 	void GraphicsTransformTool::wchanged(double value)
 	{
 		if (value == 0 || targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -755,10 +755,10 @@ namespace Tinkercell
 				dw += QPointF(value/targetItems[k]->sceneBoundingRect().width(),1);
 				list += targetItems[k];
 			}
-		QList<qreal> emptyList;
-		scene->transform(tr("changed width"),list,dw,emptyList,false,false);
+			QList<qreal> emptyList;
+			scene->transform(tr("changed width"),list,dw,emptyList,false,false);
 	}
-	
+
 	void GraphicsTransformTool::hchanged(double value)
 	{
 		if (value == 0 || targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -772,10 +772,10 @@ namespace Tinkercell
 				dh += QPointF(1,s);
 				list += targetItems[k];
 			}
-		QList<qreal> emptyList;
-		scene->transform(tr("changed height"),list,dh,emptyList,false,false);
+			QList<qreal> emptyList;
+			scene->transform(tr("changed height"),list,dh,emptyList,false,false);
 	}
-	
+
 	void GraphicsTransformTool::linewchanged(double value)
 	{
 		if (targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -800,18 +800,18 @@ namespace Tinkercell
 				}
 			}
 			else
-			if (connection != 0)
-			{
-				list += connection;
-				pen = connection->defaultPen;
-				pen.setWidthF(value);
-				pens += pen;
-			}
+				if (connection != 0)
+				{
+					list += connection;
+					pen = connection->defaultPen;
+					pen.setWidthF(value);
+					pens += pen;
+				}
 		}
 		scene->setPen(tr("change pen"),list,pens);
 	}
-	
-	
+
+
 	void GraphicsTransformTool::alphaChanged(double value)
 	{
 		if (targetItems.size() < 1 || mainWindow == 0 || mainWindow->currentScene() == 0) return;
@@ -839,15 +839,15 @@ namespace Tinkercell
 				}
 			}
 			else
-			if (connection != 0)
-			{
-				list += connection;
-				brush = connection->defaultBrush;
-				color = brush.color();
-				color.setAlphaF(value);
-				brush.setColor(color);
-				brushes += brush;
-			}
+				if (connection != 0)
+				{
+					list += connection;
+					brush = connection->defaultBrush;
+					color = brush.color();
+					color.setAlphaF(value);
+					brush.setColor(color);
+					brushes += brush;
+				}
 		}
 		scene->setBrush(tr("change brush"),list,brushes);
 	}
@@ -855,7 +855,7 @@ namespace Tinkercell
 	void GraphicsTransformTool::updateTable()
 	{
 		if (tableWidget == 0) return;
-		
+
 		bool connections = false, nodes = false;
 		for (int i=0; i < targetItems.size(); ++i)
 		{
@@ -867,7 +867,7 @@ namespace Tinkercell
 			{
 				nodes = true;
 			}
-			
+
 			if (connections && nodes) break;
 		}
 
@@ -882,11 +882,11 @@ namespace Tinkercell
 		/*
 		if (nodes)
 		{
-			if (sizeGroup) sizeGroup->setVisible(true);
+		if (sizeGroup) sizeGroup->setVisible(true);
 		}
 		else
 		{
-			if (sizeGroup) sizeGroup->setVisible(false);
+		if (sizeGroup) sizeGroup->setVisible(false);
 		}*/
 	}
 

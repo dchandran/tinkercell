@@ -1,12 +1,12 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- Class for drawing text on a GraphicsScene. The text can be associated with 
- a handle
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+Class for drawing text on a GraphicsScene. The text can be associated with 
+a handle
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_TEXTGRAPHICSITEM_H
@@ -22,7 +22,7 @@ namespace Tinkercell
 	class ItemHandle;
 
 	/*! \brief editable text item 
-		\ingroup core
+	\ingroup core
 	*/
 	class TextGraphicsItem : public QGraphicsTextItem
 	{
@@ -74,8 +74,8 @@ namespace Tinkercell
 			// Enable the use of dynamic_cast with this item.
 			return Type;
 		}
-		
-	signals:
+
+signals:
 		// void lostFocus(TextGraphicsItem *item);
 		// void selectedChange(QGraphicsItem *item);
 
@@ -83,10 +83,10 @@ namespace Tinkercell
 		// QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 		// void focusOutEvent(QFocusEvent *event);
 		//void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-		
+
 		/*! \brief draws a border around the text item. hide or show using showBorder()*/
 		QGraphicsRectItem * boundingRectItem;
-		
+
 	};
 }
 #endif

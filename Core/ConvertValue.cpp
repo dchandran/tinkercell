@@ -1,14 +1,14 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This file defines a set of functions that can be used to convert C data types, 
- such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
- and QGraphicsItem.
- 
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This file defines a set of functions that can be used to convert C data types, 
+such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
+and QGraphicsItem.
+
+
 ****************************************************************************/
 
 #include <math.h>
@@ -126,19 +126,19 @@ namespace Tinkercell
 		if (m.rows < 0 || m.cols < 0) return D;
 		try
 		{
-		D->resize(m.rows,m.cols);
-		
-		for (int i=0; i < m.rows && m.rownames && m.rownames[i]; ++i)
-			D->rowName(i) = QString(m.rownames[i]);
-			
-		for (int i=0; i < m.cols && m.colnames && m.colnames[i]; ++i)
-			D->colName(i) = QString(m.colnames[i]);
-		
-		for (int i=0; i < m.rows; ++i)
-			for (int j=0; j < m.cols; ++j)
-			{
-				D->value(i,j) = valueAt(m,i,j);
-			}
+			D->resize(m.rows,m.cols);
+
+			for (int i=0; i < m.rows && m.rownames && m.rownames[i]; ++i)
+				D->rowName(i) = QString(m.rownames[i]);
+
+			for (int i=0; i < m.cols && m.colnames && m.colnames[i]; ++i)
+				D->colName(i) = QString(m.colnames[i]);
+
+			for (int i=0; i < m.rows; ++i)
+				for (int j=0; j < m.cols; ++j)
+				{
+					D->value(i,j) = valueAt(m,i,j);
+				}
 		}
 		catch(...)
 		{
@@ -151,7 +151,7 @@ namespace Tinkercell
 	Matrix ConvertValue(const DataTable<qreal>& D)
 	{
 		Matrix m;
-		
+
 		m.rows = D.rows();
 		m.cols = D.cols();		
 		m.rownames = new char*[m.rows+1];
@@ -162,7 +162,7 @@ namespace Tinkercell
 		m.colnames[m.cols] = 0;
 		m.values = new double[m.rows * m.cols];
 		//m.values = (double*)_aligned_malloc((m.rows * m.cols)*sizeof(double),16);
-				
+
 		for (int i=0; i < m.rows; ++i)
 		{
 			QString s = D.rowName(i);			
@@ -172,7 +172,7 @@ namespace Tinkercell
 			for (int j=0; j < s.length(); ++j)
 				m.rownames[i][j] = s[j].toAscii();
 		}
-		
+
 		for (int i=0; i < m.cols; ++i)
 		{
 			QString s = D.colName(i);			
@@ -182,13 +182,13 @@ namespace Tinkercell
 			for (int j=0; j < s.length(); ++j)
 				m.colnames[i][j] = s[j].toAscii();
 		}
-		
+
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
 				valueAt(m,i,j) = D.at(i,j);
 			}
-		
-		return m;
+
+			return m;
 	}
 }

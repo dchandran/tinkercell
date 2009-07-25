@@ -1,14 +1,14 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This file defines the DataTable class. 
- The DataTable is a template class that contains a 2D vector (values) and two vectors
- of QStrings (row names and column names). It provides various functions for manipulating
- the table. 
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This file defines the DataTable class. 
+The DataTable is a template class that contains a 2D vector (values) and two vectors
+of QStrings (row names and column names). It provides various functions for manipulating
+the table. 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_DATATABLE_H
@@ -23,7 +23,7 @@
 namespace Tinkercell
 {
 	/*! \brief DataTable is a 2D vector with row names and column names	
-		\ingroup helper
+	\ingroup helper
 	*/
 	template <typename T>
 	class DataTable 
@@ -183,7 +183,7 @@ namespace Tinkercell
 			return dataMatrix[k];
 		}
 		/*! \brief get the value using row and column names. can also be used to set the value. Slower than
-				using value(int,int)
+		using value(int,int)
 		\param QString row name
 		\param QString column name
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
@@ -208,7 +208,7 @@ namespace Tinkercell
 			return value(i,j);
 		}
 		/*! \brief get the value using row name. can also be used to set the value. Slower than
-				using value(int,int)
+		using value(int,int)
 		\param QString row name
 		\param int column number
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
@@ -228,7 +228,7 @@ namespace Tinkercell
 			return value(i,j);
 		}
 		/*! \brief get the value using column name. can also be used to set the value. Slower than
-				using value(int,int)
+		using value(int,int)
 		\param int row number
 		\param QString column name
 		\return T reference to value at given row and column. returns value at 0 if row and column are not in the table
@@ -321,7 +321,7 @@ namespace Tinkercell
 				}
 		}
 		/*! \brief insert a new row at the given location with the given name. Insertion will fail if there is already
-				a row with the same name
+		a row with the same name
 		\param int row number
 		\param QString row name
 		\return int 0 if failed, 1 if successful
@@ -329,11 +329,11 @@ namespace Tinkercell
 		virtual int insertRow(int k, const QString& row)
 		{
 			if (rowHeaders.contains(row)) return 0;
-			
+
 			int n = rowHeaders.size()+1;
 
 			QVector<T> dataMatrix2( n * colHeaders.size() );
-			
+
 			for (int i=0; i < rowHeaders.size(); ++i)
 				for (int j=0; j < colHeaders.size(); ++j)
 				{
@@ -343,13 +343,13 @@ namespace Tinkercell
 						dataMatrix2[ (i+1)*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
 				}
 
-			dataMatrix = dataMatrix2;
-			rowHeaders.insert(k,row);
+				dataMatrix = dataMatrix2;
+				rowHeaders.insert(k,row);
 
-			return 1;			
+				return 1;			
 		}
 		/*! \brief insert a new column at the given location with the given name. Insertion will fail if there is already
-				a column with the same name
+		a column with the same name
 		\param int column number
 		\param QString column name
 		\return int 0 if failed, 1 if successful
@@ -357,11 +357,11 @@ namespace Tinkercell
 		virtual int insertCol(int k, const QString& col)
 		{
 			if (colHeaders.contains(col)) return 0;
-			
+
 			int n = colHeaders.size()+1;
 
 			QVector<T> dataMatrix2( n * rowHeaders.size() );
-			
+
 			for (int i=0; i < rowHeaders.size(); ++i)
 				for (int j=0; j < colHeaders.size(); ++j)
 				{
@@ -371,10 +371,10 @@ namespace Tinkercell
 						dataMatrix2[ i*n+j+1 ] = dataMatrix[ i*colHeaders.size()+j ];
 				}
 
-			dataMatrix = dataMatrix2;
-			colHeaders.insert(k,col);
+				dataMatrix = dataMatrix2;
+				colHeaders.insert(k,col);
 
-			return 1;			
+				return 1;			
 		}
 		/*! \brief remove an existing row at the given index.
 		\param int row number
@@ -383,25 +383,25 @@ namespace Tinkercell
 		virtual int removeRow(int k)
 		{
 			if (k < 0 || k >= rowHeaders.size()) return 0;
-			
+
 			int n = rowHeaders.size()-1;
 
 			QVector<T> dataMatrix2( n * colHeaders.size() );
-			
+
 			for (int i=0; i < rowHeaders.size(); ++i)
 				for (int j=0; j < colHeaders.size(); ++j)
 				{
 					if (i < k)
 						dataMatrix2[ i*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
 					else
-					if (i > k)
-						dataMatrix2[ (i-1)*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
+						if (i > k)
+							dataMatrix2[ (i-1)*colHeaders.size()+j ] = dataMatrix[ i*colHeaders.size()+j ];
 				}
 
-			dataMatrix = dataMatrix2;
-			rowHeaders.remove(k);
+				dataMatrix = dataMatrix2;
+				rowHeaders.remove(k);
 
-			return 1;
+				return 1;
 		}
 		/*! \brief remove an existing row with the given name.
 		\param QString row name
@@ -420,25 +420,25 @@ namespace Tinkercell
 		virtual int removeCol(int k)
 		{
 			if (k < 0 || k >= colHeaders.size()) return 0;
-			
+
 			int n = colHeaders.size()-1;
 
 			QVector<T> dataMatrix2( n * rowHeaders.size() );
-			
+
 			for (int i=0; i < rowHeaders.size(); ++i)
 				for (int j=0; j < colHeaders.size(); ++j)
 				{
 					if (j < k)
 						dataMatrix2[ i*n+j ] = dataMatrix[ i*colHeaders.size()+j ];
 					else
-					if (j > k)
-						dataMatrix2[ i*n+j-1 ] = dataMatrix[ i*colHeaders.size()+j ];
+						if (j > k)
+							dataMatrix2[ i*n+j-1 ] = dataMatrix[ i*colHeaders.size()+j ];
 				}
 
-			dataMatrix = dataMatrix2;
-			colHeaders.remove(k);
+				dataMatrix = dataMatrix2;
+				colHeaders.remove(k);
 
-			return 1;
+				return 1;
 		}
 		/*! \brief remove an existing col with the given name.
 		\param QString row name
@@ -550,7 +550,7 @@ namespace Tinkercell
 		\param new tables
 		*/
 		ChangeDataCommand(const QString& name, DataTable<T>* oldDataTable, const DataTable<T>* newDataTable)
-		: QUndoCommand(name)
+			: QUndoCommand(name)
 		{
 			if (newDataTable && oldDataTable)
 			{
@@ -565,7 +565,7 @@ namespace Tinkercell
 		\param new table 
 		*/
 		ChangeDataCommand(const QString& name,const QList< DataTable<T>* >& oldDataTable,const QList< DataTable<T>* >& newDataTable)
-		: QUndoCommand(name)
+			: QUndoCommand(name)
 		{
 			for (int i=0; i < oldDataTable.size() && i < newDataTable.size(); ++i)
 				if (newDataTable[i] && oldDataTable[i])
@@ -610,7 +610,7 @@ namespace Tinkercell
 		\param new table of type T2
 		*/
 		Change2DataCommand(const QString& name, DataTable<T1>* oldDataTable1, const DataTable<T1>* newDataTable1, DataTable<T2>* oldDataTable2, const DataTable<T2>* newDataTable2)
-		: QUndoCommand(name)
+			: QUndoCommand(name)
 		{
 			if (newDataTable1 && oldDataTable1)
 			{
@@ -621,7 +621,7 @@ namespace Tinkercell
 				this->oldDataTable1 += dat1o;
 				this->targetDataTable1 += oldDataTable1;
 			}
-			
+
 			if (newDataTable2 && oldDataTable2)
 			{
 				DataTable<T2> dat2n(*(newDataTable2));
@@ -640,7 +640,7 @@ namespace Tinkercell
 		\param new tables of type T2
 		*/
 		Change2DataCommand(const QString& name,const QList< DataTable<T1>* >& oldDataTable1,const QList< DataTable<T1>* >& newDataTable1,const QList< DataTable<T2>* >& oldDataTable2,const QList< DataTable<T2>* >& newDataTable2)
-		: QUndoCommand(name)
+			: QUndoCommand(name)
 		{
 			for (int i=0; i < newDataTable1.size() && i < oldDataTable1.size(); ++i)
 				if (newDataTable1[i] && oldDataTable1[i])
@@ -653,16 +653,16 @@ namespace Tinkercell
 					this->targetDataTable1 += (oldDataTable1.at(i));
 				}
 
-			for (int i=0; i < newDataTable2.size() && i < oldDataTable2.size(); ++i)
-				if (newDataTable2[i] && oldDataTable2[i])
-				{
-					DataTable<T2> dat2n(*(newDataTable2[i]));
-					DataTable<T2> dat2o(*(oldDataTable2[i]));
+				for (int i=0; i < newDataTable2.size() && i < oldDataTable2.size(); ++i)
+					if (newDataTable2[i] && oldDataTable2[i])
+					{
+						DataTable<T2> dat2n(*(newDataTable2[i]));
+						DataTable<T2> dat2o(*(oldDataTable2[i]));
 
-					this->newDataTable2 += dat2n;
-					this->oldDataTable2 += dat2o;
-					this->targetDataTable2 += (oldDataTable2[i]);
-				}
+						this->newDataTable2 += dat2n;
+						this->oldDataTable2 += dat2o;
+						this->targetDataTable2 += (oldDataTable2[i]);
+					}
 		}
 		/*! \brief redo the changes*/
 		void redo()

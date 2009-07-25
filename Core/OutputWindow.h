@@ -1,13 +1,13 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This file defines the output window, which is a text area where other tools can post messages or use as a
- scripting interface.
- 
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This file defines the output window, which is a text area where other tools can post messages or use as a
+scripting interface.
+
+
 ****************************************************************************/
 
 
@@ -29,87 +29,87 @@ namespace Tinkercell
 	class MainWindow;
 
 	/*! \brief A command-line type text box that other tools can use for scripting interface
-		\ingroup io
+	\ingroup io
 	*/
 	class CommandTextEdit : public QTextEdit
 	{
 		Q_OBJECT;
-		public:
-		
-			/*! \brief default constructor*/
-			CommandTextEdit(QWidget * parent=0);
-			/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/	
-			bool isFrozen();
-			/*! \brief set code completion*/ 
-			void setCompleter(QCompleter *c);
-			/*! \brief code completion*/ 
-			QCompleter *completer() const;
-			
-		signals:
-		
-			/*! \brief the user requested to execute the given command*/
-			void commandExecuted(const QString& command);
-			/*! \brief the user requested to interrupt the current process*/
-			void commandInterrupted();
-			
-		public slots:
-		
-			/*! \brief post an error message to this console text box*/
-			void error(const QString&);
-			/*! \brief post a message to this console text box*/
-			void message(const QString&);
-			/*! \brief clear all text*/
-			void clearText();
-			/*! \brief equivalent to setFreeze(true)*/
-			void freeze();
-			/*! \brief equivalent to setFreeze(false)*/
-			void unfreeze();
-			/*! \brief Set frozen state. The text box will not respond to user inputs while it is frozen*/
-			void setFreeze (bool frozen=true);
-			
-		protected:
-			
-			/*! \brief list of previously executed commands*/
-			QStringList historyStack;
-			/*! \brief current position in the history of commands*/
-			int currentHistoryIndex;
-			/*! \brief current position of the cursor in the text box*/
-			int currentPosition;
-			/*! \brief frozen state = 0 or 1*/
-			bool frozen;
-			/*! \brief font format for error messages*/
-			QTextCharFormat errorFormat;
-			/*! \brief font format for regular messages*/
-			QTextCharFormat messageFormat;
-			/*! \brief font format for user inputs*/
-			QTextCharFormat normalFormat;
-			/*! \brief manages the console-type interface, where the user is not allowed to type outside the >> */
-			virtual void keyPressEvent ( QKeyEvent * event );
-			/*! \brief zoom in or out using mouse wheel*/
-			virtual void wheelEvent ( QWheelEvent * wheelEvent );
-			/*! \brief focus returned from code completer*/
-			void focusInEvent(QFocusEvent *e);
-		
-		private slots:
-			/*! \brief complete the current line*/
-			void insertCompletion(const QString &completion);
+	public:
 
-		private:
-			/*! \brief text under the cursor*/
-			QString textUnderCursor() const;
-			/*! \brief used for code completion*/
-			QCompleter *c;
+		/*! \brief default constructor*/
+		CommandTextEdit(QWidget * parent=0);
+		/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/	
+		bool isFrozen();
+		/*! \brief set code completion*/ 
+		void setCompleter(QCompleter *c);
+		/*! \brief code completion*/ 
+		QCompleter *completer() const;
+
+signals:
+
+		/*! \brief the user requested to execute the given command*/
+		void commandExecuted(const QString& command);
+		/*! \brief the user requested to interrupt the current process*/
+		void commandInterrupted();
+
+	public slots:
+
+		/*! \brief post an error message to this console text box*/
+		void error(const QString&);
+		/*! \brief post a message to this console text box*/
+		void message(const QString&);
+		/*! \brief clear all text*/
+		void clearText();
+		/*! \brief equivalent to setFreeze(true)*/
+		void freeze();
+		/*! \brief equivalent to setFreeze(false)*/
+		void unfreeze();
+		/*! \brief Set frozen state. The text box will not respond to user inputs while it is frozen*/
+		void setFreeze (bool frozen=true);
+
+	protected:
+
+		/*! \brief list of previously executed commands*/
+		QStringList historyStack;
+		/*! \brief current position in the history of commands*/
+		int currentHistoryIndex;
+		/*! \brief current position of the cursor in the text box*/
+		int currentPosition;
+		/*! \brief frozen state = 0 or 1*/
+		bool frozen;
+		/*! \brief font format for error messages*/
+		QTextCharFormat errorFormat;
+		/*! \brief font format for regular messages*/
+		QTextCharFormat messageFormat;
+		/*! \brief font format for user inputs*/
+		QTextCharFormat normalFormat;
+		/*! \brief manages the console-type interface, where the user is not allowed to type outside the >> */
+		virtual void keyPressEvent ( QKeyEvent * event );
+		/*! \brief zoom in or out using mouse wheel*/
+		virtual void wheelEvent ( QWheelEvent * wheelEvent );
+		/*! \brief focus returned from code completer*/
+		void focusInEvent(QFocusEvent *e);
+
+	private slots:
+		/*! \brief complete the current line*/
+		void insertCompletion(const QString &completion);
+
+	private:
+		/*! \brief text under the cursor*/
+		QString textUnderCursor() const;
+		/*! \brief used for code completion*/
+		QCompleter *c;
 	};
 
 	/*! \brief Used to create an output window that can display outputs
-		\ingroup io
+	\ingroup io
 	*/
 	class OutputWindow : public Tool
 	{
 		Q_OBJECT
-		
+
 	public:
-	
+
 		/*! \brief constructor -- initialize main window*/
 		OutputWindow(MainWindow * main = 0);
 		/*! \brief print a message in the output window*/
@@ -128,19 +128,19 @@ namespace Tinkercell
 		static OutputWindow * outputWindow();
 		/*! \brief the command window's editor*/
 		CommandTextEdit * outputWindowEditor();
-	
+
 	signals:
 		/*! \brief the user requested to execute the given command*/
 		void commandExecuted(const QString& command);
 		/*! \brief the user requested to interrupt the current process*/
 		void commandInterrupted();
-	
+
 	protected:
 		/*! \brief store pointer to the main window's output window*/
 		static OutputWindow * instance;
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
-	
+
 	};
 }
 

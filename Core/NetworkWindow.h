@@ -1,13 +1,13 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the 
- GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics. 
- This class provides functions for editing handles, such as changing names, data, etc. 
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the 
+GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics. 
+This class provides functions for editing handles, such as changing names, data, etc. 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_MAINNETWORKWINDOW_H
@@ -53,7 +53,7 @@ namespace Tinkercell
 	class NetworkWindow : public QMdiSubWindow
 	{
 		Q_OBJECT
-		
+
 	public:
 		/*! \brief constructor*/
 		NetworkWindow(MainWindow *, GraphicsScene * scene);
@@ -72,15 +72,15 @@ namespace Tinkercell
 		/*! \brief the undo stack*/
 		QUndoStack history;
 		/*! \brief holds a hash of all items and data in this scene. 
-			\sa SymbolsTable*/
+		\sa SymbolsTable*/
 		SymbolsTable symbolsTable;
 		/*! \brief get all the items in this network window*/
 		QList<ItemHandle*> allHandles() const;
 		/*! \brief checks whether a string is a correct formula.
-			\param QString target string
-			\param QStringList returns any new variables not found in this network
-			\return Boolean whether or not the string is valid*/
-        bool parseMath(QString&,QStringList&);
+		\param QString target string
+		\param QStringList returns any new variables not found in this network
+		\return Boolean whether or not the string is valid*/
+		bool parseMath(QString&,QStringList&);
 		/*! \brief get all the selected items in this network window. The selected items
 		are determined differently depending on whether this window has a GraphicsScene
 		or a TextEditor. The selectedItems() from each is used to generate the selected handles*/
@@ -123,7 +123,7 @@ namespace Tinkercell
 		void changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
 		void changeData(const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
-		
+
 	public slots:
 		/*! \brief updates the symbols table*/
 		void updateSymbolsTable();
@@ -131,7 +131,7 @@ namespace Tinkercell
 		void updateSymbolsTable(int);
 		/*!	\brief close this window */
 		void closeWindow();
-		
+
 	signals:
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/
@@ -155,7 +155,7 @@ namespace Tinkercell
 		void dataChanged(const QList<ItemHandle*>& items);
 	protected:
 		/*! \brief view for a graphics scene
-			\ingroup helper*/
+		\ingroup helper*/
 		class GraphicsView : public QGraphicsView
 		{
 		public:

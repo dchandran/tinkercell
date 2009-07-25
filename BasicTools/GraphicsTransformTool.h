@@ -1,11 +1,11 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool contains a set of transformation function such as scale, rotate, etc.
- A GraphicsTool is also defined that brings up the transformations window
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool contains a set of transformation function such as scale, rotate, etc.
+A GraphicsTool is also defined that brings up the transformations window
 
 ****************************************************************************/
 
@@ -61,36 +61,36 @@ namespace Tinkercell
 	public:
 		GraphicsTransformTool();
 		bool setMainWindow(MainWindow * main);
-	public slots:
-                void select(int);
-                void deselect(int);
+		public slots:
+			void select(int);
+			void deselect(int);
 
-		void selectPenColor();
-		void selectFillColor();
-		void scale(int);
-		void rotate(int);
-		void scaleStart();
-		void scaleEnd();
-		void rotateStart();
-		void rotateEnd();
-		void reset();
-		void onHide(bool);
-		void flipVertically();
-		void flipHorizontally();
-		void updateTable();
-		
-		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
-		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-		void toolLoaded(Tool*);
-		
-		void xchanged(double dx);
-		void ychanged(double dy);
-		void wchanged(double dw);
-		void hchanged(double dh);
-		void linewchanged(double value);
-		void alphaChanged(double value);
-		void changePenType(int);
-	
+			void selectPenColor();
+			void selectFillColor();
+			void scale(int);
+			void rotate(int);
+			void scaleStart();
+			void scaleEnd();
+			void rotateStart();
+			void rotateEnd();
+			void reset();
+			void onHide(bool);
+			void flipVertically();
+			void flipHorizontally();
+			void updateTable();
+
+			void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
+			void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+			void toolLoaded(Tool*);
+
+			void xchanged(double dx);
+			void ychanged(double dy);
+			void wchanged(double dw);
+			void hchanged(double dh);
+			void linewchanged(double value);
+			void alphaChanged(double value);
+			void changePenType(int);
+
 	protected:
 
 		QList<QGraphicsItem*> targetItems;
@@ -107,16 +107,16 @@ namespace Tinkercell
 		QTableWidget * tableWidget;
 		QTableWidget * connectionsTableWidget;
 		void setupTable();
-		
+
 		QGroupBox * sizeGroup;
 		QGroupBox * connectionsGroup;
 		QPushButton * replaceButton;
-		
+
 		QList<QWidget*> connectionTableWidgets;
 		void connectionSelectionTool();
 
-                NodeGraphicsItem eye;
-                bool openedByUser;
+		NodeGraphicsItem eye;
+		bool openedByUser;
 	};
 
 

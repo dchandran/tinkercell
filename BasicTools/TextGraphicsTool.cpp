@@ -1,11 +1,11 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool allows users to edit a text graphics item on the sceen.
- The tool also updates the name of a handle when the text item is changed (and vise versa)
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool allows users to edit a text graphics item on the sceen.
+The tool also updates the name of a handle when the text item is changed (and vise versa)
 
 ****************************************************************************/
 
@@ -38,9 +38,9 @@ namespace Tinkercell
 		insertText->setMenu(fontMenu);
 		insertText->setPopupMode(QToolButton::MenuButtonPopup);
 		toolBar->addWidget(insertText);
-		
+
 		font.setPointSize(22);
-		
+
 		/*
 
 
@@ -73,45 +73,45 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			mainWindow->addToolBar(toolBar);
-			
+
 			QAction * insertText = new QAction("Insert text",this);
 			insertText->setIcon(QIcon(tr(":/images/text.png")));
 			insertText->setToolTip(tr("Insert text"));
 			connect(insertText,SIGNAL(triggered()),this,SLOT(insertTextWith()));
-			
+
 			mainWindow->contextItemsMenu.addAction(insertText);
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this, SLOT(escapeSignal(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this, SLOT(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-			
+
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-				
+
 			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
 				this, SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
-		
+
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-		
-                        //connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-                         //       mainWindow,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
-                        connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
-                                this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
+			//connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
+			//       mainWindow,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
+
+			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
+				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
 
 			//connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene *, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)),
-				//this,SLOT(mouseDoubleClicked(GraphicsScene *, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)));
+			//this,SLOT(mouseDoubleClicked(GraphicsScene *, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)));
 
 			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent*)),
 				this ,SLOT(keyPressed(GraphicsScene*,QKeyEvent*)));
-		
+
 
 		}
 		return (mainWindow != 0);
 	}
-	
+
 	void TextGraphicsTool::itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>&)
 	{
 		ItemHandle * handle = 0;
@@ -132,7 +132,7 @@ namespace Tinkercell
 							if (connection && connection->centerPoint())
 							{
 								p1 = connection->centerLocation();
-								
+
 								if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 								{
 									dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
@@ -161,19 +161,19 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	void TextGraphicsTool::itemsMoved(GraphicsScene* scene,const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
 	{
 		static bool selfCall = false;
-		
+
 		if (!scene || selfCall) return;
 		ItemHandle * handle = 0;
-		
+
 		selfCall = false;
-		
+
 		QList<QGraphicsItem*> nonTextItems;
 		QList<ItemHandle*> visited;
-		
+
 		for (int i=0; i < items.size(); ++i)
 		{
 			if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
@@ -227,28 +227,28 @@ namespace Tinkercell
 				if (node) nonTextItems << node->connectionsAsGraphicsItems();
 			}
 		}
-		
+
 		ConnectionGraphicsItem::ControlPoint * ccp = 0;
 		NodeGraphicsItem::ControlPoint * pcp = 0;
-		
-		
+
+
 		QList<QGraphicsItem*> itemsToMove;
 		QList<QPointF> moveBy;
 		for (int i=0; i < nonTextItems.size(); ++i)
 		{
 			handle = getHandle(nonTextItems[i]);
-			
+
 			if (!handle)
 			{
 				if ((ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(nonTextItems[i]))
 					&& ccp->connectionItem && ccp->connectionItem->itemHandle)
 					handle = ccp->connectionItem->itemHandle;
-				
+
 				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(nonTextItems[i]))
 					&& pcp->nodeItem && pcp->nodeItem->itemHandle)
 					handle = pcp->nodeItem->itemHandle;
 			}
-	
+
 			if (handle && !visited.contains(handle))
 				for (int j=0; j < handle->graphicsItems.size(); ++j)
 				{
@@ -262,19 +262,19 @@ namespace Tinkercell
 								QPointF p1;
 								QPair<QGraphicsItem*,QPointF> relativePoisition = (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))->relativePosition;
 								if (!relativePoisition.first) continue;
-								
+
 								if (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))
 									p1 = (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))->centerLocation();
 								else
 									p1 = relativePoisition.first->scenePos();
-									
+
 								p = relativePoisition.second + p1 - p0;
 							}
-						if (p.rx() != 0 || p.ry() != 0)
-						{
-							itemsToMove += handle->graphicsItems[j];
-							moveBy += p;
-						}
+							if (p.rx() != 0 || p.ry() != 0)
+							{
+								itemsToMove += handle->graphicsItems[j];
+								moveBy += p;
+							}
 					}
 				}
 		}
@@ -300,9 +300,9 @@ namespace Tinkercell
 	void TextGraphicsTool::setText(TextGraphicsItem * item, const QString& name0)
 	{
 		if (item == 0) return;
-		
+
 		QString oldText = item->toPlainText();
-		
+
 		QString name = name0.trimmed();
 
 		if (oldText.trimmed() == name) return;
@@ -319,63 +319,63 @@ namespace Tinkercell
 				QString fullname = item->itemHandle->fullName();
 				QList<QString> newNames; newNames << item->itemHandle->name;
 				item->itemHandle->name = oldText;
-				
+
 				if (currentScene())
 					currentScene()->rename(items,newNames);
 			}
 			else
 			{
 				if (name.isEmpty())
-                                        command = new RemoveGraphicsCommand(tr("text removed"),mainWindow->currentScene(),item);
+					command = new RemoveGraphicsCommand(tr("text removed"),mainWindow->currentScene(),item);
 				else
 					command = new ChangeTextCommand(tr("text changed"),item,name);
 				if (mainWindow->historyStack())
 					mainWindow->historyStack()->push(command);
 				else
-                                {
-                                        command->redo();
-                                        delete command;
-                                }
+				{
+					command->redo();
+					delete command;
+				}
 			}
 		}
 	}
 
-        /*void TextGraphicsTool::handlesRenamed(NetworkWindow * , const QList<QGraphicsItem*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
+	/*void TextGraphicsTool::handlesRenamed(NetworkWindow * , const QList<QGraphicsItem*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
 	{
-		QList<QGraphicsItem*> textItems;
-		QList<QString> newNames;
+	QList<QGraphicsItem*> textItems;
+	QList<QString> newNames;
 
-		ItemHandle * itemHandle = 0;
-		for (int i=0; i < items.size(); ++i)
-		{
-			itemHandle = getHandle(items[i]);
-			
-			if (itemHandle)
-				for (int j=0; j < itemHandle->graphicsItems.size(); ++j)
-				{
-					TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(itemHandle->graphicsItems[j]);
-					if (textItem)
-					{
-						QString text1 = textItem->toPlainText(), text2 = oldnames.at(i);
-						if (text1 == text2)
-						{
-							textItems += textItem;
-							newNames += newnames.at(i);
-						}
-					}
-				}
-		}
+	ItemHandle * itemHandle = 0;
+	for (int i=0; i < items.size(); ++i)
+	{
+	itemHandle = getHandle(items[i]);
 
-		if (!textItems.isEmpty() && !newNames.isEmpty())
-		{
-			ChangeTextCommand * command = new ChangeTextCommand(tr("text changed"),textItems,newNames);
-			if (mainWindow)		
-				if (mainWindow->historyStack())
-					mainWindow->historyStack()->push(command);
-				else
-					command->redo();
-		}
-        }*/
+	if (itemHandle)
+	for (int j=0; j < itemHandle->graphicsItems.size(); ++j)
+	{
+	TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(itemHandle->graphicsItems[j]);
+	if (textItem)
+	{
+	QString text1 = textItem->toPlainText(), text2 = oldnames.at(i);
+	if (text1 == text2)
+	{
+	textItems += textItem;
+	newNames += newnames.at(i);
+	}
+	}
+	}
+	}
+
+	if (!textItems.isEmpty() && !newNames.isEmpty())
+	{
+	ChangeTextCommand * command = new ChangeTextCommand(tr("text changed"),textItems,newNames);
+	if (mainWindow)		
+	if (mainWindow->historyStack())
+	mainWindow->historyStack()->push(command);
+	else
+	command->redo();
+	}
+	}*/
 
 	void TextGraphicsTool::insertText()
 	{
@@ -387,7 +387,7 @@ namespace Tinkercell
 			inserting = true;
 		}
 	}
-	
+
 	void TextGraphicsTool::insertTextWith()
 	{
 		if (mainWindow && mainWindow->currentScene())
@@ -412,43 +412,43 @@ namespace Tinkercell
 		}
 	}
 
-    void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 	{
-                if (!scene || items.isEmpty()) return;
+		if (!scene || items.isEmpty()) return;
 
-                TextGraphicsItem * text;
-                bool del;
+		TextGraphicsItem * text;
+		bool del;
 
-                for (int i=0; i < handles.size(); ++i)
-                    if (handles[i])
-                        for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-                            if ((text = qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[j])) &&
-                                !items.contains(text))
-                            {
-                                del = true;
-                                for (int k=0; k < handles[i]->graphicsItems.size(); ++k)
-                                    if (!qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[k]) &&
-                                        !items.contains(handles[i]->graphicsItems[k]) &&
-                                        handles[i]->graphicsItems[k]->sceneBoundingRect().adjusted(-100,-100,100,100).contains(text->scenePos()))
-                                    {
-                                        del = false;
-                                        break;
-                                    }
-                                if (del)
-                                    items += text;
-                            }
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i])
+				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+					if ((text = qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[j])) &&
+						!items.contains(text))
+					{
+						del = true;
+						for (int k=0; k < handles[i]->graphicsItems.size(); ++k)
+							if (!qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[k]) &&
+								!items.contains(handles[i]->graphicsItems[k]) &&
+								handles[i]->graphicsItems[k]->sceneBoundingRect().adjusted(-100,-100,100,100).contains(text->scenePos()))
+							{
+								del = false;
+								break;
+							}
+							if (del)
+								items += text;
+					}
 
-                if (!targetItem) return;
-		for (int i=0; i < items.size(); ++i)		
-			if (targetItem == items[i])
-			{
-				if (command)
-				{
-					delete command;
-					command = 0;
-				}
-				break;
-			}
+					if (!targetItem) return;
+					for (int i=0; i < items.size(); ++i)		
+						if (targetItem == items[i])
+						{
+							if (command)
+							{
+								delete command;
+								command = 0;
+							}
+							break;
+						}
 	}
 
 	void TextGraphicsTool::clear()
@@ -477,18 +477,18 @@ namespace Tinkercell
 			TextGraphicsItem * textItem = new TextGraphicsItem(tr("new text"));
 			textItem->setFont(font);
 			textItem->setPos(point);
-			
+
 			scene->insert(tr("text inserted"),textItem);
-			
+
 			targetItem = textItem;
-			
+
 			targetItem->setSelected(true);
 			textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
 			QTextCursor c = targetItem->textCursor();
 			c.movePosition(QTextCursor::EndOfLine);
 			c.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
 			targetItem->setTextCursor(c);
-			
+
 			mainWindow->setCursor(Qt::ArrowCursor);
 			scene->actionsEnabled = true;
 			inserting = false;
@@ -501,22 +501,22 @@ namespace Tinkercell
 	void TextGraphicsTool::itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
 	{
 		if (scene == 0) return;
-		
+
 		if (items.size() == 1)
 		{
 			TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0]);
-			
+
 			if (targetItem)
-					clear();
-					
+				clear();
+
 			if (!textItem)
 			{
 				return;
 			}
-			
+
 			ItemHandle * handle = getHandle(items[0]);
 			ItemHandle * handle2 = 0;
-			
+
 			QList<QGraphicsItem*> itemsAt = scene->items(items[0]->sceneBoundingRect().adjusted(-50.0,-50.0,50.0,50.0));
 			if (handle)
 			{
@@ -529,7 +529,7 @@ namespace Tinkercell
 				for (int i=0; i < itemsAt.size(); ++i)
 					if ((handle2 = getHandle(itemsAt[i])) && handle2->name == textItem->toPlainText())
 					{
-                                                QUndoCommand * handleChange = new AssignHandleCommand(tr("text assigned"),textItem,handle2);
+						QUndoCommand * handleChange = new AssignHandleCommand(tr("text assigned"),textItem,handle2);
 						if (scene->historyStack)
 							scene->historyStack->push(handleChange);
 						else
@@ -540,7 +540,7 @@ namespace Tinkercell
 						break;
 					}
 			}
-			
+
 			oldText = textItem->toPlainText();
 			targetItem = textItem;			
 			targetItem->setSelected(true);
@@ -574,9 +574,9 @@ namespace Tinkercell
 					targetItem->setTextCursor(c);
 				}
 			}
-			
+
 			if (!targetItem) return;
-			
+
 			int key = keyEvent->key();
 			if (key == Qt::Key_Enter || key == Qt::Key_Return || key == Qt::Key_Escape)
 				clear();	
@@ -605,7 +605,7 @@ namespace Tinkercell
 	{
 		GraphicsScene * scene = currentScene(); 
 		if (!scene) return;
-		
+
 		bool ok;
 		QFont newFont = QFontDialog::getFont(&ok, font, mainWindow, tr("Select Font"));
 		if (ok)
@@ -614,7 +614,7 @@ namespace Tinkercell
 			QList<QGraphicsItem*> items;
 			QList<QString> texts;
 			QList<QFont> fonts;
-			
+
 			QList<QGraphicsItem*>& selected = scene->selected();
 			TextGraphicsItem * textItem;
 			for (int i=0; i < selected.size(); ++i) 
@@ -651,7 +651,7 @@ namespace Tinkercell
 		oldFont.clear();
 
 		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
-		
+
 		if (text)
 		{
 			textItems.append(text);
@@ -673,7 +673,7 @@ namespace Tinkercell
 		{
 
 			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
-		
+
 			if (text)
 			{
 				textItems.append(text);
@@ -682,7 +682,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	ChangeTextCommand::ChangeTextCommand(const QString& name, QGraphicsItem * item, const QString& newname, const QFont& font)
 		: QUndoCommand(name)
 	{
@@ -693,7 +693,7 @@ namespace Tinkercell
 		oldFont.clear();
 
 		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
-		
+
 		if (text)
 		{
 			textItems.append(text);
@@ -717,7 +717,7 @@ namespace Tinkercell
 		{
 
 			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
-		
+
 			if (text)
 			{
 				textItems.append(text);
@@ -728,7 +728,7 @@ namespace Tinkercell
 			}
 		}
 	}	
-	
+
 	void ChangeTextCommand::redo()
 	{
 		for (int i=0; i < textItems.size() && i < newText.size() && i < oldText.size(); ++i)
@@ -736,7 +736,7 @@ namespace Tinkercell
 			if (textItems[i] != 0)
 			{
 				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
-		
+
 				if (text)
 				{
 					text->setPlainText(newText.at(i));
@@ -754,7 +754,7 @@ namespace Tinkercell
 			if (textItems[i] != 0)
 			{
 				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
-		
+
 				if (text)
 				{
 					text->setPlainText(oldText.at(i));

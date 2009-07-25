@@ -1,12 +1,12 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- The ModelReader is used to write an xml file containing the list of handles and their
- data.
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+The ModelReader is used to write an xml file containing the list of handles and their
+data.
+
 ****************************************************************************/
 
 #include "ModelWriter.h"
@@ -27,9 +27,9 @@ namespace Tinkercell
 	bool ModelWriter::writeModel(GraphicsScene * scene, QIODevice * device)
 	{
 		if (!scene || !device) return false;
-		
+
 		setDevice(device);
-		
+
 		return writeModel(scene,const_cast<ModelWriter*>(this));
 	}
 	/*! \brief Writes the handles and data for that handle
@@ -39,14 +39,14 @@ namespace Tinkercell
 	bool ModelWriter::writeModel(GraphicsScene * scene, QXmlStreamWriter * writer)
 	{
 		if (!scene || !writer) return false;
-		
+
 		QList<QGraphicsItem*> allItems = scene->items();
-		
+
 		QList<ItemHandle*> topLevelHandles, childHandles;
-		
+
 		if (scene->symbolsTable)
 			writeHandle(&(scene->symbolsTable->modelItem),writer);
-		
+
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)
 		{
@@ -70,7 +70,7 @@ namespace Tinkercell
 				childHandles << handle->children; //queue -- assures that parents are written first
 			}
 		}
-		
+
 		return true;
 	}
 	/*! \brief Writes a handle and all its children
@@ -91,12 +91,12 @@ namespace Tinkercell
 				writer->writeAttribute("family",handle->family()->name);
 			else
 				writer->writeAttribute("family","Node");
-			
+
 			if (handle->data)
 			{
 				QList<QString> nkeys = handle->data->numericalData.keys();
 				QList<QString> skeys = handle->data->textData.keys();
-				
+
 				if (nkeys.size() > 0)
 				{
 					writer->writeStartElement("TableOfReals");
@@ -109,7 +109,7 @@ namespace Tinkercell
 					}
 					writer->writeEndElement();
 				}
-				
+
 				if (skeys.size() > 0)
 				{
 					writer->writeStartElement("TableOfStrings");
@@ -126,54 +126,54 @@ namespace Tinkercell
 			writer->writeEndElement();
 		}
 	}
-	
+
 	/*! \brief Writes a data table of doubles into an XML file
-	 * \param NodeImage pointer to write as XML
-	 * \param index of shape in NodeImage's shape vector
-	 * \return void*/
-	 void ModelWriter::writeDataTable(const DataTable<qreal>& table, QXmlStreamWriter * writer)
-	 {
+	* \param NodeImage pointer to write as XML
+	* \param index of shape in NodeImage's shape vector
+	* \return void*/
+	void ModelWriter::writeDataTable(const DataTable<qreal>& table, QXmlStreamWriter * writer)
+	{
 		QString sep(";");
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
 		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
-		
+
 		QStringList values;
-		
+
 		for (int i=0; i < table.rows(); ++i)
 			for (int j=0; j < table.cols(); ++j)
 			{
 				values << QString::number(table.at(i,j));
 			}
-		writer->writeAttribute("values",values.join(sep));
-		
-		//writeEndElement();
-	 }
-	 
-	 /*! \brief Writes a data table of strings into an XML file
-	 * \param NodeImage pointer to write as XML
-	 * \param index of shape in NodeImage's shape vector
-	 * \return void*/
-	 void ModelWriter::writeDataTable(const DataTable<QString>& table, QXmlStreamWriter * writer)
-	 {
+			writer->writeAttribute("values",values.join(sep));
+
+			//writeEndElement();
+	}
+
+	/*! \brief Writes a data table of strings into an XML file
+	* \param NodeImage pointer to write as XML
+	* \param index of shape in NodeImage's shape vector
+	* \return void*/
+	void ModelWriter::writeDataTable(const DataTable<QString>& table, QXmlStreamWriter * writer)
+	{
 		QString sep(";");
 		//writeStartElement("TableOfStrings");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
 		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
-		
+
 		QStringList values;
-		
+
 		for (int i=0; i < table.rows(); ++i)
 			for (int j=0; j < table.cols(); ++j)
 			{
 				values << table.at(i,j);
 			}
-		writer->writeAttribute("values",values.join(sep));
-		
-		//writeEndElement();
-	 }
+			writer->writeAttribute("values",values.join(sep));
+
+			//writeEndElement();
+	}
 }

@@ -1,12 +1,12 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool places a stoichiometry table and a table of rates inside all connection handles.
- An associated GraphicsTool is also defined. This allow brings up a table for editting
- the stoichiometry and rates tables.
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool places a stoichiometry table and a table of rates inside all connection handles.
+An associated GraphicsTool is also defined. This allow brings up a table for editting
+the stoichiometry and rates tables.
 
 ****************************************************************************/
 
@@ -45,105 +45,185 @@
 
 namespace Tinkercell
 {
-
+	/*! \brief This class provides the C API for the StoichiometryTool class
+	\ingroup capi
+	*/
 	class StoichiometryTool_FToS : public QObject
 	{
 		Q_OBJECT
-		signals:
-			void getStoichiometry(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-			void setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const DataTable<qreal>&);
-			void getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-			void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
-		public slots:
-			Matrix getStoichiometry(Array);
-			void setStoichiometry(Array,Matrix );
-			char** getRates(Array);
-			void setRates(Array,char** );
+	signals:
+		void getStoichiometry(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const DataTable<qreal>&);
+		void getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
+	public slots:
+		Matrix getStoichiometry(Array);
+		void setStoichiometry(Array,Matrix );
+		char** getRates(Array);
+		void setRates(Array,char** );
 	};
 
+	/*! \brief This class adds the Rates string data and Stoichiometry numerical data 
+				to each connection that is inserted and provides the table widgets
+				for editting those tables. This class also contains a useful function that
+				parses an equation and places any undefined variables in the item's Numerical Attributes
+				table
+	\ingroup plugins
+	*/
 	class MY_EXPORT StoichiometryTool : public Tool
 	{
-		Q_OBJECT;
+		Q_OBJECT
 
 	public:
 
+		/*! \brief handles that are currectly selected and being displayed by the table table widgets*/
 		QList<ConnectionHandle*> connectionHandles;
+		/*! \brief constructor: intializes the table widgets*/
 		StoichiometryTool();
+		/*! \brief sets main window and connects to main window's signals
+			\param MainWindow*/
 		bool setMainWindow(MainWindow * main);
+		/*! \brief preferred size for this window*/
 		QSize sizeHint() const;
+		/*! \brief hide the stoichiometry matrix, i.e. show only the rates*/
 		void hideMatrix();
+		/*! \brief show stoichiometry matrix along with rates*/
 		void showMatrix();
-		
+
+		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
+		add any undefined variables in the Numerical Attributes table (where parameters are usually stored)
+		\param NetworkWindow the target network window (for symbols table)
+		\param ItemHandle* the item handle that the equation belongs with
+		\param QString& the equation; this variable can get modified if it contains bad characters*/
 		static bool parseRateString(NetworkWindow*, ItemHandle *, QString&);
+		/*! \brief get the stoichiometry matrix for all the given items, combined
+		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be generated
+		\param QString naming scheme to use instead of A.B, e.g A_B*/
 		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
-		static void setStoichiometry(GraphicsScene*,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
+		/*! \brief set the stoichiometry matrix for all the given items, combined
+		\param NetworkWindow* current window
+		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be set
+		\param DataTable combined stoichiometry matrix for all the items selected
+		\param QString naming scheme to use instead of A.B, e.g A_B*/
+		static void setStoichiometry(NetworkWindow *,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
+		/*! \brief get the rates array for all the given items, combined
+		\param QList<ItemHandle*> all the items for which the rates will be generated
+		\param QString naming scheme to use instead of A.B, e.g A_B*/
 		static QStringList getRates(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
-		static void setRates(GraphicsScene*,QList<ItemHandle*>&,const QStringList&,const QString& replaceDot = QString("_"));
+		/*! \brief set the rates for all the given items, combined
+		\param NetworkWindow* current window
+		\param QList<ItemHandle*> all the items for which the rates will be set
+		\param DataTable combined rates array for all the items selected
+		\param QString naming scheme to use instead of A.B, e.g A_B*/
+		static void setRates(NetworkWindow*,QList<ItemHandle*>&,const QStringList&,const QString& replaceDot = QString("_"));
 
 	public slots:
-                void select(int);
-                void deselect(int);
-
+		/*! \brief this widget has been selected. Argument does nothing */
+		void select(int);
+		/*! \brief this widget has been deselected. Argument does nothing */
+		void deselect(int);
+		/*! \brief inserts the Rates and Stoichiometry tables for any new connection handle */
 		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
-        void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+		/*! \brief updates the internal connectionHandles list, which is used to display the rates and stoichiometry*/
+		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+		/*! \brief connects to ModelSummaryTool and ConnectionSelectionTool*/
 		void toolLoaded(Tool*);
+		/*! \brief updates the widget display in case rates have been changed*/
 		void historyUpdate(int);
+		/*! \brief sets the C pointers for getRates, setRates, getStoichiometry, setStoic...etc*/
 		void setupFunctionPointers(QLibrary*);
-                void sceneClosing(NetworkWindow * scene, bool * close);
-		
+		/*! \brief when scene is closing, close this window and clear connectionHandles*/
+		void sceneClosing(NetworkWindow * , bool * close);
+		/*! \brief used by ModelSummaryTool to show only the relevant parameters*/
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		/*! \brief display rates in the ModelSummaryTool widget*/
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 
 	signals:
+		/*! \brief set the middle region of a connection for reversible reactions*/
 		void setMiddleBox(int,const QString&);
-		
+
 	private slots:
+		/*! \brief used for the C API*/
 		void getStoichiometrySlot(QSemaphore*, DataTable<qreal>*, const QList<ItemHandle*>&);
+		/*! \brief used for the C API*/
 		void getRatesSlot(QSemaphore *, QStringList*, const QList<ItemHandle*>&);
+		/*! \brief used for the C API*/
 		void setStoichiometrySlot(QSemaphore*, QList<ItemHandle*>&, const DataTable<qreal>&);
+		/*! \brief used for the C API*/
 		void setRatesSlot(QSemaphore*, QList<ItemHandle*>&, const QStringList&);
-		
+
 	protected:
+		/*! \brief insert Rates and Stoichiometry tables
+		\param ConnectionHandle * target handle*/
 		void insertDataMatrix(ConnectionHandle * handle);
-		QTableWidget ratesTable, matrixTable;
+		/*! \brief widgets for displaying rates*/
+		QTableWidget ratesTable;
+		/*! \brief widgets for displaying stoichiometry*/
+		QTableWidget matrixTable;
+		/*! \brief delegate for the tables*/
 		SpinBoxDelegate delegate;
-		//QTextEdit * textView;
-		//int updateText();
+		/*! \brief update table widget based on currently selected connections*/
 		void updateTable();
-	
-        protected slots:
+
+	protected slots:
+		/*! \brief add new reaction*/
 		void addRow();
+		/*! \brief remove a reaction*/
 		void removeRow();
+		/*! \brief add an intermediate species (column in transpose of stoichiometry matrix)*/
 		void addCol();
+		/*! \brief add a participating species (column in transpose of stoichiometry matrix)*/
 		void removeCol();
+		/*! \brief set rate of the connection at the given index*/
 		void setRate(int, int);
+		/*! \brief set stoichiometry for the connection/species at the given index*/
 		void setStoichiometry(int, int);
+		/*! \brief make a biochemical reaction reversible by adding another row in the stoichiometry table*/
 		void addReverseReaction();
 
 	protected:
+		/*! \brief not used any longer*/
 		QList<GraphicsScene*> scenePtr;
+		/*! \brief not used any longer*/
 		QList<DataTable<qreal>*> numericalDataPtr;
+		/*! \brief not used any longer*/
 		QList<DataTable<QString>*> textDataPtr;
+		/*! \brief Group boxes for displaying the rates and stoichiometry tables*/
 		QGroupBox * ratesBox, * matrixBox;
-		
+
+		/*! \brief used for the C API*/
 		static StoichiometryTool_FToS fToS;
+		/*! \brief connect to the the C API static class*/
 		void connectCFuntions();
+		/*! \brief used for the C API*/
 		static Matrix _getStoichiometry(Array);
+		/*! \brief used for the C API*/
 		static void _setStoichiometry(Array ,Matrix );
+		/*! \brief used for the C API*/
 		static char** _getRates(Array );
+		/*! \brief used for the C API*/
 		static void _setRates(Array ,char** );
+		/*! \brief delete and + for adding/removing rows/columns*/
 		virtual void keyPressEvent ( QKeyEvent * event );
-		
+
 	private:
-                QStringList updatedRowNames, updatedColumnNames;
-	
-                bool openedByUser;
-                NodeGraphicsItem graphics1;
-                NodeGraphicsItem graphics2;
+		/*! \brief used to keep track of updated headers*/
+		QStringList updatedRowNames, updatedColumnNames;
+
+		/*! \brief used to keep track of when to close the window automatically*/
+		bool openedByUser;
+		/*! \brief the icon to display for this tool*/
+		NodeGraphicsItem graphics1;
+		/*! \brief the icon to display for this tool*/
+		NodeGraphicsItem graphics2;
+		/*! \brief the dock widget for this widget*/
 		QDockWidget * dockWidget;
+		/*! \brief make a reaction reversible*/
 		QAction autoReverse;
-                QAction * separator;
-		
+		/*! \brief separator for the action that makes a reaction reversible*/
+		QAction * separator;
+
 	};
 
 

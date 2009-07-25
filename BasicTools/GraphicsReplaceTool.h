@@ -1,13 +1,13 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This is source file for the GraphicsReplaceTool plugin. 
- This plugin adds the copy, cut, and paste features to Tinkercell.
- It also places the buttons for these functions in the toolbar, in the edit menu, and
- the context menu (mouse right-click).
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This is source file for the GraphicsReplaceTool plugin. 
+This plugin adds the copy, cut, and paste features to Tinkercell.
+It also places the buttons for these functions in the toolbar, in the edit menu, and
+the context menu (mouse right-click).
 
 ****************************************************************************/
 
@@ -38,22 +38,22 @@ namespace Tinkercell
 	class MY_EXPORT GraphicsReplaceTool : public Tool
 	{
 		Q_OBJECT
-		
-        public:
-                GraphicsReplaceTool();
-		
+
+	public:
+		GraphicsReplaceTool();
+
 		bool setMainWindow(MainWindow * main);
 
-		
-        public slots:
 
-		void substituteNodeGraphics();
+		public slots:
 
-	private slots:
-		void selectNewNodeFile();
-		void replaceNode();
-		void replaceNode(QListWidgetItem*);
-	 
+			void substituteNodeGraphics();
+
+			private slots:
+				void selectNewNodeFile();
+				void replaceNode();
+				void replaceNode(QListWidgetItem*);
+
 	private:
 
 		bool fullReactionSelected(const ConnectionGraphicsItem*);

@@ -1,10 +1,10 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool allows the loading and saving of models.
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool allows the loading and saving of models.
 
 ****************************************************************************/
 #ifndef TINKERCELL_SAVEFILETOOL_H
@@ -43,37 +43,37 @@
 namespace Tinkercell
 {
 
-class MY_EXPORT LoadSaveTool : public Tool
-{
-	Q_OBJECT
+	class MY_EXPORT LoadSaveTool : public Tool
+	{
+		Q_OBJECT
 
-public:
-	LoadSaveTool();
-	bool setMainWindow(MainWindow * main);
+	public:
+		LoadSaveTool();
+		bool setMainWindow(MainWindow * main);
 
 signals:
-	void sceneChanged(GraphicsScene*);
-        void prepareModelForSaving(NetworkWindow*);
-        void modelSaved(NetworkWindow*);
-        void modelLoaded(NetworkWindow*);
+		void sceneChanged(GraphicsScene*);
+		void prepareModelForSaving(NetworkWindow*);
+		void modelSaved(NetworkWindow*);
+		void modelLoaded(NetworkWindow*);
 
-public slots:
-	void saveModel(const QString& filename);
-	void loadModel(const QString& filename);
-	void historyChanged( int );
-        void windowClosing(NetworkWindow * win, bool * close);
-	
-protected:
+		public slots:
+			void saveModel(const QString& filename);
+			void loadModel(const QString& filename);
+			void historyChanged( int );
+			void windowClosing(NetworkWindow * win, bool * close);
 
-	static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,bool&);
-	static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&,bool&);
-	static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
-	static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
-	static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
-	static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
-	
-	QHash<GraphicsScene*,bool> savedScenes;
-};
+	protected:
+
+		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,bool&);
+		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&,bool&);
+		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
+		static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
+		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
+		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
+
+		QHash<GraphicsScene*,bool> savedScenes;
+	};
 
 }
 

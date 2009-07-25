@@ -1,10 +1,10 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This tool allows the loading and saving of models.
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This tool allows the loading and saving of models.
 
 ****************************************************************************/
 #include "NodesTree.h"
@@ -20,17 +20,17 @@ namespace Tinkercell
 {
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"))
 	{
-		
+
 	}
-	
+
 	void LoadSaveTool::historyChanged(int)
 	{
 		GraphicsScene * scene = currentScene();
 		if (scene)
 			savedScenes[scene] = false;
 	}
-	
-        void LoadSaveTool::windowClosing(NetworkWindow * win, bool * close)
+
+	void LoadSaveTool::windowClosing(NetworkWindow * win, bool * close)
 	{
 		if (mainWindow && win && close && (*close) && savedScenes.contains(win->scene) && !savedScenes.value(win->scene))
 		{
@@ -38,22 +38,22 @@ namespace Tinkercell
 			if (mainWindow->currentWindow())
 				title = mainWindow->currentWindow()->windowTitle();
 			QMessageBox::StandardButton button = QMessageBox::question(
-													mainWindow,
-													title,
-													tr("Save before closing?"),
-													QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
-													QMessageBox::Ok);
+				mainWindow,
+				title,
+				tr("Save before closing?"),
+				QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
+				QMessageBox::Ok);
 			if (button == QMessageBox::Ok)
 			{
 				mainWindow->saveWindow();
 				(*close) = false;
 			}
 			else
-			if (button == QMessageBox::Cancel)
-				(*close) = false;
+				if (button == QMessageBox::Cancel)
+					(*close) = false;
 		}
 	}
-	
+
 	bool LoadSaveTool::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -61,23 +61,23 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(saveModel(const QString&)),this,SLOT(saveModel(const QString&)));
 			connect(mainWindow,SIGNAL(loadModel(const QString&)),this,SLOT(loadModel(const QString&)));
-                        connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
-			
-                        connect(this,SIGNAL(prepareModelForSaving(NetworkWindow*)),mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)));
-                        connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
-                        connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
+
+			connect(this,SIGNAL(prepareModelForSaving(NetworkWindow*)),mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)));
+			connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
+			connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
 			return true;
 		}
 		return false;
 	}
-	
+
 	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
 	{
 		if (!node) return;
 		ItemHandle * handle = getHandle(node);
 		if (!handle) return; //don't write arrow heads and decorators
-		
+
 		modelWriter.writeStartElement("NodeItem");
 		modelWriter.writeAttribute("className",node->className);
 		if (handle)
@@ -89,34 +89,34 @@ namespace Tinkercell
 		else
 			modelWriter.writeAttribute("visible","no");
 		modelWriter.writeAttribute("z",QString::number(node->zValue()));
-		
+
 		QTransform t1 = node->sceneTransform();
 		QPointF pos = node->scenePos();
-		
+
 		modelWriter.writeStartElement("pos");
 		modelWriter.writeAttribute("x",QString::number(pos.x()));
 		modelWriter.writeAttribute("y",QString::number(pos.y()));
 		modelWriter.writeEndElement();
-		
+
 		modelWriter.writeStartElement("transform");
 		modelWriter.writeAttribute("m11",QString::number(t1.m11()));
 		modelWriter.writeAttribute("m12",QString::number(t1.m12()));
 		modelWriter.writeAttribute("m21",QString::number(t1.m21()));
 		modelWriter.writeAttribute("m22",QString::number(t1.m22()));
 		modelWriter.writeEndElement();
-		
+
 		NodeGraphicsWriter::writeNodeGraphics(node,&modelWriter);
 		modelWriter.writeEndElement();
 	}
-	
+
 	void LoadSaveTool::writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
 	{
 		if (!connection) return;
 		ItemHandle * handle = getHandle(connection);
-		
+
 		modelWriter.writeStartElement(tr("ConnectionItem"));
 		modelWriter.writeAttribute(tr("className"),connection->className);
-		
+
 		if (handle) 
 			modelWriter.writeAttribute(tr("handle"),handle->fullName(tr(".")));
 		else
@@ -126,15 +126,15 @@ namespace Tinkercell
 		else
 			modelWriter.writeAttribute("visible","no");
 		modelWriter.writeAttribute("z",QString::number(connection->zValue()));
-		
+
 		ConnectionGraphicsWriter::writeConnectionGraphics(connection,&modelWriter);
 		modelWriter.writeEndElement();
 	}
-	
+
 	void LoadSaveTool::writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
 	{
 		if (!text || !text->isVisible()) return;
-		
+
 		modelWriter.writeStartElement(tr("TextItem"));
 		modelWriter.writeAttribute(tr("text"),text->toPlainText());
 		ItemHandle * handle = getHandle(text);
@@ -142,27 +142,27 @@ namespace Tinkercell
 			modelWriter.writeAttribute(tr("handle"),handle->fullName());
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
-		
+
 		QPointF pos = text->scenePos();
 		modelWriter.writeAttribute(tr("x"),QString::number(pos.x()));
 		modelWriter.writeAttribute(tr("y"),QString::number(pos.y()));
 		modelWriter.writeAttribute(tr("color"),text->defaultTextColor().name());
-		
+
 		QTransform transform = text->transform();
 		modelWriter.writeAttribute(tr("m11"),QString::number(transform.m11()));
 		modelWriter.writeAttribute(tr("m12"),QString::number(transform.m12()));
 		modelWriter.writeAttribute(tr("m21"),QString::number(transform.m21()));
 		modelWriter.writeAttribute(tr("m22"),QString::number(transform.m22()));
-		
+
 		modelWriter.writeAttribute(tr("z"),QString::number(text->zValue()));
-		
+
 		QFont font = text->font();
 		modelWriter.writeAttribute(tr("font"),font.family());
 		modelWriter.writeAttribute(tr("size"),QString::number(font.pointSize()));
 		modelWriter.writeAttribute(tr("bold"),QString::number((int)font.bold()));
 		modelWriter.writeAttribute(tr("italics"),QString::number((int)font.italic()));
 		modelWriter.writeAttribute(tr("underline"),QString::number((int)font.underline()));
-		
+
 		modelWriter.writeEndElement();
 	}
 
@@ -170,14 +170,14 @@ namespace Tinkercell
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
-		
+
 		QList<QGraphicsItem*> allitems = scene->items();
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		TextGraphicsItem * text = 0;
-		
+
 		QFile file (filename);
-	
+
 		if (!file.open(QFile::WriteOnly | QFile::Text)) 
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
@@ -185,27 +185,27 @@ namespace Tinkercell
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
 		}
-		
-                emit prepareModelForSaving(scene->networkWindow);
-		
+
+		emit prepareModelForSaving(scene->networkWindow);
+
 		ModelWriter modelWriter;
-		
+
 		modelWriter.setDevice(&file);
 		modelWriter.setAutoFormatting(true);
-		
+
 		modelWriter.writeStartDocument();
 		modelWriter.writeDTD("<!DOCTYPE TinkerCell>");
-		
+
 		modelWriter.writeStartElement("Model");
-		
+
 		modelWriter.writeStartElement("Handles");		
 		modelWriter.writeModel(scene,&file);
 		modelWriter.writeEndElement();
-		
+
 		QList<NodeGraphicsItem*> nodeItems;
 		QList<TextGraphicsItem*> textItems;
 		QList<ConnectionGraphicsItem*> connectionItems;
-		
+
 		for (int i=0; i < allitems.size(); ++i)
 		{
 			node = NodeGraphicsItem::topLevelNodeItem(allitems[i]);
@@ -230,7 +230,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
 		modelWriter.writeStartElement(tr("Nodes"));
 		for (int i=0; i < nodeItems.size(); ++i)
 		{
@@ -238,7 +238,7 @@ namespace Tinkercell
 			writeNode(node,modelWriter);
 		}
 		modelWriter.writeEndElement();
-		
+
 		modelWriter.writeStartElement(tr("Connections"));
 		QList<ConnectionGraphicsItem*> firstSetofConnections;
 		for (int i=0; i < connectionItems.size(); ++i)
@@ -263,7 +263,7 @@ namespace Tinkercell
 			writeConnection(connection,modelWriter);
 		}
 		modelWriter.writeEndElement();
-		
+
 		modelWriter.writeStartElement(tr("Texts"));
 		for (int i=0; i < textItems.size(); ++i)
 		{
@@ -271,50 +271,50 @@ namespace Tinkercell
 			writeText(text,modelWriter);
 		}
 		modelWriter.writeEndElement();
-		
+
 		modelWriter.writeEndElement();
 		modelWriter.writeEndDocument();
-		
+
 		savedScenes[scene] = true;
-		
+
 		QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 		QString filename2 = filename;
 		if (regex.indexIn(filename) >= 0)
 			filename2 = regex.cap(1);
-			
+
 		if (mainWindow->currentWindow())
 		{
 			mainWindow->currentWindow()->setWindowTitle(filename2);
 			mainWindow->currentWindow()->filename = filename;
 			qDebug() << filename;
 		}
-			
-                emit modelSaved(scene->networkWindow);
-		
+
+		emit modelSaved(scene->networkWindow);
+
 		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
 		OutputWindow::message(tr("model successfully saved in : ") + filename);
 	}
-	
+
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
 		if (!mainWindow) return;
-		
-        mainWindow->newGraphicsWindow();
+
+		mainWindow->newGraphicsWindow();
 		GraphicsScene * scene = mainWindow->currentScene();
 		if (!scene) return;
-			
+
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
 			//QMessageBox::information(mainWindow,tr("Cannot load model"),tr("No Nodes or Connections tree available."),QMessageBox::Ok,QMessageBox::Ok);
 			OutputWindow::error(tr("No Nodes or Connections tree available."));
 			return;
 		}
-		
+
 		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
-		
+
 		QFile file1 (filename);
-	
+
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
@@ -323,11 +323,11 @@ namespace Tinkercell
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
 		}
-		
+
 		//find starting point for the handles
 		ModelReader modelReader;
 		modelReader.setDevice(&file1);		
-		
+
 		while (!modelReader.atEnd() && !(modelReader.isStartElement() && modelReader.name() == "Model"))
 		{
 			modelReader.readNext();
@@ -337,7 +337,7 @@ namespace Tinkercell
 			file1.close();
 			return;
 		}
-		
+
 		while (!modelReader.atEnd() && !(modelReader.isStartElement() && modelReader.name() == "Handles"))
 		{
 			modelReader.readNext();
@@ -347,16 +347,16 @@ namespace Tinkercell
 			file1.close();
 			return;
 		}
-		
+
 		modelReader.readNext();
-		
+
 		//read all the handles
 		QList<QPair<QString,ItemHandle*> > handlesList = modelReader.readHandles(scene,&file1);
-		
+
 		QHash<QString,ItemHandle*> handlesHash;  //hash name->handle
 		NodeHandle * nodeHandle;
 		ConnectionHandle * connectionHandle;
-		
+
 		for (int i=0; i < handlesList.size(); ++i)
 		{
 			if (handlesList[i].second)
@@ -368,25 +368,25 @@ namespace Tinkercell
 						nodeHandle->setFamily( nodesTree->nodeFamilies[handlesList[i].first] );
 				}
 				else
-				if (handlesList[i].second->type == ConnectionHandle::Type)
-				{
-					connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
-					if (connectionsTree->connectionFamilies.contains(handlesList[i].first))
+					if (handlesList[i].second->type == ConnectionHandle::Type)
 					{
-						connectionHandle->setFamily( connectionsTree->connectionFamilies[handlesList[i].first] );
+						connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
+						if (connectionsTree->connectionFamilies.contains(handlesList[i].first))
+						{
+							connectionHandle->setFamily( connectionsTree->connectionFamilies[handlesList[i].first] );
+						}
 					}
-				}
-				if (handlesList[i].second->family())
-					handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
+					if (handlesList[i].second->family())
+						handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
 			}
 		}
-		
-		
+
+
 		file1.close();
-		
+
 		//find starting point for nodes
 		QFile file2 (filename);
-		
+
 		if (!file2.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened") + filename);
@@ -395,23 +395,23 @@ namespace Tinkercell
 			//qDebug() << "file cannot be opened";
 			return;
 		}
-		
+
 		QList<QGraphicsItem*> items;
 		QList<NodeGraphicsItem*> nodes;
 		QList<QTransform> transforms;
 		QList<QPointF> points;
 		QList<qreal> zValues;
 		QList<bool> visibles;
-		
+
 		//find starting point for nodes
 		NodeGraphicsReader nodeReader;
 		nodeReader.setDevice(&file2);
-		
+
 		while (!nodeReader.atEnd() && !(nodeReader.isStartElement() && nodeReader.name() == "Nodes"))
 		{
 			nodeReader.readNext();
 		}
-		
+
 		//read all the nodes
 		while (!nodeReader.atEnd() && !(nodeReader.isEndElement() && nodeReader.name() == "Nodes"))
 		{
@@ -468,7 +468,7 @@ namespace Tinkercell
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads() + connection->modifierArrowHeads();
-				
+
 				for (int i=0; i < arrowHeads.size(); ++i)
 				{
 					if (arrowHeads[i] && (arrowHeads.indexOf(arrowHeads[i]) == i))
@@ -482,7 +482,7 @@ namespace Tinkercell
 			}
 			nodeReader.readNext();
 		}
-		
+
 		//read all texts
 		while (!nodeReader.atEnd() && !(nodeReader.isStartElement() && nodeReader.name() == "Texts"))
 		{
@@ -507,7 +507,7 @@ namespace Tinkercell
 			nodeReader.readNext();
 		}
 		file2.close();
-		
+
 		if (items.size() > 0)
 		{	
 			for (int i=0; i < items.size(); ++i)
@@ -525,38 +525,38 @@ namespace Tinkercell
 					connections[i]->refresh();
 				}
 
-			scene->insert("file loaded",items);
-			
-			for (int i=0; i < items.size(); ++i)
-			{
-				items[i]->setZValue(zValues[i]);
-			}
-			
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i])
+				scene->insert("file loaded",items);
+
+				for (int i=0; i < items.size(); ++i)
 				{
-					connections[i]->setControlPointsVisible(false);
+					items[i]->setZValue(zValues[i]);
 				}
-			
-			scene->fitAll();
-			
-			if (scene->historyStack)
-				scene->historyStack->clear();
-			
-			savedScenes[scene] = true;
-			
-			QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
-			QString filename2 = filename;
-			if (regex.indexIn(filename) >= 0)
-				filename2 = regex.cap(1);
-			
-			if (mainWindow->currentWindow())
-				mainWindow->currentWindow()->setWindowTitle(filename2);
-			
-            emit modelLoaded(scene->networkWindow);
+
+				for (int i=0; i < connections.size(); ++i)
+					if (connections[i])
+					{
+						connections[i]->setControlPointsVisible(false);
+					}
+
+					scene->fitAll();
+
+					if (scene->historyStack)
+						scene->historyStack->clear();
+
+					savedScenes[scene] = true;
+
+					QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
+					QString filename2 = filename;
+					if (regex.indexIn(filename) >= 0)
+						filename2 = regex.cap(1);
+
+					if (mainWindow->currentWindow())
+						mainWindow->currentWindow()->setWindowTitle(filename2);
+
+					emit modelLoaded(scene->networkWindow);
 		}
 	}
-	
+
 	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
@@ -571,58 +571,58 @@ namespace Tinkercell
 				if (attribs[i].name().toString() == tr("text"))
 					text->setPlainText(attribs[i].value().toString());
 				else
-				if (attribs[i].name().toString() == tr("handle"))
-				{
-					handle = attribs[i].value().toString();
-				}
-				else
-				if (attribs[i].name().toString() == tr("x"))
-					pos.rx() = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("y"))
-					pos.ry() = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("color"))
-					text->setDefaultTextColor(QColor(attribs[i].value().toString()));
-				else
-				if (attribs[i].name().toString() == tr("m11"))
-					m11 = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("m12"))
-					m12 = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("m21"))
-					m21 = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("m22"))
-					m22 = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("z"))
-					z = attribs[i].value().toString().toDouble(&ok);
-				else
-				if (attribs[i].name().toString() == tr("font"))
-					font.setFamily(attribs[i].value().toString());
-				else
-				if (attribs[i].name().toString() == tr("size"))
-					font.setPointSize(attribs[i].value().toString().toInt(&ok));
-				else
-				if (attribs[i].name().toString() == tr("bold"))
-					font.setBold(attribs[i].value().toString().toInt(&ok)==1);
-				else
-				if (attribs[i].name().toString() == tr("italics"))
-					font.setItalic(attribs[i].value().toString().toInt(&ok)==1);
-				else
-				if (attribs[i].name().toString() == tr("underline"))
-					font.setUnderline(attribs[i].value().toString().toInt(&ok)==1);
+					if (attribs[i].name().toString() == tr("handle"))
+					{
+						handle = attribs[i].value().toString();
+					}
+					else
+						if (attribs[i].name().toString() == tr("x"))
+							pos.rx() = attribs[i].value().toString().toDouble(&ok);
+						else
+							if (attribs[i].name().toString() == tr("y"))
+								pos.ry() = attribs[i].value().toString().toDouble(&ok);
+							else
+								if (attribs[i].name().toString() == tr("color"))
+									text->setDefaultTextColor(QColor(attribs[i].value().toString()));
+								else
+									if (attribs[i].name().toString() == tr("m11"))
+										m11 = attribs[i].value().toString().toDouble(&ok);
+									else
+										if (attribs[i].name().toString() == tr("m12"))
+											m12 = attribs[i].value().toString().toDouble(&ok);
+										else
+											if (attribs[i].name().toString() == tr("m21"))
+												m21 = attribs[i].value().toString().toDouble(&ok);
+											else
+												if (attribs[i].name().toString() == tr("m22"))
+													m22 = attribs[i].value().toString().toDouble(&ok);
+												else
+													if (attribs[i].name().toString() == tr("z"))
+														z = attribs[i].value().toString().toDouble(&ok);
+													else
+														if (attribs[i].name().toString() == tr("font"))
+															font.setFamily(attribs[i].value().toString());
+														else
+															if (attribs[i].name().toString() == tr("size"))
+																font.setPointSize(attribs[i].value().toString().toInt(&ok));
+															else
+																if (attribs[i].name().toString() == tr("bold"))
+																	font.setBold(attribs[i].value().toString().toInt(&ok)==1);
+																else
+																	if (attribs[i].name().toString() == tr("italics"))
+																		font.setItalic(attribs[i].value().toString().toInt(&ok)==1);
+																	else
+																		if (attribs[i].name().toString() == tr("underline"))
+																			font.setUnderline(attribs[i].value().toString().toInt(&ok)==1);
 			}
 			text->setFont(font);
 			transform.setMatrix(m11,m12,0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
-			
+
 			return text;
 		}
 		return 0;
 	}
-	
+
 	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z, bool& visible)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "ConnectionItem")
@@ -638,24 +638,24 @@ namespace Tinkercell
 					type = attribs[i].value().toString();
 				}
 				else
-				if (attribs[i].name().toString() == tr("handle"))
-				{
-					handle = attribs[i].value().toString();
-				}
-				else
-				if (attribs[i].name().toString() == tr("z"))
-				{
-					bool ok;
-					z = attribs[i].value().toString().toDouble(&ok);
-					if (!ok) z = 1.0;
-				}
-				else
-				if (attribs[i].name().toString() == tr("visible"))
-				{
-					visible = (attribs[i].value().toString().toLower() == QString("yes"));
-				}				
+					if (attribs[i].name().toString() == tr("handle"))
+					{
+						handle = attribs[i].value().toString();
+					}
+					else
+						if (attribs[i].name().toString() == tr("z"))
+						{
+							bool ok;
+							z = attribs[i].value().toString().toDouble(&ok);
+							if (!ok) z = 1.0;
+						}
+						else
+							if (attribs[i].name().toString() == tr("visible"))
+							{
+								visible = (attribs[i].value().toString().toLower() == QString("yes"));
+							}				
 			}
-			
+
 			while (!nodeReader.atEnd() && !(nodeReader.isEndElement() && nodeReader.name() == QObject::tr("ConnectionItem")))
 			{
 				if (nodeReader.name() == "ConnectionGraphicsItem")
@@ -670,11 +670,11 @@ namespace Tinkercell
 		}
 		return 0;
 	}
-	
+
 	NodeGraphicsItem * LoadSaveTool::readNode(NodeGraphicsReader & reader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, bool& visible)
 	{
 		if (!(reader.isStartElement() && reader.name() == QObject::tr("NodeItem"))) return 0;
-		
+
 		QXmlStreamAttributes attribs = reader.attributes();
 		QString type;
 		for (int i=0; i < attribs.size(); ++i)
@@ -684,35 +684,35 @@ namespace Tinkercell
 				type = attribs[i].value().toString();
 			}
 			else
-			if (attribs.at(i).name().toString() == tr("handle"))
-			{
-				handle = attribs[i].value().toString();
-			}
-			else
-			if (attribs[i].name().toString() == tr("z"))
-			{
-				bool ok;
-				z = attribs[i].value().toString().toDouble(&ok);
-				if (!ok) z = 1.0;
-			}
-			else
-			if (attribs[i].name().toString() == tr("visible"))
-			{
-				visible = (attribs[i].value().toString().toLower() == QString("yes"));
-			}
+				if (attribs.at(i).name().toString() == tr("handle"))
+				{
+					handle = attribs[i].value().toString();
+				}
+				else
+					if (attribs[i].name().toString() == tr("z"))
+					{
+						bool ok;
+						z = attribs[i].value().toString().toDouble(&ok);
+						if (!ok) z = 1.0;
+					}
+					else
+						if (attribs[i].name().toString() == tr("visible"))
+						{
+							visible = (attribs[i].value().toString().toLower() == QString("yes"));
+						}
 		}
-		
+
 		NodeGraphicsItem * node = 0;
-		
+
 		if (type == ArrowHeadItem::class_name)
 			node = new ArrowHeadItem;
 		else
 			node = new NodeGraphicsItem;
-		
+
 		if (!type.isEmpty()) node->className = type;
-		
+
 		qreal n=0,m11=0,m12=0,m21=0,m22=0;
-		
+
 		while (!reader.atEnd() && !(reader.isEndElement() && reader.name() == QObject::tr("NodeItem")))
 		{
 			if (reader.isStartElement())
@@ -722,41 +722,41 @@ namespace Tinkercell
 					reader.readNodeGraphics(node,reader.device());
 				}
 				else
-				if (reader.name() == "pos")
-				{
-					attribs = reader.attributes();
-					bool ok;
-					if (attribs.size() == 2)
+					if (reader.name() == "pos")
 					{
-						n = attribs.at(0).value().toString().toDouble(&ok);
-						if (ok)
-							pos.rx() = n;
-							
-						n = attribs.at(1).value().toString().toDouble(&ok);
-						if (ok)
-							pos.ry() = n;
+						attribs = reader.attributes();
+						bool ok;
+						if (attribs.size() == 2)
+						{
+							n = attribs.at(0).value().toString().toDouble(&ok);
+							if (ok)
+								pos.rx() = n;
+
+							n = attribs.at(1).value().toString().toDouble(&ok);
+							if (ok)
+								pos.ry() = n;
+						}
 					}
-				}
-				else
-				if (reader.name() == "transform")
-				{
-					QXmlStreamAttributes attribs = reader.attributes();
-					bool ok;
-					if (attribs.size() == 4)
-					{
-						n = attribs.at(0).value().toString().toDouble(&ok);
-						if (ok) m11 = n;
-						
-						n = attribs.at(1).value().toString().toDouble(&ok);
-						if (ok) m12 = n;
-						
-						n = attribs.at(2).value().toString().toDouble(&ok);
-						if (ok) m21 = n;
-						
-						n = attribs.at(3).value().toString().toDouble(&ok);
-						if (ok) m22 = n;
-					}
-				}
+					else
+						if (reader.name() == "transform")
+						{
+							QXmlStreamAttributes attribs = reader.attributes();
+							bool ok;
+							if (attribs.size() == 4)
+							{
+								n = attribs.at(0).value().toString().toDouble(&ok);
+								if (ok) m11 = n;
+
+								n = attribs.at(1).value().toString().toDouble(&ok);
+								if (ok) m12 = n;
+
+								n = attribs.at(2).value().toString().toDouble(&ok);
+								if (ok) m21 = n;
+
+								n = attribs.at(3).value().toString().toDouble(&ok);
+								if (ok) m22 = n;
+							}
+						}
 			}
 			reader.readNext();
 		}
@@ -774,7 +774,7 @@ namespace Tinkercell
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
-	
+
 	Tinkercell::LoadSaveTool * loadSaveTool = new Tinkercell::LoadSaveTool;
 	main->addTool(loadSaveTool);
 

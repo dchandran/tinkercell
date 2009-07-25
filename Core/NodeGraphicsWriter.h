@@ -1,11 +1,11 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This file defines an xml writer that writes a NodeGraphicsItem file
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This file defines an xml writer that writes a NodeGraphicsItem file
+
 ****************************************************************************/
 
 #ifndef ATHENA_PARTGRAPHICSITEMWRITER_H
@@ -20,51 +20,51 @@
 namespace Tinkercell
 {
 
-/*! \brief An xml reader that reads a NodeGraphicsItem file
+	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup io
-*/
-class NodeGraphicsWriter : public QXmlStreamWriter
-{
-public: 
- /*! \brief default constructor*/
- NodeGraphicsWriter();
- /*! \brief Writes an Node graphics item XML file with the document headers
- * \param NodeImage pointer to write as XML
- * \param QIODevice to use
- * \return void*/ 
- bool writeXml(NodeGraphicsItem * idrawable,const QString& fileName);
- /*! \brief Writes an Node graphics item XML file with the document headers
- * \param NodeImage pointer to write as XML
- * \param QIODevice to use
- * \return void*/ 
- bool writeXml(NodeGraphicsItem * idrawable,QIODevice * device);
- /*! \brief Writes an NodeImage as an XML file using the IO device provided 
- * \param NodeImage pointer to write as XML
- * \param QIODevice to use
- * \return void*/ 
- bool writeNodeGraphics(NodeGraphicsItem * idrawable,QIODevice * device);
- /*! \brief Writes an NodeImage as an XML file using the xml writer provided 
- * \param NodeImage pointer to write as XML
- * \param XML writer to use
- * \return void*/ 
- static bool writeNodeGraphics(NodeGraphicsItem * idrawable,QXmlStreamWriter *);
- 
-private:
- /*! \brief Writes a control point in an Node graphics item to an XML file 
- * \param NodeImage pointer to write as XML
- * \param index of control point in NodeImage's control points' vector
- * \param the xml writer in use
- * \return void*/
- static void writeControlPoint(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
- /*! \brief Writes a shape inside an Node graphics item to an XML file
- * \param NodeImage pointer to write as XML
- * \param index of shape in NodeImage's shape vector
- * \param the xml writer in use
- * \return void*/
- static void writeShape(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
- 
- 
-};
+	*/
+	class NodeGraphicsWriter : public QXmlStreamWriter
+	{
+	public: 
+		/*! \brief default constructor*/
+		NodeGraphicsWriter();
+		/*! \brief Writes an Node graphics item XML file with the document headers
+		* \param NodeImage pointer to write as XML
+		* \param QIODevice to use
+		* \return void*/ 
+		bool writeXml(NodeGraphicsItem * idrawable,const QString& fileName);
+		/*! \brief Writes an Node graphics item XML file with the document headers
+		* \param NodeImage pointer to write as XML
+		* \param QIODevice to use
+		* \return void*/ 
+		bool writeXml(NodeGraphicsItem * idrawable,QIODevice * device);
+		/*! \brief Writes an NodeImage as an XML file using the IO device provided 
+		* \param NodeImage pointer to write as XML
+		* \param QIODevice to use
+		* \return void*/ 
+		bool writeNodeGraphics(NodeGraphicsItem * idrawable,QIODevice * device);
+		/*! \brief Writes an NodeImage as an XML file using the xml writer provided 
+		* \param NodeImage pointer to write as XML
+		* \param XML writer to use
+		* \return void*/ 
+		static bool writeNodeGraphics(NodeGraphicsItem * idrawable,QXmlStreamWriter *);
+
+	private:
+		/*! \brief Writes a control point in an Node graphics item to an XML file 
+		* \param NodeImage pointer to write as XML
+		* \param index of control point in NodeImage's control points' vector
+		* \param the xml writer in use
+		* \return void*/
+		static void writeControlPoint(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+		/*! \brief Writes a shape inside an Node graphics item to an XML file
+		* \param NodeImage pointer to write as XML
+		* \param index of shape in NodeImage's shape vector
+		* \param the xml writer in use
+		* \return void*/
+		static void writeShape(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+
+
+	};
 
 }
 #endif 

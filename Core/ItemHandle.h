@@ -1,17 +1,17 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This is one of the main classes in Tinkercell
- This file defines the ItemHandle, NodeHandle, and ConnectionHandle classes.
- Each item in Tinkercell has a graphics item for drawing and a handle. The 
- handle stores data information and family information about the item that is displayed. 
- 
- A handle can also have multiple items associate with it. This just means that multiple
- graphics are used to draw a single item.
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This is one of the main classes in Tinkercell
+This file defines the ItemHandle, NodeHandle, and ConnectionHandle classes.
+Each item in Tinkercell has a graphics item for drawing and a handle. The 
+handle stores data information and family information about the item that is displayed. 
+
+A handle can also have multiple items associate with it. This just means that multiple
+graphics are used to draw a single item.
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_HANDLER_H
@@ -60,7 +60,7 @@ namespace Tinkercell
 		/*! \brief hash table that stores the text data for each tool*/
 		QHash<QString,DataTable<QString> > textData;
 	};
-	
+
 	/*! \brief 
 	* The handles are used to bring together data and graphics items.  
 	* Item Handle contains pointers to all the graphics items that belong to it, the tools
@@ -81,7 +81,7 @@ namespace Tinkercell
 		/*! \brief list of tools associated with this handle*/
 		QList<Tool*> tools;
 		/*! \brief the data (from each tool) for this handle
-			\sa ItemData*/
+		\sa ItemData*/
 		ItemData* data;
 		/*! \brief this handles immediate parent (main parent if there are more than one)*/
 		ItemHandle * parent;
@@ -89,7 +89,7 @@ namespace Tinkercell
 		QList<ItemHandle*> children;
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
-		
+
 		/*! \brief default constructor -- does nothing*/
 		ItemHandle();
 		/*! \brief copy constructor */
@@ -197,12 +197,12 @@ namespace Tinkercell
 	class NodeHandle : public ItemHandle
 	{
 		Q_OBJECT
-		
+
 	public:
 		/*! \brief this number is used to identify when a handle is a node handle*/
 		static int Type;
 		/*! \brief funcion that returns all the connections from all the nodes in this handle
-			\return QList<ConnectionHandle*> list of connection handles
+		\return QList<ConnectionHandle*> list of connection handles
 		*/
 		virtual QList<ConnectionHandle*> connections() const;
 		/*! \brief node family for this node handle*/
@@ -227,10 +227,10 @@ namespace Tinkercell
 		/*! \brief set the node family for this handle
 		\param NodeFamily* node family*/
 		virtual bool setFamily(NodeFamily *);
-                /*! \brief checks if the item handle is a node handle and casts it as a node item.
-                  Returns 0 if it is not a node item
-                \param ItemHandle* item*/
-                static NodeHandle* asNode(ItemHandle *);
+		/*! \brief checks if the item handle is a node handle and casts it as a node item.
+		Returns 0 if it is not a node item
+		\param ItemHandle* item*/
+		static NodeHandle* asNode(ItemHandle *);
 	};
 
 	/*! \brief 
@@ -246,50 +246,50 @@ namespace Tinkercell
 		/*! \brief this number is used to identify when an item handle is a connection handle*/
 		static int Type;
 		/*! \brief returns all the nodes connected to all the connectors in this handle
-			\return QList<NodeHandle*> list of node handles*/
+		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodes() const;
 		/*! \brief 
 		returns all the nodes that are on the "input" side of this connection. 
 		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
 		or by looking at the lhs and rhs lists in text itesm
-			\return QList<NodeHandle*> list of node handles*/
+		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodesIn() const;
 		/*! \brief 
 		returns all the nodes that are on the "output" side of this connection. 
 		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
 		or by looking at the lhs and rhs lists in text itesm
-			\return QList<NodeHandle*> list of node handles*/
+		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodesOut() const;
 		/*! \brief the family for this connection handle*/
 		ConnectionFamily* connectionFamily;
 		/*! \brief default constructor -- initializes everything*/
 		ConnectionHandle();
 		/*! \brief one parameter constructor -- initializes everything
-			\param ConnectionFamily* connection family*/
+		\param ConnectionFamily* connection family*/
 		ConnectionHandle(ConnectionFamily * family);
 		/*! \brief copy constructor -- deep copy of data, but shallow copy of graphics items*/
 		ConnectionHandle(const ConnectionHandle&);
 		/*! \brief two parameter constructor
-			\param ConnectionFamily* initial family
-			\param ConnectionGraphicsItem* connection graphics item*/
+		\param ConnectionFamily* initial family
+		\param ConnectionGraphicsItem* connection graphics item*/
 		ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item);
 		/*! \brief two parameter constructor
-			\param ConnectionFamily* initial family
-			\param ConnectionGraphicsItem* connection text item*/
+		\param ConnectionFamily* initial family
+		\param ConnectionGraphicsItem* connection text item*/
 		ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item);
 		/*! \brief set the family for this handle
-			\param ConnectionFamily* connection family*/
+		\param ConnectionFamily* connection family*/
 		virtual bool setFamily(ConnectionFamily * family);
 		/*! \brief clone of this handle
-			\return ItemFamily* connection handle as item handle*/
+		\return ItemFamily* connection handle as item handle*/
 		virtual ItemHandle * clone() const;
 		/*! \brief family for this handle
-			\return ItemFamily* connection family as item family*/
+		\return ItemFamily* connection family as item family*/
 		virtual ItemFamily* family() const;
-                /*! \brief checks if the item handle is a node handle and casts it as a node item.
-                  Returns 0 if it is not a node item
-                \param ItemHandle* item*/
-                static ConnectionHandle* asConnection(ItemHandle *);
+		/*! \brief checks if the item handle is a node handle and casts it as a node item.
+		Returns 0 if it is not a node item
+		\param ItemHandle* item*/
+		static ConnectionHandle* asConnection(ItemHandle *);
 	};
 
 	/*! \brief get the handle from a graphics item

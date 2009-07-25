@@ -1,11 +1,11 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This is the header file for the xml writer that writes a connection item.
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This is the header file for the xml writer that writes a connection item.
+
 ****************************************************************************/
 
 #include "ItemHandle.h"
@@ -15,148 +15,148 @@
 namespace Tinkercell
 {
 
-/*! \brief constructor. Sets autoformatting to true*/
-ConnectionGraphicsWriter::ConnectionGraphicsWriter() : QXmlStreamWriter()
-{
-	setAutoFormatting(true);
-}
-
-/*! \brief Writes an ConnectionGraphicsItem XML file with the document headers
-* \param ConnectionGraphicsItem pointer to write as XML
-* \param QIODevice to use
-* \return void*/
-bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,const QString& fileName)
-{
-	if (!idrawable) return false;
-	
-	QFile file (fileName);
-	
-	if (!file.open(QFile::WriteOnly | QFile::Text)) 
+	/*! \brief constructor. Sets autoformatting to true*/
+	ConnectionGraphicsWriter::ConnectionGraphicsWriter() : QXmlStreamWriter()
 	{
-        return false;
-    }
-	
-	setDevice(&file);
-
-    writeStartDocument();
-    writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
-	
-	writeConnectionGraphics(idrawable,&file);
-	
-    writeEndDocument();
-	
-	return true;
-}
-
-/*! \brief Writes an ConnectionGraphicsItem XML file with the document headers
-* \param ConnectionGraphicsItem pointer to write as XML
-* \param QIODevice to use
-* \return void*/
-bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,QIODevice * device)
-{
-	if (!idrawable || !device) return false;
-		
-	setDevice(device);
-
-    writeStartDocument();
-    writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
-	
-	writeConnectionGraphics(idrawable,device);
-	
-    writeEndDocument();
-	
-	return true;
-}
- /*! \brief Writes an NodeImage as an XML file using the xml writer provided 
- * \param connection item pointer to write as XML
- * \param xml writer in use
- * \return void*/ 
-bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * idrawable,QIODevice * device)
-{
-	if (!idrawable || !device) return false;
-	setDevice(device);
-	
-	return writeConnectionGraphics(idrawable,const_cast<ConnectionGraphicsWriter*>(this));
-}
- /*! \brief Writes an NodeImage as an XML file using the xml writer provided 
- * \param connection item pointer to write as XML
- * \param xml writer in use
- * \return void*/ 
-bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QXmlStreamWriter * writer)
-{
-	if (!connection || !writer) return false;
-	
-	QStringList types;
-	types << "line" << "bezier";
-	
-	writer->writeStartElement("ConnectionGraphicsItem");
-    writer->writeAttribute("version", "1.0");
-	writer->writeAttribute("color", connection->defaultPen.color().name());
-	writer->writeAttribute("width", QString::number(connection->defaultPen.widthF()));
-	writer->writeAttribute("type", types[ (int)connection->lineType ]);
-	writer->writeAttribute("style", QString::number((int)(connection->defaultPen.style())));
-	writer->writeAttribute("gap", QString::number(connection->arrowHeadDistance));
-	
-	QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints(true);
-	
-	writer->writeStartElement("ControlPoints");
-	writeControlPoints(controlPoints,writer);
-	writer->writeEndElement();
-	
-	writer->writeStartElement("PathVectors");
-	for (int i=0; i < connection->pathVectors.size(); ++i)
-	{
-		writePathVector(controlPoints,connection->pathVectors[i],writer);
+		setAutoFormatting(true);
 	}
-	writer->writeEndElement();
-	
-	writer->writeStartElement("CenterRegion");
-	writer->writeStartElement("Rect");
-	writer->writeAttribute("width", QString::number(connection->centerRegion.width()));
-	writer->writeAttribute("height", QString::number(connection->centerRegion.height()));
-	writer->writeEndElement();
-	if (connection->centerRegionItem)
+
+	/*! \brief Writes an ConnectionGraphicsItem XML file with the document headers
+	* \param ConnectionGraphicsItem pointer to write as XML
+	* \param QIODevice to use
+	* \return void*/
+	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,const QString& fileName)
 	{
-		writer->writeStartElement("Decorator");
-		writeNode(connection->centerRegionItem,writer);
-		writer->writeEndElement();
-	}
-	writer->writeEndElement();
-	
-	writer->writeEndElement();	
-	return true;
-}
- /*! \brief Writes all the control points in an ConnectionGraphicsItem to an XML file 
- * \param control points list to write as XML
- * \return void*/
-void ConnectionGraphicsWriter::writeControlPoints(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints , QXmlStreamWriter * writer)
-{
-	if (writer)
-	{
-		for (int i=0; i < controlPoints.size(); ++i)
+		if (!idrawable) return false;
+
+		QFile file (fileName);
+
+		if (!file.open(QFile::WriteOnly | QFile::Text)) 
 		{
-			if (controlPoints[i])
+			return false;
+		}
+
+		setDevice(&file);
+
+		writeStartDocument();
+		writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
+
+		writeConnectionGraphics(idrawable,&file);
+
+		writeEndDocument();
+
+		return true;
+	}
+
+	/*! \brief Writes an ConnectionGraphicsItem XML file with the document headers
+	* \param ConnectionGraphicsItem pointer to write as XML
+	* \param QIODevice to use
+	* \return void*/
+	bool ConnectionGraphicsWriter::writeXml(ConnectionGraphicsItem * idrawable,QIODevice * device)
+	{
+		if (!idrawable || !device) return false;
+
+		setDevice(device);
+
+		writeStartDocument();
+		writeDTD("<!DOCTYPE ConnectionGraphicsItem>");
+
+		writeConnectionGraphics(idrawable,device);
+
+		writeEndDocument();
+
+		return true;
+	}
+	/*! \brief Writes an NodeImage as an XML file using the xml writer provided 
+	* \param connection item pointer to write as XML
+	* \param xml writer in use
+	* \return void*/ 
+	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * idrawable,QIODevice * device)
+	{
+		if (!idrawable || !device) return false;
+		setDevice(device);
+
+		return writeConnectionGraphics(idrawable,const_cast<ConnectionGraphicsWriter*>(this));
+	}
+	/*! \brief Writes an NodeImage as an XML file using the xml writer provided 
+	* \param connection item pointer to write as XML
+	* \param xml writer in use
+	* \return void*/ 
+	bool ConnectionGraphicsWriter::writeConnectionGraphics(ConnectionGraphicsItem * connection,QXmlStreamWriter * writer)
+	{
+		if (!connection || !writer) return false;
+
+		QStringList types;
+		types << "line" << "bezier";
+
+		writer->writeStartElement("ConnectionGraphicsItem");
+		writer->writeAttribute("version", "1.0");
+		writer->writeAttribute("color", connection->defaultPen.color().name());
+		writer->writeAttribute("width", QString::number(connection->defaultPen.widthF()));
+		writer->writeAttribute("type", types[ (int)connection->lineType ]);
+		writer->writeAttribute("style", QString::number((int)(connection->defaultPen.style())));
+		writer->writeAttribute("gap", QString::number(connection->arrowHeadDistance));
+
+		QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints(true);
+
+		writer->writeStartElement("ControlPoints");
+		writeControlPoints(controlPoints,writer);
+		writer->writeEndElement();
+
+		writer->writeStartElement("PathVectors");
+		for (int i=0; i < connection->pathVectors.size(); ++i)
+		{
+			writePathVector(controlPoints,connection->pathVectors[i],writer);
+		}
+		writer->writeEndElement();
+
+		writer->writeStartElement("CenterRegion");
+		writer->writeStartElement("Rect");
+		writer->writeAttribute("width", QString::number(connection->centerRegion.width()));
+		writer->writeAttribute("height", QString::number(connection->centerRegion.height()));
+		writer->writeEndElement();
+		if (connection->centerRegionItem)
+		{
+			writer->writeStartElement("Decorator");
+			writeNode(connection->centerRegionItem,writer);
+			writer->writeEndElement();
+		}
+		writer->writeEndElement();
+
+		writer->writeEndElement();	
+		return true;
+	}
+	/*! \brief Writes all the control points in an ConnectionGraphicsItem to an XML file 
+	* \param control points list to write as XML
+	* \return void*/
+	void ConnectionGraphicsWriter::writeControlPoints(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints , QXmlStreamWriter * writer)
+	{
+		if (writer)
+		{
+			for (int i=0; i < controlPoints.size(); ++i)
 			{
-				writer->writeStartElement("ControlPoint");
-				writer->writeAttribute("x",QString::number(controlPoints[i]->x()));
-				writer->writeAttribute("y",QString::number(controlPoints[i]->y()));
-				writer->writeEndElement();
+				if (controlPoints[i])
+				{
+					writer->writeStartElement("ControlPoint");
+					writer->writeAttribute("x",QString::number(controlPoints[i]->x()));
+					writer->writeAttribute("y",QString::number(controlPoints[i]->y()));
+					writer->writeEndElement();
+				}
 			}
 		}
 	}
-}
 
- /*! \brief Writes a PathVector of a ConnectionGraphicsItem to an XML file
- * \param control points of the connection item where this PathVector belongs
- * \param xml writer in use
- * \return void*/
-void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::PathVector& pathVector,QXmlStreamWriter * writer)
-{
-	if (writer)
+	/*! \brief Writes a PathVector of a ConnectionGraphicsItem to an XML file
+	* \param control points of the connection item where this PathVector belongs
+	* \param xml writer in use
+	* \return void*/
+	void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::PathVector& pathVector,QXmlStreamWriter * writer)
 	{
-		ItemHandle * nodeHandle = 0;
-		QStringList controlPointsList;
-		writer->writeStartElement("Path");
+		if (writer)
+		{
+			ItemHandle * nodeHandle = 0;
+			QStringList controlPointsList;
+			writer->writeStartElement("Path");
 			writer->writeAttribute("numPoints",QString::number(pathVector.size()));
 			//write connected nodes
 			if ((nodeHandle = getHandle(NodeGraphicsItem::topLevelNodeItem(pathVector[0]))))
@@ -171,7 +171,7 @@ void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::Con
 				writer->writeAttribute("NodeAtStartX",QString("0"));
 				writer->writeAttribute("NodeAtStartY",QString("0"));
 			}
-				
+
 			if ((pathVector.size() > 1) && (nodeHandle = getHandle(NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1]))))
 			{
 				writer->writeAttribute("NodeAtEnd",nodeHandle->fullName());
@@ -187,7 +187,7 @@ void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::Con
 					static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)
 				{
 					ConnectionGraphicsItem * arrowConnection = static_cast<ArrowHeadItem*>(node)->connectionItem;
-					
+
 					writer->writeAttribute("NodeAtEnd",arrowConnection->itemHandle->fullName());
 					writer->writeAttribute("NodeAtEndX",QString::number(arrowConnection->pos().x()));
 					writer->writeAttribute("NodeAtEndY",QString::number(arrowConnection->pos().y()));
@@ -214,7 +214,7 @@ void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::Con
 			}
 			writer->writeAttribute("indices",controlPointsList.join(QString(",")));
 			writer->writeEndElement();
-			
+
 			if (pathVector.arrowStart)
 			{			
 				writer->writeStartElement("ArrowAtStart");
@@ -227,61 +227,61 @@ void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::Con
 				writeArrowHead(pathVector.arrowEnd,writer);
 				writer->writeEndElement();
 			}
-			
-		writer->writeEndElement();
-	}
-}
 
- /*! \brief Writes an arrow head using NodeGraphicsWriter to an XML file 
- * \param arrow head pointer to write
- * \param xml writer in use
- * \return void*/
-void ConnectionGraphicsWriter::writeArrowHead(ArrowHeadItem * node, QXmlStreamWriter * writer)
-{
-	if (node && writer)
-	{
-		QTransform t1 = node->sceneTransform();
-		QPointF pos = node->scenePos();
-		
-		writer->writeStartElement("pos");
-		writer->writeAttribute("x",QString::number(pos.x()));
-		writer->writeAttribute("y",QString::number(pos.y()));
-		writer->writeAttribute("angle",QString::number(node->angle));
-		writer->writeEndElement();
-		
-		writer->writeStartElement("transform");
-		writer->writeAttribute("m11",QString::number(t1.m11()));
-		writer->writeAttribute("m12",QString::number(t1.m12()));
-		writer->writeAttribute("m21",QString::number(t1.m21()));
-		writer->writeAttribute("m22",QString::number(t1.m22()));
-		writer->writeEndElement();
-		
-		NodeGraphicsWriter::writeNodeGraphics(node,writer);
+			writer->writeEndElement();
+		}
 	}
-}
 
-void ConnectionGraphicsWriter::writeNode(NodeGraphicsItem* node, QXmlStreamWriter* writer)
-{
-	
-	if (node && writer)
+	/*! \brief Writes an arrow head using NodeGraphicsWriter to an XML file 
+	* \param arrow head pointer to write
+	* \param xml writer in use
+	* \return void*/
+	void ConnectionGraphicsWriter::writeArrowHead(ArrowHeadItem * node, QXmlStreamWriter * writer)
 	{
-		QTransform t1 = node->sceneTransform();
-		QPointF pos = node->scenePos();
-		
-		writer->writeStartElement("pos");
-		writer->writeAttribute("x",QString::number(pos.x()));
-		writer->writeAttribute("y",QString::number(pos.y()));
-		writer->writeEndElement();
-		
-		writer->writeStartElement("transform");
-		writer->writeAttribute("m11",QString::number(t1.m11()));
-		writer->writeAttribute("m12",QString::number(t1.m12()));
-		writer->writeAttribute("m21",QString::number(t1.m21()));
-		writer->writeAttribute("m22",QString::number(t1.m22()));
-		writer->writeEndElement();
-		
-		NodeGraphicsWriter::writeNodeGraphics(node,writer);
+		if (node && writer)
+		{
+			QTransform t1 = node->sceneTransform();
+			QPointF pos = node->scenePos();
+
+			writer->writeStartElement("pos");
+			writer->writeAttribute("x",QString::number(pos.x()));
+			writer->writeAttribute("y",QString::number(pos.y()));
+			writer->writeAttribute("angle",QString::number(node->angle));
+			writer->writeEndElement();
+
+			writer->writeStartElement("transform");
+			writer->writeAttribute("m11",QString::number(t1.m11()));
+			writer->writeAttribute("m12",QString::number(t1.m12()));
+			writer->writeAttribute("m21",QString::number(t1.m21()));
+			writer->writeAttribute("m22",QString::number(t1.m22()));
+			writer->writeEndElement();
+
+			NodeGraphicsWriter::writeNodeGraphics(node,writer);
+		}
 	}
-}
+
+	void ConnectionGraphicsWriter::writeNode(NodeGraphicsItem* node, QXmlStreamWriter* writer)
+	{
+
+		if (node && writer)
+		{
+			QTransform t1 = node->sceneTransform();
+			QPointF pos = node->scenePos();
+
+			writer->writeStartElement("pos");
+			writer->writeAttribute("x",QString::number(pos.x()));
+			writer->writeAttribute("y",QString::number(pos.y()));
+			writer->writeEndElement();
+
+			writer->writeStartElement("transform");
+			writer->writeAttribute("m11",QString::number(t1.m11()));
+			writer->writeAttribute("m12",QString::number(t1.m12()));
+			writer->writeAttribute("m21",QString::number(t1.m21()));
+			writer->writeAttribute("m22",QString::number(t1.m22()));
+			writer->writeEndElement();
+
+			NodeGraphicsWriter::writeNodeGraphics(node,writer);
+		}
+	}
 
 }

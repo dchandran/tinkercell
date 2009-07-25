@@ -1,10 +1,10 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
 
- This is the history stack class that is used to store the undo/redo commands.
+This is the history stack class that is used to store the undo/redo commands.
 
 ****************************************************************************/
 
@@ -35,19 +35,19 @@
 namespace Tinkercell
 {
 
-    /*! \brief This is a small class extending QUndoView that manages a stack of undo commands.
-        \ingroup helper
-        */
-    class HistoryStack : public QUndoView
-    {
-        Q_OBJECT
-    public:
+	/*! \brief This is a small class extending QUndoView that manages a stack of undo commands.
+	\ingroup helper
+	*/
+	class HistoryStack : public QUndoView
+	{
+		Q_OBJECT
+	public:
 
-        void undo() { stack()->undo(); }
-        void redo() { stack()->redo(); }
-        void push(QUndoCommand * command) { stack()->push(command); }
+		void undo() { stack()->undo(); }
+		void redo() { stack()->redo(); }
+		void push(QUndoCommand * command) { stack()->push(command); }
 
-    };
+	};
 
 }
 

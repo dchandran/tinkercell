@@ -1,14 +1,14 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This is one of the main classes in Tinkercell
- This file defines the GraphicsScene class where all the drawing takes place.
- In addition to drawing , the GraphicsScene provides serveral signals and functions
- that is useful for plugins, eg. move, insert, delete, changeData, etc.
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This is one of the main classes in Tinkercell
+This file defines the GraphicsScene class where all the drawing takes place.
+In addition to drawing , the GraphicsScene provides serveral signals and functions
+that is useful for plugins, eg. move, insert, delete, changeData, etc.
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_GRAPHICSSCENE_H
@@ -49,29 +49,29 @@ namespace Tinkercell
 	class NetworkWindow;
 
 	/*! \brief gets the parent of this item that is a node, text, connection, or control point
-	 * \param QGraphicsItem * Qt graphics item
-	 \return QGraphicsItem * node, connection, text, or control point
-	 \ingroup core
+	* \param QGraphicsItem * Qt graphics item
+	\return QGraphicsItem * node, connection, text, or control point
+	\ingroup core
 	*/
 	QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
 	/*! Clone a graphics item
-	 * \param QGraphicsItem * a pointer to a QGraphicsItem
-	 \return QGraphicsItem * a QGraphicsItem that is one of the Tinkercell Graphics Items
-	 \ingroup core
+	* \param QGraphicsItem * a pointer to a QGraphicsItem
+	\return QGraphicsItem * a QGraphicsItem that is one of the Tinkercell Graphics Items
+	\ingroup core
 	*/
 	QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
 	/*! \brief The primary task of the graphics scene is to draws items. 
-			   It also provides functions for conveniently moving, deleting, editing, changind data, etc.
-			   The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
-			   items currently selected and currently being moved so a plug-in can easily add items to the list 
-			   of moving items or selected items. 
-			   The historyStack pointer can be used to add undo commands to the scene. 
-		\ingroup core
+	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
+	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
+	items currently selected and currently being moved so a plug-in can easily add items to the list 
+	of moving items or selected items. 
+	The historyStack pointer can be used to add undo commands to the scene. 
+	\ingroup core
 	*/
 	class GraphicsScene : public QGraphicsScene
 	{
 		Q_OBJECT
-		
+
 	public:
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
@@ -161,8 +161,8 @@ namespace Tinkercell
 		void cut();
 		/*! \brief paste copied items*/
 		void paste();
-          /*! \brief get all the handles in the current network*/
-          QList<ItemHandle*> allHandles() const;
+		/*! \brief get all the handles in the current network*/
+		QList<ItemHandle*> allHandles() const;
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QGraphicsItem * item to move
 		* \param QPointF distance to move the item
@@ -213,14 +213,14 @@ namespace Tinkercell
 		void setBrushAndPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
 		void transform(const QString& name, QGraphicsItem * item, 
-						 const QPointF& sizechange, 
-						 qreal anglechange,
-  						 bool VFlip, bool HFlip);
+			const QPointF& sizechange, 
+			qreal anglechange,
+			bool VFlip, bool HFlip);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
 		void transform(const QString& name, const QList<QGraphicsItem *>& items, 
-						 const QList<QPointF>& sizechange, 
-						 const QList<qreal>& anglechange,
-  						 bool VFlip, bool HFlip);
+			const QList<QPointF>& sizechange, 
+			const QList<qreal>& anglechange,
+			bool VFlip, bool HFlip);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
 		void setParentItem(const QString& name, QGraphicsItem * item, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
@@ -271,14 +271,14 @@ namespace Tinkercell
 		void changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
 		void changeData(const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
-	
+
 	signals:
 		/*! \brief signals just before items are deleted
 		* \param GraphicsScene * scene where the items are going to be removed
 		* \param QList<QGraphicsItem*>& list of graphics items going to be removed
 		* \param QList<ItemHandle*>& list of handles going to be removed (does NOT have to be the same number as items removed)
 		* \return void*/
-                void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief signals whenever items are deleted
 		* \param GraphicsScene* scene where the items were removed
 		* \param QList<QGraphicsItem*>& list of items removed
@@ -474,7 +474,7 @@ namespace Tinkercell
 		* \param scale factor
 		* \return void*/
 		void scaleView(qreal scaleFactor);
-		
+
 		friend class MainWindow;
 		friend class NetworkWindow;
 	};

@@ -1,14 +1,14 @@
 /****************************************************************************
 
- Copyright (c) 2008 Deepak Chandran
- Contact: Deepak Chandran (dchandran1@gmail.com)
- See COPYRIGHT.TXT
- 
- This file defines a set of functions that can be used to convert C data types, 
- such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
- and QGraphicsItem.
- 
- 
+Copyright (c) 2008 Deepak Chandran
+Contact: Deepak Chandran (dchandran1@gmail.com)
+See COPYRIGHT.TXT
+
+This file defines a set of functions that can be used to convert C data types, 
+such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
+and QGraphicsItem.
+
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_CONVERTVALUE_H
@@ -81,6 +81,6 @@ namespace Tinkercell
 	\return Matrix with null-terminated rownames, colnames, values
 	*/
 	Matrix ConvertValue(const DataTable<qreal>&);
-	
+
 }
 #endif

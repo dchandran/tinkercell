@@ -58,11 +58,15 @@ ELSE( APPLE AND BUILD_BUNDLE )
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
+  
+      SET( TINKERCELL_RC partgraphics.rc )
+
       ADD_EXECUTABLE( tinkercell 
       Main.cpp
       ${DefaultPluginsMenu_MOC}
       DefaultPluginsMenu.cpp
       ${TINKERCELL_QRC}
+      ${TINKERCELL_RC}
     )
 
     TARGET_LINK_LIBRARIES( tinkercell

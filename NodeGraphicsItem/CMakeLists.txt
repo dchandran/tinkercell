@@ -72,11 +72,14 @@ ELSE( APPLE AND BUILD_BUNDLE )
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
+	
+	  SET( NODEGRAPHICS_RC partgraphics.rc )
       ADD_EXECUTABLE( NodeGraphics
         NodeGraphicsMain.cpp
         ${TINKERCELL_NODEGRAPHICS_MOC_SRC}
         ${TINKERCELL_NODEGRAPHICS_SRC}
         ${TINKERCELL_NODEGRAPHICS_QRC}
+		${NODEGRAPHICS_RC}
       )
 
       TARGET_LINK_LIBRARIES( NodeGraphics

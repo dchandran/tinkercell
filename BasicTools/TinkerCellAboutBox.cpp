@@ -11,7 +11,7 @@ namespace Tinkercell
 	{
 		QHBoxLayout * layout1 = new QHBoxLayout;
 
-		QString text("TinkerCell\nVersion: ");
+		QString text("TinkerCell\nVersion: @TINKERCELL_VERSION@");
 		text += QCoreApplication::applicationVersion() + tr("\n\nAuthor: Deepak Chandran\n\nWebsite: www.tinkercell.com\n\n");
 
 		QString appDir = QCoreApplication::applicationDirPath();

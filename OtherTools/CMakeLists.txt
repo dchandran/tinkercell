@@ -1,3 +1,4 @@
+SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
 QT4_WRAP_CPP( ArrowSelection_MOC ArrowSelection.h )
 

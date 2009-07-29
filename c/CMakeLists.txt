@@ -1,3 +1,5 @@
+SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+
 ADD_LIBRARY( langevin 
   mtrand.c
   langevin.c

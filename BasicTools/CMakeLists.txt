@@ -1,3 +1,5 @@
+SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
+
 QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h )
 
 #CONFIGURE_FILE( TinkerCellAboutBox.cpp

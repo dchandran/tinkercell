@@ -3,6 +3,8 @@ PROJECT( TINKERCELL )
 SET( TINKERCELL_MAJOR_VERSION "0" )
 SET( TINKERCELL_MINOR_VERSION "7" )
 
+SET( CMAKE_BUILT_TYPE DEBUG )
+
 SET( TINKERCELL_VERSION
 "${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}" )
 
@@ -28,9 +30,13 @@ SET(EXECUTABLE_OUTPUT_PATH
  ${TINKERCELL_BINARY_DIR}/bin
  CACHE PATH "Single output directory for building all executables."
 )
-SET(LIBRARY_OUTPUT_PATH
+SET(CPP_LIBRARY_OUTPUT_PATH
  ${TINKERCELL_BINARY_DIR}/bin/Plugins/
- CACHE PATH "Single output directory for building all libraries."
+ CACHE PATH "Single output directory for building all cpp libraries."
+)
+SET(C_LIBRARY_OUTPUT_PATH
+ ${TINKERCELL_BINARY_DIR}/bin/Plugins/c/
+ CACHE PATH "Single output directory for building all c libraries."
 )
 
 FIND_PACKAGE( PythonLibs )
@@ -56,7 +62,7 @@ IF( QT4_FOUND )
   ENDIF( QT_USE_FILE )
 
   LINK_DIRECTORIES(
-   ${LIBRARY_OUTPUT_PATH}
+   ${CPP_LIBRARY_OUTPUT_PATH}
    ${TINKERCELL_SOURCE_DIR}/ExternalLib/
    )
 

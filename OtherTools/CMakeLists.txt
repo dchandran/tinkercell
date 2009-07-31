@@ -47,7 +47,7 @@ QT4_ADD_RESOURCES( TINKERCELL_OTHERTOOLS_QRC OtherTools.qrc )
 
 ADD_LIBRARY( DNASequenceViewer 
   SHARED
-  ${CLabelsTool_MOC}
+  ${DNASequenceTool_MOC}
   CLabelsTool.cpp
   DNASequenceTool.cpp
   )

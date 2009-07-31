@@ -907,7 +907,6 @@ namespace Tinkercell
 			{
 				if (toolsHash[i])
 				{
-					//qDebug() << static_cast<Tool*>(toolsHash[i])->name;
 					if (toolsHash[i]->parentWidget() == 0)
 					{
 						for (int j=0; j < toolsHash.size(); ++j)
@@ -958,7 +957,6 @@ namespace Tinkercell
 
 	void MainWindow::dragAndDropFiles(const QList<QFileInfo>& files)
 	{
-		//qDebug() << "files dropped : " << files.size() ;
 		for (int i=0; i < files.size(); ++i)
 		{
 			if (files[i].isFile())
@@ -969,7 +967,6 @@ namespace Tinkercell
 				}
 				else
 				{
-					//qDebug() << "file name: " << files[i].absoluteFilePath();
 					previousFileName = files[i].absoluteFilePath();
 					emit loadModel(files[i].absoluteFilePath());
 				}
@@ -2641,8 +2638,6 @@ namespace Tinkercell
 
 	void MainWindow::_deleteArray(Array /*A*/)
 	{
-		/*if (A) delete A;
-		qDebug() << "delete array";*/
 	}
 
 	void MainWindow::_deleteMatrix(Matrix /*M*/)
@@ -2660,7 +2655,6 @@ namespace Tinkercell
 		//delete M.rownames;
 		}
 		if (M.values) delete M.values;
-		qDebug() << "delete matrix";*/
 	}
 
 	void MainWindow::_deleteStrings(char** /*str*/)
@@ -2671,7 +2665,6 @@ namespace Tinkercell
 		//	delete str[i];
 		//delete str;
 		}
-		qDebug() << "delete strings";*/
 	}
 
 	/*******************************************/

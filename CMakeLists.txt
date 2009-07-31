@@ -42,7 +42,7 @@ SET(C_LIBRARY_OUTPUT_PATH
 FIND_PACKAGE( PythonLibs )
 
 IF( NOT PYTHONLIBS_FOUND )
-  MESSAGE( SEND_ERROR "TinkerCell required python to be installed" )
+  MESSAGE( SEND_ERROR "TinkerCell requires python to be installed" )
 ENDIF( NOT PYTHONLIBS_FOUND )
 
 FIND_PACKAGE( Qt4 )

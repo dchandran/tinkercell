@@ -1,7 +1,7 @@
 FILE( GLOB MUPARSER_SRC *.cpp )
 
 ADD_LIBRARY( muparser 
- SHARED
-#  STATIC
+  SHARED
+# STATIC
   ${MUPARSER_SRC} 
 )

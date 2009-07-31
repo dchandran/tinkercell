@@ -9,7 +9,17 @@ ADD_LIBRARY( AntimonyEditor
   SHARED
   ${ANTIMONYEDITOR_MOC}
   ${ANTIMONYEDITOR_SRC}
-  )
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  ../NodesTree/NodesTree.h 
+  ../NodesTree/ConnectionsTree.h
+ )
 
 TARGET_LINK_LIBRARIES( AntimonyEditor
   AntimonyEditor

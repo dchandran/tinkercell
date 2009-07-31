@@ -1,6 +1,17 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h )
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
+
+QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h ${TINKERCELL_CORE_HDRS})
 
 #CONFIGURE_FILE( TinkerCellAboutBox.cpp
 #  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
@@ -21,17 +32,17 @@ TARGET_LINK_LIBRARIES( AboutBox
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( NodeInsertion_MOC NodeInsertion.h )
-QT4_WRAP_CPP( ConnectionInsertion_MOC ConnectionInsertion.h )
-QT4_WRAP_CPP( CollisionDetection_MOC CollisionDetection.h )
-QT4_WRAP_CPP( InsertionToolsMain_MOC InsertionToolsMain.h )
+QT4_WRAP_CPP( InsertionTools_MOC 
+  NodeInsertion.h 
+  ConnectionInsertion.h 
+  CollisionDetection.h
+  InsertionToolsMain.h
+  ${TINKERCELL_CORE_HDRS}
+  )
 
 ADD_LIBRARY( InsertionTools
   SHARED
-  ${NodeInsertion_MOC}
-  ${ConnectionInsertion_MOC}
-  ${CollisionDetection_MOC}
-  ${InsertionToolsMain_MOC}
+  ${InsertionTools_MOC}
   NodeInsertion.cpp
   ConnectionInsertion.cpp
   CollisionDetection.cpp
@@ -44,7 +55,7 @@ TARGET_LINK_LIBRARIES( InsertionTools
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h )
+QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( LoadSaveTool 
   SHARED
@@ -58,8 +69,8 @@ TARGET_LINK_LIBRARIES( LoadSaveTool
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( DnaGraphicsItem_MOC DnaGraphicsItem.h )
-QT4_WRAP_CPP( ConnectionMaker_MOC ConnectionMaker.h )
+QT4_WRAP_CPP( DnaGraphicsItem_MOC DnaGraphicsItem.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( ConnectionMaker_MOC ConnectionMaker.h ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( ConnectionMaker
   SHARED
@@ -75,9 +86,9 @@ TARGET_LINK_LIBRARIES( ConnectionMaker
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( ConnectionSelection_MOC ConnectionSelection.h )
-QT4_WRAP_CPP( NodeSelection_MOC NodeSelection.h )
-QT4_WRAP_CPP( SelectionToolsMain_MOC SelectionToolsMain.h )
+QT4_WRAP_CPP( ConnectionSelection_MOC ConnectionSelection.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( NodeSelection_MOC NodeSelection.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( SelectionToolsMain_MOC SelectionToolsMain.h ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( SelectionTools 
   SHARED
@@ -95,13 +106,13 @@ TARGET_LINK_LIBRARIES( SelectionTools
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( BasicGraphicsToolbox_MOC BasicGraphicsToolbox.h )
-QT4_WRAP_CPP( GraphicsTransformTool_MOC GraphicsTransformTool.h )
-QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h )
-#QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h )
-QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h )
-QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h )
-QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h )
+QT4_WRAP_CPP( BasicGraphicsToolbox_MOC BasicGraphicsToolbox.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( GraphicsTransformTool_MOC GraphicsTransformTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h ${TINKERCELL_CORE_HDRS})
+#QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( VisualTools 
   SHARED

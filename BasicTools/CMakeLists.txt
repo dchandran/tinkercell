@@ -143,6 +143,7 @@ TARGET_LINK_LIBRARIES( VisualTools
    ModelSummaryTool.h
    ModelFileGenerator.h
    DataToolsMain.h
+   NameFamilyDialog.h
    ${TINKERCELL_CORE_HDRS}
 )
 

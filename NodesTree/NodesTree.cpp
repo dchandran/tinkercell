@@ -146,7 +146,7 @@ namespace Tinkercell
                connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
                connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
-               QDockWidget* dock = mainWindow->addDockingWindow(name,this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+               QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
                dock->setWindowFlags(Qt::Widget);
                return true;
           }

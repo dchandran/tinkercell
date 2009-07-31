@@ -193,7 +193,7 @@ namespace Tinkercell
 
 		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 
-		addDockingWindow("History",&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+		addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
 
 		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),
 			this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));

@@ -6,242 +6,242 @@
  \brief get all visible items
  \ingroup Get items
 */
-Array (*tc_allItems)();
+Array (*tc_allItems)() = 0;
 /*! 
  \brief get all selected items
  \ingroup Get items
 */
-Array (*tc_selectedItems)();
+Array (*tc_selectedItems)() = 0;
 /*! 
  \brief get all items of the given family items
  \ingroup Get items
 */
-Array (*tc_itemsOfFamily)(const char* family);
+Array (*tc_itemsOfFamily)(const char* family) = 0;
 /*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
-OBJ (*tc_find)(const char* fullname);
+OBJ (*tc_find)(const char* fullname) = 0;
 /*! 
  \brief select an item
  \ingroup Get items
 */
-void (*tc_select)(OBJ item);
+void (*tc_select)(OBJ item) = 0;
 /*! 
  \brief deselect all items
  \ingroup Get items
 */
-void (*tc_deselect)();
+void (*tc_deselect)() = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-char* (*tc_getName)(OBJ item);
+char* (*tc_getName)(OBJ item) = 0;
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Annotation
 */
-void (*tc_rename)(OBJ item,const char* name);
+void (*tc_rename)(OBJ item,const char* name) = 0;
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
 */
-char** (*tc_getNames)(Array items);
+char** (*tc_getNames)(Array items) = 0;
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
 */
-char* (*tc_getFamily)(OBJ item);
+char* (*tc_getFamily)(OBJ item) = 0;
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
 */
-int (*tc_isA)(OBJ item,const char* family);
+int (*tc_isA)(OBJ item,const char* family) = 0;
 /*! 
  \brief show text in the output window.
  \ingroup Input and output
 */
-void (*tc_print)(const char* text);
+void (*tc_print)(const char* text) = 0;
 /*! 
  \brief show error text in the output window.
  \ingroup Input and output
 */
-void (*tc_errorReport)(const char* text);
+void (*tc_errorReport)(const char* text) = 0;
 /*! 
  \brief show table in the output window.
  \ingroup Input and output
 */
-void (*tc_printTable)(Matrix data);
+void (*tc_printTable)(Matrix data) = 0;
 /*! 
  \brief show file contents in the output window. 
  \ingroup Input and output
 */
-void (*tc_printFile)(const char* filename);
+void (*tc_printFile)(const char* filename) = 0;
 /*! 
  \brief cleat the contents in the output window. 
  \ingroup Input and output
 */
-void (*tc_clear)();
+void (*tc_clear)() = 0;
 /*! 
  \brief delete an item
  \ingroup Insert and remove
 */
-void (*tc_remove)(OBJ item);
+void (*tc_remove)(OBJ item) = 0;
 /*! 
  \brief get the x location of an item
  \ingroup Get and set position
 */
-double (*tc_getY)(OBJ item);
+double (*tc_getY)(OBJ item) = 0;
 /*! 
  \brief get the y location of an item
  \ingroup Get and set position
 */
-double (*tc_getX)(OBJ item);
+double (*tc_getX)(OBJ item) = 0;
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Get and set position
 */
-Matrix (*tc_getPos)(Array items);
+Matrix (*tc_getPos)(Array items) = 0;
 /*! 
  \brief set the x and y location of an item
  \ingroup Get and set position
 */
-void (*tc_setPos)(OBJ item,double x,double y);
+void (*tc_setPos)(OBJ item,double x,double y) = 0;
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Get and set position
 */
-void (*tc_setPosMulti)(Array items, Matrix positions);
+void (*tc_setPosMulti)(Array items, Matrix positions) = 0;
 /*! 
  \brief move all the selected items by a given amount
  \ingroup Get and set position
 */
-void (*tc_moveSelected)(double dx,double dy);
+void (*tc_moveSelected)(double dx,double dy) = 0;
 /*! 
  \brief is this running in MS windows?
  \ingroup System information
 */
-int (*tc_isWindows)();
+int (*tc_isWindows)() = 0;
 /*! 
  \brief is this running in a Mac?
  \ingroup System information
 */
-int (*tc_isMac)();
+int (*tc_isMac)() = 0;
 /*! 
  \brief is this running in Linux?
  \ingroup System information
 */
-int (*tc_isLinux)();
+int (*tc_isLinux)() = 0;
 /*! 
  \brief TinkerCell application folder
  \ingroup System information
 */
-char* (*tc_appDir)();
+char* (*tc_appDir)() = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and output
 */
-void (*tc_createInputWindowFromFile)(Matrix input, const char* filename,const char* functionname, const char* title);
+void (*tc_createInputWindowFromFile)(Matrix input, const char* filename,const char* functionname, const char* title) = 0;
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and output
 */
-void (*tc_createInputWindow)(Matrix, const char* title, void (*f)(Matrix));
+void (*tc_createInputWindow)(Matrix, const char* title, void (*f)(Matrix)) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and output
 */
-void (*tc_addInputWindowOptions)(const char*, int i, int j, char **);
+void (*tc_addInputWindowOptions)(const char*, int i, int j, char **) = 0;
 /*! 
  \brief open a new window
  \ingroup Input and output
 */
-void (*tc_openNewWindow)(const char * title);
+void (*tc_openNewWindow)(const char * title) = 0;
 /*! 
  \brief get numerical data belonging to a specific tool, e.g. Numerical Attributes
  \ingroup Data
 */
-double (*tc_getNumericalData)(OBJ item,const char* data, const char* row_name, const char* column_name);
+double (*tc_getNumericalData)(OBJ item,const char* data, const char* row_name, const char* column_name) = 0;
 /*! 
  \brief get text data belonging to a specific tool, e.g. Text Attributes
  \ingroup Data
 */
-char* (*tc_getTextData)(OBJ item,const char* data, const char* row_name, const char* column_name);
+char* (*tc_getTextData)(OBJ item,const char* data, const char* row_name, const char* column_name) = 0;
 /*! 
  \brief set numerical data belonging to a specific tool, e.g. Numerical Attributes
  \ingroup Data
 */
-void (*tc_setNumericalData)(OBJ item,const char* data, const char* row_name, const char* column_name,double value);
+void (*tc_setNumericalData)(OBJ item,const char* data, const char* row_name, const char* column_name,double value) = 0;
 /*! 
  \brief set text data belonging to a specific tool, e.g. Text Attributes
  \ingroup Data
 */
-void (*tc_setTextData)(OBJ item,const char* data, const char* row_name, const char* column_name,const char* text);
+void (*tc_setTextData)(OBJ item,const char* data, const char* row_name, const char* column_name,const char* text) = 0;
 /*! 
  \brief get child items of the given item
  \ingroup Get items
 */
-Array (*tc_getChildren)(OBJ);
+Array (*tc_getChildren)(OBJ) = 0;
 /*! 
  \brief get parent item of the given item
  \ingroup Get items
 */
-OBJ (*tc_getParent)(OBJ);
+OBJ (*tc_getParent)(OBJ) = 0;
 /*! 
  \brief get the row names for the given numerical data table of the given item
  \ingroup Data
 */
-char** (*tc_getNumericalDataRowNames)(OBJ item,const char* data);
+char** (*tc_getNumericalDataRowNames)(OBJ item,const char* data) = 0;
 /*! 
  \brief get the column names for the given numerical data table of the given item
  \ingroup Data
 */
-char** (*tc_getNumericalDataColNames)(OBJ item,const char* data);
+char** (*tc_getNumericalDataColNames)(OBJ item,const char* data) = 0;
 /*! 
  \brief get the row names for the given text data table of the given item
  \ingroup Data
 */
-char** (*tc_getTextDataRowNames)(OBJ item,const char* data);
+char** (*tc_getTextDataRowNames)(OBJ item,const char* data) = 0;
 /*! 
  \brief get the column names for the given text data table of the given item
  \ingroup Data
 */
-char** (*tc_getTextDataColNames)(OBJ item,const char* data);
+char** (*tc_getTextDataColNames)(OBJ item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
 */
-Matrix (*tc_getNumericalDataMatrix)(OBJ item,const char* data);
+Matrix (*tc_getNumericalDataMatrix)(OBJ item,const char* data) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
 */
-void (*tc_setNumericalDataMatrix)(OBJ,const char*,Matrix);
+void (*tc_setNumericalDataMatrix)(OBJ,const char*,Matrix) = 0;
 /*! 
  \brief get the values in the given row in the given text data table of the given item
  \ingroup Data
 */
-char** (*tc_getTextDataRow)(OBJ item,const char* data,const char* rowname);
+char** (*tc_getTextDataRow)(OBJ item,const char* data,const char* rowname) = 0;
 /*! 
  \brief get the values in the given column in the given text data table of the given item
  \ingroup Data
 */
-char** (*tc_getTextDataCol)(OBJ item,const char* data,const char* colname);
+char** (*tc_getTextDataCol)(OBJ item,const char* data,const char* colname) = 0;
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-char** (*tc_getNumericalDataNames)(OBJ);
+char** (*tc_getNumericalDataNames)(OBJ) = 0;
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-char** (*tc_getTextDataNames)(OBJ);
+char** (*tc_getTextDataNames)(OBJ) = 0;
 /*! 
  \brief zoom by the given factor (0 - 1)
  \ingroup Input and Output
 */
-void (*tc_zoom)(double factor);
+void (*tc_zoom)(double factor) = 0;
 /*! 
  \brief initialize main
  \ingroup init

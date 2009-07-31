@@ -7,22 +7,22 @@
  \brief get the red color of the item
  \ingroup Coloring
 */
-int (*tc_getColorR)(OBJ item);
+int (*tc_getColorR)(OBJ item) = 0;
 /*! 
  \brief get the green color of the item
  \ingroup Coloring
 */
-int (*tc_getColorG)(OBJ item);
+int (*tc_getColorG)(OBJ item) = 0;
 /*! 
  \brief get the blue color of the item
  \ingroup Coloring
 */
-int (*tc_getColorB)(OBJ item);
+int (*tc_getColorB)(OBJ item) = 0;
 /*! 
  \brief set the rgb color  of the item and indicate whether or not the color is permanenet
  \ingroup Coloring
 */
-void (*tc_setColor)(OBJ item,int R,int G,int B, int permanent);
+void (*tc_setColor)(OBJ item,int R,int G,int B, int permanent) = 0;
 /*! 
  \brief initializing function
  \ingroup init

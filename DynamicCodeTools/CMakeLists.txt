@@ -1,22 +1,20 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-SET( DYNAMICTOOLS_HDRS
-  CodingWindow.h
-  DynamicCodeMain.h
-  DynamicLibraryMenu.h
-  LoadCLibraries.h
-#  PythonInterpreterThread.h
-  PythonTool.h
-  SyntaxHighlighter.h
-)
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
 
-#CONFIGURE_FILE( PythonTool.cpp
-#  ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/PythonTool.cpp 
-#  @ONLY )
-
+FILE( GLOB DYNAMICTOOLSS_HDRS *.h )
 FILE( GLOB DYNAMICTOOLS_SRC *.cpp )
 
-QT4_WRAP_CPP( DYNAMICTOOLS_MOC ${DYNAMICTOOLS_HDRS} )
+QT4_WRAP_CPP( DYNAMICTOOLS_MOC ${DYNAMICTOOLS_HDRS} ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( DynamicCodePlugin
   SHARED

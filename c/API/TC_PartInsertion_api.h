@@ -6,7 +6,7 @@
  \brief insert an item with the given name and family. returns the inserted connection
  \ingroup Insert and remove
 */
-OBJ (*tc_insert)(const char* name, const char* family);
+OBJ (*tc_insert)(const char* name, const char* family) = 0;
 /*! 
  \brief initializing function
  \ingroup init

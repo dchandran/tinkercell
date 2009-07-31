@@ -5,10 +5,11 @@
 
 static PyObject * pytc_clearScreen(PyObject *self, PyObject *args)
 {
-	tc_clear();
+	if (tc_clear)
+		tc_clear();
 	 
 	Py_INCREF(Py_None);
-    	return Py_None;	
+    return Py_None;	
 }
 
 static PyObject * pytc_print(PyObject *self, PyObject *args)
@@ -18,7 +19,8 @@ static PyObject * pytc_print(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &s))
 		return NULL;
 	
-	tc_print(s);
+	if (tc_print)
+		tc_print(s);
 	 
 	Py_INCREF(Py_None);
     return Py_None;	
@@ -31,7 +33,8 @@ static PyObject * pytc_errorReport(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &s))
 		return NULL;
 	
-	tc_errorReport(s);
+	if (tc_errorReport)
+		tc_errorReport(s);
 	 
 	Py_INCREF(Py_None);
     return Py_None;	
@@ -44,7 +47,8 @@ static PyObject * pytc_writeFile(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &s))
 		return NULL;
 	
-	tc_printFile(s);
+	if (tc_printFile)
+		tc_printFile(s);
 	 
 	Py_INCREF(Py_None);
     return Py_None;	
@@ -54,7 +58,9 @@ static PyObject * pytc_allItems(PyObject *self, PyObject *args)
 {
     int i;
 	PyObject *pylist, *item;
-	void ** array = tc_allItems();
+	void ** array = 0;
+	if (tc_allItems)
+		tc_allItems();
 	if (array)
 	{
 		int len = 0;
@@ -82,7 +88,9 @@ static PyObject * pytc_selectedItems(PyObject *self, PyObject *args)
 {
     int i;
 	PyObject *pylist, *item;
-	void ** array = tc_selectedItems();
+	void ** array = 0;
+	if (tc_selectedItems)
+		tc_selectedItems();
 	if (array)
 	{
 		int len = 0;
@@ -115,7 +123,9 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 		
     int i;
 	PyObject *pylist, *item;
-	void ** array = tc_itemsOfFamily(s);
+	void ** array = 0; 
+	if (tc_itemsOfFamily)
+		tc_itemsOfFamily(s);
 	if (array)
 	{
 		int len = 0;
@@ -146,7 +156,9 @@ static PyObject * pytc_find(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "s", &s))
         return NULL;
 		
-	 void * o = tc_find(s);
+	 void * o = 0;
+	 if (tc_find)
+		tc_find(s);
 	 
 	 return Py_BuildValue("i", (int)o);	 
 	 
@@ -159,7 +171,7 @@ static PyObject * pytc_select(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
      
-	 if (i)
+	 if (i && tc_select)
 		tc_select((void*)i);
 	 
 	 Py_INCREF(Py_None);
@@ -169,7 +181,8 @@ static PyObject * pytc_select(PyObject *self, PyObject *args)
 static PyObject * pytc_deselect(PyObject *self, PyObject *args)
 {
 
-	 tc_deselect();	 
+	 if (tc_deselect)
+		tc_deselect();	 
 	 Py_INCREF(Py_None);
      return Py_None;
 }
@@ -181,7 +194,7 @@ static PyObject * pytc_getName(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
 
-	if (i == 0) return NULL;
+	if ((i == 0) || (tc_getName == 0)) return NULL;
 	 
 	const char * s = tc_getName((void*)i);
 	 
@@ -195,7 +208,7 @@ static PyObject * pytc_rename(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "is", &i, &s))
         return NULL;
 
-	if (i == 0) return NULL;
+	if ((tc_rename == 0) || (i == 0)) return NULL;
 	 
 	tc_rename((void*)i,s);
 	 
@@ -210,7 +223,7 @@ static PyObject * pytc_getFamily(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
 
-	if (i == 0) return NULL;
+	if ((tc_getName == 0) || (i == 0)) return NULL;
 	 
 	const char * s = tc_getName((void*)i);
 	 
@@ -221,7 +234,7 @@ static PyObject * pytc_getNames(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getNames == 0))
 		return NULL;
     
 	int isList = PyList_Check(pylist);
@@ -270,7 +283,7 @@ static PyObject * pytc_isA(PyObject *self, PyObject *args)
 	int i;
     char * s;
 	
-    if(!PyArg_ParseTuple(args, "is", &i, &s))
+    if(!PyArg_ParseTuple(args, "is", &i, &s) || (tc_isA == 0))
         return NULL;
 		
 	int k = tc_isA((void*)i,s);
@@ -285,7 +298,7 @@ static PyObject * pytc_remove(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
      
-	 if (i)
+	 if (i && tc_remove)
 		tc_remove((void*)i);
 	 
 	 Py_INCREF(Py_None);
@@ -296,7 +309,7 @@ static PyObject * pytc_getX(PyObject *self, PyObject *args)
 {
 	int i;
 	
-    if(!PyArg_ParseTuple(args, "i", &i))
+    if(!PyArg_ParseTuple(args, "i", &i) || (tc_getX == 0))
         return NULL;
 		
 	double k = tc_getX((void*)i);
@@ -308,7 +321,7 @@ static PyObject * pytc_getY(PyObject *self, PyObject *args)
 {
 	int i;
 	
-    if(!PyArg_ParseTuple(args, "i", &i))
+    if(!PyArg_ParseTuple(args, "i", &i) || (tc_getY == 0))
         return NULL;
 		
 	double k = tc_getY((void*)i);
@@ -324,7 +337,7 @@ static PyObject * pytc_setPos(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "idd", &i, &x, &y))
         return NULL;
      
-	 if (i)
+	 if (i && tc_setPos)
 		tc_setPos((void*)i,x,y);
 	 
 	 Py_INCREF(Py_None);
@@ -335,7 +348,7 @@ static PyObject * pytc_moveSelected(PyObject *self, PyObject *args)
 {
     double x, y;
 	
-    if(!PyArg_ParseTuple(args, "dd", &x, &y))
+    if(!PyArg_ParseTuple(args, "dd", &x, &y) || (tc_moveSelected == 0))
         return NULL;
      
 	tc_moveSelected(x,y);
@@ -353,21 +366,29 @@ static PyObject * pytc_isWindows(PyObject *self, PyObject *args)
 
 static PyObject * pytc_isMac(PyObject *self, PyObject *args)
 {
-	int i = tc_isMac();
+	int i = 0;
+	
+	if (tc_isMac)
+		tc_isMac();
 	 
     return Py_BuildValue("i", i);
 }
 
 static PyObject * pytc_isLinux(PyObject *self, PyObject *args)
 {
-	int i = tc_isLinux();
+	int i = 0;
+	
+	if (tc_isLinux)
+		tc_isLinux();
 	 
     return Py_BuildValue("i", i);
 }
 
 static PyObject * pytc_appDir(PyObject *self, PyObject *args)
 {
-	char * s = tc_appDir();
+	char * s = "";
+	if (tc_appDir)
+		tc_appDir();
 	 
     return Py_BuildValue("s", s);
 }
@@ -413,7 +434,8 @@ static PyObject * pytc_createInputWindow(PyObject *self, PyObject *args)
 		M.values[i] = isList2 ? PyFloat_AsDouble( PyList_GetItem( values, i ) ) : PyFloat_AsDouble( PyTuple_GetItem( values, i ) );
     }
 	
-	tc_createInputWindowFromFile(M,filename,funcname, title);
+	if (tc_createInputWindowFromFile)
+		tc_createInputWindowFromFile(M,filename,funcname, title);
 	
 	TCFreeChars(M.rownames);
 	free(M.values);
@@ -444,7 +466,8 @@ static PyObject * pytc_addInputWindowOptions(PyObject *self, PyObject *args)
 		coptions[i] = isList3 ? PyString_AsString( PyList_GetItem( options, i ) ) : PyString_AsString( PyTuple_GetItem( options, i ) );
     }
 	
-	tc_addInputWindowOptions(title,i,j,coptions);
+	if (tc_addInputWindowOptions)
+		tc_addInputWindowOptions(title,i,j,coptions);
 	
 	TCFreeChars(coptions);
 	
@@ -458,7 +481,8 @@ static PyObject * pytc_openNewWindow(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "s", &s))
         return NULL;
 	
-	tc_openNewWindow(s);
+	if (tc_openNewWindow)
+		tc_openNewWindow(s);
 	 
     Py_INCREF(Py_None);
     return Py_None;
@@ -469,7 +493,7 @@ static PyObject * pytc_getNumericalData(PyObject *self, PyObject *args)
 	int i;
 	char * s1, *s2 = "", *s3 = "";
 	
-    if(!PyArg_ParseTuple(args, "is|ss", &i, &s1, &s2, &s3))
+    if(!PyArg_ParseTuple(args, "is|ss", &i, &s1, &s2, &s3) || (tc_getNumericalData == 0))
         return NULL;
 		
     double d = tc_getNumericalData((void*)i,s1,s2,s3);
@@ -481,7 +505,7 @@ static PyObject * pytc_getTextData(PyObject *self, PyObject *args)
 	int i;
 	char * s1, *s2 = "", *s3 = "";
 	
-    if(!PyArg_ParseTuple(args, "is|ss", &i, &s1, &s2, &s3))
+    if(!PyArg_ParseTuple(args, "is|ss", &i, &s1, &s2, &s3) || (tc_getTextData == 0))
         return NULL;
 		
     char * s = tc_getTextData((void*)i,s1,s2,s3);
@@ -494,7 +518,7 @@ static PyObject * pytc_setNumericalData(PyObject *self, PyObject *args)
 	double d;
 	char * s1, *s2, *s3;
 	
-    if(!PyArg_ParseTuple(args, "isssd", &i, &s1, &s2, &s3, &d))
+    if(!PyArg_ParseTuple(args, "isssd", &i, &s1, &s2, &s3, &d) || (tc_setNumericalData == 0))
         return NULL;
 		
     tc_setNumericalData((void*)i,s1,s2,s3,d);
@@ -509,7 +533,7 @@ static PyObject * pytc_setTextData(PyObject *self, PyObject *args)
 	char* s;
 	char * s1, *s2, *s3;
 	
-    if(!PyArg_ParseTuple(args, "issss", &i, &s1, &s2, &s3, &s))
+    if(!PyArg_ParseTuple(args, "issss", &i, &s1, &s2, &s3, &s) || (tc_setTextData == 0))
         return NULL;
 		
     tc_setTextData((void*)i,s1,s2,s3,s);
@@ -522,7 +546,7 @@ static PyObject * pytc_getChildren(PyObject *self, PyObject *args)
 {
 	int i;
 	
-    if(!PyArg_ParseTuple(args, "i", &i))
+    if(!PyArg_ParseTuple(args, "i", &i) || (tc_getChildren == 0))
        	return NULL;
 		
 	PyObject *pylist, *item;
@@ -554,7 +578,7 @@ static PyObject * pytc_getParent(PyObject *self, PyObject *args)
 {
 	int i;
 	
-    if(!PyArg_ParseTuple(args, "i", &i))
+    if(!PyArg_ParseTuple(args, "i", &i) || (tc_getParent == 0))
         return NULL;
 		
     void* j = tc_getParent((void*)i);
@@ -566,7 +590,7 @@ static PyObject * pytc_getNumericalDataRowNames(PyObject *self, PyObject *args)
 	int i;
 	char * s;
 	
-	if(!PyArg_ParseTuple(args, "is", &i, &s))
+	if(!PyArg_ParseTuple(args, "is", &i, &s) || (tc_getNumericalDataRowNames == 0))
 	{
 		return NULL;
 	}
@@ -604,7 +628,7 @@ static PyObject * pytc_getNumericalDataColNames(PyObject *self, PyObject *args)
 	int i;
 	char * s;
 	
-	if(!PyArg_ParseTuple(args, "is", &i, &s))
+	if(!PyArg_ParseTuple(args, "is", &i, &s) || (tc_getNumericalDataColNames == 0))
 	{
 		return NULL;
 	}
@@ -642,7 +666,7 @@ static PyObject * pytc_getTextDataRowNames(PyObject *self, PyObject *args)
 	int i;
 	char * s;
 	
-	if(!PyArg_ParseTuple(args, "is", &i, &s))
+	if(!PyArg_ParseTuple(args, "is", &i, &s) || (tc_getTextDataRowNames == 0))
 	{
 		return NULL;
 	}
@@ -680,7 +704,7 @@ static PyObject * pytc_getTextDataColNames(PyObject *self, PyObject *args)
 	int i;
 	char * s;
 	
-	if(!PyArg_ParseTuple(args, "is", &i, &s))
+	if(!PyArg_ParseTuple(args, "is", &i, &s) || (tc_getTextDataColNames == 0))
 	{
 		return NULL;
 	}
@@ -718,7 +742,7 @@ static PyObject * pytc_getTextDataRow(PyObject *self, PyObject *args)
 	int i;
 	char * s1, *s2;
 	
-	if(!PyArg_ParseTuple(args, "iss", &i, &s1, &s2))
+	if(!PyArg_ParseTuple(args, "iss", &i, &s1, &s2) || (tc_getTextDataRow == 0))
 	{
 		return NULL;
 	}
@@ -756,7 +780,7 @@ static PyObject * pytc_getTextDataCol(PyObject *self, PyObject *args)
 	int i;
 	char * s1, *s2;
 	
-	if(!PyArg_ParseTuple(args, "iss", &i, &s1, &s2))
+	if(!PyArg_ParseTuple(args, "iss", &i, &s1, &s2) || (tc_getTextDataCol == 0))
 	{
 		return NULL;
 	}
@@ -796,7 +820,7 @@ static PyObject * pytc_getNumericalDataMatrix(PyObject *self, PyObject *args)
 	
 	Matrix M;
 	
-	if(!PyArg_ParseTuple(args, "is", &o, &s))
+	if(!PyArg_ParseTuple(args, "is", &o, &s) || (tc_getNumericalDataMatrix == 0))
 		return NULL;
 	
 	M = tc_getNumericalDataMatrix((void*)(o),s);
@@ -854,8 +878,8 @@ static PyObject * pytc_getNumericalDataMatrix(PyObject *self, PyObject *args)
 static PyObject * pytc_setPosMulti(PyObject *self, PyObject *args)
 {
 	PyObject * items, * values, *item;
-	if(!PyArg_ParseTuple(args, "OO", &items, &values))
-        	return NULL;
+	if(!PyArg_ParseTuple(args, "OO", &items, &values) || (tc_setPosMulti == 0))
+        return NULL;
 	
 	int isList1 = PyList_Check(items);
 	int n1 = isList1 ? PyList_Size(items) : PyTuple_Size (items);
@@ -926,7 +950,7 @@ static PyObject * pytc_getPos(PyObject *self, PyObject *args)
 	PyObject * pylist;
 	int i,j;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getPos == 0))
 		return NULL;
     
 	int isList = PyList_Check(pylist);
@@ -938,7 +962,7 @@ static PyObject * pytc_getPos(PyObject *self, PyObject *args)
 	for(i=0; i<N; ++i ) 
 	{ 
 		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-    	} 
+    } 
 	
  	
 	Matrix M;
@@ -979,7 +1003,7 @@ static PyObject * pytc_getNumericalDataNames(PyObject *self, PyObject *args)
 {
 	int i;
 	
-	if(!PyArg_ParseTuple(args, "i", &i))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getNumericalDataNames == 0))
 	{
 		return NULL;
 	}
@@ -1016,7 +1040,7 @@ static PyObject * pytc_getTextDataNames(PyObject *self, PyObject *args)
 {
 	int i;
 	
-	if(!PyArg_ParseTuple(args, "i", &i))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getTextDataNames == 0))
 	{
 		return NULL;
 	}
@@ -1133,7 +1157,8 @@ static PyObject * pytc_setNumericalDataMatrix(PyObject *self, PyObject *args)
 		M.rownames = rows;
 		M.values = nums;
 		
-		tc_setNumericalDataMatrix((void*)object,title,M);
+		if (tc_setNumericalDataMatrix)
+			tc_setNumericalDataMatrix((void*)object,title,M);
 		
 		tc_print("done");
 	
@@ -1150,7 +1175,8 @@ static PyObject * pytc_zoom(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "d", &x))
         return NULL;
 			
-	tc_zoom(x);
+	if (tc_zoom)
+		tc_zoom(x);
 	 
 	Py_INCREF(Py_None);
     	return Py_None;	
@@ -1160,7 +1186,7 @@ static PyObject * pytc_getAnnotation(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getAnnotation == 0))
 		return NULL;
     
  	char ** names = tc_getAnnotation((void*)i);
@@ -1212,7 +1238,8 @@ static PyObject * pytc_setAnnotation(PyObject *self, PyObject *args)
 		annotations[i] = isList3 ? PyString_AsString( PyList_GetItem( options, i ) ) : PyString_AsString( PyTuple_GetItem( options, i ) );
     }
 	
-	tc_setAnnotation((void*)k,annotations);
+	if (tc_setAnnotation)
+		tc_setAnnotation((void*)k,annotations);
 	
 	TCFreeChars(annotations);
 	

@@ -11,7 +11,7 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 	int xaxis = 0, opt = 1;
 	char * title = "";
 	if(!PyArg_ParseTuple(args, "OO|isi", &colNames, &values, &xaxis, &title, &opt))
-        	return NULL;
+        return NULL;
 	
 	int isList1 = PyList_Check(colNames);
 	int n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
@@ -68,7 +68,8 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 		M.rownames = 0;
 		M.values = nums;
 		
-		tc_plot(M,xaxis,title,opt);
+		if (tc_plot)
+			tc_plot(M,xaxis,title,opt);
 	
 		TCFreeMatrix(M);
 	}
@@ -81,7 +82,7 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 {
 	int i=-1,j;
 	
-	if(!PyArg_ParseTuple(args, "|i", &i))
+	if(!PyArg_ParseTuple(args, "|i", &i) || (tc_plotData == 0))
         	return NULL;
 	
 	Matrix M;
@@ -143,7 +144,7 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 	int i=-1,j;
 	PyObject * pylist = 0;
 	
-	if(!PyArg_ParseTuple(args, "|O", &pylist))
+	if(!PyArg_ParseTuple(args, "|O", &pylist) || (tc_allItems == 0) || (tc_allItems == 0))
         return NULL;
 	
 	void ** A = 0;

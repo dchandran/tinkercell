@@ -7,7 +7,7 @@ static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getEventTriggers == 0))
 	{
 		return NULL;
 	}
@@ -57,7 +57,7 @@ static PyObject * pytc_getEventResponses(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getEventResponses == 0))
 	{
 		return NULL;
 	}
@@ -107,7 +107,7 @@ static PyObject * pytc_addEvent(PyObject *self, PyObject *args)
 {
 	int item;
 	char * s1, *s2;
-	if (!PyArg_ParseTuple(args, "iss", &item,&s1, &s2))
+	if (!PyArg_ParseTuple(args, "iss", &item,&s1, &s2) || (tc_addEvent == 0))
         return NULL;
 	
 	tc_addEvent((void*)item,s1,s2);
@@ -120,7 +120,7 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getForcingFunctionNames == 0))
 	{
 		return NULL;
 	}
@@ -170,7 +170,7 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 {
 	PyObject * pylist;
 	
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getForcingFunctionAssignments == 0))
 	{
 		return NULL;
 	}
@@ -220,7 +220,7 @@ static PyObject * pytc_addForcingFunction(PyObject *self, PyObject *args)
 {
 	int item;
 	char * s1, *s2;
-	if(!PyArg_ParseTuple(args, "iss", &item,&s1, &s2))
+	if(!PyArg_ParseTuple(args, "iss", &item,&s1, &s2) || (tc_addForcingFunction == 0))
         return NULL;
 	
 	tc_addForcingFunction((void*)item,s1,s2);
@@ -233,7 +233,7 @@ static PyObject * pytc_displayText(PyObject *self, PyObject *args)
 {
 	int item;
 	char * s;
-	if(!PyArg_ParseTuple(args, "is", &item,&s))
+	if(!PyArg_ParseTuple(args, "is", &item,&s) || (tc_displayText == 0))
         return NULL;
 	
 	tc_displayText((void*)item,s);
@@ -246,7 +246,7 @@ static PyObject * pytc_displayNumber(PyObject *self, PyObject *args)
 {
 	int item;
 	double d;
-	if(!PyArg_ParseTuple(args, "id", &item,&d))
+	if(!PyArg_ParseTuple(args, "id", &item,&d) || (tc_displayNumber == 0))
         return NULL;
 	
 	tc_displayNumber((void*)item,d);
@@ -258,7 +258,7 @@ static PyObject * pytc_displayNumber(PyObject *self, PyObject *args)
 static PyObject * pytc_highlight(PyObject *self, PyObject *args)
 {
 	int item,r=0,g=0,b=0;
-	if(!PyArg_ParseTuple(args, "i|iii", &item,&r,&g,&b))
+	if(!PyArg_ParseTuple(args, "i|iii", &item,&r,&g,&b) || (tc_highlight == 0))
         return NULL;
 	
 	tc_highlight((void*)item,r,g,b);

@@ -1,9 +1,20 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
+
 FILE( GLOB CONTAINERTOOLS_HDRS *.h )
 FILE( GLOB CONTAINERTOOLS_SRC *.cpp )
 
-QT4_WRAP_CPP( CONTAINERTOOLS_MOC ${CONTAINERTOOLS_HDRS} )
+QT4_WRAP_CPP( CONTAINERTOOLS_MOC ${CONTAINERTOOLS_HDRS} ${TINKERCELL_CORE_HDRS})
  
 ADD_LIBRARY( ContainerPlugin
   SHARED

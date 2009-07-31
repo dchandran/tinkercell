@@ -7,17 +7,17 @@
  \brief Get all DNA parts inside the given container or module
  \ingroup Get items
 */
-Array (*tc_partsIn)(OBJ);
+Array (*tc_partsIn)(OBJ) = 0;
 /*! 
  \brief Get all DNA parts upstream of the given part
  \ingroup Get items
 */
-Array (*tc_partsUpstream)(OBJ);
+Array (*tc_partsUpstream)(OBJ) = 0;
 /*! 
  \brief Get all DNA parts downstream of the given part
  \ingroup Get items
 */
-Array (*tc_partsDownstream)(OBJ);
+Array (*tc_partsDownstream)(OBJ) = 0;
 /*! 
  \brief initialize grouping
  \ingroup init

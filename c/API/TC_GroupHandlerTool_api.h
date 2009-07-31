@@ -7,12 +7,12 @@
  \brief merge an array of items
  \ingroup Merging
 */
-void (*tc_merge)(Array parts);
+void (*tc_merge)(Array parts) = 0;
 /*! 
  \brief separate all the graphical items in the handle 
  \ingroup Merging
 */
-void (*tc_separate)(OBJ part);
+void (*tc_separate)(OBJ part) = 0;
 /*! 
  \brief initialize grouping
  \ingroup init

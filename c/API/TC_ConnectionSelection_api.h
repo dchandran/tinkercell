@@ -7,47 +7,47 @@
  \brief get x position of a control point
  \ingroup Control points
 */
-double (*tc_getControlPointX)(OBJ connection,OBJ part,int whichPoint);
+double (*tc_getControlPointX)(OBJ connection,OBJ part,int whichPoint) = 0;
 /*! 
  \brief get y position of a control point
  \ingroup Control points
 */
-double (*tc_getControlPointY)(OBJ connection,OBJ part,int whichPoint);
+double (*tc_getControlPointY)(OBJ connection,OBJ part,int whichPoint) = 0;
 /*! 
  \brief set x and y position of a control point
  \ingroup Control points
 */
-void (*tc_setControlPoint)(OBJ connection,OBJ part,int whichPoint, double x,double y);
+void (*tc_setControlPoint)(OBJ connection,OBJ part,int whichPoint, double x,double y) = 0;
 /*! 
  \brief set x and y position of the central control point
  \ingroup Control points
 */
-void (*tc_setCenterPoint)(OBJ connection,double y,double x);
+void (*tc_setCenterPoint)(OBJ connection,double y,double x) = 0;
 /*! 
  \brief get x position of the central control point
  \ingroup Control points
 */
-double (*tc_getCenterPointX)(OBJ connection);
+double (*tc_getCenterPointX)(OBJ connection) = 0;
 /*! 
  \brief get y position of the central control point
  \ingroup Control points
 */
-double (*tc_getCenterPointY)(OBJ connection);
+double (*tc_getCenterPointY)(OBJ connection) = 0;
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Control points
 */
-void (*tc_setStraight)(OBJ item,int straight);
+void (*tc_setStraight)(OBJ item,int straight) = 0;
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Control points
 */
-void (*tc_setAllStraight)(int straight);
+void (*tc_setAllStraight)(int straight) = 0;
 /*! 
  \brief set the line width. Indicate whether the change should be temporary or permanent.
  \ingroup Control points
 */
-void (*tc_setLineWidth)(OBJ item,double width, int permanent);
+void (*tc_setLineWidth)(OBJ item,double width, int permanent) = 0;
 /*! 
  \brief initialize control point functions
  \ingroup init

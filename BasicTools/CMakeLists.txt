@@ -69,13 +69,14 @@ TARGET_LINK_LIBRARIES( LoadSaveTool
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( DnaGraphicsItem_MOC DnaGraphicsItem.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( ConnectionMaker_MOC ConnectionMaker.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( ConnectionMaker_MOC 
+  DnaGraphicsItem.h 
+  ConnectionMaker.h 
+  ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( ConnectionMaker
   SHARED
   ${ConnectionMaker_MOC}
-  ${DnaGraphicsItem_MOC}
   ConnectionMaker.cpp
   DnaGraphicsItem.cpp
   ${TINKERCELL_BASICTOOLS_QRC}
@@ -86,17 +87,17 @@ TARGET_LINK_LIBRARIES( ConnectionMaker
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( ConnectionSelection_MOC ConnectionSelection.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( NodeSelection_MOC NodeSelection.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( SelectionToolsMain_MOC SelectionToolsMain.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( SelectionTools_MOC 
+  NodeSelection.h 
+  ConnectionSelection.h 
+  SelectionToolsMain.h 
+  ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( SelectionTools 
   SHARED
-  ${ConnectionSelection_MOC}
+  ${SelectionTools_MOC}
   ConnectionSelection.cpp
-  ${NodeSelection_MOC}
   NodeSelection.cpp
-  ${SelectionToolsMain_MOC}
   SelectionToolsMain.cpp
   ${TINKERCELL_BASICTOOLS_QRC}
 )
@@ -106,29 +107,24 @@ TARGET_LINK_LIBRARIES( SelectionTools
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( BasicGraphicsToolbox_MOC BasicGraphicsToolbox.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( GraphicsTransformTool_MOC GraphicsTransformTool.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( TextGraphicsTool_MOC TextGraphicsTool.h ${TINKERCELL_CORE_HDRS})
-#QT4_WRAP_CPP( CopyPasteTool_MOC CopyPasteTool.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( GroupHandlerTool_MOC GroupHandlerTool.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( VisualToolsMain_MOC VisualToolsMain.h ${TINKERCELL_CORE_HDRS})
-QT4_WRAP_CPP( GraphicsReplaceTool_MOC GraphicsReplaceTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( VisualTools_MOC 
+  BasicGraphicsToolbox.h 
+  GraphicsTransformTool.h 
+  TextGraphicsTool.h
+  GroupHandlerTool.h
+  VisualToolsMain.h
+  GraphicsReplaceTool.h
+  ${TINKERCELL_CORE_HDRS}
+  )
 
 ADD_LIBRARY( VisualTools 
   SHARED
-  ${GraphicsReplaceTool_MOC}
+  ${VisualTools_MOC}
   GraphicsReplaceTool.cpp
-  ${BasicGraphicsToolbox_MOC}
   BasicGraphicsToolbox.cpp
-  ${GraphicsTransformTool_MOC}
   GraphicsTransformTool.cpp
-  ${TextGraphicsTool_MOC}
   TextGraphicsTool.cpp
-#  ${CopyPasteTool_MOC}
-#  CopyPasteTool.cpp
-  ${GroupHandlerTool_MOC}
   GroupHandlerTool.cpp
-  ${VisualToolsMain_MOC}
   VisualToolsMain.cpp
   ${TINKERCELL_BASICTOOLS_QRC}
 )
@@ -138,27 +134,21 @@ TARGET_LINK_LIBRARIES( VisualTools
   TinkerCellCore 
 )
 
- QT4_WRAP_CPP( SpinBoxDelegate_MOC SpinBoxDelegate.h )
- QT4_WRAP_CPP( DefaultReactionRates_MOC DefaultReactionRates.h ) 
- QT4_WRAP_CPP( BasicInformationTool_MOC BasicInformationTool.h )
- QT4_WRAP_CPP( NameFamilyDialog_MOC NameFamilyDialog.h )
- QT4_WRAP_CPP( StoichiometryTool_MOC StoichiometryTool.h )
- QT4_WRAP_CPP( FunctionDeclarationsTool_MOC FunctionDeclarationsTool.h )
- QT4_WRAP_CPP( ModelSummaryTool_MOC ModelSummaryTool.h )
- QT4_WRAP_CPP( ModelFileGenerator_MOC ModelFileGenerator.h )
- QT4_WRAP_CPP( DataToolsMain_MOC DataToolsMain.h )
+ QT4_WRAP_CPP( DataBasicTools_MOC 
+   SpinBoxDelegate.h 
+   DefaultReactionRates.h 
+   BasicInformationTool.h
+   StoichiometryTool.h 
+   FunctionDeclarationsTool.h
+   ModelSummaryTool.h
+   ModelFileGenerator.h
+   DataToolsMain.h
+   ${TINKERCELL_CORE_HDRS}
+)
 
 ADD_LIBRARY( DataBasicTools
   SHARED
-  ${SpinBoxDelegate_MOC}
-  ${DefaultReactionRates_MOC}
-  ${BasicInformationTool_MOC}
-  ${NameFamilyDialog_MOC}
-  ${StoichiometryTool_MOC}
-  ${FunctionDeclarationsTool_MOC}
-  ${ModelSummaryTool_MOC}
-  ${ModelFileGenerator_MOC}
-  ${DataToolsMain_MOC}
+  ${DataBasicTools_MOC}
   SpinBoxDelegate.cpp
   BasicInformationTool.cpp
   NameFamilyDialog.cpp

@@ -6,7 +6,7 @@
 static PyObject * pytc_merge(PyObject *self, PyObject *args)
 {
 	PyObject * parts;
-	if(!PyArg_ParseTuple(args, "O", &parts))
+	if(!PyArg_ParseTuple(args, "O", &parts) || (tc_merge == 0))
         return NULL;
 	
 	int isList = PyList_Check(parts);
@@ -34,7 +34,7 @@ static PyObject * pytc_merge(PyObject *self, PyObject *args)
 static PyObject * pytc_separate(PyObject *self, PyObject *args)
 {
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_separate == 0))
         return NULL;
 	
 	tc_separate((void*)i);

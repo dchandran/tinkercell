@@ -7,17 +7,17 @@
  \brief get the event triggers for a set of items
  \ingroup Events and forcing functions
 */
-char** (*tc_getEventTriggers)(Array);
+char** (*tc_getEventTriggers)(Array) = 0;
 /*! 
  \brief get the event responses for a set of items
  \ingroup Events and forcing functions
 */
-char** (*tc_getEventResponses)(Array);
+char** (*tc_getEventResponses)(Array) = 0;
 /*! 
  \brief set the event trigger and response for an item
  \ingroup Events and forcing functions
 */
-void (*tc_addEvent)(OBJ item,const char* trigger, const char* event);
+void (*tc_addEvent)(OBJ item,const char* trigger, const char* event) = 0;
 
 /*! 
  \brief initialize
@@ -38,17 +38,17 @@ void tc_SimulationEventsTool_api(
  \brief get the forcing function names for a set of items
  \ingroup Events and forcing functions
 */
-char** (*tc_getForcingFunctionNames)(Array);
+char** (*tc_getForcingFunctionNames)(Array) = 0;
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Events and forcing functions
 */
-char** (*tc_getForcingFunctionAssignments)(Array);
+char** (*tc_getForcingFunctionAssignments)(Array) = 0;
 /*! 
  \brief set the forcing function for an item
  \ingroup Events and forcing functions
 */
-void (*tc_addForcingFunction)(OBJ item,const char* functionName, const char* assignmentRule);
+void (*tc_addForcingFunction)(OBJ item,const char* functionName, const char* assignmentRule) = 0;
 
 /*! 
  \brief initialize
@@ -69,22 +69,22 @@ void tc_AssignmentFunctionsTool_api(
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and output
 */
-void (*tc_displayText)(OBJ item,const char* text);
+void (*tc_displayText)(OBJ item,const char* text) = 0;
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \ingroup Input and output
 */
-void (*tc_displayNumber)(OBJ item,double number);
+void (*tc_displayNumber)(OBJ item,double number) = 0;
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \ingroup Input and output
 */
-void (*tc_setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2);
+void (*tc_setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2) = 0;
 /*! 
  \brief highlights an item (the highlight is temporary)
  \ingroup Input and output
 */
-void (*tc_highlight)(OBJ item,int,int,int);
+void (*tc_highlight)(OBJ item,int,int,int) = 0;
 /*! 
  \brief initialize
  \ingroup init

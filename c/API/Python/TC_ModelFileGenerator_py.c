@@ -8,8 +8,8 @@ static PyObject * pytc_writeModel(PyObject *self, PyObject *args)
 	char * s;
 
 	PyObject * pylist = 0;
-	if(!PyArg_ParseTuple(args, "s|O", &s, &pylist))
-        	return NULL;
+	if(!PyArg_ParseTuple(args, "s|O", &s, &pylist) || (tc_allItems == 0) || (tc_writeModel == 0))
+        return NULL;
 
 	void ** array = 0;
 	if (pylist)

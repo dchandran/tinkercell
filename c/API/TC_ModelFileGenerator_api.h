@@ -7,12 +7,12 @@
  \brief get only the parameters used in the model
  \ingroup Attributes
 */
-Matrix (*tc_getModelParameters)(Array);
+Matrix (*tc_getModelParameters)(Array) = 0;
 /*! 
  \brief write the ODE, stoichiometry, and rates functions to a file
  \ingroup Modeling
 */
-int (*tc_writeModel)(const char* file, Array items);
+int (*tc_writeModel)(const char* file, Array items) = 0;
 /*! 
  \brief initialize model generator functions
  \ingroup init

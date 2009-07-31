@@ -2,12 +2,21 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
 FILE( GLOB TINKERCELL_NODESTREE_SRC *.cpp )
 FILE( GLOB TINKERCELL_NODESTREE_HDRS *.h )
-  
+
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
+
 QT4_WRAP_CPP( TINKERCELL_NODESTREE_MOC 
   ${TINKERCELL_NODESTREE_HDRS} 
-  ../Core/MainWindow.h 
-  ../Core/Tool.h 
-  ../Core/ItemHandle.h 
+  ${TINKERCELL_CORE_HDRS}
  )
 
 ADD_LIBRARY( NodesTree 

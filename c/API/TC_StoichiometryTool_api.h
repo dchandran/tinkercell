@@ -7,43 +7,43 @@
  \brief get stoichiometry for the given items
  \ingroup Stoichiometry
 */
-Matrix (*tc_getStoichiometry)(Array );
+Matrix (*tc_getStoichiometry)(Array ) = 0;
 /*! 
  \brief set stoichiometry for the given items (must be labeled)
  \ingroup Stoichiometry
 */
-void (*tc_setStoichiometry)(Array ,Matrix N);
+void (*tc_setStoichiometry)(Array ,Matrix N) = 0;
 /*! 
  \brief get rates for the given items
  \ingroup Stoichiometry
 */
-char** (*tc_getRates)(Array );
+char** (*tc_getRates)(Array ) = 0;
 /*! 
  \brief set rates for the given items (same order as N)
  \ingroup Stoichiometry
 */
-void (*tc_setRates)(Array ,char** rates);
+void (*tc_setRates)(Array ,char** rates) = 0;
 
 /*! 
  \brief get stoichiometry for the given items
  \ingroup Stoichiometry
 */
-Matrix (*tc_getStoichiometryFor)(OBJ);
+Matrix (*tc_getStoichiometryFor)(OBJ) = 0;
 /*! 
  \brief set stoichiometry for the given items (must be labeled)
  \ingroup Stoichiometry
 */
-void (*tc_setStoichiometryFor)(OBJ,Matrix N);
+void (*tc_setStoichiometryFor)(OBJ,Matrix N) = 0;
 /*! 
  \brief get rates for the given items
  \ingroup Stoichiometry
 */
-char* (*tc_getRate)(OBJ);
+char* (*tc_getRate)(OBJ) = 0;
 /*! 
  \brief set rates for the given items (same order as N)
  \ingroup Stoichiometry
 */
-void (*tc_setRate)(OBJ,char* rate);
+void (*tc_setRate)(OBJ,char* rate) = 0;
 
 /*! 
  \brief get stoichiometry for the given items

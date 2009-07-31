@@ -6,12 +6,12 @@
  \brief get annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
 */
-char** (*tc_getAnnotation)(OBJ);
+char** (*tc_getAnnotation)(OBJ) = 0;
 /*! 
  \brief set annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
 */
-void (*tc_setAnnotation)(OBJ,char**);
+void (*tc_setAnnotation)(OBJ,char**) = 0;
 
 /*! 
  \brief initialize main

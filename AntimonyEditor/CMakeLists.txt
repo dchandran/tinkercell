@@ -1,5 +1,16 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
+
 FILE( GLOB ANTIMONYEDITOR_HDRS *.h )
 FILE( GLOB ANTIMONYEDITOR_SRC *.cpp )
 
@@ -9,16 +20,7 @@ ADD_LIBRARY( AntimonyEditor
   SHARED
   ${ANTIMONYEDITOR_MOC}
   ${ANTIMONYEDITOR_SRC}
-  ../Core/MainWindow.h 
-  ../Core/NetworkWindow.h
-  ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/TextItem.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
-  ../NodesTree/NodesTree.h 
-  ../NodesTree/ConnectionsTree.h
+  ${TINKERCELL_CORE_HDRS}
  )
 
 TARGET_LINK_LIBRARIES( AntimonyEditor

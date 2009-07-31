@@ -2654,7 +2654,7 @@ namespace Tinkercell
 		//	delete M.rownames[i];
 		//delete M.rownames;
 		}
-		if (M.values) delete M.values;
+		if (M.values) delete M.values;*/
 	}
 
 	void MainWindow::_deleteStrings(char** /*str*/)
@@ -2664,7 +2664,7 @@ namespace Tinkercell
 		//for (int i=0; str[i] != 0; ++i)
 		//	delete str[i];
 		//delete str;
-		}
+		}*/
 	}
 
 	/*******************************************/

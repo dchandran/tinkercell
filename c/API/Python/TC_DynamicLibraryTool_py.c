@@ -7,7 +7,7 @@ static PyObject * pytc_showProgress(PyObject *self, PyObject *args)
 {
 	int i = 0;
 	
-	if (!PyArg_ParseTuple(args, "i", &i))
+	if (!PyArg_ParseTuple(args, "i", &i) || (tc_showProgress == 0))
 		return NULL;
 
 	tc_showProgress("python thread",i);
@@ -19,7 +19,7 @@ static PyObject * pytc_showProgress(PyObject *self, PyObject *args)
 static PyObject * pytc_compileAndRun(PyObject *self, PyObject *args)
 {
 	char * a, *b;
-	if(!PyArg_ParseTuple(args, "ss", &a, &b))
+	if(!PyArg_ParseTuple(args, "ss", &a, &b) || (tc_compileAndRun == 0))
         return NULL;
 	
 	int i = tc_compileAndRun(a,b);
@@ -30,7 +30,7 @@ static PyObject * pytc_compileAndRun(PyObject *self, PyObject *args)
 static PyObject * pytc_compileBuildLoad(PyObject *self, PyObject *args)
 {
 	char * a, *b, *c;
-	if(!PyArg_ParseTuple(args, "sss", &a, &b, &c))
+	if(!PyArg_ParseTuple(args, "sss", &a, &b, &c) || (tc_compileBuildLoad == 0))
         return NULL;
 	
 	int i = tc_compileBuildLoad(a,b,c);
@@ -41,7 +41,7 @@ static PyObject * pytc_compileBuildLoad(PyObject *self, PyObject *args)
 static PyObject * pytc_callFunction(PyObject *self, PyObject *args)
 {
 	char * a;
-	if(!PyArg_ParseTuple(args, "s", &a))
+	if(!PyArg_ParseTuple(args, "s", &a) || (tc_callFunction == 0))
         return NULL;
 	
 	tc_callFunction(a);
@@ -53,7 +53,7 @@ static PyObject * pytc_callFunction(PyObject *self, PyObject *args)
 static PyObject * pytc_loadLibrary(PyObject *self, PyObject *args)
 {
 	char * a;
-	if(!PyArg_ParseTuple(args, "s", &a))
+	if(!PyArg_ParseTuple(args, "s", &a) || (tc_loadLibrary == 0))
         return NULL;
 	
 	tc_loadLibrary(a);
@@ -65,7 +65,7 @@ static PyObject * pytc_loadLibrary(PyObject *self, PyObject *args)
 static PyObject * pytc_getString(PyObject *self, PyObject *args)
 {
 	char * a;
-	if(!PyArg_ParseTuple(args, "s", &a))
+	if(!PyArg_ParseTuple(args, "s", &a) || (tc_getString == 0))
         return NULL;
 	
 	char * s = tc_getString(a);
@@ -75,6 +75,7 @@ static PyObject * pytc_getString(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getFilename(PyObject *self, PyObject *args)
 {
+	if (tc_getFilename == 0) return NULL;	
 	
 	char * s = tc_getFilename();
 	
@@ -88,7 +89,7 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 	PyObject * pylist;
 	int k = 1;
 	
-	if(!PyArg_ParseTuple(args, "sO|si", &s, &pylist,&s0,&k))
+	if(!PyArg_ParseTuple(args, "sO|si", &s, &pylist,&s0,&k) || (tc_getFromList == 0))
         return NULL;
 		
 	int isList = PyList_Check(pylist);
@@ -117,7 +118,7 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 static PyObject * pytc_getNumber(PyObject *self, PyObject *args)
 {
 	char * a;
-	if(!PyArg_ParseTuple(args, "s", &a))
+	if(!PyArg_ParseTuple(args, "s", &a) || (tc_getNumber == 0))
         return NULL;
 	
 	double d = tc_getNumber(a);
@@ -128,7 +129,7 @@ static PyObject * pytc_getNumber(PyObject *self, PyObject *args)
 static PyObject * pytc_getNumbers(PyObject *self, PyObject *args)
 {
 	PyObject *pylist, *item,* pylist2;
-	if(!PyArg_ParseTuple(args, "O", &pylist))
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getNumbers == 0))
         return NULL;
 		
 	int isList = PyList_Check(pylist);

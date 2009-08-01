@@ -9,6 +9,7 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/TextItem.h 
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
+  ../Core/CodeEditor.h
   )
 
 FILE( GLOB DYNAMICTOOLSS_HDRS *.h )

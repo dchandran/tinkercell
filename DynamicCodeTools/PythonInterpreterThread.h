@@ -22,13 +22,14 @@
 namespace Tinkercell
 {
 
-        class PythonInterpreterThread : public CThread
+  class PythonInterpreterThread : public CThread
 	{
-                 typedef void (*initFunc)();
-                 typedef void (*execFunc)(const char*,const char*);
-                 typedef void (*finalFunc)();
-        signals:
-                 void progress(int);
+  Q_OBJECT
+    typedef void (*initFunc)();
+    typedef void (*execFunc)(const char*,const char*);
+    typedef void (*finalFunc)();
+  signals:
+    void progress(int);
 	public:
 		PythonInterpreterThread(const QString&, MainWindow* main);
 		virtual ~PythonInterpreterThread();
@@ -37,11 +38,11 @@ namespace Tinkercell
 	public slots:
 		void initialize();
 		void runCode(const QString&);
-                void finalize();
+    void finalize();
 	protected:
 		QString pythonCode;
 		virtual void run();
-                execFunc f;
+    execFunc f;
 	};
 }
 

@@ -3,7 +3,9 @@ PROJECT( TINKERCELL )
 SET( TINKERCELL_MAJOR_VERSION "0" )
 SET( TINKERCELL_MINOR_VERSION "7" )
 
-SET( CMAKE_BUILT_TYPE DEBUG )
+# arnaudgelas: this MUST be chosen by the developer when running cmake
+# and not in this file!
+#SET( CMAKE_BUILT_TYPE DEBUG )
 
 SET( TINKERCELL_VERSION
 "${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}" )
@@ -19,6 +21,9 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( SET CMP0003 NEW )
 ENDIF(COMMAND CMAKE_POLICY)
 
+#---------------------------------------------------------------------------
+# BUNDLE Applicatio for Mac
+#---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
 ENDIF( APPLE )
@@ -39,12 +44,30 @@ SET(C_LIBRARY_OUTPUT_PATH
  CACHE PATH "Single output directory for building all c libraries."
 )
 
+#---------------------------------------------------------------------------
+# Doxygen documentation
+#---------------------------------------------------------------------------
+#FIND_PACKAGE( Doxygen )
+#
+#IF( DOXYGEN_FOUND )
+#  OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
+#  IF( DOXYGENDOC )
+#    ADD_SUBDIRECTORY( Documentation )
+#  ENDIF( DOXYGENDOC )
+#ENDIF( DOXYGEN_FOUND )
+
+#---------------------------------------------------------------------------
+# Python
+#---------------------------------------------------------------------------
 FIND_PACKAGE( PythonLibs )
 
 IF( NOT PYTHONLIBS_FOUND )
   MESSAGE( SEND_ERROR "TinkerCell requires python to be installed" )
 ENDIF( NOT PYTHONLIBS_FOUND )
 
+#---------------------------------------------------------------------------
+# Qt4
+#---------------------------------------------------------------------------
 FIND_PACKAGE( Qt4 )
 
 #--------------------------------------------
@@ -140,12 +163,19 @@ IF( QT4_FOUND )
 #  ADD_SUBDIRECTORY( DataTools )
   ADD_SUBDIRECTORY( BasicTools )
 
+#---------------------------------------------------------------------------
+# ANTIMONY editor
+#---------------------------------------------------------------------------
+
   OPTION( BUILD_ANTIMONYEDITOR 
     "Build Antimony Editor. Note that it requires to have antimony parser libraries installed." 
     OFF )
+
   IF( BUILD_ANTIMONYEDITOR )
     ADD_SUBDIRECTORY( AntimonyEditor )
   ENDIF( BUILD_ANTIMONYEDITOR )
+
+#---------------------------------------------------------------------------
 
   ADD_SUBDIRECTORY( OtherTools )
   ADD_SUBDIRECTORY( ContainerTools )
@@ -154,28 +184,30 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( DynamicCodeTools )
 ##  ADD_SUBDIRECTORY( c/lpsolve )
 
-#  QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
-
   ADD_SUBDIRECTORY( Main )
 
-IF( APPLE )
-
-  SET( MACOSX_BUNDLE_ICON_FILE
-    ${TINKERCELL_SOURCE_DIR}/tinkercell.icns
-    )
-
-  SET( MACOSX_BUNDLE_SHORT_VERSION_STRING
-    ${TINKERCELL_VERSION}
-    )
-
-  SET( MACOSX_BUNDLE_VERSION
-    ${TINKERCELL_VERSION}
-    )
-
-  SET( MACOSX_BUNDLE_LONG_VERSION_STRING
-    Version ${TINKERCELL_VERSION}
-    )
-
+#---------------------------------------------------------------------------
+# arnaudgelas this is already done in Main directory. should be deleted!
+#  QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
+#
+#IF( APPLE )
+#
+#  SET( MACOSX_BUNDLE_ICON_FILE
+#    ${TINKERCELL_SOURCE_DIR}/tinkercell.icns
+#    )
+#
+#  SET( MACOSX_BUNDLE_SHORT_VERSION_STRING
+#    ${TINKERCELL_VERSION}
+#    )
+#
+#  SET( MACOSX_BUNDLE_VERSION
+#    ${TINKERCELL_VERSION}
+#    )
+#
+#  SET( MACOSX_BUNDLE_LONG_VERSION_STRING
+#    Version ${TINKERCELL_VERSION}
+#    )
+#
 #  ADD_EXECUTABLE( tinkercell
 #    MACOSX_BUNDLE
 #    Main.cpp
@@ -198,12 +230,14 @@ IF( APPLE )
 #)
 #  ENDIF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources )
 #
-ENDIF( APPLE )
+#ENDIF( APPLE )
 #
 #  TARGET_LINK_LIBRARIES( tinkercell
 #    TinkerCellCore
 #    ${QT_LIBRARIES}
 #    muparser
 #    )
+#---------------------------------------------------------------------------
+
 ## ENDIF( QT4_FOUND AND QT_VERSION_MINOR GREATER 4 )
 ENDIF( QT4_FOUND )

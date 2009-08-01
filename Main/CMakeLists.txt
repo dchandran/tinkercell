@@ -1,6 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-QT4_WRAP_CPP( DefaultPluginsMenu_MOC DefaultPluginsMenu.h ../Core/MainWindow.h)
+QT4_WRAP_CPP( DefaultPluginsMenu_MOC 
+  DefaultPluginsMenu.h 
+  ../Core/MainWindow.h )
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
@@ -16,6 +18,11 @@ IF( APPLE AND BUILD_BUNDLE )
   )
   SET( MACOSX_BUNDLE_LONG_VERSION_STRING
       Version ${TINKERCELL_VERSION}
+  )
+
+  ADD_CUSTOM_COMMAND( TARGET tinkercell PRE_BUILD
+      COMMAND rm ARGS -rf  
+        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app 
   )
 
   ADD_EXECUTABLE( tinkercell 

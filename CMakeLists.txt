@@ -47,14 +47,14 @@ SET(C_LIBRARY_OUTPUT_PATH
 #---------------------------------------------------------------------------
 # Doxygen documentation
 #---------------------------------------------------------------------------
-#FIND_PACKAGE( Doxygen )
-#
-#IF( DOXYGEN_FOUND )
-#  OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
-#  IF( DOXYGENDOC )
-#    ADD_SUBDIRECTORY( Documentation )
-#  ENDIF( DOXYGENDOC )
-#ENDIF( DOXYGEN_FOUND )
+FIND_PACKAGE( Doxygen )
+
+IF( DOXYGEN_FOUND )
+  OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
+  IF( DOXYGENDOC )
+    ADD_SUBDIRECTORY( Documentation )
+  ENDIF( DOXYGENDOC )
+ENDIF( DOXYGEN_FOUND )
 
 #---------------------------------------------------------------------------
 # Python

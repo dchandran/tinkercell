@@ -84,9 +84,9 @@ ELSE( APPLE AND BUILD_BUNDLE )
 				COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} 
 					-i${CMAKE_CURRENT_SOURCE_DIR}/nodegraphics.rc
 					-o ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o)		
-			SET(TINKERCELL_RC ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o)
+			SET(NODEGRAPHICS_RC ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o)
 		else(MINGW)
-			SET(TINKERCELL_RC nodegraphics.rc)
+			SET(NODEGRAPHICS_RC nodegraphics.rc)
 		endif(MINGW)
 		
       ADD_EXECUTABLE( NodeGraphics

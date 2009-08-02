@@ -715,12 +715,12 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
 		NodeGraphicsReader reader;
-		reader.readXml(&graphics1,tr(":/BasicTools/stoichiometry.xml"));
+		reader.readXml(&graphics1,appDir + tr("/OtherItems/stoichiometry.xml"));
 		graphics1.setToolTip(tr("Reaction rates"));
 		graphics1.normalize();
 		graphics1.scale(40.0/graphics1.sceneBoundingRect().width(),40.0/graphics1.sceneBoundingRect().height());
 
-		reader.readXml(&graphics2,tr(":/BasicTools/curve.xml"));
+		reader.readXml(&graphics2,appDir + tr("/OtherItems/curve.xml"));
 		graphics2.setToolTip(tr("Reaction stoichiometry"));
 		graphics2.normalize();
 		graphics2.scale(40.0/graphics2.sceneBoundingRect().width(),40.0/graphics2.sceneBoundingRect().height());

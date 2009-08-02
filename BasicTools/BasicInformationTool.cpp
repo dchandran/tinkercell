@@ -478,7 +478,7 @@ namespace Tinkercell
 
 			if (type == BasicInformationTool::both)
 			{
-				reader.readXml(&item,tr(":/BasicTools/textsheet.xml"));
+				reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
 				graphicsItems[0]->setToolTip(tr("Attributes"));
 				//toolButton->setToolTip(tr("Attributes"));
@@ -487,7 +487,7 @@ namespace Tinkercell
 			else
 				if (type == BasicInformationTool::numerical)
 				{
-					reader.readXml(&item,tr(":/BasicTools/datasheet.xml"));
+					reader.readXml(&item,appDir + tr("/OtherItems/datasheet.xml"));
 					item.setToolTip(tr("Numerical attributes"));
 					graphicsItems[0]->setToolTip(tr("Numerical attributes"));
 					//toolButton->setToolTip(tr("Numerical Attributes"));
@@ -495,7 +495,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					reader.readXml(&item,tr(":/BasicTools/textsheet.xml"));
+					reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
 					item.setToolTip(tr("Text attributes"));
 					graphicsItems[0]->setToolTip(tr("Text attributes"));
 					//toolButton->setToolTip(tr("Text Attributes"));

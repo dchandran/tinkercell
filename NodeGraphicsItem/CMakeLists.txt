@@ -1,6 +1,6 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-QT4_ADD_RESOURCES( TINKERCELL_NODEGRAPHICS_QRC PartGraphics.qrc )
+QT4_ADD_RESOURCES( TINKERCELL_NODEGRAPHICS_QRC nodegraphics.qrc )
 
 SET( TINKERCELL_NODEGRAPHICS_SRC
   NodeGraphicsScene.cpp
@@ -75,7 +75,17 @@ ELSE( APPLE AND BUILD_BUNDLE )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
 	
-	  SET( NODEGRAPHICS_RC partgraphics.rc )
+		if(MINGW)
+			# resource compilation for mingw
+			ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o
+				COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} 
+					-i${CMAKE_CURRENT_SOURCE_DIR}/nodegraphics.rc
+					-o ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o)		
+			SET(TINKERCELL_RC ${CMAKE_CURRENT_BINARY_DIR}/nodegraphics_rc.o)
+		else(MINGW)
+			SET(TINKERCELL_RC nodegraphics.rc)
+		endif(MINGW)
+		
       ADD_EXECUTABLE( NodeGraphics
         NodeGraphicsMain.cpp
         ${TINKERCELL_NODEGRAPHICS_MOC_SRC}

@@ -19,9 +19,9 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	toolBar = new QToolBar(this);
 	actionGroup->setExclusive(true);
 	
-	arrowButton = new QAction(QIcon(":/images/arrow.png"),tr("arrow"),toolBar);
-	QAction * nodeButton = new QAction(QIcon(":/images/blueRect.png"),tr("node"),toolBar);
-	QAction * edgeButton = new QAction(QIcon(":/images/horizontalFlip.png"),tr("reaction"),toolBar);
+	arrowButton = new QAction(QIcon(":../images/arrow.png"),tr("arrow"),toolBar);
+	QAction * nodeButton = new QAction(QIcon(":../images/blueRect.png"),tr("node"),toolBar);
+	QAction * edgeButton = new QAction(QIcon(":../images/horizontalFlip.png"),tr("reaction"),toolBar);
 	
 	arrowButton->setCheckable(true);
 	nodeButton->setCheckable(true);

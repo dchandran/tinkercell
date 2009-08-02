@@ -26,7 +26,7 @@ namespace Tinkercell
         moduleTool = tool;
         QString appDir = QCoreApplication::applicationDirPath();
         NodeGraphicsReader reader;
-        reader.readXml(&image,appDir + tr("/OtherTools/moduleTool.xml"));
+        reader.readXml(&image, appDir + tr("/OtherItems/moduleTool.xml"));
         image.normalize();
         image.scale(40.0/image.sceneBoundingRect().width(),40.0/image.sceneBoundingRect().height());
         image.setToolTip(tr("Module input/output"));
@@ -54,8 +54,8 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-            connect(mainWindow,SIGNAL(prepareModelForSaving(GraphicsScene*)),this,SLOT(prepareModelForSaving(GraphicsScene*)));
-            connect(mainWindow,SIGNAL(modelSaved(GraphicsScene*)),this,SLOT(modelSaved(GraphicsScene*)));
+            connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)),this,SLOT(prepareModelForSaving(NetworkWindow*)));
+            connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
@@ -277,9 +277,11 @@ namespace Tinkercell
         mode = none;
     }
 
-    void ModuleTool::prepareModelForSaving(GraphicsScene* scene)
+    void ModuleTool::prepareModelForSaving(NetworkWindow* win)
     {
-        if (!scene) return;
+        if (!win || !win->scene) return;
+		
+		GraphicsScene * scene = win->scene;
 
         QList<QGraphicsItem*> items = scene->items();
         ConnectionGraphicsItem * connection = 0;
@@ -305,9 +307,11 @@ namespace Tinkercell
         }
     }
 
-    void ModuleTool::modelSaved(GraphicsScene* scene)
+    void ModuleTool::modelSaved(NetworkWindow* win)
     {
-        if (!scene) return;
+        if (!win || !win->scene) return;
+		
+		GraphicsScene* scene = win->scene;
 
         QList<QGraphicsItem*> items = scene->items();
         ConnectionGraphicsItem * connection = 0;

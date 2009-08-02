@@ -257,7 +257,7 @@ namespace Tinkercell
 			connect(findAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
 			connect(replaceAction,SIGNAL(triggered()),replaceText,SLOT(setFocus()));
 
-			mainWindow->addToolBar(Qt::NoToolBarArea,findToolBar);
+			mainWindow->addToolBar(Qt::TopToolBarArea,findToolBar);
 			findToolBar->setAllowedAreas(Qt::AllToolBarAreas);
 			findToolBar->setFloatable(true);
 			findToolBar->setVisible(false);

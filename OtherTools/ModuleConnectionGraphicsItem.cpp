@@ -31,7 +31,7 @@ namespace Tinkercell
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
-		reader.readXml(this,appDir + QString("/OtherTools/moduleLinker.xml"));
+		reader.readXml(this,appDir + QString("/OtherItems/moduleLinker.xml"));
 		normalize();
 		setWidth = 100.0;
 		setToolTip(QString("Module interface"));

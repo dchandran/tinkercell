@@ -17,6 +17,7 @@
 #include <QDir>
 #include <QGraphicsLineItem>
 #include "ItemHandle.h"
+#include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "TextGraphicsItem.h"

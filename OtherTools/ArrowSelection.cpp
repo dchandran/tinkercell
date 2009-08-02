@@ -53,7 +53,7 @@ namespace Tinkercell
 
         QString appDir = QCoreApplication::applicationDirPath();
         NodeGraphicsReader reader;
-        reader.readXml(&arrowPic,appDir + tr("/OtherTools/arrowSelection.xml"));
+        reader.readXml(&arrowPic,appDir + tr("/OtherItems/arrowSelection.xml"));
         arrowPic.normalize();
         arrowPic.scale(40.0/arrowPic.sceneBoundingRect().width(),40.0/arrowPic.sceneBoundingRect().height());
         arrowPic.setToolTip(tr("Select arrow head"));

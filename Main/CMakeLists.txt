@@ -20,12 +20,12 @@ IF( APPLE AND BUILD_BUNDLE )
       Version ${TINKERCELL_VERSION}
   )
 
-  ADD_CUSTOM_COMMAND( TARGET tinkercell PRE_BUILD
+  ADD_CUSTOM_COMMAND( TARGET Tinkercell PRE_BUILD
       COMMAND rm ARGS -rf  
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app 
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app 
   )
 
-  ADD_EXECUTABLE( tinkercell 
+  ADD_EXECUTABLE( Tinkercell 
     MACOSX_BUNDLE
     Main.cpp
     ${DefaultPluginsMenu_MOC}
@@ -33,44 +33,53 @@ IF( APPLE AND BUILD_BUNDLE )
     ${TINKERCELL_QRC}
   )
 
-  TARGET_LINK_LIBRARIES( tinkercell
+  TARGET_LINK_LIBRARIES( Tinkercell
     TinkerCellCore
   )
 
-  ADD_CUSTOM_COMMAND( TARGET tinkercell POST_BUILD
+  ADD_CUSTOM_COMMAND( TARGET Tinkercell POST_BUILD
       COMMAND mkdir ARGS 
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Frameworks/
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
       COMMAND cp ARGS ${LIBRARY_OUTPUT_PATH}/libTinkerCellCore.dylib
-         ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
+         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
       COMMAND cp ARGS ${MACOSX_TINKERCELL_BUNDLE_ICON_FILE}
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
       COMMAND cp ARGS -rf ${LIBRARY_OUTPUT_PATH}
-        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/MacOS/
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
 #      COMMAND cp ARGS *.qm
-#        ${EXECUTABLE_OUTPUT_PATH}/tinkercell.app/Contents/Resources 
+#        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources 
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
-    ADD_EXECUTABLE( tinkercell 
+    ADD_EXECUTABLE( Tinkercell 
       Main.cpp
       ${DefaultPluginsMenu_MOC}
       DefaultPluginsMenu.cpp
       ${TINKERCELL_QRC}
     )
 
-    TARGET_LINK_LIBRARIES( tinkercell
+    TARGET_LINK_LIBRARIES( Tinkercell
       TinkerCellCore
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
-  
-    SET( TINKERCELL_RC tinkercell.rc )
-
-    ADD_EXECUTABLE( tinkercell 
+	
+		if(MINGW)
+			# resource compilation for mingw
+			ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o
+				COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} 
+					-i${CMAKE_CURRENT_SOURCE_DIR}/tinkercell.rc
+					-o ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o)		
+			SET(TINKERCELL_RC ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o)
+		else(MINGW)
+			SET(TINKERCELL_RC tinkercell.rc)
+		endif(MINGW)
+	
+    ADD_EXECUTABLE( Tinkercell 
       Main.cpp
       ${DefaultPluginsMenu_MOC}
       DefaultPluginsMenu.cpp
@@ -78,7 +87,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
       ${TINKERCELL_RC}
     )
 
-    TARGET_LINK_LIBRARIES( tinkercell
+    TARGET_LINK_LIBRARIES( Tinkercell
       TinkerCellCore
     )
     ENDIF( WIN32 )

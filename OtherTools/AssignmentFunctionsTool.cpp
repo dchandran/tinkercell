@@ -40,7 +40,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
 		PartGraphicsReader reader;
-		reader.readXml(&item,appDir + tr("/OtherTools/func.xml"));
+		reader.readXml(&item,appDir + tr("/OtherItems/func.xml"));
 		item.setToolTip(tr("Functions and assignments"));
 		setToolTip(tr("Functions and assignments"));
 		

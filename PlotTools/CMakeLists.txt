@@ -4,6 +4,7 @@ FILE( GLOB TINKERCELL_PLOT_HDRS *.h )
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkWindow.h
+  ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 

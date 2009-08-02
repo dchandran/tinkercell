@@ -3,6 +3,7 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkWindow.h
+  ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 
@@ -18,7 +19,7 @@ QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h ${TINKERCELL_CORE_HDRS})
 #  @ONLY
 #)
 
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC BasicTools.qrc )
+QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Main/Tinkercell.qrc )
 
 ADD_LIBRARY( AboutBox 
   SHARED

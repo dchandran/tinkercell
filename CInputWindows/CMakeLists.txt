@@ -3,6 +3,8 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkWindow.h
+  ../Core/AbstractInputWindow.h 
+  ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 

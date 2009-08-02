@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
         styleFile.close();
     }
 
-    QString splashFile(":/images/Tinkercell.png");
+    QString splashFile(":../images/Tinkercell.png");
 
 
     MainWindow mainWindow;

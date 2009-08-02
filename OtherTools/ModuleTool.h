@@ -56,8 +56,8 @@ namespace Tinkercell
 
         void select(int);
 
-        void modelSaved(GraphicsScene*);
-		void prepareModelForSaving(GraphicsScene*);
+        void modelSaved(NetworkWindow*);
+		void prepareModelForSaving(NetworkWindow*);
 		void escapeSignal(const QWidget*);
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);

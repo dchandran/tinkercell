@@ -241,7 +241,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		NodeGraphicsReader reader;
-		reader.readXml(&item,tr(":/BasicTools/monitor.xml"));
+		reader.readXml(&item,appDir + tr("/OtherItems/monitor.xml"));
 
 		item.normalize();
 		item.scale(30.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());

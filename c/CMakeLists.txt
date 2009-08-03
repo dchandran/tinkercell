@@ -7,30 +7,17 @@ ADD_LIBRARY( langevin
 
 ADD_LIBRARY( runsteadystate 
   SHARED
-  runsteadystate.c 
-)
-
-TARGET_LINK_LIBRARIES( runsteadystate
-  runsteadystate
-  odesim
+  runsteadystate.c
 )
 
 ADD_LIBRARY( runcvode 
   SHARED
-  runcvode.c 
+  runcvode.c
 )
-
-TARGET_LINK_LIBRARIES( runcvode
-  runcvode
-  odesim
-)
-
 
 ADD_LIBRARY( runssa 
   SHARED
-  mtrand.c
-  ssa.c
-  runssa.c 
+  runssa.c
 )
 
 ADD_LIBRARY( runloops 
@@ -40,32 +27,17 @@ ADD_LIBRARY( runloops
 
 ADD_LIBRARY( loadFullBindingKinetics 
   SHARED
-  loadFullBindingKinetics.c 
+  loadFullBindingKinetics.c
 )
 
 ADD_LIBRARY( runbistablega 
   SHARED
-  mtrand.c
-  ga.c
-  ga_bistable.c
-  runbistablega.c 
-)
-
-TARGET_LINK_LIBRARIES( runbistablega
-  runbistablega
-  odesim
+  runbistablega.c
 )
 
 ADD_LIBRARY( runvaluesattime 
   SHARED
-  mtrand.c
-  ssa.c
   runvaluesattime.c
-)
-
-TARGET_LINK_LIBRARIES( runvaluesattime
-  runvaluesattime
-  odesim
 )
 
 ADD_LIBRARY( tabasco_like 
@@ -125,4 +97,11 @@ TARGET_LINK_LIBRARIES( runpy
   ${PYTHON_LIBRARY}
 )
 
-
+IF (WIN32)
+  ADD_CUSTOM_COMMAND( TARGET runcvode POST_BUILD
+                      COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\ssa.c -o c\\ssa.o -I./c"
+					  COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\cells_ssa.c -o c\\cells_ssa.o -I./c"
+					  COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\langevin.c -o c\\langevin.o -I./c"
+					  COMMAND "win32/tcc.exe" ARGS "-r cvode_src\\cvode\\*.c cvode_src\\sundials\\*.c cvode_src\\nvec_ser\\*.c c\\cvodesim.c -o c\\odesim.o -I./c"
+	)
+ENDIF(WIN32)

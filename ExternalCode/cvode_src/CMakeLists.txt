@@ -1,3 +1,5 @@
+SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+
 SUBDIRS( cvode
 #  nvec_par
   nvec_ser
@@ -17,4 +19,7 @@ ADD_LIBRARY( odesim
 #  langevin
 #  ssa
 #  ga_bistable
+#  runcvode
+#  runvaluesattime
+#  runsteadystate
 #)

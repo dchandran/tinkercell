@@ -8,7 +8,15 @@
  
  #include "TC_api.h"
 
-int run(Matrix input) 
+void run();
+
+void tc_main()
+{
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	tc_addFunction(&run, "Force Bistability", "uses genetic algorithms to find parameters to make system bistable", "Parameter scan", "Plugins/c/default.png", "", 1, 0, 0);
+}
+
+void run()
 {
 
    Array A = tc_allItems();
@@ -43,8 +51,6 @@ int run(Matrix input)
    }
    
    tc_printFile("temp.out");
-   
-   return 1;
  
 }
  

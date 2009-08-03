@@ -7,7 +7,6 @@
  
 #include <string.h>
 
-#include "cvodesim.h"
 #include "TC_api.h"
 
 char selected_var[100];

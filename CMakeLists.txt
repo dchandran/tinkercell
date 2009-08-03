@@ -113,7 +113,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/OtherTools/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/include/
-#    ${TINKERCELL_SOURCE_DIR}/DataTools/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
@@ -121,7 +120,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
-### includes in BINARY_DIR just in case
+# includes in BINARY_DIR just in case
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/
@@ -137,7 +136,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/Core/
     ${TINKERCELL_BINARY_DIR}/BasicTools/
     ${TINKERCELL_BINARY_DIR}/OtherTools/
-#    ${TINKERCELL_BINARY_DIR}/DataTools/
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
     ${TINKERCELL_BINARY_DIR}/PlotTools/

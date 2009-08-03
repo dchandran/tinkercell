@@ -86,9 +86,9 @@ ADD_LIBRARY( lpsolve
   #${LPSOLVE_SHARED_SRC}
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_MDO.c 
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/commonlib.c 
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolvecolamd/colamd.c 
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolveshared/mmio.c 
-  ${TINKERCELL_SOURCE_DIR}/c/lpsolveshared/myblas.c
+  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/colamd.c 
+  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/mmio.c 
+  ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/myblas.c
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/ini.c
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_rlp.c
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_crash.c

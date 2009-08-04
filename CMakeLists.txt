@@ -152,15 +152,21 @@ IF( QT4_FOUND )
 # INCLUDE( CTest )
 # --------------------
 
-  ADD_SUBDIRECTORY( c )
-  ADD_SUBDIRECTORY( ExternalCode )
+  ADD_SUBDIRECTORY( Main )	
   ADD_SUBDIRECTORY( Core )
+  ADD_SUBDIRECTORY( c )
+  ADD_SUBDIRECTORY( ExternalCode )  
   ADD_SUBDIRECTORY( NodeGraphicsItem )
   ADD_SUBDIRECTORY( NodesTree )
-  ADD_SUBDIRECTORY( PlotTools )
-#  ADD_SUBDIRECTORY( DataTools )
   ADD_SUBDIRECTORY( BasicTools )
-
+  ADD_SUBDIRECTORY( PlotTools )
+  ADD_SUBDIRECTORY( DynamicCodeTools )
+  ADD_SUBDIRECTORY( ContainerTools )
+  ADD_SUBDIRECTORY( OtherTools )
+  ADD_SUBDIRECTORY( CInputWindows )
+  ADD_SUBDIRECTORY( SegmentationAnimation )
+  ADD_SUBDIRECTORY( SimpleDesigner )  
+  
 #---------------------------------------------------------------------------
 # ANTIMONY editor
 #---------------------------------------------------------------------------
@@ -175,14 +181,6 @@ IF( QT4_FOUND )
 
 #---------------------------------------------------------------------------
 
-  ADD_SUBDIRECTORY( OtherTools )
-  ADD_SUBDIRECTORY( ContainerTools )
-  ADD_SUBDIRECTORY( SegmentationAnimation )
-  ADD_SUBDIRECTORY( CInputWindows )
-  ADD_SUBDIRECTORY( DynamicCodeTools )
-##  ADD_SUBDIRECTORY( c/lpsolve )
-
-  ADD_SUBDIRECTORY( Main )
 
 #---------------------------------------------------------------------------
 # arnaudgelas this is already done in Main directory. should be deleted!

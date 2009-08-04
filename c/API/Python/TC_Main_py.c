@@ -60,7 +60,7 @@ static PyObject * pytc_allItems(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0;
 	if (tc_allItems)
-		tc_allItems();
+		array = tc_allItems();
 	if (array)
 	{
 		int len = 0;
@@ -90,7 +90,7 @@ static PyObject * pytc_selectedItems(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0;
 	if (tc_selectedItems)
-		tc_selectedItems();
+		array = tc_selectedItems();
 	if (array)
 	{
 		int len = 0;
@@ -125,7 +125,7 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0; 
 	if (tc_itemsOfFamily)
-		tc_itemsOfFamily(s);
+		array= tc_itemsOfFamily(s);
 	if (array)
 	{
 		int len = 0;
@@ -158,7 +158,7 @@ static PyObject * pytc_find(PyObject *self, PyObject *args)
 		
 	 void * o = 0;
 	 if (tc_find)
-		tc_find(s);
+		o = tc_find(s);
 	 
 	 return Py_BuildValue("i", (int)o);	 
 	 
@@ -359,7 +359,10 @@ static PyObject * pytc_moveSelected(PyObject *self, PyObject *args)
 
 static PyObject * pytc_isWindows(PyObject *self, PyObject *args)
 {
-	int i = tc_isWindows();
+	int i = 0;
+	
+	if (tc_isWindows())
+		i = tc_isWindows();
 	 
     return Py_BuildValue("i", i);
 }
@@ -369,7 +372,7 @@ static PyObject * pytc_isMac(PyObject *self, PyObject *args)
 	int i = 0;
 	
 	if (tc_isMac)
-		tc_isMac();
+		i = tc_isMac();
 	 
     return Py_BuildValue("i", i);
 }
@@ -379,7 +382,7 @@ static PyObject * pytc_isLinux(PyObject *self, PyObject *args)
 	int i = 0;
 	
 	if (tc_isLinux)
-		tc_isLinux();
+		i = tc_isLinux();
 	 
     return Py_BuildValue("i", i);
 }
@@ -388,7 +391,7 @@ static PyObject * pytc_appDir(PyObject *self, PyObject *args)
 {
 	char * s = "";
 	if (tc_appDir)
-		tc_appDir();
+		s = tc_appDir();
 	 
     return Py_BuildValue("s", s);
 }

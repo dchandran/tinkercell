@@ -27,17 +27,17 @@ users with the option to terminate the thread.
 
 namespace Tinkercell
 {
-	CThread::CThread(MainWindow * main, QLibrary * lib, bool autoUnload)
+	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{
 		f1 = 0;
 		f2 = 0;
 		f3 = 0;
 		f4 = 0;
-		setLibrary(lib);
+		setLibrary(libPtr);
 	}
 
-	CThread::CThread(MainWindow * main, const QString & lib, bool autoUnload)
+	CThread::CThread(MainWindow * main, const QString & libName, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{
 		f1 = 0;
@@ -45,7 +45,7 @@ namespace Tinkercell
 		f3 = 0;
 		f4 = 0;
 		this->lib = 0;
-		setLibrary(lib);
+		setLibrary(libName);
 	}
 
 	CThread::~CThread()
@@ -139,14 +139,18 @@ namespace Tinkercell
 
 	void CThread::setLibrary(const QString& libname)
 	{
+		qDebug() << "cthread: trying to load " << libname;
+		
 		QString  home = MainWindow::userHome(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
-		QString name[] = {  home + tr("/") + tr("/") + libname,
+		QString name[] = {  
+			libname,
+			home + tr("/") + libname,
 			current + tr("/") + libname,
 			appDir + tr("/") + libname,
-			libname };
+			};
 
 		if (lib)
 		{
@@ -183,6 +187,7 @@ namespace Tinkercell
 
 		if (lib)
 		{
+			qDebug() << "cthread: lib loaded";
 			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
 			if (f0)
 			{

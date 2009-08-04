@@ -81,6 +81,7 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
   SimulationEventTool
   DataBasicTools
   TinkerCellCore
+  muparser
 )
 
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h ${TINKERCELL_CORE_HDRS})

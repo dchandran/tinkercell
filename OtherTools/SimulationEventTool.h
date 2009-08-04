@@ -26,11 +26,13 @@
 #include <QButtonGroup>
 #include <QListView>
 
+#include "NetworkWindow.h"
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "MainWindow.h"
+#include "OutputWindow.h"
 
 namespace Tinkercell
 {
@@ -115,6 +117,8 @@ namespace Tinkercell
         QDockWidget * dockWidget;
 
         friend class VisualTool;
+		
+		static bool parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s);
 
     };
 

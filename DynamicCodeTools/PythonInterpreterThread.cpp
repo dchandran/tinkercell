@@ -73,7 +73,11 @@ namespace Tinkercell
 
     void PythonInterpreterThread::initialize()
     {
-        if (!mainWindow || !lib || !lib->isLoaded()) return;
+        if (!mainWindow || !lib || !lib->isLoaded())
+		{
+			qDebug() << "pyInterpreter: lib not loaded" << mainWindow << " " << lib;
+			return;
+		}
 
         QString appDir = QCoreApplication::applicationDirPath();
 

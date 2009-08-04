@@ -144,12 +144,21 @@ namespace Tinkercell
         if (mainWindow)
         {
             QString appDir = QCoreApplication::applicationDirPath();
-            pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/runpy"), mainWindow);
+            pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
             pythonInterpreter->initialize();
 
             connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
             connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
             connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+			
+			OutputWindow * outWin = OutputWindow::outputWindow();
+			if (outWin)
+			{
+				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
+				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopPython()));					
+				connect(this,SIGNAL(pythonStarted()),outWin->outputWindowEditor(),SLOT(freeze()));
+				connect(this,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
+			}
 
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -164,6 +173,7 @@ namespace Tinkercell
             QString pydir = appDir + tr("/py");
 #endif
             runPythonCode((tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\nimport init")).toAscii().data());
+			
 
             return true;
         }
@@ -333,7 +343,7 @@ namespace Tinkercell
 
     void PythonTool::runPythonCode(const QString& code)
     {
-        OutputWindow::freeze();
+        //OutputWindow::freeze();
         if (pythonInterpreter)
             pythonInterpreter->runCode(code);
     }

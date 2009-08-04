@@ -340,22 +340,6 @@ namespace Tinkercell
 						this->toolBar->addWidget(progressBar);
 						connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 					}
-			
-					if (mainWindow->tool(tr("Output Window")))
-					{
-						QWidget * widget = mainWindow->tool(tr("Output Window"));
-						if (widget)
-						{
-							OutputWindow * outWin = static_cast<OutputWindow*>(widget);
-							
-							connect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-							connect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
-							connect(pyTool,SIGNAL(pythonStarted()),outWin->outputWindowEditor(),SLOT(freeze()));
-							connect(pyTool,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
-					
-							//connect(this,SIGNAL(reloadLibraryList(const QString&, bool)),libMenu,SLOT(populateList(const QString&, bool)));
-						}
-					}
 				}
 			}
 			return true;

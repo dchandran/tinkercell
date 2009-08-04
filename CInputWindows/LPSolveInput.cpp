@@ -115,7 +115,7 @@ namespace Tinkercell
         if (mainWindow)
 		{
 		
-			cthread = new CThread(main,tr("Plugins/c/lpsolve"),false);
+			cthread = new CThread(main,tr("Plugins/c/liblpsolve"),false);
 			cthread->setMatrixFunction("run");
 		
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),

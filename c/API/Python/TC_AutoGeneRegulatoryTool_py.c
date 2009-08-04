@@ -12,7 +12,7 @@ static PyObject * pytc_partsIn(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0;
 	if (tc_partsIn)
-		tc_partsIn((void*)i);
+		array = tc_partsIn((void*)i);
 	
 	if (array)
 	{
@@ -46,7 +46,7 @@ static PyObject * pytc_partsUpstream(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0;
 	if (tc_partsUpstream)
-		tc_partsUpstream((void*)i);
+		array = tc_partsUpstream((void*)i);
 	
 	if (array)
 	{
@@ -80,7 +80,7 @@ static PyObject * pytc_partsDownstream(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 	void ** array = 0;
 	if (tc_partsDownstream)
-		tc_partsDownstream((void*)i);
+		array = tc_partsDownstream((void*)i);
 	
 	if (array)
 	{

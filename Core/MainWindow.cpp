@@ -1278,7 +1278,7 @@ namespace Tinkercell
 			return;
 		}
 		(*returnPtr) = 0;
-
+		
 		if (win->symbolsTable.handlesFullName.contains(name))
 			(*returnPtr) = win->symbolsTable.handlesFullName[name];
 		else

@@ -67,17 +67,21 @@ ELSE( APPLE AND BUILD_BUNDLE )
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
-	
-		if(MINGW)
-			# resource compilation for mingw
-			ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o
+		  IF( MINGW )
+
+			  # resource compilation for mingw
+  			ADD_CUSTOM_COMMAND( OUTPUT 
+          ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o
 				COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} 
 					-i${CMAKE_CURRENT_SOURCE_DIR}/tinkercell.rc
-					-o ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o)		
-			SET(TINKERCELL_RC ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o)
-		else(MINGW)
-			SET(TINKERCELL_RC tinkercell.rc)
-		endif(MINGW)
+					-o ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o )		
+  			SET( TINKERCELL_RC ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o )
+
+  		ELSE( MINGW )
+
+	  		SET(TINKERCELL_RC tinkercell.rc)
+
+		  ENDIF( MINGW )
 	
     ADD_EXECUTABLE( Tinkercell WIN32 
       Main.cpp

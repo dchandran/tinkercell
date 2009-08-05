@@ -352,7 +352,7 @@ namespace Tinkercell
 	{
 		if (data && data->numericalData.contains(name))
 		{
-			data->numericalData[name].at(row,column);
+			return data->numericalData[name].at(row,column);
 		}
 		return 0.0;
 	}
@@ -361,7 +361,7 @@ namespace Tinkercell
 	{
 		if (data && data->numericalData.contains(name))
 		{
-			data->numericalData[name].at(row,column);
+			return data->numericalData[name].at(row,column);
 		}
 		return 0.0;
 	}
@@ -370,7 +370,7 @@ namespace Tinkercell
 	{
 		if (data && data->textData.contains(name))
 		{
-			data->textData[name].at(row,column);
+			return data->textData[name].at(row,column);
 		}
 		return QString();
 	}
@@ -379,7 +379,7 @@ namespace Tinkercell
 	{
 		if (data && data->textData.contains(name))
 		{
-			data->textData[name].at(row,column);
+			return data->textData[name].at(row,column);
 		}
 		return QString();
 	}

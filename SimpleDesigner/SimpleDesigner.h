@@ -18,6 +18,7 @@ This is an example application that uses the TinkerCell Core library
 #include <QLabel>
 #include <QLineEdit>
 #include <QGroupBox>
+#include <QListWidget>
 #include <QGraphicsSimpleTextItem>
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
@@ -140,6 +141,8 @@ private:
 	QActionGroup * actionGroup;
 	QGroupBox * groupBox1;
 	QGroupBox * groupBox2;
+	QGroupBox * groupBox3;
+	QListWidget * listWidget;
 	QLineEdit * name1;
 	QLineEdit * name2;
 	QLineEdit * conc;
@@ -148,5 +151,7 @@ private:
 	
 	QList<QGraphicsItem*> selectedItems;
 	
-	void selectItem(GraphicsScene * scene, QGraphicsItem * item);
+	void selectItem(GraphicsScene * scene, QGraphicsItem * item, bool select = true);
+	void deselectItem(GraphicsScene * scene, QGraphicsItem * item);
+	void addParameters(QStringList&);
 };

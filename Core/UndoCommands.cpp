@@ -1659,6 +1659,11 @@ namespace Tinkercell
 										textItem->setPlainText(newNames[i]);
 								}
 							}
+							else
+							if (allhandles[j]->graphicsItems[k])
+							{
+								allhandles[j]->graphicsItems[k]->update();
+							}
 						}
 						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
 							allhandles[j]->name = regexp.cap(1);
@@ -1745,6 +1750,11 @@ namespace Tinkercell
 									else
 										textItem->setPlainText(oldNames[i]);
 								}
+							}
+							else
+							if (allhandles[j]->graphicsItems[k])
+							{
+								allhandles[j]->graphicsItems[k]->update();
 							}
 						}
 						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())

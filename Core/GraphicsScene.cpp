@@ -11,6 +11,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
 
+#include "OutputWindow.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -49,9 +50,6 @@ namespace Tinkercell
 
 			node = qgraphicsitem_cast<NodeGraphicsItem*>(p);
 			if (node) return (QGraphicsItem*)node;
-
-			//arrow = qgraphicsitem_cast<ArrowHeadItem*>(p);
-			//if (arrow) return (QGraphicsItem*)arrow;
 
 			controlPoint = qgraphicsitem_cast<ControlPoint*>(p);
 			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(p);
@@ -192,11 +190,12 @@ namespace Tinkercell
 		contextItemsMenu = 0;
 		contextScreenMenu = 0;
 		setSceneRect(0,0,10000,10000);
+		
 		lastZ = 1.0;
 
 		selectionRect.setBrush(QBrush(QColor(0,132,255,50)));
-		//selectionRect.setPen(QPen(QColor(10,10,255,150),2));
-		selectionRect.setPen(Qt::NoPen);
+		selectionRect.setPen(Qt::NoPen);		
+		
 		addItem(&selectionRect);
 
 		selectionRect.setVisible(false);
@@ -643,7 +642,7 @@ namespace Tinkercell
 			QGraphicsScene::keyPressEvent(keyEvent);
 			return;
 		}
-
+		
 		if (keyEvent->matches(QKeySequence::Undo))
 		{
 			if (historyStack)
@@ -887,6 +886,8 @@ namespace Tinkercell
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(QGraphicsItem * item, const QPointF& distance)
 	{
+		if (!item) return;
+		
 		QUndoCommand * command = new MoveCommand(this,item,distance);
 
 		if (historyStack)
@@ -904,6 +905,12 @@ namespace Tinkercell
 		while (dists.size() < items.size()) dists << distance;
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		
+		QPointF p = item->scenePos();
+		if (p.rx() > this->width() || p.ry() > this->height())
+		{
+			setSceneRect(0,0,this->width()*2, this->height()*2);
+		}
 	}
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QPointF& distance)
@@ -922,6 +929,19 @@ namespace Tinkercell
 		while (dists.size() < items.size()) dists << distance;
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		
+		QPointF p;
+		for (int i=0; i < items.size(); ++i)
+			if (items[i])
+			{
+				QPointF p = items[i]->scenePos();
+				if (p.rx() > this->width() || p.ry() > this->height())
+				{
+					setSceneRect(0,0,this->width()*2, this->height()*2);
+					return;
+				}
+			}
+		
 	}
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
@@ -940,6 +960,18 @@ namespace Tinkercell
 		while (dists.size() < items.size()) dists << QPointF();
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		
+		QPointF p;
+		for (int i=0; i < items.size(); ++i)
+			if (items[i])
+			{
+				QPointF p = items[i]->scenePos();
+				if (p.rx() > this->width() || p.ry() > this->height())
+				{
+					setSceneRect(0,0,this->width()*2, this->height()*2);
+					return;
+				}
+			}
 	}
 
 	void GraphicsScene::insert(const QString& name, QGraphicsItem * item)
@@ -1504,7 +1536,7 @@ namespace Tinkercell
 		NodeGraphicsItem *node1 = 0, *node2 = 0;
 		ConnectionGraphicsItem* connection = 0;
 		QList<ArrowHeadItem*> arrowHeads;
-
+		
 		for (int i = 0; i < items.size(); ++i)
 			if (items[i])
 			{

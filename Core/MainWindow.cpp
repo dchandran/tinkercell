@@ -174,14 +174,14 @@ namespace Tinkercell
 		emit funtionPointersToMainThread(s,f );
 	}
 
-	MainWindow::MainWindow()
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableOutputWindow, bool showHistory)
 	{
 		RegisterDataTypes();
 		prevWindow = 0;
 		setAutoFillBackground(true);
 		setAcceptDrops(true);
 
-		initializeMenus(true,true);
+		initializeMenus(enableScene,enableText);
 
 		setCentralWidget(&mdiArea);
 		mdiArea.setViewMode(QMdiArea::TabbedView);
@@ -193,10 +193,7 @@ namespace Tinkercell
 
 		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 
-		addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
-
-		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),
-			this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
+		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
 
 		previousFileName = QDir::currentPath();
 		QString tcdir("Tinkercell");
@@ -206,12 +203,6 @@ namespace Tinkercell
 		{
 			dir.mkdir(tcdir);
 		}
-
-		readSettings();
-
-		connectTCFunctions();
-
-		outputWindow = new OutputWindow(this);
 
 		connect(this,SIGNAL(itemsInserted(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsInsertedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
@@ -224,48 +215,16 @@ namespace Tinkercell
 
 		connect(this,SIGNAL(itemsRemoved(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsRemovedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
-	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableOutputWindow)
-	{
-		RegisterDataTypes();
-		outputWindow = 0;
-		prevWindow = 0;
-		setAutoFillBackground(true);
-		setAcceptDrops(true);
-
-		initializeMenus(enableScene,enableText);
-
-		setCentralWidget(&mdiArea);
-		mdiArea.setViewMode(QMdiArea::TabbedView);
-		mdiArea.setTabShape(QTabWidget::Triangular);
-		connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
-
-		setWindowTitle(tr("Tinkercell: CAD for biological networks"));
-		statusBar()->showMessage("Welcome to Tinkercell");
-
-		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
-
-		addDockingWindow("History",&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-
-		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),
-			this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
-
-		previousFileName = QDir::currentPath();
-		QString tcdir("Tinkercell");
-
-		QDir dir(QDir::home());
-		if (!dir.exists(tcdir))
-		{
-			dir.mkdir(tcdir);
-		}
-
+		if (showHistory)
+			addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+		
+		if (enableOutputWindow)
+			outputWindow = new OutputWindow(this);
+			
 		readSettings();
 
 		connectTCFunctions();
-
-		if (enableOutputWindow)
-			outputWindow = new OutputWindow(this);
 	}
 
 	void MainWindow::saveSettings()
@@ -812,6 +771,11 @@ namespace Tinkercell
 		if (historyWindow.stack())
 			return historyWindow.stack();
 		return 0;
+	}
+	
+	QUndoView * MainWindow::historyWidget()
+	{
+		return &historyWindow;
 	}
 
 	void MainWindow::undo()

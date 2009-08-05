@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/OtherItems/Reversible.xml" width="251" height="165">
+    <ControlPoints>
+        <ControlPoint x="127" y="64"></ControlPoint>
+        <ControlPoint x="378" y="64"></ControlPoint>
+        <ControlPoint x="378" y="229"></ControlPoint>
+        <ControlPoint x="127" y="229"></ControlPoint>
+        <ControlPoint x="172" y="119"></ControlPoint>
+        <ControlPoint x="357" y="144"></ControlPoint>
+        <ControlPoint x="167" y="144"></ControlPoint>
+        <ControlPoint x="277" y="202"></ControlPoint>
+        <ControlPoint x="167" y="157"></ControlPoint>
+        <ControlPoint x="144" y="129"></ControlPoint>
+        <ControlPoint x="339" y="129"></ControlPoint>
+        <ControlPoint x="203" y="85"></ControlPoint>
+        <ControlPoint x="225" y="85"></ControlPoint>
+        <ControlPoint x="339" y="118"></ControlPoint>
+        <ControlPoint x="297" y="202"></ControlPoint>
+        <ControlPoint x="332" y="154"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="3,0,1,2,3"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#7a7a7a" Alpha="255"></Pen>
+            <Fill Color="#ffffff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="11,12,4,13,10,9,11"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="6,5,14,7,15,8,6"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

@@ -37,8 +37,7 @@ int main(int argc, char *argv[])
 
 
     MainWindow mainWindow;
-    QObject::connect(&mainWindow,SIGNAL(windowClosed()),&app,SLOT(closeAllWindows()));
-	
+    
 	mainWindow.setWindowTitle(QObject::tr("Tinkercell: design tool for biochemical networks"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
@@ -73,6 +72,8 @@ int main(int argc, char *argv[])
     splash.finish(&mainWindow);
 
     int output = app.exec();
+	
+	app.closeAllWindows();
 
     return output;
 }

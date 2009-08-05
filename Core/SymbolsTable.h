@@ -29,7 +29,7 @@ namespace Tinkercell
 	class GraphicsScene;
 	class TextEditor;
 
-	/*! \brief The symbols table is updated every time the scene changes. The symbols table contains the
+	/*! \brief The symbols table is updated every time the scene or text editor changes. The symbols table contains the
 	list of item names and handle pointers as well as names and pointers to each data entry in each item.
 	\ingroup core
 	*/

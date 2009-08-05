@@ -19,9 +19,9 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	toolBar = new QToolBar(this);
 	actionGroup->setExclusive(true);
 	
-	arrowButton = new QAction(QIcon(":../Main/images/arrow.png"),tr("arrow"),toolBar);
-	QAction * nodeButton = new QAction(QIcon(":../Main/images/blueRect.png"),tr("node"),toolBar);
-	QAction * edgeButton = new QAction(QIcon(":../Main/images/horizontalFlip.png"),tr("reaction"),toolBar);
+	arrowButton = new QAction(QIcon(":/images/arrow.png"),tr("arrow"),toolBar);
+	QAction * nodeButton = new QAction(QIcon(":/images/blueRect.png"),tr("node"),toolBar);
+	QAction * edgeButton = new QAction(QIcon(":/images/1to1.png"),tr("reaction"),toolBar);
 	
 	arrowButton->setCheckable(true);
 	nodeButton->setCheckable(true);
@@ -44,7 +44,7 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	layout1->addWidget(conc  = new QLineEdit,1,1);
 	
 	layout2->addWidget(new QLabel(tr("name")),0,0);
-	layout2->addWidget(new QLabel(tr("concentration")),1,0);
+	layout2->addWidget(new QLabel(tr("rate")),1,0);
 	layout2->addWidget(name2 = new QLineEdit,0,1);
 	layout2->addWidget(rate  = new QLineEdit,1,1);
 	
@@ -62,6 +62,61 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	
 	groupBox1->hide();
 	groupBox2->hide();
+	
+	connect(name1,SIGNAL(editingFinished()),this,SLOT(nameChanged()));
+	connect(name2,SIGNAL(editingFinished()),this,SLOT(nameChanged()));
+	connect(conc,SIGNAL(editingFinished()),this,SLOT(concentrationChanged()));
+	connect(rate,SIGNAL(editingFinished()),this,SLOT(rateChanged()));
+}
+
+void SimpleDesigner::nameChanged() 
+{
+	GraphicsScene * scene = currentScene();
+	if (!scene || scene->selected().size() != 1) return;
+	
+	QGraphicsItem * selectedItem = scene->selected()[0];
+	ItemHandle * handle = getHandle(selectedItem);
+	
+	if (name1->isVisible())
+		scene->rename(handle,name1->text());
+	else
+	if (name2->isVisible())
+		scene->rename(handle,name2->text());
+}
+	
+void SimpleDesigner::rateChanged() 
+{
+	GraphicsScene * scene = currentScene();
+	if (!scene || scene->selected().size() != 1) return;
+	
+	QGraphicsItem * selectedItem = scene->selected()[0];
+	ItemHandle * handle = getHandle(selectedItem);
+	
+	if (!handle || !handle->hasTextData("rate")) return;
+	
+	DataTable<QString> table;
+	table.value(0,0) = rate->text();
+	
+	scene->changeData(handle,"rate",&table);	
+}
+
+void SimpleDesigner::concentrationChanged()
+{
+	GraphicsScene * scene = currentScene();
+	if (!scene || scene->selected().size() != 1) return;
+	
+	QGraphicsItem * selectedItem = scene->selected()[0];
+	ItemHandle * handle = getHandle(selectedItem);
+	
+	if (!handle || !handle->hasNumericalData("concentration")) return;
+	
+	DataTable<qreal> table;
+	
+	bool ok;
+	
+	table.value(0,0) = conc->text().toDouble(&ok);
+	
+	scene->changeData(handle,"concentration",&table);	
 }
 
 void SimpleDesigner::actionTriggered(QAction* action)
@@ -84,8 +139,12 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 	{
 		mainWindow->addToolBar(Qt::LeftToolBarArea,toolBar);
 		
-		mainWindow->addDockingWindow(this->name, this, Qt::RightDockWidgetArea, Qt::AllDockWidgetAreas, false);
+		QDockWidget * dockWidget = mainWindow->addDockingWindow(tr("Information Box"), this, Qt::BottomDockWidgetArea, Qt::NoDockWidgetArea);
+		dockWidget->setFloating(true);
 		
+		connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
+				
 		connect(mainWindow,
 				SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,
@@ -134,31 +193,56 @@ void SimpleDesigner::mousePressed(GraphicsScene * scene, QPointF point, Qt::Mous
 	
 }
 
+void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>& items)
+{
+	for (int i=0; i < items.size(); ++i)
+	{
+		if (NodeHandle::asNode(items[i])) //is node?
+		{
+			items[i]->setNumericalData("concentration",0,0, 1.0);
+		}
+		if (ConnectionHandle::asConnection(items[i])) //is reaction?
+		{
+			ConnectionHandle * connection = ConnectionHandle::asConnection(items[i]);
+			QList<NodeHandle*> nodes = connection->nodesIn();
+			
+			QString rate = tr("1.0");
+			
+			for (int j=0; j < nodes.size(); ++j)
+				rate += tr(" * ") + nodes[j]->name;
+			
+			items[i]->setTextData("rate",0,0, rate);
+		}
+	}
+}
+
+void SimpleDesigner::selectItem(GraphicsScene * scene, QGraphicsItem * item)
+{
+	if (NodeGraphicsItem::topLevelNodeItem(item))
+	{
+		if (mode == 2 && !scene->selected().contains(item))  //in connecting mode
+			scene->selected() += item;
+		else
+			NodeGraphicsItem::topLevelNodeItem(item)->setBoundingBoxVisible(false);
+	}
+	else
+	if (ConnectionGraphicsItem::topLevelConnectionItem(item))
+		ConnectionGraphicsItem::topLevelConnectionItem(item)->setControlPointsVisible(false);     //show the red box
+	else
+	if (qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(item))
+		qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(item)->nodeItem->setBoundingBoxVisible(false);
+	else
+	if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item))
+		qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item)->connectionItem->setControlPointsVisible(false);
+}
+
 void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 {
 	if (!scene) return;
 	
-	if (!scene->historyStack)
-		OutputWindow::message("no history");
-	
 	for (int i=0; i < selectedItems.size(); ++i)
 	{
-		if (NodeGraphicsItem::topLevelNodeItem(selectedItems[i]))
-		{
-			if (mode == 2 && !scene->selected().contains(selectedItems[i]))
-				scene->selected() += selectedItems[i];
-			else
-				NodeGraphicsItem::topLevelNodeItem(selectedItems[i])->setBoundingBoxVisible(false);
-		}
-		else
-		if (ConnectionGraphicsItem::topLevelConnectionItem(selectedItems[i]))
-			ConnectionGraphicsItem::topLevelConnectionItem(selectedItems[i])->setControlPointsVisible(false);
-		else
-		if (qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(selectedItems[i]))
-			qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(selectedItems[i])->nodeItem->setBoundingBoxVisible(false);
-		else
-		if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(selectedItems[i]))
-			qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(selectedItems[i])->connectionItem->setControlPointsVisible(false);
+		selectItem(scene,selectedItems[i]);
 	}
 	
 	selectedItems.clear();
@@ -170,13 +254,19 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	}
 	else
 	{
-		if (NodeGraphicsItem::topLevelNodeItem(items[0]))
+		ItemHandle * handle = getHandle(items[0]);
+		if (NodeHandle::asNode(handle) && handle->hasNumericalData("concentration"))
 		{
+			name1->setText(  handle->name  );
+			conc->setText(  QString::number( handle->getNumericalData("concentration",0,0)  ));
 			groupBox1->show();
 			groupBox2->hide();
 		}
 		else
+		if (ConnectionHandle::asConnection(handle) && handle->hasTextData("rate"))
 		{
+			name2->setText(  handle->name  );
+			rate->setText(  handle->getTextData("rate",0,0) );
 			groupBox1->hide();
 			groupBox2->show();
 		}
@@ -195,7 +285,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		else
 		if (ConnectionGraphicsItem::topLevelConnectionItem(selectedItems[i]))
 		{
-			scene->selected().removeAll(selectedItems[i]);
+			scene->moving().removeAll(selectedItems[i]);
 			ConnectionGraphicsItem::topLevelConnectionItem(selectedItems[i])->setControlPointsVisible(true);
 			scene->moving() += ConnectionGraphicsItem::topLevelConnectionItem(selectedItems[i])->controlPointsAsGraphicsItems();
 		}
@@ -217,24 +307,24 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		QPointF midpt = (items[0]->scenePos() + items[1]->scenePos())/2.0;
 		
 		ConnectionGraphicsItem::PathVector path;
-		path += new ConnectionGraphicsItem::ControlPoint(item,items[0]);
-		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
-		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
 		path += new ConnectionGraphicsItem::ControlPoint(item,items[1]);
+		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
+		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
+		path += new ConnectionGraphicsItem::ControlPoint(item,items[0]);
 		
-		item->pathVectors += path;
-			
 		ArrowHeadItem * arrow = 0;
 		QString nodeImageFile;
 		QString appDir = QCoreApplication::applicationDirPath();
-		nodeImageFile = appDir + tr("/ArrowItems/Biochemical.xml");
+		nodeImageFile = tr(":/images/arrow.xml");
 		
 		NodeGraphicsReader imageReader;
 		arrow = new ArrowHeadItem(item);
 		imageReader.readXml(arrow,nodeImageFile);
 		arrow->normalize();
-		arrow->scale(0.1,0.1);
-		item->pathVectors.last().arrowEnd = arrow;
+		arrow->scale(0.15,0.15);
+		path.arrowEnd = arrow;
+		
+		item->pathVectors += path;
 		
 		scene->insert(tr("connection inserted"),item);
 	}
@@ -251,25 +341,23 @@ void SimpleDesigner::escapeSignal(const QWidget * sender)
 
 int main(int argc, char *argv[])
 {
-    //PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    //ORGANIZATIONNAME = QObject::tr("Simple Designer");
-    //PROJECTNAME = QObject::tr("Simple Designer");
-	PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    PROJECTNAME = QObject::tr("Tinkercell");
-
+    PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    ORGANIZATIONNAME = QObject::tr("Simple Designer");
+    PROJECTNAME = QObject::tr("Simple Designer");
+	
     QApplication app(argc, argv);
 
-	//QString appDir = QCoreApplication::applicationDirPath();
+	QString appDir = QCoreApplication::applicationDirPath();
     
-    MainWindow mainWindow;//(true,false,true);
+    MainWindow mainWindow(true,false,false,false);
 	mainWindow.setWindowTitle(QString("Simple Designer"));
     mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
 
-	/*Tool * tool = new SimpleDesigner;
-	mainWindow.addTool(tool);*/
+	Tool * tool = new SimpleDesigner;
+	mainWindow.addTool(tool);
 
     mainWindow.newGraphicsWindow();
+	mainWindow.newGraphicsWindow();
 	
     mainWindow.show();
 

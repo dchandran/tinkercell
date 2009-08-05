@@ -386,32 +386,48 @@ namespace Tinkercell
 
 	void ItemHandle::setNumericalData(const QString& name, int row, int column, qreal value)
 	{
-		if (data && data->numericalData.contains(name))
+		if (data)
 		{
+			if (!data->numericalData.contains(name))
+			{
+				data->numericalData[name] = DataTable<qreal>();
+			}
 			data->numericalData[name].value(row,column) = value;
 		}
 	}
 
 	void ItemHandle::setNumericalData(const QString& name, const QString& row, const QString& column, qreal value)
 	{
-		if (data && data->numericalData.contains(name))
+		if (data)
 		{
+			if (!data->numericalData.contains(name))
+			{
+				data->numericalData[name] = DataTable<qreal>();
+			}
 			data->numericalData[name].value(row,column) = value;
 		}
 	}
 
 	void ItemHandle::setTextData(const QString& name, int row, int column, const QString& value)
 	{
-		if (data && data->textData.contains(name))
+		if (data)
 		{
+			if (!data->textData.contains(name))
+			{
+				data->textData[name] = DataTable<QString>();
+			}			
 			data->textData[name].value(row,column) = value;
 		}
 	}
 
 	void ItemHandle::setTextData(const QString& name, const QString& row, const QString& column, const QString& value)
 	{
-		if (data && data->textData.contains(name))
+		if (data)
 		{
+			if (!data->textData.contains(name))
+			{
+				data->textData[name] = DataTable<QString>();
+			}
 			data->textData[name].value(row,column) = value;
 		}
 	}

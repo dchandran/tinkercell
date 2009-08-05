@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Regulator.xml" width="50" height="50">
+    <ControlPoints>
+        <ControlPoint x="91" y="28"></ControlPoint>
+        <ControlPoint x="330.995" y="28"></ControlPoint>
+        <ControlPoint x="330.995" y="257"></ControlPoint>
+        <ControlPoint x="91" y="257"></ControlPoint>
+        <ControlPoint x="79.5289" y="18.2329"></ControlPoint>
+        <ControlPoint x="341.476" y="18.2329"></ControlPoint>
+        <ControlPoint x="341.476" y="267.974"></ControlPoint>
+        <ControlPoint x="79.5289" y="267.974"></ControlPoint>
+        <ControlPoint x="138.698" y="223.946"></ControlPoint>
+        <ControlPoint x="138.698" y="258.776"></ControlPoint>
+        <ControlPoint x="109.476" y="254.807"></ControlPoint>
+        <ControlPoint x="111.874" y="202.087"></ControlPoint>
+        <ControlPoint x="109.424" y="49.3397"></ControlPoint>
+        <ControlPoint x="111.46" y="48.3036"></ControlPoint>
+        <ControlPoint x="278.393" y="55.5133"></ControlPoint>
+        <ControlPoint x="278.817" y="33.5133"></ControlPoint>
+        <ControlPoint x="325.058" y="71.5026"></ControlPoint>
+        <ControlPoint x="277.969" y="113.726"></ControlPoint>
+        <ControlPoint x="277.12" y="80.972"></ControlPoint>
+        <ControlPoint x="121.826" y="65.4083"></ControlPoint>
+        <ControlPoint x="127.215" y="64.1279"></ControlPoint>
+        <ControlPoint x="123.252" y="225.83"></ControlPoint>
+        <ControlPoint x="124.949" y="174.656"></ControlPoint>
+        <ControlPoint x="123.762" y="69.896"></ControlPoint>
+        <ControlPoint x="260.706" y="69.8723"></ControlPoint>
+        <ControlPoint x="130.135" y="77.0236"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,1,0,3,7,4"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#1827f4" Alpha="83"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="1,5,6,7,3,2,1"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#01020c" Alpha="169"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Gradient Type="1">
+                <Stop Value="0" Color="#1827f4" Alpha="56"></Stop>
+                <Stop Value="1" Color="#0f16a6" Alpha="106"></Stop>
+                <Start x="239" y="126"></Start>
+                <End x="95" y="24"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="8,9,10,11,12,13,14,15,16,17,18,19,20,8"></ControlPoints>
+            <LineTypes sequence="bezier,bezier,line,line,line,line,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="2" Color="#0e6a02" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#45ff1c" Alpha="255"></Stop>
+                <Stop Value="1" Color="#179e00" Alpha="255"></Stop>
+                <Start x="189.148" y="59.7978"></Start>
+                <End x="189.148" y="80.1544"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="8,9,21,22,20,19,24,16,17,18,23,25,8"></ControlPoints>
+            <LineTypes sequence="bezier,bezier,line,line,line,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#20750c" Alpha="255"></Pen>
+            <Fill Color="#0e3505" Alpha="255"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

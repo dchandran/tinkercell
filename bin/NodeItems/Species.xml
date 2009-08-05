@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Species.xml" width="40" height="40">
+    <ControlPoints>
+        <ControlPoint x="173" y="114"></ControlPoint>
+        <ControlPoint x="363" y="309"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,0"></ControlPoints>
+            <LineTypes sequence="arc,arc"></LineTypes>
+            <Parameters values="0,360,0,360"></Parameters>
+            <Pen Width="0" Color="#3d50ff" Alpha="106"></Pen>
+            <Gradient Type="1">
+                <Stop Value="0" Color="#eafeff" Alpha="255"></Stop>
+                <Stop Value="1" Color="#386dff" Alpha="255"></Stop>
+                <Start x="230" y="163"></Start>
+                <End x="312" y="275"></End>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

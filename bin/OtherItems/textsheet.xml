@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="">
+    <ControlPoints>
+        <ControlPoint x="97" y="128"></ControlPoint>
+        <ControlPoint x="283" y="79"></ControlPoint>
+        <ControlPoint x="283" y="273"></ControlPoint>
+        <ControlPoint x="97" y="273"></ControlPoint>
+        <ControlPoint x="144" y="78"></ControlPoint>
+        <ControlPoint x="144" y="129"></ControlPoint>
+        <ControlPoint x="107.524" y="208.814"></ControlPoint>
+        <ControlPoint x="152.937" y="207.365"></ControlPoint>
+        <ControlPoint x="119.806" y="178.028"></ControlPoint>
+        <ControlPoint x="139.227" y="177.159"></ControlPoint>
+        <ControlPoint x="118.112" y="184.627"></ControlPoint>
+        <ControlPoint x="142.041" y="183.655"></ControlPoint>
+        <ControlPoint x="168.434" y="208.814"></ControlPoint>
+        <ControlPoint x="168.723" y="153"></ControlPoint>
+        <ControlPoint x="205.037" y="153.673"></ControlPoint>
+        <ControlPoint x="177.475" y="178.028"></ControlPoint>
+        <ControlPoint x="204.074" y="181.481"></ControlPoint>
+        <ControlPoint x="203.944" y="209.738"></ControlPoint>
+        <ControlPoint x="252.552" y="152.131"></ControlPoint>
+        <ControlPoint x="202.048" y="134.461"></ControlPoint>
+        <ControlPoint x="199.31" y="234.124"></ControlPoint>
+        <ControlPoint x="256.118" y="207.964"></ControlPoint>
+        <ControlPoint x="202.275" y="231.592"></ControlPoint>
+        <ControlPoint x="212.068" y="131.879"></ControlPoint>
+        <ControlPoint x="254.373" y="159.453"></ControlPoint>
+        <ControlPoint x="256.524" y="203.281"></ControlPoint>
+        <ControlPoint x="204.626" y="176.883"></ControlPoint>
+        <ControlPoint x="112.675" y="209.738"></ControlPoint>
+        <ControlPoint x="146.076" y="208"></ControlPoint>
+        <ControlPoint x="128.611" y="155.26"></ControlPoint>
+        <ControlPoint x="128.611" y="142.515"></ControlPoint>
+        <ControlPoint x="283" y="97"></ControlPoint>
+        <ControlPoint x="299" y="97"></ControlPoint>
+        <ControlPoint x="299" y="287"></ControlPoint>
+        <ControlPoint x="118.112" y="287"></ControlPoint>
+        <ControlPoint x="118.112" y="273"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="4,1,2,3,0,4"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#4265ff" Alpha="104"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#e1e1e1" Alpha="255"></Stop>
+                <Stop Value="1" Color="#ffffff" Alpha="255"></Stop>
+                <Start x="266" y="249"></Start>
+                <End x="270" y="165"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,5,4,0"></ControlPoints>
+            <LineTypes sequence="line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Fill Color="#59fff4" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="18,19,20,21,25,22,23,24,18"></ControlPoints>
+            <LineTypes sequence="bezier,line,bezier,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#6464ff" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="12,13,14,26,15,16,17,12"></ControlPoints>
+            <LineTypes sequence="line,bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#6464ff" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="10,8,9,11,10"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#6464ff" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="6,30,7,28,29,27,6"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#6464ff" Alpha="255"></Pen>
+            <Fill Color="#6464ff" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="34,35,2,31,32,33,34"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="8" Color="#626262" Alpha="40"></Pen>
+            <Fill Color="#626262" Alpha="83"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

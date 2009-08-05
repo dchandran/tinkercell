@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/C++ Projects/Tinkercell/NodeItems/Terminator2.xml" width="70" height="25">
+    <ControlPoints>
+        <ControlPoint x="270.372" y="249.581"/>
+        <ControlPoint x="456.078" y="249.581"/>
+        <ControlPoint x="270.372" y="229"/>
+        <ControlPoint x="456.078" y="229"/>
+        <ControlPoint x="363" y="197"/>
+        <ControlPoint x="362" y="229"/>
+        <ControlPoint x="382" y="229"/>
+        <ControlPoint x="332" y="197"/>
+        <ControlPoint x="416" y="197"/>
+        <ControlPoint x="382" y="197"/>
+        <ControlPoint x="331" y="179"/>
+        <ControlPoint x="416" y="179"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,2,3,1,0"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#959bac" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#c5c5c5" Alpha="255"/>
+                <Stop Value="1" Color="#000000" Alpha="255"/>
+                <Start x="175.278" y="231.672"/>
+                <End x="175.278" y="242.341"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="5,4,7,10,11,8,9,6,5"/>
+            <LineTypes sequence="line,line,line,line,line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#550202" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#545554" Alpha="255"/>
+                <Stop Value="1" Color="#0b0b1d" Alpha="255"/>
+                <Start x="364" y="176"/>
+                <End x="365" y="198"/>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

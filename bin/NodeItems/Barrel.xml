@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Barrel.xml" width="60" height="60">
+    <ControlPoints>
+        <ControlPoint x="113" y="80"></ControlPoint>
+        <ControlPoint x="197" y="146"></ControlPoint>
+        <ControlPoint x="294" y="141"></ControlPoint>
+        <ControlPoint x="373" y="105"></ControlPoint>
+        <ControlPoint x="283" y="106"></ControlPoint>
+        <ControlPoint x="231" y="123"></ControlPoint>
+        <ControlPoint x="161" y="172"></ControlPoint>
+        <ControlPoint x="166" y="256"></ControlPoint>
+        <ControlPoint x="120" y="302"></ControlPoint>
+        <ControlPoint x="167" y="340"></ControlPoint>
+        <ControlPoint x="281" y="364"></ControlPoint>
+        <ControlPoint x="366" y="309"></ControlPoint>
+        <ControlPoint x="314" y="254"></ControlPoint>
+        <ControlPoint x="316" y="167"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,4,5,0"></ControlPoints>
+            <LineTypes sequence="bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#2415ee" Alpha="255"></Stop>
+                <Stop Value="1" Color="#35363b" Alpha="255"></Stop>
+                <Start x="255" y="126"></Start>
+                <End x="258" y="108"></End>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,6,7,8,9,10,11,12,13,3,2,1,0"></ControlPoints>
+            <LineTypes sequence="bezier,bezier,bezier,bezier"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#f9bea7" Alpha="255"></Stop>
+                <Stop Value="1" Color="#b05254" Alpha="255"></Stop>
+                <Start x="293" y="227"></Start>
+                <End x="178" y="221"></End>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

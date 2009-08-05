@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/C++ Projects/Tinkercell/BasicTools/grid.xml" width="200" height="204">
+    <ControlPoints>
+        <ControlPoint x="77" y="82"/>
+        <ControlPoint x="267" y="82"/>
+        <ControlPoint x="267" y="273"/>
+        <ControlPoint x="77" y="273"/>
+        <ControlPoint x="267" y="104"/>
+        <ControlPoint x="277" y="104"/>
+        <ControlPoint x="277" y="286"/>
+        <ControlPoint x="91" y="286"/>
+        <ControlPoint x="91" y="273"/>
+        <ControlPoint x="108" y="114"/>
+        <ControlPoint x="108" y="241"/>
+        <ControlPoint x="154" y="114"/>
+        <ControlPoint x="154" y="241"/>
+        <ControlPoint x="198" y="241"/>
+        <ControlPoint x="198" y="114"/>
+        <ControlPoint x="244" y="114"/>
+        <ControlPoint x="243" y="241"/>
+        <ControlPoint x="108" y="161"/>
+        <ControlPoint x="243" y="161"/>
+        <ControlPoint x="243" y="203"/>
+        <ControlPoint x="108" y="201"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,4,2,8,3,0"/>
+            <LineTypes sequence="line,line,line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#646464" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#efefef" Alpha="255"/>
+                <Stop Value="1" Color="#9c9c9c" Alpha="255"/>
+                <Start x="93" y="170"/>
+                <End x="93" y="255"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,6,7,8,2,4"/>
+            <LineTypes sequence="line,line,line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#787878" Alpha="255"/>
+            <Fill Color="#0d0d0d" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="9,11,12,10,9"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="8" Color="#000000" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#efefef" Alpha="255"/>
+                <Stop Value="1" Color="#9c9c9c" Alpha="255"/>
+                <Start x="134" y="172"/>
+                <End x="131" y="220"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="11,14,13,12,11"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="8" Color="#000000" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#efefef" Alpha="255"/>
+                <Stop Value="1" Color="#9c9c9c" Alpha="255"/>
+                <Start x="179" y="168"/>
+                <End x="180" y="221"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="14,15,16,13,14"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="8" Color="#000000" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#efefef" Alpha="255"/>
+                <Stop Value="1" Color="#9c9c9c" Alpha="255"/>
+                <Start x="228" y="162"/>
+                <End x="227" y="210"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="17,18,19,20,17"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="8" Color="#121212" Alpha="255"/>
+            <Fill Color="#dedede" Alpha="0"/>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

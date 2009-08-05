@@ -63,16 +63,21 @@ class SimpleNode: public NodeGraphicsItem
 public:
 
 	QGraphicsSimpleTextItem * textItem;
+	RoundRectItem * rectItem;
 
 	SimpleNode(QGraphicsItem * g = 0) : NodeGraphicsItem(g)
 	{
 		textItem = new QGraphicsSimpleTextItem;
 		textItem->scale(2.0,2.0);
-		RoundRectItem * rect = new RoundRectItem;
-		rect->rect = QRectF(-50.0,-30.0,100,60);
-		addShape(rect);
+		
+		rectItem = new RoundRectItem;
+		rectItem->rect = QRectF(-50.0,-30.0,100,60);
+		
+		addShape(rectItem);
 		addToGroup(textItem);
+		
 		textItem->setPos(-2.0*textItem->boundingRect().width(),-2.0*textItem->boundingRect().height());
+		
 		refresh();
 		recomputeBoundingRect();
 	}
@@ -84,6 +89,18 @@ public:
 		{
 			textItem->setText(itemHandle->name);
 		}
+	}
+	
+	NodeGraphicsItem* clone() const
+	{
+		SimpleNode * node = new SimpleNode;
+		node->rectItem->rect = rectItem->rect;
+		RoundRectItem * rect = new RoundRectItem;
+		node->refresh();
+		node->recomputeBoundingRect();
+		node->setPos(scenePos());
+		node->adjustBoundaryControlPoints();
+		return node;
 	}
 
 };
@@ -99,8 +116,16 @@ public:
 	bool setMainWindow(MainWindow*);
 
 public slots:
+
+	void nameChanged();
+	
+	void rateChanged();
+	
+	void concentrationChanged();
 	
 	void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+	
+	void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
 	
 	void escapeSignal(const QWidget * sender);
 	
@@ -120,5 +145,8 @@ private:
 	QLineEdit * conc;
 	QLineEdit * rate;
 	QAction * arrowButton;
+	
 	QList<QGraphicsItem*> selectedItems;
+	
+	void selectItem(GraphicsScene * scene, QGraphicsItem * item);
 };

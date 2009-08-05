@@ -5,10 +5,11 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This is header file for Tinkercell's main window
-The MainWindow contains a set of GraphicScenes, which is the class
-that performs all the drawing. Each GraphicsScene emits various signals. Those
+The MainWindow contains a set of NetworkWindows, which is the class
+that supports TextEditor or GraphicsScene. 
+Each TextEditor or GraphicsScene emits various signals. Those
 signals are then emitted by the MainWindow; in this way, a plugin does not need
-to listen to each of the GraphicsScene signals but only the MainWindow's signals.
+to listen to each of the TextEditor or GraphicsScene signals but only the MainWindow's signals.
 
 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
 
@@ -91,17 +92,13 @@ namespace Tinkercell
 		static void RegisterDataTypes();
 
 		/*!
-		* \brief Defaut constructor: initialize menubars, create first graphics scene.
+		* \brief 4-arg constructor allows disabling of text/graphics modes
 		* \param bool enable text-based network construction
 		* \param bool enable graphics-based network construction
+		* \param bool enable command-line
+		* \param bool enable history window
 		*/
-		MainWindow();
-		/*!
-		* \brief 2-arg constructor allows disabling of text/graphics modes
-		* \param bool enable text-based network construction
-		* \param bool enable graphics-based network construction
-		*/
-		MainWindow(bool enableScene, bool enableText, bool enableOutputWindow = true);
+		MainWindow(bool enableScene = true, bool enableText = true, bool enableOutputWindow = true, bool showHistory = true);
 		/*!
 		* \brief Destructor: delete all the graphics scenes.
 		*/
@@ -172,10 +169,15 @@ namespace Tinkercell
 		*/
 		QList<NetworkWindow*> allWindows();
 		/*!
-		* \brief the history stack of the current scene.
+		* \brief the history stack of the current window.
 		* \return current scene's history stack or null if current scene is null
 		*/
 		QUndoStack * historyStack();
+		/*!
+		* \brief the history stack widget of the current window.
+		* \return current scene's history stack or null if current scene is null
+		*/
+		QUndoView * historyWidget();
 		/*!
 		* \brief get a tool
 		* \param QString name of the tool

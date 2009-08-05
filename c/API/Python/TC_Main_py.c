@@ -128,7 +128,7 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 	if (pylist1 && tc_itemsOfFamilyFrom)
 	{
 		int isList = PyList_Check(pylist1);
-		int N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist1);
+		int N = isList ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
 		
 		void ** array1 = malloc( (1+N) * sizeof(void*) );
 		array1[N] = 0;

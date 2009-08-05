@@ -119,7 +119,7 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 	char * s;
 	PyObject * pylist1 = 0;
 	
-    if(!PyArg_ParseTuple(args, "s|O", &s,&pylist))
+    if(!PyArg_ParseTuple(args, "s|O", &s,&pylist1))
     	return NULL;
 		
 	int i;

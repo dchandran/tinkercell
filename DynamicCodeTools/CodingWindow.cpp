@@ -37,7 +37,7 @@ namespace Tinkercell
 		 QString homeDir = MainWindow::userHome() + tr("/");
 		 fileName = homeDir + tr("code.c");
 		 #ifdef Q_WS_WIN
-                 commandC = tr("\"") + appDir + tr("\"\\tcc -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll -I\"") + appDir + tr("\"/c \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"");
+                 commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll -I\"") + appDir + tr("\"/c \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
 		 #ifdef Q_WS_MAC
@@ -176,7 +176,7 @@ namespace Tinkercell
 		 QString homeDir = MainWindow::userHome() + tr("/");
 		 file = homeDir + tr("code.c");
 		 #ifdef Q_WS_WIN
-		 command = tr("\"") + appDir + tr("\"\\tcc -w -shared -rdynamic \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
+		 command = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
 		 #else
 		 #ifdef Q_WS_MAC
 		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");

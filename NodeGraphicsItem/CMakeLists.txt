@@ -89,7 +89,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 			SET(NODEGRAPHICS_RC nodegraphics.rc)
 		endif(MINGW)
 		
-      ADD_EXECUTABLE( NodeGraphics
+      ADD_EXECUTABLE( NodeGraphics WIN32 
         NodeGraphicsMain.cpp
         ${TINKERCELL_NODEGRAPHICS_MOC_SRC}
         ${TINKERCELL_NODEGRAPHICS_SRC}

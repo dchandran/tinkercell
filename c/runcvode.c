@@ -192,7 +192,7 @@ void run(Matrix input) \n\
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ode.c \"%s\"/c/ssa.o \"%s\"/c/odesim.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
+       sprintf(cmd,"ode.c \"%s\"/win32/ssa.o \"%s\"/win32/odesim.o -I\"%s\"/win32/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
    }
    else
    {

@@ -98,10 +98,28 @@ void run(Matrix input)
        return;  
    }
    
-   Matrix params = tc_getParametersAndFixedVariables(A);
-   TCFreeArray(A);
+   Matrix params = tc_getParameters(A);
+   char ** names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
    
-   index = tc_getFromList("Select Independent Variable",params.rownames,selected_var,0);
+   int len = 0;
+   while (names[len]) ++len;
+   
+   char ** allNames = malloc((len+params.rows+1)*sizeof(char*));
+   
+   int i;
+   
+   for (i=0; i < len; ++i) allNames[i] = names[i];
+   
+   for (i=len; i < params.rows; ++i) allNames[i] = params.rownames[i+len];
+   
+   allNames[(len+params.rows)] = 0;
+   
+   
+   index = tc_getFromList("Select Independent Variable",allNames,selected_var,0);
+   
+   TCFreeArray(A);   
+   TCFreeChars(names);
+   free(allNames);
    
    if (index < 0 || index > params.rows)
    {

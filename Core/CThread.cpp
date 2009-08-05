@@ -139,8 +139,6 @@ namespace Tinkercell
 
 	void CThread::setLibrary(const QString& libname)
 	{
-		qDebug() << "cthread: trying to load " << libname;
-		
 		QString  home = MainWindow::userHome(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
@@ -187,7 +185,6 @@ namespace Tinkercell
 
 		if (lib)
 		{
-			qDebug() << "cthread: lib loaded";
 			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
 			if (f0)
 			{

@@ -1190,6 +1190,26 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+	
+	void MainWindow::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QList<ItemHandle*>& handles,const QString& family)
+	{
+		NetworkWindow * win = currentWindow();
+		if (!win || !returnPtr)
+		{
+			if (s) s->release();
+			return;
+		}
+
+		if (returnPtr)
+		{
+			for (int i=0; i < handles.size(); ++i)
+				if (handles[i] && handles[i]->isA(family))
+					(*returnPtr) += handles[i];
+		}
+
+		if (s)
+			s->release();
+	}
 
 	void MainWindow::selectedItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
@@ -1859,6 +1879,11 @@ namespace Tinkercell
 	{
 		return fToS.itemsOfFamily(f);
 	}
+	
+	Array MainWindow::_itemsOfFamily2(const char* f, Array a)
+	{
+		return fToS.itemsOfFamily(f,a);
+	}
 
 	Array MainWindow::_selectedItems()
 	{
@@ -2132,6 +2157,22 @@ namespace Tinkercell
 		delete s;
 		Array A = ConvertValue(*p);
 		delete p;
+		return A;
+	}
+	
+	Array MainWindow_FtoS::itemsOfFamily(const char * f, Array a)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*> * list = ConvertValue(a);
+		QList<ItemHandle*>* p = new QList<ItemHandle*>;
+		s->acquire();
+		emit itemsOfFamily(s,p,*list,ConvertValue(f));
+		s->acquire();
+		s->release();
+		delete s;
+		Array A = ConvertValue(*p);
+		delete p;
+		delete list;
 		return A;
 	}
 
@@ -2679,6 +2720,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(allItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(allItems(QSemaphore*,QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(selectedItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(selectedItems(QSemaphore*,QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&)));
+		connect(&fToS,SIGNAL(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)),this,SLOT(itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&, const QString&)));
 		connect(&fToS,SIGNAL(getX(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getX(QSemaphore*,qreal*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getY(QSemaphore*,qreal*,ItemHandle*)),this,SLOT(getY(QSemaphore*,qreal*,ItemHandle*)));
 
@@ -2743,6 +2785,7 @@ namespace Tinkercell
 		Array (*tc_allItems0)(),
 		Array (*tc_selectedItems0)(),
 		Array (*tc_itemsOfFamily0)(const char*),
+		Array (*tc_itemsOfFamily1)(const char*,Array),
 		OBJ (*tc_find0)(const char*),
 		void (*tc_select0)(OBJ),
 		void (*tc_deselect0)(),
@@ -2810,6 +2853,7 @@ namespace Tinkercell
 				&(_allItems),
 				&(_selectedItems),
 				&(_itemsOfFamily),
+				&(_itemsOfFamily2),
 				&(_find),
 				&(_select),
 				&(_deselect),

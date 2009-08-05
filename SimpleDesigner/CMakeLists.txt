@@ -1,8 +1,20 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkWindow.h
+  ../Core/CodeEditor.h 
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/TextItem.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
+
 QT4_WRAP_CPP( SIMPLEDESIGNER_MOC 
   SimpleDesigner.h
-  ../Core/MainWindow.h )
+  ${TINKERCELL_CORE_HDRS} )
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
@@ -65,7 +77,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
 	
-	ADD_EXECUTABLE( SimpleDesigner 
+	ADD_EXECUTABLE( SimpleDesigner WIN32 
       SimpleDesigner.cpp
       ${SIMPLEDESIGNER_MOC}
       ${TINKERCELL_QRC}

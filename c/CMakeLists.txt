@@ -99,9 +99,9 @@ TARGET_LINK_LIBRARIES( runpy
 
 IF (WIN32)
   ADD_CUSTOM_COMMAND( TARGET runcvode POST_BUILD
-                      COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\ssa.c -o c\\ssa.o -I./c"
-					  COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\cells_ssa.c -o c\\cells_ssa.o -I./c"
-					  COMMAND "win32/tcc.exe" ARGS "-r c\\mtrand.c c\\langevin.c -o c\\langevin.o -I./c"
-					  COMMAND "win32/tcc.exe" ARGS "-r cvode_src\\cvode\\*.c cvode_src\\sundials\\*.c cvode_src\\nvec_ser\\*.c c\\cvodesim.c -o c\\odesim.o -I./c"
+                      COMMAND "win32\\tcc.exe" ARGS "-Iwin32\\include -Lwin32\\lib -r c\\mtrand.c c\\ssa.c -o c\\ssa.o -I./c"
+					  COMMAND "win32\\tcc.exe" ARGS "-r c\\mtrand.c c\\cells_ssa.c -o c\\cells_ssa.o -I./c"
+					  COMMAND "win32\\tcc.exe" ARGS "-r c\\mtrand.c c\\langevin.c -o c\\langevin.o -I./c"
+					  COMMAND "win32\\tcc.exe" ARGS "-r cvode_src\\cvode\\*.c cvode_src\\sundials\\*.c cvode_src\\nvec_ser\\*.c c\\cvodesim.c -o c\\odesim.o -I./c"
 	)
 ENDIF(WIN32)

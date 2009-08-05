@@ -18,6 +18,11 @@ Array (*tc_selectedItems)() = 0;
 */
 Array (*tc_itemsOfFamily)(const char* family) = 0;
 /*! 
+ \brief get subset of items that belong to the given family
+ \ingroup Get items
+*/
+Array (*tc_itemsOfFamilyFrom)(const char* family, Array itemsToSelectFrom) = 0;
+/*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
@@ -250,6 +255,7 @@ void tc_Main_api_initialize(
 	    Array (*tc_allItems0)(),
 		Array (*tc_selectedItems0)(),
 		Array (*tc_itemsOfFamily0)(const char*),
+		Array (*tc_itemsOfFamily1)(const char*, Array),
 		OBJ (*tc_find0)(const char*),
 		void (*tc_select0)(OBJ),
 		void (*tc_deselect0)(),
@@ -310,6 +316,7 @@ void tc_Main_api_initialize(
 	tc_allItems = tc_allItems0;
 	tc_selectedItems = tc_selectedItems0; 
 	tc_itemsOfFamily = tc_itemsOfFamily0;
+	tc_itemsOfFamilyFrom = tc_itemsOfFamily1;
 	tc_find = tc_find0;
 	tc_select = tc_select0;
 	tc_deselect = tc_deselect0;

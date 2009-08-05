@@ -78,7 +78,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 	int i;
 	PyObject * pylist = 0, *item;
 	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getAllParameters == 0) ||
+		(tc_getParameters == 0) ||
 		(tc_allItems == 0))
         return NULL;
 
@@ -109,7 +109,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 			array = tc_allItems();
 		}
 
-		Matrix M = tc_getAllParameters(array);
+		Matrix M = tc_getParameters(array);
 		free(array);
 
 		if (M.rows > 0 && M.values && M.rownames)

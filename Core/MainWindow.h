@@ -459,11 +459,20 @@ namespace Tinkercell
 		/*!
 		* \brief returns a list of items of the specified family. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
-		* \param return value
-		* \param family to filter by
+		* \param QList return value
+		* \param QString family to filter by
 		* \return void
 		*/
 		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&);
+		/*!
+		* \brief returns a list of items of the specified family. This function is designed to be used with the C API framework
+		* \param QSemaphore * semaphore
+		* \param QListreturn value
+		* \param QList list of items to search
+		* \param QString family to filter by
+		* \return void
+		*/
+		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&,const QString&);
 		/*!
 		* \brief sets the x,y position of the item. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
@@ -1102,6 +1111,10 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
+		static Array _itemsOfFamily2(const char*, Array);
+		/*!
+		* \brief part of the C API framework.
+		*/
 		static Array _selectedItems();
 		/*!
 		* \brief part of the C API framework.
@@ -1305,6 +1318,7 @@ namespace Tinkercell
 		void allItems(QSemaphore*,QList<ItemHandle*>*);
 		void selectedItems(QSemaphore*,QList<ItemHandle*>*);
 		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&);
+		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&,const QString&);
 		void find(QSemaphore*,ItemHandle**,const QString&);
 		void select(QSemaphore*,ItemHandle*);
 		void deselect(QSemaphore*);
@@ -1360,6 +1374,7 @@ namespace Tinkercell
 		void zoom(double);
 		Array allItems();
 		Array itemsOfFamily(const char*);
+		Array itemsOfFamily(const char*, Array);
 		Array selectedItems();
 		OBJ find(const char*);
 		void select(OBJ);

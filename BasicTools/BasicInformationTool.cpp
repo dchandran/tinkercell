@@ -1056,20 +1056,21 @@ namespace Tinkercell
 	{
 		QStringList rownames;
 		QList<qreal> values;
+		int i,j;
 
 		QString name("Numerical Attributes");
 
 		ItemHandle * handle = 0;
 		DataTable<qreal> * dataTable = 0;
 
-		for (int i=0; i < handles.size(); ++i)
+		for (i=0; i < handles.size(); ++i)
 		{
 			handle = handles.at(i);
 			if (handle && handle->data && handle->hasNumericalData(name))
 			{
 				dataTable = &(handle->data->numericalData[name]);
 				if (dataTable && dataTable->cols() > 0)
-					for (int j=0; j < dataTable->rows(); ++j)
+					for (j=0; j < dataTable->rows(); ++j)
 					{
 						if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
 							&& (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
@@ -1085,13 +1086,126 @@ namespace Tinkercell
 
 		DataTable<qreal> combinedTable;
 		combinedTable.resize(values.size(),1);
-		for (int i=0; i < values.size() && i < rownames.size(); ++i)
+		for (i=0; i < values.size() && i < rownames.size(); ++i)
 		{
 			combinedTable.rowName(i) = rownames[i];
 			combinedTable.value(i,0) = values[i];
 		}
+		
+		
+		
+		QString replaceDot = sep;
+		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
+		DataTable<qreal> & params = combinedTable;
+		params.insertCol(1,tr("used"));
 
-		return combinedTable;
+		bool used = false;
+		for (i=0; i < params.rows(); ++i)
+		{
+			used = false;
+			for (j=0; j < rates.size(); ++j)
+			{
+				if (rates[j].contains(params.rowName(i)))
+				{
+					used = true;
+					break;
+				}
+			}
+			if (used)
+				params.value(i,1) = 1.0;
+			else
+				params.value(i,1) = 0.0;
+		}
+
+		QRegExp regex(tr("\\.(?!\\d)"));
+		QString s1,s2;
+
+		for (i=0; i < handles.size(); ++i)
+		{
+			if (!handles[i])
+				continue;
+
+			if (handles[i]->hasTextData(tr("Events")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Events")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s1 =  dat.rowName(j);
+						s1.replace(regex,replaceDot);
+
+						s2 =  dat.value(j,0);
+
+						s2.replace(regex,replaceDot);
+
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
+
+			if (handles[i]->hasTextData(tr("Assignments")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Assignments")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s1 =  dat.rowName(j);
+						s1.replace(regex,replaceDot);
+						s2 =  dat.value(j,0);
+						s2.replace(regex,replaceDot);
+
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
+
+			if (handles[i]->hasTextData(tr("Functions")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Functions")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s1 =  dat.rowName(j);
+						s1.replace(regex,replaceDot);
+						s2 =  dat.value(j,0);
+						s2.replace(regex,replaceDot);
+
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
+		}
+
+		int count = 0;
+		for (int i=0; i < params.rows(); ++i)
+		{
+			if (params.value(i,1) > 0.0) ++count;
+		}
+
+		DataTable<qreal> params2;
+		params2.resize(count,1);
+		params2.colName(0) = params.colName(0);
+
+		for (int i=0, j=0; i < params.rows() && j < count; ++i)
+		{
+			if (params.value(i,1) > 0.0)
+			{
+				params2.rowName(j) = params.rowName(i);
+				params2.value(j,0) = params.value(i,0);
+				++j;
+			}
+		}
+
+		return params2;
 	}
 
 	DataTable<QString> BasicInformationTool::getTextData(const QList<ItemHandle*>& handles, const QStringList& mustHave, const QStringList& exclude, const QString& sep)

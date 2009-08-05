@@ -7,7 +7,7 @@
  \brief get all the parameters
  \ingroup Attributes
 */
-Matrix (*tc_getAllParameters)(Array) = 0;
+Matrix (*tc_getParameters)(Array) = 0;
 /*! 
  \brief get initial values of the given items. Fixed varianbles will not be included
  \ingroup Attributes
@@ -84,7 +84,7 @@ void tc_BasicInformationTool_Numeric_api(
 	)
 {
 	tc_getInitialValues = getInitialValues;
-	tc_getAllParameters = getParameters;
+	tc_getParameters = getParameters;
 	
 	tc_getFixedVariables = getFixedVariabes;
 	tc_getParametersAndFixedVariables = getParametersAndFixedVariabes;

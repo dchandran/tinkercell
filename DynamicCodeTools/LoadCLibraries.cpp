@@ -308,33 +308,17 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-        //qDebug() << tr("tcc -r -w ") + filename + tr(" -o a.out");
-        proc.start(tr("\"") + appDir + tr("\"\\tcc -r -w TCFunctions.c ") + filename  + tr(" -o a.out"));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -r -w TCFunctions.c ") + filename  + tr(" -o a.out"));
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
-        /*qDebug() << tr("tcc -w -run a.out ") + args;
-                proc.start(tr("tcc -w -run a.out ") + args);
-                proc.waitForFinished();
-                if (!errors.isEmpty())	errors += tr("\n\n");
-                errors += (proc.readAllStandardError());
-                if (!output.isEmpty())	output += tr("\n\n");
-                output += tr("\n\n") + (proc.readAllStandardOutput());*/
 #else
         proc.start(tr("rm a.out"));
         proc.waitForFinished();
-        //qDebug() << tr("gcc -o a.out ") + filename;
         proc.start(tr("gcc -o a.out ") + filename);
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
-        /*qDebug() << tr("./a.out ") + args;
-                proc.start(tr("./a.out ") + args);
-                proc.waitForFinished();
-                if (!errors.isEmpty())	errors += tr("\n\n");
-                errors += (proc.readAllStandardError());
-                if (!output.isEmpty())	output += tr("\n\n");
-                output += tr("\n\n") + (proc.readAllStandardOutput());*/
 #endif
         
         if (!errors.isEmpty())
@@ -385,7 +369,7 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
         proc.start(tr("del ") + dllName + tr(".dll"));
         proc.waitForFinished();
-        proc.start(tr("\"") + appDir + tr("\"\\tcc -w -shared -rdynamic -o ") + dllName + tr(".dll ") + filename);
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic -o ") + dllName + tr(".dll ") + filename);
         proc.waitForFinished();
         
         if (!errors.isEmpty())	errors += tr("\n\n");

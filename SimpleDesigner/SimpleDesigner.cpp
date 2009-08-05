@@ -19,9 +19,9 @@ SimpleDesigner::SimpleDesigner(): Tool(tr("Simple Designer"))
 	toolBar = new QToolBar(this);
 	actionGroup->setExclusive(true);
 	
-	arrowButton = new QAction(QIcon(":../images/arrow.png"),tr("arrow"),toolBar);
-	QAction * nodeButton = new QAction(QIcon(":../images/blueRect.png"),tr("node"),toolBar);
-	QAction * edgeButton = new QAction(QIcon(":../images/horizontalFlip.png"),tr("reaction"),toolBar);
+	arrowButton = new QAction(QIcon(":../Main/images/arrow.png"),tr("arrow"),toolBar);
+	QAction * nodeButton = new QAction(QIcon(":../Main/images/blueRect.png"),tr("node"),toolBar);
+	QAction * edgeButton = new QAction(QIcon(":../Main/images/horizontalFlip.png"),tr("reaction"),toolBar);
 	
 	arrowButton->setCheckable(true);
 	nodeButton->setCheckable(true);
@@ -251,20 +251,23 @@ void SimpleDesigner::escapeSignal(const QWidget * sender)
 
 int main(int argc, char *argv[])
 {
-    PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
-    ORGANIZATIONNAME = QObject::tr("Simple Designer");
-    PROJECTNAME = QObject::tr("Simple Designer");
+    //PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    //ORGANIZATIONNAME = QObject::tr("Simple Designer");
+    //PROJECTNAME = QObject::tr("Simple Designer");
+	PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
+    ORGANIZATIONNAME = QObject::tr("TinkerCell");
+    PROJECTNAME = QObject::tr("Tinkercell");
 
     QApplication app(argc, argv);
 
-	QString appDir = QCoreApplication::applicationDirPath();
+	//QString appDir = QCoreApplication::applicationDirPath();
     
-    MainWindow mainWindow(true,false,true);
+    MainWindow mainWindow;//(true,false,true);
 	mainWindow.setWindowTitle(QString("Simple Designer"));
     mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));
 
-	Tool * tool = new SimpleDesigner;
-	mainWindow.addTool(tool);
+	/*Tool * tool = new SimpleDesigner;
+	mainWindow.addTool(tool);*/
 
     mainWindow.newGraphicsWindow();
 	

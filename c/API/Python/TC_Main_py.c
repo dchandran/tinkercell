@@ -117,15 +117,36 @@ static PyObject * pytc_selectedItems(PyObject *self, PyObject *args)
 static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 {
 	char * s;
+	PyObject * pylist1 = 0;
 	
-    if(!PyArg_ParseTuple(args, "s", &s))
+    if(!PyArg_ParseTuple(args, "s|O", &s,&pylist))
     	return NULL;
 		
-    int i;
-	PyObject *pylist, *item;
+	int i;
 	void ** array = 0; 
-	if (tc_itemsOfFamily)
-		array= tc_itemsOfFamily(s);
+	
+	if (pylist1 && tc_itemsOfFamilyFrom)
+	{
+		int isList = PyList_Check(pylist1);
+		int N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist1);
+		
+		void ** array1 = malloc( (1+N) * sizeof(void*) );
+		array1[N] = 0;
+		
+		for(i=0; i<N; ++i ) 
+		{ 
+			array1[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
+		}
+		
+		array = tc_itemsOfFamilyFrom(s,array1);
+	}
+	else
+	{
+		if (tc_itemsOfFamily)
+			array= tc_itemsOfFamily(s);
+	}
+		
+	PyObject *pylist, *item;
 	if (array)
 	{
 		int len = 0;

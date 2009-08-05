@@ -48,14 +48,25 @@ SET(C_LIBRARY_OUTPUT_PATH
 #---------------------------------------------------------------------------
 # Doxygen documentation
 #---------------------------------------------------------------------------
+OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
+
+IF( DOXYGENDOC )
+
 FIND_PACKAGE( Doxygen )
 
-IF( DOXYGEN_FOUND )
-  OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
-  IF( DOXYGENDOC )
-    ADD_SUBDIRECTORY( Documentation )
-  ENDIF( DOXYGENDOC )
-ENDIF( DOXYGEN_FOUND )
+  IF( DOXYGEN_FOUND )
+    IF( DOXYGEN_DOT_FOUND )
+      ADD_SUBDIRECTORY( Documentation )
+    ELSE( DOXYGEN_DOT_FOUND )
+      MESSAGE( SEND_ERROR 
+        "Dot MUST be installed (visit http://www.graphviz.org/)" )
+    ENDIF( DOXYGEN_DOT_FOUND )
+  ELSE( DOXYGEN_FOUND )
+    MESSAGE( SEND_ERROR
+      "Doxygen MUST be installed 
+        (visit http://www.stack.nl/~dimitri/doxygen/)" )
+  ENDIF( DOXYGEN_FOUND )
+ENDIF( DOXYGENDOC )
 
 #---------------------------------------------------------------------------
 # Python

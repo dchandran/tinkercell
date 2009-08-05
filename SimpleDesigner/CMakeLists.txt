@@ -16,7 +16,7 @@ QT4_WRAP_CPP( SIMPLEDESIGNER_MOC
   SimpleDesigner.h
   ${TINKERCELL_CORE_HDRS} )
 
-QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
+QT4_ADD_RESOURCES( SIMPLEDESIGNER_QRC Tinkercell.qrc )
 
 IF( APPLE AND BUILD_BUNDLE )
   
@@ -30,24 +30,24 @@ IF( APPLE AND BUILD_BUNDLE )
       Version ${TINKERCELL_VERSION}
   )
 
-  ADD_CUSTOM_COMMAND( TARGET Tinkercell PRE_BUILD
+  ADD_CUSTOM_COMMAND( TARGET SimpleDesigner PRE_BUILD
       COMMAND rm ARGS -rf  
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app
   )
 
-  ADD_EXECUTABLE( Tinkercell 
+  ADD_EXECUTABLE( SimpleDesigner
     MACOSX_BUNDLE
-    Main.cpp
+    SimpleDesigner.cpp
     ${SIMPLEDESIGNER_MOC}
     DefaultPluginsMenu.cpp
     ${TINKERCELL_QRC}
   )
 
-  TARGET_LINK_LIBRARIES( Tinkercell
+  TARGET_LINK_LIBRARIES( SimpleDesigner
     TinkerCellCore
   )
 
-  ADD_CUSTOM_COMMAND( TARGET Tinkercell POST_BUILD
+  ADD_CUSTOM_COMMAND( TARGET SimpleDesigner POST_BUILD
       COMMAND mkdir ARGS 
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks
@@ -65,10 +65,10 @@ IF( APPLE AND BUILD_BUNDLE )
 
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
-    ADD_EXECUTABLE( Tinkercell 
-      Main.cpp
+    ADD_EXECUTABLE( SimpleDesigner
+      SimpleDesigner.cpp
       ${SIMPLEDESIGNER_MOC}
-      ${TINKERCELL_QRC}
+      ${SIMPLEDESIGNER_QRC}
     )
 
     TARGET_LINK_LIBRARIES( SimpleDesigner
@@ -77,15 +77,15 @@ ELSE( APPLE AND BUILD_BUNDLE )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
 	
-	ADD_EXECUTABLE( SimpleDesigner WIN32 
-      SimpleDesigner.cpp
-      ${SIMPLEDESIGNER_MOC}
-      ${TINKERCELL_QRC}
-    )
+	    ADD_EXECUTABLE( SimpleDesigner WIN32 
+        SimpleDesigner.cpp
+        ${SIMPLEDESIGNER_MOC}
+        ${TINKERCELL_QRC}
+       )
 
-    TARGET_LINK_LIBRARIES( SimpleDesigner
-      TinkerCellCore
-    )
+      TARGET_LINK_LIBRARIES( SimpleDesigner
+        TinkerCellCore
+      )
     ENDIF( WIN32 )
   ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
 

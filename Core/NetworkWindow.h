@@ -76,6 +76,8 @@ namespace Tinkercell
 		SymbolsTable symbolsTable;
 		/*! \brief get all the items in this network window*/
 		QList<ItemHandle*> allHandles() const;
+		/*! \brief the model item*/
+		ItemHandle* modelItem();
 		/*! \brief checks whether a string is a correct formula.
 		\param QString target string
 		\param QStringList returns any new variables not found in this network

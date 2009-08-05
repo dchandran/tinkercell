@@ -154,4 +154,5 @@ private:
 	void selectItem(GraphicsScene * scene, QGraphicsItem * item, bool select = true);
 	void deselectItem(GraphicsScene * scene, QGraphicsItem * item);
 	void addParameters(QStringList&);
+	void setToolTip(ItemHandle*);
 };

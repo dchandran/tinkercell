@@ -99,18 +99,18 @@ void SimpleDesigner::nameChanged()
 void SimpleDesigner::addParameters(QStringList& newVars)
 {
 	NetworkWindow * network = currentWindow();
-	if (!network) return;
+	if (!network || !network->modelItem()) return;
 	
 	listWidget->clear();
 	
-	ItemHandle & modelItem = network->symbolsTable.modelItem;
+	ItemHandle * modelItem = network->modelItem(); //handle for the entire model
 	
 	QStringList vars;
 	DataTable<qreal> params;
 	
-	if (modelItem.hasNumericalData("parameters"))
+	if (modelItem->hasNumericalData("parameters"))     
 	{
-		params = modelItem.data->numericalData["parameters"];
+		params = modelItem->data->numericalData["parameters"]; //get existing set of parameters
 		vars = params.getRowNames();
 	}
 	
@@ -118,22 +118,25 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 		if (!vars.contains(newVars[i]))
 		{
 			vars << newVars[i];
-			params.value(newVars[i],0) = 1.0;
+			params.value(newVars[i],0) = 1.0;   //add new parameters to existing set
 		}
 	
-	modelItem.data->numericalData["parameters"] = params;
+	modelItem->data->numericalData["parameters"] = params;   //update with new set of parameters
 	
 	vars.clear();
 	
 	for (int i=0; i < params.rows(); ++i)
-		vars << params.rowName(i) + tr(" = ") + QString::number(params.value(i,0));  //param = value
+		vars << params.rowName(i) + tr(" = ") + QString::number(params.value(i,0));  //"param = value"
 	
-	listWidget->addItems(vars);
+	listWidget->addItems(vars);   //update list widget for viewing parameters
 }
 	
 void SimpleDesigner::rateChanged() 
 {
-	GraphicsScene * scene = currentScene();
+	NetworkWindow * win = currentWindow();
+	if (!win) return;
+	
+	GraphicsScene * scene = win->scene;
 	if (!scene || scene->selected().size() != 1) return;
 	
 	QGraphicsItem * selectedItem = scene->selected()[0];
@@ -144,19 +147,18 @@ void SimpleDesigner::rateChanged()
 	DataTable<QString> table;
 	table.value(0,0) = rate->text();
 	
-	if (scene->networkWindow)
+	//find all the new variables in this equation
+	QStringList newVars;
+	bool ok = win->parseMath(table.value(0,0),newVars);
+	
+	if (ok)
 	{
-		QStringList newVars;
-		bool ok = scene->networkWindow->parseMath(table.value(0,0),newVars);
-		
-		if (ok)
-		{
-			scene->changeData(handle,"rate",&table);
-			addParameters(newVars);
-		}
-		else
-			mainWindow->statusBar()->showMessage(tr("error in formula : ") + table.value(0,0));
+		scene->changeData(handle,"rate",&table);
+		addParameters(newVars); //insert new variables into the modelItem
+		setToolTip(handle);
 	}
+	else
+		mainWindow->statusBar()->showMessage(tr("error in formula : ") + table.value(0,0));
 }
 
 void SimpleDesigner::concentrationChanged()
@@ -252,26 +254,68 @@ void SimpleDesigner::mousePressed(GraphicsScene * scene, QPointF point, Qt::Mous
 	
 }
 
+void SimpleDesigner::setToolTip(ItemHandle* item)
+{
+	if (!item) return;
+	
+	if (NodeHandle::asNode(item) && item->hasNumericalData("concentration")) //is a node
+	{
+		for (int i=0; i < item->graphicsItems.size(); ++i)
+			item->graphicsItems[i]->setToolTip
+			(
+				item->name + tr(" : ") + QString::number(item->getNumericalData("concentration",0,0))
+			);
+	}
+	else
+	if (ConnectionHandle::asConnection(item) && item->hasTextData("rate")) //is a connection
+	{
+		for (int i=0; i < item->graphicsItems.size(); ++i)
+			item->graphicsItems[i]->setToolTip
+			(
+				item->name + tr(" : ") + item->getTextData("rate",0,0)
+			);
+	}
+}
+
 void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>& items)
 {
 	for (int i=0; i < items.size(); ++i)
 	{
 		if (NodeHandle::asNode(items[i])) //is node?
 		{
-			items[i]->setNumericalData("concentration",0,0, 10.0);
+			if (!items[i]->hasNumericalData("concentration")) 
+				items[i]->setNumericalData("concentration",0,0, 10.0);
 		}
 		if (ConnectionHandle::asConnection(items[i])) //is reaction?
 		{
 			ConnectionHandle * connection = ConnectionHandle::asConnection(items[i]);
-			QList<NodeHandle*> nodes = connection->nodesIn();
+			QString rate;
 			
-			QString rate = tr("1.0");
+			if (connection->hasTextData("rate"))  //rate already exists
+			{
+				QStringList newVars;
+				rate = connection->getTextData("rate",0,0);
+				bool ok = win->parseMath(rate,newVars);
+					
+				if (ok)
+				{
+					addParameters(newVars);
+				}
+			}
+			else
+			{	
+				QList<NodeHandle*> nodes = connection->nodesIn();
 			
-			for (int j=0; j < nodes.size(); ++j)
-				rate += tr(" * ") + nodes[j]->name;
+				rate = tr("1.0");
+				
+				for (int j=0; j < nodes.size(); ++j)
+					rate += tr(" * ") + nodes[j]->name;   //default mass-action rate
+			}
 			
-			items[i]->setTextData("rate",0,0, rate);
+			connection->setTextData("rate",0,0, rate);
 		}
+		
+		setToolTip(items[i]);
 	}
 }
 

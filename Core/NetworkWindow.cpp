@@ -239,6 +239,11 @@ namespace Tinkercell
 			setWindowTitle(tr("network ") + QString::number(1 + main->allWindows().size()));
 		}
 	}
+	
+	ItemHandle* NetworkWindow::modelItem()
+	{
+		return &(symbolsTable.modelItem);
+	}
 
 	QList<ItemHandle*> NetworkWindow::allHandles() const
 	{

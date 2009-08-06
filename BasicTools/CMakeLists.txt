@@ -14,17 +14,17 @@ SET( TINKERCELL_CORE_HDRS
 
 QT4_WRAP_CPP( AboutBox_MOC TinkerCellAboutBox.h ${TINKERCELL_CORE_HDRS})
 
-#CONFIGURE_FILE( TinkerCellAboutBox.cpp
-#  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
-#  @ONLY
-#)
+CONFIGURE_FILE( TinkerCellAboutBox.cpp.in
+  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
+  @ONLY
+)
 
 QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Main/Tinkercell.qrc )
 
 ADD_LIBRARY( AboutBox 
   SHARED
   ${AboutBox_MOC}
-  TinkerCellAboutBox.cpp 
+  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp 
   ${TINKERCELL_BASICTOOLS_QRC}
 )
 

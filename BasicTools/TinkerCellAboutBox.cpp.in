@@ -14,6 +14,12 @@ namespace Tinkercell
 		QString text("TinkerCell\nVersion: @TINKERCELL_VERSION@");
 		text += QCoreApplication::applicationVersion() + tr("\n\nAuthor: Deepak Chandran\n\nWebsite: www.tinkercell.com\n\n");
 
+    QString filename( "@TINKERCELL_SOURCE_DIR@/about.txt" );
+    QFile file;
+    file.setFileName( filename );
+    bool opened = ( file.open( QFile::ReadOnly | QFile::Text ) );
+
+/*
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		QString filename("about.txt");
@@ -32,7 +38,7 @@ namespace Tinkercell
 				opened = true;
 				break;
 			}
-		}
+		}*/
 		if (!opened)
 		{
 			OutputWindow::error(filename + tr(" not found"));
@@ -87,7 +93,8 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.html");
+    QString doc( "@TINKERCELL_SOURCE_DIR@/Documentation/UserDocumentation.html" );
+//		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.html");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 

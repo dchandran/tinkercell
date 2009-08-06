@@ -7,12 +7,37 @@
  Function that loads dll into main window
 
 ****************************************************************************/
-
+#include <QProcess>
+#include "OutputWindow.h"
 #include "DynamicCodeMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
+	
+	QProcess proc;
+    QString appDir = QCoreApplication::applicationDirPath();
+	QString homeDir = Tinkercell::MainWindow::userHome();
+#ifdef Q_WS_WIN
+
+	proc.start(QObject::tr("\"") + appDir + QObject::tr("\"\\win32\\tcc -r -I\"") + 
+				appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + 
+				("\"/win32/lib -o \"") + homeDir + QObject::tr("\"/cells_ssa.o \"") + 
+				appDir + QObject::tr("\"/c/mtrand.c \"") + 
+				appDir + QObject::tr("\"/c/ssa.c \"") + 
+				appDir + QObject::tr("\"/c/cells_ssa.c"));
+	proc.waitForFinished();
+	
+	proc.start(QObject::tr("\"") + appDir + QObject::tr("\"\\win32\\tcc -r -I\"") + appDir + 
+				("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -o \"") + homeDir + 
+				QObject::tr("\"/odesim.o \"") + appDir + 
+				QObject::tr("\"/c/cvode_src/cvode/*.c \"") + appDir +
+				QObject::tr("\"/c/cvode_src/sundials/*.c \"") + appDir + 
+				QObject::tr("\"/c/cvode_src/nvec_ser/*.c \"") + appDir + 
+				QObject::tr("\"/c/cvodesim.c"));
+	proc.waitForFinished();
+#endif	
+	
 	Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
 	main->addTool(libMenu);
 	

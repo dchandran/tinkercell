@@ -11,7 +11,7 @@
 
 char selected_var[100];
 
-void run();
+void run(Matrix input);
 void setup();
 
 void tc_main()

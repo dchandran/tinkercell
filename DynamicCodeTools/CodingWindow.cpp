@@ -34,10 +34,10 @@ namespace Tinkercell
 		 : Tool(tr("Coding Window"))
 	 {
 		 QString appDir = QCoreApplication::applicationDirPath();
-		 QString homeDir = MainWindow::userHome() + tr("/");
-		 fileName = homeDir + tr("code.c");
+		 QString homeDir = MainWindow::userHome();
+		 fileName = homeDir + tr("/code.c");
 		 #ifdef Q_WS_WIN
-                 commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll -I\"") + appDir + tr("\"/c \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"");
+         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll \"") + homeDir + tr("\"/odesim.o \"") + homeDir + tr("\"/ssa.o \"");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
 		 #ifdef Q_WS_MAC

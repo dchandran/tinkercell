@@ -308,7 +308,7 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -r -w TCFunctions.c ") + filename  + tr(" -o a.out"));
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
@@ -365,11 +365,12 @@ namespace Tinkercell
         QString output;
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
+		QString homeDir = Tinkercell::MainWindow::userHome();
         
 #ifdef Q_WS_WIN
         proc.start(tr("del ") + dllName + tr(".dll"));
         proc.waitForFinished();
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic -o ") + dllName + tr(".dll ") + filename);
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         
         if (!errors.isEmpty())	errors += tr("\n\n");

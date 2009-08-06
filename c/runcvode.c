@@ -10,7 +10,7 @@
  
 #include "TC_api.h"
 
-void run();
+void run(Matrix input);
 void setup();
 
 void tc_main()
@@ -126,7 +126,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 }\n\
    \n\
    \n\
-void run(Matrix input) \n\
+void run() \n\
 {\n\
    TCinitialize();\n\
    rates = malloc(TCreactions * sizeof(double));\n\
@@ -182,21 +182,16 @@ void run(Matrix input) \n\
    free(data.colnames);  free(y);\n\
    return;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
    fclose(out);
-
-   char* appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*4 + 50) * sizeof(char));
+   char* cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ode.c \"%s\"/win32/ssa.o \"%s\"/win32/odesim.o -I\"%s\"/win32/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
+       sprintf(cmd,"ode.c ssa.o odesim.o\0");
    }
    else
    {
-       sprintf(cmd,"ode.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
+       sprintf(cmd,"ode.c -lodesim -lssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","Deterministic simulation\0");
 /*   

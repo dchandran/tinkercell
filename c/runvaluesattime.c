@@ -9,7 +9,7 @@
 #include "TC_api.h"
 
 char * selected_var;
-void run();
+void run(Matrix input);
 void setup();
 
 void tc_main()
@@ -172,20 +172,15 @@ void run(Matrix input) \n\
 
    fclose(out);
    
-   char* appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
-   
-   char* cmd = malloc((sz*4 + 80) * sizeof(char));
+   char* cmd = malloc(80 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"timet.c \"%s\"/c/odesim.o \"%s\"/c/ssa.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
+       sprintf(cmd,"timet.c odesim.o cells_ssa.o\0");
    }
    else
    {
-       sprintf(cmd,"timet.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
+       sprintf(cmd,"timet.c -lodesim -lssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","At Time T\0");
 /*   

@@ -144,15 +144,17 @@ void SimpleDesigner::rateChanged()
 	
 	if (!handle || !handle->hasTextData("rate")) return;
 	
-	DataTable<QString> table;
-	table.value(0,0) = rate->text();
+	
+	QString formula = rate->text();
 	
 	//find all the new variables in this equation
 	QStringList newVars;
-	bool ok = win->parseMath(table.value(0,0),newVars);
+	bool ok = win->parseMath(formula,newVars);
 	
 	if (ok)
 	{
+		DataTable<QString> table;
+		table.value(0,0) = formula;
 		scene->changeData(handle,"rate",&table);
 		addParameters(newVars); //insert new variables into the modelItem
 		setToolTip(handle);

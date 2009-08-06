@@ -187,23 +187,14 @@ void run() \n\
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ode.c ssa.o odesim.o\0");
+       sprintf(cmd,"ode.c cells_ssa.o odesim.o\0");
    }
    else
    {
-       sprintf(cmd,"ode.c -lodesim -lssa\0");
+       sprintf(cmd,"ode.c -lodesim -lcells_ssa\0");
    }
+
    tc_compileBuildLoad(cmd,"run\0","Deterministic simulation\0");
-/*   
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/odesim.o ode.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("ode.c -I./c -L./lib -lodesim\0","run\0");
-   }
-*/   
    free(cmd);
    return;
  

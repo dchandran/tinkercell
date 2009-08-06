@@ -180,19 +180,10 @@ void run(Matrix input) \n\
    }
    else
    {
-       sprintf(cmd,"timet.c -lodesim -lssa\0");
+       sprintf(cmd,"timet.c -lodesim -lcells_ssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","At Time T\0");
-/*   
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/odesim.o c/ssa.o timet.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("timet.c -I./c -L./lib -lodesim -lssa\0","run\0");
-   }
-*/
+
    free(cmd);
    TCFreeMatrix(params);
    return;

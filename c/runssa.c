@@ -144,15 +144,15 @@ void run() \n\
    int sz = 0;
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*3 + 50) * sizeof(char));
+   char* cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ssa.c \"%s\"/c/ssa.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir);
+       sprintf(cmd,"ssa.c cells_ssa.o\0");
    }
    else
    {
-       sprintf(cmd,"ssa.c -I%s/c -L%s/lib -lssa\0",appDir,appDir);
+       sprintf(cmd,"ssa.c -lcells_ssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","Gillespie algorithm\0");
 /*   
@@ -299,16 +299,7 @@ void run() \n\
        sprintf(cmd,"cells_ssa.c -lcells_ssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","Multi-cell algorithm\0");
-/*   
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/ssa.o ssa.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("ssa.c -I./c -L./lib -lssa\0","run\0");
-   }
-*/   
+
    free(cmd);
    return;
 }

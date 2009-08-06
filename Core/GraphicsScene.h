@@ -47,7 +47,7 @@ namespace Tinkercell
 	class ItemHandle;
 	class ItemData;
 	class NetworkWindow;
-
+	
 	/*! \brief gets the parent of this item that is a node, text, connection, or control point
 	* \param QGraphicsItem * Qt graphics item
 	\return QGraphicsItem * node, connection, text, or control point
@@ -73,6 +73,10 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+		/*! \brief pen that is used to draw the selection rectangle*/
+		static QBrush SelectionRectanglePen;
+		/*! \brief brush that is used to color the selection rectangle*/
+		static QBrush SelectionRectangleBrush;
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
 		/*! \brief the containing network window's symbols table*/

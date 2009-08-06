@@ -26,6 +26,10 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 namespace Tinkercell
 {
+	QBrush GraphicsScene::SelectionRectanglePen = Qt::NoPen;
+	
+	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
+	
 	/*
 	* \param a pointer to a QGraphicsItem
 	* \return a QGraphicsItem that is one of the Tinkercell Graphics Items
@@ -193,8 +197,8 @@ namespace Tinkercell
 		
 		lastZ = 1.0;
 
-		selectionRect.setBrush(QBrush(QColor(0,132,255,50)));
-		selectionRect.setPen(Qt::NoPen);		
+		selectionRect.setBrush(SelectionRectangleBrush);
+		selectionRect.setPen(SelectionRectanglePen);		
 		
 		addItem(&selectionRect);
 

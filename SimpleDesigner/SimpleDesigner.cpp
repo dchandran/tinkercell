@@ -160,7 +160,7 @@ void SimpleDesigner::rateChanged()
 		setToolTip(handle);
 	}
 	else
-		mainWindow->statusBar()->showMessage(tr("error in formula : ") + table.value(0,0));
+		mainWindow->statusBar()->showMessage(tr("error in formula : ") + formula);
 }
 
 void SimpleDesigner::concentrationChanged()

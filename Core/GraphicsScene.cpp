@@ -26,7 +26,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 namespace Tinkercell
 {
-	QBrush GraphicsScene::SelectionRectanglePen = Qt::NoPen;
+	QPen GraphicsScene::SelectionRectanglePen = QPen(Qt::NoPen);
 	
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
 	

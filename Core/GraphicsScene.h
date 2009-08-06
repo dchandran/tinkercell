@@ -74,7 +74,7 @@ namespace Tinkercell
 
 	public:
 		/*! \brief pen that is used to draw the selection rectangle*/
-		static QBrush SelectionRectanglePen;
+		static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
 		static QBrush SelectionRectangleBrush;
 		/*! \brief the containing network window*/

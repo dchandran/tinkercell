@@ -637,8 +637,8 @@ namespace Tinkercell
 							int k = vars.indexOf(N.rowName(i));
 							if (k > -1)
 							{
-								cmodel << "   TCinit[" << QString::number(i) << "] = " << initValues[k] << ";\n";
-								pymodel << "   TCinit[" << QString::number(i) << "] = " << initValues[k] << ";\n";
+								cmodel << "   " <<  N.rowName(i) << " = TCinit["<< QString::number(i) << "] = " << initValues[k] << ";\n";
+								pymodel << "   " <<  N.rowName(i) << " = TCinit[" << QString::number(i) << "] = " << initValues[k] << ";\n";
 							}
 							else
 							{
@@ -648,6 +648,22 @@ namespace Tinkercell
 						}
 						cmodel << "}\n\n";
 						pymodel << "\n\n";
+						
+						cmodel << "\nvoid TCreinitialize()\n{\n";
+						pymodel << "\ndefn TCreinitialize():\n";
+
+						for (i = 0; i < N.rows(); ++i)
+						{
+							int k = vars.indexOf(N.rowName(i));
+							if (k > -1)
+							{
+								cmodel << "   TCinit[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
+								pymodel << "   TCinit[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
+							}
+						}
+						cmodel << "}\n\n";
+						pymodel << "\n\n";
+						
 
 						cfile.write(cmodel.join("").toAscii());
 						cfile.close();

@@ -130,7 +130,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 	
 	listWidget->addItems(vars);   //update list widget for viewing parameters
 }
-	
+
 void SimpleDesigner::rateChanged() 
 {
 	NetworkWindow * win = currentWindow();
@@ -439,7 +439,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		{
 			++i;
 			handle->name = tr("J") + QString::number(i);
-		}		
+		}
 		
 		setHandle(item,handle);
 		
@@ -498,7 +498,7 @@ int main(int argc, char *argv[])
 	Tool * tool = new SimpleDesigner;
 	mainWindow.addTool(tool);
 	
-	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,10));
+	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
 
     mainWindow.newGraphicsWindow();
 	mainWindow.newGraphicsWindow();

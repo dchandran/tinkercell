@@ -77,10 +77,10 @@ public:
 		addShape(rectItem);
 		addToGroup(textItem);
 		
-		textItem->setPos(-2.0*textItem->boundingRect().width(),-2.0*textItem->boundingRect().height());
-		
 		refresh();
 		recomputeBoundingRect();
+		
+		textItem->setPos(-0.5*textItem->boundingRect().width(),-0.5*textItem->boundingRect().height());
 	}
 	
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)

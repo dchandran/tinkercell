@@ -98,7 +98,7 @@ void run(Matrix input)
        return;  
    }
    
-   Matrix params = tc_getParameters(A);
+   Matrix params = tc_getModelParameters(A);
    char ** names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
    
    int len = 0;
@@ -108,9 +108,9 @@ void run(Matrix input)
    
    int i;
    
-   for (i=0; i < len; ++i) allNames[i] = names[i];
+   for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
    
-   for (i=len; i < params.rows; ++i) allNames[i] = params.rownames[i+len];
+   for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
    
    allNames[(len+params.rows)] = 0;
    
@@ -118,17 +118,15 @@ void run(Matrix input)
    index = tc_getFromList("Select Independent Variable",allNames,selected_var,0);
    
    TCFreeArray(A);   
-   TCFreeChars(names);
-   free(allNames);
    
-   if (index < 0 || index > params.rows)
+   if (index < 0 || index >= (params.rows+len))
    {
        TCFreeMatrix(params);
 	   tc_print("steady state: no valid variable selected\0");
 	   return;
    }
    
-   char * param = params.rownames[index]; //the parameter to vary
+   char * param = allNames[index]; //the parameter to vary
    strcpy(selected_var,param);
    
    FILE * out = fopen("ss.c","a");
@@ -157,10 +155,10 @@ void run(Matrix input) \n\
    
    fprintf( out, "\n\
    %s = %lf;\n\
+   TCinitialize();\n\
    for (i=0; i < dat.rows; ++i)\n\
    {\n\
       valueAt(dat,i,0) = %s;\n\
-	  TCinitialize();\n\
       double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
       if (y)\n\
       {\n\
@@ -183,7 +181,9 @@ void run(Matrix input) \n\
          for (j=0; j<TCvars; ++j)\n\
             valueAt(dat,i,j+1) = 0;\n\
       }\n\
-      %s += %lf;\n\
+	  TCinitialize();\n\
+      %s = (i+1) * %lf;\n\
+	  TCreinitialize();\n\
 	  tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
    }\n\
    FILE * out = fopen(\"ss.tab\",\"w\");\n\
@@ -209,33 +209,21 @@ void run(Matrix input) \n\
    free(dat.colnames);\n}\n",param,start,param,rateplot,param,dt);
 
    fclose(out);
-
-   char* appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*3 + 50) * sizeof(char));
+   char* cmd = malloc( 50 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ss.c \"%s\"/c/odesim.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir);
+       sprintf(cmd,"ss.c odesim.o\0");
    }
    else
    {
-       sprintf(cmd,"ss.c -I%s/c -L%s/lib -lodesim\0",appDir,appDir);
+       sprintf(cmd,"ss.c -lodesim\0");
    }
    tc_compileBuildLoad(cmd,"run\0","Steady state\0");
-/*
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/odesim.o ss.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("ss.c -I./c -L./lib -lodesim\0","run\0");
-   }
-*/   
+
+   free(allNames);
+   TCFreeChars(names);
    TCFreeMatrix(params);
    free(cmd);
    return;  

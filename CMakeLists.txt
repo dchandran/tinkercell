@@ -7,12 +7,20 @@ ADD_DEFINITIONS(
 SET( TINKERCELL_MAJOR_VERSION "0" )
 SET( TINKERCELL_MINOR_VERSION "7" )
 
+FIND_PACKAGE( Subversion )
+
+IF( Subversion_FOUND )
+  Subversion_WC_INFO( ${TINKERCELL_SOURCE_DIR} TINKERCELL )
+ELSE( Subversion_FOUND )
+  SET( TINKERCELL_WC_REVISION "0" )  
+ENDIF( Subversion_FOUND )
+
 # arnaudgelas: this MUST be chosen by the developer when running cmake
 # and not in this file!
 #SET( CMAKE_BUILT_TYPE DEBUG )
 
 SET( TINKERCELL_VERSION
-"${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}" )
+"${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}.${TINKERCELL_WC_REVISION}" )
 
 #--------------------------------------------------------------------------
 # cmake policies

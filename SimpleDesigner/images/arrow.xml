@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell_sourceforge/trunk/SimpleDesigner/images/arrow.xml" width="179" height="150">
+    <ControlPoints>
+        <ControlPoint x="196" y="174"/>
+        <ControlPoint x="17" y="253"/>
+        <ControlPoint x="124" y="173"/>
+        <ControlPoint x="17" y="103"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="2,3,0,1,2"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="3" Color="#000000" Alpha="255"/>
+            <Fill Color="#000000" Alpha="255"/>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

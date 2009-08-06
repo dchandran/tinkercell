@@ -497,6 +497,8 @@ int main(int argc, char *argv[])
 
 	Tool * tool = new SimpleDesigner;
 	mainWindow.addTool(tool);
+	
+	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,10));
 
     mainWindow.newGraphicsWindow();
 	mainWindow.newGraphicsWindow();

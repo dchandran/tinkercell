@@ -1,3 +1,5 @@
+DEFINES += NSBML
+
 !contains(DEFINES,NSBML){
 
 isEmpty(LIBSBML_DIR) {

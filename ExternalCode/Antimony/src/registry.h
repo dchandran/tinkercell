@@ -8,6 +8,7 @@
 #include <set>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
 #include "dnastrand.h"
 #include "module.h"
@@ -62,7 +63,9 @@ public:
 
   int    OpenFile(const std::string filename);
   int    OpenString(const std::string model);
+#ifndef NSBML
   int    CheckAndAddSBMLIfGood(SBMLDocument* document);
+#endif
   bool   SwitchToPreviousFile();
   size_t GetNumFiles() {return m_oldmodules.size();};
   void   SetupFunctions();

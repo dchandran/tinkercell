@@ -49,7 +49,9 @@ Module::Module(const Module& src, string newtopname, string modulename)
     m_uniquevars()
 {
   SetNewTopName(modulename, newtopname);
+#ifndef NSBML
   CreateSBMLModel(); //It's either this or go through and rename every blasted thing in it, and libSBML doesn't provide an easy way to go through all elements at once.
+#endif 
 }
 /*
 Module::Module(const Module& src)
@@ -1358,10 +1360,13 @@ const SBMLDocument* Module::GetSBML()
   if (mod != NULL && mod->getId() == m_modulename) {
     return &m_sbml;
   }
+#ifndef NSBML
   CreateSBMLModel();
+#endif
   return &m_sbml;
 }
 
+#ifndef NSBML
 void Module::CreateSBMLModel()
 {
   Model* sbmlmod = m_sbml.createModel();
@@ -1526,6 +1531,7 @@ void Module::CreateSBMLModel()
   }
 }
 
+#endif
 void Module::SetAssignmentFor(Model* sbmlmod, const Variable* var)
 {
   char cc = g_registry.GetCC();

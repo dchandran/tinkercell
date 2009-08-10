@@ -12,33 +12,12 @@ namespace Tinkercell
 		QHBoxLayout * layout1 = new QHBoxLayout;
 
 		QString text("TinkerCell\nVersion: @TINKERCELL_VERSION@");
-		text += QCoreApplication::applicationVersion() + tr("\n\nAuthor: Deepak Chandran\n\nWebsite: www.tinkercell.com\n\n");
-
-    QString filename( "@TINKERCELL_SOURCE_DIR@/about.txt" );
-    QFile file;
-    file.setFileName( filename );
-    bool opened = ( file.open( QFile::ReadOnly | QFile::Text ) );
-
-/*
-		QString appDir = QCoreApplication::applicationDirPath();
-
-		QString filename("about.txt");
-		QString name[] = {	MainWindow::userHome() + tr("/") + filename,
-			filename,
-			QDir::currentPath() + tr("/") + filename,
-			appDir + tr("/") + filename };
-
+		
+		QString filename( "@TINKERCELL_SOURCE_DIR@/about.txt" );
 		QFile file;
-		bool opened = false;
-		for (int i=0; i < 4; ++i)
-		{
-			file.setFileName(name[i]);
-			if (file.open(QFile::ReadOnly | QFile::Text))
-			{
-				opened = true;
-				break;
-			}
-		}*/
+		file.setFileName( filename );
+		bool opened = ( file.open( QFile::ReadOnly | QFile::Text ) );
+
 		if (!opened)
 		{
 			OutputWindow::error(filename + tr(" not found"));

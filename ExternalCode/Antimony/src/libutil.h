@@ -2,7 +2,7 @@
 #define LIB_UTIL_H
 
 #ifdef WIN32
-#if LIB_EXPORTS
+#ifdef LIB_EXPORTS
 #  define LIB_EXTERN __declspec(dllexport)
 #else
 #  define LIB_EXTERN __declspec(dllimport)

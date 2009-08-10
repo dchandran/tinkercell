@@ -261,7 +261,7 @@ namespace Tinkercell
 			
 			char ***leftrxnnames = getReactantNames(moduleName);
 			char ***rightrxnnames = getProductNames(moduleName);
-			char **rxnnames = getReactionNames(moduleName);
+			char **rxnnames = getSymbolNamesOfType(moduleName,allReactions);
 			char **rxnrates = getReactionRates(moduleName);
 		  
 			double **leftrxnstoichs = getReactantStoichiometries(moduleName);
@@ -338,9 +338,9 @@ namespace Tinkercell
 				c->nodesOut = nodesOut;
 				itemsToInsert += c;
 				
-				int numParams = (int)getNumSymbolsOfType(moduleName,return_type(16));
-				char ** paramNames = getSymbolNamesOfType(moduleName,return_type(16));
-				char ** paramValues = getSymbolEquationsOfType(moduleName,return_type(16));
+				int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
+				char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
+				char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
 				
 				DataTable<qreal> paramsTable;
 				for (int j=0; j < numParams; ++j)
@@ -354,6 +354,39 @@ namespace Tinkercell
 					}
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
+				
+				int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
+				char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
+				char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
+				
+				DataTable<QString> assgnsTable;
+				for (int j=0; j < numAssignments; ++j)
+				{
+					QString x(assignmentValues[j]);
+					assgnsTable.value(tr(assignmentNames[j]),0) = x;
+					RenameCommand::findReplaceAllHandleData(handlesInModule,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+				}
+				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
+				
+				int numEvents = (int)getNumEvents(moduleName);
+				char ** eventNames = getEventNames(moduleName);
+				
+				DataTable<QString> eventsTable;
+				for (int j=0; j < numEvents; ++j)
+				{
+					QString trigger(getTriggerForEvent(moduleName,j));
+					
+					int n = (int)getNumAssignmentsForEvent(moduleName,j);
+					
+					for (int k=0; k < n; ++k)
+					{
+						QString x(getNthAssignmentVariableForEvent(moduleName,j,k));
+						QString f(getNthAssignmentEquationForEvent(moduleName,j,k));
+					
+						eventsTable.value(trigger,0) = x + tr(" = ") + f;
+					}
+				}
+				moduleHandle->data->textData[tr("Events")] = eventsTable;
 				
 				for (int j=0; j < handlesInModule.size(); ++j)
 					if (handlesInModule[j])

@@ -590,7 +590,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			emit escapeSignal(0);
+			//emit escapeSignal(networkWindow);
 		}
 	}
 	/*! \brief zoom
@@ -696,7 +696,7 @@ namespace Tinkercell
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
 		{
-			emit escapeSignal(0);
+			emit escapeSignal(networkWindow);
 			keyEvent->accept();
 		}
 

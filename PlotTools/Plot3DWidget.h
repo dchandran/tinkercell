@@ -30,6 +30,8 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	public:
+		int meshSizeX;
+		int meshSizeY;
 		Plot3DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
 		void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
@@ -63,7 +65,6 @@ namespace Tinkercell
 		
 		Plot surfacePlot;
 		DataFunction function;
-		int gridSz;
 	};
 
 }

@@ -590,7 +590,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			//emit escapeSignal(networkWindow);
+			emit escapeSignal(networkWindow);
 		}
 	}
 	/*! \brief zoom

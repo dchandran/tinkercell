@@ -221,7 +221,7 @@ namespace Tinkercell
 		
 		if (enableOutputWindow)
 			outputWindow = new OutputWindow(this);
-			
+		
 		readSettings();
 
 		connectTCFunctions();

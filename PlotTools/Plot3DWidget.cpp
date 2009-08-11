@@ -16,7 +16,7 @@ namespace Tinkercell
 	
 	Plot3DWidget::Plot3DWidget(PlotTool * parent) : PlotWidget(parent), surfacePlot(), function(surfacePlot)
 	{
-		gridSz = 100;
+		meshSizeX = meshSizeY = 100;
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(&surfacePlot);
 		setLayout(layout);
@@ -33,7 +33,7 @@ namespace Tinkercell
 				if (dataTable.value(i,j) < minZ)
 					minZ = dataTable.value(i,j);
 		
-		function.setMesh(gridSz,gridSz);
+		function.setMesh(meshSizeX, meshSizeY);
 		
 		double minX = dataTable.value(1,0),
 				minY = dataTable.value(0,1),

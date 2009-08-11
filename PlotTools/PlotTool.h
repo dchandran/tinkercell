@@ -49,11 +49,17 @@ namespace Tinkercell
 	class PlotTool_FToS : public QObject
 	{
 		Q_OBJECT
+
 		signals:
+
 			void plot(QSemaphore*, DataTable<qreal>&,int,const QString&,int all);
+			void surface(QSemaphore*, DataTable<qreal>&,const QString&, int, int);
 			void plotData(QSemaphore*, DataTable<qreal>*,int);
+
 		public slots:
+
 			void plot(Matrix a0,int a1,const char*,int);
+			void surface(Matrix a0, const char*, int, int);
 			Matrix plotData(int);
 	};
 
@@ -70,11 +76,11 @@ namespace Tinkercell
 		virtual bool setMainWindow(MainWindow *);
 		virtual void setVisible ( bool visible );
 
-	public slots:		
+	public slots:
 		
 		void plot(const DataTable<qreal>&,const QString& = QString(),int xaxis=0,int all = 0);
 		void plot(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points=100, const QString& title=QString());
-		void plot3D(const DataTable<qreal>& matrix,const QString& title,int x=0,int y=1,int z=2, int meshX = 100, int meshY = 100);
+		void plot3DSurface(const DataTable<qreal>& matrix,const QString& title, int meshX = 100, int meshY = 100);
 
 	protected:
 		QDockWidget* dockWidget;
@@ -87,6 +93,7 @@ namespace Tinkercell
 		
 		void connectTCFunctions();
 		static void _plot(Matrix a, int b, const char*,int);
+		static void _surface(Matrix a, const char*, int, int);
 		static Matrix _plotData(int);
 		static PlotTool_FToS fToS;
 		static void pruneDataTable(DataTable<qreal>& table, int& xaxis, MainWindow* main);
@@ -94,6 +101,7 @@ namespace Tinkercell
 	protected slots:
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
+		void surface(QSemaphore*, DataTable<qreal>&,const QString&,int,int);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
 		void plotTexts();
 		

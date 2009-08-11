@@ -24,14 +24,20 @@ namespace Tinkercell
 	
 	void Plot3DWidget::plot(const DataTable<qreal>& data,const QString& title,int)
 	{
+		OutputWindow::message("here 1");
 		dataTable = data;
 		
 		double minZ = dataTable.value(0,0);
+		double maxZ = dataTable.value(0,0);
 		
 		for (int i=0; i < dataTable.rows(); ++i)
 			for (int j=0; j < dataTable.cols(); ++j)
+			{
 				if (dataTable.value(i,j) < minZ)
 					minZ = dataTable.value(i,j);
+				if (dataTable.value(i,j) > maxZ)
+					maxZ = dataTable.value(i,j);
+			}
 		
 		function.setMesh(meshSizeX, meshSizeY);
 		
@@ -47,6 +53,7 @@ namespace Tinkercell
 		
 		function.setDomain(minX,maxX,minY,maxY);
 		function.setMinZ(minZ);
+		function.setMaxZ(maxZ);
 		function.create();
 		
 		for (int i=0; i < surfacePlot.coordinates()->axes.size(); ++i)
@@ -61,6 +68,13 @@ namespace Tinkercell
 		setXLabel(dataTable.rowName(0));
 		setYLabel(dataTable.rowName(1));
 		setZLabel(dataTable.rowName(2));
+		
+		OutputWindow::message( tr("minX = ") + QString::number(minX) +
+								tr("maxX = ") + QString::number(maxX) +
+								tr("minY = ") + QString::number(minY) +
+								tr("maxY = ") + QString::number(maxY) +
+								tr("minZ = ") + QString::number(minZ) +
+								tr("maxZ = ") + QString::number(maxZ) );
 		
 		surfacePlot.updateData();
 		surfacePlot.updateGL();
@@ -84,6 +98,9 @@ namespace Tinkercell
 			
 			int i = (int)(r * (x-minX) / maxX) +1,
 				j = (int)(c * (y-minY) / maxY) +1;
+				
+			OutputWindow::message(QString::number(x) + tr(" -> ") + QString::number(i) +
+							QString::number(y) + tr(" -> ") + QString::number(j));
 				
 			if (i >= 0 && j >= 0 && i < dataTable->rows() && j < dataTable->cols())
 				return dataTable->value(i,j);

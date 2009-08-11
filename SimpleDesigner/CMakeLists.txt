@@ -39,7 +39,6 @@ IF( APPLE AND BUILD_BUNDLE )
     MACOSX_BUNDLE
     SimpleDesigner.cpp
     ${SIMPLEDESIGNER_MOC}
-    DefaultPluginsMenu.cpp
     ${TINKERCELL_QRC}
   )
 

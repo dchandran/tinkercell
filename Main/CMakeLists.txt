@@ -20,10 +20,12 @@ IF( APPLE AND BUILD_BUNDLE )
       Version ${TINKERCELL_VERSION}
   )
 
-  ADD_CUSTOM_COMMAND( TARGET Tinkercell PRE_BUILD
+  IF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app )
+    ADD_CUSTOM_COMMAND( TARGET Tinkercell PRE_BUILD
       COMMAND rm ARGS -rf  
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app 
-  )
+    )
+  ENDIF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app )
 
   ADD_EXECUTABLE( Tinkercell 
     MACOSX_BUNDLE

@@ -63,8 +63,9 @@ namespace Tinkercell
 				Plot();
 		};
 		
-		Plot surfacePlot;
-		DataFunction function;
+		static double ** tableToArray(const DataTable<qreal>&);
+		Plot * surfacePlot;
+		DataFunction * function;
 	};
 
 }

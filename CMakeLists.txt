@@ -173,11 +173,6 @@ IF( QT4_FOUND )
  )
 
   
-# ---------------------
-# CTEST 
-# INCLUDE( CTest )
-# --------------------
-
   ADD_SUBDIRECTORY( Main )	
   ADD_SUBDIRECTORY( Core )
   ADD_SUBDIRECTORY( c )
@@ -206,5 +201,17 @@ IF( QT4_FOUND )
   ENDIF( BUILD_ANTIMONYEDITOR )
 
 #---------------------------------------------------------------------------
+
+# ---------------------
+# CPACK
+ INCLUDE( CPack )
+# --------------------
+
+
+# ---------------------
+# CTEST 
+# INCLUDE( CTest )
+# --------------------
+
 
 ENDIF( QT4_FOUND )

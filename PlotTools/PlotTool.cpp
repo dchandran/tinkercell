@@ -16,6 +16,8 @@
 #include "NetworkWindow.h"
 #include "OutputWindow.h"
 #include "PlotTool.h"
+#include "Plot2DWidget.h"
+#include "Plot3DWidget.h"
 #include "qwt_scale_engine.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -189,23 +191,61 @@ namespace Tinkercell
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
 		
-		for (int i=0; i < markedForRemoval.size(); ++i)
-		{
-			if (markedForRemoval[i])
-				delete markedForRemoval[i];
-		}
-		markedForRemoval.clear();
-		
 		if (multiplePlotsArea)
 		{
-			PlotWidget * newPlot = new PlotWidget(this);
+			PlotWidget * newPlot = new Plot2DWidget(this);
 			newPlot->plot(matrix,title,x);
 			QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
 			window->setAttribute(Qt::WA_DeleteOnClose);
 			window->setWindowIcon(QIcon(tr(":/images/graph.png")));
-			window->showMaximized();
+			//window->showMaximized();
 			window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
 			window->setVisible(true);
+			
+			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i])
+					subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
+			
+			multiplePlotsArea->tileSubWindows();
+		}
+		if (mainWindow && mainWindow->statusBar())
+			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+	}
+	
+	void PlotTool::plot3D(const DataTable<qreal>& matrix,const QString& title,int x,int y,int z, int meshX, int meshY)
+	{	
+		if (mainWindow && mainWindow->statusBar())
+			mainWindow->statusBar()->showMessage(tr("Plotting...."));
+		
+		if (dockWidget)
+		{
+			dockWidget->show();
+			dockWidget->raise();
+		}
+		else
+		{
+			show();
+			this->raise();
+		}
+		
+		if (multiplePlotsArea)
+		{
+			Plot3DWidget * newPlot = new Plot3DWidget(this);
+			newPlot->plot(matrix,title,x);
+			QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
+			window->setAttribute(Qt::WA_DeleteOnClose);
+			window->setWindowIcon(QIcon(tr(":/images/graph.png")));
+			//window->showMaximized();
+			
+			window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
+			window->setVisible(true);
+			
+			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i])
+					subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
+			
 			multiplePlotsArea->tileSubWindows();
 		}
 		if (mainWindow && mainWindow->statusBar())

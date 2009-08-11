@@ -17,7 +17,9 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/ItemFamily.h
   )
 
-QT4_WRAP_CPP( ArrowSelection_MOC ArrowSelection.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
+
+QT4_WRAP_CPP( ArrowSelection_MOC ArrowSelection.h)
 
 QT4_ADD_RESOURCES( TINKERCELL_OTHERTOOLS_QRC ../Main/Tinkercell.qrc )
 
@@ -25,6 +27,7 @@ ADD_LIBRARY( ArrowSelection
   SHARED
   ArrowSelection.cpp
   ${ArrowSelection_MOC}
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( ArrowSelection
@@ -32,12 +35,13 @@ TARGET_LINK_LIBRARIES( ArrowSelection
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h)
 
 ADD_LIBRARY( AutoGeneRegulatoryTool
   SHARED
   AutoGeneRegulatoryTool.cpp
   ${AutoGeneRegulatoryTool_MOC}
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
@@ -45,13 +49,14 @@ TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h)
 
 ADD_LIBRARY( DNASequenceViewer 
   SHARED
-  ${DNASequenceTool_MOC}
   CLabelsTool.cpp
   DNASequenceTool.cpp
+  ${DNASequenceTool_MOC}
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( DNASequenceViewer
@@ -60,13 +65,14 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
   AutoGeneRegulatoryTool
 )
 
-QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
 
 ADD_LIBRARY( ModulePlugin 
   SHARED
-  ${ModuleTool_MOC}
   ModuleTool.cpp
   ModuleConnectionGraphicsItem.cpp
+  ${ModuleTool_MOC}
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( ModulePlugin
@@ -74,12 +80,13 @@ TARGET_LINK_LIBRARIES( ModulePlugin
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
 
 ADD_LIBRARY( SimulationEventTool
   SHARED
+  SimulationEventTool.cpp
   ${SimulationEventTool_MOC}
-  SimulationEventTool.cpp 
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( SimulationEventTool
@@ -89,12 +96,13 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
   muparser
 )
 
-QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
 
 ADD_LIBRARY( ViewTables
   SHARED
+  ViewTablesTool.cpp
   ${ViewTablesTool_MOC}
-  ViewTablesTool.cpp 
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( ViewTables
@@ -102,12 +110,13 @@ TARGET_LINK_LIBRARIES( ViewTables
   TinkerCellCore
 )
 
-QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h ${TINKERCELL_CORE_HDRS})
+QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h)
 
-ADD_LIBRARY( CellPositionUpdateTool 
+ADD_LIBRARY( CellPositionUpdateTool
   SHARED
-  ${CellPositionUpdatingTool_MOC}
   CellPositionUpdatingTool.cpp
+  ${CellPositionUpdatingTool_MOC}
+  ${TinkercellCore_MOC}
   )
 
 TARGET_LINK_LIBRARIES( CellPositionUpdateTool

@@ -264,8 +264,17 @@ namespace Tinkercell
 				handle = getHandle(selected[i]);
 				if (handle && !hash.contains(handle))
 				{
+					QList<ItemHandle*> children = handle->allChildren();
+					
 					handles << handle;
 					hash.insert(handle,1);
+					
+					if (!children.isEmpty())
+					{
+						handles << children;						
+						for (int j=0; j < children.size(); ++j)
+							hash.insert(children[j],1);
+					}
 				}
 			}
 		}
@@ -274,7 +283,7 @@ namespace Tinkercell
 			{
 			}
 
-			return handles;
+		return handles;
 	}
 
 	void NetworkWindow::rename(const QString& oldname, const QString& newname)

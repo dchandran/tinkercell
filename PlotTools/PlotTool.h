@@ -74,9 +74,9 @@ namespace Tinkercell
 		
 		void plot(const DataTable<qreal>&,const QString& = QString(),int xaxis=0,int all = 0);
 		void plot(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points=100, const QString& title=QString());
+		void plot3D(const DataTable<qreal>& matrix,const QString& title,int x=0,int y=1,int z=2, int meshX = 100, int meshY = 100);
 
 	protected:
-		QList<PlotWidget*> markedForRemoval;
 		QDockWidget* dockWidget;
 		QMdiArea * multiplePlotsArea;
 		

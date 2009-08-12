@@ -78,6 +78,81 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
     return Py_None;
 }
 
+static PyObject * pytc_surface(PyObject *self, PyObject *args)
+{
+	PyObject * colNames, * values, *item;
+	char * title = "";
+	int meshx = 100, meshy = 100;
+	if(!PyArg_ParseTuple(args, "OO|sii", &colNames, &values, &title, &meshx, &meshy))
+        return NULL;
+	
+	int isList1 = PyList_Check(colNames);
+	int n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	
+	int isList2 = PyList_Check(values);
+	int n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	
+	int n3, isList3, rows;
+	
+	rows = 0;
+	
+	if (n1 == 3 && n2 > 0)
+	{
+		n1 = n2;
+		char ** cols = malloc( (1+n1) * sizeof(char*) );
+		cols[n1] = 0;
+	
+		int i,j;
+		for(i=0; i<n2; ++i) 
+		{ 
+			if (i < 3)
+				cols[i] = isList1 ? PyString_AsString( PyList_GetItem( colNames, i ) ) : PyString_AsString( PyTuple_GetItem( colNames, i ) );
+			else
+				cols[i] = "";
+		}
+		
+		//find the smallest row size (in case input is incorrect)
+		for(i=0; i<n2; ++i) 
+		{ 
+			item = isList2 ? (PyList_GetItem( values, i ) ) : ( PyTuple_GetItem( values, i ) );
+			isList3 = PyList_Check(item);
+			n3 = isList3 ? PyList_Size(item) : PyTuple_Size (item);
+			
+			if (n3 < rows || rows == 0) rows = n3;
+		}
+		
+		double * nums = malloc( n1 * rows * sizeof(double) );
+		
+		//make the matrix
+		for(i=0; i<n2; ++i) 
+		{ 
+			item = isList2 ? (PyList_GetItem( values, i ) ) : ( PyTuple_GetItem( values, i ) );
+			isList3 = PyList_Check(item);
+			
+			for (j=0; j < rows; ++j)
+			{
+				nums[ j*n2 + i ] = isList3 ? PyFloat_AsDouble( PyList_GetItem( item, j ) ) : PyFloat_AsDouble( PyTuple_GetItem( item, j ) );
+			}
+		}
+		
+		Matrix M;
+		M.cols = n1;
+		M.rows = rows;
+		
+		M.colnames = cols;
+		M.rownames = 0;
+		M.values = nums;
+		
+		if (tc_surface)
+			tc_surface(M,title,meshx,meshy);
+	
+		TCFreeMatrix(M);
+	}
+	
+	Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 {
 	int i=-1,j;

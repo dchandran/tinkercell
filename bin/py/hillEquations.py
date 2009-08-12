@@ -18,7 +18,7 @@ if (len(promoters) > 0):
 			for c in connectors:
 				isRepressor = (k==0 and pytc.isA(c,"Transcription Repression"));
 				cname = pytc.getName(c);
-				parts = pytc.getConnectedPartsIn(c);
+				parts = pytc.getConnectedNodesIn(c);
 				pnames = pytc.getNames(parts);
 				for n in pnames:
 					s = "((" + n + "/" + cname + ".Kd)^" + cname + ".h)";

@@ -9,11 +9,38 @@
 #include "TC_api.h"
 
 char * selected_var;
-void run();
+void run(Matrix input);
 void setup();
+
+int functionMissing()
+{
+	if (!tc_addFunction || 
+		!tc_createInputWindow ||
+		!tc_addInputWindowOptions ||
+		!tc_selectedItems ||
+		!tc_allItems ||
+		!tc_errorReport ||
+		!tc_getModelParameters ||
+		!tc_getNames || 
+		!tc_itemsOfFamilyFrom ||
+		!tc_getFromList ||
+		!tc_writeModel ||
+		!tc_print ||
+		!tc_getFromList ||
+		!tc_compileBuildLoad ||
+		!tc_plot ||
+		!tc_isWindows)
+		
+		return 1;
+		
+		
+	return 0;
+}
 
 void tc_main()
 {
+	if (functionMissing()) return;
+	
 	selected_var = "";
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);
@@ -172,32 +199,18 @@ void run(Matrix input) \n\
 
    fclose(out);
    
-   char* appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
-   
-   char* cmd = malloc((sz*4 + 80) * sizeof(char));
+   char* cmd = malloc(80 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"timet.c \"%s\"/c/odesim.o \"%s\"/c/ssa.o -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
+       sprintf(cmd,"timet.c odesim.o cells_ssa.o\0");
    }
    else
    {
-       sprintf(cmd,"timet.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
+       sprintf(cmd,"timet.c -lodesim -lcells_ssa\0");
    }
    tc_compileBuildLoad(cmd,"run\0","At Time T\0");
-/*   
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/odesim.o c/ssa.o timet.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("timet.c -I./c -L./lib -lodesim -lssa\0","run\0");
-   }
-*/
+
    free(cmd);
    TCFreeMatrix(params);
    return;

@@ -45,13 +45,13 @@ static PyObject * pytc_insertConnection(PyObject *self, PyObject *args)
 	return Py_BuildValue("i",(int)o);
 }
 
-static PyObject * pytc_getConnectedParts(PyObject *self, PyObject *args)
+static PyObject * pytc_getConnectedNodes(PyObject *self, PyObject *args)
 {
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedParts == 0))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodes == 0))
         return NULL;
 		
-	void** array = tc_getConnectedParts((void*)i);
+	void** array = tc_getConnectedNodes((void*)i);
 	
 	PyObject *pylist, *item;
 	
@@ -78,13 +78,13 @@ static PyObject * pytc_getConnectedParts(PyObject *self, PyObject *args)
 	return pylist;
 }
 
-static PyObject * pytc_getConnectedPartsIn(PyObject *self, PyObject *args)
+static PyObject * pytc_getConnectedNodesIn(PyObject *self, PyObject *args)
 {
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedPartsIn == 0))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesIn == 0))
         return NULL;
 		
-	void** array = tc_getConnectedPartsIn((void*)i);
+	void** array = tc_getConnectedNodesIn((void*)i);
 	
 	PyObject *pylist, *item;
 	
@@ -111,13 +111,13 @@ static PyObject * pytc_getConnectedPartsIn(PyObject *self, PyObject *args)
 	return pylist;
 }
 
-static PyObject * pytc_getConnectedPartsOut(PyObject *self, PyObject *args)
+static PyObject * pytc_getConnectedNodesOut(PyObject *self, PyObject *args)
 {
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedPartsOut == 0))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesOut == 0))
         return NULL;
 		
-	void** array = tc_getConnectedPartsOut((void*)i);
+	void** array = tc_getConnectedNodesOut((void*)i);
 	
 	PyObject *pylist, *item;
 	
@@ -144,13 +144,13 @@ static PyObject * pytc_getConnectedPartsOut(PyObject *self, PyObject *args)
 	return pylist;
 }
 
-static PyObject * pytc_getConnectedPartsOther(PyObject *self, PyObject *args)
+static PyObject * pytc_getConnectedNodesOther(PyObject *self, PyObject *args)
 {
 	int i;
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedPartsOther == 0))
+	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesOther == 0))
         return NULL;
 		
-	void** array = tc_getConnectedPartsOther((void*)i);
+	void** array = tc_getConnectedNodesOther((void*)i);
 	
 	PyObject *pylist, *item;
 	

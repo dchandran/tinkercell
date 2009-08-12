@@ -3,8 +3,26 @@
 void run();
 void setup();
 
+int functionMissing()
+{
+	if (!tc_addFunction || 
+		!tc_isA ||
+		!tc_getConnectedNodes ||
+		!tc_getName ||
+		!tc_setStoichiometry ||
+		!tc_getNames ||
+		!tc_setRates ||
+		!tc_setParameter)
+		
+		return 1;
+		
+		
+	return 0;
+}
+
 void tc_main()
 {
+	if (functionMissing()) return;
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&run, "Add N intermediate steps", "converts a single step reaction into N reactions using mass-action kinetics", "Generate kinetics", "Plugins/c/tabasco_like.PNG", "Elongation", 1, 1, 0);
 }
@@ -20,7 +38,7 @@ void run()
    {
         if (tc_isA(A[i],"Connection"))
         {
-            Array parts = tc_getConnectedParts(A[i]);
+            Array parts = tc_getConnectedNodes(A[i]);
             if (parts && parts[0] && parts[1] && (parts[2] == 0))
             {
                 Matrix newN;

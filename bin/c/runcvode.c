@@ -10,11 +10,37 @@
  
 #include "TC_api.h"
 
-void run();
+void run(Matrix input);
 void setup();
+
+int functionMissing()
+{
+	if (!tc_addFunction || 
+		!tc_createInputWindow ||
+		!tc_addInputWindowOptions ||
+		!tc_selectedItems ||
+		!tc_allItems ||
+		!tc_errorReport ||
+		!tc_getModelParameters ||
+		!tc_getNames || 
+		!tc_itemsOfFamilyFrom ||
+		!tc_getFromList ||
+		!tc_writeModel ||
+		!tc_print ||
+		!tc_getFromList ||
+		!tc_compileBuildLoad ||
+		!tc_plot ||
+		!tc_isWindows)
+		
+		return 1;
+		
+		
+	return 0;
+}
 
 void tc_main()
 {
+	if (functionMissing()) return;
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup, "ODE simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
 }
@@ -126,7 +152,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 }\n\
    \n\
    \n\
-void run(Matrix input) \n\
+void run() \n\
 {\n\
    TCinitialize();\n\
    rates = malloc(TCreactions * sizeof(double));\n\
@@ -182,33 +208,19 @@ void run(Matrix input) \n\
    free(data.colnames);  free(y);\n\
    return;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
    fclose(out);
-
-   char* appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*4 + 50) * sizeof(char));
+   char* cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ode.c \"%s\"/win32/ssa.o \"%s\"/win32/odesim.o -I\"%s\"/win32/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
+       sprintf(cmd,"ode.c cells_ssa.o odesim.o\0");
    }
    else
    {
-       sprintf(cmd,"ode.c -I%s/c -L%s/lib -lodesim -lssa\0",appDir,appDir);
+       sprintf(cmd,"ode.c -lodesim -lcells_ssa\0");
    }
+
    tc_compileBuildLoad(cmd,"run\0","Deterministic simulation\0");
-/*   
-   if (tc_isWindows())
-   {
-       tc_compileBuildLoad("c/odesim.o ode.c -I./include -I./c\0","run\0");
-   }
-   else
-   {
-       tc_compileBuildLoad("ode.c -I./c -L./lib -lodesim\0","run\0");
-   }
-*/   
    free(cmd);
    return;
  

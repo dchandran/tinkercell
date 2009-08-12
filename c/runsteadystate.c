@@ -176,7 +176,7 @@ void run(Matrix input)
    FILE * out = fopen("ss.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-void run(Matrix input) \n\
+void run() \n\
 {\n   Matrix dat;\n" );
    
    fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -366,7 +366,7 @@ void run2D(Matrix input)
    FILE * out = fopen("ss2D.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-void run(Matrix input) \n\
+void run() \n\
 {\n   Matrix dat;\n" );
    
    fprintf( out, "   \
@@ -374,7 +374,7 @@ void run(Matrix input) \n\
    dat.cols = (int)((%lf-%lf)/%lf);\n\
    int i,j;\n\
    dat.colnames = malloc( (1+dat.cols) * sizeof(char*) );\n\
-   for(i=0; i<TCvars; ++i) dat.colnames[i] = \"\";\n\
+   for(i=0; i<=dat.cols; ++i) dat.colnames[i] = 0;\n\
    if (dat.cols > 3) \n\
    {\n\
       dat.colnames[0] = \"%s\";\n\

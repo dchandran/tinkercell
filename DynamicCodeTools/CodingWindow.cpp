@@ -15,6 +15,7 @@
 #include "OutputWindow.h"
 #include "CodingWindow.h"
 #include "PythonTool.h"
+#include "LoadCLibraries.h"
 #include <QRegExp>
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -37,14 +38,14 @@ namespace Tinkercell
 		 QString homeDir = MainWindow::userHome();
 		 fileName = homeDir + tr("/code.c");
 		 #ifdef Q_WS_WIN
-         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll \"") + homeDir + tr("\"/odesim.o \"") + homeDir + tr("\"/ssa.o \"");
+         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll odesim.o cells_ssa.o");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
 		 #ifdef Q_WS_MAC
-		 commandC = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
+		 commandC = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
-		 commandC = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux
+		 commandC = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa"); //linux
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #endif
 		 #endif
@@ -176,12 +177,12 @@ namespace Tinkercell
 		 QString homeDir = MainWindow::userHome() + tr("/");
 		 file = homeDir + tr("code.c");
 		 #ifdef Q_WS_WIN
-		 command = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic \"") + appDir + tr("\"/c/odesim.o \"") + appDir + tr("\"/c/ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
+		 command = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic odesim.o cells_ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
 		 #else
 		 #ifdef Q_WS_MAC
-		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
+		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa");
 		 #else
-		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux		 
+		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa"); //linux
 		 #endif
 		 #endif
 		
@@ -321,7 +322,6 @@ namespace Tinkercell
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
 			toolBar->addAction(action);
-			//mainWindow->addToolBar(toolBar);
 			
 			if (mainWindow->tool(tr("Python Interpreter")))
 			{
@@ -331,7 +331,6 @@ namespace Tinkercell
 					PythonTool * pyTool = static_cast<PythonTool*>(widget);
 					connect(this,SIGNAL(runPy(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
 					connect(this,SIGNAL(stopPy()),pyTool,SLOT(stopPython()));
-					//connect(this,SIGNAL(reloadLibraryList(const QString&, bool)),pyTool,SLOT(populateList(const QString&, bool)));
 					
 					if (this->toolBar)
 					{
@@ -342,6 +341,20 @@ namespace Tinkercell
 					}
 				}
 			}
+			
+			if (mainWindow->tool(tr("Load C Libraries")))
+			{
+				QWidget * widget = mainWindow->tool(tr("Load C Libraries"));
+				if (widget)
+				{
+					LoadCLibrariesTool * loadCTool = static_cast<LoadCLibrariesTool*>(widget);
+					connect(this,SIGNAL(compileBuildLoadC(const QString&,const QString&,const QString&)),
+							loadCTool,SLOT(compileBuildLoadC(const QString&,const QString&,const QString&)));
+				}
+			}
+			
+			
+			
 			return true;
 		}
 		return false;
@@ -459,6 +472,7 @@ namespace Tinkercell
 				editorR->selectAll();
 		}
 	}
+
 	void CodingWindow::open()
 	{
 		if (tabWidget)
@@ -471,6 +485,7 @@ namespace Tinkercell
 				editorR->open("R Files (*.R)");
 		}
 	}
+
 	void CodingWindow::save()
 	{
 		if (tabWidget)
@@ -483,6 +498,7 @@ namespace Tinkercell
 				editorR->save("R Files (*.R)");
 		}
 	}
+
 	void CodingWindow::undo()
 	{
 		if (tabWidget)
@@ -495,6 +511,7 @@ namespace Tinkercell
 				editorR->undo();
 		}
 	}
+
 	void CodingWindow::redo()
 	{
 		if (tabWidget)
@@ -514,10 +531,10 @@ namespace Tinkercell
 		{
 			if (editorC && tabWidget->currentIndex() == 0)
 				runC(editorC->toPlainText());
-				
+
 			if (editorPy && tabWidget->currentIndex() == 1)
 				emit runPy(editorPy->toPlainText());
-				
+
 			if (editorR && tabWidget->currentIndex() == 2)
 				return;
 		}
@@ -526,83 +543,30 @@ namespace Tinkercell
 	 void CodingWindow::runC(const QString& code)
 	 {
 		if (mainWindow == 0) return;
-
+		
  		QFile qfile(fileName);
 		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			 return;
-
+		
 		QTextStream out(&qfile);
-                if (code.contains( QRegExp(tr("void\\s+run\\s*\\(\\s*\\)")) ))
+        if (code.contains( QRegExp(tr("void\\s+run\\s*\\(\\s*\\)")) ))
 		{
 			out << code;
 		}
 		else
 		{
-                        QMessageBox::information(mainWindow,tr("Error"),tr("no run() function in the code"));
+            QMessageBox::information(mainWindow,tr("Error"),tr("no run() function in the code"));
 			return;
 		}
+		
 		qfile.close();
-
-		QProcess proc;
-		QString errors,output;
 		
-		
-		if (!commandC.isEmpty())
-		{
-			proc.start(commandC);
-			proc.waitForFinished();
-
-			errors = (proc.readAllStandardError());
-			if (!output.isEmpty())
-				output += tr("\n\n");
-
-			output += proc.readAllStandardOutput();
-
-			if (!errors.isEmpty())
-				OutputWindow::error(errors);
-			else
-				OutputWindow::message(output);
-			
-			if (errors.size() > 0)
-			{	
-				return;
-			}
-		}
-		
-		if (!commandC.isEmpty())
-		{
-                        QString dllFile = fileName;
-			dllFile.replace(QRegExp(".c$"),"");
-                        CThread * newThread = new CThread(mainWindow,dllFile,true);
-                        newThread->setVoidFunction("run");
-                        CThread::dialog(newThread,tr("Running C Code"),QIcon(),true);
-                        newThread->start();
-		}
+#ifdef Q_WS_WIN
+		emit compileBuildLoadC(tr("code.c odesim.o cells_ssa.o"),tr("run"),tr("C code"));
+#else
+		emit compileBuildLoadC(tr("code.c -lodesim -lcells_ssa"),tr("run"),tr("C code"));
+#endif
 	 }
-	 
-	 /*void CodingWindow::runPy(const QString& code)
-	 {
-		if (mainWindow == 0) return;
-
- 		QFile qfile(fileName);
-		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
-			 return;
-
-		Matrix M = emptyMatrix();
-		M.rownames = new char*[2];
-		M.rownames[1] = 0;
-		M.rownames[0] = ConvertValue(code);
-		
-		QProcess proc;
-		QString errors,output;		
-		
-		if (!commandPy.isEmpty())
-		{
-			LibraryThread * newThread = new LibraryThread(commandPy,tr("run"),mainWindow,M);
-			LibraryThread::ThreadDialog(mainWindow,newThread,tr("Running Python Code"));
-			newThread->start();
-		}
-	 }*/
 	 
 	 void CodingWindow::setupDialog()
 	 {
@@ -619,7 +583,6 @@ namespace Tinkercell
 		commandPyEdit = new QLineEdit(commandPy);
 		commandCEdit = new QLineEdit(commandC);
 		
-
 		layout->addWidget(label1,0,0,Qt::AlignLeft);
 		layout->addWidget(label2,1,0,Qt::AlignLeft);
 		layout->addWidget(label3,2,0,Qt::AlignLeft);
@@ -970,53 +933,10 @@ namespace Tinkercell
 	 }
 	 
 	 void CodingWindow::setVisible ( bool visible )
-	{
+	 {
 		activateWindow();
 		if (isMinimized())
 			showNormal();
 		Tool::setVisible(visible);
-	}
-	 
-	 /*void CodingWindow::LineEditWithHistory::addToHistory(const QString& s)
-	 {
-		history += s;
-		current = history.size();
 	 }
-	 
-	 void CodingWindow::LineEditWithHistory::keyPressEvent ( QKeyEvent * event )
-	 {
-		if (event->key() == Qt::Key_Up)
-		{
-			if (current > 0) 
-				--current;
-			
-			if (current >= 0 && current < history.size()) 
-				this->setText( history[current] );
-		}
-		else
-		if (event->key() == Qt::Key_Down)
-		{
-			if ((current+1) < history.size()) 
-				++current;
-			
-			if (current >= 0 && current < history.size()) 
-				this->setText( history[current] );
-			else
-				this->setText(tr(""));
-		}
-		else
-		if (event->key() == Qt::Key_Escape)
-		{
-			this->setText(tr(""));
-		}
-		QLineEdit::keyPressEvent(event);
-	 }
-	 
-	 CodingWindow::LineEditWithHistory::LineEditWithHistory(QWidget * parent) : QLineEdit(parent), current(0) 
-	 {
-		QFont font = this->font();
-		font.setPointSize(12);
-		this->setFont(font);
-	 }*/
-
 }

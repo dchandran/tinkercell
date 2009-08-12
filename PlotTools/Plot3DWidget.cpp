@@ -61,9 +61,9 @@ namespace Tinkercell
 		
 		for (int i=0; i < surfacePlot->coordinates()->axes.size(); ++i)
 		{
-			surfacePlot->coordinates()->axes[i].setAutoScale(true);
-			//surfacePlot->coordinates()->axes[i].setMajors(12);
-			//surfacePlot->coordinates()->axes[i].setMinors(4);
+			//surfacePlot->coordinates()->axes[i].setAutoScale(true);
+			surfacePlot->coordinates()->axes[i].setMajors(12);
+			surfacePlot->coordinates()->axes[i].setMinors(4);
 		}
 		
 		surfacePlot->loadFromData(tableToArray(dataTable),dataTable.cols(),dataTable.rows(),minX,maxX,minY,maxY);

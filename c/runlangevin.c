@@ -138,7 +138,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 }\n\
    \n\
    \n\
-void run(Matrix input) \n\
+void run() \n\
 {\n\
    initMTrand();\n\
    TCinitialize();\n\

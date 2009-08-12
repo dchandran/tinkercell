@@ -4,6 +4,11 @@
 #include "../TCstructs.h"
 
 /*! 
+ \brief plot 3D data. Input matrix will contain the z-value at position (x,y).
+ \ingroup Plotting
+*/
+void (*tc_surface)(Matrix z, const char* title, int meshSizeX, int meshSizeY) = 0;
+/*! 
  \brief plot the data in the matrix (with headers) with the given x-axis and title
  \ingroup Plotting
 */
@@ -13,11 +18,6 @@ void (*tc_plot)(Matrix data,int xaxis,const char* title, int includeAll) = 0;
  \ingroup Plotting
 */
 Matrix (*tc_plotData)(int whichPlot) = 0;
-/*! 
- \brief plot 3D data. Input matrix will contain the z-value at position (x,y).
- \ingroup Plotting
-*/
-void (*tc_surface)(Matrix z, const char* title, int meshSizeX, int meshSizeY) = 0;
 /*! 
  \brief initializing function
  \ingroup init

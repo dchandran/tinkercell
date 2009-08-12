@@ -305,6 +305,8 @@ namespace Tinkercell
         }
         QString appDir = QCoreApplication::applicationDirPath();
         QProcess proc;
+		proc.setWorkingDirectory(MainWindow::userHome());
+		
 #ifdef Q_WS_WIN
         proc.start(tr("del a.out"));
         proc.waitForFinished();
@@ -345,6 +347,16 @@ namespace Tinkercell
         if (r) (*r) = 1;
         if (s) s->release();		
     }
+	
+	void LoadCLibrariesTool::compileAndRunC(const QString& s,const QString& a)
+	{
+		_compileAndRun(s.toAscii().data(),a.toAscii().data());
+	}
+	
+	void LoadCLibrariesTool::compileBuildLoadC(const QString& s,const QString& f,const QString& t)
+	{
+		_compileBuildLoad(s.toAscii().data(),f.toAscii().data(),t.toAscii().data());
+	}
     
     void LoadCLibrariesTool::compileBuildLoadC(QSemaphore* s,int* r,const QString& filename,const QString& funcname, const QString& title)
     {
@@ -365,7 +377,8 @@ namespace Tinkercell
         QString output;
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
-		QString homeDir = Tinkercell::MainWindow::userHome();
+		
+		proc.setWorkingDirectory(MainWindow::userHome());
         
 #ifdef Q_WS_WIN
         proc.start(tr("del ") + dllName + tr(".dll"));
@@ -408,7 +421,7 @@ namespace Tinkercell
         {
             if (r) (*r) = 0;
             if (s) s->release();
-            return;
+		    return;
         }
         
         CThread * newThread = new CThread(mainWindow,dllName,true);
@@ -418,6 +431,7 @@ namespace Tinkercell
         newThread->start();
         
         if (r) (*r) = 1;
+		
         if (s) s->release();
     }
     

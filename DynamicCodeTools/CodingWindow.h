@@ -39,9 +39,7 @@ namespace Tinkercell
 	public:
 		QCompleter completer;
 		QHash<QString,QString> defaultSavedFilename;
-	protected:
-		//virtual void wheelEvent ( QWheelEvent * wheelEvent );
-		//virtual void keyPressEvent ( QKeyEvent * keyEvent );
+
 	public slots:
 		void open(const QString&);
 		void save(const QString&);
@@ -54,8 +52,10 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		TCFunctionsListView(const QString&, const QString&, CodeEditor * textEdit);
+
 	signals:
 		void insertText(const QString&);
+
 	protected:
 		virtual void readCHeaders(const QString& dirName);
 		virtual void readPythonHeader(const QString& fileName);
@@ -75,6 +75,7 @@ namespace Tinkercell
 		void runPy(const QString&);
 		void stopPy();
 		void reloadLibraryList(const QString&, bool);
+		void compileBuildLoadC(const QString&,const QString&,const QString&);
 		
 	public slots:
 		void run();

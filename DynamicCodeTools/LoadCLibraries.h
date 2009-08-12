@@ -37,27 +37,29 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 
-                 typedef void (*VoidFunction)();
+		typedef void (*VoidFunction)();
 
-                signals:
+		signals:
+		
 			void compileAndRun(QSemaphore*,int*,const QString&,const QString&);
-                        void compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&);
+			void compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&);
 			void loadLibrary(QSemaphore*,const QString&);
-                        void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
-                        void callback(QSemaphore*,VoidFunction);
+			void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
+			void callback(QSemaphore*,VoidFunction);
+			
 		public slots:
 			int compileAndRun(const char * cfile,const char* args);
-                        int compileBuildLoad(const char * cfile,const char* f,const char* title);
+			int compileBuildLoad(const char * cfile,const char* f,const char* title);
 			void loadLibrary(const char*);
-                        void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
-                        void callback(VoidFunction);
+			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
+			void callback(VoidFunction);
 	};
 
 	class MY_EXPORT LoadCLibrariesTool : public Tool
 	{
 		Q_OBJECT
 
-                typedef void (*VoidFunction)();
+		typedef void (*VoidFunction)();
 
 	public:
 		LoadCLibrariesTool();
@@ -65,17 +67,16 @@ namespace Tinkercell
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );
-                //void loadFromFile(DynamicLibraryMenu* , QFile& file);
 		void toolLoaded(Tool*);
+		void compileAndRunC(const QString&,const QString&);
+		void compileBuildLoadC(const QString&,const QString&,const QString&);
 
 	protected slots:
 		void compileAndRunC(QSemaphore*,int*,const QString&,const QString&);
-                void compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&);
-                void loadLibrary(QSemaphore*,const QString&);
-                void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
-                void callback(QSemaphore*,VoidFunction);
-                //void buttonPressed (int);
-                //void actionTriggered(QAction *);
+		void compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&);
+		void loadLibrary(QSemaphore*,const QString&);
+		void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
+		void callback(QSemaphore*,VoidFunction);
 		
 	protected:
 		void connectTCFunctions();

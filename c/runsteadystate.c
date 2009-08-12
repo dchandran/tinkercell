@@ -104,8 +104,6 @@ void run(Matrix input)
 		A = tc_allItems();
    }   
    
-   int sz = (int)((end - start) / dt);
-   
    if (A[0] != 0)
    {
 	   tc_writeModel( "ss", A );  //writes to ss.c and ss.py
@@ -289,7 +287,6 @@ void run2D(Matrix input)
 		A = tc_allItems();
    }   
    
-   int sz = (int)((end - start) / dt);
    
    if (A[0] != 0)
    {

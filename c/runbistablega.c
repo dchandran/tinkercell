@@ -10,6 +10,20 @@
 
 void run();
 
+int functionMissing()
+{
+	if (!tc_isWindows || 
+		!tc_allItems ||
+		!tc_addFunction ||
+		!tc_printFile ||
+		!tc_writeModel)
+		
+		return 1;
+		
+		
+	return 0;
+}
+
 void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  

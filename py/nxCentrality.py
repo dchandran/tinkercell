@@ -21,7 +21,7 @@ M = [];
 
 #make the adjacency matrix
 for  i in range(0,numConnections):
-	connected_nodes = pytc.getConnectedParts( connections[i] );
+	connected_nodes = pytc.getConnectedNodes( connections[i] );
 	n = len(connected_nodes);
 	for j1 in range(0, n-1):
 		k1 = getIndex( connected_nodes[j1] , nodes);

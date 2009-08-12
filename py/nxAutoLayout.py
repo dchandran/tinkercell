@@ -14,7 +14,7 @@ def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, g
 	M = [];
 
 	for  i in range(0,numConnections):
-		connected_nodes = pytc.getConnectedParts( connections[i] );
+		connected_nodes = pytc.getConnectedNodes( connections[i] );
 		for j in connected_nodes:
 			n = 0;
 			for k in range(0,numNodes):

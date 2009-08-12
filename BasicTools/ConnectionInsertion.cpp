@@ -667,7 +667,7 @@ namespace Tinkercell
 						QString::number(numRequiredOut) + tr(" \"") + typeOut + tr("\" item");
 					mainWindow->statusBar()->showMessage(messageString);
 					//QMessageBox::information(mainWindow,tr("Invalid selection"),messageString,QMessageBox::Ok,QMessageBox::Ok);
-					OutputWindow::error(messageString);
+					OutputWindow::message(messageString);
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();

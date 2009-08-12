@@ -19,8 +19,36 @@ void run2D(Matrix input);
 void setup1();
 void setup2();
 
+int functionMissing()
+{
+	if (!tc_addFunction || 
+		!tc_createInputWindow ||
+		!tc_addInputWindowOptions ||
+		!tc_selectedItems ||
+		!tc_allItems ||
+		!tc_errorReport ||
+		!tc_getModelParameters ||
+		!tc_getNames || 
+		!tc_itemsOfFamilyFrom ||
+		!tc_getFromList ||
+		!tc_writeModel ||
+		!tc_print ||
+		!tc_getFromList ||
+		!tc_compileBuildLoad ||
+		!tc_plot ||
+		!tc_surface ||
+		!tc_isWindows)
+		
+		return 1;
+		
+		
+	return 0;
+}
+
 void tc_main()
 {
+	if (functionMissing()) return;
+	
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Parameter scan", "Plugins/c/cvode.PNG", "", 1, 0, 0);
@@ -316,7 +344,7 @@ void run2D(Matrix input)
    
    index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0);   
    index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
-   index3 = tc_getFromList("Select Target",allNames,names,0);
+   index3 = tc_getFromList("Select Target",names,target_var,0);
    
    TCFreeArray(A);   
    
@@ -349,12 +377,12 @@ void run(Matrix input) \n\
    for(i=0; i<TCvars; ++i) dat.colnames[i] = \"\";\n\
    if (dat.cols > 3) \n\
    {\n\
-      dat.colnames[0] = %s;\n\
-	  dat.colnames[1] = %s;\n\
-	  dat.colnames[2] = %s;\n\
+      dat.colnames[0] = \"%s\";\n\
+	  dat.colnames[1] = \"%s\";\n\
+	  dat.colnames[2] = \"%s\";\n\
    }\n\
    dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
-   dat.rownames = 0;\n\";\n",
+   dat.rownames = 0;\n",
    endx,startx,dx,endy,starty,dy,param1,param2,target);
    
    fprintf( out, "\n\
@@ -387,7 +415,7 @@ void run(Matrix input) \n\
 	  fprintf( out, \"\\n\");\n\
    }\n\
    fclose(out);\n\
-   tc_surface(dat,0,\"Steady State Plot\",0);\n\
+   tc_surface(dat,\"Steady State Plot\",100,100);\n\
    free(dat.colnames);\n}\n",param1,startx, param2,starty, target, param1,dx, param2, dy);
 
    fclose(out);
@@ -396,11 +424,11 @@ void run(Matrix input) \n\
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"ss.c odesim.o\0");
+       sprintf(cmd,"ss2D.c odesim.o\0");
    }
    else
    {
-       sprintf(cmd,"ss.c -lodesim\0");
+       sprintf(cmd,"ss2D.c -lodesim\0");
    }
    tc_compileBuildLoad(cmd,"run\0","2-parameter steady state\0");
 

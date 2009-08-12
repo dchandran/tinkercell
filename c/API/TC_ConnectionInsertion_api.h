@@ -12,22 +12,22 @@ OBJ (*tc_insertConnection)(Array partsFrom, Array partsTo, const char* name, con
  \brief get the connected parts for a connection
  \ingroup Connections
 */
-Array (*tc_getConnectedParts)(OBJ connection) = 0;
+Array (*tc_getConnectedNodes)(OBJ connection) = 0;
 /*! 
  \brief get the parts going IN to a connection, such as reactants
  \ingroup Connections
 */
-Array (*tc_getConnectedPartsIn)(OBJ connection) = 0;
+Array (*tc_getConnectedNodesIn)(OBJ connection) = 0;
 /*! 
  \brief get the parts going OUT to a connection, such as products
  \ingroup Connections
 */
-Array (*tc_getConnectedPartsOut)(OBJ connection) = 0;
+Array (*tc_getConnectedNodesOut)(OBJ connection) = 0;
 /*! 
  \brief get the parts that are neither IN nor OUT, such as modifiers
  \ingroup Connections
 */
-Array (*tc_getConnectedPartsOther)(OBJ connection) = 0;
+Array (*tc_getConnectedNodesOther)(OBJ connection) = 0;
 /*! 
  \brief get connections for a part
  \ingroup Connections
@@ -65,10 +65,10 @@ void tc_ConnectionInsertion_api(
 	)
 {
 	tc_insertConnection = insertConnection;
-	tc_getConnectedParts = getConnectedParts;
-	tc_getConnectedPartsIn = getConnectedPartsIn;
-	tc_getConnectedPartsOut = getConnectedPartsOut;
-	tc_getConnectedPartsOther = getConnectedPartsOther;
+	tc_getConnectedNodes = getConnectedParts;
+	tc_getConnectedNodesIn = getConnectedPartsIn;
+	tc_getConnectedNodesOut = getConnectedPartsOut;
+	tc_getConnectedNodesOther = getConnectedPartsOther;
 	tc_getConnections = getConnections;
 	tc_getConnectionsIn = getConnectionsIn;
 	tc_getConnectionsOut = getConnectionsOut;

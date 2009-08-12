@@ -12,8 +12,35 @@ char * selected_var;
 void run(Matrix input);
 void setup();
 
+int functionMissing()
+{
+	if (!tc_addFunction || 
+		!tc_createInputWindow ||
+		!tc_addInputWindowOptions ||
+		!tc_selectedItems ||
+		!tc_allItems ||
+		!tc_errorReport ||
+		!tc_getModelParameters ||
+		!tc_getNames || 
+		!tc_itemsOfFamilyFrom ||
+		!tc_getFromList ||
+		!tc_writeModel ||
+		!tc_print ||
+		!tc_getFromList ||
+		!tc_compileBuildLoad ||
+		!tc_plot ||
+		!tc_isWindows)
+		
+		return 1;
+		
+		
+	return 0;
+}
+
 void tc_main()
 {
+	if (functionMissing()) return;
+	
 	selected_var = "";
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);

@@ -3,7 +3,7 @@
 <ConnectionsTree version="1.0">
 <connection family="Connection" color="#94A3FF" typein="Node" numin="1" typeout="Node" numout="1">
   <text>A generic connection that can connect any part to any other part.</text>
-  <connection family="Biochemical" color="#179DFB" k0="1.0" typein="Species" numin="0" typeout="Species" numout="0">
+  <connection family="Biochemical" color="#179DFB" k0="1.0" typein="Species" numin="1" typeout="Species" numout="1">
     <text>This connection represents a biochemical reaction where reactant(s) are converted to product(s).</text>
     <connection family="1to1" typein="Species" numin="1" typeout="Species" numout="1"></connection>
     <connection family="2to1" typein="Species" numin="2" typeout="Species" numout="1"></connection>

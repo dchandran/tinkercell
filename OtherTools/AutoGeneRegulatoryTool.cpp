@@ -500,11 +500,12 @@ namespace Tinkercell
 			}
 		}
 		
-		
-		
 		if (!list.isEmpty())
 		{
 			scene->insert(tr("Transcription added"),list);
+			scene->selected() += list;
+			insertmRNAstep();
+			scene->select(0);
 		}
 	}
 	
@@ -890,7 +891,7 @@ namespace Tinkercell
 			
 			if (dataTables.size() > 0)
 			{
-				scene->changeData(targetHandles,hashStrings,dataTables);
+				scene->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
 			}
 			
 			for (int i=0; i < dataTables.size(); ++i)
@@ -915,14 +916,18 @@ namespace Tinkercell
 		QList<DataTable<qreal>*> nDataNew, nDataOld;
 		QList<DataTable<QString>*> sDataNew, sDataOld;
 		
+		QList<ConnectionGraphicsItem*> connectionItems;
+		
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
 			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(selected[i])) && 
+				!connectionItems.contains(connection) &&
 				handle && 
 				handle->isA(tr("Transcription")) && !handles.contains(handle) && handle->data &&	
 				handle->hasNumericalData(tr("Stoichiometry")) && handle->hasTextData(tr("Rates")))
 			{
+				connectionItems << connection;
 				DataTable<qreal> * stoichiometryMatrix = new DataTable<qreal>(handle->data->numericalData[tr("Stoichiometry")]);
 				DataTable<QString> * rates = new DataTable<QString>(handle->data->textData[tr("Rates")]);
 				
@@ -1015,12 +1020,24 @@ namespace Tinkercell
 			}
 		}
 		
-		scene->changeData(handles,nDataOld,nDataNew,sDataOld,sDataNew);
+		QList<QGraphicsItem*> penItems;
+		QList<QPen> pens;
+		
+		for (int i=0; i < connectionItems.size(); ++i)
+		{
+			penItems << connectionItems[i];
+			QPen pen = connectionItems[i]->defaultPen;
+			pen.setStyle(Qt::DashLine);
+			pens << pen;
+		}
+		
+		scene->changeData(tr("mRNA step added"),handles,nDataOld,nDataNew,sDataOld,sDataNew);
+		scene->setPen(tr("dashed pen style"),penItems,pens);
 		itemsMoved(scene,genes,QList<QPointF>(),0);
 		
-		QString appDir = QCoreApplication::applicationDirPath();
-		QString filename = appDir + tr("/OtherItems/UpCircle.xml");
-		emit setMiddleBox(1,filename);
+		//QString appDir = QCoreApplication::applicationDirPath();
+		//QString filename = appDir + tr("/OtherItems/UpCircle.xml");
+		//emit setMiddleBox(1,filename);
 	}
 	
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)
@@ -1029,6 +1046,8 @@ namespace Tinkercell
 
 		if (mainWindow != 0)
 		{	
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+						this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
 						  this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
                         connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&)),
@@ -1173,6 +1192,32 @@ namespace Tinkercell
 			emit alignCompactHorizontal();
 		}
 	}
+	
+	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
+	{	
+		QGraphicsItem * item = 0;
+		for (int i=0; i < items.size(); ++i)
+		{
+			if (!qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
+			{
+				if (item)
+					return;
+				else
+					item = items[i];
+			}
+		}
+		
+		if (item)
+		{
+			ItemHandle * handle = getHandle(item);
+			if (handle && handle->isA(tr("coding")) && handle->isA(tr("promoter")))
+			{
+				scene->selected().clear();
+				scene->selected() += item;
+				autoGeneProductTriggered();
+			}
+		}
+	}
 
 	void AutoGeneRegulatoryTool::itemsInserted(NetworkWindow* scene, const QList<ItemHandle*>& handles0)
 	{
@@ -1186,9 +1231,6 @@ namespace Tinkercell
 		for (int i=0; i < handles0.size(); ++i)
 			if (handles0[i])
 			{
-				//if (handles0[i]->isA(tr("Part")) && !handles.contains(handles0[i]))
-				//	handles += handles0[i];
-				//else
 				if (ConnectionHandle::asConnection(handles0[i]))
 				{
 					QList<NodeHandle*> nodes = (ConnectionHandle::asConnection(handles0[i]))->nodes();
@@ -1344,7 +1386,7 @@ namespace Tinkercell
 		}
 		if (!regulatory.isEmpty())
 		{
-			scene->changeData(regulatory,toolNames,newTextData);
+			scene->changeData(tr("some transcription rates changed"),regulatory,toolNames,newTextData);
 			for (int i=0; i < newTextData.size(); ++i)
 				delete newTextData[i];
 		}

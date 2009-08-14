@@ -349,7 +349,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::itemsInserted(NetworkWindow* scene, const QList<ItemHandle*>& handles)
+	void StoichiometryTool::itemsInserted(NetworkWindow* win, const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -398,16 +398,16 @@ namespace Tinkercell
 								alreadyDone = false;
 								break;
 							}
-							if (scene && !alreadyDone)
+							if (win && !alreadyDone)
 							{
 								nDat->value(tr("Vmax"),0) = 1.0;
 								nDat->value(tr("Km"),0) = 1.0;
 								sDat->value(0,0) = name + tr(".Vmax * ") + s2.join(tr("*")) + tr("*") + s1.join(tr("*")) + tr("/(") + name + tr(".Km + ") + s1.join(tr("*")) + tr(")");
-								if (scene)
-									scene->changeData(QList<ItemHandle*>() << connectionHandle << connectionHandle, 
-									QList<QString>() << tr("Numerical Attributes") << tr("Rates"),
-									QList<DataTable<qreal>*>() << nDat,
-									QList<DataTable<QString>*>() << sDat);
+								win->changeData(connectionHandle->fullName() + tr("'s kinetics changed"),
+												QList<ItemHandle*>() << connectionHandle << connectionHandle, 
+												QList<QString>() << tr("Numerical Attributes") << tr("Rates"),
+												QList<DataTable<qreal>*>() << nDat,
+												QList<DataTable<QString>*>() << sDat);
 								OutputWindow::message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
 							}
 							delete sDat;
@@ -503,7 +503,7 @@ namespace Tinkercell
 			}
 
 			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
-				mainWindow->currentWindow()->changeData(handles,tr("Stoichiometry"),nDataTablesNew);
+				mainWindow->currentWindow()->changeData(tr("stoichiometry changed"),handles,tr("Stoichiometry"),nDataTablesNew);
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
 				if (nDataTablesNew[i])
@@ -634,7 +634,7 @@ namespace Tinkercell
 											str.replace(QRegExp(tr("^") + handle->fullName() + tr("\\.")),tr(""));
 										}
 										dat.value(str,0) = 1.0;
-										win->changeData(handle,tr("Numerical Attributes"),&dat);
+										win->changeData(handle->fullName() + tr(".") + str + tr(" = 1"),handle,tr("Numerical Attributes"),&dat);
 										OutputWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
 									}
 							}
@@ -701,7 +701,7 @@ namespace Tinkercell
 		}
 
 		if (mainWindow != 0 && mainWindow->currentWindow() != 0)
-			mainWindow->currentWindow()->changeData(handles,tr("Rates"),sDataTablesNew);
+			mainWindow->currentWindow()->changeData(tr("selected kinetics changed"),handles,tr("Rates"),sDataTablesNew);
 
 		for (int i=0; i < sDataTablesNew.size(); ++i)
 			if (sDataTablesNew[i])
@@ -1269,7 +1269,7 @@ namespace Tinkercell
 
 			if (mainWindow && mainWindow->currentWindow())
 			{
-				mainWindow->currentWindow()->changeData(QList<ItemHandle*>() << lastItem,nDat,nDataTable,sDat,sDataTable);
+				mainWindow->currentWindow()->changeData(tr("rates row for ") + lastItem->fullName() + tr(" added"),QList<ItemHandle*>() << lastItem,nDat,nDataTable,sDat,sDataTable);
 			}
 
 
@@ -1359,7 +1359,7 @@ namespace Tinkercell
 		{
 			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
 			{
-				mainWindow->currentWindow()->changeData(QList<ItemHandle*>() << handles,nDataTablesOld,nDataTablesNew,sDataTablesOld,sDataTablesNew);
+				mainWindow->currentWindow()->changeData(tr("selected rates removed"), QList<ItemHandle*>() << handles,nDataTablesOld,nDataTablesNew,sDataTablesOld,sDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1411,7 +1411,7 @@ namespace Tinkercell
 		{
 			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
 			{
-				mainWindow->currentWindow()->changeData(handles,tr("Stoichiometry"),nDataTablesNew);
+				mainWindow->currentWindow()->changeData(tr("intermediate steps added"), handles,tr("Stoichiometry"),nDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1485,7 +1485,7 @@ namespace Tinkercell
 		{
 			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
 			{
-				mainWindow->currentWindow()->changeData(handles,tr("Stoichiometry"),nDataTablesNew);
+				mainWindow->currentWindow()->changeData(tr("stoichiometry columns removed"), handles,tr("Stoichiometry"),nDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1674,7 +1674,7 @@ namespace Tinkercell
 
 		if (win)
 		{
-			win->changeData(handles,QObject::tr("Stoichiometry"),nDataTablesNew);
+			win->changeData(tr("stoichiometry changed"),handles,QObject::tr("Stoichiometry"),nDataTablesNew);
 		}
 
 		for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1775,7 +1775,7 @@ namespace Tinkercell
 		}
 		if (win)
 		{
-			win->changeData(handles,QObject::tr("Rates"),sDataTablesNew);
+			win->changeData(tr("kinetic rates changed"),handles,QObject::tr("Rates"),sDataTablesNew);
 		}
 
 		for (int i=0; i < sDataTablesNew.size(); ++i)

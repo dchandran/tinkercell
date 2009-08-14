@@ -1031,7 +1031,7 @@ namespace Tinkercell
 
         if (targetHandles.size() > 0)
         {
-            scene->changeData(targetHandles,toolNames,newTables);
+            scene->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
             OutputWindow::message(tr("Rates have been updated to include volume of Compartment(s)"));
         }
 		

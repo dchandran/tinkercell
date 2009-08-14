@@ -360,7 +360,7 @@ namespace Tinkercell
 
 	void ConnectionMaker::makeSegments(GraphicsScene* scene,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs)
 	{
-		if (nodes.size() < 2 || inputs < 1 || inputs >= nodes.size()) return;
+		if (!scene || nodes.size() < 2 || inputs < 1 || inputs >= nodes.size()) return;
 
 		int k = 0;
 
@@ -460,10 +460,14 @@ namespace Tinkercell
 				else
 					if (connection->itemHandle->isA(tr("Transcription Regulation")))
 					{
-						if (nodes[1]->scenePos().x() > nodes[0]->scenePos().x())
-							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[1]->sceneBoundingRect().left() + 20.0,nodes[0]->scenePos().y()),connection);
+						qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
+							  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
+						
+						if ( (scene->lastPoint().x() - x1)*(scene->lastPoint().x() - x1) <
+							  (scene->lastPoint().x() - x2)*(scene->lastPoint().x() - x2) )
+							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x1,nodes[0]->scenePos().y()),connection);
 						else
-							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[1]->sceneBoundingRect().right() - 20.0,nodes[0]->scenePos().y()),connection);
+							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x2,nodes[0]->scenePos().y()),connection);
 
 						if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
 						{

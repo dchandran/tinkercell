@@ -394,11 +394,11 @@ namespace Tinkercell
 	}
 
 	/*! \brief change numerical data table*/	
-	void NetworkWindow::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
+	void NetworkWindow::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
 	{
 		if (handle && handle->data && handle->data->numericalData.contains(hashstring))
 		{
-			QUndoCommand * command = new ChangeDataCommand<qreal>(handle->name + tr(" table changed"),&(handle->data->numericalData[hashstring]),newdata);
+			QUndoCommand * command = new ChangeDataCommand<qreal>(name,&(handle->data->numericalData[hashstring]),newdata);
 
 			history.push(command);
 
@@ -408,7 +408,7 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of numerical data tables*/
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata)
 	{
 		QList<DataTable<qreal>*> oldTables, newTables;
 
@@ -424,14 +424,14 @@ namespace Tinkercell
 		if (oldTables.isEmpty() || newTables.isEmpty()) return;
 
 
-		QUndoCommand * command = new ChangeDataCommand<qreal>(tr("numerical tables changed"),oldTables,newTables);
+		QUndoCommand * command = new ChangeDataCommand<qreal>(name,oldTables,newTables);
 
 		history.push(command);
 
 		emit dataChanged(handles);		
 	}
 	/*! \brief change a list of numerical data tables*/
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
 	{
 		QList<DataTable<qreal>*> oldTables, newTables;
 
@@ -447,18 +447,18 @@ namespace Tinkercell
 		if (oldTables.isEmpty() || newTables.isEmpty()) return;
 
 
-		QUndoCommand * command = new ChangeDataCommand<qreal>(tr("numerical tables changed"),oldTables,newTables);
+		QUndoCommand * command = new ChangeDataCommand<qreal>(name,oldTables,newTables);
 
 		history.push(command);
 
 		emit dataChanged(handles);		
 	}
 	/*! \brief change text data table*/	
-	void NetworkWindow::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
+	void NetworkWindow::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
 	{
 		if (handle && handle->data && handle->data->textData.contains(hashstring))
 		{
-			QUndoCommand * command = new ChangeDataCommand<QString>(handle->name + tr(" table changed"),&(handle->data->textData[hashstring]),newdata);
+			QUndoCommand * command = new ChangeDataCommand<QString>(name,&(handle->data->textData[hashstring]),newdata);
 			history.push(command);
 
 			QList<ItemHandle*> handles;
@@ -467,7 +467,7 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of text data tables*/
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<QString>*>& newdata)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<QString>*>& newdata)
 	{
 		QList<DataTable<QString>*> oldTables, newTables;
 
@@ -483,14 +483,14 @@ namespace Tinkercell
 		if (oldTables.isEmpty() || newTables.isEmpty()) return;
 
 
-		QUndoCommand * command = new ChangeDataCommand<QString>(tr("text tables changed"),oldTables,newTables);
+		QUndoCommand * command = new ChangeDataCommand<QString>(name,oldTables,newTables);
 
 		history.push(command);
 
 		emit dataChanged(handles);
 	}
 	/*! \brief change a list of text data tables*/
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
 	{
 		QList<DataTable<QString>*> oldTables, newTables;
 
@@ -506,18 +506,18 @@ namespace Tinkercell
 		if (oldTables.isEmpty() || newTables.isEmpty()) return;
 
 
-		QUndoCommand * command = new ChangeDataCommand<QString>(tr("text tables changed"),oldTables,newTables);
+		QUndoCommand * command = new ChangeDataCommand<QString>(name,oldTables,newTables);
 
 		history.push(command);
 
 		emit dataChanged(handles);
 	}
 	/*! \brief change two types of data tables*/
-	void NetworkWindow::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
+	void NetworkWindow::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
 	{
 		if (handle && handle->data && handle->data->numericalData.contains(hashstring) && handle->data->textData.contains(hashstring))
 		{
-			QUndoCommand * command = new Change2DataCommand<qreal,QString>(handle->name + tr(" table changed"),&(handle->data->numericalData[hashstring]), newdata1, &(handle->data->textData[hashstring]),newdata2);
+			QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,&(handle->data->numericalData[hashstring]), newdata1, &(handle->data->textData[hashstring]),newdata2);
 
 			history.push(command);
 
@@ -527,7 +527,7 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of two types of data tables*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;
 		QList<DataTable<qreal>*> oldTablesN, newTablesN;
@@ -554,7 +554,7 @@ namespace Tinkercell
 		if ((oldTablesS.isEmpty() || newTablesS.isEmpty()) &&
 			(oldTablesN.isEmpty() || newTablesN.isEmpty())) return;
 
-		QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("data tables changed"),oldTablesN,newTablesN,oldTablesS,newTablesS);
+		QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,oldTablesN,newTablesN,oldTablesS,newTablesS);
 
 		history.push(command);
 
@@ -562,7 +562,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a list of two types of data tables*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;
 
@@ -590,7 +590,7 @@ namespace Tinkercell
 			(oldTablesN.isEmpty() || newTablesN.isEmpty())) return;
 
 
-		QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("data tables changed"),oldTablesN,newTablesN,oldTablesS,newTablesS);
+		QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,oldTablesN,newTablesN,oldTablesS,newTablesS);
 
 		history.push(command);
 
@@ -598,12 +598,12 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
 	{
 		if ((olddata1.isEmpty() || newdata1.isEmpty()) &&
 			(olddata2.isEmpty() || newdata2.isEmpty())) return;
 
-		QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("data tables changed"),olddata1,newdata1,olddata2,newdata2);
+		QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,olddata1,newdata1,olddata2,newdata2);
 
 		history.push(command);
 
@@ -611,12 +611,12 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
 	{
 		if ((!olddata1 || !newdata1) &&
 			(!olddata2 || !newdata2)) return;
 
-		QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("data tables changed"),olddata1,newdata1,olddata2,newdata2);
+		QUndoCommand * command = new Change2DataCommand<qreal,QString>(name,olddata1,newdata1,olddata2,newdata2);
 
 		history.push(command);
 
@@ -624,11 +624,11 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
 
-		QUndoCommand * command = new ChangeDataCommand<qreal>(tr("data table changed"),olddata1,newdata1);
+		QUndoCommand * command = new ChangeDataCommand<qreal>(name,olddata1,newdata1);
 
 		history.push(command);
 
@@ -636,11 +636,11 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
-	void NetworkWindow::changeData(const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
+	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
 
-		QUndoCommand * command = new ChangeDataCommand<QString>(tr("data table changed"),olddata1,newdata1);
+		QUndoCommand * command = new ChangeDataCommand<QString>(name,olddata1,newdata1);
 
 		history.push(command);
 

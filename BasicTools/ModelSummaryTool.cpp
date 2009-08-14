@@ -338,7 +338,7 @@ namespace Tinkercell
 			if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			{
 				if (!nDataTablesNew.isEmpty())
-					mainWindow->currentScene()->changeData(handles,nDataTablesOld,nDataTablesNew,QList< DataTable<QString>* >(),QList< DataTable<QString>* >());
+					mainWindow->currentScene()->changeData(tr("changed initial values or fixed"),handles,nDataTablesOld,nDataTablesNew,QList< DataTable<QString>* >(),QList< DataTable<QString>* >());
 				if (!itemsToRename.isEmpty())
 					mainWindow->currentScene()->rename(itemsToRename,newNames);
 			}

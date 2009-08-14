@@ -195,8 +195,8 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::setValue(int row,int col)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		NetworkWindow * win = currentWindow();
+		if (!win) return;
 
 		if (col > 0 || !tableWidget.item(row,col)) return;
 
@@ -207,8 +207,8 @@ namespace Tinkercell
 		if (row < tableItems.size())
 			handle = tableItems[row];
 		else
-			if (scene->selected().size() > 0)
-				handle = getHandle(scene->selected().last());
+			if (win->selectedHandles().size() > 0)
+				handle = win->selectedHandles().last();
 
 		if (!handle || !handle->data) return;
 
@@ -225,21 +225,15 @@ namespace Tinkercell
 					DataTable<QString> newData(handle->data->textData[tr("Assignments")]);
 					newData.removeRow(f);
 
-					if (scene)
-						scene->changeData(handle,tr("Assignments"),&newData);
-					else
-						handle->data->textData[tr("Assignments")] = newData;
-
+					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Assignments"),&newData);
+					
 				}
 				if (handle->hasTextData(tr("Functions")) && handle->data->textData[tr("Functions")].getRowNames().contains(f))
 				{
 					DataTable<QString> newData(handle->data->textData[tr("Functions")]);
 					newData.removeRow(f);
 
-					if (scene)
-						scene->changeData(handle,tr("Functions"),&newData);
-					else
-						handle->data->textData[tr("Functions")] = newData;
+					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Functions"),&newData);
 				}
 			}
 
@@ -271,7 +265,7 @@ namespace Tinkercell
 
 				newData.value(var,0) = func;
 
-				scene->changeData(handle,tr("Assignments"),&newData);
+				win->changeData(handle->fullName() + tr(".") + var + tr(" added"), handle,tr("Assignments"),&newData);
 
 			}
 			else
@@ -300,13 +294,10 @@ namespace Tinkercell
 					{
 						parser.SetVarFactory(AddVariable, 0);
 						parser.Eval();
-						if (scene)
-						{
-							mu::varmap_type variables = parser.GetVar();
-							mu::varmap_type::const_iterator item = variables.begin();
-							for (; item!=variables.end(); ++item)
-								args << tr(item->first.data());
-						}
+						mu::varmap_type variables = parser.GetVar();
+						mu::varmap_type::const_iterator item = variables.begin();
+						for (; item!=variables.end(); ++item)
+							args << tr(item->first.data());
 					}
 					catch(mu::Parser::exception_type &e)
 					{
@@ -324,7 +315,7 @@ namespace Tinkercell
 					newData.value(var,0) = args.join(tr(","));
 					newData.value(var,1) = s;
 
-					scene->changeData(handle,tr("Functions"),&newData);
+					win->changeData(handle->fullName() + tr(".") + var + tr(" added"),handle,tr("Functions"),&newData);
 
 				}
 
@@ -598,7 +589,7 @@ namespace Tinkercell
 		}
 
 		if (sDats.size() > 0)
-			scene->changeData(handles,toolNames,sDats);
+			scene->changeData(tr("selected functions removed"),handles,toolNames,sDats);
 
 		for (int i=0; i < sDats.size(); ++i)
 			delete sDats[i];
@@ -703,8 +694,8 @@ namespace Tinkercell
 
 			DataTable<QString> dat = item->data->textData[tr("Assignments")];
 			dat.value(trigger,0) = event;
-			if (currentScene())
-				currentScene()->changeData(item,tr("Assignments"),&dat);
+			if (currentWindow())
+				currentWindow()->changeData(item->fullName() + tr("'s event changed"),item,tr("Assignments"),&dat);
 			else
 				item->data->textData[tr("Assignments")] = dat;
 		}

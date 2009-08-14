@@ -213,7 +213,7 @@ namespace Tinkercell
 					data.value(0,0) = authors;
 					data.value(1,0) = date;
 					data.value(2,0) = desc;
-					win->changeData(handle,tr("Annotation"),&data);
+					win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 				}
 			}
 		}
@@ -369,8 +369,8 @@ namespace Tinkercell
 			for (int i=0; i < list.size() && i < data.rows(); ++i)
 				data.value(i,0) = list[i];
 
-			if (currentScene())
-				currentScene()->changeData(item,tr("Annotation"),&data);
+			if (currentWindow())
+				currentWindow()->changeData(item->fullName() + tr("'s annotation changed"),item,tr("Annotation"),&data);
 		}
 		if (sem)
 			sem->release();

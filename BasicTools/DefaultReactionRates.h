@@ -83,22 +83,25 @@ namespace Tinkercell
 				{
 					if (nodesIn.contains(node))
 					{
-						if (!nodes.contains(node))
+						if (!isTranscription)
 						{
-							nodes += node;
-							names += node->fullName();
-							if (!isTranscription && !isRegulatory && !isBinding && !isGRN)
-								stoichiometry += -1.0;
+							if (!nodes.contains(node))
+							{
+								nodes += node;
+								names += node->fullName();
+								if (!isTranscription && !isRegulatory && !isBinding && !isGRN)
+									stoichiometry += -1.0;
+								else
+									stoichiometry += 0.0;
+							}
 							else
-								stoichiometry += 0.0;
-						}
-						else
-						{
-							if (!isTranscription && !isRegulatory && !isGRN)		
-								stoichiometry[ nodes.indexOf(node) ] += -1.0;
-						}
+							{
+								if (!isTranscription && !isRegulatory && !isGRN)		
+									stoichiometry[ nodes.indexOf(node) ] += -1.0;
+							}
 
-						rates.value(0,0) += QString("*") + node->fullName();
+							rates.value(0,0) += QString("*") + node->fullName();
+						}
 					}
 					else			
 					{

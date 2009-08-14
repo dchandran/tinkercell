@@ -58,6 +58,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 	
 	public slots:
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
 		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);

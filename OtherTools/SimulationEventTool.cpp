@@ -378,14 +378,14 @@ namespace Tinkercell
         if (!lastItem->hasTextData(tr("Events")))
             insertData(lastItem);
 
-        GraphicsScene * scene = currentScene();
+        NetworkWindow * win = currentWindow();
 
-        if (scene)
+        if (win)
         {
-            if (!parseRateString(scene->networkWindow, lastItem, ifs))
+            if (!parseRateString(win, lastItem, ifs))
                 return;
 
-            if (!parseRateString(scene->networkWindow, lastItem, thens))
+            if (!parseRateString(win, lastItem, thens))
                 return;
 
             DataTable<QString> newData(lastItem->data->textData[tr("Events")]);
@@ -404,7 +404,7 @@ namespace Tinkercell
 
             newData.value(ifs,0) = thens;
 
-            scene->changeData(lastItem,tr("Events"),&newData);
+            win->changeData(lastItem->fullName() + tr("'s event changed"),lastItem,tr("Events"),&newData);
         }
         else
         {
@@ -442,11 +442,11 @@ namespace Tinkercell
                         if (k > -1)
                         {
                             dat.removeRow(k);
-                            GraphicsScene * scene = currentScene();
+                            NetworkWindow * win = currentWindow();
 
-                            if (scene)
+                            if (win)
                             {
-                                scene->changeData(itemHandles[i],tr("Events"),&dat);
+                                win->changeData(itemHandles[i]->fullName() + tr("'s event changed"),itemHandles[i],tr("Events"),&dat);
                             }
                             else
                             {
@@ -554,7 +554,7 @@ namespace Tinkercell
             DataTable<QString> dat = item->data->textData[tr("Events")];
             dat.value(trigger,0) = event;
             if (currentScene())
-                currentScene()->changeData(item,tr("Events"),&dat);
+                currentScene()->changeData(item->fullName() + tr("'s event changed"),item,tr("Events"),&dat);
             else
                 item->data->textData[tr("Events")] = dat;
         }
@@ -740,7 +740,7 @@ namespace Tinkercell
 											str.replace(QRegExp(tr("^") + handle->fullName() + tr("\\.")),tr(""));
 										}
 										dat.value(str,0) = 1.0;
-										win->changeData(handle,tr("Numerical Attributes"),&dat);
+										win->changeData(handle->fullName() + tr(".") + str + tr(" = 1.0"),handle,tr("Numerical Attributes"),&dat);
 										OutputWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
 									}
 							}

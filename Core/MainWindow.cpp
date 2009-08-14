@@ -1612,10 +1612,10 @@ namespace Tinkercell
 			{
 				item->data->numericalData[tool] = DataTable<qreal>();
 			}
-			GraphicsScene * scene = currentScene();
-			if (scene)
+			NetworkWindow * win = currentWindow();
+			if (win)
 			{
-				scene->changeData(item,tool,&dat);
+				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 			}
 		}
 		if (sem)
@@ -1686,10 +1686,10 @@ namespace Tinkercell
 						else
 							dat.value(row,col) = value;
 				}
-				GraphicsScene * scene = currentScene();
-				if (scene)
+				NetworkWindow * win = currentWindow();
+				if (win)
 				{
-					scene->changeData(item,tool,&dat);
+					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 				}
 			}
 			else
@@ -1702,10 +1702,10 @@ namespace Tinkercell
 				dat.colName(0) = col;
 				dat.value(0,0) = value;
 
-				GraphicsScene * scene = currentScene();
-				if (scene)
+				NetworkWindow * win = currentWindow();
+				if (win)
 				{
-					scene->changeData(item,tool,&dat);
+					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 				}
 			}
 		}
@@ -1735,10 +1735,10 @@ namespace Tinkercell
 						else
 							dat.value(row,col) = value;
 				}
-				GraphicsScene * scene = currentScene();
-				if (scene)
+				NetworkWindow * win = currentWindow();
+				if (win)
 				{
-					scene->changeData(item,tool,&dat);
+					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 				}
 			}
 			else
@@ -1751,10 +1751,10 @@ namespace Tinkercell
 				dat.colName(0) = col;
 				dat.value(0,0) = value;
 
-				GraphicsScene * scene = currentScene();
-				if (scene)
+				NetworkWindow * win = currentWindow();
+				if (win)
 				{
-					scene->changeData(item,tool,&dat);
+					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 				}
 			}
 		}

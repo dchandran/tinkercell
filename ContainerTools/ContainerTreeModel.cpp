@@ -369,13 +369,14 @@ namespace Tinkercell
 				if (attributeName == handle->family()->measurementUnit.first)
 				{
 					DataTable<qreal> * newTable = new DataTable<qreal>(
-							handle->data->numericalData[QString("Initial Value")]);
+					handle->data->numericalData[QString("Initial Value")]);
 					bool ok;
 					double d = value.toDouble(&ok);
 					if (ok && newTable->value(0,0) != d)
 					{
 						newTable->value(0,0) = d;
-                                                window->changeData(handle,QString("Initial Value"),newTable);
+                        window->changeData(handle->fullName() + tr("'s ") + attributeName + tr(" = ") + QString::number(d),
+											handle,QString("Initial Value"),newTable);
 					}
 					delete newTable;
 					return true;
@@ -383,13 +384,15 @@ namespace Tinkercell
 				else
 				{
 					DataTable<qreal> * newTable = new DataTable<qreal>(
-							handle->data->numericalData[QString("Numerical Attributes")]);
+					handle->data->numericalData[QString("Numerical Attributes")]);
+					
 					bool ok;
 					double d = value.toDouble(&ok);
 					if (ok && newTable->value(attributeName,0) != d)
 					{
 						newTable->value(attributeName,0) = d;
-                                                window->changeData(handle,QString("Numerical Attributes"),newTable);
+                        window->changeData(handle->fullName() + tr(".") + attributeName + tr(" = ") + QString::number(d),
+											handle,QString("Numerical Attributes"),newTable);
 					}
 					delete newTable;
 					return true;

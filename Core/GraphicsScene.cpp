@@ -2430,82 +2430,82 @@ namespace Tinkercell
 		}
 	}
 
-	void GraphicsScene::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
+	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handle,hashstring,newdata);
+			networkWindow->changeData(name, handle,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,hashstring,newdata);
+			networkWindow->changeData(name, handles,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,hashstring,newdata);
+			networkWindow->changeData(name, handles,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
+	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handle,hashstring,newdata);
+			networkWindow->changeData(name, handle,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,hashstring,newdata);
+			networkWindow->changeData(name, handles,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,hashstring,newdata);
+			networkWindow->changeData(name, handles,hashstring,newdata);
 	}
 
-	void GraphicsScene::changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
+	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handle, hashstring, newdata1, newdata2);
+			networkWindow->changeData(name, handle, hashstring, newdata1, newdata2);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles, hashstring, newdata1, newdata2);
+			networkWindow->changeData(name, handles, hashstring, newdata1, newdata2);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,hashstring,newdata1,newdata2);
+			networkWindow->changeData(name, handles,hashstring,newdata1,newdata2);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,olddata1,newdata1,olddata2,newdata2);
+			networkWindow->changeData(name, handles,olddata1,newdata1,olddata2,newdata2);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,olddata1,newdata1,olddata2,newdata2);
+			networkWindow->changeData(name, handles,olddata1,newdata1,olddata2,newdata2);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,olddata1,newdata1);
+			networkWindow->changeData(name, handles,olddata1,newdata1);
 	}
 
-	void GraphicsScene::changeData(const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
+	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
 	{
 		if (networkWindow)
-			networkWindow->changeData(handles,olddata1,newdata1);
+			networkWindow->changeData(name, handles,olddata1,newdata1);
 	}
 
 	QList<ItemHandle*> GraphicsScene::allHandles() const

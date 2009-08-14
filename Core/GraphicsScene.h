@@ -250,31 +250,31 @@ namespace Tinkercell
 		/*! \brief change parconst ent handles and also adds undo command to history window and emits associated signal(s)*/
 		void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
 		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
+		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
 		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
+		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
 		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
 		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
 		/*! \brief change two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
+		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
-		void changeData(const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
+		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
 
 	signals:
 		/*! \brief signals just before items are deleted

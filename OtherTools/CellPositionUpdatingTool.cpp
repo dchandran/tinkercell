@@ -63,7 +63,7 @@ namespace Tinkercell
 			
 		if (handles.size() > 0)
 		{
-			scene->changeData(handles,tr("Numerical Attributes"),newTables);
+			scene->changeData(tr("cell position changed"),handles,tr("Numerical Attributes"),newTables);
 			for (int i=0; i < newTables.size(); ++i)
 				delete newTables[i];
 		}

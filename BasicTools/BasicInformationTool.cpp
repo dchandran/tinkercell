@@ -366,8 +366,9 @@ namespace Tinkercell
 						name.replace(QRegExp(tr("[^a-zA-Z_0-9]")),tr(""));
 						if (name.isEmpty())
 						{
+							QString s = nDat.rowName(rowNumber);
 							nDat.removeRow(rowNumber);
-							win->changeData(handle,this->name,&nDat);
+							win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&nDat);
 						}
 						else
 						{
@@ -394,7 +395,7 @@ namespace Tinkercell
 					return;
 				}
 				nDat.value(rowNumber,0) = value;
-				win->changeData(handle,this->name,&nDat);
+				win->changeData(handle->fullName() + tr(".") + nDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&nDat);
 			}
 		}
 
@@ -418,8 +419,9 @@ namespace Tinkercell
 						name.replace(QRegExp(tr("[^a-zA-Z_]")),tr(""));
 						if (name.isEmpty())
 						{
+							QString s = sDat.rowName(rowNumber);
 							sDat.removeRow(rowNumber);
-							win->changeData(handle,this->name,&sDat);
+							win->changeData(handle->fullName() + tr(".") + s + tr(" removed"),handle, this->name,&sDat);
 						}
 						else
 						{
@@ -441,7 +443,7 @@ namespace Tinkercell
 			{
 				QString value = tableWidget.item(row,col)->text();
 				sDat.value(rowNumber,0) = value;
-				win->changeData(handle,this->name,&sDat);
+				win->changeData(handle->fullName() + tr(".") + sDat.rowName(rowNumber) + tr(" changed"),handle,this->name,&sDat);
 			}
 		}
 	}
@@ -720,100 +722,6 @@ namespace Tinkercell
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 	}
 
-	/*
-	void BasicInformationTool::setupDialogs()
-	{
-	if (!commandDialog) return;
-	QGridLayout * layout = new QGridLayout;
-	QPushButton * okButton = new QPushButton("OK");
-	connect(okButton,SIGNAL(released()),commandDialog,SLOT(accept()));
-	QPushButton * cancelButton = new QPushButton("Cancel");
-	connect(cancelButton,SIGNAL(released()),commandDialog,SLOT(reject()));
-	QLabel * label1 = new QLabel(tr("Name (without prefix) :"));
-	QLabel * label2 = new QLabel(tr("Value : "));
-
-	dialogName = new QLineEdit(tr("k0"));
-	dialogName->setFixedHeight(20);
-	dialogValue = new QLineEdit(tr("3.14"));
-	dialogValue->setFixedHeight(20);
-
-	layout->addWidget(label1,0,0,Qt::AlignLeft);
-	layout->addWidget(label2,1,0,Qt::AlignLeft);
-
-	layout->addWidget(dialogName,0,1);
-	layout->addWidget(dialogValue,1,1);
-
-	layout->addWidget(okButton,2,0,Qt::AlignRight);
-	layout->addWidget(cancelButton,2,1,Qt::AlignCenter);
-	commandDialog->setWindowTitle(tr("New Attribute"));
-	layout->setColumnStretch(1,3);
-	commandDialog->setLayout(layout);
-
-	connect(commandDialog,SIGNAL(accepted()),this,SLOT(dialogFinished()));
-	connect(dialogValue,SIGNAL(returnPressed()),commandDialog,SIGNAL(accepted()));
-	}
-	*/
-	/*
-	void BasicInformationTool::dialogFinished()
-	{
-	if (dialogName == 0 || dialogValue == 0 || itemHandles.isEmpty()) return;
-	QString name = dialogName->text();
-	QString value = dialogValue->text();
-
-	if (name.isEmpty() || value.isEmpty()) return;
-
-	ItemHandle * lastItem = itemHandles.last();
-	if (lastItem == 0 || lastItem->data == 0) return;
-
-	disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
-
-	name.replace(QRegExp(tr(".*") + lastItem->name + tr(".")),"");
-	name.replace(QRegExp(tr(".*") + lastItem->fullName() + tr(".")),"");
-
-	name = RemoveDisallowedCharactersFromName(name);
-
-	int n = tableWidget.rowCount();
-	tableWidget.insertRow(n);
-	tableWidget.setVerticalHeaderItem(n, new QTableWidgetItem(lastItem->fullName() + tr(".") + name));
-	tableWidget.setItem(n,0,new QTableWidgetItem(value));
-
-	//numerical or text data?
-	bool ok = false;
-	double num = value.toDouble(&ok);
-	if (ok)
-	{
-	if (lastItem->hasNumericalData(this->name))
-	{
-	DataTable<qreal> * newDataTable = new DataTable<qreal>(lastItem->data->numericalData[this->name]);
-	newDataTable->insertRow(newDataTable->rows(),name);
-	newDataTable->value(newDataTable->rows()-1,0) = num;
-	if (mainWindow != 0 && mainWindow->currentScene() != 0)
-	{
-	mainWindow->currentScene()->changeData(lastItem,this->name,newDataTable);
-	}
-	delete newDataTable;
-	}
-	}
-	else
-	{
-	if (lastItem->hasTextData(this->name))
-	{
-	DataTable<QString> * newDataTable = new DataTable<QString>(lastItem->data->textData[this->name]);
-	newDataTable->insertRow(newDataTable->rows(),name);
-	newDataTable->value(newDataTable->rows()-1,0) = value;
-
-	if (mainWindow != 0 && mainWindow->currentScene() != 0)
-	{
-	mainWindow->currentScene()->changeData(lastItem,this->name,newDataTable);
-	}
-
-	delete newDataTable;
-	}
-	}
-
-	connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
-	}
-	*/
 	void BasicInformationTool::addAttribute()
 	{
 		NetworkWindow * win = currentWindow();
@@ -861,7 +769,7 @@ namespace Tinkercell
 				nDat.value(nDat.rows()-1,0) = 1.0;
 				nDat.rowName(nDat.rows()-1) = name;
 
-				win->changeData(lastItem,this->name,&nDat);
+				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);
 			}
 		}
 
@@ -883,7 +791,7 @@ namespace Tinkercell
 				sDat.value(sDat.rows()-1,0) = tr("hello world");
 				sDat.rowName(sDat.rows()-1) = name;
 
-				win->changeData(lastItem,this->name,&sDat);
+				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"),lastItem,this->name,&sDat);
 			}
 		}
 
@@ -952,10 +860,10 @@ namespace Tinkercell
 		}
 
 		if (nDats.size() > 0)
-			win->changeData(handles1,this->name,nDats);
+			win->changeData(tr("selected parameters removed"), handles1,this->name,nDats);
 
 		if (sDats.size() > 0)
-			win->changeData(handles2,this->name,sDats);
+			win->changeData(tr("selected text attributes removed"),handles2,this->name,sDats);
 
 		for (int i=0; i < nDats.size(); ++i)
 			delete nDats[i];
@@ -1469,8 +1377,8 @@ namespace Tinkercell
 		{
 			if (handle->data && handle->hasTextData(name))
 			{
-				GraphicsScene * scene = mainWindow->currentScene();
-				if (scene)
+				NetworkWindow * win = mainWindow->currentWindow();
+				if (win)
 				{
 					DataTable<QString> * newData = new DataTable<QString>(handle->data->textData[name]);
 					bool contains = false;
@@ -1488,7 +1396,7 @@ namespace Tinkercell
 							newData->value(rownames.size(),0) = value;
 						}
 
-						scene->changeData(handle,name,newData);
+						win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + value, handle,name,newData);
 						delete newData;
 				}
 				else
@@ -1527,7 +1435,7 @@ namespace Tinkercell
 							newData->value(rownames.size(),0) = value;
 						}
 
-						win->changeData(handle,this->name,newData);
+						win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + QString::number(value), handle,this->name,newData);
 						delete newData;
 				}
 				else

@@ -745,8 +745,6 @@ namespace Tinkercell
 					{
 						center += selectedNodes[i]->scenePos();
 						
-						OutputWindow::message(getHandle(selectedNodes[i])->name);
-
 						item->pathVectors +=
 							ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 

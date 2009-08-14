@@ -247,18 +247,18 @@ namespace Tinkercell
 	
 	void DNASequenceViewer::textChanged()
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		NetworkWindow * win = currentWindow();
+		if (!win) return;
 		
 		ItemHandle * handle = 0;
-		if (scene->selected().size() == 1 && 
-			(handle = getHandle(scene->selected()[0])) &&
+		if (win->selectedHandles().size() == 1 && 
+			(handle = win->selectedHandles()[0]) &&
 			handle->isA(tr("Part")) &&
 			handle->data && handle->hasTextData(tr("Text Attributes")))
 		{
 			DataTable<QString> data(handle->data->textData[tr("Text Attributes")]);
 			data.value(tr("sequence"),0) = textEdit.toPlainText();
-			scene->changeData(handle,tr("Text Attributes"),&data);
+			win->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
 		}
 	}
 	

@@ -312,7 +312,6 @@ namespace Tinkercell
 			QUndoCommand * command = 0;
 			if (!name.isEmpty() && mainWindow->currentScene() && item->itemHandle && item->itemHandle->name == oldText)
 			{	
-				//mainWindow->currentScene()->rename(item,name);
 				QList<QGraphicsItem*> items; items << item;
 				QList<QString> oldNames; oldNames << oldText;
 				QString newName = item->itemHandle->name = Tinkercell::RemoveDisallowedCharactersFromName(name);

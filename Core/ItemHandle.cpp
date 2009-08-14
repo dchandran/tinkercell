@@ -28,11 +28,15 @@ namespace Tinkercell
 
 	QString RemoveDisallowedCharactersFromName(const QString& s)
 	{
-		QRegExp regex("[^0-9a-zA-z\\.\\_]");
+ 		QRegExp regex("[^0-9a-zA-z\\.\\_]");
 		QString s2 = s;
 		s2.replace(regex,"_");
 		if (s2.length() > 0 && s2[0].isNumber())
 			s2 = QString("_") + s2;
+		s2.replace("^","_");
+		s2.replace("\\","_");
+		s2.replace("[","_");
+		s2.replace("]","_");
 		return s2;
 	}
 

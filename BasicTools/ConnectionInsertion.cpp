@@ -24,6 +24,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::initializeHashes()
 	{
+		defaultInputs.insert(tr("Connection"),1); defaultOutputs.insert(tr("Connection"),1);
 		defaultInputs.insert(tr("Biochemical"),1); defaultOutputs.insert(tr("Biochemical"),1);
 	}
 
@@ -299,7 +300,7 @@ namespace Tinkercell
 		selectedFamily = connectionsTree->connectionFamilies.value(family);
 		setRequirements();
 
-		if (!(defaultInputs.contains(family) || defaultInputs.contains(family.toLower())) && (in.size() != numRequiredIn || out.size() != numRequiredOut))
+		if (family != tr("Connection") && !(defaultInputs.contains(family) || defaultInputs.contains(family.toLower())) && (in.size() != numRequiredIn || out.size() != numRequiredOut))
 		{
 			if (retitem)
 				(*retitem) = 0;
@@ -742,6 +743,8 @@ namespace Tinkercell
 					for (int i=0; i < selectedNodes.size(); ++i)
 					{
 						center += selectedNodes[i]->scenePos();
+						
+						OutputWindow::message(getHandle(selectedNodes[i])->name);
 
 						item->pathVectors +=
 							ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
@@ -845,14 +848,7 @@ namespace Tinkercell
 
 	ConnectionGraphicsItem * ConnectionInsertion::familyToGraphicsItem(ConnectionFamily * family)
 	{
-		ConnectionGraphicsItem * graphicsItem = 0;
-
-		if (family != 0)
-		{
-			graphicsItem = new ConnectionGraphicsItem;
-		}
-
-		return graphicsItem;
+		return new ConnectionGraphicsItem;
 	}
 
 	void ConnectionInsertion::setSelectColor()

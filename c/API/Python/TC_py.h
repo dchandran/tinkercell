@@ -75,7 +75,7 @@ static PyMethodDef pytcMethods[] = {
 	{"getTextDataCol", pytc_getTextDataCol, METH_VARARGS, "get the values in a particular column of a text data matrix. example: A = find(\"J0\"); getTextDataCol(A,\"Stoichiometry\",\"J0\");"},
 
 //insert
-	{"insertItem", pytc_insert, METH_VARARGS, "insert a new item with the given name and family. example: insertItem(\"A\") or insertItem(\"A\",\"Receptor\");"},
+	{"insertNode", pytc_insert, METH_VARARGS, "insert a new node with the given name and family. example: insertNode(\"A\") or insertNode(\"A\",\"Receptor\");"},
 
 	{"insertConnection", pytc_insertConnection, METH_VARARGS, "insert a connection that connects one set of items to another and has the given name and family. example: Array1 = [find(\"A\"), find(\"B\")]; Array2 = [find(\"C\")]; insertConnection(Array1,Array2,\"name\",\"Reaction\");"},
 	{"getConnectedNodes", pytc_getConnectedNodes, METH_VARARGS, "get all the parts in the given connections. example: J = find(\"J0\"); Array = getConnectedParts(J);"},

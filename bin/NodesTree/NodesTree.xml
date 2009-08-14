@@ -59,7 +59,7 @@
 </node>
 <node family="Compartment" units="volume,fL">
     <text>A region where the contained species are localized</text>
-	<node family="Cell" units="position,um" species="E.coli" count="1" x="0" y="0"></node>
+	<node family="Cell" species="E.coli" count="1" x="0" y="0"></node>
 </node>
 <node family="Module" type="generic">
    <text>A module is a network that can contain interfaces and can be connected to other modules.</text>

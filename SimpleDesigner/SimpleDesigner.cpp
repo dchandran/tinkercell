@@ -155,7 +155,7 @@ void SimpleDesigner::rateChanged()
 	{
 		DataTable<QString> table;
 		table.value(0,0) = formula;
-		scene->changeData(handle,"rate",&table);
+		scene->changeData(handle->name + tr("'s rate changed"), handle,"rate",&table);
 		addParameters(newVars); //insert new variables into the modelItem
 		setToolTip(handle);
 	}
@@ -179,7 +179,7 @@ void SimpleDesigner::concentrationChanged()
 	
 	table.value(0,0) = conc->text().toDouble(&ok);
 	
-	scene->changeData(handle,"concentration",&table);
+	scene->changeData(handle->name + tr("'s concentration changed"), handle,"concentration",&table);
 }
 
 void SimpleDesigner::actionTriggered(QAction* action)

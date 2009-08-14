@@ -35,19 +35,20 @@ namespace Tinkercell
 
 		if (selectedFamily != 0)
 		{
-			if (defaultInputs.contains(selectedFamily->name) && defaultOutputs.contains(selectedFamily->name))
+			/*if (defaultInputs.contains(selectedFamily->name) && defaultOutputs.contains(selectedFamily->name))
 			{
 				numRequiredIn = defaultInputs.value(selectedFamily->name);
 				numRequiredOut = defaultOutputs.value(selectedFamily->name);
 			}
 			else
+			{*/
+			if (selectedFamily->numericalAttributes.contains(tr("numin")) && selectedFamily->numericalAttributes.contains(tr("numout")))
 			{
-				if (selectedFamily->numericalAttributes.contains(tr("numin")) && selectedFamily->numericalAttributes.contains(tr("numout")))
-				{
-					numRequiredIn = (int)selectedFamily->numericalAttributes.value("numin");
-					numRequiredOut = (int)selectedFamily->numericalAttributes.value("numout");
-				}
+				numRequiredIn = (int)selectedFamily->numericalAttributes.value("numin");
+				numRequiredOut = (int)selectedFamily->numericalAttributes.value("numout");
 			}
+			//}
+			else
 			if (selectedFamily->textAttributes.contains(tr("typein")) && selectedFamily->textAttributes.contains(tr("typeout")))
 			{
 				typeIn = selectedFamily->textAttributes[tr("typein")];

@@ -36,7 +36,6 @@ namespace Tinkercell
 	*/
 	QGraphicsItem * getGraphicsItem( QGraphicsItem * item )
 	{
-		//ArrowHeadItem * arrow = 0;
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		ControlPoint * controlPoint = 0;
@@ -2025,7 +2024,6 @@ namespace Tinkercell
 
 			if (!scene->lastPoint().isNull())
 			{
-				//scene->move(moveitems,scene->lastPoint() - center);
 				commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
 			}
 

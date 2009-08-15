@@ -1684,7 +1684,7 @@ namespace Tinkercell
 					for (int j=0; j < keys2.size(); ++j)
 						newData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
 				}
-				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), oldData1, newData1, oldData2, newData2);
+				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
 				for (int i=0; i < oldData1.size(); ++i)
 					if (oldData1[i])
 						delete oldData1[i];
@@ -1695,7 +1695,7 @@ namespace Tinkercell
 		else
 		{
 			if (changeDataCommand)
-				changeDataCommand->redo();
+				changeDataCommand->undo();
 		}
 
 		for (int i=0; i < handles.size() && i < newNames.size(); ++i)
@@ -1763,7 +1763,7 @@ namespace Tinkercell
 		}
 
 		if (changeDataCommand)
-			changeDataCommand->undo();
+			changeDataCommand->redo();
 
 		for (int i=0; i < handles.size() && i < oldNames.size(); ++i)
 		{

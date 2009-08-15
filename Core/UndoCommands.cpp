@@ -1627,12 +1627,10 @@ namespace Tinkercell
 					QList<QString> keys2 = allhandles[i]->data->textData.keys();
 
 					for (int j=0; j < keys1.size(); ++j)
-						oldData1 += &(allhandles[i]->data->numericalData[ keys1[j] ]);
+						oldData1 += new DataTable<qreal>(allhandles[i]->data->numericalData[ keys1[j] ]);
 
 					for (int j=0; j < keys2.size(); ++j)
-						oldData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
-
-					//oldData += ItemData(*allhandles[i]->data);
+						oldData2 += new DataTable<QString>(allhandles[i]->data->textData[ keys2[j] ]);
 				}
 		}
 
@@ -1687,12 +1685,12 @@ namespace Tinkercell
 						newData2 += &(allhandles[i]->data->textData[ keys2[j] ]);
 				}
 				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), oldData1, newData1, oldData2, newData2);
-				for (int i=0; i < newData1.size(); ++i)
-					if (newData1[i])
-						delete newData1[i];
-				for (int i=0; i < newData2.size(); ++i)
-					if (newData2[i])
-						delete newData2[i];
+				for (int i=0; i < oldData1.size(); ++i)
+					if (oldData1[i])
+						delete oldData1[i];
+				for (int i=0; i < oldData2.size(); ++i)
+					if (oldData2[i])
+						delete oldData2[i];
 		}
 		else
 		{

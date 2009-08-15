@@ -41,7 +41,7 @@ namespace Tinkercell
 		
 		dataTable = data;
 		
-		/*double minZ = dataTable.value(0,0);
+		double minZ = dataTable.value(0,0);
 		double maxZ = dataTable.value(0,0);
 		
 		for (int i=0; i < dataTable.rows(); ++i)
@@ -49,29 +49,43 @@ namespace Tinkercell
 			{
 				if (dataTable.value(i,j) < minZ)
 					minZ = dataTable.value(i,j);
+				
 				if (dataTable.value(i,j) > maxZ)
 					maxZ = dataTable.value(i,j);
 			}
-		*/
 		
-		double minX = dataTable.value(1,0),
+		
+		/*double  minX = dataTable.value(1,0),
 				minY = dataTable.value(0,1),
 				maxX = dataTable.value(dataTable.rows()-1,0),
-				maxY = dataTable.value(0,dataTable.cols()-1);		
+				maxY = dataTable.value(0,dataTable.cols()-1);*/
+		
+		double  minX = 0,
+				minY = 0,
+				maxX = dataTable.rows(),
+				maxY = dataTable.cols();
 		
 		for (int i=0; i < surfacePlot->coordinates()->axes.size(); ++i)
 		{
 			//surfacePlot->coordinates()->axes[i].setAutoScale(true);
-			surfacePlot->coordinates()->axes[i].setMajors(12);
-			surfacePlot->coordinates()->axes[i].setMinors(4);
+			surfacePlot->coordinates()->axes[i].setMajors(5);
+			surfacePlot->coordinates()->axes[i].setMinors(2);
 		}
 		
 		surfacePlot->loadFromData(tableToArray(dataTable),dataTable.cols(),dataTable.rows(),minX,maxX,minY,maxY);
 		
 		setTitle(title);
+		
+		double max = maxZ;
+		if (maxX > max) max = maxX;
+		if (maxY > max) max = maxY;
+		
+		surfacePlot->setScale(max/maxX,max/maxY,max/maxZ);
 		setXLabel(dataTable.colName(0));
 		setYLabel(dataTable.colName(1));
 		setZLabel(dataTable.colName(2));
+		
+		surfacePlot->setCoordinateStyle(BOX);
 		
 		surfacePlot->updateData();
 		surfacePlot->updateGL();
@@ -112,8 +126,8 @@ namespace Tinkercell
 		setShift(0.15,0,0);
 		setZoom(0.9);
 		
-		coordinates()->axes[X1].setLabelString("x-axis");
-		coordinates()->axes[Y1].setLabelString("y-axis");
+		coordinates()->axes[X1].setLabelString("x");
+		coordinates()->axes[Y1].setLabelString("y");
 		coordinates()->axes[Z1].setLabelString(QChar(0x38f)); // Omega - see http://www.unicode.org/charts/
 
 		setCoordinateStyle(BOX);

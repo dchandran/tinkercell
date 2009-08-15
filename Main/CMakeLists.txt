@@ -20,13 +20,6 @@ IF( APPLE AND BUILD_BUNDLE )
       Version ${TINKERCELL_VERSION}
   )
 
-  IF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app )
-    ADD_CUSTOM_COMMAND( TARGET Tinkercell PRE_BUILD
-      COMMAND rm ARGS -rf  
-        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app 
-    )
-  ENDIF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app )
-
   ADD_EXECUTABLE( Tinkercell 
     MACOSX_BUNDLE
     Main.cpp
@@ -40,7 +33,7 @@ IF( APPLE AND BUILD_BUNDLE )
   )
 
   ADD_CUSTOM_COMMAND( TARGET Tinkercell POST_BUILD
-      COMMAND mkdir ARGS 
+      COMMAND mkdir ARGS -p
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework

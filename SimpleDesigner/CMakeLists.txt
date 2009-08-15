@@ -30,11 +30,6 @@ IF( APPLE AND BUILD_BUNDLE )
       Version ${TINKERCELL_VERSION}
   )
 
-  ADD_CUSTOM_COMMAND( TARGET SimpleDesigner PRE_BUILD
-      COMMAND rm ARGS -rf  
-        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app
-  )
-
   ADD_EXECUTABLE( SimpleDesigner
     MACOSX_BUNDLE
     SimpleDesigner.cpp
@@ -47,7 +42,7 @@ IF( APPLE AND BUILD_BUNDLE )
   )
 
   ADD_CUSTOM_COMMAND( TARGET SimpleDesigner POST_BUILD
-      COMMAND mkdir ARGS 
+      COMMAND mkdir ARGS -p
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework

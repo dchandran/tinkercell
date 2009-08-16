@@ -160,23 +160,23 @@ namespace Tinkercell
 				connect(this,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
 			}
 
-            connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-            connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+      connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+      connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-            toolLoaded(0);
+      toolLoaded(0);
 
-            OutputWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
+      OutputWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
 
 #ifdef Q_WS_WIN
-            QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
+      QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
 #else
-            QString pydir = appDir + tr("/py");
+      QString pydir = appDir + tr("/py");
 #endif
-            runPythonCode((tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\nimport init")).toAscii().data());
+      runPythonCode((tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\nimport init")).toAscii().data());
 			
 
-            return true;
-        }
+      return true;
+      }
         
 		return false;
     }
@@ -198,14 +198,17 @@ namespace Tinkercell
 
                 QString appDir = QCoreApplication::applicationDirPath();
 
-                QString name[] = {	MainWindow::userHome() + tr("/") + filename,
-                                        filename,
-                                        QDir::currentPath() + tr("/") + filename,
-                                        appDir + tr("/") + filename };
+                QString name[] = { 
+                  tr( "@TINKERCELL_SOURCE_DIR@/bin/" ) + filename,
+                  tr( "@TINKERCELL_BINARY_DIR@/bin/" ) + filename,
+                  MainWindow::userHome() + tr("/") + filename,
+                  filename,
+                  QDir::currentPath() + tr("/") + filename,
+                  appDir + tr("/") + filename };
 
                 QFile file;
                 bool opened = false;
-                for (int i=0; i < 4; ++i)
+                for (int i=0; i < 6; ++i)
                 {
                     file.setFileName(name[i]);
                     if (file.open(QFile::ReadOnly | QFile::Text))
@@ -374,7 +377,7 @@ namespace Tinkercell
             }
             if (!opened)
             {
-                OutputWindow::error(tr("file not found"));
+                OutputWindow::error( filename + tr("file not found"));
             }
             else
             {

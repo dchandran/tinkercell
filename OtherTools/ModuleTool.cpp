@@ -132,6 +132,7 @@ namespace Tinkercell
                     alreadyLinked = true;
                     break;
                 }
+
                 if (alreadyLinked) continue;
 
                 NodeGraphicsItem * module = VisualTool::parentModule(items[i]);

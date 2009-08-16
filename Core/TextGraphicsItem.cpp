@@ -14,8 +14,35 @@ a handle
 
 namespace Tinkercell
 {
-	/*! Constructor: sets text edit interaction */
-	TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) : 
+
+ItemHandle * TextGraphicsItem::handle() const
+{
+	return itemHandle;
+}
+
+void TextGraphicsItem::setHandle(ItemHandle * handle)
+{
+	if (handle != 0 && !handle->graphicsItems.contains(this))
+	{
+		handle->graphicsItems += this;
+	}
+	
+	if (itemHandle)
+	{
+		if (itemHandle != handle)
+		{
+			itemHandle->graphicsItems.removeAll(this);
+			itemHandle = handle;
+		}
+	}
+	else
+	{
+		itemHandle = handle;
+	}
+}
+
+/*! Constructor: sets text edit interaction */
+TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) : 
 QGraphicsTextItem(text,parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 {
 	setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -46,7 +73,7 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 {
 	if (handle) setPlainText(handle->name);
 	itemHandle = 0;
-	setHandle(this,handle);
+	setHandle(handle);
 	setTextInteractionFlags(Qt::TextEditorInteraction);
 	setFlag(QGraphicsItem::ItemIsMovable);
 	//setFlag(QGraphicsItem::ItemIsSelectable);
@@ -74,7 +101,7 @@ QGraphicsTextItem(), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF())
 	itemHandle = copy.itemHandle;
 
 	if (itemHandle)
-		setHandle(this,itemHandle);
+		setHandle(itemHandle);
 
 	boundingRectItem = new QGraphicsRectItem(this);
 	boundingRectItem->setPen(QPen(QColor(100,100,100),2));

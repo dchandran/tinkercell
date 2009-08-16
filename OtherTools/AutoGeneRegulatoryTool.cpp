@@ -755,23 +755,43 @@ namespace Tinkercell
 							&& promoter->hasNumericalData(tr("Numerical Attributes")) 
 							&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
 						{
-							sDat->value(0,0) = promoter->fullName() + tr(".rate");
-							targetHandles += connections[j];
-							hashStrings += tr("Rates");
-							dataTables += sDat;
+							if (sDat->value(0,0) != promoter->fullName() + tr(".rate"))
+							{
+								sDat->value(0,0) = promoter->fullName() + tr(".rate");
+								targetHandles += connections[j];
+								hashStrings += tr("Rates");
+								dataTables += sDat;
+							}
 						}
 						else
-						{
-							sDat->value(0,0) = tr("0.0");
-							targetHandles += connections[j];
-							hashStrings += tr("Rates");
-							dataTables += sDat;
-						}
+							if (sDat->value(0,0) != tr("0.0"))
+							{
+								sDat->value(0,0) = tr("0.0");
+								targetHandles += connections[j];
+								hashStrings += tr("Rates");
+								dataTables += sDat;
+							}
+							
 						if (sDat->getRowNames().contains(tr("translation")))
+						{
+							QString s = sDat->value(tr("translation"),0);
+							
 							if (rbs && !sDat->value(tr("translation"),0).contains(rbs->fullName()))
-								sDat->value(tr("translation"),0) = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
+								s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
 							else
-								sDat->value(tr("translation"),0).replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
+								s.replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
+								
+							if (sDat->value(tr("translation"),0) != s)
+							{
+								sDat->value(tr("translation"),0) = s;
+								if (!dataTables.contains(sDat))
+								{
+									targetHandles += connections[j];
+									hashStrings += tr("Rates");
+									dataTables += sDat;
+								}
+							}
+						}
 											
 						QList<NodeHandle*> rna = connections[j]->nodesOut();
 							for (int k=0; k < rna.size(); ++k)
@@ -795,10 +815,17 @@ namespace Tinkercell
 												if (hasProtein)
 												{
 													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rates")]);
-													sDat2->value(0,0) = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
-													targetHandles += connections2[l];
-													hashStrings += tr("Rates");
-													dataTables += sDat2;
+													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
+													
+													if (sDat2->value(0,0) != s)
+													{
+														sDat2->value(0,0) = s;
+														targetHandles += connections2[l];
+														hashStrings += tr("Rates");
+														dataTables += sDat2;
+													}
+													else
+														delete sDat2;
 												}
 											}
 											else
@@ -851,7 +878,7 @@ namespace Tinkercell
 									break;
 								}
 						}
-							
+						
 						if (!sDat->getRowNames().contains(tr("rate")) || missing)
 						{
 							QString s = hillEquation(TFconnections,activators,repressors);

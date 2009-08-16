@@ -42,121 +42,70 @@ namespace Tinkercell
 
 	ItemHandle * getHandle(QGraphicsItem * item)
 	{
-		if (item == 0) return (0);
+		if (!item) return 0;
+		
 		item = getGraphicsItem(item);
 
 		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
 		if (node)
+			return (node->handle());		
+		
+		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+		if (connection)
+			return (connection->handle());
+		
+		TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
+		if (textItem)
+			return (textItem->handle());
+		
+		ControlPoint * cp = ControlPoint::asControlPoint(item);
+		if (cp)
 		{
-			return (node->itemHandle);
+			return (cp->handle());
 		}
-		else
-		{
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
-			if (connection)
-			{
-				return (connection->itemHandle);
-			}
-			else
-			{
-				TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
-				if (textItem)
-				{
-					return (textItem->itemHandle);
-				}
-			}
-		}
-		return (0);
+		
+		return 0;
 	}
 
 	void setHandle(QGraphicsItem * item, ItemHandle * handle)
 	{
-		if (item == 0) return;
+		if (!item) return;
+		
 		item = getGraphicsItem(item);
 
-		if (handle != 0 && !handle->graphicsItems.contains(item))
-		{
-			handle->graphicsItems += item;
-		}
 		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
 		if (node)
 		{
-			if (node->itemHandle)
-			{
-				if (node->itemHandle != handle)
-				{
-					node->itemHandle->graphicsItems.removeAll(node);
-					node->itemHandle = handle;
-				}
-			}
-			else
-			{
-				node->itemHandle = handle;
-			}
+			node->setHandle(handle);
+			return;
 		}
-		else
+
+		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+		if (connection)
 		{
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
-			if (connection)
-			{
-				if (connection->itemHandle)
-				{
-					if (connection->itemHandle != handle)
-					{
-						connection->itemHandle->graphicsItems.removeAll(connection);
-						connection->itemHandle = handle;
-					}
-				}
-				else
-				{
-					connection->itemHandle = handle;
-				}
-			}
-			else
-			{
-				TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
-				if (textItem)
-				{
-					if (textItem->itemHandle)
-					{
-						if (textItem->itemHandle != handle)
-						{
-							textItem->itemHandle->graphicsItems.removeAll(textItem);
-							textItem->itemHandle = handle;
-						}
-					}
-					else
-					{
-						textItem->itemHandle = handle;
-					}
-				}
-			}
+			connection->setHandle(handle);
+			return;
 		}
+		
+		TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
+		if (textItem)
+		{
+			textItem->setHandle(handle);
+			return;
+		}
+		
 	}
 
 	ItemHandle * getHandle(TextItem * item)
 	{
 		if (!item) return 0;
-		return item->itemHandle;
+		return item->handle();
 	}
 
 	void setHandle(TextItem* item, ItemHandle* handle)
 	{
 		if (!item) return;
-		if (!handle)
-		{
-			if (item->itemHandle)
-			{
-				item->itemHandle->textItems.removeAll(item);
-			}
-		}
-		else
-		{
-			if (!handle->textItems.contains(item))
-				handle->textItems.append(item);
-		}
-
-		item->itemHandle = handle;
+		item->setHandle(handle);
 	}
 
 	/**********************************

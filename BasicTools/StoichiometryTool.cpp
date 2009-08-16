@@ -1585,13 +1585,13 @@ namespace Tinkercell
 
 				/*this tool's matrix is actually the transpose of traditional stoichiometry matrix*/
 
-				for (int i=0; i < colNames.size(); ++i)
-					combinedTable.colName(i).replace(QString("."),replaceDot);
+		for (int i=0; i < colNames.size(); ++i)
+			combinedTable.colName(i).replace(QString("."),replaceDot);
 
-				for (int i=0; i < rowNames.size(); ++i)
-					combinedTable.rowName(i).replace(QString("."),replaceDot);
+		for (int i=0; i < rowNames.size(); ++i)
+			combinedTable.rowName(i).replace(QString("."),replaceDot);
 
-				return combinedTable.transpose();
+		return combinedTable.transpose();
 	}
 
 	//set the stoiciometry of the items from the matrix

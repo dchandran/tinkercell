@@ -42,6 +42,20 @@ namespace Tinkercell
 		setPosOnEdge();
 	}
 	
+	ModuleLinkerItem::ModuleLinkerItem(const ModuleLinkerItem& copy) : NodeGraphicsItem(copy)
+	{
+		className = ModuleLinkerItem::class_name;
+		module = copy.module;
+		textItem = copy.textItem;
+		lineItem = 0;
+		if (copy.lineItem)
+		{
+			lineItem = new QGraphicsLineItem(this);		
+			lineItem->setPen(copy.lineItem->pen());
+		}
+		setPosOnEdge();
+	}
+	
 	NodeGraphicsItem * ModuleLinkerItem::clone() const
 	{
 		return new ModuleLinkerItem(*this);

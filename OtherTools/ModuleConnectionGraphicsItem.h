@@ -37,6 +37,8 @@ public:
 
 	ModuleLinkerItem(NodeGraphicsItem * mod=0, QGraphicsItem * parent = 0, TextGraphicsItem * text = 0);
 	
+	ModuleLinkerItem(const ModuleLinkerItem&);
+	
 	virtual void setPosOnEdge();
 	
 	virtual NodeGraphicsItem * clone() const;

@@ -57,7 +57,7 @@ namespace Tinkercell
 	class BasicInformationTool_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+	signals:
 		void getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
@@ -69,18 +69,18 @@ signals:
 		void getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
-		public slots:
-			Matrix getInitialValues(Array );
-			Matrix getParameters(Array );
-			Matrix getFixedVars(Array);
-			Matrix getFixedAndParameters(Array);
-			char* getTextData(OBJ ,const char* );
-			double getNumericalData(OBJ ,const char* );
-			Matrix getParametersNamed(Array, char**);
-			Matrix getParametersExcept(Array, char**);
-			char** getAllTextDataNamed(Array, char**);
-			void setTextData(OBJ ,const char* ,const char* );
-			void setNumericalData(OBJ ,const char* ,double );
+	public slots:
+		Matrix getInitialValues(Array );
+		Matrix getParameters(Array );
+		Matrix getFixedVars(Array);
+		Matrix getFixedAndParameters(Array);
+		char* getTextData(OBJ ,const char* );
+		double getNumericalData(OBJ ,const char* );
+		Matrix getParametersNamed(Array, char**);
+		Matrix getParametersExcept(Array, char**);
+		char** getAllTextDataNamed(Array, char**);
+		void setTextData(OBJ ,const char* ,const char* );
+		void setNumericalData(OBJ ,const char* ,double );
 	};
 
 	/*!
@@ -104,38 +104,35 @@ signals:
 		enum Type { numerical, text, both };
 		Type type;
 
-signals:
+	public slots:
+		void select(int);
+		void deselect(int);
 
+		void setValue(int i, int j);
+		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
+		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
+		void pluginLoaded(Tool*);
+		void addAttribute();
+		void removeSelectedAttributes();
+		void historyUpdate(int);
+		void setupFunctionPointers( QLibrary * );
+		void windowClosing(NetworkWindow * scene, bool * close);
 
-		public slots:
-			void select(int);
-			void deselect(int);
+		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 
-			void setValue(int i, int j);
-			void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
-			void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
-			void pluginLoaded(Tool*);
-			void addAttribute();
-			void removeSelectedAttributes();
-			void historyUpdate(int);
-			void setupFunctionPointers( QLibrary * );
-			void windowClosing(NetworkWindow * scene, bool * close);
-
-			void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-			void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-
-			private slots:
-				void getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-				void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-				void getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-				void getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-				void getTextData(QSemaphore*,QString*,ItemHandle*,const QString&);
-				void getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&);
-				void setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&);
-				void setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal);
-				void getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
-				void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
-				void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
+	private slots:
+		void getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void getTextData(QSemaphore*,QString*,ItemHandle*,const QString&);
+		void getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&);
+		void setTextData(QSemaphore*,ItemHandle*,const QString&,const QString&);
+		void setNumericalData(QSemaphore*,ItemHandle*,const QString&,qreal);
+		void getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
+		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
+		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
 
 	protected:
 		void insertDataMatrix(ItemHandle * handle);

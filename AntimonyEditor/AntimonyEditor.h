@@ -22,6 +22,7 @@
 #include <QListWidget>
 #include <QTabWidget>
 #include <QTreeWidget>
+#include <QTextEdit>
 #include <QThread>
 #include <QToolBar>
 #include <QTimeLine>
@@ -76,6 +77,16 @@ namespace Tinkercell
 			\param QList<TextItem*> items to clone
 		*/
 		static QList<TextItem*> clone(const QList<TextItem*>&);
+		
+		CodeEditor * scriptDisplayWindow;
+		
+		static QString getAntimonyScript(ItemHandle *);
+		
+	private slots:
+		/*! \brief display antimony script when a module info is being displayed (see modelSummaryTool)        */
+		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
+		/*! \brief used to connect to modelSummaryTool*/
+		void toolLoaded(Tool*);
 
 	};
 

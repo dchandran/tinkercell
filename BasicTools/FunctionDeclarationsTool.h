@@ -54,14 +54,15 @@ namespace Tinkercell
 	class AssignmentFunctionsTool_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+	signals:
 		void getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&);
-		public slots:
-			char** getForcingFunctionNames(Array);
-			char** getForcingFunctionAssignments(Array);
-			void addForcingFunction(OBJ,const char*, const char*);
+		
+	public slots:
+		char** getForcingFunctionNames(Array);
+		char** getForcingFunctionAssignments(Array);
+		void addForcingFunction(OBJ,const char*, const char*);
 	};
 
 	/*!
@@ -80,29 +81,26 @@ signals:
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
 
-signals:
+	public slots:
+		void select(int);
+		void deselect(int);
 
+		void setValue(int i, int j);
+		void itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>& handles);
+		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
+		void toolLoaded(Tool*);
+		void addAttribute();
+		void removeSelectedAttributes();
+		void historyUpdate(int);
+		void setupFunctionPointers( QLibrary * );
 
-		public slots:
-			void select(int);
-			void deselect(int);
+		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 
-			void setValue(int i, int j);
-			void itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>& handles);
-			void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
-			void toolLoaded(Tool*);
-			void addAttribute();
-			void removeSelectedAttributes();
-			void historyUpdate(int);
-			void setupFunctionPointers( QLibrary * );
-
-			void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-			void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-
-			private slots:
-				void getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-				void getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-				void addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&);
+	private slots:
+		void getForcingFunctionNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		void getForcingFunctionAssignments(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		void addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&);
 
 	protected:
 		void insertDataMatrix(ItemHandle * handle);

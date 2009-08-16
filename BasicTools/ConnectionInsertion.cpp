@@ -46,6 +46,12 @@ namespace Tinkercell
 			{
 				numRequiredIn = (int)selectedFamily->numericalAttributes.value("numin");
 				numRequiredOut = (int)selectedFamily->numericalAttributes.value("numout");
+				
+				if (numRequiredIn < 1)
+					numRequiredIn = 1;
+				
+				if (numRequiredOut < 1)
+					numRequiredOut = 1;
 			}
 			
 			

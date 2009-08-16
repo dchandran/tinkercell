@@ -407,8 +407,8 @@ namespace Tinkercell
         if (!handle || !handle->family() ||
             !(handle->family()->isA(tr("Module")) || handle->family()->isA(tr("Compartment"))))
             return;
-
-        ConnectionGraphicsItem::ControlPoint * cpt = 0;
+			
+		ConnectionGraphicsItem::ControlPoint * cpt = 0;
         QList<ItemHandle*> newChildren;
         ItemHandle * child = 0;
 
@@ -426,13 +426,25 @@ namespace Tinkercell
 
         NodeGraphicsItem * node = 0;
 
-        QList<QGraphicsItem*> movingItems = movingItems0;
-
-        for (int i=0; i < movingItems0.size(); ++i)
+        QList<QGraphicsItem*> movingItems;
+		
+		for (int i=0; i < movingItems0.size(); ++i)
             if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems0[i]))
+				movingItems << node;
+		
+		if (movingItems.isEmpty())
+		{
+			QList<QGraphicsItem*> insersectingItems = scene->items(nodeHit->sceneBoundingRect());
+			for (int i=0; i < insersectingItems.size(); ++i)
+				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(insersectingItems[i])) && !movingItems.contains(node))
+					movingItems << node;
+		}
+
+        for (int i=0; i < movingItems.size(); ++i)
+            if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems[i]))
             {
-            movingItems << node->connectionsAsGraphicsItems();
-        }
+				movingItems << node->connectionsAsGraphicsItems();
+			}
 
         ConnectionGraphicsItem* connection;
         QRectF hitRect = nodeHit->sceneBoundingRect();
@@ -452,13 +464,13 @@ namespace Tinkercell
             if ((cpt = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(movingItems[i])) &&
                 (cpt->connectionItem) &&
                 (hitRect.contains(cpt->connectionItem->sceneBoundingRect())))
-            {
-                child = getHandle(cpt->connectionItem);
-            }
-            else
-            {
-                child = getHandle(movingItems[i]);
-            }
+				{
+					child = getHandle(cpt->connectionItem);
+				}
+				else
+				{
+					child = getHandle(movingItems[i]);
+				}
             if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child))
             {
                 stillWithParent = false;
@@ -649,19 +661,14 @@ namespace Tinkercell
     void ContainerTreeTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist, Qt::KeyboardModifiers)
     {
         if (!mainWindow || !scene || !scene->symbolsTable) return;
-        
-		/*
-		static bool recursive = false;
-		if (recursive) return;
-		recursive = true;
-        moveChildItems(scene,items0,dist);
-        recursive = false;
-		*/
-		
+        	
         QList<ItemHandle*> children;
         QList<ItemHandle*> newParents;
-        ItemHandle * child = 0;
+
+        ItemHandle * child = 0, * parent = 0, * handle = 0;
         bool outOfBox;
+		
+		QList<ItemHandle*> movedChildNodes, movedCompartmentNodes;
 
         QList<QGraphicsItem*> itemsToRename;
         QList<QString> newNames;
@@ -688,45 +695,48 @@ namespace Tinkercell
         {
             if (qgraphicsitem_cast<TextGraphicsItem*>(items[i])) continue;
 
-            if ((cp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])))
-                child = getHandle(cp->connectionItem);
-            else
-                child = getHandle(items[i]);
+            handle = getHandle(items[i]);
+			
+			if (!handle || visitedHandles.contains(handle)) continue;
+			
+			visitedHandles << handle;
 
             if (node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
             {
                 items << node->connectionsAsGraphicsItems();
             }
-
-            if (child && !visitedHandles.contains(child))
-            {
-                visitedHandles << child;
-
-                if (child->parent && child->parent->family() &&
-                    (child->parent->family()->isA(tr("Module")) || child->parent->family()->isA(tr("Compartment"))))
-                {
-                    outOfBox = true;
-                    for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
-                    {
-                        for (int k=0; k < child->graphicsItems.size(); ++k)
-                        {
-                            QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
-                            QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-                            if (p1.intersects(p2) || p1.contains(p2))
-                            {
-                                outOfBox = false; //yes, still contained inside the module/Compartment
-                                break;
-                            }
-                        }
-                        if (!outOfBox) break;
-                    }
-                    if (outOfBox)
-                    {
-                        children += child;
-                        newParents += 0;
-                    }
-                }
-            }
+			
+			if (handle->parent && (handle->parent->isA(tr("Module")) || handle->parent->isA(tr("Compartment"))))
+				movedChildNodes << handle;
+			else
+				if (handle->isA(tr("Compartment")) || handle->isA(tr("Module")))
+					movedChildNodes << handle->children;
+				
+		}
+		
+		for (int i=0; i < movedChildNodes.size(); ++i)
+		{
+			child = movedChildNodes[i];
+            outOfBox = true;
+			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
+			{
+				for (int k=0; k < child->graphicsItems.size(); ++k)
+				{
+					QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
+					QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
+					if (p1.intersects(p2) || p1.contains(p2))
+					{
+						outOfBox = false; //yes, still contained inside the module/Compartment
+						break;
+					}
+				}
+				if (!outOfBox) break;
+			}
+			if (outOfBox)
+			{
+				children += child;
+				newParents += 0;
+			}
         }
 
         if (!children.isEmpty() && !newParents.isEmpty())

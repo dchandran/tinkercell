@@ -51,6 +51,10 @@ namespace Tinkercell
 		NodeTextItem * asNode();
 		/*! \brief other information needed to describe this connection in text*/
 		QStringList descriptors;
+		/*! \brief get handle for this item*/
+		virtual ItemHandle * handle() const;
+		/*! \brief set handle for this item*/
+		virtual void setHandle(ItemHandle *);
 	};
 
 	/*! \brief Text items that represent Nodes.

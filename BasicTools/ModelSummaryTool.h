@@ -58,19 +58,19 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
 
-signals:
+	signals:
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 
-		public slots:
-			void select(int);
-			void deselect(int);
-			void sceneClosing(NetworkWindow * , bool *);
-			void historyUpdate(int);
-			void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);
-			void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);
-			void mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-			void setValue(int,int);
+	public slots:
+		void select(int);
+		void deselect(int);
+		void sceneClosing(NetworkWindow * , bool *);
+		void historyUpdate(int);
+		void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);
+		void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);
+		void mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void setValue(int,int);
 
 	protected:
 		QGroupBox groupBox;

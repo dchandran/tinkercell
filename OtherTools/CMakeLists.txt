@@ -67,7 +67,7 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
 
 QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
 
-ADD_LIBRARY( ModulePlugin 
+ADD_LIBRARY( ModuleTool 
   SHARED
   ModuleTool.cpp
   ModuleConnectionGraphicsItem.cpp
@@ -75,8 +75,8 @@ ADD_LIBRARY( ModulePlugin
   ${TinkercellCore_MOC}
   )
 
-TARGET_LINK_LIBRARIES( ModulePlugin
-  ModulePlugin
+TARGET_LINK_LIBRARIES( ModuleTool
+  ModuleTool
   TinkerCellCore
 )
 

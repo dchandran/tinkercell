@@ -27,8 +27,48 @@ namespace Tinkercell
 {
 	QString ArrowHeadItem::class_name("ArrowHeadItem");
 	QString ConnectionGraphicsItem::class_name("ConnectionGraphicsItem");
+	
+	ItemHandle * ConnectionGraphicsItem::handle() const
+	{
+		return itemHandle;
+	}
+	
+	void ConnectionGraphicsItem::setHandle(ItemHandle * handle)
+	{
+		if (handle != 0 && !handle->graphicsItems.contains(this))
+		{
+			handle->graphicsItems += this;
+		}
+		
+		if (itemHandle)
+		{
+			if (itemHandle != handle)
+			{
+				itemHandle->graphicsItems.removeAll(this);
+				itemHandle = handle;
+			}
+		}
+		else
+		{
+			itemHandle = handle;
+		}
+	}
+	
+	ItemHandle * ConnectionGraphicsItem::ControlPoint::handle() const
+	{
+		if (connectionItem)
+			return connectionItem->handle();
+		return 0;
+	}
+	
+	void ConnectionGraphicsItem::ControlPoint::setHandle(ItemHandle * h)
+	{
+		if (connectionItem)
+			connectionItem->setHandle(h);
+	}
 
-	ControlPoint * ControlPoint::getControlPoint(QGraphicsItem* item)
+
+	ControlPoint * ControlPoint::asControlPoint(QGraphicsItem* item)
 	{
 		ControlPoint * idptr = 0;
 
@@ -137,7 +177,7 @@ namespace Tinkercell
 		itemHandle = copy.itemHandle;
 
 		if (itemHandle)
-			setHandle(this,itemHandle);
+			setHandle(itemHandle);
 
 		pathVectors = copy.pathVectors;
 		lineType = copy.lineType;
@@ -218,7 +258,9 @@ namespace Tinkercell
 	/*! \brief make a copy of this item*/
 	ConnectionGraphicsItem* ConnectionGraphicsItem::clone() const
 	{
-		return new ConnectionGraphicsItem(*this);
+		ConnectionGraphicsItem * c = new ConnectionGraphicsItem(*this);
+		c->className = ConnectionGraphicsItem::class_name;
+		return c;
 	}
 
 	/*! operator =: copy just the control point positions and pen */
@@ -239,7 +281,7 @@ namespace Tinkercell
 			centerRegionItem = new ArrowHeadItem(*copy.centerRegionItem);
 			centerRegionItem->connectionItem = this;
 			for (int i=0; i < children.size(); ++i)
-				if (ControlPoint::getControlPoint(children[i]))
+				if (ControlPoint::asControlPoint(children[i]))
 				{
 					children[i]->setParentItem(centerRegionItem);
 				}
@@ -265,7 +307,7 @@ namespace Tinkercell
 		itemHandle = copy.itemHandle;
 
 		if (itemHandle)
-			setHandle(this,itemHandle);
+			setHandle(itemHandle);
 
 		pathVectors = copy.pathVectors;
 		lineType = copy.lineType;
@@ -373,7 +415,7 @@ namespace Tinkercell
 
 		ItemHandle * h = itemHandle;
 
-		setHandle(this,0);
+		setHandle(0);
 
 		if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
 			delete h;
@@ -632,7 +674,7 @@ namespace Tinkercell
 					pathVectors[i].arrowStart->setZValue(zValue() + 0.1);
 
 					if (pathVectors[i].arrowStart->itemHandle != 0)  //arrow should not have handles
-						setHandle(pathVectors[i].arrowStart,0);
+						Tinkercell::setHandle(pathVectors[i].arrowStart,0);
 
 					if (pathVectors[i].arrowStart->parentItem() == 0)
 					{

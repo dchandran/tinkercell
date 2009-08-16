@@ -58,7 +58,9 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-            connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
+            connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
+                    this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
                     this, SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
@@ -336,13 +338,9 @@ namespace Tinkercell
         }
     }
 
-    void ModuleTool::itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& insertedItems, const QList<ItemHandle*>& handles)
-    {
-		if (!scene) return;
-        NodeGraphicsItem * node = 0;
-        ConnectionGraphicsItem * connection = 0;
-
-        for (int i=0; i < handles.size(); ++i)
+    void ModuleTool::itemsInserted(GraphicsScene*, const QList<QGraphicsItem *>&, const QList<ItemHandle*>& handles)
+    {	
+		for (int i=0; i < handles.size(); ++i)
         {
             ItemHandle * handle = handles[i];
 			
@@ -351,17 +349,24 @@ namespace Tinkercell
 				handle->tools += this;
             }
         }
-
+	}
+	
+	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles)
+	{
+		if (!scene) return;
+		
+		NodeGraphicsItem * node = 0;
+        ConnectionGraphicsItem * connection = 0;
+		
         bool nothingToDo = true;
-        for (int i=0; i < insertedItems.size(); ++i)
+        for (int i=0; i < items.size(); ++i)
         {
-            if (!(
-                    ((node = qgraphicsitem_cast<NodeGraphicsItem*>(insertedItems[i])) &&
-                     (node->className == ModuleLinkerItem::class_name))
-                    ||
-                    ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(insertedItems[i])) &&
-                     (connection->className == ModuleConnectionGraphicsItem::class_name))
-                    ))
+            if ( ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && 
+			      (node->className == ModuleLinkerItem::class_name))
+                  ||
+                 ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])) && 
+				  (connection->className == ModuleConnectionGraphicsItem::class_name))
+                )
             {
                 nothingToDo = false;
                 break;
@@ -372,21 +377,20 @@ namespace Tinkercell
 
         NodeGraphicsItem * module = 0;
 
-        QList<QGraphicsItem*> items, moduleConnections;
-        items << insertedItems;
+        QList<QGraphicsItem*> moduleConnections;
 
         for (int i=0; i < items.size(); ++i)
         {
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) &&
                 (node->className == ModuleLinkerItem::class_name))
             {
-                module = VisualTool::parentModule(node);
+				module = VisualTool::parentModule(node);
                 QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
 
                 QList<ConnectionGraphicsItem*> connections = node->connections();
 
                 bool allLinks = true;
-
+				
                 for (int j=0; j < connections.size(); ++j)
                     if (connections[j] && !moduleConnections.contains(connections[j]))
                     {
@@ -395,21 +399,21 @@ namespace Tinkercell
                 
 				if (module)
                 {
-                    NodeGraphicsItem * linker = new ModuleLinkerItem(module);
+					NodeGraphicsItem * linker = new ModuleLinkerItem(module);
                     setHandle(linker,getHandle(node));
                     setHandle(node,0);
                     (*linker) = (*node);
 
                     allLinks = true;
-
-                    for (int j=0; j < connections.size(); ++j)
+					
+				    for (int j=0; j < connections.size(); ++j)
                         if (connections[j])
                         {
-                        connections[j]->replaceNode(node,linker);
-                        node->className = NodeGraphicsItem::class_name;
-                    }
+							connections[j]->replaceNode(node,linker);
+							node->className = NodeGraphicsItem::class_name;
+						}
 
-                    CompositeCommand * command = new CompositeCommand( tr("add linker"),
+                    /*CompositeCommand * command = new CompositeCommand( tr("add linker"),
                                                                        QList<QUndoCommand*>()
                                                                        << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
                                                                        << (new InsertGraphicsCommand(tr("add new linker"),scene,linker)));
@@ -419,11 +423,17 @@ namespace Tinkercell
                     {
                         command->redo();
                         delete command;
-                    }
+                    }*/
+					
+					delete items[i];
+					
+					items[i] = linker; //replace
+					
                     (static_cast<ModuleLinkerItem*>(linker))->setPosOnEdge();
                 }
             }
         }
+		
         for (int i=0; i < moduleConnections.size(); ++i)
         {
             if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(moduleConnections[i])) &&
@@ -464,8 +474,8 @@ namespace Tinkercell
                             for (int j=0; j < graphicsItems.size(); ++j)
                                 if (graphicsItems[j] && itemsAt.contains(graphicsItems[j]))
                                 {
-                                setHandle(graphicsItems[j],clone);
-                            }
+									setHandle(graphicsItems[j],clone);
+								}
                         }
 
                         mergeHandles << handle1 << clone;
@@ -489,8 +499,7 @@ namespace Tinkercell
 
                 mc->refresh();
 
-
-                CompositeCommand * command = new CompositeCommand( tr("modules connected"),
+                /*CompositeCommand * command = new CompositeCommand( tr("modules connected"),
                                                                    QList<QUndoCommand*>()
                                                                    << (new InsertGraphicsCommand(tr("new modules connection"),scene,mc))
                                                                    << mc->command
@@ -504,7 +513,17 @@ namespace Tinkercell
                 {
                     command->redo();
                     delete command;
-                }
+                }*/
+				
+				if (mc->command)
+					mc->command->redo();
+				
+				for (int j=0; j < items.size(); ++j)
+					if (items[j] == moduleConnections[i])
+					{
+						delete items[j];
+						items[j] = mc;
+					}
             }
         }
     }

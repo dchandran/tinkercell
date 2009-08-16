@@ -17,6 +17,29 @@ namespace Tinkercell
 {
 	int NodeTextItem::Type = 1;
 	int ConnectionTextItem::Type = 2;
+	
+	ItemHandle * TextItem::handle() const
+	{
+		return itemHandle;
+	}
+	
+	void TextItem::setHandle(ItemHandle * handle)
+	{
+		if (!handle)
+		{
+			if (itemHandle)
+			{
+				itemHandle->textItems.removeAll(this);
+			}
+		}
+		else
+		{
+			if (!handle->textItems.contains(this))
+				handle->textItems.append(this);
+		}
+
+		itemHandle = handle;
+	}
 
 	TextItem::TextItem(): type(0), itemHandle(0) {}
 
@@ -33,7 +56,7 @@ namespace Tinkercell
 		if (!itemHandle) return;
 
 		ItemHandle * h = itemHandle;
-		setHandle(this,0);
+		setHandle(0);
 
 		if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
 			delete h;

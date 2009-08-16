@@ -218,7 +218,7 @@ namespace Tinkercell
 		QList<QGraphicsItem *> allitems2;
 		for (int i=0; i < allitems1.size(); ++i)
 		{
-			if (allitems1[i] && qgraphicsitem_cast<ConnectionGraphicsItem*>(allitems1[i]) && !allitems1[i]->parentItem())// && !ControlPoint::getControlPoint(allitems1[i]))
+			if (allitems1[i] && qgraphicsitem_cast<ConnectionGraphicsItem*>(allitems1[i]) && !allitems1[i]->parentItem())
 			{
 				allitems2 << allitems1[i];
 			}
@@ -264,6 +264,24 @@ namespace Tinkercell
 		item->setVisible(true);
 		item->setZValue(lastZ);
 		lastZ += 1.0;
+		
+		QGraphicsItem * item2 = getGraphicsItem(item);
+		
+		if (!item2) return;
+		
+		QPointF p = item2->scenePos();
+		if (p.rx() > this->width() || p.ry() > this->height())
+		{
+			setSceneRect(0,0,this->width()*2, this->height()*2);
+		}
+		if (p.rx() < 0 || p.ry() < 0)
+		{
+			QPointF dp;
+			if (p.rx() < 0) dp.rx() = - p.rx() + item2->boundingRect().width()/2.0 ;
+			if (p.ry() < 0) dp.ry() = - p.ry() + item2->boundingRect().height()/2.0 ;
+			
+			move(item2,dp);
+		}
 	}
 	/*! \brief top Z value
 	* Precondition: None
@@ -979,7 +997,6 @@ namespace Tinkercell
 
 	void GraphicsScene::insert(const QString& name, QGraphicsItem * item)
 	{
-		QUndoCommand * command = new InsertGraphicsCommand(name, this, item);
 		QList<ItemHandle*> handles;
 		QList<QGraphicsItem*> items;
 		items.append(item);
@@ -989,7 +1006,8 @@ namespace Tinkercell
 			handles += handle;
 
 		emit itemsAboutToBeInserted(this,items,handles);
-
+		
+		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
 		if (historyStack)
 			historyStack->push(command);
 		else
@@ -1003,7 +1021,6 @@ namespace Tinkercell
 	/*! \brief this command performs an insert and allows redo/undo of that insert*/
 	void GraphicsScene::insert(const QString& name, const QList<QGraphicsItem*>& items)
 	{
-		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
 		QList<ItemHandle*> handles;
 		QList<QGraphicsItem*> allItems = items;
 
@@ -1019,6 +1036,8 @@ namespace Tinkercell
 		}
 
 		emit itemsAboutToBeInserted(this,allItems,handles);
+		
+		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 
 		if (historyStack)
 			historyStack->push(command);
@@ -1954,7 +1973,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			QGraphicsItem * g = getGraphicsItem(items[i]);
-			if (g && ControlPoint::getControlPoint(g) == 0 && qgraphicsitem_cast<Tool::GraphicsItem*>(g->topLevelItem()) == 0)
+			if (g && ControlPoint::asControlPoint(g) == 0 && qgraphicsitem_cast<Tool::GraphicsItem*>(g->topLevelItem()) == 0)
 				list += g;
 		}
 
@@ -2019,183 +2038,148 @@ namespace Tinkercell
 					moveitems += items[i];
 				}
 			}
-			if (items.size() > 1)
-				center /= items.size();
 
-			if (!scene->lastPoint().isNull())
+		if (items.size() > 1)
+			center /= items.size();
+
+		if (!scene->lastPoint().isNull())
+		{
+			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
+		}
+		
+		QList<QString> allItems = scene->symbolsTable->handlesFullName.keys();
+		QList<ItemHandle*> itemsToRename;
+		QList<QString> newNames;
+		ItemHandle *handle1;
+		for (int i=0; i < items.size(); ++i)
+		{
+			handle1 = getHandle(items[i]);
+			if (handle1 && !handles.contains(handle1))
 			{
-				commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
+				handles << handle1;
+				handles << handle1->allChildren();
 			}
+		}
+		
+		QList<QGraphicsItem*> items2 = items;
+		QList<ItemHandle*> handles2 = handles;
+		
+		emit itemsAboutToBeInserted(scene,items2,handles2);
 
-			commands << new InsertGraphicsCommand(tr("paste items"),scene,items);
+		commands << new InsertGraphicsCommand(tr("paste items"),scene,items2);
 
-			QList<QString> allItems = scene->symbolsTable->handlesFullName.keys();
-			QList<ItemHandle*> itemsToRename;
-			QList<QString> newNames;
-			ItemHandle *handle1;
-			for (int i=0; i < items.size(); ++i)
+		for (int i=0; i < handles.size(); ++i)
+		{
+			handle1 = handles[i];
+			if (!handle1->parent || !handles.contains(handle1->parent))
 			{
-				handle1 = getHandle(items[i]);
-				if (handle1 && !handles.contains(handle1))
+				QString name0 = handle1->fullName();
+				name = name0;
+
+				while (name0.size() > 1 && name0[name0.length()-1].isNumber())
+					name0.chop(1);
+
+				bool unique = false;
+				int c = 1;
+				while (!unique)
 				{
-					handles << handle1;
-					handles << handle1->allChildren();
-				}
-			}
-
-			for (int i=0; i < handles.size(); ++i)
-			{
-				handle1 = handles[i];
-				if (!handle1->parent || !handles.contains(handle1->parent))
-				{
-					QString name0 = handle1->fullName();
-					name = name0;
-
-					while (name0.size() > 1 && name0[name0.length()-1].isNumber())
-						name0.chop(1);
-
-					bool unique = false;
-					int c = 1;
-					while (!unique)
+					unique = true;
+					for (int j=0; j < allItems.size(); ++j)
 					{
-						unique = true;
-						for (int j=0; j < allItems.size(); ++j)
+						if (allItems[j] == name)
 						{
-							if (allItems[j] == name)
-							{
-								unique = false;
-								break;
-							}
-						}
-						if (!unique)
-						{
-							name = name0 + QString::number(c);
-							++c;
+							unique = false;
+							break;
 						}
 					}
-					allItems << name;
-					itemsToRename << handles[i];
-					newNames << name;
-				}
-			}
-
-			commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
-			scene->clearSelection();
-
-			//for connections
-			QList< QPair<NodeGraphicsItem*,NodeGraphicsItem*> > originalsAndClones;
-			QList< ConnectionGraphicsItem* > connectionItems;
-			NodeGraphicsItem *node1 = 0, *node2 = 0;
-			QList<ArrowHeadItem*> arrowHeads;
-
-			QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
-
-			QList<QGraphicsItem*> items2 = items;
-			duplicateItems.clear();
-			QList< QPair<ItemHandle*,ItemHandle*> > originalAndCloneHandles;
-
-			if (scene->historyStack)
-				scene->historyStack->push(compositeCommand);
-			else
-				compositeCommand->redo();
-
-			for (int i = 0; i < items.size(); ++i)
-				if (items[i])
-				{
-					ItemHandle * handle = getHandle(items[i]);
-					if (handle)
+					if (!unique)
 					{
-						for (int j=0; j < handle->children.size(); ++j)
-							if (handle->children[j] && handle->children[j]->graphicsItems.size() > 0)
-								for (int k=0; k < handle->children[j]->graphicsItems.size(); ++k)
-									if (!items.contains(handle->children[j]->graphicsItems[k]) &&
-										items[i]->collidesWithItem(handle->children[j]->graphicsItems[k]))
-										items << handle->children[j]->graphicsItems[k];
-
-						ItemHandle * handleClone = handle->clone();
-						QList<ItemHandle*> childHandles = handle->allChildren();
-						for (int j=0; j < childHandles.size(); ++j)
-							if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
-							{
-								ItemHandle * childHandleClone = childHandles[j]->clone();
-								childHandleClone->setParent(handleClone);
-							}
-
-							handleClone->setParent( handle->parent);
-							originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
-
-							QList<QGraphicsItem*> list = handle->graphicsItems;
-							//new handle only has selected graphics items of the original handle
-							for (int j=0; j < list.size(); ++j)
-								if (!items.contains(list[j]) && !qgraphicsitem_cast<TextGraphicsItem*>(list[j]))
-									handleClone->graphicsItems.removeAll(list[j]);
-
-							list = handleClone->graphicsItems;
-
-							//remove visited items from the list of items
-							int k = -1;
-							for (int j=0; j < list.size(); ++j)
-								while ( (k = items.indexOf(list[j])) > -1 )
-								{
-									items[k] = 0;
-								}
-								//clone each graphics item and assign handleClone
-								handleClone->graphicsItems.clear();
-								handleClone->tools.clear();
-								for (int j=0; j < list.size(); ++j)
-								{
-									QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
-									setHandle(itemClone,handleClone);
-									duplicateItems << itemClone;
-
-									if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
-									{
-										connectionItems += connection;
-										if (connection->centerRegionItem)
-										{
-											node1 = connection->centerRegionItem;
-											connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
-											if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
-											{
-												node2 = connection->centerRegionItem;
-												if (node1 && node2)
-												{
-													originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-													duplicateItems << node1;
-												}
-											}
-										}
-										/*connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
-										if (connection)
-										{
-										arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
-										}*/
-									}
-									else
-									{
-										if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(list[j]))
-											&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
-										{
-											originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
-										}
-									}
-								}
+						name = name0 + QString::number(c);
+						++c;
 					}
-					else  //items without a handle
-					{
-						if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) || qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
+				}
+				allItems << name;
+				itemsToRename << handles[i];
+				newNames << name;
+			}
+		}
+
+		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
+		scene->clearSelection();
+			
+		//for connections
+		QList< QPair<NodeGraphicsItem*,NodeGraphicsItem*> > originalsAndClones;
+		QList< ConnectionGraphicsItem* > connectionItems;
+		NodeGraphicsItem *node1 = 0, *node2 = 0;
+		QList<ArrowHeadItem*> arrowHeads;
+			
+		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
+
+		items2 = items;
+		duplicateItems.clear();
+		QList< QPair<ItemHandle*,ItemHandle*> > originalAndCloneHandles;
+
+		if (scene->historyStack)
+			scene->historyStack->push(compositeCommand);
+		else
+			compositeCommand->redo();
+			
+		for (int i = 0; i < items.size(); ++i)
+			if (items[i])
+			{
+				ItemHandle * handle = getHandle(items[i]);
+				if (handle)
+				{
+					for (int j=0; j < handle->children.size(); ++j)
+						if (handle->children[j] && handle->children[j]->graphicsItems.size() > 0)
+							for (int k=0; k < handle->children[j]->graphicsItems.size(); ++k)
+								if (!items.contains(handle->children[j]->graphicsItems[k]) &&
+									items[i]->collidesWithItem(handle->children[j]->graphicsItems[k]))
+									items << handle->children[j]->graphicsItems[k];
+
+					ItemHandle * handleClone = handle->clone();
+					QList<ItemHandle*> childHandles = handle->allChildren();
+					for (int j=0; j < childHandles.size(); ++j)
+						if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
 						{
-							QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
-							if (itemClone)
+							ItemHandle * childHandleClone = childHandles[j]->clone();
+							childHandleClone->setParent(handleClone);
+						}
+
+						handleClone->setParent( handle->parent);
+						originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
+
+						QList<QGraphicsItem*> list = handle->graphicsItems;
+						//new handle only has selected graphics items of the original handle
+						for (int j=0; j < list.size(); ++j)
+							if (!items.contains(list[j]) && !qgraphicsitem_cast<TextGraphicsItem*>(list[j]))
+								handleClone->graphicsItems.removeAll(list[j]);
+
+						list = handleClone->graphicsItems;
+
+						//remove visited items from the list of items
+						int k = -1;
+						for (int j=0; j < list.size(); ++j)
+							while ( (k = items.indexOf(list[j])) > -1 )
 							{
+								items[k] = 0;
+							}
+							//clone each graphics item and assign handleClone
+							handleClone->graphicsItems.clear();
+							handleClone->tools.clear();
+							for (int j=0; j < list.size(); ++j)
+							{
+								QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
+								setHandle(itemClone,handleClone);
 								duplicateItems << itemClone;
+
 								if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
 								{
 									connectionItems += connection;
 									if (connection->centerRegionItem)
 									{
 										node1 = connection->centerRegionItem;
-										connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+										connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
 										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 										{
 											node2 = connection->centerRegionItem;
@@ -2206,81 +2190,122 @@ namespace Tinkercell
 											}
 										}
 									}
+									/*connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+									if (connection)
+									{
+									arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
+									}*/
 								}
 								else
-									if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
+								{
+									if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(list[j]))
 										&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
 									{
 										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 									}
+								}
 							}
-						}
-					}
 				}
-				/*
-				//remove duplicated arrowheads
-				for (int i=0; i < arrowHeads.size(); ++i)
+				else  //items without a handle
 				{
-				if (arrowHeads[i])
-				for (int j=0; j < originalsAndClones.size(); ++j)
-				{
-				if (arrowHeads[i] == originalsAndClones[j].first)
-				{
-				duplicateItems.removeAll(originalsAndClones[j].second);
-				delete originalsAndClones[j].second;
-				}
-				}
-				}*/
-				//replace the duplicated connections' nodes with the duplicate nodes
-				for (int i=0; i < connectionItems.size(); ++i)
-				{
-					QList<NodeGraphicsItem*> nodes = connectionItems[i]->nodes();
-					for (int k=0; k < originalsAndClones.size(); ++k)
+					if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) || qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
 					{
-						if (nodes.contains(originalsAndClones[k].first) && originalsAndClones[k].first && originalsAndClones[k].second)
+						QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
+						if (itemClone)
 						{
-							connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
-						}
-					}
-				}
-
-				QList<ItemHandle*> allNewHandles;
-				for (int i=0; i < originalAndCloneHandles.size(); ++i)
-				{
-					if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
-					{
-						allNewHandles << originalAndCloneHandles[i].second;
-						allNewHandles << originalAndCloneHandles[i].second->allChildren();
-					}
-				}
-				//replace parent handles
-				bool parentCopied = false;
-				for (int i=0; i < originalAndCloneHandles.size(); ++i)
-				{
-					if (originalAndCloneHandles[i].first->parent != 0)
-					{
-						parentCopied = false;
-						for (int j=0; j < originalAndCloneHandles.size(); ++j)
-						{
-							if (originalAndCloneHandles[i].first->parent == originalAndCloneHandles[j].first)
+							duplicateItems << itemClone;
+							if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
 							{
-								originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second);
-								parentCopied = true;
-								break;
+								connectionItems += connection;
+								if (connection->centerRegionItem)
+								{
+									node1 = connection->centerRegionItem;
+									connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+									if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
+									{
+										node2 = connection->centerRegionItem;
+										if (node1 && node2)
+										{
+											originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
+											duplicateItems << node1;
+										}
+									}
+								}
 							}
-						}
-						if (!parentCopied)
-						{
-							QString oldName = originalAndCloneHandles[i].second->fullName();
-							originalAndCloneHandles[i].second->setParent(0);
-							QString newName = originalAndCloneHandles[i].second->fullName();
-							RenameCommand::findReplaceAllHandleData(allNewHandles,oldName,newName);
+							else
+								if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
+									&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+								{
+									originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+								}
 						}
 					}
 				}
+			}
+		/*
+		//remove duplicated arrowheads
+		for (int i=0; i < arrowHeads.size(); ++i)
+		{
+		if (arrowHeads[i])
+		for (int j=0; j < originalsAndClones.size(); ++j)
+		{
+		if (arrowHeads[i] == originalsAndClones[j].first)
+		{
+		duplicateItems.removeAll(originalsAndClones[j].second);
+		delete originalsAndClones[j].second;
+		}
+		}
+		}*/
+		//replace the duplicated connections' nodes with the duplicate nodes
+		for (int i=0; i < connectionItems.size(); ++i)
+		{
+			QList<NodeGraphicsItem*> nodes = connectionItems[i]->nodes();
+			for (int k=0; k < originalsAndClones.size(); ++k)
+			{
+				if (nodes.contains(originalsAndClones[k].first) && originalsAndClones[k].first && originalsAndClones[k].second)
+				{
+					connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
+				}
+			}
+		}
 
-				emit itemsInserted(scene,items2,handles);
-				scene->select(items2);
+		QList<ItemHandle*> allNewHandles;
+		for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		{
+			if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
+			{
+				allNewHandles << originalAndCloneHandles[i].second;
+				allNewHandles << originalAndCloneHandles[i].second->allChildren();
+			}
+		}
+		//replace parent handles
+		bool parentCopied = false;
+		for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		{
+			if (originalAndCloneHandles[i].first->parent != 0)
+			{
+				parentCopied = false;
+				for (int j=0; j < originalAndCloneHandles.size(); ++j)
+				{
+					if (originalAndCloneHandles[i].first->parent == originalAndCloneHandles[j].first)
+					{
+						originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second);
+						parentCopied = true;
+						break;
+					}
+				}
+				if (!parentCopied)
+				{
+					QString oldName = originalAndCloneHandles[i].second->fullName();
+					originalAndCloneHandles[i].second->setParent(0);
+					QString newName = originalAndCloneHandles[i].second->fullName();
+					RenameCommand::findReplaceAllHandleData(allNewHandles,oldName,newName);
+				}
+			}
+		}
+
+		emit itemsInserted(scene,items2,handles);
+		scene->select(items2);
 	}
 
 	void GraphicsScene::find(const QString& text)

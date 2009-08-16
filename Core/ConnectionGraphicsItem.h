@@ -33,6 +33,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 namespace Tinkercell
 {
+	class ItemHandle;
 
 	/*! \brief gets the point on the edge of the rect such that it is in the same
 	line as the center of the rect and the point (arg)
@@ -153,7 +154,18 @@ namespace Tinkercell
 			//virtual void sideEffect();
 			/*! \brief make a copy of this control point*/
 			virtual Tinkercell::ControlPoint* clone() const;
+			/*! \brief same as connectionItem->handle() */
+			virtual ItemHandle * handle() const;
+			/*! \brief same as connectionItem->setHandle(...) */
+			virtual void setHandle(ItemHandle *);
 		};
+		
+		/*! \brief get the handle of this connection */
+		virtual ItemHandle * handle() const;
+		
+		/*! \brief set the handle of this connection */
+		virtual void setHandle(ItemHandle *);
+		
 
 		/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/

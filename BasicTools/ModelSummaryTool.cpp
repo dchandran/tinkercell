@@ -145,7 +145,7 @@ namespace Tinkercell
 
 			if (dockWidget)
 			{
-				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
+				dockWidget->move(mainWindow->geometry().center());
 
 				dockWidget->setWindowFlags(Qt::Tool);
 				dockWidget->setAttribute(Qt::WA_ContentsPropagated);

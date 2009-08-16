@@ -365,7 +365,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							ControlPoint * cp = ControlPoint::getControlPoint(item);
+							ControlPoint * cp = ControlPoint::asControlPoint(item);
 							if (cp)
 							{
 								if (rgb == 0)
@@ -906,7 +906,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::getControlPoint(item))
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))
 				{
 					scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
 				}
@@ -932,7 +932,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::getControlPoint(item))					
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))					
 				{
 					QPointF colorPt1 = item->mapFromScene(from),
 						colorPt2 = item->mapFromScene(to);
@@ -1031,7 +1031,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::getControlPoint(item))					
+							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))					
 							{
 								if (mode == this->brush)
 									scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
@@ -1160,7 +1160,7 @@ namespace Tinkercell
 						textlist += selected[i];
 					}
 					else
-						if (ControlPoint::getControlPoint(selected[i]))
+						if (ControlPoint::asControlPoint(selected[i]))
 						{
 							containsControlPoints = true;
 							cplist += selected[i];

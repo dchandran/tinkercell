@@ -26,6 +26,55 @@ to draw movable points.
 namespace Tinkercell
 {
 	QString NodeGraphicsItem::class_name("NodeGraphicsItem");
+	
+	ItemHandle * ControlPoint::handle() const
+	{
+		return 0;
+	}
+
+	void ControlPoint::setHandle(ItemHandle *)
+	{
+		
+	}
+	
+	ItemHandle * NodeGraphicsItem::handle() const
+	{
+		return itemHandle;
+	}
+	
+	void NodeGraphicsItem::setHandle(ItemHandle * handle)
+	{
+		if (handle != 0 && !handle->graphicsItems.contains(this))
+		{
+			handle->graphicsItems += this;
+		}
+		
+		if (itemHandle)
+		{
+			if (itemHandle != handle)
+			{
+				itemHandle->graphicsItems.removeAll(this);
+				itemHandle = handle;
+			}
+		}
+		else
+		{
+			itemHandle = handle;
+		}
+	}
+	
+	ItemHandle * NodeGraphicsItem::ControlPoint::handle() const
+	{
+		if (nodeItem)
+			return nodeItem->handle();
+		return 0;
+	}
+	
+	void NodeGraphicsItem::ControlPoint::setHandle(ItemHandle * h)
+	{
+		if (nodeItem)
+			nodeItem->setHandle(h);
+	}
 
 	/*! Constructor: does nothing */
 	NodeGraphicsItem::NodeGraphicsItem(QGraphicsItem * parent) : QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0)
@@ -141,7 +190,7 @@ namespace Tinkercell
 		defaultSize = copy.defaultSize;
 
 		if (itemHandle)
-			setHandle(this,itemHandle);
+			setHandle(itemHandle);
 
 		/**Copy control points and shapes**/
 		setPos(copy.scenePos());
@@ -198,7 +247,9 @@ namespace Tinkercell
 	/*! \brief make a copy of this item*/
 	NodeGraphicsItem* NodeGraphicsItem::clone() const
 	{
-		return new NodeGraphicsItem(*this);
+		NodeGraphicsItem* node = new NodeGraphicsItem(*this);
+		node->className = NodeGraphicsItem::class_name;
+		return node;
 	}
 
 	/*! operator =: deep copy of all pointers */
@@ -317,7 +368,7 @@ namespace Tinkercell
 
 			ItemHandle * h = itemHandle;
 
-			setHandle(this,0);
+			setHandle(0);
 
 			if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
 				delete h;

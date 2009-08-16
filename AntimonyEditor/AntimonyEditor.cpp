@@ -17,6 +17,9 @@
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "AntimonyEditor.h"
+#include "StoichiometryTool.h"
+#include "ModelFileGenerator.h"
+#include "ModelSummaryTool.h"
 #include <QToolButton>
 #include <QFile>
 #include <QPair>
@@ -31,6 +34,7 @@ namespace Tinkercell
 {	
 	AntimonyEditor::AntimonyEditor() : Tool(tr("Antimony script parser"))
 	{
+		scriptDisplayWindow = new CodeEditor(this);
 	}
 	
 	bool AntimonyEditor::setMainWindow(MainWindow * main)
@@ -44,7 +48,10 @@ namespace Tinkercell
 					this,SLOT(lineChanged(TextEditor *, int, const QString&)));
 			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),
 					this,SLOT(windowOpened(NetworkWindow*)));
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			mainWindow->contextEditorMenu.addAction(tr("To Graphical Mode"),this,SLOT(insertModule()));
+			
+			toolLoaded(0);
 		}
 		return false;
 	}
@@ -490,6 +497,90 @@ namespace Tinkercell
 			}
 		}
 		return newItems;
+	}
+	
+	void AntimonyEditor::toolLoaded(Tool*)
+	{
+		static bool connected = false;
+		if (connected) return;
+		
+		if (mainWindow && mainWindow->tool(tr("Model Summary")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Model Summary"));
+			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
+			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
+					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
+			connected = true;
+		}
+	}
+	
+	void AntimonyEditor::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& )
+	{	
+		if (!scriptDisplayWindow || items.size() != 1) return;
+		
+		ItemHandle * handle = items[0];
+		
+		QString s = getAntimonyScript(handle);
+		
+		if (handle->isA(tr("Module")))
+		{
+			scriptDisplayWindow->setPlainText(s);
+			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
+		}
+	}
+	
+	QString AntimonyEditor::getAntimonyScript(ItemHandle * handle)
+	{
+		if (!handle) return QString();
+		
+		QList<ItemHandle*> handles = handle->allChildren();
+		
+		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles);		
+		QStringList rates = StoichiometryTool::getRates(handles);
+		DataTable<qreal> params = ModelFileGenerator::getUsedParameters(handles);
+		
+		QString s("Model M\n");
+		
+		for (int i=0; i < N.cols() && i < rates.size(); ++i)
+		{
+			QStringList lhs, rhs;
+			for (int j=0; j < N.rows(); ++j)
+				if (N.value(j,i) < 0)
+					lhs += N.rowName(j);
+				else
+				if (N.value(j,i) > 0)
+					rhs += N.rowName(j);
+			
+			s += tr("   ") + lhs.join(tr(" + ")) + tr(" -> ") + rhs.join(tr(" + ")) + tr(";    ") + rates[i] + tr(";\n");
+		}
+		
+		s += tr("\n");
+		
+		for (int i=0; i < params.rows(); ++i)
+		{
+			s += tr("   ") + params.rowName(i) + tr(" = ") + QString::number(params.value(i,0)) + tr(";\n");
+		}
+		
+		s += tr("\n");
+		
+		QRegExp regex(tr("\\.(?!\\d)"));
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (handles[i]->hasTextData(tr("Assignments")))
+			{
+				DataTable<QString> assigns = handles[i]->data->textData[tr("Assignments")];
+				for (int j=0; j < assigns.rows(); ++j)
+				{
+					QString rule = assigns.value(j,0);
+					rule.replace(regex,tr("_"));
+					s += tr("   ") + assigns.rowName(j) + tr(" = ") + rule + tr("\n");
+				}
+			}
+		}
+		
+		s += tr("\nend\n");
+		return s;
 	}
 
 }

@@ -27,13 +27,13 @@ namespace Tinkercell
 
 	void DNASequenceViewer::select(int)
 	{
-                GraphicsScene * scene = currentScene();
-                if (!scene) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
 
-                if (dockWidget && dockWidget->widget() != this)
-                        dockWidget->setWidget(this);
+		if (dockWidget && dockWidget->widget() != this)
+				dockWidget->setWidget(this);
 
-                QList<QGraphicsItem*> & list = scene->selected();
+		QList<QGraphicsItem*> & list = scene->selected();
 		QList<ItemHandle*> itemHandles;
 		ItemHandle * handle;
 		

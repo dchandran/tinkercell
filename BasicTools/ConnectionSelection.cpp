@@ -845,7 +845,7 @@ namespace Tinkercell
 		QGraphicsItem * cp = 0;
 		for (int i=0; i < moving.size(); ++i)
 		{
-			if (ControlPoint::getControlPoint(moving.at(i)))
+			if (ControlPoint::asControlPoint(moving.at(i)))
 			{
 				cp = moving.at(i);
 				break;

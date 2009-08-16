@@ -39,7 +39,6 @@ to draw movable points.
 
 namespace Tinkercell
 {
-
 	class GraphicsScene;
 	class ItemHandle;
 	class ConnectionGraphicsItem;
@@ -75,7 +74,7 @@ namespace Tinkercell
 			return Type;
 		}
 		/*! \brief Gets the control point item from one of its child items*/
-		static ControlPoint * getControlPoint(QGraphicsItem* item);
+		static ControlPoint * asControlPoint(QGraphicsItem* item);
 		/*! \brief side effect when moved. always call this after moving*/
 		virtual void sideEffect();
 		/*! \brief make a copy of this control point*/
@@ -92,6 +91,10 @@ namespace Tinkercell
 		virtual void setRect(const QRectF&);
 		/*! \brief get size rect. */
 		virtual QRectF rect() const;
+		/*! \brief get the handle of this control point, usually 0 or the parent's handle */
+		virtual ItemHandle * handle() const;
+		/*! \brief set the handle of this control point, usually sets parent's handle or does nothing*/
+		virtual void setHandle(ItemHandle *);
 	protected:
 		QRectF bounds;
 	};
@@ -101,6 +104,10 @@ namespace Tinkercell
 	class NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
+		/*! \brief get the handle of this node*/
+		virtual ItemHandle * handle() const;
+		/*! \brief set the handle of this node*/
+		virtual void setHandle(ItemHandle *);
 		/*! \brief for safe static casting*/
 		QString className;
 		/*! \brief for safe static casting*/
@@ -159,6 +166,10 @@ namespace Tinkercell
 			virtual void sideEffect();
 			/*! \brief paint method. */
 			virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
+			/*! \brief same as nodeItem->handle() */
+			virtual ItemHandle * handle() const;
+			/*! \brief set the nodeItem->setHandle(..)*/
+			virtual void setHandle(ItemHandle *);
 			/*! \brief destructor*/
 			~ControlPoint();
 		};

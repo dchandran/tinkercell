@@ -29,6 +29,10 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+		/*! \brief this text item's handle */
+		virtual ItemHandle * handle() const;
+		/*! \brief set this text item's handle */
+		void setHandle(ItemHandle *);
 		/*! \brief Constructor		
 		* \param QString text
 		* \param QGraphicsItem* parent

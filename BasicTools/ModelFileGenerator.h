@@ -33,13 +33,14 @@ namespace Tinkercell
 	class ModelFileGenerator_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+		
+	signals:
 		void generateModelFile(QSemaphore*,int*, const QString&, const QList<ItemHandle*>&);
 		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 
-		public slots:
-			int generateModelFile(const char*, Array);
-			Matrix getParameters(Array );
+	public slots:
+		int generateModelFile(const char*, Array);
+		Matrix getParameters(Array );
 	};
 
 	class MY_EXPORT ModelFileGenerator : public Tool
@@ -49,16 +50,19 @@ signals:
 	public:
 
 		static QString toString(double d);
+		static DataTable<qreal> getUsedParameters(const QList<ItemHandle*>&, const QString& sep=QString("_"));
+		
 		ModelFileGenerator();
+		
 		bool setMainWindow(MainWindow * main);
-
 		static int generateModelFile(const QString& filename, const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
-		public slots:
-			void setupFunctionPointers(QLibrary*);
+	
+	public slots:
+		void setupFunctionPointers(QLibrary*);
 
-			private slots:
-				void generateModelFile(QSemaphore*, int*, const QString&, const QList<ItemHandle*>&);
-				void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+	private slots:
+		void generateModelFile(QSemaphore*, int*, const QString&, const QList<ItemHandle*>&);
+		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 
 	protected:
 		static ModelFileGenerator_FToS fToS;
@@ -69,10 +73,12 @@ signals:
 
 	static void replaceHatWithPow(QString& string)
 	{
-		QRegExp hats[] = { 	QRegExp(QString("([A-Za-z0-9_\\.]+)\\^([A-Za-z0-9_\\.]+)")),
+		QRegExp hats[] = 
+		{
+			QRegExp(QString("([A-Za-z0-9_\\.]+)\\^([A-Za-z0-9_\\.]+)")),
 			QRegExp(QString("(\\([^\\(\\)]+\\))\\^([A-Za-z0-9_\\.]+)")),
 			QRegExp(QString("([A-Za-z0-9_\\.]+)\\^(\\([^\\(\\)]+\\))")),
-			QRegExp(QString("(\\([^\\(\\)]+\\))\\^(\\([^\\(\\)]+\\))")) 
+			QRegExp(QString("(\\([^\\(\\)]+\\))\\^(\\([^\\(\\)]+\\))"))
 		};
 		bool hasHat = true;
 

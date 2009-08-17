@@ -458,7 +458,7 @@ namespace Tinkercell
 
 	void NodeSelection::sceneClicked(GraphicsScene *scene, QPointF , Qt::MouseButton , Qt::KeyboardModifiers modifiers)
 	{
-		if (mainWindow && scene && scene->actionsEnabled)
+		if (mainWindow && scene && scene->useDefaultBehavior)
 		{
 			if (modifiers != Qt::ShiftModifier && modifiers != Qt::ControlModifier)
 			{
@@ -564,7 +564,7 @@ namespace Tinkercell
 		deselect();
 		turnOffGraphicalTools();
 
-		if (mainWindow && scene && scene->actionsEnabled)
+		if (mainWindow && scene && scene->useDefaultBehavior)
 		{
 			QList<ItemHandle*> itemHandles;
 			NodeGraphicsItem * ptr;

@@ -756,9 +756,9 @@ namespace Tinkercell
 			if (model->scene)
 			{
 				if (prevWindow && prevWindow->scene)
-					model->scene->actionsEnabled = prevWindow->scene->actionsEnabled;
+					model->scene->useDefaultBehavior = prevWindow->scene->useDefaultBehavior;
 				else
-					model->scene->actionsEnabled = true;
+					model->scene->useDefaultBehavior = true;
 			}
 			historyWindow.setStack(&(model->history));
 		}

@@ -533,7 +533,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers )
 	{
-		if (mainWindow && scene && scene->actionsEnabled)
+		if (mainWindow && scene && scene->useDefaultBehavior)
 		{
 			bool hasConnections = false;
 			for (int i=0; i < items.size(); ++i)
@@ -737,7 +737,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::sceneKeyPressed(GraphicsScene *scene, QKeyEvent* keyEvent)
 	{
-		if (!scene || !keyEvent || !scene->actionsEnabled) return;
+		if (!scene || !keyEvent || !scene->useDefaultBehavior) return;
 
 		if (keyEvent->modifiers() == (Qt::ControlModifier | Qt::ShiftModifier))
 		{

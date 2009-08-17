@@ -54,7 +54,7 @@ namespace Tinkercell
 		//if (nodeFamily)
 		//qDebug() << "node selected " << nodeFamily->name;
 		if ((selectedNodeFamily != 0 ||
-			(mainWindow != 0 && mainWindow->currentScene() != 0 && mainWindow->currentScene()->actionsEnabled))
+			(mainWindow != 0 && mainWindow->currentScene() != 0 && mainWindow->currentScene()->useDefaultBehavior))
 			&& nodeFamily && nodesTree)
 		{
 			selectedNodeFamily = nodeFamily;
@@ -76,7 +76,7 @@ namespace Tinkercell
 			}
 
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->actionsEnabled = false;
+				mainWindow->currentScene()->useDefaultBehavior = false;
 		}
 	}
 
@@ -349,7 +349,7 @@ namespace Tinkercell
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->actionsEnabled = true;
+				mainWindow->currentScene()->useDefaultBehavior = true;
 		}
 	}
 

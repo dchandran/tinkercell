@@ -82,7 +82,7 @@ namespace Tinkercell
 		/*! \brief the containing network window's symbols table*/
 		SymbolsTable * symbolsTable;
 		/*! \brief indicates whether this scene is free to perform actions*/
-		bool actionsEnabled;
+		bool useDefaultBehavior;
 		/*! \brief the undo stack*/
 		QUndoStack* historyStack;
 		/*! \brief the undo stack*/

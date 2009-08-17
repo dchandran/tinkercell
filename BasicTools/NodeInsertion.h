@@ -61,7 +61,7 @@ signals:
 	the tree of nodes. It also ensures that the inserted item has a unique name and inserts a
 	text item along with the node item. When user selects a node from the tree of nodes, this tool
 	enters insertion mode, which disables the default GraphicsScene behaviors. When the insertion mode
-	is exited, the default behaviors are returned, i.e. actionsEnabled is set to true.
+	is exited, the default behaviors are returned, i.e. useDefaultBehavior is set to true.
 	\ingroup plugins
 	*/
 	class MY_EXPORT NodeInsertion : public Tool

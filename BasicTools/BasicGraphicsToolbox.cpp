@@ -682,7 +682,7 @@ namespace Tinkercell
 			mainWindow->sendEscapeSignal(this);			
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 			mode = zoom;		
-			currentScene()->actionsEnabled = false;
+			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())
@@ -698,7 +698,7 @@ namespace Tinkercell
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
-			currentScene()->actionsEnabled = false;
+			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())
@@ -710,7 +710,7 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::changeBrush()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-			//&& (mode != none || mainWindow->currentScene()->actionsEnabled))
+			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
@@ -718,28 +718,28 @@ namespace Tinkercell
 				mode = this->brush;
 			else
 				mode = this->gradient;
-			mainWindow->currentScene()->actionsEnabled = false;
+			mainWindow->currentScene()->useDefaultBehavior = false;
 		}
 	}
 
 	void BasicGraphicsToolbox::changePen()
 	{
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
-			//&& (mode != none || mainWindow->currentScene()->actionsEnabled))
+			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/pencil.png")).scaled(25,25)));
 			mode = this->pen;
-			mainWindow->currentScene()->actionsEnabled = false;
+			mainWindow->currentScene()->useDefaultBehavior = false;
 		}
 	}
 
 	void BasicGraphicsToolbox::selectBrushColor1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->actionsEnabled;
+		bool b = mainWindow->currentScene()->useDefaultBehavior;
 		QColor color = QColorDialog::getColor(brushColor1);
-		mainWindow->currentScene()->actionsEnabled = b;
+		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (color.isValid())
 		{
 			int a = brushColor1.alpha();
@@ -757,10 +757,10 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::selectBrushAlpha1()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->actionsEnabled;
+		bool b = mainWindow->currentScene()->useDefaultBehavior;
 		bool ok;
 		int d = QInputDialog::getInteger(mainWindow,tr("Transparency for Color 1"),tr("select transparency (0 = completely transparent)"),brushColor1.alpha(),0,255,1,&ok);
-		mainWindow->currentScene()->actionsEnabled = b;
+		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (ok)
 		{
 			brushColor1.setAlpha(d);
@@ -776,9 +776,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::selectBrushColor2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->actionsEnabled;
+		bool b = mainWindow->currentScene()->useDefaultBehavior;
 		QColor color = QColorDialog::getColor(brushColor2);		
-		mainWindow->currentScene()->actionsEnabled = b;
+		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (color.isValid())
 		{
 			int a = brushColor2.alpha();
@@ -796,10 +796,10 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::selectBrushAlpha2()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->actionsEnabled;
+		bool b = mainWindow->currentScene()->useDefaultBehavior;
 		bool ok;
 		int d = QInputDialog::getInteger(mainWindow,tr("Transparency for Color 2"),tr("select transparency (0 = completely transparent)"),brushColor2.alpha(),0,255,1,&ok);
-		mainWindow->currentScene()->actionsEnabled = b;
+		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (ok)
 		{
 			brushColor2.setAlpha(d);
@@ -815,9 +815,9 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::selectPenColor()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-		bool b = mainWindow->currentScene()->actionsEnabled;
+		bool b = mainWindow->currentScene()->useDefaultBehavior;
 		QColor color = QColorDialog::getColor(penColor);
-		mainWindow->currentScene()->actionsEnabled = b;
+		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (color.isValid())
 		{
 			penColor = color;
@@ -881,7 +881,7 @@ namespace Tinkercell
 				scene->removeItem(&zoomRect);
 
 
-			scene->actionsEnabled = true;
+			scene->useDefaultBehavior = true;
 			mode = this->none;
 			mainWindow->setCursor(Qt::ArrowCursor);
 			return;
@@ -896,7 +896,7 @@ namespace Tinkercell
 			QGraphicsItem * item = scene->itemAt(to);
 			if (item == 0)
 			{
-				scene->actionsEnabled = true;
+				scene->useDefaultBehavior = true;
 				if (mode != this->none)
 				{
 					mode = this->none;
@@ -922,7 +922,7 @@ namespace Tinkercell
 			QGraphicsItem * item = scene->itemAt(from);
 			if (item == 0)
 			{
-				scene->actionsEnabled = true;
+				scene->useDefaultBehavior = true;
 				if (mode != this->none)
 				{
 					mode = this->none;
@@ -1021,7 +1021,7 @@ namespace Tinkercell
 
 						if (item == 0)
 						{
-							scene->actionsEnabled = true;
+							scene->useDefaultBehavior = true;
 							if (mode != this->none)
 							{
 								mode = this->none;
@@ -1085,7 +1085,7 @@ namespace Tinkercell
 					if (mode != none)
 					{
 						mode = this->none;
-						scene->actionsEnabled = true;
+						scene->useDefaultBehavior = true;
 						mainWindow->setCursor(Qt::ArrowCursor);
 						if (zoomRect.isVisible()) 
 							zoomRect.setVisible(false);
@@ -1099,7 +1099,7 @@ namespace Tinkercell
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
 			if (mainWindow && mainWindow->currentScene())
-				mainWindow->currentScene()->actionsEnabled = true;
+				mainWindow->currentScene()->useDefaultBehavior = true;
 			mode = none;
 		}
 		if (temporarilyChangedItems.size() > 0)

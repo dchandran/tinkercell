@@ -553,7 +553,7 @@ namespace Tinkercell
             QRectF moduleRect = linker->module->sceneBoundingRect();
             moving.clear();
             mode = connecting;
-            scene->actionsEnabled = false;
+            scene->useDefaultBehavior = false;
 
             QRectF rect = linker->sceneBoundingRect();
             scene->lastPoint() = rect.center();
@@ -670,7 +670,7 @@ namespace Tinkercell
     void ModuleTool::mouseReleased(GraphicsScene * scene, QPointF , Qt::MouseButton, Qt::KeyboardModifiers )
     {
         if (mode != none)
-            scene->actionsEnabled = true;
+            scene->useDefaultBehavior = true;
 
         lineItem.setVisible(false);
         if (lineItem.scene())
@@ -683,7 +683,7 @@ namespace Tinkercell
         if (mode == connecting && scene)
         {
             mode = none;
-            scene->actionsEnabled = true;
+            scene->useDefaultBehavior = true;
 
             NodeGraphicsItem * node1=0, *node2=0;
 

@@ -185,7 +185,7 @@ namespace Tinkercell
 	GraphicsScene::GraphicsScene(QWidget * parent) : QGraphicsScene(parent)
 	{
 		mouseDown = false;
-		actionsEnabled = true;
+		useDefaultBehavior = true;
 		setFocus();
 		//setItemIndexMethod(NoIndex);
 
@@ -341,7 +341,7 @@ namespace Tinkercell
 			emit sceneRightClick(this, item, clickedPoint, mouseEvent->modifiers());
 		}
 		//else
-		if (gitem && actionsEnabled)
+		if (gitem && useDefaultBehavior)
 		{
 			if (mouseEvent->button() == Qt::LeftButton)
 			{
@@ -354,7 +354,7 @@ namespace Tinkercell
 			}
 		}
 		else
-			if (item && actionsEnabled)
+			if (item && useDefaultBehavior)
 			{
 				if (mouseEvent->button())// == Qt::LeftButton)
 				{
@@ -401,7 +401,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (actionsEnabled && !(mouseEvent->modifiers() == Qt::ShiftModifier || mouseEvent->modifiers() == Qt::ControlModifier))
+				if (useDefaultBehavior && !(mouseEvent->modifiers() == Qt::ShiftModifier || mouseEvent->modifiers() == Qt::ControlModifier))
 				{
 					selectedItems.clear();
 				}
@@ -425,7 +425,7 @@ namespace Tinkercell
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 
-		if (actionsEnabled)
+		if (useDefaultBehavior)
 		{
 			if (movingItems.size() > 0 && movingItemsGroup != 0)
 			{
@@ -502,7 +502,7 @@ namespace Tinkercell
 		QPointF point1 = mouseEvent->scenePos(), point0 = clickedPoint;
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 
-		if (actionsEnabled && movingItems.size() > 0 && movingItemsGroup)
+		if (useDefaultBehavior && movingItems.size() > 0 && movingItemsGroup)
 		{
 			if (movingItemsGroup)
 			{
@@ -520,7 +520,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			if (actionsEnabled && selectionRect.isVisible())
+			if (useDefaultBehavior && selectionRect.isVisible())
 			{
 				QRectF rect = selectionRect.rect();
 				selectionRect.setVisible(false);
@@ -592,7 +592,7 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent )
 	{
-		if (actionsEnabled)
+		if (useDefaultBehavior)
 		{
 			if (selectedItems.size() > 0)
 			{
@@ -733,7 +733,7 @@ namespace Tinkercell
 				}
 		}
 		else
-			if (actionsEnabled && (key == Qt::Key_Delete || key == Qt::Key_Backspace))
+			if (useDefaultBehavior && (key == Qt::Key_Delete || key == Qt::Key_Backspace))
 			{
 				if (selectedItems.size() > 0)
 				{
@@ -750,7 +750,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (actionsEnabled && !movingItems.isEmpty() &&
+				if (useDefaultBehavior && !movingItems.isEmpty() &&
 					(key == Qt::Key_Up || key == Qt::Key_Down ||
 					key == Qt::Key_Left || key == Qt::Key_Right))
 				{

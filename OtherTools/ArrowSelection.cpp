@@ -183,7 +183,7 @@ namespace Tinkercell
 
     void ArrowSelectionTool::sceneClicked(GraphicsScene *scene, QPointF , Qt::MouseButton , Qt::KeyboardModifiers )
     {
-        if (mainWindow && scene && scene->actionsEnabled)
+        if (mainWindow && scene && scene->useDefaultBehavior)
         {
             escapeSignal(0);
         }
@@ -212,7 +212,7 @@ namespace Tinkercell
     {
         escapeSignal(0);
 
-        if (mainWindow && scene && scene->actionsEnabled && !items.isEmpty())
+        if (mainWindow && scene && scene->useDefaultBehavior && !items.isEmpty())
         {
             NodeGraphicsItem * node = 0;
             ArrowHeadItem * arrow;

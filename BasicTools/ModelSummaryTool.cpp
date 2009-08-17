@@ -67,7 +67,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
-		if (!scene || !scene->actionsEnabled) return;
+		if (!scene || !scene->useDefaultBehavior) return;
 
 		int key = keyEvent->key();
 
@@ -96,7 +96,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
-		if (!scene || !scene->actionsEnabled || !item || modifiers) return;
+		if (!scene || !scene->useDefaultBehavior || !item || modifiers) return;
 
 		updateTables();
 		if (!tabWidget || tabWidget->count() < 1) return;

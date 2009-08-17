@@ -468,7 +468,7 @@ namespace Tinkercell
 	void ConnectionInsertion::connectionSelected(ConnectionFamily * connectionFamily)
 	{
 		if ((selectedFamily ||
-			(mainWindow && mainWindow->currentScene()->actionsEnabled))
+			(mainWindow && mainWindow->currentScene()->useDefaultBehavior))
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
@@ -490,7 +490,7 @@ namespace Tinkercell
 			}
 			if (mainWindow->currentScene())
 			{
-				mainWindow->currentScene()->actionsEnabled = false;
+				mainWindow->currentScene()->useDefaultBehavior = false;
 				mainWindow->currentScene()->clearSelection();
 			}
 		}
@@ -835,7 +835,7 @@ namespace Tinkercell
 		{
 			mainWindow->setCursor(Qt::ArrowCursor);
 			if (mainWindow->currentScene())
-				mainWindow->currentScene()->actionsEnabled = true;
+				mainWindow->currentScene()->useDefaultBehavior = true;
 		}
 	}
 

@@ -361,7 +361,7 @@ namespace Tinkercell
 		return data->numericalData[name].value(row,column);
 	}
 
-	QString& ItemHandle::textData(const QString& value, const QString& name, int row, int column)
+	QString& ItemHandle::textData(const QString& name, int row, int column)
 	{
 		if (!data) data = new ItemData;
 		

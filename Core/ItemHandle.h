@@ -161,7 +161,7 @@ namespace Tinkercell
 		\param QString row name in data table
 		\param QString column name data table
 		\return QString value*/
-		virtual QString getTextData(const QString& name, const QString& row, const QString& column);
+		virtual QString getTextData(const QString& name, const QString& row, const QString& column) const;
 		/*! \brief gets a reference to the numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param int row in data table

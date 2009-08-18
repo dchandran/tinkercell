@@ -14,7 +14,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "CellPositionUpdatingTool.h"
 
 namespace Tinkercell

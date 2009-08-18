@@ -741,7 +741,7 @@ namespace Tinkercell
 										}
 										dat.value(str,0) = 1.0;
 										win->changeData(handle->fullName() + tr(".") + str + tr(" = 1.0"),handle,tr("Numerical Attributes"),&dat);
-										OutputWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
+										ConsoleWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
 									}
 							}
 					}
@@ -750,7 +750,7 @@ namespace Tinkercell
 		}
 		catch(mu::Parser::exception_type &e)
 		{
-			OutputWindow::error(tr(e.GetMsg().data()));
+			ConsoleWindow::error(tr(e.GetMsg().data()));
 			return false;
 		}
 		return true;

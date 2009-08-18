@@ -20,7 +20,7 @@ in the MainWindow toolbar.
 #include "TextGraphicsItem.h"
 #include "GroupHandlerTool.h"
 #include "CollisionDetection.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -327,7 +327,7 @@ namespace Tinkercell
 				if (list.size() > 1)
 				{
 					//QMessageBox::information(0,tr("Group items"),tr("Only items belonging to related families can be merged"),QMessageBox::Ok,QMessageBox::Ok);
-					OutputWindow::error(tr("Only items belonging to related families can be merged"));
+					ConsoleWindow::error(tr("Only items belonging to related families can be merged"));
 				}
 		}
 	}

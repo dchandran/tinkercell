@@ -17,11 +17,11 @@
 #include <QFile>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "PythonTool.h"
 #include <QtDebug>
 
@@ -151,7 +151,7 @@ namespace Tinkercell
             connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
             connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 			
-			OutputWindow * outWin = OutputWindow::outputWindow();
+			ConsoleWindow * outWin = ConsoleWindow::outputWindow();
 			if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
@@ -165,7 +165,7 @@ namespace Tinkercell
 
       toolLoaded(0);
 
-      OutputWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
+      ConsoleWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
 
 #ifdef Q_WS_WIN
       QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
@@ -219,7 +219,7 @@ namespace Tinkercell
                 }
                 if (!opened)
                 {
-                    OutputWindow::error(filename +  tr(" file not found"));
+                    ConsoleWindow::error(filename +  tr(" file not found"));
                 }
                 else
                 {
@@ -346,7 +346,7 @@ namespace Tinkercell
 
     void PythonTool::runPythonCode(const QString& code)
     {
-        //OutputWindow::freeze();
+        //ConsoleWindow::freeze();
         if (pythonInterpreter)
             pythonInterpreter->runCode(code);
     }
@@ -377,7 +377,7 @@ namespace Tinkercell
             }
             if (!opened)
             {
-                OutputWindow::error( filename + tr("file not found"));
+                ConsoleWindow::error( filename + tr("file not found"));
             }
             else
             {

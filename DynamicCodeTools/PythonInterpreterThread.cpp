@@ -14,7 +14,7 @@ The python interpreter that runs as a separate thread and can accept strings to 
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "PythonInterpreterThread.h"
 
 namespace Tinkercell

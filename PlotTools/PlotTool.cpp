@@ -14,7 +14,7 @@
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NetworkWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
@@ -452,17 +452,17 @@ namespace Tinkercell
 	{
 		if (functions.isEmpty())
 		{
-			OutputWindow::message("Please enter one or more formulas");
+			ConsoleWindow::message("Please enter one or more formulas");
 			return;
 		}
 		if (xaxis.isEmpty() || xaxis.isNull() )
 		{
-			OutputWindow::message("Please specify the x-axis (one of the variables in the formula)");
+			ConsoleWindow::message("Please specify the x-axis (one of the variables in the formula)");
 			return;
 		}
 		if (points < 2 || end <= start)
 		{
-			OutputWindow::message("Inputs are incorrect. Make sure the number of points > 0 and end > start.");
+			ConsoleWindow::message("Inputs are incorrect. Make sure the number of points > 0 and end > start.");
 			return;
 		}
 		
@@ -492,7 +492,7 @@ namespace Tinkercell
 		{
 			if (!functions[i].contains(xaxis))
 			{
-				OutputWindow::error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
+				ConsoleWindow::error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
 			}
 			
 			s = functions[i];
@@ -551,7 +551,7 @@ namespace Tinkercell
 			}
 			catch(mu::Parser::exception_type &e)
 			{
-				OutputWindow::error("cannot parse: " + s);
+				ConsoleWindow::error("cannot parse: " + s);
 				continue;
 			}
 			
@@ -566,7 +566,7 @@ namespace Tinkercell
 			}
 			catch(mu::Parser::exception_type &e)
 			{
-				OutputWindow::error("cannot parse: " + s);
+				ConsoleWindow::error("cannot parse: " + s);
 				continue;
 			}
 			

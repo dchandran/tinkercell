@@ -10,7 +10,7 @@ text-based representation of a network.
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NetworkWindow.h"
 #include "TextEditor.h"
 #include "TextItem.h"
@@ -94,14 +94,15 @@ namespace Tinkercell
 	{
 		QString text = toPlainText();
 		QString oldText = text;
-		QRegExp regex1(tr("[^A-Za-z_]") + old_string + tr("[^A-Za-z_0-9]"));
+		/*QRegExp regex1(tr("[^A-Za-z_]") + old_string + tr("[^A-Za-z_0-9]"));
 		QRegExp regex2(tr("^") + old_string + tr("[^A-Za-z_0-9]"));
 		QRegExp regex3(tr("[^A-Za-z_]") + old_string + tr("$"));
 		QRegExp regex4(tr("^") + old_string + tr("$"));
 		text.replace(regex1,new_string);
 		text.replace(regex2,new_string);
 		text.replace(regex3,new_string);
-		text.replace(regex4,new_string);
+		text.replace(regex4,new_string);*/
+		text.replace(old_string,new_string);
 		setPlainText(text);
 		emit textChanged(this, tr(""), tr(""), oldText);
 	}

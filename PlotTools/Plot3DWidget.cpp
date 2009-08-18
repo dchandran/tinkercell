@@ -7,7 +7,7 @@
  
 ****************************************************************************/
 
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "Plot3DWidget.h"
 
 namespace Tinkercell
@@ -142,7 +142,7 @@ namespace Tinkercell
 		
 		if (!clipboard)
 		{
-			OutputWindow::error(tr("No clipboard available."));
+			ConsoleWindow::error(tr("No clipboard available."));
 		}
 		
 		QString outputs;
@@ -167,7 +167,7 @@ namespace Tinkercell
 		
 		clipboard->setText(outputs);
 		
-		OutputWindow::message(tr("Tab-delimited data copied to clipboard."));
+		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
 	}
 	
 	void Plot3DWidget::printToFile(const QString& fileName)

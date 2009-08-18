@@ -16,7 +16,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -301,7 +301,7 @@ namespace Tinkercell
 					}
 					catch(mu::Parser::exception_type &e)
 					{
-						OutputWindow::error("cannot parse " + s);
+						ConsoleWindow::error("cannot parse " + s);
 						return;
 					}
 

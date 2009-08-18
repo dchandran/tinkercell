@@ -18,7 +18,7 @@
 #include "GraphicsScene.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ViewTablesTool.h"

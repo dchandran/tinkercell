@@ -104,14 +104,14 @@ signals:
 	/*! \brief Used to create an output window that can display outputs
 	\ingroup io
 	*/
-	class OutputWindow : public Tool
+	class ConsoleWindow : public Tool
 	{
 		Q_OBJECT
 
 	public:
 
 		/*! \brief constructor -- initialize main window*/
-		OutputWindow(MainWindow * main = 0);
+		ConsoleWindow(MainWindow * main = 0);
 		/*! \brief print a message in the output window*/
 		static void message(const QString&);
 		/*! \brief print an error message in the output window*/
@@ -125,7 +125,7 @@ signals:
 		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
 		static void unfreeze();
 		/*! \brief the global command window*/
-		static OutputWindow * outputWindow();
+		static ConsoleWindow * outputWindow();
 		/*! \brief the command window's editor*/
 		CommandTextEdit * outputWindowEditor();
 
@@ -137,7 +137,7 @@ signals:
 
 	protected:
 		/*! \brief store pointer to the main window's output window*/
-		static OutputWindow * instance;
+		static ConsoleWindow * instance;
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
 

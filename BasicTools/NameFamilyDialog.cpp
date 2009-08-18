@@ -17,7 +17,7 @@ An associated GraphicsTool is also defined.
 #include "ConnectionGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "CThread.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NameFamilyDialog.h"
 
 namespace Tinkercell
@@ -150,7 +150,7 @@ namespace Tinkercell
 
 		if (!dialog)
 		{
-			OutputWindow::error(tr("Tool not initialized."));
+			ConsoleWindow::error(tr("Tool not initialized."));
 			return;
 		}
 
@@ -224,14 +224,14 @@ namespace Tinkercell
 
 		if (!mainWindow->tool("Nodes Tree"))
 		{
-			OutputWindow::error(tr("No nodes family tree available."));
+			ConsoleWindow::error(tr("No nodes family tree available."));
 			return;
 		}
 
 		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool("Nodes Tree"));
 		if (!(nodesTree && nodesTree->nodeFamilies.contains(family)))
 		{
-			OutputWindow::error(tr("Family name does not match any node family name."));
+			ConsoleWindow::error(tr("Family name does not match any node family name."));
 			return;
 		}
 
@@ -281,7 +281,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						OutputWindow::error(tr("Cannot change family of connected items."));
+						ConsoleWindow::error(tr("Cannot change family of connected items."));
 						return;
 					}
 				}
@@ -307,7 +307,7 @@ namespace Tinkercell
 	{
 		NetworkWindow * win = currentWindow();
 		if (win->selectedHandles().size() != 1)
-			OutputWindow::error(tr("please select one item"));
+			ConsoleWindow::error(tr("please select one item"));
 		else
 		{
 			showDialog(selectedItem = win->selectedHandles()[0]);

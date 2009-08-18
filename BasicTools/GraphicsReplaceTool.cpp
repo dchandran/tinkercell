@@ -20,7 +20,7 @@ the context menu (mouse right-click).
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "GraphicsReplaceTool.h"
 
 namespace Tinkercell
@@ -178,7 +178,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			OutputWindow::message(tr("this file is already listed"));
+			ConsoleWindow::message(tr("this file is already listed"));
 		}
 	}
 

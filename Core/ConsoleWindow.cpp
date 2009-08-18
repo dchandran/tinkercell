@@ -11,7 +11,7 @@ a generic command prompt (e.g. by Python plugin)
 ****************************************************************************/
 
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -355,9 +355,9 @@ namespace Tinkercell
 	OUTPUT WINDOW
 	************************************/
 
-	OutputWindow * OutputWindow::instance = 0;
+	ConsoleWindow * ConsoleWindow::instance = 0;
 
-	OutputWindow::OutputWindow(MainWindow * main)
+	ConsoleWindow::ConsoleWindow(MainWindow * main)
 		: Tool(tr("Output Window"))
 	{
 		setMainWindow(main);
@@ -385,7 +385,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief show a message text in the output window*/
-	void OutputWindow::message(const QString& s)
+	void ConsoleWindow::message(const QString& s)
 	{
 		if (!instance) return;
 
@@ -400,7 +400,7 @@ namespace Tinkercell
 		}
 	}
 
-	void OutputWindow::error(const QString& s)
+	void ConsoleWindow::error(const QString& s)
 	{
 		if (!instance) return;
 
@@ -415,7 +415,7 @@ namespace Tinkercell
 		}
 	}
 
-	void OutputWindow::printTable(const DataTable<qreal>& table)
+	void ConsoleWindow::printTable(const DataTable<qreal>& table)
 	{
 		if (!instance) return;
 
@@ -449,30 +449,30 @@ namespace Tinkercell
 		}
 	}
 
-	void OutputWindow::freeze()
+	void ConsoleWindow::freeze()
 	{	
 		if (!instance) return;
 		instance->commandTextEdit.freeze();
 	}
 
-	void OutputWindow::unfreeze()
+	void ConsoleWindow::unfreeze()
 	{	
 		if (!instance) return;
 		instance->commandTextEdit.unfreeze();
 	}
 
-	void OutputWindow::clear()
+	void ConsoleWindow::clear()
 	{	
 		if (!instance) return;
 		instance->commandTextEdit.clearText();
 	}
 
-	OutputWindow * OutputWindow::outputWindow()
+	ConsoleWindow * ConsoleWindow::outputWindow()
 	{
 		return instance;
 	}
 
-	CommandTextEdit * OutputWindow::outputWindowEditor()
+	CommandTextEdit * ConsoleWindow::outputWindowEditor()
 	{
 		return &commandTextEdit;
 	}

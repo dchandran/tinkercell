@@ -36,7 +36,7 @@ LPSolveInputWindow is a good example.
 #include "GraphicsScene.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "ConvertValue.h"
 #include "CThread.h"
 

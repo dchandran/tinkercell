@@ -17,7 +17,7 @@ the stoichiometry and rates tables.
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 
 namespace Tinkercell
@@ -172,13 +172,13 @@ namespace Tinkercell
 				handle->data->textData.insert(QString("Rates"),rates);
 
 				if (isBinding)
-					OutputWindow::message( QString("Note: binding connections are composed of two reactions; use the stoichiometry tool to view this.") );
+					ConsoleWindow::message( QString("Note: binding connections are composed of two reactions; use the stoichiometry tool to view this.") );
 				else
 					if (isGRN)
-						OutputWindow::message( QString("Note: the default regulatory reactions do not have any associated kinetics") );
+						ConsoleWindow::message( QString("Note: the default regulatory reactions do not have any associated kinetics") );
 					else
 						if (isElongation)
-							OutputWindow::message( QString("Note: the default elongation reactions do not have any associated kinetics.") );
+							ConsoleWindow::message( QString("Note: the default elongation reactions do not have any associated kinetics.") );
 		}
 	};
 }

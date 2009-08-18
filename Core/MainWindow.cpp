@@ -37,7 +37,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "Tool.h"
 #include "MainWindow.h"
 #include "CThread.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 
 namespace Tinkercell
@@ -174,7 +174,7 @@ namespace Tinkercell
 		emit funtionPointersToMainThread(s,f );
 	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableOutputWindow, bool showHistory)
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory)
 	{
 		RegisterDataTypes();
 		prevWindow = 0;
@@ -219,8 +219,8 @@ namespace Tinkercell
 		if (showHistory)
 			addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
 		
-		if (enableOutputWindow)
-			outputWindow = new OutputWindow(this);
+		if (enableConsoleWindow)
+			outputWindow = new ConsoleWindow(this);
 		
 		readSettings();
 
@@ -979,7 +979,7 @@ namespace Tinkercell
 
 	void MainWindow::clearText(QSemaphore* sem)
 	{
-		OutputWindow::clear();
+		ConsoleWindow::clear();
 		if (sem)
 			sem->release();
 	}
@@ -987,8 +987,8 @@ namespace Tinkercell
 	void MainWindow::outputText(QSemaphore* sem,const QString& text)
 	{
 		//if (!app)
-		//OutputWindow::clear();
-		OutputWindow::message(text);
+		//ConsoleWindow::clear();
+		ConsoleWindow::message(text);
 		if (sem)
 			sem->release();
 	}
@@ -996,8 +996,8 @@ namespace Tinkercell
 	void MainWindow::errorReport(QSemaphore* sem,const QString& text)
 	{
 		//if (!app)
-		//OutputWindow::clear();
-		OutputWindow::error(text);
+		//ConsoleWindow::clear();
+		ConsoleWindow::error(text);
 		if (sem)
 			sem->release();
 	}
@@ -1025,15 +1025,15 @@ namespace Tinkercell
 		if (!opened)
 		{
 			//if (!app)
-			//OutputWindow::clear();
-			OutputWindow::error(tr("file not found"));
+			//ConsoleWindow::clear();
+			ConsoleWindow::error(tr("file not found"));
 		}
 		else
 		{
 			QString allText(file.readAll());
 			//if (!app)
-			//OutputWindow::clear();
-			OutputWindow::message(allText);
+			//ConsoleWindow::clear();
+			ConsoleWindow::message(allText);
 			file.close();
 		}
 
@@ -1044,7 +1044,7 @@ namespace Tinkercell
 
 	void MainWindow::outputTable(QSemaphore* sem,const DataTable<qreal>& table)
 	{
-		OutputWindow::printTable(table);
+		ConsoleWindow::printTable(table);
 		if (sem)
 			sem->release();
 	}
@@ -1455,7 +1455,7 @@ namespace Tinkercell
 			currentScene()->move( graphicsItems , p );
 		}
 		else
-			OutputWindow::message(QString::number(items.size()) + tr(" ") + QString::number(pos.cols()));
+			ConsoleWindow::message(QString::number(items.size()) + tr(" ") + QString::number(pos.cols()));
 
 		if (sem)
 			sem->release();

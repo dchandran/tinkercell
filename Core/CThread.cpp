@@ -17,7 +17,7 @@ users with the option to terminate the thread.
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "CThread.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QDir>
@@ -364,7 +364,7 @@ namespace Tinkercell
 			process.waitForFinished();
 			QString errors(process.readAllStandardError());
 			QString output(process.readAllStandardOutput());
-			OutputWindow::error(errors);
+			ConsoleWindow::error(errors);
 
 			QDir::setCurrent(current);
 		}

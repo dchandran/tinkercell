@@ -62,7 +62,7 @@ namespace Tinkercell
 	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
 	typedef void (*MatrixInputFunction)(Matrix);
 
-	class OutputWindow;
+	class ConsoleWindow;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
 	class GraphicsScene;
@@ -98,7 +98,7 @@ namespace Tinkercell
 		* \param bool enable command-line
 		* \param bool enable history window
 		*/
-		MainWindow(bool enableScene = true, bool enableText = true, bool enableOutputWindow = true, bool showHistory = true);
+		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true);
 		/*!
 		* \brief Destructor: delete all the graphics scenes.
 		*/
@@ -1052,7 +1052,7 @@ namespace Tinkercell
 		/*! \brief the loaded dynamic libraries indexed by file name*/
 		QHash<QString,QLibrary*> dynamicallyLoadedLibraries;
 		/*! \brief the general window for command, errors, and messages*/
-		OutputWindow * outputWindow;
+		ConsoleWindow * outputWindow;
 		/*! \brief the current layout */
 		QGridLayout layout;
 		/*! \brief read initial settings from settingsFileName

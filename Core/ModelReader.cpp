@@ -10,7 +10,7 @@ data.
 ****************************************************************************/
 
 #include "ModelReader.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include <QtDebug>
 
 namespace Tinkercell

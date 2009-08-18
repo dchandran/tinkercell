@@ -15,7 +15,7 @@ connection names and data columns and rows, for each scene
 #include "GraphicsScene.h"
 #include "Tool.h"
 #include "SymbolsTable.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "TextItem.h"
 
 namespace Tinkercell

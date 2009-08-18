@@ -11,7 +11,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"

@@ -13,7 +13,7 @@
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "AntimonyEditor.h"
@@ -191,7 +191,7 @@ namespace Tinkercell
 		
 		if (!itemsToInsert.isEmpty())
 		{
-			//OutputWindow::message(QString::number(itemsToInsert.size()) + tr(" items inserted"));
+			//ConsoleWindow::message(QString::number(itemsToInsert.size()) + tr(" items inserted"));
 			editor->setItems(itemsToInsert);
 		}		
 	}
@@ -202,7 +202,7 @@ namespace Tinkercell
 		
 		QFile antfile(filename);
 		if (!antfile.open(QFile::WriteOnly | QFile::Text)) {
-			OutputWindow::error(tr("Could not write to the user directory. Check whether you have permission to write to the specified TinkerCell user directory."));
+			ConsoleWindow::error(tr("Could not write to the user directory. Check whether you have permission to write to the specified TinkerCell user directory."));
 			return QList<TextItem*>();
 		}
 		antfile.write(modelString.toAscii().data());
@@ -214,7 +214,7 @@ namespace Tinkercell
 		if (ok < 0)
 		{
 			if (modelString.contains(tr("end")))
-				OutputWindow::error(tr(getLastError()));
+				ConsoleWindow::error(tr(getLastError()));
 			emit validSyntax(false);
 			return QList<TextItem*>();
 		}
@@ -243,7 +243,7 @@ namespace Tinkercell
 		
 		if (!biochemicalFamily || !speciesFamily || !moduleFamily)
 		{
-			OutputWindow::error(tr("No parts and connection information"));
+			ConsoleWindow::error(tr("No parts and connection information"));
 			return QList<TextItem*>();
 		}
 		

@@ -12,7 +12,7 @@
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "Plot2DWidget.h"
 
@@ -412,7 +412,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot)
 		{
-			OutputWindow::error(tr("Plot tool not initialized."));
+			ConsoleWindow::error(tr("Plot tool not initialized."));
 		}
 		
 		if (fileName.isEmpty())
@@ -431,14 +431,14 @@ namespace Tinkercell
 	{
 		if (!dataPlot)
 		{
-			OutputWindow::error(tr("Plot tool not initialized."));
+			ConsoleWindow::error(tr("Plot tool not initialized."));
 		}
 		
 		QClipboard * clipboard = QApplication::clipboard();
 		
 		if (!clipboard)
 		{
-			OutputWindow::error(tr("No clipboard available."));
+			ConsoleWindow::error(tr("No clipboard available."));
 		}
 		
 		QString outputs;
@@ -470,7 +470,7 @@ namespace Tinkercell
 		
 		clipboard->setText(outputs);
 		
-		OutputWindow::message(tr("Tab-delimited data copied to clipboard."));
+		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
 	}
 	
 	void Plot2DWidget::logX(bool b)

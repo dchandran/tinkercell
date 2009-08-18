@@ -12,7 +12,7 @@
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "PlotWidget.h"
 

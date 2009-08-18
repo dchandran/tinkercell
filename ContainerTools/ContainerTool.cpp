@@ -10,7 +10,7 @@
 ****************************************************************************/
 
 #include "GraphicsScene.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
@@ -494,7 +494,7 @@ namespace Tinkercell
                 }
                 if (stillWithParent)
                 {
-                    OutputWindow::message(child->name + tr(" belongs with ") + child->parent->fullName());
+                    ConsoleWindow::message(child->name + tr(" belongs with ") + child->parent->fullName());
                 }
                 else
                 {
@@ -1042,7 +1042,7 @@ namespace Tinkercell
         if (targetHandles.size() > 0)
         {
             scene->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
-            OutputWindow::message(tr("Rates have been updated to include volume of Compartment(s)"));
+            ConsoleWindow::message(tr("Rates have been updated to include volume of Compartment(s)"));
         }
 		
 		for (int i=0; i < newTables.size(); ++i)

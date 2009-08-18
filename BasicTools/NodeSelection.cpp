@@ -18,7 +18,7 @@ This tool performs several tasks:
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "NodeSelection.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {

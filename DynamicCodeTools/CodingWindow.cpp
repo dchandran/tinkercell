@@ -12,7 +12,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "CodingWindow.h"
 #include "PythonTool.h"
 #include "LoadCLibraries.h"
@@ -209,9 +209,9 @@ namespace Tinkercell
 			output += proc.readAllStandardOutput();
 
 			if (!errors.isEmpty())
-				OutputWindow::error(errors);
+				ConsoleWindow::error(errors);
 			else
-				OutputWindow::message(output);
+				ConsoleWindow::message(output);
 			
 			QFile dllsfile(dir.filePath(tr("menu.txt")));
 			QString entireFile;
@@ -265,9 +265,9 @@ namespace Tinkercell
 			output += proc.readAllStandardOutput();
 
 			if (!errors.isEmpty())
-				OutputWindow::error(errors);
+				ConsoleWindow::error(errors);
 			else
-				OutputWindow::message(output);
+				ConsoleWindow::message(output);
 			
 			QFile dllsfile(dir.filePath(tr("menu.txt")));
 			QString entireFile;
@@ -813,7 +813,7 @@ namespace Tinkercell
 		file.close();
 		
 		funcNames.sort();
-		OutputWindow * outputWindow = OutputWindow::outputWindow();
+		ConsoleWindow * outputWindow = ConsoleWindow::outputWindow();
 		if (outputWindow && outputWindow->outputWindowEditor())
 		{
 			//funcNames.clear();

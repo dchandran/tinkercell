@@ -10,7 +10,7 @@
 
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -385,6 +385,11 @@ namespace Tinkercell
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) &&
                 (node->className == ModuleLinkerItem::class_name))
             {
+				if (!node->handle())
+				{
+					node->className = NodeGraphicsItem::class_name;
+					continue;
+				}
 				module = VisualTool::parentModule(node);
                 QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
 
@@ -401,9 +406,13 @@ namespace Tinkercell
 				if (module)
                 {
 					NodeGraphicsItem * linker = new ModuleLinkerItem(module);
-                    setHandle(linker,getHandle(node));
+					
+					ItemHandle * handle = getHandle(node);
                     setHandle(node,0);
                     (*linker) = (*node);
+					setHandle(linker,handle);
+					
+					ConsoleWindow::message(handle->name);
 
                     allLinks = true;
 					
@@ -426,7 +435,7 @@ namespace Tinkercell
                         delete command;
                     }*/
 					
-					delete items[i];
+					delete node;
 					
 					items[i] = linker; //replace
 					
@@ -758,7 +767,7 @@ namespace Tinkercell
                 }
                 else
                 {
-                    OutputWindow::error(tr("These two items cannot be merged. Items must belong to the same family."));
+                    ConsoleWindow::error(tr("These two items cannot be merged. Items must belong to the same family."));
                 }
             }
         }

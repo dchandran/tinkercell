@@ -10,7 +10,7 @@
 #include <QTabWidget>
 #include "LPSolveInput.h"
 #include "ConnectionGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "StoichiometryTool.h"
 #include "DynamicLibraryMenu.h"
 

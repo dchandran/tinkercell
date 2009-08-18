@@ -533,8 +533,13 @@ namespace Tinkercell
 	{
 		if (!mainWindow || !findText || !replaceText || findText->text().isEmpty()) return;
 
-		if (currentWindow())
-			currentWindow()->rename(findText->text(),replaceText->text());
+		//if (currentWindow())
+			//currentWindow()->rename(findText->text(),replaceText->text());
+		if (currentScene())
+			currentScene()->rename(findText->text(),replaceText->text());
+		else
+			if (currentTextEditor())
+				currentTextEditor()->replace(findText->text(),replaceText->text());
 	}
 
 	void BasicGraphicsToolbox::noGradient()

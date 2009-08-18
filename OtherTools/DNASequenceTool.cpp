@@ -16,7 +16,7 @@
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "DNASequenceTool.h"
 #include "AutoGeneRegulatoryTool.h"
 #include "CLabelsTool.h"
@@ -289,7 +289,7 @@ namespace Tinkercell
 				if (!handlesUp.isEmpty())
 				{
 					if (selected.size() > 1)
-						OutputWindow::message(tr("displayed sequence is for DNA strand containing ") + h->fullName());
+						ConsoleWindow::message(tr("displayed sequence is for DNA strand containing ") + h->fullName());
 					/*h = handlesUp.last();
 					
 					for (int j=0; j < h->graphicsItems.size(); ++j)

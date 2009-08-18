@@ -19,7 +19,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -358,7 +358,7 @@ namespace Tinkercell
 					{
 						recursive = true;
 						tableWidget.item(row,col)->setText(nDat.rowName(rowNumber));
-						OutputWindow::message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						ConsoleWindow::message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -411,7 +411,7 @@ namespace Tinkercell
 					{
 						recursive = true;
 						tableWidget.item(row,col)->setText(sDat.rowName(rowNumber));
-						OutputWindow::message(sDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						ConsoleWindow::message(sDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -828,7 +828,7 @@ namespace Tinkercell
 				{
 					if (handle->family() && handle->family()->numericalAttributes.contains(nDat->rowName(rowNumber)))
 					{
-						OutputWindow::message(nDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						ConsoleWindow::message(nDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -847,7 +847,7 @@ namespace Tinkercell
 				{
 					if (handle->family() && handle->family()->textAttributes.contains(sDat->rowName(rowNumber)))
 					{
-						OutputWindow::message(sDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						ConsoleWindow::message(sDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{

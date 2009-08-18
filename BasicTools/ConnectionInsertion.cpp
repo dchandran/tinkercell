@@ -16,7 +16,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "CThread.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "ConnectionInsertion.h"
 
 namespace Tinkercell
@@ -675,7 +675,7 @@ namespace Tinkercell
 						QString::number(numRequiredOut) + tr(" \"") + typeOut + tr("\" item");
 					mainWindow->statusBar()->showMessage(messageString);
 					//QMessageBox::information(mainWindow,tr("Invalid selection"),messageString,QMessageBox::Ok,QMessageBox::Ok);
-					OutputWindow::message(messageString);
+					ConsoleWindow::message(messageString);
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();

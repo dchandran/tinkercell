@@ -15,11 +15,11 @@
 #include <QFile>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "DynamicLibraryMenu.h"
 #include <QtDebug>
 

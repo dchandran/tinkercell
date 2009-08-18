@@ -16,11 +16,11 @@
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "CThread.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "LoadCLibraries.h"
 #include <QtDebug>
 
@@ -324,9 +324,9 @@ namespace Tinkercell
 #endif
         
         if (!errors.isEmpty())
-            OutputWindow::error(errors);
+            ConsoleWindow::error(errors);
         else
-            OutputWindow::message(output);
+            ConsoleWindow::message(output);
         
         if (errors.size() > 0)
         {
@@ -413,9 +413,9 @@ namespace Tinkercell
 #endif
         
         if (!errors.isEmpty())
-            OutputWindow::error(errors);
+            ConsoleWindow::error(errors);
         else
-            OutputWindow::message(output);
+            ConsoleWindow::message(output);
         
         if (errors.size() > 0)
         {

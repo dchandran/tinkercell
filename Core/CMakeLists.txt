@@ -20,7 +20,7 @@ SET( TINKERCELL_CORE_HDRS
   NodeGraphicsItem.h
   NodeGraphicsReader.h
   NodeGraphicsWriter.h
-  OutputWindow.h
+  ConsoleWindow.h
   SymbolsTable.h
   TextEditor.h
   TextGraphicsItem.h
@@ -49,7 +49,7 @@ SET( TINKERCELL_CORE_SRC
   NodeGraphicsItem.cpp
   NodeGraphicsReader.cpp
   NodeGraphicsWriter.cpp
-  OutputWindow.cpp
+  ConsoleWindow.cpp
   SymbolsTable.cpp
   TextEditor.cpp
   TextGraphicsItem.cpp

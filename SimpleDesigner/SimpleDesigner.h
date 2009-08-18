@@ -27,7 +27,7 @@ This is an example application that uses the TinkerCell Core library
 #include "MainWindow.h"
 #include "Tool.h"
 #include "NodeGraphicsReader.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 using namespace Tinkercell;
 

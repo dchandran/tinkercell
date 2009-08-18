@@ -16,7 +16,7 @@ This file contains a collection of commands that perform simple operations that 
 #include "GraphicsScene.h"
 #include "NetworkWindow.h"
 #include "UndoCommands.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include <QRegExp>
 #include <QStringList>
 
@@ -513,7 +513,7 @@ namespace Tinkercell
 							}
 						}
 						if (affected)
-							OutputWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+							ConsoleWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 
 					keys = affectedHandles[i]->data->textData.keys();
@@ -582,7 +582,7 @@ namespace Tinkercell
 								}
 							}
 							if (affected)
-								OutputWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+								ConsoleWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 				}
 			}

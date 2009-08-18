@@ -20,7 +20,7 @@ the stoichiometry and rates tables.
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "ConnectionSelection.h"
 #include "StoichiometryTool.h"
 #include "ModelSummaryTool.h"
@@ -408,7 +408,7 @@ namespace Tinkercell
 												QList<QString>() << tr("Numerical Attributes") << tr("Rates"),
 												QList<DataTable<qreal>*>() << nDat,
 												QList<DataTable<QString>*>() << sDat);
-								OutputWindow::message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
+								ConsoleWindow::message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
 							}
 							delete sDat;
 							delete nDat;
@@ -635,7 +635,7 @@ namespace Tinkercell
 										}
 										dat.value(str,0) = 1.0;
 										win->changeData(handle->fullName() + tr(".") + str + tr(" = 1"),handle,tr("Numerical Attributes"),&dat);
-										OutputWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
+										ConsoleWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
 									}
 							}
 					}
@@ -644,7 +644,7 @@ namespace Tinkercell
 		}
 		catch(mu::Parser::exception_type &e)
 		{
-			OutputWindow::error(tr(e.GetMsg().data()));
+			ConsoleWindow::error(tr(e.GetMsg().data()));
 			return false;
 		}
 		return true;
@@ -926,7 +926,7 @@ namespace Tinkercell
 
 		if (cannots.size() > 0)
 		{
-			OutputWindow::message(tr("Automatic reversibility can only be added to connections with one reaction, so the following were ignored: ") +
+			ConsoleWindow::message(tr("Automatic reversibility can only be added to connections with one reaction, so the following were ignored: ") +
 				cannots.join(tr(",")));
 		}
 		else
@@ -1246,7 +1246,7 @@ namespace Tinkercell
 			{
 				delete nDataTable;
 				//QMessageBox::information(mainWindow,tr("Add Row"),tr("That row name is already being used"),QMessageBox::Ok,QMessageBox::Ok);
-				OutputWindow::error(tr("That row name is already being used."));
+				ConsoleWindow::error(tr("That row name is already being used."));
 				return;
 			}
 
@@ -1257,7 +1257,7 @@ namespace Tinkercell
 				delete nDataTable;
 				delete sDataTable;
 				//QMessageBox::information(mainWindow,tr("Add Row"),tr("That row name is already being used"),QMessageBox::Ok,QMessageBox::Ok);
-				OutputWindow::error(tr("That row name is already being used."));
+				ConsoleWindow::error(tr("That row name is already being used."));
 				return;
 			}
 

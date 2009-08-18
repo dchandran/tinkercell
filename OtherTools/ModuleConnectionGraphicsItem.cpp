@@ -8,7 +8,7 @@
 
 ****************************************************************************/
 
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "ModuleConnectionGraphicsItem.h"
 
 namespace Tinkercell

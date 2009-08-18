@@ -32,7 +32,7 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "MainWindow.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {

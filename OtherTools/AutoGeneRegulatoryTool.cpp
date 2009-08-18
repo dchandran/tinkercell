@@ -17,7 +17,7 @@
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "CollisionDetection.h"
 #include "BasicGraphicsToolbox.h"
 #include "ConnectionSelection.h"
@@ -1401,7 +1401,7 @@ namespace Tinkercell
                         regulatory << nodes[1];
 						newTextData << newData;
 						toolNames << tr("Assignments");
-                        OutputWindow::message(nodes[1]->fullName() + tr(" has rate: ") + s);
+                        ConsoleWindow::message(nodes[1]->fullName() + tr(" has rate: ") + s);
 					}
 					else
 					{

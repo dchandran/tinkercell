@@ -1,4 +1,4 @@
-#include "OutputWindow.h"
+#include "ConsoleWindow.h"
 #include "TinkerCellAboutBox.h"
 #include <QPixmap>
 #include <QBrush>
@@ -20,7 +20,7 @@ namespace Tinkercell
 
 		if (!opened)
 		{
-			OutputWindow::error(filename + tr(" not found"));
+			ConsoleWindow::error(filename + tr(" not found"));
 		}
 		else
 		{

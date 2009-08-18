@@ -65,6 +65,9 @@ namespace Tinkercell
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
 	items currently selected and currently being moved so a plug-in can easily add items to the list 
 	of moving items or selected items. 
+	The default behaviors of the GraphicsScene (e.g selecting, moving) can be turned off by setting useDefaultBehavior=false. If
+	the default behaviors are off, GraphicsScene still emits the mouse and keyboard signals -- this allows another tool
+	to perform the actions.
 	The historyStack pointer can be used to add undo commands to the scene. 
 	\ingroup core
 	*/

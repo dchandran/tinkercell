@@ -358,7 +358,7 @@ namespace Tinkercell
 	ConsoleWindow * ConsoleWindow::instance = 0;
 
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
-		: Tool(tr("Output Window"))
+		: Tool(tr("Console Window"))
 	{
 		setMainWindow(main);
 		if (mainWindow)

@@ -854,10 +854,10 @@ namespace Tinkercell
 				return;
 			}
 
-			if (toolsHash.contains(tr("Output Window")) && toolsHash[tr("Output Window")] )
+			if (toolsHash.contains(tr("Console Window")) && toolsHash[tr("Console Window")] )
 			{
-				(static_cast<Tool*>(toolsHash[tr("Output Window")]))->mainWindow = 0;
-				toolsHash.remove(tr("Output Window"));
+				(static_cast<Tool*>(toolsHash[tr("Console Window")]))->mainWindow = 0;
+				toolsHash.remove(tr("Console Window"));
 			}
 			if (toolsHash.contains(tr("History")) && toolsHash[tr("History")] )
 			{

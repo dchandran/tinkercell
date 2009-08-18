@@ -435,7 +435,7 @@ namespace Tinkercell
                         delete command;
                     }*/
 					
-					delete node;
+					//delete node;
 					
 					items[i] = linker; //replace
 					

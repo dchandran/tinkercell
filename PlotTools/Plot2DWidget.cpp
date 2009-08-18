@@ -63,9 +63,11 @@ namespace Tinkercell
 
 	DataPlot::DataPlot(QWidget * parent) : QwtPlot(parent)
 	{
+		xcolumn = 0;
+		delta = 1;
 		if (DataPlot::lineColors.isEmpty())
 			lineColors 	<< QColor("#0005DF") << QColor("#F35600") << QColor("#E4DC00")
-					<< QColor("#00C312") << QColor("#9600E4") << QColor("#00C1C3");
+						<< QColor("#00C312") << QColor("#9600E4") << QColor("#00C1C3");
 		zoomer = new QwtPlotZoomer(xBottom,yLeft,QwtPicker::DragSelection,QwtPicker::AlwaysOff,canvas());
 		zoomer->setRubberBandPen(QPen(Qt::black));
 		setCanvasBackground(Qt::white);
@@ -134,6 +136,8 @@ namespace Tinkercell
 	
 	void DataPlot::plot(const DataTable<qreal>& dat, int x, const QString& title, int dt)
 	{
+		delta = dt;
+		xcolumn = x;
 		if (!this->isVisible())
 		{
 			if (this->parentWidget() && !this->parentWidget()->isVisible())
@@ -332,22 +336,11 @@ namespace Tinkercell
 		logScale->setPopupMode ( QToolButton::MenuButtonPopup );
 		logScale->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
-		colorWidget = 0;
-		setupColorWidget();
-		
-		QToolButton * changeColors = new QToolButton(this);
-		changeColors->setIcon(QIcon(":/images/pencil.png"));
-		changeColors->setText(tr("Colors"));
-		changeColors->setToolTip(tr("Change line colors"));
-		
 		connect(logx,SIGNAL(toggled(bool)),this,SLOT(logX(bool)));
 		connect(logy,SIGNAL(toggled(bool)),this,SLOT(logY(bool)));
 		
 		connect(print,SIGNAL(pressed()),this,SLOT(printToFile()));
 		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
-		
-		connect(changeColors,SIGNAL(pressed()),colorWidget,SLOT(show()));
-		connect(changeColors,SIGNAL(pressed()),colorWidget,SLOT(raise()));
 		
 		QHBoxLayout * layout3 = new QHBoxLayout;
 		
@@ -356,7 +349,27 @@ namespace Tinkercell
 		layout2->addWidget(copy);
 		layout2->addWidget(setLabels);
 		layout2->addWidget(logScale);
-		layout2->addWidget(changeColors);
+		
+		colorWidget = 0;
+		setupColorWidget();
+		
+		if (colorWidget)
+		{
+			QDialog * dialog = new QDialog(this);
+			QHBoxLayout * dialogLayout = new QHBoxLayout;
+			dialogLayout->addWidget(colorWidget);
+			dialog->setLayout(dialogLayout);
+		
+			QToolButton * changeColors = new QToolButton(this);
+			changeColors->setIcon(QIcon(":/images/pencil.png"));
+			changeColors->setText(tr("Colors"));
+			changeColors->setToolTip(tr("Change line colors"));
+			changeColors->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+			layout2->addWidget(changeColors);
+			
+			dialog->hide();
+			connect(changeColors,SIGNAL(pressed()),dialog,SLOT(show()));
+		}
 		
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		layout1->addWidget(axisNames);
@@ -585,7 +598,7 @@ namespace Tinkercell
 		{
 			colors[row] = QColorDialog::getColor(colors[row],this,tr("select line color"));
 			colorWidget->currentItem()->setText(colors[row].name());
-			dataPlot->replot();
+			dataPlot->plot(dataPlot->dataTable,dataPlot->xcolumn,dataPlot->title().text(),dataPlot->delta);
 		}
 	}
 	

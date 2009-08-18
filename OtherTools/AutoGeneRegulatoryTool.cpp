@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 
+#include "UndoCommands.h"
 #include "ItemHandle.h"
 #include "CThread.h"
 #include "GraphicsScene.h"
@@ -926,12 +927,8 @@ namespace Tinkercell
 					delete dataTables[i];
 	}
 	
-	void AutoGeneRegulatoryTool::insertmRNAstep()
+	QList<QUndoCommand*> AutoGeneRegulatoryTool::insertmRNAstep(const QList<QGraphicsItem*>& selected)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene || !mainWindow) return;		
-		
-		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
 		
 		//QList<ItemHandle*> sceneItems = scene->allHandles();
@@ -1040,11 +1037,11 @@ namespace Tinkercell
 				if (nodes.size() > 0 && nodes[0])
 					genes += nodes[0];
 			}
-			else
+			/*else
 			{
 				selected.removeAt(i);
 				--i;
-			}
+			}*/
 		}
 		
 		QList<QGraphicsItem*> penItems;
@@ -1058,9 +1055,38 @@ namespace Tinkercell
 			pens << pen;
 		}
 		
-		scene->changeData(tr("mRNA step added"),handles,nDataOld,nDataNew,sDataOld,sDataNew);
-		scene->setPen(tr("dashed pen style"),penItems,pens);
-		itemsMoved(scene,genes,QList<QPointF>(),0);
+		QList<QUndoCommand*> commands;
+		
+		commands << new Change2DataCommand<qreal,QString>
+					(tr("mRNA step added"),nDataOld,nDataNew,sDataOld,sDataNew)				 
+				 << new ChangePenCommand(tr("change pen style"), penItems, pens);
+		
+		for (int i=0; i < nDataNew.size(); ++i)
+			if (nDataNew[i])
+				delete nDataNew[i];
+		
+		for (int i=0; i < sDataNew.size(); ++i)
+			if (sDataNew[i])
+				delete sDataNew[i];
+		
+		return commands;
+		
+		//scene->changeData(tr("mRNA step added"),handles,nDataOld,nDataNew,sDataOld,sDataNew);
+		//scene->setPen(tr("dashed pen style"),penItems,pens);
+		//itemsMoved(scene,genes,QList<QPointF>(),0);
+	}
+	
+	void AutoGeneRegulatoryTool::insertmRNAstep()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene || !mainWindow || !scene->networkWindow) return;
+		
+		QList<ItemHandle*> handles = scene->networkWindow->selectedHandles();
+	
+		QUndoCommand * command = new CompositeCommand(tr("insert mRNA step"), 
+													  insertmRNAstep(scene->selected()));
+		
+		emit dataChanged(handles);
 		
 		//QString appDir = QCoreApplication::applicationDirPath();
 		//QString filename = appDir + tr("/OtherItems/UpCircle.xml");
@@ -1073,6 +1099,8 @@ namespace Tinkercell
 
 		if (mainWindow != 0)
 		{	
+			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
+					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 						this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),

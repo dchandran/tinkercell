@@ -147,6 +147,10 @@ namespace Tinkercell
         }
 
         scene->insert("module interface created",toInsert);
+		
+		for (int i=0; i < toInsert.size(); ++i)
+			if (toInsert[i] && toInsert[i]->scene() != scene)
+				delete toInsert[i];
     }
 
     QPointF ModuleTool::VisualTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * linker)
@@ -430,9 +434,9 @@ namespace Tinkercell
                     {
                         command->redo();
                         delete command;
-                    }*/
+                    }
 					
-					delete node;
+					delete node;*/
 					
 					items[i] = linker; //replace
 					
@@ -528,7 +532,7 @@ namespace Tinkercell
 				for (int j=0; j < items.size(); ++j)
 					if (items[j] == moduleConnections[i])
 					{
-						delete items[j];
+						//delete items[j];
 						items[j] = mc;
 					}
             }

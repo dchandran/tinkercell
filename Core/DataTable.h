@@ -539,7 +539,10 @@ namespace Tinkercell
 	};
 
 
-	/*! \brief This template class allows undo and redo of a change made to a data table. See Qt's undo framework*/
+	/*! 
+		\brief This template class allows undo and redo of a change made to a data table. 
+		\ingroup undo 
+	*/
 	template <typename T>
 	class ChangeDataCommand : public QUndoCommand
 	{
@@ -597,7 +600,9 @@ namespace Tinkercell
 		QList< DataTable<T> > oldDataTable;
 	};
 
-	/*! \brief Perform changes on two different data tables. see Qt's undo framework*/
+	/*! \brief Changes two different data tables.
+		\ingroup undo
+	*/
 	template <typename T1, typename T2>
 	class Change2DataCommand : public QUndoCommand
 	{

@@ -77,6 +77,7 @@ namespace Tinkercell
 	signals:
 		void alignCompactHorizontal();
 		void setMiddleBox(int,const QString&);
+		void dataChanged(const QList<ItemHandle*>& items);
 	
 	private slots:
 	
@@ -95,6 +96,8 @@ namespace Tinkercell
 		QAction autoPhosphate;
 		QAction * separator;
 		bool doAssignment;
+		
+		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		
 		static Array _partsIn(OBJ);
 		static Array _partsUpstream(OBJ);

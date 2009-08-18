@@ -70,10 +70,13 @@ namespace Tinkercell
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QColor> lineColors;
+		int xcolumn, delta;
 		
 	protected slots:
 		void itemChecked(QwtPlotItem *,	bool);
 		void setXAxis(int);
+		
+		friend class Plot2DWidget;
 	};
 
 	/*!

@@ -337,52 +337,52 @@ namespace Tinkercell
 		return QString();
 	}
 
-	void ItemHandle::setNumericalData(const QString& name, int row, int column, qreal value)
+	qreal& ItemHandle::numericalData(const QString& name, int row, int column)
 	{
-		if (data)
+		if (!data) data = new ItemData;
+		
+		if (!data->numericalData.contains(name))
 		{
-			if (!data->numericalData.contains(name))
-			{
-				data->numericalData[name] = DataTable<qreal>();
-			}
-			data->numericalData[name].value(row,column) = value;
+			data->numericalData[name] = DataTable<qreal>();
 		}
+		
+		return data->numericalData[name].value(row,column);
 	}
 
-	void ItemHandle::setNumericalData(const QString& name, const QString& row, const QString& column, qreal value)
+	qreal& ItemHandle::numericalData(const QString& name, const QString& row, const QString& column)
 	{
-		if (data)
+		if (!data) data = new ItemData;
+	
+		if (!data->numericalData.contains(name))
 		{
-			if (!data->numericalData.contains(name))
-			{
-				data->numericalData[name] = DataTable<qreal>();
-			}
-			data->numericalData[name].value(row,column) = value;
+			data->numericalData[name] = DataTable<qreal>();
 		}
+		
+		return data->numericalData[name].value(row,column);
 	}
 
-	void ItemHandle::setTextData(const QString& name, int row, int column, const QString& value)
+	QString& ItemHandle::textData(const QString& value, const QString& name, int row, int column)
 	{
-		if (data)
+		if (!data) data = new ItemData;
+		
+		if (!data->textData.contains(name))
 		{
-			if (!data->textData.contains(name))
-			{
-				data->textData[name] = DataTable<QString>();
-			}			
-			data->textData[name].value(row,column) = value;
-		}
+			data->textData[name] = DataTable<QString>();
+		}			
+		
+		return data->textData[name].value(row,column);
 	}
 
-	void ItemHandle::setTextData(const QString& name, const QString& row, const QString& column, const QString& value)
+	QString& ItemHandle::textData(const QString& name, const QString& row, const QString& column)
 	{
-		if (data)
+		if (!data) data = new ItemData;
+		
+		if (!data->textData.contains(name))
 		{
-			if (!data->textData.contains(name))
-			{
-				data->textData[name] = DataTable<QString>();
-			}
-			data->textData[name].value(row,column) = value;
+			data->textData[name] = DataTable<QString>();
 		}
+		
+		return data->textData[name].value(row,column);		
 	}
 
 	QList<ItemHandle*> ItemHandle::allChildren() const

@@ -265,7 +265,7 @@ void SimpleDesigner::setToolTip(ItemHandle* item)
 		for (int i=0; i < item->graphicsItems.size(); ++i)
 			item->graphicsItems[i]->setToolTip
 			(
-				item->name + tr(" : ") + QString::number(item->getNumericalData("concentration",0,0))
+				item->name + tr(" : ") + QString::number(item->numericalData("concentration"))
 			);
 	}
 	else
@@ -274,7 +274,7 @@ void SimpleDesigner::setToolTip(ItemHandle* item)
 		for (int i=0; i < item->graphicsItems.size(); ++i)
 			item->graphicsItems[i]->setToolTip
 			(
-				item->name + tr(" : ") + item->getTextData("rate",0,0)
+				item->name + tr(" : ") + item->textData("rate")
 			);
 	}
 }
@@ -285,8 +285,7 @@ void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>&
 	{
 		if (NodeHandle::asNode(items[i])) //is node?
 		{
-			if (!items[i]->hasNumericalData("concentration")) 
-				items[i]->setNumericalData("concentration",0,0, 10.0);
+			items[i]->numericalData("concentration") = 10.0;
 		}
 		if (ConnectionHandle::asConnection(items[i])) //is reaction?
 		{
@@ -296,7 +295,7 @@ void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>&
 			if (connection->hasTextData("rate"))  //rate already exists
 			{
 				QStringList newVars;
-				rate = connection->getTextData("rate",0,0);
+				rate = connection->textData("rate");
 				bool ok = win->parseMath(rate,newVars);
 					
 				if (ok)
@@ -314,7 +313,7 @@ void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>&
 					rate += tr(" * ") + nodes[j]->name;   //default mass-action rate
 			}
 			
-			connection->setTextData("rate",0,0, rate);
+			connection->textData("rate") = rate;
 		}
 		
 		setToolTip(items[i]);
@@ -393,7 +392,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		if (NodeHandle::asNode(handle) && handle->hasNumericalData("concentration"))
 		{
 			name1->setText(  handle->name  );
-			conc->setText(  QString::number( handle->getNumericalData("concentration",0,0)  ));
+			conc->setText(  QString::number( handle->numericalData("concentration")  ));
 			groupBox1->show();
 			groupBox2->hide();
 		}
@@ -401,7 +400,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		if (ConnectionHandle::asConnection(handle) && handle->hasTextData("rate"))
 		{
 			name2->setText(  handle->name  );
-			rate->setText(  handle->getTextData("rate",0,0) );
+			rate->setText(  handle->textData("rate") );
 			groupBox1->hide();
 			groupBox2->show();
 		}

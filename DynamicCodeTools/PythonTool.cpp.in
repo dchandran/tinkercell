@@ -172,8 +172,10 @@ namespace Tinkercell
 #else
       QString pydir = appDir + tr("/py");
 #endif
-      runPythonCode((tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\nimport init")).toAscii().data());
-			
+      runPythonCode(tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\n")).toAscii().data());
+	  
+	  if (QFile::exists(appDir + tr("/init.py")))
+		runPythonFile(appDir + tr("/init.py"));
 
       return true;
       }

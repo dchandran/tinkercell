@@ -30,15 +30,15 @@ ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
-ADD_LIBRARY( DynamicCodePlugin
+ADD_LIBRARY( DynamicCodeTools
   SHARED
   ${DYNAMICTOOLS_SRC}
   ${DYNAMICTOOLS_MOC}
   ${TINKERCELL_BINARY_DIR}/DynamicTools/PythonTool.cpp
   )
 
-TARGET_LINK_LIBRARIES( DynamicCodePlugin
-  DynamicCodePlugin
+TARGET_LINK_LIBRARIES( DynamicCodeTools
+  DynamicCodeTools
   TinkerCellCore
 )
   

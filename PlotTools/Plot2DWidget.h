@@ -10,6 +10,8 @@
 #ifndef TINKERCELL_PLOT2DWIDGET_H
 #define TINKERCELL_PLOT2DWIDGET_H
 
+#include <QListWidget>
+#include <QListWidgetItem>
 #include "PlotWidget.h"
 #include "qwt_plot.h"
 #include "qwt_color_map.h"
@@ -58,10 +60,17 @@ namespace Tinkercell
 		virtual void setLogY(bool);
 		void replotUsingHideList();
 		DataTable<qreal>& data();
+		QList<QColor>& colors();
+		
+	public slots:
+		void setColors(const QList<QColor>&);
+		
 	protected:
 		DataTable<qreal> dataTable;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
+		static QList<QColor> lineColors;
+		
 	protected slots:
 		void itemChecked(QwtPlotItem *,	bool);
 		void setXAxis(int);
@@ -77,9 +86,12 @@ namespace Tinkercell
 		Plot2DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
 		void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
+		
 	protected:
 		DataPlot * dataPlot;
 		QComboBox * axisNames;
+		QListWidget * colorWidget;
+		
 	public slots:
 		void copyData();
 		void printToFile();
@@ -94,6 +106,12 @@ namespace Tinkercell
 		void setTitle(const QString&);
 		void setXLabel(const QString&);
 		void setYLabel(const QString&);
+	
+	private slots:
+		void selectColor(QListWidgetItem*);
+	
+	private:
+		void setupColorWidget();
 	};
 
 }

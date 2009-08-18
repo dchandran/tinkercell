@@ -8,6 +8,7 @@
 ****************************************************************************/
 
 #include <math.h>
+#include <QColorDialog>
 #include <QGroupBox>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
@@ -58,8 +59,13 @@ namespace Tinkercell
 	Data Plot
 	****************************/
 
+	QList<QColor> DataPlot::lineColors;
+
 	DataPlot::DataPlot(QWidget * parent) : QwtPlot(parent)
 	{
+		if (DataPlot::lineColors.isEmpty())
+			lineColors 	<< QColor("#0005DF") << QColor("#F35600") << QColor("#E4DC00")
+					<< QColor("#00C312") << QColor("#9600E4") << QColor("#00C1C3");
 		zoomer = new QwtPlotZoomer(xBottom,yLeft,QwtPicker::DragSelection,QwtPicker::AlwaysOff,canvas());
 		zoomer->setRubberBandPen(QPen(Qt::black));
 		setCanvasBackground(Qt::white);
@@ -112,6 +118,20 @@ namespace Tinkercell
 		}
 	}
 	
+	void DataPlot::setColors(const QList<QColor>& list)
+	{
+		lineColors.clear();
+		for (int i=0; i < list.size(); ++i)
+		{
+			lineColors << list[i];
+		}
+	}
+	
+	QList<QColor>& DataPlot::colors()
+	{
+		return lineColors;
+	}
+	
 	void DataPlot::plot(const DataTable<qreal>& dat, int x, const QString& title, int dt)
 	{
 		if (!this->isVisible())
@@ -135,6 +155,7 @@ namespace Tinkercell
 		legend()->setItemMode(QwtLegend::CheckableItem);
 		
 		connect(this,SIGNAL(legendChecked(QwtPlotItem*,bool)),this,SLOT(itemChecked(QwtPlotItem*,bool)));
+		
 		//legend()->setStyleSheet("background: white");
 
 		/*QwtDoubleInterval interval(0.0,(double)dataTable.cols());
@@ -144,10 +165,6 @@ namespace Tinkercell
 		colorMap.addColorStop(0.5,QColor(255,0,0));
 		colorMap.addColorStop(1.0,QColor(0,0,0));*/
 		
-		QList<QColor> colors;
-		colors << QColor("#0005DF") << QColor("#F35600") << QColor("#E4DC00")
-			   << QColor("#00C312") << QColor("#9600E4") << QColor("#00C1C3");
-			   
 		QList<Qt::PenStyle> styles;
 		styles << Qt::SolidLine << Qt::DotLine << Qt::DashDotLine;
 		
@@ -160,7 +177,7 @@ namespace Tinkercell
 				curve->setRenderHint(QwtPlotItem::RenderAntialiased);
 				
 				//curve->setPen(QPen(colorMap.color(interval,(double)i),3));
-				if (c >= colors.size())
+				if (c >= lineColors.size())
 				{
 					c = 0;
 					++t;
@@ -170,7 +187,7 @@ namespace Tinkercell
 					t = 0;
 					c = 0;
 				}
-				curve->setPen(QPen(colors[c],2.3,styles[t]));
+				curve->setPen(QPen(lineColors[c],2.3,styles[t]));
 				curve->setData( DataColumn(&dataTable,x,i,dt) );
 				curve->attach(this);
 				curve->updateLegend(legend());
@@ -315,11 +332,22 @@ namespace Tinkercell
 		logScale->setPopupMode ( QToolButton::MenuButtonPopup );
 		logScale->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
+		colorWidget = 0;
+		setupColorWidget();
+		
+		QToolButton * changeColors = new QToolButton(this);
+		changeColors->setIcon(QIcon(":/images/pencil.png"));
+		changeColors->setText(tr("Colors"));
+		changeColors->setToolTip(tr("Change line colors"));
+		
 		connect(logx,SIGNAL(toggled(bool)),this,SLOT(logX(bool)));
-		connect(logy,SIGNAL(toggled(bool)),this,SLOT(logY(bool)));		
+		connect(logy,SIGNAL(toggled(bool)),this,SLOT(logY(bool)));
 		
 		connect(print,SIGNAL(pressed()),this,SLOT(printToFile()));
 		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
+		
+		connect(changeColors,SIGNAL(pressed()),colorWidget,SLOT(show()));
+		connect(changeColors,SIGNAL(pressed()),colorWidget,SLOT(raise()));
 		
 		QHBoxLayout * layout3 = new QHBoxLayout;
 		
@@ -328,6 +356,7 @@ namespace Tinkercell
 		layout2->addWidget(copy);
 		layout2->addWidget(setLabels);
 		layout2->addWidget(logScale);
+		layout2->addWidget(changeColors);
 		
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		layout1->addWidget(axisNames);
@@ -537,5 +566,44 @@ namespace Tinkercell
 		if (s.isNull() || s.isEmpty()) return;
 		
 		dataPlot->setAxisTitle(QwtPlot::yLeft, s);
+	}
+	
+	void Plot2DWidget::selectColor(QListWidgetItem * )
+	{
+		if (!colorWidget->currentItem() || !dataPlot || !colorWidget) return;
+		
+		int row = colorWidget->currentRow();
+		
+		if (row == (colorWidget->count()-1))
+		{
+			colorWidget->addItem(tr("select color"));
+		}
+		
+		QList<QColor>& colors = dataPlot->colors();
+		
+		if (row < colors.size())
+		{
+			colors[row] = QColorDialog::getColor(colors[row],this,tr("select line color"));
+			colorWidget->currentItem()->setText(colors[row].name());
+			dataPlot->replot();
+		}
+	}
+	
+	void Plot2DWidget::setupColorWidget()
+	{
+		if (!dataPlot) return;
+		
+		colorWidget = new QListWidget(this);
+		
+		connect(colorWidget,SIGNAL(itemActivated(QListWidgetItem*)),this,SLOT(selectColor(QListWidgetItem*)));
+		
+		QList<QColor>& colors = dataPlot->colors();
+		
+		QStringList list;
+		
+		for (int i=0; i < colors.size(); ++i)
+			list << colors[i].name();
+		
+		colorWidget->addItems(list);
 	}
 }

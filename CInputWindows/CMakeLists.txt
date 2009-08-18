@@ -29,6 +29,6 @@ ADD_LIBRARY( LPSolveInput
 TARGET_LINK_LIBRARIES( LPSolveInput
   LPSolveInput
   DataBasicTools
-  DynamicCodeTool
+  DynamicCodeTools
   TinkerCellCore
 )

@@ -503,6 +503,31 @@ namespace Tinkercell
 		
 		if (!list.isEmpty())
 		{
+			
+			/*QUndoCommand * command = new CompositeCommand(tr("Transcription addded"), 
+													  QList<QUndoCommand*>()
+														<< new InsertGraphicsCommand(tr("Transcription added"),scene,list)
+														<< insertmRNAstep(list));
+													  
+			if (scene->historyStack)
+				scene->historyStack->push(command);
+			else
+			{
+				command->redo();
+				delete command;
+			}
+			
+			ItemHandle * h = 0;
+			QList<ItemHandle*> handles;
+			for (int i=0; i < list.size(); ++i)
+				if ( (h = getHandle(list[i])) && !handles.contains(h))
+				{
+					handles += h;
+				}
+			
+			emit itemsInsertedSignal(scene, list , handles);
+			emit dataChanged(handles);*/
+			
 			scene->insert(tr("Transcription added"),list);
 			scene->selected() += list;
 			insertmRNAstep();
@@ -1085,12 +1110,16 @@ namespace Tinkercell
 	
 		QUndoCommand * command = new CompositeCommand(tr("insert mRNA step"), 
 													  insertmRNAstep(scene->selected()));
+													  
+		if (scene->historyStack)
+			scene->historyStack->push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
 		
 		emit dataChanged(handles);
-		
-		//QString appDir = QCoreApplication::applicationDirPath();
-		//QString filename = appDir + tr("/OtherItems/UpCircle.xml");
-		//emit setMiddleBox(1,filename);
 	}
 	
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)
@@ -1101,6 +1130,8 @@ namespace Tinkercell
 		{	
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+						mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 						this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),

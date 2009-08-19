@@ -75,6 +75,7 @@ namespace Tinkercell
 		void autoAssignRates(QList<NodeHandle*>&);
 		
 	signals:
+		void itemsInsertedSignal(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void alignCompactHorizontal();
 		void setMiddleBox(int,const QString&);
 		void dataChanged(const QList<ItemHandle*>& items);

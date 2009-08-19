@@ -396,7 +396,8 @@ namespace Tinkercell
         for (int i=0; i < items.size(); ++i)
         {
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) &&
-                node->className == ModuleLinkerItem::class_name)
+                node->className == ModuleLinkerItem::class_name &&
+				!ModuleLinkerItem::isModuleLinker(node))
             {
 				module = VisualTool::parentModule(node);
                 QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
@@ -413,7 +414,7 @@ namespace Tinkercell
                 
 				if (!node->handle())
 				{
-					node->className = NodeGraphicsItem::class_name;
+					//node->className = NodeGraphicsItem::class_name;
 					continue;
 				}
 				
@@ -422,7 +423,7 @@ namespace Tinkercell
 					NodeGraphicsItem * linker = new ModuleLinkerItem(module);
 					
 					ItemHandle * handle = getHandle(node);
-                    setHandle(node,0);
+                    //setHandle(node,0);
                     (*linker) = (*node);
 					setHandle(linker,handle);					
 
@@ -432,7 +433,7 @@ namespace Tinkercell
                         if (connections[j])
                         {
 							connections[j]->replaceNode(node,linker);
-							node->className = NodeGraphicsItem::class_name;
+							//node->className = NodeGraphicsItem::class_name;
 						}
 
                     allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
@@ -509,16 +510,19 @@ namespace Tinkercell
             }
         }
 		
-		QUndoCommand * command = new CompositeCommand(tr("reconnect modules"),allCommands,doNotRemoveCommands);
-		
-		if (scene->historyStack)
+		if (allCommands.size() > 0)
 		{
-			scene->historyStack->push(command);
-		}
-		else
-		{
-			command->redo();
-			delete command;
+			QUndoCommand * command = new CompositeCommand(tr("reconnect modules"),allCommands,doNotRemoveCommands);
+			
+			if (scene->historyStack)
+			{
+				scene->historyStack->push(command);
+			}
+			else
+			{
+				command->redo();
+				delete command;
+			}
 		}
     }
 

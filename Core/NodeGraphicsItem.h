@@ -279,6 +279,8 @@ namespace Tinkercell
 		virtual void adjustBoundaryControlPoints();
 		/*! set boundary to match control points that control the bounding box of this figure */
 		virtual void adjustToBoundaryControlPoints();
+		/*! set the top left and bottom right corners of this node item*/
+		virtual void setBoundingBox(const QPointF&, const QPointF&);
 		/*! the bounding box of this figure */
 		QGraphicsRectItem * boundingBoxItem;
 		/*! show or hide the bounding box of this figure */

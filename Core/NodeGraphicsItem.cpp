@@ -379,6 +379,20 @@ namespace Tinkercell
 	{
 		return controlPoints.size() > 1 && shapes.size() > 0;
 	}
+	
+	/*! set the top left and bottom right corners of this node item*/
+	void NodeGraphicsItem::setBoundingBox(const QPointF& p1, const QPointF& p2)
+	{
+		if (boundaryControlPoints.size() < 2 || 
+			!boundaryControlPoints[0] || 
+			!boundaryControlPoints[1])
+			return;
+		
+		boundaryControlPoints[0]->setPos(p1);
+		boundaryControlPoints[1]->setPos(p2);
+		
+		adjustToBoundaryControlPoints();
+	}
 
 	void NodeGraphicsItem::adjustToBoundaryControlPoints()
 	{

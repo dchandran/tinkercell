@@ -47,6 +47,8 @@ public:
 	
 	NodeGraphicsItem * module;
 	
+	static bool isModuleLinker(NodeGraphicsItem*);
+	
 	/*! \brief used for checking type before static casts */
 	static QString class_name;
 private:
@@ -73,7 +75,7 @@ public:
 	
 	virtual void adjustEndPoints();
 	
-	static bool isModuleConnectionItem(ConnectionGraphicsItem*);
+	static bool isModuleConnection(ConnectionGraphicsItem*);
 	
 };
 

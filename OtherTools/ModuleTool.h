@@ -51,6 +51,9 @@ namespace Tinkercell
 	public:
 		ModuleTool();
 		bool setMainWindow(MainWindow * main);
+	
+	signals:
+		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
     
 	public slots:
 
@@ -60,6 +63,7 @@ namespace Tinkercell
 		void prepareModelForSaving(NetworkWindow*);
 		void escapeSignal(const QWidget*);
 		//void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
+		
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);

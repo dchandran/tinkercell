@@ -17,11 +17,18 @@ namespace Tinkercell
 	QString ModuleConnectionGraphicsItem::class_name = QString("ModuleConnectionGraphicsItem");
 	QString ModuleLinkerItem::class_name = QString("ModuleLinkerItem");
 	
-	bool ModuleConnectionGraphicsItem::isModuleConnectionItem(ConnectionGraphicsItem* connection)
+	bool ModuleConnectionGraphicsItem::isModuleConnection(ConnectionGraphicsItem* connection)
 	{
-		if (!connection || connection->className != ModuleConnectionGraphicsItem::class_name)
-			return false;
-		return true;
+		return (connection && 
+				connection->className == ModuleConnectionGraphicsItem::class_name &&
+				connection->data(0).toBool());
+	}
+	
+	bool ModuleLinkerItem::isModuleLinker(NodeGraphicsItem* node)
+	{
+		return (node &&
+				node->className == ModuleLinkerItem::class_name &&
+				node->data(0).toBool());
 	}
  
 	ModuleLinkerItem::ModuleLinkerItem(NodeGraphicsItem * mod, QGraphicsItem * parent, TextGraphicsItem * text) : 
@@ -40,6 +47,7 @@ namespace Tinkercell
 		lineItem = new QGraphicsLineItem(this);
 		lineItem->setPen(QPen(QColor(255,100,0,255),10.0,Qt::DotLine));
 		setPosOnEdge();
+		setData(0,true);
 	}
 	
 	ModuleLinkerItem::ModuleLinkerItem(const ModuleLinkerItem& copy) : NodeGraphicsItem(copy)
@@ -54,6 +62,7 @@ namespace Tinkercell
 			lineItem->setPen(copy.lineItem->pen());
 		}
 		setPosOnEdge();
+		setData(0,true);
 	}
 	
 	NodeGraphicsItem * ModuleLinkerItem::clone() const
@@ -198,11 +207,13 @@ namespace Tinkercell
 		className = ModuleConnectionGraphicsItem::class_name;
 		setPen(defaultPen = QPen(QColor(255,100,0,255),2.0));
 		command = 0;
+		setData(0,true);
 	}
 	
 	ModuleConnectionGraphicsItem::ModuleConnectionGraphicsItem(const ModuleConnectionGraphicsItem& copy) : ConnectionGraphicsItem(copy)
 	{
 		command = 0;
+		setData(0,true);
 	}
 	
 	ConnectionGraphicsItem* ModuleConnectionGraphicsItem::clone() const

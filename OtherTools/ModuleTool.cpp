@@ -58,8 +58,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-            connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
-                    this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
+            //connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
+              //      this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
@@ -340,7 +340,7 @@ namespace Tinkercell
         }
     }
 
-    void ModuleTool::itemsInserted(GraphicsScene*, const QList<QGraphicsItem *>&, const QList<ItemHandle*>& handles)
+    void ModuleTool::itemsInserted(GraphicsScene* scenw, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles)
     {	
 		for (int i=0; i < handles.size(); ++i)
         {
@@ -351,10 +351,10 @@ namespace Tinkercell
 				handle->tools += this;
             }
         }
-	}
+/*	}
 	
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles)
-	{
+	{*/
 		if (!scene) return;
 		
 		NodeGraphicsItem * node = 0;
@@ -386,11 +386,6 @@ namespace Tinkercell
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) &&
                 (node->className == ModuleLinkerItem::class_name))
             {
-				if (!node->handle())
-				{
-					node->className = NodeGraphicsItem::class_name;
-					continue;
-				}
 				module = VisualTool::parentModule(node);
                 QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
 
@@ -404,6 +399,12 @@ namespace Tinkercell
                         moduleConnections += connections[j];
                     }
                 
+				if (!node->handle())
+				{
+					node->className = NodeGraphicsItem::class_name;
+					continue;
+				}
+				
 				if (module)
                 {
 					NodeGraphicsItem * linker = new ModuleLinkerItem(module);
@@ -424,7 +425,7 @@ namespace Tinkercell
 							node->className = NodeGraphicsItem::class_name;
 						}
 
-                    /*CompositeCommand * command = new CompositeCommand( tr("add linker"),
+                    CompositeCommand * command = new CompositeCommand( tr("add linker"),
                                                                        QList<QUndoCommand*>()
                                                                        << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
                                                                        << (new InsertGraphicsCommand(tr("add new linker"),scene,linker)));
@@ -436,9 +437,9 @@ namespace Tinkercell
                         delete command;
                     }
 					
-					delete node;*/
+					//delete node;
 					
-					items[i] = linker; //replace
+					//items[i] = linker; //replace
 					
                     (static_cast<ModuleLinkerItem*>(linker))->setPosOnEdge();
                 }
@@ -510,7 +511,7 @@ namespace Tinkercell
 
                 mc->refresh();
 
-                /*CompositeCommand * command = new CompositeCommand( tr("modules connected"),
+                CompositeCommand * command = new CompositeCommand( tr("modules connected"),
                                                                    QList<QUndoCommand*>()
                                                                    << (new InsertGraphicsCommand(tr("new modules connection"),scene,mc))
                                                                    << mc->command
@@ -524,9 +525,9 @@ namespace Tinkercell
                 {
                     command->redo();
                     delete command;
-                }*/
+                }
 				
-				if (mc->command)
+				/*if (mc->command)
 					mc->command->redo();
 				
 				for (int j=0; j < items.size(); ++j)
@@ -534,7 +535,7 @@ namespace Tinkercell
 					{
 						//delete items[j];
 						items[j] = mc;
-					}
+					}*/
             }
         }
     }

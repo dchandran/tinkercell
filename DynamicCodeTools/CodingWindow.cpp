@@ -249,7 +249,7 @@ namespace Tinkercell
 				return;
 
 			QTextStream out(&qfile);
-                        out << tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"dlls/") + dllname + tr(".py\");\n    return 0;\n}\n");
+            out << tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"dlls/") + dllname + tr(".py\");\n    return 0;\n}\n");
 			qfile.close();
 		
 			QProcess proc;
@@ -305,7 +305,7 @@ namespace Tinkercell
 			//dock->hide();
 			//QToolBar * toolBar = new QToolBar;
 			
-                        QToolBar * toolBar = mainWindow->toolBarForTools;
+            QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/source.png")));
 			//action->setCheckable(true);

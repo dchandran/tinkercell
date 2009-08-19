@@ -140,16 +140,16 @@ namespace Tinkercell
 
     bool PythonTool::setMainWindow(MainWindow * main)
     {
-        Tool::setMainWindow(main);
-        if (mainWindow)
-        {
-            QString appDir = QCoreApplication::applicationDirPath();
-            pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
-            pythonInterpreter->initialize();
+		Tool::setMainWindow(main);
+		if (mainWindow)
+		{
+			QString appDir = QCoreApplication::applicationDirPath();
+			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
+			pythonInterpreter->initialize();
 
-            connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-            connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-            connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
+			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
+			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 			
 			ConsoleWindow * outWin = ConsoleWindow::outputWindow();
 			if (outWin)
@@ -160,25 +160,32 @@ namespace Tinkercell
 				connect(this,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
 			}
 
-      connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-      connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
-      toolLoaded(0);
+			toolLoaded(0);
 
-      ConsoleWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
+			ConsoleWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
 
-#ifdef Q_WS_WIN
-      QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
-#else
-      QString pydir = appDir + tr("/py");
-#endif
-      runPythonCode((tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\n")).toAscii().data());
-	  
-	  if (QFile::exists(appDir + tr("/init.py")))
-		runPythonFile(appDir + tr("/init.py"));
-
-      return true;
-      }
+			#ifdef Q_WS_WIN
+			QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
+			#else
+			QString pydir = appDir + tr("/py");
+			#endif
+			
+			QString s = tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\n");
+			
+			QFile file(appDir + tr("/init.py"));
+			if (file.open(QFile::ReadOnly | QFile::Text))
+            {
+                s += file.readAll();
+                file.close();
+            }
+			
+			runPythonCode(s);
+			
+			return true;
+		}
         
 		return false;
     }

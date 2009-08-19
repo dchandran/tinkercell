@@ -2315,9 +2315,15 @@ namespace Tinkercell
 		NodeGraphicsItem* node = 0;
 		ConnectionGraphicsItem* connection = 0;
 
-		if (symbolsTable->handlesFirstName.contains(text))
+		if (symbolsTable->handlesFullName.contains(text) ||
+			symbolsTable->handlesFirstName.contains(text))
 		{
-			ItemHandle * handle = symbolsTable->handlesFullName[text];
+			ItemHandle * handle = 0;
+			if (symbolsTable->handlesFullName.contains(text))
+				handle = symbolsTable->handlesFullName[text];
+			else
+				handle = symbolsTable->handlesFirstName[text];
+			
 			bool alreadySelected = true;
 			for (int i=0; i < handle->graphicsItems.size(); ++i)
 				if (!selectedItems.contains(handle->graphicsItems[i]))

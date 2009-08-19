@@ -738,7 +738,8 @@ namespace Tinkercell
                         CompositeCommand * command = new CompositeCommand( tr("modules connected"),
                                                                            QList<QUndoCommand*>()
                                                                            << (new InsertGraphicsCommand(tr("modules connected"),scene,mc))
-                                                                           << mc->command, QList<QUndoCommand*>() << mc->command);
+                                                                           << mc->command, 
+																			QList<QUndoCommand*>() << mc->command);
                         if (scene->historyStack)
                         {
                             scene->historyStack->push(command);

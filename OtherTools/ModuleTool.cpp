@@ -395,9 +395,9 @@ namespace Tinkercell
 
         for (int i=0; i < items.size(); ++i)
         {
-            if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) &&
-                node->className == ModuleLinkerItem::class_name &&
-				!ModuleLinkerItem::isModuleLinker(node))
+            if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) 
+			    && node->className == ModuleLinkerItem::class_name)
+				//&&	!ModuleLinkerItem::isModuleLinker(node))
             {
 				module = VisualTool::parentModule(node);
                 QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());

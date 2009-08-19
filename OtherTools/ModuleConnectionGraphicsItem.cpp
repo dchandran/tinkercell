@@ -67,6 +67,7 @@ namespace Tinkercell
 	
 	NodeGraphicsItem * ModuleLinkerItem::clone() const
 	{
+		ConsoleWindow::message("linker copied");
 		return new ModuleLinkerItem(*this);
 	}
 	
@@ -127,8 +128,6 @@ namespace Tinkercell
 					}
 				
 				if (!closest) return;
-				
-				
 				
 				nodeRect = closest->sceneBoundingRect();
 				dist = (nodeRect.left() - rect.left());

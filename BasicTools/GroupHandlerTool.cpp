@@ -241,7 +241,7 @@ namespace Tinkercell
 
 		if (numHandles > 1)
 		{
-			MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),handles);
+			MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),scene->networkWindow,handles);
 			if (!mergeCommand->newHandle)
 			{
 				delete mergeCommand;
@@ -599,7 +599,7 @@ namespace Tinkercell
 
 			if (handles.size() > 1 && bestHandle)
 			{
-				MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),handles);
+				MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),scene->networkWindow,handles);
 				if (!mergeCommand->newHandle)
 				{
 					delete mergeCommand;

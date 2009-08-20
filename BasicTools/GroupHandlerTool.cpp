@@ -242,15 +242,10 @@ namespace Tinkercell
 		if (numHandles > 1)
 		{
 			MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),scene->networkWindow,handles);
-			if (!mergeCommand->newHandle)
-			{
-				delete mergeCommand;
-				return;
-			}
-
+			
 			scene->deselect();
 
-			QString newName = mergeCommand->newHandle->fullName();
+			/*QString newName = mergeCommand->newHandle->fullName();
 			QList<QString> oldNames,newNames;
 
 			QList<QGraphicsItem*> textToDelete;
@@ -282,14 +277,14 @@ namespace Tinkercell
 
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < items.size(); ++i)
-				oldHandles += getHandle(items[i]);
+				oldHandles += getHandle(items[i]);*/
 
 			if (scene->historyStack)
-				scene->historyStack->push(command);
+				scene->historyStack->push(mergeCommand);
 			else
 			{
-				command->redo();
-				delete command;
+				mergeCommand->redo();
+				delete mergeCommand;
 			}
 			emit handlesChanged(scene,items,oldHandles);
 			//scene->mergeHandles(handles);
@@ -600,15 +595,10 @@ namespace Tinkercell
 			if (handles.size() > 1 && bestHandle)
 			{
 				MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),scene->networkWindow,handles);
-				if (!mergeCommand->newHandle)
-				{
-					delete mergeCommand;
-					return;
-				}
-
+				
 				scene->deselect();
 
-				QString newName = mergeCommand->newHandle->fullName();
+				/*QString newName = mergeCommand->newHandle->fullName();
 				QList<QString> oldNames,newNames;
 
 				QList<QGraphicsItem*> textToDelete;
@@ -636,17 +626,17 @@ namespace Tinkercell
 					commands += new RemoveGraphicsCommand(tr("remove text"),scene,textToDelete);
 				commands += new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
 				QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
-
+				*/
 				QList<ItemHandle*> oldHandles;
 				for (int i=0; i < items.size(); ++i)
 					oldHandles += getHandle(items[i]);
 
 				if (scene->historyStack)
-					scene->historyStack->push(command);
+					scene->historyStack->push(mergeCommand);
 				else
 				{
-					command->redo();
-					delete command;
+					mergeCommand->redo();
+					delete mergeCommand;
 				}
 				emit handlesChanged(scene,items,oldHandles);
 			}

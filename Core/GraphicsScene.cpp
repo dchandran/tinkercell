@@ -481,11 +481,11 @@ namespace Tinkercell
 				break;
 			}
 
-			emit mouseMoved(this, item, point1, clickedButton, mouseEvent->modifiers(), movingItems);
-			if (item)
-				emit mouseOnTopOf(this, item, point1, mouseEvent->modifiers(), movingItems);
+		emit mouseMoved(this, item, point1, clickedButton, mouseEvent->modifiers(), movingItems);
+		if (item)
+			emit mouseOnTopOf(this, item, point1, mouseEvent->modifiers(), movingItems);
 
-			QGraphicsScene::mouseMoveEvent(mouseEvent);
+		QGraphicsScene::mouseMoveEvent(mouseEvent);
 	}
 	/*! \brief when mouse is released, moving list is cleared
 	* Precondition: None

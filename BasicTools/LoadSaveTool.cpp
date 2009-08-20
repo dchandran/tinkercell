@@ -65,7 +65,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
 			connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*,bool*)),
-					this,SIGNAL(prepareModelForSaving(NetworkWindow*,bool*)));
+					this,SLOT(prepareModelForSaving(NetworkWindow*,bool*)));
 			connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
 			connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
 			return true;

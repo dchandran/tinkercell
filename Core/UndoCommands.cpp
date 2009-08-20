@@ -2013,110 +2013,95 @@ namespace Tinkercell
 	AssignHandleCommand::AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
 		: QUndoCommand(text)
 	{
-		graphicsItems.clear();
-		oldHandles.clear();
-		newHandles.clear();
+		ItemHandle * handle = 0;
 
 		for (int i=0; i < items.size() && i < handles.size(); ++i)		
-		{
-			graphicsItems += items[i];
-			oldHandles += getHandle(items[i]);
-			newHandles += handles[i];
-		}
+			if (items[i])
+			{
+				graphicsItems += items[i];
+				
+				handle = getHandle(items[i]);
+				
+				oldHandles += handle;
+				newHandles += handles[i];
+				
+				oldItemHandles += QPair< QGraphicsItem*, ItemHandle* >(items[i], handle);
+				newItemHandles += QPair< QGraphicsItem*, ItemHandle* >(items[i], handles[i]);
+			}
 	}
 
-	AssignHandleCommand::AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, ItemHandle* handle)
+	AssignHandleCommand::AssignHandleCommand(const QString& text, const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
 		: QUndoCommand(text)
 	{
-		graphicsItems.clear();
-		oldHandles.clear();
-		newHandles.clear();
 
-		for (int i=0; i < items.size(); ++i)		
-		{
-			graphicsItems += items[i];
-			oldHandles += getHandle(items[i]);
-			newHandles += handle;
-		}
+		ItemHandle * handle = 0;
+		for (int i=0; i < items.size(); ++i)	
+			if (items[i])
+			{
+				graphicsItems += items[i];
+				handle = getHandle(items[i]);
+				
+				oldHandles += handle;
+				newHandles += newHandle;
+				
+				oldItemHandles += QPair< QGraphicsItem*, ItemHandle* >( items[i], handle );
+				newItemHandles += QPair< QGraphicsItem*, ItemHandle* >( items[i], newHandle );
+			}
 
 	}
 
-	AssignHandleCommand::AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* handle)
+	AssignHandleCommand::AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* newHandle)
 		: QUndoCommand(text)
 	{
-		graphicsItems.clear();
-		oldHandles.clear();
-		newHandles.clear();
-
 		graphicsItems += item;
-		oldHandles += getHandle(item);
-		newHandles += handle;	
-
+		ItemHandle * handle = getHandle(item);
+		
+		oldHandles += handle;
+		newHandles += newHandle;
+		
+		oldItemHandles += QPair< QGraphicsItem*, ItemHandle* >( item, handle );
+		newItemHandles += QPair< QGraphicsItem*, ItemHandle* >( item, newHandle );
 	}
 
 	void AssignHandleCommand::redo()
 	{
 		TextGraphicsItem* textItem = 0;
-		ItemHandle * itemHandle = 0;
-		for (int i=0; i < graphicsItems.size() && i < newHandles.size(); ++i)
+		ItemHandle * handle = 0;
+		for (int i=0; i < newItemHandles.size(); ++i)
 		{
-			if (graphicsItems[i])
+			if (newItemHandles[i].first)
 			{
-				if (newHandles[i] &&
-					(textItem = qgraphicsitem_cast<TextGraphicsItem*>(graphicsItems[i])) &&
-					(itemHandle = getHandle(graphicsItems[i])) &&
-					textItem->toPlainText() == itemHandle->name)
-					textItem->setPlainText(newHandles[i]->name);
-				setHandle(graphicsItems[i],newHandles[i]);
+				handle = getHandle(newItemHandles[i].first);
+				if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(newItemHandles[i].first)) &&
+					handle && textItem->toPlainText() == handle->name &&
+					newItemHandles[i].second)
+					textItem->setPlainText(newItemHandles[i].second->name);
+				setHandle(newItemHandles[i].first, newItemHandles[i].second);
 			}
-		}
-		for (int i=0; i < newHandles.size(); ++i)
-		{	
-
-			if (newHandles[i] && newHandles[i]->parent && !newHandles[i]->parent->children.contains(newHandles[i]))
-				newHandles[i]->parent->children.append(newHandles[i]);
-		}
-		for (int i=0; i < oldHandles.size(); ++i)
-		{	
-
-			if (oldHandles[i] && oldHandles[i]->parent)
-				oldHandles[i]->parent->children.removeAll(oldHandles[i]);
 		}
 	}
 
 	void AssignHandleCommand::undo()
 	{
 		TextGraphicsItem* textItem = 0;
-		ItemHandle * itemHandle = 0;
-		for (int i=0; i < graphicsItems.size() && i < oldHandles.size(); ++i)
+		ItemHandle * handle = 0;
+		for (int i=0; i < oldItemHandles.size(); ++i)
 		{
-			if (graphicsItems[i])
+			if (oldItemHandles[i].first)
 			{
-				if (oldHandles[i] &&
-					(textItem = qgraphicsitem_cast<TextGraphicsItem*>(graphicsItems[i])) &&
-					(itemHandle = getHandle(graphicsItems[i])) &&
-					textItem->toPlainText() == itemHandle->name)
-					textItem->setPlainText(oldHandles[i]->name);
-
-				setHandle(graphicsItems[i],oldHandles[i]);
+				handle = getHandle(oldItemHandles[i].first);
+				if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(oldItemHandles[i].first)) &&
+					handle && textItem->toPlainText() == handle->name &&
+					newItemHandles[i].second)
+					textItem->setPlainText(oldItemHandles[i].second->name);
+				setHandle(oldItemHandles[i].first, oldItemHandles[i].second);
 			}
-		}
-		for (int i=0; i < oldHandles.size(); ++i)
-		{	
-
-			if (oldHandles[i] && oldHandles[i]->parent && !oldHandles[i]->parent->children.contains(oldHandles[i]))
-				oldHandles[i]->parent->children.append(oldHandles[i]);
-		}
-		for (int i=0; i < newHandles.size(); ++i)
-		{	
-
-			if (newHandles[i] && newHandles[i]->parent)
-				newHandles[i]->parent->children.removeAll(newHandles[i]);
 		}
 	}
 
 	AssignHandleCommand::~AssignHandleCommand()
 	{
+		oldHandles << newHandles;
 		for (int i=0; i < oldHandles.size(); ++i)
 			if (oldHandles[i])
 			{
@@ -2134,33 +2119,10 @@ namespace Tinkercell
 								oldHandles[j] = 0;
 
 						oldHandles[i]->graphicsItems.clear();
-						//oldHandles[i]->children.clear();
-						//delete oldHandles[i];
+						delete oldHandles[i];
 						oldHandles[i] = 0;
 					}
 			}
-			/*for (int i=0; i < newHandles.size(); ++i)
-			if (newHandles[i])
-			{
-			bool pointedTo = false;
-			for (int j=0; j < newHandles[i]->graphicsItems.size(); ++j)
-			if (getHandle(newHandles[i]->graphicsItems[j]) == newHandles[i])
-			{
-			pointedTo = true;
-			break;
-			}
-			if (!pointedTo)
-			{
-			for (int j=0; j < newHandles.size(); ++j)
-			if (i != j && newHandles[j] == newHandles[i])
-			newHandles[j] = 0;
-
-			newHandles[i]->graphicsItems.clear();
-			newHandles[i]->children.clear();
-			delete newHandles[i];
-			newHandles[i] = 0;
-			}
-			}*/
 
 	}
 
@@ -2174,12 +2136,11 @@ namespace Tinkercell
 		
 		if (handles.size() > 0)
 		{
-			for (int i=1; i < handles.size(); ++i)
+			for (int i=0; i < handles.size(); ++i)
 				if (handles[i])
 				{
 					if (newHandle == 0)					
-						newHandle = handles[i];//->clone();
-					
+						newHandle = handles[i];//->clone();					
 					
 					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 						if (handles[i]->graphicsItems[j])
@@ -2228,26 +2189,6 @@ namespace Tinkercell
 
 	MergeHandlersCommand::~MergeHandlersCommand()
 	{
-		if (newHandle)
-		{
-			bool pointedTo = false;
-			for (int j=0; j < newHandle->graphicsItems.size(); ++j)
-				if (getHandle(newHandle->graphicsItems[j]) == newHandle)
-				{
-					pointedTo = true;
-					break;
-				}
-				if (!pointedTo)
-				{
-					int k = -1;
-					while ((k = oldHandles.indexOf(newHandle) > -1) )
-						oldHandles[k] = 0;
-					//newHandle->children.clear();
-					//delete newHandle;
-					newHandle = 0;
-				}
-		}
-
 		for (int i=0; i < oldHandles.size(); ++i)
 		{
 			if (oldHandles[i] && newHandle != oldHandles[i])
@@ -2266,7 +2207,6 @@ namespace Tinkercell
 								oldHandles[j] = 0;
 
 						oldHandles[i]->graphicsItems.clear();
-						oldHandles[i]->children.clear();
 						delete oldHandles[i];
 						oldHandles[i] = 0;
 					}
@@ -2280,7 +2220,7 @@ namespace Tinkercell
 	void MergeHandlersCommand::redo()
 	{
 		if (newHandle == 0) return;
-
+		
 		for (int i=0; i < allChildren.size(); ++i)
 			if (allChildren[i])
 				allChildren[i]->setParent(newHandle);
@@ -2289,32 +2229,29 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		
 		for (int i=0; i < allGraphicsItems.size(); ++i)
-		{	
-			handle = getHandle(allGraphicsItems[i]);
-			
-			if ( 	handle &&
-					(textItem = qgraphicsitem_cast<TextGraphicsItem*>(allGraphicsItems[i])) &&
-					(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
-					textItem->setPlainText(newHandle->name);
-					
-			setHandle(allGraphicsItems[i],newHandle);
-		}
+			if (allGraphicsItems[i])
+			{	
+				/*handle = getHandle(allGraphicsItems[i]);
+				
+				if ( 	handle &&
+						(textItem = qgraphicsitem_cast<TextGraphicsItem*>(allGraphicsItems[i])) &&
+						(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
+						textItem->setPlainText(newHandle->name);*/
+						
+				setHandle(allGraphicsItems[i],newHandle);
+			}
 		
 		if (renameCommand)
 			renameCommand->redo();
-
 	}
 
 	void MergeHandlersCommand::undo()
 	{
 		if (newHandle == 0) return;
 		
-		QHash< ItemHandle*, QList<QGraphicsItem*> > oldGraphicsItems;
-		QHash< ItemHandle*, QList<ItemHandle*> > oldChildren;
-		QHash< ItemHandle*, ItemHandle* > oldParent;
-		QList< ItemHandle* > allChildren;
-		QList<QGraphicsItem*> allGraphicsItems;
-
+		if (renameCommand)
+			renameCommand->undo();
+		
 		QList<ItemHandle*> keyHandles = oldChildren.keys();
 		for (int i=0; i < keyHandles.size(); ++i)
 			if (keyHandles[i])
@@ -2337,20 +2274,17 @@ namespace Tinkercell
 				for (int j=0; j < items.size(); ++j)
 					if (items[j])
 					{
-						handle = getHandle(items[j]);
+						/*handle = getHandle(items[j]);
 						
 						if ( 	handle &&
 								(textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[j])) &&
 								(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
-								textItem->setPlainText(keyHandles[i]->name);
+								textItem->setPlainText(keyHandles[i]->name);*/
 						
 						setHandle(items[j],keyHandles[i]);
 					}
 					
 			}
-		
-		if (renameCommand)
-			renameCommand->undo();
 	}
 
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, ItemHandle * child, ItemHandle * parent)

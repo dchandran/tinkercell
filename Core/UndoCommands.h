@@ -540,6 +540,9 @@ namespace Tinkercell
 		QList<QGraphicsItem*> graphicsItems;
 		QList<ItemHandle*> oldHandles;
 		QList<ItemHandle*> newHandles;
+	private:
+		QList< QPair< QGraphicsItem*, ItemHandle*> > oldItemHandles;
+		QList< QPair< QGraphicsItem*, ItemHandle*> > newItemHandles;
 	};
 
 	/*! \brief this command places all the graphics items inside one handle into the other

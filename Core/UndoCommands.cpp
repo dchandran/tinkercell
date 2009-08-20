@@ -2164,26 +2164,66 @@ namespace Tinkercell
 
 	}
 
-	MergeHandlersCommand::MergeHandlersCommand(const QString& text, const QList<ItemHandle*>& handles) :
+	MergeHandlersCommand::MergeHandlersCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles) :
 	QUndoCommand(text)
 	{
 		newHandle = 0;
 		oldHandles = handles;
+		
+		QList<QString> oldNames, newNames;
+		
 		if (handles.size() > 0)
 		{
 			for (int i=1; i < handles.size(); ++i)
 				if (handles[i])
 				{
-					if (newHandle == 0)
-					{
-						newHandle = handles[i]->clone();
-					}
+					if (newHandle == 0)					
+						newHandle = handles[i];//->clone();
+					
+					
+					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+						if (handles[i]->graphicsItems[j])
+						{
+							if (!allGraphicsItems.contains(handles[i]->graphicsItems[j]))
+								allGraphicsItems << handles[i]->graphicsItems[j];
+							
+							if (!oldGraphicsItems.contains(handles[i]))
+								oldGraphicsItems[ handles[i] ] = QList<QGraphicsItem*>();
+							
+							if (!oldGraphicsItems[ handles[i] ].contains(handles[i]->graphicsItems[j]))
+								oldGraphicsItems[ handles[i] ] << handles[i]->graphicsItems[j];
+						}
+					
+					for (int j=0; j < handles[i]->children.size(); ++j)
+						if (handles[i]->children[j])
+						{	
+							if (!allChildren.contains(handles[i]->children[j]))
+								allChildren << handles[i]->children[j];
+								
+							if (!oldChildren.contains(handles[i]))
+								oldChildren[ handles[i] ] = QList<ItemHandle*>();
+							
+							if (!oldChildren[ handles[i] ].contains(handles[i]->children[j]))
+								oldChildren[ handles[i] ] << handles[i]->children[j];
+						}
+					
+					oldParents[ handles[i] ] = handles[i]->parent;
 
-					for (int j=0; j < handles[i]->tools.size(); ++j)
+					/*for (int j=0; j < handles[i]->tools.size(); ++j)
 						if (!newHandle->tools.contains(handles[i]->tools[j]))
-							newHandle->tools += handles[i]->tools[j];
+							newHandle->tools += handles[i]->tools[j];*/
 				}
 		}
+		
+		for (int i =0; i < handles.size(); ++i)
+			if (handles[i] && handles[i] != newHandle)
+				oldNames << handles[i]->fullName();
+				
+		if (newHandle)
+			for (int i=0; i < oldNames.size(); ++i)
+				newNames << newHandle->fullName();
+		
+		renameCommand = new RenameCommand(QString("rename"),win->allHandles(),oldNames,newNames);
 	}
 
 	MergeHandlersCommand::~MergeHandlersCommand()
@@ -2232,102 +2272,85 @@ namespace Tinkercell
 					}
 			}
 		}
+		
+		if (renameCommand)
+			delete renameCommand;
 	}
 
 	void MergeHandlersCommand::redo()
 	{
-		if (newHandle == 0)
-			if (oldHandles.size() > 0 && oldHandles[0])
-				newHandle = oldHandles[0]->clone();
-			else
-				return;
+		if (newHandle == 0) return;
 
-		if (newHandle && oldHandles.size() > 0)
-		{
-			//move the children from the old handles to new handle
-			for (int i=0; i < oldHandles.size(); ++i)
-				if (oldHandles[i] && !oldHandles[i]->children.isEmpty())
-					for (int j=0; j < oldHandles[i]->children.size(); ++j)
-						if (!newHandle->children.contains(oldHandles[i]->children[j]))
-						{
-							newHandle->children += oldHandles[i]->children[j];
-							oldHandles[i]->children[j]->parent = newHandle;
-						}
-		}
+		for (int i=0; i < allChildren.size(); ++i)
+			if (allChildren[i])
+				allChildren[i]->setParent(newHandle);
 
-		if (newHandle && newHandle->parent && !newHandle->parent->children.contains(newHandle))
-			newHandle->parent->children.append(newHandle);
-
-		for (int i=0; i < oldHandles.size(); ++i)
-		{	
-
-			if (oldHandles[i] && oldHandles[i]->parent)
-				oldHandles[i]->parent->children.removeAll(oldHandles[i]);
-		}
-
-		//for each graphics item in old handles, change its handle to new
 		TextGraphicsItem * textItem = 0;
-		//ItemHandle * handle = 0;
-		for (int i=0; i < oldHandles.size(); ++i)
-			if (oldHandles[i])
-			{
-				QList<QGraphicsItem*> list = oldHandles[i]->graphicsItems;
-				for (int j=0; j < list.size(); ++j)
-					if (list[j])
-					{
-						setHandle(list[j],newHandle);
-						if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(list[j])) && (textItem->toPlainText() == oldHandles[i]->name))
-						{
-							textItem->setPlainText(newHandle->name);
-						}
-					}
-					oldHandles[i]->graphicsItems = list;	//do not remove -- otherwise cannot undo			
-			}
+		ItemHandle * handle = 0;
+		
+		for (int i=0; i < allGraphicsItems.size(); ++i)
+		{	
+			handle = getHandle(allGraphicsItems[i]);
+			
+			if ( 	handle &&
+					(textItem = qgraphicsitem_cast<TextGraphicsItem*>(allGraphicsItems[i])) &&
+					(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
+					textItem->setPlainText(newHandle->name);
+					
+			setHandle(allGraphicsItems[i],newHandle);
+		}
+		
+		if (renameCommand)
+			renameCommand->redo();
 
 	}
 
 	void MergeHandlersCommand::undo()
 	{
-		for (int i=0; i < oldHandles.size(); ++i)
-			if (oldHandles[i])
+		if (newHandle == 0) return;
+		
+		QHash< ItemHandle*, QList<QGraphicsItem*> > oldGraphicsItems;
+		QHash< ItemHandle*, QList<ItemHandle*> > oldChildren;
+		QHash< ItemHandle*, ItemHandle* > oldParent;
+		QList< ItemHandle* > allChildren;
+		QList<QGraphicsItem*> allGraphicsItems;
+
+		QList<ItemHandle*> keyHandles = oldChildren.keys();
+		for (int i=0; i < keyHandles.size(); ++i)
+			if (keyHandles[i])
 			{
-				TextGraphicsItem * textItem = 0;
-				QList<QGraphicsItem*> list = oldHandles[i]->graphicsItems;
-				oldHandles[i]->graphicsItems.clear();
-				for (int j=0; j < list.size(); ++j)
-				{				
-					setHandle(list[j],oldHandles[i]);
-					if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(list[j])) && (textItem->toPlainText() == newHandle->name))
-					{
-						textItem->setPlainText(oldHandles[i]->name);
-					}
-				}
-				//oldHandles[i]->graphicsItems = list;			
+				QList<ItemHandle*> children = oldChildren[ keyHandles[i] ];
+				for (int j=0; j < children.size(); ++j)
+					if (children[j])
+						children[j]->setParent(keyHandles[i]);
 			}
-			for (int i=0; i < oldHandles.size(); ++i)
-				if (oldHandles[i] && !oldHandles[i]->children.isEmpty())
-					for (int j=0; j < oldHandles[i]->children.size(); ++j)					
-						oldHandles[i]->children[j]->parent = oldHandles[i];
 
-			newHandle->children.clear();
-
-			QList<QGraphicsItem*> list = newHandle->graphicsItems;
-			for (int i=0; i < list.size(); ++i)
-				if (list[i])
-				{
-					setHandle(list[i],0);
-				}
-
-				newHandle->graphicsItems.clear();
-
-				if (newHandle && newHandle->parent)
-					newHandle->parent->children.removeAll(newHandle);
-
-				for (int i=0; i < oldHandles.size(); ++i)
-				{			
-					if (oldHandles[i] && oldHandles[i]->parent && !oldHandles[i]->parent->children.contains(oldHandles[i]))
-						oldHandles[i]->parent->children.append(oldHandles[i]);
-				}
+		TextGraphicsItem * textItem = 0;
+		ItemHandle * handle = 0;
+		
+		keyHandles = oldGraphicsItems.keys();
+		
+		for (int i=0; i < keyHandles.size(); ++i)
+			if (keyHandles[i])
+			{
+				QList<QGraphicsItem*> items = oldGraphicsItems[ keyHandles[i] ];
+				for (int j=0; j < items.size(); ++j)
+					if (items[j])
+					{
+						handle = getHandle(items[j]);
+						
+						if ( 	handle &&
+								(textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[j])) &&
+								(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
+								textItem->setPlainText(keyHandles[i]->name);
+						
+						setHandle(items[j],keyHandles[i]);
+					}
+					
+			}
+		
+		if (renameCommand)
+			renameCommand->undo();
 	}
 
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, ItemHandle * child, ItemHandle * parent)

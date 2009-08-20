@@ -547,12 +547,19 @@ namespace Tinkercell
 	class MergeHandlersCommand : public QUndoCommand
 	{
 	public:
-		MergeHandlersCommand(const QString& text, const QList<ItemHandle*>& handles);
+		MergeHandlersCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles);
 		void redo();
 		void undo();
 		~MergeHandlersCommand();
 		QList<ItemHandle*> oldHandles;
 		ItemHandle* newHandle;
+	private:
+		QHash< ItemHandle*, QList<QGraphicsItem*> > oldGraphicsItems;
+		QHash< ItemHandle*, QList<ItemHandle*> > oldChildren;
+		QHash< ItemHandle*, ItemHandle* > oldParents;
+		QList< ItemHandle* > allChildren;
+		QList<QGraphicsItem*> allGraphicsItems;
+		RenameCommand * renameCommand;
 	};
 
 	/*! \brief this command assigns parent(s) to one or more handles

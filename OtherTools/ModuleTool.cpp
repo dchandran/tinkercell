@@ -924,7 +924,7 @@ namespace Tinkercell
         QList<ItemHandle*> handles;
         handles << handle1 << handle2;
 
-        MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),handles);
+        MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),scene->networkWindow,handles);
 
         QList<QString> newNames;
         for (int j=0; j < handles.size(); ++j)

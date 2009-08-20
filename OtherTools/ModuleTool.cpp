@@ -807,9 +807,10 @@ namespace Tinkercell
 				
 				QList<QUndoCommand*> commands;
 				commands 	<< new AssignHandleCommand(tr("assign handle"),items,newHandle)
-							<< new RemoveGraphicsCommand(tr("module connection removed"),scene,connection)
 							<< new RenameCommand(tr("name changed"),affectedHandles,newHandle->fullName(),module->fullName()+tr(".")+newHandle->name)
-							<< new SetParentHandleCommand(tr("set parent"),scene->networkWindow, newHandle, module);
+							<< new SetParentHandleCommand(tr("set parent"),scene->networkWindow, newHandle, module)
+							<< new RemoveGraphicsCommand(tr("module connection removed"),scene,connection)
+				;
 
 				QUndoCommand * compositeCommand = new CompositeCommand(tr("modules disconnected"),commands);
 				
@@ -911,6 +912,7 @@ namespace Tinkercell
             return;
 
         ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
+		connection->setPen(connection->defaultPen = QPen(QColor(255,100,0,255),3.0));
 		
 		//ModuleConnectionGraphicsItem * connection = new ModuleConnectionGraphicsItem;
 		

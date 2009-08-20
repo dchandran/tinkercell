@@ -10,7 +10,6 @@ This class provides functions for editing handles, such as changing names, data,
 
 ****************************************************************************/
 
-
 #include "MainWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -293,6 +292,8 @@ namespace Tinkercell
 
 	void NetworkWindow::rename(const QString& oldname, const QString& s)
 	{
+		if (oldname == s) return;
+		
 		QList<ItemHandle*> items;
 		QList<QString> oldNames, newNames;
 		oldNames += oldname;
@@ -327,7 +328,7 @@ namespace Tinkercell
 
 	void NetworkWindow::rename(ItemHandle* handle, const QString& s)
 	{
-		if (!handle) return;
+		if (!handle || (handle->fullName() == s)) return;
 
 		QList<ItemHandle*> items;
 		items += handle;
@@ -337,27 +338,10 @@ namespace Tinkercell
 		oldNames += handle->fullName();
 
 		if (handle->parent && !newname.contains(handle->parent->fullName()))
-			newname += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
+			newname = handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 		else
-			newname += Tinkercell::RemoveDisallowedCharactersFromName(newname);
-
-		if (symbolsTable.handlesFullName.contains(newname))
-		{
-			QStringList existingNames = symbolsTable.handlesFullName.keys();
+			newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
 			
-			QString n = newname;
-		
-			if (newname[ newname.size()-1 ].isNumber())
-				n = newname.left(newname.size()-1);
-
-			int i = 0;
-		
-			while (symbolsTable.handlesFullName.contains(n))
-				n = newname.left(newname.size()-1) + QString::number(i);
-
-			newname = n;
-		}
-
 		newNames += newname;
 		
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
@@ -382,26 +366,9 @@ namespace Tinkercell
 				oldNames += handle->fullName();
 
 				if (handle->parent && !newname.contains(handle->parent->fullName()))
-					newname += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
+					newname = handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 				else
-					newname += Tinkercell::RemoveDisallowedCharactersFromName(newname);
-				
-				if (symbolsTable.handlesFullName.contains(newname))
-				{
-					QStringList existingNames = symbolsTable.handlesFullName.keys();
-					
-					QString n = newname;
-				
-					if (newname[ newname.size()-1 ].isNumber())
-						n = newname.left(newname.size()-1);
-						
-					int k = 0;
-				
-					while (symbolsTable.handlesFullName.contains(n))
-						n = newname.left(newname.size()-1) + QString::number(k);
-
-					newname = n;
-				}
+					newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
 				
 				newNames += newname;
 			}

@@ -1591,6 +1591,7 @@ namespace Tinkercell
 	QString RenameCommand::assignUniqueName(const QString& str,const QStringList& notAvailable)
 	{
 		QString name = str;
+		
 		bool taken = true;
 		int c = 0;
 		while (taken)
@@ -1598,6 +1599,9 @@ namespace Tinkercell
 			taken = (notAvailable.contains(name));
 			if (taken)
 			{
+				while (name.length() > 1 && name[ name.length()-1 ].isNumber())
+					name = name.left(name.length()-1);
+				
 				name = name + QString::number(c);
 				++c;
 			}

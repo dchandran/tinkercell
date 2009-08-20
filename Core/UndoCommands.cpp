@@ -1637,45 +1637,60 @@ namespace Tinkercell
 						oldData2 += new DataTable<QString>(allhandles[i]->data->textData[ keys2[j] ]);
 				}
 		}
-
-		QRegExp regexp("\\.([^\\.]+)$");
-		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
-		{
-			if (firstTime)
-				findReplaceAllHandleData(allhandles,oldNames[i],newNames[i]);
-			if (handles.size() == 0)
-				for (int j=0; j < allhandles.size(); ++j)				
-					if (allhandles[j] && allhandles[j]->fullName() == oldNames[i])
-					{
-						regexp.indexIn(newNames[i]);
-						for (int k=0; k < allhandles[j]->graphicsItems.size(); ++k)
-						{
-							TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(allhandles[j]->graphicsItems[k]);
-							if (textItem)
-							{
-								if (textItem->toPlainText() == allhandles[j]->name)
-								{
-									if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-										textItem->setPlainText(regexp.cap(1));
-									else
-										textItem->setPlainText(newNames[i]);
-								}
-							}
-							else
-							if (allhandles[j]->graphicsItems[k])
-							{
-								allhandles[j]->graphicsItems[k]->update();
-							}
-						}
-						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-							allhandles[j]->name = regexp.cap(1);
-						else
-							allhandles[j]->name = newNames[i];
-					}
-		}
-
+		
 		if (firstTime)
 		{
+			QRegExp regexp("\\.([^\\.]+)$");
+			
+			for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
+			{
+				if (firstTime)
+					findReplaceAllHandleData(allhandles,oldNames[i],newNames[i]);
+				
+				if (handles.size() == 0)
+					for (int j=0; j < allhandles.size(); ++j)				
+						if (allhandles[j] && allhandles[j]->fullName() == oldNames[i])
+						{
+							oldItemNames << QPair<ItemHandle*,QString>(allhandles[j],allhandles[j]->name);
+							
+							regexp.indexIn(newNames[i]);
+							for (int k=0; k < allhandles[j]->graphicsItems.size(); ++k)
+							{
+								TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(allhandles[j]->graphicsItems[k]);
+								if (textItem)
+								{
+									if (textItem->toPlainText() == allhandles[j]->name)
+									{
+										oldTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,allhandles[j]->name);
+										
+										if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+										{
+											textItem->setPlainText(regexp.cap(1));
+											newTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,regexp.cap(1));
+										}
+										else
+										{
+											textItem->setPlainText(newNames[i]);
+											newTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,newNames[i]);
+										}
+									}
+								}
+								else
+								if (allhandles[j]->graphicsItems[k])
+								{
+									allhandles[j]->graphicsItems[k]->update();
+								}
+							}
+							if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+								allhandles[j]->name = regexp.cap(1);
+							else
+								allhandles[j]->name = newNames[i];
+							
+							newItemNames << QPair<ItemHandle*,QString>(allhandles[j],allhandles[j]->name);
+						}
+			}
+
+		
 			for (int i=0; i < allhandles.size(); ++i)
 				if (allhandles[i]->data)
 				{
@@ -1695,106 +1710,76 @@ namespace Tinkercell
 				for (int i=0; i < oldData2.size(); ++i)
 					if (oldData2[i])
 						delete oldData2[i];
+			
+			for (int i=0; i < handles.size() && i < newNames.size(); ++i)
+			{
+				ItemHandle * handle = handles[i];
+				if (handle)
+				{
+					regexp.indexIn(newNames[i]);
+					for (int j=0; j < handle->graphicsItems.size(); ++j)
+					{
+						TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]);
+						if (textItem)
+						{
+							if (textItem->toPlainText() == handle->name)
+							{
+								oldTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,handle->name);
+								
+								if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+								{
+									textItem->setPlainText(regexp.cap(1));
+									newTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,regexp.cap(1));
+								}
+								else
+								{
+									textItem->setPlainText(newNames[i]);
+									newTextItemsNames << QPair<TextGraphicsItem*,QString>(textItem,newNames[i]);
+								}
+								
+							}
+						}
+					}
+					
+					oldItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
+					
+					if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+						handle->name = regexp.cap(1);
+					else
+						handle->name = newNames[i];
+					
+					newItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
+				}
+			}
 		}
 		else
 		{
+			for (int i=0; i < newItemNames.size(); ++i)
+				if (newItemNames[i].first)
+					newItemNames[i].first->name = newItemNames[i].second;
+					
+			for (int i=0; i < newTextItemsNames.size(); ++i)
+				if (newTextItemsNames[i].first)
+					newTextItemsNames[i].first->setPlainText(newTextItemsNames[i].second);
+			
 			if (changeDataCommand)
 				changeDataCommand->undo();
-		}
-
-		for (int i=0; i < handles.size() && i < newNames.size(); ++i)
-		{
-			ItemHandle * handle = handles[i];
-			if (handle)
-			{
-				regexp.indexIn(newNames[i]);
-				for (int j=0; j < handle->graphicsItems.size(); ++j)
-				{
-					TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]);
-					if (textItem)
-					{
-						if (textItem->toPlainText() == handle->name)
-						{
-							if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-								textItem->setPlainText(regexp.cap(1));
-							else
-								textItem->setPlainText(newNames[i]);
-						}
-					}
-				}
-				if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-					handle->name = regexp.cap(1);
-				else
-					handle->name = newNames[i];
-			}
 		}
 	}
 
 	void RenameCommand::undo()
 	{		
-		QRegExp regexp("\\.([^\\.]+)$");
-		for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
-		{
-			if (handles.size() == 0)
-				for (int j=0; j < allhandles.size(); ++j)				
-					if (allhandles[j] && allhandles[j]->fullName() == newNames[i])
-					{
-						regexp.indexIn(oldNames[i]);
-						for (int k=0; k < allhandles[j]->graphicsItems.size(); ++k)
-						{
-							TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(allhandles[j]->graphicsItems[k]);
-							if (textItem)
-							{
-								if (textItem->toPlainText() == allhandles[j]->name)
-								{
-									if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-										textItem->setPlainText(regexp.cap(1));
-									else
-										textItem->setPlainText(oldNames[i]);
-								}
-							}
-							else
-							if (allhandles[j]->graphicsItems[k])
-							{
-								allhandles[j]->graphicsItems[k]->update();
-							}
-						}
-						if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-							allhandles[j]->name = regexp.cap(1);
-						else
-							allhandles[j]->name = oldNames[i];
-					}
-		}
+		for (int i=0; i < oldItemNames.size(); ++i)
+				if (oldItemNames[i].first)
+					oldItemNames[i].first->name = oldItemNames[i].second;
+					
+		for (int i=0; i < oldTextItemsNames.size(); ++i)
+			if (oldTextItemsNames[i].first)
+				oldTextItemsNames[i].first->setPlainText(oldTextItemsNames[i].second);
 
 		if (changeDataCommand)
 			changeDataCommand->redo();
 
-		for (int i=0; i < handles.size() && i < oldNames.size(); ++i)
-		{
-			ItemHandle * handle = (handles[i]);
-			if (handle)
-			{
-				regexp.indexIn(oldNames[i]);
-				for (int j=0; j < handle->graphicsItems.size(); ++j)
-				{
-					TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]);
-					if (textItem)
-					{
-						if (textItem->toPlainText() == handle->name)
-						{
-							if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-								textItem->setPlainText(regexp.cap(1));
-							else
-								textItem->setPlainText(oldNames[i]);
-						}
-					}
-				}
-				if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-					handle->name = regexp.cap(1);
-				else
-					handle->name = oldNames[i];
-			}
-		}
 	}
 
 	CompositeCommand::CompositeCommand(const QString& name, const QList<QUndoCommand*>& list, const QList<QUndoCommand*>& noDelete)
@@ -1806,7 +1791,8 @@ namespace Tinkercell
 		for (int i=0; i < noDelete.size(); ++i)
 			if (!list.contains(noDelete[i]))
 				commands += noDelete[i];
-	}	
+	}
+	
 	CompositeCommand::CompositeCommand(const QString& name, QUndoCommand* cmd1, QUndoCommand* cmd2, bool deleteCommand)
 		: QUndoCommand(name)
 	{
@@ -2231,12 +2217,12 @@ namespace Tinkercell
 		for (int i=0; i < allGraphicsItems.size(); ++i)
 			if (allGraphicsItems[i])
 			{	
-				/*handle = getHandle(allGraphicsItems[i]);
+				handle = getHandle(allGraphicsItems[i]);
 				
 				if ( 	handle &&
 						(textItem = qgraphicsitem_cast<TextGraphicsItem*>(allGraphicsItems[i])) &&
 						(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
-						textItem->setPlainText(newHandle->name);*/
+						textItem->setPlainText(newHandle->name);
 						
 				setHandle(allGraphicsItems[i],newHandle);
 			}
@@ -2274,12 +2260,12 @@ namespace Tinkercell
 				for (int j=0; j < items.size(); ++j)
 					if (items[j])
 					{
-						/*handle = getHandle(items[j]);
+						handle = getHandle(items[j]);
 						
 						if ( 	handle &&
 								(textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[j])) &&
 								(textItem->toPlainText() == handle->name || textItem->toPlainText() == handle->fullName()) )
-								textItem->setPlainText(keyHandles[i]->name);*/
+								textItem->setPlainText(keyHandles[i]->name);
 						
 						setHandle(items[j],keyHandles[i]);
 					}

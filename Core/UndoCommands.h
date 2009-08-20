@@ -443,6 +443,10 @@ namespace Tinkercell
 		QList<ItemHandle*> handles;
 		QList<QString> oldNames;
 		QList<QString> newNames;
+		QList< QPair<ItemHandle *, QString> > newItemNames;
+		QList< QPair<ItemHandle *, QString> > oldItemNames;
+		QList< QPair<TextGraphicsItem *, QString> > newTextItemsNames;
+		QList< QPair<TextGraphicsItem *, QString> > oldTextItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 
 		static QString assignUniqueName(const QString&,const QStringList&);

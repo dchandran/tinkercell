@@ -59,7 +59,7 @@ namespace Tinkercell
 
         void select(int);
 
-        void modelSaved(NetworkWindow*);
+//      void modelSaved(NetworkWindow*);
 //		void prepareModelForSaving(NetworkWindow*);
 		void escapeSignal(const QWidget*);
 		//void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);

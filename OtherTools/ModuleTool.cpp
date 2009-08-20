@@ -311,8 +311,8 @@ namespace Tinkercell
                 }
             }
         }
-    }*/
-
+    }
+	
     void ModuleTool::modelSaved(NetworkWindow* win)
     {
         if (!win || !win->scene) return;
@@ -323,7 +323,7 @@ namespace Tinkercell
 				disconnectWhenSaving[i]->redo();
 			}
 		disconnectWhenSaving.clear();
-    }
+    }*/
 
     void ModuleTool::itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles)
     {	
@@ -331,7 +331,7 @@ namespace Tinkercell
         {
             ItemHandle * handle = handles[i];
 			
-            if (NodeHandle::asNode(handle) && !handle->tools.contains(this))
+            if (NodeHandle::asNode(handle) && handle->family() && !handle->tools.contains(this))
             {
 				handle->tools += this;
             }
@@ -349,13 +349,13 @@ namespace Tinkercell
         bool nothingToDo = true;
         for (int i=0; i < items.size(); ++i)
         {
-            if ( ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && 
+            if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && 
 			      node->className == ModuleLinkerItem::class_name)
-                  ||
+                /*  ||
                  ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])) && 
 				  connection->className == ModuleConnectionGraphicsItem::class_name &&
 				  ModuleConnectionGraphicsItem::isModuleConnection(connection))
-                )
+                )*/
             {
                 nothingToDo = false;
                 break;
@@ -450,7 +450,7 @@ namespace Tinkercell
                 }
             }
         }
-		
+		/*
         for (int i=0; i < moduleConnections.size(); ++i)
         {
             if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(moduleConnections[i])) &&
@@ -500,18 +500,9 @@ namespace Tinkercell
 						doNotRemoveCommands << mc->command;
                     }
                 }
-							
-                /*if (mc->command)
-					mc->command->redo();
-				
-				for (int j=0; j < items.size(); ++j)
-					if (items[j] == moduleConnections[i])
-					{
-						//delete items[j];
-						items[j] = mc;
-					}*/
             }
         }
+		*/
 		
 		if (allCommands.size() > 0)
 		{
@@ -734,7 +725,7 @@ namespace Tinkercell
                      node1->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0))
                 {
 		
-					ModuleConnectionGraphicsItem* mc =
+					ConnectionGraphicsItem * mc =
                             MakeModuleConnection(node1,
                                                  node2,
                                                  scene);
@@ -742,7 +733,7 @@ namespace Tinkercell
                     {
 		                mc->refresh();
 						
-                        CompositeCommand * command = new CompositeCommand( tr("modules connected"),
+                        /*CompositeCommand * command = new CompositeCommand( tr("modules connected"),
                                                                            QList<QUndoCommand*>()
                                                                            << (new InsertGraphicsCommand(tr("modules connected"),scene,mc))
                                                                            << mc->command, 
@@ -755,7 +746,9 @@ namespace Tinkercell
                         {
                             command->redo();
                             delete command;
-                        }
+                        }*/
+						
+						scene->insert(tr("modules connected"),mc);
 						
 						emit itemsInsertedSignal(scene,QList<QGraphicsItem*>()<<mc,QList<ItemHandle*>());
                     }
@@ -882,7 +875,10 @@ namespace Tinkercell
         if (path.isEmpty())
             return 0;
 
-        ModuleConnectionGraphicsItem * connection = new ModuleConnectionGraphicsItem;
+        ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
+		ConnectionHandle * handle = new ItemHandle;
+		handle->textData(tr("Module Connection")) = tr("true");
+		setHandle(connection,handle);
 
         QList<ItemHandle*> handles;
         handles << handle1 << handle2;

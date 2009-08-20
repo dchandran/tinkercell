@@ -73,7 +73,7 @@ namespace Tinkercell
 		return false;
 	}
 	
-	void prepareModelForSaving(NetworkWindow*, bool* b)
+	void LoadSaveTool::prepareModelForSaving(NetworkWindow*, bool* b)
 	{
 		if (currentScene() && b)
 			(*b) = true;

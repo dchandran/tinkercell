@@ -51,17 +51,17 @@ namespace Tinkercell
 		LoadSaveTool();
 		bool setMainWindow(MainWindow * main);
 
-signals:
+	signals:
 		void sceneChanged(GraphicsScene*);
-		void prepareModelForSaving(NetworkWindow*);
 		void modelSaved(NetworkWindow*);
 		void modelLoaded(NetworkWindow*);
 
-		public slots:
-			void saveModel(const QString& filename);
-			void loadModel(const QString& filename);
-			void historyChanged( int );
-			void windowClosing(NetworkWindow * win, bool * close);
+	public slots:
+		void prepareModelForSaving(NetworkWindow*,bool*);
+		void saveModel(const QString& filename);
+		void loadModel(const QString& filename);
+		void historyChanged( int );
+		void windowClosing(NetworkWindow * win, bool * close);
 
 	protected:
 

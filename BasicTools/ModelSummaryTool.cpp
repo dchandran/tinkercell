@@ -176,7 +176,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && !handles[i]->tools.contains(this))
+			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
 				handles[i]->tools += this;
 		}
 	}

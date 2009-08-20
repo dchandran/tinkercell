@@ -64,12 +64,19 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
-			connect(this,SIGNAL(prepareModelForSaving(NetworkWindow*)),mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)));
+			connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*,bool*)),
+					this,SIGNAL(prepareModelForSaving(NetworkWindow*,bool*)));
 			connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
 			connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
 			return true;
 		}
 		return false;
+	}
+	
+	void prepareModelForSaving(NetworkWindow*, bool* b)
+	{
+		if (currentScene() && b)
+			(*b) = true;
 	}
 
 	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
@@ -186,10 +193,7 @@ namespace Tinkercell
 			return;
 		}
 
-		emit prepareModelForSaving(scene->networkWindow);
-
 		ModelWriter modelWriter;
-
 		modelWriter.setDevice(&file);
 		modelWriter.setAutoFormatting(true);
 

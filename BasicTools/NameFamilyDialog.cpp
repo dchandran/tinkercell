@@ -112,7 +112,7 @@ namespace Tinkercell
 	{
 		if (!scene || handles.isEmpty()) return;
 		for (int i=0; i < handles.size(); ++i)
-			if (handles[i])
+			if (handles[i] && handles[i]->family())
 			{
 				if (handles[i]->data && !handles[i]->hasTextData(tr("Annotation")))
 				{
@@ -125,14 +125,11 @@ namespace Tinkercell
 
 					handles[i]->data->textData[tr("Annotation")] = data;
 				}
-				if (!handles[i]->tools.contains(this))
+				if (!handles[i]->tools.contains(this) )
 					handles[i]->tools += this;
 
-				if (handles[i]->family())
-				{
-					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-						handles[i]->graphicsItems[j]->setToolTip(handles[i]->family()->name);
-				}
+				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+					handles[i]->graphicsItems[j]->setToolTip(handles[i]->family()->name);
 			}
 	}
 

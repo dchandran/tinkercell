@@ -149,6 +149,7 @@ namespace Tinkercell
 	}
 	ItemHandle::ItemHandle() : QObject()
 	{ 
+		visible = true;
 		parent = 0; 
 		data = 0; 
 		name = tr(""); 
@@ -157,6 +158,7 @@ namespace Tinkercell
 
 	ItemHandle::ItemHandle(const ItemHandle& copy) : QObject()
 	{
+		visible = true;
 		type = copy.type;
 		name = copy.name;
 		graphicsItems += copy.graphicsItems;
@@ -171,6 +173,7 @@ namespace Tinkercell
 	/*! \brief operator = */
 	ItemHandle& ItemHandle::operator = (const ItemHandle& copy)
 	{
+		//visible = copy.visible;
 		if (data)
 			delete data;
 		for (int i=0; i < graphicsItems.size(); ++i)
@@ -394,6 +397,28 @@ namespace Tinkercell
 			{
 				for (int j=0; j < handles[i]->children.size(); ++j)
 					if (!handles.contains(handles[i]->children[j]))
+						handles << handles[i]->children[j];
+			}
+		}
+		return handles;
+	}
+	
+	QList<ItemHandle*> ItemHandle::visibleChildren() const
+	{
+		QList<ItemHandle*> handles;
+		for (int i=0; i < children.size(); ++i)
+			if (children[i] && children[i]->visible)
+				handles << children[i];
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (handles[i] && handles[i]->visible)
+			{
+				for (int j=0; j < handles[i]->children.size(); ++j)
+					if ( handles[i]->children[j] &&
+						!handles.contains(handles[i]->children[j]) &&
+						 handles[i]->children[j]->visible
+						)
 						handles << handles[i]->children[j];
 			}
 		}

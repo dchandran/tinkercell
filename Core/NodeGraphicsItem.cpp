@@ -212,36 +212,36 @@ namespace Tinkercell
 						addShape(newShape);
 			}
 
-			refresh();
-			QTransform t0 = copy.sceneTransform();
-			QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-			setTransform(t1);
+		refresh();
+		QTransform t0 = copy.sceneTransform();
+		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
+		setTransform(t1);
 
-			ControlPoint * topleft = new ControlPoint(this);
-			topleft->setPos( boundingRect().topLeft() );
-			topleft->setVisible(false);
-			topleft->scale(0.75,0.75);
-			topleft->setPen(topleft->defaultPen = QPen(QColor(255,100,100),2.0));
-			topleft->setBrush(topleft->defaultBrush = QBrush(QColor(255,255,255,255)));
+		ControlPoint * topleft = new ControlPoint(this);
+		topleft->setPos( copy.sceneBoundingRect().topLeft() );
+		topleft->setVisible(false);
+		topleft->scale(0.75,0.75);
+		topleft->setPen(topleft->defaultPen = QPen(QColor(255,100,100),2.0));
+		topleft->setBrush(topleft->defaultBrush = QBrush(QColor(255,255,255,255)));
 
-			ControlPoint * bottomright = new ControlPoint(this);
-			bottomright->setPos( boundingRect().bottomRight() );
-			bottomright->setVisible(false);
-			bottomright->scale(0.75,0.75);
-			bottomright->setPen(bottomright->defaultPen = QPen(QColor(255,100,100),2.0));
-			bottomright->setBrush(bottomright->defaultBrush = QBrush(QColor(255,255,255,255)));
+		ControlPoint * bottomright = new ControlPoint(this);
+		bottomright->setPos( copy.sceneBoundingRect().bottomRight() );
+		bottomright->setVisible(false);
+		bottomright->scale(0.75,0.75);
+		bottomright->setPen(bottomright->defaultPen = QPen(QColor(255,100,100),2.0));
+		bottomright->setBrush(bottomright->defaultBrush = QBrush(QColor(255,255,255,255)));
 
-			bottomright->shapeType = topleft->shapeType = ControlPoint::square;
-			boundaryControlPoints << topleft << bottomright;
+		bottomright->shapeType = topleft->shapeType = ControlPoint::square;
+		boundaryControlPoints << topleft << bottomright;
 
-			boundingBoxItem = new QGraphicsRectItem(this);
-			qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-			if (w > 300.0) w = 300.0;
-			boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
-			boundingBoxItem->setBrush(Qt::NoBrush);
-			boundingBoxItem->setVisible(false);
-			boundingBoxItem->setPos(0,0);
-			boundingBoxItem->setRect(boundingRect());
+		boundingBoxItem = new QGraphicsRectItem(this);
+		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
+		if (w > 300.0) w = 300.0;
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
+		boundingBoxItem->setBrush(Qt::NoBrush);
+		boundingBoxItem->setVisible(false);
+		boundingBoxItem->setPos(0,0);
+		boundingBoxItem->setRect(boundingRect());
 	}
 
 	/*! \brief make a copy of this item*/
@@ -284,60 +284,60 @@ namespace Tinkercell
 						{
 							newShape->controlPoints[j] = controlPoints[k];
 						}
-						addShape(newShape);
+				addShape(newShape);
 			}
 
-			refresh();
-			QTransform t0 = copy.sceneTransform();
-			QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-			setTransform(t1);
+		refresh();
+		QTransform t0 = copy.sceneTransform();
+		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
+		setTransform(t1);
 
-			for (int i=0; i < boundaryControlPoints.size(); ++i)
-				if (boundaryControlPoints[i])
-				{
-					boundaryControlPoints[i]->nodeItem = 0;
-					if (!boundaryControlPoints[i]->scene())
-						delete boundaryControlPoints[i];				
-					boundaryControlPoints[i] = 0;
-				}
-				boundaryControlPoints.clear();
+		for (int i=0; i < boundaryControlPoints.size(); ++i)
+			if (boundaryControlPoints[i])
+			{
+				boundaryControlPoints[i]->nodeItem = 0;
+				if (!boundaryControlPoints[i]->scene())
+					delete boundaryControlPoints[i];				
+				boundaryControlPoints[i] = 0;
+			}
+			boundaryControlPoints.clear();
 
-				ControlPoint * topleft = new ControlPoint(this);
-				topleft->setPos( boundingRect().topLeft() );
-				topleft->setVisible(false);
-				topleft->scale(0.75,0.75);
-				topleft->setPen(topleft->defaultPen = QPen(QColor(255,100,100),2.0));
-				topleft->setBrush(topleft->defaultBrush = QBrush(QColor(255,255,255,255)));
+		ControlPoint * topleft = new ControlPoint(this);
+		topleft->setPos( copy.sceneBoundingRect().topLeft() );
+		topleft->setVisible(false);
+		topleft->scale(0.75,0.75);
+		topleft->setPen(topleft->defaultPen = QPen(QColor(255,100,100),2.0));
+		topleft->setBrush(topleft->defaultBrush = QBrush(QColor(255,255,255,255)));
 
-				ControlPoint * bottomright = new ControlPoint(this);
-				bottomright->setPos( boundingRect().bottomRight() );
-				bottomright->setVisible(false);
-				bottomright->scale(0.75,0.75);
-				bottomright->setPen(bottomright->defaultPen = QPen(QColor(255,100,100),2.0));
-				bottomright->setBrush(bottomright->defaultBrush = QBrush(QColor(255,255,255,255)));
+		ControlPoint * bottomright = new ControlPoint(this);
+		bottomright->setPos( copy.sceneBoundingRect().bottomRight() );
+		bottomright->setVisible(false);
+		bottomright->scale(0.75,0.75);
+		bottomright->setPen(bottomright->defaultPen = QPen(QColor(255,100,100),2.0));
+		bottomright->setBrush(bottomright->defaultBrush = QBrush(QColor(255,255,255,255)));
 
-				bottomright->shapeType = topleft->shapeType = ControlPoint::square;
-				boundaryControlPoints << topleft << bottomright;
+		bottomright->shapeType = topleft->shapeType = ControlPoint::square;
+		boundaryControlPoints << topleft << bottomright;
 
-				boundingBoxItem = new QGraphicsRectItem(this);
-				qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-				if (w > 300.0) w = 300.0;
-				boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
-				boundingBoxItem->setBrush(Qt::NoBrush);
-				boundingBoxItem->setVisible(false);
-				boundingBoxItem->setPos(0,0);
-				boundingBoxItem->setRect(boundingRect());
+		boundingBoxItem = new QGraphicsRectItem(this);
+		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
+		if (w > 300.0) w = 300.0;
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
+		boundingBoxItem->setBrush(Qt::NoBrush);
+		boundingBoxItem->setVisible(false);
+		boundingBoxItem->setPos(0,0);
+		boundingBoxItem->setRect(boundingRect());
 
-				setParentItem(parent);
-				/*QPointF center = sceneBoundingRect().center();
-				for (int i=0; i < children.size(); ++i)
-				if (children[i])
-				{
-				children[i]->setPos( center );
-				addToGroup(children[i]);
-				}*/
+		setParentItem(parent);
+		/*QPointF center = sceneBoundingRect().center();
+		for (int i=0; i < children.size(); ++i)
+		if (children[i])
+		{
+		children[i]->setPos( center );
+		addToGroup(children[i]);
+		}*/
 
-				return *this;
+		return *this;
 	}
 
 	/*! Destructor: deletes all shapes and control points */

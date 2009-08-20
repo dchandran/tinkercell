@@ -172,10 +172,10 @@ namespace Tinkercell
     {
         for (int i=0; i < handles.size(); ++i)
         {
-            if (handles[i] && !handles[i]->tools.contains(this))
+            if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
                 handles[i]->tools += this;
 
-            if (handles[i] && handles[i]->data &&
+            if (handles[i] && handles[i]->family() && handles[i]->data &&
                 !(handles[i]->hasTextData(tr("Events"))))
             {
                 insertData(handles[i]);

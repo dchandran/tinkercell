@@ -74,7 +74,7 @@ namespace Tinkercell
 		/*! \brief holds a hash of all items and data in this scene. 
 		\sa SymbolsTable*/
 		SymbolsTable symbolsTable;
-		/*! \brief get all the items in this network window*/
+		/*! \brief get all the visible items in this network window*/
 		QList<ItemHandle*> allHandles() const;
 		/*! \brief the model item*/
 		ItemHandle* modelItem();

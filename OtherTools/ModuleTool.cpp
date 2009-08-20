@@ -54,7 +54,7 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-            connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)),this,SLOT(prepareModelForSaving(NetworkWindow*)));
+            //connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)),this,SLOT(prepareModelForSaving(NetworkWindow*)));
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
@@ -63,8 +63,8 @@ namespace Tinkercell
 			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     mainWindow,SIGNAL(itemsInsertedSignal(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
-                    this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
+			//connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
+              //      this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 
 					
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
@@ -288,7 +288,7 @@ namespace Tinkercell
         mode = none;
     }
 
-    void ModuleTool::prepareModelForSaving(NetworkWindow* win)
+/*    void ModuleTool::prepareModelForSaving(NetworkWindow* win)
     {
         if (!win || !win->scene) return;
 		
@@ -305,46 +305,24 @@ namespace Tinkercell
                 ModuleConnectionGraphicsItem * mc = static_cast<ModuleConnectionGraphicsItem*>(connection);
                 if (mc->command)
                 {
-                    QUndoCommand * reverseCommand = new ReverseUndoCommand("disconnect modules (saving)",mc->command,false);
-                    if (scene && scene->historyStack)
-                        scene->historyStack->push(reverseCommand);
-                    else
-                    {
-                        reverseCommand->redo();
-                        delete reverseCommand;
-                    }
+					mc->command->undo();
+					if (!disconnectWhenSaving.contains(mc->command))
+						disconnectWhenSaving << mc->command;
                 }
             }
         }
-    }
+    }*/
 
     void ModuleTool::modelSaved(NetworkWindow* win)
     {
         if (!win || !win->scene) return;
 		
-		GraphicsScene* scene = win->scene;
-
-        QList<QGraphicsItem*> items = scene->items();
-        ConnectionGraphicsItem * connection = 0;
-
-        for (int i=0; i < items.size(); ++i)
-        {
-            connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
-            if (connection && ModuleConnectionGraphicsItem::isModuleConnection(connection))
-            {
-                ModuleConnectionGraphicsItem * mc = static_cast<ModuleConnectionGraphicsItem*>(connection);
-                if (mc->command)
-                {
-                    QUndoCommand * command = new CompositeCommand(tr("reconnecting modules"),mc->command,false);
-                    if (scene && scene->historyStack)
-                        scene->historyStack->push(command);
-                    else
-                    {
-                        mc->command->redo();
-                    }
-                }
-            }
-        }
+		for (int i=0; i < disconnectWhenSaving.size(); ++i)
+			if (disconnectWhenSaving[i])
+			{
+				disconnectWhenSaving[i]->redo();
+			}
+		disconnectWhenSaving.clear();
     }
 
     void ModuleTool::itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles)
@@ -397,21 +375,13 @@ namespace Tinkercell
         {
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) 
 			    && node->className == ModuleLinkerItem::class_name)
-				//&&	!ModuleLinkerItem::isModuleLinker(node))
             {
 				module = VisualTool::parentModule(node);
-                QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
+				
+				QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
 
                 QList<ConnectionGraphicsItem*> connections = node->connections();
 
-                bool allLinks = true;
-				
-                for (int j=0; j < connections.size(); ++j)
-                    if (connections[j] && !moduleConnections.contains(connections[j]))
-                    {
-                        moduleConnections += connections[j];
-                    }
-                
 				if (!node->handle())
 				{
 					//node->className = NodeGraphicsItem::class_name;
@@ -420,30 +390,63 @@ namespace Tinkercell
 				
 				if (module)
                 {
-					NodeGraphicsItem * linker = new ModuleLinkerItem(module);
+					ModuleLinkerItem * linker = 0;
 					
-					ItemHandle * handle = getHandle(node);
-                    //setHandle(node,0);
-                    (*linker) = (*node);
-					setHandle(linker,handle);					
+					//if (!ModuleLinkerItem::isModuleLinker(node))
+					{
+						for (int j=0; j < connections.size(); ++j)
+							if (connections[j] && !moduleConnections.contains(connections[j]))
+							{
+								moduleConnections += connections[j];
+							}
+							
+							if (!ModuleLinkerItem::isModuleLinker(node))
+							{
+								linker = new ModuleLinkerItem(module);
+								(* ((NodeGraphicsItem*)linker) ) = (*node);
+							}								
+							else
+							{
+								linker = static_cast<ModuleLinkerItem*>(node);
+								//linker = new ModuleLinkerItem(*linker);
+								linker->module = module;
+							}
+							
+							ItemHandle * handle = getHandle(node);
+							//setHandle(node,0);
+							
+							setHandle(linker,handle);
+							
+							linker->setPosOnEdge();
+								
+							if (linker != node)
+							{							
+								for (int j=0; j < connections.size(); ++j)
+									if (connections[j])
+									{
+										connections[j]->replaceNode(node,linker);
+									}
 
-                    allLinks = true;
-					
-				    for (int j=0; j < connections.size(); ++j)
-                        if (connections[j])
-                        {
-							connections[j]->replaceNode(node,linker);
-							//node->className = NodeGraphicsItem::class_name;
+								allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
+											<< (new InsertGraphicsCommand(tr("add new linker"),scene,linker));
+							}
+					}
+					/*else
+					{
+						linker = static_cast<ModuleLinkerItem*>(node);
+						if (linker->module != module)
+						{
+							ConsoleWindow::message("change module");
+							linker->module = module;
+							linker->setPosOnEdge();
 						}
-
-                    allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
-                                << (new InsertGraphicsCommand(tr("add new linker"),scene,linker));
+						else
+							ConsoleWindow::message("same module");
+					}*/
 					
 					//delete node;
 					
 					//items[i] = linker; //replace
-					
-                    (static_cast<ModuleLinkerItem*>(linker))->setPosOnEdge();
                 }
             }
         }

@@ -61,7 +61,7 @@ namespace Tinkercell
 			if ((handle = getHandle(items[i])) && items[i]->isVisible() && (handle->parent == 0) && !handles.contains(handle))
 			{
 				handles << handle;
-				handles << handle->allChildren();
+				handles << handle->visibleChildren();
 			}
 		}
 		update(handles);
@@ -86,10 +86,10 @@ namespace Tinkercell
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((handle = getHandle(items[i])) && (handle->parent == 0) && !handles.contains(handle))
+			if ((handle = getHandle(items[i])) && handle->visible && (handle->parent == 0) && !handles.contains(handle))
 			{
 				handles << handle;
-				handles << handle->allChildren();
+				handles << handle->visibleChildren();
 			}
 		}
 		update(handles);

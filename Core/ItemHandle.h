@@ -62,10 +62,22 @@ namespace Tinkercell
 	};
 
 	/*! \brief 
-	* The handles are used to bring together data and graphics items.  
-	* Item Handle contains pointers to all the graphics items that belong to it, the tools
-	* that apply to this item, the data for this item, and the family that it belongs with
-	* \ingroup core
+	The ItemHandle represents a complete object in the network, whether it is a node or a 
+	connection. The ItemHandle contains the name of the object and pointers to all the 
+	QGraphicsItems and TextItems that are used to represent the object. Tools associated with
+	the object can be stored within the ItemHandle as well. The ItemHandle can also 
+	optionally contain an ItemFamily, which can be used to distinguish different types of nodes or
+	connections, if needed. Each ItemHandle can contain one parent. Several functions are 
+	available for convinently getting the parents and children of an ItemHandle. 
+	
+	Use setHandle and getHandle functions to get and set the handles for 
+	QGraphicsItems or TextItems. Use h->data->numericalData[string] or h->data->textData[string] to
+	get the DataTable with the particular name. Alternatively, h->numericalData(string) or h->textData(string)
+	can be used to access the data conviniently. 
+	
+	The SymbolsTable is used to store all the handles in a network. 
+	Setting visible=false will prevent the SymbolsTable from loading that ItemHandle.
+	\ingroup core
 	*/
 	class ItemHandle: public QObject
 	{
@@ -87,6 +99,8 @@ namespace Tinkercell
 		ItemHandle * parent;
 		/*! \brief child handles that have this handle as a parent*/
 		QList<ItemHandle*> children;
+		/*! \brief this property must be true in order for this handle to appear in the symbols table*/
+		bool visible;
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
 
@@ -127,9 +141,12 @@ namespace Tinkercell
 		/*! \brief gets the graphics items belonging to this handle and all child handes 
 		\return QList<QGraphicsItem*> list of graphics items*/
 		virtual QList<QGraphicsItem*> allGraphicsItems() const;
-		/*! \brief gets the all child handes and their child handles
+		/*! \brief gets the all child handles and their child handles
 		\return QList<ItemHandle*> list of handles*/
-		virtual QList<ItemHandle*> allChildren() const;		
+		virtual QList<ItemHandle*> allChildren() const;
+		/*! \brief gets the all child handles and their child handles such that each handle's visible=true
+		\return QList<ItemHandle*> list of handles*/
+		virtual QList<ItemHandle*> visibleChildren() const;
 		/*! \brief does this handle have a numerical data table with this name?
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/

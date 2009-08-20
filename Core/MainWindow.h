@@ -818,7 +818,7 @@ namespace Tinkercell
 		* \brief signals used inform that the model is going to be saved as it is
 		* \param NetworkWindow *  the window where model was loaded (usually current scene)
 		* \return void*/
-		void prepareModelForSaving(NetworkWindow*);
+		void prepareModelForSaving(NetworkWindow*,bool*);
 		/*!
 		* \brief signals used inform that the model has been saved
 		* \param NetworkWindow *  the window where model was loaded (usually current scene)

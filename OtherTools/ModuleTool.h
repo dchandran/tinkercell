@@ -60,7 +60,7 @@ namespace Tinkercell
         void select(int);
 
         void modelSaved(NetworkWindow*);
-		void prepareModelForSaving(NetworkWindow*);
+//		void prepareModelForSaving(NetworkWindow*);
 		void escapeSignal(const QWidget*);
 		//void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
 		
@@ -84,22 +84,22 @@ namespace Tinkercell
 		
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 		
-                class VisualTool : public Tool::GraphicsItem
+		class VisualTool : public Tool::GraphicsItem
 		{
-                    public:
-                        ModuleTool * moduleTool;
-                        NodeGraphicsItem image;
-                        VisualTool(ModuleTool*);
-                        void visible(bool);
+            public:
+			ModuleTool * moduleTool;
+			NodeGraphicsItem image;
+			VisualTool(ModuleTool*);
+			void visible(bool);
 			static NodeGraphicsItem * parentModule(QGraphicsItem* item);
 			static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * );
-                };
-
-                QAction * makeLink, * separator;
-                friend class VisualTool;
-
-            protected slots:
+		};
 		
+		QList<QUndoCommand*> disconnectWhenSaving;
+		QAction * makeLink, * separator;
+		friend class VisualTool;
+
+	protected slots:		
 		void makeLinks();
 
 	};

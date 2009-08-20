@@ -91,6 +91,11 @@ namespace Tinkercell
 				writer->writeAttribute("family",handle->family()->name);
 			else
 				writer->writeAttribute("family","Node");
+			
+			if (handle->visible)
+				writer->writeAttribute("visible",QString("true"));
+			else
+				writer->writeAttribute("visible",QString("false"));
 
 			if (handle->data)
 			{

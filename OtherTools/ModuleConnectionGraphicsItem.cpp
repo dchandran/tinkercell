@@ -40,7 +40,7 @@ namespace Tinkercell
 		NodeGraphicsReader reader;
 		reader.readXml(this,appDir + QString("/OtherItems/moduleLinker.xml"));
 		normalize();
-		setWidth = 100.0;
+		setWidth = 150.0;
 		setToolTip(QString("Module interface"));
 		module = mod;
 		textItem = text;
@@ -53,6 +53,7 @@ namespace Tinkercell
 	ModuleLinkerItem::ModuleLinkerItem(const ModuleLinkerItem& copy) : NodeGraphicsItem(copy)
 	{
 		className = ModuleLinkerItem::class_name;
+		setWidth = copy.setWidth;
 		module = copy.module;
 		textItem = copy.textItem;
 		lineItem = 0;
@@ -67,14 +68,12 @@ namespace Tinkercell
 	
 	NodeGraphicsItem * ModuleLinkerItem::clone() const
 	{
-		ConsoleWindow::message("linker copied");
 		return new ModuleLinkerItem(*this);
 	}
 	
 	void ModuleLinkerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
 	{
 		setPosOnEdge();
-
 		NodeGraphicsItem::paint(painter,option,widget);
 	}
 	
@@ -99,7 +98,7 @@ namespace Tinkercell
 				//qreal 	w = sceneBoundingRect().width(),
 					//	h = sceneBoundingRect().height();
 				
-				qreal 	w = setWidth;				
+				qreal w = setWidth;				
 				resetTransform();
 				
 				scale(w/sceneBoundingRect().width(),w/sceneBoundingRect().width());

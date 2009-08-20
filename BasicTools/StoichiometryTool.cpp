@@ -351,11 +351,11 @@ namespace Tinkercell
 
 	void StoichiometryTool::itemsInserted(NetworkWindow* win, const QList<ItemHandle*>& handles)
 	{
+		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->type == ConnectionHandle::Type)
+			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::asConnection(handles[i])))
 			{
-				ConnectionHandle * connectionHandle = static_cast<ConnectionHandle*>(handles[i]);
 				if (!connectionHandle->tools.contains(this))
 					connectionHandle->tools += this;
 

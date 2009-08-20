@@ -342,11 +342,16 @@ namespace Tinkercell
 
 	void MainWindow::saveWindow()
 	{
-		QString fileName;
-		if (currentWindow())
-		{
-			fileName = currentWindow()->filename;
-		}
+		NetworkWindow * win = currentWindow();
+		
+		if (!win) return;
+		
+		bool b = false;
+		emit prepareModelForSaving(win,&b);
+		
+		if (!b) return;
+		
+		QString fileName = win->filename;		
 
 		if (fileName.isEmpty())
 		{

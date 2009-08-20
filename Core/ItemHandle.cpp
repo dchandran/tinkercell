@@ -304,7 +304,7 @@ namespace Tinkercell
 		return list;
 	}
 
-	qreal ItemHandle::getNumericalData(const QString& name, int row, int column) const
+	qreal ItemHandle::numericalData(const QString& name, int row, int column) const
 	{
 		if (data && data->numericalData.contains(name))
 		{
@@ -313,7 +313,7 @@ namespace Tinkercell
 		return 0.0;
 	}
 
-	qreal ItemHandle::getNumericalData(const QString& name, const QString& row, const QString& column) const
+	qreal ItemHandle::numericalData(const QString& name, const QString& row, const QString& column) const
 	{
 		if (data && data->numericalData.contains(name))
 		{
@@ -322,7 +322,7 @@ namespace Tinkercell
 		return 0.0;
 	}
 
-	QString ItemHandle::getTextData(const QString& name, int row, int column) const
+	QString ItemHandle::textData(const QString& name, int row, int column) const
 	{
 		if (data && data->textData.contains(name))
 		{
@@ -331,7 +331,7 @@ namespace Tinkercell
 		return QString();
 	}
 
-	QString ItemHandle::getTextData(const QString& name, const QString& row, const QString& column) const
+	QString ItemHandle::textData(const QString& name, const QString& row, const QString& column) const
 	{
 		if (data && data->textData.contains(name))
 		{

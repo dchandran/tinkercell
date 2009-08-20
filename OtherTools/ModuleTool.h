@@ -66,7 +66,7 @@ namespace Tinkercell
 		
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
+		void itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
 		
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
@@ -76,7 +76,7 @@ namespace Tinkercell
 	
 	protected:
 		
-		ModuleConnectionGraphicsItem * MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		void MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		
 		enum Mode { none, connecting, inserting };
 		Mode mode;
@@ -95,7 +95,7 @@ namespace Tinkercell
 			static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * );
 		};
 		
-		QList<QUndoCommand*> disconnectWhenSaving;
+		//QList<QUndoCommand*> disconnectWhenSaving;
 		QAction * makeLink, * separator;
 		friend class VisualTool;
 

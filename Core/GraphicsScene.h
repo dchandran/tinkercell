@@ -86,11 +86,17 @@ namespace Tinkercell
 		SymbolsTable * symbolsTable;
 		/*! \brief indicates whether this scene is free to perform actions*/
 		bool useDefaultBehavior;
-		/*! \brief the undo stack*/
+		/*! \brief a pointer to the NetworkWindow's history*/
 		QUndoStack* historyStack;
-		/*! \brief the undo stack*/
+		/*!
+		* \brief the context menu that is shown during right-click event on selected graphical items.
+		Plugins can add new actions to this menu.
+		*/
 		QMenu * contextItemsMenu;
-		/*! \brief the undo stack*/
+		/*!
+		* \brief the context menu that is shown during right-click event on the scene.
+		Plugins can add new actions to this menu.
+		*/
 		QMenu * contextScreenMenu;
 		/*! \brief Returns the currently visible window
 		* \param void

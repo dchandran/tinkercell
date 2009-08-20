@@ -189,6 +189,7 @@ namespace Tinkercell
 		setFocus();
 		//setItemIndexMethod(NoIndex);
 
+		symbolsTable = 0;
 		historyStack = 0;
 		contextItemsMenu = 0;
 		contextScreenMenu = 0;

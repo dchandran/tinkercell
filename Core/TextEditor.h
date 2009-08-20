@@ -62,7 +62,7 @@ namespace Tinkercell
 	public:
 
 		/*! \brief default constructor*/
-		TextEditor();
+		TextEditor( QWidget * parent = 0);
 		/*! \brief destructor -- removes all the text items*/
 		~TextEditor();
 		/*! \brief insert a text item
@@ -89,6 +89,20 @@ namespace Tinkercell
 		void push(QUndoCommand*);
 		/*! \brief gets the selected text*/
 		QString selectedText() const;
+		/*! \brief a pointer to the NetworkWindow SymbolsTable*/
+		SymbolsTable * symbolsTable;
+		/*! \brief a pointer to the NetworkWindow undo stack */
+		QUndoStack* historyStack;
+		/*!
+		* \brief the context menu that is shown during right-click event on a text editor with text selected.
+		Plugins can add new actions to this menu.
+		*/
+		QMenu * contextSelectionMenu;
+		/*!
+		* \brief the context menu that is shown during right-click event on a text editor with no text selected.
+		Plugins can add new actions to this menu.
+		*/
+		QMenu * contextEditorMenu;
 
 	signals:
 		/*! \brief some text inside this editor has been changed

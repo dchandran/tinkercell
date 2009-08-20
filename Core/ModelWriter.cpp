@@ -19,11 +19,56 @@ namespace Tinkercell
 	{
 		setAutoFormatting(true);
 	}
+	
+	bool ModelWriter::writeModel(TextEditor * editor,QIODevice * device)
+	{
+		if (!editor || !device) return false;
 
-	/*! \brief Writes the handles and data for that handle
-	* \param graphics scene pointer to write as XML
-	* \param QIODevice device to use
-	* \return void*/
+		setDevice(device);
+
+		return writeModel(editor,const_cast<ModelWriter*>(this));
+	}
+	
+	bool ModelWriter::writeModel(TextEditor * editor,QXmlStreamWriter * writer)
+	{
+		if (!editor || !writer) return false;
+
+		QList<TextItem*> allItems = editor->items();
+
+		QList<ItemHandle*> topLevelHandles, childHandles;
+
+		if (editor->symbolsTable)
+			writeHandle(&(editor->symbolsTable->modelItem),writer);
+
+		ItemHandle* handle = 0;
+		for (int i=0; i < allItems.size(); ++i)
+		{
+			handle = getHandle(allItems[i]);
+			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
+			{
+				writeHandle(handle,writer);
+				topLevelHandles << handle;
+			}
+		}
+
+		for (int i=0; i < topLevelHandles.size(); ++i)
+		{
+			childHandles << topLevelHandles[i]->children;
+		}
+
+		for (int i=0; i < childHandles.size(); ++i)
+		{
+			handle = childHandles[i];
+			if (handle)
+			{
+				writeHandle(handle,writer);
+				childHandles << handle->children; //queue -- assures that parents are written first
+			}
+		}
+
+		return true;
+	}
+
 	bool ModelWriter::writeModel(GraphicsScene * scene, QIODevice * device)
 	{
 		if (!scene || !device) return false;
@@ -32,10 +77,8 @@ namespace Tinkercell
 
 		return writeModel(scene,const_cast<ModelWriter*>(this));
 	}
-	/*! \brief Writes the handles and data for that handle
-	* \param graphics scene pointer to write as XML
-	* \param QXmlStreamWriter* writer to use
-	* \return void*/
+	
+	
 	bool ModelWriter::writeModel(GraphicsScene * scene, QXmlStreamWriter * writer)
 	{
 		if (!scene || !writer) return false;
@@ -73,9 +116,7 @@ namespace Tinkercell
 
 		return true;
 	}
-	/*! \brief Writes a handle and all its children
-	* \param Item handle pointer to write as XML
-	* \return void*/
+	
 	void ModelWriter::writeHandle(ItemHandle * handle, QXmlStreamWriter * writer)
 	{
 		if (handle && writer)

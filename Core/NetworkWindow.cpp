@@ -206,9 +206,14 @@ namespace Tinkercell
 		if (!editor) editor = new TextEditor;
 		this->textEditor = editor;
 		editor->networkWindow = this;
-
+		
 		setWidget(editor);
 		setAttribute(Qt::WA_DeleteOnClose);
+		
+		editor->symbolsTable = &symbolsTable;
+		editor->historyStack = &history;	
+		editor->contextEditorMenu = &(main->contextEditorMenu);
+		editor->contextSelectionMenu = &(main->contextSelectionMenu);
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
@@ -286,37 +291,75 @@ namespace Tinkercell
 		return handles;
 	}
 
-	void NetworkWindow::rename(const QString& oldname, const QString& newname)
+	void NetworkWindow::rename(const QString& oldname, const QString& s)
 	{
 		QList<ItemHandle*> items;
 		QList<QString> oldNames, newNames;
 		oldNames += oldname;
-		newNames += newname;
+		
+		QString newname = Tinkercell::RemoveDisallowedCharactersFromName(s);
+		
+		if (symbolsTable.handlesFullName.contains(newname))
+		{
+			QStringList existingNames = symbolsTable.handlesFullName.keys();
+			
+			QString n = newname;
+		
+			if (newname[ newname.size()-1 ].isNumber())
+				n = newname.left(newname.size()-1);
+				
+			int i = 0;
+		
+			while (symbolsTable.handlesFullName.contains(n))
+				n = newname.left(newname.size()-1) + QString::number(i);
 
-		newNames += Tinkercell::RemoveDisallowedCharactersFromName(newname);
+			newname = n;
+		}
+		
+		newNames += newname;
 
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this->allHandles(),oldname,newname);
 
-		history.push(command);		
+		history.push(command);
 
 		emit itemsRenamed(this, items, oldNames, newNames);
 	}
 
-	void NetworkWindow::rename(ItemHandle* handle, const QString& name)
+	void NetworkWindow::rename(ItemHandle* handle, const QString& s)
 	{
 		if (!handle) return;
 
 		QList<ItemHandle*> items;
 		items += handle;
 		QList<QString> oldNames, newNames;
+		
+		QString newname = s;
 		oldNames += handle->fullName();
 
-		if (handle->parent && !name.contains(handle->parent->fullName()))
-			newNames += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(name);
+		if (handle->parent && !newname.contains(handle->parent->fullName()))
+			newname += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 		else
-			newNames += Tinkercell::RemoveDisallowedCharactersFromName(name);
+			newname += Tinkercell::RemoveDisallowedCharactersFromName(newname);
 
+		if (symbolsTable.handlesFullName.contains(newname))
+		{
+			QStringList existingNames = symbolsTable.handlesFullName.keys();
+			
+			QString n = newname;
+		
+			if (newname[ newname.size()-1 ].isNumber())
+				n = newname.left(newname.size()-1);
 
+			int i = 0;
+		
+			while (symbolsTable.handlesFullName.contains(n))
+				n = newname.left(newname.size()-1) + QString::number(i);
+
+			newname = n;
+		}
+
+		newNames += newname;
+		
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
 
 		history.push(command);
@@ -330,25 +373,44 @@ namespace Tinkercell
 
 		QList<QString> oldNames, newNames;
 		ItemHandle * handle;
-		QString name;
+		QString newname;
 
 		for (int i=0; i < items.size(); ++i)
 			if ((handle = items[i]))
 			{
-				name = new_names[i];
+				newname = new_names[i];
 				oldNames += handle->fullName();
 
-				if (handle->parent && !name.contains(handle->parent->fullName()))
-					newNames += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(name);
+				if (handle->parent && !newname.contains(handle->parent->fullName()))
+					newname += handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 				else
-					newNames += Tinkercell::RemoveDisallowedCharactersFromName(name);
+					newname += Tinkercell::RemoveDisallowedCharactersFromName(newname);
+				
+				if (symbolsTable.handlesFullName.contains(newname))
+				{
+					QStringList existingNames = symbolsTable.handlesFullName.keys();
+					
+					QString n = newname;
+				
+					if (newname[ newname.size()-1 ].isNumber())
+						n = newname.left(newname.size()-1);
+						
+					int k = 0;
+				
+					while (symbolsTable.handlesFullName.contains(n))
+						n = newname.left(newname.size()-1) + QString::number(k);
+
+					newname = n;
+				}
+				
+				newNames += newname;
 			}
 
-			QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
+		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
 
-			history.push(command);
+		history.push(command);
 
-			emit itemsRenamed(this, items, oldNames, newNames);
+		emit itemsRenamed(this, items, oldNames, newNames);
 	}
 
 	void NetworkWindow::setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles)

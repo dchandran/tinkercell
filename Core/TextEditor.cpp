@@ -107,8 +107,12 @@ namespace Tinkercell
 		emit textChanged(this, tr(""), tr(""), oldText);
 	}
 
-	TextEditor::TextEditor()
+	TextEditor::TextEditor( QWidget * parent) : CodeEditor(parent)
 	{
+		symbolsTable = 0;
+		historyStack = 0;
+		contextEditorMenu = 0;
+		contextSelectionMenu = 0;
 		setUndoRedoEnabled(false);
 		prevBlockNumber = -1;
 		changedBlockNumber = -1;		

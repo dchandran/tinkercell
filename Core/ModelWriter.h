@@ -18,6 +18,7 @@ data.
 #include <QStatusBar>
 #include <QXmlStreamWriter>
 #include "DataTable.h"
+#include "TextEditor.h"
 #include "GraphicsScene.h"
 #include "ItemHandle.h"
 
@@ -32,10 +33,20 @@ namespace Tinkercell
 		/*! \brief default constructor*/
 		ModelWriter();
 		/*! \brief Writes the handles and data for that handle 
-		* \param NodeImage pointer to write as XML
+		* \param NetworkWindow text editor
 		* \param QIODevice device to use
 		* \return void*/ 
-		bool writeModel(GraphicsScene * scene,QIODevice * device);
+		bool writeModel(TextEditor * ,QIODevice * device);
+		/*! \brief Writes the handles and data for that handle 
+		* \param GraphicsScene scene
+		* \param QIODevice device to use
+		* \return void*/ 
+		bool writeModel(GraphicsScene * ,QIODevice * device);
+		/*! \brief Writes the handles and data for that handle 
+		* \param NodeImage pointer to write as XML
+		* \param QXmlStreamWriter* xml writer to use
+		* \return void*/ 
+		static bool writeModel(TextEditor * editor,QXmlStreamWriter *);
 		/*! \brief Writes the handles and data for that handle 
 		* \param NodeImage pointer to write as XML
 		* \param QXmlStreamWriter* xml writer to use

@@ -932,8 +932,7 @@ namespace Tinkercell
 		
 		QList<QUndoCommand*> commands;
 		commands 	<< new InsertGraphicsCommand(tr("module connection"),scene,connection)
-					<< mergeCommand
-					<< new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
+					<< mergeCommand;
 		
 		for (int j=0; j < handles.size(); ++j)
 			if (handles[j] != mergeCommand->newHandle)

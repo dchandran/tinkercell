@@ -82,9 +82,18 @@ namespace Tinkercell
 		layout->setColumnStretch(0,0);
 		layout->setColumnStretch(1,1);*/
 		
-		QHBoxLayout * layout = new QHBoxLayout;
+		QVBoxLayout * layout = new QVBoxLayout;
+		QHBoxLayout * layout2 = new QHBoxLayout;
+		QHBoxLayout * layout3 = new QHBoxLayout;
 		
-		layout->addWidget( textEdit = new CodeEditor );
+		layout2->addWidget( textEdit = new CodeEditor );
+		layout3->addWidget(okButton);
+		layout3->addWidget(cancelButton);
+		
+		layout->addLayout(layout2);
+		layout->addLayout(layout3);
+		layout->setStretchFactor(layout2,1);
+		layout->setStretchFactor(layout3,0);
 		
 		QFont font = textEdit->font();
 		font.setPointSize(12);

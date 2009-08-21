@@ -15,7 +15,8 @@ a generic command prompt (e.g. by Python plugin)
 
 namespace Tinkercell
 {
-
+	QString ConsoleWindow::Prompt(">>");
+	
 	void CommandTextEdit::setCompleter(QCompleter *completer)
 	{
 		if (c)
@@ -91,7 +92,7 @@ namespace Tinkercell
 		normalFormat.setForeground(QColor("#FEFFEC"));
 
 		cursor.setCharFormat(normalFormat);	
-		cursor.insertText(tr(">>")); 
+		cursor.insertText(ConsoleWindow::Prompt); 
 		currentPosition = cursor.position();
 	}
 
@@ -126,7 +127,7 @@ namespace Tinkercell
 		cursor.insertText(tr("\nError: ") + s + tr("\n"));
 
 		cursor.setCharFormat(normalFormat);	
-		cursor.insertText(tr(">>"));
+		cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -137,7 +138,7 @@ namespace Tinkercell
 	{
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(currentPosition);
-		/*if (cursor.block().text() == tr(">>"))
+		/*if (cursor.block().text() == ConsoleWindow::Prompt)
 		{
 		cursor.setPosition(currentPosition-2,QTextCursor::KeepAnchor);
 		cursor.removeSelectedText();
@@ -146,7 +147,7 @@ namespace Tinkercell
 		cursor.insertText(tr("\n") + s + tr("\n"));
 
 		cursor.setCharFormat(normalFormat);	
-		cursor.insertText(tr(">>"));
+		cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -187,7 +188,7 @@ namespace Tinkercell
 
 		if (frozen)
 		{
-			if (cursor.block().text() == tr(">>"))
+			if (cursor.block().text() == ConsoleWindow::Prompt)
 			{
 				cursor.setPosition(currentPosition-2,QTextCursor::KeepAnchor);
 				cursor.removeSelectedText();
@@ -196,8 +197,8 @@ namespace Tinkercell
 		else
 		{
 			cursor.setCharFormat(normalFormat);
-			if (cursor.block().text() != tr(">>"))
-				cursor.insertText(tr(">>"));
+			if (cursor.block().text() != ConsoleWindow::Prompt)
+				cursor.insertText(ConsoleWindow::Prompt);
 		}
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -207,6 +208,8 @@ namespace Tinkercell
 
 	void CommandTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
+		if (!event) return;
+		
 		if (c && c->popup()->isVisible()) 
 		{
 			// The following keys are forwarded by the completer to the widget
@@ -227,6 +230,18 @@ namespace Tinkercell
 		QTextCursor cursor = textCursor();
 
 		cursor.setCharFormat(normalFormat);
+		
+		if (event->matches(QKeySequence::Copy))
+		{
+			QTextEdit::copy();
+			return;
+		}
+		
+		if (event->matches(QKeySequence::SelectAll))
+		{
+			QTextEdit::selectAll();
+			return;
+		}
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
@@ -253,10 +268,10 @@ namespace Tinkercell
 				emit commandExecuted(command);
 			}
 
-			if (cursor.block().text() != tr(">>"))
+			if (cursor.block().text() != ConsoleWindow::Prompt)
 			{
 				cursor.setCharFormat(normalFormat);	
-				cursor.insertText(tr(">>"));
+				cursor.insertText(ConsoleWindow::Prompt);
 			}
 			if (cursor.position() > currentPosition)
 				currentPosition = cursor.position();

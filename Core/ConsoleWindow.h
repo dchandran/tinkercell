@@ -109,6 +109,9 @@ signals:
 		Q_OBJECT
 
 	public:
+		
+		/*! \brief the string used at the prompt*/
+		static QString Prompt;
 
 		/*! \brief constructor -- initialize main window*/
 		ConsoleWindow(MainWindow * main = 0);

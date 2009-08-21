@@ -80,6 +80,8 @@ namespace Tinkercell
 		static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
 		static QBrush SelectionRectangleBrush;
+		/*! \brief brush used to draw the foreground for the scene*/
+		static QBrush ForegroundBrush;
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
 		/*! \brief the containing network window's symbols table*/

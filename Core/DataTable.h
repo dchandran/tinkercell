@@ -247,6 +247,22 @@ namespace Tinkercell
 			int j = colHeaders.indexOf(c);
 			return value(i,j);
 		}
+		/*! \brief checks if the two data table's headers and contents are the same
+		\param DataTable<T>
+		\return bool
+		*/
+		virtual bool operator == (const DataTable<T>& D)
+		{
+			return dataMatrix == D.dataMatrix && colHeaders == D.colHeaders && rowHeaders == D.rowHeaders;
+		}
+		/*! \brief exactly opposite of operator == 
+		\param DataTable<T>
+		\return bool
+		*/
+		virtual bool operator != (const DataTable<T>& D)
+		{
+			return !( operator==(D) );
+		}
 		/*! \brief get the value using row and column number. cannot also be used to set the value. 
 		\param int row number
 		\param int column number

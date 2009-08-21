@@ -1209,14 +1209,14 @@ static PyObject * pytc_zoom(PyObject *self, PyObject *args)
 static PyObject * pytc_getAnnotation(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int i;
+	int i,j;
 	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getAnnotation == 0))
 		return NULL;
     
  	char ** names = tc_getAnnotation((void*)i);
 	
 	PyObject *strlist;
-	PyObject * item;
+	PyObject * item, * item1, *item2;
 	
 	if (names)
 	{
@@ -1224,13 +1224,24 @@ static PyObject * pytc_getAnnotation(PyObject *self, PyObject *args)
 		
 		while (names[len] != 0) ++len;
 		
-		strlist = PyTuple_New(len);
+		strlist = PyTuple_New(len/2);	
 		
-		for (i=0; i<len && names[i]!=0; i++)
+		j = 0;
+		for (i=0; i<(len-1) && names[i]!=0 && names[i+1]!=0; i+=2)
 		{
-			item = Py_BuildValue("s",names[i]);
-			PyTuple_SetItem(strlist, i, item);
+			item1 = Py_BuildValue("s",names[i]);
+			item2 = Py_BuildValue("s",names[i+1]);
+			
+			item = PyTuple_New(2);
+			
+			PyTuple_SetItem(strlist, 0, item1);
+			PyTuple_SetItem(strlist, 1, item2);
+			
+			PyTuple_SetItem(strlist, j, item);
+			
+			++j;
 		}
+		
 		TCFreeChars(names);
 	}
 	else
@@ -1243,7 +1254,7 @@ static PyObject * pytc_getAnnotation(PyObject *self, PyObject *args)
 
 static PyObject * pytc_setAnnotation(PyObject *self, PyObject *args)
 {
-	//inputs: array of strings (row names), array of doubles (def. values), array of strings (options), lib filename, lib function name, title
+	//inputs: array of strings (row names)
 	
 	PyObject * options;
 	int i,j,k;

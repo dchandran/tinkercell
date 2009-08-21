@@ -373,15 +373,8 @@ namespace Tinkercell
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) 
 			    && node->className == ModuleLinkerItem::class_name)
             {
-				module = VisualTool::parentModule(node);
-				
-				QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
-
-                QList<ConnectionGraphicsItem*> connections = node->connections();
-
 				if (!node->handle())
 				{
-					//node->className = NodeGraphicsItem::class_name;
 					continue;
 				}
 				
@@ -389,44 +382,45 @@ namespace Tinkercell
                 {
 					ModuleLinkerItem * linker = 0;
 					
-					//if (!ModuleLinkerItem::isModuleLinker(node))
+					QList<ConnectionGraphicsItem*> connections = node->connections();
+					
+					if (!ModuleLinkerItem::isModuleLinker(node))
 					{
-						for (int j=0; j < connections.size(); ++j)
-							if (connections[j] && !moduleConnections.contains(connections[j]))
-							{
-								moduleConnections += connections[j];
-							}
-							
-							if (!ModuleLinkerItem::isModuleLinker(node))
-							{
-								linker = new ModuleLinkerItem(module);
-								(* ((NodeGraphicsItem*)linker) ) = (*node);
-							}								
+						NodeGraphicsItem * module = 0;
+						QList<QGraphicsItem*> itemsAt = scene->items(node->sceneBoundingRect());
+						for (int j=0; j < itemsAt.size(); ++j)
+							if ((module = NodeGraphicsItem::topLevelNodeItem(itemsAt[j])) &&
+								module->handle() && module->handle()->isA(tr("module")))
+								break;
 							else
+								module = 0;
+						linker = new ModuleLinkerItem(module);
+						(* ((NodeGraphicsItem*)linker) ) = (*node);
+					}								
+					else
+					{
+						linker = static_cast<ModuleLinkerItem*>(node);
+						//linker = new ModuleLinkerItem(*linker);
+						linker->module = module;
+					}
+					
+					ItemHandle * handle = getHandle(node);
+					//setHandle(node,0);
+					
+					setHandle(linker,handle);
+					
+					linker->setPosOnEdge();
+						
+					if (linker != node)
+					{							
+						for (int j=0; j < connections.size(); ++j)
+							if (connections[j])
 							{
-								linker = static_cast<ModuleLinkerItem*>(node);
-								//linker = new ModuleLinkerItem(*linker);
-								linker->module = module;
+								connections[j]->replaceNode(node,linker);
 							}
-							
-							ItemHandle * handle = getHandle(node);
-							//setHandle(node,0);
-							
-							setHandle(linker,handle);
-							
-							linker->setPosOnEdge();
-								
-							if (linker != node)
-							{							
-								for (int j=0; j < connections.size(); ++j)
-									if (connections[j])
-									{
-										connections[j]->replaceNode(node,linker);
-									}
 
-								allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
-											<< (new InsertGraphicsCommand(tr("add new linker"),scene,linker));
-							}
+						allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,node))
+									<< (new InsertGraphicsCommand(tr("add new linker"),scene,linker));
 					}
                 }
             }
@@ -558,7 +552,7 @@ namespace Tinkercell
                     if ((node = NodeGraphicsItem::topLevelNodeItem(itemsInside[j]))
                         && (node->className == ModuleLinkerItem::class_name)
                         && ((static_cast<ModuleLinkerItem*>(itemsInside[j]))->module == moving[i]))
-                        {
+                    {
                         if (!moving.contains(node)) moving += node;
                         if ((handle = getHandle(node)))
                         {
@@ -912,6 +906,7 @@ namespace Tinkercell
             return;
 
         ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
+		connection->className = tr("module connection");
 		connection->setPen(connection->defaultPen = QPen(QColor(255,100,0,255),3.0));
 		
 		//ModuleConnectionGraphicsItem * connection = new ModuleConnectionGraphicsItem;

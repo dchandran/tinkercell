@@ -17,8 +17,10 @@ An associated GraphicsTool is also defined.
 #include "ConnectionGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "CThread.h"
+#include "CodeEditor.h"
 #include "ConsoleWindow.h"
 #include "NameFamilyDialog.h"
+#include <QRegExp>
 
 namespace Tinkercell
 {
@@ -47,12 +49,11 @@ namespace Tinkercell
 	{
 		dialog = new QDialog(parent);
 
-		QGridLayout * layout = new QGridLayout;
 		QPushButton * okButton = new QPushButton("OK");
 		connect(okButton,SIGNAL(released()),dialog,SLOT(accept()));
 		QPushButton * cancelButton = new QPushButton("Cancel");
 		connect(cancelButton,SIGNAL(released()),dialog,SLOT(reject()));
-		QLabel * label1 = new QLabel(tr("Name :"));
+		/*QLabel * label1 = new QLabel(tr("Name :"));
 		QLabel * label2 = new QLabel(tr("Family : "));
 		QLabel * label3 = new QLabel(tr("Author(s) :"));
 		QLabel * label4 = new QLabel(tr("Date : "));
@@ -78,9 +79,18 @@ namespace Tinkercell
 		buttonsLayout->addWidget(cancelButton);
 		layout->addLayout(buttonsLayout,5,1,Qt::AlignRight);
 
-		dialog->setWindowTitle(tr("Information Box"));
 		layout->setColumnStretch(0,0);
-		layout->setColumnStretch(1,1);
+		layout->setColumnStretch(1,1);*/
+		
+		QHBoxLayout * layout = new QHBoxLayout;
+		
+		layout->addWidget( textEdit = new CodeEditor );
+		
+		QFont font = textEdit->font();
+		font.setPointSize(12);
+		textEdit->setFont(font);
+		
+		dialog->setWindowTitle(tr("Information Box"));
 		dialog->setLayout(layout);
 		dialog->setSizeGripEnabled(true);
 		connect(dialog,SIGNAL(accepted()),this,SLOT(dialogFinished()));
@@ -137,13 +147,13 @@ namespace Tinkercell
 	{
 		if (dialog)
 		{
-			dialog->accept();
+			dialog->reject();
 		}
 	}
 
 	void NameFamilyDialog::showDialog(ItemHandle* handle)
 	{
-		if (!handle) return;
+		if (!handle || !textEdit) return;
 
 		if (!dialog)
 		{
@@ -153,71 +163,98 @@ namespace Tinkercell
 
 		if (dialog->isVisible())
 			dialog->reject();
-
+			
+		textEdit->clear();		
+		QTextCursor cursor = textEdit->textCursor();		
+		
+		QTextCharFormat fieldFormat, textFormat;
+		fieldFormat.setForeground(QColor("#003AA3"));		
+		textFormat.setFontWeight(QFont::Bold);
+		textFormat.setForeground(QColor("#252F41"));
+		
+		cursor.setCharFormat(fieldFormat);
+		cursor.insertText(tr("name : "));
+		
+		cursor.setCharFormat(textFormat);
+		cursor.insertText(handle->name);
+		cursor.insertText(tr("\n"));
 
 		if (handle && handle->family())
 		{
-			if (lineEdits.size() > 4 && 
-				handle->data && handle->hasTextData(tr("Annotation")))
-			{
-				DataTable<QString> data = handle->data->textData[tr("Annotation")];
-				if (lineEdits[2]) lineEdits[2]->setText(data.value(0,0));
-				if (lineEdits[3]) lineEdits[3]->setText(data.value(1,0));
-				if (lineEdits[4]) lineEdits[4]->setText(data.value(2,0));
-			}
-
+			cursor.setCharFormat(fieldFormat);
+			cursor.insertText(tr("family : "));
+		
+			cursor.setCharFormat(textFormat);
+			cursor.insertText(handle->family()->name);
+			cursor.insertText(tr("\n"));
 		}
-
-		if (handle && handle->family() && lineEdits.size() > 1 && lineEdits[0] && lineEdits[1])
+		
+		if (handle->hasTextData(tr("Annotation")))
 		{
-			lineEdits[0]->setText(handle->name);
-			lineEdits[1]->setText(handle->family()->name);
-			dialog->show();
+			DataTable<QString>& annotation = handle->data->textData[tr("Annotation")];
+			if (annotation.cols() == 1)
+				for (int i=0; i < annotation.rows(); ++i)
+				{
+					cursor.setCharFormat(fieldFormat);
+					cursor.insertText(annotation.rowName(i) + tr(" : "));
+		
+					cursor.setCharFormat(textFormat);
+					cursor.insertText(annotation.value(i,0));
+					cursor.insertText(tr("\n"));
+				}
 		}
+		
+		dialog->show();
 	}
 
 	void NameFamilyDialog::dialogFinished()
 	{
-		if (!selectedItem || lineEdits.size() < 5 || !mainWindow || !mainWindow->currentWindow()) return;
-
-		for (int i=0; i < lineEdits.size(); ++i)
-			if (!lineEdits[i])
-				return;
+		if (!textEdit || !selectedItem || !mainWindow || !mainWindow->currentWindow()) return;
 
 		NetworkWindow * win = mainWindow->currentWindow();
 
-		QString name = lineEdits[0]->text(),
-			family = lineEdits[1]->text(),
-			authors = lineEdits[2]->text(),
-			date = lineEdits[3]->text(),
-			desc = lineEdits[4]->text();
-
 		bool containsConnections = false;
+		
+		QStringList strlst = textEdit->toPlainText().split(tr("\n"));
+		
+		QRegExp regex(tr("^([^:]+):(.*)"));
 
 		ItemHandle * handle = selectedItem;
-		if (handle)
+		
+		QString field, text;
+		QString name, family;	
+		DataTable<QString> data;
+		
+		for (int i=0; i < strlst.size(); ++i)
 		{
-			if (!name.isEmpty() && handle->name != name)
-				win->rename(handle,name);
-
-			if (handle->data && handle->hasTextData(tr("Annotation")))
+			if (regex.indexIn(strlst[i]) > -1)
 			{
-				DataTable<QString> data = handle->data->textData[tr("Annotation")];
-				if (data.value(0,0) != authors ||
-					data.value(1,0) != date ||
-					data.value(2,0) != desc)
-				{
-					data.value(0,0) = authors;
-					data.value(1,0) = date;
-					data.value(2,0) = desc;
-					win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
-				}
+				field = regex.cap(1);
+				text = regex.cap(2);
+				
+				if (field.trimmed().toLower() == tr("name")) name = text.trimmed();
+				else				
+					if (field.trimmed().toLower() == tr("field")) family = text.trimmed();
+					else
+						if (!field.trimmed().isEmpty())
+							data.value(field,0) = text.trimmed();
 			}
+		}
+		
+		if (name != handle->name)
+			win->rename(handle,name);
+
+		if (handle->data && handle->hasTextData(tr("Annotation")))
+		{
+			bool changed = false;
+			
+			if (data != handle->data->textData[tr("Annotation")])
+				win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 		}
 
 		containsConnections = (ConnectionHandle::asConnection(selectedItem) != 0);
 
-		if (family.isEmpty()) return;
+		if (!handle->family() || family.isEmpty() || handle->family()->name == family) return;
 
 		if (!mainWindow->tool("Nodes Tree"))
 		{
@@ -341,7 +378,7 @@ namespace Tinkercell
 				//(*list) << data.getRowNames();
 
 				for (int i=0; i < data.rows(); ++i)
-					(*list) << data.value(i,0);
+					(*list) << data.rowName(i) << data.value(i,0);
 			}
 		}
 		if (sem)
@@ -358,13 +395,11 @@ namespace Tinkercell
 				data = item->data->textData[tr("Annotation")];
 			else
 			{
-				data.resize(5,1);
-				data.setRowNames( QStringList() << tr("author") << tr("data") << tr("description") << tr("uri") << tr("reference") );
 				item->data->textData[tr("Annotation")] = data;
 			}
 
-			for (int i=0; i < list.size() && i < data.rows(); ++i)
-				data.value(i,0) = list[i];
+			for (int i=0; i < (list.size()-1); i+=2)
+				data.value( list[i] ,0) = list[i+1];
 
 			if (currentWindow())
 				currentWindow()->changeData(item->fullName() + tr("'s annotation changed"),item,tr("Annotation"),&data);

@@ -15,6 +15,10 @@ An associated GraphicsTool is also defined.
 #include <stdlib.h>
 #include <QtGui>
 #include <QIcon>
+#include <QTableWidget>
+#include <QPlainTextEdit>
+#include <QTextCursor>
+#include <QTextCharFormat>
 #include <QDialog>
 
 #include "NodeGraphicsItem.h"
@@ -27,12 +31,12 @@ namespace Tinkercell
 	class NameFamilyDialog_FtoS : public QObject
 	{
 		Q_OBJECT;
-signals:
+	signals:
 		void getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item);
 		void setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list);
-		public slots:
-			char** getAnnotation(OBJ);
-			void setAnnotation(OBJ,char**);
+	public slots:
+		char** getAnnotation(OBJ);
+		void setAnnotation(OBJ,char**);
 	};
 
 	class NameFamilyDialog : public Tool
@@ -42,45 +46,48 @@ signals:
 	public:
 		NameFamilyDialog();
 		bool setMainWindow(MainWindow * main);
-signals:
+	
+	signals:
 		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles);
 		void familyChanged(const QList<ItemHandle*>& items);
 		void nameChanged();
 
-		public slots:
-			void select(int);
-			void deselect(int);
-			void showDialog(ItemHandle*);
-			void closeDialog();
-			void itemsInsertedSlot(NetworkWindow * , const QList<ItemHandle*>& handles);
-			void dialogFinished();
-			void setupFunctionPointers( QLibrary * );
+	public slots:
+		void select(int);
+		void deselect(int);
+		void showDialog(ItemHandle*);
+		void closeDialog();
+		void itemsInsertedSlot(NetworkWindow * , const QList<ItemHandle*>& handles);
+		void dialogFinished();
+		void setupFunctionPointers( QLibrary * );
 
 	protected:
 		QDialog * dialog;
-		QList<QLineEdit*> lineEdits;
+		QPlainTextEdit * textEdit;
+		//QList<QLineEdit*> lineEdits;
 		ItemHandle* selectedItem;
-		void makeDialog(QWidget*);
 		NodeGraphicsItem idcard;
+		
+		void makeDialog(QWidget*);
 
-		private slots:
-			/*!
-			* \brief get the annotation for an item. This function is designed to be used with the C API framework
-			* \param QSemaphore* semaphore
-			* \param QStringList* output
-			* \param ItemHandle* item
-			* \return void
-			*/
-			void getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item);
-			/*!
-			* \brief set the annotation for an item. This function is designed to be used with the C API framework
-			* \param QSemaphore* semaphore
-			* \param ItemHandle* item
-			* \param QStringList output
-			* \return void
-			*/
-			void setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list);
+	private slots:
+		/*!
+		* \brief get the annotation for an item. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \param QStringList* output
+		* \param ItemHandle* item
+		* \return void
+		*/
+		void getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item);
+		/*!
+		* \brief set the annotation for an item. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \param ItemHandle* item
+		* \param QStringList output
+		* \return void
+		*/
+		void setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list);
 	private:
 		void connectTCFunctions();
 		/*! \brief node of the C API framework*/

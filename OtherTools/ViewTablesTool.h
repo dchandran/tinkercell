@@ -46,8 +46,8 @@ namespace Tinkercell
 		QSize sizeHint() const;
 	
 	public slots:
-                void select(int);
-                void deselect(int);
+		void select(int);
+		void deselect(int);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers );
 		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
 		
@@ -64,18 +64,18 @@ namespace Tinkercell
 	
 	private:
 
-                class GraphicsItem2 : public Tool::GraphicsItem
-                {
-                    public:
-                        GraphicsItem2(Tool * tool);
-                        void visible(bool);
-                };
-	
-                bool openedByUser;
-                NodeGraphicsItem item;
-                ItemHandle* itemHandle;
-				QDockWidget * dockWidget;
-                QTextCharFormat headerFormat, regularFormat;
+		class GraphicsItem2 : public Tool::GraphicsItem
+		{
+			public:
+				GraphicsItem2(Tool * tool);
+				void visible(bool);
+		};
+
+		bool openedByUser;
+		NodeGraphicsItem item;
+		ItemHandle* itemHandle;
+		QDockWidget * dockWidget;
+		QTextCharFormat headerFormat, regularFormat;
 		
 	};
 

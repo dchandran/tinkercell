@@ -30,6 +30,8 @@ namespace Tinkercell
 	
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
 	
+	QBrush GraphicsScene::ForegroundBrush = QBrush(Qt::NoBrush);
+	
 	/*
 	* \param a pointer to a QGraphicsItem
 	* \return a QGraphicsItem that is one of the Tinkercell Graphics Items
@@ -197,6 +199,7 @@ namespace Tinkercell
 		
 		lastZ = 1.0;
 
+		setForegroundBrush(ForegroundBrush);
 		selectionRect.setBrush(SelectionRectangleBrush);
 		selectionRect.setPen(SelectionRectanglePen);		
 		

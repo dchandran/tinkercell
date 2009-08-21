@@ -27,71 +27,71 @@
 
 namespace Tinkercell
 {
-        void ViewTablesTool::select(int)
+	void ViewTablesTool::select(int)
 	{
-            NetworkWindow * win = currentWindow();
-            if (!win) return;
+		NetworkWindow * win = currentWindow();
+		if (!win) return;
 
-            QList<ItemHandle*> list = win->selectedHandles();
-            if (list.size() == 1 && list[0])
-            {
-                    if (dockWidget && dockWidget->widget() != this)
-                            dockWidget->setWidget(this);
-
-                    itemHandle = list[0];
-
-                    openedByUser = true;
-
-                    updateList();
-                    if (parentWidget() != 0)
-                    {
-                            if (parentWidget()->isVisible())
-                                    openedByUser = false;
-                            else
-                                    parentWidget()->show();
-                    }
-                    else
-                    {
-                            if (isVisible())
-                                    openedByUser = false;
-                            else
-                                    show();
-                    }
-            }
-	}
-
-        void ViewTablesTool::deselect(int)
-	{
-                if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		QList<ItemHandle*> list = win->selectedHandles();
+		if (list.size() == 1 && list[0])
 		{
-			openedByUser = false;
-                        if (parentWidget() != 0)
-                                parentWidget()->hide();
+			if (dockWidget && dockWidget->widget() != this)
+				dockWidget->setWidget(this);
+
+			itemHandle = list[0];
+
+			openedByUser = true;
+
+			updateList();
+			if (parentWidget() != 0)
+			{
+				if (parentWidget()->isVisible())
+					openedByUser = false;
+				else
+					parentWidget()->show();
+			}
 			else
-                                hide();
+			{
+				if (isVisible())
+					openedByUser = false;
+				else
+					show();
+			}
 		}
 	}
 
-        ViewTablesTool::GraphicsItem2::GraphicsItem2(Tool * tool) : Tool::GraphicsItem(tool)
-        {
-        }
+	void ViewTablesTool::deselect(int)
+	{
+		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
+		{
+			openedByUser = false;
+			if (parentWidget() != 0)
+				parentWidget()->hide();
+			else
+				hide();
+		}
+	}
 
-        void ViewTablesTool::GraphicsItem2::visible(bool b)
-        {
-            if (!tool)
-            {
-                GraphicsItem::visible(false);
-                return;
-            }
+	ViewTablesTool::GraphicsItem2::GraphicsItem2(Tool * tool) : Tool::GraphicsItem(tool)
+	{
+	}
 
-            GraphicsScene * scene = tool->currentScene();
-            if (!scene || scene->selected().size() != 1)
-            {
-                GraphicsItem::visible(false);
-                return;
-            }
+	void ViewTablesTool::GraphicsItem2::visible(bool b)
+	{
+		if (!tool)
+		{
+			GraphicsItem::visible(false);
+			return;
+		}
 
-            GraphicsItem::visible(b);
+		GraphicsScene * scene = tool->currentScene();
+		if (!scene || scene->selected().size() != 1)
+		{
+			GraphicsItem::visible(false);
+			return;
+		}
+
+		GraphicsItem::visible(b);
 	}
 
 
@@ -111,7 +111,7 @@ namespace Tinkercell
 	{
 		Tool::setMainWindow(main);
 
-                if (mainWindow)
+		if (mainWindow)
 		{
 			
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
@@ -141,18 +141,18 @@ namespace Tinkercell
 		}
 	}
 
-        ViewTablesTool::ViewTablesTool() : Tool(tr("View Tables"))
+	ViewTablesTool::ViewTablesTool() : Tool(tr("View Tables"))
 	{
-                QString appDir = QCoreApplication::applicationDirPath();
-                openedByUser = false;
-                NodeGraphicsReader reader;
-                reader.readXml(&item,appDir + tr("/OtherItems/grid.xml"));
+		QString appDir = QCoreApplication::applicationDirPath();
+		openedByUser = false;
+		NodeGraphicsReader reader;
+		reader.readXml(&item,appDir + tr("/OtherItems/grid.xml"));
 
-                item.normalize();
-                item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
-                graphicsItems += new GraphicsItem2(this);
-                graphicsItems[0]->setToolTip(tr("View all tables"));
-                graphicsItems[0]->addToGroup(&item);
+		item.normalize();
+		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
+		graphicsItems += new GraphicsItem2(this);
+		graphicsItems[0]->setToolTip(tr("View all tables"));
+		graphicsItems[0]->addToGroup(&item);
 
 		itemHandle = 0;
 		QFont font = this->font();

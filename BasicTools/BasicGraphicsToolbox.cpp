@@ -839,20 +839,27 @@ namespace Tinkercell
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom)
 		{
-			if (zoomRect.scene() != scene)
+			QPointF lastPoint = scene->lastPoint();
+			
+			QPointF change = QPointF(lastPoint.x()-lastPoint.x(),lastPoint.y()-lastPoint.y());
+			
+			if ((change.x()*change.x() + change.y()*change.y()) > GraphicsScene::MIN_DRAG_DISTANCE)
 			{
-				scene->addItem(&zoomRect);
-				QPen pen(Qt::DotLine);
-				pen.setColor(QColor(50,50,50,250));
-				pen.setWidthF(1.0);
-				zoomRect.setPen(pen);
-				zoomRect.setBrush(Qt::NoBrush);
+				if (zoomRect.scene() != scene)
+				{
+					scene->addItem(&zoomRect);
+					QPen pen(Qt::DotLine);
+					pen.setColor(QColor(50,50,50,250));
+					pen.setWidthF(1.0);
+					zoomRect.setPen(pen);
+					zoomRect.setBrush(Qt::NoBrush);
+				}
+
+				if (!zoomRect.isVisible()) 
+					zoomRect.setVisible(true);
+
+				zoomRect.setRect( QRectF(lastPoint, point ));
 			}
-
-			if (!zoomRect.isVisible()) 
-				zoomRect.setVisible(true);
-
-			zoomRect.setRect( QRectF(scene->lastPoint(), point ));
 		}
 	}
 
@@ -884,7 +891,6 @@ namespace Tinkercell
 
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);
-
 
 			scene->useDefaultBehavior = true;
 			mode = this->none;
@@ -1027,12 +1033,8 @@ namespace Tinkercell
 						if (item == 0)
 						{
 							scene->useDefaultBehavior = true;
-							if (mode != this->none)
-							{
-								mode = this->none;
-								mainWindow->setCursor(Qt::ArrowCursor);
-								//return;
-							}
+							mode = this->none;
+							mainWindow->setCursor(Qt::ArrowCursor);
 						}
 						else
 						{
@@ -1086,14 +1088,6 @@ namespace Tinkercell
 								}
 							}
 						}
-					}
-					if (mode != none)
-					{
-						mode = this->none;
-						scene->useDefaultBehavior = true;
-						mainWindow->setCursor(Qt::ArrowCursor);
-						if (zoomRect.isVisible()) 
-							zoomRect.setVisible(false);
 					}
 		}
 	}

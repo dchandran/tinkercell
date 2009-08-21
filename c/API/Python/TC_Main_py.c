@@ -1234,8 +1234,8 @@ static PyObject * pytc_getAnnotation(PyObject *self, PyObject *args)
 			
 			item = PyTuple_New(2);
 			
-			PyTuple_SetItem(strlist, 0, item1);
-			PyTuple_SetItem(strlist, 1, item2);
+			PyTuple_SetItem(item, 0, item1);
+			PyTuple_SetItem(item, 1, item2);
 			
 			PyTuple_SetItem(strlist, j, item);
 			

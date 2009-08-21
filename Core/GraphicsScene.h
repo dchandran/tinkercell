@@ -82,6 +82,9 @@ namespace Tinkercell
 		static QBrush SelectionRectangleBrush;
 		/*! \brief brush used to draw the foreground for the scene*/
 		static QBrush ForegroundBrush;
+		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
+		static qreal MIN_DRAG_DISTANCE;
+		
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
 		/*! \brief the containing network window's symbols table*/

@@ -710,9 +710,18 @@ namespace Tinkercell
 				movedChildNodes << handle;
 			else
 				if (handle->isA(tr("Compartment")) || handle->isA(tr("Module")))
+				{
+					movedCompartmentNodes << handle;
 					movedChildNodes << handle->children;
+				}
 				
 		}
+		
+		for (int i=0; i < movedCompartmentNodes.size(); ++i)
+			for (int j=0; j < movedCompartmentNodes[i]->graphicsItems.size(); ++j)
+				if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movedCompartmentNodes[i]->graphicsItems[j]))
+					nodeCollided(QList<QGraphicsItem*>(),node,QList<QPointF>(),Qt::NoModifier);
+		
 		
 		for (int i=0; i < movedChildNodes.size(); ++i)
 		{

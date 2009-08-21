@@ -2078,7 +2078,7 @@ namespace Tinkercell
 				handle = getHandle(oldItemHandles[i].first);
 				if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(oldItemHandles[i].first)) &&
 					handle && textItem->toPlainText() == handle->name &&
-					newItemHandles[i].second)
+					oldItemHandles[i].second)
 					textItem->setPlainText(oldItemHandles[i].second->name);
 				setHandle(oldItemHandles[i].first, oldItemHandles[i].second);
 			}

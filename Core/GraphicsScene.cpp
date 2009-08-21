@@ -32,6 +32,8 @@ namespace Tinkercell
 	
 	QBrush GraphicsScene::ForegroundBrush = QBrush(Qt::NoBrush);
 	
+	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
+	
 	/*
 	* \param a pointer to a QGraphicsItem
 	* \return a QGraphicsItem that is one of the Tinkercell Graphics Items
@@ -515,7 +517,7 @@ namespace Tinkercell
 				movingItemsGroup = 0;
 			}
 
-			if ((change.x()*change.x() + change.y()*change.y()) > 1)
+			if ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE/2.0)
 			{
 				move(movingItems,change);
 			}
@@ -553,7 +555,7 @@ namespace Tinkercell
 					}
 					emit itemsSelected(this, selectedItems,point1,mouseEvent->modifiers());
 			}
-			if ((change.x()*change.x() + change.y()*change.y()) > 2)
+			if ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE)
 				emit mouseDragged(this, point0, point1, clickedButton, mouseEvent->modifiers());
 			else
 				emit mouseReleased(this, clickedPoint, clickedButton, mouseEvent->modifiers());

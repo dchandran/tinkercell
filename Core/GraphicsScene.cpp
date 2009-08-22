@@ -1432,7 +1432,7 @@ namespace Tinkercell
 	{
 		if (handles.isEmpty()) return;
 
-		MergeHandlersCommand * mergeCommand = new MergeHandlersCommand(tr("items merged"),networkWindow, handles);
+		MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),networkWindow, handles);
 
 		if (!mergeCommand->newHandle)
 		{

@@ -243,7 +243,7 @@ namespace Tinkercell
 				
 				if (field.trimmed().toLower() == tr("name")) name = text.trimmed();
 				else				
-					if (field.trimmed().toLower() == tr("field")) family = text.trimmed();
+					if (field.trimmed().toLower() == tr("family")) family = text.trimmed();
 					else
 						if (!field.trimmed().isEmpty())
 							data.value(field,0) = text.trimmed();

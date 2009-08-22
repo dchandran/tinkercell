@@ -370,131 +370,132 @@ namespace Tinkercell
 			if (!qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
 			{
 				handle = getHandle(items[i]);
-				if (handle && !itemHandles.contains(handle))
+				if (handle && handle->family() && !itemHandles.contains(handle))
 					itemHandles += handle;
 				else
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]) &&
-						(handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem)))
+						(handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem)) &&
+						handle->family())
 						itemHandles += handle;
 
 			}
 
-			if (itemHandles.isEmpty()) return;
+		if (itemHandles.isEmpty()) return;
 
-			disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
+		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 
-			QStringList parents, values, fixed, names, suffixes;
-			DataTable<qreal> * nDataTable = 0;
+		QStringList parents, values, fixed, names, suffixes;
+		DataTable<qreal> * nDataTable = 0;
 
-			for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
+		for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
+		{
+			if (itemHandles[i] && itemHandles[i]->family() && !(itemHandles[i]->family()->measurementUnit.first.isEmpty())
+				&& itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Initial Value")))
 			{
-				if (itemHandles[i] && itemHandles[i]->family() && !(itemHandles[i]->family()->measurementUnit.first.isEmpty())
-					&& itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Initial Value")))
+				nDataTable = &(itemHandles[i]->data->numericalData[tr("Initial Value")]);
+				for (int j=0; j < nDataTable->rows(); ++j)
 				{
-					nDataTable = &(itemHandles[i]->data->numericalData[tr("Initial Value")]);
-					for (int j=0; j < nDataTable->rows(); ++j)
-					{
-						if (itemHandles[i]->parent)
-							parents += itemHandles[i]->parent->fullName() + tr(".");
-						else
-							parents += tr("");
-						names += itemHandles[i]->name;
-						suffixes += itemHandles[i]->family()->measurementUnit.second;
-						values += QString::number(nDataTable->value(j,0)) + tr(" ") + itemHandles[i]->family()->measurementUnit.second;
-						constants.insert(itemHandles[i]->fullName(),nDataTable->value(j,0));
-					}
-				}
-
-				if (itemHandles[i] && itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Fixed")))
-				{
-					nDataTable = &(itemHandles[i]->data->numericalData[tr("Fixed")]);
-					for (int j=0; j < nDataTable->rows(); ++j)
-					{
-						if (nDataTable->value(j,0) > 0.0)
-							fixed << "fixed";
-						else
-							fixed << "floating";
-					}
+					if (itemHandles[i]->parent)
+						parents += itemHandles[i]->parent->fullName() + tr(".");
+					else
+						parents += tr("");
+					names += itemHandles[i]->name;
+					suffixes += itemHandles[i]->family()->measurementUnit.second;
+					values += QString::number(nDataTable->value(j,0)) + tr(" ") + itemHandles[i]->family()->measurementUnit.second;
+					constants.insert(itemHandles[i]->fullName(),nDataTable->value(j,0));
 				}
 			}
 
-			delegate.suffix = suffixes;
-			tableWidget.setRowCount(names.size());
-			tableWidget.setColumnCount(3);
-			tableWidget.setHorizontalHeaderLabels(QStringList() << "name" << "value" << "fixed?");
-			tableWidget.setVerticalHeaderLabels(parents);
-			while (fixed.size() < names.size())
-				fixed << "floating";
-
-			for (int i=0; i < tableWidget.rowCount(); ++i)
+			if (itemHandles[i] && itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Fixed")))
 			{
-				tableWidget.setItem(i,0,new QTableWidgetItem(names[i]));
-				tableWidget.setItem(i,1,new QTableWidgetItem(values[i]));
-				tableWidget.setItem(i,2,new QTableWidgetItem(fixed[i]));
+				nDataTable = &(itemHandles[i]->data->numericalData[tr("Fixed")]);
+				for (int j=0; j < nDataTable->rows(); ++j)
+				{
+					if (nDataTable->value(j,0) > 0.0)
+						fixed << "fixed";
+					else
+						fixed << "floating";
+				}
 			}
+		}
 
-			connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
+		delegate.suffix = suffixes;
+		tableWidget.setRowCount(names.size());
+		tableWidget.setColumnCount(3);
+		tableWidget.setHorizontalHeaderLabels(QStringList() << "name" << "value" << "fixed?");
+		tableWidget.setVerticalHeaderLabels(parents);
+		while (fixed.size() < names.size())
+			fixed << "floating";
 
-			emit aboutToDisplayModel(itemHandles, constants, equations);
+		for (int i=0; i < tableWidget.rowCount(); ++i)
+		{
+			tableWidget.setItem(i,0,new QTableWidgetItem(names[i]));
+			tableWidget.setItem(i,1,new QTableWidgetItem(values[i]));
+			tableWidget.setItem(i,2,new QTableWidgetItem(fixed[i]));
+		}
 
-			//widgets.insert(tr("Initial Values"),groupBox);
+		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 
-			if (tabWidget)
-			{
-				if (names.size() > 0)
-					tabWidget->addTab(&groupBox,tr("Initial Values"));
-				emit displayModel(*tabWidget, itemHandles, constants, equations);
-			}
+		emit aboutToDisplayModel(itemHandles, constants, equations);
 
-			//if (currentWidget)
-			//tabWidget->setCurrentWidget(currentWidget);
+		//widgets.insert(tr("Initial Values"),groupBox);
 
-			//connect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
+		if (tabWidget)
+		{
+			if (names.size() > 0)
+				tabWidget->addTab(&groupBox,tr("Initial Values"));
+			emit displayModel(*tabWidget, itemHandles, constants, equations);
+		}
 
-			/*
-			if (!constants.isEmpty() && !equations.isEmpty())
-			{
-			emit graph(equations, constants.keys(),constants.values());
-			}
+		//if (currentWidget)
+		//tabWidget->setCurrentWidget(currentWidget);
 
-			delete layout();
+		//connect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
+
+		/*
+		if (!constants.isEmpty() && !equations.isEmpty())
+		{
+		emit graph(equations, constants.keys(),constants.values());
+		}
+
+		delete layout();
 
 
-			//QHBoxLayout * layout = new QHBoxLayout;
-			//QHBoxLayout * checksLayout = new QHBoxLayout;
+		//QHBoxLayout * layout = new QHBoxLayout;
+		//QHBoxLayout * checksLayout = new QHBoxLayout;
 
 
 
-			for (int i=0; i < widgets.size(); i+=2)
-			{
-			//QCheckBox * check = new QCheckBox(this);
-			//connect(check,SIGNAL(checked(bool)),widgets[i],SLOT(setVisible(bool)));
-			//checksLayout->addWidget(check);
+		for (int i=0; i < widgets.size(); i+=2)
+		{
+		//QCheckBox * check = new QCheckBox(this);
+		//connect(check,SIGNAL(checked(bool)),widgets[i],SLOT(setVisible(bool)));
+		//checksLayout->addWidget(check);
 
-			QVBoxLayout * layout2 = new QVBoxLayout;
-			if (widgets[i])
-			layout2->addWidget(widgets[i]);
-			if ((i+1) < widgets.size() && widgets[i+1])
-			layout2->addWidget(widgets[i+1]);
-			layout->addLayout(layout2);
-			}
-			//layout->insertStretch(0,20);
+		QVBoxLayout * layout2 = new QVBoxLayout;
+		if (widgets[i])
+		layout2->addWidget(widgets[i]);
+		if ((i+1) < widgets.size() && widgets[i+1])
+		layout2->addWidget(widgets[i+1]);
+		layout->addLayout(layout2);
+		}
+		//layout->insertStretch(0,20);
 
-			///QVBoxLayout * layoutv = new QVBoxLayout;
-			//layoutv->addLayout(checksLayout);
-			//layoutv->addLayout(layout);
+		///QVBoxLayout * layoutv = new QVBoxLayout;
+		//layoutv->addLayout(checksLayout);
+		//layoutv->addLayout(layout);
 
-			setLayout(layout);*/
+		setLayout(layout);*/
 
-			/*
-			QList<QString> keys = widgets.keys();
-			QList<QWidget*> wids = widgets.values();
+		/*
+		QList<QString> keys = widgets.keys();
+		QList<QWidget*> wids = widgets.values();
 
-			for (int i=0; i < keys.size(); ++i)
-			if (wids[i])
-			{
-			tabWidget.insertTab(tabWidget.count(),wids[i],keys[i]);
-			}*/
+		for (int i=0; i < keys.size(); ++i)
+		if (wids[i])
+		{
+		tabWidget.insertTab(tabWidget.count(),wids[i],keys[i]);
+		}*/
 	}
 
 	void ModelSummaryTool::currentChanged ( int index )

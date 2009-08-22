@@ -186,16 +186,16 @@ namespace Tinkercell
     void ContainerTreeTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
     {
         if (!scene || items.isEmpty()) return;
-
+		
         ItemHandle * handle = 0, *child = 0;
         ConnectionGraphicsItem * connection = 0;
 
         for (int i=0; i < items.size(); ++i)
         {
             if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i])
-                && (handle = getHandle(items[i])) && handle->family()
-                && (handle->family()->isA(tr("Module")) || handle->family()->isA(tr("Compartment"))))
-                {
+                && (handle = getHandle(items[i]))
+                && (handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
+            {
                 QList<ItemHandle*> list = handle->children;
                 for (int j=0; j < list.size(); ++j)
                 {
@@ -404,8 +404,7 @@ namespace Tinkercell
         ItemHandle * handle = getHandle(nodeHit);
 
         //if items are placed into a Compartment or module...
-        if (!handle || !handle->family() ||
-            !(handle->family()->isA(tr("Module")) || handle->family()->isA(tr("Compartment"))))
+        if (!handle || !(handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
             return;
 			
 		ConnectionGraphicsItem::ControlPoint * cpt = 0;
@@ -494,7 +493,7 @@ namespace Tinkercell
                 }
                 if (stillWithParent)
                 {
-                    ConsoleWindow::message(child->name + tr(" belongs with ") + child->parent->fullName());
+                    //ConsoleWindow::message(child->name + tr(" belongs with ") + child->parent->fullName());
                 }
                 else
                 {
@@ -697,7 +696,7 @@ namespace Tinkercell
 
             handle = getHandle(items[i]);
 			
-			if (!handle || visitedHandles.contains(handle)) continue;
+			if (!handle || !handle->family() || visitedHandles.contains(handle)) continue;
 			
 			visitedHandles << handle;
 

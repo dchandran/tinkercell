@@ -436,17 +436,18 @@ namespace Tinkercell
 				}
 			}
 
+			setHandle(graphicsItems[i],0);
+			
 			if (itemHandles.size() > i && itemHandles[i] != 0)
 			{
-				setHandle(graphicsItems[i],0);
 				if (itemHandles[i]->graphicsItems.isEmpty())
 				{
 					if (itemHandles[i]->parent)
 						itemHandles[i]->parent->children.removeAll(itemHandles[i]);
-
+					/*
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
 						if (itemHandles[i]->children[j])
-							itemHandles[i]->children[j]->parent = 0;
+							itemHandles[i]->children[j]->parent = 0;*/
 				}
 			}
 
@@ -643,9 +644,9 @@ namespace Tinkercell
 				if (itemHandles[i]->parent)
 					itemHandles[i]->setParent(itemHandles[i]->parent);
 
-				for (int j=0; j < itemHandles[i]->children.size(); ++j)
+				/*for (int j=0; j < itemHandles[i]->children.size(); ++j)
 					if (itemHandles[i]->children[j])
-						itemHandles[i]->children[j]->parent = itemHandles[i];
+						itemHandles[i]->children[j]->parent = itemHandles[i];*/
 
 			}
 			if (itemParents.size() > i && itemParents[i] != 0)
@@ -2112,7 +2113,7 @@ namespace Tinkercell
 
 	}
 
-	MergeHandlersCommand::MergeHandlersCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles) :
+	MergeHandlesCommand::MergeHandlesCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles) :
 	QUndoCommand(text)
 	{
 		newHandle = 0;
@@ -2170,10 +2171,14 @@ namespace Tinkercell
 			for (int i=0; i < oldNames.size(); ++i)
 				newNames << newHandle->fullName();
 		
-		renameCommand = new RenameCommand(QString("rename"),win->allHandles(),oldNames,newNames);
+		QList<ItemHandle*> allHandles = win->allHandles();
+		
+		for (int i=0; i < handles.size(); ++i)
+			allHandles.removeAll(handles[i]);
+		renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
 	}
 
-	MergeHandlersCommand::~MergeHandlersCommand()
+	MergeHandlesCommand::~MergeHandlesCommand()
 	{
 		for (int i=0; i < oldHandles.size(); ++i)
 		{
@@ -2203,7 +2208,7 @@ namespace Tinkercell
 			delete renameCommand;
 	}
 
-	void MergeHandlersCommand::redo()
+	void MergeHandlesCommand::redo()
 	{
 		if (newHandle == 0) return;
 		
@@ -2231,7 +2236,7 @@ namespace Tinkercell
 			renameCommand->redo();
 	}
 
-	void MergeHandlersCommand::undo()
+	void MergeHandlesCommand::undo()
 	{
 		if (newHandle == 0) return;
 		
@@ -2352,5 +2357,54 @@ namespace Tinkercell
 			{
 				RenameCommand::findReplaceAllHandleData(handles,oldNames[i],newNames[i]);
 			}
+	}
+	
+	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, const QList<bool>& values)
+	{
+		for (int i=0; i < items.size() && i < values.size(); ++i)
+		{
+			if (items[i] && items[i]->visible != values[i])
+			{
+				handles << items[i];
+				before << items[i]->visible;
+			}
+		}
+	}
+	
+	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, ItemHandle* item, bool value)
+	{
+		if (item && item->visible != value)
+		{
+			handles << item;
+			before << item->visible;
+		}
+	}
+	
+	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, bool value)
+	{
+		for (int i=0; i < items.size(); ++i)
+		{
+			if (items[i] && items[i]->visible != value)
+			{
+				handles << items[i];
+				before << items[i]->visible;
+			}
+		}
+	}
+	
+	void SetHandleVisibilityCommand::redo()
+	{
+		for (int i=0; i < handles.size() && i < before.size(); ++i)
+		{
+			handles[i]->visible = !before[i];
+		}
+	}
+	
+	void SetHandleVisibilityCommand::undo()
+	{
+		for (int i=0; i < handles.size() && i < before.size(); ++i)
+		{
+			handles[i]->visible = before[i];
+		}
 	}
 }

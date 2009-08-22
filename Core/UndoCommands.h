@@ -551,13 +551,13 @@ namespace Tinkercell
 
 	/*! \brief this command places all the graphics items inside one handle into the other
 	* \ingroup undo*/
-	class MergeHandlersCommand : public QUndoCommand
+	class MergeHandlesCommand : public QUndoCommand
 	{
 	public:
-		MergeHandlersCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles);
+		MergeHandlesCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles);
 		void redo();
 		void undo();
-		~MergeHandlersCommand();
+		~MergeHandlesCommand();
 		QList<ItemHandle*> oldHandles;
 		ItemHandle* newHandle;
 	private:
@@ -593,6 +593,27 @@ namespace Tinkercell
 		QList<ItemHandle*> oldParents;
 	private:
 		NetworkWindow * net;
+	};
+	
+	/*! \brief this command assigns parent(s) to one or more handles
+	* \ingroup undo
+	*/
+	class SetHandleVisibilityCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor*/
+		SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>&, const QList<bool>&);
+		/*! \brief constructor*/
+		SetHandleVisibilityCommand(const QString& name, ItemHandle*, bool);
+		/*! \brief constructor*/
+		SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>&, bool);
+		/*! \brief redo parent change*/
+		void redo();
+		/*! \brief undo parent change*/
+		void undo();
+	private:
+		QList<ItemHandle*> handles;
+		QList<bool> before;
 	};
 
 }

@@ -183,7 +183,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				handle = items[i];
-				if (handle && handle->family() && handle->parent == 0)
+				if (handle && handle->family() && handle->parent == 0 && handle->visible)
 				{	
 					if ((treeItem = makeBranch(handle,rootItem)))
 					{
@@ -212,11 +212,11 @@ namespace Tinkercell
 		return 0;
 	}
 	
-        void ContainerTreeModel::reload(NetworkWindow * win)
+	void ContainerTreeModel::reload(NetworkWindow * win)
 	{
-                if (win)
+		if (win)
 		{
-                        if (win != this->window)
+			if (win != this->window)
 			{
 				delete rootItem;
 				rootItem = 0;
@@ -234,7 +234,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				handle = items[i];
-				if (handle && handle->family() && handle->parent == 0)
+				if (handle && handle->family() && handle->parent == 0 && handle->visible)
 				{	
 					if ((treeItem = makeBranch(handle,rootItemNew)))
 						rootItemNew->appendChild(treeItem);					
@@ -275,7 +275,7 @@ namespace Tinkercell
 			for (int i=0; i < handle->children.size(); ++i)
 			{
 				childHandle = handle->children[i];
-				if (childHandle && childHandle->family() && childHandle->parent == handle)
+				if (childHandle && childHandle->visible && childHandle->family() && childHandle->parent == handle)
 				{
 					/*
 					ok = false;

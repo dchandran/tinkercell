@@ -114,6 +114,9 @@ namespace Tinkercell
 
 	ItemHandle::~ItemHandle()
 	{	
+		if (parent)
+			parent->children.removeAll(this);
+			
 		parent = 0;
 		if (data) 
 		{
@@ -144,8 +147,13 @@ namespace Tinkercell
 			for (int i=0; i < children.size(); ++i)
 			{
 				if (children[i] && children[i]->parent == this)
-					delete children[i];
+					if (children[i]->graphicsItems.isEmpty())
+						delete children[i];
+					else
+						children[i]->parent = 0;
 			}
+			
+		children.clear();
 	}
 	ItemHandle::ItemHandle() : QObject()
 	{ 

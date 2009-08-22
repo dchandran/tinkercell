@@ -521,30 +521,31 @@ namespace Tinkercell
 		QList<QGraphicsItem*> list;
 		list += item;
 		QRectF rect = item->sceneBoundingRect();
+		
 		rect.adjust( -dx, -dx, dx, dx );
+		
+		ItemHandle * h = getHandle(item);
+		
+		QList<ItemHandle*> children;
+		if (h)
+		{
+			children << h << h->allChildren();
+		}
+		
+		QGraphicsItem * gitem = 0;
 
-		QList<QGraphicsItem*> items = handle->allGraphicsItems();
+		QList<QGraphicsItem*> items = scene->items(rect);
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (items[i] && !list.contains(items[i]))
+			gitem = getGraphicsItem(items[i]);
+			h = getHandle(gitem);
+			if (gitem && !list.contains(gitem) && (!h || children.contains(h)))
 			{
-				QRectF rect2 = items[i]->sceneBoundingRect();
-
-				if ((rect.intersects(rect2) || rect.contains(rect2)) && (rect2.width() <= rect.width() || rect2.height() <= rect.height()))
-				{
-					list += items[i];
-					rect = rect.united(items[i]->sceneBoundingRect().adjusted(-dx, -dx, dx, dx));
-					i = -1; //restart
-				}
-				else
-					if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) && (rect2.adjusted(-dx*20.0,-dx*20.0,dx*20.0,dx*20.0)).intersects(rect))
-					{
-						list += items[i];
-					}
+				list += gitem;
 			}
 		}
-
+		
 		NodeGraphicsItem* node;
 
 		for (int i=0; i < list.size(); ++i)
@@ -606,7 +607,7 @@ namespace Tinkercell
 							selectedHandleNodes.removeAll(ptr);
 
 						if (!(modifiers & Qt::ControlModifier))
-							selectNearByItems(scene,ptr->itemHandle,ptr,1.0);
+							selectNearByItems(scene,ptr->itemHandle,ptr,20.0);
 					}
 					else
 					{

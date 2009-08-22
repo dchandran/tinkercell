@@ -764,7 +764,11 @@ namespace Tinkercell
                 (handle = ConnectionHandle::asConnection(connection->handle())))
 			
 			{
-				ConsoleWindow::message("here");
+				ConsoleWindow::message(tr("here "));
+				if (handle->parent)
+					ConsoleWindow::message(handle->parent->name);
+				
+				
 			if (!handle->family() &&
 				handle->parent && 
 				handle->parent->isA(tr("Module")) &&

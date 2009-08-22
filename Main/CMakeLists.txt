@@ -36,6 +36,7 @@ IF( APPLE AND BUILD_BUNDLE )
       COMMAND mkdir ARGS -p
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
       COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib

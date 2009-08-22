@@ -1,6 +1,6 @@
 #import <Python.h>
 #include "API/Python/TC_py.h"
-//#include <dlfcn.h>
+#include "dlfcn.h"
 
 PyObject* main_dict;
 PyObject* dlfl_dict;
@@ -8,8 +8,8 @@ PyObject *errobj, *errdata, *errtraceback;
 
 void initialize()
 {
-	//dlopen("/usr/lib/libpython2.5.so", RTLD_LAZY | RTLD_GLOBAL);	
-	//Py_SetProgramName("Tinkercell");
+	dlopen("/usr/lib/libpython2.5.dylib", RTLD_LAZY | RTLD_GLOBAL);	
+	Py_SetProgramName("Tinkercell");
 	Py_Initialize();
 	
 	Py_InitModule("pytc", pytcMethods);

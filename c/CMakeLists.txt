@@ -47,15 +47,7 @@ ADD_LIBRARY( tabasco_like
 
 ADD_SUBDIRECTORY( lpsolve )
 
-ADD_LIBRARY( lpsolve
-  SHARED
-  lpsolve.c
-  #${LPSOLVE_SRC}
-  #${LPSOLVE_COLAMD_SRC}
-  #${LPSOLVE_BFP_SRC}
-  #${LPSOLVE_BFPLUSOL_SRC}
-  #${LUSOL_SRC}
-  #${LPSOLVE_SHARED_SRC}
+SET( LPSOLVE_SRC
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_MDO.c
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/commonlib.c
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/colamd.c
@@ -84,6 +76,17 @@ ADD_LIBRARY( lpsolve
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/yacc_read.c
 )
 
+ADD_LIBRARY( lpsolve
+  SHARED
+  lpsolve.c
+  ${LPSOLVE_SRC}
+  #${LPSOLVE_COLAMD_SRC}
+  #${LPSOLVE_BFP_SRC}
+  #${LPSOLVE_BFPLUSOL_SRC}
+  #${LUSOL_SRC}
+  #${LPSOLVE_SHARED_SRC}
+)
+
 SET_TARGET_PROPERTIES( lpsolve
   PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine")
 
@@ -96,3 +99,66 @@ TARGET_LINK_LIBRARIES( runpy
   runpy
   ${PYTHON_LIBRARY}
 )
+
+##
+## NOTE: what about reorganizing folder structure?
+##
+FILE( GLOB C_SRC "*.c" "*.h" )
+
+INSTALL( FILES C_SRC 
+  DESTINATION c
+  COMPONENTS sources
+)
+
+FILE( GLOB CVODE_HDRS "cvode/*.h" )
+
+INSTALL( FILES CVODE_HDRS
+  DESTINATION c/cvode
+  COMPONENTS sources
+)
+
+FILE( GLOB SUNDIALS_HDRS "sundials/*.h" )
+
+INSTALL( FILES SUNDIALS_HDRS
+  DESTINATION c/sundials
+  COMPONENTS sources
+)
+
+FILE( GLOB CVODE_SRC_CVODE_SRC 
+  "cvode_src/cvode/*.h"
+  "cvode_src/cvode/*.c" 
+)
+
+INSTALL( FILES CVODE_SRC_CVODE_SRC
+  DESTINATION c/cvode_src/cvode
+  COMPONENTS sources 
+)
+
+FILE( GLOB cvode_src_cvode_fmix 
+  "cvode_src/cvode/fmix/*.h" 
+  "cvode_src/cvode/fmix/*.c")
+
+INSTALL( FILES ${cvode_src_cvode_fmix} 
+  DESTINATION c/cvode_src/cvode/fmix
+  COMPONENTS sources
+)
+
+FILE( GLOB cvode_src_nvec_par 
+  "cvode_src/nvec_par/*.h" 
+  "cvode_src/nvec_par/*.c")
+
+INSTALL( FILES ${cvode_src_nvec_par} 
+  DESTINATION c/cvode_src/nvec_par 
+  COMPONENTS sources
+)
+
+FILE( GLOB cvode_src_sundials 
+  "cvode_src/sundials/*.h"
+  "cvode_src/sundials/*.c"
+)
+
+INSTALL( FILES ${cvode_src_sundials} 
+  DESTINATION c/cvode_src/sundials
+  COMPONENTS sources
+)
+

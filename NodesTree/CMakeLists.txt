@@ -41,9 +41,16 @@ INSTALL(TARGETS NodesTree
   COMPONENT Plugins
 )
 
-SET(XMLFILES NodesTree.xml ConnectionsTree.xml)
+FILE(GLOB NODESTREE_XML_FILES NodesTree.xml ConnectionsTree.xml)
 
-INSTALL( FILES ${XMLFILES}
+INSTALL( FILES ${NODESTREE_XML_FILES}
   DESTINATION NodesTree
+  COMPONENT NodesAndConnections
+)
+
+FILE( GLOB NODESTREE_ICON_FILES Icons/*.png Icons/*.PNG)
+
+INSTALL( FILES ${NODESTREE_ICON_FILES}
+  DESTINATION NodesTree/Icons
   COMPONENT NodesAndConnections
 )

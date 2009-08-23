@@ -207,3 +207,10 @@ INSTALL( FILES ${cvode_src_sundials}
   COMPONENT CVODE
 )
 
+FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG)
+
+INSTALL( FILES ${C_ICON_FILES}
+  DESTINATION Plugins/c
+  COMPONENT Plugins
+)
+

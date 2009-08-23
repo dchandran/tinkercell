@@ -192,6 +192,9 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( CInputWindows )
   ADD_SUBDIRECTORY( SegmentationAnimation )
   ADD_SUBDIRECTORY( SimpleDesigner )  
+  ADD_SUBDIRECTORY( bin )
+  ADD_SUBDIRECTORY( DB )
+  ADD_SUBDIRECTORY( py )
   
 #---------------------------------------------------------------------------
 # ANTIMONY editor

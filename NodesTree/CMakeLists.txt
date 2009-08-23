@@ -36,3 +36,9 @@ TARGET_LINK_LIBRARIES( NodesTree
   TinkerCellCore
   )
 
+SET(XMLFILES NodesTree.xml ConnectionsTree.xml)
+
+INSTALL( FILES ${XMLFILES}
+  DESTINATION NodesTree
+  COMPONENT "Nodes and Connections"
+)

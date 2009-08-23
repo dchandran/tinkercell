@@ -1,0 +1,3 @@
+INSTALL(FILES *.* DESTINATION win32)
+INSTALL(FILES "include/*.*" DESTINATION win32/include)
+INSTALL(FILES "lib/*.*" DESTINATION win32/lib)

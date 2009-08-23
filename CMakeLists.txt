@@ -196,6 +196,9 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( DB )
   ADD_SUBDIRECTORY( py )
   
+  FILE(GLOB TINKERCELL_COPYRIGHT_FILES COPYRIGHT.TXT)
+  INSTALL(FILES ${TINKERCELL_COPYRIGHT_FILES} DESTINATION .)
+  
 #---------------------------------------------------------------------------
 # ANTIMONY editor
 #---------------------------------------------------------------------------

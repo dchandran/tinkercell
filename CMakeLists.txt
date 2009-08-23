@@ -172,6 +172,11 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
 
+#
+#Deepak: TINKERCELL_BINARY_BIN_DIR does not seem to be working for me on Win32, 
+# so I am defining it here
+
+  SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
   
   ADD_SUBDIRECTORY( Main )	
   ADD_SUBDIRECTORY( Core )

@@ -109,7 +109,7 @@ FILE( GLOB C_SRC "*.c" "*.h" )
 
 INSTALL( FILES ${C_SRC}
   DESTINATION c
-  COMPONENT CVODE
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB CVODE_HDRS "cvode/*.h" )

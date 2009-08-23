@@ -107,31 +107,38 @@ ENDIF(PYTHONLIBS_FOUND)
 ##
 FILE( GLOB C_SRC "*.c" "*.h" )
 
-INSTALL( FILES C_SRC 
+INSTALL( FILES ${C_SRC}
   DESTINATION c
   COMPONENT CVODE
 )
 
 FILE( GLOB CVODE_HDRS "cvode/*.h" )
 
-INSTALL( FILES CVODE_HDRS
+INSTALL( FILES ${CVODE_HDRS}
   DESTINATION c/cvode
   COMPONENT "CVODE source"
 )
 
 FILE( GLOB SUNDIALS_HDRS "sundials/*.h" )
 
-INSTALL( FILES SUNDIALS_HDRS
+INSTALL( FILES ${SUNDIALS_HDRS}
   DESTINATION c/sundials
   COMPONENT "CVODE source"
 )
 
-FILE( GLOB CVODE_SRC_CVODE_SRC 
+FILE( GLOB NVECTOR_HDRS "nvector/*.h" )
+
+INSTALL( FILES ${NVECTOR_HDRS}
+  DESTINATION c/nvector
+  COMPONENT "CVODE source"
+)
+
+FILE( GLOB CVODE_SRC_CVODE_SRC
   "cvode_src/cvode/*.h"
   "cvode_src/cvode/*.c" 
 )
 
-INSTALL( FILES CVODE_SRC_CVODE_SRC
+INSTALL( FILES ${CVODE_SRC_CVODE_SRC}
   DESTINATION c/cvode_src/cvode
   COMPONENT "CVODE source"
 )
@@ -145,7 +152,7 @@ INSTALL( FILES ${cvode_src_cvode_fmix}
   COMPONENT "CVODE source"
 )
 
-FILE( GLOB cvode_src_nvec_par 
+FILE( GLOB cvode_src_nvec_par
   "cvode_src/nvec_par/*.h" 
   "cvode_src/nvec_par/*.c")
 

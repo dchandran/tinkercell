@@ -1,7 +1,9 @@
 #import <Python.h>
 #include "API/Python/TC_py.h"
 
-#ifndef Q_WS_WIN
+#cmakedefine CMAKE_WIN32
+
+#ifndef CMAKE_WIN32
 //NOTE: (arnaudgelas)
 //on Mac the following line must be uncommented
 #include "dlfcn.h"
@@ -17,7 +19,7 @@ void initialize()
 //  I have not tested yet on linux, but I guess it should work perfectly.
 //  On Mac (with python framework installed), I am quite surprised this is 
 //  working. Should validate first!!! 
-#ifndef Q_WS_WIN
+#ifndef CMAKE_WIN32
 	dlopen("@PYTHON_LIBRARIES@", RTLD_LAZY | RTLD_GLOBAL);	
 	Py_SetProgramName("Tinkercell");
 #endif

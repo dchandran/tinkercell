@@ -4,7 +4,8 @@
 
 ## NOTE: (arnaudgelas)
 # There is a special keyword for libraries...
-INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/*.*" 
+FILE(TINKERCELL_ALL_FILES_IN_BIN "${TINKERCELL_BINARY_BIN_DIR}/*.*")
+INSTALL(FILES ${TINKERCELL_ALL_FILES_IN_BIN}
   DESTINATION .
 )
 

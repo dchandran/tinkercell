@@ -41,6 +41,10 @@ TARGET_LINK_LIBRARIES( AboutBox
   TinkerCellCore
 )
 
+INSTALL(TARGETS AboutBox
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( InsertionTools_MOC 
   NodeInsertion.h 
   ConnectionInsertion.h 
@@ -64,6 +68,10 @@ TARGET_LINK_LIBRARIES( InsertionTools
   TinkerCellCore
 )
 
+INSTALL(TARGETS InsertionTools
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h)
 
 ADD_LIBRARY( LoadSaveTool 
@@ -77,6 +85,10 @@ ADD_LIBRARY( LoadSaveTool
 TARGET_LINK_LIBRARIES( LoadSaveTool
   LoadSaveTool
   TinkerCellCore
+)
+
+INSTALL(TARGETS LoadSaveTool
+  RUNTIME DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( ConnectionMaker_MOC 
@@ -98,6 +110,10 @@ TARGET_LINK_LIBRARIES( ConnectionMaker
   TinkerCellCore
 )
 
+INSTALL(TARGETS ConnectionMaker
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( SelectionTools_MOC 
   NodeSelection.h 
   ConnectionSelection.h 
@@ -117,6 +133,10 @@ ADD_LIBRARY( SelectionTools
 TARGET_LINK_LIBRARIES( SelectionTools
   SelectionTools
   TinkerCellCore
+)
+
+INSTALL(TARGETS SelectionTools
+  RUNTIME DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( VisualTools_MOC 
@@ -146,7 +166,11 @@ TARGET_LINK_LIBRARIES( VisualTools
   TinkerCellCore
 )
 
- QT4_WRAP_CPP( DataBasicTools_MOC 
+INSTALL(TARGETS VisualTools
+  RUNTIME DESTINATION Plugins
+)
+
+QT4_WRAP_CPP( DataBasicTools_MOC 
    SpinBoxDelegate.h 
    DefaultReactionRates.h 
    BasicInformationTool.h
@@ -177,4 +201,8 @@ TARGET_LINK_LIBRARIES( DataBasicTools
   DataBasicTools
   TinkerCellCore
   muparser
+)
+
+INSTALL(TARGETS DataBasicTools
+  RUNTIME DESTINATION Plugins
 )

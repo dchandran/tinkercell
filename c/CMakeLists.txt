@@ -6,50 +6,68 @@ ELSE( WIN32 AND NOT UNIX)
    OPTION( CMAKE_WIN32 "This is a Windows OS" OFF )
 ENDIF( WIN32 AND NOT UNIX)
 
-ADD_LIBRARY( langevin 
-  mtrand.c
-  langevin.c
+ADD_LIBRARY( runlangevin
+  SHARED
+  runlangevin.c
 )
+
+INSTALL(TARGETS runlangevin RUNTIME DESTINATION Plugins/c)
 
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c
 )
 
+INSTALL(TARGETS runsteadystate RUNTIME DESTINATION Plugins/c)
+
 ADD_LIBRARY( runcvode 
   SHARED
   runcvode.c
 )
+
+INSTALL(TARGETS runcvode RUNTIME DESTINATION Plugins/c)
 
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
+INSTALL(TARGETS runssa RUNTIME DESTINATION Plugins/c)
+
 ADD_LIBRARY( runloops 
   SHARED
   runLoops.c
 )
+
+INSTALL(TARGETS runloops RUNTIME DESTINATION Plugins/c)
 
 ADD_LIBRARY( loadFullBindingKinetics 
   SHARED
   loadFullBindingKinetics.c
 )
 
+INSTALL(TARGETS loadFullBindingKinetics RUNTIME DESTINATION Plugins/c)
+
 ADD_LIBRARY( runbistablega 
   SHARED
   runbistablega.c
 )
+
+INSTALL(TARGETS runbistablega RUNTIME DESTINATION Plugins/c)
 
 ADD_LIBRARY( runvaluesattime 
   SHARED
   runvaluesattime.c
 )
 
+INSTALL(TARGETS runvaluesattime RUNTIME DESTINATION Plugins/c)
+
 ADD_LIBRARY( tabasco_like 
   SHARED
   tabasco_like.c
 )
+
+INSTALL(TARGETS tabasco_like RUNTIME DESTINATION Plugins/c)
 
 ADD_SUBDIRECTORY( lpsolve )
 
@@ -93,6 +111,8 @@ ADD_LIBRARY( lpsolve
   #${LPSOLVE_SHARED_SRC}
 )
 
+INSTALL(TARGETS lpsolve RUNTIME DESTINATION Plugins/c)
+
 SET_TARGET_PROPERTIES( lpsolve
   PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine")
 
@@ -107,10 +127,14 @@ IF(PYTHONLIBS_FOUND)
   SHARED
   ${TINKERCELL_BINARY_DIR}/c/runpy.c 
   )
+  
   TARGET_LINK_LIBRARIES( runpy
     runpy
     ${PYTHON_LIBRARIES}
   )
+  
+  INSTALL(TARGETS runpy RUNTIME DESTINATION Plugins/c)
+  
 ENDIF(PYTHONLIBS_FOUND)
 
 

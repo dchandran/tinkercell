@@ -41,4 +41,7 @@ TARGET_LINK_LIBRARIES( DynamicCodeTools
   DynamicCodeTools
   TinkerCellCore
 )
-  
+
+INSTALL(TARGETS DynamicCodeTools
+  RUNTIME DESTINATION Plugins
+)

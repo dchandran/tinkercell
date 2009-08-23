@@ -97,18 +97,6 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 #  INSTALL Tinkercell executable and required files and folders
 #---------------------------------------------------------------------
 
-INSTALL(TARGETS Tinkercell RUNTIME DESTINATION . COMPONENT "TinkerCell")
-
-FILE( GLOB TINKERCELL_CPP_PLUGINS ${TINKERCELL_BINARY_BIN_DIR}/Plugins/*.*)
-
-FILE( GLOB TINKERCELL_C_PLUGINS ${TINKERCELL_BINARY_BIN_DIR}/Plugins/c/*.*)
-
-INSTALL(FILES ${TINKERCELL_CPP_PLUGINS} 
-  DESTINATION Plugins
-  COMPONENT "Plugins"
-)
-
-INSTALL(FILES ${TINKERCELL_C_PLUGINS} 
-  DESTINATION Plugins/c
-  COMPONENT "Plugins"
-)
+INSTALL(TARGETS Tinkercell 
+   RUNTIME DESTINATION .
+   COMPONENT "TinkerCell")

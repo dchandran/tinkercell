@@ -32,3 +32,7 @@ TARGET_LINK_LIBRARIES( LPSolveInput
   DynamicCodeTools
   TinkerCellCore
 )
+
+INSTALL(TARGETS LPSolveInput
+  RUNTIME DESTINATION Plugins
+)

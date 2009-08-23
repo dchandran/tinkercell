@@ -40,6 +40,8 @@ IF( APPLE AND BUILD_BUNDLE )
   TARGET_LINK_LIBRARIES( SimpleDesigner
     TinkerCellCore
   )
+  
+  INSTALL(TARGETS SimpleDesigner RUNTIME DESTINATION .)
 
   ADD_CUSTOM_COMMAND( TARGET SimpleDesigner POST_BUILD
       COMMAND mkdir ARGS -p

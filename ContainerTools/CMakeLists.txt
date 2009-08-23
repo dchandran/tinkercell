@@ -32,3 +32,7 @@ TARGET_LINK_LIBRARIES( ContainerTool
   ContainerTool
   TinkerCellCore
 )
+
+INSTALL(TARGETS ContainerTool
+  RUNTIME DESTINATION Plugins
+)

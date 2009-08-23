@@ -35,6 +35,10 @@ TARGET_LINK_LIBRARIES( ArrowSelection
   TinkerCellCore
 )
 
+INSTALL(TARGETS ArrowSelection
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h)
 
 ADD_LIBRARY( AutoGeneRegulatoryTool
@@ -47,6 +51,10 @@ ADD_LIBRARY( AutoGeneRegulatoryTool
 TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
   AutoGeneRegulatoryTool
   TinkerCellCore
+)
+
+INSTALL(TARGETS AutoGeneRegulatoryTool
+  RUNTIME DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h)
@@ -65,6 +73,10 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
   AutoGeneRegulatoryTool
 )
 
+INSTALL(TARGETS DNASequenceViewer
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
 
 ADD_LIBRARY( ModuleTool 
@@ -78,6 +90,10 @@ ADD_LIBRARY( ModuleTool
 TARGET_LINK_LIBRARIES( ModuleTool
   ModuleTool
   TinkerCellCore
+)
+
+INSTALL(TARGETS ModuleTool
+  RUNTIME DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
@@ -96,6 +112,10 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
   muparser
 )
 
+INSTALL(TARGETS SimulationEventTool
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
 
 ADD_LIBRARY( ViewTables
@@ -110,6 +130,10 @@ TARGET_LINK_LIBRARIES( ViewTables
   TinkerCellCore
 )
 
+INSTALL(TARGETS ViewTables
+  RUNTIME DESTINATION Plugins
+)
+
 QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h)
 
 ADD_LIBRARY( CellPositionUpdateTool
@@ -122,5 +146,9 @@ ADD_LIBRARY( CellPositionUpdateTool
 TARGET_LINK_LIBRARIES( CellPositionUpdateTool
   CellPositionUpdateTool
   TinkerCellCore 
+)
+
+INSTALL(TARGETS CellPositionUpdateTool
+  RUNTIME DESTINATION Plugins
 )
 

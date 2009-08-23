@@ -29,3 +29,7 @@ TARGET_LINK_LIBRARIES( AntimonyEditor
   DataBasicTools
   TinkerCellCore
 )
+
+INSTALL(TARGETS AntimonyEditor
+  RUNTIME DESTINATION Plugins
+)

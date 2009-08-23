@@ -90,15 +90,17 @@ ADD_LIBRARY( lpsolve
 SET_TARGET_PROPERTIES( lpsolve
   PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine")
 
-ADD_LIBRARY( runpy 
+IF(PYTHONLIBS_FOUND)
+  ADD_LIBRARY( runpy 
   SHARED
   runpy.c 
-)
+  )
+  TARGET_LINK_LIBRARIES( runpy
+    runpy
+    ${PYTHON_LIBRARY}
+  )
+ENDIF(PYTHONLIBS_FOUND)
 
-TARGET_LINK_LIBRARIES( runpy
-  runpy
-  ${PYTHON_LIBRARY}
-)
 
 ##
 ## NOTE: what about reorganizing folder structure?
@@ -107,21 +109,21 @@ FILE( GLOB C_SRC "*.c" "*.h" )
 
 INSTALL( FILES C_SRC 
   DESTINATION c
-  COMPONENT sources
+  COMPONENT CVODE
 )
 
 FILE( GLOB CVODE_HDRS "cvode/*.h" )
 
 INSTALL( FILES CVODE_HDRS
   DESTINATION c/cvode
-  COMPONENT sources
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB SUNDIALS_HDRS "sundials/*.h" )
 
 INSTALL( FILES SUNDIALS_HDRS
   DESTINATION c/sundials
-  COMPONENT sources
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB CVODE_SRC_CVODE_SRC 
@@ -131,7 +133,7 @@ FILE( GLOB CVODE_SRC_CVODE_SRC
 
 INSTALL( FILES CVODE_SRC_CVODE_SRC
   DESTINATION c/cvode_src/cvode
-  COMPONENT sources 
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB cvode_src_cvode_fmix 
@@ -140,7 +142,7 @@ FILE( GLOB cvode_src_cvode_fmix
 
 INSTALL( FILES ${cvode_src_cvode_fmix} 
   DESTINATION c/cvode_src/cvode/fmix
-  COMPONENT sources
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB cvode_src_nvec_par 
@@ -149,7 +151,7 @@ FILE( GLOB cvode_src_nvec_par
 
 INSTALL( FILES ${cvode_src_nvec_par} 
   DESTINATION c/cvode_src/nvec_par 
-  COMPONENT sources
+  COMPONENT "CVODE source"
 )
 
 FILE( GLOB cvode_src_sundials 
@@ -159,6 +161,6 @@ FILE( GLOB cvode_src_sundials
 
 INSTALL( FILES ${cvode_src_sundials} 
   DESTINATION c/cvode_src/sundials
-  COMPONENT sources
+  COMPONENT "CVODE source"
 )
 

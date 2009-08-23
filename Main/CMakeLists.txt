@@ -92,3 +92,49 @@ ELSE( APPLE AND BUILD_BUNDLE )
   ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
 
 ENDIF( APPLE AND BUILD_BUNDLE )
+
+#---------------------------------------------------------------------
+#  INSTALL Tinkercell executable and required files and folders
+#---------------------------------------------------------------------
+
+INSTALL(TARGETS Tinkercell RUNTIME DESTINATION . COMPONENT "TinkerCell")
+
+INSTALL(FILES "${TINKERCELL_BINARY_DIR}/bin/DB/Regulon/*.*" 
+  DESTINATION DB/Regulon
+  COMPONENT "RegulonDB database"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/NodeItems/*.*" 
+  DESTINATION NodeItems
+  COMPONENT "Graphics items"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/ArrowItems/*.*" 
+  DESTINATION ArrowItems
+  COMPONENT "Graphics items"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/OtherItems/*.*" 
+  DESTINATION OtherItems
+  COMPONENT "Graphics items"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/NodesTree/*.*" 
+  DESTINATION NodesTree
+  COMPONENT "Parts catalog"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/py/*.*" 
+  DESTINATION py
+  COMPONENT "Python scripts"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/Plugins/*.*" 
+  DESTINATION Plugins
+  COMPONENT "Plugins (C++)"
+)
+
+INSTALL(FILES "${TINKERCELL_BINARY_BIN_DIR}/Plugins/c/*.*" 
+  DESTINATION Plugins/c
+  COMPONENT "Plugins (C)"
+)

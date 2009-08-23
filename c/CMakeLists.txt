@@ -115,28 +115,28 @@ FILE( GLOB C_SRC "*.c" "*.h" )
 
 INSTALL( FILES ${C_SRC}
   DESTINATION c
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB CVODE_HDRS "cvode/*.h" )
 
 INSTALL( FILES ${CVODE_HDRS}
   DESTINATION c/cvode
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB SUNDIALS_HDRS "sundials/*.h" )
 
 INSTALL( FILES ${SUNDIALS_HDRS}
   DESTINATION c/sundials
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB NVECTOR_HDRS "nvector/*.h" )
 
 INSTALL( FILES ${NVECTOR_HDRS}
   DESTINATION c/nvector
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB CVODE_SRC_CVODE_SRC
@@ -146,7 +146,7 @@ FILE( GLOB CVODE_SRC_CVODE_SRC
 
 INSTALL( FILES ${CVODE_SRC_CVODE_SRC}
   DESTINATION c/cvode_src/cvode
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB cvode_src_cvode_fmix 
@@ -155,7 +155,7 @@ FILE( GLOB cvode_src_cvode_fmix
 
 INSTALL( FILES ${cvode_src_cvode_fmix} 
   DESTINATION c/cvode_src/cvode/fmix
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB cvode_src_nvec_par
@@ -164,7 +164,7 @@ FILE( GLOB cvode_src_nvec_par
 
 INSTALL( FILES ${cvode_src_nvec_par} 
   DESTINATION c/cvode_src/nvec_par 
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 
 FILE( GLOB cvode_src_sundials 
@@ -174,6 +174,6 @@ FILE( GLOB cvode_src_sundials
 
 INSTALL( FILES ${cvode_src_sundials} 
   DESTINATION c/cvode_src/sundials
-  COMPONENT "CVODE source"
+  COMPONENT CVODE
 )
 

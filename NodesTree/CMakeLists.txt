@@ -40,5 +40,5 @@ SET(XMLFILES NodesTree.xml ConnectionsTree.xml)
 
 INSTALL( FILES ${XMLFILES}
   DESTINATION NodesTree
-  COMPONENT "Nodes and Connections"
+  COMPONENT NodesAndConnections
 )

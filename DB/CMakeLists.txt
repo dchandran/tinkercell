@@ -2,5 +2,5 @@ FILE(GLOB REGULONDB_FILES Regulon/*.txt Regulon/*.TXT Regulon/*.py)
 
 INSTALL(FILES ${REGULONDB_FILES} 
   DESTINATION DB/Regulon
-  COMPONENT "RegulonDB"
+  COMPONENT RegulonDB
 )

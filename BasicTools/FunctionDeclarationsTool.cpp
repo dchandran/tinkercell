@@ -419,6 +419,7 @@ namespace Tinkercell
 			table.resize(0,1);
 
 			table.colName(0) = QString("rule");
+			table.description() = tr("Assignments: A set of forcing functions. Row names correspond to the function name, and first column will contain the function string.");
 
 			handle->data->textData.insert(tr("Assignments"),table);
 		}
@@ -430,6 +431,7 @@ namespace Tinkercell
 
 			table.colName(0) = QString("args");
 			table.colName(1) = QString("defn");
+			table.description() = tr("Functions: A set of function definitions. First column contains the list of arguments, and second column contains the function strings. Row names correspond to the function names.");
 
 			handle->data->textData.insert(tr("Functions"),table);
 		}

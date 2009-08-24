@@ -57,7 +57,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
-		
+		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
 	}
 
 	void AutoGeneRegulatoryTool::autoPhosphateTriggered()
@@ -1843,7 +1843,7 @@ namespace Tinkercell
 	            C API
 	******************************************/
 	
-	typedef void (*tc_GRN_api) (Array (*f1)(OBJ), Array (*f2)(OBJ), Array (*f3)(OBJ) );
+	typedef void (*tc_GRN_api) (Array (*f1)(OBJ), Array (*f2)(OBJ), Array (*f3)(OBJ), void (*f4)(Array) );
 	
 	void AutoGeneRegulatoryTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -1854,9 +1854,46 @@ namespace Tinkercell
 				&(_partsIn),
 				&(_partsUpstream),
 				&(_partsDownstream)
+				&(_alignParts)
 			);
 		}
 	}
+	
+	void AutoGeneRegulatoryTool::alignParts(QSemaphore * s, const QList<ItemHandle*>& items)
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene)
+		{
+			scene->selected().clear();
+			
+			QList<QGraphicsItem*> selected;
+			for (int i=0; i < items.size(); ++i)
+				if (NodeItem::asNode(items[i]))
+					selected << items[i]->graphicsItems;
+			
+			scene->select(selected);
+			emit alignCompactHorizontal();
+		}
+		if (s) 
+			s->release()
+	}
+	
+	void AutoGeneRegulatoryTool::_alignParts(Array A)
+    {
+        fToS.alignParts(A);
+    }
+
+    Array AutoGeneRegulatoryTool_FtoS::alignParts(Array A)
+    {
+        QList<ItemHandle*> * list = ConvertValue(A);
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit alignParts(s,*list);
+		s->acquire();
+		s->release();
+		delete s;
+		delete list;
+    }
 	
 	void AutoGeneRegulatoryTool::partsIn(QSemaphore * s, ItemHandle* h,  QList<ItemHandle*>* parts)
 	{

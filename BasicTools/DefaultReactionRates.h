@@ -167,6 +167,9 @@ namespace Tinkercell
 						stoichiometryMatrix.colName(i) = names[i];
 					}
 				}
+				
+				stoichiometryMatrix.description() = tr("Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same.");
+				rates.description() = tr("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
 				handle->data->numericalData.insert(QString("Stoichiometry"),stoichiometryMatrix);
 				handle->data->textData.insert(QString("Rates"),rates);

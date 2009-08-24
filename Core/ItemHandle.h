@@ -203,7 +203,14 @@ namespace Tinkercell
 		\param QString column name data table
 		\return QString& reference value*/
 		virtual QString& textData(const QString& name, const QString& row, const QString& column);
-		
+		/*! \brief gets reference to a numerical table with the given name. Makes the table if needed
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\return DataTable<double>& reference of table*/
+		virtual DataTable<qreal>& numericalDataTable(const QString& name);
+		/*! \brief gets reference to a text table with the given name. Makes the table if needed
+		\param QString name of tool, e.g. "Numerical Attributes"
+		\return DataTable<QString>& reference of table*/
+		virtual DataTable<QString>& textDataTable(const QString& name);
 	};
 
 	/*! \brief 

@@ -41,11 +41,13 @@ namespace Tinkercell
 			void partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 			void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 			void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
+			void alignParts(QSemaphore*,const QList<ItemHandle*>&);
 			
 		public slots:
 			Array partsIn(OBJ);
 			Array partsUpstream(OBJ);
 			Array partsDownstream(OBJ);
+			void alignParts(Array);
 	};
 
 
@@ -86,6 +88,7 @@ namespace Tinkercell
 		void partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
+		void alignParts(QSemaphore*,const QList<ItemHandle*>&);
 	
 	private:
 		QTimeLine glowTimer;
@@ -103,6 +106,8 @@ namespace Tinkercell
 		static Array _partsIn(OBJ);
 		static Array _partsUpstream(OBJ);
 		static Array _partsDownstream(OBJ);
+		static void _alignParts(Array);
+		
 		static AutoGeneRegulatoryTool_FtoS fToS;
 		
 	public:

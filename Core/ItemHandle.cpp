@@ -395,6 +395,30 @@ namespace Tinkercell
 		
 		return data->textData[name].value(row,column);		
 	}
+	
+	DataTable<qreal>& ItemHandle::numericalDataTable(const QString& name)
+	{
+		if (!data) data = new ItemData;
+		
+		if (!data->numericalData.contains(name))
+		{
+			data->numericalData[name] = DataTable<qreal>();
+		}
+		
+		return data->numericalData[name];	
+	}
+	
+	DataTable<QString>& ItemHandle::textDataTable(const QString& name)
+	{
+		if (!data) data = new ItemData;
+		
+		if (!data->textData.contains(name))
+		{
+			data->textData[name] = DataTable<QString>();
+		}
+		
+		return data->textData[name];	
+	}
 
 	QList<ItemHandle*> ItemHandle::allChildren() const
 	{

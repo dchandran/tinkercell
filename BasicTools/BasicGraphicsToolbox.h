@@ -46,17 +46,18 @@ namespace Tinkercell
 	class BasicGraphicsToolbox_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+		
+	signals:
 		void getColorR(QSemaphore*,int*,ItemHandle*);
 		void getColorG(QSemaphore*,int*,ItemHandle*);
 		void getColorB(QSemaphore*,int*,ItemHandle*);
 		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
 
-		public slots:
-			int getColorR(OBJ);
-			int getColorG(OBJ);
-			int getColorB(OBJ);
-			void setColor(OBJ,int,int,int,int);
+	public slots:
+		int getColorR(OBJ);
+		int getColorG(OBJ);
+		int getColorB(OBJ);
+		void setColor(OBJ,int,int,int,int);
 	};
 
 	class BasicGraphicsToolbox : public Tool

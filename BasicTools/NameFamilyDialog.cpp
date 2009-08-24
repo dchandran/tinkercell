@@ -141,6 +141,8 @@ namespace Tinkercell
 					data.setRowNames( QStringList() << tr("author") << tr("date") << tr("description") << tr("uri") << tr("reference") );
 					for (int j=0; j < 5; ++j)
 						data.value(j,0) = data.rowName(j);
+						
+					data.description() = tr("Annotation: A set of fields and text values. The fields, such as author or date, are the row names. First column contains values.");
 
 					handles[i]->data->textData[tr("Annotation")] = data;
 				}

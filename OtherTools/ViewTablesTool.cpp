@@ -299,10 +299,24 @@ namespace Tinkercell
 		textEdit->clear();
 		
 		QStringList list = itemHandle->data->numericalData.keys();
-		numericalTables.addItems(list);
+		
+		QListWidgetItem * newItem;
+		for (int i=0; i < list.size(); ++i)
+		{
+			newItem = new QListWidgetItem;
+			newItem->setText(list[i]);
+			newItem->setToolTip(itemHandle->data->numericalData[ list[i] ].description());
+			numericalTables.addItems(newItem);
+		}
 		
 		list = itemHandle->data->textData.keys();
-		textTables.addItems(list);
+		for (int i=0; i < list.size(); ++i)
+		{
+			newItem = new QListWidgetItem;
+			newItem->setText(list[i]);
+			newItem->setToolTip(itemHandle->data->textData[ list[i] ].description());
+			textTables.addItems(newItem);
+		}
 	}
 	
 }

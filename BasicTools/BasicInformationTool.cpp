@@ -602,7 +602,8 @@ namespace Tinkercell
 			initialValues.rowName(0) = family->measurementUnit.first;
 			initialValues.colName(0) = family->measurementUnit.second;
 			initialValues.value(0,0) = 1.0;
-
+			initialValues.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
+			
 			handle->data->numericalData.insert(QString("Initial Value"),initialValues);
 		}
 
@@ -614,6 +615,7 @@ namespace Tinkercell
 			fixed.rowName(0) = QString("fix");
 			fixed.colName(0) = QString("value");
 			fixed.value(0,0) = 0.0;
+			fixed.description() = tr("Fixed: stores 1 if this is a fixed variable, 0 otherwise");
 
 			handle->data->numericalData.insert(QString("Fixed"),fixed);
 		}
@@ -623,6 +625,7 @@ namespace Tinkercell
 			QList<QString> nKeys = family->numericalAttributes.keys();
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),1);
+			numericalAttributes.textAttributes.description() = tr("Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
 
 			for (int i=0; i < numericalAttributes.rows() && i < nKeys.size(); ++i)
 			{
@@ -638,6 +641,7 @@ namespace Tinkercell
 		{
 			QList<QString> sKeys = family->textAttributes.keys();
 			DataTable<QString> textAttributes;
+			textAttributes.description() = tr("Text Attributes: an Nx1 table storing all the string attributes for this item. Row names are the attribute names, and first column holds the values.");
 			textAttributes.resize(sKeys.size(),1);
 
 			for (int i=0; i < textAttributes.rows() && i < sKeys.size(); ++i)

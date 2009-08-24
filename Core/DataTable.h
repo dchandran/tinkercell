@@ -35,9 +35,16 @@ namespace Tinkercell
 		QVector<QString> colHeaders;
 		/*! \brief the row names*/
 		QVector<QString> rowHeaders;
+		/*! \brief a description of this table (optional)*/
+		QString desc;
 	public:
-		/*! \brief destructor*/
-		virtual ~DataTable<T>() { }
+	
+		/*! \brief get description of this table*/		
+		virtual QString description() const { return desc; }
+		
+		/*! \brief get or set description of this table*/
+		virtual QString& description() { return desc; }
+		
 		/*! \brief get the column names
 		\return QVector reference to the actural column names
 		*/

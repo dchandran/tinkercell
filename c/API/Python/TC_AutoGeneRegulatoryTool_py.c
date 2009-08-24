@@ -104,3 +104,29 @@ static PyObject * pytc_partsDownstream(PyObject *self, PyObject *args)
 	
 	return pylist;
 }
+
+static PyObject * pytc_alignParts(PyObject *self, PyObject *args)
+{
+	PyObject * pylist;
+	
+	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_alignParts == 0))
+		return NULL;
+    
+	int isList = PyList_Check(pylist);
+	int N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	
+	void ** array = malloc( (1+N) * sizeof(void*) );
+	array[N] = 0;
+	
+	int i;
+    for(i=0; i<N; ++i ) 
+    { 
+		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+    }
+	
+ 	tc_alignParts(array);
+	free(array);
+	
+	Py_INCREF(Py_None);
+    return Py_None;
+}

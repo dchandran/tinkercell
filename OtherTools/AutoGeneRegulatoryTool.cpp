@@ -1853,7 +1853,7 @@ namespace Tinkercell
 			f(
 				&(_partsIn),
 				&(_partsUpstream),
-				&(_partsDownstream)
+				&(_partsDownstream),
 				&(_alignParts)
 			);
 		}
@@ -1867,15 +1867,31 @@ namespace Tinkercell
 			scene->selected().clear();
 			
 			QList<QGraphicsItem*> selected;
+			
+			QPointF p;
+			
 			for (int i=0; i < items.size(); ++i)
-				if (NodeItem::asNode(items[i]))
-					selected << items[i]->graphicsItems;
+				if (NodeHandle::asNode(items[i]))
+				{
+					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
+						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
+						{
+							if (selected.isEmpty())
+								p = items[i]->graphicsItems[j]->scenePos();							
+							else								
+								items[i]->graphicsItems[j]->setPos(p);
+							
+							p.rx() += items[i]->graphicsItems[j]->sceneBoundingRect().width();
+							
+							selected << items[i]->graphicsItems[j];
+						}
+				}
 			
 			scene->select(selected);
 			emit alignCompactHorizontal();
 		}
 		if (s) 
-			s->release()
+			s->release();
 	}
 	
 	void AutoGeneRegulatoryTool::_alignParts(Array A)
@@ -1883,7 +1899,7 @@ namespace Tinkercell
         fToS.alignParts(A);
     }
 
-    Array AutoGeneRegulatoryTool_FtoS::alignParts(Array A)
+    void AutoGeneRegulatoryTool_FtoS::alignParts(Array A)
     {
         QList<ItemHandle*> * list = ConvertValue(A);
 		QSemaphore * s = new QSemaphore(1);

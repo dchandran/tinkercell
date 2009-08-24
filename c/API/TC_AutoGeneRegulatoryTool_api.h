@@ -22,7 +22,7 @@ Array (*tc_partsDownstream)(OBJ) = 0;
  \brief Align the given DNA parts in the order given
  \ingroup Get items
 */
-void (*_alignParts)(Array) = 0;
+void (*tc_alignParts)(Array) = 0;
 /*! 
  \brief initialize grouping
  \ingroup init
@@ -34,7 +34,7 @@ void tc_AutoGeneRegulatoryTool_api(
 	tc_partsIn = f1;
 	tc_partsUpstream = f2;
 	tc_partsDownstream = f3;
-	_alignParts = f4;
+	tc_alignParts = f4;
 }
 
 #endif

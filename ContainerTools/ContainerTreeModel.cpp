@@ -321,6 +321,7 @@ namespace Tinkercell
 			if (handle && handle->family())
 			{
 				QPixmap pixmap = handle->family()->pixmap;
+				if (pixmap.isNull()) return QVariant();
 				int h = 15;
 				int w = 15 * pixmap.width()/pixmap.height();
 				if (w > 25) w = 25;

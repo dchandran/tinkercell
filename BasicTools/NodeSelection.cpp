@@ -532,27 +532,52 @@ namespace Tinkercell
 			children << h << h->allChildren();
 		}
 		
-		QGraphicsItem * gitem = 0;
-
+		NodeGraphicsItem * node = 0;
+		ConnectionGraphicsItem * conn = 0;
+		TextGraphicsItem* text = 0;
+		
 		QList<QGraphicsItem*> items = scene->items(rect);
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			gitem = getGraphicsItem(items[i]);
-			h = getHandle(gitem);
-			if (gitem && !list.contains(gitem) && (!h || children.contains(h)))
+			node = 0;
+			conn = 0;
+			text = 0;
+			
+			node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+			if (node)
 			{
-				list += gitem;
+				if (!node->handle() || !children.contains(node->handle()) || node->parentItem()) 
+					continue;
 			}
+			else			
+				conn = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+			
+			if (conn && (conn->parentItem() || (conn->handle() && !children.contains(conn->handle())))) 
+				continue;
+			else			
+				text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+				
+			if (text && (text->parentItem() || (text->handle() && !children.contains(text->handle()))))
+				continue;
+			
+			if (node && !list.contains(node))
+				list += node;
+			else
+				if (conn && !list.contains(conn))
+					list += conn;
+				else
+					if (text && !list.contains(text))
+						list += text;
 		}
 		
-		NodeGraphicsItem* node;
+		node = 0;
 
 		for (int i=0; i < list.size(); ++i)
 			if (!scene->moving().contains(list[i]))
 			{
 				scene->moving() += list[i];
-				if (node = qgraphicsitem_cast<NodeGraphicsItem*>(list[i]))
+				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(list[i])))
 				{
 					for (int j=0; j < node->boundaryControlPoints.size(); ++j)
 						scene->moving() += node->boundaryControlPoints[j];
@@ -593,11 +618,12 @@ namespace Tinkercell
 					}
 
 					//light-highlight on items of the same handle
-					if (ptr->itemHandle)
+					if (ptr->handle())
 					{
+						ItemHandle * ptrh = ptr->handle();
 						subPtr = 0;
-						for (int j=0; j < ptr->itemHandle->graphicsItems.size(); ++j)
-							if ((subPtr = qgraphicsitem_cast<NodeGraphicsItem*>(ptr->itemHandle->graphicsItems[j]))
+						for (int j=0; j < ptrh ->graphicsItems.size(); ++j)
+							if ((subPtr = qgraphicsitem_cast<NodeGraphicsItem*>(ptrh ->graphicsItems[j]))
 								&& (subPtr != ptr)
 								&& !selectedNodes.contains(subPtr)
 								&& !selectedHandleNodes.contains(subPtr))
@@ -607,7 +633,7 @@ namespace Tinkercell
 							selectedHandleNodes.removeAll(ptr);
 
 						if (!(modifiers & Qt::ControlModifier))
-							selectNearByItems(scene,ptr->itemHandle,ptr,20.0);
+							selectNearByItems(scene,ptrh,ptr,20.0);
 					}
 					else
 					{

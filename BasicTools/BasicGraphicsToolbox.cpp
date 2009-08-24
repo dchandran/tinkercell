@@ -841,7 +841,7 @@ namespace Tinkercell
 		{
 			QPointF lastPoint = scene->lastPoint();
 			
-			QPointF change = QPointF(lastPoint.x()-lastPoint.x(),lastPoint.y()-lastPoint.y());
+			QPointF change = QPointF(point.x()-lastPoint.x(),point.y()-lastPoint.y());
 			
 			if ((change.x()*change.x() + change.y()*change.y()) > GraphicsScene::MIN_DRAG_DISTANCE)
 			{
@@ -855,8 +855,10 @@ namespace Tinkercell
 					zoomRect.setBrush(Qt::NoBrush);
 				}
 
-				if (!zoomRect.isVisible()) 
+				if (!zoomRect.isVisible())
+				{
 					zoomRect.setVisible(true);
+				}
 
 				zoomRect.setRect( QRectF(lastPoint, point ));
 			}

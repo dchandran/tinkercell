@@ -167,7 +167,7 @@ namespace Tinkercell
 		{
 			if (!handle->data) handle->data = new ItemData;
 			QXmlStreamAttributes vec = attributes();
-			QString name;
+			QString name, desc;
 			QStringList rownames, colnames, values;
 			int rows = 0, cols = 0;
 			bool ok;
@@ -207,6 +207,11 @@ namespace Tinkercell
 									{
 										values = vec.at(i).value().toString().split(sep);
 									}
+									else
+										if (handle && vec.at(i).name().toString() == QObject::tr("desc"))
+										{
+											desc = vec.at(i).value().toString();
+										}
 			}
 
 			if (!name.isEmpty() && colnames.size() >= cols && rownames.size() >= rows && values.size() >= rows*cols)
@@ -229,6 +234,7 @@ namespace Tinkercell
 						++k;
 					}
 				}
+				data.description() = desc;
 				handle->data->numericalData[name] = data;
 			}
 		}

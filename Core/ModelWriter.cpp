@@ -185,6 +185,7 @@ namespace Tinkercell
 		writer->writeAttribute("cols",QString::number(table.cols()));
 		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
+		writer->writeAttribute("desc",table.description());
 
 		QStringList values;
 

@@ -529,7 +529,7 @@ namespace Tinkercell
 		QList<ItemHandle*> children;
 		if (h)
 		{
-			children << h << h->allChildren();
+			children << h << h->visibleChildren();
 		}
 		
 		NodeGraphicsItem * node = 0;

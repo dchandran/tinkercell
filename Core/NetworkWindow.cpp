@@ -268,7 +268,7 @@ namespace Tinkercell
 				handle = getHandle(selected[i]);
 				if (handle && !hash.contains(handle))
 				{
-					QList<ItemHandle*> children = handle->allChildren();
+					QList<ItemHandle*> children = handle->visibleChildren();
 					
 					handles << handle;
 					hash.insert(handle,1);

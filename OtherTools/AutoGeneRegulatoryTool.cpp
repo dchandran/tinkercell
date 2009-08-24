@@ -1917,7 +1917,7 @@ namespace Tinkercell
 		if (parts && scene && h)
 		{
 			qreal y = -1.0;
-			QList<ItemHandle*> allChildren = h->allChildren();
+			QList<ItemHandle*> allChildren = h->visibleChildren();
 			NodeGraphicsItem * node = 0; 
 			NodeGraphicsItem * topmost = 0;
 			for (int i=0; i < allChildren.size(); ++i)

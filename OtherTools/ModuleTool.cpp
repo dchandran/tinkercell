@@ -801,7 +801,7 @@ namespace Tinkercell
 				ConsoleWindow::message(newHandle->name);
 				
 				QList<ItemHandle*> affectedHandles;
-				affectedHandles << module2 << module2->allChildren();
+				affectedHandles << module << module2 << module->visibleChildren() << module2->visibleChildren();
 				
 				commands 	<< new AssignHandleCommand(tr("assign handle"),items,newHandle)
 							<< new RenameCommand(tr("name changed"),affectedHandles,newHandle->fullName(),module2->fullName()+tr(".")+newHandle->name)

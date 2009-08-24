@@ -754,6 +754,7 @@ namespace Tinkercell
 				
 				if (!handle1 || handle1 != handle2 || handle1->children.size() != 1) return;
 				
+				ItemHandle * oldHandle = handle1;
 				ItemHandle * newHandle = handle1->children[0];
 				
 				if (!newHandle) return;
@@ -804,7 +805,7 @@ namespace Tinkercell
 				affectedHandles << module << module2 << module->visibleChildren() << module2->visibleChildren();
 				
 				commands 	<< new AssignHandleCommand(tr("assign handle"),items,newHandle)
-							<< new RenameCommand(tr("name changed"),affectedHandles,newHandle->fullName(),module2->fullName()+tr(".")+newHandle->name)
+							<< new RenameCommand(tr("name changed"),affectedHandles,oldHandle->fullName(),module2->fullName()+tr(".")+newHandle->name)
 							<< new SetHandleVisibilityCommand(tr("set visible"), newHandle, true)
 							<< new SetParentHandleCommand(tr("set parent"),0, newHandle, module2)
 				;

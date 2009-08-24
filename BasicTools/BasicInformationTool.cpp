@@ -625,7 +625,7 @@ namespace Tinkercell
 			QList<QString> nKeys = family->numericalAttributes.keys();
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),1);
-			numericalAttributes.textAttributes.description() = tr("Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
+			numericalAttributes.description() = tr("Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
 
 			for (int i=0; i < numericalAttributes.rows() && i < nKeys.size(); ++i)
 			{

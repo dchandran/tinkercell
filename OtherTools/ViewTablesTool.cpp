@@ -306,7 +306,7 @@ namespace Tinkercell
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
 			newItem->setToolTip(itemHandle->data->numericalData[ list[i] ].description());
-			numericalTables.addItems(newItem);
+			numericalTables.addItem(newItem);
 		}
 		
 		list = itemHandle->data->textData.keys();
@@ -315,7 +315,7 @@ namespace Tinkercell
 			newItem = new QListWidgetItem;
 			newItem->setText(list[i]);
 			newItem->setToolTip(itemHandle->data->textData[ list[i] ].description());
-			textTables.addItems(newItem);
+			textTables.addItem(newItem);
 		}
 	}
 	

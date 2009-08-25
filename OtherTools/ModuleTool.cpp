@@ -763,23 +763,22 @@ namespace Tinkercell
 				
 				ItemHandle * module = handle1->parentOfFamily(tr("Module"));
 				
-				if (!module) return;
-				
 				ItemHandle * module2 = 0;
 				
 				for (int j=0; j < handle1->graphicsItems.size(); ++j)
 					if (handle1->graphicsItems[j])
 					{
 						bool hits = false;
-						for (int k=0; k < module->graphicsItems.size(); ++k)
-							if (qgraphicsitem_cast<NodeGraphicsItem*>(module->graphicsItems[k]) 
-								&&
-								module->graphicsItems[k]->sceneBoundingRect().intersects(
-									handle1->graphicsItems[j]->sceneBoundingRect()))
-								{
-									hits = true;
-									break;
-								}
+						if (module)
+							for (int k=0; k < module->graphicsItems.size(); ++k)
+								if (qgraphicsitem_cast<NodeGraphicsItem*>(module->graphicsItems[k]) 
+									&&
+									module->graphicsItems[k]->sceneBoundingRect().intersects(
+										handle1->graphicsItems[j]->sceneBoundingRect()))
+									{
+										hits = true;
+										break;
+									}
 						if (!hits && !items.contains(handle1->graphicsItems[j]))
 						{
 							items << handle1->graphicsItems[j];
@@ -802,7 +801,10 @@ namespace Tinkercell
 				ConsoleWindow::message(newHandle->name);
 				
 				QList<ItemHandle*> affectedHandles;
-				affectedHandles << module << module2 << module->visibleChildren() << module2->visibleChildren();
+				if (module)
+					affectedHandles << module << module->visibleChildren() << module2 << module2->visibleChildren();
+				else
+					affectedHandles << scene->allHandles();
 				
 				commands 	<< new AssignHandleCommand(tr("assign handle"),items,newHandle)
 							<< new RenameCommand(tr("name changed"),affectedHandles,oldHandle->fullName(),module2->fullName()+tr(".")+newHandle->name)

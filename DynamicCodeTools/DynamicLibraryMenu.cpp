@@ -478,7 +478,7 @@ namespace Tinkercell
 
             QStringList list = list0;
             bool ok;
-            QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
+            QRegExp regex(QString("([A-Za-z])_([A-Za-z0-9])"));
 			
 			int index = list.indexOf(init);
 			if (index < 0) index = 0;
@@ -489,9 +489,9 @@ namespace Tinkercell
             if (option == 0 && !list0.isEmpty())
             {
                 getStringListLabel.setText(name);
-                getStringListText = list0;
+                getStringListText = list;
                 getStringList.clear();
-                getStringList.addItems(list0);
+                getStringList.addItems(list);
                 getStringList.setCurrentRow(index);
                 getStringDialog->exec();
                 (*p) = getStringListNumber;

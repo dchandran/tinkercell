@@ -342,9 +342,11 @@ void run2D(Matrix input)
    
    allNames[(len+params.rows)] = 0;   
    
-   index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0);   
-   index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
-   index3 = tc_getFromList("Select Target",names,target_var,0);
+   index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0); 
+   if (index1 >= 0)
+      index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
+   if (index1 >= 0 && index2 >= 0)
+      index3 = tc_getFromList("Select Target",names,target_var,0);
    
    TCFreeArray(A);   
    

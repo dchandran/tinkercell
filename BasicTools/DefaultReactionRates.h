@@ -176,12 +176,13 @@ namespace Tinkercell
 
 				if (isBinding)
 					ConsoleWindow::message( QString("Note: binding connections are composed of two reactions; use the stoichiometry tool to view this.") );
-				else
+				/*else
 					if (isGRN)
 						ConsoleWindow::message( QString("Note: the default regulatory reactions do not have any associated kinetics") );
 					else
 						if (isElongation)
 							ConsoleWindow::message( QString("Note: the default elongation reactions do not have any associated kinetics.") );
+				*/
 		}
 	};
 }

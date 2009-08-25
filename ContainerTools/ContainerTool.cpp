@@ -725,7 +725,7 @@ namespace Tinkercell
 		for (int i=0; i < movedChildNodes.size(); ++i)
 		{
 			child = movedChildNodes[i];
-            outOfBox = true;
+            outOfBox = !child->parent->graphicsItems.isEmpty();
 			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
 			{
 				for (int k=0; k < child->graphicsItems.size(); ++k)

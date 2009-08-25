@@ -168,6 +168,5 @@ static PyMethodDef pytcMethods[] = {
 	{"partsUpstream", pytc_partsUpstream, METH_VARARGS, "get all the DNA parts upstream of this part. example: a = find(\"A\"); A = partsUpstream(a); prints getNames(A);"},
 	{"partsDownstream", pytc_partsDownstream, METH_VARARGS, "get all the DNA parts downstream of this part. example: a = find(\"A\"); A = partsDownstream(a); prints getNames(A);"},
 	{"alignParts",pytc_alignParts,METH_VARARGS,"align the given DNA parts in order. example: a = find(\"A\"); b = find(\"B\"); alignParts( [a,b] );"},
-	
 	{NULL, NULL, 0, NULL}
 };

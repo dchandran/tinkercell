@@ -2332,17 +2332,27 @@ namespace Tinkercell
 			
 			bool alreadySelected = true;
 			for (int i=0; i < handle->graphicsItems.size(); ++i)
-				if (!selectedItems.contains(handle->graphicsItems[i]))
+				if (handle->graphicsItems[i])
 				{
-					alreadySelected = false;
-					break;
-				}
-				if (!alreadySelected)
-				{
-					selectedItems.clear();
-					selectedItems = handle->graphicsItems;
-					emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
-					return;
+					if (!selectedItems.contains(handle->graphicsItems[i]))
+					{
+						alreadySelected = false;
+						break;
+					}
+					if (!alreadySelected)
+					{
+						selectedItems.clear();
+						selectedItems = handle->graphicsItems;
+						QPointF p(0,0);
+						for (int j=0; j < handle->graphicsItems.size(); ++j)
+							p += handle->graphicsItems[j]->scenePos();
+						
+						p /= handle->graphicsItems.size();
+						centerOn(p);
+						
+						emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
+						return;
+					}
 				}
 		}
 

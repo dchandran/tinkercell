@@ -75,6 +75,8 @@ void run(Matrix input)
    int xaxis = 0;
    int selection = 0;
    int rateplot = 0;
+   int sz = 0, k = 0;
+   char* cmd;
       
    if (input.cols > 0)
    {
@@ -88,7 +90,7 @@ void run(Matrix input)
 	     rateplot = (int)valueAt(input,3,0);	     
    }
    
-   int sz = (int)((end - start) / dt);
+   sz = (int)((end - start) / dt);
    
    Array A;
    if (selection > 0)
@@ -110,7 +112,7 @@ void run(Matrix input)
    
    if (A[0] != 0)
    {
-	   int k = tc_writeModel( "ode", A );
+	   k = tc_writeModel( "ode", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -209,7 +211,7 @@ void run() \n\
    return;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
    fclose(out);
    
-   char* cmd = malloc(50 * sizeof(char));
+   cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {

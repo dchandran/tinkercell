@@ -1,10 +1,8 @@
+#include <stdio.h>
+#include <time.h>
+
 #ifndef MT_RAND_NUM_GEN
 #define MT_RAND_NUM_GEN
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
 
 #define NN 312
 #define MM 156

@@ -9,6 +9,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
   REAL * obj;
   REAL * soln;
   OBJ o;
+  double max = 0.0;
   
   /***get the stoichiometry matrix**
   
@@ -144,7 +145,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
   output.colnames = malloc((input.cols-2)*sizeof(char*));
   output.values = malloc((input.cols-2) * sizeof(double));
   
-  double max = 0.0;
+  
   
   for (i=0; i < (input.cols-2); ++i)
      if (max < soln[input.rows+i])

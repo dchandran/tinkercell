@@ -36,7 +36,11 @@ int run2(Matrix input)
    double dt = 0.1;
    int xaxis = 0;
    int selection = 0;
-      
+   int sz, k;
+   char* appDir, cmd;
+   FILE * out;
+   Array A;
+   
    if (input.cols > 0)
    {
       if (input.rows > 0)
@@ -49,9 +53,8 @@ int run2(Matrix input)
 	     xaxis = (int)valueAt(input,3,0);	     
    }
    
-   int sz = (int)((end - start) / dt);
+   sz = (int)((end - start) / dt);
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -71,7 +74,7 @@ int run2(Matrix input)
    
    if (A[0] != 0)
    {
-	   int k = tc_writeModel( "oderates", A );
+	   k = tc_writeModel( "oderates", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -86,7 +89,7 @@ int run2(Matrix input)
        return 0;  
    }
    
-   FILE * out = fopen("oderates.c","a");
+   out = fopen("oderates.c","a");
    
    fprintf( out , "\
 #include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
@@ -163,12 +166,12 @@ int run(Matrix input) \n\
    return 1;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, xaxis);
    fclose(out);
 
-   char* appDir = tc_appDir();
+   appDir = tc_appDir();
 
    sz = 0;
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*4 + 50) * sizeof(char));
+   cmd = malloc((sz*4 + 50) * sizeof(char));
 
    if (tc_isWindows())
    {
@@ -192,7 +195,7 @@ int run(Matrix input) \n\
    free(cmd);
    return 1;
  
- }
+}
  
  
    

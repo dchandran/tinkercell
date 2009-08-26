@@ -35,14 +35,15 @@ void run()
 
    Array A = tc_allItems();
    tc_writeModel("ode.c",A); //generate ode model
-   TCFreeArray(A);
-   
+   TCFreeArray(A);   
    char* appDir = tc_appDir();
-
    int sz = 0;
+   char* cmd;
+   
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*8 + 200) * sizeof(char));
+   cmd = malloc((sz*8 + 200) * sizeof(char));
+     
 
    if (tc_isWindows())
    {

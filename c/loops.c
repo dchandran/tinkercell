@@ -23,6 +23,7 @@ static void recursiveLoopSearch(int, int, int * , double * , int, int *, int *);
 static int alreadyExistsInLoops(int * newLoop, int N)
 {
 	int i,j,k;
+	
 	for (i=0; i < numLoops; ++i)
 	{
 		k = 1;
@@ -53,6 +54,9 @@ output: the number of loops, the type of loops, the nodes in each loop
 */
 LoopsInformation getLoops(double * values, int n)
 {
+	int i,j,k, * path, * temp, * visited, count;
+	double prod;
+	
 	LoopsInformation info;
 	info.numNodes = n;
 	info.numLoops = 0;
@@ -66,11 +70,10 @@ LoopsInformation getLoops(double * values, int n)
 	Loops = 0;
 	numLoops = 0;
 
-	int i,j,k;
-	int * path = malloc(n * sizeof(int));
-	int * temp = malloc(n * sizeof(int));
+	path = malloc(n * sizeof(int));
+	temp = malloc(n * sizeof(int));
+	visited = malloc(n * sizeof(int));
 	
-	int * visited = malloc(n * sizeof(int));	
 	for (j=0; j < n; ++j) visited[j] = 0;
 	
 	//get all loops
@@ -96,10 +99,6 @@ LoopsInformation getLoops(double * values, int n)
 		info.loopLengths = malloc(numLoops * sizeof(int));
 		info.nodes = malloc(numLoops * sizeof(int*));
 	}
-
-	int count;
-	double prod;
-	
 	
 	for (i=0; i < numLoops; ++i)  //for each loop in Loops
 	{
@@ -149,10 +148,11 @@ all the closed loops in that graph. Output is stored in global array Loops and n
 */
 void recursiveLoopSearch(int n, int index, int * path, double * values, int N, int * visited, int * temp)
 {
+	int i,j,k,s;
+	
 	if (path[n] > 0) //found a loop, i.e. current node has been visited
 	{
-		int i;
-		int s = path[n];
+		s = path[n];
 		for (i=0; i < N; ++i)
 		{
 			if (path[i] >= s)
@@ -181,8 +181,7 @@ void recursiveLoopSearch(int n, int index, int * path, double * values, int N, i
 	else
 	{
 		visited[n] = 1;
-		int i,j;
-		int k = path[n];
+		k = path[n];
 		path[n] = index; //add current node to path
 
 		for (i=0; i < N; ++i)  //loop through all nodes...
@@ -198,28 +197,3 @@ void recursiveLoopSearch(int n, int index, int * path, double * values, int N, i
 	}
 }
 
-/*
-int main()
-{
-	int i,j;
-	
-	double J[] = { 
-			-0.1 , 	0.5, 	0.0, 0.0,
-			-0.56 ,	0.0, 	0.2, 0.0,
-			0.0 , 	-0.2, 	0.0, 0.12,
-			1.0 , 	0.0, 	0.0, 0.6 };
-		
-	LoopsInformation info = getLoops(J,2);
-
-	for (i=0; i < info.numLoops; ++i)
-	{
-		for (j=0; j < info.loopLengths[i]; ++j)
-		{
-			printf("%i\t",info.nodes[i][j]);
-		}
-		printf("type = %i\n",info.loopTypes[i]);
-	}
-
-	freeLoopsInfo(info);
-}
-*/

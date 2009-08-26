@@ -14,9 +14,10 @@ void runSSA(Matrix input)
 {
    int maxsz = 100000;
    double time = 50.0;
-   int xaxis = 0;
-   int selection = 0;
-   int rateplot = 0;
+   int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
+   Array A;
+   FILE * out;
+   char* appDir, cmd;
 
    if (input.cols > 0)
    {
@@ -30,7 +31,6 @@ void runSSA(Matrix input)
 	     rateplot = (int)valueAt(input,3,0);
    }
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -50,7 +50,7 @@ void runSSA(Matrix input)
    
    if (A[0] != 0)
    {
-	   int k = tc_writeModel( "ssa", A );
+	   k = tc_writeModel( "ssa", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -65,7 +65,7 @@ void runSSA(Matrix input)
        return;
    }
    
-   FILE * out = fopen("ssa.c","a");
+   out = fopen("ssa.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n#include \"ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\
@@ -139,12 +139,12 @@ void run() \n\
 
    fclose(out);
    
-   char* appDir = tc_appDir();
+   appDir = tc_appDir();
    
-   int sz = 0;
+   sz = 0;
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc(50 * sizeof(char));
+   cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {
@@ -173,12 +173,15 @@ void runCellSSA(Matrix input)
 {
    double time = 50.0;
    int xaxis = 0;
-   int selection = 0;
+   int selection = 0, k;
    int numcells = 10;
    double replication = 0.05;
    double death = 0.0001;
    double mutants = 0.001;
    int gridsz = 100;
+   FILE * out;
+   Array A;
+   char * cmd;
 
    if (input.cols > 0)
    {
@@ -198,7 +201,6 @@ void runCellSSA(Matrix input)
 	     gridsz = (int)valueAt(input,6,0);
    }
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -218,7 +220,7 @@ void runCellSSA(Matrix input)
    
    if (A[0] != 0)
    {
-	   int k = tc_writeModel( "cells_ssa", A );
+	   k = tc_writeModel( "cells_ssa", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -233,7 +235,7 @@ void runCellSSA(Matrix input)
        return;
    }
    
-   FILE * out = fopen("cells_ssa.c","a");
+   out = fopen("cells_ssa.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n#include \"cells_ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\
@@ -288,7 +290,7 @@ void run() \n\
 
    fclose(out);
    
-   char* cmd = malloc(50 * sizeof(char));
+   cmd = malloc(50 * sizeof(char));
 
    if (tc_isWindows())
    {

@@ -38,14 +38,18 @@ void tc_main()
 
 void run()
 {
+	int k;
 	Array A;
+	FILE * out;
+	
 	A = tc_selectedItems();
+	
 	if (A[0] == 0)
 		A = tc_allItems();
     
 	if (A[0] != 0)
 	{
-	   int k = tc_writeModel( "runloops", A );
+	   k = tc_writeModel( "runloops", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -60,7 +64,7 @@ void run()
        return;  
 	}
    
-   FILE * out = fopen("runloops.c","a");
+   out = fopen("runloops.c","a");
 
    fprintf( out , "\
 #include \"TC_api.h\"\n\

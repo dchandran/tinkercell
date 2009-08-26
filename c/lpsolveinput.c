@@ -4,6 +4,9 @@ int run(Matrix input)
 {
    int i,j,k;
    OBJ o;
+   Array all;
+   Matrix N, M;
+   char * rownames[] = {"objective",0};
    
    /***get selected items, if any****/
    Array selected = tc_selectedItems();
@@ -24,8 +27,8 @@ int run(Matrix input)
    }
   
    /***get the stoichiometry matrix**/
-   Array all = tc_allItems();
-   Matrix N = tc_getStoichiometry(all);
+   all = tc_allItems();
+   N = tc_getStoichiometry(all);
   
    if (N.rows < 1 || N.cols < 1) 
    {
@@ -36,12 +39,9 @@ int run(Matrix input)
    /***create the input matrix**/
    for (k=0; selected[k]!=0; ++k) {}
    
-   Matrix M;
    M.cols = N.cols;
    M.colnames = N.colnames;
    M.rows = k;
-   
-   char * rownames[] = {"objective",0};
    M.rownames = rownames;
    M.values = malloc(M.rows * M.cols * sizeof(double));
    

@@ -32,21 +32,24 @@ void run()
    int i,j,k;
    Array A = tc_selectedItems();
    int numSteps = (int)(tc_getNumber("number of steps:\0"));
-
+   char* rxnname, ** partnames, ** rates;
+   Array parts;
+   OBJ flux[] = { 0 , 0 };
+   
    if (numSteps > 0) 
    for (i=0; A[i]!=0; ++i)
    {
         if (tc_isA(A[i],"Connection"))
         {
-            Array parts = tc_getConnectedNodes(A[i]);
+            parts = tc_getConnectedNodes(A[i]);
             if (parts && parts[0] && parts[1] && (parts[2] == 0))
             {
                 Matrix newN;
                 newN.cols = numSteps + 1;
                 if (newN.cols > 1)
                 {
-                      char* rxnname = tc_getName(A[i]);
-                      char** partnames = tc_getNames(parts);
+                      rxnname = tc_getName(A[i]);
+                      partnames = tc_getNames(parts);
                       newN.rows = newN.cols;
                       newN.colnames = malloc ( (1+newN.cols) * sizeof(char*) );
                       newN.colnames[newN.cols] = 0;
@@ -89,12 +92,12 @@ void run()
 					 tc_setParameter(A[i],"k0",0.1);
 					 tc_setParameter(A[i],"leak",0.01);
                      tc_printTable(newN);
-                     OBJ j[] = { A[i] , 0 };
-                     char ** rates = newN.colnames;
+					 flux[0] = A[i];
+                     rates = newN.colnames;
                      newN.colnames = 0;
-                     tc_setStoichiometry(j , newN);
+                     tc_setStoichiometry(flux , newN);
                      newN.colnames = rates;
-					 tc_setRates(j,newN.colnames);
+					 tc_setRates(flux,newN.colnames);
                      TCFreeMatrix(newN);
                 }
             }

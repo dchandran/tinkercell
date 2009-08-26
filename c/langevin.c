@@ -7,14 +7,13 @@ double rnorm()
 
 double * Langevin(int n, int m, double * N, PropensityFunction propensity, double * inits, double endTime, double dt, void * params)
 {
-	double t = 0;
-	
+	double t = 0;	
 	double * array = malloc( (1 + endTime/dt) * (1+n) * sizeof(double) );
 	double * y = malloc( n * sizeof(double) );
 	double * dy = malloc( n * sizeof(double) );
-	double * rates = malloc (m * sizeof(double) );
-	
+	double * rates = malloc (m * sizeof(double) );	
 	int i,j,k;
+	
 	for (i=0; i < n; ++i) y[i] = inits[i];
 	
 	k = 0;

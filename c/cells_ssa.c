@@ -11,34 +11,37 @@
 */
 static void writeToFile(char* filename, double* data, int rows, int cols)
 {
-   int i,j;
-   FILE * out = fopen(filename,"w");
-   for (i=0; i < rows; ++i)
-   {
-      fprintf(out, "%lf",getValue(data,cols,i,0));
+	int i,j;
+	FILE * out;
 
-      for (j=1; j < cols; ++j)
-         fprintf(out, "\t%lf",getValue(data,cols,i,j));
+	out = fopen(filename,"w");
+	for (i=0; i < rows; ++i)
+	{
+		fprintf(out, "%lf",getValue(data,cols,i,0));
 
-      fprintf(out, "\n");
-   }
-   fclose(out);
+		for (j=1; j < cols; ++j)
+			fprintf(out, "\t%lf",getValue(data,cols,i,j));
+
+		fprintf(out, "\n");
+	}
+	fclose(out);
 }
 
 
 //SSA:
 
-double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
+double ** Cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
 {	
+	int iter = 0, i = 0, j = 0, k = 0, t0 = 0, t1 = 0;
+	double rand = 0, lambda = 0, time = 0, sum = 0, v1, v2, T, t, prevt, * cells, * simu, * y, gridSz,
+		** concs, ** concs2, * growthRates, * growthRates2 = 0, * v, **x;
+	
+	
 	initMTrand();
 	
-	int iter = 0, i = 0, j = 0, k = 0, t0 = 0, t1 = 0;
-	double rand = 0, lambda = 0, time = 0, sum = 0, v1, v2, T, t, prevt;
-	
-	double * cells = (double*) malloc( numPoints * sizeof(double) );   //output 1 - cell growth
-	double * simu = (double*) malloc( (1+m) * numPoints * sizeof(double) );   //output 2 - concentrations
-	double * y;
-	double gridSz = endTime/((double)numPoints);
+	cells = (double*) malloc( numPoints * sizeof(double) );   //output 1 - cell growth
+	simu = (double*) malloc( (1+m) * numPoints * sizeof(double) );   //output 2 - concentrations
+	gridSz = endTime/((double)numPoints);
 	
 	for (i=0; i < ((1+m) * numPoints); ++i)
 		simu[i] = 0.0;
@@ -49,10 +52,10 @@ double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*
 		cells[i] = 0.0;
 	}
 	
-	double ** concs = malloc( numCells * sizeof(double*) );   //species concentrations in each cell
-	double ** concs2 = 0;
-	double * growthRates = malloc(numCells * sizeof(double));
-	double * growthRates2 = 0;
+	concs = malloc( numCells * sizeof(double*) );   //species concentrations in each cell
+	concs2 = 0;
+	growthRates = malloc(numCells * sizeof(double));
+	growthRates2 = 0;
 
 	//initialize values across all cells
 	for (i=0; i < numCells; ++i)
@@ -69,11 +72,10 @@ double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*
 	for (j=0; j < m; ++j)
 		getValue(simu,1+m,0,j+1) = x0[j];
 	
-	double * v = malloc( n * sizeof(double) );   //rates vector
+	v = malloc( n * sizeof(double) );   //rates vector
 	
 	while (time < endTime)   //the SSA for cells
 	{
-		printf("time = %lf      cells = %i\n",time,numCells);
 		//calculate rates and probabilities for cell growth and cell death
 		
 		if (numCells < 1) break;
@@ -97,7 +99,6 @@ double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*
 		
 		if (mtrand() < v1) //cell growth event
 		{
-			printf("growth...");
 			concs2 = concs;
 			concs = malloc( (1+numCells) * sizeof(double*) );
 			for (i=0; i < numCells; ++i)
@@ -123,7 +124,7 @@ double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*
 					break;
 			growthRates2 = growthRates;
 			growthRates = malloc( (1+numCells) * sizeof(double) );
-printf("mid..");				
+
 			for (i=0; i < numCells; ++i)
 				growthRates[i] = growthRates2[i];
 			
@@ -152,18 +153,14 @@ printf("mid..");
 					concs[i][j] = concs2[i][j];
 				free(concs2[i]);
 			}
-			printf("1...");
 			free(concs2[numCells]);
 			free(concs2);
-			
-			printf("2...");
 			growthRates2 = growthRates;
 			growthRates = (double*) malloc( (numCells) * sizeof(double) );
 			
 			for (i=0; i < numCells; ++i) //copy growth rates
 				growthRates[i] = growthRates2[i];
 			free(growthRates2);
-			printf("done\n");
 		}
 		
 		for (j=0; j < numCells; ++j) //for each cell
@@ -214,14 +211,9 @@ printf("mid..");
 		}
 		time += T;		//update cell event loop time
 	}
-	printf("all done\n");
-	//if (y) free(y);
 	if (v) free(v);
 	
-	printf("1...");
 	free(growthRates);
-	
-	printf("2...");
 	
 	if (concs && numCells > 0)
 	{
@@ -229,15 +221,15 @@ printf("mid..");
 		{
 			free(concs[i]);
 		}
-		printf("3...");
 		free(concs);
 	}
-	double ** x = malloc(2 * sizeof(double*));
+	x = malloc(2 * sizeof(double*));
 	x[0] = cells;
 	x[1] = simu;
 	printf("5\n");
 	return x;
 }
+
 /*
 double N[] = 
 {

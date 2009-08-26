@@ -37,6 +37,10 @@ int run2(Matrix input)
    double time = 50.0;
    int xaxis = 0;
    int selection = 0;
+   char* appDir, cmd;
+   int sz;
+   FILE * out;
+   Array A;
 
    if (input.cols > 0)
    {
@@ -50,7 +54,6 @@ int run2(Matrix input)
 	     xaxis = (int)valueAt(input,3,0);
    }
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -85,7 +88,7 @@ int run2(Matrix input)
        return 0;  
    }
    
-   FILE * out = fopen("ssarates.c","a");
+   out = fopen("ssarates.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n#include \"ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\
@@ -152,12 +155,13 @@ int run(Matrix input) \n\
 
    fclose(out);
    
-   char* appDir = tc_appDir();
+   appDir = tc_appDir();
    
-   int sz = 0;
+   sz = 0;
+   
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*3 + 50) * sizeof(char));
+   cmd = malloc((sz*3 + 50) * sizeof(char));
 
    if (tc_isWindows())
    {

@@ -31,37 +31,44 @@ contact: dchandran1@gmail.com
 #include <math.h>
 #include "mtrand.h"
 
-/*! \brief Population of individuals -- an individual is represented by a user struct (void*) */
-typedef void ** Population;
+/*! \brief An individual is represented by a user struct (void*) */
+typedef void* GAindividual;
 
-/***********************************************************************
+/*! \brief GApopulation of individuals -- an individual is represented by a user struct (void*) */
+typedef GAindividual* GApopulation;
+
+/***********************************************************
+    @name Required externally defined functions
     The following functions MUST be defined somewhere
 	use initGA to initialize the GA with the functions
-***********************************************************************/
+************************************************************/
+
 /*! \brief
  * Free an individual from memory
  * \param a single individual
  * \ingroup ga
 */
-typedef void (*GADeleteFnc)(void *);
+typedef void (*GADeleteFnc)(GAindividual);
 /*! \brief
  * Make a copy of an individual and return the memory pointer
  * \param target individual
  * \ingroup ga
 */
-typedef void* (*GACloneFnc)(void *);
+typedef GAindividual (*GACloneFnc)(GAindividual);
 /*! \brief
  * Compute fitness of an individual. Fitness must be positive if default selection function is used
  * \param target individual
  * \return fitness (double) of the individual (MUST BE POSITIVE if default selection function is used)
  * \ingroup ga
 */
-typedef double(*GAFitnessFnc)(void *);
+typedef double(*GAFitnessFnc)(GAindividual);
 
-/**********************************************************************************************
-    At least one of the following two functions SHOULD (not must) be defined, 
-	otherwise the GA will run, but nothing will evolve
-***********************************************************************************************/
+/***********************************************************
+    @name Mutation and crossover functions
+    At least ONE of the following two functions SHOULD
+	be defined, otherwise the GA will run, but nothing will evolve.
+************************************************************/
+
 /*! \brief
  * combine two individuals to generate a new individual. The function must not delete the parent individuals.
  * \param parent individual 1
@@ -69,53 +76,56 @@ typedef double(*GAFitnessFnc)(void *);
  * \return pointer to an individual (can be the same as one of the parents)
  * \ingroup ga
 */
-typedef void* (*GACrossoverFnc)(void *, void *);
+typedef GAindividual (*GACrossoverFnc)(GAindividual, GAindividual);
 /*! \brief
  * Change an individual randomly. If a new individual is created, then this function must delete (free) the old one.
  * \param parent individual
  * \return pointer to an individual (can be the same as the parent)
  * \ingroup ga
 */
-typedef void* (*GAMutateFnc)(void *);
+typedef GAindividual (*GAMutateFnc)(GAindividual);
 
-/*********************************************************************************************
+/***********************************************************
+  @name Optional functions
   The following two functions are entirely optional. 
-  The GA library provides default Selection Function, which can be overwritten
+  The GA library provides default Selection Function, 
+  which can be overwritten
   They may or may not affect the GA performance 
-*********************************************************************************************/
+*************************************************************/
+
 /*! \brief
  * Selection function. If null, then a default selection function is provided that linearly converts fitness values to probabilities
- * \param Population of individuals
+ * \param GApopulation of individuals
  * \param array of fitness values for the individuals
  * \param total fitness (sum of all fitness values)
  * \param number of individuals in the population
  * \return index (in population vector) of the individual to select
  * \ingroup ga
 */
-typedef int(*GASelectionFnc)(Population , double * , double , int );
+typedef int(*GASelectionFnc)(GApopulation , double * , double , int );
 /*! \brief
  * Callback function. If not null, then this function is called during each iteration of the GA. 
  * This function can be used to terminate the GA at any step
  * \param iteration
- * \param Population of individuals
+ * \param GApopulation of individuals
  * \param number of individuals in the population
  * \return 0 = continue GA, 1 = stop GA. This can be used to stop the GA before it reaches max iterations
  * \ingroup ga
 */
-typedef int(*GACallbackFnc)(int iter,Population,int popSz);
+typedef int(*GACallbackFnc)(int iter,GApopulation,int popSz);
 
-/************************************************************************************************************
+/***********************************************************
+  @name The main GA functions
   The central functions defined in this genetic algorithm library
-****************************************************************************************************************/
+************************************************************/
 
 /*! \brief Initialize the GA. This function MUST be called before GArun
  * \param cloning function (cannot be 0)
  * \param deletion function (cannot be 0)
  * \param fitness function pointer (cannot be 0)
  * \param crossover function pointer (can be 0, but not recommended)
- * \param mutation function pointer (can bt 0, but not recommended)
+ * \param mutation function pointer (can be 0, but not recommended)
  * \param selection function pointer (can be 0)
- * \return final array of individuals (sorted by fitness)
  * \ingroup ga
 */
 void GAinit(GADeleteFnc, GACloneFnc ,GAFitnessFnc, GACrossoverFnc, GAMutateFnc, GASelectionFnc);
@@ -129,7 +139,11 @@ void GAinit(GADeleteFnc, GACloneFnc ,GAFitnessFnc, GACrossoverFnc, GAMutateFnc, 
  * \return final array of individuals (sorted by fitness)
  * \ingroup ga
 */
-Population GArun(Population,int sz0,int sz1,int maxIter, GACallbackFnc);
+GApopulation GArun(GApopulation,int sz0,int sz1,int maxIter, GACallbackFnc);
+
+/***********************************************************
+  @name Available selection functions
+************************************************************/
 
 /*! \brief Selects an individual at random, with probability of selection ~ fitness
  * \param array of individuals
@@ -138,7 +152,83 @@ Population GArun(Population,int sz0,int sz1,int maxIter, GACallbackFnc);
  * \param number of individual
  * \ingroup ga
 */
-int GAselect(Population , double * , double , int );
+int GArouletteWheelSelection(GApopulation , double * , double , int );
+/*! \brief Selects the best of two random individuals
+ * \param array of individuals
+ * \param array of corresponding fitness values
+ * \param sum of all fitness values
+ * \param number of individual
+ * \ingroup ga
+*/
+int GAtournamentSelection(GApopulation , double * , double , int );
+/*! \brief Selects the individual with highest fitness
+ * \param array of individuals
+ * \param array of corresponding fitness values
+ * \param sum of all fitness values
+ * \param number of individual
+ * \ingroup ga
+*/
+int GAeliteSelection(GApopulation , double * , double , int );
+
+/***********************************************************
+  @name Convenience functions -- substitute for GAinit
+************************************************************/
+/*! \brief Initialize how to create and remove the struct defining an "individual"
+ * \param GADeleteFnc function pointer (cannot be 0)
+ * \param GACloneFnc function pointer (cannot be 0)
+ * \ingroup ga
+*/
+void GAsetupNewStruct(GADeleteFnc, GACloneFnc);
+/*! \brief set the fitness function for the GA
+ * \param GAFitnessFnc function pointer (cannot be 0)
+ * \ingroup ga
+*/
+void GAsetFitnessFunction(GAFitnessFnc);
+/*! \brief set the crossover function for the GA
+ * \param GACrossoverFnc function pointer (cannot be 0)
+ * \ingroup ga
+*/
+void GAsetCrossoverFunction(GACrossoverFnc);
+/*! \brief set the mutation function for the GA
+ * \param GAMutateFnc function pointer (cannot be 0)
+ * \ingroup ga
+*/
+void GAsetMutationFunction(GAMutateFnc);
+/*! \brief set the selection function for the GA
+ * \param GASelectionFnc function pointer (cannot be 0)
+ * \ingroup ga
+*/
+void setSelectionFunction(GASelectionFnc);
+
+/***********************************************************
+  @name functions that are being used by the GA
+************************************************************/
+
+/*! \brief get the fitness function for the GA
+ * \return GAFitnessFnc function pointer
+ * \ingroup ga
+*/
+GAFitnessFnc GAgetFitnessFunction();
+/*! \brief get the crossover function for the GA
+ * \return GACrossoverFnc function pointer
+ * \ingroup ga
+*/
+GACrossoverFnc GAgetCrossoverFunction();
+/*! \brief get the mutation function for the GA
+ * \return GAMutateFnc function pointer
+ * \ingroup ga
+*/
+GAMutateFnc GAgetMutationFunction();
+/*! \brief get the selection function for the GA
+ * \return GASelectionFnc function pointer
+ * \ingroup ga
+*/
+GASelectionFnc GAgetSelectionFunction();
+
+/***********************************************************
+  @name Helper functions used by GArun
+************************************************************/
+
 /*! \brief Generates the next population from current population
  * \param array of individuals
  * \param number of individual in population currently
@@ -147,7 +237,7 @@ int GAselect(Population , double * , double , int );
  * \return new array of individual (size = 3rd parameter)
  * \ingroup ga
 */
-Population GAnextGen(Population,int,int,short);
+GApopulation GAnextGen(GApopulation,int,int,short);
 
 /*! \brief sort (Quicksort) a population by its fitness (used at the end of GArun)
  * \param population to sort
@@ -156,7 +246,9 @@ Population GAnextGen(Population,int,int,short);
  * \return void
  * \ingroup ga
 */
-void GAsort(Population population, GAFitnessFnc, int);
+void GAsort(GApopulation, GAFitnessFnc, int);
+
+
 
 #endif
 

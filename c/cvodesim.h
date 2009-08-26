@@ -17,6 +17,7 @@ The wrapper provides support for event functions and user defined structs as par
 #define GA_CVODE_WRAPPER_FILE
 
 #include <cvode/cvode.h>             /* prototypes for CVODE fcts. and consts. */
+#include <cvode/cvode_band.h>
 #include <nvector/nvector_serial.h>  /* serial N_Vector types, fcts., and macros */
 #include <sundials/sundials_band.h>  /* definitions of type BandMat and macros */
 #include <sundials/sundials_types.h> /* definition of type realtype */

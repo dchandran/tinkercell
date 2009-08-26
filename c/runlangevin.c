@@ -67,11 +67,13 @@ void setup(Matrix input)
 
 void run(Matrix input) 
 {
-
    double start = 0.0, end = 50.0;
    double dt = 0.1;
-   int xaxis = 0;
+   int xaxis = 0, sz, k;
    int selection = 0;
+   char* appDir, cmd;
+   Array A;
+   FILE * out;
       
    if (input.cols > 0)
    {
@@ -85,9 +87,9 @@ void run(Matrix input)
 	     xaxis = (int)valueAt(input,3,0);	     
    }
    
-   int sz = (int)((end - start) / dt);
+   sz = (int)((end - start) / dt);
    
-   Array A;
+   A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -107,7 +109,7 @@ void run(Matrix input)
    
    if (A[0] != 0)
    {
-	   int k = tc_writeModel( "langevin", A );
+	   k = tc_writeModel( "langevin", A );
        TCFreeArray(A);
 	   if (!k)
 	   {
@@ -122,7 +124,7 @@ void run(Matrix input)
        return;  
    }
    
-   FILE * out = fopen("langevin.c","a");
+   out = fopen("langevin.c","a");
    
    fprintf( out , "\
 #include \"TC_api.h\"\n#include \"langevin.h\"\n\n\
@@ -185,12 +187,12 @@ void run() \n\
    return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
    fclose(out);
 
-   char* appDir = tc_appDir();
+   appDir = tc_appDir();
 
    sz = 0;
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*4 + 50) * sizeof(char));
+   cmd = malloc((sz*4 + 50) * sizeof(char));
 
    if (tc_isWindows())
    {

@@ -74,6 +74,11 @@ void run(Matrix input)
    double dt = 0.1, time = 100.0;
    int doStochastic = 0;
    int selection = 0;
+   Array A;
+   Matrix params;
+   char * param;
+   FILE * out;
+   char* cmd;
    
    if (input.cols > 0)
    {
@@ -91,7 +96,6 @@ void run(Matrix input)
 	     time = valueAt(input,5,0);
    }
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -118,7 +122,7 @@ void run(Matrix input)
        return;  
    }
    
-   Matrix params = tc_getParametersAndFixedVariables(A);
+   params = tc_getParametersAndFixedVariables(A);
    TCFreeArray(A);
    
    int index = tc_getFromList("Select Independent Variable",params.rownames,selected_var,0);
@@ -130,10 +134,10 @@ void run(Matrix input)
 	   return;
    }
    
-   char * param = params.rownames[index]; //the parameter to vary
+   param = params.rownames[index]; //the parameter to vary
    selected_var = param;
    
-   FILE * out = fopen("timet.c","a");
+   out = fopen("timet.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\n\n\
 void run(Matrix input) \n\
@@ -199,7 +203,7 @@ void run(Matrix input) \n\
 
    fclose(out);
    
-   char* cmd = malloc(80 * sizeof(char));
+   cmd = malloc(80 * sizeof(char));
 
    if (tc_isWindows())
    {

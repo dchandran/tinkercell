@@ -33,14 +33,20 @@ void tc_main()
 void run()
 {
   Array selected = tc_selectedItems();
+  OBJ p; 
+  OBJ* C;
+  int i, j, k, N = 0;
+  OBJ * js;
+  OBJ * tfs;
+  char ** names, ** jnames;
+  Matrix m;
+  
   if (selected[0] == 0) return;
-
-  OBJ p = selected[0];
+  p = selected[0];
 
   //if (! tc_isA(p,"Regulator")) return;
 
-  OBJ* C = tc_getConnections(p);
-  int i, j, k, N = 0;
+  C = tc_getConnections(p);
 
   //count the number of repressors/activators
   for (i=0; C[i]!=0; ++i)
@@ -54,7 +60,7 @@ void run()
   
   //double * kon = malloc(N*sizeof(double));
   //double * koff = malloc(N*sizeof(double));
-  OBJ * js = malloc((N+1)*sizeof(OBJ));
+  js = malloc((N+1)*sizeof(OBJ));
   js[N] = 0;
 
   //get kon,koff,and trans.reg. connections
@@ -72,7 +78,7 @@ void run()
 
   //get the repressors/activators names
 
-  OBJ * tfs = malloc((N+2)*sizeof(OBJ));
+  tfs = malloc((N+2)*sizeof(OBJ));
   tfs[0] = p;
   tfs[N+1] = 0; //very important - null terminated
   k = 1;
@@ -91,11 +97,12 @@ void run()
         }
      }
   }
-  char ** names = tc_getNames(tfs);  //get names of proteins
-  char ** jnames = tc_getNames(js);  //get names of reactions
+  
+  names = tc_getNames(tfs);  //get names of proteins
+  jnames = tc_getNames(js);  //get names of reactions
 
   //main function that generates the full stoichiometry and rates
-  Matrix m = fullBindingKinetics(N,jnames,names);
+  m = fullBindingKinetics(N,jnames,names);
 
   //output that matrix to screen and item
   tc_printTable(m);

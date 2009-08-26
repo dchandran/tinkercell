@@ -102,6 +102,13 @@ void run(Matrix input)
    int selection = 0;
    int index = 0;
    int rateplot = 0;
+   Array A;
+   char * cmd;
+   int len, i;
+   Matrix params;
+   char ** names,  ** allNames;
+   char * param;
+   FILE * out;
    
    if (input.cols > 0)
    {
@@ -117,7 +124,6 @@ void run(Matrix input)
 	     rateplot = (int)valueAt(input,4,0);
    }
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -142,15 +148,14 @@ void run(Matrix input)
        return;  
    }
    
-   Matrix params = tc_getModelParameters(A);
-   char ** names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
+   params = tc_getModelParameters(A);
+   names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
    
-   int len = 0;
+   len = 0;
    while (names[len]) ++len;
    
-   char ** allNames = malloc((len+params.rows+1)*sizeof(char*));
+   allNames = malloc((len+params.rows+1)*sizeof(char*));
    
-   int i;
    
    for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
    
@@ -170,10 +175,10 @@ void run(Matrix input)
 	   return;
    }
    
-   char * param = allNames[index]; //the parameter to vary
+   param = allNames[index]; //the parameter to vary
    strcpy(selected_var,param);
    
-   FILE * out = fopen("ss.c","a");
+   out = fopen("ss.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
 void run() \n\
@@ -254,7 +259,7 @@ void run() \n\
 
    fclose(out);
    
-   char* cmd = malloc( 50 * sizeof(char));
+   cmd = malloc( 50 * sizeof(char));
 
    if (tc_isWindows())
    {
@@ -280,6 +285,12 @@ void run2D(Matrix input)
    int selection = 0;
    int index1 = 0, index2 = 1, index3 = 2;
    int rateplot = 0;
+   Array A;
+   int i, len;
+   Matrix params;
+   char ** names, ** allNames;
+   char * param1, * param2, * target, * cmd;
+   FILE * out;
    
    if (input.cols > 0)
    {
@@ -298,9 +309,8 @@ void run2D(Matrix input)
    	     endy = valueAt(input,5,0);
 	  if (input.rows > 6)
 	     dy = valueAt(input,6,0);
-   }
+   }  
    
-   Array A;
    if (selection > 0)
    {
 	   A = tc_selectedItems();
@@ -326,15 +336,13 @@ void run2D(Matrix input)
        return;  
    }
    
-   Matrix params = tc_getModelParameters(A);
-   char ** names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
+   params = tc_getModelParameters(A);
+   names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
    
-   int len = 0;
+   len = 0;
    while (names[len]) ++len;
    
-   char ** allNames = malloc((len+params.rows+1)*sizeof(char*));
-   
-   int i;
+   allNames = malloc((len+params.rows+1)*sizeof(char*));
    
    for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
    
@@ -357,15 +365,16 @@ void run2D(Matrix input)
 	   return;
    }
    
-   char * param1 = allNames[index1]; //the first parameter to vary
-   char * param2 = allNames[index2]; //the second parameter to vary
-   char * target = names[index3]; //the target z-axis
+   
+   param1 = allNames[index1]; //the first parameter to vary
+   param2 = allNames[index2]; //the second parameter to vary
+   target = names[index3]; //the target z-axis
    
    strcpy(selected_var1,param1);
    strcpy(selected_var2,param2);
    strcpy(target_var,target);
    
-   FILE * out = fopen("ss2D.c","a");
+   out = fopen("ss2D.c","a");
    
    fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
 void run() \n\
@@ -422,7 +431,7 @@ void run() \n\
 
    fclose(out);
    
-   char* cmd = malloc( 50 * sizeof(char));
+   cmd = malloc( 50 * sizeof(char));
 
    if (tc_isWindows())
    {

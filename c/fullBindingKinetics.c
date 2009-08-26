@@ -13,12 +13,15 @@
 Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 {
    int total = (1 << N) * N - N;
-
    int * matrix = malloc(total * 3 * sizeof(int)); //[a + b <--> c] x N
-   //double * ks = malloc(total * 2 * sizeof(double));
-
    int i=0,j=0,k=0,x=0;
    int N2 = (1<<N);
+   int * js, * usedSpecies;
+   int j2 = 1, j3 = 0;
+   int a,b,c;
+   
+   //double * ks = malloc(total * 2 * sizeof(double));
+   
 
    for (j=0; j < N2; ++j)
    {
@@ -47,10 +50,11 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
    M.colnames[M.cols] = 0;
    //printf("rows = %i\n",M.rows);
 
-   int * js = malloc(M.rows * sizeof(int));
+   js = malloc(M.rows * sizeof(int));
 
    j = 0;
-   int j2 = 1, j3 = 0;
+   j2 = 1;
+   j3 = 0;
    for (i=1; i <= M.rows; ++i)
    {
       M.rownames[i-1] = malloc(10*sizeof(char));
@@ -70,11 +74,10 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 		 ++j2;
 	  }
    }
-
-   int a,b,c;
+   
    for (i=0; i<(M.cols * M.rows); ++i) M.values[i] = 0;
    
-   int * usedSpecies = malloc(M.rows * sizeof(int));
+   usedSpecies = malloc(M.rows * sizeof(int));
    for (i=0; i < M.rows; ++i) usedSpecies[i] = 0;
    
    for (i=0; i<k; ++i)
@@ -147,15 +150,14 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 int main()
 {
    int N = 3;
-   //double kon[] = {10.0, 0.5, 0.9};
-   //double koff[] = { 1.0, 1.5, 1.1 };
-   
    int total;
    char* proteinNames[] = { "P\0", "A\0","B\0" };
    char* fluxNames[] = {"j0"};
-
    Matrix M = fullBindingKinetics(2,fluxNames,proteinNames);
    int i=0,j=0;
+   
+   //double kon[] = {10.0, 0.5, 0.9};
+   //double koff[] = { 1.0, 1.5, 1.1 };
 
    for (j=0; j < M.cols; ++j)
    {

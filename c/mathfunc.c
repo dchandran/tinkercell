@@ -59,9 +59,11 @@ int eigenvalues(double * A, int N, double ** reals, double ** im)
 double correlation(double * X, double * Y, int sz)
 {
    int i;
+   double d, ans;
+   double mXY = 0,mX = 0, mY = 0, mX2 = 0, mY2 = 0;
 
    if (X == 0 || Y == 0) return (0.0);
-   double mXY = 0,mX = 0, mY = 0, mX2 = 0, mY2 = 0;
+   
    for (i = 0; i < sz; ++i)
    {
         mX += X[i];
@@ -76,11 +78,11 @@ double correlation(double * X, double * Y, int sz)
    mX2 /= (double)sz;
    mY2 /= (double)sz;
 
-   double d = sqrt(mX2 - mX*mX) * sqrt(mY2 - mY*mY);
+   d = sqrt(mX2 - mX*mX) * sqrt(mY2 - mY*mY);
 
    if (d == 0.0) return (0.0);
 
-   double ans = (mXY - mX*mY)/d;
+   ans = (mXY - mX*mY)/d;
    return ((double)ans);
 }
 

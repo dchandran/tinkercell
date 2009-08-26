@@ -11,18 +11,21 @@
 
 double * SSA(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double startTime, double endTime, int maxSz, int * arraysz, void * dataptr)  //ssa
 {	
-	double * x = (double*) malloc( (1+m) * maxSz * sizeof(double) );   //output	
-	double * y = (double*) malloc( m * sizeof(double) );   //values	
-	double * v = (double*) malloc( n * sizeof(double) );   //rates
+	int iter, i, k, sz;
+	double * x, * y, * v, rand, lambda, time, sum, * x2;
 	
-	int iter = 0, i = 0, k = 0;
-	double rand = 0, lambda = 0, time = 0, sum = 0;
+	x = (double*) malloc( (1+m) * maxSz * sizeof(double) );   //output	
+	y = (double*) malloc( m * sizeof(double) );   //values	
+	v = (double*) malloc( n * sizeof(double) );   //rates
+	
+	iter = i = k = 0;
+	rand = lambda = time = sum = 0;
 	
 	//initialize values
 	getValue(x,1+m,0,0) = startTime;
 	for (i = 0; i < m; ++i)
 	{
-		if (x0[i] > 0.0 && x0[i] < 1.0)
+		if (x0[i] > 0.0 && x[i] < 1.0)
 			x0[i] = 1.0;
 		getValue(x,1+m,0,i+1) = y[i] = x0[i];   
 	}
@@ -69,13 +72,14 @@ double * SSA(int m, int n, double * N, void (*propensity)(double, double*,double
 		time -= log(rand)/lambda;		//update time
 		++iter;		
 	}
+	
 	if (y) free(y);
 	if (v) free(v);
 	
 	--iter;
-	double * x2 = (double*) malloc( (1+m) * iter * sizeof(double) );
+	x2 = (double*) malloc( (1+m) * iter * sizeof(double) );
 	
-	int sz = (1+m)*iter;
+	sz = (1+m)*iter;
 	for (i=0; i < sz; ++i) x2[i] = x[i];
 	free(x);
 	x = x2;	
@@ -87,11 +91,12 @@ double * SSA(int m, int n, double * N, void (*propensity)(double, double*,double
 
 double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, void (*f)(double,double*,double*,void*), void* param)
 {
-	double * y = malloc( cols1 * sizeof(double));
-	double * rates = malloc( cols2 * sizeof(double));
+	int i,j;
+	double * y, * rates, * dat;
 	
-	double * dat = malloc(rows * (skip+cols2) * ( sizeof(double)));
-	int i,j,k;
+	y = malloc( cols1 * sizeof(double));
+	rates = malloc( cols2 * sizeof(double));
+	dat = malloc(rows * (skip+cols2) * ( sizeof(double)));
 	
 	for (i=0; i < rows; ++i)
 	{
@@ -108,6 +113,7 @@ double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2,
 		for (j=0; j < cols2; ++j)
 			getValue(dat,skip+cols2,i,j+skip) = rates[j];
 	}
+	
 	free(y);
 	free(rates);
 	

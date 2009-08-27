@@ -264,7 +264,7 @@ namespace Tinkercell
 
 				newData.value(var,0) = func;
 
-				win->changeData(handle->fullName() + tr(".") + var + tr(" added"), handle,tr("Assignments"),&newData);
+				win->changeData(handle->fullName() + tr(".") + var + tr(" = ") + func, handle,tr("Assignments"),&newData);
 
 			}
 			else
@@ -314,7 +314,7 @@ namespace Tinkercell
 					newData.value(var,0) = args.join(tr(","));
 					newData.value(var,1) = s;
 
-					win->changeData(handle->fullName() + tr(".") + var + tr(" added"),handle,tr("Functions"),&newData);
+					win->changeData(handle->fullName() + tr(".") + var + tr("(") + newData.value(var,0) + tr("(") + tr(" = ") + s,handle,tr("Functions"),&newData);
 
 				}
 				updateTable();
@@ -686,7 +686,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& var, const QString& func)
 	{
-		if (item && item->data && !trigger.isEmpty() && !event.isEmpty())
+		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
 				item->data->textData[tr("Assignments")] = DataTable<QString>();

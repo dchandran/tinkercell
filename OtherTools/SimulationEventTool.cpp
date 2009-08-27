@@ -406,7 +406,7 @@ namespace Tinkercell
 
             newData.value(ifs,0) = thens;
 
-            win->changeData(lastItem->fullName() + tr("'s event changed"),lastItem,tr("Events"),&newData);
+            win->changeData(tr("if ") + ifs + tr(" then ") + thens,lastItem,tr("Events"),&newData);
         }
         else
         {
@@ -554,9 +554,16 @@ namespace Tinkercell
                 item->data->textData[tr("Events")] = DataTable<QString>();
 
             DataTable<QString> dat = item->data->textData[tr("Events")];
-            dat.value(trigger,0) = event;
+			
+			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
+			
+			QString s1 = trigger, s2 = event;
+			s1.replace(regex,QString("\\1.\\2"));
+			s2.replace(regex,QString("\\1.\\2"));
+			
+            dat.value(s1,0) = s2;
             if (currentScene())
-                currentScene()->changeData(item->fullName() + tr("'s event changed"),item,tr("Events"),&dat);
+                currentScene()->changeData(tr("if ") + s1 + tr(" then ") + s2,item,tr("Events"),&dat);
             else
                 item->data->textData[tr("Events")] = dat;
         }

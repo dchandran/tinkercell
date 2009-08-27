@@ -98,7 +98,7 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 #---------------------------------------------------------------------
 
 INSTALL(TARGETS Tinkercell 
-   RUNTIME DESTINATION .
+   RUNTIME DESTINATION /
    COMPONENT "TinkerCell")
 
-INSTALL(FILES tinkercell.qss DESTINATION ./ COMPONENT "stylesheet")
+INSTALL(FILES tinkercell.qss DESTINATION / COMPONENT "stylesheet")

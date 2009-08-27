@@ -202,7 +202,7 @@ IF( QT4_FOUND )
   ENDIF(WIN32)
 
   FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
-  INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION ./)  
+  INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION /)  
   
 #---------------------------------------------------------------------------
 # ANTIMONY editor

@@ -101,4 +101,4 @@ INSTALL(TARGETS Tinkercell
    RUNTIME DESTINATION .
    COMPONENT "TinkerCell")
 
-INSTALL(FILES tinkercell.qss DESTINATION . COMPONENT "stylesheet")
+INSTALL(FILES tinkercell.qss DESTINATION ./ COMPONENT "stylesheet")

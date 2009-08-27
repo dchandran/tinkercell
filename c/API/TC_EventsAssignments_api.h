@@ -67,22 +67,22 @@ void tc_AssignmentFunctionsTool_api(
 
 /*! 
  \brief displays the given text on the given item (the text is temporary)
- \ingroup Input and output
+ \ingroup Input and Output
 */
 void (*tc_displayText)(OBJ item,const char* text) = 0;
 /*! 
  \brief displays the given number on the given item (the text is temporary)
- \ingroup Input and output
+ \ingroup Input and Output
 */
 void (*tc_displayNumber)(OBJ item,double number) = 0;
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
- \ingroup Input and output
+ \ingroup Input and Output
 */
 void (*tc_setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2) = 0;
 /*! 
  \brief highlights an item (the highlight is temporary)
- \ingroup Input and output
+ \ingroup Input and Output
 */
 void (*tc_highlight)(OBJ item,int,int,int) = 0;
 /*! 

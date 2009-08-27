@@ -92,7 +92,6 @@ namespace Tinkercell
 		tc_NodeInsertion_api f = (tc_NodeInsertion_api)library->resolve("tc_NodeInsertion_api");
 		if (f)
 		{
-			//qDebug() << "tc_NodeInsertion_api resolved";
 			f(
 				&(_insertItem) );
 		}

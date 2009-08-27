@@ -17,7 +17,7 @@ void runSSA(Matrix input)
    int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
    Array A;
    FILE * out;
-   char* appDir, cmd;
+   char* appDir,* cmd;
 
    if (input.cols > 0)
    {

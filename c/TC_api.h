@@ -13,7 +13,7 @@ void TCFreeChars(char** C);
 #include "API/TC_ConnectionInsertion_api.h"
 #include "API/TC_ConnectionSelection_api.h"
 #include "API/TC_GroupHandlerTool_api.h"
-#include "API/TC_PartInsertion_api.h"
+#include "API/TC_NodeInsertion_api.h"
 #include "API/TC_StoichiometryTool_api.h"
 #include "API/TC_DynamicLibraryTool_api.h"
 #include "API/TC_PlotTool_api.h"

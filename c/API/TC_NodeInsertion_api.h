@@ -11,7 +11,7 @@ OBJ (*tc_insert)(const char* name, const char* family) = 0;
  \brief initializing function
  \ingroup init
 */
-void tc_PartInsertion_api(
+void tc_NodeInsertion_api(
 		OBJ (*insertItem)(const char* , const char* )
 )
 {

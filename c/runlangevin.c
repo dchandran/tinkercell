@@ -71,7 +71,7 @@ void run(Matrix input)
    double dt = 0.1;
    int xaxis = 0, sz, k;
    int selection = 0;
-   char* appDir, cmd;
+   char* appDir, * cmd;
    Array A;
    FILE * out;
       

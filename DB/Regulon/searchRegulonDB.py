@@ -80,11 +80,11 @@ else:
 		key = "";
 		if len(displayList) == 0:
 			displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS2.keys();
-			k = pytc.getFromList("Available regulatory sites from Regulon DB: ",displayList,0);
+			k = pytc.getFromList("Available regulatory sites from Regulon DB: ",displayList,"",0);
 			if k > -1:
 				key = displayList[k];
 		else:
-			k = pytc.getFromList("Available sites regulated by " + ", ".join(regulators) + " : ",displayList,0);
+			k = pytc.getFromList("Available sites regulated by " + ", ".join(regulators) + " : ",displayList,"",0);
 			if k > -1:
 				key = displayList0[k];
 		
@@ -129,11 +129,11 @@ else:
 		key = "";
 		if len(displayList) == 0:
 			displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS1.keys();
-			k = pytc.getFromList("Available transcription factors from Regulon DB: ",displayList,0);
+			k = pytc.getFromList("Available transcription factors from Regulon DB: ",displayList,"",0);
 			if k > -1:
 				key = displayList[k];
 		else:
-			k = pytc.getFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ",displayList,0);
+			k = pytc.getFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ",displayList,"",0);
 			if k > -1:
 				key = displayList0[k];
 		
@@ -157,7 +157,7 @@ else:
 		k = -1;
 		key = "";
 		displayList = RegulonDB.ECOLI_RBS.keys();
-		k = pytc.getFromList("Available RBS sites from Regulon DB: ",displayList,0);
+		k = pytc.getFromList("Available RBS sites from Regulon DB: ",displayList,"",0);
 		if k > -1:
 			key = displayList[k];
 		
@@ -178,7 +178,7 @@ else:
 		k = -1;
 		key = "";
 		displayList = RegulonDB.ECOLI_TERMINATORS.keys();
-		k = pytc.getFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",displayList,0);
+		k = pytc.getFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",displayList,"",0);
 		if k > -1:
 			key = displayList[k];
 		

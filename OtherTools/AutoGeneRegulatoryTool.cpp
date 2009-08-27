@@ -1867,8 +1867,9 @@ namespace Tinkercell
 			scene->selected().clear();
 			
 			QList<QGraphicsItem*> selected;
+			QList<QPointF> points;
 			
-			//QPointF p;
+			QPointF p;
 			
 			for (int i=0; i < items.size(); ++i)
 				if (NodeHandle::asNode(items[i]))
@@ -1876,17 +1877,23 @@ namespace Tinkercell
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
 						{
-							/*if (selected.isEmpty())
-								p = items[i]->graphicsItems[j]->scenePos();							
-							else								
-								items[i]->graphicsItems[j]->setPos(p);
+							if (selected.isEmpty())
+							{
+								p = items[i]->graphicsItems[j]->scenePos();
+								points << QPointF(0,0);
+							}
+							else
+							{
+								points << (p - items[i]->graphicsItems[j]->scenePos());
+							}
 							
 							p.rx() += items[i]->graphicsItems[j]->sceneBoundingRect().width();
-							*/
+							
 							selected << items[i]->graphicsItems[j];
 						}
 				}
 			
+			scene->move(selected,points);
 			scene->select(selected);
 			emit alignCompactHorizontal();
 		}

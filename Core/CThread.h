@@ -54,14 +54,14 @@ namespace Tinkercell
 signals:
 		/*! \brief display progress of this thread (0-100). This signal is usually connected
 		to a slot in ProgressBarSignalItem*/
-		void progress(int);
+		virtual void progress(int);
 
 	public:
 
 		static QString style;
 
 		/*! \brief emits the progress signal*/
-		void emitSignal(int i) { emit progress(i); }
+		virtual void emitSignal(int i) { emit progress(i); }
 
 		/*! \brief set progress on a thread with the given name*/
 		static void setProgress(const char * name, int progress);

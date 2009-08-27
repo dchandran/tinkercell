@@ -44,7 +44,7 @@ if (len(promoters) > 0):
 				rate = name + ".strength*" + rate;
 			if (len(indiv) > 0):
 				pytc.write(name + " has rate : " + rate+"\n");
-				pytc.setTextData(i,"Assignments","rate","",rate); #pytc.getName(i)
+				pytc.setForcingFunction(i,"rate",rate); #pytc.getName(i)
 				for j in products:
 					pytc.setRate(j,(name + ".rate"));
 else:

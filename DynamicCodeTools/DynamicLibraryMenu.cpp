@@ -478,7 +478,7 @@ namespace Tinkercell
 
             QStringList list = list0;
             bool ok;
-            QRegExp regex(QString("([A-Za-z])_([A-Za-z0-9])"));
+            QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z0-9])"));
 			
 			int index = list.indexOf(init);
 			if (index < 0) index = 0;

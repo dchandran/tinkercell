@@ -79,7 +79,6 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
 
@@ -318,9 +317,7 @@ namespace Tinkercell
 					win->changeData(handle->fullName() + tr(".") + var + tr(" added"),handle,tr("Functions"),&newData);
 
 				}
-
 				updateTable();
-
 		}
 
 	}
@@ -687,7 +684,7 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& trigger, const QString& event)
+	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& var, const QString& func)
 	{
 		if (item && item->data && !trigger.isEmpty() && !event.isEmpty())
 		{
@@ -695,11 +692,19 @@ namespace Tinkercell
 				item->data->textData[tr("Assignments")] = DataTable<QString>();
 
 			DataTable<QString> dat = item->data->textData[tr("Assignments")];
-			dat.value(trigger,0) = event;
-			if (currentWindow())
-				currentWindow()->changeData(item->fullName() + tr("'s event changed"),item,tr("Assignments"),&dat);
-			else
-				item->data->textData[tr("Assignments")] = dat;
+			
+			QString f = func;
+			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
+			f.replace(regex,QString("\\1.\\2"));
+			
+			if (!dat.getRowNames().contains(var) || f != dat.value(var,0))
+			{
+				dat.value(var,0) = func;
+				if (currentWindow())
+					currentWindow()->changeData(item->fullName() + tr(".") + var + tr(" = ") + f,item,tr("Assignments"),&dat);
+				else
+					item->data->textData[tr("Assignments")] = dat;
+			}
 		}
 		if (sem)
 			sem->release();

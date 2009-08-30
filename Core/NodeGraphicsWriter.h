@@ -29,7 +29,7 @@ namespace Tinkercell
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup io
 	*/
-	MY_EXPORT class NodeGraphicsWriter : public QXmlStreamWriter
+	class MY_EXPORT NodeGraphicsWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

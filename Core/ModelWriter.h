@@ -33,7 +33,7 @@ namespace Tinkercell
 	/*! \brief writes to an xml file handle names and data table information from a list of item handles
 	\ingroup io
 	*/
-	MY_EXPORT class ModelWriter : public QXmlStreamWriter
+	class MY_EXPORT ModelWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

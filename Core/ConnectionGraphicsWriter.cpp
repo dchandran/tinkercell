@@ -181,7 +181,7 @@ namespace Tinkercell
 			else
 			{
 				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1]);
-				if (node && node->className == ArrowHeadItem::class_name && 
+				if (node && node->className == ArrowHeadItem::CLASSNAME && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem->itemHandle && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)

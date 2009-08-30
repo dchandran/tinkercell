@@ -1318,7 +1318,7 @@ namespace Tinkercell
 
 
 	/*! \brief Function to Signal converter for MainWindow*/
-	class MainWindow_FtoS : public QObject
+	class MY_EXPORT MainWindow_FtoS : public QObject
 	{
 		Q_OBJECT
 

@@ -48,7 +48,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the rectangle
 	\ingroup helper
 	*/
-	QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
+	MY_EXPORT QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
 	/*! \brief gets the point on the edge of the shape such that it is in the same
 	line as the center of the shape's bounding rect and the point (arg)
 	\param QPainterPath the shape
@@ -56,7 +56,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the shape
 	\ingroup helper
 	*/
-	QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
+	MY_EXPORT QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
 
 	class GraphicsScene;
 	class ItemHandle;
@@ -133,7 +133,7 @@ namespace Tinkercell
 
 		/*! \brief A control point with a pointer to a ConnectionGraphicsItem 
 		\ingroup core*/
-		class ControlPoint : public Tinkercell::ControlPoint
+		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -175,7 +175,7 @@ namespace Tinkercell
 
 		/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/
-		class PathVector : public QVector<ConnectionGraphicsItem::ControlPoint*>
+		class MY_EXPORT PathVector : public QVector<ConnectionGraphicsItem::ControlPoint*>
 		{
 		public:
 			PathVector();
@@ -300,7 +300,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class AddControlPointCommand : public QUndoCommand
+	class MY_EXPORT AddControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -337,7 +337,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class RemoveControlPointCommand : public QUndoCommand
+	class MY_EXPORT RemoveControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -372,7 +372,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class AddPathVectorCommand : public QUndoCommand
+	class MY_EXPORT AddPathVectorCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -411,7 +411,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class RemovePathVectorCommand : public QUndoCommand
+	class MY_EXPORT RemovePathVectorCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo

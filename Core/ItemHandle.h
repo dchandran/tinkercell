@@ -50,7 +50,7 @@ namespace Tinkercell
 	* \ingroup helper
 	* \param QString original string
 	*/
-	QString RemoveDisallowedCharactersFromName(const QString&);
+	MY_EXPORT QString RemoveDisallowedCharactersFromName(const QString&);
 
 	/*! \brief 
 	* This class is used to store information about nodes or connections.
@@ -328,25 +328,25 @@ namespace Tinkercell
 	* \ingroup core
 	* \return ItemHandle* item handle (0 if none)
 	*/
-	ItemHandle * getHandle(QGraphicsItem*);
+	MY_EXPORT ItemHandle * getHandle(QGraphicsItem*);
 	/*! \brief set the handle of a graphics item (use 0 to remove handle)
 	* \param QGraphicsItem* graphics item
 	* \param ItemHandle* handle (use 0 to remove handle)
 	* \ingroup core
 	*/
-	void setHandle(QGraphicsItem*, ItemHandle*);
+	MY_EXPORT void setHandle(QGraphicsItem*, ItemHandle*);
 	/*! \brief get the handle from a text item
 	* \param TextItem* text item
 	* \ingroup core
 	* \return ItemHandle* item handle (0 if none)
 	*/
-	ItemHandle * getHandle(TextItem*);
+	MY_EXPORT ItemHandle * getHandle(TextItem*);
 	/*! \brief set the handle of a text item (use 0 to remove handle)
 	* \param TextItem* text item
 	* \param ItemHandle* handle (use 0 to remove handle)
 	* \ingroup core
 	*/
-	void setHandle(TextItem*, ItemHandle*);
+	MY_EXPORT void setHandle(TextItem*, ItemHandle*);
 }
 
 #endif

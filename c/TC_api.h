@@ -24,32 +24,32 @@ void TCFreeChars(char** C);
 
 void TCFreeMatrix(Matrix M)
 {
-   int i;
-   if (M.values)
-       free(M.values);
-   if (M.rownames)
-   {
-      for (i=0; i < (M).rows; ++i) free(M.rownames[i]);
-	  free(M.rownames);
-   }
-   if (M.colnames)
-   {
-      for (i=0; i < (M).cols; ++i) free(M.colnames[i]);
-	  free(M.colnames);
-   }
+	int i;
+	if (M.values)
+		free(M.values);
+	if (M.rownames)
+	{
+		for (i=0; i < (M).rows; ++i) free(M.rownames[i]);
+		free(M.rownames);
+	}
+	if (M.colnames)
+	{
+		for (i=0; i < (M).cols; ++i) free(M.colnames[i]);
+		free(M.colnames);
+	}
 }
 
 void TCFreeArray(Array A)
 {
-   if (A) free(A);
+	if (A) free(A);
 }
 
 void TCFreeChars(char** C)
 {
-   if (!C) return;
-   int i;
-   for (i=0; C[i] != 0; ++i) free(C[i]);
-   free(C);
+	int i;
+	if (!C) return;
+	for (i=0; C[i] != 0; ++i) free(C[i]);
+	free(C);
 }
 
 

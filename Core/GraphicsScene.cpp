@@ -26,11 +26,13 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 namespace Tinkercell
 {
-	QPen GraphicsScene::SelectionRectanglePen = QPen(Qt::NoPen);
+	QPen GraphicsScene::SelectionRectanglePen = Qt::NoPen;
 	
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
 	
-	QBrush GraphicsScene::ForegroundBrush = QBrush(Qt::NoBrush);
+	QBrush GraphicsScene::BackgroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);	
+	
+	QBrush GraphicsScene::ForegroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
 	
 	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
 	
@@ -122,6 +124,33 @@ namespace Tinkercell
 
 		return (0);
 	}
+	
+	void GraphicsScene::drawForeground ( QPainter * painter, const QRectF & rect )
+	{
+		qreal gridSz = 100.0;
+		painter->setPen(QPen(Qt::gray,1.0));
+		qreal left = rect.left(), right = rect.right(),
+			  top = rect.top(), bottom = rect.bottom();
+		QPointF p1,p2;
+		p1.rx() = left;
+		p1.ry() = top;
+		p2.rx() = left;
+		p2.ry() = bottom;
+		for (qreal x = left; x < right; x += gridSz)
+		{
+			p1.rx() = p2.rx() = x;
+			painter->drawLine(p1,p2);
+		}
+		p1.rx() = left;
+		p1.ry() = top;
+		p2.rx() = right;
+		p2.ry() = top;
+		for (qreal y = top; y < bottom; y += gridSz)
+		{
+			p1.ry() = p2.ry() = y;
+			painter->drawLine(p1,p2);
+		}
+	}
 
 	/*! \brief Returns the currently visible window
 	* \param void
@@ -201,6 +230,7 @@ namespace Tinkercell
 		
 		lastZ = 1.0;
 
+		setBackgroundBrush(BackgroundBrush);
 		setForegroundBrush(ForegroundBrush);
 		selectionRect.setBrush(SelectionRectangleBrush);
 		selectionRect.setPen(SelectionRectanglePen);		
@@ -1472,7 +1502,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief prints the current scene*/
-	void GraphicsScene::print(QPaintDevice * printer)
+	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
 	{
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
@@ -1515,7 +1545,7 @@ namespace Tinkercell
 			view = views().first();
 
 		if (view)
-			view->render(&painter);
+			view->render(&painter,region);
 	}
 
 	void GraphicsScene::clearStaticItems()
@@ -1550,9 +1580,19 @@ namespace Tinkercell
 
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
-		if (clipboard && !clipboard->text().isEmpty() && items.size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0])))
+		if (clipboard)
 		{
-			clipboard->setText( textItem->toPlainText() );
+			QRectF viewport = this->viewport();//selectionRect.sceneBoundingRect();
+			//if (items.size() == 1 && items[0])
+				//viewport = items[0]->sceneBoundingRect();
+			viewport.adjust(-10.0,-10.0,10.0,10.0);
+			int w = 540;
+			int h = (int)(viewport.height() * w/viewport.width());
+			QImage image(w,h,QImage::Format_ARGB32);
+			scene->print(&image,viewport);
+			clipboard->setImage(image);
+			if (items.size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0])))
+				clipboard->setText( textItem->toPlainText() );
 		}
 
 		clearStaticItems();

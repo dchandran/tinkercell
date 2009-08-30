@@ -21,12 +21,18 @@ data.
 #include "GraphicsScene.h"
 #include "ItemHandle.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief reads an xml file with handle names and data table information and generates a list of item handles
 	\ingroup io
 	*/
-	class ModelReader : public QXmlStreamReader
+	MY_EXPORT class ModelReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 

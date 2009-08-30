@@ -17,6 +17,12 @@ a handle
 #include <QUndoCommand>
 #include "ItemHandle.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class ItemHandle;
@@ -24,7 +30,7 @@ namespace Tinkercell
 	/*! \brief editable text item 
 	\ingroup core
 	*/
-	class TextGraphicsItem : public QGraphicsTextItem
+	MY_EXPORT class TextGraphicsItem : public QGraphicsTextItem
 	{
 		Q_OBJECT
 

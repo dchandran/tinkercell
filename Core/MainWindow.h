@@ -53,6 +53,12 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "DataTable.h"
 #include "ConvertValue.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	static QString PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
@@ -82,7 +88,7 @@ namespace Tinkercell
 	The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 	\ingroup core
 	*/
-	class MainWindow : public QMainWindow
+	MY_EXPORT class MainWindow : public QMainWindow
 	{
 		Q_OBJECT
 

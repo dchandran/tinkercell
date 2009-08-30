@@ -31,6 +31,12 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include <QUndoCommand>
 #include "NodeGraphicsItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class ItemHandle;
@@ -58,7 +64,7 @@ namespace Tinkercell
 
 	/*! \brief A node graphics item that is used to draw arrow heads on connection items.
 	\ingroup core*/
-	class ArrowHeadItem : public NodeGraphicsItem
+	MY_EXPORT class ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
 		/*! \brief The connection item that this arrow head belongs with*/
@@ -78,16 +84,16 @@ namespace Tinkercell
 		*/
 		virtual NodeGraphicsItem* clone() const;
 		/*! \brief used for checking type before static casts */
-		static QString class_name;
+		static QString CLASSNAME;
 	};
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
-	class ConnectionGraphicsItem : public QGraphicsPathItem
+	MY_EXPORT class ConnectionGraphicsItem : public QGraphicsPathItem
 	{
 	public:
 		/*! \brief used for checking type before static casts */
-		static QString class_name;
+		static QString CLASSNAME;
 		/*! \brief used for checking type before static casts */
 		QString className;
 		/*! \brief permanent brush for this control point*/

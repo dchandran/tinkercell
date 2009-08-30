@@ -19,6 +19,12 @@ Text items are used in the text-based version.
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
@@ -33,7 +39,7 @@ namespace Tinkercell
 	/*! \brief Text items represent strings in the text-based representation of a network.
 	\ingroup Core
 	*/
-	class TextItem
+	MY_EXPORT class TextItem
 	{
 	public:
 		TextItem();
@@ -60,7 +66,7 @@ namespace Tinkercell
 	/*! \brief Text items that represent Nodes.
 	\ingroup Core
 	*/
-	class NodeTextItem : public TextItem
+	MY_EXPORT class NodeTextItem : public TextItem
 	{
 	public:
 		NodeTextItem();
@@ -76,7 +82,7 @@ namespace Tinkercell
 	/*! \brief Text items that represent connections, usually a single line on the TextEditor.
 	\ingroup Core
 	*/
-	class ConnectionTextItem : public TextItem
+	MY_EXPORT class ConnectionTextItem : public TextItem
 	{
 	public:
 		ConnectionTextItem();

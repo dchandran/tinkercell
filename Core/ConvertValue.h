@@ -24,63 +24,69 @@ and QGraphicsItem.
 #include "TCstructs.h"
 #include "ItemHandle.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief construct a Matrix with 0 rows and columns (see TCstructs.h for Matrix)
 	\ingroup helper
 	\return empty matrix 
 	*/
-	Matrix emptyMatrix();
+	MY_EXPORT Matrix emptyMatrix();
 	/*! \brief convert void* to QGraphicsItem (item on the scene) pointer
 	\ingroup helper
 	\return pointer to an item on the scene
 	*/
-	ItemHandle* ConvertValue(OBJ);
+	MY_EXPORT ItemHandle* ConvertValue(OBJ);
 	/*! \brief convert QGraphicsItem (item on the scene) pointer to void *
 	\ingroup helper
 	\return pointer to an item on the scene
 	*/
-	OBJ ConvertValue(ItemHandle*);
+	MY_EXPORT OBJ ConvertValue(ItemHandle*);
 	/*! \brief convert void** to QList of QGraphicsItem (item on the scene) pointers
 	\ingroup helper
 	\return list of pointers to items on the scene
 	*/
-	QList<ItemHandle*>* ConvertValue(Array);
+	MY_EXPORT QList<ItemHandle*>* ConvertValue(Array);
 	/*! \brief convert to list of QGraphicsItem pointers to null-terminated array of void*
 	\ingroup helper
 	\return null-terminated array of pointers to items on the scene
 	*/
-	Array ConvertValue(const QList<ItemHandle*>&);
+	MY_EXPORT Array ConvertValue(const QList<ItemHandle*>&);
 	/*! \brief convert char* to QString
 	\ingroup helper
 	\return Qt String
 	*/
-	QString ConvertValue(const char*);
+	MY_EXPORT QString ConvertValue(const char*);
 	/*! \brief convert QString to null-terminated char*
 	\ingroup helper
 	\return null-terminated char* 
 	*/
-	char* ConvertValue(const QString&);
+	MY_EXPORT char* ConvertValue(const QString&);
 	/*! \brief convert char** to QStringList
 	\ingroup helper
 	\return Qt StringList
 	*/
-	QStringList ConvertValue(char**);
+	MY_EXPORT QStringList ConvertValue(char**);
 	/*! \brief convert QStringList to null-terminated char**
 	\ingroup helper
 	\return array of char* 
 	*/
-	char** ConvertValue(const QStringList&);
+	MY_EXPORT char** ConvertValue(const QStringList&);
 	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return DataTable of qreals
 	*/
-	DataTable<qreal>* ConvertValue(Matrix);
+	MY_EXPORT DataTable<qreal>* ConvertValue(Matrix);
 	/*! \brief convert Datatable<double> to Matrix (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return Matrix with null-terminated rownames, colnames, values
 	*/
-	Matrix ConvertValue(const DataTable<qreal>&);
+	MY_EXPORT Matrix ConvertValue(const DataTable<qreal>&);
 
 }
 #endif

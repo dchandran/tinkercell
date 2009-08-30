@@ -38,6 +38,12 @@ This file contains a collection of commands that perform simple operations that 
 #include "DataTable.h"
 #include "NodeGraphicsItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class NetworkWindow;
@@ -46,7 +52,7 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
-	class InsertItemsCommand : public QUndoCommand
+	MY_EXPORT class InsertItemsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -73,7 +79,7 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
-	class RemoveItemsCommand : public QUndoCommand
+	MY_EXPORT class RemoveItemsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -100,7 +106,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a move and allows redo/undo of that move
 	* \ingroup undo*/
-	class MoveCommand : public QUndoCommand
+	MY_EXPORT class MoveCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -139,7 +145,7 @@ namespace Tinkercell
 	};
 	/*! \brief this command performs an insert and allows redo/undo of that insert
 	* \ingroup undo*/
-	class InsertGraphicsCommand : public QUndoCommand
+	MY_EXPORT class InsertGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -170,7 +176,7 @@ namespace Tinkercell
 	};
 	/*! \brief this command performs an removal and allows redo/undo of that removal
 	* \ingroup undo*/
-	class RemoveGraphicsCommand : public QUndoCommand
+	MY_EXPORT class RemoveGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -211,7 +217,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the brush of an item
 	* \ingroup undo*/
-	class ChangeBrushCommand : public QUndoCommand
+	MY_EXPORT class ChangeBrushCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -237,7 +243,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen of an item
 	* \ingroup undo*/
-	class ChangePenCommand : public QUndoCommand
+	MY_EXPORT class ChangePenCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -263,7 +269,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen and/or brush of an item
 	* \ingroup undo*/
-	class ChangeBrushAndPenCommand : public QUndoCommand
+	MY_EXPORT class ChangeBrushAndPenCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -292,7 +298,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the pen of an item
 	* \ingroup undo*/
-	class ChangeZCommand : public QUndoCommand
+	MY_EXPORT class ChangeZCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -319,7 +325,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the size, angle, and orientation of an item
 	* \ingroup undo*/
-	class TransformCommand : public QUndoCommand
+	MY_EXPORT class TransformCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -360,7 +366,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the parent of a graphics item (not handles)
 	* \ingroup undo*/
-	class ChangeParentCommand : public QUndoCommand
+	MY_EXPORT class ChangeParentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -388,7 +394,7 @@ namespace Tinkercell
 
 	/*! \brief this command changes the name of the handle of an item. important: use full name of the items!
 	* \ingroup undo*/
-	class RenameCommand : public QUndoCommand
+	MY_EXPORT class RenameCommand : public QUndoCommand
 	{
 	public:
 		virtual ~RenameCommand();
@@ -454,7 +460,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to combine multiple commands into one command
 	* \ingroup undo*/
-	class CompositeCommand : public QUndoCommand
+	MY_EXPORT class CompositeCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief Constructor. Composite command takes ownership of these commands unless specified otherwise.
@@ -484,7 +490,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to invert another undo command (i.e. flip the redo/undo)
 	* \ingroup undo*/
-	class ReverseUndoCommand : public QUndoCommand
+	MY_EXPORT class ReverseUndoCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -502,7 +508,7 @@ namespace Tinkercell
 
 	/*! \brief this command can be used to replace the graphical representation of a node from an xml file
 	* \ingroup undo*/
-	class ReplaceNodeGraphicsCommand : public QUndoCommand
+	MY_EXPORT class ReplaceNodeGraphicsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -532,7 +538,7 @@ namespace Tinkercell
 
 	/*! \brief this command assigns handles to items
 	* \ingroup undo*/
-	class AssignHandleCommand : public QUndoCommand
+	MY_EXPORT class AssignHandleCommand : public QUndoCommand
 	{
 	public:
 		AssignHandleCommand(const QString& text, QGraphicsItem* item, ItemHandle* handle);
@@ -551,7 +557,7 @@ namespace Tinkercell
 
 	/*! \brief this command places all the graphics items inside one handle into the other
 	* \ingroup undo*/
-	class MergeHandlesCommand : public QUndoCommand
+	MY_EXPORT class MergeHandlesCommand : public QUndoCommand
 	{
 	public:
 		MergeHandlesCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles);
@@ -572,7 +578,7 @@ namespace Tinkercell
 	/*! \brief this command assigns parent(s) to one or more handles
 	* \ingroup undo
 	*/
-	class SetParentHandleCommand : public QUndoCommand
+	MY_EXPORT class SetParentHandleCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
@@ -598,7 +604,7 @@ namespace Tinkercell
 	/*! \brief this command assigns parent(s) to one or more handles
 	* \ingroup undo
 	*/
-	class SetHandleVisibilityCommand : public QUndoCommand
+	MY_EXPORT class SetHandleVisibilityCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/

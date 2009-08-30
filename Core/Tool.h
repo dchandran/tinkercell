@@ -21,6 +21,12 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 #include "MainWindow.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
@@ -32,7 +38,7 @@ namespace Tinkercell
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
 	*/
-	class Tool : public QWidget
+	MY_EXPORT class Tool : public QWidget
 	{
 
 		Q_OBJECT
@@ -60,7 +66,7 @@ namespace Tinkercell
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core
 		*/
-		class GraphicsItem : public QGraphicsItemGroup
+		MY_EXPORT class GraphicsItem : public QGraphicsItemGroup
 		{
 
 		public:
@@ -95,7 +101,7 @@ namespace Tinkercell
 			/*! \brief what happens when this tool is deselected */
 			virtual void deselect(int);
 
-signals:
+		signals:
 			/*! \brief this tool is selected */
 			void selected();
 			/*! \brief this tool is deselected */

@@ -22,6 +22,11 @@ This file defines an xml reader that reads a ConnectionGraphicsItem
 #include "ConnectionGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
 
 namespace Tinkercell
 {
@@ -29,7 +34,7 @@ namespace Tinkercell
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup io
 	*/
-	class ConnectionGraphicsReader : public QXmlStreamReader
+	MY_EXPORT class ConnectionGraphicsReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads up to the next start node

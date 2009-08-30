@@ -25,6 +25,12 @@ graphics are used to draw a single item.
 #include "DataTable.h"
 #include "ItemFamily.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
@@ -52,7 +58,7 @@ namespace Tinkercell
 	* specific data.
 	* \ingroup helper
 	*/
-	class ItemData
+	MY_EXPORT class ItemData
 	{
 	public:
 		/*! \brief hash table that stores the numerical data for each tool*/
@@ -79,7 +85,7 @@ namespace Tinkercell
 	Setting visible=false will prevent the SymbolsTable from loading that ItemHandle.
 	\ingroup core
 	*/
-	class ItemHandle: public QObject
+	MY_EXPORT class ItemHandle: public QObject
 	{
 		Q_OBJECT;
 
@@ -219,7 +225,7 @@ namespace Tinkercell
 	* that apply to this item, the data for this item, and the family that it belongs with
 	* \ingroup core
 	*/
-	class NodeHandle : public ItemHandle
+	MY_EXPORT class NodeHandle : public ItemHandle
 	{
 		Q_OBJECT
 
@@ -265,7 +271,7 @@ namespace Tinkercell
 	* to nodes connected (in and out)
 	* \ingroup core
 	*/
-	class ConnectionHandle : public ItemHandle
+	MY_EXPORT class ConnectionHandle : public ItemHandle
 	{
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/

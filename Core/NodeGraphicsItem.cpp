@@ -25,7 +25,7 @@ to draw movable points.
 
 namespace Tinkercell
 {
-	QString NodeGraphicsItem::class_name("NodeGraphicsItem");
+	QString NodeGraphicsItem::CLASSNAME("NodeGraphicsItem");
 	
 	ItemHandle * ControlPoint::handle() const
 	{
@@ -83,7 +83,7 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-		className = NodeGraphicsItem::class_name;
+		className = NodeGraphicsItem::CLASSNAME;
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( boundingRect().topLeft() );
 		topleft->setVisible(false);
@@ -248,7 +248,7 @@ namespace Tinkercell
 	NodeGraphicsItem* NodeGraphicsItem::clone() const
 	{
 		NodeGraphicsItem* node = new NodeGraphicsItem(*this);
-		node->className = NodeGraphicsItem::class_name;
+		node->className = NodeGraphicsItem::CLASSNAME;
 		return node;
 	}
 

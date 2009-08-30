@@ -37,6 +37,12 @@ to draw movable points.
 #include <QUndoCommand>
 #include <QTextCursor>
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class GraphicsScene;
@@ -46,7 +52,7 @@ namespace Tinkercell
 
 	/*! \brief A simple circle or square that is used for changing specific locations
 	\ingroup core*/
-	class ControlPoint : public QAbstractGraphicsShapeItem
+	MY_EXPORT class ControlPoint : public QAbstractGraphicsShapeItem
 	{
 	public:
 		/*! \brief permanent brush for this control point*/
@@ -101,7 +107,7 @@ namespace Tinkercell
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file 
 	\ingroup core*/
-	class NodeGraphicsItem : public QGraphicsItemGroup
+	MY_EXPORT class NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief get the handle of this node*/
@@ -111,7 +117,7 @@ namespace Tinkercell
 		/*! \brief for safe static casting*/
 		QString className;
 		/*! \brief for safe static casting*/
-		static QString class_name;
+		static QString CLASSNAME;
 		/*! \brief Gets the node item from one of its child items
 		* \param QGraphicsItem* the target item
 		* \param bool using true here will return the node item for a control point, otherwise control points are ignored
@@ -141,7 +147,7 @@ namespace Tinkercell
 		QSizeF defaultSize;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
-		class ControlPoint : public Tinkercell::ControlPoint
+		MY_EXPORT class ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -176,7 +182,7 @@ namespace Tinkercell
 
 		/*! \brief A closed polygon path made from arcs, lines, and beziers 
 		\ingroup core*/
-		class Shape : public QGraphicsPolygonItem
+		MY_EXPORT class Shape : public QGraphicsPolygonItem
 		{
 		public:
 			/*! \brief permanent brush for this control point*/

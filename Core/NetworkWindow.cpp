@@ -10,6 +10,7 @@ This class provides functions for editing handles, such as changing names, data,
 
 ****************************************************************************/
 
+#include <QGLWidget>
 #include "MainWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -73,11 +74,14 @@ namespace Tinkercell
 		: QGraphicsView (scene,parent)
 	{
 		setCacheMode(QGraphicsView::CacheBackground);
-		//setViewportUpdateMode (QGraphicsView::SmartViewportUpdate);
-		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
+		
+		setViewportUpdateMode (QGraphicsView::FullViewportUpdate);
+		//setViewportUpdateMode (QGraphicsView::SmartViewportUpdate);		
+		//setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
+		//setViewport(new QGLWidget);
 		//setDragMode(QGraphicsView::RubberBandDrag);
 		//setDragMode(QGraphicsView::ScrollHandDrag);
-		//setOptimizationFlags(QGraphicsView::DontClipPainter | QGraphicsView::DontSavePainterState);
+		setOptimizationFlags(QGraphicsView::DontClipPainter | QGraphicsView::DontSavePainterState);
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground(true);

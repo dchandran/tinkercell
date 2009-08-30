@@ -42,6 +42,12 @@ text-based representation of a network.
 #include "Tool.h"
 #include "TextItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class ItemHandle;
@@ -54,7 +60,7 @@ namespace Tinkercell
 	tool that parses the text and calls the itemsInserted or itemsRemoved methods. Without a
 	supporting parser tool, the TextEditor will not do anything.
 	*/
-	class TextEditor : public CodeEditor
+	MY_EXPORT class TextEditor : public CodeEditor
 	{
 		Q_OBJECT
 			friend class TextUndoCommand;
@@ -181,7 +187,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a text change
 	* \ingroup undo*/
-	class TextUndoCommand : public QUndoCommand
+	MY_EXPORT class TextUndoCommand : public QUndoCommand
 	{
 
 	public:

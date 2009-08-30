@@ -18,13 +18,19 @@ This file defines an xml reader that reads a NodeGraphicsItem file
 #include <QXmlStreamReader>
 #include "NodeGraphicsItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup core
 	*/
-	class NodeGraphicsReader : public QXmlStreamReader
+	MY_EXPORT class NodeGraphicsReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads an NodeGraphicsItem from an XML file using the IO device provided 

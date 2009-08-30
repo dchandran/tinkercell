@@ -37,6 +37,12 @@ users with the option to terminate the thread.
 #include "TCstructs.h"
 #include "DataTable.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief This class is used to run specific functions inside a C dynamic library
@@ -47,11 +53,11 @@ namespace Tinkercell
 	Only four types of functions are supported.
 	\ingroup core
 	*/
-	class CThread : public QThread
+	MY_EXPORT class CThread : public QThread
 	{
 		Q_OBJECT
 
-signals:
+	signals:
 		/*! \brief display progress of this thread (0-100). This signal is usually connected
 		to a slot in ProgressBarSignalItem*/
 		virtual void progress(int);
@@ -233,7 +239,7 @@ signals:
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread
 	\ingroup core
 	*/
-	class ProcessThread : public QThread
+	MY_EXPORT class ProcessThread : public QThread
 	{
 		Q_OBJECT
 	public:

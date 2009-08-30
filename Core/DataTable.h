@@ -20,13 +20,19 @@ the table.
 #include <QUndoCommand>
 #include <QDebug>
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief DataTable is a 2D vector with row names and column names	
 	\ingroup helper
 	*/
 	template <typename T>
-	class DataTable 
+	MY_EXPORT class DataTable 
 	{
 	protected:
 		/*! \brief the values in the table*/
@@ -567,7 +573,7 @@ namespace Tinkercell
 		\ingroup undo 
 	*/
 	template <typename T>
-	class ChangeDataCommand : public QUndoCommand
+	MY_EXPORT class ChangeDataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -627,7 +633,7 @@ namespace Tinkercell
 		\ingroup undo
 	*/
 	template <typename T1, typename T2>
-	class Change2DataCommand : public QUndoCommand
+	MY_EXPORT class Change2DataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor

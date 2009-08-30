@@ -20,6 +20,12 @@ connection names and data columns and rows, for each scene
 
 #include "ItemHandle.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class Tool;
@@ -35,7 +41,7 @@ namespace Tinkercell
 	ItemHandles with visible=true are loaded into the SymbolsTable.
 	\ingroup core
 	*/
-	class SymbolsTable
+	MY_EXPORT class SymbolsTable
 	{
 	public:
 		/*! \brief constructor

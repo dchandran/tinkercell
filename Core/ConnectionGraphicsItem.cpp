@@ -25,8 +25,8 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 namespace Tinkercell
 {
-	QString ArrowHeadItem::class_name("ArrowHeadItem");
-	QString ConnectionGraphicsItem::class_name("ConnectionGraphicsItem");
+	QString ArrowHeadItem::CLASSNAME("ArrowHeadItem");
+	QString ConnectionGraphicsItem::CLASSNAME("ConnectionGraphicsItem");
 	
 	ItemHandle * ConnectionGraphicsItem::handle() const
 	{
@@ -98,7 +98,7 @@ namespace Tinkercell
 	/*! Constructor: init everything */
 	ArrowHeadItem::ArrowHeadItem(ConnectionGraphicsItem* connection) : NodeGraphicsItem()
 	{
-		className = ArrowHeadItem::class_name;
+		className = ArrowHeadItem::CLASSNAME;
 		connectionItem = connection;
 		angle = 0;
 	}
@@ -123,7 +123,7 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
-		className = ConnectionGraphicsItem::class_name;
+		className = ConnectionGraphicsItem::CLASSNAME;
 		lineType = bezier;
 		arrowHeadDistance = 10.0;
 		centerRegionItem = 0;
@@ -259,7 +259,7 @@ namespace Tinkercell
 	ConnectionGraphicsItem* ConnectionGraphicsItem::clone() const
 	{
 		ConnectionGraphicsItem * c = new ConnectionGraphicsItem(*this);
-		c->className = ConnectionGraphicsItem::class_name;
+		c->className = ConnectionGraphicsItem::CLASSNAME;
 		return c;
 	}
 

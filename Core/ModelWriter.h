@@ -22,12 +22,18 @@ data.
 #include "GraphicsScene.h"
 #include "ItemHandle.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	/*! \brief writes to an xml file handle names and data table information from a list of item handles
 	\ingroup io
 	*/
-	class ModelWriter : public QXmlStreamWriter
+	MY_EXPORT class ModelWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

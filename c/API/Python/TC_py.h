@@ -1,5 +1,5 @@
 #include "TC_Main_py.c"
-#include "TC_NodeInsertion_py.c"
+#include "TC_PartInsertion_py.c"
 #include "TC_ConnectionInsertion_py.c"
 #include "TC_ConnectionSelection_py.c"
 #include "TC_BasicInformationTool_py.c"
@@ -167,6 +167,7 @@ static PyMethodDef pytcMethods[] = {
 	{"partsIn", pytc_partsIn, METH_VARARGS, "get all the DNA parts inside a Module or Compartment. example: a = find(\"A\"); A = partsIn(a); prints getNames(A);"},
 	{"partsUpstream", pytc_partsUpstream, METH_VARARGS, "get all the DNA parts upstream of this part. example: a = find(\"A\"); A = partsUpstream(a); prints getNames(A);"},
 	{"partsDownstream", pytc_partsDownstream, METH_VARARGS, "get all the DNA parts downstream of this part. example: a = find(\"A\"); A = partsDownstream(a); prints getNames(A);"},
-	{"alignParts",pytc_alignParts,METH_VARARGS,"align the given DNA parts in order. example: a = find(\"A\"); b = find(\"B\"); alignParts( [a,b] );"},
+
+	
 	{NULL, NULL, 0, NULL}
 };

@@ -4,31 +4,34 @@
 #include "../../TC_api.h"
 #include "../../cvodesim.h"
 
-
 static PyObject * pytc_plot(PyObject *self, PyObject *args)
 {
 	PyObject * colNames, * values, *item;
 	int xaxis = 0, opt = 1;
 	char * title = "";
+	int isList1,n1,isList2,n2;
+	int n3, isList3, rows;
+	char ** cols;
+	int i,j;
+	double * nums;
+	Matrix M;
+
 	if(!PyArg_ParseTuple(args, "OO|isi", &colNames, &values, &xaxis, &title, &opt))
         return NULL;
 	
-	int isList1 = PyList_Check(colNames);
-	int n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	isList1 = PyList_Check(colNames);
+	n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
 	
-	int isList2 = PyList_Check(values);
-	int n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
-	
-	int n3, isList3, rows;
+	isList2 = PyList_Check(values);
+	n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
 	
 	rows = 0;
 	
 	if (n1 > 0 && n2 == n1)
 	{
-		char ** cols = malloc( (1+n1) * sizeof(char*) );
+		cols = malloc( (1+n1) * sizeof(char*) );
 		cols[n1] = 0;
 	
-		int i,j;
 		for(i=0; i<n1; ++i) 
 		{ 
 			cols[i] = isList1 ? PyString_AsString( PyList_GetItem( colNames, i ) ) : PyString_AsString( PyTuple_GetItem( colNames, i ) );
@@ -44,7 +47,7 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 			if (n3 < rows || rows == 0) rows = n3;
 		}
 		
-		double * nums = malloc( n1 * rows * sizeof(double) );
+		nums = malloc( n1 * rows * sizeof(double) );
 		
 		//make the matrix
 		for(i=0; i<n2; ++i) 
@@ -60,7 +63,6 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 			//nums[i] = isList2 ? PyFloat_AsDouble( PyList_GetItem( values, i ) ) : PyFloat_AsDouble( PyTuple_GetItem( values, i ) );
 		}
 		
-		Matrix M;
 		M.cols = n1;
 		M.rows = rows;
 		
@@ -81,28 +83,29 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 static PyObject * pytc_surface(PyObject *self, PyObject *args)
 {
 	PyObject * colNames, * values, *item;
-	char * title = "";
+	char * title = "", **cols;
 	int meshx = 100, meshy = 100;
+	int isList1, n1, isList2, n2, isList3, n3, rows;
+	int i,j;
+	double * nums;
+	Matrix M;
+	
 	if(!PyArg_ParseTuple(args, "OO|sii", &colNames, &values, &title, &meshx, &meshy))
         return NULL;
 	
-	int isList1 = PyList_Check(colNames);
-	int n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	isList1 = PyList_Check(colNames);
+	n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
 	
-	int isList2 = PyList_Check(values);
-	int n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
-	
-	int n3, isList3, rows;
-	
+	isList2 = PyList_Check(values);
+	n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
 	rows = 0;
 	
 	if (n1 == 3 && n2 > 0)
 	{
 		n1 = n2;
-		char ** cols = malloc( (1+n1) * sizeof(char*) );
+		cols = malloc( (1+n1) * sizeof(char*) );
 		cols[n1] = 0;
 	
-		int i,j;
 		for(i=0; i<n2; ++i) 
 		{ 
 			if (i < 3)
@@ -121,7 +124,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 			if (n3 < rows || rows == 0) rows = n3;
 		}
 		
-		double * nums = malloc( n1 * rows * sizeof(double) );
+		nums = malloc( n1 * rows * sizeof(double) );
 		
 		//make the matrix
 		for(i=0; i<n2; ++i) 
@@ -135,7 +138,6 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 			}
 		}
 		
-		Matrix M;
 		M.cols = n1;
 		M.rows = rows;
 		
@@ -156,38 +158,33 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 {
 	int i=-1,j;
-	
+	Matrix M;
+	PyObject *ilist;
+	PyObject * item, *rowItem;
+	int rows, cols;
+	PyObject * nlist, *clist;
+
 	if(!PyArg_ParseTuple(args, "|i", &i) || (tc_plotData == 0))
         	return NULL;
 	
-	Matrix M;
-	
 	M = tc_plotData(i);
 	
-	PyObject *ilist;
-	PyObject * item, *rowItem;
 	
 	if (M.rows > 0 && M.cols > 0 && M.colnames && M.values)
 	{
-		int rows = M.rows, cols = M.cols;
+		rows = M.rows;
+		cols = M.cols;
 		
 		ilist = PyTuple_New(2);
 		
-		PyObject * nlist = PyTuple_New(cols);
-		PyObject * clist = PyTuple_New(M.cols);
-		//PyObject * rlist = PyTuple_New(M.rows);
+		nlist = PyTuple_New(cols);
+		clist = PyTuple_New(M.cols);
 		
 		for (i=0; i < M.cols && M.colnames && M.colnames[i]; i++)
 		{
 			item = Py_BuildValue("s",M.colnames[i]);
 			PyTuple_SetItem(clist, i, item);
 		}
-		
-		/*for (i=0; i < M.rows && M.rownames && M.rownames[i]; i++)
-		{
-			item = Py_BuildValue("s",M.rownames[i]);
-			PyTuple_SetItem(rlist, i, item);
-		}*/
 		
 		for (i=0; i < cols; i++)
 		{
@@ -200,7 +197,6 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 			PyTuple_SetItem(nlist, i, rowItem);
 		}
 		
-		//PyTuple_SetItem(ilist, 0, rlist);
 		PyTuple_SetItem(ilist, 0, clist);
 		PyTuple_SetItem(ilist, 1, nlist);
 		
@@ -216,25 +212,27 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 {
-	int i=-1,j;
+	int i=-1;
 	PyObject * pylist = 0;
-	
+	void ** A = 0;
+	int isList, N, k;
+	FILE * out;
+	char * appDir, * cmd;
+	int sz;
+
 	if(!PyArg_ParseTuple(args, "|O", &pylist) || (tc_allItems == 0) || (tc_allItems == 0))
         return NULL;
 	
-	void ** A = 0;
-	
 	if (pylist)
 	{
-		int isList = PyList_Check(pylist);
-		int N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	
 		if (N > 0)
 		{
 			A = malloc( (1+N) * sizeof(void*) );
 			A[N] = 0;
 			
-			int i;
 			for(i=0; i<N; ++i ) 
 			{ 
 				A[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
@@ -253,7 +251,7 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 		return PyTuple_New(0);
 	}
 	
-	int k = tc_writeModel( "ode", A );
+	k = tc_writeModel( "ode", A );
     TCFreeArray(A);
 	if (!k)
 	{
@@ -261,9 +259,9 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 		return PyTuple_New(0);
 	}
 	
-	FILE * out = fopen("ode.c","a");
+	out = fopen("ode.c","a");
 	
-	   fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
+	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
    \n\
 int run(Matrix input) \n\
 {\n\
@@ -285,12 +283,13 @@ int run(Matrix input) \n\
    fclose(out);
    
    
-   char* appDir = tc_appDir();
 
-   int sz = 0;
+   appDir = tc_appDir();
+
+   sz = 0;
    while (appDir[sz] != 0) ++sz;
    
-   char* cmd = malloc((sz*3 + 50) * sizeof(char));
+   cmd = malloc((sz*3 + 50) * sizeof(char));
 
    if (tc_isWindows())
    {
@@ -303,6 +302,7 @@ int run(Matrix input) \n\
    tc_compileBuildLoad(cmd,"run\0","Jacobian\0");
    
    free(cmd);
+   free(appDir);
 
    Py_INCREF(Py_None);
    return Py_None;

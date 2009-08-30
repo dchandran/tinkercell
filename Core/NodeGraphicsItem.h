@@ -48,7 +48,7 @@ namespace Tinkercell
 	class GraphicsScene;
 	class ItemHandle;
 	class ConnectionGraphicsItem;
-	void setHandle(QGraphicsItem*,ItemHandle*);
+	MY_EXPORT void setHandle(QGraphicsItem*,ItemHandle*);
 
 	/*! \brief A simple circle or square that is used for changing specific locations
 	\ingroup core*/

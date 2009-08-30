@@ -6,19 +6,21 @@
 static PyObject * pytc_merge(PyObject *self, PyObject *args)
 {
 	PyObject * parts;
+	int isList, i, n;
+	void ** array;
+	
 	if(!PyArg_ParseTuple(args, "O", &parts) || (tc_merge == 0))
         return NULL;
-	
-	int isList = PyList_Check(parts);
-	int n = isList ? PyList_Size(parts) : PyTuple_Size (parts);
-	
+
+	isList = PyList_Check(parts);
+	n = isList ? PyList_Size(parts) : PyTuple_Size (parts);
+
 	if (n)
 	{
 	
-		void ** array = malloc( (1+n) * sizeof(void*) );
+		array = malloc( (1+n) * sizeof(void*) );
 		array[n] = 0;
 		
-		int i;
 		for(i=0; i<n; ++i) 
 		{ 
 			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( parts, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( parts, i ) ));

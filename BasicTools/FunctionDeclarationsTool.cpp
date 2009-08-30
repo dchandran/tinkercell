@@ -298,7 +298,7 @@ namespace Tinkercell
 						for (; item!=variables.end(); ++item)
 							args << tr(item->first.data());
 					}
-					catch(mu::Parser::exception_type &e)
+					catch(mu::Parser::exception_type &)
 					{
 						ConsoleWindow::error("cannot parse " + s);
 						return;

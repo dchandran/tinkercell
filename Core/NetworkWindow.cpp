@@ -784,7 +784,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		catch(mu::Parser::exception_type &e)
+		catch(mu::Parser::exception_type &)
 		{
 			return false;
 		}

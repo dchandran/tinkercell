@@ -41,7 +41,7 @@ namespace Tinkercell
 	ItemHandles with visible=true are loaded into the SymbolsTable.
 	\ingroup core
 	*/
-	MY_EXPORT class SymbolsTable
+	class MY_EXPORT SymbolsTable
 	{
 	public:
 		/*! \brief constructor

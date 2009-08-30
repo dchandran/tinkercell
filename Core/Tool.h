@@ -38,7 +38,7 @@ namespace Tinkercell
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
 	*/
-	MY_EXPORT class Tool : public QWidget
+	class MY_EXPORT Tool : public QWidget
 	{
 
 		Q_OBJECT
@@ -66,7 +66,7 @@ namespace Tinkercell
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core
 		*/
-		MY_EXPORT class GraphicsItem : public QGraphicsItemGroup
+		class MY_EXPORT GraphicsItem : public QGraphicsItemGroup
 		{
 
 		public:

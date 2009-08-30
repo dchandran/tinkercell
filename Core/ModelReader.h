@@ -32,7 +32,7 @@ namespace Tinkercell
 	/*! \brief reads an xml file with handle names and data table information and generates a list of item handles
 	\ingroup io
 	*/
-	MY_EXPORT class ModelReader : public QXmlStreamReader
+	class MY_EXPORT ModelReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 

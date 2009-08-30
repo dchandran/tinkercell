@@ -77,7 +77,7 @@ namespace Tinkercell
 	The historyStack pointer can be used to add undo commands to the scene. 
 	\ingroup core
 	*/
-	MY_EXPORT class GraphicsScene : public QGraphicsScene
+	class MY_EXPORT GraphicsScene : public QGraphicsScene
 	{
 		Q_OBJECT
 

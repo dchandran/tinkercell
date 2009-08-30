@@ -88,7 +88,7 @@ namespace Tinkercell
 	The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 	\ingroup core
 	*/
-	MY_EXPORT class MainWindow : public QMainWindow
+	class MY_EXPORT MainWindow : public QMainWindow
 	{
 		Q_OBJECT
 

@@ -53,7 +53,7 @@ namespace Tinkercell
 	\brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).
 	\sa LPSolveInput
 	*/
-	MY_EXPORT class AbstractInputWindow : public Tool
+	class MY_EXPORT AbstractInputWindow : public Tool
 	{
 		Q_OBJECT
 
@@ -107,7 +107,7 @@ namespace Tinkercell
 	/*! \brief Used to create an input window that can receive user inputs for C plugins
 	\ingroup io
 	*/
-	MY_EXPORT class SimpleInputWindow : public AbstractInputWindow
+	class MY_EXPORT SimpleInputWindow : public AbstractInputWindow
 	{
 		Q_OBJECT
 	public:
@@ -183,7 +183,7 @@ namespace Tinkercell
 			virtual void comboBoxChanged(int);
 	protected:
 		/*! \brief delegate used inside the SimpleInputWindow*/
-		MY_EXPORT class ComboBoxDelegate : public QItemDelegate
+		class MY_EXPORT ComboBoxDelegate : public QItemDelegate
 		{
 		public:
 			ComboBoxDelegate(QObject *parent = 0);

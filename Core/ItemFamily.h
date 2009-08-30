@@ -44,7 +44,7 @@ namespace Tinkercell
 	defines the family.
 	\ingroup core
 	*/
-	MY_EXPORT class ItemFamily
+	class MY_EXPORT ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
@@ -90,7 +90,7 @@ namespace Tinkercell
 	* It contains a list of NodeGraphicsItems that is the default for this family of nodes
 	* \ingroup core
 	*/
-	MY_EXPORT class NodeFamily: public ItemFamily
+	class MY_EXPORT NodeFamily: public ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
@@ -123,7 +123,7 @@ namespace Tinkercell
 	* It contains a list ofConnectioGraphicsItems that is the default for this family of connections
 	* \ingroup core
 	*/
-	MY_EXPORT class ConnectionFamily: public ItemFamily
+	class MY_EXPORT ConnectionFamily: public ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/

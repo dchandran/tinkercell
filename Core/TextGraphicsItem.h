@@ -30,7 +30,7 @@ namespace Tinkercell
 	/*! \brief editable text item 
 	\ingroup core
 	*/
-	MY_EXPORT class TextGraphicsItem : public QGraphicsTextItem
+	class MY_EXPORT TextGraphicsItem : public QGraphicsTextItem
 	{
 		Q_OBJECT
 

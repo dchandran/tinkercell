@@ -32,7 +32,7 @@ namespace Tinkercell
 	\ingroup helper
 	*/
 	template <typename T>
-	MY_EXPORT class DataTable 
+	class MY_EXPORT DataTable 
 	{
 	protected:
 		/*! \brief the values in the table*/
@@ -573,7 +573,7 @@ namespace Tinkercell
 		\ingroup undo 
 	*/
 	template <typename T>
-	MY_EXPORT class ChangeDataCommand : public QUndoCommand
+	class MY_EXPORT ChangeDataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -633,7 +633,7 @@ namespace Tinkercell
 		\ingroup undo
 	*/
 	template <typename T1, typename T2>
-	MY_EXPORT class Change2DataCommand : public QUndoCommand
+	class MY_EXPORT Change2DataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor

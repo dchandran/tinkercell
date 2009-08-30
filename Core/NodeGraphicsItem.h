@@ -52,7 +52,7 @@ namespace Tinkercell
 
 	/*! \brief A simple circle or square that is used for changing specific locations
 	\ingroup core*/
-	MY_EXPORT class ControlPoint : public QAbstractGraphicsShapeItem
+	class MY_EXPORT ControlPoint : public QAbstractGraphicsShapeItem
 	{
 	public:
 		/*! \brief permanent brush for this control point*/
@@ -107,7 +107,7 @@ namespace Tinkercell
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file 
 	\ingroup core*/
-	MY_EXPORT class NodeGraphicsItem : public QGraphicsItemGroup
+	class MY_EXPORT NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief get the handle of this node*/
@@ -147,7 +147,7 @@ namespace Tinkercell
 		QSizeF defaultSize;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
-		MY_EXPORT class ControlPoint : public Tinkercell::ControlPoint
+		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -182,7 +182,7 @@ namespace Tinkercell
 
 		/*! \brief A closed polygon path made from arcs, lines, and beziers 
 		\ingroup core*/
-		MY_EXPORT class Shape : public QGraphicsPolygonItem
+		class MY_EXPORT Shape : public QGraphicsPolygonItem
 		{
 		public:
 			/*! \brief permanent brush for this control point*/

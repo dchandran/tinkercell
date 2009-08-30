@@ -64,7 +64,7 @@ namespace Tinkercell
 
 	/*! \brief A node graphics item that is used to draw arrow heads on connection items.
 	\ingroup core*/
-	MY_EXPORT class ArrowHeadItem : public NodeGraphicsItem
+	class MY_EXPORT ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
 		/*! \brief The connection item that this arrow head belongs with*/
@@ -89,7 +89,7 @@ namespace Tinkercell
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
-	MY_EXPORT class ConnectionGraphicsItem : public QGraphicsPathItem
+	class MY_EXPORT ConnectionGraphicsItem : public QGraphicsPathItem
 	{
 	public:
 		/*! \brief used for checking type before static casts */

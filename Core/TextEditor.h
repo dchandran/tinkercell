@@ -60,7 +60,7 @@ namespace Tinkercell
 	tool that parses the text and calls the itemsInserted or itemsRemoved methods. Without a
 	supporting parser tool, the TextEditor will not do anything.
 	*/
-	MY_EXPORT class TextEditor : public CodeEditor
+	class MY_EXPORT TextEditor : public CodeEditor
 	{
 		Q_OBJECT
 			friend class TextUndoCommand;
@@ -187,7 +187,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a text change
 	* \ingroup undo*/
-	MY_EXPORT class TextUndoCommand : public QUndoCommand
+	class MY_EXPORT TextUndoCommand : public QUndoCommand
 	{
 
 	public:

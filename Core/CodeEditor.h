@@ -67,7 +67,7 @@ namespace Tinkercell
 
 	class LineNumberArea;
 
-	MY_EXPORT class CodeEditor : public QPlainTextEdit
+	class MY_EXPORT CodeEditor : public QPlainTextEdit
 	{
 		Q_OBJECT
 
@@ -110,7 +110,7 @@ namespace Tinkercell
 	};
 
 
-	MY_EXPORT class LineNumberArea : public QWidget
+	class MY_EXPORT LineNumberArea : public QWidget
 	{
 	public:
 

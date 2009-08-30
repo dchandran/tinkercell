@@ -58,7 +58,7 @@ namespace Tinkercell
 	* specific data.
 	* \ingroup helper
 	*/
-	MY_EXPORT class ItemData
+	class MY_EXPORT ItemData
 	{
 	public:
 		/*! \brief hash table that stores the numerical data for each tool*/
@@ -85,7 +85,7 @@ namespace Tinkercell
 	Setting visible=false will prevent the SymbolsTable from loading that ItemHandle.
 	\ingroup core
 	*/
-	MY_EXPORT class ItemHandle: public QObject
+	class MY_EXPORT ItemHandle: public QObject
 	{
 		Q_OBJECT;
 
@@ -225,7 +225,7 @@ namespace Tinkercell
 	* that apply to this item, the data for this item, and the family that it belongs with
 	* \ingroup core
 	*/
-	MY_EXPORT class NodeHandle : public ItemHandle
+	class MY_EXPORT NodeHandle : public ItemHandle
 	{
 		Q_OBJECT
 
@@ -271,7 +271,7 @@ namespace Tinkercell
 	* to nodes connected (in and out)
 	* \ingroup core
 	*/
-	MY_EXPORT class ConnectionHandle : public ItemHandle
+	class MY_EXPORT ConnectionHandle : public ItemHandle
 	{
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/

@@ -39,7 +39,7 @@ namespace Tinkercell
 	/*! \brief Text items represent strings in the text-based representation of a network.
 	\ingroup Core
 	*/
-	MY_EXPORT class TextItem
+	class MY_EXPORT TextItem
 	{
 	public:
 		TextItem();
@@ -66,7 +66,7 @@ namespace Tinkercell
 	/*! \brief Text items that represent Nodes.
 	\ingroup Core
 	*/
-	MY_EXPORT class NodeTextItem : public TextItem
+	class MY_EXPORT NodeTextItem : public TextItem
 	{
 	public:
 		NodeTextItem();
@@ -82,7 +82,7 @@ namespace Tinkercell
 	/*! \brief Text items that represent connections, usually a single line on the TextEditor.
 	\ingroup Core
 	*/
-	MY_EXPORT class ConnectionTextItem : public TextItem
+	class MY_EXPORT ConnectionTextItem : public TextItem
 	{
 	public:
 		ConnectionTextItem();

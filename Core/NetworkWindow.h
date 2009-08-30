@@ -56,7 +56,7 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	/*! \brief An MDI sub window that just signals before closing */
-	MY_EXPORT class NetworkWindow : public QMdiSubWindow
+	class MY_EXPORT NetworkWindow : public QMdiSubWindow
 	{
 		Q_OBJECT
 
@@ -164,7 +164,7 @@ namespace Tinkercell
 	protected:
 		/*! \brief view for a graphics scene
 		\ingroup helper*/
-		MY_EXPORT class GraphicsView : public QGraphicsView
+		class MY_EXPORT GraphicsView : public QGraphicsView
 		{
 		public:
 			/*!

@@ -73,8 +73,35 @@ namespace Multicell
 		return false;
 	}
 
-	void MulticellInterface::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
+	void MulticellInterface::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers)
 	{
+		if (scene && button == Qt::LeftButton)
+		{
+			if (scene->items(point).isEmpty())
+			{
+				CellNode * cell = new CellNode;
+				cell->setPos(point);
+				scene->insert(tr("new cell created"),cell);
+				
+				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
+				
+				ItemHandle * handle = 0;
+				for (int i=0; i < adjacentItems.size(); ++i)
+				{
+					handle = getHandle(adjacentItems[i]);
+					if (handle)
+						break;
+				}
+				
+				if (!handle)
+				{
+					handle = new NodeHandle;
+					handle->name = uniqueName();
+				}
+				
+				cell->setHandle(handle);
+			}
+		}
 	}
 		
 	void MulticellInterface::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
@@ -86,7 +113,7 @@ namespace Multicell
 		ItemHandle * h = getHandle(item);
 		if (h)
 		{
-			
+			ConsoleWindow::message(h->name + tr(" information"));
 		}
 	}
 	

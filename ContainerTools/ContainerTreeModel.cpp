@@ -28,7 +28,7 @@ namespace Tinkercell
 			else
 			{
 				QList<QString> keys = itemHandle->family()->numericalAttributes.keys();
-				if (itemHandle->type == ConnectionHandle::Type)
+				if (itemHandle->type == ConnectionHandle::TYPE)
 				{
 					keys.removeAll(QString("numin"));
 					keys.removeAll(QString("numout"));

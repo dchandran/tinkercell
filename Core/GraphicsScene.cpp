@@ -2648,7 +2648,7 @@ namespace Tinkercell
 		node->setBoundingRect(p1,p2);
 	}
 	
-	void drawBackground( QPainter* painter, const QRectF & rect)
+	void GraphicsScene::drawBackground( QPainter* painter, const QRectF & rect)
 	{
 		if (gridSz < 1) return;
 		painter->setPen(GridPen);

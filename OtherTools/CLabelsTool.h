@@ -58,6 +58,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 		
 	public slots:
+		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * library );
 		void clearLabels();
 		void keyPressed(GraphicsScene * scene, QKeyEvent *);

@@ -29,8 +29,10 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
 		
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-
-			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
+			
+			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
+			
+			//connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 			//connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			//connect(mainWindow,SIGNAL(keyReleased(GraphicsScene *, QKeyEvent *)),this,SLOT(keyPressed(GraphicsScene*, QKeyEvent *)));
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -49,6 +51,11 @@ namespace Tinkercell
 		 void (*setDisplayLabelColor)(int r1, int g1, int b1, int r2, int g2, int b2),
 		 void (*highlightItem)(OBJ item, int r, int g, int b)
 	);
+	
+	void CLabelsTool::historyChanged( int )
+	{
+		escapeSignal(0);
+	}
 	
 	void CLabelsTool::setupFunctionPointers( QLibrary * library )
 	{

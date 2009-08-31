@@ -199,7 +199,7 @@ namespace Tinkercell
 				itemHandles += items[i];
 
 			if (!equations.isEmpty())
-				if (items[i] && items[i]->type == NodeHandle::Type)
+				if (items[i] && items[i]->type == NodeHandle::TYPE)
 				{
 					QList<ConnectionHandle*> connections = static_cast<NodeHandle*>(items[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
@@ -207,7 +207,7 @@ namespace Tinkercell
 							itemHandles += connections[j];
 				}
 				else
-					if (items[i] && items[i]->type == ConnectionHandle::Type)
+					if (items[i] && items[i]->type == ConnectionHandle::TYPE)
 					{
 						QList<NodeHandle*> nodes = static_cast<ConnectionHandle*>(items[i])->nodes();
 						for (int j=0; j < nodes.size(); ++j)
@@ -233,7 +233,7 @@ namespace Tinkercell
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
 						QString str = itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j);
-						if ((equations.isEmpty() && !(itemHandles[i]->type == ConnectionHandle::Type &&
+						if ((equations.isEmpty() && !(itemHandles[i]->type == ConnectionHandle::TYPE &&
 							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))))
 							|| equations.contains(str) ||
 							(itemHandles[i]->family() && !itemHandles[i]->family()->numericalAttributes.contains(nDataTable->rowName(j))))
@@ -682,7 +682,7 @@ namespace Tinkercell
 					nDataTable = &(itemHandles[i]->data->numericalData[this->name]);
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
-						if (!(itemHandles[i]->type == ConnectionHandle::Type &&
+						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
 							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
@@ -697,7 +697,7 @@ namespace Tinkercell
 					sDataTable = &(itemHandles[i]->data->textData[this->name]);
 					for (int j=0; j < sDataTable->rows(); ++j)
 					{
-						if (!(itemHandles[i]->type == ConnectionHandle::Type &&
+						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
 							sDataTable->rowName(j) == tr("typein") || sDataTable->rowName(j) == tr("typeout")))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
@@ -985,7 +985,7 @@ namespace Tinkercell
                     {
                     if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
                         && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
-                        && !(handle->type == ConnectionHandle::Type && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
+                        && !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
                         )
                         {
                         rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
@@ -1027,7 +1027,7 @@ namespace Tinkercell
 				{
 					if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
 						&& (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
-						&& !(handle->type == ConnectionHandle::Type && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
+						&& !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
 						)
 					{
 						rownames += handle->fullName(sep) + sep + dataTable->rowName(j);

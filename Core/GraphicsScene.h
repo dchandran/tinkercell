@@ -82,8 +82,13 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+		/*! \brief each graphics scene has a default behavior, i.e. moving, selecing, deleting. Whether or not
+			to use the default behavior is set using scene->useDefaultBehavior. This static variable is the
+			default value for each scene's useDefaultBehavior variable, i.e. setting this to true will cause a
+			newly constructed graphics scene to NOT use default behaviors.*/
+		static bool USE_DEFAULT_BEHAVIOR;
 		/*! \brief setting grid to a non-zero value forces node items to "fit" on the grid, where
-			the gap between the grid lines is determined by this variable*/
+			the gap between the grid lines is determined by this variable. The default is 0, i.e. no grid*/
 		static int GRID;
 		/*! \brief pen that is used to draw the selection rectangle*/
 		static QPen SelectionRectanglePen;

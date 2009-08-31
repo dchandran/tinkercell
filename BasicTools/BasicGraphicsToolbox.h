@@ -68,50 +68,51 @@ namespace Tinkercell
 		BasicGraphicsToolbox();
 		bool setMainWindow(MainWindow * main);
 
-		private slots:
-			void getColorRGB(ItemHandle*,int*,int);
-			void getColorR(QSemaphore*,int*,ItemHandle*);
-			void getColorG(QSemaphore*,int*,ItemHandle*);
-			void getColorB(QSemaphore*,int*,ItemHandle*);
-			void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
+	private slots:
+		void getColorRGB(ItemHandle*,int*,int);
+		void getColorR(QSemaphore*,int*,ItemHandle*);
+		void getColorG(QSemaphore*,int*,ItemHandle*);
+		void getColorB(QSemaphore*,int*,ItemHandle*);
+		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
 
-		public slots:
+	public slots:
 
-			void setupFunctionPointers( QLibrary * );
-			void bringToFront();
-			void sendToBack();
-			void zoomIn();
-			void find();
-			void closeFind();
-			void rename();
-			void zoomOut();
-			void group();
-			void ungroup();
-			void changeBrush();
-			void changePen();
-			void selectBrushColor1();
-			void selectBrushAlpha1();
-			void selectBrushColor2();
-			void selectBrushAlpha2();
-			void selectPenColor();
-			void selectPenWidth();
-			void noGradient();
-			void linearGradient();
-			void radialGradient();
-			void alignLeft();
-			void alignRight();	
-			void alignTop();
-			void alignBottom();
-			void alignCompactVertical();
-			void alignCompactHorizontal();
-			void alignEvenSpacedVertical();
-			void alignEvenSpacedHorizontal();
-			void alignSelected();
+		void setupFunctionPointers( QLibrary * );
+		void bringToFront();
+		void sendToBack();
+		void zoomIn();
+		void find();
+		void closeFind();
+		void rename();
+		void zoomOut();
+		void group();
+		void ungroup();
+		void changeBrush();
+		void changePen();
+		void selectBrushColor1();
+		void selectBrushAlpha1();
+		void selectBrushColor2();
+		void selectBrushAlpha2();
+		void selectPenColor();
+		void selectPenWidth();
+		void noGradient();
+		void linearGradient();
+		void radialGradient();
+		void alignLeft();
+		void alignRight();	
+		void alignTop();
+		void alignBottom();
+		void alignCompactVertical();
+		void alignCompactHorizontal();
+		void alignEvenSpacedVertical();
+		void alignEvenSpacedHorizontal();
+		void alignSelected();
 
-			void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-			void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
-			void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-			void escapeSlot ( const QWidget * );
+		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
+		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void escapeSlot ( const QWidget * );
 
 	protected:
 

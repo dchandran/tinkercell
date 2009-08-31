@@ -94,7 +94,7 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
-		static int Type;
+		static int TYPE;
 		/*! \brief cast to connection family*/
 		static NodeFamily * asNode(ItemFamily*);
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
@@ -127,7 +127,7 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
-		static int Type;
+		static int TYPE;
 		/*! \brief cast to connection family*/
 		static ConnectionFamily * asConnection(ItemFamily*);
 		/*! \brief arrow used to represent this family in text-based networks*/

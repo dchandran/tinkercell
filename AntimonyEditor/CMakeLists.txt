@@ -8,6 +8,7 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 
   ../Core/TextItem.h 
+  ../Core/TextParser.h 
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
   )

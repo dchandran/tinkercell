@@ -26,6 +26,8 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 namespace Tinkercell
 {
+	bool GraphicsScene::USE_DEFAULT_BEHAVIOR = true;
+	
 	int GraphicsScene::GRID = 0;
 	
 	QPen GraphicsScene::SelectionRectanglePen = Qt::NoPen;
@@ -196,7 +198,7 @@ namespace Tinkercell
 	{
 		gridSz = GRID;
 		mouseDown = false;
-		useDefaultBehavior = true;
+		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
 		setFocus();
 		//setItemIndexMethod(NoIndex);
 
@@ -536,8 +538,6 @@ namespace Tinkercell
 			{
 				move(movingItems,change);
 			}
-
-			//movingItems.clear();
 		}
 		else
 		{
@@ -1590,24 +1590,30 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> items = scene->selected();
 
-		if (items.size() < 1) return;
-
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
 		if (clipboard)
 		{
-			QRectF viewport = this->viewport();//selectionRect.sceneBoundingRect();
-			//if (items.size() == 1 && items[0])
-				//viewport = items[0]->sceneBoundingRect();
-			viewport.adjust(-10.0,-10.0,10.0,10.0);
-			int w = 540;
-			int h = (int)(viewport.height() * w/viewport.width());
-			QImage image(w,h,QImage::Format_ARGB32);
-			scene->print(&image,viewport);
-			clipboard->setImage(image);
 			if (items.size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0])))
+			{
 				clipboard->setText( textItem->toPlainText() );
+			}
+			else
+			{
+				QRectF viewport = this->viewport();
+				/*if (items.size() == 1 && items[0])
+					viewport = items[0]->sceneBoundingRect().normalized();
+				else
+					viewport = QRectF( clickedPoint, selectionRect.sceneBoundingRect().normalized().size() );*/
+				int w = 540;
+				int h = (int)(viewport.height() * w/viewport.width());
+				QImage image(w,h,QImage::Format_ARGB32);
+				scene->print(&image);
+				clipboard->setImage(image);
+			}
 		}
+		
+		if (items.size() < 1) return;
 
 		clearStaticItems();
 

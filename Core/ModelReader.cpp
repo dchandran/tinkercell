@@ -85,10 +85,10 @@ namespace Tinkercell
 				QString str = vec.at(i).value().toString();
 				bool ok;
 				int n = str.toInt(&ok);
-				if (n == NodeHandle::Type)
+				if (n == NodeHandle::TYPE)
 					handle = new NodeHandle;
 				else
-					if (n == ConnectionHandle::Type)
+					if (n == ConnectionHandle::TYPE)
 						handle = new ConnectionHandle;
 					else
 						handle = new ItemHandle;

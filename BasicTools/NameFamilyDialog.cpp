@@ -296,7 +296,7 @@ namespace Tinkercell
 				{
 					if (node->connections().isEmpty())
 					{
-						if (handle->type == NodeHandle::Type)
+						if (handle->type == NodeHandle::TYPE)
 						{
 							NodeHandle * handle2 = new NodeHandle(nodesTree->nodeFamilies[family]);
 							handle2->name = handle->name;

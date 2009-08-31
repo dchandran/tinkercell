@@ -365,14 +365,14 @@ namespace Tinkercell
 		{
 			if (handlesList[i].second)
 			{
-				if (handlesList[i].second->type == NodeHandle::Type)
+				if (handlesList[i].second->type == NodeHandle::TYPE)
 				{
 					nodeHandle = static_cast<NodeHandle*>(handlesList[i].second);
 					if (nodesTree->nodeFamilies.contains(handlesList[i].first))
 						nodeHandle->setFamily( nodesTree->nodeFamilies[handlesList[i].first] );
 				}
 				else
-					if (handlesList[i].second->type == ConnectionHandle::Type)
+					if (handlesList[i].second->type == ConnectionHandle::TYPE)
 					{
 						connectionHandle = static_cast<ConnectionHandle*>(handlesList[i].second);
 						if (connectionsTree->connectionFamilies.contains(handlesList[i].first))

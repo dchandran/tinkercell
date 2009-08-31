@@ -14,19 +14,19 @@ Each item in Tinkercell has an associated family.
 
 namespace Tinkercell
 {
-	int NodeFamily::Type = 1;
-	int ConnectionFamily::Type = 2;
+	int NodeFamily::TYPE = 1;
+	int ConnectionFamily::TYPE = 2;
 
 	NodeFamily * NodeFamily::asNode(ItemFamily* item)
 	{
-		if (item && item->type == NodeFamily::Type)
+		if (item && item->type == NodeFamily::TYPE)
 			return static_cast<NodeFamily*>(item);
 		return 0;
 	}
 
 	ConnectionFamily * ConnectionFamily::asConnection(ItemFamily* item)
 	{
-		if (item && item->type == ConnectionFamily::Type)
+		if (item && item->type == ConnectionFamily::TYPE)
 			return static_cast<ConnectionFamily*>(item);
 		return 0;
 	}
@@ -67,7 +67,7 @@ namespace Tinkercell
 
 	NodeFamily::NodeFamily()
 	{
-		type = NodeFamily::Type;
+		type = NodeFamily::TYPE;
 	}
 
 	NodeFamily::~NodeFamily() {}
@@ -124,7 +124,7 @@ namespace Tinkercell
 
 	ConnectionFamily::ConnectionFamily()
 	{
-		type = ConnectionFamily::Type;
+		type = ConnectionFamily::TYPE;
 	}
 
 	ConnectionFamily::~ConnectionFamily() {}

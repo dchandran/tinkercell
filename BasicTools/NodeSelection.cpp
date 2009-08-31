@@ -290,8 +290,8 @@ namespace Tinkercell
 		{
 			if (views[j])
 			{
-				scalex = sqrt(views[j]->transform().m11());
-				scaley = sqrt(views[j]->transform().m22());
+				scalex = (views[j]->transform().m11());
+				scaley = (views[j]->transform().m22());
 				break;
 			}
 		}

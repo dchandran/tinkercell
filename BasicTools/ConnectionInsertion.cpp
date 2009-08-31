@@ -162,7 +162,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectedNodes(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && list && item->type == ConnectionHandle::Type)
+		if (item && list && item->type == ConnectionHandle::TYPE)
 		{
 			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
 			for (int i=0; i < nodes.size(); ++i)
@@ -175,7 +175,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectedNodesIn(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && list && item->type == ConnectionHandle::Type)
+		if (item && list && item->type == ConnectionHandle::TYPE)
 		{
 			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodesIn();
 			for (int i=0; i < nodes.size(); ++i)
@@ -188,7 +188,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectedNodesOut(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && list && item->type == ConnectionHandle::Type)
+		if (item && list && item->type == ConnectionHandle::TYPE)
 		{
 			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodesOut();
 			for (int i=0; i < nodes.size(); ++i)
@@ -200,7 +200,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectedNodesOther(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && list && item->type == ConnectionHandle::Type)
+		if (item && list && item->type == ConnectionHandle::TYPE)
 		{
 			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
 			QList<NodeHandle*> nodesIn = (static_cast<ConnectionHandle*>(item))->nodesIn();
@@ -215,7 +215,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnections(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && item->type == NodeHandle::Type && list)
+		if (item && item->type == NodeHandle::TYPE && list)
 		{
 			QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
 			for (int i=0; i < connections.size(); ++i)
@@ -229,7 +229,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectionsIn(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && item->type == NodeHandle::Type && list)
+		if (item && item->type == NodeHandle::TYPE && list)
 		{
 			NodeHandle * node = static_cast<NodeHandle*>(item);
 			QList<ConnectionHandle*> connections = node->connections();
@@ -243,7 +243,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectionsOut(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && item->type == NodeHandle::Type && list)
+		if (item && item->type == NodeHandle::TYPE && list)
 		{
 			NodeHandle * node = static_cast<NodeHandle*>(item);
 			QList<ConnectionHandle*> connections = node->connections();
@@ -257,7 +257,7 @@ namespace Tinkercell
 
 	void ConnectionInsertion::getConnectionsOther(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && item->type == NodeHandle::Type && list)
+		if (item && item->type == NodeHandle::TYPE && list)
 		{
 			NodeHandle * node = static_cast<NodeHandle*>(item);
 			QList<ConnectionHandle*> connections = node->connections();
@@ -729,7 +729,7 @@ namespace Tinkercell
 					{
 						if (selectedConnections[j] && selectedConnections[j]->centerRegionItem &&
 							selectedConnections[j]->itemHandle &&
-							selectedConnections[j]->itemHandle->type == ConnectionHandle::Type)
+							selectedConnections[j]->itemHandle->type == ConnectionHandle::TYPE)
 						{
 							insertList += selectedConnections[j]->centerRegionItem;
 							selectedNodes += selectedConnections[j]->centerRegionItem;

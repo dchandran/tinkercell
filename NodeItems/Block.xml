@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Block.xml" width="100" height="100">
+    <ControlPoints>
+        <ControlPoint x="91" y="155"/>
+        <ControlPoint x="351" y="155"/>
+        <ControlPoint x="310" y="312"/>
+        <ControlPoint x="92" y="312"/>
+        <ControlPoint x="137" y="102"/>
+        <ControlPoint x="310" y="102"/>
+        <ControlPoint x="351" y="269"/>
+        <ControlPoint x="137" y="312"/>
+        <ControlPoint x="91" y="124"/>
+        <ControlPoint x="92" y="100"/>
+        <ControlPoint x="351" y="124"/>
+        <ControlPoint x="351" y="102"/>
+        <ControlPoint x="351" y="294"/>
+        <ControlPoint x="351" y="312"/>
+        <ControlPoint x="91" y="294"/>
+        <ControlPoint x="91" y="269"/>
+        <ControlPoint x="108" y="113"/>
+        <ControlPoint x="335.78" y="286.912"/>
+        <ControlPoint x="320.515" y="295.515"/>
+        <ControlPoint x="332.668" y="155"/>
+        <ControlPoint x="310" y="117"/>
+        <ControlPoint x="137" y="116"/>
+        <ControlPoint x="108" y="269"/>
+        <ControlPoint x="108" y="155"/>
+        <ControlPoint x="179" y="116"/>
+        <ControlPoint x="332.824" y="269"/>
+        <ControlPoint x="310" y="294"/>
+        <ControlPoint x="330.756" y="115.669"/>
+        <ControlPoint x="104.176" y="304.603"/>
+        <ControlPoint x="137" y="294"/>
+        <ControlPoint x="333.624" y="120.78"/>
+        <ControlPoint x="195.968" y="294.43"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,8,9,4,5,11,10,1,6,12,13,2,7,3,14,15,0"/>
+            <LineTypes sequence="bezier,line,bezier,line,bezier,line,bezier,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#a1cf8b" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="213.175" y="196.924"/>
+                <End x="213.175" y="196.924"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="15,0,8,9,4,5,20,24,21,16,23,22,15"/>
+            <LineTypes sequence="line,bezier,line,line,line,bezier,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#ffffd2" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="99" y="194"/>
+                <End x="99" y="194"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="22,28,29,31,26,18,17,25,19,30,27,20,5,11,10,1,6,12,13,2,7,3,14,15,22"/>
+            <LineTypes sequence="bezier,line,bezier,line,bezier,line,bezier,line,bezier,line,bezier,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#535a57" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="247.589" y="295.386"/>
+                <End x="247.589" y="295.386"/>
+            </Gradient>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

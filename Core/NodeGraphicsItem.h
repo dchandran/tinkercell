@@ -252,6 +252,8 @@ namespace Tinkercell
 		virtual QList<ConnectionGraphicsItem*> connectionsDisconnected();
 		/*! \brief get all the connection items linked to this node as a list of qgraphicsitems*/
 		virtual QList<QGraphicsItem*> connectionsAsGraphicsItems();
+		/*! \brief get all the node items that are bordering this node*/
+		virtual QList<NodeGraphicsItem*> adjacentNodeItems() const;
 	protected:
 		/*! \brief bounding rectangle for the whole group*/
 		QRectF boundingRectangle;

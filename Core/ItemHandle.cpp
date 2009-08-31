@@ -461,11 +461,11 @@ namespace Tinkercell
 	PART HANDLE
 	**********************************/
 
-	int NodeHandle::Type = 1;
+	int NodeHandle::TYPE = 1;
 
 	NodeHandle * NodeHandle::asNode(ItemHandle * item)
 	{
-		if (item && item->type == NodeHandle::Type)
+		if (item && item->type == NodeHandle::TYPE)
 			return static_cast<NodeHandle*>(item);
 		return 0;
 	}
@@ -475,7 +475,7 @@ namespace Tinkercell
 		parent = 0;
 		nodeFamily = 0;
 		data = new ItemData();
-		type = NodeHandle::Type;
+		type = NodeHandle::TYPE;
 	}
 
 	NodeHandle::NodeHandle(NodeFamily * family)
@@ -483,12 +483,12 @@ namespace Tinkercell
 		parent = 0;
 		nodeFamily = family;
 		data = new ItemData();
-		type = NodeHandle::Type;
+		type = NodeHandle::TYPE;
 	}
 
 	NodeHandle::NodeHandle(NodeFamily * family, NodeGraphicsItem * item)
 	{	
-		type = NodeHandle::Type;
+		type = NodeHandle::TYPE;
 		parent = 0;
 		data = new ItemData();
 		nodeFamily = family;
@@ -501,7 +501,7 @@ namespace Tinkercell
 
 	NodeHandle::NodeHandle(NodeFamily * family, NodeTextItem * item)
 	{	
-		type = NodeHandle::Type;
+		type = NodeHandle::TYPE;
 		parent = 0;
 		data = new ItemData();
 		nodeFamily = family;
@@ -551,7 +551,7 @@ namespace Tinkercell
 					connections = node->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] && connections[j]->itemHandle && 
-							connections[j]->itemHandle->type == ConnectionHandle::Type)
+							connections[j]->itemHandle->type == ConnectionHandle::TYPE)
 							list << static_cast<ConnectionHandle*>(connections[j]->itemHandle);
 				}
 			}
@@ -570,7 +570,7 @@ namespace Tinkercell
 							connections = node->connections;
 							for (int j=0; j < connections.size(); ++j)
 								if (connections[j] && connections[j]->itemHandle && 
-									connections[j]->itemHandle->type == ConnectionHandle::Type)
+									connections[j]->itemHandle->type == ConnectionHandle::TYPE)
 									list << static_cast<ConnectionHandle*>(connections[j]->itemHandle);
 						}
 					}
@@ -583,18 +583,18 @@ namespace Tinkercell
 	CONNECTION HANDLE
 	*************************************/
 
-	int ConnectionHandle::Type = 2;
+	int ConnectionHandle::TYPE = 2;
 
 	ConnectionHandle * ConnectionHandle::asConnection(ItemHandle * item)
 	{
-		if (item && item->type == ConnectionHandle::Type)
+		if (item && item->type == ConnectionHandle::TYPE)
 			return static_cast<ConnectionHandle*>(item);
 		return 0;
 	}
 
 	ConnectionHandle::ConnectionHandle()
 	{	
-		type = ConnectionHandle::Type;
+		type = ConnectionHandle::TYPE;
 		parent = 0;
 		connectionFamily = 0;
 		data = new ItemData();
@@ -602,7 +602,7 @@ namespace Tinkercell
 
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family)
 	{	
-		type = ConnectionHandle::Type;
+		type = ConnectionHandle::TYPE;
 		parent = 0;
 		data = new ItemData();
 		connectionFamily = family;
@@ -610,7 +610,7 @@ namespace Tinkercell
 
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item)
 	{	
-		type = ConnectionHandle::Type;
+		type = ConnectionHandle::TYPE;
 		parent = 0;
 		data = new ItemData();
 		connectionFamily = family;
@@ -623,7 +623,7 @@ namespace Tinkercell
 
 	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item)
 	{	
-		type = ConnectionHandle::Type;
+		type = ConnectionHandle::TYPE;
 		parent = 0;
 		data = new ItemData();
 		connectionFamily = family;
@@ -673,7 +673,7 @@ namespace Tinkercell
 					for (int i=0; i < nodes.size(); ++i)
 					{	
 						if (nodes[i] && nodes[i]->itemHandle && 
-							nodes[i]->itemHandle->type == NodeHandle::Type)
+							nodes[i]->itemHandle->type == NodeHandle::TYPE)
 							nodeslist << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 					}
 				}
@@ -694,7 +694,7 @@ namespace Tinkercell
 							for (int i=0; i < nodes.size(); ++i)
 							{	
 								if (nodes[i] && nodes[i]->itemHandle && 
-									nodes[i]->itemHandle->type == NodeHandle::Type)
+									nodes[i]->itemHandle->type == NodeHandle::TYPE)
 									nodeslist << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 							}
 						}
@@ -735,7 +735,7 @@ namespace Tinkercell
 					{
 						if (nodesIn[i] && !nodesDisconnected.contains(nodesIn[i]) && 
 							nodesIn[i]->itemHandle && 
-							nodesIn[i]->itemHandle->type == NodeHandle::Type)
+							nodesIn[i]->itemHandle->type == NodeHandle::TYPE)
 							nodesList << static_cast<NodeHandle*>(nodesIn[i]->itemHandle);
 					}
 				}
@@ -756,7 +756,7 @@ namespace Tinkercell
 							for (int i=0; i < nodes.size(); ++i)
 							{	
 								if (nodes[i] && nodes[i]->itemHandle && 
-									nodes[i]->itemHandle->type == NodeHandle::Type)
+									nodes[i]->itemHandle->type == NodeHandle::TYPE)
 									nodesList << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 							}
 						}
@@ -797,7 +797,7 @@ namespace Tinkercell
 					{
 						if (nodesOut[i] && !nodesDisconnected.contains(nodesOut[i]) && 
 							nodesOut[i]->itemHandle &&
-							nodesOut[i]->itemHandle->type == NodeHandle::Type)
+							nodesOut[i]->itemHandle->type == NodeHandle::TYPE)
 							nodesList << static_cast<NodeHandle*>(nodesOut[i]->itemHandle);
 					}
 				}
@@ -818,7 +818,7 @@ namespace Tinkercell
 							for (int i=0; i < nodes.size(); ++i)
 							{	
 								if (nodes[i] && nodes[i]->itemHandle && 
-									nodes[i]->itemHandle->type == NodeHandle::Type)
+									nodes[i]->itemHandle->type == NodeHandle::TYPE)
 									nodesList << static_cast<NodeHandle*>(nodes[i]->itemHandle);
 							}
 						}

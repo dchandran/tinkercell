@@ -177,7 +177,7 @@ namespace Tinkercell
 	{
 		connectionHandles.clear();
 		for (int i=0; i < items.size(); ++i)
-			if (items[i] && items[i]->type == ConnectionHandle::Type)
+			if (items[i] && items[i]->type == ConnectionHandle::TYPE)
 				connectionHandles += static_cast<ConnectionHandle*>(items[i]);
 		updateTable();
 		for (int i=0; i < ratesTable.rowCount() && i < updatedRowNames.size(); ++i)
@@ -293,7 +293,7 @@ namespace Tinkercell
 			for (int i=0; i < list.size(); ++i)
 			{
 				connection = ConnectionGraphicsItem::topLevelConnectionItem(list[i]);
-				if (connection && connection->itemHandle && connection->itemHandle->type == ConnectionHandle::Type)
+				if (connection && connection->itemHandle && connection->itemHandle->type == ConnectionHandle::TYPE)
 				{
 					connectionHandle = static_cast<ConnectionHandle*>(connection->itemHandle);
 					if (connectionHandle)

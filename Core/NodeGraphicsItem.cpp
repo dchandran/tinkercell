@@ -1156,6 +1156,27 @@ namespace Tinkercell
 		}
 		return connections;
 	}
-
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::adjacentNodeItems() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+		
+		QGraphicsScene * scene = this->scene();
+		
+		if (scene) return nodes;
+		
+		QRectF rect = this->sceneBoundingRect();
+		rect.adjust( -rect.width()/10.0, -rect.height()/10.0, rect.width()/10.0, rect.height()/10.0 );
+		
+		QList<QGraphicsItem*> items = scene->items(rect);
+		
+		NodeGraphicsItem * node;
+		for (int i=0; i < items.size(); ++i)
+			if ((node = topLevelNodeItem(items[i])) && node != this && !nodes.contains(node))
+				nodes << node;
+		
+		return nodes;
+		
+	}
 
 }

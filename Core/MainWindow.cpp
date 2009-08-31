@@ -2970,7 +2970,7 @@ namespace Tinkercell
 		
 		bool ok;
 		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
-											GraphicsScene::GRID,0,currentScene()->gridSize(),1,&ok);
+											GraphicsScene::GRID,0,(int)(currentScene()->sceneRect().width()/10.0),1,&ok);
 		if (ok)		
 		{	
 			GraphicsScene::GRID = d;

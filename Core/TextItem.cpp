@@ -15,8 +15,8 @@ Text items are used in the text-based version.
 
 namespace Tinkercell
 {
-	int NodeTextItem::Type = 1;
-	int ConnectionTextItem::Type = 2;
+	int NodeTextItem::TYPE = 1;
+	int ConnectionTextItem::TYPE = 2;
 	
 	ItemHandle * TextItem::handle() const
 	{
@@ -62,22 +62,22 @@ namespace Tinkercell
 			delete h;
 	}
 
-	NodeTextItem::NodeTextItem(): TextItem() { type = NodeTextItem::Type; }
-	NodeTextItem::NodeTextItem(ItemHandle * h): TextItem(h) { type = NodeTextItem::Type; }
+	NodeTextItem::NodeTextItem(): TextItem() { type = NodeTextItem::TYPE; }
+	NodeTextItem::NodeTextItem(ItemHandle * h): TextItem(h) { type = NodeTextItem::TYPE; }
 
-	ConnectionTextItem::ConnectionTextItem(): TextItem() { type = ConnectionTextItem::Type; }
-	ConnectionTextItem::ConnectionTextItem(ItemHandle * h): TextItem(h) { type = ConnectionTextItem::Type; }
+	ConnectionTextItem::ConnectionTextItem(): TextItem() { type = ConnectionTextItem::TYPE; }
+	ConnectionTextItem::ConnectionTextItem(ItemHandle * h): TextItem(h) { type = ConnectionTextItem::TYPE; }
 
 	ConnectionTextItem * TextItem::asConnection()
 	{
-		if (type == ConnectionTextItem::Type)
+		if (type == ConnectionTextItem::TYPE)
 			return static_cast<ConnectionTextItem*>( const_cast<TextItem*>(this) );
 		return 0;
 	}
 
 	NodeTextItem * TextItem::asNode()
 	{
-		if (type == NodeTextItem::Type)
+		if (type == NodeTextItem::TYPE)
 			return static_cast<NodeTextItem*>( const_cast<TextItem*>(this) );
 		return 0;
 	}

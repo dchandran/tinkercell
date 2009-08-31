@@ -231,10 +231,12 @@ namespace Tinkercell
 			replaceAction->setShortcut(QKeySequence::Replace);
 
 			findToolBar->addWidget(findText);
-			findToolBar->addAction(QIcon(tr(":/images/find.png")),tr("Find text"),this,SLOT(find()));
+			//findToolBar->addAction(QIcon(tr(":/images/find.png")),tr("Find text"),this,SLOT(find()));
+			findToolBar->addAction(tr("Find"),this,SLOT(find()));
 			findToolBar->addSeparator();
 			findToolBar->addWidget(replaceText);
-			findToolBar->addAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),this,SLOT(rename()));
+			//findToolBar->addAction(QIcon(tr(":/images/replace.png")),tr("Replace text"),this,SLOT(rename()));
+			findToolBar->addAction(tr("Replace"),this,SLOT(rename()));
 			findToolBar->addSeparator();
 
 			QAction * escape1 = new QAction(findText);
@@ -255,9 +257,9 @@ namespace Tinkercell
 			connect(replaceAction,SIGNAL(triggered()),findToolBar,SLOT(show()));
 
 			connect(findAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
-			connect(replaceAction,SIGNAL(triggered()),replaceText,SLOT(setFocus()));
+			connect(replaceAction,SIGNAL(triggered()),findText,SLOT(setFocus()));
 
-			mainWindow->addToolBar(Qt::TopToolBarArea,findToolBar);
+			mainWindow->addToolBar(Qt::BottomToolBarArea,findToolBar);
 			findToolBar->setAllowedAreas(Qt::AllToolBarAreas);
 			findToolBar->setFloatable(true);
 			findToolBar->setVisible(false);
@@ -271,11 +273,19 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
+			
+			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )),
+				this,SLOT(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )));
+			
+			connect(mainWindow,SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
+				this,SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
 			connect(mainWindow,SIGNAL(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)),
 				this,SLOT(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)));
+				
 			connect(mainWindow,SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
+				
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
@@ -834,62 +844,65 @@ namespace Tinkercell
 			changePenColor->setIcon(QIcon(pcolor));
 		}
 	}
-
-	void BasicGraphicsToolbox::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers , QList<QGraphicsItem*>& )
+	
+	void BasicGraphicsToolbox::mousePressed(GraphicsScene * scene, QPointF , Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom)
 		{
-			QPointF lastPoint = scene->lastPoint();
-			
-			QPointF change = QPointF(point.x()-lastPoint.x(),point.y()-lastPoint.y());
-			
-			if ((change.x()*change.x() + change.y()*change.y()) > GraphicsScene::MIN_DRAG_DISTANCE)
+			if (zoomRect.scene() != scene)
 			{
-				if (zoomRect.scene() != scene)
-				{
-					scene->addItem(&zoomRect);
-					QPen pen(Qt::DotLine);
-					pen.setColor(QColor(50,50,50,250));
-					pen.setWidthF(1.0);
-					zoomRect.setPen(pen);
-					zoomRect.setBrush(Qt::NoBrush);
-				}
+				scene->addItem(&zoomRect);
+				QPen pen(Qt::DotLine);
+				pen.setColor(QColor(50,50,50,250));
+				pen.setWidthF(1.0);
+				zoomRect.setPen(pen);
+				zoomRect.setBrush(Qt::NoBrush);
+			}
 
-				if (!zoomRect.isVisible())
-				{
-					zoomRect.setVisible(true);
-				}
-
-				zoomRect.setRect( QRectF(lastPoint, point ));
+			if (!zoomRect.isVisible())
+			{
+				zoomRect.setVisible(true);
 			}
 		}
 	}
 
-	void BasicGraphicsToolbox::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton , Qt::KeyboardModifiers )
+	void BasicGraphicsToolbox::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers , QList<QGraphicsItem*>& )
+	{
+		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
+		{
+			zoomRect.setRect( QRectF(scene->lastPoint(), point ));
+		}
+	}
+
+	void BasicGraphicsToolbox::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene == 0) return;
-
+		
 		if (mode == zoom)
 		{
-			QList<QGraphicsView*> views = scene->views();
-
-			QRectF rect(from,to);
-			if (scene->items(rect).size() < 2)
+			if (button == Qt::LeftButton)
 			{
-				scene->centerOn(to);
-				scene->scaleView(1.5);
-			}
-			else
-			{
-				for (int i=0; i < views.size(); ++i)
-					if (views[i])
-					{
-						views[i]->fitInView(rect,Qt::KeepAspectRatio);
-					}
+				QList<QGraphicsView*> views = scene->views();
+
+				QRectF rect(from,to);
+				if (scene->items(rect).size() < 2)
+				{
+					scene->centerOn(to);
+					scene->scaleView(1.5);
+				}
+				else
+				{
+					for (int i=0; i < views.size(); ++i)
+						if (views[i])
+						{
+							views[i]->fitInView(rect,Qt::KeepAspectRatio);
+						}
+				}
 			}
 
-			if (zoomRect.isVisible()) 
-				zoomRect.setVisible(false);
+			zoomRect.setVisible(false);
+			zoomRect.setRect(QRectF(0,0,0,0));
+			
 
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);
@@ -900,7 +913,7 @@ namespace Tinkercell
 			return;
 		}
 
-		if (mode == brush)
+		if (mode == brush && button == Qt::LeftButton)
 		{
 			to.rx() += 1;
 			to.ry() += 0.5;
@@ -925,7 +938,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		if (mode == this->gradient)
+		if (mode == gradient && button == Qt::LeftButton)
 		{
 			from.rx() += 1;
 			to.rx() += 1;
@@ -981,21 +994,26 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicGraphicsToolbox::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers )
+	void BasicGraphicsToolbox::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
-		if (scene != 0)
+		if (scene != 0 && button == Qt::LeftButton)
 		{
 			if (mode == zoom)
 			{
-				if (zoomRect.isVisible()) 
-					zoomRect.setVisible(false);
+				zoomRect.setVisible(false);
+				zoomRect.setRect(QRectF(0,0,0,0));
 
 				if (zoomRect.scene() == scene)					
 					scene->removeItem(&zoomRect);				
 
 				scene->centerOn(point);
 				scene->scaleView(1.5);
+				
+				//scene->useDefaultBehavior = true;
+				//mode = this->none;
+				//mainWindow->setCursor(Qt::ArrowCursor);
 			}
+		
 			else
 				if (mode == unzoom)
 				{

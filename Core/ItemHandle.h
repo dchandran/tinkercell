@@ -231,7 +231,7 @@ namespace Tinkercell
 
 	public:
 		/*! \brief this number is used to identify when a handle is a node handle*/
-		static int Type;
+		static int TYPE;
 		/*! \brief funcion that returns all the connections from all the nodes in this handle
 		\return QList<ConnectionHandle*> list of connection handles
 		*/
@@ -275,7 +275,7 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/
-		static int Type;
+		static int TYPE;
 		/*! \brief returns all the nodes connected to all the connectors in this handle
 		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodes() const;

@@ -196,7 +196,7 @@ namespace Tinkercell
         NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
         ArrowHeadItem * arrow = 0;
 
-        if (node && node->className == ArrowHeadItem::class_name)
+        if (node && node->className == ArrowHeadItem::CLASSNAME)
         {
             arrow = static_cast<ArrowHeadItem*>(node);
         }
@@ -220,7 +220,7 @@ namespace Tinkercell
             for (int i=0; i < items.size(); ++i)
             {
                 node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
-                if (node && (node->className == ArrowHeadItem::class_name))
+                if (node && (node->className == ArrowHeadItem::CLASSNAME))
                 {
                     arrow = (static_cast<ArrowHeadItem*>(node));
                     if (!arrow->connectionItem)

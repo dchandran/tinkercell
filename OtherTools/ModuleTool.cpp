@@ -134,7 +134,7 @@ namespace Tinkercell
                 alreadyLinked = false;
                 for (int j=0; j < handle->graphicsItems.size(); ++j)
                     if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
-                        (node->className == ModuleLinkerItem::class_name))
+                        (node->className == ModuleLinkerItem::CLASSNAME))
                 {
                     alreadyLinked = true;
                     break;
@@ -252,7 +252,7 @@ namespace Tinkercell
                 alreadyLinked = false;
                 for (int j=0; j < handle->graphicsItems.size(); ++j)
                     if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
-                        (node->className == ModuleLinkerItem::class_name) &&
+                        (node->className == ModuleLinkerItem::CLASSNAME) &&
                         (node->scene() == items[i]->scene()) &&
                         node->isVisible())
                 {
@@ -345,10 +345,10 @@ namespace Tinkercell
         for (int i=0; i < items.size(); ++i)
         {
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && 
-			      node->className == ModuleLinkerItem::class_name)
+			      node->className == ModuleLinkerItem::CLASSNAME)
                 /*  ||
                  ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])) && 
-				  connection->className == ModuleConnectionGraphicsItem::class_name &&
+				  connection->className == ModuleConnectionGraphicsItem::CLASSNAME &&
 				  ModuleConnectionGraphicsItem::isModuleConnection(connection))
                 )*/
             {
@@ -369,7 +369,7 @@ namespace Tinkercell
         for (int i=0; i < items.size(); ++i)
         {
             if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) 
-			    && node->className == ModuleLinkerItem::class_name)
+			    && node->className == ModuleLinkerItem::CLASSNAME)
             {
 				if (!node->handle())
 				{
@@ -453,7 +453,7 @@ namespace Tinkercell
         for (int i=moving.size()-1; i >= 0; --i)
         {
             if ((node = NodeGraphicsItem::topLevelNodeItem(moving[i]))
-                && (node->className == ModuleLinkerItem::class_name))
+                && (node->className == ModuleLinkerItem::CLASSNAME))
                 {
 					if (items.contains(node)) linker = static_cast<ModuleLinkerItem*>(node);
 					moving.removeAt(i);
@@ -496,7 +496,7 @@ namespace Tinkercell
                 for (int j=0; j < itemsInside.size(); ++j)
                 {
                     if ((node = NodeGraphicsItem::topLevelNodeItem(itemsInside[j]))
-                        && (node->className == ModuleLinkerItem::class_name)
+                        && (node->className == ModuleLinkerItem::CLASSNAME)
                         && ((static_cast<ModuleLinkerItem*>(itemsInside[j]))->module == moving[i]))
                     {
                         if (!moving.contains(node)) moving += node;
@@ -556,7 +556,7 @@ namespace Tinkercell
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{
 							if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
-								(node->className == ModuleLinkerItem::class_name))
+								(node->className == ModuleLinkerItem::CLASSNAME))
 							{
 								(static_cast<ModuleLinkerItem*>(node))->setPosOnEdge();
 							}
@@ -617,7 +617,7 @@ namespace Tinkercell
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{
 							if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
-								(node->className == ModuleLinkerItem::class_name))
+								(node->className == ModuleLinkerItem::CLASSNAME))
 							{
 								(static_cast<ModuleLinkerItem*>(node))->setPosOnEdge();
 							}
@@ -652,7 +652,7 @@ namespace Tinkercell
             for (int i=0; i < items.size(); ++i)
             {
                 node1 = NodeGraphicsItem::topLevelNodeItem(items[i]);
-                if (node1)// && node1->className == ModuleLinkerItem::class_name)
+                if (node1)// && node1->className == ModuleLinkerItem::CLASSNAME)
                     break;
                 else
                     node1 = 0;
@@ -663,7 +663,7 @@ namespace Tinkercell
             for (int i=0; i < items.size(); ++i)
             {
                 node2 = NodeGraphicsItem::topLevelNodeItem(items[i]);
-                if (node2)// && node2->className == ModuleLinkerItem::class_name)
+                if (node2)// && node2->className == ModuleLinkerItem::CLASSNAME)
                     break;
                 else
                     node2 = 0;
@@ -671,7 +671,7 @@ namespace Tinkercell
 
             if (node1 && node2 && node1 != node2 && node1->itemHandle && node2->itemHandle && node1->itemHandle != node2->itemHandle
                 && node1->itemHandle->family() && node2->itemHandle->family())
-                //&& node1->className == ModuleLinkerItem::class_name && node2->className == ModuleLinkerItem::class_name)
+                //&& node1->className == ModuleLinkerItem::CLASSNAME && node2->className == ModuleLinkerItem::CLASSNAME)
             {
 		       if (
                         (node2->itemHandle->data && node2->itemHandle->data->numericalData.contains(tr("Fixed")) &&

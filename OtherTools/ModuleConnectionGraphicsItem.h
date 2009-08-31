@@ -50,7 +50,7 @@ public:
 	static bool isModuleLinker(NodeGraphicsItem*);
 	
 	/*! \brief used for checking type before static casts */
-	static QString class_name;
+	static QString CLASSNAME;
 private:
 	TextGraphicsItem  * textItem;
 	QGraphicsLineItem * lineItem;
@@ -67,7 +67,7 @@ public:
 	ConnectionGraphicsItem* clone() const;
 	
 	/*! \brief used for checking type before static casts */
-	static QString class_name;
+	static QString CLASSNAME;
 	
 	QUndoCommand * command;
 	

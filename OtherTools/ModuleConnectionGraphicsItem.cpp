@@ -14,27 +14,27 @@
 namespace Tinkercell
 {
 
-	QString ModuleConnectionGraphicsItem::class_name = QString("ModuleConnectionGraphicsItem");
-	QString ModuleLinkerItem::class_name = QString("ModuleLinkerItem");
+	QString ModuleConnectionGraphicsItem::CLASSNAME = QString("ModuleConnectionGraphicsItem");
+	QString ModuleLinkerItem::CLASSNAME = QString("ModuleLinkerItem");
 	
 	bool ModuleConnectionGraphicsItem::isModuleConnection(ConnectionGraphicsItem* connection)
 	{
 		return (connection && 
-				connection->className == ModuleConnectionGraphicsItem::class_name &&
+				connection->className == ModuleConnectionGraphicsItem::CLASSNAME &&
 				connection->data(0).toBool());
 	}
 	
 	bool ModuleLinkerItem::isModuleLinker(NodeGraphicsItem* node)
 	{
 		return (node &&
-				node->className == ModuleLinkerItem::class_name &&
+				node->className == ModuleLinkerItem::CLASSNAME &&
 				node->data(0).toBool());
 	}
  
 	ModuleLinkerItem::ModuleLinkerItem(NodeGraphicsItem * mod, QGraphicsItem * parent, TextGraphicsItem * text) : 
 		NodeGraphicsItem(parent)
 	{
-		className = ModuleLinkerItem::class_name;
+		className = ModuleLinkerItem::CLASSNAME;
 		
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
@@ -52,7 +52,7 @@ namespace Tinkercell
 	
 	ModuleLinkerItem::ModuleLinkerItem(const ModuleLinkerItem& copy) : NodeGraphicsItem(copy)
 	{
-		className = ModuleLinkerItem::class_name;
+		className = ModuleLinkerItem::CLASSNAME;
 		setWidth = copy.setWidth;
 		module = copy.module;
 		textItem = copy.textItem;
@@ -202,7 +202,7 @@ namespace Tinkercell
 	/*! Constructor: sets the class name as ModuleConnectionGraphicsItem */
     ModuleConnectionGraphicsItem::ModuleConnectionGraphicsItem(QGraphicsItem * parent ) : ConnectionGraphicsItem(parent)
 	{
-		className = ModuleConnectionGraphicsItem::class_name;
+		className = ModuleConnectionGraphicsItem::CLASSNAME;
 		setPen(defaultPen = QPen(QColor(255,100,0,255),2.0));
 		command = 0;
 		setData(0,true);
@@ -247,7 +247,7 @@ namespace Tinkercell
 				QPointF p = parentRect.center();
 				node = NodeGraphicsItem::topLevelNodeItem(firstPoint->parentItem());
 				parentNode = 0;
-				if (node && node->className == ModuleLinkerItem::class_name)
+				if (node && node->className == ModuleLinkerItem::CLASSNAME)
 				{
 					parentNode = static_cast<ModuleLinkerItem*>(node)->module;
 				}				
@@ -281,7 +281,7 @@ namespace Tinkercell
 				QPointF p = parentRect.center();
 				node = NodeGraphicsItem::topLevelNodeItem(lastPoint->parentItem());
 				parentNode = 0;
-				if (node && node->className == ModuleLinkerItem::class_name)
+				if (node && node->className == ModuleLinkerItem::CLASSNAME)
 				{
 					parentNode = static_cast<ModuleLinkerItem*>(node)->module;
 				}	

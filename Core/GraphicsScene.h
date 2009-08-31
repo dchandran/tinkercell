@@ -509,6 +509,8 @@ namespace Tinkercell
 		* \param QGraphicsSceneDragDropEvent * drag and drop event
 		* \return void*/
 		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
+		/*! \brief draw background grid if in grid mode*/
+		virtual void drawBackground( QPainter*, const QRectF &);
 	public:
 		/*! \brief snap the node item to the grid
 		* \param NodeGraphicsItem*

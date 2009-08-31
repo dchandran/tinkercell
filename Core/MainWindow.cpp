@@ -19,6 +19,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 
 #include <QLibrary>
 #include <QSettings>
+#include <QInputDialog>
 #include <QActionGroup>
 #include <QCoreApplication>
 #include <QDesktopServices>
@@ -672,6 +673,14 @@ namespace Tinkercell
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
 		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
+		
+		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
+		
+		QAction * toggleGrid = setGridModeMenu->addAction(tr("Toggle grid mode"));
+		QAction * setGridSz = setGridModeMenu->addAction(tr("Set grid size"));
+		
+		connect (toggleGrid, SIGNAL(triggered()),this,SLOT(toggleGridMode()));
+		connect (setGridSz, SIGNAL(triggered()),this,SLOT(setGridSize()));
 
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
@@ -2942,5 +2951,29 @@ namespace Tinkercell
 		action->setChecked(true);
 		
 		TextParser::setParser(parser);
+	}
+	
+	void MainWindow::toggleGridMode()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+		
+		if (scene->gridSize() > 0)
+			scene->disableGrid();
+		else
+			scene->enableGrid(GraphicsScene::GRID);
+	}
+		
+	void MainWindow::setGridSize()
+	{
+		if (!currentScene()) return;
+		
+		bool ok;
+		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
+											GraphicsScene::GRID,0,currentScene()->gridSize(),1,&ok);
+		if (ok)		
+		{	
+			GraphicsScene::GRID = d;
+		}
 	}
 }

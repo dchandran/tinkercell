@@ -2645,4 +2645,8 @@ namespace Tinkercell
 		
 		node->setBoundingRect(p1,p2);
 	}
+	
+	void drawBackground( QPainter*, const QRectF &)
+	{
+	}
 }

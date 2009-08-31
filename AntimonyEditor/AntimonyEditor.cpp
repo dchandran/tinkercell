@@ -32,7 +32,7 @@
 
 namespace Tinkercell
 {	
-	AntimonyEditor::AntimonyEditor() : Tool(tr("Antimony script parser"))
+	AntimonyEditor::AntimonyEditor() : TextParser(tr("Antimony script parser"))
 	{
 		scriptDisplayWindow = new CodeEditor(this);
 		icon = QPixmap(tr(":/images/antimony.png"));

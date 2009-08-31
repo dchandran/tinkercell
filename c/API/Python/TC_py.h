@@ -1,5 +1,5 @@
 #include "TC_Main_py.c"
-#include "TC_PartInsertion_py.c"
+#include "TC_NodeInsertion_py.c"
 #include "TC_ConnectionInsertion_py.c"
 #include "TC_ConnectionSelection_py.c"
 #include "TC_BasicInformationTool_py.c"

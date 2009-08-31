@@ -52,7 +52,9 @@ namespace Tinkercell
 		Tool();
 		/*! \brief destructor. removes graphicsItem and toolButton is not 0*/
 		~Tool();
-		/*! \brief constructor*/
+		/*! \brief constructor
+			\param QString name
+			\param QWidget* parent*/
 		Tool(const QString& Name, QWidget * parent = 0);
 		/*! \brief set the main window for this tool*/
 		virtual bool setMainWindow(MainWindow * main);

@@ -52,6 +52,11 @@ namespace Tinkercell
 		
 	public:
 		
+		/*! \brief constructor
+			\param QString name
+			\param QWidget* parent*/
+		TextParser(const QString& Name, QWidget * parent = 0);
+		
 		/*! \brief icon for this class*/
 		QPixmap icon;
 		

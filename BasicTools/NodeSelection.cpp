@@ -637,7 +637,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						/*if (ptr->className == ArrowHeadItem::class_name)
+						/*if (ptr->className == ArrowHeadItem::CLASSNAME)
 						{
 						ArrowHeadItem * arrow = (static_cast<ArrowHeadItem*>(ptr));
 						if (arrow->connectionItem)

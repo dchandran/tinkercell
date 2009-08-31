@@ -708,7 +708,7 @@ namespace Tinkercell
 
 		NodeGraphicsItem * node = 0;
 
-		if (type == ArrowHeadItem::class_name)
+		if (type == ArrowHeadItem::CLASSNAME)
 			node = new ArrowHeadItem;
 		else
 			node = new NodeGraphicsItem;

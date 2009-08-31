@@ -619,7 +619,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							if ((node = NodeGraphicsItem::topLevelNodeItem(movingItems[i])) && (node->className == ArrowHeadItem::class_name))
+							if ((node = NodeGraphicsItem::topLevelNodeItem(movingItems[i])) && (node->className == ArrowHeadItem::CLASSNAME))
 							{
 								movingItems.removeAll(node);
 							}
@@ -805,7 +805,7 @@ namespace Tinkercell
 		for (int i=0; i < movingItems.size(); ++i)
 		{
 			NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems[i]);
-			if (node && node->className == ArrowHeadItem::class_name)
+			if (node && node->className == ArrowHeadItem::CLASSNAME)
 			{
 				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
 				if (arrow && arrow->connectionItem)

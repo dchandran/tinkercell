@@ -75,7 +75,7 @@ namespace Tinkercell
 					/*ItemHandle * handle = getHandle(connection);
 					if (handle && handle->family())
 					{
-					if (handle->family()->isA("Elongation") || (connection->className == DnaGraphicsItem::class_name))
+					if (handle->family()->isA("Elongation") || (connection->className == DnaGraphicsItem::CLASSNAME))
 					{
 					ConnectionGraphicsItem* newConnection = new DnaGraphicsItem;
 					(*newConnection) = (*connection);

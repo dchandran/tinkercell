@@ -16,7 +16,7 @@ A special ConnectionGraphicsItem that draws a DNA-like connection
 namespace Tinkercell
 {
 	/*! \brief used for checking type before static casts */
-	QString DnaGraphicsItem::class_name("DnaGraphicsItem");
+	QString DnaGraphicsItem::CLASSNAME("DnaGraphicsItem");
 
 	/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
 	void DnaGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
@@ -167,7 +167,7 @@ namespace Tinkercell
 	/*! Constructor: does nothing */
 	DnaGraphicsItem::DnaGraphicsItem(QGraphicsItem * parent) : ConnectionGraphicsItem(parent)
 	{
-		className = DnaGraphicsItem::class_name;
+		className = DnaGraphicsItem::CLASSNAME;
 		height = 15;
 		width = 60;
 		nucleotidesPath = new QGraphicsPathItem(this);

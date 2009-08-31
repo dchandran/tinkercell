@@ -26,6 +26,8 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 namespace Tinkercell
 {
+	int GraphicsScene::GRID = 0;
+	
 	QPen GraphicsScene::SelectionRectanglePen = Qt::NoPen;
 	
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
@@ -125,33 +127,6 @@ namespace Tinkercell
 		return (0);
 	}
 	
-	void GraphicsScene::drawForeground ( QPainter * painter, const QRectF & rect )
-	{
-		qreal gridSz = 100.0;
-		painter->setPen(QPen(Qt::gray,1.0));
-		qreal left = rect.left(), right = rect.right(),
-			  top = rect.top(), bottom = rect.bottom();
-		QPointF p1,p2;
-		p1.rx() = left;
-		p1.ry() = top;
-		p2.rx() = left;
-		p2.ry() = bottom;
-		for (qreal x = left; x < right; x += gridSz)
-		{
-			p1.rx() = p2.rx() = x;
-			painter->drawLine(p1,p2);
-		}
-		p1.rx() = left;
-		p1.ry() = top;
-		p2.rx() = right;
-		p2.ry() = top;
-		for (qreal y = top; y < bottom; y += gridSz)
-		{
-			p1.ry() = p2.ry() = y;
-			painter->drawLine(p1,p2);
-		}
-	}
-
 	/*! \brief Returns the currently visible window
 	* \param void
 	* \return rectangle*/
@@ -217,6 +192,7 @@ namespace Tinkercell
 	/*! \brief Constructor: sets 10000x10000 scene */
 	GraphicsScene::GraphicsScene(QWidget * parent) : QGraphicsScene(parent)
 	{
+		gridSz = GRID;
 		mouseDown = false;
 		useDefaultBehavior = true;
 		setFocus();
@@ -295,7 +271,7 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::addItem(QGraphicsItem * item)
 	{
-		if (!item) return;
+		if (!item || item->scene() == this) return;
 		QGraphicsScene::addItem(item);
 		item->setVisible(true);
 		item->setZValue(lastZ);
@@ -318,6 +294,8 @@ namespace Tinkercell
 			
 			move(item2,dp);
 		}
+		
+		snapToGrid(qgraphicsitem_cast<NodeGraphicsItem*>(item2));
 	}
 	/*! \brief top Z value
 	* Precondition: None
@@ -545,6 +523,11 @@ namespace Tinkercell
 				movingItemsGroup->moveBy(-change.x(),-change.y());
 				destroyItemGroup(movingItemsGroup);
 				movingItemsGroup = 0;
+				if (gridSz > 0)
+				{
+					change.rx() = gridSz * (int)(change.rx() / gridSz);
+					change.ry() = gridSz * (int)(change.ry() / gridSz);
+				}
 			}
 
 			if ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE/2.0)
@@ -798,6 +781,12 @@ namespace Tinkercell
 					if (keyEvent->key() == Qt::Key_Down) change = QPointF(0,dx);
 					if (keyEvent->key() == Qt::Key_Left) change = QPointF(-dx,0);
 					if (keyEvent->key() == Qt::Key_Right) change = QPointF(dx,0);
+					
+					if (gridSz > 0)
+					{
+						change.rx() = gridSz * (int)(change.rx() / gridSz);
+						change.ry() = gridSz * (int)(change.ry() / gridSz);
+					}
 
 					move(movingItems,change);
 
@@ -958,9 +947,16 @@ namespace Tinkercell
 		QList<QGraphicsItem*> items;
 		items += item;
 
+		QPointF change = distance;
+		if (gridSz > 0)
+		{
+			change.rx() = gridSz * (int)(change.rx() / gridSz);
+			change.ry() = gridSz * (int)(change.ry() / gridSz);
+		}
+		
 		QList<QPointF> dists;
-		while (dists.size() < items.size()) dists << distance;
-
+		while (dists.size() < items.size()) dists << change;
+		
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
 		
 		QPointF p = item->scenePos();
@@ -982,8 +978,14 @@ namespace Tinkercell
 			delete command;
 		}
 
+		QPointF change = distance;
+		if (gridSz > 0)
+		{
+			change.rx() = gridSz * (int)(change.rx() / gridSz);
+			change.ry() = gridSz * (int)(change.ry() / gridSz);
+		}
 		QList<QPointF> dists;
-		while (dists.size() < items.size()) dists << distance;
+		while (dists.size() < items.size()) dists << change;
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
 		
@@ -1014,6 +1016,16 @@ namespace Tinkercell
 		}
 
 		QList<QPointF> dists = distance;
+		
+		if (gridSz > 0)
+		{
+			for (int i=0; i < dists.size(); ++i)
+			{
+				dists[i].rx() = gridSz * (int)(dists[i].rx() / gridSz);
+				dists[i].ry() = gridSz * (int)(dists[i].ry() / gridSz);
+			}
+		}
+		
 		while (dists.size() < items.size()) dists << QPointF();
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
@@ -2600,4 +2612,37 @@ namespace Tinkercell
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;
 	GraphicsScene* GraphicsScene::copiedFromScene;
+	
+	void GraphicsScene::enableGrid(int sz)
+	{
+		gridSz = sz;
+	}
+	
+	void GraphicsScene::disableGrid()
+	{
+		gridSz = 0;
+	}
+	
+	int GraphicsScene::gridSize() const
+	{
+		return gridSz;
+	}
+	
+	void GraphicsScene::snapToGrid(NodeGraphicsItem* node)
+	{
+		if (!node || gridSz < 1) return;
+		
+		QPointF p1 = node->sceneBoundingRect().topLeft();
+		QPointF p2 = node->sceneBoundingRect().bottomRight();
+		
+		p1.rx() = gridSz * (int)(p1.rx() / gridSz);
+		p1.ry() = gridSz * (int)(p1.ry() / gridSz);
+		p2.rx() = gridSz * (int)(p2.rx() / gridSz);
+		p2.ry() = gridSz * (int)(p2.ry() / gridSz);
+		
+		if (p2.rx() == p1.rx()) p2.rx() += gridSz;
+		if (p2.ry() == p1.ry()) p2.ry() += gridSz;
+		
+		node->setBoundingRect(p1,p2);
+	}
 }

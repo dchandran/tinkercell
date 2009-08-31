@@ -35,6 +35,7 @@ namespace Tinkercell
 	AntimonyEditor::AntimonyEditor() : Tool(tr("Antimony script parser"))
 	{
 		scriptDisplayWindow = new CodeEditor(this);
+		icon = QPixmap(tr(":/images/antimony.png"));
 	}
 	
 	bool AntimonyEditor::setMainWindow(MainWindow * main)
@@ -42,14 +43,12 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(textChanged(TextEditor *, const QString&, const QString&, const QString&)),
-					this,SLOT(textChanged(TextEditor *, const QString&, const QString&, const QString&)));
-			connect(mainWindow,SIGNAL(lineChanged(TextEditor *, int, const QString&)),
-					this,SLOT(lineChanged(TextEditor *, int, const QString&)));
+			mainWindow->addParser(this);
 			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),
 					this,SLOT(windowOpened(NetworkWindow*)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			mainWindow->contextEditorMenu.addAction(tr("To Graphical Mode"),this,SLOT(insertModule()));
+			QAction * action = mainWindow->contextEditorMenu.addAction(tr("To Graphical Mode"),this,SLOT(insertModule()));
+			action->setIcon(QIcon(tr(":/images/antimony.png")));
 			
 			toolLoaded(0);
 		}
@@ -174,14 +173,14 @@ namespace Tinkercell
 	
 	void AntimonyEditor::windowOpened(NetworkWindow * win)
 	{
-		if (win && win->textEditor)
+		if (win && win->textEditor && TextParser::currentParser() == this)
 		{
 			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(win->textEditor->document());
 			connect(this,SIGNAL(validSyntax(bool)),as,SLOT(setValid(bool)));
 		}
 	}
 	
-	void AntimonyEditor::parseAndInsert(TextEditor * editor)
+	void AntimonyEditor::parse(TextEditor * editor)
 	{
 		if (!editor) return;
 		
@@ -345,6 +344,37 @@ namespace Tinkercell
 				c->nodesOut = nodesOut;
 				itemsToInsert += c;
 				
+				int numSpecies = (int)getNumSymbolsOfType(moduleName,varSpecies);
+				char ** speciesNames = getSymbolNamesOfType(moduleName,varSpecies);
+				char ** speciesValues = getSymbolEquationsOfType(moduleName,varSpecies);
+				for (int j=0; j < numSpecies; ++j)
+				{
+					bool ok;
+					qreal x = QString(speciesValues[j]).toDouble(&ok);
+					QString s(speciesNames[j]);
+					if (ok && speciesItems.contains(s))
+					{
+						speciesItems[s]->numericalData(tr("Initial Value")) = x;
+						speciesItems[s]->numericalData(tr("Fixed")) = 0;
+					}
+				}
+				
+				int numConstSpecies = (int)getNumSymbolsOfType(moduleName,constSpecies);
+				char ** constSpeciesNames = getSymbolNamesOfType(moduleName,constSpecies);
+				char ** constSpeciesValues = getSymbolEquationsOfType(moduleName,constSpecies);
+				for (int j=0; j < numConstSpecies; ++j)
+				{
+					bool ok;
+					qreal x = QString(constSpeciesValues[j]).toDouble(&ok);
+					QString s(constSpeciesNames[j]);
+					if (ok && speciesItems.contains(s))
+					{
+						speciesItems[s]->numericalData(tr("Initial Value")) = x;
+						speciesItems[s]->numericalData(tr("Fixed")) = 1;
+					}
+				}
+				
+				
 				int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
 				char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
 				char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
@@ -411,7 +441,8 @@ namespace Tinkercell
 
 	void AntimonyEditor::textChanged(TextEditor * editor, const QString&, const QString&, const QString&)
 	{
-		parseAndInsert(editor);
+		if (editor && editor->toPlainText().size() < 1000)
+			parse(editor);
 	}
 
 	void AntimonyEditor::lineChanged(TextEditor *, int, const QString&)
@@ -574,7 +605,8 @@ namespace Tinkercell
 				{
 					QString rule = assigns.value(j,0);
 					rule.replace(regex,tr("_"));
-					s += tr("   ") + assigns.rowName(j) + tr(" = ") + rule + tr("\n");
+					s += tr("   ") + handles[i]->fullName(tr("_")) + tr("_") + 
+							assigns.rowName(j) + tr(" = ") + rule + tr("\n");
 				}
 			}
 		}

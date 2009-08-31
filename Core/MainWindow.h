@@ -79,6 +79,7 @@ namespace Tinkercell
 	class TextEditor;
 	class Tool;
 	class HistoryStack;
+	class TextParser;
 
 	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
 	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
@@ -198,10 +199,6 @@ namespace Tinkercell
 		*/
 		QList<QDockWidget*> dockedWindows;
 		/*!
-		* \brief the menu for settings such as default plugins, Tinkercell home directory, etc.
-		*/
-		QMenu* settingsMenu;
-		/*!
 		* \brief the context menu that is shown during right-click event on selected graphical items.
 		Plugins can add new actions to this menu.
 		*/
@@ -237,6 +234,14 @@ namespace Tinkercell
 		* \brief The help menu.
 		*/
 		QMenu* helpMenu;
+		/*!
+		* \brief the menu for settings such as default plugins, Tinkercell home directory, etc.
+		*/
+		QMenu* settingsMenu;
+		/*!
+		* \brief the menu for choosing one of the available parsers (will be 0 if there are no parsers)
+		*/
+		QMenu* parsersMenu;
 		/*!
 		* \brief The tool bar that contains new, open, close, etc. actions
 		*/
@@ -336,10 +341,16 @@ namespace Tinkercell
 		*/
 		void sendEscapeSignal(const QWidget * w = 0);
 		/*!
+		* \brief add a new text parser to the list of available parsers.
+			The current text parser can be obtained using TextParser::currentParser();
+		*/
+		void addParser(TextParser*);
+		
+	private slots:
+		/*!
 		* \brief sends a signal indicating that the current scene has changed
 		*/
 		void windowChanged(QMdiSubWindow*);
-	private slots:
 		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
@@ -968,15 +979,21 @@ namespace Tinkercell
 		*/
 		void itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& );
 		/*! \brief some text inside this editor has been changed
+		\param TextEditor* editor
 		\param QString old text (usually a line)
 		\param QString new text (usually a line)
 		*/
 		void textChanged(TextEditor * , const QString&, const QString&, const QString&);
 		/*! \brief the cursor has moved to a different line
+		\param TextEditor* editor
 		\param int index of the current line
 		\param QString current line text
 		*/
 		void lineChanged(TextEditor * , int, const QString&);
+		/*! \brief request to parse the text in the current text editor
+		\param TextEditor* editor
+		*/
+		void parse(TextEditor *);
 		/*! \brief signals whenever mouse moves, and indicates whether it is on top of an item
 		* \param GraphicsScene * scene where the event took place
 		* \param QGraphicsItem* pointer to item that mouse is on top of

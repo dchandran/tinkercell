@@ -82,6 +82,9 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+		/*! \brief setting grid to a non-zero value forces node items to "fit" on the grid, where
+			the gap between the grid lines is determined by this variable*/
+		static int GRID;
 		/*! \brief pen that is used to draw the selection rectangle*/
 		static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
@@ -140,6 +143,16 @@ namespace Tinkercell
 		~GraphicsScene();
 
 	public:
+		/*! \brief set the grid mode on with the given grid size
+		* \param double grid size (0 will disable grid)
+		* \return void*/
+		virtual void enableGrid(int sz=100);
+		/*! \brief set the grid mode off
+		* \return void*/
+		virtual void disableGrid();
+		/*! \brief get the grid size being used (0 = no grid)
+		* \return int*/
+		virtual int gridSize() const;
 		/*! \brief Add a new item to the scene (different from insert)
 		* \sa insert
 		* \param QGraphicsItem* Tinkercell object
@@ -428,6 +441,8 @@ namespace Tinkercell
 		virtual void filesDropped(const QList<QFileInfo>& files);
 
 	protected:
+		/*! \brief grid size. If zero, then disabled*/
+		int gridSz;
 		/*! \brief topmost Z value*/
 		qreal lastZ;
 		/*! \brief rectanglular selection area*/
@@ -450,9 +465,6 @@ namespace Tinkercell
 		QList<QGraphicsItem*> movingItems;
 		/*! \brief group of moving items*/
 		QGraphicsItemGroup * movingItemsGroup;	
-		/*! \brief draw background for scene*/
-		//virtual void drawBackground ( QPainter * painter, const QRectF & rect );
-		virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 		/*! \brief when mouse is pressed, the item at the position is added to selected list and moving list
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
@@ -498,6 +510,10 @@ namespace Tinkercell
 		* \return void*/
 		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
 	public:
+		/*! \brief snap the node item to the grid
+		* \param NodeGraphicsItem*
+		* \return void*/
+		virtual void snapToGrid(NodeGraphicsItem*);
 		/*! \brief zoom
 		* Precondition: None
 		* Postcondition: None

@@ -27,16 +27,6 @@ namespace Tinkercell
 {
 	QString NodeGraphicsItem::CLASSNAME("NodeGraphicsItem");
 	
-	ItemHandle * ControlPoint::handle() const
-	{
-		return 0;
-	}
-
-	void ControlPoint::setHandle(ItemHandle *)
-	{
-		
-	}
-	
 	ItemHandle * NodeGraphicsItem::handle() const
 	{
 		return itemHandle;
@@ -116,8 +106,14 @@ namespace Tinkercell
 	{
 		if (boundaryControlPoints.size() == 2
 			&& boundaryControlPoints[0]
-		&& boundaryControlPoints[1])
+			&& boundaryControlPoints[1])
 		{
+			if (scene() && (boundaryControlPoints[0]->scene() != scene()))
+				scene()->addItem(boundaryControlPoints[0]);
+		
+			if (scene() && (boundaryControlPoints[1]->scene() != scene()))
+				scene()->addItem(boundaryControlPoints[1]);
+			
 			QRectF bounds = sceneBoundingRect();
 			QPointF p1 = boundaryControlPoints[0]->scenePos(),
 				p2 = boundaryControlPoints[1]->scenePos();
@@ -381,7 +377,7 @@ namespace Tinkercell
 	}
 	
 	/*! set the top left and bottom right corners of this node item*/
-	void NodeGraphicsItem::setBoundingBox(const QPointF& p1, const QPointF& p2)
+	void NodeGraphicsItem::setBoundingRect(const QPointF& p1, const QPointF& p2)
 	{
 		if (boundaryControlPoints.size() < 2 || 
 			!boundaryControlPoints[0] || 
@@ -400,6 +396,12 @@ namespace Tinkercell
 			!boundaryControlPoints[0] || 
 			!boundaryControlPoints[1])
 			return;
+			
+		if (scene() && (boundaryControlPoints[0]->scene() != scene()))
+			scene()->addItem(boundaryControlPoints[0]);
+		
+		if (scene() && (boundaryControlPoints[1]->scene() != scene()))
+			scene()->addItem(boundaryControlPoints[1]);
 
 		boundaryControlPoints[0]->setZValue(zValue() + 0.1);
 		boundaryControlPoints[1]->setZValue(zValue() + 0.1);
@@ -407,7 +409,7 @@ namespace Tinkercell
 		QRectF bounds = sceneBoundingRect();
 
 		QPointF p1 = boundaryControlPoints[0]->scenePos(),
-			p2 = boundaryControlPoints[1]->scenePos();
+				p2 = boundaryControlPoints[1]->scenePos();
 
 		if (p1.rx() > p2.rx())
 		{
@@ -480,66 +482,6 @@ namespace Tinkercell
 		setZValue(10);
 	}
 
-	/*! \brief Constructor: Setup colors and z value */
-	ControlPoint::ControlPoint(QGraphicsItem * parent) : 
-	QAbstractGraphicsShapeItem(parent)
-	{
-		setFlag(QGraphicsItem::ItemIsMovable, false);
-		setFlag(QGraphicsItem::ItemIsSelectable, false);
-
-		setPen(defaultPen = QPen( QColor(100,100,255) ));
-		setBrush(defaultBrush = QBrush( QColor(0,0,255,10)) );
-		setRect(QRectF(-10,-10,20,20));
-		setZValue(10);
-		shapeType = this->circle;
-	}
-
-	/*! \brief Copy Constructor */
-	ControlPoint::ControlPoint(const ControlPoint& copy) : QAbstractGraphicsShapeItem(copy.parentItem())
-	{	
-		setFlag(QGraphicsItem::ItemIsMovable, false);
-		setFlag(QGraphicsItem::ItemIsSelectable, false);
-
-		setPos(copy.pos());
-		setRect(copy.rect());
-		setPen(defaultPen = copy.defaultPen);
-		setBrush(defaultBrush = copy.defaultBrush);
-		//setTransform(copy.transform());
-		shapeType = copy.shapeType;
-		bounds = copy.bounds;
-		defaultSize = copy.defaultSize;
-	}
-
-	/*! \brief bounding rect method. */
-	QRectF ControlPoint::boundingRect() const
-	{
-		qreal w = pen().widthF();
-		return bounds.adjusted(-w,-w,w,w);
-	}
-
-	/*! \brief bounding rect method. */
-	QRectF ControlPoint::rect() const
-	{
-		return bounds;
-	}
-
-	/*! \brief set size. */
-	void ControlPoint::setRect(const QRectF& rect)
-	{
-		this->bounds = rect;
-	}
-
-	/*! \brief make a copy of this item*/
-	ControlPoint* ControlPoint::clone() const
-	{
-		return new ControlPoint(*this);
-	}
-
-	/*! \brief side effect when moved. always call this after moving*/
-	void ControlPoint::sideEffect()
-	{
-	}
-
 	/*! \brief side effect when moved. always call this after moving*/
 	void NodeGraphicsItem::ControlPoint::sideEffect()
 	{
@@ -597,30 +539,6 @@ namespace Tinkercell
 		setTransform(copy.transform());
 		defaultSize = copy.defaultSize;
 		return *this;
-	}
-
-	/*! \brief paint method. draw one of the shapes*/
-	void ControlPoint::paint(QPainter *painter, const QStyleOptionGraphicsItem *,QWidget *)
-	{
-		if (painter)
-		{
-			QRectF rect = boundingRect();
-
-			painter->setBrush(brush());
-			painter->setPen(pen());
-
-			if (shapeType == circle)
-				painter->drawEllipse(rect);
-			else
-				if (shapeType == square)
-					painter->drawRect(rect);
-				else
-				{
-					painter->drawLine(rect.bottomLeft(),rect.bottomRight());
-					painter->drawLine(rect.bottomRight(),QPointF(rect.center().x(),rect.top()));
-					painter->drawLine(QPointF(rect.center().x(),rect.top()),rect.bottomLeft());
-				}
-		}
 	}
 
 	/*! \brief paint method. Call's parent's*/

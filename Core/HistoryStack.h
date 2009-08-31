@@ -49,9 +49,11 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 
-		void undo() { stack()->undo(); }
-		void redo() { stack()->redo(); }
-		void push(QUndoCommand * command) { stack()->push(command); }
+		void undo();
+		void redo();
+		
+	public slots:
+		void push(QUndoCommand * command);
 
 	};
 

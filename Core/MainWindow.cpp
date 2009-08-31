@@ -19,6 +19,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 
 #include <QLibrary>
 #include <QSettings>
+#include <QActionGroup>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QtDebug>
@@ -39,6 +40,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "CThread.h"
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
+#include "TextParser.h"
 
 namespace Tinkercell
 {
@@ -225,6 +227,8 @@ namespace Tinkercell
 		readSettings();
 
 		connectTCFunctions();
+		
+		parsersMenu = 0;
 	}
 
 	void MainWindow::saveSettings()
@@ -2914,5 +2918,29 @@ namespace Tinkercell
 
 		qRegisterMetaType< Matrix >("Matrix");
 
+	}
+	
+	void MainWindow::addParser(TextParser * parser)
+	{
+		static QActionGroup * actionGroup = 0;
+		
+		if (!parser) return;
+		
+		if (!parsersMenu)		
+			parsersMenu = menuBar()->addMenu(tr("&Parsers"));
+		
+		if (!actionGroup)
+		{
+			actionGroup = new QActionGroup(this);
+			actionGroup->setExclusive(true);
+		}
+		
+		QAction * action = parsersMenu->addAction(QIcon(parser->icon),parser->name);
+		connect(action,SIGNAL(triggered()),parser,SLOT(activate()));
+		action->setCheckable(true);
+		actionGroup->addAction(action);
+		action->setChecked(true);
+		
+		TextParser::setParser(parser);
 	}
 }

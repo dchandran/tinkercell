@@ -32,12 +32,12 @@
 #include "NetworkWindow.h"
 #include "TextEditor.h"
 #include "ItemHandle.h"
-#include "Tool.h"
+#include "TextParser.h"
 #include "AntimonySyntaxHighlighter.h"
 
 namespace Tinkercell
 {
-	class AntimonyEditor : public Tool
+	class AntimonyEditor : public TextParser
 	{
 	    Q_OBJECT
 
@@ -45,12 +45,13 @@ namespace Tinkercell
 		AntimonyEditor();
 		/*! \brief make necessary signal/slot connections*/
 		bool setMainWindow(MainWindow*);
-		/*! \brief parse text and insert items*/
-		void parseAndInsert(TextEditor * editor);
 		/*! \brief parse text and convert them to items*/
 		QList<TextItem*> parse(const QString& modelString);
 
 	public slots:
+		/*! \brief parse text and insert items*/
+		void parse(TextEditor * editor);
+		
 		/*! \brief some text inside this editor has been changed
             \param QString old text
             \param QString new text

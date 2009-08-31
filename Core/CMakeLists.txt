@@ -6,6 +6,7 @@ SET( TINKERCELL_CORE_HDRS
   ConnectionGraphicsItem.h
   ConnectionGraphicsReader.h
   ConnectionGraphicsWriter.h
+  ControlPoint.h
   ConvertValue.h
   CThread.h
   DataTable.h
@@ -25,6 +26,7 @@ SET( TINKERCELL_CORE_HDRS
   TextEditor.h
   TextGraphicsItem.h
   TextItem.h
+  TextParser.h
   Tool.h
   UndoCommands.h
 )
@@ -35,11 +37,11 @@ SET( TINKERCELL_CORE_SRC
   ConnectionGraphicsItem.cpp
   ConnectionGraphicsReader.cpp
   ConnectionGraphicsWriter.cpp
+  ControlPoint.cpp
   ConvertValue.cpp
   CThread.cpp
-#   DataTable.cpp
   GraphicsScene.cpp
-#   HistoryStack.cpp
+  HistoryStack.cpp
   ItemFamily.cpp
   ItemHandle.cpp
   MainWindow.cpp
@@ -54,6 +56,7 @@ SET( TINKERCELL_CORE_SRC
   TextEditor.cpp
   TextGraphicsItem.cpp
   TextItem.cpp
+  TextParser.cpp
   Tool.cpp
   UndoCommands.cpp
 )

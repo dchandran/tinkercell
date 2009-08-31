@@ -63,7 +63,7 @@ namespace Tinkercell
 	class MY_EXPORT TextEditor : public CodeEditor
 	{
 		Q_OBJECT
-			friend class TextUndoCommand;
+		friend class TextUndoCommand;
 
 	public:
 
@@ -135,6 +135,10 @@ namespace Tinkercell
 		* \param QList<ItemHandle*> removed item handles
 		*/
 		void itemsRemoved(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&);
+		/*! \brief request to parse the text in the current text editor
+		\param TextEditor* editor
+		*/
+		void parse(TextEditor *);
 
 	public slots:
 		/*! \brief undo last edit*/
@@ -161,6 +165,7 @@ namespace Tinkercell
 		virtual void print(QPrinter * printer);
 
 	protected:
+		
 		/*! \brief previously accessed line number. This is to keep track of when a line is modified*/
 		int prevBlockNumber;
 		/*! \brief current line number. This is to keep track of when a line is modified*/

@@ -167,22 +167,14 @@ namespace Tinkercell
 		class MY_EXPORT GraphicsView : public QGraphicsView
 		{
 		public:
-			/*!
-			* \brief default constructor
-			*/	
+			/*! \brief default constructor*/	
 			GraphicsView(GraphicsScene * scene = 0, QWidget * parent = 0);
 		protected:
-			/*!
-			* \brief drag on top event
-			*/	
+			/*! \brief drag on top event */	
 			virtual void dropEvent(QDropEvent *);
-			/*!
-			* \brief drag and drop event
-			*/	
+			/*! \brief drag and drop event*/	
 			virtual void dragEnterEvent(QDragEnterEvent *event);
-			/*!
-			* \brief mouse wheel event
-			*/	
+			/*! \brief mouse wheel event*/	
 			virtual void wheelEvent(QWheelEvent * event);
 		};
 	};

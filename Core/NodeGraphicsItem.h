@@ -6,14 +6,10 @@ See COPYRIGHT.TXT
 
 One of the main classes in Tinkercell.
 
-There are two classes defined in this file: ControlPoint and NodeGraphicsItem
-
 The NodeGraphicsItem is a group made up of Shapes. Each Shape is a polygon item. 
 Each shape has a default color. The purpose of the default color is to allow plugins
 to change color temporarily and then revert back to the default.
 
-ControlPoint is a drawable item that is used by NodeGraphicsItem and ConnectionGraphicsItem
-to draw movable points.
 
 ****************************************************************************/
 
@@ -37,6 +33,8 @@ to draw movable points.
 #include <QUndoCommand>
 #include <QTextCursor>
 
+#include "ControlPoint.h"
+
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
 #else
@@ -49,61 +47,6 @@ namespace Tinkercell
 	class ItemHandle;
 	class ConnectionGraphicsItem;
 	MY_EXPORT void setHandle(QGraphicsItem*,ItemHandle*);
-
-	/*! \brief A simple circle or square that is used for changing specific locations
-	\ingroup core*/
-	class MY_EXPORT ControlPoint : public QAbstractGraphicsShapeItem
-	{
-	public:
-		/*! \brief permanent brush for this control point*/
-		QBrush defaultBrush;
-		/*! \brief permanent pen for this control point*/
-		QPen defaultPen;
-		/*! \brief default size for this item*/
-		QSizeF defaultSize;
-		/*! \brief x position */
-		virtual qreal x() { return scenePos().x(); }
-		/*! \brief y position*/
-		virtual qreal y() { return scenePos().y(); }
-		/*! \brief Constructor: Setup colors and z value */
-		ControlPoint(QGraphicsItem * parent = 0);
-		/*! \brief copy constructor */
-		ControlPoint(const ControlPoint& copy);
-		/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
-		//virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
-		/*! \brief for enabling dynamic_cast*/
-		enum { Type = UserType + 1 };
-		/*! \brief for enabling dynamic_cast*/
-		virtual int type() const
-		{
-			// Enable the use of dynamic_cast with this item.
-			return Type;
-		}
-		/*! \brief Gets the control point item from one of its child items*/
-		static ControlPoint * asControlPoint(QGraphicsItem* item);
-		/*! \brief side effect when moved. always call this after moving*/
-		virtual void sideEffect();
-		/*! \brief make a copy of this control point*/
-		virtual ControlPoint* clone() const;
-		/*! \brief type of shape to paint. */
-		enum ShapeType { circle, square, triangle };
-		/*! \brief type of shape to paint. */
-		ShapeType shapeType;
-		/*! \brief paint method. */
-		virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
-		/*! \brief bounding rect method. */
-		virtual QRectF boundingRect() const;
-		/*! \brief set size rect. */
-		virtual void setRect(const QRectF&);
-		/*! \brief get size rect. */
-		virtual QRectF rect() const;
-		/*! \brief get the handle of this control point, usually 0 or the parent's handle */
-		virtual ItemHandle * handle() const;
-		/*! \brief set the handle of this control point, usually sets parent's handle or does nothing*/
-		virtual void setHandle(ItemHandle *);
-	protected:
-		QRectF bounds;
-	};
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file 
 	\ingroup core*/
@@ -286,7 +229,7 @@ namespace Tinkercell
 		/*! set boundary to match control points that control the bounding box of this figure */
 		virtual void adjustToBoundaryControlPoints();
 		/*! set the top left and bottom right corners of this node item*/
-		virtual void setBoundingBox(const QPointF&, const QPointF&);
+		virtual void setBoundingRect(const QPointF&, const QPointF&);
 		/*! the bounding box of this figure */
 		QGraphicsRectItem * boundingBoxItem;
 		/*! show or hide the bounding box of this figure */

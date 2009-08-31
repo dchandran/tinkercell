@@ -122,8 +122,42 @@ namespace Tinkercell
 		graphicsScene = scene;
 		graphicsItems.clear();
 		change.clear();
-		change += amount;
-		graphicsItems.append(item);
+		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
+		
+		if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item)))
+		{
+			QList<QGraphicsItem*> cps = connection->controlPointsAsGraphicsItems();
+			for (int j=0; j < cps.size(); ++j)
+			{
+				if (!graphicsItems.contains(cps[j]))
+				{
+					graphicsItems += cps[j];
+					change += amount;
+				}
+			}
+		}
+		else
+		{
+			if (!graphicsItems.contains(item))
+			{
+				graphicsItems += item;
+				change += amount;
+			}
+			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(item)))
+			{
+				QVector<NodeGraphicsItem::ControlPoint*> cps = node->boundaryControlPoints;
+				for (int j=0; j < cps.size(); ++j)
+				{
+					if (!graphicsItems.contains(cps[j]))
+					{
+						graphicsItems += cps[j];
+						change += amount;
+					}
+				}
+			}
+		}
+		
 	}
 
 	void MoveCommand::refreshAllConnectionIn(const QList<QGraphicsItem*>& moving)

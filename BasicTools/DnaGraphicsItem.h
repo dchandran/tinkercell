@@ -62,7 +62,7 @@ namespace Tinkercell
 		/*! \brief the height of the helix*/
 		qreal height;
 		/*! \brief used for checking type before static casts */
-		static QString class_name;
+		static QString CLASSNAME;
 	};
 
 }

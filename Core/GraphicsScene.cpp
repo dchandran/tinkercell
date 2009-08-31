@@ -34,6 +34,8 @@ namespace Tinkercell
 	
 	QBrush GraphicsScene::BackgroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);	
 	
+	QPen GraphicsScene::GridPen = QPen(Qt::lightGray,2);	
+	
 	QBrush GraphicsScene::ForegroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
 	
 	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
@@ -2646,7 +2648,45 @@ namespace Tinkercell
 		node->setBoundingRect(p1,p2);
 	}
 	
-	void drawBackground( QPainter*, const QRectF &)
+	void drawBackground( QPainter* painter, const QRectF & rect)
 	{
+		if (gridSz < 1) return;
+		painter->setPen(GridPen);
+		qreal left = rect.left(), right = rect.right(),
+			  top = rect.top(), bottom = rect.bottom();
+		QPointF p1,p2;
+		
+		p1.rx() = left;
+		p1.ry() = top;
+		p2.rx() = left;
+		p2.ry() = bottom;
+		
+		p1.rx() = gridSz * (int)(p1.rx() / gridSz - 1);
+		p1.ry() = gridSz * (int)(p1.ry() / gridSz - 1);
+		p2.rx() = gridSz * (int)(p2.rx() / gridSz  + 1);
+		p2.ry() = gridSz * (int)(p2.ry() / gridSz + 1);
+		
+		
+		for (qreal x = left; x < right; x += gridSz)
+		{
+			p1.rx() = p2.rx() = x;
+			painter->drawLine(p1,p2);
+		}
+		
+		p1.rx() = left;
+		p1.ry() = top;
+		p2.rx() = right;
+		p2.ry() = top;
+		
+		p1.rx() = gridSz * (int)(p1.rx() / gridSz - 1);
+		p1.ry() = gridSz * (int)(p1.ry() / gridSz - 1);
+		p2.rx() = gridSz * (int)(p2.rx() / gridSz  + 1);
+		p2.ry() = gridSz * (int)(p2.ry() / gridSz + 1);
+		
+		for (qreal y = top; y < bottom; y += gridSz)
+		{
+			p1.ry() = p2.ry() = y;
+			painter->drawLine(p1,p2);
+		}
 	}
 }

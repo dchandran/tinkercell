@@ -868,7 +868,7 @@ namespace Tinkercell
                     if (handle->family() && !handle->family()->measurementUnit.first.isEmpty())
                         list.push_front(handle->family()->measurementUnit.first);
 
-                    if (handle->type == ConnectionHandle::Type)
+                    if (handle->type == ConnectionHandle::TYPE)
                     {
                         list.removeAll("numin");  //these are annoying
                         list.removeAll("numout");
@@ -945,7 +945,7 @@ namespace Tinkercell
 
         for (int i=0; i < childItems.size() && i < parentItems.size(); ++i)
         {
-            if (childItems[i]->type == ConnectionHandle::Type)
+            if (childItems[i]->type == ConnectionHandle::TYPE)
             {
                 if (	childItems[i]	&&
                         !reactions.contains(childItems[i]) &&

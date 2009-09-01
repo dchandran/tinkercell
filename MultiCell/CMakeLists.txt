@@ -64,6 +64,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     ADD_EXECUTABLE( MultiCell
       MultiCell.cpp
+	  Main.cpp
       ${MULTICELL_MOC}
       ${MULTICELL_QRC}
     )
@@ -76,6 +77,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	
 	    ADD_EXECUTABLE( MultiCell WIN32 
         MultiCell.cpp
+		Main.cpp
         ${MULTICELL_MOC}
         ${TINKERCELL_QRC}
        )

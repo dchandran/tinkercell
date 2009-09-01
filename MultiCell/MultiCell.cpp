@@ -141,8 +141,10 @@ namespace Multicell
 				for (int i=0; i < adjacentItems.size(); ++i)
 				{
 					handle = getHandle(adjacentItems[i]);
-					if (handle)
+					if (handle && handle->family() == currentFamily)
 						break;
+					else
+						handle = 0;
 				}
 				
 				if (!handle)

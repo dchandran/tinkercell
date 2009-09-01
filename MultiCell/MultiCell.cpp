@@ -214,7 +214,7 @@ namespace Multicell
 				CellNode * cell = new CellNode;
 				cell->setCentralColor(currentColor);
 				cell->setPos(point);
-				scene->insert(tr("new cell created"),cell);
+				scene->addItem(cell);
 				
 				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
 				
@@ -233,6 +233,8 @@ namespace Multicell
 				}
 				
 				cell->setHandle(handle);
+				
+				scene->insert(tr("new cell created"),cell);
 			}
 		}
 		else

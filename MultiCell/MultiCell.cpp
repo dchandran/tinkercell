@@ -36,6 +36,11 @@ namespace Multicell
 		
 		boundaryControlPoints.clear();
 	}
+	
+	NodeGraphicsItem * CellNode::clone() const
+	{
+		return new CellNode(*this);
+	}
 
 	MulticellInterface::MulticellInterface(): Tool(tr("Multicell interface"))
 	{

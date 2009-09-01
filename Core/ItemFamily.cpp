@@ -35,7 +35,7 @@ namespace Tinkercell
 	ITEM FAMILY
 	**********************************/
 
-	ItemFamily::ItemFamily() : type(0) {}
+	ItemFamily::ItemFamily(const QString& s) : type(0), name(s) {}
 
 	ItemFamily::~ItemFamily() {}
 
@@ -65,7 +65,7 @@ namespace Tinkercell
 	NODE FAMILY
 	**************************************/
 
-	NodeFamily::NodeFamily()
+	NodeFamily::NodeFamily(const QString& s) : name(s)
 	{
 		type = NodeFamily::TYPE;
 	}
@@ -122,7 +122,7 @@ namespace Tinkercell
 	CONNECTION FAMILY
 	**********************************/
 
-	ConnectionFamily::ConnectionFamily()
+	ConnectionFamily::ConnectionFamily(const QString& s) : name(s)
 	{
 		type = ConnectionFamily::TYPE;
 	}

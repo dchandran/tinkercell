@@ -155,12 +155,12 @@ namespace Tinkercell
 			
 		children.clear();
 	}
-	ItemHandle::ItemHandle() : QObject()
+	ItemHandle::ItemHandle(const QString& s) : QObject()
 	{ 
 		visible = true;
 		parent = 0; 
 		data = 0; 
-		name = tr(""); 
+		name = s; 
 		type = 0;
 	}
 
@@ -470,7 +470,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-	NodeHandle::NodeHandle()
+	NodeHandle::NodeHandle(const QString& s) : ItemHandle(s)
 	{
 		parent = 0;
 		nodeFamily = 0;
@@ -592,7 +592,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-	ConnectionHandle::ConnectionHandle()
+	ConnectionHandle::ConnectionHandle(const QString& s) : ItemHandle(s)
 	{	
 		type = ConnectionHandle::TYPE;
 		parent = 0;

@@ -110,8 +110,9 @@ namespace Tinkercell
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
 
-		/*! \brief default constructor -- does nothing*/
-		ItemHandle();
+		/*! \brief default constructor
+			\param QString name*/
+		ItemHandle(const QString& name = QString());
 		/*! \brief copy constructor */
 		ItemHandle(const ItemHandle&);
 		/*! \brief operator = */
@@ -239,7 +240,7 @@ namespace Tinkercell
 		/*! \brief node family for this node handle*/
 		NodeFamily* nodeFamily;
 		/*! \brief default constructor -- initialize everything*/
-		NodeHandle();
+		NodeHandle(const QString& name = QString());
 		/*! \brief constructor with initial family
 		\param NodeFamily* family for this handle*/
 		NodeHandle(NodeFamily * nodeFamily);	
@@ -294,7 +295,7 @@ namespace Tinkercell
 		/*! \brief the family for this connection handle*/
 		ConnectionFamily* connectionFamily;
 		/*! \brief default constructor -- initializes everything*/
-		ConnectionHandle();
+		ConnectionHandle(const QString& name = QString());
 		/*! \brief one parameter constructor -- initializes everything
 		\param ConnectionFamily* connection family*/
 		ConnectionHandle(ConnectionFamily * family);

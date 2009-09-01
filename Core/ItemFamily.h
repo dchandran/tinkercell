@@ -79,10 +79,11 @@ namespace Tinkercell
 		virtual QList<ItemFamily*> parents() const { return QList<ItemFamily*>(); }
 		/*! \brief get all the families that inherit from this family*/
 		virtual QList<ItemFamily*> children() const { return QList<ItemFamily*>(); }
+		/*! \brief constructor.
+			\param QString name*/
+		ItemFamily(const QString& name = QString());
 		/*! \brief destructor.*/
 		virtual ~ItemFamily();
-		/*! \brief constructor.*/
-		ItemFamily();
 	};
 
 	/*! \brief
@@ -109,8 +110,9 @@ namespace Tinkercell
 		virtual void setParent(NodeFamily*);
 		/*! \brief destructor.*/
 		virtual ~NodeFamily();
-		/*! \brief constructor.*/
-		NodeFamily();
+		/*! \brief constructor.
+			\param QString name*/
+		NodeFamily(const QString& name = QString());
 	protected:
 		/*! \brief all the parents*/
 		QList<NodeFamily*> parentFamilies;
@@ -145,7 +147,7 @@ namespace Tinkercell
 		/*! \brief destructor.*/
 		virtual ~ConnectionFamily();
 		/*! \brief constructor.*/
-		ConnectionFamily();
+		ConnectionFamily(const QString& name);
 	protected:
 		/*! \brief all the parents*/
 		QList<ConnectionFamily*> parentFamilies;

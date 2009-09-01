@@ -149,8 +149,10 @@ namespace Multicell
 				
 				if (!handle)
 				{
-					handle = new NodeHandle;
-					handle->name = uniqueName();
+					NodeHandle * nodeHandle = new NodeHandle;
+					nodeHandle->setFamily(currentFamily);
+					nodeHandle->name = uniqueName();
+					handle = nodeHandle;
 				}
 				
 				cell->setHandle(handle);

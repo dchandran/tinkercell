@@ -13,7 +13,10 @@ namespace Tinkercell
 
 		QString text("TinkerCell\nVersion: @TINKERCELL_VERSION@");
 		
-		QString filename( "@TINKERCELL_SOURCE_DIR@/about.txt" );
+		//QString filename( "@TINKERCELL_SOURCE_DIR@/about.txt" );
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString filename = appDir + tr("/about.txt");
+		
 		QFile file;
 		file.setFileName( filename );
 		bool opened = ( file.open( QFile::ReadOnly | QFile::Text ) );
@@ -72,8 +75,8 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-    QString doc( "@TINKERCELL_SOURCE_DIR@/Documentation/UserDocumentation.html" );
-//		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.html");
+		//QString doc( "@TINKERCELL_SOURCE_DIR@/Documentation/UserDocumentation.html" );
+		QString doc = tr("file:") + appDir + tr("/Documentation/UserDocumentation.html");
 		QDesktopServices::openUrl(QUrl(doc));
 	}
 

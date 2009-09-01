@@ -12,8 +12,11 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/ItemFamily.h
   )
 
+FILE( GLOB MULTICELL_SRC *.cpp )
+FILE( GLOB MULTICELL_HDRS *.h )
+
 QT4_WRAP_CPP( MULTICELL_MOC 
-  MultiCell.h
+  ${MULTICELL_HDRS}
   ${TINKERCELL_CORE_HDRS} )
 
 QT4_ADD_RESOURCES( TINKERCELL_QRC multicell.qrc )
@@ -32,8 +35,7 @@ IF( APPLE AND BUILD_BUNDLE )
 
   ADD_EXECUTABLE( MultiCell
     MACOSX_BUNDLE
-    MultiCell.cpp
-	Main.cpp
+    ${MULTICELL_SRC}
     ${MULTICELL_MOC}
     ${TINKERCELL_QRC}
   )
@@ -41,6 +43,8 @@ IF( APPLE AND BUILD_BUNDLE )
   TARGET_LINK_LIBRARIES( MultiCell
     TinkerCellCore
   )
+  
+  INSTALL(TARGETS MultiCell RUNTIME DESTINATION bin/../)
   
   INSTALL(TARGETS MultiCell RUNTIME DESTINATION bin/../)
 
@@ -63,8 +67,7 @@ IF( APPLE AND BUILD_BUNDLE )
 ELSE( APPLE AND BUILD_BUNDLE )
   IF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     ADD_EXECUTABLE( MultiCell
-      MultiCell.cpp
-	  Main.cpp
+      ${MULTICELL_SRC}
       ${MULTICELL_MOC}
       ${MULTICELL_QRC}
     )
@@ -76,8 +79,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
     IF( WIN32 )
 	
 	    ADD_EXECUTABLE( MultiCell WIN32 
-        MultiCell.cpp
-		Main.cpp
+        ${MULTICELL_SRC}
         ${MULTICELL_MOC}
         ${TINKERCELL_QRC}
        )

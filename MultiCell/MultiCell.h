@@ -58,8 +58,12 @@ namespace Multicell
 		
 		/*! \brief calls copy constructed*/
 		NodeGraphicsItem* clone() const;
+		
+		void setCentralColor(const QColor&);
 
 	};
+	
+	class CellTypeSelector;
 
 
 	class MY_EXPORT MulticellInterface : public Tool
@@ -70,8 +74,16 @@ namespace Multicell
 		MulticellInterface();
 
 		bool setMainWindow(MainWindow*);
+		
+		QColor currentColor;
+		
+		NodeFamily * currentFamily;
+		
+		CellTypeSelector * cellSelector;
 
 	public slots:
+	
+		void cellTypeSelected(NodeFamily*,const QColor&);
 
 		/*! \brief signals whenever an empty node of the screen is clicked
 		* \param GraphicsScene* scene where the event took place
@@ -120,8 +132,6 @@ namespace Multicell
 		virtual void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		
 		void escapeSignal(const QWidget * sender);
-
-
 	private:
 		QString uniqueName();
 

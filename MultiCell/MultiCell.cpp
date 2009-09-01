@@ -7,6 +7,7 @@
 Grid based multicell visual modeling interface
 ****************************************************************************/
 
+#include "CellTypeSelector.h"
 #include "MultiCell.h"
 
 using namespace Tinkercell;
@@ -19,6 +20,8 @@ namespace Multicell
 		NodeGraphicsReader reader;
 		reader.readXml(this,":/images/Block.xml");
 		normalize();
+		
+		scale(GraphicsScene::GRID/boundingRect().width(),GraphicsScene::GRID/boundingRect().height());
 		
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
 			if (boundaryControlPoints[i])
@@ -41,11 +44,33 @@ namespace Multicell
 	{
 		return new CellNode(*this);
 	}
+	
+	void CellNode::setCentralColor(const QColor& color)
+	{
+		if (shapes.size() > 0 && shapes[0])
+			shapes[0]->setBrush( shapes[0]->defaultBrush = QBrush(color) );
+	}
 
 	MulticellInterface::MulticellInterface(): Tool(tr("Multicell interface"))
 	{
+		cellSelector = 0;
+		currentColor = QColor();
+		currentFamily = 0;
+	}
+	
+	void MulticellInterface::cellTypeSelected(NodeFamily* family,const QColor& color)
+	{
+		currentColor = color;
+		currentFamily = family;
+		
+		GraphicsScene * scene = currentScene();
+		if (scene) 		
+		{
+			scene->useDefaultBehavior = (family == 0);
+		}
 		
 	}
+
 
 	bool MulticellInterface::setMainWindow(MainWindow * main)
 	{
@@ -73,6 +98,27 @@ namespace Multicell
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget *)),
 					this,SLOT(escapeSignal(const QWidget *)));
 			
+			cellSelector = new CellTypeSelector;
+			
+			connect(cellSelector,SIGNAL(cellTypeSelected(NodeFamily*,const QColor&)),this,SLOT(cellTypeSelected(NodeFamily*,const QColor&)));
+			
+			mainWindow->addDockingWindow(tr("Cell types"),cellSelector,Qt::LeftDockWidgetArea, Qt::LeftDockWidgetArea);
+			
+			NodeFamily * family;
+			
+			currentFamily = family = new NodeFamily;
+			currentColor = QColor(50,250,50,255);
+			family->name = tr("green cells");
+			cellSelector->addCellType(family,QColor(50,250,50,255));
+			
+			family = new NodeFamily;
+			family->name = tr("red cells");
+			cellSelector->addCellType(family,QColor(250,50,50,255));
+			
+			family = new NodeFamily;
+			family->name = tr("blue cells");
+			cellSelector->addCellType(family,QColor(50,50,250,255));
+			
 			return true;
 		}
 		return false;
@@ -80,11 +126,12 @@ namespace Multicell
 
 	void MulticellInterface::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers)
 	{
-		if (scene && button == Qt::LeftButton)
+		if (scene && currentFamily && button == Qt::LeftButton)
 		{
-			if (scene->items(point).isEmpty())
+			if (scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0)).isEmpty())
 			{
 				CellNode * cell = new CellNode;
+				cell->setCentralColor(currentColor);
 				cell->setPos(point);
 				scene->insert(tr("new cell created"),cell);
 				
@@ -115,6 +162,8 @@ namespace Multicell
 	
 	void MulticellInterface::mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
+		if (!scene || currentFamily) return;
+		
 		ItemHandle * h = getHandle(item);
 		if (h)
 		{
@@ -132,11 +181,12 @@ namespace Multicell
 	
 	void MulticellInterface::mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&)
 	{
-		if (scene && button == Qt::LeftButton)
+		if (scene && currentFamily && button == Qt::LeftButton)
 		{
-			if (!item)
+			if (!item && scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0)).isEmpty())
 			{
 				CellNode * cell = new CellNode;
+				cell->setCentralColor(currentColor);
 				cell->setPos(point);
 				scene->insert(tr("new cell created"),cell);
 				

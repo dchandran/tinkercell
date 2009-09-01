@@ -1,4 +1,5 @@
 #include "MultiCell.h"
+#include "CellTypeSelector.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,9 +20,10 @@ int main(int argc, char *argv[])
 	mainWindow.addTool(tool);
 	
 	Tinkercell::GraphicsScene::USE_DEFAULT_BEHAVIOR = false;
-	Tinkercell::GraphicsScene::GRID = 50; //grid mode	
+	Tinkercell::GraphicsScene::GRID = 100; //grid mode	
 	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,30,5,40));
 
+	mainWindow.newGraphicsWindow();
 	mainWindow.newGraphicsWindow();
 	
     mainWindow.show();

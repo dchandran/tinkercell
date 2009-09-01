@@ -130,11 +130,19 @@ namespace Multicell
 		* \param QList<QGraphicsItem*>& list of items that are being moved with the mouse
 		* \return void*/
 		virtual void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
-		
+		/*! \brief signals whenever items are selected (item can be sub-item, not top-level)
+		* \param GraphicsScene* scene where items are selected
+		* \param QList<QGraphicsItem*>& list of all selected item pointers
+		* \param QPointF point where mouse is clicked
+		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
+		* \return void*/
+		virtual void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget * sender);
 	private:
+		
 		QString uniqueName();
-
+		
+		NodeGraphicsItem* itemOnTopOf;
 	};
 
 }

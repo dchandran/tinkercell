@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	
 	Tinkercell::GraphicsScene::USE_DEFAULT_BEHAVIOR = false;
 	Tinkercell::GraphicsScene::GRID = 100; //grid mode	
-	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,30,5,40));
+	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,250,5,80));
     
     Tinkercell::MainWindow mainWindow(true,false);//,false,false);
 	

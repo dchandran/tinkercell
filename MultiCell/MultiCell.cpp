@@ -56,6 +56,7 @@ namespace Multicell
 		cellSelector = 0;
 		currentColor = QColor();
 		currentFamily = 0;
+		itemOnTopOf = 0;
 	}
 	
 	void MulticellInterface::cellTypeSelected(NodeFamily* family,const QColor& color)
@@ -94,7 +95,10 @@ namespace Multicell
 				
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene *, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 					this,SLOT(mouseMoved(GraphicsScene *, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
-				
+			
+			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
+					this,SLOT(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
+			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget *)),
 					this,SLOT(escapeSignal(const QWidget *)));
 			
@@ -159,7 +163,24 @@ namespace Multicell
 			}
 		}
 	}
+	
+	void MulticellInterface::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers modifiers)
+	{
+		if (!scene || modifiers != 0) return;
 		
+		ItemHandle * handle;
+		
+		for (int i=0; i < items.size(); ++i)
+		{
+			handle = getHandle(items[i]);
+			if (handle)
+			{
+				scene->moving() += handle->graphicsItems;
+			}
+		}
+		
+	}
+	
 	void MulticellInterface::mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
 	}
@@ -185,7 +206,8 @@ namespace Multicell
 	
 	void MulticellInterface::mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&)
 	{
-		if (scene && currentFamily && button == Qt::LeftButton)
+		if (!scene) return;
+		if (currentFamily && button == Qt::LeftButton)
 		{
 			if (!item && scene->items(QRectF(point.rx(),point.ry(),50.0,50.0)).isEmpty())
 			{
@@ -211,6 +233,51 @@ namespace Multicell
 				}
 				
 				cell->setHandle(handle);
+			}
+		}
+		else
+		{
+			NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
+			if (node != itemOnTopOf)
+			{	
+				ItemHandle * handle;
+				if (itemOnTopOf) //reset the colors
+				{
+					handle = itemOnTopOf->handle();
+					
+					if (handle)
+					{
+						QList<QGraphicsItem*> graphicsItems = handle->graphicsItems;
+						
+						for (int i=0; i < graphicsItems.size(); ++i)
+						{
+							NodeGraphicsItem * n = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+							if (n)
+								for (int j=0; j < n->shapes.size(); ++j)	
+									n->shapes[j]->setBrush( n->shapes[j]->defaultBrush );
+						}
+					}
+				}
+				
+				itemOnTopOf = node;
+				
+				if (node)
+				{
+					handle = itemOnTopOf->handle();
+					
+					if (handle)  //new colors
+					{
+						QList<QGraphicsItem*> graphicsItems = handle->graphicsItems;
+						
+						for (int i=0; i < graphicsItems.size(); ++i)
+						{
+							NodeGraphicsItem * n = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
+							if (n)
+								for (int j=0; j < n->shapes.size(); ++j)	
+									n->shapes[j]->setBrush( QBrush(QColor(25,25,25,100)) );
+						}
+					}
+				}
 			}
 		}
 		

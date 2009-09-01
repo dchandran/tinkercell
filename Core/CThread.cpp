@@ -314,7 +314,7 @@ namespace Tinkercell
 	{
 		QWidget * dialog = new QDialog(mainWindow);
 
-		dialog->setStyleSheet(tr("background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #B7D5FF, stop: 0.5 #FFFFFF, stop: 1.0 #093A7E);"));
+		dialog->setStyleSheet(CThread::style);
 		dialog->hide();
 
 		dialog->move(newThread->mainWindow->pos() + QPoint(10,10));

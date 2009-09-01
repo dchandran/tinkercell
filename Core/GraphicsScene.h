@@ -86,22 +86,22 @@ namespace Tinkercell
 			to use the default behavior is set using scene->useDefaultBehavior. This static variable is the
 			default value for each scene's useDefaultBehavior variable, i.e. setting this to true will cause a
 			newly constructed graphics scene to NOT use default behaviors.*/
-		static bool USE_DEFAULT_BEHAVIOR;
+		MY_EXPORT static bool USE_DEFAULT_BEHAVIOR;
 		/*! \brief setting grid to a non-zero value forces node items to "fit" on the grid, where
 			the gap between the grid lines is determined by this variable. The default is 0, i.e. no grid*/
-		static int GRID;
+		MY_EXPORT static MY_EXPORT  int GRID;
 		/*! \brief pen that is used to draw the selection rectangle*/
-		static QPen SelectionRectanglePen;
+		MY_EXPORT static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
-		static QBrush SelectionRectangleBrush;
+		MY_EXPORT static QBrush SelectionRectangleBrush;
 		/*! \brief brush used to draw the background for the scene*/
-		static QBrush BackgroundBrush;
+		MY_EXPORT static QBrush BackgroundBrush;
 		/*! \brief pen used to draw the grid for the scene*/
-		static QPen GridPen;
+		MY_EXPORT static QPen GridPen;
 		/*! \brief brush used to draw the foreground for the scene*/
-		static QBrush ForegroundBrush;
+		MY_EXPORT static QBrush ForegroundBrush;
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
-		static qreal MIN_DRAG_DISTANCE;
+		MY_EXPORT static qreal MIN_DRAG_DISTANCE;
 		
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
@@ -455,11 +455,11 @@ namespace Tinkercell
 		/*! \brief rectanglular selection area*/
 		QGraphicsRectItem selectionRect;
 		/*! \brief used to store copied items*/
-		static QList<QGraphicsItem*> duplicateItems;
+		MY_EXPORT static QList<QGraphicsItem*> duplicateItems;
 		/*! \brief used to store copied items*/
-		static GraphicsScene * copiedFromScene;
+		MY_EXPORT static GraphicsScene * copiedFromScene;
 		/*! \brief clears copied items*/
-		static void clearStaticItems();
+		MY_EXPORT static void clearStaticItems();
 		/*! \brief point where mouse is clicked*/
 		QPointF clickedPoint;	
 		/*! \brief button that was used when mouse was clicked*/

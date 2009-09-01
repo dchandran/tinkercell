@@ -167,9 +167,9 @@ namespace Multicell
 		if (!scene || currentFamily) return;
 		
 		ItemHandle * h = getHandle(item);
-		if (h)
+		if (h && h->family())
 		{
-			ConsoleWindow::message(h->name + tr(" information"));
+			ConsoleWindow::message(h->name + tr("   ") + h->family()->name + tr("  ..."));
 		}
 	}
 	

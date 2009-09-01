@@ -65,8 +65,9 @@ namespace Tinkercell
 	NODE FAMILY
 	**************************************/
 
-	NodeFamily::NodeFamily(const QString& s) : name(s)
+	NodeFamily::NodeFamily(const QString& s)
 	{
+		name = s;
 		type = NodeFamily::TYPE;
 	}
 
@@ -122,8 +123,9 @@ namespace Tinkercell
 	CONNECTION FAMILY
 	**********************************/
 
-	ConnectionFamily::ConnectionFamily(const QString& s) : name(s)
+	ConnectionFamily::ConnectionFamily(const QString& s)
 	{
+		name = s;
 		type = ConnectionFamily::TYPE;
 	}
 

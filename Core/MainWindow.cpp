@@ -677,6 +677,8 @@ namespace Tinkercell
 		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
 		
 		QAction * toggleGrid = setGridModeMenu->addAction(tr("Toggle grid mode"));
+		toggleGrid->setCheckable(true);
+		toggleGrid->setChecked(GraphicsScene::GRID > 0);
 		QAction * setGridSz = setGridModeMenu->addAction(tr("Set grid size"));
 		
 		connect (toggleGrid, SIGNAL(triggered()),this,SLOT(toggleGridMode()));

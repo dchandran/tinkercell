@@ -128,7 +128,7 @@ namespace Multicell
 	{
 		if (scene && currentFamily && button == Qt::LeftButton)
 		{
-			if (scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0)).isEmpty())
+			if (scene->items(QRectF(point.rx(),point.ry(),50.0,50.0)).isEmpty())
 			{
 				CellNode * cell = new CellNode;
 				cell->setCentralColor(currentColor);
@@ -183,7 +183,7 @@ namespace Multicell
 	{
 		if (scene && currentFamily && button == Qt::LeftButton)
 		{
-			if (!item && scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0)).isEmpty())
+			if (!item && scene->items(QRectF(point.rx(),point.ry(),50.0,50.0)).isEmpty())
 			{
 				CellNode * cell = new CellNode;
 				cell->setCentralColor(currentColor);

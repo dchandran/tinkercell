@@ -40,7 +40,7 @@ namespace Multicell
 			--i;
 			if (i < cellColors.size() && i < cellFamilies.size())
 				emit cellTypeSelected(cellFamilies[i],cellColors[i]);
-			ConsoleWindow::message(QString::number(i));
+			ConsoleWindow::message(cellFamilies[i]->name + tr(" selected"));
 		}
 	}
 	
@@ -61,7 +61,9 @@ namespace Multicell
 		setItemWidget(item,toolButton);
 		
 		buttonGroup.addButton(toolButton,cellFamilies.size());
-		ConsoleWindow::message(QString::number(cellFamilies.size()));
+		
+		if (family)
+			ConsoleWindow::message(family->name + tr(" added"));
 	}
 	
 	void CellTypeSelector::addCellType()

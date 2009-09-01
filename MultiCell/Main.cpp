@@ -10,6 +10,10 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
 	QString appDir = QCoreApplication::applicationDirPath();
+	
+	Tinkercell::GraphicsScene::USE_DEFAULT_BEHAVIOR = false;
+	Tinkercell::GraphicsScene::GRID = 100; //grid mode	
+	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,30,5,40));
     
     Tinkercell::MainWindow mainWindow(true,false);//,false,false);
 	
@@ -19,10 +23,6 @@ int main(int argc, char *argv[])
 	Tool * tool = new Multicell::MulticellInterface;
 	mainWindow.addTool(tool);
 	
-	Tinkercell::GraphicsScene::USE_DEFAULT_BEHAVIOR = false;
-	Tinkercell::GraphicsScene::GRID = 100; //grid mode	
-	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,30,5,40));
-
 	mainWindow.newGraphicsWindow();
 	mainWindow.newGraphicsWindow();
 	

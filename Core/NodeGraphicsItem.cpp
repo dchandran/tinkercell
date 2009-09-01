@@ -16,7 +16,7 @@ ControlPoint is a drawable item that is used by NodeGraphicsItem and ConnectionG
 to draw movable points.
 
 ****************************************************************************/
-
+#include "ConsoleWindow.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConnectionGraphicsItem.h"
@@ -1163,7 +1163,7 @@ namespace Tinkercell
 		
 		QGraphicsScene * scene = this->scene();
 		
-		if (scene) return nodes;
+		if (!scene) return nodes;
 		
 		QRectF rect = this->sceneBoundingRect();
 		rect.adjust( -rect.width()/10.0, -rect.height()/10.0, rect.width()/10.0, rect.height()/10.0 );

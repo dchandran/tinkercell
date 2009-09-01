@@ -147,7 +147,7 @@ namespace Tinkercell
 		/*! \brief destructor.*/
 		virtual ~ConnectionFamily();
 		/*! \brief constructor.*/
-		ConnectionFamily(const QString& name);
+		ConnectionFamily(const QString& name = QString());
 	protected:
 		/*! \brief all the parents*/
 		QList<ConnectionFamily*> parentFamilies;

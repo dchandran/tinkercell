@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	mainWindow.setWindowTitle(QString("MultiCell Simulator"));
     mainWindow.statusBar()->showMessage(QString("Welcome to MultiCell Simulator"));
 
-	Tool * tool = new MultiCell;
+	Tool * tool = new MulticellInterface;
 	mainWindow.addTool(tool);
 	
 	GraphicsScene::USE_DEFAULT_BEHAVIOR = false;

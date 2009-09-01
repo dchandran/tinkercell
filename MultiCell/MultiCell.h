@@ -60,7 +60,7 @@ namespace Multicell
 		Q_OBJECT
 		
 	public:
-		Multicell();
+		MulticellInterface();
 
 		bool setMainWindow(MainWindow*);
 

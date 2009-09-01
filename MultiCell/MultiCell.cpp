@@ -7,7 +7,7 @@
 Grid based multicell visual modeling interface
 ****************************************************************************/
 
-#include "MutliCell.h"
+#include "MultiCell.h"
 
 using namespace Tinkercell;
 
@@ -17,7 +17,7 @@ namespace Multicell
 	CellNode::CellNode() : NodeGraphicsItem()
 	{
 		NodeGraphicsReader reader;
-		reader.readXML(this,":/images/Block.xml");
+		reader.readXml(this,":/images/Block.xml");
 		normalize();
 		
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
@@ -73,7 +73,7 @@ namespace Multicell
 		return false;
 	}
 
-	void MulticellInterface::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers)
+	void MulticellInterface::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers)
 	{
 		if (scene && button == Qt::LeftButton)
 		{
@@ -163,9 +163,9 @@ namespace Multicell
 
 	QString MulticellInterface::uniqueName()
 	{
-		if (!currentWindow() || !currentWindow()->symbolsTable) return tr("x");
+		if (!currentWindow()) return QString("x");
 		
-		QStringList list(currentWindow()->symbolsTable.fullNames.keys());
+		QStringList list(currentWindow()->symbolsTable.handlesFullName.keys());
 		
 		int i = 1;
 		QString name = tr("cell") + QString::number(i);

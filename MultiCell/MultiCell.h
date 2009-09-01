@@ -33,13 +33,20 @@ Grid based multicell visual modeling interface
 #include "NodeGraphicsReader.h"
 #include "ConsoleWindow.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
+
 using namespace Tinkercell;
 
 namespace Multicell
 {
 
 
-	class CellNode: public NodeGraphicsItem
+	class MY_EXPORT CellNode: public NodeGraphicsItem
 	{
 	public:
 		
@@ -55,7 +62,7 @@ namespace Multicell
 	};
 
 
-	class MulticellInterface : public Tool
+	class MY_EXPORT MulticellInterface : public Tool
 	{
 		Q_OBJECT
 		

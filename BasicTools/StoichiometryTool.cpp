@@ -1598,7 +1598,7 @@ namespace Tinkercell
 	void StoichiometryTool::setStoichiometry(NetworkWindow * win, QList<ItemHandle*>& connectionHandles,const DataTable<qreal>& N, const QString& replaceDot)
 	{
 		DataTable<qreal> stoicMatrix = N.transpose();
-
+		
 		if (connectionHandles.size() < 1)
 		{
 			return;
@@ -1612,18 +1612,20 @@ namespace Tinkercell
 
 		QList<ItemHandle*> handles;
 
-		QRegExp regex(QString("([A-Za-z0-9])")+replaceDot+QString("([A-Za-z])"));
-
-		for (int i=0; i < stoicMatrix.rows(); ++i)
+		if (replaceDot != tr("."))
 		{
-			stoicMatrix.rowName(i).replace(regex,QString("\\1.\\2"));
-		}
-		for (int i=0; i < stoicMatrix.cols(); ++i)
-		{
-			stoicMatrix.colName(i).replace(regex,QString("\\1.\\2"));
-		}
+			QRegExp regex(QString("([A-Za-z0-9])")+replaceDot+QString("([A-Za-z])"));
 
-
+			for (int i=0; i < stoicMatrix.rows(); ++i)
+			{
+				stoicMatrix.rowName(i).replace(regex,QString("\\1.\\2"));
+			}
+			for (int i=0; i < stoicMatrix.cols(); ++i)
+			{
+				stoicMatrix.colName(i).replace(regex,QString("\\1.\\2"));
+			}
+		}
+		
 		int n=0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
@@ -1640,9 +1642,10 @@ namespace Tinkercell
 					for (int j=0; j < stoicMatrix.cols(); ++j)
 						pickCol << false;
 					int n0 = n;
+					int k = 0;
 
 					//determine which cols to pick
-					for (int k=0; (last || (k < nDataTable->rows())) && n0 < stoicMatrix.rows(); ++k, ++n0, ++rows)
+					for (k=0; (last || k < nDataTable->rows()) && n0 < stoicMatrix.rows(); ++k, ++n0, ++rows)
 					{
 						for (int j=0; j < stoicMatrix.cols(); ++j)
 						{
@@ -1656,14 +1659,17 @@ namespace Tinkercell
 
 					if (nDataTable->rows() != rows || nDataTable->cols() !=  cols)
 						nDataTable->resize(rows,cols);
-
-					for (int k=0; k < nDataTable->rows() && n < stoicMatrix.rows(); ++k, ++n)
+						
+					for (k=0; k < nDataTable->rows() && n < stoicMatrix.rows(); ++k, ++n)
 					{
 						int j0 = 0;
 						for (int j=0; j < stoicMatrix.cols(); ++j)
-						nDataTable->colName(j0) = stoicMatrix.colName(j);
-						nDataTable->value(k,j0) = stoicMatrix.at(n,j0);
-						++j0;
+							if (pickCol[j])
+							{
+								nDataTable->colName(j0) = stoicMatrix.colName(j);
+								nDataTable->value(k,j0) = stoicMatrix.at(n,j);
+								++j0;
+							}
 					}
 
 					nDataTablesNew += nDataTable;

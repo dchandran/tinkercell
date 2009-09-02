@@ -172,9 +172,9 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
 
-#
-#Deepak: TINKERCELL_BINARY_BIN_DIR does not seem to be working for me on Win32, 
-# so I am defining it here
+#----------------------------------------------------------------------------
+#   Tinkercell plugins and other components
+#----------------------------------------------------------------------------
 
   SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
   
@@ -190,20 +190,11 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( ContainerTools )
   ADD_SUBDIRECTORY( OtherTools )
   ADD_SUBDIRECTORY( CInputWindows )
-  ADD_SUBDIRECTORY( SegmentationAnimation )
-  ADD_SUBDIRECTORY( SimpleDesigner )
-  ADD_SUBDIRECTORY( MultiCell )
   ADD_SUBDIRECTORY( DB )
   ADD_SUBDIRECTORY( py )
   ADD_SUBDIRECTORY( ArrowItems )
   ADD_SUBDIRECTORY( NodeItems )
   ADD_SUBDIRECTORY( OtherItems )
-  IF( WIN32 )
-     ADD_SUBDIRECTORY( win32 )
-  ENDIF(WIN32)
-
-  FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
-  INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
   
 #---------------------------------------------------------------------------
 # ANTIMONY editor
@@ -216,6 +207,25 @@ IF( QT4_FOUND )
   IF( BUILD_ANTIMONYEDITOR )
     ADD_SUBDIRECTORY( AntimonyEditor )
   ENDIF( BUILD_ANTIMONYEDITOR )
+  
+  ADD_SUBDIRECTORY( SegmentationAnimation )
+  ADD_SUBDIRECTORY( SimpleDesigner )
+  ADD_SUBDIRECTORY( MultiCell )
+
+#----------------------------------------------------------------------------
+# Windows only: include Tiny C Compiler
+#----------------------------------------------------------------------------
+
+IF( WIN32 )
+     ADD_SUBDIRECTORY( win32 )
+  ENDIF(WIN32)
+
+  FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
+  INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
+  
+#----------------------------------------------------------------------------
+# Done with Tinkercell plugins and other components
+#----------------------------------------------------------------------------
 
   INCLUDE( CMake/TinkercellCPack.cmake )
 

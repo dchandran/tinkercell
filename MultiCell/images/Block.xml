@@ -19,28 +19,28 @@
         <ControlPoint x="91" y="294"/>
         <ControlPoint x="91" y="269"/>
         <ControlPoint x="108" y="113"/>
-        <ControlPoint x="335.78" y="286.912"/>
-        <ControlPoint x="320.515" y="295.515"/>
-        <ControlPoint x="332.668" y="155"/>
+        <ControlPoint x="337.78" y="283.912"/>
+        <ControlPoint x="323.515" y="297.515"/>
+        <ControlPoint x="335" y="155"/>
         <ControlPoint x="310" y="117"/>
         <ControlPoint x="137" y="116"/>
         <ControlPoint x="108" y="269"/>
         <ControlPoint x="108" y="155"/>
         <ControlPoint x="179" y="116"/>
-        <ControlPoint x="332.824" y="269"/>
-        <ControlPoint x="310" y="294"/>
-        <ControlPoint x="330.756" y="115.669"/>
-        <ControlPoint x="104.176" y="304.603"/>
-        <ControlPoint x="137" y="294"/>
-        <ControlPoint x="333.624" y="120.78"/>
-        <ControlPoint x="195.968" y="294.43"/>
+        <ControlPoint x="296" y="295"/>
+        <ControlPoint x="328.756" y="118.669"/>
+        <ControlPoint x="104.176" y="289.603"/>
+        <ControlPoint x="137" y="294.515"/>
+        <ControlPoint x="114.968" y="295.43"/>
+        <ControlPoint x="340" y="129"/>
+        <ControlPoint x="335" y="269"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
             <ControlPoints indices="0,8,9,4,5,11,10,1,6,12,13,2,7,3,14,15,0"/>
             <LineTypes sequence="bezier,line,bezier,line,bezier,line,bezier,line"/>
             <Parameters values=""/>
-            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Pen Width="1" Color="#a1a1a5" Alpha="255"/>
             <Gradient Type="0">
                 <Stop Value="0" Color="#a1cf8b" Alpha="255"/>
                 <Stop Value="1" Color="#6464ff" Alpha="255"/>
@@ -52,24 +52,48 @@
             <ControlPoints indices="15,0,8,9,4,5,20,24,21,16,23,22,15"/>
             <LineTypes sequence="line,bezier,line,line,line,bezier,line,line"/>
             <Parameters values=""/>
-            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Pen Width="1" Color="#7a7a7a" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#ffffd2" Alpha="255"/>
+                <Stop Value="0" Color="#e8e8e8" Alpha="255"/>
                 <Stop Value="1" Color="#6464ff" Alpha="255"/>
-                <Start x="99" y="194"/>
-                <End x="99" y="194"/>
+                <Start x="95.5223" y="192.481"/>
+                <End x="95.5223" y="192.481"/>
             </Gradient>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="22,28,29,31,26,18,17,25,19,30,27,20,5,11,10,1,6,12,13,2,7,3,14,15,22"/>
-            <LineTypes sequence="bezier,line,bezier,line,bezier,line,bezier,line,bezier,line,bezier,line"/>
+            <ControlPoints indices="19,30,26,20,5,11,10,1,19"/>
+            <LineTypes sequence="bezier,line,bezier,line"/>
             <Parameters values=""/>
-            <Pen Width="1" Color="#535a57" Alpha="255"/>
+            <Pen Width="1" Color="#a1a1a5" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#535a57" Alpha="255"/>
+                <Stop Value="0" Color="#7a7a7a" Alpha="255"/>
                 <Stop Value="1" Color="#6464ff" Alpha="255"/>
-                <Start x="247.589" y="295.386"/>
-                <End x="247.589" y="295.386"/>
+                <Start x="347.615" y="141.488"/>
+                <End x="347.615" y="141.488"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="15,14,3,7,28,29,27,22,15"/>
+            <LineTypes sequence="bezier,line,bezier,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#a1a1a5" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#7a7a7a" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="119.223" y="307.395"/>
+                <End x="119.223" y="307.395"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="31,17,18,25,28,7,2,13,12,6,1,19,31"/>
+            <LineTypes sequence="bezier,line,line,line,bezier,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#7a7a7a" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#444444" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="341.869" y="247.065"/>
+                <End x="341.869" y="247.065"/>
             </Gradient>
         </Shape>
     </Shapes>

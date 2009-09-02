@@ -299,7 +299,7 @@ namespace Tinkercell
 			move(item2,dp);
 		}
 		
-		snapToGrid(qgraphicsitem_cast<NodeGraphicsItem*>(item2));
+		snapToGrid(item2);
 	}
 	/*! \brief top Z value
 	* Precondition: None
@@ -2623,12 +2623,17 @@ namespace Tinkercell
 	
 	void GraphicsScene::enableGrid(int sz)
 	{
-		gridSz = sz;
+		setGridSize(sz);
 	}
 	
 	void GraphicsScene::disableGrid()
 	{
-		gridSz = 0;
+		setGridSize(0);
+	}
+	
+	void GraphicsScene::setGridSize(int sz)
+	{
+		gridSz = sz;
 	}
 	
 	int GraphicsScene::gridSize() const
@@ -2636,27 +2641,48 @@ namespace Tinkercell
 		return gridSz;
 	}
 	
-	void GraphicsScene::snapToGrid(NodeGraphicsItem* node)
+	void GraphicsScene::snapToGrid(QGraphicsItem * item)
 	{
-		if (!node || gridSz < 1) return;
+		if (!item || gridSz < 1) return;
 		
-		QPointF p1 = node->sceneBoundingRect().topLeft();
-		QPointF p2 = node->sceneBoundingRect().bottomRight();
+		ControlPoint * cp = ControlPoint::asControlPoint(item);
 		
-		p1.rx() = gridSz * (int)(p1.rx() / gridSz);
-		p1.ry() = gridSz * (int)(p1.ry() / gridSz);
-		p2.rx() = gridSz * (int)(p2.rx() / gridSz);
-		p2.ry() = gridSz * (int)(p2.ry() / gridSz);
+		if (cp)
+		{
+			QPointF p1 = cp->scenePos();
+			
+			p1.rx() = gridSz * (int)(p1.rx() / gridSz);
+			p1.ry() = gridSz * (int)(p1.ry() / gridSz);
+			
+			cp->setPos(p1);
+			
+			ConsoleWindow::message(QString::number(p1.rx()) + tr(",") + QString::number(p1.ry()));
+			return;
+		}
 		
-		if (p2.rx() == p1.rx()) p2.rx() += gridSz;
-		if (p2.ry() == p1.ry()) p2.ry() += gridSz;
+		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
 		
-		node->setBoundingRect(p1,p2);
+		if (node)
+		{
+			QPointF p1 = node->sceneBoundingRect().topLeft();
+			QPointF p2 = node->sceneBoundingRect().bottomRight();
+			
+			p1.rx() = gridSz * (int)(p1.rx() / gridSz);
+			p1.ry() = gridSz * (int)(p1.ry() / gridSz);
+			p2.rx() = gridSz * (int)(p2.rx() / gridSz);
+			p2.ry() = gridSz * (int)(p2.ry() / gridSz);
+			
+			if (p2.rx() == p1.rx()) p2.rx() += gridSz;
+			if (p2.ry() == p1.ry()) p2.ry() += gridSz;
+			
+			node->setBoundingRect(p1,p2);
+		}
 	}
 	
 	void GraphicsScene::drawBackground( QPainter* painter, const QRectF & rect)
 	{
 		if (gridSz < 1) return;
+		
 		painter->setPen(GridPen);
 		qreal left = rect.left(), right = rect.right(),
 			  top = rect.top(), bottom = rect.bottom();
@@ -2667,11 +2693,7 @@ namespace Tinkercell
 		p2.rx() = left;
 		p2.ry() = bottom;
 		
-		p1.rx() = gridSz * (int)(p1.rx() / gridSz - 1);
-		p1.ry() = gridSz * (int)(p1.ry() / gridSz - 1);
-		p2.rx() = gridSz * (int)(p2.rx() / gridSz  + 1);
-		p2.ry() = gridSz * (int)(p2.ry() / gridSz + 1);
-		
+		left = gridSz * (int)(left/gridSz);
 		
 		for (qreal x = left; x < right; x += gridSz)
 		{
@@ -2684,10 +2706,7 @@ namespace Tinkercell
 		p2.rx() = right;
 		p2.ry() = top;
 		
-		p1.rx() = gridSz * (int)(p1.rx() / gridSz - 1);
-		p1.ry() = gridSz * (int)(p1.ry() / gridSz - 1);
-		p2.rx() = gridSz * (int)(p2.rx() / gridSz  + 1);
-		p2.ry() = gridSz * (int)(p2.ry() / gridSz + 1);
+		top = gridSz * (int)(top/gridSz);
 		
 		for (qreal y = top; y < bottom; y += gridSz)
 		{

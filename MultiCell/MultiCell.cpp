@@ -22,21 +22,11 @@ namespace Multicell
 		normalize();
 		
 		scale(GraphicsScene::GRID/boundingRect().width(),GraphicsScene::GRID/boundingRect().height());
-		
-		for (int i=0; i < boundaryControlPoints.size(); ++i)
-			if (boundaryControlPoints[i])
-				delete boundaryControlPoints[i];
-		
-		boundaryControlPoints.clear();
 	}
 		
 	/*! \brief copy constructed*/
 	CellNode::CellNode(const CellNode& copy) : NodeGraphicsItem(copy)
-	{
-		for (int i=0; i < boundaryControlPoints.size(); ++i)
-			if (boundaryControlPoints[i])
-				delete boundaryControlPoints[i];
-		
+	{	
 		boundaryControlPoints.clear();
 	}
 	
@@ -132,12 +122,22 @@ namespace Multicell
 	{
 		if (scene && currentFamily && button == Qt::LeftButton)
 		{
-			if (scene->items(QRectF(point.rx(),point.ry(),50.0,50.0)).isEmpty())
+			QPointF p = point;
+			int gridSz = scene->gridSize();
+			
+			//get the grid point
+			p.rx() = gridSz * (int)(p.rx()/gridSz);  
+			p.ry() = gridSz * (int)(p.ry()/gridSz);  
+			
+			QRectF rect(p.rx(),p.ry(), p.rx() + 20, p.ry() + 20);
+			
+			if (scene->items(rect).isEmpty())
 			{
 				CellNode * cell = new CellNode;
 				cell->setCentralColor(currentColor);
 				cell->setPos(point);
-				scene->insert(tr("new cell created"),cell);
+				scene->insert(tr("new cell created"),cell);				
+				cell->setBoundingBoxVisible(false);
 				
 				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
 				
@@ -166,7 +166,38 @@ namespace Multicell
 	
 	void MulticellInterface::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers modifiers)
 	{
-		if (!scene || modifiers != 0) return;
+		if (!scene) return;
+		
+		for (int i=0; i < selectedItems.size(); ++i)
+		{
+			if (!items.contains(selectedItems[i]))
+			{
+				selectedItems[i]->resetPen();
+				selectedItems[i]->resetBrush();
+			}
+		}
+		
+		QList<NodeGraphicsItem*> oldList = selectedItems;
+		selectedItems.clear();
+		
+		NodeGraphicsItem * node;
+		
+		for (int i=0; i < items.size(); ++i)
+		{
+			node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+			if (node)
+			{
+				selectedItems << node;
+				if (!oldList.contains(node))
+				{
+					node->setPen( QPen(QColor(255,10,10,255),5.0,Qt::DotLine) );
+					node->setBrush( QBrush(QColor(255,10,10,50)) );
+				}
+			}
+		}
+		
+		
+		if (modifiers != 0) return;
 		
 		ItemHandle * handle;
 		
@@ -209,12 +240,22 @@ namespace Multicell
 		if (!scene) return;
 		if (currentFamily && button == Qt::LeftButton)
 		{
-			if (!item && scene->items(QRectF(point.rx(),point.ry(),50.0,50.0)).isEmpty())
+			QPointF p = point;
+			int gridSz = scene->gridSize();
+			
+			//get the grid point
+			p.rx() = gridSz * (int)(p.rx()/gridSz);  
+			p.ry() = gridSz * (int)(p.ry()/gridSz);  
+			
+			QRectF rect(p.rx(),p.ry(), p.rx(), p.ry() + 20);
+			
+			if (!item && scene->items(rect).isEmpty())
 			{
 				CellNode * cell = new CellNode;
 				cell->setCentralColor(currentColor);
 				cell->setPos(point);
-				scene->addItem(cell);
+				scene->insert(tr("new cell created"),cell);
+				cell->setBoundingBoxVisible(false);
 				
 				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
 				
@@ -222,8 +263,10 @@ namespace Multicell
 				for (int i=0; i < adjacentItems.size(); ++i)
 				{
 					handle = getHandle(adjacentItems[i]);
-					if (handle)
+					if (handle && handle->family() == currentFamily)
 						break;
+					else
+						handle = 0;
 				}
 				
 				if (!handle)
@@ -233,8 +276,6 @@ namespace Multicell
 				}
 				
 				cell->setHandle(handle);
-				
-				scene->insert(tr("new cell created"),cell);
 			}
 		}
 		else
@@ -255,8 +296,7 @@ namespace Multicell
 						{
 							NodeGraphicsItem * n = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 							if (n)
-								for (int j=0; j < n->shapes.size(); ++j)	
-									n->shapes[j]->setBrush( n->shapes[j]->defaultBrush );
+								n->resetBrush();
 						}
 					}
 				}
@@ -275,8 +315,7 @@ namespace Multicell
 						{
 							NodeGraphicsItem * n = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 							if (n)
-								for (int j=0; j < n->shapes.size(); ++j)	
-									n->shapes[j]->setBrush( QBrush(QColor(25,25,25,100)) );
+								n->setBrush( QBrush(QColor(25,25,25,100)) );
 						}
 					}
 				}

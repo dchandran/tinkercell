@@ -374,6 +374,14 @@ namespace Tinkercell
 
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
 				{
+					while (handles.size() <= i) handles << 0;
+						if (handles[i] != getHandle(graphicsItems[i]))
+						{
+							if (handles[i])
+								handles << handles[i];
+							handles[i] = getHandle(graphicsItems[i]);
+						}
+						
 					graphicsScene->removeItem(graphicsItems[i]);
 					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
 					{

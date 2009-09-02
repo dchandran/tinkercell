@@ -150,13 +150,17 @@ namespace Tinkercell
 		~GraphicsScene();
 
 	public:
-		/*! \brief set the grid mode on with the given grid size
+		/*! \brief set the grid mode ON with the given grid size
 		* \param double grid size (0 will disable grid)
 		* \return void*/
 		virtual void enableGrid(int sz=100);
-		/*! \brief set the grid mode off
+		/*! \brief set the grid mode OFF, which is same as setting grid size to 0
 		* \return void*/
 		virtual void disableGrid();
+		/*! \brief set the grid size. If > 0, grid will be enabled. If 0, grid will be disabled
+		* \param double grid size (0 will disable grid)
+		* \return void*/
+		virtual void setGridSize(int sz=100);
 		/*! \brief get the grid size being used (0 = no grid)
 		* \return int*/
 		virtual int gridSize() const;
@@ -522,7 +526,7 @@ namespace Tinkercell
 		/*! \brief snap the node item to the grid
 		* \param NodeGraphicsItem*
 		* \return void*/
-		virtual void snapToGrid(NodeGraphicsItem*);
+		virtual void snapToGrid(QGraphicsItem*);
 		/*! \brief zoom
 		* Precondition: None
 		* Postcondition: None

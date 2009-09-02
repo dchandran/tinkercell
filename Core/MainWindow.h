@@ -787,8 +787,11 @@ namespace Tinkercell
 		*/
 		void dragAndDropFiles(const QList<QFileInfo>& files);
 		
-		/*! \brief change grid mode for current scene*/
-		void toggleGridMode();
+		/*! \brief change grid mode for current scene to on (>0)*/
+		void gridOn();
+		
+		/*! \brief change grid mode for current scene to off (=0)*/
+		void gridOff();
 		
 		/*! \brief set grid size for current scene*/
 		void setGridSize();

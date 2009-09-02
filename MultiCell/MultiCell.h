@@ -143,6 +143,7 @@ namespace Multicell
 		QString uniqueName();
 		
 		NodeGraphicsItem* itemOnTopOf;
+		QList<NodeGraphicsItem*> selectedItems;
 	};
 
 }

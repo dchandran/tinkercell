@@ -668,7 +668,7 @@ namespace Tinkercell
 
 					if (pathVectors[i].arrowStart->scene() != scene() && scene())
 					{
-						scene()->addItem(pathVectors[i].arrowStart);
+						(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
 					}
 
 					pathVectors[i].arrowStart->setZValue(zValue() + 0.1);
@@ -731,7 +731,7 @@ namespace Tinkercell
 
 				if (pathVectors[i].arrowEnd->scene() != scene() && scene())
 				{
-					scene()->addItem(pathVectors[i].arrowEnd);
+					(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
 				}
 
 				pathVectors[i].arrowEnd->setZValue(zValue() + 0.1);
@@ -810,7 +810,7 @@ namespace Tinkercell
 
 					if (pathVectors[0].arrowEnd->scene() != scene() && scene())
 					{
-						scene()->addItem(pathVectors[0].arrowEnd);
+						(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[0].arrowEnd);
 					}
 
 					if (pathVectors[0].arrowEnd->parentItem() == 0)
@@ -907,7 +907,7 @@ namespace Tinkercell
 			centerRegionItem->scene()->removeItem(centerRegionItem);
 			if (scene())
 			{
-			scene()->addItem(centerRegionItem);
+			(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
 			}
 			}*/
 
@@ -919,7 +919,7 @@ namespace Tinkercell
 				for (int i=0; i < children.size(); ++i)
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]))
 					{
-						this->scene()->addItem(centerRegionItem);
+						(static_cast<GraphicsScene*>(scene()))->addItem(centerRegionItem);
 						break;
 					}
 			}
@@ -983,13 +983,13 @@ namespace Tinkercell
 				/*if (pathVectors[i].arrowStart)
 				{	
 				if (pathVectors[i].arrowStart->scene() != this->scene() && this->scene())
-				this->scene()->addItem(pathVectors[i].arrowStart);
+				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
 				pathVectors[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (pathVectors[i].arrowEnd)
 				{
 				if (pathVectors[i].arrowEnd->scene() != this->scene() && this->scene())
-				this->scene()->addItem(pathVectors[i].arrowEnd);
+				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
 				pathVectors[i].arrowEnd->setZValue(z + 0.1);
 				}*/
 
@@ -1020,13 +1020,13 @@ namespace Tinkercell
 				/*if (pathVectors[i].arrowStart)
 				{	
 				if (pathVectors[i].arrowStart->scene() != this->scene() && this->scene())
-				this->scene()->addItem(pathVectors[i].arrowStart);
+				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
 				pathVectors[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (pathVectors[i].arrowEnd)
 				{
 				if (pathVectors[i].arrowEnd->scene() != this->scene() && this->scene())
-				this->scene()->addItem(pathVectors[i].arrowEnd);
+				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
 				pathVectors[i].arrowEnd->setZValue(z + 0.1);
 				}*/
 
@@ -1199,7 +1199,7 @@ namespace Tinkercell
 								pathVectors[i][j]->scene()->removeItem(pathVectors[i][j]);
 							}
 							if (scene())
-								scene()->addItem(pathVectors[i][j]);
+								(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i][j]);
 						}
 					}
 					else
@@ -1208,7 +1208,7 @@ namespace Tinkercell
 					}
 				}
 			}
-			refresh();
+		refresh();
 	}
 
 	/*! \brief bounding rect*/
@@ -1253,7 +1253,7 @@ namespace Tinkercell
 	}
 
 	AddControlPointCommand::AddControlPointCommand(
-		const QString& name, QGraphicsScene * scene,
+		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem::ControlPoint* item)
 		: QUndoCommand(name)
 	{
@@ -1263,7 +1263,7 @@ namespace Tinkercell
 	}
 
 	AddControlPointCommand::AddControlPointCommand(
-		const QString& name, QGraphicsScene * scene,
+		const QString& name, GraphicsScene * scene,
 		QList<ConnectionGraphicsItem::ControlPoint*> items)
 		: QUndoCommand(name)
 	{
@@ -1467,7 +1467,7 @@ namespace Tinkercell
 	}
 
 	RemoveControlPointCommand::RemoveControlPointCommand(
-		const QString& name, QGraphicsScene * scene,
+		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem::ControlPoint* item)
 		: QUndoCommand(name)
 	{
@@ -1477,7 +1477,7 @@ namespace Tinkercell
 	}
 
 	RemoveControlPointCommand::RemoveControlPointCommand(
-		const QString& name, QGraphicsScene * scene, 
+		const QString& name, GraphicsScene * scene, 
 		QList<ConnectionGraphicsItem::ControlPoint*> items)
 		: QUndoCommand(name)
 	{
@@ -1554,7 +1554,7 @@ namespace Tinkercell
 	}
 
 	RemovePathVectorCommand::RemovePathVectorCommand(
-		const QString& name, QGraphicsScene * scene,
+		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem::ControlPoint* item)
 		: QUndoCommand(name)
 	{
@@ -1607,7 +1607,7 @@ namespace Tinkercell
 	}
 
 	RemovePathVectorCommand::RemovePathVectorCommand(
-		const QString& name, QGraphicsScene * scene, 
+		const QString& name, GraphicsScene * scene, 
 		ConnectionGraphicsItem* connection,
 		QList<ConnectionGraphicsItem::ControlPoint*> items)
 		: QUndoCommand(name)
@@ -1691,7 +1691,7 @@ namespace Tinkercell
 	}
 
 	AddPathVectorCommand::AddPathVectorCommand(
-		const QString& name, QGraphicsScene * scene,
+		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem* connection,
 		ConnectionGraphicsItem::PathVector& item)
 		: QUndoCommand(name)
@@ -1704,7 +1704,7 @@ namespace Tinkercell
 	}
 
 	AddPathVectorCommand::AddPathVectorCommand(
-		const QString& name, QGraphicsScene * scene, 
+		const QString& name, GraphicsScene * scene, 
 		ConnectionGraphicsItem* connection,
 		QList<ConnectionGraphicsItem::PathVector> items)
 		: QUndoCommand(name)

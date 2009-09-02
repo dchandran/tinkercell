@@ -519,15 +519,24 @@ namespace Tinkercell
 						if (symbolsTable.handlesFullName.contains(n) && (handle = symbolsTable.handlesFullName[n]))
 						{
 							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-                                                                parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
-								
+							{
+								if (handle->data->numericalData[tr("Initial Value")].value(0,0) == 0)
+									parser.DefineVar(item->first.data(), &d);
+								else
+									parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
+							}
 							continue;
 						}
 						
 						if (symbolsTable.handlesFirstName.contains(n) && (handle = symbolsTable.handlesFirstName[n]))
 						{
 							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-                                                                parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
+							{
+								if (handle->data->numericalData[tr("Initial Value")].value(0,0) == 0)
+									parser.DefineVar(item->first.data(), &d);
+								else
+									parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
+							}
 								
 							continue;
 						}

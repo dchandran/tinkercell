@@ -109,10 +109,10 @@ namespace Tinkercell
 			&& boundaryControlPoints[1])
 		{
 			if (scene() && (boundaryControlPoints[0]->scene() != scene()))
-				scene()->addItem(boundaryControlPoints[0]);
+				(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[0]);
 		
 			if (scene() && (boundaryControlPoints[1]->scene() != scene()))
-				scene()->addItem(boundaryControlPoints[1]);
+				(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[1]);
 			
 			QRectF bounds = sceneBoundingRect();
 			QPointF p1 = boundaryControlPoints[0]->scenePos(),
@@ -157,7 +157,7 @@ namespace Tinkercell
 			if (boundaryControlPoints[i])
 			{
 				if (s && boundaryControlPoints[i]->scene() != s)
-					s->addItem(boundaryControlPoints[i]);
+					(static_cast<GraphicsScene*>(s))->addItem(boundaryControlPoints[i]);
 
 				boundaryControlPoints[i]->setVisible(controlPoints && visible);	
 				//boundaryControlPoints[i]->setZValue(zValue() + 0.1);
@@ -398,10 +398,10 @@ namespace Tinkercell
 			return;
 			
 		if (scene() && (boundaryControlPoints[0]->scene() != scene()))
-			scene()->addItem(boundaryControlPoints[0]);
+			(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[0]);
 		
 		if (scene() && (boundaryControlPoints[1]->scene() != scene()))
-			scene()->addItem(boundaryControlPoints[1]);
+			(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[1]);
 
 		boundaryControlPoints[0]->setZValue(zValue() + 0.1);
 		boundaryControlPoints[1]->setZValue(zValue() + 0.1);
@@ -569,6 +569,30 @@ namespace Tinkercell
 			if (shapes[i])// && shapes[i]->contains(point))
 			{
 				shapes[i]->setPen(newPen);
+			}
+		}
+	}
+	
+	/*! \brief change fill color of all shapes to default*/
+	void NodeGraphicsItem::resetBrush()
+	{
+		for (int i=0; i < shapes.size(); ++i)
+		{
+			if (shapes[i])// && shapes[i]->contains(point))
+			{
+				shapes[i]->setBrush(shapes[i]->defaultBrush);
+			}
+		}
+	}
+
+	/*! \brief change outline color of all shapes to default*/
+	void NodeGraphicsItem::resetPen()
+	{
+		for (int i=0; i < shapes.size(); ++i)
+		{
+			if (shapes[i])// && shapes[i]->contains(point))
+			{
+				shapes[i]->setPen(shapes[i]->defaultPen);
 			}
 		}
 	}

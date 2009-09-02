@@ -308,14 +308,14 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddControlPointCommand(const QString& name, QGraphicsScene * scene, 
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, 
 			ConnectionGraphicsItem::ControlPoint * item );
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddControlPointCommand(const QString& name, QGraphicsScene * scene, 
+		AddControlPointCommand(const QString& name, GraphicsScene * scene, 
 			QList<ConnectionGraphicsItem::ControlPoint *> items);
 		/*! \brief destructor. deletes all control points that do not belong a scene*/
 		virtual ~AddControlPointCommand();
@@ -328,7 +328,7 @@ namespace Tinkercell
 		* \return void*/
 		void undo();	
 		/*! \brief graphics scene to which control points were added*/
-		QGraphicsScene * graphicsScene;
+		GraphicsScene * graphicsScene;
 		/*! \brief control points that were added*/
 		QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
 		/*! \brief the poisition(s) at which the control points were added*/
@@ -345,14 +345,14 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemoveControlPointCommand(const QString& name, QGraphicsScene * scene, 
+		RemoveControlPointCommand(const QString& name, GraphicsScene * scene, 
 			ConnectionGraphicsItem::ControlPoint * item);
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemoveControlPointCommand(const QString& name, QGraphicsScene * scene, 
+		RemoveControlPointCommand(const QString& name, GraphicsScene * scene, 
 			QList<ConnectionGraphicsItem::ControlPoint *> items);
 		/*! \brief Remove new control points. Control points were set in the constructor
 		* \param void
@@ -365,7 +365,7 @@ namespace Tinkercell
 		/*! \brief control points that were added*/
 		QList<ConnectionGraphicsItem::ControlPoint*> graphicsItems;
 		/*! \brief graphics scene to which control points were added*/
-		QGraphicsScene * graphicsScene;	
+		GraphicsScene * graphicsScene;	
 		/*! \brief the poisition(s) at which the control points were added*/
 		QList<int> listK1, listK2;
 	};
@@ -380,14 +380,14 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddPathVectorCommand(const QString& name, QGraphicsScene * scene, ConnectionGraphicsItem* connection,
+		AddPathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
 			ConnectionGraphicsItem::PathVector& item );
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddPathVectorCommand(const QString& name, QGraphicsScene * scene, ConnectionGraphicsItem* connection,
+		AddPathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
 			QList<ConnectionGraphicsItem::PathVector> items);
 		/*! \brief destructor. deletes all control points that do not belong a scene*/
 		virtual ~AddPathVectorCommand();
@@ -400,7 +400,7 @@ namespace Tinkercell
 		* \return void*/
 		void undo();	
 		/*! \brief graphics scene to which control points were added*/
-		QGraphicsScene * graphicsScene;
+		GraphicsScene * graphicsScene;
 		/*! \brief graphics item to which control points were added*/
 		ConnectionGraphicsItem* connectionItem;
 		/*! \brief vector of control points that were added*/
@@ -419,14 +419,14 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemovePathVectorCommand(const QString& name, QGraphicsScene * scene,
+		RemovePathVectorCommand(const QString& name, GraphicsScene * scene,
 			ConnectionGraphicsItem::ControlPoint * item);
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemovePathVectorCommand(const QString& name, QGraphicsScene * scene, ConnectionGraphicsItem* connection,
+		RemovePathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
 			QList<ConnectionGraphicsItem::ControlPoint *> items);
 
 		/*! \brief Remove new control points. Control points were set in the constructor
@@ -440,7 +440,7 @@ namespace Tinkercell
 		/*! \brief vector of control points that were added*/
 		QList<ConnectionGraphicsItem::PathVector> pathVectors;
 		/*! \brief graphics scene from which control points were removed*/
-		QGraphicsScene * graphicsScene;	
+		GraphicsScene * graphicsScene;	
 		/*! \brief graphics item from which control points were removed*/
 		ConnectionGraphicsItem* connectionItem;
 		/*! \brief the poisition(s) at which the control point vectors were added*/

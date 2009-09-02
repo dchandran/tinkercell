@@ -676,12 +676,12 @@ namespace Tinkercell
 		
 		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
 		
-		QAction * toggleGrid = setGridModeMenu->addAction(tr("Toggle grid mode"));
-		toggleGrid->setCheckable(true);
-		toggleGrid->setChecked(GraphicsScene::GRID > 0);
-		QAction * setGridSz = setGridModeMenu->addAction(tr("Set grid size"));
+		QAction * gridOn = setGridModeMenu->addAction(tr("Grid ON"));
+		QAction * gridOff = setGridModeMenu->addAction(tr("Grid OFF"));
+		QAction * setGridSz = setGridModeMenu->addAction(tr("Grid size"));
 		
-		connect (toggleGrid, SIGNAL(triggered()),this,SLOT(toggleGridMode()));
+		connect (gridOn, SIGNAL(triggered()),this,SLOT(gridOn()));
+		connect (gridOff, SIGNAL(triggered()),this,SLOT(gridOff()));
 		connect (setGridSz, SIGNAL(triggered()),this,SLOT(setGridSize()));
 
 		helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -2955,20 +2955,29 @@ namespace Tinkercell
 		TextParser::setParser(parser);
 	}
 	
-	void MainWindow::toggleGridMode()
+	void MainWindow::gridOff()
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 		
-		if (scene->gridSize() > 0)
-			scene->disableGrid();
-		else
-			scene->enableGrid(GraphicsScene::GRID);
+		scene->disableGrid();
+	}
+	
+	void MainWindow::gridOn()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+		
+		if (GraphicsScene::GRID == 0)
+			GraphicsScene::GRID = 100;
+		
+		scene->enableGrid(GraphicsScene::GRID);
 	}
 		
 	void MainWindow::setGridSize()
 	{
-		if (!currentScene()) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
 		
 		bool ok;
 		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
@@ -2976,6 +2985,7 @@ namespace Tinkercell
 		if (ok)		
 		{	
 			GraphicsScene::GRID = d;
+			scene->setGridSize(GraphicsScene::GRID);
 		}
 	}
 }

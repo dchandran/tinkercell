@@ -529,8 +529,8 @@ namespace Tinkercell
 				movingItemsGroup = 0;
 				if (gridSz > 0)
 				{
-					change.rx() = gridSz * (int)(change.rx() / gridSz);
-					change.ry() = gridSz * (int)(change.ry() / gridSz);
+					change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+					change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 				}
 			}
 
@@ -786,8 +786,8 @@ namespace Tinkercell
 					
 					if (gridSz > 0)
 					{
-						change.rx() = gridSz * (int)(change.rx() / gridSz);
-						change.ry() = gridSz * (int)(change.ry() / gridSz);
+						change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+						change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 					}
 
 					move(movingItems,change);
@@ -952,8 +952,8 @@ namespace Tinkercell
 		QPointF change = distance;
 		if (gridSz > 0)
 		{
-			change.rx() = gridSz * (int)(change.rx() / gridSz);
-			change.ry() = gridSz * (int)(change.ry() / gridSz);
+			change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+			change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 		}
 		
 		QList<QPointF> dists;
@@ -983,8 +983,8 @@ namespace Tinkercell
 		QPointF change = distance;
 		if (gridSz > 0)
 		{
-			change.rx() = gridSz * (int)(change.rx() / gridSz);
-			change.ry() = gridSz * (int)(change.ry() / gridSz);
+			change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+			change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 		}
 		QList<QPointF> dists;
 		while (dists.size() < items.size()) dists << change;
@@ -1023,8 +1023,8 @@ namespace Tinkercell
 		{
 			for (int i=0; i < dists.size(); ++i)
 			{
-				dists[i].rx() = gridSz * (int)(dists[i].rx() / gridSz);
-				dists[i].ry() = gridSz * (int)(dists[i].ry() / gridSz);
+				dists[i].rx() = gridSz * (int)(dists[i].rx() / (double)gridSz + 0.5);
+				dists[i].ry() = gridSz * (int)(dists[i].ry() / (double)gridSz + 0.5);
 			}
 		}
 		
@@ -2651,12 +2651,11 @@ namespace Tinkercell
 		{
 			QPointF p1 = cp->scenePos();
 			
-			p1.rx() = gridSz * (int)(p1.rx() / gridSz);
-			p1.ry() = gridSz * (int)(p1.ry() / gridSz);
+			p1.rx() = gridSz * (int)(p1.rx() / (double)gridSz + 0.5);
+			p1.ry() = gridSz * (int)(p1.ry() / (double)gridSz + 0.5);
 			
 			cp->setPos(p1);
 			
-			ConsoleWindow::message(QString::number(p1.rx()) + tr(",") + QString::number(p1.ry()));
 			return;
 		}
 		
@@ -2667,10 +2666,10 @@ namespace Tinkercell
 			QPointF p1 = node->sceneBoundingRect().topLeft();
 			QPointF p2 = node->sceneBoundingRect().bottomRight();
 			
-			p1.rx() = gridSz * (int)(p1.rx() / gridSz);
-			p1.ry() = gridSz * (int)(p1.ry() / gridSz);
-			p2.rx() = gridSz * (int)(p2.rx() / gridSz);
-			p2.ry() = gridSz * (int)(p2.ry() / gridSz);
+			p1.rx() = gridSz * (int)(p1.rx() / (double)gridSz + 0.5);
+			p1.ry() = gridSz * (int)(p1.ry() / (double)gridSz + 0.5);
+			p2.rx() = gridSz * (int)(p2.rx() / (double)gridSz + 0.5);
+			p2.ry() = gridSz * (int)(p2.ry() / (double)gridSz + 0.5);
 			
 			if (p2.rx() == p1.rx()) p2.rx() += gridSz;
 			if (p2.ry() == p1.ry()) p2.ry() += gridSz;

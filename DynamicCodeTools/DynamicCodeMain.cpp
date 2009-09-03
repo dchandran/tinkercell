@@ -35,13 +35,6 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 				appDir + QObject::tr("\"/c/cvodesim.c"));
 	proc.waitForFinished();
 	
-	Tinkercell::ConsoleWindow::message(QObject::tr("\"") + appDir + QObject::tr("\"\\win32\\tcc -r -I\"") + appDir + 
-				("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + 
-				appDir + ("\"/win32/lib -o odesim.o \"") + 
-				appDir + QObject::tr("\"/c/cvode_src/cvode/*.c \"") + 
-				appDir + QObject::tr("\"/c/cvode_src/sundials/*.c \"") + 
-				appDir + QObject::tr("\"/c/cvode_src/nvec_ser/*.c \"") + 
-				appDir + QObject::tr("\"/c/cvodesim.c"));
 	
 	proc.start(QObject::tr("\"") + appDir + QObject::tr("\"\\win32\\tcc -r -I\"") + 
 				appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + 

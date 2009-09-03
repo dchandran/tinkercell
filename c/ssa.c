@@ -25,7 +25,7 @@ double * SSA(int m, int n, double * N, void (*propensity)(double, double*,double
 	getValue(x,1+m,0,0) = startTime;
 	for (i = 0; i < m; ++i)
 	{
-		if (x0[i] > 0.0 && x[i] < 1.0)
+		if (x0[i] > 0.0 && x0[i] < 1.0)
 			x0[i] = 1.0;
 		getValue(x,1+m,0,i+1) = y[i] = x0[i];   
 	}

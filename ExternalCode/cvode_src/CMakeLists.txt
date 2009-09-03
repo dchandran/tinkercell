@@ -53,6 +53,15 @@ INSTALL( FILES ${cvode_src_nvec_par}
   COMPONENT CVODE
 )
 
+FILE( GLOB cvode_src_nvec_ser
+  "nvec_ser/*.h" 
+  "nvec_ser/*.c")
+
+INSTALL( FILES ${cvode_src_nvec_ser} 
+  DESTINATION c/cvode_src/nvec_ser 
+  COMPONENT CVODE
+)
+
 FILE( GLOB cvode_src_sundials 
   "sundials/*.h"
   "sundials/*.c"

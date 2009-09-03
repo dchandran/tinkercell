@@ -27,7 +27,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	
 	
 	proc.start(QObject::tr("\"") + appDir + QObject::tr("\"\\win32\\tcc -r -I") + appDir + 
-				("\"/win32/include -I") + appDir + ("/c -L") + 
+				("/win32/include -I") + appDir + ("/c -L") + 
 				appDir + ("/win32/lib -o odesim.o ") + 
 				appDir + QObject::tr("/c/cvode_src/cvode/*.c ") + 
 				appDir + QObject::tr("/c/cvode_src/sundials/*.c ") + 
@@ -42,6 +42,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 				appDir + QObject::tr("/c/ssa.c ") + 
 				appDir + QObject::tr("/c/cells_ssa.c"));
 	proc.waitForFinished();
+	
 
 #else	//if not windows, assume gcc exists
 

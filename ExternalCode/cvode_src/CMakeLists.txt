@@ -23,3 +23,42 @@ ADD_LIBRARY( odesim
 #  runvaluesattime
 #  runsteadystate
 #)
+
+
+FILE( GLOB CVODE_SRC_CVODE_SRC
+  "cvode/*.h"
+  "cvode/*.c" 
+)
+
+INSTALL( FILES ${CVODE_SRC_CVODE_SRC}
+  DESTINATION c/cvode_src/cvode
+  COMPONENT CVODE
+)
+
+FILE( GLOB cvode_src_cvode_fmix 
+  "cvode/fmix/*.h" 
+  "cvode/fmix/*.c")
+
+INSTALL( FILES ${cvode_src_cvode_fmix} 
+  DESTINATION c/cvode_src/cvode/fmix
+  COMPONENT CVODE
+)
+
+FILE( GLOB cvode_src_nvec_par
+  "nvec_par/*.h" 
+  "nvec_par/*.c")
+
+INSTALL( FILES ${cvode_src_nvec_par} 
+  DESTINATION c/cvode_src/nvec_par 
+  COMPONENT CVODE
+)
+
+FILE( GLOB cvode_src_sundials 
+  "sundials/*.h"
+  "sundials/*.c"
+)
+
+INSTALL( FILES ${cvode_src_sundials} 
+  DESTINATION c/cvode_src/sundials
+  COMPONENT CVODE
+)

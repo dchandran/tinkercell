@@ -184,44 +184,6 @@ INSTALL( FILES ${NVECTOR_HDRS}
   COMPONENT CVODE
 )
 
-FILE( GLOB CVODE_SRC_CVODE_SRC
-  "cvode_src/cvode/*.h"
-  "cvode_src/cvode/*.c" 
-)
-
-INSTALL( FILES ${CVODE_SRC_CVODE_SRC}
-  DESTINATION c/cvode_src/cvode
-  COMPONENT CVODE
-)
-
-FILE( GLOB cvode_src_cvode_fmix 
-  "cvode_src/cvode/fmix/*.h" 
-  "cvode_src/cvode/fmix/*.c")
-
-INSTALL( FILES ${cvode_src_cvode_fmix} 
-  DESTINATION c/cvode_src/cvode/fmix
-  COMPONENT CVODE
-)
-
-FILE( GLOB cvode_src_nvec_par
-  "cvode_src/nvec_par/*.h" 
-  "cvode_src/nvec_par/*.c")
-
-INSTALL( FILES ${cvode_src_nvec_par} 
-  DESTINATION c/cvode_src/nvec_par 
-  COMPONENT CVODE
-)
-
-FILE( GLOB cvode_src_sundials 
-  "cvode_src/sundials/*.h"
-  "cvode_src/sundials/*.c"
-)
-
-INSTALL( FILES ${cvode_src_sundials} 
-  DESTINATION c/cvode_src/sundials
-  COMPONENT CVODE
-)
-
 FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG)
 
 INSTALL( FILES ${C_ICON_FILES}

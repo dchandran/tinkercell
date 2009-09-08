@@ -802,7 +802,7 @@ namespace Tinkercell
 						{
 							QString s = sDat->value(tr("translation"),0);
 							
-							if (rbs && !sDat->value(tr("translation"),0).contains(rbs->fullName()))
+							if (rbs && !s.contains(rbs->fullName()))
 								s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
 							else
 								s.replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
@@ -939,6 +939,13 @@ namespace Tinkercell
 						promoter = 0;
 						regulator = 0;
 					}
+				}
+				
+				if (parts[i]->isA(tr("Terminator")) && NodeHandle::asNode(parts[i]))
+				{
+					regulator = 0;
+					promoter = 0;
+					rbs = 0;
 				}
 			}
 			
@@ -1384,13 +1391,39 @@ namespace Tinkercell
 		
 		QList<NodeHandle*> parts2;
 		
+		QList<ItemHandle*> moving;
+		
+		NodeHandle * handle = 0;
+		/*
+		bool b = false;
+		
 		for (int i=0; i < items.size(); ++i)
 		{
-			
+			handle = getHandle(items[i]);
+			if (handle)
+			{
+				b = true;
+				for (int j=0 ; j < handle->graphicsItems.size(); ++j)
+					if (qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]) 
+						&&
+						!items.contains(handle->graphicsItems[j]))
+						{
+							b = false;
+							break;
+						}
+				if (b)
+					moving << handle;
+			}
+		}*/
+		
+		for (int i=0; i < items.size(); ++i)
+		{			
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
 			
-			ItemHandle * handle = getHandle(startNode);
-			if (!startNode || !handle) continue;
+			if (!startNode) continue;
+			
+			handle = NodeHandle::asNode(getHandle(startNode));
+			if (parts2.contains(handle) || !handle) continue;
 			
 			QList<ItemHandle*> parts,upstream;			
 			
@@ -1412,11 +1445,8 @@ namespace Tinkercell
 			for (int j=0; j < parts.size(); ++j)
 			{
 				NodeHandle * node = NodeHandle::asNode(parts[j]);
-				if (node && !parts2.contains(node))
-				{
-					parts3 += node;
-					parts2 += node;
-				}
+				parts3 += node;
+				parts2 += node;
 			}
 			if (!parts3.isEmpty())
 			{

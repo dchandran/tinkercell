@@ -217,7 +217,7 @@ void run(Matrix input)
 				  endx,startx,dx,endy,starty,dy,param1,param2);
 
 	fprintf( out, "\n\
-					double * __Y = (double*)malloc(%i * sizeof(double*));\n\
+					double * __Y = (double*)malloc(%i * sizeof(double));\n\
 					TCinitialize();\n\
 					for(i=0; i < %i; ++i)\n\
 					{\n\
@@ -237,7 +237,7 @@ void run(Matrix input)
 					  {\n\
 						  %s = %lf + i * %lf;\n\
 						  %s = %lf + j * %lf;\n\
-						  double * __X = (double*)malloc(%i * sizeof(double*));\n\
+						  double * __X = (double*)malloc(%i * sizeof(double));\n\
 						  TCinitialize();\n\
 						  for(k=0; k < %i; ++k)\n\
 						  {\n\
@@ -293,4 +293,4 @@ void run(Matrix input)
 
 
 
-
+//tc_compileBuildLoad("corr.c odesim.o\0","run\0","2-Parameter Correlation Test\0");

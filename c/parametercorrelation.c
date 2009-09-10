@@ -219,10 +219,13 @@ void run(Matrix input)
 	fprintf( out, "\n\
 					Matrix ss;\n\
 					double * __Y = (double*)malloc(%i * sizeof(double));\n\
+					ss.rows = %i;\n\
+					ss.cols = 2;\n\
 					ss.rownames = 0;\n\
-					ss.colnames = malloc(2 * sizeof(char*));\n\
+					ss.colnames = malloc(3 * sizeof(char*));\n\
 					ss.colnames[0] = \"%s\";\n\
 					ss.colnames[1] = \"%s\";\n\
+					ss.colnames[2] = 0;\n\
 					ss.values = malloc(%i * 2 * sizeof(double));\n\
 					TCinitialize();\n\
 					for(i=0; i < %i; ++i)\n\
@@ -237,7 +240,7 @@ void run(Matrix input)
 					}\n\
 					tc_plot(ss,0,\"Target curve for correlation test\",0);\n\
 					free(ss.values);\n\
-					free(ss.colnames);\n",arraysz,var,target,arraysz,arraysz,var,startvar,dvar,target);
+					free(ss.colnames);\n",arraysz,arraysz,var,target,arraysz,arraysz,var,startvar,dvar,target);
 
 	fprintf( out, "\n\
 				  for (i=0; i < dat.rows; ++i)\n\

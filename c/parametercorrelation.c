@@ -224,7 +224,7 @@ void run(Matrix input)
 						%s = %lf + i * %lf;\n\
 						TCreinitialize();\n\
 						double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-						Y[i] = %s;\n\
+						__Y[i] = %s;\n\
 						if (y)\n\
 							free(y);\n\
 						TCinitialize();\n\

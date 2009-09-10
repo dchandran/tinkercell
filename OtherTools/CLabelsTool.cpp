@@ -30,9 +30,9 @@ namespace Tinkercell
 		
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
-			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
+			//connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
 			
-			//connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
+			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 			//connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			//connect(mainWindow,SIGNAL(keyReleased(GraphicsScene *, QKeyEvent *)),this,SLOT(keyPressed(GraphicsScene*, QKeyEvent *)));
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -91,6 +91,8 @@ namespace Tinkercell
 	
 	void CLabelsTool::escapeSignal(const QWidget*)
 	{
+		if (!currentScene() || !currentScene()->useDefaultBehavior) 
+			return;
 		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
 			clearLabels();
 	}

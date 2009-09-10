@@ -474,6 +474,7 @@ namespace Tinkercell
 		if (!dataPlot)
 		{
 			ConsoleWindow::error(tr("Plot tool not initialized."));
+			return;
 		}
 		
 		QClipboard * clipboard = QApplication::clipboard();
@@ -481,6 +482,7 @@ namespace Tinkercell
 		if (!clipboard)
 		{
 			ConsoleWindow::error(tr("No clipboard available."));
+			return;
 		}
 		
 		QString outputs;
@@ -499,7 +501,7 @@ namespace Tinkercell
 		outputs += tr("\n");
 		for (int i=0; i < table.rows(); ++i)
 		{
-			outputs += rownames.at(i);
+			outputs += rownames.at(i) + tr("\t");
 			for (int j=0; j < table.cols(); ++j)
 			{
 				if (j > 0)

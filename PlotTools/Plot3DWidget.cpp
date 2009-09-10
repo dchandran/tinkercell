@@ -17,10 +17,67 @@ namespace Tinkercell
 	Plot3DWidget::Plot3DWidget(PlotTool * parent) : PlotWidget(parent), surfacePlot(0), function(0)
 	{
 		meshSizeX = meshSizeY = 100;
-		QHBoxLayout * layout = new QHBoxLayout;
+		
+		axisNames = new QComboBox();
+		connect(axisNames,SIGNAL(currentIndexChanged(int)),dataPlot,SLOT(setXAxis(int)));
+		
+		QVBoxLayout * layout = new QVBoxLayout;
+		
 		surfacePlot = new Plot();
-		layout->addWidget(surfacePlot);
+		layout->addWidget(surfacePlot,10);
+		
+		setPalette(QPalette(QColor(255,255,255,255)));
+		setAutoFillBackground(true);
+
+		QToolButton * print = new QToolButton(this);
+		print->setIcon(QIcon(":/images/print.png"));
+		print->setText(tr("Print to file"));
+		print->setToolTip(tr("Print graph to file"));
+		print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		
+		QToolButton * copy = new QToolButton(this);
+		copy->setIcon(QIcon(":/images/copy.png"));
+		copy->setToolTip(tr("Copy tab-delimited data to clipboard"));
+		copy->setText(tr("Copy data"));
+		copy->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		
+		QToolButton * setLabels = new QToolButton(this);
+		setLabels->setIcon(QIcon(":/images/text.png"));
+		setLabels->setText(tr("Labels"));
+		setLabels->setToolTip(tr("Change title and axis labels"));
+		QMenu * labelsMenu = new QMenu(tr("Set labels"),setLabels);
+		labelsMenu->addAction(tr("Title"),this,SLOT(setTitle()));
+		labelsMenu->addAction(tr("x label"),this,SLOT(setXLabel()));
+		labelsMenu->addAction(tr("y label"),this,SLOT(setYLabel()));
+		labelsMenu->addAction(tr("Z label"),this,SLOT(setZLabel()));
+		setLabels->setMenu(labelsMenu);
+		setLabels->setPopupMode ( QToolButton::MenuButtonPopup );
+		setLabels->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		
+		connect(print,SIGNAL(pressed()),this,SLOT(printToFile()));
+		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
+		
+		QHBoxLayout * layout2 = new QHBoxLayout;
+		layout2->addWidget(print);
+		layout2->addWidget(copy);
+		layout2->addWidget(setLabels);
+		
+		QHBoxLayout * layout1 = new QHBoxLayout;
+		layout1->addWidget(axisNames);
+		
+		QGroupBox * groupBox1 = new QGroupBox(tr(" x-axis "));
+		groupBox1->setLayout(layout1);
+		
+		QGroupBox * groupBox2 = new QGroupBox(tr(" options "));
+		groupBox2->setLayout(layout2);
+		
+		layout3->addStretch(2);
+		layout3->addWidget(groupBox1,1,Qt::AlignRight);
+		layout3->addWidget(groupBox2,1,Qt::AlignRight);
+		
 		setLayout(layout);
+		setMinimumHeight(200);
+		
 	}
 	
 	double ** Plot3DWidget::tableToArray(const DataTable<qreal>& table)
@@ -198,6 +255,78 @@ namespace Tinkercell
 	{
 		if (surfacePlot)
 			surfacePlot->coordinates()->axes[Z1].setLabelString(s);
+	}
+	
+	void Plot3DWidget::printToFile()
+	{		
+		QString fileName = 
+			QFileDialog::getSaveFileName(this, tr("Print to File"),
+                                          MainWindow::userHome(),
+                                          tr("PDF Files (*.pdf)"));
+		printToFile(fileName);
+	}
+	
+	void Plot3DWidget::copyData()
+	{
+		QClipboard * clipboard = QApplication::clipboard();
+		
+		if (!clipboard)
+		{
+			ConsoleWindow::error(tr("No clipboard available."));
+			return;
+		}
+		
+		QString outputs;
+		
+		DataTable<qreal> & table = dataTable;
+		
+		/*QStringList colnames = table.getColNames(), rownames = table.getRowNames();
+		
+		for (int i=0; i < colnames.size(); ++i)
+		{
+			if (i > 0)
+				outputs += tr("\t") + colnames.at(i);
+			else
+				outputs += colnames.at(i);
+		}*/
+		outputs += tr("\n");
+		for (int i=0; i < table.rows(); ++i)
+		{
+			//outputs += rownames.at(i);
+			for (int j=0; j < table.cols(); ++j)
+			{
+				if (j > 0)
+					outputs += tr("\t") + QString::number(table.at(i,j));
+				else
+					outputs += QString::number(table.at(i,j));
+			}
+			outputs += tr("\n");
+		}
+		
+		clipboard->setText(outputs);
+		
+		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
+	}
+	
+	void Plot3DWidget::setXLabel()
+	{	
+		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("x-axis label :"));
+		
+		setXLabel(s);	
+	}
+	
+	void Plot3DWidget::setYLabel()
+	{
+		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("y-axis label :"));
+		
+		setYLabel(s);
+	}
+	
+	void Plot3DWidget::setZLabel()
+	{
+		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("z-axis label :"));
+		
+		setZLabel(s);
 	}
 
 }

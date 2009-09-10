@@ -43,6 +43,12 @@ namespace Tinkercell
 		virtual void setXLabel(const QString&);
 		virtual void setYLabel(const QString&);
 		virtual void setZLabel(const QString&);
+	private slots:
+		void printToFile();
+		void copyData();
+		void setXLabel();
+		void setYLabel();
+		void setZLabel();
 		
 	protected:
 	
@@ -66,6 +72,7 @@ namespace Tinkercell
 		static double ** tableToArray(const DataTable<qreal>&);
 		Plot * surfacePlot;
 		DataFunction * function;
+		QComboBox * axisNames;
 	};
 
 }

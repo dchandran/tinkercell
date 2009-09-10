@@ -56,7 +56,7 @@ void setup()
 	Matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "var start", "var end", "parameter 1 start", "parameter 1 end", "parameter 2 start", "parameter 2 end", "increments size", 0 };
-	double values[] = { 0.0, 0.0, 10, 0.1, 0.0, 10, 0.1 };
+	double values[] = { 0.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 1.0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
 	
 	m.rows = 8;
@@ -157,7 +157,7 @@ void run(Matrix input)
 		index2 = tc_getFromList("Select Second Parameter",allNames,selected_var2,0);
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getFromList("Select Variable for Steady State Analysis",allNames,target_x_var,0);
-	if (index1 >= 0 && index2 >= 0 && index3 >= 0 && 
+	if (index1 >= 0 && index2 >= 0 && index3 >= 0 &&
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	
 	{
@@ -168,7 +168,7 @@ void run(Matrix input)
 	}
 	
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0)
-		index3 = tc_getFromList("Select Target for Steady State Analysis",names,target_y_var,0);
+		index4 = tc_getFromList("Select Target for Steady State Analysis",names,target_y_var,0);
 
 	TCFreeArray(A);   
 
@@ -197,7 +197,9 @@ void run(Matrix input)
 
 	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"correlation.c\"\n\n\
 				   void run() \n\
-				   {\n   Matrix dat;\nint i,j,k;\ndouble * X, *Y, *y;\n" );
+				   {\n\
+					Matrix dat;\n\
+					int i,j,k;\n" );
 
 	fprintf( out, "   \
 				  dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -215,13 +217,13 @@ void run(Matrix input)
 				  endx,startx,dx,endy,starty,dy,param1,param2);
 
 	fprintf( out, "\n\
-					Y = (double*)malloc(%i * sizeof(double*));\n\
+					double * __Y = (double*)malloc(%i * sizeof(double*));\n\
 					TCinitialize();\n\
 					for(i=0; i < %i; ++i)\n\
 					{\n\
 						%s = %lf + i * %lf;\n\
 						TCreinitialize();\n\
-						y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+						double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
 						Y[i] = %s;\n\
 						if (y)\n\
 							free(y);\n\
@@ -235,21 +237,21 @@ void run(Matrix input)
 					  {\n\
 						  %s = %lf + i * %lf;\n\
 						  %s = %lf + j * %lf;\n\
-						  X = (double*)malloc(%i * sizeof(double*));\n\
+						  double * __X = (double*)malloc(%i * sizeof(double*));\n\
 						  TCinitialize();\n\
 						  for(k=0; k < %i; ++k)\n\
 						  {\n\
 							%s = %lf + k * %lf;\n\
 							TCreinitialize();\n\
-							y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-							X[k] = %s;\n\
+							double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+							__X[k] = %s;\n\
 							if (y)\n\
 								free(y);\n\
 							TCinitialize();\n\
 						  }\n\
-						  valueAt(dat,i,j) = maxCorrelation(X,Y,%i,%i);\n\
-						  if (X)\n\
-							free(X);\n\
+						  valueAt(dat,i,j) = maxCorrelation(__X,__Y,%i,%i);\n\
+						  if (__X)\n\
+							free(__X);\n\
 						}\n\
 						tc_showProgress(\"2-Parameter Correlation Test\",(100*i)/dat.rows);\n\
 				  }\n\

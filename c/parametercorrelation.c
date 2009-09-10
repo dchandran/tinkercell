@@ -235,7 +235,7 @@ void run(Matrix input)
 							free(y);\n\
 						TCinitialize();\n\
 					}\n\
-					tc_plot(ss,\"Target curve for correlation test\",0);\n\
+					tc_plot(ss,0,\"Target curve for correlation test\",0);\n\
 					free(ss.values);\n\
 					free(ss.colnames);\n",arraysz,var,target,arraysz,arraysz,var,startvar,dvar,target);
 

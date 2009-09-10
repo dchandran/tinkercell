@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE TinkerCell>
+<Model>
+    <Handles>
+        <Handle type="0" name="" parent="" family="Node" visible="true"/>
+        <Handle type="1" name="X" parent="" family="Species" visible="true">
+            <TableOfReals>
+                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="uM" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="Numerical Attributes" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="1"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="gene1" parent="" family="Gene" visible="true">
+            <TableOfReals>
+                <Table key="Initial Value" rows="1" cols="1" rowNames="activity" colNames="PoPS" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="Numerical Attributes" rows="3" cols="1" rowNames="copy;strength;length" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;1;300"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="1" cols="1" rowNames="rate" colNames="rule" values="gene1.strength*(((X/J0.Kd)^J0.h))/((1+((X/J0.Kd)^J0.h)))"/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="sequence;composite" colNames="value" values="AAGCTGATGGCTAGAAT;true"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="P1" parent="" family="Protein" visible="true">
+            <TableOfReals>
+                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="uM" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="Numerical Attributes" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J1" parent="" family="Transcription" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="3" cols="2" rowNames="transcription;translation;degradation" colNames="P1;J1.mRNA" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values="0;1;1;0;0;-1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="numin;numout;k0;k1;degr" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;1;0.5;1;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Species;Coding"/>
+                <Table key="Rates" rows="3" cols="1" rowNames="transcription;translation;degradation" colNames="rates" values="gene1.rate;J1.k1 * J1.mRNA;J1.degr * J1.mRNA"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J2" parent="" family="Biochemical" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="1" cols="1" rowNames="J2" colNames="P1" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values="-1"/>
+                <Table key="Numerical Attributes" rows="3" cols="1" rowNames="numin;numout;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;1;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Species;Species"/>
+                <Table key="Rates" rows="1" cols="1" rowNames="J2" colNames="rates" values="J2.k0*P1"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="emp1" parent="" family="Empty" visible="true">
+            <TableOfReals>
+                <Table key="Numerical Attributes" rows="0" cols="1" rowNames="" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values=""/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J0" parent="" family="Transcription Activation" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;8;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Regulator;Species"/>
+                <Table key="Rates" rows="0" cols="0" rowNames="" colNames="" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="P2" parent="" family="Protein" visible="true">
+            <TableOfReals>
+                <Table key="Initial Value" rows="1" cols="1" rowNames="concentration" colNames="uM" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="Numerical Attributes" rows="1" cols="1" rowNames="molecularweight" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="50000"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="1" cols="1" rowNames="sequence" colNames="value" values="GSWTQHNMCP"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J3" parent="" family="Transcription" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="3" cols="2" rowNames="transcription;translation;degradation" colNames="P2;J3.mRNA" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values="0;1;1;0;0;-1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="numin;numout;k0;k1;degr" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;1;0.5;1;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Species;Coding"/>
+                <Table key="Rates" rows="3" cols="1" rowNames="transcription;translation;degradation" colNames="rates" values="gene2.rate;J3.k1 * J3.mRNA;J3.degr * J3.mRNA"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J4" parent="" family="Biochemical" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="1" cols="1" rowNames="J4" colNames="P2" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values="-1"/>
+                <Table key="Numerical Attributes" rows="3" cols="1" rowNames="numin;numout;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;1;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Species;Species"/>
+                <Table key="Rates" rows="1" cols="1" rowNames="J4" colNames="rates" values="J4.k0*P2"/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="emp2" parent="" family="Empty" visible="true">
+            <TableOfReals>
+                <Table key="Numerical Attributes" rows="0" cols="1" rowNames="" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values=""/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="0" cols="1" rowNames="" colNames="value" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J5" parent="" family="Transcription Activation" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;5;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Regulator;Species"/>
+                <Table key="Rates" rows="0" cols="0" rowNames="" colNames="" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="2" name="J6" parent="" family="Transcription Repression" visible="true">
+            <TableOfReals>
+                <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="4;1;1;0.1;1"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="0" cols="1" rowNames="" colNames="rule" values=""/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="typeout;typein" colNames="value" values="Regulator;Species"/>
+                <Table key="Rates" rows="0" cols="0" rowNames="" colNames="" values=""/>
+            </TableOfStrings>
+        </Handle>
+        <Handle type="1" name="gene2" parent="" family="Gene" visible="true">
+            <TableOfReals>
+                <Table key="Initial Value" rows="1" cols="1" rowNames="activity" colNames="PoPS" desc="Initial value: stores measurement value of an item. See each family's measurement unit for detail." values="1"/>
+                <Table key="Numerical Attributes" rows="3" cols="1" rowNames="copy;strength;length" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="1;10;300"/>
+                <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
+            </TableOfReals>
+            <TableOfStrings>
+                <Table key="Functions" rows="0" cols="2" rowNames="" colNames="args;defn" values=""/>
+                <Table key="Events" rows="0" cols="1" rowNames="" colNames="event" values=""/>
+                <Table key="Assignments" rows="1" cols="1" rowNames="rate" colNames="rule" values="gene2.strength*(((X/J5.Kd)^J5.h))/((1+((X/J5.Kd)^J5.h))*(1+((P1/J6.Kd)^J6.h)))"/>
+                <Table key="Annotation" rows="5" cols="1" rowNames="author;date;description;uri;reference" colNames="entry" values="author;date;description;uri;reference"/>
+                <Table key="Text Attributes" rows="2" cols="1" rowNames="sequence;composite" colNames="value" values="AAGCTGATGGCTAGAAT;true"/>
+            </TableOfStrings>
+        </Handle>
+    </Handles>
+    <Nodes>
+        <NodeItem className="NodeGraphicsItem" handle="gene1" visible="yes" z="2">
+            <pos x="553.173" y="658.206"/>
+            <transform m11="0.275223" m12="0" m21="0" m22="0.435631"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Gene.xml" width="220" height="50">
+                <ControlPoints>
+                    <ControlPoint x="-399.675" y="57.388"/>
+                    <ControlPoint x="399.675" y="57.388"/>
+                    <ControlPoint x="-399.675" y="39.388"/>
+                    <ControlPoint x="399.675" y="39.388"/>
+                    <ControlPoint x="-205.103" y="39.388"/>
+                    <ControlPoint x="-193.724" y="39.388"/>
+                    <ControlPoint x="-205.103" y="-35.943"/>
+                    <ControlPoint x="-117.007" y="-35.943"/>
+                    <ControlPoint x="-149.483" y="-57.388"/>
+                    <ControlPoint x="-84.5445" y="-31.709"/>
+                    <ControlPoint x="-147.452" y="-0.697"/>
+                    <ControlPoint x="-117.007" y="-25.612"/>
+                    <ControlPoint x="-193.724" y="-25.612"/>
+                    <ControlPoint x="-86.5785" y="25.823"/>
+                    <ControlPoint x="-84.5445" y="57.388"/>
+                    <ControlPoint x="305.541" y="57.388"/>
+                    <ControlPoint x="305.541" y="25.823"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="0,2,3,1,0"/>
+                        <LineTypes sequence="line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="1" Color="#959bac" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#c5c5c5" Alpha="255"/>
+                            <Stop Value="1" Color="#000000" Alpha="255"/>
+                            <Start x="-258.398" y="42.06"/>
+                            <End x="-258.398" y="52.729"/>
+                        </Gradient>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="4,6,7,8,9,10,11,12,5,4"/>
+                        <LineTypes sequence="line,line,line,line,line,line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="1" Color="#959bac" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#676767" Alpha="255"/>
+                            <Stop Value="1" Color="#000000" Alpha="255"/>
+                            <Start x="-163.899" y="-43.293"/>
+                            <End x="-163.899" y="-26.527"/>
+                        </Gradient>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="13,16,15,14,13"/>
+                        <LineTypes sequence="line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="8" Color="#0a3ba3" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#115cff" Alpha="255"/>
+                            <Stop Value="1" Color="#464b7a" Alpha="255"/>
+                            <Start x="151.602" y="34.439"/>
+                            <End x="151.602" y="67.971"/>
+                        </Gradient>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="P1" visible="yes" z="4">
+            <pos x="554.923" y="344.42"/>
+            <transform m11="0.145889" m12="0" m21="0" m22="0.16129"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Protein.xml" width="55" height="50">
+                <ControlPoints>
+                    <ControlPoint x="-162.5" y="30"/>
+                    <ControlPoint x="-188.5" y="-65"/>
+                    <ControlPoint x="-63.5" y="-155"/>
+                    <ControlPoint x="31.5" y="-127"/>
+                    <ControlPoint x="145.5" y="-90"/>
+                    <ControlPoint x="188.5" y="64"/>
+                    <ControlPoint x="91.5" y="66"/>
+                    <ControlPoint x="22.5" y="62"/>
+                    <ControlPoint x="20.5" y="-22"/>
+                    <ControlPoint x="-34.5" y="57"/>
+                    <ControlPoint x="-65.5" y="155"/>
+                    <ControlPoint x="-141.5" y="117"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="0,1,2,3,4,5,6,7,8,9,10,11,0"/>
+                        <LineTypes sequence="bezier,bezier,bezier,bezier"/>
+                        <Parameters values=""/>
+                        <Pen Width="2" Color="#ff301d" Alpha="255"/>
+                        <Gradient Type="1">
+                            <Stop Value="0" Color="#fff7d5" Alpha="255"/>
+                            <Stop Value="1" Color="#ff6735" Alpha="255"/>
+                            <Start x="-82.5" y="-27"/>
+                            <End x="89.5" y="24"/>
+                        </Gradient>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="emp1" visible="yes" z="9">
+            <pos x="682.423" y="219.42"/>
+            <transform m11="0.247934" m12="0" m21="0" m22="0.27027"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Empty.xml" width="30" height="30">
+                <ControlPoints>
+                    <ControlPoint x="60.5" y="55.5"/>
+                    <ControlPoint x="-60.5" y="-55.5"/>
+                    <ControlPoint x="-60.5" y="55.5"/>
+                    <ControlPoint x="60.5" y="-55.5"/>
+                    <ControlPoint x="60.5" y="-55.5"/>
+                    <ControlPoint x="-60.5" y="55.5"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="1,0,1"/>
+                        <LineTypes sequence="arc,arc"/>
+                        <Parameters values="0,360,0,360"/>
+                        <Pen Width="6" Color="#780000" Alpha="255"/>
+                        <Fill Color="#780000" Alpha="0"/>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="2,5,4,3,2"/>
+                        <LineTypes sequence="line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="6" Color="#780000" Alpha="255"/>
+                        <Fill Color="#780000" Alpha="0"/>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="P2" visible="yes" z="15">
+            <pos x="1067.83" y="621.007"/>
+            <transform m11="0.145889" m12="0" m21="0" m22="0.16129"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Protein.xml" width="55" height="50">
+                <ControlPoints>
+                    <ControlPoint x="-162.5" y="30"/>
+                    <ControlPoint x="-188.5" y="-65"/>
+                    <ControlPoint x="-63.5" y="-155"/>
+                    <ControlPoint x="31.5" y="-127"/>
+                    <ControlPoint x="145.5" y="-90"/>
+                    <ControlPoint x="188.5" y="64"/>
+                    <ControlPoint x="91.5" y="66"/>
+                    <ControlPoint x="22.5" y="62"/>
+                    <ControlPoint x="20.5" y="-22"/>
+                    <ControlPoint x="-34.5" y="57"/>
+                    <ControlPoint x="-65.5" y="155"/>
+                    <ControlPoint x="-141.5" y="117"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="0,1,2,3,4,5,6,7,8,9,10,11,0"/>
+                        <LineTypes sequence="bezier,bezier,bezier,bezier"/>
+                        <Parameters values=""/>
+                        <Pen Width="2" Color="#ff301d" Alpha="255"/>
+                        <Gradient Type="1">
+                            <Stop Value="0" Color="#fff7d5" Alpha="255"/>
+                            <Stop Value="1" Color="#ff6735" Alpha="255"/>
+                            <Start x="-82.5" y="-27"/>
+                            <End x="89.5" y="24"/>
+                        </Gradient>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="emp2" visible="yes" z="20">
+            <pos x="1195.33" y="496.007"/>
+            <transform m11="0.247934" m12="0" m21="0" m22="0.27027"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Empty.xml" width="30" height="30">
+                <ControlPoints>
+                    <ControlPoint x="60.5" y="55.5"/>
+                    <ControlPoint x="-60.5" y="-55.5"/>
+                    <ControlPoint x="-60.5" y="55.5"/>
+                    <ControlPoint x="60.5" y="-55.5"/>
+                    <ControlPoint x="60.5" y="-55.5"/>
+                    <ControlPoint x="-60.5" y="55.5"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="1,0,1"/>
+                        <LineTypes sequence="arc,arc"/>
+                        <Parameters values="0,360,0,360"/>
+                        <Pen Width="6" Color="#780000" Alpha="255"/>
+                        <Fill Color="#780000" Alpha="0"/>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="2,5,4,3,2"/>
+                        <LineTypes sequence="line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="6" Color="#780000" Alpha="255"/>
+                        <Fill Color="#780000" Alpha="0"/>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="X" visible="yes" z="24">
+            <pos x="143.545" y="133.042"/>
+            <transform m11="0.210526" m12="0" m21="0" m22="0.205128"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Species.xml" width="40" height="40">
+                <ControlPoints>
+                    <ControlPoint x="-95" y="-97.5"/>
+                    <ControlPoint x="95" y="97.5"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="0,1,0"/>
+                        <LineTypes sequence="arc,arc"/>
+                        <Parameters values="0,360,0,360"/>
+                        <Pen Width="0" Color="#3d50ff" Alpha="106"/>
+                        <Gradient Type="1">
+                            <Stop Value="0" Color="#eafeff" Alpha="255"/>
+                            <Stop Value="1" Color="#386dff" Alpha="255"/>
+                            <Start x="-38" y="-48.5"/>
+                            <End x="44" y="63.5"/>
+                        </Gradient>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+        <NodeItem className="NodeGraphicsItem" handle="gene2" visible="yes" z="13">
+            <pos x="1067.83" y="821.007"/>
+            <transform m11="0.275223" m12="0" m21="0" m22="0.435631"/>
+            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/bin/NodeItems/Gene.xml" width="220" height="50">
+                <ControlPoints>
+                    <ControlPoint x="-399.675" y="57.388"/>
+                    <ControlPoint x="399.675" y="57.388"/>
+                    <ControlPoint x="-399.675" y="39.388"/>
+                    <ControlPoint x="399.675" y="39.388"/>
+                    <ControlPoint x="-205.103" y="39.388"/>
+                    <ControlPoint x="-193.724" y="39.388"/>
+                    <ControlPoint x="-205.103" y="-35.943"/>
+                    <ControlPoint x="-117.007" y="-35.943"/>
+                    <ControlPoint x="-149.483" y="-57.388"/>
+                    <ControlPoint x="-84.5445" y="-31.709"/>
+                    <ControlPoint x="-147.452" y="-0.697"/>
+                    <ControlPoint x="-117.007" y="-25.612"/>
+                    <ControlPoint x="-193.724" y="-25.612"/>
+                    <ControlPoint x="-86.5785" y="25.823"/>
+                    <ControlPoint x="-84.5445" y="57.388"/>
+                    <ControlPoint x="305.541" y="57.388"/>
+                    <ControlPoint x="305.541" y="25.823"/>
+                </ControlPoints>
+                <Shapes>
+                    <Shape Negative="0">
+                        <ControlPoints indices="0,2,3,1,0"/>
+                        <LineTypes sequence="line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="1" Color="#959bac" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#c5c5c5" Alpha="255"/>
+                            <Stop Value="1" Color="#000000" Alpha="255"/>
+                            <Start x="-258.398" y="42.06"/>
+                            <End x="-258.398" y="52.729"/>
+                        </Gradient>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="4,6,7,8,9,10,11,12,5,4"/>
+                        <LineTypes sequence="line,line,line,line,line,line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="1" Color="#959bac" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#676767" Alpha="255"/>
+                            <Stop Value="1" Color="#000000" Alpha="255"/>
+                            <Start x="-163.899" y="-43.293"/>
+                            <End x="-163.899" y="-26.527"/>
+                        </Gradient>
+                    </Shape>
+                    <Shape Negative="0">
+                        <ControlPoints indices="13,16,15,14,13"/>
+                        <LineTypes sequence="line,line,line,line,line"/>
+                        <Parameters values=""/>
+                        <Pen Width="8" Color="#0a3ba3" Alpha="255"/>
+                        <Gradient Type="0">
+                            <Stop Value="0" Color="#115cff" Alpha="255"/>
+                            <Stop Value="1" Color="#464b7a" Alpha="255"/>
+                            <Start x="151.602" y="34.439"/>
+                            <End x="151.602" y="67.971"/>
+                        </Gradient>
+                    </Shape>
+                </Shapes>
+            </PartGraphicsItem>
+        </NodeItem>
+    </Nodes>
+    <Connections>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J1" visible="yes" z="8">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="2" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="554.923" y="659.455"/>
+                    <ControlPoint x="554.923" y="471.92"/>
+                    <ControlPoint x="554.923" y="416.92"/>
+                    <ControlPoint x="554.923" y="393.42"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="4" NodeAtStart="gene1" NodeAtStartX="553.173" NodeAtStartY="658.206" NodeAtEnd="P1" NodeAtEndX="554.923" NodeAtEndY="344.42">
+                        <ControlPoints indices="0,1,2,3"/>
+                        <ArrowAtEnd>
+                            <pos x="554.923" y="389.42" angle="-90"/>
+                            <transform m11="1.15288e-23" m12="-0.1" m21="0.1" m22="9.43503e-24"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Transcription.xml" width="23.5" height="34.7">
+                                <ControlPoints>
+                                    <ControlPoint x="-49.5" y="-117.5"/>
+                                    <ControlPoint x="42.5" y="-1.5"/>
+                                    <ControlPoint x="-49.5" y="117.5"/>
+                                    <ControlPoint x="16.5" y="-1.5"/>
+                                    <ControlPoint x="-173.5" y="-117.5"/>
+                                    <ControlPoint x="-79.5" y="-0.5"/>
+                                    <ControlPoint x="-173.5" y="117.5"/>
+                                    <ControlPoint x="-105.5" y="-1.5"/>
+                                    <ControlPoint x="83.5" y="-117.5"/>
+                                    <ControlPoint x="173.5" y="-1.5"/>
+                                    <ControlPoint x="84.5" y="117.5"/>
+                                    <ControlPoint x="142.5" y="-1.5"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="0,1,2,3,0"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="18.5" y="-13.5"/>
+                                            <End x="13.5" y="28.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="4,5,6,7,4"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="-101.5" y="-18.5"/>
+                                            <End x="-101.5" y="18.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="8,9,10,11,8"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="148.5" y="-24.5"/>
+                                            <End x="149.5" y="39.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="554.423" y="525.647"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J2" visible="yes" z="12">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="590.623" y="309.42"/>
+                    <ControlPoint x="612.473" y="287.999"/>
+                    <ControlPoint x="635.773" y="265.155"/>
+                    <ControlPoint x="643.423" y="257.655"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="4" NodeAtStart="P1" NodeAtStartX="554.923" NodeAtStartY="344.42" NodeAtEnd="emp1" NodeAtEndX="682.423" NodeAtEndY="219.42">
+                        <ControlPoints indices="0,1,2,3"/>
+                        <ArrowAtEnd>
+                            <pos x="647.423" y="253.734" angle="-44.4328"/>
+                            <transform m11="0.0714072" m12="-0.0700072" m21="0.0700072" m22="0.0714072"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Reaction.xml" width="23.283" height="23.2424">
+                                <ControlPoints>
+                                    <ControlPoint x="89.5" y="-4"/>
+                                    <ControlPoint x="-89.5" y="75"/>
+                                    <ControlPoint x="-39.5" y="-4"/>
+                                    <ControlPoint x="-89.5" y="-75"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="2,3,0,1,2"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="0" Color="#d81111" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#f9ad6f" Alpha="255"/>
+                                            <Stop Value="1" Color="#ff0303" Alpha="255"/>
+                                            <Start x="1.5" y="-6"/>
+                                            <End x="-47.5" y="-1"/>
+                                        </Gradient>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="617.238" y="282.627"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J4" visible="yes" z="23">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="1103.53" y="586.007"/>
+                    <ControlPoint x="1125.38" y="564.585"/>
+                    <ControlPoint x="1148.68" y="541.742"/>
+                    <ControlPoint x="1156.33" y="534.242"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="4" NodeAtStart="P2" NodeAtStartX="1067.83" NodeAtStartY="621.007" NodeAtEnd="emp2" NodeAtEndX="1195.33" NodeAtEndY="496.007">
+                        <ControlPoints indices="0,1,2,3"/>
+                        <ArrowAtEnd>
+                            <pos x="1160.33" y="530.32" angle="-44.4328"/>
+                            <transform m11="0.0714072" m12="-0.0700072" m21="0.0700072" m22="0.0714072"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Reaction.xml" width="23.283" height="23.2424">
+                                <ControlPoints>
+                                    <ControlPoint x="89.5" y="-4"/>
+                                    <ControlPoint x="-89.5" y="75"/>
+                                    <ControlPoint x="-39.5" y="-4"/>
+                                    <ControlPoint x="-89.5" y="-75"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="2,3,0,1,2"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="0" Color="#d81111" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#f9ad6f" Alpha="255"/>
+                                            <Stop Value="1" Color="#ff0303" Alpha="255"/>
+                                            <Start x="1.5" y="-6"/>
+                                            <End x="-47.5" y="-1"/>
+                                        </Gradient>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="1130.15" y="559.214"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J3" visible="yes" z="19">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="2" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="1067.83" y="822.256"/>
+                    <ControlPoint x="1067.83" y="748.507"/>
+                    <ControlPoint x="1067.83" y="693.507"/>
+                    <ControlPoint x="1067.83" y="670.007"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="4" NodeAtStart="gene2" NodeAtStartX="1067.83" NodeAtStartY="821.007" NodeAtEnd="P2" NodeAtEndX="1067.83" NodeAtEndY="621.007">
+                        <ControlPoints indices="0,1,2,3"/>
+                        <ArrowAtEnd>
+                            <pos x="1067.83" y="666.007" angle="-90"/>
+                            <transform m11="0" m12="-0.1" m21="0.1" m22="0"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Transcription.xml" width="23.5" height="34.7">
+                                <ControlPoints>
+                                    <ControlPoint x="-49.5" y="-117.5"/>
+                                    <ControlPoint x="42.5" y="-1.5"/>
+                                    <ControlPoint x="-49.5" y="117.5"/>
+                                    <ControlPoint x="16.5" y="-1.5"/>
+                                    <ControlPoint x="-173.5" y="-117.5"/>
+                                    <ControlPoint x="-79.5" y="-0.5"/>
+                                    <ControlPoint x="-173.5" y="117.5"/>
+                                    <ControlPoint x="-105.5" y="-1.5"/>
+                                    <ControlPoint x="83.5" y="-117.5"/>
+                                    <ControlPoint x="173.5" y="-1.5"/>
+                                    <ControlPoint x="84.5" y="117.5"/>
+                                    <ControlPoint x="142.5" y="-1.5"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="0,1,2,3,0"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="18.5" y="-13.5"/>
+                                            <End x="13.5" y="28.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="4,5,6,7,4"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="-101.5" y="-18.5"/>
+                                            <End x="-101.5" y="18.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="8,9,10,11,8"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#6464ff" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                                            <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                                            <Start x="148.5" y="-24.5"/>
+                                            <End x="149.5" y="39.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="1067.33" y="745.341"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J6" visible="yes" z="66">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="592.423" y="344.42"/>
+                    <ControlPoint x="870.832" y="344.42"/>
+                    <ControlPoint x="920.832" y="344.42"/>
+                    <ControlPoint x="970.832" y="344.42"/>
+                    <ControlPoint x="699.666" y="485.419"/>
+                    <ControlPoint x="908.157" y="679.144"/>
+                    <ControlPoint x="970.832" y="814.165"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="7" NodeAtStart="P1" NodeAtStartX="554.923" NodeAtStartY="344.42" NodeAtEnd="gene2" NodeAtEndX="1067.83" NodeAtEndY="821.007">
+                        <ControlPoints indices="0,1,2,3,4,5,6"/>
+                        <ArrowAtEnd>
+                            <pos x="970.832" y="818.165" angle="90"/>
+                            <transform m11="0" m12="0.1" m21="-0.1" m22="0"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Transcription_Repression.xml" width="20.6" height="3.3">
+                                <ControlPoints>
+                                    <ControlPoint x="-16.5" y="-103"/>
+                                    <ControlPoint x="-16.5" y="103"/>
+                                    <ControlPoint x="16.5" y="103"/>
+                                    <ControlPoint x="16.5" y="-102"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="1,0,3,2,1"/>
+                                        <LineTypes sequence="line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="3" Color="#ffc743" Alpha="255"/>
+                                        <Fill Color="#ca0003" Alpha="255"/>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="970.832" y="344.42"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J0" visible="yes" z="28">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="173.545" y="145.295"/>
+                    <ControlPoint x="363.173" y="145.295"/>
+                    <ControlPoint x="413.173" y="145.295"/>
+                    <ControlPoint x="463.173" y="145.295"/>
+                    <ControlPoint x="263.389" y="266.89"/>
+                    <ControlPoint x="426.578" y="430.079"/>
+                    <ControlPoint x="463.173" y="651.364"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="7" NodeAtStart="X" NodeAtStartX="143.545" NodeAtStartY="133.042" NodeAtEnd="gene1" NodeAtEndX="553.173" NodeAtEndY="658.206">
+                        <ControlPoints indices="0,1,2,3,4,5,6"/>
+                        <ArrowAtEnd>
+                            <pos x="463.173" y="655.364" angle="90"/>
+                            <transform m11="-2.54618e-18" m12="0.1" m21="-0.1" m22="2.94767e-19"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Transcription_Activation.xml" width="19.7" height="20.3">
+                                <ControlPoints>
+                                    <ControlPoint x="-147.5" y="-98.5"/>
+                                    <ControlPoint x="55.5" y="98.5"/>
+                                    <ControlPoint x="-55.5" y="-98.5"/>
+                                    <ControlPoint x="-36.5" y="-98.5"/>
+                                    <ControlPoint x="-36.5" y="98.5"/>
+                                    <ControlPoint x="-55.5" y="98.5"/>
+                                    <ControlPoint x="-147.5" y="6.5"/>
+                                    <ControlPoint x="-147.5" y="-8.5"/>
+                                    <ControlPoint x="55.5" y="-8.5"/>
+                                    <ControlPoint x="55.5" y="7.5"/>
+                                    <ControlPoint x="-55.5" y="-10.5"/>
+                                    <ControlPoint x="-36.5" y="-10.5"/>
+                                    <ControlPoint x="-36.5" y="7.5"/>
+                                    <ControlPoint x="-55.5" y="6.5"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="0,1,0"/>
+                                        <LineTypes sequence="arc,arc,arc"/>
+                                        <Parameters values="0,360,0,360,0,360"/>
+                                        <Pen Width="8" Color="#2a3d66" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#e5fdff" Alpha="255"/>
+                                            <Stop Value="1" Color="#99d0ff" Alpha="255"/>
+                                            <Start x="-4.5" y="-37.5"/>
+                                            <End x="-4.5" y="58.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="6,7,10,2,3,11,8,9,12,4,5,13,6"/>
+                                        <LineTypes sequence="line,line,line,line,line,line,line,line,line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="1" Color="#2a3d66" Alpha="255"/>
+                                        <Fill Color="#32566b" Alpha="255"/>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="463.173" y="145.295"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+        <ConnectionItem className="ConnectionGraphicsItem" handle="J5" visible="yes" z="34">
+            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+                <ControlPoints>
+                    <ControlPoint x="173.545" y="120.788"/>
+                    <ControlPoint x="407.008" y="303.859"/>
+                    <ControlPoint x="818.923" y="610.455"/>
+                    <ControlPoint x="995.339" y="120.788"/>
+                    <ControlPoint x="1045.34" y="120.788"/>
+                    <ControlPoint x="1095.34" y="120.788"/>
+                    <ControlPoint x="995.339" y="814.165"/>
+                </ControlPoints>
+                <PathVectors>
+                    <Path numPoints="7" NodeAtStart="X" NodeAtStartX="143.545" NodeAtStartY="133.042" NodeAtEnd="gene2" NodeAtEndX="1067.83" NodeAtEndY="821.007">
+                        <ControlPoints indices="0,1,2,3,4,5,6"/>
+                        <ArrowAtEnd>
+                            <pos x="995.339" y="818.165" angle="90"/>
+                            <transform m11="0" m12="0.1" m21="-0.1" m22="0"/>
+                            <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/ArrowItems/Transcription_Activation.xml" width="19.7" height="20.3">
+                                <ControlPoints>
+                                    <ControlPoint x="-147.5" y="-98.5"/>
+                                    <ControlPoint x="55.5" y="98.5"/>
+                                    <ControlPoint x="-55.5" y="-98.5"/>
+                                    <ControlPoint x="-36.5" y="-98.5"/>
+                                    <ControlPoint x="-36.5" y="98.5"/>
+                                    <ControlPoint x="-55.5" y="98.5"/>
+                                    <ControlPoint x="-147.5" y="6.5"/>
+                                    <ControlPoint x="-147.5" y="-8.5"/>
+                                    <ControlPoint x="55.5" y="-8.5"/>
+                                    <ControlPoint x="55.5" y="7.5"/>
+                                    <ControlPoint x="-55.5" y="-10.5"/>
+                                    <ControlPoint x="-36.5" y="-10.5"/>
+                                    <ControlPoint x="-36.5" y="7.5"/>
+                                    <ControlPoint x="-55.5" y="6.5"/>
+                                </ControlPoints>
+                                <Shapes>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="0,1,0"/>
+                                        <LineTypes sequence="arc,arc,arc"/>
+                                        <Parameters values="0,360,0,360,0,360"/>
+                                        <Pen Width="8" Color="#2a3d66" Alpha="255"/>
+                                        <Gradient Type="0">
+                                            <Stop Value="0" Color="#e5fdff" Alpha="255"/>
+                                            <Stop Value="1" Color="#99d0ff" Alpha="255"/>
+                                            <Start x="-4.5" y="-37.5"/>
+                                            <End x="-4.5" y="58.5"/>
+                                        </Gradient>
+                                    </Shape>
+                                    <Shape Negative="0">
+                                        <ControlPoints indices="6,7,10,2,3,11,8,9,12,4,5,13,6"/>
+                                        <LineTypes sequence="line,line,line,line,line,line,line,line,line,line,line,line,line"/>
+                                        <Parameters values=""/>
+                                        <Pen Width="1" Color="#2a3d66" Alpha="255"/>
+                                        <Fill Color="#32566b" Alpha="255"/>
+                                    </Shape>
+                                </Shapes>
+                            </PartGraphicsItem>
+                        </ArrowAtEnd>
+                    </Path>
+                </PathVectors>
+                <CenterRegion>
+                    <Rect width="20" height="20"/>
+                    <Decorator>
+                        <pos x="995.339" y="120.788"/>
+                        <transform m11="0.219298" m12="0" m21="0" m22="0.219298"/>
+                        <PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/BUILD/_CPack_Packages/win32/ZIP/TinkerCell/OtherItems/simplecircle.xml" width="25.8772" height="25">
+                            <ControlPoints>
+                                <ControlPoint x="-59" y="-57"/>
+                                <ControlPoint x="59" y="57"/>
+                            </ControlPoints>
+                            <Shapes>
+                                <Shape Negative="0">
+                                    <ControlPoints indices="0,1,0"/>
+                                    <LineTypes sequence="arc,arc,arc"/>
+                                    <Parameters values="0,360,0,360,0,360"/>
+                                    <Pen Width="8" Color="#6464ff" Alpha="189"/>
+                                    <Fill Color="#6464ff" Alpha="0"/>
+                                </Shape>
+                            </Shapes>
+                        </PartGraphicsItem>
+                    </Decorator>
+                </CenterRegion>
+            </ConnectionGraphicsItem>
+        </ConnectionItem>
+    </Connections>
+    <Texts>
+        <TextItem text="gene1" handle="gene1" x="577.173" y="688.206" color="#000000" m11="1" m12="0" m21="0" m22="1" z="3" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="P1" handle="P1" x="582.423" y="369.42" color="#000000" m11="1" m12="0" m21="0" m22="1" z="5" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J2" handle="J2" x="644.238" y="275.765" color="#000000" m11="1" m12="0" m21="0" m22="1" z="11" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="P2" handle="P2" x="1095.33" y="646.007" color="#000000" m11="1" m12="0" m21="0" m22="1" z="16" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J4" handle="J4" x="1157.15" y="552.351" color="#000000" m11="1" m12="0" m21="0" m22="1" z="22" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J0" handle="J0" x="483.173" y="145.295" color="#000000" m11="1" m12="0" m21="0" m22="1" z="30" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="X" handle="X" x="128.295" y="161.543" color="#000000" m11="1" m12="0" m21="0" m22="1" z="25" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J6" handle="J6" x="990.832" y="344.42" color="#000000" m11="1" m12="0" m21="0" m22="1" z="68" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J3" handle="J3" x="1087.33" y="738.341" color="#000000" m11="1" m12="0" m21="0" m22="1" z="18" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J5" handle="J5" x="1015.34" y="120.788" color="#000000" m11="1" m12="0" m21="0" m22="1" z="36" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="gene2" handle="gene2" x="1091.83" y="851.007" color="#000000" m11="1" m12="0" m21="0" m22="1" z="14" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J1" handle="J1" x="574.423" y="518.647" color="#000000" m11="1" m12="0" m21="0" m22="1" z="7" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+    </Texts>
+</Model>

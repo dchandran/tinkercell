@@ -185,7 +185,7 @@ void run(Matrix input)
 
 	param1 = allNames[index1]; //the first parameter to vary
 	param2 = allNames[index2]; //the second parameter to vary
-	var = names[index3]; //the var for steady state
+	var = allNames[index3]; //the var for steady state
 	target = names[index4]; //the target for steady state
 
 	strcpy(selected_var1,param1);
@@ -266,6 +266,7 @@ void run(Matrix input)
 					fprintf( out, \"\\n\");\n\
 				  }\n\
 				  fclose(out);\n\
+				  if (__Y) free(__Y);\n\
 				  tc_surface(dat,\"Correlation Test\",100,100);\n\
 				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty,dy,arraysz, arraysz, var,startvar, dvar, target, arraysz, minsz);
 

@@ -19,7 +19,7 @@ namespace Tinkercell
 		meshSizeX = meshSizeY = 100;
 		
 		axisNames = new QComboBox();
-		connect(axisNames,SIGNAL(currentIndexChanged(int)),dataPlot,SLOT(setXAxis(int)));
+		//connect(axisNames,SIGNAL(currentIndexChanged(int)),dataPlot,SLOT(setXAxis(int)));
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		
@@ -71,9 +71,11 @@ namespace Tinkercell
 		QGroupBox * groupBox2 = new QGroupBox(tr(" options "));
 		groupBox2->setLayout(layout2);
 		
+		QHBoxLayout * layout3 = new QHBoxLayout;
 		layout3->addStretch(2);
 		layout3->addWidget(groupBox1,1,Qt::AlignRight);
 		layout3->addWidget(groupBox2,1,Qt::AlignRight);
+		layout->addLayout(layout3,1);
 		
 		setLayout(layout);
 		setMinimumHeight(200);

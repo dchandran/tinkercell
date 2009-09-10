@@ -174,7 +174,7 @@ void run(Matrix input)
 
 	if (index1 < 0 || index1 >= (params.rows+len) || 
 		index2 < 0 || index2 >= (params.rows+len) || 
-		index3 < 0 || index3 > len ||
+		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
 		TCFreeMatrix(params);

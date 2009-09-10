@@ -227,10 +227,10 @@ void run(Matrix input)
 					TCinitialize();\n\
 					for(i=0; i < %i; ++i)\n\
 					{\n\
-						valueAt(dat,i,0) = %s = %lf + i * %lf;\n\
+						valueAt(ss,i,0) = %s = %lf + i * %lf;\n\
 						TCreinitialize();\n\
 						double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-						valueAt(dat,i,1) = __Y[i] = %s;\n\
+						valueAt(ss,i,1) = __Y[i] = %s;\n\
 						if (y)\n\
 							free(y);\n\
 						TCinitialize();\n\

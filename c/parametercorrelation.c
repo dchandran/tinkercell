@@ -267,7 +267,7 @@ void run(Matrix input)
 				  }\n\
 				  fclose(out);\n\
 				  if (__Y) free(__Y);\n\
-				  tc_surface(dat,\"Correlation Test\",100,100);\n\
+				  tc_surface(dat,\"Correlation Test\",dat.row,dat.col);\n\
 				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty,dy,arraysz, arraysz, var,startvar, dvar, target, arraysz, minsz);
 
 	fclose(out);

@@ -433,7 +433,7 @@ void run2D(Matrix input)
 					fprintf( out, \"\\n\");\n\
 				  }\n\
 				  fclose(out);\n\
-				  tc_surface(dat,\"Steady State Plot\",100,100);\n\
+				  tc_surface(dat,\"Steady State Plot\",dat.row,dat.col);\n\
 				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty, dy, target);
 
 	fclose(out);

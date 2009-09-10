@@ -45,7 +45,6 @@ namespace Tinkercell
 		virtual void setZLabel(const QString&);
 	private slots:
 		void printToFile();
-		void copyData();
 		void setXLabel();
 		void setYLabel();
 		void setZLabel();

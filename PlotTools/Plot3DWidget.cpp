@@ -266,48 +266,6 @@ namespace Tinkercell
 		printToFile(fileName);
 	}
 	
-	void Plot3DWidget::copyData()
-	{
-		QClipboard * clipboard = QApplication::clipboard();
-		
-		if (!clipboard)
-		{
-			ConsoleWindow::error(tr("No clipboard available."));
-			return;
-		}
-		
-		QString outputs;
-		
-		DataTable<qreal> & table = dataTable;
-		
-		/*QStringList colnames = table.getColNames(), rownames = table.getRowNames();
-		
-		for (int i=0; i < colnames.size(); ++i)
-		{
-			if (i > 0)
-				outputs += tr("\t") + colnames.at(i);
-			else
-				outputs += colnames.at(i);
-		}*/
-		outputs += tr("\n");
-		for (int i=0; i < table.rows(); ++i)
-		{
-			//outputs += rownames.at(i);
-			for (int j=0; j < table.cols(); ++j)
-			{
-				if (j > 0)
-					outputs += tr("\t") + QString::number(table.at(i,j));
-				else
-					outputs += QString::number(table.at(i,j));
-			}
-			outputs += tr("\n");
-		}
-		
-		clipboard->setText(outputs);
-		
-		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
-	}
-	
 	void Plot3DWidget::setXLabel()
 	{	
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("x-axis label :"));

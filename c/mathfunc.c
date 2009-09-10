@@ -1,11 +1,11 @@
 #include "mathfunc.h"
 
 /* finds the eigenvalues of a matrix using CLAPACK
- * @param: square matrix
- * @param: matrix dimension
- * @param: (output) vector of real values
- * @param: (output) vector of imaginary values
- * @return: 0 = failure 1 = success
+ * \param: square matrix
+ * \param: matrix dimension
+ * \param: (output) vector of real values
+ * \param: (output) vector of imaginary values
+ * \return: 0 = failure 1 = success
 */
 int eigenvalues(double * A, int N, double ** reals, double ** im)
 {
@@ -51,10 +51,10 @@ int eigenvalues(double * A, int N, double ** reals, double ** im)
 
 
 /* calculates correlation between two vectors
- * @param: first vector of doubles
- * @param: second vector of doubles
- * @param: size of both vectors
- * @return: covariance
+ * \param: first vector of doubles
+ * \param: second vector of doubles
+ * \param: size of both vectors
+ * \return: covariance
 */
 double correlation(double * X, double * Y, int sz)
 {
@@ -87,14 +87,14 @@ double correlation(double * X, double * Y, int sz)
 }
 
 /* calculates correlation between two columns of two (or the same) matrix
- * @param: first matrix (single array)
- * @param: second matrix (since array)
- * @param: column of first matrix
- * @param: column of second matrix
- * @param: number of columns in first matrix
- * @param: number of columns in second matrix
- * @param: number of rows in both matrices
- * @return: covariance
+ * \param: first matrix (single array)
+ * \param: second matrix (since array)
+ * \param: column of first matrix
+ * \param: column of second matrix
+ * \param: number of columns in first matrix
+ * \param: number of columns in second matrix
+ * \param: number of rows in both matrices
+ * \return: covariance
 */
 double colCorrelation(double * M1, double * M2, int colsM1, int colsM2, int iM1, int iM2, int sz)
 {

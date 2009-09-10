@@ -158,45 +158,45 @@ void run(Matrix input)
 				  %s = %lf;\n\
 				  for (i=0; i < dat.rows; ++i)\n\
 				  {\n\
-				  valueAt(dat,i,0) = %s;\n\
-				  TCinitialize();\n\
-				  double * y = 0;\n\
-				  int sz = (int)(%lf*10.0);\n\
-				  if (%i)\n\
-				  y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, 0);\n\
-				  else \n\
-				  y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, 0);\n\
-				  if (y)\n\
-				  {\n\
-				  for (j=0; j<TCvars; ++j)\n\
-				  valueAt(dat,i,j+1) = getValue(y,1+TCvars,sz-1,j+1);\n\
-				  free(y);\n\
-				  }\n\
-				  else\n\
-				  {\n\
-				  for (j=0; j<TCvars; ++j)\n\
-				  valueAt(dat,i,j+1) = 0;\n\
-				  }\n\
-				  %s += %lf;\n\
-				  tc_showProgress(\"At Time T\",(100*i)/dat.rows);\n\
+					  valueAt(dat,i,0) = %s;\n\
+					  TCinitialize();\n\
+					  double * y = 0;\n\
+					  int sz = (int)(%lf*10.0);\n\
+					  if (%i)\n\
+					  y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, 0);\n\
+					  else \n\
+					  y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, 0);\n\
+					  if (y)\n\
+					  {\n\
+						for (j=0; j<TCvars; ++j)\n\
+						valueAt(dat,i,j+1) = getValue(y,1+TCvars,sz-1,j+1);\n\
+						free(y);\n\
+					  }\n\
+					  else\n\
+					  {\n\
+						for (j=0; j<TCvars; ++j)\n\
+						valueAt(dat,i,j+1) = 0;\n\
+					  }\n\
+					  %s += %lf;\n\
+					  tc_showProgress(\"At Time T\",(100*i)/dat.rows);\n\
 				  }\n\
 				  FILE * out = fopen(\"valuet.tab\",\"w\");\n\
 				  for (i=0; i < dat.cols; ++i)\n\
 				  {\n\
-				  fprintf( out, dat.colnames[i] );\n\
-				  fprintf( out, \"\\t\" );\n\
+					fprintf( out, dat.colnames[i] );\n\
+					fprintf( out, \"\\t\" );\n\
 				  }\n\
 				  fprintf( out, \"\\n\");\n\
 				  for (i=0; i < dat.rows; ++i)\n\
 				  {\n\
-				  for (j=0; j < dat.cols; ++j)\n\
-				  {\n\
-				  if (j==0)\n\
-				  fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
-				  else   \n\
-				  fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-				  }\n\
-				  fprintf( out, \"\\n\");\n\
+					for (j=0; j < dat.cols; ++j)\n\
+					{\n\
+						if (j==0)\n\
+							fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
+						else   \n\
+							fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
+					}\n\
+					fprintf( out, \"\\n\");\n\
 				  }\n\
 				  fclose(out);\n\
 				  tc_plot(dat,0,\"At time=%lf\",0);\n\

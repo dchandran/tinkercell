@@ -69,6 +69,13 @@ ADD_LIBRARY( tabasco_like
 
 INSTALL(TARGETS tabasco_like RUNTIME DESTINATION Plugins/c)
 
+ADD_LIBRARY( parametercorrelation 
+  SHARED
+  parametercorrelation.c
+)
+
+INSTALL(TARGETS parametercorrelation RUNTIME DESTINATION Plugins/c)
+
 ADD_SUBDIRECTORY( lpsolve )
 
 SET( LPSOLVE_SRC

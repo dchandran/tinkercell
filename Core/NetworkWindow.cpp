@@ -328,6 +328,7 @@ namespace Tinkercell
 		history.push(command);
 
 		emit itemsRenamed(this, items, oldNames, newNames);
+		emit dataChanged(items);
 	}
 
 	void NetworkWindow::rename(ItemHandle* handle, const QString& s)
@@ -353,6 +354,7 @@ namespace Tinkercell
 		history.push(command);
 
 		emit itemsRenamed(this, items, oldNames, newNames);
+		emit dataChanged(items);
 	}
 
 	void NetworkWindow::rename(const QList<ItemHandle*>& items, const QList<QString>& new_names)
@@ -382,6 +384,7 @@ namespace Tinkercell
 		history.push(command);
 
 		emit itemsRenamed(this, items, oldNames, newNames);
+		emit dataChanged(items);
 	}
 
 	void NetworkWindow::setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles)
@@ -408,6 +411,7 @@ namespace Tinkercell
 		history.push(command);
 
 		emit parentHandleChanged(this, command1->children, command1->oldParents);
+		emit dataChanged(command1->children);
 	}
 
 	void NetworkWindow::setParentHandle(ItemHandle * child, ItemHandle * parent)
@@ -461,7 +465,7 @@ namespace Tinkercell
 
 		history.push(command);
 
-		emit dataChanged(handles);		
+		emit dataChanged(handles);
 	}
 	/*! \brief change a list of numerical data tables*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)

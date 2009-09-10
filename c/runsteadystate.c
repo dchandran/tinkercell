@@ -190,74 +190,73 @@ void run(Matrix input)
 				  int i,j;\n\
 				  if (%i) \n\
 				  {\n\
-				  dat.cols = 1+TCreactions;\n\
-				  dat.colnames = malloc( (1+TCreactions) * sizeof(char*) );\n\
-				  for(i=0; i<TCreactions; ++i) dat.colnames[1+i] = TCreactionnames[i];\n\
+					dat.cols = 1+TCreactions;\n\
+					dat.colnames = malloc( (1+TCreactions) * sizeof(char*) );\n\
+					for(i=0; i<TCreactions; ++i) dat.colnames[1+i] = TCreactionnames[i];\n\
 				  }\n\
 				  else\n\
 				  {\n\
-				  dat.cols = 1+TCvars;\n\
-				  dat.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-				  for(i=0; i<TCvars; ++i) dat.colnames[1+i] = TCvarnames[i];\n\
+					dat.cols = 1+TCvars;\n\
+					dat.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+					for(i=0; i<TCvars; ++i) dat.colnames[1+i] = TCvarnames[i];\n\
 				  }\n\
 				  dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
 				  dat.rownames = 0;\n\
 				  dat.colnames[0] = \"%s\";\n",end,start,dt,rateplot,param);
 
 	fprintf( out, "\n\
-				  %s = %lf;\n\
-				  TCinitialize();\n\
-				  for (i=0; i < dat.rows; ++i)\n\
-				  {\n\
-				  valueAt(dat,i,0) = %s;\n\
-				  double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-				  if (y)\n\
-				  {\n\
-				  if (%i)\n\
-				  {\n\
-				  double * y0 = malloc(TCreactions * sizeof(double));\n\
-				  TCpropensity(0.0, y, y0, 0);\n\
-				  free(y);\n\
-				  y = y0;\n\
-				  for (j=0; j<TCreactions; ++j)\n\
-				  valueAt(dat,i,j+1) = y[j];\n\
-				  }\n\
-				  else\n\
-				  for (j=0; j<TCvars; ++j)\n\
-				  valueAt(dat,i,j+1) = y[j];\n\
-				  free(y);\n\
-				  }\n\
-				  else\n\
-				  {\n\
-				  for (j=0; j<TCvars; ++j)\n\
-				  valueAt(dat,i,j+1) = 0;\n\
-				  }\n\
-				  TCinitialize();\n\
-				  %s = (i+1) * %lf;\n\
-				  TCreinitialize();\n\
-				  tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
-				  }\n\
-				  FILE * out = fopen(\"ss.tab\",\"w\");\n\
-				  for (i=0; i < dat.cols; ++i)\n\
-				  {\n\
-				  fprintf( out, dat.colnames[i] );\n\
-				  fprintf( out, \"\\t\" );\n\
-				  }\n\
-				  fprintf( out, \"\\n\");\n\
-				  for (i=0; i < dat.rows; ++i)\n\
-				  {\n\
-				  for (j=0; j < dat.cols; ++j)\n\
-				  {\n\
-				  if (j==0)\n\
-				  fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
-				  else   \n\
-				  fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-				  }\n\
-				  fprintf( out, \"\\n\");\n\
-				  }\n\
-				  fclose(out);\n\
-				  tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				  free(dat.colnames);\n}\n",param,start,param,rateplot,param,dt);
+				 TCinitialize();\n\
+				 for (i=0; i < dat.rows; ++i)\n\
+				 {\n\
+					%s = %lf + i * %lf;\n\
+					TCreinitialize();\n\
+					valueAt(dat,i,0) = %s;\n\
+					double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+					if (y)\n\
+					{\n\
+						if (%i)\n\
+						{\n\
+							double * y0 = malloc(TCreactions * sizeof(double));\n\
+							TCpropensity(0.0, y, y0, 0);\n\
+							free(y);\n\
+							y = y0;\n\
+							for (j=0; j<TCreactions; ++j)\n\
+							valueAt(dat,i,j+1) = y[j];\n\
+						}\n\
+						else\n\
+						for (j=0; j<TCvars; ++j)\n\
+							valueAt(dat,i,j+1) = y[j];\n\
+						free(y);\n\
+					}\n\
+					else\n\
+					{\n\
+						for (j=0; j<TCvars; ++j)\n\
+						valueAt(dat,i,j+1) = 0;\n\
+					}\n\
+					TCinitialize();\n\
+					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
+				}\n\
+				FILE * out = fopen(\"ss.tab\",\"w\");\n\
+				for (i=0; i < dat.cols; ++i)\n\
+				{\n\
+					fprintf( out, dat.colnames[i] );\n\
+					fprintf( out, \"\\t\" );\n\
+				}\n\
+				fprintf( out, \"\\n\");\n\
+				for (i=0; i < dat.rows; ++i)\n\
+				{\n\
+					for (j=0; j < dat.cols; ++j)\n\
+					{\n\
+						if (j==0)\n\
+							fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
+						else   \n\
+							fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
+					}\n\
+					fprintf( out, \"\\n\");\n\
+				}\n\
+				fclose(out);\n\
+				tc_plot(dat,0,\"Steady State Plot\",0);\n\
+				free(dat.colnames);\n}\n",param,start,dt,param,rateplot);
 
 	fclose(out);
 
@@ -355,10 +354,20 @@ void run2D(Matrix input)
 	index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0); 
 	if (index1 >= 0)
 		index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
+	
+	if (index1 >= 0 && index2 >= 0 && (index1 == index2))	
+	{
+		TCFreeArray(A);   
+		TCFreeMatrix(params);
+		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
+		return;
+	}
+
+	
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getFromList("Select Target",names,target_var,0);
 
-	TCFreeArray(A);   
+	TCFreeArray(A);
 
 	if (index1 < 0 || index1 >= (params.rows+len) || index2 < 0 || index2 >= (params.rows+len) || index3 < 0 || index3 > len)
 	{
@@ -366,7 +375,6 @@ void run2D(Matrix input)
 		tc_print("2D steady state: no valid variable selected\0");
 		return;
 	}
-
 
 	param1 = allNames[index1]; //the first parameter to vary
 	param2 = allNames[index2]; //the second parameter to vary
@@ -390,46 +398,43 @@ void run2D(Matrix input)
 				  for(i=0; i<=dat.cols; ++i) dat.colnames[i] = 0;\n\
 				  if (dat.cols > 3) \n\
 				  {\n\
-				  dat.colnames[0] = \"%s\";\n\
-				  dat.colnames[1] = \"%s\";\n\
-				  dat.colnames[2] = \"%s\";\n\
+					dat.colnames[0] = \"%s\";\n\
+					dat.colnames[1] = \"%s\";\n\
+					dat.colnames[2] = \"%s\";\n\
 				  }\n\
 				  dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
 				  dat.rownames = 0;\n",
 				  endx,startx,dx,endy,starty,dy,param1,param2,target);
 
 	fprintf( out, "\n\
-				  %s = %lf;\n\
 				  for (i=0; i < dat.rows; ++i)\n\
 				  {\n\
-				  %s = %lf;\n\
-				  for (j=0; j < dat.cols; ++j)\n\
-				  {\n\
-				  TCinitialize();\n\
-				  double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-				  valueAt(dat,i,j) = %s;\n\
-				  if (y)\n\
-				  free(y);\n\
-				  TCinitialize();\n\
-				  %s = (i+1) * %lf;\n\
-				  %s = (j+1) * %lf;\n\
-				  TCreinitialize();\n\
-				  }\n\
-				  tc_showProgress(\"2-parameter steady state\",(100*i)/dat.rows);\n\
+					  for (j=0; j < dat.cols; ++j)\n\
+					  {\n\
+						  %s = %lf + i * %lf;\n\
+						  %s = %lf + j * %lf;\n\
+						  TCreinitialize();\n\
+						  double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+						  valueAt(dat,i,j) = %s;\n\
+						  if (y)\n\
+						  free(y);\n\
+						  TCinitialize();\n\
+						}\n\
+						tc_showProgress(\"2-parameter steady state\",(100*i)/dat.rows);\n\
 				  }\n\
 				  FILE * out = fopen(\"ss2D.tab\",\"w\");\n\
 				  fprintf( out, \"\\n\");\n\
 				  for (i=0; i < dat.rows; ++i)\n\
 				  {\n\
-				  for (j=0; j < dat.cols; ++j)\n\
-				  {\n\
-				  fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-				  }\n\
-				  fprintf( out, \"\\n\");\n\
+					for (j=0; j < dat.cols; ++j)\n\
+					{\n\
+						fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
+					}\n\
+					fprintf( out, \"\\n\");\n\
 				  }\n\
 				  fclose(out);\n\
 				  tc_surface(dat,\"Steady State Plot\",100,100);\n\
-				  free(dat.colnames);\n}\n",param1,startx, param2,starty, target, param1,dx, param2, dy);
+				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty, dy, target);
 
 	fclose(out);
 

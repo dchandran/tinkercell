@@ -48,4 +48,5 @@ double * SSA(int, int, double *, void (*f)(double,double*,double*,void*), double
 */
 double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, void (*f)(double,double*,double*,void*), void* param);
 
+
 #endif

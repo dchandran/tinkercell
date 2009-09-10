@@ -30,7 +30,7 @@ static void writeToFile(char* filename, double* data, int rows, int cols)
 
 //SSA:
 
-double ** Cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
+double ** cells_ssa(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double endTime, int numPoints, void * dataptr, int numCells, double repRate, double deathRate, double mutantAdv)  //multi cell ssa
 {	
 	int iter = 0, i = 0, j = 0, k = 0, t0 = 0, t1 = 0;
 	double rand = 0, lambda = 0, time = 0, sum = 0, v1, v2, T, t, prevt, * cells, * simu, * y, gridSz,

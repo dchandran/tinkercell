@@ -71,71 +71,71 @@ void runSSA(Matrix input)
 				   static double _time0_ = 0.0;\n\
 				   void ssaFunc(double time, double * u, double * rates, void * data)\n\
 				   {\n\
-				   TCpropensity(time, u, rates, data);\n\
-				   if (time > _time0_)\n\
-				   {\n\
-				   tc_showProgress(\"Gillespie algorithm\",(int)(100 * time/%lf));\n\
-				   _time0_ += %lf;\n\
-				   }\n\
-				   }\n\
-				   \n\
-				   \n\
-				   void run() \n\
-				   {\n\
-				   initMTrand();\n\
-				   TCinitialize();\n\
-				   int sz = 0;\n\
-				   double * y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, 0);\n\
-				   if (!y) \
-				   {\n\
-				   tc_errorReport(\"SSA failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
-				   return;\n\
-				   }\n\
-				   Matrix data;\n\
-				   data.rows = sz;\n\
-				   char ** names = TCvarnames;\n\
-				   if (%i)\n\
-				   {\n\
-				   double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
-				   free(y);\n\
-				   y = y0;\n\
-				   TCvars = TCreactions;\n\
-				   names = TCreactionnames;\n\
-				   }\n\
-				   data.cols = 1+TCvars;\n\
-				   data.values = y;\n\
-				   data.rownames = 0;\n\
-				   data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-				   data.colnames[0] = \"time\\0\";\n\
-				   int i,j;\n\
-				   for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-				   FILE * out = fopen(\"ssa.tab\",\"w\");\n\
-				   for (i=0; i < data.cols; ++i)\n\
-				   {\n\
-				   fprintf( out, data.colnames[i] );\n\
-				   if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
-				   }\n\
-				   fprintf( out, \"\\n\");\n\
-				   for (i=0; i < data.rows; ++i)\n\
-				   {\n\
-				   for (j=0; j < data.cols; ++j)\n\
-				   {\n\
-				   if (j==0)\n\
-				   fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
-				   else   \n\
-				   fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
-				   }\n\
-				   fprintf( out, \"\\n\");\n\
-				   }\n\
-				   fclose(out);\n\
-				   if (data.rows > 10000)\n\
-				   tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ssa.tab in your home directory\");\n\
-				   else\n\
-				   tc_print(\"output written to Tinkercell/ssa.tab in your home directory\");\n\
-				   tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
-				   free(data.colnames);\n\
-				   free(y);\n\
-				   return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
+						TCpropensity(time, u, rates, data);\n\
+						if (time > _time0_)\n\
+						{\n\
+							tc_showProgress(\"Gillespie algorithm\",(int)(100 * time/%lf));\n\
+							_time0_ += %lf;\n\
+						}\n\
+					}\n\
+					\n\
+					\n\
+					void run() \n\
+					{\n\
+						initMTrand();\n\
+						TCinitialize();\n\
+						int sz = 0;\n\
+						double * y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, 0);\n\
+						if (!y) \
+						{\n\
+							tc_errorReport(\"SSA failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
+							return;\n\
+						}\n\
+						Matrix data;\n\
+						data.rows = sz;\n\
+						char ** names = TCvarnames;\n\
+						if (%i)\n\
+						{\n\
+							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
+							free(y);\n\
+							y = y0;\n\
+							TCvars = TCreactions;\n\
+							names = TCreactionnames;\n\
+						}\n\
+						data.cols = 1+TCvars;\n\
+						data.values = y;\n\
+						data.rownames = 0;\n\
+						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+						data.colnames[0] = \"time\\0\";\n\
+						int i,j;\n\
+						for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
+						FILE * out = fopen(\"ssa.tab\",\"w\");\n\
+						for (i=0; i < data.cols; ++i)\n\
+						{\n\
+							fprintf( out, data.colnames[i] );\n\
+							if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
+						}\n\
+						fprintf( out, \"\\n\");\n\
+						for (i=0; i < data.rows; ++i)\n\
+						{\n\
+						for (j=0; j < data.cols; ++j)\n\
+						{\n\
+							if (j==0)\n\
+								fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
+							else   \n\
+								fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
+						}\n\
+						fprintf( out, \"\\n\");\n\
+					}\n\
+					fclose(out);\n\
+					if (data.rows > 10000)\n\
+						tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ssa.tab in your home directory\");\n\
+					else\n\
+						tc_print(\"output written to Tinkercell/ssa.tab in your home directory\");\n\
+					tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+					free(data.colnames);\n\
+					free(y);\n\
+					return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
 
 	fclose(out);
 

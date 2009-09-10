@@ -136,80 +136,81 @@ void run(Matrix input)
 				   static double * rates = 0;\n\
 				   void odeFunc( double time, double * u, double * du, void * udata )\n\
 				   {\n\
-				   int i,j;\n\
-				   TCpropensity(time, u, rates, udata);\n\
-				   for (i=0; i < TCvars; ++i)\n\
-				   {\n\
-				   du[i] = 0;\n\
-				   for (j=0; j < TCreactions; ++j)\n\
-				   {\n\
-				   if (getValue(TCstoic,TCreactions,i,j) != 0)\n\
-				   du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);\n\
-				   }\n\
-				   }\n\
-				   if (time > _time0_)\n\
-				   {\n\
-				   tc_showProgress(\"Deterministic simulation\",(int)(100 * time/%lf));\n\
-				   _time0_ += %lf;\n\
-				   }\n\
-				   }\n\
-				   \n\
-				   \n\
-				   void run() \n\
-				   {\n\
-				   TCinitialize();\n\
-				   rates = malloc(TCreactions * sizeof(double));\n\
-				   double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, 0);\n\
-				   free(rates);\n\
-				   if (!y) \
-				   {\n\
-				   tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
-				   return;\n\
-				   }\n\
-				   Matrix data;\n\
-				   data.rows = %i;\n\
-				   char ** names = TCvarnames;\n\
-				   if (%i)\n\
-				   {\n\
-				   double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
-				   free(y);\n\
-				   y = y0;\n\
-				   TCvars = TCreactions;\n\
-				   names = TCreactionnames;\n\
-				   }\n\
-				   data.cols = 1+TCvars;\n\
-				   data.values = y;\n\
-				   data.rownames = 0;\n\
-				   data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-				   data.colnames[0] = \"time\\0\";\n\
-				   int i,j;\n\
-				   for (i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-				   FILE * out = fopen(\"ode.tab\",\"w\");\n\
-				   for (i=0; i < data.cols; ++i)\n\
-				   {\n\
-				   fprintf( out, data.colnames[i] );\n\
-				   if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
-				   }\n\
-				   fprintf ( out, \"\\n\");\n\
-				   for (i=0; i < data.rows; ++i)\n\
-				   {\n\
-				   for (j=0; j < data.cols; ++j)\n\
-				   {\n\
-				   if (j==0)\n\
-				   fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
-				   else   \n\
-				   fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
-				   }\n\
-				   fprintf( out, \"\\n\");\n\
-				   }\n\
-				   fclose(out);\n\
-				   if (data.rows > 10000)\n\
-				   tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ode.tab in your home directory\");\n\
-				   else\n\
-				   tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
-				   tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-				   free(data.colnames);  free(y);\n\
-				   return;\n}\n", (end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
+						int i,j;\n\
+						TCpropensity(time, u, rates, udata);\n\
+						for (i=0; i < TCvars; ++i)\n\
+						{\n\
+							du[i] = 0;\n\
+							for (j=0; j < TCreactions; ++j)\n\
+							{\n\
+								if (getValue(TCstoic,TCreactions,i,j) != 0)\n\
+								du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);\n\
+							}\n\
+						}\n\
+						if (time > _time0_)\n\
+						{\n\
+							tc_showProgress(\"Deterministic simulation\",(int)(100 * time/%lf));\n\
+							_time0_ += %lf;\n\
+						}\n\
+					}\n\
+					\n\
+					\n\
+					void run() \n\
+					{\n\
+						TCinitialize();\n\
+						rates = malloc(TCreactions * sizeof(double));\n\
+						double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, 0);\n\
+						free(rates);\n\
+						if (!y) \
+						{\n\
+							tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
+							return;\n\
+						}\n\
+						Matrix data;\n\
+						data.rows = %i;\n\
+						char ** names = TCvarnames;\n\
+						if (%i)\n\
+						{\n\
+							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
+							free(y);\n\
+							y = y0;\n\
+							TCvars = TCreactions;\n\
+							names = TCreactionnames;\n\
+						}\n\
+						data.cols = 1+TCvars;\n\
+						data.values = y;\n\
+						data.rownames = 0;\n\
+						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+						data.colnames[0] = \"time\\0\";\n\
+						int i,j;\n\
+						for (i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
+						FILE * out = fopen(\"ode.tab\",\"w\");\n\
+						for (i=0; i < data.cols; ++i)\n\
+						{\n\
+							fprintf( out, data.colnames[i] );\n\
+							if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
+						}\n\
+						fprintf ( out, \"\\n\");\n\
+						for (i=0; i < data.rows; ++i)\n\
+						{\n\
+							for (j=0; j < data.cols; ++j)\n\
+							{\n\
+								if (j==0)\n\
+									fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
+								else   \n\
+									fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
+							}\n\
+							fprintf( out, \"\\n\");\n\
+						}\n\
+						fclose(out);\n\
+						if (data.rows > 10000)\n\
+							tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ode.tab in your home directory\");\n\
+						else\n\
+							tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
+						tc_plot(data,%i,\"Time Course Simulation\",0);\n\
+						free(data.colnames);  free(y);\n\
+						return;\n}\n", 
+						(end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
 	fclose(out);
 
 	cmd = malloc(50 * sizeof(char));

@@ -71,7 +71,7 @@ namespace Tinkercell
 		static double ** tableToArray(const DataTable<qreal>&);
 		Plot * surfacePlot;
 		DataFunction * function;
-		QComboBox * axisNames;
+		//QComboBox * axisNames;
 	};
 
 }

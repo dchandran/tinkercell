@@ -694,10 +694,10 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
+			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);			
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 			mode = zoom;		
-			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())
@@ -710,10 +710,10 @@ namespace Tinkercell
 	{
 		if (currentScene())
 		{
+			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
-			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())
@@ -727,13 +727,13 @@ namespace Tinkercell
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
+			mainWindow->currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
 			if (gradientType == QGradient::NoGradient)
 				mode = this->brush;
 			else
 				mode = this->gradient;
-			mainWindow->currentScene()->useDefaultBehavior = false;
 		}
 	}
 
@@ -742,10 +742,10 @@ namespace Tinkercell
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
+			mainWindow->currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/pencil.png")).scaled(25,25)));
 			mode = this->pen;
-			mainWindow->currentScene()->useDefaultBehavior = false;
 		}
 	}
 

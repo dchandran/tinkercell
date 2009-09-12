@@ -62,7 +62,16 @@ namespace Tinkercell
 					button->setToolTip(family->name);		
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					buttonsLayout->addWidget(button);
+					
+					QWidget * bwidget = new QWidget;
+					QHBoxLayout * blayout = new QHBoxLayout;
+					blayout->addWidget(button,0,Qt::AlignCenter);
+                    blayout->setContentsMargins(0,0,0,0);
+                    bwidget->setPalette(QPalette(QColor(255,255,255)));
+                    bwidget->setAutoFillBackground (true);
+                    bwidget->setLayout(blayout);
+					
+					buttonsLayout->addWidget(bwidget);
 					nodesButtonGroup.addButton(button,i);
 				}
 			}
@@ -97,7 +106,16 @@ namespace Tinkercell
 					button->setToolTip(family->name);
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					buttonsLayout->addWidget(button);
+					
+					QWidget * bwidget = new QWidget;
+					QHBoxLayout * blayout = new QHBoxLayout;
+					blayout->addWidget(button,0,Qt::AlignCenter);
+                    blayout->setContentsMargins(0,0,0,0);
+                    bwidget->setPalette(QPalette(QColor(255,255,255)));
+                    bwidget->setAutoFillBackground (true);
+                    bwidget->setLayout(blayout);
+					
+					buttonsLayout->addWidget(bwidget);
 					connectionsButtonGroup.addButton(button,i);
 				}
 			}

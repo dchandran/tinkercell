@@ -48,7 +48,7 @@ namespace Tinkercell
 			
 			QList<QString> keys = nodesTree->nodeFamilies.keys();
 			
-			for (int i=0; nodes.size() < 3 && i < keys.size(); ++i)
+			for (int i=0; nodes.size() < 5 && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 				
@@ -82,7 +82,7 @@ namespace Tinkercell
 			toolBox->addItem(connectionsTree,tr("Connections"));
 			QList<QString> keys = connectionsTree->connectionFamilies.keys();
 			
-			for (int i=0; connections.size() < 3 && i < keys.size(); ++i)
+			for (int i=0; connections.size() < 5 && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 				

@@ -46,6 +46,10 @@ namespace Tinkercell
         /*! \brief default window size*/
         QSize sizeHint() const;
 	
+	public slots:
+		/*! \brief connect to escape signal and add docking widget*/
+		bool setMainWindow(MainWindow * );
+	
 	signals:
         /*! \brief key pressed inside this widget*/
         void keyPressed(int, Qt::KeyboardModifiers);
@@ -53,6 +57,8 @@ namespace Tinkercell
         void nodeSelected(NodeFamily* nodeFamily);
 		 /*! \brief one of the items on the tree is selected (button pressed)*/
         void connectionSelected(ConnectionFamily* family);
+		/*! \brief exit the current operation*/
+        void sendEscapeSignal(const QWidget*);
 
     protected:
         /*! \brief sends escape signal if ESC or SPACE is pressed*/

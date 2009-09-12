@@ -23,7 +23,7 @@ namespace Tinkercell
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
-        arrowButton.setIconSize(QSize(50, 50));
+        arrowButton.setIconSize(QSize(30,30));
         //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
 
 		QVBoxLayout * buttonsLayout = new QVBoxLayout;
@@ -58,20 +58,11 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(50, 50));
+					button->setIconSize(QSize(30,30));
 					button->setToolTip(family->name);		
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					
-					QWidget * bwidget = new QWidget;
-					QHBoxLayout * blayout = new QHBoxLayout;
-					blayout->addWidget(button,0,Qt::AlignCenter);
-                    blayout->setContentsMargins(0,0,0,0);
-                    bwidget->setPalette(QPalette(QColor(255,255,255)));
-                    bwidget->setAutoFillBackground (true);
-                    bwidget->setLayout(blayout);
-					
-					buttonsLayout->addWidget(bwidget);
+					buttonsLayout->addWidget(button);
 					nodesButtonGroup.addButton(button,i);
 				}
 			}
@@ -102,20 +93,11 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(50, 50));
+					button->setIconSize(QSize(30,30));
 					button->setToolTip(family->name);
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					
-					QWidget * bwidget = new QWidget;
-					QHBoxLayout * blayout = new QHBoxLayout;
-					blayout->addWidget(button,0,Qt::AlignCenter);
-                    blayout->setContentsMargins(0,0,0,0);
-                    bwidget->setPalette(QPalette(QColor(255,255,255)));
-                    bwidget->setAutoFillBackground (true);
-                    bwidget->setLayout(blayout);
-					
-					buttonsLayout->addWidget(bwidget);
+					buttonsLayout->addWidget(button);
 					connectionsButtonGroup.addButton(button,i);
 				}
 			}
@@ -123,8 +105,8 @@ namespace Tinkercell
 		}
 		
 		QWidget * widget = new QWidget;	
-		buttonsLayout->setContentsMargins(0,0,0,0);
-		buttonsLayout->setSpacing(0);	
+		buttonsLayout->setContentsMargins(50,0,0,0);
+		buttonsLayout->setSpacing(20);	
 		widget->setLayout(buttonsLayout);
 		widget->setPalette(QPalette(QColor(255,255,255)));
 		widget->setAutoFillBackground (true);

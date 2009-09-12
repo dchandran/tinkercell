@@ -823,7 +823,7 @@ namespace Tinkercell
 			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 			completer->setCaseSensitivity(Qt::CaseInsensitive);
 			completer->setWrapAround(false);
-			outputWindow->outputWindowEditor()->setCompleter(completer);
+			outputWindow->consoleWindowEditor()->setCompleter(completer);
 		}
 	 }
 	 

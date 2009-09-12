@@ -17,23 +17,16 @@ namespace Tinkercell
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this)
 	{
-		QWidget * widget = new QWidget;		
-		QScrollArea * scrollArea = new QScrollArea;
-		scrollArea->setWidget(widget);
-		
 		toolBox = new QToolBox;
-		
-		toolBox->addItem(scrollArea,tr("Quick list"));
 		
 		arrowButton.setToolTip(QObject::tr("cursor"));
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
-        arrowButton.setIconSize(QSize(25, 25));
-        arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
+        arrowButton.setIconSize(QSize(50, 50));
+        //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
 
-        QVBoxLayout * buttonsLayout = new QVBoxLayout;
-		
+		QVBoxLayout * buttonsLayout = new QVBoxLayout;
 		buttonsLayout->addWidget(&arrowButton);
 		
 		QCoreApplication::setOrganizationName("TinkerCell");
@@ -48,7 +41,7 @@ namespace Tinkercell
 			settings.beginGroup("LastSelectedNodes");
 			
 			connect(this,SIGNAL(nodeSelected(NodeFamily*)),nodesTree,SIGNAL(nodeSelected(NodeFamily*)));
-			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),nodesTree,SLOT(nodeSelectedSlot(NodeFamily*)));
+			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
 			connect(this,SIGNAL(keyPressed(int, Qt::KeyboardModifiers)),nodesTree,SIGNAL(keyPressed(int, Qt::KeyboardModifiers)));
 			
 			toolBox->addItem(nodesTree,tr("Parts"));
@@ -65,7 +58,7 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(40, 20));
+					button->setIconSize(QSize(50, 50));
 					button->setToolTip(family->name);		
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
@@ -100,7 +93,7 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(40, 20));
+					button->setIconSize(QSize(50, 50));
 					button->setToolTip(family->name);
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
@@ -111,12 +104,30 @@ namespace Tinkercell
 			settings.endGroup();
 		}
 		
+		QWidget * widget = new QWidget;	
+		buttonsLayout->setContentsMargins(0,0,0,0);
+		buttonsLayout->setSpacing(0);	
 		widget->setLayout(buttonsLayout);
+		widget->setPalette(QPalette(QColor(255,255,255)));
+		widget->setAutoFillBackground (true);
+		
+		QScrollArea * scrollArea = new QScrollArea;
+		scrollArea->setWidget(widget);
+		scrollArea->setPalette(QPalette(QColor(255,255,255)));
+		scrollArea->setAutoFillBackground (true);
+		
+		toolBox->addItem(scrollArea,tr("Quick list"));
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(toolBox);
 		layout->setContentsMargins(0,0,0,0);
 		layout->setSpacing(0);
+		
+		toolBox->setCurrentIndex(2);
+		
+		connect(&nodesButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(nodeButtonPressed(int)));
+		connect(&connectionsButtonGroup,SIGNAL(buttonPressed(int)),this,SLOT(connectionButtonPressed(int)));
+		
 		setLayout(layout);
 	}
 	
@@ -126,8 +137,9 @@ namespace Tinkercell
 
 		  if (mainWindow)
 		  {
+			   connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			   connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
-			   QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+			   QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts and Connections"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 			   dock->setWindowFlags(Qt::Widget);
 			   return true;
 		  }
@@ -153,8 +165,10 @@ namespace Tinkercell
 	
 	void NodesTreeContainer::nodeSelectedSlot(NodeFamily* nodeFamily)
 	{
+		if (!nodeFamily || nodes.isEmpty()  || nodes.contains(nodeFamily)) return;
+		
 		QList<QAbstractButton*> buttons = nodesButtonGroup.buttons();
-		if (!nodeFamily || nodes.isEmpty() || nodes.size() != buttons.size()) return;
+		if (nodes.size() != buttons.size()) return;
 		
 		for (int i=nodes.size()-1; i > 0; --i)
 			if (buttons[i] && nodes[i] && nodes[i-1])
@@ -173,8 +187,10 @@ namespace Tinkercell
 	
     void NodesTreeContainer::connectionSelectedSlot(ConnectionFamily* family)
 	{
+		if (!family || connections.isEmpty()  || connections.contains(family)) return;
+		
 		QList<QAbstractButton*> buttons = connectionsButtonGroup.buttons();
-		if (!family || connections.isEmpty() || connections.size() != buttons.size()) return;
+		if (connections.size() != buttons.size()) return;
 		
 		for (int i=connections.size()-1; i > 0; --i)
 			if (buttons[i] && connections[i] && connections[i-1])

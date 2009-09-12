@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 #include <QToolBox>
+#include "ItemFamily.h"
 #include "MainWindow.h"
 #include "TreeButton.h"
 #include "NodesTree.h"

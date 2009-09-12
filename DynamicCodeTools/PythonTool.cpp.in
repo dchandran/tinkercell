@@ -156,8 +156,8 @@ namespace Tinkercell
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
 				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopPython()));					
-				connect(this,SIGNAL(pythonStarted()),outWin->outputWindowEditor(),SLOT(freeze()));
-				connect(this,SIGNAL(pythonFinished()),outWin->outputWindowEditor(),SLOT(unfreeze()));
+				connect(this,SIGNAL(pythonStarted()),outWin->consoleWindowEditor(),SLOT(freeze()));
+				connect(this,SIGNAL(pythonFinished()),outWin->consoleWindowEditor(),SLOT(unfreeze()));
 			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));

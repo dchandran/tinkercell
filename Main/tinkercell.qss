@@ -9,12 +9,29 @@ QMainWindow::separator {
  }
 
  QMainWindow::separator:hover {
-     background: #D6E4E6;
+     background: #DCDAFC;
  } 
  
   QMainWindow {
-     background: #E4E4E4;
+     background: #7B7777;
   } 
+  
+  QToolBox::tab {
+        background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
+                                 stop: 0 #E8E6F3, stop: 0.4 #C2C1D1,
+                                 stop: 0.45 #F0EFF8, stop: 1.0 #E4E2FB);
+        border-radius: 0px;
+		font: bold;
+        color: #01000D;
+     }
+
+     QToolBox::tab:selected, QToolBox::tab:hover {
+		background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #FEFFB9, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+         font: bold;
+         color: #02062F;
+     }
 
   QHeaderView:section {
       background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
@@ -65,7 +82,7 @@ QMainWindow::separator {
  } 
  
  QToolBar {
-     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
+    background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
                                  stop: 0 #C4C5C6, /*stop: 0.1 #969FC3,
                                  stop: 0.2 #CFD0D1, */ stop: 1.0 white);
      spacing: 2px; /* spacing between items in the tool bar */
@@ -161,18 +178,18 @@ QMainWindow::separator {
  
  
 QDockWidget {
-     border: 2px solid transparent;
+     border: 2px solid #C4C5C6;
  }
 
  QDockWidget::title {
      text-align: left; /* align the text to the left */
-     background: transparent;
-     padding-left: 5px;
+     background: #C4C5C6;
+     padding-left: 7px;
  }
 
  QDockWidget::close-button, QDockWidget::float-button {
      border: 1px solid transparent;
-     background: transparent;
+     background: #C4C5C6;
      padding: 0px;
  }
 

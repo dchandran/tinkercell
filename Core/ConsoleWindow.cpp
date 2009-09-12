@@ -392,6 +392,8 @@ namespace Tinkercell
 
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(&commandTextEdit);
+		layout->setContentsMargins(0,0,0,0);
+        layout->setSpacing(0);
 		setLayout(layout);
 
 		connect(&commandTextEdit,SIGNAL(commandExecuted(const QString&)),this,SIGNAL(commandExecuted(const QString&)));
@@ -482,12 +484,12 @@ namespace Tinkercell
 		instance->commandTextEdit.clearText();
 	}
 
-	ConsoleWindow * ConsoleWindow::outputWindow()
+	ConsoleWindow * ConsoleWindow::consoleWindow()
 	{
 		return instance;
 	}
 
-	CommandTextEdit * ConsoleWindow::outputWindowEditor()
+	CommandTextEdit * ConsoleWindow::consoleWindowEditor()
 	{
 		return &commandTextEdit;
 	}

@@ -223,7 +223,7 @@ namespace Tinkercell
 			addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
 		
 		if (enableConsoleWindow)
-			outputWindow = new ConsoleWindow(this);
+			consoleWindow = new ConsoleWindow(this);
 		
 		readSettings();
 
@@ -874,7 +874,7 @@ namespace Tinkercell
 				return;
 			}
 
-			if (toolsHash.contains(tr("Console Window")) && toolsHash[tr("Console Window")] )
+			/*if (toolsHash.contains(tr("Console Window")) && toolsHash[tr("Console Window")] )
 			{
 				(static_cast<Tool*>(toolsHash[tr("Console Window")]))->mainWindow = 0;
 				toolsHash.remove(tr("Console Window"));
@@ -883,7 +883,7 @@ namespace Tinkercell
 			{
 				(static_cast<Tool*>(toolsHash[tr("History")]))->mainWindow = 0;
 				toolsHash.remove(tr("History"));
-			}
+			}*/
 
 			QList<QString> keys = this->toolsHash.keys();
 			QList<Tool*> toolsHash = this->toolsHash.values();

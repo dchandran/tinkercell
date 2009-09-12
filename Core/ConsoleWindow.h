@@ -134,9 +134,9 @@ signals:
 		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
 		static void unfreeze();
 		/*! \brief the global command window*/
-		static ConsoleWindow * outputWindow();
+		static ConsoleWindow * consoleWindow();
 		/*! \brief the command window's editor*/
-		CommandTextEdit * outputWindowEditor();
+		CommandTextEdit * consoleWindowEditor();
 
 	signals:
 		/*! \brief the user requested to execute the given command*/

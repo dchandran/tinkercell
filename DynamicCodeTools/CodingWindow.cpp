@@ -813,8 +813,8 @@ namespace Tinkercell
 		file.close();
 		
 		funcNames.sort();
-		ConsoleWindow * outputWindow = ConsoleWindow::outputWindow();
-		if (outputWindow && outputWindow->outputWindowEditor())
+		ConsoleWindow * outputWindow = ConsoleWindow::consoleWindow();
+		if (outputWindow && outputWindow->consoleWindowEditor())
 		{
 			//funcNames.clear();
 			//funcNames << "apple" << "artichoke" << "beetle" << "crocodile" << "duck";

@@ -151,7 +151,7 @@ namespace Tinkercell
 			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
 			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 			
-			ConsoleWindow * outWin = ConsoleWindow::outputWindow();
+			ConsoleWindow * outWin = ConsoleWindow::consoleWindow();
 			if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));

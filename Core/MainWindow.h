@@ -1084,7 +1084,7 @@ namespace Tinkercell
 		/*! \brief the loaded dynamic libraries indexed by file name*/
 		QHash<QString,QLibrary*> dynamicallyLoadedLibraries;
 		/*! \brief the general window for command, errors, and messages*/
-		ConsoleWindow * outputWindow;
+		ConsoleWindow * consoleWindow;
 		/*! \brief the current layout */
 		QGridLayout layout;
 		/*! \brief read initial settings from settingsFileName

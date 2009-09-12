@@ -17,6 +17,7 @@ namespace Tinkercell
 {
      NodesTree::~NodesTree()
      {
+		  windowClosing(0,0);
           QList<NodeFamily*> list = nodeFamilies.values();
 
           for (int i=0; i < list.size(); ++i)
@@ -28,11 +29,6 @@ namespace Tinkercell
                     node = 0;
                }
           }
-     }
-
-     void NodesTree::sendEscapeSignal()
-     {
-          emit sendEscapeSignal(this);
      }
 
      QSize NodesTree::sizeHint() const
@@ -48,17 +44,16 @@ namespace Tinkercell
 
           treeWidget.header()->setResizeMode(QHeaderView::Stretch);
 
-          arrowButton.setToolTip(QObject::tr("cursor"));
-          arrowButton.setPalette(QPalette(QColor(255,255,255)));
-          arrowButton.setAutoFillBackground (true);
-          arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
-          arrowButton.setIconSize(QSize(25, 25));
+          //arrowButton.setToolTip(QObject::tr("cursor"));
+          //arrowButton.setPalette(QPalette(QColor(255,255,255)));
+          //arrowButton.setAutoFillBackground (true);
+          //arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
+          //arrowButton.setIconSize(QSize(25, 25));
           //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
 
 
-          treeWidget.addTopLevelItem(&arrowItem);
-          treeWidget.setItemWidget(&arrowItem,0,&arrowButton);
-          connect(&arrowButton,SIGNAL(pressed()),this,SLOT(sendEscapeSignal()));
+          //treeWidget.addTopLevelItem(&arrowItem);
+          //treeWidget.setItemWidget(&arrowItem,0,&arrowButton);
 
           layout->addWidget(&treeWidget);
           layout->setContentsMargins(0,0,0,0);
@@ -143,8 +138,7 @@ namespace Tinkercell
 
           if (mainWindow)
           {
-               connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
-               connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
+               //connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
                QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
                dock->setWindowFlags(Qt::Widget);
@@ -356,6 +350,29 @@ namespace Tinkercell
           }
           settings.endGroup();
      }
+	 
+	 QString NodesTree::iconFile(QString name)
+	 {
+		QString file = tr("NodeItems/");
+		file += name;
+		file.replace(tr(" "),tr("_"));
+		file += tr(".PNG");
+		return  file;
+	 }
+
+	 QString NodesTree::nodeImageFile(QString name)
+	 {
+		QString file = tr("NodeItems/");
+		file += name;
+		file.replace(tr(" "),tr("_"));
+		file += tr(".xml");
+		return  file;
+	 }
+	 
+	 QTreeWidget & NodesTree::widget() 
+	 { 
+		return treeWidget; 
+	}
 }
 
 

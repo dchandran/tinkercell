@@ -62,26 +62,12 @@ namespace Tinkercell
         bool setMainWindow(MainWindow *);
         /*! \brief gets the icon file name for a family
         \param ConnectionFamily* family*/
-        static QString iconFile(ConnectionFamily * family)
-        {
-            QString file = tr("NodesTree/Icons/");
-            file += family->name;
-            file.replace(tr(" "),tr("_"));
-            file += tr(".PNG");
-            return  file;
-        }
+        static QString iconFile(ConnectionFamily * family);
         /*! \brief gets the icon file name for a family
          \param QString family name*/
-        static QString arrowImageFile(QString name)
-        {
-            QString file = tr("ArrowItems/");
-            file += name;
-            file.replace(tr(" "),tr("_"));
-            file += tr(".xml");
-            return  file;
-        }
+        static QString arrowImageFile(QString name);
         /*! \brief gets the tree widget that displays the connections*/
-        QTreeWidget & widget() { return treeWidget; }
+        QTreeWidget & widget();
         /*! \brief destructor -- removes all the families from memory*/
         ~ConnectionsTree();
         QSize sizeHint() const;

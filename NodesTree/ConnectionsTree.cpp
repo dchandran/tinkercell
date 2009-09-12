@@ -22,6 +22,7 @@ namespace Tinkercell
 {
     ConnectionsTree::~ConnectionsTree()
     {
+		windowClosing(0,0);
         if (connectionFamilies.size() > 0)
         {
             QList<ConnectionFamily*> list = connectionFamilies.values();
@@ -124,7 +125,7 @@ namespace Tinkercell
 
         if (mainWindow)
         {
-            connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
+            //connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
             connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
             mainWindow->addDockingWindow(tr("Connections"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
             return true;
@@ -211,7 +212,29 @@ namespace Tinkercell
         }
         settings.endGroup();
     }
-
+	
+	QString ConnectionsTree::iconFile(ConnectionFamily * family)
+	{
+		QString file = tr("NodesTree/Icons/");
+		file += family->name;
+		file.replace(tr(" "),tr("_"));
+		file += tr(".PNG");
+		return  file;
+	}
+	
+	QString ConnectionsTree::arrowImageFile(QString name)
+	{
+		QString file = tr("ArrowItems/");
+		file += name;
+		file.replace(tr(" "),tr("_"));
+		file += tr(".xml");
+		return  file;
+	}
+	
+	QTreeWidget & ConnectionsTree::widget() 
+	{ 
+		return treeWidget; 
+	}
 }
 
 

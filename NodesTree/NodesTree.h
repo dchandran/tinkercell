@@ -74,31 +74,17 @@ namespace Tinkercell
             Icon files are NodeItems/nodename.png, where nodename is the node family name.
            \param QString node family name
         */
-        static QString iconFile(QString name)
-        {
-            QString file = tr("NodeItems/");
-            file += name;
-            file.replace(tr(" "),tr("_"));
-            file += tr(".PNG");
-            return  file;
-        }
+        static QString iconFile(QString name);
 
         /*! \brief get the name of a node family's node graphics file from its name.
             Graphics files are NodeItems/nodename.xml, where nodename is the node family name.
            \param QString node family name
         */
-        static QString nodeImageFile(QString name)
-        {
-            QString file = tr("NodeItems/");
-            file += name;
-            file.replace(tr(" "),tr("_"));
-            file += tr(".xml");
-            return  file;
-        }
+        static QString nodeImageFile(QString name);
 
         /*! \brief get the tree widget located inside this Tool.
         */
-        QTreeWidget & widget() { return treeWidget; }
+        QTreeWidget & widget();
 
         /*! \brief destructor*/
         ~NodesTree();
@@ -113,8 +99,6 @@ namespace Tinkercell
         void buttonPressed(NodeFamily * node);
         /*! \brief load a new hierarchy of nodes from a new xml file*/
         void changeTree();
-        /*! \brief exit the current operation*/
-        void sendEscapeSignal();
 
     signals:
         /*! \brief one of the nodes in the tree has been selected*/
@@ -149,9 +133,9 @@ namespace Tinkercell
         /*! \brief tree widget that holds the buttons for each node family*/
         QTreeWidget treeWidget;
         /*! \brief the arrow button at the very top of the tree of nodes*/
-        QToolButton arrowButton;
+        //QToolButton arrowButton;
         /*! \brief the tree item containing the arrow button at the very top of the tree of nodes*/
-        QTreeWidgetItem arrowItem;
+        //QTreeWidgetItem arrowItem;
 
         /*! \brief list of available node graphics files*/
         QListWidget * nodesListWidget;

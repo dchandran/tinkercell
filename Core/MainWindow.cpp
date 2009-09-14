@@ -146,6 +146,7 @@ namespace Tinkercell
 						emit setupFunctionPointersSlot(0,lib);
 						f2();
 						dynamicallyLoadedLibraries.insert(lib->fileName(),lib);
+						statusBar()->showMessage(lib->fileName() + tr(" successfully loaded"));
 					}
 					catch(...)
 					{

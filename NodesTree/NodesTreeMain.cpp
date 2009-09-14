@@ -26,8 +26,8 @@ namespace Tinkercell
         arrowButton.setIconSize(QSize(20,20));
         //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
 
-		QVBoxLayout * buttonsLayout = new QVBoxLayout;
-		buttonsLayout->addWidget(&arrowButton);
+		QGridLayout * buttonsLayout = new QGridLayout;
+		buttonsLayout->addWidget(&arrowButton,0,0,Qt::AlignCenter);
 		
 		QCoreApplication::setOrganizationName("TinkerCell");
 		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
@@ -77,7 +77,7 @@ namespace Tinkercell
 					button->setToolTip(family->name);		
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					buttonsLayout->addWidget(button);
+					buttonsLayout->addWidget(button,i+1,0,Qt::AlignCenter);
 					nodesButtonGroup.addButton(button,i);
 				}
 			}
@@ -127,7 +127,7 @@ namespace Tinkercell
 					button->setToolTip(family->name);
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
-					buttonsLayout->addWidget(button);
+					buttonsLayout->addWidget(button,i+1,1,Qt::AlignCenter);
 					connectionsButtonGroup.addButton(button,i);
 				}
 			}
@@ -137,7 +137,7 @@ namespace Tinkercell
 		QWidget * widget = new QWidget;	
 		widgetsToUpdate << widget;
 		
-		buttonsLayout->setContentsMargins(50,0,0,0);
+		buttonsLayout->setContentsMargins(5,0,0,0);
 		buttonsLayout->setSpacing(20);	
 		widget->setLayout(buttonsLayout);
 		widget->setPalette(QPalette(QColor(255,255,255)));

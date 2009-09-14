@@ -67,12 +67,10 @@ namespace Tinkercell
 				qreal asp = (double)nodeFamily->pixmap.height()/(double)nodeFamily->pixmap.width();
 
 				mainWindow->setCursor(QCursor(nodeFamily->pixmap.scaled(30,(int)(30*asp))));
-				nodesTree->setCursor(nodeFamily->pixmap.scaled(30,(int)(30*asp)));
 			}
 			else
 			{
 				mainWindow->setCursor(Qt::ArrowCursor);
-				nodesTree->setCursor(Qt::ArrowCursor);
 			}
 
 			if (mainWindow->currentScene())

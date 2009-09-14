@@ -9,19 +9,24 @@ QMainWindow::separator {
  }
 
  QMainWindow::separator:hover {
-     background: #DCDAFC;
+     background: #ACACAC;
  } 
  
   QMainWindow {
-     background: #7B7777;
+     background: #7B7B7B;
   } 
   
   QToolBox::tab {
-        background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
-                                 stop: 0 #E8E6F3, stop: 0.4 #C2C1D1,
-                                 stop: 0.45 #F0EFF8, stop: 1.0 #E4E2FB);
-        border-radius: 0px;
-		font: bold;
+        background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+		border: 2px solid #C4C4C3;
+		border-bottom-color: #C2C7CB; /* same as the pane color */
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+		min-width: 8ex;
+		padding: 2px;
+        font: bold;
         color: #01000D;
      }
 
@@ -149,7 +154,7 @@ QMainWindow::separator {
      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
                                  stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
                                  stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
-     border: 2px solid #C4C4C3;
+     border: 1px solid #C4C4C3;
      border-bottom-color: #C2C7CB; /* same as the pane color */
      border-top-left-radius: 4px;
      border-top-right-radius: 4px;
@@ -183,7 +188,9 @@ QDockWidget {
 
  QDockWidget::title {
      text-align: left; /* align the text to the left */
-     background: #C4C5C6;
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
      padding-left: 7px;
  }
 

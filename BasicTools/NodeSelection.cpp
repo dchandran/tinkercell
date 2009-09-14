@@ -326,7 +326,7 @@ namespace Tinkercell
 				tool->setZValue(scene->ZValue()+0.1);
 
 				tool->resetTransform();
-				tool->scale(1.0/scalex,1.0/scaley);
+				tool->scale(0.5/scalex,0.5/scaley);
 				tool->setPos(QPointF(maxx,miny));
 
 				QRectF bounds = tool->sceneBoundingRect();

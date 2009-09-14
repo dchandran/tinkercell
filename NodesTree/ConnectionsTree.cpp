@@ -133,13 +133,13 @@ namespace Tinkercell
         return false;
     }
 
-    void ConnectionsTree::keyPressEvent ( QKeyEvent * event )
+    /*void ConnectionsTree::keyPressEvent ( QKeyEvent * event )
     {
         emit keyPressed(event->key(),event->modifiers());
         if (event->key() == Qt::Key_Escape || event->key() == Qt::Key_Space)
             emit sendEscapeSignal(this);
 
-    }
+    }*/
 
     void ConnectionsTree::changeTree()
     {

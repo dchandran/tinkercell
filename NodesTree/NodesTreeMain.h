@@ -76,6 +76,8 @@ namespace Tinkercell
         void nodeSelectedSlot(NodeFamily* nodeFamily);
 		 /*! \brief one of the items on the tree is selected (button pressed)*/
         void connectionSelectedSlot(ConnectionFamily* family);
+		/*! \brief exit the current operation*/
+        void escapeSignalSlot(const QWidget*);
 		
     private:
 
@@ -93,6 +95,9 @@ namespace Tinkercell
 		QList<NodeFamily*> nodes;
 		/*! \brief the list of connections in the quick list*/
 		QList<ConnectionFamily*> connections;
+		/*! \brief the widgets for which the cursor needs to be updated*/
+		QList<QWidget*> widgetsToUpdate;
+		
     };
 
 

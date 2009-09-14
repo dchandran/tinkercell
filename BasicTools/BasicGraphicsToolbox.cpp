@@ -695,9 +695,10 @@ namespace Tinkercell
 		if (currentScene())
 		{
 			currentScene()->useDefaultBehavior = false;
-			mainWindow->sendEscapeSignal(this);			
+			mainWindow->sendEscapeSignal(this);	
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
-			mode = zoom;		
+			mode = zoom;
+			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())
@@ -714,6 +715,7 @@ namespace Tinkercell
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
+			currentScene()->useDefaultBehavior = false;
 		}
 		else
 			if (currentTextEditor())

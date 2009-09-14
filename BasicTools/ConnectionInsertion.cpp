@@ -481,12 +481,10 @@ namespace Tinkercell
 			if (connectionFamily != 0 && !connectionFamily->pixmap.isNull())
 			{
 				mainWindow->setCursor(QCursor(connectionFamily->pixmap.scaled(30,30)));
-				connectionsTree->setCursor(connectionFamily->pixmap.scaled(30,30));
 			}
 			else
 			{
 				mainWindow->setCursor(Qt::ArrowCursor);
-				connectionsTree->setCursor(Qt::ArrowCursor);
 			}
 			if (mainWindow->currentScene())
 			{

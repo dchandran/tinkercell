@@ -381,7 +381,7 @@ namespace Tinkercell
 							nodes = connectionHandle->nodes();
 						QStringList s1,s2;
 						for (int j=0; j < nodesIn.size(); ++j)
-							if (nodesIn[j])
+							if (nodesIn[j] && nodesIn[j]->isA(tr("species")) && !nodesIn[j]->isA(tr("empty")))
 								s1 += nodesIn[j]->fullName();
 						for (int j=0; j < nodes.size(); ++j)
 							if (nodes[j] && !nodesIn.contains(nodes[j]) && !nodesOut.contains(nodes[j]))
@@ -400,9 +400,16 @@ namespace Tinkercell
 							}
 							if (win && !alreadyDone)
 							{
-								nDat->value(tr("Vmax"),0) = 1.0;
-								nDat->value(tr("Km"),0) = 1.0;
-								sDat->value(0,0) = name + tr(".Vmax * ") + s2.join(tr("*")) + tr("*") + s1.join(tr("*")) + tr("/(") + name + tr(".Km + ") + s1.join(tr("*")) + tr(")");
+								if (s1.isEmpty())
+								{
+									sDat->value(0,0) = name + tr(".k0 * ") + s2.join(tr("*"));
+								}
+								else
+								{
+									nDat->value(tr("Vmax"),0) = 1.0;
+									nDat->value(tr("Km"),0) = 1.0;
+									sDat->value(0,0) = name + tr(".Vmax * ") + s2.join(tr("*")) + tr("*") + s1.join(tr("*")) + tr("/(") + name + tr(".Km + ") + s1.join(tr("*")) + tr(")");
+								}
 								win->changeData(connectionHandle->fullName() + tr("'s kinetics changed"),
 												QList<ItemHandle*>() << connectionHandle << connectionHandle, 
 												QList<QString>() << tr("Numerical Attributes") << tr("Rates"),

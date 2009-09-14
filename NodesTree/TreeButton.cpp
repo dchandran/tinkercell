@@ -37,7 +37,19 @@ namespace Tinkercell
 		setAutoFillBackground (true);
 		setText(nodeFamily->name);
 		setIcon(QIcon(nodeFamily->pixmap));
-		setIconSize(QSize(40, 20));
+		
+		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
+		{
+			int w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
+			if (w > 50) w = 50;
+			setIconSize(QSize(w,20));
+		}
+		else
+		{
+			int h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
+			if (h > 50) h = 50;
+			setIconSize(QSize(20, h));
+		}
 	}
 	
 	FamilyTreeButton::FamilyTreeButton(ConnectionFamily* family, QWidget * parent) : QToolButton(parent), nodeFamily(0), connectionFamily(family)
@@ -60,7 +72,19 @@ namespace Tinkercell
 		setAutoFillBackground (true);	
 		setText(connectionFamily->name);
 		setIcon(QIcon(connectionFamily->pixmap));
-		setIconSize(QSize(40, 20));
+		
+		if (connectionFamily->pixmap.width() > connectionFamily->pixmap.height())
+		{
+			int w = 20 * connectionFamily->pixmap.width()/connectionFamily->pixmap.height();
+			if (w > 50) w = 50;
+			setIconSize(QSize(w,20));
+		}
+		else
+		{
+			int h = 20 * connectionFamily->pixmap.height()/connectionFamily->pixmap.width();
+			if (h > 50) h = 50;
+			setIconSize(QSize(20, h));
+		}
 	}
 	void FamilyTreeButton::contextMenuEvent(QContextMenuEvent * event)
 	{

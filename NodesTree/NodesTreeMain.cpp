@@ -23,7 +23,7 @@ namespace Tinkercell
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
-        arrowButton.setIconSize(QSize(30,30));
+        arrowButton.setIconSize(QSize(20,20));
         //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
 
 		QVBoxLayout * buttonsLayout = new QVBoxLayout;
@@ -36,6 +36,8 @@ namespace Tinkercell
 		
 		if (nodesTree)
 		{
+			widgetsToUpdate << nodesTree;
+			
 			NodeFamily * family;
 			
 			settings.beginGroup("LastSelectedNodes");
@@ -58,7 +60,20 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(30,30));
+					
+					if (family->pixmap.width() > family->pixmap.height())
+					{
+						int w = 20 * family->pixmap.width()/family->pixmap.height();
+						if (w > 50) w = 50;
+						button->setIconSize(QSize(w,20));
+					}
+					else
+					{
+						int h = 20 * family->pixmap.height()/family->pixmap.width();
+						if (h > 50) h = 50;
+						button->setIconSize(QSize(20, h));
+					}
+					
 					button->setToolTip(family->name);		
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
@@ -71,6 +86,8 @@ namespace Tinkercell
 		
 		if (connectionsTree)
 		{
+			widgetsToUpdate << connectionsTree;
+			
 			ConnectionFamily * family;
 			
 			settings.beginGroup("LastSelectedConnections");
@@ -93,7 +110,20 @@ namespace Tinkercell
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
-					button->setIconSize(QSize(30,30));
+					
+					if (family->pixmap.width() > family->pixmap.height())
+					{
+						int w = 20 * family->pixmap.width()/family->pixmap.height();
+						if (w > 50) w = 50;
+						button->setIconSize(QSize(w,20));
+					}
+					else
+					{
+						int h = 20 * family->pixmap.height()/family->pixmap.width();
+						if (h > 50) h = 50;
+						button->setIconSize(QSize(20, h));
+					}
+					
 					button->setToolTip(family->name);
 					button->setPalette(QPalette(QColor(255,255,255)));
 					button->setAutoFillBackground (true);
@@ -105,6 +135,8 @@ namespace Tinkercell
 		}
 		
 		QWidget * widget = new QWidget;	
+		widgetsToUpdate << widget;
+		
 		buttonsLayout->setContentsMargins(50,0,0,0);
 		buttonsLayout->setSpacing(20);	
 		widget->setLayout(buttonsLayout);
@@ -115,8 +147,9 @@ namespace Tinkercell
 		scrollArea->setWidget(widget);
 		scrollArea->setPalette(QPalette(QColor(255,255,255)));
 		scrollArea->setAutoFillBackground (true);
+		widgetsToUpdate << scrollArea;
 		
-		toolBox->addItem(scrollArea,tr("Quick list"));
+		toolBox->addItem(scrollArea,tr("Recent Items"));
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addWidget(toolBox);
@@ -131,6 +164,13 @@ namespace Tinkercell
 		setLayout(layout);
 	}
 	
+	void NodesTreeContainer::escapeSignalSlot(const QWidget*)
+	{	
+		for (int i=0; i < widgetsToUpdate.size(); ++i)
+			if (widgetsToUpdate[i])
+				widgetsToUpdate[i]->setCursor(Qt::ArrowCursor);
+	}
+	
 	bool NodesTreeContainer::setMainWindow(MainWindow * main)
 	{
 		  Tool::setMainWindow(main);
@@ -139,6 +179,7 @@ namespace Tinkercell
 		  {
 			   connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			   connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
+			   connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignalSlot(const QWidget*)));
 			   QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts and Connections"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 			   dock->setWindowFlags(Qt::Widget);
 			   return true;
@@ -165,7 +206,25 @@ namespace Tinkercell
 	
 	void NodesTreeContainer::nodeSelectedSlot(NodeFamily* nodeFamily)
 	{
-		if (!nodeFamily || nodes.isEmpty()  || nodes.contains(nodeFamily)) return;
+		if (!nodeFamily || nodes.isEmpty()) return;
+		
+		int w = 20, h = 20;
+		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
+		{
+			w = 20 * nodeFamily->pixmap.width()/nodeFamily->pixmap.height();
+			if (w > 50) w = 50;
+		}
+		else
+		{
+			h = 20 * nodeFamily->pixmap.height()/nodeFamily->pixmap.width();
+			if (h > 50) h = 50;
+		}
+		
+		for (int i=0; i < widgetsToUpdate.size(); ++i)
+			if (widgetsToUpdate[i])
+				widgetsToUpdate[i]->setCursor(QCursor(nodeFamily->pixmap.scaled(w,h)));
+		
+		if (nodes.contains(nodeFamily)) return;
 		
 		QList<QAbstractButton*> buttons = nodesButtonGroup.buttons();
 		if (nodes.size() != buttons.size()) return;
@@ -176,18 +235,50 @@ namespace Tinkercell
 				nodes[i] = nodes[i-1];
 				buttons[i]->setIcon(QIcon(nodes[i]->pixmap));
 				buttons[i]->setToolTip(nodes[i]->name);
-				buttons[i]->setText(nodes[i]->name);					
+				buttons[i]->setText(nodes[i]->name);	
+				if (nodes[i]->pixmap.width() > nodes[i]->pixmap.height())
+				{
+					int w = 20 * nodes[i]->pixmap.width()/nodes[i]->pixmap.height();
+					if (w > 50) w = 50;
+					buttons[i]->setIconSize(QSize(w,20));
+				}
+				else
+				{
+					int h = 20 * nodes[i]->pixmap.height()/nodes[i]->pixmap.width();
+					if (h > 50) h = 50;
+					buttons[i]->setIconSize(QSize(20, h));
+				}
 			}
 		
 		nodes[0] = nodeFamily;
 		buttons[0]->setIcon(QIcon(nodes[0]->pixmap));
 		buttons[0]->setToolTip(nodes[0]->name);
-		buttons[0]->setText(nodes[0]->name);				
+		buttons[0]->setText(nodes[0]->name);
+		buttons[0]->setIconSize(QSize(w,h));
 	}
 	
     void NodesTreeContainer::connectionSelectedSlot(ConnectionFamily* family)
 	{
-		if (!family || connections.isEmpty()  || connections.contains(family)) return;
+		if (!family || connections.isEmpty()) return; 
+		
+		int w = 20, h = 20;
+		
+		if (family->pixmap.width() > family->pixmap.height())
+		{
+			w = 20 * family->pixmap.width()/family->pixmap.height();
+			if (w > 50) w = 50;
+		}
+		else
+		{
+			h = 20 * family->pixmap.height()/family->pixmap.width();
+			if (h > 50) h = 50;
+		}
+		
+		for (int i=0; i < widgetsToUpdate.size(); ++i)
+			if (widgetsToUpdate[i])
+				widgetsToUpdate[i]->setCursor(QCursor(family->pixmap.scaled(w,h)));
+				
+		if (connections.contains(family)) return;
 		
 		QList<QAbstractButton*> buttons = connectionsButtonGroup.buttons();
 		if (connections.size() != buttons.size()) return;
@@ -205,6 +296,7 @@ namespace Tinkercell
 		buttons[0]->setIcon(QIcon(connections[0]->pixmap));
 		buttons[0]->setToolTip(connections[0]->name);
 		buttons[0]->setText(connections[0]->name);
+		buttons[0]->setIconSize(QSize(w, h));
 	}
 	
 	NodesTreeContainer::~NodesTreeContainer()

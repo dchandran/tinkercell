@@ -110,7 +110,7 @@ namespace Tinkercell
 
     protected:
         /*! \brief sends escape signal if ESC or SPACE is pressed*/
-        void keyPressEvent ( QKeyEvent * event );
+        //void keyPressEvent ( QKeyEvent * event );
         /*! \brief context menu is used to change tree file*/
         void contextMenuEvent(QContextMenuEvent * event);
 

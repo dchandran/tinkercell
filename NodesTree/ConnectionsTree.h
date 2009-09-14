@@ -89,7 +89,7 @@ namespace Tinkercell
         void sendEscapeSignal(const QWidget*);
     protected:
         /*! \brief ESC or SPACE trigger escape signal*/
-        void keyPressEvent ( QKeyEvent * event );
+        //void keyPressEvent ( QKeyEvent * event );
         /*! \brief context menu displays the option to replace the tree file*/
         void contextMenuEvent(QContextMenuEvent * event);
         /*! \brief the tree widget that displays the family tree*/

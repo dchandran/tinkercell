@@ -52,6 +52,9 @@ namespace Tinkercell
 		/*! \brief parse text and insert items*/
 		void parse(TextEditor * editor);
 		
+		/*! \brief parse text and insert items*/
+		void parse();
+		
 		/*! \brief some text inside this editor has been changed
             \param QString old text
             \param QString new text

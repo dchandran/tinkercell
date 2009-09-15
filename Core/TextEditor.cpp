@@ -25,10 +25,14 @@ text-based representation of a network.
 #include <QRegExp>
 #include <QTextCursor>
 #include <QListWidgetItem>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QHeaderView>
 
 namespace Tinkercell
 {
 
+	bool TextEditor::SideBarEnabled = true;
 	void TextEditor::push(QUndoCommand * c)
 	{
 		if (!c) return;
@@ -107,7 +111,7 @@ namespace Tinkercell
 		emit textChanged(this, tr(""), tr(""), oldText);
 	}
 
-	TextEditor::TextEditor( QWidget * parent) : CodeEditor(parent)
+	TextEditor::TextEditor( QWidget * parent) : CodeEditor(parent), editorWidget(0)
 	{
 		symbolsTable = 0;
 		historyStack = 0;
@@ -332,5 +336,97 @@ namespace Tinkercell
 			cursor.setPosition(pos);
 			textEdit->setTextCursor(cursor);
 		}
+	}
+	
+	void TextEditor::addSideBarWidget(QWidget * w)
+	{
+		if (editorWidget)
+			editorWidget->addSideBarWidget(w);
+	}
+	
+	void TextEditor::removeSideBarWidget(QWidget * w)
+	{
+		if (editorWidget)
+			editorWidget->removeSideBarWidget(w);
+	}
+	
+	void TextEditor::setSideBarOrientation(Qt::Orientation orientation)
+	{
+		if (editorWidget)
+			editorWidget->setSideBarOrientation(orientation);
+	}
+	
+	QWidget * TextEditor::widget(Qt::Orientation orientation)
+	{
+		if (editorWidget) return editorWidget;
+		
+		editorWidget = new TextEditorWidget(this,orientation);
+		editorWidget->setup();
+		return editorWidget;
+	}
+	
+	void TextEditor::TextEditorWidget::addSideBarWidget(QWidget * w)
+	{
+		if (!w) return;
+		sideBarWidgets << w;
+		setup();
+	}
+	
+	void TextEditor::TextEditorWidget::removeSideBarWidget(QWidget * w)
+	{
+		if (!w || sideBarWidgets.contains(w)) return;
+		sideBarWidgets.removeAll(w);
+		setup();
+	}
+	
+	void TextEditor::TextEditorWidget::setSideBarOrientation(Qt::Orientation orientation)
+	{
+		if (splitter)
+			splitter->setOrientation(orientation);
+	}
+	
+	TextEditor::TextEditorWidget::TextEditorWidget(TextEditor* te,Qt::Orientation orientation)
+	{
+		textEditor = te;
+		sideBar = 0;
+		splitter = new QSplitter;
+		splitter->setOrientation(orientation);
+		
+		splitter->addWidget(textEditor,20);
+		
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->setContentsMargins(0,0,0,0);
+		
+		layout->addWidget(splitter);
+		setLayout(layout);
+	}
+	
+	void TextEditor::TextEditorWidget::setup()
+	{
+		if (!splitter) return;
+		
+		QTableWidget * tableWidget;
+		
+		if (sideBar)
+		{
+			tableWidget = static_cast<QTableWidget*>(sideBar);
+		}
+		else
+		{
+			sideBar = tableWidget = new QTableWidget;
+			splitter->addWidget(tableWidget,0);
+		}
+		
+		tableWidget->clear();
+		tableWidget->setRowCount(sideBarWidgets.size());
+		tableWidget->setColumnCount(1);
+		tableWidget->horizontalHeader()->hide();
+		tableWidget->verticalHeader()->hide();
+		
+		for (int i=0; i < sideBarWidgets.size(); ++i)
+			if (sideBarWidgets[i])
+			{
+				tableWidget->setCellWidget(i,0,sideBarWidgets[i]);
+			}
 	}
 }

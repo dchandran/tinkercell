@@ -210,7 +210,10 @@ namespace Tinkercell
 		this->textEditor = editor;
 		editor->networkWindow = this;
 		
-		setWidget(editor);
+		if (TextEditor::SideBarEnabled)
+			setWidget(editor->widget());
+		else
+			setWidget(editor);
 		setAttribute(Qt::WA_DeleteOnClose);
 		
 		editor->symbolsTable = &symbolsTable;

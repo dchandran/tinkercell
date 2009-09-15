@@ -177,7 +177,21 @@ namespace Tinkercell
 		{
 			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(win->textEditor->document());
 			connect(this,SIGNAL(validSyntax(bool)),as,SLOT(setValid(bool)));
+			
+			QToolButton * button = new QToolButton;
+			
+			button->setIcon(QIcon(":/images/antimony.png"));
+			button->setIconSize(QSize(30,30));
+			button->setText(tr("Antimony"));
+			button->setToolTip(tr("parse using Antimony"));
+			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
+			win->textEditor->addSideBarWidget(button);
 		}
+	}
+	
+	void AntimonyEditor::parse()
+	{
+		parse(currentTextEditor());
 	}
 	
 	void AntimonyEditor::parse(TextEditor * editor)

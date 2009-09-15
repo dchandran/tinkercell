@@ -46,9 +46,9 @@ namespace Tinkercell
 			mainWindow->addParser(this);
 			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),
 					this,SLOT(windowOpened(NetworkWindow*)));
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			QAction * action = mainWindow->contextEditorMenu.addAction(tr("To Graphical Mode"),this,SLOT(insertModule()));
-			action->setIcon(QIcon(tr(":/images/antimony.png")));
+			//connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			//QAction * action = mainWindow->contextEditorMenu.addAction(tr("To Graphical Mode"),this,SLOT(insertModule()));
+			//action->setIcon(QIcon(tr(":/images/antimony.png")));
 			
 			toolLoaded(0);
 		}
@@ -192,7 +192,8 @@ namespace Tinkercell
 			button->setIconSize(QSize(30,30));
 			button->setText(tr("To Graphics"));
 			button->setToolTip(tr("export Module to the graphics window"));
-			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
+			connect(button,SIGNAL(pressed()),this,SLOT(insertModule()));
+			win->textEditor->addSideBarWidget(button);
 		}
 	}
 	

@@ -367,14 +367,14 @@ namespace Tinkercell
 	
 	void TextEditor::TextEditorWidget::addSideBarWidget(QWidget * w)
 	{
-		if (!w) return;
+		if (!w || sideBarWidgets.contains(w)) return;
 		sideBarWidgets << w;
 		setup();
 	}
 	
 	void TextEditor::TextEditorWidget::removeSideBarWidget(QWidget * w)
 	{
-		if (!w || sideBarWidgets.contains(w)) return;
+		if (!w) return;
 		sideBarWidgets.removeAll(w);
 		setup();
 	}
@@ -415,18 +415,18 @@ namespace Tinkercell
 		{
 			sideBar = tableWidget = new QTableWidget;
 			splitter->addWidget(tableWidget);
-			splitter->setStretchFactor(0,10);
+			splitter->setStretchFactor(0,25);
 			splitter->setStretchFactor(1,0);
 		}
 		
-		tableWidget->clear();
+		
 		tableWidget->setRowCount(sideBarWidgets.size());
 		tableWidget->setColumnCount(1);
 		tableWidget->horizontalHeader()->hide();
 		tableWidget->verticalHeader()->hide();
 		
 		for (int i=0; i < sideBarWidgets.size(); ++i)
-			if (sideBarWidgets[i])
+			if (sideBarWidgets[i] && (!tableWidget->cellWidget(i,0) || !sideBarWidgets.contains(tableWidget->cellWidget(i,0))))
 			{
 				tableWidget->setCellWidget(i,0,sideBarWidgets[i]);
 			}

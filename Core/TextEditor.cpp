@@ -392,7 +392,7 @@ namespace Tinkercell
 		splitter = new QSplitter;
 		splitter->setOrientation(orientation);
 		
-		splitter->addWidget(textEditor,20);
+		splitter->addWidget(textEditor);
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->setContentsMargins(0,0,0,0);
@@ -414,7 +414,9 @@ namespace Tinkercell
 		else
 		{
 			sideBar = tableWidget = new QTableWidget;
-			splitter->addWidget(tableWidget,0);
+			splitter->addWidget(tableWidget);
+			splitter->setStretchFactor(0,10);
+			splitter->setStretchFactor(1,0);
 		}
 		
 		tableWidget->clear();

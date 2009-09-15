@@ -186,6 +186,13 @@ namespace Tinkercell
 			button->setToolTip(tr("parse using Antimony"));
 			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
 			win->textEditor->addSideBarWidget(button);
+			
+			button = new QToolButton;			
+			button->setIcon(QIcon(":/images/plug.png"));
+			button->setIconSize(QSize(30,30));
+			button->setText(tr("To Graphics"));
+			button->setToolTip(tr("export Module to the graphics window"));
+			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
 		}
 	}
 	
@@ -445,6 +452,12 @@ namespace Tinkercell
 						handlesInModule[j]->setParent(moduleHandle);
 						RenameCommand::findReplaceAllHandleData(handlesInModule,handlesInModule[j]->name,handlesInModule[j]->fullName());
 					}
+			}
+			
+			if (handlesInModule.isEmpty())
+			{
+				itemsToInsert.removeAll(moduleText);
+				delete moduleHandle;
 			}
 		}
 		

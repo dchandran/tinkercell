@@ -68,7 +68,6 @@ namespace Tinkercell
         QSettings settings("TinkerCell", "TinkerCell");
         settings.beginGroup("ConnectionsTree");
        //QString xmlFile = settings.value("file", filename).toString();
-        settings.endGroup();
         QString xmlFile ;
         if (xmlFile.isNull() || xmlFile.isEmpty())
             xmlFile = (appDir + tr("/NodesTree/ConnectionsTree.xml"));
@@ -107,6 +106,8 @@ namespace Tinkercell
                 }
             }
         }
+		
+		settings.endGroup();
     }
 
 

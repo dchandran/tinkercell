@@ -28,12 +28,6 @@ namespace Tinkercell
 		
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
-
-		QToolButton * print = new QToolButton(this);
-		print->setIcon(QIcon(":/images/print.png"));
-		print->setText(tr("Print to file"));
-		print->setToolTip(tr("Print graph to file"));
-		print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
 		QToolButton * copy = new QToolButton(this);
 		copy->setIcon(QIcon(":/images/copy.png"));
@@ -54,7 +48,18 @@ namespace Tinkercell
 		setLabels->setPopupMode ( QToolButton::MenuButtonPopup );
 		setLabels->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
-		connect(print,SIGNAL(pressed()),this,SLOT(printToFile()));
+		QToolButton * print = new QToolButton(this);
+		print->setIcon(QIcon(":/images/print.png"));
+		print->setText(tr("Print to file"));
+		print->setToolTip(tr("Print graph to pixel or vector file"));
+		print->setPopupMode ( QToolButton::MenuButtonPopup );
+		print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+		
+		QMenu * printMenu = new QMenu(tr("save to file"),print);
+		print->setMenu(printMenu);
+		
+		printMenu->addAction(tr("portable network graphics (PNG)"),this,SLOT(savePixmap()));
+		printMenu->addAction(tr("post script (PS)"),this,SLOT(saveVector()));
 		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
 		
 		QHBoxLayout * layout2 = new QHBoxLayout;
@@ -232,7 +237,7 @@ namespace Tinkercell
 	void Plot3DWidget::printToFile(const QString& fileName)
 	{
 		if (surfacePlot)
-			surfacePlot->save(fileName, tr("PDF"));
+			surfacePlot->savePixmap(fileName, tr("PNG"));
 	}
 	
 	void Plot3DWidget::setTitle(const QString& s)
@@ -259,13 +264,34 @@ namespace Tinkercell
 			surfacePlot->coordinates()->axes[Z1].setLabelString(s);
 	}
 	
-	void Plot3DWidget::printToFile()
+	void Plot3DWidget::savePixmap()
 	{		
 		QString fileName = 
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
                                           MainWindow::userHome(),
-                                          tr("PDF Files (*.pdf)"));
-		printToFile(fileName);
+                                          tr("PNG Files (*.png)"));
+		if (surfacePlot)
+		{
+			QPixmap pixmap = surfacePlot->renderPixmap();
+			pixmap.save(fileName,"PNG");
+		}
+	}
+	
+	void Plot3DWidget::saveVector()
+	{		
+		QString fileName = 
+			QFileDialog::getSaveFileName(this, tr("Print to File"),
+                                          MainWindow::userHome(),
+                                          tr("PS Files (*.ps)"));
+		if (surfacePlot)
+			surfacePlot->saveVector(fileName, tr("PS"),VectorWriter::PIXEL,VectorWriter::NOSORT);
+	}
+	
+	void Plot3DWidget::setTitle()
+	{	
+		QString s = QInputDialog::getText(this,tr("Plot Title"),tr("title :"));
+		
+		setTitle(s);	
 	}
 	
 	void Plot3DWidget::setXLabel()

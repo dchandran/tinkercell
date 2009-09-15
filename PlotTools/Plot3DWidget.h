@@ -43,8 +43,11 @@ namespace Tinkercell
 		virtual void setXLabel(const QString&);
 		virtual void setYLabel(const QString&);
 		virtual void setZLabel(const QString&);
+		
 	private slots:
-		void printToFile();
+		void savePixmap();
+		void saveVector();
+		void setTitle();
 		void setXLabel();
 		void setYLabel();
 		void setZLabel();

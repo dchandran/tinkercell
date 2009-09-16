@@ -177,6 +177,8 @@ namespace Tinkercell
 			/*! \brief mouse wheel event*/	
 			virtual void wheelEvent(QWheelEvent * event);
 		};
+		/*! \brief maximizing the network window switches to tab mode*/
+		virtual void resizeEvent ( QResizeEvent * );
 	};
 
 }

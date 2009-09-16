@@ -797,4 +797,14 @@ namespace Tinkercell
 		}
 		return true;
 	}
+	
+	void NetworkWindow::resizeEvent ( QResizeEvent * event)
+	{
+		if (mdiArea() && windowState() == (Qt::WindowMaximized | Qt::WindowActive) || windowState() == Qt::WindowFullScreen)
+		{
+			mdiArea()->setViewMode(QMdiArea::TabbedView);
+		}
+		else
+			QMdiSubWindow::resizeEvent(event);
+	}
 }

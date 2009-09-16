@@ -7,7 +7,7 @@
  Function that loads dll into main window
 
 ****************************************************************************/
-
+#include <QInputDialog>
 #include "NodesTreeMain.h"
 
 namespace Tinkercell
@@ -34,6 +34,8 @@ namespace Tinkercell
 		QCoreApplication::setApplicationName("TinkerCell");
 		QSettings settings("TinkerCell", "TinkerCell");
 		
+		int n = 5;
+		
 		if (nodesTree)
 		{
 			widgetsToUpdate << nodesTree;
@@ -41,6 +43,8 @@ namespace Tinkercell
 			NodeFamily * family;
 			
 			settings.beginGroup("LastSelectedNodes");
+			
+			n = settings.value(tr("numRows"),5).toInt();
 			
 			connect(this,SIGNAL(nodeSelected(NodeFamily*)),nodesTree,SIGNAL(nodeSelected(NodeFamily*)));
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
@@ -50,7 +54,7 @@ namespace Tinkercell
 			
 			QList<QString> keys = nodesTree->nodeFamilies.keys();
 			
-			for (int i=0; nodes.size() < 5 && i < keys.size(); ++i)
+			for (int i=0; nodes.size() < n && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 				
@@ -99,7 +103,7 @@ namespace Tinkercell
 			toolBox->addItem(connectionsTree,tr("Connections"));
 			QList<QString> keys = connectionsTree->connectionFamilies.keys();
 			
-			for (int i=0; connections.size() < 5 && i < keys.size(); ++i)
+			for (int i=0; connections.size() < n && i < keys.size(); ++i)
 			{
 				QString s = settings.value(QString::number(i),keys[i]).toString();
 				
@@ -182,6 +186,8 @@ namespace Tinkercell
 			   connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignalSlot(const QWidget*)));
 			   QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts and Connections"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 			   dock->setWindowFlags(Qt::Widget);
+			   QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
+			   connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			   return true;
 		  }
 		  return false;
@@ -342,6 +348,27 @@ namespace Tinkercell
 	void NodesTreeContainer::contextMenuEvent(QContextMenuEvent *)
 	{
 		emit sendEscapeSignal(this);
+	}
+	
+	void NodesTreeContainer::setNumberOfRecentItems()
+	{
+		QCoreApplication::setOrganizationName("TinkerCell");
+		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
+		QCoreApplication::setApplicationName("TinkerCell");
+
+		QSettings settings("TinkerCell", "TinkerCell");
+
+		settings.beginGroup("LastSelectedNodes");
+		
+		int n = settings.value(tr("numRows"),5).toInt();
+		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items"), 2*n, 2, 20, 2);
+		
+		settings.setValue("numRows",n);	
+		settings.endGroup();
+		  
+		settings.beginGroup("LastSelectedConnections");
+		settings.setValue("numRows",n);		
+		settings.endGroup();
 	}
 }
 

@@ -414,6 +414,7 @@ namespace Tinkercell
 		else
 		{
 			sideBar = tableWidget = new QTableWidget;
+			tableWidget->setGridStyle(Qt::NoPen);
 			splitter->addWidget(tableWidget);
 			splitter->setStretchFactor(0,25);
 			splitter->setStretchFactor(1,0);

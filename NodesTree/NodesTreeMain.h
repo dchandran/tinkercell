@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 #include <QToolBox>
+#include <QTableWidget>
 #include "ItemFamily.h"
 #include "MainWindow.h"
 #include "TreeButton.h"
@@ -78,6 +79,8 @@ namespace Tinkercell
         void connectionSelectedSlot(ConnectionFamily* family);
 		/*! \brief exit the current operation*/
         void escapeSignalSlot(const QWidget*);
+		/*! \brief brings up a dialog asking for number of recent items*/
+        void setNumberOfRecentItems();
 		
     private:
 
@@ -91,9 +94,9 @@ namespace Tinkercell
 		QButtonGroup nodesButtonGroup;
 		/*! \brief stores the recently selected connection button indices*/
 		QButtonGroup connectionsButtonGroup;
-		/*! \brief the list of nodes in the quick list*/
+		/*! \brief the list of nodes in the recent list*/
 		QList<NodeFamily*> nodes;
-		/*! \brief the list of connections in the quick list*/
+		/*! \brief the list of connections in the recent list*/
 		QList<ConnectionFamily*> connections;
 		/*! \brief the widgets for which the cursor needs to be updated*/
 		QList<QWidget*> widgetsToUpdate;

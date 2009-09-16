@@ -84,7 +84,7 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 }
 /*! Copy Constructor */
 TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : 
-QGraphicsTextItem(), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
+QGraphicsTextItem(), relativePosition(copy.relativePosition)
 {
 	setPos(copy.scenePos());
 	setTransform(copy.transform());

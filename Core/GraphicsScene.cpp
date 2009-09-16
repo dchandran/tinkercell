@@ -2108,11 +2108,6 @@ namespace Tinkercell
 		if (items.size() > 1)
 			center /= items.size();
 
-		if (!scene->lastPoint().isNull())
-		{
-			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
-		}
-		
 		QList<QString> allItems = scene->symbolsTable->handlesFullName.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
@@ -2133,6 +2128,11 @@ namespace Tinkercell
 		emit itemsAboutToBeInserted(scene,items2,handles2);
 
 		commands << new InsertGraphicsCommand(tr("paste items"),scene,items2);
+		
+		if (!scene->lastPoint().isNull())
+		{
+			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
+		}
 
 		for (int i=0; i < handles.size(); ++i)
 		{

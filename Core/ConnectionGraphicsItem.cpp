@@ -132,11 +132,12 @@ namespace Tinkercell
 		defaultPen = QPen(QColor(50,50,255,255),5.0);
 		defaultPen.setJoinStyle(Qt::RoundJoin);
 		setPen(defaultPen);
-		setBrush(Qt::NoBrush);
+		setBrush(defaultBrush = Qt::NoBrush);
 		boundaryPathItem = new QGraphicsPathItem(this);
 
 		boundaryPathItem->setVisible(false);
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
+		boundaryPathItem->setBrush(Qt::NoBrush);
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
@@ -153,18 +154,19 @@ namespace Tinkercell
 	}	
 
 	/*! Copy Constructor: deep copy of all pointers */
-	ConnectionGraphicsItem::ConnectionGraphicsItem(const ConnectionGraphicsItem& copy) : QGraphicsPathItem (copy.parentItem())
+	ConnectionGraphicsItem::ConnectionGraphicsItem(const ConnectionGraphicsItem& copy) : QGraphicsPathItem ()
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
 		className = copy.className;
+		centerRegionItem = 0;
 
 		boundaryPathItem = new QGraphicsPathItem(this);
 		boundaryPathItem->setVisible(false);
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
+		boundaryPathItem->setBrush(Qt::NoBrush);
 
-		centerRegionItem = 0;
 		if (copy.centerRegionItem)
 		{
 			centerRegionItem = new ArrowHeadItem(*copy.centerRegionItem);
@@ -183,6 +185,7 @@ namespace Tinkercell
 		lineType = copy.lineType;
 		arrowHeadDistance = copy.arrowHeadDistance;
 		setPen(defaultPen = copy.defaultPen);
+		setBrush(defaultBrush = copy.defaultBrush);
 		setPos(copy.scenePos());
 		setTransform(copy.sceneTransform());
 
@@ -433,13 +436,15 @@ namespace Tinkercell
 	/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
 	void ConnectionGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,QWidget *widget)
 	{
-		painter->setClipRect( option->exposedRect );
+		//painter->setClipRect( option->exposedRect );
 
 		//refresh();
 
+		painter->setBrush(Qt::NoBrush);
 		painter->setPen(QPen(QColor(255,255,255,255),pen().width()+4));
 		painter->drawPath(path());//this->pathShape);
 
+		painter->setBrush(brush());
 		painter->setPen(pen());
 		painter->drawPath(path());//this->pathShape);
 	}

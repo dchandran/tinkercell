@@ -402,11 +402,14 @@ namespace Tinkercell
 				char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
 				
 				DataTable<QString> assgnsTable;
+				QList<ItemHandle*> handlesInModule2 = handlesInModule;
+				handlesInModule2 << moduleHandle;
+				
 				for (int j=0; j < numAssignments; ++j)
 				{
 					QString x(assignmentValues[j]);
 					assgnsTable.value(tr(assignmentNames[j]),0) = x;
-					RenameCommand::findReplaceAllHandleData(handlesInModule,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
 				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
 				
@@ -442,7 +445,7 @@ namespace Tinkercell
 					if (ok)
 					{
 						paramsTable.value(tr(paramNames[j]),0) = x;
-						RenameCommand::findReplaceAllHandleData(handlesInModule,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 					}
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
@@ -451,7 +454,7 @@ namespace Tinkercell
 					if (handlesInModule[j])
 					{
 						handlesInModule[j]->setParent(moduleHandle);
-						RenameCommand::findReplaceAllHandleData(handlesInModule,handlesInModule[j]->name,handlesInModule[j]->fullName());
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
 					}
 			}
 			

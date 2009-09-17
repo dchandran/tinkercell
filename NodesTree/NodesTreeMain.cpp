@@ -363,6 +363,8 @@ namespace Tinkercell
 		int n = settings.value(tr("numRows"),5).toInt();
 		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items"), 2*n, 2, 20, 2);
 		
+		n = n/2;
+		
 		settings.setValue("numRows",n);	
 		settings.endGroup();
 		  

@@ -397,23 +397,6 @@ namespace Tinkercell
 				}
 				
 				
-				int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
-				char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
-				char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
-				
-				DataTable<qreal> paramsTable;
-				for (int j=0; j < numParams; ++j)
-				{
-					bool ok;
-					qreal x = QString(paramValues[j]).toDouble(&ok);
-					if (ok)
-					{
-						paramsTable.value(tr(paramNames[j]),0) = x;
-						RenameCommand::findReplaceAllHandleData(handlesInModule,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
-					}
-				}
-				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
-				
 				int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
 				char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
 				char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
@@ -446,6 +429,23 @@ namespace Tinkercell
 					}
 				}
 				moduleHandle->data->textData[tr("Events")] = eventsTable;
+				
+				int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
+				char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
+				char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
+				
+				DataTable<qreal> paramsTable;
+				for (int j=0; j < numParams; ++j)
+				{
+					bool ok;
+					qreal x = QString(paramValues[j]).toDouble(&ok);
+					if (ok)
+					{
+						paramsTable.value(tr(paramNames[j]),0) = x;
+						RenameCommand::findReplaceAllHandleData(handlesInModule,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					}
+				}
+				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
 				
 				for (int j=0; j < handlesInModule.size(); ++j)
 					if (handlesInModule[j])
@@ -625,7 +625,7 @@ namespace Tinkercell
 		QRegExp regex(tr("\\.(?!\\d)"));
 		
 		for (int i=0; i < handles.size(); ++i)
-		{
+		{	
 			if (handles[i]->hasTextData(tr("Assignments")))
 			{
 				DataTable<QString> assigns = handles[i]->data->textData[tr("Assignments")];
@@ -636,6 +636,14 @@ namespace Tinkercell
 					s += tr("   ") + handles[i]->fullName(tr("_")) + tr("_") + 
 							assigns.rowName(j) + tr(" = ") + rule + tr("\n");
 				}
+			}
+		}
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (handles[i]->hasNumericalData(tr("Initial Value")))
+			{
+				s += handles[i]->fullName(tr("_")) + tr(" = ") + QString::number(handles[i]->numericalData(tr("Initial Value"))) + tr("\n");
 			}
 		}
 		

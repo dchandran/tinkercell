@@ -11,70 +11,70 @@ ADD_LIBRARY( runlangevin
   runlangevin.c
 )
 
-INSTALL(TARGETS runlangevin RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runlangevin LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c
 )
 
-INSTALL(TARGETS runsteadystate RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runsteadystate LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runcvode 
   SHARED
   runcvode.c
 )
 
-INSTALL(TARGETS runcvode RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
-INSTALL(TARGETS runssa RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runloops 
   SHARED
   runLoops.c
 )
 
-INSTALL(TARGETS runloops RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( loadFullBindingKinetics 
   SHARED
   loadFullBindingKinetics.c
 )
 
-INSTALL(TARGETS loadFullBindingKinetics RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runbistablega 
   SHARED
   runbistablega.c
 )
 
-INSTALL(TARGETS runbistablega RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( runvaluesattime 
   SHARED
   runvaluesattime.c
 )
 
-INSTALL(TARGETS runvaluesattime RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( tabasco_like 
   SHARED
   tabasco_like.c
 )
 
-INSTALL(TARGETS tabasco_like RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
 
 ADD_LIBRARY( parametercorrelation 
   SHARED
   parametercorrelation.c
 )
 
-INSTALL(TARGETS parametercorrelation RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
 
 ADD_SUBDIRECTORY( lpsolve )
 
@@ -118,7 +118,7 @@ ADD_LIBRARY( lpsolve
   #${LPSOLVE_SHARED_SRC}
 )
 
-INSTALL(TARGETS lpsolve RUNTIME DESTINATION Plugins/c)
+INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
 
 SET_TARGET_PROPERTIES( lpsolve
   PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine")
@@ -140,7 +140,7 @@ IF(PYTHONLIBS_FOUND)
     ${PYTHON_LIBRARIES}
   )
   
-  INSTALL(TARGETS runpy RUNTIME DESTINATION Plugins/c)
+  INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
   
 ENDIF(PYTHONLIBS_FOUND)
 

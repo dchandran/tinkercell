@@ -36,7 +36,7 @@ TARGET_LINK_LIBRARIES( ArrowSelection
 )
 
 INSTALL(TARGETS ArrowSelection
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h)
@@ -54,7 +54,7 @@ TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
 )
 
 INSTALL(TARGETS AutoGeneRegulatoryTool
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h)
@@ -74,7 +74,7 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
 )
 
 INSTALL(TARGETS DNASequenceViewer
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
@@ -93,7 +93,7 @@ TARGET_LINK_LIBRARIES( ModuleTool
 )
 
 INSTALL(TARGETS ModuleTool
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
@@ -113,7 +113,7 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
 )
 
 INSTALL(TARGETS SimulationEventTool
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
@@ -131,7 +131,7 @@ TARGET_LINK_LIBRARIES( ViewTables
 )
 
 INSTALL(TARGETS ViewTables
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 
 QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h)
@@ -149,6 +149,6 @@ TARGET_LINK_LIBRARIES( CellPositionUpdateTool
 )
 
 INSTALL(TARGETS CellPositionUpdateTool
-  RUNTIME DESTINATION Plugins
+  LIBRARY DESTINATION Plugins
 )
 

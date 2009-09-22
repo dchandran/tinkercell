@@ -76,7 +76,7 @@ namespace Tinkercell
 
 	private:
 		void turnOnGraphicalTools(QList<QGraphicsItem*>&,QList<ItemHandle*>&,GraphicsScene*);
-		void turnOffGraphicalTools();
+		void turnOffGraphicalTools(bool close=false);
 		void selectNearByItems(GraphicsScene*, ItemHandle*, QGraphicsItem*,double);
 
 		void setSelectColor();

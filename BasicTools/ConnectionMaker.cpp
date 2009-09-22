@@ -122,7 +122,7 @@ namespace Tinkercell
 					makeSegments(scene, connection, nodes, inputs);
 					connection->refresh();
 
-					if (connection->itemHandle && connection->centerPoint())  //set location of text
+					if (connection->handle() && connection->centerPoint())  //set location of text
 					{
 						TextGraphicsItem * textItem = 0;
 						QPointF centerPoint = connection->centerLocation();
@@ -135,19 +135,19 @@ namespace Tinkercell
 							(centerPoint + QPointF(20.0,-20.0) ),
 							(centerPoint + QPointF(-20.0,20.0) ),
 							(centerPoint + QPointF(20.0,20.0) ) };
-						for (int j=0; j < connection->itemHandle->graphicsItems.size(); ++j)
+						for (int j=0; j < connection->handle()->graphicsItems.size(); ++j)
 						{
-							if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(connection->itemHandle->graphicsItems[j])) 
+							if ((textItem = TextGraphicsItem::cast(connection->handle()->graphicsItems[j])) 
 								&& !textItem->relativePosition.first)
 							{
 								for (int k=0; k < 8; ++k)
 								{
-									connection->itemHandle->graphicsItems[j]->setPos( p[k] );
-									if (scene->items( connection->itemHandle->graphicsItems[j]->sceneBoundingRect() ).size() < 2)
+									connection->handle()->graphicsItems[j]->setPos( p[k] );
+									if (scene->items( connection->handle()->graphicsItems[j]->sceneBoundingRect() ).size() < 2)
 										break;
 								}
 								textItem->relativePosition = 
-									QPair<QGraphicsItem*,QPointF>(connection,connection->itemHandle->graphicsItems[j]->scenePos() - centerPoint);
+									QPair<QGraphicsItem*,QPointF>(connection,connection->handle()->graphicsItems[j]->scenePos() - centerPoint);
 							}
 						}
 					}
@@ -187,7 +187,7 @@ namespace Tinkercell
 			}
 
 			for (int i=0; i < newItems.size(); ++i)
-				if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(newItems[i])))
+				if ((connection = ConnectionGraphicsItem::cast(newItems[i])))
 					connection->refresh();
 		}
 	}
@@ -442,14 +442,14 @@ namespace Tinkercell
 						break;
 			}
 
-			if (connection->itemHandle && 
-				(connection->itemHandle->isA(tr("Transcription Regulation")) || 
-				connection->itemHandle->isA(tr("Elongation")) || 
-				connection->itemHandle->isA(tr("Transcription"))) 
+			if (connection->handle() && 
+				(connection->handle()->isA(tr("Transcription Regulation")) || 
+				connection->handle()->isA(tr("Elongation")) || 
+				connection->handle()->isA(tr("Transcription"))) 
 				&& nodes.size() > 1 && nodes[0] && nodes[1])
 			{
 				ConnectionGraphicsItem::ControlPoint * cp;
-				if (connection->itemHandle->isA(tr("Elongation")))
+				if (connection->handle()->isA(tr("Elongation")))
 				{
 					cp = new ConnectionGraphicsItem::ControlPoint(QPointF((nodes[1]->scenePos().x() + nodes[0]->scenePos().x())/2.0,nodes[1]->scenePos().y()),connection);
 					connection->defaultPen.setStyle(Qt::DashLine);
@@ -458,7 +458,7 @@ namespace Tinkercell
 					command.redo();
 				}
 				else
-					if (connection->itemHandle->isA(tr("Transcription Regulation")))
+					if (connection->handle()->isA(tr("Transcription Regulation")))
 					{
 						qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
 							  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;

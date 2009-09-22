@@ -19,7 +19,7 @@ namespace Tinkercell
 	{
 		toolBox = new QToolBox;
 		
-		arrowButton.setToolTip(QObject::tr("cursor"));
+		arrowButton.setToolTip(QObject::tr("Cursor"));
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
@@ -361,7 +361,7 @@ namespace Tinkercell
 		settings.beginGroup("LastSelectedNodes");
 		
 		int n = settings.value(tr("numRows"),5).toInt();
-		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items"), 2*n, 2, 20, 2);
+		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
 		
 		n = n/2;
 		

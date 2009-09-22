@@ -726,13 +726,13 @@ namespace Tinkercell
 					for (int j=0; j < selectedConnections.size(); ++j)
 					{
 						if (selectedConnections[j] && selectedConnections[j]->centerRegionItem &&
-							selectedConnections[j]->itemHandle &&
-							selectedConnections[j]->itemHandle->type == ConnectionHandle::TYPE)
+							selectedConnections[j]->handle() &&
+							selectedConnections[j]->handle()->type == ConnectionHandle::TYPE)
 						{
 							insertList += selectedConnections[j]->centerRegionItem;
 							selectedNodes += selectedConnections[j]->centerRegionItem;
 							if (!handle)
-								handle = static_cast<ConnectionHandle*>(selectedConnections[j]->itemHandle);
+								handle = static_cast<ConnectionHandle*>(selectedConnections[j]->handle());
 						}
 					}
 					ConnectionGraphicsItem * item = familyToGraphicsItem(selectedFamily);

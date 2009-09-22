@@ -55,15 +55,15 @@ namespace Tinkercell
 
 		QGraphicsItem * p = item;
 
-		while (p && (qgraphicsitem_cast<Tool::GraphicsItem*>(p->topLevelItem()) == 0))
+		while (p && (Tool::GraphicsItem::cast(p->topLevelItem()) == 0))
 		{
-			text = qgraphicsitem_cast<TextGraphicsItem*>(p);
+			text = TextGraphicsItem::cast(p);
 			if (text) return (QGraphicsItem*)(text);
 
-			connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(p);
+			connection = ConnectionGraphicsItem::cast(p);
 			if (connection) return (QGraphicsItem*)connection;
 
-			node = qgraphicsitem_cast<NodeGraphicsItem*>(p);
+			node = NodeGraphicsItem::cast(p);
 			if (node) return (QGraphicsItem*)node;
 
 			controlPoint = qgraphicsitem_cast<ControlPoint*>(p);
@@ -96,15 +96,15 @@ namespace Tinkercell
 
 		QGraphicsItem * p = item;
 
-		while (p && (qgraphicsitem_cast<Tool::GraphicsItem*>(p->topLevelItem()) == 0))
+		while (p && (Tool::GraphicsItem::cast(p->topLevelItem()) == 0))
 		{
-			text = qgraphicsitem_cast<TextGraphicsItem*>(p);
+			text = TextGraphicsItem::cast(p);
 			if (text) return (QGraphicsItem*)(text->clone());
 
-			connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(p);
+			connection = ConnectionGraphicsItem::cast(p);
 			if (connection) return (QGraphicsItem*)(connection->clone());
 
-			node = qgraphicsitem_cast<NodeGraphicsItem*>(p);
+			node = NodeGraphicsItem::cast(p);
 			if (node) return (QGraphicsItem*)(node->clone());
 
 			//arrow = qgraphicsitem_cast<ArrowHeadItem*>(p);
@@ -234,7 +234,7 @@ namespace Tinkercell
 		QList<QGraphicsItem *> allitems2;
 		for (int i=0; i < allitems1.size(); ++i)
 		{
-			if (allitems1[i] && qgraphicsitem_cast<ConnectionGraphicsItem*>(allitems1[i]) && !allitems1[i]->parentItem())
+			if (allitems1[i] && ConnectionGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
 			{
 				allitems2 << allitems1[i];
 			}
@@ -245,7 +245,7 @@ namespace Tinkercell
 		allitems2.clear();
 		for (int i=0; i < allitems1.size(); ++i)
 		{
-			if (allitems1[i] && !allitems1[i]->parentItem() && !qgraphicsitem_cast<Tool::GraphicsItem*>(allitems1[i]))
+			if (allitems1[i] && !allitems1[i]->parentItem() && !Tool::GraphicsItem::cast(allitems1[i]))
 			{
 				allitems2 << allitems1[i];
 			}
@@ -332,7 +332,7 @@ namespace Tinkercell
 			{
 				int i=0;
 				p = ps[i];
-				while (i < ps.size() && qgraphicsitem_cast<TextGraphicsItem*>(p))
+				while (i < ps.size() && TextGraphicsItem::cast(p))
 				{
 					p = ps[i];
 					++i;
@@ -344,7 +344,7 @@ namespace Tinkercell
 		{
 			item = getGraphicsItem(p);
 			if (!item)
-				gitem = qgraphicsitem_cast<Tool::GraphicsItem*>(p->topLevelItem());
+				gitem = Tool::GraphicsItem::cast(p->topLevelItem());
 		}
 
 		if (movingItemsGroup)
@@ -554,7 +554,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> itemsInRect = items(QRectF(x1,y1,x2-x1,y2-y1),Qt::ContainsItemShape);
 				QList<QGraphicsItem*> itemsIntersected = items(QRectF(x1,y1,x2-x1,y2-y1),Qt::IntersectsItemShape);
 				for (int i=0; i < itemsIntersected.size(); ++i)
-					if (qgraphicsitem_cast<ConnectionGraphicsItem*>(itemsIntersected[i]))
+					if (ConnectionGraphicsItem::cast(itemsIntersected[i]))
 						itemsInRect.append(itemsIntersected[i]);
 
 				for (int i=0; i < itemsInRect.size(); ++i)
@@ -1126,7 +1126,7 @@ namespace Tinkercell
 		if ((item = allitems[i]) && (handle = getHandle(item)))
 		{
 		items2 = handle->graphicsItems;
-		if (!qgraphicsitem_cast<TextGraphicsItem*>(item))
+		if (!TextGraphicsItem::cast(item))
 		{
 		for (int j=0; j < items2.size(); ++j)
 		if (items2[j] && !allitems.contains(items2[j]) && item->collidesWithItem(items2[j]))
@@ -1529,7 +1529,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> list1, list2;
 
 		for (int i=0; i < itemsToDraw.size(); ++i)
-		if (qgraphicsitem_cast<ConnectionGraphicsItem*>(itemsToDraw[i]))
+		if (ConnectionGraphicsItem::cast(itemsToDraw[i]))
 		list2 << itemsToDraw[i];
 		else
 		list1 << itemsToDraw[i];
@@ -1567,7 +1567,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 
 		for (int i=0; i < duplicateItems.size(); ++i)
-			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(duplicateItems[i])))
+			if ((connection = ConnectionGraphicsItem::cast(duplicateItems[i])))
 			{
 				QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads();
 				for (int j=0; j < arrowHeads.size(); ++j)
@@ -1594,7 +1594,7 @@ namespace Tinkercell
 		QClipboard * clipboard = QApplication::clipboard();
 		if (clipboard)
 		{
-			if (items.size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0])))
+			if (items.size() == 1 && (textItem = TextGraphicsItem::cast(items[0])))
 			{
 				clipboard->setText( textItem->toPlainText() );
 			}
@@ -1653,7 +1653,7 @@ namespace Tinkercell
 						QList<QGraphicsItem*> list = handle->graphicsItems;
 						//new handle only has selected graphics items of the original handle
 						for (int j=0; j < list.size(); ++j)
-							if (!items.contains(list[j]) && !qgraphicsitem_cast<TextGraphicsItem*>(list[j]))
+							if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
 								handleClone->graphicsItems.removeAll(list[j]);
 
 						list = handleClone->graphicsItems;
@@ -1674,13 +1674,13 @@ namespace Tinkercell
 								setHandle(itemClone,handleClone);
 								duplicateItems << itemClone;
 
-								if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+								if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 								{
 									connectionItems += connection;
 									if (connection->centerRegionItem)
 									{
 										node1 = connection->centerRegionItem;
-										connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+										connection = ConnectionGraphicsItem::cast(list[j]);
 										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 										{
 											node2 = connection->centerRegionItem;
@@ -1691,7 +1691,7 @@ namespace Tinkercell
 											}
 										}
 									}
-									/*connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+									/*connection = ConnectionGraphicsItem::cast(list[j]);
 									if (connection)
 									{
 									arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
@@ -1699,8 +1699,8 @@ namespace Tinkercell
 								}
 								else
 								{
-									if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(list[j]))
-										&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+									if ((node1 = NodeGraphicsItem::cast(list[j]))
+										&& (node2 = NodeGraphicsItem::cast(itemClone)))
 									{
 										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 									}
@@ -1709,19 +1709,19 @@ namespace Tinkercell
 				}
 				else  //items without a handle
 				{
-					if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) || qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
+					if (TextGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i]))
 					{
 						QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
 						if (itemClone)
 						{
 							duplicateItems << itemClone;
-							if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+							if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 							{
 								connectionItems += connection;
 								if (connection->centerRegionItem)
 								{
 									node1 = connection->centerRegionItem;
-									connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+									connection = ConnectionGraphicsItem::cast(items[i]);
 									if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 									{
 										node2 = connection->centerRegionItem;
@@ -1734,8 +1734,8 @@ namespace Tinkercell
 								}
 							}
 							else
-								if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
-									&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+								if ((node1 = NodeGraphicsItem::cast(items[i]))
+									&& (node2 = NodeGraphicsItem::cast(itemClone)))
 								{
 									originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 								}
@@ -1818,7 +1818,7 @@ namespace Tinkercell
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
 
-		if (clipboard && !clipboard->text().isEmpty() && items.size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0])))
+		if (clipboard && !clipboard->text().isEmpty() && items.size() == 1 && (textItem = TextGraphicsItem::cast(items[0])))
 		{
 			clipboard->setText( textItem->toPlainText() );
 		}
@@ -1862,7 +1862,7 @@ namespace Tinkercell
 						QList<QGraphicsItem*> list = handle->graphicsItems;
 						//new handle only has selected graphics items of the original handle
 						for (int j=0; j < list.size(); ++j)
-							if (!items.contains(list[j]) && !qgraphicsitem_cast<TextGraphicsItem*>(list[j]))
+							if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
 								handleClone->graphicsItems.removeAll(list[j]);
 
 						list = handleClone->graphicsItems;
@@ -1883,13 +1883,13 @@ namespace Tinkercell
 								setHandle(itemClone,handleClone);
 								duplicateItems << itemClone;
 
-								if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+								if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 								{
 									connectionItems += connection;
 									if (connection->centerRegionItem)
 									{
 										node1 = connection->centerRegionItem;
-										connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+										connection = ConnectionGraphicsItem::cast(list[j]);
 										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 										{
 											node2 = connection->centerRegionItem;
@@ -1907,8 +1907,8 @@ namespace Tinkercell
 								}
 								else
 								{
-									if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(list[j]))
-										&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+									if ((node1 = NodeGraphicsItem::cast(list[j]))
+										&& (node2 = NodeGraphicsItem::cast(itemClone)))
 									{
 										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 									}
@@ -1918,19 +1918,19 @@ namespace Tinkercell
 				}
 				else  //items without a handle
 				{
-					if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) || qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
+					if (TextGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i]))
 					{
 						QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
 						if (itemClone)
 						{
 							duplicateItems << itemClone;
-							if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+							if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 							{
 								connectionItems += connection;
 								if (connection->centerRegionItem)
 								{
 									node1 = connection->centerRegionItem;
-									connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+									connection = ConnectionGraphicsItem::cast(items[i]);
 									if (connection && connection->centerRegionItem  && connection->centerRegionItem->scene())
 									{
 										node2 = connection->centerRegionItem;
@@ -1943,8 +1943,8 @@ namespace Tinkercell
 								}
 							}
 							else
-								if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
-									&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+								if ((node1 = NodeGraphicsItem::cast(items[i]))
+									&& (node2 = NodeGraphicsItem::cast(itemClone)))
 								{
 									originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 								}
@@ -2039,7 +2039,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			QGraphicsItem * g = getGraphicsItem(items[i]);
-			if (g && ControlPoint::asControlPoint(g) == 0 && qgraphicsitem_cast<Tool::GraphicsItem*>(g->topLevelItem()) == 0)
+			if (g && ControlPoint::cast(g) == 0 && Tool::GraphicsItem::cast(g->topLevelItem()) == 0)
 				list += g;
 		}
 
@@ -2055,7 +2055,7 @@ namespace Tinkercell
 
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
-		if (clipboard && !clipboard->text().isEmpty() && scene->selected().size() == 1 && (textItem = qgraphicsitem_cast<TextGraphicsItem*>(scene->selected()[0])))
+		if (clipboard && !clipboard->text().isEmpty() && scene->selected().size() == 1 && (textItem = TextGraphicsItem::cast(scene->selected()[0])))
 		{
 			textItem->setPlainText( textItem->toPlainText() + clipboard->text() );
 			return;
@@ -2071,7 +2071,7 @@ namespace Tinkercell
 
 		for (int i=0; i < duplicateItems.size(); ++i)
 		{
-			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(duplicateItems[i])))
+			if ((connection = ConnectionGraphicsItem::cast(duplicateItems[i])))
 			{
 				if (copiedFromScene != scene)
 				{
@@ -2093,7 +2093,7 @@ namespace Tinkercell
 			if (items[i])
 			{
 				center += items[i]->scenePos();
-				if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])))
+				if ((connection = ConnectionGraphicsItem::cast(items[i])))
 				{
 					QList<ConnectionGraphicsItem::ControlPoint*> cps = connection->controlPoints();
 					for (int j=0; j < cps.size(); ++j)
@@ -2218,7 +2218,7 @@ namespace Tinkercell
 						QList<QGraphicsItem*> list = handle->graphicsItems;
 						//new handle only has selected graphics items of the original handle
 						for (int j=0; j < list.size(); ++j)
-							if (!items.contains(list[j]) && !qgraphicsitem_cast<TextGraphicsItem*>(list[j]))
+							if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
 								handleClone->graphicsItems.removeAll(list[j]);
 
 						list = handleClone->graphicsItems;
@@ -2239,13 +2239,13 @@ namespace Tinkercell
 								setHandle(itemClone,handleClone);
 								duplicateItems << itemClone;
 
-								if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+								if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 								{
 									connectionItems += connection;
 									if (connection->centerRegionItem)
 									{
 										node1 = connection->centerRegionItem;
-										connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+										connection = ConnectionGraphicsItem::cast(list[j]);
 										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 										{
 											node2 = connection->centerRegionItem;
@@ -2256,7 +2256,7 @@ namespace Tinkercell
 											}
 										}
 									}
-									/*connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j]);
+									/*connection = ConnectionGraphicsItem::cast(list[j]);
 									if (connection)
 									{
 									arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
@@ -2264,8 +2264,8 @@ namespace Tinkercell
 								}
 								else
 								{
-									if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(list[j]))
-										&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+									if ((node1 = NodeGraphicsItem::cast(list[j]))
+										&& (node2 = NodeGraphicsItem::cast(itemClone)))
 									{
 										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 									}
@@ -2274,19 +2274,19 @@ namespace Tinkercell
 				}
 				else  //items without a handle
 				{
-					if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]) || qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
+					if (TextGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i]))
 					{
 						QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
 						if (itemClone)
 						{
 							duplicateItems << itemClone;
-							if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(itemClone)))
+							if ((connection = ConnectionGraphicsItem::cast(itemClone)))
 							{
 								connectionItems += connection;
 								if (connection->centerRegionItem)
 								{
 									node1 = connection->centerRegionItem;
-									connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+									connection = ConnectionGraphicsItem::cast(items[i]);
 									if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 									{
 										node2 = connection->centerRegionItem;
@@ -2299,8 +2299,8 @@ namespace Tinkercell
 								}
 							}
 							else
-								if ((node1 = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
-									&& (node2 = qgraphicsitem_cast<NodeGraphicsItem*>(itemClone)))
+								if ((node1 = NodeGraphicsItem::cast(items[i]))
+									&& (node2 = NodeGraphicsItem::cast(itemClone)))
 								{
 									originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
 								}
@@ -2513,14 +2513,14 @@ namespace Tinkercell
 					QList<QGraphicsItem*>& list = highlightHandles[i]->graphicsItems;
 					for (int j=0; j < list.size(); ++j)
 					{
-						if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(list[j])))
+						if ((node = NodeGraphicsItem::cast(list[j])))
 						{
 							if (node->isVisible() && !selectedItems.contains(node))
 								selectedItems += node;
 						}
 						else
 						{
-							if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[j])))
+							if ((connection = ConnectionGraphicsItem::cast(list[j])))
 							{
 								if (connection->isVisible() && !selectedItems.contains(connection))
 									selectedItems += connection;
@@ -2645,7 +2645,7 @@ namespace Tinkercell
 	{
 		if (!item || gridSz < 1) return;
 		
-		ControlPoint * cp = ControlPoint::asControlPoint(item);
+		ControlPoint * cp = ControlPoint::cast(item);
 		
 		if (cp)
 		{
@@ -2659,7 +2659,7 @@ namespace Tinkercell
 			return;
 		}
 		
-		NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(item);
+		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		
 		if (node)
 		{

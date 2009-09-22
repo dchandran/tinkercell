@@ -9,10 +9,15 @@
 */
 Matrix (*tc_getParameters)(Array) = 0;
 /*! 
- \brief get initial values of the given items. Fixed varianbles will not be included
+ \brief get initial values of the given items. Fixed varianbles are included.
  \ingroup Attributes
 */
 Matrix (*tc_getInitialValues)(Array) = 0;
+/*! 
+ \brief set initial values of the given items. 
+ \ingroup Attributes
+*/
+void (*tc_setInitialValues)(Array items,Matrix values) = 0;
 /*! 
  \brief get all fixed variables
  \ingroup Attributes
@@ -74,6 +79,7 @@ void tc_BasicInformationTool_Text_api(
 
 void tc_BasicInformationTool_Numeric_api(
 		Matrix (*getInitialValues)(Array ),
+		void (*setInitialValues)(Array,Matrix),
 		Matrix (*getParameters)(Array ),
 		Matrix (*getFixedVariabes)(Array),
 		Matrix (*getParametersAndFixedVariabes)(Array ),
@@ -84,6 +90,8 @@ void tc_BasicInformationTool_Numeric_api(
 	)
 {
 	tc_getInitialValues = getInitialValues;
+	tc_setInitialValues = setInitialValues;
+	
 	tc_getParameters = getParameters;
 	
 	tc_getFixedVariables = getFixedVariabes;

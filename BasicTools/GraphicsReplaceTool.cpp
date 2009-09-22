@@ -209,7 +209,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = 0;
 		for (int i=0; i < list.size(); ++i)
 		{
-			node = qgraphicsitem_cast<NodeGraphicsItem*>(list[i]);
+			node = NodeGraphicsItem::cast(list[i]);
 			if (node)
 				nodesList += node;
 		}

@@ -73,5 +73,8 @@
         <file>images/down.png</file>
         <file>images/plug.png</file>
         <file>images/parts.png</file>
+		<file>images/export.png</file>
+		<file>images/calc.png</file>
+		<file>images/latex.png</file>
     </qresource>
 </RCC>

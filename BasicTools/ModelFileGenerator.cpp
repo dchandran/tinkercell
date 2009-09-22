@@ -8,6 +8,7 @@ A small class that generates the ode and rates file from the given items
 
 ****************************************************************************/
 
+#include "ConsoleWindow.h"
 #include "ModelFileGenerator.h"
 #include "StoichiometryTool.h"
 #include "BasicInformationTool.h"
@@ -282,7 +283,7 @@ namespace Tinkercell
 		//
 
 		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
-
+		
 		for (i=0; i < rates.size(); ++i)
 		{
 			if (rates[i].isEmpty())
@@ -292,7 +293,7 @@ namespace Tinkercell
 
 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles,replaceDot);
 		if (N.rows() < 1 || N.cols() < 1 || rates.isEmpty()) return 0;
-
+		
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		params.insertCol(1,tr("used"));
 
@@ -362,7 +363,12 @@ namespace Tinkercell
 					{
 						int k = N.rowNames().indexOf(handles[i]->fullName(replaceDot));
 						if (k >= 0)
-							N.removeRow(k);
+						{
+							for (int j=0; j < N.cols(); ++j)
+							{
+								N.value(k,j) = 0.0;
+							}
+						}
 					}
 				}
 				if (handles[i]->hasTextData(tr("Events")))
@@ -398,6 +404,8 @@ namespace Tinkercell
 					{
 						for (j=0; j < dat.rows(); ++j)
 						{
+							ConsoleWindow::message(dat.value(j,0) + tr("   ") + dat.value(j,1));
+							
 							s1 = dat.value(j,1);
 							replaceHatWithPow(s1);
 							s1.replace(regex,replaceDot);

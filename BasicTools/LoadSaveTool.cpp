@@ -226,7 +226,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					text = qgraphicsitem_cast<TextGraphicsItem*>(allitems[i]);
+					text = TextGraphicsItem::cast(allitems[i]);
 					if (text && !textItems.contains(text))
 					{
 						textItems << text;

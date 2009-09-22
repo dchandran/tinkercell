@@ -313,16 +313,16 @@ namespace Tinkercell
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				if (targetItems[i] &&
-					(qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]) 
-					|| qgraphicsitem_cast<TextGraphicsItem*>(targetItems[i])))
+					(NodeGraphicsItem::cast(targetItems[i]) 
+					|| TextGraphicsItem::cast(targetItems[i])))
 				{
-					node = qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]);
+					node = NodeGraphicsItem::cast(targetItems[i]);
 					if (node) node->setBoundingBoxVisible(false);
 
 					targetItems[i]->scale(dx,dx);
 				}
 				else
-					if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
+					if ((connectionPtr = ConnectionGraphicsItem::cast(targetItems[i]) ))
 					{
 						QPen p = connectionPtr->pen();
 						p.setWidthF( p.widthF() * dx );
@@ -346,10 +346,10 @@ namespace Tinkercell
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				if ( targetItems[i] && 
-					(qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]) 
-					|| qgraphicsitem_cast<TextGraphicsItem*>(targetItems[i])))
+					(NodeGraphicsItem::cast(targetItems[i]) 
+					|| TextGraphicsItem::cast(targetItems[i])))
 				{
-					node = qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]);
+					node = NodeGraphicsItem::cast(targetItems[i]);
 					if (node) node->setBoundingBoxVisible(false);
 					targetItems[i]->rotate(dx);
 				}
@@ -376,8 +376,8 @@ namespace Tinkercell
 			for (int i=0; i < targetItems.size(); ++i)
 			{
 				if ( targetItems[i] && 
-					(qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]) 
-					|| qgraphicsitem_cast<TextGraphicsItem*>(targetItems[i])) )
+					(NodeGraphicsItem::cast(targetItems[i]) 
+					|| TextGraphicsItem::cast(targetItems[i])) )
 				{
 					targetItems[i]->rotate(-totalRotated);
 					list += targetItems[i];
@@ -422,8 +422,8 @@ namespace Tinkercell
 				ConnectionGraphicsItem * connectionPtr = 0;
 
 				if ( targetItems[i] && 
-					(qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]) 
-					|| qgraphicsitem_cast<TextGraphicsItem*>(targetItems[i])))
+					(NodeGraphicsItem::cast(targetItems[i]) 
+					|| TextGraphicsItem::cast(targetItems[i])))
 				{
 					targetItems[i]->scale(1.0/totalScaled,1.0/totalScaled);
 					list += targetItems[i];
@@ -431,7 +431,7 @@ namespace Tinkercell
 					rotateList += 0;
 				}
 				else
-					if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
+					if ((connectionPtr = ConnectionGraphicsItem::cast(targetItems[i]) ))
 					{
 						QPen p = connectionPtr->defaultPen;
 						p.setWidthF( p.widthF() * totalScaled );
@@ -469,7 +469,7 @@ namespace Tinkercell
 			{
 				ConnectionGraphicsItem * connectionPtr = 0;
 
-				if ((connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]) ))
+				if ((connectionPtr = ConnectionGraphicsItem::cast(targetItems[i]) ))
 				{
 					QPen p = connectionPtr->defaultPen;
 					p.setStyle((Qt::PenStyle)type);
@@ -533,19 +533,19 @@ namespace Tinkercell
 		targetItems.clear();
 		for (int i=0; i < items.size(); ++i)
 		{
-			NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(items[i]);
 			if (node && !targetItems.contains(node))
 			{
 				targetItems += node;
 			}
 			else
 			{
-				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(items[i]);
 				if (connection && !targetItems.contains(connection))
 					targetItems += connection;
 				else
 				{
-					TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+					TextGraphicsItem * textItem = TextGraphicsItem::cast(items[i]);
 					if (textItem)
 						targetItems += textItem;
 				}
@@ -562,7 +562,7 @@ namespace Tinkercell
 			QList<QPen> pens;
 			for (int i=0; i < targetItems.size(); ++i)
 			{
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(targetItems[i]);
 				if (node != 0)
 				{
 					for (int j=0; j < node->shapes.size(); ++j)
@@ -581,7 +581,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]);
+					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(targetItems[i]);
 					if (connection != 0)
 					{
 						QPen pen = connection->defaultPen;
@@ -592,7 +592,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(targetItems[i]);
+						TextGraphicsItem * textItem = TextGraphicsItem::cast(targetItems[i]);
 						if (textItem != 0)
 						{
 							QPen pen(textItem->defaultTextColor());
@@ -720,7 +720,7 @@ namespace Tinkercell
 		QList<QPointF> dx;
 		QList<QGraphicsItem*> list;
 		for (int k=0; k < targetItems.size(); ++k)
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[k]))
+			if (NodeGraphicsItem::cast(targetItems[k]))
 			{
 				dx += QPointF(value - targetItems[k]->scenePos().x(), 0);
 				list += targetItems[k];
@@ -735,7 +735,7 @@ namespace Tinkercell
 		QList<QPointF> dy;
 		QList<QGraphicsItem*> list;
 		for (int k=0; k < targetItems.size(); ++k)
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[k]))
+			if (NodeGraphicsItem::cast(targetItems[k]))
 			{
 				dy += QPointF(0, value - targetItems[k]->scenePos().y());
 				list += targetItems[k];
@@ -750,7 +750,7 @@ namespace Tinkercell
 		QList<QPointF> dw;
 		QList<QGraphicsItem*> list;
 		for (int k=0; k < targetItems.size(); ++k)
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[k]))
+			if (NodeGraphicsItem::cast(targetItems[k]))
 			{
 				dw += QPointF(value/targetItems[k]->sceneBoundingRect().width(),1);
 				list += targetItems[k];
@@ -766,7 +766,7 @@ namespace Tinkercell
 		QList<QPointF> dh;
 		QList<QGraphicsItem*> list;
 		for (int k=0; k < targetItems.size(); ++k)
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(targetItems[k]))
+			if (NodeGraphicsItem::cast(targetItems[k]))
 			{
 				qreal s = value/targetItems[k]->sceneBoundingRect().height();
 				dh += QPointF(1,s);
@@ -859,7 +859,7 @@ namespace Tinkercell
 		bool connections = false, nodes = false;
 		for (int i=0; i < targetItems.size(); ++i)
 		{
-			if (qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i]))
+			if (ConnectionGraphicsItem::cast(targetItems[i]))
 			{
 				connections = true;
 			}

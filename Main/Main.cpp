@@ -42,11 +42,13 @@ int main(int argc, char *argv[])
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
 
-    QSplashScreen splash(QPixmap(splashFile).scaled(250,250),Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
+	QPixmap pixmap(splashFile);
 
+	QSplashScreen splash(pixmap,Qt::SplashScreen);//|Qt::WindowStaysOnTopHint);
+	
     QSize sz = mainWindow.size();
     QPoint pos = mainWindow.pos();
-    splash.move(pos + QPoint(sz.width()-250 , sz.height()-250)/2 );
+    splash.move(pos + QPoint(sz.width()-pixmap.width(), sz.height()-pixmap.height())/2 );
 
     splash.setWindowOpacity(0.75);
 

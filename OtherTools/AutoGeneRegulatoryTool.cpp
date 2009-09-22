@@ -1627,14 +1627,14 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->itemHandle && connections[j]->itemHandle->isA(tr("Elongation")))
+					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
-						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->itemHandle)
+						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && !visited.contains(connectedNodes[0]) 
-							&& (!stopIfElongation || !connections[j]->itemHandle->data 
-								|| !connections[j]->itemHandle->hasNumericalData(tr("Stoichiometry"))
-								|| connections[j]->itemHandle->data->numericalData[tr("Stoichiometry")].rows() < 1)
+							&& (!stopIfElongation || !connections[j]->handle()->data 
+								|| !connections[j]->handle()->hasNumericalData(tr("Stoichiometry"))
+								|| connections[j]->handle()->data->numericalData[tr("Stoichiometry")].rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];
@@ -1649,14 +1649,14 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->itemHandle && connections[j]->itemHandle->isA(tr("Elongation")))
+					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
-						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->itemHandle)
+						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && !visited.contains(connectedNodes[0]) 
-							&& (!stopIfElongation || !connections[j]->itemHandle->data 
-								|| !connections[j]->itemHandle->hasNumericalData(tr("Stoichiometry"))
-								|| connections[j]->itemHandle->data->numericalData[tr("Stoichiometry")].rows() < 1)
+							&& (!stopIfElongation || !connections[j]->handle()->data 
+								|| !connections[j]->handle()->hasNumericalData(tr("Stoichiometry"))
+								|| connections[j]->handle()->data->numericalData[tr("Stoichiometry")].rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];
@@ -1713,7 +1713,7 @@ namespace Tinkercell
 				for (int j=0; j < items2.size(); ++j)
 					if ((node = NodeGraphicsItem::topLevelNodeItem(items2[j])))
 					{
-						h = node->itemHandle;
+						h = node->handle();
 						
 						if (!h || !h->isA(family)) continue;
 						
@@ -1742,10 +1742,10 @@ namespace Tinkercell
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->itemHandle && connections[j]->itemHandle->isA(tr("Elongation")))
+							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
-								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->itemHandle)
+								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 									&& h->isA(family) && !visited.contains(connectedNodes[0]))
 									{
 										visited << connectedNodes[0];
@@ -1762,10 +1762,10 @@ namespace Tinkercell
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->itemHandle && connections[j]->itemHandle->isA(tr("Elongation")))
+							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
-								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->itemHandle)
+								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 									&& h->isA(family) && !visited.contains(connectedNodes[0]))
 									{
 										visited << connectedNodes[0];
@@ -1778,7 +1778,7 @@ namespace Tinkercell
 						}
 					}
 				}
-				if (!hit && (h = node->itemHandle)) //look for other items in the handle
+				if (!hit && (h = node->handle())) //look for other items in the handle
 				{
 					for (int j=0; j < h->graphicsItems.size(); ++j)
 						if ((node = NodeGraphicsItem::topLevelNodeItem(h->graphicsItems[j]))
@@ -1974,9 +1974,9 @@ namespace Tinkercell
 				findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
 				
 				downstream.clear();
-				if (node && node->itemHandle)
+				if (node && node->handle())
 				{
-					downstream.push_front(node->itemHandle);
+					downstream.push_front(node->handle());
 					findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 
@@ -2036,9 +2036,9 @@ namespace Tinkercell
 				findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
 				
 				downstream.clear();
-				if (node && node->itemHandle)
+				if (node && node->handle())
 				{
-					downstream.push_back(node->itemHandle);
+					downstream.push_back(node->handle());
 					//findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 
@@ -2097,9 +2097,9 @@ namespace Tinkercell
 				//findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
 				
 				downstream.clear();
-				if (node && node->itemHandle)
+				if (node && node->handle())
 				{
-					//downstream.push_back(node->itemHandle);
+					//downstream.push_back(node->handle());
 					findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 				

@@ -59,6 +59,7 @@ namespace Tinkercell
 		Q_OBJECT
 	signals:
 		void getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&);
 		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
@@ -71,6 +72,7 @@ namespace Tinkercell
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
 	public slots:
 		Matrix getInitialValues(Array );
+		void setInitialValues(Array,Matrix);
 		Matrix getParameters(Array );
 		Matrix getFixedVars(Array);
 		Matrix getFixedAndParameters(Array);
@@ -123,6 +125,7 @@ namespace Tinkercell
 
 	private slots:
 		void getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
+		void setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&);
 		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 		void getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
@@ -144,6 +147,7 @@ namespace Tinkercell
 		static BasicInformationTool_FToS fToS;
 		void connectTCFunctions();
 		static Matrix _getInitialValues(Array );
+		static void _setInitialValues(Array,Matrix);
 		static Matrix _getParameters(Array );
 		static Matrix _getFixedVars(Array);
 		static Matrix _getFixedAndParameters(Array);

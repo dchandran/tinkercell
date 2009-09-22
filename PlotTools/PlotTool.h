@@ -23,6 +23,7 @@
 #include <QSemaphore>
 #include <QMainWindow>
 #include <QMdiArea>
+#include <QMdiSubWindow>
 #include <QButtonGroup>
 #include <QSpinBox>
 #include <QDoubleSpinBox>
@@ -53,13 +54,13 @@ namespace Tinkercell
 		signals:
 
 			void plot(QSemaphore*, DataTable<qreal>&,int,const QString&,int all);
-			void surface(QSemaphore*, DataTable<qreal>&,const QString&, int, int);
+			void surface(QSemaphore*, DataTable<qreal>&,double, double, double, double, const QString&);
 			void plotData(QSemaphore*, DataTable<qreal>*,int);
 
 		public slots:
 
-			void plot(Matrix a0,int a1,const char*,int);
-			void surface(Matrix a0, const char*, int, int);
+			void plot(Matrix a0,int a1,const char*, int);
+			void surface(Matrix a0, double, double, double, double, const char*);
 			Matrix plotData(int);
 	};
 
@@ -78,14 +79,58 @@ namespace Tinkercell
 
 	public slots:
 		
-		void plot(const DataTable<qreal>&,const QString& = QString(),int xaxis=0,int all = 0);
-		void plot(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points=100, const QString& title=QString());
-		void plot3DSurface(const DataTable<qreal>& matrix,const QString& title, int meshX = 100, int meshY = 100);
-
-	protected:
-		QDockWidget* dockWidget;
-		QMdiArea * multiplePlotsArea;
+		/*! \brief graph the given data with headers
+			\param DataTable<qreal> table
+			\param QString title
+			\param QString column in the table that will be used as x-axis
+			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
+		*/
+		void plot2D(const DataTable<qreal>&,const QString& = QString(),int xaxis=0,int all = 0);
 		
+		/*! \brief surface plot of the given data
+			\param DataTable<qreal> table where value(x,y) is the z value
+			\param double min x
+			\param double max x
+			\param double min y
+			\param double max y
+			\param QString title
+			\param QString column in the table that will be used as x-axis
+			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
+		*/
+		void plot3DSurface(const DataTable<qreal>& matrix, double xmin, double xmax, double ymin, double ymax, const QString& title);
+		
+		/*! \brief add a new plot to the window*/
+		void addWidget(PlotWidget*);
+		
+		/*! \brief add export option. This will add a new button to the set of export options. 
+			When user selects this option, the exportData method in the current PlotWidget 
+			will be invoked
+			\param QIcon icon for the export opion
+			\param QString name of the export option
+		*/
+		void addExportOption(const QIcon&,const QString&);
+		
+		/*! \brief export data in the given format
+			\param QString format
+		*/
+		void exportData(const QString&);
+		
+		/*! \brief open the window for entering functions for plotting*/
+		void plotFormula();
+		
+		/*! \brief plot the given set of formulas wih the given x variable
+			\param QStringList list of functions
+			\param QString x variable
+			\param double start value for x
+			\param double end value for x
+		*/
+		void plotFormula(const QStringList&,const QString& x = QString(),double start=0,double end=0, int points=100, const QString& title=QString());
+
+	private:
+
+		QDockWidget* dockWidget, *functionsWidgetDock;
+		QMainWindow * window;
+		QMdiArea * multiplePlotsArea;		
 		QPlainTextEdit functionsTextEdit;
 		QDoubleSpinBox spinBox1, spinBox2;
 		QSpinBox spinBox3;
@@ -98,14 +143,19 @@ namespace Tinkercell
 		static PlotTool_FToS fToS;
 		static void pruneDataTable(DataTable<qreal>& table, int& xaxis, MainWindow* main);
 
-	protected slots:
+		friend class PlotWidget;
+		QStringList exportOptions;
+		QActionGroup actionGroup;
+		QToolBar toolBar;
+		QToolBar * otherToolBar;
+		
+	private slots:
+		void actionTriggered(QAction*);
+		void subwindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
-		void surface(QSemaphore*, DataTable<qreal>&,const QString&,int,int);
+		void surface(QSemaphore*, DataTable<qreal>&,int,int,int,int,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
-		void plotTexts();
-		
-		friend class PlotWidget;
 	};
 }
 #endif

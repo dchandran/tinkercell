@@ -23,6 +23,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
+
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -638,131 +639,7 @@ namespace Tinkercell
 
 	bool SimulationEventsTool::parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s)
 	{
-		if (!win || !handle) return false;
-
-		static QStringList reservedWords;
-		if (reservedWords.isEmpty())
-			reservedWords << "time";
-
-		mu::Parser parser;
-
-		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_qqq_"));
-		parser.SetExpr(s.toAscii().data());
-		s.replace(tr("_qqq_"),tr("."));
-		parser.SetVarFactory(AddVariable, 0);
-
-		SymbolsTable * symbolsTable = &win->symbolsTable;
-		QList<ItemHandle*> allHandles = symbolsTable->handlesFullName.values();
-
-		for (int i=0; i < allHandles.size(); ++i)
-		{
-			if (allHandles[i] && allHandles[i]->hasTextData(tr("Functions")))
-			{
-				DataTable<QString>& sDat = allHandles[i]->data->textData[tr("Functions")];
-				for (int j=0; j < sDat.rows(); ++j)
-					parser.DefineFun((allHandles[i]->fullName() + tr("_qqq_") + sDat.rowName(j)).toAscii().data(), &(CallFunction), true);
-			}
-		}
-
-		QString str;
-
-		try
-		{
-			parser.Eval();
-
-			if (handle && handle->data && handle->hasNumericalData(tr("Numerical Attributes")))
-			{
-				// Get the map with the variables
-				mu::varmap_type variables = parser.GetVar();
-
-				// Get the number of variables
-				mu::varmap_type::const_iterator item = variables.begin();
-
-				// Query the variables
-				for (; item!=variables.end(); ++item)
-				{
-					str = tr(item->first.data());
-					str.replace(QRegExp(tr("[^A-Za-z0-9_]")),tr(""));
-					str.replace(tr("_qqq_"),tr("."));
-					QString str2 = str;
-					str2.replace(tr("_"),tr("."));
-					if (handle && !reservedWords.contains(str) &&
-						!symbolsTable->handlesFullName.contains(str)) //maybe new symbol in the formula
-					{
-						if (symbolsTable->dataRowsAndCols.contains(str) && symbolsTable->dataRowsAndCols[str].first)
-						{
-							if (! str.contains(QRegExp(tr("^")+symbolsTable->dataRowsAndCols[str].first->fullName())) )
-							{
-								handle = symbolsTable->dataRowsAndCols[str].first;
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
-							}
-						}
-						else
-							if (symbolsTable->dataRowsAndCols.contains(str2) && symbolsTable->dataRowsAndCols[str2].first)
-							{
-								if (! str2.contains(QRegExp(tr("^")+symbolsTable->dataRowsAndCols[str2].first->fullName())) )
-								{
-									handle = symbolsTable->dataRowsAndCols[str2].first;
-									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str2 + tr("\\1"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str2 + tr("\\2"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str2);
-								}
-								else
-								{
-									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),str2 + tr("\\1"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + str + tr("\\2"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + str);
-								}
-							}
-							else
-							{
-								if (symbolsTable->handlesFirstName.contains(str) && symbolsTable->handlesFirstName[str])
-								{
-									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable->handlesFirstName[str]->fullName() + tr("\\1"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable->handlesFirstName[str]->fullName() + tr("\\2"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable->handlesFirstName[str]->fullName());
-								}
-								else
-									if (symbolsTable->handlesFirstName.contains(str2) && symbolsTable->handlesFirstName[str2])
-									{
-										s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable->handlesFirstName[str2]->fullName() + tr("\\1"));
-										s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable->handlesFirstName[str2]->fullName() + tr("\\2"));
-										s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable->handlesFirstName[str2]->fullName());
-									}
-									else
-									{
-										//qDebug() << str << "not in symbol table";
-										DataTable<qreal> dat(handle->data->numericalData[tr("Numerical Attributes")]);
-
-										if (!str.contains(QRegExp(tr("^") + handle->fullName() + tr("\\."))))
-										{
-											str2 = handle->fullName() + tr(".") + str;
-											s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),str2 + tr("\\1"));
-											s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + str2 + tr("\\2"));
-											s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + str2);
-										}
-										else
-										{
-											str2 = str;
-											str.replace(QRegExp(tr("^") + handle->fullName() + tr("\\.")),tr(""));
-										}
-										dat.value(str,0) = 1.0;
-										win->changeData(handle->fullName() + tr(".") + str + tr(" = 1.0"),handle,tr("Numerical Attributes"),&dat);
-										ConsoleWindow::message(tr("New parameter ") + str2 + tr(" = 1.0"));
-									}
-							}
-					}
-				}
-			}
-		}
-		catch(mu::Parser::exception_type &e)
-		{
-			ConsoleWindow::error(tr(e.GetMsg().data()));
-			return false;
-		}
-		return true;
+		return EquationParser::validate(win, handle, s, QStringList() << "time");
 	}
 
 

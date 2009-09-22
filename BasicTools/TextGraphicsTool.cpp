@@ -117,7 +117,7 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
+			if (TextGraphicsItem::cast(items[i]))
 			{
 				QPointF p0 = items[i]->scenePos();
 				qreal dist = 0;
@@ -125,10 +125,10 @@ namespace Tinkercell
 				if (handle)
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 					{
-						if (!qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))
+						if (!TextGraphicsItem::cast(handle->graphicsItems[j]))
 						{
 							QPointF p1;
-							ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[j]);
+							ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(handle->graphicsItems[j]);
 							if (connection && connection->centerPoint())
 							{
 								p1 = connection->centerLocation();
@@ -136,12 +136,12 @@ namespace Tinkercell
 								if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 								{
 									dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-									(qgraphicsitem_cast<TextGraphicsItem*>(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
+									(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
 								}
 							}
 							else
 							{
-								NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]);
+								NodeGraphicsItem * node = NodeGraphicsItem::cast(handle->graphicsItems[j]);
 								if (node)
 								{
 									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
@@ -151,7 +151,7 @@ namespace Tinkercell
 											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 											{
 												dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-												(qgraphicsitem_cast<TextGraphicsItem*>(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
+												(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
 											}
 										}
 								}
@@ -176,7 +176,7 @@ namespace Tinkercell
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
+			if (TextGraphicsItem::cast(items[i]))
 			{
 				QPointF p0 = items[i]->scenePos();
 				qreal dist = 0;
@@ -186,22 +186,22 @@ namespace Tinkercell
 					visited += handle;
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 					{
-						if (!qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))
+						if (!TextGraphicsItem::cast(handle->graphicsItems[j]))
 						{
 							QPointF p1;
-							ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[j]);
+							ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(handle->graphicsItems[j]);
 							if (connection && connection->centerPoint())
 							{
 								p1 = connection->centerLocation();
 								if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 								{
 									dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-									(qgraphicsitem_cast<TextGraphicsItem*>(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
+									(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
 								}
 							}
 							else
 							{
-								NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]);
+								NodeGraphicsItem * node = NodeGraphicsItem::cast(handle->graphicsItems[j]);
 								if (node)
 								{
 									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
@@ -211,7 +211,7 @@ namespace Tinkercell
 											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 											{
 												dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-												(qgraphicsitem_cast<TextGraphicsItem*>(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
+												(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
 											}
 										}
 								}
@@ -223,7 +223,7 @@ namespace Tinkercell
 			else
 			{
 				nonTextItems += items[i];
-				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(items[i]);
 				if (node) nonTextItems << node->connectionsAsGraphicsItems();
 			}
 		}
@@ -241,30 +241,30 @@ namespace Tinkercell
 			if (!handle)
 			{
 				if ((ccp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(nonTextItems[i]))
-					&& ccp->connectionItem && ccp->connectionItem->itemHandle)
-					handle = ccp->connectionItem->itemHandle;
+					&& ccp->connectionItem && ccp->connectionItem->handle())
+					handle = ccp->connectionItem->handle();
 
 				if ((pcp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(nonTextItems[i]))
-					&& pcp->nodeItem && pcp->nodeItem->itemHandle)
-					handle = pcp->nodeItem->itemHandle;
+					&& pcp->nodeItem && pcp->nodeItem->handle())
+					handle = pcp->nodeItem->handle();
 			}
 
 			if (handle && !visited.contains(handle))
 				for (int j=0; j < handle->graphicsItems.size(); ++j)
 				{
-					if (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]) && !itemsToMove.contains(handle->graphicsItems[j]))
+					if (TextGraphicsItem::cast(handle->graphicsItems[j]) && !itemsToMove.contains(handle->graphicsItems[j]))
 					{
 						QPointF p;
 						QPointF p0 = handle->graphicsItems[j]->scenePos();
 						for (int k=0; k < handle->graphicsItems.size(); ++k)
-							if (!qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[k]) && k != j)
+							if (!TextGraphicsItem::cast(handle->graphicsItems[k]) && k != j)
 							{
 								QPointF p1;
-								QPair<QGraphicsItem*,QPointF> relativePoisition = (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))->relativePosition;
+								QPair<QGraphicsItem*,QPointF> relativePoisition = (TextGraphicsItem::cast(handle->graphicsItems[j]))->relativePosition;
 								if (!relativePoisition.first) continue;
 
-								if (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))
-									p1 = (qgraphicsitem_cast<ConnectionGraphicsItem*>(relativePoisition.first))->centerLocation();
+								if (ConnectionGraphicsItem::cast(relativePoisition.first))
+									p1 = (ConnectionGraphicsItem::cast(relativePoisition.first))->centerLocation();
 								else
 									p1 = relativePoisition.first->scenePos();
 
@@ -310,14 +310,14 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QUndoCommand * command = 0;
-			if (!name.isEmpty() && mainWindow->currentScene() && item->itemHandle && item->itemHandle->name == oldText)
+			if (!name.isEmpty() && mainWindow->currentScene() && item->handle() && item->handle()->name == oldText)
 			{	
 				QList<QGraphicsItem*> items; items << item;
 				QList<QString> oldNames; oldNames << oldText;
-				QString newName = item->itemHandle->name = Tinkercell::RemoveDisallowedCharactersFromName(name);
-				QString fullname = item->itemHandle->fullName();
-				QList<QString> newNames; newNames << item->itemHandle->name;
-				item->itemHandle->name = oldText;
+				QString newName = item->handle()->name = Tinkercell::RemoveDisallowedCharactersFromName(name);
+				QString fullname = item->handle()->fullName();
+				QList<QString> newNames; newNames << item->handle()->name;
+				item->handle()->name = oldText;
 
 				if (currentScene())
 					currentScene()->rename(items,newNames);
@@ -352,7 +352,7 @@ namespace Tinkercell
 	if (itemHandle)
 	for (int j=0; j < itemHandle->graphicsItems.size(); ++j)
 	{
-	TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(itemHandle->graphicsItems[j]);
+	TextGraphicsItem * textItem = TextGraphicsItem::cast(itemHandle->graphicsItems[j]);
 	if (textItem)
 	{
 	QString text1 = textItem->toPlainText(), text2 = oldnames.at(i);
@@ -421,12 +421,12 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i])
 				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-					if ((text = qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[j])) &&
+					if ((text = TextGraphicsItem::cast(handles[i]->graphicsItems[j])) &&
 						!items.contains(text))
 					{
 						del = true;
 						for (int k=0; k < handles[i]->graphicsItems.size(); ++k)
-							if (!qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[k]) &&
+							if (!TextGraphicsItem::cast(handles[i]->graphicsItems[k]) &&
 								!items.contains(handles[i]->graphicsItems[k]) &&
 								handles[i]->graphicsItems[k]->sceneBoundingRect().adjusted(-100,-100,100,100).contains(text->scenePos()))
 							{
@@ -503,7 +503,7 @@ namespace Tinkercell
 
 		if (items.size() == 1)
 		{
-			TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[0]);
+			TextGraphicsItem * textItem = TextGraphicsItem::cast(items[0]);
 
 			if (targetItem)
 				clear();
@@ -560,7 +560,7 @@ namespace Tinkercell
 		{
 			if (!targetItem && scene->selected().size() == 1 && scene->selected()[0])
 			{
-				TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(scene->selected()[0]->topLevelItem());
+				TextGraphicsItem * textItem = TextGraphicsItem::cast(scene->selected()[0]->topLevelItem());
 				if (textItem)
 				{
 					oldText = textItem->toPlainText();
@@ -586,7 +586,7 @@ namespace Tinkercell
 	void TextGraphicsTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton , Qt::KeyboardModifiers )
 	{
 		if (!item || !scene) return;
-		TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item->topLevelItem());
+		TextGraphicsItem * textItem = TextGraphicsItem::cast(item->topLevelItem());
 		if (textItem)
 		{
 			oldText = textItem->toPlainText();
@@ -618,7 +618,7 @@ namespace Tinkercell
 			TextGraphicsItem * textItem;
 			for (int i=0; i < selected.size(); ++i) 
 			{
-				if ((textItem = qgraphicsitem_cast<TextGraphicsItem*>(selected[i])))
+				if ((textItem = TextGraphicsItem::cast(selected[i])))
 				{
 					texts += textItem->toPlainText();
 					fonts += newFont;
@@ -649,7 +649,7 @@ namespace Tinkercell
 		newFont.clear();
 		oldFont.clear();
 
-		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
+		TextGraphicsItem * text = TextGraphicsItem::cast(item);
 
 		if (text)
 		{
@@ -671,7 +671,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 		{
 
-			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+			TextGraphicsItem * text = TextGraphicsItem::cast(items[i]);
 
 			if (text)
 			{
@@ -691,7 +691,7 @@ namespace Tinkercell
 		newFont.clear();
 		oldFont.clear();
 
-		TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
+		TextGraphicsItem * text = TextGraphicsItem::cast(item);
 
 		if (text)
 		{
@@ -715,7 +715,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 		{
 
-			TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+			TextGraphicsItem * text = TextGraphicsItem::cast(items[i]);
 
 			if (text)
 			{
@@ -734,7 +734,7 @@ namespace Tinkercell
 		{
 			if (textItems[i] != 0)
 			{
-				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
+				TextGraphicsItem * text = TextGraphicsItem::cast(textItems[i]);
 
 				if (text)
 				{
@@ -752,7 +752,7 @@ namespace Tinkercell
 		{
 			if (textItems[i] != 0)
 			{
-				TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(textItems[i]);
+				TextGraphicsItem * text = TextGraphicsItem::cast(textItems[i]);
 
 				if (text)
 				{

@@ -51,7 +51,7 @@ namespace Tinkercell
 		/*! \brief code completion*/ 
 		QCompleter *completer() const;
 
-signals:
+	signals:
 
 		/*! \brief the user requested to execute the given command*/
 		void commandExecuted(const QString& command);
@@ -136,7 +136,9 @@ signals:
 		/*! \brief the global command window*/
 		static ConsoleWindow * consoleWindow();
 		/*! \brief the command window's editor*/
-		CommandTextEdit * consoleWindowEditor();
+		static CommandTextEdit * consoleWindowEditor();
+		/*! \brief the command window's editor*/
+		CommandTextEdit * editor();
 
 	signals:
 		/*! \brief the user requested to execute the given command*/

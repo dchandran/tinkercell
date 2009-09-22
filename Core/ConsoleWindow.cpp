@@ -491,6 +491,13 @@ namespace Tinkercell
 
 	CommandTextEdit * ConsoleWindow::consoleWindowEditor()
 	{
+		if (!instance) return 0;
+		
+		return &(instance->commandTextEdit);
+	}
+	
+	CommandTextEdit * ConsoleWindow::editor()
+	{
 		return &commandTextEdit;
 	}
 

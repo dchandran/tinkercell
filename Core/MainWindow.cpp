@@ -186,6 +186,7 @@ namespace Tinkercell
 		setAcceptDrops(true);
 
 		initializeMenus(enableScene,enableText);
+		setIconSize(QSize(25,25));
 
 		setCentralWidget(&mdiArea);
 		mdiArea.setViewMode(QMdiArea::TabbedView);
@@ -718,7 +719,7 @@ namespace Tinkercell
 		selectAllAction->setShortcut(QKeySequence::SelectAll);
 		connect(selectAllAction,SIGNAL(triggered()),this,SLOT(selectAll()));
 
-		QAction* arrowAction = editMenu->addAction(QIcon(tr(":/images/arrow.png")),tr("Arrow"));
+		QAction* arrowAction = editMenu->addAction(QIcon(tr(":/images/arrow.png")),tr("Cursor"));
 		connect(arrowAction,SIGNAL(triggered()),this,SLOT(sendEscapeSignal()));
 
 		toolBarBasic->addAction(openAction);
@@ -727,11 +728,14 @@ namespace Tinkercell
 		toolBarBasic->addAction(changeViewAction);
 
 		toolBarEdits->addAction(arrowAction);
+		toolBarEdits->addAction(undoAction);
+		toolBarEdits->addAction(redoAction);
 		toolBarEdits->addAction(copyAction);
 		toolBarEdits->addAction(cutAction);
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
 
+		toolBarBasic->setMinimumWidth(100);
 		addToolBar(Qt::TopToolBarArea, toolBarBasic);
 		addToolBar(Qt::TopToolBarArea, toolBarEdits);
 		addToolBar(Qt::TopToolBarArea, toolBarForTools);
@@ -1438,7 +1442,7 @@ namespace Tinkercell
 									{
 										QPointF p1 = cp1->scenePos(), p2 = QPointF(pos.value(i,0),pos.value(i,1));
 										if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(cp1->parentItem())) &&
-											((m = items.indexOf(node->itemHandle)) > -1))
+											((m = items.indexOf(node->handle())) > -1))
 										{
 											p1 = QPointF(pos.value(m,0),pos.value(m,1)) - node->scenePos();
 										}

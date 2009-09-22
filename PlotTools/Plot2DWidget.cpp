@@ -129,7 +129,7 @@ namespace Tinkercell
 		}
 	}
 	
-	QList<QColor>& DataPlot::colors()
+	QList<QPen>& DataPlot::pens()
 	{
 		return lineColors;
 	}
@@ -511,10 +511,6 @@ namespace Tinkercell
 			}
 			outputs += tr("\n");
 		}
-		
-		clipboard->setText(outputs);
-		
-		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
 	}
 	
 	void Plot2DWidget::logX(bool b)
@@ -620,5 +616,33 @@ namespace Tinkercell
 			list << colors[i].name();
 		
 		colorWidget->addItems(list);
+	}
+	
+	void Plot2DWidget::latex()
+	{
+		double xmin = dataTable.at(0,0),
+			   xmax = dataTable.at(dataTable.rows()-1,0),
+			   ymin = dataTable.at(0,1),
+			   ymax = dataTable.at(0,1);
+			
+		for (int i=0; i < dataTable.rows(); ++i)
+			for (int j=1; i < dataTable.cols(); ++j)
+			{
+				if (ymin > dataTable.at(i,j))
+					ymin = dataTable.at(i,j);
+
+				if (ymax < dataTable.at(i,j))
+					ymax = dataTable.at(i,j);
+			}
+			
+			outputs += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
+			outputs += tr("\\begin{ticzpicture}\n\\begin{axis}[\ngrid=major,\nxlabel=")
+						+ colnames.at(0) 
+						+ tr(",\nylabel=Values,\nxmin=") + QString::number(xmin)
+						+ tr(",\nxmax=") + QString::number(xmax)
+						+ tr(",\nymin=") + QString::number(ymin)
+						+ tr(",\nymax=") + QString::number(ymax)
+						+ tr(",\nwidth=8cm,\nheight=6cm,]\n\\addplot[smooth,color=red,line width=1.5pt] coordinates {\n");
+		}	
 	}
 }

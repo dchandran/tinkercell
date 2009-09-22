@@ -90,12 +90,6 @@ namespace Tinkercell
 		/*! \brief show stoichiometry matrix along with rates*/
 		void showMatrix();
 
-		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
-		add any undefined variables in the Numerical Attributes table (where parameters are usually stored)
-		\param NetworkWindow the target network window (for symbols table)
-		\param ItemHandle* the item handle that the equation belongs with
-		\param QString& the equation; this variable can get modified if it contains bad characters*/
-		static bool parseRateString(NetworkWindow*, ItemHandle *, QString&);
 		/*! \brief get the stoichiometry matrix for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be generated
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
@@ -171,6 +165,8 @@ namespace Tinkercell
 		void addRow();
 		/*! \brief remove a reaction*/
 		void removeRow();
+		/*! \brief evaluate values for all visible rate equations*/
+		void eval();
 		/*! \brief add an intermediate species (column in transpose of stoichiometry matrix)*/
 		void addCol();
 		/*! \brief add a participating species (column in transpose of stoichiometry matrix)*/
@@ -208,6 +204,13 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 
 	private:
+		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
+		add any undefined variables in the Numerical Attributes table (where parameters are usually stored)
+		\param NetworkWindow the target network window (for symbols table)
+		\param ItemHandle* the item handle that the equation belongs with
+		\param QString& the equation; this variable can get modified if it contains bad characters*/
+		static bool parseRateString(NetworkWindow*, ItemHandle *, QString&);
+		
 		/*! \brief used to keep track of updated headers*/
 		QStringList updatedRowNames, updatedColumnNames;
 

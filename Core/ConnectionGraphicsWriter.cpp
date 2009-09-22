@@ -183,12 +183,12 @@ namespace Tinkercell
 				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(pathVector[pathVector.size()-1]);
 				if (node && node->className == ArrowHeadItem::CLASSNAME && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem && 
-					static_cast<ArrowHeadItem*>(node)->connectionItem->itemHandle && 
+					static_cast<ArrowHeadItem*>(node)->connectionItem->handle() && 
 					static_cast<ArrowHeadItem*>(node)->connectionItem->centerRegionItem)
 				{
 					ConnectionGraphicsItem * arrowConnection = static_cast<ArrowHeadItem*>(node)->connectionItem;
 
-					writer->writeAttribute("NodeAtEnd",arrowConnection->itemHandle->fullName());
+					writer->writeAttribute("NodeAtEnd",arrowConnection->handle()->fullName());
 					writer->writeAttribute("NodeAtEndX",QString::number(arrowConnection->pos().x()));
 					writer->writeAttribute("NodeAtEndY",QString::number(arrowConnection->pos().y()));
 				}

@@ -26,6 +26,7 @@
 #include <QButtonGroup>
 #include <QListView>
 #include <QTextEdit>
+#include <QTextCharFormat>
 
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"

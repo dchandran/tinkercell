@@ -48,7 +48,7 @@ QMainWindow::separator {
   }
 
   QToolButton { /* all types of tool button */
-     border: 2px transparent;
+     border: 4px transparent;
      border-radius: 6px;
      background-color: transparent;
  }
@@ -81,6 +81,18 @@ QMainWindow::separator {
      /* 16px width + 4px for border = 20px allocated above */
      width: 16px;
  }
+ 
+ QSplitter::handle:horizontal {
+     background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                       stop:0 #EEEEEE, stop: 1.0 #FFFFFF);
+     width : 2px
+ }
+ 
+ QSplitter::handle:vertical {
+     background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                       stop:0 #EEEEEE, stop: 1.0 #FFFFFF);
+     height : 2px
+ }
 
  QToolButton::menu-arrow:open {
      top: 1px; left: 1px; /* shift it a bit */
@@ -88,14 +100,14 @@ QMainWindow::separator {
  
  QToolBar {
     background: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0,
-                                 stop: 0 #C4C5C6, /*stop: 0.1 #969FC3,
-                                 stop: 0.2 #CFD0D1, */ stop: 1.0 white);
-     spacing: 2px; /* spacing between items in the tool bar */
+                                 stop: 0 #C1F4Fd, stop: 0.1 #C8D1D3,
+                                 stop: 0.2 #999999, stop: 1.0 #FFFFFF);
+     spacing: 5px; /* spacing between items in the tool bar */
  }
 
  QMenuBar {
      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                       stop:0 #CFD0D1, stop:1 white);
+                                       stop:0 #EEEEEE, stop: 1.0 #FFFFFF);
  }
 
  QMenuBar::item {
@@ -115,7 +127,7 @@ QMainWindow::separator {
  
  QMenu {
      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
-                                       stop:0 white, stop:1 #CFD3F8);
+                                       stop:0 white, stop:1 #AAAAAA);
      border: 1px #8A8C94;
  }
 
@@ -127,7 +139,7 @@ QMainWindow::separator {
 
  QMenu::item:selected { /* when user selects item using mouse or keyboard */
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 white, stop: 1 #829DF6);
+                                 stop: 0 #999999, stop: 1 #555555);
  }
  
   QMenu::icon:checked { /* appearance of a 'checked' icon */
@@ -174,8 +186,10 @@ QMainWindow::separator {
  }
  
   QToolTip {
-     background: #DFF7DD;
-     border: 2px solid #98A7FF;
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #FEFFB9, stop: 0.4 #f4f4f4,
+                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+     border: 2px solid #888888;
      padding: 5px;
      border-radius: 3px;
      opacity: 255;
@@ -220,8 +234,8 @@ QDockWidget {
 
  QTreeView::item:hover {
      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 white, stop: 1 #829DF6);
-     border: 1px solid #829DF6;
+                                 stop: 0 white, stop: 1 #888888);
+     border: 1px solid #888888;
  }
 
  QTreeView::item:selected {
@@ -259,13 +273,13 @@ QDockWidget {
 
  QListView::item:selected:active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #ECE9F9, stop: 1 #A09BE6);
+                                 stop: 0 #BBBBBB, stop: 1 #888888);
 	color: black
  }
 
  QListView::item:hover {
      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 white, stop: 1 #829DF6);
+                                 stop: 0 white, stop: 1 #888888);
  } 
  
  QLineEdit {
@@ -278,12 +292,12 @@ QDockWidget {
  
  QTableView::item:hover {
      background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 white, stop: 1 #829DF6);
+                                 stop: 0 white, stop: 1 #888888);
  }
  
  QTableView {
      selection-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #ECE9F9, stop: 1 #A09BE6);
+                                 stop: 0 #BBBBBB, stop: 1 #888888);
      color: black
  }
  

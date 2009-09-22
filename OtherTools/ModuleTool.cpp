@@ -669,29 +669,29 @@ namespace Tinkercell
                     node2 = 0;
             }
 
-            if (node1 && node2 && node1 != node2 && node1->itemHandle && node2->itemHandle && node1->itemHandle != node2->itemHandle
-                && node1->itemHandle->family() && node2->itemHandle->family())
+            if (node1 && node2 && node1 != node2 && node1->handle() && node2->handle() && node1->handle() != node2->handle()
+                && node1->handle()->family() && node2->handle()->family())
                 //&& node1->className == ModuleLinkerItem::CLASSNAME && node2->className == ModuleLinkerItem::CLASSNAME)
             {
 		       if (
-                        (node2->itemHandle->data && node2->itemHandle->data->numericalData.contains(tr("Fixed")) &&
-                         node2->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0)
+                        (node2->handle()->data && node2->handle()->data->numericalData.contains(tr("Fixed")) &&
+                         node2->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0)
 
                         ||
 
-                        ( !(node1->itemHandle->data && node1->itemHandle->data->numericalData.contains(tr("Fixed")) &&
-                            node1->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0) &&
-                          !(node2->itemHandle->family()->isA(node1->itemHandle->family())) &&
-                          node1->itemHandle->family()->isA(node2->itemHandle->family())))
+                        ( !(node1->handle()->data && node1->handle()->data->numericalData.contains(tr("Fixed")) &&
+                            node1->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0) &&
+                          !(node2->handle()->family()->isA(node1->handle()->family())) &&
+                          node1->handle()->family()->isA(node2->handle()->family())))
                 {
                     NodeGraphicsItem * node3 = node2;
                     node2 = node1;
                     node1 = node3;  //swap
                 }
 
-                if (node2->itemHandle->family()->isA(node1->itemHandle->family()) ||
-                    (node1->itemHandle->data && node1->itemHandle->data->numericalData.contains(tr("Fixed")) &&
-                     node1->itemHandle->data->numericalData[tr("Fixed")].value(0,0) > 0))
+                if (node2->handle()->family()->isA(node1->handle()->family()) ||
+                    (node1->handle()->data && node1->handle()->data->numericalData.contains(tr("Fixed")) &&
+                     node1->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0))
                 {
 		
 					/*ConnectionGraphicsItem * mc =

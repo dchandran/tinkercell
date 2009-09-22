@@ -90,6 +90,9 @@ namespace Tinkercell
 			}
 			/*! \brief show or hide this graphical tool. The graphical tool may choose whether or not to be visible based on other factors.*/
 			virtual void visible(bool);
+			/*! \brief cast a graphics item to a Tool::GraphicsItem
+			\return Tool::GraphicsItem* can be 0 if invalid cast*/
+			static GraphicsItem* cast(QGraphicsItem*);
 		};
 
 		/*! \brief optional graphics item used to display this tool */

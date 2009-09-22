@@ -187,6 +187,7 @@ ADD_LIBRARY( DataBasicTools
   SHARED
   ${DataBasicTools_MOC}
   ${TinkercellCOre_MOC}
+  EquationParser.cpp
   SpinBoxDelegate.cpp
   BasicInformationTool.cpp
   NameFamilyDialog.cpp

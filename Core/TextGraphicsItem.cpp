@@ -135,27 +135,21 @@ void TextGraphicsItem::showBorder(bool showBorder)
 	boundingRectItem->setVisible(showBorder);
 	update();
 }
-/*
-QVariant TextGraphicsItem::itemChange(GraphicsItemChange change,
-const QVariant &value)
+
+QString TextGraphicsItem::text() const
 {
-//if (change == QGraphicsItem::ItemSelectedHasChanged)
-//emit selectedChange(this);
-return value;
+	return toPlainText();
 }
 
-void TextGraphicsItem::focusOutEvent(QFocusEvent *event)
+void TextGraphicsItem::setText(const QString& s)
 {
-setTextInteractionFlags(Qt::NoTextInteraction);
-//		 emit lostFocus(this);
-QGraphicsTextItem::focusOutEvent(event);
+	setPlainText(s);
 }
 
-void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * q)
 {
-if (textInteractionFlags() == Qt::NoTextInteraction)
-setTextInteractionFlags(Qt::TextEditorInteraction);
-QGraphicsTextItem::mouseDoubleClickEvent(event);
-}*/
+	return qgraphicsitem_cast<TextGraphicsItem*>(q);
+}
+
 }
 

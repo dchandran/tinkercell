@@ -130,8 +130,8 @@ namespace Tinkercell
 					NodeFamily * nodeFamily = allFamilies[j];
 
 					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-						if (qgraphicsitem_cast<NodeGraphicsItem*>(nodeFamily->graphicsItems[i]))
-							width += qgraphicsitem_cast<NodeGraphicsItem*>(nodeFamily->graphicsItems[i])->defaultSize.width();
+						if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
+							width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
 				}
 
 				xpos -= width/2.0;
@@ -247,8 +247,8 @@ namespace Tinkercell
 					NodeFamily * nodeFamily = allFamilies[j];
 
 					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-						if (qgraphicsitem_cast<NodeGraphicsItem*>(nodeFamily->graphicsItems[i]))
-							width += qgraphicsitem_cast<NodeGraphicsItem*>(nodeFamily->graphicsItems[i])->defaultSize.width();
+						if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
+							width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
 				}
 
 				xpos -= width/2.0;

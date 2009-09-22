@@ -607,11 +607,11 @@ namespace Tinkercell
 										if (!movingItems.contains(list[i]))
 											movingItems += list[i];
 
-									ItemHandle * handle = connection->itemHandle;
+									ItemHandle * handle = connection->handle();
 									if (handle)
 										for (int i=0; i < handle->graphicsItems.size(); ++i)
 										{
-											if (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[i])
+											if (TextGraphicsItem::cast(handle->graphicsItems[i])
 												&& !movingItems.contains(handle->graphicsItems[i]))
 												movingItems += handle->graphicsItems[i];
 										}
@@ -642,7 +642,7 @@ namespace Tinkercell
 		{
 			p = 0;
 			points.clear();
-			connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+			connection = ConnectionGraphicsItem::cast(items[i]);
 
 			if (connection)
 			{
@@ -650,7 +650,7 @@ namespace Tinkercell
 				continue;
 			}
 
-			node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+			node = NodeGraphicsItem::cast(items[i]);
 
 			if (node)
 			{
@@ -700,8 +700,8 @@ namespace Tinkercell
 							if (p->connectionItem && !items.contains(p->connectionItem))
 							{
 								QString s;
-								if (p->connectionItem->itemHandle)
-									handles += p->connectionItem->itemHandle;
+								if (p->connectionItem->handle())
+									handles += p->connectionItem->handle();
 
 								items += p->connectionItem;
 							}
@@ -748,7 +748,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				node = NodeGraphicsItem::topLevelNodeItem(items[i]);
-				if (node && (qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()) == 0))
+				if (node && (Tool::GraphicsItem::cast(node->topLevelItem()) == 0))
 				{
 					node->setBoundingBoxVisible(true);
 				}
@@ -804,7 +804,7 @@ namespace Tinkercell
 
 		for (int i=0; i < movingItems.size(); ++i)
 		{
-			NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems[i]);
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(movingItems[i]);
 			if (node && node->className == ArrowHeadItem::CLASSNAME)
 			{
 				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
@@ -845,7 +845,7 @@ namespace Tinkercell
 		QGraphicsItem * cp = 0;
 		for (int i=0; i < moving.size(); ++i)
 		{
-			if (ControlPoint::asControlPoint(moving.at(i)))
+			if (ControlPoint::cast(moving.at(i)))
 			{
 				cp = moving.at(i);
 				break;
@@ -878,7 +878,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			node = NodeGraphicsItem::topLevelNodeItem(items[i]);
-			if (node && !scene->moving().contains(node) && (qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()) == 0))
+			if (node && !scene->moving().contains(node) && (Tool::GraphicsItem::cast(node->topLevelItem()) == 0))
 			{
 				if (!avoidBoundary)
 					for (int j=0; j < node->boundaryControlPoints.size(); ++j)
@@ -1281,7 +1281,7 @@ namespace Tinkercell
 		{
 		ConnectionGraphicsItem * connectionPtr = 0;
 		if (targetItems[i] &&
-		(connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i])))
+		(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
 		{
 		command->list += connectionPtr;
 		}
@@ -1312,7 +1312,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem * connectionPtr = 0;
 			if (targetItems[i] &&
-				(connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i])) &&
+				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])) &&
 				(connectionPtr->centerRegionItem))
 			{
 				items << connectionPtr->centerRegionItem;
@@ -1388,7 +1388,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem * connectionPtr = 0;
 			if (targetItems[i] &&
-				(connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i])))
+				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
 			{
 				command->list += connectionPtr;
 			}
@@ -1424,7 +1424,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem * connectionPtr = 0;
 			if (targetItems[i] &&
-				(connectionPtr = qgraphicsitem_cast<ConnectionGraphicsItem*>(targetItems[i])))
+				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
 			{
 				command->dists += value - connectionPtr->arrowHeadDistance;
 				command->list += connectionPtr;

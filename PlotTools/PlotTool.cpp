@@ -32,79 +32,91 @@ namespace Tinkercell
 
 	PlotTool::PlotTool() : Tool(tr("Graph Tool"))
 	{
-		multiplePlotsArea = 0;
+		otherToolBar = 0;
 		dockWidget = 0;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
+		
+		//setup main window and toolbar
 		QVBoxLayout * layout = new QVBoxLayout;
+		layout->setContentsMargins(0,0,0,0);
 		
 		multiplePlotsArea = new QMdiArea(this);
 		multiplePlotsArea->setViewMode(QMdiArea::SubWindowView);
+		window = new QMainWindow;
+		window->setCentralWidget(multiplePlotsArea);
+		window->addToolBar(Qt::RightToolBarArea,&toolBar);
+		layout->addWidget(window);
+		setLayout(layout);
 		
-		QSplitter * splitter = new QSplitter(Qt::Vertical,this);
-		splitter->addWidget(multiplePlotsArea);
+		/////////// make function plotting widget ////////////
 		
-		QSplitter * functionsWidget = new QSplitter(this);
+		QHBoxLayout * layout1 = new QHBoxLayout;
+		QVBoxLayout * layout2 = new QVBoxLayout;
 		QHBoxLayout * layout3 = new QHBoxLayout;
-
-		QGroupBox * textEditGroup = new QGroupBox(tr(" Define functions here "));
-		QHBoxLayout * layout6 = new QHBoxLayout;
-		layout6->addWidget(&functionsTextEdit);
-		textEditGroup->setLayout(layout6);
-		functionsWidget->addWidget(textEditGroup);
 		
+		//function text editor
+		QGroupBox * textEditGroup = new QGroupBox(tr(" Define functions here "));		
+		layout1->addWidget(&functionsTextEdit);		
+		textEditGroup->setLayout(layout1);
+		
+		//start, end, xaxis
 		spinBox1.setPrefix(tr("start:   "));
 		spinBox1.setRange(-1E30,1E30);
 		spinBox1.setDecimals(3);
+		
 		spinBox2.setValue(10.0);
 		spinBox2.setPrefix(tr("end:  "));
-		spinBox2.setRange(-1E30,1E30);
+		spinBox2.setRange(-1E30,1E30);		
 		spinBox2.setDecimals(3);
+		
 		spinBox3.setValue(100);
-		spinBox3.setRange(-1000,1000);
-		spinBox3.setPrefix(tr("points:  "));
+		spinBox3.setRange(5,1000);
+		spinBox3.setPrefix(tr("points:  "));		
 		
-		QVBoxLayout * layout4 = new QVBoxLayout;
-		
-		QLabel * label = new QLabel(tr("xaxis:"));
-		
+		QLabel * label = new QLabel(tr("x-axis: "));
 		layout3->addWidget(label);
 		layout3->addWidget(&xaxisLine);
-		layout4->addLayout(layout3);
-		layout4->addWidget(&spinBox1);
-		layout4->addWidget(&spinBox2);
-		layout4->addWidget(&spinBox3);
+		
+		layout2->addLayout(layout3);
+		layout2->addWidget(&spinBox1);
+		layout2->addWidget(&spinBox2);
+		layout2->addWidget(&spinBox3);
+		
+		//graph button
 		
 		QPushButton * button = new QPushButton(tr("Graph"));
-		connect(button,SIGNAL(pressed()),this,SLOT(plotTexts()));
-		layout4->addWidget(button);
+		connect(button,SIGNAL(pressed()),this,SLOT(plotFormula()));
+		layout2->addWidget(button);
+		
+		//put it all together
+		
+		QHBoxLayout * layout4 = new QHBoxLayout;
+		layout4->addWidget(textEditGroup);
+		layout4->addLayout(layout2);
 		
 		QWidget * widget = new QWidget;
+		layout4->setContentsMargins(0,0,0,0);
 		widget->setLayout(layout4);
 		
-		functionsWidget->addWidget(widget);
+		functionsWidgetDock = new QDockWidget;
+		dock->setWidget(widget);
+		window->addDockWidget(Qt::BottomDockWidgetArea,dock);
+		dock->hide();
 		
-		QVBoxLayout * layout5 = new QVBoxLayout;
-		QCheckBox * showHideButton = new QCheckBox(tr("Plot user defined functions"));
-		showHideButton->setCheckable(true);
-		functionsWidget->setVisible(false);
-		connect(showHideButton,SIGNAL(toggled(bool)),functionsWidget,SLOT(setVisible(bool)));
-		layout5->addWidget(showHideButton,1);
-		layout5->addWidget(functionsWidget,20);
+		///////////// done with function plotting widget ///////////////
 		
-		QWidget * widget2 = new QWidget;
-		widget2->setLayout(layout5);
+		//setup toolbar
 		
-		splitter->addWidget(widget2);
-		splitter->setStretchFactor(0,10);
-		splitter->setStretchFactor(1,1);
-		splitter->setCollapsible(0,false);
-		splitter->setCollapsible(1,false);
-		
-		layout->addWidget(splitter);
-		layout->setContentsMargins(0,0,0,0);
-		setLayout(layout);
+		addExportOption(QIcon(tr(":/images/image.png")),tr("image"));
+		addExportOption(QIcon(tr(":/images/export.png")),tr("text"));
+		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"));
+		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"));
+		QAction * action = toolBar.addAction(QIcon(tr(":/images/function.png")),tr("Plot function"));
+		action->setToolTip(tr("Plot a formula"));
+		connect(action,SIGNAL(toggled(bool)),dock,SLOT(setVisible(bool)));
 
+		//C interface
 		connectTCFunctions();
 	}
 
@@ -121,40 +133,22 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
-			//dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 		
 			if (dockWidget)
 			{
 				QPoint p = mainWindow->rect().bottomRight() - QPoint(sizeHint().width(),sizeHint().height());
-			
-				/*dockWidget->setWindowFlags(Qt::Tool);				
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setWindowOpacity(0.8);*/
-				
-				QCoreApplication::setOrganizationName("TinkerCell");
-				QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-				QCoreApplication::setApplicationName("TinkerCell");
-				
-				QSettings settings("TinkerCell", "TinkerCell");
-				
-				settings.beginGroup("SimulationEventsTool");
-				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
-				//dockWidget->move(settings.value("pos", p).toPoint());
-				
-				//if (settings.value("floating", false).toBool())
 				dockWidget->setFloating(true);
-					
-				settings.endGroup();
-				dockWidget->hide();
 			}
 			
-			//QToolBar * toolBar = new QToolBar;
-                        QToolBar * toolBar = mainWindow->toolBarForTools;
+			QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Plot Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/graph.png")));
 			
 			if (dockWidget)
+			{
 				connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
+			}
 			else
 			{
 				if (mainWindow->viewMenu)
@@ -165,18 +159,21 @@ namespace Tinkercell
 				}
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
-			toolBar->addAction(action);
-			//mainWindow->addToolBar(toolBar);
+			toolBar->addAction(action);		
 			
 			return true;
 		}
 		return false;	
 	}
 	
-	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title,int x,int all)
-	{	
-		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Plotting...."));
+	void PlotTool::addWidget(PlotWidget* newPlot)
+	{
+		if (!multiplePlotsArea)
+		{
+			if (newPlot)
+				delete newPlot;
+			return;
+		}
 		
 		if (dockWidget)
 		{
@@ -188,70 +185,51 @@ namespace Tinkercell
 			show();
 			this->raise();
 		}
+		
+		QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
+		window->setAttribute(Qt::WA_DeleteOnClose);
+		window->setWindowIcon(QIcon(tr(":/images/graph.png")));
+		//window->showMaximized();
+		window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
+		window->setVisible(true);
+		
+		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+		for (int i=0; i < subWindowList.size(); ++i)
+			if (subWindowList[i])
+				subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
+			
+		multiplePlotsArea->tileSubWindows();
+	}
+	
+	void PlotTool::plot2D(const DataTable<qreal>& matrix,const QString& title,int x,int all)
+	{	
+		if (mainWindow && mainWindow->statusBar())
+			mainWindow->statusBar()->showMessage(tr("Plotting...."));
+		
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
 		
-		if (multiplePlotsArea)
-		{
-			PlotWidget * newPlot = new Plot2DWidget(this);
-			newPlot->plot(matrix,title,x);
-			QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
-			window->setAttribute(Qt::WA_DeleteOnClose);
-			window->setWindowIcon(QIcon(tr(":/images/graph.png")));
-			//window->showMaximized();
-			window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
-			window->setVisible(true);
-			
-			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
-			for (int i=0; i < subWindowList.size(); ++i)
-				if (subWindowList[i])
-					subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
-			
-			multiplePlotsArea->tileSubWindows();
-		}
+		PlotWidget * newPlot = new Plot2DWidget(this);
+		newPlot->plot(matrix,title,x);
+
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+
+		addWidget(newPlot);
 	}
 	
-	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,const QString& title,int meshX, int meshY)
+	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,const QString& title,int xmin, int xmax, int ymin, ymax)
 	{	
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Plotting...."));
 		
-		if (dockWidget)
-		{
-			dockWidget->show();
-			dockWidget->raise();
-		}
-		else
-		{
-			show();
-			this->raise();
-		}
+		Plot3DWidget * newPlot = new Plot3DWidget(this);
+		newPlot->surface(matrix,xmin,xmax,ymin,ymax,title);
 		
-		if (multiplePlotsArea)
-		{
-			Plot3DWidget * newPlot = new Plot3DWidget(this);
-			newPlot->meshSizeX = meshX;
-			newPlot->meshSizeY = meshX;
-			newPlot->plot(matrix,title);
-			QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
-			window->setAttribute(Qt::WA_DeleteOnClose);
-			window->setWindowIcon(QIcon(tr(":/images/graph.png")));
-			//window->showMaximized();
-			
-			window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
-			window->setVisible(true);
-			
-			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
-			for (int i=0; i < subWindowList.size(); ++i)
-				if (subWindowList[i])
-					subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
-			
-			multiplePlotsArea->tileSubWindows();
-		}
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+		
+		addWidget(newPlot);
 	}
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
@@ -268,7 +246,7 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,const QString& title,int meshX, int meshY)
+	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,int xmin, int xmax, int ymin, ymax,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
@@ -276,7 +254,7 @@ namespace Tinkercell
 			matrix.colName(i).replace(regexp,tr("."));
 		}
 		
-		plot3DSurface(matrix,title,meshX,meshY);
+		plot3DSurface(matrix,xmin,xmax,ymin,ymax,title);
 
 		if (s)
 			s->release();
@@ -288,7 +266,7 @@ namespace Tinkercell
 		{
 			QList<QMdiSubWindow*> list = multiplePlotsArea->subWindowList();
 			if (index < 0 || index >= list.size())
-				index = list.size() - 1;
+				index = list.indexOf(muliplePlotsArea->currentSubWindow());
 			if (index >= 0 && list.size() > index && list[index] && list[index]->widget())
 			{
 				PlotWidget * plotWidget = static_cast<PlotWidget*>(list[index]->widget());
@@ -301,7 +279,7 @@ namespace Tinkercell
 
 	typedef void (*tc_PlotTool_api)(	
 		void (*plot)(Matrix,int,const char*,int) ,
-		void (*surface)(Matrix,const char*,int,int) , 
+		void (*surface)(Matrix,int,int,int,int,const char*) , 
 		Matrix (*plotData)(int)
 		);
 
@@ -327,7 +305,7 @@ namespace Tinkercell
 	void PlotTool::connectTCFunctions()
 	{
 		connect(&fToS,SIGNAL(plot(QSemaphore *, DataTable<qreal>&,int,const QString&,int)),this,SLOT(plotData(QSemaphore *, DataTable<qreal>&,int,const QString&,int)));
-		connect(&fToS,SIGNAL(surface(QSemaphore *, DataTable<qreal>&,const QString&, int,int)),this,SLOT(surface(QSemaphore *, DataTable<qreal>&,const QString&,int,int)));
+		connect(&fToS,SIGNAL(surface(QSemaphore *, DataTable<qreal>&,double,double,double,double,const QString&)),this,SLOT(surface(QSemaphore *, DataTable<qreal>&,double,double,double,double,const QString&)));
 		connect(&fToS,SIGNAL(plotData(QSemaphore *,DataTable<qreal>*,int)),this,SLOT(getData(QSemaphore *,DataTable<qreal>*,int)));
 	}
 	
@@ -338,9 +316,9 @@ namespace Tinkercell
 		return fToS.plot(a,b,c,all);
 	}
 	
-	void PlotTool::_surface(Matrix m,const char* s,int x, int y) 
+	void PlotTool::_surface(Matrix m,double x0, double x1, double y0, double y1,const char* s) 
 	{
-		return fToS.surface(m,s,x,y);
+		return fToS.surface(m,x0,x1,y0,y1,s);
 	}
 	
 	Matrix PlotTool::_plotData(int i)
@@ -360,12 +338,12 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	void PlotTool_FToS::surface(Matrix a0,const char* title,int x, int y)
+	void PlotTool_FToS::surface(Matrix a0,double x0, double x1, double y0, double y1,const char* title)
 	{
 		DataTable<qreal>* dat = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit surface(s,*dat,ConvertValue(title),x,y);
+		emit surface(s,*dat,x0,x1,y0,y1,ConvertValue(title));
 		s->acquire();
 		s->release();
 		delete s;
@@ -441,32 +419,56 @@ namespace Tinkercell
 		return &d;
 	}
 	
-	void PlotTool::plotTexts()
+	void PlotTool::plotFormula()
 	{
+		if (!functionsWidgetDock) return;
+		
+		if (!functionsWidgetDock->isVisible())
+		{
+			functionsWidgetDock->show();
+			return;
+		}
+		
 		QStringList list = functionsTextEdit.toPlainText().split(QRegExp(tr("[\\n|\\r|;]+")),QString::SkipEmptyParts);
 		if (list.isEmpty()) return;
 		plot(list,xaxisLine.text().replace(tr(" "),tr("")),spinBox1.value(),spinBox2.value(),spinBox3.value());
 	}
 	
-	void PlotTool::plot(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points,const QString& title)
+	void PlotTool::plotFormula(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points,const QString& title)
 	{
+		if (!functionsWidgetDock) return;
+		
 		if (functions.isEmpty())
 		{
-			ConsoleWindow::message("Please enter one or more formulas");
-			return;
-		}
-		if (xaxis.isEmpty() || xaxis.isNull() )
-		{
-			ConsoleWindow::message("Please specify the x-axis (one of the variables in the formula)");
-			return;
-		}
-		if (points < 2 || end <= start)
-		{
-			ConsoleWindow::message("Inputs are incorrect. Make sure the number of points > 0 and end > start.");
+			ConsoleWindow::message("Please enter at least one formula");
 			return;
 		}
 		
-                NetworkWindow * net = currentWindow();
+		if (xaxis.isEmpty() || xaxis.isNull() )
+		{
+			if (!functionsWidgetDock->isVisible())
+			{
+				functionsTextEdit.setPlainText(functions.join(tr("\n")));
+				functionsWidgetDock->show();
+				return;
+			}
+			ConsoleWindow::message("Please specify the x-axis (one of the variables in the formula)");
+			return;
+		}
+		
+		if (points < 2 || end <= start)
+		{
+			if (!functionsWidgetDock->isVisible())
+			{
+				functionsTextEdit.setPlainText(functions.join(tr("\n")));
+				functionsWidgetDock->show();
+				return;
+			}
+			ConsoleWindow::message("Inputs are incorrect. Make sure the number of points > 1 and end > start.");
+			return;
+		}
+		
+        NetworkWindow * net = currentWindow();
 		
 		double dx = (end - start)/(double)points;
 		DataTable<qreal> data;
@@ -484,108 +486,69 @@ namespace Tinkercell
 		}
 		
 		ItemHandle * handle;
-		QRegExp regex1(tr("[\\n\\s]"));
-		QRegExp regex2(tr("\\.(?!\\d)"));
-		QRegExp regex3(tr("\\.([^\\.]+)"));
 		
 		for (int i=0; i < functions.size(); ++i)
 		{
-			if (!functions[i].contains(xaxis))
-			{
-				ConsoleWindow::error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
-			}
-			
 			s = functions[i];
 			
-			s.replace(regex1,tr(""));
-			s.replace(regex2,tr("_"));
-			
-			mu::Parser parser;
-			parser.SetExpr(s.toAscii().data());
-			
-			try
+			if (!s.contains(xaxis))
 			{
-				parser.SetVarFactory(AddVariable, 0);
-				parser.Eval();
-                                if (net)
-				{
-					mu::varmap_type variables = parser.GetVar();
-					mu::varmap_type::const_iterator item = variables.begin();
-                                        SymbolsTable & symbolsTable = net->symbolsTable;
-					for (; item!=variables.end(); ++item)
-					{
-						n = tr(item->first.data());
-						n.replace(tr("_"),tr("."));
-						if (symbolsTable.handlesFullName.contains(n) && (handle = symbolsTable.handlesFullName[n]))
-						{
-							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-							{
-								if (handle->data->numericalData[tr("Initial Value")].value(0,0) == 0)
-									parser.DefineVar(item->first.data(), &d);
-								else
-									parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
-							}
-							continue;
-						}
-						
-						if (symbolsTable.handlesFirstName.contains(n) && (handle = symbolsTable.handlesFirstName[n]))
-						{
-							if (handle->data && handle->hasNumericalData(tr("Initial Value")))
-							{
-								if (handle->data->numericalData[tr("Initial Value")].value(0,0) == 0)
-									parser.DefineVar(item->first.data(), &d);
-								else
-									parser.DefineVar(item->first.data(), &(handle->data->numericalData[tr("Initial Value")].value(0,0)));
-							}
-								
-							continue;
-						}
-						
-						if (symbolsTable.dataRowsAndCols.contains(n) && (handle = symbolsTable.dataRowsAndCols[n].first))
-						{
-							p = symbolsTable.dataRowsAndCols[n].second;
-							regex3.indexIn(n);
-							
-							if (regex3.numCaptures() > 0)
-								n = regex3.cap(1);
-							
-							if (handle->data && handle->hasNumericalData(p) 
-								&& handle->data->numericalData[p].getRowNames().contains(n))
-								{
-									parser.DefineVar(item->first.data(), &(handle->data->numericalData[p].value(n,0)));
-								}
-						}
-					}
-				}
-			}
-			catch(mu::Parser::exception_type &e)
-			{
-				ConsoleWindow::error("cannot parse: " + s);
+				ConsoleWindow::error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
 				continue;
 			}
 			
-			s = xaxis;			
-			s.replace(regex1,tr(""));
-			s.replace(regex2,tr("_"));
-			
-			double x = start;
-			try
-			{
-				parser.DefineVar(s.toAscii().data(), &x);
-			}
-			catch(mu::Parser::exception_type &e)
-			{
-				ConsoleWindow::error("cannot parse: " + s);
-				continue;
-			}
+			bool b;
 			
 			for (int j=0; j < data.rows(); ++j)
 			{
 				data.value(j,0) = x;
-				data.value(j,i+1) = parser.Eval();
+				data.value(j,i+1) = EquationParser::eval(net,s,)
 				x += dx;
 			}
 		}
 		this->plot(data,title,0,1);
 	}
+	
+	
+	void PlotTool::addExportOption(const QIcon& icon,const QString& type)
+	{
+		if (exportOptions.contains(type)) return;
+		
+		QAction * action = toolBar->addAction(icon,type,this,SLOT(exportImage()));
+		action->setText(type);
+		action->setToolTip(tr("Export current plot to ") + type);
+		actionGroup.addAction(action);
+		
+		exportOptions << type;
+	}
+	
+	void PlotTool::actionTriggered(QAction* action)
+	{
+		if (action && exportOptions.contains(action->text()))
+		{
+			exportData(action->text());
+		}
+	}
+	
+	void PlotTool::exportData(const QString& type)
+	{
+		QMdiSubWindow * subwindow = muliplePlotsArea->currentSubWindow();
+		if (subwindow && subwindow->widget())
+		{
+			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
+			plotWidget->exportData(type);
+		}
+	}
+	
+	void PlotTool::subwindowActivated(QMdiSubWindow * subwindow)
+	{
+		if (subwindow && subwindow->widget() && window)
+		{
+			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
+			if (otherToolBar)
+				window->removeToolBar(otherToolBar);
+			window->addToolBar(Qt::RightToolBarArea,&plotWidget->toolBar);
+		}
+	}
+	
 }

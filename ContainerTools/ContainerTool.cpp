@@ -265,7 +265,7 @@ namespace Tinkercell
             for (int j=0; j < nodes.size(); ++j)
                 if (nodes[j])
                 {
-                handle = nodes[j]->itemHandle;
+                handle = nodes[j]->handle();
                 if (handle)
                 {
                     parentHandle = handle->parentOfFamily(tr("Compartment"));

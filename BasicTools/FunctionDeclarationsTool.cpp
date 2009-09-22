@@ -24,7 +24,7 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "TextGraphicsItem.h"
 #include "ModelSummaryTool.h"
 #include "FunctionDeclarationsTool.h"
-#include "StoichiometryTool.h"
+#include "EquationParser.h"
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -247,7 +247,7 @@ namespace Tinkercell
 				QString var = regex1.cap(1),
 					func = regex1.cap(2);
 
-				if (!StoichiometryTool::parseRateString(currentWindow(), handle, func))
+				if (!EquationParser::validate(currentWindow(), handle, func, QStringList() << "time"))
 					return;
 
 				if (handle->name == var) var = handle->fullName();

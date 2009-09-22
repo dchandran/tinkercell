@@ -9,21 +9,17 @@
 
 #include <math.h>
 #include <QGroupBox>
+#include <QTextEdit>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
-#include "PlotWidget.h"
+#include "PlotTextWidget.h"
 
 namespace Tinkercell
-{
-	
-	PlotWidget::PlotWidget(PlotTool * parent) : QWidget(parent)
-	{
-	}
-	
-	void PlotWidget::plot(const DataTable<qreal>& ,const QString& ,int)
+{	
+	PlotWidget::PlotWidget(PlotTool * parent) : QWidget(parent), plotTool(parent)
 	{
 	}
 	
@@ -32,27 +28,78 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	void PlotWidget::printToFile(const QString&)
-	{	
-	}
-	
-	void PlotWidget::copyData()
+	void PlotWidget::exportData(const QString & type)
 	{
-	}
+		DataTable<qreal> * dat = data();
+		
+		if (!dat) return;
 	
-	void PlotWidget::logAxis(int,bool)
-	{
-	}
+		DataTable<qreal>& table = *dat;
+		
+		QString output;
+		
+		QStringList colnames = table.getColNames(), 
+					rownames = table.getRowNames();
 	
-	void PlotWidget::setTitle(const QString&)
-	{
-	}
+		bool printRows = true;
+		for (int i=0; i < rownames.size(); ++i)
+			if (rownames.at(i).size() <= 0)
+			{
+				printRows = false;
+				break;
+			}
 	
-	void PlotWidget::setXLabel(const QString&)
-	{		
-	}
+		for (int i=0; i < colnames.size(); ++i)
+		{
+			if (i == 0 && !printRows)
+				outputs += colnames.at(i);
+			else
+				outputs += tr("\t") + colnames.at(i);
+		}
 	
-	void PlotWidget::setYLabel(const QString&)
-	{
+		for (int i=0; i < table.rows(); ++i)
+		{
+			if (printRows)
+			{
+				outputs += rownames.at(i);
+			}
+		
+			for (int j=0; j < table.cols(); ++j)
+			{
+				if (i == 0 && !printRows)
+					outputs += QString::number(table.at(i,j));
+				else
+					outputs += tr("\t") + QString::number(table.at(i,j));
+			}
+		
+			outputs += tr("\n");
+		}
+		
+		if (type.toLower() == tr("clipboard"))
+		{
+			QClipboard * clipboard = QApplication::clipboard();
+		
+			if (!clipboard)
+			{
+				ConsoleWindow::error(tr("No clipboard available."));
+				return;
+			}
+
+			clipboard->setText(outputs);
+			
+			ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
+
+		}
+		else
+		if (plotTool && type.toLower() == tr("text"))
+		{
+			plotTool->addWidget(new PlotTextWidget(table));
+		}
+		else
+		if (plotTool && type.toLower() == tr("latex"))
+		{
+			plotTool->addWidget(new PlotTextWidget(table,true));
+		}
 	}
 }
+

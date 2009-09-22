@@ -55,10 +55,10 @@ namespace Tinkercell
 	{
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
-			if (nodeBelowCursor != 0 && !qgraphicsitem_cast<Tool::GraphicsItem*>(nodeBelowCursor->topLevelItem()))
+			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 				emit nodeCollided(items,nodeBelowCursor,QList<QPointF>(),0);
 			else
-				if (connectionBelowCursor != 0 && !qgraphicsitem_cast<Tool::GraphicsItem*>(connectionBelowCursor->topLevelItem()))
+				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
 					emit connectionCollided(items,connectionBelowCursor,QList<QPointF>(),0);
 		}
 		/*
@@ -71,7 +71,7 @@ namespace Tinkercell
 		{
 		//QRectF rect;
 		QPainterPath path;
-		if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i])))
+		if ((connection = ConnectionGraphicsItem::cast(items[i])))
 		{
 		QList<NodeGraphicsItem*> nodes = connection->nodes();
 		for (int j=0; j < nodes.size(); ++j)
@@ -85,7 +85,7 @@ namespace Tinkercell
 		{
 		if (itemsAt[j]->sceneBoundingRect().contains(rect))
 		{
-		if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(itemsAt[j])))
+		if ((node = NodeGraphicsItem::cast(itemsAt[j])))
 		emit nodeCollided(QList<QGraphicsItem*>() << connection, node, QPointF(), 0);
 		}
 		}
@@ -181,7 +181,7 @@ namespace Tinkercell
 				for (int i=0; i < itemsNearby.size(); ++i)
 				{
 					itemHit = NodeGraphicsItem::topLevelNodeItem(itemsNearby[i]);
-					if (itemHit && itemHit->itemHandle && !movingItems.contains(itemHit) && !selected.contains(itemHit))
+					if (itemHit && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
 					{
 						item = itemHit;
 						break;
@@ -295,12 +295,12 @@ namespace Tinkercell
 	{
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
-			if (nodeBelowCursor != 0 && !qgraphicsitem_cast<Tool::GraphicsItem*>(nodeBelowCursor->topLevelItem()))
+			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 			{
 				emit nodeCollided(movingItems,nodeBelowCursor,distance,modifiers);
 			}
 			else
-				if (connectionBelowCursor != 0 && !qgraphicsitem_cast<Tool::GraphicsItem*>(connectionBelowCursor->topLevelItem()))
+				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
 					emit connectionCollided(movingItems,connectionBelowCursor,distance,modifiers);
 		}
 	}

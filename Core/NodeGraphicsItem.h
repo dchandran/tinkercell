@@ -53,6 +53,11 @@ namespace Tinkercell
 	class MY_EXPORT NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
+		/*! \brief cast a graphics item to a node graphics item using qgraphicsitem_cast
+		\param QGraphicsItem* graphics item
+		\return NodeGraphicsItem* can be 0 if the cast is invalid
+		*/
+		static NodeGraphicsItem* cast(QGraphicsItem * q);
 		/*! \brief get the handle of this node*/
 		virtual ItemHandle * handle() const;
 		/*! \brief set the handle of this node*/
@@ -68,8 +73,6 @@ namespace Tinkercell
 		static NodeGraphicsItem * topLevelNodeItem(QGraphicsItem* item, bool ignoreControlPoints = false);
 		/*! \brief file where the graphics item is stored*/
 		QString fileName;
-		/*! \brief Tinkercell object that this drawable belongs in */
-		ItemHandle * itemHandle;
 		/*! Constructor: does nothing */
 		NodeGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Copy Constructor */
@@ -264,6 +267,8 @@ namespace Tinkercell
 		QRectF boundingRectangle;
 		/*! \brief reconstruct bounding rect*/
 		virtual void recomputeBoundingRect();
+		/*! \brief Tinkercell object that this drawable belongs in */
+		ItemHandle * itemHandle;
 	};
 
 }

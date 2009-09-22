@@ -883,6 +883,7 @@ namespace Tinkercell
 
 	typedef void (*tc_BasicInformationTool_Numeric_api)(
 		Matrix (*getInitialValues)(Array ),
+		void (*setInitialValues)(Array,Matrix),
 		Matrix (*getParameters)(Array ),
 		Matrix (*getFixedVars)(Array),
 		Matrix (*getFixedAndParameters)(Array),
@@ -901,6 +902,7 @@ namespace Tinkercell
 				//qDebug() << "tc_BasicInformationTool_Numeric_api resolved";
 				f(
 					&(_getInitialValues),
+					&(_setInitialValues),
 					&(_getParameters),
 					&(_getFixedVars),
 					&(_getFixedAndParameters),
@@ -937,6 +939,7 @@ namespace Tinkercell
 		if (type == both || type == numerical)
 		{
 			connect(&fToS,SIGNAL(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getInitialValues(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
+			connect(&fToS,SIGNAL(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)),this,SLOT(setInitialValues(QSemaphore*,const QList<ItemHandle*>&,const DataTable<qreal>&)));
 			connect(&fToS,SIGNAL(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
 			connect(&fToS,SIGNAL(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedVars(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
 			connect(&fToS,SIGNAL(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getFixedAndParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
@@ -1072,8 +1075,8 @@ namespace Tinkercell
 				handle = handles.at(i);
 				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
-					if (handle->hasNumericalData(tr("Fixed")) && handle->data->numericalData[tr("Fixed")].value(0,0) > 0)
-						continue;
+					//if (handle->hasNumericalData(tr("Fixed")) && handle->data->numericalData[tr("Fixed")].value(0,0) > 0)
+						//continue;
 
 					dataTable = &(handle->data->numericalData[tr("Initial Value")]);
 					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0)
@@ -1094,6 +1097,44 @@ namespace Tinkercell
 			}
 
 		}
+		if (s)
+			s->release();
+	}
+	
+	void BasicInformationTool::setInitialValues(QSemaphore* s,const QList<ItemHandle*>& handles,const DataTable<qreal>& dat)
+	{
+		
+		ItemHandle * handle = 0;
+		DataTable<qreal> * dataTable = 0;
+
+		QStringList names;
+		QList<qreal> values;
+
+		if (dat.cols() == 1)
+		{
+			QList< DataTable<qreal>* > newData;
+			QList< ItemHandle* > handles2;
+			for (int i=0; i < handles.size() && i < dat.rows(); ++i)
+			{
+				handle = handles.at(i);
+				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				{
+					dataTable = new DataTable<qreal>(handle->data->numericalData[tr("Initial Value")]);
+					dataTable->value(0,0) = dat.at(i,0);
+					newData << dataTable;
+					handles2 << handle;
+				}
+			}
+			if (newData.size() > 0)
+			{
+				if (currentWindow())
+					currentWindow()->changeData(tr("Initial values changed"),handles2,tr("Initial Value"),newData);
+				for (int i=0; i < newData.size(); ++i)
+					if (newData[i])
+						delete newData[i];
+			}
+		}
+		
 		if (s)
 			s->release();
 	}
@@ -1465,6 +1506,11 @@ namespace Tinkercell
 	{
 		return fToS.getInitialValues(A);
 	}
+	
+	void BasicInformationTool::_setInitialValues(Array A, Matrix M)
+	{
+		fToS.setInitialValues(A,M);
+	}
 
 	Matrix BasicInformationTool::_getFixedVars(Array A)
 	{
@@ -1549,6 +1595,23 @@ namespace Tinkercell
 			return m;
 		}
 		return emptyMatrix();
+	}
+	
+	void BasicInformationTool_FToS::setInitialValues(Array a0, Matrix M)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*> * list = ConvertValue(a0);
+		DataTable<qreal> * p = ConvertValue(M);
+		s->acquire();
+		emit setInitialValues(s,*list,*p);
+		s->acquire();
+		s->release();
+		delete s;
+		delete list;
+		if (p)
+		{
+			delete p;
+		}
 	}
 
 	Matrix BasicInformationTool_FToS::getFixedVars(Array a0)

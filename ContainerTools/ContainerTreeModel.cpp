@@ -141,10 +141,10 @@ namespace Tinkercell
 		
 		for (int i=0; i < childItems.size(); ++i)
 		{
-			if (childItems[i] && childItems[i]->itemHandle)
+			if (childItems[i] && childItems[i]->handle())
 			{
-				names << childItems[i]->itemHandle->fullName();
-				hash.insert( childItems[i]->itemHandle->fullName() , childItems[i] );
+				names << childItems[i]->handle()->fullName();
+				hash.insert( childItems[i]->handle()->fullName() , childItems[i] );
 				childItems[i]->sortChildren();
 			}
 		}
@@ -205,7 +205,7 @@ namespace Tinkercell
 		{
 			if (queue[i])
 			{
-				if (queue[i]->itemHandle == handle) return queue[i];
+				if (queue[i]->handle() == handle) return queue[i];
 				queue << queue[i]->childItems;
 			}
 		}		

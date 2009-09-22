@@ -34,7 +34,7 @@ namespace Tinkercell
 		int meshSizeY;
 		Plot3DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
-		void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
+		void surface(const DataTable<qreal>& matrix,int xmin, int xmax, int ymin, int ymax,const QString& title=QString());
 	
 	public slots:
 		virtual void copyData();

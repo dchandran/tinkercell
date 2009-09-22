@@ -25,6 +25,7 @@
 #include <QSemaphore>
 #include <QMainWindow>
 #include <QButtonGroup>
+#include <QTextCharFormat>
 #include "DataTable.h"
 
 namespace Tinkercell
@@ -33,27 +34,38 @@ namespace Tinkercell
 	class PlotTool;
 
 	/*!
-	\brief A widget containing a data plot, legend and options
+	\brief A widget containing a data plot, legend and options. This class does not perform any plotting. 
+			This class serves as a template for other widgets that perform the plotting. 
 	*/
 	class PlotWidget : public QWidget
 	{
 		Q_OBJECT
 	public:
 		
+		/*! \brief tool bar containing all the options for this widget*/
+		QToolBar toolBar;
+		/*! \brief constructor with plot tool as parent*/
 		PlotWidget(PlotTool * parent = 0);
+		/*! \brief constructor with plot tool as parent*/
+		PlotWidget(const DataTable<qreal>&, PlotTool * parent = 0);
+		/*! \brief get the data inside this plot*/
 		virtual DataTable<qreal>* data();
-		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
 		
 	protected:
+		/*! \brief the plot tool that contains this widget*/
 		PlotTool * plotTool;
 		
 	public slots:
-		virtual void copyData();
-		virtual void printToFile(const QString&);
+		/*! \brief export data is some format
+			\param QString format*/
+		virtual void exportData(const QString&);
+		/*! \brief Child classes implement this*/
 		virtual void logAxis(int,bool);
-		virtual void setTitle(const QString&);
-		virtual void setXLabel(const QString&);
-		virtual void setYLabel(const QString&);
+		/*! \brief Child classes implement this*/
+		virtual void setPlotSettings();
+		/*! \brief Child classes implement this*/
+		virtual void setDisplaySettings();
+	
 	};
 
 }

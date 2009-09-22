@@ -92,6 +92,11 @@ namespace Tinkercell
 	class MY_EXPORT ConnectionGraphicsItem : public QGraphicsPathItem
 	{
 	public:
+		/*! \brief cast a graphics item to a connection graphics item using qgraphicsitem_cast
+		\param QGraphicsItem* graphics item
+		\return ConnectionGraphicsItem* can be 0 if the cast is invalid
+		*/
+		static ConnectionGraphicsItem* cast(QGraphicsItem*);
 		/*! \brief used for checking type before static casts */
 		static QString CLASSNAME;
 		/*! \brief used for checking type before static casts */
@@ -105,8 +110,6 @@ namespace Tinkercell
 		* \param bool using true here will return the connection item for a control point, otherwise control points are ignored
 		*/
 		static ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
-		/*! \brief Tinkercell object that this drawable belongs in */
-		ItemHandle * itemHandle;
 		/*! Constructor: does nothing */
 		ConnectionGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Copy Constructor: copies handle but not control points */
@@ -286,6 +289,8 @@ namespace Tinkercell
 			return Type;
 		}
 	protected:
+		/*! \brief Tinkercell object that this drawable belongs in */
+		ItemHandle * itemHandle;
 		/*! \brief path of the boundary region of the entire connection*/
 		QGraphicsPathItem * boundaryPathItem;
 		/*! \brief path of the selection region of the entire connection*/

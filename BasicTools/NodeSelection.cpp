@@ -117,7 +117,7 @@ namespace Tinkercell
 				selectionColor2.setAlphaF(selectedConnections[i]->defaultPen.color().alphaF());
 				selectionColor3.setAlphaF(selectedConnections[i]->defaultPen.color().alphaF());
 				selectedConnections[i]->setPen(QPen(selectionColor2,selectedConnections[i]->pen().width(),Qt::DashLine));
-				handle = selectedConnections[i]->itemHandle;
+				handle = selectedConnections[i]->handle();
 				if (handle != 0)
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 					{
@@ -347,7 +347,7 @@ namespace Tinkercell
 		}
 	}
 
-	void NodeSelection::turnOffGraphicalTools()
+	void NodeSelection::turnOffGraphicalTools(bool close)
 	{
 		for (int i=0; i < visibleTools.size(); ++i)
 		{
@@ -359,7 +359,8 @@ namespace Tinkercell
 					tool->scene()->removeItem(tool);
 				}
 				tool->visible(false);
-				tool->deselect();
+				if (close) 
+					tool->deselect();
 			}
 		}
 		visibleTools.clear();
@@ -375,7 +376,7 @@ namespace Tinkercell
 			{
 				selectedConnections[i]->setControlPointsVisible(false);
 				selectedConnections[i]->setPen(selectedConnections[i]->defaultPen);
-				handle = selectedConnections[i]->itemHandle;
+				handle = selectedConnections[i]->handle();
 				if (handle != 0)
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 					{
@@ -491,16 +492,16 @@ namespace Tinkercell
 		scene->clearSelection();
 		item = item->topLevelItem();
 		ItemHandle * targetHandle = getHandle(item);
-		if (targetHandle && (qgraphicsitem_cast<NodeGraphicsItem*>(item) || qgraphicsitem_cast<ConnectionGraphicsItem*>(item)))
+		if (targetHandle && (NodeGraphicsItem::cast(item) || ConnectionGraphicsItem::cast(item)))
 		{
 			QGraphicsItem* tinkercellItem;
 			QList<QGraphicsItem*> list = scene->items();
 			ItemHandle * handle;
 			for (int i=0; i < list.size(); ++i)
 			{
-				tinkercellItem = (QGraphicsItem*)(qgraphicsitem_cast<NodeGraphicsItem*>(list[i]));
+				tinkercellItem = (QGraphicsItem*)(NodeGraphicsItem::cast(list[i]));
 				if (tinkercellItem == 0)
-					tinkercellItem = (QGraphicsItem*)(qgraphicsitem_cast<ConnectionGraphicsItem*>(list[i]));
+					tinkercellItem = (QGraphicsItem*)(ConnectionGraphicsItem::cast(list[i]));
 
 				if (tinkercellItem
 					&& (handle = getHandle(tinkercellItem))
@@ -519,20 +520,26 @@ namespace Tinkercell
 		if (!scene || !handle || !item) return;
 
 		QList<QGraphicsItem*> list;
-		list += item;
+		list << item;
 		QRectF rect = item->sceneBoundingRect();
 		
 		rect.adjust( -dx, -dx, dx, dx );
 		
-		ItemHandle * h = getHandle(item);
+		QList<QGraphicsItem*> items = handle->allGraphicsItems();
 		
-		QList<ItemHandle*> children;
-		if (h)
+		for (int i=0; i < items.size(); ++i)
 		{
-			children << h << h->visibleChildren();
+			if (items[i] && !list.contains(items[i]) && rect.intersects(items[i]->sceneBoundingRect()))
+			{
+				list << items[i];
+				rect = rect.united(items[i]->sceneBoundingRect());
+				rect.adjust( -dx, -dx, dx, dx );
+				items[i] = 0;
+				i = 0;
+			}
 		}
 		
-		NodeGraphicsItem * node = 0;
+		/*NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * conn = 0;
 		TextGraphicsItem* text = 0;
 		
@@ -544,19 +551,19 @@ namespace Tinkercell
 			conn = 0;
 			text = 0;
 			
-			node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+			node = NodeGraphicsItem::cast(items[i]);
 			if (node)
 			{
 				if (!node->handle() || !children.contains(node->handle()) || node->parentItem()) 
 					continue;
 			}
 			else			
-				conn = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+				conn = ConnectionGraphicsItem::cast(items[i]);
 			
 			if (conn && (conn->parentItem() || (conn->handle() && !children.contains(conn->handle())))) 
 				continue;
 			else			
-				text = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+				text = TextGraphicsItem::cast(items[i]);
 				
 			if (text && (text->parentItem() || (text->handle() && !children.contains(text->handle()))))
 				continue;
@@ -569,15 +576,15 @@ namespace Tinkercell
 				else
 					if (text && !list.contains(text))
 						list += text;
-		}
+		}*/
 		
-		node = 0;
+		NodeGraphicsItem * node = 0;
 
 		for (int i=0; i < list.size(); ++i)
 			if (!scene->moving().contains(list[i]))
 			{
 				scene->moving() += list[i];
-				if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(list[i])))
+				if ((node = NodeGraphicsItem::cast(list[i])))
 				{
 					for (int j=0; j < node->boundaryControlPoints.size(); ++j)
 						scene->moving() += node->boundaryControlPoints[j];
@@ -604,11 +611,11 @@ namespace Tinkercell
 					continue;
 				}
 
-				ptr = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]);
+				ptr = NodeGraphicsItem::cast(items[i]);
 				if (ptr)
 				{
 					allItems += ptr;
-					itemHandles += ptr->itemHandle;
+					itemHandles += ptr->handle();
 
 					if (!selectedNodes.contains(ptr))
 					{
@@ -623,7 +630,7 @@ namespace Tinkercell
 						ItemHandle * ptrh = ptr->handle();
 						subPtr = 0;
 						for (int j=0; j < ptrh ->graphicsItems.size(); ++j)
-							if ((subPtr = qgraphicsitem_cast<NodeGraphicsItem*>(ptrh ->graphicsItems[j]))
+							if ((subPtr = NodeGraphicsItem::cast(ptrh ->graphicsItems[j]))
 								&& (subPtr != ptr)
 								&& !selectedNodes.contains(subPtr)
 								&& !selectedHandleNodes.contains(subPtr))
@@ -641,20 +648,20 @@ namespace Tinkercell
 						{
 						ArrowHeadItem * arrow = (static_cast<ArrowHeadItem*>(ptr));
 						if (arrow->connectionItem)
-						itemHandles += arrow->connectionItem->itemHandle;
+						itemHandles += arrow->connectionItem->handle();
 						}*/
 					}
 				}
 				else
 				{
-					ptr2 = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]);
+					ptr2 = ConnectionGraphicsItem::cast(items[i]);
 					if (ptr2 != 0)
 					{
 						allItems += ptr2;
 						if (!selectedConnections.contains(ptr2))
 							selectedConnections += ptr2;
 
-						itemHandles += ptr2->itemHandle;
+						itemHandles += ptr2->handle();
 					}
 					else
 					{
@@ -674,7 +681,7 @@ namespace Tinkercell
 							}
 							else
 							{
-								TextGraphicsItem * ptr5 = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
+								TextGraphicsItem * ptr5 = TextGraphicsItem::cast(items[i]);
 								if (ptr5 != 0)
 								{
 									selectedTexts += ptr5;
@@ -709,23 +716,7 @@ namespace Tinkercell
 		deselect();
 		if (window && window->scene)
 			window->scene->clearSelection();
-		/*if (window && window->textEditor)
-		{
-		QList<Tool*> tools = mainWindow->tools();
-		for (int i=0; i < tools.size(); ++i)
-		if (tools[i])
-		{
-		QList<QAbstractButton*> buttons = tools[i]->buttons.buttons();
-		if (!buttons.isEmpty())
-		{
-		for (int j=0; j < buttons.size(); ++j)
-		{
-		//window->textEditor->removeFromToolBar(buttons[j]);
-		}
-		}
-		}
-		}*/
-		turnOffGraphicalTools();
+		turnOffGraphicalTools(true);
 	}
 
 	void NodeSelection::escapeSignal(const QWidget * )
@@ -734,7 +725,7 @@ namespace Tinkercell
 		if (mainWindow && mainWindow->currentScene())
 			mainWindow->currentScene()->clearSelection();
 
-		turnOffGraphicalTools();
+		turnOffGraphicalTools(true);
 	}
 
 	void NodeSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& list, QList<ItemHandle*>& handles)
@@ -746,8 +737,8 @@ namespace Tinkercell
 				{
 					int j = 0;
 					for (j=0; j < handles[i]->graphicsItems.size(); ++j)
-						if (qgraphicsitem_cast<NodeGraphicsItem*>(handles[i]->graphicsItems[j]) ||
-							qgraphicsitem_cast<ConnectionGraphicsItem*>(handles[i]->graphicsItems[j]))
+						if (NodeGraphicsItem::cast(handles[i]->graphicsItems[j]) ||
+							ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))
 							break;
 					if (j > 0 && j == handles[i]->graphicsItems.size()) //only text or control points left in this handle
 					{

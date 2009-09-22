@@ -61,6 +61,7 @@ namespace Tinkercell
 	signals:
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		void dataChanged(const QList<ItemHandle*>&);
 
 	public slots:
 		void select(int);

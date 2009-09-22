@@ -63,15 +63,25 @@ namespace Tinkercell
 		/*! \brief Destructor
 		*/
 		virtual ~TextGraphicsItem();
-		/*! \brief the handle in which this item belongs
-		*/
-		ItemHandle * itemHandle;
 		/*! \brief Paint this text item with or without a border
 		*/
 		virtual void paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget);
 		/*! \brief whether or not to paint this item with a border
 		*/
-		void showBorder(bool show=true);
+		virtual void showBorder(bool show=true);
+		/*! \brief the string painted by this text graphics item. same as toPlainText
+		\return QString
+		*/
+		virtual QString text() const;
+		/*! \brief set the string painted by this text graphics item. same as setPlainText
+		\param QString
+		*/
+		virtual void setText(const QString&);
+		/*! \brief cast a graphics item to a text item using qgraphicsitem_cast
+		\param QGraphicsItem graphics item
+		\return TextGraphicsItem this will be 0 if the cast is invalid
+		*/
+		static TextGraphicsItem* cast(QGraphicsItem *);
 		/*! \brief relative position with a target item
 		*/
 		QPair<QGraphicsItem*,QPointF> relativePosition;
@@ -96,6 +106,9 @@ signals:
 
 		/*! \brief draws a border around the text item. hide or show using showBorder()*/
 		QGraphicsRectItem * boundingRectItem;
+		/*! \brief the handle in which this item belongs
+		*/
+		ItemHandle * itemHandle;
 
 	};
 }

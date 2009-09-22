@@ -18,9 +18,6 @@ namespace Tinkercell
 	{
 		meshSizeX = meshSizeY = 100;
 		
-		//axisNames = new QComboBox();
-		//connect(axisNames,SIGNAL(currentIndexChanged(int)),dataPlot,SLOT(setXAxis(int)));
-		
 		QVBoxLayout * layout = new QVBoxLayout;
 		
 		surfacePlot = new Plot();
@@ -67,18 +64,11 @@ namespace Tinkercell
 		layout2->addWidget(copy);
 		layout2->addWidget(setLabels);
 		
-		//QHBoxLayout * layout1 = new QHBoxLayout;
-		//layout1->addWidget(axisNames);
-		
-		//QGroupBox * groupBox1 = new QGroupBox(tr(" x-axis "));
-		//groupBox1->setLayout(layout1);
-		
 		QGroupBox * groupBox2 = new QGroupBox(tr(" options "));
 		groupBox2->setLayout(layout2);
 		
 		QHBoxLayout * layout3 = new QHBoxLayout;
 		layout3->addStretch(2);
-		//layout3->addWidget(groupBox1,1,Qt::AlignRight);
 		layout3->addWidget(groupBox2,1,Qt::AlignRight);
 		layout->addLayout(layout3,1);
 		
@@ -99,7 +89,7 @@ namespace Tinkercell
 		return array;
 	}
 	
-	void Plot3DWidget::plot(const DataTable<qreal>& data,const QString& title,int)
+	void Plot3DWidget::surface(const DataTable<qreal>& data,const QString& title,int minX, int maxX, int minY, int maxY)
 	{
 		if (!surfacePlot) return;
 		
@@ -118,16 +108,17 @@ namespace Tinkercell
 					maxZ = dataTable.value(i,j);
 			}
 		
+		if (minX >= maxX)
+		{
+			minX = 0;
+			maxX = dataTable.rows();
+		}
 		
-		/*double  minX = dataTable.value(1,0),
-				minY = dataTable.value(0,1),
-				maxX = dataTable.value(dataTable.rows()-1,0),
-				maxY = dataTable.value(0,dataTable.cols()-1);*/
-		
-		double  minX = 0,
-				minY = 0,
-				maxX = dataTable.rows(),
-				maxY = dataTable.cols();
+		if (minY >= maxY)
+		{
+			minY = 0;
+			maxY = dataTable.cols();
+		}
 		
 		for (int i=0; i < surfacePlot->coordinates()->axes.size(); ++i)
 		{

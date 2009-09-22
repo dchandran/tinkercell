@@ -12,6 +12,7 @@
 
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QPen>
 #include "PlotWidget.h"
 #include "qwt_plot.h"
 #include "qwt_color_map.h"
@@ -60,7 +61,7 @@ namespace Tinkercell
 		virtual void setLogY(bool);
 		void replotUsingHideList();
 		DataTable<qreal>& data();
-		QList<QColor>& colors();
+		QList<QPen>& pens();
 		
 	public slots:
 		void setColors(const QList<QColor>&);

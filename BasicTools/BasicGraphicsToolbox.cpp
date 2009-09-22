@@ -349,7 +349,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item);
+					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 					if (connection)
 					{
 						if (rgb == 0)
@@ -362,7 +362,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						TextGraphicsItem * text = qgraphicsitem_cast<TextGraphicsItem*>(item);
+						TextGraphicsItem * text = TextGraphicsItem::cast(item);
 						if (text)
 						{
 							if (rgb == 0)
@@ -375,7 +375,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							ControlPoint * cp = ControlPoint::asControlPoint(item);
+							ControlPoint * cp = ControlPoint::cast(item);
 							if (cp)
 							{
 								if (rgb == 0)
@@ -678,7 +678,7 @@ namespace Tinkercell
 				{
 					groupItem = dynamic_cast<QGraphicsItemGroup*>(selected[i]->topLevelItem());
 					if (groupItem != 0 && 
-						qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]->topLevelItem()) == 0)
+						NodeGraphicsItem::cast(selected[i]->topLevelItem()) == 0)
 					{
 						QList<QGraphicsItem*> list = groupItem->childItems();
 						scene->setParentItem(tr("ungroup"),list,0);						
@@ -934,7 +934,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 				{
 					scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
 				}
@@ -960,7 +960,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))					
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))					
 				{
 					QPointF colorPt1 = item->mapFromScene(from),
 						colorPt2 = item->mapFromScene(to);
@@ -1037,14 +1037,14 @@ namespace Tinkercell
 						}
 
 						QGraphicsItem * item = scene->itemAt(point);
-						if (!item || (!qgraphicsitem_cast<ConnectionGraphicsItem*>(item) && (item->sceneBoundingRect().width() > 500 || item->sceneBoundingRect().height() > 500)))
+						if (!item || (!ConnectionGraphicsItem::cast(item) && (item->sceneBoundingRect().width() > 500 || item->sceneBoundingRect().height() > 500)))
 						{
 							QList<QGraphicsItem*> ps = scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0));
 							if (!ps.isEmpty())
 							{
 								int i=0;
 								item = ps[i];
-								while (i < ps.size() && qgraphicsitem_cast<TextGraphicsItem*>(item))
+								while (i < ps.size() && TextGraphicsItem::cast(item))
 								{
 									item = ps[i];
 									++i;
@@ -1060,7 +1060,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::asControlPoint(item))					
+							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))					
 							{
 								if (mode == this->brush)
 									scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
@@ -1085,7 +1085,7 @@ namespace Tinkercell
 							}
 							else
 							{
-								ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
+								ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 								if (connection != 0)
 								{
 									connection->setControlPointsVisible(true);
@@ -1099,7 +1099,7 @@ namespace Tinkercell
 								}
 								else
 								{
-									TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
+									TextGraphicsItem * textItem = TextGraphicsItem::cast(item);
 									if (textItem != 0)
 									{
 										if (mode == this->brush || mode == this->gradient)
@@ -1134,7 +1134,7 @@ namespace Tinkercell
 					shape->setBrush(shape->defaultBrush);
 				}
 				else
-					if (connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(temporarilyChangedItems[i]))
+					if (connection = ConnectionGraphicsItem::cast(temporarilyChangedItems[i]))
 					{
 						connection->setPen(connection->defaultPen);
 						connection->setBrush(connection->defaultBrush);
@@ -1169,19 +1169,19 @@ namespace Tinkercell
 
 			for (int i=0; i < selected.size(); ++i)
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]))
+				if (NodeGraphicsItem::cast(selected[i]))
 				{
 					containsNodes = true;
 					nodeslist += selected[i];
 				}
 				else
-					if (qgraphicsitem_cast<TextGraphicsItem*>(selected[i]))
+					if (TextGraphicsItem::cast(selected[i]))
 					{
 						containsText = true;
 						textlist += selected[i];
 					}
 					else
-						if (ControlPoint::asControlPoint(selected[i]))
+						if (ControlPoint::cast(selected[i]))
 						{
 							containsControlPoints = true;
 							cplist += selected[i];
@@ -1201,12 +1201,12 @@ namespace Tinkercell
 		QRectF rect;
 		for (int i=0; i < items.size() && i < points.size(); ++i)
 		{
-			if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i])) && node->itemHandle)
+			if ((node = NodeGraphicsItem::cast(items[i])) && node->handle())
 			{
 				rect = node->sceneBoundingRect();
-				for (int j=0; j < node->itemHandle->graphicsItems.size(); ++j)
+				for (int j=0; j < node->handle()->graphicsItems.size(); ++j)
 				{
-					if ((text = qgraphicsitem_cast<TextGraphicsItem*>(node->itemHandle->graphicsItems[j]))
+					if ((text = TextGraphicsItem::cast(node->handle()->graphicsItems[j]))
 						&& !items.contains(text))
 					{
 						items += text;
@@ -1243,7 +1243,7 @@ namespace Tinkercell
 					{
 						for (int k=0; k < handle->children[j]->graphicsItems.size(); ++k)
 						{
-							node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->children[j]->graphicsItems[k]);
+							node = NodeGraphicsItem::cast(handle->children[j]->graphicsItems[k]);
 							if (node)
 							{
 								if (!items.contains(node))
@@ -1254,7 +1254,7 @@ namespace Tinkercell
 							}
 							else
 							{
-								connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->children[j]->graphicsItems[k]);
+								connection = ConnectionGraphicsItem::cast(handle->children[j]->graphicsItems[k]);
 								if (connection)
 								{
 									QList<ConnectionGraphicsItem::ControlPoint*> cplist = connection->controlPoints();

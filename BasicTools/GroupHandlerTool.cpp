@@ -143,7 +143,7 @@ namespace Tinkercell
 		for (int i=0; i < list.size(); ++i)
 		{
 			node = NodeGraphicsItem::topLevelNodeItem(list[i]);
-			if (node && node->itemHandle && !node->connections().isEmpty())
+			if (node && node->handle() && !node->connections().isEmpty())
 			{
 				hasConnections = true;
 				break;
@@ -191,7 +191,7 @@ namespace Tinkercell
 			if (handle)
 			{
 				for (int j=0; j < handle->graphicsItems.size(); ++j)
-					if (qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[j]))
+					if (ConnectionGraphicsItem::cast(handle->graphicsItems[j]))
 					{
 						notAllowed = true;
 						break;
@@ -203,7 +203,7 @@ namespace Tinkercell
 			if (handle == 0) 
 			{
 				//only text items can be merged without a handle
-				if (qgraphicsitem_cast<TextGraphicsItem*>(list[i])) 
+				if (TextGraphicsItem::cast(list[i])) 
 				{
 					if (!items.contains(list[i]))
 					{
@@ -255,7 +255,7 @@ namespace Tinkercell
 			{
 				if (handles[i])
 					for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-						if ((nameText = qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[j]))
+						if ((nameText = TextGraphicsItem::cast(handles[i]->graphicsItems[j]))
 							&& nameText->toPlainText() == handles[i]->name)
 							textToDelete += nameText;
 			}
@@ -344,15 +344,15 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		for (int i=0; i < selected.size(); ++i)
 		{
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) ||
-				qgraphicsitem_cast<ConnectionGraphicsItem*>(selected[i]) )
+			if (NodeGraphicsItem::cast(selected[i]) ||
+				ConnectionGraphicsItem::cast(selected[i]) )
 			{
 				if ((handle = getHandle(selected[i])))
 				{
 					bool allUnique = true;
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
-						if (qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]) ||
-							qgraphicsitem_cast<ConnectionGraphicsItem*>(handle->graphicsItems[j]))
+						if (NodeGraphicsItem::cast(handle->graphicsItems[j]) ||
+							ConnectionGraphicsItem::cast(handle->graphicsItems[j]))
 						{
 							allUnique = false;
 							break;
@@ -367,7 +367,7 @@ namespace Tinkercell
 						//assign same handle to nearby text items
 						for (int j=0; j < handle->graphicsItems.size(); ++j)
 						{
-							if (qgraphicsitem_cast<TextGraphicsItem*>(handle->graphicsItems[j]))						
+							if (TextGraphicsItem::cast(handle->graphicsItems[j]))						
 							{
 								QRectF rect = selected[i]->sceneBoundingRect();
 								rect.adjust(-10,-10,20,20);
@@ -489,8 +489,8 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		for (int i=0; i<selected.size(); ++i)
-			if ((qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && getHandle(selected[i])) 
-				|| qgraphicsitem_cast<TextGraphicsItem*>(selected[i]))
+			if ((NodeGraphicsItem::cast(selected[i]) && getHandle(selected[i])) 
+				|| TextGraphicsItem::cast(selected[i]))
 				newItems += cloneGraphicsItem(selected[i]);
 
 		scene->insert(tr("alias inserted"),newItems);
@@ -510,7 +510,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = item;
 		bool hasConnections = false;
 
-		if (node && node->itemHandle && !node->connections().isEmpty())
+		if (node && node->handle() && !node->connections().isEmpty())
 		{
 			hasConnections = true;
 		}
@@ -518,7 +518,7 @@ namespace Tinkercell
 			for (int i=0; i < list.size(); ++i)
 			{
 				node = NodeGraphicsItem::topLevelNodeItem(list[i]);
-				if (node && node->itemHandle && !node->connections().isEmpty())
+				if (node && node->handle() && !node->connections().isEmpty())
 				{
 					hasConnections = true;
 					break;
@@ -543,7 +543,7 @@ namespace Tinkercell
 				if (list[i])
 				{
 					handle = getHandle(list.at(i));
-					if (qgraphicsitem_cast<NodeGraphicsItem*>(list.at(i)) && handle && handle->family() && !handles.contains(handle))
+					if (NodeGraphicsItem::cast(list.at(i)) && handle && handle->family() && !handles.contains(handle))
 					{
 						if (!( handle->family()->isA(tr("Compartment")) || handle->family()->isA(tr("Module")))
 							&& 
@@ -556,7 +556,7 @@ namespace Tinkercell
 						}
 					}
 					else
-						if (!handle && qgraphicsitem_cast<TextGraphicsItem*>(list[i]))
+						if (!handle && TextGraphicsItem::cast(list[i]))
 						{
 							if (!items.contains(list[i]))
 								items += list[i];
@@ -569,7 +569,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> moveItems;
 				QList<QPointF> points;
 				for (int i=0; i < items.size(); ++i)
-					if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
+					if (NodeGraphicsItem::cast(items[i]))
 					{
 						moveItems += items[i];
 						if (item->scenePos().x() < items[i]->scenePos().x())
@@ -608,7 +608,7 @@ namespace Tinkercell
 				{
 					if (handles[i])
 						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-							if ((nameText = qgraphicsitem_cast<TextGraphicsItem*>(handles[i]->graphicsItems[j]))
+							if ((nameText = TextGraphicsItem::cast(handles[i]->graphicsItems[j]))
 								&& nameText->toPlainText() == handles[i]->name)
 								textToDelete += nameText;
 				}

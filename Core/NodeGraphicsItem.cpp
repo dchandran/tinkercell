@@ -1202,5 +1202,10 @@ namespace Tinkercell
 		return nodes;
 		
 	}
+	
+	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
+	{
+		return qgraphicsitem_cast<NodeGraphicsItem*>(q);
+	}
 
 }

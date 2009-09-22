@@ -130,6 +130,8 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
+			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)), mainWindow, SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+			
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)),
@@ -263,11 +265,18 @@ namespace Tinkercell
 
 	void ModelSummaryTool::setValue(int,int)
 	{
+		NetworkWindow * win = currentWindow();
+		if (!win) return;
+		
 		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
+		
+		GraphicsScene * scene = win->scene;
 
 		DataTable<qreal> * nDataTable1 = 0, * nDataTable2 = 0;
 
 		QList<DataTable<qreal>*> nDataTablesNew, nDataTablesOld;
+		
+		QList<QGraphicsItem*> insertItems, removeItems;
 
 		QStringList values, fixed, names;
 		QString s;
@@ -325,28 +334,77 @@ namespace Tinkercell
 						nDataTablesNew += nDataTable1;
 						handles += itemHandles[i];
 
-						if (nDataTable2)
+						if (nDataTable2 && itemHandles[i]->data->numericalData[tr("Fixed")] != (*nDataTable2))
 						{
 							nDataTablesOld += &(itemHandles[i]->data->numericalData[tr("Fixed")]);
 							nDataTablesNew += nDataTable2;
 							handles += itemHandles[i];
+							
+							if (scene)
+							{
+								TextGraphicsItem * name;
+								if (nDataTable2->value(0,0))
+								{
+									for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
+									{
+										if ((name = TextGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
+											&& 
+											name->text() == itemHandles[i]->name)
+										{
+											TextGraphicsItem * text = new TextGraphicsItem(tr("(fixed)"));
+											setHandle(text,itemHandles[i]);
+											text->setPos(name->pos() + QPointF(0,name->sceneBoundingRect().height() + 1));
+											text->setFont(name->font());
+											insertItems << text;
+										}
+									}
+								}
+								else
+								{
+									for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
+									{
+										if ((name = TextGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
+											&& 
+											name->text() == tr("(fixed)"))
+										{
+											removeItems << name;
+										}
+									}
+								}
+							}
+						}
+						else
+						{
+							delete nDataTable2;
 						}
 					}
 				}
 			}
 
-			if (mainWindow != 0 && mainWindow->currentScene() != 0)
-			{
-				if (!nDataTablesNew.isEmpty())
-					mainWindow->currentScene()->changeData(tr("changed initial values or fixed"),handles,nDataTablesOld,nDataTablesNew,QList< DataTable<QString>* >(),QList< DataTable<QString>* >());
-				if (!itemsToRename.isEmpty())
-					mainWindow->currentScene()->rename(itemsToRename,newNames);
-			}
+		QList<QUndoCommand*> commands;
+		commands << new ChangeDataCommand<qreal>(tr("change fixed"),nDataTablesOld,nDataTablesNew);
+			
+		if (scene && insertItems.size() > 0)
+			commands << new InsertGraphicsCommand(tr("fixed text"), scene, insertItems);
+			
+		if (scene && removeItems.size() > 0)
+			commands << new RemoveGraphicsCommand(tr("fixed text"), scene, removeItems);
+			
+		CompositeCommand * command = new CompositeCommand(tr("changed initial values or fixed"),commands);
+		win->history.push(command);
+		
+		for (int i=0; i < insertItems.size(); ++i)
+			handles << getHandle(insertItems[i]);
+			
+		for (int i=0; i < removeItems.size(); ++i)
+			handles << getHandle(removeItems[i]);
+		
+		emit dataChanged(handles);
 
-			for (int i=0; i < nDataTablesNew.size(); ++i)
-				delete nDataTablesNew[i];
+		for (int i=0; i < nDataTablesNew.size(); ++i)
+			delete nDataTablesNew[i];
 
-			connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
+		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 	}
 
 	void ModelSummaryTool::updateTables()
@@ -367,7 +425,7 @@ namespace Tinkercell
 		itemHandles.clear();
 
 		for (int i=0; i < items.size(); ++i)
-			if (!qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
+			if (!TextGraphicsItem::cast(items[i]))
 			{
 				handle = getHandle(items[i]);
 				if (handle && handle->family() && !itemHandles.contains(handle))

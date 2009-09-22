@@ -68,7 +68,7 @@ namespace Tinkercell
 	}
 
 
-	ControlPoint * ControlPoint::asControlPoint(QGraphicsItem* item)
+	ControlPoint * ControlPoint::cast(QGraphicsItem* item)
 	{
 		ControlPoint * idptr = 0;
 
@@ -284,7 +284,7 @@ namespace Tinkercell
 			centerRegionItem = new ArrowHeadItem(*copy.centerRegionItem);
 			centerRegionItem->connectionItem = this;
 			for (int i=0; i < children.size(); ++i)
-				if (ControlPoint::asControlPoint(children[i]))
+				if (ControlPoint::cast(children[i]))
 				{
 					children[i]->setParentItem(centerRegionItem);
 				}
@@ -678,7 +678,7 @@ namespace Tinkercell
 
 					pathVectors[i].arrowStart->setZValue(zValue() + 0.1);
 
-					if (pathVectors[i].arrowStart->itemHandle != 0)  //arrow should not have handles
+					if (pathVectors[i].arrowStart->handle() != 0)  //arrow should not have handles
 						Tinkercell::setHandle(pathVectors[i].arrowStart,0);
 
 					if (pathVectors[i].arrowStart->parentItem() == 0)
@@ -2303,6 +2303,11 @@ namespace Tinkercell
 			}
 
 			return p;
+	}
+	
+	ConnectionGraphicsItem* ConnectionGraphicsItem::cast(QGraphicsItem * q)
+	{
+		return qgraphicsitem_cast<ConnectionGraphicsItem*>(q);
 	}
 
 }

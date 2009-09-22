@@ -118,4 +118,8 @@ namespace Tinkercell
 		return 0;
 	}
 
+	Tool::GraphicsItem* Tool::GraphicsItem::cast(QGraphicsItem* q)
+	{
+		return qgraphicsitem_cast<Tool::GraphicsItem*>(q);
+	}
 }

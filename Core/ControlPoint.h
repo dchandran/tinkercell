@@ -71,7 +71,7 @@ namespace Tinkercell
 			return Type;
 		}
 		/*! \brief Gets the control point item from one of its child items*/
-		static ControlPoint * asControlPoint(QGraphicsItem* item);
+		static ControlPoint * cast(QGraphicsItem* item);
 		/*! \brief side effect when moved. always call this after moving*/
 		virtual void sideEffect();
 		/*! \brief make a copy of this control point*/

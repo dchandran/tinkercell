@@ -53,6 +53,7 @@ IF( APPLE AND BUILD_BUNDLE )
     COMMAND mkdir ARGS -p 
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks
+      ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS
     COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/
     COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
@@ -61,7 +62,7 @@ IF( APPLE AND BUILD_BUNDLE )
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS/
     COMMAND cp ARGS ${MACOSX_NODEGRAPHICS_BUNDLE_ICON_FILE}
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources
-    COMMAND cp ARGS -rf ${EXECUTABLE_OUTPUTH_PATH}/Plugins
+    COMMAND cp ARGS -rf ${EXECUTABLE_OUTPUT_PATH}/Plugins
       ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS/
 #    COMMAND cp ARGS *.qm
 #      ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources 

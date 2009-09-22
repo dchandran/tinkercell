@@ -41,7 +41,9 @@ IF( APPLE AND BUILD_BUNDLE )
     TinkerCellCore
   )
   
-  INSTALL(TARGETS SimpleDesigner RUNTIME DESTINATION bin/../)
+  INSTALL(TARGETS SimpleDesigner 
+    BUNDLE DESTINATION bin/../
+    RUNTIME DESTINATION bin/../)
 
   ADD_CUSTOM_COMMAND( TARGET SimpleDesigner POST_BUILD
       COMMAND mkdir ARGS -p

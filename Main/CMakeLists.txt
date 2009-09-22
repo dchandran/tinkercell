@@ -98,6 +98,7 @@ ENDIF( APPLE AND BUILD_BUNDLE )
 #---------------------------------------------------------------------
 
 INSTALL(TARGETS Tinkercell 
+   BUNDLE DESTINATION bin/../
    RUNTIME DESTINATION bin/../
    COMPONENT "TinkerCell")
    

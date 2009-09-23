@@ -38,7 +38,7 @@ namespace Tinkercell
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
 		
-		connect(&actionGroup,SIGNAL(actionTriggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
+		connect(&actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 		
 		//setup main window and toolbar
 		QVBoxLayout * layout = new QVBoxLayout;
@@ -46,6 +46,8 @@ namespace Tinkercell
 		
 		multiplePlotsArea = new QMdiArea(this);
 		multiplePlotsArea->setViewMode(QMdiArea::SubWindowView);
+		connect(multiplePlotsArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(subWindowActivated(QMdiSubWindow*)));
+		
 		window = new QMainWindow;
 		window->setCentralWidget(multiplePlotsArea);
 		window->addToolBar(Qt::RightToolBarArea,&toolBar);
@@ -102,21 +104,22 @@ namespace Tinkercell
 		layout4->setContentsMargins(0,0,0,0);
 		widget->setLayout(layout4);
 		
-		functionsWidgetDock = addDockWidget(tr("plot functions"),widget);
+		functionsWidgetDock = addDockWidget(tr("Plot functions"),widget);
 		functionsWidgetDock->hide();
 		
 		///////////// done with function plotting widget ///////////////
 		
 		//setup toolbar
 		
-		addExportOption(QIcon(tr(":/images/save.png")),tr("image"));
-		addExportOption(QIcon(tr(":/images/camera.png")),tr("snapshot"));
-		addExportOption(QIcon(tr(":/images/export.png")),tr("text"));
-		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"));
-		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"));
-		QAction * action = toolBar.addAction(QIcon(tr(":/images/function.png")),tr("Plot function"));
-		action->setToolTip(tr("Plot a formula"));
-		connect(action,SIGNAL(toggled(bool)),functionsWidgetDock,SLOT(setVisible(bool)));
+		addExportOption(QIcon(tr(":/images/save.png")),tr("image"),tr("Save image"));
+		addExportOption(QIcon(tr(":/images/camera.png")),tr("snapshot"),tr("Copy image to clipboard"));
+		addExportOption(QIcon(tr(":/images/export.png")),tr("text"),tr("Show the data table"));
+		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
+		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"),tr("Copy data to clipboard"));
+		QAction * action = functionsWidgetDock->toggleViewAction();
+		action->setIcon(QIcon(tr(":/images/function.png")));
+		action->setToolTip(tr("Plot one or more formulas"));
+		toolBar.addAction(action);
 
 		//C interface
 		connectTCFunctions();
@@ -514,13 +517,16 @@ namespace Tinkercell
 	}
 	
 	
-	void PlotTool::addExportOption(const QIcon& icon,const QString& type)
+	void PlotTool::addExportOption(const QIcon& icon,const QString& type, const QString & toolTip)
 	{
 		if (exportOptions.contains(type)) return;
 		
 		QAction * action = toolBar.addAction(icon,type,this,SLOT(exportImage()));
 		action->setText(type);
-		action->setToolTip(tr("Export current plot to ") + type);
+		if (toolTip.isEmpty())
+			action->setToolTip(tr("Export current plot to ") + type);
+		else
+			action->setToolTip(toolTip);
 		actionGroup.addAction(action);
 		
 		exportOptions << type;
@@ -544,7 +550,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void PlotTool::subwindowActivated(QMdiSubWindow * subwindow)
+	void PlotTool::subWindowActivated(QMdiSubWindow * subwindow)
 	{
 		if (subwindow && subwindow->widget() && window)
 		{

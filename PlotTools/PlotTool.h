@@ -116,7 +116,7 @@ namespace Tinkercell
 			\param QIcon icon for the export opion
 			\param QString name of the export option
 		*/
-		void addExportOption(const QIcon&,const QString&);
+		void addExportOption(const QIcon&,const QString&,const QString& toolTip=QString());
 		
 		/*! \brief export data in the given format
 			\param QString format
@@ -159,7 +159,7 @@ namespace Tinkercell
 		
 	private slots:
 		void actionTriggered(QAction*);
-		void subwindowActivated(QMdiSubWindow *);
+		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
 		void surface(QSemaphore*, DataTable<qreal>&,double,double,double,double,const QString&);

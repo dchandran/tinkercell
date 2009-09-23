@@ -299,13 +299,12 @@ namespace Tinkercell
 		{
 			QDockWidget * dock = 0;
 
-			//dock = mainWindow->addDockingWindow(name,this, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
-			//dock->setFloating(true);
-			//dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
-			//dock->hide();
-			//QToolBar * toolBar = new QToolBar;
+			dock = mainWindow->addDockingWindow(name,this, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			dock->setFloating(true);
+			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
+			dock->hide();
 			
-            QToolBar * toolBar = mainWindow->toolBarForTools;
+			QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/source.png")));
 			//action->setCheckable(true);

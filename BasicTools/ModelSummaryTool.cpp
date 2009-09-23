@@ -96,26 +96,8 @@ namespace Tinkercell
 	
 	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers)
 	{
-		if (!scene || !scene->useDefaultBehavior || list.isEmpty()) return;
-
+		if (!isVisible() || !scene || !scene->useDefaultBehavior || list.isEmpty()) return;
 		updateTables();
-		if (!tabWidget || tabWidget->count() < 1) return;
-
-		openedByUser = true;
-		if (parentWidget() != 0)
-		{
-			if (parentWidget()->isVisible())
-				openedByUser = false;
-			else
-				parentWidget()->show();
-		}
-		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
 	}
 
 	void ModelSummaryTool::mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)

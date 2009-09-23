@@ -347,7 +347,7 @@ namespace Tinkercell
 		}
 	}
 
-	void NodeSelection::turnOffGraphicalTools(bool close)
+	void NodeSelection::turnOffGraphicalTools(bool)
 	{
 		for (int i=0; i < visibleTools.size(); ++i)
 		{
@@ -359,12 +359,10 @@ namespace Tinkercell
 					tool->scene()->removeItem(tool);
 				}
 				tool->visible(false);
-				if (close) 
-					tool->deselect();
+				tool->deselect();
 			}
 		}
-		if (close)
-			visibleTools.clear();
+		visibleTools.clear();
 	}
 
 	void NodeSelection::revertColor()

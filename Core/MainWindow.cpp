@@ -646,7 +646,7 @@ namespace Tinkercell
 		printAction->setShortcut(QKeySequence::Print);
 		connect(printAction,SIGNAL(triggered()),this,SLOT(print()));
 
-		QAction * printToFileAction = fileMenu->addAction(QIcon(tr(":/images/image.png")),tr("Screenshot"));
+		QAction * printToFileAction = fileMenu->addAction(QIcon(tr(":/images/camera.png")),tr("Screenshot"));
 		printToFileAction->setShortcut(tr("Ctrl+F5"));
 		connect(printToFileAction,SIGNAL(triggered()),this,SLOT(printToFile()));
 

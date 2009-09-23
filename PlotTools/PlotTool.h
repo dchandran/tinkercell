@@ -29,6 +29,7 @@
 #include <QDoubleSpinBox>
 #include <QPlainTextEdit>
 #include <QLineEdit>
+#include <QDockWidget>
 #include "TCstructs.h"
 #include "Tool.h"
 #include "DataTable.h"
@@ -72,10 +73,20 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	public:
+		/*! \brief default constructor*/
 		PlotTool();
+		/*! \brief default size of this widget*/
 		virtual QSize sizeHint() const;
+		/*! \brief set Tinkercell main window*/
 		virtual bool setMainWindow(MainWindow *);
+		/*! \brief make this widget visible and on top*/
 		virtual void setVisible ( bool visible );
+		/*! \brief add a new plot to the window*/
+		virtual void addWidget(PlotWidget*);
+		/*! \brief show message at the bottom*/
+		virtual void setStatusBarMessage(const QString&);
+		/*! \brief add a dock widget to the plot area*/
+		virtual QDockWidget * addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area = Qt::BottomDockWidgetArea);
 
 	public slots:
 		
@@ -98,9 +109,6 @@ namespace Tinkercell
 			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
 		*/
 		void plot3DSurface(const DataTable<qreal>& matrix, double xmin, double xmax, double ymin, double ymax, const QString& title);
-		
-		/*! \brief add a new plot to the window*/
-		void addWidget(PlotWidget*);
 		
 		/*! \brief add export option. This will add a new button to the set of export options. 
 			When user selects this option, the exportData method in the current PlotWidget 

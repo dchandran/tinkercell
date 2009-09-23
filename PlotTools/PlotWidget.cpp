@@ -10,6 +10,7 @@
 #include <math.h>
 #include <QGroupBox>
 #include <QTextEdit>
+#include <QMessageBox>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
@@ -93,12 +94,11 @@ namespace Tinkercell
 		else
 		if (plotTool && type.toLower() == tr("text"))
 		{
-			plotTool->addWidget(new PlotTextWidget(table));
+			plotTool->addWidget(new PlotTextWidget(table,outputs,plotTool));
 		}
 		else
-		if (plotTool && type.toLower() == tr("latex"))
 		{
-			plotTool->addWidget(new PlotTextWidget(table,true));
+			QMessageBox::information(this,tr("Feature not available"),tr("This export option is not available for the current plot"));
 		}
 	}
 }

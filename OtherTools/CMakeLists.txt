@@ -35,9 +35,15 @@ TARGET_LINK_LIBRARIES( ArrowSelection
   TinkerCellCore
 )
 
-INSTALL(TARGETS ArrowSelection
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS ArrowSelection
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS ArrowSelection
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h)
 
@@ -53,9 +59,16 @@ TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
   TinkerCellCore
 )
 
-INSTALL(TARGETS AutoGeneRegulatoryTool
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS AutoGeneRegulatoryTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS AutoGeneRegulatoryTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+
 
 QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h)
 
@@ -73,9 +86,16 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
   AutoGeneRegulatoryTool
 )
 
-INSTALL(TARGETS DNASequenceViewer
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS DNASequenceViewer
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS DNASequenceViewer
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+
 
 QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
 
@@ -92,9 +112,15 @@ TARGET_LINK_LIBRARIES( ModuleTool
   TinkerCellCore
 )
 
-INSTALL(TARGETS ModuleTool
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS ModuleTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS ModuleTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
 
@@ -112,9 +138,15 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
   muparser
 )
 
-INSTALL(TARGETS SimulationEventTool
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS SimulationEventTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS SimulationEventTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
 
@@ -130,9 +162,15 @@ TARGET_LINK_LIBRARIES( ViewTables
   TinkerCellCore
 )
 
-INSTALL(TARGETS ViewTables
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS ViewTables
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS ViewTables
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h)
 
@@ -148,7 +186,13 @@ TARGET_LINK_LIBRARIES( CellPositionUpdateTool
   TinkerCellCore 
 )
 
-INSTALL(TARGETS CellPositionUpdateTool
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS CellPositionUpdateTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS CellPositionUpdateTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 

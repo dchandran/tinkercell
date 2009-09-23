@@ -99,16 +99,15 @@ namespace Tinkercell
 		layout4->setContentsMargins(0,0,0,0);
 		widget->setLayout(layout4);
 		
-		functionsWidgetDock = new QDockWidget;
-		dock->setWidget(widget);
-		window->addDockWidget(Qt::BottomDockWidgetArea,dock);
-		dock->hide();
+		functionsWidgetDock = addDockWidget(tr("plot functions"),widget);
+		functionsWidgetDock->hide();
 		
 		///////////// done with function plotting widget ///////////////
 		
 		//setup toolbar
 		
-		addExportOption(QIcon(tr(":/images/image.png")),tr("image"));
+		addExportOption(QIcon(tr(":/images/save.png")),tr("image"));
+		addExportOption(QIcon(tr(":/images/camera.png")),tr("snapshot"));
 		addExportOption(QIcon(tr(":/images/export.png")),tr("text"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"));
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"));
@@ -549,6 +548,25 @@ namespace Tinkercell
 				window->removeToolBar(otherToolBar);
 			window->addToolBar(Qt::RightToolBarArea,&plotWidget->toolBar);
 		}
+	}
+	
+	QDockWidget * PlotTool::addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area)
+	{
+		if (window && widget)
+		{
+			QDockWidget * dock = new QDockWidget;
+			dock->setWidget(widget);
+			dock->setWindowTitle(title);
+			window->addDockWidget(area,dock);
+			return dock;
+		}
+		return 0;
+	}
+	
+	void PlotTool::setStatusBarMessage(const QString& s)
+	{
+		if (window && window->statusBar())
+			window->statusBar()->showMessage(s);
 	}
 	
 }

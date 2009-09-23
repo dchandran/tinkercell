@@ -42,6 +42,12 @@ TARGET_LINK_LIBRARIES( DynamicCodeTools
   TinkerCellCore
 )
 
-INSTALL(TARGETS DynamicCodeTools
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS DynamicCodeTools
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS DynamicCodeTools
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )

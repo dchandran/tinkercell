@@ -10,9 +10,11 @@
 #ifndef TINKERCELL_PLOT2DWIDGET_H
 #define TINKERCELL_PLOT2DWIDGET_H
 
-#include <QListWidget>
-#include <QListWidgetItem>
+#include <QButtonGroup>
+#include <QDoubleSpinBox>
+#include <QComboBox>
 #include <QPen>
+#include <QDialog>
 #include "PlotWidget.h"
 #include "qwt_plot.h"
 #include "qwt_color_map.h"
@@ -60,17 +62,12 @@ namespace Tinkercell
 		virtual void setLogX(bool);
 		virtual void setLogY(bool);
 		void replotUsingHideList();
-		DataTable<qreal>& data();
-		QList<QPen>& pens();
-		
-	public slots:
-		void setColors(const QList<QColor>&);
 		
 	protected:
 		DataTable<qreal> dataTable;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
-		static QList<QColor> lineColors;
+		static QList<QPen> penList;
 		int xcolumn, delta;
 		
 	protected slots:
@@ -78,6 +75,20 @@ namespace Tinkercell
 		void setXAxis(int);
 		
 		friend class Plot2DWidget;
+	};
+	
+	class GetPenInfoDialog : public QDialog
+	{	
+	public:
+		GetPenInfoDialog(QWidget * parent);
+		QPen getPen();
+	public slots:
+		void done();
+		void currentColorChanged ( const QColor & color );
+	private:
+		QColor color;
+		QDoubleSpinBox spinBox;
+		QComboBox comboBox;
 	};
 
 	/*!
@@ -88,17 +99,11 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		Plot2DWidget(PlotTool * parent = 0);
-		DataTable<qreal>* data();
-		void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
-		
-	protected:
-		DataPlot * dataPlot;
-		QComboBox * axisNames;
-		QListWidget * colorWidget;
+		virtual DataTable<qreal>* data();
+		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
 		
 	public slots:
-		void copyData();
-		void printToFile();
+		void exportData(const QString&);
 		void logX(bool);
 		void logY(bool);
 		void logAxis(int,bool);
@@ -112,10 +117,19 @@ namespace Tinkercell
 		void setYLabel(const QString&);
 	
 	private slots:
-		void selectColor(QListWidgetItem*);
+		void tableChanged(int,int);
 	
 	private:
-		void setupColorWidget();
+		QWidget* dialogWidget();
+		QString latex();
+		DataPlot * dataPlot;
+		QComboBox * axisNames;
+		QComboBox * lineTypes;
+		Q
+		QButtonGroup buttonsGroup;
+		
+	protected:
+		virtual void mouseMoveEvent ( QMouseEvent * event );
 	};
 
 }

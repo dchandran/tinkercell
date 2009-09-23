@@ -34,15 +34,11 @@ namespace Tinkercell
 		int meshSizeY;
 		Plot3DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
-		void surface(const DataTable<qreal>& matrix,int xmin, int xmax, int ymin, int ymax,const QString& title=QString());
+		void surface(const DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title=QString());
 	
 	public slots:
-		virtual void copyData();
 		virtual void printToFile(const QString&);
-		virtual void setTitle(const QString&);
-		virtual void setXLabel(const QString&);
-		virtual void setYLabel(const QString&);
-		virtual void setZLabel(const QString&);
+		void exportData(const QString&);
 		
 	private slots:
 		void savePixmap();
@@ -51,6 +47,10 @@ namespace Tinkercell
 		void setXLabel();
 		void setYLabel();
 		void setZLabel();
+		virtual void setTitle(const QString&);
+		virtual void setXLabel(const QString&);
+		virtual void setYLabel(const QString&);
+		virtual void setZLabel(const QString&);
 		
 	protected:
 	
@@ -74,7 +74,6 @@ namespace Tinkercell
 		static double ** tableToArray(const DataTable<qreal>&);
 		Plot * surfacePlot;
 		DataFunction * function;
-		//QComboBox * axisNames;
 	};
 
 }

@@ -33,6 +33,13 @@ TARGET_LINK_LIBRARIES( ContainerTool
   TinkerCellCore
 )
 
-INSTALL(TARGETS ContainerTool
-  LIBRARY DESTINATION Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS ContainerTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS ContainerTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+

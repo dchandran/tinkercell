@@ -31,6 +31,13 @@ TARGET_LINK_LIBRARIES( AntimonyEditor
   TinkerCellCore
 )
 
-INSTALL(TARGETS AntimonyEditor
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS AntimonyEditor
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS AntimonyEditor
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+

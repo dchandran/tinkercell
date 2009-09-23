@@ -59,13 +59,6 @@ namespace Tinkercell
 		/*! \brief export data is some format
 			\param QString format*/
 		virtual void exportData(const QString&);
-		/*! \brief Child classes implement this*/
-		virtual void logAxis(int,bool);
-		/*! \brief Child classes implement this*/
-		virtual void setPlotSettings();
-		/*! \brief Child classes implement this*/
-		virtual void setDisplaySettings();
-	
 	};
 
 }

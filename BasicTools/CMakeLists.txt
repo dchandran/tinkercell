@@ -41,10 +41,16 @@ TARGET_LINK_LIBRARIES( AboutBox
   TinkerCellCore
 )
 
-INSTALL(TARGETS AboutBox
+IF( WIN32 )
+  INSTALL(TARGETS AboutBox
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS AboutBox
   LIBRARY DESTINATION Plugins
   ARCHIVE DESTINATION Plugins
 )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( InsertionTools_MOC 
   NodeInsertion.h 
@@ -69,9 +75,16 @@ TARGET_LINK_LIBRARIES( InsertionTools
   TinkerCellCore
 )
 
-INSTALL(TARGETS InsertionTools
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS InsertionTools
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+   INSTALL(TARGETS InsertionTools
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+
 
 QT4_WRAP_CPP( LoadSaveTool_MOC LoadSaveTool.h)
 
@@ -88,9 +101,15 @@ TARGET_LINK_LIBRARIES( LoadSaveTool
   TinkerCellCore
 )
 
-INSTALL(TARGETS LoadSaveTool
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS LoadSaveTool
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS LoadSaveTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( ConnectionMaker_MOC 
   DnaGraphicsItem.h 
@@ -111,9 +130,15 @@ TARGET_LINK_LIBRARIES( ConnectionMaker
   TinkerCellCore
 )
 
-INSTALL(TARGETS ConnectionMaker
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS ConnectionMaker
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS ConnectionMaker
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( SelectionTools_MOC 
   NodeSelection.h 
@@ -136,9 +161,15 @@ TARGET_LINK_LIBRARIES( SelectionTools
   TinkerCellCore
 )
 
-INSTALL(TARGETS SelectionTools
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS SelectionTools
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS SelectionTools
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( VisualTools_MOC 
   BasicGraphicsToolbox.h 
@@ -167,9 +198,15 @@ TARGET_LINK_LIBRARIES( VisualTools
   TinkerCellCore
 )
 
-INSTALL(TARGETS VisualTools
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS VisualTools
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS VisualTools
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
 
 QT4_WRAP_CPP( DataBasicTools_MOC 
    SpinBoxDelegate.h 
@@ -205,6 +242,13 @@ TARGET_LINK_LIBRARIES( DataBasicTools
   muparser
 )
 
-INSTALL(TARGETS DataBasicTools
-  LIBRARY DESTINATION Plugins
-)
+IF( WIN32 )
+  INSTALL(TARGETS DataBasicTools
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS DataBasicTools
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+

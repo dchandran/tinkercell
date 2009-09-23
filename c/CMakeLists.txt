@@ -11,70 +11,111 @@ ADD_LIBRARY( runlangevin
   runlangevin.c
 )
 
-INSTALL(TARGETS runlangevin LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runlangevin DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runlangevin LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
+
 
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c
 )
 
-INSTALL(TARGETS runsteadystate LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runsteadystate DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runsteadystate LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( runcvode 
   SHARED
   runcvode.c
 )
 
-INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runcvode DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
-INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runssa DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( runloops 
   SHARED
   runLoops.c
 )
 
-INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runloops DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( loadFullBindingKinetics 
   SHARED
   loadFullBindingKinetics.c
 )
 
-INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( runbistablega 
   SHARED
   runbistablega.c
 )
 
-INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( runvaluesattime 
   SHARED
   runvaluesattime.c
 )
 
-INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( tabasco_like 
   SHARED
   tabasco_like.c
 )
 
-INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_LIBRARY( parametercorrelation 
   SHARED
   parametercorrelation.c
 )
 
-INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 ADD_SUBDIRECTORY( lpsolve )
 
@@ -118,7 +159,11 @@ ADD_LIBRARY( lpsolve
   #${LPSOLVE_SHARED_SRC}
 )
 
-INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
+IF ( WIN32 )
+  INSTALL(TARGETS lpsolve DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 SET_TARGET_PROPERTIES( lpsolve
   PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine")
@@ -140,7 +185,14 @@ IF(PYTHONLIBS_FOUND)
     ${PYTHON_LIBRARIES}
   )
   
-  INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
+  
+  
+  IF ( WIN32 )
+    INSTALL(TARGETS runpy DESTINATION Plugins/c)
+  ELSE ( WIN32 )
+    INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
+  ENDIF( WIN32 )
+
   
 ENDIF(PYTHONLIBS_FOUND)
 
@@ -153,7 +205,7 @@ FILE( GLOB C_SRC "*.c" "*.h" )
 
 INSTALL( FILES ${C_SRC}
   DESTINATION c
-  COMPONENT CVODE
+  COMPONENT C_SOURCE
 )
 
 FILE( GLOB API_SRC "API/*.h" "API/*.c")

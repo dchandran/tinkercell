@@ -7,8 +7,8 @@
  
 ****************************************************************************/
 
-#ifndef TINKERCELL_PLOTWIDGET_H
-#define TINKERCELL_PLOTWIDGET_H
+#ifndef TINKERCELL_PLOTTEXTWIDGET_H
+#define TINKERCELL_PLOTTEXTWIDGET_H
 
 #include <QtGui>
 #include <QList>

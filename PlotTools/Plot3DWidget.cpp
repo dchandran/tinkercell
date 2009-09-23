@@ -21,16 +21,11 @@ namespace Tinkercell
 		QVBoxLayout * layout = new QVBoxLayout;
 		
 		surfacePlot = new Plot();
-		layout->addWidget(surfacePlot,10);
+		layout->addWidget(surfacePlot);
+		setLayout(layout);
 		
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
-		
-		QToolButton * copy = new QToolButton(this);
-		copy->setIcon(QIcon(":/images/copy.png"));
-		copy->setToolTip(tr("Copy tab-delimited data to clipboard"));
-		copy->setText(tr("Copy data"));
-		copy->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
 		QToolButton * setLabels = new QToolButton(this);
 		setLabels->setIcon(QIcon(":/images/text.png"));
@@ -38,41 +33,15 @@ namespace Tinkercell
 		setLabels->setToolTip(tr("Change title and axis labels"));
 		QMenu * labelsMenu = new QMenu(tr("Set labels"),setLabels);
 		labelsMenu->addAction(tr("Title"),this,SLOT(setTitle()));
-		labelsMenu->addAction(tr("x label"),this,SLOT(setXLabel()));
-		labelsMenu->addAction(tr("y label"),this,SLOT(setYLabel()));
+		labelsMenu->addAction(tr("X label"),this,SLOT(setXLabel()));
+		labelsMenu->addAction(tr("Y label"),this,SLOT(setYLabel()));
 		labelsMenu->addAction(tr("Z label"),this,SLOT(setZLabel()));
 		setLabels->setMenu(labelsMenu);
 		setLabels->setPopupMode ( QToolButton::MenuButtonPopup );
 		setLabels->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+		toolBar.addWidget(setLabels);
 		
-		QToolButton * print = new QToolButton(this);
-		print->setIcon(QIcon(":/images/print.png"));
-		print->setText(tr("Print to file"));
-		print->setToolTip(tr("Print graph to pixel or vector file"));
-		print->setPopupMode ( QToolButton::MenuButtonPopup );
-		print->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-		
-		QMenu * printMenu = new QMenu(tr("save to file"),print);
-		print->setMenu(printMenu);
-		
-		printMenu->addAction(tr("portable network graphics (PNG)"),this,SLOT(savePixmap()));
-		printMenu->addAction(tr("post script (PS)"),this,SLOT(saveVector()));
-		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
-		
-		QHBoxLayout * layout2 = new QHBoxLayout;
-		layout2->addWidget(print);
-		layout2->addWidget(copy);
-		layout2->addWidget(setLabels);
-		
-		QGroupBox * groupBox2 = new QGroupBox(tr(" options "));
-		groupBox2->setLayout(layout2);
-		
-		QHBoxLayout * layout3 = new QHBoxLayout;
-		layout3->addStretch(2);
-		layout3->addWidget(groupBox2,1,Qt::AlignRight);
-		layout->addLayout(layout3,1);
-		
-		setLayout(layout);
 		setMinimumHeight(200);
 		
 	}
@@ -89,7 +58,7 @@ namespace Tinkercell
 		return array;
 	}
 	
-	void Plot3DWidget::surface(const DataTable<qreal>& data,const QString& title,int minX, int maxX, int minY, int maxY)
+	void Plot3DWidget::surface(const DataTable<qreal>& data,double minX, double maxX, double minY, double maxY,const QString& title)
 	{
 		if (!surfacePlot) return;
 		
@@ -225,10 +194,35 @@ namespace Tinkercell
 		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
 	}
 	
-	void Plot3DWidget::printToFile(const QString& fileName)
+	void Plot3DWidget::exportData(const QString& type)
 	{
-		if (surfacePlot)
-			surfacePlot->savePixmap(fileName, tr("PNG"));
+		if (type.toLower() == tr("image"))
+		{
+			QString fileName = 
+			QFileDialog::getSaveFileName(this, tr("Print to File"),
+                                          MainWindow::userHome(),
+                                          tr("PNG Files (*.png)"));
+			if (surfacePlot)
+			{
+				QPixmap pixmap = surfacePlot->renderPixmap();
+				pixmap.save(fileName,"PNG");
+			}
+		}
+		else
+		if (type.toLower() == tr("snapshot"))
+		{
+			QClipboard * clipboard = QApplication::clipboard();
+			if (clipboard && surfacePlot)
+			{
+				QPixmap pixmap = surfacePlot->renderPixmap();
+				if (!pixmap.isNull())
+					clipboard->setImage(pixmap.toImage());
+			}
+		}
+		else
+		{
+			PlotWidget::exportData(type);
+		}
 	}
 	
 	void Plot3DWidget::setTitle(const QString& s)
@@ -255,18 +249,6 @@ namespace Tinkercell
 			surfacePlot->coordinates()->axes[Z1].setLabelString(s);
 	}
 	
-	void Plot3DWidget::savePixmap()
-	{		
-		QString fileName = 
-			QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::userHome(),
-                                          tr("PNG Files (*.png)"));
-		if (surfacePlot)
-		{
-			QPixmap pixmap = surfacePlot->renderPixmap();
-			pixmap.save(fileName,"PNG");
-		}
-	}
 	
 	void Plot3DWidget::saveVector()
 	{		

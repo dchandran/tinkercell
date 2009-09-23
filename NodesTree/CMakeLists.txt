@@ -36,10 +36,17 @@ TARGET_LINK_LIBRARIES( NodesTree
   TinkerCellCore
   )
 
-INSTALL(TARGETS NodesTree
-  DESTINATION Plugins
-  COMPONENT Plugins
-)
+IF ( WIN32 )
+  INSTALL(TARGETS NodesTree
+    DESTINATION Plugins
+    COMPONENT Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS NodesTree
+    LIBRARY DESTINATION Plugins
+    COMPONENT Plugins
+  )
+ENDIF( WIN32 )
 
 FILE(GLOB NODESTREE_XML_FILES NodesTree.xml ConnectionsTree.xml)
 

@@ -19,10 +19,6 @@
 
 namespace Tinkercell
 {	
-	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent) : QWidget(parent), plotTool(parent), dataTable(table)
-	{
-	}
-	
 	DataTable<qreal>* PlotTextWidget::data()
 	{
 		return &dataTable;

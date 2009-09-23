@@ -363,7 +363,8 @@ namespace Tinkercell
 					tool->deselect();
 			}
 		}
-		visibleTools.clear();
+		if (close)
+			visibleTools.clear();
 	}
 
 	void NodeSelection::revertColor()

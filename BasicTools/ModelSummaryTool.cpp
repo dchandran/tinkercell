@@ -93,6 +93,30 @@ namespace Tinkercell
 			}
 		}
 	}
+	
+	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers)
+	{
+		if (!scene || !scene->useDefaultBehavior || list.isEmpty()) return;
+
+		updateTables();
+		if (!tabWidget || tabWidget->count() < 1) return;
+
+		openedByUser = true;
+		if (parentWidget() != 0)
+		{
+			if (parentWidget()->isVisible())
+				openedByUser = false;
+			else
+				parentWidget()->show();
+		}
+		else
+		{
+			if (isVisible())
+				openedByUser = false;
+			else
+				show();
+		}
+	}
 
 	void ModelSummaryTool::mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
@@ -134,6 +158,9 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
 
+			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
+				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
+			
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)),
 				this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)));
 

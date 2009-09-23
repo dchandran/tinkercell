@@ -735,7 +735,7 @@ namespace Tinkercell
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
 
-		toolBarBasic->setMinimumWidth(100);
+		toolBarBasic->setMinimumWidth(300);
 		addToolBar(Qt::TopToolBarArea, toolBarBasic);
 		addToolBar(Qt::TopToolBarArea, toolBarEdits);
 		addToolBar(Qt::TopToolBarArea, toolBarForTools);

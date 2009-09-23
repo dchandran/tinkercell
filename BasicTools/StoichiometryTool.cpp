@@ -653,6 +653,7 @@ namespace Tinkercell
 
 		rowButtonLayout->addWidget(addRow);
 		rowButtonLayout->addWidget(removeRow);
+		rowButtonLayout->addWidget(calc);
 		rowButtonLayout->addStretch(1);
 		rowButtonLayout->addWidget(question1);
 

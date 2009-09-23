@@ -352,15 +352,21 @@ namespace Tinkercell
 
 		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
 		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
+		
+		QToolButton * calc = new QToolButton(this);
+		calc->setIcon(QIcon(":/images/calc.png"));
+		calc->setToolTip(tr("Get function values"));
 
 		QToolButton * question = new QToolButton(this);
 		question->setIcon(QIcon(":/images/question.png"));
 
 		QMessageBox * messageBox = new QMessageBox(QMessageBox::Information,tr("About Functions Table"),message,QMessageBox::StandardButtons(QMessageBox::Close), const_cast<QWidget*>((QWidget*)this), Qt::WindowFlags (Qt::Dialog));
 		connect(question,SIGNAL(pressed()),messageBox,SLOT(exec()));
+		connect(calc,SIGNAL(pressed()),this,SLOT(eval()));
 
 		actionsLayout->addWidget(addAttribAction);
 		actionsLayout->addWidget(removeAttribAction);
+		rowButtonLayout->addWidget(calc);
 		actionsLayout->addStretch(1);
 		actionsLayout->addWidget(question);
 
@@ -761,5 +767,20 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
+	}
+	
+	void AssignmentFunctionsTool::eval()
+	{
+		bool b;
+		QStringList values;
+		for (int i=0; i < updatedFunctions.size() && i < updatedFunctionNames.size(); ++i)
+		{
+			QString s = updatedFunctions[i];
+			double d = EquationParser::eval(currentWindow(), s, &b);
+			if (b)
+				values += updatedFunctionNames[i] + tr(" = ") + QString::number(d);
+		}
+		if (values.size() > 0)
+			ConsoleWindow::message(values.join(tr("\n")));
 	}
 }

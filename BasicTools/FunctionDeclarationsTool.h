@@ -82,6 +82,7 @@ namespace Tinkercell
 		QSize sizeHint() const;
 
 	public slots:
+		void eval();
 		void select(int);
 		void deselect(int);
 

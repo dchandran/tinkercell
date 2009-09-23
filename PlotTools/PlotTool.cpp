@@ -141,6 +141,7 @@ namespace Tinkercell
 			{
 				QPoint p = mainWindow->rect().bottomRight() - QPoint(sizeHint().width(),sizeHint().height());
 				dockWidget->setFloating(true);
+				dockWidget->hide();
 			}
 			
 			QToolBar * toolBar = mainWindow->toolBarForTools;

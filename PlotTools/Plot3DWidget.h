@@ -13,6 +13,8 @@
 #include "PlotWidget.h"
 #include "qwt3d_surfaceplot.h"
 #include "qwt3d_function.h"
+#include "qwt3d_color.h"
+#include "qwt3d_color.h"
 
 using namespace Qwt3D;
 
@@ -64,6 +66,17 @@ namespace Tinkercell
 				double minX, minY, maxX, maxY;
 		};
 		
+		class StandardColor : public Qwt3D::Color
+		{
+			public:
+				StandardColor(double, const QColor&, double, const QColor&);
+				Qwt3D::RGBA operator()(double x, double y, double z) const;
+				Qwt3D::RGBA operator()(Qwt3D::Triple const &t) const;				
+				Qwt3D::ColorVector& createVector(Qwt3D::ColorVector& vec) { return vec; }
+				QColor start, end;
+				double min, max;
+		};
+		
 		class Plot : public SurfacePlot
 		{
 			public:
@@ -73,6 +86,7 @@ namespace Tinkercell
 		static double ** tableToArray(const DataTable<qreal>&);
 		Plot * surfacePlot;
 		DataFunction * function;
+		
 	};
 
 }

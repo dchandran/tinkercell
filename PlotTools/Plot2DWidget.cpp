@@ -638,7 +638,7 @@ namespace Tinkercell
 		spinBox.setRange(0,10);
 		spinBox.setValue(2.0);
 		QGroupBox * spinBoxGrp = new QGroupBox(tr(" line type and width "));
-		colorGrp->setLayout(layout2);
+		spinBoxGrp->setLayout(layout2);
 		
 		setSizeGripEnabled(true);
 		
@@ -654,9 +654,9 @@ namespace Tinkercell
 		connect(cancelButton,SIGNAL(pressed()),this,SLOT(reject()));
 		
 		QVBoxLayout * layout = new QVBoxLayout;
-		layout->addLayout(layout1);
-		layout->addLayout(layout2);
-		layout->addLayout(layout3);
+		layout->addWidget(colorGrp,10);
+		layout->addWidget(spinBoxGrp,0);
+		layout->addLayout(layout3,0);
 		
 		setLayout(layout);
 	}

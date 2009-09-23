@@ -7,6 +7,7 @@
  
 ****************************************************************************/
 
+#include <QColor>
 #include "ConsoleWindow.h"
 #include "Plot3DWidget.h"
 
@@ -96,6 +97,7 @@ namespace Tinkercell
 			surfacePlot->coordinates()->axes[i].setMinors(2);
 		}
 		
+		surfacePlot->setDataColor(new Plot3DWidget::StandardColor(minZ,QColor("#BACCFF"),maxZ,QColor("#FF4106")));
 		surfacePlot->loadFromData(tableToArray(dataTable),dataTable.cols(),dataTable.rows(),minX,maxX,minY,maxY);
 		
 		setTitle(title);
@@ -155,6 +157,7 @@ namespace Tinkercell
 		coordinates()->axes[Z1].setLabelString(QChar(0x38f)); // Omega - see http://www.unicode.org/charts/
 
 		setCoordinateStyle(BOX);
+		setDataColor(new Plot3DWidget::StandardColor(0.0,QColor("#BACCFF"),1.0,QColor("#FF4106")));
 
 		updateData();
 		updateGL();
@@ -249,9 +252,48 @@ namespace Tinkercell
 	
 	void Plot3DWidget::setZLabel()
 	{
-		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("z-axis label :"));
-		
+		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("z-axis label :"));		
 		setZLabel(s);
+	}
+	
+	Plot3DWidget::StandardColor::StandardColor(double minz, const QColor& c1, double maxz, const QColor& c2) : 
+		start(c1), end(c2), min(minz), max(maxz)
+	{
+	}
+
+	Qwt3D::RGBA Plot3DWidget::StandardColor::operator()(double, double, double z) const
+	{
+		Qwt3D::RGBA c;
+		if (z <= min)
+		{
+			c.r = start.redF();
+			c.g = start.greenF();
+			c.b = start.blueF();
+			c.a = start.alphaF();
+			return c;
+		}
+		if (z <= max)
+		{
+			c.r = end.redF();
+			c.g = end.greenF();
+			c.b = end.blueF();
+			c.a = end.alphaF();
+			return c;
+		}
+		
+		double x1 = (z - min)/(max-min), x2 = (max - z)/(max-min);
+		
+		c.r = x1*start.redF() + x2*end.redF();
+		c.g = x1*start.greenF() + x2*end.greenF();
+		c.b = x1*start.blueF() + x2*end.blueF();
+		c.a = 1.0;
+		
+		return c;
+	}
+	
+	Qwt3D::RGBA Plot3DWidget::StandardColor::operator()(Qwt3D::Triple const &t) const
+	{
+		return operator()(t.x,t.y,t.z);
 	}
 
 }

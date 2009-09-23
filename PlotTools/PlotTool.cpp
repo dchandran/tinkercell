@@ -127,7 +127,7 @@ namespace Tinkercell
 
 	QSize PlotTool::sizeHint() const
 	{
-	    return QSize(300, 600);
+	    return QSize(600, 300);
 	}
 
 	bool PlotTool::setMainWindow(MainWindow * TinkercellWindow)

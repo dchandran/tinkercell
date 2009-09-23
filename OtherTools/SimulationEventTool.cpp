@@ -17,6 +17,7 @@
 #include "NetworkWindow.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
+#include "EquationParser.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"

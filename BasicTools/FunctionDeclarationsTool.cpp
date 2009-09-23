@@ -366,7 +366,7 @@ namespace Tinkercell
 
 		actionsLayout->addWidget(addAttribAction);
 		actionsLayout->addWidget(removeAttribAction);
-		rowButtonLayout->addWidget(calc);
+		actionsLayout->addWidget(calc);
 		actionsLayout->addStretch(1);
 		actionsLayout->addWidget(question);
 

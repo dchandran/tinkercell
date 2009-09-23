@@ -795,15 +795,6 @@ namespace Tinkercell
 
             if (handle && handle->data)
             {
-                /*if (index.column() == 2)
-                                {
-                                        if (attributeName.isEmpty()) return 0;
-                                        QDoubleSpinBox * editor = new QDoubleSpinBox(parent);
-                                        editor->setDecimals(10);
-                                        editor->setMinimum(-1.0e300);
-                                        editor->setMaximum(1.0e300);
-                                        return editor;
-                                }*/
 
                 if (index.column() == 2)
                 {
@@ -833,55 +824,78 @@ namespace Tinkercell
             QString attributeName = item->text();
 
             if (handle && handle->data)
-                if (handle->hasNumericalData(tr("Numerical Attributes")) || handle->hasNumericalData(tr("Initial Value")))
-                {
-                /*if (index.column() == 2)
-                                        {
-                                                if (attributeName.isEmpty()) return;
-                                                QDoubleSpinBox * editor = static_cast<QDoubleSpinBox*>(widget);
-                                                if (handle->family() && handle->hasNumericalData(tr("Initial Value"))
-                                                        && attributeName == handle->family()->measurementUnit.first)
-                                                        editor->setValue(handle->data->numericalData[tr("Initial Value")].value(0,0));
-                                                else
-                                                        editor->setValue(handle->data->numericalData[tr("Numerical Attributes")].at(attributeName,0));
-                                                return;
-                                        }*/
+            {
+				if (index.column() == 0)
+				{
+					QLineEdit * textEditor = static_cast<QLineEdit*>(widget);
+					textEditor->setText( handle->name );
+					return;
+				}
+				
+				if (index.column() == 2)
+				{
+					if (attributeName.isEmpty()) return;
+					QLineEdit * editor = static_cast<QLineEdit*>(widget);
+					
+					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
+					{
+						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
+							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].cols() == 1
+							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames().contains(attributeName))
+						{
+							editor->setText(QString::number(
+								handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].value(attributeName,0)));
+						}
+					}
+					
+					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
+					{
+						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
+							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1
+							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames().contains(attributeName))
+						{
+							editor->setText(handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].value(attributeName,0));
+						}
+					}
+					
+					return;
+				}
 
-                if (index.column() == 2)
-                {
-                    if (attributeName.isEmpty()) return;
-                    QLineEdit * editor = static_cast<QLineEdit*>(widget);
-                    if (handle->family() && handle->hasNumericalData(tr("Initial Value"))
-                        && attributeName == handle->family()->measurementUnit.first)
-                        editor->setText(QString::number(handle->data->numericalData[tr("Initial Value")].value(0,0)));
-                    else
-                        editor->setText(QString::number(handle->data->numericalData[tr("Numerical Attributes")].at(attributeName,0)));
-                    return;
-                }
+				if (index.column() == 1)
+				{
+					QComboBox * editor = static_cast<QComboBox*>(widget);
 
-                if (index.column() == 1)
-                {
-                    QComboBox * editor = static_cast<QComboBox*>(widget);
+					QStringList list;
+					
+					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
+					{
+						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
+							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].cols() == 1)
+						{
+							list << handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames();
+						}
+					}
+					
+					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
+					{
+						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
+							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1)
+						{
+							list << handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames();							
+						}
+					}
 
-                    QStringList list = handle->data->numericalData[tr("Numerical Attributes")].getRowNames();
-
-                    if (handle->family() && !handle->family()->measurementUnit.first.isEmpty())
-                        list.push_front(handle->family()->measurementUnit.first);
-
-                    if (handle->type == ConnectionHandle::TYPE)
-                    {
-                        list.removeAll("numin");  //these are annoying
-                        list.removeAll("numout");
-                    }
-                    //qDebug() << list.size();
-                    editor->addItems(list);
-                    editor->setCurrentIndex(list.indexOf(attributeName));
-                    return;
-                }
-
-                QLineEdit * textEditor = static_cast<QLineEdit*>(widget);
-                textEditor->setText( handle->name );
-            }
+					if (handle->type == ConnectionHandle::TYPE)
+					{
+						list.removeAll("numin");  //these are annoying
+						list.removeAll("numout");
+					}
+					
+					editor->addItems(list);
+					editor->setCurrentIndex(list.indexOf(attributeName));
+					return;
+				}
+			}
         }
     }
 
@@ -897,28 +911,23 @@ namespace Tinkercell
 
             if (handle && handle->data)// && !attributeName.isEmpty())
             {
-                if (handle->hasNumericalData(tr("Numerical Attributes"))  || handle->hasNumericalData(tr("Initial Value")))
-                {
-                    if (index.column() == 2)
-                    {
-                        if (attributeName.isEmpty()) return;
-                        /*QDoubleSpinBox * editor = static_cast<QDoubleSpinBox*>(widget);
-                                                value = QVariant(editor->value());*/
-                        QLineEdit * editor = static_cast<QLineEdit*>(widget);
-                        value = QVariant(editor->text());
-                    }
-                    else
-                        if (index.column() == 1)
-                        {
-                        QComboBox * editor = static_cast<QComboBox*>(widget);
-                        value = QVariant(editor->currentText());
-                    }
-                    else
-                    {
-                        QLineEdit * editor = static_cast<QLineEdit*>(widget);
-                        value = QVariant(editor->text());
-                    }
-                }
+				if (index.column() == 2)
+				{
+					if (attributeName.isEmpty()) return;
+					QLineEdit * editor = static_cast<QLineEdit*>(widget);
+					value = QVariant(editor->text());
+				}
+				else
+				if (index.column() == 1)
+				{
+					QComboBox * editor = static_cast<QComboBox*>(widget);
+					value = QVariant(editor->currentText());
+				}
+				else
+				{
+					QLineEdit * editor = static_cast<QLineEdit*>(widget);
+					value = QVariant(editor->text());
+				}
                 model->setData(index, value, Qt::EditRole);
             }
 			

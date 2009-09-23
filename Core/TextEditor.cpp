@@ -418,7 +418,7 @@ namespace Tinkercell
 			splitter->addWidget(tableWidget);
 			splitter->setStretchFactor(0,100);
 			splitter->setStretchFactor(1,0);
-			tableWidget->resize( 100,tableWidget->height() );
+			tableWidget->resize( 50,tableWidget->height() );
 		}
 		
 		

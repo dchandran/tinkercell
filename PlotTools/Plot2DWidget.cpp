@@ -13,6 +13,8 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QPrinter>
+#include <QListWidget>
+#include <QTableWidget>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
@@ -99,10 +101,15 @@ namespace Tinkercell
 				if (list.at(i) == plotItem)
 				{
 					if (on && hideList.contains(dataTable.colName(i)))
+					{
 						hideList.removeAll(dataTable.colName(i));
+					}
 					else
 					if (!on && !hideList.contains(dataTable.colName(i)))
+					{
+						visibleDataTable.removeCol(dataTable.colName(i));
 						hideList += (dataTable.colName(i));
+					}
 				}
 			this->replot();
 		}
@@ -134,6 +141,7 @@ namespace Tinkercell
 		}
 		setAutoReplot(false);
 		this->dataTable = dat;
+		this->visibleDataTable = dat;
 		
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)
@@ -202,6 +210,7 @@ namespace Tinkercell
 			if (hideList.contains(dataTable.colName(i)))
 			{
 				list[i]->setVisible(false);
+				visibleDataTable.removeCol(dataTable.colName(i));
 				QWidget * w = leg->find(list[i]);
 				if ( w && w->inherits( "QwtLegendItem" ) )
 					((QwtLegendItem *)w)->setChecked( true );
@@ -390,7 +399,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return 0;
 		
-		return &(dataPlot->dataTable);
+		return &(dataPlot->visibleDataTable);
 	}
 	
 	void Plot2DWidget::exportData(const QString& type)
@@ -553,32 +562,63 @@ namespace Tinkercell
 		
 		QString output;
 		
-		/*DataTable<qreal> & dataTable = dataPlot->dataTable;
+		DataTable<qreal> & table = *(data());
 		
-		double xmin = dataTable.at(0,0),
-			   xmax = dataTable.at(dataTable.rows()-1,0),
-			   ymin = dataTable.at(0,1),
-			   ymax = dataTable.at(0,1);
+		double xmin = table.at(0,dataPlot->xcolumn),
+			   xmax = table.at(table.rows()-1,dataPlot->xcolumn),
+			   ymin = table.at(0,1),
+			   ymax = table.at(0,1);
 			
-		for (int i=0; i < dataTable.rows(); ++i)
-			for (int j=1; i < dataTable.cols(); ++j)
-			{
-				if (ymin > dataTable.at(i,j))
-					ymin = dataTable.at(i,j);
+		QStringList colnames(table.getColNames()),
+					rownames(table.getRowNames());
 
-				if (ymax < dataTable.at(i,j))
-					ymax = dataTable.at(i,j);
-			}
-			
+		int c = 0;
+
+		for (int i=0; i < colnames.size(); ++i)
+		{
+			for (int j=0; j < table.rows(); ++j)
+				for (int k=0; k < table.cols(); ++k)
+					if (k != dataPlot->xcolumn)
+					{
+						if (ymin > table.at(j,k))
+							ymin = table.at(j,k);
+
+						if (ymax < table.at(j,k))
+							ymax = table.at(j,k);
+					}
+				
+			if (c >= DataPlot::penList.size())
+			{
+				c = 0;
+			}				
+				
+			QPen pen = DataPlot::penList[c];
+		
 			output += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
 			output += tr("\\begin{ticzpicture}\n\\begin{axis}[\ngrid=major,\nxlabel=")
-						+ colnames.at(0) 
-						+ tr(",\nylabel=Values,\nxmin=") + QString::number(xmin)
+						+ colnames.at(dataPlot->xcolumn) 
+						+ tr(",\nylabel=Values")
+						+ tr(",\nxmin=") + QString::number(xmin)
 						+ tr(",\nxmax=") + QString::number(xmax)
 						+ tr(",\nymin=") + QString::number(ymin)
 						+ tr(",\nymax=") + QString::number(ymax)
-						+ tr(",\nwidth=8cm,\nheight=6cm,]\n\\addplot[smooth,color=red,line width=1.5pt] coordinates {\n");
-		}*/
+						+ tr(",\nwidth=8cm,\nheight=6cm,]\n\\addplot[smooth,color=")
+						+ pen.color().name()
+						+ tr(",line width=1.5pt] coordinates {\n");
+		
+			for (int j=0; j < table.rows(); ++j)
+			{
+				output += 	tr("(") 
+							+ QString::number(table.at(j,dataPlot->xcolumn))
+							+ tr(", ")
+							+ QString::number(table.at(j,i))
+							+ tr(")\n");
+			}
+			output += tr("};\n\\addlegendentry{") + colnames.at(i) + tr("}\n");
+		}
+		
+		output += tr("\\end{axis}\n\\end{tikzpicture}\n");
+		
 		return output;
 	}
 	
@@ -617,6 +657,8 @@ namespace Tinkercell
 		layout->addLayout(layout1);
 		layout->addLayout(layout2);
 		layout->addLayout(layout3);
+		
+		setLayout(layout);
 	}
 	
 	void GetPenInfoDialog::currentColorChanged ( const QColor & color )

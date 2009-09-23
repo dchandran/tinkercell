@@ -363,6 +363,7 @@ namespace Tinkercell
 											TextGraphicsItem * text = new TextGraphicsItem(tr("(fixed)"));
 											setHandle(text,itemHandles[i]);
 											text->setFont(name->font());
+											text->setDefaultTextColor(QColor(tr("#ff3333")));
 											text->setPos(name->pos() + QPointF(0,name->sceneBoundingRect().height() + 1));
 											text->setFont(name->font());
 											insertItems << text;

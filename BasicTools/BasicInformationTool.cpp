@@ -760,10 +760,9 @@ namespace Tinkercell
 			if (lastItem->hasNumericalData(this->name))
 			{
 				DataTable<qreal> nDat(lastItem->data->numericalData[this->name]);
-				QStringList rownames(win->symbolsTable.dataRowsAndCols.keys());
 				i = 0;
 				name = tr("k0");
-				while (rownames.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.dataRowsAndCols.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("k") + QString::number(++i);
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
@@ -782,11 +781,12 @@ namespace Tinkercell
 			if (lastItem->hasTextData(this->name))
 			{
 				DataTable<QString> sDat(lastItem->data->textData[this->name]);
-				QStringList rownames(win->symbolsTable.dataRowsAndCols.keys());
+				
 				i = 0;
 				name = tr("s0");
-				while (rownames.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.dataRowsAndCols.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("s") + QString::number(++i);
+				
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
 				tableItems << QPair<ItemHandle*,int>(lastItem,sDat.rowNames().size());
@@ -990,10 +990,13 @@ namespace Tinkercell
                         && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
                         && !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
                         )
-                        {
-                        rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
-                        values += dataTable->at(j,0);
-                    }
+						{
+							if (handle->fullName().isEmpty())
+								rownames += dataTable->rowName(j);
+							else
+								rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
+							values += dataTable->at(j,0);
+						}
                 }
             }
         }
@@ -1033,7 +1036,10 @@ namespace Tinkercell
 						&& !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
 						)
 					{
-						rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
+						if (handle->fullName().isEmpty())
+							rownames += dataTable->rowName(j);
+						else
+							rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
 						values += dataTable->at(j,0);
 					}
 				}
@@ -1177,12 +1183,16 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicInformationTool::getFixedAndParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
+	void BasicInformationTool::getFixedAndParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles0)
 	{
 		if (ptr)
 		{
-			//(*ptr) = getParameters(handles);
-
+			QList<ItemHandle*> handles = handles0;
+			
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!handles.contains(currentWindow()->modelItem()))
+					handles << currentWindow()->modelItem();
+			 
 			int i,j;
 			QString replaceDot("_");
 			QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
@@ -1334,7 +1344,12 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			(*ptr) = getParameters(list);
+			QList<ItemHandle*> handles = list;
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!handles.contains(currentWindow()->modelItem()))
+					handles << currentWindow()->modelItem();
+
+			(*ptr) = getParameters(handles);
 		}
 		if (s)
 			s->release();
@@ -1344,7 +1359,12 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			(*ptr) = getParameters(list,text);
+			QList<ItemHandle*> handles = list;
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!handles.contains(currentWindow()->modelItem()))
+					handles << currentWindow()->modelItem();
+
+			(*ptr) = getParameters(handles,text);
 		}
 		if (s)
 			s->release();
@@ -1354,7 +1374,12 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			(*ptr) = getParameters(list,QStringList(),text);
+			QList<ItemHandle*> handles = list;
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!handles.contains(currentWindow()->modelItem()))
+					handles << currentWindow()->modelItem();
+					
+			(*ptr) = getParameters(handles,QStringList(),text);
 		}
 		if (s)
 			s->release();
@@ -1364,7 +1389,12 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			DataTable<QString> dat = getTextData(list,text);
+			QList<ItemHandle*> handles = list;
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!handles.contains(currentWindow()->modelItem()))
+					handles << currentWindow()->modelItem();
+					
+			DataTable<QString> dat = getTextData(handles,text);
 			if (dat.cols() > 0)
 			{
 				for (int i=0; i < dat.rows(); ++i)
@@ -1435,14 +1465,20 @@ namespace Tinkercell
 							newData->value(i,0) = value;
 							contains = true;
 						}
-						if (!contains)
-						{
-							newData->insertRow(rownames.size(),text);
-							newData->value(rownames.size(),0) = value;
-						}
+					if (!contains)
+					{
+						QString s = text;
+							
+						int k = 0;
+						while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
+							s = text + QString::number(++k);
+								
+						newData->insertRow(rownames.size(),s);
+						newData->value(rownames.size(),0) = value;
+					}
 
-						win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + value, handle,name,newData);
-						delete newData;
+					win->changeData(handle->fullName() + tr(".") + text + tr(" = ") + value, handle,name,newData);
+					delete newData;
 				}
 				else
 				{
@@ -1476,7 +1512,13 @@ namespace Tinkercell
 						}
 						if (!contains)
 						{
-							newData->insertRow(rownames.size(),text);
+							QString s = text;
+							
+							int k = 0;
+							while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
+								s = text + QString::number(++k);
+							
+							newData->insertRow(rownames.size(),s);
 							newData->value(rownames.size(),0) = value;
 						}
 

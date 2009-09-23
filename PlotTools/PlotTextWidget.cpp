@@ -13,6 +13,7 @@
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
+#include "CodeEditor.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "PlotTextWidget.h"
@@ -26,7 +27,7 @@ namespace Tinkercell
 	
 	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
 	{
-		QTextEdit * textEdit = new QTextEdit;
+		CodeEditor * textEdit = new CodeEditor;
 		
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(textEdit);

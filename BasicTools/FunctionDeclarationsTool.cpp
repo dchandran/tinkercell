@@ -245,12 +245,16 @@ namespace Tinkercell
 					insertDataMatrix(handle);
 
 				QString var = regex1.cap(1),
-					func = regex1.cap(2);
+						func = regex1.cap(2);
 
 				if (!EquationParser::validate(currentWindow(), handle, func, QStringList() << "time"))
 					return;
 
 				if (handle->name == var) var = handle->fullName();
+				
+				int k = 0;
+				while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + var))
+					var = regex1.cap(1) + QString::number(++k);
 
 				if (var.startsWith(handle->fullName() + tr(".")))
 					var.remove(handle->fullName() + tr("."));
@@ -639,10 +643,16 @@ namespace Tinkercell
 		}
 	}
 
-	void AssignmentFunctionsTool::getForcingFunctionNames(QSemaphore* sem,QStringList* list,const QList<ItemHandle*>& items)
+	void AssignmentFunctionsTool::getForcingFunctionNames(QSemaphore* sem,QStringList* list,const QList<ItemHandle*>& handles)
 	{
-		if (list && !items.isEmpty())
+		if (list && !handles.isEmpty())
 		{
+			QList<ItemHandle*> items = handles;
+			
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!items.contains(currentWindow()->modelItem()))
+					items << currentWindow()->modelItem();
+			
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -656,7 +666,11 @@ namespace Tinkercell
 					{
 						s = lst[j];
 						s.replace(regex,tr("_"));
-						(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
+						
+						if (items[i]->fullName().isEmpty())
+							(*list) << s;
+						else
+							(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
 					}
 				}
 			}
@@ -665,10 +679,16 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void AssignmentFunctionsTool::getForcingFunctionAssignments(QSemaphore* sem,QStringList* list,const QList<ItemHandle*>& items)
+	void AssignmentFunctionsTool::getForcingFunctionAssignments(QSemaphore* sem,QStringList* list,const QList<ItemHandle*>& handles)
 	{
-		if (list && !items.isEmpty())
+		if (list && !handles.isEmpty())
 		{
+			QList<ItemHandle*> items = handles;
+			
+			if (currentWindow() && currentWindow()->modelItem())
+				if (!items.contains(currentWindow()->modelItem()))
+					items << currentWindow()->modelItem();
+					
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -692,6 +712,9 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& var, const QString& func)
 	{
+		if (!item && currentWindow())
+			item = currentWindow()->modelItem();
+			
 		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
@@ -707,7 +730,10 @@ namespace Tinkercell
 			{
 				dat.value(var,0) = func;
 				if (currentWindow())
-					currentWindow()->changeData(item->fullName() + tr(".") + var + tr(" = ") + f,item,tr("Assignments"),&dat);
+					if (item->fullName().isEmpty())
+						currentWindow()->changeData(var + tr(" = ") + f,item,tr("Assignments"),&dat);
+					else
+						currentWindow()->changeData(item->fullName() + tr(".") + var + tr(" = ") + f,item,tr("Assignments"),&dat);
 				else
 					item->data->textData[tr("Assignments")] = dat;
 			}

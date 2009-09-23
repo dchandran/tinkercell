@@ -50,6 +50,8 @@ namespace Tinkercell
 		PlotWidget(const DataTable<qreal>&, PlotTool * parent = 0);
 		/*! \brief get the data inside this plot*/
 		virtual DataTable<qreal>* data();
+		/*! \brief get the data inside this plot as a table*/
+		virtual QString dataToString(const QString& delim=QString("\t"));
 		
 	protected:
 		/*! \brief the plot tool that contains this widget*/

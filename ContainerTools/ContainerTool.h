@@ -62,15 +62,17 @@ namespace Tinkercell
 
 	class ContainerTreeTool : public Tool
 	{
-		Q_OBJECT;
+		Q_OBJECT
 
 	public:
+	
 		ContainerTreeTool();
 		~ContainerTreeTool();
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
+	
 	signals:
-                void parentHandleChanged(NetworkWindow * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+        void parentHandleChanged(NetworkWindow * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		
 	public slots:
                 void updateTree(int);

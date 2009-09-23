@@ -46,7 +46,7 @@ namespace Tinkercell
 		/*! \brief make necessary signal/slot connections*/
 		bool setMainWindow(MainWindow*);
 		/*! \brief parse text and convert them to items*/
-		QList<TextItem*> parse(const QString& modelString);
+		QList<TextItem*> parse(const QString& modelString, ItemHandle * mainItem = 0);
 
 	public slots:
 		/*! \brief parse text and insert items*/

@@ -68,7 +68,7 @@ namespace Tinkercell
 		void replotUsingHideList();
 		
 	protected:
-		DataTable<qreal> dataTable;
+		DataTable<qreal> dataTable, visibleDataTable;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QPen> penList;

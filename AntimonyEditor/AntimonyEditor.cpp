@@ -208,7 +208,11 @@ namespace Tinkercell
 		
 		QString modelString = editor->toPlainText() + tr("\n");
 		
-		QList<TextItem*> itemsToInsert = parse(modelString);
+		ItemHandle * mainItem = 0;
+		if (editor->networkWindow)
+			mainItem = editor->networkWindow->modelItem();
+			
+		QList<TextItem*> itemsToInsert = parse(modelString,mainItem);
 		
 		if (!itemsToInsert.isEmpty())
 		{
@@ -217,7 +221,7 @@ namespace Tinkercell
 		}		
 	}
 	
-	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
+	QList<TextItem*> AntimonyEditor::parse(const QString& modelString, ItemHandle * mainItem)
 	{
 		QString filename = MainWindow::userHome() + tr("/antimony.txt");
 		
@@ -276,16 +280,26 @@ namespace Tinkercell
 		
 		for (int i=0; i < nummods; ++i)
 		{
-			QList<ItemHandle*> handlesInModule;
-			ItemHandle * moduleHandle = new NodeHandle(moduleFamily);
-			NodeTextItem * moduleText = new NodeTextItem;
-			setHandle(moduleText,moduleHandle);
-			itemsToInsert += moduleText;
-			
-			QHash<QString,NodeHandle*> speciesItems;
-		
 			char * moduleName = modnames[i];
-			moduleHandle->name = QString(moduleName);
+			ItemHandle * moduleHandle;
+			
+			NodeTextItem * moduleText = 0;
+			
+			if (mainItem && (QString(modnames[i]) == tr("__main")))
+			{
+				moduleHandle = mainItem;
+			}
+			else
+			{
+				moduleHandle = new NodeHandle(moduleFamily);
+				moduleHandle->name = QString(moduleName);
+				moduleText = new NodeTextItem;
+				setHandle(moduleText,moduleHandle);
+				itemsToInsert += moduleText;
+			}
+			
+			QList<ItemHandle*> handlesInModule;
+			QHash<QString,NodeHandle*> speciesItems;
 			
 			char ***leftrxnnames = getReactantNames(moduleName);
 			char ***rightrxnnames = getProductNames(moduleName);
@@ -312,6 +326,7 @@ namespace Tinkercell
 				handlesInModule << reactionHandle;
 				
 				reactionHandle->name = rxnnames[rxn];
+				stoichiometry.rowName(0) = reactionHandle->name;
 				
 				for (int var=0; var<numReactants; ++var)
 				{
@@ -357,6 +372,8 @@ namespace Tinkercell
 				}
 				
 				QString srate = tr(rxnrates[rxn]);
+				rate.rowName(0) = reactionHandle->name;
+				rate.colName(0) = tr("rate");
 				rate.value(0,0) = srate;
 				reactionHandle->data->textData[tr("Rates")] = rate;
 				reactionHandle->data->numericalData[tr("Stoichiometry")] = stoichiometry;
@@ -392,7 +409,11 @@ namespace Tinkercell
 					if (ok && speciesItems.contains(s))
 					{
 						speciesItems[s]->numericalData(tr("Initial Value")) = x;
+						speciesItems[s]->data->numericalData[ tr("Initial Value") ].rowName(0) = tr("concentration"); 
+						speciesItems[s]->data->numericalData[ tr("Initial Value") ].colName(0) = tr("uM");						
 						speciesItems[s]->numericalData(tr("Fixed")) = 1;
+						speciesItems[s]->data->numericalData[ tr("Fixed") ].rowName(0) = tr("fix"); 
+						speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
 					}
 				}
 				
@@ -409,7 +430,8 @@ namespace Tinkercell
 				{
 					QString x(assignmentValues[j]);
 					assgnsTable.value(tr(assignmentNames[j]),0) = x;
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+					if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
 				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
 				
@@ -445,23 +467,31 @@ namespace Tinkercell
 					if (ok)
 					{
 						paramsTable.value(tr(paramNames[j]),0) = x;
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
+							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 					}
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
 				
-				for (int j=0; j < handlesInModule.size(); ++j)
-					if (handlesInModule[j])
-					{
-						handlesInModule[j]->setParent(moduleHandle);
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
-					}
+				if (mainItem && moduleHandle != mainItem)
+				{
+					for (int j=0; j < handlesInModule.size(); ++j)
+						if (handlesInModule[j])
+						{
+							handlesInModule[j]->setParent(moduleHandle);
+							if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
+								RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+						}
+				}
 			}
 			
 			if (handlesInModule.isEmpty())
 			{
-				itemsToInsert.removeAll(moduleText);
-				delete moduleHandle;
+				if (moduleText)
+					itemsToInsert.removeAll(moduleText);
+				
+				if (moduleHandle != mainItem)
+					delete moduleHandle;
 			}
 		}
 		

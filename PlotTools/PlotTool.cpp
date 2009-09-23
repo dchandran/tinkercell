@@ -127,7 +127,7 @@ namespace Tinkercell
 
 	QSize PlotTool::sizeHint() const
 	{
-	    return QSize(600, 600);
+	    return QSize(300, 600);
 	}
 
 	bool PlotTool::setMainWindow(MainWindow * TinkercellWindow)
@@ -557,6 +557,7 @@ namespace Tinkercell
 			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
 			if (otherToolBar)
 				window->removeToolBar(otherToolBar);
+			otherToolBar = &plotWidget->toolBar;
 			window->addToolBar(Qt::RightToolBarArea,&plotWidget->toolBar);
 		}
 	}

@@ -13,7 +13,10 @@
 #include <QButtonGroup>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QColorDialog>
 #include <QPen>
+#include <QList>
+#include <QColor>
 #include <QDialog>
 #include "PlotWidget.h"
 #include "qwt_plot.h"
@@ -34,6 +37,7 @@ namespace Tinkercell
 	class PlotWidget;
 	class Plot2DWidget;
 	class DataPlot;
+	class GetPenInfoDialog;
 
 	class DataColumn : public QwtData
 	{
@@ -75,18 +79,20 @@ namespace Tinkercell
 		void setXAxis(int);
 		
 		friend class Plot2DWidget;
+		friend class GetPenInfoDialog;
 	};
 	
 	class GetPenInfoDialog : public QDialog
 	{	
+		Q_OBJECT
 	public:
 		GetPenInfoDialog(QWidget * parent);
-		QPen getPen();
+		QPen getPen(const QPen&);
 	public slots:
-		void done();
 		void currentColorChanged ( const QColor & color );
 	private:
 		QColor color;
+		QColorDialog colorDialog;
 		QDoubleSpinBox spinBox;
 		QComboBox comboBox;
 	};
@@ -111,21 +117,20 @@ namespace Tinkercell
 		void setXLabel();
 		void setYLabel();
 		
-		void printToFile(const QString&);
 		void setTitle(const QString&);
 		void setXLabel(const QString&);
 		void setYLabel(const QString&);
 	
 	private slots:
-		void tableChanged(int,int);
+		void buttonPressed(int);
 	
 	private:
-		QWidget* dialogWidget();
+		QWidget * dialogWidget();
+		GetPenInfoDialog * dialog;
 		QString latex();
 		DataPlot * dataPlot;
 		QComboBox * axisNames;
 		QComboBox * lineTypes;
-		Q
 		QButtonGroup buttonsGroup;
 		
 	protected:

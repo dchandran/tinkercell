@@ -1,6 +1,6 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-FILE( GLOB TINKERCELL_PLOT_SRC *.cpp )
+FILE( GLOB TINKERCELL_PLOT_SRC *.cpp ../BasicTools/EquationParser.cpp)
 FILE( GLOB TINKERCELL_PLOT_HDRS *.h )
 
 SET( TINKERCELL_CORE_HDRS
@@ -13,6 +13,7 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/TextItem.h 
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
+  ../BasicTools/EquationParser.h
   )
   
 FILE( GLOB TINKERCELL_QWT_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/*.h)

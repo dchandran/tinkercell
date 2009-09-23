@@ -145,8 +145,8 @@ namespace Tinkercell
 		QLineEdit xaxisLine;
 		
 		void connectTCFunctions();
-		static void _plot(Matrix a, int b, const char*,int);
-		static void _surface(Matrix a, const char*, int, int);
+		static void _plot(Matrix a, int b, const char*, int);
+		static void _surface(Matrix a, double, double, double, double, const char*);
 		static Matrix _plotData(int);
 		static PlotTool_FToS fToS;
 		static void pruneDataTable(DataTable<qreal>& table, int& xaxis, MainWindow* main);
@@ -162,7 +162,7 @@ namespace Tinkercell
 		void subwindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
-		void surface(QSemaphore*, DataTable<qreal>&,int,int,int,int,const QString&);
+		void surface(QSemaphore*, DataTable<qreal>&,double,double,double,double,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
 	};
 }

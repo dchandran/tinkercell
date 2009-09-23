@@ -7,7 +7,7 @@
  \brief plot 3D data. Input matrix will contain the z-value at position (x,y).
  \ingroup Plotting
 */
-void (*tc_surface)(Matrix z, const char* title, int meshSizeX, int meshSizeY) = 0;
+void (*tc_surface)(Matrix z, double xmin,double xmax,double ymin,double ymax, const char* title) = 0;
 /*! 
  \brief plot the data in the matrix (with headers) with the given x-axis and title
  \ingroup Plotting
@@ -24,7 +24,7 @@ Matrix (*tc_plotData)(int whichPlot) = 0;
 */
 void tc_PlotTool_api(
 	void (*plot)(Matrix,int,const char*,int), 
-	void (*surface)(Matrix M, const char*, int, int),
+	void (*surface)(Matrix M, double,double,double,double, const char*),
 	Matrix (*plotData)(int))
 {
 	tc_plot = plot;

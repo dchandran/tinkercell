@@ -12,11 +12,13 @@
 #include <QColorDialog>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QPrinter>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
+#include "PlotTextWidget.h"
 #include "Plot2DWidget.h"
 
 namespace Tinkercell
@@ -61,15 +63,12 @@ namespace Tinkercell
 		Data Plot
 	****************************/
 
-	QList<QColor> DataPlot::lineColors;
+	QList<QPen> DataPlot::penList = QList<QPen>();
 
 	DataPlot::DataPlot(QWidget * parent) : QwtPlot(parent)
 	{
 		xcolumn = 0;
 		delta = 1;
-		if (DataPlot::lineColors.isEmpty())
-			lineColors 	<< QColor("#0005DF") << QColor("#F35600") << QColor("#E4DC00")
-						<< QColor("#00C312") << QColor("#9600E4") << QColor("#00C1C3");
 		zoomer = new QwtPlotZoomer(xBottom,yLeft,QwtPicker::DragSelection,QwtPicker::AlwaysOff,canvas());
 		zoomer->setRubberBandPen(QPen(Qt::black));
 		setCanvasBackground(Qt::white);
@@ -122,20 +121,6 @@ namespace Tinkercell
 		}
 	}
 	
-	void DataPlot::setColors(const QList<QColor>& list)
-	{
-		lineColors.clear();
-		for (int i=0; i < list.size(); ++i)
-		{
-			lineColors << list[i];
-		}
-	}
-	
-	QList<QPen>& DataPlot::pens()
-	{
-		return lineColors;
-	}
-	
 	void DataPlot::plot(const DataTable<qreal>& dat, int x, const QString& title, int dt)
 	{
 		delta = dt;
@@ -175,7 +160,7 @@ namespace Tinkercell
 					c = 0;
 				}
 				
-				curve->setPen(penList[c]));
+				curve->setPen(penList[c]);
 				curve->setData( DataColumn(&dataTable,x,i,dt) );
 				curve->attach(this);
 				curve->updateLegend(legend());
@@ -262,28 +247,6 @@ namespace Tinkercell
 	
 	/*********************************
 		Plot Widget
-		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
-
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-		
-		settings.beginGroup("Plot2DWidget");
-		
-		QStringList colors, penWidth, penStyles;
-		
-		for (int i=0; i < DataPlot::penList.size(); ++i)
-		{
-			colors << penList[i].color().name();
-			penStyles << QString::number((int)(penList[i].style()));
-			penWidth << QString::number(penList[i].widthF());
-		}
-		
-		settings.setValue(tr("colors"),colors);
-		settings.setValue(tr("widths"),penWidth);
-		settings.setValue(tr("styles"),penStyles);
-		
-		settings.endGroup();
 	*********************************/
 	
 	
@@ -291,26 +254,26 @@ namespace Tinkercell
 	{
 		if (DataPlot::penList.isEmpty())
 		{
-			QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-			QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-			QCoreApplication::setApplicationName(ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
+			QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
 
-			QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+			QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
 			
 			settings.beginGroup("Plot2DWidget");
 			
-			QStringList colors, penWidth, penStyles;
+			QStringList colors, penWidths, penStyles;
 			
-			color = settings.value(tr("colors"),QStringList()).toStringList();
-			penWidth = settings.value(tr("widths"),QStringList()).toStringList();
+			colors = settings.value(tr("colors"),QStringList()).toStringList();
+			penWidths = settings.value(tr("widths"),QStringList()).toStringList();
 			penStyles = settings.value(tr("styles"),QStringList()).toStringList();
 		
 			settings.endGroup();
 			
-			for (int i=0; i < colors.size() && i < penWidth.size() && i < penStyles.size(); ++i)
+			for (int i=0; i < colors.size() && i < penWidths.size() && i < penStyles.size(); ++i)
 			{
 				bool ok;
-				double w = penWidth[i].toDouble(&ok);
+				double w = penWidths[i].toDouble(&ok);
 				if (!ok) w = 2.0;
 				
 				int k = penStyles[i].toInt(&ok);
@@ -361,22 +324,21 @@ namespace Tinkercell
 		connect(logx,SIGNAL(toggled(bool)),this,SLOT(logX(bool)));
 		connect(logy,SIGNAL(toggled(bool)),this,SLOT(logY(bool)));
 		
-		connect(print,SIGNAL(pressed()),this,SLOT(printToFile()));
-		connect(copy,SIGNAL(pressed()),this,SLOT(copyData()));
-		
-		QDialog * dialog = new QDialog(this);
-		QHBoxLayout * dialogLayout = new QHBoxLayout;
-		dialogLayout->addWidget(dialogWidget());
-		dialog->setLayout(dialogLayout);
-	
 		QToolButton * changeColors = new QToolButton(this);
 		changeColors->setIcon(QIcon(":/images/pencil.png"));
 		changeColors->setText(tr("Colors"));
 		changeColors->setToolTip(tr("Line type and color"));
 		changeColors->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
+		this->dialog = new GetPenInfoDialog(this);
 		dialog->hide();
-		connect(changeColors,SIGNAL(pressed()),dialog,SLOT(show()));
+		
+		QDialog * dialog2 = new QDialog(this);
+		QHBoxLayout * dialogLayout = new QHBoxLayout;
+		dialogLayout->addWidget(dialogWidget());
+		dialog2->setLayout(dialogLayout);
+		
+		connect(changeColors,SIGNAL(pressed()),dialog2,SLOT(show()));
 		
 		QHBoxLayout * layout1 = new QHBoxLayout;
 		layout1->addWidget(axisNames);
@@ -389,7 +351,20 @@ namespace Tinkercell
 		toolBar.addWidget(logScale);
 		toolBar.addWidget(changeColors);
 		
+		connect(&buttonsGroup,SIGNAL(buttonPressed(int)),this,SLOT(buttonPressed(int)));
+		
 		setMinimumHeight(200);
+	}
+	
+	void Plot2DWidget::buttonPressed(int i)
+	{
+		if (dialog && DataPlot::penList.size() > i)
+		{
+			DataPlot::penList[i] = dialog->getPen(DataPlot::penList[i]);
+			QAbstractButton * button = buttonsGroup.button(i);
+			if (button)
+				button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
+		}
 	}
 	
 	void Plot2DWidget::plot(const DataTable<qreal>& matrix,const QString& title,int x)
@@ -419,7 +394,7 @@ namespace Tinkercell
 	}
 	
 	void Plot2DWidget::exportData(const QString& type)
-	{		
+	{
 		if (!dataPlot) return;
 		
 		if (type.toLower() == tr("image"))
@@ -446,14 +421,14 @@ namespace Tinkercell
 			if (clipboard)
 			{
 				QImage image(600,400,QImage::Format_ARGB32);
-				dataPlot->print(&image);
+				dataPlot->print(image);
 				clipboard->setImage(image);
 			}
 		}
 		else
 		if (type.toLower() == tr("latex"))
 		{
-			plotTool->addWidget(new PlotTextWidget(dataPlot->dataTable,latex(),plotTool));
+			plotTool->addWidget(new PlotTextWidget(dataPlot->dataTable,plotTool, latex()));
 		}
 		else
 		{
@@ -527,48 +502,20 @@ namespace Tinkercell
 		dataPlot->setAxisTitle(QwtPlot::yLeft, s);
 	}
 	
-	void Plot2DWidget::tableChanged(int i,int j)
-	{
-		
-	}
-	{
-		if (!colorWidget->currentItem() || !dataPlot || !colorWidget) return;
-		
-		int row = colorWidget->currentRow();
-		
-		if (row == (colorWidget->count()-1))
-		{
-			colorWidget->addItem(tr("select color"));
-		}
-		
-		QList<QColor>& colors = dataPlot->colors();
-		
-		if (row < colors.size())
-		{
-			colors[row] = QColorDialog::getColor(colors[row],this,tr("select line color"));
-			colorWidget->currentItem()->setText(colors[row].name());
-			dataPlot->plot(dataPlot->dataTable,dataPlot->xcolumn,dataPlot->title().text(),dataPlot->delta);
-		}
-	}
-	
 	void Plot2DWidget::mouseMoveEvent ( QMouseEvent * event )
 	{
 		if (!event || !plotTool || !dataPlot) return;
 		
 		plotTool->setStatusBarMessage(
 			tr("  x: ") 
-			+ QString::number(dataPlot->invTransform(event->pos().x()))
-			tr("  y: ") 
-			+ QString::number(dataPlot->invTransform(event->pos().y()))
+			+ QString::number(dataPlot->invTransform(QwtPlot::xBottom,event->pos().x()))
+			+ tr("  y: ") 
+			+ QString::number(dataPlot->invTransform(QwtPlot::yLeft,event->pos().y()))
 		);
 	}
 	
 	QWidget * Plot2DWidget::dialogWidget()
 	{
-		QTableWidget * tableWidget = new QTableWidget;
-		tableWidget->horizontalHeader()->hide();
-		tableWidget->verticalHeader()->hide();
-		
 		if (DataPlot::penList.isEmpty())
 		{
 			DataPlot::penList 	<< QPen(QColor(tr("#232CE6")),2,Qt::SolidLine)
@@ -585,9 +532,16 @@ namespace Tinkercell
 								<< QPen(QColor(tr("#0CBDBF")),2,Qt::DotLine);
 		}
 		
+		QTableWidget * tableWidget = new QTableWidget(DataPlot::penList.size(),1);
+		tableWidget->horizontalHeader()->hide();
+		tableWidget->verticalHeader()->hide();
+		
 		for (int i=0; i < DataPlot::penList.size(); ++i)
 		{
-			
+			QPushButton * button = new QPushButton;
+			button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
+			tableWidget->setCellWidget(i,0,button);
+			buttonsGroup.addButton(button,i);
 		}
 		
 		return tableWidget;
@@ -597,7 +551,9 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return QString();
 		
-		DataTable<qreal> & dataTable = dataPlot->dataTable;
+		QString output;
+		
+		/*DataTable<qreal> & dataTable = dataPlot->dataTable;
 		
 		double xmin = dataTable.at(0,0),
 			   xmax = dataTable.at(dataTable.rows()-1,0),
@@ -614,31 +570,30 @@ namespace Tinkercell
 					ymax = dataTable.at(i,j);
 			}
 			
-			outputs += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
-			outputs += tr("\\begin{ticzpicture}\n\\begin{axis}[\ngrid=major,\nxlabel=")
+			output += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
+			output += tr("\\begin{ticzpicture}\n\\begin{axis}[\ngrid=major,\nxlabel=")
 						+ colnames.at(0) 
 						+ tr(",\nylabel=Values,\nxmin=") + QString::number(xmin)
 						+ tr(",\nxmax=") + QString::number(xmax)
 						+ tr(",\nymin=") + QString::number(ymin)
 						+ tr(",\nymax=") + QString::number(ymax)
 						+ tr(",\nwidth=8cm,\nheight=6cm,]\n\\addplot[smooth,color=red,line width=1.5pt] coordinates {\n");
-		}
-		return outputs;
+		}*/
+		return output;
 	}
 	
 	GetPenInfoDialog::GetPenInfoDialog(QWidget * parent) : QDialog(parent)
 	{
-		QColorDialog * colorDialog = new QColorDialog();
-		connect(colorDialog,SIGNAL(currentColorChanged(const QColor&)),this,SLOT(currentColorChanged(const QColor&)));
+		connect(&colorDialog,SIGNAL(currentColorChanged(const QColor&)),this,SLOT(currentColorChanged(const QColor&)));
 		
 		QHBoxLayout * layout1 = new QHBoxLayout;
-		layout1->addWidget(colorDialog);
+		layout1->addWidget(&colorDialog);
 		QGroupBox * colorGrp = new QGroupBox(tr(" pen color "));
 		colorGrp->setLayout(layout1);
 		
 		QHBoxLayout * layout2 = new QHBoxLayout;
 		layout2->addWidget(&comboBox);
-		comboBox.setItems(QStringList() << "Solid line" << "Dotted line");
+		comboBox.addItems(QStringList() << "Solid line" << "Dotted line");
 		layout2->addWidget(&spinBox);
 		spinBox.setRange(0,10);
 		spinBox.setValue(2.0);
@@ -648,11 +603,15 @@ namespace Tinkercell
 		setSizeGripEnabled(true);
 		
 		QHBoxLayout * layout3 = new QHBoxLayout;		
-		QPushButton * okButton;
-		okButton->setText(tr("Set Pen"));
-		cancelButton->setText(tr("Cancel"));
+		QPushButton * okButton = new QPushButton;
+		QPushButton * cancelButton = new QPushButton;
+		okButton->setText(tr(" Set Pen "));
+		cancelButton->setText(tr(" Cancel "));
 		layout3->addWidget(okButton);
 		layout3->addWidget(cancelButton);
+		
+		connect(okButton,SIGNAL(pressed()),this,SLOT(accept()));
+		connect(cancelButton,SIGNAL(pressed()),this,SLOT(reject()));
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		layout->addLayout(layout1);
@@ -665,7 +624,47 @@ namespace Tinkercell
 		this->color = color;
 	}
 	
-	QPen GetPenInfoDialog::getPen()
+	QPen GetPenInfoDialog::getPen(const QPen& pen)
 	{
+		colorDialog.setCurrentColor(pen.color());
+		color = pen.color();
+		spinBox.setValue(pen.widthF());
+		if (pen.style() == Qt::SolidLine)
+			comboBox.setCurrentIndex(0);
+		else
+			comboBox.setCurrentIndex(1);
+		
+		open();
+		if (result() == 0) return pen;
+		
+		if (comboBox.currentIndex() == 0)
+			return QPen(color,spinBox.value(),Qt::SolidLine);
+		else
+			return QPen(color,spinBox.value(),Qt::DotLine);
+			
+		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+
+		QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+		
+		settings.beginGroup("Plot2DWidget");
+		
+		QStringList colors, penWidth, penStyles;
+		
+		QList<QPen>& penList = DataPlot::penList;
+		
+		for (int i=0; i < penList.size(); ++i)
+		{
+			colors << penList[i].color().name();
+			penStyles << QString::number((int)(penList[i].style()));
+			penWidth << QString::number(penList[i].widthF());
+		}
+		
+		settings.setValue(tr("colors"),colors);
+		settings.setValue(tr("widths"),penWidth);
+		settings.setValue(tr("styles"),penStyles);
+		
+		settings.endGroup();
 	}
 }

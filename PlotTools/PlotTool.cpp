@@ -15,6 +15,7 @@
 #include "MainWindow.h"
 #include "NetworkWindow.h"
 #include "ConsoleWindow.h"
+#include "EquationParser.h"
 #include "PlotTool.h"
 #include "Plot2DWidget.h"
 #include "Plot3DWidget.h"
@@ -30,12 +31,14 @@ namespace Tinkercell
 		Plot Tool
 	************************************/
 
-	PlotTool::PlotTool() : Tool(tr("Graph Tool"))
+	PlotTool::PlotTool() : Tool(tr("Graph Tool")), actionGroup(this)
 	{
 		otherToolBar = 0;
 		dockWidget = 0;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
+		
+		connect(&actionGroup,SIGNAL(actionTriggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 		
 		//setup main window and toolbar
 		QVBoxLayout * layout = new QVBoxLayout;
@@ -113,7 +116,7 @@ namespace Tinkercell
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"));
 		QAction * action = toolBar.addAction(QIcon(tr(":/images/function.png")),tr("Plot function"));
 		action->setToolTip(tr("Plot a formula"));
-		connect(action,SIGNAL(toggled(bool)),dock,SLOT(setVisible(bool)));
+		connect(action,SIGNAL(toggled(bool)),functionsWidgetDock,SLOT(setVisible(bool)));
 
 		//C interface
 		connectTCFunctions();
@@ -208,7 +211,7 @@ namespace Tinkercell
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
 		
-		PlotWidget * newPlot = new Plot2DWidget(this);
+		Plot2DWidget * newPlot = new Plot2DWidget(this);
 		newPlot->plot(matrix,title,x);
 
 		if (mainWindow && mainWindow->statusBar())
@@ -217,7 +220,7 @@ namespace Tinkercell
 		addWidget(newPlot);
 	}
 	
-	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,const QString& title,int xmin, int xmax, int ymin, ymax)
+	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title)
 	{	
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Plotting...."));
@@ -239,13 +242,13 @@ namespace Tinkercell
 			matrix.colName(i).replace(regexp,tr("."));
 		}
 		
-		plot(matrix,title,x,all);
+		plot2D(matrix,title,x,all);
 
 		if (s)
 			s->release();
 	}
 	
-	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,int xmin, int xmax, int ymin, ymax,const QString& title)
+	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
@@ -265,7 +268,7 @@ namespace Tinkercell
 		{
 			QList<QMdiSubWindow*> list = multiplePlotsArea->subWindowList();
 			if (index < 0 || index >= list.size())
-				index = list.indexOf(muliplePlotsArea->currentSubWindow());
+				index = list.indexOf(multiplePlotsArea->currentSubWindow());
 			if (index >= 0 && list.size() > index && list[index] && list[index]->widget())
 			{
 				PlotWidget * plotWidget = static_cast<PlotWidget*>(list[index]->widget());
@@ -278,7 +281,7 @@ namespace Tinkercell
 
 	typedef void (*tc_PlotTool_api)(	
 		void (*plot)(Matrix,int,const char*,int) ,
-		void (*surface)(Matrix,int,int,int,int,const char*) , 
+		void (*surface)(Matrix,double,double,double,double,const char*) , 
 		Matrix (*plotData)(int)
 		);
 
@@ -430,7 +433,7 @@ namespace Tinkercell
 		
 		QStringList list = functionsTextEdit.toPlainText().split(QRegExp(tr("[\\n|\\r|;]+")),QString::SkipEmptyParts);
 		if (list.isEmpty()) return;
-		plot(list,xaxisLine.text().replace(tr(" "),tr("")),spinBox1.value(),spinBox2.value(),spinBox3.value());
+		plotFormula(list,xaxisLine.text().replace(tr(" "),tr("")),spinBox1.value(),spinBox2.value(),spinBox3.value());
 	}
 	
 	void PlotTool::plotFormula(const QStringList& functions,const QString& xaxis,qreal start, qreal end, int points,const QString& title)
@@ -469,6 +472,7 @@ namespace Tinkercell
 		
         NetworkWindow * net = currentWindow();
 		
+		double x = start;
 		double dx = (end - start)/(double)points;
 		DataTable<qreal> data;
 		data.resize(points,1+functions.size());
@@ -501,11 +505,11 @@ namespace Tinkercell
 			for (int j=0; j < data.rows(); ++j)
 			{
 				data.value(j,0) = x;
-				data.value(j,i+1) = EquationParser::eval(net,s,)
+				data.value(j,i+1) = EquationParser::eval(net,s);
 				x += dx;
 			}
 		}
-		this->plot(data,title,0,1);
+		plot2D(data,title,0,1);
 	}
 	
 	
@@ -513,7 +517,7 @@ namespace Tinkercell
 	{
 		if (exportOptions.contains(type)) return;
 		
-		QAction * action = toolBar->addAction(icon,type,this,SLOT(exportImage()));
+		QAction * action = toolBar.addAction(icon,type,this,SLOT(exportImage()));
 		action->setText(type);
 		action->setToolTip(tr("Export current plot to ") + type);
 		actionGroup.addAction(action);
@@ -531,7 +535,7 @@ namespace Tinkercell
 	
 	void PlotTool::exportData(const QString& type)
 	{
-		QMdiSubWindow * subwindow = muliplePlotsArea->currentSubWindow();
+		QMdiSubWindow * subwindow = multiplePlotsArea->currentSubWindow();
 		if (subwindow && subwindow->widget())
 		{
 			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());

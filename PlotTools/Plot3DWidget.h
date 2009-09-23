@@ -37,11 +37,10 @@ namespace Tinkercell
 		void surface(const DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title=QString());
 	
 	public slots:
-		virtual void printToFile(const QString&);
+		
 		void exportData(const QString&);
 		
 	private slots:
-		void savePixmap();
 		void saveVector();
 		void setTitle();
 		void setXLabel();

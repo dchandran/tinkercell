@@ -160,40 +160,6 @@ namespace Tinkercell
 		updateGL();
 	}
 	
-	void Plot3DWidget::copyData()
-	{
-		QClipboard * clipboard = QApplication::clipboard();
-		
-		if (!clipboard)
-		{
-			ConsoleWindow::error(tr("No clipboard available."));
-		}
-		
-		QString outputs;
-		
-		DataTable<qreal> & table = dataTable;
-		
-		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
-		
-		for (int i=0; i < table.rows(); ++i)
-		{
-			for (int j=0; j < table.cols(); ++j)
-			{
-				if (i == 0 && j == 0) continue;
-				
-				if (j > 0)
-					outputs += tr("\t") + QString::number(table.at(i,j));
-				else
-					outputs += QString::number(table.at(i,j));
-			}
-			outputs += tr("\n");
-		}
-		
-		clipboard->setText(outputs);
-		
-		ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
-	}
-	
 	void Plot3DWidget::exportData(const QString& type)
 	{
 		if (type.toLower() == tr("image"))

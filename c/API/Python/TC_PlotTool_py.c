@@ -84,13 +84,13 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 {
 	PyObject * colNames, * values, *item;
 	char * title = "", **cols;
-	int meshx = 100, meshy = 100;
+	double x0,x1,y0,y1;
 	int isList1, n1, isList2, n2, isList3, n3, rows;
 	int i,j;
 	double * nums;
 	Matrix M;
 	
-	if(!PyArg_ParseTuple(args, "OO|sii", &colNames, &values, &title, &meshx, &meshy))
+	if(!PyArg_ParseTuple(args, "OOdddd|s", &colNames, &values, &x0, &x1, &y0, &y1, &title))
         return NULL;
 	
 	isList1 = PyList_Check(colNames);
@@ -146,7 +146,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 		M.values = nums;
 		
 		if (tc_surface)
-			tc_surface(M,title,meshx,meshy);
+			tc_surface(M,x0,x1,y0,y1,title);
 	
 		TCFreeMatrix(M);
 	}

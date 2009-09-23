@@ -24,12 +24,12 @@ namespace Tinkercell
 		return &dataTable;
 	}
 	
-	void PlotWindow::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
+	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
 	{
 		QTextEdit * textEdit = new QTextEdit;
 		
 		QHBoxLayout * layout = new QHBoxLayout;
-		layout->setWidget(textEdit);
+		layout->addWidget(textEdit);
 		setLayout(layout);
 		
 		textEdit->clear();

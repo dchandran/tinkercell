@@ -53,27 +53,27 @@ namespace Tinkercell
 		for (int i=0; i < colnames.size(); ++i)
 		{
 			if (i == 0 && !printRows)
-				outputs += colnames.at(i);
+				output += colnames.at(i);
 			else
-				outputs += tr("\t") + colnames.at(i);
+				output += tr("\t") + colnames.at(i);
 		}
 	
 		for (int i=0; i < table.rows(); ++i)
 		{
 			if (printRows)
 			{
-				outputs += rownames.at(i);
+				output += rownames.at(i);
 			}
 		
 			for (int j=0; j < table.cols(); ++j)
 			{
 				if (i == 0 && !printRows)
-					outputs += QString::number(table.at(i,j));
+					output += QString::number(table.at(i,j));
 				else
-					outputs += tr("\t") + QString::number(table.at(i,j));
+					output += tr("\t") + QString::number(table.at(i,j));
 			}
 		
-			outputs += tr("\n");
+			output += tr("\n");
 		}
 		
 		if (type.toLower() == tr("clipboard"))
@@ -86,7 +86,7 @@ namespace Tinkercell
 				return;
 			}
 
-			clipboard->setText(outputs);
+			clipboard->setText(output);
 			
 			ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
 
@@ -94,7 +94,7 @@ namespace Tinkercell
 		else
 		if (plotTool && type.toLower() == tr("text"))
 		{
-			plotTool->addWidget(new PlotTextWidget(table,outputs,plotTool));
+			plotTool->addWidget(new PlotTextWidget(table,plotTool,output));
 		}
 		else
 		{

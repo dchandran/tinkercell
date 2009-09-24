@@ -32,6 +32,7 @@ int functionMissing()
 		!tc_callWhenExiting ||
 		!tc_callback ||
 		!tc_plot ||
+		!tc_callback ||
 		!tc_isWindows)
 
 		return 1;

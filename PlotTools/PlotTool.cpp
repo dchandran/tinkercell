@@ -181,6 +181,11 @@ namespace Tinkercell
 			return;
 		}
 		
+		if (!multiplePlotsArea->currentSubWindow())
+		{
+			otherToolBar = 0;
+		}
+		
 		if (dockWidget)
 		{
 			dockWidget->show();
@@ -196,8 +201,8 @@ namespace Tinkercell
 		window->setAttribute(Qt::WA_DeleteOnClose);
 		window->setWindowIcon(QIcon(tr(":/images/graph.png")));
 		//window->showMaximized();
-		window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));
-		window->setVisible(true);
+		//window->setVisible(true);
+		window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));		
 		
 		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
 		for (int i=0; i < subWindowList.size(); ++i)
@@ -205,6 +210,7 @@ namespace Tinkercell
 				subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
 			
 		multiplePlotsArea->tileSubWindows();
+		multiplePlotsArea->setActiveSubWindow ( window );
 	}
 	
 	void PlotTool::plot2D(const DataTable<qreal>& matrix,const QString& title,int x,int all)

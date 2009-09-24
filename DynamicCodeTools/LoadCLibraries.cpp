@@ -51,7 +51,7 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+			//connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
             
             toolLoaded(0);
             
@@ -60,7 +60,18 @@ namespace Tinkercell
         return false;
     }
 	
-	void LoadCLibrariesTool::windowChanged(NetworkWindow*,NetworkWindow*)
+	void LoadCLibrariesTool::windowChanged(NetworkWindow* w1,NetworkWindow* w2)
+	{
+		/*if (w1 && w2)
+			for (int i=0; i < callBackFunctions.size(); ++i)
+				if (callBackFunctions[i])
+				{
+					VoidFunction f = callBackFunctions[i];
+					f();
+				}*/
+	}
+	
+	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)
 	{
 		for (int i=0; i < callBackFunctions.size(); ++i)
 			if (callBackFunctions[i])
@@ -68,11 +79,6 @@ namespace Tinkercell
 				VoidFunction f = callBackFunctions[i];
 				f();
 			}
-	}
-	
-	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)
-	{
-		windowChanged(0,0);
 	}
     
     void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu, int deft)
@@ -142,8 +148,8 @@ namespace Tinkercell
 	
 	void LoadCLibrariesTool::unload(QSemaphore* s,void (*f)(void))
     {
-		if (!unloadFunctions.contains(f))
-			unloadFunctions << f;
+		//if (!unloadFunctions.contains(f))
+			//unloadFunctions << f;
         if (s)
             s->release();
     }
@@ -186,7 +192,7 @@ namespace Tinkercell
     
     void LoadCLibrariesTool::setupFunctionPointers( QLibrary * library)
     {
-        tc_LoadCLibraries_api f = (tc_LoadCLibraries_api)library->resolve("tc_LoadCLibraries_api");
+		tc_LoadCLibraries_api f = (tc_LoadCLibraries_api)library->resolve("tc_LoadCLibraries_api");
         if (f)
         {
             f(

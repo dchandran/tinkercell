@@ -38,6 +38,7 @@ int functionMissing()
 		!tc_getFromList ||
 		!tc_compileBuildLoad ||
 		!tc_plot ||
+		!tc_callWhenExiting ||
 		!tc_surface ||
 		!tc_isWindows)
 

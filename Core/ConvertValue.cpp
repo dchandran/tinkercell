@@ -72,7 +72,7 @@ namespace Tinkercell
 	QString ConvertValue(const char* c)
 	{
 		int sz = 0;
-		for (int i=0; c[i] != 0; ++i) ++sz;
+		for (int i=0; c != 0 && c[i] != 0; ++i) ++sz;
 		return QString( QByteArray::fromRawData(c,sz) );
 	}
 	/*! \brief convert QString to null-terminated char*
@@ -93,7 +93,7 @@ namespace Tinkercell
 	QStringList ConvertValue(char** c)
 	{
 		QStringList slist;
-		for (int i=0; c[i] != 0; ++i)
+		for (int i=0; c != 0 && c[i] != 0; ++i)
 			slist += QString(c[i]);
 		return slist;
 	}

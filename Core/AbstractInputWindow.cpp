@@ -9,6 +9,7 @@ LPSolveInputWindow is a good example.
 
 ****************************************************************************/
 #include "AbstractInputWindow.h"
+#include "ConsoleWindow.h"
 #include "CThread.h"
 
 namespace Tinkercell
@@ -193,17 +194,15 @@ namespace Tinkercell
 			if (!win) return;
 
 			QStringList options = options0;
+			
 			for (int k=0; k < options.size(); ++k)
 				options[k].replace(tr("_"),tr("."));
 
 			win->delegate.options.value(i,j) = options;
-	
-			if (options.isEmpty())
-				options << "";
 
 			if (win->dataTable.value(i,j) >= options.size() || win->dataTable.value(i,j) < 0)
-				win->dataTable.value(i,j) = 0;
-
+				win->dataTable.value(i,j) = -1;
+			else
 			if (win->tableWidget.item(i,j) && !options.contains(win->tableWidget.item(i,j)->text()))
 				win->tableWidget.item(i,j)->setText(options[ (int)(win->dataTable.value(i,j)) ]);
 		}

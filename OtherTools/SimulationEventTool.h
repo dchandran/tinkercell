@@ -109,8 +109,8 @@ namespace Tinkercell
 
         static SimulationEventsTool_FToS fToS;
 
-        void select(int);
-        void deselect(int);
+        void select(int i=0);
+        void deselect(int i=0);
 
         bool openedByUser;
         NodeGraphicsItem item;

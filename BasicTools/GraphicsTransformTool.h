@@ -62,8 +62,8 @@ namespace Tinkercell
 		GraphicsTransformTool();
 		bool setMainWindow(MainWindow * main);
 		public slots:
-			void select(int);
-			void deselect(int);
+			void select(int i=0);
+			void deselect(int i=0);
 
 			void selectPenColor();
 			void selectFillColor();

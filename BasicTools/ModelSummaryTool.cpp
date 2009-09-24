@@ -229,9 +229,12 @@ namespace Tinkercell
 		dockWidget = 0;
 
 		QVBoxLayout * layout = new QVBoxLayout;
-
 		tabWidget = new QTabWidget(this);
 		layout->addWidget(tabWidget);
+		QToolButton * closeButton = new QToolButton;
+		closeButton->setText(tr("Close"));
+		connect(closeButton,SIGNAL(pressed()),this,SLOT(deselect()));
+		layout->addWidget(closeButton,Qt::AlignBottom);
 		//connect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
 
 		setLayout(layout);

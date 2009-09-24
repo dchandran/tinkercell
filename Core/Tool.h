@@ -102,9 +102,9 @@ namespace Tinkercell
 
 		public slots:
 			/*! \brief what happens when this tool is selected */
-			virtual void select(int);
+			virtual void select(int i=0);
 			/*! \brief what happens when this tool is deselected */
-			virtual void deselect(int);
+			virtual void deselect(int i=0);
 
 		signals:
 			/*! \brief this tool is selected */

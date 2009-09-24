@@ -107,8 +107,8 @@ namespace Tinkercell
 		Type type;
 
 	public slots:
-		void select(int);
-		void deselect(int);
+		void select(int i=0);
+		void deselect(int i=0);
 
 		void setValue(int i, int j);
 		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);

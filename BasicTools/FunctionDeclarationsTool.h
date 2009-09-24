@@ -83,8 +83,8 @@ namespace Tinkercell
 
 	public slots:
 		void eval();
-		void select(int);
-		void deselect(int);
+		void select(int i=0);
+		void deselect(int i=0);
 
 		void setValue(int i, int j);
 		void itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>& handles);

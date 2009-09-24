@@ -64,8 +64,8 @@ namespace Tinkercell
 		void dataChanged(const QList<ItemHandle*>&);
 
 	public slots:
-		void select(int);
-		void deselect(int);
+		void select(int i=0);
+		void deselect(int i=0);
 		void sceneClosing(NetworkWindow * , bool *);
 		void historyUpdate(int);
 		void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);

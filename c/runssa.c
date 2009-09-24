@@ -280,7 +280,7 @@ void runCellSSA(Matrix input)
 				   int i,j;\n\
 				   for(i=0; i<TCvars; ++i) data1.colnames[1+i] = names[i];\n\
 				   tc_plot(data1,0,\"Multi-cell simulation\",0);\n\
-				   tc_plot(data2,0,\"Cell growth\",0);\n\
+				   tc_plot(data2,0,\"Cell growth\",1);\n\
 				   free(data1.colnames);\n\
 				   free(data2.colnames);\n\
 				   free(y[0]);\n\

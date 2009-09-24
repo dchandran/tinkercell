@@ -113,9 +113,9 @@ namespace Tinkercell
 
 	public slots:
 		/*! \brief this widget has been selected. Argument does nothing */
-		void select(int);
+		void select(int i=0);
 		/*! \brief this widget has been deselected. Argument does nothing */
-		void deselect(int);
+		void deselect(int i=0);
 		/*! \brief inserts the Rates and Stoichiometry tables for any new connection handle */
 		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
 		/*! \brief updates the internal connectionHandles list, which is used to display the rates and stoichiometry*/

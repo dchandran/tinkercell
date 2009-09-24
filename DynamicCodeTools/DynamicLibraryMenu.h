@@ -125,8 +125,8 @@ namespace Tinkercell
 		QSize sizeHint() const;
 		
     protected slots:
-        void select(int);
-        void deselect(int);
+        void select(int i=0);
+        void deselect(int i=0);
         void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
         void itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers);
         /*!

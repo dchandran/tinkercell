@@ -54,8 +54,8 @@ namespace Tinkercell
 		void nameChanged();
 
 	public slots:
-		void select(int);
-		void deselect(int);
+		void select(int i=0);
+		void deselect(int i=0);
 		void showDialog(ItemHandle*);
 		void closeDialog();
 		void itemsInsertedSlot(NetworkWindow * , const QList<ItemHandle*>& handles);

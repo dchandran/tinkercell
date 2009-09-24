@@ -62,8 +62,8 @@ namespace Tinkercell
 		DNASequenceViewer();
 		bool setMainWindow(MainWindow*);
 	public slots:
-		void select(int);
-		void deselect(int);
+		void select(int i=0);
+		void deselect(int i=0);
 		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
 		void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 		void itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);

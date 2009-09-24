@@ -272,7 +272,7 @@ namespace Tinkercell
 			c.a = start.alphaF();
 			return c;
 		}
-		if (z <= max)
+		if (z >= max)
 		{
 			c.r = end.redF();
 			c.g = end.greenF();
@@ -281,7 +281,7 @@ namespace Tinkercell
 			return c;
 		}
 		
-		double x1 = (z - min)/(max-min), x2 = (max - z)/(max-min);
+		double x2 = (z - min)/(max-min), x1 = (max - z)/(max-min);
 		
 		c.r = x1*start.redF() + x2*end.redF();
 		c.g = x1*start.greenF() + x2*end.greenF();

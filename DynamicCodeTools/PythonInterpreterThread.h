@@ -12,8 +12,10 @@
 #ifndef TINKERCELL_PYTHONINTERPRETERTHREAD_H
 #define TINKERCELL_PYTHONINTERPRETERTHREAD_H
 
+#include <QQueue>
 #include <QSemaphore>
 #include <QThread>
+#include <QString>
 #include <QDir>
 #include <QFile>
 #include "Tool.h"
@@ -49,6 +51,7 @@ namespace Tinkercell
 		QString pythonCode;
 		virtual void run();
 		execFunc f;
+		QQueue<QString> commandQueue;
 	};
 }
 

@@ -69,6 +69,11 @@ void  (*tc_addFunction)(void (*f)(), const char* title, const char* description,
 */
 void  (*tc_callback)(void (*f)(void)) = 0;
 /*! 
+ \brief this function will be called whenever Tinkercell exits. Use it to free memory.
+ \ingroup Programming interface
+*/
+void  (*tc_callWhenExiting)(void (*f)(void)) = 0;
+/*! 
  \brief initialize dialogs and c interface
  \ingroup init
 */
@@ -98,7 +103,8 @@ void tc_LoadCLibraries_api(
 		int (*compileBuildLoad)(const char * ,const char* , const char*),
 		void (*loadLibrary)(const char*),
 		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char *, int, int, int),
-		void (*callback)(void (*f)(void))
+		void (*callback)(void (*f)(void)),
+		void (*unload)(void (*f)(void))
 )
 {
 	tc_compileAndRun = compileAndRun;
@@ -106,6 +112,7 @@ void tc_LoadCLibraries_api(
 	tc_loadLibrary = loadLibrary;
 	tc_addFunction = addFunction;
 	tc_callback = callback;
+	tc_callWhenExiting = unload;
 }
 
 /*! 

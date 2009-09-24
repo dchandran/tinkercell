@@ -197,6 +197,9 @@ namespace Tinkercell
 				options[k].replace(tr("_"),tr("."));
 
 			win->delegate.options.value(i,j) = options;
+	
+			if (options.isEmpty())
+				options << "";
 
 			if (win->dataTable.value(i,j) >= options.size() || win->dataTable.value(i,j) < 0)
 				win->dataTable.value(i,j) = 0;

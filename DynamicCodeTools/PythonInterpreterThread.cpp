@@ -47,7 +47,13 @@ namespace Tinkercell
 
     void PythonInterpreterThread::runCode(const QString& code)
     {
-        if (!mainWindow || !lib || !lib->isLoaded() || isRunning()) return;
+        if (!mainWindow || !lib || !lib->isLoaded()) return;
+		
+		if (isRunning())
+		{
+			commandQueue.enqueue(code);
+			return;
+		}
 		
 		pythonCode = code;
 
@@ -124,6 +130,12 @@ namespace Tinkercell
 
             QDir::setCurrent(currentDir);
         }
+		
+		if (!commandQueue.isEmpty())
+		{
+			pythonCode = commandQueue.dequeue();
+			run();
+		}
     }
 
     PythonInterpreterThread::~PythonInterpreterThread()

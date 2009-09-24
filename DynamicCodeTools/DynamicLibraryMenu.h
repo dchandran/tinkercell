@@ -8,7 +8,6 @@
  
 ****************************************************************************/
 
-
 #ifndef TINKERCELL_FUNCTIONSMENUTOOL_H
 #define TINKERCELL_FUNCTIONSMENUTOOL_H
 

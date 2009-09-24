@@ -9,6 +9,7 @@ the steady state table by changing this value.
 #include "TC_api.h"
 
 char * selected_var;
+char ** allNames = 0;
 void run(Matrix input);
 void setup();
 
@@ -37,25 +38,72 @@ int functionMissing()
 	return 0;
 }
 
+
+void unload()
+{
+	if (allNames)
+		TCFreeChars(allNames);
+}
+
+void loadAllNames()
+{
+	int i,len;
+	Matrix params;
+	char ** names;
+	Array A = tc_allItems();
+	
+	if (allNames)
+		TCFreeChars(allNames);
+		
+	allNames = 0;
+
+	if (A && A[0])
+	{
+		params = tc_getModelParameters(A);
+		names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
+		len = 0;
+		while (names[len]) ++len;
+		allNames = malloc((len+params.rows+1)*sizeof(char*));
+		for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
+		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
+		allNames[(len+params.rows)] = 0;
+		params.rownames = 0;
+		TCFreeMatrix(params); 
+		TCFreeArray(A); 
+	}
+}
+
+void callback()
+{
+	loadAllNames();
+	tc_addInputWindowOptions("At Time T",2, 0, allNames);
+}
+
 void tc_main()
 {
 	if (functionMissing()) return;
+	
+	allNames = 0;
 
 	selected_var = "";
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);
+	tc_callback(&callback);
+	tc_callWhenExiting(&unload);
 }
 
 void setup()
 {
 	Matrix m;
 	char * cols[] = { "value", 0 };
-	char * rows[] = { "model", "simulation", "start", "end", "increments", "time" };
-	double values[] = { 0.0, 0.0, 0.0, 10, 0.5 , 100.0  };
+	char * rows[] = { "model", "simulation", "variable", "start", "end", "increments", "time", 0};
+	double values[] = { 0.0, 0.0, 0.0, 0.0, 10, 0.5 , 100.0  };
 	char * options1[] = { "Full model", "Selected only", 0};
 	char * options2[] = { "ODE", "Stochastic", 0  }; //null terminated -- very very important 
+	
+	loadAllNames();
 
-	m.rows = 6;
+	m.rows = 7;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
@@ -65,6 +113,7 @@ void setup()
 	tc_createInputWindow(m,"At Time T",&run);
 	tc_addInputWindowOptions("At Time T",0, 0, options1);
 	tc_addInputWindowOptions("At Time T",1, 0, options2);
+	tc_addInputWindowOptions("At Time T",2, 0, allNames);
 
 	return; 
 }
@@ -76,7 +125,6 @@ void run(Matrix input)
 	int doStochastic = 0;
 	int selection = 0, index = 0, sz = 0;
 	Array A;
-	Matrix params;
 	char * param;
 	FILE * out;
 	char* cmd;
@@ -88,13 +136,15 @@ void run(Matrix input)
 		if (input.rows > 1)
 			doStochastic = (int)(valueAt(input,1,0) > 0);
 		if (input.rows > 2)
-			start = valueAt(input,2,0);
+			index = valueAt(input,2,0);
 		if (input.rows > 3)
-			end = valueAt(input,3,0);
+			start = valueAt(input,3,0);
 		if (input.rows > 4)
-			dt = valueAt(input,4,0);
+			end = valueAt(input,4,0);
 		if (input.rows > 5)
-			time = valueAt(input,5,0);
+			dt = valueAt(input,5,0);
+		if (input.rows > 6)
+			time = valueAt(input,6,0);
 	}
 
 	if (selection > 0)
@@ -123,19 +173,15 @@ void run(Matrix input)
 		return;  
 	}
 
-	params = tc_getParametersAndFixedVariables(A);
 	TCFreeArray(A);
 
-	index = tc_getFromList("Select Independent Variable",params.rownames,selected_var,0);
-
-	if (index < 0 || index > params.rows)
+	if (index < 0)
 	{
-		TCFreeMatrix(params);
 		tc_print("steady state: no variable selected\0");
 		return;
 	}
 
-	param = params.rownames[index]; //the parameter to vary
+	param = allNames[index]; //the parameter to vary
 	selected_var = param;
 
 	out = fopen("timet.c","a");
@@ -217,7 +263,6 @@ void run(Matrix input)
 	tc_compileBuildLoad(cmd,"run\0","At Time T\0");
 
 	free(cmd);
-	TCFreeMatrix(params);
 	return;
 }
 

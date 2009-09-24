@@ -46,6 +46,7 @@ namespace Tinkercell
 			void loadLibrary(QSemaphore*,const QString&);
 			void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 			void callback(QSemaphore*,VoidFunction);
+			void unload(QSemaphore*,VoidFunction);
 			
 		public slots:
 			int compileAndRun(const char * cfile,const char* args);
@@ -53,6 +54,7 @@ namespace Tinkercell
 			void loadLibrary(const char*);
 			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
 			void callback(VoidFunction);
+			void unload(VoidFunction);
 	};
 
 	class MY_EXPORT LoadCLibrariesTool : public Tool
@@ -63,9 +65,12 @@ namespace Tinkercell
 
 	public:
 		LoadCLibrariesTool();
+		~LoadCLibrariesTool();
 		bool setMainWindow(MainWindow*);
 
 	public slots:
+		void windowChanged(NetworkWindow*,NetworkWindow*);
+		void dataChanged(const QList<ItemHandle*>&);
 		void setupFunctionPointers( QLibrary * );
 		void toolLoaded(Tool*);
 		void compileAndRunC(const QString&,const QString&);
@@ -77,6 +82,7 @@ namespace Tinkercell
 		void loadLibrary(QSemaphore*,const QString&);
 		void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 		void callback(QSemaphore*,VoidFunction);
+		void unload(QSemaphore*,VoidFunction);
 		
 	protected:
 		void connectTCFunctions();
@@ -84,16 +90,19 @@ namespace Tinkercell
 		QButtonGroup buttonsGroup;
 		QStringList dllFileNames;
 		QHash<QAction*,QString> hashDll;
-                DynamicLibraryMenu * libMenu;
+        DynamicLibraryMenu * libMenu;
 		
 	private:
+		QList<VoidFunction> callBackFunctions;
+		QList<VoidFunction> unloadFunctions;
 		static LoadCLibrariesTool_FToS fToS;		
 		static int _compileAndRun(const char * cfile,const char* args);
-                static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
+        static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
 		static void _loadLibrary(const char*);
-                static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
-                static void _callback(VoidFunction);
-            };
+		static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
+		static void _callback(VoidFunction);
+		static void _unload(VoidFunction);
+     };
 }
 
 #endif

@@ -780,6 +780,7 @@ namespace Tinkercell
 	{
 		if (!window) return;
 		NetworkWindow * model = currentWindow();
+		
 		if (model)
 		{
 			if (model->scene)

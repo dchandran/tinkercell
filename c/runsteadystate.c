@@ -13,6 +13,7 @@ char selected_var[100];
 char selected_var1[100];
 char selected_var2[100];
 char target_var[100];
+char ** allNames = 0;
 
 void run(Matrix input);
 void run2D(Matrix input);
@@ -26,6 +27,7 @@ int functionMissing()
 		!tc_addInputWindowOptions ||
 		!tc_selectedItems ||
 		!tc_allItems ||
+		!tc_callback ||
 		!tc_errorReport ||
 		!tc_getModelParameters ||
 		!tc_getNames || 
@@ -41,31 +43,77 @@ int functionMissing()
 
 		return 1;
 
-
 	return 0;
+}
+
+void unload()
+{
+	if (allNames)
+		TCFreeChars(allNames);
+}
+
+void loadAllNames()
+{
+	int i,len;
+	Matrix params;
+	char ** names;
+	Array A = tc_allItems();
+	
+	if (allNames)
+		TCFreeChars(allNames);
+		
+	allNames = 0;
+
+	if (A && A[0])
+	{
+		params = tc_getModelParameters(A);
+		names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
+		len = 0;
+		while (names[len]) ++len;
+		allNames = malloc((len+params.rows+1)*sizeof(char*));
+		for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
+		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
+		allNames[(len+params.rows)] = 0;
+		params.rownames = 0;
+		TCFreeMatrix(params); 
+		TCFreeArray(A); 
+	}
+}
+
+void callback()
+{
+	loadAllNames();
+	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
+	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);	
+	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
 void tc_main()
 {
 	if (functionMissing()) return;
+	
+	allNames = 0;
 
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Parameter scan", "Plugins/c/cvode.PNG", "", 1, 0, 0);
 	tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Parameter scan", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+	tc_callback(&callback);
+	tc_callWhenExiting(&unload);
 }
 
 void setup1()
 {
-	int i;
 	Matrix m;
 	char * cols[] = { "value" };
-	char * rows[] = { "model", "start", "end", "increments", "plot", 0 };
-	double values[] = { 0.0, 0.0, 10, 0.1, 0 };
+	char * rows[] = { "model", "variable", "start", "end", "increments", "plot", 0 };
+	double values[] = { 0.0, 0.0, 0.0, 10, 0.1, 0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 
+	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 	
 	
-	m.rows = 5;
+	loadAllNames();
+	
+	m.rows = 6;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
@@ -73,28 +121,28 @@ void setup1()
 
 	tc_createInputWindow(m,"Steady state analysis",&run);
 	tc_addInputWindowOptions("Steady state analysis",0, 0, options1);
-	tc_addInputWindowOptions("Steady state analysis",4, 0, options2);
-	return; 
+	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
+	tc_addInputWindowOptions("Steady state analysis",5, 0, options2);
 }
 
 void setup2()
 {
-	int i;
 	Matrix m;
 	char * cols[] = { "value" };
-	char * rows[] = { "model", "x-start", "x-end", "x-increment size", "y-start", "y-end", "y-increments size", 0 };
-	double values[] = { 0.0, 0.0, 10, 0.1, 0.0, 10, 0.1 };
+	char * rows[] = { "model", "x-variable","x-start", "x-end", "x-increment size", "y-variable","y-start", "y-end", "y-increments size", 0 };
+	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
 	
-	m.rows = 7;
+	m.rows = 9;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
 	m.values = values;
 
 	tc_createInputWindow(m,"2-D Steady state analysis",&run2D);
-	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, options1);
-	return; 
+	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, options1);	
+	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);	
+	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
 void run(Matrix input) 
@@ -106,9 +154,7 @@ void run(Matrix input)
 	int rateplot = 0;
 	Array A;
 	char * cmd;
-	int len, i;
-	Matrix params;
-	char ** names,  ** allNames;
+	int i;
 	char * param;
 	FILE * out;
 
@@ -117,13 +163,15 @@ void run(Matrix input)
 		if (input.rows > 0)
 			selection = (int)valueAt(input,0,0);
 		if (input.rows > 1)
-			start = valueAt(input,1,0);
+			index = valueAt(input,1,0);
 		if (input.rows > 2)
-			end = valueAt(input,2,0);
+			start = valueAt(input,2,0);
 		if (input.rows > 3)
-			dt = valueAt(input,3,0);
+			end = valueAt(input,3,0);
 		if (input.rows > 4)
-			rateplot = (int)valueAt(input,4,0);
+			dt = valueAt(input,4,0);
+		if (input.rows > 5)
+			rateplot = (int)valueAt(input,5,0);
 	}
 
 	if (selection > 0)
@@ -150,29 +198,10 @@ void run(Matrix input)
 		return;  
 	}
 
-	params = tc_getModelParameters(A);
-	names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
-
-	len = 0;
-	while (names[len]) ++len;
-
-	allNames = malloc((len+params.rows+1)*sizeof(char*));
-
-
-	for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
-
-	for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
-
-	allNames[(len+params.rows)] = 0;
-
-
-	index = tc_getFromList("Select Independent Variable",allNames,selected_var,0);
-
 	TCFreeArray(A);   
 
-	if (index < 0 || index >= (params.rows+len))
+	if (index < 0)
 	{
-		TCFreeMatrix(params);
 		tc_print("steady state: no valid variable selected\0");
 		return;
 	}
@@ -272,9 +301,6 @@ void run(Matrix input)
 	}
 	tc_compileBuildLoad(cmd,"run\0","Steady state\0");
 
-	free(allNames);
-	TCFreeChars(names);
-	TCFreeMatrix(params);
 	free(cmd);
 	return;  
 }
@@ -289,7 +315,7 @@ void run2D(Matrix input)
 	Array A;
 	int i, len;
 	Matrix params;
-	char ** names, ** allNames;
+	char ** names;
 	char * param1, * param2, * target, * cmd;
 	FILE * out;
 
@@ -298,18 +324,22 @@ void run2D(Matrix input)
 		if (input.rows > 0)
 			selection = (int)valueAt(input,0,0);
 		if (input.rows > 1)
-			startx = valueAt(input,1,0);
+			index1 = valueAt(input,1,0);
 		if (input.rows > 2)
-			endx = valueAt(input,2,0);
+			startx = valueAt(input,2,0);
 		if (input.rows > 3)
-			dx = valueAt(input,3,0);
-
+			endx = valueAt(input,3,0);
 		if (input.rows > 4)
-			starty = valueAt(input,4,0);
+			dx = valueAt(input,4,0);
+
 		if (input.rows > 5)
-			endy = valueAt(input,5,0);
+			index2 = valueAt(input,5,0);
 		if (input.rows > 6)
-			dy = valueAt(input,6,0);
+			starty = valueAt(input,6,0);
+		if (input.rows > 7)
+			endy = valueAt(input,7,0);
+		if (input.rows > 8)
+			dy = valueAt(input,8,0);
 	}  
 
 	if (selection > 0)
@@ -340,36 +370,23 @@ void run2D(Matrix input)
 	params = tc_getModelParameters(A);
 	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
 
-	len = 0;
-	while (names[len]) ++len;
-
-	allNames = malloc((len+params.rows+1)*sizeof(char*));
-
-	for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
-
-	for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
-
-	allNames[(len+params.rows)] = 0;   
-
-	index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0); 
-	if (index1 >= 0)
-		index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
+	//index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0); 
+	//if (index1 >= 0)
+	//index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
 	
 	if (index1 >= 0 && index2 >= 0 && (index1 == index2))	
 	{
-		TCFreeArray(A);   
-		TCFreeMatrix(params);
+		TCFreeArray(A); 
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
-
 	
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getFromList("Select Target",names,target_var,0);
 
 	TCFreeArray(A);
 
-	if (index1 < 0 || index1 >= (params.rows+len) || index2 < 0 || index2 >= (params.rows+len) || index3 < 0 || index3 > len)
+	if (index1 < 0 || index2 < 0 || index3 < 0)
 	{
 		TCFreeMatrix(params);
 		tc_print("2D steady state: no valid variable selected\0");
@@ -450,8 +467,6 @@ void run2D(Matrix input)
 	}
 	tc_compileBuildLoad(cmd,"run\0","2-parameter steady state\0");
 
-	free(allNames);
-	TCFreeChars(names);
 	TCFreeMatrix(params);
 	free(cmd);
 	return;  

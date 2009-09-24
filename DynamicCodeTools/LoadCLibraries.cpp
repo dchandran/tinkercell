@@ -29,112 +29,19 @@ namespace Tinkercell
     
     LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries")), actionsGroup(this), buttonsGroup(this)
     {
-        //connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
-        //connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
         connectTCFunctions();
         libMenu = 0;
     }
-    
-    /*
-         void LoadCLibrariesTool::loadFromFile(DynamicLibraryMenu * libMenu, QFile& file)
-         {
-                 if (!libMenu) return;
-                 
-                 QStringList lines;
-                 
-                 while (!file.atEnd()) 
-                 {
-                         QByteArray line = file.readLine();
-                         if (!line.isEmpty())
-                                 lines << line.trimmed();
-                 }
-                 
-                 QString desc, dllFile, functionName, categoryName, iconfile, menu,  family, tool;
-                 
-                 QString appDir = QCoreApplication::applicationDirPath();
-                 
-                 for (int i=0; i < lines.size(); ++i)
-                 {
-                        QStringList ls = lines[i].split(tr(";"));
-                        
-                        if (ls.size() >= 3)
-                        {
-                                desc = ls[0].trimmed();
-                                dllFile = ls[1].trimmed();
-                                functionName = ls[2].trimmed();
-                                QStringList functionNameSplit = functionName.split(tr("::"));
-                                
-                                if (functionNameSplit.size() >= 2)
-                                {
-                                        functionName = functionNameSplit[1];
-                                        categoryName = functionNameSplit[0];
-                                }
-                                else
-                                {
-                                        functionName = functionNameSplit[0];
-                                        categoryName = tr("misc.");
-                                }
-                                
-                                menu = tr("menu");
-                                family = tr("");
-                                tool = tr("notool");
-                                iconfile = tr("");
-                                if (ls.size() > 3)
-                                {
-                                        iconfile = ls[3].trimmed();
-                                        
-                                        if (!QFile(iconfile).exists())
-                                                iconfile = appDir + tr("/") + iconfile;
-                                                
-                                        if (ls.size() > 4)
-                                        {
-                                                menu = ls[4].trimmed();
-                                                
-                                                if (ls.size() > 5)
-                                                {
-                                                        family = ls[5].trimmed();
-                                                        
-                                                        if (ls.size() > 6)
-                                                                tool = ls[6].trimmed();
-                                                }	
-                                        }
-                                }
-                                
-                                QPixmap pixmap(iconfile);
-                                
-                                QToolButton * button = libMenu->addFunction(categoryName, functionName, QIcon(pixmap));
-                                
-                                if (button)
-                                {
-                                        button->setToolTip(desc);
-                                        buttonsGroup.addButton(button,dllFileNames.size());
-                                        dllFileNames << dllFile;
-                                }
-                                
-                                if (menu == tr("menu"))
-                                {
-                                        QAction * menuItem = libMenu->addMenuItem(functionName,QIcon(pixmap));
-                                        if (menuItem)
-                                        {
-                                                menuItem->setToolTip(desc);
-                                                actionsGroup.addAction(menuItem);
-                                                hashDll[menuItem] = dllFile;
-                                        }
-                                        
-                                        if (!family.isEmpty())
-                                        {
-                                                QAction * contextAction = libMenu->addContextMenuItem(family, functionName, pixmap, tool==tr("tool"));
-                                                if (contextAction) 
-                                                {
-                                                        contextAction->setToolTip(desc);
-                                                        actionsGroup.addAction(contextAction);
-                                                        hashDll[contextAction] = dllFile;
-                                                }
-                                        }
-                                }
-                        }
-                 }
-         }*/
+	
+	LoadCLibrariesTool::~LoadCLibrariesTool()
+	{
+		for (int i=0; i < unloadFunctions.size(); ++i)
+			if (unloadFunctions[i])
+			{
+				VoidFunction f = unloadFunctions[i];
+				f();
+			}
+	}
     
     bool LoadCLibrariesTool::setMainWindow(MainWindow * main)
     {
@@ -143,6 +50,8 @@ namespace Tinkercell
         {
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
             
             toolLoaded(0);
             
@@ -150,6 +59,21 @@ namespace Tinkercell
         }
         return false;
     }
+	
+	void LoadCLibrariesTool::windowChanged(NetworkWindow*,NetworkWindow*)
+	{
+		for (int i=0; i < callBackFunctions.size(); ++i)
+			if (callBackFunctions[i])
+			{
+				VoidFunction f = callBackFunctions[i];
+				f();
+			}
+	}
+	
+	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)
+	{
+		windowChanged(0,0);
+	}
     
     void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu, int deft)
     {
@@ -210,6 +134,16 @@ namespace Tinkercell
     
     void LoadCLibrariesTool::callback(QSemaphore* s,void (*f)(void))
     {
+		if (!callBackFunctions.contains(f))
+			callBackFunctions << f;
+        if (s)
+            s->release();
+    }
+	
+	void LoadCLibrariesTool::unload(QSemaphore* s,void (*f)(void))
+    {
+		if (!unloadFunctions.contains(f))
+			unloadFunctions << f;
         if (s)
             s->release();
     }
@@ -228,38 +162,7 @@ namespace Tinkercell
             }
         }
     }
-    
-    /*void LoadCLibrariesTool::buttonPressed ( int id )
-         {
-                if (dllFileNames.size() <= id)
-                        return;
-                        
-                QString dllName = dllFileNames[id];
-                QAbstractButton * button = buttonsGroup.button(id);
-                
-                if (button && !dllName.isEmpty())
-                {
-                        LibraryThread * newThread = new LibraryThread(dllName,tr("run"),mainWindow,emptyMatrix());
-                        if (LibraryThread::ThreadDialog(mainWindow,newThread,button->text(),button->icon()))
-                                newThread->start(); //go
-                }
-         }
-         
-         void LoadCLibrariesTool::actionTriggered(QAction * item)
-         {
-                if (!item || !hashDll.contains(item))
-                        return;
-                        
-                QString dllName = hashDll[item];
-                
-                if (!dllName.isEmpty())
-                {
-                        LibraryThread * newThread = new LibraryThread(dllName,tr("run"),mainWindow,emptyMatrix());
-                        if (LibraryThread::ThreadDialog(mainWindow,newThread,item->text(),item->icon()))
-                                newThread->start(); //go
-                }
-         }
-         */
+	
     void LoadCLibrariesTool::connectTCFunctions()
     {
         connect(&fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
@@ -267,8 +170,8 @@ namespace Tinkercell
         connect(&fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
         connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
                    this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
-        connect(&fToS,SIGNAL(callback(QSemaphore*,VoidFunction)),
-                    this,SLOT(callback(QSemaphore*,VoidFunction)));
+        connect(&fToS,SIGNAL(callback(QSemaphore*,VoidFunction)),this,SLOT(callback(QSemaphore*,VoidFunction)));
+		connect(&fToS,SIGNAL(unload(QSemaphore*,VoidFunction)),this,SLOT(unload(QSemaphore*,VoidFunction)));
 
     }
     
@@ -277,7 +180,8 @@ namespace Tinkercell
             int (*compileBuildLoad)(const char *, const char* , const char*),
             void (*loadLib)(const char*),
             void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
-            void (*callback)(void (*f)())
+            void (*callback)(void (*f)()),
+			void (*unload)(void (*f)())
             );
     
     void LoadCLibrariesTool::setupFunctionPointers( QLibrary * library)
@@ -290,7 +194,8 @@ namespace Tinkercell
                     &(_compileBuildLoad),			
                     &(_loadLibrary),
                     &(_addFunction),
-                    &(_callback)
+                    &(_callback),
+					&(_unload)
                     );
         }
     }
@@ -441,8 +346,7 @@ namespace Tinkercell
             mainWindow->loadDynamicLibrary(file);
         
         if (s) s->release();
-    }
-    
+    }    
     
     /******************************************************/
     
@@ -470,6 +374,12 @@ namespace Tinkercell
     
     void  LoadCLibrariesTool::_callback(void (*f)(void))
     {
+		fToS.callback(f);
+    }
+	
+	void  LoadCLibrariesTool::_unload(void (*f)(void))
+    {
+		fToS.unload(f);
     }
     
     int LoadCLibrariesTool_FToS::compileAndRun(const char * cfile,const char* args)
@@ -511,6 +421,16 @@ namespace Tinkercell
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
         emit callback(s,f);
+        s->acquire();
+        s->release();
+        delete s;
+    }
+	
+	void LoadCLibrariesTool_FToS::unload(void (*f)())
+    {
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit unload(s,f);
         s->acquire();
         s->release();
         delete s;

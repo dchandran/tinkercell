@@ -386,7 +386,7 @@ namespace Tinkercell
 									{
 										if ((node = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j])) && node->boundaryControlPoints.size() > 0)
 										{
-											QPointF p = node->sceneBoundingRect().topLeft() + QPointF(10.0,0.0);
+											QPointF p = node->sceneBoundingRect().topRight() + QPointF(10.0,0.0);
 											
 											lockNode = new NodeGraphicsItem;
 											QString appDir = QCoreApplication::applicationDirPath();
@@ -397,7 +397,7 @@ namespace Tinkercell
 												if (lockNode->boundaryControlPoints[k])
 													delete lockNode->boundaryControlPoints[k];
 											lockNode->boundaryControlPoints.clear();
-											lockNode->scale(18.0/lockNode->sceneBoundingRect().width(),25.0/lockNode->sceneBoundingRect().height());
+											lockNode->scale(18.0/lockNode->sceneBoundingRect().width(),30.0/lockNode->sceneBoundingRect().height());
 											lockNode->setPos(p);
 											nodesToSet << lockNode;
 											insertItems << lockNode;

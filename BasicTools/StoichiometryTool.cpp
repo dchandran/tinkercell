@@ -1798,12 +1798,15 @@ namespace Tinkercell
 			{
 				DataTable<QString> rates = connectionHandles[i]->data->textData[tr("Rates")];
 				if (rates.cols() == 1)
-					for (int j=0; j < rates.rows(); ++i)
+					for (int j=0; j < rates.rows(); ++j)
 					{
 						QString s = rates.value(j,0);
 						double d = EquationParser::eval(currentWindow(), s, &b);
 						if (b)
-							values += connectionHandles[i]->fullName() + tr(".") + rates.colName(j) + tr(" = ") + QString::number(d);
+							if (rates.rowName(j).isEmpty())
+								values << connectionHandles[i]->fullName() + tr(" = ") + QString::number(d);
+							else
+								values << connectionHandles[i]->fullName() + tr(".") + rates.rowName(j) + tr(" = ") + QString::number(d);
 						
 					}
 			}

@@ -180,7 +180,7 @@ namespace Tinkercell
 		
 		QStringList functionNames;
 		QList<QStringList> argsList;
-		/*
+		
 		for (int i=0; i < allHandles.size(); ++i)
 		{
 			if (allHandles[i] && allHandles[i]->hasTextData(QString("Functions")))
@@ -194,7 +194,7 @@ namespace Tinkercell
 			}
 		}
 
-		SubstituteFunctionCalls(functionNames,argsList,s);*/
+		SubstituteFunctionCalls(functionNames,argsList,s);
 		
 		s.replace(regex1,QString(""));
 		s.replace(regex2,QString("_"));

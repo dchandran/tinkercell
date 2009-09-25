@@ -50,7 +50,7 @@ namespace Tinkercell
 		
 		window = new QMainWindow;
 		window->setCentralWidget(multiplePlotsArea);
-		window->addToolBar(Qt::RightToolBarArea,&toolBar);
+		window->addToolBar(Qt::TopToolBarArea,&toolBar);
 		layout->addWidget(window);
 		setLayout(layout);
 		
@@ -127,7 +127,7 @@ namespace Tinkercell
 
 	QSize PlotTool::sizeHint() const
 	{
-	    return QSize(600, 300);
+	    return QSize(600, 500);
 	}
 
 	bool PlotTool::setMainWindow(MainWindow * TinkercellWindow)
@@ -165,15 +165,17 @@ namespace Tinkercell
 				}
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
-			toolBar->addAction(action);		
+			toolBar->addAction(action);
 			
 			return true;
 		}
-		return false;	
+		return false;
 	}
 	
 	void PlotTool::addWidget(PlotWidget* newPlot)
 	{
+		if (!newPlot) return;
+		
 		if (!multiplePlotsArea)
 		{
 			if (newPlot)
@@ -201,7 +203,7 @@ namespace Tinkercell
 		window->setAttribute(Qt::WA_DeleteOnClose);
 		window->setWindowIcon(QIcon(tr(":/images/graph.png")));
 		//window->showMaximized();
-		//window->setVisible(true);
+		window->setVisible(true);
 		window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));		
 		
 		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
@@ -512,10 +514,14 @@ namespace Tinkercell
 			
 			bool b;
 			
+			QList< QPair<QString,qreal> > values;
+			values << QPair<QString,qreal>(xaxis,x);
+			
 			for (int j=0; j < data.rows(); ++j)
 			{
 				data.value(j,0) = x;
-				data.value(j,i+1) = EquationParser::eval(net,s);
+				values[0].second = x;
+				data.value(j,i+1) = EquationParser::eval(net,s,&b,values);
 				x += dx;
 			}
 		}
@@ -562,9 +568,12 @@ namespace Tinkercell
 		{
 			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
 			if (otherToolBar)
-				window->removeToolBar(otherToolBar);
+			{
+				otherToolBar->hide();
+			}
 			otherToolBar = &plotWidget->toolBar;
-			window->addToolBar(Qt::RightToolBarArea,&plotWidget->toolBar);
+			window->addToolBar(Qt::TopToolBarArea,otherToolBar);
+			otherToolBar->show();
 		}
 	}
 	

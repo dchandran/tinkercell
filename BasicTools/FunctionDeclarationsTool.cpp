@@ -799,13 +799,14 @@ namespace Tinkercell
 	{
 		bool b;
 		QStringList values;
-		for (int i=0; i < updatedFunctions.size() && i < updatedFunctionNames.size(); ++i)
-		{
-			QString s = updatedFunctions[i];
-			double d = EquationParser::eval(currentWindow(), s, &b);
-			if (b)
-				values += updatedFunctionNames[i] + tr(" = ") + QString::number(d);
-		}
+		for (int i=0; i < tableItems.size() && i < updatedFunctions.size() && i < updatedFunctionNames.size(); ++i)
+			if (tableItems[i])
+			{
+				QString s = updatedFunctions[i];
+				double d = EquationParser::eval(currentWindow(), s, &b);
+				if (b)
+					values += tableItems[i]->fullName() + tr(".") + updatedFunctionNames[i] + tr(" = ") + QString::number(d);
+			}
 		if (values.size() > 0)
 			ConsoleWindow::message(values.join(tr("\n")));
 	}

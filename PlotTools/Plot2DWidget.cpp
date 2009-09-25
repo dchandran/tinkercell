@@ -107,7 +107,6 @@ namespace Tinkercell
 					else
 					if (!on && !hideList.contains(dataTable.colName(i)))
 					{
-						visibleDataTable.removeCol(dataTable.colName(i));
 						hideList += (dataTable.colName(i));
 					}
 				}
@@ -141,7 +140,7 @@ namespace Tinkercell
 		}
 		setAutoReplot(false);
 		this->dataTable = dat;
-		this->visibleDataTable = dat;
+		visibleDataTable = dat;
 		
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)
@@ -210,7 +209,6 @@ namespace Tinkercell
 			if (hideList.contains(dataTable.colName(i)))
 			{
 				list[i]->setVisible(false);
-				visibleDataTable.removeCol(dataTable.colName(i));
 				QWidget * w = leg->find(list[i]);
 				if ( w && w->inherits( "QwtLegendItem" ) )
 					((QwtLegendItem *)w)->setChecked( true );
@@ -252,6 +250,12 @@ namespace Tinkercell
 			setAxisScaleEngine(QwtPlot::yLeft, new QwtLinearScaleEngine);
 		}
 		replot();
+	}
+	
+	void DataPlot::makeVisibleDataTable()
+	{
+		for (int i=0; i < hideList.size(); ++i)
+			visibleDataTable.removeCol(hideList[i]);
 	}
 	
 	/*********************************
@@ -398,6 +402,8 @@ namespace Tinkercell
 	DataTable<qreal>* Plot2DWidget::data()
 	{
 		if (!dataPlot) return 0;
+		
+		dataPlot->makeVisibleDataTable();
 		
 		return &(dataPlot->visibleDataTable);
 	}
@@ -679,11 +685,6 @@ namespace Tinkercell
 		open();
 		if (result() == 0) return pen;
 		
-		if (comboBox.currentIndex() == 0)
-			return QPen(color,spinBox.value(),Qt::SolidLine);
-		else
-			return QPen(color,spinBox.value(),Qt::DotLine);
-			
 		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
 		QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
@@ -708,5 +709,10 @@ namespace Tinkercell
 		settings.setValue(tr("styles"),penStyles);
 		
 		settings.endGroup();
+		
+		if (comboBox.currentIndex() == 0)
+			return QPen(color,spinBox.value(),Qt::SolidLine);
+		else
+			return QPen(color,spinBox.value(),Qt::DotLine);
 	}
 }

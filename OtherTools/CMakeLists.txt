@@ -150,15 +150,15 @@ ENDIF( WIN32 )
 
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
 
-ADD_LIBRARY( ViewTables
+ADD_LIBRARY( ViewTablesTool
   SHARED
   ViewTablesTool.cpp
   ${ViewTablesTool_MOC}
   ${TinkercellCore_MOC}
   )
 
-TARGET_LINK_LIBRARIES( ViewTables
-  ViewTables
+TARGET_LINK_LIBRARIES( ViewTablesTool
+  ViewTablesTool
   TinkerCellCore
 )
 
@@ -167,7 +167,7 @@ IF ( WIN32 )
     DESTINATION Plugins
   )
 ELSE ( WIN32 )
-  INSTALL(TARGETS ViewTables
+  INSTALL(TARGETS ViewTablesTool
     LIBRARY DESTINATION Plugins
   )
 ENDIF( WIN32 )

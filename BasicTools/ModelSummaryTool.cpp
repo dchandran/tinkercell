@@ -397,7 +397,7 @@ namespace Tinkercell
 												if (lockNode->boundaryControlPoints[k])
 													delete lockNode->boundaryControlPoints[k];
 											lockNode->boundaryControlPoints.clear();
-											lockNode->scale(12.0/lockNode->sceneBoundingRect().width(),20.0/lockNode->sceneBoundingRect().height());
+											lockNode->scale(18.0/lockNode->sceneBoundingRect().width(),25.0/lockNode->sceneBoundingRect().height());
 											lockNode->setPos(p);
 											nodesToSet << lockNode;
 											insertItems << lockNode;

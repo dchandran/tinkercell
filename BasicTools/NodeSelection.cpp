@@ -203,7 +203,7 @@ namespace Tinkercell
 			{
 				if (selectedHandleNodes[i])
 				{
-					selectedHandleNodes[i]->setBoundingBoxVisible(true,true);
+					selectedHandleNodes[i]->setBoundingBoxVisible(true,false);
 
 					for (int k=0; k < selectedHandleNodes[i]->shapes.size(); ++k)
 					{

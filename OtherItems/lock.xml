@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/OtherItems/lock.xml" width="12" height="20">
+    <ControlPoints>
+        <ControlPoint x="128" y="127"/>
+        <ControlPoint x="334" y="126"/>
+        <ControlPoint x="334" y="317"/>
+        <ControlPoint x="128" y="318"/>
+        <ControlPoint x="128" y="-62"/>
+        <ControlPoint x="334" y="-62"/>
+        <ControlPoint x="163" y="-26"/>
+        <ControlPoint x="301" y="-26"/>
+        <ControlPoint x="203" y="244"/>
+        <ControlPoint x="271" y="179"/>
+        <ControlPoint x="217" y="295"/>
+        <ControlPoint x="258" y="295"/>
+        <ControlPoint x="244" y="228"/>
+        <ControlPoint x="163" y="126"/>
+        <ControlPoint x="301" y="126"/>
+        <ControlPoint x="231" y="229"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,4,5,1,14,7,6,13,0"/>
+            <LineTypes sequence="bezier,line,bezier,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#595959" Alpha="255"/>
+            <Fill Color="#595959" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,13,14,1,2,3,0"/>
+            <LineTypes sequence="line,line,line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="7" Color="#80889e" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#a0aac6" Alpha="255"/>
+                <Stop Value="1" Color="#e4e8ff" Alpha="255"/>
+                <Start x="175" y="231"/>
+                <End x="159" y="185"/>
+            </Gradient>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="15,12,11,10,15"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#595959" Alpha="255"/>
+            <Fill Color="#595959" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="8,9,8"/>
+            <LineTypes sequence="arc,arc,arc"/>
+            <Parameters values="0,360,0,360,0,360"/>
+            <Pen Width="1" Color="#595959" Alpha="255"/>
+            <Fill Color="#595959" Alpha="255"/>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

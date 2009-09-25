@@ -146,7 +146,7 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
 		NodeGraphicsReader reader;
-		reader.readXml(&item,appDir + tr("/OtherItems/grid.xml"));
+		reader.readXml(&item,appDir + tr("/OtherItems/grid2.xml"));
 
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());

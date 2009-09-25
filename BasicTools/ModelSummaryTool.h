@@ -69,6 +69,7 @@ namespace Tinkercell
 		void sceneClosing(NetworkWindow * , bool *);
 		void historyUpdate(int);
 		void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);
 		void mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);

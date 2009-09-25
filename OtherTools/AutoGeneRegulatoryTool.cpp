@@ -106,10 +106,15 @@ namespace Tinkercell
 				
 				for (int j=0; j < nodeFamily->graphicsItems.size(); ++j)
 				{
-					image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[j]));
+					image = (NodeGraphicsItem::cast(nodeFamily->graphicsItems[j]));
 					if (image)
 					{
 						image = image->clone();
+						
+						for (int k=0; k < image->boundaryControlPoints.size(); ++k)
+							delete image->boundaryControlPoints[k];
+						
+						image->boundaryControlPoints.clear();
 					
 						if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
 							image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
@@ -1289,8 +1294,24 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
 	{	
 		QGraphicsItem * item = 0;
+		NodeGraphicsItem * node = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
+			if ((node = NodeGraphicsItem::cast(items[i])) 
+				&& node->boundaryControlPoints.size() > 0
+				&& node->fileName.toLower().contains(tr("/phosphate.xml")))
+			{
+				for (int k=0; k < node->boundaryControlPoints.size(); ++k)
+					if (node->boundaryControlPoints[k])
+					{
+						if (node->boundaryControlPoints[k]->scene())
+							node->boundaryControlPoints[k]->scene()->removeItem(node->boundaryControlPoints[k]);
+						delete node->boundaryControlPoints[k];
+					}
+						
+				node->boundaryControlPoints.clear();
+			}
+			
 			if (!qgraphicsitem_cast<TextGraphicsItem*>(items[i]))
 			{
 				if (item)
@@ -1310,6 +1331,8 @@ namespace Tinkercell
 				autoGeneProductTriggered();
 			}
 		}
+		
+		
 	}
 
 	void AutoGeneRegulatoryTool::itemsInserted(NetworkWindow* scene, const QList<ItemHandle*>& handles0)

@@ -145,6 +145,9 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)),
 				this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)));
+			
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )),
+				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));	
 
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -181,7 +184,28 @@ namespace Tinkercell
 		}
 		return (mainWindow != 0);
 	}
-
+	
+	void ModelSummaryTool::itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
+	{
+		NodeGraphicsItem * node = 0;
+		for (int i=0; i < items.size(); ++i)
+		{
+			if ((node = NodeGraphicsItem::cast(items[i])) 
+				&& node->boundaryControlPoints.size() > 0
+				&& node->fileName.toLower().contains(tr("/lock.xml")))
+			{
+				for (int k=0; k < node->boundaryControlPoints.size(); ++k)
+					if (node->boundaryControlPoints[k])
+					{
+						if (node->boundaryControlPoints[k]->scene())
+							node->boundaryControlPoints[k]->scene()->removeItem(node->boundaryControlPoints[k]);
+						delete node->boundaryControlPoints[k];
+					}
+						
+				node->boundaryControlPoints.clear();
+			}
+		}
+	}
 
 	void ModelSummaryTool::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
 	{
@@ -354,34 +378,45 @@ namespace Tinkercell
 							
 							if (scene)
 							{
-								TextGraphicsItem * name;
+								NodeGraphicsItem * lockNode,  *node;
+								QList<NodeGraphicsItem*> nodesToSet;
 								if (nDataTable2->value(0,0))
 								{
 									for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
 									{
-										if ((name = TextGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
-											&& 
-											name->text() == itemHandles[i]->name)
+										if ((node = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j])) && node->boundaryControlPoints.size() > 0)
 										{
-											TextGraphicsItem * text = new TextGraphicsItem(tr("(fixed)"));
-											setHandle(text,itemHandles[i]);
-											text->setFont(name->font());
-											text->setDefaultTextColor(QColor(tr("#ff3333")));
-											text->setPos(name->pos() + QPointF(0,name->sceneBoundingRect().height() + 1));
-											text->setFont(name->font());
-											insertItems << text;
+											QPointF p = node->sceneBoundingRect().topLeft() + QPointF(10.0,0.0);
+											
+											lockNode = new NodeGraphicsItem;
+											QString appDir = QCoreApplication::applicationDirPath();
+											NodeGraphicsReader reader;
+											reader.readXml(lockNode,appDir + tr("/OtherItems/lock.xml"));
+											lockNode->normalize();
+											for (int k=0; k < lockNode->boundaryControlPoints.size(); ++k)
+												if (lockNode->boundaryControlPoints[k])
+													delete lockNode->boundaryControlPoints[k];
+											lockNode->boundaryControlPoints.clear();
+											lockNode->scale(12.0/lockNode->sceneBoundingRect().width(),20.0/lockNode->sceneBoundingRect().height());
+											lockNode->setPos(p);
+											nodesToSet << lockNode;
+											insertItems << lockNode;
 										}
+									}
+									for (int j=0; j < nodesToSet.size(); ++j)
+									{
+										nodesToSet[j]->setHandle(itemHandles[i]);
 									}
 								}
 								else
 								{
 									for (int j=0; j < itemHandles[i]->graphicsItems.size(); ++j)
 									{
-										if ((name = TextGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
+										if ((lockNode = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
 											&& 
-											name->text() == tr("(fixed)"))
+											lockNode->fileName.toLower().contains(tr("/lock.xml")))
 										{
-											removeItems << name;
+											removeItems << lockNode;
 										}
 									}
 								}

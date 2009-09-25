@@ -37,7 +37,12 @@ namespace Tinkercell
 
 	ItemFamily::ItemFamily(const QString& s) : type(0), name(s) {}
 
-	ItemFamily::~ItemFamily() {}
+	ItemFamily::~ItemFamily() 
+	{
+		for (int i=0; i < graphicsItems.size(); ++i)
+			if (graphicsItems[i] && !graphicsItems[i]->scene())
+				delete graphicsItems[i];
+	}
 
 	bool ItemFamily::isA(const QString& ) const { return false; }
 

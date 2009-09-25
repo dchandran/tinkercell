@@ -163,7 +163,7 @@ TARGET_LINK_LIBRARIES( ViewTablesTool
 )
 
 IF ( WIN32 )
-  INSTALL(TARGETS ViewTables
+  INSTALL(TARGETS ViewTablesTool
     DESTINATION Plugins
   )
 ELSE ( WIN32 )

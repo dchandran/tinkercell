@@ -16,7 +16,12 @@ ALL SYSTEMS EXCEPT WIN32
 9. If this is the first time you are configuring, you will need to click configure once again.
 10. The "generate" button should be available now. Click "generate"
 11. Open Command Prompt and go to the <Tinkercell folder>/trunk/BUILD directory
-12. run make
+12. run make. 
+    This will make all the binaries, but the application needs several other 
+	supporting files in the same directory as well.
+13. run make package. 
+    This will place all the supporting files and binaries in one folder, 
+	which will probably be inside some directory starting with BUILD/_CPack*.
 
 WIN32 using MinGW g++
 --------------------------
@@ -32,6 +37,11 @@ WIN32 using MinGW g++
 10. The "generate" button should be available now. Click "generate"
 11. Open Command Prompt and go to the <Tinkercell folder>/trunk/BUILD directory
 12. Type "mingw32-make" (or just "make" if the alias is setup).
+    This will make all the binaries, but the application needs several other 
+	supporting files in the same directory as well.
+13. run make package. 
+    This will place all the supporting files and binaries in one folder, 
+	which will probably be inside some directory starting with BUILD/_CPack*.
 
 
 Possible problems:

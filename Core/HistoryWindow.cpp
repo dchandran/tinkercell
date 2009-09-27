@@ -8,13 +8,13 @@ This is the history stack class that is used to store the undo/redo commands.
 
 ****************************************************************************/
 
-#include "HistoryStack.h"
+#include "HistoryWindow.h"
 
 namespace Tinkercell
 {
 
-	void HistoryStack::undo() { stack()->undo(); }
-	void HistoryStack::redo() { stack()->redo(); }
-	void HistoryStack::push(QUndoCommand * command) { stack()->push(command); }
+	void HistoryWindow::undo() { stack()->undo(); }
+	void HistoryWindow::redo() { stack()->redo(); }
+	void HistoryWindow::push(QUndoCommand * command) { stack()->push(command); }
 
 }

@@ -57,7 +57,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(loadAPI(Tool*)));
 			loadAPI(0);
 
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::RightDockWidgetArea,Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea,false);
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/play.png")));
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::RightDockWidgetArea,Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea,false);
 			if (dockWidget)
 			{
 				//dockWidget->setAttribute(Qt::WA_ContentsPropagated);

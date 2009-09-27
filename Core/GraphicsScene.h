@@ -36,7 +36,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include <QPrinter>
 
 #include "DataTable.h"
-#include "HistoryStack.h"
+#include "HistoryWindow.h"
 #include "SymbolsTable.h"
 
 #ifdef Q_WS_WIN

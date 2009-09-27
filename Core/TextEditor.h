@@ -38,7 +38,7 @@ text-based representation of a network.
 
 #include "DataTable.h"
 #include "CodeEditor.h"
-#include "HistoryStack.h"
+#include "HistoryWindow.h"
 #include "SymbolsTable.h"
 #include "Tool.h"
 #include "TextItem.h"

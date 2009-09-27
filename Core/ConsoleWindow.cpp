@@ -378,16 +378,9 @@ namespace Tinkercell
 		setMainWindow(main);
 		if (mainWindow)
 		{
-			QDockWidget* dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
-			if (dockWidget)
-			{
-				//dockWidget->setWindowFlags(Qt::Tool);
-				//dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				//dockWidget->setPalette(QPalette(QColor("#747689")));
-				//dockWidget->setAutoFillBackground(true);
-				//dockWidget->setWindowOpacity(0.6);
-				//dockWidget->hide();
-			}
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/cmd.png")));
+			mainWindow->addToolWindow(this,MainWindow::defaultToolWindowOption);
 		}
 
 		QHBoxLayout * layout = new QHBoxLayout;
@@ -398,7 +391,8 @@ namespace Tinkercell
 
 		connect(&commandTextEdit,SIGNAL(commandExecuted(const QString&)),this,SIGNAL(commandExecuted(const QString&)));
 		connect(&commandTextEdit,SIGNAL(commandInterrupted()),this,SIGNAL(commandInterrupted()));
-		instance = this;
+		if (!instance)
+			instance = this;
 	}
 
 	/*! \brief show a message text in the output window*/

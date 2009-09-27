@@ -48,8 +48,9 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QGridLayout>
 #include <QSemaphore>
 #include <QLibrary>
+#include <QToolBox>
 
-#include "HistoryStack.h"
+#include "HistoryWindow.h"
 #include "DataTable.h"
 #include "ConvertValue.h"
 
@@ -94,6 +95,16 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+	
+		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
+		             DockWidget = tool window is placed into a dockable widget
+					 ToolBoxWidget = tool window is placed in an existing toolbox, if one exists
+					 NewToolBoxWidget = tool window is placed inside a new toolbox
+		*/
+		enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
+		
+		/*! \brief the default tool option to use (mainly used for history window and console window)*/
+		static TOOL_WINDOW_OPTION defaultToolWindowOption;	
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();
@@ -115,15 +126,17 @@ namespace Tinkercell
 		*/
 		static QString userHome();
 		/*!
-		* \brief add a new docking window to the main window.
-		* \param QString the name of the new tool (the title of the docking window)
+		* \brief Add a new docking window to the main window. 
+		           The name and icon are obtained using the widget's windowTitle and windowIcon, so
+				   be sure to set those before calling this function.
 		* \param Tool* the new tool
 		* \param Qt::DockWidgetArea the initial docking area
 		* \param Qt::DockWidgetAreas the allowed docking areas
-		* \param bool place the docking window in the view menu
-		* \return QDockWidget* the new docking window
+		* \param bool whether or not to place the docking window in the view menu
+		* \param bool use a QToolBox instead of a dock widget. The widget will not be dockable, but the entire toolbox will be dockable. 
+		* \return QDockWidget* the new docking widget. ToolBoxWidget option is used, the docking widget may be an existing docking widget.
 		*/
-		QDockWidget * addDockingWindow(const QString& name, QWidget * tool, Qt::DockWidgetArea initArea = Qt::LeftDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
+		QDockWidget * addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option = DockWidget, Qt::DockWidgetArea initArea = Qt::RightDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
 		/*!
 		* \brief add a new tool to the list of tools stored in the main window
 		* \param the name of the new tool
@@ -195,9 +208,9 @@ namespace Tinkercell
 		*/
 		virtual QList<Tool*> tools() const;
 		/*!
-		* \brief the set of all docking windows in the main window
+		* \brief the set of all windows inseted in the main window using addToolWindow
 		*/
-		QList<QDockWidget*> dockedWindows;
+		QList<QWidget*> toolWindows;
 		/*!
 		* \brief the context menu that is shown during right-click event on selected graphical items.
 		Plugins can add new actions to this menu.
@@ -1105,13 +1118,15 @@ namespace Tinkercell
 		* \param drag event
 		* \return void*/
 		void closeEvent(QCloseEvent *event);
-		/*! \brief all windows in different windows*/
+		/*! \brief the central multi-document interface widget*/
 		QMdiArea mdiArea;
-		/*! \brief history window*/
-		HistoryStack historyWindow;
-		/*! \brief keep pointer to previous scene for windowChanged events*/
+		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the toolbox argument in the addToolWindow call*/
+		QToolBox * toolBox;
+		/*! \brief history view, not the stack itself. The stack is stored within each NetworkWindow*/
+		HistoryWindow historyWindow;
+		/*! \brief keep pointer to previously selected window. Used by windowChanged event when window is changed*/
 		NetworkWindow * prevWindow;
-		/*! \brief tools (plug-ins)*/
+		/*! \brief all the tools (plug-ins) are stored here, indexed by their names*/
 		QHash<QString,Tool*> toolsHash;
 	private:
 		/*! \brief used to rename items*/

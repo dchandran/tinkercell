@@ -31,7 +31,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "HistoryStack.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -48,7 +47,8 @@ namespace Tinkercell
 
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
-
+	
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
 	QString MainWindow::previousFileName;
 
 	QString MainWindow::userHome()
@@ -182,6 +182,7 @@ namespace Tinkercell
 	{
 		RegisterDataTypes();
 		prevWindow = 0;
+		toolBox = 0;
 		setAutoFillBackground(true);
 		setAcceptDrops(true);
 
@@ -222,7 +223,11 @@ namespace Tinkercell
 			this,SLOT(itemsRemovedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
 
 		if (showHistory)
-			addDockingWindow(tr("History"),&historyWindow,Qt::RightDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea);
+		{
+			historyWindow.setWindowTitle(tr("History"));
+			setWindowIcon(QIcon(tr(":/images/undo.png")));
+			addToolWindow(&historyWindow,MainWindow::defaultToolWindowOption);
+		}
 		
 		if (enableConsoleWindow)
 			consoleWindow = new ConsoleWindow(this);
@@ -491,25 +496,46 @@ namespace Tinkercell
 
 	}
 
-	QDockWidget * MainWindow::addDockingWindow(const QString& name, QWidget * tool, Qt::DockWidgetArea initArea, Qt::DockWidgetAreas allowedAreas, bool inMenu)
+	QDockWidget * MainWindow::addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option, Qt::DockWidgetArea initArea, Qt::DockWidgetAreas allowedAreas, bool inMenu)
 	{
-		if (!tool) return 0;
+		if (!tool || toolWindows.contains(tool)) return 0;
+		
+		toolWindows << tool;
+		
+		if (option == DockWidget)
+		{
+			QDockWidget *dock = new QDockWidget(tool->windowTitle(), this);
+			dock->setWindowIcon(tool->windowIcon());
+			dock->setAllowedAreas(allowedAreas);
+			dock->setWidget(tool);
+			addDockWidget(initArea,dock);
+			if (inMenu)
+				viewMenu->addAction(dock->toggleViewAction());
 
-		QDockWidget *dock = new QDockWidget(name, this);
-
-		dock->setAllowedAreas(allowedAreas);
-		dock->setWidget(tool);
-
-		QList<QDockWidget*> sameLocation;
-
-		addDockWidget(initArea,dock);
-
-		if (inMenu)
-			viewMenu->addAction(dock->toggleViewAction());
-
-		//addTool(tool);
-		dockedWindows += dock;
-
+			return dock;
+		}
+		
+		QDockWidget * dock = 0;
+		
+		if (!toolBox || option == NewToolBoxWidget)
+		{
+			dock = new QDockWidget(tr("Tools Window"), this);
+			if (option == NewToolBoxWidget)
+				dock->setWindowTitle(tool->windowTitle());
+			toolBox = new QToolBox;
+			dock->setWidget(toolBox);
+			dock->setAllowedAreas(allowedAreas);
+			addDockWidget(initArea,dock);
+			if (inMenu)
+				viewMenu->addAction(dock->toggleViewAction());
+		}
+		else
+		{
+			dock = static_cast<QDockWidget*>(toolBox->parentWidget()); //safe?
+		}
+		
+		toolBox->addItem(tool,tool->windowIcon(),tool->windowTitle());
+		
 		return dock;
 	}
 

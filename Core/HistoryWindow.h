@@ -44,7 +44,7 @@ namespace Tinkercell
 	/*! \brief This is a small class extending QUndoView that manages a stack of undo commands.
 	\ingroup helper
 	*/
-	class MY_EXPORT HistoryStack : public QUndoView
+	class MY_EXPORT HistoryWindow : public QUndoView
 	{
 		Q_OBJECT
 	public:

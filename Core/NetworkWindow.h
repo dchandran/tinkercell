@@ -32,7 +32,7 @@ This class provides functions for editing handles, such as changing names, data,
 #include <QGraphicsView>
 
 #include "DataTable.h"
-#include "HistoryStack.h"
+#include "HistoryWindow.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
 #include "TextEditor.h"

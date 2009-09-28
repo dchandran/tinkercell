@@ -75,19 +75,10 @@ namespace Tinkercell
             treeView->setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 
             treeView->setColumnWidth(0,50);
-            //treeView->setColumnWidth(1,50);
             treeView->setColumnWidth(2,20);
-            mainWindow->addDockingWindow(name,this,Qt::RightDockWidgetArea);
-            /*for (int i=0; i < mainWindow->dockedWindows.size(); ++i)
-                        {
-                                if (mainWindow->dockedWindows[i]
-                                        && mainWindow->dockedWindows[i]!= dock
-                                        && mainWindow->dockWidgetArea(mainWindow->dockedWindows[i]) == Qt::RightDockWidgetArea)
-                                        {
-                                                mainWindow->tabifyDockWidget(mainWindow->dockedWindows[i],dock);
-                                                break;
-                                        }
-                        }*/
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/new.png")));
+            mainWindow->addToolWindow(this,MainWindow::ToolBoxWidget);
 
             connectCollisionDetector();
 

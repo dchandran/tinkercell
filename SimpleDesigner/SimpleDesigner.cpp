@@ -201,9 +201,12 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 	if (mainWindow)
 	{
 		mainWindow->addToolBar(Qt::LeftToolBarArea,toolBar);
-		
-		QDockWidget * dockWidget = mainWindow->addDockingWindow(tr("Information Box"), this, Qt::BottomDockWidgetArea, Qt::NoDockWidgetArea);
-		dockWidget->setFloating(true);
+
+		setWindowTitle(tr("Information Box"));
+		setWindowIcon(QIcon(tr(":/images/about.png")));
+		QDockWidget * dockWidget = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::NoDockWidgetArea);
+		if (dockWidget)
+			dockWidget->setFloating(true);
 		
 		connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));

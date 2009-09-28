@@ -184,7 +184,9 @@ namespace Tinkercell
 			   connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			   connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
 			   connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignalSlot(const QWidget*)));
-			   QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts and Connections"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+			   setWindowTitle(tr("Parts and Connections"));
+			   setWindowIcon(QIcon(tr(":/images/appicon.png")));
+			   QDockWidget* dock = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 			   dock->setWindowFlags(Qt::Widget);
 			   QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
 			   connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));

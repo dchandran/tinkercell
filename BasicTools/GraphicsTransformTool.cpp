@@ -269,15 +269,11 @@ namespace Tinkercell
 
 		if (mainWindow != 0)
 		{
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::RightDockWidgetArea,Qt::NoDockWidgetArea);
+			setWindowTitle(name);
+			setWindowIcon(tr(":/images/eye.png"));
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::RightDockWidgetArea,Qt::NoDockWidgetArea);
 			if (dockWidget != 0)
-			{	
-				/*dockWidget->setWindowFlags(Qt::Tool);
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
-				dockWidget->setAutoFillBackground(true);
-				dockWidget->setWindowOpacity(0.75);*/
-
+			{
 				dockWidget->hide();
 				dockWidget->setFloating(true);
 

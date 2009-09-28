@@ -120,7 +120,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
 						  this, SLOT(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)));
 			
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/new.png")));
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 			
 			if (dockWidget)
 			{

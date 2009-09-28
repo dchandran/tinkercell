@@ -138,7 +138,9 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/graph.png")));
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 		
 			if (dockWidget)
 			{

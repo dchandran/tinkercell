@@ -217,8 +217,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			
 			toolLoaded(0);
-			
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
+			setWindowTitle(name);
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget, Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
 			dockWidget->setAttribute(Qt::WA_ContentsPropagated);
 			dockWidget->setFloating(true);
 			dockWidget->hide();

@@ -138,10 +138,8 @@ namespace Tinkercell
 
           if (mainWindow)
           {
-               //connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
-               //QDockWidget* dock = mainWindow->addDockingWindow(tr("Parts"),this,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-               return true;
+			   return true;
           }
           return false;
      }

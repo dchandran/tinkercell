@@ -95,7 +95,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(pluginLoaded(Tool*)));
 
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			setWindowTitle(name);
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 
 			if (dockWidget)
 			{

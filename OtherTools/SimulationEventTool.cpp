@@ -111,8 +111,9 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
             connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
-
-            dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			
+			setWindowTitle(name);
+            dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget, Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 
             if (dockWidget)
             {

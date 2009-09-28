@@ -82,15 +82,17 @@ namespace Tinkercell
 		QWidget * currentWidget;
 		QTabWidget * tabWidget;
 
-		private slots:
-			void currentChanged ( int index );
-			void updateTables();
+	private slots:
+		void currentChanged ( int index );
+		void updateTables();
+		void fixedAction();
 
 	private:
 		bool openedByUser;
 		NodeGraphicsItem item;
 		QDockWidget * dockWidget;
 		QList<ItemHandle*> itemHandles;
+		QAction * toggleFixedAction, *separator;
 
 		friend class VisualTool;
 	};

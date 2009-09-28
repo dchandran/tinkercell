@@ -68,13 +68,6 @@ namespace Tinkercell
         Tool::setMainWindow(main);
         if (mainWindow)
         {
-            /*QDockWidget * dockWidget = mainWindow->addDockingWindow(name,this,Qt::RightDockWidgetArea,Qt::NoDockWidgetArea);
-                        if (dockWidget != 0)
-                        {
-                                dockWidget->hide();
-                                dockWidget->setFloating(true);
-                                connect(&showArrowSelection,SIGNAL(triggered()),dockWidget,SLOT(show()));
-                        }*/
             connect(&showArrowSelection,SIGNAL(triggered()),this,SLOT(replaceNodeSlot()));
             connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
             connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));

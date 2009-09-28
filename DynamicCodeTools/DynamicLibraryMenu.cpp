@@ -184,7 +184,7 @@ namespace Tinkercell
 
             toolBar->addWidget(menuButton);
 
-            QDockWidget * dockWidget = mainWindow->addDockingWindow(name, this, Qt::BottomDockWidgetArea);
+            QDockWidget * dockWidget = mainWindow->addDockingWindow(name, this, MainWindow::DockWidget, Qt::BottomDockWidgetArea);
             if (dockWidget)
             {
                 //dockWidget->setAttribute(Qt::WA_ContentsPropagated);

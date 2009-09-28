@@ -77,5 +77,7 @@
 		<file>images/calc.png</file>
 		<file>images/latex.png</file>
 		<file>images/camera.png</file>
+		<file>images/monitor.png</file>
+		<file>images/lock.png</file>
     </qresource>
 </RCC>

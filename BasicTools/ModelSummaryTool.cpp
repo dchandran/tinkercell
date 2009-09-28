@@ -96,8 +96,27 @@ namespace Tinkercell
 	
 	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers)
 	{
-		if (!isVisible() || !scene || !scene->useDefaultBehavior || list.isEmpty()) return;
+		if (!isVisible() || !mainWindow || !scene || !scene->useDefaultBehavior || list.isEmpty()) return;
 		updateTables();
+		
+		for (int i=0; i < items.size(); ++i)
+		{
+			handle = getHandle(items[i]);
+			if (handle && handle->isA("Species"))
+			{
+				if (separator)
+					mainWindow->contextItemsMenu.addAction(separator);
+				else
+					separator = mainWindow->contextItemsMenu.addSeparator();
+				
+				mainWindow->contextItemsMenu.addAction(toggleFixedAction);
+				return;
+			}
+		}
+		
+		if (separator)
+			mainWindow->contextItemsMenu.removeAction(separator);
+		mainWindow->contextItemsMenu.removeAction(toggleFixedAction);
 	}
 
 	void ModelSummaryTool::mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
@@ -147,7 +166,7 @@ namespace Tinkercell
 				this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )),
-				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));	
+				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
 
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -155,7 +174,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent *)),
 				this ,SLOT(keyPressed(GraphicsScene*,QKeyEvent *)));
 
-			dockWidget = mainWindow->addDockingWindow(name,this,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			setWindowTitle(name);
+			setWindowIcon(QIcon(tr(":/images/monitor.png")));
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 
 			if (dockWidget)
 			{
@@ -288,12 +309,52 @@ namespace Tinkercell
 		graphicsItems[0]->addToGroup(&item);
 		graphicsItems[0]->setToolTip(tr("Model summary"));
 
-		/*QToolButton * toolButton = new QToolButton(this);
-		toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));
-		toolButton->setToolTip(tr("Model summary"));
-		this->buttons.addButton(toolButton);*/
-
+		separator = 0;
+		toggleFixedAction = new QAction(this);
+		toggleFixedAction->setText(tr("toggle fixed/floating"));
+		toggleFixedAction->setIcon(QIcon(appDir + tr(":/images/lock.png")));
+		toggleFixedAction->setToolTip(tr("toggle between fixed and floating species"));
+		connect(toggleFixedAction,SIGNAL(triggered()),this,SLOT(fixedAction()));
 	}
+	
+	void ModelSummaryTool::fixedAction()
+	{
+		NetworkWindow * net = currentWindow();
+		
+		if (!net) return;
+		
+		QList<ItemHandle*> handles = net->selectedHandles();
+		
+		QList< DataTable<qreal>* > newTables;
+		QList<ItemHandle*> changedHandles;
+		QStringList names;
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (NodeHandle::asNode(handles[i]) && handles[i]->hasNumericalData(tr("Fixed")))
+			{
+				DataTable<qreal> * dat = new DataTable<qreal>(handles[i]->numericalDataTable(tr("Fixed")));
+				if (dat->value(0,0) > 0)
+					dat->value(0,0) = 0;
+				else
+					dat->value(0,0) = 1;
+
+				newTables << dat;
+				changedHandles << handles[i];
+				names << handles[i]->fullName();
+			}
+		}
+		
+		if (newTables.size() > 0)
+		{
+			net->changeData(tr("toggle fixed for ") + names.join(tr(",")).left(5), changedHandles, tr("Fixed"), newTables);
+			for (int i=0; i < newTables.size(); ++i)
+			{
+				delete newTables[i];
+			}
+		}
+	}
+	
 	QSize ModelSummaryTool::sizeHint() const
 	{
 		return QSize(600, 300);

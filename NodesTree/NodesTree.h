@@ -56,6 +56,7 @@ namespace Tinkercell
     public:
         /*! \brief family name to NodeFamily hash*/
         QHash<QString,NodeFamily*> nodeFamilies;
+
         /*! \brief family name to button hash. These are the buttons located in the nodes tree window*/
         QHash<QString,QTreeWidgetItem*> treeItems;
 

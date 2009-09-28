@@ -57,8 +57,8 @@ def load():
             if len(rhs) == 0:
                 rhs.append("EMPTY");
                 emptyExists = True;
-                modelString += "  " + "+".join(lhs) + " > " + "+".join(rhs) + "\n"; 
-                modelString += "  " + rates[i] + "\n\n";
+            modelString += "  " + "+".join(lhs) + " > " + "+".join(rhs) + "\n"; 
+            modelString += "  " + rates[i] + "\n\n";
 
     #we are done with reactions. moving on to params, events, functions, etc.
     fix = '';
@@ -94,10 +94,8 @@ def load():
             modelString += inits[0][i] + " = " + str(inits[1][i]) + "\n";
     
     for j in N[0]:
-        n = len(N[0]);
-        for i in range(0,n):
-            if not hashInits.has_key(N[0][i]):
-                modelString += N[0][i] + " = 0.0\n";
+        if not hashInits.has_key(j):
+            modelString += j + " = 0.0\n";
 
   #parameters -- remove unused parameters
     if len(params) == 2 and len(params[0]) == len(params[1]):

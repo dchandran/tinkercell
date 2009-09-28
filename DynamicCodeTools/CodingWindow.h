@@ -89,6 +89,7 @@ namespace Tinkercell
 		void redo();
 		void selectAll();
 		virtual void setVisible(bool);
+		void pyscesHelp();
 		
 	protected slots:
 		void convertCodeToButton();

@@ -529,6 +529,7 @@ namespace Tinkercell
 			if (option == NewToolBoxWidget)
 				dock->setWindowTitle(tool->windowTitle());
 			toolBox = new QToolBox;
+			toolBox->setMinimumWidth(300);
 			dock->setWidget(toolBox);
 			dock->setAllowedAreas(allowedAreas);
 			addDockWidget(initArea,dock);

@@ -9,6 +9,7 @@
 ****************************************************************************/
 #include <QInputDialog>
 #include <QTabWidget>
+#include <QMessageBox>
 #include "ItemFamily.h"
 #include "NodesTreeMain.h"
 
@@ -24,6 +25,12 @@ namespace Tinkercell
 		nodesTree(nodesTree),
 		connectionsTree(connectionsTree)
 	{
+		QSettings settings("TinkerCell", "TinkerCell");
+		
+		settings.beginGroup("NodesTreeContainer");
+		 NodesTreeContainer::layoutMode = (NodesTreeContainer::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
+		settings.endGroup();
+		
 		arrowButton.setToolTip(QObject::tr("Cursor"));
         arrowButton.setPalette(QPalette(QColor(255,255,255)));
         arrowButton.setAutoFillBackground (true);
@@ -36,6 +43,15 @@ namespace Tinkercell
 		else
 			setUpTreeView();
 		
+	}
+	
+	void NodesTreeContainer::setTreeMode(bool b)
+	{
+		if (b)
+			NodesTreeContainer::layoutMode = NodesTreeContainer::TreeView;
+		else
+			NodesTreeContainer::layoutMode = NodesTreeContainer::TabView;
+		QMessageBox::information(this,tr("Parts Layout"),tr("The change in display will take effect the next time TinkerCell starts"));
 	}
 	
 	void NodesTreeContainer::escapeSignalSlot(const QWidget*)
@@ -67,6 +83,17 @@ namespace Tinkercell
 			{
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 			}
+			
+			if (mainWindow->settingsMenu)
+			{
+				mainWindow->settingsMenu->addSeparator();
+				QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Use Tree view of parts and connections"));
+				treeViewAction->setCheckable(true);
+				treeViewAction->setChecked(NodesTreeContainer::layoutMode == NodesTreeContainer::TreeView);
+				
+				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
+			}
+			
 			return true;
 		}
 		return false;
@@ -186,13 +213,17 @@ namespace Tinkercell
 	
 	NodesTreeContainer::~NodesTreeContainer()
 	{
-		if (layoutMode != TreeView) return;
-
 		QCoreApplication::setOrganizationName("TinkerCell");
 		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
 		QCoreApplication::setApplicationName("TinkerCell");
 
 		QSettings settings("TinkerCell", "TinkerCell");
+		
+		settings.beginGroup("NodesTreeContainer");
+		settings.setValue(tr("Mode"),(int)(NodesTreeContainer::layoutMode));
+		settings.endGroup();
+		
+		if (layoutMode != TreeView) return;
 
 		settings.beginGroup("LastSelectedNodes");
 
@@ -219,7 +250,7 @@ namespace Tinkercell
 		if (layoutMode == TreeView)
 			return QSize(140, 600);
 		else
-			return QSize(600,120);
+			return QSize(600,100);
 	}
 	
 	void NodesTreeContainer::keyPressEvent ( QKeyEvent * event )
@@ -441,7 +472,10 @@ namespace Tinkercell
 		
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
-			tabLayouts << new QGridLayout;
+			QGridLayout * buttonsLayout = new QGridLayout;
+			buttonsLayout->setContentsMargins(5,5,5,5);
+			buttonsLayout->setSpacing(20);	
+			tabLayouts << buttonsLayout;
 			index << 0;
 		}
 		
@@ -525,9 +559,7 @@ namespace Tinkercell
 			
 			if (!buttonsLayout) continue;
 			
-			QWidget * widget = new QWidget;			
-			buttonsLayout->setContentsMargins(5,5,5,5);
-			buttonsLayout->setSpacing(20);	
+			QWidget * widget = new QWidget;
 			widget->setLayout(buttonsLayout);
 			widget->setPalette(QPalette(QColor(255,255,255)));
 			widget->setAutoFillBackground (true);

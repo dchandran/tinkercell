@@ -6,7 +6,7 @@
  Provides a text window where C code can be written and run dynamically
  
 ****************************************************************************/
-
+#include <QDesktopServices>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -353,12 +353,21 @@ namespace Tinkercell
 				}
 			}
 			
-			
+			if (mainWindow->helpMenu)
+			{
+				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SIGNAL(pyscesHelp()));
+			}
 			
 			return true;
 		}
 		return false;
 	}
+	
+	 void CodingWindow::pyscesHelp()
+	 {
+		QString appDir = QCoreApplication::applicationDirPath();
+		QDesktopServices::openUrl(QUrl(appDir + tr("/Documentation/pysces_userguide.pdf")));
+	 }
 
 	 void CodingWindow::about()
 	 {

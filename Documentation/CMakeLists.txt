@@ -1,6 +1,6 @@
 ADD_SUBDIRECTORY( Doxygen )
 
-FILE(GLOB DOC_FILES *.html)
+FILE(GLOB DOC_FILES *.html *.pdf *.htm)
 FILE(GLOB UserDocumentation_images UserDocumentation_images/*.PNG UserDocumentation_images/*.png)
 FILE(GLOB PartGraphics_Documentat_images PartGraphics_Documentat_images/*.PNG PartGraphics_Documentat_images/*.png)
 

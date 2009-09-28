@@ -95,6 +95,8 @@ namespace Tinkercell
         void escapeSignalSlot(const QWidget*);
 		/*! \brief brings up a dialog asking for number of recent items*/
         void setNumberOfRecentItems();
+		/*! \brief set tab mode (false = tree view)*/
+		void setTreeMode(bool);
 		
     private:
 

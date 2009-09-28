@@ -53,7 +53,15 @@ namespace Tinkercell
 		window->setCentralWidget(multiplePlotsArea);
 		toolBar.setWindowTitle(tr("plot toolbar"));
 		
-		toolBar.addWidget(exportMenu = new QMenu(tr("E&xport Current Graph As..."),&toolBar));
+		exportMenu = new QMenu(tr("Export"),&toolBar);
+		QToolButton * exportButton = new QToolButton(&toolBar);
+		exportButton->setIcon(QIcon(":/images/export.png"));
+		exportButton->setMenu(exportMenu);
+		exportButton->setText(tr("E&xport Current Graph"));
+		exportButton->setPopupMode(QToolButton::MenuButtonPopup);
+		exportButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+		
+		toolBar.addWidget(exportButton);
 		toolBar.addWidget(keepOldPlots = new QCheckBox(tr("K&eep Previous Graphs"),&toolBar));
 		toolBar.addWidget(holdCurrentPlot = new QCheckBox(tr("A&ppend To Current Graph"),&toolBar));
 		keepOldPlots->setChecked(false);
@@ -122,7 +130,7 @@ namespace Tinkercell
 		
 		addExportOption(QIcon(tr(":/images/save.png")),tr("image"),tr("Save image"));
 		addExportOption(QIcon(tr(":/images/camera.png")),tr("snapshot"),tr("Copy image to clipboard"));
-		addExportOption(QIcon(tr(":/images/export.png")),tr("text"),tr("Show the data table"));
+		addExportOption(QIcon(tr(":/images/new.png")),tr("text"),tr("Show the data table"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"),tr("Copy data to clipboard"));
 		QAction * action = functionsWidgetDock->toggleViewAction();

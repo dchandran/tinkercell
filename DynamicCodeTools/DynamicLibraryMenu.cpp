@@ -184,13 +184,9 @@ namespace Tinkercell
 
             toolBar->addWidget(menuButton);
 
-            QDockWidget * dockWidget = mainWindow->addDockingWindow(name, this, MainWindow::DockWidget, Qt::BottomDockWidgetArea);
-            if (dockWidget)
-            {
-                //dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-                //dockWidget->setWindowOpacity(0.8);
-                dockWidget->setWindowTitle(tr("Functions"));
-            }
+			setWindowTitle(tr("Functions"));
+			setWindowIcon(QIcon(tr(":/images/function.png")));
+            mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
                     this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));

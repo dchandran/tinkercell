@@ -148,9 +148,6 @@ namespace Tinkercell
 				}
 				if (!handles[i]->tools.contains(this) )
 					handles[i]->tools += this;
-
-				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-					handles[i]->graphicsItems[j]->setToolTip(handles[i]->family()->name);
 			}
 	}
 

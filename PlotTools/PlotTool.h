@@ -14,12 +14,14 @@
 #include <QList>
 #include <QTableWidget>
 #include <QPainterPath>
+#include <QMenu>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QSplitter>
+#include <QCheckBox>
 #include <QSemaphore>
 #include <QMainWindow>
 #include <QMdiArea>
@@ -155,7 +157,9 @@ namespace Tinkercell
 		QStringList exportOptions;
 		QActionGroup actionGroup;
 		QToolBar toolBar;
+		QMenu * exportMenu;
 		QToolBar * otherToolBar;
+		QCheckBox * keepOldPlots, *holdCurrentPlot;
 		
 	private slots:
 		void actionTriggered(QAction*);

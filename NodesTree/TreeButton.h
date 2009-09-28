@@ -41,6 +41,7 @@ signals:
 public:
 	FamilyTreeButton(NodeFamily* family = 0, QWidget * parent = 0);
 	FamilyTreeButton(ConnectionFamily* family, QWidget * parent = 0);
+	ItemFamily * family() const;
 
 protected slots:
 	void about();

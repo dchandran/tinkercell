@@ -57,8 +57,11 @@ namespace Tinkercell
         /*! \brief family name to NodeFamily hash*/
         QHash<QString,NodeFamily*> nodeFamilies;
 
-        /*! \brief family name to button hash. These are the buttons located in the nodes tree window*/
+        /*! \brief family name to tree items hash. These are the buttons located in the nodes tree window*/
         QHash<QString,QTreeWidgetItem*> treeItems;
+		
+		/*! \brief family name to button hash. These are the buttons located in the nodes tree window*/
+        QHash<QString,QToolButton*> treeButtons;
 
         /*! \brief default constructor
         \param Widget* parent widget

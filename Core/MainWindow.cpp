@@ -181,6 +181,8 @@ namespace Tinkercell
 	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory)
 	{
 		RegisterDataTypes();
+		readSettings();
+		
 		prevWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
@@ -225,14 +227,12 @@ namespace Tinkercell
 		if (showHistory)
 		{
 			historyWindow.setWindowTitle(tr("History"));
-			setWindowIcon(QIcon(tr(":/images/undo.png")));
-			addToolWindow(&historyWindow,MainWindow::defaultToolWindowOption);
+			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
+			addToolWindow(&historyWindow,MainWindow::defaultToolWindowOption,Qt::RightDockWidgetArea);
 		}
 		
 		if (enableConsoleWindow)
 			consoleWindow = new ConsoleWindow(this);
-		
-		readSettings();
 
 		connectTCFunctions();
 		
@@ -252,6 +252,8 @@ namespace Tinkercell
 		settings.setValue("pos", pos());
 		settings.setValue("maximized",(isMaximized()));
 		settings.setValue("previousFileName", previousFileName);
+		settings.setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
+
 		settings.endGroup();
 	}
 
@@ -264,10 +266,14 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
+		
 		resize(settings.value("size", QSize(1000, 500)).toSize());
 		move(settings.value("pos", QPoint(50, 100)).toPoint());
-		if (settings.value("maximized",false).toBool()) showMaximized();
+		if (settings.value("maximized",false).toBool()) 
+			showMaximized();
 		previousFileName = settings.value("previousFileName", tr("")).toString();
+		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
+		
 		settings.endGroup();
 	}
 
@@ -535,6 +541,7 @@ namespace Tinkercell
 		}
 		
 		toolBox->addItem(tool,tool->windowIcon(),tool->windowTitle());
+		toolBox->setCurrentWidget(tool);
 		
 		return dock;
 	}

@@ -107,6 +107,8 @@ namespace Tinkercell
 	public:
 		Plot2DWidget(PlotTool * parent = 0);
 		virtual DataTable<qreal>* data();
+		virtual bool canAppendData() const;
+		virtual void appendData(const DataTable<qreal>&);
 		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
 		
 	public slots:

@@ -50,6 +50,10 @@ namespace Tinkercell
 		PlotWidget(const DataTable<qreal>&, PlotTool * parent = 0);
 		/*! \brief get the data inside this plot*/
 		virtual DataTable<qreal>* data();
+		/*! \brief indicates whether or not this plot widget is capable of plotting one graph on top of another*/
+		virtual bool canAppendData() const;
+		/*! \brief append more data to the currently existing plot*/
+		virtual void appendData(const DataTable<qreal>&);
 		/*! \brief get the data inside this plot as a table*/
 		virtual QString dataToString(const QString& delim=QString("\t"));
 		

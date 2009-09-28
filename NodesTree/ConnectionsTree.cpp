@@ -103,6 +103,7 @@ namespace Tinkercell
                     widget->setLayout(layout);
 
                     treeWidget.setItemWidget(treeItem[j],0,widget);
+					treeButtons.insertMulti(keys[i],button);
                 }
             }
         }

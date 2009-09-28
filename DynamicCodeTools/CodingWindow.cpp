@@ -300,7 +300,7 @@ namespace Tinkercell
 			QDockWidget * dock = 0;
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/cmd.png")));
-			dock = mainWindow->addToolWindow(this, MainWindow::DockWindget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			dock = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 			dock->setFloating(true);
 			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
 			dock->hide();

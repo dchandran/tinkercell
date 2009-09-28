@@ -96,7 +96,8 @@ namespace Multicell
 			
 			connect(cellSelector,SIGNAL(cellTypeSelected(NodeFamily*,const QColor&)),this,SLOT(cellTypeSelected(NodeFamily*,const QColor&)));
 			
-			mainWindow->addDockingWindow(tr("Cell types"),cellSelector,MainWindow::DockWidget, Qt::LeftDockWidgetArea, Qt::LeftDockWidgetArea);
+			setWindowTitle(tr("Cell types"));
+			mainWindow->addToolWindow(cellSelector,MainWindow::DockWidget, Qt::LeftDockWidgetArea, Qt::LeftDockWidgetArea);
 			
 			NodeFamily * family;
 			

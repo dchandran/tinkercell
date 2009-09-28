@@ -1,9 +1,10 @@
+#include <QMessageBox>
 #include "DefaultPluginsMenu.h"
 
 namespace Tinkercell
 {
 
-DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
+	DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
         : QMenu(tr("Plug-ins"), main)
     {
       QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
@@ -25,8 +26,30 @@ DefaultPluginsMenu::DefaultPluginsMenu(MainWindow * main)
               SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
               this,
               SLOT(toolAboutToBeLoaded( Tool * , bool * )));
-
+			  
+	  
+	  toggleMainWindowLayoutAction = 0;
+	  if (main && main->settingsMenu)
+	  {
+		toggleMainWindowLayoutAction = main->settingsMenu->addAction(tr("Change Window Layout"));
+		connect(toggleMainWindowLayoutAction,SIGNAL(triggered()),this,SLOT(toggleMainWindowLayout()));
+	  }
     }
+	
+	void DefaultPluginsMenu::toggleMainWindowLayout()
+	{
+		if (MainWindow::defaultToolWindowOption == MainWindow::DockWidget)
+		{
+			toggleMainWindowLayoutAction->setText(tr("Use dock widgets"));
+			MainWindow::defaultToolWindowOption =  MainWindow::ToolBoxWidget;
+		}
+		else
+		{
+			toggleMainWindowLayoutAction->setText(tr("Use dock widgets"));
+			MainWindow::defaultToolWindowOption =  MainWindow::DockWidget;
+		}
+		QMessageBox::information(this,tr("Main Window Layout"),tr("The change in layout will take effect the next time TinkerCell starts"));
+	}
 
     DefaultPluginsMenu::~DefaultPluginsMenu()
     {

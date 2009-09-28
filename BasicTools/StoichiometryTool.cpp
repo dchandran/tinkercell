@@ -202,8 +202,8 @@ namespace Tinkercell
 				if (dockWidget && dockWidget->isVisible())
 					dockWidget->hide();
 
-				widgets.addTab(this,tr("Rates"));
-				//hideMatrix();
+			widgets.insertTab(0,this,tr("Rates"));
+			//hideMatrix();
 		}
 		else
 			if (dockWidget && dockWidget->widget() != this)

@@ -78,7 +78,7 @@ namespace Tinkercell
             treeView->setColumnWidth(2,20);
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/new.png")));
-            mainWindow->addToolWindow(this,MainWindow::ToolBoxWidget);
+			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 
             connectCollisionDetector();
 

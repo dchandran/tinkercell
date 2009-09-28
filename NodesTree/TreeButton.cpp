@@ -250,7 +250,15 @@ namespace Tinkercell
 			}
 		}
 	}
-
+	
+	ItemFamily * FamilyTreeButton::family() const
+	{
+		if (nodeFamily)
+			return nodeFamily;
+		if (connectionFamily);
+			return connectionFamily;
+		return 0;
+	}
 
 }
 

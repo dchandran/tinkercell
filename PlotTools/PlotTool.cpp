@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <QGroupBox>
+#include <QLabel>
 #include <QRegExp>
 #include <QCheckBox>
 #include "GraphicsScene.h"
@@ -50,6 +51,14 @@ namespace Tinkercell
 		
 		window = new QMainWindow;
 		window->setCentralWidget(multiplePlotsArea);
+		toolBar.setWindowTitle(tr("plot toolbar"));
+		
+		toolBar.addWidget(exportMenu = new QMenu(tr("E&xport Current Graph As..."),&toolBar));
+		toolBar.addWidget(keepOldPlots = new QCheckBox(tr("K&eep Previous Graphs"),&toolBar));
+		toolBar.addWidget(holdCurrentPlot = new QCheckBox(tr("A&ppend To Current Graph"),&toolBar));
+		keepOldPlots->setChecked(false);
+		holdCurrentPlot->setChecked(false);		
+		
 		window->addToolBar(Qt::TopToolBarArea,&toolBar);
 		layout->addWidget(window);
 		setLayout(layout);
@@ -201,19 +210,32 @@ namespace Tinkercell
 			this->raise();
 		}
 		
+		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+		if (keepOldPlots && keepOldPlots->isChecked())
+		{
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i])
+					subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i+1));
+		}
+		else
+		{
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i])
+				{
+					subWindowList[i]->close();
+				}
+			subWindowList.clear();
+		}
+		
 		QMdiSubWindow * window = multiplePlotsArea->addSubWindow(newPlot);
 		window->setAttribute(Qt::WA_DeleteOnClose);
 		window->setWindowIcon(QIcon(tr(":/images/graph.png")));
-		//window->showMaximized();
-		window->setVisible(true);
-		window->setWindowTitle( tr("plot ") + QString::number(multiplePlotsArea->subWindowList().size()));		
-		
-		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
-		for (int i=0; i < subWindowList.size(); ++i)
-			if (subWindowList[i])
-				subWindowList[i]->setWindowTitle( tr("plot ") + QString::number(i));
-			
-		multiplePlotsArea->tileSubWindows();
+		window->setVisible(true);		
+		window->setWindowTitle( tr("plot ") + QString::number(1 + subWindowList.size()));
+
+		if (keepOldPlots && keepOldPlots->isChecked())
+			multiplePlotsArea->tileSubWindows();
+
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}
 	
@@ -224,6 +246,22 @@ namespace Tinkercell
 		
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
+		
+		if (holdCurrentPlot 
+			&& holdCurrentPlot->isChecked()
+			&& multiplePlotsArea->currentSubWindow())
+		{
+			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
+			if (widget && widget->canAppendData())
+			{
+				DataTable<qreal> matrix2(matrix);
+				matrix2.removeCol(x);
+				widget->appendData(matrix2);
+				if (mainWindow && mainWindow->statusBar())
+					mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+				return;
+			}
+		}
 		
 		Plot2DWidget * newPlot = new Plot2DWidget(this);
 		newPlot->plot(matrix,title,x);
@@ -238,12 +276,12 @@ namespace Tinkercell
 	{	
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Plotting...."));
-		
+	
 		Plot3DWidget * newPlot = new Plot3DWidget(this);
 		newPlot->surface(matrix,xmin,xmax,ymin,ymax,title);
 		
 		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+			mainWindow->statusBar()->showMessage(tr("Finished 3D plot"));
 		
 		addWidget(newPlot);
 	}
@@ -533,9 +571,9 @@ namespace Tinkercell
 	
 	void PlotTool::addExportOption(const QIcon& icon,const QString& type, const QString & toolTip)
 	{
-		if (exportOptions.contains(type)) return;
+		if (!exportMenu || exportOptions.contains(type)) return;
 		
-		QAction * action = toolBar.addAction(icon,type,this,SLOT(exportImage()));
+		QAction * action = exportMenu->addAction(icon,type,this,SLOT(exportImage()));
 		action->setText(type);
 		if (toolTip.isEmpty())
 			action->setToolTip(tr("Export current plot to ") + type);

@@ -12,6 +12,7 @@
 #include <QColorDialog>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QLabel>
 #include <QPrinter>
 #include <QListWidget>
 #include <QTableWidget>
@@ -353,13 +354,8 @@ namespace Tinkercell
 		
 		connect(changeColors,SIGNAL(pressed()),dialog2,SLOT(show()));
 		
-		QHBoxLayout * layout1 = new QHBoxLayout;
-		layout1->addWidget(axisNames);
-		
-		QGroupBox * groupBox1 = new QGroupBox(tr(" x-axis "));
-		groupBox1->setLayout(layout1);
-		
-		toolBar.addWidget(groupBox1);
+		toolBar.addWidget(new QLabel(tr("x-axis:")));
+		toolBar.addWidget(axisNames);
 		toolBar.addWidget(setLabels);
 		toolBar.addWidget(logScale);
 		toolBar.addWidget(changeColors);
@@ -371,12 +367,13 @@ namespace Tinkercell
 	
 	void Plot2DWidget::buttonPressed(int i)
 	{
-		if (dialog && DataPlot::penList.size() > i)
+		if (dataPlot && dialog && DataPlot::penList.size() > i)
 		{
 			DataPlot::penList[i] = dialog->getPen(DataPlot::penList[i]);
 			QAbstractButton * button = buttonsGroup.button(i);
 			if (button)
 				button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
+			dataPlot->replot();
 		}
 	}
 	
@@ -682,7 +679,7 @@ namespace Tinkercell
 		else
 			comboBox.setCurrentIndex(1);
 		
-		open();
+		exec();
 		if (result() == 0) return pen;
 		
 		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
@@ -714,5 +711,37 @@ namespace Tinkercell
 			return QPen(color,spinBox.value(),Qt::SolidLine);
 		else
 			return QPen(color,spinBox.value(),Qt::DotLine);
+	}
+	
+	bool Plot2DWidget::canAppendData() const
+	{
+	}
+	
+	void Plot2DWidget::appendData(const DataTable<qreal>& newData)
+	{
+		if (!dataPlot) return;
+		
+		DataTable<qreal> dataTable(*data());
+		for (int i=0; i < dataTable.cols(); ++i)
+			dataTable.colName(i) += tr("'"); 
+		
+		int m = newData.rows();
+		if (m > dataTable.rows())
+			m = dataTable.rows();
+		
+		int n = dataTable.cols();
+		dataTable.resize(m,dataTable.cols() + newData.cols());
+		
+		for (int i=0; i < newData.cols(); ++i)
+		{
+			dataTable.colName(i+n) = newData.colName(i);
+			for (int j=0; j < m; ++j)
+				dataTable.value(j,i+n) = newData.at(j,i);
+		}
+		
+		dataPlot->plot(	dataTable,
+						dataPlot->xcolumn,
+						dataPlot->title().text(),
+						dataPlot->delta);
 	}
 }

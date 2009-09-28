@@ -113,5 +113,14 @@ namespace Tinkercell
 		
 		return output;
 	}
+	
+	bool PlotWidget::canAppendData() const
+	{
+		return false;
+	}
+	
+	void PlotWidget::appendData(const DataTable<qreal>&)
+	{
+	}
 }
 

@@ -37,13 +37,14 @@ class DefaultPluginsMenu : public QMenu
     DefaultPluginsMenu(MainWindow * main);
 
     virtual ~DefaultPluginsMenu();
-
     void saveSettings();
 
   public slots:
     void toolAboutToBeLoaded( Tool * tool, bool * shouldLoad );
+	void toggleMainWindowLayout();
 
   private:
+	QAction * toggleMainWindowLayoutAction;
     QStringList doNotLoadPluginNames;
     QList<QAction*> actions;
 };

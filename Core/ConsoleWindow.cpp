@@ -380,7 +380,7 @@ namespace Tinkercell
 		{
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/cmd.png")));
-			mainWindow->addToolWindow(this,MainWindow::defaultToolWindowOption);
+			mainWindow->addToolWindow(this,MainWindow::defaultToolWindowOption,Qt::BottomDockWidgetArea);
 		}
 
 		QHBoxLayout * layout = new QHBoxLayout;

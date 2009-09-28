@@ -51,8 +51,10 @@ namespace Tinkercell
     public:
         /*! \brief the hashtable of all connection families indexed by their name*/
         QHash<QString,ConnectionFamily*> connectionFamilies;
-        /*! \brief the hashtable of all connection families' tree item indexed by their name*/
+        /*! \brief the hashtable of all tree items indexed by their name*/
         QHash<QString,QTreeWidgetItem*> treeItems;
+		/*! \brief the hashtable of all buttons on the tree widget indexed by their name*/
+        QHash<QString,QToolButton*> treeButtons;
         /*! \brief Constructor - read the tree file and uses connection tree reader to fill in the tree
         \param the parent widget (usually 0)
         \param the XML file with the tree information

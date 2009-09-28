@@ -94,10 +94,14 @@ namespace Tinkercell
 		}
 	}
 	
-	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers)
+	void ModelSummaryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers)
 	{
-		if (!isVisible() || !mainWindow || !scene || !scene->useDefaultBehavior || list.isEmpty()) return;
-		updateTables();
+		if (!mainWindow || !scene || !scene->useDefaultBehavior || items.isEmpty()) return;
+		
+		if (isVisible())
+			updateTables();
+		
+		ItemHandle * handle;
 		
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -143,10 +147,40 @@ namespace Tinkercell
 		}
 	}
 
-	void ModelSummaryTool::historyUpdate(int)
+	void ModelSummaryTool::updateToolTips(const QList<ItemHandle*>& handles)
 	{
-		//if (isVisible() && dockWidget && dockWidget->isVisible())
-		//updateTable();
+		for (int i=0; i < handles.size(); ++i)
+		{
+			if (NodeHandle::asNode(handles[i]) && handles[i]->family() 
+				&& handles[i]->hasNumericalData(tr("Initial Value")))
+			{
+				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
+							+ handles[i]->family()->measurementUnit.first + tr(" = ")
+							+ QString::number(handles[i]->numericalData(tr("Initial Value")));
+				
+				if (handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0)
+					s = tr("[FIXED] ") + s;
+				
+				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+					if (NodeGraphicsItem::cast(handles[i]->graphicsItems[j]))
+					{
+						handles[i]->graphicsItems[j]->setToolTip(s);
+					}
+			}
+			else
+			if (ConnectionHandle::asConnection(handles[i]) && handles[i]->family() 
+				&& handles[i]->hasTextData(tr("Rates")))
+			{
+				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
+							+ tr("Rate = ") + handles[i]->textData(tr("Rates"));
+				
+				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+					if (ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))
+					{
+						handles[i]->graphicsItems[j]->setToolTip(s);
+					}
+			}
+		}
 	}
 
 	bool ModelSummaryTool::setMainWindow(MainWindow * main)
@@ -156,6 +190,8 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)), mainWindow, SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+			
+			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)), this, SLOT(updateToolTips(const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
 
@@ -235,6 +271,8 @@ namespace Tinkercell
 			if (handles[i] && handles[i]->family() && !handles[i]->tools.contains(this))
 				handles[i]->tools += this;
 		}
+		
+		updateToolTips(handles);
 	}
 
 	void ModelSummaryTool::sceneClosing(NetworkWindow * , bool *)
@@ -610,9 +648,10 @@ namespace Tinkercell
 
 		if (tabWidget)
 		{
-			if (names.size() > 0)
-				tabWidget->addTab(&groupBox,tr("Initial Values"));
 			emit displayModel(*tabWidget, itemHandles, constants, equations);
+			if (names.size() > 0)
+				tabWidget->insertTab(0,&groupBox,tr("Initial Values"));
+			tabWidget->setCurrentIndex(0);
 		}
 
 		//if (currentWidget)

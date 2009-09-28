@@ -270,7 +270,7 @@ namespace Tinkercell
 		if (mainWindow != 0)
 		{
 			setWindowTitle(name);
-			setWindowIcon(tr(":/images/eye.png"));
+			setWindowIcon(QIcon(tr(":/images/eye.png")));
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::RightDockWidgetArea,Qt::NoDockWidgetArea);
 			if (dockWidget != 0)
 			{

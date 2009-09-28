@@ -261,7 +261,7 @@ namespace Tinkercell
 			if (dockWidget && dockWidget->isVisible())
 				dockWidget->hide();
 
-			widgets.addTab(this,tr("Parameters"));
+			widgets.insertTab(0,this,tr("Parameters"));
 
 			tableWidget.clear();
 			tableWidget.setRowCount(names.size());

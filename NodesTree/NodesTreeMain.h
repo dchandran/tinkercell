@@ -35,6 +35,20 @@ namespace Tinkercell
         Q_OBJECT
 
     public:
+	
+		/*! \brief provides two different ways of vieweing the parts/connections catalog. 
+				TreeView uses a tree widget, which reflects the complete structure 
+				of the family trees.
+				TabView simplifies the view into tabs but sacrifices some information provided
+				by the tree view.*/		
+		enum MODE { TreeView, TabView };
+	
+		/*! \brief provides two different ways of vieweing the parts/connections catalog. 
+				TreeView uses a tree widget, which reflects the complete structure 
+				of the family trees.
+				TabView simplifies the view into tabs but sacrifices some information provided
+				by the tree view.*/
+		static enum MODE layoutMode;
        
         /*! \brief default constructor
         \param Widget* parent widget
@@ -100,6 +114,17 @@ namespace Tinkercell
 		QList<ConnectionFamily*> connections;
 		/*! \brief the widgets for which the cursor needs to be updated*/
 		QList<QWidget*> widgetsToUpdate;
+		
+		/*! \brief the nodes tree widgets*/
+		NodesTree * nodesTree;
+		/*! \brief the connections tree widgets*/
+		ConnectionsTree * connectionsTree;
+		
+		/*! \brief setup the widget using the TreeView layout*/
+		void setUpTreeView();
+		
+		/*! \brief setup the widget using the TabView layout*/
+		void setUpTabView();
 		
     };
 

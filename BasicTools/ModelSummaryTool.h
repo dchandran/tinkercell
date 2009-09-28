@@ -67,7 +67,7 @@ namespace Tinkercell
 		void select(int i=0);
 		void deselect(int i=0);
 		void sceneClosing(NetworkWindow * , bool *);
-		void historyUpdate(int);
+		void updateToolTips(const QList<ItemHandle*>&);
 		void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);

@@ -220,7 +220,7 @@ namespace Tinkercell
         QToolButton * question = new QToolButton(this);
         question->setIcon(QIcon(":/images/question.png"));
 
-        QString message = tr("This table can be used to declare events. Events are a set of triggers and responses to those triggers. An example of an event is IF A < 0.1 THEN A = 10. In this event, whenever A goes below 0.1, the value of A is set to 10. Another example is IF time > 50 THEN A = 20; B = 10; where two values are set at time 50.");
+        QString message = tr("This table can be used to declare events. Events are a set of triggers and responses to those triggers. An example of an event is WHEN A < 0.1 DO A = 10. In this event, whenever A goes below 0.1, the value of A is set to 10. Another example is WHEN time > 50 DO A = 20; B = 10; where two values are set at time 50.");
         QMessageBox * messageBox = new QMessageBox(QMessageBox::Information,tr("About Forcing Functions"),message,QMessageBox::StandardButtons(QMessageBox::Close), const_cast<QWidget*>((QWidget*)this), Qt::WindowFlags (Qt::Dialog));
         connect(question,SIGNAL(pressed()),messageBox,SLOT(exec()));
 
@@ -293,7 +293,7 @@ namespace Tinkercell
                     sDataTable = &(itemHandles[i]->data->textData[tr("Events")]);
                     for (int j=0; j < sDataTable->rows(); ++j)
                     {
-                        ifthens << (tr("IF   ") + sDataTable->rowName(j) + tr("   THEN   ") + sDataTable->value(j,0));
+                        ifthens << (tr("WHEN  ") + sDataTable->rowName(j) + tr("   DO   ") + sDataTable->value(j,0));
                     }
                 }
             }
@@ -316,8 +316,8 @@ namespace Tinkercell
         connect(okButton,SIGNAL(released()),eventDialog,SLOT(accept()));
         QPushButton * cancelButton = new QPushButton("Cancel");
         connect(cancelButton,SIGNAL(released()),eventDialog,SLOT(reject()));
-        QLabel * label1 = new QLabel(tr("If :"));
-        QLabel * label2 = new QLabel(tr("Then : "));
+        QLabel * label1 = new QLabel(tr("Trigger : "));
+        QLabel * label2 = new QLabel(tr("Respose : "));
 
         eventIf = new QLineEdit(tr(""));
         eventIf->setFixedHeight(20);
@@ -356,7 +356,7 @@ namespace Tinkercell
     {
         if (!item) return;
         QString text = item->text();
-        QRegExp regexp("IF   (.+)   THEN   (.+)");
+        QRegExp regexp("WHEN\\s+(.+)\\s+DO\\s+(.+)");
         regexp.indexIn(text);
         if (eventIf && eventThen && eventDialog && regexp.numCaptures() > 0)
         {
@@ -409,7 +409,7 @@ namespace Tinkercell
 
             newData.value(ifs,0) = thens;
 
-            win->changeData(tr("if ") + ifs + tr(" then ") + thens,lastItem,tr("Events"),&newData);
+            win->changeData(tr("when ") + ifs + tr(" do ") + thens,lastItem,tr("Events"),&newData);
         }
         else
         {
@@ -429,7 +429,7 @@ namespace Tinkercell
     {
         if (eventsListWidget.currentItem())
         {
-            QRegExp regexp("IF   (.+)   THEN   (.+)");
+            QRegExp regexp("WHEN\\s+(.+)\\s+DO\\s+(.+)");
             regexp.indexIn( eventsListWidget.currentItem()->text() );
             if (regexp.numCaptures() < 2) return;
 
@@ -566,7 +566,7 @@ namespace Tinkercell
 			
             dat.value(s1,0) = s2;
             if (currentScene())
-                currentScene()->changeData(tr("if ") + s1 + tr(" then ") + s2,item,tr("Events"),&dat);
+                currentScene()->changeData(tr("when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
             else
                 item->data->textData[tr("Events")] = dat;
         }

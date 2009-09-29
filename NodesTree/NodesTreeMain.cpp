@@ -473,7 +473,7 @@ namespace Tinkercell
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
 			QGridLayout * buttonsLayout = new QGridLayout;
-			buttonsLayout->setContentsMargins(5,5,5,5);
+			buttonsLayout->setContentsMargins(5,5,0,0);
 			buttonsLayout->setSpacing(20);	
 			tabLayouts << buttonsLayout;
 			index << 0;

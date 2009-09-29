@@ -196,6 +196,7 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( ArrowItems )
   ADD_SUBDIRECTORY( NodeItems )
   ADD_SUBDIRECTORY( OtherItems )
+  ADD_SUBDIRECTORY( Documentation )
   
 #---------------------------------------------------------------------------
 # ANTIMONY editor

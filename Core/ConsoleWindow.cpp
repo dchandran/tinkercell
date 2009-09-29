@@ -254,7 +254,8 @@ namespace Tinkercell
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
 			cursor.removeSelectedText();
-			cursor.insertText(command + tr("\n"));
+			if (!command.isEmpty())
+				cursor.insertText(command + tr("\n"));
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			currentPosition = cursor.position();
 			if (!command.isEmpty())

@@ -101,10 +101,10 @@ namespace Tinkercell
 					 ToolBoxWidget = tool window is placed in an existing toolbox, if one exists
 					 NewToolBoxWidget = tool window is placed inside a new toolbox
 		*/
-		enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
+		MY_EXPORT enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
 		
 		/*! \brief the default tool option to use (mainly used for history window and console window)*/
-		static TOOL_WINDOW_OPTION defaultToolWindowOption;	
+		static MY_EXPORT TOOL_WINDOW_OPTION defaultToolWindowOption;	
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

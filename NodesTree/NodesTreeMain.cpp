@@ -441,7 +441,7 @@ namespace Tinkercell
 		
 		tabGroups	<< QPair<QString, QStringList>( 	
 													tr("Species"),
-													QStringList() << "Species")
+													QStringList() << "Species" << "Empty")
 		
 					<< QPair<QString, QStringList>( 	
 													tr("Parts"),
@@ -502,6 +502,9 @@ namespace Tinkercell
 						}
 					}
 					
+					if (j == 0 && i == 0 && families[i]->name.toLower() == tr("node"))
+						isA = true;
+					
 					if (isA || j == (tabGroups.size()-1))
 					{
 						QGridLayout * buttonsLayout = tabLayouts[j];
@@ -537,6 +540,9 @@ namespace Tinkercell
 							break;
 						}
 					}
+					
+					if (j == 0 && i == 0 && families[i]->name.toLower() == tr("connection"))
+						isA = true;
 					
 					if (isA || j == (tabGroups.size()-1))
 					{

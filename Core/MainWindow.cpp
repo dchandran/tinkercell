@@ -48,7 +48,7 @@ namespace Tinkercell
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
 	
-	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
+	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
 	QString MainWindow::previousFileName;
 
 	QString MainWindow::userHome()

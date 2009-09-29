@@ -350,7 +350,7 @@ namespace Tinkercell
 		separator = 0;
 		toggleFixedAction = new QAction(this);
 		toggleFixedAction->setText(tr("toggle fixed/floating"));
-		toggleFixedAction->setIcon(QIcon(appDir + tr(":/images/lock.png")));
+		toggleFixedAction->setIcon(QIcon(tr(":/images/lock.png")));
 		toggleFixedAction->setToolTip(tr("toggle between fixed and floating species"));
 		connect(toggleFixedAction,SIGNAL(triggered()),this,SLOT(fixedAction()));
 	}
@@ -361,34 +361,99 @@ namespace Tinkercell
 		
 		if (!net) return;
 		
-		QList<ItemHandle*> handles = net->selectedHandles();
+		GraphicsScene * scene = net->scene;
 		
-		QList< DataTable<qreal>* > newTables;
+		QList<DataTable<qreal>*> nDataTablesNew, nDataTablesOld;
+		QList<ItemHandle*> handles = net->selectedHandles();
 		QList<ItemHandle*> changedHandles;
+		QList<QGraphicsItem*> insertItems, removeItems;
+		
 		QStringList names;
 		
 		for (int i=0; i < handles.size(); ++i)
 		{
 			if (NodeHandle::asNode(handles[i]) && handles[i]->hasNumericalData(tr("Fixed")))
 			{
+				changedHandles << handles[i];
 				DataTable<qreal> * dat = new DataTable<qreal>(handles[i]->numericalDataTable(tr("Fixed")));
+				
+				nDataTablesOld += &(handles[i]->data->numericalData[tr("Fixed")]);
+				nDataTablesNew += dat;
+
 				if (dat->value(0,0) > 0)
 					dat->value(0,0) = 0;
 				else
 					dat->value(0,0) = 1;
-
-				newTables << dat;
-				changedHandles << handles[i];
+				
+				if (scene)
+				{
+					NodeGraphicsItem * lockNode,  *node;
+					QList<NodeGraphicsItem*> nodesToSet;
+					if (dat->value(0,0))
+					{
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+						{
+							if ((node = NodeGraphicsItem::cast(handles[i]->graphicsItems[j])) && node->boundaryControlPoints.size() > 0)
+							{
+								QPointF p = node->sceneBoundingRect().topRight() + QPointF(10.0,0.0);
+								
+								lockNode = new NodeGraphicsItem;
+								QString appDir = QCoreApplication::applicationDirPath();
+								NodeGraphicsReader reader;
+								reader.readXml(lockNode,appDir + tr("/OtherItems/lock.xml"));
+								lockNode->normalize();
+								for (int k=0; k < lockNode->boundaryControlPoints.size(); ++k)
+									if (lockNode->boundaryControlPoints[k])
+										delete lockNode->boundaryControlPoints[k];
+								lockNode->boundaryControlPoints.clear();
+								lockNode->scale(18.0/lockNode->sceneBoundingRect().width(),30.0/lockNode->sceneBoundingRect().height());
+								lockNode->setPos(p);
+								nodesToSet << lockNode;
+								insertItems << lockNode;
+							}
+						}
+						for (int j=0; j < nodesToSet.size(); ++j)
+						{
+							nodesToSet[j]->setHandle(handles[i]);
+						}
+					}
+					else
+					{
+						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+						{
+							if ((lockNode = NodeGraphicsItem::cast(handles[i]->graphicsItems[j]))
+								&& 
+								lockNode->fileName.toLower().contains(tr("/lock.xml")))
+							{
+								removeItems << lockNode;
+							}
+						}
+					}
+				}
+				
 				names << handles[i]->fullName();
 			}
 		}
 		
-		if (newTables.size() > 0)
-		{
-			net->changeData(tr("toggle fixed for ") + names.join(tr(",")).left(5), changedHandles, tr("Fixed"), newTables);
-			for (int i=0; i < newTables.size(); ++i)
+		if (nDataTablesNew.size() > 0)
+		{	
+			QList<QUndoCommand*> commands;
+			commands << new ChangeDataCommand<qreal>(tr("change fixed"),nDataTablesOld,nDataTablesNew);
+				
+			if (scene && insertItems.size() > 0)
+				commands << new InsertGraphicsCommand(tr("fixed text"), scene, insertItems);
+				
+			if (scene && removeItems.size() > 0)
+				commands << new RemoveGraphicsCommand(tr("fixed text"), scene, removeItems);
+				
+			CompositeCommand * command = new CompositeCommand(tr("toggle fixed for ") + names.join(tr(",")).left(5),commands);
+			net->history.push(command);
+			
+			emit dataChanged(changedHandles);
+			
+			for (int i=0; i < nDataTablesNew.size(); ++i)
 			{
-				delete newTables[i];
+				delete nDataTablesNew[i];
 			}
 		}
 	}
@@ -429,7 +494,7 @@ namespace Tinkercell
 			bool ok = false;
 			qreal temp;
 			QString stemp;
-			QList<ItemHandle*> handles;
+			QList<ItemHandle*> handles, changedHandles;
 
 			QList<QGraphicsItem*> itemsToRename;
 			QList<QString> newNames;
@@ -455,7 +520,7 @@ namespace Tinkercell
 							}
 							if (nDataTable2 && j < nDataTable2->rows())
 							{
-								nDataTable2->value(j,0) = 1.0 * (int)(fixed[n] == "fixed");
+								nDataTable2->value(j,0) = 1.0 * (int)(fixed[n] == tr("fixed"));
 							}
 
 							if (itemHandles[i] && itemHandles[i]->name != names[n] && itemHandles[i]->graphicsItems.size() > 0 && itemHandles[i]->graphicsItems[0]
@@ -540,12 +605,6 @@ namespace Tinkercell
 			
 		CompositeCommand * command = new CompositeCommand(tr("changed initial values or fixed"),commands);
 		win->history.push(command);
-		
-		for (int i=0; i < insertItems.size(); ++i)
-			handles << getHandle(insertItems[i]);
-			
-		for (int i=0; i < removeItems.size(); ++i)
-			handles << getHandle(removeItems[i]);
 		
 		emit dataChanged(handles);
 

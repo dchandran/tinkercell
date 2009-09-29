@@ -95,9 +95,9 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
-		static int TYPE;
+		static MY_EXPORT int TYPE;
 		/*! \brief cast to connection family*/
-		static NodeFamily * asNode(ItemFamily*);
+		static MY_EXPORT NodeFamily * asNode(ItemFamily*);
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 		virtual bool isA(const QString& familyName) const;
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
@@ -129,9 +129,9 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
-		static int TYPE;
+		static MY_EXPORT int TYPE;
 		/*! \brief cast to connection family*/
-		static ConnectionFamily * asConnection(ItemFamily*);
+		static MY_EXPORT ConnectionFamily * asConnection(ItemFamily*);
 		/*! \brief arrow used to represent this family in text-based networks*/
 		QString string;
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/

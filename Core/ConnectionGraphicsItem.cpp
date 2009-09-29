@@ -25,8 +25,8 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 namespace Tinkercell
 {
-	QString ArrowHeadItem::CLASSNAME("ArrowHeadItem");
-	QString ConnectionGraphicsItem::CLASSNAME("ConnectionGraphicsItem");
+	MY_EXPORT QString ArrowHeadItem::CLASSNAME("ArrowHeadItem");
+	MY_EXPORT QString ConnectionGraphicsItem::CLASSNAME("ConnectionGraphicsItem");
 	
 	ItemHandle * ConnectionGraphicsItem::handle() const
 	{

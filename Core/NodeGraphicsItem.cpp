@@ -25,7 +25,7 @@ to draw movable points.
 
 namespace Tinkercell
 {
-	QString NodeGraphicsItem::CLASSNAME("NodeGraphicsItem");
+	MY_EXPORT QString NodeGraphicsItem::CLASSNAME("NodeGraphicsItem");
 	
 	ItemHandle * NodeGraphicsItem::handle() const
 	{

@@ -461,7 +461,7 @@ namespace Tinkercell
 	PART HANDLE
 	**********************************/
 
-	int NodeHandle::TYPE = 1;
+	MY_EXPORT int NodeHandle::TYPE = 1;
 
 	NodeHandle * NodeHandle::asNode(ItemHandle * item)
 	{
@@ -583,7 +583,7 @@ namespace Tinkercell
 	CONNECTION HANDLE
 	*************************************/
 
-	int ConnectionHandle::TYPE = 2;
+	MY_EXPORT int ConnectionHandle::TYPE = 2;
 
 	ConnectionHandle * ConnectionHandle::asConnection(ItemHandle * item)
 	{

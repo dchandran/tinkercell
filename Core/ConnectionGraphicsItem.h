@@ -84,7 +84,7 @@ namespace Tinkercell
 		*/
 		virtual NodeGraphicsItem* clone() const;
 		/*! \brief used for checking type before static casts */
-		static QString CLASSNAME;
+		static MY_EXPORT QString CLASSNAME;
 	};
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
@@ -96,9 +96,9 @@ namespace Tinkercell
 		\param QGraphicsItem* graphics item
 		\return ConnectionGraphicsItem* can be 0 if the cast is invalid
 		*/
-		static ConnectionGraphicsItem* cast(QGraphicsItem*);
+		static MY_EXPORT ConnectionGraphicsItem* cast(QGraphicsItem*);
 		/*! \brief used for checking type before static casts */
-		static QString CLASSNAME;
+		static MY_EXPORT QString CLASSNAME;
 		/*! \brief used for checking type before static casts */
 		QString className;
 		/*! \brief permanent brush for this control point*/
@@ -109,7 +109,7 @@ namespace Tinkercell
 		* \param QGraphicsItem* the target item
 		* \param bool using true here will return the connection item for a control point, otherwise control points are ignored
 		*/
-		static ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
+		static MY_EXPORT ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
 		/*! Constructor: does nothing */
 		ConnectionGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Copy Constructor: copies handle but not control points */
@@ -127,7 +127,7 @@ namespace Tinkercell
 		/*! \brief checks that this is a valid drawable*/
 		virtual bool isValid();
 		/*! \brief number of different type of shapes available*/
-		static const int numLineTypes = 2;
+		static const MY_EXPORT int numLineTypes = 2;
 		/*! \brief line or beizier */
 		typedef enum {line, bezier} LineType;
 

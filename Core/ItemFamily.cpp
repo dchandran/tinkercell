@@ -14,8 +14,8 @@ Each item in Tinkercell has an associated family.
 
 namespace Tinkercell
 {
-	int NodeFamily::TYPE = 1;
-	int ConnectionFamily::TYPE = 2;
+	MY_EXPORT int NodeFamily::TYPE = 1;
+	MY_EXPORT int ConnectionFamily::TYPE = 2;
 
 	NodeFamily * NodeFamily::asNode(ItemFamily* item)
 	{

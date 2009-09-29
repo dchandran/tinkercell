@@ -243,6 +243,8 @@ namespace Tinkercell
 
 		if (keepOldPlots && keepOldPlots->isChecked())
 			multiplePlotsArea->tileSubWindows();
+		else
+			window->showMaximized();
 
 		multiplePlotsArea->setActiveSubWindow ( window );
 	}

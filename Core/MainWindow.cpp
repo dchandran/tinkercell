@@ -181,6 +181,8 @@ namespace Tinkercell
 	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory)
 	{
 		RegisterDataTypes();
+		previousFileName = QDir::currentPath();
+		
 		readSettings();
 		
 		prevWindow = 0;
@@ -189,7 +191,7 @@ namespace Tinkercell
 		setAcceptDrops(true);
 
 		initializeMenus(enableScene,enableText);
-		setIconSize(QSize(25,25));
+		//setIconSize(QSize(25,25));
 
 		setCentralWidget(&mdiArea);
 		mdiArea.setViewMode(QMdiArea::TabbedView);
@@ -203,7 +205,6 @@ namespace Tinkercell
 
 		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
 
-		previousFileName = QDir::currentPath();
 		QString tcdir("Tinkercell");
 
 		QDir dir(QDir::home());

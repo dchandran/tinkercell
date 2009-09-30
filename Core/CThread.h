@@ -98,84 +98,84 @@ namespace Tinkercell
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		void setFunction( void (*f)(void) );
+		virtual void setFunction( void (*f)(void) );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		void setFunction( void (*f)(double) );
+		virtual void setFunction( void (*f)(double) );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		void setFunction( void (*f)(const char*) );
+		virtual void setFunction( void (*f)(const char*) );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		void setFunction( void (*f)(Matrix) );
+		virtual void setFunction( void (*f)(Matrix) );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		void setVoidFunction(const char*);
+		virtual void setVoidFunction(const char*);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		void setDoubleFunction(const char*);
+		virtual void setDoubleFunction(const char*);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		void setCharFunction(const char*);
+		virtual void setCharFunction(const char*);
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
 		*/
-		void setMatrixFunction(const char*);
+		virtual void setMatrixFunction(const char*);
 		/*!
 		* \brief set the dynamic library for this threads. 
 		The library will be loaded if it has not already been loaded
 		* \param QLibrary* library
 		*/
-		void setLibrary(QLibrary*);
+		virtual void setLibrary(QLibrary*);
 		/*!
 		* \brief set the dynamic library for this threads.
 		* \param QLibrary* library
 		*/
-		void setLibrary(const QString&);
+		virtual void setLibrary(const QString&);
 		/*!
 		* \brief the library used inside this thread
 		* \return QLibrary*
 		*/
-		QLibrary * library();
+		virtual QLibrary * library();
 
 		/*!
 		* \brief set whether or not to automatically unload the library when the thread is done running
 		* \param bool
 		*/
-		void setAutoUnload(bool);
+		virtual void setAutoUnload(bool);
 		/*!
 		* \brief whether or not to automatically unload the library when the thread is done running
 		* \return bool
 		*/
-		bool autoUnload();
+		virtual bool autoUnload();
 		/*!
 		* \brief set the argument for the target function
 		* \param double
 		*/
-		void setArg(double);
+		virtual void setArg(double);
 		/*!
 		* \brief set the argument for the target function
 		* \param QString
 		*/
-		void setArg(const QString&);
+		virtual void setArg(const QString&);
 		/*!
 		* \brief set the argument for the target function
 		* \param DataTable
 		*/
-		void setArg(const DataTable<qreal>&);
+		virtual void setArg(const DataTable<qreal>&);
 
 		/*!
 		* \brief Creates a dialog with a progress bar for running a new thread. The dialog allows
@@ -234,6 +234,11 @@ namespace Tinkercell
 		* \brief the main function that runs one of the specified functions
 		*/
 		virtual void run();
+	protected slots:
+		/*!
+		* \brief cleanup (such as unload libraries) upon termination
+		*/
+		virtual void cleanupAfterTerminated();
 	};
 
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread

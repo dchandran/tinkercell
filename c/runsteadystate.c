@@ -14,6 +14,7 @@ char selected_var1[100];
 char selected_var2[100];
 char target_var[100];
 char ** allNames = 0;
+int selectAll = 1;
 
 void run(Matrix input);
 void run2D(Matrix input);
@@ -58,7 +59,12 @@ void loadAllNames()
 	int i,len;
 	Matrix params;
 	char ** names;
-	Array A = tc_allItems();
+	Array A;
+
+	if (selectAll)
+		A = tc_allItems();
+	else
+		A = tc_selectedItems();
 	
 	if (allNames)
 		TCFreeChars(allNames);

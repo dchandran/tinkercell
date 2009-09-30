@@ -35,6 +35,7 @@ namespace Tinkercell
 		f3 = 0;
 		f4 = 0;
 		setLibrary(libPtr);
+		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
 	}
 
 	CThread::CThread(MainWindow * main, const QString & libName, bool autoUnload)
@@ -46,6 +47,7 @@ namespace Tinkercell
 		f4 = 0;
 		this->lib = 0;
 		setLibrary(libName);
+		connect(this,SIGNAL(terminated()),this,SLOT(cleanupAfterTerminated()));
 	}
 
 	CThread::~CThread()
@@ -54,7 +56,8 @@ namespace Tinkercell
 		{
 			if (lib->isLoaded())
 				lib->unload();
-			delete lib;
+			if (!lib->parent())
+				delete lib;
 			lib = 0;
 		}
 	}
@@ -154,7 +157,8 @@ namespace Tinkercell
 		{
 			if (lib->isLoaded())
 				lib->unload();
-			delete lib;
+			if (!lib->parent())
+				delete lib;
 		}
 
 		lib = new QLibrary(this);
@@ -170,7 +174,8 @@ namespace Tinkercell
 
 		if (!loaded)
 		{
-			delete lib;
+			if (!lib->parent())
+				delete lib;
 			lib = 0;
 		}
 
@@ -246,6 +251,14 @@ namespace Tinkercell
 	void CThread::setArg(const DataTable<qreal>& dat)
 	{
 		argMatrix = dat;
+	}
+	
+	void CThread::cleanupAfterTerminated()
+	{
+		if (lib && autoUnloadLibrary)
+		{
+			lib->unload();
+		}
 	}
 
 	QString CThread::style = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 1.0 #585858, stop: 0.5 #0E0E0E, stop: 0.5 #9A9A9A, stop: 1.0 #E2E2E2);");

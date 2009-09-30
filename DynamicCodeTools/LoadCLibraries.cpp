@@ -51,8 +51,10 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
-			//connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-            
+			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)));
+			
             toolLoaded(0);
             
             return true;
@@ -60,15 +62,37 @@ namespace Tinkercell
         return false;
     }
 	
-	void LoadCLibrariesTool::windowChanged(NetworkWindow* w1,NetworkWindow* w2)
+	void LoadCLibrariesTool::itemsInserted(NetworkWindow * win, const QList<ItemHandle*>& handles)
 	{
-		/*if (w1 && w2)
+		if (win && handles.size() > 0)
 			for (int i=0; i < callBackFunctions.size(); ++i)
 				if (callBackFunctions[i])
 				{
 					VoidFunction f = callBackFunctions[i];
 					f();
-				}*/
+				}
+	}
+	
+	void LoadCLibrariesTool::itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& handles)
+	{
+		if (win && handles.size() > 0)
+			for (int i=0; i < callBackFunctions.size(); ++i)
+				if (callBackFunctions[i])
+				{
+					VoidFunction f = callBackFunctions[i];
+					f();
+				}
+	}
+	
+	void LoadCLibrariesTool::windowChanged(NetworkWindow* w1,NetworkWindow* w2)
+	{
+		if (w2)
+			for (int i=0; i < callBackFunctions.size(); ++i)
+				if (callBackFunctions[i])
+				{
+					VoidFunction f = callBackFunctions[i];
+					f();
+				}
 	}
 	
 	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)

@@ -256,6 +256,8 @@ namespace Tinkercell
 		settings.setValue("maximized",(isMaximized()));
 		settings.setValue("previousFileName", previousFileName);
 		settings.setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
+		settings.setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
+		settings.setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
 
 		settings.endGroup();
 	}
@@ -276,6 +278,8 @@ namespace Tinkercell
 			showMaximized();
 		previousFileName = settings.value("previousFileName", tr("")).toString();
 		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
+		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());
+		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
 		
 		settings.endGroup();
 	}

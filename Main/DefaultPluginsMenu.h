@@ -41,10 +41,14 @@ class DefaultPluginsMenu : public QMenu
 
   public slots:
     void toolAboutToBeLoaded( Tool * tool, bool * shouldLoad );
-	void toggleMainWindowLayout();
+	void toggleToolsLayout();
+	void toggleHistoryLayout();
+	void toggleConsoleLayout();
 
   private:
-	QAction * toggleMainWindowLayoutAction;
+	QAction * toggleToolsLayoutAction;
+	QAction * toggleHistoryLayoutAction;
+	QAction * toggleConsoleLayoutAction;
     QStringList doNotLoadPluginNames;
     QList<QAction*> actions;
 };

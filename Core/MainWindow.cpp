@@ -49,6 +49,8 @@ namespace Tinkercell
 	typedef void (*TinkercellCEntryFunction)();
 	
 	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
+	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
+	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
 
 	QString MainWindow::userHome()
@@ -229,7 +231,7 @@ namespace Tinkercell
 		{
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
-			addToolWindow(&historyWindow,MainWindow::defaultToolWindowOption,Qt::RightDockWidgetArea);
+			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
 		
 		if (enableConsoleWindow)

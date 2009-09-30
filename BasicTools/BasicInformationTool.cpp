@@ -192,6 +192,7 @@ namespace Tinkercell
 		tableItems.clear();
 		tableWidget.clear();
 
+		QStringList eqns(equationsList.values());
 		QString equations = QStringList(equationsList.values()).join(" ");
 
 		for (int i=0; i < items.size(); ++i)
@@ -216,8 +217,7 @@ namespace Tinkercell
 								itemHandles += nodes[j];
 					}
 		}
-
-
+		
 		QStringList names, values;
 		QStringList headers;
 
@@ -262,7 +262,7 @@ namespace Tinkercell
 				dockWidget->hide();
 
 			widgets.insertTab(0,this,tr("Parameters"));
-
+			
 			tableWidget.clear();
 			tableWidget.setRowCount(names.size());
 			tableWidget.setColumnCount(2);

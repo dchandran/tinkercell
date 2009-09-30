@@ -183,7 +183,7 @@ namespace Tinkercell
 				connectionHandles += static_cast<ConnectionHandle*>(items[i]);
 		updateTable();
 		for (int i=0; i < ratesTable.rowCount() && i < updatedRowNames.size(); ++i)
-			if (ratesTable.item(i,0))
+			if (ratesTable.item(i,0) && !ratesTable.item(i,0)->text().isEmpty())
 			{
 				equations[ updatedRowNames[i] ] = ratesTable.item(i,0)->text();
 			}
@@ -191,7 +191,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& , QHash<QString,qreal>& constants, QHash<QString,QString>& )
 	{
-		if (ratesTable.rowCount() > 0)
+		if (updatedRowNames.size() > 0)
 		{
 			for (int i=0; i < updatedColumnNames.size(); ++i)
 				if (!constants.contains(updatedColumnNames[i]))
@@ -199,8 +199,8 @@ namespace Tinkercell
 					constants[ updatedColumnNames[i] ] = 1.0;
 				}
 
-				if (dockWidget && dockWidget->isVisible())
-					dockWidget->hide();
+			if (dockWidget && dockWidget->isVisible())
+				dockWidget->hide();
 
 			widgets.insertTab(0,this,tr("Rates"));
 			//hideMatrix();
@@ -828,154 +828,7 @@ namespace Tinkercell
 
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}
-	/*
-	int StoichiometryTool::updateText()
-	{
-	if (!textView) return 20;
 
-	QStringList colNames, rowNames, rates;
-	DataTable<qreal> * nDataTable = 0;
-	DataTable<QString> * sDataTable = 0;
-	DataTable<qreal> combinedTable;
-
-	for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-	{
-	if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-	{
-	if (connectionHandles[i]->hasNumericalData(this->name))
-	{
-	nDataTable = &(connectionHandles[i]->data->numericalData[this->name]);
-	for (int j=0; j < nDataTable->cols(); ++j) //get unique species
-	if (!colNames.contains(nDataTable->colName(j))
-	&& !colNames.contains(QString(nDataTable->colName(j)).replace(".","_"))
-	&& !colNames.contains(QString(nDataTable->colName(j)).replace("_",".")))
-	colNames += nDataTable->colName(j);
-	}
-	if (connectionHandles[i]->hasTextData(this->name))
-	{
-	sDataTable = &(connectionHandles[i]->data->textData[this->name]);
-	for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
-	{
-	QString row;
-	if (sDataTable->rows() > 1)
-	{
-	row = sDataTable->rowName(j);
-	if (row.length() == 0) row = tr("_J0");
-	row = connectionHandles[i]->fullName() + tr(".") + row;
-	}
-	else
-	row = connectionHandles[i]->fullName();
-
-	int i = 0;
-	while (rowNames.contains(row))
-	row = tr("_J") + QString::number(i++); //avoid duplicate rowname
-	rowNames += row;
-	rates += sDataTable->value(j,0);
-	}
-	}
-	}
-	}
-
-	combinedTable.resize(rowNames.size(),colNames.size());
-	for (int i=0; i < colNames.size(); ++i)
-	combinedTable.colName(i) = colNames[i];
-
-	for (int i=0; i < rowNames.size(); ++i)
-	combinedTable.rowName(i) = rowNames[i];
-
-	int n = 0, j0;
-	for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-	if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-	if (connectionHandles[i]->hasNumericalData(this->name))
-	{
-	nDataTable = &(connectionHandles[i]->data->numericalData[this->name]);
-	for (int k=0; k < nDataTable->rows(); ++k)
-	{
-	for (int j=0; j < nDataTable->cols(); ++j)     //get unique species
-	{
-	j0 = combinedTable.colNames().indexOf(nDataTable->colName(j));
-	if (j0 < 0)
-	j0 = combinedTable.colNames().indexOf(QString(nDataTable->colName(j)).replace(".","_"));
-	if (j0 < 0)
-	j0 = combinedTable.colNames().indexOf(QString(nDataTable->colName(j)).replace("_","."));
-
-	if (j0 >= 0)
-	combinedTable.value(n,j0) = nDataTable->value(k,j);
-	}
-	++n;
-	}
-	}
-
-	int nameSz = 4, rateSz = 4, reacSize = 9;
-
-	for (int i=0; i < rowNames.size(); ++i)
-	if (rowNames[i].length() > nameSz)
-	nameSz = rowNames[i].size();
-
-	for (int i=0; i < rates.size(); ++i)
-	if (rates[i].length() > rateSz)
-	rateSz = rates[i].size();
-
-	QStringList reactions;
-	for (int i=0; i < combinedTable.rows(); ++i)
-	{
-	QStringList lhs, rhs;
-	for (int j=0; j < combinedTable.cols(); ++j)
-	{
-	if (combinedTable.value(i,j) < 0)
-	if (combinedTable.value(i,j) != -1)
-	lhs += QString::number(- combinedTable.value(i,j)) + colNames[j];
-	else
-	lhs += colNames[j];
-
-	if (combinedTable.value(i,j) > 0)
-	if (combinedTable.value(i,j) != 1)
-	rhs += QString::number(combinedTable.value(i,j)) + colNames[j];
-	else
-	rhs += colNames[j];
-	}
-
-	QString s;
-	if (lhs.isEmpty() && rhs.isEmpty())
-	{
-	s = tr("(no reaction)");
-	}
-	else
-	{
-	if (lhs.isEmpty())
-	lhs += tr("(nothing)");
-	if (rhs.isEmpty())
-	rhs += tr("(nothing)");
-
-	s = lhs.join(" + ") + tr(" --> ") + rhs.join(" + ");
-	}
-	if (s.length() > reacSize)
-	reacSize= s.length();
-	reactions += s;
-	}
-
-	nameSz += 5;
-	rateSz += 5;
-	reacSize += 5;
-
-	QString text;
-
-	text += tr("Name").leftJustified(nameSz) + tr("     ")
-	+ tr("Rate").rightJustified(rateSz) + tr("     ") + tr("Reaction").rightJustified(reacSize) + tr("\n\n");
-
-	for (int i=0; i < rowNames.size() &&  i < rates.size() && i < reactions.size(); ++i)
-	{
-	text += rowNames[i].leftJustified(nameSz)
-	+ tr("     ") + rates[i].leftJustified(rateSz)
-	+ tr("     ") + reactions[i].rightJustified(reacSize) + tr("\n\n");
-	}
-
-	textView->setPlainText(text);
-
-	return (int)((rateSz-5) * 5 * (1 + textView->fontPointSize()));
-
-	}
-	*/
 	void StoichiometryTool::updateTable()
 	{
 		updatedColumnNames.clear();
@@ -986,12 +839,10 @@ namespace Tinkercell
 			matrixTable.clearContents();
 			ratesTable.clearContents();
 			matrixTable.setRowCount(0);
+			matrixTable.setColumnCount(0);
 			ratesTable.setRowCount(0);
-			//if (textView) textView->setPlainText(tr(""));
 			return;
 		}
-
-		//updateText();
 
 		QStringList colNames, rowNames, rates;
 		DataTable<qreal> * nDataTable = 0;

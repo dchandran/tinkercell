@@ -103,8 +103,14 @@ namespace Tinkercell
 		*/
 		MY_EXPORT enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
 		
-		/*! \brief the default tool option to use (mainly used for history window and console window)*/
+		/*! \brief the default option to use for tools (optional)*/
 		static MY_EXPORT TOOL_WINDOW_OPTION defaultToolWindowOption;	
+		
+		/*! \brief the default option to use for history window*/
+		static MY_EXPORT TOOL_WINDOW_OPTION defaultHistoryWindowOption;	
+		
+		/*! \brief the default option to use for console window*/
+		static MY_EXPORT TOOL_WINDOW_OPTION defaultConsoleWindowOption;	
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();

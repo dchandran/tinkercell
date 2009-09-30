@@ -883,6 +883,7 @@ namespace Tinkercell
 							row = tr("_J") + QString::number(i++); //avoid duplicate rowname
 						rowNames += row;
 						rates += sDataTable->value(j,0);
+						ConsoleWindow::message(connectionHandles[i]->name);
 					}
 				}
 			}

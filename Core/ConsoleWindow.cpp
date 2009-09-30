@@ -339,7 +339,12 @@ namespace Tinkercell
 
 							const bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 							if (!c || (ctrlOrShift && event->text().isEmpty()))
+							{
+								if (cursor.position() < currentPosition)
+									cursor.setPosition(currentPosition);
+								this->ensureCursorVisible();
 								return;
+							}
 
 							//static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-= "); // end of word
 							bool hasModifier = (event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
@@ -348,6 +353,9 @@ namespace Tinkercell
 							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < 2)) 
 							{
 								c->popup()->hide();
+								if (cursor.position() < currentPosition)
+									cursor.setPosition(currentPosition);
+								this->ensureCursorVisible();
 								return;
 							}
 

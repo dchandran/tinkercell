@@ -225,8 +225,13 @@ namespace Tinkercell
 		{
 			QString fileName = 
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::userHome(),
+                                          MainWindow::previousFileName,
                                           tr("PNG Files (*.png)"));
+			
+			if (fileName.isEmpty() || fileName.isNull()) return;
+			
+			MainWindow::previousFileName = fileName;
+			
 			if (surfacePlot)
 			{
 				QPixmap pixmap = surfacePlot->renderPixmap();
@@ -272,8 +277,7 @@ namespace Tinkercell
 	{
 		if (surfacePlot)
 			surfacePlot->coordinates()->axes[Z1].setLabelString(s);
-	}
-	
+	}	
 	
 	void Plot3DWidget::saveVector()
 	{		
@@ -281,6 +285,11 @@ namespace Tinkercell
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
                                           MainWindow::userHome(),
                                           tr("PS Files (*.ps)"));
+		
+		if (fileName.isEmpty() || fileName.isNull()) return;
+		
+		MainWindow::previousFileName = fileName;
+		
 		if (surfacePlot)
 			surfacePlot->saveVector(fileName, tr("PS"),VectorWriter::PIXEL,VectorWriter::NOSORT);
 	}
@@ -288,27 +297,28 @@ namespace Tinkercell
 	void Plot3DWidget::setTitle()
 	{	
 		QString s = QInputDialog::getText(this,tr("Plot Title"),tr("title :"));
-		
+		if (s.isNull()) return;
 		setTitle(s);	
 	}
 	
 	void Plot3DWidget::setXLabel()
 	{	
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("x-axis label :"));
-		
+		if (s.isNull()) return;
 		setXLabel(s);	
 	}
 	
 	void Plot3DWidget::setYLabel()
 	{
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("y-axis label :"));
-		
+		if (s.isNull()) return;
 		setYLabel(s);
 	}
 	
 	void Plot3DWidget::setZLabel()
 	{
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("z-axis label :"));		
+		if (s.isNull()) return;
 		setZLabel(s);
 	}
 	

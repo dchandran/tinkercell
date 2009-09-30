@@ -651,11 +651,12 @@ namespace Tinkercell
 
 		 if (fileName.isNull() || fileName.isEmpty())
 		 {
-			 fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "", ext);
+			 fileName = QFileDialog::getSaveFileName(this, tr("Save File"),MainWindow::previousFileName, ext);
 		 }
 
 		 if (!fileName.isNull() && !fileName.isEmpty()) 
 		 {
+			 MainWindow::previousFileName = fileName;
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {
@@ -671,10 +672,11 @@ namespace Tinkercell
 
 		 if (fileName.isNull())
 			 fileName = QFileDialog::getSaveFileName(this,
-				 tr("Save File"), "", ext);
+				 tr("Save File"), MainWindow::previousFileName, ext);
 
-		 if (!fileName.isEmpty()) 
+		 if (!fileName.isNull() && !fileName.isEmpty()) 
 		 {
+			 MainWindow::previousFileName = fileName;
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {

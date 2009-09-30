@@ -461,11 +461,12 @@ namespace Tinkercell
 		{
 			QString fileName = 
 				QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::userHome(),
+                                          MainWindow::previousFileName,
                                           tr("PDF Files (*.pdf)"));
 			
-			if (fileName.isEmpty()) return;
+			if (fileName.isEmpty() || fileName.isNull()) return;
 			
+			MainWindow::previousFileName = fileName;
 			//QPrinter printer(QPrinter::HighResolution);
 			QPrinter printer(QPrinter::ScreenResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
@@ -517,7 +518,7 @@ namespace Tinkercell
 	void Plot2DWidget::setTitle()
 	{	
 		QString s = QInputDialog::getText(this,tr("Plot Title"),tr("Plot title :"));
-		
+		if (s.isNull()) return;
 		setTitle(s);
 	}
 	
@@ -525,7 +526,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return;
 		
-		if (s.isNull() || s.isEmpty()) return;
+		if (s.isNull()) return;
 		
 		dataPlot->setTitle(s);
 	}
@@ -533,7 +534,7 @@ namespace Tinkercell
 	void Plot2DWidget::setXLabel()
 	{	
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("x-axis label :"));
-		
+		if (s.isNull()) return;
 		setXLabel(s);	
 	}
 	
@@ -549,7 +550,7 @@ namespace Tinkercell
 	void Plot2DWidget::setYLabel()
 	{
 		QString s = QInputDialog::getText(this,tr("Plot Label"),tr("y-axis label :"));
-		
+		if (s.isNull()) return;
 		setYLabel(s);
 	}
 	
@@ -557,7 +558,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return;
 		
-		if (s.isNull() || s.isEmpty()) return;
+		if (s.isNull()) return;
 		
 		dataPlot->setAxisTitle(QwtPlot::yLeft, s);
 	}

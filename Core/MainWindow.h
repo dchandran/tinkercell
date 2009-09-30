@@ -1355,6 +1355,7 @@ namespace Tinkercell
 		* \brief initializes all the functions in the fToS object
 		*/
 		void connectTCFunctions();
+	public:
 		/*!
 		* \brief stores the last opened directory
 		*/

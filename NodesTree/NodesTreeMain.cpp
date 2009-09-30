@@ -250,7 +250,7 @@ namespace Tinkercell
 		if (layoutMode == TreeView)
 			return QSize(140, 600);
 		else
-			return QSize(600,100);
+			return QSize(600,80);
 	}
 	
 	void NodesTreeContainer::keyPressEvent ( QKeyEvent * event )
@@ -475,13 +475,15 @@ namespace Tinkercell
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
 			QGridLayout * buttonsLayout = new QGridLayout;
-			buttonsLayout->setContentsMargins(5,5,0,0);
+			buttonsLayout->setContentsMargins(5,5,5,5);
 			buttonsLayout->setSpacing(20);	
 			tabLayouts << buttonsLayout;
 			index << 0;
 		}
 		
 		//tabLayouts[0]->addWidget(&arrowButton,0,0,Qt::AlignCenter);
+		
+		QGridLayout * tempLayout = 0;
 		
 		if (nodesTree)
 		{
@@ -513,14 +515,15 @@ namespace Tinkercell
 						}
 					}
 					
-					if (isA)
+					if (isA && tabLayouts[j])
 					{
-						QGridLayout * buttonsLayout = tabLayouts[j];
+						tempLayout = tabLayouts[j];
+						
 						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
-						if (buttons.size()>0 && !usedButtons.contains(buttons[0]))
+						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
-							buttonsLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
+							tempLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
 							buttons[0]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 						}
 					}
@@ -558,14 +561,15 @@ namespace Tinkercell
 						}
 					}
 					
-					if (isA)
+					if (isA && tabLayouts[j])
 					{
-						QGridLayout * buttonsLayout = tabLayouts[j];
+						tempLayout = tabLayouts[j];
+						
 						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);		
-						if (buttons.size()>0 && !usedButtons.contains(buttons[0]))
+						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
-							buttonsLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
+							tempLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
 							buttons[0]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 						}
 					}
@@ -575,12 +579,15 @@ namespace Tinkercell
 		
 		for (int i=0; i < tabGroups.size() && i < tabLayouts.size(); ++i)
 		{
-			QGridLayout * buttonsLayout = tabLayouts[i];
+			tempLayout = tabLayouts[i];
 			
-			if (!buttonsLayout) continue;
+			if (!tempLayout) continue;
+			
+			tempLayout->setContentsMargins(5,5,5,5);
+			tempLayout->setSpacing(20);	
 			
 			QWidget * widget = new QWidget;
-			widget->setLayout(buttonsLayout);
+			widget->setLayout(tempLayout);
 			widget->setPalette(QPalette(QColor(255,255,255)));
 			widget->setAutoFillBackground (true);
 			

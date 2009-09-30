@@ -393,7 +393,7 @@ namespace Tinkercell
 					QString s(speciesNames[j]);
 					if (ok && speciesItems.contains(s))
 					{
-						speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily>measurementUnit.first,speciesFamily->measurementUnit.second) = x;
+						speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.first,speciesFamily->measurementUnit.second) = x;
 						speciesItems[s]->numericalData(tr("Fixed")) = 0;
 					}
 				}

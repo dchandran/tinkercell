@@ -565,20 +565,22 @@ namespace Tinkercell
 
 		bool add = true;
 		emit toolAboutToBeLoaded(tool,&add);
-
+		
 		if (!toolsHash.contains(tool->name) && add)
 		{
 			toolsHash.insert(tool->name,tool);
-			tool->setMainWindow( static_cast<MainWindow*>(this) );
+			if (tool->mainWindow != this)
+				tool->setMainWindow( static_cast<MainWindow*>(this) );
+			emit toolLoaded(tool);
 		}
 		else
+		if (!add)
 		{
-			if (!toolsHash.values().contains(tool)
-				&& !tool->parentWidget())
+			if (toolsHash.contains(tool->name))
+				toolsHash.remove(tool->name);
+			if (!tool->parentWidget())
 				delete tool;
 		}
-
-		emit toolLoaded(tool);
 	}
 
 	GraphicsScene* MainWindow::currentScene()

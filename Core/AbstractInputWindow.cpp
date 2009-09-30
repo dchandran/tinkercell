@@ -9,7 +9,6 @@ LPSolveInputWindow is a good example.
 
 ****************************************************************************/
 #include "AbstractInputWindow.h"
-#include "ConsoleWindow.h"
 #include "CThread.h"
 
 namespace Tinkercell
@@ -59,7 +58,7 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/play.png")));
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::RightDockWidgetArea,Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea,false);
+			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::RightDockWidgetArea | Qt::BottomDockWidgetArea,false);
 			if (dockWidget)
 			{
 				//dockWidget->setAttribute(Qt::WA_ContentsPropagated);
@@ -210,9 +209,9 @@ namespace Tinkercell
 		}
 	}
 
-	SimpleInputWindow::SimpleInputWindow() : AbstractInputWindow(), dockWidget(0) { }
+	SimpleInputWindow::SimpleInputWindow() : AbstractInputWindow() { }
 
-	SimpleInputWindow::SimpleInputWindow(const SimpleInputWindow&) : AbstractInputWindow(), dockWidget(0) { }
+	SimpleInputWindow::SimpleInputWindow(const SimpleInputWindow&) : AbstractInputWindow() { }
 
 	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, const QString& lib, const QString& funcName, const DataTable<qreal>& data)
 	{
@@ -220,7 +219,6 @@ namespace Tinkercell
 		SimpleInputWindow * inputWindow = 0;
 		if (SimpleInputWindow::inputWindows.contains(title.toLower()))
 		{
-			qDebug() << "exists " << title;
 			inputWindow = SimpleInputWindow::inputWindows.value(title.toLower());
 		}
 		else
@@ -229,8 +227,8 @@ namespace Tinkercell
 		}
 		if (inputWindow)
 		{
-			if (inputWindow->parentWidget())
-				inputWindow->parentWidget()->show();
+			if (inputWindow->dockWidget)
+				inputWindow->dockWidget->show();
 			else
 				inputWindow->show();
 		}
@@ -250,8 +248,8 @@ namespace Tinkercell
 		}
 		if (inputWindow)
 		{
-			if (inputWindow->parentWidget())
-				inputWindow->parentWidget()->show();
+			if (inputWindow->dockWidget)
+				inputWindow->dockWidget->show();
 			else
 				inputWindow->show();
 		}

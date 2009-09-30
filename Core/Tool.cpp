@@ -66,7 +66,8 @@ namespace Tinkercell
 
 	bool Tool::setMainWindow(MainWindow * main)
 	{
-		//disconnect();
+		if (mainWindow == main) 
+			return true;
 		mainWindow = main;
 		connect(&buttons,SIGNAL( buttonClicked ( int )),this,SLOT( select( int ) ));
 		if (main)

@@ -8,6 +8,7 @@
 ****************************************************************************/
 
 #include <QColor>
+#include <QColorDialog>
 #include "ConsoleWindow.h"
 #include "Plot3DWidget.h"
 
@@ -41,7 +42,19 @@ namespace Tinkercell
 		setLabels->setPopupMode ( QToolButton::MenuButtonPopup );
 		setLabels->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
+		QMenu * colorMenu = new QMenu(tr("Color"),&toolBar);
+		colorMenu->addAction(tr("set low color"),this,SLOT(setLowColor()));
+		colorMenu->addAction(tr("set high color"),this,SLOT(setHighColor()));
+		
+		QToolButton * colorMenuButton = new QToolButton(&toolBar);
+		colorMenuButton->setIcon(QIcon(":/images/bucket.png"));
+		colorMenuButton->setMenu(colorMenu);
+		colorMenuButton->setText(tr("Color"));
+		colorMenuButton->setPopupMode(QToolButton::MenuButtonPopup);
+		colorMenuButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+		
 		toolBar.addWidget(setLabels);
+		toolBar.addWidget(colorMenuButton);
 		
 		setMinimumHeight(200);
 		
@@ -97,7 +110,9 @@ namespace Tinkercell
 			surfacePlot->coordinates()->axes[i].setMinors(2);
 		}
 		
-		surfacePlot->setDataColor(new Plot3DWidget::StandardColor(minZ,QColor("#BACCFF"),maxZ,QColor("#FF4106")));
+		surfacePlot->setColor();
+		surfacePlot->minZ = minZ;
+		surfacePlot->maxZ = maxZ;
 		surfacePlot->loadFromData(tableToArray(dataTable),dataTable.cols(),dataTable.rows(),minX,maxX,minY,maxY);
 		
 		setTitle(title);
@@ -142,10 +157,51 @@ namespace Tinkercell
 		
 		return 0.0;
     }
+	
+	void Plot3DWidget::setLowColor()
+	{
+		if (surfacePlot)
+		{
+			QColor color(surfacePlot->minColor);
+			color = QColorDialog::getColor(color,this);
+			if (color.isValid())
+			{
+				surfacePlot->minColor = color;
+				surfacePlot->setColor();
+				surfacePlot->updateData();
+			}	
+		}
+	}
+	
+	void Plot3DWidget::setHighColor()
+	{
+		if (surfacePlot)
+		{
+			QColor color(surfacePlot->maxColor);
+			color = QColorDialog::getColor(color,this);
+			if (color.isValid())
+			{
+				surfacePlot->maxColor = color;
+				surfacePlot->setColor();
+				surfacePlot->updateData();
+			}	
+		}
+	}
+	
+	void Plot3DWidget::Plot::setColor()
+	{
+		setDataColor(new Plot3DWidget::StandardColor(minZ,minColor,maxZ,maxColor));
+	}
   
 	Plot3DWidget::Plot::Plot()
 	{
-		setTitle("Plot");
+		minColor = QColor("#BACCFF");
+		maxColor = QColor("#FF4106");
+		
+		minZ = 0.0;
+		maxZ = 1.0;
+		
+		setTitle("Surface Plot");
 		
 		setRotation(30,0,15);
 		setScale(1,1,1);
@@ -157,7 +213,7 @@ namespace Tinkercell
 		coordinates()->axes[Z1].setLabelString(QChar(0x38f)); // Omega - see http://www.unicode.org/charts/
 
 		setCoordinateStyle(BOX);
-		setDataColor(new Plot3DWidget::StandardColor(0.0,QColor("#BACCFF"),1.0,QColor("#FF4106")));
+		setColor();
 
 		updateData();
 		updateGL();

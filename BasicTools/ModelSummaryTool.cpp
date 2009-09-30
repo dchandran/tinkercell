@@ -156,7 +156,8 @@ namespace Tinkercell
 			{
 				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
 							+ handles[i]->family()->measurementUnit.first + tr(" = ")
-							+ QString::number(handles[i]->numericalData(tr("Initial Value")));
+							+ QString::number(handles[i]->numericalData(tr("Initial Value")))
+							+ tr(" ") + handles[i]->family()->measurementUnit.second;
 				
 				if (handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0)
 					s = tr("[FIXED] ") + s;

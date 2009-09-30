@@ -462,6 +462,8 @@ namespace Tinkercell
 					<< QPair<QString, QStringList>( 	
 													tr("Regulations"),
 													QStringList() << "Binding" << "Elongation" << "Modifiers");
+													
+		int numNodeTabs = 4;
 		
 		QTabWidget * tabWidget = new QTabWidget;
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
@@ -493,19 +495,25 @@ namespace Tinkercell
 				{
 					bool isA = false;
 					
-					for (int k=0; k < tabGroups[j].second.size(); ++k)
+					if (j == 0 && families[i]->name.toLower() == tr("node"))
+						isA = true;
+					
+					if (j == (tabGroups.size()-1))
+						isA = true;
+						
+					if  (!isA)
 					{
-						if (families[i]->isA(tabGroups[j].second[k]))
+						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
-							isA = true;
-							break;
+							if (families[i]->isA(tabGroups[j].second[k]))
+							{
+								isA = true;
+								break;
+							}
 						}
 					}
 					
-					if (j == 0 && i == 0 && families[i]->name.toLower() == tr("node"))
-						isA = true;
-					
-					if (isA || j == (tabGroups.size()-1))
+					if (isA)
 					{
 						QGridLayout * buttonsLayout = tabLayouts[j];
 						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
@@ -532,19 +540,25 @@ namespace Tinkercell
 				{
 					bool isA = false;
 					
-					for (int k=0; k < tabGroups[j].second.size(); ++k)
+					if (j == numNodeTabs && families[i]->name.toLower() == tr("connection"))
+						isA = true;
+					
+					if (j == (tabGroups.size()-1))
+						isA = true;
+						
+					if (!isA)
 					{
-						if (families[i]->isA(tabGroups[j].second[k]))
+						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
-							isA = true;
-							break;
+							if (families[i]->isA(tabGroups[j].second[k]))
+							{
+								isA = true;
+								break;
+							}
 						}
 					}
 					
-					if (j == 0 && i == 0 && families[i]->name.toLower() == tr("connection"))
-						isA = true;
-					
-					if (isA || j == (tabGroups.size()-1))
+					if (isA)
 					{
 						QGridLayout * buttonsLayout = tabLayouts[j];
 						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);		

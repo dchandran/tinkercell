@@ -172,15 +172,15 @@ namespace Tinkercell
 		QTableWidget tableWidget;
 		/*! \brief combo boxes used in input window*/
 		QList<QComboBox*> comboBoxes;
-		protected slots:
-			/*! \brief updates the input matrix when user changes the table*/
-			virtual void dataChanged(int,int);
-			/*! \brief add a row to the input matrix*/
-			virtual void addRow();
-			/*! \brief remove a row from the input matrix*/
-			virtual void removeRow();
-			/*! \brief updates the input matrix when user changes the combo boxes*/
-			virtual void comboBoxChanged(int);
+	protected slots:
+		/*! \brief updates the input matrix when user changes the table*/
+		virtual void dataChanged(int,int);
+		/*! \brief add a row to the input matrix*/
+		virtual void addRow();
+		/*! \brief remove a row from the input matrix*/
+		virtual void removeRow();
+		/*! \brief updates the input matrix when user changes the combo boxes*/
+		virtual void comboBoxChanged(int);
 	protected:
 		/*! \brief delegate used inside the SimpleInputWindow*/
 		class MY_EXPORT ComboBoxDelegate : public QItemDelegate
@@ -195,8 +195,6 @@ namespace Tinkercell
 		};
 		/*! \brief the item delegate that is used to change values in the input window*/
 		ComboBoxDelegate delegate;
-		/*! \brief the dock widget*/
-		QDockWidget * dockWidget;
 		/*! \brief make the window transparent when mouse exits the window*/
 		void leaveEvent ( QEvent * event );
 		/*! \brief make the window transparent when mouse exits the window*/

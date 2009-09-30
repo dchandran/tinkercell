@@ -345,14 +345,23 @@ namespace Tinkercell
 		changeColors->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 		
 		this->dialog = new GetPenInfoDialog(this);
+		this->dialog->setModal (true);
+		this->dialog->setSizeGripEnabled (true);
 		dialog->hide();
+		connect(dialog,SIGNAL(accepted()),this,SLOT(penSet()));
 		
 		QDialog * dialog2 = new QDialog(this);
-		QHBoxLayout * dialogLayout = new QHBoxLayout;
+		dialog2->setSizeGripEnabled (true);
+		QVBoxLayout * dialogLayout = new QVBoxLayout;
 		dialogLayout->addWidget(dialogWidget());
+		QPushButton * closeButton = new QPushButton;
+		closeButton->setText(tr("Close"));
+		dialogLayout->addWidget(closeButton);
 		dialog2->setLayout(dialogLayout);
+		dialog2->resize(100,200);
 		
-		connect(changeColors,SIGNAL(pressed()),dialog2,SLOT(show()));
+		connect(closeButton,SIGNAL(released()),dialog2,SLOT(accept()));
+		connect(changeColors,SIGNAL(pressed()),dialog2,SLOT(exec()));
 		
 		toolBar.addWidget(new QLabel(tr("x-axis:")));
 		toolBar.addWidget(axisNames);
@@ -365,16 +374,55 @@ namespace Tinkercell
 		setMinimumHeight(200);
 	}
 	
-	void Plot2DWidget::buttonPressed(int i)
+	void Plot2DWidget::buttonPressed(int k)
 	{
-		if (dataPlot && dialog && DataPlot::penList.size() > i)
+		if (dataPlot && dialog && DataPlot::penList.size() > k)
 		{
-			DataPlot::penList[i] = dialog->getPen(DataPlot::penList[i]);
-			QAbstractButton * button = buttonsGroup.button(i);
-			if (button)
-				button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
-			dataPlot->replot();
+			dialog->setPen(DataPlot::penList[k],k);
+			dialog->exec();
 		}
+	}
+	
+	void Plot2DWidget::penSet()
+	{
+			int k = dialog->currentIndex();
+			DataPlot::penList[k] = dialog->getPen();
+			
+			QAbstractButton * button = buttonsGroup.button(k);
+			if (button)
+				button->setStyleSheet(tr("background-color: ") + DataPlot::penList[k].color().name());
+			
+			QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
+			QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
+			QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+
+			QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+			
+			settings.beginGroup("Plot2DWidget");
+			
+			QStringList colors, penWidth, penStyles;
+			
+			QList<QPen>& penList = DataPlot::penList;
+			
+			for (int i=0; i < penList.size(); ++i)
+			{
+				colors << penList[i].color().name();
+				penStyles << QString::number((int)(penList[i].style()));
+				penWidth << QString::number(penList[i].widthF());
+			}
+			
+			settings.setValue(tr("colors"),colors);
+			settings.setValue(tr("widths"),penWidth);
+			settings.setValue(tr("styles"),penStyles);
+			
+			settings.endGroup();
+			
+			//dataPlot->replot();
+			dataPlot->plot(	
+						dataPlot->dataTable,
+						dataPlot->xcolumn,
+						dataPlot->title().text(),
+						dataPlot->delta);
 	}
 	
 	void Plot2DWidget::plot(const DataTable<qreal>& matrix,const QString& title,int x)
@@ -648,6 +696,11 @@ namespace Tinkercell
 		QHBoxLayout * layout3 = new QHBoxLayout;		
 		QPushButton * okButton = new QPushButton;
 		QPushButton * cancelButton = new QPushButton;
+		okButton->setDefault ( true );
+		okButton->setCheckable(false);
+		okButton->setAutoExclusive(false);
+		cancelButton->setCheckable(false);
+		cancelButton->setAutoExclusive(false);
 		okButton->setText(tr(" Set Pen "));
 		cancelButton->setText(tr(" Cancel "));
 		layout3->addWidget(okButton);
@@ -669,8 +722,17 @@ namespace Tinkercell
 		this->color = color;
 	}
 	
-	QPen GetPenInfoDialog::getPen(const QPen& pen)
+	QPen GetPenInfoDialog::getPen() const
 	{
+		if (comboBox.currentIndex() == 0)
+			return QPen(color,spinBox.value(),Qt::SolidLine);
+		else
+			return QPen(color,spinBox.value(),Qt::DotLine);
+	}
+	
+	void GetPenInfoDialog::setPen(const QPen& pen, int k)
+	{
+		index = k;
 		colorDialog.setCurrentColor(pen.color());
 		color = pen.color();
 		spinBox.setValue(pen.widthF());
@@ -678,39 +740,11 @@ namespace Tinkercell
 			comboBox.setCurrentIndex(0);
 		else
 			comboBox.setCurrentIndex(1);
-		
-		exec();
-		if (result() == 0) return pen;
-		
-		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
-
-		QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
-		
-		settings.beginGroup("Plot2DWidget");
-		
-		QStringList colors, penWidth, penStyles;
-		
-		QList<QPen>& penList = DataPlot::penList;
-		
-		for (int i=0; i < penList.size(); ++i)
-		{
-			colors << penList[i].color().name();
-			penStyles << QString::number((int)(penList[i].style()));
-			penWidth << QString::number(penList[i].widthF());
-		}
-		
-		settings.setValue(tr("colors"),colors);
-		settings.setValue(tr("widths"),penWidth);
-		settings.setValue(tr("styles"),penStyles);
-		
-		settings.endGroup();
-		
-		if (comboBox.currentIndex() == 0)
-			return QPen(color,spinBox.value(),Qt::SolidLine);
-		else
-			return QPen(color,spinBox.value(),Qt::DotLine);
+	}
+	
+	int GetPenInfoDialog::currentIndex() const
+	{
+		return index;
 	}
 	
 	bool Plot2DWidget::canAppendData() const

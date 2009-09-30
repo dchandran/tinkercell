@@ -88,10 +88,13 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		GetPenInfoDialog(QWidget * parent);
-		QPen getPen(const QPen&);
-	public slots:
+		void setPen(const QPen&, int);
+		QPen getPen() const;
+		int currentIndex() const;
+	private slots:
 		void currentColorChanged ( const QColor & color );
 	private:
+		int index;
 		QColor color;
 		QColorDialog colorDialog;
 		QDoubleSpinBox spinBox;
@@ -126,6 +129,7 @@ namespace Tinkercell
 	
 	private slots:
 		void buttonPressed(int);
+		void penSet();
 	
 	private:
 		QWidget * dialogWidget();

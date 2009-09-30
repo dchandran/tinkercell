@@ -48,6 +48,8 @@ namespace Tinkercell
 		void setXLabel();
 		void setYLabel();
 		void setZLabel();
+		void setLowColor();
+		void setHighColor();
 		virtual void setTitle(const QString&);
 		virtual void setXLabel(const QString&);
 		virtual void setYLabel(const QString&);
@@ -81,6 +83,9 @@ namespace Tinkercell
 		{
 			public:
 				Plot();
+				void setColor();
+				double minZ, maxZ;
+				QColor minColor, maxColor;
 		};
 		
 		static double ** tableToArray(const DataTable<qreal>&);

@@ -19,7 +19,7 @@ ALL SYSTEMS EXCEPT WIN32
 12. run make. 
     This will make all the binaries, but the application needs several other 
 	supporting files in the same directory as well.
-13. run make package. 
+13. run "make package". 
     This will place all the supporting files and binaries in one folder, 
 	which will probably be inside some directory starting with BUILD/_CPack*.
 
@@ -39,7 +39,7 @@ WIN32 using MinGW g++
 12. Type "mingw32-make" (or just "make" if the alias is setup).
     This will make all the binaries, but the application needs several other 
 	supporting files in the same directory as well.
-13. run make package. 
+13. run "mingw32-make package". 
     This will place all the supporting files and binaries in one folder, 
 	which will probably be inside some directory starting with BUILD/_CPack*.
 

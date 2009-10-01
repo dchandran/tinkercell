@@ -868,6 +868,8 @@ namespace Tinkercell
 					sDataTable = &(connectionHandles[i]->data->textData[tr("Rates")]);
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
+						if (sDataTable->value(j,0).isEmpty()) continue;
+						
 						QString row;
 						if (sDataTable->rows() > 1)
 						{
@@ -883,7 +885,6 @@ namespace Tinkercell
 							row = tr("_J") + QString::number(i++); //avoid duplicate rowname
 						rowNames += row;
 						rates += sDataTable->value(j,0);
-						ConsoleWindow::message(connectionHandles[i]->name);
 					}
 				}
 			}
@@ -1264,6 +1265,8 @@ namespace Tinkercell
 					sDataTable = &(connectionHandles[i]->data->textData[QObject::tr("Rates")]);
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
+						if (sDataTable->value(j,0).isEmpty()) continue;
+						
 						QString row;
 
 						if (sDataTable->rows() > 1)

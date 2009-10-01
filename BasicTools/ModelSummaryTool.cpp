@@ -172,8 +172,12 @@ namespace Tinkercell
 			if (ConnectionHandle::asConnection(handles[i]) && handles[i]->family() 
 				&& handles[i]->hasTextData(tr("Rates")))
 			{
-				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
-							+ tr("Rate = ") + handles[i]->textData(tr("Rates"));
+				QString s;
+				
+				if (handles[i]->data->textData[tr("Rates")].rows() > 0 && handles[i]->data->textData[tr("Rates")].cols() > 0)
+					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") + handles[i]->data->textData[tr("Rates")].at(0,0);
+				else
+					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");
 				
 				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 					if (ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))

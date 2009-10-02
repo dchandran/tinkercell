@@ -335,6 +335,8 @@ namespace Tinkercell
 		QString s1,s2;
 		QStringList vars;
 		QStringList initValues;
+		
+		QStringList fixedVars;
 
 		for (i=0; i < handles.size(); ++i)
 		{
@@ -364,10 +366,7 @@ namespace Tinkercell
 						int k = N.rowNames().indexOf(handles[i]->fullName(replaceDot));
 						if (k >= 0)
 						{
-							for (int j=0; j < N.cols(); ++j)
-							{
-								N.value(k,j) = 0.0;
-							}
+							fixedVars << handles[i]->fullName(replaceDot);
 						}
 					}
 				}
@@ -461,6 +460,37 @@ namespace Tinkercell
 									if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
 										params.value(k,1) = 1.0;
 						}
+				}
+			}
+		}
+		
+		if (fixedVars.size() < N.rows())
+		{
+			DataTable<qreal> N2(N);
+			N.resize(N.rows()-fixedVars.size(), N.cols());			
+			N.setColNames(N2.getColNames());
+			
+			int i2;
+			for (i=0, i2 = 0; i < N2.rows(); ++i)
+			{
+				if (!fixedVars.contains(N2.rowName(i)))
+				{
+					N.rowName(i2) = N2.rowName(i);
+					for (j=0; j < N2.cols(); ++j)
+					{
+						N.value(i2,j) = N2.value(i,j);
+					}
+					++i2;
+				}
+			}
+		}
+		else
+		{
+			for (i=0; i < N.rows(); ++i)
+			{
+				for (j=0; j < N.cols(); ++j)
+				{
+					N.value(i,j) = 0.0;
 				}
 			}
 		}

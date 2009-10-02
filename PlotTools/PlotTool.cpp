@@ -38,6 +38,7 @@ namespace Tinkercell
 		dockWidget = 0;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
+		setMouseTracking(true);
 		
 		connect(&actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 		
@@ -644,6 +645,18 @@ namespace Tinkercell
 	{
 		if (window && window->statusBar())
 			window->statusBar()->showMessage(s);
+	}
+	
+	void PlotTool::keyPressEvent ( QKeyEvent * event )
+	{
+		if (multiplePlotsArea 
+			&& multiplePlotsArea->currentSubWindow()
+			&& multiplePlotsArea->currentSubWindow()->widget())
+		{
+			ConsoleWindow::message("key pressed");
+			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
+			widget->keyPressEvent(event);
+		}
 	}
 	
 }

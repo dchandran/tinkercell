@@ -54,6 +54,9 @@ QwtPlotCanvas::QwtPlotCanvas(QwtPlot *plot):
 
 #if QT_VERSION >= 0x040100
     setAutoFillBackground(true);
+	setFrameShadow ( QFrame::Plain );
+	setFrameShape ( QFrame::NoFrame );
+	setFrameStyle (QFrame::NoFrame );
 #endif
 
 #if QT_VERSION < 0x040000
@@ -231,7 +234,7 @@ void QwtPlotCanvas::paintEvent(QPaintEvent *event)
     {
         painter.save();
         painter.setClipRegion( event->region() & frameRect() );
-        drawFrame( &painter );
+        //drawFrame( &painter );
         painter.restore(); 
     }
 

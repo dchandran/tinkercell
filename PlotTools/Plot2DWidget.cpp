@@ -373,6 +373,7 @@ namespace Tinkercell
 		connect(&buttonsGroup,SIGNAL(buttonPressed(int)),this,SLOT(buttonPressed(int)));
 		
 		setMinimumHeight(200);
+		setMouseTracking(true);
 	}
 	
 	void Plot2DWidget::buttonPressed(int k)

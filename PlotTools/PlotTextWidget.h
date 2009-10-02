@@ -27,6 +27,7 @@
 #include <QButtonGroup>
 #include <QTextCharFormat>
 #include "PlotWidget.h"
+#include "CodeEditor.h"
 
 namespace Tinkercell
 {
@@ -46,6 +47,10 @@ namespace Tinkercell
 		
 	private:
 		DataTable<qreal> dataTable;
+		CodeEditor * textEdit;
+	
+	protected:
+		virtual void keyPressEvent ( QKeyEvent * event );
 	
 	};
 

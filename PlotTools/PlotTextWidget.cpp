@@ -9,11 +9,11 @@
 
 #include <math.h>
 #include <QGroupBox>
+#include <QKeySequence>
 #include <QTextEdit>
 #include "qwt_scale_engine.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "CodeEditor.h"
 #include "ConsoleWindow.h"
 #include "PlotTool.h"
 #include "PlotTextWidget.h"
@@ -27,7 +27,7 @@ namespace Tinkercell
 	
 	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
 	{
-		CodeEditor * textEdit = new CodeEditor;
+		textEdit = new CodeEditor;
 		
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(textEdit);
@@ -91,6 +91,31 @@ namespace Tinkercell
 			
 			cursor.setCharFormat(regularFormat);
 			cursor.insertText(outputs + tr("\n"));
+		}
+	}
+	
+	void PlotTextWidget::keyPressEvent ( QKeyEvent * event )
+	{
+		if (!textEdit || !event) return;
+		
+		if (event->matches(QKeySequence::SelectAll))
+		{
+			textEdit->selectAll();
+		}
+		else
+		if (event->matches(QKeySequence::Copy))
+		{
+			textEdit->copy();
+		}
+		else
+		if (event->matches(QKeySequence::Paste))
+		{
+			textEdit->paste();
+		}
+		else
+		if (event->matches(QKeySequence::Cut))
+		{
+			textEdit->cut();
 		}
 	}
 }

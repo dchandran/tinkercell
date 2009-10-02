@@ -50,6 +50,8 @@
 namespace Tinkercell
 {
 
+	class PlotWidget;
+	
 	class PlotTool_FToS : public QObject
 	{
 		Q_OBJECT
@@ -168,6 +170,9 @@ namespace Tinkercell
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
 		void surface(QSemaphore*, DataTable<qreal>&,double,double,double,double,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
+	
+	protected:
+		virtual void keyPressEvent ( QKeyEvent * event );
 	};
 }
 #endif

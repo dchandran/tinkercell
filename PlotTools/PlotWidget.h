@@ -27,10 +27,10 @@
 #include <QButtonGroup>
 #include <QTextCharFormat>
 #include "DataTable.h"
+#include "PlotTool.h"
 
 namespace Tinkercell
 {
-
 	class PlotTool;
 
 	/*!
@@ -60,11 +60,15 @@ namespace Tinkercell
 	protected:
 		/*! \brief the plot tool that contains this widget*/
 		PlotTool * plotTool;
+		/*! \brief key events*/
+		virtual void keyPressEvent ( QKeyEvent * event );
 		
 	public slots:
 		/*! \brief export data is some format
 			\param QString format*/
 		virtual void exportData(const QString&);
+		
+		friend class PlotTool;
 	};
 
 }

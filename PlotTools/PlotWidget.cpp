@@ -122,5 +122,9 @@ namespace Tinkercell
 	void PlotWidget::appendData(const DataTable<qreal>&)
 	{
 	}
+	
+	void PlotWidget::keyPressEvent ( QKeyEvent * )
+	{
+	}
 }
 

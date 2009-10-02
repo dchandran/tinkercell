@@ -12,7 +12,7 @@
 #ifndef QWT_PLOT_CANVAS_H
 #define QWT_PLOT_CANVAS_H
 
-#include <qframe.h>
+#include <QFrame>
 #include <qpen.h>
 #include "qwt_global.h"
 

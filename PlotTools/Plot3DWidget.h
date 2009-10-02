@@ -32,6 +32,8 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	public:
+		static QColor DEFAULT_LOW_COLOR;
+		static QColor DEFAULT_HIGH_COLOR;
 		int meshSizeX;
 		int meshSizeY;
 		Plot3DWidget(PlotTool * parent = 0);

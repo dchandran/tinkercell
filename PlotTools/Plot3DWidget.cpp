@@ -9,6 +9,7 @@
 
 #include <QColor>
 #include <QColorDialog>
+#include <QSettings>
 #include "ConsoleWindow.h"
 #include "Plot3DWidget.h"
 

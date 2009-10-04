@@ -3,17 +3,16 @@
 <ConnectionsTree version="1.0">
 <connection family="Connection" color="#94A3FF" typein="Node" numin="1" typeout="Node" numout="1">
   <text>A generic connection that can connect any part to any other part.</text>
-  <connection family="Biochemical" color="#179DFB" k0="1.0" typein="Species" numin="1" typeout="Species" numout="1">
+  <connection family="Biochemical" color="#179DFB" k0="1.0">
     <text>This connection represents a biochemical reaction where reactant(s) are converted to product(s).</text>
-    <connection family="1to1" typein="Species" numin="1" typeout="Species" numout="1"></connection>
-    <connection family="2to1" typein="Species" numin="2" typeout="Species" numout="1"></connection>
-    <connection family="3to1" typein="Species" numin="3" typeout="Species" numout="1"></connection>
-    <connection family="1to2" typein="Species" numin="1" typeout="Species" numout="2"></connection>
-    <connection family="2to2" typein="Species" numin="2" typeout="Species" numout="2"></connection>
-    <connection family="3to2" typein="Species" numin="3" typeout="Species" numout="2"></connection>
-    <connection family="1to3" typein="Species" numin="1" typeout="Species" numout="3"></connection>
-    <connection family="2to3" typein="Species" numin="2" typeout="Species" numout="3"></connection>
-    <connection family="3to3" typein="Species" numin="3" typeout="Species" numout="3"></connection>
+    <connection family="2to1" numin="2" numout="1"></connection>
+    <connection family="3to1" numin="3" numout="1"></connection>
+    <connection family="1to2" numin="1" numout="2"></connection>
+    <connection family="2to2" numin="2" numout="2"></connection>
+    <connection family="3to2" numin="3" numout="2"></connection>
+    <connection family="1to3" numin="1" numout="3"></connection>
+    <connection family="2to3" numin="2" numout="3"></connection>
+    <connection family="3to3" numin="3" numout="3"></connection>
   </connection>
   <connection family="Binding" color="#179DFB" Kd="0.05" typein="Species" numin="1" typeout="Node" numout="1">
     <text>This connection represents a dynamic binding and unbinding event.</text>

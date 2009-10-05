@@ -10,6 +10,7 @@
 PyObject* main_dict;
 PyObject* dlfl_dict;
 PyObject *errobj, *errdata, *errtraceback;
+FILE * pyout;
 
 void initialize()
 {
@@ -24,6 +25,8 @@ void initialize()
 	PyObject *dlfl = PyImport_AddModule("pytc");
 	main_dict = PyModule_GetDict( mainmod );
 	dlfl_dict = PyModule_GetDict( dlfl );
+	
+	pyout = fopen("py.out","a");
 }
 
 void exec(const char * code,const char * outfile)
@@ -32,7 +35,16 @@ void exec(const char * code,const char * outfile)
 	
 	PyErr_Fetch (&errobj, &errdata, &errtraceback);
 	
+	//	PyObject_Print(rstring, pyout,Py_PRINT_RAW);
+	
 	tc_printFile(outfile);
+	/*if (rstring)
+	{ 
+		PyObject *s = PyObject_Str(rstring); 
+		char * c = PyString_AS_STRING(s);
+		tc_print(c);
+		Py_DECREF(s); 
+	}*/
 	
 	if (errdata != NULL) 
 	{ 
@@ -50,4 +62,6 @@ void finalize()
 	Py_XDECREF(errtraceback); 
 
     Py_Finalize();
+	
+	fclose(pyout);
 }

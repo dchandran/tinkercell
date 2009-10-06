@@ -6,7 +6,7 @@
  
 
 ****************************************************************************/
-
+#include <QLabel>
 #include <QTabWidget>
 #include "LPSolveInput.h"
 #include "ConnectionGraphicsItem.h"
@@ -24,7 +24,7 @@ namespace Tinkercell
 		constraintsTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 		
 		//objectives table
-		QGroupBox * groupBox1 = new QGroupBox(tr(" Objective Flux Ratios "));
+		QGroupBox * groupBox1 = new QGroupBox(tr(" Objective "));
 		QVBoxLayout * layout1 = new QVBoxLayout;
 		
 		objectivesTable.setColumnCount(2);
@@ -34,6 +34,7 @@ namespace Tinkercell
 		
 		QRadioButton * max = new QRadioButton(tr("Maximize"),groupBox1);
 		QRadioButton * min = new QRadioButton(tr("Minimize"),groupBox1);
+		layout1->addWidget(new QLabel(tr("Select one or more reactions on the screen."),groupBox1),0);
 		layout1->addWidget(max,0);
 		layout1->addWidget(min,0);
 		
@@ -157,7 +158,7 @@ namespace Tinkercell
 
 				QIcon icon(appDir + tr("/Plugins/c/lpsolve.png"));
                 
-				QToolButton * button = libMenu->addFunction(tr("Controls"), tr("Flux Balance Analysis"), icon);
+				QToolButton * button = libMenu->addFunction(tr("Analysis"), tr("Flux Balance Analysis"), icon);
 				button->setToolTip(tr("uses LPsolve linear programming C library"));
 				
 				QAction * action = libMenu->addMenuItem(tr("Flux Balance Analysis"), icon);

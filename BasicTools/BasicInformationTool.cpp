@@ -15,6 +15,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 ****************************************************************************/
 
 #include <QSettings>
+#include <QInputDialog>
 #include <QMessageBox>
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
@@ -74,10 +75,38 @@ namespace Tinkercell
 				hide();
 		}
 	}
+	
+	double BasicInformationTool::initialValue = 1.0;
+	
+	void BasicInformationTool::setInitialValue()
+	{
+		initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
+		QCoreApplication::setOrganizationName("TinkerCell");
+		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
+		QCoreApplication::setApplicationName("TinkerCell");
+
+		QSettings settings("TinkerCell", "TinkerCell");
+
+		settings.beginGroup("BasicInformationTool");
+		settings.setValue(tr("initial value"),initialValue);
+		settings.endGroup();
+	}
 
 	bool BasicInformationTool::setMainWindow(MainWindow * main)
 	{
+		QCoreApplication::setOrganizationName("TinkerCell");
+		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
+		QCoreApplication::setApplicationName("TinkerCell");
+
+		QSettings settings("TinkerCell", "TinkerCell");
+
+		settings.beginGroup("BasicInformationTool");
+		BasicInformationTool::initialValue = settings.value(tr("initial value"),initialValue).toDouble();
+		settings.endGroup();
+	
 		Tool::setMainWindow(main);
+		
+		ConsoleWindow::message("here 1");
 
 		if (mainWindow)
 		{
@@ -97,6 +126,12 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
+			
+			if (mainWindow->settingsMenu)
+			{
+				mainWindow->settingsMenu->addSeparator();
+				mainWindow->settingsMenu->addAction(tr("Set initial value"),this,SLOT(setInitialValue()));
+			}
 
 			if (dockWidget)
 			{
@@ -602,7 +637,7 @@ namespace Tinkercell
 
 			initialValues.rowName(0) = family->measurementUnit.first;
 			initialValues.colName(0) = family->measurementUnit.second;
-			initialValues.value(0,0) = 1.0;
+			initialValues.value(0,0) = BasicInformationTool::initialValue;
 			initialValues.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
 			
 			handle->data->numericalData.insert(QString("Initial Value"),initialValues);
@@ -770,7 +805,7 @@ namespace Tinkercell
 				tableItems << QPair<ItemHandle*,int>(lastItem,nDat.rowNames().size());
 
 				nDat.resize(nDat.rows()+1,nDat.cols());
-				nDat.value(nDat.rows()-1,0) = 1.0;
+				nDat.value(nDat.rows()-1,0) = BasicInformationTool::initialValue;
 				nDat.rowName(nDat.rows()-1) = name;
 
 				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);

@@ -44,17 +44,6 @@ namespace Tinkercell
 
           treeWidget.header()->setResizeMode(QHeaderView::Stretch);
 
-          //arrowButton.setToolTip(QObject::tr("cursor"));
-          //arrowButton.setPalette(QPalette(QColor(255,255,255)));
-          //arrowButton.setAutoFillBackground (true);
-          //arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
-          //arrowButton.setIconSize(QSize(25, 25));
-          //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
-
-
-          //treeWidget.addTopLevelItem(&arrowItem);
-          //treeWidget.setItemWidget(&arrowItem,0,&arrowButton);
-
           layout->addWidget(&treeWidget);
           layout->setContentsMargins(0,0,0,0);
           layout->setSpacing(0);
@@ -68,7 +57,6 @@ namespace Tinkercell
           QCoreApplication::setApplicationName("TinkerCell");
           QSettings settings("TinkerCell", "TinkerCell");
           settings.beginGroup("NodesTree");
-          //QString xmlFile = settings.value("file", filename).toString();
 
           QString xmlFile ;
           if (xmlFile.isNull() || xmlFile.isEmpty())

@@ -136,7 +136,7 @@ namespace Tinkercell
 		void getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
-
+		void setInitialValue();
 	protected:
 		void insertDataMatrix(ItemHandle * handle);
 		QTableWidget tableWidget;
@@ -167,6 +167,7 @@ namespace Tinkercell
 		NodeGraphicsItem item;
 		TextComboDoubleDelegate delegate;
 		QDockWidget * dockWidget;
+		static double initialValue;
 	};
 
 

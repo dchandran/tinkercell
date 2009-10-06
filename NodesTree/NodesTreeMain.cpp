@@ -7,9 +7,13 @@
  Function that loads dll into main window
 
 ****************************************************************************/
+#include <QDialog>
+#include <QStringList>
+#include <QPushButton>
 #include <QInputDialog>
 #include <QTabWidget>
 #include <QMessageBox>
+#include <QVBoxLayout>
 #include "ItemFamily.h"
 #include "NodesTreeMain.h"
 
@@ -37,12 +41,51 @@ namespace Tinkercell
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
         arrowButton.setIconSize(QSize(20,20));
         //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
+		initialValuesTable = 0;//new QTableWidget(this);
+		initialValuesComboBox = 0;//new QComboBox(this);
 		
 		if (layoutMode == TabView)
 			setUpTabView();
 		else
 			setUpTreeView();
+	}
+	
+	void NodesTreeContainer::setupInitialSettingsWidget(MainWindow * main)
+	{
+		if (!main || !initialValuesTable || !initialValuesComboBox) return;
 		
+		QDialog * dialog = new QDialog(main);
+		
+		QVBoxLayout * layout = new QVBoxLayout;
+		
+		connect(initialValuesComboBox,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(initialValueComboBoxChanged(const QString&)));
+		
+		initialValuesTable->setColumnCount(1);
+		initialValuesTable->setHorizontalHeaderLabels(QStringList() << tr("value"));
+		
+		layout->addWidget(initialValuesComboBox);
+		layout->addWidget(initialValuesTable);
+		
+		QPushButton * okButton = new QPushButton;
+		QPushButton * cancelButton = new QPushButton;
+		okButton->setText(tr("Set"));
+		cancelButton->setText(tr("Cancel"));
+		
+		QHBoxLayout * layout2 = new QHBoxLayout;
+		layout2->addWidget(okButton);
+		layout2->addWidget(cancelButton);
+		
+		connect(okButton,SIGNAL(pressed()),dialog,SLOT(accept()));
+		connect(cancelButton,SIGNAL(pressed()),dialog,SLOT(reject()));
+		
+		layout->addLayout(layout2);
+		dialog->setLayout(layout);
+		dialog->hide();
+		
+		if (mainWindow->settingsMenu)
+			mainWindow->settingsMenu->addAction(tr("Set initial values"), dialog, SLOT(exec()));
+		
+		connect(dialog,SIGNAL(accepted()),this,SLOT(initialValuesChanged()));
 	}
 	
 	void NodesTreeContainer::setTreeMode(bool b)
@@ -92,6 +135,8 @@ namespace Tinkercell
 				treeViewAction->setChecked(NodesTreeContainer::layoutMode == NodesTreeContainer::TreeView);
 				
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
+				
+				setupInitialSettingsWidget(mainWindow);
 			}
 			
 			return true;
@@ -221,27 +266,43 @@ namespace Tinkercell
 		
 		settings.beginGroup("NodesTreeContainer");
 		settings.setValue(tr("Mode"),(int)(NodesTreeContainer::layoutMode));
-		settings.endGroup();
 		
-		if (layoutMode != TreeView) return;
-
-		settings.beginGroup("LastSelectedNodes");
-
-		for (int i=0; i < nodes.size(); ++i)
+		if (layoutMode == TreeView)
 		{
-		   if (nodes[i])
-			settings.setValue(QString::number(i),nodes[i]->name);
+			settings.beginGroup("LastSelectedNodes");
+
+			for (int i=0; i < nodes.size(); ++i)
+			{
+			   if (nodes[i])
+				settings.setValue(QString::number(i),nodes[i]->name);
+			}
+			settings.endGroup();
+
+			settings.beginGroup("LastSelectedConnections");
+
+			for (int i=0; i < connections.size(); ++i)
+			{
+			   if (connections[i])
+				settings.setValue(QString::number(i),connections[i]->name);
+			}
+
+			settings.endGroup();
 		}
-		settings.endGroup();
-
-		settings.beginGroup("LastSelectedConnections");
-
-		for (int i=0; i < connections.size(); ++i)
+		else
 		{
-		   if (connections[i])
-			settings.setValue(QString::number(i),connections[i]->name);
+			settings.setValue(tr("numNodeTabs"),numNodeTabs);
+			
+			QStringList list1, list2;
+			for (int i=0; i < tabGroups.size(); ++i)
+			{
+				list1 << tabGroups[i].first;
+				list2 << tabGroups[i].second.join(tr(","));
+			}
+			
+			settings.setValue(tr("familyTabNames"),list1);
+			settings.setValue(tr("familyTabs"),list2);
 		}
-
+		
 		settings.endGroup();
 	}
 
@@ -302,6 +363,9 @@ namespace Tinkercell
 		QSettings settings("TinkerCell", "TinkerCell");
 		
 		int n = 5;
+		QStringList allFamilyNames;
+		
+		settings.beginGroup("NodesTreeContainer");
 		
 		if (nodesTree)
 		{
@@ -328,6 +392,8 @@ namespace Tinkercell
 				if (nodesTree->nodeFamilies.contains(s) && (family = nodesTree->nodeFamilies[s]))
 				{
 					nodes << family;
+					allFamilyNames << family->name;
+					
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
@@ -378,6 +444,8 @@ namespace Tinkercell
 					(family = connectionsTree->connectionFamilies[s]))
 				{
 					connections << family;
+					allFamilyNames << family->name;
+					
 					QToolButton * button = new QToolButton;
 					button->setIcon(QIcon(family->pixmap));
 					button->setText(family->name);
@@ -404,6 +472,10 @@ namespace Tinkercell
 			}
 			settings.endGroup();
 		}
+		settings.endGroup();
+		
+		if (initialValuesComboBox)
+			initialValuesComboBox->addItems(allFamilyNames);
 		
 		QWidget * widget = new QWidget;	
 		widgetsToUpdate << widget;
@@ -463,7 +535,26 @@ namespace Tinkercell
 													tr("Regulations"),
 													QStringList() << "Binding" << "Elongation" << "Modifiers");
 													
-		int numNodeTabs = 4;
+		numNodeTabs = 4;
+		
+		QCoreApplication::setOrganizationName("TinkerCell");
+		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
+		QCoreApplication::setApplicationName("TinkerCell");
+		QSettings settings("TinkerCell", "TinkerCell");
+		settings.beginGroup("NodesTreeContainer");
+		numNodeTabs = settings.value(tr("numNodeTabs"),numNodeTabs).toInt();
+		QStringList savedTabNames = settings.value(tr("familyTabNames"),QStringList()).toStringList();
+		QStringList savedTabs = settings.value(tr("familyTabs"),QStringList()).toStringList();
+		if (savedTabNames.size()  == savedTabs.size()  && savedTabs.size() > numNodeTabs)		
+		{
+			tabGroups.clear();
+			for (int i=0; i < savedTabs.size(); ++i)
+			{
+				QString s = savedTabs[i].trimmed();
+				tabGroups << QPair<QString,QStringList>( savedTabNames[i], s.split(tr(",")) );				
+			}
+		}
+		settings.endGroup();
 		
 		QTabWidget * tabWidget = new QTabWidget;
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
@@ -481,7 +572,7 @@ namespace Tinkercell
 			index << 0;
 		}
 		
-		//tabLayouts[0]->addWidget(&arrowButton,0,0,Qt::AlignCenter);
+		QStringList allFamilyNames;
 		
 		QGridLayout * tempLayout = 0;
 		
@@ -492,6 +583,9 @@ namespace Tinkercell
 			for (int i=0; i < families.size(); ++i)
 			{
 				if (!families[i] || !nodesTree->treeButtons.contains(families[i]->name)) continue;
+				
+				nodes << families[i];
+				allFamilyNames << families[i]->name;
 				
 				for (int j=0; j < tabGroups.size(); ++j)
 				{
@@ -539,6 +633,9 @@ namespace Tinkercell
 			{
 				if (!families[i] || !connectionsTree->treeButtons.contains(families[i]->name)) continue;
 				
+				connections << families[i];
+				allFamilyNames << families[i]->name;
+				
 				for (int j=0; j < tabGroups.size(); ++j)
 				{
 					bool isA = false;
@@ -576,6 +673,8 @@ namespace Tinkercell
 				}
 			}
 		}
+		if (initialValuesComboBox)
+			initialValuesComboBox->addItems(allFamilyNames);
 		
 		for (int i=0; i < tabGroups.size() && i < tabLayouts.size(); ++i)
 		{
@@ -604,6 +703,95 @@ namespace Tinkercell
 		layout->setContentsMargins(0,0,0,0);
 		layout->setSpacing(0);
 		setLayout(layout);
+	}
+	
+	void NodesTreeContainer::initialValueComboBoxChanged(const QString& s)
+	{
+		if (!initialValuesTable) return;
+		
+		ItemFamily * family = 0;
+		for (int i=0; i < nodes.size(); ++i)
+			if (nodes[i] && nodes[i]->name ==s)
+			{
+				family = nodes[i];
+				break;
+			}
+		if (!family)
+			for (int i=0; i < connections.size(); ++i)
+				if (connections[i] && connections[i]->name ==s)
+				{
+					family = connections[i];
+					break;
+				}
+		
+		initialValuesTable->clearContents();
+		if (!family) return;
+		
+		QStringList rowLabels = family->numericalAttributes.keys();
+		rowLabels << family->textAttributes.keys();
+		
+		initialValuesTable->setVerticalHeaderLabels(rowLabels);
+		
+		QList<qreal> numbers = family->numericalAttributes.values();
+		QStringList values;
+		for (int i=0; i < numbers.size(); ++i)
+			values << QString::number(numbers[i]);
+		values << family->textAttributes.values();
+		
+		initialValuesTable->setRowCount(rowLabels.size());
+		
+		for (int i=0; i < values.size(); ++i)
+			initialValuesTable->setItem(i,0,new QTableWidgetItem(values[i]));		
+	}
+	
+	void NodesTreeContainer::initialValuesChanged()
+	{
+		if (!initialValuesTable || !initialValuesComboBox) return;
+		
+		QString s = initialValuesComboBox->currentText();
+		
+		ItemFamily * family = 0;
+		for (int i=0; i < nodes.size(); ++i)
+			if (nodes[i] && nodes[i]->name == s)
+			{
+				family = nodes[i];
+				break;
+			}
+		if (!family)
+			for (int i=0; i < connections.size(); ++i)
+				if (connections[i] && connections[i]->name ==s)
+				{
+					family = connections[i];
+					break;
+				}
+		if (!family) return;
+		
+		int n1 = family->numericalAttributes.size(); 
+		int n2 = family->textAttributes.size(); 
+		
+		if (initialValuesTable->rowCount() != (n1+n2)) return;
+		
+		double d;
+		bool ok;
+		QString s2;
+		
+		for (int i=0; i < (n1+n2); ++i)
+			if (initialValuesTable->verticalHeaderItem(i) && initialValuesTable->item(i,0))
+			{
+				QString s = initialValuesTable->verticalHeaderItem(i)->text();			
+				s2 = initialValuesTable->item(i,0)->text();
+				if (family->numericalAttributes.contains(s))
+				{
+					d = s2.toDouble(&ok);
+					if (ok)
+						family->numericalAttributes[s] = d;
+				}
+				else
+				if (family->textAttributes.contains(s))
+				{
+					family->textAttributes[s] = s2;
+				}
+			}
 	}
 }
 

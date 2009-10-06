@@ -6,7 +6,7 @@
  Provides a text window where C code can be written and run dynamically
  
 ****************************************************************************/
-#include <QDesktopServices>
+#include <QProcess>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -366,7 +366,7 @@ namespace Tinkercell
 	 void CodingWindow::pyscesHelp()
 	 {
 		QString appDir = QCoreApplication::applicationDirPath();
-		QDesktopServices::openUrl(QUrl(appDir + tr("/Documentation/pysces_userguide.pdf")));
+		QProcess::executel(appDir + tr("/Documentation/pysces_userguide.pdf"));
 	 }
 
 	 void CodingWindow::about()

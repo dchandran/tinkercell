@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 #include <QToolBox>
+#include <QComboBox>
 #include <QTableWidget>
 #include "ItemFamily.h"
 #include "MainWindow.h"
@@ -97,6 +98,10 @@ namespace Tinkercell
         void setNumberOfRecentItems();
 		/*! \brief set tab mode (false = tree view)*/
 		void setTreeMode(bool);
+		/*! \brief intial attributes for families have changed*/
+		void initialValuesChanged();
+		/*! \brief intial attributes combo box selection changed*/
+		void initialValueComboBoxChanged(const QString&);
 		
     private:
 
@@ -122,12 +127,25 @@ namespace Tinkercell
 		/*! \brief the connections tree widgets*/
 		ConnectionsTree * connectionsTree;
 		
+		/*! \brief the categories for the tabs*/
+		QList< QPair< QString, QStringList> > tabGroups;
+		
+		int numNodeTabs;
+		
 		/*! \brief setup the widget using the TreeView layout*/
 		void setUpTreeView();
 		
 		/*! \brief setup the widget using the TabView layout*/
 		void setUpTabView();
 		
+		/*! \brief table widget for setting initial attributes for families*/
+		QTableWidget * initialValuesTable;
+		
+		/*! \brief combo box widget for setting initial attributes for families*/
+		QComboBox * initialValuesComboBox;
+		
+		/*! \brief setup combo box widget for setting initial attributes for families*/
+		void setupInitialSettingsWidget(MainWindow * );
     };
 
 

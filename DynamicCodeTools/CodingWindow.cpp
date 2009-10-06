@@ -366,7 +366,7 @@ namespace Tinkercell
 	 void CodingWindow::pyscesHelp()
 	 {
 		QString appDir = QCoreApplication::applicationDirPath();
-		QProcess::executel(appDir + tr("/Documentation/pysces_userguide.pdf"));
+		QProcess::execute(appDir + tr("/Documentation/pysces_userguide.pdf"));
 	 }
 
 	 void CodingWindow::about()

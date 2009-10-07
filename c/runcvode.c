@@ -195,7 +195,7 @@ void run(Matrix input)
 				        {\n\
 				           valueAt(ss,i-1,0) = valueAt(data,(data.rows-1),i);\n\
 				        }\n\
-				        A = findItems(TCvarnames);\n\
+				        A = tc_findItems(TCvarnames);\n\
 				        tc_setInitialValues(A,ss);\n\
 				        free(ss.values);\n\
 						FILE * out = fopen(\"ode.tab\",\"w\");\n\

@@ -52,13 +52,13 @@ namespace Tinkercell
 		
 		window = new QMainWindow;
 		window->setCentralWidget(multiplePlotsArea);
-		toolBar.setWindowTitle(tr("plot toolbar"));
+		toolBar.setWindowTitle(tr("Plot toolbar"));
 		
 		exportMenu = new QMenu(tr("Export"),&toolBar);
 		QToolButton * exportButton = new QToolButton(&toolBar);
 		exportButton->setIcon(QIcon(":/images/export.png"));
 		exportButton->setMenu(exportMenu);
-		exportButton->setText(tr("E&xport Current Graph"));
+		exportButton->setText(tr("E&xport current graph"));
 		exportButton->setPopupMode(QToolButton::MenuButtonPopup);
 		exportButton->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 		
@@ -129,11 +129,11 @@ namespace Tinkercell
 		
 		//setup toolbar
 		
-		addExportOption(QIcon(tr(":/images/save.png")),tr("image"),tr("Save image"));
-		addExportOption(QIcon(tr(":/images/camera.png")),tr("snapshot"),tr("Copy image to clipboard"));
-		addExportOption(QIcon(tr(":/images/new.png")),tr("text"),tr("Show the data table"));
+		addExportOption(QIcon(tr(":/images/save.png")),tr("Image"),tr("Save image"));
+		addExportOption(QIcon(tr(":/images/camera.png")),tr("Snapshot"),tr("Copy image to clipboard"));
+		addExportOption(QIcon(tr(":/images/new.png")),tr("Text"),tr("Show the data table"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
-		addExportOption(QIcon(tr(":/images/copy.png")),tr("clipboard"),tr("Copy data to clipboard"));
+		addExportOption(QIcon(tr(":/images/copy.png")),tr("Clipboard"),tr("Copy data to clipboard"));
 		QAction * action = functionsWidgetDock->toggleViewAction();
 		action->setIcon(QIcon(tr(":/images/function.png")));
 		action->setToolTip(tr("Plot one or more formulas"));

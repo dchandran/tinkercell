@@ -33,8 +33,7 @@ graphics are used to draw a single item.
 
 namespace Tinkercell
 {
-
-	class GraphicalsScene;
+	class GraphicsScene;
 	class Tool;
 	class TextGraphicsItem;
 	class ItemHandle;

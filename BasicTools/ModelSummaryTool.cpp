@@ -354,7 +354,7 @@ namespace Tinkercell
 
 		separator = 0;
 		toggleFixedAction = new QAction(this);
-		toggleFixedAction->setText(tr("toggle fixed/floating"));
+		toggleFixedAction->setText(tr("Toggle fixed/floating"));
 		toggleFixedAction->setIcon(QIcon(tr(":/images/lock.png")));
 		toggleFixedAction->setToolTip(tr("toggle between fixed and floating species"));
 		connect(toggleFixedAction,SIGNAL(triggered()),this,SLOT(fixedAction()));

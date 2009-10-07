@@ -91,6 +91,8 @@ namespace Tinkercell
 		virtual void setStatusBarMessage(const QString&);
 		/*! \brief add a dock widget to the plot area*/
 		virtual QDockWidget * addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area = Qt::BottomDockWidgetArea);
+		
+		QCheckBox * keepOldPlots, *holdCurrentPlot;
 
 	public slots:
 		
@@ -161,7 +163,6 @@ namespace Tinkercell
 		QToolBar toolBar;
 		QMenu * exportMenu;
 		QToolBar * otherToolBar;
-		QCheckBox * keepOldPlots, *holdCurrentPlot;
 		
 	private slots:
 		void actionTriggered(QAction*);

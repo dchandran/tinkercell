@@ -184,7 +184,7 @@ namespace Tinkercell
 
             toolBar->addWidget(menuButton);
 
-			setWindowTitle(tr("Functions"));
+			setWindowTitle(tr("Tools"));
 			setWindowIcon(QIcon(tr(":/images/function.png")));
             mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 

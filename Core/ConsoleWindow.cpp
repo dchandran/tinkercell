@@ -69,6 +69,10 @@ namespace Tinkercell
 	CommandTextEdit::CommandTextEdit(QWidget * parent): QTextEdit(parent), c(0)
 	{
 		setUndoRedoEnabled ( false );
+		
+		
+		setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+
 
 		setCursorWidth(2);
 		QFont font = this->font();
@@ -254,8 +258,7 @@ namespace Tinkercell
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
 			cursor.removeSelectedText();
-			if (!command.isEmpty())
-				cursor.insertText(command + tr("\n"));
+			cursor.insertText(command + tr("\n"));
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			currentPosition = cursor.position();
 			if (!command.isEmpty())
@@ -273,9 +276,11 @@ namespace Tinkercell
 			{
 				cursor.setCharFormat(normalFormat);	
 				cursor.insertText(ConsoleWindow::Prompt);
+				cursor.movePosition(QTextCursor::EndOfBlock);
 			}
 			if (cursor.position() > currentPosition)
 				currentPosition = cursor.position();
+			cursor.movePosition(QTextCursor::EndOfBlock);
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
@@ -342,6 +347,10 @@ namespace Tinkercell
 							{
 								if (cursor.position() < currentPosition)
 									cursor.setPosition(currentPosition);
+								if (key == Qt::Key_Home)
+								{
+									cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());
+								}
 								this->ensureCursorVisible();
 								return;
 							}

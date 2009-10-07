@@ -41,6 +41,7 @@ int functionMissing()
 		!tc_plot ||
 		!tc_callWhenExiting ||
 		!tc_surface ||
+		!tc_setInitialValues ||
 		!tc_isWindows)
 
 		return 1;
@@ -267,7 +268,7 @@ void run(Matrix input)
 					else\n\
 					{\n\
 						for (j=0; j<TCvars; ++j)\n\
-						valueAt(dat,i,j+1) = 0;\n\
+						   valueAt(dat,i,j+1) = 0.0;\n\
 					}\n\
 					TCinitialize();\n\
 					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\

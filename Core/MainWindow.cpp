@@ -273,7 +273,7 @@ namespace Tinkercell
 		settings.beginGroup("MainWindow");
 		
 		resize(settings.value("size", QSize(1000, 500)).toSize());
-		move(settings.value("pos", QPoint(50, 100)).toPoint());
+		move(settings.value("pos", QPoint(100, 100)).toPoint());
 		if (settings.value("maximized",false).toBool()) 
 			showMaximized();
 		previousFileName = settings.value("previousFileName", tr("")).toString();
@@ -305,6 +305,7 @@ namespace Tinkercell
 		subWindow->setAttribute(Qt::WA_DeleteOnClose);
 		mdiArea.addSubWindow(subWindow);
 		subWindow->setVisible(true);
+		subWindow->showMaximized();
 
 		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
 		emit windowOpened(subWindow);
@@ -319,6 +320,7 @@ namespace Tinkercell
 		subWindow->setAttribute(Qt::WA_DeleteOnClose);
 		mdiArea.addSubWindow(subWindow);
 		subWindow->setVisible(true);
+		subWindow->showMaximized();
 
 		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
 		emit windowOpened(subWindow);

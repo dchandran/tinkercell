@@ -42,7 +42,7 @@ void tc_main()
 {
 	if (functionMissing()) return;
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
-	tc_addFunction(&setup, "ODE simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
+	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
 }
 
 void setup()
@@ -61,7 +61,7 @@ void setup()
 	m.rownames = rows;
 	m.values = values;
 
-	tc_createInputWindow(m,"ODE simulation (CVODE)",&run);
+	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
 	tc_addInputWindowOptions("ODE Simulation (CVODE)",0, 0,  options1);
 	tc_addInputWindowOptions("ODE Simulation (CVODE)",3, 0,  options2);
 
@@ -157,6 +157,9 @@ void run(Matrix input)
 					\n\
 					void run() \n\
 					{\n\
+					    Array A;\n\
+						Matrix data,ss;\n\
+						char ** names;\n\
 						TCinitialize();\n\
 						rates = malloc(TCreactions * sizeof(double));\n\
 						double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, 0);\n\
@@ -166,9 +169,8 @@ void run(Matrix input)
 							tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
 							return;\n\
 						}\n\
-						Matrix data;\n\
 						data.rows = %i;\n\
-						char ** names = TCvarnames;\n\
+						names = TCvarnames;\n\
 						if (%i)\n\
 						{\n\
 							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
@@ -184,6 +186,18 @@ void run(Matrix input)
 						data.colnames[0] = \"time\\0\";\n\
 						int i,j;\n\
 						for (i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
+						ss.rownames = 0;\n\
+				        ss.colnames = 0;\n\
+				        ss.values = malloc(TCvars * sizeof(double));\n\
+				        ss.rows = data.cols-1;\n\
+				        ss.cols = 1;\n\
+				        for (i=1; i < data.cols; ++i)\n\
+				        {\n\
+				           valueAt(ss,i-1,0) = valueAt(data,(data.rows-1),i);\n\
+				        }\n\
+				        A = findItems(TCvarnames);\n\
+				        tc_setInitialValues(A,ss);\n\
+				        free(ss.values);\n\
 						FILE * out = fopen(\"ode.tab\",\"w\");\n\
 						for (i=0; i < data.cols; ++i)\n\
 						{\n\

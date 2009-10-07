@@ -93,7 +93,7 @@ namespace Tinkercell
 		/*! \brief get the stoichiometry matrix for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be generated
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
-		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
+		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"), bool includeFixed=false);
 		/*! \brief set the stoichiometry matrix for all the given items, combined
 		\param NetworkWindow* current window
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be set

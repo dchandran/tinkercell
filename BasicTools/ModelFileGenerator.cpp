@@ -291,7 +291,7 @@ namespace Tinkercell
 			replaceHatWithPow(rates[i]);
 		}
 
-		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles,replaceDot);
+		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles,replaceDot,true);
 		if (N.rows() < 1 || N.cols() < 1 || rates.isEmpty()) return 0;
 		
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);

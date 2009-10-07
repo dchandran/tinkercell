@@ -491,7 +491,18 @@ namespace Tinkercell
 		else
 		if (type.toLower() == tr("latex"))
 		{
+			bool b;
+			if (plotTool->keepOldPlots)
+			{
+				b = plotTool->keepOldPlots->isChecked();
+				plotTool->keepOldPlots->setChecked(true);
+			}
 			plotTool->addWidget(new PlotTextWidget(dataPlot->dataTable,plotTool, latex()));
+			if (plotTool->keepOldPlots)
+			{
+				plotTool->keepOldPlots->setChecked(b);
+			}
+			
 		}
 		else
 		{

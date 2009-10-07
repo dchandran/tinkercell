@@ -355,19 +355,23 @@ namespace Tinkercell
 
     void PythonTool::runPythonCode(const QString& code)
     {
-		if (pythonInterpreter)
+		if (pythonInterpreter && pythonInterpreter->isRunning())
 		{
 			disconnect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
 			disconnect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
 			disconnect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 		}
 		
-        pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
-		pythonInterpreter->initialize();
+		if (!pythonInterpreter && pythonInterpreter->isRunning())
+		{
+			QString appDir = QCoreApplication::applicationDirPath();
+			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
+			pythonInterpreter->initialize();
 
-		connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-		connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-		connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
+			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
+			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+		}
 		
         if (pythonInterpreter)
             pythonInterpreter->runCode(code);

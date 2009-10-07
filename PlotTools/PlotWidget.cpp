@@ -53,7 +53,17 @@ namespace Tinkercell
 		{
 			DataTable<qreal> table;
 			if (data()) table = *data();
+			bool b;
+			if (plotTool->keepOldPlots)
+			{
+				b = plotTool->keepOldPlots->isChecked();
+				plotTool->keepOldPlots->setChecked(true);
+			}
 			plotTool->addWidget(new PlotTextWidget(table,plotTool,output));
+			if (plotTool->keepOldPlots)
+			{
+				plotTool->keepOldPlots->setChecked(b);
+			}
 		}
 		else
 		{

@@ -24,12 +24,12 @@ namespace Tinkercell
 		constraintsTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 		
 		//objectives table
-		QGroupBox * groupBox1 = new QGroupBox(tr(" Objective "));
+		QGroupBox * groupBox1 = new QGroupBox(tr(" Objective function "));
 		QVBoxLayout * layout1 = new QVBoxLayout;
 		
 		objectivesTable.setColumnCount(2);
 		objectivesTable.setVerticalHeader(0);
-		objectivesTable.setHorizontalHeaderLabels ( QStringList() << "flux" << "target ratio" );
+		objectivesTable.setHorizontalHeaderLabels ( QStringList() << "flux" << "weights" );
 		objectivesTable.setItemDelegate(&delegate1);
 		
 		QRadioButton * max = new QRadioButton(tr("Maximize"),groupBox1);
@@ -93,7 +93,7 @@ namespace Tinkercell
 		connect(runButton,SIGNAL(released()),this,SLOT(exec()));
 		connect(addButton,SIGNAL(released()),this,SLOT(addRow()));
 		connect(removeButton,SIGNAL(released()),this,SLOT(removeRow()));
-		connect(max,SIGNAL(toggled(bool)),this,SLOT(checkboxSelected(bool)));
+		
 		connect(&objectivesTable,SIGNAL(cellChanged(int,int)),this,SLOT(objectivesTableChanged(int,int)));
 		connect(&constraintsTable,SIGNAL(cellChanged(int,int)),this,SLOT(constraintsTableChanged(int,int)));
 		
@@ -101,6 +101,9 @@ namespace Tinkercell
 		dataTable.value(0,1) = 0.0;
 		max->setChecked(true);
 		min->setChecked(false);
+		
+		connect(min,SIGNAL(toggled()),max,SLOT(toggle()));
+		connect(max,SIGNAL(toggled(bool)),this,SLOT(checkboxSelected(bool)));
 	}
 	
 	void LPSolveInputWindow::exec()

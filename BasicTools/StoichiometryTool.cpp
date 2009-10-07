@@ -1229,7 +1229,7 @@ namespace Tinkercell
 	}
 
 	//get the stoiciometry of the items and return the matrix
-	DataTable<qreal> StoichiometryTool::getStoichiometry(const QList<ItemHandle*>& connectionHandles, const QString& replaceDot)
+	DataTable<qreal> StoichiometryTool::getStoichiometry(const QList<ItemHandle*>& connectionHandles, const QString& replaceDot, bool includeFixed)
 	{
 		//qDebug() << "get stoichiometry";
 
@@ -1248,17 +1248,31 @@ namespace Tinkercell
 		{
 			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
 			{
+				QStringList fixedSpecies;
+				if (!includeFixed && ConnectionHandle::asConnection(connectionHandles[i]))
+				{
+					QList<NodeHandle*> nodes = ConnectionHandle::asConnection(connectionHandles[i])->nodes();
+					for (int j=0; j < nodes.size(); ++j)
+						if (NodeHandle::asNode(nodes[j]) 
+							&& nodes[j]->hasNumericalData(tr("Fixed")) 
+							&& nodes[j]->numericalData(tr("Fixed")) > 0)
+							fixedSpecies << nodes[j]->fullName();
+				}
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Stoichiometry")))
 				{
 					nDataTable = &(connectionHandles[i]->data->numericalData[QObject::tr("Stoichiometry")]);
 					for (int j=0; j < nDataTable->cols(); ++j) //get unique species
-						if (!colNames.contains(nDataTable->colName(j))
-							&& !colNames.contains(QString(nDataTable->colName(j)).replace(".",replaceDot))
-							&& !colNames.contains(QString(nDataTable->colName(j)).replace(replaceDot,".")))
+					{
+						QString s = nDataTable->colName(j);
+						if (!colNames.contains(s)
+							&& !fixedSpecies.contains(s)
+							&& !colNames.contains(s.replace(".",replaceDot))
+							&& !colNames.contains(s.replace(replaceDot,".")))
 						{
 							colNames += nDataTable->colName(j);
 							//qDebug() << nDataTable->colName(j);
 						}
+					}
 				}
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rates")))
 				{

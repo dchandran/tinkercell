@@ -20,12 +20,25 @@ The python interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 
-    PythonInterpreterThread::PythonInterpreterThread(const QString& dll, MainWindow* main)
-        : CThread(main,dll,false), outputFile("py.out")
+	QLibrary * PythonInterpreterThread::pythonLibrary = 0;
+
+    PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main)
+        : CThread(main,pythonLibrary,false), outputFile("py.out")
     {
+		if (!pythonLibrary)
+		{
+			pythonLibrary = CThread::loadLibrary(dllname,main);
+			if (pythonLibrary->isLoaded())
+				setLibrary(pythonLibrary);
+			else
+			{
+				delete pythonLibrary;
+				pythonLibrary = 0;
+			}
+		}
         f = 0;
         disconnect(this);
-        CThread::cthreads[tr("python thread")] = this;
+        CThread::cthreads.insertMulti(tr("python thread"),this);
     }
 
     typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));

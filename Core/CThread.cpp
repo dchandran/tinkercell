@@ -27,6 +27,10 @@ users with the option to terminate the thread.
 
 namespace Tinkercell
 {
+	/******************
+	LIBRARY THREAD
+	*******************/
+	
 	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{
@@ -142,44 +146,11 @@ namespace Tinkercell
 
 	void CThread::setLibrary(const QString& libname)
 	{
-		QString  home = MainWindow::userHome(),
-			current = QDir::currentPath(),
-			appDir = QCoreApplication::applicationDirPath();
-
-		QString name[] = {  
-			libname,
-			home + tr("/") + libname,
-			current + tr("/") + libname,
-			appDir + tr("/") + libname,
-			};
-
-		if (lib)
-		{
-			if (lib->isLoaded())
-				lib->unload();
-			if (!lib->parent())
-				delete lib;
-		}
-
-		lib = new QLibrary(this);
-
-		bool loaded = false;
-		for (int i=0; i < 4; ++i) //try different possibilities
-		{
-			lib->setFileName(name[i]);
-			loaded = lib->load();
-			if (loaded)
-				break;
-		}
-
-		if (!loaded)
-		{
-			if (!lib->parent())
-				delete lib;
-			lib = 0;
-		}
-
-		if (mainWindow && lib)
+		lib = loadLibrary(libname,this);
+		
+		bool loaded = lib && lib->isLoaded();
+		
+		if (mainWindow && loaded)
 		{
 			QSemaphore * s = new QSemaphore(1);
 			s->acquire();
@@ -188,7 +159,7 @@ namespace Tinkercell
 			s->release();
 		}
 
-		if (lib)
+		if (lib && loaded)
 		{
 			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
 			if (f0)
@@ -289,7 +260,7 @@ namespace Tinkercell
 			QProgressBar * progressbar = new QProgressBar;
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
-			cthreads[title] = newThread;
+			cthreads.insertMulti(title,newThread);
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
 		}
 
@@ -304,19 +275,54 @@ namespace Tinkercell
 		return dialog;
 	}
 
-	/******************
-	LIBRARY THREAD
-	*******************/
-
 	QHash<QString,CThread*> CThread::cthreads;
 
 	void CThread::setProgress(const char * name, int progress)
 	{
 		QString s(name);
-		if (cthreads.contains(s) && cthreads[s])
+		if (cthreads.contains(s))
 		{
-			cthreads[s]->emitSignal(progress);
+			QList<CThread*> threads = cthreads.values(s);
+			for (int i=0; i < threads.size(); ++i)
+				if (threads[i])
+					threads[i]->emitSignal(progress);
 		}
+	}
+	
+	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)
+	{
+		QString  home = MainWindow::userHome(),
+			current = QDir::currentPath(),
+			appDir = QCoreApplication::applicationDirPath();
+
+		QString name[] = {  
+			libname,
+			home + QObject::tr("/") + libname,
+			current + QObject::tr("/") + libname,
+			appDir + QObject::tr("/") + libname,
+			};
+
+		QLibrary * lib = new QLibrary(parent);
+		
+		bool loaded = false;
+		for (int i=0; i < 4; ++i) //try different possibilities
+		{
+			lib->setFileName(name[i]);
+			loaded = lib->load();
+			if (loaded)
+				break;
+		}
+
+		if (!loaded)
+		{
+			if (!lib->parent())
+			{
+				delete lib;
+				lib = 0;
+			}
+		}
+		
+		return lib;
 	}
 
 	/******************
@@ -375,9 +381,9 @@ namespace Tinkercell
 			connect(this,SIGNAL(terminated()),&process,SLOT(kill()));
 			process.start(exe,QStringList() << args);
 			process.waitForFinished();
-			QString errors(process.readAllStandardError());
-			QString output(process.readAllStandardOutput());
-			ConsoleWindow::error(errors);
+			errStream = process.readAllStandardError();
+			outputStream = process.readAllStandardOutput();
+			//ConsoleWindow::error(errors);
 
 			QDir::setCurrent(current);
 		}
@@ -392,6 +398,16 @@ namespace Tinkercell
 	ProcessThread::~ProcessThread()
 	{
 		stopProcess();
+	}
+	
+	QString ProcessThread::output() const
+	{
+		return outputStream;
+	}
+	
+	QString ProcessThread::errors() const
+	{
+		return errStream;
 	}
 
 }

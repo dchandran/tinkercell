@@ -463,10 +463,18 @@ namespace Tinkercell
 		* \brief Finds the first graphics item with the name. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
 		* \param return value
-		* \param name of item
+		* \param QString name of item
 		* \return void
 		*/
 		void findItem(QSemaphore*,ItemHandle**,const QString& name);
+		/*!
+		* \brief Finds all graphics items with the names. This function is designed to be used with the C API framework
+		* \param QSemaphore * semaphore
+		* \param return value
+		* \param QStringList names of items
+		* \return void
+		*/
+		void findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList& name);
 		/*!
 		* \brief selects the given item. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
@@ -1178,6 +1186,10 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
+		static Array _findItems(char**);
+		/*!
+		* \brief part of the C API framework.
+		*/
 		static void _select(OBJ);
 		/*!
 		* \brief part of the C API framework.
@@ -1374,6 +1386,7 @@ namespace Tinkercell
 		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QString&);
 		void itemsOfFamily(QSemaphore*,QList<ItemHandle*>*,const QList<ItemHandle*>&,const QString&);
 		void find(QSemaphore*,ItemHandle**,const QString&);
+		void findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&);
 		void select(QSemaphore*,ItemHandle*);
 		void deselect(QSemaphore*);
 		void removeItem(QSemaphore*,ItemHandle* );
@@ -1431,6 +1444,7 @@ namespace Tinkercell
 		Array itemsOfFamily(const char*, Array);
 		Array selectedItems();
 		OBJ find(const char*);
+		Array findItems(char**);
 		void select(OBJ);
 		void deselect();
 		char* getName(OBJ);

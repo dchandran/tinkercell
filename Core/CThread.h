@@ -71,6 +71,12 @@ namespace Tinkercell
 
 		/*! \brief set progress on a thread with the given name*/
 		static void setProgress(const char * name, int progress);
+		
+		/*! \brief search the default tinkercell folders for the library and load it
+		* \param QString name of library (with or without full path)
+		* \param QObject parent
+		* \return QLibrary* the loaded library. 0 if cannot be loaded.*/
+		static QLibrary * loadLibrary(const QString& name, QObject * parent = 0);
 
 		/*! \brief hash stores the name and progress bar pointers for updating progress on different threads*/
 		static QHash<QString,CThread*> cthreads;
@@ -254,8 +260,13 @@ namespace Tinkercell
 		* \param MainWindow main window
 		*/
 		ProcessThread(const QString&, const QString& ,MainWindow* main);
-		/*! \brief destructor -- free the library that this thread loaded
-		*/
+		/*! \brief get the results (output stream) from the process
+		* \return QString output*/
+		virtual QString output() const;
+		/*! \brief get the errors (error stream) from the process
+		* \return QString output*/
+		virtual QString errors() const;
+		/*! \brief destructor -- free the library that this thread loaded*/
 		virtual ~ProcessThread();
 		/*! \brief  creates a dialog that shows the name of the running thread and a button for terminating the thread
 		* \param MainWindow main window
@@ -264,14 +275,18 @@ namespace Tinkercell
 		* \param QIcon icon to display
 		*/
 		static QWidget * dialog(MainWindow *, ProcessThread*, const QString& text = QString("Process"), QIcon icon = QIcon());
-		protected slots:
-			/*! \brief unload the library (if loaded) and delete it*/
-			void stopProcess();
+	protected slots:
+		/*! \brief unload the library (if loaded) and delete it*/
+		virtual void stopProcess();
 	protected:
 		/*! \brief the name of the executable*/
 		QString exe;
 		/*! \brief the arguments*/
 		QString args;
+		/*! \brief the output from the process*/
+		QString outputStream;
+		/*! \brief the error from the process*/
+		QString errStream;
 		/*! \brief Tinkercell's main window*/
 		MainWindow * mainWindow;
 		/*! \brief Tinkercell's main window*/

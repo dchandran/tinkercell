@@ -355,7 +355,20 @@ namespace Tinkercell
 
     void PythonTool::runPythonCode(const QString& code)
     {
-        //ConsoleWindow::freeze();
+		if (pythonInterpreter)
+		{
+			disconnect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
+			disconnect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
+			disconnect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+		}
+		
+        pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
+		pythonInterpreter->initialize();
+
+		connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
+		connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
+		connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+		
         if (pythonInterpreter)
             pythonInterpreter->runCode(code);
     }
@@ -391,7 +404,7 @@ namespace Tinkercell
             else
             {
                 QString code(file.readAll());
-                pythonInterpreter->runCode(code);
+                runPythonCode(code);
                 file.close();
             }
         }

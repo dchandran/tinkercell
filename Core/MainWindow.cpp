@@ -577,7 +577,9 @@ namespace Tinkercell
 		{
 			toolsHash.insert(tool->name,tool);
 			if (tool->mainWindow != this)
+			{
 				tool->setMainWindow( static_cast<MainWindow*>(this) );
+			}
 			emit toolLoaded(tool);
 		}
 		else
@@ -1331,9 +1333,12 @@ namespace Tinkercell
 		NetworkWindow * win = currentWindow();
 		if (!win || !returnPtr)
 		{
+			if (returnPtr)
+				(*returnPtr) = 0;
 			if (s) s->release();
 			return;
 		}
+		
 		(*returnPtr) = 0;
 		
 		if (win->symbolsTable.handlesFullName.contains(name))
@@ -1367,6 +1372,67 @@ namespace Tinkercell
 							(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
 				}
 			}
+		}
+
+		if (s)
+			s->release();
+	}
+	
+	void MainWindow::findItems(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QStringList& names)
+	{
+		NetworkWindow * win = currentWindow();
+		if (!win || !returnPtr)
+		{
+			if (returnPtr)
+				returnPtr->clear();
+			if (s) s->release();
+			return;
+		}
+		
+		returnPtr->clear();
+		QString name;
+		ItemHandle * handle = 0;
+		
+		for (int i=0; i < names.size(); ++i)
+		{		
+			name = names[i];
+			handle = 0;
+			
+			if (win->symbolsTable.handlesFullName.contains(name))
+				handle = win->symbolsTable.handlesFullName[name];
+			else
+			{
+				QString s = name;
+
+				if (win->symbolsTable.handlesFullName.contains(s))
+					handle = win->symbolsTable.handlesFullName[s];
+				else
+				{
+					if (win->symbolsTable.handlesFirstName.contains(s))
+						handle = win->symbolsTable.handlesFirstName[s];
+					else
+						if (win->symbolsTable.dataRowsAndCols.contains(s))
+							handle= win->symbolsTable.dataRowsAndCols[s].first;
+				}
+
+				if (handle == 0)
+				{
+					s.replace(tr("_"),tr("."));
+					if (win->symbolsTable.handlesFullName.contains(s))
+						handle = win->symbolsTable.handlesFullName[s];
+					else
+					{
+						if (win->symbolsTable.handlesFirstName.contains(s))
+							handle = win->symbolsTable.handlesFirstName[s];
+						else
+							if (win->symbolsTable.dataRowsAndCols.contains(s))
+								handle = win->symbolsTable.dataRowsAndCols[s].first;
+					}
+				}
+			}
+			
+			if (handle)
+				returnPtr->append(handle);
 		}
 
 		if (s)
@@ -1896,6 +1962,11 @@ namespace Tinkercell
 	{
 		return fToS.find(c);
 	}
+	
+	Array MainWindow::_findItems(char** c)
+	{
+		return fToS.findItems(c);
+	}
 
 	void MainWindow::_select(OBJ o)
 	{
@@ -2147,6 +2218,20 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		return p;
+	}
+	
+	Array MainWindow_FtoS::findItems(char** c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QList<ItemHandle*>* p = new QList<ItemHandle*>;
+		s->acquire();
+		emit findItems(s,p,ConvertValue(c));
+		s->acquire();
+		s->release();
+		delete s;
+		Array A = ConvertValue(*p);
+		delete p;
+		return A;
 	}
 
 	void MainWindow_FtoS::select(OBJ o)
@@ -2752,6 +2837,9 @@ namespace Tinkercell
 	void MainWindow::connectTCFunctions()
 	{
 		connect(&fToS,SIGNAL(find(QSemaphore*,ItemHandle**,const QString&)),this,SLOT(findItem(QSemaphore*,ItemHandle**,const QString&)));
+		connect(&fToS,SIGNAL(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)),
+				this,SLOT(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)));
+		
 		connect(&fToS,SIGNAL(select(QSemaphore*,ItemHandle*)),this,SLOT(select(QSemaphore*,ItemHandle*)));
 		connect(&fToS,SIGNAL(deselect(QSemaphore*)),this,SLOT(deselect(QSemaphore*)));
 		connect(&fToS,SIGNAL(allItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(allItems(QSemaphore*,QList<ItemHandle*>*)));
@@ -2824,6 +2912,7 @@ namespace Tinkercell
 		Array (*tc_itemsOfFamily0)(const char*),
 		Array (*tc_itemsOfFamily1)(const char*,Array),
 		OBJ (*tc_find0)(const char*),
+		Array (*tc_finds0)(char**),
 		void (*tc_select0)(OBJ),
 		void (*tc_deselect0)(),
 		char* (*tc_getName0)(OBJ),
@@ -2892,6 +2981,7 @@ namespace Tinkercell
 				&(_itemsOfFamily),
 				&(_itemsOfFamily2),
 				&(_find),
+				&(_findItems),
 				&(_select),
 				&(_deselect),
 				&(_getName),

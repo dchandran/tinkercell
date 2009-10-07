@@ -28,6 +28,11 @@ Array (*tc_itemsOfFamilyFrom)(const char* family, Array itemsToSelectFrom) = 0;
 */
 OBJ (*tc_find)(const char* fullname) = 0;
 /*! 
+ \brief get all items with the given names (full names)
+ \ingroup Get items
+*/
+Array (*tc_findItems)(char** names) = 0;
+/*! 
  \brief select an item
  \ingroup Get items
 */
@@ -257,6 +262,7 @@ void tc_Main_api_initialize(
 		Array (*tc_itemsOfFamily0)(const char*),
 		Array (*tc_itemsOfFamily1)(const char*, Array),
 		OBJ (*tc_find0)(const char*),
+		Array (*tc_findItems0)(char**),
 		void (*tc_select0)(OBJ),
 		void (*tc_deselect0)(),
 		char* (*tc_getName0)(OBJ),
@@ -318,6 +324,7 @@ void tc_Main_api_initialize(
 	tc_itemsOfFamily = tc_itemsOfFamily0;
 	tc_itemsOfFamilyFrom = tc_itemsOfFamily1;
 	tc_find = tc_find0;
+	tc_findItems = tc_findItems0;
 	tc_select = tc_select0;
 	tc_deselect = tc_deselect0;
 	tc_getName = tc_getName0;

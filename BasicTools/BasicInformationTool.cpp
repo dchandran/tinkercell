@@ -106,8 +106,6 @@ namespace Tinkercell
 	
 		Tool::setMainWindow(main);
 		
-		ConsoleWindow::message("here 1");
-
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
@@ -127,7 +125,7 @@ namespace Tinkercell
 			setWindowTitle(name);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 			
-			if (mainWindow->settingsMenu)
+			if (mainWindow->settingsMenu && type == numerical)
 			{
 				mainWindow->settingsMenu->addSeparator();
 				mainWindow->settingsMenu->addAction(tr("Set initial value"),this,SLOT(setInitialValue()));
@@ -1159,7 +1157,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size() && i < dat.rows(); ++i)
 			{
 				handle = handles.at(i);
-				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (NodeHandle::asNode(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					dataTable = new DataTable<qreal>(handle->data->numericalData[tr("Initial Value")]);
 					dataTable->value(0,0) = dat.at(i,0);

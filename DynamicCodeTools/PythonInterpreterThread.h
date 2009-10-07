@@ -13,6 +13,7 @@
 #define TINKERCELL_PYTHONINTERPRETERTHREAD_H
 
 #include <QQueue>
+#include <QLibrary>
 #include <QSemaphore>
 #include <QThread>
 #include <QString>
@@ -41,6 +42,8 @@ namespace Tinkercell
 		virtual ~PythonInterpreterThread();
 		void setCPointers();
 		QString outputFile;
+		
+		static QLibrary * pythonLibrary;
 		
 	public slots:
 		void initialize();

@@ -82,7 +82,7 @@ namespace Tinkercell
 	private:
 		static PythonTool_FToS fToS;
 		static void _runPythonCode(const char*);
-                static void _runPythonFile(const char*);
+        static void _runPythonFile(const char*);
 	};
 }
 

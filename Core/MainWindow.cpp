@@ -309,6 +309,7 @@ namespace Tinkercell
 
 		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
 		emit windowOpened(subWindow);
+		emit windowChanged(subWindow);
 	}
 
 	void MainWindow::newTextWindow()
@@ -324,6 +325,7 @@ namespace Tinkercell
 
 		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
 		emit windowOpened(subWindow);
+		emit windowChanged(subWindow);
 	}
 
 	void MainWindow::changeView()

@@ -19,8 +19,8 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 		return NULL;
 
 	isList = 1;
-	n = 1;
-	if (pylist)
+	n = 0;
+	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
 	{
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
@@ -93,8 +93,8 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 		return NULL;
 
 	isList = 1;
-	n = 1;
-	if (pylist)
+	n = 0;
+	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
 	{
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
@@ -165,8 +165,8 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 		return NULL;
 
 	isList = 1;
-	n = 1;
-	if (pylist)
+	n = 0;
+	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
 	{
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
@@ -227,7 +227,7 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 	int i;
 	PyObject * pylist = 0, *item;
 	int isList = 1;
-	int n = 1;
+	int n = 0;
 	PyObject * params, *values, *twoTuples;
 	Matrix M;
 	void ** array;
@@ -237,7 +237,7 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 		(tc_allItems == 0))
 		return NULL;
 
-	if (pylist)
+	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
 	{
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
@@ -297,7 +297,7 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 	int i;
 	PyObject * pylist = 0, *item;
 	int isList = 1;
-	int n = 1;
+	int n = 0;
 	Matrix M;
 	PyObject * params, *values, *twoTuples;
 	void ** array;
@@ -307,7 +307,7 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 		(tc_allItems == 0))
 		return NULL;
 
-	if (pylist)
+	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
 	{
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
@@ -399,18 +399,24 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 	Matrix M;
 	void ** array1;
 	char ** array2;
-	int i, n1, n2, isList1, isList2;
+	int i = 0, n1 = 0, n2 = 0, isList1, isList2;
 	PyObject * pylist1, * pylist2, *item;
 	
 	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) ||
 		(tc_getParametersNamed == 0))
 		return NULL;
 
-	isList1 = PyList_Check(pylist1);
-	n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
+	{
+		isList1 = PyList_Check(pylist1);
+		n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	}
 
-	isList2 = PyList_Check(pylist2);
-	n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	if (PyList_Check(pylist2) || PyTuple_Check(pylist2))
+	{
+		isList2 = PyList_Check(pylist2);
+		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	}
 
 	if (n1 > 0 && n2 > 0)
 	{
@@ -470,18 +476,24 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 	Matrix M;
 	void ** array1;
 	char ** array2;
-	int isList1, isList2, n1, n2,i;
+	int isList1, isList2, n1 = 0, n2 = 0, i = 0;
 	PyObject * pylist1, * pylist2, *item;
 
 	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) ||
 		(tc_getParametersExcept == 0))
 		return NULL;
 
-	isList1 = PyList_Check(pylist1);
-	n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
+	{
+		isList1 = PyList_Check(pylist1);
+		n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	}
 
-	isList2 = PyList_Check(pylist2);
-	n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	if (PyList_Check(pylist2) || PyTuple_Check(pylist2))
+	{
+		isList2 = PyList_Check(pylist2);
+		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	}
 
 	if (n1 > 0 && n2 > 0)
 	{
@@ -537,7 +549,7 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 {
-	int i, isList1, isList2, n1, n2;
+	int i, isList1, isList2, n1 = 0, n2 = 0;
 	int len;
 	char ** M, **array2;
 	void **array1;
@@ -548,11 +560,17 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 		(tc_getAllTextNamed == 0))
 		return NULL;
 
-	isList1 = PyList_Check(pylist1);
-	n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
+	{
+		isList1 = PyList_Check(pylist1);
+		n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	}
 
-	isList2 = PyList_Check(pylist2);
-	n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	if (PyList_Check(pylist2) || PyTuple_Check(pylist2))
+	{
+		isList2 = PyList_Check(pylist2);
+		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	}
 	
 	if (n1 > 0 && n2 > 0)
 	{
@@ -635,3 +653,77 @@ static PyObject * pytc_setParameter(PyObject *self, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;
 }
+
+static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
+{
+	double d = 0.0;
+	PyObject *pylist1, * pylist2, *item;
+	int i = 0, v = 0, isList1, isList2, n1=0, n2=0, len = 0;
+	void ** array = 0;
+	Matrix M;
+	
+	M.cols = 1;
+	M.colnames = 0;
+	M.rownames = 0;
+
+	if (!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) || !tc_setInitialValues)
+		return NULL;
+
+	if (PyInt_Check(pylist1))
+	{
+		i = (int)PyInt_AsLong(pylist1);
+		if (PyFloat_Check(pylist2))
+		{
+			d = (double)PyFloat_AsDouble(pylist2);
+			M.rows = 1;
+			M.values = (double*)malloc(1 * sizeof(double));
+			M.values[0] = d;
+			array = malloc(2 * sizeof(void*));
+			array[0] = (void*)(i);
+			array[1] = 0;
+			tc_setInitialValues(array,M);
+			free(M.values);
+			free(array);			
+		}
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
+	
+	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
+	{
+		isList1 = PyList_Check(pylist1);
+		n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
+	}
+	
+	if (PyList_Check(pylist2) || PyTuple_Check(pylist2))
+	{
+		isList2 = PyList_Check(pylist2);
+		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
+	}
+	
+	if (n1 > n2) n2 = n1;
+	if (n2 > n1) n1 = n2;
+	
+	if (n1 > 0)
+	{
+		M.rows = n1;
+		M.values = malloc(n1 * sizeof(double*));
+		array = malloc( (1+n1) * sizeof(void*) );
+		array[n1] = 0;
+
+		for(i=0; i < n1; ++i ) 
+		{ 
+			array[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
+			M.values[i] = isList2 ? (double)(PyFloat_AsDouble( PyList_GetItem( pylist2, i ) )) : (double)(PyFloat_AsDouble( PyList_GetItem( pylist2, i ) ));
+		}
+
+		tc_setInitialValues(array,M);
+		
+		free(array);
+		free(M.values);
+	}
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+

@@ -6,30 +6,36 @@
 static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int isList, N, len, i;
-	void ** array;
+	int isList, N=0, len, i;
+	void ** array=0;
 	PyObject *strlist;
 	PyObject * item;
-	char ** names;
+	char ** names=0;
 	
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getEventTriggers == 0))
 	{
 		return NULL;
 	}
 	
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	
-	array = malloc( (1+N) * sizeof(void*) );
-	array[N] = 0;
-	
-    for(i=0; i<N; ++i ) 
-    { 
-		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-    } 
-	
- 	names = tc_getEventTriggers(array);
-	free(array);
+	if (N > 0)
+	{
+		array = malloc( (1+N) * sizeof(void*) );
+		array[N] = 0;
+		
+		for(i=0; i<N; ++i ) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		} 
+		
+		names = tc_getEventTriggers(array);
+		free(array);
+	}
 	
 	if (names)
 	{
@@ -57,31 +63,36 @@ static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 static PyObject * pytc_getEventResponses(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int isList, N, i, len;
-	void ** array;
+	int isList, N=0, i, len;
+	void ** array=0;
 	PyObject *strlist;
 	PyObject * item;
-	char ** names;
+	char ** names=0;
 	
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getEventResponses == 0))
 	{
 		return NULL;
 	}
 	
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	
-	array = malloc( (1+N) * sizeof(void*) );
-	array[N] = 0;
-	
-	for(i=0; i<N; ++i ) 
-    { 
-		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-    } 
-	
- 	names = tc_getEventResponses(array);
-	free(array);
-	
+	if (N > 0)
+	{
+		array = malloc( (1+N) * sizeof(void*) );
+		array[N] = 0;
+		
+		for(i=0; i<N; ++i ) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		} 
+		
+		names = tc_getEventResponses(array);
+		free(array);
+	}
 	if (names)
 	{
 		len = 0;
@@ -121,31 +132,36 @@ static PyObject * pytc_addEvent(PyObject *self, PyObject *args)
 static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int isList, N, i, len;
-	void ** array;
+	int isList, N=0, i, len;
+	void ** array=0;
 	char ** names;
 	PyObject *strlist;
-	PyObject * item;
+	PyObject * item=0;
 	
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getForcingFunctionNames == 0))
 	{
 		return NULL;
 	}
 	
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	
-	array = malloc( (1+N) * sizeof(void*) );
-	array[N] = 0;
-	
-    for(i=0; i<N; ++i ) 
-    { 
-		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-    } 
-	
- 	names = tc_getForcingFunctionNames(array);
-	free(array);
-	
+	if (N>0)
+	{
+		array = malloc( (1+N) * sizeof(void*) );
+		array[N] = 0;
+		
+		for(i=0; i<N; ++i ) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		} 
+		
+		names = tc_getForcingFunctionNames(array);
+		free(array);
+	}
 	if (names)
 	{
 		len = 0;
@@ -172,9 +188,9 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int isList, N, i, len;
-	void ** array;
-	char ** names;
+	int isList, N=0, i, len;
+	void ** array=0;
+	char ** names=0;
 	PyObject *strlist;
 	PyObject * item;
 	
@@ -183,19 +199,25 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 		return NULL;
 	}
 	
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	
-	array = malloc( (1+N) * sizeof(void*) );
-	array[N] = 0;
+	if (N > 0)
+	{
+		array = malloc( (1+N) * sizeof(void*) );
+		array[N] = 0;
 
-	for(i=0; i<N; ++i ) 
-    { 
-		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-    } 
-	
- 	names = tc_getForcingFunctionAssignments(array);
-	free(array);
+		for(i=0; i<N; ++i ) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		} 
+		
+		names = tc_getForcingFunctionAssignments(array);
+		free(array);
+	}
 	
 	if (names)
 	{

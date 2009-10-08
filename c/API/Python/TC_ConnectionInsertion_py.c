@@ -8,18 +8,24 @@ static PyObject * pytc_insertConnection(PyObject *self, PyObject *args)
 	PyObject * partsFrom, * partsTo;
 	char * s;
 	char * f = "Connection\0";
-	int isList1, n1, isList2, n2, i;
+	int isList1, n1=0, isList2, n2=0, i;
 	void * o = 0, ** array1, **array2;
 
 	if(!PyArg_ParseTuple(args, "OOs|s", &partsFrom, &partsTo, &s, &f) ||
 		(tc_insertConnection == 0))
 		return NULL;
 
-	isList1 = PyList_Check(partsFrom);
-	n1 = isList1 ? PyList_Size(partsFrom) : PyTuple_Size (partsFrom);
+	if (PyList_Check(partsFrom) || PyTuple_Check(partsFrom))
+	{
+		isList1 = PyList_Check(partsFrom);
+		n1 = isList1 ? PyList_Size(partsFrom) : PyTuple_Size (partsFrom);
+	}
 
-	isList2 = PyList_Check(partsTo);
-	n2 = isList2 ? PyList_Size(partsTo) : PyTuple_Size (partsTo);
+	if (PyList_Check(partsTo) || PyTuple_Check(partsTo))
+	{
+		isList2 = PyList_Check(partsTo);
+		n2 = isList2 ? PyList_Size(partsTo) : PyTuple_Size (partsTo);
+	}
 
 	o = 0;
 

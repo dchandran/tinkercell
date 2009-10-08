@@ -71,7 +71,7 @@ namespace Tinkercell
 		setUndoRedoEnabled ( false );
 		
 		
-		setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
+		setTextInteractionFlags(Qt::TextEditorInteraction);
 
 
 		setCursorWidth(2);
@@ -276,11 +276,10 @@ namespace Tinkercell
 			{
 				cursor.setCharFormat(normalFormat);	
 				cursor.insertText(ConsoleWindow::Prompt);
-				cursor.movePosition(QTextCursor::EndOfBlock);
 			}
-			if (cursor.position() > currentPosition)
-				currentPosition = cursor.position();
 			cursor.movePosition(QTextCursor::EndOfBlock);
+			if (cursor.position() > currentPosition)
+				currentPosition = cursor.position();			
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
@@ -329,6 +328,7 @@ namespace Tinkercell
 						emit commandInterrupted();
 					}
 					else
+					{
 						if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right 
 							|| key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_End || key == Qt::Key_Home
 							|| !(	frozen 
@@ -339,18 +339,20 @@ namespace Tinkercell
 						{
 							QString completionPrefix = textUnderCursor();
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E
+							
 							if (!c || !isShortcut) // dont process the shortcut when we have a completer
+							{
 								QTextEdit::keyPressEvent(event);
+							}
+							
+							if (key == Qt::Key_Home)							
+								cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());							
 
 							const bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 							if (!c || (ctrlOrShift && event->text().isEmpty()))
 							{
 								if (cursor.position() < currentPosition)
 									cursor.setPosition(currentPosition);
-								if (key == Qt::Key_Home)
-								{
-									cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());
-								}
 								this->ensureCursorVisible();
 								return;
 							}
@@ -378,7 +380,7 @@ namespace Tinkercell
 								+ c->popup()->verticalScrollBar()->sizeHint().width());
 							c->complete(cr);
 						}
-
+					}
 						if (cursor.position() < currentPosition)
 							cursor.setPosition(currentPosition);
 						this->ensureCursorVisible();

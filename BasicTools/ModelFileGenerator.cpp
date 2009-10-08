@@ -657,15 +657,15 @@ namespace Tinkercell
 						pymodel << "TCparams = " << QString::number(trueParams.size()) << ";\n";
 
 						//variable names
-						cmodel << "char * TCvarnames[] = {\"" << N.getRowNames().join("\",\"") << "\"};\n\n";
+						cmodel << "char * TCvarnames[] = {\"" << N.getRowNames().join("\",\"") << "\",0};\n\n";
 						pymodel << "TCvarnames = (\"" << N.getRowNames().join("\",\"") << "\");\n\n";
 
 						//reaction names
-						cmodel << "char * TCreactionnames[] = {\"" << N.getColNames().join("\",\"") << "\"};\n\n";
+						cmodel << "char * TCreactionnames[] = {\"" << N.getColNames().join("\",\"") << "\",0};\n\n";
 						pymodel << "TCreactionnames = (\"" << N.getColNames().join("\",\"") << "\");\n\n";
 
 						//param names
-						cmodel << "char * TCparamnames[] = {\"" << trueParams.join("\",\"") << "\"};\n\n";
+						cmodel << "char * TCparamnames[] = {\"" << trueParams.join("\",\"") << "\",0};\n\n";
 						pymodel << "TCparamnames = (\"" << trueParams.join("\",\"") << "\");\n\n";
 
 						cmodel << "double TCinit[" << QString::number(N.rows()) << "];\n";

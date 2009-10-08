@@ -9,7 +9,7 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 	PyObject * colNames, * values, *item;
 	int xaxis = 0, opt = 1;
 	char * title = "";
-	int isList1,n1,isList2,n2;
+	int isList1,n1=0,isList2,n2=0;
 	int n3, isList3, rows;
 	char ** cols;
 	int i,j;
@@ -19,11 +19,17 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "OO|isi", &colNames, &values, &xaxis, &title, &opt))
         return NULL;
 	
-	isList1 = PyList_Check(colNames);
-	n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	{
+		isList1 = PyList_Check(colNames);
+		n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	}
 	
-	isList2 = PyList_Check(values);
-	n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	if (PyList_Check(values) || PyTuple_Check(values))
+	{
+		isList2 = PyList_Check(values);
+		n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	}
 	
 	rows = 0;
 	
@@ -41,10 +47,14 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 		for(i=0; i<n2; ++i) 
 		{ 
 			item = isList2 ? (PyList_GetItem( values, i ) ) : ( PyTuple_GetItem( values, i ) );
-			isList3 = PyList_Check(item);
-			n3 = isList3 ? PyList_Size(item) : PyTuple_Size (item);
 			
-			if (n3 < rows || rows == 0) rows = n3;
+			if (PyList_Check(item) || PyTuple_Check(item))
+			{
+				isList3 = PyList_Check(item);
+				n3 = isList3 ? PyList_Size(item) : PyTuple_Size (item);
+			
+				if (n3 < rows || rows == 0) rows = n3;
+			}
 		}
 		
 		nums = malloc( n1 * rows * sizeof(double) );
@@ -85,7 +95,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 	PyObject * colNames, * values, *item;
 	char * title = "", **cols;
 	double x0,x1,y0,y1;
-	int isList1, n1, isList2, n2, isList3, n3, rows;
+	int isList1, n1=0, isList2, n2=0, isList3, n3=0, rows;
 	int i,j;
 	double * nums;
 	Matrix M;
@@ -93,11 +103,18 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "OOdddd|s", &colNames, &values, &x0, &x1, &y0, &y1, &title))
         return NULL;
 	
-	isList1 = PyList_Check(colNames);
-	n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	{
+		isList1 = PyList_Check(colNames);
+		n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	}
 	
-	isList2 = PyList_Check(values);
-	n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	{
+		isList2 = PyList_Check(values);
+		n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	}
+	
 	rows = 0;
 	
 	if (n1 == 3 && n2 > 0)
@@ -165,10 +182,9 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 	PyObject * nlist, *clist;
 
 	if(!PyArg_ParseTuple(args, "|i", &i) || (tc_plotData == 0))
-        	return NULL;
+        return NULL;
 	
 	M = tc_plotData(i);
-	
 	
 	if (M.rows > 0 && M.cols > 0 && M.colnames && M.values)
 	{
@@ -215,7 +231,7 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 	int i=-1;
 	PyObject * pylist = 0;
 	void ** A = 0;
-	int isList, N, k;
+	int isList, N=0, k;
 	FILE * out;
 	char * appDir, * cmd;
 	int sz;
@@ -225,8 +241,11 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 	
 	if (pylist)
 	{
-		isList = PyList_Check(pylist);
-		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		if (PyList_Check(pylist) || PyTuple_Check(pylist))
+		{
+			isList = PyList_Check(pylist);
+			N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		}
 	
 		if (N > 0)
 		{
@@ -281,8 +300,6 @@ int run(Matrix input) \n\
    free(y); free(J);\n\
    return 1;\n}\n", 1.0E-5, 1000000.0, 2.0);
    fclose(out);
-   
-   
 
    appDir = tc_appDir();
 
@@ -293,11 +310,11 @@ int run(Matrix input) \n\
 
    if (tc_isWindows())
    {
-       sprintf(cmd,"\"%s\"/c/odesim.o ode.c -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir);
+       sprintf(cmd,"odesim.o ode.c\0");
    }
    else
    {
-       sprintf(cmd,"ode.c -I%s/c -L%s/lib -lodesim\0",appDir,appDir);
+       sprintf(cmd,"ode.c -lodesim\0",appDir,appDir);
    }
    tc_compileBuildLoad(cmd,"run\0","Jacobian\0");
    

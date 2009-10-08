@@ -91,7 +91,7 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 	char * s;
 	char * s0 = "";
 	PyObject * pylist;
-	int isList, n , j = -1, i = 0;
+	int isList, n=0 , j = -1, i = 0;
 	char ** array;
 
 	int k = 1;
@@ -99,8 +99,11 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "sO|si", &s, &pylist,&s0,&k) || (tc_getFromList == 0))
 		return NULL;
 
-	isList = PyList_Check(pylist);
-	n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	j = -1;
 	i = 0;
 
@@ -137,15 +140,18 @@ static PyObject * pytc_getNumbers(PyObject *self, PyObject *args)
 {
 	PyObject *pylist, *item,* pylist2;
 	double * values;
-	int isList, n, i;
+	int isList, n=0, i;
 	char ** array;
 
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getNumbers == 0))
 		return NULL;
 
-	isList = PyList_Check(pylist);
-	n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
-	if (n)
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
+	if (n > 0)
 	{
 		array = malloc( (1+n) * sizeof(char*) );
 		array[n] = 0;

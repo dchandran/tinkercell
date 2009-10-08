@@ -29,6 +29,7 @@ int functionMissing()
 		!tc_print ||
 		!tc_getFromList ||
 		!tc_compileBuildLoad ||
+		!tc_setInitialValues ||
 		!tc_plot ||
 		!tc_isWindows)
 
@@ -62,8 +63,8 @@ void setup()
 	m.values = values;
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
-	tc_addInputWindowOptions("ODE Simulation (CVODE)",0, 0,  options1);
-	tc_addInputWindowOptions("ODE Simulation (CVODE)",3, 0,  options2);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  options1);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  options2);
 
 	return; 
 }
@@ -157,6 +158,7 @@ void run(Matrix input)
 					\n\
 					void run() \n\
 					{\n\
+						int i,j;\n\
 					    Array A;\n\
 						Matrix data,ss;\n\
 						char ** names;\n\
@@ -170,7 +172,22 @@ void run(Matrix input)
 							return;\n\
 						}\n\
 						data.rows = %i;\n\
+						data.cols = (TCvars+1);\n\
+						data.values = y;\n\
 						names = TCvarnames;\n\
+						ss.rownames = 0;\n\
+				        ss.colnames = 0;\n\
+				        ss.values = malloc(TCvars * sizeof(double));\n\
+				        ss.rows = TCvars;\n\
+				        ss.cols = 1;\n\
+						for (i=0; i < TCvars; ++i)\n\
+				        {\n\
+				           valueAt(ss,i,0) = valueAt(data,(data.rows-1),i+1);\n\
+				        }\n\
+						A = tc_findItems(TCvarnames);\n\
+						tc_setInitialValues(A,ss);\n\
+				        free(A);\n\
+						free(ss.values);\n\
 						if (%i)\n\
 						{\n\
 							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
@@ -184,20 +201,7 @@ void run(Matrix input)
 						data.rownames = 0;\n\
 						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
 						data.colnames[0] = \"time\\0\";\n\
-						int i,j;\n\
 						for (i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-						ss.rownames = 0;\n\
-				        ss.colnames = 0;\n\
-				        ss.values = malloc(TCvars * sizeof(double));\n\
-				        ss.rows = data.cols-1;\n\
-				        ss.cols = 1;\n\
-				        for (i=1; i < data.cols; ++i)\n\
-				        {\n\
-				           valueAt(ss,i-1,0) = valueAt(data,(data.rows-1),i);\n\
-				        }\n\
-				        A = tc_findItems(TCvarnames);\n\
-				        tc_setInitialValues(A,ss);\n\
-				        free(ss.values);\n\
 						FILE * out = fopen(\"ode.tab\",\"w\");\n\
 						for (i=0; i < data.cols; ++i)\n\
 						{\n\

@@ -119,7 +119,7 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 	char * s;
 	PyObject * pylist1 = 0;
 	PyObject *pylist, *item;
-	int i = 0, isList, N, len = 0;
+	int i = 0, isList, N=0, len = 0;
 	void ** array = 0, ** array1; 
 
 	if(!PyArg_ParseTuple(args, "s|O", &s,&pylist1))
@@ -127,18 +127,24 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 
 	if (pylist1 && tc_itemsOfFamilyFrom)
 	{
-		isList = PyList_Check(pylist1);
-		N = isList ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
-
-		array1 = malloc( (1+N) * sizeof(void*) );
-		array1[N] = 0;
-
-		for(i=0; i<N; ++i ) 
-		{ 
-			array1[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
+		if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
+		{
+			isList = PyList_Check(pylist1);
+			N = isList ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
 		}
+		
+		if (N > 0)
+		{
+			array1 = malloc( (1+N) * sizeof(void*) );
+			array1[N] = 0;
 
-		array = tc_itemsOfFamilyFrom(s,array1);
+			for(i=0; i<N; ++i ) 
+			{ 
+				array1[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
+			}
+
+			array = tc_itemsOfFamilyFrom(s,array1);
+		}
 	}
 	else
 	{
@@ -170,18 +176,65 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 
 static PyObject * pytc_find(PyObject *self, PyObject *args)
 {
-	char * s;
+	char * s = 0;
 	void * o = 0;
+	PyObject *pylist, *outlist, *item;
+	int i = 0, isList, N=0, len = 0;
+	void ** array = 0;
+	char ** names=0; 
 
-	if(!PyArg_ParseTuple(args, "s", &s))
+	if (!PyArg_ParseTuple(args, "O", &pylist) || !tc_find || !tc_findItems)
 		return NULL;
 
-
-	if (tc_find)
+	if (PyString_Check(pylist))
+		s = PyString_AsString(pylist);
+	
+	if (s)
+	{
 		o = tc_find(s);
+		return Py_BuildValue("i", (int)o);	 
+	}
+	else
+	{
+		if (PyList_Check(pylist) || PyTuple_Check(pylist))
+		{
+			isList = PyList_Check(pylist);
+			N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		}
+		
+		if (N > 0)
+		{
+			names = malloc( (1+N) * sizeof(char*) );
+			names[N] = 0;
 
-	return Py_BuildValue("i", (int)o);	 
+			for(i=0; i<N; ++i ) 
+			{ 
+				names[i] = isList ? PyString_AsString( PyList_GetItem( pylist, i ) ) : PyString_AsString( PyTuple_GetItem( pylist, i ) );
+			}
 
+			array = tc_findItems(names);
+			free(names);
+		}
+		
+		if (array)
+		{
+			len = 0;
+			while (array[len] != 0) ++len;
+
+			outlist = PyTuple_New(len);
+
+			for (i=0; i<len; ++i) 
+			{
+				item = Py_BuildValue("i",(int)(array[i]));
+				PyTuple_SetItem(outlist, i, item);
+			}
+			free(array);
+			return outlist;
+		}
+	}
+
+	outlist =  PyTuple_New(0);
+	return outlist;	 
 }
 
 static PyObject * pytc_select(PyObject *self, PyObject *args)
@@ -257,30 +310,36 @@ static PyObject * pytc_getNames(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
 	int isList;
-	int N;
-	void ** array;
+	int N=0;
+	void ** array=0;
 	int i;
-	char ** names;
+	char ** names=0;
 	PyObject *strlist;
 	PyObject * item;
 	
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getNames == 0))
 		return NULL;
 
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
-	
-	array = malloc( (1+N) * sizeof(void*) );
-	array[N] = 0;
-
-	for(i=0; i<N; ++i ) 
-	{ 
-		array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
+	
+	if (N > 0)
+	{
+		array = malloc( (1+N) * sizeof(void*) );
+		array[N] = 0;
 
-	names = tc_getNames(array);
-	free(array);
+		for(i=0; i<N; ++i ) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		}
 
+		names = tc_getNames(array);
+		free(array);
+	}
+	
 	if (names)
 	{
 		int len = 0;
@@ -427,7 +486,7 @@ static PyObject * pytc_appDir(PyObject *self, PyObject *args)
 static PyObject * pytc_createInputWindow(PyObject *self, PyObject *args)
 {
 	//inputs: array of strings (row names), array of doubles (def. values), array of strings (options), lib filename, lib function name, title
-	int isList1, rows1, isList2, rows2;
+	int isList1, rows1=0, isList2, rows2=0;
 	PyObject * rownames, * values;
 	char *filename, *funcname, *title;
 	int i;
@@ -437,11 +496,23 @@ static PyObject * pytc_createInputWindow(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "OOsss", &rownames, &values, &filename, &funcname, &title))
 		return NULL;
 
-	isList1 = PyList_Check(rownames);
-	rows1 = isList1 ? PyList_Size(rownames) : PyTuple_Size (rownames);
-
-	isList2 = PyList_Check(values);
-	rows2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	if (PyList_Check(rownames) || PyTuple_Check(rownames))
+	{
+		isList1 = PyList_Check(rownames);
+		rows1 = isList1 ? PyList_Size(rownames) : PyTuple_Size (rownames);
+	}
+	
+	if (PyList_Check(values) || PyTuple_Check(values))
+	{
+		isList2 = PyList_Check(values);
+		rows2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	}
+	
+	if (rows1 < 1 || rows2 < 1) 
+	{
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
 
 	if (rows2 > rows1) rows2 = rows1;
 	if (rows2 < rows1) rows1 = rows2;
@@ -481,13 +552,22 @@ static PyObject * pytc_addInputWindowOptions(PyObject *self, PyObject *args)
 
 	PyObject * options;
 	char *title, **coptions;
-	int i,j, isList3, rows3;
+	int i,j, isList3, rows3=0;
 
 	if(!PyArg_ParseTuple(args, "siiO",&title, &i, &j, &options))
 		return NULL;
 
-	isList3 = PyList_Check(options);
-	rows3 = isList3 ? PyList_Size(options) : PyTuple_Size (options);
+	if (PyList_Check(options) || PyTuple_Check(options))
+	{
+		isList3 = PyList_Check(options);
+		rows3 = isList3 ? PyList_Size(options) : PyTuple_Size (options);
+	}
+	
+	if (rows3 < 1)
+	{
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
 
 	coptions = malloc( (1+rows3) * sizeof(char*) );
 	coptions[rows3] = 0;
@@ -912,7 +992,7 @@ static PyObject * pytc_getNumericalDataMatrix(PyObject *self, PyObject *args)
 
 static PyObject * pytc_setPosMulti(PyObject *self, PyObject *args)
 {
-	int isList1, n1, isList2, n2;
+	int isList1, n1=0, isList2, n2=0;
 	int n3, isList3, rows;
 	int i,j;
 	PyObject * items, * values, *item;
@@ -923,11 +1003,17 @@ static PyObject * pytc_setPosMulti(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "OO", &items, &values) || (tc_setPosMulti == 0))
 		return NULL;
 
-	isList1 = PyList_Check(items);
-	n1 = isList1 ? PyList_Size(items) : PyTuple_Size (items);
+	if (PyList_Check(items) || PyTuple_Check(items))
+	{
+		isList1 = PyList_Check(items);
+		n1 = isList1 ? PyList_Size(items) : PyTuple_Size (items);
+	}
 
-	isList2 = PyList_Check(values);
-	n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	if (PyList_Check(values) || PyTuple_Check(values))
+	{
+		isList2 = PyList_Check(values);
+		n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	}
 
 	rows = 0;
 
@@ -984,7 +1070,7 @@ static PyObject * pytc_setPosMulti(PyObject *self, PyObject *args)
 static PyObject * pytc_getPos(PyObject *self, PyObject *args)
 {
 	PyObject * pylist;
-	int i,j,isList,N,rows,cols;
+	int i,j,isList,N=0,rows,cols;
 	void ** array;
 	Matrix M;
 	PyObject * nlist;
@@ -993,8 +1079,11 @@ static PyObject * pytc_getPos(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "O", &pylist) || (tc_getPos == 0))
 		return NULL;
 
-	isList = PyList_Check(pylist);
-	N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList = PyList_Check(pylist);
+		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 
 	array = malloc( (1+N) * sizeof(void*) );
 	array[N] = 0;
@@ -1115,7 +1204,7 @@ static PyObject * pytc_setNumericalDataMatrix(PyObject *self, PyObject *args)
 	PyObject * colNames, * rowNames, * values, *item;
 	int object = 0;
 	char * title = "";
-	int isList1, n1, isList2, n2, isList3, n3;
+	int isList1, n1=0, isList2, n2=0, isList3, n3=0;
 	int n4, isList4, numRows;
 	int i,j;
 	char ** cols = 0;
@@ -1126,14 +1215,23 @@ static PyObject * pytc_setNumericalDataMatrix(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "sOOO|i", &title, &colNames, &rowNames, &values, &object))
 		return NULL;
 
-	isList1 = PyList_Check(colNames);
-	n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	{
+		isList1 = PyList_Check(colNames);
+		n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	}
 
-	isList2 = PyList_Check(rowNames);
-	n2 = isList2 ? PyList_Size(rowNames) : PyTuple_Size (rowNames);
+	if (PyList_Check(rowNames) || PyTuple_Check(rowNames))
+	{
+		isList2 = PyList_Check(rowNames);
+		n2 = isList2 ? PyList_Size(rowNames) : PyTuple_Size (rowNames);
+	}
 
-	isList3 = PyList_Check(values);
-	n3 = isList3 ? PyList_Size(values) : PyTuple_Size (values);
+	if (PyList_Check(values) || PyTuple_Check(values))
+	{
+		isList3 = PyList_Check(values);
+		n3 = isList3 ? PyList_Size(values) : PyTuple_Size (values);
+	}
 
 	numRows = 0;
 
@@ -1260,14 +1358,17 @@ static PyObject * pytc_setAnnotation(PyObject *self, PyObject *args)
 	//inputs: array of strings (row names), array of doubles (def. values), array of strings (options), lib filename, lib function name, title
 
 	PyObject * options;
-	int i,k,isList3,rows3;
+	int i,k,isList3,rows3=0;
 	char ** annotations;
 
 	if(!PyArg_ParseTuple(args, "iO",&k, &options))
 		return NULL;
 
-	isList3 = PyList_Check(options);
-	rows3 = isList3 ? PyList_Size(options) : PyTuple_Size (options);
+	if (PyList_Check(options) || PyTuple_Check(options))
+	{
+		isList3 = PyList_Check(options);
+		rows3 = isList3 ? PyList_Size(options) : PyTuple_Size (options);
+	}
 
 	annotations = malloc( (1+rows3) * sizeof(char*) );
 	annotations[rows3] = 0;

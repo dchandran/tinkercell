@@ -8,8 +8,8 @@ static PyObject * pytc_getStoichiometry(PyObject *self, PyObject *args)
 	PyObject * pylist = 0;
 	int o,i,j;
 	Matrix M;
-	int isList, N;
-	void ** array;
+	int isList, N=0;
+	void ** array=0;
 	PyObject *ilist;
 	PyObject * item, *rowItem;
 	PyObject * nlist, * clist , * rlist;
@@ -30,21 +30,28 @@ static PyObject * pytc_getStoichiometry(PyObject *self, PyObject *args)
     else
 	if (pylist)
 	{
-		isList = PyList_Check(pylist);
-		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		if (PyList_Check(pylist) || PyTuple_Check(pylist))
+		{
+			isList = PyList_Check(pylist);
+			N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		}
 		
-		array = malloc( (1+N) * sizeof(void*) );
-		array[N] = 0;
+		if (N > 0)
+		{
+			array = malloc( (1+N) * sizeof(void*) );
+			array[N] = 0;
 		
-		for(i=0; i<N; ++i ) 
-		{ 
-			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-		} 
-		
-		M = tc_getStoichiometry(array);
-		free(array);
+			for(i=0; i<N; ++i ) 
+			{ 
+				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+			} 
+			
+			M = tc_getStoichiometry(array);
+			free(array);
+		}
 	}
-	else
+	
+	if (array == 0)
 	{
 		array = tc_allItems();
 		M = tc_getStoichiometry(array);
@@ -102,8 +109,8 @@ static PyObject * pytc_getRates(PyObject *self, PyObject *args)
 {
 	PyObject * pylist = 0;
 	char ** rates = 0;
-	int isList, N;
-	void ** array;
+	int isList, N=0;
+	void ** array=0;
 	int i,len;
 	PyObject *strlist;
 	PyObject * item;
@@ -115,21 +122,28 @@ static PyObject * pytc_getRates(PyObject *self, PyObject *args)
 	
 	if (pylist)
 	{
-		isList = PyList_Check(pylist);
-		N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		if (PyList_Check(pylist) || PyTuple_Check(pylist))
+		{
+			isList = PyList_Check(pylist);
+			N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
+		}
 		
-		array = malloc( (1+N) * sizeof(void*) );
-		array[N] = 0;
-		
-		for(i=0; i<N; ++i ) 
-		{ 
-			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-		} 
-		
-		rates = tc_getRates(array);
-		free(array);
+		if (N > 0)
+		{
+			array = malloc( (1+N) * sizeof(void*) );
+			array[N] = 0;
+			
+			for(i=0; i<N; ++i ) 
+			{ 
+				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+			} 
+			
+			rates = tc_getRates(array);
+			free(array);
+		}
 	}
-	else
+	
+	if (array == 0)
 	{
 		array = tc_allItems();
 		rates = tc_getRates(array);
@@ -173,8 +187,8 @@ static PyObject * pytc_getRate(PyObject *self, PyObject *args)
 
 static PyObject * pytc_setRates(PyObject *self, PyObject *args)
 {
-	PyObject * pylist, * rates;
-	int isList1, rows1, isList2, rows2, i;
+	PyObject * pylist=0, * rates=0;
+	int isList1=0, rows1=0, isList2=0, rows2=0, i;
 	void ** array;
 	char ** crates;
 	
@@ -183,14 +197,26 @@ static PyObject * pytc_setRates(PyObject *self, PyObject *args)
 		return NULL;
 	}
 	
-	isList1 = PyList_Check(pylist);
-	rows1 = isList1 ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	if (PyList_Check(pylist) || PyTuple_Check(pylist))
+	{
+		isList1 = PyList_Check(pylist);
+		rows1 = isList1 ? PyList_Size(pylist) : PyTuple_Size (pylist);
+	}
 	
-	isList2 = PyList_Check(rates);
-	rows2 = isList2 ? PyList_Size(rates) : PyTuple_Size (rates);
+	if (PyList_Check(rates) || PyTuple_Check(rates))
+	{
+		isList2 = PyList_Check(rates);
+		rows2 = isList2 ? PyList_Size(rates) : PyTuple_Size (rates);
+	}
 	
 	if (rows2 > rows1) rows2 = rows1;
 	if (rows2 < rows1) rows1 = rows2;
+	
+	if (rows1 == 1 || rows2 < 1) 
+	{
+		Py_INCREF(Py_None);
+		return Py_None;
+	}
 	
 	array = malloc( (1+rows1) * sizeof(void*) );
 	array[rows1] = 0;

@@ -945,7 +945,7 @@ namespace Tinkercell
 				commands << new SetHandleVisibilityCommand(tr("set invisible"), handles[j], false);
 			}
 
-        ConnectionGraphicsItem::PathVector controlPoints;
+        ConnectionGraphicsItem::CurveSegment controlPoints;
 
         controlPoints += new ConnectionGraphicsItem::ControlPoint(point1,connection,link1);
         controlPoints += new ConnectionGraphicsItem::ControlPoint((point1+path.first())/2.0,connection);

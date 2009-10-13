@@ -684,7 +684,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						RemovePathVectorCommand * cmmd2 = new RemovePathVectorCommand("path removed",scene,p);
+						RemoveCurveSegmentCommand * cmmd2 = new RemoveCurveSegmentCommand("path removed",scene,p);
 						if (cmmd2->pathVectors.size() > 0)
 						{
 							if (scene->historyStack)

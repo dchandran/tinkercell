@@ -248,10 +248,10 @@ namespace Tinkercell
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,image));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 						
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile;
@@ -394,10 +394,10 @@ namespace Tinkercell
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,image));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
@@ -473,10 +473,10 @@ namespace Tinkercell
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily2,item);
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,image2));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image2));
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,image));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
@@ -620,10 +620,10 @@ namespace Tinkercell
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 					
 					item->pathVectors += 
-						ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,image));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");

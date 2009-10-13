@@ -305,7 +305,7 @@ namespace Tinkercell
 
 			connection->pathVectors.clear();
 
-			connection->pathVectors.append(ConnectionGraphicsItem::PathVector());
+			connection->pathVectors.append(ConnectionGraphicsItem::CurveSegment());
 
 			if (inputs == 1 && nodes.size() == 2)
 			{
@@ -366,7 +366,7 @@ namespace Tinkercell
 
 		setupMiddleSegment(connection, nodes, inputs);
 
-		ConnectionGraphicsItem::PathVector middlePiece = connection->pathVectors[0];
+		ConnectionGraphicsItem::CurveSegment middlePiece = connection->pathVectors[0];
 		connection->pathVectors.clear();
 
 		if (middlePiece.size() != 4) 
@@ -378,7 +378,7 @@ namespace Tinkercell
 
 		if (nodes.size() == 2)  //just two points to connect
 		{
-			ConnectionGraphicsItem::PathVector vector;
+			ConnectionGraphicsItem::CurveSegment vector;
 			center = nodes.at(0)->scenePos();
 			vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(0)->mapFromScene(pointOnEdge(nodes.at(0)->sceneBoundingRect(),(center + middlePiece[0]->scenePos()) * 0.5)), connection, nodes.at(0) ));
 			vector.append(middlePiece[1]);
@@ -398,7 +398,7 @@ namespace Tinkercell
 				center = nodes.at(i)->scenePos();
 				if (k < inputs)
 				{
-					ConnectionGraphicsItem::PathVector vector;
+					ConnectionGraphicsItem::CurveSegment vector;
 					QPointF p = pointOnEdge(nodes.at(i)->sceneBoundingRect(),(center + middlePiece[0]->scenePos()) * 0.5);
 					vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(i)->mapFromScene(p), connection, nodes.at(i) ));
 					vector.append(new ConnectionGraphicsItem::ControlPoint((p + middlePiece[0]->scenePos()) * 0.5,connection));
@@ -411,7 +411,7 @@ namespace Tinkercell
 				else
 				{
 
-					ConnectionGraphicsItem::PathVector vector;
+					ConnectionGraphicsItem::CurveSegment vector;
 					QPointF p = pointOnEdge(nodes.at(i)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5);
 					vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(i)->mapFromScene(p),connection, nodes.at(i)) );
 					vector.append(new ConnectionGraphicsItem::ControlPoint((p + middlePiece[3]->scenePos()) * 0.5,connection));

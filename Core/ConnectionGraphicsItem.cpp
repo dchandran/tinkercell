@@ -1329,7 +1329,7 @@ namespace Tinkercell
 					}
 
 					//controlPoint->graphicsItem = item;
-					while (item->pathVectors.size() <= k1) item->pathVectors.append(ConnectionGraphicsItem::PathVector());
+					while (item->pathVectors.size() <= k1) item->pathVectors.append(ConnectionGraphicsItem::CurveSegment());
 
 					if (item->pathVectors[k1].size() < k2) k2 = item->pathVectors[k1].size();
 
@@ -1558,7 +1558,7 @@ namespace Tinkercell
 			}
 	}
 
-	RemovePathVectorCommand::RemovePathVectorCommand(
+	RemoveCurveSegmentCommand::RemoveCurveSegmentCommand(
 		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem::ControlPoint* item)
 		: QUndoCommand(name)
@@ -1611,7 +1611,7 @@ namespace Tinkercell
 		}
 	}
 
-	RemovePathVectorCommand::RemovePathVectorCommand(
+	RemoveCurveSegmentCommand::RemoveCurveSegmentCommand(
 		const QString& name, GraphicsScene * scene, 
 		ConnectionGraphicsItem* connection,
 		QList<ConnectionGraphicsItem::ControlPoint*> items)
@@ -1643,7 +1643,7 @@ namespace Tinkercell
 
 	}
 
-	void RemovePathVectorCommand::undo()
+	void RemoveCurveSegmentCommand::undo()
 	{
 		if (connectionItem == 0) return;
 
@@ -1669,7 +1669,7 @@ namespace Tinkercell
 		connectionItem->refresh();
 	}
 
-	void RemovePathVectorCommand::redo()
+	void RemoveCurveSegmentCommand::redo()
 	{
 		if (connectionItem == 0) return;
 		int k;
@@ -1695,10 +1695,10 @@ namespace Tinkercell
 		connectionItem->refresh();
 	}
 
-	AddPathVectorCommand::AddPathVectorCommand(
+	AddCurveSegmentCommand::AddCurveSegmentCommand(
 		const QString& name, GraphicsScene * scene,
 		ConnectionGraphicsItem* connection,
-		ConnectionGraphicsItem::PathVector& item)
+		ConnectionGraphicsItem::CurveSegment& item)
 		: QUndoCommand(name)
 	{
 		pathVectors.clear();
@@ -1708,10 +1708,10 @@ namespace Tinkercell
 		pathVectors.append(item);
 	}
 
-	AddPathVectorCommand::AddPathVectorCommand(
+	AddCurveSegmentCommand::AddCurveSegmentCommand(
 		const QString& name, GraphicsScene * scene, 
 		ConnectionGraphicsItem* connection,
-		QList<ConnectionGraphicsItem::PathVector> items)
+		QList<ConnectionGraphicsItem::CurveSegment> items)
 		: QUndoCommand(name)
 	{
 		pathVectors.clear();
@@ -1722,7 +1722,7 @@ namespace Tinkercell
 
 	}
 
-	void AddPathVectorCommand::redo()
+	void AddCurveSegmentCommand::redo()
 	{
 		if (connectionItem == 0) return;
 
@@ -1738,7 +1738,7 @@ namespace Tinkercell
 		connectionItem->refresh();
 	}
 
-	void AddPathVectorCommand::undo()
+	void AddCurveSegmentCommand::undo()
 	{
 		if (connectionItem == 0) return;
 		int k;
@@ -1756,7 +1756,7 @@ namespace Tinkercell
 		connectionItem->refresh();
 	}
 
-	AddPathVectorCommand::~AddPathVectorCommand()
+	AddCurveSegmentCommand::~AddCurveSegmentCommand()
 	{
 		for (int i=0; i < pathVectors.size(); ++i)
 		{
@@ -2185,23 +2185,23 @@ namespace Tinkercell
 		}
 	}
 
-	ConnectionGraphicsItem::PathVector::PathVector() : QVector<ConnectionGraphicsItem::ControlPoint*>() 
+	ConnectionGraphicsItem::CurveSegment::CurveSegment() : QVector<ConnectionGraphicsItem::ControlPoint*>() 
 	{ 
 		arrowStart = arrowEnd = 0;
 	}
 
-	ConnectionGraphicsItem::PathVector::PathVector(int n) : QVector<ConnectionGraphicsItem::ControlPoint*>(n) 
+	ConnectionGraphicsItem::CurveSegment::CurveSegment(int n) : QVector<ConnectionGraphicsItem::ControlPoint*>(n) 
 	{ 
 		arrowStart = arrowEnd = 0;
 	}
 
-	ConnectionGraphicsItem::PathVector::PathVector(int n,ConnectionGraphicsItem::ControlPoint* p) 
+	ConnectionGraphicsItem::CurveSegment::CurveSegment(int n,ConnectionGraphicsItem::ControlPoint* p) 
 		: QVector<ConnectionGraphicsItem::ControlPoint*>(n,p) 
 	{ 
 		arrowStart = arrowEnd = 0;
 	}
 
-	ConnectionGraphicsItem::PathVector::PathVector(const ConnectionGraphicsItem::PathVector& copy) : 
+	ConnectionGraphicsItem::CurveSegment::CurveSegment(const ConnectionGraphicsItem::CurveSegment& copy) : 
 	QVector<ConnectionGraphicsItem::ControlPoint*>(copy) 
 	{ 
 		arrowStart = copy.arrowStart;

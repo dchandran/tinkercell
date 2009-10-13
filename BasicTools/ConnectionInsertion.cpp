@@ -416,7 +416,7 @@ namespace Tinkercell
 		{
 			center += selectedNodes[i]->scenePos();
 			item->pathVectors +=
-				ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
+				ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 
 			if (i >= numRequiredIn)
 			{
@@ -693,7 +693,7 @@ namespace Tinkercell
 					if (selectedConnections[j] && selectedConnections[j]->centerPoint())
 					{
 					QPointF p = 0.5*(selectedNodes[i]->scenePos() + selectedConnections[j]->centerPoint()->scenePos());
-					ConnectionGraphicsItem::PathVector pathVector(4);
+					ConnectionGraphicsItem::CurveSegment pathVector(4);
 					pathVector[0] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j],selectedNodes[i]);
 					pathVector[1] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j]);
 					pathVector[2] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j]);
@@ -708,7 +708,7 @@ namespace Tinkercell
 					arrow->scale(0.1,0.1);
 					pathVector.arrowEnd = arrow;
 
-					AddPathVectorCommand * command = new AddPathVectorCommand(tr("connection modified"),scene,selectedConnections[j],pathVector);
+					AddCurveSegmentCommand * command = new AddCurveSegmentCommand(tr("connection modified"),scene,selectedConnections[j],pathVector);
 					if (scene->historyStack)
 					scene->historyStack->push(command);
 					else
@@ -750,7 +750,7 @@ namespace Tinkercell
 						center += selectedNodes[i]->scenePos();
 						
 						item->pathVectors +=
-							ConnectionGraphicsItem::PathVector(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
+							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 
 						if (i >= numRequiredIn)
 						{

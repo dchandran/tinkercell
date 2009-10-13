@@ -178,18 +178,18 @@ namespace Tinkercell
 
 		/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/
-		class MY_EXPORT PathVector : public QVector<ConnectionGraphicsItem::ControlPoint*>
+		class MY_EXPORT CurveSegment : public QVector<ConnectionGraphicsItem::ControlPoint*>
 		{
 		public:
-			PathVector();
-			PathVector(int);
-			PathVector(int,ConnectionGraphicsItem::ControlPoint*);
-			PathVector(const PathVector&);
+			CurveSegment();
+			CurveSegment(int);
+			CurveSegment(int,ConnectionGraphicsItem::ControlPoint*);
+			CurveSegment(const CurveSegment&);
 			ArrowHeadItem *arrowStart, *arrowEnd;
 		};
 
 		/*! \brief vector of vector of control point*/
-		QList<PathVector> pathVectors;	
+		QList<CurveSegment> pathVectors;	
 		/*! \brief distance from arrow head to the item that it is connected to*/
 		qreal arrowHeadDistance;
 		/*! \brief list of pointers to all the control points*/
@@ -377,7 +377,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class MY_EXPORT AddPathVectorCommand : public QUndoCommand
+	class MY_EXPORT AddCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -385,17 +385,17 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddPathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
-			ConnectionGraphicsItem::PathVector& item );
+		AddCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+			ConnectionGraphicsItem::CurveSegment& item );
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		AddPathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
-			QList<ConnectionGraphicsItem::PathVector> items);
+		AddCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+			QList<ConnectionGraphicsItem::CurveSegment> items);
 		/*! \brief destructor. deletes all control points that do not belong a scene*/
-		virtual ~AddPathVectorCommand();
+		virtual ~AddCurveSegmentCommand();
 		/*! \brief Adds a new control point. Control points were set in the constructor
 		* \param void
 		* \return void*/
@@ -409,14 +409,14 @@ namespace Tinkercell
 		/*! \brief graphics item to which control points were added*/
 		ConnectionGraphicsItem* connectionItem;
 		/*! \brief vector of control points that were added*/
-		QList<ConnectionGraphicsItem::PathVector> pathVectors;
+		QList<ConnectionGraphicsItem::CurveSegment> pathVectors;
 		/*! \brief the poisition(s) at which the control point vectors were added*/
 		QList<int> listK1;
 	};
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class MY_EXPORT RemovePathVectorCommand : public QUndoCommand
+	class MY_EXPORT RemoveCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -424,14 +424,14 @@ namespace Tinkercell
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemovePathVectorCommand(const QString& name, GraphicsScene * scene,
+		RemoveCurveSegmentCommand(const QString& name, GraphicsScene * scene,
 			ConnectionGraphicsItem::ControlPoint * item);
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
 		* \param name
 		* \param graphics scene
 		* \param control point(s) that have been added
 		* \return void*/
-		RemovePathVectorCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
+		RemoveCurveSegmentCommand(const QString& name, GraphicsScene * scene, ConnectionGraphicsItem* connection,
 			QList<ConnectionGraphicsItem::ControlPoint *> items);
 
 		/*! \brief Remove new control points. Control points were set in the constructor
@@ -443,7 +443,7 @@ namespace Tinkercell
 		* \return void*/
 		void undo();	
 		/*! \brief vector of control points that were added*/
-		QList<ConnectionGraphicsItem::PathVector> pathVectors;
+		QList<ConnectionGraphicsItem::CurveSegment> pathVectors;
 		/*! \brief graphics scene from which control points were removed*/
 		GraphicsScene * graphicsScene;	
 		/*! \brief graphics item from which control points were removed*/

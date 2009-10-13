@@ -188,7 +188,7 @@ namespace Tinkercell
 			win->textEditor->addSideBarWidget(button);
 			
 			button = new QToolButton;			
-			button->setIcon(QIcon(":/images/plug.png"));
+			button->setIcon(QIcon(":/images/module.png"));
 			button->setIconSize(QSize(30,30));
 			button->setText(tr("To Graphics"));
 			button->setToolTip(tr("export Module to the graphics window"));

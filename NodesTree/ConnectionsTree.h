@@ -14,6 +14,7 @@
 
 #include <QWidget>
 #include <QHash>
+#include <QMap>
 #include <QIcon>
 #include <QPixmap>
 #include <QToolButton>
@@ -50,7 +51,7 @@ namespace Tinkercell
 
     public:
         /*! \brief the hashtable of all connection families indexed by their name*/
-        QHash<QString,ConnectionFamily*> connectionFamilies;
+        QMap<QString,ConnectionFamily*> connectionFamilies;
         /*! \brief the hashtable of all tree items indexed by their name*/
         QHash<QString,QTreeWidgetItem*> treeItems;
 		/*! \brief the hashtable of all buttons on the tree widget indexed by their name*/

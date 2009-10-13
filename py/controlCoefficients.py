@@ -2,15 +2,8 @@ import pytc
 import numpy
 import pysces
 import tc2pysces
+import display
 
-#modelstring = tc2pysces.load();
-#pytc.showProgress(30);
-
-#generate pysces model
-#mod = pysces.model("model",loader='string', fString=modelstring);
-
-#load pysces model and do MCA
-#mod.doLoad();
 mod = tc2pysces.load();
 mod.doMca();
 
@@ -21,29 +14,27 @@ selected = pytc.selectedItems();
 N = pytc.stoichiometry(pytc.allItems());
 
 pytc.showProgress(90);
-
 mod.showCC();
 
 if len(selected) == 1:   #if selected items
-   s = selected[0];
-   name = pytc.getName(s);
-   inN = False;
-   for i in N[0]:
-      if i == name:
-         inN = True;
-         break;
-   if not inN:
-      for i in N[1]:
+    s = selected[0];
+    name = pytc.getName(s);
+    inN = False;
+    for i in N[0]:
         if i == name:
-           inN = True;
-           break;
-   if inN:
-     fluxes = pytc.itemsOfFamily('connection');  #get flux names
-     fluxNames = pytc.getNames( fluxes );
-     n = min(len(fluxes),len(fluxNames)); #both should be the same, but just in case
-     s = selected[0];
-     prefix = '';
-     if pytc.isA(s,'connection'):
+            inN = True;
+            break;
+    if not inN:
+        for i in N[1]:
+            if i == name:
+                inN = True;
+                break;
+    if inN:
+        names.append(N[1]);
+        numbers = range(0, len(names));
+        for i in range(0,len(names)):
+            numbers[i] = mod.cc.__getattribute__(name + "_" + names[i]) 
+        display.numbers(names,numbers);
         prefix = 'mod.' + 'ccJ' + name + '_';
      if pytc.isA(s,'part'):
         prefix = 'mod.' + 'cc' + name + '_';

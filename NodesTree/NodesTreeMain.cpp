@@ -545,6 +545,7 @@ namespace Tinkercell
 		numNodeTabs = settings.value(tr("numNodeTabs"),numNodeTabs).toInt();
 		QStringList savedTabNames = settings.value(tr("familyTabNames"),QStringList()).toStringList();
 		QStringList savedTabs = settings.value(tr("familyTabs"),QStringList()).toStringList();
+		
 		if (savedTabNames.size()  == savedTabs.size()  && savedTabs.size() > numNodeTabs)		
 		{
 			tabGroups.clear();
@@ -578,7 +579,14 @@ namespace Tinkercell
 		
 		if (nodesTree)
 		{
-			QList<NodeFamily*> families = nodesTree->nodeFamilies.values();
+			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
+			QList<NodeFamily*> families;
+			
+			for (int i=0; i < allFamilies.size(); ++i)
+				if (allFamilies[i] && allFamilies[i]->children().isEmpty())
+				{
+					families.append(allFamilies[i]);
+				}
 			
 			for (int i=0; i < families.size(); ++i)
 			{
@@ -627,8 +635,15 @@ namespace Tinkercell
 		
 		if (connectionsTree)
 		{
-			QList<ConnectionFamily*> families = connectionsTree->connectionFamilies.values();
+			QList<ConnectionFamily*> allFamilies = connectionsTree->connectionFamilies.values();
+			QList<ConnectionFamily*> families;
 			
+			for (int i=0; i < allFamilies.size(); ++i)
+				if (allFamilies[i] && allFamilies[i]->children().isEmpty())
+				{
+					families.append(allFamilies[i]);
+				}
+				
 			for (int i=0; i < families.size(); ++i)
 			{
 				if (!families[i] || !connectionsTree->treeButtons.contains(families[i]->name)) continue;

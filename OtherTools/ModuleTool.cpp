@@ -41,7 +41,7 @@ namespace Tinkercell
         VisualTool * visualTool = new VisualTool(this);
         this->graphicsItems += visualTool;
         makeLink = new QAction(tr("Set input/output"),this);
-        makeLink->setIcon(QIcon(tr(":/images/plug.png")));
+        makeLink->setIcon(QIcon(tr(":/images/module.png")));
         connect(makeLink,SIGNAL(triggered()),this,SLOT(makeLinks()));
 
         setPalette(QPalette(QColor(255,255,255,255)));

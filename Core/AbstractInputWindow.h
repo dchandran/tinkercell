@@ -27,6 +27,7 @@ LPSolveInputWindow is a good example.
 #include <QAction>
 #include <QRadioButton>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QGroupBox>
 #include <QFile>
 #include <QListWidget>
@@ -136,6 +137,12 @@ namespace Tinkercell
 		* \param QStringList options
 		*/
 		static void AddOptions(const QString& title, int i, int j, const QStringList& options);
+		/*! \brief add a check box to an existing input window
+		* \param QString title
+		* \param int row
+		* \param int column
+		*/
+		static void AddOptions(const QString& title, int i, int j);
 		public slots:
 			/*!
 			\brief Executes the CThread
@@ -187,6 +194,7 @@ namespace Tinkercell
 		{
 		public:
 			ComboBoxDelegate(QObject *parent = 0);
+			/*! \brief options for the combo boxes. Uses line edits if empty. Uses check boxes if just one item*/
 			DataTable<QStringList> options;
 			QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 			void setEditorData(QWidget *editor, const QModelIndex &index) const;

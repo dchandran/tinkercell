@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
     DefaultPluginsMenu menu(&mainWindow);
 
     mainWindow.settingsMenu->addMenu(&menu);
+	mainWindow.setDockOptions(QMainWindow::AnimatedDocks|QMainWindow::AllowNestedDocks);
 
     QString home = MainWindow::userHome();
 

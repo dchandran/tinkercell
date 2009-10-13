@@ -61,6 +61,7 @@ QwtPlotCanvas::QwtPlotCanvas(QwtPlot *plot):
 
 #if QT_VERSION < 0x040000
     setWFlags(Qt::WNoAutoErase);
+	setMargin(0);
 #ifndef QT_NO_CURSOR
     setCursor(Qt::crossCursor);
 #endif
@@ -234,7 +235,7 @@ void QwtPlotCanvas::paintEvent(QPaintEvent *event)
     {
         painter.save();
         painter.setClipRegion( event->region() & frameRect() );
-        //drawFrame( &painter );
+        drawFrame( &painter );
         painter.restore(); 
     }
 

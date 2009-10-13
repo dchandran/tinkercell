@@ -5,6 +5,7 @@
   <text>A generic connection that can connect any part to any other part.</text>
   <connection family="Biochemical" color="#179DFB" k0="1.0">
     <text>This connection represents a biochemical reaction where reactant(s) are converted to product(s).</text>
+    <connection family="1to1" numin="1" numout="1"></connection>
     <connection family="2to1" numin="2" numout="1"></connection>
     <connection family="3to1" numin="3" numout="1"></connection>
     <connection family="1to2" numin="1" numout="2"></connection>

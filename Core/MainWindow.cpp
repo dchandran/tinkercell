@@ -1145,6 +1145,12 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
+	void MainWindow::addInputWindowCheckbox(QSemaphore* s,const QString& name, int i, int j)
+	{
+		SimpleInputWindow::AddOptions(name,i,j);
+		if (s)
+			s->release();
+	}
 	void MainWindow::openNewWindow(QSemaphore* s,const QString& name)
 	{
 		newGraphicsWindow();
@@ -2101,6 +2107,11 @@ namespace Tinkercell
 	{
 		return fToS.addInputWindowOptions(a,i,j,c);
 	}
+	
+	void  MainWindow::_addInputWindowCheckbox(const char* a,int i, int j)
+	{
+		return fToS.addInputWindowCheckbox(a,i,j);
+	}
 
 	void  MainWindow::_openNewWindow(const char* c)
 	{
@@ -2550,6 +2561,16 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
+	
+	void MainWindow_FtoS::addInputWindowCheckbox(const char * a, int i, int j)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit addInputWindowCheckbox(s,ConvertValue(a),i,j);
+		s->acquire();
+		s->release();
+		delete s;
+	}
 
 	void MainWindow_FtoS::openNewWindow(const char* c)
 	{
@@ -2880,6 +2901,9 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
 			this,SLOT(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)));
 
+		connect(&fToS,SIGNAL(addInputWindowCheckbox(QSemaphore*,const QString&, int, int)),
+			this,SLOT(addInputWindowCheckbox(QSemaphore*,const QString&, int, int)));
+
 		connect(&fToS,SIGNAL(openNewWindow(QSemaphore*,const QString&)),this,SLOT(openNewWindow(QSemaphore*,const QString&)));
 		connect(&fToS,SIGNAL(isWindows(QSemaphore*,int*)),this,SLOT(isWindows(QSemaphore*,int*)));
 		connect(&fToS,SIGNAL(isMac(QSemaphore*,int*)),this,SLOT(isMac(QSemaphore*,int*)));
@@ -2950,6 +2974,7 @@ namespace Tinkercell
 		void (*tc_createInputWindow0)(Matrix, const char*, const char*,const char*),
 		void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
 		void (*tc_addInputWindowOptions)(const char*, int i, int j, char **),
+		void (*tc_addInputWindowCheckbox)(const char*, int i, int j),
 		void (*tc_openNewWindow)(const char*),
 
 		double (*tc_getNumericalData)(OBJ,const char*, const char*, const char*),
@@ -3012,6 +3037,7 @@ namespace Tinkercell
 				&(_createInputWindow1),
 				&(_createInputWindow2),
 				&(_addInputWindowOptions),
+				&(_addInputWindowCheckbox),
 				&(_openNewWindow),
 				&(_getNumericalData),
 				&(_getStringData),

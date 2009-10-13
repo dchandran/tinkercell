@@ -208,6 +208,11 @@ namespace Tinkercell
 				win->tableWidget.item(i,j)->setText(options[ (int)(win->dataTable.value(i,j)) ]);
 		}
 	}
+	
+	void SimpleInputWindow::AddOptions(const QString& title, int i, int j)
+	{
+		SimpleInputWindow::AddOptions(title,i,j,QStringList() << tr(""));
+	}
 
 	SimpleInputWindow::SimpleInputWindow() : AbstractInputWindow() { }
 
@@ -316,10 +321,21 @@ namespace Tinkercell
 	void SimpleInputWindow::dataChanged(int i,int j)
 	{
 		QString s = tableWidget.item(i,j)->text();
-
-		if (!delegate.options.value(i,j).isEmpty() && delegate.options.value(i,j).contains(s))
+		
+		QStringList options = delegate.options.value(i,j);
+		
+		if (options.size() > 1 && options.contains(s))
 		{
 			dataTable.value(i,j) = delegate.options.value(i,j).indexOf(s);
+			return;
+		}
+		
+		if (options.size() == 1)
+		{
+			if (s.toLower() == QObject::tr("yes") || s.toLower() == QObject::tr("true"))
+				dataTable.value(i,j) = 1.0;
+			else
+				dataTable.value(i,j) = 0.0;
 			return;
 		}
 
@@ -352,7 +368,7 @@ namespace Tinkercell
 				delegate.options.value(i,j) = QStringList();
 			}
 
-			connect(&tableWidget, SIGNAL(cellChanged(int,int)), this, SLOT(dataChanged(int,int)));
+		connect(&tableWidget, SIGNAL(cellChanged(int,int)), this, SLOT(dataChanged(int,int)));
 	}
 
 	void SimpleInputWindow::comboBoxChanged(int)
@@ -381,10 +397,17 @@ namespace Tinkercell
 
 	QWidget * SimpleInputWindow::ComboBoxDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */, const QModelIndex & index) const
 	{
-		if (options.at(index.row(),index.column()).size() > 0)
+		QStringList strings = options.at(index.row(),index.column());
+		if (strings.size() > 1)
 		{
 			QComboBox *editor = new QComboBox(parent);
-			editor->addItems(options.at(index.row(),index.column()));
+			editor->addItems(strings);
+			return editor;
+		}
+		else
+		if (strings.size() == 1)
+		{
+			QCheckBox * editor = new QCheckBox(tr(""),parent);
 			return editor;
 		}
 		else
@@ -400,11 +423,19 @@ namespace Tinkercell
 
 	void SimpleInputWindow::ComboBoxDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 	{
-		if (options.at(index.row(),index.column()).size() > 0)
+		QStringList strings = options.at(index.row(),index.column());
+		if (strings.size() > 1)
 		{
 			QString value = index.model()->data(index, Qt::EditRole).toString();
 			QComboBox *combo = static_cast<QComboBox*>(editor);
-			combo->setCurrentIndex(options.at(index.row(),index.column()).indexOf(value));
+			combo->setCurrentIndex(strings.indexOf(value));
+		}
+		else
+		if (strings.size() == 1) //checkbox
+		{
+			QString value = index.model()->data(index, Qt::EditRole).toString();
+			QCheckBox * check = static_cast<QCheckBox*>(editor);
+			check->setChecked(value.toLower().contains(tr("yes")));
 		}
 		else
 		{
@@ -418,11 +449,21 @@ namespace Tinkercell
 
 	void SimpleInputWindow::ComboBoxDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 	{
-		if (options.at(index.row(),index.column()).size() > 0)
+		QStringList strings = options.at(index.row(),index.column());
+		if (strings.size() > 1)
 		{
 			QComboBox *combo = static_cast<QComboBox*>(editor);
 			QString value = combo->currentText();
 			model->setData(index, value, Qt::EditRole);
+		}
+		else
+		if (strings.size() == 1)
+		{
+			QCheckBox * check = static_cast<QCheckBox*>(editor);
+			if (check->isChecked())
+				model->setData(index, tr("True"), Qt::EditRole);
+			else
+				model->setData(index, tr("False"), Qt::EditRole);
 		}
 		else
 		{

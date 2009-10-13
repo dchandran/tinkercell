@@ -14,6 +14,7 @@
 
 #include <QWidget>
 #include <QHash>
+#include <QMap>
 #include <QIcon>
 #include <QPixmap>
 #include <QToolButton>
@@ -55,7 +56,7 @@ namespace Tinkercell
 
     public:
         /*! \brief family name to NodeFamily hash*/
-        QHash<QString,NodeFamily*> nodeFamilies;
+        QMap<QString,NodeFamily*> nodeFamilies;
 
         /*! \brief family name to tree items hash. These are the buttons located in the nodes tree window*/
         QHash<QString,QTreeWidgetItem*> treeItems;

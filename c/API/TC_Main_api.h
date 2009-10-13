@@ -158,10 +158,15 @@ void (*tc_createInputWindowFromFile)(Matrix input, const char* filename,const ch
 */
 void (*tc_createInputWindow)(Matrix, const char* title, void (*f)(Matrix)) = 0;
 /*! 
- \brief create an input window that can call a dynamic library
+ \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
 */
 void (*tc_addInputWindowOptions)(const char*, int i, int j, char **) = 0;
+/*! 
+ \brief add a yes or no type of option to an existing input window at the i,j-th cell
+ \ingroup Input and Output
+*/
+void (*tc_addInputWindowCheckbox)(const char*, int i, int j) = 0;
 /*! 
  \brief open a new window
  \ingroup Input and Output
@@ -294,6 +299,7 @@ void tc_Main_api_initialize(
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, char **),
+		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
 		
 		double (*tc_getNumericalData0)(OBJ,const char*, const char*, const char*),
@@ -356,6 +362,7 @@ void tc_Main_api_initialize(
     tc_createInputWindow = tc_createInputWindow1;
     tc_createInputWindowFromFile = tc_createInputWindow0;
 	tc_addInputWindowOptions = tc_addInputWindowOptions0;
+	tc_addInputWindowCheckbox = tc_addInputWindowCheckbox0;
 	
 	tc_openNewWindow = tc_openNewWindow0;
 	

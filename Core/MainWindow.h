@@ -618,11 +618,17 @@ namespace Tinkercell
 		*/
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction);
 		/*!
-		* \brief change a input window. This function is designed to be used with the C API framework
+		* \brief change an input window. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
 		* \return void
 		*/
 		void addInputWindowOptions(QSemaphore*,const QString& name, int i, int j, const QStringList&);
+		/*!
+		* \brief change an input window. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \return void
+		*/
+		void addInputWindowCheckbox(QSemaphore*,const QString& name, int i, int j);
 		/*!
 		* \brief opens a new window. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
@@ -1278,6 +1284,10 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
+		static void _addInputWindowCheckbox(const char*, int i, int j);
+		/*!
+		* \brief part of the C API framework.
+		*/
 		static void _openNewWindow(const char*);
 		/*!
 		* \brief part of the C API framework.
@@ -1409,6 +1419,7 @@ namespace Tinkercell
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&,const QString&);
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString &, MatrixInputFunction);
 		void addInputWindowOptions(QSemaphore*, const QString&, int i, int j, const QStringList&);
+		void addInputWindowCheckbox(QSemaphore*, const QString&, int i, int j);
 		void openNewWindow(QSemaphore*,const QString&);
 		void isWindows(QSemaphore*,int*);
 		void isMac(QSemaphore*,int*);
@@ -1467,6 +1478,7 @@ namespace Tinkercell
 		void createInputWindow(Matrix, const char*, const char*,const char*);
 		void createInputWindow(Matrix, const char*, MatrixInputFunction);
 		void addInputWindowOptions(const char*, int i, int j, char **);
+		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
 		int isWindows();
 		int isMac();

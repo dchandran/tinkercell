@@ -659,4 +659,16 @@ namespace Tinkercell
 		}
 	}
 	
+	void PlotTool::mouseMoveEvent ( QMouseEvent * event )
+	{
+		if (multiplePlotsArea 
+			&& multiplePlotsArea->currentSubWindow()
+			&& multiplePlotsArea->currentSubWindow()->widget())
+		{
+			ConsoleWindow::message("key pressed");
+			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
+			widget->mouseMoveEvent(event);
+		}
+	}
+	
 }

@@ -174,6 +174,7 @@ namespace Tinkercell
 	
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
+		virtual void mouseMoveEvent ( QMouseEvent * event );
 	};
 }
 #endif

@@ -54,16 +54,15 @@ QwtPlotCanvas::QwtPlotCanvas(QwtPlot *plot):
 
 #if QT_VERSION >= 0x040100
     setAutoFillBackground(true);
+#endif
+
 	setFrameShadow ( QFrame::Plain );
 	setFrameShape ( QFrame::NoFrame );
 	setFrameStyle (QFrame::NoFrame );
-	setMargin(0);
 	setLineWidth(0);
-#endif
 
 #if QT_VERSION < 0x040000
     setWFlags(Qt::WNoAutoErase);
-	setMargin(0);
 	setLineWidth(0);
 #ifndef QT_NO_CURSOR
     setCursor(Qt::crossCursor);

@@ -53,28 +53,28 @@ namespace Tinkercell
 		QPainterPath dnapath, nucpath;
 
 		QPointF pos1,pos2,pos3;
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
 			QPainterPath path;
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				pos1 =  pathVectors[i][0]->scenePos();
-				pathVectors[i][0]->setZValue(z + 0.02);
+				pos1 =  curveSegments[i][0]->scenePos();
+				curveSegments[i][0]->setZValue(z + 0.02);
 				path.moveTo(pos1);
-				for (int j=0; j+3 < pathVectors[i].size(); j+=3)
-					if (pathVectors[i][j+1] && pathVectors[i][j+2] && pathVectors[i][j+3])
+				for (int j=0; j+3 < curveSegments[i].size(); j+=3)
+					if (curveSegments[i][j+1] && curveSegments[i][j+2] && curveSegments[i][j+3])
 					{
-						pathVectors[i][j+1]->setZValue(z + 0.02);
-						pathVectors[i][j+2]->setZValue(z + 0.02);
-						pathVectors[i][j+3]->setZValue(z + 0.02);
+						curveSegments[i][j+1]->setZValue(z + 0.02);
+						curveSegments[i][j+2]->setZValue(z + 0.02);
+						curveSegments[i][j+3]->setZValue(z + 0.02);
 
-						pos1 =  pathVectors[i][j+1]->scenePos();
-						pos2 =  pathVectors[i][j+2]->scenePos();
-						pos3 =  pathVectors[i][j+3]->scenePos();
+						pos1 =  curveSegments[i][j+1]->scenePos();
+						pos2 =  curveSegments[i][j+2]->scenePos();
+						pos3 =  curveSegments[i][j+3]->scenePos();
 						path.cubicTo(pos1,pos2,pos3);
 					}
 
-					pos1 =  pathVectors[i][0]->scenePos();
+					pos1 =  curveSegments[i][0]->scenePos();
 					dnapath.moveTo(pos1);
 					qreal h = defaultPen.widthF()*8, dl = defaultPen.widthF()*16;
 					for (qreal l=0; l < path.length(); l += dl)

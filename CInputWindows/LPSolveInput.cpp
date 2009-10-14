@@ -84,7 +84,7 @@ namespace Tinkercell
 		runButton->setIcon(QIcon(":/images/play.png"));
 		runButton->setToolTip(tr("Optimize using linear programming"));
 		QPushButton * logButton = new QPushButton(this);
-		logButton->setIcon(tr(":/images/new.png"));
+		logButton->setIcon(QIcon(tr(":/images/new.png")));
 		logButton->setToolTip(tr("Open log file"));
 		connect(logButton,SIGNAL(pressed()),this,SLOT(showLogFile()));
 		

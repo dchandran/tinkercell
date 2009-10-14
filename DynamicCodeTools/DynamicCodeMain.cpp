@@ -60,6 +60,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 				("\"\\win32\\lib -o cells_ssa.o \"") + 
 				appDir + QObject::tr("\"\\c\\mtrand.c \"") + 
 				appDir + QObject::tr("\"\\c\\ssa.c \"") + 
+				appDir + QObject::tr("\"\\c\\langevin.c \"") +
 				appDir + QObject::tr("\"\\c\\cells_ssa.c"));
 	proc.waitForFinished();
 	err = proc.readAllStandardError();
@@ -89,6 +90,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	proc.start(QObject::tr("gcc -c -o ") +
 				appDir + QObject::tr("/c/mtrand.c \"") + 
 				appDir + QObject::tr("/c/ssa.c \"") + 
+				appDir + QObject::tr("/c/langevin.c \"") + 
 				appDir + QObject::tr("/c/cells_ssa.c"));
 	proc.waitForFinished();
 	

@@ -226,9 +226,11 @@ namespace Tinkercell
 			s->release();
 	}
 
-	int ModelFileGenerator::generateModelFile(const QString& filename, const QList<ItemHandle*>& handles,const QString& replaceDot)
+	int ModelFileGenerator::generateModelFile(const QString& prefix, const QList<ItemHandle*>& handles,const QString& replaceDot)
 	{
-		//qDebug() << "model file in " << filename;
+		QString filename = prefix;
+		
+		filename.replace(QRegExp(tr("\\.\\s+$")),QString(""));
 		QFile cfile (filename + QString(".c"));
 		QFile pyfile (filename + QString(".py"));
 
@@ -440,9 +442,8 @@ namespace Tinkercell
 							if (s1.isEmpty() || s1 == handles[i]->fullName() || s1 == handles[i]->fullName(replaceDot))
 							{
 								expressions << tr("   ") + handles[i]->fullName(replaceDot) + tr(" = ") + s2 + tr(";\n");
-								int k = N.rowNames().indexOf(handles[i]->fullName(replaceDot));
-								if (k >= 0)
-									N.removeRow(k);
+								if (!fixedVars.contains(handles[i]->fullName(replaceDot)))
+									fixedVars << handles[i]->fullName(replaceDot);
 							}
 							else
 								if (handles[i]->hasNumericalData(tr("Numerical Attributes")) &&

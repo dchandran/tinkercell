@@ -53,7 +53,8 @@ void setup()
 	char * rows[] = { "model", "time", "step size", "plot", "update model", 0 };
 	double values[] = { 0, 100, 0.1, 0, 0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 
+	char * options2[] = { "Variables", "Rates", 0 }; 
+	char * options3[] = { "No", "Yes", 0 }; 
 	FILE * file;
 
 	m.rows = 5;
@@ -65,7 +66,7 @@ void setup()
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  options1);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  options2);
-	tc_addInputWindowCheckbox("Deterministic Simulation (CVODE)",3, 0);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  options3);
 
 	return; 
 }
@@ -79,7 +80,7 @@ void run(Matrix input)
 	int xaxis = 0;
 	int selection = 0;
 	int rateplot = 0;
-	int sz = 0, k = 0;
+	int sz = 0, k = 0, update = 0;
 	char* cmd;
 
 	if (input.cols > 0)
@@ -91,7 +92,9 @@ void run(Matrix input)
 		if (input.rows > 2)
 			dt = valueAt(input,2,0);
 		if (input.rows > 3)
-			rateplot = (int)valueAt(input,3,0);	     
+			rateplot = (int)valueAt(input,3,0);
+		if (input.rows > 4)
+			update = (int)valueAt(input,4,0);
 	}
 
 	sz = (int)((end - start) / dt);
@@ -176,19 +179,22 @@ void run(Matrix input)
 						data.cols = (TCvars+1);\n\
 						data.values = y;\n\
 						names = TCvarnames;\n\
-						ss.rownames = 0;\n\
-				        ss.colnames = 0;\n\
-				        ss.values = malloc(TCvars * sizeof(double));\n\
-				        ss.rows = TCvars;\n\
-				        ss.cols = 1;\n\
-						for (i=0; i < TCvars; ++i)\n\
-				        {\n\
-				           valueAt(ss,i,0) = valueAt(data,(data.rows-1),i+1);\n\
-				        }\n\
-						A = tc_findItems(TCvarnames);\n\
-						tc_setInitialValues(A,ss);\n\
-				        free(A);\n\
-						free(ss.values);\n\
+						if (%i)\n\
+						{\n\
+						   ss.rownames = 0;\n\
+				           ss.colnames = 0;\n\
+				           ss.values = malloc(TCvars * sizeof(double));\n\
+				           ss.rows = TCvars;\n\
+				           ss.cols = 1;\n\
+						   for (i=0; i < TCvars; ++i)\n\
+				           {\n\
+				              valueAt(ss,i,0) = valueAt(data,(data.rows-1),i+1);\n\
+				           }\n\
+						   A = tc_findItems(TCvarnames);\n\
+						   tc_setInitialValues(A,ss);\n\
+				           free(A);\n\
+						   free(ss.values);\n\
+						}\n\
 						if (%i)\n\
 						{\n\
 							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
@@ -229,7 +235,7 @@ void run(Matrix input)
 						tc_plot(data,%i,\"Time Course Simulation\",0);\n\
 						free(data.colnames);  free(y);\n\
 						return;\n}\n", 
-						(end-start), (end-start)/20.0, start, end, dt, sz, rateplot, xaxis);
+						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
 
 	cmd = malloc(50 * sizeof(char));

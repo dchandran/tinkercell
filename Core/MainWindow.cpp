@@ -180,7 +180,7 @@ namespace Tinkercell
 		emit funtionPointersToMainThread(s,f );
 	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory)
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, VIEW_MODE view)
 	{
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
@@ -196,8 +196,10 @@ namespace Tinkercell
 		//setIconSize(QSize(25,25));
 
 		setCentralWidget(&mdiArea);
-		mdiArea.setViewMode(QMdiArea::TabbedView);
+		
 		mdiArea.setTabShape(QTabWidget::Triangular);
+		setViewMode(view);
+		
 		connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
 
 		setWindowTitle(tr("Tinkercell"));
@@ -327,30 +329,30 @@ namespace Tinkercell
 		emit windowOpened(subWindow);
 		emit windowChanged(subWindow);
 	}
-
-	void MainWindow::changeView()
+	
+	void MainWindow::setViewMode(VIEW_MODE view)
 	{
-		//static int i = 0;
-		if (mdiArea.viewMode() == QMdiArea::SubWindowView)
+		if (view == TabView)
 		{
-			//if (i > 0)
-			//{
 			mdiArea.setViewMode(QMdiArea::TabbedView);
-			//mdiArea.setTabShape(QTabWidget::Triangular);
-			//     i = 0;
-			//}
-			//else
-			//{
-			//     mdiArea.cascadeSubWindows();
-			//mdiArea.tileSubWindows();
-			//     ++i;
-			//}
 		}
 		else
 		{
 			mdiArea.setViewMode(QMdiArea::SubWindowView);
 			mdiArea.tileSubWindows();
-			//i = 0;
+		}
+	}
+
+	void MainWindow::changeView()
+	{
+		if (mdiArea.viewMode() == QMdiArea::SubWindowView)
+		{
+			mdiArea.setViewMode(QMdiArea::TabbedView);
+		}
+		else
+		{
+			mdiArea.setViewMode(QMdiArea::SubWindowView);
+			mdiArea.tileSubWindows();
 		}
 	}
 

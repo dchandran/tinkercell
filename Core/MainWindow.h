@@ -103,6 +103,13 @@ namespace Tinkercell
 		*/
 		MY_EXPORT enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
 		
+		/*! \brief the types of views for multiple documents
+		             TabView = tabbed documents
+					 WindowView = each documents in a separate subwindow
+					 Both = allow both
+		*/
+		MY_EXPORT enum VIEW_MODE { TabView , WindowView, Both };
+		
 		/*! \brief the default option to use for tools (optional)*/
 		static MY_EXPORT TOOL_WINDOW_OPTION defaultToolWindowOption;	
 		
@@ -116,13 +123,19 @@ namespace Tinkercell
 		static void RegisterDataTypes();
 
 		/*!
-		* \brief 4-arg constructor allows disabling of text/graphics modes
-		* \param bool enable text-based network construction
-		* \param bool enable graphics-based network construction
-		* \param bool enable command-line
-		* \param bool enable history window
+		* \brief 5-arg (optional) constructor allows disabling of text/graphics modes
+		* \param bool enable text-based network construction (default = true)
+		* \param bool enable graphics-based network construction (default = true)
+		* \param bool enable command-line (default = true)
+		* \param bool enable history window (default = true)
+		* \param VIEW_MODE view mode (default = Both)
 		*/
-		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true);
+		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true, VIEW_MODE views = Both);
+		/*!
+		* \brief set the current view mode
+		* \param VIEW_MODE view mode
+		*/
+		virtual void setViewMode(VIEW_MODE);
 		/*!
 		* \brief Destructor: delete all the graphics scenes.
 		*/
@@ -171,46 +184,48 @@ namespace Tinkercell
 		void loadDynamicLibrary(const QString&);
 		/*!
 		* \brief gets the current scene that is active
-		* \return current scene
+		* \return GraphicsScene* current scene
 		*/
 		GraphicsScene * currentScene();
 		/*!
 		* \brief gets the text editor that is active
-		* \return current scene
+		* \return TextEditor* current scene
 		*/
 		TextEditor * currentTextEditor();
 		/*!
 		* \brief gets the current window that is active
-		* \return current MDI window
+		* \return NetworkWindow* current MDI window
 		*/
 		NetworkWindow * currentWindow();
 		/*!
 		* \brief sets the active window
-		* \param MDI window
+		* \param NetworkWindow* network window
 		*/
 		void setCurrentWindow(NetworkWindow*);
 		/*!
 		* \brief gets all the windows in the main window
-		* \return list of windows
+		* \return QList<NetworkWindow*> list of windows
 		*/
 		QList<NetworkWindow*> allWindows();
 		/*!
 		* \brief the history stack of the current window.
-		* \return current scene's history stack or null if current scene is null
+		* \return QUndoStack* current scene's history stack or null if current scene is null
 		*/
 		QUndoStack * historyStack();
 		/*!
 		* \brief the history stack widget of the current window.
-		* \return current scene's history stack or null if current scene is null
+		* \return QUndoView* current scene's history stack or null if current scene is null
 		*/
 		QUndoView * historyWidget();
 		/*!
 		* \brief get a tool
 		* \param QString name of the tool
+		* \return Tool*
 		*/
 		virtual Tool * tool(const QString&) const;
 		/*!
 		* \brief get all tools
+		* \return QList<Tool*>
 		*/
 		virtual QList<Tool*> tools() const;
 		/*!

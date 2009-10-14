@@ -807,7 +807,12 @@ namespace Tinkercell
 				QString s = updatedFunctions[i];
 				double d = EquationParser::eval(currentWindow(), s, &b);
 				if (b)
-					values += tableItems[i]->fullName() + tr(".") + updatedFunctionNames[i] + tr(" = ") + QString::number(d);
+				{
+					if (tableItems[i]->fullName() != updatedFunctionNames[i])
+						values += tableItems[i]->fullName() + tr(".") + updatedFunctionNames[i] + tr(" = ") + QString::number(d);
+					else
+						values += tableItems[i]->fullName() + tr(" = ") + QString::number(d);
+				}
 			}
 		if (values.size() > 0)
 			ConsoleWindow::message(values.join(tr("\n")));

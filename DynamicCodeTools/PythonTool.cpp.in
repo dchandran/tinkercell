@@ -355,7 +355,7 @@ namespace Tinkercell
 
     void PythonTool::runPythonCode(const QString& code)
     {
-		if (pythonInterpreter && pythonInterpreter->isRunning())
+		/*if (pythonInterpreter && pythonInterpreter->isRunning())
 		{
 			disconnect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
 			disconnect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
@@ -371,7 +371,7 @@ namespace Tinkercell
 			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
 			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
 			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
-		}
+		}*/
 		
         if (pythonInterpreter)
             pythonInterpreter->runCode(code);

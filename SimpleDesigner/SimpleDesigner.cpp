@@ -447,7 +447,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		
 		QPointF midpt = (items[0]->scenePos() + items[1]->scenePos())/2.0;
 		
-		ConnectionGraphicsItem::PathVector path;
+		ConnectionGraphicsItem::CurveSegment path;
 		path += new ConnectionGraphicsItem::ControlPoint(item,nodeItems[0]);
 		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
 		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
@@ -465,7 +465,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		arrow->scale(0.15,0.15);
 		path.arrowEnd = arrow;
 		
-		item->pathVectors += path;
+		item->curveSegments += path;
 		
 		scene->insert(tr("connection inserted"),item);
 		

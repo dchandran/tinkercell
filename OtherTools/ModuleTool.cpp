@@ -963,7 +963,7 @@ namespace Tinkercell
         controlPoints += new ConnectionGraphicsItem::ControlPoint((point2+path.last())/2.0,connection);
         controlPoints += new ConnectionGraphicsItem::ControlPoint(point2,connection,link2);
 
-        connection->pathVectors += controlPoints;
+        connection->curveSegments += controlPoints;
         connection->lineType = ConnectionGraphicsItem::line;
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("modules connected"),commands);

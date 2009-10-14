@@ -54,6 +54,8 @@ private slots:
 	
 	void constraintsTableChanged(int i,int j);
 	
+	void showLogFile();
+	
 private:
 	DataTable<qreal> dataTable;
 	int N;

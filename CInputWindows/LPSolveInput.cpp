@@ -83,7 +83,13 @@ namespace Tinkercell
 		QPushButton * runButton = new QPushButton(this);
 		runButton->setIcon(QIcon(":/images/play.png"));
 		runButton->setToolTip(tr("Optimize using linear programming"));
+		QPushButton * logButton = new QPushButton(this);
+		logButton->setIcon(tr(":/images/new.png"));
+		logButton->setToolTip(tr("Open log file"));
+		connect(logButton,SIGNAL(pressed()),this,SLOT(showLogFile()));
+		
 		hlayout->addWidget(runButton,0);
+		hlayout->addWidget(logButton,0);
 		hlayout->addStretch(6);
 		layout3->addLayout(hlayout,0);
 		
@@ -112,13 +118,17 @@ namespace Tinkercell
 		AbstractInputWindow::exec();
 	}
 	
+	void LPSolveInputWindow::showLogFile()
+	{
+		QString homeDir = MainWindow::userHome();
+		QDesktopServices::openUrl(QUrl(homeDir + tr("/lpsolve.out")));
+	}
+	
 	bool LPSolveInputWindow::setMainWindow(MainWindow * main)
 	{
-
 		AbstractInputWindow::setMainWindow(main);
         if (mainWindow)
-		{
-		
+		{		
 			cthread = new CThread(main,tr("Plugins/c/liblpsolve"),false);
 			cthread->setMatrixFunction("run");
 		

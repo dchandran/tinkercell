@@ -355,7 +355,7 @@ namespace Tinkercell
 			
 			if (mainWindow->helpMenu)
 			{
-				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SIGNAL(pyscesHelp()));
+				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
 			}
 			
 			return true;
@@ -366,7 +366,8 @@ namespace Tinkercell
 	 void CodingWindow::pyscesHelp()
 	 {
 		QString appDir = QCoreApplication::applicationDirPath();
-		QProcess::execute(appDir + tr("/Documentation/pysces_userguide.pdf"));
+		//QProcess::execute(appDir + tr("/Documentation/pysces_userguide.pdf"));
+		QDesktopServices::openUrl(QUrl(appDir + tr("/Documentation/pysces_userguide.pdf")));
 	 }
 
 	 void CodingWindow::about()

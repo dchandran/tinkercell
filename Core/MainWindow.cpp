@@ -3110,8 +3110,12 @@ namespace Tinkercell
 		
 		if (!parser) return;
 		
-		if (!parsersMenu)		
-			parsersMenu = menuBar()->addMenu(tr("&Parsers"));
+		if (!parsersMenu)	
+		{
+			
+			parsersMenu = new QMenu(tr("&Parsers"));
+			menuBar()->insertMenu(helpMenu->menuAction(),parsersMenu);
+		}
 		
 		if (!actionGroup)
 		{

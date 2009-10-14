@@ -162,21 +162,6 @@ namespace Tinkercell
 		* \return void*/
 		virtual void dataChanged(const QList<ItemHandle*>& items);
 	protected:
-		/*! \brief view for a graphics scene
-		\ingroup helper*/
-		class MY_EXPORT GraphicsView : public QGraphicsView
-		{
-		public:
-			/*! \brief default constructor*/	
-			GraphicsView(GraphicsScene * scene = 0, QWidget * parent = 0);
-		protected:
-			/*! \brief drag on top event */	
-			virtual void dropEvent(QDropEvent *);
-			/*! \brief drag and drop event*/	
-			virtual void dragEnterEvent(QDragEnterEvent *event);
-			/*! \brief mouse wheel event*/	
-			virtual void wheelEvent(QWheelEvent * event);
-		};
 		/*! \brief maximizing the network window switches to tab mode*/
 		virtual void resizeEvent ( QResizeEvent * );
 	};

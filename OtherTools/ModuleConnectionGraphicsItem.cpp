@@ -229,15 +229,15 @@ namespace Tinkercell
 	{
 		ControlPoint * firstPoint, *lastPoint, * cp0, * cp1;
 		NodeGraphicsItem * node, *parentNode;
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			firstPoint = pathVectors[i].first();
-			lastPoint = pathVectors[i].last();
+			firstPoint = curveSegments[i].first();
+			lastPoint = curveSegments[i].last();
 			
-			if (pathVectors[i].size() < 4 || !lastPoint || !firstPoint) continue;
+			if (curveSegments[i].size() < 4 || !lastPoint || !firstPoint) continue;
 			
-			cp0 = pathVectors[i][ 3 ];
-			cp1 = pathVectors[i][ pathVectors[i].size()-4 ];
+			cp0 = curveSegments[i][ 3 ];
+			cp1 = curveSegments[i][ curveSegments[i].size()-4 ];
 				
 			if (firstPoint != 0 && firstPoint->parentItem() != 0)
 			{

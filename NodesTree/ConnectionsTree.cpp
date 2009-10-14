@@ -217,7 +217,7 @@ namespace Tinkercell
 	{
 		QString file = tr("NodesTree/Icons/");
 		file += family->name;
-		file.replace(tr(" "),tr("_"));
+		file.replace(tr(" "),tr(""));
 		file += tr(".PNG");
 		return  file;
 	}
@@ -226,7 +226,7 @@ namespace Tinkercell
 	{
 		QString file = tr("ArrowItems/");
 		file += name;
-		file.replace(tr(" "),tr("_"));
+		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
 		return  file;
 	}

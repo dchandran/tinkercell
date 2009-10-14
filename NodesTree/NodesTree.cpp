@@ -341,7 +341,7 @@ namespace Tinkercell
 	 {
 		QString file = tr("NodeItems/");
 		file += name;
-		file.replace(tr(" "),tr("_"));
+		file.replace(tr(" "),tr(""));
 		file += tr(".PNG");
 		return  file;
 	 }
@@ -350,7 +350,7 @@ namespace Tinkercell
 	 {
 		QString file = tr("NodeItems/");
 		file += name;
-		file.replace(tr(" "),tr("_"));
+		file.replace(tr(" "),tr(""));
 		file += tr(".xml");
 		return  file;
 	 }

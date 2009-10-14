@@ -256,9 +256,9 @@ namespace Tinkercell
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile;
 					if (regulationName == tr("Transcription Activation"))
-						nodeImageFile = appDir + tr("/ArrowItems/Transcription_Activation.xml");
+						nodeImageFile = appDir + tr("/ArrowItems/TranscriptionActivation.xml");
 					else
-						nodeImageFile = appDir + tr("/ArrowItems/Transcription_Repression.xml");
+						nodeImageFile = appDir + tr("/ArrowItems/TranscriptionRepression.xml");
 					NodeGraphicsReader imageReader;
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);

@@ -580,13 +580,30 @@ namespace Tinkercell
 		if (nodesTree)
 		{
 			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
+			QList<ItemFamily*> rootFamilies;
 			QList<NodeFamily*> families;
 			
 			for (int i=0; i < allFamilies.size(); ++i)
-				if (allFamilies[i] && allFamilies[i]->children().isEmpty())
+				if (allFamilies[i] && !allFamilies[i]->parent())
 				{
-					families.append(allFamilies[i]);
+					rootFamilies << allFamilies[i];
 				}
+			
+			for (int i=0; i < rootFamilies.size(); ++i)
+			{
+				QList<ItemFamily*> children = rootFamilies[i]->children();
+				if (children.isEmpty())				
+				{
+					if (!families.contains(NodeFamily::asNode(rootFamilies[i])))
+						families << NodeFamily::asNode(rootFamilies[i]);
+				}
+				else
+				{
+					if (!families.contains(NodeFamily::asNode(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+						families << NodeFamily::asNode(rootFamilies[i]);
+					rootFamilies << children;
+				}
+			}
 			
 			for (int i=0; i < families.size(); ++i)
 			{
@@ -636,13 +653,30 @@ namespace Tinkercell
 		if (connectionsTree)
 		{
 			QList<ConnectionFamily*> allFamilies = connectionsTree->connectionFamilies.values();
+			QList<ItemFamily*> rootFamilies;
 			QList<ConnectionFamily*> families;
 			
 			for (int i=0; i < allFamilies.size(); ++i)
-				if (allFamilies[i] && allFamilies[i]->children().isEmpty())
+				if (allFamilies[i] && !allFamilies[i]->parent())
 				{
-					families.append(allFamilies[i]);
+					rootFamilies << allFamilies[i];
 				}
+			
+			for (int i=0; i < rootFamilies.size(); ++i)
+			{
+				QList<ItemFamily*> children = rootFamilies[i]->children();
+				if (children.isEmpty())				
+				{
+					if (!families.contains(ConnectionFamily::asConnection(rootFamilies[i])))
+						families << ConnectionFamily::asConnection(rootFamilies[i]);
+				}
+				else
+				{
+					if (!families.contains(ConnectionFamily::asConnection(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+						families << ConnectionFamily::asConnection(rootFamilies[i]);
+					rootFamilies << children;
+				}
+			}
 				
 			for (int i=0; i < families.size(); ++i)
 			{

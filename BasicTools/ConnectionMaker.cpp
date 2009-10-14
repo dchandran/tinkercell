@@ -25,7 +25,7 @@ namespace Tinkercell
 	ConnectionMaker::ConnectionMaker() : Tool(tr("Connection Maker"))
 	{ 
 		mainWindow = 0;
-		collisionDetection = 0;
+		//collisionDetection = 0;
 	}
 
 	bool ConnectionMaker::setMainWindow(MainWindow * main)
@@ -33,23 +33,24 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow != 0)
 		{
+			/*
 			if (main->tool("Collision Detection"))
 			{
 				QWidget * collisionDetection2 = main->tool("Collision Detection");
 				collisionDetection = static_cast<CollisionDetection*>(collisionDetection2);
 				if (collisionDetection != 0)
 				{
-					//connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)),
-					//        			  this,SLOT(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)));
+					connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)),
+					        			  this,SLOT(nodeCollided(const QList<QGraphicsItem*>&, NodeGraphicsItem*, const QList<QPointF>&, Qt::KeyboardModifiers)));
 
-					//connect(collisionDetection,SIGNAL(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)),
-					//        			  this,SLOT(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)));
+					connect(collisionDetection,SIGNAL(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)),
+					        			  this,SLOT(connectionCollided(const QList<QGraphicsItem*>&, ConnectionGraphicsItem *, const QList<QPointF>&, Qt::KeyboardModifiers)));
 				}
-			}
+			}*/
 			connect(main,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			return (collisionDetection != 0);
+			return true;
 		}
 
 		return false;
@@ -100,10 +101,10 @@ namespace Tinkercell
 				QList<NodeGraphicsItem*> nodes = connection->nodes();
 				QList<ArrowHeadItem*> arrowHeadsStart, arrowHeadsEnd;
 
-				for (int j=0; j < connection->pathVectors.size(); ++j)
+				for (int j=0; j < connection->curveSegments.size(); ++j)
 				{
-					arrowHeadsStart += connection->pathVectors[j].arrowStart;
-					arrowHeadsEnd += connection->pathVectors[j].arrowEnd;
+					arrowHeadsStart += connection->curveSegments[j].arrowStart;
+					arrowHeadsEnd += connection->curveSegments[j].arrowEnd;
 				}
 
 				for (int j=0; j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
@@ -112,10 +113,10 @@ namespace Tinkercell
 
 				if (!connection->isValid())
 				{
-					for (int j=0; j < connection->pathVectors.size(); ++j)
+					for (int j=0; j < connection->curveSegments.size(); ++j)
 					{
-						connection->pathVectors[j].arrowStart = 0;
-						connection->pathVectors[j].arrowEnd = 0;
+						connection->curveSegments[j].arrowStart = 0;
+						connection->curveSegments[j].arrowEnd = 0;
 					}
 
 					connection->clear();
@@ -152,19 +153,19 @@ namespace Tinkercell
 						}
 					}
 
-					if (connection->pathVectors.size() == 1 && arrowHeadsStart.size() > 1)
+					if (connection->curveSegments.size() == 1 && arrowHeadsStart.size() > 1)
 					{
-						connection->pathVectors[0].arrowEnd = arrowHeadsStart[1];
-						if (connection->pathVectors[0].arrowEnd) connection->pathVectors[0].arrowEnd->setVisible(true);
+						connection->curveSegments[0].arrowEnd = arrowHeadsStart[1];
+						if (connection->curveSegments[0].arrowEnd) connection->curveSegments[0].arrowEnd->setVisible(true);
 					}
 					else
 					{					
-						for (int j=0; j < connection->pathVectors.size() && j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
+						for (int j=0; j < connection->curveSegments.size() && j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
 						{
-							connection->pathVectors[j].arrowStart = arrowHeadsStart[j];
-							connection->pathVectors[j].arrowEnd = arrowHeadsEnd[j];
-							if (connection->pathVectors[j].arrowStart) connection->pathVectors[j].arrowStart->setVisible(true);
-							if (connection->pathVectors[j].arrowEnd) connection->pathVectors[j].arrowEnd->setVisible(true);
+							connection->curveSegments[j].arrowStart = arrowHeadsStart[j];
+							connection->curveSegments[j].arrowEnd = arrowHeadsEnd[j];
+							if (connection->curveSegments[j].arrowStart) connection->curveSegments[j].arrowStart->setVisible(true);
+							if (connection->curveSegments[j].arrowEnd) connection->curveSegments[j].arrowEnd->setVisible(true);
 						}
 					}
 					connection->refresh();
@@ -191,7 +192,7 @@ namespace Tinkercell
 					connection->refresh();
 		}
 	}
-
+/*
 	void ConnectionMaker::nodeCollided(const QList<QGraphicsItem*>& itemsMoved, NodeGraphicsItem * itemCollided, const QList<QPointF>& , Qt::KeyboardModifiers )
 	{
 		if (itemsMoved.size() != 1 || itemsMoved[0] == 0 || itemCollided == 0) return;
@@ -209,11 +210,11 @@ namespace Tinkercell
 
 		ConnectionGraphicsItem * connection = cp->connectionItem;
 
-		for (int i=0; i < connection->pathVectors.size(); ++i)
+		for (int i=0; i < connection->curveSegments.size(); ++i)
 		{
-			itemCollided->pathVectors.append(connection->pathVectors[i]);
-			for (int j=0; j < connection->pathVectors[i].size(); ++j)
-				connection->pathVectors[i][j]->connectionItem = itemCollided;
+			itemCollided->curveSegments.append(connection->curveSegments[i]);
+			for (int j=0; j < connection->curveSegments[i].size(); ++j)
+				connection->curveSegments[i][j]->connectionItem = itemCollided;
 		}
 
 		GraphicsScene * scene = 0;
@@ -222,14 +223,14 @@ namespace Tinkercell
 		AddControlPointCommand ctrlPtCmnd(tr("new control point"),scene,cp);
 		ctrlPtCmnd.redo();
 
-		connection->pathVectors.clear();
+		connection->curveSegments.clear();
 		RemoveGraphicsCommand removeCmd(tr("remove"),scene,connection);
 		removeCmd.redo();
 
 		//AddControlPointCommand command(tr(),itemCollided->scene(),cp);
 		//command.redo();
 	}
-
+*/
 	void ConnectionMaker::setupMiddleSegment(ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs)
 	{
 		if (nodes.size() < 2 || inputs < 1 || inputs >= nodes.size()) return;
@@ -303,34 +304,34 @@ namespace Tinkercell
 
 			midpt = (midpt1 + midpt2) * 0.5;
 
-			connection->pathVectors.clear();
+			connection->curveSegments.clear();
 
-			connection->pathVectors.append(ConnectionGraphicsItem::CurveSegment());
+			connection->curveSegments.append(ConnectionGraphicsItem::CurveSegment());
 
 			if (inputs == 1 && nodes.size() == 2)
 			{
 				if (inputList[0] == outputList[0]) //self loop
 				{
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt1,connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt1 * 0.25),connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt2 * 0.25),connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt2,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt1,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt1 * 0.25),connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt2 * 0.25),connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt2,connection));
 				}
 				else
 				{
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt1,connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt1) * 0.5,connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));
-					connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt2,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt1,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt1) * 0.5,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt2,connection));
 				}
 				return;
 			}
 			else
 			{
-				connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt1) * 0.5,connection));
-				connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
-				connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
-				connection->pathVectors[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));    
+				connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt1) * 0.5,connection));
+				connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
+				connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt,connection));
+				connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + midpt2) * 0.5,connection));    
 			}
 
 			bool loops = false;
@@ -346,15 +347,15 @@ namespace Tinkercell
 
 			if (loops)
 			{
-				float dx = connection->pathVectors[0][1]->x() - connection->pathVectors[0][2]->x(),
-					dy = connection->pathVectors[0][1]->y() - connection->pathVectors[0][2]->y();
+				float dx = connection->curveSegments[0][1]->x() - connection->curveSegments[0][2]->x(),
+					dy = connection->curveSegments[0][1]->y() - connection->curveSegments[0][2]->y();
 
-				connection->pathVectors[0][0]->setPos(
-					QPointF(connection->pathVectors[0][1]->x() + 0.25*dy,
-					connection->pathVectors[0][1]->y() + 0.25*dx));
-				connection->pathVectors[0][3]->setPos(
-					QPointF(connection->pathVectors[0][1]->x() - 0.25*dy,
-					connection->pathVectors[0][1]->y() - 0.25*dx));
+				connection->curveSegments[0][0]->setPos(
+					QPointF(connection->curveSegments[0][1]->x() + 0.25*dy,
+					connection->curveSegments[0][1]->y() + 0.25*dx));
+				connection->curveSegments[0][3]->setPos(
+					QPointF(connection->curveSegments[0][1]->x() - 0.25*dy,
+					connection->curveSegments[0][1]->y() - 0.25*dx));
 			}
 	}
 
@@ -366,8 +367,8 @@ namespace Tinkercell
 
 		setupMiddleSegment(connection, nodes, inputs);
 
-		ConnectionGraphicsItem::CurveSegment middlePiece = connection->pathVectors[0];
-		connection->pathVectors.clear();
+		ConnectionGraphicsItem::CurveSegment middlePiece = connection->curveSegments[0];
+		connection->curveSegments.clear();
 
 		if (middlePiece.size() != 4) 
 		{
@@ -385,7 +386,7 @@ namespace Tinkercell
 			vector.append(middlePiece[2]);   
 			center = nodes.at(1)->scenePos();
 			vector.append(new ConnectionGraphicsItem::ControlPoint(nodes.at(1)->mapFromScene(pointOnEdge(nodes.at(1)->sceneBoundingRect(),(center + middlePiece[3]->scenePos()) * 0.5)),connection, nodes.at(1)) );
-			connection->pathVectors.append(vector);
+			connection->curveSegments.append(vector);
 
 			delete middlePiece[0];
 			delete middlePiece[3];
@@ -405,7 +406,7 @@ namespace Tinkercell
 					vector.append(middlePiece[0]);
 					vector.append(middlePiece[1]);
 
-					connection->pathVectors.append(vector);
+					connection->curveSegments.append(vector);
 
 				}
 				else
@@ -418,7 +419,7 @@ namespace Tinkercell
 					vector.append(middlePiece[3]);
 					vector.append(middlePiece[1]);
 
-					connection->pathVectors.append(vector);
+					connection->curveSegments.append(vector);
 				}
 				++k;
 			}
@@ -486,12 +487,12 @@ namespace Tinkercell
 		QPointF center;
 		float invslope, size;
 
-		for (int i = 1; i < connection->pathVectors.size(); ++i)
+		for (int i = 1; i < connection->curveSegments.size(); ++i)
 		{
 			for (int j = 0; j < i; ++j)
 			{
-				ControlPoint * p1 = connection->pathVectors[i][ connection->pathVectors[i].size() - 2 ];
-				ControlPoint * p2 = connection->pathVectors[j][ connection->pathVectors[j].size() - 2 ];
+				ControlPoint * p1 = connection->curveSegments[i][ connection->curveSegments[i].size() - 2 ];
+				ControlPoint * p2 = connection->curveSegments[j][ connection->curveSegments[j].size() - 2 ];
 
 				if (p1 != 0 && p2 != 0)
 				{

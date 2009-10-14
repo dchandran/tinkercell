@@ -415,7 +415,7 @@ namespace Tinkercell
 		for (int i=0; i < selectedNodes.size(); ++i)
 		{
 			center += selectedNodes[i]->scenePos();
-			item->pathVectors +=
+			item->curveSegments +=
 				ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 
 			if (i >= numRequiredIn)
@@ -439,9 +439,9 @@ namespace Tinkercell
 					arrow->scale(0.1,0.1);
 				}
 				//if (numRequiredIn == 1 && numRequiredOut == 1)
-				//item->pathVectors.last().arrowEnd = arrow;
+				//item->curveSegments.last().arrowEnd = arrow;
 				//else
-				item->pathVectors.last().arrowStart = arrow;
+				item->curveSegments.last().arrowStart = arrow;
 				insertList += arrow;
 			}
 		}
@@ -749,7 +749,7 @@ namespace Tinkercell
 					{
 						center += selectedNodes[i]->scenePos();
 						
-						item->pathVectors +=
+						item->curveSegments +=
 							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 
 						if (i >= numRequiredIn)
@@ -773,9 +773,9 @@ namespace Tinkercell
 								arrow->scale(0.1,0.1);
 							}
 							//if (numRequiredIn == 1 && numRequiredOut == 1)
-							//item->pathVectors.last().arrowEnd = arrow;
+							//item->curveSegments.last().arrowEnd = arrow;
 							//else
-							item->pathVectors.last().arrowStart = arrow;
+							item->curveSegments.last().arrowStart = arrow;
 							insertList += arrow;
 						}
 					}

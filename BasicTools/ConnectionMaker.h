@@ -34,7 +34,7 @@ so that it looks appealing
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "ItemHandle.h"
-#include "CollisionDetection.h"
+//#include "CollisionDetection.h"
 #include "Tool.h"
 
 namespace Tinkercell
@@ -59,14 +59,14 @@ namespace Tinkercell
 		public slots:
 
 			/*! \brief does nothing currently */
-			void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>&  , Qt::KeyboardModifiers );
+			//void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>&  , Qt::KeyboardModifiers );
 			/*! \brief does nothing currently */
-			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * itemCollided , const QList<QPointF>& , Qt::KeyboardModifiers );
+			//void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * itemCollided , const QList<QPointF>& , Qt::KeyboardModifiers );
 			/*! \brief if connectors are inserted and they are not valid, then this function will provide a new layout for them */
 			void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles);
 
 	public:
-		CollisionDetection * collisionDetection;
+		//CollisionDetection * collisionDetection;
 		/*! \brief makes all the individual segments leading to each node from the middle segment*/
 		static void makeSegments(GraphicsScene*,ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs);
 		/*! \brief makes the middle segment for a connector */

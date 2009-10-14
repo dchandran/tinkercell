@@ -71,11 +71,11 @@ namespace Tinkercell
 		* \param xml writer in use
 		* \return void*/
 		static void writeNode(NodeGraphicsItem * node, QXmlStreamWriter * );
-		/*! \brief Writes a PathVector of a ConnectionGraphicsItem to an XML file
-		* \param control points of the connection item where this PathVector belongs
+		/*! \brief Writes a CurveSegment of a ConnectionGraphicsItem to an XML file
+		* \param control points of the connection item where this CurveSegment belongs
 		* \param xml writer in use
 		* \return void*/
-		static void writePathVector(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::PathVector& pathVector,QXmlStreamWriter * );
+		static void writeCurveSegment(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::CurveSegment& pathVector,QXmlStreamWriter * );
 
 
 	};

@@ -465,12 +465,12 @@ namespace Tinkercell
 					if (connection)
 					{
 						connection->setControlPointsVisible(false);
-						for (int j=0; j < connection->pathVectors.size(); ++j)
+						for (int j=0; j < connection->curveSegments.size(); ++j)
 						{
-							if (connection->pathVectors[j].arrowStart && connection->pathVectors[j].arrowStart->scene() == graphicsScene)	
-								graphicsScene->removeItem(connection->pathVectors[j].arrowStart);
-							if (connection->pathVectors[j].arrowEnd && connection->pathVectors[j].arrowEnd->scene() == graphicsScene)	
-								graphicsScene->removeItem(connection->pathVectors[j].arrowEnd);
+							if (connection->curveSegments[j].arrowStart && connection->curveSegments[j].arrowStart->scene() == graphicsScene)	
+								graphicsScene->removeItem(connection->curveSegments[j].arrowStart);
+							if (connection->curveSegments[j].arrowEnd && connection->curveSegments[j].arrowEnd->scene() == graphicsScene)	
+								graphicsScene->removeItem(connection->curveSegments[j].arrowEnd);
 						}
 						if (connection->centerRegionItem)	
 							graphicsScene->removeItem(connection->centerRegionItem);

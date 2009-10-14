@@ -1559,9 +1559,9 @@ namespace Tinkercell
 								diff = QPointF(pos.value(i,0),pos.value(i,1)) - cp->scenePos();
 								p << diff;
 
-								for (int k=0; k < connection->pathVectors.size(); ++k)
+								for (int k=0; k < connection->curveSegments.size(); ++k)
 								{
-									ConnectionGraphicsItem::ControlPoint * cp1 = connection->pathVectors[k].first();
+									ConnectionGraphicsItem::ControlPoint * cp1 = connection->curveSegments[k].first();
 									if (cp1 && cp && cp1 != cp)
 									{
 										QPointF p1 = cp1->scenePos(), p2 = QPointF(pos.value(i,0),pos.value(i,1));
@@ -1570,23 +1570,23 @@ namespace Tinkercell
 										{
 											p1 = QPointF(pos.value(m,0),pos.value(m,1)) - node->scenePos();
 										}
-										for (int l=1; l < connection->pathVectors[k].size(); ++l)
+										for (int l=1; l < connection->curveSegments[k].size(); ++l)
 										{
-											if (connection->pathVectors[k][l] && connection->pathVectors[k][l] != cp)
+											if (connection->curveSegments[k][l] && connection->curveSegments[k][l] != cp)
 											{
 												target =
-													p1*((double)(connection->pathVectors[k].size() - l - 0.5))/((double)(connection->pathVectors[k].size()))
+													p1*((double)(connection->curveSegments[k].size() - l - 0.5))/((double)(connection->curveSegments[k].size()))
 													+
-													p2*((double)(l + 0.5))/((double)(connection->pathVectors[k].size()));
-												diff = target - connection->pathVectors[k][l]->scenePos();
-												if ((m = graphicsItems.indexOf(connection->pathVectors[k][l])) > -1)
+													p2*((double)(l + 0.5))/((double)(connection->curveSegments[k].size()));
+												diff = target - connection->curveSegments[k][l]->scenePos();
+												if ((m = graphicsItems.indexOf(connection->curveSegments[k][l])) > -1)
 												{
 													p[m] = (p[m] + diff)/2.0;
 												}
 												else
 												{
 													p << diff;
-													graphicsItems << connection->pathVectors[k][l];
+													graphicsItems << connection->curveSegments[k][l];
 												}
 											}
 										}

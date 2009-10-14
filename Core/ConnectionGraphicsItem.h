@@ -112,6 +112,11 @@ namespace Tinkercell
 		static MY_EXPORT ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
 		/*! Constructor: does nothing */
 		ConnectionGraphicsItem(QGraphicsItem * parent = 0 );
+		/*! Constructor: constructs linear curve segments with arrow heads on the second set of nodes
+		* \param QList<NodeGraphicsItem*> list of nodes to connect from (no arrow heads)
+		* \param QList<NodeGraphicsItem*> list of nodes to connect to (have arrow heads)
+		*/
+		ConnectionGraphicsItem(const QList<NodeGraphicsItem*>&, const QList<NodeGraphicsItem*>&, QGraphicsItem * parent = 0);
 		/*! Copy Constructor: copies handle but not control points */
 		ConnectionGraphicsItem(const ConnectionGraphicsItem& copy);
 		/*! operator =: remove everything from original connection and copy everything from the given connection */
@@ -189,7 +194,7 @@ namespace Tinkercell
 		};
 
 		/*! \brief vector of vector of control point*/
-		QList<CurveSegment> pathVectors;	
+		QList<CurveSegment> curveSegments;	
 		/*! \brief distance from arrow head to the item that it is connected to*/
 		qreal arrowHeadDistance;
 		/*! \brief list of pointers to all the control points*/
@@ -235,7 +240,7 @@ namespace Tinkercell
 		* \return graphics item list*/
 		virtual QList<ArrowHeadItem*> modifierArrowHeads() const;
 		/*! \brief get the node that connected to the particular path
-		* \param index less than size of pathVectors
+		* \param index less than size of curveSegments
 		* \return node item or 0*/
 		virtual NodeGraphicsItem* nodeAt(int index) const;
 		/*! \brief get the index of the node
@@ -253,11 +258,11 @@ namespace Tinkercell
 		* \return void*/
 		virtual void replaceNode(NodeGraphicsItem*,NodeGraphicsItem*);
 		/*! \brief get the arrow head at the particular index
-		* \param index less than size of pathVectors
+		* \param index less than size of curveSegments
 		* \return node item or 0*/
 		virtual ArrowHeadItem* arrowAt(int index) const;
 		/*! \brief get the modifier arrow head at the particular index
-		* \param index less than size of pathVectors
+		* \param index less than size of curveSegments
 		* \return node item or 0*/
 		virtual ArrowHeadItem* modifierArrowAt(int index) const;
 		/*! Destructor: deletes all control points */
@@ -409,7 +414,7 @@ namespace Tinkercell
 		/*! \brief graphics item to which control points were added*/
 		ConnectionGraphicsItem* connectionItem;
 		/*! \brief vector of control points that were added*/
-		QList<ConnectionGraphicsItem::CurveSegment> pathVectors;
+		QList<ConnectionGraphicsItem::CurveSegment> curveSegments;
 		/*! \brief the poisition(s) at which the control point vectors were added*/
 		QList<int> listK1;
 	};
@@ -443,7 +448,7 @@ namespace Tinkercell
 		* \return void*/
 		void undo();	
 		/*! \brief vector of control points that were added*/
-		QList<ConnectionGraphicsItem::CurveSegment> pathVectors;
+		QList<ConnectionGraphicsItem::CurveSegment> curveSegments;
 		/*! \brief graphics scene from which control points were removed*/
 		GraphicsScene * graphicsScene;	
 		/*! \brief graphics item from which control points were removed*/

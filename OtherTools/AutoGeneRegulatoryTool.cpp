@@ -247,10 +247,10 @@ namespace Tinkercell
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 						
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 
 					ArrowHeadItem * arrow = 0;
@@ -264,7 +264,7 @@ namespace Tinkercell
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->pathVectors.last().arrowStart = arrow;
+					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 				
 
@@ -393,10 +393,10 @@ namespace Tinkercell
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
@@ -406,7 +406,7 @@ namespace Tinkercell
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->pathVectors.last().arrowStart = arrow;
+					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;							
 				
 					connection->name = tr("J");
@@ -472,10 +472,10 @@ namespace Tinkercell
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily2,item);
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image2));
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
@@ -485,7 +485,7 @@ namespace Tinkercell
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->pathVectors.last().arrowStart = arrow;
+					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;							
 				
 
@@ -619,10 +619,10 @@ namespace Tinkercell
 					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
 					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 					
-					item->pathVectors += 
+					item->curveSegments += 
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
 
 					ArrowHeadItem * arrow = 0;
@@ -632,7 +632,7 @@ namespace Tinkercell
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->pathVectors.last().arrowStart = arrow;
+					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;							
 				
 

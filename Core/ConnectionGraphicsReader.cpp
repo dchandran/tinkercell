@@ -84,9 +84,9 @@ namespace Tinkercell
 	* \param list of control points to use
 	* \param the xml reader in use
 	* \return path vector with all the control points and nodes and arrows*/
-	ConnectionGraphicsItem::PathVector ConnectionGraphicsReader::readPathVector(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader)
+	ConnectionGraphicsItem::CurveSegment ConnectionGraphicsReader::readCurveSegment(QHash<QString,ItemHandle*>& nodes, QHash<QString,ItemHandle*>& connections, QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, NodeGraphicsReader * reader)
 	{
-		ConnectionGraphicsItem::PathVector pathVector;
+		ConnectionGraphicsItem::CurveSegment pathVector;
 		ItemHandle *startNodeHandle = 0, *endNodeHandle = 0;
 		ItemHandle *startConnectionHandle = 0, *endConnectionHandle = 0;
 		QPointF startPos, endPos;
@@ -375,15 +375,15 @@ namespace Tinkercell
 					//qDebug() << "control points = " << controlPoints.size();
 				}
 				else
-					if (reader->name() == "PathVectors")
+					if (reader->name() == "CurveSegments")
 					{
-						while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "PathVectors"))
+						while (!reader->atEnd() && !(reader->isEndElement() && reader->name() == "CurveSegments"))
 						{
-							connection->pathVectors += readPathVector(nodesHash,connectionsHash, controlPoints,reader);
-							if (connection->pathVectors.last().arrowStart)
-								connection->pathVectors.last().arrowStart->connectionItem = connection;
-							if (connection->pathVectors.last().arrowEnd)
-								connection->pathVectors.last().arrowEnd->connectionItem = connection;
+							connection->curveSegments += readCurveSegment(nodesHash,connectionsHash, controlPoints,reader);
+							if (connection->curveSegments.last().arrowStart)
+								connection->curveSegments.last().arrowStart->connectionItem = connection;
+							if (connection->curveSegments.last().arrowEnd)
+								connection->curveSegments.last().arrowEnd->connectionItem = connection;
 							reader->readNext();
 						}
 					}

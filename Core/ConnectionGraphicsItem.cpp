@@ -181,7 +181,7 @@ namespace Tinkercell
 		if (itemHandle)
 			setHandle(itemHandle);
 
-		pathVectors = copy.pathVectors;
+		curveSegments = copy.curveSegments;
 		lineType = copy.lineType;
 		arrowHeadDistance = copy.arrowHeadDistance;
 		setPen(defaultPen = copy.defaultPen);
@@ -189,29 +189,29 @@ namespace Tinkercell
 		setPos(copy.scenePos());
 		setTransform(copy.sceneTransform());
 
-		for (int i=0; i < copy.pathVectors.size(); ++i)
+		for (int i=0; i < copy.curveSegments.size(); ++i)
 		{
-			if (copy.pathVectors[i].arrowStart)
+			if (copy.curveSegments[i].arrowStart)
 			{
-				pathVectors[i].arrowStart = new ArrowHeadItem(*copy.pathVectors[i].arrowStart);
-				pathVectors[i].arrowStart->connectionItem = this;
+				curveSegments[i].arrowStart = new ArrowHeadItem(*copy.curveSegments[i].arrowStart);
+				curveSegments[i].arrowStart->connectionItem = this;
 			}
-			if (copy.pathVectors[i].arrowEnd)
+			if (copy.curveSegments[i].arrowEnd)
 			{
-				pathVectors[i].arrowEnd = new ArrowHeadItem(*copy.pathVectors[i].arrowEnd);
-				pathVectors[i].arrowEnd->connectionItem = this;
+				curveSegments[i].arrowEnd = new ArrowHeadItem(*copy.curveSegments[i].arrowEnd);
+				curveSegments[i].arrowEnd->connectionItem = this;
 			}
 		}
 
 		QList<ConnectionGraphicsItem::ControlPoint*> uniquePoints;
 		QList<QPoint> locations, positions;
 
-		for (int i=0; i < copy.pathVectors.size(); ++i)
-			for (int j=0; j < copy.pathVectors[i].size(); ++j)
+		for (int i=0; i < copy.curveSegments.size(); ++i)
+			for (int j=0; j < copy.curveSegments[i].size(); ++j)
 			{
 				positions += QPoint(i,j);
 
-				int k = uniquePoints.indexOf(copy.pathVectors[i][j]);
+				int k = uniquePoints.indexOf(copy.curveSegments[i][j]);
 				if (k > -1)
 				{
 					locations += locations[k];
@@ -220,7 +220,7 @@ namespace Tinkercell
 				else
 				{
 					locations += QPoint(i,j);
-					uniquePoints += (copy.pathVectors[i][j]);
+					uniquePoints += (copy.curveSegments[i][j]);
 				}
 			}
 
@@ -229,30 +229,30 @@ namespace Tinkercell
 			{
 				int i = positions[k].x(),
 					j = positions[k].y();
-				if (copy.pathVectors[i][j])
+				if (copy.curveSegments[i][j])
 				{
 					if (uniquePoints[k])
 					{
-						pathVectors[i][j] = new ConnectionGraphicsItem::ControlPoint(*copy.pathVectors[i][j]);
-						pathVectors[i][j]->connectionItem = this;
-						pathVectors[i][j]->setVisible(false);
+						curveSegments[i][j] = new ConnectionGraphicsItem::ControlPoint(*copy.curveSegments[i][j]);
+						curveSegments[i][j]->connectionItem = this;
+						curveSegments[i][j]->setVisible(false);
 
-						if (copy.pathVectors[i][j]->parentItem())
+						if (copy.curveSegments[i][j]->parentItem())
 						{
-							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.pathVectors[i][j]->parentItem());
-							if (parentNode == copy.pathVectors[i].arrowEnd)
-								pathVectors[i][j]->setParentItem(pathVectors[i].arrowEnd);
+							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.curveSegments[i][j]->parentItem());
+							if (parentNode == copy.curveSegments[i].arrowEnd)
+								curveSegments[i][j]->setParentItem(curveSegments[i].arrowEnd);
 							else
-								if (parentNode == copy.pathVectors[i].arrowStart)
-									pathVectors[i][j]->setParentItem(pathVectors[i].arrowStart);
+								if (parentNode == copy.curveSegments[i].arrowStart)
+									curveSegments[i][j]->setParentItem(curveSegments[i].arrowStart);
 								else
-									pathVectors[i][j]->setParentItem(copy.pathVectors[i][j]->parentItem());
+									curveSegments[i][j]->setParentItem(copy.curveSegments[i][j]->parentItem());
 
 						}
 					}
 					else
 					{
-						pathVectors[i][j] = pathVectors[locations[k].x()][locations[k].y()];
+						curveSegments[i][j] = curveSegments[locations[k].x()][locations[k].y()];
 					}
 				}
 			}
@@ -312,36 +312,36 @@ namespace Tinkercell
 		if (itemHandle)
 			setHandle(itemHandle);
 
-		pathVectors = copy.pathVectors;
+		curveSegments = copy.curveSegments;
 		lineType = copy.lineType;
 		arrowHeadDistance = copy.arrowHeadDistance;
 		setPen(defaultPen = copy.defaultPen);
 		setPos(copy.scenePos());
 		setTransform(copy.sceneTransform());
 
-		for (int i=0; i < copy.pathVectors.size(); ++i)
+		for (int i=0; i < copy.curveSegments.size(); ++i)
 		{
-			if (copy.pathVectors[i].arrowStart)
+			if (copy.curveSegments[i].arrowStart)
 			{
-				pathVectors[i].arrowStart = new ArrowHeadItem(*copy.pathVectors[i].arrowStart);
-				pathVectors[i].arrowStart->connectionItem = this;
+				curveSegments[i].arrowStart = new ArrowHeadItem(*copy.curveSegments[i].arrowStart);
+				curveSegments[i].arrowStart->connectionItem = this;
 			}
-			if (copy.pathVectors[i].arrowEnd)
+			if (copy.curveSegments[i].arrowEnd)
 			{
-				pathVectors[i].arrowEnd = new ArrowHeadItem(*copy.pathVectors[i].arrowEnd);
-				pathVectors[i].arrowEnd->connectionItem = this;
+				curveSegments[i].arrowEnd = new ArrowHeadItem(*copy.curveSegments[i].arrowEnd);
+				curveSegments[i].arrowEnd->connectionItem = this;
 			}
 		}
 
 		QList<ConnectionGraphicsItem::ControlPoint*> uniquePoints;
 		QList<QPoint> locations, positions;
 
-		for (int i=0; i < copy.pathVectors.size(); ++i)
-			for (int j=0; j < copy.pathVectors[i].size(); ++j)
+		for (int i=0; i < copy.curveSegments.size(); ++i)
+			for (int j=0; j < copy.curveSegments[i].size(); ++j)
 			{
 				positions += QPoint(i,j);
 
-				int k = uniquePoints.indexOf(copy.pathVectors[i][j]);
+				int k = uniquePoints.indexOf(copy.curveSegments[i][j]);
 				if (k > -1)
 				{
 					locations += locations[k];
@@ -350,7 +350,7 @@ namespace Tinkercell
 				else
 				{
 					locations += QPoint(i,j);
-					uniquePoints += (copy.pathVectors[i][j]);
+					uniquePoints += (copy.curveSegments[i][j]);
 				}
 			}
 
@@ -359,30 +359,30 @@ namespace Tinkercell
 			{
 				int i = positions[k].x(),
 					j = positions[k].y();
-				if (copy.pathVectors[i][j])
+				if (copy.curveSegments[i][j])
 				{
 					if (uniquePoints[k])
 					{
-						pathVectors[i][j] = new ConnectionGraphicsItem::ControlPoint(*copy.pathVectors[i][j]);
-						pathVectors[i][j]->connectionItem = this;
-						pathVectors[i][j]->setVisible(false);
+						curveSegments[i][j] = new ConnectionGraphicsItem::ControlPoint(*copy.curveSegments[i][j]);
+						curveSegments[i][j]->connectionItem = this;
+						curveSegments[i][j]->setVisible(false);
 
-						if (copy.pathVectors[i][j]->parentItem())
+						if (copy.curveSegments[i][j]->parentItem())
 						{
-							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.pathVectors[i][j]->parentItem());
-							if (parentNode == copy.pathVectors[i].arrowEnd)
-								pathVectors[i][j]->setParentItem(pathVectors[i].arrowEnd);
+							parentNode = qgraphicsitem_cast<NodeGraphicsItem*>(copy.curveSegments[i][j]->parentItem());
+							if (parentNode == copy.curveSegments[i].arrowEnd)
+								curveSegments[i][j]->setParentItem(curveSegments[i].arrowEnd);
 							else
-								if (parentNode == copy.pathVectors[i].arrowStart)
-									pathVectors[i][j]->setParentItem(pathVectors[i].arrowStart);
+								if (parentNode == copy.curveSegments[i].arrowStart)
+									curveSegments[i][j]->setParentItem(curveSegments[i].arrowStart);
 								else
-									pathVectors[i][j]->setParentItem(copy.pathVectors[i][j]->parentItem());
+									curveSegments[i][j]->setParentItem(copy.curveSegments[i][j]->parentItem());
 
 						}
 					}
 					else
 					{
-						pathVectors[i][j] = pathVectors[locations[k].x()][locations[k].y()];
+						curveSegments[i][j] = curveSegments[locations[k].x()][locations[k].y()];
 					}
 				}
 			}
@@ -402,10 +402,10 @@ namespace Tinkercell
 		//itemHandle = copy.itemHandle;
 		setPen(defaultPen = copy.defaultPen);
 
-		for (int i=0; i < copy.pathVectors.size() && i < pathVectors.size(); ++i)
-			for (int j=0; j < copy.pathVectors[i].size() && j < pathVectors[i].size(); ++j)
-				if (copy.pathVectors[i][j] && pathVectors[i][j] && pathVectors[i][j]->parentItem() == 0)
-					pathVectors[i][j]->setPos(copy.pathVectors[i][j]->scenePos());
+		for (int i=0; i < copy.curveSegments.size() && i < curveSegments.size(); ++i)
+			for (int j=0; j < copy.curveSegments[i].size() && j < curveSegments[i].size(); ++j)
+				if (copy.curveSegments[i][j] && curveSegments[i][j] && curveSegments[i][j]->parentItem() == 0)
+					curveSegments[i][j]->setPos(copy.curveSegments[i][j]->scenePos());
 
 		return *this;
 	}
@@ -427,10 +427,10 @@ namespace Tinkercell
 	/*! \brief checks that this is a valid drawable*/
 	bool ConnectionGraphicsItem::isValid()
 	{
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() < 4) 
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() < 4) 
 				return false;
-		return (pathVectors.size() > 0);
+		return (curveSegments.size() > 0);
 	}
 
 	/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/
@@ -493,10 +493,10 @@ namespace Tinkercell
 	{
 		if (connectionItem)
 		{
-			for (int i=0; i < connectionItem->pathVectors.size(); ++i)
-				for (int j=0; j < connectionItem->pathVectors[i].size(); ++j)
-					if (connectionItem->pathVectors[i][j] == this)
-						connectionItem->pathVectors[i][j] = 0;
+			for (int i=0; i < connectionItem->curveSegments.size(); ++i)
+				for (int j=0; j < connectionItem->curveSegments[i].size(); ++j)
+					if (connectionItem->curveSegments[i][j] == this)
+						connectionItem->curveSegments[i][j] = 0;
 		}
 	}
 
@@ -506,33 +506,33 @@ namespace Tinkercell
 	if (connectionItem && connectionItem->lineType == ConnectionGraphicsItem::bezier)
 	{
 	bool endpt = false, midpt = false;
-	for (int i=0; i < connectionItem->pathVectors.size(); ++i)
+	for (int i=0; i < connectionItem->curveSegments.size(); ++i)
 	{
-	int j = connectionItem->pathVectors[i].size() - 1;
-	if (j > 1 && connectionItem->pathVectors[i][j-1] == this)
+	int j = connectionItem->curveSegments[i].size() - 1;
+	if (j > 1 && connectionItem->curveSegments[i][j-1] == this)
 	{
 	endpt = true;
 	break;
 	}
-	if (j > 1 && connectionItem->pathVectors[i][j] == this)
+	if (j > 1 && connectionItem->curveSegments[i][j] == this)
 	{
 	midpt = true;
 	}				
 	}
 	if (endpt)
 	{
-	for (int i=0; i < connectionItem->pathVectors.size(); ++i)
+	for (int i=0; i < connectionItem->curveSegments.size(); ++i)
 	{
-	int j = connectionItem->pathVectors[i].size() - 1;
-	if (j > 1 && connectionItem->pathVectors[i][j-1] != this &&
-	connectionItem->pathVectors[i][j-1] &&
-	connectionItem->pathVectors[i][j])
+	int j = connectionItem->curveSegments[i].size() - 1;
+	if (j > 1 && connectionItem->curveSegments[i][j-1] != this &&
+	connectionItem->curveSegments[i][j-1] &&
+	connectionItem->curveSegments[i][j])
 	{
-	QPointF p0 = connectionItem->pathVectors[i][j]->scenePos(),
+	QPointF p0 = connectionItem->curveSegments[i][j]->scenePos(),
 	p1 = scenePos();
 	QPointF diff = p0 - p1;
 	QPointF p2(p0.x() + diff.x(),p0.y() + diff.y());
-	connectionItem->pathVectors[i][j-1]->setPos(p2);
+	connectionItem->curveSegments[i][j-1]->setPos(p2);
 	}
 	}
 	}
@@ -540,15 +540,15 @@ namespace Tinkercell
 	if (midpt)
 	{
 	ControlPoint * first = 0;
-	for (int i=0; i < connectionItem->pathVectors.size(); ++i)
+	for (int i=0; i < connectionItem->curveSegments.size(); ++i)
 	{
-	int j = connectionItem->pathVectors[i].size() - 1;
-	if (j > 1 && connectionItem->pathVectors[i][j-1] &&
-	connectionItem->pathVectors[i][j-1] != first)
+	int j = connectionItem->curveSegments[i].size() - 1;
+	if (j > 1 && connectionItem->curveSegments[i][j-1] &&
+	connectionItem->curveSegments[i][j-1] != first)
 	{
 	if (first == 0)
 	{
-	first = connectionItem->pathVectors[i][j-1];
+	first = connectionItem->curveSegments[i][j-1];
 	}
 	else
 	{							
@@ -556,7 +556,7 @@ namespace Tinkercell
 	p1 = first->scenePos();
 	QPointF diff = p0 - p1;
 	QPointF p2(p0.x() + diff.x(),p0.y() + diff.y());
-	connectionItem->pathVectors[i][j-1]->setPos(p2);
+	connectionItem->curveSegments[i][j-1]->setPos(p2);
 	break;
 	}
 	}
@@ -585,18 +585,18 @@ namespace Tinkercell
 	/*! \brief the center point (if one exists)*/
 	ConnectionGraphicsItem::ControlPoint * ConnectionGraphicsItem::centerPoint() const
 	{
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			if (pathVectors[i].last() && (qgraphicsitem_cast<NodeGraphicsItem*>(pathVectors[i].last()->parentItem()) == 0)
-				&& pathVectors.size() > 1 && pathVectors[i].arrowEnd == 0)
-				return pathVectors[i].last();
+			if (curveSegments[i].last() && (qgraphicsitem_cast<NodeGraphicsItem*>(curveSegments[i].last()->parentItem()) == 0)
+				&& curveSegments.size() > 1 && curveSegments[i].arrowEnd == 0)
+				return curveSegments[i].last();
 		}
-		if (pathVectors[0].size() >= 4)
+		if (curveSegments[0].size() >= 4)
 		{
-			int i = pathVectors[0].size()/2;
-			if (lineType == line || pathVectors[0].size() > 4)
+			int i = curveSegments[0].size()/2;
+			if (lineType == line || curveSegments[0].size() > 4)
 				i = 3 * (int)(i/3);
-			return pathVectors[0][i];
+			return curveSegments[0][i];
 		}
 		return 0;
 	}
@@ -604,7 +604,7 @@ namespace Tinkercell
 	/*! \brief the center location*/
 	QPointF ConnectionGraphicsItem::centerLocation() const
 	{
-		if (pathVectors.size() == 1 && pathVectors[0].size() < 5)
+		if (curveSegments.size() == 1 && curveSegments[0].size() < 5)
 		{
 			//if (pen().style() == Qt::SolidLine)
 			return ( pathShape.pointAtPercent(0.25) );
@@ -633,28 +633,28 @@ namespace Tinkercell
 		int truePaths = 0; //number of non-modifier paths
 
 		//when there is only one path (1-to-1), the situation is totally different
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			firstPoint = pathVectors[i].first();
-			lastPoint = pathVectors[i].last();
+			firstPoint = curveSegments[i].first();
+			lastPoint = curveSegments[i].last();
 
-			if (pathVectors[i].size() < 4 || !lastPoint || !firstPoint) continue;
+			if (curveSegments[i].size() < 4 || !lastPoint || !firstPoint) continue;
 
 			if (firstPoint->parentItem() != 0 &&  
 				((lastPoint->parentItem() != 0 && 
-				lastPoint->parentItem() != pathVectors[i].arrowEnd)
+				lastPoint->parentItem() != curveSegments[i].arrowEnd)
 				|| (lastPoint->parentItem() == 0)))
 				++truePaths;
 
 			if (lineType == bezier)
-				cp0 = pathVectors[i][ 1 ];
+				cp0 = curveSegments[i][ 1 ];
 			else
-				cp0 = pathVectors[i][ 3 ];
+				cp0 = curveSegments[i][ 3 ];
 
 			if (lineType == bezier)
-				cp1 = pathVectors[i][ pathVectors[i].size()-2 ];
+				cp1 = curveSegments[i][ curveSegments[i].size()-2 ];
 			else
-				cp1 = pathVectors[i][ pathVectors[i].size()-4 ];
+				cp1 = curveSegments[i][ curveSegments[i].size()-4 ];
 
 			//adjust firstPoint so that it lies on the boundary rect of the item it points to
 			NodeGraphicsItem * node = 0;
@@ -665,26 +665,26 @@ namespace Tinkercell
 
 				if (firstPoint->isVisible())
 					firstPoint->setVisible(false);
-				if (pathVectors[i].arrowStart != 0)
+				if (curveSegments[i].arrowStart != 0)
 				{
 					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance + 2.0, lineType == line);
 
 					firstPoint->setPos( node->mapFromScene(p) );
 
-					if (pathVectors[i].arrowStart->scene() != scene() && scene())
+					if (curveSegments[i].arrowStart->scene() != scene() && scene())
 					{
-						(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
 					}
 
-					pathVectors[i].arrowStart->setZValue(zValue() + 0.1);
+					curveSegments[i].arrowStart->setZValue(zValue() + 0.1);
 
-					if (pathVectors[i].arrowStart->handle() != 0)  //arrow should not have handles
-						Tinkercell::setHandle(pathVectors[i].arrowStart,0);
+					if (curveSegments[i].arrowStart->handle() != 0)  //arrow should not have handles
+						Tinkercell::setHandle(curveSegments[i].arrowStart,0);
 
-					if (pathVectors[i].arrowStart->parentItem() == 0)
+					if (curveSegments[i].arrowStart->parentItem() == 0)
 					{
 						QPointF p2 = pointOnEdge( *node, cp0->scenePos(),arrowHeadDistance, lineType == line);
-						pathVectors[i].arrowStart->setPos(p2);
+						curveSegments[i].arrowStart->setPos(p2);
 					}
 
 					qreal angle;
@@ -704,10 +704,10 @@ namespace Tinkercell
 							angle -= 180.0;
 
 
-					if (pathVectors[i].arrowStart->angle != angle)
+					if (curveSegments[i].arrowStart->angle != angle)
 					{
-						pathVectors[i].arrowStart->rotate(angle - pathVectors[i].arrowStart->angle);
-						pathVectors[i].arrowStart->angle = angle;
+						curveSegments[i].arrowStart->rotate(angle - curveSegments[i].arrowStart->angle);
+						curveSegments[i].arrowStart->angle = angle;
 					}
 				}
 				else
@@ -720,26 +720,26 @@ namespace Tinkercell
 
 			//adjust modifier arrows (if exists) by using center region
 			ControlPoint * centerPoint = this->centerPoint();
-			if (cp1 != 0 && centerPoint && lastPoint != centerPoint && pathVectors[i].arrowEnd != 0
-				&& (lastPoint->parentItem() == 0 || lastPoint->parentItem() == pathVectors[i].arrowEnd)
-				&& pathVectors.size() > 1)
+			if (cp1 != 0 && centerPoint && lastPoint != centerPoint && curveSegments[i].arrowEnd != 0
+				&& (lastPoint->parentItem() == 0 || lastPoint->parentItem() == curveSegments[i].arrowEnd)
+				&& curveSegments.size() > 1)
 			{
 				QPointF centerPoint = this->centerPoint()->scenePos();
 				QRectF centerRect(centerPoint - QPointF(centerRegion.width(),centerRegion.height())/2.0, centerRegion);
 				QPointF p = pointOnEdge(centerRect, cp1->scenePos(), arrowHeadDistance + 2.0,lineType == line);
 				QPointF p2 = cp1->scenePos();
-				if (lastPoint->parentItem() != pathVectors[i].arrowEnd)
-					lastPoint->setParentItem(pathVectors[i].arrowEnd);
+				if (lastPoint->parentItem() != curveSegments[i].arrowEnd)
+					lastPoint->setParentItem(curveSegments[i].arrowEnd);
 
-				pathVectors[i].arrowEnd->setPos(p);
-				lastPoint->setPos(pathVectors[i].arrowEnd->mapFromScene(p) );
+				curveSegments[i].arrowEnd->setPos(p);
+				lastPoint->setPos(curveSegments[i].arrowEnd->mapFromScene(p) );
 
-				if (pathVectors[i].arrowEnd->scene() != scene() && scene())
+				if (curveSegments[i].arrowEnd->scene() != scene() && scene())
 				{
-					(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
+					(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
 				}
 
-				pathVectors[i].arrowEnd->setZValue(zValue() + 0.1);
+				curveSegments[i].arrowEnd->setZValue(zValue() + 0.1);
 
 				qreal angle;
 				if (cp1->x() == p.x())
@@ -755,23 +755,23 @@ namespace Tinkercell
 					else
 						angle -= 180.0;
 
-				if (pathVectors[i].arrowEnd->angle != angle)
+				if (curveSegments[i].arrowEnd->angle != angle)
 				{
-					pathVectors[i].arrowEnd->rotate(angle - pathVectors[i].arrowEnd->angle);
-					pathVectors[i].arrowEnd->angle = angle;
+					curveSegments[i].arrowEnd->rotate(angle - curveSegments[i].arrowEnd->angle);
+					curveSegments[i].arrowEnd->angle = angle;
 				}
 			}
 		}
 
-		if (truePaths == 1 && pathVectors[0].size() >= 4)
+		if (truePaths == 1 && curveSegments[0].size() >= 4)
 		{
-			firstPoint = pathVectors[0].last();
-			lastPoint = pathVectors[0].first();
+			firstPoint = curveSegments[0].last();
+			lastPoint = curveSegments[0].first();
 
 			if (lineType == bezier)
-				cp0 = pathVectors[0][ pathVectors[0].size()-2 ];
+				cp0 = curveSegments[0][ curveSegments[0].size()-2 ];
 			else
-				cp0 = pathVectors[0][ pathVectors[0].size()-4 ];
+				cp0 = curveSegments[0][ curveSegments[0].size()-4 ];
 
 			NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(firstPoint->parentItem());
 			NodeGraphicsItem * node2 = NodeGraphicsItem::topLevelNodeItem(lastPoint->parentItem());
@@ -786,11 +786,11 @@ namespace Tinkercell
 
 				QPointF p0 = cp0->scenePos();
 
-				if (pathVectors[0].arrowEnd != 0)
+				if (curveSegments[0].arrowEnd != 0)
 				{
 					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance+2.0 ,lineType == line);
 
-					if (lineType == line && pathVectors[0].size() == 4)
+					if (lineType == line && curveSegments[0].size() == 4)
 					{
 						if (p.rx() == p0.rx())
 						{
@@ -813,18 +813,18 @@ namespace Tinkercell
 
 					firstPoint->setPos( node->mapFromScene(p) );
 
-					if (pathVectors[0].arrowEnd->scene() != scene() && scene())
+					if (curveSegments[0].arrowEnd->scene() != scene() && scene())
 					{
-						(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[0].arrowEnd);
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[0].arrowEnd);
 					}
 
-					if (pathVectors[0].arrowEnd->parentItem() == 0)
+					if (curveSegments[0].arrowEnd->parentItem() == 0)
 					{
 						QPointF p2 = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
-						pathVectors[0].arrowEnd->setPos(p2);
+						curveSegments[0].arrowEnd->setPos(p2);
 					}
 
-					pathVectors[0].arrowEnd->setZValue(zValue() + 0.1);
+					curveSegments[0].arrowEnd->setZValue(zValue() + 0.1);
 
 					qreal angle;
 					if (cp0->x() == p.x())
@@ -840,10 +840,10 @@ namespace Tinkercell
 						else
 							angle -= 180.0;
 
-					if (pathVectors[0].arrowEnd->angle != angle)
+					if (curveSegments[0].arrowEnd->angle != angle)
 					{
-						pathVectors[0].arrowEnd->rotate(angle - pathVectors[0].arrowEnd->angle);
-						pathVectors[0].arrowEnd->angle = angle;
+						curveSegments[0].arrowEnd->rotate(angle - curveSegments[0].arrowEnd->angle);
+						curveSegments[0].arrowEnd->angle = angle;
 					}
 				}
 				else
@@ -853,7 +853,7 @@ namespace Tinkercell
 
 					QPointF p = pointOnEdge(*node,cp0->scenePos(),arrowHeadDistance/2.0,lineType == line);
 
-					if (lineType == line && pathVectors[0].size() == 4)
+					if (lineType == line && curveSegments[0].size() == 4)
 					{
 						if (p.rx() == p0.rx())
 						{
@@ -939,16 +939,16 @@ namespace Tinkercell
 			//}
 			/*
 			ControlPoint * cp1 = 0, * cp2 = 0;
-			for (int i=0; i < pathVectors.size(); ++i)
+			for (int i=0; i < curveSegments.size(); ++i)
 			{
-			if (pathVectors[i].last() == cp && pathVectors[i].size() > 1)
+			if (curveSegments[i].last() == cp && curveSegments[i].size() > 1)
 			{
 			if (cp1 == 0)
-			cp1 = pathVectors[i][ pathVectors[i].size()-1 ];
+			cp1 = curveSegments[i][ curveSegments[i].size()-1 ];
 			else
-			if (cp2 == 0 && cp1 != pathVectors[i][ pathVectors[i].size()-1 ])
+			if (cp2 == 0 && cp1 != curveSegments[i][ curveSegments[i].size()-1 ])
 			{
-			cp2 = pathVectors[i][ pathVectors[i].size()-1 ];
+			cp2 = curveSegments[i][ curveSegments[i].size()-1 ];
 			break;
 			}
 			}
@@ -983,35 +983,35 @@ namespace Tinkercell
 		if (lineType == line)
 		{
 			QPointF pos;
-			for (int i=0; i < pathVectors.size(); ++i)
+			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				/*if (pathVectors[i].arrowStart)
+				/*if (curveSegments[i].arrowStart)
 				{	
-				if (pathVectors[i].arrowStart->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
-				pathVectors[i].arrowStart->setZValue(z + 0.1);
+				if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+				curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
-				if (pathVectors[i].arrowEnd)
+				if (curveSegments[i].arrowEnd)
 				{
-				if (pathVectors[i].arrowEnd->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
-				pathVectors[i].arrowEnd->setZValue(z + 0.1);
+				if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+				curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}*/
 
 				NodeGraphicsItem * node = nodeAt(i);
-				if (pathVectors[i].size() > 0 && pathVectors[i][0] &&					
+				if (curveSegments[i].size() > 0 && curveSegments[i][0] &&					
 					node && node->scene() == scene())
 				{
-					pathVectors[i][0]->setZValue(z + 0.02);
-					pos = pathVectors[i][0]->scenePos();
+					curveSegments[i][0]->setZValue(z + 0.02);
+					pos = curveSegments[i][0]->scenePos();
 					path.moveTo(pos);
-					for (int j=0; j+3 < pathVectors[i].size(); j+=3)
-						if (pathVectors[i][j]) 
+					for (int j=0; j+3 < curveSegments[i].size(); j+=3)
+						if (curveSegments[i][j]) 
 						{
-							pathVectors[i][j+1]->setZValue(z + 0.02);
-							pathVectors[i][j+2]->setZValue(z + 0.02);
-							pathVectors[i][j+3]->setZValue(z + 0.02);
-							pos = pathVectors[i][j+3]->scenePos();
+							curveSegments[i][j+1]->setZValue(z + 0.02);
+							curveSegments[i][j+2]->setZValue(z + 0.02);
+							curveSegments[i][j+3]->setZValue(z + 0.02);
+							pos = curveSegments[i][j+3]->scenePos();
 							path.lineTo(pos);
 						}
 				}
@@ -1020,40 +1020,40 @@ namespace Tinkercell
 		else
 		{
 			QPointF pos1,pos2,pos3;
-			for (int i=0; i < pathVectors.size(); ++i)
+			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				/*if (pathVectors[i].arrowStart)
+				/*if (curveSegments[i].arrowStart)
 				{	
-				if (pathVectors[i].arrowStart->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowStart);
-				pathVectors[i].arrowStart->setZValue(z + 0.1);
+				if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+				curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
-				if (pathVectors[i].arrowEnd)
+				if (curveSegments[i].arrowEnd)
 				{
-				if (pathVectors[i].arrowEnd->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i].arrowEnd);
-				pathVectors[i].arrowEnd->setZValue(z + 0.1);
+				if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+				curveSegments[i].arrowEnd->setZValue(z + 0.1);
 				}*/
 
 				NodeGraphicsItem * node = nodeAt(i);
-				if (pathVectors[i].size() > 0 && pathVectors[i][0] &&					
+				if (curveSegments[i].size() > 0 && curveSegments[i][0] &&					
 					node && node->scene() == scene())
 				{
-					pathVectors[i][0]->setZValue(z + 0.02);
+					curveSegments[i][0]->setZValue(z + 0.02);
 
-					pos1 =  pathVectors[i][0]->scenePos();
-					pathVectors[i][0]->setZValue(z + 0.02);
+					pos1 =  curveSegments[i][0]->scenePos();
+					curveSegments[i][0]->setZValue(z + 0.02);
 					path.moveTo(pos1);					
-					for (int j=0; j+3 < pathVectors[i].size(); j+=3)
-						if (pathVectors[i][j+1] && pathVectors[i][j+2] && pathVectors[i][j+3])
+					for (int j=0; j+3 < curveSegments[i].size(); j+=3)
+						if (curveSegments[i][j+1] && curveSegments[i][j+2] && curveSegments[i][j+3])
 						{
-							pathVectors[i][j+1]->setZValue(z + 0.02);
-							pathVectors[i][j+2]->setZValue(z + 0.02);
-							pathVectors[i][j+3]->setZValue(z + 0.02);
+							curveSegments[i][j+1]->setZValue(z + 0.02);
+							curveSegments[i][j+2]->setZValue(z + 0.02);
+							curveSegments[i][j+3]->setZValue(z + 0.02);
 
-							pos1 =  pathVectors[i][j+1]->scenePos();
-							pos2 =  pathVectors[i][j+2]->scenePos();
-							pos3 =  pathVectors[i][j+3]->scenePos();
+							pos1 =  curveSegments[i][j+1]->scenePos();
+							pos2 =  curveSegments[i][j+2]->scenePos();
+							pos3 =  curveSegments[i][j+3]->scenePos();
 
 							path.cubicTo(pos1,pos2,pos3);
 						}
@@ -1083,15 +1083,15 @@ namespace Tinkercell
 	{
 		//boundaryPathItem->setVisible(true);
 		QPainterPath boundary;
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{	
-			for (int j=0; j < pathVectors[i].size(); ++j)
+			for (int j=0; j < curveSegments[i].size(); ++j)
 			{
-				if (pathVectors[i][j])
+				if (curveSegments[i][j])
 					if (j == 0)
-						boundary.moveTo(pathVectors[i][j]->scenePos());
+						boundary.moveTo(curveSegments[i][j]->scenePos());
 					else
-						boundary.lineTo(pathVectors[i][j]->scenePos());
+						boundary.lineTo(curveSegments[i][j]->scenePos());
 			}
 		}
 		boundaryPathItem->setPath(boundary);
@@ -1105,44 +1105,44 @@ namespace Tinkercell
 	void ConnectionGraphicsItem::clear(bool all)
 	{	
 		QList<ConnectionGraphicsItem::ControlPoint*> visited;
-		for (int i=0; i < pathVectors.size(); ++i)
-			for (int j=0; j < pathVectors[i].size(); ++j)
-				if (pathVectors[i][j] && !visited.contains(pathVectors[i][j]))
+		for (int i=0; i < curveSegments.size(); ++i)
+			for (int j=0; j < curveSegments[i].size(); ++j)
+				if (curveSegments[i][j] && !visited.contains(curveSegments[i][j]))
 				{
-					visited += pathVectors[i][j];
+					visited += curveSegments[i][j];
 
-					pathVectors[i][j]->setParentItem(0);
+					curveSegments[i][j]->setParentItem(0);
 
-					if (pathVectors[i][j]->scene())
+					if (curveSegments[i][j]->scene())
 					{
-						pathVectors[i][j]->scene()->removeItem(pathVectors[i][j]);
+						curveSegments[i][j]->scene()->removeItem(curveSegments[i][j]);
 					}
 
-					pathVectors[i][j]->connectionItem = 0;
-					delete pathVectors[i][j];
+					curveSegments[i][j]->connectionItem = 0;
+					delete curveSegments[i][j];
 
-					pathVectors[i][j] = 0;
+					curveSegments[i][j] = 0;
 
 					if (all)
 					{
-						if (pathVectors[i].arrowStart && pathVectors[i].arrowStart->scene())
+						if (curveSegments[i].arrowStart && curveSegments[i].arrowStart->scene())
 						{
-							pathVectors[i].arrowStart->scene()->removeItem(pathVectors[i].arrowStart);
+							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 						}
 
-						if (pathVectors[i].arrowEnd && pathVectors[i].arrowEnd->scene())
+						if (curveSegments[i].arrowEnd && curveSegments[i].arrowEnd->scene())
 						{
-							pathVectors[i].arrowEnd->scene()->removeItem(pathVectors[i].arrowEnd);
+							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 						}
-						if (pathVectors[i].arrowStart)
-							delete pathVectors[i].arrowStart;
-						if (pathVectors[i].arrowEnd)
-							delete pathVectors[i].arrowEnd;
-						pathVectors[i].arrowStart = 0;
-						pathVectors[i].arrowEnd = 0;
+						if (curveSegments[i].arrowStart)
+							delete curveSegments[i].arrowStart;
+						if (curveSegments[i].arrowEnd)
+							delete curveSegments[i].arrowEnd;
+						curveSegments[i].arrowStart = 0;
+						curveSegments[i].arrowEnd = 0;
 					}
 				}
-				pathVectors.clear();	
+				curveSegments.clear();	
 
 				if (centerRegionItem && all)
 				{
@@ -1188,28 +1188,28 @@ namespace Tinkercell
 		else
 			boundaryPathItem->setVisible(false);
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			for (int j=0; j < pathVectors[i].size(); ++j)
+		for (int i=0; i < curveSegments.size(); ++i)
+			for (int j=0; j < curveSegments[i].size(); ++j)
 			{
-				if (pathVectors[i][j]) 
+				if (curveSegments[i][j]) 
 				{
 					if (lineType == bezier || (j%3)==0)
 					{
-						pathVectors[i][j]->setVisible(visible);
-						if (visible && scene() != pathVectors[i][j]->scene())
+						curveSegments[i][j]->setVisible(visible);
+						if (visible && scene() != curveSegments[i][j]->scene())
 						{
-							if (pathVectors[i][j]->scene())
+							if (curveSegments[i][j]->scene())
 							{
-								pathVectors[i][j]->setParentItem(0);
-								pathVectors[i][j]->scene()->removeItem(pathVectors[i][j]);
+								curveSegments[i][j]->setParentItem(0);
+								curveSegments[i][j]->scene()->removeItem(curveSegments[i][j]);
 							}
 							if (scene())
-								(static_cast<GraphicsScene*>(scene()))->addItem(pathVectors[i][j]);
+								(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i][j]);
 						}
 					}
 					else
 					{
-						pathVectors[i][j]->setVisible(false);
+						curveSegments[i][j]->setVisible(false);
 					}
 				}
 			}
@@ -1232,13 +1232,13 @@ namespace Tinkercell
 	QList<ConnectionGraphicsItem::ControlPoint*> ConnectionGraphicsItem::controlPoints(bool includeEnds) const
 	{
 		QList<ControlPoint*> list;
-		for (int i=0; i < pathVectors.size(); ++i)
-			for (int j=0; j < pathVectors[i].size(); ++j)
+		for (int i=0; i < curveSegments.size(); ++i)
+			for (int j=0; j < curveSegments[i].size(); ++j)
 			{
-				if (pathVectors[i][j] && !list.contains(pathVectors[i][j]) &&
-					(pathVectors[i][j]->parentItem() == 0 || includeEnds)
+				if (curveSegments[i][j] && !list.contains(curveSegments[i][j]) &&
+					(curveSegments[i][j]->parentItem() == 0 || includeEnds)
 					)
-					list.append(pathVectors[i][j]);
+					list.append(curveSegments[i][j]);
 			}
 			return list;
 	}
@@ -1246,13 +1246,13 @@ namespace Tinkercell
 	QList<QGraphicsItem*> ConnectionGraphicsItem::controlPointsAsGraphicsItems(bool includeEnds) const
 	{
 		QList<QGraphicsItem*> list;
-		for (int i=0; i < pathVectors.size(); ++i)
-			for (int j=0; j < pathVectors[i].size(); ++j)
+		for (int i=0; i < curveSegments.size(); ++i)
+			for (int j=0; j < curveSegments[i].size(); ++j)
 			{
-				if (pathVectors[i][j] && !list.contains(pathVectors[i][j]) &&
-					(pathVectors[i][j]->parentItem() == 0 || includeEnds)
+				if (curveSegments[i][j] && !list.contains(curveSegments[i][j]) &&
+					(curveSegments[i][j]->parentItem() == 0 || includeEnds)
 					)
-					list.append(pathVectors[i][j]);
+					list.append(curveSegments[i][j]);
 			}
 			return list;
 	}
@@ -1293,22 +1293,22 @@ namespace Tinkercell
 				int k1 = 0, k2 = 0;
 				QPointF p0,p1;
 
-				for (int i=0; i < item->pathVectors.size(); ++i)
-					for (int j=0; j < item->pathVectors[i].size(); ++j)
+				for (int i=0; i < item->curveSegments.size(); ++i)
+					for (int j=0; j < item->curveSegments[i].size(); ++j)
 					{
-						if (item->pathVectors[i][j])
+						if (item->curveSegments[i][j])
 						{
-							p0 = item->pathVectors[i][j]->scenePos();
+							p0 = item->curveSegments[i][j]->scenePos();
 
-							if (j > 0 && j < (item->pathVectors[i].size()-1))
-								p0 =  (item->pathVectors[i][j+1]->scenePos() + item->pathVectors[i][j-1]->scenePos() + p0)/3.0;
+							if (j > 0 && j < (item->curveSegments[i].size()-1))
+								p0 =  (item->curveSegments[i][j+1]->scenePos() + item->curveSegments[i][j-1]->scenePos() + p0)/3.0;
 							else
 							{
 								if (j > 0)
-									p0 =  (item->pathVectors[i][j-1]->scenePos() + p0)/2.0;
+									p0 =  (item->curveSegments[i][j-1]->scenePos() + p0)/2.0;
 								else
-									if (j < (item->pathVectors[i].size()-1))
-										p0 =  (item->pathVectors[i][j+1]->scenePos() + p0)/2.0;
+									if (j < (item->curveSegments[i].size()-1))
+										p0 =  (item->curveSegments[i][j+1]->scenePos() + p0)/2.0;
 							}
 
 							qreal dist2 = (p0.x() - loc.x())*(p0.x() - loc.x()) + 
@@ -1317,7 +1317,7 @@ namespace Tinkercell
 							{
 								dist = dist2;
 								k1 = i; 
-								if ((j+1) < item->pathVectors[i].size())
+								if ((j+1) < item->curveSegments[i].size())
 									k2 = j;
 								else
 									k2 = j - 1;
@@ -1329,9 +1329,9 @@ namespace Tinkercell
 					}
 
 					//controlPoint->graphicsItem = item;
-					while (item->pathVectors.size() <= k1) item->pathVectors.append(ConnectionGraphicsItem::CurveSegment());
+					while (item->curveSegments.size() <= k1) item->curveSegments.append(ConnectionGraphicsItem::CurveSegment());
 
-					if (item->pathVectors[k1].size() < k2) k2 = item->pathVectors[k1].size();
+					if (item->curveSegments[k1].size() < k2) k2 = item->curveSegments[k1].size();
 
 					if (graphicsScene)
 					{
@@ -1355,7 +1355,7 @@ namespace Tinkercell
 						if (k2 % 3 == 1) { d1 = -1; d2 = 1; }
 						if (k2 % 3 == 2) { d1 = 1; d2 = 2; }
 
-						//if (item->pathVectors[k1].size() <= k2)
+						//if (item->curveSegments[k1].size() <= k2)
 						//{
 						cp1->setPos( QPointF(controlPoint->pos().x()+d1*dx1, controlPoint->pos().y() ) );
 						cp2->setPos( QPointF(controlPoint->pos().x()+d2*dx1, controlPoint->pos().y() ) );
@@ -1378,17 +1378,17 @@ namespace Tinkercell
 						cp1->setZValue(controlPoint->zValue());
 						cp2->setZValue(controlPoint->zValue());
 
-						if (item->pathVectors[k1].size() < 4)
+						if (item->curveSegments[k1].size() < 4)
 						{
 							ConnectionGraphicsItem::ControlPoint * cp3 = new ConnectionGraphicsItem::ControlPoint(item);
 							cp3->setPos( QPointF(controlPoint->pos().x(), controlPoint->pos().y()) );
 							graphicsScene->addItem(cp3);					
 							cp3->setZValue(controlPoint->zValue());
 
-							item->pathVectors[k1].insert(0,cp1);
-							item->pathVectors[k1].insert(0,cp2);
-							item->pathVectors[k1].insert(0,cp3);
-							item->pathVectors[k1].insert(0,controlPoint);
+							item->curveSegments[k1].insert(0,cp1);
+							item->curveSegments[k1].insert(0,cp2);
+							item->curveSegments[k1].insert(0,cp3);
+							item->curveSegments[k1].insert(0,controlPoint);
 
 							listK1 << k1 << k1 << k1;
 							listK2 << 0 << 0 << 0 << 0;
@@ -1402,24 +1402,24 @@ namespace Tinkercell
 
 							if (k2 % 3 == 0)
 							{
-								item->pathVectors[k1].insert(k2+1,controlPoint);
-								item->pathVectors[k1].insert(k2+1,cp2);
-								item->pathVectors[k1].insert(k2+1,cp1);
+								item->curveSegments[k1].insert(k2+1,controlPoint);
+								item->curveSegments[k1].insert(k2+1,cp2);
+								item->curveSegments[k1].insert(k2+1,cp1);
 								graphicsItems << controlPoint << cp2 << cp1;
 							}
 							else
 								if (k2 % 3 == 1)
 								{
-									item->pathVectors[k1].insert(k2+1,cp2);
-									item->pathVectors[k1].insert(k2+1,controlPoint);						
-									item->pathVectors[k1].insert(k2+1,cp1);
+									item->curveSegments[k1].insert(k2+1,cp2);
+									item->curveSegments[k1].insert(k2+1,controlPoint);						
+									item->curveSegments[k1].insert(k2+1,cp1);
 									graphicsItems << cp2 << controlPoint << cp1;
 								}
 								else
 								{
-									item->pathVectors[k1].insert(k2+1,cp2);
-									item->pathVectors[k1].insert(k2+1,cp1);
-									item->pathVectors[k1].insert(k2+1,controlPoint);						
+									item->curveSegments[k1].insert(k2+1,cp2);
+									item->curveSegments[k1].insert(k2+1,cp1);
+									item->curveSegments[k1].insert(k2+1,controlPoint);						
 									graphicsItems << cp2 << cp1 << controlPoint;
 								}
 						}
@@ -1436,10 +1436,10 @@ namespace Tinkercell
 			if (graphicsItems[i] && graphicsItems[i]->connectionItem && graphicsScene)
 			{
 				ConnectionGraphicsItem * item = graphicsItems[i]->connectionItem;
-				if (listK1[i] >= 0 && listK1[i] < item->pathVectors.size())
+				if (listK1[i] >= 0 && listK1[i] < item->curveSegments.size())
 				{
-					int k = item->pathVectors[ listK1[i] ].indexOf(graphicsItems[i]);
-					item->pathVectors[ listK1[i] ].remove(k);
+					int k = item->curveSegments[ listK1[i] ].indexOf(graphicsItems[i]);
+					item->curveSegments[ listK1[i] ].remove(k);
 				}
 
 				if (graphicsScene)
@@ -1497,9 +1497,9 @@ namespace Tinkercell
 			if (graphicsItems[i] && graphicsItems[i]->connectionItem && graphicsScene)
 			{
 				ConnectionGraphicsItem * item = graphicsItems[i]->connectionItem;
-				if (listK1[i] >= 0 && listK1[i] < item->pathVectors.size() && listK2[i]  >= 0 && listK2[i] < item->pathVectors[ listK1[i] ].size() )
+				if (listK1[i] >= 0 && listK1[i] < item->curveSegments.size() && listK2[i]  >= 0 && listK2[i] < item->curveSegments[ listK1[i] ].size() )
 				{
-					item->pathVectors[ listK1[i] ].insert(listK2[i],graphicsItems[i]);
+					item->curveSegments[ listK1[i] ].insert(listK2[i],graphicsItems[i]);
 					graphicsScene->addItem(graphicsItems[i]);
 				}
 				item->refresh();
@@ -1518,14 +1518,14 @@ namespace Tinkercell
 				ConnectionGraphicsItem::ControlPoint * controlPoint = controlPointItems[i];
 				ConnectionGraphicsItem * item = controlPointItems[i]->connectionItem;
 
-				for (int i=0; i < item->pathVectors.size(); ++i)
+				for (int i=0; i < item->curveSegments.size(); ++i)
 				{			
 					int index = -1;
-					for (int j=3; j < item->pathVectors[i].size()-3; j+=3)
+					for (int j=3; j < item->curveSegments[i].size()-3; j+=3)
 					{
-						if (item->pathVectors[i][j] == controlPoint ||
-							item->pathVectors[i][j-1] == controlPoint ||
-							item->pathVectors[i][j+1] == controlPoint)
+						if (item->curveSegments[i][j] == controlPoint ||
+							item->curveSegments[i][j-1] == controlPoint ||
+							item->curveSegments[i][j+1] == controlPoint)
 						{
 
 							index = j;
@@ -1534,21 +1534,21 @@ namespace Tinkercell
 					}	
 					if (index > -1)
 					{
-						graphicsItems << item->pathVectors[i][index-1]
-						<< item->pathVectors[i][index]
-						<< item->pathVectors[i][index+1];
+						graphicsItems << item->curveSegments[i][index-1]
+						<< item->curveSegments[i][index]
+						<< item->curveSegments[i][index+1];
 
 						listK1 << i << i << i;
 						listK2 << (index-1) << index << (index+1);
 
-						item->pathVectors[i][index-1]->setParentItem(0);
-						item->pathVectors[i][index]->setParentItem(0);
-						item->pathVectors[i][index+1]->setParentItem(0);
-						graphicsScene->removeItem(item->pathVectors[i][index-1]);
-						graphicsScene->removeItem(item->pathVectors[i][index]);
-						graphicsScene->removeItem(item->pathVectors[i][index+1]);
+						item->curveSegments[i][index-1]->setParentItem(0);
+						item->curveSegments[i][index]->setParentItem(0);
+						item->curveSegments[i][index+1]->setParentItem(0);
+						graphicsScene->removeItem(item->curveSegments[i][index-1]);
+						graphicsScene->removeItem(item->curveSegments[i][index]);
+						graphicsScene->removeItem(item->curveSegments[i][index+1]);
 
-						item->pathVectors[i].remove(index-1,3);
+						item->curveSegments[i].remove(index-1,3);
 						//item->refresh();
 
 						break;
@@ -1563,10 +1563,10 @@ namespace Tinkercell
 		ConnectionGraphicsItem::ControlPoint* item)
 		: QUndoCommand(name)
 	{
-		pathVectors.clear();
+		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = item->connectionItem;
-		if (connectionItem == 0 || connectionItem->pathVectors.size() < 2) return;
+		if (connectionItem == 0 || connectionItem->curveSegments.size() < 2) return;
 
 		QList<ArrowHeadItem*> arrowHeads = connectionItem->arrowHeads();
 		int only_reactant = -1, only_product = -1;		
@@ -1597,14 +1597,14 @@ namespace Tinkercell
 			}
 		}
 
-		for (int i=0; i < connectionItem->pathVectors.size(); ++i)
+		for (int i=0; i < connectionItem->curveSegments.size(); ++i)
 		{
-			for (int j=0; j < connectionItem->pathVectors[i].size(); ++j)
+			for (int j=0; j < connectionItem->curveSegments[i].size(); ++j)
 			{
-				if (connectionItem->pathVectors[i][j] != 0 && connectionItem->pathVectors[i][j] == item)
+				if (connectionItem->curveSegments[i][j] != 0 && connectionItem->curveSegments[i][j] == item)
 				{
 					if (i != only_reactant && i != only_product)					
-						pathVectors.append(connectionItem->pathVectors[i]);
+						curveSegments.append(connectionItem->curveSegments[i]);
 					break;
 				}
 			}
@@ -1617,22 +1617,22 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::ControlPoint*> items)
 		: QUndoCommand(name)
 	{
-		pathVectors.clear();
+		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = connection;
-		if (connectionItem == 0 || connectionItem->pathVectors.size() < 2) return;
+		if (connectionItem == 0 || connectionItem->curveSegments.size() < 2) return;
 
 		bool done = false;
-		for (int i=0; i < connectionItem->pathVectors.size(); ++i)
+		for (int i=0; i < connectionItem->curveSegments.size(); ++i)
 		{
 			done = false;
-			for (int j=0; j < connectionItem->pathVectors[i].size(); ++j)
+			for (int j=0; j < connectionItem->curveSegments[i].size(); ++j)
 			{
 				for (int k = 0; k < items.size(); ++k)
 				{
-					if (connectionItem->pathVectors[i][j] != 0 && connectionItem->pathVectors[i][j] == items[k])
+					if (connectionItem->curveSegments[i][j] != 0 && connectionItem->curveSegments[i][j] == items[k])
 					{
-						pathVectors.append(connectionItem->pathVectors[i]);
+						curveSegments.append(connectionItem->curveSegments[i]);
 						done = true;
 						break;
 					}
@@ -1647,24 +1647,24 @@ namespace Tinkercell
 	{
 		if (connectionItem == 0) return;
 
-		if (connectionItem->pathVectors.size() == 1 && connectionItem->pathVectors.size() >= 4 
-			&& pathVectors.size() > 0 && pathVectors[0].at(3) != 0
-			&& connectionItem->pathVectors[0][3]->scene() != 0)
+		if (connectionItem->curveSegments.size() == 1 && connectionItem->curveSegments.size() >= 4 
+			&& curveSegments.size() > 0 && curveSegments[0].at(3) != 0
+			&& connectionItem->curveSegments[0][3]->scene() != 0)
 		{
-			connectionItem->pathVectors[0][3]->setParentItem(0);
-			connectionItem->pathVectors[0][3]->scene()->removeItem(connectionItem->pathVectors[0][3]);
-			connectionItem->pathVectors[0][3] = pathVectors[0].at(3);
+			connectionItem->curveSegments[0][3]->setParentItem(0);
+			connectionItem->curveSegments[0][3]->scene()->removeItem(connectionItem->curveSegments[0][3]);
+			connectionItem->curveSegments[0][3] = curveSegments[0].at(3);
 		}
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			connectionItem->pathVectors.append(pathVectors[i]);
-			for (int j=0; j < pathVectors[i].size(); ++j)
-				if (pathVectors[i][j] != 0)
-					pathVectors[i][j]->setVisible( connectionItem->controlPointsVisible );
-			if (pathVectors[i].arrowStart)
-				pathVectors[i].arrowStart->setVisible(true);
-			if (pathVectors[i].arrowEnd)
-				pathVectors[i].arrowEnd->setVisible(true);
+			connectionItem->curveSegments.append(curveSegments[i]);
+			for (int j=0; j < curveSegments[i].size(); ++j)
+				if (curveSegments[i][j] != 0)
+					curveSegments[i][j]->setVisible( connectionItem->controlPointsVisible );
+			if (curveSegments[i].arrowStart)
+				curveSegments[i].arrowStart->setVisible(true);
+			if (curveSegments[i].arrowEnd)
+				curveSegments[i].arrowEnd->setVisible(true);
 		}
 		connectionItem->refresh();
 	}
@@ -1673,24 +1673,24 @@ namespace Tinkercell
 	{
 		if (connectionItem == 0) return;
 		int k;
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			k = connectionItem->pathVectors.indexOf(pathVectors[i]);
-			if (k >=0 && k < connectionItem->pathVectors.size())
-				connectionItem->pathVectors.removeAt(k);
-			for (int j=0; j < pathVectors[i].size(); ++j)
-				if (pathVectors[i][j] != 0)
-					pathVectors[i][j]->setVisible(false);
-			if (pathVectors[i].arrowStart)
-				pathVectors[i].arrowStart->setVisible(false);
-			if (pathVectors[i].arrowEnd)
-				pathVectors[i].arrowEnd->setVisible(false);
+			k = connectionItem->curveSegments.indexOf(curveSegments[i]);
+			if (k >=0 && k < connectionItem->curveSegments.size())
+				connectionItem->curveSegments.removeAt(k);
+			for (int j=0; j < curveSegments[i].size(); ++j)
+				if (curveSegments[i][j] != 0)
+					curveSegments[i][j]->setVisible(false);
+			if (curveSegments[i].arrowStart)
+				curveSegments[i].arrowStart->setVisible(false);
+			if (curveSegments[i].arrowEnd)
+				curveSegments[i].arrowEnd->setVisible(false);
 		}
-		if (connectionItem->pathVectors.size() == 1 && connectionItem->pathVectors.size() >= 4 
-			&& pathVectors.size() > 0 && pathVectors[0].at(0) != 0)
+		if (connectionItem->curveSegments.size() == 1 && connectionItem->curveSegments.size() >= 4 
+			&& curveSegments.size() > 0 && curveSegments[0].at(0) != 0)
 		{
-			connectionItem->pathVectors[0][3] = new ConnectionGraphicsItem::ControlPoint(*connectionItem->pathVectors[0][3]);
-			connectionItem->pathVectors[0][3]->setParentItem(pathVectors[0].at(0)->parentItem());
+			connectionItem->curveSegments[0][3] = new ConnectionGraphicsItem::ControlPoint(*connectionItem->curveSegments[0][3]);
+			connectionItem->curveSegments[0][3]->setParentItem(curveSegments[0].at(0)->parentItem());
 		}	
 		connectionItem->refresh();
 	}
@@ -1701,11 +1701,11 @@ namespace Tinkercell
 		ConnectionGraphicsItem::CurveSegment& item)
 		: QUndoCommand(name)
 	{
-		pathVectors.clear();
+		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = connection;
 		if (connectionItem == 0) return;
-		pathVectors.append(item);
+		curveSegments.append(item);
 	}
 
 	AddCurveSegmentCommand::AddCurveSegmentCommand(
@@ -1714,11 +1714,11 @@ namespace Tinkercell
 		QList<ConnectionGraphicsItem::CurveSegment> items)
 		: QUndoCommand(name)
 	{
-		pathVectors.clear();
+		curveSegments.clear();
 		graphicsScene = scene;
 		connectionItem = connection;
 		if (connectionItem == 0) return;
-		pathVectors << items;
+		curveSegments << items;
 
 	}
 
@@ -1726,14 +1726,14 @@ namespace Tinkercell
 	{
 		if (connectionItem == 0) return;
 
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			connectionItem->pathVectors.append(pathVectors[i]);
+			connectionItem->curveSegments.append(curveSegments[i]);
 
-			if (pathVectors[i].arrowStart)
-				pathVectors[i].arrowStart->setVisible(true);
-			if (pathVectors[i].arrowEnd)
-				pathVectors[i].arrowEnd->setVisible(true);
+			if (curveSegments[i].arrowStart)
+				curveSegments[i].arrowStart->setVisible(true);
+			if (curveSegments[i].arrowEnd)
+				curveSegments[i].arrowEnd->setVisible(true);
 		}
 		connectionItem->refresh();
 	}
@@ -1742,42 +1742,42 @@ namespace Tinkercell
 	{
 		if (connectionItem == 0) return;
 		int k;
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			k = connectionItem->pathVectors.indexOf(pathVectors[i]);
-			if (k >=0 && k < connectionItem->pathVectors.size())
-				connectionItem->pathVectors.removeAt(k);
+			k = connectionItem->curveSegments.indexOf(curveSegments[i]);
+			if (k >=0 && k < connectionItem->curveSegments.size())
+				connectionItem->curveSegments.removeAt(k);
 
-			if (pathVectors[i].arrowStart)
-				pathVectors[i].arrowStart->setVisible(false);
-			if (pathVectors[i].arrowEnd)
-				pathVectors[i].arrowEnd->setVisible(false);
+			if (curveSegments[i].arrowStart)
+				curveSegments[i].arrowStart->setVisible(false);
+			if (curveSegments[i].arrowEnd)
+				curveSegments[i].arrowEnd->setVisible(false);
 		}
 		connectionItem->refresh();
 	}
 
 	AddCurveSegmentCommand::~AddCurveSegmentCommand()
 	{
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			for (int j=0; j < pathVectors[i].size(); ++j)
-				if (pathVectors[i][j])
+			for (int j=0; j < curveSegments[i].size(); ++j)
+				if (curveSegments[i][j])
 				{
-					pathVectors[i][j]->setParentItem(0);
-					if (pathVectors[i][j] && !pathVectors[i][j]->connectionItem && !pathVectors[i][j]->scene())
+					curveSegments[i][j]->setParentItem(0);
+					if (curveSegments[i][j] && !curveSegments[i][j]->connectionItem && !curveSegments[i][j]->scene())
 					{
-						delete pathVectors[i][j];
+						delete curveSegments[i][j];
 					}
 				}
-				if (pathVectors[i].arrowStart && !pathVectors[i].arrowStart->scene())
+				if (curveSegments[i].arrowStart && !curveSegments[i].arrowStart->scene())
 				{
-					pathVectors[i].arrowStart->setParentItem(0);
-					delete pathVectors[i].arrowStart;
+					curveSegments[i].arrowStart->setParentItem(0);
+					delete curveSegments[i].arrowStart;
 				}
-				if (pathVectors[i].arrowEnd && !pathVectors[i].arrowEnd->scene())
+				if (curveSegments[i].arrowEnd && !curveSegments[i].arrowEnd->scene())
 				{
-					pathVectors[i].arrowEnd->setParentItem(0);
-					delete pathVectors[i].arrowEnd;
+					curveSegments[i].arrowEnd->setParentItem(0);
+					delete curveSegments[i].arrowEnd;
 				}
 		}
 	}
@@ -1818,16 +1818,16 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> nodes;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (pathVectors[i].size() > 1)
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 						nodes += node;
 				}
 			}
@@ -1843,16 +1843,16 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> nodes;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && pathVectors[i].arrowStart && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && curveSegments[i].arrowStart && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (pathVectors[i].size() > 1)
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && pathVectors[i].arrowEnd && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && curveSegments[i].arrowEnd && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 						nodes += node;
 				}
 			}
@@ -1867,16 +1867,16 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> nodes;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && !pathVectors[i].arrowStart && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && !curveSegments[i].arrowStart && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (pathVectors[i].size() > 1)
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && !pathVectors[i].arrowEnd && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && !curveSegments[i].arrowEnd && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 						nodes += node;
 				}
 			}
@@ -1893,10 +1893,10 @@ namespace Tinkercell
 
 		ControlPoint * center = centerPoint();
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 1 && pathVectors[i][0] && !pathVectors[i].contains(center))
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 1 && curveSegments[i][0] && !curveSegments[i].contains(center))
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
 				if (node)
 					nodes += node;
 			}
@@ -1911,16 +1911,16 @@ namespace Tinkercell
 		QList<QGraphicsItem*> nodes;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (pathVectors[i].size() > 1)
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 						nodes += node;
 				}
 			}
@@ -1935,17 +1935,17 @@ namespace Tinkercell
 		QList<ArrowHeadItem*> arrows;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
-					arrows += pathVectors[i].arrowStart;
-				if (pathVectors[i].size() > 1)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
+					arrows += curveSegments[i].arrowStart;
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
-						arrows += pathVectors[i].arrowEnd;
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
+						arrows += curveSegments[i].arrowEnd;
 				}
 			}
 
@@ -1959,17 +1959,17 @@ namespace Tinkercell
 		QList<QGraphicsItem*> arrows;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
-					arrows += pathVectors[i].arrowStart;
-				if (pathVectors[i].size() > 1)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
+					arrows += curveSegments[i].arrowStart;
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && node->isVisible() && node != pathVectors[i].arrowStart && node != pathVectors[i].arrowEnd)
-						arrows += pathVectors[i].arrowEnd;
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
+						arrows += curveSegments[i].arrowEnd;
 				}
 			}
 
@@ -1983,17 +1983,17 @@ namespace Tinkercell
 		QList<ArrowHeadItem*> arrows;
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
-				if (node && node->isVisible() && node == pathVectors[i].arrowStart)
-					arrows += pathVectors[i].arrowStart;
-				if (pathVectors[i].size() > 1)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node == curveSegments[i].arrowStart)
+					arrows += curveSegments[i].arrowStart;
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
-					if (node && node->isVisible() && node == pathVectors[i].arrowEnd)
-						arrows += pathVectors[i].arrowEnd;
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node == curveSegments[i].arrowEnd)
+						arrows += curveSegments[i].arrowEnd;
 				}
 			}
 
@@ -2001,31 +2001,31 @@ namespace Tinkercell
 	}
 
 	/*! \brief find the node that connected to the particular path
-	* \param index less than size of pathVectors
+	* \param index less than size of curveSegments
 	* \return node item or 0*/
 	NodeGraphicsItem* ConnectionGraphicsItem::nodeAt(int index) const
 	{
 		NodeGraphicsItem * node;
-		if (pathVectors.size() == 1)
+		if (curveSegments.size() == 1)
 		{
 			if (index < 0 || index > 1 || 
-				pathVectors[0].size() < 4 || pathVectors[0][pathVectors[0].size()-1] == 0) return 0;
+				curveSegments[0].size() < 4 || curveSegments[0][curveSegments[0].size()-1] == 0) return 0;
 
 			if (index == 0)
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[0][0]->parentItem());				
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[0][0]->parentItem());				
 			else
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[0][pathVectors[0].size()-1]->parentItem());
-			if (node == pathVectors[0].arrowStart || node == pathVectors[0].arrowEnd)
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[0][curveSegments[0].size()-1]->parentItem());
+			if (node == curveSegments[0].arrowStart || node == curveSegments[0].arrowEnd)
 				node = 0;				
 		}
 
-		if (index < 0 || index >= pathVectors.size() ||
-			pathVectors[index].size() < 4 ||
-			pathVectors[index][0] == 0) 
+		if (index < 0 || index >= curveSegments.size() ||
+			curveSegments[index].size() < 4 ||
+			curveSegments[index][0] == 0) 
 			return 0;
 
-		node = NodeGraphicsItem::topLevelNodeItem(pathVectors[index][0]->parentItem());
-		if (node == pathVectors[index].arrowStart || node == pathVectors[index].arrowEnd)
+		node = NodeGraphicsItem::topLevelNodeItem(curveSegments[index][0]->parentItem());
+		if (node == curveSegments[index].arrowStart || node == curveSegments[index].arrowEnd)
 			node = 0;
 
 		if (node && node->isVisible())
@@ -2041,15 +2041,15 @@ namespace Tinkercell
 	{
 		NodeGraphicsItem* node;
 
-		for (int i=0; i < pathVectors.size(); ++i)
-			if (pathVectors[i].size() > 0 && pathVectors[i][0])
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][0]->parentItem());
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][0]->parentItem());
 				if (node && node == target)
 					return i;
-				if (pathVectors[i].size() > 1)
+				if (curveSegments[i].size() > 1)
 				{
-					node = NodeGraphicsItem::topLevelNodeItem(pathVectors[i][pathVectors[i].size()-1]->parentItem());
+					node = NodeGraphicsItem::topLevelNodeItem(curveSegments[i][curveSegments[i].size()-1]->parentItem());
 					if (node && node == target)
 						return i;
 				}
@@ -2059,42 +2059,42 @@ namespace Tinkercell
 	}
 
 	/*! \brief find the arrow head at the particular index
-	* \param index less than size of pathVectors
+	* \param index less than size of curveSegments
 	* \return node item or 0*/
 	ArrowHeadItem* ConnectionGraphicsItem::arrowAt(int index) const
 	{
 		ArrowHeadItem* arrow = 0;
 		NodeGraphicsItem * node;
-		if (pathVectors.size() == 1)
+		if (curveSegments.size() == 1)
 		{
 			if (index < 0 || index > 1 || 
-				pathVectors[0].size() < 4 || pathVectors[0][pathVectors[0].size()-1] == 0) return 0;
+				curveSegments[0].size() < 4 || curveSegments[0][curveSegments[0].size()-1] == 0) return 0;
 
 			if (index == 0)
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[0][0]->parentItem());
-				arrow = pathVectors[0].arrowStart;
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[0][0]->parentItem());
+				arrow = curveSegments[0].arrowStart;
 			}
 			else
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(pathVectors[0][pathVectors[0].size()-1]->parentItem());
-				arrow = pathVectors[0].arrowEnd;
+				node = NodeGraphicsItem::topLevelNodeItem(curveSegments[0][curveSegments[0].size()-1]->parentItem());
+				arrow = curveSegments[0].arrowEnd;
 			}
-			if (node == pathVectors[0].arrowStart || node == pathVectors[0].arrowEnd)
+			if (node == curveSegments[0].arrowStart || node == curveSegments[0].arrowEnd)
 			{
 				node = 0;
 				arrow = 0;	
 			}
 		}
 
-		if (index < 0 || index >= pathVectors.size() ||
-			pathVectors[index].size() < 4 ||
-			pathVectors[index][0] == 0) 
+		if (index < 0 || index >= curveSegments.size() ||
+			curveSegments[index].size() < 4 ||
+			curveSegments[index][0] == 0) 
 			return 0;
 
-		node = NodeGraphicsItem::topLevelNodeItem(pathVectors[index][0]->parentItem());
-		arrow = pathVectors[index].arrowStart;
-		if (node == pathVectors[index].arrowStart || node == pathVectors[index].arrowEnd)
+		node = NodeGraphicsItem::topLevelNodeItem(curveSegments[index][0]->parentItem());
+		arrow = curveSegments[index].arrowStart;
+		if (node == curveSegments[index].arrowStart || node == curveSegments[index].arrowEnd)
 		{
 			node = 0;
 			arrow = 0;
@@ -2107,30 +2107,30 @@ namespace Tinkercell
 	}
 
 	/*! \brief find the modifier arrow head at the particular index
-	* \param index less than size of pathVectors
+	* \param index less than size of curveSegments
 	* \return node item or 0*/
 	ArrowHeadItem* ConnectionGraphicsItem::modifierArrowAt(int index) const
 	{
-		if (index < 0 || index >= pathVectors.size())
+		if (index < 0 || index >= curveSegments.size())
 			return 0;
 
-		if (arrowAt(index) == pathVectors[index].arrowEnd) return 0;
+		if (arrowAt(index) == curveSegments[index].arrowEnd) return 0;
 
-		return pathVectors[index].arrowEnd;
+		return curveSegments[index].arrowEnd;
 	}
 
 	void ConnectionGraphicsItem::replaceNode(NodeGraphicsItem* oldNode, NodeGraphicsItem* newNode)
 	{
 		if (oldNode == 0 || newNode == 0) return;
 
-		for (int i=0; i < pathVectors.size(); ++i)
+		for (int i=0; i < curveSegments.size(); ++i)
 		{
-			if (pathVectors[i].size() > 0)
+			if (curveSegments[i].size() > 0)
 			{
-				if (pathVectors[i][0]->parentItem() == oldNode)
-					pathVectors[i][0]->setParentItem(newNode);
-				if (pathVectors[i][pathVectors[i].size() - 1]->parentItem() == oldNode)
-					pathVectors[i][pathVectors[i].size() - 1]->setParentItem(newNode);
+				if (curveSegments[i][0]->parentItem() == oldNode)
+					curveSegments[i][0]->setParentItem(newNode);
+				if (curveSegments[i][curveSegments[i].size() - 1]->parentItem() == oldNode)
+					curveSegments[i][curveSegments[i].size() - 1]->setParentItem(newNode);
 			}
 		}
 	}
@@ -2139,24 +2139,24 @@ namespace Tinkercell
 	{
 		if (nodeItem == 0) return;
 
-		if (pathVectors.size() == 1)
+		if (curveSegments.size() == 1)
 		{
 			if (index < 0 || index > 1 || 
-				pathVectors[0].size() < 4 || pathVectors[0][0] == 0) return;
+				curveSegments[0].size() < 4 || curveSegments[0][0] == 0) return;
 
 			if (index == 0)
-				pathVectors[0][0]->setParentItem(nodeItem);
+				curveSegments[0][0]->setParentItem(nodeItem);
 			else
-				pathVectors[0][pathVectors[0].size()-1]->setParentItem(nodeItem);
+				curveSegments[0][curveSegments[0].size()-1]->setParentItem(nodeItem);
 
 			return;
 		}
 
-		if (index < 0 || index >= pathVectors.size() ||
-			pathVectors[index].size() < 4 ||
-			pathVectors[index][0] == 0) return;
+		if (index < 0 || index >= curveSegments.size() ||
+			curveSegments[index].size() < 4 ||
+			curveSegments[index][0] == 0) return;
 
-		pathVectors[index][0]->setParentItem(nodeItem);
+		curveSegments[index][0]->setParentItem(nodeItem);
 	}
 
 	void ArrowHeadItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option ,QWidget *widget)
@@ -2309,5 +2309,85 @@ namespace Tinkercell
 	{
 		return qgraphicsitem_cast<ConnectionGraphicsItem*>(q);
 	}
+	
+	ConnectionGraphicsItem::ConnectionGraphicsItem(const QList<NodeGraphicsItem*>& from, const QList<NodeGraphicsItem*>& to, QGraphicsItem * parent) : 
+		QGraphicsPathItem (parent), itemHandle(0) 
+	{
+		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+		setFlag(QGraphicsItem::ItemIsMovable, false);
+		setFlag(QGraphicsItem::ItemIsSelectable, false);
 
+		className = ConnectionGraphicsItem::CLASSNAME;
+		lineType = line;
+		arrowHeadDistance = 10.0;
+		centerRegionItem = 0;
+		centerRegion = QSizeF(20,20);
+		centerRegionVisible = false;
+		defaultPen = QPen(QColor(50,50,255,255),5.0);
+		defaultPen.setJoinStyle(Qt::RoundJoin);
+		setPen(defaultPen);
+		setBrush(defaultBrush = Qt::NoBrush);
+		boundaryPathItem = new QGraphicsPathItem(this);
+
+		boundaryPathItem->setVisible(false);
+		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
+		boundaryPathItem->setBrush(Qt::NoBrush);
+
+		QString appDir = QCoreApplication::applicationDirPath();
+
+		ArrowHeadItem * node = new ArrowHeadItem;	
+		node->connectionItem = this;
+		NodeGraphicsReader imageReader;		
+		imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
+		if (node->isValid())
+		{
+			node->normalize();
+			node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
+		}
+		centerRegionItem = node;
+		
+		if (from.size() < 1 || to.size() < 1) return;
+		
+		QPointF center;
+		
+		for (int i=0; i < from.size(); ++i)
+			if (from[i])
+				center += from[i]->scenePos();
+		
+		for (int i=0; i < to.size(); ++i)
+			if (to[i])
+				center += to[i]->scenePos();
+		
+		center /= (from.size() + to.size());
+		ControlPoint * centerPoint = new ControlPoint(center,this,0);
+		
+		for (int i=0; i < from.size(); ++i)
+			if (from[i])
+			{
+				CurveSegment cv;
+				cv 	<< new ControlPoint(from[i]->scenePos(),this,from[i])
+					<< new ControlPoint((from[i]->scenePos() + center)/2.0,this,0)
+					<< new ControlPoint((from[i]->scenePos() + center)/2.0,this,0)
+					<< centerPoint;
+				curveSegments.append(cv);
+			}
+		
+		for (int i=0; i < to.size(); ++i)
+			if (to[i])
+			{
+				CurveSegment cv;
+				cv 	<< new ControlPoint(to[i]->scenePos(),this,to[i])
+					<< new ControlPoint((to[i]->scenePos() + center)/2.0,this,0)
+					<< new ControlPoint((to[i]->scenePos() + center)/2.0,this,0)
+					<< centerPoint;
+				cv.arrowStart = new ArrowHeadItem(this);
+				imageReader.readXml(cv.arrowStart,appDir + QString("/ArrowItems/Reaction.xml"));
+				if (cv.arrowStart->isValid())
+				{
+					cv.arrowStart->normalize();
+					cv.arrowStart->scale(25.0/cv.arrowStart->sceneBoundingRect().height(),25.0/cv.arrowStart->sceneBoundingRect().height());
+				}
+				curveSegments.append(cv);
+			}
+	}
 }

@@ -103,10 +103,10 @@ namespace Tinkercell
 		writeControlPoints(controlPoints,writer);
 		writer->writeEndElement();
 
-		writer->writeStartElement("PathVectors");
-		for (int i=0; i < connection->pathVectors.size(); ++i)
+		writer->writeStartElement("CurveSegments");
+		for (int i=0; i < connection->curveSegments.size(); ++i)
 		{
-			writePathVector(controlPoints,connection->pathVectors[i],writer);
+			writeCurveSegment(controlPoints,connection->curveSegments[i],writer);
 		}
 		writer->writeEndElement();
 
@@ -146,11 +146,11 @@ namespace Tinkercell
 		}
 	}
 
-	/*! \brief Writes a PathVector of a ConnectionGraphicsItem to an XML file
-	* \param control points of the connection item where this PathVector belongs
+	/*! \brief Writes a CurveSegment of a ConnectionGraphicsItem to an XML file
+	* \param control points of the connection item where this CurveSegment belongs
 	* \param xml writer in use
 	* \return void*/
-	void ConnectionGraphicsWriter::writePathVector(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::PathVector& pathVector,QXmlStreamWriter * writer)
+	void ConnectionGraphicsWriter::writeCurveSegment(QList<ConnectionGraphicsItem::ControlPoint*>& controlPoints, ConnectionGraphicsItem::CurveSegment& pathVector,QXmlStreamWriter * writer)
 	{
 		if (writer)
 		{

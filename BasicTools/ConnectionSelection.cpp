@@ -287,10 +287,10 @@ namespace Tinkercell
 					{
 						int i = connection->indexOf(node);
 
-						if (i > -1 && index > -1 && index < connection->pathVectors[i].size() && connection->pathVectors[i][index])
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
 						{
 							if (ptr)
-								(*ptr) = connection->pathVectors[i][index]->x();
+								(*ptr) = connection->curveSegments[i][index]->x();
 							if (sem)
 								sem->release();
 							return;
@@ -315,9 +315,9 @@ namespace Tinkercell
 					if (ptr && node && connection)
 					{
 						int i = connection->indexOf(node);
-						if (i > -1 && index > -1 && index < connection->pathVectors[i].size() && connection->pathVectors[i][index])
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
 						{
-							(*ptr) = connection->pathVectors[i][index]->y();
+							(*ptr) = connection->curveSegments[i][index]->y();
 							if (sem)
 								sem->release();
 							return;
@@ -342,17 +342,17 @@ namespace Tinkercell
 					if (node && connection)
 					{
 						int i = connection->indexOf(node);
-						if (i > -1 && index > -1 && index < connection->pathVectors[i].size() && connection->pathVectors[i][index])
+						if (i > -1 && index > -1 && index < connection->curveSegments[i].size() && connection->curveSegments[i][index])
 						{
-							QPointF diff(x - connection->pathVectors[i][index]->x(),
-								y - connection->pathVectors[i][index]->y());
+							QPointF diff(x - connection->curveSegments[i][index]->x(),
+								y - connection->curveSegments[i][index]->y());
 
 							GraphicsScene * scene = currentScene();
 							if (scene)
-								scene->move(connection->pathVectors[i][index],diff);
+								scene->move(connection->curveSegments[i][index],diff);
 							else
 							{
-								connection->pathVectors[i][index]->setPos(QPointF(x,y));
+								connection->curveSegments[i][index]->setPos(QPointF(x,y));
 							}
 							if (sem)
 								sem->release();
@@ -493,13 +493,13 @@ namespace Tinkercell
 				{
 					QPointF closest, p1,p2,p;
 					p1 = cp->scenePos();
-					for (int i1=0; i1 < cp->connectionItem->pathVectors.size(); ++i1)
+					for (int i1=0; i1 < cp->connectionItem->curveSegments.size(); ++i1)
 					{
-						for (int j=0; j < cp->connectionItem->pathVectors[i1].size(); ++j)
-							if (cp->connectionItem->pathVectors[i1][j] && (cp->connectionItem->pathVectors[i1][j]->parentItem() == 0) &&
+						for (int j=0; j < cp->connectionItem->curveSegments[i1].size(); ++j)
+							if (cp->connectionItem->curveSegments[i1][j] && (cp->connectionItem->curveSegments[i1][j]->parentItem() == 0) &&
 								cp->connectionItem->lineType == ConnectionGraphicsItem::line && (j%3) == 0)
 							{
-								p2 = cp->connectionItem->pathVectors[i1][j]->scenePos();
+								p2 = cp->connectionItem->curveSegments[i1][j]->scenePos();
 
 								if (p1 != p2)
 								{
@@ -581,12 +581,12 @@ namespace Tinkercell
 						{
 							movingItems.removeAt(i);
 
-							for (int i=0; i < connection->pathVectors.size(); ++i)
+							for (int i=0; i < connection->curveSegments.size(); ++i)
 							{
-								if (connection->pathVectors[i].arrowStart)
-									movingItems.removeAll(connection->pathVectors[i].arrowStart);
-								if (connection->pathVectors[i].arrowEnd)
-									movingItems.removeAll(connection->pathVectors[i].arrowEnd);
+								if (connection->curveSegments[i].arrowStart)
+									movingItems.removeAll(connection->curveSegments[i].arrowStart);
+								if (connection->curveSegments[i].arrowEnd)
+									movingItems.removeAll(connection->curveSegments[i].arrowEnd);
 							}
 
 							QList<ConnectionGraphicsItem::ControlPoint*> list = connection->controlPoints();
@@ -685,7 +685,7 @@ namespace Tinkercell
 					else
 					{
 						RemoveCurveSegmentCommand * cmmd2 = new RemoveCurveSegmentCommand("path removed",scene,p);
-						if (cmmd2->pathVectors.size() > 0)
+						if (cmmd2->curveSegments.size() > 0)
 						{
 							if (scene->historyStack)
 								scene->historyStack->push(cmmd2);

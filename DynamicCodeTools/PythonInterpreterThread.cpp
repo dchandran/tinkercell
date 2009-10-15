@@ -132,7 +132,7 @@ namespace Tinkercell
         }
 
         if (!f)
-            f = (execFunc)lib->resolve("exec");
+            f = (execFunc)lib->resolve("eval");
 
         if (f)
         {

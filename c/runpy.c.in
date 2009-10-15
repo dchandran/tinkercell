@@ -35,8 +35,8 @@ void exec(const char * code,const char * outfile)
 			 *errobj, 
 			 *errdata, 
 			 *errtraceback,
-			 *retString, 
-			 *errString;
+	char *retString, 
+		 *errString;
 
 	PyRun_SimpleString( code );
 	

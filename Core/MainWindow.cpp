@@ -182,7 +182,7 @@ namespace Tinkercell
 
 	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, bool allowViews)
 	{
-		allowViewModeToChange = true;
+		allowViewModeToChange = allowViews;
 		
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
@@ -200,7 +200,7 @@ namespace Tinkercell
 		setCentralWidget(&mdiArea);
 		
 		mdiArea.setTabShape(QTabWidget::Triangular);
-		setViewMode(view);
+		setViewMode(TabView);
 		
 		connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
 

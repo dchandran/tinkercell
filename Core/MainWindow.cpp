@@ -180,8 +180,10 @@ namespace Tinkercell
 		emit funtionPointersToMainThread(s,f );
 	}
 
-	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, VIEW_MODE view)
+	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, bool allowViews)
 	{
+		allowViewModeToChange = true;
+		
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
 		
@@ -330,6 +332,11 @@ namespace Tinkercell
 		emit windowChanged(subWindow);
 	}
 	
+	void MainWindow::allowMultipleViewModes(bool b)
+	{
+		allowViewModeToChange = b;
+	}
+	
 	void MainWindow::setViewMode(VIEW_MODE view)
 	{
 		if (view == TabView)
@@ -339,12 +346,13 @@ namespace Tinkercell
 		else
 		{
 			mdiArea.setViewMode(QMdiArea::SubWindowView);
-			mdiArea.tileSubWindows();
 		}
 	}
 
 	void MainWindow::changeView()
 	{
+		if (!allowViewModeToChange) return;
+		
 		if (mdiArea.viewMode() == QMdiArea::SubWindowView)
 		{
 			mdiArea.setViewMode(QMdiArea::TabbedView);
@@ -688,8 +696,11 @@ namespace Tinkercell
 		closeAction->setShortcut(QKeySequence::Close);
 		connect (closeAction, SIGNAL(triggered()),this,SLOT(closeWindow()));
 
-		QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
-		connect (changeViewAction, SIGNAL(triggered()),this,SLOT(changeView()));
+		if (allowViewModeToChange)
+		{
+			QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
+			connect (changeViewAction, SIGNAL(triggered()),this,SLOT(changeView()));
+		}
 
 		fileMenu->addSeparator();
 

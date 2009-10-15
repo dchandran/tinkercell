@@ -106,9 +106,8 @@ namespace Tinkercell
 		/*! \brief the types of views for multiple documents
 		             TabView = tabbed documents
 					 WindowView = each documents in a separate subwindow
-					 Both = allow both
 		*/
-		MY_EXPORT enum VIEW_MODE { TabView , WindowView, Both };
+		MY_EXPORT enum VIEW_MODE { TabView , WindowView };
 		
 		/*! \brief the default option to use for tools (optional)*/
 		static MY_EXPORT TOOL_WINDOW_OPTION defaultToolWindowOption;	
@@ -128,14 +127,19 @@ namespace Tinkercell
 		* \param bool enable graphics-based network construction (default = true)
 		* \param bool enable command-line (default = true)
 		* \param bool enable history window (default = true)
-		* \param VIEW_MODE view mode (default = Both)
+		* \param bool allow tabbed and windowed view modes (default = true)
 		*/
-		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true, VIEW_MODE views = Both);
+		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true, bool views = true);
 		/*!
 		* \brief set the current view mode
 		* \param VIEW_MODE view mode
 		*/
 		virtual void setViewMode(VIEW_MODE);
+		/*!
+		* \brief allow or disallow changing between different views
+		* \param bool
+		*/
+		virtual void allowMultipleViewModes(bool);
 		/*!
 		* \brief Destructor: delete all the graphics scenes.
 		*/
@@ -1129,6 +1133,8 @@ namespace Tinkercell
 		void filesDropped(const QList<QFileInfo>& files);
 
 	protected:
+		/*! \brief allowed views*/
+		bool allowViewModeToChange;
 		/*! \brief the loaded dynamic libraries indexed by file name*/
 		QHash<QString,QLibrary*> dynamicallyLoadedLibraries;
 		/*! \brief the general window for command, errors, and messages*/

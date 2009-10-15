@@ -31,8 +31,6 @@ void initialize()
 void exec(const char * code,const char * outfile)
 {
 	PyObject * s,
-			 *evalModule, 
-			 *evalDict,
 			 *evalVal,
 			 *errobj, 
 			 *errdata, 
@@ -42,9 +40,7 @@ void exec(const char * code,const char * outfile)
 
 	PyRun_SimpleString( code );
 	
-	evalModule = PyImport_AddModule( (char*)"__main__" );
-	evalDict = PyModule_GetDict( evalModule );
-	evalVal = PyDict_GetItemString( evalDict, "result" );
+	evalVal = PyDict_GetItemString( main_dict, "_" );
 	
 	PyErr_Fetch (&errobj, &errdata, &errtraceback);
 	
@@ -52,7 +48,7 @@ void exec(const char * code,const char * outfile)
 	{
 		s = PyObject_Str(evalVal); 
 		retString = PyString_AsString(s);
-		tc_errorReport(retString);
+		tc_print(retString);
 		Py_DECREF(s); 
 	}
 	

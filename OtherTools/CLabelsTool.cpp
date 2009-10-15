@@ -188,8 +188,8 @@ namespace Tinkercell
 					rectItem->setZValue(scene->ZValue() + 10.0);
 					textItem->setZValue(scene->ZValue() + 20.0);
 					
-					rectItems << QPair<ItemHandle*,QGraphicsRectItem>(handle,rectItem);
-					textItems << QPair<ItemHandle*,QGraphicsSimpleTextItem>(handle,textItem);
+					rectItems << QPair<ItemHandle*,QGraphicsRectItem*>(handle,rectItem);
+					textItems << QPair<ItemHandle*,QGraphicsSimpleTextItem*>(handle,textItem);
 				}
 			}
 		}
@@ -229,7 +229,7 @@ namespace Tinkercell
 					ellipseItem = new QGraphicsEllipseItem(rect);
 					ellipseItem->setPen(QPen(QBrush(color),4,Qt::DashDotLine));
 					scene->addItem(ellipseItem);
-					ellipseItems << QPair<ItemHandle*,QGraphicsEllipseItem>(handle,ellipseItem);
+					ellipseItems << QPair<ItemHandle*,QGraphicsEllipseItem*>(handle,ellipseItem);
 				}
 			}
 		}

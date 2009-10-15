@@ -696,12 +696,6 @@ namespace Tinkercell
 		closeAction->setShortcut(QKeySequence::Close);
 		connect (closeAction, SIGNAL(triggered()),this,SLOT(closeWindow()));
 
-		if (allowViewModeToChange)
-		{
-			QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
-			connect (changeViewAction, SIGNAL(triggered()),this,SLOT(changeView()));
-		}
-
 		fileMenu->addSeparator();
 
 		QAction * printAction = fileMenu->addAction(QIcon(tr(":/images/print.png")),tr("Print"));
@@ -787,8 +781,7 @@ namespace Tinkercell
 		toolBarBasic->addAction(openAction);
 		toolBarBasic->addAction(closeAction);
 		toolBarBasic->addAction(saveAction);
-		toolBarBasic->addAction(changeViewAction);
-
+		
 		toolBarEdits->addAction(arrowAction);
 		toolBarEdits->addAction(undoAction);
 		toolBarEdits->addAction(redoAction);
@@ -808,15 +801,13 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(fitAll);
 		contextScreenMenu.addAction(closeAction);
-		contextScreenMenu.addAction(changeViewAction);
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
 
-		contextEditorMenu.addAction(closeAction);
-		contextEditorMenu.addAction(changeViewAction);
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
-
+		contextEditorMenu.addAction(closeAction);
+		
 		contextItemsMenu.addAction(copyAction);
 		contextItemsMenu.addAction(cutAction);
 		contextScreenMenu.addAction(pasteAction);
@@ -828,9 +819,19 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(fitAll);
 		contextScreenMenu.addAction(closeAction);
-		contextScreenMenu.addAction(changeViewAction);
+		
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
+		
+		if (allowViewModeToChange)
+		{
+			QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
+			connect (changeViewAction, SIGNAL(triggered()),this,SLOT(changeView()));
+			toolBarBasic->addAction(changeViewAction);
+			contextEditorMenu.addAction(changeViewAction);
+			contextScreenMenu.addAction(changeViewAction);
+			contextScreenMenu.addAction(changeViewAction);
+		}
 	}
 
 	void MainWindow::sendEscapeSignal(const QWidget * widget)

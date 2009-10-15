@@ -103,46 +103,55 @@ namespace Tinkercell
 			clearLabels();
 	}
 	
-	void CLabelsTool::clearLabels()
+	void CLabelsTool::clearLabels(ItemHandle * h)
 	{
 		if (textItems.isEmpty() && rectItems.isEmpty() && ellipseItems.isEmpty()) return;
 		
 		for (int i=0; i < textItems.size(); ++i)
 		{
-			if (textItems[i])
+			if (textItems[i].second && (!h || textItems[i].first==h))
 			{
-				if (textItems[i]->scene())
-					textItems[i]->scene()->removeItem(textItems[i]);
-				delete textItems[i];
+				if (textItems[i].second->scene())
+					textItems[i].second->scene()->removeItem(textItems[i].second);
+				delete textItems[i].second;
+				textItems[i].second = 0;
 			}
 		}
-		textItems.clear();
 		
 		for (int i=0; i < rectItems.size(); ++i)
 		{
-			if (rectItems[i])
+			if (rectItems[i].second && (!h || rectItems[i].first==h))
 			{
-				if (rectItems[i]->scene())
-					rectItems[i]->scene()->removeItem(rectItems[i]);
-				delete rectItems[i];
+				if (rectItems[i].second->scene())
+					rectItems[i].second->scene()->removeItem(rectItems[i].second);
+				delete rectItems[i].second;
+				rectItems[i].second = 0;
 			}
 		}
-		rectItems.clear();
 		
 		for (int i=0; i < ellipseItems.size(); ++i)
 		{
-			if (ellipseItems[i])
+			if (ellipseItems[i].second && (!h || ellipseItems[i].first==h))
 			{
-				if (ellipseItems[i]->scene())
-					ellipseItems[i]->scene()->removeItem(ellipseItems[i]);
-				delete ellipseItems[i];
+				if (ellipseItems[i].second->scene())
+					ellipseItems[i].second->scene()->removeItem(ellipseItems[i].second);
+				delete ellipseItems[i].second;
+				ellipseItems[i].second = 0;
 			}
 		}
-		ellipseItems.clear();
+		
+		if (!h)
+		{
+			textItems.clear();
+			rectItems.clear();
+			ellipseItems.clear();
+		}
 	}
 	
 	void CLabelsTool::displayText(ItemHandle* handle, const QString& text)
 	{
+		clearLabels(handle);
+		
 		GraphicsScene * scene = currentScene();
 		if (!handle || !scene) return;
 		NodeGraphicsItem * node = 0;
@@ -179,8 +188,8 @@ namespace Tinkercell
 					rectItem->setZValue(scene->ZValue() + 10.0);
 					textItem->setZValue(scene->ZValue() + 20.0);
 					
-					rectItems << rectItem;
-					textItems << textItem;
+					rectItems << QPair<ItemHandle*,QGraphicsRectItem>(handle,rectItem);
+					textItems << QPair<ItemHandle*,QGraphicsSimpleTextItem>(handle,textItem);
 				}
 			}
 		}
@@ -188,6 +197,7 @@ namespace Tinkercell
 	
 	void CLabelsTool::highlightItem(ItemHandle* handle, QColor color)
 	{
+		clearLabels(handle);
 		GraphicsScene * scene = currentScene();
 		if (!handle || !scene) return;
 		NodeGraphicsItem * node = 0;
@@ -219,7 +229,7 @@ namespace Tinkercell
 					ellipseItem = new QGraphicsEllipseItem(rect);
 					ellipseItem->setPen(QPen(QBrush(color),4,Qt::DashDotLine));
 					scene->addItem(ellipseItem);
-					ellipseItems << ellipseItem;
+					ellipseItems << QPair<ItemHandle*,QGraphicsEllipseItem>(handle,ellipseItem);
 				}
 			}
 		}
@@ -232,18 +242,18 @@ namespace Tinkercell
 		
 		for (int i=0; i < textItems.size(); ++i)
 		{
-			if (textItems[i])
+			if (textItems[i].second)
 			{
-				textItems[i]->setBrush(QBrush(textColor));
+				textItems[i].second->setBrush(QBrush(textColor));
 			}
 		}
 		textItems.clear();
 		
 		for (int i=0; i < rectItems.size(); ++i)
 		{
-			if (rectItems[i])
+			if (rectItems[i].second)
 			{
-				rectItems[i]->setBrush(QBrush(bgColor));
+				rectItems[i].second->setBrush(QBrush(bgColor));
 			}
 		}
 	}

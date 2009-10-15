@@ -25,11 +25,10 @@ if len(selected) == 1:   #if selected items
         if i == name:
             inN = True;
             break;
-    if not inN:
-        for i in N[1]:
-            names.append(i);
-            if i == name:
-                inN = True;
+    for i in N[1]:
+        names.append(i);
+        if i == name:
+            inN = True;
     if inN:
         numbers = range(0, len(names));
         for i in range(0,len(names)):

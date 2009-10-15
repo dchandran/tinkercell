@@ -16,6 +16,8 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
+#include <QPair>
+#include <QList>
 
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
@@ -60,7 +62,7 @@ namespace Tinkercell
 	public slots:
 		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * library );
-		void clearLabels();
+		void clearLabels(ItemHandle * h=0);
 		void keyPressed(GraphicsScene * scene, QKeyEvent *);
 		void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
@@ -71,9 +73,9 @@ namespace Tinkercell
 		void setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
 		
 	protected:
-		QList<QGraphicsSimpleTextItem*> textItems;
-		QList<QGraphicsRectItem*> rectItems;
-		QList<QGraphicsEllipseItem*> ellipseItems;
+		QList< QPair<ItemHandle*,QGraphicsSimpleTextItem*> > textItems;
+		QList< QPair<ItemHandle*,QGraphicsRectItem*> > rectItems;
+		QList< QPair<ItemHandle*,QGraphicsEllipseItem*> > ellipseItems;
 		QColor bgColor, textColor;
 		
 		static CLabelsTool_FToS fToS;

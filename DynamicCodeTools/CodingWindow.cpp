@@ -634,7 +634,7 @@ namespace Tinkercell
 
 		 if (fileName.isNull())
 			 fileName = QFileDialog::getOpenFileName(this,
-				 tr("Open File"), "", ext);
+				 tr("Open File"), MainWindow::previousFileName, ext);
 
 		 if (!fileName.isEmpty()) {
 			 QFile file(fileName);

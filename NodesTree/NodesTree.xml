@@ -58,8 +58,13 @@
   </node>
 </node>
 <node family="Compartment" units="volume,fL">
-    <text>A region where the contained species are localized</text>
-	<node family="Cell" species="E.coli" count="1" x="0" y="0"></node>
+    <text>A region where the contained molecular species are localized and contained</text>
+	<node family="Subcellular compartment" x="0" y="0" z="0">
+		<text>A compartment inside a biological cell, e.g. nucleus</text>
+	</node>
+	<node family="Cell" species="E.coli" count="1" x="0" y="0" z="0">
+		<text>A biological cell, e.g. a bacterium</text>
+	</node>
 </node>
 <node family="Module" type="generic">
    <text>A module is a network that can contain interfaces and can be connected to other modules.</text>

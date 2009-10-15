@@ -184,6 +184,7 @@ namespace Tinkercell
 	{
 		allowViewModeToChange = allowViews;
 		
+		setMouseTracking(true);
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
 		

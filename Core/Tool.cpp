@@ -54,6 +54,7 @@ namespace Tinkercell
 
 	Tool::Tool(): buttons(this)
 	{
+		setMouseTracking(true);
 		name = "";
 		mainWindow = 0;
 	}

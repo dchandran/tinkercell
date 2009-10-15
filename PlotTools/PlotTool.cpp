@@ -38,7 +38,6 @@ namespace Tinkercell
 		dockWidget = 0;
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
-		setMouseTracking(true);
 		
 		connect(&actionGroup,SIGNAL(triggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 		

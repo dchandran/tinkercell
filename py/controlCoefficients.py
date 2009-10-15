@@ -15,6 +15,7 @@ N = pytc.stoichiometry(pytc.allItems());
 
 pytc.showProgress(90);
 mod.showCC();
+names = [];
 
 if len(selected) == 1:   #if selected items
     s = selected[0];
@@ -26,45 +27,14 @@ if len(selected) == 1:   #if selected items
             break;
     if not inN:
         for i in N[1]:
+            names.append(i);
             if i == name:
                 inN = True;
-                break;
     if inN:
-        names.append(N[1]);
         numbers = range(0, len(names));
         for i in range(0,len(names)):
             numbers[i] = mod.cc.__getattribute__(name + "_" + names[i]) 
         display.numbers(names,numbers);
-        prefix = 'mod.' + 'ccJ' + name + '_';
-     if pytc.isA(s,'part'):
-        prefix = 'mod.' + 'cc' + name + '_';
-     ccs = [];
-     if len(prefix) > 0:
-        for i in range(0,n):
-           z = 0;
-           for j in N[1]:
-              if j == fluxNames[i]:
-                  z = eval( prefix + fluxNames[i] );
-                  break;
-           ccs.append(z);
-
-        zmax = numpy.max(numpy.abs(ccs));
-
-        for i in range(0,n):
-           z = ccs[i];
-           pytc.displayNumber( fluxes[i], z );
-           z /= zmax;  #scale so that everything is between -1 and 1
-           if z == 0:
-              pytc.setColor( fluxes[i], 230, 230, 230 );
-           elif z < 0:
-              pytc.setColor( fluxes[i], 250.0, 0.0, 0.0 );
-           else:
-              pytc.setColor( fluxes[i], 0.0, 0.0, 250.0 );
-           pytc.setLineWidth(fluxes[i], 1 + abs(z) * 10.0); 
-   else:   
-     print "selected item does not occur in the stoichiometry matrix";
-else:   
-   print "select a single item to see the related control coefficients on the screen";
 
 pytc.showProgress(100);
 

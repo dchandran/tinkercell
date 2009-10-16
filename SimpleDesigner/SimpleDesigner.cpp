@@ -376,7 +376,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		
 		if (mode == 2)
 		{
-			node = NodeGraphicsItem::topLevelNodeItem(selectedItems[i]);
+			node = NodeGraphicsItem::cast(selectedItems[i]);
 			if (node && !nodeItems.contains(node))
 				nodeItems << node;
 		}
@@ -421,7 +421,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		selectItem(scene,selectedItems[i]);
 		if (mode == 2)
 		{
-			node = NodeGraphicsItem::topLevelNodeItem(selectedItems[i]);
+			node = NodeGraphicsItem::cast(selectedItems[i]);
 			if (node && !nodeItems.contains(node))
 				nodeItems << node;
 		}
@@ -429,7 +429,10 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	
 	if (mode == 2 && nodeItems.size() == 2)
 	{	
-		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(items[0],items[1]);
+		QList<NodeGraphicsItem*> list1, list2;
+		list1 << NodeGraphicsItem::cast(nodeItems[0]);
+		list2 << NodeGraphicsItem::cast(nodeItems[1]);
+		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(list1,list2);
 		ConnectionHandle * handle = new ConnectionHandle;
 		QList<QString> names = scene->networkWindow->symbolsTable.handlesFirstName.keys();
 		names += scene->networkWindow->symbolsTable.dataRowsAndCols.keys();
@@ -444,31 +447,6 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		}
 		
 		setHandle(item,handle);
-		
-		/*
-		
-		QPointF midpt = (items[0]->scenePos() + items[1]->scenePos())/2.0;
-		
-		ConnectionGraphicsItem::CurveSegment path;
-		path += new ConnectionGraphicsItem::ControlPoint(item,nodeItems[0]);
-		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
-		path += new ConnectionGraphicsItem::ControlPoint(midpt,item);
-		path += new ConnectionGraphicsItem::ControlPoint(item,nodeItems[1]);
-		
-		ArrowHeadItem * arrow = 0;
-		QString nodeImageFile;
-		QString appDir = QCoreApplication::applicationDirPath();
-		nodeImageFile = tr(":/images/arrow.xml");
-		
-		NodeGraphicsReader imageReader;
-		arrow = new ArrowHeadItem(item);
-		imageReader.readXml(arrow,nodeImageFile);
-		arrow->normalize();
-		arrow->scale(0.15,0.15);
-		path.arrowEnd = arrow;
-		
-		item->curveSegments += path;*/
-		
 		scene->insert(tr("connection inserted"),item);
 		
 		scene->deselect();

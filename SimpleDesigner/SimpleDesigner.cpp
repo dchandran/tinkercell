@@ -429,7 +429,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	
 	if (mode == 2 && nodeItems.size() == 2)
 	{	
-		ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
+		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(items[0],items[1]);
 		ConnectionHandle * handle = new ConnectionHandle;
 		QList<QString> names = scene->networkWindow->symbolsTable.handlesFirstName.keys();
 		names += scene->networkWindow->symbolsTable.dataRowsAndCols.keys();
@@ -444,6 +444,8 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		}
 		
 		setHandle(item,handle);
+		
+		/*
 		
 		QPointF midpt = (items[0]->scenePos() + items[1]->scenePos())/2.0;
 		
@@ -465,7 +467,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		arrow->scale(0.15,0.15);
 		path.arrowEnd = arrow;
 		
-		item->curveSegments += path;
+		item->curveSegments += path;*/
 		
 		scene->insert(tr("connection inserted"),item);
 		
@@ -488,7 +490,10 @@ int main(int argc, char *argv[])
     ORGANIZATIONNAME = QObject::tr("Simple Designer");
     PROJECTNAME = QObject::tr("Simple Designer");
 	
-    QApplication app(argc, argv);
+	ConnectionGraphicsItem::DefaultMiddleItemFile = QString("");
+	ConnectionGraphicsItem::DefaultArrowHeadFile = QString(":/images/arrow.xml");
+    
+	QApplication app(argc, argv);
 
 	QString appDir = QCoreApplication::applicationDirPath();
     

@@ -9,7 +9,6 @@
 
 ****************************************************************************/
 
-
 #include "DefaultPluginsMenu.h"
 
 using namespace Tinkercell;
@@ -21,11 +20,11 @@ int main(int argc, char *argv[])
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
     PROJECTNAME = QObject::tr("Tinkercell");
-
-    QApplication app(argc, argv);
+	QApplication app(argc, argv);
 
     QString appDir = QCoreApplication::applicationDirPath();
-    QFile styleFile(appDir + QString("/tinkercell.qss"));
+	
+	QFile styleFile(appDir + QString("/tinkercell.qss"));
 
     if (styleFile.open(QFile::ReadOnly | QFile::Text))
     {

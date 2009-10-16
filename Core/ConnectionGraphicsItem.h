@@ -99,6 +99,10 @@ namespace Tinkercell
 		static MY_EXPORT ConnectionGraphicsItem* cast(QGraphicsItem*);
 		/*! \brief used for checking type before static casts */
 		static MY_EXPORT QString CLASSNAME;
+		/*! \brief used to initialize the middle item for a connection */
+		static MY_EXPORT QString DefaultMiddleItemFile;
+		/*! \brief used to initialize the arrow heads for a connection */
+		static MY_EXPORT QString DefaultArrowHeadFile;
 		/*! \brief used for checking type before static casts */
 		QString className;
 		/*! \brief permanent brush for this control point*/
@@ -215,6 +219,12 @@ namespace Tinkercell
 		* \param visible = true, invisible = false
 		* \return void*/
 		virtual void setControlPointsVisible(bool visible = true);
+		/*! \brief show control points. same as setControlPointsVisible(true)
+		* \return void*/
+		void showControlPoints();
+		/*! \brief hide control points. same as setControlPointsVisible(false)
+		* \return void*/
+		void hideControlPoints();
 		/*! \brief get all nodes that are connected
 		* \return node item list*/
 		virtual QList<NodeGraphicsItem*> nodes() const;

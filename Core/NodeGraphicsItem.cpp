@@ -172,6 +172,16 @@ namespace Tinkercell
 				boundingBoxItem->setRect(boundingRect());
 			}
 	}
+	
+	void NodeGraphicsItem::showBoundingBox(bool controlPoints)
+	{
+		setBoundingBoxVisible(true,controlPoints);
+	}
+
+	void NodeGraphicsItem::hideBoundingBox(bool controlPoints)
+	{
+		setBoundingBoxVisible(true,controlPoints);
+	}
 
 	/*! Copy Constructor: deep copy of all pointers */
 	NodeGraphicsItem::NodeGraphicsItem(const NodeGraphicsItem& copy) : QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0)

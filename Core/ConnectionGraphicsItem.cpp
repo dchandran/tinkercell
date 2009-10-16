@@ -25,6 +25,8 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 namespace Tinkercell
 {
+	MY_EXPORT QString ConnectionGraphicsItem::DefaultMiddleItemFile("");
+	MY_EXPORT QString ConnectionGraphicsItem::DefaultArrowHeadFile("");
 	MY_EXPORT QString ArrowHeadItem::CLASSNAME("ArrowHeadItem");
 	MY_EXPORT QString ConnectionGraphicsItem::CLASSNAME("ConnectionGraphicsItem");
 	
@@ -139,12 +141,10 @@ namespace Tinkercell
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
 
-		QString appDir = QCoreApplication::applicationDirPath();
-
 		ArrowHeadItem * node = new ArrowHeadItem;	
 		node->connectionItem = this;
 		NodeGraphicsReader imageReader;		
-		imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
+		imageReader.readXml(node,DefaultMiddleItemFile);
 		if (node->isValid())
 		{
 			node->normalize();
@@ -291,12 +291,10 @@ namespace Tinkercell
 		}
 		else
 		{
-			QString appDir = QCoreApplication::applicationDirPath();
-
 			ArrowHeadItem * node = new ArrowHeadItem;	
 			node->connectionItem = this;
 			NodeGraphicsReader imageReader;		
-			imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
+			imageReader.readXml(node,DefaultMiddleItemFile);
 			if (node->isValid())
 			{
 				node->normalize();
@@ -891,11 +889,10 @@ namespace Tinkercell
 		qreal z = zValue();
 		if (!centerRegionItem)
 		{
-			QString appDir = QCoreApplication::applicationDirPath();
 			ArrowHeadItem * node = new ArrowHeadItem;	
 			node->connectionItem = this;
 			NodeGraphicsReader imageReader;		
-			imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
+			imageReader.readXml(node,DefaultMiddleItemFile);
 			if (node->isValid())
 			{
 				node->normalize();
@@ -1214,6 +1211,16 @@ namespace Tinkercell
 				}
 			}
 		refresh();
+	}
+	
+	void ConnectionGraphicsItem::showControlPoints()
+	{
+		setControlPointsVisible(true);
+	}
+	
+	void ConnectionGraphicsItem::hideControlPoints()
+	{
+		setControlPointsVisible(false);
 	}
 
 	/*! \brief bounding rect*/
@@ -2333,12 +2340,10 @@ namespace Tinkercell
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
 
-		QString appDir = QCoreApplication::applicationDirPath();
-
-		ArrowHeadItem * node = new ArrowHeadItem;	
+		ArrowHeadItem * node = new ArrowHeadItem;
 		node->connectionItem = this;
 		NodeGraphicsReader imageReader;		
-		imageReader.readXml(node,appDir + QString("/OtherItems/simplecircle.xml"));
+		imageReader.readXml(node,DefaultMiddleItemFile);
 		if (node->isValid())
 		{
 			node->normalize();
@@ -2381,7 +2386,7 @@ namespace Tinkercell
 					<< new ControlPoint((to[i]->scenePos() + center)/2.0,this,0)
 					<< centerPoint;
 				cv.arrowStart = new ArrowHeadItem(this);
-				imageReader.readXml(cv.arrowStart,appDir + QString("/ArrowItems/Reaction.xml"));
+				imageReader.readXml(cv.arrowStart,DefaultArrowHeadFile);
 				if (cv.arrowStart->isValid())
 				{
 					cv.arrowStart->normalize();

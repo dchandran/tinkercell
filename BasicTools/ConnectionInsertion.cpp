@@ -65,6 +65,11 @@ namespace Tinkercell
 
 	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion")), selectedFamily(0)
 	{
+		QString appDir = QCoreApplication::applicationDirPath();
+		
+		ConnectionGraphicsItem::DefaultMiddleItemFile = appDir + QString("/OtherItems/simplecircle.xml");
+		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/ArrowItems/Reaction.xml");
+	
 		mainWindow = 0;
 		connectionsTree = tree;
 		selectedFamily = 0;

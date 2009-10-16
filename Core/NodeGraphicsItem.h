@@ -242,6 +242,10 @@ namespace Tinkercell
 		QGraphicsRectItem * boundingBoxItem;
 		/*! show or hide the bounding box of this figure */
 		virtual void setBoundingBoxVisible(bool visible = true, bool controlPoints = true);
+		/*! show the bounding box of this figure. same as setBoundingBoxVisible(true) */
+		void showBoundingBox(bool controlPoints = true);
+		/*! hide the bounding box of this figure. same as setBoundingBoxVisible(false) */
+		void hideBoundingBox(bool controlPoints = true);
 		/*! \brief for enabling dynamic_cast*/
 		enum { Type = UserType + 4 };
 		/*! \brief for enabling dynamic_cast*/

@@ -579,6 +579,8 @@ namespace Tinkercell
 		
 		if (nodesTree)
 		{
+			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
+			
 			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
 			QList<ItemFamily*> rootFamilies;
 			QList<NodeFamily*> families;
@@ -652,6 +654,8 @@ namespace Tinkercell
 		
 		if (connectionsTree)
 		{
+			connect(connectionsTree,SIGNAL(connectionSelected(ConnectionFamily*)),this,SLOT(connectionSelectedSlot(ConnectionFamily*)));
+			
 			QList<ConnectionFamily*> allFamilies = connectionsTree->connectionFamilies.values();
 			QList<ItemFamily*> rootFamilies;
 			QList<ConnectionFamily*> families;
@@ -735,6 +739,7 @@ namespace Tinkercell
 			tempLayout->setSpacing(20);	
 			
 			QWidget * widget = new QWidget;
+			
 			widget->setLayout(tempLayout);
 			widget->setPalette(QPalette(QColor(255,255,255)));
 			widget->setAutoFillBackground (true);
@@ -744,6 +749,7 @@ namespace Tinkercell
 			scrollArea->setPalette(QPalette(QColor(255,255,255)));
 			scrollArea->setAutoFillBackground (true);
 			
+			widgetsToUpdate << scrollArea;
 			tabWidget->addTab(scrollArea,tabGroups[i].first);
 		}
 		

@@ -9,7 +9,7 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 	PyObject * pylist = 0, *item;
 	PyObject * params, *values, *twoTuples;
 	Matrix M;
-	void ** array;
+	void ** array = 0;
 	int n, isList;
 
 	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
@@ -26,24 +26,24 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
 	
-
-
-	if (n > 0)
+	if (pylist && n > 0)
 	{
-		if (pylist)
-		{
-			array = malloc( (1+n) * sizeof(void*) );
-			array[n] = 0;
+		array = malloc( (1+n) * sizeof(void*) );
+		array[n] = 0;
 
-			for(i=0; i<n; ++i) 
-			{ 
-				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-			}
+		for(i=0; i<n; ++i) 
+		{ 
+			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
-		else
-		{
-			array = tc_allItems();
-		}
+	}
+	
+	if (!array)
+	{
+		array = tc_allItems();
+	}
+	
+	if (array)
+	{
 		M = tc_getModelParameters(array);
 		free(array);
 
@@ -67,7 +67,6 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 			params = PyTuple_New(0);
 			values = PyTuple_New(0);
 		}
-
 	}
 
 	twoTuples = PyTuple_New(2);

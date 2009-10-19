@@ -415,10 +415,10 @@ namespace Tinkercell
 		{
 			sideBar = tableWidget = new QTableWidget;
 			tableWidget->setGridStyle(Qt::NoPen);
+			//tableWidget->setFixedWidth( 50 );
 			splitter->addWidget(tableWidget);
-			splitter->setStretchFactor(0,100);
+			splitter->setStretchFactor(0,200);
 			splitter->setStretchFactor(1,0);
-			tableWidget->resize( 50,tableWidget->height() );
 		}
 		
 		

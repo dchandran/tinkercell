@@ -320,7 +320,31 @@ namespace Tinkercell
 				DataTable<qreal> stoichiometry;
 				DataTable<QString> rate;
 				
-				stoichiometry.resize(1,numReactants + numProducts);
+				QStringList colNames;
+				
+				for (int var=0; var<numReactants; ++var)
+				{
+					if (!colNames.contains(tr(leftrxnnames[rxn][var])))
+					{
+						colNames << tr(leftrxnnames[rxn][var]);
+					}
+				}
+				for (int var=0; var<numProducts; ++var)
+				{
+					if (!colNames.contains(tr(rightrxnnames[rxn][var])))
+					{
+						colNames << tr(rightrxnnames[rxn][var]);
+					}
+				}
+				
+				stoichiometry.resize(1,colNames.size());
+				stoichiometry.setColNames(colNames);
+				
+				for (int j=0; j < colNames.size(); ++j)
+				{
+					stoichiometry.value(0,j) = 0;
+				}
+				
 				rate.resize(1,1);
 				ItemHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
 				handlesInModule << reactionHandle;
@@ -345,8 +369,7 @@ namespace Tinkercell
 					{
 						handle = speciesItems[tr(leftrxnnames[rxn][var])];
 					}
-					stoichiometry.colName(var) = leftrxnnames[rxn][var];
-					stoichiometry.value(0,var) = - leftrxnstoichs[rxn][var];
+					stoichiometry.value(0,tr(leftrxnnames[rxn][var])) -= leftrxnstoichs[rxn][var];
 				}
 				
 				for (int var=0; var<numProducts; var++)
@@ -367,8 +390,7 @@ namespace Tinkercell
 						partHandle = speciesItems[tr(rightrxnnames[rxn][var])];
 					}
 					
-					stoichiometry.colName(var+numReactants) = rightrxnnames[rxn][var];
-					stoichiometry.value(0,var+numReactants) += rightrxnstoichs[rxn][var];
+					stoichiometry.value(0,tr(rightrxnnames[rxn][var])) += rightrxnstoichs[rxn][var];
 				}
 				
 				QString srate = tr(rxnrates[rxn]);

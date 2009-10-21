@@ -54,11 +54,13 @@ namespace Tinkercell
     {
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
-        {
-            //connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*)),this,SLOT(prepareModelForSaving(NetworkWindow*)));
+        {            
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
-
-            connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
+			
+			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
+					this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
+			
+			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
             connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
 			
@@ -67,7 +69,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
-
 					
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
                     this, SLOT(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
@@ -92,8 +93,8 @@ namespace Tinkercell
         }
         return true;
     }
-
-    NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
+	
+	NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
     {
         ItemHandle * handle = getHandle(item);
         if (!handle) return 0;
@@ -978,6 +979,11 @@ namespace Tinkercell
 		
 		emit itemsInsertedSignal(scene, QList<QGraphicsItem*>() << connection, QList<ItemHandle*>());
     }
+	
+	void ModuleTool::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	{
+		
+	}
 }
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

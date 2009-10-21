@@ -129,6 +129,9 @@ namespace Tinkercell
 
 			connect(scene,SIGNAL(filesDropped(const QList<QFileInfo>&)),
 				main,SLOT(dragAndDropFiles(const QList<QFileInfo>&)));
+				
+			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
+				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 
 			setWindowTitle(tr("network ") + QString::number(1 + main->allWindows().size()));
 		}

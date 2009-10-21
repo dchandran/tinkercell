@@ -1625,9 +1625,11 @@ namespace Tinkercell
 		ConnectionGraphicsItem* connection = 0;
 		QList<ArrowHeadItem*> arrowHeads;
 		
+		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i])
+			if (items[i] && visited.contains(items[i]))
 			{
+				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);
 				if (handle)
 				{
@@ -1647,65 +1649,65 @@ namespace Tinkercell
 							childHandleClone->setParent(handleClone);
 						}
 
-						handleClone->setParent( handle->parent);
-						originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
+					handleClone->setParent( handle->parent);
+					originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
 
-						QList<QGraphicsItem*> list = handle->graphicsItems;
-						//new handle only has selected graphics items of the original handle
-						for (int j=0; j < list.size(); ++j)
-							if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
-								handleClone->graphicsItems.removeAll(list[j]);
+					QList<QGraphicsItem*> list = handle->graphicsItems;
+					//new handle only has selected graphics items of the original handle
+					for (int j=0; j < list.size(); ++j)
+						if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
+							handleClone->graphicsItems.removeAll(list[j]);
 
-						list = handleClone->graphicsItems;
+					list = handleClone->graphicsItems;
 
-						//remove visited items from the list of items
-						int k = -1;
-						for (int j=0; j < list.size(); ++j)
-							while ( (k = items.indexOf(list[j])) > -1 )
+					//remove visited items from the list of items
+					int k = -1;
+					for (int j=0; j < list.size(); ++j)
+						while ( (k = items.indexOf(list[j])) > -1 )
+						{
+							items[k] = 0;
+						}
+					//clone each graphics item and assign handleClone
+					handleClone->graphicsItems.clear();
+					handleClone->tools.clear();
+					for (int j=0; j < list.size(); ++j)
+					{
+						QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
+						setHandle(itemClone,handleClone);
+						duplicateItems << itemClone;
+
+						if ((connection = ConnectionGraphicsItem::cast(itemClone)))
+						{
+							connectionItems += connection;
+							if (connection->centerRegionItem)
 							{
-								items[k] = 0;
-							}
-							//clone each graphics item and assign handleClone
-							handleClone->graphicsItems.clear();
-							handleClone->tools.clear();
-							for (int j=0; j < list.size(); ++j)
-							{
-								QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
-								setHandle(itemClone,handleClone);
-								duplicateItems << itemClone;
-
-								if ((connection = ConnectionGraphicsItem::cast(itemClone)))
+								node1 = connection->centerRegionItem;
+								connection = ConnectionGraphicsItem::cast(list[j]);
+								if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 								{
-									connectionItems += connection;
-									if (connection->centerRegionItem)
+									node2 = connection->centerRegionItem;
+									if (node1 && node2)
 									{
-										node1 = connection->centerRegionItem;
-										connection = ConnectionGraphicsItem::cast(list[j]);
-										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
-										{
-											node2 = connection->centerRegionItem;
-											if (node1 && node2)
-											{
-												originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-												duplicateItems << node1;
-											}
-										}
-									}
-									/*connection = ConnectionGraphicsItem::cast(list[j]);
-									if (connection)
-									{
-									arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
-									}*/
-								}
-								else
-								{
-									if ((node1 = NodeGraphicsItem::cast(list[j]))
-										&& (node2 = NodeGraphicsItem::cast(itemClone)))
-									{
-										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
+										duplicateItems << node1;
 									}
 								}
 							}
+							/*connection = ConnectionGraphicsItem::cast(list[j]);
+							if (connection)
+							{
+							arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
+							}*/
+						}
+						else
+						{
+							if ((node1 = NodeGraphicsItem::cast(list[j]))
+								&& (node2 = NodeGraphicsItem::cast(itemClone)))
+							{
+								originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+							}
+						}
+					}
 				}
 				else  //items without a handle
 				{
@@ -1743,68 +1745,71 @@ namespace Tinkercell
 					}
 				}
 			}
-			/*
-			//remove duplicated arrowheads
-			for (int i=0; i < arrowHeads.size(); ++i)
+		/*
+		//remove duplicated arrowheads
+		for (int i=0; i < arrowHeads.size(); ++i)
+		{
+		if (arrowHeads[i])
+		for (int j=0; j < originalsAndClones.size(); ++j)
+		{
+		if (arrowHeads[i] == originalsAndClones[j].first)
+		{
+		duplicateItems.removeAll(originalsAndClones[j].second);
+		delete originalsAndClones[j].second;
+		}
+		}
+		}*/
+		//replace the duplicated connections' nodes with the duplicate nodes
+		for (int i=0; i < connectionItems.size(); ++i)
+		{
+			QList<NodeGraphicsItem*> nodes = connectionItems[i]->nodes();
+			for (int k=0; k < originalsAndClones.size(); ++k)
 			{
-			if (arrowHeads[i])
-			for (int j=0; j < originalsAndClones.size(); ++j)
-			{
-			if (arrowHeads[i] == originalsAndClones[j].first)
-			{
-			duplicateItems.removeAll(originalsAndClones[j].second);
-			delete originalsAndClones[j].second;
-			}
-			}
-			}*/
-			//replace the duplicated connections' nodes with the duplicate nodes
-			for (int i=0; i < connectionItems.size(); ++i)
-			{
-				QList<NodeGraphicsItem*> nodes = connectionItems[i]->nodes();
-				for (int k=0; k < originalsAndClones.size(); ++k)
+				if (nodes.contains(originalsAndClones[k].first) && originalsAndClones[k].first && originalsAndClones[k].second)
 				{
-					if (nodes.contains(originalsAndClones[k].first) && originalsAndClones[k].first && originalsAndClones[k].second)
-					{
-						connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
-					}
+					connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
 				}
 			}
+		}
 
-			QList<ItemHandle*> allNewHandles;
-			for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		QList<ItemHandle*> allNewHandles;
+		for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		{
+			if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
 			{
-				if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
-				{
-					allNewHandles << originalAndCloneHandles[i].second;
-					allNewHandles << originalAndCloneHandles[i].second->allChildren();
-				}
+				allNewHandles << originalAndCloneHandles[i].second;
+				allNewHandles << originalAndCloneHandles[i].second->allChildren();
 			}
-			//replace parent handles
-			bool parentCopied = false;
-			for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		}
+		//replace parent handles
+		bool parentCopied = false;
+		for (int i=0; i < originalAndCloneHandles.size(); ++i)
+		{
+			if (originalAndCloneHandles[i].first->parent != 0)
 			{
-				if (originalAndCloneHandles[i].first->parent != 0)
+				parentCopied = false;
+				for (int j=0; j < originalAndCloneHandles.size(); ++j)
 				{
-					parentCopied = false;
-					for (int j=0; j < originalAndCloneHandles.size(); ++j)
+					if (originalAndCloneHandles[i].first->parent == originalAndCloneHandles[j].first)
 					{
-						if (originalAndCloneHandles[i].first->parent == originalAndCloneHandles[j].first)
-						{
-							originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second);
-							parentCopied = true;
-							break;
-						}
-					}
-					if (!parentCopied)
-					{
-						QString oldName = originalAndCloneHandles[i].second->fullName();
-						originalAndCloneHandles[i].second->setParent(0);
-						QString newName = originalAndCloneHandles[i].second->fullName();
-						RenameCommand::findReplaceAllHandleData(allNewHandles,oldName,newName);
+						originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second);
+						parentCopied = true;
+						break;
 					}
 				}
+				if (!parentCopied)
+				{
+					QString oldName = originalAndCloneHandles[i].second->fullName();
+					originalAndCloneHandles[i].second->setParent(0);
+					QString newName = originalAndCloneHandles[i].second->fullName();
+					RenameCommand::findReplaceAllHandleData(allNewHandles,oldName,newName);
+				}
 			}
-			GraphicsScene::copiedFromScene = scene;
+		}
+		
+		emit copyItems(this,duplicateItems,allNewHandles);
+
+		GraphicsScene::copiedFromScene = scene;
 	}
 
 	void GraphicsScene::cut()
@@ -1833,9 +1838,11 @@ namespace Tinkercell
 		ConnectionGraphicsItem* connection = 0;
 		QList<ArrowHeadItem*> arrowHeads;
 
+		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i])
+			if (items[i] && visited.contains(items[i]))
 			{
+				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);
 				if (handle)
 				{
@@ -1856,65 +1863,65 @@ namespace Tinkercell
 							childHandleClone->setParent(handleClone);
 						}
 
-						handleClone->setParent( handle->parent);
-						originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
+					handleClone->setParent( handle->parent);
+					originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
 
-						QList<QGraphicsItem*> list = handle->graphicsItems;
-						//new handle only has selected graphics items of the original handle
-						for (int j=0; j < list.size(); ++j)
-							if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
-								handleClone->graphicsItems.removeAll(list[j]);
+					QList<QGraphicsItem*> list = handle->graphicsItems;
+					//new handle only has selected graphics items of the original handle
+					for (int j=0; j < list.size(); ++j)
+						if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
+							handleClone->graphicsItems.removeAll(list[j]);
 
-						list = handleClone->graphicsItems;
+					list = handleClone->graphicsItems;
 
-						//remove visited items from the list of items
-						int k = -1;
-						for (int j=0; j < list.size(); ++j)
-							while ( (k = items.indexOf(list[j])) > -1 )
+					//remove visited items from the list of items
+					int k = -1;
+					for (int j=0; j < list.size(); ++j)
+						while ( (k = items.indexOf(list[j])) > -1 )
+						{
+							items[k] = 0;
+						}
+					//clone each graphics item and assign handleClone
+					handleClone->graphicsItems.clear();
+					handleClone->tools.clear();
+					for (int j=0; j < list.size(); ++j)
+					{
+						QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
+						setHandle(itemClone,handleClone);
+						duplicateItems << itemClone;
+
+						if ((connection = ConnectionGraphicsItem::cast(itemClone)))
+						{
+							connectionItems += connection;
+							if (connection->centerRegionItem)
 							{
-								items[k] = 0;
-							}
-							//clone each graphics item and assign handleClone
-							handleClone->graphicsItems.clear();
-							handleClone->tools.clear();
-							for (int j=0; j < list.size(); ++j)
-							{
-								QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
-								setHandle(itemClone,handleClone);
-								duplicateItems << itemClone;
-
-								if ((connection = ConnectionGraphicsItem::cast(itemClone)))
+								node1 = connection->centerRegionItem;
+								connection = ConnectionGraphicsItem::cast(list[j]);
+								if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
 								{
-									connectionItems += connection;
-									if (connection->centerRegionItem)
+									node2 = connection->centerRegionItem;
+									if (node1 && node2)
 									{
-										node1 = connection->centerRegionItem;
-										connection = ConnectionGraphicsItem::cast(list[j]);
-										if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
-										{
-											node2 = connection->centerRegionItem;
-											if (node1 && node2)
-											{
-												originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-												duplicateItems << node1;
-											}
-										}
-									}
-									/*if (connection)
-									{
-									arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
-									}*/
-								}
-								else
-								{
-									if ((node1 = NodeGraphicsItem::cast(list[j]))
-										&& (node2 = NodeGraphicsItem::cast(itemClone)))
-									{
-										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
+										duplicateItems << node1;
 									}
 								}
-
 							}
+							/*if (connection)
+							{
+							arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
+							}*/
+						}
+						else
+						{
+							if ((node1 = NodeGraphicsItem::cast(list[j]))
+								&& (node2 = NodeGraphicsItem::cast(itemClone)))
+							{
+								originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+							}
+						}
+
+					}
 				}
 				else  //items without a handle
 				{
@@ -2013,9 +2020,11 @@ namespace Tinkercell
 					}
 				}
 			}
-			copiedFromScene = scene;
+		copiedFromScene = scene;
+		
+		emit copyItems(this,duplicateItems,allNewHandles);
 
-			scene->remove(tr("cut items"),scene->selected());
+		scene->remove(tr("cut items"),scene->selected());
 	}
 
 	void GraphicsScene::removeSelected()
@@ -2190,9 +2199,11 @@ namespace Tinkercell
 		else
 			compositeCommand->redo();
 			
+		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i])
+			if (items[i] && visited.contains(items[i]))
 			{
+				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);
 				if (handle)
 				{
@@ -2370,6 +2381,7 @@ namespace Tinkercell
 			}
 		}
 
+		emit copyItems(this,duplicateItems,allNewHandles);
 		emit itemsInserted(scene,items2,handles);
 		scene->select(items2);
 	}

@@ -324,6 +324,12 @@ namespace Tinkercell
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
 
 	signals:
+		/*! \brief signals just before items are copied
+		* \param GraphicsScene * scene where the items are going to be copied
+		* \param QList<QGraphicsItem*>& list of graphics items going to be copied
+		* \param QList<ItemHandle*>& list of handles going to be copied (does NOT have to be the same number as items removed)
+		* \return void*/
+		virtual void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief signals just before items are deleted
 		* \param GraphicsScene * scene where the items are going to be removed
 		* \param QList<QGraphicsItem*>& list of graphics items going to be removed

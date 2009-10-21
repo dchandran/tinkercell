@@ -1039,6 +1039,12 @@ namespace Tinkercell
 		* \param ItemHandle* removed items
 		*/
 		void itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& );
+		/*! \brief signals just before items are copied
+		* \param GraphicsScene * scene where the items are going to be copied
+		* \param QList<QGraphicsItem*>& list of graphics items going to be copied
+		* \param QList<ItemHandle*>& list of handles going to be copied (does NOT have to be the same number as items removed)
+		* \return void*/
+		void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief some text inside this editor has been changed
 		\param TextEditor* editor
 		\param QString old text (usually a line)

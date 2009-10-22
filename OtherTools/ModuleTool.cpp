@@ -1043,7 +1043,6 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 		
-		ConsoleWindow::message("here");
 		QGraphicsItem * item2;
 		NodeGraphicsItem * node;
 		ItemHandle * handle, * handle2, *moduleCopy;
@@ -1058,7 +1057,6 @@ namespace Tinkercell
 				for (int j=0; j < handles.size(); ++j)
 					if (handles[j] && handles[j]->isA(tr("Module")) && handles[j]->fullName() == handle->fullName())
 					{
-						ConsoleWindow::message(handles[j]->fullName());
 						moduleCopy = handles[j];
 						break;
 					}
@@ -1066,6 +1064,9 @@ namespace Tinkercell
 				{
 					QList<QGraphicsItem*> list = scene->items(items[i]->sceneBoundingRect());
 					for (int j=0; j < list.size(); ++j)
+					{
+						if (getHandle(list[j]))
+							ConsoleWindow::message(getHandle(list[j])->fullName());
 						if ((node = NodeGraphicsItem::cast(list[j])) && 
 							!done.contains(node) &&
 							ModuleLinkerItem::isModuleLinker(node) &&
@@ -1086,6 +1087,7 @@ namespace Tinkercell
 									items0 << item2;
 								}
 						}
+					}
 				}
 			}
 	}

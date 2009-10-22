@@ -1065,24 +1065,21 @@ namespace Tinkercell
 					QList<QGraphicsItem*> list = scene->items(items[i]->sceneBoundingRect());
 					for (int j=0; j < list.size(); ++j)
 					{
-						if (getHandle(list[j]))
-							ConsoleWindow::message(getHandle(list[j])->fullName());
-						if ((node = NodeGraphicsItem::cast(list[j])) && 
-							!done.contains(node) &&
+						node = NodeGraphicsItem::topLevelNodeItem(list[j]);
+						if (!done.contains(node) &&
 							ModuleLinkerItem::isModuleLinker(node) &&
 							(handle = node->handle()) &&
 							(handle->children.size() > 0) &&
 							(handle->children[0]))
 						{
-							ConsoleWindow::message(handle->fullName());
 							done << node;
 							handle2 = handle->children[0]->clone();
 							handle2->setParent(moduleCopy);
 							handles << handle2;
-							for (int k=0; k < handle->children[0]->graphicsItems.size(); ++k)
-								if (handle->children[0]->graphicsItems[k])
+							for (int k=0; k < handle->graphicsItems.size(); ++k)
+								if (handle->graphicsItems[k] && list.contains(handle->graphicsItems[k]))
 								{
-									item2 = cloneGraphicsItem(handle->children[0]->graphicsItems[k]);
+									item2 = cloneGraphicsItem(handle->graphicsItems[k]);
 									setHandle(item2,handle2);									
 									items0 << item2;
 								}

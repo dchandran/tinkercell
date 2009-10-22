@@ -166,7 +166,7 @@ namespace Tinkercell
 
 	ItemHandle::ItemHandle(const ItemHandle& copy) : QObject()
 	{
-		visible = true;
+		visible = copy.visible;
 		type = copy.type;
 		name = copy.name;
 		graphicsItems += copy.graphicsItems;
@@ -181,7 +181,7 @@ namespace Tinkercell
 	/*! \brief operator = */
 	ItemHandle& ItemHandle::operator = (const ItemHandle& copy)
 	{
-		//visible = copy.visible;
+		visible = copy.visible;
 		if (data)
 			delete data;
 		for (int i=0; i < graphicsItems.size(); ++i)

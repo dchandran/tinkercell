@@ -57,6 +57,9 @@ namespace Tinkercell
         {            
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 			
+			//connect(mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+				//	this,SLOT(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+			
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
 					this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
 			
@@ -352,6 +355,7 @@ namespace Tinkercell
         }
 	
 		if (!scene) return;
+		QList<ConnectionGraphicsItem*> linkerConnections;
 		
 		NodeGraphicsItem * node = 0;
         ConnectionGraphicsItem * connection = 0;
@@ -415,8 +419,15 @@ namespace Tinkercell
 					setHandle(linker,handle);
 					linker->setPosOnEdge();
 					
+					for (int j=0; j < connections.size(); ++j)
+						if (connections[j] && !connections[j]->handle())
+						{
+							ConsoleWindow::message("class name");
+							connections[j]->className = tr("module connection");
+						}
+					
 					if (linker != node)
-					{							
+					{
 						for (int j=0; j < connections.size(); ++j)
 							if (connections[j])
 							{
@@ -527,8 +538,10 @@ namespace Tinkercell
         }
     }
 
-    void ModuleTool::itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
+    void ModuleTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
     {
+		if (!scene) return;
+		
         NodeGraphicsItem::ControlPoint * cp;
         NodeGraphicsItem* node;
 
@@ -556,6 +569,7 @@ namespace Tinkercell
 				modules += handle;
         }
 
+		bool inside;
         for (int i=0; i < modules.size(); ++i)
         {
             if ( (handle = modules[i]) && handle->isA(tr("Module")) )
@@ -563,14 +577,39 @@ namespace Tinkercell
                 for (int j=0; j < handle->children.size(); ++j)
                     if (child = handle->children[j])
 					{
+						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{
 							if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
-								(node->className == ModuleLinkerItem::CLASSNAME))
+								!(node->className == ModuleLinkerItem::CLASSNAME))
 							{
-								(static_cast<ModuleLinkerItem*>(node))->setPosOnEdge();
+								for (int l=0; l < handle->graphicsItems.size(); ++l)
+								{
+									if (handle->graphicsItems[l] && 
+										handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect()))
+									{
+										inside = true;
+										break;
+									}
+								}
+								if (inside)
+									break;
 							}
 						}
+						
+						if (inside)
+						{
+							for (int k=0; k < child->graphicsItems.size(); ++k)
+								if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
+									(node->className == ModuleLinkerItem::CLASSNAME))
+								{
+									(static_cast<ModuleLinkerItem*>(node))->setPosOnEdge();
+								}
+						}
+						else
+						{
+							scene->setParentHandle(child,0);
+						}	
 					}
             }
         }
@@ -755,6 +794,7 @@ namespace Tinkercell
 				connection->className == tr("module connection") && 
                 !connection->handle())
 			{
+				ConsoleWindow::message("here");
 				QList<NodeGraphicsItem*> nodes = connection->nodes();
 				
 				if (nodes.size() != 2 || !nodes[0] || !nodes[1]) return;
@@ -980,9 +1020,57 @@ namespace Tinkercell
 		emit itemsInsertedSignal(scene, QList<QGraphicsItem*>() << connection, QList<ItemHandle*>());
     }
 	
-	void ModuleTool::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	void ModuleTool::parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>& children, const QList<ItemHandle*>& oldParents)
 	{
+		if (!window->scene) return;
+		NodeGraphicsItem * node;
+		for (int i=0; i < children.size(); ++i)
+			if (children[i] && oldParents[i] && oldParents[i]->isA(tr("Module")) && children[i]->parent != oldParents[i])
+			{
+				for (int j=0; j < children[i]->graphicsItems.size(); ++j)
+				{
+					if (children[i]->graphicsItems[j] && 
+						(node = NodeGraphicsItem::cast(children[i]->graphicsItems[j])) &&
+						ModuleLinkerItem::isModuleLinker(node))
+					{
+						window->scene->remove(tr("linker removed"),node); 
+					}
+				}
+			}
+	}
+	
+	void ModuleTool::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& items0, QList<ItemHandle*>& handles)
+	{
+		if (!scene) return;
 		
+		QGraphicsItem * item2;
+		NodeGraphicsItem * node;
+		ItemHandle * handle, * handle2;
+		
+		QList<QGraphicsItem*> items = items0;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] && getHandle(items[i]) && getHandle(items[i])->isA(tr("Module")))
+			{
+				QList<QGraphicsItem*> list = scene->items(items[i]->boundingRect());
+				for (int j=0; j < list.size(); ++j)
+					if ((node = NodeGraphicsItem::cast(list[j])) && 
+						ModuleLinkerItem::isModuleLinker(node) &&
+						(handle = node->handle()) &&
+						(handle->children.size() > 0) &&
+						(handle->children[0]))
+					{
+						for (int k=0; k < handle->graphicsItems.size(); ++k)
+							if (handle->graphicsItems[k])
+							{
+								handle2 = handle->children[0]->clone();
+								item2 = cloneGraphicsItem(handle->graphicsItems[k]);
+								setHandle(item2,handle2);
+								items0 << item2;
+								handles << handle2;
+							}
+					}
+			}
 	}
 }
 

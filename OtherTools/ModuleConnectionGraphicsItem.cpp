@@ -210,6 +210,8 @@ namespace Tinkercell
 	
 	ModuleConnectionGraphicsItem::ModuleConnectionGraphicsItem(const ModuleConnectionGraphicsItem& copy) : ConnectionGraphicsItem(copy)
 	{
+		className = ModuleConnectionGraphicsItem::CLASSNAME;
+		setPen(defaultPen = QPen(QColor(255,100,0,255),2.0));
 		command = 0;
 		setData(0,true);
 	}

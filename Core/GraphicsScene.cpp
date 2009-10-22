@@ -1627,7 +1627,7 @@ namespace Tinkercell
 		
 		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i] && visited.contains(items[i]))
+			if (items[i] && !visited.contains(items[i]))
 			{
 				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);
@@ -1840,7 +1840,7 @@ namespace Tinkercell
 
 		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i] && visited.contains(items[i]))
+			if (items[i] && !visited.contains(items[i]))
 			{
 				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);
@@ -2201,7 +2201,7 @@ namespace Tinkercell
 			
 		QList< QGraphicsItem* > visited;
 		for (int i = 0; i < items.size(); ++i)
-			if (items[i] && visited.contains(items[i]))
+			if (items[i] && !visited.contains(items[i]))
 			{
 				visited << items[i];
 				ItemHandle * handle = getHandle(items[i]);

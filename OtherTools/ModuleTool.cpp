@@ -1023,14 +1023,15 @@ namespace Tinkercell
 	{
 		if (!window->scene) return;
 		NodeGraphicsItem * node;
-		for (int i=0; i < children.size(); ++i)
+		for (int i=0; i < children.size() && i < oldParents.size(); ++i)
 			if (children[i] && oldParents[i] && oldParents[i]->isA(tr("Module")) && children[i]->parent != oldParents[i])
 			{
 				for (int j=0; j < children[i]->graphicsItems.size(); ++j)
 				{
 					if (children[i]->graphicsItems[j] && 
 						(node = NodeGraphicsItem::cast(children[i]->graphicsItems[j])) &&
-						ModuleLinkerItem::isModuleLinker(node))
+						ModuleLinkerItem::isModuleLinker(node) &&
+						(node->scene() == window->scene))
 					{
 						window->scene->remove(tr("linker removed"),node); 
 					}
@@ -1057,6 +1058,7 @@ namespace Tinkercell
 				for (int j=0; j < handles.size(); ++j)
 					if (handles[j] && handles[j]->isA(tr("Module")) && handles[j]->fullName() == handle->fullName())
 					{
+						ConsoleWindow::message(handles[j]->fullName());
 						moduleCopy = handles[j];
 						break;
 					}
@@ -1071,14 +1073,15 @@ namespace Tinkercell
 							(handle->children.size() > 0) &&
 							(handle->children[0]))
 						{
+							ConsoleWindow::message(handle->fullName());
 							done << node;
 							handle2 = handle->children[0]->clone();
 							handle2->setParent(moduleCopy);
 							handles << handle2;
-							for (int k=0; k < handle->graphicsItems.size(); ++k)
-								if (handle->graphicsItems[k])
+							for (int k=0; k < handle->children[0]->graphicsItems.size(); ++k)
+								if (handle->children[0]->graphicsItems[k])
 								{
-									item2 = cloneGraphicsItem(handle->graphicsItems[k]);
+									item2 = cloneGraphicsItem(handle->children[0]->graphicsItems[k]);
 									setHandle(item2,handle2);									
 									items0 << item2;
 								}

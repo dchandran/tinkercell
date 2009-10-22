@@ -2207,12 +2207,12 @@ namespace Tinkercell
 				ItemHandle * handle = getHandle(items[i]);
 				if (handle)
 				{
-					for (int j=0; j < handle->children.size(); ++j)
+					/*for (int j=0; j < handle->children.size(); ++j)
 						if (handle->children[j] && handle->children[j]->graphicsItems.size() > 0)
 							for (int k=0; k < handle->children[j]->graphicsItems.size(); ++k)
 								if (!items.contains(handle->children[j]->graphicsItems[k]) &&
 									items[i]->collidesWithItem(handle->children[j]->graphicsItems[k]))
-									items << handle->children[j]->graphicsItems[k];
+									items << handle->children[j]->graphicsItems[k];*/
 
 					ItemHandle * handleClone = handle->clone();
 					QList<ItemHandle*> childHandles = handle->allChildren();

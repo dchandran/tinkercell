@@ -1045,31 +1045,45 @@ namespace Tinkercell
 		ConsoleWindow::message("here");
 		QGraphicsItem * item2;
 		NodeGraphicsItem * node;
-		ItemHandle * handle, * handle2;
+		ItemHandle * handle, * handle2, *moduleCopy;
 		
-		QList<QGraphicsItem*> items = items0;
+		QList<QGraphicsItem*> items = scene->selected();
+		QList<QGraphicsItem*> done;
 		
 		for (int i=0; i < items.size(); ++i)
-			if (items[i] && getHandle(items[i]) && getHandle(items[i])->isA(tr("Module")))
+			if (NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA(tr("Module")))
 			{
-				QList<QGraphicsItem*> list = scene->items(items[i]->boundingRect());
-				for (int j=0; j < list.size(); ++j)
-					if ((node = NodeGraphicsItem::cast(list[j])) && 
-						ModuleLinkerItem::isModuleLinker(node) &&
-						(handle = node->handle()) &&
-						(handle->children.size() > 0) &&
-						(handle->children[0]))
+				moduleCopy = 0;
+				for (int j=0; j < handles.size(); ++j)
+					if (handles[j] && handles[j]->isA(tr("Module")) && handles[j]->fullName() == handle->fullName())
 					{
-						for (int k=0; k < handle->graphicsItems.size(); ++k)
-							if (handle->graphicsItems[k])
-							{
-								handle2 = handle->children[0]->clone();
-								item2 = cloneGraphicsItem(handle->graphicsItems[k]);
-								setHandle(item2,handle2);
-								items0 << item2;
-								handles << handle2;
-							}
+						moduleCopy = handles[j];
+						break;
 					}
+				if (moduleCopy)
+				{
+					QList<QGraphicsItem*> list = scene->items(items[i]->sceneBoundingRect());
+					for (int j=0; j < list.size(); ++j)
+						if ((node = NodeGraphicsItem::cast(list[j])) && 
+							!done.contains(node) &&
+							ModuleLinkerItem::isModuleLinker(node) &&
+							(handle = node->handle()) &&
+							(handle->children.size() > 0) &&
+							(handle->children[0]))
+						{
+							done << node;
+							handle2 = handle->children[0]->clone();
+							handle2->setParent(moduleCopy);
+							handles << handle2;
+							for (int k=0; k < handle->graphicsItems.size(); ++k)
+								if (handle->graphicsItems[k])
+								{
+									item2 = cloneGraphicsItem(handle->graphicsItems[k]);
+									setHandle(item2,handle2);									
+									items0 << item2;
+								}
+						}
+				}
 			}
 	}
 }

@@ -57,8 +57,8 @@ namespace Tinkercell
         {            
             connect(mainWindow,SIGNAL(modelSaved(NetworkWindow*)),this,SLOT(modelSaved(NetworkWindow*)));
 			
-			//connect(mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-				//	this,SLOT(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+					this,SLOT(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
 					this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
@@ -794,7 +794,6 @@ namespace Tinkercell
 				connection->className == tr("module connection") && 
                 !connection->handle())
 			{
-				ConsoleWindow::message("here");
 				QList<NodeGraphicsItem*> nodes = connection->nodes();
 				
 				if (nodes.size() != 2 || !nodes[0] || !nodes[1]) return;
@@ -1043,6 +1042,7 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 		
+		ConsoleWindow::message("here");
 		QGraphicsItem * item2;
 		NodeGraphicsItem * node;
 		ItemHandle * handle, * handle2;

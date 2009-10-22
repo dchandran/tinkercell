@@ -286,7 +286,7 @@ namespace Tinkercell
 		}
 	}
 
-	RemoveItemsCommand::RemoveItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
+	RemoveTextItemsCommand::RemoveTextItemsCommand(TextEditor * editor, const QList<TextItem*> & list) : changeDataCommand(0)
 	{
 		QStringList s;
 		ItemHandle * h = 0;
@@ -298,7 +298,7 @@ namespace Tinkercell
 		items = list;
 	}
 
-	RemoveItemsCommand::RemoveItemsCommand(TextEditor * editor, TextItem * item)
+	RemoveTextItemsCommand::RemoveTextItemsCommand(TextEditor * editor, TextItem * item): changeDataCommand(0)
 	{
 		ItemHandle * h = getHandle(item);
 		if (h)
@@ -309,7 +309,7 @@ namespace Tinkercell
 		items << item;
 	}
 
-	void RemoveItemsCommand::undo()
+	void RemoveTextItemsCommand::undo()
 	{
 		if (textEditor)
 		{
@@ -320,7 +320,7 @@ namespace Tinkercell
 		}
 	}
 
-	void RemoveItemsCommand::redo()
+	void RemoveTextItemsCommand::redo()
 	{
 		if (textEditor)
 		{
@@ -396,11 +396,15 @@ namespace Tinkercell
 
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
-		/*		if (graphicsScene)
-		for (int i=0; i < graphicsItems.size(); ++i)
-		if (!graphicsScene->items().contains(graphicsItems[i]))
-		//graphicsScene->addItem(graphicsItems[i]);
-		delete graphicsItems[i];*/
+		if (graphicsScene)
+			for (int i=0; i < graphicsItems.size(); ++i)
+				if (graphicsItems[i] && !graphicsItems[i]->scene())
+				{
+					for (int j=(i+1); j < graphicsItems.size(); ++j)
+						if (graphicsItems[i] == graphicsItems[j])
+							graphicsItems[j] = 0;
+					delete graphicsItems[i];
+				}
 	}
 
 	RemoveGraphicsCommand::~RemoveGraphicsCommand()
@@ -414,7 +418,7 @@ namespace Tinkercell
 	}
 
 	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, QGraphicsItem * item)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
@@ -429,7 +433,7 @@ namespace Tinkercell
 	}
 
 	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items)
-		: QUndoCommand(name)
+		: QUndoCommand(name), changeDataCommand(0)
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
@@ -486,18 +490,22 @@ namespace Tinkercell
 				{
 					if (itemHandles[i]->parent)
 						itemHandles[i]->parent->children.removeAll(itemHandles[i]);
-					/*
+					
 					for (int j=0; j < itemHandles[i]->children.size(); ++j)
 						if (itemHandles[i]->children[j])
-							itemHandles[i]->children[j]->parent = 0;*/
+							itemHandles[i]->children[j]->parent = 0;
 				}
 			}
 
 		}
-
-		bool firstTime = (oldData.isEmpty());
+		
+		bool firstTime = (changeDataCommand == 0);
+		
 		if (firstTime)
 		{
+			QList< DataTable<qreal>* > oldData1, newData1;
+			QList< DataTable<QString>* > oldData2, newData2;
+		
 			QStringList namesToKill;
 			for (int i=0; i < itemHandles.size(); ++i)
 				if (itemHandles[i] && itemHandles[i]->graphicsItems.isEmpty())
@@ -513,7 +521,17 @@ namespace Tinkercell
 			}
 
 			for (int i=0; i < affectedHandles.size(); ++i)
-				oldData += ItemData(*affectedHandles[i]->data);  //SAVE old data
+				if (affectedHandles[i]->data)
+				{
+					QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
+					QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+
+					for (int j=0; j < keys1.size(); ++j)
+						oldData1 += new DataTable<qreal>(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+
+					for (int j=0; j < keys2.size(); ++j)
+						oldData2 += new DataTable<QString>(affectedHandles[i]->data->textData[ keys2[j] ]);
+				}
 
 			DataTable<qreal> * nDat = 0;
 			DataTable<QString> * sDat = 0;
@@ -629,35 +647,36 @@ namespace Tinkercell
 					}
 				}
 			}
-		}
-
-		if (newData.isEmpty()) //SAVE new data
-		{
 			for (int i=0; i < affectedHandles.size(); ++i)
 				if (affectedHandles[i]->data)
 				{
-					newData += ItemData(*affectedHandles[i]->data);
+					QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
+					QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+
+					for (int j=0; j < keys1.size(); ++j)
+						newData1 += &(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+
+					for (int j=0; j < keys2.size(); ++j)
+						newData2 += &(affectedHandles[i]->data->textData[ keys2[j] ]);
 				}
+			changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
+			for (int i=0; i < oldData1.size(); ++i)
+				if (oldData1[i])
+					delete oldData1[i];
+			for (int i=0; i < oldData2.size(); ++i)
+				if (oldData2[i])
+					delete oldData2[i];
 		}
 		else
 		{
-			for (int i=0; i < affectedHandles.size() && i < newData.size() && i < oldData.size(); ++i)
-			{
-				if (affectedHandles[i] && affectedHandles[i]->data)
-					(*affectedHandles[i]->data) = newData[i];
-			}
+			if (changeDataCommand)
+				changeDataCommand->undo();
 		}
 	}
 
 	void RemoveGraphicsCommand::undo()
 	{
 		if (!graphicsScene) return;
-
-		for (int i=0; i < affectedHandles.size() && i < newData.size() && i < oldData.size(); ++i)
-		{
-			if (affectedHandles[i] && affectedHandles[i]->data)
-				(*affectedHandles[i]->data) = oldData[i];
-		}
 
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
@@ -686,9 +705,9 @@ namespace Tinkercell
 				if (itemHandles[i]->parent)
 					itemHandles[i]->setParent(itemHandles[i]->parent);
 
-				/*for (int j=0; j < itemHandles[i]->children.size(); ++j)
+				for (int j=0; j < itemHandles[i]->children.size(); ++j)
 					if (itemHandles[i]->children[j])
-						itemHandles[i]->children[j]->parent = itemHandles[i];*/
+						itemHandles[i]->children[j]->parent = itemHandles[i];
 
 			}
 			if (itemParents.size() > i && itemParents[i] != 0)
@@ -696,6 +715,9 @@ namespace Tinkercell
 				graphicsItems[i]->setParentItem(itemParents[i]);
 			}
 		}
+		
+		if (changeDataCommand)
+			changeDataCommand->redo();
 	}
 
 

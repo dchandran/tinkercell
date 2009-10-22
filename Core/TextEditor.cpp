@@ -152,7 +152,7 @@ namespace Tinkercell
 	void TextEditor::setItems( const QList<TextItem*>& newItems)
 	{
 		QList<QUndoCommand*> commands;
-		commands << new RemoveItemsCommand(this,allItems)
+		commands << new RemoveTextItemsCommand(this,allItems)
 			<< new InsertItemsCommand(this,newItems);
 
 		ItemHandle * h = 0;
@@ -202,7 +202,7 @@ namespace Tinkercell
 	{
 		if (item && allItems.contains(item))
 		{
-			push( new RemoveItemsCommand(this,item) );
+			push( new RemoveTextItemsCommand(this,item) );
 
 			QList<TextItem*> list;
 			list << item;
@@ -215,7 +215,7 @@ namespace Tinkercell
 
 	void TextEditor::removeItems( const QList<TextItem*>& list)
 	{
-		push( new RemoveItemsCommand(this,list) );
+		push( new RemoveTextItemsCommand(this,list) );
 
 		ItemHandle * h = 0;
 		QList<ItemHandle*> handles;

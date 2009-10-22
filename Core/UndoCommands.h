@@ -79,25 +79,27 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
-	class MY_EXPORT RemoveItemsCommand : public QUndoCommand
+	class MY_EXPORT RemoveTextItemsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
 		* \param NetworkWindow* window where items are inserted
 		* \param QList<ItemHandle*> deleted items
 		*/
-		RemoveItemsCommand(TextEditor *, const QList<TextItem*> & );
+		RemoveTextItemsCommand(TextEditor *, const QList<TextItem*> & );
 		/*! \brief constructor
 		* \param NetworkWindow* window where items are inserted
 		* \param ItemHandle* deleted item
 		*/
-		RemoveItemsCommand(TextEditor *, TextItem*);
+		RemoveTextItemsCommand(TextEditor *, TextItem*);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
 		void undo();
 
 	private:
+		/*! \brief used to update information*/
+		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief inserted handles*/
 		QList<TextItem*> items;
 		/*! \brief TextEditor where the change happened*/
@@ -198,6 +200,8 @@ namespace Tinkercell
 		/*! \brief destructor*/
 		~RemoveGraphicsCommand();
 	private:
+		/*! \brief used to update information*/
+		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief scene where change happened*/
 		GraphicsScene * graphicsScene;
 		/*! \brief items that were removed*/
@@ -208,10 +212,6 @@ namespace Tinkercell
 		QList<ItemHandle*> itemHandles;
 		/*! \brief the set of data that are changed as a result of the removal*/
 		QList< ItemHandle* > affectedHandles;
-		/*! \brief the original set of data that were changed as a result of the removal*/
-		QList< ItemData > oldData;
-		/*! \brief the new changed set of data that were changed as a result of the removal*/
-		QList< ItemData > newData;
 	};
 
 

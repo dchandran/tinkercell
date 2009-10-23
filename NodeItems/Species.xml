@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Species.xml" width="50" height="50">
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/Species.xml" width="175" height="190">
     <ControlPoints>
-        <ControlPoint x="137" y="216"/>
+        <ControlPoint x="138" y="217"/>
         <ControlPoint x="301" y="378"/>
-        <ControlPoint x="158" y="317"/>
-        <ControlPoint x="237" y="237"/>
-        <ControlPoint x="180" y="229"/>
-        <ControlPoint x="157" y="268"/>
-        <ControlPoint x="166" y="267"/>
-        <ControlPoint x="202" y="247"/>
-        <ControlPoint x="168" y="349"/>
-        <ControlPoint x="233" y="358"/>
-        <ControlPoint x="269" y="346"/>
-        <ControlPoint x="289" y="279"/>
-        <ControlPoint x="307" y="350"/>
-        <ControlPoint x="234" y="397"/>
-        <ControlPoint x="275" y="323"/>
+        <ControlPoint x="156" y="319"/>
+        <ControlPoint x="223" y="235"/>
+        <ControlPoint x="192" y="227"/>
+        <ControlPoint x="145" y="264"/>
+        <ControlPoint x="166" y="235"/>
+        <ControlPoint x="233" y="256"/>
+        <ControlPoint x="167" y="358"/>
+        <ControlPoint x="232" y="379"/>
+        <ControlPoint x="285" y="355"/>
+        <ControlPoint x="298" y="281"/>
+        <ControlPoint x="313" y="352"/>
+        <ControlPoint x="235" y="407"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">

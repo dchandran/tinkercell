@@ -169,7 +169,7 @@ namespace Tinkercell
 				{
 					NodeGraphicsItem::Shape * shape = selectedNodes[i]->shapes[j];
 					boundingRect = shape->sceneBoundingRect();
-					if (shape != 0 && boundingRect.width() < 200 && boundingRect.height() < 200)
+					if (shape != 0)// && boundingRect.width() < 200 && boundingRect.height() < 200)
 					{
 						selectionColor2.setAlphaF(shape->defaultPen.color().alphaF());
 						shape->setPen(QPen(selectionColor2,shape->pen().width()));//,Qt::DotLine));
@@ -182,7 +182,7 @@ namespace Tinkercell
 							if (stops.size() > 1)
 							{
 								selectionColor1.setAlphaF(stops[0].second.alphaF());
-								selectionColor2.setAlphaF(stops[1].second.alphaF());
+								selectionColor2.setAlphaF(stops[1].second.alphaF()/2.0);
 								gradient->setColorAt(0,selectionColor1);
 								gradient->setColorAt(1,selectionColor2);
 								shape->setBrush(*gradient);
@@ -192,7 +192,11 @@ namespace Tinkercell
 						}
 						else
 						{
-							selectionColor2.setAlphaF(shape->defaultBrush.color().alphaF());
+							QColor c = shape->defaultBrush.color();
+							if (c.alphaF() > 0.5)
+								selectionColor2.setAlphaF((255.0 - (c.red() + c.blue() + c.green())/3.0)/255.0);
+							else
+								selectionColor2.setAlphaF(c.alphaF());
 							shape->setBrush(QBrush(selectionColor2));
 						}
 					}
@@ -221,7 +225,7 @@ namespace Tinkercell
 								if (stops.size() > 1)
 								{
 									selectionColor1.setAlphaF(stops[0].second.alphaF());
-									selectionColor3.setAlphaF(stops[1].second.alphaF());
+									selectionColor3.setAlphaF(stops[1].second.alphaF()/2.0);
 									gradient->setColorAt(0,selectionColor1);
 									gradient->setColorAt(1,selectionColor3);
 									shape->setBrush(*gradient);
@@ -230,7 +234,11 @@ namespace Tinkercell
 							}
 							else
 							{
-								selectionColor3.setAlphaF(shape->defaultBrush.color().alphaF());
+								QColor c = shape->defaultBrush.color();
+								if (c.alphaF() > 0.5)
+									selectionColor3.setAlphaF((255.0 - (c.red() + c.blue() + c.green())/3.0)/255.0);
+								else
+									selectionColor3.setAlphaF(c.alphaF());
 								shape->setBrush(QBrush(selectionColor3));
 							}
 						}

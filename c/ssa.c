@@ -9,7 +9,7 @@
 
 //SSA:
 
-double * SSA(int m, int n, double * N, void (*propensity)(double, double*,double*,void*), double *x0, double startTime, double endTime, int maxSz, int * arraysz, void * dataptr)  //ssa
+double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0, double startTime, double endTime, int maxSz, int * arraysz, void * dataptr)  //ssa
 {	
 	int iter, i, k, sz;
 	double * x, * y, * v, rand, lambda, time, sum, * x2;

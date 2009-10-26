@@ -38,7 +38,19 @@ double genrand64_real2(void);
 /* generates a random number on (0,1)-real-interval */
 double genrand64_real3(void);
 
+/*! \brief Initialize the random number generator based on time*/
 void initMTrand(void);
+
+/*! \brief Initialize the random number generator based on time and get the seeds
+ *  \return the seed based on time*/
+unsigned long long * getMTseeds(void);
+
+/*! \brief set the starting seed for the random number generator.
+ * \param the input array MUST be of length 4*/
+void setMTseeds(unsigned long long *);
+
+/*! \brief indicates whether mtrand has been initialized yet*/
+int MTrandHasBeenInitialized();
 
 double mtrand(void);
 

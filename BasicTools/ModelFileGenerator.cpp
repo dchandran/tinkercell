@@ -405,13 +405,11 @@ namespace Tinkercell
 					{
 						for (j=0; j < dat.rows(); ++j)
 						{
-							ConsoleWindow::message(dat.value(j,0) + tr("   ") + dat.value(j,1));
-							
 							s1 = dat.value(j,1);
 							replaceHatWithPow(s1);
 							s1.replace(regex,replaceDot);
 
-							s2 = dat.value(i,0);
+							s2 = dat.value(j,0);
 							s2.replace(tr(","),tr(", double "));
 							s2 = tr("(double ") + s2 + tr(")");
 

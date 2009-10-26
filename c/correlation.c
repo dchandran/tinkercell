@@ -39,8 +39,9 @@ double correlation(double * X, double * Y, int sz)
 
 double maxCorrelation(double * X, double * Y, int sz, int minSz)
 {
-   int i;
+   int i, j, k;
    double r, r_best;
+   double mXY = 0, mX = 0, mY = 0, mX2 = 0, mY2 = 0;
 
    if (X == 0 || Y == 0) return (0.0);
    

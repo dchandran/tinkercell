@@ -19,6 +19,11 @@
 #define getValue(array, N, i, j) ( array[ (i)*(N) + (j) ] )
 #endif
 
+#ifndef _PropensityFunction
+#define _PropensityFunction
+typedef void (*PropensityFunction)(double time,double* y,double* rates,void* params);
+#endif
+
 /*! \brief Stochastic simulation using Gillespie algorithm
 * \param int number of species (rows of stoichiometry matrix)
 * \param int number of reactions (columns of stoichiometry matrix)
@@ -33,7 +38,7 @@
 * \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
 * \ingroup gillespie
 */
-double * SSA(int, int, double *, void (*f)(double,double*,double*,void*), double*, double, double,int, int*,void*);
+double * SSA(int, int, double *, PropensityFunction, double*, double, double,int, int*,void*);
 
 /*! \brief Get rates from the simulated data
 * \param double* simulated data
@@ -46,7 +51,7 @@ double * SSA(int, int, double *, void (*f)(double,double*,double*,void*), double
 * \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
 * \ingroup gillespie
 */
-double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, void (*f)(double,double*,double*,void*), void* param);
+double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, PropensityFunction, void* param);
 
 
 #endif

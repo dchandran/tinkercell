@@ -1,4 +1,7 @@
-/*****************************************************************
+/*!
+  \file    cvodesim.h
+  \author: Deepak Chandran (dchandran1@gmail.com)
+  \brief   simulation functions that use CVODE to integrate differential equations
 
 A wrapper for the Sundials CVODE numerical integration library
 The wrapper is only for initial value problems. 
@@ -34,7 +37,10 @@ typedef void (*ODEFunction)(double time,double* y,double* dydt,void* params);
 /*!
  * \brief The type for the user defined propensity function
  */
+#ifndef _PropensityFunction
+#define _PropensityFunction
 typedef void (*PropensityFunction)(double time,double* y,double* rates,void* params);
+#endif
 
 /*!
  * \brief The type for the user defined event function
@@ -172,8 +178,9 @@ double* getDerivatives(int N, double * initValues, ODEFunction function, double 
  */
 double* getDerivatives2(int m, int n, double * N, PropensityFunction f, double * initValues, double startTime, double endTime, double stepSize, void * params);
 
-
+#ifndef getValue
 #define getValue(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
+#endif
 
 /*!
 * \brief print a linearized 2D table to a file

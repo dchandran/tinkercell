@@ -1,4 +1,7 @@
+#include <stdlib.h>
 #include "mtrand.h"
+
+static int HAS_BEEN_INITIALIZED = 0;
 
 /* initializes mt[NN] with a seed */
 void init_genrand64(unsigned long long seed)
@@ -96,11 +99,40 @@ double genrand64_real3(void)
     return ((genrand64_int64() >> 12) + 0.5) * (1.0/4503599627370496.0);
 }
 
+static unsigned long long INIT_SEEDS[4]; 
+
+unsigned long long * getMTseeds(void)
+{
+    return INIT_SEEDS;
+}
+
+int MTrandHasBeenInitialized() 
+{
+	return HAS_BEEN_INITIALIZED; 
+}
+
 void initMTrand(void)
 {
-    //unsigned long long init[4]={0x12345ULL, 0x23456ULL, 0x34567ULL, 0x45678ULL}, length=4;
-    unsigned long long init[4]={0x12345ULL * time(0), 0x23456ULL * time(0), 0x34567ULL * time(0), 0x45678ULL * time(0)}, length=4;
-    init_by_array64(init, length);
+	unsigned long long length=4;
+	INIT_SEEDS[0] = 0x12345ULL * time(0);
+	INIT_SEEDS[1] = 0x23456ULL * time(0);
+	INIT_SEEDS[2] = 0x34567ULL * time(0);
+	INIT_SEEDS[3] =  0x45678ULL * time(0);
+	init_by_array64(INIT_SEEDS, length);
+	HAS_BEEN_INITIALIZED = 1;
+}
+
+void setMTseeds(unsigned long long * init)
+{
+	unsigned long long length = 4;
+	
+	INIT_SEEDS[0] = init[0];
+	INIT_SEEDS[1] = init[1];
+	INIT_SEEDS[2] = init[2];
+	INIT_SEEDS[3] = init[3];
+	
+	init_by_array64(INIT_SEEDS, length);
+	HAS_BEEN_INITIALIZED = 1;
 }
 
 /* generates a random number on [0,1)-real-interval */

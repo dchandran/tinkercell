@@ -2,6 +2,7 @@ SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
 ADD_LIBRARY( ssa
  SHARED
+ mtrand.c
  ssa.c
  cells_ssa.c
  langevin.c

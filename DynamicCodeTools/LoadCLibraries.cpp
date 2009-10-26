@@ -243,16 +243,17 @@ namespace Tinkercell
 		proc.setWorkingDirectory(MainWindow::userHome());
 		
 #ifdef Q_WS_WIN
+		appDir.replace(tr("/"),tr("\\"));
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
 #else
         proc.start(tr("rm a.out"));
         proc.waitForFinished();
-        proc.start(tr("gcc -o a.out ") + filename);
+        proc.start(tr("gcc -o a.out -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c ") + filename);
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
@@ -314,16 +315,30 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
 		
 		proc.setWorkingDirectory(MainWindow::userHome());
+
+#ifdef Q_WS_WIN
+		appDir.replace(tr("/"),tr("\\"));
+        proc.start(tr("del a.out"));
+        proc.waitForFinished();
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
+        proc.waitForFinished();
+        QString errors(proc.readAllStandardError());
+        QString output(proc.readAllStandardOutput());
+#else
+        proc.start(tr("rm a.out"));
+        proc.waitForFinished();
+        proc.start(tr("gcc -o a.out -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c ") + filename);
+        proc.waitForFinished();
+        QString errors(proc.readAllStandardError());
+        QString output(proc.readAllStandardOutput());
+#endif
         
 #ifdef Q_WS_WIN
         proc.start(tr("del ") + dllName + tr(".dll"));
         proc.waitForFinished();
 		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
-        
-        if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
-        if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC

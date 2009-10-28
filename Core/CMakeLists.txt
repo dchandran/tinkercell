@@ -3,6 +3,7 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 SET( TINKERCELL_CORE_HDRS
   AbstractInputWindow.h
   CodeEditor.h
+  TextEditor.h
   ConnectionGraphicsItem.h
   ConnectionGraphicsReader.h
   ConnectionGraphicsWriter.h
@@ -23,7 +24,6 @@ SET( TINKERCELL_CORE_HDRS
   NodeGraphicsWriter.h
   ConsoleWindow.h
   SymbolsTable.h
-  TextEditor.h
   TextGraphicsItem.h
   TextItem.h
   TextParser.h

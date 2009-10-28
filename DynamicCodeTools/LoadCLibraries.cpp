@@ -246,7 +246,7 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
@@ -316,10 +316,11 @@ namespace Tinkercell
 		
 		proc.setWorkingDirectory(MainWindow::userHome());
 
+
 #ifdef Q_WS_WIN
         proc.start(tr("del ") + dllName + tr(".dll"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
@@ -327,7 +328,7 @@ namespace Tinkercell
 #ifdef Q_WS_MAC
         proc.start(tr("rm ") + dllName + tr(".dylib"));
         proc.waitForFinished();
-        proc.start(tr("gcc -bundle -w --shared -o ") + dllName + tr(".dylib ") + filename);
+        proc.start(tr("gcc -bundle -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".dylib ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -336,7 +337,7 @@ namespace Tinkercell
 #else
         proc.start(tr("rm ") + dllName + tr(".so"));
         proc.waitForFinished();
-        proc.start(tr("gcc -w --shared -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());

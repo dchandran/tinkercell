@@ -238,19 +238,7 @@ void run(Matrix input)
 						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
 
-	cmd = malloc(50 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"ode.c cells_ssa.o odesim.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"ode.c -lodesim -lcells_ssa\0");
-	}
-
-	tc_compileBuildLoad(cmd,"run\0","Deterministic simulation\0");
-	free(cmd);
+	tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");
 	return;
 
 }

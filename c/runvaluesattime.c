@@ -130,7 +130,6 @@ void run(Matrix input)
 	Array A;
 	char * param;
 	FILE * out;
-	char* cmd;
 
 	if (input.cols > 0)
 	{
@@ -253,19 +252,7 @@ void run(Matrix input)
 
 	fclose(out);
 
-	cmd = malloc(80 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"timet.c odesim.o cells_ssa.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"timet.c -lodesim -lcells_ssa\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","At Time T\0");
-
-	free(cmd);
+	tc_compileBuildLoad("timet.c -lodesim -lssa\0","run\0","At Time T\0");
 	return;
 }
 

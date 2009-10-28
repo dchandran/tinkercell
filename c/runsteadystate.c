@@ -161,7 +161,6 @@ void run(Matrix input)
 	int index = 0;
 	int rateplot = 0;
 	Array A;
-	char * cmd;
 	int i;
 	char * param;
 	FILE * out;
@@ -297,19 +296,7 @@ void run(Matrix input)
 
 	fclose(out);
 
-	cmd = malloc( 50 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"ss.c odesim.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"ss.c -lodesim\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","Steady state\0");
-
-	free(cmd);
+	tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
 	return;  
 }
 
@@ -324,7 +311,7 @@ void run2D(Matrix input)
 	int i, len;
 	Matrix params;
 	char ** names;
-	char * param1, * param2, * target, * cmd;
+	char * param1, * param2, * target;
 	FILE * out;
 
 	if (input.cols > 0)
@@ -463,20 +450,9 @@ void run2D(Matrix input)
 
 	fclose(out);
 
-	cmd = malloc( 50 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"ss2D.c odesim.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"ss2D.c -lodesim\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","2-parameter steady state\0");
+	tc_compileBuildLoad("ss2D.c -lodesim\0","run\0","2-parameter steady state\0");
 
 	TCFreeMatrix(params);
-	free(cmd);
 	return;  
 }
 

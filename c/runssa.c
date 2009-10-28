@@ -17,7 +17,7 @@ void runSSA(Matrix input)
 	int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
 	Array A;
 	FILE * out;
-	char* appDir,* cmd;
+	char* appDir;
 
 	if (input.cols > 0)
 	{
@@ -50,7 +50,7 @@ void runSSA(Matrix input)
 
 	if (A[0] != 0)
 	{
-		k = tc_writeModel( "ssa", A );
+		k = tc_writeModel( "runssa", A );
 		TCFreeArray(A);
 		if (!k)
 		{
@@ -65,7 +65,7 @@ void runSSA(Matrix input)
 		return;
 	}
 
-	out = fopen("ssa.c","a");
+	out = fopen("runssa.c","a");
 
 	fprintf( out , "#include \"TC_api.h\"\n#include \"ssa.h\"\n\n\
 				   static double _time0_ = 0.0;\n\
@@ -139,33 +139,8 @@ void runSSA(Matrix input)
 
 	fclose(out);
 
-	appDir = tc_appDir();
-
-	sz = 0;
-	while (appDir[sz] != 0) ++sz;
-
-	cmd = malloc(50 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"ssa.c cells_ssa.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"ssa.c -lcells_ssa\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","Gillespie algorithm\0");
-	/*   
-	if (tc_isWindows())
-	{
-	tc_compileBuildLoad("c/ssa.o ssa.c -I./include -I./c\0","run\0");
-	}
-	else
-	{
-	tc_compileBuildLoad("ssa.c -I./c -L./lib -lssa\0","run\0");
-	}
-	*/   
-	free(cmd);
+	tc_compileBuildLoad("ssa.c -lssa\0","run\0","Gillespie algorithm\0");
+	
 	return;
 }
 
@@ -290,19 +265,8 @@ void runCellSSA(Matrix input)
 
 	fclose(out);
 
-	cmd = malloc(50 * sizeof(char));
+	tc_compileBuildLoad("cells_ssa.c -lssa\0","run\0","Multi-cell algorithm\0");
 
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"cells_ssa.c cells_ssa.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"cells_ssa.c -lcells_ssa\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","Multi-cell algorithm\0");
-
-	free(cmd);
 	return;
 }
 

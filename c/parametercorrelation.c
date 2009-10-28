@@ -84,7 +84,7 @@ void run(Matrix input)
 	int i, len;
 	Matrix params;
 	char ** names, ** allNames;
-	char * param1, * param2, * target, * var, * cmd;
+	char * param1, * param2, * target, * var;
 	FILE * out;
 
 	if (input.cols > 0)
@@ -284,22 +284,11 @@ void run(Matrix input)
 
 	fclose(out);
 
-	cmd = malloc( 50 * sizeof(char));
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"corr.c odesim.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"corr.c -lodesim\0");
-	}
-	tc_compileBuildLoad(cmd,"run\0","2-Parameter Correlation Test\0");
+	tc_compileBuildLoad("corr.c -lodesim\0","run\0","2-Parameter Correlation Test\0");
 
 	free(allNames);
 	TCFreeChars(names);
 	TCFreeMatrix(params);
-	free(cmd);
 	return;  
 }
 

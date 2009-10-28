@@ -72,7 +72,6 @@ void run(Matrix input)
 	double dt = 0.1;
 	int xaxis = 0, sz, k;
 	int selection = 0;
-	char* cmd;
 	Array A;
 	FILE * out;
 
@@ -188,19 +187,8 @@ void run(Matrix input)
 				   return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
 	fclose(out);
 
-	cmd = malloc(50 * sizeof(char));
+	tc_compileBuildLoad("langevin.c -lodesim -lssa\0","run\0","Langevin Simulation\0");
 
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"langevin.c cells_ssa.o odesim.o\0");
-	}
-	else
-	{
-		sprintf(cmd,"langevin.c -lodesim -lcells_ssa\0");
-	}
-	
-	tc_compileBuildLoad(cmd,"run\0","Langevin Simulation\0");
-	free(cmd);
 	return;
 
 }

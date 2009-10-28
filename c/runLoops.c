@@ -98,30 +98,6 @@ int run(Matrix M)\n\
 }");
 
 
-/*for (i=0; i < info.numLoops; ++i)
-      for (j=0; j < info.loopLengths[i]; ++j)
-	    tc_print("%i\t",info.nodes[i][j]);
-
-   tc_print("type=%i\tsame=%i\n",info.loopTypes[i],info.loopHomogeneous[i]);
-   */
    fclose(out);
-/*
-   char* appDir = tc_appDir();
-
-   int sz = 0;
-   while (appDir[sz] != 0) ++sz;
-   
-   char* cmd = malloc((sz*4 + 50) * sizeof(char));
-
-   if (tc_isWindows())
-   {
-       sprintf(cmd,"\"%s\"/c/odesim.o \"%s\"/c/loops.c runloops.c -I\"%s\"/include -I\"%s\"/c\0",appDir,appDir,appDir,appDir);
-   }
-   else
-   {
-       sprintf(cmd,"%s/c/loops.c runloops.c -I%s/c -L%s/lib -lodesim\0",appDir,appDir,appDir);
-   }
-   tc_compileBuildLoad(cmd,"run\0");
-  */ 
    return;
 }

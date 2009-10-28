@@ -81,7 +81,6 @@ void run(Matrix input)
 	int selection = 0;
 	int rateplot = 0;
 	int sz = 0, k = 0, update = 0;
-	char* cmd;
 
 	if (input.cols > 0)
 	{

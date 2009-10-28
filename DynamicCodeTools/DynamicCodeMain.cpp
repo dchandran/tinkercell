@@ -14,7 +14,7 @@
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
-	
+	/*
 	QProcess proc;
     QString appDir = QCoreApplication::applicationDirPath();
 	QString homeDir = Tinkercell::MainWindow::userHome();
@@ -102,7 +102,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 		Tinkercell::ConsoleWindow::message(QObject::tr("cells_ssa.a created in ") + homeDir);
 	
 #endif	
-	
+	*/
 	Tinkercell::DynamicLibraryMenu * libMenu = new Tinkercell::DynamicLibraryMenu;
 	main->addTool(libMenu);
 	

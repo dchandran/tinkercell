@@ -638,6 +638,9 @@ namespace Tinkercell
 					rownames(table.getRowNames());
 
 		int c = 0;
+		
+		output += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
+		output += tr("\\begin{ticzpicture}\n");
 
 		for (int i=0; i < colnames.size(); ++i)
 		{
@@ -659,8 +662,7 @@ namespace Tinkercell
 				
 			QPen pen = DataPlot::penList[c];
 		
-			output += tr("\\documentclass{article}\n\n\\usepackage{tikz}\n\n\\usepackage{pgfplots}\n\n\n\\begin{document}\n\n");
-			output += tr("\\begin{ticzpicture}\n\\begin{axis}[\ngrid=major,\nxlabel=")
+			output += tr("\\begin{axis}[\ngrid=major,\nxlabel=")
 						+ colnames.at(dataPlot->xcolumn) 
 						+ tr(",\nylabel=Values")
 						+ tr(",\nxmin=") + QString::number(xmin)
@@ -680,9 +682,10 @@ namespace Tinkercell
 							+ tr(")\n");
 			}
 			output += tr("};\n\\addlegendentry{") + colnames.at(i) + tr("}\n");
+			output += tr("\\end{axis}\n");
 		}
 		
-		output += tr("\\end{axis}\n\\end{tikzpicture}\n");
+		output += tr("\\end{tikzpicture}\n");
 		
 		return output;
 	}

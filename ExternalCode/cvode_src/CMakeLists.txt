@@ -1,8 +1,9 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
-  
-ADD_SUBDIRECTORY( cvode )
-ADD_SUBDIRECTORY( nvec_ser )
-ADD_SUBDIRECTORY( sundials )
+
+FILE( GLOB CVODE_SRC  "cvode/*.c" )
+FILE( GLOB SUNDIALS_SRC  "sundials/*.c" )  
+FILE( GLOB NVECSER_SRC  "nvec_ser/*.c" )  
+FILE( GLOB OPTIM_SRC  "../optim/*.c" )  
 
 ADD_LIBRARY( odesim
  SHARED

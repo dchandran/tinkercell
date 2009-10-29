@@ -19,7 +19,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
     QString appDir = QCoreApplication::applicationDirPath();
 	QString homeDir = Tinkercell::MainWindow::userHome();
 	
-	proc.setWorkingDirectory(homeDir);
+	proc.setWorkingDirectory(appDir);
 	homeDir.replace(QObject::tr("/"),QObject::tr("\\"));
 	
 	proc.start(QObject::tr("copy c\\*.dll ") + homeDir + QObject::tr(" /Y"));

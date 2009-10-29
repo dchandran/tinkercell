@@ -3,7 +3,7 @@ SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 FILE( GLOB CVODE_SRC  "cvode/*.c" )
 FILE( GLOB SUNDIALS_SRC  "sundials/*.c" )  
 FILE( GLOB NVECSER_SRC  "nvec_ser/*.c" )  
-FILE( GLOB OPTIM_SRC  "../optim/*.c" )  
+FILE( GLOB OPTIM_SRC  "../optim/*.c" )
 
 ADD_LIBRARY( odesim
  SHARED
@@ -11,8 +11,15 @@ ADD_LIBRARY( odesim
  ${SUNDIALS_SRC}
  ${NVECSER_SRC}
  ${OPTIM_SRC}
+ ${TINKERCELL_SOURCE_DIR}/c/correlation.c
+ ${TINKERCELL_SOURCE_DIR}/c/mathfunc.c
  ${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
  )
+ 
+TARGET_LINK_LIBRARIES( odesim
+	odesim
+	lapack
+)
  
 IF ( WIN32 )
   INSTALL(TARGETS odesim DESTINATION c)

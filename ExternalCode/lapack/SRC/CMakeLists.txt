@@ -375,12 +375,7 @@ endif()
 if(BUILD_COMPLEX16)
   set(ALLOBJ  ${ZLASRC} ${ALLAUX} ${DZLAUX})
 endif()
-add_library(lapack SHARED ${ALLOBJ} ${ALLXOBJ})
+add_library(lapack ${ALLOBJ} ${ALLXOBJ})
 target_link_libraries(lapack blas)
-IF ( WIN32 )
-  INSTALL(TARGETS lapack DESTINATION c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS lapack LIBRARY DESTINATION c)
-ENDIF( WIN32 )
 
 

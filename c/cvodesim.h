@@ -25,7 +25,7 @@ The wrapper provides support for event functions and user defined structs as par
 #include <sundials/sundials_band.h>  /* definitions of type BandMat and macros */
 #include <sundials/sundials_types.h> /* definition of type realtype */
 #include <sundials/sundials_math.h>  /* definition of ABS and EXP */
-//#include "mathfunc.h"   /*eigenvalue computation */
+#include "eigen.h"   /*eigenvalue computation */
 
 #define SUNDIALS_DOUBLE_PRECISION 1
 
@@ -108,10 +108,12 @@ double * ODEsim2(int, int, double *, PropensityFunction f, double*, double, doub
  * \param array of values (point where Jacobian will be calculated)
  * \param ode function pointer
  * \param additional parameters needed for ode function
+ * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
+ * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
  * \return 2D array made into linear array -- use getValue(array,N,i,j)
  * \ingroup cvodewrapper
  */
-double* jacobian(int N, double * point,  ODEFunction function, void * params);
+double* jacobian(int N, double * point,  ODEFunction function, void * params, double * eigenreal, double * eigenim);
 
 /*!
  * \brief Gets jacobian matrix of the system at the given point
@@ -121,10 +123,12 @@ double* jacobian(int N, double * point,  ODEFunction function, void * params);
  * \param  pointer to propensity function -- f(time, y-values, rates) --- assign values to the rates array
  * \param array of values (point where Jacobian will be calculated)
  * \param additional parameters needed for ode function
+ * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
+ * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
  * \return 2D array made into linear array -- use getValue(array,N,i,j)
  * \ingroup cvodewrapper
  */
-double* jacobian2(int m, int n, double * N, PropensityFunction f, double * point, void * params);
+double* jacobian2(int m, int n, double * N, PropensityFunction f, double * point, void * params, double * eigenreal, double * eigenim);
 
 /*!
  * \brief Bring a system to steady state

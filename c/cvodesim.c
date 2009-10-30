@@ -1,5 +1,5 @@
 #include "cvodesim.h"
-#include "opt.h"
+
 /*
  * The differential equations function
  * @param: time
@@ -7,7 +7,7 @@
  * @param: derviatives array used as the return array
  * @param: any other data pointer that is needed for the simulation
 */
-static void (*_ODEFUNC)(double, double*, double*, void*) = NULL;
+static void (*ODEfunc)(double, double*, double*, void*) = NULL;
 
 /*
  * relative error tolerance
@@ -45,23 +45,9 @@ typedef struct
   int numEvents;
 } UserFunction;
 
-static void * _PARAMS = NULL;
-static double * _DU = NULL;
-
-static double _FMIN(int n, double * x)
-{
-	int i=0;
-	double sumsq = 0.0;
-	_ODEFUNC(0.0,x,_DU,_PARAMS);
-	for (i=0; i < n; ++i)
-	{
-		sumsq += _DU[i]*_DU[i];
-	}
-	return sumsq;
-}
-
 /* f routine. Compute f(t,u). */
-static int _FODE(realtype t, N_Vector u, N_Vector udot, void * userFunc)
+
+static int f(realtype t, N_Vector u, N_Vector udot, void * userFunc)
 {
   realtype *udata, *dudata;
   UserFunction * info;
@@ -206,7 +192,7 @@ double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,voi
  * /param: additional parameters needed for ode function
  * /ret: 2D array made into linear array -- use getValue(array,N,i,j)
  */
-double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * point, void * params)
+double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * point, void * params, double * eigenreal, double * eigenim)
 {
 	double * y;
 	StoichiometryMatrix = N;
@@ -214,7 +200,7 @@ double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,voi
 	numReactions = n;
 	numVars = m;
 	rates = (double*) malloc(n * sizeof(double));
-	y = jacobian(m,point,&odeFunc,params);
+	y = jacobian(m,point,&odeFunc,params, eigenreal, eigenim);
 	free(rates);
 	return(y);
 }
@@ -303,8 +289,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 
 	/*setup ode func*/
 
-	_ODEFUNC = odefnc; 
-	_PARAMS = params;
+	ODEfunc = odefnc; 
 
 	if (N < 1) { return (0); }  /*no variables in the system*/
 
@@ -329,7 +314,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 	cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
 	if (check_flag((void *)cvode_mem, "CVodeCreate", 0)) return(0);
 
-	flag = CVodeMalloc(cvode_mem, _FODE, 0, u, CV_SS, reltol, &abstol);
+	flag = CVodeMalloc(cvode_mem, f, 0, u, CV_SS, reltol, &abstol);
 	if (check_flag(&flag, "CVodeMalloc", 1))
 	{
 		CVodeFree(&cvode_mem);
@@ -433,9 +418,9 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
  * @param: additional parameters needed for ode function
  * @ret: 2D array made into linear array -- use getValue(array,N,i,j)
  */
-double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,void*), void * params)
+double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,void*), void * params, double * wr, double * wi)
 {
-	int i,j;
+	int i,j,k;
 	double dx, * dy0, * dy1, * J;
 	
 	if (odefnc == 0 || point == 0) return (0);
@@ -460,6 +445,12 @@ double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,v
 	}
 	free (dy0);
 	free (dy1);
+	
+	if (J && wr && wi)
+    {
+		k = eigenvalues(J,N,wr,wi); //get eigenvalues of J in wr and wi
+	}
+	
 	return (J);
 }
 
@@ -472,58 +463,6 @@ double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,v
  * @ret: array of values
  */
 double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*,double*,void*), void * params, double maxerr, double maxtime, double delta)
-{
-	int i;
-	double fopt;
-	double * ss = (double*)(malloc(N * sizeof(double)));
-	
-	for (i=0; i < N; ++i)
-	{
-	   ss[i] = initialValues[i];
-	}
-	
-	_ODEFUNC = odefnc; 
-	_PARAMS = params;
-	_DU = (double*)(malloc(N * sizeof(double)));
-
-	if (NelderMeadSimplexMethod(N, _FMIN, ss, 10.00, &fopt, 1000.0, AbsTol) == success)
-	{
-	}
-	else
-	{
-		free(ss);
-		ss = 0;
-	}
-	
-	free(_DU);
-	
-	/*double * J = jacobian(N, ss, odefnc, params);  //get jacobian at steady state
-	   if (J)
-	   {
-		  double * wr = 0, * wi = 0;        //wr = real component, wi = imaginary component
-		  int k = eigenvalues(J,N,&wr,&wi); //get eigenvalues of J in wr and wi
-		  free(J);
-		  int stablePt = 1;
-		  if (k)  //if everything is ok (CLAPACK)
-		  {
-			  for (j=0; j<N; ++j) 
-				 if (wr[j] >= 0)    //this is not a stable point
-				 {
-					 stablePt = 0;
-					 break;
-				 }
-			  free(wr);
-			  free(wi);
-			  if (stablePt)
-			  {
-				 break;   //stable point found
-			  }
-		  }
-		}*/
-
-	return ss;
-}
-/*
 {
 	double t0, t, tout, startTime, endTime, stepSize, reltol, abstol, err, temp, * ss;
 	void * cvode_mem;
@@ -543,16 +482,23 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	tout = 0.0;
 	cvode_mem = 0;
 	
+	/*setup tolerance*/
+
 	reltol = RelTol;
 	abstol = AbsTol;
 
-	_ODEFUNC = odefnc;
-	if (N < 1) return (0);  
+	/*setup ode func*/
+	ODEfunc = odefnc;
+	if (N < 1) return (0);  /*no variables in the system*/
 
-	u = N_VNew_Serial(N); 
+	u = N_VNew_Serial(N);  /* Allocate u vector */
 	if(check_flag((void*)u, "N_VNew_Serial", 0)) return(0);
 
+	/* allocate output matrix */
+
 	ss = (double*) malloc (N * sizeof(double) );
+
+	/* Initialize u vector */
 
 	udata = NV_DATA_S(u);
 	u0 = (realtype*) malloc(N*sizeof(realtype));
@@ -560,10 +506,12 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 		for (i=0; i < N; ++i)
 			udata[i] = u0[i] = initialValues[i];
 
+	/* setup CVODE */
+
 	cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
 	if (check_flag((void *)cvode_mem, "CVodeCreate", 0)) return(0);
 
-	flag = CVodeMalloc(cvode_mem, _FODE, 0, u, CV_SS, reltol, &abstol);
+	flag = CVodeMalloc(cvode_mem, f, 0, u, CV_SS, reltol, &abstol);
 	if (check_flag(&flag, "CVodeMalloc", 1))
 	{
 		CVodeFree(&cvode_mem);
@@ -606,6 +554,9 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 		EventFunctionPointers = 0;
 		NumEventFunctions = 0;
 	}
+  
+	/* setup for simulation */
+
 	t0 = 0.0;
 	startTime = 0.0;
 	t = startTime;
@@ -613,6 +564,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	i = 0;
 	err = maxerr + 1;
 
+	/*main simulation loop*/
 	while (tout <= endTime)
 	{
 		tout = t + stepSize;
@@ -650,11 +602,10 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 				}
 			}
 		}
-		
+		/* check for steady state reached */
 		if (err <= maxerr)
 		{
 		   break;
-		   
 		}
 	}
 	if (tout >= endTime) //steady state not reached in the given amount of time
@@ -666,11 +617,11 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	}
   
 	if (u0) free(u0);
-	CVodeFree(&cvode_mem);  
+	CVodeFree(&cvode_mem);  /* Free the integrator memory */
 	N_VDestroy_Serial(u);
 	free(funcData);
-	return(ss);  
-}*/
+	return(ss);   /*return outptus*/
+}
 
 /*
  * Find the rates of change after simulating for the given amount of time

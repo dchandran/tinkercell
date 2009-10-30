@@ -11,8 +11,7 @@ ADD_LIBRARY( odesim
  ${SUNDIALS_SRC}
  ${NVECSER_SRC}
  ${OPTIM_SRC}
- ${TINKERCELL_SOURCE_DIR}/c/correlation.c
- ${TINKERCELL_SOURCE_DIR}/c/mathfunc.c
+ ${TINKERCELL_SOURCE_DIR}/c/eigen.c
  ${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
  )
  

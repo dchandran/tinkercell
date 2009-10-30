@@ -1,4 +1,4 @@
-#include "mathfunc.h"
+#include "eigen.h"
 
 /* finds the eigenvalues of a matrix using CLAPACK
  * \param: square matrix
@@ -33,8 +33,8 @@ int eigenvalues(double * A, int N, double * wr, double * wi)
       {
          (*reals) = (double*)wr;
          (*im) = (double*)wi;
-      }*/
-      else ret = 0;
+      }
+      else ret = 0;*/
     }
     else ret = 0;
 

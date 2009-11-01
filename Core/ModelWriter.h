@@ -44,28 +44,38 @@ namespace Tinkercell
 		* \return void*/ 
 		bool writeModel(TextEditor * ,QIODevice * device);
 		/*! \brief Writes the handles and data for that handle 
-		* \param GraphicsScene scene
+		* \param GraphicsScene* scene
 		* \param QIODevice device to use
 		* \return void*/ 
 		bool writeModel(GraphicsScene * ,QIODevice * device);
 		/*! \brief Writes the handles and data for that handle 
-		* \param NodeImage pointer to write as XML
+		* \param QList<ItemHandle*> list of handles (top level)
+		* \param QIODevice device to use
+		* \return void*/ 
+		bool writeModel(const QList<ItemHandle*>& ,QIODevice * device);
+		/*! \brief Writes the handles and data for that handle 
+		* \param TextEditor* 
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/ 
 		static bool writeModel(TextEditor * editor,QXmlStreamWriter *);
 		/*! \brief Writes the handles and data for that handle 
-		* \param NodeImage pointer to write as XML
+		* \param GraphicsScene* scene
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/ 
 		static bool writeModel(GraphicsScene * scene,QXmlStreamWriter *);
+		/*! \brief Writes the handles and data for that handle 
+		* \param QList<ItemHandle*> list of handles (top level)
+		* \param QXmlStreamWriter* xml writer to use
+		* \return void*/ 
+		static bool writeModel(const QList<ItemHandle*>& ,QXmlStreamWriter *);
 		/*! \brief Writes a data table of doubles into an XML file
-		* \param NodeImage pointer to write as XML
-		* \param index of shape in NodeImage's shape vector
+		* \param DataTable<qreal> datatable
+		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/
 		static void writeDataTable(const DataTable<qreal>&, QXmlStreamWriter *);
 		/*! \brief Writes a data table of strings into an XML file
-		* \param NodeImage pointer to write as XML
-		* \param index of shape in NodeImage's shape vector
+		* \param DataTable<QString> datatable
+		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/
 		static void writeDataTable(const DataTable<QString>&, QXmlStreamWriter *); 
 		/*! \brief Writes a handle and all its children

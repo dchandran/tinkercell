@@ -29,6 +29,24 @@ namespace Tinkercell
 		return writeModel(editor,const_cast<ModelWriter*>(this));
 	}
 	
+	bool ModelWriter::writeModel(GraphicsScene * scene, QIODevice * device)
+	{
+		if (!scene || !device) return false;
+
+		setDevice(device);
+
+		return writeModel(scene,const_cast<ModelWriter*>(this));
+	}
+	
+	bool ModelWriter::writeModel(const QList<ItemHandle*>& list, QIODevice * device)
+	{
+		if (list.isEmpty() || !device) return false;
+
+		setDevice(device);
+
+		return writeModel(list,const_cast<ModelWriter*>(this));
+	}
+	
 	bool ModelWriter::writeModel(TextEditor * editor,QXmlStreamWriter * writer)
 	{
 		if (!editor || !writer) return false;
@@ -69,16 +87,6 @@ namespace Tinkercell
 		return true;
 	}
 
-	bool ModelWriter::writeModel(GraphicsScene * scene, QIODevice * device)
-	{
-		if (!scene || !device) return false;
-
-		setDevice(device);
-
-		return writeModel(scene,const_cast<ModelWriter*>(this));
-	}
-	
-	
 	bool ModelWriter::writeModel(GraphicsScene * scene, QXmlStreamWriter * writer)
 	{
 		if (!scene || !writer) return false;
@@ -104,6 +112,41 @@ namespace Tinkercell
 		{
 			childHandles << topLevelHandles[i]->children;
 		}
+		for (int i=0; i < childHandles.size(); ++i)
+		{
+			handle = childHandles[i];
+			if (handle)
+			{
+				writeHandle(handle,writer);
+				childHandles << handle->children; //queue -- assures that parents are written first
+			}
+		}
+
+		return true;
+	}
+	
+	bool ModelWriter::writeModel(const QList<ItemHandle*>& allItems,QXmlStreamWriter * writer)
+	{
+		if (items.isEmpty() || !writer) return false;
+
+		QList<ItemHandle*> topLevelHandles, childHandles;
+
+		ItemHandle* handle = 0;
+		for (int i=0; i < allItems.size(); ++i)
+		{
+			handle = allItems[i];
+			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
+			{
+				writeHandle(handle,writer);
+				topLevelHandles << handle;
+			}
+		}
+
+		for (int i=0; i < topLevelHandles.size(); ++i)
+		{
+			childHandles << topLevelHandles[i]->children;
+		}
+
 		for (int i=0; i < childHandles.size(); ++i)
 		{
 			handle = childHandles[i];

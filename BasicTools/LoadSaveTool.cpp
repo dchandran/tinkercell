@@ -172,6 +172,10 @@ namespace Tinkercell
 
 		modelWriter.writeEndElement();
 	}
+	
+	void saveItems(const QList<QGraphicsItem*>&, const QString& filename)
+	{
+	}
 
 	void LoadSaveTool::saveModel(const QString& filename)
 	{
@@ -290,13 +294,17 @@ namespace Tinkercell
 		{
 			mainWindow->currentWindow()->setWindowTitle(filename2);
 			mainWindow->currentWindow()->filename = filename;
-			qDebug() << filename;
+			//qDebug() << filename;
 		}
 
 		emit modelSaved(scene->networkWindow);
 
 		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
 		ConsoleWindow::message(tr("model successfully saved in : ") + filename);
+	}
+	
+	void loadItems(QList<QGraphicsItem*>&, const QString& filename)
+	{
 	}
 
 	void LoadSaveTool::loadModel(const QString& filename)

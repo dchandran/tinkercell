@@ -139,7 +139,7 @@ void runSSA(Matrix input)
 
 	fclose(out);
 
-	tc_compileBuildLoad("ssa.c -lssa\0","run\0","Gillespie algorithm\0");
+	tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
 	
 	return;
 }

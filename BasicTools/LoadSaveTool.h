@@ -58,6 +58,8 @@ namespace Tinkercell
 
 	public slots:
 		void prepareModelForSaving(NetworkWindow*,bool*);
+		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
+		void loadItems(QList<QGraphicsItem*>&, const QString& filename);
 		void saveModel(const QString& filename);
 		void loadModel(const QString& filename);
 		void historyChanged( int );

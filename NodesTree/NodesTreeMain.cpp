@@ -26,13 +26,14 @@ namespace Tinkercell
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
 		toolBox(0),
+		tabWidget(0),
 		nodesTree(nodesTree),
 		connectionsTree(connectionsTree)
 	{
 		QSettings settings("TinkerCell", "TinkerCell");
 		
 		settings.beginGroup("NodesTreeContainer");
-		 NodesTreeContainer::layoutMode = (NodesTreeContainer::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
+		NodesTreeContainer::layoutMode = (NodesTreeContainer::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
 		settings.endGroup();
 		
 		arrowButton.setToolTip(QObject::tr("Cursor"));
@@ -44,17 +45,8 @@ namespace Tinkercell
 		initialValuesTable = 0;//new QTableWidget(this);
 		initialValuesComboBox = 0;//new QComboBox(this);
 		
-		tabWidget = new QTabWidget;
-		tabWidget->setWindowTitle(tr("Parts and Connections"));
-		QVBoxLayout * layout = new QVBoxLayout;
-		layout->addWidget(tabWidget);
-		layout->setContentsMargins(0,0,0,0);
-		layout->setSpacing(0);
-		setLayout(layout);
-
-		
 		if (layoutMode == TabView)
-			setUpTabView();
+			setUpTabView();		
 		else
 			setUpTreeView();
 	}
@@ -588,6 +580,9 @@ namespace Tinkercell
 	{
 		QList< QPair< QString, QStringList> > tabGroups;
 		
+		tabWidget = new QTabWidget;
+		tabWidget->setWindowTitle(tr("Parts and Connections"));
+		
 		tabGroups	<< QPair<QString, QStringList>( 	
 													tr("Species"),
 													QStringList() << "Species" << "Empty")
@@ -614,7 +609,7 @@ namespace Tinkercell
 													
 		numNodeTabs = 4;
 		
-		QCoreApplication::setOrganizationName("TinkerCell");
+		/*QCoreApplication::setOrganizationName("TinkerCell");
 		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
 		QCoreApplication::setApplicationName("TinkerCell");
 		QSettings settings("TinkerCell", "TinkerCell");
@@ -632,7 +627,7 @@ namespace Tinkercell
 				tabGroups << QPair<QString,QStringList>( savedTabNames[i], s.split(tr(",")) );				
 			}
 		}
-		settings.endGroup();
+		settings.endGroup();*/
 		
 		QList<QToolButton*> usedButtons;
 		
@@ -713,11 +708,11 @@ namespace Tinkercell
 							if (!tabName.isEmpty())
 							{
 								bool found = false;
-								for (int j=0; j < tabGroupButtons.size(); ++i)
-									if (tabGroupButtons[i].first == tabName)
+								for (int j=0; j < tabGroupButtons.size(); ++j)
+									if (tabGroupButtons[j].first == tabName)
 									{
 										found = true;
-										tabGroupButtons[i].second << buttons[0];
+										tabGroupButtons[j].second << buttons[0];
 									}
 								
 								if (!found)
@@ -803,11 +798,11 @@ namespace Tinkercell
 							if (!tabName.isEmpty())
 							{
 								bool found = false;
-								for (int j=0; j < tabGroupButtons.size(); ++i)
-									if (tabGroupButtons[i].first == tabName)
+								for (int j=0; j < tabGroupButtons.size(); ++j)
+									if (tabGroupButtons[j].first == tabName)
 									{
 										found = true;
-										tabGroupButtons[i].second << buttons[0];
+										tabGroupButtons[j].second << buttons[0];
 									}
 								
 								if (!found)
@@ -824,7 +819,14 @@ namespace Tinkercell
 		}
 		if (initialValuesComboBox)
 			initialValuesComboBox->addItems(allFamilyNames);
+		
 		makeTabWidget();
+		
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->addWidget(tabWidget);
+		layout->setContentsMargins(0,0,0,0);
+		layout->setSpacing(0);
+		setLayout(layout);
 	}
 	
 	void NodesTreeContainer::initialValueComboBoxChanged(const QString& s)

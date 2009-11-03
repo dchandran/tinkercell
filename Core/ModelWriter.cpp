@@ -127,7 +127,7 @@ namespace Tinkercell
 	
 	bool ModelWriter::writeModel(const QList<ItemHandle*>& allItems,QXmlStreamWriter * writer)
 	{
-		if (items.isEmpty() || !writer) return false;
+		if (allItems.isEmpty() || !writer) return false;
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 

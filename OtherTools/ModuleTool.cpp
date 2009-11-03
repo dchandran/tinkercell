@@ -330,15 +330,26 @@ namespace Tinkercell
 			double theta = 0.0, dtheta = 2 * 3.14159 / nodes.size();
 			
 			for (int j=0; j < nodes.size(); ++j)
-			{
-				ModuleLinkerItem * linker = new ModuleLinkerItem(module);
-                setHandle(linker,nodes[j]);
-                
-                linker->setPos( p + w * QPointF(cos(theta),sin(theta)) );
-				theta += dtheta;
-				
-				items += (QGraphicsItem*)linker;
-			}
+				if (nodes[j] && nodes[j]->family() 
+					&& nodes[j]->family()->graphicsItems.size() > 0
+					&& NodeGraphicsItem::cast(nodes[j]->family()->graphicsItems[0]))
+				{
+					NodeGraphicsItem * nodeItem = NodeGraphicsItem::cast(nodes[j]->family()->graphicsItems[0])->clone();
+					nodeItem->scale(nodeItem->defaultSize.width()/nodeItem->boundingRect().width(),
+									nodeItem->defaultSize.height()/nodeItem->boundingRect().height());
+					nodeItem->setPos(module->pos());
+					nodeItem->setHandle(nodes[j]);
+					
+					ModuleLinkerItem * linker = new ModuleLinkerItem(module);
+					linker->setHandle(nodes[j]);
+					
+					linker->setPos( p + w * QPointF(cos(theta),sin(theta)) );
+					linker->setPosOnEdge();
+					theta += dtheta;
+					
+					items += nodeItem;
+					items += linker;
+				}
 		}
 	}
 
@@ -575,7 +586,7 @@ namespace Tinkercell
             if ( (handle = modules[i]) && handle->isA(tr("Module")) )
             {
                 for (int j=0; j < handle->children.size(); ++j)
-                    if (child = handle->children[j])
+                    if ((child = handle->children[j]) && child->graphicsItems.size() > 0)
 					{
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)

@@ -414,16 +414,45 @@ namespace Tinkercell
 		ConsoleWindow::message(tr("model successfully saved in : ") + filename);
 	}
 	
-	void LoadSaveTool::loadItems(QList<QGraphicsItem*>&, const QString& filename)
-	{
-	}
-
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
-		if (!mainWindow) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+		
+		QList<QGraphicsItem*> items;
+		loadItems(items,filename);
+		
+		if (items.size() > 0)
+		{	
+			scene->insert("file loaded",items);
 
-		mainWindow->newGraphicsWindow();
-		GraphicsScene * scene = mainWindow->currentScene();
+			for (int i=0; i < items.size(); ++i)
+			{
+				items[i]->setZValue(items[i]->zValue());
+			}
+
+			scene->fitAll();
+
+			if (scene->historyStack)
+				scene->historyStack->clear();
+
+			savedScenes[scene] = true;
+
+			QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
+			QString filename2 = filename;
+			if (regex.indexIn(filename) >= 0)
+				filename2 = regex.cap(1);
+
+			if (mainWindow->currentWindow())
+				mainWindow->currentWindow()->setWindowTitle(filename2);
+
+			emit modelLoaded(scene->networkWindow);
+		}
+	}
+	
+	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
+	{
+		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
@@ -519,7 +548,7 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<QGraphicsItem*> items;
+		//QList<QGraphicsItem*> items;
 		QList<NodeGraphicsItem*> nodes;
 		QList<QTransform> transforms;
 		QList<QPointF> points;
@@ -648,35 +677,11 @@ namespace Tinkercell
 					connections[i]->refresh();
 				}
 
-				scene->insert("file loaded",items);
-
-				for (int i=0; i < items.size(); ++i)
+			for (int i=0; i < connections.size(); ++i)
+				if (connections[i])
 				{
-					items[i]->setZValue(zValues[i]);
+					connections[i]->setControlPointsVisible(false);
 				}
-
-				for (int i=0; i < connections.size(); ++i)
-					if (connections[i])
-					{
-						connections[i]->setControlPointsVisible(false);
-					}
-
-					scene->fitAll();
-
-					if (scene->historyStack)
-						scene->historyStack->clear();
-
-					savedScenes[scene] = true;
-
-					QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
-					QString filename2 = filename;
-					if (regex.indexIn(filename) >= 0)
-						filename2 = regex.cap(1);
-
-					if (mainWindow->currentWindow())
-						mainWindow->currentWindow()->setWindowTitle(filename2);
-
-					emit modelLoaded(scene->networkWindow);
 		}
 	}
 

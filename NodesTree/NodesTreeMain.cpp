@@ -44,6 +44,15 @@ namespace Tinkercell
 		initialValuesTable = 0;//new QTableWidget(this);
 		initialValuesComboBox = 0;//new QComboBox(this);
 		
+		tabWidget = new QTabWidget;
+		tabWidget->setWindowTitle(tr("Parts and Connections"));
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->addWidget(tabWidget);
+		layout->setContentsMargins(0,0,0,0);
+		layout->setSpacing(0);
+		setLayout(layout);
+
+		
 		if (layoutMode == TabView)
 			setUpTabView();
 		else
@@ -506,7 +515,75 @@ namespace Tinkercell
 		
 		setLayout(layout);
 	}
+
+	void NodesTreeContainer::makeTabWidget()
+	{
+		QStringList tabGroups;
+
+		for (int i=0; i < tabGroupButtons.size(); ++i)
+			tabGroups << tabGroupButtons[i].first;
 		
+		QList<QWidget*> tabs;
+		
+		for (int i=0; i < tabGroups.size(); ++i)
+		{
+			QGridLayout * tempLayout = new QGridLayout;
+			tempLayout->setContentsMargins(5,5,5,5);
+			tempLayout->setSpacing(20);
+			
+			QList<QToolButton*> buttons = tabGroupButtons[i].second;
+			for (int j=0; j < buttons.size(); ++j)
+			{
+				tempLayout->addWidget(buttons[j],0,j,Qt::AlignCenter);	
+				buttons[j]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+			}
+			
+			tempLayout->setContentsMargins(5,5,5,5);
+			tempLayout->setSpacing(20);	
+			
+			QWidget * widget = new QWidget;
+			
+			widget->setLayout(tempLayout);
+			widget->setPalette(QPalette(QColor(255,255,255)));
+			widget->setAutoFillBackground (true);
+			
+			QScrollArea * scrollArea = new QScrollArea;
+			scrollArea->setWidget(widget);
+			scrollArea->setPalette(QPalette(QColor(255,255,255)));
+			scrollArea->setAutoFillBackground (true);
+			
+			widgetsToUpdate << scrollArea;
+			tabs << scrollArea;
+		}
+		
+		for (int i=0; i < tabWidget->count(); ++i)
+		{
+			widgetsToUpdate.removeAll(tabWidget->widget(i));
+			delete tabWidget->widget(i);
+		}
+		tabWidget->clear();
+		
+		for (int i=0; i < tabGroups.size(); ++i)
+		{
+			tabWidget->addTab(tabs[i],tabGroups[i]);
+		}
+	}
+	
+	void NodesTreeContainer::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
+	{
+		int i = 0;
+		for (i=0; i < tabGroupButtons.size(); ++i)
+			if (group.toLower() == tabGroupButtons[i].first.toLower())
+			{
+				break;
+			}
+		if (i < tabGroupButtons.size())
+			tabGroupButtons[i].second << buttons;
+		else
+			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,buttons);
+		makeTabWidget();
+	}
+	
 	void NodesTreeContainer::setUpTabView()
 	{
 		QList< QPair< QString, QStringList> > tabGroups;
@@ -557,21 +634,7 @@ namespace Tinkercell
 		}
 		settings.endGroup();
 		
-		QTabWidget * tabWidget = new QTabWidget;
-		tabWidget->setWindowTitle(tr("Parts and Connections"));
-		
-		QList<QGridLayout*> tabLayouts;
-		QList<int> index;
 		QList<QToolButton*> usedButtons;
-		
-		for (int i=0; i < tabGroups.size(); ++i)
-		{
-			QGridLayout * buttonsLayout = new QGridLayout;
-			buttonsLayout->setContentsMargins(5,5,5,5);
-			buttonsLayout->setSpacing(20);	
-			tabLayouts << buttonsLayout;
-			index << 0;
-		}
 		
 		QStringList allFamilyNames;
 		
@@ -580,6 +643,7 @@ namespace Tinkercell
 		if (nodesTree)
 		{
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
+			connect(nodesTree,SIGNAL(addNewButtonSignal(const QList<QToolButton*>&,const QString&)),SLOT(addNewButton(const QList<QToolButton*>&,const QString&)));
 			
 			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
 			QList<ItemFamily*> rootFamilies;
@@ -594,7 +658,7 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (children.isEmpty())				
+				if (children.isEmpty())
 				{
 					if (!families.contains(NodeFamily::asNode(rootFamilies[i])))
 						families << NodeFamily::asNode(rootFamilies[i]);
@@ -624,28 +688,45 @@ namespace Tinkercell
 					if (j == (tabGroups.size()-1))
 						isA = true;
 						
+					QString tabName;
+						
 					if  (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
 							if (families[i]->isA(tabGroups[j].second[k]))
 							{
+								tabName = tabGroups[j].second[k];
 								isA = true;
 								break;
 							}
 						}
 					}
 					
-					if (isA && tabLayouts[j])
-					{
-						tempLayout = tabLayouts[j];
-						
+					if (isA)
+					{	
 						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
-							tempLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
-							buttons[0]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+							
+							if (!tabName.isEmpty())
+							{
+								bool found = false;
+								for (int j=0; j < tabGroupButtons.size(); ++i)
+									if (tabGroupButtons[i].first == tabName)
+									{
+										found = true;
+										tabGroupButtons[i].second << buttons[0];
+									}
+								
+								if (!found)
+								{
+									QList<QToolButton*> tempList;
+									tempList << buttons[0];
+									tabGroupButtons << QPair< QString,QList<QToolButton*> >(tabName,tempList);
+								}
+							}
 						}
 					}
 				}
@@ -699,28 +780,43 @@ namespace Tinkercell
 					if (j == (tabGroups.size()-1))
 						isA = true;
 						
+					QString tabName;
 					if (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
 							if (families[i]->isA(tabGroups[j].second[k]))
 							{
+								tabName = tabGroups[j].second[k];
 								isA = true;
 								break;
 							}
 						}
 					}
 					
-					if (isA && tabLayouts[j])
+					if (isA)
 					{
-						tempLayout = tabLayouts[j];
-						
 						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);		
 						if (buttons.size()>0 && buttons[0] && !usedButtons.contains(buttons[0]))
 						{
 							usedButtons << buttons[0];
-							tempLayout->addWidget(buttons[0],0, index[j]++ ,Qt::AlignCenter);
-							buttons[0]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+							if (!tabName.isEmpty())
+							{
+								bool found = false;
+								for (int j=0; j < tabGroupButtons.size(); ++i)
+									if (tabGroupButtons[i].first == tabName)
+									{
+										found = true;
+										tabGroupButtons[i].second << buttons[0];
+									}
+								
+								if (!found)
+								{
+									QList<QToolButton*> tempList;
+									tempList << buttons[0];
+									tabGroupButtons << QPair< QString,QList<QToolButton*> >(tabName,tempList);
+								}
+							}
 						}
 					}
 				}
@@ -728,36 +824,7 @@ namespace Tinkercell
 		}
 		if (initialValuesComboBox)
 			initialValuesComboBox->addItems(allFamilyNames);
-		
-		for (int i=0; i < tabGroups.size() && i < tabLayouts.size(); ++i)
-		{
-			tempLayout = tabLayouts[i];
-			
-			if (!tempLayout) continue;
-			
-			tempLayout->setContentsMargins(5,5,5,5);
-			tempLayout->setSpacing(20);	
-			
-			QWidget * widget = new QWidget;
-			
-			widget->setLayout(tempLayout);
-			widget->setPalette(QPalette(QColor(255,255,255)));
-			widget->setAutoFillBackground (true);
-			
-			QScrollArea * scrollArea = new QScrollArea;
-			scrollArea->setWidget(widget);
-			scrollArea->setPalette(QPalette(QColor(255,255,255)));
-			scrollArea->setAutoFillBackground (true);
-			
-			widgetsToUpdate << scrollArea;
-			tabWidget->addTab(scrollArea,tabGroups[i].first);
-		}
-		
-		QVBoxLayout * layout = new QVBoxLayout;
-		layout->addWidget(tabWidget);
-		layout->setContentsMargins(0,0,0,0);
-		layout->setSpacing(0);
-		setLayout(layout);
+		makeTabWidget();
 	}
 	
 	void NodesTreeContainer::initialValueComboBoxChanged(const QString& s)

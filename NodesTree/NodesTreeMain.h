@@ -10,6 +10,7 @@
 #include <QToolBox>
 #include <QComboBox>
 #include <QTableWidget>
+#include <QHash>
 #include "ItemFamily.h"
 #include "MainWindow.h"
 #include "TreeButton.h"
@@ -102,6 +103,8 @@ namespace Tinkercell
 		void initialValuesChanged();
 		/*! \brief intial attributes combo box selection changed*/
 		void initialValueComboBoxChanged(const QString&);
+		/*! \brief insert new button into the widget under the specific group*/
+        void addNewButton(const QList<QToolButton*>&,const QString& group);
 		
     private:
 
@@ -135,8 +138,16 @@ namespace Tinkercell
 		/*! \brief setup the widget using the TreeView layout*/
 		void setUpTreeView();
 		
-		/*! \brief setup the widget using the TabView layout*/
+		/*! \brief setup the buttons for widget using the TabView layout*/
 		void setUpTabView();
+		
+		/*! \brief make the tab widget*/
+		void makeTabWidget();
+		
+		QTabWidget * tabWidget;
+		
+		/*! \brief buttons inside each tab of the tabview*/
+		QList< QPair<QString,QList<QToolButton*> > > tabGroupButtons;
 		
 		/*! \brief table widget for setting initial attributes for families*/
 		QTableWidget * initialValuesTable;

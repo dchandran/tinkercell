@@ -355,9 +355,14 @@ namespace Tinkercell
 		return  file;
 	 }
 	 
-	 QTreeWidget & NodesTree::widget() 
-	 { 
+	QTreeWidget & NodesTree::widget() 
+	{ 
 		return treeWidget; 
+	}
+	
+	void NodesTree::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
+	{
+		emit addNewButtonSignal(buttons,group);
 	}
 }
 

@@ -609,7 +609,7 @@ namespace Tinkercell
 													
 		numNodeTabs = 4;
 		
-		/*QCoreApplication::setOrganizationName("TinkerCell");
+		QCoreApplication::setOrganizationName("TinkerCell");
 		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
 		QCoreApplication::setApplicationName("TinkerCell");
 		QSettings settings("TinkerCell", "TinkerCell");
@@ -627,13 +627,26 @@ namespace Tinkercell
 				tabGroups << QPair<QString,QStringList>( savedTabNames[i], s.split(tr(",")) );				
 			}
 		}
-		settings.endGroup();*/
+		settings.endGroup();
 		
 		QList<QToolButton*> usedButtons;
 		
 		QStringList allFamilyNames;
 		
 		QGridLayout * tempLayout = 0;
+		
+		for (int i=0; i < tabGroups.size(); ++i)
+		{
+			bool found = false;
+			for (int j=0; j < tabGroupButtons.size(); ++j)
+				if (tabGroupButtons[j].first == tabGroups[i].first)
+				{
+					found = true;
+					break;
+				}
+			if (!found)
+				tabGroupButtons << QPair< QString,QList<QToolButton*> >(tabGroups[i].first,QList<QToolButton*>());
+		}
 		
 		if (nodesTree)
 		{
@@ -683,15 +696,13 @@ namespace Tinkercell
 					if (j == (tabGroups.size()-1))
 						isA = true;
 						
-					QString tabName;
-						
+					QString tabName = tabGroups[j].first;
 					if  (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
 							if (families[i]->isA(tabGroups[j].second[k]))
 							{
-								tabName = tabGroups[j].second[k];
 								isA = true;
 								break;
 							}
@@ -775,14 +786,13 @@ namespace Tinkercell
 					if (j == (tabGroups.size()-1))
 						isA = true;
 						
-					QString tabName;
+					QString tabName = tabGroups[j].first;
 					if (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
 						{
 							if (families[i]->isA(tabGroups[j].second[k]))
 							{
-								tabName = tabGroups[j].second[k];
 								isA = true;
 								break;
 							}
@@ -817,6 +827,7 @@ namespace Tinkercell
 				}
 			}
 		}
+		
 		if (initialValuesComboBox)
 			initialValuesComboBox->addItems(allFamilyNames);
 		

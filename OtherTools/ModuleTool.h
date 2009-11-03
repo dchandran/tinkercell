@@ -54,7 +54,8 @@ namespace Tinkercell
 	
 	signals:
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
-    
+		void addNewButton(const QList<QToolButton*>& ,const QString& );
+		
 	public slots:
 
         void select(int);
@@ -76,6 +77,7 @@ namespace Tinkercell
 	protected:
 		
 		void MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		void readModuleFiles();
 		
 		enum Mode { none, connecting, inserting };
 		Mode mode;
@@ -100,6 +102,7 @@ namespace Tinkercell
 
 	protected slots:		
 		void makeLinks();
+		void insertModuleFromFile(QAbstractButton* button);
 
 	};
 

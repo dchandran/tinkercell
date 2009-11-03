@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <math.h>
+#include <QDir>
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
@@ -49,8 +50,8 @@ namespace Tinkercell
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
     }
-
-    bool ModuleTool::setMainWindow(MainWindow * main)
+	
+	bool ModuleTool::setMainWindow(MainWindow * main)
     {
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
@@ -93,6 +94,15 @@ namespace Tinkercell
 
             connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
                     this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
+					
+			
+			Tool * tool = mainWindow->tool(tr("Nodes Tree"));
+			if (tool)
+			{
+				NodesTree * nodesTree = static_cast<NodesTree*>(tool);
+				connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),nodesTree,SLOT(addNewButton(const QList<QToolButton*>& ,const QString& )));
+				readModuleFiles();
+			}
         }
         return true;
     }
@@ -1098,6 +1108,30 @@ namespace Tinkercell
 					}
 				}
 			}
+	}
+	
+	void ModuleTool::insertModuleFromFile(QAbstractButton* button)
+	{
+		if (!button) return;
+		QString filename = QString homeDir = MainWindow::userHome() + tr("/modules/") + button->text() + tr(".xml");
+	}
+	
+	void ModuleTool::readModuleFiles()
+	{
+		QButtonGroup * group = new QButtonGroup(this);
+		connect(group,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(insertModuleFromFile(QAbstractButton*)));
+		
+		QDir homeDir(MainWindow::userHome());
+		if (!homeDir.cd(tr("modules")))
+		{
+			homeDir.mkdir(tr("modules"));
+			homeDir.cd(tr("modules");
+		}
+		
+		QList<QToolButton*> buttons;
+		
+		
+		emit addNewButton(buttons,tr("Module"));
 	}
 }
 

@@ -535,7 +535,7 @@ namespace Tinkercell
 			
 			scene->insert(tr("Transcription added"),list);
 			scene->selected() += list;
-			insertmRNAstep();
+			//insertmRNAstep();
 			scene->select(0);
 		}
 	}

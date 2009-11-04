@@ -129,6 +129,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
     ${TINKERCELL_SOURCE_DIR}/ContainerTools/
+	${TINKERCELL_SOURCE_DIR}/ModuleTools/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/

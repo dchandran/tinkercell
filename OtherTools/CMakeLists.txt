@@ -96,32 +96,6 @@ ELSE ( WIN32 )
   )
 ENDIF( WIN32 )
 
-
-QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
-
-ADD_LIBRARY( ModuleTool 
-  SHARED
-  ModuleTool.cpp
-  ModuleConnectionGraphicsItem.cpp
-  ${ModuleTool_MOC}
-  ${TinkercellCore_MOC}
-  )
-
-TARGET_LINK_LIBRARIES( ModuleTool
-  ModuleTool
-  TinkerCellCore
-)
-
-IF ( WIN32 )
-  INSTALL(TARGETS ModuleTool
-    DESTINATION Plugins
-  )
-ELSE ( WIN32 )
-  INSTALL(TARGETS ModuleTool
-    LIBRARY DESTINATION Plugins
-  )
-ENDIF( WIN32 )
-
 QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
 
 ADD_LIBRARY( SimulationEventTool

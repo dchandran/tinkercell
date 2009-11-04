@@ -417,6 +417,12 @@ namespace Tinkercell
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
+		if (!scene || !scene->allHandles().isEmpty())
+		{
+			mainWindow->newGraphicsWindow();
+		}
+		scene = currentScene();
+		
 		if (!scene) return;
 		
 		QList<QGraphicsItem*> items;
@@ -426,8 +432,15 @@ namespace Tinkercell
 		{	
 			scene->insert("file loaded",items);
 
+			ConnectionGraphicsItem * connection = 0;
+
 			for (int i=0; i < items.size(); ++i)
 			{
+				if ((connection = ConnectionGraphicsItem::cast(items[i])))
+				{
+					connection->refresh();
+					connection->setControlPointsVisible(false);
+				}
 				items[i]->setZValue(items[i]->zValue());
 			}
 
@@ -670,7 +683,8 @@ namespace Tinkercell
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
 			}
-
+			
+			/*
 			for (int i=0; i < connections.size(); ++i)
 				if (connections[i])
 				{
@@ -681,7 +695,7 @@ namespace Tinkercell
 				if (connections[i])
 				{
 					connections[i]->setControlPointsVisible(false);
-				}
+				}*/
 		}
 	}
 

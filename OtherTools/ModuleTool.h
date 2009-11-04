@@ -55,9 +55,12 @@ namespace Tinkercell
 	signals:
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void addNewButton(const QList<QToolButton*>& ,const QString& );
-		
+		void loadItems(QList<QGraphicsItem*>&, const QString& );
+		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
+
 	public slots:
 
+		void toolLoaded(Tool*);
         void select(int);
 		void escapeSignal(const QWidget*);
 		void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
@@ -80,6 +83,7 @@ namespace Tinkercell
 		void readModuleFiles();
 		
 		enum Mode { none, connecting, inserting };
+		QButtonGroup buttonGroup;
 		Mode mode;
 		QGraphicsLineItem lineItem;
 		

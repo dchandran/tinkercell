@@ -563,6 +563,7 @@ namespace Tinkercell
 	
 	void NodesTreeContainer::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
 	{
+		if (!tabWidget) return;
 		int i = 0;
 		for (i=0; i < tabGroupButtons.size(); ++i)
 			if (group.toLower() == tabGroupButtons[i].first.toLower())
@@ -574,6 +575,8 @@ namespace Tinkercell
 		else
 			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,buttons);
 		makeTabWidget();
+		
+		if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
 	
 	void NodesTreeContainer::setUpTabView()

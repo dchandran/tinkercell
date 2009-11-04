@@ -939,7 +939,7 @@ namespace Tinkercell
 			int w = 100;
 			int h = (int)(viewport.height() * w/viewport.width());
 			QImage image(w,h,QImage::Format_ARGB32);
-			scene->print(&image,rect);
+			scene->print(&image);
 			emit saveItems(items, filename);
 			
 			QToolButton * button = new QToolButton(this);

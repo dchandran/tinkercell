@@ -37,7 +37,7 @@ namespace Tinkercell
         addToGroup(&image);
     }
 
-    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool")), buttonGroup(this)
+    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"))
     {
         separator = 0;
         VisualTool * visualTool = new VisualTool(this);
@@ -50,8 +50,6 @@ namespace Tinkercell
         setAutoFillBackground(true);
         mode = none;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
-		
-		connect(&buttonGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(insertModuleFromFile(QAbstractButton*)));
     }
 	
 	bool ModuleTool::setMainWindow(MainWindow * main)
@@ -96,35 +94,11 @@ namespace Tinkercell
 
             connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
                     this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
-
-            connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
-                    this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 					
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			
-			toolLoaded(0);
         }
         return true;
     }
 	
-	void ModuleTool::toolLoaded(Tool*)
-	{
-		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
-		if (tool)
-		{
-			NodesTree * nodesTree = static_cast<NodesTree*>(tool);
-			connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),nodesTree,SLOT(addNewButton(const QList<QToolButton*>& ,const QString& )));
-		}
-		
-		tool = mainWindow->tool(tr("Save and Load"));
-		if (tool)
-		{
-			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
-			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString& )),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString& )));
-			connect(this,SIGNAL(saveItems(const QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(saveItems(const QList<QGraphicsItem*>&, const QString&)));
-		}
-	}
-		
 	NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
     {
         ItemHandle * handle = getHandle(item);
@@ -780,35 +754,9 @@ namespace Tinkercell
                 if (node2->handle()->family()->isA(node1->handle()->family()) ||
                     (node1->handle()->data && node1->handle()->data->numericalData.contains(tr("Fixed")) &&
                      node1->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0))
-                {
-		
-					/*ConnectionGraphicsItem * mc =
-                            MakeModuleConnection(node1,
-                                                 node2,
-                                                 scene);
-                    if (mc)
-                    {
-		                mc->refresh();
-						
-                        CompositeCommand * command = new CompositeCommand( tr("modules connected"),
-                                                                           QList<QUndoCommand*>()
-                                                                           << (new InsertGraphicsCommand(tr("modules connected"),scene,mc))
-                                                                           << mc->command, 
-																			QList<QUndoCommand*>() << mc->command);
-                        if (scene->historyStack)
-                        {
-                            scene->historyStack->push(command);
-                        }
-                        else
-                        {
-                            command->redo();
-                            delete command;
-                        }
-						
-						scene->insert(tr("modules connected"),mc);*/
-						
+					{
 						MakeModuleConnection(node1,node2,scene);
-                    }
+					}
                 }
                 else
                 {
@@ -913,41 +861,6 @@ namespace Tinkercell
 				compositeCommand->redo();
 				delete compositeCommand;
 			}
-		}
-    }
-
-    void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
-    {
-		if (!scene) return;
-		ItemHandle * handle = getHandle(item);
-		if (modifier == Qt::ControlModifier && handle->isA(tr("Module")) && NodeGraphicsItem::cast(item))
-		{
-			QList<QGraphicsItem*> allitems = handle->allGraphicsItems(), items;
-			QRectF rect = item->sceneBoundingRect();
-			for (int i=0; i < allitems.size(); ++i)
-				if (allitems[i] && rect.intersects(allitems[i]->sceneBoundingRect()))
-					items << allitems[i];
-			
-			QDir homeDir(MainWindow::userHome());
-			if (!homeDir.cd(tr("modules")))
-			{
-				homeDir.mkdir(tr("modules"));
-				homeDir.cd(tr("modules"));
-			}
-			QString filename = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".xml");
-			QRectF viewport = scene->viewport();
-			int w = 100;
-			int h = (int)(viewport.height() * w/viewport.width());
-			QImage image(w,h,QImage::Format_ARGB32);
-			scene->print(&image);
-			emit saveItems(items, filename);
-			
-			QToolButton * button = new QToolButton(this);
-			button->setIcon(QPixmap::fromImage(image));
-			button->setText(handle->fullName());
-			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
-			
-			emit addNewButton(QList<QToolButton*>() << button,tr("Modules"));
 		}
     }
 
@@ -1121,6 +1034,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> done;
 		
 		for (int i=0; i < items.size(); ++i)
+		{
 			if (NodeGraphicsItem::cast(items[i]) && (handle = getHandle(items[i])) && handle->isA(tr("Module")))
 			{
 				moduleCopy = 0;
@@ -1157,28 +1071,7 @@ namespace Tinkercell
 					}
 				}
 			}
-	}
-	
-	void ModuleTool::insertModuleFromFile(QAbstractButton* button)
-	{
-		if (!button) return;
-		QString filename = MainWindow::userHome() + tr("/modules/") + button->text() + tr(".xml");
-		
-		emit 
-	}
-	
-	void ModuleTool::readModuleFiles()
-	{
-		QDir homeDir(MainWindow::userHome());
-		if (!homeDir.cd(tr("modules")))
-		{
-			homeDir.mkdir(tr("modules"));
-			homeDir.cd(tr("modules"));
 		}
-		
-		QList<QToolButton*> buttons;
-		
-		emit addNewButton(buttons,tr("Module"));
 	}
 }
 

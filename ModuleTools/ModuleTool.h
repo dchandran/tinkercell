@@ -54,14 +54,10 @@ namespace Tinkercell
 	
 	signals:
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
-		void addNewButton(const QList<QToolButton*>& ,const QString& );
-		void loadItems(QList<QGraphicsItem*>&, const QString& );
-		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
-
+		
 	public slots:
 
-		void toolLoaded(Tool*);
-        void select(int);
+		void select(int);
 		void escapeSignal(const QWidget*);
 		void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
 		
@@ -75,15 +71,12 @@ namespace Tinkercell
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);;
-	
+		
 	protected:
 		
 		void MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
-		void readModuleFiles();
 		
-		enum Mode { none, connecting, inserting };
-		QButtonGroup buttonGroup;
+		enum Mode { none, connecting };
 		Mode mode;
 		QGraphicsLineItem lineItem;
 		
@@ -100,13 +93,11 @@ namespace Tinkercell
 			static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * );
 		};
 		
-		//QList<QUndoCommand*> disconnectWhenSaving;
 		QAction * makeLink, * separator;
 		friend class VisualTool;
 
 	protected slots:		
 		void makeLinks();
-		void insertModuleFromFile(QAbstractButton* button);
 
 	};
 

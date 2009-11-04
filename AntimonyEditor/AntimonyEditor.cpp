@@ -179,19 +179,20 @@ namespace Tinkercell
 			connect(this,SIGNAL(validSyntax(bool)),as,SLOT(setValid(bool)));
 			
 			QToolButton * button = new QToolButton;
-			
+			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			button->setIcon(QIcon(":/images/antimony.png"));
 			button->setIconSize(QSize(30,30));
-			button->setText(tr("Antimony"));
-			button->setToolTip(tr("parse using Antimony"));
+			button->setText(tr("Compile script"));
+			button->setToolTip(tr("interpret script using Antimony language"));
 			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
 			win->textEditor->addSideBarWidget(button);
 			
-			button = new QToolButton;			
+			button = new QToolButton;
+			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );			
 			button->setIcon(QIcon(":/images/module.png"));
 			button->setIconSize(QSize(30,30));
-			button->setText(tr("To Graphics"));
-			button->setToolTip(tr("export Module to the graphics window"));
+			button->setText(tr("Export as module"));
+			button->setToolTip(tr("export Module to the last graphics window"));
 			connect(button,SIGNAL(pressed()),this,SLOT(insertModule()));
 			win->textEditor->addSideBarWidget(button);
 		}

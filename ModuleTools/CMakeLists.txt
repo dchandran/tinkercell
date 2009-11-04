@@ -43,3 +43,29 @@ ELSE ( WIN32 )
     LIBRARY DESTINATION Plugins
   )
 ENDIF( WIN32 )
+
+
+QT4_WRAP_CPP( ModuleIconTool_MOC ModuleIconTool.h)
+
+ADD_LIBRARY( ModuleIconTool 
+  SHARED
+  ModuleIconTool.cpp
+  ModuleConnectionGraphicsItem.cpp
+  ${ModuleIconTool_MOC}
+  ${TinkercellCore_MOC}
+  )
+
+TARGET_LINK_LIBRARIES( ModuleIconTool
+  ModuleIconTool
+  TinkerCellCore
+)
+
+IF ( WIN32 )
+  INSTALL(TARGETS ModuleIconTool
+    DESTINATION Plugins
+  )
+ELSE ( WIN32 )
+  INSTALL(TARGETS ModuleIconTool
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )

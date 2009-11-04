@@ -596,7 +596,7 @@ namespace Tinkercell
             if ( (handle = modules[i]) && handle->isA(tr("Module")) )
             {
                 for (int j=0; j < handle->children.size(); ++j)
-                    if ((child = handle->children[j]) && child->graphicsItems.size() > 0)
+                    if ((child = NodeHandle::asNode(handle->children[j])) && child->graphicsItems.size() > 0)
 					{
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
@@ -1113,7 +1113,7 @@ namespace Tinkercell
 	void ModuleTool::insertModuleFromFile(QAbstractButton* button)
 	{
 		if (!button) return;
-		QString filename = QString homeDir = MainWindow::userHome() + tr("/modules/") + button->text() + tr(".xml");
+		QString filename = MainWindow::userHome() + tr("/modules/") + button->text() + tr(".xml");
 	}
 	
 	void ModuleTool::readModuleFiles()
@@ -1125,7 +1125,7 @@ namespace Tinkercell
 		if (!homeDir.cd(tr("modules")))
 		{
 			homeDir.mkdir(tr("modules"));
-			homeDir.cd(tr("modules");
+			homeDir.cd(tr("modules"));
 		}
 		
 		QList<QToolButton*> buttons;

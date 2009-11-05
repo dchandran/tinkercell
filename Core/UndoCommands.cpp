@@ -375,10 +375,10 @@ namespace Tinkercell
 						connections << connection;
 					}
 					
-					if (parentGraphicsItem.size() > i && 
-						parentGraphicsItem[i] && 
-						parentGraphicsItem[i]->scene() == graphicsScene())
-						graphicsScene->setParentItem(parentGraphicsItem[i]);
+					if (parentGraphicsItems.size() > i && 
+						parentGraphicsItems[i] && 
+						parentGraphicsItems[i]->scene() == graphicsScene)
+						graphicsItems[i]->setParentItem(parentGraphicsItems[i]);
 				}
 			}
 		for (int i=0; i < connections.size(); ++i)
@@ -396,7 +396,7 @@ namespace Tinkercell
 			{
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
 				{
-					while (parentGraphicsItem.size() <= i) parentGraphicsItem << 0;
+					while (parentGraphicsItems.size() <= i) parentGraphicsItems << 0;
 					while (handles.size() <= i) handles << 0;
 					
 					parentGraphicsItems[i] = graphicsItems[i]->parentItem();
@@ -408,7 +408,7 @@ namespace Tinkercell
 						handles[i] = getHandle(graphicsItems[i]);
 					}
 					
-					graphicsScene->setParentItem(0);
+					graphicsItems[i]->setParentItem(0);
 					graphicsScene->removeItem(graphicsItems[i]);
 					
 					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))

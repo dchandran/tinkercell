@@ -103,13 +103,14 @@ namespace Tinkercell
 		}
 		QString filename = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".xml"),
 				iconfile = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".png");
-		/*QRectF viewport = scene->viewport();
+		QRectF viewport = scene->viewport();
 		int w = 100;
 		int h = (int)(viewport.height() * w/viewport.width());
 		QImage image(w,h,QImage::Format_ARGB32);
-		scene->print(&image);*/
+		scene->print(&image,rect0);
+		QPixmap pixmap = QPixmap::fromImage(image);
 		
-		QPixmap pixmap(tr(":/images/module.png"));
+		//QPixmap pixmap(tr(":/images/module.png"));
 		pixmap.save(iconfile,"png");
 		
 		emit saveItems(items, filename);

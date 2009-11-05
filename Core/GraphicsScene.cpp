@@ -1559,7 +1559,11 @@ namespace Tinkercell
 			view = views().first();
 
 		if (view)
-			view->render(&painter,region);
+		{
+			QPointF p1 = view->mapFromScene(region.topLeft()),
+					p2 = view->mapFromScene(region.bottomRight());
+			view->render(&painter,QRectF(p1,p2));
+		}
 	}
 
 	void GraphicsScene::clearStaticItems()

@@ -173,6 +173,8 @@ namespace Tinkercell
 		GraphicsScene * graphicsScene;
 		/*! \brief items that were inserted*/
 		QList<QGraphicsItem*> graphicsItems;
+		/*! \brief parent items of the items that were inserted*/
+		QList<QGraphicsItem*> parentGraphicsItems;
 		/*! \brief item handles of the items that were inserted*/
 		QList<ItemHandle*> handles;
 	};

@@ -85,15 +85,19 @@ namespace Tinkercell
 				homeDir.cd(tr("modules"));
 			}
 			QString filename = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".xml");
-			QRectF viewport = scene->viewport();
+			/*QRectF viewport = scene->viewport();
 			int w = 100;
 			int h = (int)(viewport.height() * w/viewport.width());
 			QImage image(w,h,QImage::Format_ARGB32);
-			scene->print(&image);
+			scene->print(&image);*/
+			
+			QImage
 			emit saveItems(items, filename);
 			
+			QPixmap pixmap(tr(":/images/module.PNG"));
+			pixmap.save(MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")),tr("PNG"));
 			QToolButton * button = new QToolButton(this);
-			button->setIcon(QPixmap::fromImage(image));
+			button->setIcon(pixmap);
 			button->setText(handle->fullName());
 			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			

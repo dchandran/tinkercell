@@ -488,7 +488,7 @@ namespace Tinkercell
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
 		}
-
+		
 		//find starting point for the handles
 		ModelReader modelReader;
 		modelReader.setDevice(&file1);		
@@ -545,7 +545,6 @@ namespace Tinkercell
 						handlesHash[handlesList[i].second->fullName()] = handlesList[i].second;
 			}
 		}
-
 
 		file1.close();
 
@@ -647,7 +646,7 @@ namespace Tinkercell
 			}
 			nodeReader.readNext();
 		}
-
+		
 		//read all texts
 		while (!nodeReader.atEnd() && !(nodeReader.isStartElement() && nodeReader.name() == "Texts"))
 		{
@@ -683,20 +682,8 @@ namespace Tinkercell
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
 			}
-			
-			/*
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i])
-				{
-					connections[i]->refresh();
-				}
-
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i])
-				{
-					connections[i]->setControlPointsVisible(false);
-				}*/
 		}
+		
 	}
 
 	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)

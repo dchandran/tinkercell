@@ -61,20 +61,27 @@ namespace Tinkercell
 		void toolLoaded(Tool*);
         void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);;
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void escapeSignal(const QWidget * sender);
 		
 	protected:
 		
 		void readModuleFiles();
+		void addNewButton(GraphicsScene * scene, ItemHandle * module, const QRectF&);
 		
 		enum Mode { none, inserting };
 		Mode mode;
+		
+		ItemHandle * moduleHandle;
+		NodeGraphicsItem * moduleItem;
+		QList<QGraphicsItem*> insertList;
 		
 		QButtonGroup buttonGroup;
 		QAction * addToTabMenu, *separator;
 		
 	protected slots:		
 		void insertModuleFromFile(QAbstractButton* button);
-
+		void addNewButton();
 	};
 
 

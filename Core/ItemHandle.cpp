@@ -267,7 +267,7 @@ namespace Tinkercell
 				q = p;
 			p = p->parent;
 		}
-		if (q && q->isA(name)) 
+		if (q && (name.isEmpty() || q->isA(name))) 
 			return q;
 		return 0;
 	}

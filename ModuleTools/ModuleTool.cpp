@@ -435,7 +435,7 @@ namespace Tinkercell
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] && !connections[j]->handle())
 						{
-							ConsoleWindow::message("class name");
+							//ConsoleWindow::message("class name");
 							connections[j]->className = tr("module connection");
 						}
 					
@@ -833,8 +833,6 @@ namespace Tinkercell
 					}
 				
 				if (items.isEmpty() || !module2) return;
-				
-				ConsoleWindow::message(newHandle->name);
 				
 				QList<ItemHandle*> affectedHandles;
 				affectedHandles << module2 << module2->visibleChildren();

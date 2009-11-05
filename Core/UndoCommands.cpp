@@ -362,7 +362,10 @@ namespace Tinkercell
 					graphicsScene->addItem(graphicsItems[i]);
 					setHandle(graphicsItems[i],handles[i]);
 					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
+					{
 						connection->refresh();
+						connection->setControlPointsVisible(false);
+					}
 				}
 	}
 
@@ -693,8 +696,8 @@ namespace Tinkercell
 				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
 				if (connection)
 				{
-					connection->setControlPointsVisible(false);
 					connection->refresh();
+					connection->setControlPointsVisible(false);
 				}
 			}
 

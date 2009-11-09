@@ -77,7 +77,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
 		  ENDIF( MINGW )
 	
-    ADD_EXECUTABLE( Tinkercell WIN32 
+    ADD_EXECUTABLE( Tinkercell  
       Main.cpp
       ${DefaultPluginsMenu_MOC}
       DefaultPluginsMenu.cpp

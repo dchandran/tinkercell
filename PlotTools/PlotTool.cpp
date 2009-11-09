@@ -583,7 +583,7 @@ namespace Tinkercell
 	{
 		if (!exportMenu || exportOptions.contains(type)) return;
 		
-		QAction * action = exportMenu->addAction(icon,type,this,SLOT(exportImage()));
+		QAction * action = exportMenu->addAction(icon,type);
 		action->setText(type);
 		if (toolTip.isEmpty())
 			action->setToolTip(tr("Export current plot to ") + type);

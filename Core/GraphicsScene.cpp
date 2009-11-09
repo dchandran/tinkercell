@@ -979,7 +979,7 @@ namespace Tinkercell
 			command->redo();
 			delete command;
 		}
-
+		
 		QPointF change = distance;
 		if (gridSz > 0)
 		{

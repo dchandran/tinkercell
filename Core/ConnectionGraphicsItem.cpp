@@ -1139,19 +1139,19 @@ namespace Tinkercell
 						curveSegments[i].arrowEnd = 0;
 					}
 				}
-				curveSegments.clear();	
+		curveSegments.clear();	
 
-				if (centerRegionItem && all)
-				{
-					centerRegionItem->setParentItem(0);
-					centerRegionItem->connectionItem = 0;
+		if (centerRegionItem && all)
+		{
+			centerRegionItem->setParentItem(0);
+			centerRegionItem->connectionItem = 0;
 
-					if (centerRegionItem->scene())
-						centerRegionItem->scene()->removeItem(centerRegionItem);
+			if (centerRegionItem->scene())
+				centerRegionItem->scene()->removeItem(centerRegionItem);
 
-					delete centerRegionItem;
-					centerRegionItem = 0;
-				}
+			delete centerRegionItem;
+			centerRegionItem = 0;
+		}
 	}
 
 	/*! \brief find slope at the given point (or closest point)*/

@@ -205,11 +205,11 @@ namespace Tinkercell
 
 				graphicsItems[i]->setParentItem(parent);
 			}
-			for (int i=0; i < controlPoints.size(); ++i)
-			{
-				controlPoints[i]->sideEffect();
-			}
-			refreshAllConnectionIn(graphicsItems);
+		for (int i=0; i < controlPoints.size(); ++i)
+		{
+			controlPoints[i]->sideEffect();
+		}
+		refreshAllConnectionIn(graphicsItems);
 	}
 
 	void MoveCommand::undo()
@@ -435,14 +435,25 @@ namespace Tinkercell
 				delete handles[i];
 			}
 		}
+		handles.clear();
+		
 		for (int i=0; i < graphicsItems.size(); ++i)
-			if (graphicsItems[i] && !graphicsItems[i]->scene())
+		{
+			if (graphicsItems[i] && graphicsScene && graphicsScene->items().contains(graphicsItems[i]))
 			{
+				if (graphicsItems[i]->parentItem())
+					graphicsItems[i]->setParentItem(0);
+
+				if (graphicsItems[i]->scene())
+					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
+				
 				for (int j=(i+1); j < graphicsItems.size(); ++j)
 					if (graphicsItems[i] == graphicsItems[j])
 						graphicsItems[j] = 0;
 				delete graphicsItems[i];
 			}
+		}
+		graphicsItems.clear();
 	}
 
 	RemoveGraphicsCommand::~RemoveGraphicsCommand()

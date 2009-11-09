@@ -729,8 +729,8 @@ namespace Tinkercell
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
-			mainWindow->currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
+			mainWindow->currentScene()->useDefaultBehavior = false;
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
 			if (gradientType == QGradient::NoGradient)
 				mode = this->brush;

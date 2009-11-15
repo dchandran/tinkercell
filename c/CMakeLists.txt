@@ -131,7 +131,15 @@ ELSE ( WIN32 )
   INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
 ENDIF( WIN32 )
 
-ADD_SUBDIRECTORY( lpsolve )
+#ADD_SUBDIRECTORY( lpsolve )
+
+INCLUDE_DIRECTORIES(
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL
+    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL
+)
 
 SET( LPSOLVE_SRC
   ${TINKERCELL_SOURCE_DIR}/c/lpsolve/lp_MDO.c

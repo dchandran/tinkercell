@@ -80,8 +80,7 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
 		M.rownames = 0;
 		M.values = nums;
 		
-		if (tc_plot)
-			tc_plot(M,xaxis,title,opt);
+		tc_plot(M,xaxis,title,opt);
 	
 		TCFreeMatrix(M);
 	}
@@ -162,8 +161,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 		M.rownames = 0;
 		M.values = nums;
 		
-		if (tc_surface)
-			tc_surface(M,x0,x1,y0,y1,title);
+		tc_surface(M,x0,x1,y0,y1,title);
 	
 		TCFreeMatrix(M);
 	}
@@ -181,7 +179,7 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 	int rows, cols;
 	PyObject * nlist, *clist;
 
-	if(!PyArg_ParseTuple(args, "|i", &i) || (tc_plotData == 0))
+	if(!PyArg_ParseTuple(args, "|i", &i))
         return NULL;
 	
 	M = tc_plotData(i);
@@ -236,90 +234,9 @@ static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
 	char * appDir, * cmd;
 	int sz;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) || (tc_allItems == 0) || (tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
         return NULL;
 	
-	if (pylist)
-	{
-		if (PyList_Check(pylist) || PyTuple_Check(pylist))
-		{
-			isList = PyList_Check(pylist);
-			N = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
-		}
-	
-		if (N > 0)
-		{
-			A = malloc( (1+N) * sizeof(void*) );
-			A[N] = 0;
-			
-			for(i=0; i<N; ++i ) 
-			{ 
-				A[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-			}
-		}
-	}
-	else
-	{
-		A = tc_allItems();
-	}
-	
-	if (A==0 || A[0] == 0)
-	{
-		tc_errorReport("No model");
-		if (A) free(A);
-		return PyTuple_New(0);
-	}
-	
-	k = tc_writeModel( "ode", A );
-    TCFreeArray(A);
-	if (!k)
-	{
-		tc_errorReport("No Model\0");
-		return PyTuple_New(0);
-	}
-	
-	out = fopen("ode.c","a");
-	
-	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
-   \n\
-int run(Matrix input) \n\
-{\n\
-   TCinitialize();\n\
-   double * y = steadyState(TCvars, TCinit, &(TCodeFunc), 0, %lf, %lf, %lf);\n\
-   if (!y) \
-   {\n\
-      tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
-      return 0;\n\
-   }\n\
-   double * J = jacobian(TCvars,y,&(TCodeFunc),1);\n\
-   Matrix data;\n\
-   data.rows = data.cols = TCvars;\n\
-   data.values = J;\n\
-   data.rownames = data.colnames = TCcolnames;\n\
-   tc_plot(data,-1,\"Jacobian at the nearest stable point\",0);\n\
-   free(y); free(J);\n\
-   return 1;\n}\n", 1.0E-5, 1000000.0, 2.0);
-   fclose(out);
-
-   appDir = tc_appDir();
-
-   sz = 0;
-   while (appDir[sz] != 0) ++sz;
-   
-   cmd = malloc((sz*3 + 50) * sizeof(char));
-
-   if (tc_isWindows())
-   {
-       sprintf(cmd,"odesim.o ode.c\0");
-   }
-   else
-   {
-       sprintf(cmd,"ode.c -lodesim\0",appDir,appDir);
-   }
-   tc_compileBuildLoad(cmd,"run\0","Jacobian\0");
-   
-   free(cmd);
-   free(appDir);
 
    Py_INCREF(Py_None);
    return Py_None;

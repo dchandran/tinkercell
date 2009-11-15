@@ -13,35 +13,6 @@ char ** allNames = 0;
 void run(Matrix input);
 void setup();
 
-int functionMissing()
-{
-	if (!tc_addFunction || 
-		!tc_createInputWindow ||
-		!tc_addInputWindowOptions ||
-		!tc_selectedItems ||
-		!tc_allItems ||
-		!tc_errorReport ||
-		!tc_getModelParameters ||
-		!tc_getNames || 
-		!tc_itemsOfFamilyFrom ||
-		!tc_getFromList ||
-		!tc_writeModel ||
-		!tc_print ||
-		!tc_getFromList ||
-		!tc_compileBuildLoad ||
-		!tc_callWhenExiting ||
-		!tc_callback ||
-		!tc_plot ||
-		!tc_callback ||
-		!tc_isWindows)
-
-		return 1;
-
-
-	return 0;
-}
-
-
 void unload()
 {
 	if (allNames)
@@ -84,8 +55,6 @@ void callback()
 
 void tc_main()
 {
-	if (functionMissing()) return;
-	
 	allNames = 0;
 
 	selected_var = "";

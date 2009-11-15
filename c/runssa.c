@@ -308,34 +308,8 @@ void setupCellSSA()
 	tc_addInputWindowOptions("Multi-cell stochastic simulation",0, 0,  options1);
 }
 
-int functionMissing()
-{
-	if (!tc_addFunction || 
-		!tc_createInputWindow ||
-		!tc_addInputWindowOptions ||
-		!tc_selectedItems ||
-		!tc_allItems ||
-		!tc_errorReport ||
-		!tc_getModelParameters ||
-		!tc_getNames || 
-		!tc_itemsOfFamilyFrom ||
-		!tc_getFromList ||
-		!tc_writeModel ||
-		!tc_print ||
-		!tc_getFromList ||
-		!tc_compileBuildLoad ||
-		!tc_plot ||
-		!tc_isWindows)
-
-		return 1;
-
-
-	return 0;
-}
-
 void tc_main()
 {
-	if (functionMissing()) return;
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setupSSA, "Discreet stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
 	tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/cells.PNG", "", 1, 0, 0);

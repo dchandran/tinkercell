@@ -12,10 +12,7 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 	void ** array = 0;
 	int n, isList;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getModelParameters == 0) ||
-		(tc_allItems == 0)
-		)
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
 
 	isList = 1;
@@ -86,9 +83,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 	void ** array;
 	int n, isList;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getParameters == 0) ||
-		(tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
 
 	isList = 1;
@@ -158,9 +153,7 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 	void ** array;
 	int n, isList;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getInitialValues == 0) ||
-		(tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
 
 	isList = 1;
@@ -231,9 +224,7 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 	Matrix M;
 	void ** array;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getFixedVariables == 0) ||
-		(tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
 
 	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
@@ -301,9 +292,7 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 	PyObject * params, *values, *twoTuples;
 	void ** array;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) ||
-		(tc_getParametersAndFixedVariables == 0) ||
-		(tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
 
 	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
@@ -367,8 +356,7 @@ static PyObject * pytc_getTextAttribute(PyObject *self, PyObject *args)
 	char * s;
 	char * c;
 
-	if(!PyArg_ParseTuple(args, "is", &i, &s) ||
-		(tc_getTextAttribute == 0))
+	if(!PyArg_ParseTuple(args, "is", &i, &s))
 		return NULL;
 
 	c = tc_getTextAttribute((void*)i,s);
@@ -382,8 +370,7 @@ static PyObject * pytc_getParameter(PyObject *self, PyObject *args)
 	char * s;
 	double d;
 
-	if(!PyArg_ParseTuple(args, "is", &i, &s) ||
-		(tc_getParameter == 0))
+	if(!PyArg_ParseTuple(args, "is", &i, &s))
 		return NULL;
 
 	d = tc_getParameter((void*)i,s);
@@ -401,8 +388,7 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 	int i = 0, n1 = 0, n2 = 0, isList1, isList2;
 	PyObject * pylist1, * pylist2, *item;
 	
-	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) ||
-		(tc_getParametersNamed == 0))
+	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2))
 		return NULL;
 
 	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
@@ -478,8 +464,7 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 	int isList1, isList2, n1 = 0, n2 = 0, i = 0;
 	PyObject * pylist1, * pylist2, *item;
 
-	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) ||
-		(tc_getParametersExcept == 0))
+	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2))
 		return NULL;
 
 	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
@@ -555,8 +540,7 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 	PyObject * params;
 	PyObject * pylist1, * pylist2, *item;
 	
-	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) ||
-		(tc_getAllTextNamed == 0))
+	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) )
 		return NULL;
 
 	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
@@ -627,8 +611,7 @@ static PyObject * pytc_setTextAttribute(PyObject *self, PyObject *args)
 {
 	int i;
 	char * s, * c;
-	if(!PyArg_ParseTuple(args, "iss", &i, &s, &c) ||
-		(tc_setTextAttribute == 0))
+	if(!PyArg_ParseTuple(args, "iss", &i, &s, &c))
 		return NULL;
 
 	tc_setTextAttribute((void*)i,s,c);
@@ -643,8 +626,7 @@ static PyObject * pytc_setParameter(PyObject *self, PyObject *args)
 	char * s;
 	double d;
 
-	if(!PyArg_ParseTuple(args, "isd", &i, &s, &d) ||
-		(tc_setParameter == 0))
+	if(!PyArg_ParseTuple(args, "isd", &i, &s, &d))
 		return NULL;
 
 	tc_setParameter((void*)i,s,d);

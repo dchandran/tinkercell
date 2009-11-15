@@ -12,8 +12,7 @@ static PyObject * pytc_partsIn(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
 
-	if (tc_partsIn)
-		array = tc_partsIn((void*)i);
+	array = tc_partsIn((void*)i);
 	
 	if (array)
 	{
@@ -48,8 +47,7 @@ static PyObject * pytc_partsUpstream(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
 	
-	if (tc_partsUpstream)
-		array = tc_partsUpstream((void*)i);
+	array = tc_partsUpstream((void*)i);
 	
 	if (array)
 	{
@@ -84,8 +82,7 @@ static PyObject * pytc_partsDownstream(PyObject *self, PyObject *args)
         return NULL;
 		
 	
-	if (tc_partsDownstream)
-		array = tc_partsDownstream((void*)i);
+	array = tc_partsDownstream((void*)i);
 	
 	if (array)
 	{

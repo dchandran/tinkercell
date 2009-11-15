@@ -10,7 +10,7 @@ static PyObject * pytc_writeModel(PyObject *self, PyObject *args)
 	PyObject * pylist = 0;
 	int isList, N=0, i=0;
 
-	if(!PyArg_ParseTuple(args, "s|O", &s, &pylist) || (tc_allItems == 0) || (tc_writeModel == 0))
+	if(!PyArg_ParseTuple(args, "s|O", &s, &pylist))
         return NULL;
 
 	if (pylist)

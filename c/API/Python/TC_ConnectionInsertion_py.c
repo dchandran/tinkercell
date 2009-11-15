@@ -11,8 +11,7 @@ static PyObject * pytc_insertConnection(PyObject *self, PyObject *args)
 	int isList1, n1=0, isList2, n2=0, i;
 	void * o = 0, ** array1, **array2;
 
-	if(!PyArg_ParseTuple(args, "OOs|s", &partsFrom, &partsTo, &s, &f) ||
-		(tc_insertConnection == 0))
+	if(!PyArg_ParseTuple(args, "OOs|s", &partsFrom, &partsTo, &s, &f))
 		return NULL;
 
 	if (PyList_Check(partsFrom) || PyTuple_Check(partsFrom))
@@ -59,7 +58,7 @@ static PyObject * pytc_getConnectedNodes(PyObject *self, PyObject *args)
 	void** array;
 	PyObject *pylist, *item;
 
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodes == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectedNodes((void*)i);
@@ -94,7 +93,7 @@ static PyObject * pytc_getConnectedNodesIn(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 	
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesIn == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectedNodesIn((void*)i);
@@ -128,7 +127,7 @@ static PyObject * pytc_getConnectedNodesOut(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 	
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesOut == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectedNodesOut((void*)i);
@@ -161,7 +160,7 @@ static PyObject * pytc_getConnectedNodesOther(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectedNodesOther == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectedNodesOther((void*)i);
@@ -195,7 +194,7 @@ static PyObject * pytc_getConnections(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 	
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnections == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnections((void*)i);
@@ -230,7 +229,7 @@ static PyObject * pytc_getConnectionsIn(PyObject *self, PyObject *args)
 	PyObject *pylist, *item;
 
 
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectionsIn == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectionsIn((void*)i);
@@ -264,7 +263,7 @@ static PyObject * pytc_getConnectionsOut(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectionsOut == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectionsOut((void*)i);
@@ -298,7 +297,7 @@ static PyObject * pytc_getConnectionsOther(PyObject *self, PyObject *args)
 	void ** array;
 	PyObject *pylist, *item;
 
-	if(!PyArg_ParseTuple(args, "i", &i) || (tc_getConnectionsOther == 0))
+	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
 	array = tc_getConnectionsOther((void*)i);

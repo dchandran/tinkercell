@@ -14,9 +14,6 @@ static PyObject * pytc_getStoichiometry(PyObject *self, PyObject *args)
 	PyObject * item, *rowItem;
 	PyObject * nlist, * clist , * rlist;
 
-
-	if ((tc_allItems == 0) || (tc_getStoichiometry == 0)) return NULL;
-	
 	if(!PyArg_ParseTuple(args, "|O", &pylist))
 	{
 		
@@ -115,7 +112,7 @@ static PyObject * pytc_getRates(PyObject *self, PyObject *args)
 	PyObject *strlist;
 	PyObject * item;
 
-	if(!PyArg_ParseTuple(args, "|O", &pylist) || (tc_getRates == 0) || (tc_allItems == 0))
+	if(!PyArg_ParseTuple(args, "|O", &pylist))
 	{
 		return NULL;
 	}
@@ -178,7 +175,7 @@ static PyObject * pytc_getRate(PyObject *self, PyObject *args)
 	int o;
 	char * s;
 	
-	if(!PyArg_ParseTuple(args, "i", &o) || (tc_getRate == 0))  //single arg version
+	if(!PyArg_ParseTuple(args, "i", &o))  //single arg version
 		return NULL;
 
 	s = tc_getRate((void*)(o));
@@ -192,7 +189,7 @@ static PyObject * pytc_setRates(PyObject *self, PyObject *args)
 	void ** array;
 	char ** crates;
 	
-	if(!PyArg_ParseTuple(args, "OO", &pylist, &rates) || (tc_setRates == 0))
+	if(!PyArg_ParseTuple(args, "OO", &pylist, &rates))
 	{
 		return NULL;
 	}
@@ -249,7 +246,7 @@ static PyObject * pytc_setRate(PyObject *self, PyObject *args)
 	int o = 0;
 	char *  s;
 	
-	if(!PyArg_ParseTuple(args, "is", &o, &s) || (tc_setRate == 0))  //single arg version
+	if(!PyArg_ParseTuple(args, "is", &o, &s))  //single arg version
 		return NULL;
 
 	tc_setRate((void*)o,s);

@@ -10,19 +10,6 @@ and performs the bistabilty analysis. Then this file resumes and sends the outpu
 
 void run();
 
-int functionMissing()
-{
-	if (!tc_isWindows || 
-		!tc_allItems ||
-		!tc_addFunction ||
-		!tc_printFile ||
-		!tc_writeModel)
-
-		return 1;
-
-
-	return 0;
-}
 
 void tc_main()
 {

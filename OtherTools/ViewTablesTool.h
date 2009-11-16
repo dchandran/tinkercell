@@ -25,9 +25,9 @@
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QListView>
-#include <QTextEdit>
 #include <QTextCharFormat>
 
+#include "CodeEditor.h"
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
 #include "ItemHandle.h"
@@ -54,7 +54,7 @@ namespace Tinkercell
 		
 	protected:
 
-		QTextEdit * textEdit;
+		CodeEditor * textEdit;
 		QListWidget numericalTables;
 		QListWidget textTables;
 		void updateList();

@@ -162,7 +162,7 @@ namespace Tinkercell
 		numericalTables.setFont(font);
 		textTables.setFont(font);
 		
-		textEdit = new QTextEdit(this);
+		textEdit = new CodeEditor(this);
 		textEdit->setFont(font);
 		
 		QGroupBox * groupBox1 = new QGroupBox(tr(" Numerical tables "),this);

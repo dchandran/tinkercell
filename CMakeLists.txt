@@ -112,11 +112,6 @@ IF( QT4_FOUND )
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/shared/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/colamd/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL
-    ${TINKERCELL_SOURCE_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL
     ${TINKERCELL_SOURCE_DIR}/c/sundials/
     ${TINKERCELL_SOURCE_DIR}/c/nvector/
     ${TINKERCELL_SOURCE_DIR}/c/cvode/
@@ -124,7 +119,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/BasicTools/
     ${TINKERCELL_SOURCE_DIR}/OtherTools/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
-    ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/include/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
@@ -133,29 +127,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
-# includes in BINARY_DIR just in case
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/nvec_par/
-    ${TINKERCELL_BINARY_DIR}/c/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/shared/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/colamd/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/bfp_LUSOL
-    ${TINKERCELL_BINARY_DIR}/c/lpsolve/bfp/bfp_LUSOL/LUSOL
-    ${TINKERCELL_BINARY_DIR}/Core/
-    ${TINKERCELL_BINARY_DIR}/BasicTools/
-    ${TINKERCELL_BINARY_DIR}/OtherTools/
-    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
-    ${TINKERCELL_BINARY_DIR}/NodesTree/
-    ${TINKERCELL_BINARY_DIR}/PlotTools/
-    ${TINKERCELL_BINARY_DIR}/ContainerTools/
-    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
-    ${TINKERCELL_BINARY_DIR}/CInputWindows/
-    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
  )
 
 #----------------------------------------------------------------------------
@@ -189,7 +160,7 @@ IF( QT4_FOUND )
 #---------------------------------------------------------------------------
 
   OPTION( BUILD_ANTIMONYEDITOR 
-    "Build Antimony Editor. Note that it requires to have antimony parser libraries installed." 
+    "Build Antimony Parser and related TinkerCell plug-in." 
     OFF )
 
   IF( BUILD_ANTIMONYEDITOR )

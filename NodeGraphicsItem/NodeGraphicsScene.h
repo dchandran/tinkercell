@@ -18,10 +18,17 @@
 #include <math.h>
 #include "NodeGraphicsItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_IMPORT __declspec(dllimport)
+#else
+#define MY_IMPORT
+#endif
+
 namespace NodeImageDesigner
 {
 
 typedef Tinkercell::NodeGraphicsItem NodeGraphicsItem;
+class MY_IMPORT NodeGraphicsItem::Shape;
 
 /*! \brief Scene where a single NodeGraphicsItem can be drawn. This scene contains the node and its control points.
  */

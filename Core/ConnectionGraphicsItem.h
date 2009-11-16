@@ -61,12 +61,15 @@ namespace Tinkercell
 	class GraphicsScene;
 	class ItemHandle;
 	class ConnectionGraphicsItem;
-
+	
 	/*! \brief A node graphics item that is used to draw arrow heads on connection items.
 	\ingroup core*/
 	class MY_EXPORT ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
+		class MY_EXPORT CurveSegment;
+		class MY_EXPORT ControlPoint;
+		
 		/*! \brief The connection item that this arrow head belongs with*/
 		ConnectionGraphicsItem * connectionItem;
 		/*! \brief the direction (angle) that the arrow is pointing*/

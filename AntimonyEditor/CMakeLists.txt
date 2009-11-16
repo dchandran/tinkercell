@@ -1,5 +1,8 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
+INCLUDE_DIRECTORIES(
+    ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/include/
+)
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkWindow.h

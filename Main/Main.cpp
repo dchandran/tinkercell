@@ -73,6 +73,8 @@ int main(int argc, char *argv[])
     mainWindow.show();
 
     splash.finish(&mainWindow);
+	
+	if (argc > 1) mainWindow.open(QString(argv[1]));
 
     int output = app.exec();
 	

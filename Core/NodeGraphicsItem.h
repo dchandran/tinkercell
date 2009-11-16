@@ -45,7 +45,8 @@ namespace Tinkercell
 {
 	class GraphicsScene;
 	class ItemHandle;
-	class ConnectionGraphicsItem;
+	class ConnectionGraphicsItem;	
+	class NodeGraphicsItem;
 	MY_EXPORT void setHandle(QGraphicsItem*,ItemHandle*);
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file 

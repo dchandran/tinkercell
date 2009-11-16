@@ -101,22 +101,22 @@ namespace Tinkercell
 					 ToolBoxWidget = tool window is placed in an existing toolbox, if one exists
 					 NewToolBoxWidget = tool window is placed inside a new toolbox
 		*/
-		MY_EXPORT enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
+		enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
 		
 		/*! \brief the types of views for multiple documents
 		             TabView = tabbed documents
 					 WindowView = each documents in a separate subwindow
 		*/
-		MY_EXPORT enum VIEW_MODE { TabView , WindowView };
+		enum VIEW_MODE { TabView , WindowView };
 		
 		/*! \brief the default option to use for tools (optional)*/
-		static MY_EXPORT TOOL_WINDOW_OPTION defaultToolWindowOption;	
+		static TOOL_WINDOW_OPTION defaultToolWindowOption;	
 		
 		/*! \brief the default option to use for history window*/
-		static MY_EXPORT TOOL_WINDOW_OPTION defaultHistoryWindowOption;	
+		static TOOL_WINDOW_OPTION defaultHistoryWindowOption;	
 		
 		/*! \brief the default option to use for console window*/
-		static MY_EXPORT TOOL_WINDOW_OPTION defaultConsoleWindowOption;	
+		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;	
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();
@@ -322,10 +322,16 @@ namespace Tinkercell
 		*/
 		void saveWindowAs();
 		/*!
-		* \brief triggered when the open button is clicked. Opens a file dialog and emits the open signal.
-		The main window does not implement an function for opening a new file
+		* \brief triggered when the open button is clicked. Opens a file dialog. 
+		Note: the core library just emits a signal, and other tools are responsible for actually opening a file
 		*/
 		void open();
+		/*!
+		* \brief open a file. 
+		Note: the core library just emits a signal, and other tools are responsible for actually opening a file
+		The main window does not implement an function for opening a new file
+		*/
+		void open(const QString&);
 		/*!
 		* \brief calls current scene or text editor's undo
 		*/

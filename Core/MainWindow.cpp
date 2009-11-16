@@ -48,9 +48,9 @@ namespace Tinkercell
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
 	
-	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
-	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
-	MY_EXPORT MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
+	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
 
 	QString MainWindow::userHome()
@@ -439,15 +439,9 @@ namespace Tinkercell
 
 		emit saveModel(fileName);
 	}
-
-	void MainWindow::open()
+	
+	void MainWindow::open(const QString& fileName)
 	{
-		QString fileName =
-			QFileDialog::getOpenFileName(this, tr("Open File"),
-			previousFileName,
-			tr("XML Files (*.xml)"));
-		if (fileName.isEmpty())
-			return;
 		previousFileName = fileName;
 
 		QFile file (fileName);
@@ -460,6 +454,16 @@ namespace Tinkercell
 			return;
 		}
 		emit loadModel(fileName);
+	}
+
+	void MainWindow::open()
+	{
+		QStringList fileNames =
+			QFileDialog::getOpenFileNames(this, tr("Open File"),
+			previousFileName /*, tr("XML Files (*.xml)")*/);
+		for (int i=0; i < fileNames.size(); ++i)
+			if (!fileNames[i].isEmpty())
+				open(fileNames[i]);
 	}
 
 	/*! \brief print the current scene*/

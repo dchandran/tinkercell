@@ -19,6 +19,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include <QMdiArea>
 #include <QMdiSubWindow>
 #include <QString>
+#include <QPair>
 #include <QFileDialog>
 #include <QtDebug>
 #include <QGraphicsItem>
@@ -59,13 +60,20 @@ namespace Tinkercell
 	\return QGraphicsItem * node, connection, text, or control point
 	\ingroup core
 	*/
-	QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
-	/*! Clone a graphics item
+	MY_EXPORT QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
+	/*! \brief Clone a graphics item
 	* \param QGraphicsItem * a pointer to a QGraphicsItem
-	\return QGraphicsItem * a QGraphicsItem that is one of the Tinkercell Graphics Items
+	\return QGraphicsItem * a QGraphicsItem that is clone of the argument
 	\ingroup core
 	*/
-	QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
+	MY_EXPORT QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
+	/*! \brief Clone a list of graphics items
+	* \param QList<QGraphicsItem*> a list of pointers to a QGraphicsItems
+	* \param QList<ItemHandle*> return value: returns all the new handles here
+	\return QList<QGraphicsItem*> a new list of QGraphicsItems that is clone of the argument
+	\ingroup core
+	*/
+	MY_EXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles );
 	/*! \brief The primary task of the graphics scene is to draws items. 
 	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the

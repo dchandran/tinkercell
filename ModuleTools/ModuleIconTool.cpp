@@ -186,9 +186,13 @@ namespace Tinkercell
 		}
 		pos /= insertList.size();
 		//scene->move(insertList, point - pos);
-		moduleHandle = 0;
-		insertList.clear();
-		escapeSignal(0);
+		
+		QList<ItemHandle*> handles;
+		insertList = GraphicsScene::cloneGraphicsItems(insertList,handles);
+		
+		//moduleHandle = 0;
+		//insertList.clear();
+		//escapeSignal(0);
 	}
 	
 	void ModuleIconTool::escapeSignal(const QWidget * )

@@ -86,7 +86,7 @@ namespace Tinkercell
 	*/
 	class MY_EXPORT ItemHandle: public QObject
 	{
-		Q_OBJECT;
+		Q_OBJECT
 
 	public:
 		/*! \brief name of this item*/

@@ -59,13 +59,13 @@ namespace Tinkercell
 	\return QGraphicsItem * node, connection, text, or control point
 	\ingroup core
 	*/
-	MY_EXPORT QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
+	QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
 	/*! Clone a graphics item
 	* \param QGraphicsItem * a pointer to a QGraphicsItem
 	\return QGraphicsItem * a QGraphicsItem that is one of the Tinkercell Graphics Items
 	\ingroup core
 	*/
-	MY_EXPORT QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
+	QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
 	/*! \brief The primary task of the graphics scene is to draws items. 
 	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
@@ -86,22 +86,22 @@ namespace Tinkercell
 			to use the default behavior is set using scene->useDefaultBehavior. This static variable is the
 			default value for each scene's useDefaultBehavior variable, i.e. setting this to true will cause a
 			newly constructed graphics scene to NOT use default behaviors.*/
-		MY_EXPORT static bool USE_DEFAULT_BEHAVIOR;
+		static bool USE_DEFAULT_BEHAVIOR;
 		/*! \brief setting grid to a non-zero value forces node items to "fit" on the grid, where
 			the gap between the grid lines is determined by this variable. The default is 0, i.e. no grid*/
-		MY_EXPORT static MY_EXPORT  int GRID;
+		static int GRID;
 		/*! \brief pen that is used to draw the selection rectangle*/
-		MY_EXPORT static QPen SelectionRectanglePen;
+		static QPen SelectionRectanglePen;
 		/*! \brief brush that is used to color the selection rectangle*/
-		MY_EXPORT static QBrush SelectionRectangleBrush;
+		static QBrush SelectionRectangleBrush;
 		/*! \brief brush used to draw the background for the scene*/
-		MY_EXPORT static QBrush BackgroundBrush;
+		static QBrush BackgroundBrush;
 		/*! \brief pen used to draw the grid for the scene*/
-		MY_EXPORT static QPen GridPen;
+		static QPen GridPen;
 		/*! \brief brush used to draw the foreground for the scene*/
-		MY_EXPORT static QBrush ForegroundBrush;
+		static QBrush ForegroundBrush;
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
-		MY_EXPORT static qreal MIN_DRAG_DISTANCE;
+		static qreal MIN_DRAG_DISTANCE;
 		
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
@@ -465,11 +465,11 @@ namespace Tinkercell
 		/*! \brief rectanglular selection area*/
 		QGraphicsRectItem selectionRect;
 		/*! \brief used to store copied items*/
-		MY_EXPORT static QList<QGraphicsItem*> duplicateItems;
+		static QList<QGraphicsItem*> duplicateItems;
 		/*! \brief used to store copied items*/
-		MY_EXPORT static GraphicsScene * copiedFromScene;
+		static GraphicsScene * copiedFromScene;
 		/*! \brief clears copied items*/
-		MY_EXPORT static void clearStaticItems();
+		static void clearStaticItems();
 		/*! \brief point where mouse is clicked*/
 		QPointF clickedPoint;	
 		/*! \brief button that was used when mouse was clicked*/

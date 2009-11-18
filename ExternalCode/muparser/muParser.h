@@ -25,6 +25,7 @@
 #ifndef MU_PARSER_H
 #define MU_PARSER_H
 
+
 //--- Standard includes ------------------------------------------------------------------------
 #include <vector>
 #include <locale>

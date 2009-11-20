@@ -461,8 +461,6 @@ namespace Tinkercell
 	PART HANDLE
 	**********************************/
 
-	MY_EXPORT int NodeHandle::TYPE = 1;
-
 	NodeHandle * NodeHandle::asNode(ItemHandle * item)
 	{
 		if (item && item->type == NodeHandle::TYPE)
@@ -582,8 +580,6 @@ namespace Tinkercell
 	/************************************
 	CONNECTION HANDLE
 	*************************************/
-
-	MY_EXPORT int ConnectionHandle::TYPE = 2;
 
 	ConnectionHandle * ConnectionHandle::asConnection(ItemHandle * item)
 	{

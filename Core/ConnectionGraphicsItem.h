@@ -67,9 +67,6 @@ namespace Tinkercell
 	class MY_EXPORT ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
-		class MY_EXPORT CurveSegment;
-		class MY_EXPORT ControlPoint;
-		
 		/*! \brief The connection item that this arrow head belongs with*/
 		ConnectionGraphicsItem * connectionItem;
 		/*! \brief the direction (angle) that the arrow is pointing*/
@@ -87,7 +84,7 @@ namespace Tinkercell
 		*/
 		virtual NodeGraphicsItem* clone() const;
 		/*! \brief used for checking type before static casts */
-		static QString CLASSNAME;
+		MY_EXPORT static const QString CLASSNAME;
 	};
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
@@ -99,13 +96,13 @@ namespace Tinkercell
 		\param QGraphicsItem* graphics item
 		\return ConnectionGraphicsItem* can be 0 if the cast is invalid
 		*/
-		static ConnectionGraphicsItem* cast(QGraphicsItem*);
+		MY_EXPORT static ConnectionGraphicsItem* cast(QGraphicsItem*);
 		/*! \brief used for checking type before static casts */
-		static QString CLASSNAME;
+		MY_EXPORT static const QString CLASSNAME;
 		/*! \brief used to initialize the middle item for a connection */
-		static QString DefaultMiddleItemFile;
+		MY_EXPORT static QString DefaultMiddleItemFile;
 		/*! \brief used to initialize the arrow heads for a connection */
-		static QString DefaultArrowHeadFile;
+		MY_EXPORT static QString DefaultArrowHeadFile;
 		/*! \brief used for checking type before static casts */
 		QString className;
 		/*! \brief permanent brush for this control point*/
@@ -116,7 +113,7 @@ namespace Tinkercell
 		* \param QGraphicsItem* the target item
 		* \param bool using true here will return the connection item for a control point, otherwise control points are ignored
 		*/
-		static ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
+		MY_EXPORT static ConnectionGraphicsItem * topLevelConnectionItem(QGraphicsItem* item,bool includeControlPoints = false);
 		/*! Constructor: does nothing */
 		ConnectionGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Constructor: constructs linear curve segments with arrow heads on the second set of nodes
@@ -139,7 +136,7 @@ namespace Tinkercell
 		/*! \brief checks that this is a valid drawable*/
 		virtual bool isValid();
 		/*! \brief number of different type of shapes available*/
-		static const int numLineTypes = 2;
+		MY_EXPORT static const int numLineTypes = 2;
 		/*! \brief line or beizier */
 		typedef enum {line, bezier} LineType;
 

@@ -74,7 +74,7 @@ namespace Tinkercell
 		/*! \brief clone */
 		virtual TextItem* clone() const;
 		/*! \brief this variable is used to determine whether a TextItem is a NodeTextItem*/
-		static int TYPE;
+		MY_EXPORT static const int TYPE = 1;
 		/*! \brief all the connection that this Node is connected to*/
 		QList<ConnectionTextItem*> connections;
 	};
@@ -90,7 +90,7 @@ namespace Tinkercell
 		/*! \brief clone */
 		virtual TextItem* clone() const;
 		/*! \brief this variable is used to determine whether a TextItem is a ConnectionTextItem*/
-		static int TYPE;
+		MY_EXPORT static const int TYPE = 2;
 		/*! \brief corresponds to nodesWithArrow() in ConnectionGraphicsItem*/
 		QList<NodeTextItem*> nodesIn;
 		/*! \brief corresponds to nodesWithoutArrow() in ConnectionGraphicsItem*/

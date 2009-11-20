@@ -25,10 +25,10 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 
 namespace Tinkercell
 {
-	MY_EXPORT QString ConnectionGraphicsItem::DefaultMiddleItemFile("");
-	MY_EXPORT QString ConnectionGraphicsItem::DefaultArrowHeadFile("");
-	MY_EXPORT QString ArrowHeadItem::CLASSNAME("ArrowHeadItem");
-	MY_EXPORT QString ConnectionGraphicsItem::CLASSNAME("ConnectionGraphicsItem");
+	const QString ArrowHeadItem::CLASSNAME = QString("ArrowHeadItem");
+	const QString ConnectionGraphicsItem::CLASSNAME = QString("ConnectionGraphicsItem");
+	QString ConnectionGraphicsItem::DefaultMiddleItemFile("");
+	QString ConnectionGraphicsItem::DefaultArrowHeadFile("");
 	
 	ItemHandle * ConnectionGraphicsItem::handle() const
 	{

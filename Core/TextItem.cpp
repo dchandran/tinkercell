@@ -15,9 +15,6 @@ Text items are used in the text-based version.
 
 namespace Tinkercell
 {
-	int NodeTextItem::TYPE = 1;
-	int ConnectionTextItem::TYPE = 2;
-	
 	ItemHandle * TextItem::handle() const
 	{
 		return itemHandle;

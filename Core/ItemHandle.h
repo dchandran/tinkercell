@@ -231,7 +231,7 @@ namespace Tinkercell
 
 	public:
 		/*! \brief this number is used to identify when a handle is a node handle*/
-		static int TYPE;
+		MY_EXPORT static const int TYPE = 1;
 		/*! \brief funcion that returns all the connections from all the nodes in this handle
 		\return QList<ConnectionHandle*> list of connection handles
 		*/
@@ -261,7 +261,7 @@ namespace Tinkercell
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
-		static NodeHandle* asNode(ItemHandle *);
+		MY_EXPORT static NodeHandle* asNode(ItemHandle *);
 	};
 
 	/*! \brief 
@@ -275,7 +275,7 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief this number is used to identify when an item handle is a connection handle*/
-		static int TYPE;
+		MY_EXPORT static const int TYPE = 2;
 		/*! \brief returns all the nodes connected to all the connectors in this handle
 		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodes() const;
@@ -320,7 +320,7 @@ namespace Tinkercell
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
-		static ConnectionHandle* asConnection(ItemHandle *);
+		MY_EXPORT static ConnectionHandle* asConnection(ItemHandle *);
 	};
 
 	/*! \brief get the handle from a graphics item

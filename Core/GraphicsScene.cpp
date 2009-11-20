@@ -420,6 +420,24 @@ namespace Tinkercell
 			}
 		}
 		qDeleteAll(allitems2);
+		
+		for (int i=0; i < allitems1.size(); ++i)
+		{
+			if (allitems1[i] && NodeGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
+			{
+				allitems2 << allitems1[i];
+			}
+		}
+		qDeleteAll(allitems2);
+		
+		for (int i=0; i < allitems1.size(); ++i)
+		{
+			if (allitems1[i] && TextGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
+			{
+				allitems2 << allitems1[i];
+			}
+		}
+		qDeleteAll(allitems2);
 
 		allitems1 = items();
 		allitems2.clear();

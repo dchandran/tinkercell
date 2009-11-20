@@ -188,7 +188,7 @@ namespace Tinkercell
 		//scene->move(insertList, point - pos);
 		
 		QList<ItemHandle*> handles;
-		insertList = GraphicsScene::cloneGraphicsItems(insertList,handles);
+		insertList = cloneGraphicsItems(insertList,handles);
 		
 		//moduleHandle = 0;
 		//insertList.clear();

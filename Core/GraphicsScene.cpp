@@ -27,21 +27,21 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 namespace Tinkercell
 {
 	bool GraphicsScene::USE_DEFAULT_BEHAVIOR = true;
-	
+
 	int GraphicsScene::GRID = 0;
-	
+
 	QPen GraphicsScene::SelectionRectanglePen = Qt::NoPen;
-	
+
 	QBrush GraphicsScene::SelectionRectangleBrush = QBrush(QColor(0,132,255,50));
-	
-	QBrush GraphicsScene::BackgroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);	
-	
-	QPen GraphicsScene::GridPen = QPen(Qt::lightGray,2);	
-	
+
+	QBrush GraphicsScene::BackgroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
+
+	QPen GraphicsScene::GridPen = QPen(Qt::lightGray,2);
+
 	QBrush GraphicsScene::ForegroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
-	
+
 	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
-	
+
 	/*
 	* \param a pointer to a QGraphicsItem
 	* \return a QGraphicsItem that is one of the Tinkercell Graphics Items
@@ -130,138 +130,104 @@ namespace Tinkercell
 
 		return (0);
 	}
-	
-	QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& allNewHandles)
+
+	QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items0, QList<ItemHandle*>& allNewHandles)
 	{
 		QList<QGraphicsItem*> duplicateItems;
+		QList< QPair<ItemHandle*,ItemHandle*> > originalAndCloneHandles;
+
 		//for connections
 		QList< QPair<NodeGraphicsItem*,NodeGraphicsItem*> > originalsAndClones;
-		QList< QPair<ItemHandle*,ItemHandle*> > originalAndCloneHandles;
 		QList< ConnectionGraphicsItem* > connectionItems;
 		NodeGraphicsItem *node1 = 0, *node2 = 0;
 		ConnectionGraphicsItem* connection = 0;
 		QList<ArrowHeadItem*> arrowHeads;
-		
-		QList< QGraphicsItem* > visited;
-		for (int i = 0; i < items.size(); ++i)
-			if (items[i] && !visited.contains(items[i]))
-			{
-				visited << items[i];
-				ItemHandle * handle = getHandle(items[i]);
-				if (handle)
-				{
-					for (int j=0; j < handle->children.size(); ++j)
-						if (handle->children[j] && handle->children[j]->graphicsItems.size() > 0)
-							for (int k=0; k < handle->children[j]->graphicsItems.size(); ++k)
-								if (!items.contains(handle->children[j]->graphicsItems[k]) &&
-									items[i]->collidesWithItem(handle->children[j]->graphicsItems[k]))
-									items << handle->children[j]->graphicsItems[k];
 
-					ItemHandle * handleClone = handle->clone();
-					QList<ItemHandle*> childHandles = handle->allChildren();
-					for (int j=0; j < childHandles.size(); ++j)
-						if (childHandles[j] && childHandles[j]->graphicsItems.isEmpty())
-						{
-							ItemHandle * childHandleClone = childHandles[j]->clone();
-							childHandleClone->setParent(handleClone);
-						}
+		//for copying handles
+		ItemHandle * handle, *cloneHandle;
+		QList<ItemHandle*> oldHandles;
+		allNewHandles.clear();
 
-					handleClone->setParent( handle->parent);
-					originalAndCloneHandles += QPair<ItemHandle*,ItemHandle*>(handle,handleClone);
+		QRectF boundingRect;
+		QList<QGraphicsItem*> items, visited;
+		for (int i=0; i < items0.size(); ++i)
+            if (items0[i] && !items.contains(items0[i]))
+            {
+                boundingRect = boundingRect.united(items0[i]->sceneBoundingRect());
+                if (handle = getHandle(items0[i]))
+                {
+                    QList<QGraphicsItem*> list = handle->allGraphicsItems();
+                    for (int j=0; j < list.size(); ++j)
+                        if (!items.contains(list[j]))
+                            items << list[j];
+                }
+                else
+                    if (ConnectionGraphicsItem::cast(items0[i]) ||
+                        TextGraphicsItem::cast(items0[i]))
+                        items << items0[i];
+            }
 
-					QList<QGraphicsItem*> list = handle->graphicsItems;
-					//new handle only has selected graphics items of the original handle
-					for (int j=0; j < list.size(); ++j)
-						if (!items.contains(list[j]) && !TextGraphicsItem::cast(list[j]))
-							handleClone->graphicsItems.removeAll(list[j]);
+        //top level handles
+		for (int i=0; i < items.size(); ++i)
+            if (!visited.contains(items[i]))
+            {
+                visited << items[i];
+                handle = getHandle(items[i]);
+                QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
 
-					list = handleClone->graphicsItems;
+                if (itemClone)
+                {
+                    setHandle(itemClone,0);
+                    duplicateItems << itemClone;
+                    if ((connection = ConnectionGraphicsItem::cast(itemClone)))
+                    {
+                        connectionItems += connection;
+                        if (connection->centerRegionItem)
+                        {
+                            node1 = connection->centerRegionItem;
+                            connection = ConnectionGraphicsItem::cast(items[i]);
+                            if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
+                            {
+                                node2 = connection->centerRegionItem;
+                                if (node1 && node2)
+                                {
+                                    originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
+                                    duplicateItems << node1;
+                                }
+                            }
+                        }
+                    }
+                    else
+                        if ((node1 = NodeGraphicsItem::cast(items[i]))
+                            && (node2 = NodeGraphicsItem::cast(itemClone)))
+                        {
+                            originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
+                        }
 
-					//remove visited items from the list of items
-					int k = -1;
-					for (int j=0; j < list.size(); ++j)
-						while ( (k = items.indexOf(list[j])) > -1 )
-						{
-							items[k] = 0;
-						}
-					//clone each graphics item and assign handleClone
-					handleClone->graphicsItems.clear();
-					handleClone->tools.clear();
-					for (int j=0; j < list.size(); ++j)
-					{
-						QGraphicsItem * itemClone = cloneGraphicsItem(list[j]);
-						setHandle(itemClone,handleClone);
-						duplicateItems << itemClone;
+                    if (handle)
+                    {
+                        cloneHandle = 0;
 
-						if ((connection = ConnectionGraphicsItem::cast(itemClone)))
-						{
-							connectionItems += connection;
-							if (connection->centerRegionItem)
-							{
-								node1 = connection->centerRegionItem;
-								connection = ConnectionGraphicsItem::cast(list[j]);
-								if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
-								{
-									node2 = connection->centerRegionItem;
-									if (node1 && node2)
-									{
-										originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-										duplicateItems << node1;
-									}
-								}
-							}
-							/*connection = ConnectionGraphicsItem::cast(list[j]);
-							if (connection)
-							{
-							arrowHeads << connection->arrowHeads() << connection->modifierArrowHeads();
-							}*/
-						}
-						else
-						{
-							if ((node1 = NodeGraphicsItem::cast(list[j]))
-								&& (node2 = NodeGraphicsItem::cast(itemClone)))
-							{
-								originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
-							}
-						}
-					}
-				}
-				else  //items without a handle
-				{
-					if (TextGraphicsItem::cast(items[i]) || ConnectionGraphicsItem::cast(items[i]))
-					{
-						QGraphicsItem * itemClone = cloneGraphicsItem(items[i]);
-						if (itemClone)
-						{
-							duplicateItems << itemClone;
-							if ((connection = ConnectionGraphicsItem::cast(itemClone)))
-							{
-								connectionItems += connection;
-								if (connection->centerRegionItem)
-								{
-									node1 = connection->centerRegionItem;
-									connection = ConnectionGraphicsItem::cast(items[i]);
-									if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
-									{
-										node2 = connection->centerRegionItem;
-										if (node1 && node2)
-										{
-											originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node2,node1);
-											duplicateItems << node1;
-										}
-									}
-								}
-							}
-							else
-								if ((node1 = NodeGraphicsItem::cast(items[i]))
-									&& (node2 = NodeGraphicsItem::cast(itemClone)))
-								{
-									originalsAndClones += QPair<NodeGraphicsItem*,NodeGraphicsItem*>(node1,node2);
-								}
-						}
-					}
-				}
-			}
+                        for (int j=0; j < originalAndCloneHandles.size(); ++j)
+                            if (originalAndCloneHandles[j].first == handle)
+                            {
+                                cloneHandle = originalAndCloneHandles[j].second;
+                                break;
+                            }
+
+                        if (!cloneHandle)
+                        {
+                            cloneHandle = handle->clone();
+                            cloneHandle->graphicsItems.clear();
+                            allNewHandles << cloneHandle;
+                            originalAndCloneHandles << QPair<ItemHandle*,ItemHandle*>(handle,cloneHandle);
+                        }
+
+                        setHandle(itemClone,cloneHandle);
+                    }
+                }
+            }
+
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			QList<NodeGraphicsItem*> nodes = connectionItems[i]->nodes();
@@ -272,16 +238,12 @@ namespace Tinkercell
 					connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
 				}
 			}
+
+			QList<QGraphicsItem*> arrows = connectionItems[i]->arrowHeadsAsGraphicsItems();
+			for (int k=0; k < arrows.size(); ++k)
+                duplicateItems.removeAll(arrows[k]);
 		}
 
-		for (int i=0; i < originalAndCloneHandles.size(); ++i)
-		{
-			if (originalAndCloneHandles[i].second && !allNewHandles.contains(originalAndCloneHandles[i].second))
-			{
-				allNewHandles << originalAndCloneHandles[i].second;
-				allNewHandles << originalAndCloneHandles[i].second->allChildren();
-			}
-		}
 		//replace parent handles
 		bool parentCopied = false;
 		for (int i=0; i < originalAndCloneHandles.size(); ++i)
@@ -307,10 +269,10 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
 		return duplicateItems;
 	}
-	
+
 	/*! \brief Returns the currently visible window
 	* \param void
 	* \return rectangle*/
@@ -387,14 +349,14 @@ namespace Tinkercell
 		contextItemsMenu = 0;
 		contextScreenMenu = 0;
 		setSceneRect(0,0,10000,10000);
-		
+
 		lastZ = 1.0;
 
 		setBackgroundBrush(BackgroundBrush);
 		setForegroundBrush(ForegroundBrush);
 		selectionRect.setBrush(SelectionRectangleBrush);
-		selectionRect.setPen(SelectionRectanglePen);		
-		
+		selectionRect.setPen(SelectionRectanglePen);
+
 		addItem(&selectionRect);
 
 		selectionRect.setVisible(false);
@@ -420,7 +382,7 @@ namespace Tinkercell
 			}
 		}
 		qDeleteAll(allitems2);
-		
+
 		for (int i=0; i < allitems1.size(); ++i)
 		{
 			if (allitems1[i] && NodeGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
@@ -429,7 +391,7 @@ namespace Tinkercell
 			}
 		}
 		qDeleteAll(allitems2);
-		
+
 		for (int i=0; i < allitems1.size(); ++i)
 		{
 			if (allitems1[i] && TextGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
@@ -478,11 +440,11 @@ namespace Tinkercell
 		item->setVisible(true);
 		item->setZValue(lastZ);
 		lastZ += 1.0;
-		
+
 		QGraphicsItem * item2 = getGraphicsItem(item);
-		
+
 		if (!item2) return;
-		
+
 		QPointF p = item2->scenePos();
 		if (p.rx() > this->width() || p.ry() > this->height())
 		{
@@ -493,10 +455,10 @@ namespace Tinkercell
 			QPointF dp;
 			if (p.rx() < 0) dp.rx() = - p.rx() + item2->boundingRect().width()/2.0 ;
 			if (p.ry() < 0) dp.ry() = - p.ry() + item2->boundingRect().height()/2.0 ;
-			
+
 			move(item2,dp);
 		}
-		
+
 		snapToGrid(item2);
 	}
 	/*! \brief top Z value
@@ -882,7 +844,7 @@ namespace Tinkercell
 			QGraphicsScene::keyPressEvent(keyEvent);
 			return;
 		}
-		
+
 		if (keyEvent->matches(QKeySequence::Undo))
 		{
 			if (historyStack)
@@ -981,7 +943,7 @@ namespace Tinkercell
 					if (keyEvent->key() == Qt::Key_Down) change = QPointF(0,dx);
 					if (keyEvent->key() == Qt::Key_Left) change = QPointF(-dx,0);
 					if (keyEvent->key() == Qt::Key_Right) change = QPointF(dx,0);
-					
+
 					if (gridSz > 0)
 					{
 						change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
@@ -1133,7 +1095,7 @@ namespace Tinkercell
 	void GraphicsScene::move(QGraphicsItem * item, const QPointF& distance)
 	{
 		if (!item) return;
-		
+
 		QUndoCommand * command = new MoveCommand(this,item,distance);
 
 		if (historyStack)
@@ -1153,12 +1115,12 @@ namespace Tinkercell
 			change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
 			change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
 		}
-		
+
 		QList<QPointF> dists;
 		while (dists.size() < items.size()) dists << change;
-		
+
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
-		
+
 		QPointF p = item->scenePos();
 		if (p.rx() > this->width() || p.ry() > this->height())
 		{
@@ -1177,7 +1139,7 @@ namespace Tinkercell
 			command->redo();
 			delete command;
 		}
-		
+
 		QPointF change = distance;
 		if (gridSz > 0)
 		{
@@ -1188,7 +1150,7 @@ namespace Tinkercell
 		while (dists.size() < items.size()) dists << change;
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
-		
+
 		QPointF p;
 		for (int i=0; i < items.size(); ++i)
 			if (items[i])
@@ -1200,7 +1162,7 @@ namespace Tinkercell
 					return;
 				}
 			}
-		
+
 	}
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
@@ -1216,7 +1178,7 @@ namespace Tinkercell
 		}
 
 		QList<QPointF> dists = distance;
-		
+
 		if (gridSz > 0)
 		{
 			for (int i=0; i < dists.size(); ++i)
@@ -1225,11 +1187,11 @@ namespace Tinkercell
 				dists[i].ry() = gridSz * (int)(dists[i].ry() / (double)gridSz + 0.5);
 			}
 		}
-		
+
 		while (dists.size() < items.size()) dists << QPointF();
 
 		emit itemsMoved(this,items,dists,Qt::NoModifier);
-		
+
 		QPointF p;
 		for (int i=0; i < items.size(); ++i)
 			if (items[i])
@@ -1254,7 +1216,7 @@ namespace Tinkercell
 			handles += handle;
 
 		emit itemsAboutToBeInserted(this,items,handles);
-		
+
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
 		if (historyStack)
 			historyStack->push(command);
@@ -1284,7 +1246,7 @@ namespace Tinkercell
 		}
 
 		emit itemsAboutToBeInserted(this,allItems,handles);
-		
+
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 
 		if (historyStack)
@@ -1814,14 +1776,14 @@ namespace Tinkercell
 				clipboard->setImage(image);
 			}
 		}
-		
+
 		if (items.size() < 1) return;
 
 		clearStaticItems();
 
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-		
+
 		emit copyItems(this,duplicateItems,allNewHandles);
 
 		GraphicsScene::copiedFromScene = scene;
@@ -1847,11 +1809,11 @@ namespace Tinkercell
 
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-		
+
 		emit copyItems(this,duplicateItems,allNewHandles);
 
 		scene->remove(tr("cut items"),scene->selected());
-		
+
 		GraphicsScene::copiedFromScene = scene;
 	}
 
@@ -1949,7 +1911,7 @@ namespace Tinkercell
 		{
 			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
 		}
-		
+
 		QList<QString> allItems = scene->symbolsTable->handlesFullName.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
@@ -1963,10 +1925,10 @@ namespace Tinkercell
 				handles << handle1->allChildren();
 			}
 		}
-		
+
 		QList<QGraphicsItem*> items2 = items;
 		QList<ItemHandle*> handles2 = handles;
-		
+
 		emit itemsAboutToBeInserted(scene,items2,handles2);
 
 		commands << new InsertGraphicsCommand(tr("paste items"),scene,items2);
@@ -2009,7 +1971,7 @@ namespace Tinkercell
 
 		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
 		scene->clearSelection();
-			
+
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
 		items2 = items;
 		GraphicsScene::duplicateItems.clear();
@@ -2018,12 +1980,13 @@ namespace Tinkercell
 			scene->historyStack->push(compositeCommand);
 		else
 			compositeCommand->redo();
-			
+
+        emit itemsInserted(scene,items2,handles);
+
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+		//emit copyItems(this,duplicateItems,allNewHandles);
 
-		emit copyItems(this,duplicateItems,allNewHandles);
-		emit itemsInserted(scene,items2,handles);
 		scene->select(items2);
 	}
 
@@ -2042,7 +2005,7 @@ namespace Tinkercell
 				handle = symbolsTable->handlesFullName[text];
 			else
 				handle = symbolsTable->handlesFirstName[text];
-			
+
 			bool alreadySelected = true;
 			for (int i=0; i < handle->graphicsItems.size(); ++i)
 				if (handle->graphicsItems[i])
@@ -2058,10 +2021,10 @@ namespace Tinkercell
 					QPointF p(0,0);
 					for (int j=0; j < handle->graphicsItems.size(); ++j)
 						p += handle->graphicsItems[j]->scenePos();
-					
+
 					p /= handle->graphicsItems.size();
 					centerOn(p);
-					
+
 					emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
 					return;
 				}
@@ -2273,104 +2236,104 @@ namespace Tinkercell
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;
 	GraphicsScene* GraphicsScene::copiedFromScene;
-	
+
 	void GraphicsScene::enableGrid(int sz)
 	{
 		setGridSize(sz);
 	}
-	
+
 	void GraphicsScene::disableGrid()
 	{
 		setGridSize(0);
 	}
-	
+
 	void GraphicsScene::setGridSize(int sz)
 	{
 		gridSz = sz;
 	}
-	
+
 	int GraphicsScene::gridSize() const
 	{
 		return gridSz;
 	}
-	
+
 	void GraphicsScene::snapToGrid(QGraphicsItem * item)
 	{
 		if (!item || gridSz < 1) return;
-		
+
 		ControlPoint * cp = ControlPoint::cast(item);
-		
+
 		if (cp)
 		{
 			QPointF p1 = cp->scenePos();
-			
+
 			p1.rx() = gridSz * (int)(p1.rx() / (double)gridSz + 0.5);
 			p1.ry() = gridSz * (int)(p1.ry() / (double)gridSz + 0.5);
-			
+
 			cp->setPos(p1);
-			
+
 			return;
 		}
-		
+
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		
+
 		if (node)
 		{
 			QPointF p1 = node->sceneBoundingRect().topLeft();
 			QPointF p2 = node->sceneBoundingRect().bottomRight();
-			
+
 			p1.rx() = gridSz * (int)(p1.rx() / (double)gridSz + 0.5);
 			p1.ry() = gridSz * (int)(p1.ry() / (double)gridSz + 0.5);
 			p2.rx() = gridSz * (int)(p2.rx() / (double)gridSz + 0.5);
 			p2.ry() = gridSz * (int)(p2.ry() / (double)gridSz + 0.5);
-			
+
 			if (p2.rx() == p1.rx()) p2.rx() += gridSz;
 			if (p2.ry() == p1.ry()) p2.ry() += gridSz;
-			
+
 			node->setBoundingRect(p1,p2);
 		}
 	}
-	
+
 	void GraphicsScene::drawBackground( QPainter* painter, const QRectF & rect)
 	{
 		if (gridSz < 1) return;
-		
+
 		painter->setPen(GridPen);
 		qreal left = rect.left(), right = rect.right(),
 			  top = rect.top(), bottom = rect.bottom();
 		QPointF p1,p2;
-		
+
 		p1.rx() = left;
 		p1.ry() = top;
 		p2.rx() = left;
 		p2.ry() = bottom;
-		
+
 		left = gridSz * (int)(left/gridSz);
-		
+
 		for (qreal x = left; x < right; x += gridSz)
 		{
 			p1.rx() = p2.rx() = x;
 			painter->drawLine(p1,p2);
 		}
-		
+
 		p1.rx() = left;
 		p1.ry() = top;
 		p2.rx() = right;
 		p2.ry() = top;
-		
+
 		top = gridSz * (int)(top/gridSz);
-		
+
 		for (qreal y = top; y < bottom; y += gridSz)
 		{
 			p1.ry() = p2.ry() = y;
 			painter->drawLine(p1,p2);
 		}
 	}
-	
+
 	/*********************
 		GRAPHICS VIEW
 	**********************/
-	
+
 	void GraphicsView::wheelEvent(QWheelEvent * wheelEvent)
 	{
 		if (wheelEvent->modifiers() & Qt::ControlModifier)
@@ -2386,14 +2349,14 @@ namespace Tinkercell
 			QGraphicsView::wheelEvent(wheelEvent);
 		}
 	}
-	
+
 	void GraphicsView::scrollContentsBy ( int dx, int dy )
 	{
 		QGraphicsView::scrollContentsBy(dx,dy);
 		if (viewport())
 			viewport()->update();
 	}
-	
+
 	void GraphicsView::dragEnterEvent(QDragEnterEvent * /*event*/)
 	{
 		//event->acceptProposedAction();
@@ -2417,7 +2380,7 @@ namespace Tinkercell
 		{
 		fName = urlList[0].toLocalFile(); // convert first QUrl to local path
 		info.setFile( fName ); // information about file
-		if ( info.isFile() ) 
+		if ( info.isFile() )
 		files += info;
 		}
 		}
@@ -2426,13 +2389,13 @@ namespace Tinkercell
 		}*/
 	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
-	GraphicsView::GraphicsView(GraphicsScene * scene, QWidget * parent) 
+	GraphicsView::GraphicsView(GraphicsScene * scene, QWidget * parent)
 		: QGraphicsView (scene,parent)
 	{
 		setCacheMode(QGraphicsView::CacheBackground);
-		
+
 		setViewportUpdateMode (QGraphicsView::FullViewportUpdate);
-		//setViewportUpdateMode (QGraphicsView::SmartViewportUpdate);		
+		//setViewportUpdateMode (QGraphicsView::SmartViewportUpdate);
 		//setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
 		//setViewport(new QGLWidget);
 		//setDragMode(QGraphicsView::RubberBandDrag);

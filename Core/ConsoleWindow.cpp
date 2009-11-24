@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This file defines the class that is used as a general output area as well as 
+This file defines the class that is used as a general output area as well as
 a generic command prompt (e.g. by Python plugin)
 
 
@@ -16,7 +16,7 @@ a generic command prompt (e.g. by Python plugin)
 namespace Tinkercell
 {
 	QString ConsoleWindow::Prompt(">>");
-	
+
 	void CommandTextEdit::setCompleter(QCompleter *completer)
 	{
 		if (c)
@@ -69,8 +69,8 @@ namespace Tinkercell
 	CommandTextEdit::CommandTextEdit(QWidget * parent): QTextEdit(parent), c(0)
 	{
 		setUndoRedoEnabled ( false );
-		
-		
+
+
 		setTextInteractionFlags(Qt::TextEditorInteraction);
 
 
@@ -95,8 +95,8 @@ namespace Tinkercell
 		normalFormat.setFontWeight(QFont::Bold);
 		normalFormat.setForeground(QColor("#FEFFEC"));
 
-		cursor.setCharFormat(normalFormat);	
-		cursor.insertText(ConsoleWindow::Prompt); 
+		cursor.setCharFormat(normalFormat);
+		cursor.insertText(ConsoleWindow::Prompt);
 		currentPosition = cursor.position();
 	}
 
@@ -130,7 +130,7 @@ namespace Tinkercell
 		cursor.setCharFormat(errorFormat);
 		cursor.insertText(tr("\nError: ") + s + tr("\n"));
 
-		cursor.setCharFormat(normalFormat);	
+		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
@@ -150,7 +150,7 @@ namespace Tinkercell
 		cursor.setCharFormat(messageFormat);
 		cursor.insertText(tr("\n") + s + tr("\n"));
 
-		cursor.setCharFormat(normalFormat);	
+		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
@@ -210,11 +210,50 @@ namespace Tinkercell
 		this->ensureCursorVisible();
 	}
 
+	void CommandTextEdit::eval(const QString& command)
+	{
+        if (frozen) return;
+
+	    QTextCursor cursor = textCursor();
+        cursor.setCharFormat(normalFormat);
+
+	    if (cursor.position() <= currentPosition)
+			cursor.setPosition(currentPosition);
+
+        cursor.movePosition(QTextCursor::EndOfBlock);
+        cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
+        cursor.removeSelectedText();
+        cursor.insertText(command + tr("\n"));
+        cursor.movePosition(QTextCursor::EndOfBlock);
+        currentPosition = cursor.position();
+        if (!command.isEmpty())
+        {
+            if (historyStack.isEmpty() || command != historyStack.back())
+            {
+                historyStack << command;
+                currentHistoryIndex = historyStack.size();
+            }
+
+            emit commandExecuted(command);
+        }
+
+        if (cursor.block().text() != ConsoleWindow::Prompt)
+        {
+            cursor.setCharFormat(normalFormat);
+            cursor.insertText(ConsoleWindow::Prompt);
+        }
+        cursor.movePosition(QTextCursor::EndOfBlock);
+        if (cursor.position() > currentPosition)
+            currentPosition = cursor.position();
+        currentHistoryIndex = historyStack.size();
+        this->ensureCursorVisible();
+	}
+
 	void CommandTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
 		if (!event) return;
-		
-		if (c && c->popup()->isVisible()) 
+
+		if (c && c->popup()->isVisible())
 		{
 			// The following keys are forwarded by the completer to the widget
 			switch (event->key()) {
@@ -234,13 +273,13 @@ namespace Tinkercell
 		QTextCursor cursor = textCursor();
 
 		cursor.setCharFormat(normalFormat);
-		
+
 		if (event->matches(QKeySequence::Copy))
 		{
 			QTextEdit::copy();
 			return;
 		}
-		
+
 		if (event->matches(QKeySequence::SelectAll))
 		{
 			QTextEdit::selectAll();
@@ -262,7 +301,7 @@ namespace Tinkercell
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			currentPosition = cursor.position();
 			if (!command.isEmpty())
-			{	
+			{
 				if (historyStack.isEmpty() || command != historyStack.back())
 				{
 					historyStack << command;
@@ -274,12 +313,12 @@ namespace Tinkercell
 
 			if (cursor.block().text() != ConsoleWindow::Prompt)
 			{
-				cursor.setCharFormat(normalFormat);	
+				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
 			}
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			if (cursor.position() > currentPosition)
-				currentPosition = cursor.position();			
+				currentPosition = cursor.position();
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
@@ -329,24 +368,24 @@ namespace Tinkercell
 					}
 					else
 					{
-						if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right 
+						if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right
 							|| key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_End || key == Qt::Key_Home
-							|| !(	frozen 
-							|| !document() 
+							|| !(	frozen
+							|| !document()
 							|| cursor.position() < currentPosition
 							|| cursor.selectionStart() < currentPosition
 							|| (cursor.position() == currentPosition && key == Qt::Key_Backspace)))
 						{
 							QString completionPrefix = textUnderCursor();
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E
-							
+
 							if (!c || !isShortcut) // dont process the shortcut when we have a completer
 							{
 								QTextEdit::keyPressEvent(event);
 							}
-							
-							if (key == Qt::Key_Home)							
-								cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());							
+
+							if (key == Qt::Key_Home)
+								cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());
 
 							const bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 							if (!c || (ctrlOrShift && event->text().isEmpty()))
@@ -361,7 +400,7 @@ namespace Tinkercell
 							bool hasModifier = (event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 
 
-							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < 2)) 
+							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < 2))
 							{
 								c->popup()->hide();
 								if (cursor.position() < currentPosition)
@@ -370,7 +409,7 @@ namespace Tinkercell
 								return;
 							}
 
-							if (completionPrefix != c->completionPrefix()) 
+							if (completionPrefix != c->completionPrefix())
 							{
 								c->setCompletionPrefix(completionPrefix);
 								c->popup()->setCurrentIndex(c->completionModel()->index(0, 0));
@@ -446,6 +485,21 @@ namespace Tinkercell
 		}
 	}
 
+	void ConsoleWindow::eval(const QString& s)
+	{
+		if (!instance) return;
+
+		instance->commandTextEdit.eval(s);
+
+		if (!s.isEmpty())
+		{
+			if (instance->parentWidget())
+				instance->parentWidget()->show();
+			else
+				instance->show();
+		}
+	}
+
 	void ConsoleWindow::printTable(const DataTable<qreal>& table)
 	{
 		if (!instance) return;
@@ -481,19 +535,19 @@ namespace Tinkercell
 	}
 
 	void ConsoleWindow::freeze()
-	{	
+	{
 		if (!instance) return;
 		instance->commandTextEdit.freeze();
 	}
 
 	void ConsoleWindow::unfreeze()
-	{	
+	{
 		if (!instance) return;
 		instance->commandTextEdit.unfreeze();
 	}
 
 	void ConsoleWindow::clear()
-	{	
+	{
 		if (!instance) return;
 		instance->commandTextEdit.clearText();
 	}
@@ -506,10 +560,10 @@ namespace Tinkercell
 	CommandTextEdit * ConsoleWindow::consoleWindowEditor()
 	{
 		if (!instance) return 0;
-		
+
 		return &(instance->commandTextEdit);
 	}
-	
+
 	CommandTextEdit * ConsoleWindow::editor()
 	{
 		return &commandTextEdit;

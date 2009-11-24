@@ -8,7 +8,7 @@ One of the main classes in Tinkercell.
 
 There are two classes defined in this file: ControlPoint and NodeGraphicsItem
 
-The NodeGraphicsItem is a group made up of Shapes. Each Shape is a polygon item. 
+The NodeGraphicsItem is a group made up of Shapes. Each Shape is a polygon item.
 Each shape has a default color. The purpose of the default color is to allow plugins
 to change color temporarily and then revert back to the default.
 
@@ -26,19 +26,19 @@ to draw movable points.
 namespace Tinkercell
 {
 	const QString NodeGraphicsItem::CLASSNAME = QString("NodeGraphicsItem");
-	
+
 	ItemHandle * NodeGraphicsItem::handle() const
 	{
 		return itemHandle;
 	}
-	
+
 	void NodeGraphicsItem::setHandle(ItemHandle * handle)
 	{
 		if (handle != 0 && !handle->graphicsItems.contains(this))
 		{
 			handle->graphicsItems += this;
 		}
-		
+
 		if (itemHandle)
 		{
 			if (itemHandle != handle)
@@ -52,14 +52,14 @@ namespace Tinkercell
 			itemHandle = handle;
 		}
 	}
-	
+
 	ItemHandle * NodeGraphicsItem::ControlPoint::handle() const
 	{
 		if (nodeItem)
 			return nodeItem->handle();
 		return 0;
 	}
-	
+
 	void NodeGraphicsItem::ControlPoint::setHandle(ItemHandle * h)
 	{
 		if (nodeItem)
@@ -99,7 +99,7 @@ namespace Tinkercell
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
 		boundingBoxItem->setRect(boundingRect());
-	}	
+	}
 
 	/*! reset of control points that control the bounding box of this figure */
 	void NodeGraphicsItem::adjustBoundaryControlPoints()
@@ -110,23 +110,23 @@ namespace Tinkercell
 		{
 			if (scene() && (boundaryControlPoints[0]->scene() != scene()))
 				(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[0]);
-		
+
 			if (scene() && (boundaryControlPoints[1]->scene() != scene()))
 				(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[1]);
-			
+
 			QRectF bounds = sceneBoundingRect();
 			QPointF p1 = boundaryControlPoints[0]->scenePos(),
 				p2 = boundaryControlPoints[1]->scenePos();
-			if ( p1.rx() == 0 || p2.rx() == 0 || p1.ry() == 0 || p2.ry() == 0 || 
-				( (p1.rx() - bounds.left())*(p1.rx() - bounds.left()) < 
+			if ( p1.rx() == 0 || p2.rx() == 0 || p1.ry() == 0 || p2.ry() == 0 ||
+				( (p1.rx() - bounds.left())*(p1.rx() - bounds.left()) <
 				(p1.rx() - bounds.right())*(p1.rx() - bounds.right()) ) )
 			{
 				p1.rx() = bounds.left();
 				p2.rx() = bounds.right();
 			}
 
-			if ( p1.rx() == 0 || p2.rx() == 0 || p1.ry() == 0 || p2.ry() == 0 || 
-				((p1.ry() - bounds.top())*(p1.ry() - bounds.top()) < 
+			if ( p1.rx() == 0 || p2.rx() == 0 || p1.ry() == 0 || p2.ry() == 0 ||
+				((p1.ry() - bounds.top())*(p1.ry() - bounds.top()) <
 				(p1.ry() - bounds.bottom())*(p1.ry() - bounds.bottom()) ) )
 			{
 				p1.ry() = bounds.top();
@@ -159,7 +159,7 @@ namespace Tinkercell
 				if (s && boundaryControlPoints[i]->scene() != s)
 					(static_cast<GraphicsScene*>(s))->addItem(boundaryControlPoints[i]);
 
-				boundaryControlPoints[i]->setVisible(controlPoints && visible);	
+				boundaryControlPoints[i]->setVisible(controlPoints && visible);
 				//boundaryControlPoints[i]->setZValue(zValue() + 0.1);
 			}
 			if (boundingBoxItem)
@@ -172,7 +172,7 @@ namespace Tinkercell
 				boundingBoxItem->setRect(boundingRect());
 			}
 	}
-	
+
 	void NodeGraphicsItem::showBoundingBox(bool controlPoints)
 	{
 		setBoundingBoxVisible(true,controlPoints);
@@ -207,7 +207,7 @@ namespace Tinkercell
 
 		for (int i=0; i < copy.shapes.size(); ++i)
 			if (copy.shapes[i])
-			{	
+			{
 				Shape * newShape = new Shape(*copy.shapes[i]);
 				for (int j=0; j < newShape->controlPoints.size(); ++j)
 					for (int k=0; k < copy.controlPoints.size(); ++k)
@@ -273,7 +273,7 @@ namespace Tinkercell
 		setParentItem(0);
 		setBoundingBoxVisible(false);
 
-		resetTransform();		
+		resetTransform();
 		setPos(copy.scenePos());
 
 		for (int i=0; i < copy.controlPoints.size(); ++i)
@@ -282,7 +282,7 @@ namespace Tinkercell
 
 		for (int i=0; i < copy.shapes.size(); ++i)
 			if (copy.shapes[i])
-			{	
+			{
 				Shape * newShape = new Shape(*copy.shapes[i]);
 				for (int j=0; j < newShape->controlPoints.size(); ++j)
 					for (int k=0; k < copy.controlPoints.size(); ++k)
@@ -303,7 +303,7 @@ namespace Tinkercell
 			{
 				boundaryControlPoints[i]->nodeItem = 0;
 				if (!boundaryControlPoints[i]->scene())
-					delete boundaryControlPoints[i];				
+					delete boundaryControlPoints[i];
 				boundaryControlPoints[i] = 0;
 			}
 			boundaryControlPoints.clear();
@@ -356,7 +356,7 @@ namespace Tinkercell
 			{
 				boundaryControlPoints[i]->nodeItem = 0;
 				if (!boundaryControlPoints[i]->scene())
-					delete boundaryControlPoints[i];				
+					delete boundaryControlPoints[i];
 				boundaryControlPoints[i] = 0;
 			}
 
@@ -385,31 +385,31 @@ namespace Tinkercell
 	{
 		return controlPoints.size() > 1 && shapes.size() > 0;
 	}
-	
+
 	/*! set the top left and bottom right corners of this node item*/
 	void NodeGraphicsItem::setBoundingRect(const QPointF& p1, const QPointF& p2)
 	{
-		if (boundaryControlPoints.size() < 2 || 
-			!boundaryControlPoints[0] || 
+		if (boundaryControlPoints.size() < 2 ||
+			!boundaryControlPoints[0] ||
 			!boundaryControlPoints[1])
 			return;
-		
+
 		boundaryControlPoints[0]->setPos(p1);
 		boundaryControlPoints[1]->setPos(p2);
-		
+
 		adjustToBoundaryControlPoints();
 	}
 
 	void NodeGraphicsItem::adjustToBoundaryControlPoints()
 	{
-		if (boundaryControlPoints.size() < 2 || 
-			!boundaryControlPoints[0] || 
+		if (boundaryControlPoints.size() < 2 ||
+			!boundaryControlPoints[0] ||
 			!boundaryControlPoints[1])
 			return;
-			
+
 		if (scene() && (boundaryControlPoints[0]->scene() != scene()))
 			(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[0]);
-		
+
 		if (scene() && (boundaryControlPoints[1]->scene() != scene()))
 			(static_cast<GraphicsScene*>(scene()))->addItem(boundaryControlPoints[1]);
 
@@ -470,9 +470,9 @@ namespace Tinkercell
 	{
 		if ((boundaryControlPoints.size() == 2)
 			&& !sceneTransform().isRotating()
-			&& boundaryControlPoints[0] && boundaryControlPoints[0]->isVisible() 
+			&& boundaryControlPoints[0] && boundaryControlPoints[0]->isVisible()
 			&& boundaryControlPoints[1] && boundaryControlPoints[1]->isVisible() )
-		{	
+		{
 			adjustToBoundaryControlPoints();
 			//painter->setPen(QPen(boundaryControlPoints[0]->defaultPen.color(),1.0));
 			//painter->drawRoundRect(boundingRect());
@@ -482,7 +482,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief Constructor: Setup colors and z value */
-	NodeGraphicsItem::ControlPoint::ControlPoint(NodeGraphicsItem * image_ptr, QGraphicsItem * parent) : 
+	NodeGraphicsItem::ControlPoint::ControlPoint(NodeGraphicsItem * image_ptr, QGraphicsItem * parent) :
 	Tinkercell::ControlPoint(parent)
 	{
 		nodeItem = image_ptr;
@@ -582,7 +582,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	/*! \brief change fill color of all shapes to default*/
 	void NodeGraphicsItem::resetBrush()
 	{
@@ -640,7 +640,7 @@ namespace Tinkercell
 	}
 
 	/*! Constructor: sets angle to 0 and scale to 1*/
-	NodeGraphicsItem::Shape::Shape(NodeGraphicsItem * idrawable_ptr, QGraphicsItem * parent, QGraphicsScene * scene) : 
+	NodeGraphicsItem::Shape::Shape(NodeGraphicsItem * idrawable_ptr, QGraphicsItem * parent, QGraphicsScene * scene) :
 	QGraphicsPolygonItem(parent, scene)
 	{
 		negative = false;
@@ -707,9 +707,9 @@ namespace Tinkercell
 			switch(types[i])
 			{
 			case arc:
-				{						
+				{
 					if (pts > j && params > (k+1))
-					{		
+					{
 						qreal start = parameters[k], span = parameters[k+1];
 						/*qreal prop = 360.0/span;
 						qreal w = (controlPoints[j]->scenePos().x()-controlPoints[j-1]->scenePos().x()) * prop/2.0,
@@ -734,7 +734,7 @@ namespace Tinkercell
 				}
 				break;
 			case line:
-				{	
+				{
 					path.lineTo(QPointF(controlPoints[j]->scenePos().x(),controlPoints[j]->scenePos().y()));
 					++j;
 				}
@@ -898,7 +898,7 @@ namespace Tinkercell
 		QPainterPath path;
 		for (int i=0; i < shapes.size(); ++i)
 			if (shapes[i])
-				path = path.united(shapes[i]->mapToParent(shapes[i]->shape()));	
+				path = path.united(shapes[i]->mapToParent(shapes[i]->shape()));
 		return path;
 	}
 	/*! \brief add a shape to the set of shapes*/
@@ -917,12 +917,12 @@ namespace Tinkercell
 		{
 			if (controlPoints.contains(control))
 				controlPoints.remove( controlPoints.indexOf(control) );
-			for (int i=shapes.size()-1; i >= 0; --i) 
+			for (int i=shapes.size()-1; i >= 0; --i)
 				if (shapes[i] && shapes[i]->controlPoints.contains(control))
 				{
 					removeFromGroup(shapes[i]);
 					delete shapes[i];
-					shapes.remove(i);					
+					shapes.remove(i);
 				}
 				refresh();
 		}
@@ -948,7 +948,7 @@ namespace Tinkercell
 	* \param void
 	* \return void*/
 	void NodeGraphicsItem::refresh()
-	{	
+	{
 		for (int i=0; i < shapes.size(); ++i)
 		{
 			if (shapes[i])
@@ -964,7 +964,7 @@ namespace Tinkercell
 		recomputeBoundingRect();
 
 		if (boundingBoxItem)
-		{		
+		{
 			boundingBoxItem->setPen(QPen(QColor(255,100,100),(1000.0/(0.5*(sceneBoundingRect().width() + sceneBoundingRect().height()))),Qt::DashLine));
 			boundingBoxItem->setBrush(Qt::NoBrush);
 			boundingBoxItem->setVisible(false);
@@ -977,11 +977,11 @@ namespace Tinkercell
 	* \param void
 	* \return void*/
 	void NodeGraphicsItem::clear()
-	{				
+	{
 		for (int i=0; i < shapes.size(); ++i)
 		{
 			removeFromGroup(shapes[i]);
-			if (shapes[i]) 
+			if (shapes[i])
 			{
 				if (shapes[i]->scene())
 					shapes[i]->scene()->removeItem(shapes[i]);
@@ -1032,7 +1032,7 @@ namespace Tinkercell
 				if (controlPoints[i] != 0)
 				{
 					QPointF point = controlPoints[i]->pos();
-					controlPoints[i]->setPos( point - center );	
+					controlPoints[i]->setPos( point - center );
 				}
 
 				for (int i=0; i < shapes.size(); ++i)
@@ -1048,7 +1048,7 @@ namespace Tinkercell
 						{
 							QGradient * oldGradient = new QGradient(*brush.gradient());
 							if (oldGradient->type() == QGradient::LinearGradient)
-							{					
+							{
 								QLinearGradient gradient(start,stop);
 								gradient.setStops(oldGradient->stops());
 								shape->setBrush(gradient);
@@ -1057,7 +1057,7 @@ namespace Tinkercell
 								if (oldGradient->type() == QGradient::RadialGradient)
 								{
 									QRadialGradient gradient(start,
-										sqrt( (stop.y()-start.y())*(stop.y()-start.y()) + 
+										sqrt( (stop.y()-start.y())*(stop.y()-start.y()) +
 										(stop.x()-start.x())*(stop.x()-start.x())));
 									gradient.setStops(oldGradient->stops());
 									shape->setBrush(gradient);
@@ -1113,7 +1113,7 @@ namespace Tinkercell
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
-			ConnectionGraphicsItem::ControlPoint * cp = 
+			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
 			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() && (cp->connectionItem->scene() == scene))
 				connections += cp->connectionItem;
@@ -1129,10 +1129,10 @@ namespace Tinkercell
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
-			ConnectionGraphicsItem::ControlPoint * cp = 
+			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() 
-				&& (cp->connectionItem->scene() == scene) 
+			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
+				&& (cp->connectionItem->scene() == scene)
 				&& (cp->connectionItem->nodesWithArrows().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1147,10 +1147,10 @@ namespace Tinkercell
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
-			ConnectionGraphicsItem::ControlPoint * cp = 
+			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() 
-				&& (cp->connectionItem->scene() == scene) 
+			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
+				&& (cp->connectionItem->scene() == scene)
 				&& !(cp->connectionItem->nodesWithArrows().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1165,10 +1165,10 @@ namespace Tinkercell
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
-			ConnectionGraphicsItem::ControlPoint * cp = 
+			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
-			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() 
-				&& (cp->connectionItem->scene() == scene) 
+			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible()
+				&& (cp->connectionItem->scene() == scene)
 				&& (cp->connectionItem->nodesDisconnected().contains(this)))
 				connections += cp->connectionItem;
 		}
@@ -1183,36 +1183,36 @@ namespace Tinkercell
 		QGraphicsScene * scene = this->scene();
 		for (int i=0; i < children.size(); ++i)
 		{
-			ConnectionGraphicsItem::ControlPoint * cp = 
+			ConnectionGraphicsItem::ControlPoint * cp =
 				qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(children[i]);
 			if (cp && cp->connectionItem && cp->connectionItem->scene() && cp->connectionItem->isVisible() && (cp->connectionItem->scene() == scene))
 				connections += cp->connectionItem;
 		}
 		return connections;
 	}
-	
+
 	QList<NodeGraphicsItem*> NodeGraphicsItem::adjacentNodeItems() const
 	{
 		QList<NodeGraphicsItem*> nodes;
-		
+
 		QGraphicsScene * scene = this->scene();
-		
+
 		if (!scene) return nodes;
-		
+
 		QRectF rect = this->sceneBoundingRect();
 		rect.adjust( -rect.width()/10.0, -rect.height()/10.0, rect.width()/10.0, rect.height()/10.0 );
-		
+
 		QList<QGraphicsItem*> items = scene->items(rect);
-		
+
 		NodeGraphicsItem * node;
 		for (int i=0; i < items.size(); ++i)
 			if ((node = topLevelNodeItem(items[i])) && node != this && !nodes.contains(node))
 				nodes << node;
-		
+
 		return nodes;
-		
+
 	}
-	
+
 	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
 	{
 		return qgraphicsitem_cast<NodeGraphicsItem*>(q);

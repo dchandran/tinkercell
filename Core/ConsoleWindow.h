@@ -44,11 +44,11 @@ namespace Tinkercell
 
 		/*! \brief default constructor*/
 		CommandTextEdit(QWidget * parent=0);
-		/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/	
-		bool isFrozen();
-		/*! \brief set code completion*/ 
+		/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/
+		virtual bool isFrozen();
+		/*! \brief set code completion*/
 		void setCompleter(QCompleter *c);
-		/*! \brief code completion*/ 
+		/*! \brief code completion*/
 		QCompleter *completer() const;
 
 	signals:
@@ -60,18 +60,20 @@ namespace Tinkercell
 
 	public slots:
 
+        /*! \brief evaluate a command (just emits a commandExecuted signal)*/
+		virtual void eval(const QString&);
 		/*! \brief post an error message to this console text box*/
-		void error(const QString&);
+		virtual void error(const QString&);
 		/*! \brief post a message to this console text box*/
-		void message(const QString&);
+		virtual void message(const QString&);
 		/*! \brief clear all text*/
-		void clearText();
+		virtual void clearText();
 		/*! \brief equivalent to setFreeze(true)*/
-		void freeze();
+		virtual void freeze();
 		/*! \brief equivalent to setFreeze(false)*/
-		void unfreeze();
+		virtual void unfreeze();
 		/*! \brief Set frozen state. The text box will not respond to user inputs while it is frozen*/
-		void setFreeze (bool frozen=true);
+		virtual void setFreeze (bool frozen=true);
 
 	protected:
 
@@ -94,7 +96,7 @@ namespace Tinkercell
 		/*! \brief zoom in or out using mouse wheel*/
 		virtual void wheelEvent ( QWheelEvent * wheelEvent );
 		/*! \brief focus returned from code completer*/
-		void focusInEvent(QFocusEvent *e);
+		virtual void focusInEvent(QFocusEvent *e);
 
 	private slots:
 		/*! \brief complete the current line*/
@@ -115,12 +117,14 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-		
+
 		/*! \brief the string used at the prompt*/
 		static QString Prompt;
 
 		/*! \brief constructor -- initialize main window*/
 		ConsoleWindow(MainWindow * main = 0);
+		/*! \brief send a command to the console window to be evaluated*/
+		static void eval(const QString&);
 		/*! \brief print a message in the output window*/
 		static void message(const QString&);
 		/*! \brief print an error message in the output window*/

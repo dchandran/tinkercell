@@ -12,7 +12,7 @@ to listen to each of the GraphicsScene signals but only the MainWindow's signals
 
 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
 
-The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins. 
+The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
 
 ****************************************************************************/
@@ -47,7 +47,7 @@ namespace Tinkercell
 
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
-	
+
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
@@ -183,13 +183,13 @@ namespace Tinkercell
 	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, bool allowViews)
 	{
 		allowViewModeToChange = allowViews;
-		
+
 		setMouseTracking(true);
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
-		
+
 		readSettings();
-		
+
 		prevWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
@@ -199,10 +199,10 @@ namespace Tinkercell
 		//setIconSize(QSize(25,25));
 
 		setCentralWidget(&mdiArea);
-		
+
 		mdiArea.setTabShape(QTabWidget::Triangular);
 		setViewMode(TabView);
-		
+
 		connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
 
 		setWindowTitle(tr("Tinkercell"));
@@ -238,12 +238,12 @@ namespace Tinkercell
 			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
-		
+
 		if (enableConsoleWindow)
 			consoleWindow = new ConsoleWindow(this);
 
 		connectTCFunctions();
-		
+
 		parsersMenu = 0;
 	}
 
@@ -276,16 +276,16 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
-		
+
 		resize(settings.value("size", QSize(1000, 500)).toSize());
 		move(settings.value("pos", QPoint(100, 100)).toPoint());
-		if (settings.value("maximized",false).toBool()) 
+		if (settings.value("maximized",false).toBool())
 			showMaximized();
 		previousFileName = settings.value("previousFileName", tr("")).toString();
 		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
 		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());
 		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
-		
+
 		settings.endGroup();
 	}
 
@@ -332,12 +332,12 @@ namespace Tinkercell
 		emit windowOpened(subWindow);
 		emit windowChanged(subWindow);
 	}
-	
+
 	void MainWindow::allowMultipleViewModes(bool b)
 	{
 		allowViewModeToChange = b;
 	}
-	
+
 	void MainWindow::setViewMode(VIEW_MODE view)
 	{
 		if (view == TabView)
@@ -353,7 +353,7 @@ namespace Tinkercell
 	void MainWindow::changeView()
 	{
 		if (!allowViewModeToChange) return;
-		
+
 		if (mdiArea.viewMode() == QMdiArea::SubWindowView)
 		{
 			mdiArea.setViewMode(QMdiArea::TabbedView);
@@ -383,15 +383,15 @@ namespace Tinkercell
 	void MainWindow::saveWindow()
 	{
 		NetworkWindow * win = currentWindow();
-		
+
 		if (!win) return;
-		
+
 		bool b = false;
 		emit prepareModelForSaving(win,&b);
-		
+
 		if (!b) return;
-		
-		QString fileName = win->filename;		
+
+		QString fileName = win->filename;
 
 		if (fileName.isEmpty())
 		{
@@ -439,7 +439,7 @@ namespace Tinkercell
 
 		emit saveModel(fileName);
 	}
-	
+
 	void MainWindow::open(const QString& fileName)
 	{
 		previousFileName = fileName;
@@ -531,9 +531,9 @@ namespace Tinkercell
 	QDockWidget * MainWindow::addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option, Qt::DockWidgetArea initArea, Qt::DockWidgetAreas allowedAreas, bool inMenu)
 	{
 		if (!tool || toolWindows.contains(tool)) return 0;
-		
+
 		toolWindows << tool;
-		
+
 		if (option == DockWidget)
 		{
 			QDockWidget *dock = new QDockWidget(tool->windowTitle(), this);
@@ -546,9 +546,9 @@ namespace Tinkercell
 
 			return dock;
 		}
-		
+
 		QDockWidget * dock = 0;
-		
+
 		if (!toolBox || option == NewToolBoxWidget)
 		{
 			dock = new QDockWidget(tr("Tools Window"), this);
@@ -566,10 +566,10 @@ namespace Tinkercell
 		{
 			dock = static_cast<QDockWidget*>(toolBox->parentWidget()); //safe?
 		}
-		
+
 		toolBox->addItem(tool,tool->windowIcon(),tool->windowTitle());
 		toolBox->setCurrentWidget(tool);
-		
+
 		return dock;
 	}
 
@@ -591,7 +591,7 @@ namespace Tinkercell
 
 		bool add = true;
 		emit toolAboutToBeLoaded(tool,&add);
-		
+
 		if (!toolsHash.contains(tool->name) && add)
 		{
 			toolsHash.insert(tool->name,tool);
@@ -629,10 +629,15 @@ namespace Tinkercell
 
 	NetworkWindow* MainWindow::currentWindow()
 	{
-		if (mdiArea.currentSubWindow() && mdiArea.currentSubWindow()->widget())
-		{
+	    if (mdiArea.currentSubWindow() && mdiArea.currentSubWindow()->widget())
 			return static_cast<NetworkWindow*>(mdiArea.currentSubWindow());
-		}
+
+        QList<QMdiSubWindow *> subWindows = mdiArea.subWindowList();
+        if (subWindows.size() > 0
+            && subWindows[0]
+            && subWindows[0]->widget())
+			return static_cast<NetworkWindow*>(subWindows[0]);
+
 		return 0;
 	}
 
@@ -736,13 +741,13 @@ namespace Tinkercell
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
 		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
-		
+
 		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
-		
+
 		QAction * gridOn = setGridModeMenu->addAction(tr("Grid ON"));
 		QAction * gridOff = setGridModeMenu->addAction(tr("Grid OFF"));
 		QAction * setGridSz = setGridModeMenu->addAction(tr("Grid size"));
-		
+
 		connect (gridOn, SIGNAL(triggered()),this,SLOT(gridOn()));
 		connect (gridOff, SIGNAL(triggered()),this,SLOT(gridOff()));
 		connect (setGridSz, SIGNAL(triggered()),this,SLOT(setGridSize()));
@@ -786,7 +791,7 @@ namespace Tinkercell
 		toolBarBasic->addAction(openAction);
 		toolBarBasic->addAction(closeAction);
 		toolBarBasic->addAction(saveAction);
-		
+
 		toolBarEdits->addAction(arrowAction);
 		toolBarEdits->addAction(undoAction);
 		toolBarEdits->addAction(redoAction);
@@ -794,12 +799,12 @@ namespace Tinkercell
 		toolBarEdits->addAction(cutAction);
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
-		
+
 		/*QSize iconSize(16,16);
 		toolBarBasic->setIconSize(iconSize);
 		toolBarEdits->setIconSize(iconSize);
 		toolBarForTools->setIconSize(iconSize);*/
-		
+
 		addToolBar(Qt::TopToolBarArea, toolBarBasic);
 		addToolBar(Qt::TopToolBarArea, toolBarEdits);
 		addToolBar(Qt::TopToolBarArea, toolBarForTools);
@@ -812,7 +817,7 @@ namespace Tinkercell
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
 		contextEditorMenu.addAction(closeAction);
-		
+
 		contextItemsMenu.addAction(copyAction);
 		contextItemsMenu.addAction(cutAction);
 		contextScreenMenu.addAction(pasteAction);
@@ -824,10 +829,10 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(fitAll);
 		contextScreenMenu.addAction(closeAction);
-		
+
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
-		
+
 		if (allowViewModeToChange)
 		{
 			QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
@@ -848,7 +853,7 @@ namespace Tinkercell
 	{
 		if (!window) return;
 		NetworkWindow * model = currentWindow();
-		
+
 		if (model)
 		{
 			if (model->scene)
@@ -870,7 +875,7 @@ namespace Tinkercell
 			return historyWindow.stack();
 		return 0;
 	}
-	
+
 	QUndoView * MainWindow::historyWidget()
 	{
 		return &historyWindow;
@@ -1258,7 +1263,7 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	
+
 	void MainWindow::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QList<ItemHandle*>& handles,const QString& family)
 	{
 		NetworkWindow * win = currentWindow();
@@ -1367,9 +1372,9 @@ namespace Tinkercell
 			if (s) s->release();
 			return;
 		}
-		
+
 		(*returnPtr) = 0;
-		
+
 		if (win->symbolsTable.handlesFullName.contains(name))
 			(*returnPtr) = win->symbolsTable.handlesFullName[name];
 		else
@@ -1406,7 +1411,7 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	
+
 	void MainWindow::findItems(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QStringList& names)
 	{
 		NetworkWindow * win = currentWindow();
@@ -1417,16 +1422,16 @@ namespace Tinkercell
 			if (s) s->release();
 			return;
 		}
-		
+
 		returnPtr->clear();
 		QString name;
 		ItemHandle * handle = 0;
-		
+
 		for (int i=0; i < names.size(); ++i)
-		{		
+		{
 			name = names[i];
 			handle = 0;
-			
+
 			if (win->symbolsTable.handlesFullName.contains(name))
 				handle = win->symbolsTable.handlesFullName[name];
 			else
@@ -1459,7 +1464,7 @@ namespace Tinkercell
 					}
 				}
 			}
-			
+
 			if (handle)
 				returnPtr->append(handle);
 		}
@@ -1991,7 +1996,7 @@ namespace Tinkercell
 	{
 		return fToS.find(c);
 	}
-	
+
 	Array MainWindow::_findItems(char** c)
 	{
 		return fToS.findItems(c);
@@ -2016,7 +2021,7 @@ namespace Tinkercell
 	{
 		return fToS.itemsOfFamily(f);
 	}
-	
+
 	Array MainWindow::_itemsOfFamily2(const char* f, Array a)
 	{
 		return fToS.itemsOfFamily(f,a);
@@ -2126,7 +2131,7 @@ namespace Tinkercell
 	{
 		return fToS.addInputWindowOptions(a,i,j,c);
 	}
-	
+
 	void  MainWindow::_addInputWindowCheckbox(const char* a,int i, int j)
 	{
 		return fToS.addInputWindowCheckbox(a,i,j);
@@ -2253,7 +2258,7 @@ namespace Tinkercell
 		delete s;
 		return p;
 	}
-	
+
 	Array MainWindow_FtoS::findItems(char** c)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -2315,7 +2320,7 @@ namespace Tinkercell
 		delete p;
 		return A;
 	}
-	
+
 	Array MainWindow_FtoS::itemsOfFamily(const char * f, Array a)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -2580,7 +2585,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-	
+
 	void MainWindow_FtoS::addInputWindowCheckbox(const char * a, int i, int j)
 	{
 		QSemaphore * s = new QSemaphore(1);
@@ -2883,7 +2888,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(find(QSemaphore*,ItemHandle**,const QString&)),this,SLOT(findItem(QSemaphore*,ItemHandle**,const QString&)));
 		connect(&fToS,SIGNAL(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)),
 				this,SLOT(findItems(QSemaphore*,QList<ItemHandle*>*,const QStringList&)));
-		
+
 		connect(&fToS,SIGNAL(select(QSemaphore*,ItemHandle*)),this,SLOT(select(QSemaphore*,ItemHandle*)));
 		connect(&fToS,SIGNAL(deselect(QSemaphore*)),this,SLOT(deselect(QSemaphore*)));
 		connect(&fToS,SIGNAL(allItems(QSemaphore*,QList<ItemHandle*>*)),this,SLOT(allItems(QSemaphore*,QList<ItemHandle*>*)));
@@ -3122,64 +3127,64 @@ namespace Tinkercell
 		qRegisterMetaType< Matrix >("Matrix");
 
 	}
-	
+
 	void MainWindow::addParser(TextParser * parser)
 	{
 		static QActionGroup * actionGroup = 0;
-		
+
 		if (!parser) return;
-		
-		if (!parsersMenu)	
+
+		if (!parsersMenu)
 		{
-			
+
 			parsersMenu = new QMenu(tr("&Parsers"));
 			menuBar()->insertMenu(helpMenu->menuAction(),parsersMenu);
 		}
-		
+
 		if (!actionGroup)
 		{
 			actionGroup = new QActionGroup(this);
 			actionGroup->setExclusive(true);
 		}
-		
+
 		QAction * action = parsersMenu->addAction(QIcon(parser->icon),parser->name);
 		connect(action,SIGNAL(triggered()),parser,SLOT(activate()));
 		action->setCheckable(true);
 		actionGroup->addAction(action);
 		action->setChecked(true);
-		
+
 		TextParser::setParser(parser);
 	}
-	
+
 	void MainWindow::gridOff()
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
-		
+
 		scene->disableGrid();
 	}
-	
+
 	void MainWindow::gridOn()
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
-		
+
 		if (GraphicsScene::GRID == 0)
 			GraphicsScene::GRID = 100;
-		
+
 		scene->enableGrid(GraphicsScene::GRID);
 	}
-		
+
 	void MainWindow::setGridSize()
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
-		
+
 		bool ok;
 		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
 											GraphicsScene::GRID,0,(int)(currentScene()->sceneRect().width()/10.0),1,&ok);
-		if (ok)		
-		{	
+		if (ok)
+		{
 			GraphicsScene::GRID = d;
 			scene->setGridSize(GraphicsScene::GRID);
 		}

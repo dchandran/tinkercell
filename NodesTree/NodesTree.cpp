@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  Tool for displaying the NodesTree and selecting the nodes on that tree.
  This tool also stores the tree of node families as a hashtable of <name,family> pairs.
 
@@ -182,8 +182,8 @@ namespace Tinkercell
           if (event)
                menu->exec(pos);
      }
-	 
-	 void NodesTree::itemActivated( QListWidgetItem * ) 
+
+	 void NodesTree::itemActivated( QListWidgetItem * )
 	 {
 		nodeFileAccepted();
 	 }
@@ -336,7 +336,7 @@ namespace Tinkercell
           }
           settings.endGroup();
      }
-	 
+
 	 QString NodesTree::iconFile(QString name)
 	 {
 		QString file = tr("NodeItems/");
@@ -354,12 +354,12 @@ namespace Tinkercell
 		file += tr(".xml");
 		return  file;
 	 }
-	 
-	QTreeWidget & NodesTree::widget() 
-	{ 
-		return treeWidget; 
+
+	QTreeWidget & NodesTree::widget()
+	{
+		return treeWidget;
 	}
-	
+
 	void NodesTree::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
 	{
 		emit addNewButtonSignal(buttons,group);

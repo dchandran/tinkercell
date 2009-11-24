@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-Class for drawing text on a GraphicsScene. The text can be associated with 
+Class for drawing text on a GraphicsScene. The text can be associated with
 a handle
 
 ****************************************************************************/
@@ -26,7 +26,7 @@ void TextGraphicsItem::setHandle(ItemHandle * handle)
 	{
 		handle->graphicsItems += this;
 	}
-	
+
 	if (itemHandle)
 	{
 		if (itemHandle != handle)
@@ -42,7 +42,7 @@ void TextGraphicsItem::setHandle(ItemHandle * handle)
 }
 
 /*! Constructor: sets text edit interaction */
-TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) : 
+TextGraphicsItem::TextGraphicsItem(const QString& text, QGraphicsItem* parent) :
 QGraphicsTextItem(text,parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 {
 	setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -55,7 +55,7 @@ QGraphicsTextItem(text,parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0
 	boundingRectItem->setVisible(false);
 }
 /*! Constructor: sets text edit interaction */
-TextGraphicsItem::TextGraphicsItem(QGraphicsItem* parent) : 
+TextGraphicsItem::TextGraphicsItem(QGraphicsItem* parent) :
 QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 {
 	setTextInteractionFlags(Qt::TextEditorInteraction);
@@ -68,7 +68,7 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 	boundingRectItem->setVisible(false);
 }
 /*! Constructor: sets text edit interaction and name of handle */
-TextGraphicsItem::TextGraphicsItem(ItemHandle * handle, QGraphicsItem* parent) : 
+TextGraphicsItem::TextGraphicsItem(ItemHandle * handle, QGraphicsItem* parent) :
 QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPointF()))
 {
 	if (handle) setPlainText(handle->name);
@@ -83,7 +83,7 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 	boundingRectItem->setVisible(false);
 }
 /*! Copy Constructor */
-TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : 
+TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) :
 QGraphicsTextItem(), relativePosition(copy.relativePosition)
 {
 	setPos(copy.scenePos());
@@ -114,13 +114,14 @@ TextGraphicsItem* TextGraphicsItem::clone()
 }
 TextGraphicsItem::~TextGraphicsItem()
 {
-	if (!itemHandle) return;
+    if (!itemHandle) return;
 
-	if (itemHandle->graphicsItems.isEmpty())
-		delete itemHandle;
-	else
-		itemHandle->graphicsItems.removeAll(this);
-	itemHandle = 0;
+    ItemHandle * h = itemHandle;
+
+    setHandle(0);
+
+    if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
+        delete h;
 }
 
 void TextGraphicsItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)

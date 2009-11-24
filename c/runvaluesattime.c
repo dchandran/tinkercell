@@ -8,8 +8,8 @@ the steady state table by changing this value.
 #include "cvodesim.h"
 #include "TC_api.h"
 
-char * selected_var;
-char ** allNames = 0;
+static char * selected_var;
+static char ** allNames = 0;
 void run(Matrix input);
 void setup();
 
@@ -25,10 +25,10 @@ void loadAllNames()
 	Matrix params;
 	char ** names;
 	Array A = tc_allItems();
-	
+
 	if (allNames)
 		TCFreeChars(allNames);
-		
+
 	allNames = 0;
 
 	if (A && A[0])
@@ -42,8 +42,8 @@ void loadAllNames()
 		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
 		allNames[(len+params.rows)] = 0;
 		params.rownames = 0;
-		TCFreeMatrix(params); 
-		TCFreeArray(A); 
+		TCFreeMatrix(params);
+		TCFreeArray(A);
 	}
 }
 
@@ -58,7 +58,7 @@ void tc_main()
 	allNames = 0;
 
 	selected_var = "";
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);
 	tc_callback(&callback);
 	tc_callWhenExiting(&unload);
@@ -71,8 +71,8 @@ void setup()
 	char * rows[] = { "model", "simulation", "variable", "start", "end", "increments", "time", 0};
 	double values[] = { 0.0, 0.0, 0.0, 0.0, 10, 0.5 , 100.0  };
 	char * options1[] = { "Full model", "Selected only", 0};
-	char * options2[] = { "ODE", "Stochastic", 0  }; //null terminated -- very very important 
-	
+	char * options2[] = { "ODE", "Stochastic", 0  }; //null terminated -- very very important
+
 	loadAllNames();
 
 	m.rows = 7;
@@ -87,11 +87,11 @@ void setup()
 	tc_addInputWindowOptions("At Time T",1, 0, options2);
 	tc_addInputWindowOptions("At Time T",2, 0, allNames);
 
-	return; 
+	return;
 }
 
-void run(Matrix input) 
-{ 
+void run(Matrix input)
+{
 	double start = 0.0, end = 50.0;
 	double dt = 0.1, time = 100.0;
 	int doStochastic = 0;
@@ -130,7 +130,7 @@ void run(Matrix input)
 	else
 	{
 		A = tc_allItems();
-	}   
+	}
 
 	sz = (int)((end - start) / dt);
 
@@ -141,7 +141,7 @@ void run(Matrix input)
 	else
 	{
 		TCFreeArray(A);
-		return;  
+		return;
 	}
 
 	TCFreeArray(A);

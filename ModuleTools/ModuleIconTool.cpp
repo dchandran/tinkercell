@@ -173,8 +173,7 @@ namespace Tinkercell
 	{
 		if (mode != inserting || !moduleHandle || !scene || scene->useDefaultBehavior || insertList.isEmpty()) return;
 
-		scene->insert(moduleHandle->name + tr(" inserted"),insertList);
-
+        NodeGraphicsItem * node;
 		ItemHandle * handle;
 		QPointF pos;
 
@@ -184,7 +183,16 @@ namespace Tinkercell
 		}
 		pos /= insertList.size();
 
-		scene->move(insertList,point - pos);
+		pos = point - pos;
+
+		for (int i=0; i < insertList.size(); ++i)
+		{
+		    insertList[i]->setPos( insertList[i]->pos() + pos );
+		    if (node = NodeGraphicsItem::cast(insertList[i]))
+                node->adjustBoundaryControlPoints();
+		}
+
+		scene->insert(moduleHandle->name + tr(" inserted"),insertList);
 
 		QList<ItemHandle*> handles;
 		QList<QGraphicsItem*> oldList = insertList;

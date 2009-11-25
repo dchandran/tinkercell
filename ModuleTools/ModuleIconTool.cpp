@@ -33,7 +33,7 @@ namespace Tinkercell
 		addToTabMenu = new QAction(tr("Add module to calatog"),this);
 		addToTabMenu->setIcon(QIcon(tr(":/images/plus.png")));
 		connect(addToTabMenu,SIGNAL(triggered()),this,SLOT(addNewButton()));
-        connect(&buttonGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(insertModuleFromFile(QAbstractButton*)));
+        connect(&buttonGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(enterInsertMode(QAbstractButton*)));
     }
 
 	bool ModuleIconTool::setMainWindow(MainWindow * main)
@@ -171,33 +171,9 @@ namespace Tinkercell
 
 	void ModuleIconTool::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode != inserting || !moduleHandle || !scene || scene->useDefaultBehavior || insertList.isEmpty()) return;
+		if (mode != inserting || !scene || scene->useDefaultBehavior) return;
 
-        NodeGraphicsItem * node;
-		ItemHandle * handle;
-		QPointF pos;
-
-		for (int i=0; i < insertList.size(); ++i)
-		{
-			pos += insertList[i]->scenePos();
-		}
-		pos /= insertList.size();
-
-		pos = point - pos;
-
-		for (int i=0; i < insertList.size(); ++i)
-		{
-		    insertList[i]->setPos( insertList[i]->pos() + pos );
-		    if (node = NodeGraphicsItem::cast(insertList[i]))
-                node->adjustBoundaryControlPoints();
-		}
-
-		scene->insert(moduleHandle->name + tr(" inserted"),insertList);
-
-		QList<ItemHandle*> handles;
-		QList<QGraphicsItem*> oldList = insertList;
-		insertList.clear();
-		insertList = cloneGraphicsItems(oldList,handles);
+		loadModule(scene,point);
 	}
 
 	void ModuleIconTool::escapeSignal(const QWidget * )
@@ -212,46 +188,78 @@ namespace Tinkercell
 			}
 			mode = none;
 
+			filename = tr("");
+
 			if (insertList.size() > 0)
-			{
-				for (int i=0; i < insertList.size(); ++i)
-				{
-					delete insertList[i];
-				}
-				insertList.clear();
-			}
+				qDeleteAll(insertList);
+
+            insertList.clear();
+            moduleHandle = 0;
 		}
 	}
 
-	void ModuleIconTool::insertModuleFromFile(QAbstractButton* button)
+    void ModuleIconTool::loadModule(GraphicsScene * scene, QPointF point)
+    {
+        if (!scene || !scene->symbolsTable) return;
+
+        if (insertList.isEmpty() && !filename.isEmpty() && !filename.isNull())
+        {
+            emit loadItems(insertList,filename);
+        }
+
+        NodeGraphicsItem * node;
+		ItemHandle * handle;
+		QPointF pos;
+
+        QStringList allNames = scene->symbolsTable->handlesFullName.keys();
+        QString moduleName = filename;
+
+		if (insertList.size() > 0)
+		{
+		    for (int i=0; i < insertList.size(); ++i)
+                if ((handle = getHandle(insertList[i])) && !handle->parent)
+                {
+                    pos = insertList[i]->pos();
+
+                    RenameCommand::assignUniqueName(handle->name,allNames);
+                    RemoveDisallowedCharactersFromName(handle->name);
+                    allNames << handle->name;
+
+                    if (handle->isA(tr("module")))
+                        moduleName = handle->name;
+                }
+		}
+
+		pos = point - pos;
+
+		for (int i=0; i < insertList.size(); ++i)
+		{
+		    insertList[i]->setPos( insertList[i]->pos() + pos );
+		    if (node = NodeGraphicsItem::cast(insertList[i]))
+                node->adjustBoundaryControlPoints();
+		}
+
+		scene->insert(moduleName + tr(" inserted"),insertList);
+
+		QList<ItemHandle*> handles;
+		QList<QGraphicsItem*> oldList = insertList;
+		insertList.clear();
+		insertList = cloneGraphicsItems(oldList,handles);
+
+    }
+
+	void ModuleIconTool::enterInsertMode(QAbstractButton* button)
 	{
 		if (!button) return;
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
-		QString filename = MainWindow::userHome() + tr("/modules/") + button->text().replace(tr("."),tr("_")) + tr(".xml");
-		QList<QGraphicsItem*> items;
+		mainWindow->sendEscapeSignal();
+		filename = MainWindow::userHome() + tr("/modules/") + button->text().replace(tr("."),tr("_")) + tr(".xml");
 
-		emit loadItems(items,filename);
-
-		if (items.size() > 0)
-		{
-			moduleHandle = getHandle(items[0]);
-			if (!moduleHandle) return;
-
-			moduleHandle = moduleHandle->root();
-			if (!moduleHandle || !moduleHandle->isA(tr("Module")))
-			{
-				moduleHandle = 0;
-				return;
-			}
-			mainWindow->sendEscapeSignal();
-
-			insertList = items;
-			scene->useDefaultBehavior = false;
-			mode = inserting;
-			mainWindow->setCursor(QCursor(button->icon().pixmap(64,64)));
-		}
+        scene->useDefaultBehavior = false;
+        mode = inserting;
+        mainWindow->setCursor(QCursor(button->icon().pixmap(64,64)));
 	}
 
 	void ModuleIconTool::readModuleFiles()

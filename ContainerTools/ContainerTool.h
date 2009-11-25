@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  A tool for displaying all the handles (as a tree) and their attributes. This tool
  also handles move events where an item is moved into a module or Compartment
 
@@ -44,7 +44,7 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-		
+
 		ContainerTreeDelegate(QTreeView * parent = 0);
 
 		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
@@ -65,15 +65,15 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-	
+
 		ContainerTreeTool();
 		~ContainerTreeTool();
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
-	
+
 	signals:
         void parentHandleChanged(NetworkWindow * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
-		
+
 	public slots:
                 void updateTree(int);
                 void windowChanged(NetworkWindow * , NetworkWindow * );
@@ -90,7 +90,6 @@ namespace Tinkercell
 		QTreeView * treeView;
 		void connectCollisionDetector();
 		void sendToBack(QGraphicsItem*, GraphicsScene *);
-		static void assignUniqueName(QString&,const QStringList&);
 		void adjustRates(GraphicsScene * scene, QList<ItemHandle*> childItems, QList<ItemHandle*> parents);
 		static bool connectionInsideRect(ConnectionGraphicsItem* connection, const QRectF& rect,bool all=true);
 		void moveChildItems(GraphicsScene * scene, const QList<QGraphicsItem*> & items0, const QList<QPointF> & dist);

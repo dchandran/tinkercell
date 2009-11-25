@@ -71,7 +71,7 @@ namespace Tinkercell
 		}
 		return false;
 	}
-	
+
 	void LoadSaveTool::prepareModelForSaving(NetworkWindow*, bool* b)
 	{
 		if (currentScene() && b)
@@ -123,7 +123,7 @@ namespace Tinkercell
 		modelWriter.writeStartElement(tr("ConnectionItem"));
 		modelWriter.writeAttribute(tr("className"),connection->className);
 
-		if (handle) 
+		if (handle)
 			modelWriter.writeAttribute(tr("handle"),handle->fullName(tr(".")));
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
@@ -171,18 +171,18 @@ namespace Tinkercell
 
 		modelWriter.writeEndElement();
 	}
-	
+
 	void LoadSaveTool::saveItems(const QList<QGraphicsItem*>& allitems, const QString& filename)
 	{
 		if (allitems.isEmpty() || filename.isEmpty()) return;
-		
+
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		TextGraphicsItem * text = 0;
 
 		QFile file (filename);
 
-		if (!file.open(QFile::WriteOnly | QFile::Text)) 
+		if (!file.open(QFile::WriteOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
 			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
@@ -204,13 +204,13 @@ namespace Tinkercell
 		ItemHandle * handle;
 		for (int i=0; i < allitems.size(); ++i)
 		{
-			if ((handle = getHandle(allitems[i])) 
+			if ((handle = getHandle(allitems[i]))
 				&& !handles.contains(handle))
 			{
 				handles << handle;
 			}
 		}
-	
+
 		modelWriter.writeModel(handles,&file);
 		modelWriter.writeEndElement();
 
@@ -256,7 +256,7 @@ namespace Tinkercell
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			if (connectionItems[i] && connectionItems[i]->centerRegionItem &&
-				connectionItems[i]->centerRegionItem->scene() && 
+				connectionItems[i]->centerRegionItem->scene() &&
 				!connectionItems[i]->centerRegionItem->connections().isEmpty())
 			{
 				firstSetofConnections += connectionItems[i];
@@ -300,7 +300,7 @@ namespace Tinkercell
 
 		QFile file (filename);
 
-		if (!file.open(QFile::WriteOnly | QFile::Text)) 
+		if (!file.open(QFile::WriteOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
 			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
@@ -317,7 +317,7 @@ namespace Tinkercell
 
 		modelWriter.writeStartElement("Model");
 
-		modelWriter.writeStartElement("Handles");		
+		modelWriter.writeStartElement("Handles");
 		modelWriter.writeModel(scene,&file);
 		modelWriter.writeEndElement();
 
@@ -363,7 +363,7 @@ namespace Tinkercell
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			if (connectionItems[i] && connectionItems[i]->centerRegionItem &&
-				connectionItems[i]->centerRegionItem->scene() && 
+				connectionItems[i]->centerRegionItem->scene() &&
 				!connectionItems[i]->centerRegionItem->connections().isEmpty())
 			{
 				firstSetofConnections += connectionItems[i];
@@ -413,7 +413,7 @@ namespace Tinkercell
 		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
 		ConsoleWindow::message(tr("model successfully saved in : ") + filename);
 	}
-	
+
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
@@ -422,15 +422,16 @@ namespace Tinkercell
 			mainWindow->newGraphicsWindow();
 		}
 		scene = currentScene();
-		
+
 		if (!scene) return;
-		
+
 		QList<QGraphicsItem*> items;
 		loadItems(items,filename);
-		
+
 		if (items.size() > 0)
-		{	
-			scene->insert("file loaded",items);
+		{
+		    for (int i=0; i < items.size(); ++i)
+                scene->addItem(items[i]);
 
 			ConnectionGraphicsItem * connection = 0;
 
@@ -446,8 +447,8 @@ namespace Tinkercell
 
 			scene->fitAll();
 
-			if (scene->historyStack)
-				scene->historyStack->clear();
+			//if (scene->historyStack)
+				//scene->historyStack->clear();
 
 			savedScenes[scene] = true;
 
@@ -462,7 +463,7 @@ namespace Tinkercell
 			emit modelLoaded(scene->networkWindow);
 		}
 	}
-	
+
 	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
@@ -488,10 +489,10 @@ namespace Tinkercell
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
 		}
-		
+
 		//find starting point for the handles
 		ModelReader modelReader;
-		modelReader.setDevice(&file1);		
+		modelReader.setDevice(&file1);
 
 		while (!modelReader.atEnd() && !(modelReader.isStartElement() && modelReader.name() == "Model"))
 		{
@@ -611,7 +612,7 @@ namespace Tinkercell
 			bool v;
 			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z,v);
 			if (connection)
-			{	
+			{
 				if (!s.isEmpty() && handlesHash.contains(s))
 					setHandle(connection,handlesHash[s]);  //very important
 				transforms << QTransform();
@@ -646,7 +647,7 @@ namespace Tinkercell
 			}
 			nodeReader.readNext();
 		}
-		
+
 		//read all texts
 		while (!nodeReader.atEnd() && !(nodeReader.isStartElement() && nodeReader.name() == "Texts"))
 		{
@@ -673,7 +674,7 @@ namespace Tinkercell
 		file2.close();
 
 		if (items.size() > 0)
-		{	
+		{
 			for (int i=0; i < items.size(); ++i)
 			{
 				items[i]->resetTransform();
@@ -683,13 +684,13 @@ namespace Tinkercell
 				items[i]->setZValue(zValues[i]);
 			}
 		}
-		
+
 	}
 
 	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
-		{	
+		{
 			bool ok;
 			TextGraphicsItem * text = new TextGraphicsItem;
 			qreal m11=0,m21=0,m12=0,m22=0;
@@ -755,7 +756,7 @@ namespace Tinkercell
 	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z, bool& visible)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "ConnectionItem")
-		{	
+		{
 			QFont font;
 			QXmlStreamAttributes attribs = nodeReader.attributes();
 			ConnectionGraphicsItem * connection = 0;
@@ -782,7 +783,7 @@ namespace Tinkercell
 							if (attribs[i].name().toString() == tr("visible"))
 							{
 								visible = (attribs[i].value().toString().toLower() == QString("yes"));
-							}				
+							}
 			}
 
 			while (!nodeReader.atEnd() && !(nodeReader.isEndElement() && nodeReader.name() == QObject::tr("ConnectionItem")))

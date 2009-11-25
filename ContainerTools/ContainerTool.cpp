@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  A tool for displaying all the handles (as a tree) and their attributes. This tool
  also handles move events where an item is moved into a module or Compartment
 
@@ -177,7 +177,7 @@ namespace Tinkercell
     void ContainerTreeTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
     {
         if (!scene || items.isEmpty()) return;
-		
+
         ItemHandle * handle = 0, *child = 0;
         ConnectionGraphicsItem * connection = 0;
 
@@ -358,7 +358,7 @@ namespace Tinkercell
                         newChildren += child;
                         newParents += handle;
                         temp = child->name;
-                        assignUniqueName(temp,namesInContainer);
+                        RenameCommand::assignUniqueName(temp,namesInContainer);
                         if (temp != child->name)
                         {
                             itemsToRename += items[i];
@@ -397,7 +397,7 @@ namespace Tinkercell
         //if items are placed into a Compartment or module...
         if (!handle || !(handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
             return;
-			
+
 		ConnectionGraphicsItem::ControlPoint * cpt = 0;
         QList<ItemHandle*> newChildren;
         ItemHandle * child = 0;
@@ -417,11 +417,11 @@ namespace Tinkercell
         NodeGraphicsItem * node = 0;
 
         QList<QGraphicsItem*> movingItems;
-		
+
 		for (int i=0; i < movingItems0.size(); ++i)
             if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movingItems0[i]))
 				movingItems << node;
-		
+
 		if (movingItems.isEmpty())
 		{
 			QList<QGraphicsItem*> insersectingItems = scene->items(nodeHit->sceneBoundingRect());
@@ -490,7 +490,7 @@ namespace Tinkercell
                 {
                     newChildren += child;
                     temp = child->name;
-                    assignUniqueName(temp,namesInContainer);
+                    RenameCommand::assignUniqueName(temp,namesInContainer);
                     if (temp != child->name)
                     {
                         itemsToRename += movingItems[i];
@@ -651,13 +651,13 @@ namespace Tinkercell
     void ContainerTreeTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist, Qt::KeyboardModifiers)
     {
         if (!mainWindow || !scene || !scene->symbolsTable) return;
-        	
+
         QList<ItemHandle*> children;
         QList<ItemHandle*> newParents;
 
         ItemHandle * child = 0, * parent = 0, * handle = 0;
         bool outOfBox;
-		
+
 		QList<ItemHandle*> movedChildNodes, movedCompartmentNodes;
 
         QList<QGraphicsItem*> itemsToRename;
@@ -686,16 +686,16 @@ namespace Tinkercell
             if (qgraphicsitem_cast<TextGraphicsItem*>(items[i])) continue;
 
             handle = getHandle(items[i]);
-			
+
 			if (!handle || !handle->family() || visitedHandles.contains(handle)) continue;
-			
+
 			visitedHandles << handle;
 
             if (node = qgraphicsitem_cast<NodeGraphicsItem*>(items[i]))
             {
                 items << node->connectionsAsGraphicsItems();
             }
-			
+
 			if (handle->parent && (handle->parent->isA(tr("Module")) || handle->parent->isA(tr("Compartment"))))
 				movedChildNodes << handle;
 			else
@@ -704,20 +704,20 @@ namespace Tinkercell
 					movedCompartmentNodes << handle;
 					movedChildNodes << handle->children;
 				}
-				
+
 		}
-		
+
 		for (int i=0; i < movedCompartmentNodes.size(); ++i)
 			for (int j=0; j < movedCompartmentNodes[i]->graphicsItems.size(); ++j)
 				if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movedCompartmentNodes[i]->graphicsItems[j]))
 					nodeCollided(QList<QGraphicsItem*>(),node,QList<QPointF>(),Qt::NoModifier);
-		
-		
+
+
 		for (int i=0; i < movedChildNodes.size(); ++i)
 		{
 			child = movedChildNodes[i];
 			if (child->graphicsItems.isEmpty()) continue;
-			
+
             outOfBox = true;
 			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
 			{
@@ -750,21 +750,6 @@ namespace Tinkercell
     QSize ContainerTreeTool::sizeHint() const
     {
         return QSize(100, 300);
-    }
-
-    void ContainerTreeTool::assignUniqueName(QString& name,const QStringList& notAvailable)
-    {
-        bool taken = true;
-        int c = 0;
-        while (taken)
-        {
-            taken = (notAvailable.contains(name));
-            if (taken)
-            {
-                name = name + QString::number(c);
-                ++c;
-            }
-        }
     }
 
     /********************************
@@ -822,12 +807,12 @@ namespace Tinkercell
 					textEditor->setText( handle->name );
 					return;
 				}
-				
+
 				if (index.column() == 2)
 				{
 					if (attributeName.isEmpty()) return;
 					QLineEdit * editor = static_cast<QLineEdit*>(widget);
-					
+
 					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
 					{
 						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
@@ -838,7 +823,7 @@ namespace Tinkercell
 								handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].value(attributeName,0)));
 						}
 					}
-					
+
 					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
 					{
 						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
@@ -848,7 +833,7 @@ namespace Tinkercell
 							editor->setText(handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].value(attributeName,0));
 						}
 					}
-					
+
 					return;
 				}
 
@@ -857,7 +842,7 @@ namespace Tinkercell
 					QComboBox * editor = static_cast<QComboBox*>(widget);
 
 					QStringList list;
-					
+
 					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
 					{
 						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
@@ -866,13 +851,13 @@ namespace Tinkercell
 							list << handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames();
 						}
 					}
-					
+
 					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
 					{
 						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
 							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1)
 						{
-							list << handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames();							
+							list << handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames();
 						}
 					}
 
@@ -881,7 +866,7 @@ namespace Tinkercell
 						list.removeAll("numin");  //these are annoying
 						list.removeAll("numout");
 					}
-					
+
 					editor->addItems(list);
 					editor->setCurrentIndex(list.indexOf(attributeName));
 					return;
@@ -921,7 +906,7 @@ namespace Tinkercell
 				}
                 model->setData(index, value, Qt::EditRole);
             }
-			
+
 			if (treeView)
 				treeView->scrollTo(index.sibling(index.row(),0));
         }
@@ -1054,7 +1039,7 @@ namespace Tinkercell
             scene->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
             ConsoleWindow::message(tr("Rates have been updated to include volume of Compartment(s)"));
         }
-		
+
 		for (int i=0; i < newTables.size(); ++i)
 			if (newTables[i])
 				delete newTables[i];

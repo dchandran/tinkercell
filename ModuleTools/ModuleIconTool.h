@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  This tool handles module connections that merge items from two modules
 
 ****************************************************************************/
@@ -50,7 +50,7 @@ namespace Tinkercell
 	public:
 		ModuleIconTool();
 		bool setMainWindow(MainWindow * main);
-	
+
 	signals:
 		void addNewButton(const QList<QToolButton*>& ,const QString& );
 		void loadItems(QList<QGraphicsItem*>&, const QString& );
@@ -63,24 +63,26 @@ namespace Tinkercell
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget * sender);
-		
+
 	protected:
-		
+
+		void loadModule(GraphicsScene *, QPointF);
 		void readModuleFiles();
 		void addNewButton(GraphicsScene * scene, ItemHandle * module, const QRectF&);
-		
+
 		enum Mode { none, inserting };
 		Mode mode;
-		
+
 		ItemHandle * moduleHandle;
 		NodeGraphicsItem * moduleItem;
 		QList<QGraphicsItem*> insertList;
-		
+
 		QButtonGroup buttonGroup;
 		QAction * addToTabMenu, *separator;
-		
-	protected slots:		
-		void insertModuleFromFile(QAbstractButton* button);
+		QString filename;
+
+	protected slots:
+		void enterInsertMode(QAbstractButton* button);
 		void addNewButton();
 	};
 

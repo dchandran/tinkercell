@@ -18,7 +18,6 @@ Each item in Tinkercell has an associated family.
 #include "Tool.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
-#include "ConsoleWindow.h"
 #include <QRegExp>
 
 namespace Tinkercell
@@ -109,20 +108,60 @@ namespace Tinkercell
 		item->setHandle(handle);
 	}
 
+    /**********************************
+	ITEM DATA
+	**********************************/
+	ItemData::ItemData()
+	{
+	    numericalData.clear();
+	    textData.clear();
+	}
+
+    ItemData::ItemData(const ItemData& copy)
+    {
+        QList<QString> keys = copy.numericalData.keys();
+        for (int i=0; i < keys.size(); ++i)
+            numericalData[ keys[i] ] = DataTable<qreal>(copy.numericalData[ keys[i] ]);
+
+        keys = copy.textData.keys();
+        for (int i=0; i < keys.size(); ++i)
+            textData[ keys[i] ] = DataTable<QString>(copy.textData[ keys[i] ]);
+    }
+
+    ItemData& ItemData::operator = (const ItemData& copy)
+    {
+        numericalData.clear();
+        textData.clear();
+
+        QList<QString> keys = copy.numericalData.keys();
+        for (int i=0; i < keys.size(); ++i)
+            numericalData[ keys[i] ] = DataTable<qreal>(copy.numericalData[ keys[i] ]);
+
+        keys = copy.textData.keys();
+        for (int i=0; i < keys.size(); ++i)
+            textData[ keys[i] ] = DataTable<QString>(copy.textData[ keys[i] ]);
+
+        return (*this);
+    }
+
 	/**********************************
 	ITEM HANDLE
 	**********************************/
 
 	ItemHandle::~ItemHandle()
 	{
-        ConsoleWindow::message(name + QString(" deleted"));
-		if (parent)
+        if (parent)
 			parent->children.removeAll(this);
 
 		parent = 0;
 		if (data)
 		{
-			delete data;
+		    QString s = QString::number((int)data);
+		    QList<QString> keys = data->numericalData.keys();
+		    for (int i=0; i < keys.size(); ++i)
+                s += QString(" ") + QString::number((int)(&(data->numericalData.value(keys[i]))));
+
+            delete data;
 			data = 0;
 		}
 
@@ -179,7 +218,8 @@ namespace Tinkercell
 			data = new ItemData(*(copy.data));
 		else
 			data = 0;
-		parent = copy.parent;
+		parent = 0;
+		setParent(copy.parent);
 	}
 
 	/*! \brief operator = */
@@ -199,7 +239,8 @@ namespace Tinkercell
 			data = new ItemData(*(copy.data));
 		else
 			data = 0;
-		parent = copy.parent;
+		parent = 0;
+		setParent(copy.parent);
 		return *this;
 	}
 

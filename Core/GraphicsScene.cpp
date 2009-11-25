@@ -11,7 +11,6 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
 
-#include "ConsoleWindow.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -218,6 +217,8 @@ namespace Tinkercell
                         if (!cloneHandle)
                         {
                             cloneHandle = handle->clone();
+                            cloneHandle->setParent(0);
+                            cloneHandle->children.clear();
                             cloneHandle->graphicsItems.clear();
                             allNewHandles << cloneHandle;
                             originalAndCloneHandles << QPair<ItemHandle*,ItemHandle*>(handle,cloneHandle);
@@ -262,8 +263,7 @@ namespace Tinkercell
 				}
 				if (!parentCopied)
 				{
-					QString oldName = originalAndCloneHandles[i].second->fullName();
-					originalAndCloneHandles[i].second->setParent(0);
+					QString oldName = originalAndCloneHandles[i].first->fullName();
 					QString newName = originalAndCloneHandles[i].second->fullName();
 					RenameCommand::findReplaceAllHandleData(allNewHandles,oldName,newName);
 				}
@@ -1741,11 +1741,11 @@ namespace Tinkercell
 				duplicateItems.removeAll(connection->centerRegionItem);
 			}
 
-			for (int i=0; i < duplicateItems.size(); ++i)
-				if (duplicateItems[i])
-					delete duplicateItems[i];
+        for (int i=0; i < duplicateItems.size(); ++i)
+            if (duplicateItems[i])
+                delete duplicateItems[i];
 
-			duplicateItems.clear();
+        duplicateItems.clear();
 	}
 
 	void GraphicsScene::copy()
@@ -1783,7 +1783,6 @@ namespace Tinkercell
 
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-
 		emit copyItems(this,duplicateItems,allNewHandles);
 
 		GraphicsScene::copiedFromScene = scene;
@@ -1860,9 +1859,10 @@ namespace Tinkercell
 			return;
 		}
 
+		QList<QGraphicsItem*> items = duplicateItems;
+
 		QString name;
 		QList<ItemHandle*> handles;
-		QList<QGraphicsItem*> items = duplicateItems;
 		QList<QGraphicsItem*> moveitems;
 		ConnectionGraphicsItem * connection = 0;
 
@@ -1884,6 +1884,10 @@ namespace Tinkercell
 				}
 			}
 		}
+
+		QList<ItemHandle*> allNewHandles;
+		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+		emit copyItems(this,duplicateItems,allNewHandles);
 
 		QList<QUndoCommand*> commands;
 
@@ -1926,12 +1930,9 @@ namespace Tinkercell
 			}
 		}
 
-		QList<QGraphicsItem*> items2 = items;
-		QList<ItemHandle*> handles2 = handles;
+		emit itemsAboutToBeInserted(scene,items,handles);
 
-		emit itemsAboutToBeInserted(scene,items2,handles2);
-
-		commands << new InsertGraphicsCommand(tr("paste items"),scene,items2);
+		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -1973,21 +1974,15 @@ namespace Tinkercell
 		scene->clearSelection();
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
-		items2 = items;
-		GraphicsScene::duplicateItems.clear();
 
 		if (scene->historyStack)
 			scene->historyStack->push(compositeCommand);
 		else
 			compositeCommand->redo();
 
-        emit itemsInserted(scene,items2,handles);
+        emit itemsInserted(scene,items,handles);
 
-		QList<ItemHandle*> allNewHandles;
-		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-		//emit copyItems(this,duplicateItems,allNewHandles);
-
-		scene->select(items2);
+		scene->select(items);
 	}
 
 	void GraphicsScene::find(const QString& text)

@@ -521,8 +521,6 @@ namespace Tinkercell
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
 			QGridLayout * tempLayout = new QGridLayout;
-			tempLayout->setContentsMargins(5,5,5,5);
-			tempLayout->setSpacing(20);
 
 			QList<QToolButton*> buttons = tabGroupButtons[i].second;
 			for (int j=0; j < buttons.size(); ++j)
@@ -531,10 +529,10 @@ namespace Tinkercell
 				buttons[j]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			}
 
-			tempLayout->setContentsMargins(5,5,5,5);
-			tempLayout->setSpacing(20);
-
 			QWidget * widget = new QWidget;
+
+            tempLayout->setContentsMargins(5,5,5,5);
+			tempLayout->setSpacing(20);
 
 			widget->setLayout(tempLayout);
 			widget->setPalette(QPalette(QColor(255,255,255)));

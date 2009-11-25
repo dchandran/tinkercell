@@ -429,8 +429,9 @@ namespace Tinkercell
 		{
 			if (handles[i] && handles[i]->graphicsItems.isEmpty())
 			{
+			    QList<ItemHandle*> children = handles[i]->allChildren();
 				for (int j=(i+1); j < handles.size(); ++j)
-					if (handles[i] == handles[j])
+					if (handles[i] == handles[j] || children.contains(handles[j]))
 						handles[j] = 0;
 				delete handles[i];
 			}
@@ -1900,7 +1901,9 @@ namespace Tinkercell
 				oldTextItemsNames[i].first->setPlainText(oldTextItemsNames[i].second);
 
 		if (changeDataCommand)
-			changeDataCommand->redo();
+		{
+		    changeDataCommand->redo();
+		}
 
 	}
 

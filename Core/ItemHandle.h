@@ -64,6 +64,12 @@ namespace Tinkercell
 		QHash<QString,DataTable<qreal> > numericalData;
 		/*! \brief hash table that stores the text data for each tool*/
 		QHash<QString,DataTable<QString> > textData;
+		/*! \brief default constructor*/
+		ItemData();
+		/*! \brief copy constructor*/
+		ItemData(const ItemData&);
+		/*! \brief operator =*/
+		virtual ItemData& operator = (const ItemData&);
 	};
 
 	/*! \brief

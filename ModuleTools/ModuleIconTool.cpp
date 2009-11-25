@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  This tool handles module connections that merge items from two modules
 
 ****************************************************************************/
@@ -35,34 +35,32 @@ namespace Tinkercell
 		connect(addToTabMenu,SIGNAL(triggered()),this,SLOT(addNewButton()));
         connect(&buttonGroup,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(insertModuleFromFile(QAbstractButton*)));
     }
-	
+
 	bool ModuleIconTool::setMainWindow(MainWindow * main)
     {
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
-        {            
+        {
             connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
                     this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget *)),
 					this,SLOT(escapeSignal(const QWidget *)));
-			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-					this,SLOT(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)),
 					this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)));
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));	
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			toolLoaded(0);
         }
         return true;
     }
-	
+
 	void ModuleIconTool::toolLoaded(Tool*)
 	{
 		static bool tool1 = false, tool2 = false;
-		
+
 		if (tool1 && tool2) return;
-		
+
 		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
 		if (tool && !tool1)
 		{
@@ -71,7 +69,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),nodesTree,SLOT(addNewButton(const QList<QToolButton*>& ,const QString& )));
 			readModuleFiles();
 		}
-		
+
 		tool = mainWindow->tool(tr("Save and Load"));
 		if (tool && !tool2)
 		{
@@ -81,20 +79,20 @@ namespace Tinkercell
 			connect(this,SIGNAL(saveItems(const QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(saveItems(const QList<QGraphicsItem*>&, const QString&)));
 		}
 	}
-	
+
 	void ModuleIconTool::addNewButton(GraphicsScene * scene, ItemHandle * handle, const QRectF& rect0)
 	{
 		if (!handle || !scene || !handle->isA(tr("Module"))) return;
-		
+
 		QRectF rect = rect0;
 		rect.adjust(-20,-20,20,20);
-		
+
 		QList<QGraphicsItem*> allitems = handle->allGraphicsItems(), items;
-		
+
 		for (int i=0; i < allitems.size(); ++i)
 			if (allitems[i] && rect.intersects(allitems[i]->sceneBoundingRect()))
 				items << allitems[i];
-		
+
 		QDir homeDir(MainWindow::userHome());
 		if (!homeDir.cd(tr("modules")))
 		{
@@ -113,9 +111,9 @@ namespace Tinkercell
 		*/
 		QPixmap pixmap(tr(":/images/module.png"));
 		pixmap.save(iconfile,"png");
-		
+
 		emit saveItems(items, filename);
-		
+
 		QToolButton * button = new QToolButton(this);
 		button->setIcon(QIcon(pixmap));
 		button->setText(handle->fullName());
@@ -123,7 +121,7 @@ namespace Tinkercell
 		buttonGroup.addButton(button);
 		emit addNewButton(QList<QToolButton*>() << button,tr("Modules"));
 	}
-		
+
 	void  ModuleIconTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
 		if (!scene || !item) return;
@@ -134,25 +132,25 @@ namespace Tinkercell
 			addNewButton(scene,handle,moduleItem->sceneBoundingRect());
 		}
     }
-	
+
 	void ModuleIconTool::addNewButton()
 	{
 		if (moduleItem && moduleHandle)
 			addNewButton(currentScene(),moduleHandle,moduleItem->sceneBoundingRect());
 	}
-	
+
 	void ModuleIconTool::itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers)
 	{
 		if (mainWindow)
 		{
 			NodeGraphicsItem * node;
 			ItemHandle * handle;
-			
-			if (items.size() != 1 || 
+
+			if (items.size() != 1 ||
 				!(node = NodeGraphicsItem::cast(items[0])) ||
 				!(handle = node->handle()) ||
 				!handle->isA(tr("Module")))
-			{	
+			{
 				if (separator)
 					mainWindow->contextItemsMenu.removeAction(addToTabMenu);
 				mainWindow->contextItemsMenu.removeAction(addToTabMenu);
@@ -166,35 +164,34 @@ namespace Tinkercell
 			mainWindow->contextItemsMenu.addAction(addToTabMenu);
 			moduleHandle = handle;
 			moduleItem = node;
-			
+
 			return;
 		}
 	}
-	
+
 	void ModuleIconTool::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 	{
 		if (mode != inserting || !moduleHandle || !scene || scene->useDefaultBehavior || insertList.isEmpty()) return;
-		
+
 		scene->insert(moduleHandle->name + tr(" inserted"),insertList);
-		
+
 		ItemHandle * handle;
 		QPointF pos;
-		
+
 		for (int i=0; i < insertList.size(); ++i)
 		{
 			pos += insertList[i]->scenePos();
 		}
 		pos /= insertList.size();
-		//scene->move(insertList, point - pos);
-		
+
+		scene->move(insertList,point - pos);
+
 		QList<ItemHandle*> handles;
-		insertList = cloneGraphicsItems(insertList,handles);
-		
-		//moduleHandle = 0;
-		//insertList.clear();
-		//escapeSignal(0);
+		QList<QGraphicsItem*> oldList = insertList;
+		insertList.clear();
+		insertList = cloneGraphicsItems(oldList,handles);
 	}
-	
+
 	void ModuleIconTool::escapeSignal(const QWidget * )
 	{
 		if (inserting)
@@ -206,7 +203,7 @@ namespace Tinkercell
 				mainWindow->setCursor(Qt::ArrowCursor);
 			}
 			mode = none;
-			
+
 			if (insertList.size() > 0)
 			{
 				for (int i=0; i < insertList.size(); ++i)
@@ -223,17 +220,17 @@ namespace Tinkercell
 		if (!button) return;
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
-		
+
 		QString filename = MainWindow::userHome() + tr("/modules/") + button->text().replace(tr("."),tr("_")) + tr(".xml");
 		QList<QGraphicsItem*> items;
-		
+
 		emit loadItems(items,filename);
-		
+
 		if (items.size() > 0)
 		{
 			moduleHandle = getHandle(items[0]);
 			if (!moduleHandle) return;
-			
+
 			moduleHandle = moduleHandle->root();
 			if (!moduleHandle || !moduleHandle->isA(tr("Module")))
 			{
@@ -241,14 +238,14 @@ namespace Tinkercell
 				return;
 			}
 			mainWindow->sendEscapeSignal();
-			
+
 			insertList = items;
 			scene->useDefaultBehavior = false;
 			mode = inserting;
 			mainWindow->setCursor(QCursor(button->icon().pixmap(64,64)));
 		}
 	}
-	
+
 	void ModuleIconTool::readModuleFiles()
 	{
 		QDir homeDir(MainWindow::userHome());
@@ -257,17 +254,17 @@ namespace Tinkercell
 			homeDir.mkdir(tr("modules"));
 			homeDir.cd(tr("modules"));
 		}
-		
+
 		QList<QToolButton*> buttons;
-		
+
 		QStringList files = homeDir.entryList(QStringList() << tr("*.xml"));
-		
+
 		for (int i=0; i < files.size(); ++i)
 		{
 			files[i].remove(tr(".xml"));
 			QString filename = MainWindow::userHome() + tr("/modules/") + files[i] + tr(".xml"),
 					iconfile = MainWindow::userHome() + tr("/modules/") + files[i] + tr(".png");
-		
+
 			QPixmap pixmap(iconfile);
 			QToolButton * button = new QToolButton(this);
 			button->setIcon(QIcon(pixmap));
@@ -276,7 +273,7 @@ namespace Tinkercell
 			buttonGroup.addButton(button);
 			buttons << button;
 		}
-		
+
 		emit addNewButton(buttons,tr("Modules"));
 	}
 }

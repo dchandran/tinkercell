@@ -217,13 +217,25 @@ namespace Tinkercell
 		if (insertList.size() > 0)
 		{
 		    for (int i=0; i < insertList.size(); ++i)
-                if ((handle = getHandle(insertList[i])) && !handle->parent)
+                if (NodeGraphicsItem::cast(insertList[i]) &&
+                    (handle = getHandle(insertList[i])) &&
+                    !handle->parent)
                 {
                     pos = insertList[i]->pos();
 
-                    RenameCommand::assignUniqueName(handle->name,allNames);
-                    RemoveDisallowedCharactersFromName(handle->name);
-                    allNames << handle->name;
+                    if (allNames.contains(handle->name))
+                    {
+                        QString oldName = handle->name;
+                        handle->name = RenameCommand::assignUniqueName(handle->name,allNames);
+                        handle->name = RemoveDisallowedCharactersFromName(handle->name);
+                        allNames << handle->name;
+
+                        TextGraphicsItem * textItem;
+                        for (int j=0; j < handle->graphicsItems.size(); ++j)
+                            if ((textItem = TextGraphicsItem::cast(handle->graphicsItems[j]))
+                                && textItem->text() == oldName)
+                                textItem->setText(handle->name);
+                    }
 
                     if (handle->isA(tr("module")))
                         moduleName = handle->name;

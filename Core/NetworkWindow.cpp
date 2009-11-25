@@ -4,9 +4,9 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the 
-GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics. 
-This class provides functions for editing handles, such as changing names, data, etc. 
+An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the
+GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
+This class provides functions for editing handles, such as changing names, data, etc.
 
 ****************************************************************************/
 
@@ -58,7 +58,7 @@ namespace Tinkercell
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 
 		scene->symbolsTable = &symbolsTable;
-		scene->historyStack = &history;	
+		scene->historyStack = &history;
 		scene->contextItemsMenu = &(main->contextItemsMenu);
 		scene->contextScreenMenu = &(main->contextScreenMenu);
 
@@ -119,17 +119,17 @@ namespace Tinkercell
 				main ,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
-				main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));		
+				main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 
 			connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
 				main ,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
 			connect(scene,SIGNAL(escapeSignal(const QWidget*)),
-				main ,SIGNAL(escapeSignal(const QWidget*)));		
+				main ,SIGNAL(escapeSignal(const QWidget*)));
 
 			connect(scene,SIGNAL(filesDropped(const QList<QFileInfo>&)),
 				main,SLOT(dragAndDropFiles(const QList<QFileInfo>&)));
-				
+
 			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
 				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 
@@ -144,15 +144,15 @@ namespace Tinkercell
 		if (!editor) editor = new TextEditor;
 		this->textEditor = editor;
 		editor->networkWindow = this;
-		
+
 		if (TextEditor::SideBarEnabled)
 			setWidget(editor->widget());
 		else
 			setWidget(editor);
 		setAttribute(Qt::WA_DeleteOnClose);
-		
+
 		editor->symbolsTable = &symbolsTable;
-		editor->historyStack = &history;	
+		editor->historyStack = &history;
 		editor->contextEditorMenu = &(main->contextEditorMenu);
 		editor->contextSelectionMenu = &(main->contextSelectionMenu);
 
@@ -185,7 +185,7 @@ namespace Tinkercell
 			setWindowTitle(tr("network ") + QString::number(1 + main->allWindows().size()));
 		}
 	}
-	
+
 	ItemHandle* NetworkWindow::modelItem()
 	{
 		return &(symbolsTable.modelItem);
@@ -208,19 +208,19 @@ namespace Tinkercell
 			for (int i=0; i < selected.size(); ++i)
 			{
 				handle = getHandle(selected[i]);
-				if (handle && !hash.contains(handle))
+				if (handle && !handles.contains(handle))
 				{
-					QList<ItemHandle*> children = handle->visibleChildren();
-					
+					//QList<ItemHandle*> children = handle->visibleChildren();
+
 					handles << handle;
-					hash.insert(handle,1);
-					
+					/*hash.insert(handle,1);
+
 					if (!children.isEmpty())
 					{
-						handles << children;						
+						handles << children;
 						for (int j=0; j < children.size(); ++j)
 							hash.insert(children[j],1);
-					}
+					}*/
 				}
 			}
 		}
@@ -235,30 +235,30 @@ namespace Tinkercell
 	void NetworkWindow::rename(const QString& oldname, const QString& s)
 	{
 		if (oldname == s) return;
-		
+
 		QList<ItemHandle*> items;
 		QList<QString> oldNames, newNames;
 		oldNames += oldname;
-		
+
 		QString newname = Tinkercell::RemoveDisallowedCharactersFromName(s);
-		
+
 		if (symbolsTable.handlesFullName.contains(newname))
 		{
 			QStringList existingNames = symbolsTable.handlesFullName.keys();
-			
+
 			QString n = newname;
-		
+
 			if (newname[ newname.size()-1 ].isNumber())
 				n = newname.left(newname.size()-1);
-				
+
 			int i = 0;
-		
+
 			while (symbolsTable.handlesFullName.contains(n))
 				n = newname.left(newname.size()-1) + QString::number(i);
 
 			newname = n;
 		}
-		
+
 		newNames += newname;
 
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this->allHandles(),oldname,newname);
@@ -276,7 +276,7 @@ namespace Tinkercell
 		QList<ItemHandle*> items;
 		items += handle;
 		QList<QString> oldNames, newNames;
-		
+
 		QString newname = s;
 		oldNames += handle->fullName();
 
@@ -284,9 +284,9 @@ namespace Tinkercell
 			newname = handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 		else
 			newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
-			
+
 		newNames += newname;
-		
+
 		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
 
 		history.push(command);
@@ -313,7 +313,7 @@ namespace Tinkercell
 					newname = handle->parent->fullName() + tr(".") + Tinkercell::RemoveDisallowedCharactersFromName(newname);
 				else
 					newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
-				
+
 				newNames += newname;
 			}
 
@@ -368,7 +368,7 @@ namespace Tinkercell
 		setParentHandle(children,parents);
 	}
 
-	/*! \brief change numerical data table*/	
+	/*! \brief change numerical data table*/
 	void NetworkWindow::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
 	{
 		if (handle && handle->data && handle->data->numericalData.contains(hashstring))
@@ -426,9 +426,9 @@ namespace Tinkercell
 
 		history.push(command);
 
-		emit dataChanged(handles);		
+		emit dataChanged(handles);
 	}
-	/*! \brief change text data table*/	
+	/*! \brief change text data table*/
 	void NetworkWindow::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
 	{
 		if (handle && handle->data && handle->data->textData.contains(hashstring))
@@ -501,7 +501,7 @@ namespace Tinkercell
 			emit dataChanged(handles);
 		}
 	}
-	/*! \brief change a list of two types of data tables*/	
+	/*! \brief change a list of two types of data tables*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;
@@ -536,7 +536,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a list of two types of data tables*/	
+	/*! \brief change a list of two types of data tables*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
 	{
 		QList<DataTable<QString>*> oldTablesS, newTablesS;
@@ -572,7 +572,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
 	{
 		if ((olddata1.isEmpty() || newdata1.isEmpty()) &&
@@ -585,7 +585,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+	/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
 	{
 		if ((!olddata1 || !newdata1) &&
@@ -598,7 +598,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
+	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
@@ -610,7 +610,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
+	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 	void NetworkWindow::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
@@ -732,7 +732,7 @@ namespace Tinkercell
 		}
 		return true;
 	}
-	
+
 	void NetworkWindow::resizeEvent ( QResizeEvent * event)
 	{
 		if (mdiArea() && windowState() == (Qt::WindowMaximized | Qt::WindowActive) || windowState() == Qt::WindowFullScreen)

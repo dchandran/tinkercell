@@ -358,7 +358,7 @@ namespace Tinkercell
                         newChildren += child;
                         newParents += handle;
                         temp = child->name;
-                        RenameCommand::assignUniqueName(temp,namesInContainer);
+                        temp = RenameCommand::assignUniqueName(temp,namesInContainer);
                         if (temp != child->name)
                         {
                             itemsToRename += items[i];
@@ -490,7 +490,7 @@ namespace Tinkercell
                 {
                     newChildren += child;
                     temp = child->name;
-                    RenameCommand::assignUniqueName(temp,namesInContainer);
+                    temp = RenameCommand::assignUniqueName(temp,namesInContainer);
                     if (temp != child->name)
                     {
                         itemsToRename += movingItems[i];

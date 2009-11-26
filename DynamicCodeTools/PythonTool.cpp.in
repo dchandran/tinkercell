@@ -21,7 +21,6 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "ConsoleWindow.h"
 #include "PythonTool.h"
 #include <QtDebug>
 
@@ -151,13 +150,13 @@ namespace Tinkercell
 			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
 			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 			
-			ConsoleWindow * outWin = ConsoleWindow::consoleWindow();
+			ConsoleWindow * outWin = console();
 			if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
 				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopPython()));					
-				connect(this,SIGNAL(pythonStarted()),outWin->consoleWindowEditor(),SLOT(freeze()));
-				connect(this,SIGNAL(pythonFinished()),outWin->consoleWindowEditor(),SLOT(unfreeze()));
+				connect(this,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
+				connect(this,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
 			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
@@ -405,7 +404,8 @@ namespace Tinkercell
             }
             if (!opened)
             {
-                ConsoleWindow::error( filename + tr("file not found"));
+                if (console())
+					console()->error( filename + tr("file not found"));
             }
             else
             {

@@ -1213,6 +1213,19 @@ namespace Tinkercell
 
 	}
 
+	QList<Tinkercell::ControlPoint*> NodeGraphicsItem::allControlPoints() const
+	{
+	    QList<Tinkercell::ControlPoint*> list;
+
+        for (int i=0; i < controlPoints.size(); ++i)
+            list << controlPoints[i];
+
+        for (int i=0; i < controlPoints.size(); ++i)
+            list << boundaryControlPoints[i];
+
+	    return list;
+    }
+
 	NodeGraphicsItem* NodeGraphicsItem::cast(QGraphicsItem * q)
 	{
 		return qgraphicsitem_cast<NodeGraphicsItem*>(q);

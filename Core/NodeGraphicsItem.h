@@ -6,7 +6,7 @@ See COPYRIGHT.TXT
 
 One of the main classes in Tinkercell.
 
-The NodeGraphicsItem is a group made up of Shapes. Each Shape is a polygon item. 
+The NodeGraphicsItem is a group made up of Shapes. Each Shape is a polygon item.
 Each shape has a default color. The purpose of the default color is to allow plugins
 to change color temporarily and then revert back to the default.
 
@@ -45,11 +45,11 @@ namespace Tinkercell
 {
 	class GraphicsScene;
 	class ItemHandle;
-	class ConnectionGraphicsItem;	
+	class ConnectionGraphicsItem;
 	class NodeGraphicsItem;
 	MY_EXPORT void setHandle(QGraphicsItem*,ItemHandle*);
 
-	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file 
+	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file
 	\ingroup core*/
 	class MY_EXPORT NodeGraphicsItem : public QGraphicsItemGroup
 	{
@@ -127,7 +127,7 @@ namespace Tinkercell
 			~ControlPoint();
 		};
 
-		/*! \brief A closed polygon path made from arcs, lines, and beziers 
+		/*! \brief A closed polygon path made from arcs, lines, and beziers
 		\ingroup core*/
 		class MY_EXPORT Shape : public QGraphicsPolygonItem
 		{
@@ -147,7 +147,7 @@ namespace Tinkercell
 			/*! the NodeGraphicsItem that this shape belongs in */
 			NodeGraphicsItem *nodeItem;
 			/*! is this a negative (clip out) shape */
-			bool negative;		
+			bool negative;
 			/*! \brief Generates a new polygon using the points and types vectors
 			* Precondition: points.size > 1
 			* Postcondition: NA
@@ -185,7 +185,7 @@ namespace Tinkercell
 			QRectF boundingRectangle;
 			/*! \brief reconstruct bounding rect*/
 			virtual void recomputeBoundingRect();
-		};	
+		};
 		/*! \brief add a new control point*/
 		virtual void addControlPoint(ControlPoint * control);
 		/*! \brief add a shape to the set of shapes*/
@@ -204,14 +204,14 @@ namespace Tinkercell
 		virtual void resetBrush();
 		/*! \brief change outline color of all shapes to default pen*/
 		virtual void resetPen();
-		
+
 		/*! \brief gets a polygon that represents this graphicsItem*/
 		virtual QPolygonF polygon() const;
 		/*! \brief gets a path that represents this graphicsItem*/
 		virtual QPainterPath shape() const;
-		/*! set of shapes that comprise this figure */
+		/*! \brief shapes that comprise this figure */
 		QVector<Shape*> shapes;
-		/*! set of control points that control the shapes in this figure */
+		/*! \brief control points that control the shapes in this figure */
 		QVector<ControlPoint*> controlPoints;
 		/*! \brief Updates the graphicsItem by re-initializing the vector of shapes
 		* Precondition: shapes.size > 1
@@ -229,23 +229,25 @@ namespace Tinkercell
 		virtual void clear();
 		/*! \brief bounding rect*/
 		virtual QRectF boundingRect() const;
-		/*! Destructor: deletes all shapes and control points */
+		/*! \brief Destructor: deletes all shapes and control points */
 		virtual ~NodeGraphicsItem();
-		/*! set of control points that control the bounding box of this figure */
+		/*! \brief set of control points that control the bounding box of this figure */
 		QVector<ControlPoint*> boundaryControlPoints;
-		/*! reset of control points that control the bounding box of this figure */
+		/*! \brief all the control points that are used in this figure */
+		virtual QList<Tinkercell::ControlPoint*> allControlPoints() const;
+		/*! \brief reset of control points that control the bounding box of this figure */
 		virtual void adjustBoundaryControlPoints();
-		/*! set boundary to match control points that control the bounding box of this figure */
+		/*! \brief set boundary to match control points that control the bounding box of this figure */
 		virtual void adjustToBoundaryControlPoints();
-		/*! set the top left and bottom right corners of this node item*/
+		/*! \brief set the top left and bottom right corners of this node item*/
 		virtual void setBoundingRect(const QPointF&, const QPointF&);
-		/*! the bounding box of this figure */
+		/*! \brief the bounding box of this figure */
 		QGraphicsRectItem * boundingBoxItem;
-		/*! show or hide the bounding box of this figure */
+		/*! \brief show or hide the bounding box of this figure */
 		virtual void setBoundingBoxVisible(bool visible = true, bool controlPoints = true);
-		/*! show the bounding box of this figure. same as setBoundingBoxVisible(true) */
+		/*! \brief show the bounding box of this figure. same as setBoundingBoxVisible(true) */
 		void showBoundingBox(bool controlPoints = true);
-		/*! hide the bounding box of this figure. same as setBoundingBoxVisible(false) */
+		/*! \brief hide the bounding box of this figure. same as setBoundingBoxVisible(false) */
 		void hideBoundingBox(bool controlPoints = true);
 		/*! \brief for enabling dynamic_cast*/
 		enum { Type = UserType + 4 };

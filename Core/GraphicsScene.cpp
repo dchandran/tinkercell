@@ -371,9 +371,9 @@ namespace Tinkercell
 			destroyItemGroup(movingItemsGroup);
 		select(0);
 		removeItem(&selectionRect);
-		//QGraphicsScene::clear();
 		QList<QGraphicsItem *> allitems1 = items();
 		QList<QGraphicsItem *> allitems2;
+
 		for (int i=0; i < allitems1.size(); ++i)
 		{
 			if (allitems1[i] && ConnectionGraphicsItem::cast(allitems1[i]) && !allitems1[i]->parentItem())
@@ -381,7 +381,10 @@ namespace Tinkercell
 				allitems2 << allitems1[i];
 			}
 		}
+
 		qDeleteAll(allitems2);
+		allitems1 = items();
+		allitems2.clear();
 
 		for (int i=0; i < allitems1.size(); ++i)
 		{
@@ -390,7 +393,10 @@ namespace Tinkercell
 				allitems2 << allitems1[i];
 			}
 		}
+
 		qDeleteAll(allitems2);
+		allitems1 = items();
+		allitems2.clear();
 
 		for (int i=0; i < allitems1.size(); ++i)
 		{
@@ -399,10 +405,11 @@ namespace Tinkercell
 				allitems2 << allitems1[i];
 			}
 		}
-		qDeleteAll(allitems2);
 
+		qDeleteAll(allitems2);
 		allitems1 = items();
 		allitems2.clear();
+
 		for (int i=0; i < allitems1.size(); ++i)
 		{
 			if (allitems1[i] && !allitems1[i]->parentItem() && !Tool::GraphicsItem::cast(allitems1[i]))

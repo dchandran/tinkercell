@@ -55,6 +55,18 @@ namespace Tinkercell
 
     private slots:
 
+        /*! \brief run the current gnuplot script */
+        void runScript();
+
+        /*! \brief save plot */
+        void savePlot();
+
+        /*! \brief copy data */
+        void copyData();
+
+        /*! \brief copy data */
+        void writeData();
+
         /*! \brief for C API */
         void setupFunctionPointers( QLibrary * );
 

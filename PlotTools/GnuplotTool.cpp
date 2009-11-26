@@ -7,11 +7,14 @@
  See GnuplotTool.h
 ****************************************************************************/
 
+#include <QIODevice>
+#include <QFile>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QToolButton>
 #include <QProcess>
+#include <QDir>
 #include "ConsoleWindow.h"
 #include "GnuplotTool.h"
 
@@ -21,16 +24,34 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplot(const QString& script)
     {
+        QDir dir(MainWindow::userHome());
+        if (!dir.cd(tr("gnuplot")))
+        {
+            dir.mkdir(tr("gnuplot"));
+            dir.cd(tr("gnuplot"));
+        }
+
+        QString filename = dir.absoluteFilePath(tr("script.txt"));
+        QFile file(filename);
+        file.open(QIODevice::WriteOnly);
+        file.write(script.toAscii());
+        file.close();
     #ifdef Q_WS_WIN
-        QProcess::execute(QCoreApplication::applicationDirPath() +
-                        tr("/win32/pgnuplot.exe"));
+
+        filename = tr("\"") + filename.replace(tr("/"),tr("\\")) + tr("\\");
+        QProcess::execute( tr("\"") +
+                           QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
+                           tr("\"") +
+                           tr("\\win32\\gnuplot\\pgnuplot.exe < ") + filename);
     #else
 
+        QProcess::execute("gnuplot.exe < ") + filename);
     #endif
     }
 
     void GnuplotTool::gnuplotMatrix(Matrix m, int x, const char* title, int all)
     {
+
     }
 
     void GnuplotTool::gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all)
@@ -63,21 +84,33 @@ namespace Tinkercell
     GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("gnuplot"),parent)
     {
         editor = new CodeEditor;
-        QHBoxLayout * layout = new QHBoxLayout;
-        QVBoxLayout * buttonsLayout = new QVBoxLayout;
+        QVBoxLayout * layout = new QVBoxLayout;
+        QHBoxLayout * buttonsLayout = new QHBoxLayout;
 
         QToolButton * button1 = new QToolButton;
         button1->setIcon(QIcon(tr(":/images/save.png")));
+        connect(button1,SIGNAL(pressed()),this,SLOT(savePlot()));
+        button1->setToolTip(tr("Save image"));
 
         QToolButton * button2 = new QToolButton;
-        button2->setIcon(QIcon(tr(":/images/copy.png")));
+        button2->setIcon(QIcon(tr(":/images/export.png")));
+        connect(button2,SIGNAL(pressed()),this,SLOT(writeData()));
+        button2->setToolTip(tr("Save as tab-delimited text"));
 
         QToolButton * button3 = new QToolButton;
-        button3->setIcon(QIcon(tr(":/images/play.png")));
+        button3->setIcon(QIcon(tr(":/images/copy.png")));
+        connect(button3,SIGNAL(pressed()),this,SLOT(copyData()));
+        button3->setToolTip(tr("Copy data to clipboard"));
+
+        QToolButton * button4 = new QToolButton;
+        button4->setIcon(QIcon(tr(":/images/play.png")));
+        connect(button4,SIGNAL(pressed()),this,SLOT(runScript()));
+        button4->setToolTip(tr("Run script"));
 
         buttonsLayout->addWidget(button1);
         buttonsLayout->addWidget(button2);
         buttonsLayout->addWidget(button3);
+        buttonsLayout->addWidget(button4);
 
         layout->addWidget(editor);
         layout->addLayout(buttonsLayout);
@@ -104,10 +137,8 @@ namespace Tinkercell
                 dockWidget->setFloating(true);
                 dockWidget->hide();
                 QToolBar * toolBar = mainWindow->toolBarForTools;
-                QAction * action = new QAction(tr("gnuplot"),toolBar);
-                action->setToolTip(tr("gnuplot"));
-                action->setIcon(QIcon(tr(":/images/graph.png")));
-				connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
+                if (toolBar)
+                    toolBar->addAction(QIcon(tr(":/images/graph.png")),tr("gnuplot"),dockWidget,SLOT(show()));
             }
         }
 
@@ -131,6 +162,21 @@ namespace Tinkercell
 				&(getDataMatrix)
 			);
 		}
+    }
+
+    void GnuplotTool::runScript()
+    {
+        if (editor)
+            gnuplot(editor->toPlainText() + tr("\n"));
+        editor->setPlainText("hello");
+    }
+
+    void GnuplotTool::savePlot()
+    {
+    }
+
+    void GnuplotTool::copyData()
+    {
     }
 }
 

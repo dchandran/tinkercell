@@ -164,8 +164,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
-
-			ConsoleWindow::message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
+			
+			if (console())
+				console()->message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
 
 			#ifdef Q_WS_WIN
 			QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
@@ -228,7 +229,8 @@ namespace Tinkercell
                 }
                 if (!opened)
                 {
-                    ConsoleWindow::error(filename +  tr(" file not found"));
+                    if (console())
+						console()->error(filename +  tr(" file not found"));
                 }
                 else
                 {

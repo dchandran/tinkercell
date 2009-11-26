@@ -75,9 +75,9 @@ namespace Tinkercell
 				hide();
 		}
 	}
-	
+
 	double BasicInformationTool::initialValue = 1.0;
-	
+
 	void BasicInformationTool::setInitialValue()
 	{
 		initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
@@ -103,9 +103,9 @@ namespace Tinkercell
 		settings.beginGroup("BasicInformationTool");
 		BasicInformationTool::initialValue = settings.value(tr("initial value"),initialValue).toDouble();
 		settings.endGroup();
-	
+
 		Tool::setMainWindow(main);
-		
+
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
@@ -124,7 +124,7 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
-			
+
 			if (mainWindow->settingsMenu && type == numerical)
 			{
 				mainWindow->settingsMenu->addSeparator();
@@ -250,7 +250,7 @@ namespace Tinkercell
 								itemHandles += nodes[j];
 					}
 		}
-		
+
 		QStringList names, values;
 		QStringList headers;
 
@@ -295,7 +295,7 @@ namespace Tinkercell
 				dockWidget->hide();
 
 			widgets.insertTab(0,this,tr("Parameters"));
-			
+
 			tableWidget.clear();
 			tableWidget.setRowCount(names.size());
 			tableWidget.setColumnCount(2);
@@ -392,7 +392,8 @@ namespace Tinkercell
 					{
 						recursive = true;
 						tableWidget.item(row,col)->setText(nDat.rowName(rowNumber));
-						ConsoleWindow::message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						if (console())
+                            console()->message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -445,7 +446,8 @@ namespace Tinkercell
 					{
 						recursive = true;
 						tableWidget.item(row,col)->setText(sDat.rowName(rowNumber));
-						ConsoleWindow::message(sDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+						if (console())
+                            console()->message(sDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -637,7 +639,7 @@ namespace Tinkercell
 			initialValues.colName(0) = family->measurementUnit.second;
 			initialValues.value(0,0) = BasicInformationTool::initialValue;
 			initialValues.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
-			
+
 			handle->data->numericalData.insert(QString("Initial Value"),initialValues);
 		}
 
@@ -815,12 +817,12 @@ namespace Tinkercell
 			if (lastItem->hasTextData(this->name))
 			{
 				DataTable<QString> sDat(lastItem->data->textData[this->name]);
-				
+
 				i = 0;
 				name = tr("s0");
 				while (win->symbolsTable.dataRowsAndCols.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("s") + QString::number(++i);
-				
+
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
 				tableItems << QPair<ItemHandle*,int>(lastItem,sDat.rowNames().size());
@@ -866,7 +868,8 @@ namespace Tinkercell
 				{
 					if (handle->family() && handle->family()->numericalAttributes.contains(nDat->rowName(rowNumber)))
 					{
-						ConsoleWindow::message(nDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+					    if (console())
+                            console()->message(nDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -885,7 +888,8 @@ namespace Tinkercell
 				{
 					if (handle->family() && handle->family()->textAttributes.contains(sDat->rowName(rowNumber)))
 					{
-						ConsoleWindow::message(sDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
+					    if (console())
+                            console()->message(sDat->rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
 					else
 					{
@@ -1140,10 +1144,10 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	
+
 	void BasicInformationTool::setInitialValues(QSemaphore* s,const QList<ItemHandle*>& handles,const DataTable<qreal>& dat)
 	{
-		
+
 		ItemHandle * handle = 0;
 		DataTable<qreal> * dataTable = 0;
 
@@ -1174,7 +1178,7 @@ namespace Tinkercell
 						delete newData[i];
 			}
 		}
-		
+
 		if (s)
 			s->release();
 	}
@@ -1222,11 +1226,11 @@ namespace Tinkercell
 		if (ptr)
 		{
 			QList<ItemHandle*> handles = handles0;
-			
+
 			if (currentWindow() && currentWindow()->modelItem())
 				if (!handles.contains(currentWindow()->modelItem()))
 					handles << currentWindow()->modelItem();
-			 
+
 			int i,j;
 			QString replaceDot("_");
 			QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
@@ -1412,7 +1416,7 @@ namespace Tinkercell
 			if (currentWindow() && currentWindow()->modelItem())
 				if (!handles.contains(currentWindow()->modelItem()))
 					handles << currentWindow()->modelItem();
-					
+
 			(*ptr) = getParameters(handles,QStringList(),text);
 		}
 		if (s)
@@ -1427,7 +1431,7 @@ namespace Tinkercell
 			if (currentWindow() && currentWindow()->modelItem())
 				if (!handles.contains(currentWindow()->modelItem()))
 					handles << currentWindow()->modelItem();
-					
+
 			DataTable<QString> dat = getTextData(handles,text);
 			if (dat.cols() > 0)
 			{
@@ -1502,11 +1506,11 @@ namespace Tinkercell
 					if (!contains)
 					{
 						QString s = text;
-							
+
 						int k = 0;
 						while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
 							s = text + QString::number(++k);
-								
+
 						newData->insertRow(rownames.size(),s);
 						newData->value(rownames.size(),0) = value;
 					}
@@ -1547,11 +1551,11 @@ namespace Tinkercell
 						if (!contains)
 						{
 							QString s = text;
-							
+
 							int k = 0;
 							while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
 								s = text + QString::number(++k);
-							
+
 							newData->insertRow(rownames.size(),s);
 							newData->value(rownames.size(),0) = value;
 						}
@@ -1582,7 +1586,7 @@ namespace Tinkercell
 	{
 		return fToS.getInitialValues(A);
 	}
-	
+
 	void BasicInformationTool::_setInitialValues(Array A, Matrix M)
 	{
 		fToS.setInitialValues(A,M);
@@ -1672,7 +1676,7 @@ namespace Tinkercell
 		}
 		return emptyMatrix();
 	}
-	
+
 	void BasicInformationTool_FToS::setInitialValues(Array a0, Matrix M)
 	{
 		QSemaphore * s = new QSemaphore(1);

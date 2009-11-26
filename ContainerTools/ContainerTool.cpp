@@ -484,7 +484,8 @@ namespace Tinkercell
                 }
                 if (stillWithParent)
                 {
-                    //ConsoleWindow::message(child->name + tr(" belongs with ") + child->parent->fullName());
+                    //if (console())
+                        //console()->message(child->name + tr(" belongs with ") + child->parent->fullName());
                 }
                 else
                 {
@@ -1037,7 +1038,8 @@ namespace Tinkercell
         if (targetHandles.size() > 0)
         {
             scene->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
-            ConsoleWindow::message(tr("Rates have been updated to include volume of Compartment(s)"));
+            if (console())
+                console()->message(tr("Rates have been updated to include volume of Compartment(s)"));
         }
 
 		for (int i=0; i < newTables.size(); ++i)

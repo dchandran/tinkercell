@@ -2,9 +2,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  Provides a toolbar with buttons that call C functions (run of separate threads)
- 
+
 ****************************************************************************/
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -26,13 +26,13 @@
 
 namespace Tinkercell
 {
-    
+
     LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries")), actionsGroup(this), buttonsGroup(this)
     {
         connectTCFunctions();
         libMenu = 0;
     }
-	
+
 	LoadCLibrariesTool::~LoadCLibrariesTool()
 	{
 		for (int i=0; i < unloadFunctions.size(); ++i)
@@ -42,7 +42,7 @@ namespace Tinkercell
 				f();
 			}
 	}
-    
+
     bool LoadCLibrariesTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
@@ -54,14 +54,14 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)));
-			
+
             toolLoaded(0);
-            
+
             return true;
         }
         return false;
     }
-	
+
 	void LoadCLibrariesTool::itemsInserted(NetworkWindow * win, const QList<ItemHandle*>& handles)
 	{
 		if (win && handles.size() > 0)
@@ -72,7 +72,7 @@ namespace Tinkercell
 					f();
 				}
 	}
-	
+
 	void LoadCLibrariesTool::itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& handles)
 	{
 		if (win && handles.size() > 0)
@@ -83,7 +83,7 @@ namespace Tinkercell
 					f();
 				}
 	}
-	
+
 	void LoadCLibrariesTool::windowChanged(NetworkWindow* w1,NetworkWindow* w2)
 	{
 		if (w2)
@@ -94,7 +94,7 @@ namespace Tinkercell
 					f();
 				}
 	}
-	
+
 	void LoadCLibrariesTool::dataChanged(const QList<ItemHandle*>&)
 	{
 		for (int i=0; i < callBackFunctions.size(); ++i)
@@ -104,7 +104,7 @@ namespace Tinkercell
 				f();
 			}
 	}
-    
+
     void LoadCLibrariesTool::addFunction(QSemaphore* s,void (*f)(void), const QString& title, const QString& desc, const QString& cat, const QString& iconFilename,const QString& family, int show_menu, int in_tool_menu, int deft)
     {
         if (libMenu)
@@ -135,19 +135,19 @@ namespace Tinkercell
             CThread * thread = new CThread(mainWindow,0);
             thread->setFunction(f);
             CThread::dialog(thread,title,icon,true);
-            
+
             connect(button,SIGNAL(pressed()),thread,SLOT(start()));
-            
+
             if (show_menu > 0)
             {
                 QAction * action = libMenu->addMenuItem(title,icon, deft > 0);
                 if (action)
-				{	
+				{
 					action->setToolTip(desc);
 					connect(action,SIGNAL(triggered()),thread,SLOT(start()));
 				}
             }
-            
+
             if (in_tool_menu > 0)
             {
                 QAction * action = libMenu->addContextMenuItem(family,title,pixmap,true);
@@ -161,7 +161,7 @@ namespace Tinkercell
         if (s)
             s->release();
     }
-    
+
     void LoadCLibrariesTool::callback(QSemaphore* s,void (*f)(void))
     {
 		if (!callBackFunctions.contains(f))
@@ -169,7 +169,7 @@ namespace Tinkercell
         if (s)
             s->release();
     }
-	
+
 	void LoadCLibrariesTool::unload(QSemaphore* s,void (*f)(void))
     {
 		//if (!unloadFunctions.contains(f))
@@ -177,11 +177,11 @@ namespace Tinkercell
         if (s)
             s->release();
     }
-    
+
     void LoadCLibrariesTool::toolLoaded(Tool*)
     {
         static bool connected = false;
-        
+
         if (!connected && mainWindow->tool(tr("Dynamic Library Menu")))
         {
             QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
@@ -192,7 +192,7 @@ namespace Tinkercell
             }
         }
     }
-	
+
     void LoadCLibrariesTool::connectTCFunctions()
     {
         connect(&fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
@@ -204,7 +204,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(unload(QSemaphore*,VoidFunction)),this,SLOT(unload(QSemaphore*,VoidFunction)));
 
     }
-    
+
     typedef void (*tc_LoadCLibraries_api)(
             int (*compileAndRun)(const char * ,const char* ),
             int (*compileBuildLoad)(const char *, const char* , const char*),
@@ -213,7 +213,7 @@ namespace Tinkercell
             void (*callback)(void (*f)()),
 			void (*unload)(void (*f)())
             );
-    
+
     void LoadCLibrariesTool::setupFunctionPointers( QLibrary * library)
     {
 		tc_LoadCLibraries_api f = (tc_LoadCLibraries_api)library->resolve("tc_LoadCLibraries_api");
@@ -221,7 +221,7 @@ namespace Tinkercell
         {
             f(
                     &(_compileAndRun),
-                    &(_compileBuildLoad),			
+                    &(_compileBuildLoad),
                     &(_loadLibrary),
                     &(_addFunction),
                     &(_callback),
@@ -229,7 +229,7 @@ namespace Tinkercell
                     );
         }
     }
-    
+
     void LoadCLibrariesTool::compileAndRunC(QSemaphore* s,int* r,const QString& filename,const QString& args)
     {
         if (filename.isEmpty() || filename.isNull())
@@ -241,12 +241,12 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
         QProcess proc;
 		proc.setWorkingDirectory(MainWindow::userHome());
-		
+
 #ifdef Q_WS_WIN
 		appDir.replace(tr("/"),tr("\\"));
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));        
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -r -w ") + filename  + tr(" -o a.out"));
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
@@ -258,21 +258,22 @@ namespace Tinkercell
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
 #endif
-        
-        if (!errors.isEmpty())
-            ConsoleWindow::error(errors);
-        else
-            ConsoleWindow::message(output);
-        
+
+        if (console())
+            if (!errors.isEmpty())
+                console()->error(errors);
+            else
+                console()->message(output);
+
         if (errors.size() > 0)
         {
             if (r) (*r) = 0;
             if (s) s->release();
             return;
         }
-        
+
         ProcessThread * newThread = new ProcessThread(filename,args,mainWindow);
-        
+
         QRegExp regexp(".*/([^/]+)$");
         QString title = filename;
         if (regexp.indexIn(filename) > -1)
@@ -281,19 +282,19 @@ namespace Tinkercell
             newThread->start();
 
         if (r) (*r) = 1;
-        if (s) s->release();		
+        if (s) s->release();
     }
-	
+
 	void LoadCLibrariesTool::compileAndRunC(const QString& s,const QString& a)
 	{
 		_compileAndRun(s.toAscii().data(),a.toAscii().data());
 	}
-	
+
 	void LoadCLibrariesTool::compileBuildLoadC(const QString& s,const QString& f,const QString& t)
 	{
 		_compileBuildLoad(s.toAscii().data(),f.toAscii().data(),t.toAscii().data());
 	}
-    
+
     void LoadCLibrariesTool::compileBuildLoadC(QSemaphore* s,int* r,const QString& filename,const QString& funcname, const QString& title)
     {
         if (filename.isEmpty() || filename.isNull())
@@ -308,12 +309,12 @@ namespace Tinkercell
         {
             dllName = regex.cap(1);
         }
-        
+
         QString errors;
         QString output;
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
-		
+
 		proc.setWorkingDirectory(MainWindow::userHome());
 
 
@@ -345,52 +346,53 @@ namespace Tinkercell
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #endif
 #endif
-        
-        if (!errors.isEmpty())
-            ConsoleWindow::error(errors);
-        else
-            ConsoleWindow::message(output);
-        
+
+        if (console())
+            if (!errors.isEmpty())
+                console()->error(errors);
+            else
+                console()->message(output);
+
         if (errors.size() > 0)
         {
             if (r) (*r) = 0;
             if (s) s->release();
 		    return;
         }
-        
+
         CThread * newThread = new CThread(mainWindow,dllName,true);
         newThread->setVoidFunction(funcname.toAscii().data());
-        
+
         CThread::dialog(newThread,title,QIcon(),true);
         newThread->start();
-        
+
         if (r) (*r) = 1;
-		
+
         if (s) s->release();
     }
-    
+
     void LoadCLibrariesTool::loadLibrary(QSemaphore* s,const QString& file)
     {
         if (mainWindow)
             mainWindow->loadDynamicLibrary(file);
-        
+
         if (s) s->release();
-    }    
-    
+    }
+
     /******************************************************/
-    
+
     LoadCLibrariesTool_FToS LoadCLibrariesTool::fToS;
-    
+
     int LoadCLibrariesTool::_compileAndRun(const char * cfile,const char* args)
     {
         return fToS.compileAndRun(cfile,args);
     }
-    
+
     int LoadCLibrariesTool::_compileBuildLoad(const char * cfile,const char* f,const char* t)
     {
         return fToS.compileBuildLoad(cfile,f,t);
     }
-    
+
     void LoadCLibrariesTool::_loadLibrary(const char * c)
     {
         return fToS.loadLibrary(c);
@@ -400,17 +402,17 @@ namespace Tinkercell
     {
         fToS.addFunction(f, title, desc, cat, icon, family, inMenu, inTool, deft);
     }
-    
+
     void  LoadCLibrariesTool::_callback(void (*f)(void))
     {
 		fToS.callback(f);
     }
-	
+
 	void  LoadCLibrariesTool::_unload(void (*f)(void))
     {
 		fToS.unload(f);
     }
-    
+
     int LoadCLibrariesTool_FToS::compileAndRun(const char * cfile,const char* args)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -422,7 +424,7 @@ namespace Tinkercell
         delete s;
         return p;
     }
-    
+
     int LoadCLibrariesTool_FToS::compileBuildLoad(const char * cfile,const char* f,const char* t)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -433,7 +435,7 @@ namespace Tinkercell
         s->release();
         delete s;
         return p;
-    }	
+    }
 
     void LoadCLibrariesTool_FToS::addFunction(void (*f)(), const char * title, const char* desc, const char* cat, const char* icon, const char * family, int inMenu, int inTool, int deft)
     {
@@ -454,7 +456,7 @@ namespace Tinkercell
         s->release();
         delete s;
     }
-	
+
 	void LoadCLibrariesTool_FToS::unload(void (*f)())
     {
         QSemaphore * s = new QSemaphore(1);
@@ -474,5 +476,5 @@ namespace Tinkercell
         s->release();
         delete s;
     }
-    
+
 }

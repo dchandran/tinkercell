@@ -54,7 +54,8 @@ namespace Tinkercell
 	class ItemHandle;
 	class ItemData;
 	class NetworkWindow;
-	
+	class ConsoleWindow;
+
 	/*! \brief gets the parent of this item that is a node, text, connection, or control point
 	* \param QGraphicsItem * Qt graphics item
 	\return QGraphicsItem * node, connection, text, or control point
@@ -74,15 +75,15 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	MY_EXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles );
-	/*! \brief The primary task of the graphics scene is to draws items. 
+	/*! \brief The primary task of the graphics scene is to draws items.
 	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
-	items currently selected and currently being moved so a plug-in can easily add items to the list 
-	of moving items or selected items. 
+	items currently selected and currently being moved so a plug-in can easily add items to the list
+	of moving items or selected items.
 	The default behaviors of the GraphicsScene (e.g selecting, moving) can be turned off by setting useDefaultBehavior=false. If
 	the default behaviors are off, GraphicsScene still emits the mouse and keyboard signals -- this allows another tool
 	to perform the actions.
-	The historyStack pointer can be used to add undo commands to the scene. 
+	The historyStack pointer can be used to add undo commands to the scene.
 	\ingroup core
 	*/
 	class MY_EXPORT GraphicsScene : public QGraphicsScene
@@ -110,7 +111,7 @@ namespace Tinkercell
 		static QBrush ForegroundBrush;
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
 		static qreal MIN_DRAG_DISTANCE;
-		
+
 		/*! \brief the containing network window*/
 		NetworkWindow * networkWindow;
 		/*! \brief the containing network window's symbols table*/
@@ -152,6 +153,8 @@ namespace Tinkercell
 		/*! \brief top Z value
 		* \return double*/
 		virtual qreal ZValue();
+		/*! \brief get the console window (same as mainWindow->console())*/
+		ConsoleWindow * console();
 		/*! \brief Constructor: sets 10000x10000 scene */
 		GraphicsScene(QWidget * parent = 0);
 		/*! \brief destructor */
@@ -205,7 +208,7 @@ namespace Tinkercell
 		virtual void select(const QList<QGraphicsItem*>& item);
 		/*! \brief select all items*/
 		virtual void selectAll();
-		/*! \brief select items with the given text */	
+		/*! \brief select items with the given text */
 		virtual void find(const QString&);
 		/*! \brief deselect one item
 		* \param QGraphicsItem* item to deselect
@@ -251,7 +254,7 @@ namespace Tinkercell
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
 		void remove(const QString& name, QGraphicsItem * item);
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
-		void remove(const QString& name, const QList<QGraphicsItem*>& items);	
+		void remove(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief remove selected items*/
 		virtual void removeSelected();
 		/*! \brief this command changes the brush of an item*/
@@ -271,13 +274,13 @@ namespace Tinkercell
 		/*! \brief this command changes the pen and/or brush of an item and also adds undo command to history window and emits associated signal(s)*/
 		void setBrushAndPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
-		void transform(const QString& name, QGraphicsItem * item, 
-			const QPointF& sizechange, 
+		void transform(const QString& name, QGraphicsItem * item,
+			const QPointF& sizechange,
 			qreal anglechange,
 			bool VFlip, bool HFlip);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
-		void transform(const QString& name, const QList<QGraphicsItem *>& items, 
-			const QList<QPointF>& sizechange, 
+		void transform(const QString& name, const QList<QGraphicsItem *>& items,
+			const QList<QPointF>& sizechange,
 			const QList<qreal>& anglechange,
 			bool VFlip, bool HFlip);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
@@ -304,13 +307,13 @@ namespace Tinkercell
 		void setParentHandle(ItemHandle * child, ItemHandle * parent);
 		/*! \brief change parconst ent handles and also adds undo command to history window and emits associated signal(s)*/
 		void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
-		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
-		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
 		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
@@ -318,17 +321,17 @@ namespace Tinkercell
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
 		/*! \brief change two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
-		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
-		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/	
+		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
 
 	signals:
@@ -446,7 +449,7 @@ namespace Tinkercell
 		virtual void colorChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items);
 		/*! \brief signals whenever item parents are changed
 		* \param GraphicsScene* scene where the event took place
-		* \param QList<QGraphicsItem*>& items 
+		* \param QList<QGraphicsItem*>& items
 		* \param QList<QGraphicsItem*>& new parents
 		* \return void*/
 		virtual void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
@@ -479,7 +482,7 @@ namespace Tinkercell
 		/*! \brief clears copied items*/
 		static void clearStaticItems();
 		/*! \brief point where mouse is clicked*/
-		QPointF clickedPoint;	
+		QPointF clickedPoint;
 		/*! \brief button that was used when mouse was clicked*/
 		Qt::MouseButton clickedButton;
 		/*! \brief mouse is being pressed*/
@@ -489,7 +492,7 @@ namespace Tinkercell
 		/*! \brief list of pointers to moving items*/
 		QList<QGraphicsItem*> movingItems;
 		/*! \brief group of moving items*/
-		QGraphicsItemGroup * movingItemsGroup;	
+		QGraphicsItemGroup * movingItemsGroup;
 		/*! \brief when mouse is pressed, the item at the position is added to selected list and moving list
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
@@ -497,7 +500,7 @@ namespace Tinkercell
 		/*! \brief when mouse is double clicked, the item at the position is added to selected list and moving list
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
-		virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent ); 
+		virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 		/*! \brief when mouse is moving, all items in moving list are moved
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
@@ -551,22 +554,22 @@ namespace Tinkercell
 		friend class MainWindow;
 		friend class NetworkWindow;
 	};
-	
+
 	/*! \brief view for a graphics scene
 		\ingroup helper*/
 	class MY_EXPORT GraphicsView : public QGraphicsView
 	{
 	public:
-		/*! \brief default constructor*/	
+		/*! \brief default constructor*/
 		GraphicsView(GraphicsScene * scene = 0, QWidget * parent = 0);
 	protected:
-		/*! \brief drag on top event */	
+		/*! \brief drag on top event */
 		virtual void dropEvent(QDropEvent *);
-		/*! \brief drag and drop event*/	
+		/*! \brief drag and drop event*/
 		virtual void dragEnterEvent(QDragEnterEvent *event);
-		/*! \brief mouse wheel event*/	
+		/*! \brief mouse wheel event*/
 		virtual void wheelEvent(QWheelEvent * event);
-		/*! \brief scroll event*/	
+		/*! \brief scroll event*/
 		virtual void scrollContentsBy ( int dx, int dy );
 	};
 

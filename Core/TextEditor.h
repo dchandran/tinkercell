@@ -55,6 +55,7 @@ namespace Tinkercell
 	class ItemData;
 	class TextEditor;
 	class TextUndoCommand;
+	class ConsoleWindow;
 
 	/*! \brief This is the window that allows used to construct networks using text, as
 	opposed to graphics, which is done by GraphicsScene. The TextEditor requires a supporting
@@ -67,7 +68,7 @@ namespace Tinkercell
 		friend class TextUndoCommand;
 
 	public:
-	
+
 		static bool SideBarEnabled;
 
 		/*! \brief default constructor*/
@@ -93,6 +94,8 @@ namespace Tinkercell
 		NetworkWindow * networkWindow;
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<TextItem*>& items();
+		/*! \brief get the console window (same as mainWindow->console())*/
+		ConsoleWindow * console();
 		/*! \brief push a command to the undo/redo stack
 		\param QUndoCommand* */
 		void push(QUndoCommand*);
@@ -182,7 +185,7 @@ namespace Tinkercell
 		virtual QWidget* widget(Qt::Orientation orientation = Qt::Horizontal);
 
 	protected:
-		
+
 		class TextEditorWidget : public QWidget
 		{
 		public:
@@ -208,7 +211,7 @@ namespace Tinkercell
 			/*! \brief setup the side bar*/
 			virtual void setup();
 		};
-		
+
 		/*! \brief the side bar*/
 		TextEditorWidget * editorWidget;
 		/*! \brief previously accessed line number. This is to keep track of when a line is modified*/

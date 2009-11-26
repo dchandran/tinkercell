@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers). 
+This tool allows NodeGraphicsItems to be grouped together (i.e. merge handlers).
 A special QUndoCommand is provided for this functionality. Buttons are also placed
 in the MainWindow toolbar.
 
@@ -135,7 +135,7 @@ namespace Tinkercell
 		if (!scene || list.isEmpty()) return;
 
 		QList<QGraphicsItem*> items;
-		QList<ItemHandle*> handles;		
+		QList<ItemHandle*> handles;
 		ItemFamily * family = 0;
 		NodeGraphicsItem* node;
 		bool hasConnections = false;
@@ -200,10 +200,10 @@ namespace Tinkercell
 
 			if (notAllowed) continue;
 
-			if (handle == 0) 
+			if (handle == 0)
 			{
 				//only text items can be merged without a handle
-				if (TextGraphicsItem::cast(list[i])) 
+				if (TextGraphicsItem::cast(list[i]))
 				{
 					if (!items.contains(list[i]))
 					{
@@ -215,7 +215,7 @@ namespace Tinkercell
 			else
 			{
 				if (handle && handle->family())
-				{	
+				{
 					if (((family->isRelatedTo(handle->family())) && !hasConnections)
 						|| (hasConnections && family->isA(handle->family())))
 					{
@@ -242,7 +242,7 @@ namespace Tinkercell
 		if (numHandles > 1)
 		{
 			MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
-			
+
 			scene->deselect();
 
 			/*QString newName = mergeCommand->newHandle->fullName();
@@ -321,8 +321,8 @@ namespace Tinkercell
 			else
 				if (list.size() > 1)
 				{
-					//QMessageBox::information(0,tr("Group items"),tr("Only items belonging to related families can be merged"),QMessageBox::Ok,QMessageBox::Ok);
-					ConsoleWindow::error(tr("Only items belonging to related families can be merged"));
+					if (console())
+                        console()->error(tr("Only items belonging to related families can be merged"));
 				}
 		}
 	}
@@ -367,7 +367,7 @@ namespace Tinkercell
 						//assign same handle to nearby text items
 						for (int j=0; j < handle->graphicsItems.size(); ++j)
 						{
-							if (TextGraphicsItem::cast(handle->graphicsItems[j]))						
+							if (TextGraphicsItem::cast(handle->graphicsItems[j]))
 							{
 								QRectF rect = selected[i]->sceneBoundingRect();
 								rect.adjust(-10,-10,20,20);
@@ -489,12 +489,12 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*> & selected = scene->selected();
 		for (int i=0; i<selected.size(); ++i)
-			if ((NodeGraphicsItem::cast(selected[i]) && getHandle(selected[i])) 
+			if ((NodeGraphicsItem::cast(selected[i]) && getHandle(selected[i]))
 				|| TextGraphicsItem::cast(selected[i]))
 				newItems += cloneGraphicsItem(selected[i]);
 
 		scene->insert(tr("alias inserted"),newItems);
-		scene->move(newItems,QPointF(100,100));		
+		scene->move(newItems,QPointF(100,100));
 	}
 
 	void GroupHandlerTool::nodeCollided(const QList<QGraphicsItem*>& list, NodeGraphicsItem * item, QPointF , Qt::KeyboardModifiers )
@@ -546,8 +546,8 @@ namespace Tinkercell
 					if (NodeGraphicsItem::cast(list.at(i)) && handle && handle->family() && !handles.contains(handle))
 					{
 						if (!( handle->family()->isA(tr("Compartment")) || handle->family()->isA(tr("Module")))
-							&& 
-							(((family->isRelatedTo(handle->family())) && !hasConnections) 
+							&&
+							(((family->isRelatedTo(handle->family())) && !hasConnections)
 							|| (hasConnections && family->isA(handle->family()))))
 						{
 							handles += handle;
@@ -595,7 +595,7 @@ namespace Tinkercell
 			if (handles.size() > 1 && bestHandle)
 			{
 				MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
-				
+
 				scene->deselect();
 
 				/*QString newName = mergeCommand->newHandle->fullName();
@@ -669,8 +669,8 @@ namespace Tinkercell
 		{
 			if (c < 26)
 				name = QString((char)((int)'A' + c));
-			else				
-				name =  QString((char)((int)'A' + (c % 26))) + QString::number(c/25);				
+			else
+				name =  QString((char)((int)'A' + (c % 26))) + QString::number(c/25);
 			++c;
 		}
 

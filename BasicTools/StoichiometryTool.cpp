@@ -370,7 +370,7 @@ namespace Tinkercell
 					insertDataMatrix(connectionHandle);
 				}
 				else  //just for modifier arcs
-					if (connectionHandle->data && 
+					if (connectionHandle->data &&
 						connectionHandle->hasNumericalData(tr("Stoichiometry")) &&
 						connectionHandle->hasNumericalData(tr("Numerical Attributes")) &&
 						connectionHandle->hasTextData(tr("Rates")) &&
@@ -413,11 +413,12 @@ namespace Tinkercell
 									sDat->value(0,0) = name + tr(".Vmax * ") + s2.join(tr("*")) + tr("*") + s1.join(tr("*")) + tr("/(") + name + tr(".Km + ") + s1.join(tr("*")) + tr(")");
 								}
 								win->changeData(connectionHandle->fullName() + tr("'s kinetics changed"),
-												QList<ItemHandle*>() << connectionHandle << connectionHandle, 
+												QList<ItemHandle*>() << connectionHandle << connectionHandle,
 												QList<QString>() << tr("Numerical Attributes") << tr("Rates"),
 												QList<DataTable<qreal>*>() << nDat,
 												QList<DataTable<QString>*>() << sDat);
-								ConsoleWindow::message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
+								if (console())
+                                    console()->message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
 							}
 							delete sDat;
 							delete nDat;
@@ -636,7 +637,7 @@ namespace Tinkercell
 
 		addRow->setToolTip(tr("Add row"));
 		removeRow->setToolTip(tr("Remove row"));
-		
+
 		QToolButton * calc = new QToolButton(this);
 		calc->setIcon(QIcon(":/images/calc.png"));
 		calc->setToolTip(tr("Get current rates"));
@@ -806,8 +807,9 @@ namespace Tinkercell
 
 		if (cannots.size() > 0)
 		{
-			ConsoleWindow::message(tr("Automatic reversibility can only be added to connections with one reaction, so the following were ignored: ") +
-				cannots.join(tr(",")));
+			if (console())
+                console()->message(tr("Automatic reversibility can only be added to connections with one reaction, so the following were ignored: ") +
+            cannots.join(tr(",")));
 		}
 		else
 		{
@@ -869,7 +871,7 @@ namespace Tinkercell
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						if (sDataTable->value(j,0).isEmpty()) continue;
-						
+
 						QString row;
 						if (sDataTable->rows() > 1)
 						{
@@ -978,8 +980,8 @@ namespace Tinkercell
 			if (!nDataTable->insertRow(nDataTable->rows(),rowName))
 			{
 				delete nDataTable;
-				//QMessageBox::information(mainWindow,tr("Add Row"),tr("That row name is already being used"),QMessageBox::Ok,QMessageBox::Ok);
-				ConsoleWindow::error(tr("That row name is already being used."));
+				if (console())
+                    console()->error(tr("That row name is already being used."));
 				return;
 			}
 
@@ -989,8 +991,8 @@ namespace Tinkercell
 			{
 				delete nDataTable;
 				delete sDataTable;
-				//QMessageBox::information(mainWindow,tr("Add Row"),tr("That row name is already being used"),QMessageBox::Ok,QMessageBox::Ok);
-				ConsoleWindow::error(tr("That row name is already being used."));
+				if (console())
+                    console()->error(tr("That row name is already being used."));
 				return;
 			}
 
@@ -1253,8 +1255,8 @@ namespace Tinkercell
 				{
 					QList<NodeHandle*> nodes = ConnectionHandle::asConnection(connectionHandles[i])->nodes();
 					for (int j=0; j < nodes.size(); ++j)
-						if (NodeHandle::asNode(nodes[j]) 
-							&& nodes[j]->hasNumericalData(tr("Fixed")) 
+						if (NodeHandle::asNode(nodes[j])
+							&& nodes[j]->hasNumericalData(tr("Fixed"))
 							&& nodes[j]->numericalData(tr("Fixed")) > 0)
 							fixedSpecies << nodes[j]->fullName();
 				}
@@ -1280,7 +1282,7 @@ namespace Tinkercell
 					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
 					{
 						if (sDataTable->value(j,0).isEmpty()) continue;
-						
+
 						QString row;
 
 						if (sDataTable->rows() > 1)
@@ -1347,7 +1349,7 @@ namespace Tinkercell
 	void StoichiometryTool::setStoichiometry(NetworkWindow * win, QList<ItemHandle*>& connectionHandles,const DataTable<qreal>& N, const QString& replaceDot)
 	{
 		DataTable<qreal> stoicMatrix = N.transpose();
-		
+
 		if (connectionHandles.size() < 1)
 		{
 			return;
@@ -1374,7 +1376,7 @@ namespace Tinkercell
 				stoicMatrix.colName(i).replace(regex,QString("\\1.\\2"));
 			}
 		}
-		
+
 		int n=0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
@@ -1408,7 +1410,7 @@ namespace Tinkercell
 
 					if (nDataTable->rows() != rows || nDataTable->cols() !=  cols)
 						nDataTable->resize(rows,cols);
-						
+
 					for (k=0; k < nDataTable->rows() && n < stoicMatrix.rows(); ++k, ++n)
 					{
 						int j0 = 0;
@@ -1657,7 +1659,7 @@ namespace Tinkercell
 					removeCol();
 		}
 	}
-	
+
 	void StoichiometryTool::eval()
 	{
 		bool b;
@@ -1677,12 +1679,13 @@ namespace Tinkercell
 								values << connectionHandles[i]->fullName() + tr(" = ") + QString::number(d);
 							else
 								values << connectionHandles[i]->fullName() + tr(".") + rates.rowName(j) + tr(" = ") + QString::number(d);
-						
+
 					}
 			}
 		}
 		if (values.size() > 0)
-			ConsoleWindow::message(values.join(tr("\n")));
+			if (console())
+                console()->message(values.join(tr("\n")));
 	}
 }
 

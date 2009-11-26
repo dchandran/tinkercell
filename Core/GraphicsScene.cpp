@@ -20,6 +20,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "UndoCommands.h"
+#include "ConsoleWindow.h"
 #include "GraphicsScene.h"
 #include <QRegExp>
 
@@ -2413,4 +2414,12 @@ namespace Tinkercell
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 		fitInView(QRectF(0,0,1000,800),Qt::KeepAspectRatio);
 	}
+
+	/*! \brief get the console window (same as mainWindow->console())*/
+    ConsoleWindow * GraphicsScene::console()
+    {
+        if (networkWindow)
+            return networkWindow->console();
+        return 0;
+    }
 }

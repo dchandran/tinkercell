@@ -4,8 +4,8 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-The tool class is the parent class for all plugins. 
-A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow. 
+The tool class is the parent class for all plugins.
+A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 
 ****************************************************************************/
@@ -34,6 +34,7 @@ namespace Tinkercell
 	class GraphicsScene;
 	class NetworkWindow;
 	class TextEditor;
+	class ConsoleWindow;
 
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
@@ -58,6 +59,8 @@ namespace Tinkercell
 		Tool(const QString& Name, QWidget * parent = 0);
 		/*! \brief set the main window for this tool*/
 		virtual bool setMainWindow(MainWindow * main);
+		/*! \brief console window (same as mainWindow->console())*/
+		ConsoleWindow* console();
 		/*! \brief the main window's current scene*/
 		virtual GraphicsScene* currentScene() const;
 		/*! \brief the main window's current text editor*/

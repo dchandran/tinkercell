@@ -44,6 +44,14 @@ namespace Tinkercell
 		}
 	}
 
+	/*! \brief get the console window (same as mainWindow->console())*/
+    ConsoleWindow * NetworkWindow::console()
+    {
+        if (mainWindow)
+            return mainWindow->console();
+        return 0;
+    }
+
 	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
 	{
 		if (!scene) scene = new GraphicsScene;
@@ -211,16 +219,7 @@ namespace Tinkercell
 				if (handle && !handles.contains(handle))
 				{
 					//QList<ItemHandle*> children = handle->visibleChildren();
-
 					handles << handle;
-					/*hash.insert(handle,1);
-
-					if (!children.isEmpty())
-					{
-						handles << children;
-						for (int j=0; j < children.size(); ++j)
-							hash.insert(children[j],1);
-					}*/
 				}
 			}
 		}

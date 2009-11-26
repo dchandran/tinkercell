@@ -6,14 +6,14 @@ See COPYRIGHT.TXT
 
 This is header file for Tinkercell's main window
 The MainWindow contains a set of NetworkWindows, which is the class
-that supports TextEditor or GraphicsScene. 
+that supports TextEditor or GraphicsScene.
 Each TextEditor or GraphicsScene emits various signals. Those
 signals are then emitted by the MainWindow; in this way, a plugin does not need
 to listen to each of the TextEditor or GraphicsScene signals but only the MainWindow's signals.
 
 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
 
-The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins. 
+The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
 
 ****************************************************************************/
@@ -95,28 +95,28 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-	
+
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget
 					 ToolBoxWidget = tool window is placed in an existing toolbox, if one exists
 					 NewToolBoxWidget = tool window is placed inside a new toolbox
 		*/
 		enum TOOL_WINDOW_OPTION { DockWidget , ToolBoxWidget , NewToolBoxWidget };
-		
+
 		/*! \brief the types of views for multiple documents
 		             TabView = tabbed documents
 					 WindowView = each documents in a separate subwindow
 		*/
 		enum VIEW_MODE { TabView , WindowView };
-		
+
 		/*! \brief the default option to use for tools (optional)*/
-		static TOOL_WINDOW_OPTION defaultToolWindowOption;	
-		
+		static TOOL_WINDOW_OPTION defaultToolWindowOption;
+
 		/*! \brief the default option to use for history window*/
-		static TOOL_WINDOW_OPTION defaultHistoryWindowOption;	
-		
+		static TOOL_WINDOW_OPTION defaultHistoryWindowOption;
+
 		/*! \brief the default option to use for console window*/
-		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;	
+		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();
@@ -149,14 +149,14 @@ namespace Tinkercell
 		*/
 		static QString userHome();
 		/*!
-		* \brief Add a new docking window to the main window. 
+		* \brief Add a new docking window to the main window.
 		           The name and icon are obtained using the widget's windowTitle and windowIcon, so
 				   be sure to set those before calling this function.
 		* \param Tool* the new tool
 		* \param Qt::DockWidgetArea the initial docking area
 		* \param Qt::DockWidgetAreas the allowed docking areas
 		* \param bool whether or not to place the docking window in the view menu
-		* \param bool use a QToolBox instead of a dock widget. The widget will not be dockable, but the entire toolbox will be dockable. 
+		* \param bool use a QToolBox instead of a dock widget. The widget will not be dockable, but the entire toolbox will be dockable.
 		* \return QDockWidget* the new docking widget. ToolBoxWidget option is used, the docking widget may be an existing docking widget.
 		*/
 		QDockWidget * addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option = DockWidget, Qt::DockWidgetArea initArea = Qt::RightDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
@@ -322,12 +322,12 @@ namespace Tinkercell
 		*/
 		void saveWindowAs();
 		/*!
-		* \brief triggered when the open button is clicked. Opens a file dialog. 
+		* \brief triggered when the open button is clicked. Opens a file dialog.
 		Note: the core library just emits a signal, and other tools are responsible for actually opening a file
 		*/
 		void open();
 		/*!
-		* \brief open a file. 
+		* \brief open a file.
 		Note: the core library just emits a signal, and other tools are responsible for actually opening a file
 		The main window does not implement an function for opening a new file
 		*/
@@ -389,7 +389,19 @@ namespace Tinkercell
 			The current text parser can be obtained using TextParser::currentParser();
 		*/
 		void addParser(TextParser*);
-		
+
+		/*! \brief change grid mode for current scene to on (>0)*/
+		void gridOn();
+
+		/*! \brief change grid mode for current scene to off (=0)*/
+		void gridOff();
+
+		/*! \brief set grid size for current scene*/
+		void setGridSize();
+
+		/*! \brief get the console window*/
+		ConsoleWindow * console();
+
 	private slots:
 		/*!
 		* \brief sends a signal indicating that the current scene has changed
@@ -844,15 +856,6 @@ namespace Tinkercell
 		* \return void
 		*/
 		void dragAndDropFiles(const QList<QFileInfo>& files);
-		
-		/*! \brief change grid mode for current scene to on (>0)*/
-		void gridOn();
-		
-		/*! \brief change grid mode for current scene to off (=0)*/
-		void gridOff();
-		
-		/*! \brief set grid size for current scene*/
-		void setGridSize();
 
 	signals:
 
@@ -1151,8 +1154,6 @@ namespace Tinkercell
 		QHash<QString,QLibrary*> dynamicallyLoadedLibraries;
 		/*! \brief the general window for command, errors, and messages*/
 		ConsoleWindow * consoleWindow;
-		/*! \brief the current layout */
-		QGridLayout layout;
 		/*! \brief read initial settings from settingsFileName
 		* \return void*/
 		void readSettings();

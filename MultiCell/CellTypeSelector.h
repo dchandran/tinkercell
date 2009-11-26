@@ -25,6 +25,7 @@
 #include <QListWidget>
 #include <QGraphicsSimpleTextItem>
 #include "ItemFamily.h"
+#include "MainWindow.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -40,30 +41,31 @@ namespace Multicell
 	class MY_EXPORT CellTypeSelector : public QListWidget
 	{
 		Q_OBJECT
-		
+
 	public:
 		QList<QColor> cellColors;
 		QList<NodeFamily*> cellFamilies;
-	
-		CellTypeSelector(QWidget * parent = 0);		
+
+		CellTypeSelector(MainWindow * , QWidget * parent = 0);
 		virtual ~CellTypeSelector();
-		
+
 	signals:
 		void cellTypeSelected(NodeFamily*,const QColor&);
-	
+
 	public slots:
 		void addCellType(NodeFamily*,const QColor&);
 		void addCellType();
 		void removeCellType();
-	
+
 	private slots:
 		void buttonPressed ( int );
-	
+
 	private:
 		QButtonGroup buttonGroup;
-	
+        MainWindow * main;
+
 	};
-	
+
 }
 
 #endif

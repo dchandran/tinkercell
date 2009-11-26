@@ -657,8 +657,8 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-						if (affected)
-							ConsoleWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+						if (affected && graphicsScene->console())
+                            graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 
 					keys = affectedHandles[i]->data->textData.keys();
@@ -726,8 +726,8 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							if (affected)
-								ConsoleWindow::message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+							if (affected && graphicsScene->console())
+								graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 				}
 			}

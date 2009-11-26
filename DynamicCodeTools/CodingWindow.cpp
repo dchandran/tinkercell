@@ -2,9 +2,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  Provides a text window where C code can be written and run dynamically
- 
+
 ****************************************************************************/
 #include <QProcess>
 #include "GraphicsScene.h"
@@ -52,124 +52,44 @@ namespace Tinkercell
 
 		 toolBar = 0;
 		 window = new QMainWindow;
-		 
+
 		 tabWidget =  new QTabWidget;
 		 editorC = editorPy = editorR = 0;
-		 
+
 		 setupEditor();
 		 setupMenu();
 		 setupDialog();
-		 
-		 QSplitter * splitter1 = new QSplitter(Qt::Horizontal);
-		 splitter1->addWidget(editorC);
-		 splitter1->addWidget(new TCFunctionsListView(appDir + tr("/c/API"), QString(), editorC));
-		 splitter1->setStretchFactor(0,2);
-		 
-		 QSplitter * splitter2 = new QSplitter(Qt::Horizontal);
-		 
-		 //QGroupBox * pyGroupBox = new QGroupBox("Enter Python command",splitter2);
-		 
-		 //pyLineEdit = new LineEditWithHistory(this);
-		 //QHBoxLayout * pyLayout0 = new QHBoxLayout;
-		 //QPushButton * pushButton = new QPushButton(QIcon(":/images/play.png"),"",this);
-		 //connect(pushButton,SIGNAL(released()),pyLineEdit,SIGNAL(returnPressed()));
-		 //pyLayout0->addWidget( pushButton );
-		 //pyLayout0->addWidget(pyLineEdit,1);
-		 //pyGroupBox->setLayout(pyLayout0);
-		 
-		 //QVBoxLayout * pyLayout = new QVBoxLayout;
-		 
-		 //pyLayout->addWidget(editorPy);
-		 //pyLayout->addWidget(pyGroupBox);
-		 
-		 //QWidget * widget = new QWidget;
-		 //widget->setLayout(pyLayout);
-		 splitter2->addWidget(editorPy);
-		 
-		 splitter2->addWidget(new TCFunctionsListView(QString(), appDir + tr("/c/API/Python/TC_py.h"),editorPy));
-		 splitter2->setStretchFactor(0,2);
-		 
-		 tabWidget->addTab(splitter1,tr("C"));
-		 tabWidget->addTab(splitter2,tr("Python"));
-		 tabWidget->setCurrentIndex(1);
-		 
-		 window->setCentralWidget(tabWidget);
-		 window->setWindowTitle(name);
-		 
-		 QHBoxLayout * layout = new QHBoxLayout;
-		 layout->addWidget(window);
-		 layout->setContentsMargins(0,0,0,0);
-		 setLayout(layout);
-		
-		 /*if (editorC)
-		 {
-			 QStringList functionNamesOnly;
-			 for (int i=0; i < functionNames.size(); ++i)
-			 {
-				QString s = functionNames[i];
-				int k = s.indexOf(QChar(' '));
-				if (k > 1)
-				{
-					QString s2 = (s.right( s.length() - k - 1 )).trimmed();
-					functionNamesOnly += s2;
-				}
-				else
-				{
-					QString s2 = (s.trimmed());
-					functionNamesOnly += s2;
-				}
-			 }
-			 editorC->completer.setModel(new QStringListModel(functionNamesOnly, &editorC->completer));
-			 editorC->completer.setModelSorting(QCompleter::CaseInsensitivelySortedModel);
-			 editorC->completer.setCaseSensitivity(Qt::CaseInsensitive);
-			 editorC->completer.setWrapAround(false);
-			 editorC->completer.setWidget(editorC);
-			 editorC->completer.setCompletionMode(QCompleter::PopupCompletion);
-			 editorC->completer.setCaseSensitivity(Qt::CaseInsensitive);
-			 QObject::connect(&editorC->completer, SIGNAL(activated(const QString&)),
-							  editorC, SLOT(insertCompletion(const QString&)));
-		 }*/
 	 }
-	
-	/*void CodingWindow::runPyLine()
-	{
-		if (pyLineEdit && !pyLineEdit->text().isEmpty())
-		{
-			pyLineEdit->addToHistory(pyLineEdit->text());
-			emit runPy(pyLineEdit->text());
-			pyLineEdit->setText(tr(""));
-		}
-	}*/
-	
+
 	void CodingWindow::convertCodeToButton()
 	{
 		QString tcdir("Tinkercell");
-		
+
 		QString dllDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
-		
+
 		QString dllname = dllDescription;
 		dllname.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
-		
-		
+
+
 		QDir dir(MainWindow::userHome());
 		if (!dir.exists(tcdir))
 		{
 			dir.mkdir(tcdir);
 		}
-		
-		dir.cd(tcdir);		
-		
+
+		dir.cd(tcdir);
+
 		QString dllsdir("dlls");
-		
+
 		if (!dir.exists(dllsdir))
 		{
 			dir.mkdir(dllsdir);
 		}
-		
+
 		dir.cd(dllsdir);
-		
+
 		QString command, file;
-		
+
 		QString appDir = QCoreApplication::applicationDirPath();
   		 #ifdef Q_WS_MAC
 		 appDir += tr("/../../..");
@@ -185,7 +105,7 @@ namespace Tinkercell
 		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa"); //linux
 		 #endif
 		 #endif
-		
+
 		if (editorC && tabWidget->currentIndex() == 0)
 		{
 			QFile qfile(homeDir + tr("code.c"));
@@ -195,10 +115,10 @@ namespace Tinkercell
 			QTextStream out(&qfile);
 			out << (editorC->toPlainText());
 			qfile.close();
-		
+
 			QProcess proc;
 			QString errors,output;
-			
+
 			proc.start(command);
 			proc.waitForFinished();
 
@@ -208,29 +128,30 @@ namespace Tinkercell
 
 			output += proc.readAllStandardOutput();
 
+            if (console())
 			if (!errors.isEmpty())
-				ConsoleWindow::error(errors);
+				console()->error(errors);
 			else
-				ConsoleWindow::message(output);
-			
+				console()->message(output);
+
 			QFile dllsfile(dir.filePath(tr("menu.txt")));
 			QString entireFile;
-			
+
 			if (dllsfile.open(QFile::ReadOnly))
 			{
 				entireFile = dllsfile.readAll();
 				dllsfile.close();
 			}
-			
-			if (!dllsfile.open(QFile::WriteOnly | QFile::Text)) 
+
+			if (!dllsfile.open(QFile::WriteOnly | QFile::Text))
 				return;
-			
+
 			entireFile += tr("\ndlls/") + dllname + tr(",") + dllDescription + tr(",") + tr("dlls/default.png");
-			
+
 			dllsfile.write(entireFile.toAscii());
-			
+
 			dllsfile.close();
-			
+
 			emit reloadLibraryList(dir.filePath(tr("menu.txt")),false);
 		}
 		else
@@ -243,7 +164,7 @@ namespace Tinkercell
 			QTextStream outpy(&pyfile);
 			outpy << (editorPy->toPlainText());
 			pyfile.close();
-			
+
 			QFile qfile(homeDir + tr("code.c"));
 			if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 				return;
@@ -251,10 +172,10 @@ namespace Tinkercell
 			QTextStream out(&qfile);
             out << tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"dlls/") + dllname + tr(".py\");\n    return 0;\n}\n");
 			qfile.close();
-		
+
 			QProcess proc;
 			QString errors,output;
-			
+
 			proc.start(command);
 			proc.waitForFinished();
 
@@ -264,37 +185,64 @@ namespace Tinkercell
 
 			output += proc.readAllStandardOutput();
 
-			if (!errors.isEmpty())
-				ConsoleWindow::error(errors);
-			else
-				ConsoleWindow::message(output);
-			
+            if (console())
+                if (!errors.isEmpty())
+                    console()->error(errors);
+                else
+                    console()->message(output);
+
 			QFile dllsfile(dir.filePath(tr("menu.txt")));
 			QString entireFile;
-			
+
 			if (dllsfile.open(QFile::ReadOnly))
 			{
 				entireFile = dllsfile.readAll();
 				dllsfile.close();
 			}
-			
-			if (!dllsfile.open(QFile::WriteOnly | QFile::Text)) 
+
+			if (!dllsfile.open(QFile::WriteOnly | QFile::Text))
 				return;
-			
+
 			entireFile += tr("\ndlls/") + dllname + tr(",") + dllDescription + tr(",") + tr("dlls/default.png");
-			
+
 			dllsfile.write(entireFile.toAscii());
-			
+
 			dllsfile.close();
-			
+
 			emit reloadLibraryList(dir.filePath(tr("menu.txt")),false);
 		}
-		
+
 	}
 
 	bool CodingWindow::setMainWindow(MainWindow* main)
 	{
 		Tool::setMainWindow(main);
+
+		QString appDir = QCoreApplication::applicationDirPath();
+
+		QSplitter * splitter1 = new QSplitter(Qt::Horizontal);
+        splitter1->addWidget(editorC);
+        splitter1->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), QString(), editorC));
+        splitter1->setStretchFactor(0,2);
+
+        QSplitter * splitter2 = new QSplitter(Qt::Horizontal);
+        splitter2->addWidget(editorPy);
+
+        splitter2->addWidget(new TCFunctionsListView(mainWindow, QString(), appDir + tr("/c/API/Python/TC_py.h"),editorPy));
+        splitter2->setStretchFactor(0,2);
+
+        tabWidget->addTab(splitter1,tr("C"));
+        tabWidget->addTab(splitter2,tr("Python"));
+        tabWidget->setCurrentIndex(1);
+
+        window->setCentralWidget(tabWidget);
+        window->setWindowTitle(name);
+
+        QHBoxLayout * layout = new QHBoxLayout;
+        layout->addWidget(window);
+        layout->setContentsMargins(0,0,0,0);
+        setLayout(layout);
+
 		if (mainWindow)
 		{
 			QDockWidget * dock = 0;
@@ -304,11 +252,11 @@ namespace Tinkercell
 			dock->setFloating(true);
 			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
 			dock->hide();
-			
+
 			QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);
 			action->setIcon(QIcon(tr(":/images/source.png")));
-			//action->setCheckable(true);
+
 			if (dock)
 				connect(action,SIGNAL(triggered()),dock,SLOT(show()));
 			else
@@ -322,7 +270,7 @@ namespace Tinkercell
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
 			toolBar->addAction(action);
-			
+
 			if (mainWindow->tool(tr("Python Interpreter")))
 			{
 				QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
@@ -331,7 +279,7 @@ namespace Tinkercell
 					PythonTool * pyTool = static_cast<PythonTool*>(widget);
 					connect(this,SIGNAL(runPy(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
 					connect(this,SIGNAL(stopPy()),pyTool,SLOT(stopPython()));
-					
+
 					if (this->toolBar)
 					{
 						QProgressBar * progressBar = new QProgressBar(this->toolBar);
@@ -341,7 +289,7 @@ namespace Tinkercell
 					}
 				}
 			}
-			
+
 			if (mainWindow->tool(tr("Load C Libraries")))
 			{
 				QWidget * widget = mainWindow->tool(tr("Load C Libraries"));
@@ -352,17 +300,17 @@ namespace Tinkercell
 							loadCTool,SLOT(compileBuildLoadC(const QString&,const QString&,const QString&)));
 				}
 			}
-			
+
 			if (mainWindow->helpMenu)
 			{
 				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
 			}
-			
+
 			return true;
 		}
 		return false;
 	}
-	
+
 	 void CodingWindow::pyscesHelp()
 	 {
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -385,14 +333,14 @@ namespace Tinkercell
 
 		 editorC = new RuntimeCodeEditor;
 		 editorC->setFont(font);
-		 
+
 		 editorPy = new RuntimeCodeEditor;
 		 editorPy->setFont(font);
-		 
+
 		 highlighterC = new CandPythonSyntaxHighlighter(editorC->document());
-		 
+
 		 highlighterPy = new CandPythonSyntaxHighlighter(editorPy->document());
-		
+
                  editorC->setPlainText(tr("#include \"TC_api.h\"\nvoid run()\n{\n\n\n\n   return; \n}\n"));
 		 editorPy->setPlainText(tr("import pytc\n"));
 	 }
@@ -401,51 +349,51 @@ namespace Tinkercell
 	 {
 		 toolBar = new QToolBar(window);
 		 QAction * action;
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/new.png"),tr("New"),this,SLOT(newDoc()));
 		 action->setShortcut(QKeySequence(QKeySequence::New));
 		 action->setToolTip(tr("New"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/open.png"),tr("Open"),this,SLOT(open()));
 		 action->setShortcut(QKeySequence(QKeySequence::Open));
 		 action->setToolTip(tr("Open"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/save.png"),tr("Save"),this,SLOT(save()));
 		 action->setShortcut(QKeySequence(QKeySequence::Save));
 		 action->setToolTip(tr("Save"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/undo.png"),tr("Undo"),this,SLOT(undo()));
 		 action->setToolTip(tr("Undo"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/redo.png"),tr("Redo"),this,SLOT(redo()));
 		 action->setToolTip(tr("Redo"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/cmd.png"),tr("Command"),&commandDialog,SLOT(exec()));
 		 action->setToolTip(tr("Edit command"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/play.png"),tr("Run"),this,SLOT(run()));
 		 action->setToolTip(tr("Run code"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPy()));
 		 action->setToolTip(tr("Terminate (Python only)"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/default.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
 		 action->setToolTip(tr("Add code to the functions list"));
-		 
+
 		 action = toolBar->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(about()));
 		 action->setToolTip(tr("About"));
-		 
+
 		 //new QShortcut(tr("Ctrl+S"),this,SLOT(save()),SLOT(save()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+N"),this,SLOT(newDoc()),SLOT(newDoc()),Qt::WidgetShortcut);
 		 //new QShortcut(tr("Ctrl+A"),this,SLOT(selectAll()),SLOT(selectAll()),Qt::WidgetShortcut);
-		 
+
 		 window->addToolBar(toolBar);
-		 
+
 		 //editorC->grabShortcut(tr("Ctrl+S"));
 		 //editorC->grabShortcut(tr("Ctrl+N"));
 		 //editorC->grabShortcut(tr("Ctrl+A"));
 	 }
-	 
+
 	void CodingWindow::newDoc()
 	{
 		if (tabWidget)
@@ -469,7 +417,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	void CodingWindow::selectAll()
 	{
 		if (tabWidget)
@@ -553,11 +501,11 @@ namespace Tinkercell
 	 void CodingWindow::runC(const QString& code)
 	 {
 		if (mainWindow == 0) return;
-		
+
  		QFile qfile(fileName);
 		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			 return;
-		
+
 		QTextStream out(&qfile);
         if (code.contains( QRegExp(tr("void\\s+run\\s*\\(\\s*\\)")) ))
 		{
@@ -568,16 +516,16 @@ namespace Tinkercell
             QMessageBox::information(mainWindow,tr("Error"),tr("no run() function in the code"));
 			return;
 		}
-		
+
 		qfile.close();
-		
+
 #ifdef Q_WS_WIN
 		emit compileBuildLoadC(tr("code.c odesim.o cells_ssa.o"),tr("run"),tr("C code"));
 #else
 		emit compileBuildLoadC(tr("code.c -lodesim -lcells_ssa"),tr("run"),tr("C code"));
 #endif
 	 }
-	 
+
 	 void CodingWindow::setupDialog()
 	 {
 		QGridLayout * layout = new QGridLayout;
@@ -588,15 +536,15 @@ namespace Tinkercell
 		QLabel * label1 = new QLabel(tr("save code as:"));
 		QLabel * label2 = new QLabel(tr("compile C using:"));
 		QLabel * label3 = new QLabel(tr("compile Python using: "));
-		
+
 		fileNameEdit = new QLineEdit(fileName);
 		commandPyEdit = new QLineEdit(commandPy);
 		commandCEdit = new QLineEdit(commandC);
-		
+
 		layout->addWidget(label1,0,0,Qt::AlignLeft);
 		layout->addWidget(label2,1,0,Qt::AlignLeft);
 		layout->addWidget(label3,2,0,Qt::AlignLeft);
-		
+
 		layout->addWidget(fileNameEdit,0,1);//,Qt::AlignRight);
 		layout->addWidget(commandCEdit,1,1);//Qt::AlignRight);
 		layout->addWidget(commandPyEdit,2,1);//,Qt::AlignRight);
@@ -646,7 +594,7 @@ namespace Tinkercell
 	 void RuntimeCodeEditor::save(const QString& ext)
 	 {
 		 QString fileName;
-		 
+
 		 if (defaultSavedFilename.contains(ext))
 			fileName = defaultSavedFilename[ext];
 
@@ -655,7 +603,7 @@ namespace Tinkercell
 			 fileName = QFileDialog::getSaveFileName(this, tr("Save File"),MainWindow::previousFileName, ext);
 		 }
 
-		 if (!fileName.isNull() && !fileName.isEmpty()) 
+		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
 			 MainWindow::previousFileName = fileName;
 			 QFile file(fileName);
@@ -675,7 +623,7 @@ namespace Tinkercell
 			 fileName = QFileDialog::getSaveFileName(this,
 				 tr("Save File"), MainWindow::previousFileName, ext);
 
-		 if (!fileName.isNull() && !fileName.isEmpty()) 
+		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
 			 MainWindow::previousFileName = fileName;
 			 QFile file(fileName);
@@ -714,10 +662,10 @@ namespace Tinkercell
 			 return;
 		 }
 
-		 if (completer.popup()->isVisible()) 
+		 if (completer.popup()->isVisible())
 		 {
 			 // The following keys are forwarded by the completer to the widget
-			switch (keyEvent->key()) 
+			switch (keyEvent->key())
 			{
 				case Qt::Key_Enter:
 				case Qt::Key_Return:
@@ -752,7 +700,7 @@ namespace Tinkercell
 		}
 
 		//auto complete
-		if (completionPrefix != completer.completionPrefix()) 
+		if (completionPrefix != completer.completionPrefix())
 		{
 			completer.setCompletionPrefix(completionPrefix);
 			completer.popup()->setCurrentIndex(completer.completionModel()->index(0, 0));
@@ -760,7 +708,7 @@ namespace Tinkercell
 		QRect cr = cursorRect();
 		cr.setWidth(completer.popup()->sizeHintForColumn(0)
                     + completer.popup()->verticalScrollBar()->sizeHint().width());
-		
+
 		CodeEditor::keyPressEvent(keyEvent);
 
 		completer.complete(cr); // show functions
@@ -782,10 +730,10 @@ namespace Tinkercell
 	      FUNCTIONS LIST
 	 *********************************/
 
-	 TCFunctionsListView::TCFunctionsListView(const QString& cDir, const QString& pyFile, CodeEditor * textEdit)
+	 TCFunctionsListView::TCFunctionsListView(MainWindow* mainWindow, const QString& cDir, const QString& pyFile, CodeEditor * textEdit)
 	 {
 		 if (!cDir.isEmpty()) readCHeaders(cDir);
-		 if (!pyFile.isEmpty()) readPythonHeader(pyFile);
+		 if (!pyFile.isEmpty()) readPythonHeader(mainWindow, pyFile);
 		 sortItems(0,Qt::AscendingOrder);
 		 setSelectionMode(QAbstractItemView::SingleSelection);
 		 setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -794,16 +742,16 @@ namespace Tinkercell
 		 if (textEdit)
 			 connect(this,SIGNAL(insertText(const QString&)),textEdit,SLOT(insertPlainText(const QString&)));
 	 }
-	 
-	 void TCFunctionsListView::readPythonHeader(const QString& filename)
+
+	 void TCFunctionsListView::readPythonHeader(MainWindow * mainWindow, const QString& filename)
 	 {
 		QFile file(filename);
 		if (!file.open(QFile::ReadOnly)) return;
-		
+
 		QStringList funcNames;
-		
+
 		QRegExp regexExample(tr("\"(.+)\",.+,.+,.*\".*(example.+)\""));
-		
+
 		QTreeWidgetItem * currentItem = new QTreeWidgetItem(QStringList() << tr("pytc"));
 		addTopLevelItem(currentItem);
 		QString name,ex;
@@ -823,22 +771,19 @@ namespace Tinkercell
 		}
 		expandAll();
 		file.close();
-		
+
 		funcNames.sort();
-		ConsoleWindow * outputWindow = ConsoleWindow::consoleWindow();
-		if (outputWindow && outputWindow->consoleWindowEditor())
+		if (mainWindow && mainWindow->console() && mainWindow->console()->editor())
 		{
-			//funcNames.clear();
-			//funcNames << "apple" << "artichoke" << "beetle" << "crocodile" << "duck";
 			QCompleter * completer = new QCompleter(this);
 			completer->setModel(new QStringListModel(funcNames, completer));
 			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
 			completer->setCaseSensitivity(Qt::CaseInsensitive);
 			completer->setWrapAround(false);
-			outputWindow->consoleWindowEditor()->setCompleter(completer);
+			mainWindow->console()->editor()->setCompleter(completer);
 		}
 	 }
-	 
+
 	 void TCFunctionsListView::readCHeaders(const QString& dirname)
 	 {
 	  	 QDir dir(dirname);
@@ -847,25 +792,25 @@ namespace Tinkercell
 
 		 QFileInfoList list = dir.entryInfoList();
 		 //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-		 
+
 		 QHash<QString,QTreeWidgetItem*> tree;
-		 
-		 for (int i = 0; i < list.size(); ++i) 
+
+		 for (int i = 0; i < list.size(); ++i)
 		 {
 			QFileInfo fileInfo = list.at(i);
 			QFile file(fileInfo.absoluteFilePath());
 		    if (fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
-		 
+
 			QRegExp regexComments(tr("\\brief([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("\\ingroup([^\\n\\r]+)"));
 			QRegExp regexFunction(tr("\\s*(\\S+)\\s*\\(\\s*\\*\\s*([^\\)\\s]+)\\s*\\)(\\([^\\)]*\\))"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
-		 			 
+
 			 while (!file.atEnd())
 			 {
 				 QString line(file.readLine());
-				 
+
 				 regexGroup.indexIn(line);
 				 regexComments.indexIn(line);
 				 regexFunction.indexIn(line);
@@ -888,13 +833,13 @@ namespace Tinkercell
 						addTopLevelItem(currentItem);
 					}
 				 }
-				 
+
 				 if (regexComments.numCaptures() > 0 && regexComments.capturedTexts().at(1).length() > 1)
 				 {
 					QString s = regexComments.capturedTexts().at(1); //comment
 					currentComment = s;
 				 }
-				 
+
 				 if (currentItem && regexFunction.numCaptures() > 0 && regexFunction.capturedTexts().at(1).length() > 0)
 				 {
 					QString name, str;
@@ -902,11 +847,11 @@ namespace Tinkercell
 					if (regexFunction.capturedTexts().at(1) == tr("void"))
 						str = regexFunction.capturedTexts().at(2) + regexFunction.capturedTexts().at(3);
 					else
-						str = regexFunction.capturedTexts().at(1) 
+						str = regexFunction.capturedTexts().at(1)
 								+ tr(" var = ")
-								+ regexFunction.capturedTexts().at(2) 
+								+ regexFunction.capturedTexts().at(2)
 								+ regexFunction.capturedTexts().at(3);
-					
+
 					QTreeWidgetItem * childItem = new QTreeWidgetItem(QStringList() << name << str);
 					currentItem->addChild(childItem);
 					childItem->setToolTip(1,currentComment);
@@ -918,7 +863,7 @@ namespace Tinkercell
 
 		 //QApplication::restoreOverrideCursor();
 	 }
-	 
+
 	 void TCFunctionsListView::mouseDoubleClickEvent ( QMouseEvent *  )
 	 {
 		 QTreeWidgetItem * item = this->currentItem();
@@ -930,10 +875,10 @@ namespace Tinkercell
 
 	 void TCFunctionsListView::keyPressEvent ( QKeyEvent * event )
 	 {
-		 if (event && 
-			 (event->key() == Qt::Key_Enter || 
+		 if (event &&
+			 (event->key() == Qt::Key_Enter ||
 			 event->key() == Qt::Key_Return ||
-			  event->key() == Qt::Key_Space || 
+			  event->key() == Qt::Key_Space ||
 			  event->key() == Qt::Key_Tab))
 		 {
 			QTreeWidgetItem * item = this->currentItem();
@@ -943,7 +888,7 @@ namespace Tinkercell
 			 }
 		 }
 	 }
-	 
+
 	 void CodingWindow::setVisible ( bool visible )
 	 {
 		activateWindow();

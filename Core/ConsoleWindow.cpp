@@ -429,8 +429,6 @@ namespace Tinkercell
 	OUTPUT WINDOW
 	************************************/
 
-	ConsoleWindow * ConsoleWindow::instance = 0;
-
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
 		: Tool(tr("Console Window"))
 	{
@@ -450,60 +448,50 @@ namespace Tinkercell
 
 		connect(&commandTextEdit,SIGNAL(commandExecuted(const QString&)),this,SIGNAL(commandExecuted(const QString&)));
 		connect(&commandTextEdit,SIGNAL(commandInterrupted()),this,SIGNAL(commandInterrupted()));
-		if (!instance)
-			instance = this;
 	}
 
 	/*! \brief show a message text in the output window*/
 	void ConsoleWindow::message(const QString& s)
 	{
-		if (!instance) return;
-
-		instance->commandTextEdit.message(s);
+		commandTextEdit.message(s);
 
 		if (!s.isEmpty())
 		{
-			if (instance->parentWidget())
-				instance->parentWidget()->show();
+			if (parentWidget())
+				parentWidget()->show();
 			else
-				instance->show();
+				show();
 		}
 	}
 
 	void ConsoleWindow::error(const QString& s)
 	{
-		if (!instance) return;
-
-		instance->commandTextEdit.error(s);
+		commandTextEdit.error(s);
 
 		if (!s.isEmpty())
 		{
-			if (instance->parentWidget())
-				instance->parentWidget()->show();
+			if (parentWidget())
+				parentWidget()->show();
 			else
-				instance->show();
+				show();
 		}
 	}
 
 	void ConsoleWindow::eval(const QString& s)
 	{
-		if (!instance) return;
-
-		instance->commandTextEdit.eval(s);
+		commandTextEdit.eval(s);
 
 		if (!s.isEmpty())
 		{
-			if (instance->parentWidget())
-				instance->parentWidget()->show();
+			if (parentWidget())
+				parentWidget()->show();
 			else
-				instance->show();
+				show();
 		}
 	}
 
 	void ConsoleWindow::printTable(const DataTable<qreal>& table)
 	{
-		if (!instance) return;
-
 		QString outputs;
 
 		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
@@ -523,45 +511,30 @@ namespace Tinkercell
 			outputs += tr("\n");
 		}
 
-		instance->commandTextEdit.message(outputs);
+		commandTextEdit.message(outputs);
 
 		if (!outputs.isEmpty())
 		{
-			if (instance->parentWidget())
-				instance->parentWidget()->show();
+			if (parentWidget())
+				parentWidget()->show();
 			else
-				instance->show();
+				show();
 		}
 	}
 
 	void ConsoleWindow::freeze()
 	{
-		if (!instance) return;
-		instance->commandTextEdit.freeze();
+		commandTextEdit.freeze();
 	}
 
 	void ConsoleWindow::unfreeze()
 	{
-		if (!instance) return;
-		instance->commandTextEdit.unfreeze();
+		commandTextEdit.unfreeze();
 	}
 
 	void ConsoleWindow::clear()
 	{
-		if (!instance) return;
-		instance->commandTextEdit.clearText();
-	}
-
-	ConsoleWindow * ConsoleWindow::consoleWindow()
-	{
-		return instance;
-	}
-
-	CommandTextEdit * ConsoleWindow::consoleWindowEditor()
-	{
-		if (!instance) return 0;
-
-		return &(instance->commandTextEdit);
+        commandTextEdit.clearText();
 	}
 
 	CommandTextEdit * ConsoleWindow::editor()

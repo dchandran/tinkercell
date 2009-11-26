@@ -12,7 +12,7 @@ See header file
 namespace Tinkercell
 {
 	double EquationParser::d = 1.0;
-	
+
 	double* EquationParser::AddVariable(const char*, void*)
 	{
 		return &d;
@@ -22,20 +22,20 @@ namespace Tinkercell
 	{
 		return d;
 	}
-	
+
 	void EquationParser::SubstituteFunctionCalls(const QStringList& functions, const QList<QStringList>& arglist, QString& s)
 	{
 		for (int j=0; j < functions.size() && j < arglist.size(); ++j)
 		{
 			QStringList args = arglist[j];
-			
+
 			for (int i=0; i < args.size(); ++i)
 			{
 				s.replace(QRegExp(QString("([^a-ZA-Z0-9])") + args[i] + QString("(?!\\d)")),QString("\\1") + functions[i]);
 			}
 		}
 	}
-	
+
 	bool EquationParser::validate(NetworkWindow * win, ItemHandle * handle, QString& s, const QStringList& reservedWords)
 	{
 		if (!win || !handle) return false;
@@ -146,7 +146,8 @@ namespace Tinkercell
 										}
 										dat.value(str,0) = 1.0;
 										win->changeData(handle->fullName() + QString(".") + str + QString(" = 1"),handle,QString("Numerical Attributes"),&dat);
-										ConsoleWindow::message(QString("New parameter ") + str2 + QString(" = 1.0"));
+										if (win->console())
+                                            win->console()->message(QString("New parameter ") + str2 + QString(" = 1.0"));
 									}
 							}
 					}
@@ -155,32 +156,33 @@ namespace Tinkercell
 		}
 		catch(mu::Parser::exception_type &e)
 		{
-			ConsoleWindow::error(QString(e.GetMsg().data()));
+            if (win->console())
+                win->console()->error(QString(e.GetMsg().data()));
 			return false;
 		}
 		return true;
 	}
-		
+
 	double EquationParser::eval(NetworkWindow * net, QString& s, bool * b, const QList<sd_pair> & assignments)
-	{	
+	{
 		if (!net || s.isEmpty())
 		{
 			if (b)
 				(*b) = false;
 			return 0.0;
 		}
-		
+
 		QString p,n;
 		QRegExp regex1(QString("[\\n\\s]"));
 		QRegExp regex2(QString("\\.(?!\\d)"));
 		QRegExp regex3(QString("\\.([^\\.]+)"));
-		
+
 		SymbolsTable * symbolsTable = &net->symbolsTable;
 		QList<ItemHandle*> allHandles = symbolsTable->handlesFullName.values();
-		
+
 		QStringList functionNames;
 		QList<QStringList> argsList;
-		
+
 		for (int i=0; i < allHandles.size(); ++i)
 		{
 			if (allHandles[i] && allHandles[i]->hasTextData(QString("Functions")))
@@ -195,22 +197,22 @@ namespace Tinkercell
 		}
 
 		SubstituteFunctionCalls(functionNames,argsList,s);
-		
+
 		s.replace(regex1,QString(""));
 		s.replace(regex2,QString("_"));
-		
+
 		mu::Parser parser;
 		parser.SetExpr(s.toAscii().data());
-		
+
 		ItemHandle * handle;
-		
+
 		QList<double> doubles;
-		
+
 		try
 		{
 			parser.SetVarFactory(AddVariable, 0);
 			parser.Eval();
-			
+
 			QStringList existingNames;
 			for (int i=0; i < assignments.size(); ++i)
 			{
@@ -220,7 +222,7 @@ namespace Tinkercell
 				existingNames[i].replace(regex2,QString("_"));
 				parser.DefineVar(existingNames[i].toAscii().data(), &(doubles[i]));
 			}
-			
+
 			if (net)
 			{
 				mu::varmap_type variables = parser.GetVar();
@@ -230,9 +232,9 @@ namespace Tinkercell
 				{
 					n = QString(item->first.data());
 					n.replace(QString("_"),QString("."));
-					
+
 					if (existingNames.contains(n)) continue;
-					
+
 					if (symbolsTable.handlesFullName.contains(n) && (handle = symbolsTable.handlesFullName[n]))
 					{
 						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
@@ -244,7 +246,7 @@ namespace Tinkercell
 						}
 						continue;
 					}
-					
+
 					if (symbolsTable.handlesFirstName.contains(n) && (handle = symbolsTable.handlesFirstName[n]))
 					{
 						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
@@ -254,19 +256,19 @@ namespace Tinkercell
 							else
 								parser.DefineVar(item->first.data(), &(handle->data->numericalData[QString("Initial Value")].value(0,0)));
 						}
-						
+
 						continue;
 					}
-					
+
 					if (symbolsTable.dataRowsAndCols.contains(n) && (handle = symbolsTable.dataRowsAndCols[n].first))
 					{
 						p = symbolsTable.dataRowsAndCols[n].second;
 						regex3.indexIn(n);
-						
+
 						if (regex3.numCaptures() > 0)
 							n = regex3.cap(1);
-						
-						if (handle->data && handle->hasNumericalData(p) 
+
+						if (handle->data && handle->hasNumericalData(p)
 							&& handle->data->numericalData[p].getRowNames().contains(n))
 							{
 								parser.DefineVar(item->first.data(), &(handle->data->numericalData[p].value(n,0)));
@@ -274,22 +276,22 @@ namespace Tinkercell
 					}
 				}
 			}
-			
+
 			if (b)
 				(*b) = true;
-			
+
 			return parser.Eval();
-		}			
+		}
 		catch(mu::Parser::exception_type &e)
 		{
 			if (b)
 				(*b) = false;
 			return 0;
 		}
-		
+
 		if (b)
 			(*b) = false;
 		return 0;
 	}
-	
+
 }

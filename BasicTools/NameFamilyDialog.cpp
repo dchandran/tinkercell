@@ -81,24 +81,24 @@ namespace Tinkercell
 
 		layout->setColumnStretch(0,0);
 		layout->setColumnStretch(1,1);*/
-		
+
 		QVBoxLayout * layout = new QVBoxLayout;
 		QHBoxLayout * layout2 = new QHBoxLayout;
 		QHBoxLayout * layout3 = new QHBoxLayout;
-		
+
 		layout2->addWidget( textEdit = new CodeEditor );
 		layout3->addWidget(okButton);
 		layout3->addWidget(cancelButton);
-		
+
 		layout->addLayout(layout2);
 		layout->addLayout(layout3);
 		layout->setStretchFactor(layout2,1);
 		layout->setStretchFactor(layout3,0);
-		
+
 		QFont font = textEdit->font();
 		font.setPointSize(12);
 		textEdit->setFont(font);
-		
+
 		dialog->setWindowTitle(tr("Information Box"));
 		dialog->setLayout(layout);
 		dialog->setSizeGripEnabled(true);
@@ -141,7 +141,7 @@ namespace Tinkercell
 					data.setRowNames( QStringList() << tr("author") << tr("date") << tr("description") << tr("uri") << tr("reference") );
 					for (int j=0; j < 5; ++j)
 						data.value(j,0) = data.rowName(j);
-						
+
 					data.description() = tr("Annotation: A set of fields and text values. The fields, such as author or date, are the row names. First column contains values.");
 
 					handles[i]->data->textData[tr("Annotation")] = data;
@@ -165,24 +165,25 @@ namespace Tinkercell
 
 		if (!dialog)
 		{
-			ConsoleWindow::error(tr("Tool not initialized."));
+			if (console())
+                console()->error(tr("Tool not initialized."));
 			return;
 		}
 
 		if (dialog->isVisible())
 			dialog->reject();
-			
-		textEdit->clear();		
-		QTextCursor cursor = textEdit->textCursor();		
-		
+
+		textEdit->clear();
+		QTextCursor cursor = textEdit->textCursor();
+
 		QTextCharFormat fieldFormat, textFormat;
-		fieldFormat.setForeground(QColor("#003AA3"));		
+		fieldFormat.setForeground(QColor("#003AA3"));
 		textFormat.setFontWeight(QFont::Bold);
 		textFormat.setForeground(QColor("#252F41"));
-		
+
 		cursor.setCharFormat(fieldFormat);
 		cursor.insertText(tr("name : "));
-		
+
 		cursor.setCharFormat(textFormat);
 		cursor.insertText(handle->name);
 		cursor.insertText(tr("\n"));
@@ -191,12 +192,12 @@ namespace Tinkercell
 		{
 			cursor.setCharFormat(fieldFormat);
 			cursor.insertText(tr("family : "));
-		
+
 			cursor.setCharFormat(textFormat);
 			cursor.insertText(handle->family()->name);
 			cursor.insertText(tr("\n"));
 		}
-		
+
 		if (handle->hasTextData(tr("Annotation")))
 		{
 			DataTable<QString>& annotation = handle->data->textData[tr("Annotation")];
@@ -205,13 +206,13 @@ namespace Tinkercell
 				{
 					cursor.setCharFormat(fieldFormat);
 					cursor.insertText(annotation.rowName(i) + tr(" : "));
-		
+
 					cursor.setCharFormat(textFormat);
 					cursor.insertText(annotation.value(i,0));
 					cursor.insertText(tr("\n"));
 				}
 		}
-		
+
 		dialog->show();
 	}
 
@@ -222,40 +223,40 @@ namespace Tinkercell
 		NetworkWindow * win = mainWindow->currentWindow();
 
 		bool containsConnections = false;
-		
+
 		QStringList strlst = textEdit->toPlainText().split(tr("\n"));
-		
+
 		QRegExp regex(tr("^([^:]+):(.*)"));
 
 		ItemHandle * handle = selectedItem;
-		
+
 		QString field, text;
-		QString name, family;	
+		QString name, family;
 		DataTable<QString> data;
-		
+
 		for (int i=0; i < strlst.size(); ++i)
 		{
 			if (regex.indexIn(strlst[i]) > -1)
 			{
 				field = regex.cap(1);
 				text = regex.cap(2);
-				
+
 				if (field.trimmed().toLower() == tr("name")) name = text.trimmed();
-				else				
+				else
 					if (field.trimmed().toLower() == tr("family")) family = text.trimmed();
 					else
 						if (!field.trimmed().isEmpty())
 							data.value(field,0) = text.trimmed();
 			}
 		}
-		
+
 		if (name != handle->name)
 			win->rename(handle,name);
 
 		if (handle->data && handle->hasTextData(tr("Annotation")))
 		{
 			bool changed = false;
-			
+
 			if (data != handle->data->textData[tr("Annotation")])
 				win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 		}
@@ -266,14 +267,16 @@ namespace Tinkercell
 
 		if (!mainWindow->tool("Nodes Tree"))
 		{
-			ConsoleWindow::error(tr("No nodes family tree available."));
+			if (console())
+                console()->error(tr("No nodes family tree available."));
 			return;
 		}
 
 		NodesTree * nodesTree = static_cast<NodesTree*>(mainWindow->tool("Nodes Tree"));
 		if (!(nodesTree && nodesTree->nodeFamilies.contains(family)))
 		{
-			ConsoleWindow::error(tr("Family name does not match any node family name."));
+			if (console())
+                console()->error(tr("Family name does not match any node family name."));
 			return;
 		}
 
@@ -323,7 +326,8 @@ namespace Tinkercell
 					}
 					else
 					{
-						ConsoleWindow::error(tr("Cannot change family of connected items."));
+						if (console())
+                            console()->error(tr("Cannot change family of connected items."));
 						return;
 					}
 				}
@@ -349,7 +353,10 @@ namespace Tinkercell
 	{
 		NetworkWindow * win = currentWindow();
 		if (win->selectedHandles().size() != 1)
-			ConsoleWindow::error(tr("please select one item"));
+		{
+			if (console())
+                console()->error(tr("please select one item"));
+		}
 		else
 		{
 			showDialog(selectedItem = win->selectedHandles()[0]);

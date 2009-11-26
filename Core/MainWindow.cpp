@@ -190,6 +190,7 @@ namespace Tinkercell
 
 		readSettings();
 
+        consoleWindow = 0;
 		prevWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
@@ -245,6 +246,11 @@ namespace Tinkercell
 		connectTCFunctions();
 
 		parsersMenu = 0;
+	}
+
+	ConsoleWindow * MainWindow::console()
+	{
+	    return consoleWindow;
 	}
 
 	void MainWindow::saveSettings()
@@ -1082,25 +1088,24 @@ namespace Tinkercell
 
 	void MainWindow::clearText(QSemaphore* sem)
 	{
-		ConsoleWindow::clear();
+	    if (console())
+            console()->clear();
 		if (sem)
 			sem->release();
 	}
 
 	void MainWindow::outputText(QSemaphore* sem,const QString& text)
 	{
-		//if (!app)
-		//ConsoleWindow::clear();
-		ConsoleWindow::message(text);
+		if (console())
+            console()->message(text);
 		if (sem)
 			sem->release();
 	}
 
 	void MainWindow::errorReport(QSemaphore* sem,const QString& text)
 	{
-		//if (!app)
-		//ConsoleWindow::clear();
-		ConsoleWindow::error(text);
+		if (console())
+            console()->error(text);
 		if (sem)
 			sem->release();
 	}
@@ -1127,16 +1132,14 @@ namespace Tinkercell
 		}
 		if (!opened)
 		{
-			//if (!app)
-			//ConsoleWindow::clear();
-			ConsoleWindow::error(tr("file not found"));
+			if (console())
+                console()->error(tr("file not found"));
 		}
 		else
 		{
 			QString allText(file.readAll());
-			//if (!app)
-			//ConsoleWindow::clear();
-			ConsoleWindow::message(allText);
+			if (console())
+                console()->message(allText);
 			file.close();
 		}
 
@@ -1147,7 +1150,8 @@ namespace Tinkercell
 
 	void MainWindow::outputTable(QSemaphore* sem,const DataTable<qreal>& table)
 	{
-		ConsoleWindow::printTable(table);
+		if (console())
+            console()->printTable(table);
 		if (sem)
 			sem->release();
 	}
@@ -1628,7 +1632,8 @@ namespace Tinkercell
 			currentScene()->move( graphicsItems , p );
 		}
 		else
-			ConsoleWindow::message(QString::number(items.size()) + tr(" ") + QString::number(pos.cols()));
+			if (console())
+                console()->message(QString::number(items.size()) + tr(" ") + QString::number(pos.cols()));
 
 		if (sem)
 			sem->release();

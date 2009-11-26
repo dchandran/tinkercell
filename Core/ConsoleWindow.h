@@ -123,26 +123,25 @@ namespace Tinkercell
 
 		/*! \brief constructor -- initialize main window*/
 		ConsoleWindow(MainWindow * main = 0);
-		/*! \brief send a command to the console window to be evaluated*/
-		static void eval(const QString&);
-		/*! \brief print a message in the output window*/
-		static void message(const QString&);
-		/*! \brief print an error message in the output window*/
-		static void error(const QString&);
-		/*! \brief print a data table (tab-delimited) in the output window*/
-		static void printTable(const DataTable<qreal>& dataTable);
-		/*! \brief clear the output window*/
-		static void clear();
-		/*! \brief freeze the output window. Frozen window will not be responsive to commands*/
-		static void freeze();
-		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
-		static void unfreeze();
-		/*! \brief the global command window*/
-		static ConsoleWindow * consoleWindow();
-		/*! \brief the command window's editor*/
-		static CommandTextEdit * consoleWindowEditor();
+
 		/*! \brief the command window's editor*/
 		CommandTextEdit * editor();
+
+    public slots:
+		/*! \brief send a command to the console window to be evaluated*/
+		void eval(const QString&);
+		/*! \brief print a message in the output window*/
+		void message(const QString&);
+		/*! \brief print an error message in the output window*/
+		void error(const QString&);
+		/*! \brief print a data table (tab-delimited) in the output window*/
+		void printTable(const DataTable<qreal>& dataTable);
+		/*! \brief clear the output window*/
+		void clear();
+		/*! \brief freeze the output window. Frozen window will not be responsive to commands*/
+		void freeze();
+		/*! \brief unfreeze the output window. Frozen window will not be responsive to commands*/
+		void unfreeze();
 
 	signals:
 		/*! \brief the user requested to execute the given command*/
@@ -151,8 +150,6 @@ namespace Tinkercell
 		void commandInterrupted();
 
 	protected:
-		/*! \brief store pointer to the main window's output window*/
-		static ConsoleWindow * instance;
 		/*! \brief the command window*/
 		CommandTextEdit commandTextEdit;
 

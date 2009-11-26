@@ -46,15 +46,15 @@ namespace Tinkercell
 			{
 				numRequiredIn = (int)selectedFamily->numericalAttributes.value("numin");
 				numRequiredOut = (int)selectedFamily->numericalAttributes.value("numout");
-				
+
 				if (numRequiredIn < 1)
 					numRequiredIn = 1;
-				
+
 				if (numRequiredOut < 1)
 					numRequiredOut = 1;
 			}
-			
-			
+
+
 			if (selectedFamily->textAttributes.contains(tr("typein")) && selectedFamily->textAttributes.contains(tr("typeout")))
 			{
 				typeIn = selectedFamily->textAttributes[tr("typein")];
@@ -66,10 +66,10 @@ namespace Tinkercell
 	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion")), selectedFamily(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-		
+
 		ConnectionGraphicsItem::DefaultMiddleItemFile = appDir + QString("/OtherItems/simplecircle.xml");
 		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/ArrowItems/Reaction.xml");
-	
+
 		mainWindow = 0;
 		connectionsTree = tree;
 		selectedFamily = 0;
@@ -677,8 +677,8 @@ namespace Tinkercell
 						QString::number(numRequiredIn) + tr(" \"") + typeIn + tr("\" item and ") +
 						QString::number(numRequiredOut) + tr(" \"") + typeOut + tr("\" item");
 					mainWindow->statusBar()->showMessage(messageString);
-					//QMessageBox::information(mainWindow,tr("Invalid selection"),messageString,QMessageBox::Ok,QMessageBox::Ok);
-					ConsoleWindow::message(messageString);
+					if (console())
+                        console()->message(messageString);
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
@@ -753,7 +753,7 @@ namespace Tinkercell
 					for (int i=0; i < selectedNodes.size(); ++i)
 					{
 						center += selectedNodes[i]->scenePos();
-						
+
 						item->curveSegments +=
 							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
 

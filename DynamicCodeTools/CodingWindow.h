@@ -2,9 +2,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  Provides a text window where C code can be written and run dynamically
- 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_CSCRIPT_H
@@ -51,14 +51,14 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	public:
-		TCFunctionsListView(const QString&, const QString&, CodeEditor * textEdit);
+		TCFunctionsListView(MainWindow *, const QString&, const QString&, CodeEditor * textEdit);
 
 	signals:
 		void insertText(const QString&);
 
 	protected:
 		virtual void readCHeaders(const QString& dirName);
-		virtual void readPythonHeader(const QString& fileName);
+		virtual void readPythonHeader(MainWindow *,const QString& fileName);
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 		virtual void keyPressEvent ( QKeyEvent * event );
 	};
@@ -76,7 +76,7 @@ namespace Tinkercell
 		void stopPy();
 		void reloadLibraryList(const QString&, bool);
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
-		
+
 	public slots:
 		void run();
 		void about();
@@ -90,12 +90,12 @@ namespace Tinkercell
 		void selectAll();
 		virtual void setVisible(bool);
 		void pyscesHelp();
-		
+
 	protected slots:
 		void convertCodeToButton();
-		
+
 	protected:
-		
+
 		void setupEditor();
 		void setupMenu();
 		void setupDialog();
@@ -104,11 +104,11 @@ namespace Tinkercell
 		QTimeLine timer;
 		QMainWindow * window;
 		QTabWidget * tabWidget;
-		RuntimeCodeEditor *editorC; 
+		RuntimeCodeEditor *editorC;
 		RuntimeCodeEditor *editorPy;
 		QToolBar * toolBar;
-		
-		RuntimeCodeEditor *editorR; 
+
+		RuntimeCodeEditor *editorR;
 		QLineEdit *commandCEdit, *commandPyEdit, *fileNameEdit;
 		CandPythonSyntaxHighlighter *highlighterC;
 		CandPythonSyntaxHighlighter *highlighterPy;

@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is source file for the GraphicsReplaceTool plugin. 
+This is source file for the GraphicsReplaceTool plugin.
 This plugin adds the copy, cut, and paste features to Tinkercell.
 It also places the buttons for these functions in the toolbar, in the edit menu, and
 the context menu (mouse right-click).
@@ -66,7 +66,7 @@ namespace Tinkercell
 		tabWidget = new QTabWidget(mainWindow);
 
 		QStringList headers;
-		QStringList paths; 
+		QStringList paths;
 		headers << "Nodes, Cells, etc." << "Arrow heads" << "Decorations";
 		paths << "/NodeItems/" << "/ArrowItems/" << "/OtherItems/";
 
@@ -81,10 +81,10 @@ namespace Tinkercell
 
 			QListWidget * nodesListWidget = new QListWidget(mainWindow);
 
-			for (int j = 0; j < list.size(); ++j) 
+			for (int j = 0; j < list.size(); ++j)
 			{
 				QFileInfo fileInfo = list.at(j);
-				if (fileInfo.completeSuffix().toLower() == tr("png") && 
+				if (fileInfo.completeSuffix().toLower() == tr("png") &&
 					dir.exists(fileInfo.baseName() + tr(".xml")))
 				{
 					QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
@@ -103,10 +103,10 @@ namespace Tinkercell
 				userdir.setSorting(QDir::Name);
 				list = userdir.entryInfoList();
 
-				for (int i = 0; i < list.size(); ++i) 
+				for (int i = 0; i < list.size(); ++i)
 				{
 					QFileInfo fileInfo = list.at(i);
-					if (fileInfo.completeSuffix().toLower() == tr("png") && 
+					if (fileInfo.completeSuffix().toLower() == tr("png") &&
 						userdir.exists(fileInfo.baseName() + tr(".xml")) &&
 						!nodesFilesList.contains(userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
 					{
@@ -158,7 +158,7 @@ namespace Tinkercell
 
 		if (!nodesListWidget) return;
 
-		QString fileName = 
+		QString fileName =
 			QFileDialog::getOpenFileName(mainWindow, tr("New Graphics File"),
 			QDir::currentPath(),
 			tr("XML Files (*.xml)"));
@@ -167,7 +167,7 @@ namespace Tinkercell
 
 		QFileInfo fileInfo(fileName);
 
-		if (fileInfo.completeSuffix().toLower() == tr("xml") && 
+		if (fileInfo.completeSuffix().toLower() == tr("xml") &&
 			!nodesFilesList.contains(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
 		{
 			QListWidgetItem * item = new QListWidgetItem(
@@ -178,7 +178,8 @@ namespace Tinkercell
 		}
 		else
 		{
-			ConsoleWindow::message(tr("this file is already listed"));
+			if (console())
+                console()->message(tr("this file is already listed"));
 		}
 	}
 
@@ -245,7 +246,7 @@ namespace Tinkercell
 			QGraphicsItem * parent = nodesList[i]->parentItem();
 			nodesList[i]->setParentItem(0);
 
-			QPointF p = nodesList[i]->scenePos();			
+			QPointF p = nodesList[i]->scenePos();
 			QTransform t0 = nodesList[i]->sceneTransform();
 			QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
 
@@ -255,7 +256,7 @@ namespace Tinkercell
 			nodesList[i]->resetTransform();
 
 			NodeGraphicsReader reader;
-			reader.readNodeGraphics(nodesList[i],&file);				    
+			reader.readNodeGraphics(nodesList[i],&file);
 			nodesList[i]->normalize();
 
 			nodesList[i]->setPos(p);

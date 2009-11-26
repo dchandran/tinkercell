@@ -13,24 +13,25 @@ using namespace Tinkercell;
 
 namespace Multicell
 {
-	
-	CellTypeSelector::CellTypeSelector(QWidget * parent) : QListWidget(parent), buttonGroup(this)
+
+	CellTypeSelector::CellTypeSelector(MainWindow * mainWindow, QWidget * parent) :
+        QListWidget(parent), buttonGroup(this), main(mainWindow)
 	{
 		setSpacing(20);
 		buttonGroup.setExclusive(true);
 		connect(&buttonGroup,SIGNAL( buttonPressed ( int )),this,SLOT(buttonPressed(int)));
-		
+
 		QListWidgetItem * item = new QListWidgetItem;
 		addItem (item);
-		
+
 		QToolButton * toolButton = new QToolButton(this);
 		toolButton->setIcon(QIcon(":/images/arrow.png"));
-		
+
 		setItemWidget(item,toolButton);
-		
+
 		buttonGroup.addButton(toolButton,0);
 	}
-	
+
 	void CellTypeSelector::buttonPressed ( int i )
 	{
 		if (i == 0)
@@ -40,40 +41,42 @@ namespace Multicell
 			--i;
 			if (i < cellColors.size() && i < cellFamilies.size())
 				emit cellTypeSelected(cellFamilies[i],cellColors[i]);
-			ConsoleWindow::message(cellFamilies[i]->name + tr(" selected"));
+            if (main && main->console())
+                main->console()->message(cellFamilies[i]->name + tr(" selected"));
 		}
 	}
-	
-	
+
+
 	void CellTypeSelector::addCellType(NodeFamily* family,const QColor& color)
 	{
 		if (!family) return;
 		cellColors << color;
-		cellFamilies << family;		
-		
+		cellFamilies << family;
+
 		QListWidgetItem * item = new QListWidgetItem(family->name);
 		addItem ( item );
-		
-		QToolButton * toolButton = new QToolButton(this);		
+
+		QToolButton * toolButton = new QToolButton(this);
 		QString style = tr("background-color: ") + color.name() + tr(";");
 		toolButton->setStyleSheet(style);
-		
+
 		setItemWidget(item,toolButton);
-		
+
 		buttonGroup.addButton(toolButton,cellFamilies.size());
-		
+
 		if (family)
-			ConsoleWindow::message(family->name + tr(" added"));
+            if (main->console())
+                main->console()->message(family->name + tr(" added"));
 	}
-	
+
 	void CellTypeSelector::addCellType()
 	{
 	}
-	
+
 	void CellTypeSelector::removeCellType()
 	{
 	}
-	
+
 	CellTypeSelector::~CellTypeSelector()
 	{
 		for (int i=0; i < cellFamilies.size(); ++i)
@@ -82,7 +85,7 @@ namespace Multicell
 				for (int j=(i+1); j < cellFamilies.size(); ++j) //avoid duplicate deletes
 					if (cellFamilies[j] == cellFamilies[i])
 						cellFamilies[j] = 0;
-				
+
 				delete cellFamilies[i];
 				cellFamilies[i] = 0;
 			}

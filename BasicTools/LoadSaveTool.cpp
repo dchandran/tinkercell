@@ -185,7 +185,8 @@ namespace Tinkercell
 		if (!file.open(QFile::WriteOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
+			if (console())
+                console()->error(tr("file cannot be opened : ") + filename);
 			return;
 		}
 
@@ -303,7 +304,8 @@ namespace Tinkercell
 		if (!file.open(QFile::WriteOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
+			if (console())
+                console()->error(tr("file cannot be opened : ") + filename);
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
 		}
@@ -411,7 +413,8 @@ namespace Tinkercell
 		emit modelSaved(scene->networkWindow);
 
 		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
-		ConsoleWindow::message(tr("model successfully saved in : ") + filename);
+		if (console())
+            console()->message(tr("model successfully saved in : ") + filename);
 	}
 
 	void LoadSaveTool::loadModel(const QString& filename)
@@ -471,8 +474,8 @@ namespace Tinkercell
 
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
-			//QMessageBox::information(mainWindow,tr("Cannot load model"),tr("No Nodes or Connections tree available."),QMessageBox::Ok,QMessageBox::Ok);
-			ConsoleWindow::error(tr("No Nodes or Connections tree available."));
+			if (console())
+                console()->error(tr("No Nodes or Connections tree available."));
 			return;
 		}
 
@@ -484,7 +487,8 @@ namespace Tinkercell
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
+			if (console())
+                console()->error(tr("file cannot be opened : ") + filename);
 
 			//qDebug() << "file cannot be opened : " << filename;
 			return;
@@ -555,7 +559,8 @@ namespace Tinkercell
 		if (!file2.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened") + filename);
-			ConsoleWindow::error(tr("file cannot be opened : ") + filename);
+			if (console())
+                console()->error(tr("file cannot be opened : ") + filename);
 
 			//qDebug() << "file cannot be opened";
 			return;

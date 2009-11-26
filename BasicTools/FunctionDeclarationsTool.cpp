@@ -227,7 +227,7 @@ namespace Tinkercell
 					newData.removeRow(f);
 
 					win->changeData(handle->fullName() + tr(".") + f + tr(" removed"), handle,tr("Assignments"),&newData);
-					
+
 				}
 				if (handle->hasTextData(tr("Functions")) && handle->data->textData[tr("Functions")].getRowNames().contains(f))
 				{
@@ -253,7 +253,7 @@ namespace Tinkercell
 					return;
 
 				if (handle->name == var) var = handle->fullName();
-				
+
 				int k = 0;
 				while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + var))
 					var = regex1.cap(1) + QString::number(++k);
@@ -306,7 +306,8 @@ namespace Tinkercell
 					}
 					catch(mu::Parser::exception_type &)
 					{
-						ConsoleWindow::error("cannot parse " + s);
+						if (console())
+                            console()->error("cannot parse " + s);
 						return;
 					}
 
@@ -358,7 +359,7 @@ namespace Tinkercell
 
 		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
 		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
-		
+
 		QToolButton * calc = new QToolButton(this);
 		calc->setIcon(QIcon(":/images/calc.png"));
 		calc->setToolTip(tr("Get function values"));
@@ -650,11 +651,11 @@ namespace Tinkercell
 		if (list && !handles.isEmpty())
 		{
 			QList<ItemHandle*> items = handles;
-			
+
 			if (currentWindow() && currentWindow()->modelItem())
 				if (!items.contains(currentWindow()->modelItem()))
 					items << currentWindow()->modelItem();
-			
+
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -668,7 +669,7 @@ namespace Tinkercell
 					{
 						s = lst[j];
 						s.replace(regex,tr("_"));
-						
+
 						if (items[i]->fullName().isEmpty())
 							(*list) << s;
 						else
@@ -686,11 +687,11 @@ namespace Tinkercell
 		if (list && !handles.isEmpty())
 		{
 			QList<ItemHandle*> items = handles;
-			
+
 			if (currentWindow() && currentWindow()->modelItem())
 				if (!items.contains(currentWindow()->modelItem()))
 					items << currentWindow()->modelItem();
-					
+
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -716,18 +717,18 @@ namespace Tinkercell
 	{
 		if (!item && currentWindow())
 			item = currentWindow()->modelItem();
-			
+
 		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
 				item->data->textData[tr("Assignments")] = DataTable<QString>();
 
 			DataTable<QString> dat = item->data->textData[tr("Assignments")];
-			
+
 			QString f = func;
 			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
 			f.replace(regex,QString("\\1.\\2"));
-			
+
 			if (!dat.getRowNames().contains(var) || f != dat.value(var,0))
 			{
 				dat.value(var,0) = func;
@@ -796,7 +797,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-	
+
 	void AssignmentFunctionsTool::eval()
 	{
 		bool b;
@@ -815,6 +816,7 @@ namespace Tinkercell
 				}
 			}
 		if (values.size() > 0)
-			ConsoleWindow::message(values.join(tr("\n")));
+			if (console())
+                console()->message(values.join(tr("\n")));
 	}
 }

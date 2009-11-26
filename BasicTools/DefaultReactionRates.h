@@ -33,7 +33,7 @@ namespace Tinkercell
 
 			bool isElongation = (nodes.size() == 2) && nodes[0] && nodes[1] && nodes[0]->isA(QString("Part")) && nodes[1]->isA(QString("Part"));
 			bool isRegulatory = (isElongation && nodes.size() > 0 && (nodes[0])->isA(QString("Regulator")));
-			bool isTermination = (handle->family() && handle->family()->isA(QString("Elongation")) && 
+			bool isTermination = (handle->family() && handle->family()->isA(QString("Elongation")) &&
 				nodes.size() > 1 && (nodes[1]) && (nodes[1])->isA(QString("Terminator")));
 			bool isTranscription = (handle->isA(QString("Transcription")));
 			bool isGRN = (handle->isA(QString("Transcription Regulation")));
@@ -95,27 +95,27 @@ namespace Tinkercell
 							}
 							else
 							{
-								if (!isTranscription && !isRegulatory && !isGRN)		
+								if (!isTranscription && !isRegulatory && !isGRN)
 									stoichiometry[ nodes.indexOf(node) ] += -1.0;
 							}
 
 							rates.value(0,0) += QString("*") + node->fullName();
 						}
 					}
-					else			
+					else
 					{
 						if (!nodes.contains(node))
 						{
 							nodes += node;
 							names += node->fullName();
-							if (!isTermination && !isBinding && !isGRN)	
+							if (!isTermination && !isBinding && !isGRN)
 								stoichiometry += 1.0;
 							else
 								stoichiometry += 0.0;
 						}
 						else
 						{
-							if (!isTermination && !isGRN)	
+							if (!isTermination && !isGRN)
 								stoichiometry[ nodes.indexOf(node) ] += 1.0;
 						}
 
@@ -136,7 +136,7 @@ namespace Tinkercell
 				rates.rowName(1) = QString("unbind");
 				for (int i=0; i < stoichiometryMatrix.cols()-1; ++i)
 				{
-					stoichiometryMatrix.value(0,i) = -1.0;	
+					stoichiometryMatrix.value(0,i) = -1.0;
 					stoichiometryMatrix.value(1,i) = 1.0;
 				}
 				stoichiometryMatrix.value(0,stoichiometryMatrix.cols()-1) = 1.0;
@@ -166,22 +166,13 @@ namespace Tinkercell
 					stoichiometryMatrix.colName(i) = names[i];
 				}
 			}
-			
+
 			stoichiometryMatrix.description() = QString("Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same.");
 			rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
 			handle->data->numericalData.insert(QString("Stoichiometry"),stoichiometryMatrix);
 			handle->data->textData.insert(QString("Rates"),rates);
 
-			if (isBinding)
-				ConsoleWindow::message( QString("Note: binding connections are composed of two reactions; use the stoichiometry tool to view this.") );
-			/*else
-				if (isGRN)
-					ConsoleWindow::message( QString("Note: the default regulatory reactions do not have any associated kinetics") );
-				else
-					if (isElongation)
-						ConsoleWindow::message( QString("Note: the default elongation reactions do not have any associated kinetics.") );
-			*/
 		}
 	};
 }

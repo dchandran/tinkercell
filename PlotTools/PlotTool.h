@@ -139,6 +139,11 @@ namespace Tinkercell
 			\param double end value for x
 		*/
 		void plotFormula(const QStringList&,const QString& x = QString(),double start=0,double end=0, int points=100, const QString& title=QString());
+    public:
+
+        /*! \brief remove all items in the data table that are not visible in any scene
+		*/
+        static void pruneDataTable(DataTable<qreal>& table, int& xaxis, MainWindow* main);
 
 	private:
 
@@ -155,7 +160,6 @@ namespace Tinkercell
 		static void _surface(Matrix a, double, double, double, double, const char*);
 		static Matrix _plotData(int);
 		static PlotTool_FToS fToS;
-		static void pruneDataTable(DataTable<qreal>& table, int& xaxis, MainWindow* main);
 
 		friend class PlotWidget;
 		QStringList exportOptions;

@@ -1,2 +1,2 @@
-FILE(GLOB WIN32_GNUPLOT_FILES *.mnu *.exe *.hlp gp*)
+FILE(GLOB WIN32_GNUPLOT_FILES *.mnu *.exe *.hlp gp* Copy*)
 INSTALL(FILES ${WIN32_GNUPLOT_FILES} DESTINATION win32/gnuplot)

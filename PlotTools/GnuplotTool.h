@@ -33,7 +33,7 @@ namespace Tinkercell
 
         /*! \brief launch gnuplot with the given script filename
         \param QString gnuplot script file*/
-        static void gnuplotFile(const QString& file);
+        static void gnuplotFile(const QString&);
 
         /*! \brief launch gnuplot and plot the given matrix*/
         static void gnuplotMatrix(Matrix m, int x, const char* title, int all);
@@ -46,6 +46,18 @@ namespace Tinkercell
 
         /*! \brief launch gnuplot and plot the given surface matrix*/
         static void gnuplotDataTable3D(const DataTable<qreal>& m, double xmin, double xmax, double ymin, double ymax, const QString& title);
+
+        /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
+        static void gnuplotHistC(Matrix m, int bins, const char * title);
+
+        /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
+        static void gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title);
+
+        /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
+        static void gnuplotErrorbarsC(Matrix m, int x, const char* title);
+
+        /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
+        static void gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title);
 
         /*! \brief get plotted data*/
         static DataTable<qreal>& getDataTable(int index);
@@ -84,7 +96,7 @@ namespace Tinkercell
         static QList< DataTable<qreal> > data;
 
         /*! \brief gnuplot script editor*/
-        CodeEditor * editor;
+        static CodeEditor * editor;
 
 	};
 }

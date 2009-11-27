@@ -23,25 +23,25 @@ namespace Tinkercell
 {
     QList< DataTable<qreal> > GnuplotTool::data;
 
+    CodeEditor * GnuplotTool::editor = 0;
+
     void GnuplotTool::gnuplotFile(const QString& filename)
     {
     #ifdef Q_WS_WIN
 
-        QString cmd = tr("\"\"") +
+        QString cmd = tr("\"") +
                         QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
-                        tr("\"") +
-                        tr("\\win32\\gnuplot\\pgnuplot.exe -persist < \"") +
+                        tr("\\win32\\gnuplot\\wgnuplot.exe\" \"") +
                         QString(filename).replace(tr("/"),tr("\\")) +
-                        tr("\"\"");
-        system(cmd.toAscii().data());
-
+                        tr("\" - ");
     #else
 
-        QString cmd = tr("gnuplot < ") + filename;
-        system(cmd.toAscii().data());
+        QString cmd = tr("gnuplot ") + filename + tr(" -");
 
     #endif
 
+        //system(cmd.toAscii().data());
+        QProcess::startDetached(cmd);
     }
 
     void GnuplotTool::gnuplotScript(const QString& script)
@@ -53,14 +53,24 @@ namespace Tinkercell
             dir.cd(tr("gnuplot"));
         }
 
+        QString s;
+
+        if (script.left(3) == tr("cd "))
+            s = script;
+        else
+            s = (tr("cd '") + dir.absolutePath() + tr("'\n") + script + tr("\n"));
+
         QString filename(dir.absoluteFilePath(tr("script.txt")));
         QFile file(filename);
         if (file.open(QIODevice::WriteOnly))
         {
-            file.write((tr("cd '") + dir.absolutePath() + tr("'\n") + script + tr("\n")).toAscii());
+            file.write(s.toAscii());
             file.close();
             gnuplotFile(filename);
         }
+
+        if (editor)
+            editor->setPlainText(s);
     }
 
     void GnuplotTool::gnuplotMatrix(Matrix m, int x, const char* title, int all)
@@ -86,11 +96,12 @@ namespace Tinkercell
         if (data.open(QFile::WriteOnly))
         {
             QTextStream out(&data);
+            out << tr("#") << title << tr("\n");
             for (int i=0; i < m.cols(); ++i)
                 if (i > 0)
                     out << tr("\t") << m.colName(i);
                 else
-                    out << tr("#") << m.colName(i);
+                    out << m.colName(i);
             out << tr("\n");
 
             for (int i=0; i < m.rows(); ++i)
@@ -106,20 +117,21 @@ namespace Tinkercell
             data.close();
         }
 
-        QString s("plot");
+        QString s;
         int cols = m.cols();
 
         for (int i=0; i < cols; ++i)
             if (i != x)
             {
-                s += tr(" 'data.txt' using ");
+                if (s.isEmpty())
+                    s += tr("plot 'data.txt' using ");
+                else
+                    s += tr("'' u ");
                 s += QString::number(x+1);
                 s += tr(":");
                 s += QString::number(i+1);
-                s += tr(" with lines lw 3 title '");
-                s += m.colName(i);
-                s += tr("'");
-                if (i < (cols-1))
+                s += tr(" ti col with lines lw 3");
+                if (i < cols-2 || (i < (cols-1) && (cols-1)!=x))
                     s += tr(", ");
             }
         gnuplotScript(s);
@@ -130,6 +142,22 @@ namespace Tinkercell
     }
 
     void GnuplotTool::gnuplotDataTable3D(const DataTable<qreal>& m, double xmin, double xmax, double ymin, double ymax, const QString& title)
+    {
+    }
+
+    void GnuplotTool::gnuplotHistC(Matrix m, int bins, const char * title)
+    {
+    }
+
+    void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)
+    {
+    }
+
+    void GnuplotTool::gnuplotErrorbarsC(Matrix m, int x, const char* title)
+    {
+    }
+
+    void GnuplotTool::gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title)
     {
     }
 
@@ -150,7 +178,6 @@ namespace Tinkercell
 
     GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("gnuplot"),parent)
     {
-        editor = new CodeEditor;
         QVBoxLayout * layout = new QVBoxLayout;
         QHBoxLayout * buttonsLayout = new QHBoxLayout;
 
@@ -179,10 +206,14 @@ namespace Tinkercell
         buttonsLayout->addWidget(button3);
         buttonsLayout->addWidget(button4);
 
-        layout->addWidget(editor);
         layout->addLayout(buttonsLayout);
-        layout->setStretch(0,1);
-        layout->setStretch(1,0);
+        if (!editor)
+        {
+            editor = new CodeEditor(this);
+            layout->addWidget(editor);
+            layout->setStretch(0,0);
+            layout->setStretch(1,1);
+        }
 
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);
@@ -224,6 +255,8 @@ namespace Tinkercell
     typedef void (*tc_PlotTool_api)(
 		void (*plot)(Matrix,int,const char*,int) ,
 		void (*surface)(Matrix,double,double,double,double,const char*) ,
+		//void (*hist)(Matrix,int,const char*) ,
+		//void (*errorbars)(Matrix,int,const char*) ,
 		Matrix (*plotData)(int)
 		);
 
@@ -235,6 +268,8 @@ namespace Tinkercell
 			f(
 				&(gnuplotMatrix),
 				&(gnuplotMatrix3D),
+				//&(gnuplotHistC),
+				//&(gnuplotErrorbarsC),
 				&(getDataMatrix)
 			);
 		}

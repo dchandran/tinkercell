@@ -11,7 +11,7 @@ void (*_tc_surface)(Matrix z, const char* title) = 0;
 void tc_surface(Matrix z, const char* title)
 {
 	if (_tc_surface)
-		_tc_surface(z,xmin,xmax,ymin,ymax,title);
+		_tc_surface(z,title);
 }
 
 void (*_tc_plot)(Matrix data,int xaxis,const char* title, int includeAll) = 0;

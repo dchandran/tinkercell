@@ -46,20 +46,19 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotScript(const QString& script)
     {
-        QDir dir(MainWindow::userHome());
+		QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
             dir.cd(tr("gnuplot"));
         }
 
-        QString filename = dir.absoluteFilePath(tr("script.txt"));
-        QFile file(filename);
+        QFile file(dir.absoluteFilePath(tr("script.txt")));
         if (file.open(QIODevice::WriteOnly))
         {
-            file.write(script.toAscii());
+            file.write((tr("cd '") + dir.absolutePath() + tr("'\n") + script + tr("\n")).toAscii());
             file.close();
-            gnuplotFile(filename);
+            gnuplotFile(tr("script.txt"));
         }
     }
 
@@ -112,9 +111,7 @@ namespace Tinkercell
         for (int i=0; i < cols; ++i)
             if (i != x)
             {
-                s += tr(" '");
-                s += file;
-                s += tr("' using ");
+                s += tr(" 'data.txt' using ");
                 s += QString::number(x+1);
                 s += tr(":");
                 s += QString::number(i+1);
@@ -123,7 +120,6 @@ namespace Tinkercell
                 if (i < (cols-1))
                     s += tr("', ");
             }
-        s += tr("\n");
         gnuplotScript(s);
     }
 
@@ -190,6 +186,12 @@ namespace Tinkercell
         setLayout(layout);
     }
 
+    void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
+    {
+        if (tool && tool != this &&  tool->name.toLower().contains(tr("plot")))
+            (*b) = false;
+    }
+
     bool GnuplotTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
@@ -198,6 +200,9 @@ namespace Tinkercell
         {
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),
                     this,SLOT(setupFunctionPointers( QLibrary * )));
+
+            connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
+                    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
 
             setWindowTitle(name);
             QDockWidget * dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
@@ -236,7 +241,7 @@ namespace Tinkercell
     void GnuplotTool::runScript()
     {
         if (editor)
-            gnuplotScript(editor->toPlainText() + tr("\n"));
+            gnuplotScript(editor->toPlainText());
     }
 
     void GnuplotTool::savePlot()

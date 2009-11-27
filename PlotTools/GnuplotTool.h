@@ -76,6 +76,9 @@ namespace Tinkercell
         /*! \brief for C API */
         void setupFunctionPointers( QLibrary * );
 
+        /*! \brief prevent other plot tool from loading */
+        void toolAboutToBeLoaded( Tool * , bool * );
+
 	private:
         /*! \brief all the data that have been plotted so far*/
         static QList< DataTable<qreal> > data;

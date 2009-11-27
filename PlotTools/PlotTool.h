@@ -4,7 +4,7 @@
  see COPYRIGHT.TXT
 
  This tool displays a plot based on the DataTable contained.
- 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_PLOTTOOL_H
@@ -51,7 +51,7 @@ namespace Tinkercell
 {
 
 	class PlotWidget;
-	
+
 	class PlotTool_FToS : public QObject
 	{
 		Q_OBJECT
@@ -75,7 +75,7 @@ namespace Tinkercell
 	class PlotTool : public Tool
 	{
 		Q_OBJECT
-		
+
 	public:
 		/*! \brief default constructor*/
 		PlotTool();
@@ -91,11 +91,11 @@ namespace Tinkercell
 		virtual void setStatusBarMessage(const QString&);
 		/*! \brief add a dock widget to the plot area*/
 		virtual QDockWidget * addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area = Qt::BottomDockWidgetArea);
-		
+
 		QCheckBox * keepOldPlots, *holdCurrentPlot;
 
 	public slots:
-		
+
 		/*! \brief graph the given data with headers
 			\param DataTable<qreal> table
 			\param QString title
@@ -103,7 +103,7 @@ namespace Tinkercell
 			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
 		*/
 		void plot2D(const DataTable<qreal>&,const QString& = QString(),int xaxis=0,int all = 0);
-		
+
 		/*! \brief surface plot of the given data
 			\param DataTable<qreal> table where value(x,y) is the z value
 			\param double min x
@@ -115,23 +115,23 @@ namespace Tinkercell
 			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
 		*/
 		void plot3DSurface(const DataTable<qreal>& matrix, double xmin, double xmax, double ymin, double ymax, const QString& title);
-		
-		/*! \brief add export option. This will add a new button to the set of export options. 
-			When user selects this option, the exportData method in the current PlotWidget 
+
+		/*! \brief add export option. This will add a new button to the set of export options.
+			When user selects this option, the exportData method in the current PlotWidget
 			will be invoked
 			\param QIcon icon for the export opion
 			\param QString name of the export option
 		*/
 		void addExportOption(const QIcon&,const QString&,const QString& toolTip=QString());
-		
+
 		/*! \brief export data in the given format
 			\param QString format
 		*/
 		void exportData(const QString&);
-		
+
 		/*! \brief open the window for entering functions for plotting*/
 		void plotFormula();
-		
+
 		/*! \brief plot the given set of formulas wih the given x variable
 			\param QStringList list of functions
 			\param QString x variable
@@ -144,12 +144,12 @@ namespace Tinkercell
 
 		QDockWidget* dockWidget, *functionsWidgetDock;
 		QMainWindow * window;
-		QMdiArea * multiplePlotsArea;		
+		QMdiArea * multiplePlotsArea;
 		QPlainTextEdit functionsTextEdit;
 		QDoubleSpinBox spinBox1, spinBox2;
 		QSpinBox spinBox3;
 		QLineEdit xaxisLine;
-		
+
 		void connectTCFunctions();
 		static void _plot(Matrix a, int b, const char*, int);
 		static void _surface(Matrix a, double, double, double, double, const char*);
@@ -163,15 +163,16 @@ namespace Tinkercell
 		QToolBar toolBar;
 		QMenu * exportMenu;
 		QToolBar * otherToolBar;
-		
+
 	private slots:
+        void toolAboutToBeLoaded( Tool * , bool * );
 		void actionTriggered(QAction*);
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
 		void surface(QSemaphore*, DataTable<qreal>&,double,double,double,double,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
-	
+
 	protected:
 		virtual void keyPressEvent ( QKeyEvent * event );
 		virtual void mouseMoveEvent ( QMouseEvent * event );

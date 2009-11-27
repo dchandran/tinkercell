@@ -1,11 +1,11 @@
 /****************************************************************************
 **
-**	This file creates an input window which allows users to run the runcvode.c code 
+**	This file creates an input window which allows users to run the runcvode.c code
 **	with specific inputs for start time, end time, step size, and x-axis
-** And... 
+** And...
 ** gets information from TinkerCell, generates a differential equation model, runs
 ** the simulation, and outputs the data to TinkerCell
-** 
+**
 ****************************************************************************/
 
 #include "TC_api.h"
@@ -15,7 +15,7 @@ void setup();
 
 void tc_main()
 {
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
 }
 
@@ -25,9 +25,9 @@ void setup()
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size", "plot", "update model", 0 };
 	double values[] = { 0, 100, 0.1, 0, 0 };
-	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	char * options2[] = { "Variables", "Rates", 0 }; 
-	char * options3[] = { "No", "Yes", 0 }; 
+	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+	char * options2[] = { "Variables", "Rates", 0 };
+	char * options3[] = { "No", "Yes", 0 };
 	FILE * file;
 
 	m.rows = 5;
@@ -41,10 +41,10 @@ void setup()
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  options2);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  options3);
 
-	return; 
+	return;
 }
 
-void run(Matrix input) 
+void run(Matrix input)
 {
 	Array A;
 	FILE * out;
@@ -102,7 +102,7 @@ void run(Matrix input)
 	{
 		TCFreeArray(A);
 		tc_errorReport("No Model\0");
-		return;  
+		return;
 	}
 
 	out = fopen("ode.c","a");
@@ -144,7 +144,7 @@ void run(Matrix input)
 						free(rates);\n\
 						if (!y) \
 						{\n\
-							tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
+							tc_errorReport(\"Numerical integration (CVODE) failed! Some values might be reaching Inf. Double check your model.\");\n\
 							return;\n\
 						}\n\
 						data.rows = %i;\n\
@@ -181,32 +181,9 @@ void run(Matrix input)
 						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
 						data.colnames[0] = \"time\\0\";\n\
 						for (i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-						FILE * out = fopen(\"ode.tab\",\"w\");\n\
-						for (i=0; i < data.cols; ++i)\n\
-						{\n\
-							fprintf( out, data.colnames[i] );\n\
-							if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
-						}\n\
-						fprintf ( out, \"\\n\");\n\
-						for (i=0; i < data.rows; ++i)\n\
-						{\n\
-							for (j=0; j < data.cols; ++j)\n\
-							{\n\
-								if (j==0)\n\
-									fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
-								else   \n\
-									fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
-							}\n\
-							fprintf( out, \"\\n\");\n\
-						}\n\
-						fclose(out);\n\
-						if (data.rows > 10000)\n\
-							tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ode.tab in your home directory\");\n\
-						else\n\
-							tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
 						tc_plot(data,%i,\"Time Course Simulation\",0);\n\
 						free(data.colnames);  free(y);\n\
-						return;\n}\n", 
+						return;\n}\n",
 						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
 

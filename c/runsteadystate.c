@@ -38,10 +38,10 @@ void loadAllNames()
 		A = tc_allItems();
 	else
 		A = tc_selectedItems();
-	
+
 	if (allNames)
 		TCFreeChars(allNames);
-		
+
 	allNames = 0;
 
 	if (A && A[0])
@@ -55,8 +55,8 @@ void loadAllNames()
 		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
 		allNames[(len+params.rows)] = 0;
 		params.rownames = 0;
-		TCFreeMatrix(params); 
-		TCFreeArray(A); 
+		TCFreeMatrix(params);
+		TCFreeArray(A);
 	}
 }
 
@@ -64,7 +64,7 @@ void callback()
 {
 	loadAllNames();
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
-	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);	
+	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
@@ -73,7 +73,7 @@ void tc_main()
 	allNames = 0;
 
 	strcpy(selected_var,"\0");
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 0);
 	tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 0);
 	tc_callback(&callback);
@@ -86,11 +86,11 @@ void setup1()
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "variable", "start", "end", "increments", "plot", 0 };
 	double values[] = { 0.0, 0.0, 0.0, 10, 0.1, 0 };
-	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important 	
-	
+	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important
+
 	loadAllNames();
-	
+
 	m.rows = 6;
 	m.cols = 1;
 	m.colnames = cols;
@@ -109,8 +109,8 @@ void setup2()
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "x-variable","x-start", "x-end", "x-increment size", "y-variable","y-start", "y-end", "y-increments size", 0 };
 	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0 };
-	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	
+	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+
 	m.rows = 9;
 	m.cols = 1;
 	m.colnames = cols;
@@ -118,13 +118,13 @@ void setup2()
 	m.values = values;
 
 	tc_createInputWindow(m,"2-D Steady state analysis",&run2D);
-	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, options1);	
-	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);	
+	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, options1);
+	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
-void run(Matrix input) 
-{ 
+void run(Matrix input)
+{
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
 	int selection = 0;
@@ -163,7 +163,7 @@ void run(Matrix input)
 	else
 	{
 		A = tc_allItems();
-	}   
+	}
 
 	if (A[0] != 0)
 	{
@@ -172,10 +172,10 @@ void run(Matrix input)
 	else
 	{
 		TCFreeArray(A);
-		return;  
+		return;
 	}
 
-	TCFreeArray(A);   
+	TCFreeArray(A);
 
 	if (index < 0)
 	{
@@ -242,36 +242,17 @@ void run(Matrix input)
 					TCinitialize();\n\
 					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
 				}\n\
-				FILE * out = fopen(\"ss.tab\",\"w\");\n\
-				for (i=0; i < dat.cols; ++i)\n\
-				{\n\
-					fprintf( out, dat.colnames[i] );\n\
-					fprintf( out, \"\\t\" );\n\
-				}\n\
-				fprintf( out, \"\\n\");\n\
-				for (i=0; i < dat.rows; ++i)\n\
-				{\n\
-					for (j=0; j < dat.cols; ++j)\n\
-					{\n\
-						if (j==0)\n\
-							fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
-						else   \n\
-							fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-					}\n\
-					fprintf( out, \"\\n\");\n\
-				}\n\
-				fclose(out);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
 				free(dat.colnames);\n}\n",param,start,dt,param,rateplot);
 
 	fclose(out);
 
 	tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
-	return;  
+	return;
 }
 
-void run2D(Matrix input) 
-{ 
+void run2D(Matrix input)
+{
 	double startx = 0.0, endx = 50.0, starty = 0.0, endy = 50.0;
 	double dx = 0.1, dy = 0.1;
 	int selection = 0;
@@ -305,7 +286,7 @@ void run2D(Matrix input)
 			endy = valueAt(input,7,0);
 		if (input.rows > 8)
 			dy = valueAt(input,8,0);
-	}  
+	}
 
 	if (selection > 0)
 	{
@@ -319,7 +300,7 @@ void run2D(Matrix input)
 	else
 	{
 		A = tc_allItems();
-	}   
+	}
 
 
 	if (A[0] != 0)
@@ -329,23 +310,23 @@ void run2D(Matrix input)
 	else
 	{
 		TCFreeArray(A);
-		return;  
+		return;
 	}
 
 	params = tc_getModelParameters(A);
 	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
 
-	//index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0); 
+	//index1 = tc_getFromList("Select First Variable",allNames,selected_var1,0);
 	//if (index1 >= 0)
 	//index2 = tc_getFromList("Select Second Variable",allNames,selected_var2,0);
-	
-	if (index1 >= 0 && index2 >= 0 && (index1 == index2))	
+
+	if (index1 >= 0 && index2 >= 0 && (index1 == index2))
 	{
-		TCFreeArray(A); 
+		TCFreeArray(A);
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
-	
+
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getFromList("Select Target",names,target_var,0);
 
@@ -404,17 +385,6 @@ void run2D(Matrix input)
 						}\n\
 						tc_showProgress(\"2-parameter steady state\",(100*i)/dat.rows);\n\
 				  }\n\
-				  FILE * out = fopen(\"ss2D.tab\",\"w\");\n\
-				  fprintf( out, \"\\n\");\n\
-				  for (i=0; i < dat.rows; ++i)\n\
-				  {\n\
-					for (j=0; j < dat.cols; ++j)\n\
-					{\n\
-						fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-					}\n\
-					fprintf( out, \"\\n\");\n\
-				  }\n\
-				  fclose(out);\n\
 				  tc_surface(dat,%lf,%lf,%lf,%lf,\"Steady State Plot\");\n\
 				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty, dy, target,startx,endx,starty,endy);
 
@@ -423,6 +393,6 @@ void run2D(Matrix input)
 	tc_compileBuildLoad("ss2D.c -lodesim\0","run\0","2-parameter steady state\0");
 
 	TCFreeMatrix(params);
-	return;  
+	return;
 }
 

@@ -1,11 +1,11 @@
 /****************************************************************************
 **
-** This file creates an input window which allows users to run the runssa.c code 
+** This file creates an input window which allows users to run the runssa.c code
 ** with specific inputs for start time, end time, max array size, and x-axis
 ** AND
 ** gets information from TinkerCell, generates a rate equation model, runs
 ** the Gillespie simulation, and outputs the data to TinkerCell
-** 
+**
 ****************************************************************************/
 
 #include "TC_api.h"
@@ -88,7 +88,7 @@ void runSSA(Matrix input)
 						double * y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, 0);\n\
 						if (!y) \
 						{\n\
-							tc_errorReport(\"SSA failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
+							tc_errorReport(\"Stochastic simulation failed! Some values might be becoming negative or reaching Inf. Double check your model.\");\n\
 							return;\n\
 						}\n\
 						Matrix data;\n\
@@ -102,45 +102,22 @@ void runSSA(Matrix input)
 							TCvars = TCreactions;\n\
 							names = TCreactionnames;\n\
 						}\n\
-						data.cols = 1+TCvars;\n\
-						data.values = y;\n\
-						data.rownames = 0;\n\
-						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-						data.colnames[0] = \"time\\0\";\n\
-						int i,j;\n\
-						for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-						FILE * out = fopen(\"ssa.tab\",\"w\");\n\
-						for (i=0; i < data.cols; ++i)\n\
-						{\n\
-							fprintf( out, data.colnames[i] );\n\
-							if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
-						}\n\
-						fprintf( out, \"\\n\");\n\
-						for (i=0; i < data.rows; ++i)\n\
-						{\n\
-						for (j=0; j < data.cols; ++j)\n\
-						{\n\
-							if (j==0)\n\
-								fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
-							else   \n\
-								fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
-						}\n\
-						fprintf( out, \"\\n\");\n\
-					}\n\
-					fclose(out);\n\
-					if (data.rows > 10000)\n\
-						tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ssa.tab in your home directory\");\n\
-					else\n\
-						tc_print(\"output written to Tinkercell/ssa.tab in your home directory\");\n\
-					tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
-					free(data.colnames);\n\
-					free(y);\n\
-					return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
+                        data.cols = 1+TCvars;\n\
+                        data.values = y;\n\
+                        data.rownames = 0;\n\
+                        data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+                        data.colnames[0] = \"time\\0\";\n\
+                        int i,j;\n\
+                        for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
+                        tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+                        free(data.colnames);\n\
+                        free(y);\n\
+                        return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
 
 	fclose(out);
 
 	tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
-	
+
 	return;
 }
 
@@ -287,7 +264,7 @@ void setupSSA()
 
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
 	tc_addInputWindowOptions("Gillespie algorithm",0, 0,  options1);
-	tc_addInputWindowOptions("Gillespie algorithm",3, 0,  options2);		
+	tc_addInputWindowOptions("Gillespie algorithm",3, 0,  options2);
 }
 
 void setupCellSSA()
@@ -310,7 +287,7 @@ void setupCellSSA()
 
 void tc_main()
 {
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setupSSA, "Discreet stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
 	tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/cells.PNG", "", 1, 0, 0);
 }

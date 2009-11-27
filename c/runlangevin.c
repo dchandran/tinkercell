@@ -1,11 +1,11 @@
 /****************************************************************************
 **
-**	This file creates an input window which allows users to run the runcvode.c code 
+**	This file creates an input window which allows users to run the runcvode.c code
 **	with specific inputs for start time, end time, step size, and x-axis
-** And... 
+** And...
 ** gets information from TinkerCell, generates a stochastic differential equation model, runs
 ** the simulation, and outputs the data to TinkerCell
-** 
+**
 ****************************************************************************/
 
 #include "TC_api.h"
@@ -16,7 +16,7 @@ void setup();
 
 void tc_main()
 {
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Continuous stochastic simulation", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
 }
 
@@ -26,7 +26,7 @@ void setup(Matrix input)
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size",0 };
 	double values[] = { 0.0, 100, 0.1 };
-	char * options[] = { "Full model", "Selected only", 0 }; //null terminated -- very very important 
+	char * options[] = { "Full model", "Selected only", 0 }; //null terminated -- very very important
 
 	m.rows = 3;
 	m.cols = 1;
@@ -38,10 +38,10 @@ void setup(Matrix input)
 	//tc_createInputWindow(m,"dlls/runlangevin","run","Langevin Simulation");
 	tc_addInputWindowOptions("Langevin Simulation",0, 0,  options);
 
-	return; 
+	return;
 }
 
-void run(Matrix input) 
+void run(Matrix input)
 {
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
@@ -59,7 +59,7 @@ void run(Matrix input)
 		if (input.rows > 2)
 			dt = valueAt(input,2,0);
 		if (input.rows > 3)
-			xaxis = (int)valueAt(input,3,0);	     
+			xaxis = (int)valueAt(input,3,0);
 	}
 
 	sz = (int)((end - start) / dt);
@@ -96,7 +96,7 @@ void run(Matrix input)
 	{
 		TCFreeArray(A);
 		tc_errorReport("No Model\0");
-		return;  
+		return;
 	}
 
 	out = fopen("langevin.c","a");
@@ -134,29 +134,6 @@ void run(Matrix input)
 				   data.colnames[0] = \"time\\0\";\n\
 				   int i,j;\n\
 				   for (i=0; i<TCvars; ++i) data.colnames[1+i] = TCvarnames[i];\n\
-				   FILE * out = fopen(\"ode.tab\",\"w\");\n\
-				   for (i=0; i < data.cols; ++i)\n\
-				   {\n\
-				   fprintf( out, data.colnames[i] );\n\
-				   if (i < (data.cols-1)) fprintf( out, \"\\t\" );\n\
-				   }\n\
-				   fprintf ( out, \"\\n\");\n\
-				   for (i=0; i < data.rows; ++i)\n\
-				   {\n\
-				   for (j=0; j < data.cols; ++j)\n\
-				   {\n\
-				   if (j==0)\n\
-				   fprintf( out, \"%%lf\", valueAt(data,i,j) );\n\
-				   else   \n\
-				   fprintf( out, \"\\t%%lf\", valueAt(data,i,j) );\n\
-				   }\n\
-				   fprintf( out, \"\\n\");\n\
-				   }\n\
-				   fclose(out);\n\
-				   if (data.rows > 10000)\n\
-				   tc_print(\"Warning: plot is large. It can slow down TinkerCell.\\noutput written to Tinkercell/ode.tab in your home directory\");\n\
-				   else\n\
-				   tc_print(\"output written to Tinkercell/ode.tab in your home directory\");\n\
 				   tc_plot(data,%i,\"Time Course Simulation\",0);\n\
 				   free(data.colnames);  free(y);\n\
 				   return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);

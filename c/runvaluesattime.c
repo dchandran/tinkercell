@@ -197,25 +197,6 @@ void run(Matrix input)
 					  %s += %lf;\n\
 					  tc_showProgress(\"At Time T\",(100*i)/dat.rows);\n\
 				  }\n\
-				  FILE * out = fopen(\"valuet.tab\",\"w\");\n\
-				  for (i=0; i < dat.cols; ++i)\n\
-				  {\n\
-					fprintf( out, dat.colnames[i] );\n\
-					fprintf( out, \"\\t\" );\n\
-				  }\n\
-				  fprintf( out, \"\\n\");\n\
-				  for (i=0; i < dat.rows; ++i)\n\
-				  {\n\
-					for (j=0; j < dat.cols; ++j)\n\
-					{\n\
-						if (j==0)\n\
-							fprintf( out, \"%%lf\", valueAt(dat,i,j) );\n\
-						else   \n\
-							fprintf( out, \"\\t%%lf\", valueAt(dat,i,j) );\n\
-					}\n\
-					fprintf( out, \"\\n\");\n\
-				  }\n\
-				  fclose(out);\n\
 				  tc_plot(dat,0,\"At time=%lf\",0);\n\
 				  free(dat.colnames);\n}\n",param,start,param,time,doStochastic,time,time,param,dt,time);
 

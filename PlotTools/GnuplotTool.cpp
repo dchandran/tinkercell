@@ -22,7 +22,7 @@ namespace Tinkercell
 {
     QList< DataTable<qreal> > GnuplotTool::data;
 
-    void GnuplotTool::gnuplot(const QString& script)
+    void GnuplotTool::gnuplot(MainWindow * main, const QString& script)
     {
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
@@ -36,16 +36,21 @@ namespace Tinkercell
         file.open(QIODevice::WriteOnly);
         file.write(script.toAscii());
         file.close();
+
     #ifdef Q_WS_WIN
 
-        filename = tr("\"") + filename.replace(tr("/"),tr("\\")) + tr("\\");
-        QProcess::execute( tr("\"") +
-                           QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
-                           tr("\"") +
-                           tr("\\win32\\gnuplot\\pgnuplot.exe < ") + filename);
+        filename = tr("\"") + filename.replace(tr("/"),tr("\\")) + tr("\"");
+        QString cmd = tr("\"\"") +
+                        QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
+                        tr("\"") +
+                        tr("\\win32\\gnuplot\\pgnuplot.exe -persist < ") + filename
+                        + tr("\"");
+        system(cmd.toAscii().data());
+
     #else
 
-        QProcess::execute("gnuplot.exe < ") + filename);
+        QString cmd = tr("gnuplot.exe < ") + filename;
+        system(cmd.toAscii().data());
     #endif
     }
 
@@ -167,8 +172,7 @@ namespace Tinkercell
     void GnuplotTool::runScript()
     {
         if (editor)
-            gnuplot(editor->toPlainText() + tr("\n"));
-        editor->setPlainText("hello");
+            gnuplot(mainWindow,editor->toPlainText() + tr("\n"));
     }
 
     void GnuplotTool::savePlot()

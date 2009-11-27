@@ -29,7 +29,7 @@ namespace Tinkercell
 
         /*! \brief launch gnuplot with the given script
         \param QString gnuplot script*/
-        static void gnuplot(const QString& script=QString());
+        static void gnuplot(MainWindow *, const QString& script=QString());
 
         /*! \brief launch gnuplot and plot the given matrix*/
         static void gnuplotMatrix(Matrix m, int x, const char* title, int all);

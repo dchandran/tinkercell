@@ -93,13 +93,12 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 {
 	PyObject * colNames, * values, *item;
 	char * title = "", **cols;
-	double x0,x1,y0,y1;
 	int isList1, n1=0, isList2, n2=0, isList3, n3=0, rows;
 	int i,j;
 	double * nums;
 	Matrix M;
 	
-	if(!PyArg_ParseTuple(args, "OOdddd|s", &colNames, &values, &x0, &x1, &y0, &y1, &title))
+	if(!PyArg_ParseTuple(args, "OO|s", &colNames, &values, &title))
         return NULL;
 	
 	if (PyList_Check(colNames) || PyTuple_Check(colNames))
@@ -108,7 +107,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 		n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
 	}
 	
-	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	if (PyList_Check(values) || PyTuple_Check(values))
 	{
 		isList2 = PyList_Check(values);
 		n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
@@ -116,9 +115,8 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 	
 	rows = 0;
 	
-	if (n1 == 3 && n2 > 0)
+	if (n1 == 3 && n2 == 3)
 	{
-		n1 = n2;
 		cols = malloc( (1+n1) * sizeof(char*) );
 		cols[n1] = 0;
 	
@@ -161,7 +159,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 		M.rownames = 0;
 		M.values = nums;
 		
-		tc_surface(M,x0,x1,y0,y1,title);
+		tc_surface(M,title);
 	
 		TCFreeMatrix(M);
 	}

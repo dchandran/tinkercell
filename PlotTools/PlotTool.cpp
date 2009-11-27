@@ -513,7 +513,8 @@ namespace Tinkercell
 
 		if (functions.isEmpty())
 		{
-			ConsoleWindow::message("Please enter at least one formula");
+			if (console())
+				console()->message("Please enter at least one formula");
 			return;
 		}
 
@@ -525,7 +526,8 @@ namespace Tinkercell
 				functionsWidgetDock->show();
 				return;
 			}
-			ConsoleWindow::message("Please specify the x-axis (one of the variables in the formula)");
+			if (console())
+				console()->message("Please specify the x-axis (one of the variables in the formula)");
 			return;
 		}
 
@@ -537,7 +539,8 @@ namespace Tinkercell
 				functionsWidgetDock->show();
 				return;
 			}
-			ConsoleWindow::message("Inputs are incorrect. Make sure the number of points > 1 and end > start.");
+			if (console())
+				console()->message("Inputs are incorrect. Make sure the number of points > 1 and end > start.");
 			return;
 		}
 
@@ -567,7 +570,8 @@ namespace Tinkercell
 
 			if (!s.contains(xaxis))
 			{
-				ConsoleWindow::error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
+				if (console())
+					console()->error(tr("equation ") + QString::number(i) + tr(" is not a function of ") + xaxis);
 				continue;
 			}
 
@@ -661,7 +665,8 @@ namespace Tinkercell
 			&& multiplePlotsArea->currentSubWindow()
 			&& multiplePlotsArea->currentSubWindow()->widget())
 		{
-			ConsoleWindow::message("key pressed");
+			if (console())
+				console()->message("key pressed");
 			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
 			widget->keyPressEvent(event);
 		}
@@ -673,7 +678,8 @@ namespace Tinkercell
 			&& multiplePlotsArea->currentSubWindow()
 			&& multiplePlotsArea->currentSubWindow()->widget())
 		{
-			ConsoleWindow::message("key pressed");
+			if (console())
+				console()->message("key pressed");
 			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
 			widget->mouseMoveEvent(event);
 		}

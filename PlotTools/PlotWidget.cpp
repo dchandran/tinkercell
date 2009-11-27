@@ -39,13 +39,15 @@ namespace Tinkercell
 		
 			if (!clipboard)
 			{
-				ConsoleWindow::error(tr("No clipboard available."));
+				if (plotTool && plotTool->console())
+					plotTool->console()->error(tr("No clipboard available."));
 				return;
 			}
 
 			clipboard->setText(output);
 			
-			ConsoleWindow::message(tr("Tab-delimited data copied to clipboard."));
+			if (plotTool && plotTool->console())
+				plotTool->console()->message(tr("Tab-delimited data copied to clipboard."));
 
 		}
 		else

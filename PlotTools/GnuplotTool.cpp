@@ -153,22 +153,24 @@ namespace Tinkercell
     {
         if (m.cols() < 3) return;
 
-        QHash< qreal, QString > uniqueRows;
+        QHash< QString, QString > uniqueRows;
 
+        QString z;
         QString s = tr("#");
         s += m.getColNames().join(tr("\t")) += tr("\n");
         int rows = m.rows();
 
         for (int i=0; i < rows; ++i)
         {
-            if (uniqueRows.contains(m.at(i,2)))
-                uniqueRows[m.at(i,2)] += QString::number(m.at(i,0)) += tr("\t") +=
+            z = QString::number(m.at(i,2));
+            if (uniqueRows.contains(z))
+                uniqueRows[z] +=         QString::number(m.at(i,0)) += tr("\t") +=
                                          QString::number(m.at(i,1)) += tr("\t") +=
-                                         QString::number(m.at(i,2)) += tr("\n");
+                                         z += tr("\n");
             else
-                uniqueRows[m.at(i,2)] =  QString::number(m.at(i,0)) += tr("\t") +=
+                uniqueRows[z] =          QString::number(m.at(i,0)) += tr("\t") +=
                                          QString::number(m.at(i,1)) += tr("\t") +=
-                                         QString::number(m.at(i,2)) += tr("\n");
+                                         z += tr("\n");
         }
 
         QList<QString> list = uniqueRows.values();
@@ -295,7 +297,7 @@ namespace Tinkercell
 
     typedef void (*tc_PlotTool_api)(
 		void (*plot)(Matrix,int,const char*,int) ,
-		void (*surface)(Matrix,double,double,double,double,const char*) ,
+		void (*surface)(Matrix,const char*) ,
 		void (*hist)(Matrix,int,const char*) ,
 		void (*errorbars)(Matrix,int,const char*) ,
 		Matrix (*plotData)(int)

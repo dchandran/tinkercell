@@ -118,8 +118,9 @@ namespace Tinkercell
                 s += QString::number(i+1);
                 s += tr(" with lines lw 3 title '");
                 s += m.colName(i);
+                s += tr("'");
                 if (i < (cols-1))
-                    s += tr("', ");
+                    s += tr(", ");
             }
         gnuplotScript(s);
     }

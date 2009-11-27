@@ -53,12 +53,13 @@ namespace Tinkercell
             dir.cd(tr("gnuplot"));
         }
 
-        QFile file(dir.absoluteFilePath(tr("script.txt")));
+        QString filename(dir.absoluteFilePath(tr("script.txt")));
+        QFile file(filename);
         if (file.open(QIODevice::WriteOnly))
         {
             file.write((tr("cd '") + dir.absolutePath() + tr("'\n") + script + tr("\n")).toAscii());
             file.close();
-            gnuplotFile(tr("script.txt"));
+            gnuplotFile(filename);
         }
     }
 

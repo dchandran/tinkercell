@@ -178,6 +178,10 @@ namespace Tinkercell
     void GnuplotTool::copyData()
     {
     }
+
+    void GnuplotTool::writeData()
+    {
+    }
 }
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

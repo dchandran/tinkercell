@@ -255,8 +255,8 @@ namespace Tinkercell
     typedef void (*tc_PlotTool_api)(
 		void (*plot)(Matrix,int,const char*,int) ,
 		void (*surface)(Matrix,double,double,double,double,const char*) ,
-		//void (*hist)(Matrix,int,const char*) ,
-		//void (*errorbars)(Matrix,int,const char*) ,
+		void (*hist)(Matrix,int,const char*) ,
+		void (*errorbars)(Matrix,int,const char*) ,
 		Matrix (*plotData)(int)
 		);
 
@@ -268,8 +268,8 @@ namespace Tinkercell
 			f(
 				&(gnuplotMatrix),
 				&(gnuplotMatrix3D),
-				//&(gnuplotHistC),
-				//&(gnuplotErrorbarsC),
+				&(gnuplotHistC),
+				&(gnuplotErrorbarsC),
 				&(getDataMatrix)
 			);
 		}

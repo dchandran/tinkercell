@@ -177,7 +177,14 @@ namespace Tinkercell
         for (int i=0; i < list.size(); ++i)
             s += list[i] += tr("\n");
 
-        QFile file(tr("data.txt"));
+        QDir dir(MainWindow::userHome());
+        if (!dir.cd(tr("gnuplot")))
+        {
+            dir.mkdir(tr("gnuplot"));
+            dir.cd(tr("gnuplot"));
+        }
+
+        QFile file(dir.absoluteFilePath(tr("data.txt")));
         if (file.open(QFile::WriteOnly))
         {
             file.write(s.toAscii());

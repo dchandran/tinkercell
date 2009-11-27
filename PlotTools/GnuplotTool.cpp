@@ -9,6 +9,7 @@
 
 #include <QIODevice>
 #include <QFile>
+#include <QHash>
 #include <QTextStream>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -124,7 +125,11 @@ namespace Tinkercell
             if (i != x)
             {
                 if (s.isEmpty())
-                    s += tr("plot 'data.txt' using ");
+                {
+                    s += tr("set title '");
+                    s += title;
+                    s += tr("'\n plot 'data.txt' using ");
+                }
                 else
                     s += tr("'' u ");
                 s += QString::number(x+1);
@@ -137,12 +142,48 @@ namespace Tinkercell
         gnuplotScript(s);
     }
 
-    void GnuplotTool::gnuplotMatrix3D(Matrix m, double xmin, double xmax, double ymin, double ymax, const char * title)
+    void GnuplotTool::gnuplotMatrix3D(Matrix m, const char * title)
     {
+        DataTable<qreal> * dat = ConvertValue(m);
+        gnuplotDataTable3D(*dat,tr(title));
+        delete dat;
     }
 
-    void GnuplotTool::gnuplotDataTable3D(const DataTable<qreal>& m, double xmin, double xmax, double ymin, double ymax, const QString& title)
+    void GnuplotTool::gnuplotDataTable3D(const DataTable<qreal>& m, const QString& title)
     {
+        if (m.cols() < 3) return;
+
+        QHash< qreal, QString > uniqueRows;
+
+        QString s = tr("#");
+        s += m.getColNames().join(tr("\t")) += tr("\n");
+        int rows = m.rows();
+
+        for (int i=0; i < rows; ++i)
+        {
+            if (uniqueRows.contains(m.at(i,2)))
+                uniqueRows[m.at(i,2)] += QString::number(m.at(i,0)) += tr("\t") +=
+                                         QString::number(m.at(i,1)) += tr("\t") +=
+                                         QString::number(m.at(i,2)) += tr("\n");
+            else
+                uniqueRows[m.at(i,2)] =  QString::number(m.at(i,0)) += tr("\t") +=
+                                         QString::number(m.at(i,1)) += tr("\t") +=
+                                         QString::number(m.at(i,2)) += tr("\n");
+        }
+
+        QList<QString> list = uniqueRows.values();
+        for (int i=0; i < list.size(); ++i)
+            s += list[i] += tr("\n");
+
+        QFile file(tr("data.txt"));
+        if (file.open(QFile::WriteOnly))
+        {
+            file.write(s.toAscii());
+            file.close();
+        }
+
+        gnuplotScript(tr("set title '") + title + tr("'\nsplot 'data.txt' with lines"));
+
     }
 
     void GnuplotTool::gnuplotHistC(Matrix m, int bins, const char * title)

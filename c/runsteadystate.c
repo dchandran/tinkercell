@@ -354,39 +354,34 @@ void run2D(Matrix input)
 				   {\n   Matrix dat;\n" );
 
 	fprintf( out, "   \
-				  dat.rows = (int)((%lf-%lf)/%lf);\n\
-				  dat.cols = (int)((%lf-%lf)/%lf);\n\
-				  int i,j;\n\
-				  dat.colnames = malloc( (1+dat.cols) * sizeof(char*) );\n\
-				  for(i=0; i<=dat.cols; ++i) dat.colnames[i] = 0;\n\
-				  if (dat.cols > 3) \n\
-				  {\n\
-					dat.colnames[0] = \"%s\";\n\
-					dat.colnames[1] = \"%s\";\n\
-					dat.colnames[2] = \"%s\";\n\
-				  }\n\
-				  dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
+				  int rows = (int)((%lf-%lf)/%lf);\n\
+				  int cols = (int)((%lf-%lf)/%lf);\n\
+                  int i,j;\n\
+				  char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
+				  dat.cols = 3;\n\
+                  dat.rows = rows;\n\
+				  dat.colnames = colnames;\n\
+				  dat.values = malloc(3 * cols * rows * sizeof(double));\n\
 				  dat.rownames = 0;\n",
 				  endx,startx,dx,endy,starty,dy,param1,param2,target);
 
 	fprintf( out, "\n\
-				  for (i=0; i < dat.rows; ++i)\n\
+				  for (i=0; i < rows; ++i)\n\
 				  {\n\
-					  for (j=0; j < dat.cols; ++j)\n\
+					  for (j=0; j < cols; ++j)\n\
 					  {\n\
-						  %s = %lf + i * %lf;\n\
-						  %s = %lf + j * %lf;\n\
+						  valueAt(dat,i*cols + j,0) = %s = %lf + i * %lf;\n\
+						  valueAt(dat,i*cols + j,1) = %s = %lf + j * %lf;\n\
 						  TCreinitialize();\n\
 						  double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-						  valueAt(dat,i,j) = %s;\n\
+						  valueAt(dat,i*cols + j,2) = %s;\n\
 						  if (y)\n\
 						  free(y);\n\
 						  TCinitialize();\n\
 						}\n\
-						tc_showProgress(\"2-parameter steady state\",(100*i)/dat.rows);\n\
+						tc_showProgress(\"2-parameter steady state\",(100*i)/rows);\n\
 				  }\n\
-				  tc_surface(dat,%lf,%lf,%lf,%lf,\"Steady State Plot\");\n\
-				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty, dy, target,startx,endx,starty,endy);
+				  tc_surface(dat,\"Steady State Plot\");\n}\n",param1,startx, dx, param2,starty, dy, target);
 
 	fclose(out);
 

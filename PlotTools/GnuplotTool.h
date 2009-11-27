@@ -42,10 +42,10 @@ namespace Tinkercell
         static void gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all);
 
         /*! \brief launch gnuplot and plot the given surface matrix*/
-        static void gnuplotMatrix3D(Matrix m, double xmin, double xmax, double ymin, double ymax, const char * title);
+        static void gnuplotMatrix3D(Matrix m, const char * title);
 
         /*! \brief launch gnuplot and plot the given surface matrix*/
-        static void gnuplotDataTable3D(const DataTable<qreal>& m, double xmin, double xmax, double ymin, double ymax, const QString& title);
+        static void gnuplotDataTable3D(const DataTable<qreal>& m, const QString& title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
         static void gnuplotHistC(Matrix m, int bins, const char * title);

@@ -291,13 +291,13 @@ namespace Tinkercell
 		addWidget(newPlot);
 	}
 
-	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title)
+	void PlotTool::plot3DSurface(const DataTable<qreal>& matrix,const QString& title)
 	{
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Plotting...."));
 
 		Plot3DWidget * newPlot = new Plot3DWidget(this);
-		newPlot->surface(matrix,xmin,xmax,ymin,ymax,title);
+		newPlot->surface(matrix,title);
 
 		if (mainWindow && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(tr("Finished 3D plot"));
@@ -319,7 +319,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,double xmin, double xmax, double ymin, double ymax,const QString& title)
+	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
@@ -327,7 +327,7 @@ namespace Tinkercell
 			matrix.colName(i).replace(regexp,tr("."));
 		}
 
-		plot3DSurface(matrix,xmin,xmax,ymin,ymax,title);
+		plot3DSurface(matrix,title);
 
 		if (s)
 			s->release();
@@ -352,7 +352,7 @@ namespace Tinkercell
 
 	typedef void (*tc_PlotTool_api)(
 		void (*plot)(Matrix,int,const char*,int) ,
-		void (*surface)(Matrix,double,double,double,double,const char*) ,
+		void (*surface)(Matrix,const char*) ,
 		void (*hist)(Matrix,int,const char*) ,
 		void (*errorbars)(Matrix,int,const char*) ,
 		Matrix (*plotData)(int)
@@ -382,7 +382,7 @@ namespace Tinkercell
 	void PlotTool::connectTCFunctions()
 	{
 		connect(&fToS,SIGNAL(plot(QSemaphore *, DataTable<qreal>&,int,const QString&,int)),this,SLOT(plotData(QSemaphore *, DataTable<qreal>&,int,const QString&,int)));
-		connect(&fToS,SIGNAL(surface(QSemaphore *, DataTable<qreal>&,double,double,double,double,const QString&)),this,SLOT(surface(QSemaphore *, DataTable<qreal>&,double,double,double,double,const QString&)));
+		connect(&fToS,SIGNAL(surface(QSemaphore *, DataTable<qreal>&,const QString&)),this,SLOT(surface(QSemaphore *, DataTable<qreal>&,const QString&)));
 		connect(&fToS,SIGNAL(plotData(QSemaphore *,DataTable<qreal>*,int)),this,SLOT(getData(QSemaphore *,DataTable<qreal>*,int)));
 	}
 
@@ -393,9 +393,9 @@ namespace Tinkercell
 		return fToS.plot(a,b,c,all);
 	}
 
-	void PlotTool::_surface(Matrix m,double x0, double x1, double y0, double y1,const char* s)
+	void PlotTool::_surface(Matrix m,const char* s)
 	{
-		return fToS.surface(m,x0,x1,y0,y1,s);
+		return fToS.surface(m,s);
 	}
 
 	Matrix PlotTool::_plotData(int i)
@@ -415,12 +415,12 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotTool_FToS::surface(Matrix a0,double x0, double x1, double y0, double y1,const char* title)
+	void PlotTool_FToS::surface(Matrix a0,const char* title)
 	{
 		DataTable<qreal>* dat = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit surface(s,*dat,x0,x1,y0,y1,ConvertValue(title));
+		emit surface(s,*dat,ConvertValue(title));
 		s->acquire();
 		s->release();
 		delete s;

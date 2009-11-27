@@ -59,13 +59,13 @@ namespace Tinkercell
 		signals:
 
 			void plot(QSemaphore*, DataTable<qreal>&,int,const QString&,int all);
-			void surface(QSemaphore*, DataTable<qreal>&,double, double, double, double, const QString&);
+			void surface(QSemaphore*, DataTable<qreal>&, const QString&);
 			void plotData(QSemaphore*, DataTable<qreal>*,int);
 
 		public slots:
 
 			void plot(Matrix a0,int a1,const char*, int);
-			void surface(Matrix a0, double, double, double, double, const char*);
+			void surface(Matrix a0,const char*);
 			Matrix plotData(int);
 	};
 
@@ -114,7 +114,7 @@ namespace Tinkercell
 			\param QString column in the table that will be used as x-axis
 			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
 		*/
-		void plot3DSurface(const DataTable<qreal>& matrix, double xmin, double xmax, double ymin, double ymax, const QString& title);
+		void plot3DSurface(const DataTable<qreal>& matrix, const QString& title);
 
 		/*! \brief add export option. This will add a new button to the set of export options.
 			When user selects this option, the exportData method in the current PlotWidget
@@ -157,7 +157,7 @@ namespace Tinkercell
 
 		void connectTCFunctions();
 		static void _plot(Matrix a, int b, const char*, int);
-		static void _surface(Matrix a, double, double, double, double, const char*);
+		static void _surface(Matrix a, const char*);
 		static Matrix _plotData(int);
 		static PlotTool_FToS fToS;
 
@@ -174,7 +174,7 @@ namespace Tinkercell
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
-		void surface(QSemaphore*, DataTable<qreal>&,double,double,double,double,const QString&);
+		void surface(QSemaphore*, DataTable<qreal>&,const QString&);
 		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);
 
 	protected:

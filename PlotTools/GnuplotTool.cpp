@@ -9,6 +9,7 @@
 
 #include <QIODevice>
 #include <QFile>
+#include <QTextStream>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
@@ -22,7 +23,28 @@ namespace Tinkercell
 {
     QList< DataTable<qreal> > GnuplotTool::data;
 
-    void GnuplotTool::gnuplot(MainWindow * main, const QString& script)
+    void GnuplotTool::gnuplotFile(const QString& filename)
+    {
+    #ifdef Q_WS_WIN
+
+        QString cmd = tr("\"\"") +
+                        QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
+                        tr("\"") +
+                        tr("\\win32\\gnuplot\\pgnuplot.exe -persist < \"") +
+                        QString(filename).replace(tr("/"),tr("\\")) +
+                        tr("\"\"");
+        system(cmd.toAscii().data());
+
+    #else
+
+        QString cmd = tr("gnuplot < ") + filename;
+        system(cmd.toAscii().data());
+
+    #endif
+
+    }
+
+    void GnuplotTool::gnuplotScript(const QString& script)
     {
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
@@ -33,34 +55,76 @@ namespace Tinkercell
 
         QString filename = dir.absoluteFilePath(tr("script.txt"));
         QFile file(filename);
-        file.open(QIODevice::WriteOnly);
-        file.write(script.toAscii());
-        file.close();
-
-    #ifdef Q_WS_WIN
-
-        filename = tr("\"") + filename.replace(tr("/"),tr("\\")) + tr("\"");
-        QString cmd = tr("\"\"") +
-                        QCoreApplication::applicationDirPath().replace(tr("/"),tr("\\")) +
-                        tr("\"") +
-                        tr("\\win32\\gnuplot\\pgnuplot.exe -persist < ") + filename
-                        + tr("\"");
-        system(cmd.toAscii().data());
-
-    #else
-
-        QString cmd = tr("gnuplot.exe < ") + filename;
-        system(cmd.toAscii().data());
-    #endif
+        if (file.open(QIODevice::WriteOnly))
+        {
+            file.write(script.toAscii());
+            file.close();
+            gnuplotFile(filename);
+        }
     }
 
     void GnuplotTool::gnuplotMatrix(Matrix m, int x, const char* title, int all)
     {
-
+        DataTable<qreal> * data = ConvertValue(m);
+        gnuplotDataTable(*data,x,tr(title),all);
+        delete data;
     }
 
     void GnuplotTool::gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all)
     {
+        QDir dir(MainWindow::userHome());
+        if (!dir.cd(tr("gnuplot")))
+        {
+            dir.mkdir(tr("gnuplot"));
+            dir.cd(tr("gnuplot"));
+        }
+
+        QString file(dir.absoluteFilePath(tr("data.txt")));
+
+        QFile data(file);
+
+        if (data.open(QFile::WriteOnly))
+        {
+            QTextStream out(&data);
+            for (int i=0; i < m.cols(); ++i)
+                if (i > 0)
+                    out << tr("\t") << m.colName(i);
+                else
+                    out << tr("#") << m.colName(i);
+            out << tr("\n");
+
+            for (int i=0; i < m.rows(); ++i)
+            {
+                for (int j=0; j < m.cols(); ++j)
+                    if (j > 0)
+                        out << tr("\t") << QString::number(m.at(i,j));
+                    else
+                        out << QString::number(m.at(i,j));
+                out << tr("\n");
+            }
+
+            data.close();
+        }
+
+        QString s("plot");
+        int cols = m.cols();
+
+        for (int i=0; i < cols; ++i)
+            if (i != x)
+            {
+                s += tr(" '");
+                s += file;
+                s += tr("' using ");
+                s += QString::number(x+1);
+                s += tr(":");
+                s += QString::number(i+1);
+                s += tr(" with lines lw 3 title '");
+                s += m.colName(i);
+                if (i < (cols-1))
+                    s += tr("', ");
+            }
+        s += tr("\n");
+        gnuplotScript(s);
     }
 
     void GnuplotTool::gnuplotMatrix3D(Matrix m, double xmin, double xmax, double ymin, double ymax, const char * title)
@@ -172,7 +236,7 @@ namespace Tinkercell
     void GnuplotTool::runScript()
     {
         if (editor)
-            gnuplot(mainWindow,editor->toPlainText() + tr("\n"));
+            gnuplotScript(editor->toPlainText() + tr("\n"));
     }
 
     void GnuplotTool::savePlot()

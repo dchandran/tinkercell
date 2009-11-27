@@ -23,6 +23,8 @@ namespace Tinkercell
 {
 	class MY_EXPORT GnuplotTool : public Tool
 	{
+	    Q_OBJECT
+
 	public:
 
         /*! \brief launch gnuplot with the given script

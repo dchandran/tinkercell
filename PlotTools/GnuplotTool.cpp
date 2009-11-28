@@ -7,6 +7,7 @@
  See GnuplotTool.h
 ****************************************************************************/
 
+#include <QFileDialog>
 #include <QIODevice>
 #include <QFile>
 #include <QHash>
@@ -83,6 +84,7 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all)
     {
+		m.description() = title;
         GnuplotTool::data << m;
 
         QDir dir(MainWindow::userHome());
@@ -155,6 +157,7 @@ namespace Tinkercell
     {
         if (m.cols() < 3) return;
 
+		m.description() = title;
         GnuplotTool::data << m;
 
         QString z;
@@ -166,12 +169,12 @@ namespace Tinkercell
 
         for (int i=0; i < rows; ++i)
         {
-            s += QString::number(m.at(i,0))
-              += tr("\t")
-              += QString::number(m.at(i,1))
-              += tr("\t")
-              += QString::number(m.at(i,2))
-              += tr("\n");
+            s += QString::number(m.at(i,0));
+            s  += tr("\t");
+            s  += QString::number(m.at(i,1));
+            s  += tr("\t");
+            s  += QString::number(m.at(i,2));
+            s  += tr("\n");
             if (i==0)
                 if (m.at(i,0) == m.at(i+1,0))
                     k = 0;
@@ -194,8 +197,12 @@ namespace Tinkercell
             file.write(s.toAscii());
             file.close();
         }
+		
+		s = tr("set title '");
+		s += title;
+		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data.txt' with lines\n");
 
-        gnuplotScript(tr("set title '") + title + tr("'\nsplot 'data.txt' with lines"));
+        gnuplotScript(s);
 
     }
 
@@ -205,6 +212,7 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)
     {
+		m.description() = title;
         GnuplotTool::data << m;
     }
 
@@ -214,6 +222,7 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title)
     {
+		m.description() = title;
         GnuplotTool::data << m;
     }
 
@@ -241,26 +250,31 @@ namespace Tinkercell
         button1->setIcon(QIcon(tr(":/images/save.png")));
         connect(button1,SIGNAL(pressed()),this,SLOT(savePlot()));
         button1->setToolTip(tr("Save image"));
+		button1->setIconSize(QSize(50,50));
 
         QToolButton * button2 = new QToolButton;
         button2->setIcon(QIcon(tr(":/images/export.png")));
         connect(button2,SIGNAL(pressed()),this,SLOT(writeData()));
         button2->setToolTip(tr("Save as tab-delimited text"));
+		button2->setIconSize(QSize(50,50));
 
         QToolButton * button3 = new QToolButton;
         button3->setIcon(QIcon(tr(":/images/copy.png")));
         connect(button3,SIGNAL(pressed()),this,SLOT(copyData()));
         button3->setToolTip(tr("Copy data to clipboard"));
+		button3->setIconSize(QSize(50,50));
 
         QToolButton * button4 = new QToolButton;
         button4->setIcon(QIcon(tr(":/images/play.png")));
         connect(button4,SIGNAL(pressed()),this,SLOT(runScript()));
         button4->setToolTip(tr("Run script"));
+		button4->setIconSize(QSize(50,50));
 
         buttonsLayout->addWidget(button1);
         buttonsLayout->addWidget(button2);
         buttonsLayout->addWidget(button3);
         buttonsLayout->addWidget(button4);
+		buttonsLayout->addStretch(1);
 
         layout->addLayout(buttonsLayout);
         if (!editor)
@@ -339,14 +353,107 @@ namespace Tinkercell
 
     void GnuplotTool::savePlot()
     {
+		if (editor && !editor->toPlainText().isEmpty())
+		{
+			QString file = 
+				QFileDialog::getSaveFileName(this, tr("Save to File"),
+                                          MainWindow::previousFileName,
+                                          tr("GIF Files (*.gif)"));
+			
+			if (file.isNull() || file.isEmpty()) return;
+			
+			QString s("\nset terminal gif; set output \"");
+			s += file;
+			s += tr("\"\n replot\n");
+			gnuplotScript(editor->toPlainText() + s);
+		}
     }
 
     void GnuplotTool::copyData()
     {
+		if (data.size() < 1) return;
+		
+		QClipboard * clipboard = QApplication::clipboard();
+		
+		if (!clipboard)
+		{
+			if (console())
+				console()->error(tr("No clipboard available."));
+			return;
+		}
+		
+		DataTable<qreal>& m = data.last();
+		
+		QString s;
+		
+		for (int i=0; i < m.cols(); ++i)
+			if (i > 0)
+				s += tr("\t") + m.colName(i);
+			else
+				s += m.colName(i);
+		s += tr("\n");
+
+		for (int i=0; i < m.rows(); ++i)
+		{
+			for (int j=0; j < m.cols(); ++j)
+				if (j > 0)
+					s += tr("\t") += QString::number(m.at(i,j));
+				else
+					s += QString::number(m.at(i,j));
+			s += tr("\n");
+		}
+	
+		clipboard->setText(s);
+		
+		console()->message(tr("Data copied to clipboard."));
     }
 
     void GnuplotTool::writeData()
     {
+		if (data.size() < 1) return;
+		
+		DataTable<qreal>& m = data.last();
+		
+		QString file = 
+				QFileDialog::getSaveFileName(this, tr("Save to File"),
+                                          MainWindow::previousFileName,
+                                          tr("TXT Files (*.txt *.tab)"));
+			
+		if (file.isEmpty() || file.isNull()) return;
+		
+		
+		QFile data(file);
+
+        if (data.open(QFile::WriteOnly))
+        {
+            QTextStream out(&data);
+            out << tr("#") << m.description() << tr("\n");
+            for (int i=0; i < m.cols(); ++i)
+                if (i > 0)
+                    out << tr("\t") << m.colName(i);
+                else
+                    out << m.colName(i);
+            out << tr("\n");
+
+            for (int i=0; i < m.rows(); ++i)
+            {
+                for (int j=0; j < m.cols(); ++j)
+                    if (j > 0)
+                        out << tr("\t") << QString::number(m.at(i,j));
+                    else
+                        out << QString::number(m.at(i,j));
+                out << tr("\n");
+            }
+			
+			data.close();
+			
+			if (console())
+				console()->message(tr("Written to ") + file);
+        }
+		else
+			if (console())
+				console()->error(tr("Cannot write to file."));
+		
     }
 }
 

@@ -256,8 +256,8 @@ namespace Tinkercell
 	void DataPlot::makeVisibleDataTable()
 	{
 		visibleDataTable = dataTable;
-		for (int i=0; i < hideList.size(); ++i)
-			visibleDataTable.removeCol(hideList[i]);
+		//for (int i=0; i < hideList.size(); ++i)
+			//visibleDataTable.removeCol(hideList[i]);
 	}
 	
 	/*********************************

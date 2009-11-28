@@ -250,7 +250,7 @@ namespace Tinkercell
         button1->setIcon(QIcon(tr(":/images/save.png")));
         connect(button1,SIGNAL(pressed()),this,SLOT(savePlot()));
         button1->setToolTip(tr("Save image"));
-		button1->setIconSize(QSize(50,50));
+		button1->setIconSize(QSize(20,20));
 
         QToolButton * button2 = new QToolButton;
         button2->setIcon(QIcon(tr(":/images/export.png")));
@@ -274,6 +274,7 @@ namespace Tinkercell
         buttonsLayout->addWidget(button2);
         buttonsLayout->addWidget(button3);
         buttonsLayout->addWidget(button4);
+		buttonsLayout->setSpacing(10);
 		buttonsLayout->addStretch(1);
 
         layout->addLayout(buttonsLayout);

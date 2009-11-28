@@ -26,8 +26,8 @@ SET(LIBRARY_OUTPUT_PATH ${TINKERCELL_BINARY_DIR})
 
 IF (WIN32)
 
-	SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/SBML/win32/libxml2/lib/libxml2.dll.a)
-	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/SBML/win32/libxml2/include)
+	SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/SBML/libsbml/win32/libxml2/lib/libxml2.dll.a)
+	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/SBML/libsbml/win32/libxml2/include)
 	
 ELSEIF(WIN32)	
 
@@ -38,17 +38,17 @@ ENDIF(WIN32)
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
-	${TINKERCELL_SOURCE_DIR}/SBML/xml 
-	${TINKERCELL_SOURCE_DIR}/SBML/util 
-	${TINKERCELL_SOURCE_DIR}/SBML/validator 
-	${TINKERCELL_SOURCE_DIR}/SBML/validator/constraints/
-	${TINKERCELL_SOURCE_DIR}/SBML/units 
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml/layout 
-	${TINKERCELL_SOURCE_DIR}/SBML/math 
-	${TINKERCELL_SOURCE_DIR}/SBML/common 
-	${TINKERCELL_SOURCE_DIR}/SBML/compress 
-	${TINKERCELL_SOURCE_DIR}/SBML/annotation
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/xml 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/util 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator/constraints/
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/units 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml/layout 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/math 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/common 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/compress 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/annotation
 )
 
 #ADD_DEFINITIONS(-DLIBSBML_STATIC)
@@ -70,31 +70,31 @@ IF (WIN32)
 ENDIF (WIN32)
 
 FILE( GLOB SBML_SRC_FILES
-	${TINKERCELL_SOURCE_DIR}/SBML/xml/XML*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/xml/XML*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/xml/LibXML*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/xml/LibXML*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/util/*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/util/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/validator/*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/validator/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/validator/constraints/*.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/validator/constraints/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/units/*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/units/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/math/*.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/math/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/annotation/*.cpp 
-	${TINKERCELL_SOURCE_DIR}/SBML/annotation/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml/*.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml/layout/*.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml/layout/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/common/*.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/common/*.c
-	${TINKERCELL_SOURCE_DIR}/SBML/compress/CompressCommon.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/compress/InputDecompressor.cpp
-	${TINKERCELL_SOURCE_DIR}/SBML/compress/OutputCompressor.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/xml/XML*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/xml/XML*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/xml/LibXML*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/xml/LibXML*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/util/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/util/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator/constraints/*.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/validator/constraints/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/units/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/units/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/math/*.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/math/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/annotation/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/annotation/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml/*.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml/layout/*.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/sbml/layout/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/common/*.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/common/*.c
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/compress/CompressCommon.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/compress/InputDecompressor.cpp
+	${TINKERCELL_SOURCE_DIR}/SBML/libsbml/compress/OutputCompressor.cpp
 )
 
 ADD_LIBRARY( sbml

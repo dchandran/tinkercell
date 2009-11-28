@@ -2,6 +2,8 @@
 #include <cassert>
 #include <functional>
 #include <iostream>
+#include <sstream>
+#include <ostream>
 #include <set>
 
 #include "module.h"
@@ -10,6 +12,14 @@
 #include "stringx.h"
 #include "sbmlx.h"
 #include "typex.h"
+
+#ifndef NCELLML
+#include <wchar.h>
+#include <CellMLBootstrap.hpp>
+using namespace iface;
+#endif
+
+#define LEVELANDVERSION 2, 4
 
 extern Registry g_registry;
 using namespace std;
@@ -25,12 +35,19 @@ Module::Module(string name)
     m_returnvalue(),
     m_currentexportvar(0),
 #ifndef NSBML
-    m_sbml(2, 4),
+    m_sbml(),
     m_libsbml_info(""),
     m_libsbml_warnings(""),
 #endif
+#ifndef NCELLML
+    m_cellmlmodel(NULL),
+    m_cellmlcomponent(NULL),
+#endif
     m_uniquevars()
 {
+#ifndef NSBML
+  m_sbml.setLevelAndVersion(LEVELANDVERSION); //LS DEBUG:  bug in libsbml requires this (9/23/09)
+#endif
 }
 
 Module::Module(const Module& src, string newtopname, string modulename)
@@ -42,18 +59,28 @@ Module::Module(const Module& src, string newtopname, string modulename)
     m_returnvalue(src.m_returnvalue),
     m_currentexportvar(0),
 #ifndef NSBML
-    m_sbml(2, 4),
+    m_sbml(),
     m_libsbml_info(), //don't need this info for submodules--might be wrong anyway.
     m_libsbml_warnings(),
 #endif
+#ifndef NCELLML
+    m_cellmlmodel(NULL),
+    m_cellmlcomponent(NULL),
+#endif
     m_uniquevars()
 {
+#ifndef NSBML
+  m_sbml.setLevelAndVersion(LEVELANDVERSION); //LS DEBUG:  bug in libsbml requires this (9/23/09)
+#endif
   SetNewTopName(modulename, newtopname);
 #ifndef NSBML
   CreateSBMLModel(); //It's either this or go through and rename every blasted thing in it, and libSBML doesn't provide an easy way to go through all elements at once.
-#endif 
+#endif
+#ifndef NCELLML
+  CreateCellMLModel(); //ditto
+#endif
 }
-/*
+
 Module::Module(const Module& src)
   : m_modulename(src.m_modulename),
     m_exportlist(src.m_exportlist),
@@ -64,13 +91,66 @@ Module::Module(const Module& src)
     m_currentexportvar(src.m_currentexportvar),
 #ifndef NSBML
     m_sbml(src.m_sbml),
-    m_libsbml_info(m_libsbml_info),
-    m_libsbml_warnings(m_libsbml_warnings),
+    m_libsbml_info(src.m_libsbml_info),
+    m_libsbml_warnings(src.m_libsbml_warnings),
 #endif
-    m_uniquevars(m_uniquevars)
+#ifndef NCELLML
+    m_cellmlmodel(src.m_cellmlmodel),
+    m_cellmlcomponent(src.m_cellmlcomponent),
+#endif
+    m_uniquevars(src.m_uniquevars)
 {
+#ifndef NCELLML
+  if (m_cellmlmodel != NULL) {
+    m_cellmlmodel->add_ref();
+  }
+  if (m_cellmlcomponent != NULL) {
+    m_cellmlcomponent->add_ref();
+  }
+#endif
 }
-*/
+
+Module& Module::operator=(const Module& src)
+{
+  m_modulename = src.m_modulename;
+  m_exportlist = src.m_exportlist;
+  m_variablename = src.m_variablename;
+  m_variables = src.m_variables;
+  m_synchronized = src.m_synchronized;
+  m_returnvalue = src.m_returnvalue;
+  m_currentexportvar = src.m_currentexportvar;
+  m_uniquevars = src.m_uniquevars;
+#ifndef NSBML
+  m_sbml = src.m_sbml;
+  m_libsbml_info = src.m_libsbml_info;
+  m_libsbml_warnings = src.m_libsbml_warnings;
+#endif
+#ifndef NCELLML
+  m_cellmlmodel = src.m_cellmlmodel;
+  m_cellmlcomponent = src.m_cellmlcomponent;
+  if (m_cellmlmodel != NULL) {
+    m_cellmlmodel->add_ref();
+  }
+  if (m_cellmlcomponent != NULL) {
+    m_cellmlcomponent->add_ref();
+  }
+#endif
+  return *this;
+}
+
+
+Module::~Module()
+{
+#ifndef NCELLML
+  if (m_cellmlmodel != NULL) {
+    m_cellmlmodel->release_ref();
+  }
+  if (m_cellmlcomponent != NULL) {
+    m_cellmlcomponent->release_ref();
+  }
+#endif
+}
+  
 Variable* Module::AddOrFindVariable(const string* name)
 {
   vector<string> fullname;
@@ -376,7 +456,8 @@ bool Module::Finalize()
       for (size_t rxn=0; rxn<rxns.size(); rxn++) {
         Variable* rightvar = GetVariable(rxns[rxn]);
         const Formula* form = rightvar->GetFormula();
-        if (form->CheckIncludes(m_variables[var]->GetNamespace(), m_variables[var]->GetReaction()->GetLeft())) {
+        if (!form->IsEmpty() &&
+            form->CheckIncludes(m_variables[var]->GetNamespace(), m_variables[var]->GetReaction()->GetLeft())) {
           g_registry.AddErrorPrefix("According to the interaction '" + m_variables[var]->GetNameDelimitedBy('_') + "', the formula for '" + rightvar->GetNameDelimitedBy('_') + "' (=" + form->ToDelimitedStringWithEllipses('_') + ") ");
           return true;
         }
@@ -419,11 +500,15 @@ bool Module::Finalize()
   //Phase 5:  Check SBML compatibility, and create sbml model object.
   //LS DEBUG:  The need for two SBMLDocuments is a hack; fix when libSBML is updated.
   const SBMLDocument* sbmldoc = GetSBML();
-  char* sbmlstring = writeSBMLToString(sbmldoc);
-  SBMLDocument* testdoc = readSBMLFromString(sbmlstring);
+  stringstream stream;
+ 
+  SBMLWriter writer;
+  writer.writeSBML(sbmldoc, stream);
+  string newSBML = stream.str();
+  SBMLReader reader;
+  SBMLDocument* testdoc = reader.readSBMLFromString(newSBML);
   testdoc->setConsistencyChecks(LIBSBML_CAT_UNITS_CONSISTENCY, false);
   testdoc->checkConsistency();
-  free(sbmlstring);
   SBMLErrorLog* log = testdoc->getErrorLog();
   string trueerrors = "";
   for (unsigned int err=0; err<log->getNumErrors(); err++) {
@@ -444,20 +529,20 @@ bool Module::Finalize()
       break;
     case 3: //LIBSBML_SEV_FATAL:
       g_registry.SetError("Fatal error when creating an SBML document; unable to continue.  Error from libSBML:  " + error->getMessage());
-      delete(testdoc);
+      delete testdoc;
       return true;
     default:
       g_registry.SetError("Unknown error when creating an SBML document--there should have only been four types, but we found a fifth?  libSBML may have been updated; try using an older version, perhaps.  Error from libSBML:  " + error->getMessage());
-      delete(testdoc);
+      delete testdoc;
       return true;
     }
   }
   if (trueerrors != "") {
     g_registry.SetError(SizeTToString(log->getNumFailsWithSeverity(LIBSBML_SEV_ERROR)) + " SBML error(s) when creating module '" + m_modulename + "'.  libAntimony tries to catch these errors before libSBML complains, but this one slipped through--please let us know what happened and we'll try to fix it.  Error message(s) from libSBML:\n" + trueerrors);
-    delete(testdoc);
+    delete testdoc;
     return true;
   }
-  delete(testdoc);
+  delete testdoc;
 #endif
   return false;
 }
@@ -671,11 +756,19 @@ string Module::ListIn80Cols(string type, vector<string> names, string indent) co
 {
   if (names.size()==0) return "";
   string retval = "";
-  string oneline = indent + type + " " + names[0];
+  string oneline = indent + type;
+  if (type != "") {
+    oneline += " ";
+  }
+  oneline += names[0];
   for (size_t n=1; n<names.size(); n++) {
     if (oneline.size() > 71) {
       retval += oneline + ";\n";
-      oneline = indent + type + " " + names[n];
+      oneline = indent + type;
+      if (type != "") {
+        oneline += " ";
+      }
+      oneline += names[n];
     }
     else {
       oneline += ", " + names[n];
@@ -743,7 +836,7 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       const Module* mod = g_registry.GetModule(m_variables[var]->GetModule()->GetModuleName());
       if (mod==NULL) {
         g_registry.SetError("Unable to find base module " + m_variables[var]->GetModule()->GetModuleName() + ".");
-        return NULL;
+        return "";
       }
       if ((usedmods.insert(mod)).second) {
         //New module; add it.
@@ -807,6 +900,9 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       compartmentnames.push_back(name);
     }
     else if (IsSpecies(m_variables[var]->GetType())) {
+      if (m_variables[var]->GetIsConst()) {
+        name = "$" + name;
+      }
       speciesnames.push_back(name);
     }
   }
@@ -872,9 +968,24 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
     const Variable* var = m_variables[vnum];
     var_type type = var->GetType();
     if (var->IsPointer()) continue;
-    else if (IsReaction(type) || type == varInteraction) {
+    else if (IsReaction(type)) {
       if (firstone) {
         retval += "\n" + indent + "// Reactions:\n";
+        firstone = false;
+      }
+      retval += indent + var->GetReaction()->ToDelimitedStringWithEllipses(cc) + "\n";
+    }
+  }
+
+  //Then interactions:
+  firstone = true;
+  for (size_t vnum=0; vnum<m_variables.size(); vnum++) {
+    const Variable* var = m_variables[vnum];
+    if (var->IsPointer()) continue;
+    var_type type = var->GetType();
+    if (type == varInteraction) {
+      if (firstone) {
+        retval += "\n" + indent + "// Interactions:\n";
         firstone = false;
       }
       retval += indent + var->GetReaction()->ToDelimitedStringWithEllipses(cc) + "\n";
@@ -885,9 +996,9 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
   firstone = true;
   for (size_t vnum=0; vnum<m_variables.size(); vnum++) {
     const Variable* var = m_variables[vnum];
-    var_type type = var->GetType();
     if (var->IsPointer()) continue;
-    else if (type == varEvent) {
+    var_type type = var->GetType();
+    if (type == varEvent) {
       if (firstone) {
         retval += "\n" + indent + "// Events:\n";
         firstone = false;
@@ -922,27 +1033,22 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
   vector<string> genenames;
   vector<string> innames;
   for (size_t var=0; var<m_variables.size(); var++) {
+    if (m_variables[var]->IsPointer()) continue;
     var_type type = m_variables[var]->GetType();
+    if (IsSpecies(type)) continue; //already named them and know if they're const.
     const_type isconst = m_variables[var]->GetConstType();
     string name = m_variables[var]->GetNameDelimitedBy(cc);
     Variable* comp = m_variables[var]->GetCompartment();
-    if (comp != NULL && IsSpecies(type)==false) {
-      //We already list the species at the top of the file.
+    if (comp != NULL) {
       name += " in " + comp->GetNameDelimitedBy(cc);
       innames.push_back(name);
     }
     switch(isconst) {
     case constVAR:
       varnames.push_back(name);
-      if (comp != NULL && IsSpecies(type)==false) {
-        innames.pop_back();
-      }
       break;
     case constCONST:
       constnames.push_back(name);
-      if (comp != NULL && IsSpecies(type)==false) {
-        innames.pop_back();
-      }
       break;
     case constDEFAULT:
       break;
@@ -978,14 +1084,29 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       break;
     }
   }
-  retval += "\n";
-  retval += ListIn80Cols("DNA", DNAnames, indent);
-  retval += ListIn80Cols("operator", operatornames, indent);
-  retval += ListIn80Cols("gene", genenames, indent);
-  retval += ListIn80Cols("var", varnames, indent);
-  retval += ListIn80Cols("const", constnames, indent);
 
-  //LS DEBUG:  list the innames!
+  if (DNAnames.size() || operatornames.size() || genenames.size() || varnames.size() || constnames.size() || innames.size()) {
+    retval += indent + "\n//Other declarations:\n";
+    retval += ListIn80Cols("DNA", DNAnames, indent);
+    retval += ListIn80Cols("operator", operatornames, indent);
+    retval += ListIn80Cols("gene", genenames, indent);
+    retval += ListIn80Cols("var", varnames, indent);
+    retval += ListIn80Cols("const", constnames, indent);
+    retval += ListIn80Cols("", innames, indent);
+  }
+
+  //Display names
+  bool anydisplay = false;
+  for (size_t var=0; var<m_variables.size(); var++) {
+    if (m_variables[var]->IsPointer()) continue;
+    if (m_variables[var]->GetDisplayName() != "") {
+      if (anydisplay == false) {
+        retval += "\n" + indent + "//Display Names:\n";
+        anydisplay = true;
+      }
+      retval += indent + m_variables[var]->GetNameDelimitedBy(cc) + " is \"" + m_variables[var]->GetDisplayName() + "\";\n";
+    }
+  }
 
   //end model definition
   if (m_modulename != MAINMODULE) {
@@ -1102,15 +1223,26 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     g_registry.GetNthUserFunction(g_registry.GetNumUserFunctions()-1)->FixNames();
   }
 
+  set<string> defaultcompartments;
   //Compartments
   for (unsigned int comp=0; comp<sbml->getNumCompartments(); comp++) {
     const Compartment* compartment = sbml->getCompartment(comp);
     sbmlname = getNameFromSBMLObject(compartment, "_C");
+    if (compartment->getSBOTerm() == 410) {
+      //The 'implicit compartment'
+      defaultcompartments.insert(sbmlname);
+      continue;
+    }
     if (sbmlname == DEFAULTCOMP && compartment->getConstant() && compartment->isSetSize() && compartment->getSize() == 1.0) {
+      defaultcompartments.insert(sbmlname);
       continue;
       //LS NOTE: we assume this was created with Antimony, and ignore the auto-generated 'default compartment'
+      // Later versions of antimony now set the SBO terms to 410, so we might not need this code very long.
     }
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (compartment->isSetName()) {
+      var->SetDisplayName(compartment->getName());
+    }
     var->SetType(varCompartment);
     Formula* formula = g_registry.NewBlankFormula();
     if (compartment->isSetSize()) {
@@ -1127,6 +1259,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     const Species* species = sbml->getSpecies(spec);
     sbmlname = getNameFromSBMLObject(species, "_S");
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (species->isSetName()) {
+      var->SetDisplayName(species->getName());
+    }
     var->SetType(varSpeciesUndef);
 
     //Setting the formula
@@ -1134,7 +1269,7 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     if (species->isSetInitialAmount()) {
       double amount = species->getInitialAmount();
       formula->AddNum(amount);
-      if (amount != 0 && species->getCompartment() != DEFAULTCOMP) {
+      if (amount != 0 && defaultcompartments.find(species->getCompartment()) == defaultcompartments.end()) {
         Variable* compartment = AddOrFindVariable(&(species->getCompartment()));
         Formula* compform = compartment->GetFormula();
         if (!compform->IsOne()) {
@@ -1154,7 +1289,7 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
       //Since all species are variable by default, we only set this explicitly if true.
       var->SetIsConst(true);
     }
-    if (species->getCompartment() != DEFAULTCOMP) {
+    if (defaultcompartments.find(species->getCompartment()) == defaultcompartments.end()) {
       Variable* compartment = AddOrFindVariable(&(species->getCompartment()));
       compartment->SetType(varCompartment);
       var->SetCompartment(compartment);
@@ -1169,13 +1304,22 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     const Event* event = sbml->getEvent(ev);
     sbmlname = getNameFromSBMLObject(event, "_E");
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (event->isSetName()) {
+      var->SetDisplayName(event->getName());
+    }
     var->SetType(varEvent);
 
     //Set the trigger:
     string triggerstring(parseASTNodeToString(event->getTrigger()->getMath()));
-    Formula* trigger = g_registry.NewBlankFormula();
-    setFormulaWithString(triggerstring, trigger);
-    AntimonyEvent antevent(*trigger,var);
+    Formula trigger;
+    setFormulaWithString(triggerstring, &trigger);
+    Formula delay;
+    const Delay* sbmldelay = event->getDelay();
+    if (sbmldelay != NULL) {
+      string delaystring(parseASTNodeToString(sbmldelay->getMath()));
+      setFormulaWithString(delaystring, &delay);
+    }
+    AntimonyEvent antevent(delay, trigger,var);
     var->SetEvent(&antevent);
 
     //Set the assignments:
@@ -1196,6 +1340,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     const Parameter* parameter = sbml->getParameter(param);
     sbmlname = getNameFromSBMLObject(parameter, "_P");
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (parameter->isSetName()) {
+      var->SetDisplayName(parameter->getName());
+    }
     if (parameter->isSetValue()) {
       Formula* formula = g_registry.NewBlankFormula();
       formula->AddNum(parameter->getValue());
@@ -1213,6 +1360,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     if (initasnt->isSetSymbol()) {
       sbmlname = initasnt->getSymbol();
       Variable* var = AddOrFindVariable(&sbmlname);
+      if (initasnt->isSetName()) {
+        var->SetDisplayName(initasnt->getName());
+      }
       Formula* formula = g_registry.NewBlankFormula();
       string formulastring(parseASTNodeToString(initasnt->getMath()));
       setFormulaWithString(formulastring, formula);
@@ -1236,6 +1386,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
       sbmlname = getNameFromSBMLObject(rule, "_R");
     }
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (rule->isSetName()) {
+      var->SetDisplayName(rule->getName());
+    }
     Formula* formula = g_registry.NewBlankFormula();
     string formulastring(parseASTNodeToString(rule->getMath()));
     setFormulaWithString(formulastring, formula);
@@ -1264,6 +1417,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
     const Reaction* reaction = sbml->getReaction(rxn);
     sbmlname = getNameFromSBMLObject(reaction, "_J");
     Variable* var = AddOrFindVariable(&sbmlname);
+    if (reaction->isSetName()) {
+      var->SetDisplayName(reaction->getName());
+    }
     //reactants
     ReactantList reactants;
     for (unsigned int react=0; react<reaction->getNumReactants(); react++) {
@@ -1344,7 +1500,23 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
         localformula.AddNum(localparam->getValue());
         localvar->SetFormula(&localformula);
       }
+	}
+	else if (reaction->getNumModifiers() > 0) {
+		//If the kinetic law is empty, we can set some interactions, if there are any Modifiers.
+    ReactantList right;
+    right.AddReactant(var);
+    ReactantList left;
+		for (unsigned int mod=0; mod<reaction->getNumModifiers(); mod++) {
+			const ModifierSpeciesReference* msr = reaction->getModifier(mod);
+      string species = msr->getSpecies();
+      Variable* specvar = AddOrFindVariable(&species);
+      left.AddReactant(specvar);
+      sbmlname = getNameFromSBMLObject(msr, "_I");
     }
+    Variable* interaction = AddOrFindVariable(&sbmlname);
+    Formula blankform;
+    AddNewReaction(&left, rdInfluences, &right, &blankform, interaction);
+	}
     //Put reactants, products, and the formula together:
     AddNewReaction(&reactants, rdBecomes, &products, &formula, var);
   }
@@ -1360,18 +1532,16 @@ const SBMLDocument* Module::GetSBML()
   if (mod != NULL && mod->getId() == m_modulename) {
     return &m_sbml;
   }
-#ifndef NSBML
   CreateSBMLModel();
-#endif
   return &m_sbml;
 }
 
-#ifndef NSBML
 void Module::CreateSBMLModel()
 {
   Model* sbmlmod = m_sbml.createModel();
   sbmlmod->setId(m_modulename);
   sbmlmod->setName(m_modulename);
+  sbmlmod->setNotes("<body xmlns=\"http://www.w3.org/1999/xhtml\"><p> Originally created by libAntimony " VERSION_STRING " (using libSBML " LIBSBML_DOTTED_VERSION ") </p></body>");
   char cc = g_registry.GetCC();
   //User-defined functions
   for (size_t uf=0; uf<g_registry.GetNumUserFunctions(); uf++) {
@@ -1388,11 +1558,15 @@ void Module::CreateSBMLModel()
   defaultCompartment->setId(DEFAULTCOMP);
   defaultCompartment->setConstant(true);
   defaultCompartment->setSize(1);
+  defaultCompartment->setSBOTerm(410); //The 'implicit compartment'
   size_t numcomps = GetNumVariablesOfType(allCompartments);
   for (size_t comp=0; comp<numcomps; comp++) {
     const Variable* compartment = GetNthVariableOfType(allCompartments, comp);
     Compartment* sbmlcomp = sbmlmod->createCompartment();
     sbmlcomp->setId(compartment->GetNameDelimitedBy(cc));
+    if (compartment->GetDisplayName() != "") {
+      sbmlcomp->setName(compartment->GetDisplayName());
+    }
     sbmlcomp->setConstant(compartment->GetIsConst());
     formula_type ftype = compartment->GetFormulaType();
     assert (ftype == formulaINITIAL || ftype==formulaASSIGNMENT || ftype==formulaRATE);
@@ -1412,6 +1586,9 @@ void Module::CreateSBMLModel()
     const Variable* species = GetNthVariableOfType(allSpecies, spec);
     Species* sbmlspecies = sbmlmod->createSpecies();
     sbmlspecies->setId(species->GetNameDelimitedBy(cc));
+    if (species->GetDisplayName() != "") {
+      sbmlspecies->setName(species->GetDisplayName());
+    }
     sbmlspecies->setConstant(false); //There's no need to try to distinguish between const and var for species.
     if (species->GetIsConst()) {
       sbmlspecies->setBoundaryCondition(true);
@@ -1440,6 +1617,9 @@ void Module::CreateSBMLModel()
     const Formula*  formula = formvar->GetFormula();
     Parameter* param = sbmlmod->createParameter();
     param->setId(formvar->GetNameDelimitedBy(cc));
+    if (formvar->GetDisplayName() != "") {
+      param->setName(formvar->GetDisplayName());
+    }
     param->setConstant(formvar->GetIsConst());
     if (formula->IsDouble()) {
       param->setValue(atof(formula->ToSBMLString().c_str()));
@@ -1462,6 +1642,9 @@ void Module::CreateSBMLModel()
     }
     Reaction* sbmlrxn = sbmlmod->createReaction();
     sbmlrxn->setId(rxnvar->GetNameDelimitedBy(cc));
+    if (rxnvar->GetDisplayName() != "") {
+      sbmlrxn->setName(rxnvar->GetDisplayName());
+    }
     const Formula* formula = reaction->GetFormula();
     string formstring = formula->ToSBMLString(rxnvar->GetStrandVars());
     if (!formula->IsEmpty()) {
@@ -1506,11 +1689,21 @@ void Module::CreateSBMLModel()
     const AntimonyEvent* event = eventvar->GetEvent();
     Event* sbmlevent = sbmlmod->createEvent();
     sbmlevent->setId(eventvar->GetNameDelimitedBy(cc));
-    Trigger trig(2, 4);
+    if (eventvar->GetDisplayName() != "") {
+      sbmlevent->setName(eventvar->GetDisplayName());
+    }
+    Trigger* trig = sbmlevent->createTrigger();
     ASTNode* ASTtrig = parseStringToASTNode(event->GetTrigger()->ToSBMLString());
-    trig.setMath(ASTtrig);
+    trig->setMath(ASTtrig);
     delete ASTtrig;
-    sbmlevent->setTrigger(&trig);
+    const Formula* delay = event->GetDelay();
+    if (!delay->IsEmpty()) {
+      ASTtrig = parseStringToASTNode(delay->ToSBMLString());
+      Delay* sbmldelay = sbmlevent->createDelay();
+      sbmldelay->setMath(ASTtrig);
+      delete ASTtrig;
+    }
+      
     long numasnts = static_cast<long>(event->GetNumAssignments());
     for (long asnt=numasnts-1; asnt>=0; asnt--) {
       //events are stored in reverse order.  Don't ask...
@@ -1522,16 +1715,33 @@ void Module::CreateSBMLModel()
     }
   }
 
+  //Interactions
+  size_t numinteractions = GetNumVariablesOfType(allInteractions);
+  for (size_t irxn=0; irxn<numinteractions; irxn++) {
+    const Variable* arxnvar = GetNthVariableOfType(allInteractions, irxn);
+	  const AntimonyReaction* arxn = arxnvar->GetReaction();
+	  Reaction* rxn = sbmlmod->getReaction(arxn->GetRight()->GetNthReactant(0)->GetNameDelimitedBy(cc));
+    if (rxn != NULL) {
+	    for (size_t interactor=0; interactor<arxn->GetLeft()->Size(); interactor++) {
+		    ModifierSpeciesReference* msr = rxn->createModifier();
+		    msr->setSpecies(arxn->GetLeft()->GetNthReactant(interactor)->GetNameDelimitedBy(cc));
+        msr->setName(arxnvar->GetNameDelimitedBy(cc));
+	    }
+    }
+  }
+
   //Unknown variables (turn into parameters)
   size_t numunknown = GetNumVariablesOfType(allUnknown);
   for (size_t form=0; form < numunknown; form++) {
     const Variable* formvar = GetNthVariableOfType(allUnknown, form);
     Parameter* param = sbmlmod->createParameter();
     param->setId(formvar->GetNameDelimitedBy(cc));
+    if (formvar->GetDisplayName() != "") {
+      param->setName(formvar->GetDisplayName());
+    }
   }
 }
 
-#endif
 void Module::SetAssignmentFor(Model* sbmlmod, const Variable* var)
 {
   char cc = g_registry.GetCC();
@@ -1547,7 +1757,6 @@ void Module::SetAssignmentFor(Model* sbmlmod, const Variable* var)
     else if (!formula->IsDouble()) { //if it was a double, we already dealt with it.
       InitialAssignment* ia = sbmlmod->createInitialAssignment();
       ia->setSymbol(var->GetNameDelimitedBy(cc));
-      ASTNode* math = parseStringToASTNode(formula->ToSBMLString());
       ia->setMath(math);
     }
     delete math;
@@ -1565,6 +1774,235 @@ void Module::SetAssignmentFor(Model* sbmlmod, const Variable* var)
 }
 #endif
   
+
+#ifndef NCELLML
+void Module::LoadCellMLModel(cellml_api::Model* model)
+{
+  assert(m_cellmlcomponent==NULL);
+  if (m_cellmlmodel != NULL) {
+    m_cellmlmodel->release_ref();
+    assert(false);
+  }
+  m_cellmlmodel = model;
+  m_cellmlmodel->add_ref();
+
+  //Translate
+  wchar_t* cellmltext;
+  string cellmlname;
+
+  //Components become sub-modules
+  cellml_api::CellMLComponentSet* components = m_cellmlmodel->localComponents();
+  cellml_api::CellMLComponentIterator* cmpi = components->iterateComponents();
+  components->release_ref();
+  cellml_api::CellMLComponent* component;
+  while ((component = cmpi->nextComponent()) != NULL) {
+    //Load the component as a submodule (which should already have been loaded by the registry in LoadCellML)
+    cellmltext = component->name();
+    component->release_ref();
+    cellmlname = ToThinString(cellmltext);
+    string cellmlmodname = "cellmlmod_" + cellmlname;
+    free(cellmltext);
+    Variable* var = AddOrFindVariable(&cellmlname);
+    if(var->SetModule(&cellmlmodname)) {
+      assert(false);
+      return;
+    }
+  }
+
+  //Imports also become sub-modules
+  cellml_api::CellMLImportSet* imports = m_cellmlmodel->imports();
+  cellml_api::CellMLImportIterator* impi = imports->iterateImports();
+  cellml_api::CellMLImport* import;
+  while ((import = impi->nextImport()) != NULL) {
+    cellml_api::ImportComponentSet* impcomponents = import->components();
+    cellml_api::ImportComponentIterator* icmpi = impcomponents->iterateImportComponents();
+    impcomponents->release_ref();
+    cellml_api::ImportComponent* impcomponent;
+    while ((impcomponent = icmpi->nextImportComponent()) != NULL) {
+      //Load the imported component as a submodules, too.
+      cellmltext = impcomponent->name();
+      impcomponent->release_ref();
+      cellmlname = ToThinString(cellmltext);
+      free(cellmltext);
+      cellmltext = impcomponent->componentRef();
+      string cellmlmodname = ToThinString(cellmltext);
+      free(cellmltext);
+      Variable* var = AddOrFindVariable(&cellmlname);
+      if(var->SetModule(&cellmlmodname)) {
+        assert(false);
+        return;
+      }
+    }
+    import->release_ref();
+  }
+  impi->release_ref();
+  //Now go through them again to get the connections.  I know, right?
+  impi = imports->iterateImports();
+  imports->release_ref();
+  while ((import = impi->nextImport()) != NULL) {
+    cellml_api::ConnectionSet* impconnections = import->importedConnections();
+    LoadConnections(impconnections);
+    impconnections->release_ref();
+    import->release_ref();
+  }
+  impi->release_ref();
+  //And then get the main model's connections
+  cellml_api::ConnectionSet* connections = model->connections();
+  LoadConnections(connections);
+  connections->release_ref();
+}
+
+void Module::LoadConnections(cellml_api::ConnectionSet* connections)
+{
+  wchar_t* cellmlstring;
+  string cellmlname;
+  cellml_api::ConnectionIterator* coni = connections->iterateConnections();
+  cellml_api::Connection* connection;
+  while ((connection = coni->nextConnection()) != NULL) {
+    cellml_api::MapComponents* compmap = connection->componentMapping();
+    cellmlstring = compmap->firstComponentName();
+    cellmlname = ToThinString(cellmlstring);
+    free(cellmlstring);
+    vector<string> varname;
+    varname.push_back(cellmlname);
+    Variable* firstmod = GetVariable(varname);
+    assert(firstmod!=NULL);
+    cellmlstring = compmap->secondComponentName();
+    cellmlname = ToThinString(cellmlstring);
+    free(cellmlstring);
+    varname.clear();
+    varname.push_back(cellmlname);
+    Variable* secondmod = GetVariable(varname);
+    //LS DEBUG:  The above code will fail if there is more than one module with the same name.
+    cellml_api::MapVariablesSet* mvs = connection->variableMappings();
+    cellml_api::MapVariablesIterator* mvsi = mvs->iterateMapVariables();
+    mvs->release_ref();
+    cellml_api::MapVariables* mapvars;
+    while ((mapvars = mvsi->nextMapVariable()) != NULL) {
+      cellmlstring = mapvars->firstVariableName();
+      cellmlname = ToThinString(cellmlstring);
+      free(cellmlstring);
+      Variable* firstvar = firstmod->GetSubVariable(&cellmlname);
+      assert(firstvar != NULL);
+      cellmlstring = mapvars->secondVariableName();
+      cellmlname = ToThinString(cellmlstring);
+      free(cellmlstring);
+      Variable* secondvar = secondmod->GetSubVariable(&cellmlname);
+      firstvar->Synchronize(secondvar);
+      //LS NOTE: Unlike the above code, this should work regardless of namespace if we get the module right in the first place.
+      mapvars->release_ref();
+    }
+    connection->release_ref();
+  }
+  coni->release_ref();
+}
+
+void Module::LoadCellMLComponent(cellml_api::CellMLComponent* component)
+{
+  wchar_t* cellmlstring;
+  string cellmlname;
+  assert(m_cellmlmodel==NULL);
+  if (m_cellmlcomponent != NULL) {
+    m_cellmlcomponent->release_ref();
+    assert(false);
+  }
+  //Variables
+  cellml_api::CellMLVariableSet* varset = component->variables();
+  cellml_api::CellMLVariableIterator* vsi = varset->iterateVariables();
+  varset->release_ref();
+  cellml_api::CellMLVariable* cmlvar;
+  while ((cmlvar = vsi->nextVariable()) != NULL) {
+    cellmlstring = cmlvar->name();
+    cellmlname = ToThinString(cellmlstring);
+    free(cellmlstring);
+    Variable* antvar = AddOrFindVariable(&cellmlname);
+    cellmlstring = cmlvar->initialValue();
+    cellmlname = ToThinString(cellmlstring);
+    if (cellmlname != "") {
+      Formula* formula = g_registry.NewBlankFormula();
+      setFormulaWithString(cellmlname, formula);
+      antvar->SetFormula(formula);
+    }
+    free(cellmlstring);
+    cmlvar->release_ref();
+  }
+  vsi->release_ref();
+
+  //Reactions
+  cellml_api::ReactionSet* rxnset = component->reactions();
+  cellml_api::ReactionIterator* rxni = rxnset->iterateReactions();
+  rxnset->release_ref();
+  cellml_api::Reaction* rxn;
+  while ((rxn = rxni->nextReaction()) != NULL) {
+    //parse the reaction;
+    //reactions don't have names, so make up a new one for Antimony
+    //LS DEBUG:  stopped coding here for now...
+    //Variable* rxnvar = AddOrFindVariable(&cellmlname);
+    rxn->release_ref();
+  }
+  rxni->release_ref();
+  
+  //Math
+  cellml_api::MathList* mathlist; //LS DEBUG what?  // = cmlvar->math();
+  cellml_api::MathMLElementIterator* mli = mathlist->iterate();
+  mathlist->release_ref();
+  mathml_dom::MathMLElement* mathel;
+  while((mathel = mli->next()) != NULL) {
+    //Er, here's where you'd translate the MathML to Infix and figure out whether it was
+    // and assignment rule or a rate rule.
+    mathel->release_ref();
+  }
+  mli->release_ref();
+
+  //Containers (?)
+}
+
+const cellml_api::Model* Module::GetCellMLModel()
+{
+  if (m_cellmlmodel==NULL || (m_cellmlmodel->name() != ToWString(m_modulename))) {
+    CreateCellMLModel();
+  }
+  return m_cellmlmodel;
+}
+
+void Module::CreateCellMLModel()
+{
+  if (m_cellmlmodel != NULL) {
+    m_cellmlmodel->release_ref();
+    if (m_cellmlcomponent != NULL) {
+      m_cellmlcomponent->release_ref();
+      m_cellmlcomponent = NULL;
+    }
+  }
+  cellml_api::CellMLBootstrap* boot = CreateCellMLBootstrap();;
+  m_cellmlmodel = boot->createModel(L"1.1");
+  boot->release_ref();
+
+  m_cellmlmodel->name(ToWString(m_modulename).c_str());
+  //Create units
+
+  //Create a component for all local variables
+  m_cellmlcomponent = CreateCellMLComponentFor(m_cellmlmodel);
+  m_cellmlmodel->addElement(m_cellmlcomponent);
+
+  //Create all connections
+
+  //Create groups (?)
+}
+
+cellml_api::CellMLComponent* Module::CreateCellMLComponentFor(cellml_api::Model* model)
+{
+  for (size_t var=0; var<m_variables.size(); var++) {
+    Variable* variable = m_variables[var];
+    switch(variable->GetType()) {
+    case varModule:
+      model->addElement(variable->GetModule()->CreateCellMLComponentFor(model));
+    }
+  }
+}
+
+#endif
+
 
 void Module::FixNames()
 {

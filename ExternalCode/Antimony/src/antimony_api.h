@@ -50,7 +50,7 @@
   * - 21: modularStrands:    All defined DNA strands, with some being subparts of the others.
   *
   * Returned Pointers
-  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers pointers you then own, created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
+  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers you then own, and are created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
   *
   * If the library runs out of memory when trying to return a pointer, it will return NULL instead and attempt to set an error message, retrievable with 'getLastError()'.
   *
@@ -59,6 +59,11 @@
 
 #ifndef ANTIMONY_API_H
 #define ANTIMONY_API_H
+
+#ifndef VERSION_STRING //So we can define it in the makefile if need be.
+#define VERSION_STRING "v1.3"
+#endif
+
 
 #include "libutil.h"
 #include "enums.h"
@@ -118,24 +123,52 @@ LIB_EXTERN long   loadSBMLFile(const char* filename);
 LIB_EXTERN long   loadSBMLString(const char* model);
 #endif
 
+#ifndef NCELLML
+/**
+ * @brief Load a file known to be CellML.
+ *
+ * Loads a file and parses it (using libCellML) as a CellML file.  On an error, the error is saved, -1 is returned, and no information is stored.
+ * @return a long integer indicating the index of the file read and stored.  On an error, returns -1 and no information is stored.
+ * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
+ *
+ * @param filename The filename as a character string.  May be either absolute or relative to the directory the executable is being run from.
+ *
+ * @see getLastError()
+ */
+LIB_EXTERN long   loadCellMLFile(const char* filename);
+
+/**
+ * @brief Load a string known to be CellML.
+ *
+ * Loads a string and parses it (using libCellML) as a CellML file.  On an error, the error is saved, -1 is returned, and no information is stored.
+ * @return a long integer indicating the index of the string read and stored.  On an error, returns -1 and no information is stored.
+ * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
+ *
+ * @param model The model, in CellML format.
+ *
+ * @see getLastError()
+ */
+LIB_EXTERN long   loadCellMLString(const char* model);
+#endif
+
 
 /**
  * @brief Returns the number of files loaded into memory so far.
  *
- * Every time 'loadFile' or 'loadSBMLFile' is called successfully, the module(s) in those files are saved.  This function will tell you how many sets of modules from successful reads are resident in memory.
+ * Every time 'load<file/string>' is called successfully, the module(s) in those files are saved.  This function will tell you how many sets of modules from successful reads are resident in memory.
  * @return The number of files currently stored in memory.
  */
 
 LIB_EXTERN unsigned long getNumFiles();
 
 /**
- * Change the 'active' set of modules to the ones from the given index (as received from 'loadFile' or 'loadSBMLFile').  Attempting to revert to a negative or nonexistent index returns 'false' and the previous active set of modules is retained.  A successful change return 'true'.
+ * Change the 'active' set of modules to the ones from the given index (as received from 'load<file/string>').  Attempting to revert to a negative or nonexistent index returns 'false' and the previous active set of modules is retained.  A successful change return 'true'.
  *
  */
 LIB_EXTERN bool   revertTo(long index);
 
 /**
- * Clears memory of all files loaded.  The next successful call to 'loadFile' or 'loadSBMLFile' will return 0 as the first valid index.
+ * Clears memory of all files loaded.  The next successful call to 'load<file/string>' will return 0 as the first valid index.
  */
 LIB_EXTERN void   clearPreviousLoads();
 /** \} */
@@ -167,9 +200,26 @@ LIB_EXTERN int   writeSBMLFile(const char* filename, const char* moduleName);
  * Returns the same output as writeSBMLFile, but to a char* array instead of to a file.  Returns the output of libSBML's 'writeSBMLToString", which "Returns the string on success and NULL if one of the underlying parser components fail (rare)."
  * NOTE:  This function is unavailable when libAntimony is compiled with the '-NSBML' flag.
  *
- *@see writeSBMLToString
+ *@see writeSBMLFile
  */
 LIB_EXTERN char* getSBMLString(const char* moduleName);
+#endif
+
+#ifndef NCELLML
+/**
+ * Writes out a CellML-formatted XML file to the file indicated.  For now, the output is 'flattened', that is, all components of sub-modules are re-named and placed in a single model.  Returns the output of libCellML's 'writeCellML', which "Returns non-zero on success and zero if the filename could not be opened for writing."  An error indicating this is set on returning zero.
+ * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
+ *
+ *@see getCellMLString
+ */
+LIB_EXTERN int   writeCellMLFile(const char* filename, const char* moduleName);
+/**
+ * Returns the same output as writeCellMLFile, but to a char* array instead of to a file.  Returns the output of libCellML's 'writeCellMLToString", which "Returns the string on success and NULL if one of the underlying parser components fail (rare)."
+ * NOTE:  This function is unavailable when libAntimony is compiled with the '-NCELLML' flag.
+ *
+ *@see writeCellMLToString
+ */
+LIB_EXTERN char* getCellMLString(const char* moduleName);
 #endif
 
 /**
@@ -254,9 +304,14 @@ LIB_EXTERN char*  getNthModuleName(unsigned long n);
 LIB_EXTERN unsigned long getNumSymbolsOfType(const char* moduleName, return_type rtype);
 
 /**
- * Returns the names of the symbols of the given return type.
+ * Returns the names of the symbols of the given return type.  (In SBML, these are the 'id's.)
  */
 LIB_EXTERN char** getSymbolNamesOfType(const char* moduleName, return_type rtype);
+
+/**
+ * Returns the 'display names' of the symbols of the given return type.  (In SBML, these are the 'name's.)
+ */
+LIB_EXTERN char** getSymbolDisplayNamesOfType(const char* moduleName, return_type rtype);
 
 /**
  * Returns the equations associated with the symbols of the given return type.
@@ -276,20 +331,6 @@ LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, return_type r
 
 
 /**
- * Returns the equations associated with the assignment rule for symbols of the given return type.
- * - Species:                 The assignment rule for the species in question
- * - Formulas and operators:  The assignment rule of the formula in question
- * - Compartments:            The assignment rule for the compartment
- * - DNA Strands:             The assignment rule or reaction rate at the end of the strand.
- * - Reactions and genes:     The reaction rate (for consistency with DNA strands)
- *
- * - Events:                  Nothing
- * - Interactions:            Nothing
- * - Modules:                 Nothing
- */
-LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_type rtype);
-
-/**
  * Returns the equations associated with the initial assignment for symbols of the given return type.
  * - Species:                 The initial assignment for the species in question
  * - Formulas and operators:  The initial assignment of the formula in question
@@ -297,6 +338,20 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_
  *
  * - DNA Strands:             Nothing
  * - Reactions and genes:     Nothing
+ * - Events:                  Nothing
+ * - Interactions:            Nothing
+ * - Modules:                 Nothing
+ */
+LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, return_type rtype);
+
+/**
+ * Returns the equations associated with the assignment rule for symbols of the given return type.
+ * - Species:                 The assignment rule for the species in question
+ * - Formulas and operators:  The assignment rule of the formula in question
+ * - Compartments:            The assignment rule for the compartment
+ * - DNA Strands:             The assignment rule or reaction rate at the end of the strand.
+ * - Reactions and genes:     The reaction rate (for consistency with DNA strands)
+ *
  * - Events:                  Nothing
  * - Interactions:            Nothing
  * - Modules:                 Nothing
@@ -317,14 +372,19 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_
 LIB_EXTERN char** getSymbolRateRulesOfType(const char* moduleName, return_type rtype);
 
 /**
- * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
- */ //LS DEBUG:  documentation check
+ * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" target="_top" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
+ */
 LIB_EXTERN char** getSymbolCompartmentsOfType(const char* moduleName, return_type rtype);
 
 /**
- * Returns the name of the Nth symbol of the given type.  If no such symbol exists, NULL is returned and an error is set.
+ * Returns the name of the Nth symbol of the given type.  If no such symbol exists, NULL is returned and an error is set.  (In SBML, this is the 'id' of the element.)
  */
 LIB_EXTERN char*  getNthSymbolNameOfType(const char* moduleName, return_type rtype, unsigned long n);
+
+/**
+ * Returns the 'display name' of the Nth symbol of the given type.  If no such symbol exists, NULL is returned and an error is set.  (In SBML, this is the 'name' of the element.)
+ */
+LIB_EXTERN char*  getNthSymbolDisplayNameOfType(const char* moduleName, return_type rtype, unsigned long n);
 
 /**
  * Returns the equation associated with the Nth symbol of the given type.  If no equation is set for the symbol in question, an empty string is returned.  If no symbol can be found, NULL is returned and an error is set.
@@ -671,9 +731,9 @@ LIB_EXTERN bool    getIsNthModularDNAStrandOpen(const char* moduleName, unsigned
 
 /**
  * Frees all pointers handed to you by libAntimony.
- * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything*, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
+ * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything* yourself, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
  *
- * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.
+ * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.  (To clear that memory, use clearPreviousLoads() )
  */
 LIB_EXTERN void freeAll();
 

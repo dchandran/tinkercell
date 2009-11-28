@@ -38,7 +38,7 @@ namespace Tinkercell
 	
 	char* SBMLTool_FtoS::getSBMLSlot()
 	{
-		QSemaphore * s(1);
+		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QString sbml;
 		emit getSBML(s,sbml);
@@ -56,7 +56,7 @@ namespace Tinkercell
 	void SBMLTool::getSBML(QSemaphore* s,QString& sbml)
 	{
 		if (s)
-			s->release()
+			s->release();
 	}
 		
 	

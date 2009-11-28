@@ -39,7 +39,7 @@ namespace Tinkercell
 
 	public:
 		SBMLTool();
-		
+		bool setMainWindow(MainWindow * main);
 	private slots:
 		void getSBML(QSemaphore*,QString&);
 		

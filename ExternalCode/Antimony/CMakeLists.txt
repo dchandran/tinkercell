@@ -22,14 +22,20 @@ SET( ANTIMONY_SRC
 	src/variable.cpp
 )
    
-ADD_DEFINITIONS(-DNSBML)
+#ADD_DEFINITIONS(-DNSBML)
 ADD_DEFINITIONS(-DLIB_EXPORTS)
 
-ADD_LIBRARY( antimony
+ADD_LIBRARY
+( antimony
   SHARED
   ${ANTIMONY_SRC}
-  )
+)
 
+
+TARGET_LINK_LIBRARIES( antimony
+  antimony
+  sbml
+)
 
 IF ( WIN32 )
   INSTALL(TARGETS antimony DESTINATION bin/../)

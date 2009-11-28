@@ -110,6 +110,8 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/nvec_par/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/c/sundials/

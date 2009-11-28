@@ -18,6 +18,11 @@
 
 #define DEFAULTCOMP "default_compartment" //Also defined in module.cpp
 
+#ifndef NCELLML
+#include <IfaceCellML_APISPEC.hxx>
+#include <CellMLBootstrap.hpp>
+//using namespace iface;
+#endif
 
 using namespace std;
 extern int yyparse();
@@ -175,10 +180,10 @@ void reportVariableTypeIndexProblem(unsigned long n, return_type rtype, unsigned
 
 
 //Helper function for below.
-long ParseFile(char* oldlocale)
+long ParseFile(string oldlocale)
 {
   int yyreturn = yyparse();
-  setlocale(LC_ALL, oldlocale);
+  setlocale(LC_ALL, oldlocale.c_str());
   if (yyreturn != 0) {
     if (g_registry.GetError().size() == 0) {
       assert(false); //Need to fill in the reason why we failed explicitly, if possible.
@@ -213,7 +218,7 @@ long ParseFile(char* oldlocale)
 
 LIB_EXTERN long loadString(const char* model)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
   g_registry.ClearModules();
   int ofreturn = g_registry.OpenString(model);
@@ -221,7 +226,7 @@ LIB_EXTERN long loadString(const char* model)
   if (ofreturn==2) {
     //SBML file
     g_registry.FinalizeModules();
-    setlocale(LC_ALL, oldlocale);
+    setlocale(LC_ALL, oldlocale.c_str());
     return g_registry.SaveModules();
   }
   assert(ofreturn==1); //antimony file
@@ -230,7 +235,7 @@ LIB_EXTERN long loadString(const char* model)
 
 LIB_EXTERN long loadFile(const char* filename)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
   g_registry.ClearModules();
   int ofreturn = g_registry.OpenFile(filename);
@@ -238,7 +243,7 @@ LIB_EXTERN long loadFile(const char* filename)
   if (ofreturn==2) {
     //SBML file
     g_registry.FinalizeModules();
-    setlocale(LC_ALL, oldlocale);
+    setlocale(LC_ALL, oldlocale.c_str());
     return g_registry.SaveModules();
   }
   assert(ofreturn==1); //antimony file
@@ -290,6 +295,61 @@ LIB_EXTERN long loadSBMLString(const char* model)
   }
   delete document;
   return retval;
+}
+#endif
+
+#ifndef NCELLML
+long CheckAndAddCellMLDoc(cellml_api::Model* model)
+{
+  if (g_registry.LoadCellML(model)) return -1;
+  return g_registry.SaveModules();
+}
+
+LIB_EXTERN long loadCellMLFile(const char* filename)
+{ 
+  cellml_api::CellMLBootstrap* boot = CreateCellMLBootstrap();
+  cellml_api::ModelLoader* ml = boot->modelLoader();
+  boot->release_ref();
+  cellml_api::Model* model;
+  try
+  {
+    model = ml->loadFromURL(ToWString(filename).c_str());
+  }
+  catch (...)
+  {
+    string file(filename);
+    wchar_t* error = ml->lastErrorMessage();
+    g_registry.SetError("Unable to read CellML file '" + file + "' due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(error));
+    ml->release_ref();
+    free(error);
+    return -1;
+  }
+  long retval = CheckAndAddCellMLDoc(model);
+  if (retval == -1) {
+    string error = g_registry.GetError();
+    error += ToThinString(ml->lastErrorMessage());
+    g_registry.SetError(error);
+  }
+  return retval;
+}
+
+LIB_EXTERN long loadCellMLString(const char* modelstring)
+{
+  cellml_api::CellMLBootstrap* boot = CreateCellMLBootstrap();
+  cellml_api::ModelLoader* ml = boot->modelLoader();
+  boot->release_ref();
+  cellml_api::Model* model;
+  try
+  {
+    model = ml->createFromText(ToWString(modelstring).c_str());
+  }
+  catch (...)
+  {
+    g_registry.SetError("Unable to read CellML string due to errors encountered when parsing the file.  Error(s) from libCellML:\n" +  ToThinString(ml->lastErrorMessage()));
+    ml->release_ref();
+    return -1;
+  }
+  return CheckAndAddCellMLDoc(model);
 }
 #endif
 
@@ -392,6 +452,19 @@ LIB_EXTERN char** getSymbolNamesOfType(const char* moduleName, return_type rtype
   return names;
 }
 
+LIB_EXTERN char** getSymbolDisplayNamesOfType(const char* moduleName, return_type rtype)
+{
+  if (!checkModule(moduleName)) return NULL;
+  unsigned long vnum = getNumSymbolsOfType(moduleName, rtype);
+  char** names = getCharStarStar(vnum);
+  if (names == NULL) return NULL;
+  for (unsigned long var=0; var<vnum; var++) {
+    names[var] = getNthSymbolDisplayNameOfType(moduleName, rtype, var);
+    if (names[var] == NULL) return NULL;
+  }
+  return names;
+}
+
 LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, return_type rtype)
 {
   if (!checkModule(moduleName)) return NULL;
@@ -467,6 +540,18 @@ LIB_EXTERN char*  getNthSymbolNameOfType(const char* moduleName, return_type rty
     return NULL;
   }
   return getCharStar(var->GetNameDelimitedBy(g_registry.GetCC()).c_str());
+}
+
+LIB_EXTERN char*  getNthSymbolDisplayNameOfType(const char* moduleName, return_type rtype, unsigned long n)
+{
+  if (!checkModule(moduleName)) return NULL;
+  const Variable* var = g_registry.GetModule(moduleName)->GetNthVariableOfType(rtype, n);
+  if (var==NULL) {
+    unsigned long numvars = g_registry.GetModule(moduleName)->GetNumVariablesOfType(rtype);
+    reportVariableTypeIndexProblem(n, rtype, numvars, moduleName);
+    return NULL;
+  }
+  return getCharStar(var->GetDisplayName().c_str());
 }
 
 LIB_EXTERN char*  getNthSymbolEquationOfType(const char* moduleName, return_type rtype, unsigned long n)
@@ -1249,7 +1334,7 @@ LIB_EXTERN char* getCompartmentForSymbol(const char* moduleName, const char* sym
 
 LIB_EXTERN int writeAntimonyFile(const char* filename, const char* moduleName)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
   string antimony;
   if (moduleName != NULL) {
@@ -1265,34 +1350,41 @@ LIB_EXTERN int writeAntimonyFile(const char* filename, const char* moduleName)
     error += filename;
     error += " for writing.";
     g_registry.SetError(error);
-    setlocale(LC_ALL, oldlocale);
+    setlocale(LC_ALL, oldlocale.c_str());
     return 0;
   }
+  while (antimony.size()>1 && antimony[0] == '\n') {
+    antimony.erase(0, 1);
+  }
+  antimony = "//Created by libAntimony " VERSION_STRING "\n" + antimony;
   afile << antimony;
   afile.close();
-  setlocale(LC_ALL, oldlocale);
+  setlocale(LC_ALL, oldlocale.c_str());
   return 1;
 }
 
 LIB_EXTERN char* getAntimonyString(const char* moduleName)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
-  char* antimony;
+  string antimony;
   if (moduleName != NULL) {
     if (!checkModule(moduleName)) return 0;
-    antimony = getCharStar(g_registry.GetAntimony(moduleName).c_str());
+    antimony = g_registry.GetAntimony(moduleName);
   }
   else {
-    antimony = getCharStar(g_registry.GetAntimony().c_str());
+    antimony = g_registry.GetAntimony();
   }
-  setlocale(LC_ALL, oldlocale);
-  return antimony;
+  setlocale(LC_ALL, oldlocale.c_str());
+  while (antimony.size()>1 && antimony[0] == '\n') {
+    antimony.erase(0, 1);
+  }
+  return getCharStar(string("//Created by libAntimony " VERSION_STRING "\n" + antimony).c_str());
 }
 
 LIB_EXTERN int writeJarnacFile(const char* filename, const char* moduleName)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
   if (!checkModule(moduleName)) return 0;
   string jarnac = g_registry.GetJarnac(moduleName);
@@ -1302,22 +1394,22 @@ LIB_EXTERN int writeJarnacFile(const char* filename, const char* moduleName)
     error += filename;
     error += " for writing.";
     g_registry.SetError(error);
-  setlocale(LC_ALL, oldlocale);
+    setlocale(LC_ALL, oldlocale.c_str());
     return 0;
   }
   jfile << jarnac;
   jfile.close();
-  setlocale(LC_ALL, oldlocale);
+  setlocale(LC_ALL, oldlocale.c_str());
   return 1;
 }
 
 LIB_EXTERN char* getJarnacString(const char* moduleName)
 {
-  char* oldlocale = setlocale(LC_ALL, NULL);
+  string oldlocale = setlocale(LC_ALL, NULL);
   setlocale(LC_ALL, "C");
   if (!checkModule(moduleName)) return NULL;
   char* jarnac = getCharStar(g_registry.GetJarnac(moduleName).c_str());
-  setlocale(LC_ALL, oldlocale);
+  setlocale(LC_ALL, oldlocale.c_str());
   return jarnac;
 }
 

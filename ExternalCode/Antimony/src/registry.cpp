@@ -14,6 +14,11 @@
 #include "stringx.h"
 #include "variable.h"
 
+#ifndef NCELLML
+#include <IfaceCeVAS.hxx>
+#include <CeVASBootstrap.hpp>
+#endif
+
 extern int yylloc_first_line;
 extern int yylloc_last_line;
 extern std::vector<int> yylloc_last_lines;
@@ -26,12 +31,11 @@ Registry::Registry()
     m_variablenames(),
     m_functions(),
     m_storedvars(),
+    m_storedformulas(),
     m_modules(),
     m_currentModules(),
     m_currentReactantLists(),
     m_currentImportedModule(),
-    m_scratchFormula(),
-    m_scratchFormulas(),
     m_workingstrand(),
     m_currentEvent(),
     m_cc('_'),
@@ -48,6 +52,7 @@ Registry::Registry()
 Registry::~Registry()
 {
   FreeVariables();
+  FreeFormulas();
 }
 
 void Registry::ClearModules()
@@ -56,15 +61,13 @@ void Registry::ClearModules()
   if (input) {
     //input->close(); //LS DEBUG
     input->clear();
-    delete(input);
+    delete input;
   }
   m_files.clear();
   m_modules.clear();
   m_currentModules.clear();
   m_currentReactantLists.clear();
   m_currentImportedModule.clear();
-  m_scratchFormula.Clear();
-  m_scratchFormulas.clear();
   m_workingstrand.Clear();
   m_currentEvent.clear();
   m_error.clear();
@@ -83,24 +86,36 @@ void Registry::FreeVariables()
   m_storedvars.clear();
 }
 
+void Registry::FreeFormulas()
+{
+  for (set<Formula*>::iterator form=m_storedformulas.begin(); form!=m_storedformulas.end(); form++) {
+    delete *form;
+  }
+  m_storedformulas.clear();
+}
+
 void Registry::ClearAll()
 {
   m_oldmodules.clear();
   m_olduserfunctions.clear();
   FreeVariables();
+  FreeFormulas();
   ClearModules();
 }
 
 //Return values:  1: antimony, unread 2: SBML, read
-int Registry::OpenString(const string model)
+int Registry::OpenString(string model)
 {
 #ifndef NSBML
   //Try opening as SBML:
   SBMLDocument* document = readSBMLFromString(model.c_str());
   int sbmlcheck = CheckAndAddSBMLIfGood(document);
-  delete(document);
+  delete document;
   if (sbmlcheck==2) return 2;
 #endif
+  if (model[model.size()-1] != '\n') {
+    model.push_back('\n');
+  }
   m_files.push_back("");
   if (input != NULL) {
     m_oldinputs.push_back(input);
@@ -114,20 +129,21 @@ int Registry::OpenString(const string model)
 }
 
 //Return values:  0: failure, 1: antimony, unread 2: SBML, read
-int Registry::OpenFile(const string filename)
+int Registry::OpenFile(const string& filename)
 {
 #ifndef NSBML
   //Try opening as SBML:
   SBMLDocument* document = readSBML(filename.c_str());
   int sbmlcheck = CheckAndAddSBMLIfGood(document);
-  delete(document);
+  delete document;
   if (sbmlcheck==2) return 2;
 #endif
   m_files.push_back(filename);
   if (input != NULL) {
     m_oldinputs.push_back(input);
   }
-  ifstream* inputfile = new ifstream();
+  ifstream* inputfile = new ifstream;
+  input = inputfile;
   inputfile->open(filename.c_str(), ios::in);
   if (!inputfile->is_open()) {
     m_files.pop_back();
@@ -138,7 +154,7 @@ int Registry::OpenFile(const string filename)
       "	1) exists in directory that antimony is being run from,\n"
       "	2) is read enabled, and\n"
       "	3) is not in use by another program.\n";
-    SetError(error);	
+    SetError(error);
     return 0;
   }
 
@@ -154,7 +170,6 @@ int Registry::OpenFile(const string filename)
   yylloc_last_lines.push_back(yylloc_last_line);
   yylloc_last_line = 1;
   yylloc_first_line = 1;
-  input = inputfile;
   return 1;
 }
 
@@ -181,12 +196,55 @@ int Registry::CheckAndAddSBMLIfGood(SBMLDocument* document)
 }
 #endif  
 
+#ifndef NCELLML
+bool Registry::LoadCellML(cellml_api::Model* model)
+{
+  if (model == NULL) return true;
+  cellml_services::CeVASBootstrap* cevasboot = CreateCeVASBootstrap();
+  cellml_services::CeVAS* cevas = cevasboot->createCeVASForModel(model);
+  wstring error = cevas->modelError();
+  if (error != L"") {
+    SetError("Error reading CellML model:  " + ToThinString(error));
+    return true;
+  }
+  cevasboot->release_ref();
+  cellml_api::CellMLComponentIterator* cmpi = cevas->iterateRelevantComponents();
+  cellml_api::CellMLComponent* component;
+  int numcomps=0;
+  while ((component = cmpi->nextComponent()) != NULL) {
+    numcomps++;
+    //Each CellML 'component' becomes its own Antimony 'module'
+    wchar_t* cellmltext = component->name();
+    string cellmlname = "cellmlmod_" + ToThinString(cellmltext);
+    free(cellmltext);
+    NewCurrentModule(&cellmlname);
+    CurrentModule()->LoadCellMLComponent(component);
+    RevertToPreviousModule();
+    component->release_ref();
+  }
+  cmpi->release_ref();
+  assert(numcomps > 0);
+  if (numcomps > 1) {
+    //Create a master Module that contains each of the components.
+    wchar_t* cellmltext = model->name();
+    string cellmlname = ToThinString(cellmltext);
+    free(cellmltext);
+    if (cellmlname != MAINMODULE) {
+      NewCurrentModule(&cellmlname);
+    }
+    CurrentModule()->LoadCellMLModel(model);
+  }
+}
+
+
+#endif
+
 bool Registry::SwitchToPreviousFile()
 {
   if (!input) return true;
   //input->close(); //LS DEBUG
   input->clear();
-  delete(input);
+  delete input;
   if (m_oldinputs.size() == 0) {
     input = NULL;
     return true;
@@ -295,7 +353,7 @@ void Registry::NewCurrentModule(const string* name)
   for (size_t mod=0; mod<m_modules.size(); mod++) {
     if (m_modules[mod].GetModuleName() == localname) {
       assert(false); //Parsing disallows this condition
-      g_registry.SetError("Programming error:  Unable to create new module with the same name as an existing module.");
+      SetError("Programming error:  Unable to create new module with the same name as an existing module.");
       return;
     }
   }
@@ -435,6 +493,12 @@ bool Registry::SetNewCurrentEvent(Formula* trigger)
   return SetNewCurrentEvent(trigger, evar);
 }
 
+bool Registry::SetNewCurrentEvent(Formula* delay, Formula* trigger)
+{
+  Variable* evar = CurrentModule()->AddNewNumberedVariable("_E");
+  return SetNewCurrentEvent(delay, trigger, evar);
+}
+
 bool Registry::SetNewCurrentEvent(Formula* trigger, Variable* var)
 {
   m_currentEvent = var->GetName();
@@ -447,16 +511,24 @@ bool Registry::SetNewCurrentEvent(Formula* trigger, Variable* var)
       return true;
     }
     else if (!ASTform->isBoolean()) {
-      g_registry.SetError("The formula \"" + trigger->ToDelimitedStringWithEllipses('.') + "\" cannot be parsed in a boolean context, and it is therefore illegal to use it as the trigger for an event.");
+      g_registry.SetError("The formula \"" + trigger->ToDelimitedStringWithEllipses('.') + "\" cannot be parsed in a boolean context, and it is therefore illegal to use it as the trigger for an event.  (Perhaps try adding parentheses?)");
       delete ASTform;
       return true;
-    }      
+    }
     else {
       delete ASTform;
     }
   }
 #endif
-  AntimonyEvent event(*trigger,var);
+  Formula delay;
+  AntimonyEvent event(delay, *trigger,var);
+  return var->SetEvent(&event);
+}
+
+bool Registry::SetNewCurrentEvent(Formula* delay, Formula* trigger, Variable* var)
+{
+  m_currentEvent = var->GetName();
+  AntimonyEvent event(*delay, *trigger, var);
   return var->SetEvent(&event);
 }
 
@@ -464,8 +536,6 @@ bool Registry::AddResultToCurrentEvent(Variable* var, Formula* form)
 {
   //return
   CurrentModule()->GetVariable(m_currentEvent)->GetEvent()->AddResult(var, form);
-  m_scratchFormula = m_scratchFormulas.back();
-  m_scratchFormulas.pop_back();
   return false;
 }
 
@@ -476,9 +546,9 @@ bool Registry::SetCompartmentOfCurrentSubmod(Variable* var)
 
 Formula* Registry::NewBlankFormula()
 {
-  m_scratchFormulas.push_back(m_scratchFormula);
-  m_scratchFormula.Clear();
-  return &(m_scratchFormula);
+  Formula* form = new Formula();
+  m_storedformulas.insert(form);
+  return form;
 }
 
 string Registry::GetLastFile()
@@ -574,7 +644,7 @@ string Registry::GetAntimony() const
 string Registry::GetAntimony(string modulename) const
 {
   const Module* amod = GetModule(modulename);
-  if (amod == NULL) return NULL;
+  if (amod == NULL) return "";
   set<const Module*> nomods;
   return amod->GetAntimony(nomods, false);
 }
@@ -582,7 +652,7 @@ string Registry::GetAntimony(string modulename) const
 string Registry::GetJarnac(string modulename) const
 {
   const Module* jmod = GetModule(modulename);
-  if (jmod == NULL) return NULL;
+  if (jmod == NULL) return "";
   string jarnac = modulename + " = define model\n";
   jarnac += jmod->GetJarnacReactions();
   jarnac += "\n";

@@ -16,7 +16,17 @@
 #include "reaction.h"
 #include "enums.h"
 
+
+#ifndef NCELLML
+#include <IfaceCellML_APISPEC.hxx>
+#include <CellMLBootstrap.hpp>
+using namespace iface;
+#endif
+
 #define MAINMODULE "__main"
+#ifndef VERSION_STRING //So we can define it in the makefile if need be.
+#define VERSION_STRING "v1.3"
+#endif
 
 class Registry
 {
@@ -27,13 +37,12 @@ private:
   std::vector<std::string>   m_functions;
 
   std::set<Variable*>      m_storedvars;
+  std::set<Formula*>       m_storedformulas;
 
   std::vector<Module> m_modules;
   std::vector<std::string> m_currentModules;
   std::vector<ReactantList> m_currentReactantLists;
   std::vector<std::string> m_currentImportedModule;
-  Formula m_scratchFormula;
-  std::vector<Formula> m_scratchFormulas;
   DNAStrand m_workingstrand;
 
   std::vector<UserFunction> m_userfunctions;
@@ -59,12 +68,16 @@ public:
 
   void ClearModules();
   void FreeVariables();
+  void FreeFormulas();
   void ClearAll();
 
-  int    OpenFile(const std::string filename);
-  int    OpenString(const std::string model);
+  int    OpenFile(const std::string& filename);
+  int    OpenString(std::string model);
 #ifndef NSBML
   int    CheckAndAddSBMLIfGood(SBMLDocument* document);
+#endif
+#ifndef NCELLML
+  bool   LoadCellML(cellml_api::Model* model);
 #endif
   bool   SwitchToPreviousFile();
   size_t GetNumFiles() {return m_oldmodules.size();};
@@ -102,7 +115,9 @@ public:
 
   //Events
   bool SetNewCurrentEvent(Formula* trigger);
+  bool SetNewCurrentEvent(Formula* delay, Formula* trigger);
   bool SetNewCurrentEvent(Formula* trigger, Variable* var);
+  bool SetNewCurrentEvent(Formula* delay, Formula* trigger, Variable* var);
   bool AddResultToCurrentEvent(Variable* var, Formula* form);
   bool SetCompartmentOfCurrentSubmod(Variable* var);
 

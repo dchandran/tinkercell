@@ -7,6 +7,8 @@
 #include "variable.h"
 #include "registry.h"
 
+using namespace std;
+
 // SBase objects no longer have IDs :( //update: now they do again!
 string getNameFromSBMLObject(const SBase* sbml, string basename)
 {
@@ -128,7 +130,9 @@ string parseASTNodeToString(const ASTNode* ASTform) {
   setTimeName(&clone);
   char* formula = SBML_formulaToString(&clone);
   string ret = formula;
+#ifndef WIN32
   free(formula);
+#endif
   return ret;
 }
 

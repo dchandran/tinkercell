@@ -349,39 +349,40 @@ void run2D(Matrix input)
 
 	out = fopen("ss2D.c","a");
 
-	fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-				   void run() \n\
-				   {\n   Matrix dat;\n" );
+	fprintf(out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
+  void run() \n\
+  {\n\
+      Matrix dat;\n");
 
-	fprintf( out, "   \
-				  int rows = (int)((%lf-%lf)/%lf);\n\
-				  int cols = (int)((%lf-%lf)/%lf);\n\
-                  int i,j;\n\
-				  char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
-				  dat.cols = 3;\n\
-                  dat.rows = rows;\n\
-				  dat.colnames = colnames;\n\
-				  dat.values = malloc(3 * cols * rows * sizeof(double));\n\
-				  dat.rownames = 0;\n",
-				  endx,startx,dx,endy,starty,dy,param1,param2,target);
+	fprintf(out, "\
+	  int rows = (int)((%lf-%lf)/%lf);\n\
+      int cols = (int)((%lf-%lf)/%lf);\n\
+      int i,j;\n\
+      char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
+      dat.cols = 3;\n\
+      dat.rows = rows * cols;\n\
+      dat.colnames = colnames;\n\
+      dat.values = malloc(3 * cols * rows * sizeof(double));\n\
+      dat.rownames = 0;\n",
+      endx,startx,dx,endy,starty,dy,param1,param2,target);
 
-	fprintf( out, "\n\
-				  for (i=0; i < rows; ++i)\n\
-				  {\n\
-					  for (j=0; j < cols; ++j)\n\
-					  {\n\
-						  valueAt(dat,i*cols + j,0) = %s = %lf + i * %lf;\n\
-						  valueAt(dat,i*cols + j,1) = %s = %lf + j * %lf;\n\
-						  TCreinitialize();\n\
-						  double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-						  valueAt(dat,i*cols + j,2) = %s;\n\
-						  if (y)\n\
-						  free(y);\n\
-						  TCinitialize();\n\
-						}\n\
-						tc_showProgress(\"2-parameter steady state\",(100*i)/rows);\n\
-				  }\n\
-				  tc_surface(dat,\"Steady State Plot\");\n}\n",param1,startx, dx, param2,starty, dy, target);
+ 	  fprintf(out, "\n\
+      for (i=0; i < rows; ++i)\n\
+      {\n\
+        for (j=0; j < cols; ++j)\n\
+		{\n\
+		   valueAt(dat,i*cols + j,0) = %s = %lf + i * %lf;\n\
+		   valueAt(dat,i*cols + j,1) = %s = %lf + j * %lf;\n\
+		   TCreinitialize();\n\
+		   double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+		   valueAt(dat,i*cols + j,2) = %s;\n\
+		   if (y)\n\
+			  free(y);\n\
+		   TCinitialize();\n\
+        }\n\
+		tc_showProgress(\"2-parameter steady state\",(100*i)/rows);\n\
+      }\n\
+      tc_surface(dat,\"Steady State Plot\");\n}\n",param1,startx, dx, param2,starty, dy, target);
 
 	fclose(out);
 

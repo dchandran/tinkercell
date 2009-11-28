@@ -1,0 +1,7 @@
+FILE(PYSCES_FILES *.py*)
+
+INSTALL(FILES ${PYSCES_FILES}
+  DESTINATION py/pysces/sandbox
+  COMPONENT PySCeS
+)
+

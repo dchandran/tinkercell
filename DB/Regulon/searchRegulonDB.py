@@ -55,7 +55,7 @@ else:
 		connections = pytc.getConnectionsIn(p);
 		
 		for j in connections:  #look at parts regulating the promoter
-			parts = pytc.getConnectedPartsIn(j);
+			parts = pytc.getConnectedNodesIn(j);
 			pnames = pytc.getNames(parts);
 			for k in range(0,len(parts)):
 				if pytc.isA(parts[k],"Protein"): #if a protein regulator
@@ -103,7 +103,7 @@ else:
 		connections = pytc.getConnectionsOut(p);
 		
 		for j in connections:  #look at parts regulated by this tf
-			parts = pytc.getConnectedPartsOut(j);
+			parts = pytc.getConnectedNodesOut(j);
 			pnames = pytc.getNames(parts);
 			for k in range(0,len(parts)):
 				if pytc.isA(parts[k],"Regulator"): #if regulatory element

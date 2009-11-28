@@ -520,19 +520,19 @@ namespace Tinkercell
 
 		for (int i=0; i < tabGroups.size(); ++i)
 		{
-			QGridLayout * tempLayout = new QGridLayout;
+			QHBoxLayout * tempLayout = new QHBoxLayout;
 
 			QList<QToolButton*> buttons = tabGroupButtons[i].second;
 			for (int j=0; j < buttons.size(); ++j)
 			{
-				tempLayout->addWidget(buttons[j],0,j,Qt::AlignCenter);
+				tempLayout->addWidget(buttons[j],0,Qt::AlignTop);
 				buttons[j]->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			}
 
 			QWidget * widget = new QWidget;
 
-            tempLayout->setContentsMargins(5,5,5,5);
-			tempLayout->setSpacing(20);
+            tempLayout->setContentsMargins(5,8,5,5);
+			tempLayout->setSpacing(12);
 
 			widget->setLayout(tempLayout);
 			widget->setPalette(QPalette(QColor(255,255,255)));

@@ -45,6 +45,7 @@ namespace Tinkercell
 		are classes that interpret the string in a TextEditor and insert
 		items or modify items as needed. TinkerCell can support multiple parsers
 		through the use of the TextParser interface. 
+		\ingroup core
 	*/
 	class MY_EXPORT TextParser : public Tool
 	{

@@ -3,7 +3,7 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
  
- Provides a text window where C code can be written and run dynamically
+ A tool that allows users to construct models using Antimony scripts in the TextEditor
  
 ****************************************************************************/
 

@@ -61,6 +61,7 @@ namespace Tinkercell
 	opposed to graphics, which is done by GraphicsScene. The TextEditor requires a supporting
 	tool that parses the text and calls the itemsInserted or itemsRemoved methods. Without a
 	supporting parser tool, the TextEditor will not do anything.
+	\ingroup core
 	*/
 	class MY_EXPORT TextEditor : public CodeEditor
 	{

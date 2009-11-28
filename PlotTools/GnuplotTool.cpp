@@ -83,6 +83,8 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all)
     {
+        GnuplotTool::data << m;
+
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
         {
@@ -153,6 +155,8 @@ namespace Tinkercell
     {
         if (m.cols() < 3) return;
 
+        GnuplotTool::data << m;
+
         QHash< QString, QString > uniqueRows;
 
         QString z;
@@ -201,6 +205,7 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)
     {
+        GnuplotTool::data << m;
     }
 
     void GnuplotTool::gnuplotErrorbarsC(Matrix m, int x, const char* title)
@@ -209,6 +214,7 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title)
     {
+        GnuplotTool::data << m;
     }
 
     DataTable<qreal>& GnuplotTool::getDataTable(int index)
@@ -223,7 +229,7 @@ namespace Tinkercell
 
     Matrix GnuplotTool::getDataMatrix(int index)
     {
-        ConvertValue(getDataTable(index));
+        return ConvertValue(getDataTable(index));
     }
 
     GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("gnuplot"),parent)

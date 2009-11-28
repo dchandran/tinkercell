@@ -160,7 +160,7 @@ namespace Tinkercell
 		m.colnames = new char*[m.cols+1];
 		//m.colnames = (char**)_aligned_malloc((m.cols+1)*sizeof(char*),16);
 		m.colnames[m.cols] = 0;
-		m.values = new double[m.rows * m.cols];
+		m.values = new double[m.rows * m.cols + 1];
 		//m.values = (double*)_aligned_malloc((m.rows * m.cols)*sizeof(double),16);
 
 		for (int i=0; i < m.rows; ++i)

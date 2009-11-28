@@ -177,9 +177,8 @@ namespace Tinkercell
                     k = 0;
                 else
                     k = 1;
-            else
-                if (m.at(i,k) != m.at(i-1,k))
-                    s += tr("\n"); //next block
+            if (i < (rows-1) && m.at(i,k) != m.at(i+1,k))
+                s += tr("\n"); //next block
         }
 
         QDir dir(MainWindow::userHome());

@@ -157,29 +157,30 @@ namespace Tinkercell
 
         GnuplotTool::data << m;
 
-        QHash< QString, QString > uniqueRows;
-
         QString z;
         QString s = tr("#");
         s += m.getColNames().join(tr("\t")) += tr("\n");
         int rows = m.rows();
 
+        int k = 0;
+
         for (int i=0; i < rows; ++i)
         {
-            z = QString::number(m.at(i,2));
-            if (uniqueRows.contains(z))
-                uniqueRows[z] +=         QString::number(m.at(i,0)) += tr("\t") +=
-                                         QString::number(m.at(i,1)) += tr("\t") +=
-                                         z += tr("\n");
+            s += QString::number(m.at(i,0))
+              += tr("\t")
+              += QString::number(m.at(i,1))
+              += tr("\t")
+              += QString::number(m.at(i,2))
+              += tr("\n");
+            if (i==0)
+                if (m.at(i,0) == m.at(i+1,0))
+                    k = 0;
+                else
+                    k = 1;
             else
-                uniqueRows[z] =          QString::number(m.at(i,0)) += tr("\t") +=
-                                         QString::number(m.at(i,1)) += tr("\t") +=
-                                         z += tr("\n");
+                if (m.at(i,k) != m.at(i-1,k))
+                    s += tr("\n"); //next block
         }
-
-        QList<QString> list = uniqueRows.values();
-        for (int i=0; i < list.size(); ++i)
-            s += list[i] += tr("\n");
 
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))

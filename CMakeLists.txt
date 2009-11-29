@@ -156,23 +156,19 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( NodeItems )
   ADD_SUBDIRECTORY( OtherItems )
   ADD_SUBDIRECTORY( Documentation )
-  ADD_SUBDIRECTORY( SBML )
-  
-#---------------------------------------------------------------------------
-# ANTIMONY editor
-#---------------------------------------------------------------------------
+  ADD_SUBDIRECTORY( AntimonyEditor )
 
-  OPTION( BUILD_ANTIMONYEDITOR 
-    "Build Antimony Parser and related TinkerCell plug-in." 
-    OFF )
+#----------------------------------------------------------------------------
+# Other programs (not really part of Tinkercell)
+#----------------------------------------------------------------------------
 
-  IF( BUILD_ANTIMONYEDITOR )
-    ADD_SUBDIRECTORY( AntimonyEditor )
-  ENDIF( BUILD_ANTIMONYEDITOR )
-  
-  ADD_SUBDIRECTORY( SegmentationAnimation )
-  ADD_SUBDIRECTORY( SimpleDesigner )
-  ADD_SUBDIRECTORY( MultiCell )
+  OPTION( BUILD_RELATED_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
+
+  IF( BUILD_RELATED_PROGRAMS )
+     ADD_SUBDIRECTORY( SegmentationAnimation )
+     ADD_SUBDIRECTORY( SimpleDesigner )
+     ADD_SUBDIRECTORY( MultiCell )
+  ENDIF( BUILD_RELATED_PROGRAMS )
 
 #----------------------------------------------------------------------------
 # Windows only: include Tiny C Compiler

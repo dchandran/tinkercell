@@ -129,8 +129,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
-	${TINKERCELL_SOURCE_DIR}/SBML
-	${TINKERCELL_SOURCE_DIR}/SBML/sbml
  )
 
 #----------------------------------------------------------------------------

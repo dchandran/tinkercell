@@ -1,0 +1,1 @@
+msiexec /i python-2.5.4.msi TARGETDIR=C:\Python25

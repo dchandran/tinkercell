@@ -285,7 +285,7 @@ namespace Tinkercell
 			if ((h = getHandle(selected[i])) && h->isA(tr("Part")) && (node = qgraphicsitem_cast<NodeGraphicsItem*>(selected[i])))
 			{
 				handlesUp.clear();
-				AutoGeneRegulatoryTool::findAllPart(scene,node,tr("Part"),handlesUp,true,QStringList());
+				AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesUp,true,QStringList());
 				if (!handlesUp.isEmpty())
 				{
 					if (selected.size() > 1)
@@ -306,7 +306,7 @@ namespace Tinkercell
 		if (node && (h = getHandle(node)) && h->isA(tr("Part")))
 		{
 			handlesDown.push_back(h);
-			AutoGeneRegulatoryTool::findAllPart(scene,node,tr("Part"),handlesDown,false,QStringList());
+			AutoGeneRegulatoryTool::findAllParts(scene,node,tr("Part"),handlesDown,false,QStringList());
 		}
 
 		while (!handlesUp.isEmpty())

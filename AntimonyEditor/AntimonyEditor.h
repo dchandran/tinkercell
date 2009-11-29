@@ -29,6 +29,7 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
+#include <QSemaphore>
 #include "NetworkWindow.h"
 #include "TextEditor.h"
 #include "ItemHandle.h"
@@ -37,6 +38,30 @@
 
 namespace Tinkercell
 {
+	class AntimonyEditor_FtoS : public QObject
+	{
+		Q_OBJECT
+	signals:
+		void loadSBMLString(QSemaphore*,const QString&);
+		void loadAntimonyString(QSemaphore*,const QString&);
+		void loadSBMLFile(QSemaphore*,const QString&);
+		void loadAntimonyFile(QSemaphore*,const QString&);
+		void getSBMLString(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void getAntimonyString(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, QString&);
+	public:
+		void loadSBMLString(const char *);
+		void loadAntimonyString(const char *);
+		void loadSBMLFile(const char *);
+		void loadAntimonyFile(const char *);
+		char* getSBMLString(Array);
+		char* getAntimonyString(Array);
+		void writeSBMLFile(Array,const char*);
+		void writeAntimonyFile(Array,const char*);
+		
+	};
+	
 	class AntimonyEditor : public TextParser
 	{
 	    Q_OBJECT
@@ -47,6 +72,8 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow*);
 		/*! \brief parse text and convert them to items*/
 		QList<TextItem*> parse(const QString& modelString, ItemHandle * mainItem = 0);
+		
+		static QString getAntimonyScript(const QList<ItemHandle*>&);
 
 	public slots:
 		/*! \brief parse text and insert items*/
@@ -83,8 +110,6 @@ namespace Tinkercell
 		static QList<TextItem*> clone(const QList<TextItem*>&);
 		
 		CodeEditor * scriptDisplayWindow;
-		
-		static QString getAntimonyScript(ItemHandle *);
 		
 	private slots:
 		/*! \brief display antimony script when a module info is being displayed (see modelSummaryTool)        */

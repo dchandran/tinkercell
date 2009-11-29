@@ -638,26 +638,61 @@ namespace Tinkercell
 
 		ItemHandle * handle = items[0];
 
-		QString s = getAntimonyScript(handle);
-
-		if (handle->isA(tr("Module")))
+		if (handle && handle->isA(tr("Module")))
 		{
+			QString s = getAntimonyScript(handle->allChildren());
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
 		}
 	}
-
-	QString AntimonyEditor::getAntimonyScript(ItemHandle * handle)
+	
+	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& handles)
 	{
-		if (!handle) return QString();
-
-		QList<ItemHandle*> handles = handle->allChildren();
-
+		QString s("Model M\n");
+		/*
+		reaction
+		formula
+		DNA
+		gene
+		operator
+		compartment
+		*/
+		
+		QString s2;
+		for (int i=0; i < handles.size(); ++i)		
+			if (handles[i] && handles[i]->isA(tr("compartment")))			
+			{
+				if (s2.isEmpty()) 
+					s2 += tr("    compartment ");
+				else
+					s2 += tr(", ");
+				s2 += handles[i]->fullName(tr("_"));
+			}
+		
+		if (!s2.isEmpty())
+		{
+			QString s3;
+			for (int i=0; i < handles.size(); ++i)		
+				if (handles[i] && handles[i]->children.isEmpty())
+				{
+					if (s3.isEmpty()) 
+						s3 += tr("    species ");
+					else
+						s3 += tr(", ");
+					s3 += handles[i]->fullName(tr("_"));
+					if (handles[i]->parent && handles[i]->parent->isA(tr("compartment")))
+						s3 += tr("in ") + handles[i]->parent->fullName(tr("_"));
+				}
+			
+			s += s2;
+			s += tr("\n");
+			s += s3;
+			s += tr("\n\n");
+		}
+		
 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles);
 		QStringList rates = StoichiometryTool::getRates(handles);
 		DataTable<qreal> params = ModelFileGenerator::getUsedParameters(handles);
-
-		QString s("Model M\n");
 
 		for (int i=0; i < N.cols() && i < rates.size(); ++i)
 		{
@@ -669,14 +704,18 @@ namespace Tinkercell
 				if (N.value(j,i) > 0)
 					rhs += N.rowName(j);
 
-			s += tr("   ") + lhs.join(tr(" + ")) + tr(" -> ") + rhs.join(tr(" + ")) + tr(";    ") + rates[i] + tr(";\n");
+			s += tr("    ") + lhs.join(tr(" + ")) + tr(" -> ") + rhs.join(tr(" + ")) + tr(";    ") + rates[i] + tr(";\n");
 		}
 
 		s += tr("\n");
 
 		for (int i=0; i < params.rows(); ++i)
 		{
-			s += tr("   ") + params.rowName(i) + tr(" = ") + QString::number(params.value(i,0)) + tr(";\n");
+			s += tr("    ");
+			s += params.rowName(i);
+			s += tr(" = ");
+			s += QString::number(params.value(i,0));
+			s += tr(";\n");
 		}
 
 		s += tr("\n");
@@ -692,8 +731,13 @@ namespace Tinkercell
 				{
 					QString rule = assigns.value(j,0);
 					rule.replace(regex,tr("_"));
-					s += tr("   ") + handles[i]->fullName(tr("_")) + tr("_") +
-							assigns.rowName(j) + tr(" = ") + rule + tr("\n");
+					s += tr("    ");
+					s += handles[i]->fullName(tr("_"));
+					s += tr("_");
+					s += assigns.rowName(j);
+					s += tr(" = ");
+					s += rule;
+					s += tr("\n");
 				}
 			}
 		}

@@ -1377,8 +1377,8 @@ namespace Tinkercell
 			ItemHandle * handle = getHandle(startNode);
 			if (!startNode || !handle) continue;
 
-			findAllPart(scene->scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
-			findAllPart(scene->scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+			findAllParts(scene->scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
+			findAllParts(scene->scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1450,8 +1450,8 @@ namespace Tinkercell
 
 			QList<ItemHandle*> parts,upstream;
 
-			findAllPart(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
-			findAllPart(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
+			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1610,7 +1610,7 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::findAllPart(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
+	void AutoGeneRegulatoryTool::findAllParts(GraphicsScene* scene,NodeGraphicsItem * node, const QString& family,QList<ItemHandle*>& handles,bool upstream,const QStringList & until, bool stopIfElongation)
 	{
 		if (!scene || !node) return;
 
@@ -1995,13 +1995,13 @@ namespace Tinkercell
 			if (node)
 			{
 				QList<ItemHandle*> upstream, downstream;
-				findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
+				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				if (node && node->handle())
 				{
 					downstream.push_front(node->handle());
-					findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
+					findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 
 				while (!upstream.isEmpty())
@@ -2057,13 +2057,13 @@ namespace Tinkercell
 			if (node)
 			{
 				QList<ItemHandle*> upstream, downstream;
-				findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
+				findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				if (node && node->handle())
 				{
 					downstream.push_back(node->handle());
-					//findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
+					//findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 
 				while (!upstream.isEmpty())
@@ -2118,13 +2118,13 @@ namespace Tinkercell
 			if (node)
 			{
 				QList<ItemHandle*> downstream;
-				//findAllPart(scene,node,tr("Part"),upstream,true,QStringList());
+				//findAllParts(scene,node,tr("Part"),upstream,true,QStringList());
 
 				downstream.clear();
 				if (node && node->handle())
 				{
 					//downstream.push_back(node->handle());
-					findAllPart(scene,node,tr("Part"),downstream,false,QStringList());
+					findAllParts(scene,node,tr("Part"),downstream,false,QStringList());
 				}
 
 				(*parts) += downstream;

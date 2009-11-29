@@ -111,7 +111,7 @@ namespace Tinkercell
 		static AutoGeneRegulatoryTool_FtoS fToS;
 		
 	public:
-		static void findAllPart(GraphicsScene*,NodeGraphicsItem*,const QString&,QList<ItemHandle*>&,bool,const QStringList&, bool stopIfElongation = false);
+		static void findAllParts(GraphicsScene*,NodeGraphicsItem*,const QString& family,QList<ItemHandle*>& ,bool upstream=true,const QStringList& stopIf=QStringList(), bool stopIfElongation = false);
 		static QString hillEquation(NodeHandle *,ItemHandle* exclude = 0);
 		static QString hillEquation(QList<ConnectionHandle*> connections, QList<NodeHandle*>& activators, QList<NodeHandle*> repressors);
 	};

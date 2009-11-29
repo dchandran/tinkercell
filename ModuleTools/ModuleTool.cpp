@@ -750,19 +750,21 @@ namespace Tinkercell
                     node1 = node3;  //swap
                 }
 
-                if (node2->handle()->family()->isA(node1->handle()->family()) ||
+                if ( node2->handle()->children.isEmpty() && node1->handle()->children.isEmpty() &&
+					(node2->handle()->family()->isA(node1->handle()->family()) ||
                     (node1->handle()->data && node1->handle()->data->numericalData.contains(tr("Fixed")) &&
                      node1->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0))
+					)
 					{
 						MakeModuleConnection(node1,node2,scene);
+					}                
+					else
+					{
+						if (console())
+							console()->error(tr("These two items cannot be merged. Items must be of similar family and cannot have any subcomponents."));
 					}
-                }
-                else
-                {
-                    if (console())
-                        console()->error(tr("These two items cannot be merged. Items must belong to the same family."));
-                }
             }
+		}
 
         lineItem.setVisible(false);
         if (lineItem.scene())

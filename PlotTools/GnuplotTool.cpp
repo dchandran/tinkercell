@@ -250,31 +250,31 @@ namespace Tinkercell
         button1->setIcon(QIcon(tr(":/images/save.png")));
         connect(button1,SIGNAL(pressed()),this,SLOT(savePlot()));
         button1->setToolTip(tr("Save image"));
-		button1->setIconSize(QSize(20,20));
+		button1->setIconSize(QSize(25,25));
 
         QToolButton * button2 = new QToolButton;
         button2->setIcon(QIcon(tr(":/images/export.png")));
         connect(button2,SIGNAL(pressed()),this,SLOT(writeData()));
         button2->setToolTip(tr("Save as tab-delimited text"));
-		button2->setIconSize(QSize(50,50));
+		button2->setIconSize(QSize(25,25));
 
         QToolButton * button3 = new QToolButton;
         button3->setIcon(QIcon(tr(":/images/copy.png")));
         connect(button3,SIGNAL(pressed()),this,SLOT(copyData()));
         button3->setToolTip(tr("Copy data to clipboard"));
-		button3->setIconSize(QSize(50,50));
+		button3->setIconSize(QSize(25,25));
 
         QToolButton * button4 = new QToolButton;
         button4->setIcon(QIcon(tr(":/images/play.png")));
         connect(button4,SIGNAL(pressed()),this,SLOT(runScript()));
         button4->setToolTip(tr("Run script"));
-		button4->setIconSize(QSize(50,50));
+		button4->setIconSize(QSize(25,25));
 
         buttonsLayout->addWidget(button1);
         buttonsLayout->addWidget(button2);
         buttonsLayout->addWidget(button3);
         buttonsLayout->addWidget(button4);
-		buttonsLayout->setSpacing(10);
+		buttonsLayout->setSpacing(16);
 		buttonsLayout->addStretch(1);
 
         layout->addLayout(buttonsLayout);

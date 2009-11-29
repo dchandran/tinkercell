@@ -647,7 +647,7 @@ static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
 	M.colnames = 0;
 	M.rownames = 0;
 
-	if (!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) || !tc_setInitialValues)
+	if (!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2))
 		return NULL;
 
 	if (PyInt_Check(pylist1))

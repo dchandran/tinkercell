@@ -119,7 +119,7 @@ static PyObject * pytc_itemsOfFamily(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "s|O", &s,&pylist1))
 		return NULL;
 
-	if (pylist1 && tc_itemsOfFamilyFrom)
+	if (pylist1)
 	{
 		if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
 		{
@@ -176,7 +176,7 @@ static PyObject * pytc_find(PyObject *self, PyObject *args)
 	void ** array = 0;
 	char ** names=0; 
 
-	if (!PyArg_ParseTuple(args, "O", &pylist) || !tc_find || !tc_findItems)
+	if (!PyArg_ParseTuple(args, "O", &pylist))
 		return NULL;
 
 	if (PyString_Check(pylist))
@@ -237,7 +237,7 @@ static PyObject * pytc_select(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
-	if (i && tc_select)
+	if (i)
 		tc_select((void*)i);
 
 	Py_INCREF(Py_None);
@@ -375,7 +375,7 @@ static PyObject * pytc_remove(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
-	if (i && tc_remove)
+	if (i)
 		tc_remove((void*)i);
 
 	Py_INCREF(Py_None);
@@ -416,7 +416,7 @@ static PyObject * pytc_setPos(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "idd", &i, &x, &y))
 		return NULL;
 
-	if (i && tc_setPos)
+	if (i)
 		tc_setPos((void*)i,x,y);
 
 	Py_INCREF(Py_None);

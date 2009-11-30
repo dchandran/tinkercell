@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/ForwardTerminator.xml" width="90" height="45">
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/ForwardTerminator.xml" width="90" height="59">
     <ControlPoints>
         <ControlPoint x="257.003" y="264.716"/>
         <ControlPoint x="232.804" y="264.716"/>

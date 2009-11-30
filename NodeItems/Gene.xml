@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/Gene.xml" width="1108.93" height="242.567">
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/Gene.xml" width="200" height="78">
     <ControlPoints>
         <ControlPoint x="139.827" y="172"/>
         <ControlPoint x="303" y="174"/>

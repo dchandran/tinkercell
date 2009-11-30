@@ -336,14 +336,14 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && (handle->isA("Gene") || handle->isA("Coding")) && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && (handle->isA("Gene") || handle->isA("ORF") || handle->isA("Coding")) && !handlesDegraded.contains(handle))
 			{
 				handlesDegraded += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
 				node->name = tr("P");
 				node->name = NodeInsertion::findUniqueName(node,sceneItems);
 
-				qreal xpos = selected[i]->scenePos().rx(),
+				qreal xpos = (selected[i]->sceneBoundingRect().right() + selected[i]->scenePos().x())/2.0,
 					  ypos = selected[i]->scenePos().ry() - (selected[i]->sceneBoundingRect().height() * 3),
 					  height = 0.0;
 

@@ -1887,6 +1887,7 @@ namespace Tinkercell
 						if (allNodes[j] && !duplicateItems.contains(allNodes[j]))
 						{
 							items.removeAll(connection);
+							delete connection;
 							break;
 						}
 				}

@@ -757,7 +757,7 @@ namespace Tinkercell
 					)
 					{
 						MakeModuleConnection(node1,node2,scene);
-					}                
+					}
 					else
 					{
 						if (console())
@@ -1028,7 +1028,7 @@ namespace Tinkercell
 		ItemHandle * handle, * handle2, *moduleCopy;
 
 		QList<QGraphicsItem*> items = scene->selected();
-		QList<QGraphicsItem*> done;
+		QList<ItemHandle*> done;
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -1043,22 +1043,24 @@ namespace Tinkercell
 					}
 				if (moduleCopy)
 				{
-					QList<QGraphicsItem*> list = scene->items(items[i]->sceneBoundingRect());
+                    QRectF rect = items[i]->sceneBoundingRect();
+					QList<QGraphicsItem*> list = scene->items(rect);
 					for (int j=0; j < list.size(); ++j)
 					{
-						node = NodeGraphicsItem::topLevelNodeItem(list[j]);
-						if (!done.contains(node) &&
-							ModuleLinkerItem::isModuleLinker(node) &&
+						node = NodeGraphicsItem::cast(list[j]);
+						if (ModuleLinkerItem::isModuleLinker(node) &&
 							(handle = node->handle()) &&
-							(handle->children.size() > 0) &&
+							!done.contains(handle) &&
+							(handle->children.size() == 1) &&
 							(handle->children[0]))
 						{
-							done << node;
+							done << handle;
 							handle2 = handle->children[0]->clone();
 							handle2->setParent(moduleCopy);
 							handles << handle2;
 							for (int k=0; k < handle->graphicsItems.size(); ++k)
-								if (handle->graphicsItems[k] && list.contains(handle->graphicsItems[k]))
+								if (handle->graphicsItems[k] &&
+                                    rect.contains(handle->graphicsItems[k]->sceneBoundingRect()))
 								{
 									item2 = cloneGraphicsItem(handle->graphicsItems[k]);
 									setHandle(item2,handle2);

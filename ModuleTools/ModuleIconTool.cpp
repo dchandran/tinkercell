@@ -251,12 +251,12 @@ namespace Tinkercell
                 node->adjustBoundaryControlPoints();
 		}
 
-		scene->insert(moduleName + tr(" inserted"),insertList);
+        QList<ItemHandle*> handles;
+		QList<QGraphicsItem*> newList = cloneGraphicsItems(insertList,handles);
 
-		QList<ItemHandle*> handles;
-		QList<QGraphicsItem*> oldList = insertList;
+		scene->insert(moduleName + tr(" inserted"),insertList);
 		insertList.clear();
-		insertList = cloneGraphicsItems(oldList,handles);
+		insertList = newList;
 
     }
 

@@ -3,7 +3,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  A special ConnectionGraphicsItem for connecting modules
 
 ****************************************************************************/
@@ -28,7 +28,7 @@
 
 namespace Tinkercell
 {
- 
+
 class ModuleLinkerItem : public NodeGraphicsItem
 {
 public:
@@ -36,19 +36,19 @@ public:
 	qreal setWidth;
 
 	ModuleLinkerItem(NodeGraphicsItem * mod=0, QGraphicsItem * parent = 0, TextGraphicsItem * text = 0);
-	
+
 	ModuleLinkerItem(const ModuleLinkerItem&);
-	
+
 	virtual void setPosOnEdge();
-	
+
 	virtual NodeGraphicsItem * clone() const;
-	
-	virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
-	
+
+	//virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option=new QStyleOptionGraphicsItem() ,QWidget *widget=0);
+
 	NodeGraphicsItem * module;
-	
+
 	static bool isModuleLinker(NodeGraphicsItem*);
-	
+
 	/*! \brief used for checking type before static casts */
 	static QString CLASSNAME;
 private:
@@ -61,22 +61,22 @@ class ModuleConnectionGraphicsItem : public ConnectionGraphicsItem
 public:
 	/*! Constructor: sets the class name as ModuleConnectionGraphicsItem */
     ModuleConnectionGraphicsItem(QGraphicsItem * parent = 0);
-	
+
 	ModuleConnectionGraphicsItem(const ModuleConnectionGraphicsItem&);
-	
+
 	ConnectionGraphicsItem* clone() const;
-	
+
 	/*! \brief used for checking type before static casts */
 	static QString CLASSNAME;
-	
+
 	QUndoCommand * command;
-	
+
 	~ModuleConnectionGraphicsItem();
-	
+
 	virtual void adjustEndPoints();
-	
+
 	static bool isModuleConnection(ConnectionGraphicsItem*);
-	
+
 };
 
 }

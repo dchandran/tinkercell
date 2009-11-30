@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/ForwardTerminator.xml" width="90" height="45">
+    <ControlPoints>
+        <ControlPoint x="257.003" y="264.716"/>
+        <ControlPoint x="232.804" y="264.716"/>
+        <ControlPoint x="25.7037" y="207"/>
+        <ControlPoint x="232.804" y="207"/>
+        <ControlPoint x="232.804" y="233.305"/>
+        <ControlPoint x="25.7037" y="231.765"/>
+        <ControlPoint x="257.003" y="207"/>
+        <ControlPoint x="474.384" y="207"/>
+        <ControlPoint x="474.384" y="231.765"/>
+        <ControlPoint x="257.003" y="233.305"/>
+        <ControlPoint x="232.804" y="108.645"/>
+        <ControlPoint x="174.202" y="78.2642"/>
+        <ControlPoint x="174.202" y="108.645"/>
+        <ControlPoint x="257.003" y="108.645"/>
+        <ControlPoint x="312.112" y="79.8915"/>
+        <ControlPoint x="312.112" y="108.645"/>
+        <ControlPoint x="25.7037" y="264.716"/>
+        <ControlPoint x="474.384" y="264.716"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="2,3,4,5,2"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#000000" Alpha="255"/>
+            <Fill Color="#000000" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="6,7,8,9,6"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#000000" Alpha="255"/>
+            <Fill Color="#000000" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="16,5,4,1,16"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#ffffff" Alpha="0"/>
+            <Fill Color="#ffffff" Alpha="0"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,9,8,17,0"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#ffffff" Alpha="0"/>
+            <Fill Color="#ffffff" Alpha="0"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="3,6,9,4,3"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#000000" Alpha="255"/>
+            <Fill Color="#000000" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,9,0,1,4"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#ffffff" Alpha="0"/>
+            <Fill Color="#ffffff" Alpha="0"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="3,10,12,11,14,15,13,6,3"/>
+            <LineTypes sequence="line,line,line,line,line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#000000" Alpha="255"/>
+            <Fill Color="#000000" Alpha="255"/>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

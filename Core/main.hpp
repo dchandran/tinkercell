@@ -51,7 +51,7 @@ Tools represent a genetic class which can connect with the MainWindow and modify
  */
 
 /*! \defgroup helper Helper functions and classes
-   \brief Side classes and functions that are used by the core classes.
+   \brief Helper classes and functions that are used by the core classes.
  */
 
 /*! \defgroup io Input and output
@@ -63,9 +63,9 @@ Tools represent a genetic class which can connect with the MainWindow and modify
  */
 
 /*! \defgroup plugins TinkerCell Plug-in classes
-   \brief Plug-ins provide the majority of the features in TinkerCell but they build on the Core classes
+   \brief Plug-ins provide the majority of the features in TinkerCell but they build on the Core classes. All Plug-ins inherit from the Tool class.
  */
 
-/*! \defgroup Classes that are used to bridge C programs and the plug-ins
-   \brief capi
+/*! \defgroup C API
+   \brief C functions that are provided by the TinkerCell Core library and Plug-ins (tools)
  */

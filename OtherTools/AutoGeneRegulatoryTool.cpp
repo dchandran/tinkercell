@@ -795,13 +795,27 @@ namespace Tinkercell
 							}
 						}
 						else
-							if (sDat->value(0,0) != tr("0.0"))
+							if (sDat->value(0,0) != tr("0.0") &&
+                                !sDat->value(0,0).contains(parts[i]->fullName()))
 							{
-								sDat->value(0,0) = tr("0.0");
+							    bool b = false;
+							    for (int k=0; k < connections.size(); ++k)
+                                    if (connections[k] &&
+                                        connections[k]->hasNumericalData(tr("Stoichiometry")) &&
+                                        connections[k]->data->numericalData[tr("Stoichiometry")].getColNames().contains(parts[i]->fullName()))
+                                        {
+                                            b = true;
+                                            break;
+                                        }
+								if (b)
+                                    sDat->value(0,0) = connections[j]->fullName() + tr(".k0*") + parts[i]->fullName();
+								else
+                                    sDat->value(0,0) = tr("0.0");
 								targetHandles += connections[j];
 								hashStrings += tr("Rates");
 								dataTables += sDat;
 							}
+
 
 						if (sDat->getRowNames().contains(tr("translation")))
 						{

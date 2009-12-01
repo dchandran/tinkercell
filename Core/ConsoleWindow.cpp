@@ -142,16 +142,14 @@ namespace Tinkercell
 	{
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(currentPosition);
-		/*if (cursor.block().text() == ConsoleWindow::Prompt)
-		{
-		cursor.setPosition(currentPosition-2,QTextCursor::KeepAnchor);
-		cursor.removeSelectedText();
-		}*/
-		cursor.setCharFormat(messageFormat);
-		cursor.insertText(tr("\n") + s + tr("\n"));
 
-		cursor.setCharFormat(normalFormat);
-		cursor.insertText(ConsoleWindow::Prompt);
+		cursor.setCharFormat(messageFormat);
+		cursor.insertText(s);
+		if (s.right(1) == QChar('\n'))
+		{
+		    cursor.setCharFormat(normalFormat);
+            cursor.insertText(ConsoleWindow::Prompt);
+		}
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -285,6 +283,13 @@ namespace Tinkercell
 			QTextEdit::selectAll();
 			return;
 		}
+
+        if (event->modifiers() == 0)
+        {
+            if (cursor.position() <= currentPosition)
+				cursor.setPosition(currentPosition);
+            this->ensureCursorVisible();
+        }
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
@@ -420,9 +425,9 @@ namespace Tinkercell
 							c->complete(cr);
 						}
 					}
-						if (cursor.position() < currentPosition)
-							cursor.setPosition(currentPosition);
-						this->ensureCursorVisible();
+        if (cursor.position() < currentPosition)
+            cursor.setPosition(currentPosition);
+        this->ensureCursorVisible();
 	}
 
 	/***********************************
@@ -496,6 +501,7 @@ namespace Tinkercell
 
 		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
 
+		outputs += tr("\n");
 		for (int i=0; i < colnames.size(); ++i)
 		{
 			outputs += tr("\t") + colnames.at(i);

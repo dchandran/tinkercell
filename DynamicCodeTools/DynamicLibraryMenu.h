@@ -5,7 +5,7 @@
  see COPYRIGHT.TXT
 
  Provides a toolbar with buttons that call C functions (run of separate threads)
- 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_FUNCTIONSMENUTOOL_H
@@ -86,81 +86,81 @@ namespace Tinkercell
 
     public:
         /*! \brief default constructor
-                */
+        */
         DynamicLibraryMenu();
         /*! \brief destructor. deletes all the graphical tools
-                */
+        */
         virtual ~DynamicLibraryMenu();
         /*!
-                * \brief sets the main window. Connects to itemsSelected
-                * \param MainWindow main window
-                */
+        * \brief sets the main window. Connects to itemsSelected
+        * \param MainWindow main window
+        */
         bool setMainWindow(MainWindow*);
         /*!
-                * \brief add a new function to the tree of functions.
-                * \param QString category that this function belongs in, e.g. "Simulate"
-                * \param QString function title
-                * \param QIcon optional icon
-                * \return QToolButton* the button that was added
-                */
+        * \brief add a new function to the tree of functions.
+        * \param QString category that this function belongs in, e.g. "Simulate"
+        * \param QString function title
+        * \param QIcon optional icon
+        * \return QToolButton* the button that was added
+        */
         QToolButton * addFunction(const QString& category, const QString& functionName, const QIcon& icon = QIcon());
         /*!
-                * \brief add a new action to the functions button in the main toolbar
-                * \param QString function title
-                * \param QIcon optional icon
-                * \return QAction* the action that was added
-                */
-        QAction * addMenuItem(const QString& functionName, const QIcon& icon = QIcon(), bool deft = false);
+        * \brief add a new action to the functions button in the main toolbar
+        * \param QString function title
+        * \param QIcon optional icon
+        * \return QAction* the action that was added
+        */
+        QAction * addMenuItem(const QString& category, const QString& functionName, const QIcon& icon = QIcon(), bool deft = false);
         /*!
-                * \brief add an action to the context menu (right mouse button) for items of the given family
-                * \param QString family that this function targets
-                * \param QString function title
-                * \param QIcon optional icon
-                * \return QAction* the action added to the context menu
-                */
+        * \brief add an action to the context menu (right mouse button) for items of the given family
+        * \param QString family that this function targets
+        * \param QString function title
+        * \param QIcon optional icon
+        * \return QAction* the action added to the context menu
+        */
         QAction * addContextMenuItem(const QString& familyName,const QString& functionName, const QPixmap& icon = QPixmap(), bool tool = false);
-		
+
 		/*! \brief the preferred size for this window*/
 		QSize sizeHint() const;
-		
+
     protected slots:
         void select(int i=0);
         void deselect(int i=0);
         void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
         void itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers);
         /*!
-                * \brief action in the tool bar menu sets the default action
-                * \param QAction* action
-                */
+        * \brief action in the tool bar menu sets the default action
+        * \param QAction* action
+        */
         void actionTriggered ( QAction *  action );
         /*!
-                * \brief setup the functions for the new C library. Part of the generic TinkerCell C interface protocol
-                * \param QLibrary library that was loaded
-                */
+        * \brief setup the functions for the new C library. Part of the generic TinkerCell C interface protocol
+        * \param QLibrary library that was loaded
+        */
         void setupFunctionPointers( QLibrary * );
         /*!
-                * \brief Get string from user. Part of the TinkerCell C interface.
-                */
+        * \brief Get string from user. Part of the TinkerCell C interface.
+        */
         void getString(QSemaphore*,QString*,const QString&);
         /*!
-                * \brief Get string from user from a list. Part of the TinkerCell C interface.
-                */
+        * \brief Get string from user from a list. Part of the TinkerCell C interface.
+        */
         void getSelectedString(QSemaphore*, int*, const QString&, const QStringList&, const QString&, int);
         /*!
-                * \brief Get a number from user. Part of the TinkerCell C interface.
-                */
+        * \brief Get a number from user. Part of the TinkerCell C interface.
+        */
         void getNumber(QSemaphore*,qreal*,const QString&);
         /*!
-                * \brief Get more than one number from user. Part of the TinkerCell C interface.
-                */
+        * \brief Get more than one number from user. Part of the TinkerCell C interface.
+        */
         void getNumbers(QSemaphore*,const QStringList&,qreal*);
         /*!
-                * \brief Get file name from user. Part of the TinkerCell C interface.
-                */
+        * \brief Get file name from user. Part of the TinkerCell C interface.
+        */
         void getFilename(QSemaphore*,QString*);
         /*!
-                * \brief Call a function listed in the functions table. Part of the TinkerCell C interface.
-                */
+        * \brief Call a function listed in the functions table. Part of the TinkerCell C interface.
+        */
         void callFunction(QSemaphore*,const QString&);
 
     private:
@@ -212,6 +212,8 @@ namespace Tinkercell
         void connectTCFunctions();
         /*! \brief The menu with the functions that is placed in the main window's toolbar*/
         QMenu functionsMenu;
+        /*! \brief The menu with the functions that is placed in the main window's toolbar*/
+        QList<QMenu*> functionsSubMenus;
         /*! \brief The tree widget with all the functions in categories*/
         QTreeWidget treeWidget;
         /*! \brief The menu button with the functions that is placed in the main window's toolbar*/

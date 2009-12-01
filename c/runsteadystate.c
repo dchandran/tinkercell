@@ -74,8 +74,8 @@ void tc_main()
 
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 0);
-	tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+	tc_addFunction(&setup1, "Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+	tc_addFunction(&setup2, "2-Parameter Steady state analysis", "uses Sundials library (compiles to C program)", "Steady state", "Plugins/c/cvode.PNG", "", 1, 0, 0);
 	tc_callback(&callback);
 	tc_callWhenExiting(&unload);
 }
@@ -194,6 +194,7 @@ void run(Matrix input)
 
 	fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
 				  int i,j;\n\
+				  double * y, * y0;\n\
 				  if (%i) \n\
 				  {\n\
 					dat.cols = 1+TCreactions;\n\
@@ -217,12 +218,12 @@ void run(Matrix input)
 					%s = %lf + i * %lf;\n\
 					TCreinitialize();\n\
 					valueAt(dat,i,0) = %s;\n\
-					double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
 					if (y)\n\
 					{\n\
 						if (%i)\n\
 						{\n\
-							double * y0 = malloc(TCreactions * sizeof(double));\n\
+							y0 = malloc(TCreactions * sizeof(double));\n\
 							TCpropensity(0.0, y, y0, 0);\n\
 							free(y);\n\
 							y = y0;\n\
@@ -357,6 +358,7 @@ void run2D(Matrix input)
 	fprintf(out, "\
 	  int rows = (int)((%lf-%lf)/%lf);\n\
       int cols = (int)((%lf-%lf)/%lf);\n\
+      double * y, *y0;\n\
       int i,j;\n\
       char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
       dat.cols = 3;\n\
@@ -374,7 +376,7 @@ void run2D(Matrix input)
 		   valueAt(dat,i*cols + j,0) = %s = %lf + i * %lf;\n\
 		   valueAt(dat,i*cols + j,1) = %s = %lf + j * %lf;\n\
 		   TCreinitialize();\n\
-		   double * y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+		   y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
 		   valueAt(dat,i*cols + j,2) = %s;\n\
 		   if (y)\n\
 			  free(y);\n\

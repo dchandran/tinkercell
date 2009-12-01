@@ -27,6 +27,8 @@ namespace Tinkercell
 
     CodeEditor * GnuplotTool::editor = 0;
 
+    QProcess process;
+
     void GnuplotTool::gnuplotFile(const QString& filename)
     {
     #ifdef Q_WS_WIN
@@ -42,8 +44,10 @@ namespace Tinkercell
 
     #endif
 
-        //system(cmd.toAscii().data());
-        QProcess::startDetached(cmd);
+        if (process.state() == QProcess::Running)
+            process.terminate();
+
+        process.startDetached(cmd);
     }
 
     void GnuplotTool::gnuplotScript(const QString& script)
@@ -197,7 +201,7 @@ namespace Tinkercell
             file.write(s.toAscii());
             file.close();
         }
-		
+
 		s = tr("set title '");
 		s += title;
 		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data.txt' with lines\n");
@@ -356,13 +360,13 @@ namespace Tinkercell
     {
 		if (editor && !editor->toPlainText().isEmpty())
 		{
-			QString file = 
+			QString file =
 				QFileDialog::getSaveFileName(this, tr("Save to File"),
                                           MainWindow::previousFileName,
                                           tr("GIF Files (*.gif)"));
-			
+
 			if (file.isNull() || file.isEmpty()) return;
-			
+
 			QString s("\nset terminal gif; set output \"");
 			s += file;
 			s += tr("\"\n replot\n");
@@ -373,20 +377,20 @@ namespace Tinkercell
     void GnuplotTool::copyData()
     {
 		if (data.size() < 1) return;
-		
+
 		QClipboard * clipboard = QApplication::clipboard();
-		
+
 		if (!clipboard)
 		{
 			if (console())
 				console()->error(tr("No clipboard available."));
 			return;
 		}
-		
+
 		DataTable<qreal>& m = data.last();
-		
+
 		QString s;
-		
+
 		for (int i=0; i < m.cols(); ++i)
 			if (i > 0)
 				s += tr("\t") + m.colName(i);
@@ -403,26 +407,26 @@ namespace Tinkercell
 					s += QString::number(m.at(i,j));
 			s += tr("\n");
 		}
-	
+
 		clipboard->setText(s);
-		
+
 		console()->message(tr("Data copied to clipboard."));
     }
 
     void GnuplotTool::writeData()
     {
 		if (data.size() < 1) return;
-		
+
 		DataTable<qreal>& m = data.last();
-		
-		QString file = 
+
+		QString file =
 				QFileDialog::getSaveFileName(this, tr("Save to File"),
                                           MainWindow::previousFileName,
                                           tr("TXT Files (*.txt *.tab)"));
-			
+
 		if (file.isEmpty() || file.isNull()) return;
-		
-		
+
+
 		QFile data(file);
 
         if (data.open(QFile::WriteOnly))
@@ -445,16 +449,16 @@ namespace Tinkercell
                         out << QString::number(m.at(i,j));
                 out << tr("\n");
             }
-			
+
 			data.close();
-			
+
 			if (console())
 				console()->message(tr("Written to ") + file);
         }
 		else
 			if (console())
 				console()->error(tr("Cannot write to file."));
-		
+
     }
 }
 

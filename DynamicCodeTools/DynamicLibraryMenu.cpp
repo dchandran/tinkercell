@@ -2,9 +2,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  Provides a toolbar with buttons that call C functions (run of separate threads)
- 
+
 ****************************************************************************/
 #include <QVBoxLayout>
 #include <QDockWidget>
@@ -45,7 +45,7 @@ namespace Tinkercell
         menuButton = 0;
         separator = 0;
         connectTCFunctions();
-		
+
 		QVBoxLayout * layout = new QVBoxLayout;
         layout->addWidget(&treeWidget);
         layout->setContentsMargins(0,0,0,0);
@@ -64,7 +64,7 @@ namespace Tinkercell
         }*/
         graphicalTools.clear();
     }
-	
+
 	QSize DynamicLibraryMenu::sizeHint() const
 	{
 		return QSize(200,100);
@@ -111,19 +111,40 @@ namespace Tinkercell
         return toolButton;
     }
 
-    QAction * DynamicLibraryMenu::addMenuItem(const QString& functionName, const QIcon& icon, bool defaultAction)
+    QAction * DynamicLibraryMenu::addMenuItem(const QString& category, const QString& functionName, const QIcon& icon, bool defaultAction)
     {
         QAction * action = new QAction(icon,functionName,this);
 
         if (!menuButton) return action;
 
-        functionsMenu.addAction(action);
+        QMenu * menu = 0;
+
+        for (int i=0; i < functionsSubMenus.size(); ++i)
+            if (functionsSubMenus[i] && functionsSubMenus[i]->title() == category)
+            {
+                menu = functionsSubMenus[i];
+                break;
+            }
+
+        if (!menu)
+        {
+            menu = new QMenu(&functionsMenu);
+            menu->setTitle(category);
+            functionsSubMenus.append(menu);
+            functionsMenu.addMenu(menu);
+        }
+
+        menu->addAction(action);
 
         if (!functionsMenu.defaultAction() || defaultAction)
         {
             if (functionsMenu.defaultAction())
 				disconnect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
-            
+
+            if (menu->defaultAction())
+                disconnect(menu,SIGNAL(pressed()),menu->defaultAction(),SIGNAL(triggered()));
+
+            menu->setDefaultAction(action);
 			functionsMenu.setDefaultAction(action);
             connect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
         }
@@ -133,7 +154,7 @@ namespace Tinkercell
     }
 
     DynamicLibraryMenu::GraphicalActionTool::GraphicalActionTool(const QString& family, const QString& name, const QPixmap& pixmap, Tool * tool)
-             : GraphicsItem(tool), targetAction(QIcon(pixmap),name,0), targetFamily(family) 
+             : GraphicsItem(tool), targetAction(QIcon(pixmap),name,0), targetFamily(family)
     {
         QGraphicsPixmapItem * pixmapItem = new QGraphicsPixmapItem(pixmap);
         pixmapItem->scale(30.0/pixmapItem->boundingRect().width(),30.0/pixmapItem->boundingRect().height());
@@ -212,17 +233,17 @@ namespace Tinkercell
             }
         }
     }
-	
+
 	void DynamicLibraryMenu::GraphicalActionTool::visible(bool b)
 	{
 		if (!tool) return;
 		GraphicsScene * scene = tool->currentScene();
 		if (!scene) return;
-		
+
 		ItemHandle * handle = 0;
 		QList<QGraphicsItem*>& items = scene->selected();
 		bool match = true;
-		
+
 		for (int j=0; j < items.size(); ++j)
 		{
 			if (handle = getHandle(items[j]))
@@ -234,9 +255,9 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
 		Tool::GraphicsItem::visible(b && match);
-		
+
 	}
 
     void DynamicLibraryMenu::itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers)
@@ -475,7 +496,7 @@ namespace Tinkercell
             QStringList list = list0;
             bool ok;
             QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z0-9])"));
-			
+
 			int index = list.indexOf(init);
 			if (index < 0) index = 0;
 

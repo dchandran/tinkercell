@@ -12,11 +12,90 @@
 
 void run(Matrix input);
 void setup();
+void getSS();
 
 void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
+	tc_addFunction(&getSS, "Get steady state", "Bring the system to nearest steady state and bring Jacobian", "Steady state", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+}
+
+void getSS()
+{
+    FILE * out;
+    int k;
+    Array A = tc_allItems();
+
+	if (A[0] != 0)
+	{
+		k = tc_writeModel( "getss", A );
+		TCFreeArray(A);
+		if (!k)
+		{
+			tc_errorReport("No Model\0");
+			return;
+		}
+	}
+	else
+	{
+		TCFreeArray(A);
+		tc_errorReport("No Model\0");
+		return;
+	}
+
+	out = fopen("getss.c","a");
+
+	fprintf( out, "\n\#include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
+    void run()\n\
+    {\n\
+         int i;\n\
+         char c[100];\n\
+         Matrix J, ss;\n\
+         Array A;\n\
+         double * y, *eigim, *eigr;\n\
+         TCinitialize();\n\
+         J.rownames = J.colnames = TCvarnames;\n\
+         J.rows = J.cols = TCvars;\n\
+         y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+         if (y)\n\
+         {\n\
+            ss.rownames = 0;\n\
+            ss.colnames = 0;\n\
+            ss.rows = TCvars;\n\
+            ss.cols = 1;\n\
+            ss.values = y;\n\
+            A = tc_findItems(TCvarnames);\n\
+            tc_setInitialValues(A,ss);\n\
+            eigr = (double*)malloc(TCvars*sizeof(double));\n\
+            eigim = (double*)malloc(TCvars*sizeof(double));\n\
+            J.values = jacobian2(TCvars,TCreactions,TCstoic, &(TCpropensity), y, 0, eigr, eigim);\n\
+            tc_print(\"Jacobian = \");\n\
+            tc_printTable(J);\n\
+            tc_print(\"eigenvalues = [ \");\n\
+            for (i=0; i < TCvars; ++i)\n\
+            {\n\
+                if (i < (TCvars-1))\n\
+                    sprintf(c,\"%%lf +/- %%lf i, \\0\",eigr[i],eigim[i]);\n\
+                else\n\
+                    sprintf(c,\"%%lf +/- %%lf i] \\n\",eigr[i],eigim[i]);\n\
+                tc_print(c);\n\
+            }\n\
+            tc_print(\"\\n\");\n\
+            free(J.values);\n\
+            free(eigr);\n\
+            free(eigim);\n\
+            free(y);\n\
+         }\n\
+         else\n\
+         {\n\
+             tc_print(\"No steady state found\");\n\
+         }\n}\n");
+
+	fclose(out);
+
+	tc_compileBuildLoad("getss.c -lodesim\0","run\0","Get steady state\0");
+	return;
 }
 
 void setup()

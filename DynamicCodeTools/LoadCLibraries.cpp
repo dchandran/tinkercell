@@ -140,7 +140,7 @@ namespace Tinkercell
 
             if (show_menu > 0)
             {
-                QAction * action = libMenu->addMenuItem(title,icon, deft > 0);
+                QAction * action = libMenu->addMenuItem(cat, title,icon, deft > 0);
                 if (action)
 				{
 					action->setToolTip(desc);

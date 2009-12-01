@@ -24,7 +24,7 @@ buttons for all these functions.
 namespace Tinkercell
 {
 
-	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox")) 
+	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox"))
 	{
 		mode = none;
 		colorToolBar = new QToolBar(name,this);
@@ -46,7 +46,7 @@ namespace Tinkercell
 		gradientMenu->addAction(linearGradient);
 		gradientMenu->addAction(radialGradient);
 
-		brushColor1 = QColor(255,255,255,255); 
+		brushColor1 = QColor(255,255,255,255);
 		brushColor2 = QColor(80,80,255,255);
 		penColor = QColor(10,10,10,255);
 		penWidth = 1.0;
@@ -270,22 +270,34 @@ namespace Tinkercell
 				mainWindow->editMenu->addAction(replaceAction);
 			}
 
+			mainWindow->contextItemsMenu.addAction(
+                QIcon(tr(":/images/bringFront.png")),
+                tr("Bring items forward"),
+                this,
+                SLOT(bringToFront()));
+
+            mainWindow->contextItemsMenu.addAction(
+                QIcon(tr(":/images/sendBack.png")),
+                tr("Send items back"),
+                this,
+                SLOT(sendToBack()));
+
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
-			
+
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )),
 				this,SLOT(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )));
-			
+
 			connect(mainWindow,SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
 			connect(mainWindow,SIGNAL(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)),
 				this,SLOT(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)));
-				
+
 			connect(mainWindow,SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-				
+
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
@@ -588,7 +600,7 @@ namespace Tinkercell
 			QList<double> zvalues;
 			QRectF rect;
 			for (int i=0; i < selected.size(); ++i)
-				if (selected[i] != 0) 
+				if (selected[i] != 0)
 					rect = rect.unite(selected[i]->sceneBoundingRect());
 			QList<QGraphicsItem*> items = scene->items(rect);
 			for (int i=0; i < items.size(); ++i)
@@ -616,7 +628,7 @@ namespace Tinkercell
 			QList<double> zvalues;
 			QRectF rect;
 			for (int i=0; i < selected.size(); ++i)
-				if (selected[i] != 0) 
+				if (selected[i] != 0)
 					rect = rect.unite(selected[i]->sceneBoundingRect());
 			QList<QGraphicsItem*> items = scene->items(rect);
 			for (int i=0; i < items.size(); ++i)
@@ -652,7 +664,7 @@ namespace Tinkercell
 					{
 						QList<ConnectionGraphicsItem::ControlPoint*> cplist = connection->controlPoints();
 						for (int j=0; j < cplist.size(); ++j)
-							items += cplist[j]; 
+							items += cplist[j];
 					}
 					else
 						items += selected[i]->topLevelItem();
@@ -677,11 +689,11 @@ namespace Tinkercell
 				if (selected[i] != 0)
 				{
 					groupItem = dynamic_cast<QGraphicsItemGroup*>(selected[i]->topLevelItem());
-					if (groupItem != 0 && 
+					if (groupItem != 0 &&
 						NodeGraphicsItem::cast(selected[i]->topLevelItem()) == 0)
 					{
 						QList<QGraphicsItem*> list = groupItem->childItems();
-						scene->setParentItem(tr("ungroup"),list,0);						
+						scene->setParentItem(tr("ungroup"),list,0);
 						scene->remove(tr("remove group"),groupItem);
 						//scene->destroyItemGroup(groupItem);
 						break;
@@ -695,7 +707,7 @@ namespace Tinkercell
 		if (currentScene())
 		{
 			currentScene()->useDefaultBehavior = false;
-			mainWindow->sendEscapeSignal(this);	
+			mainWindow->sendEscapeSignal(this);
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 			mode = zoom;
 			currentScene()->useDefaultBehavior = false;
@@ -794,7 +806,7 @@ namespace Tinkercell
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
 		bool b = mainWindow->currentScene()->useDefaultBehavior;
-		QColor color = QColorDialog::getColor(brushColor2);		
+		QColor color = QColorDialog::getColor(brushColor2);
 		mainWindow->currentScene()->useDefaultBehavior = b;
 		if (color.isValid())
 		{
@@ -846,7 +858,7 @@ namespace Tinkercell
 			changePenColor->setIcon(QIcon(pcolor));
 		}
 	}
-	
+
 	void BasicGraphicsToolbox::mousePressed(GraphicsScene * scene, QPointF , Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom)
@@ -879,7 +891,7 @@ namespace Tinkercell
 	void BasicGraphicsToolbox::mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (scene == 0) return;
-		
+
 		if (mode == zoom)
 		{
 			if (button == Qt::LeftButton)
@@ -904,7 +916,7 @@ namespace Tinkercell
 
 			zoomRect.setVisible(false);
 			zoomRect.setRect(QRectF(0,0,0,0));
-			
+
 
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);
@@ -960,7 +972,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))					
+				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 				{
 					QPointF colorPt1 = item->mapFromScene(from),
 						colorPt2 = item->mapFromScene(to);
@@ -979,7 +991,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) + 
+						QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) +
 							(colorPt2.x()-colorPt1.x())*(colorPt2.x()-colorPt1.x())));
 						gradient.setColorAt(0,brushColor1);
 						gradient.setColorAt(1,brushColor2);
@@ -1005,17 +1017,17 @@ namespace Tinkercell
 				zoomRect.setVisible(false);
 				zoomRect.setRect(QRectF(0,0,0,0));
 
-				if (zoomRect.scene() == scene)					
-					scene->removeItem(&zoomRect);				
+				if (zoomRect.scene() == scene)
+					scene->removeItem(&zoomRect);
 
 				scene->centerOn(point);
 				scene->scaleView(1.5);
-				
+
 				//scene->useDefaultBehavior = true;
 				//mode = this->none;
 				//mainWindow->setCursor(Qt::ArrowCursor);
 			}
-		
+
 			else
 				if (mode == unzoom)
 				{
@@ -1060,7 +1072,7 @@ namespace Tinkercell
 						}
 						else
 						{
-							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))					
+							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 							{
 								if (mode == this->brush)
 									scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
@@ -1089,7 +1101,7 @@ namespace Tinkercell
 								if (connection != 0)
 								{
 									connection->setControlPointsVisible(true);
-									connection->setPen(QPen(QPen(penColor,penWidth,Qt::DashLine)));	
+									connection->setPen(QPen(QPen(penColor,penWidth,Qt::DashLine)));
 									if (mode == this->brush || mode == this->gradient)
 										scene->setBrush(tr("brush changed"), connection, QBrush(brushColor1));
 									else
@@ -1280,7 +1292,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> list = itemsToAlign(scene->selected());
 
 		alignMode = left;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/alignleft.png")));
 
 		if (list.size() < 2) return;
@@ -1292,7 +1304,7 @@ namespace Tinkercell
 				minX = list[i]->sceneBoundingRect().left();
 		}
 
-		if (minX >= 0)		
+		if (minX >= 0)
 		{
 			QList<QPointF> newPositions;
 			for (int i=0; i < list.size(); ++i)
@@ -1320,7 +1332,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> list = itemsToAlign(scene->selected());
 
 		alignMode = right;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/alignright.png")));
 
 		if (list.size() < 2) return;
@@ -1332,7 +1344,7 @@ namespace Tinkercell
 				maxX = list[i]->sceneBoundingRect().right();
 		}
 
-		if (maxX >= 0)		
+		if (maxX >= 0)
 		{
 			QList<QPointF> newPositions;
 			for (int i=0; i < list.size(); ++i)
@@ -1359,7 +1371,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> list = itemsToAlign(scene->selected());
 
 		alignMode = top;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligntop.png")));
 
 		if (list.size() < 2) return;
@@ -1371,7 +1383,7 @@ namespace Tinkercell
 				minY = list[i]->sceneBoundingRect().top();
 		}
 
-		if (minY >= 0)		
+		if (minY >= 0)
 		{
 			QList<QPointF> newPositions;
 			for (int i=0; i < list.size(); ++i)
@@ -1410,7 +1422,7 @@ namespace Tinkercell
 				maxY = list[i]->sceneBoundingRect().bottom();
 		}
 
-		if (maxY >= 0)		
+		if (maxY >= 0)
 		{
 			QList<QPointF> newPositions;
 			for (int i=0; i < list.size(); ++i)
@@ -1458,13 +1470,13 @@ namespace Tinkercell
 				}
 				if (!inserted)
 					list += selected[i];
-			}				
+			}
 		}
 
 		averageWidth /= selected.size();
 
 		alignMode = compactvertical;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncompactvertical.png")));
 
 		if (list.size() < 2 || !list[0]) return;
@@ -1529,13 +1541,13 @@ namespace Tinkercell
 				}
 				if (!inserted)
 					list += selected[i];
-			}				
+			}
 		}
 
 		averageHeight /= selected.size();
 
 		alignMode = compacthorizontal;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncompacthorizontal.png")));
 
 		if (list.size() < 2 || !list[0]) return;
@@ -1595,11 +1607,11 @@ namespace Tinkercell
 				}
 				if (!inserted)
 					list += selected[i];
-			}				
+			}
 		}
 
 		alignMode = evenspacedvertical;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncentervertical.png")));
 
 		if (list.size() < 2 || !list[0]) return;
@@ -1670,11 +1682,11 @@ namespace Tinkercell
 				}
 				if (!inserted)
 					list += selected[i];
-			}				
+			}
 		}
 
 		alignMode = evenspacedhorizontal;
-		if (alignButton)		
+		if (alignButton)
 			alignButton->setIcon(QIcon(tr(":/images/aligncenterhorizontal.png")));
 
 		if (list.size() < 2 || !list[0]) return;

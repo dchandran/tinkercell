@@ -113,7 +113,7 @@ namespace Tinkercell
 
                 if (menu == tr("menu"))
                 {
-                    QAction * menuItem = libMenu->addMenuItem(functionName,QIcon(pixmap));
+                    QAction * menuItem = libMenu->addMenuItem(categoryName, functionName,QIcon(pixmap));
                     if (menuItem)
                     {
                         menuItem->setToolTip(desc);

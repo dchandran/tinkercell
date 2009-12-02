@@ -447,46 +447,58 @@ namespace Tinkercell
 		{
 			if (graphicsItems[i] && !allitems.contains(graphicsItems[i]))
 			{
-				if (graphicsItems[i]->parentItem())
+			    if (graphicsItems[i] && graphicsItems[i]->parentItem())
 					graphicsItems[i]->setParentItem(0);
 
-				if (graphicsItems[i]->scene())
+				if (graphicsItems[i] && graphicsItems[i]->scene())
 					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
-
-				for (int j=(i+1); j < graphicsItems.size(); ++j)
-					if (graphicsItems[i] == graphicsItems[j])
-						graphicsItems[j] = 0;
-
-                if (connection = ConnectionGraphicsItem::cast(graphicsItems[i]))
-                {
-                    QList<QGraphicsItem*> connectionItems = connection->controlPointsAsGraphicsItems();
-                    connectionItems << connection->arrowHeadsAsGraphicsItems();
-                    connectionItems << connection->centerRegionItem;
-
-                    for (int j=0; j < connectionItems.size(); ++j)
-                        for (int k=0; k < graphicsItems.size(); ++k)
-                            if (graphicsItems[k] == connectionItems[j])
-                                graphicsItems[k] = 0;
-                }
-                else
-                if (node = NodeGraphicsItem::cast(graphicsItems[i]))
-                {
-                    QList<ControlPoint*> controlPoints = node->allControlPoints();
-                    for (int j=0; j < controlPoints.size(); ++j)
-                        for (int k=0; k < graphicsItems.size(); ++k)
-                            if (graphicsItems[k] == controlPoints[j])
-                                graphicsItems[k] = 0;
-                }
 			}
-			else
-                graphicsItems[i] = 0;
 		}
+
+		QList<QGraphicsItem*> listToDelete;
 
 		for (int i=0; i < graphicsItems.size(); ++i)
-		{
-			if (graphicsItems[i] && !allitems.contains(graphicsItems[i]))
-                delete graphicsItems[i];
-		}
+			if (graphicsItems[i] &&
+                !allitems.contains(graphicsItems[i]) &&
+                !listToDelete.contains(graphicsItems[i]) &&
+                (connection = ConnectionGraphicsItem::cast(graphicsItems[i])))
+			{
+                QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems(true);
+                controlPoints << connection->arrowHeadsAsGraphicsItems();
+                controlPoints << connection->centerRegionItem;
+                for (int j=0; j < controlPoints.size(); ++j)
+                {
+                    listToDelete.removeAll(controlPoints[j]);
+                    for (int k=0; k < graphicsItems.size(); ++k)
+                        if (graphicsItems[k] == controlPoints[j])
+                            graphicsItems[k] = 0;
+                }
+			}
+
+        for (int i=0; i < listToDelete.size(); ++i)
+            delete listToDelete[i];
+
+        listToDelete.clear();
+        for (int i=0; i < graphicsItems.size(); ++i)
+			if (graphicsItems[i] &&
+                !allitems.contains(graphicsItems[i]) &&
+                !listToDelete.contains(graphicsItems[i]) &&
+                (node = NodeGraphicsItem::cast(graphicsItems[i])))
+            {
+                QList<ControlPoint*> controlPoints = node->allControlPoints();
+                for (int j=0; j < controlPoints.size(); ++j)
+                {
+                    listToDelete.removeAll(controlPoints[j]);
+                    for (int k=0; k < graphicsItems.size(); ++k)
+                        if (graphicsItems[k] == controlPoints[j])
+                            graphicsItems[k] = 0;
+                }
+
+			    listToDelete << graphicsItems[i];
+			}
+
+        for (int i=0; i < listToDelete.size(); ++i)
+            delete listToDelete[i];
 
 		graphicsItems.clear();
 	}

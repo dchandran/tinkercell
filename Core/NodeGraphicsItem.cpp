@@ -1220,7 +1220,7 @@ namespace Tinkercell
         for (int i=0; i < controlPoints.size(); ++i)
             list << controlPoints[i];
 
-        for (int i=0; i < controlPoints.size(); ++i)
+        for (int i=0; i < boundaryControlPoints.size(); ++i)
             list << boundaryControlPoints[i];
 
 	    return list;

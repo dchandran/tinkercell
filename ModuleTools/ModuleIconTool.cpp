@@ -208,6 +208,7 @@ namespace Tinkercell
         }
 
         NodeGraphicsItem * node;
+        ConnectionGraphicsItem * connection;
 		ItemHandle * handle;
 		QPointF pos;
 
@@ -246,9 +247,19 @@ namespace Tinkercell
 
 		for (int i=0; i < insertList.size(); ++i)
 		{
-		    insertList[i]->setPos( insertList[i]->pos() + pos );
-		    if (node = NodeGraphicsItem::cast(insertList[i]))
-                node->adjustBoundaryControlPoints();
+		    if (connection = ConnectionGraphicsItem::cast(insertList[i]))
+		    {
+		        QList<QGraphicsItem*> controlpts = connection->controlPointsAsGraphicsItems();
+		        for (int j=0; j < controlpts.size(); ++j)
+                    if (controlpts[j] && !controlpts[j]->parentItem())
+                        controlpts[j]->setPos( controlpts[j]->pos() + pos );
+		    }
+		    else
+		    {
+                insertList[i]->setPos( insertList[i]->pos() + pos );
+                if (node = NodeGraphicsItem::cast(insertList[i]))
+                    node->adjustBoundaryControlPoints();
+		    }
 		}
 
         QList<ItemHandle*> handles;

@@ -217,7 +217,7 @@ namespace Tinkercell
                if (nodesTree)
                     fileName = nodesTree->replaceNodeFile();
                else
-				fileName = QFileDialog::getOpenFileName(this, tr("Select New Node Graphics File"),
+                    fileName = QFileDialog::getOpenFileName(this, tr("Select New Node Graphics File"),
 																	currentFile,
 																	tr("XML Files (*.xml)"));
 			if (fileName.isEmpty() || fileName.isNull())

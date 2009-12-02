@@ -88,10 +88,11 @@ namespace Tinkercell
 					dir.exists(fileInfo.baseName() + tr(".xml")))
 				{
 					QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-						dir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+						fileInfo.baseName(),nodesListWidget);
+                    item->setData(3,dir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
 					item->setSizeHint(QSize(20,20));
 					nodesListWidget->addItem(item);
-					nodesFilesList << item->text();
+					nodesFilesList << item->data(3).toString();
 				}
 			}
 
@@ -111,9 +112,10 @@ namespace Tinkercell
 						!nodesFilesList.contains(userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
 					{
 						QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-							userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+							fileInfo.baseName(),nodesListWidget);
+                        item->setData(3,userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
 						nodesListWidget->addItem(item);
-						nodesFilesList << item->text();
+						nodesFilesList << item->data(3).toString();
 					}
 				}
 			}
@@ -172,9 +174,10 @@ namespace Tinkercell
 		{
 			QListWidgetItem * item = new QListWidgetItem(
 				QIcon(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".png")),
-				fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+				fileInfo.baseName(),nodesListWidget);
+            item->setData(3,fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
 			nodesListWidget->addItem(item);
-			nodesFilesList << item->text();
+			nodesFilesList << item->data(3).toString();
 		}
 		else
 		{
@@ -201,7 +204,7 @@ namespace Tinkercell
 		if (!item || !mainWindow || !mainWindow->currentScene()) return;
 		GraphicsScene * scene = mainWindow->currentScene();
 
-		QString fileName = item->text();
+		QString fileName = item->data(3).toString();
 		if (fileName.isEmpty() || fileName.isNull()) return;
 
 		QList<QGraphicsItem*> & list = scene->selected();

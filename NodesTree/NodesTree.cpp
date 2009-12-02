@@ -209,9 +209,10 @@ namespace Tinkercell
                    dir.exists(fileInfo.baseName() + tr(".xml")))
                {
                     QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-                                                                 dir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+                                                                 fileInfo.baseName(),nodesListWidget);
+                    item->setData(3,dir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
                     nodesListWidget->addItem(item);
-                    nodesFilesList << item->text();
+                    nodesFilesList << item->data(3).toString();
                }
           }
 
@@ -231,9 +232,10 @@ namespace Tinkercell
                         !nodesFilesList.contains(userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml")))
                     {
                          QListWidgetItem * item = new QListWidgetItem(QIcon(fileInfo.absoluteFilePath()),
-                                                                      userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+                                                                      fileInfo.baseName(),nodesListWidget);
+                         item->setData(3,userdir.absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
                          nodesListWidget->addItem(item);
-                         nodesFilesList << item->text();
+                         nodesFilesList << item->data(3).toString();
                     }
                }
           }
@@ -255,7 +257,6 @@ namespace Tinkercell
           connect(otherFile,SIGNAL(released()),this,SLOT(selectNewNodeFile()));
 
           connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(nodeFileAccepted()));
-
 
           buttonsLayout->addWidget(otherFile);
           buttonsLayout->addWidget(cancel);
@@ -282,9 +283,10 @@ namespace Tinkercell
           {
                QListWidgetItem * item = new QListWidgetItem(
                          QIcon(fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".png")),
-                         fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"),nodesListWidget);
+                         fileInfo.baseName(),nodesListWidget);
+               item->setData(3,fileInfo.dir().absolutePath() + tr("/") + fileInfo.baseName() + tr(".xml"));
                nodesListWidget->addItem(item);
-               nodesFilesList << item->text();
+               nodesFilesList << item->data(3).toString();
           }
      }
 
@@ -305,7 +307,7 @@ namespace Tinkercell
                if (!nodesListWidget->currentItem())
                     temporaryFileName = QString();
           else
-               temporaryFileName = nodesListWidget->currentItem()->text();
+               temporaryFileName = nodesListWidget->currentItem()->data(3).toString();
      }
 
      void NodesTree::windowClosing(NetworkWindow * , bool *)

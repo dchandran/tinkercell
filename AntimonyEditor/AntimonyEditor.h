@@ -119,7 +119,7 @@ namespace Tinkercell
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
-		void setupFunctionPointers( QLibrary * library)	
+		void setupFunctionPointers( QLibrary * library);
 		void loadSBMLString(QSemaphore*,const QString&);
 		void loadAntimonyString(QSemaphore*,const QString&);
 		void loadSBMLFile(QSemaphore*,const QString&);

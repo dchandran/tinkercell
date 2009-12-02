@@ -1,8 +1,10 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
 INCLUDE_DIRECTORIES(
-    ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/include/
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
 )
+
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkWindow.h

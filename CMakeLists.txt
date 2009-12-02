@@ -15,10 +15,6 @@ ELSE( Subversion_FOUND )
   SET( TINKERCELL_WC_REVISION "0" )  
 ENDIF( Subversion_FOUND )
 
-# arnaudgelas: this MUST be chosen by the developer when running cmake
-# and not in this file!
-#SET( CMAKE_BUILT_TYPE DEBUG )
-
 SET( TINKERCELL_VERSION
 "${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}.${TINKERCELL_WC_REVISION}" )
 
@@ -138,9 +134,8 @@ IF( QT4_FOUND )
 
   SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
   
-  ADD_SUBDIRECTORY( Main )	
   ADD_SUBDIRECTORY( Core )
-  ADD_SUBDIRECTORY( c )
+  ADD_SUBDIRECTORY( Main )
   ADD_SUBDIRECTORY( ExternalCode )  
   ADD_SUBDIRECTORY( NodeGraphicsItem )
   ADD_SUBDIRECTORY( NodesTree )
@@ -151,13 +146,14 @@ IF( QT4_FOUND )
   ADD_SUBDIRECTORY( ModuleTools )
   ADD_SUBDIRECTORY( OtherTools )
   ADD_SUBDIRECTORY( CInputWindows )
-  ADD_SUBDIRECTORY( DB )
-  ADD_SUBDIRECTORY( py )
   ADD_SUBDIRECTORY( ArrowItems )
   ADD_SUBDIRECTORY( NodeItems )
   ADD_SUBDIRECTORY( OtherItems )
   ADD_SUBDIRECTORY( Documentation )
   ADD_SUBDIRECTORY( AntimonyEditor )
+  ADD_SUBDIRECTORY( DB )
+  ADD_SUBDIRECTORY( c )
+  ADD_SUBDIRECTORY( py )
 
 #----------------------------------------------------------------------------
 # Other programs (not really part of Tinkercell)
@@ -171,16 +167,20 @@ IF( QT4_FOUND )
      ADD_SUBDIRECTORY( MultiCell )
   ENDIF( BUILD_RELATED_PROGRAMS )
 
-#----------------------------------------------------------------------------
-# Windows only: include Tiny C Compiler
-#----------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
+# Windows only: include specific binaries that are usually already available on Unix systems
+#--------------------------------------------------------------------------------------------
 
 IF( WIN32 )
      ADD_SUBDIRECTORY( win32 )
   ENDIF(WIN32)
 
-  FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
-  INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
+#----------------------------------------------------------------------------
+# Copyright and other files
+#----------------------------------------------------------------------------
+
+FILE(GLOB TINKERCELL_SUPPORTING_FILES about.txt COPYRIGHT.TXT *.py)
+INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)  
   
 #----------------------------------------------------------------------------
 # Done with Tinkercell plugins and other components

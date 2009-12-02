@@ -433,8 +433,7 @@ namespace Tinkercell
 
 		if (items.size() > 0)
 		{
-		    for (int i=0; i < items.size(); ++i)
-                scene->addItem(items[i]);
+		    scene->insert(tr("load"),items);
 
 			ConnectionGraphicsItem * connection = 0;
 
@@ -450,8 +449,8 @@ namespace Tinkercell
 
 			scene->fitAll();
 
-			//if (scene->historyStack)
-				//scene->historyStack->clear();
+			if (scene->historyStack)
+				scene->historyStack->clear();
 
 			savedScenes[scene] = true;
 

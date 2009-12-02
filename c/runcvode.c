@@ -18,7 +18,7 @@ void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.PNG", "", 1, 0, 1);
-	tc_addFunction(&getSS, "Get steady state", "Bring the system to nearest steady state and bring Jacobian", "Steady state", "Plugins/c/cvode.PNG", "", 1, 0, 0);
+	//tc_addFunction(&getSS, "Get steady state", "Bring the system to nearest steady state and bring Jacobian", "Steady state", "Plugins/c/cvode.PNG", "", 1, 0, 0);
 }
 
 void getSS()

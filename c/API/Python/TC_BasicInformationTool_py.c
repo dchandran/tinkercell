@@ -22,23 +22,23 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
-	
+
 	if (pylist && n > 0)
 	{
 		array = malloc( (1+n) * sizeof(void*) );
 		array[n] = 0;
 
-		for(i=0; i<n; ++i) 
-		{ 
+		for(i=0; i<n; ++i)
+		{
 			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
 	}
-	
+
 	if (!array)
 	{
 		array = tc_allItems();
 	}
-	
+
 	if (array)
 	{
 		M = tc_getModelParameters(array);
@@ -49,7 +49,7 @@ static PyObject * pytc_modelParameters(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -93,7 +93,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
-	
+
 	if (n > 0)
 	{
 		if (pylist)
@@ -101,8 +101,8 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 			array = malloc( (1+n) * sizeof(void*) );
 			array[n] = 0;
 
-			for(i=0; i<n; ++i) 
-			{ 
+			for(i=0; i<n; ++i)
+			{
 				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 			}
 		}
@@ -119,7 +119,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -163,7 +163,7 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
-	
+
 	if (n > 0)
 	{
 		if (pylist)
@@ -171,8 +171,8 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 			array = malloc( (1+n) * sizeof(void*) );
 			array[n] = 0;
 
-			for(i=0; i<n; ++i) 
-			{ 
+			for(i=0; i<n; ++i)
+			{
 				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 			}
 		}
@@ -189,7 +189,7 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -239,8 +239,8 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 			array = malloc( (1+n) * sizeof(void*) );
 			array[n] = 0;
 
-			for(i=0; i<n; ++i) 
-			{ 
+			for(i=0; i<n; ++i)
+			{
 				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 			}
 		}
@@ -257,7 +257,7 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -307,8 +307,8 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 			array = malloc( (1+n) * sizeof(void*) );
 			array[n] = 0;
 
-			for(i=0; i<n; ++i) 
-			{ 
+			for(i=0; i<n; ++i)
+			{
 				array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 			}
 		}
@@ -325,7 +325,7 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -387,7 +387,7 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 	char ** array2;
 	int i = 0, n1 = 0, n2 = 0, isList1, isList2;
 	PyObject * pylist1, * pylist2, *item;
-	
+
 	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2))
 		return NULL;
 
@@ -411,13 +411,13 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 		array2 = malloc( (1+n2) * sizeof(char*) );
 		array2[n2] = 0;
 
-		for(i=0; i<n1; ++i) 
-		{ 
+		for(i=0; i<n1; ++i)
+		{
 			array1[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
 		}
 
-		for(i=0; i<n2; ++i) 
-		{ 
+		for(i=0; i<n2; ++i)
+		{
 			array2[i] = isList2 ? PyString_AsString( PyList_GetItem( pylist2, i ) ) : PyString_AsString( PyTuple_GetItem( pylist2, i ));
 		}
 
@@ -430,7 +430,7 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -487,13 +487,13 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 		array2 = malloc( (1+n2) * sizeof(char*) );
 		array2[n2] = 0;
 
-		for(i=0; i<n1; ++i) 
-		{ 
+		for(i=0; i<n1; ++i)
+		{
 			array1[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
 		}
 
-		for(i=0; i<n2; ++i) 
-		{ 
+		for(i=0; i<n2; ++i)
+		{
 			array2[i] = isList2 ? PyString_AsString( PyList_GetItem( pylist2, i ) ) : PyString_AsString( PyTuple_GetItem( pylist2, i ));
 		}
 
@@ -506,7 +506,7 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 			params = PyTuple_New(M.rows);
 			values = PyTuple_New(M.rows);
 
-			for (i=0; i < M.rows; i++) 
+			for (i=0; i < M.rows; i++)
 			{
 				item = Py_BuildValue("s",M.rownames[i]);
 				PyTuple_SetItem(params, i, item);
@@ -539,7 +539,7 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 	void **array1;
 	PyObject * params;
 	PyObject * pylist1, * pylist2, *item;
-	
+
 	if(!PyArg_ParseTuple(args, "OO", &pylist1, &pylist2) )
 		return NULL;
 
@@ -554,7 +554,7 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 		isList2 = PyList_Check(pylist2);
 		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
 	}
-	
+
 	if (n1 > 0 && n2 > 0)
 	{
 		array1 = malloc( (1+n1) * sizeof(void*) );
@@ -563,13 +563,13 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 		array2 = malloc( (1+n2) * sizeof(char*) );
 		array2[n2] = 0;
 
-		for(i=0; i<n1; ++i) 
-		{ 
+		for(i=0; i<n1; ++i)
+		{
 			array1[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
 		}
 
-		for(i=0; i<n2; ++i) 
-		{ 
+		for(i=0; i<n2; ++i)
+		{
 			array2[i] = isList2 ? PyString_AsString( PyList_GetItem( pylist2, i ) ) : PyString_AsString( PyTuple_GetItem( pylist2, i ));
 		}
 
@@ -578,7 +578,7 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 		TCFreeChars(array2);
 
 		if (M)
-		{		
+		{
 			len = 0;
 
 			while (M[len] != 0) ++len;
@@ -642,7 +642,7 @@ static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
 	int i = 0, v = 0, isList1, isList2, n1=0, n2=0, len = 0;
 	void ** array = 0;
 	Matrix M;
-	
+
 	M.cols = 1;
 	M.colnames = 0;
 	M.rownames = 0;
@@ -656,7 +656,8 @@ static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
 		if (PyFloat_Check(pylist2))
 		{
 			d = (double)PyFloat_AsDouble(pylist2);
-			M.rows = 1;
+			M.cols = M.rows = 1;
+			M.rownames = M.colnames = 0;
 			M.values = (double*)malloc(1 * sizeof(double));
 			M.values[0] = d;
 			array = malloc(2 * sizeof(void*));
@@ -664,42 +665,45 @@ static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
 			array[1] = 0;
 			tc_setInitialValues(array,M);
 			free(M.values);
-			free(array);			
+			free(array);
 		}
 		Py_INCREF(Py_None);
 		return Py_None;
 	}
-	
+
 	if (PyList_Check(pylist1) || PyTuple_Check(pylist1))
 	{
 		isList1 = PyList_Check(pylist1);
 		n1 = isList1 ? PyList_Size(pylist1) : PyTuple_Size (pylist1);
 	}
-	
+
 	if (PyList_Check(pylist2) || PyTuple_Check(pylist2))
 	{
 		isList2 = PyList_Check(pylist2);
 		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
 	}
-	
+
 	if (n1 > n2) n2 = n1;
 	if (n2 > n1) n1 = n2;
-	
+
 	if (n1 > 0)
 	{
+	    M.cols = 1;
 		M.rows = n1;
 		M.values = malloc(n1 * sizeof(double*));
 		array = malloc( (1+n1) * sizeof(void*) );
 		array[n1] = 0;
 
-		for(i=0; i < n1; ++i ) 
-		{ 
+		for(i=0; i < n1; ++i )
+		{
 			array[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist1, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist1, i ) ));
 			M.values[i] = isList2 ? (double)(PyFloat_AsDouble( PyList_GetItem( pylist2, i ) )) : (double)(PyFloat_AsDouble( PyList_GetItem( pylist2, i ) ));
 		}
 
+		M.rownames = M.colnames = 0;
+
 		tc_setInitialValues(array,M);
-		
+
 		free(array);
 		free(M.values);
 	}

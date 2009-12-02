@@ -48,8 +48,8 @@ namespace Tinkercell
 		void loadAntimonyFile(QSemaphore*,const QString&);
 		void getSBMLString(QSemaphore*,const QList<ItemHandle*>&, QString&);
 		void getAntimonyString(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
+		void writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 	public:
 		void loadSBMLString(const char *);
 		void loadAntimonyString(const char *);
@@ -98,8 +98,11 @@ namespace Tinkercell
         * \return void
         */
         void windowOpened(NetworkWindow*);
-		/**/
+		/*!
+        * \brief insert module(s) in the scene
+        */
 		void insertModule();
+		
 	signals:
 		/*! \brief invalid syntax*/
 		void validSyntax(bool);
@@ -116,6 +119,25 @@ namespace Tinkercell
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
+		void setupFunctionPointers( QLibrary * library)	
+		void loadSBMLString(QSemaphore*,const QString&);
+		void loadAntimonyString(QSemaphore*,const QString&);
+		void loadSBMLFile(QSemaphore*,const QString&);
+		void loadAntimonyFile(QSemaphore*,const QString&);
+		void getSBMLString(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void getAntimonyString(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
+		void writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
+	private:
+		static AntimonyEditor_FtoS fToS;
+		static void loadSBMLString(const char *);
+		static void loadAntimonyString(const char *);
+		static void loadSBMLFile(const char *);
+		static void loadAntimonyFile(const char *);
+		static char* getSBMLString(Array);
+		static char* getAntimonyString(Array);
+		static void writeSBMLFile(Array,const char*);
+		static void writeAntimonyFile(Array,const char*);
 
 	};
 

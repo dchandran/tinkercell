@@ -82,12 +82,16 @@ namespace Tinkercell
 
 		void zoomIn(int r = 1);
 		void zoomOut(int r = 1);
+		QString text() const;
 
 		QWidget *lineNumberArea;
 
 		QColor lineHighlightColor;
 		QColor lineNumberBackground;
 		QColor lineNumberText;
+	
+	public slots:
+		void setText(const QString&);
 
 	protected:
 		void resizeEvent(QResizeEvent *event);
@@ -95,11 +99,11 @@ namespace Tinkercell
 		void keyPressEvent(QKeyEvent *e);
 		void focusInEvent(QFocusEvent *e);
 
-		private slots:
-			void updateLineNumberAreaWidth(int newBlockCount);
-			void highlightCurrentLine();
-			void updateLineNumberArea(const QRect &, int);
-			void insertCompletion(const QString &completion);
+	private slots:
+		void updateLineNumberAreaWidth(int newBlockCount);
+		void highlightCurrentLine();
+		void updateLineNumberArea(const QRect &, int);
+		void insertCompletion(const QString &completion);
 
 	private:
 		QString textUnderCursor() const;

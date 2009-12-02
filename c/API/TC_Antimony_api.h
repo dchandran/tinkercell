@@ -5,91 +5,126 @@
 
 void (*_tc_loadSBMLString)(const char *) = 0;
 /*!
- \brief 
+ \brief load sbml model as string
+ \param char* sbml model
  \ingroup Antimony
 */
+void tc_loadSBMLString(const char * sbml)
+{
+	if (_tc_loadSBMLString)
+		_tc_loadSBMLString(sbml);
+}
+
 void (*_tc_loadAntimonyString)(const char *) = 0;
+/*!
+ \brief load antimony model as string
+ \param char* antimony model
+ \ingroup Antimony
+*/
+void tc_loadAntimonyString)(const char * antimony)
+{
+	if (_tc_loadAntimonyString)
+		_tc_loadAntimonyString(antimony);
+}
+
 void (*_tc_loadSBMLFile)(const char *) = 0;
+/*!
+ \brief load sbml model in file
+ \param char* file name
+ \ingroup Antimony
+*/
+void tc_loadSBMLFile(const char * sbml)
+{
+	if (_tc_loadSBMLFile)
+		_tc_loadSBMLFile(sbml);
+}
+
 void (*_tc_loadAntimonyFile)(const char *) = 0;
+/*!
+ \brief load antimony model in file
+ \param char* file name
+ \ingroup Antimony
+*/
+void tc_loadAntimonyFile(const char * antimony)
+{
+	if (_tc_loadAntimonyFile)
+		_tc_loadAntimonyFile(antimony);
+}
+
 char* (*_tc_getSBMLString)(Array) = 0;
+/*!
+ \brief get sbml model as a string
+ \param Array the subset of items in the model (use tc_allItems() for complete model)
+ \return char* sbml model
+ \ingroup Antimony
+*/
+char* tc_getSBMLString(Array items)
+{
+	if (_tc_getSBMLString)
+		return _tc_getSBMLString(items);
+	return 0;
+}
+
 char* (*_tc_getAntimonyString)(Array) = 0;
+/*!
+ \brief get antimony model as a string
+ \param Array the subset of items in the model (use tc_allItems() for complete model)
+ \return char* antimony model
+ \ingroup Antimony
+*/
+char* tc_getAntimonyString(Array items)
+{
+	if (_tc_getAntimonyString)
+		return _tc_getAntimonyString(items);
+	return 0;
+}
+
 void (*_tc_writeSBMLFile)(Array,const char*) = 0;
+/*!
+ \brief write sbml model to file
+ \param Array the subset of items in the model (use tc_allItems() for complete model)
+ \param char* file name
+ \ingroup Antimony
+*/
+void tc_writeSBMLFile(Array items,const char* file)
+{
+	if (_tc_writeSBMLFile)
+		_tc_writeSBMLFile(items,file);
+}
+
 void (*_tc_writeAntimonyFile)(Array,const char*) = 0;
 /*!
- \brief plot 3D data. Input matrix has x,y on the first two columns and z on the third column
- \ingroup Plotting
+ \brief write antimony model to file
+ \param Array the subset of items in the model (use tc_allItems() for complete model)
+ \param char* file name
+ \ingroup Antimony
 */
-void tc_surface(Matrix z, const char* title)
+void tc_writeAntimonyFile(Array items,const char* file)
 {
-	if (_tc_surface)
-		_tc_surface(z,title);
-}
-
-void (*_tc_plot)(Matrix data,int xaxis,const char* title, int includeAll) = 0;
-/*!
- \brief plot the data in the matrix (with headers) with the given x-axis and title
- \ingroup Plotting
-*/
-void tc_plot(Matrix data,int xaxis,const char* title, int includeAll)
-{
-	if (_tc_plot)
-		_tc_plot(data,xaxis,title,includeAll);
-}
-
-void (*_tc_errorBars)(Matrix data,int xaxis,const char* title, int includeAll) = 0;
-/*!
- \brief plot the data in the matrix (with headers) with the given x-axis and title. For each column i, the i+1 and i+2 columns should contain the upper and lower bounds (errors).
- \ingroup Plotting
-*/
-void tc_errorBars(Matrix data,int xaxis,const char* title, int includeAll)
-{
-	if (_tc_errorBars)
-		_tc_errorBars(data,xaxis,title,includeAll);
-}
-
-void (*_tc_hist)(Matrix data,int bins,const char* title) = 0;
-/*!
- \brief plot histogram for each column of the given matrix with the given number of bins.
- \ingroup Plotting
-*/
-void tc_hist(Matrix data,int bins,const char* title)
-{
-	if (_tc_hist)
-		_tc_hist(data,bins,title);
-}
-
-Matrix (*_tc_plotData)(int whichPlot) = 0;
-/*!
- \brief get the data that is currently in the plot window
- \ingroup Plotting
-*/
-Matrix tc_plotData(int whichPlot)
-{
-	if (_tc_plotData)
-		return _tc_plotData(whichPlot);
-	Matrix M;
-	M.rows = M.cols = 0;
-	M.colnames = M.rownames = 0;
-	M.values = 0;
-	return M;
+	if (_tc_writeAntimonyFile)
+		_tc_writeAntimonyFile(items,file);
 }
 
 /*!
  \brief initializing function
  \ingroup init
 */
-void tc_PlotTool_api(
-	void (*plot)(Matrix,int,const char*,int),
-	void (*surface)(Matrix M, const char*),
-	void (*hist)(Matrix data,int bins,const char* title),
-	void (*errorBars)(Matrix data,int xaxis,const char* title, int),
-	Matrix (*plotData)(int))
+void tc_Antimony_api(
+	void (*loadAntimonyString)(const char *),
+	void (*loadSBMLFile)(const char *),
+	void (*loadAntimonyFile)(const char *),
+	char* (*getSBMLString)(Array),
+	char* (*getAntimonyString)(Array),
+	void (*writeSBMLFile)(Array,const char*),
+	void (*writeAntimonyFile)(Array,const char*))
 {
-	_tc_plot = plot;
-	_tc_plotData = plotData;
-	_tc_surface = surface;
-	_tc_hist = hist;
-	_tc_errorBars = errorBars;
+	_tc_loadAntimonyString = loadAntimonyString;
+	_tc_loadSBMLFile = loadSBMLFile;
+	_tc_loadAntimonyFile = loadAntimonyFile;
+	_tc_getSBMLString = getSBMLString;
+	_tc_getAntimonyString = getAntimonyString;
+	_tc_writeSBMLFile = writeSBMLFile;
+	_tc_writeAntimonyFile = writeAntimonyFile;
 }
 
 #endif

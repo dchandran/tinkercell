@@ -303,6 +303,15 @@ namespace Tinkercell
 			QPlainTextEdit::wheelEvent(wheelEvent);
 		}
 	}
+	
+	QString CodeEditor::text() const
+	{
+		return toPlainText();
+	}
 
+	void CodeEditor::setText(const QString & s)
+	{
+		return setPlainText(s);
+	}
 
 }

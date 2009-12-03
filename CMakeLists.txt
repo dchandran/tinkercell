@@ -90,8 +90,37 @@ IF( QT4_FOUND )
   ENDIF( QT_USE_FILE )
 
   LINK_DIRECTORIES(
-   ${CPP_LIBRARY_OUTPUT_PATH}
-   ${TINKERCELL_SOURCE_DIR}/ExternalLib/
+    ${CPP_LIBRARY_OUTPUT_PATH}
+    ${C_LIBRARY_OUTPUT_PATH}
+    ${TINKERCELL_BINARY_DIR}
+    ${TINKERCELL_BINARY_DIR}/bin
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
+	${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/
+	${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
+	${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
+    ${TINKERCELL_BINARY_DIR}/c/
+    ${TINKERCELL_BINARY_DIR}/c/lpsolve/
+    ${TINKERCELL_BINARY_DIR}/c/sundials/
+    ${TINKERCELL_BINARY_DIR}/c/nvector/
+    ${TINKERCELL_BINARY_DIR}/c/cvode/
+    ${TINKERCELL_BINARY_DIR}/Core/
+    ${TINKERCELL_BINARY_DIR}/BasicTools/
+	${TINKERCELL_BINARY_DIR}/ModuleTools/
+	${TINKERCELL_BINARY_DIR}/ModelingTools/
+    ${TINKERCELL_BINARY_DIR}/OtherTools/
+    ${TINKERCELL_BINARY_DIR}/AntimonyEditor/
+    ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
+    ${TINKERCELL_BINARY_DIR}/NodesTree/
+    ${TINKERCELL_BINARY_DIR}/PlotTools/
+    ${TINKERCELL_BINARY_DIR}/ContainerTools/
+    ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
+    ${TINKERCELL_BINARY_DIR}/CInputWindows/
+    ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
    )
 
   INCLUDE_DIRECTORIES( BEFORE

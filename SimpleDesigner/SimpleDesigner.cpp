@@ -263,7 +263,7 @@ void SimpleDesigner::setToolTip(ItemHandle* item)
 {
 	if (!item) return;
 	
-	if (NodeHandle::asNode(item) && item->hasNumericalData("concentration")) //is a node
+	if (NodeHandle::cast(item) && item->hasNumericalData("concentration")) //is a node
 	{
 		for (int i=0; i < item->graphicsItems.size(); ++i)
 			item->graphicsItems[i]->setToolTip
@@ -272,7 +272,7 @@ void SimpleDesigner::setToolTip(ItemHandle* item)
 			);
 	}
 	else
-	if (ConnectionHandle::asConnection(item) && item->hasTextData("rate")) //is a connection
+	if (ConnectionHandle::cast(item) && item->hasTextData("rate")) //is a connection
 	{
 		for (int i=0; i < item->graphicsItems.size(); ++i)
 			item->graphicsItems[i]->setToolTip
@@ -286,13 +286,13 @@ void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>&
 {
 	for (int i=0; i < items.size(); ++i)
 	{
-		if (NodeHandle::asNode(items[i])) //is node?
+		if (NodeHandle::cast(items[i])) //is node?
 		{
 			items[i]->numericalData("concentration") = 10.0;
 		}
-		if (ConnectionHandle::asConnection(items[i])) //is reaction?
+		if (ConnectionHandle::cast(items[i])) //is reaction?
 		{
-			ConnectionHandle * connection = ConnectionHandle::asConnection(items[i]);
+			ConnectionHandle * connection = ConnectionHandle::cast(items[i]);
 			QString rate;
 			
 			if (connection->hasTextData("rate"))  //rate already exists
@@ -392,7 +392,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	else
 	{
 		ItemHandle * handle = getHandle(items[0]);
-		if (NodeHandle::asNode(handle) && handle->hasNumericalData("concentration"))
+		if (NodeHandle::cast(handle) && handle->hasNumericalData("concentration"))
 		{
 			name1->setText(  handle->name  );
 			conc->setText(  QString::number( handle->numericalData("concentration")  ));
@@ -400,7 +400,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 			groupBox2->hide();
 		}
 		else
-		if (ConnectionHandle::asConnection(handle) && handle->hasTextData("rate"))
+		if (ConnectionHandle::cast(handle) && handle->hasTextData("rate"))
 		{
 			name2->setText(  handle->name  );
 			rate->setText(  handle->textData("rate") );

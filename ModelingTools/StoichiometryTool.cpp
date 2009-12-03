@@ -1461,7 +1461,7 @@ namespace Tinkercell
 
 		QList<ItemHandle*> from,to;
 		ModuleTool::connectedItems(connectionHandles, from,to);
-
+		
 		if (connectionHandles.size() < 1)
 		{
 			return rates;

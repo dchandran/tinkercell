@@ -24,6 +24,7 @@
 
 namespace Tinkercell
 {
+	MainWindow * MAIN = 0;
     ModuleTool::VisualTool::VisualTool(ModuleTool * tool) : Tool::GraphicsItem(tool)
     {
         moduleTool = tool;
@@ -54,6 +55,7 @@ namespace Tinkercell
 
 	bool ModuleTool::setMainWindow(MainWindow * main)
     {
+		MAIN = main;
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
@@ -1082,8 +1084,8 @@ namespace Tinkercell
                 for (int j=0; j < items[i]->graphicsItems.size(); ++j)
                     if (!graphicsItems.contains( items[i]->graphicsItems[j] ))
                         graphicsItems << items[i]->graphicsItems[j];
-
-        connectedItems(graphicsItems,from,to);
+						
+		connectedItems(graphicsItems,from,to);
 	}
 
 	void ModuleTool::connectedItems(const QList<QGraphicsItem*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
@@ -1096,17 +1098,18 @@ namespace Tinkercell
 	    for (int i=0; i < items.size(); ++i)
             if ((node = NodeGraphicsItem::cast(items[i])) &&
 				ModuleLinkerItem::isModuleLinker(node) &&
-                (handle = NodeHandle::cast(handle)))
+                (handle = node->handle()))
             {
                 connections = node->connections();
                 for (int j=0; j < connections.size(); ++j)
+				{
+					connectedNodes = connections[j]->nodes();
                     if (connections[j] &&
                         connections[j]->className == tr("module connection") &&
-                        connections[j]->nodesWithoutArrows().size() == 1 &&
-                        connections[j]->nodesWithArrows().size() == 1)
+                        connectedNodes.size() == 2)
                     {
-                        node1 = connections[j]->nodesWithoutArrows()[0];
-                        node2 = connections[j]->nodesWithArrows()[1];
+                        node1 = connectedNodes[0];
+                        node2 = connectedNodes[1];
                         if (node1 &&
                             node2 &&
                             (h1 = node1->handle()) &&
@@ -1133,6 +1136,7 @@ namespace Tinkercell
                                 }
                             }
                     }
+				}
             }
 	}
 }

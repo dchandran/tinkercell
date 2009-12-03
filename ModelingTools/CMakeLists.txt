@@ -28,7 +28,7 @@ QT4_WRAP_CPP( ModelingTools_MOC
    StoichiometryTool.h 
    FunctionDeclarationsTool.h
    ModelFileGenerator.h
-   ModelingToolsMain.h
+   DataToolsMain.h
 )
 
 ADD_LIBRARY( ModelingTools

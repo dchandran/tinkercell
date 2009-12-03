@@ -264,23 +264,22 @@ namespace Tinkercell
         int cols = m.cols();
 
         for (int i=0; i < cols; ++i)
-            if (i != x)
-            {
-                if (s.isEmpty())
-                {
-                    s += tr("bw = 1\nbin(x,width)=width*floor(x/width)\nset title '");
-                    s += title;
-                    s += tr("'\nplot 'data.txt' using ");
-                }
-                else
-                    s += tr("'' u ");
-				
-				s += tr("(bin($");
-                s += QString::number(x+1);
-				s += tr(",bw)):(1.0) smooth freq with boxes");
-                if (i < cols-2 || (i < (cols-1) && (cols-1)!=x))
-                    s += tr(", ");
-            }
+		{
+			if (s.isEmpty())
+			{
+				s += tr("bw = 1\nbin(x,width)=width*floor(x/width)\nset title '");
+				s += title;
+				s += tr("'\nplot 'data.txt' using ");
+			}
+			else
+				s += tr("'' u ");
+			
+			s += tr("(bin($");
+			s += QString::number(i+1);
+			s += tr(",bw)):(1.0) smooth freq with boxes");
+			if (i < cols-1)
+				s += tr(", ");
+		}
         gnuplotScript(s); 
     }
 

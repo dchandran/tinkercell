@@ -417,7 +417,7 @@ namespace Tinkercell
 						{
 						    int k = from.indexOf(handles[i]);
 						    if (k > -1)
-                                name = to[k]->fullNames(replaceDot);
+                                name = to[k]->fullName(replaceDot);
                             else
                                 name = handles[i]->fullName(replaceDot);
 							s1 = dat.value(j,1);
@@ -449,7 +449,7 @@ namespace Tinkercell
 						{
 						    int k = from.indexOf(handles[i]);
 						    if (k > -1)
-                                name = to[k]->fullNames(replaceDot);
+                                name = to[k]->fullName(replaceDot);
                             else
                                 name = handles[i]->fullName(replaceDot);
 

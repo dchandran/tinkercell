@@ -22,7 +22,7 @@ QT4_WRAP_CPP( TinkercellCOre_MOC ${TINKERCELL_CORE_HDRS})
 QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Main/Tinkercell.qrc )
 
 QT4_WRAP_CPP( ModelingTools_MOC 
-   SpinBoxDelegate.h 
+   ../BasicTools/SpinBoxDelegate.h 
    DefaultReactionRates.h 
    BasicInformationTool.h
    StoichiometryTool.h 
@@ -36,12 +36,12 @@ ADD_LIBRARY( ModelingTools
   ${ModelingTools_MOC}
   ${TinkercellCOre_MOC}
   EquationParser.cpp
-  SpinBoxDelegate.cpp
+  ../BasicTools/SpinBoxDelegate.cpp
   BasicInformationTool.cpp
-  NameFamilyDialog.cpp
   StoichiometryTool.cpp
   FunctionDeclarationsTool.cpp
   ModelFileGenerator.cpp
+  DataToolsMain.cpp
   ${TINKERCELL_BASICTOOLS_QRC}
 )
 

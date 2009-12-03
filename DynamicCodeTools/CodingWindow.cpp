@@ -38,14 +38,14 @@ namespace Tinkercell
 		 QString homeDir = MainWindow::userHome();
 		 fileName = homeDir + tr("/code.c");
 		 #ifdef Q_WS_WIN
-         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll odesim.o cells_ssa.o");
+         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll -lodesim -lssa");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
 		 #ifdef Q_WS_MAC
-		 commandC = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa");
+		 commandC = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #else
-		 commandC = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa"); //linux
+		 commandC = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux
 		 commandPy = appDir + tr("/dlls/runpy");
 		 #endif
 		 #endif
@@ -100,9 +100,9 @@ namespace Tinkercell
 		 command = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic odesim.o cells_ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
 		 #else
 		 #ifdef Q_WS_MAC
-		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa");
+		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
 		 #else
-		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lcells_ssa"); //linux
+		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux
 		 #endif
 		 #endif
 

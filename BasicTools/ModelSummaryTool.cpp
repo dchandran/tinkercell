@@ -151,7 +151,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (NodeHandle::asNode(handles[i]) && handles[i]->family() 
+			if (NodeHandle::cast(handles[i]) && handles[i]->family() 
 				&& handles[i]->hasNumericalData(tr("Initial Value")))
 			{
 				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
@@ -169,7 +169,7 @@ namespace Tinkercell
 					}
 			}
 			else
-			if (ConnectionHandle::asConnection(handles[i]) && handles[i]->family() 
+			if (ConnectionHandle::cast(handles[i]) && handles[i]->family() 
 				&& handles[i]->hasTextData(tr("Rates")))
 			{
 				QString s;
@@ -377,7 +377,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (NodeHandle::asNode(handles[i]) && handles[i]->hasNumericalData(tr("Fixed")))
+			if (NodeHandle::cast(handles[i]) && handles[i]->hasNumericalData(tr("Fixed")))
 			{
 				changedHandles << handles[i];
 				DataTable<qreal> * dat = new DataTable<qreal>(handles[i]->numericalDataTable(tr("Fixed")));

@@ -261,7 +261,7 @@ namespace Tinkercell
 				win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 		}
 
-		containsConnections = (ConnectionHandle::asConnection(selectedItem) != 0);
+		containsConnections = (ConnectionHandle::cast(selectedItem) != 0);
 
 		if (!handle->family() || family.isEmpty() || handle->family()->name == family) return;
 
@@ -284,14 +284,14 @@ namespace Tinkercell
 		QList<ItemHandle*> handles;
 
 		QList<QUndoCommand*> commands;
-		if (NodeHandle::asNode(selectedItem))
+		if (NodeHandle::cast(selectedItem))
 		{
 			ItemHandle * handle = selectedItem;
 			if (handle && handle->family() && handle->family()->name != family)
 			{
 				QString oldFamily = handle->family()->name;
 
-				NodeHandle * node = NodeHandle::asNode(selectedItem);
+				NodeHandle * node = NodeHandle::cast(selectedItem);
 				if (node && node == handle)
 				{
 					if (node->connections().isEmpty())

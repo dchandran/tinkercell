@@ -3,9 +3,9 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
- 
+
  This class adds the "events" data to each item in Tinkercell.
- 
+
 ****************************************************************************/
 
 #ifndef TINKERCELL_SIMULATIONEVENTSTOOL_H
@@ -40,11 +40,11 @@ namespace Tinkercell
     class SimulationEventsTool_FToS : public QObject
     {
         Q_OBJECT
-                signals:
+    signals:
         void getEventTriggers(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
         void getEventResponses(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
         void addEvent(QSemaphore*,ItemHandle*,const QString&, const QString&);
-                public slots:
+    public slots:
         char** getEventTriggers(Array);
         char** getEventResponses(Array);
         void addEvent(OBJ,const char*, const char*);
@@ -117,7 +117,7 @@ namespace Tinkercell
         QDockWidget * dockWidget;
 
         friend class VisualTool;
-		
+
 		static bool parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s);
 
     };

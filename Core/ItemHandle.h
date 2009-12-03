@@ -269,7 +269,7 @@ namespace Tinkercell
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
-		MY_EXPORT static NodeHandle* asNode(ItemHandle *);
+		static NodeHandle* cast(ItemHandle *);
 	};
 
 	/*! \brief
@@ -330,7 +330,7 @@ namespace Tinkercell
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
-		MY_EXPORT static ConnectionHandle* asConnection(ItemHandle *);
+		static ConnectionHandle* cast(ItemHandle *);
 	};
 
 	/*! \brief get the handle from a graphics item

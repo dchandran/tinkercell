@@ -6,7 +6,7 @@ See COPYRIGHT.TXT
 
 This is one of the main classes in Tinkercell
 This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
-Each item in Tinkercell has an associated family. 
+Each item in Tinkercell has an associated family.
 
 ****************************************************************************/
 #include <QtDebug>
@@ -14,17 +14,17 @@ Each item in Tinkercell has an associated family.
 
 namespace Tinkercell
 {
-	MY_EXPORT int NodeFamily::TYPE = 1;
-	MY_EXPORT int ConnectionFamily::TYPE = 2;
+	int NodeFamily::TYPE = 1;
+	int ConnectionFamily::TYPE = 2;
 
-	NodeFamily * NodeFamily::asNode(ItemFamily* item)
+	NodeFamily * NodeFamily::cast(ItemFamily* item)
 	{
 		if (item && item->type == NodeFamily::TYPE)
 			return static_cast<NodeFamily*>(item);
 		return 0;
 	}
 
-	ConnectionFamily * ConnectionFamily::asConnection(ItemFamily* item)
+	ConnectionFamily * ConnectionFamily::cast(ItemFamily* item)
 	{
 		if (item && item->type == ConnectionFamily::TYPE)
 			return static_cast<ConnectionFamily*>(item);
@@ -37,7 +37,7 @@ namespace Tinkercell
 
 	ItemFamily::ItemFamily(const QString& s) : type(0), name(s) {}
 
-	ItemFamily::~ItemFamily() 
+	ItemFamily::~ItemFamily()
 	{
 		for (int i=0; i < graphicsItems.size(); ++i)
 			if (graphicsItems[i] && !graphicsItems[i]->scene())

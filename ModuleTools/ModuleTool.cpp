@@ -77,8 +77,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 
-            connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
-                    this, SLOT(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
+            //connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
+              //      this, SLOT(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
 
             connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
                     this, SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -770,7 +770,7 @@ namespace Tinkercell
         if (lineItem.scene())
             lineItem.scene()->removeItem(&lineItem);
     }
-
+/*
     void ModuleTool::itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>&)
     {
 		if (!scene) return;
@@ -860,7 +860,7 @@ namespace Tinkercell
 			}
 		}
     }
-
+*/
     QList<QPointF> ModuleTool::pathAroundRect(QRectF rect1, QRectF rect2, QPointF p1, QPointF p2)
     {
         QList<QPointF> list;
@@ -952,11 +952,12 @@ namespace Tinkercell
         QList<ItemHandle*> handles;
         handles << handle1 << handle2;
 
-        MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
+        QList<QUndoCommand*> commands;
+		commands << new InsertGraphicsCommand(tr("module connection"),scene,connection);
 
-		QList<QUndoCommand*> commands;
-		commands 	<< new InsertGraphicsCommand(tr("module connection"),scene,connection)
-					<< mergeCommand;
+        /*
+		MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
+        commands << mergeCommand;
 
 		for (int j=0; j < handles.size(); ++j)
 			if (handles[j] != mergeCommand->newHandle)
@@ -964,7 +965,7 @@ namespace Tinkercell
 				commands << new SetParentHandleCommand(tr("set parent"), 0 , handles[j], mergeCommand->newHandle);
 				commands << new SetHandleVisibilityCommand(tr("set invisible"), handles[j], false);
 			}
-
+        */
         ConnectionGraphicsItem::CurveSegment controlPoints;
 
         controlPoints += new ConnectionGraphicsItem::ControlPoint(point1,connection,link1);
@@ -1071,6 +1072,67 @@ namespace Tinkercell
 				}
 			}
 		}
+	}
+
+	void ModuleTool::connectedItems(const QList<ItemHandle*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
+	{
+	    QList<QGraphicsItem*> graphicsItems;
+	    for (int i=0; i < items.size(); ++i)
+            if (items[i])
+                for (int j=0; i < items[i]->graphicsItems.size(); ++i)
+                    if (!graphicsItems.contains( items[i]->graphicsItems[i] ))
+                        graphicsItems << items[i]->graphicsItems[i];
+
+        connectedItems(graphicsItems,from,to);
+	}
+
+	void ModuleTool::connectedItems(const QList<QGraphicsItem*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
+	{
+        NodeHandle * handle, *h1, *h2;
+	    NodeGraphicsItem * node, * node1, * node2;
+	    QList<ConnectionGraphicsItem*> connections;
+	    QList<NodeGraphicsItem*> connectedNodes;
+
+	    for (int i=0; i < items.size(); ++i)
+            if ((node = NodeGraphicsItem::cast(items[i])) &&
+                (handle = NodeHandle::cast(handle)))
+            {
+                connections = node->connections();
+                for (int j=0; j < connections.size(); ++j)
+                    if (connections[i] &&
+                        connections[i]->className == tr("module connection") &&
+                        connections[i]->nodesIn().size() == 1 &&
+                        connections[i]->nodesOut().size() == 1)
+                    {
+                        node1 = connections[i]->nodesIn()[0];
+                        node2 = connections[i]->nodesIn()[1];
+                        if (node1 &&
+                            node2 &&
+                            (h1 = node1->handle()) &&
+                            (h2 = node2->handle()) &&
+                            (h1 != h2))
+                            {
+                                int x = from.indexOf(h2);
+
+                                while (x > -1)
+                                {
+                                    h2 = to[x];
+                                    x = from.indexOf(h2)
+                                }
+
+                                from << h1;
+                                to << h2;
+
+                                int x = to.indexOf(h1);
+
+                                while (x > -1)
+                                {
+                                    to[x] = h2;
+                                    x = to.indexOf(h1);
+                                }
+                            }
+                    }
+            }
 	}
 }
 

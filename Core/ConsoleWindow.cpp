@@ -144,12 +144,15 @@ namespace Tinkercell
 		cursor.setPosition(currentPosition);
 
 		cursor.setCharFormat(messageFormat);
-		cursor.insertText(s);
-		if (s.right(1) == QChar('\n'))
-		{
-		    cursor.setCharFormat(normalFormat);
-            cursor.insertText(ConsoleWindow::Prompt);
-		}
+
+		if (s.right(1) != QChar('\n'))
+            cursor.insertText(s + tr("\n"));
+		else
+            cursor.insertText(s));
+
+        cursor.setCharFormat(normalFormat);
+        cursor.insertText(ConsoleWindow::Prompt);
+
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();

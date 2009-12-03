@@ -26,6 +26,12 @@ An associated GraphicsTool is also defined.
 #include "Tool.h"
 #include "NodesTree.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 	class NameFamilyDialog_FtoS : public QObject
@@ -39,7 +45,7 @@ namespace Tinkercell
 		void setAnnotation(OBJ,char**);
 	};
 
-	class NameFamilyDialog : public Tool
+	class MY_EXPORT NameFamilyDialog : public Tool
 	{
 		Q_OBJECT;
 
@@ -97,7 +103,8 @@ namespace Tinkercell
 		/*! \brief node of the C API framework*/
 		static NameFamilyDialog_FtoS fToS;
 	};
-
+	
+	extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 }
 

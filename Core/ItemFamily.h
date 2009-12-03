@@ -6,7 +6,7 @@ See COPYRIGHT.TXT
 
 This is one of the main classes in Tinkercell
 This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
-Each item in Tinkercell has an associated family. 
+Each item in Tinkercell has an associated family.
 
 
 ****************************************************************************/
@@ -97,7 +97,7 @@ namespace Tinkercell
 		/*! \brief used for casting between different sub-classes*/
 		static int TYPE;
 		/*! \brief cast to connection family*/
-		static NodeFamily * asNode(ItemFamily*);
+		static NodeFamily * cast(ItemFamily*);
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 		virtual bool isA(const QString& familyName) const;
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
@@ -131,7 +131,7 @@ namespace Tinkercell
 		/*! \brief used for casting between different sub-classes*/
 		static int TYPE;
 		/*! \brief cast to connection family*/
-		static ConnectionFamily * asConnection(ItemFamily*);
+		static ConnectionFamily * cast(ItemFamily*);
 		/*! \brief arrow used to represent this family in text-based networks*/
 		QString string;
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/

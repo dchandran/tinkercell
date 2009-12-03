@@ -24,6 +24,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
+#include "ModuleTool.h"
 
 #include "muParserDef.h"
 #include "muParser.h"
@@ -32,7 +33,6 @@
 
 namespace Tinkercell
 {
-
     void SimulationEventsTool::select(int)
     {
         NetworkWindow * net = currentWindow();
@@ -111,7 +111,7 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
             connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
-			
+
 			setWindowTitle(name);
             dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget, Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
 
@@ -270,7 +270,7 @@ namespace Tinkercell
         DataTable<QString> events;
         events.resize(0,1);
         events.colName(0) = tr("event");
-		
+
 		events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
 
         handle->data->textData.insert(tr("Events"),events);
@@ -501,6 +501,9 @@ namespace Tinkercell
     {
         if (list && !items.isEmpty())
         {
+            QList<ItemHandle*> from, to;
+            ModuleTool::connectedItems(items,from,to);
+
             QList<ItemHandle*> visited;
             QRegExp regex(tr("\\.(?!\\d)"));
             for (int i=0; i < items.size(); ++i)
@@ -514,9 +517,15 @@ namespace Tinkercell
                     {
                         s = lst[j];
                         s.replace(regex,tr("_"));
-                        (*list) << items[i]->fullName(tr("_")) + tr("_") + s;
+                        int k = from.indexOf(items[i]);
+                        if (k > -1)
+                        {
+                            s.replace(items[i]->fullName(tr("_")), to[k]->fullName(tr("_")));
+                            (*list) << to[k]->fullName(tr("_")) + tr("_") + s;
+                        }
+                        else
+                            (*list) << items[i]->fullName(tr("_")) + tr("_") + s;
                     }
-
                 }
             }
         }
@@ -528,18 +537,27 @@ namespace Tinkercell
     {
         if (list && !items.isEmpty())
         {
+            ModuleTool::connectedItems(items,from,to);
+
             QList<ItemHandle*> visited;
             QRegExp regex(tr("\\.(?!\\d)"));
             for (int i=0; i < items.size(); ++i)
             {
-                if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Events"))
-                    && items[i]->data->textData[tr("Events")].cols() > 0)
-                    {
+                if (items[i] &&
+                    !visited.contains(items[i]) &&
+                    items[i]->data &&
+                    items[i]->hasTextData(tr("Events")) &&
+                    items[i]->data->textData[tr("Events")].cols() > 0)
+                {
                     DataTable<QString>& dat = items[i]->data->textData[tr("Events")];
                     for (int j=0; j < dat.rows(); ++j)
                     {
                         QString s = dat.value(j,0);
                         s.replace(regex,tr("_"));
+                        int k = from.indexOf(items[i]);
+                        if (k > -1)
+                            s.replace(items[i]->fullName(tr("_")), to[k]->fullName(tr("_")));
+
                         (*list) << s;
                     }
                 }
@@ -557,13 +575,13 @@ namespace Tinkercell
                 item->data->textData[tr("Events")] = DataTable<QString>();
 
             DataTable<QString> dat = item->data->textData[tr("Events")];
-			
+
 			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
-			
+
 			QString s1 = trigger, s2 = event;
 			s1.replace(regex,QString("\\1.\\2"));
 			s2.replace(regex,QString("\\1.\\2"));
-			
+
             dat.value(s1,0) = s2;
             if (currentScene())
                 currentScene()->changeData(tr("when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
@@ -626,8 +644,8 @@ namespace Tinkercell
         s->release();
         delete s;
     }
-	
-	
+
+
 	static double d = 1.0;
 	static double* AddVariable(const char*, void*)
 	{

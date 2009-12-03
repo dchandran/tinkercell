@@ -777,3 +777,12 @@ namespace Tinkercell
 
 
 }
+
+extern "C" void loadTCTool(Tinkercell::MainWindow * main)
+{
+	if (!main) return;
+
+	Tinkercell::ModelSummaryTool * modelSummary = new Tinkercell::ModelSummaryTool;
+	main->addTool(modelSummary);
+
+}

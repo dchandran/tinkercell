@@ -3,7 +3,7 @@ SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
-ADD_DEFINITIONS(-DQT_SHARED)
+#ADD_DEFINITIONS(-DQT_SHARED)
 
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
@@ -208,46 +208,60 @@ ELSE( WIN32 )
   )
 ENDIF( WIN32 )
 
-QT4_WRAP_CPP( DataBasicTools_MOC 
-   SpinBoxDelegate.h 
-   DefaultReactionRates.h 
-   BasicInformationTool.h
-   StoichiometryTool.h 
-   FunctionDeclarationsTool.h
+QT4_WRAP_CPP( ModelSummary_MOC 
+   SpinBoxDelegate.h
    ModelSummaryTool.h
-   ModelFileGenerator.h
-   DataToolsMain.h
-   NameFamilyDialog.h
 )
 
-ADD_LIBRARY( DataBasicTools
+ADD_LIBRARY( ModelSummary
   SHARED
-  ${DataBasicTools_MOC}
-  ${TinkercellCOre_MOC}
-  EquationParser.cpp
+  ${ModelSummary_MOC}
+  ${TinkercellCore_MOC}
   SpinBoxDelegate.cpp
-  BasicInformationTool.cpp
-  NameFamilyDialog.cpp
-  StoichiometryTool.cpp
-  FunctionDeclarationsTool.cpp
   ModelSummaryTool.cpp
-  ModelFileGenerator.cpp
-  DataToolsMain.cpp
   ${TINKERCELL_BASICTOOLS_QRC}
 )
 
-TARGET_LINK_LIBRARIES( DataBasicTools
-  DataBasicTools
+TARGET_LINK_LIBRARIES( ModelSummary
+  ModelSummary
   TinkerCellCore
   muparser
 )
 
 IF( WIN32 )
-  INSTALL(TARGETS DataBasicTools
+  INSTALL(TARGETS ModelSummary
     DESTINATION Plugins
   )
 ELSE( WIN32 )
-  INSTALL(TARGETS DataBasicTools
+  INSTALL(TARGETS ModelSummary
+    LIBRARY DESTINATION Plugins
+  )
+ENDIF( WIN32 )
+
+QT4_WRAP_CPP( NameFamilyDialog_MOC
+   NameFamilyDialog.h
+)
+
+ADD_LIBRARY( ModelSummary
+  SHARED
+  ${NameFamilyDialog_MOC}
+  ${TinkercellCore_MOC}
+  NameFamilyDialog.cpp
+  ${TINKERCELL_BASICTOOLS_QRC}
+)
+
+TARGET_LINK_LIBRARIES( NameFamilyDialog
+  NameFamilyDialog
+  TinkerCellCore
+  muparser
+)
+
+IF( WIN32 )
+  INSTALL(TARGETS NameFamilyDialog
+    DESTINATION Plugins
+  )
+ELSE( WIN32 )
+  INSTALL(TARGETS NameFamilyDialog
     LIBRARY DESTINATION Plugins
   )
 ENDIF( WIN32 )

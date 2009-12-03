@@ -96,32 +96,6 @@ ELSE ( WIN32 )
   )
 ENDIF( WIN32 )
 
-QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
-
-ADD_LIBRARY( SimulationEventTool
-  SHARED
-  SimulationEventTool.cpp
-  ${SimulationEventTool_MOC}
-  ${TinkercellCore_MOC}
-  )
-
-TARGET_LINK_LIBRARIES( SimulationEventTool
-  SimulationEventTool
-  DataBasicTools
-  TinkerCellCore
-  muparser
-)
-
-IF ( WIN32 )
-  INSTALL(TARGETS SimulationEventTool
-    DESTINATION Plugins
-  )
-ELSE ( WIN32 )
-  INSTALL(TARGETS SimulationEventTool
-    LIBRARY DESTINATION Plugins
-  )
-ENDIF( WIN32 )
-
 QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
 
 ADD_LIBRARY( ViewTablesTool

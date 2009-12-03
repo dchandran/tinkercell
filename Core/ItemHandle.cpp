@@ -506,7 +506,7 @@ namespace Tinkercell
 	PART HANDLE
 	**********************************/
 
-	NodeHandle * NodeHandle::asNode(ItemHandle * item)
+	NodeHandle * NodeHandle::cast(ItemHandle * item)
 	{
 		if (item && item->type == NodeHandle::TYPE)
 			return static_cast<NodeHandle*>(item);
@@ -632,7 +632,7 @@ namespace Tinkercell
 	CONNECTION HANDLE
 	*************************************/
 
-	ConnectionHandle * ConnectionHandle::asConnection(ItemHandle * item)
+	ConnectionHandle * ConnectionHandle::cast(ItemHandle * item)
 	{
 		if (item && item->type == ConnectionHandle::TYPE)
 			return static_cast<ConnectionHandle*>(item);

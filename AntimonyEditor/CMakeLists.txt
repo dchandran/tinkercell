@@ -32,7 +32,7 @@ ADD_LIBRARY( AntimonyEditor
 TARGET_LINK_LIBRARIES( AntimonyEditor
   AntimonyEditor
   antimony
-  DataBasicTools
+  ModelingTools
   AutoGeneRegulatoryTool
   TinkerCellCore
 )

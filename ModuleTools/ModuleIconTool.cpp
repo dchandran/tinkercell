@@ -126,7 +126,7 @@ namespace Tinkercell
     {
 		if (!scene || !item) return;
 		ItemHandle * handle = getHandle(item);
-		if (modifier == Qt::ControlModifier && handle->isA(tr("Module")) && NodeGraphicsItem::cast(item))
+		if (modifier == Qt::ControlModifier && handle && handle->isA(tr("Module")) && NodeGraphicsItem::cast(item))
 		{
 			moduleItem = NodeGraphicsItem::cast(item);
 			addNewButton(scene,handle,moduleItem->sceneBoundingRect());

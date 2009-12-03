@@ -1095,17 +1095,18 @@ namespace Tinkercell
 
 	    for (int i=0; i < items.size(); ++i)
             if ((node = NodeGraphicsItem::cast(items[i])) &&
+				ModuleLinkerItem::isModuleLinker(node) &&
                 (handle = NodeHandle::cast(handle)))
             {
                 connections = node->connections();
                 for (int j=0; j < connections.size(); ++j)
-                    if (connections[i] &&
-                        connections[i]->className == tr("module connection") &&
-                        connections[i]->nodesWithoutArrows().size() == 1 &&
-                        connections[i]->nodesWithArrows().size() == 1)
+                    if (connections[j] &&
+                        connections[j]->className == tr("module connection") &&
+                        connections[j]->nodesWithoutArrows().size() == 1 &&
+                        connections[j]->nodesWithArrows().size() == 1)
                     {
-                        node1 = connections[i]->nodesWithoutArrows()[0];
-                        node2 = connections[i]->nodesWithArrows()[1];
+                        node1 = connections[j]->nodesWithoutArrows()[0];
+                        node2 = connections[j]->nodesWithArrows()[1];
                         if (node1 &&
                             node2 &&
                             (h1 = node1->handle()) &&

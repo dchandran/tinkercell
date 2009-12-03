@@ -136,7 +136,7 @@ namespace Tinkercell
                 {
                     s += tr("set title '");
                     s += title;
-                    s += tr("'\n plot 'data.txt' using ");
+                    s += tr("'\nplot 'data.txt' using ");
                 }
                 else
                     s += tr("'' u ");
@@ -212,6 +212,66 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotHistC(Matrix m, int bins, const char * title)
     {
+		m.description() = title;
+        GnuplotTool::data << m;
+
+        QDir dir(MainWindow::userHome());
+        if (!dir.cd(tr("gnuplot")))
+        {
+            dir.mkdir(tr("gnuplot"));
+            dir.cd(tr("gnuplot"));
+        }
+
+        QString file(dir.absoluteFilePath(tr("data.txt")));
+
+        QFile data(file);
+
+        if (data.open(QFile::WriteOnly))
+        {
+            QTextStream out(&data);
+            out << tr("#") << title << tr("\n");
+            for (int i=0; i < m.cols(); ++i)
+                if (i > 0)
+                    out << tr("\t") << m.colName(i);
+                else
+                    out << m.colName(i);
+            out << tr("\n");
+
+            for (int i=0; i < m.rows(); ++i)
+            {
+                for (int j=0; j < m.cols(); ++j)
+                    if (j > 0)
+                        out << tr("\t") << QString::number(m.at(i,j));
+                    else
+                        out << QString::number(m.at(i,j));
+                out << tr("\n");
+            }
+
+            data.close();
+        }
+
+        QString s;
+        int cols = m.cols();
+
+        for (int i=0; i < cols; ++i)
+            if (i != x)
+            {
+                if (s.isEmpty())
+                {
+                    s += tr("bw = 1\nbin(x,width)=width*floor(x/width)\nset title '");
+                    s += title;
+                    s += tr("'\nplot 'data.txt' using ");
+                }
+                else
+                    s += tr("'' u ");
+				
+				s += tr("(bin($");
+                s += QString::number(x+1);
+				s += tr(",bw)):(1.0) smooth freq with boxes");
+                if (i < cols-2 || (i < (cols-1) && (cols-1)!=x))
+                    s += tr(", ");
+            }
+        gnuplotScript(s); 
     }
 
     void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)

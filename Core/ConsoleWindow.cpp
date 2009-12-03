@@ -148,7 +148,7 @@ namespace Tinkercell
 		if (s.right(1) != QChar('\n'))
             cursor.insertText(s + tr("\n"));
 		else
-            cursor.insertText(s));
+            cursor.insertText(s);
 
         cursor.setCharFormat(normalFormat);
         cursor.insertText(ConsoleWindow::Prompt);

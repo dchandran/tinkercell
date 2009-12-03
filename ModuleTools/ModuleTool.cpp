@@ -306,7 +306,7 @@ namespace Tinkercell
 			{
 				QList<ItemHandle*> children = handles[i]->visibleChildren();
 				for (int j=0; j < children.size(); ++j)
-					if (children[j] && NodeHandle::asNode(children[j]) && !nodes.contains(children[j]))
+					if (children[j] && NodeHandle::cast(children[j]) && !nodes.contains(children[j]))
 					{
 						nodes << children[j];
 					}
@@ -361,7 +361,7 @@ namespace Tinkercell
         {
             ItemHandle * handle = handles[i];
 
-            if (NodeHandle::asNode(handle) && handle->family() && !handle->tools.contains(this))
+            if (NodeHandle::cast(handle) && handle->family() && !handle->tools.contains(this))
             {
 				handle->tools += this;
             }
@@ -587,7 +587,7 @@ namespace Tinkercell
             if ( (handle = modules[i]) && handle->isA(tr("Module")) )
             {
                 for (int j=0; j < handle->children.size(); ++j)
-                    if ((child = NodeHandle::asNode(handle->children[j])) && child->graphicsItems.size() > 0)
+                    if ((child = NodeHandle::cast(handle->children[j])) && child->graphicsItems.size() > 0)
 					{
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
@@ -999,7 +999,7 @@ namespace Tinkercell
 
 		emit itemsInsertedSignal(scene, QList<QGraphicsItem*>() << connection, QList<ItemHandle*>());
     }
-
+/*
 	void ModuleTool::parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>& children, const QList<ItemHandle*>& oldParents)
 	{
 		if (!window->scene) return;
@@ -1073,7 +1073,7 @@ namespace Tinkercell
 			}
 		}
 	}
-
+*/
 	void ModuleTool::connectedItems(const QList<ItemHandle*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
 	{
 	    QList<QGraphicsItem*> graphicsItems;
@@ -1088,7 +1088,7 @@ namespace Tinkercell
 
 	void ModuleTool::connectedItems(const QList<QGraphicsItem*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
 	{
-        NodeHandle * handle, *h1, *h2;
+        ItemHandle * handle, *h1, *h2;
 	    NodeGraphicsItem * node, * node1, * node2;
 	    QList<ConnectionGraphicsItem*> connections;
 	    QList<NodeGraphicsItem*> connectedNodes;
@@ -1101,11 +1101,11 @@ namespace Tinkercell
                 for (int j=0; j < connections.size(); ++j)
                     if (connections[i] &&
                         connections[i]->className == tr("module connection") &&
-                        connections[i]->nodesIn().size() == 1 &&
-                        connections[i]->nodesOut().size() == 1)
+                        connections[i]->nodesWithoutArrows().size() == 1 &&
+                        connections[i]->nodesWithArrows().size() == 1)
                     {
-                        node1 = connections[i]->nodesIn()[0];
-                        node2 = connections[i]->nodesIn()[1];
+                        node1 = connections[i]->nodesWithoutArrows()[0];
+                        node2 = connections[i]->nodesWithArrows()[1];
                         if (node1 &&
                             node2 &&
                             (h1 = node1->handle()) &&
@@ -1117,13 +1117,13 @@ namespace Tinkercell
                                 while (x > -1)
                                 {
                                     h2 = to[x];
-                                    x = from.indexOf(h2)
+                                    x = from.indexOf(h2);
                                 }
 
                                 from << h1;
                                 to << h2;
 
-                                int x = to.indexOf(h1);
+                                x = to.indexOf(h1);
 
                                 while (x > -1)
                                 {

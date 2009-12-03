@@ -59,14 +59,14 @@ namespace Tinkercell
         \param QList<ItemHandle*> the obsolete items, e.g. A
         \param QList<ItemHandle*> the new item, e.g. A is B (A is obsolete)
         */
-		static void connectedItems(const QList<QGraphicsItem*>&, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		static void connectedItems(const QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<ItemHandle*>&);
 		/*!
         \brief get all the substituted items, i.e. A has replaced with B
         \param QList<ItemHandle*> list of items to find substitutes in
         \param QList<ItemHandle*> the obsolete items, e.g. A
         \param QList<ItemHandle*> the new item, e.g. A is B (A is obsolete)
         */
-		static void connectedItems(const QList<ItemHandle*>&, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		static void connectedItems(const QList<ItemHandle*>&, QList<ItemHandle*>&, QList<ItemHandle*>&);
 
 	signals:
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);

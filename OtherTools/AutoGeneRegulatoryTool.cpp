@@ -675,11 +675,11 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (NodeHandle::asNode(parts[i]) && parts[i]->isA(tr("Regulator")))
+				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Regulator")))
 				{
 					if (regulator == 0)
 						regulator = parts[i];
-					QList<ConnectionHandle*> connections = NodeHandle::asNode(parts[i])->connections();
+					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] && connections[j]->isA(tr("Binding")))
 						{
@@ -715,7 +715,7 @@ namespace Tinkercell
 						promoter = parts[i];
 				}
 
-				if (parts[i]->isA(tr("Coding")) && NodeHandle::asNode(parts[i]))
+				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
 					if (!promoter && regulator)
 						promoter = regulator;
@@ -774,7 +774,7 @@ namespace Tinkercell
 						}
 					}
 
-					QList<ConnectionHandle*> connections = NodeHandle::asNode(parts[i])->connections();
+					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							connections[j]->isA(tr("Transcription")) &&
@@ -840,12 +840,12 @@ namespace Tinkercell
 
 						QList<NodeHandle*> rna = connections[j]->nodesOut();
 							for (int k=0; k < rna.size(); ++k)
-								if (NodeHandle::asNode(rna[k]) && rna[k]->isA(tr("RNA")))
+								if (NodeHandle::cast(rna[k]) && rna[k]->isA(tr("RNA")))
 								{
-									QList<ConnectionHandle*> connections2 = NodeHandle::asNode(rna[k])->connections();
+									QList<ConnectionHandle*> connections2 = NodeHandle::cast(rna[k])->connections();
 									for (int l=0; l < connections2.size(); ++l)
 										if (connections2[l] &&
-											connections2[l]->nodesIn().contains(NodeHandle::asNode(rna[k])) &&
+											connections2[l]->nodesIn().contains(NodeHandle::cast(rna[k])) &&
 											connections2[l]->hasTextData(tr("Rates")))
 											if (rbs)
 											{
@@ -960,7 +960,7 @@ namespace Tinkercell
 					}
 				}
 
-				if (parts[i]->isA(tr("Terminator")) && NodeHandle::asNode(parts[i]))
+				if (parts[i]->isA(tr("Terminator")) && NodeHandle::cast(parts[i]))
 				{
 					regulator = 0;
 					promoter = 0;
@@ -1361,9 +1361,9 @@ namespace Tinkercell
 		for (int i=0; i < handles0.size(); ++i)
 			if (handles0[i])
 			{
-				if (ConnectionHandle::asConnection(handles0[i]))
+				if (ConnectionHandle::cast(handles0[i]))
 				{
-					QList<NodeHandle*> nodes = (ConnectionHandle::asConnection(handles0[i]))->nodes();
+					QList<NodeHandle*> nodes = (ConnectionHandle::cast(handles0[i]))->nodes();
 					for (int j=0; j < nodes.size(); ++j)
 						if (nodes[j]->isA(tr("Part")) && !handles.contains(nodes[j]) && !handles0.contains(nodes[j]))
 						{
@@ -1407,7 +1407,7 @@ namespace Tinkercell
 
 			for (int j=0; j < parts.size(); ++j)
 			{
-				NodeHandle * node = NodeHandle::asNode(parts[j]);
+				NodeHandle * node = NodeHandle::cast(parts[j]);
 				if (node && !parts2.contains(node) && !handles0.contains(node))
 				{
 					parts2 += node;
@@ -1459,7 +1459,7 @@ namespace Tinkercell
 
 			if (!startNode) continue;
 
-			handle = NodeHandle::asNode(getHandle(startNode));
+			handle = NodeHandle::cast(getHandle(startNode));
 			if (parts2.contains(handle) || !handle) continue;
 
 			QList<ItemHandle*> parts,upstream;
@@ -1481,7 +1481,7 @@ namespace Tinkercell
 			QStringList lst;
 			for (int j=0; j < parts.size(); ++j)
 			{
-				NodeHandle * node = NodeHandle::asNode(parts[j]);
+				NodeHandle * node = NodeHandle::cast(parts[j]);
 				parts3 += node;
 				parts2 += node;
 			}
@@ -1505,7 +1505,7 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-            if ((connection = ConnectionHandle::asConnection(handles[i]))
+            if ((connection = ConnectionHandle::cast(handles[i]))
                             && !visited.contains(handles[i]) && handles[i]->isA("Transcription Regulation"))
 			{
 				visited << handles[i];
@@ -1940,7 +1940,7 @@ namespace Tinkercell
 			QPointF p;
 
 			for (int i=0; i < items.size(); ++i)
-				if (NodeHandle::asNode(items[i]))
+				if (NodeHandle::cast(items[i]))
 				{
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
@@ -1996,7 +1996,7 @@ namespace Tinkercell
 			NodeGraphicsItem * node = 0;
 			NodeGraphicsItem * topmost = 0;
 			for (int i=0; i < allChildren.size(); ++i)
-				if (NodeHandle::asNode(allChildren[i]) && allChildren[i]->isA(tr("Part")))
+				if (NodeHandle::cast(allChildren[i]) && allChildren[i]->isA(tr("Part")))
 					for (int j=0; j < allChildren[i]->graphicsItems.size(); ++j)
 						if ((node = NodeGraphicsItem::topLevelNodeItem(allChildren[i]->graphicsItems[j]))
 							&& ((y < 0) || (node->scenePos().y() < y)))

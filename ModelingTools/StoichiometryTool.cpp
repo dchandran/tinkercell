@@ -52,7 +52,7 @@ namespace Tinkercell
 
 		for (int i=0; i < list.size(); ++i)
 		{
-			connectionHandle = ConnectionHandle::asConnection(list[i]);
+			connectionHandle = ConnectionHandle::cast(list[i]);
 			if (connectionHandle  && !connectionHandles.contains(connectionHandle))
 				connectionHandles += connectionHandle;
 		}
@@ -357,7 +357,7 @@ namespace Tinkercell
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::asConnection(handles[i])))
+			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::cast(handles[i])))
 			{
 				if (!connectionHandle->tools.contains(this))
 					connectionHandle->tools += this;
@@ -1259,11 +1259,11 @@ namespace Tinkercell
 			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
 			{
 				QStringList fixedSpecies;
-				if (!includeFixed && ConnectionHandle::asConnection(connectionHandles[i]))
+				if (!includeFixed && ConnectionHandle::cast(connectionHandles[i]))
 				{
-					QList<NodeHandle*> nodes = ConnectionHandle::asConnection(connectionHandles[i])->nodes();
+					QList<NodeHandle*> nodes = ConnectionHandle::cast(connectionHandles[i])->nodes();
 					for (int j=0; j < nodes.size(); ++j)
-						if (NodeHandle::asNode(nodes[j])
+						if (NodeHandle::cast(nodes[j])
 							&& nodes[j]->hasNumericalData(tr("Fixed"))
 							&& nodes[j]->numericalData(tr("Fixed")) > 0)
 							fixedSpecies << nodes[j]->fullName();

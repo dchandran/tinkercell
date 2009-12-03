@@ -1185,7 +1185,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size() && i < dat.rows(); ++i)
 			{
 				handle = handles.at(i);
-				if (NodeHandle::asNode(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (NodeHandle::cast(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					dataTable = new DataTable<qreal>(handle->data->numericalData[tr("Initial Value")]);
 					dataTable->value(0,0) = dat.at(i,0);

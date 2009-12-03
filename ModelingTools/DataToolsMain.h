@@ -8,7 +8,6 @@ Function that loads dll into main window
 
 ****************************************************************************/
 #include "MainWindow.h"
-#include "NameFamilyDialog.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"

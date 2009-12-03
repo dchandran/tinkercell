@@ -27,6 +27,9 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	Tinkercell::StoichiometryTool * stoichiometryTool = new Tinkercell::StoichiometryTool;
 	main->addTool(stoichiometryTool);
 
+	Tinkercell::ModelSummaryTool * modelSummaryTool = new Tinkercell::ModelSummaryTool;
+	main->addTool(modelSummaryTool);
+	
 	Tinkercell::ModelFileGenerator * modelFileGenerator = new Tinkercell::ModelFileGenerator;
 	main->addTool(modelFileGenerator);
 

@@ -204,36 +204,6 @@ ELSE( WIN32 )
   )
 ENDIF( WIN32 )
 
-QT4_WRAP_CPP( ModelSummary_MOC 
-   SpinBoxDelegate.h
-   ModelSummaryTool.h
-)
-
-ADD_LIBRARY( ModelSummary
-  SHARED
-  ${ModelSummary_MOC}
-  ${TinkercellCore_MOC}
-  SpinBoxDelegate.cpp
-  ModelSummaryTool.cpp
-  ${TINKERCELL_BASICTOOLS_QRC}
-)
-
-TARGET_LINK_LIBRARIES( ModelSummary
-  ModelSummary
-  TinkerCellCore
-  muparser
-)
-
-IF( WIN32 )
-  INSTALL(TARGETS ModelSummary
-    DESTINATION Plugins
-  )
-ELSE( WIN32 )
-  INSTALL(TARGETS ModelSummary
-    LIBRARY DESTINATION Plugins
-  )
-ENDIF( WIN32 )
-
 QT4_WRAP_CPP( NameFamilyDialog_MOC
    NameFamilyDialog.h
 )

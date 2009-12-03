@@ -103,9 +103,8 @@ namespace Tinkercell
 		/*! \brief node of the C API framework*/
 		static NameFamilyDialog_FtoS fToS;
 	};
-	
-	extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
-
 }
+
+extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif

@@ -748,10 +748,10 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadSBMLStringSlot(QSemaphore* s,const QString& sbml)
 	{
-		if (currentEditor() && loadString (sbml.toAscii().data()) != -1)
+		if (currentTextEditor() && loadString (sbml.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
-			currentEditor()->setText(tr(ant));
+			currentTextEditor()->setText(tr(ant));
 		}
 		
 		if (s) s->release();
@@ -759,19 +759,19 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadAntimonyStringSlot(QSemaphore* s,const QString& ant)
 	{
-		if (currentEditor())
+		if (currentTextEditor())
 		{
-			currentEditor()->setText(tr(ant));
+			currentTextEditor()->setText(ant);
 		}
 		if (s) s->release();
 	}
 	
 	void AntimonyEditor::loadSBMLFileSlot(QSemaphore* s,const QString& file)
 	{
-		if (currentEditor() && loadFile (file.toAscii().data()) != -1)
+		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
-			currentEditor()->setText(tr(ant));
+			currentTextEditor()->setText(tr(ant));
 		}
 		
 		if (s) s->release();
@@ -779,10 +779,10 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadAntimonyFileSlot(QSemaphore* s,const QString& file)
 	{
-		if (currentEditor() && loadFile (file.toAscii().data()) != -1)
+		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
-			currentEditor()->setText(tr(ant));
+			currentTextEditor()->setText(tr(ant));
 		}
 		
 		if (s) s->release();
@@ -803,7 +803,7 @@ namespace Tinkercell
 	
 	void AntimonyEditor::writeSBMLFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
-		if (currentEditor())
+		if (currentTextEditor())
 		{
 			QString ant = getAntimonyScript(items);
 			loadString(ant.toAscii().data());
@@ -812,9 +812,9 @@ namespace Tinkercell
 		if (s) s->release();
 	}
 	
-	void AntimonyEditor::writeAntimonyFileSlot(QSemaphore*,const QList<ItemHandle*>& items, const QString& file)
+	void AntimonyEditor::writeAntimonyFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
-		if (currentEditor())
+		if (currentTextEditor())
 		{
 			QString ant = getAntimonyScript(items);
 			loadString(ant.toAscii().data());
@@ -840,13 +840,13 @@ namespace Tinkercell
 		if (f)
 		{
 			f(
-				&(loadAntimonyString),
-				&(loadSBMLFile),
-				&(loadAntimonyFile),
-				&(getSBMLString),
-				&(getAntimonyString),
-				&(writeSBMLFile),
-				&(writeAntimonyFile)
+				&(_loadAntimonyString),
+				&(_loadSBMLFile),
+				&(_loadAntimonyFile),
+				&(_getSBMLString),
+				&(_getAntimonyString),
+				&(_writeSBMLFile),
+				&(_writeAntimonyFile)
 			);
 		}
 	}
@@ -919,7 +919,9 @@ namespace Tinkercell
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit getSBMLString(s,ConvertValue(a),str);
+		QList<ItemHandle*> * list = ConvertValue(a);
+		emit getSBMLString(s,*list,str);
+		delete list;
 		s->acquire();
 		s->release();
 		delete s;
@@ -930,7 +932,9 @@ namespace Tinkercell
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit getAntimonyString(s,ConvertValue(a),str);
+		QList<ItemHandle*> * list = ConvertValue(a);
+		emit getAntimonyString(s,*list,str);
+		delete list;
 		s->acquire();
 		s->release();
 		delete s;
@@ -940,7 +944,9 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit writeSBMLFile(s,ConvertValue(a),tr(c));
+		QList<ItemHandle*> * list = ConvertValue(a);
+		emit writeSBMLFile(s,*list,tr(c));
+		delete list;
 		s->acquire();
 		s->release();
 		delete s;
@@ -949,44 +955,46 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit writeAntimonyFile(s,ConvertValue(a),tr(c));
+		QList<ItemHandle*> * list = ConvertValue(a);
+		emit writeAntimonyFile(s,*list,tr(c));
+		delete list;
 		s->acquire();
 		s->release();
 		delete s;
 	}
 
 	
-	void AntimonyEditor::loadSBMLString(const char * c)
+	void AntimonyEditor::_loadSBMLString(const char * c)
 	{
 		fToS.loadSBMLString(c);
 	}
-	void AntimonyEditor::loadAntimonyString(const char * c)
+	void AntimonyEditor::_loadAntimonyString(const char * c)
 	{
 		fToS.loadAntimonyString(c);
 	}
-	void AntimonyEditor::loadSBMLFile(const char * c)
+	void AntimonyEditor::_loadSBMLFile(const char * c)
 	{
 		fToS.loadSBMLFile(c);
 	}
-	void AntimonyEditor::loadAntimonyFile(const char * c)
+	void AntimonyEditor::_loadAntimonyFile(const char * c)
 	{
 		fToS.loadAntimonyFile(c);
 	}
-	char* AntimonyEditor::getSBMLString(Array a)
+	char* AntimonyEditor::_getSBMLString(Array a)
 	{
-		return fToS.getSBMLString(c);
+		return fToS.getSBMLString(a);
 	}
-	char* AntimonyEditor::getAntimonyString(Array a)
+	char* AntimonyEditor::_getAntimonyString(Array a)
 	{
-		return fToS.getAntimonyString(c);
+		return fToS.getAntimonyString(a);
 	}
-	void AntimonyEditor::writeSBMLFile(Array a,const char* c)
+	void AntimonyEditor::_writeSBMLFile(Array a,const char* c)
 	{
-		fToS.writeSBMLFile(c);
+		fToS.writeSBMLFile(a,c);
 	}
-	void AntimonyEditor::writeAntimonyFile(Array a,const char* c)
+	void AntimonyEditor::_writeAntimonyFile(Array a,const char* c)
 	{
-		fToS.writeAntimonyFile(c);
+		fToS.writeAntimonyFile(a,c);
 	}
 
 }

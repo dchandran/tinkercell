@@ -21,6 +21,7 @@ void TCFreeChars(char** C);
 #include "API/TC_EventsAssignments_api.h"
 #include "API/TC_NameFamily_api.h"
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
+#include "API/TC_Antimony_api.h"
 
 void TCFreeMatrix(Matrix M)
 {

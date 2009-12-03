@@ -11,6 +11,7 @@
 #include "TC_StoichiometryTool_py.c"
 #include "TC_EventsAssignments_py.c"
 #include "TC_AutoGeneRegulatoryTool_py.c"
+#include "TC_Antimony_py.c"
 
 static PyMethodDef pytcMethods[] = {
 //misc
@@ -169,6 +170,15 @@ static PyMethodDef pytcMethods[] = {
 	{"partsUpstream", pytc_partsUpstream, METH_VARARGS, "get all the DNA parts upstream of this part. example: a = find(\"A\"); A = partsUpstream(a); prints getNames(A);"},
 	{"partsDownstream", pytc_partsDownstream, METH_VARARGS, "get all the DNA parts downstream of this part. example: a = find(\"A\"); A = partsDownstream(a); prints getNames(A);"},
 
-	
+//Antimony and libSBML
+	{"loadSBMLString", pytc_loadSBMLString, METH_VARARGS, "load SBML model using the XML string as input. example: loadSBMLString(sbml_text)"},
+	{"loadAntimonyString", pytc_loadAntimonyString, METH_VARARGS, "load Antimony model using the model string as input. example: loadAntimonyString(sbml_text)"},
+	{"loadSBMLFile", pytc_loadSBMLFile, METH_VARARGS, "load SBML model using the file name as input. example: loadSBMLString(\"myfile.sbml\")"},
+	{"loadAntimonyFile", pytc_loadAntimonyFile, METH_VARARGS, "load Antimony model using the file name as input. example: loadAntimonyFile(\"myfile.txt\");"},
+	{"getSBMLString", pytc_getSBMLString, METH_VARARGS, "get SBML as a string from either a subset of items or all items. example: A = selectedItems(); s1 = getSBMLString(A); s2 = getSBMLString();"},
+	{"getAntimonyString", pytc_getAntimonyString, METH_VARARGS, "get Antimony model string from either a subset of items or all items. example: A = selectedItems(); s1 = getAntimonyString(A); s2 = getAntimonyString();"},
+	{"writeSBMLFile", pytc_writeSBMLFile, METH_VARARGS, "write the SBML to an xml file. example: writeSBMLFile(\"myfile.sbml\")"},
+	{"writeAntimonyFile", pytc_writeAntimonyFile, METH_VARARGS, "write the Antimony model to a text file. example: writeAntimonyFile(\"myfile.txt\")"},
+
 	{NULL, NULL, 0, NULL}
 };

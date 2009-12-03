@@ -21,7 +21,7 @@ void (*_tc_loadAntimonyString)(const char *) = 0;
  \param char* antimony model
  \ingroup Antimony
 */
-void tc_loadAntimonyString)(const char * antimony)
+void tc_loadAntimonyString(const char * antimony)
 {
 	if (_tc_loadAntimonyString)
 		_tc_loadAntimonyString(antimony);

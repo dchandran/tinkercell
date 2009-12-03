@@ -10,7 +10,7 @@ SET( TINKERCELL_CORE_HDRS
   ../Core/TextItem.h 
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
-  ../BasicTools/EquationParser.h
+  ../ModelingTools/EquationParser.h
   )
   
 ADD_DEFINITIONS(${QT_DEFINITIONS})

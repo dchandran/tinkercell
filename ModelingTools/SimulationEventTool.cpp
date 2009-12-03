@@ -537,6 +537,7 @@ namespace Tinkercell
     {
         if (list && !items.isEmpty())
         {
+			QList<ItemHandle*> from, to;
             ModuleTool::connectedItems(items,from,to);
 
             QList<ItemHandle*> visited;

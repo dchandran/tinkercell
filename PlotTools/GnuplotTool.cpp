@@ -212,6 +212,16 @@ namespace Tinkercell
 
     void GnuplotTool::gnuplotHistC(Matrix m, int bins, const char * title)
     {
+		DataTable<qreal> * dat = ConvertValue(m);
+        gnuplotHist(*dat,bins,tr(title));
+        delete dat;
+    }
+
+    void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)
+    {
+		m.description() = title;
+        GnuplotTool::data << m;
+		
 		m.description() = title;
         GnuplotTool::data << m;
 
@@ -272,12 +282,6 @@ namespace Tinkercell
                     s += tr(", ");
             }
         gnuplotScript(s); 
-    }
-
-    void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title)
-    {
-		m.description() = title;
-        GnuplotTool::data << m;
     }
 
     void GnuplotTool::gnuplotErrorbarsC(Matrix m, int x, const char* title)

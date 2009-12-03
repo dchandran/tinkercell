@@ -670,13 +670,13 @@ namespace Tinkercell
 				QList<ItemFamily*> children = rootFamilies[i]->children();
 				if (children.isEmpty())
 				{
-					if (!families.contains(NodeFamily::asNode(rootFamilies[i])))
-						families << NodeFamily::asNode(rootFamilies[i]);
+					if (!families.contains(NodeFamily::cast(rootFamilies[i])))
+						families << NodeFamily::cast(rootFamilies[i]);
 				}
 				else
 				{
-					if (!families.contains(NodeFamily::asNode(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
-						families << NodeFamily::asNode(rootFamilies[i]);
+					if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+						families << NodeFamily::cast(rootFamilies[i]);
 					rootFamilies << children;
 				}
 			}
@@ -760,13 +760,13 @@ namespace Tinkercell
 				QList<ItemFamily*> children = rootFamilies[i]->children();
 				if (children.isEmpty())
 				{
-					if (!families.contains(ConnectionFamily::asConnection(rootFamilies[i])))
-						families << ConnectionFamily::asConnection(rootFamilies[i]);
+					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])))
+						families << ConnectionFamily::cast(rootFamilies[i]);
 				}
 				else
 				{
-					if (!families.contains(ConnectionFamily::asConnection(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
-						families << ConnectionFamily::asConnection(rootFamilies[i]);
+					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+						families << ConnectionFamily::cast(rootFamilies[i]);
 					rootFamilies << children;
 				}
 			}

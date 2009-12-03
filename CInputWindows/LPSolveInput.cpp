@@ -264,7 +264,7 @@ namespace Tinkercell
 
 		ItemHandle * handle;
 		for (int i=0; i < selected.size(); ++i)
-                        if (ConnectionHandle::asConnection(selected[i]))
+                        if (ConnectionHandle::cast(selected[i]))
 			{
                                 handle = selected[i];
 				if (handle && rownames.contains(handle->fullName())) //get flux that are selected

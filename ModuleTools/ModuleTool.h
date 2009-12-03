@@ -42,10 +42,16 @@
 #include "Tool.h"
 #include "ModuleConnectionGraphicsItem.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
-	class ModuleTool : public Tool
+	class MY_EXPORT ModuleTool : public Tool
 	{
 		Q_OBJECT
 
@@ -119,12 +125,6 @@ namespace Tinkercell
 
 
 }
-
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
 

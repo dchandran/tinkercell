@@ -941,7 +941,7 @@ namespace Tinkercell
                     reactions << (childItems[i]);
             }
             else
-                if (childItems[i] && childItems[i]->isA(tr("Species")) && (nodeHandle = NodeHandle::asNode(childItems[i])))
+                if (childItems[i] && childItems[i]->isA(tr("Species")) && (nodeHandle = NodeHandle::cast(childItems[i])))
                 {
                 QList<ConnectionHandle*> connections = nodeHandle->connections();
                 for (int j=0; j < connections.size(); ++j)

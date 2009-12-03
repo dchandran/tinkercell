@@ -242,7 +242,7 @@ QT4_WRAP_CPP( NameFamilyDialog_MOC
    NameFamilyDialog.h
 )
 
-ADD_LIBRARY( ModelSummary
+ADD_LIBRARY( NameFamilyDialog
   SHARED
   ${NameFamilyDialog_MOC}
   ${TinkercellCore_MOC}

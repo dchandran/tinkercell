@@ -1079,9 +1079,9 @@ namespace Tinkercell
 	    QList<QGraphicsItem*> graphicsItems;
 	    for (int i=0; i < items.size(); ++i)
             if (items[i])
-                for (int j=0; i < items[i]->graphicsItems.size(); ++i)
-                    if (!graphicsItems.contains( items[i]->graphicsItems[i] ))
-                        graphicsItems << items[i]->graphicsItems[i];
+                for (int j=0; j < items[i]->graphicsItems.size(); ++j)
+                    if (!graphicsItems.contains( items[i]->graphicsItems[j] ))
+                        graphicsItems << items[i]->graphicsItems[j];
 
         connectedItems(graphicsItems,from,to);
 	}

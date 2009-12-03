@@ -803,7 +803,7 @@ namespace Tinkercell
 
 			QRegExp regexComments(tr("\\brief([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("\\ingroup([^\\n\\r]+)"));
-			QRegExp regexFunction(tr("\\s*(\\S+)\\s*\\(\\s*\\*\\s*([^\\)\\s]+)\\s*\\)(\\([^\\)]*\\))"));
+			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(\\S+)\\s*(\\([^\\)]*\\))"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
 

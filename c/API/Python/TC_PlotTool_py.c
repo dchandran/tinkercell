@@ -89,6 +89,92 @@ static PyObject * pytc_plot(PyObject *self, PyObject *args)
     return Py_None;
 }
 
+
+static PyObject * pytc_hist(PyObject *self, PyObject *args)
+{
+	PyObject * colNames, * values, *item;
+	int bins = 100;
+	char * title = "";
+	int isList1,n1=0,isList2,n2=0;
+	int n3, isList3, rows;
+	char ** cols;
+	int i,j;
+	double * nums;
+	Matrix M;
+
+	if(!PyArg_ParseTuple(args, "OO|is", &colNames, &values, &bins, &title))
+        return NULL;
+	
+	if (PyList_Check(colNames) || PyTuple_Check(colNames))
+	{
+		isList1 = PyList_Check(colNames);
+		n1 = isList1 ? PyList_Size(colNames) : PyTuple_Size (colNames);
+	}
+	
+	if (PyList_Check(values) || PyTuple_Check(values))
+	{
+		isList2 = PyList_Check(values);
+		n2 = isList2 ? PyList_Size(values) : PyTuple_Size (values);
+	}
+	
+	rows = 0;
+	
+	if (n1 > 0 && n2 == n1)
+	{
+		cols = malloc( (1+n1) * sizeof(char*) );
+		cols[n1] = 0;
+	
+		for(i=0; i<n1; ++i) 
+		{ 
+			cols[i] = isList1 ? PyString_AsString( PyList_GetItem( colNames, i ) ) : PyString_AsString( PyTuple_GetItem( colNames, i ) );
+		}
+		
+		//find the smallest row size (in case input is incorrect)
+		for(i=0; i<n2; ++i) 
+		{ 
+			item = isList2 ? (PyList_GetItem( values, i ) ) : ( PyTuple_GetItem( values, i ) );
+			
+			if (PyList_Check(item) || PyTuple_Check(item))
+			{
+				isList3 = PyList_Check(item);
+				n3 = isList3 ? PyList_Size(item) : PyTuple_Size (item);
+			
+				if (n3 < rows || rows == 0) rows = n3;
+			}
+		}
+		
+		nums = malloc( n1 * rows * sizeof(double) );
+		
+		//make the matrix
+		for(i=0; i<n2; ++i) 
+		{ 
+			item = isList2 ? (PyList_GetItem( values, i ) ) : ( PyTuple_GetItem( values, i ) );
+			isList3 = PyList_Check(item);
+			
+			for (j=0; j < rows; ++j)
+			{
+				nums[ j*n2 + i ] = isList3 ? PyFloat_AsDouble( PyList_GetItem( item, j ) ) : PyFloat_AsDouble( PyTuple_GetItem( item, j ) );
+			}
+			
+			//nums[i] = isList2 ? PyFloat_AsDouble( PyList_GetItem( values, i ) ) : PyFloat_AsDouble( PyTuple_GetItem( values, i ) );
+		}
+		
+		M.cols = n1;
+		M.rows = rows;
+		
+		M.colnames = cols;
+		M.rownames = 0;
+		M.values = nums;
+		
+		tc_hist(M,bins,title);
+	
+		TCFreeMatrix(M);
+	}
+	
+	Py_INCREF(Py_None);
+    return Py_None;
+}
+
 static PyObject * pytc_surface(PyObject *self, PyObject *args)
 {
 	PyObject * colNames, * values, *item;

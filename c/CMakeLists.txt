@@ -31,7 +31,6 @@ ELSE ( WIN32 )
   INSTALL(TARGETS runlangevin LIBRARY DESTINATION Plugins/c)
 ENDIF( WIN32 )
 
-
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c

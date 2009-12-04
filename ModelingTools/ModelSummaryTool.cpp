@@ -640,12 +640,13 @@ namespace Tinkercell
 			if (!TextGraphicsItem::cast(items[i]))
 			{
 				handle = getHandle(items[i]);
-				if (handle && handle->family() && !itemHandles.contains(handle))
+				if (handle && handle->children.isEmpty() && handle->family() && !itemHandles.contains(handle))
 					itemHandles += handle;
 				else
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]) &&
 						(handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem)) &&
-						handle->family())
+						handle->family() &&
+						handle->children.isEmpty())
 						itemHandles += handle;
 
 			}

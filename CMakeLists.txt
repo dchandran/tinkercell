@@ -202,8 +202,8 @@ IF( QT4_FOUND )
 #--------------------------------------------------------------------------------------------
 
 IF( WIN32 )
-     ADD_SUBDIRECTORY( win32 )
-  ENDIF(WIN32)
+    ADD_SUBDIRECTORY( win32 )
+ENDIF(WIN32)
 
 #----------------------------------------------------------------------------
 # Copyright and other files
@@ -216,7 +216,10 @@ INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)
 # Done with Tinkercell plugins and other components
 #----------------------------------------------------------------------------
 
-  INCLUDE( CMake/TinkercellCPack.cmake )
+INCLUDE( CMake/TinkercellCPack.cmake )
+IF (APPLE)
+   SET(CPACK_BUNDLE_NAME "Tinkercell")
+ENDIF(APPLE)
 
 # ---------------------
 # CTEST 

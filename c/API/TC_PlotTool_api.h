@@ -47,15 +47,15 @@ void tc_hist(Matrix data,int bins,const char* title)
 		_tc_hist(data,bins,title);
 }
 
-Matrix (*_tc_plotData)(int whichPlot) = 0;
+Matrix (*_tc_getPlotData)(int whichPlot) = 0;
 /*!
  \brief get the data that is currently in the plot window
  \ingroup Plotting
 */
-Matrix tc_plotData(int whichPlot)
+Matrix tc_getPlotData(int whichPlot)
 {
-	if (_tc_plotData)
-		return _tc_plotData(whichPlot);
+	if (_tc_getPlotData)
+		return _tc_getPlotData(whichPlot);
 	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
@@ -75,7 +75,7 @@ void tc_PlotTool_api(
 	Matrix (*plotData)(int))
 {
 	_tc_plot = plot;
-	_tc_plotData = plotData;
+	_tc_getPlotData = plotData;
 	_tc_surface = surface;
 	_tc_hist = hist;
 	_tc_errorBars = errorBars;

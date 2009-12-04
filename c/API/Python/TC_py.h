@@ -135,7 +135,7 @@ static PyMethodDef pytcMethods[] = {
 //plot
 	{"plot", pytc_plot, METH_VARARGS, "Plot the given set of values (2D array) with the given headers. example: data = [[0,0] , [1,1] , [2,4] ,  [3,9] ,  [4,16] ]; where each pair is a row. plot([\"x\",\"y\"],data,0,\"my plot\");"},
 	{"surface", pytc_surface, METH_VARARGS, "Plot 3D surface, given a matrix with 3 columns (x,y,z). example: data = [ [0,1,2,3,4] , [1,2,3,4,5] , [2,3,4,5,6] ]; surface([\"x\",\"y\",\"z\"],data,\"my plot\");"},
-	{"plotData", pytc_getPlotData, METH_VARARGS, "Get the values and headers of the data that is displayed in the plot window. example: data = plotData(); print data;"},
+	{"getPlotData", pytc_getPlotData, METH_VARARGS, "Get the values and headers of the data that is displayed in the plot window. example: data = plotData(); print data;"},
 	{"histogram", pytc_hist, METH_VARARGS, "plot a histogram of each column in the data. example: p = plotData(); histogram(p[0],p[1]);"},
 	
 //model generation in c and python

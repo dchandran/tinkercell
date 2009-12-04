@@ -266,7 +266,7 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 	if(!PyArg_ParseTuple(args, "|i", &i))
         return NULL;
 	
-	M = tc_plotData(i);
+	M = tc_getPlotData(i);
 	
 	if (M.rows > 0 && M.cols > 0 && M.colnames && M.values)
 	{

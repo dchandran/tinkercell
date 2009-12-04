@@ -565,7 +565,6 @@ namespace Tinkercell
 			return;
 		}
 
-		//QList<QGraphicsItem*> items;
 		QList<NodeGraphicsItem*> nodes;
 		QList<QTransform> transforms;
 		QList<QPointF> points;
@@ -634,6 +633,7 @@ namespace Tinkercell
 						items << controlPoints[i];
 						points << controlPoints[i]->pos();
 						zValues << (z+0.1);
+						visibles << false;
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads() + connection->modifierArrowHeads();
@@ -646,6 +646,7 @@ namespace Tinkercell
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
 						zValues << (z+0.1);
+						visibles << false;
 					}
 				}
 			}
@@ -672,6 +673,7 @@ namespace Tinkercell
 				points << p;
 				items << text;
 				zValues << z;
+				visibles << true;
 			}
 			nodeReader.readNext();
 		}
@@ -686,6 +688,7 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
+				items[i]->setVisible(visible[i]);
 			}
 		}
 

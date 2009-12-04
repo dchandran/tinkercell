@@ -444,7 +444,7 @@ namespace Tinkercell
 					connection->refresh();
 					connection->setControlPointsVisible(false);
 				}
-				items[i]->setZValue(items[i]->zValue());
+				//items[i]->setZValue(items[i]->zValue());
 			}
 
 			scene->fitAll();
@@ -688,7 +688,7 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
-				items[i]->setVisible(visible[i]);
+				items[i]->setVisible(visibles[i]);
 			}
 		}
 

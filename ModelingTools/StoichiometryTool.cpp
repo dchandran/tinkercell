@@ -1485,8 +1485,8 @@ namespace Tinkercell
 		QRegExp regex(tr("\\.(?!\\d)"));
 		for (int i=0; i<rates.size(); ++i)
 		{
-			for (int i=0; i < from.size() && i < to.size(); ++i)
-                rates[i].replace(from[i]->fullName(),to[i]->fullName());
+			for (int j=0; j < from.size() && i < to.size(); ++j)
+                rates[i].replace(from[j]->fullName(),to[j]->fullName());
 			rates[i].replace(regex,QString("_"));
 		}
 		return rates;

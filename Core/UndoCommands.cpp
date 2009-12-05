@@ -2580,12 +2580,38 @@ namespace Tinkercell
 	
 	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
 	{
+		ConnectionGraphicsItem * connection;
+		NodeGraphicsItem * node;
 		for (int i=0; i < list.size() && i < values.size(); ++i)
 		{
 			if (list[i] && list[i]->isVisible() != values[i])
 			{
 				items << list[i];
 				before << list[i]->isVisible();
+				if (connection = ConnectionGraphicsItem::cast(list[i]))
+				{
+					QList<QGraphicsItem*> list2 = connection->controlPointsAsGraphicsItems();
+					list2 << connection->arrowHeadsAsGraphicsItems();
+					if (connection->centerRegionItem)
+						list2 << connection->centerRegionItem;
+					for (int j=0; j < list2.size(); ++j)
+						if (list2[j])
+						{
+							items << list2[j];
+							before << list[i]->isVisible();
+						}
+				}
+				else
+				if (node = NodeGraphicsItem::cast(list[i]))
+				{
+					QList<ControlPoint*> list2 = node->allControlPoints();
+					for (int j=0; j < list2.size(); ++j)
+						if (list2[j])
+						{
+							items << list2[j];
+							before << list[i]->isVisible();
+						}
+				}
 			}
 		}
 	}
@@ -2594,19 +2620,74 @@ namespace Tinkercell
 	{
 		if (item && item->isVisible() != value)
 		{
+			ConnectionGraphicsItem * connection;
+			NodeGraphicsItem * node;
+			
 			items << item;
 			before << item->isVisible();
+			
+			if (connection = ConnectionGraphicsItem::cast(item))
+			{
+				QList<QGraphicsItem*> list2 = connection->controlPointsAsGraphicsItems();
+				list2 << connection->arrowHeadsAsGraphicsItems();
+				if (connection->centerRegionItem)
+					list2 << connection->centerRegionItem;
+				for (int j=0; j < list2.size(); ++j)
+					if (list2[j])
+					{
+						items << list2[j];
+						before << item->isVisible();
+					}
+			}
+			else
+			if (node = NodeGraphicsItem::cast(item))
+			{
+				QList<ControlPoint*> list2 = node->allControlPoints();
+				for (int j=0; j < list2.size(); ++j)
+					if (list2[j])
+					{
+						items << list2[j];
+						before << item->isVisible();
+					}
+			}
 		}
 	}
 
 	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, bool value)
 	{
+		ConnectionGraphicsItem * connection;
+		NodeGraphicsItem * node;
 		for (int i=0; i < list.size(); ++i)
 		{
 			if (list[i] && list[i]->isVisible() != value)
 			{
 				items << list[i];
 				before << list[i]->isVisible();
+				
+				if (connection = ConnectionGraphicsItem::cast(list[i]))
+				{
+					QList<QGraphicsItem*> list2 = connection->controlPointsAsGraphicsItems();
+					list2 << connection->arrowHeadsAsGraphicsItems();
+					if (connection->centerRegionItem)
+						list2 << connection->centerRegionItem;
+					for (int j=0; j < list2.size(); ++j)
+						if (list2[j])
+						{
+							items << list2[j];
+							before << list[i]->isVisible();
+						}
+				}
+				else
+				if (node = NodeGraphicsItem::cast(list[i]))
+				{
+					QList<ControlPoint*> list2 = node->allControlPoints();
+					for (int j=0; j < list2.size(); ++j)
+						if (list2[j])
+						{
+							items << list2[j];
+							before << list[i]->isVisible();
+						}
+				}
 			}
 		}
 	}

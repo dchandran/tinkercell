@@ -53,8 +53,8 @@ namespace Tinkercell
         Tool::setMainWindow(main);
         if (mainWindow)
         {
-            connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
-                    this,SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
+            //connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
+              //      this,SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
 
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
                     this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
@@ -472,13 +472,14 @@ namespace Tinkercell
                         if (child->graphicsItems[j])
                             for (int k=0; k < child->parent->graphicsItems.size(); ++k)
                             {
-                            if (child->parent->graphicsItems[k] &&
-                                child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect()))
-                            {
-                                stillWithParent = true;
-                                break;
-                            }
-                        }
+								if (child->parent->graphicsItems[k] &&
+									(!child->parent->graphicsItems[k]->isVisible() ||
+									child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect())))
+								{
+									stillWithParent = true;
+									break;
+								}
+							}
                         if (stillWithParent)
                             break;
                     }

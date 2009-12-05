@@ -188,6 +188,7 @@ namespace Tinkercell
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
+		setVisible(copy.isVisible());
 
 		/**copy handle**/
 		className = copy.className;

@@ -83,12 +83,12 @@ QGraphicsTextItem(parent), relativePosition(QPair<QGraphicsItem*,QPointF>(0,QPoi
 	boundingRectItem->setVisible(false);
 }
 /*! Copy Constructor */
-TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) :
-QGraphicsTextItem(), relativePosition(copy.relativePosition)
+TextGraphicsItem::TextGraphicsItem(const TextGraphicsItem& copy) : QGraphicsTextItem(), relativePosition(copy.relativePosition)
 {
 	setPos(copy.scenePos());
 	setTransform(copy.transform());
 	setDefaultTextColor(copy.defaultTextColor());
+	setVisible(copy.isVisible());
 	//setDocument(copy.document());
 	setFont(copy.font());
 	setHtml (copy.toHtml());

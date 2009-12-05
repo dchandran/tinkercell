@@ -595,22 +595,24 @@ namespace Tinkercell
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{
-							if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
-								!(node->className == ModuleLinkerItem::CLASSNAME))
-							{
-								for (int l=0; l < handle->graphicsItems.size(); ++l)
+							if (child->graphicsItems[k] && !child->graphicsItems[k]->isVisible())
+								inside = true;
+							else
+								if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
+									!(node->className == ModuleLinkerItem::CLASSNAME))
 								{
-									if (handle->graphicsItems[l] &&
-										(!handle->graphicsItems[l]->isVisible() ||
-										handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect())))
+									for (int l=0; l < handle->graphicsItems.size(); ++l)
 									{
-										inside = true;
-										break;
+										if (handle->graphicsItems[l] &&
+											handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect()))
+										{
+											inside = true;
+											break;
+										}
 									}
+									if (inside)
+										break;
 								}
-								if (inside)
-									break;
-							}
 						}
 
 						if (inside)
@@ -1146,7 +1148,7 @@ namespace Tinkercell
     {
 		if (!scene || !item || modifier) return;
 		ItemHandle * handle = getHandle(item);
-		NodeGraphicsItem * moduleItem;
+		NodeGraphicsItem * moduleItem, *node;
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
 			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect()),
@@ -1185,7 +1187,8 @@ namespace Tinkercell
 				{
 					if (moduleItem != childItems[i] && 
 						collidingItems.contains(childItems[i]) &&
-						getHandle(childItems[i]) != handle)
+						getHandle(childItems[i]) != handle &&
+						!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
 						hideItems << childItems[i];
 				}
 				scene->hide(handle->fullName() + tr(" compressed"),hideItems);

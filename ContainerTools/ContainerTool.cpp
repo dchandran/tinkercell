@@ -21,7 +21,7 @@
 
 namespace Tinkercell
 {
-    ContainerTreeTool::ContainerTreeTool() : Tool(tr("Attributes View"))
+    ContainerTreeTool::ContainerTreeTool() : Tool(tr("Compartment Tool"))
     {
         treeView = new QTreeView(this);
         treeView->setAlternatingRowColors(true);
@@ -39,23 +39,22 @@ namespace Tinkercell
         layout->setContentsMargins(0,0,0,0);
         layout->setSpacing(0);
         setLayout(layout);
-
     }
+
     ContainerTreeTool::~ContainerTreeTool()
     {
         if (treeDelegate)
             delete treeDelegate;
-        if (treeView->model())
+
+		if (treeView->model())
             delete treeView->model();
     }
+
     bool ContainerTreeTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
         if (mainWindow)
         {
-            //connect(mainWindow,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
-              //      this,SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
-
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
                     this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
@@ -758,8 +757,8 @@ namespace Tinkercell
     }
 
     /********************************
-              TREE DELEGATE
-        ******************************/
+            TREE DELEGATE
+    *********************************/
 
     ContainerTreeDelegate::ContainerTreeDelegate(QTreeView *parent)
         : QItemDelegate(parent), treeView(parent)

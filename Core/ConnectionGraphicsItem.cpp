@@ -158,6 +158,7 @@ namespace Tinkercell
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
+		setVisible(copy.isVisible());
 
 		className = copy.className;
 		centerRegionItem = 0;

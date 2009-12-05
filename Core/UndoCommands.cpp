@@ -2530,6 +2530,7 @@ namespace Tinkercell
 	}
 
 	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, const QList<bool>& values)
+		: QUndoCommand(name)
 	{
 		for (int i=0; i < items.size() && i < values.size(); ++i)
 		{
@@ -2542,6 +2543,7 @@ namespace Tinkercell
 	}
 
 	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, ItemHandle* item, bool value)
+		: QUndoCommand(name)
 	{
 		if (item && item->visible != value)
 		{
@@ -2551,6 +2553,7 @@ namespace Tinkercell
 	}
 
 	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, bool value)
+		: QUndoCommand(name)
 	{
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -2579,6 +2582,7 @@ namespace Tinkercell
 	}
 	
 	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
+		: QUndoCommand(name)
 	{
 		ConnectionGraphicsItem * connection;
 		NodeGraphicsItem * node;
@@ -2595,7 +2599,7 @@ namespace Tinkercell
 					if (connection->centerRegionItem)
 						list2 << connection->centerRegionItem;
 					for (int j=0; j < list2.size(); ++j)
-						if (list2[j])
+						if (list2[j] && list[i]->isVisible() == list2[j]->isVisible())
 						{
 							items << list2[j];
 							before << list[i]->isVisible();
@@ -2606,7 +2610,7 @@ namespace Tinkercell
 				{
 					QList<ControlPoint*> list2 = node->allControlPoints();
 					for (int j=0; j < list2.size(); ++j)
-						if (list2[j])
+						if (list2[j] && list[i]->isVisible() == list2[j]->isVisible())
 						{
 							items << list2[j];
 							before << list[i]->isVisible();
@@ -2617,6 +2621,7 @@ namespace Tinkercell
 	}
 
 	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, QGraphicsItem* item, bool value)
+		: QUndoCommand(name)
 	{
 		if (item && item->isVisible() != value)
 		{
@@ -2633,7 +2638,7 @@ namespace Tinkercell
 				if (connection->centerRegionItem)
 					list2 << connection->centerRegionItem;
 				for (int j=0; j < list2.size(); ++j)
-					if (list2[j])
+					if (list2[j] && item->isVisible() == list2[j]->isVisible())
 					{
 						items << list2[j];
 						before << item->isVisible();
@@ -2644,7 +2649,7 @@ namespace Tinkercell
 			{
 				QList<ControlPoint*> list2 = node->allControlPoints();
 				for (int j=0; j < list2.size(); ++j)
-					if (list2[j])
+					if (list2[j] && item->isVisible() == list2[j]->isVisible())
 					{
 						items << list2[j];
 						before << item->isVisible();
@@ -2654,6 +2659,7 @@ namespace Tinkercell
 	}
 
 	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, bool value)
+		: QUndoCommand(name)
 	{
 		ConnectionGraphicsItem * connection;
 		NodeGraphicsItem * node;
@@ -2671,7 +2677,7 @@ namespace Tinkercell
 					if (connection->centerRegionItem)
 						list2 << connection->centerRegionItem;
 					for (int j=0; j < list2.size(); ++j)
-						if (list2[j])
+						if (list2[j] && list[i]->isVisible() == list2[j]->isVisible())
 						{
 							items << list2[j];
 							before << list[i]->isVisible();
@@ -2682,7 +2688,7 @@ namespace Tinkercell
 				{
 					QList<ControlPoint*> list2 = node->allControlPoints();
 					for (int j=0; j < list2.size(); ++j)
-						if (list2[j])
+						if (list2[j] && list[i]->isVisible() == list2[j]->isVisible())
 						{
 							items << list2[j];
 							before << list[i]->isVisible();

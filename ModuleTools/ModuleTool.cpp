@@ -601,7 +601,8 @@ namespace Tinkercell
 								for (int l=0; l < handle->graphicsItems.size(); ++l)
 								{
 									if (handle->graphicsItems[l] &&
-										handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect()))
+										(!handle->graphicsItems[l]->isVisible() ||
+										handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect())))
 									{
 										inside = true;
 										break;
@@ -1187,12 +1188,25 @@ namespace Tinkercell
 						getHandle(childItems[i]) != handle)
 						hideItems << childItems[i];
 				}
-			
 				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
 			}
 			else
 			{
-				scene->show(handle->fullName() + tr(" compressed"),hideItems);
+				QRectF rect;
+				for (int i=0; i < hideItems.size(); ++i)				
+					rect = rect.united(hideItems[i]->sceneBoundingRect());
+				rect.adjust(-10,-10,10,10);
+				QPointF p1 = rect.topLeft() - moduleItem->sceneBoundingRect().topLeft(),
+						p2 = rect.bottomRight() - moduleItem->sceneBoundingRect().bottomRight();
+				
+				if (moduleItem->boundaryControlPoints.size() > 1 && moduleItem->boundaryControlPoints[0] && moduleItem->boundaryControlPoints[1])
+				{
+					scene->move(QList<QGraphicsItem*>() << moduleItem->boundaryControlPoints[0] << moduleItem->boundaryControlPoints[0], 
+								QList<QPointF>() << (p1 - moduleItem->boundaryControlPoints[0]->scenePos()) 
+												 << (p2 - moduleItem->boundaryControlPoints[0]->scenePos()));
+				}
+				
+				scene->show(handle->fullName() + tr(" decompressed"),hideItems);
 			}
 		}
     }

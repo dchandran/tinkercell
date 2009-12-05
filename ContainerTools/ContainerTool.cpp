@@ -471,18 +471,15 @@ namespace Tinkercell
                     {
                         if (child->graphicsItems[j])
 						{
-							if (!child->graphicsItems[j]->isVisible())
-								stillWithParent = true;
-							else
-								for (int k=0; k < child->parent->graphicsItems.size(); ++k)
+							for (int k=0; k < child->parent->graphicsItems.size(); ++k)
+							{
+								if (child->parent->graphicsItems[k] &&
+									child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect()))
 								{
-									if (child->parent->graphicsItems[k] &&
-										child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect()))
-									{
-										stillWithParent = true;
-										break;
-									}
+									stillWithParent = true;
+									break;
 								}
+							}
 						}
                         if (stillWithParent)
                             break;
@@ -729,11 +726,11 @@ namespace Tinkercell
 			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
 			{
 				for (int k=0; k < child->graphicsItems.size(); ++k)
-					if (child->graphicsItems[j])
+					if (child->graphicsItems[k])
 					{
 						QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
 						QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-						if (!child->graphicsItems[j]->isVisible() || p1.intersects(p2) || p1.contains(p2))
+						if (!child->graphicsItems[k]->isVisible() || p1.intersects(p2) || p1.contains(p2))
 						{
 							outOfBox = false; //yes, still contained inside the module/Compartment
 							break;

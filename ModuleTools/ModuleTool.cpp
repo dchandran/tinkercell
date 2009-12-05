@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include <QDir>
+#include <QMessageBox>
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
@@ -1142,13 +1143,43 @@ namespace Tinkercell
 	
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
-		if (!scene || !item || modifier) return;
+		/*if (!scene || !item || modifier) return;
 		ItemHandle * handle = getHandle(item);
-		if (handle && handle->isA(tr("Module")) && NodeGraphicsItem::cast(item))
+		NodeGraphicsItem * moduleItem;
+		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
-			moduleItem = NodeGraphicsItem::cast(item);
+			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect()),
+								  childItems = handle->allGraphicsItems(),
+								  hideItems;
 			
-		}
+			ConnectionGraphicsItem * connection;
+			
+			for (int i=0; i < collidingItems.size(); ++i)
+				if (
+					(connection = ConnectionGraphicsItem::cast(collidingItems[i]))
+					&&
+					!(connection->handle() && connection->handle()->isChildOf(handle))
+					)
+			{
+				QMessageBox::information(this,tr("Cannot compress module"), 
+					message(tr("This module cannot be compressed due to ") + connection->handle()->fullName()));
+			}
+			
+			bool b = true;
+			for (int i=0; i < childItems.size(); ++i)
+			{
+				if (collidingItems.contains(childItems[i]))
+				{
+					hideItems << childItems[i];
+					b = b && childItems[i]->isVisible();
+				}
+			}
+			
+			if (b)
+				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
+			else
+				scene->show(handle->fullName() + tr(" compressed"),hideItems);
+		}*/
     }
 }
 

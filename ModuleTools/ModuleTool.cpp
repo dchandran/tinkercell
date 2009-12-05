@@ -1201,12 +1201,12 @@ namespace Tinkercell
 				
 				if (moduleItem->boundaryControlPoints.size() > 1 && moduleItem->boundaryControlPoints[0] && moduleItem->boundaryControlPoints[1])
 				{
-					scene->move(QList<QGraphicsItem*>() << moduleItem->boundaryControlPoints[0] << moduleItem->boundaryControlPoints[0], 
+					scene->move(QList<QGraphicsItem*>() << moduleItem->boundaryControlPoints[0] << moduleItem->boundaryControlPoints[1], 
 								QList<QPointF>() << (p1 - moduleItem->boundaryControlPoints[0]->scenePos()) 
-												 << (p2 - moduleItem->boundaryControlPoints[0]->scenePos()));
+												 << (p2 - moduleItem->boundaryControlPoints[1]->scenePos()));
 				}
 				
-				scene->show(handle->fullName() + tr(" decompressed"),hideItems);
+				scene->show(handle->fullName() + tr(" decompressed"),childItems);
 			}
 		}
     }

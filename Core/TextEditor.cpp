@@ -404,34 +404,45 @@ namespace Tinkercell
 	void TextEditor::TextEditorWidget::setup()
 	{
 		if (!splitter) return;
-
-		QTableWidget * tableWidget;
-
+		
+		int w = 20;
+		
+		for (int i=0; i < sideBarWidgets.size(); ++i)
+			if (sideBarWidgets[i])
+			{
+				sideBarWidgets[i]->setParent(0);
+				if (sideBarWidgets[i]->width() > w)
+					w =sideBarWidgets[i]->width();
+			}
+		
 		if (sideBar)
 		{
-			tableWidget = static_cast<QTableWidget*>(sideBar);
+			sideBar->setParent(0);
+			delete sideBar;
 		}
-		else
-		{
-			sideBar = tableWidget = new QTableWidget;
-			tableWidget->setGridStyle(Qt::NoPen);
-			//tableWidget->setFixedWidth( 50 );
-			splitter->addWidget(tableWidget);
-			splitter->setStretchFactor(0,200);
-			splitter->setStretchFactor(1,0);
-		}
-
-
-		tableWidget->setRowCount(sideBarWidgets.size());
-		tableWidget->setColumnCount(1);
-		tableWidget->horizontalHeader()->hide();
-		tableWidget->verticalHeader()->hide();
-
+		
+		
+		QWidget * widget = new QWidget;
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->setContentsMargins(5,5,5,5);
+		layout->setSpacing(20);
+		
 		for (int i=0; i < sideBarWidgets.size(); ++i)
-			if (sideBarWidgets[i] && (!tableWidget->cellWidget(i,0) || !sideBarWidgets.contains(tableWidget->cellWidget(i,0))))
-			{
-				tableWidget->setCellWidget(i,0,sideBarWidgets[i]);
-			}
+			if (sideBarWidgets[i])
+				layout->addWidget(sideBarWidgets[i]);
+		
+		widget->setLayout(layout);
+		widget->setPalette(QPalette(QColor(255,255,255)));
+		widget->setAutoFillBackground (true);
+
+		QScrollArea * scrollArea = new QScrollArea;
+		scrollArea->setWidget(widget);
+		scrollArea->setPalette(QPalette(QColor(255,255,255)));
+		scrollArea->setAutoFillBackground (true);
+		
+		sideBar = scrollArea;
+		sideBar->setFixedWidth(w+10);
+		splitter->addWidget(sideBar);
 	}
 
 	/*! \brief get the console window (same as mainWindow->console())*/

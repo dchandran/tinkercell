@@ -105,6 +105,4 @@ namespace Tinkercell
 	};
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
-
 #endif

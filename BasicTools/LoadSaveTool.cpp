@@ -908,12 +908,3 @@ namespace Tinkercell
 	}
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
-
-	Tinkercell::LoadSaveTool * loadSaveTool = new Tinkercell::LoadSaveTool;
-	main->addTool(loadSaveTool);
-
-}
-

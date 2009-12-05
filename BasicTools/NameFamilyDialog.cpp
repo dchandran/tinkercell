@@ -485,11 +485,3 @@ namespace Tinkercell
 }
 
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
-
-	Tinkercell::NameFamilyDialog * nameFamilyDialog = new Tinkercell::NameFamilyDialog;
-	main->addTool(nameFamilyDialog);
-
-}

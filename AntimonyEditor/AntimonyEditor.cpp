@@ -22,6 +22,7 @@
 #include "ModelFileGenerator.h"
 #include "ModelSummaryTool.h"
 #include <QToolButton>
+#include <QRegExp>
 #include <QFile>
 #include <QPair>
 #include <QRegExp>
@@ -33,11 +34,12 @@
 
 namespace Tinkercell
 {
+	AntimonyEditor_FtoS AntimonyEditor::fToS;
+	
 	AntimonyEditor::AntimonyEditor() : TextParser(tr("Antimony Parser"))
 	{
 		scriptDisplayWindow = new CodeEditor(this);
 		icon = QPixmap(tr(":/images/antimony.png"));
-		connectTCFunctions();
 	}
 
 	bool AntimonyEditor::setMainWindow(MainWindow * main)
@@ -47,11 +49,14 @@ namespace Tinkercell
 		{
 			mainWindow->addParser(this);
 			
+			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));			
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
+			
+			connectTCFunctions();
 		}
 		return false;
 	}
@@ -761,6 +766,9 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadSBMLStringSlot(QSemaphore* s,const QString& sbml)
 	{
+		if (mainWindow)
+			mainWindow->newTextWindow();
+			
 		if (currentTextEditor() && loadString (sbml.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
@@ -772,6 +780,9 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadAntimonyStringSlot(QSemaphore* s,const QString& ant)
 	{
+		if (mainWindow)
+			mainWindow->newTextWindow();
+			
 		if (currentTextEditor())
 		{
 			currentTextEditor()->setText(ant);
@@ -781,10 +792,21 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadSBMLFileSlot(QSemaphore* s,const QString& file)
 	{
+		if (mainWindow)
+			mainWindow->newTextWindow();
+			
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));
+			
+			if (mainWindow->currentWindow())
+			{
+				QRegExp regexp(tr("([A-Za-z_0-9]+)\\."));
+				regexp.indexIn(file);
+				if (regexp.numCaptures() > 0)
+					mainWindow->currentWindow()->setWindowTitle(regexp.cap(1));
+			}
 		}
 		
 		if (s) s->release();
@@ -792,10 +814,21 @@ namespace Tinkercell
 	
 	void AntimonyEditor::loadAntimonyFileSlot(QSemaphore* s,const QString& file)
 	{
+		if (mainWindow)
+			mainWindow->newTextWindow();
+		
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));
+			
+			if (mainWindow->currentWindow())
+			{
+				QRegExp regexp(tr("([A-Za-z_0-9]+)\\."));
+				regexp.indexIn(file);
+				if (regexp.numCaptures() > 0)
+					mainWindow->currentWindow()->setWindowTitle(regexp.cap(1));
+			}
 		}
 		
 		if (s) s->release();
@@ -810,6 +843,7 @@ namespace Tinkercell
 	
 	void AntimonyEditor::getAntimonyStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString& ant)
 	{
+		console()->message("here");
 		ant = getAntimonyScript(items);
 		if (s) s->release();
 	}
@@ -836,9 +870,7 @@ namespace Tinkercell
 		if (s) s->release();
 	}
 	
-	AntimonyEditor_FtoS AntimonyEditor::fToS;
-	
-	typedef void (*tc_PlotTool_api)(
+	typedef void (*tc_Antimony_api)(
 				void (*loadAntimonyString)(const char *),
 				void (*loadSBMLFile)(const char *),
 				void (*loadAntimonyFile)(const char *),
@@ -849,7 +881,7 @@ namespace Tinkercell
 	
 	void AntimonyEditor::setupFunctionPointers( QLibrary * library)
 	{
-		tc_PlotTool_api f = (tc_PlotTool_api)library->resolve("tc_Antimony_api");
+		tc_Antimony_api f = (tc_Antimony_api)library->resolve("tc_Antimony_api");
 		if (f)
 		{
 			f(
@@ -866,28 +898,30 @@ namespace Tinkercell
 	
 	void AntimonyEditor::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(loadSBMLString(QSemaphore*,const QString&)),
+		console()->message("here");
+		
+		connect(&fToS,SIGNAL(loadSBMLStringSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadSBMLStringSlot(QSemaphore*,const QString&)));
 		
-		connect(&fToS,SIGNAL(loadAntimonyString(QSemaphore*,const QString&)),
+		connect(&fToS,SIGNAL(loadAntimonyStringSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadAntimonyStringSlot(QSemaphore*,const QString&)));
 		
-		connect(&fToS,SIGNAL(loadSBMLFile(QSemaphore*,const QString&)),
+		connect(&fToS,SIGNAL(loadSBMLFileSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadSBMLFileSlot(QSemaphore*,const QString&)));
 				
-		connect(&fToS,SIGNAL(loadAntimonyFile(QSemaphore*,const QString&)),
+		connect(&fToS,SIGNAL(loadAntimonyFileSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadAntimonyFileSlot(QSemaphore*,const QString&)));
 				
-		connect(&fToS,SIGNAL(getSBMLString(QSemaphore*,const QList<ItemHandle*>&, QString&)),
+		connect(&fToS,SIGNAL(getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&)),
 				this,SLOT(getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&)));
 		
-		connect(&fToS,SIGNAL(getAntimonyString(QSemaphore*,const QList<ItemHandle*>&, QString&)),
+		connect(&fToS,SIGNAL(getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&)),
 				this,SLOT(getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&)));
 		
-		connect(&fToS,SIGNAL(writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
+		connect(&fToS,SIGNAL(writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
 				this,SLOT(writeSBMLFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&)));
 		
-		connect(&fToS,SIGNAL(writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
+		connect(&fToS,SIGNAL(writeAntimonyFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
 				this,SLOT(writeAntimonyFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&)));
 	}
 	
@@ -895,7 +929,7 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit loadSBMLString(s,tr(c));
+		emit loadSBMLStringSignal(s,tr(c));
 		s->acquire();
 		s->release();
 		delete s;
@@ -904,7 +938,7 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit loadAntimonyString(s,tr(c));
+		emit loadAntimonyStringSignal(s,tr(c));
 		s->acquire();
 		s->release();
 		delete s;
@@ -913,7 +947,7 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit loadSBMLFile(s,tr(c));
+		emit loadSBMLFileSignal(s,tr(c));
 		s->acquire();
 		s->release();
 		delete s;
@@ -922,7 +956,7 @@ namespace Tinkercell
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit loadAntimonyFile(s,tr(c));
+		emit loadAntimonyFileSignal(s,tr(c));
 		s->acquire();
 		s->release();
 		delete s;
@@ -933,7 +967,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit getSBMLString(s,*list,str);
+		emit getSBMLStringSignal(s,*list,str);
 		delete list;
 		s->acquire();
 		s->release();
@@ -946,7 +980,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit getAntimonyString(s,*list,str);
+		emit getAntimonyStringSignal(s,*list,str);
 		delete list;
 		s->acquire();
 		s->release();
@@ -958,7 +992,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit writeSBMLFile(s,*list,tr(c));
+		emit writeSBMLFileSignal(s,*list,tr(c));
 		delete list;
 		s->acquire();
 		s->release();
@@ -969,14 +1003,13 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit writeAntimonyFile(s,*list,tr(c));
+		emit writeAntimonyFileSignal(s,*list,tr(c));
 		delete list;
 		s->acquire();
 		s->release();
 		delete s;
 	}
 
-	
 	void AntimonyEditor::_loadSBMLString(const char * c)
 	{
 		fToS.loadSBMLString(c);

@@ -41,15 +41,18 @@ namespace Tinkercell
 	class AntimonyEditor_FtoS : public QObject
 	{
 		Q_OBJECT
+	
+	public:
+	
 	signals:
-		void loadSBMLString(QSemaphore*,const QString&);
-		void loadAntimonyString(QSemaphore*,const QString&);
-		void loadSBMLFile(QSemaphore*,const QString&);
-		void loadAntimonyFile(QSemaphore*,const QString&);
-		void getSBMLString(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void getAntimonyString(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void writeSBMLFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
-		void writeAntimonyFile(QSemaphore*,const QList<ItemHandle*>&, const QString&);
+		void loadSBMLStringSignal(QSemaphore*,const QString&);
+		void loadAntimonyStringSignal(QSemaphore*,const QString&);
+		void loadSBMLFileSignal(QSemaphore*,const QString&);
+		void loadAntimonyFileSignal(QSemaphore*,const QString&);
+		void getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
+		void writeAntimonyFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 	public:
 		void loadSBMLString(const char *);
 		void loadAntimonyString(const char *);

@@ -75,7 +75,8 @@ namespace Tinkercell
 
             treeView->setColumnWidth(0,50);
             treeView->setColumnWidth(2,20);
-			setWindowTitle(name);
+			
+			setWindowTitle(tr("Model parameters"));
 			setWindowIcon(QIcon(tr(":/images/new.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 

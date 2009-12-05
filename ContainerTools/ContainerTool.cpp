@@ -470,16 +470,20 @@ namespace Tinkercell
                     for (int j=0; j < child->graphicsItems.size(); ++j)
                     {
                         if (child->graphicsItems[j])
-                            for (int k=0; k < child->parent->graphicsItems.size(); ++k)
-                            {
-								if (child->parent->graphicsItems[k] &&
-									(!child->parent->graphicsItems[k]->isVisible() ||
-									child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect())))
+						{
+							if (!child->graphicsItems[j]->isVisible())
+								stillWithParent = true;
+							else
+								for (int k=0; k < child->parent->graphicsItems.size(); ++k)
 								{
-									stillWithParent = true;
-									break;
+									if (child->parent->graphicsItems[k] &&
+										child->parent->graphicsItems[k]->sceneBoundingRect().contains(child->graphicsItems[j]->sceneBoundingRect()))
+									{
+										stillWithParent = true;
+										break;
+									}
 								}
-							}
+						}
                         if (stillWithParent)
                             break;
                     }

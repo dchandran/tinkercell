@@ -536,13 +536,16 @@ namespace Tinkercell
 		
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (items[i] && !list.contains(items[i]) && rect.intersects(items[i]->sceneBoundingRect()))
+			if (items[i] && !list.contains(items[i]) && (!items[i]->isVisible() || rect.intersects(items[i]->sceneBoundingRect())))
 			{
 				list << items[i];
-				rect = rect.united(items[i]->sceneBoundingRect());
-				rect.adjust( -dx, -dx, dx, dx );
+				if (items[i]->isVisible())
+				{
+					rect = rect.united(items[i]->sceneBoundingRect());
+					rect.adjust( -dx, -dx, dx, dx );
+					i = 0;
+				}
 				items[i] = 0;
-				i = 0;
 			}
 		}
 		

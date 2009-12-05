@@ -1173,19 +1173,27 @@ namespace Tinkercell
 			bool b = true;
 			for (int i=0; i < childItems.size(); ++i)
 			{
-				if (moduleItem != childItems[i] && 
-					collidingItems.contains(childItems[i]) &&
-					getHandle(childItems[i]) != handle)
-				{
-					hideItems << childItems[i];
-					b = b && childItems[i]->isVisible();
-				}
+				b = b && childItems[i]->isVisible();
+				if (!b)
+					break;
 			}
 			
 			if (b)
+			{
+				for (int i=0; i < childItems.size(); ++i)
+				{
+					if (moduleItem != childItems[i] && 
+						collidingItems.contains(childItems[i]) &&
+						getHandle(childItems[i]) != handle)
+						hideItems << childItems[i];
+				}
+			
 				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
+			}
 			else
+			{
 				scene->show(handle->fullName() + tr(" compressed"),hideItems);
+			}
 		}
     }
 }

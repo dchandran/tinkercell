@@ -321,31 +321,32 @@ namespace Tinkercell
                         childRect = child->graphicsItems[j]->sceneBoundingRect();
                         contained0 = false;
                         for (int l=0; l < handle->graphicsItems.size(); ++l)
-                        {
-                            if (connection)
-                            {
-                                if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect()))
-                                {
-                                    contained0 = true;
-                                    break;
-                                }
-                                else
-                                    if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect(),false))
-                                    {
-                                    if (child && !specialCaseChildren.contains(child))
-                                    {
-                                        specialCaseChildren += child;
-                                        specialCaseParents += handle;
-                                    }
-                                }
-                            }
-                            else
-                                if (handle->graphicsItems[l]->sceneBoundingRect().contains(childRect))
-                                {
-                                contained0 = true;
-                                break;
-                            }
-                        }
+							if (handle->graphicsItems[l] && handle->graphicsItems[l]->isVisible())
+							{
+								if (connection)
+								{
+									if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect()))
+									{
+										contained0 = true;
+										break;
+									}
+									else
+										if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect(),false))
+										{
+											if (child && !specialCaseChildren.contains(child))
+											{
+												specialCaseChildren += child;
+												specialCaseParents += handle;
+											}
+										}
+								}
+								else
+									if (handle->graphicsItems[l]->sceneBoundingRect().contains(childRect))
+									{
+										contained0 = true;
+										break;
+									}
+							}
                         if (!contained0)
                         {
                             contained = false;
@@ -723,15 +724,16 @@ namespace Tinkercell
 			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
 			{
 				for (int k=0; k < child->graphicsItems.size(); ++k)
-				{
-					QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
-					QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-					if (p1.intersects(p2) || p1.contains(p2))
+					if (child->graphicsItems[j])
 					{
-						outOfBox = false; //yes, still contained inside the module/Compartment
-						break;
+						QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
+						QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
+						if (!child->graphicsItems[j]->isVisible() || p1.intersects(p2) || p1.contains(p2))
+						{
+							outOfBox = false; //yes, still contained inside the module/Compartment
+							break;
+						}
 					}
-				}
 				if (!outOfBox) break;
 			}
 			if (outOfBox)

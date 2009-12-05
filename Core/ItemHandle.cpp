@@ -156,11 +156,6 @@ namespace Tinkercell
 		parent = 0;
 		if (data)
 		{
-		    QString s = QString::number((int)data);
-		    QList<QString> keys = data->numericalData.keys();
-		    for (int i=0; i < keys.size(); ++i)
-                s += QString(" ") + QString::number((int)(&(data->numericalData.value(keys[i]))));
-
             delete data;
 			data = 0;
 		}

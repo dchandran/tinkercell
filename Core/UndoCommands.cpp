@@ -2577,4 +2577,53 @@ namespace Tinkercell
 			handles[i]->visible = before[i];
 		}
 	}
+	
+	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
+	{
+		for (int i=0; i < list.size() && i < values.size(); ++i)
+		{
+			if (list[i] && list[i]->isVisible() != values[i])
+			{
+				items << list[i];
+				before << list[i]->isVisible();
+			}
+		}
+	}
+
+	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, QGraphicsItem* item, bool value)
+	{
+		if (item && item->isVisible() != value)
+		{
+			items << item;
+			before << item->isVisible();
+		}
+	}
+
+	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, bool value)
+	{
+		for (int i=0; i < list.size(); ++i)
+		{
+			if (list[i] && list[i]->isVisible() != value)
+			{
+				items << list[i];
+				before << list[i]->isVisible();
+			}
+		}
+	}
+
+	void SetGraphicsVisibilityCommand::redo()
+	{
+		for (int i=0; i < items.size() && i < before.size(); ++i)
+		{
+			items[i]->setVisible(!before[i]);
+		}
+	}
+
+	void SetGraphicsVisibilityCommand::undo()
+	{
+		for (int i=0; i < items.size() && i < before.size(); ++i)
+		{
+			items[i]->setVisible(before[i]);
+		}
+	}
 }

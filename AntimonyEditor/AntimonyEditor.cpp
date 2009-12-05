@@ -7,6 +7,7 @@
 
 ****************************************************************************/
 
+#include <QClipboard>
 #include "TextEditor.h"
 #include "NetworkWindow.h"
 #include "UndoCommands.h"
@@ -631,6 +632,18 @@ namespace Tinkercell
 			QString s = getAntimonyScript(handle->allChildren());
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
+		}
+	}
+	
+	void AntimonyEditor::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
+	{
+		if (scene && handles.size() > 0)
+		{
+			QClipboard * clipboard = QApplication::clipboard();
+			if (clipboard)
+			{
+				clipboard->setText( getAntimonyScript(handles) );
+			}
 		}
 	}
 	

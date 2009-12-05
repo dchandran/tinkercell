@@ -102,7 +102,10 @@ namespace Tinkercell
         * \brief insert module(s) in the scene
         */
 		void insertModule();
-		
+		/*!
+        * \brief copy the antimony script of items as they are copied
+        */
+		void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 	signals:
 		/*! \brief invalid syntax*/
 		void validSyntax(bool);

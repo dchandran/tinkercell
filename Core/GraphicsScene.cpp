@@ -445,9 +445,20 @@ namespace Tinkercell
 	{
 		if (!item || item->scene() == this) return;
 		QGraphicsScene::addItem(item);
-		item->setVisible(true);
-		item->setZValue(lastZ);
-		lastZ += 1.0;
+		
+		item->setVisible( item->isVisible() );
+		
+		if (item->zValue())
+		{
+			item->setZValue(item->zValue());
+			if (item->zValue() > lastZ)
+				lastZ = item->zValue();
+		}
+		else
+		{
+			item->setZValue(lastZ);
+			lastZ += 1.0;
+		}
 
 		QGraphicsItem * item2 = getGraphicsItem(item);
 
@@ -2236,6 +2247,85 @@ namespace Tinkercell
 		if (networkWindow)
 			return networkWindow->allHandles();
 		return QList<ItemHandle*>();
+	}
+	
+	/*! \brief show item*/
+	void GraphicsScene::show(const QString& name, QGraphicsItem* item)
+	{
+		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, item, true);
+
+		if (historyStack)
+			historyStack->push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+	}
+	/*! \brief show items*/
+	void GraphicsScene::show(const QString& name, const QList<QGraphicsItem*>& items)
+	{
+		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, items, true);
+
+		if (historyStack)
+			historyStack->push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+	}
+	/*! \brief hide item*/
+	void GraphicsScene::hide(const QString& name, QGraphicsItem* item)
+	{
+		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, item, false);
+
+		if (historyStack)
+			historyStack->push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+	}
+	/*! \brief hide items*/
+	void GraphicsScene::hide(const QString& name, const QList<QGraphicsItem*>& items)
+	{
+		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, items, false);
+
+		if (historyStack)
+			historyStack->push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+	}
+	/*! \brief show handle that was hidden*/
+	void GraphicsScene::show(const QString& name, ItemHandle* handle)
+	{
+		if (networkWindow)
+			networkWindow->show(name,handle);
+	}
+	
+	/*! \brief show handles that were hidden*/
+	void GraphicsScene::show(const QString& name, const QList<ItemHandle*>& handles)
+	{
+		if (networkWindow)
+			networkWindow->show(name,handles);
+	}
+	
+	/*! \brief hide handle*/
+	void GraphicsScene::hide(const QString& name, ItemHandle* handle)
+	{
+		if (networkWindow)
+			networkWindow->hide(name,handle);
+	}
+	/*! \brief hide handles*/
+	void GraphicsScene::hide(const QString& name, const QList<ItemHandle*>& handles)
+	{
+		if (networkWindow)
+			networkWindow->hide(name,handles);
 	}
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;

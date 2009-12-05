@@ -1143,7 +1143,7 @@ namespace Tinkercell
 	
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
-		/*if (!scene || !item || modifier) return;
+		if (!scene || !item || modifier) return;
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem;
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
@@ -1161,14 +1161,21 @@ namespace Tinkercell
 					!(connection->handle() && connection->handle()->isChildOf(handle))
 					)
 			{
-				QMessageBox::information(this,tr("Cannot compress module"), 
-					message(tr("This module cannot be compressed due to ") + connection->handle()->fullName()));
+				if (connection->handle())
+					QMessageBox::information(this,tr("Cannot compress module"), 
+						tr("This module cannot be compressed due to ") + connection->handle()->fullName());
+				else
+					QMessageBox::information(this,tr("Cannot compress module"), 
+						tr("Please adjust any connections that are intersecting the module before compressing it."));
+				return;
 			}
 			
 			bool b = true;
 			for (int i=0; i < childItems.size(); ++i)
 			{
-				if (collidingItems.contains(childItems[i]))
+				if (moduleItem != childItems[i] && 
+					collidingItems.contains(childItems[i]) &&
+					getHandle(childItems[i]) != handle)
 				{
 					hideItems << childItems[i];
 					b = b && childItems[i]->isVisible();
@@ -1179,7 +1186,7 @@ namespace Tinkercell
 				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
 			else
 				scene->show(handle->fullName() + tr(" compressed"),hideItems);
-		}*/
+		}
     }
 }
 

@@ -620,6 +620,26 @@ namespace Tinkercell
 
 		emit dataChanged(handles);
 	}
+	
+	void NetworkWindow::show(const QString& name, ItemHandle* handle)
+	{
+		history.push(new SetHandleVisibilityCommand(name, handle, true));
+	}
+	
+	void NetworkWindow::show(const QString& name, const QList<ItemHandle*>& handles)
+	{
+		history.push(new SetHandleVisibilityCommand(name, handles, true));
+	}
+	
+	void NetworkWindow::hide(const QString& name, ItemHandle* handle)
+	{
+		history.push(new SetHandleVisibilityCommand(name, handle, false));
+	}
+	
+	void NetworkWindow::hide(const QString& name, const QList<ItemHandle*>& handles)
+	{
+		history.push(new SetHandleVisibilityCommand(name, handles, false));
+	}
 
 
 	/*! \brief update symbols table*/

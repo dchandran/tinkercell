@@ -34,6 +34,8 @@ ENDIF(COMMAND CMAKE_POLICY)
 #---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
+  SET(CPACK_BUNDLE_NAME "Tinkercell")
+  SET(CPACK_BUNDLE_PLIST "Tinkercell")
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------
@@ -217,9 +219,6 @@ INSTALL(FILES ${TINKERCELL_SUPPORTING_FILES} DESTINATION bin/../)
 #----------------------------------------------------------------------------
 
 INCLUDE( CMake/TinkercellCPack.cmake )
-IF (APPLE)
-   SET(CPACK_BUNDLE_NAME "Tinkercell")
-ENDIF(APPLE)
 
 # ---------------------
 # CTEST 

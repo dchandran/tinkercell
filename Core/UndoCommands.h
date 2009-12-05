@@ -605,7 +605,7 @@ namespace Tinkercell
 		NetworkWindow * net;
 	};
 
-	/*! \brief this command assigns parent(s) to one or more handles
+	/*! \brief this command is used to hide handles. Hidden handles will generally be ignored as part of the network.
 	* \ingroup undo
 	*/
 	class MY_EXPORT SetHandleVisibilityCommand : public QUndoCommand
@@ -623,6 +623,28 @@ namespace Tinkercell
 		void undo();
 	private:
 		QList<ItemHandle*> handles;
+		QList<bool> before;
+	};
+	
+	/*! \brief this command is used to hide graphics items. 
+		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.
+	* \ingroup undo
+	*/
+	class MY_EXPORT SetGraphicsVisibilityCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor*/
+		SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, const QList<bool>&);
+		/*! \brief constructor*/
+		SetGraphicsVisibilityCommand(const QString& name, QGraphicsItem*, bool);
+		/*! \brief constructor*/
+		SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, bool);
+		/*! \brief redo parent change*/
+		void redo();
+		/*! \brief undo parent change*/
+		void undo();
+	private:
+		QList<QGraphicsItem*> items;
 		QList<bool> before;
 	};
 

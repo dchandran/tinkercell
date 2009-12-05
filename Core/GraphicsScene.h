@@ -158,7 +158,7 @@ namespace Tinkercell
 		/*! \brief Constructor: sets 10000x10000 scene */
 		GraphicsScene(QWidget * parent = 0);
 		/*! \brief destructor */
-		~GraphicsScene();
+		virtual ~GraphicsScene();
 
 	public:
 		/*! \brief set the grid mode ON with the given grid size
@@ -224,115 +224,131 @@ namespace Tinkercell
 		/*! \brief paste copied items*/
 		virtual void paste();
 		/*! \brief get all the handles in the current network*/
-		QList<ItemHandle*> allHandles() const;
+		virtual QList<ItemHandle*> allHandles() const;
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QGraphicsItem * item to move
 		* \param QPointF distance to move the item
 		* \return void
 		*/
-		void move(QGraphicsItem * item, const QPointF& distance);
+		virtual void move(QGraphicsItem * item, const QPointF& distance);
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QList<QGraphicsItem*>& items to move
 		* \param QPointF distance to move the items (same for all items)
 		* \return void
 		*/
-		void move(const QList<QGraphicsItem*>& items, const QPointF& distance);
+		virtual void move(const QList<QGraphicsItem*>& items, const QPointF& distance);
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QList<QGraphicsItem*>& items to move
 		* \param QList<QPointF>& distance to move the items specified for each item
 		* \return void
 		*/
-		void move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance);
+		virtual void move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance);
 		/*! \brief this command performs an insert and also adds undo command to history window and emits associated signal(s)
 		* \param QString name of new item
 		* \param QList<QPointF>& distance to move the items specified for each item
 		* \return void
 		*/
-		void insert(const QString& name, QGraphicsItem * item);
+		virtual void insert(const QString& name, QGraphicsItem * item);
 		/*! \brief this command performs an insert and also adds undo command to history window and emits associated signal(s)*/
-		void insert(const QString& name, const QList<QGraphicsItem*>& items);
+		virtual void insert(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
-		void remove(const QString& name, QGraphicsItem * item);
+		virtual void remove(const QString& name, QGraphicsItem * item);
 		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
-		void remove(const QString& name, const QList<QGraphicsItem*>& items);
+		virtual void remove(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief remove selected items*/
 		virtual void removeSelected();
 		/*! \brief this command changes the brush of an item*/
-		void setBrush(const QString& name, QGraphicsItem * item, const QBrush& to);
+		virtual void setBrush(const QString& name, QGraphicsItem * item, const QBrush& to);
 		/*! \brief this command changes the brush of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setBrush(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& to);
+		virtual void setBrush(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& to);
 		/*! \brief this command changes the z value of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setZValue(const QString& name, QGraphicsItem * item, qreal to);
+		virtual  void setZValue(const QString& name, QGraphicsItem * item, qreal to);
 		/*! \brief this command changes the z value of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setZValue(const QString& name, const QList<QGraphicsItem*>& items, const QList<qreal>& to);
+		virtual  void setZValue(const QString& name, const QList<QGraphicsItem*>& items, const QList<qreal>& to);
 		/*! \brief this command changes the pen of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setPen(const QString& name, QGraphicsItem * item, const QPen& to);
+		virtual  void setPen(const QString& name, QGraphicsItem * item, const QPen& to);
 		/*! \brief this command changes the pen of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QPen>& to);
+		virtual  void setPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QPen>& to);
 		/*! \brief this command changes the pen and/or brush of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setBrushAndPen(const QString& name, QGraphicsItem * item, const QBrush& brush, const QPen& pen);
+		virtual  void setBrushAndPen(const QString& name, QGraphicsItem * item, const QBrush& brush, const QPen& pen);
 		/*! \brief this command changes the pen and/or brush of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setBrushAndPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens);
+		virtual  void setBrushAndPen(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
-		void transform(const QString& name, QGraphicsItem * item,
+		virtual  void transform(const QString& name, QGraphicsItem * item,
 			const QPointF& sizechange,
 			qreal anglechange,
 			bool VFlip, bool HFlip);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
-		void transform(const QString& name, const QList<QGraphicsItem *>& items,
+		virtual void transform(const QString& name, const QList<QGraphicsItem *>& items,
 			const QList<QPointF>& sizechange,
 			const QList<qreal>& anglechange,
 			bool VFlip, bool HFlip);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setParentItem(const QString& name, QGraphicsItem * item, QGraphicsItem * newParent);
+		virtual  void setParentItem(const QString& name, QGraphicsItem * item, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, QGraphicsItem * newParent);
+		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
-		void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& newParents);
+		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& newParents);
 		/*! \brief rename item and also adds undo command to history window and emits associated signal(s)*/
-		void rename(const QString& oldname, const QString& new_name);
+		virtual  void rename(const QString& oldname, const QString& new_name);
 		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
-		void rename(QGraphicsItem * item, const QString& new_name);
+		virtual  void rename(QGraphicsItem * item, const QString& new_name);
 		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
-		void rename(ItemHandle * item, const QString& new_name);
+		virtual  void rename(ItemHandle * item, const QString& new_name);
 		/*! \brief rename items and also adds undo command to history window and emits associated signal(s)*/
-		void rename(const QList<QGraphicsItem *>& items, const QList<QString>& new_names);
+		virtual  void rename(const QList<QGraphicsItem *>& items, const QList<QString>& new_names);
 		/*! \brief places all the graphics items in the given list of handles under the new handle*/
-		void mergeHandles(const QList<ItemHandle*>& handles);
+		virtual  void mergeHandles(const QList<ItemHandle*>& handles);
 		/*! \brief places all the graphics items under the new handle*/
-		void assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle);
+		virtual  void assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle);
 		/*! \brief change parent handles and also adds undo command to history window and emits associated signal(s)*/
-		void setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles);
+		virtual  void setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles);
 		/*! \brief change parent handle and also adds undo command to history window and emits associated signal(s)*/
-		void setParentHandle(ItemHandle * child, ItemHandle * parent);
+		virtual  void setParentHandle(ItemHandle * child, ItemHandle * parent);
 		/*! \brief change parconst ent handles and also adds undo command to history window and emits associated signal(s)*/
-		void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
+		virtual  void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
 		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
+		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
 		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
 		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
+		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
 		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
 		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
 		/*! \brief change two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
+		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
 		/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-		void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
+		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
+		/*! \brief show item that were hidden*/
+		virtual  void show(const QString& name, QGraphicsItem* item);
+		/*! \brief show items that were hidden*/
+		virtual  void show(const QString& name, const QList<QGraphicsItem*>& items);
+		/*! \brief hide item*/
+		virtual  void hide(const QString& name, QGraphicsItem* item);
+		/*! \brief hide items*/
+		virtual  void hide(const QString& name, const QList<QGraphicsItem*>& items);
+		/*! \brief show handle that was hidden*/
+		virtual  void show(const QString& name, ItemHandle* handle);
+		/*! \brief show handles that were hidden*/
+		virtual  void show(const QString& name, const QList<ItemHandle*>& handles);
+		/*! \brief hide handle*/
+		virtual  void hide(const QString& name, ItemHandle* handle);
+		/*! \brief hide handles*/
+		virtual void hide(const QString& name, const QList<ItemHandle*>& handles);
 
 	signals:
 		/*! \brief signals just before items are copied

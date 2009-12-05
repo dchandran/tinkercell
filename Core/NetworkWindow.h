@@ -66,7 +66,7 @@ namespace Tinkercell
 		/*! \brief constructor*/
 		NetworkWindow(MainWindow *, TextEditor * editor);
 		/*! \brief destructor*/
-		~NetworkWindow();
+		virtual ~NetworkWindow();
 		/*! \brief the file name for this window*/
 		QString filename;
 		/*! \brief the main window containing this network window*/
@@ -133,6 +133,14 @@ namespace Tinkercell
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
+		/*! \brief show handle that was hidden*/
+		virtual void show(const QString& name, ItemHandle* handle);
+		/*! \brief show handles that were hidden*/
+		virtual void show(const QString& name, const QList<ItemHandle*>& handles);
+		/*! \brief hide handle*/
+		virtual void hide(const QString& name, ItemHandle* handle);
+		/*! \brief hide handles*/
+		virtual void hide(const QString& name, const QList<ItemHandle*>& handles);
 
 	public slots:
 		/*! \brief updates the symbols table*/

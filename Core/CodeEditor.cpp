@@ -112,10 +112,26 @@ namespace Tinkercell
 			break;
 			}
 		}
+		
+		QString space;
+		if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
+		{
+			QString s = textCursor().block().text();
+			int i = 0;
+			for (i=0; i < s.length() && s[i].isSpace(); ++i) { }
+			if (i > 0)
+				space = s.left(i);
+		}
 
 		bool isShortcut = ((e->modifiers() & Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
 		if (!c || !isShortcut) // dont process the shortcut when we have a completer
 			QPlainTextEdit::keyPressEvent(e);
+		
+		if (!space.isEmpty())
+		{
+			QTextCursor cursor = textCursor();
+			cursor.insertText(space);
+		}
 
 		const bool ctrlOrShift = e->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 		if (!c || (ctrlOrShift && e->text().isEmpty()))

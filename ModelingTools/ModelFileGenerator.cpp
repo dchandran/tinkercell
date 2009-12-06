@@ -479,13 +479,25 @@ namespace Tinkercell
 								if (handles[i]->hasNumericalData(tr("Numerical Attributes")) &&
 									handles[i]->data->numericalData["Numerical Attributes"].rowNames().contains(dat.rowName(j)))
 								{
-									expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
+									if (handles[i]->name.isEmpty())
+										expressions << tr("   ") + s1 + tr(" = ") + s2 + tr(";\n");
+									else
+										expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
 								}
 								else
 								{
-									expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
-									cmodel << tr("double ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
-									pymodel << handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
+									if (handles[i]->name.isEmpty())
+									{
+										expressions << tr("   ") + s1 + tr(" = ") + s2 + tr(";\n");
+										cmodel << tr("double ") + s1 + tr(" = 0.0;\n");
+										pymodel << s1 + tr(" = 0.0;\n");
+									}
+									else
+									{
+										expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
+										cmodel << tr("double ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
+										pymodel << handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
+									}
 								}
 								for (int k=0; k < params.rows(); ++k)
 									if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
@@ -609,75 +621,6 @@ namespace Tinkercell
 
 						cmodel << "};\n\n";
 						pymodel << ");\n\n";
-
-						/* ODE model
-						cmodel << "\nvoid TCodeFunc( double time, double * u, double * du, void * udata )\n { \n";
-						pymodel << "\ndefn TCodeFunc( u, time ):\n";
-
-						//declare variables
-						for (i = 0; i < N.rows(); ++i)
-						{
-						cmodel << "   " << N.rowName(i) << " = u[" << QString::number(i) << "];\n";
-						pymodel << "   " << N.rowName(i) << " = u[" << QString::number(i) << "];\n";
-						}
-
-						//write code
-						if (!code.isEmpty() || !expressions.isEmpty())
-						{
-
-						cmodel << expressions;
-						pymodel << expressions;
-
-						cmodel << code;
-						pymodel << pycode;
-
-						//declare variables
-						for (i = 0; i < N.rows(); ++i)
-						{
-						cmodel << "   " << "u[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-						pymodel << "   " << "u[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-						}
-						}
-
-						cmodel << "   double rates[] = {";
-						pymodel << "   rates = (";
-
-						//print the rates
-						for (i = 0; i < rates.size(); ++i)
-						{
-						if (i < rates.size() - 1)
-						{
-						cmodel << "( " << rates[i] << " ), ";
-						pymodel << "( " << rates[i] << " ), ";
-						}
-						else
-						{
-						cmodel << "( " << rates[i] << " )};\n";
-						pymodel << "( " << rates[i] << " ));\n";
-						}
-						}
-
-						//print odes
-						pymodel << tr("   du = range(0,") + QString::number(N.rows()) + tr(");\n");
-
-						for (i = 0; i < N.rows(); ++i)
-						{
-						cmodel << "   du[" << QString::number(i) << "] = 0 ";
-						pymodel << "   du[" << QString::number(i) << "] = 0 ";
-						for (j = 0; j < N.cols(); ++j)
-						{
-						if (N.at(i,j) != 0)
-						{
-						cmodel << " + (" << toString(N.at(i,j)) << ")*rates[" << QString::number(j) << "]";
-						pymodel << " + (" << QString::number(N.at(i,j)) << ")*rates[" << QString::number(j) << "]";
-						}
-						}
-						cmodel << ";\n";
-						pymodel << ";\n";
-						}
-						cmodel << "}\n\n";
-						pymodel << "   return du;\n\n";
-						*/
 						//write simulation information
 						cmodel << "int TCvars = " << QString::number(N.rows()) << ";\n";
 						cmodel << "int TCreactions = " << QString::number(N.cols()) << ";\n";

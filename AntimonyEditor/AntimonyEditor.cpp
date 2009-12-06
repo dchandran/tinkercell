@@ -848,7 +848,8 @@ namespace Tinkercell
 		if (sbml && currentWindow())
 		{
 			QString ant = getAntimonyScript(items);
-			(*sbml) = tr(getSBMLString("__main"));
+			if (loadString(ant.toAscii().data()) != -1)
+				(*sbml) = tr(getSBMLString("__main"));
 		}
 		if (s) s->release();
 	}
@@ -868,8 +869,8 @@ namespace Tinkercell
 		if (currentTextEditor() && currentWindow())
 		{
 			QString ant = getAntimonyScript(items);
-			loadString(ant.toAscii().data());
-			writeSBMLFile(file.toAscii().data(),"__main");
+			if (loadString(ant.toAscii().data()) != -1)
+				writeSBMLFile(file.toAscii().data(),"__main");
 		}
 		if (s) s->release();
 	}
@@ -879,14 +880,15 @@ namespace Tinkercell
 		if (currentTextEditor() && currentWindow())
 		{
 			QString ant = getAntimonyScript(items);
-			loadString(ant.toAscii().data());
-			writeAntimonyFile(file.toAscii().data(),"__main");
+			if (loadString(ant.toAscii().data()) != -1)
+				writeAntimonyFile(file.toAscii().data(),"__main");
 		}
 		if (s) s->release();
 	}
 	
 	typedef void (*tc_Antimony_api)(
 				void (*loadAntimonyString)(const char *),
+				void (*loadSBMLString)(const char *),
 				void (*loadSBMLFile)(const char *),
 				void (*loadAntimonyFile)(const char *),
 				char* (*getSBMLString)(Array),
@@ -901,6 +903,7 @@ namespace Tinkercell
 		{
 			f(
 				&(_loadAntimonyString),
+				&(_loadSBMLString),
 				&(_loadSBMLFile),
 				&(_loadAntimonyFile),
 				&(_getSBMLString),

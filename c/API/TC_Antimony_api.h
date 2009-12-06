@@ -111,6 +111,7 @@ void tc_writeAntimonyFile(Array items,const char* file)
 */
 void tc_Antimony_api(
 	void (*loadAntimonyString)(const char *),
+	void (*loadSBMLString)(const char *),
 	void (*loadSBMLFile)(const char *),
 	void (*loadAntimonyFile)(const char *),
 	char* (*getSBMLString)(Array),
@@ -119,6 +120,7 @@ void tc_Antimony_api(
 	void (*writeAntimonyFile)(Array,const char*))
 {
 	_tc_loadAntimonyString = loadAntimonyString;
+	_tc_loadSBMLString = loadSBMLString;
 	_tc_loadSBMLFile = loadSBMLFile;
 	_tc_loadAntimonyFile = loadAntimonyFile;
 	_tc_getSBMLString = getSBMLString;

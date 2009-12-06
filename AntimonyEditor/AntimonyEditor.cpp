@@ -445,6 +445,7 @@ namespace Tinkercell
 					if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
 						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
+				
 				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
 
 				int numEvents = (int)getNumEvents(moduleName);
@@ -481,6 +482,12 @@ namespace Tinkercell
 						paramsTable.value(tr(paramNames[j]),0) = x;
 						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
 							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					}
+					else
+					{
+						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
+							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+						moduleHandle->data->textData[tr("Assignments")].value(tr(paramValues[j]),0) = paramValues[j];
 					}
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;

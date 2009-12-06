@@ -285,6 +285,8 @@ namespace Tinkercell
 				name = p->name + sep + name;
 			p = p->parent;
 		}
+		if (name.isEmpty())
+			name = QString("_");
 		return name;
 	}
 

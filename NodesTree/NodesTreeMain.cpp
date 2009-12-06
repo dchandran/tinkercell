@@ -587,7 +587,7 @@ namespace Tinkercell
 
 		tabGroups	<< QPair<QString, QStringList>(
 													tr("Molecules"),
-													QStringList() << "Molecules" << "Empty")
+													QStringList() << "Molecule" << "Empty")
 
 					<< QPair<QString, QStringList>(
 													tr("Parts"),

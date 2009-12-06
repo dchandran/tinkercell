@@ -1035,7 +1035,7 @@ namespace Tinkercell
                         && !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
                         )
 						{
-							if (handle->fullName().isEmpty())
+							if (handle->name.isEmpty())
 								rownames += dataTable->rowName(j);
 							else
 							{
@@ -1089,7 +1089,7 @@ namespace Tinkercell
 						&& !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
 						)
 					{
-						if (handle->fullName().isEmpty())
+						if (handle->name.isEmpty())
 							rownames += dataTable->rowName(j);
 						else
 						{

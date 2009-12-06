@@ -671,7 +671,7 @@ namespace Tinkercell
 						s = lst[j];
 						s.replace(regex,tr("_"));
 
-						if (items[i]->fullName().isEmpty())
+						if (items[i]->name.isEmpty())
 							(*list) << s;
 						else
 							(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
@@ -739,7 +739,7 @@ namespace Tinkercell
 			{
 				dat.value(var,0) = func;
 				if (currentWindow())
-					if (item->fullName().isEmpty())
+					if (item->name.isEmpty())
 						currentWindow()->changeData(var + tr(" = ") + f,item,tr("Assignments"),&dat);
 					else
 						currentWindow()->changeData(item->fullName() + tr(".") + var + tr(" = ") + f,item,tr("Assignments"),&dat);

@@ -361,12 +361,13 @@ namespace Tinkercell
 						initValues << toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0));
 					}
 					else
-					{
-						cmodel << tr("double ") + handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
-						pymodel << handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
-						vars << handles[i]->fullName(replaceDot);
-						initValues << "0.0";
-					}
+						if (!handles[i]->name.isEmpty())
+						{
+							cmodel << tr("double ") + handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
+							pymodel << handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
+							vars << handles[i]->fullName(replaceDot);
+							initValues << "0.0";
+						}
 					if (handles[i]->hasNumericalData(tr("Fixed")) &&
 						handles[i]->data->numericalData[tr("Fixed")].at(0,0) > 0)
 					{

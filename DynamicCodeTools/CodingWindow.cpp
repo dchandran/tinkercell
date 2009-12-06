@@ -803,9 +803,11 @@ namespace Tinkercell
 
 			QRegExp regexComments(tr("\\brief([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("\\ingroup([^\\n\\r]+)"));
-			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(tc_\\S+)\\s*(\\([^\\)]*\\))"));
+			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(tc_[A-Za-z0-9]+)\\s*(\\([^\\)]*\\))"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
+			
+			QStringList visitedFunctions;
 
 			 while (!file.atEnd())
 			 {
@@ -844,6 +846,8 @@ namespace Tinkercell
 				 {
 					QString name, str;
 					name = regexFunction.capturedTexts().at(2);
+					if (visitedFunctions.contains(name)) continue;
+					visitedFunctions << name;
 					if (regexFunction.capturedTexts().at(1) == tr("void"))
 						str = regexFunction.capturedTexts().at(2) + regexFunction.capturedTexts().at(3);
 					else

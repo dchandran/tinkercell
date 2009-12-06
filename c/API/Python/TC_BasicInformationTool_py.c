@@ -78,7 +78,7 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 {
 	int i;
 	PyObject * pylist = 0, *item;
-	PyObject * params, *values, *twoTuples;
+	PyObject * params = 0, *values = 0, *twoTuples = 0;
 	Matrix M;
 	void ** array;
 	int n, isList;
@@ -129,13 +129,13 @@ static PyObject * pytc_allParameters(PyObject *self, PyObject *args)
 			}
 			TCFreeMatrix(M);
 		}
-		else
-		{
-			params = PyTuple_New(0);
-			values = PyTuple_New(0);
-		}
-
 	}
+	
+	if (params == 0) 
+		params = PyTuple_New(0);
+
+	if (values == 0) 
+		values = PyTuple_New(0);
 
 	twoTuples = PyTuple_New(2);
 	PyTuple_SetItem(twoTuples,0,params);

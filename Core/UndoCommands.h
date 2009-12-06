@@ -52,27 +52,31 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
-	class MY_EXPORT InsertItemsCommand : public QUndoCommand
+	class MY_EXPORT InsertTextItemsCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
 		* \param NetworkWindow* window where items are inserted
 		* \param QList<ItemHandle*> new items
 		*/
-		InsertItemsCommand(TextEditor *, const QList<TextItem*> & );
+		InsertTextItemsCommand(TextEditor *, const QList<TextItem*> & );
 		/*! \brief constructor
 		* \param NetworkWindow* window where items are inserted
 		* \param ItemHandle* new item
 		*/
-		InsertItemsCommand(TextEditor *, TextItem*);
+		InsertTextItemsCommand(TextEditor *, TextItem*);
+		/*! \brief destructor. deletes all text items and their handles (if not containing any graphics items)*/
+		~InsertTextItemsCommand();
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
 		void undo();
 
 	private:
-		/*! \brief inserted handles*/
+		/*! \brief inserted items*/
 		QList<TextItem*> items;
+		/*! \brief inserted handles*/
+		QList<ItemHandle*> handles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
 	};
@@ -100,8 +104,10 @@ namespace Tinkercell
 	private:
 		/*! \brief used to update information*/
 		Change2DataCommand<qreal,QString> * changeDataCommand;
-		/*! \brief inserted handles*/
+		/*! \brief removed handles*/
 		QList<TextItem*> items;
+		/*! \brief removed handles*/
+		QList<ItemHandle*> handles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
 	};

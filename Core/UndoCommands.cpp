@@ -240,8 +240,22 @@ namespace Tinkercell
 			}
 			refreshAllConnectionIn(graphicsItems);
 	}
+	
+	InsertTextItemsCommand::~InsertTextItemsCommand()
+	{
+		for (int i=0; i < items.size(); ++i)
+			if (items[i])
+			{
+				if (items[i]->handle())
+				{
+					items[i]->handle()->parent = 0;
+					items[i]->handle()->children.clear();
+					delete items[i];
+				}
+			}
+	}
 
-	InsertItemsCommand::InsertItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
+	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
 	{
 		QStringList s;
 		ItemHandle * h = 0;
@@ -253,7 +267,7 @@ namespace Tinkercell
 		items = list;
 	}
 
-	InsertItemsCommand::InsertItemsCommand(TextEditor * editor, TextItem * item)
+	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, TextItem * item)
 	{
 		ItemHandle * h = getHandle(item);
 		if (h)
@@ -264,25 +278,34 @@ namespace Tinkercell
 		items << item;
 	}
 
-	void InsertItemsCommand::redo()
+	void InsertTextItemsCommand::redo()
 	{
 		if (textEditor)
 		{
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && !list.contains(items[i]))
+				{
 					list << items[i];
+					if (handles.size() > i)
+						items[i]->setHandle(handles[i]);
+				}
 		}
 	}
 
-	void InsertItemsCommand::undo()
+	void InsertTextItemsCommand::undo()
 	{
 		if (textEditor)
 		{
+			while (handles.size() < items.size()) handles += 0;
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
+				{
 					list.removeAll(items[i]);
+					handles[i] = items[i]->handle();
+					items[i]->setHandle(0);
+				}
 		}
 	}
 
@@ -316,7 +339,11 @@ namespace Tinkercell
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && !list.contains(items[i]))
+				{
 					list << items[i];
+					if (handles.size() > i)
+						items[i]->setHandle(handles[i]);
+				}
 		}
 	}
 
@@ -324,10 +351,15 @@ namespace Tinkercell
 	{
 		if (textEditor)
 		{
+			while (handles.size() < items.size()) handles += 0;
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
+				{
 					list.removeAll(items[i]);
+					handles[i] = items[i]->handle();
+					items[i]->setHandle(0);
+				}
 		}
 	}
 

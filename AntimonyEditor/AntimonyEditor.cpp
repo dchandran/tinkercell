@@ -214,12 +214,8 @@ namespace Tinkercell
 		if (!editor) return;
 
 		QString modelString = editor->toPlainText() + tr("\n");
-
-		ItemHandle * mainItem = 0;
-		if (editor->networkWindow)
-			mainItem = editor->networkWindow->modelItem();
 		
-		QList<TextItem*> itemsToInsert = parse(modelString,mainItem);
+		QList<TextItem*> itemsToInsert = parse(modelString);
 
 		if (!itemsToInsert.isEmpty())
 		{
@@ -227,7 +223,7 @@ namespace Tinkercell
 		}
 	}
 
-	QList<TextItem*> AntimonyEditor::parse(const QString& modelString, ItemHandle * mainItem)
+	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
 	{
 		//parse
 		long ok = loadString(modelString.toAscii().data());
@@ -489,16 +485,13 @@ namespace Tinkercell
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
 
-				if (mainItem && moduleHandle != mainItem)
-				{
-					for (int j=0; j < handlesInModule.size(); ++j)
-						if (handlesInModule[j])
-						{
-							handlesInModule[j]->setParent(moduleHandle);
-							if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
-								RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
-						}
-				}
+				for (int j=0; j < handlesInModule.size(); ++j)
+					if (handlesInModule[j])
+					{
+						handlesInModule[j]->setParent(moduleHandle);
+						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
+							RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+					}
 			}
 
 			if (handlesInModule.isEmpty())
@@ -506,7 +499,7 @@ namespace Tinkercell
 				if (moduleText)
 					itemsToInsert.removeAll(moduleText);
 
-				if (moduleHandle != mainItem)
+				if (moduleHandle)
 					delete moduleHandle;
 			}
 		}
@@ -629,12 +622,8 @@ namespace Tinkercell
 		ItemHandle * handle = items[0];
 
 		if (handle && handle->isA(tr("Module")) && currentWindow())
-		{
-			QList<ItemHandle*> handles2 = handle->allChildren();
-			handles2 << handle;
-			handles2 << currentWindow()->modelItem();
-				
-			QString s = getAntimonyScript(handles2);
+		{		
+			QString s = getAntimonyScript(items);
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
 		}
@@ -647,10 +636,7 @@ namespace Tinkercell
 			QClipboard * clipboard = QApplication::clipboard();
 			if (clipboard)
 			{
-				QList<ItemHandle*> handles2 = handles;
-				if (!handles2.contains(&scene->symbolsTable->modelItem))
-					handles2 << &scene->symbolsTable->modelItem;
-				clipboard->setText( getAntimonyScript(handles2) );
+				clipboard->setText( getAntimonyScript(handles) );
 			}
 		}
 	}
@@ -854,11 +840,7 @@ namespace Tinkercell
 	{
 		if (sbml && currentWindow())
 		{
-			QList<ItemHandle*> handles = items;
-			if (!handles.contains(currentWindow()->modelItem()))
-				handles << (currentWindow()->modelItem());
-			
-			QString ant = getAntimonyScript(handles);
+			QString ant = getAntimonyScript(items);
 			(*sbml) = tr(getSBMLString("__main"));
 		}
 		if (s) s->release();
@@ -868,10 +850,7 @@ namespace Tinkercell
 	{
 		if (ant && currentWindow())
 		{
-			QList<ItemHandle*> handles = items;
-			if (!handles.contains(currentWindow()->modelItem()))
-				handles << (currentWindow()->modelItem());
-			(*ant) = getAntimonyScript(handles);
+			(*ant) = getAntimonyScript(items);
 		}
 		if (s) 
 			s->release();
@@ -881,11 +860,7 @@ namespace Tinkercell
 	{
 		if (currentTextEditor() && currentWindow())
 		{
-			QList<ItemHandle*> handles = items;
-			if (!handles.contains(currentWindow()->modelItem()))
-				handles << (currentWindow()->modelItem());
-				
-			QString ant = getAntimonyScript(handles);
+			QString ant = getAntimonyScript(items);
 			loadString(ant.toAscii().data());
 			writeSBMLFile(file.toAscii().data(),"__main");
 		}
@@ -896,11 +871,7 @@ namespace Tinkercell
 	{
 		if (currentTextEditor() && currentWindow())
 		{
-			QList<ItemHandle*> handles = items;
-			if (!handles.contains(currentWindow()->modelItem()))
-				handles << (currentWindow()->modelItem());
-				
-			QString ant = getAntimonyScript(handles);
+			QString ant = getAntimonyScript(items);
 			loadString(ant.toAscii().data());
 			writeAntimonyFile(file.toAscii().data(),"__main");
 		}

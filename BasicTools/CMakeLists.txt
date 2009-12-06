@@ -30,7 +30,6 @@ ADD_LIBRARY( BasicTools
   SHARED
   ${BasicTools_MOC}
   ${TinkercellCore_MOC}
-  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp 
   ${TINKERCELL_BASICTOOLS_SRC}
   ${TINKERCELL_BASICTOOLS_QRC}
 )

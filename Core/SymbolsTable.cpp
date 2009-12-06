@@ -102,7 +102,7 @@ namespace Tinkercell
 		{
 			if ((handle = items[i]) && !handlesFullName.contains(handle->fullName()))
 			{
-				if (!handle->name.isEmpty())
+				if (handle != &modelItem)
 				{
 					handlesFullName[handle->fullName()] = handle;
 					handlesFirstName.insertMulti(handle->name,handle);

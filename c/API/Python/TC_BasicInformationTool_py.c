@@ -683,8 +683,7 @@ static PyObject * pytc_setInitialValues(PyObject *self, PyObject *args)
 		n2 = isList2 ? PyList_Size(pylist2) : PyTuple_Size (pylist2);
 	}
 
-	if (n1 > n2) n2 = n1;
-	if (n2 > n1) n1 = n2;
+	if (n2 < n1) n1 = n2;
 
 	if (n1 > 0)
 	{

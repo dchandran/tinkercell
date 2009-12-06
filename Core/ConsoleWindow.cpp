@@ -314,10 +314,7 @@ namespace Tinkercell
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
-			if (cursor.position() <= currentPosition)
-				cursor.setPosition(currentPosition);
-
-			if (frozen) return;
+			if (frozen || (cursor.position() < currentPosition)) return;
 			QString command = cursor.block().text().remove(0,2);
 
 			cursor.movePosition(QTextCursor::EndOfBlock);
@@ -410,10 +407,7 @@ namespace Tinkercell
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E
 
 							if (!c || !isShortcut) // dont process the shortcut when we have a completer
-							{
 								QTextEdit::keyPressEvent(event);
-								return;
-							}
 
 							if (key == Qt::Key_Home)
 								cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());

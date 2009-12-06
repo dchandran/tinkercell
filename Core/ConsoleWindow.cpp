@@ -17,10 +17,10 @@ namespace Tinkercell
 {
 	QString ConsoleWindow::Prompt(">>");
 	
-	QColor ConsoleWindow::BackgroundColor("#000000");
-	QColor ConsoleWindow::PlainTextColor("#FEFFEC");
-	QColor ConsoleWindow::ErrorTextColor("#FF6F0F");
-	QColor ConsoleWindow::OutputTextColor("#00FF12");
+	QColor ConsoleWindow::BackgroundColor = QColor("#000000");
+	QColor ConsoleWindow::PlainTextColor = QColor("#FEFFEC");
+	QColor ConsoleWindow::ErrorTextColor = QColor("#FF6F0F");
+	QColor ConsoleWindow::OutputTextColor = QColor("#00FF12");
 	
 	void CommandTextEdit::setBackgroundColor(const QColor& c)
 	{
@@ -275,7 +275,9 @@ namespace Tinkercell
 
 	void CommandTextEdit::keyPressEvent ( QKeyEvent * event )
 	{
-		if (!event) return;
+		if (!event || !document()) return;
+		
+		currentPosition = document()->lastBlock().position() + 2;
 
 		if (c && c->popup()->isVisible())
 		{
@@ -309,13 +311,6 @@ namespace Tinkercell
 			QTextEdit::selectAll();
 			return;
 		}
-
-        if (event->modifiers() == 0)
-        {
-            if (cursor.position() < currentPosition)
-				cursor.setPosition(currentPosition);
-            this->ensureCursorVisible();
-        }
 
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
@@ -402,23 +397,28 @@ namespace Tinkercell
 						if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right
 							|| key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_End || key == Qt::Key_Home
 							|| !(	frozen
-									|| !document()
-									|| (cursor.position() < currentPosition)
-									|| !cursor.selectedText().isEmpty()
+									|| cursor.position() < currentPosition
+									|| cursor.selectionStart() < currentPosition
 									|| (cursor.position() <= currentPosition && key == Qt::Key_Backspace)))
 						{
+							if (cursor.position() < currentPosition)
+							{
+								cursor.setPosition(currentPosition);
+								this->ensureCursorVisible();
+							}
 							QString completionPrefix = textUnderCursor();
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E
 
 							if (!c || !isShortcut) // dont process the shortcut when we have a completer
 							{
 								QTextEdit::keyPressEvent(event);
+								return;
 							}
 
 							if (key == Qt::Key_Home)
 								cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,ConsoleWindow::Prompt.size());
 
-							const bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
+							bool ctrlOrShift = event->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier);
 							if (!c || (ctrlOrShift && event->text().isEmpty()))
 							{
 								if (cursor.position() < currentPosition)

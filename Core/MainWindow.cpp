@@ -192,8 +192,6 @@ namespace Tinkercell
 		readSettings();
 
         consoleWindow = 0;
-		if (enableConsoleWindow)
-			consoleWindow = new ConsoleWindow(this);
 		prevWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
@@ -241,6 +239,20 @@ namespace Tinkercell
 			historyWindow.setWindowTitle(tr("History"));
 			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
+		}
+		
+		if (enableConsoleWindow)
+		{
+			consoleWindow = new ConsoleWindow(this);
+			if (settingsMenu)
+			{
+				QMenu * consoleColorMenu = settingsMenu->addMenu(tr("Console window colors"));
+
+				consoleColorMenu->addAction(tr("Background color"),this,SLOT(changeConsoleBgColor()));
+				consoleColorMenu->addAction(tr("Text color"),this,SLOT(changeConsoleTextColor()));
+				consoleColorMenu->addAction(tr("Output color"),this,SLOT(changeConsoleMsgColor()));
+				consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
+			}
 		}
 
 		connectTCFunctions();
@@ -754,16 +766,6 @@ namespace Tinkercell
 		setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));
 		setGridModeMenu->addAction(tr("Grid size"),this,SLOT(setGridSize()));
 
-		if (consoleWindow)
-		{
-			QMenu * consoleColorMenu = settingsMenu->addMenu(tr("Console window colors"));
-
-			consoleColorMenu->addAction(tr("Background color"),this,SLOT(changeConsoleBgColor()));
-			consoleColorMenu->addAction(tr("Text color"),this,SLOT(changeConsoleTextColor()));
-			consoleColorMenu->addAction(tr("Output color"),this,SLOT(changeConsoleMsgColor()));
-			consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
-		}
-	
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
 		connect(&mdiArea,SIGNAL(mdiArea.subWindowActivated(QMdiSubWindow*)),this,SLOT(mdiWindowChanges(QMdiSubWindow*)));

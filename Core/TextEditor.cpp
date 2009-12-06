@@ -138,7 +138,18 @@ namespace Tinkercell
 
 	TextEditor::~TextEditor()
 	{
-
+		for (int i=0; i < allItems.size(); ++i)
+			if (allItems[i])
+			{
+				for (int j=(i+1); j < allItems.size(); ++j)
+				{
+					if (allItems[j] == allItems[i])
+						allItems[j] = 0;
+				}
+				if (!allItems[i]->handle() || (allItems[i]->handle() && allItems[i]->handle()->parent == 0))
+					delete allItems[i];
+				allItems[i] = 0;
+			}
 	}
 
 	QString TextEditor::selectedText() const

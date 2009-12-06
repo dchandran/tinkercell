@@ -113,6 +113,20 @@ namespace Tinkercell
 			}
 		}
 		
+		if (e->modifiers() & Qt::ControlModifier)
+		{ 
+			if (e->key() == Qt::Key_Equal || e->key() == Qt::Key_Plus) //zoom in
+			{
+				zoomIn();
+				return;
+			}
+			if (e->key() == Qt::Key_Minus || e->key() == Qt::Key_Underscore) //zoom out
+			{
+				zoomOut();
+				return;
+			}
+		}
+		
 		QString space;
 		if (e->key() == Qt::Key_Return || e->key() == Qt::Key_Enter)
 		{

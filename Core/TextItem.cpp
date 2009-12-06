@@ -22,14 +22,12 @@ namespace Tinkercell
 	
 	void TextItem::setHandle(ItemHandle * handle)
 	{
-		if (!handle)
+		if (itemHandle)
 		{
-			if (itemHandle)
-			{
-				itemHandle->textItems.removeAll(this);
-			}
+			itemHandle->textItems.removeAll(this);
 		}
-		else
+		
+		if (handle)
 		{
 			if (!handle->textItems.contains(this))
 				handle->textItems.append(this);

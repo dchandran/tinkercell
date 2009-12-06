@@ -174,10 +174,11 @@ namespace Tinkercell
 		textItems.clear();
 
 		for (int i=0; i < list2.size(); ++i)
-		{
-			setHandle(list2[i],0);
-			delete list2[i];
-		}
+			if (list2[i] && list2[i]->handle() == this)
+			{
+				setHandle(list2[i],0);
+				delete list2[i];
+			}
 
 		if (!children.isEmpty())
 			for (int i=0; i < children.size(); ++i)
@@ -185,11 +186,9 @@ namespace Tinkercell
 				if (children[i] && children[i]->parent == this)
 				{
 				    children[i]->parent = 0;
-					if (children[i]->graphicsItems.isEmpty())
+					if (children[i]->graphicsItems.isEmpty() && children[i]->textItems.isEmpty())
 						delete children[i];
 				}
-
-
 			}
 
 		children.clear();

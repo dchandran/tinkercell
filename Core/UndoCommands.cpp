@@ -246,12 +246,15 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if (items[i])
 			{
-				if (items[i]->handle())
+				textEditor->items().removeAll(items[i]);
+				for (int j=(i+1); j < items.size(); ++j)
 				{
-					items[i]->handle()->parent = 0;
-					items[i]->handle()->children.clear();
-					delete items[i];
+					if (items[j] == items[i])
+						items[j] = 0;
 				}
+				if (!items[i]->handle() || (items[i]->handle() && items[i]->handle()->parent == 0))
+					delete items[i];
+				items[i] = 0;
 			}
 	}
 
@@ -297,7 +300,7 @@ namespace Tinkercell
 	{
 		if (textEditor)
 		{
-			while (handles.size() < items.size()) handles += 0;
+			while (handles.size() < items.size()) handles.append(0);
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
@@ -351,7 +354,7 @@ namespace Tinkercell
 	{
 		if (textEditor)
 		{
-			while (handles.size() < items.size()) handles += 0;
+			while (handles.size() < items.size()) handles.append(0);
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))

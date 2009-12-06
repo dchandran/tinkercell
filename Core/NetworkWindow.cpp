@@ -154,7 +154,7 @@ namespace Tinkercell
 		editor->networkWindow = this;
 
 		if (TextEditor::SideBarEnabled)
-			setWidget(editor->widget());
+			setWidget(editor->widget(Qt::Horizontal));
 		else
 			setWidget(editor);
 		setAttribute(Qt::WA_DeleteOnClose);

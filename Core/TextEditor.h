@@ -31,6 +31,7 @@ text-based representation of a network.
 #include <QSet>
 #include <QLabel>
 #include <QSplitter>
+#include <QGridLayout>
 #include <QScrollArea>
 #include <QListWidget>
 #include <QSyntaxHighlighter>
@@ -183,7 +184,7 @@ namespace Tinkercell
 		/*! \brief make a widget containing this text editor and the side bar
 		\param Qt::Orientation orientation of the side bar
 		\return QWidget */
-		virtual QWidget* widget(Qt::Orientation orientation = Qt::Horizontal);
+		virtual QWidget* widget(Qt::Orientation orientation = Qt::Vertical);
 
 	protected:
 
@@ -191,13 +192,11 @@ namespace Tinkercell
 		{
 		public:
 			/*! \brief constructor*/
-			TextEditorWidget(TextEditor*,Qt::Orientation orientation = Qt::Horizontal);
+			TextEditorWidget(TextEditor*,Qt::Orientation orientation = Qt::Vertical);
 			/*! \brief the main text editor*/
 			TextEditor * textEditor;
-			/*! \brief the side bar*/
-			QWidget * sideBar;
-			/*! \brief splitter contains the main text editor and the side bar*/
-			QSplitter * splitter;
+			/*! \brief orientation of items in the side bar*/
+			Qt::Orientation orientation;
 			/*! \brief widgets located on the side bar*/
 			QList<QWidget*> sideBarWidgets;
 			/*! \brief add widget to the side bar

@@ -108,7 +108,7 @@ namespace Tinkercell
 		max->setChecked(true);
 		min->setChecked(false);
 
-		connect(min,SIGNAL(toggled(bool)),max,SLOT(toggle(bool)));
+		connect(min,SIGNAL(clicked()),max,SLOT(toggle()));
 		connect(max,SIGNAL(toggled(bool)),this,SLOT(checkboxSelected(bool)));
 	}
 

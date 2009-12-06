@@ -25,6 +25,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QDesktopServices>
 #include <QtDebug>
 #include <QSvgGenerator>
+#include <QColorDialog>
 #include <QImage>
 #include "TextEditor.h"
 #include "TextItem.h"
@@ -191,6 +192,8 @@ namespace Tinkercell
 		readSettings();
 
         consoleWindow = 0;
+		if (enableConsoleWindow)
+			consoleWindow = new ConsoleWindow(this);
 		prevWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
@@ -239,9 +242,6 @@ namespace Tinkercell
 			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
-
-		if (enableConsoleWindow)
-			consoleWindow = new ConsoleWindow(this);
 
 		connectTCFunctions();
 
@@ -750,14 +750,20 @@ namespace Tinkercell
 
 		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
 
-		QAction * gridOn = setGridModeMenu->addAction(tr("Grid ON"));
-		QAction * gridOff = setGridModeMenu->addAction(tr("Grid OFF"));
-		QAction * setGridSz = setGridModeMenu->addAction(tr("Grid size"));
+		setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));
+		setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));
+		setGridModeMenu->addAction(tr("Grid size"),this,SLOT(setGridSize()));
 
-		connect (gridOn, SIGNAL(triggered()),this,SLOT(gridOn()));
-		connect (gridOff, SIGNAL(triggered()),this,SLOT(gridOff()));
-		connect (setGridSz, SIGNAL(triggered()),this,SLOT(setGridSize()));
+		if (consoleWindow)
+		{
+			QMenu * consoleColorMenu = settingsMenu->addMenu(tr("Console window colors"));
 
+			consoleColorMenu->addAction(tr("Background color"),this,SLOT(changeConsoleBgColor()));
+			consoleColorMenu->addAction(tr("Text color"),this,SLOT(changeConsoleTextColor()));
+			consoleColorMenu->addAction(tr("Output color"),this,SLOT(changeConsoleMsgColor()));
+			consoleColorMenu->addAction(tr("Error message color"),this,SLOT(changeConsoleErrorMsgColor()));
+		}
+	
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
 		connect(&mdiArea,SIGNAL(mdiArea.subWindowActivated(QMdiSubWindow*)),this,SLOT(mdiWindowChanges(QMdiSubWindow*)));
@@ -3128,9 +3134,7 @@ namespace Tinkercell
 
 		qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
 
-
 		qRegisterMetaType< Matrix >("Matrix");
-
 	}
 
 	void MainWindow::addParser(TextParser * parser)
@@ -3192,6 +3196,42 @@ namespace Tinkercell
 		{
 			GraphicsScene::GRID = d;
 			scene->setGridSize(GraphicsScene::GRID);
+		}
+	}
+	
+	void MainWindow::changeConsoleBgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::BackgroundColor,this);
+			consoleWindow->editor()->setBackgroundColor(color);
+		}
+	}
+	
+	void MainWindow::changeConsoleTextColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::PlainTextColor,this);
+			consoleWindow->editor()->setPlainTextColor(color);
+		}
+	}
+	
+	void MainWindow::changeConsoleMsgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::OutputTextColor,this);
+			consoleWindow->editor()->setOutputTextColor(color);
+		}
+	}
+	
+	void MainWindow::changeConsoleErrorMsgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::ErrorTextColor,this);
+			consoleWindow->editor()->setErrorTextColor(color);
 		}
 	}
 }

@@ -856,6 +856,26 @@ namespace Tinkercell
 		* \return void
 		*/
 		void dragAndDropFiles(const QList<QFileInfo>& files);
+		/*!
+		* \brief change console background color
+		* \return void
+		*/
+		void changeConsoleBgColor();
+		/*!
+		* \brief change console text color
+		* \return void
+		*/
+		void changeConsoleTextColor();
+		/*!
+		* \brief change console message text color
+		* \return void
+		*/
+		void changeConsoleMsgColor();
+		/*!
+		* \brief change console error text color
+		* \return void
+		*/
+		void changeConsoleErrorMsgColor();
 
 	signals:
 

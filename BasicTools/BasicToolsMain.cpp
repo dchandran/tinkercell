@@ -8,7 +8,7 @@ Function that loads dll into main window
 
 ****************************************************************************/
 
-#include "InsertionToolsMain.h"
+#include "BasicToolsMain.h"
 
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

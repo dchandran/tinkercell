@@ -11,7 +11,6 @@
 #define TINKERCELL_ANTIOMNYEDITOR_H
 
 #include <QList>
-
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QSyntaxHighlighter>
@@ -42,18 +41,16 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	
-	public:
-	
 	signals:
 		void loadSBMLStringSignal(QSemaphore*,const QString&);
 		void loadAntimonyStringSignal(QSemaphore*,const QString&);
 		void loadSBMLFileSignal(QSemaphore*,const QString&);
 		void loadAntimonyFileSignal(QSemaphore*,const QString&);
-		void getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*);
+		void getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*);
 		void writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 		void writeAntimonyFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
-	public:
+	public slots:
 		void loadSBMLString(const char *);
 		void loadAntimonyString(const char *);
 		void loadSBMLFile(const char *);
@@ -130,8 +127,8 @@ namespace Tinkercell
 		void loadAntimonyStringSlot(QSemaphore*,const QString&);
 		void loadSBMLFileSlot(QSemaphore*,const QString&);
 		void loadAntimonyFileSlot(QSemaphore*,const QString&);
-		void getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&);
-		void getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&);
+		void getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*);
+		void getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*);
 		void writeSBMLFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 		void writeAntimonyFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 	private:

@@ -23,6 +23,7 @@ text-based representation of a network.
 #include <QFont>
 #include <QVBoxLayout>
 #include <QRegExp>
+#include <QGroupBox>
 #include <QTextCursor>
 #include <QListWidgetItem>
 #include <QTableWidget>
@@ -35,9 +36,10 @@ namespace Tinkercell
 	bool TextEditor::SideBarEnabled = true;
 	void TextEditor::push(QUndoCommand * c)
 	{
-		if (!c) return;
-
-		QUndoCommand * composite = new CompositeCommand(c->text(), new TextUndoCommand(this, prevText, toPlainText()), c);
+		QString text = tr("text changed");
+		if (c)
+			text = c->text();
+		QUndoCommand * composite = new CompositeCommand(text, new TextUndoCommand(this, prevText, toPlainText()), c);
 
 		if (networkWindow)
 			networkWindow->history.push( composite );
@@ -68,14 +70,24 @@ namespace Tinkercell
 	void TextEditor::cut()
 	{
 		CodeEditor::cut();
+		int i = -1;
+		if (networkWindow)
+			i = networkWindow->history.count();
 		emit textChanged(this, tr(""), tr(""), prevText);
+		if (networkWindow && i > -1 && i == networkWindow->history.count())
+			push(0);
 		prevText = toPlainText();
 	}
 
 	void TextEditor::paste()
 	{
 		CodeEditor::paste();
+		int i = -1;
+		if (networkWindow)
+			i = networkWindow->history.count();
 		emit textChanged(this, tr(""), tr(""), prevText);
+		if (networkWindow && i > -1 && i == networkWindow->history.count())
+			push(0);
 		prevText = toPlainText();
 	}
 
@@ -277,7 +289,12 @@ namespace Tinkercell
 		{
 			if (changedBlockNumber > -1)
 			{
+				int i = -1;
+				if (networkWindow)
+					i = networkWindow->history.count();
 				emit textChanged(this, prevBlockText, changedBlockText, prevText);
+				if (networkWindow && i > -1 && i == networkWindow->history.count())
+					push(0);
 				prevText = toPlainText();
 			}
 			prevBlockText = textCursor().block().text();
@@ -381,68 +398,65 @@ namespace Tinkercell
 
 	void TextEditor::TextEditorWidget::setSideBarOrientation(Qt::Orientation orientation)
 	{
-		if (splitter)
-			splitter->setOrientation(orientation);
+		this->orientation = orientation;
+		setup();
+		//splitter->setOrientation(orientation);
 	}
 
-	TextEditor::TextEditorWidget::TextEditorWidget(TextEditor* te,Qt::Orientation orientation)
+	TextEditor::TextEditorWidget::TextEditorWidget(TextEditor* te,Qt::Orientation orientation) 
+		: textEditor(te), orientation(orientation)
 	{
-		textEditor = te;
-		sideBar = 0;
-		splitter = new QSplitter;
-		splitter->setOrientation(orientation);
-
-		splitter->addWidget(textEditor);
-
-		QVBoxLayout * layout = new QVBoxLayout;
-		layout->setContentsMargins(0,0,0,0);
-
-		layout->addWidget(splitter);
-		setLayout(layout);
+		//splitter = new QSplitter;
+		//splitter->setOrientation(orientation);
+		//splitter->addWidget(textEditor);
 	}
 
 	void TextEditor::TextEditorWidget::setup()
 	{
-		if (!splitter) return;
+		QLayout * oldLayout = layout();
+		QBoxLayout * newLayout;
 		
-		int w = 20;
-		
-		for (int i=0; i < sideBarWidgets.size(); ++i)
-			if (sideBarWidgets[i])
-			{
-				sideBarWidgets[i]->setParent(0);
-				if (sideBarWidgets[i]->width() > w)
-					w =sideBarWidgets[i]->width();
-			}
-		
-		if (sideBar)
+		QBoxLayout * contentsLayout;
+		if (orientation == Qt::Vertical)
 		{
-			sideBar->setParent(0);
-			delete sideBar;
+			newLayout = new QHBoxLayout;
+			contentsLayout = new QVBoxLayout;
+		}
+		else
+		{
+			newLayout = new QVBoxLayout;
+			contentsLayout = new QHBoxLayout;
 		}
 		
-		
-		QWidget * widget = new QWidget;
-		QVBoxLayout * layout = new QVBoxLayout;
-		layout->setContentsMargins(5,5,5,5);
-		layout->setSpacing(20);
-		
 		for (int i=0; i < sideBarWidgets.size(); ++i)
 			if (sideBarWidgets[i])
-				layout->addWidget(sideBarWidgets[i]);
+				contentsLayout->addWidget(sideBarWidgets[i],0,Qt::AlignCenter);
 		
-		widget->setLayout(layout);
+		//make scroll area
+		contentsLayout->setContentsMargins(0,0,0,0);
+		contentsLayout->setSpacing(20);		
+		QWidget * widget = new QWidget;
+		widget->setLayout(contentsLayout);
 		widget->setPalette(QPalette(QColor(255,255,255)));
 		widget->setAutoFillBackground (true);
-
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(widget);
 		scrollArea->setPalette(QPalette(QColor(255,255,255)));
 		scrollArea->setAutoFillBackground (true);
 		
-		sideBar = scrollArea;
-		sideBar->setFixedWidth(w+10);
-		splitter->addWidget(sideBar);
+		//text edit and side group box
+		newLayout->addWidget(textEditor);
+		QLayout * tempLayout = new QHBoxLayout;
+		tempLayout->addWidget(scrollArea);
+		tempLayout->setContentsMargins(2,2,2,2);
+		QGroupBox * groupBox = new QGroupBox(tr(""));
+		groupBox->setLayout(tempLayout);
+		newLayout->addWidget(scrollArea);
+		newLayout->setStretch(0,1);
+		newLayout->setContentsMargins(0,0,0,0);
+		
+		setLayout(newLayout);
+		if (oldLayout) delete oldLayout;
 	}
 
 	/*! \brief get the console window (same as mainWindow->console())*/

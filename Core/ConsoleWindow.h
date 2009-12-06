@@ -15,6 +15,7 @@ scripting interface.
 #define TINKERCELL_GENERICCOMMANDANDOUTPUTWINDOW_H
 
 #include <QtGui>
+#include <QColor>
 #include <QMainWindow>
 #include <QTextEdit>
 #include <QCompleter>
@@ -74,6 +75,14 @@ namespace Tinkercell
 		virtual void unfreeze();
 		/*! \brief Set frozen state. The text box will not respond to user inputs while it is frozen*/
 		virtual void setFreeze (bool frozen=true);
+		/*! \brief set background color*/
+		virtual void setBackgroundColor(const QColor&);
+		/*! \brief set plain text color*/
+		virtual void setPlainTextColor(const QColor&);
+		/*! \brief set output message color*/
+		virtual void setOutputTextColor(const QColor&);
+		/*! \brief set error message color*/
+		virtual void setErrorTextColor(const QColor&);
 
 	protected:
 
@@ -120,6 +129,18 @@ namespace Tinkercell
 
 		/*! \brief the string used at the prompt*/
 		static QString Prompt;
+		
+		/*! \brief the background color for console*/
+		static QColor BackgroundColor;
+		
+		/*! \brief the font color for plain text*/
+		static QColor PlainTextColor;
+		
+		/*! \brief the font color for error messages*/
+		static QColor ErrorTextColor;
+		
+		/*! \brief the font color for outputs*/
+		static QColor OutputTextColor;
 
 		/*! \brief constructor -- initialize main window*/
 		ConsoleWindow(MainWindow * main = 0);

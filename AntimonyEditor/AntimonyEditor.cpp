@@ -69,7 +69,7 @@ namespace Tinkercell
 		QList<ItemHandle*> modules;
 		ItemHandle * handle;
 		for (int i=0; i < textItems.size(); ++i)
-			if ((handle = getHandle(textItems[i])) && handle->isA(tr("Module")))
+			if ((handle = getHandle(textItems[i])) && handle->isA(tr("Module")) && !handle->name.isEmpty())
 				modules += handle;
 
 		if (modules.isEmpty()) return;
@@ -197,8 +197,8 @@ namespace Tinkercell
 			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			button->setIcon(QIcon(":/images/module.png"));
 			button->setIconSize(QSize(30,30));
-			button->setText(tr("Export as module"));
-			button->setToolTip(tr("export Module to the last graphics window"));
+			button->setText(tr("Export modules"));
+			button->setToolTip(tr("export module(s) to the last graphics window"));
 			connect(button,SIGNAL(pressed()),this,SLOT(insertModule()));
 			win->textEditor->addSideBarWidget(button);
 		}
@@ -218,7 +218,7 @@ namespace Tinkercell
 		ItemHandle * mainItem = 0;
 		if (editor->networkWindow)
 			mainItem = editor->networkWindow->modelItem();
-
+		
 		QList<TextItem*> itemsToInsert = parse(modelString,mainItem);
 
 		if (!itemsToInsert.isEmpty())
@@ -283,18 +283,14 @@ namespace Tinkercell
 
 			NodeTextItem * moduleText = 0;
 
-			if (mainItem && (QString(modnames[i]) == tr("__main")))
-			{
-				moduleHandle = mainItem;
-			}
-			else
-			{
-				moduleHandle = new NodeHandle(moduleFamily);
-				moduleHandle->name = QString(moduleName);
-				moduleText = new NodeTextItem;
-				setHandle(moduleText,moduleHandle);
-				itemsToInsert += moduleText;
-			}
+			moduleHandle = new NodeHandle(moduleFamily);
+			moduleHandle->name = QString(moduleName);
+			moduleText = new NodeTextItem;
+			setHandle(moduleText,moduleHandle);
+			itemsToInsert += moduleText;
+			
+			if (QString(modnames[i]) == tr("__main"))
+				moduleHandle->name = tr("");
 
 			QList<ItemHandle*> handlesInModule;
 			QHash<QString,NodeHandle*> speciesItems;
@@ -632,9 +628,13 @@ namespace Tinkercell
 
 		ItemHandle * handle = items[0];
 
-		if (handle && handle->isA(tr("Module")))
+		if (handle && handle->isA(tr("Module")) && currentWindow())
 		{
-			QString s = getAntimonyScript(handle->allChildren());
+			QList<ItemHandle*> handles2 = handle->allChildren();
+			handles2 << handle;
+			handles2 << currentWindow()->modelItem();
+				
+			QString s = getAntimonyScript(handles2);
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
 		}
@@ -642,19 +642,23 @@ namespace Tinkercell
 	
 	void AntimonyEditor::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
 	{
-		if (scene && handles.size() > 0)
+		if (scene && scene->symbolsTable && handles.size() > 0)
 		{
 			QClipboard * clipboard = QApplication::clipboard();
 			if (clipboard)
 			{
-				clipboard->setText( getAntimonyScript(handles) );
+				QList<ItemHandle*> handles2 = handles;
+				if (!handles2.contains(&scene->symbolsTable->modelItem))
+					handles2 << &scene->symbolsTable->modelItem;
+				clipboard->setText( getAntimonyScript(handles2) );
 			}
 		}
 	}
 	
 	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& handles)
 	{
-		QString s("Model M\n");
+		//QString s("Model M\n");
+		QString s;
 		/*
 		reaction
 		formula
@@ -710,7 +714,12 @@ namespace Tinkercell
 				if (N.value(j,i) > 0)
 					rhs += N.rowName(j);
 
-			s += tr("    ") + lhs.join(tr(" + ")) + tr(" -> ") + rhs.join(tr(" + ")) + tr(";    ") + rates[i] + tr(";\n");
+			s += tr("    ");
+			s += lhs.join(tr(" + ")); 
+			s += tr(" -> ");
+			s += rhs.join(tr(" + ")); 
+			s += tr(";    ");
+			s += rates[i] + tr(";\n");
 		}
 
 		s += tr("\n");
@@ -738,8 +747,11 @@ namespace Tinkercell
 					QString rule = assigns.value(j,0);
 					rule.replace(regex,tr("_"));
 					s += tr("    ");
-					s += handles[i]->fullName(tr("_"));
-					s += tr("_");
+					if (!handles[i]->name.isEmpty())
+					{
+						s += handles[i]->fullName(tr("_"));
+						s += tr("_");
+					}
 					s += assigns.rowName(j);
 					s += tr(" = ");
 					s += rule;
@@ -750,13 +762,17 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i]->hasNumericalData(tr("Initial Value")))
+			if (handles[i]->hasNumericalData(tr("Initial Value")) && !handles[i]->name.isEmpty())
 			{
-				s += handles[i]->fullName(tr("_")) + tr(" = ") + QString::number(handles[i]->numericalData(tr("Initial Value"))) + tr("\n");
+				s += tr("    ");
+				s += handles[i]->fullName(tr("_"));
+				s += tr(" = ");
+				s += QString::number(handles[i]->numericalData(tr("Initial Value"))); 
+				s += tr("\n");
 			}
 		}
 
-		s += tr("\nend\n");
+		//s += tr("\nend\n");
 		return s;
 	}
 	
@@ -834,38 +850,59 @@ namespace Tinkercell
 		if (s) s->release();
 	}
 	
-	void AntimonyEditor::getSBMLStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString& sbml)
+	void AntimonyEditor::getSBMLStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString* sbml)
 	{
-		QString ant = getAntimonyScript(items);
-		sbml = tr(getSBMLString("_main"));
+		if (sbml && currentWindow())
+		{
+			QList<ItemHandle*> handles = items;
+			if (!handles.contains(currentWindow()->modelItem()))
+				handles << (currentWindow()->modelItem());
+			
+			QString ant = getAntimonyScript(handles);
+			(*sbml) = tr(getSBMLString("__main"));
+		}
 		if (s) s->release();
 	}
 	
-	void AntimonyEditor::getAntimonyStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString& ant)
+	void AntimonyEditor::getAntimonyStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString* ant)
 	{
-		console()->message("here");
-		ant = getAntimonyScript(items);
-		if (s) s->release();
+		if (ant && currentWindow())
+		{
+			QList<ItemHandle*> handles = items;
+			if (!handles.contains(currentWindow()->modelItem()))
+				handles << (currentWindow()->modelItem());
+			(*ant) = getAntimonyScript(handles);
+		}
+		if (s) 
+			s->release();
 	}
 	
 	void AntimonyEditor::writeSBMLFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
-		if (currentTextEditor())
+		if (currentTextEditor() && currentWindow())
 		{
-			QString ant = getAntimonyScript(items);
+			QList<ItemHandle*> handles = items;
+			if (!handles.contains(currentWindow()->modelItem()))
+				handles << (currentWindow()->modelItem());
+				
+			QString ant = getAntimonyScript(handles);
 			loadString(ant.toAscii().data());
-			writeSBMLFile(file.toAscii().data(),"_model");
+			writeSBMLFile(file.toAscii().data(),"__main");
 		}
 		if (s) s->release();
 	}
 	
 	void AntimonyEditor::writeAntimonyFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
-		if (currentTextEditor())
+		if (currentTextEditor() && currentWindow())
 		{
-			QString ant = getAntimonyScript(items);
+			QList<ItemHandle*> handles = items;
+			if (!handles.contains(currentWindow()->modelItem()))
+				handles << (currentWindow()->modelItem());
+				
+			QString ant = getAntimonyScript(handles);
 			loadString(ant.toAscii().data());
-			writeAntimonyFile(file.toAscii().data(),"_model");
+			writeAntimonyFile(file.toAscii().data(),"__main");
 		}
 		if (s) s->release();
 	}
@@ -898,8 +935,6 @@ namespace Tinkercell
 	
 	void AntimonyEditor::connectTCFunctions()
 	{
-		console()->message("here");
-		
 		connect(&fToS,SIGNAL(loadSBMLStringSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadSBMLStringSlot(QSemaphore*,const QString&)));
 		
@@ -912,12 +947,12 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(loadAntimonyFileSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadAntimonyFileSlot(QSemaphore*,const QString&)));
 				
-		connect(&fToS,SIGNAL(getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&)),
-				this,SLOT(getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&)));
+		connect(&fToS,SIGNAL(getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*)),
+				this,SLOT(getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*)));
 		
-		connect(&fToS,SIGNAL(getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString&)),
-				this,SLOT(getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString&)));
-		
+		connect(&fToS,SIGNAL(getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*)),
+				this,SLOT(getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*)));
+			
 		connect(&fToS,SIGNAL(writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
 				this,SLOT(writeSBMLFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&)));
 		
@@ -967,7 +1002,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit getSBMLStringSignal(s,*list,str);
+		emit getSBMLStringSignal(s,*list,&str);
 		delete list;
 		s->acquire();
 		s->release();
@@ -980,7 +1015,7 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		QList<ItemHandle*> * list = ConvertValue(a);
-		emit getAntimonyStringSignal(s,*list,str);
+		emit getAntimonyStringSignal(s,*list,&str);
 		delete list;
 		s->acquire();
 		s->release();

@@ -281,7 +281,8 @@ namespace Tinkercell
 		QString name = this->name;
 		while (p != 0)
 		{
-			name = p->name + sep + name;
+			if (!p->name.isEmpty())
+				name = p->name + sep + name;
 			p = p->parent;
 		}
 		return name;

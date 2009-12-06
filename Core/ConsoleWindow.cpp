@@ -16,6 +16,31 @@ a generic command prompt (e.g. by Python plugin)
 namespace Tinkercell
 {
 	QString ConsoleWindow::Prompt(">>");
+	
+	QColor ConsoleWindow::BackgroundColor("#000000");
+	QColor ConsoleWindow::PlainTextColor("#FEFFEC");
+	QColor ConsoleWindow::ErrorTextColor("#FF6F0F");
+	QColor ConsoleWindow::OutputTextColor("#00FF12");
+	
+	void CommandTextEdit::setBackgroundColor(const QColor& c)
+	{
+		setPalette(QPalette(ConsoleWindow::BackgroundColor = c));
+	}
+	
+	void CommandTextEdit::setPlainTextColor(const QColor& c)
+	{
+		normalFormat.setForeground( ConsoleWindow::PlainTextColor = c );
+	}
+	
+	void CommandTextEdit::setOutputTextColor(const QColor& c)
+	{
+		messageFormat.setForeground( ConsoleWindow::OutputTextColor = c );
+	}
+	
+	void CommandTextEdit::setErrorTextColor(const QColor& c)
+	{
+		errorFormat.setForeground( ConsoleWindow::ErrorTextColor = c );
+	}
 
 	void CommandTextEdit::setCompleter(QCompleter *completer)
 	{
@@ -70,16 +95,14 @@ namespace Tinkercell
 	{
 		setUndoRedoEnabled ( false );
 
-
 		setTextInteractionFlags(Qt::TextEditorInteraction);
-
 
 		setCursorWidth(2);
 		QFont font = this->font();
 		font.setPointSize(12);
 		setFont(font);
 
-		setPalette(QPalette(QColor("#000000")));
+		setPalette(QPalette(ConsoleWindow::BackgroundColor));
 
 		QTextCursor cursor = textCursor();
 
@@ -87,13 +110,13 @@ namespace Tinkercell
 		frozen = false;
 
 		errorFormat.setFontWeight(QFont::Bold);
-		errorFormat.setForeground(QColor("#FF6F0F"));
+		errorFormat.setForeground(ConsoleWindow::ErrorTextColor);
 
 		//messageFormat.setFontWeight(QFont::Bold);
-		messageFormat.setForeground(QColor("#00FF12"));
+		messageFormat.setForeground(ConsoleWindow::OutputTextColor);
 
 		normalFormat.setFontWeight(QFont::Bold);
-		normalFormat.setForeground(QColor("#FEFFEC"));
+		normalFormat.setForeground(ConsoleWindow::PlainTextColor);
 
 		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
@@ -153,7 +176,6 @@ namespace Tinkercell
         cursor.setCharFormat(normalFormat);
         cursor.insertText(ConsoleWindow::Prompt);
 
-
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
 		this->ensureCursorVisible();
@@ -184,7 +206,8 @@ namespace Tinkercell
 
 		if (this->frozen == frozen)
 		{
-			currentPosition = cursor.position();
+			if (cursor.position() > currentPosition)
+				currentPosition = cursor.position();	
 			currentHistoryIndex = historyStack.size();
 			this->ensureCursorVisible();
 		}
@@ -289,7 +312,7 @@ namespace Tinkercell
 
         if (event->modifiers() == 0)
         {
-            if (cursor.position() <= currentPosition)
+            if (cursor.position() < currentPosition)
 				cursor.setPosition(currentPosition);
             this->ensureCursorVisible();
         }
@@ -379,10 +402,10 @@ namespace Tinkercell
 						if (key == Qt::Key_Up || key == Qt::Key_Down || key == Qt::Key_Left || key == Qt::Key_Right
 							|| key == Qt::Key_PageUp || key == Qt::Key_PageDown || key == Qt::Key_End || key == Qt::Key_Home
 							|| !(	frozen
-							|| !document()
-							|| cursor.position() < currentPosition
-							|| cursor.selectionStart() < currentPosition
-							|| (cursor.position() == currentPosition && key == Qt::Key_Backspace)))
+									|| !document()
+									|| (cursor.position() < currentPosition)
+									|| !cursor.selectedText().isEmpty()
+									|| (cursor.position() <= currentPosition && key == Qt::Key_Backspace)))
 						{
 							QString completionPrefix = textUnderCursor();
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E

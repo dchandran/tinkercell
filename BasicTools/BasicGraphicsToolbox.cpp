@@ -865,18 +865,16 @@ namespace Tinkercell
 		{
 			if (zoomRect.scene() != scene)
 			{
+				zoomRect.setZValue(0);
 				scene->addItem(&zoomRect);
-				QPen pen(Qt::DotLine);
-				pen.setColor(QColor(50,50,50,250));
-				pen.setWidthF(1.0);
-				zoomRect.setPen(pen);
-				zoomRect.setBrush(Qt::NoBrush);
+				//QPen pen(Qt::DotLine);
+				//pen.setColor(QColor(50,50,50,255));
+				//pen.setWidthF(1.0);
+				zoomRect.setPen(Qt::NoPen);
+				zoomRect.setBrush(QBrush(QColor(100,100,100,100)));
 			}
 
-			if (!zoomRect.isVisible())
-			{
-				zoomRect.setVisible(true);
-			}
+			zoomRect.setVisible(true);
 		}
 	}
 

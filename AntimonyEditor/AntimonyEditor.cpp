@@ -487,7 +487,7 @@ namespace Tinkercell
 					{
 						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
 							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
-						moduleHandle->data->textData[tr("Assignments")].value(tr(paramValues[j]),0) = paramValues[j];
+						moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
 					}
 				}
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;

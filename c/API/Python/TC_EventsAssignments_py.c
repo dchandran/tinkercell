@@ -5,7 +5,7 @@
 
 static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 {
-	PyObject * pylist;
+	PyObject * pylist=0;
 	int isList, n=0, len, i;
 	void ** array=0;
 	PyObject *strlist;
@@ -67,7 +67,7 @@ static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getEventResponses(PyObject *self, PyObject *args)
 {
-	PyObject * pylist;
+	PyObject * pylist=0;
 	int isList, n=0, i, len;
 	void ** array=0;
 	PyObject *strlist;
@@ -142,7 +142,7 @@ static PyObject * pytc_addEvent(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 {
-	PyObject * pylist;
+	PyObject * pylist=0;
 	int isList, n=0, i, len;
 	void ** array=0;
 	char ** names;
@@ -204,7 +204,7 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 
 static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *args)
 {
-	PyObject * pylist;
+	PyObject * pylist=0;
 	int isList, n=0, i, len;
 	void ** array=0;
 	char ** names=0;

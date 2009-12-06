@@ -3,7 +3,7 @@
 <NodesTree version="1.0">
 <node family="Node" color="#7AAEC8">
   <text>Nodes can be connected to one another using one of the various types of connections. The two main divisions of nodes are DNA nodes and Species nodes.</text>
-  <node family="Species" color="#0048FF" units="concentration,uM" molecularweight="50000">
+  <node family="Molecule" color="#0048FF" units="concentration,uM" molecularweight="50000">
     <text>Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.</text>
 	<node family="Small Molecule">
 	   <text>Metabolites, ions, and other small molecules</text>

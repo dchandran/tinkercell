@@ -106,7 +106,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = getHandle(items[i]);
-			if (handle && handle->isA("Species"))
+			if (handle && handle->isA("Molecule"))
 			{
 				if (separator)
 					mainWindow->contextItemsMenu.addAction(separator);

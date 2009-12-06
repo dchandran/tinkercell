@@ -257,8 +257,8 @@ namespace Tinkercell
 			ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
 			if (connectionsTree->connectionFamilies.contains(tr("Biochemical")))
 				biochemicalFamily = connectionsTree->connectionFamilies.value(tr("Biochemical"));
-			if (partsTree->nodeFamilies.contains(tr("Species")))
-				speciesFamily = partsTree->nodeFamilies.value(tr("Species"));
+			if (partsTree->nodeFamilies.contains(tr("Molecule")))
+				speciesFamily = partsTree->nodeFamilies.value(tr("Molecule"));
 			if (partsTree->nodeFamilies.contains(tr("Module")))
 				moduleFamily = partsTree->nodeFamilies.value(tr("Module"));
 		}

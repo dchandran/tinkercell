@@ -86,7 +86,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Species") && !handlesPhos.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Molecule") && !handlesPhos.contains(handle))
 			{
 				handlesPhos += handle;
 				ItemHandle * node = handle;
@@ -572,7 +572,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Species") && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Molecule") && !handlesDegraded.contains(handle))
 			{
 				handlesDegraded += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
@@ -1559,7 +1559,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = getHandle(items[i]);
-			if (!containsSpecies && handle && handle->isA("Species"))
+			if (!containsSpecies && handle && handle->isA("Molecule"))
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;

@@ -586,8 +586,8 @@ namespace Tinkercell
 		tabWidget->setWindowTitle(tr("Parts and Connections"));
 
 		tabGroups	<< QPair<QString, QStringList>(
-													tr("Species"),
-													QStringList() << "Species" << "Empty")
+													tr("Molecules"),
+													QStringList() << "Molecules" << "Empty")
 
 					<< QPair<QString, QStringList>(
 													tr("Parts"),

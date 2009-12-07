@@ -1173,13 +1173,17 @@ namespace Tinkercell
 				return;
 			}
 			
+			bool hide = false;
 			for (int i=0; i < childItems.size(); ++i)
 			{
 				if (moduleItem != childItems[i] && 
 					collidingItems.contains(childItems[i]) &&
 					getHandle(childItems[i]) != handle &&
 					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
+				{
 					hideItems << childItems[i];
+					hide = hide || childItems[i]->isVisible();
+				}
 			}
 			
 			GraphicsScene * scene2 = mainWindow->newGraphicsWindow();
@@ -1187,14 +1191,16 @@ namespace Tinkercell
 			{
 				mainWindow->popOut(scene2->networkWindow);
 				QList<ItemHandle*> handles;
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
-				scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,true);
+				
+				if (hide)
+					scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
 				
 				for (int i=0; i < clones.size(); ++i)
-				{
-					if (getHandle(clones[i]))
-						console()->message(getHandle(clones[i])->fullName());
-				}
+					if (clones[i])
+					{
+						clones[i]->setVisible(true);
+					}
 				scene2->insert(handle->fullName() + tr(" decompressed"), clones);
 			}
 		}

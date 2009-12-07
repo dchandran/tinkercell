@@ -28,6 +28,7 @@ QT4_WRAP_CPP( BasicTools_MOC ${TINKERCELL_BASICTOOLS_HDR})
 
 ADD_LIBRARY( BasicTools 
   SHARED
+  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
   ${BasicTools_MOC}
   ${TinkercellCore_MOC}
   ${TINKERCELL_BASICTOOLS_SRC}

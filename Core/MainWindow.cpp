@@ -3162,8 +3162,18 @@ namespace Tinkercell
 			{
 				tabWidget->removeTab(i);
 				win->setParent(0);
-				win->move(pos());
-				win->show();
+				
+				QDockWidget *dock = new QDockWidget(win->windowTitle(), this);
+				dock->setAttribute(Qt::WA_DeleteOnClose);
+				dock->setWindowIcon(win->windowIcon());
+				dock->setWidget(win);
+				addDockWidget(Qt::TopDockWidgetArea,dock);
+				dock->setFloating(true);
+				dock->setAllowedAreas(Qt::NoDockWidgetArea);
+				
+				dock->resize(width()/2,height()/2);
+				dock->move(pos());
+				dock->show();
 				setCurrentWindow(win);
 			}
 		}
@@ -3176,6 +3186,11 @@ namespace Tinkercell
 			int i = tabWidget->indexOf(win);
 			if (i == -1)
 			{
+				if (win->parentWidget())
+				{
+					win->setParent(0);
+					delete win->parentWidget();
+				}
 				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
 				setCurrentWindow(win);
 			}

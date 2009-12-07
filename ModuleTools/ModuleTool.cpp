@@ -1177,7 +1177,7 @@ namespace Tinkercell
 			for (int i=0; i < childItems.size(); ++i)
 			{
 				if (moduleItem != childItems[i] && 
-					collidingItems.contains(childItems[i]) &&
+					(!childItems[i]->isVisible() || collidingItems.contains(childItems[i])) &&
 					getHandle(childItems[i]) != handle &&
 					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
 				{

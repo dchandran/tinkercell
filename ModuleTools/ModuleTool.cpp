@@ -1173,43 +1173,23 @@ namespace Tinkercell
 				return;
 			}
 			
-			bool b = true;
 			for (int i=0; i < childItems.size(); ++i)
 			{
-				b = b && childItems[i]->isVisible();
-				if (!b)
-					break;
+				if (moduleItem != childItems[i] && 
+					collidingItems.contains(childItems[i]) &&
+					getHandle(childItems[i]) != handle &&
+					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
+					hideItems << childItems[i];
 			}
 			
-			if (b)
+			mainWindow->newGraphicsScene();
+			
+			GraphicsScene * scene2 = mainWindow->currentScene();
+			if (scene2 && scene2 != scene)
 			{
-				for (int i=0; i < childItems.size(); ++i)
-				{
-					if (moduleItem != childItems[i] && 
-						collidingItems.contains(childItems[i]) &&
-						getHandle(childItems[i]) != handle &&
-						!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
-						hideItems << childItems[i];
-				}
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems)
 				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
-			}
-			else
-			{
-				QRectF rect;
-				for (int i=0; i < hideItems.size(); ++i)				
-					rect = rect.united(hideItems[i]->sceneBoundingRect());
-				rect.adjust(-10,-10,10,10);
-				QPointF p1 = rect.topLeft() - moduleItem->sceneBoundingRect().topLeft(),
-						p2 = rect.bottomRight() - moduleItem->sceneBoundingRect().bottomRight();
-				
-				if (moduleItem->boundaryControlPoints.size() > 1 && moduleItem->boundaryControlPoints[0] && moduleItem->boundaryControlPoints[1])
-				{
-					scene->move(QList<QGraphicsItem*>() << moduleItem->boundaryControlPoints[0] << moduleItem->boundaryControlPoints[1], 
-								QList<QPointF>() << (p1 - moduleItem->boundaryControlPoints[0]->scenePos()) 
-												 << (p2 - moduleItem->boundaryControlPoints[1]->scenePos()));
-				}
-				
-				scene->show(handle->fullName() + tr(" decompressed"),childItems);
+				scene2->insert( clones );
 			}
 		}
     }

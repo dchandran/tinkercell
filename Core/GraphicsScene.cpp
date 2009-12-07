@@ -2272,6 +2272,8 @@ namespace Tinkercell
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 		fitInView(QRectF(0,0,1000,800),Qt::KeepAspectRatio);
+		
+		setFocusPolicy(Qt::StrongFocus);
 	}
 
 	/*! \brief get the console window (same as mainWindow->console())*/

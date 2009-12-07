@@ -886,11 +886,7 @@ namespace Tinkercell
 			if (list[i] && allNetworkWindows.contains(list[i]))			
 				list[i]->close();
 		
-		if (allNetworkWindows.isEmpty())
-		{
-			event->accept();
-		}
-		else
+		if (!allNetworkWindows.isEmpty())
 		{
 			event->ignore();
 			return;
@@ -912,12 +908,10 @@ namespace Tinkercell
 					toolsHash[i]->close();
 					delete toolsHash[i];
 				}
-				else
-				{
-
-				}
 			}
 		}
+		
+		event->accept();
 	}
 
 	void MainWindow::dragEnterEvent(QDragEnterEvent *event)

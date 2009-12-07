@@ -441,7 +441,10 @@ namespace Tinkercell
 		
 		for (int i=0; i < sideBarWidgets.size(); ++i)
 			if (sideBarWidgets[i])
+			{
+				sideBarWidgets[i]->setParent(0);
 				contentsLayout->addWidget(sideBarWidgets[i],0,Qt::AlignCenter);
+			}
 		
 		//make scroll area
 		contentsLayout->setContentsMargins(0,0,0,0);
@@ -456,14 +459,16 @@ namespace Tinkercell
 		scrollArea->setAutoFillBackground (true);
 		
 		//text edit and side group box
+		textEditor->setParent(0);
 		newLayout->addWidget(textEditor);
-		QLayout * tempLayout = new QHBoxLayout;
+		/*QLayout * tempLayout = new QHBoxLayout;
 		tempLayout->addWidget(scrollArea);
 		tempLayout->setContentsMargins(2,2,2,2);
 		QGroupBox * groupBox = new QGroupBox(tr(""));
-		groupBox->setLayout(tempLayout);
+		groupBox->setLayout(tempLayout);*/
 		newLayout->addWidget(scrollArea);
 		newLayout->setStretch(0,1);
+		newLayout->setStretch(1,0);
 		newLayout->setContentsMargins(0,0,0,0);
 		
 		setLayout(newLayout);

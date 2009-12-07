@@ -12,6 +12,7 @@ This tool allows insertion of nodes from the NodesTree
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
+#include "NetworkWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -51,10 +52,8 @@ namespace Tinkercell
 
 	void NodeInsertion::nodeSelected(NodeFamily * nodeFamily)
 	{
-		//if (nodeFamily)
-		//qDebug() << "node selected " << nodeFamily->name;
-		if ((selectedNodeFamily != 0 ||
-			(mainWindow != 0 && mainWindow->currentScene() != 0 && mainWindow->currentScene()->useDefaultBehavior))
+		if ((selectedNodeFamily ||
+			   (mainWindow && mainWindow->currentScene() && mainWindow->currentScene()->useDefaultBehavior))
 			&& nodeFamily && nodesTree)
 		{
 			selectedNodeFamily = nodeFamily;
@@ -65,12 +64,19 @@ namespace Tinkercell
 			if (nodeFamily != 0 && !nodeFamily->pixmap.isNull())
 			{
 				qreal asp = (double)nodeFamily->pixmap.height()/(double)nodeFamily->pixmap.width();
-
-				mainWindow->setCursor(QCursor(nodeFamily->pixmap.scaled(30,(int)(30*asp))));
+				
+				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(QCursor(nodeFamily->pixmap.scaled(30,(int)(30*asp))));
+				
 			}
 			else
 			{
-				mainWindow->setCursor(Qt::ArrowCursor);
+				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 			}
 
 			if (mainWindow->currentScene())
@@ -344,7 +350,11 @@ namespace Tinkercell
 		nodesTree->setCursor(Qt::ArrowCursor);
 		if (setArrows)
 		{
-			mainWindow->setCursor(Qt::ArrowCursor);
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
+
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = true;
 		}

@@ -165,7 +165,7 @@ namespace Tinkercell
 
 	void NodesTreeContainer::nodeSelectedSlot(NodeFamily* nodeFamily)
 	{
-		if (!nodeFamily || nodes.isEmpty()) return;
+		if (!nodeFamily || nodes.isEmpty() || !currentScene()) return;
 
 		int w = 20, h = 20;
 		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
@@ -218,7 +218,7 @@ namespace Tinkercell
 
     void NodesTreeContainer::connectionSelectedSlot(ConnectionFamily* family)
 	{
-		if (!family || connections.isEmpty()) return;
+		if (!family || connections.isEmpty() || !currentScene()) return;
 
 		int w = 20, h = 20;
 

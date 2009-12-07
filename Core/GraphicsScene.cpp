@@ -2252,7 +2252,7 @@ namespace Tinkercell
 	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
 	GraphicsView::GraphicsView(GraphicsScene * scene, QWidget * parent)
-		: QGraphicsView (scene,parent)
+		: QGraphicsView (scene,parent), scene(scene)
 	{
 		setCacheMode(QGraphicsView::CacheBackground);
 
@@ -2281,4 +2281,14 @@ namespace Tinkercell
             return networkWindow->console();
         return 0;
     }
+	
+	void GraphicsView::focusInEvent ( QFocusEvent * event)
+	{
+		if (scene && scene->networkWindow && scene->networkWindow->mainWindow 
+			&& scene->networkWindow->mainWindow->currentWindow() != scene->networkWindow)
+			
+			scene->networkWindow->mainWindow->setCurrentWindow(scene->networkWindow);
+		
+		QGraphicsView::focusInEvent(event);
+	}
 }

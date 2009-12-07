@@ -12,6 +12,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
+#include "NetworkWindow.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -485,11 +486,17 @@ namespace Tinkercell
 
 			if (connectionFamily != 0 && !connectionFamily->pixmap.isNull())
 			{
-				mainWindow->setCursor(QCursor(connectionFamily->pixmap.scaled(30,30)));
+				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(QCursor(connectionFamily->pixmap.scaled(30,30)));
 			}
 			else
 			{
-				mainWindow->setCursor(Qt::ArrowCursor);
+				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 			}
 			if (mainWindow->currentScene())
 			{
@@ -592,12 +599,18 @@ namespace Tinkercell
 
 		if (!selectedFamily->pixmap.isNull())
 		{
-			mainWindow->setCursor(QCursor(selectedFamily->pixmap.scaled(30,30)));
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(QCursor(selectedFamily->pixmap.scaled(30,30)));
 			connectionsTree->setCursor(selectedFamily->pixmap.scaled(30,30));
 		}
 		else
 		{
-			mainWindow->setCursor(Qt::ArrowCursor);
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 			connectionsTree->setCursor(Qt::ArrowCursor);
 		}
 		return true;
@@ -836,7 +849,10 @@ namespace Tinkercell
 		selectedNodes.clear();
 		if (arrows)
 		{
-			mainWindow->setCursor(Qt::ArrowCursor);
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+				for (int i=0; i < allWindows.size(); ++i)
+					if (allWindows[i]->scene)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = true;
 		}

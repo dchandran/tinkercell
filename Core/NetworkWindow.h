@@ -173,7 +173,7 @@ namespace Tinkercell
 		/*! \brief informs the main window that the current window is this*/
 		virtual void focusInEvent ( QFocusEvent * event );
 		/*! \brief informs the main window that the current window is not this*/
-		virtual void focusOutEvent ( QFocusEvent * event );
+		//virtual void focusOutEvent ( QFocusEvent * event );
 		/*! \brief close window event -- asks whether to save file
 		* \param QCloseEvent * event
 		* \return void*/

@@ -1146,7 +1146,7 @@ namespace Tinkercell
 	
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
-		if (!scene || !item || modifier) return;
+		if (!scene || !item || modifier || !mainWindow) return;
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem, *node;
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
@@ -1185,8 +1185,9 @@ namespace Tinkercell
 			GraphicsScene * scene2 = mainWindow->newGraphicsWindow();
 			if (scene2 && scene2 != scene)
 			{
+				mainWindow->popOut(scene2->networkWindow);
 				QList<ItemHandle*> handles;
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,true);
 				scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
 				scene2->insert( handle->fullName() + tr(" decompressed"), clones );
 			}

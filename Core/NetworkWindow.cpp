@@ -37,10 +37,18 @@ namespace Tinkercell
 
 	void NetworkWindow::closeEvent(QCloseEvent *event)
 	{
+		if (!mainWindow)
+		{
+			event->accept();
+			return;
+		}
+		
 		bool b = true;
 		emit closing(this,&b);
 		if (b)
 		{
+			if (mainWindow->currentWindow() == this)
+				mainWindow->setCurrentWindow(0);
 			if (mainWindow)
 				mainWindow->allNetworkWindows.removeAll(this);
 			disconnect();
@@ -783,13 +791,6 @@ namespace Tinkercell
 		mainWindow->setCurrentWindow(this);
 	}
 	
-	void NetworkWindow::focusOutEvent ( QFocusEvent * )
-	{
-		if (mainWindow->currentWindow() == this)
-			mainWindow->setCurrentWindow(0);
-	}
-
-
 	void NetworkWindow::resizeEvent ( QResizeEvent * event)
 	{
 		if (mainWindow && windowState() == Qt::WindowMinimized)		

@@ -195,6 +195,7 @@ namespace Tinkercell
 		//setIconSize(QSize(25,25));
 
 		tabWidget = new QTabWidget;
+		tabWidget->setStyleSheet(tr("QTabBar::tab { min-width: 36ex; }"));
 		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
 		
 		QToolButton * upButton = new QToolButton;
@@ -322,6 +323,7 @@ namespace Tinkercell
 			if (!window->hasFocus())
 				window->setFocus();
 			
+			historyWindow.setStack(&(window->history));
 			emit windowChanged(currentNetworkWindow,window);
 		}
 		currentNetworkWindow = window;
@@ -336,10 +338,10 @@ namespace Tinkercell
 		subWindow->move(pos());
 		subWindow->resize(width()/2,height()/2);
 		
-		popIn(subWindow);
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		
 		emit windowOpened(subWindow);
+		popIn(subWindow);
 		
 		return scene;
 	}
@@ -353,10 +355,10 @@ namespace Tinkercell
 		subWindow->resize(width()/2,height()/2);
 		
 		allNetworkWindows << subWindow;
-		popIn(subWindow);
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		
 		emit windowOpened(subWindow);
+		popIn(subWindow);
 		
 		return textedit;
 	}
@@ -622,7 +624,7 @@ namespace Tinkercell
 	}
 
 	NetworkWindow* MainWindow::currentWindow()
-	{
+	{	
 	    return currentNetworkWindow;
 	}
 
@@ -3153,13 +3155,14 @@ namespace Tinkercell
 	
 	void MainWindow::popOut(NetworkWindow * win)
 	{
-		if (allowViewModeToChange && win && tabWidget)
+		if (allowViewModeToChange && win && tabWidget && tabWidget->count() > 1)
 		{
 			int i = tabWidget->indexOf(win);
 			if (i > -1 && i < tabWidget->count())
 			{
 				tabWidget->removeTab(i);
 				win->setParent(0);
+				win->move(pos());
 				win->show();
 				setCurrentWindow(win);
 			}

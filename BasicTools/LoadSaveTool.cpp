@@ -37,7 +37,7 @@ namespace Tinkercell
 			if (mainWindow->currentWindow())
 				title = mainWindow->currentWindow()->windowTitle();
 			QMessageBox::StandardButton button = QMessageBox::question(
-				mainWindow,
+				win,
 				title,
 				tr("Save before closing?"),
 				QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
@@ -50,6 +50,9 @@ namespace Tinkercell
 			else
 				if (button == QMessageBox::Cancel)
 					(*close) = false;
+			
+			if (*close)
+				savedScenes.remove(win->scene);
 		}
 	}
 

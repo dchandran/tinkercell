@@ -561,6 +561,7 @@ namespace Tinkercell
 		/*! \brief default constructor*/
 		GraphicsView(GraphicsScene * scene = 0, QWidget * parent = 0);
 	protected:
+		GraphicsScene * scene;
 		/*! \brief drag on top event */
 		virtual void dropEvent(QDropEvent *);
 		/*! \brief drag and drop event*/
@@ -569,6 +570,8 @@ namespace Tinkercell
 		virtual void wheelEvent(QWheelEvent * event);
 		/*! \brief scroll event*/
 		virtual void scrollContentsBy ( int dx, int dy );
+		/*! \brief informs the main window that the current window is this*/
+		virtual void focusInEvent ( QFocusEvent * event );
 	};
 
 }

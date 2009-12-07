@@ -891,7 +891,10 @@ namespace Tinkercell
 			event->ignore();
 			return;
 		}
-
+		
+		if (tabWidget)
+			tabWidget->clear();
+		
 		QList<QString> keys = this->toolsHash.keys();
 		QList<Tool*> toolsHash = this->toolsHash.values();
 		for (int i=0; i < toolsHash.size(); ++i)

@@ -226,6 +226,8 @@ namespace Tinkercell
 		QString prevText;
 		/*! \brief listens to keyboard events in order to determine when the current line has changed*/
 		virtual void keyPressEvent ( QKeyEvent * event );
+		/*! \brief listens to mouse events just to activate this window*/
+		virtual void mousePressEvent ( QMouseEvent * event );
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<TextItem*> allItems;
 		/*! \brief creates context menu with actions in the contextMenu member*/

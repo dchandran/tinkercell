@@ -51,19 +51,20 @@ namespace Tinkercell
 		QList<QGraphicsItem*> items = scene->items();
 
 		ItemHandle * handle;
-
 		QList<ItemHandle*> handles;
 
 		handles << &modelItem;
 
 		for (int i=0; i < items.size(); ++i)
-		{
-			if ((handle = getHandle(items[i])) && items[i]->isVisible() && (handle->parent == 0) && !handles.contains(handle))
+			if (handle = getHandle(items[i]))
 			{
-				handles << handle;
-				handles << handle->visibleChildren();
+				handle = handle->root();
+				if (handle && handle->visible && !handles.contains(handle))
+				{
+					handles << handle;
+					handles << handle->visibleChildren();
+				}
 			}
-		}
 		update(handles);
 	}
 
@@ -85,13 +86,15 @@ namespace Tinkercell
 		handles << &modelItem;
 
 		for (int i=0; i < items.size(); ++i)
-		{
-			if ((handle = getHandle(items[i])) && handle->visible && (handle->parent == 0) && !handles.contains(handle))
+			if (handle = getHandle(items[i]))
 			{
-				handles << handle;
-				handles << handle->visibleChildren();
+				handle = handle->root();
+				if (handle && handle->visible && !handles.contains(handle))
+				{
+					handles << handle;
+					handles << handle->visibleChildren();
+				}
 			}
-		}
 		update(handles);
 	}
 

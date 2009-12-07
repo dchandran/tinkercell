@@ -86,6 +86,12 @@ namespace Tinkercell
 		ConsoleWindow * console();
 		/*! \brief the model item*/
 		virtual ItemHandle* modelItem();
+		/*! \brief calls mainWindow's setCurrentWindow method*/
+		virtual void setAsCurrentWindow();
+		/*! \brief calls mainWindow's popOut method*/
+		virtual void popOut();
+		/*! \brief calls mainWindow's popIn method*/
+		virtual void popIn();
 		/*! \brief checks whether a string is a correct formula.
 		\param QString target string
 		\param QStringList returns any new variables not found in this network

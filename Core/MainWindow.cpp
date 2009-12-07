@@ -324,7 +324,9 @@ namespace Tinkercell
 				window->setFocus();
 			
 			historyWindow.setStack(&(window->history));
-			emit windowChanged(currentNetworkWindow,window);
+			
+			if (window != currentNetworkWindow)
+				emit windowChanged(currentNetworkWindow,window);
 		}
 		currentNetworkWindow = window;
 	}
@@ -334,7 +336,8 @@ namespace Tinkercell
 		GraphicsScene * scene = new GraphicsScene;
 		NetworkWindow * subWindow = new NetworkWindow(this, scene);
 		
-		allNetworkWindows << subWindow;
+		if (!allNetworkWindows.contains(subWindow))
+			allNetworkWindows << subWindow;
 		subWindow->move(pos());
 		subWindow->resize(width()/2,height()/2);
 		
@@ -354,7 +357,8 @@ namespace Tinkercell
 		subWindow->move(pos());
 		subWindow->resize(width()/2,height()/2);
 		
-		allNetworkWindows << subWindow;
+		if (!allNetworkWindows.contains(subWindow))
+			allNetworkWindows << subWindow;
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		
 		emit windowOpened(subWindow);
@@ -879,10 +883,8 @@ namespace Tinkercell
 	{
 		QList<NetworkWindow*> list = allNetworkWindows;
 		for (int i=0; i < list.size(); ++i)
-			if (list[i])
-			{
+			if (list[i] && allNetworkWindows.contains(list[i]))			
 				list[i]->close();
-			}
 		
 		if (allNetworkWindows.isEmpty())
 		{

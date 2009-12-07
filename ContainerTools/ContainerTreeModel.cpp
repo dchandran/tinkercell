@@ -179,16 +179,19 @@ namespace Tinkercell
 			ContainerTreeItem* treeItem = 0;
 
 			for (int i=0; i < items.size(); ++i)
-			{
-				handle = items[i];
-				if (handle && handle->family() && handle->parent == 0 && handle->visible)
-				{	
-					if ((treeItem = makeBranch(handle,rootItem)))
-					{
-						rootItem->appendChild(treeItem);
+				if (items[i])
+				{
+					handle = items[i]->root();
+					
+					if (handle && !visited.contains(handle) && handle->family() && handle->visible)
+					{	
+						visited += handle;
+						if ((treeItem = makeBranch(handle,rootItem)))
+						{
+							rootItem->appendChild(treeItem);
+						}
 					}
 				}
-			}
 		}
 	}
 	
@@ -230,14 +233,17 @@ namespace Tinkercell
 			ContainerTreeItem* treeItem = 0;
 
 			for (int i=0; i < items.size(); ++i)
-			{
-				handle = items[i];
-				if (handle && handle->family() && handle->parent == 0 && handle->visible)
-				{	
-					if ((treeItem = makeBranch(handle,rootItemNew)))
-						rootItemNew->appendChild(treeItem);					
+				if (items[i])
+				{
+					handle = items[i]->root();
+					
+					if (handle && !visited.contains(handle) && handle->family() && handle->visible)
+					{	
+						visited += handle;
+						if ((treeItem = makeBranch(handle,rootItemNew)))
+							rootItemNew->appendChild(treeItem);					
+					}
 				}
-			}
 			
 			rootItem = rootItemNew;
 			emit layoutChanged();

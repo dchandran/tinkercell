@@ -255,9 +255,20 @@ namespace Tinkercell
 		if (prevBlockNumber == changedBlockNumber)
 			changedBlockText = textCursor().block().text();
 	}
+	
+	void TextEditor::mousePressEvent ( QMouseEvent * event )
+	{
+		if (networkWindow)
+			networkWindow->setAsCurrentWindow();
+		
+		CodeEditor::mousePressEvent(event);
+	}
 
 	void TextEditor::keyPressEvent ( QKeyEvent * event )
 	{
+		if (networkWindow)
+			networkWindow->setAsCurrentWindow();
+
 		int n0 = textCursor().blockNumber();
 
 		if (event->matches(QKeySequence::Redo)) //redo

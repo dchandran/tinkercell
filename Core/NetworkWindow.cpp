@@ -47,11 +47,11 @@ namespace Tinkercell
 		emit closing(this,&b);
 		if (b)
 		{
-			if (mainWindow->currentWindow() == this)
-				mainWindow->setCurrentWindow(0);
+			disconnect();
+			if (mainWindow->currentNetworkWindow == this)
+				mainWindow->currentNetworkWindow = 0;
 			if (mainWindow)
 				mainWindow->allNetworkWindows.removeAll(this);
-			disconnect();
 			event->accept();
 		}
 		else
@@ -797,6 +797,24 @@ namespace Tinkercell
 			mainWindow->popIn(this);
 		else
 			QWidget::resizeEvent(event);
+	}
+	
+	void NetworkWindow::setAsCurrentWindow()
+	{
+		if (mainWindow && mainWindow->currentWindow() != this)
+			mainWindow->setCurrentWindow(this);
+	}
+	
+	void NetworkWindow::popOut()
+	{
+		if (mainWindow)
+			mainWindow->popOut(this);
+	}
+	
+	void NetworkWindow::popIn()
+	{
+		if (mainWindow)
+			mainWindow->popIn(this);
 	}
 
 }

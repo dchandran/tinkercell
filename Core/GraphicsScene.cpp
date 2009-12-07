@@ -263,6 +263,9 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
+		if (networkWindow)
+			networkWindow->setAsCurrentWindow();
+
 		clickedPoint = mouseEvent->scenePos();
 		clickedButton = mouseEvent->button();
 		mouseDown = true;
@@ -621,6 +624,9 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::keyPressEvent (QKeyEvent * keyEvent)
 	{
+		if (networkWindow)
+			networkWindow->setAsCurrentWindow();
+
 		if (!keyEvent) return;
 		keyEvent->setAccepted(false);
 
@@ -2283,14 +2289,4 @@ namespace Tinkercell
             return networkWindow->console();
         return 0;
     }
-	
-	void GraphicsView::focusInEvent ( QFocusEvent * event)
-	{
-		if (scene && scene->networkWindow && scene->networkWindow->mainWindow 
-			&& scene->networkWindow->mainWindow->currentWindow() != scene->networkWindow)
-			
-			scene->networkWindow->mainWindow->setCurrentWindow(scene->networkWindow);
-		
-		QGraphicsView::focusInEvent(event);
-	}
 }

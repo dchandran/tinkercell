@@ -1187,9 +1187,15 @@ namespace Tinkercell
 			{
 				mainWindow->popOut(scene2->networkWindow);
 				QList<ItemHandle*> handles;
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,true);
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
 				scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
-				scene2->insert( handle->fullName() + tr(" decompressed"), clones );
+				
+				for (int i=0; i < clones.size(); ++i)
+				{
+					if (getHandle(clones[i]))
+						console()->message(getHandle(clones[i])->fullName());
+				}
+				scene2->insert(handle->fullName() + tr(" decompressed"), clones);
 			}
 		}
     }

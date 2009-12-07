@@ -570,8 +570,6 @@ namespace Tinkercell
 		virtual void wheelEvent(QWheelEvent * event);
 		/*! \brief scroll event*/
 		virtual void scrollContentsBy ( int dx, int dy );
-		/*! \brief informs the main window that the current window is this*/
-		virtual void focusInEvent ( QFocusEvent * event );
 	};
 
 }

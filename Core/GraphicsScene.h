@@ -39,6 +39,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include "DataTable.h"
 #include "HistoryWindow.h"
 #include "SymbolsTable.h"
+#include "CloneItems.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -55,26 +56,7 @@ namespace Tinkercell
 	class ItemData;
 	class NetworkWindow;
 	class ConsoleWindow;
-
-	/*! \brief gets the parent of this item that is a node, text, connection, or control point
-	* \param QGraphicsItem * Qt graphics item
-	\return QGraphicsItem * node, connection, text, or control point
-	\ingroup core
-	*/
-	MY_EXPORT QGraphicsItem * getGraphicsItem( QGraphicsItem * item );
-	/*! \brief Clone a graphics item
-	* \param QGraphicsItem * a pointer to a QGraphicsItem
-	\return QGraphicsItem * a QGraphicsItem that is clone of the argument
-	\ingroup core
-	*/
-	MY_EXPORT QGraphicsItem * cloneGraphicsItem( QGraphicsItem * item );
-	/*! \brief Clone a list of graphics items
-	* \param QList<QGraphicsItem*> a list of pointers to a QGraphicsItems
-	* \param QList<ItemHandle*> return value: returns all the new handles here
-	\return QList<QGraphicsItem*> a new list of QGraphicsItems that is clone of the argument
-	\ingroup core
-	*/
-	MY_EXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles );
+	
 	/*! \brief The primary task of the graphics scene is to draws items.
 	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
@@ -334,21 +316,21 @@ namespace Tinkercell
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
 		/*! \brief show item that were hidden*/
-		virtual  void show(const QString& name, QGraphicsItem* item);
+		virtual  void showItems(const QString& name, QGraphicsItem* item);
 		/*! \brief show items that were hidden*/
-		virtual  void show(const QString& name, const QList<QGraphicsItem*>& items);
+		virtual  void showItems(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief hide item*/
-		virtual  void hide(const QString& name, QGraphicsItem* item);
+		virtual  void hideItems(const QString& name, QGraphicsItem* item);
 		/*! \brief hide items*/
-		virtual  void hide(const QString& name, const QList<QGraphicsItem*>& items);
+		virtual  void hideItems(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief show handle that was hidden*/
-		virtual  void show(const QString& name, ItemHandle* handle);
+		virtual  void showItems(const QString& name, ItemHandle* handle);
 		/*! \brief show handles that were hidden*/
-		virtual  void show(const QString& name, const QList<ItemHandle*>& handles);
+		virtual  void showItems(const QString& name, const QList<ItemHandle*>& handles);
 		/*! \brief hide handle*/
-		virtual  void hide(const QString& name, ItemHandle* handle);
+		virtual  void hideItems(const QString& name, ItemHandle* handle);
 		/*! \brief hide handles*/
-		virtual void hide(const QString& name, const QList<ItemHandle*>& handles);
+		virtual void hideItems(const QString& name, const QList<ItemHandle*>& handles);
 
 	signals:
 		/*! \brief signals just before items are copied

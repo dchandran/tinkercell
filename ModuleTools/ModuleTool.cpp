@@ -1182,14 +1182,13 @@ namespace Tinkercell
 					hideItems << childItems[i];
 			}
 			
-			mainWindow->newGraphicsScene();
-			
-			GraphicsScene * scene2 = mainWindow->currentScene();
+			GraphicsScene * scene2 = mainWindow->newGraphicsWindow();
 			if (scene2 && scene2 != scene)
 			{
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems)
-				scene->hide(handle->fullName() + tr(" compressed"),hideItems);
-				scene2->insert( clones );
+				QList<ItemHandle*> handles;
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
+				scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
+				scene2->insert( handle->fullName() + tr(" decompressed"), clones );
 			}
 		}
     }

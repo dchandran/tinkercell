@@ -4,13 +4,15 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the
+An Widget that is used to store a network.
+The network can either be represented as text using TextEditor or visualized with graphical items in the
 GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
+The two main components of NetworkWindow are the SymbolsTable and HistoryStack
 This class provides functions for editing handles, such as changing names, data, etc.
 
 ****************************************************************************/
 
-#include <QGLWidget>
+#include <QHBoxLayout>
 #include "MainWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -33,14 +35,20 @@ namespace Tinkercell
 			delete scene;
 	}
 
-	void NetworkWindow::closeWindow ()
+	void NetworkWindow::closeEvent(QCloseEvent *event)
 	{
 		bool b = true;
-		emit closing(&b);
+		emit closing(this,&b);
 		if (b)
 		{
+			if (mainWindow)
+				mainWindow->allNetworkWindows.removeAll(this);
 			disconnect();
-			QMdiSubWindow::close();
+			event->accept();
+		}
+		else
+		{
+			event->ignore();
 		}
 	}
 
@@ -54,12 +62,20 @@ namespace Tinkercell
 
 	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
 	{
+		setFocusPolicy(Qt::StrongFocus);
+		setWindowIcon(QIcon(tr(":/images/newscene.png")));
+		
 		if (!scene) scene = new GraphicsScene;
 		this->scene = scene;
 		scene->networkWindow = this;
 
 		GraphicsView * view = new GraphicsView(scene);
-		setWidget(view);
+		
+		QHBoxLayout * layout = new QHBoxLayout;
+		layout->addWidget(view);
+		layout->setContentsMargins(0,0,0,0);
+		setLayout(layout);
+		
 		setAttribute(Qt::WA_DeleteOnClose);
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
@@ -141,7 +157,8 @@ namespace Tinkercell
 			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
 				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 
-			setWindowTitle(tr("network ") + QString::number(1 + main->allWindows().size()));
+			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkWindows.size()));
+			main->setCurrentWindow(this);
 		}
 
 		view->centerOn(0,0)	;
@@ -149,14 +166,22 @@ namespace Tinkercell
 
 	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
 	{
+		setFocusPolicy(Qt::StrongFocus);
+		setWindowIcon(QIcon(tr(":/images/newtext.png")));
+		
 		if (!editor) editor = new TextEditor;
 		this->textEditor = editor;
 		editor->networkWindow = this;
+		
+		QHBoxLayout * layout = new QHBoxLayout;
 
 		if (TextEditor::SideBarEnabled)
-			setWidget(editor->widget(Qt::Horizontal));
+			layout->addWidget(editor->widget(Qt::Horizontal));
 		else
-			setWidget(editor);
+			layout->addWidget(editor);
+		
+		layout->setContentsMargins(0,0,0,0);
+		setLayout(layout);
 		setAttribute(Qt::WA_DeleteOnClose);
 
 		editor->symbolsTable = &symbolsTable;
@@ -190,7 +215,8 @@ namespace Tinkercell
 			connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
 				main ,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
-			setWindowTitle(tr("network ") + QString::number(1 + main->allWindows().size()));
+			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkWindows.size()));
+			main->setCurrentWindow(this);
 		}
 	}
 
@@ -621,22 +647,22 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 	
-	void NetworkWindow::show(const QString& name, ItemHandle* handle)
+	void NetworkWindow::showItems(const QString& name, ItemHandle* handle)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handle, true));
 	}
 	
-	void NetworkWindow::show(const QString& name, const QList<ItemHandle*>& handles)
+	void NetworkWindow::showItems(const QString& name, const QList<ItemHandle*>& handles)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handles, true));
 	}
 	
-	void NetworkWindow::hide(const QString& name, ItemHandle* handle)
+	void NetworkWindow::hideItems(const QString& name, ItemHandle* handle)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handle, false));
 	}
 	
-	void NetworkWindow::hide(const QString& name, const QList<ItemHandle*>& handles)
+	void NetworkWindow::hideItems(const QString& name, const QList<ItemHandle*>& handles)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handles, false));
 	}
@@ -751,14 +777,25 @@ namespace Tinkercell
 		}
 		return true;
 	}
+	
+	void NetworkWindow::focusInEvent ( QFocusEvent * )
+	{
+		mainWindow->setCurrentWindow(this);
+	}
+	
+	void NetworkWindow::focusOutEvent ( QFocusEvent * )
+	{
+		if (mainWindow->currentWindow() == this)
+			mainWindow->setCurrentWindow(0);
+	}
+
 
 	void NetworkWindow::resizeEvent ( QResizeEvent * event)
 	{
-		if (mdiArea() && windowState() == (Qt::WindowMaximized | Qt::WindowActive) || windowState() == Qt::WindowFullScreen)
-		{
-			mdiArea()->setViewMode(QMdiArea::TabbedView);
-		}
+		if (mainWindow && windowState() == Qt::WindowMinimized)		
+			mainWindow->popIn(this);
 		else
-			QMdiSubWindow::resizeEvent(event);
+			QWidget::resizeEvent(event);
 	}
+
 }

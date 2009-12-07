@@ -29,6 +29,7 @@ SET( TINKERCELL_CORE_HDRS
   TextParser.h
   Tool.h
   UndoCommands.h
+  CloneItems.h
 )
 
 SET( TINKERCELL_CORE_SRC
@@ -59,6 +60,7 @@ SET( TINKERCELL_CORE_SRC
   TextParser.cpp
   Tool.cpp
   UndoCommands.cpp
+  CloneItems.cpp
 )
 
 QT4_WRAP_CPP( TINKERCELL_CORE_MOC ${TINKERCELL_CORE_HDRS} )

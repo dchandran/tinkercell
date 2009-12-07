@@ -21,14 +21,49 @@ QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Main/Tinkercell.qrc )
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
-FILE( GLOB TINKERCELL_BASICTOOLS_SRC *.cpp )
-FILE( GLOB TINKERCELL_BASICTOOLS_HDR *.h )
+SET(TINKERCELL_BASICTOOLS_SRC 
+  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
+  BasicGraphicsToolbox.cpp
+  CollisionDetection.cpp
+  ConnectionInsertion.cpp
+  ConnectionMaker.cpp
+  ConnectionSelection.cpp
+  DnaGraphicsItem.cpp
+  GraphicsReplaceTool.cpp
+  GraphicsTransformTool.cpp
+  GroupHandlerTool.cpp
+  LoadSaveTool.cpp
+  NameFamilyDialog.cpp
+  NodeInsertion.cpp
+  NodeSelection.cpp
+  TextGraphicsTool.cpp
+  BasicToolsMain.cpp
+)
+
+SET(TINKERCELL_BASICTOOLS_HDR
+  BasicGraphicsToolbox.h
+  CollisionDetection.h
+  ConnectionInsertion.h
+  ConnectionMaker.h
+  ConnectionSelection.h
+  DnaGraphicsItem.h
+  GraphicsReplaceTool.h
+  GraphicsTransformTool.h
+  GroupHandlerTool.h
+  LoadSaveTool.h
+  NameFamilyDialog.h
+  NodeInsertion.h
+  NodeSelection.h
+  TextGraphicsTool.h
+  TinkerCellAboutBox.h
+  BasicToolsMain.cpp
+  DefaultReactionRates.h
+)
 
 QT4_WRAP_CPP( BasicTools_MOC ${TINKERCELL_BASICTOOLS_HDR})
 
 ADD_LIBRARY( BasicTools 
   SHARED
-  ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
   ${BasicTools_MOC}
   ${TinkercellCore_MOC}
   ${TINKERCELL_BASICTOOLS_SRC}

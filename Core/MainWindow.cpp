@@ -45,7 +45,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 
 namespace Tinkercell
 {
-
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
 
@@ -54,29 +53,22 @@ namespace Tinkercell
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
 
+	QString MainWindow::userHomePath;
 	QString MainWindow::userHome()
 	{
-		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
-
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-
+		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())		
+			return userHomePath;
+		
 		QDir dir = QDir::homePath();
 		QString tcdir = PROJECTNAME;
 
-		if (!dir.exists(tcdir))
-		{
+		if (!dir.exists(tcdir))		
 			dir.mkdir(tcdir);
-		}
 
 		dir.cd(tcdir);
+		userHomePath = dir.absolutePath();
 
-		settings.beginGroup("MainWindow");
-		QString home = settings.value("home", dir.absolutePath()).toString();
-		settings.endGroup();
-
-		return home;
+		return userHomePath;
 	}
 
 	void MainWindow::setUserHome()
@@ -92,6 +84,7 @@ namespace Tinkercell
 
 		settings.beginGroup("MainWindow");
 		settings.setValue("home", home);
+		userHomePath = home;
 		settings.endGroup();
 	}
 
@@ -103,7 +96,8 @@ namespace Tinkercell
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
-		QString name[] = {	home + tr("/") + PROJECTNAME + tr("/") + dllFile,
+		QString name[] = {	
+			home + tr("/") + dllFile,
 			current + tr("/") + dllFile,
 			appDir + tr("/") + dllFile,
 			dllFile
@@ -192,7 +186,7 @@ namespace Tinkercell
 		readSettings();
 
         consoleWindow = 0;
-		prevWindow = 0;
+		currentNetworkWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
 		setAcceptDrops(true);
@@ -200,27 +194,21 @@ namespace Tinkercell
 		initializeMenus(enableScene,enableText);
 		//setIconSize(QSize(25,25));
 
-		setCentralWidget(&mdiArea);
-
-		mdiArea.setTabShape(QTabWidget::Triangular);
-		setViewMode(TabView);
-
-		connect(&mdiArea,SIGNAL(subWindowActivated(QMdiSubWindow*)),this,SLOT(windowChanged(QMdiSubWindow*)));
+		tabWidget = new QTabWidget;
+		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
+		
+		QToolButton * upButton = new QToolButton;
+		upButton->setIcon(QIcon(tr(":/images/rightarrow.png")));
+		tabWidget->setCornerWidget(upButton);
+		connect(upButton,SIGNAL(pressed()),this,SLOT(popOut()));
+		upButton->setToolTip(tr("Pop-out"));
+		
+		setCentralWidget(tabWidget);
 
 		setWindowTitle(tr("Tinkercell"));
-		statusBar()->showMessage("Welcome to Tinkercell");
-
 		setStyleSheet("QMainWindow::separator { width: 0px; height: 0px; }");
 
 		connect(this,SIGNAL(funtionPointersToMainThread(QSemaphore*,QLibrary*)),this,SLOT(setupFunctionPointersSlot(QSemaphore*,QLibrary*)));
-
-		QString tcdir("Tinkercell");
-
-		QDir dir(QDir::home());
-		if (!dir.exists(tcdir))
-		{
-			dir.mkdir(tcdir);
-		}
 
 		connect(this,SIGNAL(itemsInserted(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsInsertedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
@@ -313,42 +301,64 @@ namespace Tinkercell
 		GraphicsScene::clearStaticItems();
 		saveSettings();
 	}
+	
+	void MainWindow::tabIndexChanged(int i)
+	{
+		QWidget * w = tabWidget->currentWidget();
+		if (w)
+			setCurrentWindow(static_cast<NetworkWindow*>(w));
+	}
 
 	void MainWindow::setCurrentWindow(NetworkWindow * window)
 	{
-		mdiArea.setActiveSubWindow(window);
+		if (window)
+		{
+			if (tabWidget)
+			{
+				int i = tabWidget->indexOf(window);
+				if (i > -1 && i < tabWidget->count() && i != tabWidget->currentIndex())
+					tabWidget->setCurrentIndex(i);
+			}
+			if (!window->hasFocus())
+				window->setFocus();
+			
+			emit windowChanged(currentNetworkWindow,window);
+		}
+		currentNetworkWindow = window;
 	}
 
-	void MainWindow::newGraphicsWindow()
+	GraphicsScene * MainWindow::newGraphicsWindow()
 	{
-		NetworkWindow * subWindow = new NetworkWindow(this, new GraphicsScene);
-
-		subWindow->setWindowIcon(QIcon(tr(":/images/newscene.png")));
-		subWindow->resize(300,500);
-		subWindow->setAttribute(Qt::WA_DeleteOnClose);
-		mdiArea.addSubWindow(subWindow);
-		subWindow->setVisible(true);
-		subWindow->showMaximized();
-
-		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
+		GraphicsScene * scene = new GraphicsScene;
+		NetworkWindow * subWindow = new NetworkWindow(this, scene);
+		
+		allNetworkWindows << subWindow;
+		subWindow->move(pos());
+		subWindow->resize(width()/2,height()/2);
+		
+		popIn(subWindow);
+		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
+		
 		emit windowOpened(subWindow);
-		emit windowChanged(subWindow);
+		
+		return scene;
 	}
 
-	void MainWindow::newTextWindow()
+	TextEditor * MainWindow::newTextWindow()
 	{
-		NetworkWindow * subWindow = new NetworkWindow(this, new TextEditor);
+		TextEditor * textedit = new TextEditor;
+		NetworkWindow * subWindow = new NetworkWindow(this, textedit);
 
-		subWindow->setWindowIcon(QIcon(tr(":/images/newtext.png")));
-		subWindow->resize(300,500);
-		subWindow->setAttribute(Qt::WA_DeleteOnClose);
-		mdiArea.addSubWindow(subWindow);
-		subWindow->setVisible(true);
-		subWindow->showMaximized();
-
-		connect (subWindow,SIGNAL(closing(bool*)),this,SLOT(emitWindowClosing(bool*)));
+		subWindow->move(pos());
+		subWindow->resize(width()/2,height()/2);
+		
+		allNetworkWindows << subWindow;
+		popIn(subWindow);
+		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
+		
 		emit windowOpened(subWindow);
-		emit windowChanged(subWindow);
+		
+		return textedit;
 	}
 
 	void MainWindow::allowMultipleViewModes(bool b)
@@ -356,45 +366,11 @@ namespace Tinkercell
 		allowViewModeToChange = b;
 	}
 
-	void MainWindow::setViewMode(VIEW_MODE view)
-	{
-		if (view == TabView)
-		{
-			mdiArea.setViewMode(QMdiArea::TabbedView);
-		}
-		else
-		{
-			mdiArea.setViewMode(QMdiArea::SubWindowView);
-		}
-	}
-
-	void MainWindow::changeView()
-	{
-		if (!allowViewModeToChange) return;
-
-		if (mdiArea.viewMode() == QMdiArea::SubWindowView)
-		{
-			mdiArea.setViewMode(QMdiArea::TabbedView);
-		}
-		else
-		{
-			mdiArea.setViewMode(QMdiArea::SubWindowView);
-			mdiArea.tileSubWindows();
-		}
-	}
-
-	void MainWindow::emitWindowClosing(bool * b)
-	{
-		emit windowClosing(prevWindow ,b);
-		if (b && (*b))
-			prevWindow = 0;
-	}
-
 	void MainWindow::closeWindow()
 	{
 		if (currentWindow())
 		{
-			currentWindow()->closeWindow();
+			currentWindow()->close();
 		}
 	}
 
@@ -647,31 +623,12 @@ namespace Tinkercell
 
 	NetworkWindow* MainWindow::currentWindow()
 	{
-	    if (mdiArea.currentSubWindow() && mdiArea.currentSubWindow()->widget())
-			return static_cast<NetworkWindow*>(mdiArea.currentSubWindow());
-
-        QList<QMdiSubWindow *> subWindows = mdiArea.subWindowList();
-        if (subWindows.size() > 0
-            && subWindows[0]
-            && subWindows[0]->widget())
-			return static_cast<NetworkWindow*>(subWindows[0]);
-
-		return 0;
+	    return currentNetworkWindow;
 	}
 
 	QList<NetworkWindow*> MainWindow::allWindows()
 	{
-		QList<NetworkWindow*> list;
-		QList<QMdiSubWindow*> subwindows = mdiArea.subWindowList();
-
-		for (int i=0; i < subwindows.size(); ++i)
-		{
-			if (subwindows[i] && subwindows[i]->widget())
-			{
-				list += static_cast<NetworkWindow*>(subwindows[i]);
-			}
-		}
-		return list;
+		return allNetworkWindows;
 	}
 
 	void MainWindow::fitAll()
@@ -768,32 +725,30 @@ namespace Tinkercell
 
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
-		connect(&mdiArea,SIGNAL(mdiArea.subWindowActivated(QMdiSubWindow*)),this,SLOT(mdiWindowChanges(QMdiSubWindow*)));
-
-		QAction * copyAction = new QAction(QIcon(":/images/copy.png"),tr("Copy"),&mdiArea);
+		QAction * copyAction = new QAction(QIcon(":/images/copy.png"),tr("Copy"),this);
 		editMenu->addAction(copyAction);
 		copyAction->setToolTip(tr("Copy selected items"));
 		copyAction->setShortcut(QKeySequence::Copy);
 		connect(copyAction,SIGNAL(triggered()),this,SLOT(copy()));
 
-		QAction * cutAction = new QAction(QIcon(":/images/cut.png"),tr("Cut"),&mdiArea);
+		QAction * cutAction = new QAction(QIcon(":/images/cut.png"),tr("Cut"),this);
 		editMenu->addAction(cutAction);
 		cutAction->setToolTip(tr("Cut selected items"));
 		cutAction->setShortcut(QKeySequence::Cut);
 		connect(cutAction,SIGNAL(triggered()),this,SLOT(cut()));
 
-		QAction * pasteAction = new QAction(QIcon(":/images/paste.png"),tr("Paste"),&mdiArea);
+		QAction * pasteAction = new QAction(QIcon(":/images/paste.png"),tr("Paste"),this);
 		editMenu->addAction(pasteAction);
 		pasteAction->setToolTip(tr("Paste copied items"));
 		pasteAction->setShortcut(QKeySequence::Paste);
 		connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
 
-		QAction * deleteAction = new QAction(QIcon(":/images/delete.png"),tr("Delete"),&mdiArea);
+		QAction * deleteAction = new QAction(QIcon(":/images/delete.png"),tr("Delete"),this);
 		editMenu->addAction(deleteAction);
 		deleteAction->setToolTip(tr("Delete selected items"));
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
 
-		QAction * selectAllAction = new QAction(tr("Select all"),&mdiArea);
+		QAction * selectAllAction = new QAction(tr("Select all"),this);
 		editMenu->addAction(selectAllAction);
 		selectAllAction->setToolTip(tr("Select all items"));
 		selectAllAction->setShortcut(QKeySequence::SelectAll);
@@ -846,41 +801,11 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
-
-		if (allowViewModeToChange)
-		{
-			QAction* changeViewAction = fileMenu->addAction(QIcon(tr(":/images/changeView.png")), tr("Change View"));
-			connect (changeViewAction, SIGNAL(triggered()),this,SLOT(changeView()));
-			toolBarBasic->addAction(changeViewAction);
-			contextEditorMenu.addAction(changeViewAction);
-			contextScreenMenu.addAction(changeViewAction);
-			contextScreenMenu.addAction(changeViewAction);
-		}
 	}
 
 	void MainWindow::sendEscapeSignal(const QWidget * widget)
 	{
 		emit escapeSignal(widget);
-	}
-
-	void MainWindow::windowChanged(QMdiSubWindow* window)
-	{
-		if (!window) return;
-		NetworkWindow * model = currentWindow();
-
-		if (model)
-		{
-			if (model->scene)
-			{
-				if (prevWindow && prevWindow->scene)
-					model->scene->useDefaultBehavior = prevWindow->scene->useDefaultBehavior;
-				else
-					model->scene->useDefaultBehavior = true;
-			}
-			historyWindow.setStack(&(model->history));
-		}
-		emit windowChanged(prevWindow,currentWindow());
-		prevWindow = currentWindow();
 	}
 
 	QUndoStack * MainWindow::historyStack()
@@ -950,61 +875,45 @@ namespace Tinkercell
 
 	void MainWindow::closeEvent(QCloseEvent *event)
 	{
-		QList<QMdiSubWindow*> subWindows = mdiArea.subWindowList();
-		int sz = mdiArea.subWindowList().size();
-		for (int i=0; i < subWindows.size(); ++i)
-			if (subWindows[i])
+		QList<NetworkWindow*> list = allNetworkWindows;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
 			{
-				sz = mdiArea.subWindowList().size();
-				static_cast<NetworkWindow*>(subWindows[i])->closeWindow();
-				if (mdiArea.subWindowList().size() >= sz)
-					break;
+				list[i]->close();
 			}
-			if (mdiArea.subWindowList().size() == 0)
-			{
-				mdiArea.disconnect();
-				event->accept();
-			}
-			else
-			{
-				event->ignore();
-				return;
-			}
+		
+		if (allNetworkWindows.isEmpty())
+		{
+			event->accept();
+		}
+		else
+		{
+			event->ignore();
+			return;
+		}
 
-			/*if (toolsHash.contains(tr("Console Window")) && toolsHash[tr("Console Window")] )
+		QList<QString> keys = this->toolsHash.keys();
+		QList<Tool*> toolsHash = this->toolsHash.values();
+		for (int i=0; i < toolsHash.size(); ++i)
+		{
+			if (toolsHash[i])
 			{
-				(static_cast<Tool*>(toolsHash[tr("Console Window")]))->mainWindow = 0;
-				toolsHash.remove(tr("Console Window"));
-			}
-			if (toolsHash.contains(tr("History")) && toolsHash[tr("History")] )
-			{
-				(static_cast<Tool*>(toolsHash[tr("History")]))->mainWindow = 0;
-				toolsHash.remove(tr("History"));
-			}*/
-
-			QList<QString> keys = this->toolsHash.keys();
-			QList<Tool*> toolsHash = this->toolsHash.values();
-			for (int i=0; i < toolsHash.size(); ++i)
-			{
-				if (toolsHash[i])
+				if (toolsHash[i]->parentWidget() == 0)
 				{
-					if (toolsHash[i]->parentWidget() == 0)
-					{
-						for (int j=0; j < toolsHash.size(); ++j)
-							if (i != j && toolsHash[j] == toolsHash[i])
-								toolsHash[j] = 0;
+					for (int j=0; j < toolsHash.size(); ++j)
+						if (i != j && toolsHash[j] == toolsHash[i])
+							toolsHash[j] = 0;
 
-						disconnect(toolsHash[i]);
-						toolsHash[i]->close();
-						delete toolsHash[i];
-					}
-					else
-					{
+					disconnect(toolsHash[i]);
+					toolsHash[i]->close();
+					delete toolsHash[i];
+				}
+				else
+				{
 
-					}
 				}
 			}
-			emit windowClosed();
+		}
 	}
 
 	void MainWindow::dragEnterEvent(QDragEnterEvent *event)
@@ -3234,6 +3143,39 @@ namespace Tinkercell
 		{
 			QColor color = QColorDialog::getColor(ConsoleWindow::ErrorTextColor,this);
 			consoleWindow->editor()->setErrorTextColor(color);
+		}
+	}
+	
+	void MainWindow::popOut()
+	{
+		popOut(currentWindow());
+	}
+	
+	void MainWindow::popOut(NetworkWindow * win)
+	{
+		if (allowViewModeToChange && win && tabWidget)
+		{
+			int i = tabWidget->indexOf(win);
+			if (i > -1 && i < tabWidget->count())
+			{
+				tabWidget->removeTab(i);
+				win->setParent(0);
+				win->show();
+				setCurrentWindow(win);
+			}
+		}
+	}
+	
+	void MainWindow::popIn(NetworkWindow * win)
+	{
+		if (allowViewModeToChange && win && tabWidget)
+		{
+			int i = tabWidget->indexOf(win);
+			if (i == -1)
+			{
+				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
+				setCurrentWindow(win);
+			}
 		}
 	}
 }

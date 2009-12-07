@@ -56,7 +56,7 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	/*! \brief An MDI sub window that just signals before closing */
-	class MY_EXPORT NetworkWindow : public QMdiSubWindow
+	class MY_EXPORT NetworkWindow : public QWidget
 	{
 		Q_OBJECT
 
@@ -134,26 +134,24 @@ namespace Tinkercell
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
 		/*! \brief show handle that was hidden*/
-		virtual void show(const QString& name, ItemHandle* handle);
+		virtual void showItems(const QString& name, ItemHandle* handle);
 		/*! \brief show handles that were hidden*/
-		virtual void show(const QString& name, const QList<ItemHandle*>& handles);
+		virtual void showItems(const QString& name, const QList<ItemHandle*>& handles);
 		/*! \brief hide handle*/
-		virtual void hide(const QString& name, ItemHandle* handle);
+		virtual void hideItems(const QString& name, ItemHandle* handle);
 		/*! \brief hide handles*/
-		virtual void hide(const QString& name, const QList<ItemHandle*>& handles);
+		virtual void hideItems(const QString& name, const QList<ItemHandle*>& handles);
 
 	public slots:
 		/*! \brief updates the symbols table*/
 		virtual void updateSymbolsTable();
 		/*! \brief updates the symbols table. The int argument is so that this can be connected to the history changed signal*/
 		virtual void updateSymbolsTable(int);
-		/*!	\brief close this window */
-		virtual void closeWindow();
-
+		
 	signals:
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/
-		virtual void closing(bool * );
+		virtual void closing(NetworkWindow *, bool * );
 		/*! \brief signals whenever an item is renamed
 		* \param NetworkWindow* window where the event took place
 		* \param QList<ItemHandle*>& items
@@ -172,7 +170,15 @@ namespace Tinkercell
 		* \return void*/
 		virtual void dataChanged(const QList<ItemHandle*>& items);
 	protected:
-		/*! \brief maximizing the network window switches to tab mode*/
+		/*! \brief informs the main window that the current window is this*/
+		virtual void focusInEvent ( QFocusEvent * event );
+		/*! \brief informs the main window that the current window is not this*/
+		virtual void focusOutEvent ( QFocusEvent * event );
+		/*! \brief close window event -- asks whether to save file
+		* \param QCloseEvent * event
+		* \return void*/
+		virtual void closeEvent(QCloseEvent *event);
+		/*! \brief the network window switches to tab mode*/
 		virtual void resizeEvent ( QResizeEvent * );
 	};
 

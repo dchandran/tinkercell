@@ -22,8 +22,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #define TINKERCELL_MAINWINDOW_H
 
 #include <QtGui>
-#include <QMdiArea>
-#include <QMdiSubWindow>
 #include <QString>
 #include <QFileDialog>
 #include <QtDebug>
@@ -32,7 +30,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QGraphicsView>
 #include <QAction>
 #include <QMenu>
-#include <QMdiArea>
 #include <QTabWidget>
 #include <QThread>
 #include <QFile>
@@ -95,6 +92,8 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
+	
+		friend class NetworkWindow;
 
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget
@@ -130,11 +129,6 @@ namespace Tinkercell
 		* \param bool allow tabbed and windowed view modes (default = true)
 		*/
 		MainWindow(bool enableScene = true, bool enableText = true, bool enableConsoleWindow = true, bool showHistory = true, bool views = true);
-		/*!
-		* \brief set the current view mode
-		* \param VIEW_MODE view mode
-		*/
-		virtual void setViewMode(VIEW_MODE);
 		/*!
 		* \brief allow or disallow changing between different views
 		* \param bool
@@ -198,7 +192,7 @@ namespace Tinkercell
 		TextEditor * currentTextEditor();
 		/*!
 		* \brief gets the current window that is active
-		* \return NetworkWindow* current MDI window
+		* \return NetworkWindow* current network window
 		*/
 		NetworkWindow * currentWindow();
 		/*!
@@ -302,11 +296,11 @@ namespace Tinkercell
 		/*!
 		* \brief create new scene
 		*/
-		void newGraphicsWindow();
+		GraphicsScene * newGraphicsWindow();
 		/*!
 		* \brief create new text editor
 		*/
-		void newTextWindow();
+		TextEditor * newTextWindow();
 		/*!
 		* \brief triggered when the close button is clicked. Closes the current window
 		*/
@@ -377,10 +371,6 @@ namespace Tinkercell
 		*/
 		void fitSelected();
 		/*!
-		* \brief change the current view -- tabbed view, multi-window view, etc.
-		*/
-		void changeView();
-		/*!
 		* \brief sends a signal to all plugins telling them to exit their current processes.
 		*/
 		void sendEscapeSignal(const QWidget * w = 0);
@@ -398,15 +388,24 @@ namespace Tinkercell
 
 		/*! \brief set grid size for current scene*/
 		void setGridSize();
+		
+		/*! \brief pop-out the current window*/
+		void popOut();
+		
+		/*! \brief pop-out the given window*/
+		void popOut(NetworkWindow *);
+		
+		/*! \brief pop-in the given window*/
+		void popIn(NetworkWindow *);
 
 		/*! \brief get the console window*/
 		ConsoleWindow * console();
 
-	private slots:
+	protected slots:
 		/*!
-		* \brief sends a signal indicating that the current scene has changed
+		* \brief tab changed
 		*/
-		void windowChanged(QMdiSubWindow*);
+		virtual void tabIndexChanged(int);
 		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
@@ -435,12 +434,6 @@ namespace Tinkercell
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \return void*/
 		void itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
-		/*! \brief emit items removed */
-		/*!
-		* \brief informs the plugins that the current window is about to close
-		* \param Boolean setting to false will prevent this window from closing
-		*/
-		void emitWindowClosing(bool*);
 		/*!
 		* \brief send signal to other tools so that they can connect functions to signals
 		* \param QSemaphore* semaphore
@@ -920,7 +913,7 @@ namespace Tinkercell
 		* \param Boolean setting to false will prevent this window from closing
 		* \return void
 		*/
-		void windowClosing(NetworkWindow * window,bool*);
+		void windowClosing(NetworkWindow *, bool*);
 		/*!
 		* \brief signals used inform that the model is going to be saved as it is
 		* \param NetworkWindow *  the window where model was loaded (usually current scene)
@@ -1189,20 +1182,24 @@ namespace Tinkercell
 		* \return void*/
 		void dragEnterEvent(QDragEnterEvent *event);
 		/*! \brief close window event -- asks whether to save file
-		* \param drag event
+		* \param QCloseEvent * event
 		* \return void*/
 		void closeEvent(QCloseEvent *event);
 		/*! \brief the central multi-document interface widget*/
-		QMdiArea mdiArea;
+		QTabWidget * tabWidget;
+		/*! \brief the list of all network windows*/
+		QList<NetworkWindow*> allNetworkWindows;
 		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the toolbox argument in the addToolWindow call*/
 		QToolBox * toolBox;
 		/*! \brief history view, not the stack itself. The stack is stored within each NetworkWindow*/
 		HistoryWindow historyWindow;
-		/*! \brief keep pointer to previously selected window. Used by windowChanged event when window is changed*/
-		NetworkWindow * prevWindow;
+		/*! \brief keep pointer to last selected window. Used by windowChanged signal*/
+		NetworkWindow * currentNetworkWindow;
 		/*! \brief all the tools (plug-ins) are stored here, indexed by their names*/
 		QHash<QString,Tool*> toolsHash;
 	private:
+		/*! \brief home directory path*/
+		static QString userHomePath;
 		/*! \brief used to rename items*/
 		QLineEdit * renameOld;
 		/*! \brief used to rename items*/

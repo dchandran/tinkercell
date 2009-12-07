@@ -35,7 +35,7 @@ ENDIF(COMMAND CMAKE_POLICY)
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
   SET(CPACK_BUNDLE_NAME "Tinkercell")
-  SET(CPACK_BUNDLE_PLIST "Tinkercell")
+  SET(CPACK_BUNDLE_PLIST ${TINKERCELL_BINARY_DIR}/info.plist)
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------
@@ -105,6 +105,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/
 	${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
 	${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
+	${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony
     ${TINKERCELL_BINARY_DIR}/c/
     ${TINKERCELL_BINARY_DIR}/c/lpsolve/
     ${TINKERCELL_BINARY_DIR}/c/sundials/
@@ -139,6 +140,7 @@ IF( QT4_FOUND )
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/c/sundials/

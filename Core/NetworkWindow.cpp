@@ -14,6 +14,7 @@ This class provides functions for editing handles, such as changing names, data,
 
 #include <QHBoxLayout>
 #include "MainWindow.h"
+#include "ConsoleWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "GraphicsScene.h"
@@ -32,7 +33,11 @@ namespace Tinkercell
 		disconnect(&history);
 		history.clear();
 		if (scene)
-			delete scene;
+		{
+			QList<QGraphicsView*> views = scene->views();
+			if (views.size() == 1 && views[0] && views[0]->parentWidget() == this)			
+				delete scene;
+		}
 	}
 
 	void NetworkWindow::closeEvent(QCloseEvent *event)

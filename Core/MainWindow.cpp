@@ -320,6 +320,7 @@ namespace Tinkercell
 				if (i > -1 && i < tabWidget->count() && i != tabWidget->currentIndex())
 					tabWidget->setCurrentIndex(i);
 			}
+			
 			if (!window->hasFocus())
 				window->setFocus();
 			
@@ -338,13 +339,11 @@ namespace Tinkercell
 		
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
-		subWindow->move(pos());
-		subWindow->resize(width()/2,height()/2);
 		
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		
-		emit windowOpened(subWindow);
 		popIn(subWindow);
+		emit windowOpened(subWindow);
 		
 		return scene;
 	}
@@ -354,15 +353,12 @@ namespace Tinkercell
 		TextEditor * textedit = new TextEditor;
 		NetworkWindow * subWindow = new NetworkWindow(this, textedit);
 
-		subWindow->move(pos());
-		subWindow->resize(width()/2,height()/2);
-		
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		
-		emit windowOpened(subWindow);
 		popIn(subWindow);
+		emit windowOpened(subWindow);
 		
 		return textedit;
 	}
@@ -3160,19 +3156,10 @@ namespace Tinkercell
 			if (i > -1 && i < tabWidget->count())
 			{
 				tabWidget->removeTab(i);
-				win->setParent(0);
-				
-				QDockWidget *dock = new QDockWidget(win->windowTitle(), this);
-				dock->setAttribute(Qt::WA_DeleteOnClose);
-				dock->setWindowIcon(win->windowIcon());
-				dock->setWidget(win);
-				addDockWidget(Qt::TopDockWidgetArea,dock);
-				dock->setFloating(true);
-				dock->setAllowedAreas(Qt::NoDockWidgetArea);
-				
-				dock->resize(width()/2,height()/2);
-				dock->move(pos());
-				dock->show();
+				win->setParent(this);
+				win->setWindowFlags(Qt::Window);
+				if (!win->isVisible())
+					win->show();
 				setCurrentWindow(win);
 			}
 		}
@@ -3185,11 +3172,7 @@ namespace Tinkercell
 			int i = tabWidget->indexOf(win);
 			if (i == -1)
 			{
-				if (win->parentWidget())
-				{
-					win->setParent(0);
-					delete win->parentWidget();
-				}
+				win->setParent(0);
 				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
 				setCurrentWindow(win);
 			}

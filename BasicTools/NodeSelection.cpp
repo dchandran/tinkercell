@@ -536,7 +536,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (items[i] && !list.contains(items[i]) && (!items[i]->isVisible() || rect.intersects(items[i]->sceneBoundingRect())))
+			if (items[i] && (items[i]->scene() == scene) && !list.contains(items[i]) && (!items[i]->isVisible() || rect.intersects(items[i]->sceneBoundingRect())))
 			{
 				list << items[i];
 				if (items[i]->isVisible())

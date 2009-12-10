@@ -209,25 +209,26 @@ namespace Tinkercell
                     {
                         child = list[j];
                         for (int k=0; k < child->graphicsItems.size(); ++k)
-                        {
-                            if (child->graphicsItems[k] != items[i] &&
-                                !scene->moving().contains(child->graphicsItems[k]) &&
-                                items[i]->sceneBoundingRect().intersects(child->graphicsItems[k]->sceneBoundingRect()))
-                            {
-                                if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(child->graphicsItems[k])))
-                                {
-                                    QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems();
-                                    for (int l=0; l < controlPoints.size(); ++l)
-                                        if (!scene->moving().contains(controlPoints[l]))
-                                            scene->moving() += controlPoints[l];
-                                }
-                                else
-                                {
-                                    scene->moving() += child->graphicsItems[k];
-                                }
-                            }
-                            list += child->children;
-                        }
+							if (child->graphicsItems[k] && child->graphicsItems[k]->scene() == scene)
+							{
+								if (child->graphicsItems[k] != items[i] &&
+									!scene->moving().contains(child->graphicsItems[k]) &&
+									items[i]->sceneBoundingRect().intersects(child->graphicsItems[k]->sceneBoundingRect()))
+								{
+									if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(child->graphicsItems[k])))
+									{
+										QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems();
+										for (int l=0; l < controlPoints.size(); ++l)
+											if (!scene->moving().contains(controlPoints[l]))
+												scene->moving() += controlPoints[l];
+									}
+									else
+									{
+										scene->moving() += child->graphicsItems[k];
+									}
+								}
+								list += child->children;
+							}
                     }
                 }
             }

@@ -530,25 +530,26 @@ namespace Tinkercell
                 QRectF rect = moving[i]->sceneBoundingRect();
                 QList<QGraphicsItem*> itemsInside = scene->items(rect.adjusted(-10,-10,10,10));
                 for (int j=0; j < itemsInside.size(); ++j)
-                {
-                    if ((node = NodeGraphicsItem::topLevelNodeItem(itemsInside[j]))
-                        && (node->className == ModuleLinkerItem::CLASSNAME)
-                        && ((static_cast<ModuleLinkerItem*>(itemsInside[j]))->module == moving[i]))
-                    {
-                        if (!moving.contains(node)) moving += node;
-                        if ((handle = getHandle(node)))
-                        {
-                            for (int k=0; k < handle->graphicsItems.size(); ++k)
-                            {
-                                if (handle->graphicsItems[k] &&
-                                    rect.contains(handle->graphicsItems[k]->sceneBoundingRect()) &&
-                                    !moving.contains(handle->graphicsItems[k]))
+					if (itemsInside[j] && itemsInside[j]->scene() == scene)
+					{
+						if ((node = NodeGraphicsItem::topLevelNodeItem(itemsInside[j]))
+							&& (node->className == ModuleLinkerItem::CLASSNAME)
+							&& ((static_cast<ModuleLinkerItem*>(itemsInside[j]))->module == moving[i]))
+						{
+							if (!moving.contains(node)) moving += node;
+							if ((handle = getHandle(node)))
+							{
+								for (int k=0; k < handle->graphicsItems.size(); ++k)
+								{
+									if (handle->graphicsItems[k] &&
+										rect.contains(handle->graphicsItems[k]->sceneBoundingRect()) &&
+										!moving.contains(handle->graphicsItems[k]))
 
-                                    moving += handle->graphicsItems[k];
-                            }
-                        }
-                    }
-                }
+										moving += handle->graphicsItems[k];
+								}
+							}
+						}
+					}
             }
         }
     }
@@ -1191,7 +1192,7 @@ namespace Tinkercell
 			{
 				mainWindow->popOut(scene2->networkWindow);
 				QList<ItemHandle*> handles;
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,true);
+				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
 				
 				if (hide)
 					scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);

@@ -604,7 +604,7 @@ namespace Tinkercell
 									//connection->setControlPointsVisible(true);
 
 									for (int i=0; i < list.size(); ++i)
-										if (!movingItems.contains(list[i]))
+										if (!movingItems.contains(list[i]) && list[i]->scene() == scene)
 											movingItems += list[i];
 
 									ItemHandle * handle = connection->handle();
@@ -612,7 +612,8 @@ namespace Tinkercell
 										for (int i=0; i < handle->graphicsItems.size(); ++i)
 										{
 											if (TextGraphicsItem::cast(handle->graphicsItems[i])
-												&& !movingItems.contains(handle->graphicsItems[i]))
+												&& !movingItems.contains(handle->graphicsItems[i])
+												&& handle->graphicsItems[i]->scene() == scene)
 												movingItems += handle->graphicsItems[i];
 										}
 								}
@@ -1279,18 +1280,18 @@ namespace Tinkercell
 
 		for (int i=0; i < targetItems.size(); ++i)
 		{
-		ConnectionGraphicsItem * connectionPtr = 0;
-		if (targetItems[i] &&
-		(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
-		{
-		command->list += connectionPtr;
-		}
+			ConnectionGraphicsItem * connectionPtr = 0;
+			if (targetItems[i] &&
+				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
+			{
+				command->list += connectionPtr;
+			}
 		}
 
 		if (command->list.isEmpty())
 		{
-		delete command;
-		return;
+			delete command;
+			return;
 		}
 
 

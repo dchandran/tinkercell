@@ -14,11 +14,19 @@ ADD_LIBRARY( odesim
  ${TINKERCELL_SOURCE_DIR}/c/eigen.c
  ${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
  )
- 
-TARGET_LINK_LIBRARIES( odesim
-	odesim
-	lapack
-)
+
+IF (NOT APPLE)
+   TARGET_LINK_LIBRARIES( odesim
+	   odesim
+	   lapack
+   )
+ELSE
+   FIND_PACKAGE( VEC_LIB Veclib )
+   TARGET_LINK_LIBRARIES( odesim
+	   odesim
+	   $${VEC_LIB}
+   )   
+ENDIF(NOT APPLE)
  
 IF ( WIN32 )
   INSTALL(TARGETS odesim DESTINATION c)

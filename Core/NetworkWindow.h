@@ -35,6 +35,7 @@ This class provides functions for editing handles, such as changing names, data,
 #include "HistoryWindow.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
+#include "GraphicsView.h"
 #include "TextEditor.h"
 
 #ifdef Q_WS_WIN

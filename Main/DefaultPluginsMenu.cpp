@@ -134,7 +134,24 @@ namespace Tinkercell
 
       QString name = tool->name;
 
-      QAction * action = this->addAction(name);
+	  QMenu * menu = 0;
+	  for (int i=0; i < menus.size(); ++i)
+		if (menus[i] && menus[i]->title() == tool->category)
+		{
+			menu = menus[i];
+			break;
+		}
+	  
+	  if (!menu)
+	  {
+		QString s = tool->category;
+		if (s.isEmpty()) s = tr("misc.");
+		
+		menu = this->addMenu(s);
+		menus << menu;
+	  }
+	  
+      QAction * action = menu->addAction(name);
 
       action->setCheckable(true);
 

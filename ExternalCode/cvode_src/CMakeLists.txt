@@ -20,7 +20,7 @@ IF (NOT APPLE)
 	   odesim
 	   lapack
    )
-ELSE
+ELSE (NOT APPLE)
    FIND_PACKAGE( VEC_LIB Veclib )
    TARGET_LINK_LIBRARIES( odesim
 	   odesim

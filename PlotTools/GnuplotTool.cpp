@@ -23,13 +23,27 @@
 
 namespace Tinkercell
 {
+	GnuplotTool_FToS GnuplotTool::fToS;
     QList< DataTable<qreal> > GnuplotTool::data;
 
-    CodeEditor * GnuplotTool::editor = 0;
-
     QProcess process;
-
-    void GnuplotTool::gnuplotFile(const QString& filename)
+	
+	void GnuplotTool_FToS::gnuplotFile(const QString& s)
+	{
+		emit runScriptFile(s);
+	}
+	
+	void GnuplotTool_FToS::gnuplotScript(const QString& s)
+	{
+		emit runScript(s);
+	}
+	
+	void GnuplotTool::gnuplotFile(const QString& filename)
+	{
+		fToS.gnuplotFile(filename);
+	}
+	
+	void GnuplotTool::runScriptFile(const QString& filename)
     {
     #ifdef Q_WS_WIN
 
@@ -49,8 +63,13 @@ namespace Tinkercell
 
         process.startDetached(cmd);
     }
+	
+	void GnuplotTool::gnuplotScript(const QString& filename)
+	{
+		fToS.gnuplotScript(filename);
+	}
 
-    void GnuplotTool::gnuplotScript(const QString& script)
+    void GnuplotTool::runScript(const QString& script)
     {
 		QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
@@ -355,7 +374,10 @@ namespace Tinkercell
 
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);
-    }
+		
+		connect(&fToS,SIGNAL(runScriptFile(const QString&)),this,SLOT(runScriptFile(const QString&)));
+		connect(&fToS,SIGNAL(runScript(const QString&)),this,SLOT(runScript(const QString&)));
+    }	
 
     void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
     {

@@ -45,10 +45,14 @@ namespace Tinkercell
 		Q_OBJECT
 
 	public:
-		/*! \brief main window for this tool*/
-		MainWindow * mainWindow;
 		/*! \brief name of this tool*/
 		QString name;
+		/*! \brief category that this tool belongs in*/
+		QString category;
+		/*! \brief brief description of this tool*/
+		QString description;
+		/*! \brief main window for this tool*/
+		MainWindow * mainWindow;
 		/*! \brief constructor*/
 		Tool();
 		/*! \brief destructor. removes graphicsItem and toolButton is not 0*/

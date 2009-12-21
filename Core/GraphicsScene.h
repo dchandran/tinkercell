@@ -16,8 +16,6 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 #include <stdlib.h>
 #include <QtGui>
-#include <QMdiArea>
-#include <QMdiSubWindow>
 #include <QString>
 #include <QPair>
 #include <QFileDialog>
@@ -27,7 +25,6 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QAction>
-#include <QMenu>
 #include <QFile>
 #include <QHBoxLayout>
 #include <QMainWindow>
@@ -552,26 +549,6 @@ namespace Tinkercell
 		friend class MainWindow;
 		friend class NetworkWindow;
 	};
-
-	/*! \brief view for a graphics scene
-		\ingroup helper*/
-	class MY_EXPORT GraphicsView : public QGraphicsView
-	{
-	public:
-		/*! \brief default constructor*/
-		GraphicsView(GraphicsScene * scene = 0, QWidget * parent = 0);
-	protected:
-		GraphicsScene * scene;
-		/*! \brief drag on top event */
-		virtual void dropEvent(QDropEvent *);
-		/*! \brief drag and drop event*/
-		virtual void dragEnterEvent(QDragEnterEvent *event);
-		/*! \brief mouse wheel event*/
-		virtual void wheelEvent(QWheelEvent * event);
-		/*! \brief scroll event*/
-		virtual void scrollContentsBy ( int dx, int dy );
-	};
-
 }
 
 #endif

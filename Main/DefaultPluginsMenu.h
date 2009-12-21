@@ -51,6 +51,7 @@ class DefaultPluginsMenu : public QMenu
 	QAction * toggleConsoleLayoutAction;
     QStringList doNotLoadPluginNames;
     QList<QAction*> actions;
+	QList<QMenu*> menus;
 };
 
 }

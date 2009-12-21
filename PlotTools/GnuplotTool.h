@@ -21,6 +21,22 @@
 
 namespace Tinkercell
 {
+	class GnuplotTool_FToS : public QObject
+	{
+		Q_OBJECT
+
+		signals:
+
+			void runScriptFile(const QString&);
+			void runScript(const QString&);
+
+
+		public slots:
+
+			void gnuplotFile(const QString&);
+			void gnuplotScript(const QString&);
+	};
+	
 	class MY_EXPORT GnuplotTool : public Tool
 	{
 	    Q_OBJECT
@@ -72,6 +88,10 @@ namespace Tinkercell
         bool setMainWindow(MainWindow * main);
 
     private slots:
+	
+		void runScriptFile(const QString&);
+		
+		void runScript(const QString&);
 
         /*! \brief run the current gnuplot script */
         void runScript();
@@ -92,11 +112,13 @@ namespace Tinkercell
         void toolAboutToBeLoaded( Tool * , bool * );
 
 	private:
+		static GnuplotTool_FToS fToS;
+		
         /*! \brief all the data that have been plotted so far*/
         static QList< DataTable<qreal> > data;
 
         /*! \brief gnuplot script editor*/
-        static CodeEditor * editor;
+        CodeEditor * editor;
 
 	};
 }

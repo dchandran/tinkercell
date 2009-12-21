@@ -25,21 +25,25 @@ namespace Tinkercell
 	void CommandTextEdit::setBackgroundColor(const QColor& c)
 	{
 		setPalette(QPalette(ConsoleWindow::BackgroundColor = c));
+		update();
 	}
 	
 	void CommandTextEdit::setPlainTextColor(const QColor& c)
 	{
 		normalFormat.setForeground( ConsoleWindow::PlainTextColor = c );
+		update();
 	}
 	
 	void CommandTextEdit::setOutputTextColor(const QColor& c)
 	{
 		messageFormat.setForeground( ConsoleWindow::OutputTextColor = c );
+		update();
 	}
 	
 	void CommandTextEdit::setErrorTextColor(const QColor& c)
 	{
 		errorFormat.setForeground( ConsoleWindow::ErrorTextColor = c );
+		update();
 	}
 
 	void CommandTextEdit::setCompleter(QCompleter *completer)

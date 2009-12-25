@@ -31,8 +31,14 @@
   <connection family="Elongation" color="#157252" typein="Part" numin="1" typeout="Part" numout="1">
     <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
   </connection>
-  <connection family="Transcription" color="#3E7215" typein="Coding" numin="1" typeout="Molecule" numout="1">
-    <text>This connection represent a translation and/or transcription event.</text>
+  <connection family="Synthesis" color="#3E7215" typein="Node" numin="1" typeout="Molecule" numout="1">
+    <text>This connection represents synthesis or influx of a molecular species.</text>
+    <connection family="Transcription" typein="Coding" numin="1" typeout="mRNA" numout="1">
+      <text>This connection represents a production of mRNA and/or protein from a expression casette.</text>
+    </connection>
+    <connection family="Translation" typein="mRNA" numin="1" typeout="Protein" numout="1">
+      <text>This connection represents production of protein from mRNA. </text>
+    </connection>
   </connection>
 </connection>
 <connection family="Modifiers" typein="Node" numin="1" typeout="Connection" numout="1">

@@ -35,7 +35,7 @@ namespace Tinkercell
 		if (scene)
 		{
 			QList<QGraphicsView*> views = scene->views();
-			if (views.size() == 1 && views[0] && views[0]->parentWidget() == this)			
+			if (views.size() == 1 && views[0] && views[0]->parentWidget() == this)
 				delete scene;
 		}
 	}
@@ -53,6 +53,12 @@ namespace Tinkercell
 		if (b)
 		{
 			disconnect();
+			
+			QList<GraphicsView*> list = views;
+			for (int i=0; i < list.size(); ++i)
+				if (list[i])
+					list[i]->close();
+			
 			if (mainWindow->currentNetworkWindow == this)
 				mainWindow->currentNetworkWindow = 0;
 			if (mainWindow)
@@ -72,23 +78,37 @@ namespace Tinkercell
             return mainWindow->console();
         return 0;
     }
+	
+	void NetworkWindow::createView(const QList<QGraphicsItem*>& hideItems)
+	{
+		if (!mainWindow) return;
+		
+		GraphicsView * view = new GraphicsView(this);
+		views << view;
+		view->hideItems(hideItems);
+		view->setParent(mainWindow);
+		view->setWindowFlags(Qt::Window);
+		view->setAttribute(Qt::WA_DeleteOnClose);
+		if (!view->isVisible())
+			view->show();
+	}
 
 	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
 	{
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newscene.png")));
-		
+
 		if (!scene) scene = new GraphicsScene;
 		this->scene = scene;
 		scene->networkWindow = this;
 
-		GraphicsView * view = new GraphicsView(scene);
-		
+		GraphicsView * view = new GraphicsView(this);
+
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(view);
 		layout->setContentsMargins(0,0,0,0);
 		setLayout(layout);
-		
+
 		setAttribute(Qt::WA_DeleteOnClose);
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));

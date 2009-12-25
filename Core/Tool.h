@@ -59,8 +59,10 @@ namespace Tinkercell
 		~Tool();
 		/*! \brief constructor
 			\param QString name
-			\param QWidget* parent*/
-		Tool(const QString& Name, QWidget * parent = 0);
+			\param QString category (default = empty)
+			\param QWidget* parent (default = 0)
+		*/
+		Tool(const QString& Name, const QString& category = QString(), QWidget * parent = 0);
 		/*! \brief set the main window for this tool*/
 		virtual bool setMainWindow(MainWindow * main);
 		/*! \brief console window (same as mainWindow->console())*/

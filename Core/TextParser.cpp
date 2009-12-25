@@ -14,7 +14,7 @@ namespace Tinkercell
 {
 	TextParser * TextParser::_parser = 0;
 	
-	TextParser::TextParser(const QString& Name, QWidget * parent) : Tool(Name,parent)
+	TextParser::TextParser(const QString& Name, QWidget * parent) : Tool(Name,tr("Script Parsers"),parent)
 	{
 	}
 	

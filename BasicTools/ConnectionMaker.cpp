@@ -22,7 +22,7 @@ so that it looks appealing
 namespace Tinkercell
 {
 
-	ConnectionMaker::ConnectionMaker() : Tool(tr("Connection Maker"))
+	ConnectionMaker::ConnectionMaker() : Tool(tr("Connection Maker"),tr("Basic GUI"))
 	{ 
 		mainWindow = 0;
 		//collisionDetection = 0;
@@ -73,19 +73,19 @@ namespace Tinkercell
 				{
 					items << connection;
 
-					/*ItemHandle * handle = getHandle(connection);
+					ItemHandle * handle = getHandle(connection);
 					if (handle && handle->family())
 					{
-					if (handle->family()->isA("Elongation") || (connection->className == DnaGraphicsItem::CLASSNAME))
-					{
-					ConnectionGraphicsItem* newConnection = new DnaGraphicsItem;
-					(*newConnection) = (*connection);
-					setHandle(newConnection,handle);
-					newItems += newConnection;
-					oldItems += connection;
-					items << newConnection;
+						if (handle->family()->isA("Elongation") || (connection->className == DnaGraphicsItem::CLASSNAME))
+						{
+							ConnectionGraphicsItem* newConnection = new DnaGraphicsItem;
+							(*newConnection) = (*connection);
+							setHandle(newConnection,handle);
+							newItems += newConnection;
+							oldItems += connection;
+							items << newConnection;
+						}
 					}
-					}*/
 				}
 			}
 		}

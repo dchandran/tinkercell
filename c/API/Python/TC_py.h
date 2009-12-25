@@ -13,6 +13,14 @@
 #include "TC_AutoGeneRegulatoryTool_py.c"
 #include "TC_Antimony_py.c"
 
+int printOutput = 1;
+int printError = 1;
+
+void outputOn() { printOutput = 1; }
+void outputOff() { printOutput = 0; }
+void errorOn() { printError = 1; }
+void errorOff() { printError = 0; }
+
 static PyMethodDef pytcMethods[] = {
 //misc
 	{"zoom",pytc_zoom, METH_VARARGS, "zoom by a factor. example: zoom(1.2);"},
@@ -24,6 +32,10 @@ static PyMethodDef pytcMethods[] = {
 	{"createInputWindow", pytc_createInputWindow, METH_VARARGS, "create an input window for running another library. example: createInputWindow((\"model\",\"type\",\"time\",\"dt\"),(0,0,100,0.1),\"dlls/mydll\",\"main\",\"My Program\");"},
 	{"addInputWindowOptions", pytc_addInputWindowOptions, METH_VARARGS, "create an input window for running another library. example: addInputWindowOptions(\"My Program\",0,0,(\"all\",\"selected\");"},
 	{"openNewWindow", pytc_openNewWindow, METH_VARARGS, "open a new window or tab. example: openNewWindow();"},
+	{"outputOn", outputOn, METH_VARARGS, "turn on all outputs from Python to console. example: outputOn()"},
+	{"outputOff", outputOff, METH_VARARGS, "turn off all outputs from Python to console. example: outputOff()"},
+	{"errorOn", errorOn, METH_VARARGS,  "turn on all error messages from Python to console. example: errorOn()"},
+	{"errorOff", errorOff, METH_VARARGS,  "turn off all error messages from Python to console. example: errorOff()"},
 
 //get items
 	{"allItems", pytc_allItems, METH_VARARGS, "get addresses for all items. example: Array = allItems();"},

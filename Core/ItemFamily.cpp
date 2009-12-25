@@ -65,6 +65,16 @@ namespace Tinkercell
 		if (!family) return false;
 		return isA(family->root()->name);
 	}
+	
+	QList<ItemFamily*> ItemFamily::allChildren(QList<ItemFamily*>& list) const
+	{
+		list << const_cast<ItemFamily*>(this);
+		QList<ItemFamily*> childs = children();
+		for (int i=0; i < childs.size(); ++i)
+			if (childs.at(i))
+				childs.at(i)->allChildren(list);
+		return list;
+	}
 
 	/**************************************
 	NODE FAMILY

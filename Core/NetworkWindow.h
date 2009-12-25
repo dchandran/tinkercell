@@ -93,6 +93,8 @@ namespace Tinkercell
 		virtual void popOut();
 		/*! \brief calls mainWindow's popIn method*/
 		virtual void popIn();
+		/*! \brief create a new view for this network window*/
+		virtual void createView(const QList<QGraphicsItem*>& hideItems = QList<QGraphicsItem*>());
 		/*! \brief checks whether a string is a correct formula.
 		\param QString target string
 		\param QStringList returns any new variables not found in this network
@@ -187,6 +189,11 @@ namespace Tinkercell
 		virtual void closeEvent(QCloseEvent *event);
 		/*! \brief the network window switches to tab mode*/
 		virtual void resizeEvent ( QResizeEvent * );
+		/*! \brief all the views of the this network window*/
+		QList<GraphicsView*> views;
+		
+		friend class GraphicsView;
+		friend class GraphicsScene;
 	};
 
 }

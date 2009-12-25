@@ -749,6 +749,11 @@ namespace Tinkercell
 		editMenu->addAction(deleteAction);
 		deleteAction->setToolTip(tr("Delete selected items"));
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
+		
+		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create view"),this);
+		editMenu->addAction(createViewAction);
+		createViewAction->setToolTip(tr("Create view of current network"));
+		connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));
 
 		QAction * selectAllAction = new QAction(tr("Select all"),this);
 		editMenu->addAction(selectAllAction);
@@ -770,7 +775,8 @@ namespace Tinkercell
 		toolBarEdits->addAction(cutAction);
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
-
+		toolBarEdits->addAction(createViewAction);
+		
 		/*QSize iconSize(16,16);
 		toolBarBasic->setIconSize(iconSize);
 		toolBarEdits->setIconSize(iconSize);
@@ -788,6 +794,7 @@ namespace Tinkercell
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
 		contextEditorMenu.addAction(closeAction);
+		contextEditorMenu.addAction(createViewAction);
 
 		contextItemsMenu.addAction(copyAction);
 		contextItemsMenu.addAction(cutAction);
@@ -3177,5 +3184,12 @@ namespace Tinkercell
 				setCurrentWindow(win);
 			}
 		}
+	}
+	
+	void MainWindow::createView()
+	{
+		NetworkWindow * current = currentWindow();
+		if (current)
+			current->createView();
 	}
 }

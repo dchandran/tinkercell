@@ -59,10 +59,8 @@ namespace Tinkercell
 		mainWindow = 0;
 	}
 
-	Tool::Tool(const QString& Name, QWidget * parent): QWidget(parent), buttons(this)
+	Tool::Tool(const QString& Name, const QString& Cat, QWidget * parent): QWidget(parent), buttons(this), name(Name), category(Cat), mainWindow(0)
 	{
-		name = Name;
-		mainWindow = 0;
 	}
 
 	bool Tool::setMainWindow(MainWindow * main)

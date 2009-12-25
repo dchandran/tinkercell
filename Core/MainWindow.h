@@ -407,6 +407,10 @@ namespace Tinkercell
 		*/
 		virtual void tabIndexChanged(int);
 		/*!
+		* \brief create a new view of the current network window
+		*/
+		virtual void createView();
+		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
 		* \param QList<QGraphicsItem*>& list of items removed

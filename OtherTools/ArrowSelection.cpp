@@ -48,6 +48,7 @@ namespace Tinkercell
 
     ArrowSelectionTool::ArrowSelectionTool() : Tool(tr("Arrow Selection Tool")) , showArrowSelection("Change arrowhead",this), separator(0)
     {
+		
         mainWindow = 0;
         transformTool = 0;
 

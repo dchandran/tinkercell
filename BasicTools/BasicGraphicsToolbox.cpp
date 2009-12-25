@@ -24,7 +24,7 @@ buttons for all these functions.
 namespace Tinkercell
 {
 
-	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox"))
+	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
 	{
 		mode = none;
 		colorToolBar = new QToolBar(name,this);

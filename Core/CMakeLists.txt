@@ -12,6 +12,7 @@ SET( TINKERCELL_CORE_HDRS
   CThread.h
   DataTable.h
   GraphicsScene.h
+  GraphicsView.h
   HistoryWindow.h
   ItemFamily.h
   ItemHandle.h
@@ -42,6 +43,7 @@ SET( TINKERCELL_CORE_SRC
   ConvertValue.cpp
   CThread.cpp
   GraphicsScene.cpp
+  GraphicsView.cpp
   HistoryWindow.cpp
   ItemFamily.cpp
   ItemHandle.cpp

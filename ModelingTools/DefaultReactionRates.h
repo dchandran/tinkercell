@@ -35,7 +35,7 @@ namespace Tinkercell
 			bool isRegulatory = (isElongation && nodes.size() > 0 && (nodes[0])->isA(QString("Regulator")));
 			bool isTermination = (handle->family() && handle->family()->isA(QString("Elongation")) &&
 				nodes.size() > 1 && (nodes[1]) && (nodes[1])->isA(QString("Terminator")));
-			bool isTranscription = (handle->isA(QString("Transcription")));
+			bool isSynthesis = (handle->isA(QString("Synthesis")));
 			bool isGRN = (handle->isA(QString("Transcription Regulation")));
 			bool isBinding = !isGRN && (handle->isA(QString("Binding")));
 
@@ -82,20 +82,20 @@ namespace Tinkercell
 				{
 					if (nodesIn.contains(node))
 					{
-						if (!isTranscription)
+						if (!isSynthesis)
 						{
 							if (!nodes.contains(node))
 							{
 								nodes += node;
 								names += node->fullName();
-								if (!isTranscription && !isRegulatory && !isBinding && !isGRN)
+								if (!isSynthesis && !isRegulatory && !isBinding && !isGRN)
 									stoichiometry += -1.0;
 								else
 									stoichiometry += 0.0;
 							}
 							else
 							{
-								if (!isTranscription && !isRegulatory && !isGRN)
+								if (!isSynthesis && !isRegulatory && !isGRN)
 									stoichiometry[ nodes.indexOf(node) ] += -1.0;
 							}
 

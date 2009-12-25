@@ -66,7 +66,7 @@ namespace Tinkercell
 		QHash<QString, QPair<ItemHandle*,QString> > dataRowsAndCols;
 		/*! \brief this hash contains all the list of items belonging in each family. The items are listed under their family only and
 		not under their parent families. For example, you will not find an item of family "Elephant" under the "Mammals" key. You will
-		have to specifically search under "Elephant" and use the family inheritance structure to find out that it is also a "Mammal"
+		have to specifically search under "Elephant" and use ItemFamily's isA method to find out that it is also a "Mammal"
 		*/
 		QHash<QString, ItemHandle* > handlesFamily;
 		/*! \brief This is a special item handle that does not represent any item on the scene. It is used to store "global" data.

@@ -64,7 +64,7 @@ namespace Tinkercell
 		}
 	}
 
-	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion")), selectedFamily(0)
+	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion"),tr("Basic GUI")), selectedFamily(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 

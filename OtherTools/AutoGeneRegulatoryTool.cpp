@@ -59,6 +59,10 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
 	}
+	
+	void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& )
+	{
+	}
 
 	void AutoGeneRegulatoryTool::autoPhosphateTriggered()
 	{
@@ -190,7 +194,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && (handle->isA("Regulator") || handle->isA("Gene")) && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Regulator") && !handlesDegraded.contains(handle))
 			{
 				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
 				handlesDegraded += handle;
@@ -675,7 +679,7 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Regulator")))
+				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Transcription Regulator")))
 				{
 					if (regulator == 0)
 						regulator = parts[i];
@@ -1563,9 +1567,9 @@ namespace Tinkercell
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;
-			if (!containsRegulator && handle && (handle->isA("Gene") || handle->isA("Regulator")))
+			if (!containsRegulator && handle && handle->isA("Transcription Regulator"))
 				containsRegulator = true;
-			if (!containsCoding && handle && (handle->isA("Gene") || handle->isA("Coding")))
+			if (!containsCoding && handle && handle->isA("Coding"))
 				containsCoding = true;
 			if (!containsTranscription && handle && (handle->isA("Transcription")))
 				containsTranscription = true;
@@ -1832,7 +1836,7 @@ namespace Tinkercell
 
 	QString AutoGeneRegulatoryTool::hillEquation(NodeHandle * handle, ItemHandle * except)
 	{
-		if (!handle || !(handle->isA("Gene") || handle->isA(tr("Regulator")))) return QString();
+		if (!handle || !handle->isA(tr("Transcription Regulator"))) return QString();
 
 		QList<ConnectionHandle*> connections = handle->connections();
 

@@ -33,11 +33,11 @@
 	<text>DNA nodes represent components that belong on a DNA strand, such as promoter, genes, etc.</text>
 	<node family="Coding">
 	  <text>A DNA sequence that encodes for a protein or RNA product.</text>
-	  <node family="Gene" composite="true">
+	  <node family="Expression Casette" composite="true">
 	    <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
 	  </node>
 	</node>
-	<node family="Regulator">
+	<node family="Transcription Regulator">
 	  <text>Represents a node that can be bound by a Species and usually regulates a gene.</text>
 	  <node family="Promoter" strength="1.0">
 	    <text>RNA Polymerase binding site; may or may not include the operator sites, depending on the model</text>
@@ -50,7 +50,7 @@
 		<node family="Repressible Promoter" composite="true">
 	      <text>A promoter that can be repressed by a transcription factor</text>
 	    </node>
-		<node family="Gene" composite="true">
+		<node family="Expression Casette" composite="true">
 	      <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
 	    </node>
 	  </node>
@@ -60,9 +60,15 @@
 	</node>
 	<node family="RBS" strength="1.0">
 	   <text>Ribosome binding site</text>
+	   <node family="Expression Casette" composite="true">
+	      <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
+	   </node>
 	</node>
 	<node family="Terminator" color="#AF3F33" strength="1.0">
 	   <text>Transcriptional terminator</text>
+	   <node family="Expression Casette" composite="true">
+	      <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
+	   </node>
 	</node>
   </node>
 </node>

@@ -20,7 +20,7 @@ This class sends a signal whenever two items in the current scene intersect.
 namespace Tinkercell
 {
 
-	CollisionDetection::CollisionDetection() : Tool(tr("Collision Detection"))
+	CollisionDetection::CollisionDetection() : Tool(tr("Collision Detection"),tr("Basic GUI"))
 	{
 		mainWindow = 0;
 		connect(&glowTimer,SIGNAL(frameChanged(int)),this,SLOT(makeNodeGlow(int)));

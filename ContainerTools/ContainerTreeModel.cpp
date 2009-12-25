@@ -134,28 +134,48 @@ namespace Tinkercell
 	{
 		if (childItems.isEmpty()) return;
 		
-		QStringList names;
-		QHash<QString,ContainerTreeItem*> hash;
+		ItemHandle * handle;
+		ItemFamily * family, * root;
+		QHash<QString, QStringList> item_names; 
+		QStringList family_names;
+		QHash<QString,  QHash<QString,ContainerTreeItem*> > hash;
+		QList<ItemFamily*> families;
 		
 		for (int i=0; i < childItems.size(); ++i)
 		{
-			if (childItems[i] && childItems[i]->handle())
+			if (childItems[i] && (handle = childItems[i]->handle()) && (family = handle->family()))
 			{
-				names << childItems[i]->handle()->fullName();
-				hash.insert( childItems[i]->handle()->fullName() , childItems[i] );
+				root = family->root();
+				
+				if (!families.contains(root))
+					families << root->allChildren();
+				
+				item_names[family->name] << handle->fullName();
+				hash[family->name][handle->fullName()] = childItems[i];
 				childItems[i]->sortChildren();
 			}
 		}
-		names.sort();
-		childItems.clear();
+
+		for (int i=0; i < families.size(); ++i)
+			if (families[i])
+				family_names << families[i]->name;
 		
-		for (int i=0; i < names.size(); ++i)
+		for (int i=0; i < family_names.size(); ++i)
+			item_names[ family_names[i] ].sort();
+		childItems.clear();
+
+		for (int i=0; i < family_names.size(); ++i)
 		{
-			if (hash.contains(names[i]))
+			if (hash.contains(family_names[i]) && item_names.contains(family_names[i]))
 			{
-				ContainerTreeItem* item = hash.value(names[i]);
-				if (item && !childItems.contains(item))
-					childItems << item;
+				QStringList names = item_names[ family_names[i] ];
+				for (int j=0; j < names.size(); ++j)
+					if (hash[ family_names[i] ].contains(names[j]))
+					{
+						ContainerTreeItem* item = hash[ family_names[i] ][ names[j] ];
+						if (item && !childItems.contains(item))
+							childItems << item;
+					}
 			}
 		}
 	}
@@ -170,7 +190,7 @@ namespace Tinkercell
 		rootItem = new ContainerTreeItem;
                 this->window = win;
 
-                if (win)
+        if (win)
 		{
             QList<ItemHandle*> items = win->allHandles();
 			ItemHandle* handle = 0;

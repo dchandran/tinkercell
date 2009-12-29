@@ -4,33 +4,17 @@ SET( TINKERCELL_CORE_HDRS
   AbstractInputWindow.h
   CodeEditor.h
   TextEditor.h
-  ConnectionGraphicsItem.h
-  ConnectionGraphicsReader.h
-  ConnectionGraphicsWriter.h
-  ControlPoint.h
-  ConvertValue.h
   CThread.h
-  DataTable.h
   GraphicsScene.h
-  GraphicsView.h
+#  GraphicsView.h
   HistoryWindow.h
-  ItemFamily.h
   ItemHandle.h
   MainWindow.h
-  ModelReader.h
-  ModelWriter.h
   NetworkWindow.h
-  NodeGraphicsItem.h
-  NodeGraphicsReader.h
-  NodeGraphicsWriter.h
   ConsoleWindow.h
-  SymbolsTable.h
   TextGraphicsItem.h
-  TextItem.h
   TextParser.h
   Tool.h
-  UndoCommands.h
-  CloneItems.h
 )
 
 SET( TINKERCELL_CORE_SRC
@@ -43,7 +27,7 @@ SET( TINKERCELL_CORE_SRC
   ConvertValue.cpp
   CThread.cpp
   GraphicsScene.cpp
-  GraphicsView.cpp
+#  GraphicsView.cpp
   HistoryWindow.cpp
   ItemFamily.cpp
   ItemHandle.cpp

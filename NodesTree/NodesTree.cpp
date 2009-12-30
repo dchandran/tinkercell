@@ -37,7 +37,7 @@ namespace Tinkercell
      }
 
      NodesTree::NodesTree(QWidget * parent, const QString& filename) :
-               Tool(tr("Nodes Tree"),parent)
+               Tool(tr("Nodes Tree"),tr("Parts Catalog"),parent)
      {
           QVBoxLayout * layout = new QVBoxLayout;
           treeWidget.setHeaderHidden(true);
@@ -258,9 +258,10 @@ namespace Tinkercell
 
           connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(nodeFileAccepted()));
 
-          buttonsLayout->addWidget(otherFile);
+		  buttonsLayout->addWidget(ok);
           buttonsLayout->addWidget(cancel);
-          buttonsLayout->addWidget(ok);
+		  buttonsLayout->addWidget(otherFile);
+          
 
           layout->addLayout(buttonsLayout);
 

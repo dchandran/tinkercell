@@ -585,7 +585,7 @@ namespace Tinkercell
 	}
 
 
-	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates")),
+	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),
 		autoReverse("Make reversible",this),separator(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();

@@ -62,7 +62,6 @@ SET(TINKERCELL_BASICTOOLS_HDR
   TextGraphicsTool.h
   TinkerCellAboutBox.h
   BasicToolsMain.cpp
-  DefaultReactionRates.h
 )
 
 QT4_WRAP_CPP( BasicTools_MOC ${TINKERCELL_BASICTOOLS_HDR})

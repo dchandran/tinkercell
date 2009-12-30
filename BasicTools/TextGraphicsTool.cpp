@@ -20,7 +20,7 @@ The tool also updates the name of a handle when the text item is changed (and vi
 
 namespace Tinkercell
 {
-	TextGraphicsTool::TextGraphicsTool() : Tool(tr("Text Insert Tool"))
+	TextGraphicsTool::TextGraphicsTool() : Tool(tr("Text Insert Tool"),tr("Basic GUI"))
 	{
 		inserting = false;
 		command = 0;

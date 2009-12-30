@@ -24,7 +24,7 @@ namespace Tinkercell
 		return s;
 	}
 
-	ModelFileGenerator::ModelFileGenerator() : Tool(tr("Model File Generator"))
+	ModelFileGenerator::ModelFileGenerator() : Tool(tr("Model File Generator"),tr("Modeling"))
 	{
 		connectCFuntions();
 	}

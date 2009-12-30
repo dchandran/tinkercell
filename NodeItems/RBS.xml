@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/ShineDelgarno.xml" width="60" height="59">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/RBS.xml" width="80.0" height="60.0">
     <ControlPoints>
         <ControlPoint x="57.711" y="205.476"/>
         <ControlPoint x="127.455" y="205.476"/>
@@ -58,7 +58,7 @@
             <LineTypes sequence="bezier"/>
             <Parameters values=""/>
             <Pen Width="7" Color="#000000" Alpha="255"/>
-            <Fill Color="#ffffff" Alpha="255"/>
+            <Fill Color="#2cff15" Alpha="255"/>
         </Shape>
     </Shapes>
 </PartGraphicsItem>

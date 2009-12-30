@@ -298,7 +298,7 @@ namespace Tinkercell
 		}
 	}
 
-	ModelSummaryTool::ModelSummaryTool() : Tool(tr("Model Summary")), delegate(QStringList() << "floating" << "fixed")
+	ModelSummaryTool::ModelSummaryTool() : Tool(tr("Model Summary"),tr("Basic GUI")), delegate(QStringList() << "floating" << "fixed")
 	{
 		groupBox.setTitle(tr(" Initial values of selected items "));
 

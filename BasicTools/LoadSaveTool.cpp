@@ -18,7 +18,7 @@ This tool allows the loading and saving of models.
 
 namespace Tinkercell
 {
-	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"))
+	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
 	}
 

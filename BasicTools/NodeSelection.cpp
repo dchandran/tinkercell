@@ -23,7 +23,7 @@ This tool performs several tasks:
 namespace Tinkercell
 {
 
-	NodeSelection::NodeSelection() : Tool(tr("Node Selection"))
+	NodeSelection::NodeSelection() : Tool(tr("Node Selection"),tr("Basic GUI"))
 	{
 		selectionColor2 = QColor(tr("#FF2400"));
 		selectionColor3 = QColor(tr("#FFCC00"));

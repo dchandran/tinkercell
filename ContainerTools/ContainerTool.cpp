@@ -21,7 +21,7 @@
 
 namespace Tinkercell
 {
-    ContainerTreeTool::ContainerTreeTool() : Tool(tr("Compartment Tool"))
+    ContainerTreeTool::ContainerTreeTool() : Tool(tr("Compartment Tool"),tr("Modeling"))
     {
         treeView = new QTreeView(this);
         treeView->setAlternatingRowColors(true);
@@ -79,7 +79,7 @@ namespace Tinkercell
             treeView->setColumnWidth(0,50);
             treeView->setColumnWidth(2,20);
 			
-			setWindowTitle(tr("Model parameters"));
+			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/new.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 

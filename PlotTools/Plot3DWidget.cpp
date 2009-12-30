@@ -120,7 +120,7 @@ namespace Tinkercell
 		surfacePlot->setColor();
 		surfacePlot->minZ = minZ;
 		surfacePlot->maxZ = maxZ;
-		surfacePlot->loadFromData(tableToArray(dataTable),maxX-minX,maxY-minY,minX,maxX,minY,maxY);
+		surfacePlot->loadFromData(tableToArray(dataTable),(int)(maxX-minX),(int)(maxY-minY),minX,maxX,minY,maxY);
 
 		setTitle(title);
 

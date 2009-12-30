@@ -70,7 +70,7 @@ namespace Tinkercell
 		/*! \brief indicates whether or not the given family is the name of this family or any of its parent families*/
 		virtual bool isA(const ItemFamily*) const;
 		/*! \brief get the top-most family*/
-		virtual const ItemFamily * root() const;
+		virtual ItemFamily * root() const;
 		/*! \brief checks if the given family shares its root family with this family*/
 		virtual bool isRelatedTo(const ItemFamily *) const;
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/
@@ -80,8 +80,14 @@ namespace Tinkercell
 		/*! \brief get all the families that inherit directly from this family*/
 		virtual QList<ItemFamily*> children() const { return QList<ItemFamily*>(); }
 		/*! \brief get all the families that inherit from this family. the list will be ordered in a typical left-first ordering
-		*	\param QList<ItemFamily*> optional initial list. this will also be the output*/
-		virtual QList<ItemFamily*> allChildren(QList<ItemFamily*>& list = QList<ItemFamily*>()) const;
+		*	\return QList<ItemFamily*>
+		*/
+		virtual QList<ItemFamily*> allChildren() const;
+		/*! \brief get all the families that inherit from this family. the list will be ordered in a typical left-first ordering
+		*	\param QList<ItemFamily*> initial list. this will also be the output
+		*	\return QList<ItemFamily*>
+		*/
+		virtual QList<ItemFamily*> allChildren(QList<ItemFamily*>& list) const;
 		/*! \brief constructor.
 			\param QString name*/
 		ItemFamily(const QString& name = QString());

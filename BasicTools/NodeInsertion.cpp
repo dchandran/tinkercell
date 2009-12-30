@@ -21,7 +21,7 @@ This tool allows insertion of nodes from the NodesTree
 namespace Tinkercell
 {
 
-	NodeInsertion::NodeInsertion(NodesTree * tree) : Tool(tr("Node Insertion")), selectedNodeFamily(0)
+	NodeInsertion::NodeInsertion(NodesTree * tree) : Tool(tr("Node Insertion"),tr("Basic GUI")), selectedNodeFamily(0)
 	{
 		mainWindow = 0;
 		nodesTree = tree;

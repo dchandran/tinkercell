@@ -24,7 +24,7 @@ points.
 namespace Tinkercell
 {
 
-	ConnectionSelection::ConnectionSelection() : Tool(tr("Connection Selection")),
+	ConnectionSelection::ConnectionSelection() : Tool(tr("Connection Selection"),tr("Basic GUI")),
 		addControlPointAction("Add control point",this),
 		useStraightLinesAction("Use straight lines",this),
 		useCurvesAction("Use Bezier curves",this),

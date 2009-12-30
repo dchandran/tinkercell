@@ -186,7 +186,7 @@ namespace Tinkercell
         }
     }
 
-    SimulationEventsTool::SimulationEventsTool() : Tool(tr("Events"))
+    SimulationEventsTool::SimulationEventsTool() : Tool(tr("Events"),tr("Modeling"))
     {
         QString appDir = QCoreApplication::applicationDirPath();
         openedByUser = false;

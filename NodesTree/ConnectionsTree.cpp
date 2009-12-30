@@ -45,7 +45,7 @@ namespace Tinkercell
     }
 
     ConnectionsTree::ConnectionsTree(QWidget * parent, const QString& filename) :
-            Tool(tr("Connections Tree"),parent)
+            Tool(tr("Connections Tree"),tr("Parts Catalog"),parent)
     {
         setWindowFlags(Qt::Tool);
 

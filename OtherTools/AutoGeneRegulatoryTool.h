@@ -101,6 +101,7 @@ namespace Tinkercell
 		QAction autoPhosphate;
 		QAction * separator;
 		bool doAssignment;
+		QStringList copiedHandles;
 		
 		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		

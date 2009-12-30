@@ -22,7 +22,7 @@ namespace Tinkercell
 	NodesTreeContainer::MODE NodesTreeContainer::layoutMode = NodesTreeContainer::TabView;
 
 	NodesTreeContainer::NodesTreeContainer(NodesTree * nodesTree, ConnectionsTree * connectionsTree, QWidget * parent) :
-		Tool(tr("Parts and Connections"),parent),
+		Tool(tr("Parts and Connections"),tr("Parts Catalog"),parent),
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
 		toolBox(0),
@@ -603,7 +603,7 @@ namespace Tinkercell
 
 					<< QPair<QString, QStringList>(
 													tr("Reactions"),
-													QStringList() << "Biochemical" << "Transcription")
+													QStringList() << "Biochemical" << "Synthesis")
 
 					<< QPair<QString, QStringList>(
 													tr("Regulations"),

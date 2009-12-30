@@ -38,7 +38,7 @@ namespace Tinkercell
             (*b) = false;
     }
 
-	PlotTool::PlotTool() : Tool(tr("Plot Tool")), actionGroup(this)
+	PlotTool::PlotTool() : Tool(tr("Qwt Plot Tool"),tr("Plot")), actionGroup(this)
 	{
 		otherToolBar = 0;
 		dockWidget = 0;
@@ -353,8 +353,9 @@ namespace Tinkercell
 	typedef void (*tc_PlotTool_api)(
 		void (*plot)(Matrix,int,const char*,int) ,
 		void (*surface)(Matrix,const char*) ,
-		void (*hist)(Matrix,int,const char*) ,
+		void (*hist)(Matrix,double,const char*) ,
 		void (*errorbars)(Matrix,int,const char*) ,
+		void (*multiplot)(int,int) ,
 		Matrix (*plotData)(int)
 		);
 
@@ -366,6 +367,7 @@ namespace Tinkercell
 			f(
 				&(_plot),
 				&(_surface),
+				0,
 				0,
 				0,
 				&(_plotData)

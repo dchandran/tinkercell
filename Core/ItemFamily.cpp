@@ -52,9 +52,9 @@ namespace Tinkercell
 		return isA(family->name);
 	}
 
-	const ItemFamily * ItemFamily::root() const
+	ItemFamily * ItemFamily::root() const
 	{
-		const ItemFamily * root = this;
+		ItemFamily * root = const_cast<ItemFamily*>(this);
 		while (root->parent())
 			root = root->parent();
 		return root;
@@ -64,6 +64,12 @@ namespace Tinkercell
 	{
 		if (!family) return false;
 		return isA(family->root()->name);
+	}
+	
+	QList<ItemFamily*> ItemFamily::allChildren() const
+	{
+		QList<ItemFamily*> list;
+		return allChildren(list);
 	}
 	
 	QList<ItemFamily*> ItemFamily::allChildren(QList<ItemFamily*>& list) const

@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 
+#include "ItemFamily.h"
 #include "ContainerTreeModel.h"
 
 namespace Tinkercell

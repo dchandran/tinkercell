@@ -485,7 +485,7 @@ namespace Tinkercell
 		}
 	}
 
-	BasicInformationTool::BasicInformationTool(const QString& typ) : Tool(tr("Attributes")), delegate(QStringList())
+	BasicInformationTool::BasicInformationTool(const QString& typ) : Tool(tr("Attributes"),tr("Modeling")), delegate(QStringList())
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 		delegate.textColumn = 0;

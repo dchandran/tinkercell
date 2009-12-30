@@ -330,7 +330,7 @@ namespace Tinkercell
 
 	}
 
-	AssignmentFunctionsTool::AssignmentFunctionsTool() : Tool(tr("Functions and Assignments"))
+	AssignmentFunctionsTool::AssignmentFunctionsTool() : Tool(tr("Functions and Assignments"),tr("Modeling"))
 	{
 		tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));

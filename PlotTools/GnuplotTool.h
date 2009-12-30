@@ -25,16 +25,16 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 
-		signals:
+	signals:
 
-			void runScriptFile(const QString&);
-			void runScript(const QString&);
+		void runScriptFile(const QString&);
+		void runScript(const QString&);
 
 
-		public slots:
+	public slots:
 
-			void gnuplotFile(const QString&);
-			void gnuplotScript(const QString&);
+		void gnuplotFile(const QString&);
+		void gnuplotScript(const QString&);
 	};
 	
 	class MY_EXPORT GnuplotTool : public Tool
@@ -64,16 +64,19 @@ namespace Tinkercell
         static void gnuplotDataTable3D(const DataTable<qreal>& m, const QString& title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
-        static void gnuplotHistC(Matrix m, int bins, const char * title);
+        static void gnuplotHistC(Matrix m, double bins, const char * title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
-        static void gnuplotHist(const DataTable<qreal>& m, int bins, const QString& title);
+        static void gnuplotHist(const DataTable<qreal>& m, double bins, const QString& title);
 
         /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
         static void gnuplotErrorbarsC(Matrix m, int x, const char* title);
 
         /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
         static void gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title);
+		
+		/*! \brief rows and columns for multiple  plots*/
+		static void GnuplotTool::gnuplotMultiplot(int x, int y);
 
         /*! \brief get plotted data*/
         static DataTable<qreal>& getDataTable(int index);
@@ -112,6 +115,11 @@ namespace Tinkercell
         void toolAboutToBeLoaded( Tool * , bool * );
 
 	private:
+	
+		static int multiplotRows;
+		static int multiplotCols;
+		static QStringList previousCommands;
+		
 		static GnuplotTool_FToS fToS;
 		
         /*! \brief all the data that have been plotted so far*/

@@ -8,6 +8,7 @@ This is source file for Tinkercell's main window
 The MainWindow contains a set of GraphicScenes, which is the class
 that performs all the drawing. Each GraphicsScene emits various signals. Those
 signals are then emitted by the MainWindow; in this way, a plugin does not need
+signals are then emitted by the MainWindow; in this way, a plugin does not need
 to listen to each of the GraphicsScene signals but only the MainWindow's signals.
 
 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
@@ -790,11 +791,10 @@ namespace Tinkercell
 		contextScreenMenu.addAction(closeAction);
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
-
+		
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
 		contextEditorMenu.addAction(closeAction);
-		contextEditorMenu.addAction(createViewAction);
 
 		contextItemsMenu.addAction(copyAction);
 		contextItemsMenu.addAction(cutAction);
@@ -810,6 +810,9 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
+
+		contextScreenMenu.addAction(createViewAction);
+		contextEditorMenu.addAction(createViewAction);
 	}
 
 	void MainWindow::sendEscapeSignal(const QWidget * widget)

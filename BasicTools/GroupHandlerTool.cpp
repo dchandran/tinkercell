@@ -24,7 +24,7 @@ in the MainWindow toolbar.
 
 namespace Tinkercell
 {
-	GroupHandlerTool::GroupHandlerTool() : Tool(tr("Merge Handles"))
+	GroupHandlerTool::GroupHandlerTool() : Tool(tr("Merge Handles"),tr("Basic GUI"))
 	{
 		connectTCFunctions();
 	}

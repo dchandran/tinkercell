@@ -36,15 +36,26 @@ void tc_errorBars(Matrix data,int xaxis,const char* title, int includeAll)
 		_tc_errorBars(data,xaxis,title,includeAll);
 }
 
-void (*_tc_hist)(Matrix data,int bins,const char* title) = 0;
+void (*_tc_hist)(Matrix data,double binSize,const char* title) = 0;
 /*!
- \brief plot histogram for each column of the given matrix with the given number of bins.
+ \brief plot histogram for each column of the given matrix with the given bin size.
  \ingroup Plotting
 */
-void tc_hist(Matrix data,int bins,const char* title)
+void tc_hist(Matrix data,double binSize,const char* title)
 {
 	if (_tc_hist)
-		_tc_hist(data,bins,title);
+		_tc_hist(data,binSize,title);
+}
+
+void (*_tc_multiplot)(int r, int c) = 0;
+/*!
+ \brief enable multi-plot, i.e. multiple plots on one screen. specify the number of rows and columns for the layout.
+ \ingroup Plotting
+*/
+void tc_multiplot(int rows, int cols)
+{
+	if (_tc_multiplot)
+		_tc_multiplot(rows,cols);
 }
 
 Matrix (*_tc_getPlotData)(int whichPlot) = 0;
@@ -70,8 +81,9 @@ Matrix tc_getPlotData(int whichPlot)
 void tc_PlotTool_api(
 	void (*plot)(Matrix,int,const char*,int),
 	void (*surface)(Matrix M, const char*),
-	void (*hist)(Matrix data,int bins,const char* title),
+	void (*hist)(Matrix data,double bins,const char* title),
 	void (*errorBars)(Matrix data,int xaxis,const char* title, int),
+	void (*multiplot)(int r, int c),
 	Matrix (*plotData)(int))
 {
 	_tc_plot = plot;
@@ -79,6 +91,7 @@ void tc_PlotTool_api(
 	_tc_surface = surface;
 	_tc_hist = hist;
 	_tc_errorBars = errorBars;
+	_tc_multiplot = multiplot;
 }
 
 #endif

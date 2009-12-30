@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/Projects/Tinkercell/trunk/NodeItems/OperatorSite.xml" width="80" height="60">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Operator.xml" width="70.0" height="53.0">
     <ControlPoints>
         <ControlPoint x="179.455" y="172.46"/>
         <ControlPoint x="270.993" y="172.46"/>
@@ -27,7 +27,12 @@
             <LineTypes sequence="line,line,line,line,line,line,line,line,line,line,line"/>
             <Parameters values=""/>
             <Pen Width="8" Color="#000000" Alpha="255"/>
-            <Fill Color="#ffffff" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#ffcd19" Alpha="255"/>
+                <Stop Value="1" Color="#ff5218" Alpha="255"/>
+                <Start x="227" y="197"/>
+                <End x="226" y="229"/>
+            </Gradient>
         </Shape>
         <Shape Negative="0">
             <ControlPoints indices="4,5,6,7,4"/>

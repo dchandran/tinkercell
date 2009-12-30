@@ -25,7 +25,7 @@ the context menu (mouse right-click).
 
 namespace Tinkercell
 {
-	GraphicsReplaceTool::GraphicsReplaceTool() : Tool(tr("Graphics Replace Tool"))
+	GraphicsReplaceTool::GraphicsReplaceTool() : Tool(tr("Graphics Replace Tool"),tr("Basic GUI"))
 	{
 	}
 
@@ -142,10 +142,10 @@ namespace Tinkercell
 
 		connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(replaceNode()));
 
-
-		buttonsLayout->addWidget(otherFile);
-		buttonsLayout->addWidget(cancel);
 		buttonsLayout->addWidget(ok);
+		buttonsLayout->addWidget(cancel);
+		buttonsLayout->addWidget(otherFile);
+		
 
 		layout->addLayout(buttonsLayout);
 

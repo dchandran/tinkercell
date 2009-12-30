@@ -109,7 +109,9 @@ void runSSA(Matrix input)
                         data.colnames[0] = \"time\\0\";\n\
                         int i,j;\n\
                         for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
-                        tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+                        tc_multiplot(2,1);\n\
+						tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+						tc_hist(data,1,\"Histogram\");\n\
                         free(data.colnames);\n\
                         free(y);\n\
                         return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);

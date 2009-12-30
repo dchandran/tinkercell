@@ -24,7 +24,7 @@ An associated GraphicsTool is also defined.
 
 namespace Tinkercell
 {
-	NameFamilyDialog::NameFamilyDialog() : Tool(tr("Name and Family Dialog"))
+	NameFamilyDialog::NameFamilyDialog() : Tool(tr("Name and Family Dialog"),tr("Basic GUI"))
 	{
 		selectedItem = 0;
 		connectTCFunctions();

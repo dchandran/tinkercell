@@ -7,7 +7,7 @@
 
 namespace Tinkercell
 {
-	TinkercellAboutBox::TinkercellAboutBox() : Tool(tr("TinkerCell About Box"))
+	TinkercellAboutBox::TinkercellAboutBox() : Tool(tr("TinkerCell About Box"),tr("Basic GUI"))
 	{
 		QHBoxLayout * layout1 = new QHBoxLayout;
 

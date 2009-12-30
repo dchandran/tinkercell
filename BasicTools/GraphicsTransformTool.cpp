@@ -122,7 +122,7 @@ namespace Tinkercell
 		}
 	}
 
-	GraphicsTransformTool::GraphicsTransformTool() : Tool(tr("Basic Transformations"))
+	GraphicsTransformTool::GraphicsTransformTool() : Tool(tr("Basic Transformations"),tr("Basic GUI"))
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;

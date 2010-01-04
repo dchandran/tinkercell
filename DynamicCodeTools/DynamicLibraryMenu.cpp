@@ -29,7 +29,7 @@ namespace Tinkercell
     /***************************
             RUN LIB FILES MENU
          ***************************/
-    DynamicLibraryMenu::DynamicLibraryMenu() : Tool(tr("Dynamic Library Menu")), getStringDialog(0), actionGroup(this)
+    DynamicLibraryMenu::DynamicLibraryMenu() : Tool(tr("Dynamic Library Menu"),tr("Coding")), actionGroup(this)
     {
         treeWidget.setHeaderHidden(true);
         treeWidget.setColumnCount(1);
@@ -314,24 +314,14 @@ namespace Tinkercell
 
     /**********************
             C API
-        ***********************/
+    ***********************/
 
     void DynamicLibraryMenu::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
-        connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)));
-        connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
-        connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
-        connect(&fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
         connect(&fToS,SIGNAL(callFunction(QSemaphore*,const QString&)),this,SLOT(callFunction(QSemaphore*,const QString&)));
     }
 
     typedef void (*tc_DynamicLibraryMenu_api)(
-            char* (*getString)(const char*),
-            int (*getSelectedString)(const char*, char**,const char*, int),
-            double (*getNumber)(const char*),
-            void (*getNumbers)(char**,double*),
-            char* (*getFilename)(),
             void (*callFuntion)(const char*)
             );
 
@@ -342,188 +332,9 @@ namespace Tinkercell
         {
             //qDebug() << "tc_DynamicLibraryMenu_api resolved";
             f(
-                    &(_getString),
-                    &(_getSelectedString),
-                    &(_getNumber),
-                    &(_getNumbers),
-                    &(_getFilename),
                     &(_callFunction)
-                    );
+             );
         }
-    }
-
-    void DynamicLibraryMenu::getNumber(QSemaphore* s,double* p,const QString& name)
-    {
-        if (p)
-        {
-            (*p) = QInputDialog::getDouble(mainWindow,tr("Get Number"),name);
-        }
-        if (s)
-            s->release();
-    }
-
-    void DynamicLibraryMenu::getString(QSemaphore* s,QString* p,const QString& name)
-    {
-        if (p)
-        {
-            (*p) = QInputDialog::getText(mainWindow,tr("Get Text"),name);
-            (*p).replace(tr("."),tr("_"));
-        }
-        if (s)
-            s->release();
-    }
-
-    void DynamicLibraryMenu::getNumbers(QSemaphore* s,const QStringList& names,qreal* res)
-    {
-        QDialog * dialog = new QDialog(this);
-
-        QGridLayout * layout = new QGridLayout;
-
-        QList< QDoubleSpinBox* > spinBoxes;
-        for (int i=0; i < names.size(); ++i)
-        {
-            QDoubleSpinBox * spinBox = new QDoubleSpinBox(dialog);
-            spinBox->setRange(-1.0E300,1.0E300);
-
-            spinBoxes += spinBox;
-            layout->addWidget( new QLabel(names[i],dialog), i, 0 );
-            layout->addWidget( spinBox, i, 1 );
-        }
-
-        QPushButton * ok = new QPushButton(tr("Done"), this);
-        connect(ok,SIGNAL(released()),dialog,SLOT(accept()));
-
-        layout->addWidget(ok, names.size(), 1 );
-        dialog->setLayout(layout);
-        dialog->exec();
-
-        if (res)
-        {
-            for (int i=0; i < spinBoxes.size() && i < names.size(); ++i)
-                if (spinBoxes[i])
-                    res[i] = spinBoxes[i]->value();
-        }
-
-        if (s)
-            s->release();
-    }
-
-    void DynamicLibraryMenu::getFilename(QSemaphore* s,QString* p)
-    {
-        if (p)
-        {
-            QString file = QFileDialog::getOpenFileName(mainWindow,tr("Select file"));
-            if (!file.isNull() && !file.isEmpty())
-                (*p) = file;
-        }
-        if (s)
-            s->release();
-    }
-
-    void DynamicLibraryMenu::getStringListItemSelected(QListWidgetItem * item)
-    {
-        if (item)
-            getStringListNumber = getStringList.currentRow();
-        if (getStringDialog)
-            getStringDialog->accept();
-    }
-
-    void DynamicLibraryMenu::getStringListRowChanged ( int  )
-    {
-        if (getStringList.currentItem())
-            getStringListNumber = getStringListText.indexOf(getStringList.currentItem()->text());
-    }
-
-    void DynamicLibraryMenu::getStringListCanceled (  )
-    {
-        getStringListNumber = -1;
-    }
-
-    void DynamicLibraryMenu::getStringSearchTextEdited ( const QString & text )
-    {
-        getStringList.clear();
-
-        QStringList list;
-
-        if (text.isEmpty())
-            list = getStringListText;
-        else
-            for (int i=0; i < getStringListText.size(); ++i)
-                if (getStringListText[i].toLower().contains(text.toLower()))
-                    list << getStringListText[i];
-
-        getStringList.addItems(list);
-        getStringList.setCurrentRow(0);
-    }
-
-    void DynamicLibraryMenu::getSelectedString(QSemaphore* s,int* p,const QString& name, const QStringList& list0,const QString& init, int option)
-    {
-        if (p && mainWindow)
-        {
-            getStringListText.clear();
-            if (option == 0 && !getStringDialog)
-            {
-                getStringDialog = new QDialog(mainWindow);
-                getStringDialog->setSizeGripEnabled (true);
-                QVBoxLayout * layout = new QVBoxLayout;
-                layout->addWidget(&getStringListLabel);
-                layout->addWidget(&getStringList);
-                QHBoxLayout * buttonsLayout = new QHBoxLayout;
-
-                QLineEdit * search = new QLineEdit(tr("Search"));
-                connect(search,SIGNAL(textEdited(const QString &)),this,SLOT(getStringSearchTextEdited(const QString &)));
-
-                QPushButton * okButton = new QPushButton(tr("OK"));
-                QPushButton * cancelButton = new QPushButton(tr("Cancel"));
-                connect(okButton,SIGNAL(released()),getStringDialog,SLOT(accept()));
-                connect(cancelButton,SIGNAL(released()),getStringDialog,SLOT(reject()));
-
-                buttonsLayout->addWidget(okButton,1,Qt::AlignLeft);
-                buttonsLayout->addWidget(cancelButton,1,Qt::AlignLeft);
-                buttonsLayout->addStretch(2);
-                buttonsLayout->addWidget(search,5,Qt::AlignRight);
-
-
-                layout->addLayout(buttonsLayout);
-
-                connect(&getStringList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(getStringListItemSelected(QListWidgetItem * item)));
-                connect(&getStringList,SIGNAL(currentRowChanged (int)),this,SLOT(getStringListRowChanged (int)));
-                connect(getStringDialog,SIGNAL(rejected()),this,SLOT(getStringListCanceled()));
-
-                getStringDialog->setLayout(layout);
-            }
-
-            QStringList list = list0;
-            bool ok;
-            QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z0-9])"));
-
-			int index = list.indexOf(init);
-			if (index < 0) index = 0;
-
-            for (int i=0; i < list.size(); ++i)
-                list[i].replace(regex,tr("\\1.\\2"));
-
-            if (option == 0 && !list0.isEmpty())
-            {
-                getStringListLabel.setText(name);
-                getStringListText = list;
-                getStringList.clear();
-                getStringList.addItems(list);
-                getStringList.setCurrentRow(index);
-                getStringDialog->exec();
-                (*p) = getStringListNumber;
-            }
-            else
-            {
-                QString s = QInputDialog::getItem(mainWindow,tr("Get Text"),name,list,index,false,&ok);
-                if (ok)
-                    (*p) = list.indexOf(s);
-                else
-                    (*p) = -1;
-            }
-        }
-        if (s)
-            s->release();
     }
 
     void DynamicLibraryMenu::callFunction(QSemaphore* s, const QString& functionName)
@@ -539,102 +350,8 @@ namespace Tinkercell
     }
 
     /******************************************************/
-
-    DynamicLibraryMenu_FToS DynamicLibraryMenu::fToS;
-
-    char* DynamicLibraryMenu::_getString(const char* title)
-    {
-        return fToS.getString(title);
-    }
-
-    char* DynamicLibraryMenu::_getFilename()
-    {
-        return fToS.getFilename();
-    }
-
-    int DynamicLibraryMenu::_getSelectedString(const char* title,char ** list,const char* c, int i)
-    {
-        return fToS.getSelectedString(title,list,c,i);
-    }
-
-    double DynamicLibraryMenu::_getNumber(const char* title)
-    {
-        return fToS.getNumber(title);
-    }
-
-    void DynamicLibraryMenu::_getNumbers(char** names, double * res)
-    {
-        return fToS.getNumbers(names,res);
-    }
-
-    void DynamicLibraryMenu::_callFunction(const char * c)
-    {
-        return fToS.callFunction(c);
-    }
-
-    double DynamicLibraryMenu_FToS::getNumber(const char* c)
-    {
-        //qDebug() << "get number dialog";
-        QSemaphore * s = new QSemaphore(1);
-        qreal p;
-        s->acquire();
-        emit getNumber(s,&p,ConvertValue(c));
-        s->acquire();
-        s->release();
-        delete s;
-        return (double)p;
-    }
-
-    void DynamicLibraryMenu_FToS::getNumbers(char** c, double * d)
-    {
-        //qDebug() << "get number dialog";
-        QSemaphore * s = new QSemaphore(1);
-        s->acquire();
-        emit getNumbers(s,ConvertValue(c), d);
-        s->acquire();
-        s->release();
-        delete s;
-    }
-
-    char* DynamicLibraryMenu_FToS::getString(const char* c)
-    {
-        //qDebug() << "get string dialog";
-        QSemaphore * s = new QSemaphore(1);
-        QString p;
-        s->acquire();
-        emit getString(s,&p,ConvertValue(c));
-        s->acquire();
-        s->release();
-        delete s;
-        return ConvertValue(p);
-    }
-
-    char* DynamicLibraryMenu_FToS::getFilename()
-    {
-        //qDebug() << "get string dialog";
-        QSemaphore * s = new QSemaphore(1);
-        QString p;
-        s->acquire();
-        emit getFilename(s,&p);
-        s->acquire();
-        s->release();
-        delete s;
-        return ConvertValue(p);
-    }
-
-
-    int DynamicLibraryMenu_FToS::getSelectedString(const char* c, char ** list,const char* c1, int i)
-    {
-        //qDebug() << "get item dialog";
-        QSemaphore * s = new QSemaphore(1);
-        int p;
-        s->acquire();
-        emit getSelectedString(s,&p,ConvertValue(c),ConvertValue(list),ConvertValue(c1), i);
-        s->acquire();
-        s->release();
-        delete s;
-        return p;
-    }
+	
+	DynamicLibraryMenu_FToS DynamicLibraryMenu::fToS;
 
     void DynamicLibraryMenu_FToS::callFunction(const char * c)
     {
@@ -644,5 +361,10 @@ namespace Tinkercell
         s->acquire();
         s->release();
         delete s;
+    }
+	
+	void DynamicLibraryMenu::_callFunction(const char * c)
+    {
+        return fToS.callFunction(c);
     }
 }

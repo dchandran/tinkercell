@@ -27,65 +27,6 @@ int tc_compileBuildLoad(const char * filename,const char* function,const char* t
 	return 0;
 }
 
-char* (*_tc_getString)(const char* title) = 0;
-/*! 
- \brief get a text from the user (dialog)
- \ingroup Dialogs
-*/
-char* tc_getString(const char* title)
-{
-	if (_tc_getString)
-		return _tc_getString(title);
-	return 0;
-}
-
-char* (*_tc_getFilename)() = 0;
-/*! 
- \brief get a file from the user (dialog)
- \ingroup Dialogs
-*/
-char* tc_getFilename()
-{
-	if (_tc_getFilename)
-		return _tc_getFilename();
-	return 0;
-}
-
-int (*_tc_getFromList)(const char* title, char** list,const char* selectedString, int comboBox) = 0;
-/*! 
- \brief get a text from the user (dialog) from a list of selections
- \ingroup Dialogs
-*/
-int tc_getFromList(const char* title, char** list,const char* selectedString, int comboBox)
-{
-	if (_tc_getFromList)
-		return _tc_getFromList(title,list,selectedString,comboBox);
-	return 0;
-}
-
-double (*_tc_getNumber)(const char* title) = 0;
-/*! 
- \brief get a number from the user (dialog)
- \ingroup Dialogs
-*/
-double tc_getNumber(const char* title)
-{
-	if (_tc_getNumber)
-		return _tc_getNumber(title);
-	return 0.0;
-}
-
-void (*_tc_getNumbers)(char** labels, double* result) = 0;
-/*! 
- \brief get a list of numbers from the user (dialog) into the argument array
- \ingroup Dialogs
-*/
-void tc_getNumbers(char** labels, double* result)
-{
-	if (_tc_getNumbers && result)
-		_tc_getNumbers(labels,result);
-}
-
 void (*_tc_runPythonCode)(const char* code) = 0;
 /*! 
  \brief run the Python code given by the string
@@ -168,19 +109,9 @@ void  tc_callWhenExiting(void (*f)(void))
  \ingroup init
 */
 void tc_DynamicLibraryMenu_api(
-		char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, char**,const char*, int),
-		double (*getNumber)(const char*),
-		void (*getNumbers)( char**, double * ),
-		char* (*getFilename)(),
 		void (*callFunction)(const char*)
 )
 {
-	_tc_getString = getString;
-	_tc_getFromList = getSelectedString;
-	_tc_getNumber = getNumber;
-	_tc_getNumbers = getNumbers;
-	_tc_getFilename = getFilename;
 	_tc_callFunction = callFunction;
 }
 

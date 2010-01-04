@@ -36,6 +36,13 @@ static PyMethodDef pytcMethods[] = {
 	{"outputOff", outputOff, METH_VARARGS, "turn off all outputs from Python to console. example: outputOff()"},
 	{"errorOn", errorOn, METH_VARARGS,  "turn on all error messages from Python to console. example: errorOn()"},
 	{"errorOff", errorOff, METH_VARARGS,  "turn off all error messages from Python to console. example: errorOff()"},
+	{"getString", pytc_getString, METH_VARARGS, "display a dialog and get a string from the user. example: getString(\"please enter text\");"},
+	{"getFilename", pytc_getFilename, METH_VARARGS, "display a dialog and get a file name from the user. example: s = getFilename();"},
+	{"getNumber", pytc_getNumber, METH_VARARGS, "display a dialog and get a number from the user. example: getNumber(\"please enter number\");"},
+	{"getNumbers", pytc_getNumbers, METH_VARARGS, "display a dialog and get a set of numbers from the user. example: l = getNumbers(('A','B','C'));"},
+	{"getFromList", pytc_getFromList, METH_VARARGS, "display a dialog and ask the user to make a selection. example: i = getFromList(\"please select one:\",[\"option 1\",\"option 1\",\"option 1\"]);"},
+	{"askQuestion", pytc_askQuestion, METH_VARARGS, "display a dialog that asks the user a question. example: p = askQuestion('are you sure?');"},
+	{"messageDialog", pytc_messageDialog, METH_VARARGS, "display a message dialog. example: messageDialog('the model has been updated');"},
 
 //get items
 	{"allItems", pytc_allItems, METH_VARARGS, "get addresses for all items. example: Array = allItems();"},
@@ -128,12 +135,6 @@ static PyMethodDef pytcMethods[] = {
 	{"compileBuildLoad", pytc_compileBuildLoad, METH_VARARGS, "build a C program as a dynamic library and load into TinkerCell. example: compileBuildLoad(\"mycode.c -lm\",\"main\"); #will call the main function in mycode.c"},
 	{"callFunction", pytc_callFunction, METH_VARARGS, "execute a program that is listed in the functions menu. example: callFunction(\"Deterministic simulation\");"},
 	{"loadLibrary", pytc_loadLibrary, METH_VARARGS, "load a dynamic C library. example: loadLibrary(\"mycode.dll\");"},
-	
-	{"getString", pytc_getString, METH_VARARGS, "display a dialog and get a string from the user. example: getString(\"please enter text\");"},
-	{"getFilename", pytc_getFilename, METH_VARARGS, "display a dialog and get a file name from the user. example: s = getFilename();"},
-	{"getNumber", pytc_getNumber, METH_VARARGS, "display a dialog and get a number from the user. example: getNumber(\"please enter number\");"},
-	{"getNumbers", pytc_getNumbers, METH_VARARGS, "display a dialog and get a set of numbers from the user. example: l = getNumbers(('A','B','C'));"},
-	{"getFromList", pytc_getFromList, METH_VARARGS, "display a dialog and ask the user to make a selection. example: i = getFromList(\"please select one:\",[\"option 1\",\"option 1\",\"option 1\"]);"},
 
 //basic graphics
 	{"getColorR", pytc_getColorR, METH_VARARGS, "get the Red value of the color of the given object. example: A = find(\"A\"); r = getColorR(A);"},
@@ -149,6 +150,7 @@ static PyMethodDef pytcMethods[] = {
 	{"surface", pytc_surface, METH_VARARGS, "Plot 3D surface, given a matrix with 3 columns (x,y,z). example: data = [ [0,1,2,3,4] , [1,2,3,4,5] , [2,3,4,5,6] ]; surface([\"x\",\"y\",\"z\"],data,\"my plot\");"},
 	{"getPlotData", pytc_getPlotData, METH_VARARGS, "Get the values and headers of the data that is displayed in the plot window. example: data = plotData(); print data;"},
 	{"histogram", pytc_hist, METH_VARARGS, "plot a histogram of each column in the data. example: p = plotData(); histogram(p[0],p[1]);"},
+	{"multiplot", pytc_multiplot, METH_VARARGS, "setup plot layout for multiple plot. example: multiplot(2,2);"},
 	
 //model generation in c and python
 	{"writeModel", pytc_writeModel, METH_VARARGS, "Write the differential equations and propentity functions to a file (do not include .py suffix). example: writeModel(\"ode\",selectedItems()); or writeModel(\"ode2\"); defaults to all items"},

@@ -52,6 +52,7 @@ namespace Tinkercell
 	class ItemHandle;
 	class ItemData;
 	class NetworkWindow;
+	class GraphicsView;
 	class ConsoleWindow;
 	
 	/*! \brief The primary task of the graphics scene is to draws items.
@@ -548,6 +549,7 @@ namespace Tinkercell
 
 		friend class MainWindow;
 		friend class NetworkWindow;
+		friend class GraphicsView;
 	};
 }
 

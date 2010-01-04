@@ -254,6 +254,20 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
     return Py_None;
 }
 
+static PyObject * pytc_multiplot(PyObject *self, PyObject *args)
+{
+	int x,y;
+
+	if(!PyArg_ParseTuple(args, "ii", &x, &y))
+        return NULL;
+
+	tc_multiplot(x,y);
+
+	Py_INCREF(Py_None);
+    return Py_None;
+}
+
+
 static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 {
 	int i=-1,j;
@@ -307,22 +321,3 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 	
 	return Py_BuildValue("O",ilist);
 }
-
-static PyObject * pytc_getJacobian(PyObject *self, PyObject *args)
-{
-	int i=-1;
-	PyObject * pylist = 0;
-	void ** A = 0;
-	int isList, N=0, k;
-	FILE * out;
-	char * appDir, * cmd;
-	int sz;
-
-	if(!PyArg_ParseTuple(args, "|O", &pylist))
-        return NULL;
-	
-
-   Py_INCREF(Py_None);
-   return Py_None;
-}
-

@@ -24,7 +24,7 @@
 
 namespace Tinkercell
 {
-    ModuleIconTool::ModuleIconTool() : Tool(tr("Module Icon Tool")), buttonGroup(this)
+    ModuleIconTool::ModuleIconTool() : Tool(tr("Module Icon Tool"),tr("Module tools")), buttonGroup(this)
     {
         mode = none;
 		moduleItem = 0;

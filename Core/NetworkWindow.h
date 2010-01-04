@@ -93,8 +93,19 @@ namespace Tinkercell
 		virtual void popOut();
 		/*! \brief calls mainWindow's popIn method*/
 		virtual void popIn();
-		/*! \brief create a new view for this network window*/
-		virtual void createView(const QList<QGraphicsItem*>& hideItems = QList<QGraphicsItem*>());
+		/*! \brief get all the views of this network window. 
+			The first view will always be the main view
+		* \return QList<GraphicsView*>
+		*/
+		virtual QList<GraphicsView*> views() const;
+		/*! \brief get the current view of this network window. 
+		* \return GraphicsView*
+		*/
+		virtual GraphicsView* currentView() const;
+		/*! \brief create a new view for this network window
+		* \return GraphicsView* the new view
+		*/
+		virtual GraphicsView * createView(const QList<QGraphicsItem*>& hideItems = QList<QGraphicsItem*>());
 		/*! \brief checks whether a string is a correct formula.
 		\param QString target string
 		\param QStringList returns any new variables not found in this network
@@ -190,7 +201,9 @@ namespace Tinkercell
 		/*! \brief the network window switches to tab mode*/
 		virtual void resizeEvent ( QResizeEvent * );
 		/*! \brief all the views of the this network window*/
-		QList<GraphicsView*> views;
+		QList<GraphicsView*> graphicsViews;
+		/*! \brief current view of this network window*/
+		GraphicsView * currentGraphicsView;
 		
 		friend class GraphicsView;
 		friend class GraphicsScene;

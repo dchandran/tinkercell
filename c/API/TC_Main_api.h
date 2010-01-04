@@ -602,6 +602,90 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
+char* (*_tc_getString)(const char* title) = 0;
+/*! 
+ \brief get a text from the user (dialog)
+ \ingroup Dialogs
+*/
+char* tc_getString(const char* title)
+{
+	if (_tc_getString)
+		return _tc_getString(title);
+	return 0;
+}
+
+char* (*_tc_getFilename)() = 0;
+/*! 
+ \brief get a file from the user (dialog)
+ \ingroup Dialogs
+*/
+char* tc_getFilename()
+{
+	if (_tc_getFilename)
+		return _tc_getFilename();
+	return 0;
+}
+
+int (*_tc_getFromList)(const char* title, char** list,const char* selectedString, int comboBox) = 0;
+/*! 
+ \brief get a text from the user (dialog) from a list of selections
+ \ingroup Dialogs
+*/
+int tc_getFromList(const char* title, char** list,const char* selectedString, int comboBox)
+{
+	if (_tc_getFromList)
+		return _tc_getFromList(title,list,selectedString,comboBox);
+	return 0;
+}
+
+double (*_tc_getNumber)(const char* title) = 0;
+/*! 
+ \brief get a number from the user (dialog)
+ \ingroup Dialogs
+*/
+double tc_getNumber(const char* title)
+{
+	if (_tc_getNumber)
+		return _tc_getNumber(title);
+	return 0.0;
+}
+
+void (*_tc_getNumbers)(char** labels, double* result) = 0;
+/*! 
+ \brief get a list of numbers from the user (dialog) into the argument array
+ \ingroup Dialogs
+*/
+void tc_getNumbers(char** labels, double* result)
+{
+	if (_tc_getNumbers && result)
+		_tc_getNumbers(labels,result);
+}
+
+int (*_tc_askQuestion)(const char*) = 0;
+/*! 
+ \brief display a dialog with a text and a yes and no button
+ \param char* displayed message or question
+ \ingroup Dialogs
+*/
+int tc_askQuestion(const char* message)
+{
+	if (_tc_askQuestion && message)
+		return _tc_askQuestion(message);
+	return 0;
+}
+
+void (*_tc_messageDialog)(const char*) = 0;
+/*! 
+ \brief display a dialog with a text message and a close button
+ \param char* displayed message
+ \ingroup Dialogs
+*/
+void tc_messageDialog(const char* message)
+{
+	if (_tc_messageDialog && message)
+		_tc_messageDialog(message);
+}
+
 /*! 
  \brief initialize main
  \ingroup init
@@ -667,7 +751,16 @@ void tc_Main_api_initialize(
 		char** (*tc_getNumericalDataNames0)(OBJ),
 		char** (*tc_getTextDataNames0)(OBJ),
 		
-		void (*tc_zoom0)(double factor)
+		void (*tc_zoom0)(double factor),
+		
+		char* (*getString)(const char*),
+		int (*getSelectedString)(const char*, char**,const char*, int),
+		double (*getNumber)(const char*),
+		void (*getNumbers)( char**, double * ),
+		char* (*getFilename)(),
+		
+		int (*askQuestion)(const char*),
+		void (*messageDialog)(const char*)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -732,6 +825,15 @@ void tc_Main_api_initialize(
 	_tc_getTextDataNames = tc_getTextDataNames0;
 	
 	_tc_zoom = tc_zoom0;
+	
+	_tc_getString = getString;
+	_tc_getFromList = getSelectedString;
+	_tc_getNumber = getNumber;
+	_tc_getNumbers = getNumbers;
+	_tc_getFilename = getFilename;
+	
+	_tc_askQuestion = askQuestion;
+	_tc_messageDialog = messageDialog;
 }
 
 void (*_tc_showProgress)(const char * name, int progress);

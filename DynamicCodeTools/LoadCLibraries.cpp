@@ -27,7 +27,7 @@
 namespace Tinkercell
 {
 
-    LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries")), actionsGroup(this), buttonsGroup(this)
+    LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
         connectTCFunctions();
         libMenu = 0;

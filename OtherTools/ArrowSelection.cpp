@@ -46,7 +46,7 @@ namespace Tinkercell
         emit replaceNode();
     }
 
-    ArrowSelectionTool::ArrowSelectionTool() : Tool(tr("Arrow Selection Tool"),tr("Extra GUI")) , showArrowSelection("Change arrowhead",this), separator(0)
+    ArrowSelectionTool::ArrowSelectionTool() : Tool(tr("Arrow Selection Tool")) , showArrowSelection("Change arrowhead",this), separator(0)
     {
 		
         mainWindow = 0;

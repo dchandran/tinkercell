@@ -45,30 +45,8 @@ namespace Tinkercell
     {
         Q_OBJECT
      signals:
-        /*! \brief Part of the TinkerCell C interface. */
-        void getString(QSemaphore*,QString*,const QString&);
-        /*! \brief Part of the TinkerCell C interface. */
-        void getFilename(QSemaphore*,QString*);
-        /*! \brief Part of the TinkerCell C interface. */
-        void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int);
-        /*! \brief Part of the TinkerCell C interface. */
-        void getNumber(QSemaphore*,qreal*,const QString&);
-        /*! \brief Part of the TinkerCell C interface. */
-        void getNumbers(QSemaphore*,const QStringList&,qreal*);
-        /*! \brief Part of the TinkerCell C interface. */
         void callFunction(QSemaphore*,const QString&);
      public slots:
-        /*! \brief Part of the TinkerCell C interface. */
-        char* getString(const char*);
-        /*! \brief Part of the TinkerCell C interface. */
-        char* getFilename();
-        /*! \brief Part of the TinkerCell C interface. */
-        int getSelectedString(const char*, char**,const char*,int);
-        /*! \brief Part of the TinkerCell C interface. */
-        double getNumber(const char*);
-        /*! \brief Part of the TinkerCell C interface. */
-        void getNumbers(char**, double*);
-        /*! \brief Part of the TinkerCell C interface. */
         void callFunction(const char*);
     };
 
@@ -139,26 +117,6 @@ namespace Tinkercell
         */
         void setupFunctionPointers( QLibrary * );
         /*!
-        * \brief Get string from user. Part of the TinkerCell C interface.
-        */
-        void getString(QSemaphore*,QString*,const QString&);
-        /*!
-        * \brief Get string from user from a list. Part of the TinkerCell C interface.
-        */
-        void getSelectedString(QSemaphore*, int*, const QString&, const QStringList&, const QString&, int);
-        /*!
-        * \brief Get a number from user. Part of the TinkerCell C interface.
-        */
-        void getNumber(QSemaphore*,qreal*,const QString&);
-        /*!
-        * \brief Get more than one number from user. Part of the TinkerCell C interface.
-        */
-        void getNumbers(QSemaphore*,const QStringList&,qreal*);
-        /*!
-        * \brief Get file name from user. Part of the TinkerCell C interface.
-        */
-        void getFilename(QSemaphore*,QString*);
-        /*!
         * \brief Call a function listed in the functions table. Part of the TinkerCell C interface.
         */
         void callFunction(QSemaphore*,const QString&);
@@ -167,45 +125,7 @@ namespace Tinkercell
         /*! \brief Part of the TinkerCell C interface. */
         static DynamicLibraryMenu_FToS fToS;
         /*! \brief Part of the TinkerCell C interface. */
-        static char* _getString(const char*);
-        /*! \brief Part of the TinkerCell C interface. */
-        static int _getSelectedString(const char*, char**,const char*, int);
-        /*! \brief Part of the TinkerCell C interface. */
-        static double _getNumber(const char*);
-        /*! \brief Part of the TinkerCell C interface. */
-        static void _getNumbers(char**, double *);
-        /*! \brief Part of the TinkerCell C interface. */
-        static char* _getFilename();
-        /*! \brief Part of the TinkerCell C interface. */
         static void _callFunction(const char*);
-        /*! \brief Dialog for selecting strings. */
-        QDialog * getStringDialog;
-        /*! \brief widget for selecting strings. */
-        QListWidget getStringList;
-        /*! \brief number for selecting strings. */
-        int getStringListNumber;
-        /*! \brief list for selecting numbers. */
-        QStringList getStringListText;
-        /*! \brief label for selecting numbers. */
-        QLabel getStringListLabel;
-
-    private slots:
-        /*! \brief Stores the index that the user selected from a list of strings
-                        \sa getSelectedString
-                */
-        void getStringListItemSelected(QListWidgetItem *);
-        /*! \brief Stores the index that the user selected from a list of strings
-                        \sa getSelectedString
-                */
-        void getStringListRowChanged(int);
-        /*! \brief Negates the index that the user selected from a list of strings
-                        \sa getSelectedString
-                */
-        void getStringListCanceled();
-        /*! \brief Searches the list of strings displayed to user
-                        \sa getSelectedString
-                */
-        void getStringSearchTextEdited(const QString & text);
 
     protected:
         /*! \brief Connects the "middle man" class to the this class. Part of the genetic TinkerCell C interface protocol.*/

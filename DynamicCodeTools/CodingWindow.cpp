@@ -32,7 +32,7 @@ namespace Tinkercell
 	 *********************************/
 
 	CodingWindow::CodingWindow()
-		 : Tool(tr("Coding Window"))
+		 : Tool(tr("Coding Window"),tr("Coding"))
 	 {
 		 QString appDir = QCoreApplication::applicationDirPath();
 		 QString homeDir = MainWindow::userHome();

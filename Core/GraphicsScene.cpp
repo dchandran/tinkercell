@@ -47,9 +47,10 @@ namespace Tinkercell
 	* \return rectangle*/
 	QRectF GraphicsScene::viewport()
 	{
-		QGraphicsView * view = 0;
-		if (views().size() > 0)
-			view = views().first();
+		if (!networkWindow || !networkWindow->currentGraphicsView)
+			return QRectF();
+		
+		GraphicsView * view = networkWindow->currentGraphicsView;
 
 		if (view)
 		{
@@ -273,19 +274,27 @@ namespace Tinkercell
 		QGraphicsItem * item = 0;
 		Tool::GraphicsItem * gitem = 0;
 
-		QGraphicsItem * p = itemAt(clickedPoint);
+		QGraphicsItem * p = getGraphicsItem( itemAt(clickedPoint) );
+		if (networkWindow &&
+			networkWindow->currentGraphicsView &&
+			networkWindow->currentGraphicsView->hiddenItems.contains(p))
+			p = 0;
 
 		if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
 		{
 			QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
 			if (!ps.isEmpty())
 			{
-				int i=0;
-				p = ps[i];
-				while (i < ps.size() && TextGraphicsItem::cast(p))
+				for (int i=0; i < ps.size(); ++i)
 				{
-					p = ps[i];
-					++i;
+					p = getGraphicsItem(ps[i]);
+					if (networkWindow &&
+						networkWindow->currentGraphicsView &&
+						networkWindow->currentGraphicsView->hiddenItems.contains(p))
+						p = 0;
+						
+					if (p && !TextGraphicsItem::cast(p))
+						break;
 				}
 			}
 		}
@@ -429,12 +438,6 @@ namespace Tinkercell
 					}
 					selectionRect.setRect(x,y,w,h);
 				}
-				/*else
-				{
-				QList<QGraphicsView*> vs = views();
-				for (int i=0; i < vs.size(); ++i)
-				vs[i]->setDragMode(QGraphicsView::ScrollHandDrag);
-				}*/
 			}
 		}
 
@@ -462,10 +465,6 @@ namespace Tinkercell
 	void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
 		mouseDown = false;
-
-		/*QList<QGraphicsView*> vs = views();
-		for (int i=0; i < vs.size(); ++i)
-		vs[i]->setDragMode(QGraphicsView::NoDrag);*/
 
 		QPointF point1 = mouseEvent->scenePos(), point0 = clickedPoint;
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
@@ -506,12 +505,17 @@ namespace Tinkercell
 				for (int i=0; i < itemsIntersected.size(); ++i)
 					if (ConnectionGraphicsItem::cast(itemsIntersected[i]))
 						itemsInRect.append(itemsIntersected[i]);
-
+				
+				QGraphicsItem* item = 0;
 				for (int i=0; i < itemsInRect.size(); ++i)
-					if (itemsInRect[i] != &selectionRect)
+					if (itemsInRect[i] != &selectionRect &&
+						(item = getGraphicsItem(itemsInRect[i])) &&
+						!(networkWindow &&
+						  networkWindow->currentGraphicsView &&
+						  networkWindow->currentGraphicsView->hiddenItems.contains(item))
+						)
 					{
-						QGraphicsItem* item = getGraphicsItem(itemsInRect[i]);
-						if (item != 0 && itemsInRect[i] == item)
+						if (item && itemsInRect[i] == item)
 							if (!selectedItems.contains(item))
 								selectedItems.append(item);
 							else
@@ -682,7 +686,6 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<QGraphicsView*> list = views();
 		int key = keyEvent->key();
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
@@ -853,16 +856,16 @@ namespace Tinkercell
 	/*! \brief adjusts view to include all items*/
 	void GraphicsScene::fitAll()
 	{
-		QList<QGraphicsView*> allViews = views();
-		for (int i=0; i < allViews.size(); ++i)
-		{
-			allViews[i]->fitInView(itemsBoundingRect(),Qt::KeepAspectRatio);
-		}
+		if (!networkWindow || !networkWindow->currentGraphicsView) return;
+		QGraphicsView* view = networkWindow->currentGraphicsView;
+		view->fitInView(itemsBoundingRect(),Qt::KeepAspectRatio);
 	}
 
 	/*! \brief adjusts view to include all selected items*/
 	void GraphicsScene::fitSelected()
 	{
+		if (!networkWindow || !networkWindow->currentGraphicsView) return;
+		
 		if (selectedItems.size() < 1)
 			fitAll();
 		else
@@ -873,13 +876,12 @@ namespace Tinkercell
 				{
 					rect = rect.unite(selectedItems[i]->topLevelItem()->sceneBoundingRect());
 				}
-				QList<QGraphicsView*> allViews = views();
-				for (int i=0; i < allViews.size(); ++i)
-				{
-					QPoint a = allViews[i]->mapFromScene(rect.topLeft());
-					QPoint b = allViews[i]->mapFromScene(rect.bottomRight());
-					allViews[i]->fitInView(QRectF(QRect(a,b)),Qt::KeepAspectRatio);
-				}
+
+				QGraphicsView* view = networkWindow->currentGraphicsView;
+
+				QPoint a = view->mapFromScene(rect.topLeft());
+				QPoint b = view->mapFromScene(rect.bottomRight());
+				view->fitInView(QRectF(QRect(a,b)),Qt::KeepAspectRatio);
 		}
 	}
 
@@ -1471,6 +1473,7 @@ namespace Tinkercell
 	/*! \brief prints the current scene*/
 	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
 	{
+		if (!networkWindow || !networkWindow->currentGraphicsView) return;
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
 		//painter.setBackground(QBrush(Qt::white));
@@ -1507,9 +1510,7 @@ namespace Tinkercell
 
 		painter.fillRect(rect,QBrush(Qt::white));
 
-		QGraphicsView * view = 0;
-		if (views().size() > 0)
-			view = views().first();
+		QGraphicsView * view = networkWindow->currentGraphicsView;
 
 		if (view)
 		{

@@ -60,12 +60,12 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
 	}
 	
-	void AutoGeneRegulatoryTool::copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
+	/*void AutoGeneRegulatoryTool::copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i])
 				copiedHandles << handles[i]->fullName();
-	}
+	}*/
 
 	void AutoGeneRegulatoryTool::autoPhosphateTriggered()
 	{
@@ -1176,8 +1176,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			
-			connect(mainWindow,SIGNAL(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
-						this,SLOT(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
+			//connect(mainWindow,SIGNAL(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
+				//		this,SLOT(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
 			connectPlugins();
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -1348,8 +1348,9 @@ namespace Tinkercell
 		if (item)
 		{
 			ItemHandle * handle = getHandle(item);
-			if (handle && !copiedHandles.contains(handle->fullName()) && handle->isA(tr("Coding")))// && handle->isA(tr("promoter")))
+			if (handle && !handle->tools.contains(this) && handle->isA(tr("Coding")))// && handle->isA(tr("promoter")))
 			{
+				handle->tools += this;
 				scene->selected().clear();
 				scene->selected() += item;
 				autoGeneProductTriggered();

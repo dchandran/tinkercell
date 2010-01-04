@@ -75,7 +75,7 @@ namespace Tinkercell
 		void autoTFTriggeredDown();
 		void insertmRNAstep();
 		void autoAssignRates(QList<NodeHandle*>&);
-		void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		//void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		
 	signals:
 		void itemsInsertedSignal(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
@@ -101,7 +101,7 @@ namespace Tinkercell
 		QAction autoPhosphate;
 		QAction * separator;
 		bool doAssignment;
-		QStringList copiedHandles;
+		//QStringList copiedHandles;
 		
 		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		

@@ -25,6 +25,8 @@ namespace Tinkercell
 {
 	GnuplotTool_FToS GnuplotTool::fToS;
     QList< DataTable<qreal> > GnuplotTool::data;
+	int GnuplotTool::multiplotRows = 1;
+	int GnuplotTool::multiplotCols = 1;
 
     QProcess process;
 	
@@ -64,23 +66,26 @@ namespace Tinkercell
         process.startDetached(cmd);
     }
 	
-	void GnuplotTool::gnuplotScript(const QString& filename)
+	void GnuplotTool::gnuplotScript(const QString& s)
 	{
-		fToS.gnuplotScript(filename);
+		fToS.gnuplotScript(s);
 	}
 
     void GnuplotTool::runScript(const QString& script)
     {
 		int numPlots = (multiplotRows * multiplotCols);
 		
-		if (previousCommands.size() >= numPlots)
+		if (previousCommands.size() > numPlots)
 		{
-			multiplotRows = multiplotCols = 1;
+			numPlots = multiplotRows = multiplotCols = 1;
 			previousCommands.clear();
 		}
 
 		previousCommands << script;
-
+		
+		if (previousCommands.size() < numPlots)
+			return;
+		
 		QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
         {
@@ -102,7 +107,7 @@ namespace Tinkercell
 			allscripts += QString::number(multiplotCols);
 			allscripts += tr("\n");
 			allscripts += previousCommands.join(tr("\n"));
-			allscripts += tr("unset multiplot\n");
+			allscripts += tr("\nunset multiplot\n");
 		}
 
 		if (editor)
@@ -116,7 +121,7 @@ namespace Tinkercell
         {
             file.write(s.toAscii());
             file.close();
-            gnuplotFile(filename);
+            runScriptFile(filename);
         }
     }
 
@@ -127,7 +132,7 @@ namespace Tinkercell
         delete data;
     }
 
-    void GnuplotTool::gnuplotDataTable(const DataTable<qreal>& m, int x, const QString& title, int all)
+    void GnuplotTool::gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all)
     {
 		m.description() = title;
         GnuplotTool::data << m;
@@ -175,6 +180,10 @@ namespace Tinkercell
             {
                 if (s.isEmpty())
                 {
+					s += tr("set xlabel ");
+					s += tr("\"");
+					s += m.colName(x);
+					s += tr("\"\n");
                     s += tr("set title '");
                     s += title;
                     s += tr("'\nplot 'data.txt' using ");
@@ -198,7 +207,7 @@ namespace Tinkercell
         delete dat;
     }
 
-    void GnuplotTool::gnuplotDataTable3D(const DataTable<qreal>& m, const QString& title)
+    void GnuplotTool::gnuplotDataTable3D(DataTable<qreal>& m, const QString& title)
     {
         if (m.cols() < 3) return;
 
@@ -244,7 +253,21 @@ namespace Tinkercell
         }
 
 		s = tr("set title '");
+		
 		s += title;
+		s += tr("\nset xlabel ");
+		s += tr("'");
+		s += m.colName(0);
+		
+		s += tr("'\nset ylabel ");
+		s += tr("'");
+		s += m.colName(1);
+		
+		s += tr("'\nset zlabel ");
+		s += tr("'");
+		s += m.colName(2);
+		s += tr("'\n");
+		
 		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data.txt' with lines\n");
 
         gnuplotScript(s);
@@ -258,14 +281,14 @@ namespace Tinkercell
         delete dat;
     }
 
-    void GnuplotTool::gnuplotHist(const DataTable<qreal>& m, double bins, const QString& title)
+    void GnuplotTool::gnuplotHist(DataTable<qreal>& m, double bins, const QString& title)
     {
-		m.description() = title;
-        GnuplotTool::data << m;
+		m.removeCol(tr("time"));
+		m.removeCol(tr("Time"));
 		
 		m.description() = title;
         GnuplotTool::data << m;
-
+		
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
         {
@@ -319,7 +342,10 @@ namespace Tinkercell
 			
 			s += tr("(bin($");
 			s += QString::number(i+1);
-			s += tr(",bw)):(1.0) smooth freq with boxes");
+			s += tr(",bw)):(1.0) smooth freq with boxes title ");
+			s += tr("'");
+			s += m.colName(i);
+			s += tr("'");
 			if (i < cols-1)
 				s += tr(", ");
 		}
@@ -330,21 +356,16 @@ namespace Tinkercell
     {
     }
 
-    void GnuplotTool::gnuplotErrorbars(const DataTable<qreal>& m, int x, const QString& title)
+    void GnuplotTool::gnuplotErrorbars(DataTable<qreal>& m, int x, const QString& title)
     {
 		m.description() = title;
         GnuplotTool::data << m;
     }
 
-	int GnuplotTool::multiplotRows = 1;
-	int GnuplotTool::multiplotCols = 1;
-	QStringList GnuplotTool::previousCommands;
-
 	void GnuplotTool::gnuplotMultiplot(int x, int y)
     {
 		multiplotRows = x;
 		multiplotCols = y;
-		previousCommands.clear();
     }
 
     DataTable<qreal>& GnuplotTool::getDataTable(int index)
@@ -362,7 +383,7 @@ namespace Tinkercell
         return ConvertValue(getDataTable(index));
     }
 
-    GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("Gnuplot"),tr("Plot"),parent)
+    GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("Gnuplot"),tr("Plot"),parent), editor(0)
     {
         QVBoxLayout * layout = new QVBoxLayout;
         QHBoxLayout * buttonsLayout = new QHBoxLayout;
@@ -399,13 +420,10 @@ namespace Tinkercell
 		buttonsLayout->addStretch(1);
 
         layout->addLayout(buttonsLayout);
-        if (!editor)
-        {
-            editor = new CodeEditor(this);
-            layout->addWidget(editor);
-            layout->setStretch(0,0);
-            layout->setStretch(1,1);
-        }
+        editor = new CodeEditor(this);
+		layout->addWidget(editor);
+		layout->setStretch(0,0);
+		layout->setStretch(1,1);
 
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);

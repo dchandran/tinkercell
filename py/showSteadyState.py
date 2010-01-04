@@ -12,7 +12,7 @@ print mod.jacobian;
 names = mod.jacobian_row;
 items = pytc.find(names);
 values = mod.data_sstate.getSpecies();
-for i in 1:len(items)
+for i in range(0,len(items)):
     pytc.displayNumber(items[i],values[i]);
 #pytc.setInitialValues(items,values.tolist());
 outputOn();

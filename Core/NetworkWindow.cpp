@@ -34,8 +34,7 @@ namespace Tinkercell
 		history.clear();
 		if (scene)
 		{
-			QList<QGraphicsView*> views = scene->views();
-			if (views.size() == 1 && views[0] && views[0]->parentWidget() == this)
+			if (graphicsViews.size() == 1 && graphicsViews[0] && graphicsViews[0]->parentWidget() == this)
 				delete scene;
 		}
 	}
@@ -54,15 +53,17 @@ namespace Tinkercell
 		{
 			disconnect();
 			
-			QList<GraphicsView*> list = views;
-			for (int i=0; i < list.size(); ++i)
+			QList<GraphicsView*> list = graphicsViews;
+			for (int i=1; i < list.size(); ++i)
 				if (list[i])
 					list[i]->close();
 			
 			if (mainWindow->currentNetworkWindow == this)
 				mainWindow->currentNetworkWindow = 0;
+
 			if (mainWindow)
 				mainWindow->allNetworkWindows.removeAll(this);
+
 			event->accept();
 		}
 		else
@@ -79,21 +80,32 @@ namespace Tinkercell
         return 0;
     }
 	
-	void NetworkWindow::createView(const QList<QGraphicsItem*>& hideItems)
+	QList<GraphicsView*> NetworkWindow::views() const
 	{
-		if (!mainWindow) return;
+		return graphicsViews;
+	}
+	
+	GraphicsView* NetworkWindow::currentView() const
+	{
+		return currentGraphicsView;
+	}
+	
+	GraphicsView * NetworkWindow::createView(const QList<QGraphicsItem*>& hideItems)
+	{
+		if (!mainWindow) return 0;
 		
 		GraphicsView * view = new GraphicsView(this);
-		views << view;
 		view->hideItems(hideItems);
 		view->setParent(mainWindow);
 		view->setWindowFlags(Qt::Window);
 		view->setAttribute(Qt::WA_DeleteOnClose);
 		if (!view->isVisible())
 			view->show();
+		return view;
 	}
 
-	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
+	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : 
+		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
 	{
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newscene.png")));
@@ -197,7 +209,8 @@ namespace Tinkercell
 		view->centerOn(0,0)	;
 	}
 
-	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) : mainWindow(main), scene(0), textEditor(0), symbolsTable(this)
+	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) : 
+		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
 	{
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));

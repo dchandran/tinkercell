@@ -78,6 +78,7 @@ namespace Tinkercell
 	class Tool;
 	class HistoryStack;
 	class TextParser;
+	class GraphicsView;
 
 	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
 	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
@@ -408,8 +409,9 @@ namespace Tinkercell
 		virtual void tabIndexChanged(int);
 		/*!
 		* \brief create a new view of the current network window
+		* \return GraphicsView* the new view
 		*/
-		virtual void createView();
+		virtual GraphicsView * createView();
 		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
@@ -873,7 +875,51 @@ namespace Tinkercell
 		* \return void
 		*/
 		void changeConsoleErrorMsgColor();
-
+		/*! \brief Stores the index that the user selected from a list of strings
+		*	\sa getSelectedString
+		*/
+        void getStringListItemSelected(QListWidgetItem *);
+        /*! \brief Stores the index that the user selected from a list of strings
+		*	\sa getSelectedString
+		*/
+        void getStringListRowChanged(int);
+        /*! \brief Negates the index that the user selected from a list of strings
+		*	\sa getSelectedString
+		*/
+		void getStringListCanceled();
+        /*! \brief Searches the list of strings displayed to user
+		*	\sa getSelectedString
+		*/
+        void getStringSearchTextEdited(const QString & text);
+		/*!
+        * \brief Get string from user. Part of the TinkerCell C interface.
+        */
+        void getString(QSemaphore*,QString*,const QString&);
+        /*!
+        * \brief Get string from user from a list. Part of the TinkerCell C interface.
+        */
+        void getSelectedString(QSemaphore*, int*, const QString&, const QStringList&, const QString&, int);
+        /*!
+        * \brief Get a number from user. Part of the TinkerCell C interface.
+        */
+        void getNumber(QSemaphore*,qreal*,const QString&);
+        /*!
+        * \brief Get more than one number from user. Part of the TinkerCell C interface.
+        */
+        void getNumbers(QSemaphore*,const QStringList&,qreal*);
+        /*!
+        * \brief Get file name from user. Part of the TinkerCell C interface.
+        */
+        void getFilename(QSemaphore*,QString*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void askQuestion(QSemaphore*, const QString&, int &);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void messageDialog(QSemaphore*, const QString&);
+        
 	signals:
 
 		/*!
@@ -1425,6 +1471,44 @@ namespace Tinkercell
 		*/
 		static OBJ _getParent(OBJ);
 		/*!
+		* \brief part of the C API framework.
+		*/
+		static char* _getString(const char*);
+        /*!
+		* \brief part of the C API framework.
+		*/
+		static int _getSelectedString(const char*, char**,const char*, int);
+        /*!
+		* \brief part of the C API framework.
+		*/
+		static double _getNumber(const char*);
+        /*!
+		* \brief part of the C API framework.
+		*/
+		static void _getNumbers(char**, double *);
+        /*!
+		* \brief part of the C API framework.
+		*/
+		static char* _getFilename();
+		/*! \brief Dialog for selecting strings. */
+        QDialog * getStringDialog;
+        /*! \brief widget for selecting strings. */
+        QListWidget getStringList;
+        /*! \brief number for selecting strings. */
+        int getStringListNumber;
+        /*! \brief list for selecting numbers. */
+        QStringList getStringListText;
+        /*! \brief label for selecting numbers. */
+        QLabel getStringListLabel;
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static int _askQuestion(const char*);
+		 /*!
+		* \brief part of the C API framework.
+		*/
+		static void _messageDialog(const char*);
+		/*!
 		* \brief part of the C API framework. Converts static functions to signals
 		*/
 		static MainWindow_FtoS fToS;
@@ -1502,6 +1586,15 @@ namespace Tinkercell
 
 		void getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
+		
+        void getString(QSemaphore*,QString*,const QString&);
+        void getFilename(QSemaphore*,QString*);
+        void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int);
+        void getNumber(QSemaphore*,qreal*,const QString&);
+        void getNumbers(QSemaphore*,const QStringList&,qreal*);
+		
+		void askQuestion(QSemaphore*,const QString&,int&);
+		void messageDialog(QSemaphore*,const QString&);
 
 	public slots:
 		void zoom(double);
@@ -1560,6 +1653,15 @@ namespace Tinkercell
 		void setStringData(OBJ,const char*, const char*, const char*,const char*);
 		Array getChildren(OBJ);
 		OBJ getParent(OBJ);
+		
+		char* getString(const char*);
+        char* getFilename();
+        int getSelectedString(const char*, char**,const char*,int);
+        double getNumber(const char*);
+        void getNumbers(char**, double*);
+        
+		int askQuestion(const char*);
+		void messageDialog(const char*);
 	};
 
 }

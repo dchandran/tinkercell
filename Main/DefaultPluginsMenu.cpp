@@ -135,8 +135,11 @@ namespace Tinkercell
       QString name = tool->name;
 
 	  QMenu * menu = 0;
+	  QString s = tool->category;
+	  if (s.isEmpty()) s = tr("misc.");
+	  
 	  for (int i=0; i < menus.size(); ++i)
-		if (menus[i] && menus[i]->title() == tool->category)
+		if (menus[i] && menus[i]->title() == s)
 		{
 			menu = menus[i];
 			break;
@@ -144,9 +147,6 @@ namespace Tinkercell
 	  
 	  if (!menu)
 	  {
-		QString s = tool->category;
-		if (s.isEmpty()) s = tr("misc.");
-		
 		menu = this->addMenu(s);
 		menus << menu;
 	  }

@@ -39,7 +39,7 @@ namespace Tinkercell
         addToGroup(&image);
     }
 
-    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"))
+    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools"))
     {
         separator = 0;
         VisualTool * visualTool = new VisualTool(this);
@@ -1187,22 +1187,9 @@ namespace Tinkercell
 				}
 			}
 			
-			GraphicsScene * scene2 = mainWindow->newGraphicsWindow();
-			if (scene2 && scene2 != scene)
+			if (scene->networkWindow)
 			{
-				mainWindow->popOut(scene2->networkWindow);
-				QList<ItemHandle*> handles;
-				QList<QGraphicsItem*> clones = cloneGraphicsItems(hideItems,handles,false);
-				
-				if (hide)
-					scene->hideItems(handle->fullName() + tr(" compressed"),hideItems);
-				
-				for (int i=0; i < clones.size(); ++i)
-					if (clones[i])
-					{
-						clones[i]->setVisible(true);
-					}
-				scene2->insert(handle->fullName() + tr(" decompressed"), clones);
+				scene->networkWindow->createView(hideItems);
 			}
 		}
     }

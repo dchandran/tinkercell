@@ -337,7 +337,7 @@ namespace Tinkercell
                         childRect = child->graphicsItems[j]->sceneBoundingRect();
                         contained0 = false;
                         for (int l=0; l < handle->graphicsItems.size(); ++l)
-							if (handle->graphicsItems[l] && handle->graphicsItems[l]->isVisible())
+							if (handle->graphicsItems[l] && scene->isVisible(handle->graphicsItems[l]))
 							{
 								if (connection)
 								{
@@ -746,7 +746,7 @@ namespace Tinkercell
 					{
 						QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
 						QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-						if (!child->graphicsItems[k]->isVisible() || p1.intersects(p2) || p1.contains(p2))
+						if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
 						{
 							outOfBox = false; //yes, still contained inside the module/Compartment
 							break;

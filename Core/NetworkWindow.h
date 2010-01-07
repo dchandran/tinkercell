@@ -84,7 +84,7 @@ namespace Tinkercell
 		/*! \brief get all the visible items in this network window*/
 		virtual QList<ItemHandle*> allHandles() const;
 		/*! \brief get the console window (same as mainWindow->console())*/
-		ConsoleWindow * console();
+		ConsoleWindow * console() const;
 		/*! \brief the model item*/
 		virtual ItemHandle* modelItem();
 		/*! \brief calls mainWindow's setCurrentWindow method*/

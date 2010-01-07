@@ -264,7 +264,7 @@ namespace Tinkercell
                     if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
                         (node->className == ModuleLinkerItem::CLASSNAME) &&
                         (node->scene() == items[i]->scene()) &&
-                        node->isVisible())
+                        scene->isVisible(node))
                 {
                     alreadyLinked = true;
                     break;
@@ -596,7 +596,7 @@ namespace Tinkercell
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{
-							if (child->graphicsItems[k] && !child->graphicsItems[k]->isVisible())
+							if (child->graphicsItems[k] && !scene->isVisible(child->graphicsItems[k]))
 								inside = true;
 							else
 								if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
@@ -1154,7 +1154,8 @@ namespace Tinkercell
 		{
 			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect()),
 								  childItems = handle->allGraphicsItems(),
-								  hideItems;
+								  hideItems,
+								  allItems = scene->items();
 			
 			ConnectionGraphicsItem * connection;
 			
@@ -1174,22 +1175,22 @@ namespace Tinkercell
 				return;
 			}
 			
-			bool hide = false;
 			for (int i=0; i < childItems.size(); ++i)
 			{
-				if (moduleItem != childItems[i] && 
-					(!childItems[i]->isVisible() || collidingItems.contains(childItems[i])) &&
+				if (moduleItem != childItems[i] &&
 					getHandle(childItems[i]) != handle &&
 					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == ModuleLinkerItem::CLASSNAME))
 				{
 					hideItems << childItems[i];
-					hide = hide || childItems[i]->isVisible();
+					//allItems.removeAll(childItems[i]);
 				}
 			}
 			
-			if (scene->networkWindow)
+			if (scene->networkWindow && scene->networkWindow->currentView())
 			{
-				scene->networkWindow->createView(hideItems);
+				scene->networkWindow->currentView()->hideItems(hideItems);
+				GraphicsView * view = scene->networkWindow->createView(allItems);
+				view->showItems(hideItems);
 			}
 		}
     }

@@ -266,9 +266,13 @@ namespace Tinkercell
 					{
 						glowTimer.stop();
 					}
-
-					connectionBelowCursor = connectionBelowCursor2;
-					nodeBelowCursor = nodeBelowCursor2;
+					
+					if (scene->isVisible(connectionBelowCursor2))
+						connectionBelowCursor = connectionBelowCursor2;
+			
+					if (scene->isVisible(nodeBelowCursor2))
+						nodeBelowCursor = nodeBelowCursor2;
+						
 					glowTimer.stop();
 					glowTimer.setFrameRange(50,250);
 					glowTimer.setDirection(QTimeLine::Backward);

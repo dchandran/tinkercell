@@ -251,7 +251,7 @@ namespace Tinkercell
 		parsersMenu = 0;
 	}
 
-	ConsoleWindow * MainWindow::console()
+	ConsoleWindow * MainWindow::console() const
 	{
 	    return consoleWindow;
 	}

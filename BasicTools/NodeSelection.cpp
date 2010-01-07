@@ -57,7 +57,7 @@ namespace Tinkercell
 	}
 	void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& , Qt::KeyboardModifiers )
 	{
-		if (!scene) return;
+		if (!scene || !scene->networkWindow || !scene->networkWindow->currentView()) return;
 
 		QRectF rect;
 
@@ -67,18 +67,10 @@ namespace Tinkercell
 				rect = rect.unite(allItems[i]->sceneBoundingRect());
 		}
 
-		QList<QGraphicsView*> views = scene->views();
+		QGraphicsView * view = scene->networkWindow->currentView();
 		qreal scalex = 0.0;
-		for (int j=0; j < views.size(); ++j)
-		{
-			if (views[j])
-			{
-				scalex = (views[j]->transform().m11());
-				//scaley = sqrt(views[j]->transform().m22());
-				break;
-			}
-		}
-
+		scalex = (view->transform().m11());
+		
 		qreal maxx = rect.right() + 100.0/(scalex), miny = rect.top() - 20.0, w = 0;
 		if (maxx > scene->viewport().right() - 100.0) maxx = scene->viewport().left() + 100.0;
 
@@ -263,7 +255,7 @@ namespace Tinkercell
 
 	void NodeSelection::turnOnGraphicalTools(QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, GraphicsScene * scene)
 	{
-		if (!scene) return;
+		if (!scene || !scene->networkWindow->currentView()) return;
 
 		/*QRectF rect;
 
@@ -293,16 +285,10 @@ namespace Tinkercell
 
 		qreal scalex = 1, scaley = 1;
 
-		QList<QGraphicsView*> views = scene->views();
-		for (int j=0; j < views.size(); ++j)
-		{
-			if (views[j])
-			{
-				scalex = (views[j]->transform().m11());
-				scaley = (views[j]->transform().m22());
-				break;
-			}
-		}
+		QGraphicsView* view = scene->networkWindow->currentView();
+
+		scalex = (view->transform().m11());
+		scaley = (view->transform().m22());
 
 		/*qreal maxx = rect.right() + 100.0/(scalex*scalex), miny = rect.top() - 20.0, w = 0;
 		if (maxx > scene->viewport().right() - 100.0) maxx = scene->viewport().left() + 100.0;
@@ -539,7 +525,7 @@ namespace Tinkercell
 			if (items[i] && (items[i]->scene() == scene) && !list.contains(items[i]) && (!items[i]->isVisible() || rect.intersects(items[i]->sceneBoundingRect())))
 			{
 				list << items[i];
-				if (items[i]->isVisible())
+				if (scene->isVisible(items[i]))
 				{
 					rect = rect.united(items[i]->sceneBoundingRect());
 					rect.adjust( -dx, -dx, dx, dx );
@@ -591,7 +577,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = 0;
 
 		for (int i=0; i < list.size(); ++i)
-			if (!scene->moving().contains(list[i]))
+			if (!scene->moving().contains(list[i]) && scene->isVisible(list[i]))
 			{
 				scene->moving() += list[i];
 				if ((node = NodeGraphicsItem::cast(list[i])))

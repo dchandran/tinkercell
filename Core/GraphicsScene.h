@@ -110,10 +110,14 @@ namespace Tinkercell
 		Plugins can add new actions to this menu.
 		*/
 		QMenu * contextScreenMenu;
-		/*! \brief Returns the currently visible window
+		/*! \brief Returns the currently visible window from the current graphics view
 		* \param void
 		* \return QRectF rectangle*/
-		virtual QRectF viewport();
+		virtual QRectF viewport() const;
+		/*! \brief Returns the currently active graphics view
+		* \param void
+		* \return GraphicsView * current graphics view*/
+		virtual GraphicsView * currenView() const;
 		/*! \brief Returns the point where mouse was clicked last
 		* \param void
 		* \return QPointF& ref to last clicked point*/
@@ -134,7 +138,7 @@ namespace Tinkercell
 		* \return double*/
 		virtual qreal ZValue();
 		/*! \brief get the console window (same as mainWindow->console())*/
-		ConsoleWindow * console();
+		ConsoleWindow * console() const;
 		/*! \brief Constructor: sets 10000x10000 scene */
 		GraphicsScene(QWidget * parent = 0);
 		/*! \brief destructor */
@@ -182,10 +186,14 @@ namespace Tinkercell
 		* \param QGraphicsItem* item to select
 		* \return void*/
 		virtual void select(QGraphicsItem* item);
-		/*! \brief select items (does not deselect other items)
+		/*! \brief select items (does not deselect previously selected items)
 		* \param QList<QGraphicsItem*>& items to select
 		* \return void*/
 		virtual void select(const QList<QGraphicsItem*>& item);
+		/*! \brief check if a graphics item is visible in the current graphics view
+		* \param QGraphicsItem * item
+		* \return bool*/
+		virtual bool isVisible(QGraphicsItem*);
 		/*! \brief select all items*/
 		virtual void selectAll();
 		/*! \brief select items with the given text */

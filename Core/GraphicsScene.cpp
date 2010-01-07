@@ -45,7 +45,7 @@ namespace Tinkercell
 	/*! \brief Returns the currently visible window
 	* \param void
 	* \return rectangle*/
-	QRectF GraphicsScene::viewport()
+	QRectF GraphicsScene::viewport() const
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView)
 			return QRectF();
@@ -274,38 +274,41 @@ namespace Tinkercell
 		QGraphicsItem * item = 0;
 		Tool::GraphicsItem * gitem = 0;
 
-		QGraphicsItem * p = getGraphicsItem( itemAt(clickedPoint) );
-		if (networkWindow &&
-			networkWindow->currentGraphicsView &&
-			networkWindow->currentGraphicsView->hiddenItems.contains(p))
-			p = 0;
-
-		if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
+		QGraphicsItem * p = itemAt(clickedPoint);
+		
+		if (p)
+			gitem = Tool::GraphicsItem::cast(p->topLevelItem());
+		
+		if (!gitem)
 		{
-			QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
-			if (!ps.isEmpty())
+			p = getGraphicsItem(p);
+			if (networkWindow &&
+				networkWindow->currentGraphicsView &&
+				networkWindow->currentGraphicsView->hiddenItems.contains(p))
+				p = 0;
+
+			if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
 			{
-				for (int i=0; i < ps.size(); ++i)
+				QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
+				if (!ps.isEmpty())
 				{
-					p = getGraphicsItem(ps[i]);
-					if (networkWindow &&
-						networkWindow->currentGraphicsView &&
-						networkWindow->currentGraphicsView->hiddenItems.contains(p))
-						p = 0;
-						
-					if (p && !TextGraphicsItem::cast(p))
-						break;
+					for (int i=0; i < ps.size(); ++i)
+					{
+						p = getGraphicsItem(ps[i]);
+						if (networkWindow &&
+							networkWindow->currentGraphicsView &&
+							networkWindow->currentGraphicsView->hiddenItems.contains(p))
+							p = 0;
+							
+						if (p && !TextGraphicsItem::cast(p))
+							break;
+					}
 				}
 			}
-		}
 
-		if (p)
-		{
-			item = getGraphicsItem(p);
-			if (!item)
-				gitem = Tool::GraphicsItem::cast(p->topLevelItem());
+			item = p;
 		}
-
+		
 		if (movingItemsGroup)
 		{
 			destroyItemGroup(movingItemsGroup);
@@ -592,19 +595,13 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::scaleView(qreal scaleFactor)
 	{
-		QList<QGraphicsView*> list = views();
+		if (!networkWindow || !networkWindow->currentGraphicsView) return;
+		
+		QGraphicsView * view = networkWindow->currentGraphicsView;
 
-		//QPen pen = selectionRect.pen();
-		//pen.setWidthF( pen.widthF() / scaleFactor );
-		//selectionRect.setPen(pen);
-
-		for (int i=0; i < list.size(); ++i)
-			if (list[i])
-			{
-				qreal factor = list[i]->matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
-				if (!(factor < 0.07 || factor > 100))
-					list[i]->scale(scaleFactor, scaleFactor);
-			}
+		qreal factor = networkWindow->currentGraphicsView->matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+		if (!(factor < 0.07 || factor > 100))
+			networkWindow->currentGraphicsView->scale(scaleFactor, scaleFactor);
 	}
 	/*! \brief place center at the point
 	* Precondition: None
@@ -2027,7 +2024,7 @@ namespace Tinkercell
 	/*! \brief show item*/
 	void GraphicsScene::showItems(const QString& name, QGraphicsItem* item)
 	{
-		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, item, true);
+		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, item, true);
 
 		if (historyStack)
 			historyStack->push(command);
@@ -2040,7 +2037,7 @@ namespace Tinkercell
 	/*! \brief show items*/
 	void GraphicsScene::showItems(const QString& name, const QList<QGraphicsItem*>& items)
 	{
-		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, items, true);
+		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, items, true);
 
 		if (historyStack)
 			historyStack->push(command);
@@ -2053,7 +2050,7 @@ namespace Tinkercell
 	/*! \brief hide item*/
 	void GraphicsScene::hideItems(const QString& name, QGraphicsItem* item)
 	{
-		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, item, false);
+		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, item, false);
 
 		if (historyStack)
 			historyStack->push(command);
@@ -2066,7 +2063,7 @@ namespace Tinkercell
 	/*! \brief hide items*/
 	void GraphicsScene::hideItems(const QString& name, const QList<QGraphicsItem*>& items)
 	{
-		QUndoCommand * command = new SetGraphicsVisibilityCommand(name, items, false);
+		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, items, false);
 
 		if (historyStack)
 			historyStack->push(command);
@@ -2200,10 +2197,29 @@ namespace Tinkercell
 	}
 
 	/*! \brief get the console window (same as mainWindow->console())*/
-    ConsoleWindow * GraphicsScene::console()
+    ConsoleWindow * GraphicsScene::console() const
     {
         if (networkWindow)
             return networkWindow->console();
         return 0;
     }
+	
+	GraphicsView * GraphicsScene::currenView() const
+	{
+		if (networkWindow)
+            return networkWindow->currentView();
+        return 0;
+	}
+	
+	bool GraphicsScene::isVisible(QGraphicsItem * item)
+	{
+		if (!item || !item->isVisible()) return false;
+
+		if (networkWindow && 
+			networkWindow->currentGraphicsView && 
+			networkWindow->currentGraphicsView->hiddenItems.contains(item))
+			return false;
+
+        return true;
+	}
 }

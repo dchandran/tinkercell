@@ -400,7 +400,7 @@ namespace Tinkercell
 		void popIn(NetworkWindow *);
 
 		/*! \brief get the console window*/
-		ConsoleWindow * console();
+		ConsoleWindow * console() const;
 
 	protected slots:
 		/*!

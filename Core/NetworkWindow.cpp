@@ -73,7 +73,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief get the console window (same as mainWindow->console())*/
-    ConsoleWindow * NetworkWindow::console()
+    ConsoleWindow * NetworkWindow::console() const
     {
         if (mainWindow)
             return mainWindow->console();

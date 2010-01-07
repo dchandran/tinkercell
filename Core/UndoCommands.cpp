@@ -2616,7 +2616,7 @@ namespace Tinkercell
 		}
 	}
 	
-	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
+	SetGraphicsSceneVisibilityCommand::SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
 		: QUndoCommand(name)
 	{
 		ConnectionGraphicsItem * connection;
@@ -2655,7 +2655,7 @@ namespace Tinkercell
 		}
 	}
 
-	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, QGraphicsItem* item, bool value)
+	SetGraphicsSceneVisibilityCommand::SetGraphicsSceneVisibilityCommand(const QString& name, QGraphicsItem* item, bool value)
 		: QUndoCommand(name)
 	{
 		if (item && item->isVisible() != value)
@@ -2693,7 +2693,7 @@ namespace Tinkercell
 		}
 	}
 
-	SetGraphicsVisibilityCommand::SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, bool value)
+	SetGraphicsSceneVisibilityCommand::SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, bool value)
 		: QUndoCommand(name)
 	{
 		ConnectionGraphicsItem * connection;
@@ -2733,7 +2733,7 @@ namespace Tinkercell
 		}
 	}
 
-	void SetGraphicsVisibilityCommand::redo()
+	void SetGraphicsSceneVisibilityCommand::redo()
 	{
 		for (int i=0; i < items.size() && i < before.size(); ++i)
 		{
@@ -2741,7 +2741,7 @@ namespace Tinkercell
 		}
 	}
 
-	void SetGraphicsVisibilityCommand::undo()
+	void SetGraphicsSceneVisibilityCommand::undo()
 	{
 		for (int i=0; i < items.size() && i < before.size(); ++i)
 		{

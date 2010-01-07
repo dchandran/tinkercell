@@ -636,15 +636,15 @@ namespace Tinkercell
 		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.
 	* \ingroup undo
 	*/
-	class MY_EXPORT SetGraphicsVisibilityCommand : public QUndoCommand
+	class MY_EXPORT SetGraphicsSceneVisibilityCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
-		SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, const QList<bool>&);
+		SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, const QList<bool>&);
 		/*! \brief constructor*/
-		SetGraphicsVisibilityCommand(const QString& name, QGraphicsItem*, bool);
+		SetGraphicsSceneVisibilityCommand(const QString& name, QGraphicsItem*, bool);
 		/*! \brief constructor*/
-		SetGraphicsVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, bool);
+		SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>&, bool);
 		/*! \brief redo parent change*/
 		void redo();
 		/*! \brief undo parent change*/

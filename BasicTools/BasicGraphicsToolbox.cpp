@@ -708,7 +708,11 @@ namespace Tinkercell
 		{
 			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
+			
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
+
 			mode = zoom;
 			currentScene()->useDefaultBehavior = false;
 		}
@@ -725,7 +729,9 @@ namespace Tinkercell
 		{
 			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(QCursor(QPixmap(tr(":/images/zoomout.png")).scaled(25,25)));
 			mode = unzoom;
 			currentScene()->useDefaultBehavior = false;
 		}
@@ -743,7 +749,9 @@ namespace Tinkercell
 		{
 			mainWindow->sendEscapeSignal(this);
 			mainWindow->currentScene()->useDefaultBehavior = false;
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(QCursor(QPixmap(tr(":/images/bucket.png")).scaled(25,25)));
 			if (gradientType == QGradient::NoGradient)
 				mode = this->brush;
 			else
@@ -756,9 +764,11 @@ namespace Tinkercell
 		if (mainWindow != 0 && mainWindow->currentScene() != 0)
 			//&& (mode != none || mainWindow->currentScene()->useDefaultBehavior))
 		{
-			mainWindow->currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
-			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/pencil.png")).scaled(25,25)));
+			mainWindow->currentScene()->useDefaultBehavior = false;
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(QCursor(QPixmap(tr(":/images/pencil.png")).scaled(25,25)));
 			mode = this->pen;
 		}
 	}
@@ -921,7 +931,9 @@ namespace Tinkercell
 
 			scene->useDefaultBehavior = true;
 			mode = this->none;
-			mainWindow->setCursor(Qt::ArrowCursor);
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(Qt::ArrowCursor);
 			return;
 		}
 
@@ -938,7 +950,9 @@ namespace Tinkercell
 				if (mode != this->none)
 				{
 					mode = this->none;
-					mainWindow->setCursor(Qt::ArrowCursor);
+					QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+					for (int i=0; i < allWindows.size(); ++i)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 					return;
 				}
 			}
@@ -964,7 +978,9 @@ namespace Tinkercell
 				if (mode != this->none)
 				{
 					mode = this->none;
-					mainWindow->setCursor(Qt::ArrowCursor);
+					QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+					for (int i=0; i < allWindows.size(); ++i)
+						allWindows[i]->setCursor(Qt::ArrowCursor);
 					return;
 				}
 			}
@@ -1020,10 +1036,6 @@ namespace Tinkercell
 
 				scene->centerOn(point);
 				scene->scaleView(1.5);
-
-				//scene->useDefaultBehavior = true;
-				//mode = this->none;
-				//mainWindow->setCursor(Qt::ArrowCursor);
 			}
 
 			else
@@ -1066,7 +1078,9 @@ namespace Tinkercell
 						{
 							scene->useDefaultBehavior = true;
 							mode = this->none;
-							mainWindow->setCursor(Qt::ArrowCursor);
+							QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+							for (int i=0; i < allWindows.size(); ++i)
+								allWindows[i]->setCursor(Qt::ArrowCursor);
 						}
 						else
 						{
@@ -1128,7 +1142,9 @@ namespace Tinkercell
 	{
 		if (mode != none)
 		{
-			mainWindow->setCursor(Qt::ArrowCursor);
+			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+			for (int i=0; i < allWindows.size(); ++i)
+				allWindows[i]->setCursor(Qt::ArrowCursor);
 			if (mainWindow && mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = true;
 			mode = none;

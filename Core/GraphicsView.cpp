@@ -21,6 +21,7 @@ affecting other views.
 #include "ItemHandle.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
+#include "CloneItems.h"
 #include "GraphicsScene.h"
 
 namespace Tinkercell
@@ -44,6 +45,8 @@ namespace Tinkercell
 			if (hiddenItems.contains(items[i]))
 			{
 				items[i] = items[numItems-1];
+				items[numItems-1] = 0;
+				--i;
 				--numItems;
 			}
 		}
@@ -141,25 +144,55 @@ namespace Tinkercell
 	
 	void GraphicsView::showItem(QGraphicsItem* item)
 	{
-		hiddenItems.remove(item);
+		if (!networkWindow) return;
+		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,true);
+		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
+			networkWindow->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
 	}
 	
 	void GraphicsView::hideItem(QGraphicsItem* item)
 	{
-		if (!hiddenItems.contains(item))
-			hiddenItems.insert(item,true);
+		if (!networkWindow) return;
+		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,false);
+		
+		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
+			networkWindow->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
 	}
 	
 	void GraphicsView::showItems(const QList<QGraphicsItem*>& items)
 	{
-		for (int i=0; i < items.size(); ++i)
-			hiddenItems.remove(items[i]);
+		if (!networkWindow) return;
+		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,true);
+		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
+			networkWindow->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
 	}
 	
 	void GraphicsView::hideItems(const QList<QGraphicsItem*>& items)
 	{
-		for (int i=0; i < items.size(); ++i)
-			hiddenItems.insert(items[i],true);
+		if (!networkWindow) return;
+		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,false);
+		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
+			networkWindow->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
 	}
 	
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
@@ -174,6 +207,106 @@ namespace Tinkercell
 		if (networkWindow)
 			networkWindow->currentGraphicsView = this;
 		QGraphicsView::keyPressEvent(event);
+	}
+	
+	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, QGraphicsItem * item, bool show) 
+	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
+	{
+		if (show)
+			setText(QString("items displayed in view"));
+		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
+		
+		if (!Tool::GraphicsItem::cast(item->topLevelItem()))
+		{
+			if (connection = ConnectionGraphicsItem::cast(item))
+			{
+				items << connection
+					  << connection->controlPointsAsGraphicsItems()
+					  << connection->arrowHeadsAsGraphicsItems();
+			}
+			else
+			if (node = NodeGraphicsItem::cast(item))
+			{
+				items << node;
+				
+				QList<ControlPoint*> controls = node->allControlPoints();
+				for (int j=0; j < controls.size(); ++j)
+					items << controls[j];
+			}
+			else
+			if (ControlPoint::cast(item) || TextGraphicsItem::cast(item))
+			{
+				items << item;
+			}
+			for (int j=0; j < items.size(); ++j)
+				if (items[j])
+					items << items[j]->childItems();
+		}
+	}
+	
+	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, const QList<QGraphicsItem*> & list, bool show)
+	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
+	{
+		if (show)
+			setText(QString("items displayed in view"));
+		
+		for (int i=0; i < list.size(); ++i)
+		{
+			if (Tool::GraphicsItem::cast(list[i]->topLevelItem())) continue;
+			
+			ConnectionGraphicsItem * connection = 0;
+			NodeGraphicsItem * node = 0;
+			
+			if (connection = ConnectionGraphicsItem::cast(list[i]))
+			{
+				items << connection
+					  << connection->controlPointsAsGraphicsItems()
+					  << connection->arrowHeadsAsGraphicsItems();
+			}
+			else
+			if (node = NodeGraphicsItem::cast(list[i]))
+			{
+				items << node;
+				
+				QList<ControlPoint*> controls = node->allControlPoints();
+				for (int j=0; j < controls.size(); ++j)
+					items << controls[j];
+			}
+			else
+			if (ControlPoint::cast(list[i]) || TextGraphicsItem::cast(list[i]))
+			{
+				items << list[i];
+			}
+
+			for (int j=0; j < items.size(); ++j)
+				if (items[j])
+					items << items[j]->childItems();
+		}
+	}
+	
+	void SetGraphicsViewVisibilityCommand::redo()
+	{
+		if (view)
+		{
+			for (int i=0; i < items.size(); ++i)
+				if (show)
+					view->hiddenItems.remove(items[i]);
+				else
+					view->hiddenItems[ items[i] ] = true;
+		}
+	}
+	
+	void SetGraphicsViewVisibilityCommand::undo()
+	{
+		if (view)
+		{
+			for (int i=0; i < items.size(); ++i)
+				if (!show)
+					view->hiddenItems.remove(items[i]);
+				else
+					view->hiddenItems[ items[i] ] = true;
+		}
 	}
 
 }

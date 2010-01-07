@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/RepressiblePromoter.xml" width="100" height="70">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/RepressiblePromoter.xml" width="100.0" height="70.0">
     <ControlPoints>
         <ControlPoint x="139.827" y="172"/>
         <ControlPoint x="303" y="174"/>

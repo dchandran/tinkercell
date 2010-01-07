@@ -49,6 +49,7 @@ affecting other views.
 
 namespace Tinkercell
 {
+	class SetGraphicsViewVisibilityCommand;
 
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
@@ -125,6 +126,34 @@ namespace Tinkercell
 		
 		friend class GraphicsScene;
 		friend class NetworkWindow;
+		friend class SetGraphicsViewVisibilityCommand;
+	};
+	
+	/*! \brief show and hide specific items from a given graphics view
+	* \ingroup undo*/
+	class MY_EXPORT SetGraphicsViewVisibilityCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor
+		* \param GraphicsView* view
+		* \param QGraphicsItem* item to show or hide
+		* \param bool true=show false=hide
+		*/
+		SetGraphicsViewVisibilityCommand(GraphicsView *, QGraphicsItem * , bool);
+		/*! \brief constructor
+		* \param GraphicsView* view
+		* \param QList<QGraphicsItem*> items to show or hide
+		* \param bool true=show false=hide
+		*/
+		SetGraphicsViewVisibilityCommand(GraphicsView *, const QList<QGraphicsItem*> & , bool);
+		/*! \brief redo the change*/
+		void redo();
+		/*! \brief undo the change*/
+		void undo();
+	private:
+		GraphicsView * view;
+		QList<QGraphicsItem*> items;
+		bool show;
 	};
 }
 

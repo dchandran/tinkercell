@@ -34,8 +34,6 @@ ENDIF(COMMAND CMAKE_POLICY)
 #---------------------------------------------------------------------------
 IF( APPLE )
   OPTION( BUILD_BUNDLE "Make A Bundle Application" ON )
-  SET(CPACK_BUNDLE_NAME "Tinkercell")
-  SET(CPACK_BUNDLE_PLIST ${TINKERCELL_BINARY_DIR}/info.plist)
 ENDIF( APPLE )
 
 #---------------------------------------------------------------------------

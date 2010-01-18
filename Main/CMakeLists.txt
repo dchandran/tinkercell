@@ -7,7 +7,11 @@ QT4_WRAP_CPP( DefaultPluginsMenu_MOC
 QT4_ADD_RESOURCES( TINKERCELL_QRC Tinkercell.qrc )
 
 IF( APPLE AND BUILD_BUNDLE )
-  SET( MACOSX_TINKERCELL_BUNDLE_ICON_FILE
+  SET(CPACK_BUNDLE_NAME "Tinkercell")
+  
+  SET(CPACK_BUNDLE_PLIST ${TINKERCELL_BINARY_DIR}/info.plist)
+  
+  SET( MACOSX_BUNDLE_ICON_FILE
       ${TINKERCELL_SOURCE_DIR}/Main/tinkercell.icns
   )
   SET( MACOSX_BUNDLE_SHORT_VERSION_STRING
@@ -37,14 +41,20 @@ IF( APPLE AND BUILD_BUNDLE )
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS
-      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
+      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
-      COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
-         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
-      COMMAND cp ARGS ${MACOSX_TINKERCELL_BUNDLE_ICON_FILE}
+	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
+	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
+	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtOpenGL.framework
+        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
+ #    COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
+ #        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
+      COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
-      COMMAND cp ARGS -rf ${EXECUTABLE_OUTPUT_PATH}/Plugins
-        ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
+ #     COMMAND cp ARGS -rf ${EXECUTABLE_OUTPUT_PATH}/Plugins
+ #       ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )
@@ -63,8 +73,8 @@ ELSE( APPLE AND BUILD_BUNDLE )
     IF( WIN32 )
 		  IF( MINGW )
 
-			  # resource compilation for mingw
-  			ADD_CUSTOM_COMMAND( OUTPUT 
+		  # resource compilation for mingw
+  		  ADD_CUSTOM_COMMAND( OUTPUT 
           ${CMAKE_CURRENT_BINARY_DIR}/tinkerell_rc.o
 				COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} 
 					-i${CMAKE_CURRENT_SOURCE_DIR}/tinkercell.rc

@@ -6,7 +6,7 @@ SET( TINKERCELL_CORE_HDRS
   TextEditor.h
   CThread.h
   GraphicsScene.h
-#  GraphicsView.h
+  GraphicsView.h
   HistoryWindow.h
   ItemHandle.h
   MainWindow.h
@@ -27,7 +27,7 @@ SET( TINKERCELL_CORE_SRC
   ConvertValue.cpp
   CThread.cpp
   GraphicsScene.cpp
-#  GraphicsView.cpp
+  GraphicsView.cpp
   HistoryWindow.cpp
   ItemFamily.cpp
   ItemHandle.cpp

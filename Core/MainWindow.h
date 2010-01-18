@@ -914,7 +914,7 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
-		void askQuestion(QSemaphore*, const QString&, int &);
+		void askQuestion(QSemaphore*, const QString&, int *);
 		/*!
 		* \brief part of the C API framework.
 		*/
@@ -1593,7 +1593,7 @@ namespace Tinkercell
         void getNumber(QSemaphore*,qreal*,const QString&);
         void getNumbers(QSemaphore*,const QStringList&,qreal*);
 		
-		void askQuestion(QSemaphore*,const QString&,int&);
+		void askQuestion(QSemaphore*,const QString&,int*);
 		void messageDialog(QSemaphore*,const QString&);
 
 	public slots:

@@ -4,7 +4,9 @@ import pysces
 import tc2pysces
 import display
 
+outputOff();
 mod = tc2pysces.load();
+outputOn();
 mod.doMca();
 
 pytc.showProgress(60);

@@ -27,6 +27,8 @@ namespace Tinkercell
     QList< DataTable<qreal> > GnuplotTool::data;
 	int GnuplotTool::multiplotRows = 1;
 	int GnuplotTool::multiplotCols = 1;
+	QStringList GnuplotTool::previousCommands;
+	QStringList GnuplotTool::labels;
 
     QProcess process;
 	
@@ -74,12 +76,6 @@ namespace Tinkercell
     void GnuplotTool::runScript(const QString& script)
     {
 		int numPlots = (multiplotRows * multiplotCols);
-		
-		if (previousCommands.size() > numPlots)
-		{
-			numPlots = multiplotRows = multiplotCols = 1;
-			previousCommands.clear();
-		}
 
 		previousCommands << script;
 		
@@ -123,6 +119,12 @@ namespace Tinkercell
             file.close();
             runScriptFile(filename);
         }
+		
+		if (previousCommands.size() >= numPlots)
+		{
+			numPlots = multiplotRows = multiplotCols = 1;
+			previousCommands.clear();
+		}
     }
 
     void GnuplotTool::gnuplotMatrix(Matrix m, int x, const char* title, int all)
@@ -136,6 +138,8 @@ namespace Tinkercell
     {
 		m.description() = title;
         GnuplotTool::data << m;
+		
+		labels = m.getColNames();
 
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
@@ -144,7 +148,7 @@ namespace Tinkercell
             dir.cd(tr("gnuplot"));
         }
 
-        QString file(dir.absoluteFilePath(tr("data.txt")));
+        QString file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
 
         QFile data(file);
 
@@ -186,7 +190,9 @@ namespace Tinkercell
 					s += tr("\"\n");
                     s += tr("set title '");
                     s += title;
-                    s += tr("'\nplot 'data.txt' using ");
+                    s += tr("'\nplot 'data");
+					s += QString::number(previousCommands.size());
+					s += tr(".txt' using ");
                 }
                 else
                     s += tr("'' u ");
@@ -198,21 +204,23 @@ namespace Tinkercell
                     s += tr(", ");
             }
         gnuplotScript(s);
-    }
+	}
 
     void GnuplotTool::gnuplotMatrix3D(Matrix m, const char * title)
-    {
+	{
         DataTable<qreal> * dat = ConvertValue(m);
         gnuplotDataTable3D(*dat,tr(title));
         delete dat;
-    }
+	}
 
     void GnuplotTool::gnuplotDataTable3D(DataTable<qreal>& m, const QString& title)
-    {
+	{
         if (m.cols() < 3) return;
 
 		m.description() = title;
         GnuplotTool::data << m;
+		
+		labels = m.getColNames();
 
         QString z;
         QString s = tr("#");
@@ -245,7 +253,7 @@ namespace Tinkercell
             dir.cd(tr("gnuplot"));
         }
 
-        QFile file(dir.absoluteFilePath(tr("data.txt")));
+        QFile file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
         if (file.open(QFile::WriteOnly))
         {
             file.write(s.toAscii());
@@ -268,7 +276,9 @@ namespace Tinkercell
 		s += m.colName(2);
 		s += tr("'\n");
 		
-		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data.txt' with lines\n");
+		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data");
+		s += QString::number(previousCommands.size());
+		s += tr(".txt' with lines\n");
 
         gnuplotScript(s);
 
@@ -289,6 +299,8 @@ namespace Tinkercell
 		m.description() = title;
         GnuplotTool::data << m;
 		
+		labels = m.getColNames();
+		
         QDir dir(MainWindow::userHome());
         if (!dir.cd(tr("gnuplot")))
         {
@@ -296,7 +308,7 @@ namespace Tinkercell
             dir.cd(tr("gnuplot"));
         }
 
-        QString file(dir.absoluteFilePath(tr("data.txt")));
+        QString file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
 
         QFile data(file);
 
@@ -335,7 +347,9 @@ namespace Tinkercell
 				s += QString::number(bins);
 				s += tr(";\nbin(x,width)=width*floor(x/width)\nset title '");
 				s += title;
-				s += tr("'\nplot 'data.txt' using ");
+				s += tr("'\nplot 'data");
+				s += QString::number(previousCommands.size());
+				s += tr(".txt' using ");
 			}
 			else
 				s += tr("'' u ");
@@ -366,6 +380,7 @@ namespace Tinkercell
     {
 		multiplotRows = x;
 		multiplotCols = y;
+		previousCommands.clear();
     }
 
     DataTable<qreal>& GnuplotTool::getDataTable(int index)

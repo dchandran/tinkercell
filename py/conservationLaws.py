@@ -4,7 +4,9 @@ import tc2pysces
 #modelstring = tc2pysces.load();
 #mod = pysces.model("model",loader='string',fString=modelstring);
 #mod.doLoad();
+outputOff();
 mod = tc2pysces.load();
+outputOn();
 mod.showNr();
 mod.showConserved();
 L0 = mod.L0matrix.getLabels();

@@ -63,13 +63,15 @@ void exec(const char * code,const char * outfile)
 		Py_DECREF(evalVal);
 	}*/
 
-	tc_printFile(outfile);
+	if (printOutput)
+		tc_printFile(outfile);
 	
 	if (errdata != NULL) 
 	{ 
 		s = PyObject_Str(errdata); 
 		errString = PyString_AsString(s);
-		tc_errorReport(errString);
+		if (printError)
+			tc_errorReport(errString);
 		Py_DECREF(s); 
 	}
 	

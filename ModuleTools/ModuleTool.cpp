@@ -97,8 +97,8 @@ namespace Tinkercell
 
             connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
                     this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
-
         }
+
         return true;
     }
 
@@ -349,12 +349,13 @@ namespace Tinkercell
 					linker->setHandle(nodes[j]);
 
 					linker->setPos( p + w * QPointF(cos(theta),sin(theta)) );
-					linker->setPosOnEdge();
+					//linker->setPosOnEdge();
 					theta += dtheta;
 
 					items += nodeItem;
 					items += linker;
 				}
+			adjustLinkerPositions(module);
 		}
 	}
 
@@ -416,6 +417,7 @@ namespace Tinkercell
 
 				if (module)
                 {
+					/*
 					ModuleLinkerItem * linker = 0;
 
 					QList<ConnectionGraphicsItem*> connections = node->connections();
@@ -433,7 +435,7 @@ namespace Tinkercell
 
 					ItemHandle * handle = getHandle(node);
 					setHandle(linker,handle);
-					linker->setPosOnEdge();
+					//linker->setPosOnEdge();
 
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] && !connections[j]->handle())
@@ -455,11 +457,14 @@ namespace Tinkercell
 						allCommands << (new RemoveGraphicsCommand(tr("remove old linker"),scene,(QGraphicsItem*)node))
 									<< (new InsertGraphicsCommand(tr("add new linker"),scene,(QGraphicsItem*)linker));
 					}
+					*/
+					
+					adjustLinkerPositions(module);
                 }
             }
         }
 
-		if (allCommands.size() > 0)
+		/*if (allCommands.size() > 0)
 		{
 			QUndoCommand * command = new CompositeCommand(tr("reconnect modules"),allCommands);
 
@@ -474,7 +479,7 @@ namespace Tinkercell
 			}
 
 			emit itemsInsertedSignal(scene,newLinkers,newHandles);
-		}
+		}*/
     }
 
     void ModuleTool::itemsSelected(GraphicsScene* scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers)
@@ -521,6 +526,7 @@ namespace Tinkercell
             return;
         }
 
+		
         for (int i=0; i < moving.size(); ++i)
         {
             if (qgraphicsitem_cast<NodeGraphicsItem*>(moving[i]) &&
@@ -618,18 +624,22 @@ namespace Tinkercell
 
 						if (inside)
 						{
-							for (int k=0; k < child->graphicsItems.size(); ++k)
+							/*for (int k=0; k < child->graphicsItems.size(); ++k)
 								if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])) &&
 									(node->className == ModuleLinkerItem::CLASSNAME))
 								{
 									(static_cast<ModuleLinkerItem*>(node))->setPosOnEdge();
-								}
+								}*/
 						}
 						else
 						{
 							scene->setParentHandle(child,0);
 						}
 					}
+				
+				 for (int j=0; j < handle->graphicsItems.size(); ++j)
+                    if (node = NodeGraphicsItem::cast(handle->graphicsItems[j]))
+						adjustLinkerPositions(node);
             }
         }
     }
@@ -647,6 +657,8 @@ namespace Tinkercell
             lineItem.setLine(QLineF(scene->lastPoint(),point));
             return;
         }
+		
+		return;
 
 		NodeGraphicsItem::ControlPoint * cp;
         NodeGraphicsItem* node;
@@ -691,6 +703,10 @@ namespace Tinkercell
 							}
 						}
 					}
+				
+				for (int j=0; j < handle->graphicsItems.size(); ++j)
+					if (node = NodeGraphicsItem::cast(handle->graphicsItems[j]))
+						adjustLinkerPositions(node);
             }
         }
     }
@@ -763,7 +779,7 @@ namespace Tinkercell
                      node1->handle()->data->numericalData[tr("Fixed")].value(0,0) > 0))
 					)
 					{
-						MakeModuleConnection(node1,node2,scene);
+						makeModuleConnection(node1,node2,scene);
 					}
 					else
 					{
@@ -893,7 +909,7 @@ namespace Tinkercell
         return list;
     }
 
-    void ModuleTool::MakeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
+    void ModuleTool::makeModuleConnection(NodeGraphicsItem * link1, NodeGraphicsItem * link2,GraphicsScene * scene)
     {
         if (!link1 || !link2 || !scene) return;
 
@@ -1194,6 +1210,100 @@ namespace Tinkercell
 			}
 		}
     }
+	
+	void ModuleTool::adjustLinkerPositions(NodeGraphicsItem * module)
+	{
+		ItemHandle * handle = getHandle(module);
+		
+		if (!handle) return;
+	
+		QList<NodeGraphicsItem*> linkItems;
+		NodeGraphicsItem * node;
+		
+		for (int i=0; i < handle->children.size(); ++i)
+			if (handle->children[i])
+			{
+				for (int j=0; j < handle->children[i]->graphicsItems.size(); ++j)
+					if ((node = NodeGraphicsItem::cast(handle->children[i]->graphicsItems[j])) &&
+						ModuleLinkerItem::isModuleLinker(node))
+						linkItems << node;
+			}
+		
+		if (linkItems.isEmpty()) return;
+		
+		QRectF rect = module->sceneBoundingRect();
+		QPointF pos;
+		
+		qreal w = 120.0;
+		
+		for (int i=0; i < linkItems.size(); ++i)
+		{
+			linkItems[i]->resetTransform();
+			linkItems[i]->scale(w/linkItems[i]->sceneBoundingRect().width(),w/linkItems[i]->sceneBoundingRect().width());
+		}
+		
+		if (linkItems.size() > 4)
+		{
+			int n = (int)((linkItems.size() + 0.5)/ 4.0);
+			
+			for (int i=0,j=0,k=0; i < linkItems.size(); ++i, ++j)
+			{
+				if (j > n)
+				{
+					j = 0;
+					++k;
+				}
+	
+				if (k==0)
+				{
+					linkItems[i]->setPos(rect.right(),rect.top() + (j+1)*rect.height()/(1+n));
+					linkItems[i]->rotate(0);
+				}
+
+				if (k==1)
+				{
+					linkItems[i]->setPos(rect.left() + (j+1)*rect.width()/(1+n),rect.top());
+					linkItems[i]->rotate(90);
+				}
+
+				if (k==2)
+				{
+					linkItems[i]->setPos(rect.left(),rect.top() + (j+1)*rect.height()/(1+n));
+					linkItems[i]->rotate(180);
+				}
+
+				if (k==3)
+				{
+					linkItems[i]->setPos(rect.left() + (j+1)*rect.width()/(1+n),rect.bottom());
+					linkItems[i]->rotate(-90);
+				}
+			}
+		}
+		else
+		{
+			int dt = -90;
+			if (linkItems.size() == 2) dt = -180;
+			for (int i=0; i < linkItems.size(); ++i)
+			{
+				if (i==0)
+					linkItems[i]->setPos(rect.right(),rect.center().y());
+					
+				if (i==1)
+					if (linkItems.size() == 2)
+						linkItems[i]->setPos(rect.left(),rect.center().y());
+					else
+						linkItems[i]->setPos(rect.center().x(),rect.top());
+				
+				if (i==2)
+					linkItems[i]->setPos(rect.left(),rect.center().y());
+				
+				if (i==3)
+					linkItems[i]->setPos(rect.center().x(),rect.bottom());
+				
+				linkItems[i]->rotate(i*dt);
+			}
+		}
+	}
 }
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

@@ -35,7 +35,7 @@ namespace Tinkercell
 		NodeGraphicsItem(parent)
 	{
 		className = ModuleLinkerItem::CLASSNAME;
-
+		
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
 		reader.readXml(this,appDir + QString("/OtherItems/moduleLinker.xml"));
@@ -46,7 +46,17 @@ namespace Tinkercell
 		textItem = text;
 		lineItem = new QGraphicsLineItem(this);
 		lineItem->setPen(QPen(QColor(255,100,0,255),10.0,Qt::DotLine));
-		setPosOnEdge();
+		if (boundaryControlPoints.size() > 0)
+		{
+			for (int i=0; i < boundaryControlPoints.size(); ++i)
+				if (boundaryControlPoints[i])
+				{
+					if (boundaryControlPoints[i]->scene())
+						boundaryControlPoints[i]->scene()->removeItem(boundaryControlPoints[i]);
+					delete boundaryControlPoints[i];
+				}
+			boundaryControlPoints.clear();
+		}
 		setData(0,true);
 	}
 
@@ -62,7 +72,17 @@ namespace Tinkercell
 			lineItem = new QGraphicsLineItem(this);
 			lineItem->setPen(copy.lineItem->pen());
 		}
-		setPosOnEdge();
+		if (boundaryControlPoints.size() > 0)
+		{
+			for (int i=0; i < boundaryControlPoints.size(); ++i)
+				if (boundaryControlPoints[i])
+				{
+					if (boundaryControlPoints[i]->scene())
+						boundaryControlPoints[i]->scene()->removeItem(boundaryControlPoints[i]);
+					delete boundaryControlPoints[i];
+				}
+			boundaryControlPoints.clear();
+		}
 		setData(0,true);
 	}
 
@@ -79,17 +99,6 @@ namespace Tinkercell
 
 	void ModuleLinkerItem::setPosOnEdge()
 	{
-		if (boundaryControlPoints.size() > 0)
-		{
-			for (int i=0; i < boundaryControlPoints.size(); ++i)
-				if (boundaryControlPoints[i])
-				{
-					if (boundaryControlPoints[i]->scene())
-						boundaryControlPoints[i]->scene()->removeItem(boundaryControlPoints[i]);
-					delete boundaryControlPoints[i];
-				}
-			boundaryControlPoints.clear();
-		}
 		if (module && scene() && itemHandle)
 		{
 			QPointF p1,p2;
@@ -228,7 +237,7 @@ namespace Tinkercell
 	}
 
 	void ModuleConnectionGraphicsItem::adjustEndPoints()
-	{
+	{	
 		ControlPoint * firstPoint, *lastPoint, * cp0, * cp1;
 		NodeGraphicsItem * node, *parentNode;
 		for (int i=0; i < curveSegments.size(); ++i)

@@ -2951,17 +2951,18 @@ namespace Tinkercell
             s->release();
     }
 	
-	void MainWindow::askQuestion(QSemaphore* s, const QString& msg, int & x)
+	void MainWindow::askQuestion(QSemaphore* s, const QString& msg, int * x)
 	{
-		QMessageBox::StandardButton ans = 
-			QMessageBox::question(this,tr("Question"),msg);
+		QMessageBox::StandardButton ans = QMessageBox::question(this,tr("Question"),msg,QMessageBox::Yes | QMessageBox::No);
 		
-		if (ans == QMessageBox::Ok)
-			x = 1;
-		else 
-			x = 0;
-		
-		if (s) 
+		if (x)
+			
+			if (ans == QMessageBox::Yes)
+				(*x) = 1;
+			else 
+				(*x) = 0;
+			
+		if (s)
 			s->release();
 	}
 	
@@ -3047,7 +3048,6 @@ namespace Tinkercell
 
     char* MainWindow_FtoS::getFilename()
     {
-        //qDebug() << "get string dialog";
         QSemaphore * s = new QSemaphore(1);
         QString p;
         s->acquire();
@@ -3063,7 +3063,7 @@ namespace Tinkercell
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
 		int x;
-        emit askQuestion(s,ConvertValue(c), x);
+        emit askQuestion(s,ConvertValue(c), &x);
         s->acquire();
         s->release();
         delete s;
@@ -3209,8 +3209,8 @@ namespace Tinkercell
         connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
         connect(&fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
 		
-		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int&)),this,SLOT(askQuestion(QSemaphore*,const QString&, int&)));
-		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,QString&)),this,SLOT(messageDialog(QSemaphore*,QString*)));
+		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
+		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
 	}
 
 	typedef void (*main_api_func)(

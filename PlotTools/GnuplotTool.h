@@ -9,6 +9,9 @@
 ****************************************************************************/
 
 #include <QList>
+#include <QString>
+#include <QStringList>
+#include <QCheckBox>
 #include "MainWindow.h"
 #include "Tool.h"
 #include "CodeEditor.h"
@@ -118,7 +121,9 @@ namespace Tinkercell
 	
 		static int multiplotRows;
 		static int multiplotCols;
-		QStringList previousCommands;
+		static QStringList previousCommands;
+		/*! \brief labels*/
+		static QStringList labels;
 		
 		static GnuplotTool_FToS fToS;
 		
@@ -127,7 +132,10 @@ namespace Tinkercell
 
         /*! \brief gnuplot script editor*/
         CodeEditor * editor;
-
+		
+		/*! \brief checkboxes*/
+        QList<QCheckBox*> checkboxes;
+		
 	};
 }
 

@@ -97,7 +97,8 @@ namespace Tinkercell
 
 	protected:
 
-		void MakeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		void adjustLinkerPositions(NodeGraphicsItem*);
 
 		enum Mode { none, connecting };
 		Mode mode;
@@ -107,7 +108,7 @@ namespace Tinkercell
 
 		class VisualTool : public Tool::GraphicsItem
 		{
-            public:
+        public:
 			ModuleTool * moduleTool;
 			NodeGraphicsItem image;
 			VisualTool(ModuleTool*);

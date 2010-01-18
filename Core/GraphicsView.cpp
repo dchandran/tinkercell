@@ -42,7 +42,9 @@ namespace Tinkercell
 	{
 		for (int i=0; i < numItems; ++i)
 		{
-			if (hiddenItems.contains(items[i]))
+			if (hiddenItems.contains(items[i]) || 
+				(scene && networkWindow && networkWindow->currentGraphicsView != this && (&scene->selectionRect) == items[i])
+				)
 			{
 				items[i] = items[numItems-1];
 				items[numItems-1] = 0;

@@ -382,8 +382,8 @@ namespace Tinkercell
 						if (proteinItem->defaultSize.width() > 0 && proteinItem->defaultSize.height() > 0)
 							proteinItem->scale(proteinItem->defaultSize.width()/proteinItem->sceneBoundingRect().width(),proteinItem->defaultSize.height()/proteinItem->sceneBoundingRect().height());
 
-						qreal w = image->sceneBoundingRect().width();
-						ypos -= (image->sceneBoundingRect().height() * 1.0);
+						qreal w = proteinItem->sceneBoundingRect().width();
+						ypos -= (proteinItem->sceneBoundingRect().height() * 1.0);
 
 						proteinItem->setPos(xpos, ypos);
 
@@ -399,7 +399,7 @@ namespace Tinkercell
 							height = proteinItem->sceneBoundingRect().height();
 					}
 				}
-				for (int j=0; j < rnanFamily->graphicsItems.size(); ++j)
+				for (int j=0; j < rnaFamily->graphicsItems.size(); ++j)
 				{
 					rnaItem = (NodeGraphicsItem::topLevelNodeItem(rnaFamily->graphicsItems[j]));
 					if (proteinItem)
@@ -436,7 +436,7 @@ namespace Tinkercell
 					list += nameItem;
 					
 					nameItem = new TextGraphicsItem(rnaNode,0);
-					QFont font = nameItem->font();
+					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					nameItem->setPos(rnaItem->sceneBoundingRect().right(), ypos + height/2.0);
@@ -462,42 +462,43 @@ namespace Tinkercell
 					translation->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,proteinItem));
 
-					ArrowHeadItem * arrow1 = 0;
+					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
 					NodeGraphicsReader imageReader;
+					
 					arrow = new ArrowHeadItem(transcription);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->curveSegments.last().arrowStart = arrow;
+					transcription->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 					
 					arrow = new ArrowHeadItem(translation);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
-					item->curveSegments.last().arrowStart = arrow;
+					translation->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
 					connection1->name = tr("J");
-					item->lineType = ConnectionGraphicsItem::line;
+					transcription->lineType = ConnectionGraphicsItem::line;
 					connection1->name = NodeInsertion::findUniqueName(connection1,sceneItems);
                     sceneItems << rnaNode << connection1;
 					
 					connection2->name = tr("J");
-					item->lineType = ConnectionGraphicsItem::line;
+					translation->lineType = ConnectionGraphicsItem::line;
 					connection2->name = NodeInsertion::findUniqueName(connection2,sceneItems);
                     sceneItems << proteinNode << connection2;
 
 					nameItem = new TextGraphicsItem(connection1,0);
-					nameItem->setPos(rnaNode->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),rnaNode->sceneBoundingRect().bottom() + rnaNode->sceneBoundingRect().height()*1.5);
+					nameItem->setPos(rnaItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),rnaItem->sceneBoundingRect().bottom() + rnaItem->sceneBoundingRect().height()*1.5);
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					list += nameItem;
 					
 					nameItem = new TextGraphicsItem(connection2,0);
-					nameItem->setPos(proteinNode->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),proteinNode->sceneBoundingRect().bottom() + proteinNode->sceneBoundingRect().height()*1.5);
+					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),proteinItem->sceneBoundingRect().bottom() + proteinItem->sceneBoundingRect().height()*1.5);
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);

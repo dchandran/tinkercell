@@ -30,74 +30,74 @@ namespace Tinkercell
 
 	signals:
 
-		void runScriptFile(const QString&);
-		void runScript(const QString&);
-
+		void gnuplotDataTable(QSemaphore*, DataTable<qreal>& m, int x, const QString& title, int all);
+		void gnuplotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
+		void gnuplotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
+		void gnuplotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
+		void gnuplotMultiplot(QSemaphore*,int x, int y);
+		void getDataTable(QSemaphore*,DataTable<qreal>&, int index);
 
 	public slots:
 
-		void gnuplotFile(const QString&);
-		void gnuplotScript(const QString&);
+		void gnuplotMatrix(Matrix m, int x, const char* title, int all);
+		void gnuplotMatrix3D(Matrix m, const char * title);
+		void gnuplotHistC(Matrix m, double bins, const char * title);
+		void gnuplotErrorbarsC(Matrix m, int x, const char* title);
+		void gnuplotMultiplot(int x, int y);
+		Matrix getDataMatrix(int index);
+
 	};
 	
 	class MY_EXPORT GnuplotTool : public Tool
 	{
 	    Q_OBJECT
 
-	public:
-
-        /*! \brief launch gnuplot with the given script
-        \param QString gnuplot script*/
-        static void gnuplotScript(const QString& script=QString("plot sin(x);\n"));
-
-        /*! \brief launch gnuplot with the given script filename
-        \param QString gnuplot script file*/
-        static void gnuplotFile(const QString&);
+	private:
 
         /*! \brief launch gnuplot and plot the given matrix*/
         static void gnuplotMatrix(Matrix m, int x, const char* title, int all);
 
-        /*! \brief launch gnuplot and plot the given matrix*/
-        static void gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
-
         /*! \brief launch gnuplot and plot the given surface matrix*/
         static void gnuplotMatrix3D(Matrix m, const char * title);
-
-        /*! \brief launch gnuplot and plot the given surface matrix*/
-        static void gnuplotDataTable3D(DataTable<qreal>& m, const QString& title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
         static void gnuplotHistC(Matrix m, double bins, const char * title);
 
-        /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
-        static void gnuplotHist(DataTable<qreal>& m, double bins, const QString& title);
-
         /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
         static void gnuplotErrorbarsC(Matrix m, int x, const char* title);
-
-        /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
-        static void gnuplotErrorbars(DataTable<qreal>& m, int x, const QString& title);
 		
 		/*! \brief rows and columns for multiple  plots*/
-		static void GnuplotTool::gnuplotMultiplot(int x, int y);
-
-        /*! \brief get plotted data*/
-        static DataTable<qreal>& getDataTable(int index);
+		static void gnuplotMultiplotC(int x, int y);
 
         /*! \brief get plotted data*/
         static Matrix getDataMatrix(int index);
 
+	public:
         /*! \brief default constructor*/
         GnuplotTool(QWidget * parent = 0);
 
         /*! \brief set main window*/
         bool setMainWindow(MainWindow * main);
 
-    private slots:
+    public slots:
 	
 		void runScriptFile(const QString&);
 		
 		void runScript(const QString&);
+
+	private slots:
+	
+		void gnuplotDataTable(QSemaphore*,DataTable<qreal>& m, int x, const QString& title, int all);
+		
+		void gnuplotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
+		
+		void gnuplotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
+		
+		void gnuplotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
+		
+		void gnuplotMultiplot(QSemaphore*,int x, int y);
+		
+		void getDataTable(QSemaphore*,DataTable<qreal>&, int index);
 
         /*! \brief run the current gnuplot script */
         void runScript();
@@ -119,16 +119,15 @@ namespace Tinkercell
 
 	private:
 	
-		static int multiplotRows;
-		static int multiplotCols;
-		static QStringList previousCommands;
-		/*! \brief labels*/
-		static QStringList labels;
+		int multiplotRows;
+		int multiplotCols;
+		QStringList previousCommands;
+		QStringList labels;
 		
 		static GnuplotTool_FToS fToS;
 		
         /*! \brief all the data that have been plotted so far*/
-        static QList< DataTable<qreal> > data;
+        QList< DataTable<qreal> > data;
 
         /*! \brief gnuplot script editor*/
         CodeEditor * editor;

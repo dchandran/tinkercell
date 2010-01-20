@@ -34,7 +34,7 @@ namespace Tinkercell
 
 	void PlotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
     {
-        if (tool && tool != this && tool->name.toLower().contains(tr("plot")))
+        if (tool && tool != this && tool->category.toLower() == tr("plot"))
             (*b) = false;
     }
 

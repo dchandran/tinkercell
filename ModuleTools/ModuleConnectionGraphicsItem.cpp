@@ -72,6 +72,7 @@ namespace Tinkercell
 			lineItem = new QGraphicsLineItem(this);
 			lineItem->setPen(copy.lineItem->pen());
 		}
+
 		if (boundaryControlPoints.size() > 0)
 		{
 			for (int i=0; i < boundaryControlPoints.size(); ++i)

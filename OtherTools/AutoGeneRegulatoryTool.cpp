@@ -183,7 +183,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
 
-                QList<ItemHandle*> sceneItems = scene->allHandles();
+        QList<ItemHandle*> sceneItems = scene->allHandles();
 		QList<QGraphicsItem*> list;
 
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -197,7 +197,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Regulator") && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Transcription Regulator") && !handlesDegraded.contains(handle))
 			{
 				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
 				handlesDegraded += handle;

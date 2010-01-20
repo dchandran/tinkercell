@@ -25,7 +25,7 @@ else:
 	tfs = [];
 
 	for i in items:
-		if pytc.isA(i,"Regulator"):
+		if pytc.isA(i,"Promoter"):
 			promoters.append(i);
 			
 		elif pytc.isA(i,"Coding"):

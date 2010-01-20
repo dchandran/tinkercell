@@ -72,11 +72,11 @@ namespace Tinkercell
 				if (connection)
 				{
 					items << connection;
-
+					/*
 					ItemHandle * handle = getHandle(connection);
 					if (handle && handle->family())
 					{
-						if (handle->family()->isA("Elongation") || (connection->className == DnaGraphicsItem::CLASSNAME))
+						if (handle->family()->isA("PoPS") || (connection->className == DnaGraphicsItem::CLASSNAME))
 						{
 							ConnectionGraphicsItem* newConnection = new DnaGraphicsItem;
 							(*newConnection) = (*connection);
@@ -86,6 +86,7 @@ namespace Tinkercell
 							items << newConnection;
 						}
 					}
+					*/
 				}
 			}
 		}

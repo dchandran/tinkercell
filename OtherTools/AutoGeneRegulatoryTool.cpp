@@ -1801,7 +1801,7 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
+					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1823,7 +1823,7 @@ namespace Tinkercell
 				QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
+					if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 					{
 						QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1916,7 +1916,7 @@ namespace Tinkercell
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
+							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithoutArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
@@ -1936,7 +1936,7 @@ namespace Tinkercell
 						QList<ConnectionGraphicsItem*> connections = node->connectionsWithoutArrows();
 						for (int j=0; j < connections.size(); ++j)
 						{
-							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("Elongation")))
+							if (connections[j] && connections[j]->handle() && connections[j]->handle()->isA(tr("PoPS")))
 							{
 								QList<NodeGraphicsItem*> connectedNodes = connections[j]->nodesWithArrows();
 								if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())

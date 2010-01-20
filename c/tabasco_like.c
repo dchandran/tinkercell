@@ -71,7 +71,7 @@ void run()
 							sprintf(newN.colnames[k], "%s.leak*%s\0",rxnname,newN.rownames[k-1]);
 						
 					 }
-					 if (tc_isA(parts[0],"Regulator\0"))
+					 if (tc_isA(parts[0],"Promoter\0"))
 						valueAt(newN,0,0) = 0.0;
 					 if (tc_isA(parts[1],"Terminator\0") && newN.cols > 2)
 						valueAt(newN,newN.rows-1,newN.cols-2) = 0.0;

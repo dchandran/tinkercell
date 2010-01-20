@@ -28,7 +28,7 @@
 	<connection family="Transcription Repression" typein="Molecule" numin="1" typeout="Transcription Regulator" numout="1">
     </connection>
   </connection>
-  <connection family="Elongation" color="#157252" typein="Part" numin="1" typeout="Part" numout="1">
+  <connection family="PoPS" color="#157252" typein="Part" numin="1" typeout="Part" numout="1">
     <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
   </connection>
   <connection family="Synthesis" color="#3E7215" typein="Node" numin="1" typeout="Molecule" numout="1">

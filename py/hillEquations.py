@@ -2,7 +2,7 @@ import pytc
 items = pytc.selectedItems();
 promoters = [];
 for i in items:
-   if pytc.isA(i,"Gene") or pytc.isA(i,"Regulator"):
+   if pytc.isA(i,"Gene") or pytc.isA(i,"Transcription Regulator"):
       promoters.append(i);
 
 if (len(promoters) > 0):

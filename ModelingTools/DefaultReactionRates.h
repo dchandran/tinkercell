@@ -33,8 +33,7 @@ namespace Tinkercell
 
 			bool isElongation = (nodes.size() == 2) && nodes[0] && nodes[1] && nodes[0]->isA(QString("Part")) && nodes[1]->isA(QString("Part"));
 			bool isRegulatory = (isElongation && nodes.size() > 0 && (nodes[0])->isA(QString("Regulator")));
-			bool isTermination = (handle->family() && handle->family()->isA(QString("Elongation")) &&
-				nodes.size() > 1 && (nodes[1]) && (nodes[1])->isA(QString("Terminator")));
+			bool isTermination = (handle->family() && nodes.size() > 1 && (nodes[1]) && (nodes[1])->isA(QString("Terminator")));
 			bool isSynthesis = (handle->isA(QString("Synthesis")));
 			bool isGRN = (handle->isA(QString("Transcription Regulation")));
 			bool isBinding = !isGRN && (handle->isA(QString("Binding")));

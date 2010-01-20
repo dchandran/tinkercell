@@ -275,6 +275,11 @@ namespace Tinkercell
 	{
 		return symbolsTable.handlesFullName.values();
 	}
+	
+	QList<ItemHandle*> NetworkWindow::allHandlesSortedByFamily() const
+	{
+		return symbolsTable.allHandlesSortedByFamily();
+	}
 
 	QList<ItemHandle*> NetworkWindow::selectedHandles() const
 	{

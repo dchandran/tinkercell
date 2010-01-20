@@ -74,6 +74,10 @@ namespace Tinkercell
 		ItemHandle modelItem;
 		/*! \brief destructor*/
 		virtual ~SymbolsTable();
+		
+		/*! \brief get list of all items sorted according to family*/
+		virtual QList<ItemHandle*> allHandlesSortedByFamily() const;
+		
 	protected:
 		/*! \brief the graphics scene that this symbols table belongs with*/
 		NetworkWindow * networkWindow;
@@ -83,6 +87,8 @@ namespace Tinkercell
 		virtual void update(TextEditor *);
 		/*! \brief update the symbols table*/
 		virtual void update(const QList<ItemHandle*>&);
+		
+		friend class NetworkWindow;
 	};
 }
 

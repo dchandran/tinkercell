@@ -1694,7 +1694,7 @@ namespace Tinkercell
 						QString s = rates.value(j,0);
 						double d = EquationParser::eval(currentWindow(), s, &b);
 						if (b)
-							if (rates.rowName(j).isEmpty())
+							if (rates.rowName(j).isEmpty() || rates.rows() == 1)
 								values << connectionHandles[i]->fullName() + tr(" = ") + QString::number(d);
 							else
 								values << connectionHandles[i]->fullName() + tr(".") + rates.rowName(j) + tr(" = ") + QString::number(d);

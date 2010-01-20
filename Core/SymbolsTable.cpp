@@ -179,5 +179,42 @@ namespace Tinkercell
 			}
 		}
 	}
+	
+	static void expandLeftFirst(ItemFamily * family, QList<ItemFamily*>& families)
+	{
+		if (family && !families.contains(family))
+		{
+			families << family; 
+			QList<ItemFamily*> children = family->children();
+			for (int i=0; i < children.size(); ++i)
+				expandLeftFirst(children[i],families); 
+		}
+	}
+	
+	QList<ItemHandle*> SymbolsTable::allHandlesSortedByFamily() const
+	{
+		QList<ItemFamily*> allRootFamilies;
+		ItemFamily * root = 0;
+		QList<ItemHandle*> allHandles = handlesFullName.values();
+		
+		for (int i=0; i < allHandles.size(); ++i)
+			if (allHandles[i] && allHandles[i]->family())
+			{
+				root = allHandles[i]->family()->root();
+				if (!allRootFamilies.contains(root))
+					allRootFamilies << root;
+			}
+			
+		QList<ItemFamily*> sortedFamilies;
+		
+		for (int i=0; i < allRootFamilies.size(); ++i)
+			expandLeftFirst(allRootFamilies[i],sortedFamilies);
+		
+		allHandles.clear();
+		for (int i=0; i < sortedFamilies.size(); ++i)
+			allHandles += handlesFamily.values(sortedFamilies[i]->name);
+		
+		return allHandles;
+	}
 
 }

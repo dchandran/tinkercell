@@ -193,7 +193,7 @@ namespace Tinkercell
 
         if (win)
 		{
-            QList<ItemHandle*> items = win->allHandles();
+            QList<ItemHandle*> items = win->allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -247,7 +247,7 @@ namespace Tinkercell
 			ContainerTreeItem * rootItemNew = new ContainerTreeItem;
             this->window = win;
 			
-            QList<ItemHandle*> items = win->allHandles();
+            QList<ItemHandle*> items = win->allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;

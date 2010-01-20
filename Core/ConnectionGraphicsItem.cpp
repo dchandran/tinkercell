@@ -666,7 +666,7 @@ namespace Tinkercell
 					firstPoint->setVisible(false);
 				if (curveSegments[i].arrowStart != 0)
 				{
-					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance + 2.0, lineType == line);
+					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance , lineType == line);
 
 					firstPoint->setPos( node->mapFromScene(p) );
 
@@ -682,7 +682,7 @@ namespace Tinkercell
 
 					if (curveSegments[i].arrowStart->parentItem() == 0)
 					{
-						QPointF p2 = pointOnEdge( *node, cp0->scenePos(),arrowHeadDistance, lineType == line);
+						QPointF p2 = p;//pointOnEdge( *node, cp0->scenePos(), arrowHeadDistance, lineType == line);
 						curveSegments[i].arrowStart->setPos(p2);
 					}
 
@@ -787,7 +787,7 @@ namespace Tinkercell
 
 				if (curveSegments[0].arrowEnd != 0)
 				{
-					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance+2.0 ,lineType == line);
+					QPointF p = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
 
 					if (lineType == line && curveSegments[0].size() == 4)
 					{
@@ -819,7 +819,7 @@ namespace Tinkercell
 
 					if (curveSegments[0].arrowEnd->parentItem() == 0)
 					{
-						QPointF p2 = pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
+						QPointF p2 = p;//pointOnEdge(*node, cp0->scenePos(), arrowHeadDistance,lineType == line);
 						curveSegments[0].arrowEnd->setPos(p2);
 					}
 

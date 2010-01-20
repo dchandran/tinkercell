@@ -359,7 +359,7 @@ namespace Tinkercell
 				rnaNode->name = NodeInsertion::findUniqueName(rnaNode,sceneItems);
 
 				qreal xpos = (selected[i]->sceneBoundingRect().right() + selected[i]->scenePos().x())/2.0,
-					  ypos = selected[i]->scenePos().ry() - (selected[i]->sceneBoundingRect().height() * 3),
+					  ypos = selected[i]->scenePos().ry() - (selected[i]->sceneBoundingRect().height() * 2),
 					  height = 0.0;
 
 				for (int j=0; j < 100; ++j)
@@ -372,37 +372,10 @@ namespace Tinkercell
 
 				NodeGraphicsItem * proteinItem = 0, * rnaItem = 0, * emptyItem = 0;
 
-				for (int j=0; j < proteinFamily->graphicsItems.size(); ++j)
-				{
-					proteinItem = (NodeGraphicsItem::topLevelNodeItem(proteinFamily->graphicsItems[j]));
-					if (proteinItem)
-					{
-						proteinItem = proteinItem->clone();
-
-						if (proteinItem->defaultSize.width() > 0 && proteinItem->defaultSize.height() > 0)
-							proteinItem->scale(proteinItem->defaultSize.width()/proteinItem->sceneBoundingRect().width(),proteinItem->defaultSize.height()/proteinItem->sceneBoundingRect().height());
-
-						qreal w = proteinItem->sceneBoundingRect().width();
-						ypos -= (proteinItem->sceneBoundingRect().height() * 1.0);
-
-						proteinItem->setPos(xpos, ypos);
-
-						proteinItem->setBoundingBoxVisible(false);
-
-						if (proteinItem->isValid())
-						{
-							xpos += w;
-							setHandle(proteinItem,proteinNode);
-							list += proteinItem;
-						}
-						if (proteinItem->sceneBoundingRect().height() > height)
-							height = proteinItem->sceneBoundingRect().height();
-					}
-				}
 				for (int j=0; j < rnaFamily->graphicsItems.size(); ++j)
 				{
 					rnaItem = (NodeGraphicsItem::topLevelNodeItem(rnaFamily->graphicsItems[j]));
-					if (proteinItem)
+					if (rnaItem)
 					{
 						rnaItem = rnaItem->clone();
 
@@ -410,10 +383,9 @@ namespace Tinkercell
 							rnaItem->scale(rnaItem->defaultSize.width()/rnaItem->sceneBoundingRect().width(),rnaItem->defaultSize.height()/rnaItem->sceneBoundingRect().height());
 
 						qreal w = rnaItem->sceneBoundingRect().width();
-						ypos -= (rnaItem->sceneBoundingRect().height() * 1.0);
 
-						rnaItem->setPos(xpos, ypos);
-
+						rnaItem->setPos(xpos, ypos - 2.0*rnaItem->sceneBoundingRect().height());
+						
 						rnaItem->setBoundingBoxVisible(false);
 
 						if (rnaItem->isValid())
@@ -426,20 +398,51 @@ namespace Tinkercell
 							height = rnaItem->sceneBoundingRect().height();
 					}
 				}
+
+				ypos -= (rnaItem->sceneBoundingRect().height() * 6.0);
+				xpos = (selected[i]->sceneBoundingRect().right() + selected[i]->scenePos().x())/2.0;
+
+				for (int j=0; j < proteinFamily->graphicsItems.size(); ++j)
+				{
+					proteinItem = (NodeGraphicsItem::topLevelNodeItem(proteinFamily->graphicsItems[j]));
+					if (proteinItem)
+					{
+						proteinItem = proteinItem->clone();
+
+						if (proteinItem->defaultSize.width() > 0 && proteinItem->defaultSize.height() > 0)
+							proteinItem->scale(proteinItem->defaultSize.width()/proteinItem->sceneBoundingRect().width(),proteinItem->defaultSize.height()/proteinItem->sceneBoundingRect().height());
+
+						qreal w = proteinItem->sceneBoundingRect().width();
+
+						proteinItem->setPos(xpos, ypos - 2*proteinItem->sceneBoundingRect().height());
+
+						proteinItem->setBoundingBoxVisible(false);
+
+						if (proteinItem->isValid())
+						{
+							xpos += w;
+							setHandle(proteinItem,proteinNode);
+							list += proteinItem;
+						}
+
+						if (proteinItem->sceneBoundingRect().height() > height)
+							height = proteinItem->sceneBoundingRect().height();
+					}
+				}
 				if (proteinItem && rnaItem)
 				{
 					TextGraphicsItem * nameItem = new TextGraphicsItem(proteinNode,0);
 					QFont font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
-					nameItem->setPos(proteinItem->sceneBoundingRect().right(), ypos + height/2.0);
+					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), proteinItem->scenePos().y());
 					list += nameItem;
 					
 					nameItem = new TextGraphicsItem(rnaNode,0);
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
-					nameItem->setPos(rnaItem->sceneBoundingRect().right(), ypos + height/2.0);
+					nameItem->setPos(rnaItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), rnaItem->scenePos().y());
 					list += nameItem;
 
 					ConnectionGraphicsItem * transcription = new ConnectionGraphicsItem;
@@ -464,17 +467,18 @@ namespace Tinkercell
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
-					NodeGraphicsReader imageReader;
+					NodeGraphicsReader imageReader1;
 					
 					arrow = new ArrowHeadItem(transcription);
-					imageReader.readXml(arrow,nodeImageFile);
+					imageReader1.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
 					transcription->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 					
+					NodeGraphicsReader imageReader2;
 					arrow = new ArrowHeadItem(translation);
-					imageReader.readXml(arrow,nodeImageFile);
+					imageReader2.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					arrow->scale(0.1,0.1);
 					translation->curveSegments.last().arrowStart = arrow;
@@ -491,14 +495,14 @@ namespace Tinkercell
                     sceneItems << proteinNode << connection2;
 
 					nameItem = new TextGraphicsItem(connection1,0);
-					nameItem->setPos(rnaItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),rnaItem->sceneBoundingRect().bottom() + rnaItem->sceneBoundingRect().height()*1.5);
+					nameItem->setPos( 0.5*(rnaItem->scenePos() + selected[i]->scenePos()));
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					list += nameItem;
 					
 					nameItem = new TextGraphicsItem(connection2,0);
-					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(),proteinItem->sceneBoundingRect().bottom() + proteinItem->sceneBoundingRect().height()*1.5);
+					nameItem->setPos( 0.5*(proteinItem->scenePos() + rnaItem->scenePos()));
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
@@ -514,7 +518,7 @@ namespace Tinkercell
 				emptyNode->name = NodeInsertion::findUniqueName(emptyNode,sceneItems);
 
 				xpos = (rnaItem->sceneBoundingRect().right() + 100.0);
-				ypos = (rnaItem->sceneBoundingRect().top() - 100.0);
+				ypos = (rnaItem->scenePos().y());
 				height = 0.0;
 
 				for (int j=0; j < emptyFamily->graphicsItems.size(); ++j)
@@ -588,7 +592,7 @@ namespace Tinkercell
 				emptyNode->name = NodeInsertion::findUniqueName(emptyNode,sceneItems);
 
 				xpos = (proteinItem->sceneBoundingRect().right() + 100.0);
-				ypos = (proteinItem->sceneBoundingRect().top() - 100.0);
+				ypos = (proteinItem->scenePos().y());
 				height = 0.0;
 
 				for (int j=0; j < emptyFamily->graphicsItems.size(); ++j)
@@ -630,7 +634,7 @@ namespace Tinkercell
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,proteinItem));
 
 					item->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,proteinItem));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,emptyItem));
 						
 					list += item;
 

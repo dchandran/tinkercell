@@ -176,6 +176,7 @@ namespace Tinkercell
 				
 				TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
 				linkerText->setPos(linker->pos());
+				linkerText->scale(1.5,1.5);
 				
                 setHandle(linker,handle);
 
@@ -370,7 +371,7 @@ namespace Tinkercell
                 {
 					if (items.contains(node)) 
 						linker = node;
-					moving.removeAt(i);
+					//moving.removeAt(i);
 				}
         }
 		

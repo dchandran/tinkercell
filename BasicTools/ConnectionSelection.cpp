@@ -542,6 +542,7 @@ namespace Tinkercell
 					hasConnections = true;
 					break;
 				}
+
 				if (hasConnections)
 				{
 					if (separator)
@@ -556,8 +557,6 @@ namespace Tinkercell
 					mainWindow->contextItemsMenu.addAction(&useCurvesAction);
 					mainWindow->contextItemsMenu.addAction(&showMiddleRect);
 					mainWindow->contextItemsMenu.addAction(&hideMiddleRect);
-
-					//connectorsMenu.setVisible(true);
 				}
 				else
 				{
@@ -568,7 +567,6 @@ namespace Tinkercell
 					mainWindow->contextItemsMenu.removeAction(&useCurvesAction);
 					mainWindow->contextItemsMenu.removeAction(&showMiddleRect);
 					mainWindow->contextItemsMenu.removeAction(&hideMiddleRect);
-
 				}
 
 				ConnectionGraphicsItem * connection = 0;
@@ -592,31 +590,37 @@ namespace Tinkercell
 							QList<ConnectionGraphicsItem::ControlPoint*> list = connection->controlPoints();
 
 							bool noControlsSelected = true;
+							bool controlPointsExist = false;
 							for (int i=0; i < list.size(); ++i)
+							{
+								if (list[i] && list[i]->isVisible() && !list[i]->parentItem())
+									controlPointsExist = true;
+								
 								if (list[i] && list[i]->isVisible() && list[i]->sceneBoundingRect().contains(point))
 								{
 									noControlsSelected = false;
 									break;
 								}
+							}
 
-								if (noControlsSelected)
-								{
-									//connection->setControlPointsVisible(true);
+							if (noControlsSelected)
+							{
+								//connection->setControlPointsVisible(true);
 
-									for (int i=0; i < list.size(); ++i)
-										if (!movingItems.contains(list[i]) && list[i]->scene() == scene)
-											movingItems += list[i];
+								for (int i=0; i < list.size(); ++i)
+									if (!movingItems.contains(list[i]) && list[i]->scene() == scene)
+										movingItems += list[i];
 
-									ItemHandle * handle = connection->handle();
-									if (handle)
-										for (int i=0; i < handle->graphicsItems.size(); ++i)
-										{
-											if (TextGraphicsItem::cast(handle->graphicsItems[i])
-												&& !movingItems.contains(handle->graphicsItems[i])
-												&& handle->graphicsItems[i]->scene() == scene)
-												movingItems += handle->graphicsItems[i];
-										}
-								}
+								ItemHandle * handle = connection->handle();
+								if (handle && controlPointsExist)
+									for (int i=0; i < handle->graphicsItems.size(); ++i)
+									{
+										if (TextGraphicsItem::cast(handle->graphicsItems[i])
+											&& !movingItems.contains(handle->graphicsItems[i])
+											&& handle->graphicsItems[i]->scene() == scene)
+											movingItems += handle->graphicsItems[i];
+									}
+							}
 						}
 						else
 						{

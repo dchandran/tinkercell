@@ -24,7 +24,7 @@ namespace NodeImageDesigner
 DrawScene::DrawScene(QWidget *parent) : QGraphicsScene(parent)
 {   
 	mode = -2;
-	setSceneRect(0,0,500,500);
+	//setSceneRect(0,0,500,500);
 	selectedItem = 0;
 	
 	currentShape = new NodeGraphicsItem::Shape();

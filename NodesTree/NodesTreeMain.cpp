@@ -602,12 +602,12 @@ namespace Tinkercell
 													QStringList() << "Module")
 
 					<< QPair<QString, QStringList>(
-													tr("Reactions"),
-													QStringList() << "Biochemical" << "Synthesis")
+													tr("Reaction"),
+													QStringList() << "Biochemical" << "Synthesis" << "PoPS")
 
 					<< QPair<QString, QStringList>(
-													tr("Regulations"),
-													QStringList() << "Binding" << "Elongation" << "Modifiers");
+													tr("Regulation"),
+													QStringList() << "Binding" << "Modifiers");
 
 		numNodeTabs = 4;
 

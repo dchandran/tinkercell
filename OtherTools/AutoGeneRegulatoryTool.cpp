@@ -270,10 +270,14 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
+					
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
-
 
 					connection->name = tr("J");
 					item->lineType = ConnectionGraphicsItem::line;
@@ -472,7 +476,11 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(transcription);
 					imageReader1.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 					transcription->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 					
@@ -480,7 +488,10 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(translation);
 					imageReader2.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 					translation->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -570,7 +581,11 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -644,7 +659,11 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -763,7 +782,11 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 

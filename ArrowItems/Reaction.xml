@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/Reaction.xml" width="20" height="15">
     <ControlPoints>
-        <ControlPoint x="196" y="174"></ControlPoint>
-        <ControlPoint x="17" y="253"></ControlPoint>
-        <ControlPoint x="67" y="174"></ControlPoint>
-        <ControlPoint x="17" y="103"></ControlPoint>
+        <ControlPoint x="196" y="174"/>
+        <ControlPoint x="17" y="253"/>
+        <ControlPoint x="67" y="174"/>
+        <ControlPoint x="17" y="103"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="2,3,0,1,2"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#d81111" Alpha="255"></Pen>
+            <ControlPoints indices="2,3,0,1,2"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#d81111" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#f9ad6f" Alpha="255"></Stop>
-                <Stop Value="1" Color="#ff0303" Alpha="255"></Stop>
-                <Start x="108" y="172"></Start>
-                <End x="59" y="177"></End>
+                <Stop Value="0" Color="#f9ad6f" Alpha="255"/>
+                <Stop Value="1" Color="#ff0303" Alpha="255"/>
+                <Start x="108" y="172"/>
+                <End x="59" y="177"/>
             </Gradient>
         </Shape>
     </Shapes>

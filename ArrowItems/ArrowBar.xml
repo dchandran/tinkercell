@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/ArrowBar.xml" width="10" height="10">
     <ControlPoints>
-        <ControlPoint x="231" y="127"></ControlPoint>
-        <ControlPoint x="377" y="201"></ControlPoint>
-        <ControlPoint x="231" y="284"></ControlPoint>
-        <ControlPoint x="167" y="126"></ControlPoint>
-        <ControlPoint x="196" y="126"></ControlPoint>
-        <ControlPoint x="196" y="284"></ControlPoint>
-        <ControlPoint x="167" y="284"></ControlPoint>
+        <ControlPoint x="231" y="127"/>
+        <ControlPoint x="377" y="201"/>
+        <ControlPoint x="231" y="284"/>
+        <ControlPoint x="167" y="126"/>
+        <ControlPoint x="196" y="126"/>
+        <ControlPoint x="196" y="284"/>
+        <ControlPoint x="167" y="284"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="3,4,5,6,3"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="1" Color="#2238ff" Alpha="255"></Pen>
+            <ControlPoints indices="3,4,5,6,3"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#2238ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#4be1ff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#6464ff" Alpha="255"></Stop>
-                <Start x="182" y="176"></Start>
-                <End x="181" y="250"></End>
+                <Stop Value="0" Color="#4be1ff" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="182" y="176"/>
+                <End x="181" y="250"/>
             </Gradient>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="0,1,2,0"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="1" Color="#2238ff" Alpha="255"></Pen>
+            <ControlPoints indices="0,1,2,0"/>
+            <LineTypes sequence="line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#2238ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#4be1ff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#6464ff" Alpha="255"></Stop>
-                <Start x="267" y="170"></Start>
-                <End x="267" y="238"></End>
+                <Stop Value="0" Color="#4be1ff" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="267" y="170"/>
+                <End x="267" y="238"/>
             </Gradient>
         </Shape>
     </Shapes>

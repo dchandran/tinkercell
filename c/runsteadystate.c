@@ -47,7 +47,7 @@ void loadAllNames()
 	if (A && A[0])
 	{
 		params = tc_getModelParameters(A);
-		names = tc_getNames(tc_itemsOfFamilyFrom("Species\0",A));
+		names = tc_getNames(tc_itemsOfFamilyFrom("Molecule\0",A));
 		len = 0;
 		while (names[len]) ++len;
 		allNames = malloc((len+params.rows+1)*sizeof(char*));

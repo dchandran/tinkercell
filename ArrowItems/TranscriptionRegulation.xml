@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/ArrowItems/Transcription_Regulation.xml" width="20" height="20">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/TranscriptionRegulation.xml" width="20" height="20">
     <ControlPoints>
         <ControlPoint x="199" y="96"/>
         <ControlPoint x="318" y="212"/>

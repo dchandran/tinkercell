@@ -433,7 +433,11 @@ namespace Tinkercell
 				{
 					arrow = new ArrowHeadItem(*arrow);
 					arrow->connectionItem = item;
-					arrow->scale(0.1,0.1);
+					//arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 				}
 				else
 				{
@@ -442,7 +446,10 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					arrow->scale(0.1,0.1);
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
 				}
 				//if (numRequiredIn == 1 && numRequiredOut == 1)
 				//item->curveSegments.last().arrowEnd = arrow;
@@ -779,7 +786,11 @@ namespace Tinkercell
 							{
 								arrow = new ArrowHeadItem(*arrow);
 								arrow->connectionItem = item;
-								arrow->scale(0.1,0.1);
+								//arrow->scale(0.1,0.1);
+								double w = 0.1;
+								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+									w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+								arrow->scale(w,w);
 							}
 							else
 							{
@@ -788,7 +799,11 @@ namespace Tinkercell
 								arrow = new ArrowHeadItem(item);
 								imageReader.readXml(arrow,nodeImageFile);
 								arrow->normalize();
-								arrow->scale(0.1,0.1);
+								//arrow->scale(0.1,0.1);
+								double w = 0.1;
+								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+									w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+								arrow->scale(w,w);
 							}
 							//if (numRequiredIn == 1 && numRequiredOut == 1)
 							//item->curveSegments.last().arrowEnd = arrow;

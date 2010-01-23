@@ -59,6 +59,7 @@ public slots:
 	void load();
 	void newFile();
 	void openDocumentation();
+	
 signals:
 	void saved();
 	void exited();

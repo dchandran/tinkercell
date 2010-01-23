@@ -12,6 +12,7 @@
 #include <QScrollArea>
 #include <QSplitter>
 #include <QDesktopServices>
+#include <QSettings>
 #include "NodeGraphicsWindow.h"
 
 	
@@ -47,6 +48,11 @@
 		setWindowTitle(tr("NodeGraphicsItem Builder"));
 		
 		statusBar()->showMessage("Welcome to NodeGraphicsItem builder...happy building!");
+		
+		QSettings settings("TinkerCell", "DrawingProgram");
+		settings.beginGroup("MainWindow");
+		previousFileName = settings.value("previousFileName", tr("")).toString();
+		settings.endGroup();
 	}
 	
 	void NodeImageDesigner::MainWindow::sizeChanged(double)
@@ -122,7 +128,12 @@
 			return;
 		
 		previousFileName = fileName;
-			 
+
+		QSettings settings("TinkerCell", "DrawingProgram");
+		settings.beginGroup("MainWindow");
+		settings.setValue("previousFileName", previousFileName);
+		settings.endGroup();
+
 		QFile file (fileName);
 		
 		if (!file.open(QFile::ReadOnly | QFile::Text)) {

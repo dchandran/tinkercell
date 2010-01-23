@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Operator.xml" width="70.0" height="53.0">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Operator.xml" width="80" height="39">
     <ControlPoints>
         <ControlPoint x="179.455" y="172.46"/>
         <ControlPoint x="270.993" y="172.46"/>
@@ -11,15 +11,15 @@
         <ControlPoint x="179.455" y="231.781"/>
         <ControlPoint x="57.711" y="231.781"/>
         <ControlPoint x="270.993" y="205.476"/>
-        <ControlPoint x="388.252" y="205.476"/>
+        <ControlPoint x="389.777" y="205.476"/>
         <ControlPoint x="389.777" y="231.781"/>
         <ControlPoint x="270.993" y="231.781"/>
         <ControlPoint x="208.935" y="172"/>
         <ControlPoint x="232.804" y="172.46"/>
         <ControlPoint x="57.711" y="264.716"/>
         <ControlPoint x="388.252" y="264.716"/>
-        <ControlPoint x="388.252" y="74.6837"/>
-        <ControlPoint x="57.711" y="74.6837"/>
+        <ControlPoint x="388.252" y="128.611"/>
+        <ControlPoint x="57.711" y="126.684"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/TranscriptionRepression.xml" width="6" height="3">
     <ControlPoints>
-        <ControlPoint x="102" y="13"></ControlPoint>
-        <ControlPoint x="102" y="219"></ControlPoint>
-        <ControlPoint x="135" y="219"></ControlPoint>
-        <ControlPoint x="135" y="14"></ControlPoint>
+        <ControlPoint x="102" y="13"/>
+        <ControlPoint x="102" y="219"/>
+        <ControlPoint x="135" y="219"/>
+        <ControlPoint x="135" y="14"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="1,0,3,2,1"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="3" Color="#ffc743" Alpha="255"></Pen>
-            <Fill Color="#ca0003" Alpha="255"></Fill>
+            <ControlPoints indices="1,0,3,2,1"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="3" Color="#ffc743" Alpha="255"/>
+            <Fill Color="#ca0003" Alpha="255"/>
         </Shape>
     </Shapes>
 </PartGraphicsItem>

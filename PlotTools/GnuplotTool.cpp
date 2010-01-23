@@ -343,7 +343,6 @@ namespace Tinkercell
 		s += tr("'\nset zlabel ");
 		s += tr("'");
 		s += m.colName(2);
-		s += tr("'\n");
 		
 		s += tr("'\nset pm3d; set nokey; set contour\nsplot 'data");
 		s += QString::number(previousCommands.size());

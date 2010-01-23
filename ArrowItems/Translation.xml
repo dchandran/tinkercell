@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/Translation.xml" width="30" height="25">
     <ControlPoints>
-        <ControlPoint x="195" y="107"></ControlPoint>
-        <ControlPoint x="287" y="223"></ControlPoint>
-        <ControlPoint x="195" y="342"></ControlPoint>
-        <ControlPoint x="261" y="223"></ControlPoint>
-        <ControlPoint x="71" y="107"></ControlPoint>
-        <ControlPoint x="165" y="224"></ControlPoint>
-        <ControlPoint x="71" y="342"></ControlPoint>
-        <ControlPoint x="139" y="223"></ControlPoint>
-        <ControlPoint x="328" y="107"></ControlPoint>
-        <ControlPoint x="418" y="223"></ControlPoint>
-        <ControlPoint x="329" y="342"></ControlPoint>
-        <ControlPoint x="387" y="223"></ControlPoint>
+        <ControlPoint x="195" y="107"/>
+        <ControlPoint x="287" y="223"/>
+        <ControlPoint x="195" y="342"/>
+        <ControlPoint x="261" y="223"/>
+        <ControlPoint x="71" y="107"/>
+        <ControlPoint x="165" y="224"/>
+        <ControlPoint x="71" y="342"/>
+        <ControlPoint x="139" y="223"/>
+        <ControlPoint x="328" y="107"/>
+        <ControlPoint x="418" y="223"/>
+        <ControlPoint x="329" y="342"/>
+        <ControlPoint x="387" y="223"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="0,1,2,3,0"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="3" Color="#6464ff" Alpha="255"></Pen>
+            <ControlPoints indices="0,1,2,3,0"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="3" Color="#6464ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#78ccff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#6464ff" Alpha="255"></Stop>
-                <Start x="263" y="211"></Start>
-                <End x="258" y="253"></End>
+                <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="263" y="211"/>
+                <End x="258" y="253"/>
             </Gradient>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="4,5,6,7,4"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="3" Color="#6464ff" Alpha="255"></Pen>
+            <ControlPoints indices="4,5,6,7,4"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="3" Color="#6464ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#78ccff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#6464ff" Alpha="255"></Stop>
-                <Start x="143" y="206"></Start>
-                <End x="143" y="243"></End>
+                <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="143" y="206"/>
+                <End x="143" y="243"/>
             </Gradient>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="8,9,10,11,8"></ControlPoints>
-            <LineTypes sequence="line,line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="3" Color="#6464ff" Alpha="255"></Pen>
+            <ControlPoints indices="8,9,10,11,8"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="3" Color="#6464ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#78ccff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#6464ff" Alpha="255"></Stop>
-                <Start x="393" y="200"></Start>
-                <End x="394" y="264"></End>
+                <Stop Value="0" Color="#78ccff" Alpha="255"/>
+                <Stop Value="1" Color="#6464ff" Alpha="255"/>
+                <Start x="393" y="200"/>
+                <End x="394" y="264"/>
             </Gradient>
         </Shape>
     </Shapes>

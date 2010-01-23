@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/RBS.xml" width="80.0" height="53.0">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/RBS.xml" width="80" height="53">
     <ControlPoints>
         <ControlPoint x="57.711" y="205.476"/>
         <ControlPoint x="127.455" y="205.476"/>
         <ControlPoint x="127.455" y="231.781"/>
         <ControlPoint x="57.711" y="231.781"/>
         <ControlPoint x="308.993" y="205.476"/>
-        <ControlPoint x="388.252" y="205.476"/>
+        <ControlPoint x="389.777" y="205.476"/>
         <ControlPoint x="389.777" y="231.781"/>
         <ControlPoint x="308.993" y="231.781"/>
         <ControlPoint x="162.455" y="152"/>

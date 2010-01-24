@@ -83,7 +83,7 @@ void (*_tc_select)(OBJ item) = 0;
 void tc_select(OBJ item)
 {
 	if (_tc_select && item)
-		return _tc_select(item);
+		_tc_select(item);
 }
 
 void (*_tc_deselect)() = 0;
@@ -94,7 +94,7 @@ void (*_tc_deselect)() = 0;
 void tc_deselect()
 {
 	if (_tc_deselect)
-		return _tc_deselect();
+		_tc_deselect();
 }
 
 char* (*_tc_getName)(OBJ item) = 0;
@@ -117,7 +117,7 @@ void (*_tc_rename)(OBJ item,const char* name) = 0;
 void tc_rename(OBJ item,const char* name)
 {
 	if (_tc_rename)
-		return _tc_rename(item,name);
+		_tc_rename(item,name);
 }
 
 char** (*_tc_getNames)(Array items) = 0;
@@ -164,7 +164,7 @@ void (*_tc_print)(const char* text) = 0;
 void tc_print(const char* text)
 {
 	if (_tc_print && text)
-		return _tc_print(text);
+		_tc_print(text);
 }
 
 void (*_tc_errorReport)(const char* text) = 0;
@@ -254,9 +254,9 @@ Matrix (*_tc_getPos)(Array items) = 0;
 */
 Matrix tc_getPos(Array items)
 {
+	Matrix M;
 	if (_tc_getPos)
 		return _tc_getPos(items);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.rownames = M.colnames = 0;
 	return M;
@@ -523,9 +523,9 @@ Matrix (*_tc_getNumericalDataMatrix)(OBJ item,const char* data) = 0;
 */
 Matrix tc_getNumericalDataMatrix(OBJ item,const char* data)
 {
+	Matrix M;
 	if (_tc_getNumericalDataMatrix)
 		return _tc_getNumericalDataMatrix(item,data);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.rownames = M.colnames = 0;
 	M.values = 0;

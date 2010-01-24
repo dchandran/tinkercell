@@ -766,6 +766,7 @@ namespace Tinkercell
 	
 	bool Plot2DWidget::canAppendData() const
 	{
+		return false;
 	}
 	
 	void Plot2DWidget::appendData(const DataTable<qreal>& newData)

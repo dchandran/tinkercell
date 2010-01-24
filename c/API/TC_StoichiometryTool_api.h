@@ -10,9 +10,9 @@ Matrix (*_tc_getStoichiometry)(Array ) = 0;
 */
 Matrix tc_getStoichiometry(Array A)
 {
+	Matrix M;
 	if (_tc_getStoichiometry)
 		return _tc_getStoichiometry(A);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	M.values = 0;
@@ -50,7 +50,7 @@ void (*_tc_setRates)(Array ,char** rates) = 0;
 void tc_setRates(Array A,char** rates)
 {
 	if (_tc_setRates)
-		return _tc_setRates(A,rates);
+		_tc_setRates(A,rates);
 }
 
 /*! 

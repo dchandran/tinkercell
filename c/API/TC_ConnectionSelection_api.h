@@ -40,7 +40,7 @@ void (*_tc_setControlPoint)(OBJ connection,OBJ part,int whichPoint, double x,dou
 void tc_setControlPoint(OBJ connection,OBJ part,int whichPoint, double x,double y)
 {
 	if (_tc_setControlPoint)
-		return _tc_setControlPoint(connection,part,whichPoint,x,y);
+		_tc_setControlPoint(connection,part,whichPoint,x,y);
 }
 
 void (*_tc_setCenterPoint)(OBJ connection,double y,double x) = 0;
@@ -51,7 +51,7 @@ void (*_tc_setCenterPoint)(OBJ connection,double y,double x) = 0;
 void tc_setCenterPoint(OBJ connection,double y,double x)
 {
 	if (_tc_setCenterPoint)
-		return _tc_setCenterPoint(connection, x, y);
+		_tc_setCenterPoint(connection, x, y);
 }
 
 double (*_tc_getCenterPointX)(OBJ connection) = 0;
@@ -86,7 +86,7 @@ void (*_tc_setStraight)(OBJ item,int straight) = 0;
 void tc_setStraight(OBJ item,int straight)
 {
 	if (_tc_setStraight)
-		return _tc_setStraight(item,straight);
+		_tc_setStraight(item,straight);
 }
 
 void (*_tc_setAllStraight)(int straight) = 0;
@@ -97,7 +97,7 @@ void (*_tc_setAllStraight)(int straight) = 0;
 void tc_setAllStraight(int straight)
 {
 	if (_tc_setAllStraight)
-		return _tc_setAllStraight(straight);
+		_tc_setAllStraight(straight);
 }
 
 void (*_tc_setLineWidth)(OBJ item,double width, int permanent) = 0;
@@ -108,7 +108,7 @@ void (*_tc_setLineWidth)(OBJ item,double width, int permanent) = 0;
 void tc_setLineWidth(OBJ item,double width, int permanent)
 {
 	if (_tc_setLineWidth)
-		return _tc_setLineWidth(item,width,permanent);
+		_tc_setLineWidth(item,width,permanent);
 }
 
 /*! 

@@ -58,7 +58,7 @@ namespace Tinkercell
 		\param QGraphicsItem* graphics item
 		\return NodeGraphicsItem* can be 0 if the cast is invalid
 		*/
-		MY_EXPORT static NodeGraphicsItem* cast(QGraphicsItem * q);
+		static NodeGraphicsItem* cast(QGraphicsItem * q);
 		/*! \brief get the handle of this node*/
 		virtual ItemHandle * handle() const;
 		/*! \brief set the handle of this node*/
@@ -66,12 +66,12 @@ namespace Tinkercell
 		/*! \brief for safe static casting*/
 		QString className;
 		/*! \brief for safe static casting*/
-		MY_EXPORT static const QString CLASSNAME;
+		static const QString CLASSNAME;
 		/*! \brief Gets the node item from one of its child items
 		* \param QGraphicsItem* the target item
 		* \param bool using true here will return the node item for a control point, otherwise control points are ignored
 		*/
-		MY_EXPORT static NodeGraphicsItem * topLevelNodeItem(QGraphicsItem* item, bool ignoreControlPoints = false);
+		static NodeGraphicsItem * topLevelNodeItem(QGraphicsItem* item, bool ignoreControlPoints = false);
 		/*! \brief file where the graphics item is stored*/
 		QString fileName;
 		/*! Constructor: does nothing */
@@ -87,7 +87,7 @@ namespace Tinkercell
 		/*! \brief checks that this is a valid drawable*/
 		bool isValid() const;
 		/*! \brief number of different type of shapes available*/
-		MY_EXPORT static const int numShapeTypes = 3;
+		static const int numShapeTypes = 3;
 		/*! \brief arc, line, or beizier */
 		typedef enum {arc, line, bezier} ShapeType;
 		/*! \brief default size for this item*/

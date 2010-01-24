@@ -10,10 +10,9 @@ Matrix (*_tc_getParameters)(Array) = 0;
 */
 Matrix tc_getParameters(Array a)
 {
+	Matrix M;
 	if (_tc_getParameters)
 		return _tc_getParameters(a);
-	
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;
@@ -26,9 +25,9 @@ Matrix (*_tc_getInitialValues)(Array) = 0;
 */
 Matrix tc_getInitialValues(Array a)
 {
+	Matrix M;
 	if (_tc_getInitialValues)
 		return _tc_getInitialValues(a);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;
@@ -42,7 +41,7 @@ void (*_tc_setInitialValues)(Array items,Matrix values) = 0;
 void tc_setInitialValues(Array items,Matrix values)
 {
 	if (_tc_setInitialValues)
-		return _tc_setInitialValues(items,values);
+		_tc_setInitialValues(items,values);
 }
 
 Matrix (*_tc_getFixedVariables)(Array) = 0;
@@ -52,9 +51,9 @@ Matrix (*_tc_getFixedVariables)(Array) = 0;
 */
 Matrix tc_getFixedVariables(Array a)
 {
+	Matrix M;
 	if (_tc_getFixedVariables)
 		return _tc_getFixedVariables(a);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;
@@ -67,9 +66,9 @@ Matrix (*_tc_getParametersAndFixedVariables)(Array) = 0;
 */
 Matrix tc_getParametersAndFixedVariables(Array a)
 {
+	Matrix M;
 	if (_tc_getParametersAndFixedVariables)
 		return _tc_getParametersAndFixedVariables(a);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;
@@ -106,9 +105,9 @@ Matrix (*_tc_getParametersNamed)(Array,char** attibutes) = 0;
 */
 Matrix tc_getParametersNamed(Array a,char** attibutes)
 {
+	Matrix M;
 	if (_tc_getParametersNamed)
 		return _tc_getParametersNamed(a,attibutes);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;
@@ -121,9 +120,9 @@ Matrix (*_tc_getParametersExcept)(Array,char** attributes) = 0;
 */
 Matrix tc_getParametersExcept(Array a,char** attributes)
 {
+	Matrix M;
 	if (_tc_getParametersExcept)
 		return _tc_getParametersExcept(a,attributes);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	return M;

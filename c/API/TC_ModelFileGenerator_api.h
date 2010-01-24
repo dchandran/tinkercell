@@ -10,9 +10,9 @@ Matrix (*_tc_getModelParameters)(Array) = 0;
 */
 Matrix tc_getModelParameters(Array A)
 {
+	Matrix M;
 	if (_tc_getModelParameters)
 		return _tc_getModelParameters(A);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.rownames = M.colnames = 0;
 	M.values = 0;

@@ -574,6 +574,7 @@ namespace Tinkercell
 	{
 	    ItemHandle::operator=(copy);
 	    nodeFamily = copy.nodeFamily;
+		return *this;
 	}
 
 	ItemHandle * NodeHandle::clone() const
@@ -694,6 +695,7 @@ namespace Tinkercell
 	{
 	    ItemHandle::operator=(copy);
 	    connectionFamily = copy.connectionFamily;
+		return *this;
 	}
 
 	ItemHandle * ConnectionHandle::clone() const

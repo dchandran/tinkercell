@@ -446,12 +446,12 @@ namespace Tinkercell
 
 			if (connection->handle() && 
 				(connection->handle()->isA(tr("Transcription Regulation")) || 
-				connection->handle()->isA(tr("Elongation")) || 
-				connection->handle()->isA(tr("Transcription"))) 
+				connection->handle()->isA(tr("PoPS")) || 
+				connection->handle()->isA(tr("Synthesis"))) 
 				&& nodes.size() > 1 && nodes[0] && nodes[1])
 			{
 				ConnectionGraphicsItem::ControlPoint * cp;
-				if (connection->handle()->isA(tr("Elongation")))
+				if (connection->handle()->isA(tr("PoPS")))
 				{
 					cp = new ConnectionGraphicsItem::ControlPoint(QPointF((nodes[1]->scenePos().x() + nodes[0]->scenePos().x())/2.0,nodes[1]->scenePos().y()),connection);
 					connection->defaultPen.setStyle(Qt::DashLine);

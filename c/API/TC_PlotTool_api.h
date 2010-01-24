@@ -65,9 +65,9 @@ Matrix (*_tc_getPlotData)(int whichPlot) = 0;
 */
 Matrix tc_getPlotData(int whichPlot)
 {
+	Matrix M;
 	if (_tc_getPlotData)
 		return _tc_getPlotData(whichPlot);
-	Matrix M;
 	M.rows = M.cols = 0;
 	M.colnames = M.rownames = 0;
 	M.values = 0;

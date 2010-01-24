@@ -47,7 +47,7 @@ void (*_tc_setColor)(OBJ item,int R,int G,int B, int permanent) = 0;
 void tc_setColor(OBJ item,int R,int G,int B, int permanent)
 {
 	if (_tc_setColor)
-		return _tc_setColor(item,R,G,B,permanent);
+		_tc_setColor(item,R,G,B,permanent);
 }
 
 /*! 

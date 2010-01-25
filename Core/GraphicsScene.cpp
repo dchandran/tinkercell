@@ -2204,7 +2204,7 @@ namespace Tinkercell
         return 0;
     }
 	
-	GraphicsView * GraphicsScene::currenView() const
+	GraphicsView * GraphicsScene::currentView() const
 	{
 		if (networkWindow)
             return networkWindow->currentView();

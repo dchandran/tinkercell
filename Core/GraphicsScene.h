@@ -117,7 +117,7 @@ namespace Tinkercell
 		/*! \brief Returns the currently active graphics view
 		* \param void
 		* \return GraphicsView * current graphics view*/
-		virtual GraphicsView * currenView() const;
+		virtual GraphicsView * currentView() const;
 		/*! \brief Returns the point where mouse was clicked last
 		* \param void
 		* \return QPointF& ref to last clicked point*/
@@ -344,58 +344,58 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& list of graphics items going to be copied
 		* \param QList<ItemHandle*>& list of handles going to be copied (does NOT have to be the same number as items removed)
 		* \return void*/
-		virtual void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief signals just before items are deleted
 		* \param GraphicsScene * scene where the items are going to be removed
 		* \param QList<QGraphicsItem*>& list of graphics items going to be removed
 		* \param QList<ItemHandle*>& list of handles going to be removed (does NOT have to be the same number as items removed)
 		* \return void*/
-		virtual void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief signals whenever items are deleted
 		* \param GraphicsScene* scene where the items were removed
 		* \param QList<QGraphicsItem*>& list of items removed
 		* \param QList<ItemHandle*>& list of handles removed (does NOT have to be the same number as items removed)
 		* \return void*/
-		virtual void itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
+		void itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		/*! \brief signals whenever items are going to be added
 		* \param GraphicsScene* scene where the items are added
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \return void*/
-		virtual void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 		/*! \brief signals whenever items are added
 		* \param GraphicsScene* scene where the items were added
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \return void*/
-		virtual void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
+		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		/*! \brief signals whenever items are selected (item can be sub-item, not top-level)
 		* \param GraphicsScene* scene where items are selected
 		* \param QList<QGraphicsItem*>& list of all selected item pointers
 		* \param QPointF point where mouse is clicked
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever an empty node of the screen is clicked
 		* \param GraphicsScene* scene where the event took place
 		* \param QPointF point where mouse is clicked
 		* \param Qt::MouseButton which button was pressed
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever an empty node of the screen is clicked
 		* \param GraphicsScene* scene where the event took place
 		* \param QPointF point where mouse is clicked
 		* \param Qt::MouseButton which button was pressed
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		/*! \brief emits event when mouse is double clicked
 		* \param GraphicsScene* scene where the event took place
 		* \param point where mouse is clicked
 		* \param modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever mouse is dragged from one point to another
 		* \param GraphicsScene* scene where the event took place
 		* \param QPointF point where mouse is clicked first
@@ -403,7 +403,7 @@ namespace Tinkercell
 		* \param Qt::MouseButton button being pressed
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever items are being moved (each item is the top-most item)
 		* \param GraphicsScene* scene where the items were moved
 		* \param QList<QGraphicsItem*>& list of pointes to all moving items
@@ -411,7 +411,7 @@ namespace Tinkercell
 		* \param QPointF point where the item is moved to
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
+		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever mouse moves, and indicates whether it is on top of an item
 		* \param GraphicsScene* scene where the event took place
 		* \param QGraphicsItem* pointer to item that mouse is on top of
@@ -420,7 +420,7 @@ namespace Tinkercell
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \param QList<QGraphicsItem*>& list of items that are being moved with the mouse
 		* \return void*/
-		virtual void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
+		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		/*! \brief signals whenever mouse is on top of an item
 		* \param GraphicsScene* scene where the event took place
 		* \param QGraphicsItem* pointer to item that mouse is on top of
@@ -428,49 +428,49 @@ namespace Tinkercell
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \param QList<QGraphicsItem*>& list of items that are being moved with the mouse
 		* \return void*/
-		virtual void mouseOnTopOf(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
+		void mouseOnTopOf(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 		/*! \brief signals whenever right click is made on an item or sceen
 		* \param GraphicsScene* scene where the event took place
 		* \param QGraphicsItem* pointer to item that mouse is clicked on
 		* \param QPointF point where mouse is clicked
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		virtual void sceneRightClick(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::KeyboardModifiers modifiers);
+		void sceneRightClick(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::KeyboardModifiers modifiers);
 		/*! \brief signals whenever a key is pressed
 		* \param GraphicsScene* scene where the event took place
 		* \param QKeyEvent * key that is pressed
 		* \return void*/
-		virtual void keyPressed(GraphicsScene * scene, QKeyEvent *);
+		void keyPressed(GraphicsScene * scene, QKeyEvent *);
 		/*! \brief signals whenever a key is released
 		* \param GraphicsScene* scene where the event took place
 		* \param QKeyEvent * key that is released
 		* \return void*/
-		virtual void keyReleased(GraphicsScene * scene, QKeyEvent *);
+		void keyReleased(GraphicsScene * scene, QKeyEvent *);
 		/*! \brief signals whenever color of items are changed
 		* \param GraphicsScene* scene where the event took place
 		* \param QList<QGraphicsItem*>& items that changed color
 		* \return void*/
-		virtual void colorChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items);
+		void colorChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items);
 		/*! \brief signals whenever item parents are changed
 		* \param GraphicsScene* scene where the event took place
 		* \param QList<QGraphicsItem*>& items
 		* \param QList<QGraphicsItem*>& new parents
 		* \return void*/
-		virtual void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
+		void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
 		/*! \brief signals whenever the handles for graphics items have changed
 		* \param GraphicsScene* scene where the event took place
 		* \param QList<GraphicsItem*>& items that are affected
 		* \param QList<ItemHandle*>& old handle for each items
 		* \return void*/
-		virtual void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
+		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 		/*! \brief signals whenever the current activities need to be stopped
 		* \param QWidget * the widget that send the signal
 		* \return void*/
-		virtual void escapeSignal(const QWidget * sender);
+		void escapeSignal(const QWidget * sender);
 		/*! \brief signals whenever file(s) are dropped on the canvas
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void*/
-		virtual void filesDropped(const QList<QFileInfo>& files);
+		void filesDropped(const QList<QFileInfo>& files);
 
 	protected:
 		/*! \brief grid size. If zero, then disabled*/

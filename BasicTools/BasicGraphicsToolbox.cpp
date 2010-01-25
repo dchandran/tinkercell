@@ -270,6 +270,17 @@ namespace Tinkercell
 				mainWindow->editMenu->addAction(replaceAction);
 			}
 
+			mainWindow->contextScreenMenu.addAction(
+				QIcon(tr(":/images/image.png")),
+				tr("Set background image"),
+				this,
+				SLOT(setBackgroundImage()));
+
+			mainWindow->contextScreenMenu.addAction(
+				tr("Remove background image"),
+				this,
+				SLOT(unsetBackgroundImage()));
+
 			mainWindow->contextItemsMenu.addAction(
                 QIcon(tr(":/images/bringFront.png")),
                 tr("Bring items forward"),
@@ -304,6 +315,26 @@ namespace Tinkercell
 			return true;
 		}
 		return false;
+	}
+
+	void BasicGraphicsToolbox::setBackgroundImage()
+	{
+		GraphicsView * currentView;
+		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
+
+		QString imageFile = QFileDialog::getOpenFileName(this,tr("Select image file"),MainWindow::previousFileName);
+		
+		if (imageFile.isEmpty() || imageFile.isNull()) return;
+
+		if (!currentView->background.load(imageFile))
+			currentView->background = QPixmap();
+	}
+
+	void BasicGraphicsToolbox::unsetBackgroundImage()
+	{
+		GraphicsView * currentView;
+		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
+		currentView->background = QPixmap();
 	}
 
 	void BasicGraphicsToolbox::connectTCFunctions()

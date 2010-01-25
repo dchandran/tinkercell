@@ -187,6 +187,7 @@ namespace Tinkercell
 
 		readSettings();
 
+		getStringDialog = 0;
         consoleWindow = 0;
 		currentNetworkWindow = 0;
 		toolBox = 0;

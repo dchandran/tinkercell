@@ -54,6 +54,7 @@ void loadAllNames()
 		for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
 		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
 		allNames[(len+params.rows)] = 0;
+		free(params.rownames);
 		params.rownames = 0;
 		TCFreeMatrix(params);
 		TCFreeArray(A);
@@ -71,6 +72,7 @@ void callback()
 void tc_main()
 {
 	allNames = 0;
+	target_var[0] = 0;
 
 	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?

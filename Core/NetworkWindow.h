@@ -173,24 +173,24 @@ namespace Tinkercell
 	signals:
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/
-		virtual void closing(NetworkWindow *, bool * );
+		void closing(NetworkWindow *, bool * );
 		/*! \brief signals whenever an item is renamed
 		* \param NetworkWindow* window where the event took place
 		* \param QList<ItemHandle*>& items
 		* \param QList<QString>& old names
 		* \param QList<QString>& new names
 		* \return void*/
-		virtual void itemsRenamed(NetworkWindow * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
+		void itemsRenamed(NetworkWindow * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
 		/*! \brief signals whenever item parent handle is changed
 		* \param NetworkWindow* window where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
-		virtual void parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		void parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
 		* \return void*/
-		virtual void dataChanged(const QList<ItemHandle*>& items);
+		void dataChanged(const QList<ItemHandle*>& items);
 	protected:
 		/*! \brief informs the main window that the current window is this*/
 		virtual void focusInEvent ( QFocusEvent * event );

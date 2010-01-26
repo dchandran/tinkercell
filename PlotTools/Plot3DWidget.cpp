@@ -77,38 +77,56 @@ namespace Tinkercell
 	{
 		if (!surfacePlot || data.cols() < 3) return;
 
-		dataTable = data;
+		this->dataTable = data;
 
-		double minX = dataTable.value(0,0);
-		double maxX = dataTable.value(0,0);
+		double minX = data.at(0,0);
+		double maxX = data.at(0,0);
 
-		double minY = dataTable.value(0,1);
-		double maxY = dataTable.value(0,1);
+		double minY = data.at(0,1);
+		double maxY = data.at(0,1);
 
-		double minZ = dataTable.value(0,2);
-		double maxZ = dataTable.value(0,2);
+		double minZ = data.at(0,2);
+		double maxZ = data.at(0,2);
 
-		for (int i=0; i < dataTable.rows(); ++i)
+		for (int i=0; i < data.rows(); ++i)
 		{
-		    if (dataTable.value(i,0) < minX)
-				minX = dataTable.value(i,0);
+		    if (data.at(i,0) < minX)
+				minX = data.at(i,0);
 
-            if (dataTable.value(i,0) > maxX)
-				maxX = dataTable.value(i,0);
+            if (data.at(i,0) > maxX)
+				maxX = data.at(i,0);
 
-            if (dataTable.value(i,1) < minY)
-				minY = dataTable.value(i,1);
+            if (data.at(i,1) < minY)
+				minY = data.at(i,1);
 
-            if (dataTable.value(i,1) > maxY)
-				maxY = dataTable.value(i,1);
+            if (data.at(i,1) > maxY)
+				maxY = data.at(i,1);
 
-			if (dataTable.value(i,2) < minZ)
-				minZ = dataTable.value(i,2);
+			if (data.at(i,2) < minZ)
+				minZ = data.at(i,2);
 
-            if (dataTable.value(i,2) > maxZ)
-				maxZ = dataTable.value(i,2);
+            if (data.at(i,2) > maxZ)
+				maxZ = data.at(i,2);
         }
 
+		int rows = data.rows();
+		DataTable<qreal> dataTable2;
+
+		for (int i=0, j=0, k=0, i0 = 0; i < rows; ++i)
+        {
+			dataTable2.value(j,i - i0) = data.at(i,2);
+
+            if (i==0)
+                if (data.at(i,0) == data.at(i+1,0))
+                    k = 0;
+                else
+                    k = 1;
+            if (i < (rows-1) && data.at(i,k) != data.at(i+1,k))
+			{
+				i0 = i+1;
+				++j;
+			}
+        }
 
 		for (int i=0; i < surfacePlot->coordinates()->axes.size(); ++i)
 		{
@@ -120,7 +138,7 @@ namespace Tinkercell
 		surfacePlot->setColor();
 		surfacePlot->minZ = minZ;
 		surfacePlot->maxZ = maxZ;
-		surfacePlot->loadFromData(tableToArray(dataTable),(int)(maxX-minX),(int)(maxY-minY),minX,maxX,minY,maxY);
+		surfacePlot->loadFromData(tableToArray(dataTable2),(int)(maxX-minX),(int)(maxY-minY),minX,maxX,minY,maxY);
 
 		setTitle(title);
 
@@ -129,9 +147,9 @@ namespace Tinkercell
 		if (maxY > max) max = maxY;
 
 		surfacePlot->setScale(max/maxX,max/maxY,max/maxZ);
-		setXLabel(dataTable.colName(0));
-		setYLabel(dataTable.colName(1));
-		setZLabel(dataTable.colName(2));
+		setXLabel(data.colName(0));
+		setYLabel(data.colName(1));
+		setZLabel(data.colName(2));
 
 		surfacePlot->setCoordinateStyle(BOX);
 

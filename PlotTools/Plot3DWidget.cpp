@@ -114,7 +114,7 @@ namespace Tinkercell
 
 		for (int i=0, j=0, k=0, i0 = 0; i < rows; ++i)
         {
-			dataTable2.value(j,i - i0) = data.at(i,2);
+			dataTable2.value(i - i0,j) = data.at(i,2);
 
             if (i==0)
                 if (data.at(i,0) == data.at(i+1,0))
@@ -138,7 +138,7 @@ namespace Tinkercell
 		surfacePlot->setColor();
 		surfacePlot->minZ = minZ;
 		surfacePlot->maxZ = maxZ;
-		surfacePlot->loadFromData(tableToArray(dataTable2),(int)(maxX-minX),(int)(maxY-minY),minX,maxX,minY,maxY);
+		surfacePlot->loadFromData(tableToArray(dataTable2),dataTable2.rows(),dataTable2.cols(),minX,maxX,minY,maxY);
 
 		setTitle(title);
 

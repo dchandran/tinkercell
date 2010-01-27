@@ -143,12 +143,12 @@ namespace Tinkercell
 		* \param int column
 		*/
 		static void AddOptions(const QString& title, int i, int j);
-		public slots:
-			/*!
-			\brief Executes the CThread
-			\sa CThread
-			*/
-			virtual void exec();
+	public slots:
+		/*!
+		\brief Executes the CThread
+		\sa CThread
+		*/
+		virtual void exec();
 	protected:
 		/*! \brief constructor that creates a docking window in Tinkercell's mainwindow that can receive inputs from user and
 		run a function in a separate thread

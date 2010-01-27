@@ -138,6 +138,11 @@ namespace Tinkercell
 	{
 		if (cthread)
 		{
+			int rows = tableWidget.rowCount(), cols = tableWidget.columnCount();
+			
+			for (int i=0; i < rows; ++i)
+				for (int j=0; j < cols; ++j)
+					dataChanged(i,j);
 			cthread->setArg(dataTable);
 			cthread->start();
 		}

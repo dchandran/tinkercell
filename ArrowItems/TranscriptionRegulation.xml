@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/TranscriptionRegulation.xml" width="20" height="20">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/ArrowItems/TranscriptionActivation2.xml" width="20" height="12">
     <ControlPoints>
-        <ControlPoint x="199" y="96"/>
-        <ControlPoint x="318" y="212"/>
+        <ControlPoint x="208" y="187"/>
+        <ControlPoint x="99" y="123"/>
+        <ControlPoint x="99" y="261"/>
+        <ControlPoint x="-3" y="187"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="0,1,0"/>
-            <LineTypes sequence="arc,arc,arc"/>
-            <Parameters values="0,360,0,360,0,360"/>
-            <Pen Width="0" Color="#646464" Alpha="255"/>
-            <Fill Color="#63636a" Alpha="255"/>
+            <ControlPoints indices="3,1,0,2,3"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="4" Color="#1f317d" Alpha="255"/>
+            <Gradient Type="0">
+                <Stop Value="0" Color="#a5a5a5" Alpha="255"/>
+                <Stop Value="1" Color="#282867" Alpha="255"/>
+                <Start x="58" y="191"/>
+                <End x="132" y="190"/>
+            </Gradient>
         </Shape>
     </Shapes>
 </PartGraphicsItem>

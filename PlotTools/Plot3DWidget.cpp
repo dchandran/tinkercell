@@ -114,7 +114,7 @@ namespace Tinkercell
 
 		for (int i=0, j=0, k=0, i0 = 0; i < rows; ++i)
         {
-			dataTable2.value(i - i0,j) = data.at(i,2);
+			dataTable2.value(j,i - i0) = data.at(i,2);
 
             if (i==0)
                 if (data.at(i,0) == data.at(i+1,0))
@@ -127,6 +127,14 @@ namespace Tinkercell
 				++j;
 			}
         }
+		
+		if (dataTable2.rows() < 2)
+			for (int i=0; i < dataTable2.cols(); ++i)
+				dataTable2.value(1,i) = 0.0;
+		
+		if (dataTable2.cols() < 2)
+			for (int i=0; i < dataTable2.rows(); ++i)
+				dataTable2.value(i,1) = 0.0;
 
 		for (int i=0; i < surfacePlot->coordinates()->axes.size(); ++i)
 		{

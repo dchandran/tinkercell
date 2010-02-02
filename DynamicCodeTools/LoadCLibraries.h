@@ -97,6 +97,7 @@ namespace Tinkercell
 	private:
 		QList<VoidFunction> callBackFunctions;
 		QList<VoidFunction> unloadFunctions;
+		int numLibFiles;
 		static LoadCLibrariesTool_FToS fToS;		
 		static int _compileAndRun(const char * cfile,const char* args);
         static int _compileBuildLoad(const char * cfile,const char* f,const char* title);

@@ -56,9 +56,6 @@ QwtPlotCanvas::QwtPlotCanvas(QwtPlot *plot):
     setAutoFillBackground(true);
 #endif
 
-	setFrameShadow ( QFrame::Plain );
-	setFrameShape ( QFrame::NoFrame );
-	setFrameStyle (QFrame::NoFrame );
 	setLineWidth(0);
 
 #if QT_VERSION < 0x040000

@@ -29,6 +29,7 @@ namespace Tinkercell
 
     LoadCLibrariesTool::LoadCLibrariesTool() : Tool(tr("Load C Libraries"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
+		numLibFiles = 0;
         connectTCFunctions();
         libMenu = 0;
     }
@@ -41,6 +42,50 @@ namespace Tinkercell
 				VoidFunction f = unloadFunctions[i];
 				f();
 			}
+
+		bool exists = true;
+		QString file;
+
+		QDir userHomeDir(MainWindow::userHome());
+
+		if (!userHomeDir.cd(tr("temp")))
+		{
+			userHomeDir.mkdir(tr("temp"));
+			userHomeDir.cd(tr("temp"));
+		}
+
+		QString userHome = userHomeDir.absolutePath();
+
+#ifdef Q_WS_WIN
+		
+		userHome.replace(tr("/"),tr("\\"));
+		for (int i=1; exists; ++i)
+		{
+			file = tr("\\\"") + userHome + tr("\\\"temp") + QString::number(i) + tr(".dll");
+			if (exists = QFile::exists(file))
+				QFile::remove(file);
+		}
+#else
+#ifdef Q_WS_MAC
+		
+		for (int i=1; exists; ++i)
+		{
+			file = userHome + tr("/temp") + QString::number(i) + tr(".dylib");
+			if (exists = QFile::exists(file))
+				QFile::remove(file);
+		}
+#else
+
+		for (int i=1; exists; ++i)
+		{
+			file = userHome + tr("/temp") + QString::number(i) + tr(".so");
+			if (exists = QFile::exists(file))
+				QFile::remove(file);
+		}
+
+#endif
+#endif
+
 	}
 
     bool LoadCLibrariesTool::setMainWindow(MainWindow * main)
@@ -303,32 +348,47 @@ namespace Tinkercell
             if (s) s->release();
             return;
         }
-        QString dllName("temp");
-        QRegExp regex("([A-Za-z0-9_]+)\\.c");
+
+		QString dllName("temp");
+		dllName += QString::number(++numLibFiles);
+
+        /*QRegExp regex("([A-Za-z0-9_]+)\\.");
         if (regex.indexIn(filename) > -1)
         {
             dllName = regex.cap(1);
-        }
+        }*/
 
         QString errors;
         QString output;
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
 
-		proc.setWorkingDirectory(MainWindow::userHome());
+		QString userHome = MainWindow::userHome();
+		QDir userHomeDir(userHome);
+
+		if (!userHomeDir.cd(tr("temp")))
+		{
+			userHomeDir.mkdir(tr("temp"));
+			userHomeDir.cd(tr("temp"));
+		}
+
+		proc.setWorkingDirectory(userHome);
 
 
 #ifdef Q_WS_WIN
-        proc.start(tr("del ") + dllName + tr(".dll"));
-        proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
+
+		dllName = tr("temp\\") + dllName;
+		appDir.replace(tr("/"),tr("\\"));
+		userHome.replace(tr("/"),tr("\\"));
+
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC
-        proc.start(tr("rm ") + dllName + tr(".dylib"));
-        proc.waitForFinished();
+
+		dllName = tr("temp/") + dllName;
         proc.start(tr("gcc -bundle -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".dylib ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
@@ -336,8 +396,7 @@ namespace Tinkercell
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-        proc.start(tr("rm ") + dllName + tr(".so"));
-        proc.waitForFinished();
+		dllName = tr("temp/") + dllName;
         proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");

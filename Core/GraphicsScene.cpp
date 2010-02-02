@@ -855,7 +855,9 @@ namespace Tinkercell
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
 		QGraphicsView* view = networkWindow->currentGraphicsView;
-		view->fitInView(itemsBoundingRect(),Qt::KeepAspectRatio);
+		QRectF rect = itemsBoundingRect();
+		view->fitInView(rect,Qt::KeepAspectRatio);
+		view->centerOn(rect.center());
 	}
 
 	/*! \brief adjusts view to include all selected items*/
@@ -1473,9 +1475,9 @@ namespace Tinkercell
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
-		//painter.setBackground(QBrush(Qt::white));
+		painter.setBackground(QBrush(Qt::white));
 		painter.setRenderHint(QPainter::Antialiasing);
-		//painter.setRenderHints(QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
+		painter.setRenderHints(QPainter::NonCosmeticDefaultPen | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
 		/*
 		QList<QGraphicsItem*> itemsToDraw = items(rect);
 

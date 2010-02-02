@@ -206,7 +206,9 @@ namespace Tinkercell
 		QList<GraphicsView*> graphicsViews;
 		/*! \brief current view of this network window*/
 		GraphicsView * currentGraphicsView;
-		
+		/*! \brief window minimized = popIn*/
+		void changeEvent ( QEvent * event );
+
 		friend class GraphicsView;
 		friend class GraphicsScene;
 	};

@@ -502,29 +502,26 @@ namespace Tinkercell
 
 		previousFileName = fileName;
 
-		/*
-		QPrinter printer(QPrinter::HighResolution);
-		//printer.setResolution(150);
+		
+		/*QPrinter printer(QPrinter::HighResolution);
+		//printer.setResolution(300);
 		printer.setOutputFormat(QPrinter::PdfFormat);
 		printer.setOrientation(QPrinter::Landscape);
-		printer.setPageSize(QPrinter::A4);
-		//printer.setPageSize(QPrinter::B0);
+		//printer.setPageSize(QPrinter::A4);
+		printer.setPageSize(QPrinter::B0);
 		printer.setOutputFileName(fileName);
 		*/
-
 		/*
 		QSvgGenerator printer;
 		printer.setFileName(fileName);
 		*/
 
 		QRectF viewport = scene->viewport();
-		int w = 800;
+		int w = 2048;
 		int h = (int)(viewport.height() * w/viewport.width());
 		QImage printer(w,h,QImage::Format_ARGB32);
-		//QImage printer(1024,1024,QImage::Format_ARGB32);
 		scene->print(&printer);
 		printer.save(fileName,"png");
-
 	}
 
 	QDockWidget * MainWindow::addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option, Qt::DockWidgetArea initArea, Qt::DockWidgetAreas allowedAreas, bool inMenu)
@@ -3525,7 +3522,8 @@ namespace Tinkercell
 			int i = tabWidget->indexOf(win);
 			if (i == -1)
 			{
-				win->setParent(0);
+				//win->setParent(0);
+				win->setWindowFlags(Qt::Widget);
 				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
 				setCurrentWindow(win);
 			}

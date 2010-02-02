@@ -834,13 +834,18 @@ namespace Tinkercell
 		mainWindow->setCurrentWindow(this);
 	}
 	
-	void NetworkWindow::resizeEvent ( QResizeEvent * event)
+	void NetworkWindow::resizeEvent (QResizeEvent * event)
 	{
-		if (mainWindow && windowState() == Qt::WindowMinimized)		
-			mainWindow->popIn(this);
+		if (mainWindow && windowState() == Qt::WindowMinimized)
+		{
+			setWindowState(Qt::WindowNoState);
+			popIn();
+		}
 		else
 			QWidget::resizeEvent(event);
 	}
+
+	
 	
 	void NetworkWindow::setAsCurrentWindow()
 	{
@@ -859,5 +864,25 @@ namespace Tinkercell
 		if (mainWindow)
 			mainWindow->popIn(this);
 	}
+
+	void NetworkWindow::changeEvent ( QEvent * event )
+	{
+		if (mainWindow && windowState() == Qt::WindowMinimized)
+		{
+			setWindowState(Qt::WindowNoState);
+			popIn();
+		}
+		else
+			QWidget::changeEvent(event);
+	}
+
+	/*bool NetworkWindow::winEvent ( MSG * m, long * result )
+	{
+		if (mainWindow && m->message == WM_SIZE && m->wParam == SIZE_MINIMIZED)
+		{
+			popIn();
+		}
+		return QWidget::winEvent(m,result);
+	}*/
 
 }

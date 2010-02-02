@@ -79,6 +79,10 @@ namespace Tinkercell
 		plotLayout()->setCanvasMargin(0);
 		//setAxisAutoScale(xBottom);
 		//setAxisAutoScale(yLeft);
+		QwtPlotCanvas * c = canvas();
+		c->setFrameShadow ( QFrame::Plain );
+		c->setFrameShape ( QFrame::NoFrame );
+		c->setFrameStyle (QFrame::NoFrame );
 	}
 
 	QSize DataPlot::minimumSizeHint() const

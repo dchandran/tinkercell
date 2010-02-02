@@ -274,7 +274,7 @@ namespace Tinkercell
 		setParentItem(0);
 		setBoundingBoxVisible(false);
 
-		resetTransform();
+		//resetTransform();
 		setPos(copy.scenePos());
 
 		for (int i=0; i < copy.controlPoints.size(); ++i)
@@ -295,9 +295,9 @@ namespace Tinkercell
 			}
 
 		refresh();
-		QTransform t0 = copy.sceneTransform();
-		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-		setTransform(t1);
+		//QTransform t0 = copy.sceneTransform();
+		//QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
+		//setTransform(t1);
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
 			if (boundaryControlPoints[i])

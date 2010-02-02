@@ -575,6 +575,7 @@ namespace Tinkercell
 		}*/
 		
 		NodeGraphicsItem * node = 0;
+		ConnectionGraphicsItem * conn = 0;
 
 		for (int i=0; i < list.size(); ++i)
 			if (!scene->moving().contains(list[i]) && scene->isVisible(list[i]))
@@ -585,6 +586,11 @@ namespace Tinkercell
 					for (int j=0; j < node->boundaryControlPoints.size(); ++j)
 						scene->moving() += node->boundaryControlPoints[j];
 				}
+				else
+					if ((conn = ConnectionGraphicsItem::cast(list[i])))
+					{
+						scene->moving() += conn->controlPointsAsGraphicsItems();
+					}
 			}
 	}
 

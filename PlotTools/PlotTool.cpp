@@ -682,8 +682,6 @@ namespace Tinkercell
 			&& multiplePlotsArea->currentSubWindow()
 			&& multiplePlotsArea->currentSubWindow()->widget())
 		{
-			if (console())
-				console()->message("key pressed");
 			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
 			widget->mouseMoveEvent(event);
 		}

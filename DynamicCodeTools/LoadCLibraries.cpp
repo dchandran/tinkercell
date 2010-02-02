@@ -61,7 +61,7 @@ namespace Tinkercell
 		userHome.replace(tr("/"),tr("\\"));
 		for (int i=1; exists; ++i)
 		{
-			file = tr("\\\"") + userHome + tr("\\\"temp") + QString::number(i) + tr(".dll");
+			file = tr("\"") + userHome + tr("\"\\temp") + QString::number(i) + tr(".dll");
 			if (exists = QFile::exists(file))
 				QFile::remove(file);
 		}

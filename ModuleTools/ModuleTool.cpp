@@ -741,7 +741,7 @@ namespace Tinkercell
 
 	    for (int i=0; i < items.size(); ++i)
             if ((node = NodeGraphicsItem::cast(items[i])) &&
-				ModuleLinkerItem::isModuleLinker(node) &&
+				node->fileName.contains(linkerFileName) &&
                 (handle = node->handle()))
             {
                 connections = node->connections();

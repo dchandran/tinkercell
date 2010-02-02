@@ -1280,10 +1280,10 @@ namespace Tinkercell
 
 						if (!colNames.contains(s)
 							&& !fixedSpecies.contains(s)
-							&& !colNames.contains(s.replace(".",replaceDot))
-							&& !colNames.contains(s.replace(replaceDot,".")))
+							&& !colNames.contains(QString(s).replace(".",replaceDot))
+							&& !colNames.contains(QString(s).replace(replaceDot,".")))
 						{
-							colNames += nDataTable->colName(j);
+							colNames += s;
 						}
 					}
 				}
@@ -1337,9 +1337,9 @@ namespace Tinkercell
 						    if (l > -1) s = newNames[l];
 							j0 = colNames.indexOf(s);
 							if (j0 < 0)
-								j0 = colNames.indexOf(QString(nDataTable->colName(j)).replace(".",replaceDot));
+								j0 = colNames.indexOf(QString(s).replace(".",replaceDot));
 							if (j0 < 0)
-								j0 = colNames.indexOf(QString(nDataTable->colName(j)).replace(replaceDot,"."));
+								j0 = colNames.indexOf(QString(s).replace(replaceDot,"."));
 
 							if (j0 >= 0)
 								combinedTable.value(n,j0) = nDataTable->value(k,j);

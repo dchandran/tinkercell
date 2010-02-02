@@ -323,8 +323,7 @@ namespace Tinkercell
 		if (!nodesTree->nodeFamilies.contains("Protein") || 
 			!nodesTree->nodeFamilies.contains("mRNA") || 
 			!nodesTree->nodeFamilies.contains("Empty") ||
-			!connectionsTree->connectionFamilies.contains("Transcription") ||
-			!connectionsTree->connectionFamilies.contains("Translation") ||
+			!connectionsTree->connectionFamilies.contains("Synthesis") ||
 			!connectionsTree->connectionFamilies.contains("Biochemical")
 			) 
 			return;
@@ -335,8 +334,8 @@ namespace Tinkercell
 		NodeFamily * rnaFamily = nodesTree->nodeFamilies["mRNA"];
 
 		ConnectionFamily * biochemicalFamily = connectionsTree->connectionFamilies["Biochemical"];
-		ConnectionFamily * transcriptionFamily = connectionsTree->connectionFamilies["Transcription"];
-		ConnectionFamily * translationFamily = connectionsTree->connectionFamilies["Translation"];
+		ConnectionFamily * transcriptionFamily = connectionsTree->connectionFamilies["Synthesis"];
+		ConnectionFamily * translationFamily = connectionsTree->connectionFamilies["Synthesis"];
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -932,7 +931,7 @@ namespace Tinkercell
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
-							connections[j]->isA(tr("Transcription")) &&
+							connections[j]->isA(tr("Synthesis")) &&
 							connections[j]->hasTextData(tr("Rates")))
 					{
 						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rates")]);

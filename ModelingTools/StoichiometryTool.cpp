@@ -1454,13 +1454,13 @@ namespace Tinkercell
 	}
 
 	//get the rates of the given items
-	QStringList StoichiometryTool::getRates(const QList<ItemHandle*>& connectionHandles, const QString& )
+	QStringList StoichiometryTool::getRates(const QList<ItemHandle*>& connectionHandles, const QString& replaceDot)
 	{
 		QStringList rates;
 		DataTable<QString> * sDataTable = 0;
 
 		QList<ItemHandle*> from,to;
-		ModuleTool::connectedItems(connectionHandles, from,to);
+		ModuleTool::connectedItems(connectionHandles, from, to);
 		
 		if (connectionHandles.size() < 1)
 		{
@@ -1485,9 +1485,9 @@ namespace Tinkercell
 		QRegExp regex(tr("\\.(?!\\d)"));
 		for (int i=0; i<rates.size(); ++i)
 		{
-			for (int j=0; j < from.size() && i < to.size(); ++j)
+			for (int j=0; j < from.size() && j < to.size(); ++j)
                 rates[i].replace(from[j]->fullName(),to[j]->fullName());
-			rates[i].replace(regex,QString("_"));
+			rates[i].replace(regex,replaceDot);
 		}
 		return rates;
 	}

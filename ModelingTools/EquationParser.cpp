@@ -87,9 +87,20 @@ namespace Tinkercell
 					{
 						if (symbolsTable->dataRowsAndCols.contains(str) && symbolsTable->dataRowsAndCols[str].first)
 						{
+							QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->dataRowsAndCols.values(str);
+							bool handleHasVar = false;
+							for (int i=0; i < localVariables.size(); ++i)
+								if (localVariables[i].first == handle)
+								{
+									handleHasVar = true;
+									break;
+								}
+
+							if (!handleHasVar)
+								handle = symbolsTable->dataRowsAndCols[str].first;
+							
 							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName())) )
 							{
-								handle = symbolsTable->dataRowsAndCols[str].first;
 								s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str + QString("\\1"));
 								s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str + QString("\\2"));
 								s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("$")),QString("\\1") + handle->fullName() + QString(".")  + str);
@@ -98,9 +109,20 @@ namespace Tinkercell
 						else
 							if (symbolsTable->dataRowsAndCols.contains(str2) && symbolsTable->dataRowsAndCols[str2].first)
 							{
+								QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->dataRowsAndCols.values(str2);
+								bool handleHasVar = false;
+								for (int i=0; i < localVariables.size(); ++i)
+									if (localVariables[i].first == handle)
+									{
+										handleHasVar = true;
+										break;
+									}
+
+								if (!handleHasVar)
+									handle = symbolsTable->dataRowsAndCols[str2].first;
+								
 								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName())) )
 								{
-									handle = symbolsTable->dataRowsAndCols[str2].first;
 									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str2 + QString("\\1"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str2 + QString("\\2"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("$")),QString("\\1") + handle->fullName() + QString(".")  + str2);

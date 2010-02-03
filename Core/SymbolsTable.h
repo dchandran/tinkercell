@@ -74,6 +74,9 @@ namespace Tinkercell
 		ItemHandle modelItem;
 		/*! \brief destructor*/
 		virtual ~SymbolsTable();
+
+		/*! \brief checks whether the given item handle pointer is valid*/
+		virtual bool isValidPointer(void*) const;
 		
 		/*! \brief get list of all items sorted according to family*/
 		virtual QList<ItemHandle*> allHandlesSortedByFamily() const;
@@ -87,6 +90,10 @@ namespace Tinkercell
 		virtual void update(TextEditor *);
 		/*! \brief update the symbols table*/
 		virtual void update(const QList<ItemHandle*>&);
+
+		/*! \brief addresses of all handles
+		*/
+		QHash<void*,QString> handlesAddress;
 		
 		friend class NetworkWindow;
 	};

@@ -749,17 +749,30 @@ namespace Tinkercell
 					QList<QGraphicsItem*> insertList;
 
 					for (int j=0; j < selectedConnections.size(); ++j)
-					{
-						if (selectedConnections[j] && selectedConnections[j]->centerRegionItem &&
-							selectedConnections[j]->handle() &&
-							selectedConnections[j]->handle()->type == ConnectionHandle::TYPE)
+						if (selectedConnections[j])
 						{
-							insertList += selectedConnections[j]->centerRegionItem;
-							selectedNodes += selectedConnections[j]->centerRegionItem;
-							if (!handle)
-								handle = static_cast<ConnectionHandle*>(selectedConnections[j]->handle());
+							if (!selectedConnections[j]->centerRegionItem)
+							{
+								NodeGraphicsReader imageReader;
+								ArrowHeadItem * node = new ArrowHeadItem(selectedConnections[j]);
+								imageReader.readXml(node,ConnectionGraphicsItem::DefaultMiddleItemFile);
+								if (node->isValid())
+								{
+									node->normalize();
+									node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
+									selectedConnections[j]->centerRegionItem = node;
+								}
+							}
+
+							if (selectedConnections[j]->centerRegionItem && selectedConnections[j]->handle() &&
+								selectedConnections[j]->handle()->type == ConnectionHandle::TYPE)
+							{
+								insertList += selectedConnections[j]->centerRegionItem;
+								selectedNodes += selectedConnections[j]->centerRegionItem;
+								if (!handle)
+									handle = static_cast<ConnectionHandle*>(selectedConnections[j]->handle());
+							}
 						}
-					}
 					ConnectionGraphicsItem * item = familyToGraphicsItem(selectedFamily);
 					if (item == 0 || selectedNodes.size() < 2)
 						return;

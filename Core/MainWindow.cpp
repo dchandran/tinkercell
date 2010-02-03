@@ -177,8 +177,17 @@ namespace Tinkercell
 		emit funtionPointersToMainThread(s,f );
 	}
 
+	MainWindow * MainWindow::globalInstance = 0;
+
+	MainWindow * MainWindow::instance()
+	{
+		return globalInstance;
+	}
+
 	MainWindow::MainWindow(bool enableScene, bool enableText, bool enableConsoleWindow, bool showHistory, bool allowViews)
 	{
+		MainWindow::globalInstance = this;
+
 		allowViewModeToChange = allowViews;
 
 		setMouseTracking(true);
@@ -441,8 +450,6 @@ namespace Tinkercell
 
 	void MainWindow::open(const QString& fileName)
 	{
-		previousFileName = fileName;
-
 		QFile file (fileName);
 
 		if (!file.open(QFile::ReadOnly | QFile::Text)) {
@@ -452,6 +459,8 @@ namespace Tinkercell
 				.arg(file.errorString()));
 			return;
 		}
+
+		previousFileName = fileName;
 		emit loadModel(fileName);
 	}
 
@@ -628,6 +637,18 @@ namespace Tinkercell
 	    return currentNetworkWindow;
 	}
 
+	NetworkWindow * MainWindow::currentNetwork()
+	{	
+	    return currentNetworkWindow;
+	}
+	
+	SymbolsTable * MainWindow::currentSymbolsTable()
+	{	
+		if (currentNetworkWindow)
+			return &(currentNetworkWindow->symbolsTable);
+	    return 0;
+	}
+
 	QList<NetworkWindow*> MainWindow::allWindows()
 	{
 		return allNetworkWindows;
@@ -654,7 +675,7 @@ namespace Tinkercell
 
 		if (enableScene)
 		{
-			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/newscene.png")),tr("New Graphics Scene"));
+			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/newscene.png")),tr("&New Graphics Scene"));
 			newAction->setShortcut(QKeySequence::New);
 			connect (newAction, SIGNAL(triggered()),this,SLOT(newGraphicsWindow()));
 			toolBarBasic->addAction(newAction);
@@ -662,64 +683,63 @@ namespace Tinkercell
 
 		if (enableText)
 		{
-			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/newtext.png")),tr("New Text Editor"));
+			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/newtext.png")),tr("New Text &Editor"));
 			newAction2->setShortcut(tr("CTRL+SHIFT+N"));
 			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextWindow()));
 			toolBarBasic->addAction(newAction2);
 		}
 
-		QAction* openAction = fileMenu->addAction(QIcon(tr(":/images/open.png")),tr("Open"));
+		QAction* openAction = fileMenu->addAction(QIcon(tr(":/images/open.png")),tr("&Open"));
 		openAction->setShortcut(QKeySequence::Open);
 		connect (openAction, SIGNAL(triggered()),this,SLOT(open()));
 
-		QAction* saveAction = fileMenu->addAction(QIcon(tr(":/images/save.png")),tr("Save"));
+		QAction* saveAction = fileMenu->addAction(QIcon(tr(":/images/save.png")),tr("&Save"));
 		saveAction->setShortcut(QKeySequence::Save);
 		connect (saveAction, SIGNAL(triggered()),this,SLOT(saveWindow()));
 
-		QAction* saveAsAction = fileMenu->addAction(QIcon(tr(":/images/save.png")),tr("SaveAs"));
+		QAction* saveAsAction = fileMenu->addAction(QIcon(tr(":/images/save.png")),tr("Save &As"));
 		connect (saveAsAction, SIGNAL(triggered()),this,SLOT(saveWindowAs()));
 
-		QAction* closeAction = fileMenu->addAction(QIcon(tr(":/images/close.png")), tr("Close Page"));
+		QAction* closeAction = fileMenu->addAction(QIcon(tr(":/images/close.png")), tr("&Close page"));
 		closeAction->setShortcut(QKeySequence::Close);
 		connect (closeAction, SIGNAL(triggered()),this,SLOT(closeWindow()));
 
 		fileMenu->addSeparator();
 
-		QAction * printAction = fileMenu->addAction(QIcon(tr(":/images/print.png")),tr("Print"));
+		QAction * printAction = fileMenu->addAction(QIcon(tr(":/images/print.png")),tr("&Print"));
 		printAction->setShortcut(QKeySequence::Print);
 		connect(printAction,SIGNAL(triggered()),this,SLOT(print()));
 
-		QAction * printToFileAction = fileMenu->addAction(QIcon(tr(":/images/camera.png")),tr("Screenshot"));
+		QAction * printToFileAction = fileMenu->addAction(QIcon(tr(":/images/camera.png")),tr("Screens&hot"));
 		printToFileAction->setShortcut(tr("Ctrl+F5"));
 		connect(printToFileAction,SIGNAL(triggered()),this,SLOT(printToFile()));
 
 		fileMenu->addSeparator();
 
-		QAction * exitAction = fileMenu->addAction(QIcon(tr(":/images/exit.png")), tr("Exit"));
+		QAction * exitAction = fileMenu->addAction(QIcon(tr(":/images/exit.png")), tr("E&xit"));
 		exitAction->setShortcut(tr("Ctrl+Q"));
 		connect(exitAction,SIGNAL(triggered()),this,SLOT(close()));
 
 		editMenu = menuBar()->addMenu(tr("&Edit"));
-		QAction * undoAction = editMenu->addAction(QIcon(tr(":/images/undo.png")),tr("Undo"));
+		QAction * undoAction = editMenu->addAction(QIcon(tr(":/images/undo.png")),tr("&Undo"));
 		undoAction->setShortcut(QKeySequence::Undo);
 		connect(undoAction,SIGNAL(triggered()),this,SLOT(undo()));
 
-
-		QAction * redoAction = editMenu->addAction(QIcon(tr(":/images/redo.png")),tr("Redo"));
+		QAction * redoAction = editMenu->addAction(QIcon(tr(":/images/redo.png")),tr("&Redo"));
 		redoAction->setShortcut(QKeySequence::Redo);
 		connect(redoAction,SIGNAL(triggered()),this,SLOT(redo()));
 
-		QAction* fitAll = editMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit all"));
+		QAction* fitAll = editMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
 		fitAll->setShortcut(tr("F5"));
 		connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
 
 		viewMenu = menuBar()->addMenu(tr("&View"));
 
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
-		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("Set Home Directory"));
+		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
 
-		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("Grid mode"));
+		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("&Grid mode"));
 
 		setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));
 		setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));
@@ -727,30 +747,30 @@ namespace Tinkercell
 
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 
-		QAction * copyAction = new QAction(QIcon(":/images/copy.png"),tr("Copy"),this);
+		QAction * copyAction = new QAction(QIcon(":/images/copy.png"),tr("&Copy"),this);
 		editMenu->addAction(copyAction);
 		copyAction->setToolTip(tr("Copy selected items"));
 		copyAction->setShortcut(QKeySequence::Copy);
 		connect(copyAction,SIGNAL(triggered()),this,SLOT(copy()));
 
-		QAction * cutAction = new QAction(QIcon(":/images/cut.png"),tr("Cut"),this);
+		QAction * cutAction = new QAction(QIcon(":/images/cut.png"),tr("Cu&t"),this);
 		editMenu->addAction(cutAction);
 		cutAction->setToolTip(tr("Cut selected items"));
 		cutAction->setShortcut(QKeySequence::Cut);
 		connect(cutAction,SIGNAL(triggered()),this,SLOT(cut()));
 
-		QAction * pasteAction = new QAction(QIcon(":/images/paste.png"),tr("Paste"),this);
+		QAction * pasteAction = new QAction(QIcon(":/images/paste.png"),tr("&Paste"),this);
 		editMenu->addAction(pasteAction);
 		pasteAction->setToolTip(tr("Paste copied items"));
 		pasteAction->setShortcut(QKeySequence::Paste);
 		connect(pasteAction,SIGNAL(triggered()),this,SLOT(paste()));
 
-		QAction * deleteAction = new QAction(QIcon(":/images/delete.png"),tr("Delete"),this);
+		QAction * deleteAction = new QAction(QIcon(":/images/delete.png"),tr("&Delete"),this);
 		editMenu->addAction(deleteAction);
 		deleteAction->setToolTip(tr("Delete selected items"));
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
 		
-		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create view"),this);
+		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create &view"),this);
 		editMenu->addAction(createViewAction);
 		createViewAction->setToolTip(tr("Create view of current network"));
 		connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));

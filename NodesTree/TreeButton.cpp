@@ -29,10 +29,7 @@ namespace Tinkercell
 		menu.addAction(infoAction);
 		menu.addAction(graphicsAction);
 
-		if (nodeFamily->name.contains(tr("Node")) || nodeFamily->name.contains(tr("node")))
-			setToolTip(QObject::tr("insert ") + (nodeFamily->name));
-		else
-			setToolTip(QObject::tr("insert ") + (nodeFamily->name) + tr(" node"));
+		setToolTip(nodeFamily->name + tr(": ") + nodeFamily->description);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
 		setText(nodeFamily->name);
@@ -60,13 +57,14 @@ namespace Tinkercell
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
 		menu.addAction(infoAction);
 
-		if (connectionFamily->name.contains(tr("Connection")) ||
+		/*if (connectionFamily->name.contains(tr("Connection")) ||
 			connectionFamily->name.contains(tr("connection")) ||
 			connectionFamily->name.contains(tr("Reaction")) ||
 			connectionFamily->name.contains(tr("reaction")))
 			setToolTip(QObject::tr("insert ") + (connectionFamily->name));
 		else
-			setToolTip(QObject::tr("insert ") + (connectionFamily->name) + tr(" reaction"));
+			setToolTip(QObject::tr("insert ") + (connectionFamily->name) + tr(" reaction"));*/
+		setToolTip(connectionFamily->name + tr(": ") + connectionFamily->description);
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);

@@ -78,7 +78,9 @@ namespace Tinkercell
 	class Tool;
 	class HistoryStack;
 	class TextParser;
+	class TextItem;
 	class GraphicsView;
+	class SymbolsTable;
 
 	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
 	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
@@ -196,6 +198,16 @@ namespace Tinkercell
 		* \return NetworkWindow* current network window
 		*/
 		NetworkWindow * currentWindow();
+		/*!
+		* \brief (same as currentWindow) gets the current window that is active
+		* \return NetworkWindow* current network window
+		*/
+		NetworkWindow * currentNetwork();
+		/*!
+		* \brief same as currentWindow()->symbolsTable
+		* \return SymbolsTable* current network window's symbols table
+		*/
+		SymbolsTable * currentSymbolsTable();
 		/*!
 		* \brief sets the active window
 		* \param NetworkWindow* network window
@@ -401,6 +413,9 @@ namespace Tinkercell
 
 		/*! \brief get the console window*/
 		ConsoleWindow * console() const;
+
+		/*! \brief gets the global main window*/
+		static MainWindow * instance();
 
 	protected slots:
 		/*!
@@ -1516,6 +1531,10 @@ namespace Tinkercell
 		* \brief initializes all the functions in the fToS object
 		*/
 		void connectTCFunctions();
+		/*!
+		* \brief the global main window
+		*/
+		static MainWindow * globalInstance;
 	public:
 		/*!
 		* \brief stores the last opened directory

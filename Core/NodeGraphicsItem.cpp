@@ -189,6 +189,10 @@ namespace Tinkercell
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
 		setVisible(copy.isVisible());
+		QTransform t0 = copy.sceneTransform();
+		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
+		setPos(copy.scenePos());
+		setTransform(t1);
 
 		/**copy handle**/
 		className = copy.className;
@@ -200,8 +204,6 @@ namespace Tinkercell
 			setHandle(itemHandle);
 
 		/**Copy control points and shapes**/
-		setPos(copy.scenePos());
-
 		for (int i=0; i < copy.controlPoints.size(); ++i)
 			if (copy.controlPoints[i])
 				addControlPoint(new NodeGraphicsItem::ControlPoint(*copy.controlPoints[i]));
@@ -220,9 +222,6 @@ namespace Tinkercell
 			}
 
 		refresh();
-		QTransform t0 = copy.sceneTransform();
-		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-		setTransform(t1);
 
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( copy.sceneBoundingRect().topLeft() );

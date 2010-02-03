@@ -48,3 +48,28 @@ static PyObject * pytc_setColor(PyObject *self, PyObject *args)
     return Py_None;
 }
 
+static PyObject * pytc_changeNodeImage(PyObject *self, PyObject *args)
+{
+	int i=0;
+	char * s;
+	if(!PyArg_ParseTuple(args, "is", &i, &s))
+        return NULL;
+	
+	tc_changeNodeImage((void*)i,s);
+	
+	Py_INCREF(Py_None);
+    return Py_None;
+}
+
+static PyObject * pytc_changeArrowHead(PyObject *self, PyObject *args)
+{
+	int i=0;
+	char * s;
+	if(!PyArg_ParseTuple(args, "is", &i, &s))
+        return NULL;
+	
+	tc_changeArrowHead((void*)i,s);
+	
+	Py_INCREF(Py_None);
+    return Py_None;
+}

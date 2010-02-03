@@ -45,14 +45,13 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 
 
-		public slots:
+	public slots:
+		void substituteNodeGraphics();
 
-			void substituteNodeGraphics();
-
-			private slots:
-				void selectNewNodeFile();
-				void replaceNode();
-				void replaceNode(QListWidgetItem*);
+	private slots:
+		void selectNewNodeFile();
+		void replaceNode();
+		void replaceNode(QListWidgetItem*);
 
 	private:
 

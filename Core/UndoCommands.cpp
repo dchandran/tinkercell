@@ -400,7 +400,6 @@ namespace Tinkercell
 		if (graphicsScene)
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{
-
 				if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
 				{
 					graphicsScene->addItem(graphicsItems[i]);
@@ -416,10 +415,16 @@ namespace Tinkercell
 						graphicsItems[i]->setParentItem(parentGraphicsItems[i]);
 				}
 			}
+
 		for (int i=0; i < connections.size(); ++i)
 		{
-			connections[i]->refresh();
-			connections[i]->setControlPointsVisible(false);
+			connection = connections[i];
+			QList<QGraphicsItem*> arrows = connection->arrowHeadsAsGraphicsItems();
+			for (int j=0; j < arrows.size(); ++j)
+				if (arrows[j] && arrows[j]->scene() != graphicsScene)
+					graphicsScene->addItem(arrows[j]);
+			connection->refresh();
+			connection->setControlPointsVisible(false);
 		}
 	}
 
@@ -2175,6 +2180,24 @@ namespace Tinkercell
 		if (!node) return;
 
 		QFile file (fileName);
+
+		QString  home = MainWindow::userHome(),
+				current = QDir::currentPath(),
+				appDir = QCoreApplication::applicationDirPath();
+
+		QString name[] = {  
+			fileName,
+			home + QObject::tr("/") + fileName,
+			current + QObject::tr("/") + fileName,
+			appDir + QObject::tr("/") + fileName,
+		};
+
+		for (int i=0; i < 4; ++i)
+		{
+			file.setFileName(name[i]);
+			if (file.exists())
+				break;
+		}
 
 		if (!file.open(QFile::ReadOnly | QFile::Text))
 		{

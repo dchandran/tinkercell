@@ -683,13 +683,11 @@ namespace Tinkercell
 		connect(addCol,SIGNAL(pressed()),this,SLOT(addCol()));
 		connect(removeCol,SIGNAL(pressed()),this,SLOT(removeCol()));
 
-		ratesBox = new QGroupBox(tr(" Rates for selected items "),this);
+		ratesBox = new QGroupBox(tr(" Reaction rates "),this);
 		ratesBox->setMinimumWidth(100);
 
-		matrixBox = new QGroupBox(tr(" Stoich "),this);
+		matrixBox = new QGroupBox(tr(" Change in values due to each reaction "),this);
 		matrixBox->setMinimumWidth(100);
-
-		matrixBox->setTitle(" Stoichiometry matrix for selected items");
 		QVBoxLayout * ratesLayout = new QVBoxLayout;
 		ratesLayout->addWidget(&ratesTable);
 		ratesLayout->addLayout(rowButtonLayout);
@@ -1253,6 +1251,7 @@ namespace Tinkercell
 		QStringList colNames, rowNames, rates;
 		DataTable<qreal> * nDataTable = 0;
 		DataTable<QString> * sDataTable = 0;
+		ConnectionHandle * connection = 0;
 
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
@@ -1268,10 +1267,12 @@ namespace Tinkercell
 							&& nodes[j]->numericalData(tr("Fixed")) > 0)
 							fixedSpecies << nodes[j]->fullName();
 				}
-				if (connectionHandles[i]->hasNumericalData(QObject::tr("Stoichiometry")))
+				if ((connection = ConnectionHandle::cast(connectionHandles[i])) &&
+					connection->hasNumericalData(QObject::tr("Stoichiometry")))
 				{
-					nDataTable = &(connectionHandles[i]->data->numericalData[QObject::tr("Stoichiometry")]);
-					for (int j=0; j < nDataTable->cols(); ++j) //get unique species
+					nDataTable = &(connection->data->numericalData[QObject::tr("Stoichiometry")]);
+					//get unique species names in the stoichiometry matrix
+					for (int j=0; j < nDataTable->cols(); ++j) 
 					{
 						QString s = nDataTable->colName(j);
 						int k = oldNames.indexOf(s);
@@ -1286,6 +1287,19 @@ namespace Tinkercell
 							colNames += s;
 						}
 					}
+					//if any node does not appear in the stoichiometry matrix, add it anyway
+					QList<NodeHandle*> connectedNodes = connection->nodes();
+					for (int j=0; j < connectedNodes.size(); ++j)
+						if (connectedNodes[j] && !connectedNodes[j]->isA(tr("empty")))
+						{
+							QString s = connectedNodes[j]->fullName();
+							int k = oldNames.indexOf(s);
+							if (k > -1)
+								s = newNames[k];
+
+							if (!colNames.contains(s))
+								colNames << s;
+						}
 				}
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rates")))
 				{
@@ -1316,6 +1330,10 @@ namespace Tinkercell
 		}
 
 		combinedTable.resize(rowNames.size(),colNames.size());
+		for (int i=0; i < combinedTable.rows(); ++i)
+			for (int j=0; j < combinedTable.cols(); ++j)
+				combinedTable.value(i,j) = 0.0;
+
 		for (int i=0; i < colNames.size(); ++i)
 			combinedTable.colName(i) = colNames[i];
 

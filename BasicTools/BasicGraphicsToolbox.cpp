@@ -343,13 +343,19 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getColorG(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorG(QSemaphore*,int*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getColorB(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorB(QSemaphore*,int*,ItemHandle*)));
 		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,int,int,int,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,int,int,int,int)));
+		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),
+				this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),
+				this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
 	}
 
 	typedef void (*tc_BasicGraphicsToolbox_api)(
 		int (*getColorR)(OBJ),
 		int (*getColorG)(OBJ),
 		int (*getColorB)(OBJ),
-		void (*setColor)(OBJ,int,int,int, int));
+		void (*setColor)(OBJ,int,int,int, int),
+		void (*changeGraphics)(OBJ,const char*),
+		void (*changeArrowHead)(OBJ,const char*));
 
 
 	void BasicGraphicsToolbox::setupFunctionPointers( QLibrary * library )
@@ -362,7 +368,9 @@ namespace Tinkercell
 				&(_getColorR),
 				&(_getColorG),
 				&(_getColorB),
-				&(_setColor)
+				&(_setColor),
+				&(_changeGraphics),
+				&(_changeArrowHead)
 				);
 		}
 	}
@@ -1795,6 +1803,65 @@ namespace Tinkercell
 		}
 	}
 
+	void BasicGraphicsToolbox::changeGraphics(QSemaphore* s,ItemHandle* h,const QString& file)
+	{
+		if (h)
+		{
+			QStringList filenames;
+			QList<NodeGraphicsItem*> nodesList;
+			NodeGraphicsItem * node;
+
+			for (int i=0; i < h->graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(h->graphicsItems[i])))
+				{
+					nodesList << node;
+					filenames << file;
+				}
+
+			if (nodesList.size() > 0)
+			{
+				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("image changed for ") + h->fullName(),nodesList,filenames);
+				if (currentWindow())
+					currentWindow()->history.push(command);
+			}
+		}
+
+		if (s)
+			s->release();
+	}
+
+	void BasicGraphicsToolbox::changeArrowHead(QSemaphore* s,ItemHandle* h,const QString& file)
+	{
+		if (h)
+		{
+			QStringList filenames;
+			QList<NodeGraphicsItem*> nodesList;
+			ConnectionGraphicsItem * conn;
+
+			for (int i=0; i < h->graphicsItems.size(); ++i)		
+				if ((conn = ConnectionGraphicsItem::cast(h->graphicsItems[i])))
+				{
+					QList<ArrowHeadItem*> arrows = conn->arrowHeads();
+
+					for (int j=0; j < arrows.size(); ++j)
+					{
+						nodesList << arrows[j];
+						filenames << file;
+					}
+				}
+
+			if (nodesList.size() > 0)
+			{
+				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("arrowheads changed for ") + h->fullName(),nodesList,filenames);
+				if (currentWindow())
+					currentWindow()->history.push(command);
+			}
+		}
+
+		if (s)
+			s->release();
+	}
+
 
 	/****************************
 	Function to Signal
@@ -1859,6 +1926,36 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit setColor(s,ConvertValue(o),r,g,b,p);
+		s->acquire();
+		s->release();
+		return;
+	}
+
+	void BasicGraphicsToolbox::_changeGraphics(OBJ o,const char* f)
+	{
+		fToS.changeGraphics(o,f);
+	}
+	
+	void BasicGraphicsToolbox_FToS::changeGraphics(OBJ o,const char* f)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit changeGraphics(s,ConvertValue(o),ConvertValue(f));
+		s->acquire();
+		s->release();
+		return;
+	}
+
+	void BasicGraphicsToolbox::_changeArrowHead(OBJ o,const char* f)
+	{
+		fToS.changeArrowHead(o,f);
+	}
+
+	void BasicGraphicsToolbox_FToS::changeArrowHead(OBJ o,const char* f)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit changeArrowHead(s,ConvertValue(o),ConvertValue(f));
 		s->acquire();
 		s->release();
 		return;

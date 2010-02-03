@@ -13,6 +13,9 @@ and QGraphicsItem.
 
 #include <math.h>
 #include <QtDebug>
+#include "ItemHandle.h"
+#include "MainWindow.h"
+#include "SymbolsTable.h"
 #include "ConvertValue.h"
 
 namespace Tinkercell
@@ -35,7 +38,13 @@ namespace Tinkercell
 	*/
 	ItemHandle* ConvertValue(OBJ o)
 	{
-		return static_cast<ItemHandle*>(o);
+		MainWindow * main = MainWindow::instance();
+		if (main && 
+			main->currentSymbolsTable() && 
+			main->currentSymbolsTable()->isValidPointer(o)
+			)
+			return static_cast<ItemHandle*>(o);
+		return 0;
 	}
 	/*! \brief convert QGraphicsItem (item on the scene) pointer to void *
 	\return pointer to an item on the scene
@@ -49,9 +58,18 @@ namespace Tinkercell
 	*/
 	QList<ItemHandle*>* ConvertValue(Array A)
 	{
+		MainWindow * main = MainWindow::instance();
 		QList<ItemHandle*> * list = new QList<ItemHandle*>();
-		for (int i=0; A[i] != 0; ++i)
-			(*list) += static_cast<ItemHandle*>(A[i]);
+		if (main)
+		{
+			SymbolsTable * table = main->currentSymbolsTable();
+			if (table)
+			{
+				for (int i=0; A[i] != 0; ++i)
+					if (table->isValidPointer(A[i]))
+						(*list) += static_cast<ItemHandle*>(A[i]);
+			}
+		}
 		return list;
 	}
 	/*! \brief convert to list of QGraphicsItem pointers to null-terminated array of void*

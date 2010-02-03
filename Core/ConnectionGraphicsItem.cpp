@@ -130,7 +130,6 @@ namespace Tinkercell
 		arrowHeadDistance = 10.0;
 		centerRegionItem = 0;
 		centerRegion = QSizeF(20,20);
-		centerRegionVisible = false;
 		defaultPen = QPen(QColor(50,50,255,255),5.0);
 		defaultPen.setJoinStyle(Qt::RoundJoin);
 		setPen(defaultPen);
@@ -141,7 +140,7 @@ namespace Tinkercell
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
 
-		ArrowHeadItem * node = new ArrowHeadItem;
+		/*ArrowHeadItem * node = new ArrowHeadItem;
 		node->connectionItem = this;
 		NodeGraphicsReader imageReader;
 		imageReader.readXml(node,DefaultMiddleItemFile);
@@ -149,8 +148,8 @@ namespace Tinkercell
 		{
 			node->normalize();
 			node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-		}
-		centerRegionItem = node;
+		}*/
+		centerRegionItem = 0;
 	}
 
 	/*! Copy Constructor: deep copy of all pointers */
@@ -175,8 +174,7 @@ namespace Tinkercell
 		}
 
 		centerRegion = copy.centerRegion;
-		centerRegionVisible = copy.centerRegionVisible;
-
+		
 		itemHandle = copy.itemHandle;
 
 		if (itemHandle)
@@ -292,19 +290,18 @@ namespace Tinkercell
 		}
 		else
 		{
-			ArrowHeadItem * node = new ArrowHeadItem;
+			/*ArrowHeadItem * node = new ArrowHeadItem;
 			node->connectionItem = this;
 			NodeGraphicsReader imageReader;
 			imageReader.readXml(node,DefaultMiddleItemFile);
 			if (node->isValid())
 			{
 				node->normalize();
-				node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-			}
-			centerRegionItem = node;
+				node->scale(5.0/node->sceneBoundingRect().height(),5.0/node->sceneBoundingRect().height());
+			}*/
+			centerRegionItem = 0;
 		}
 		centerRegion = copy.centerRegion;
-		centerRegionVisible = copy.centerRegionVisible;
 
 		itemHandle = copy.itemHandle;
 
@@ -396,7 +393,6 @@ namespace Tinkercell
 		arrowHeadDistance = copy.arrowHeadDistance;
 
 		centerRegion = copy.centerRegion;
-		centerRegionVisible = copy.centerRegionVisible;
 
 		//itemHandle = copy.itemHandle;
 		setPen(defaultPen = copy.defaultPen);
@@ -823,7 +819,7 @@ namespace Tinkercell
 		setPos(0,0);
 		adjustEndPoints();
 		qreal z = zValue();
-		if (!centerRegionItem)
+		/*if (!centerRegionItem)
 		{
 			ArrowHeadItem * node = new ArrowHeadItem;
 			node->connectionItem = this;
@@ -834,9 +830,9 @@ namespace Tinkercell
 				node->normalize();
 				node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
 			}
-			centerRegionItem = node;
-		}
-		if (centerRegionItem->parentItem() == 0)
+			centerRegionItem = 0;
+		}*/
+		if (centerRegionItem && centerRegionItem->parentItem() == 0)
 		{
 			centerRegionItem->connectionItem = this;
 			/*if (centerRegionItem->scene() != scene() && scene())
@@ -918,18 +914,20 @@ namespace Tinkercell
 			QPointF pos;
 			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				/*if (curveSegments[i].arrowStart)
+				
+				if (curveSegments[i].arrowStart)
 				{
-				if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
-				curveSegments[i].arrowStart->setZValue(z + 0.1);
+					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (curveSegments[i].arrowEnd)
 				{
-				if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
-				curveSegments[i].arrowEnd->setZValue(z + 0.1);
-				}*/
+					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+						curveSegments[i].arrowEnd->setZValue(z + 0.1);
+				}
+				
 
 				NodeGraphicsItem * node = nodeAt(i);
 				if (curveSegments[i].size() > 0 && curveSegments[i][0] &&
@@ -955,19 +953,20 @@ namespace Tinkercell
 			QPointF pos1,pos2,pos3;
 			for (int i=0; i < curveSegments.size(); ++i)
 			{
-				/*if (curveSegments[i].arrowStart)
+				
+				if (curveSegments[i].arrowStart)
 				{
-				if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
-				curveSegments[i].arrowStart->setZValue(z + 0.1);
+					if (curveSegments[i].arrowStart->scene() != this->scene() && this->scene())
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowStart);
+					curveSegments[i].arrowStart->setZValue(z + 0.1);
 				}
 				if (curveSegments[i].arrowEnd)
 				{
-				if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
-				(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
-				curveSegments[i].arrowEnd->setZValue(z + 0.1);
-				}*/
-
+					if (curveSegments[i].arrowEnd->scene() != this->scene() && this->scene())
+						(static_cast<GraphicsScene*>(scene()))->addItem(curveSegments[i].arrowEnd);
+					curveSegments[i].arrowEnd->setZValue(z + 0.1);
+				}
+				
 				NodeGraphicsItem * node = nodeAt(i);
 				if (curveSegments[i].size() > 0 && curveSegments[i][0] &&
 					node && node->scene() == scene())
@@ -2265,7 +2264,6 @@ namespace Tinkercell
 		arrowHeadDistance = 10.0;
 		centerRegionItem = 0;
 		centerRegion = QSizeF(20,20);
-		centerRegionVisible = false;
 		defaultPen = QPen(QColor(50,50,255,255),5.0);
 		defaultPen.setJoinStyle(Qt::RoundJoin);
 		setPen(defaultPen);
@@ -2276,16 +2274,16 @@ namespace Tinkercell
 		boundaryPathItem->setPen(QPen(QColor(255,150,150,150),4.0,Qt::DotLine));
 		boundaryPathItem->setBrush(Qt::NoBrush);
 
-		ArrowHeadItem * node = new ArrowHeadItem;
-		node->connectionItem = this;
 		NodeGraphicsReader imageReader;
+		/*ArrowHeadItem * node = new ArrowHeadItem;
+		node->connectionItem = this;
 		imageReader.readXml(node,DefaultMiddleItemFile);
 		if (node->isValid())
 		{
 			node->normalize();
 			node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-		}
-		centerRegionItem = node;
+		}*/
+		centerRegionItem = 0;
 
 		if (from.size() < 1 || to.size() < 1) return;
 

@@ -22,7 +22,6 @@ and QGraphicsItem.
 #include <QStringList>
 #include <math.h>
 #include "TCstructs.h"
-#include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -32,6 +31,9 @@ and QGraphicsItem.
 
 namespace Tinkercell
 {
+	class MainWindow;
+	class ItemHandle;
+
 	/*! \brief construct a Matrix with 0 rows and columns (see TCstructs.h for Matrix)
 	\ingroup helper
 	\return empty matrix 

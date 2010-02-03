@@ -427,6 +427,7 @@ namespace Tinkercell
 		{
 			mainWindow->newGraphicsWindow();
 		}
+
 		scene = currentScene();
 
 		if (!scene) return;
@@ -447,7 +448,6 @@ namespace Tinkercell
 					connection->refresh();
 					connection->setControlPointsVisible(false);
 				}
-				//items[i]->setZValue(items[i]->zValue());
 			}
 
 			scene->fitAll();
@@ -463,7 +463,10 @@ namespace Tinkercell
 				filename2 = regex.cap(1);
 
 			if (mainWindow->currentWindow())
+			{
 				mainWindow->currentWindow()->setWindowTitle(filename2);
+				mainWindow->currentWindow()->filename = filename;
+			}
 
 			emit modelLoaded(scene->networkWindow);
 		}
@@ -476,8 +479,9 @@ namespace Tinkercell
 
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
-			if (console())
-                console()->error(tr("No Nodes or Connections tree available."));
+			//if (console())
+                //console()->error(tr("No Nodes or Connections set available."));
+			QMessageBox::information(this,tr("Error"),tr("No Nodes or Connections set available."));
 			return;
 		}
 
@@ -489,10 +493,10 @@ namespace Tinkercell
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			if (console())
-                console()->error(tr("file cannot be opened : ") + filename);
+			//if (console())
+              //  console()->error(tr("file cannot be opened : ") + filename);
 
-			//qDebug() << "file cannot be opened : " << filename;
+			QMessageBox::information(this,tr("Error"),tr("file cannot be opened : ") + filename);
 			return;
 		}
 
@@ -504,6 +508,7 @@ namespace Tinkercell
 		{
 			modelReader.readNext();
 		}
+
 		if (modelReader.atEnd()) //not a TinkerCell file
 		{
 			file1.close();
@@ -514,6 +519,7 @@ namespace Tinkercell
 		{
 			modelReader.readNext();
 		}
+
 		if (modelReader.atEnd()) //not a TinkerCell file
 		{
 			file1.close();
@@ -639,17 +645,23 @@ namespace Tinkercell
 						visibles << false;
 					}
 				}
-				QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads() + connection->modifierArrowHeads();
+				QList<ArrowHeadItem*> arrowHeads;
+				arrowHeads	<< connection->arrowHeads() 
+							<< connection->modifierArrowHeads();
+
+				if (connection->centerRegionItem)
+						arrowHeads << connection->centerRegionItem;
 
 				for (int i=0; i < arrowHeads.size(); ++i)
 				{
 					if (arrowHeads[i] && (arrowHeads.indexOf(arrowHeads[i]) == i))
 					{
+						console()->message(arrowHeads[i]->fileName);
 						transforms << arrowHeads[i]->transform();
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
 						zValues << (z+0.1);
-						visibles << false;
+						visibles << true;
 					}
 				}
 			}

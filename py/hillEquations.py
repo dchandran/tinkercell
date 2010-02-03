@@ -2,7 +2,7 @@ import pytc
 items = pytc.selectedItems();
 promoters = [];
 for i in items:
-   if pytc.isA(i,"Gene") or pytc.isA(i,"Transcription Regulator"):
+   if pytc.isA(i,"Transcription Regulator"):
       promoters.append(i);
 
 if (len(promoters) > 0):
@@ -17,6 +17,7 @@ if (len(promoters) > 0):
 			isRepressor = False;
 			for c in connectors:
 				isRepressor = (k==0 and pytc.isA(c,"Transcription Repression"));
+				
 				cname = pytc.getName(c);
 				parts = pytc.getConnectedNodesIn(c);
 				pnames = pytc.getNames(parts);
@@ -31,12 +32,21 @@ if (len(promoters) > 0):
 				if len(indiv) < 1:
 					indiv.append("1.0");
 				rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
+				if k == 3:
+					for c in connectors:
+						pytc.changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
 			elif k == 4 or k == 1:
 				rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
+				for c in connectors:
+					pytc.changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
 			elif (k == 2 or k == 5):
 				rate = " 1.0/(" + "*".join(fracs) + ")";
+				for c in connectors:
+					pytc.changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
 			elif k == 6:
 				rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
+				for c in connectors:
+					pytc.changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
 			name = pytc.getName(i);
 			if rate == "1.0/()":
 				rate = name + ".strength";

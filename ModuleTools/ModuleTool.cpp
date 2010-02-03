@@ -720,7 +720,7 @@ namespace Tinkercell
 		emit itemsInsertedSignal(scene, QList<QGraphicsItem*>() << connection, QList<ItemHandle*>());
     }
 
-	void ModuleTool::connectedItems(const QList<ItemHandle*>& items, QList<ItemHandle*>& from, QList<ItemHandle*>& to)
+	void ModuleTool::connectedItems(const QList<ItemHandle*>& items, QList<ItemHandle*>& to, QList<ItemHandle*>& from)
 	{
 	    QList<QGraphicsItem*> graphicsItems;
 	    for (int i=0; i < items.size(); ++i)

@@ -1317,11 +1317,26 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem * connectionPtr = 0;
 			if (targetItems[i] &&
-				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])) &&
-				(connectionPtr->centerRegionItem))
+				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
 			{
-				items << connectionPtr->centerRegionItem;
-				nodeItems << connectionPtr->centerRegionItem;
+				if (!connectionPtr->centerRegionItem)
+				{
+					NodeGraphicsReader imageReader;
+					ArrowHeadItem * node = new ArrowHeadItem(connectionPtr);
+					imageReader.readXml(node,ConnectionGraphicsItem::DefaultMiddleItemFile);
+					if (node->isValid())
+					{
+						node->normalize();
+						node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
+						connectionPtr->centerRegionItem = node;
+					}
+				}
+				if (connectionPtr->centerRegionItem)
+				{
+					if (connectionPtr->centerRegionItem->scene() != scene)
+						items << connectionPtr->centerRegionItem;
+					nodeItems << connectionPtr->centerRegionItem;
+				}
 			}
 		}
 

@@ -69,8 +69,8 @@ namespace Tinkercell
 		/*!
         \brief get all the substituted items, i.e. A has replaced with B
         \param QList<ItemHandle*> list of items to find substitutes in
-        \param QList<ItemHandle*> the obsolete items, e.g. A
         \param QList<ItemHandle*> the new item, e.g. A is B (A is obsolete)
+		\param QList<ItemHandle*> the obsolete items, e.g. A
         */
 		static void connectedItems(const QList<ItemHandle*>&, QList<ItemHandle*>&, QList<ItemHandle*>&);
 

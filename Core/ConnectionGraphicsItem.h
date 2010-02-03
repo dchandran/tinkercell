@@ -287,8 +287,6 @@ namespace Tinkercell
 		virtual QPointF centerLocation() const;
 		/*! \brief a rectangle that sits at the center of the connector*/
 		QSizeF centerRegion;
-		/*! \brief show or hide the rectangle that sits at the center of the connector*/
-		bool centerRegionVisible;
 		/*! \brief the image on the rectangle that sits at the center of the connector*/
 		ArrowHeadItem * centerRegionItem;
 		/*! \brief bounding rect*/

@@ -47,6 +47,7 @@ namespace Tinkercell
 		handlesFullName.clear();
 		dataRowsAndCols.clear();
 		handlesFamily.clear();
+		handlesAddress.clear();
 
 		QList<QGraphicsItem*> items = scene->items();
 
@@ -105,6 +106,8 @@ namespace Tinkercell
 		{
 			if ((handle = items[i]) && !handlesFullName.contains(handle->fullName()))
 			{
+				handlesAddress[(void*)handle] = handle->fullName();
+
 				if (handle != &modelItem)
 				{
 					handlesFullName[handle->fullName()] = handle;
@@ -215,6 +218,11 @@ namespace Tinkercell
 			allHandles += handlesFamily.values(sortedFamilies[i]->name);
 		
 		return allHandles;
+	}
+
+	bool SymbolsTable::isValidPointer(void * p) const
+	{
+		return handlesAddress.contains(p);
 	}
 
 }

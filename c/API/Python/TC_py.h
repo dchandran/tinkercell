@@ -143,8 +143,10 @@ static PyMethodDef pytcMethods[] = {
 	{"setColor", pytc_setColor, METH_VARARGS, "set the Red,Green,Blue values for the color of the given object. The last argument indicated whether the color is permanent or termporary. example: A = find(\"A\"); setColor(A,250,100,100,1);"},
 	{"setStraight", pytc_setStraight, METH_VARARGS, "toggle between straight of curved lines for drawing a connector. example: J = find(\"J\"); setStraight(J,1);"},
 	{"setAllStraight", pytc_setAllStraight, METH_VARARGS, "toggle between straight of curved lines for drawing all connectors. example: setAllStraight(1);"},
-	{"setLineWidth", pytc_setLineWidth, METH_VARARGS, "set the line width of a connector. The last argument indicated whether the change is permanent or termporary. example: J = find(\"J\"); setLineWidth(J,5.0,1);"},
-
+	{"setLineWidth", pytc_setLineWidth, METH_VARARGS, "set the line width of a connector. The last argument indicated whether the change is permanent or termporary. example: J = find(\"J0\"); setLineWidth(J,5.0,1);"},
+	{"changeNodeImage", pytc_changeNodeImage, METH_VARARGS, "change the image for a node by specifying the arrowhead graphics file. example: A = find(\"A\"); changeNodeImage(A, \"NodeItems/Molecule.xml\");"},
+	{"changeArrowHead", pytc_changeArrowHead, METH_VARARGS, "change the arrowhead for a connection by specifying the arrowhead graphics file. example: J = find(\"J0\"); changeArrowHead(J, \"ArrowItems/Binding.xml\");"},
+	
 //plot
 	{"plot", pytc_plot, METH_VARARGS, "Plot the given set of values (2D array) with the given headers. example: data = [[0,0] , [1,1] , [2,4] ,  [3,9] ,  [4,16] ]; where each pair is a row. plot([\"x\",\"y\"],data,0,\"my plot\");"},
 	{"surface", pytc_surface, METH_VARARGS, "Plot 3D surface, given a matrix with 3 columns (x,y,z). example: data = [ [0,1,2,3,4] , [1,2,3,4,5] , [2,3,4,5,6] ]; surface([\"x\",\"y\",\"z\"],data,\"my plot\");"},

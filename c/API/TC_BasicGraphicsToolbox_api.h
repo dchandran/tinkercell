@@ -6,7 +6,7 @@
 int (*_tc_getColorR)(OBJ item) = 0;
 /*! 
  \brief get the red color of the item
- \ingroup Coloring
+ \ingroup Appearance
 */
 int tc_getColorR(OBJ item)
 {
@@ -18,7 +18,7 @@ int tc_getColorR(OBJ item)
 int (*_tc_getColorG)(OBJ item) = 0;
 /*! 
  \brief get the green color of the item
- \ingroup Coloring
+ \ingroup Appearance
 */
 int tc_getColorG(OBJ item)
 {
@@ -30,7 +30,7 @@ int tc_getColorG(OBJ item)
 int (*_tc_getColorB)(OBJ item) = 0;
 /*! 
  \brief get the blue color of the item
- \ingroup Coloring
+ \ingroup Appearance
 */
 int tc_getColorB(OBJ item)
 {
@@ -42,7 +42,7 @@ int tc_getColorB(OBJ item)
 void (*_tc_setColor)(OBJ item,int R,int G,int B, int permanent) = 0;
 /*! 
  \brief set the rgb color  of the item and indicate whether or not the color is permanenet
- \ingroup Coloring
+ \ingroup Appearance
 */
 void tc_setColor(OBJ item,int R,int G,int B, int permanent)
 {
@@ -50,21 +50,47 @@ void tc_setColor(OBJ item,int R,int G,int B, int permanent)
 		_tc_setColor(item,R,G,B,permanent);
 }
 
+void (*_tc_changeNodeImage)(OBJ,const char*) = 0;
+/*! 
+ \brief change the graphics file for drawing one of the nodes
+ \ingroup Appearance
+*/
+void tc_changeNodeImage(OBJ item,const char* filename)
+{
+	if (_tc_changeNodeImage)
+		_tc_changeNodeImage(item,filename);
+}
+
+void (*_tc_changeArrowHead)(OBJ,const char*) = 0;
+/*! 
+ \brief change the graphics file for drawing the arrowheads for the given connection
+ \ingroup Appearance
+*/
+void tc_changeArrowHead(OBJ connection,const char* filename)
+{
+	if (_tc_changeArrowHead)
+		_tc_changeArrowHead(connection,filename);
+}
+
 /*! 
  \brief initializing function
  \ingroup init
 */
 void tc_BasicGraphicsToolbox_api(
-		int (*getColorR0)(OBJ),
-		int (*getColorG0)(OBJ),
-		int (*getColorB0)(OBJ),
-		void (*setColor0)(OBJ,int,int,int, int)
+		int (*getColorR)(OBJ),
+		int (*getColorG)(OBJ),
+		int (*getColorB)(OBJ),
+		void (*setColor)(OBJ,int,int,int, int),
+		void (*changeNodeImage)(OBJ,const char*),
+		void (*changeArrowHead)(OBJ,const char*)
 )
 {
-	_tc_getColorR = getColorR0;
-	_tc_getColorG = getColorG0;
-	_tc_getColorB = getColorB0;
-	_tc_setColor = setColor0;
+	_tc_getColorR = getColorR;
+	_tc_getColorG = getColorG;
+	_tc_getColorB = getColorB;
+	_tc_setColor = setColor;
+	_tc_changeNodeImage = changeNodeImage;
+	_tc_changeArrowHead = changeArrowHead;
 }
 
 #endif

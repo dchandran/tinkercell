@@ -2408,9 +2408,11 @@ namespace Tinkercell
 
 	MergeHandlesCommand::~MergeHandlesCommand()
 	{
+		ItemHandle * handle = 0;
+		oldHandles << newHandle;
 		for (int i=0; i < oldHandles.size(); ++i)
 		{
-			if (oldHandles[i] && newHandle != oldHandles[i])
+			if (oldHandles[i] && !oldHandles[i]->parent)
 			{
 				bool pointedTo = false;
 				for (int j=0; j < oldHandles[i]->graphicsItems.size(); ++j)
@@ -2419,16 +2421,12 @@ namespace Tinkercell
 						pointedTo = true;
 						break;
 					}
-					if (!pointedTo)
-					{
-						for (int j=0; j < oldHandles.size(); ++j)
-							if (i != j && oldHandles[j] == oldHandles[i])
-								oldHandles[j] = 0;
-
-						oldHandles[i]->graphicsItems.clear();
-						delete oldHandles[i];
-						oldHandles[i] = 0;
-					}
+				if (!pointedTo)
+				{
+					handle = oldHandles[i];
+					oldHandles.removeAll(handle);
+					delete handle;
+				}
 			}
 		}
 

@@ -62,10 +62,7 @@ namespace Tinkercell
         QString appDir = QCoreApplication::applicationDirPath();
         ConnectionsTreeReader reader;
 
-        QCoreApplication::setOrganizationName("TinkerCell");
-        QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-        QCoreApplication::setApplicationName("TinkerCell");
-        QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
         settings.beginGroup("ConnectionsTree");
        //QString xmlFile = settings.value("file", filename).toString();
         QString xmlFile ;
@@ -116,7 +113,7 @@ namespace Tinkercell
     {
         if (family)
         {
-            emit sendEscapeSignal(this);
+			emit sendEscapeSignal(this);
             emit connectionSelected(family);
         }
     }
@@ -150,11 +147,7 @@ namespace Tinkercell
         if (fileName.isEmpty())
             return;
 
-        QCoreApplication::setOrganizationName("TinkerCell");
-        QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-        QCoreApplication::setApplicationName("TinkerCell");
-
-        QSettings settings("TinkerCell", "TinkerCell");
+        QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
         settings.setValue("file", fileName);
@@ -187,11 +180,7 @@ namespace Tinkercell
     void ConnectionsTree::windowClosing(NetworkWindow * , bool *)
     {
         //save state of the tree
-        QCoreApplication::setOrganizationName("TinkerCell");
-        QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-        QCoreApplication::setApplicationName("TinkerCell");
-
-        QSettings settings("TinkerCell", "TinkerCell");
+        QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
         settings.beginGroup("ConnectionsTree");
 

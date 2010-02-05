@@ -316,11 +316,6 @@ namespace Tinkercell
 		}
 		movingItems.clear();
 
-		if (clickedButton == Qt::RightButton)
-		{
-			emit sceneRightClick(this, item, clickedPoint, mouseEvent->modifiers());
-		}
-		//else
 		if (gitem && useDefaultBehavior)
 		{
 			if (mouseEvent->button() == Qt::LeftButton)
@@ -392,7 +387,11 @@ namespace Tinkercell
 
 				selectionRect.setZValue(lastZ);
 			}
-			QGraphicsScene::mousePressEvent(mouseEvent);
+		if (clickedButton == Qt::RightButton)
+		{
+			emit sceneRightClick(this, item, clickedPoint, mouseEvent->modifiers());
+		}
+		QGraphicsScene::mousePressEvent(mouseEvent);
 	}
 
 	/*! \brief when mouse is moving, all items in moving list are moved
@@ -568,19 +567,19 @@ namespace Tinkercell
 	* Postcondition: None
 	* \param context menu event
 	* \return void*/
-	void GraphicsScene::contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent )
+	void GraphicsScene::contextMenuEvent ( QGraphicsSceneContextMenuEvent * mouseEvent )
 	{
 		if (useDefaultBehavior)
 		{
 			if (selectedItems.size() > 0)
 			{
-				if (contextItemsMenu)
-					contextItemsMenu->exec(contextMenuEvent->screenPos());
+				if (contextItemsMenu && currentView())
+					contextItemsMenu->exec(mouseEvent->screenPos());
 			}
 			else
 			{
 				if (contextScreenMenu)
-					contextScreenMenu->exec(contextMenuEvent->screenPos());
+					contextScreenMenu->exec(mouseEvent->screenPos());
 			}
 		}
 		else

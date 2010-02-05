@@ -184,10 +184,7 @@ namespace Tinkercell
                //node file
                QString appDir = QCoreApplication::applicationDirPath();
 
-               QCoreApplication::setOrganizationName("TinkerCell");
-               QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-               QCoreApplication::setApplicationName("TinkerCell");
-               QSettings settings("TinkerCell", "TinkerCell");
+               QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
                settings.beginGroup("NodesTree");
                QString s;
 

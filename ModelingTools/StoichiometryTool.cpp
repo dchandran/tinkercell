@@ -128,11 +128,7 @@ namespace Tinkercell
 
 				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint((int)(sizeHint().width()*1.5),(int)(sizeHint().height()*1.5)));
 
-				QCoreApplication::setOrganizationName("TinkerCell");
-				QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-				QCoreApplication::setApplicationName("TinkerCell");
-
-				QSettings settings("TinkerCell", "TinkerCell");
+				QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 				settings.beginGroup("StoichiometryTool");
 				//QSize sz = settings.value("size", sizeHint()).toSize();
@@ -336,11 +332,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::sceneClosing(NetworkWindow * , bool *)
 	{
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{

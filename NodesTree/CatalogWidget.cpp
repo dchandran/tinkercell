@@ -15,14 +15,16 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include "ItemFamily.h"
-#include "NodesTreeMain.h"
+#include "NetworkWindow.h"
+#include "CatalogWidget.h"
 
 namespace Tinkercell
 {
-	NodesTreeContainer::MODE NodesTreeContainer::layoutMode = NodesTreeContainer::TabView;
+	CatalogWidget::MODE CatalogWidget::layoutMode = CatalogWidget::TabView;
 
-	NodesTreeContainer::NodesTreeContainer(NodesTree * nodesTree, ConnectionsTree * connectionsTree, QWidget * parent) :
-		Tool(tr("Parts and Connections"),tr("Parts Catalog"),parent),
+	CatalogWidget::CatalogWidget(NodesTree * nodesTree, ConnectionsTree * connectionsTree, QWidget * parent) :
+		Tool(tr("Parts and Connections Catalog"),tr("Parts Catalog"),parent),
+		otherButtonsGroup(this),
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
 		toolBox(0),
@@ -30,10 +32,10 @@ namespace Tinkercell
 		nodesTree(nodesTree),
 		connectionsTree(connectionsTree)
 	{
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
-		settings.beginGroup("NodesTreeContainer");
-		NodesTreeContainer::layoutMode = (NodesTreeContainer::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
+		settings.beginGroup("CatalogWidget");
+		CatalogWidget::layoutMode = (CatalogWidget::MODE)(settings.value(tr("Mode"),(int)layoutMode).toInt());
 		settings.endGroup();
 
 		arrowButton.setToolTip(QObject::tr("Cursor"));
@@ -45,13 +47,11 @@ namespace Tinkercell
 		initialValuesTable = 0;//new QTableWidget(this);
 		initialValuesComboBox = 0;//new QComboBox(this);
 
-		if (layoutMode == TabView)
-			setUpTabView();
-		else
-			setUpTreeView();
+		connect(&otherButtonsGroup,SIGNAL(buttonPressed(QAbstractButton*)),
+				this,SLOT(otherButtonPressed(QAbstractButton*)));
 	}
 
-	void NodesTreeContainer::setupInitialSettingsWidget(MainWindow * main)
+	void CatalogWidget::setupInitialSettingsWidget(MainWindow * main)
 	{
 		if (!main || !initialValuesTable || !initialValuesComboBox) return;
 
@@ -89,23 +89,49 @@ namespace Tinkercell
 		connect(dialog,SIGNAL(accepted()),this,SLOT(initialValuesChanged()));
 	}
 
-	void NodesTreeContainer::setTreeMode(bool b)
+	void CatalogWidget::setTreeMode(bool b)
 	{
 		if (b)
-			NodesTreeContainer::layoutMode = NodesTreeContainer::TreeView;
+			CatalogWidget::layoutMode = CatalogWidget::TreeView;
 		else
-			NodesTreeContainer::layoutMode = NodesTreeContainer::TabView;
+			CatalogWidget::layoutMode = CatalogWidget::TabView;
 		QMessageBox::information(this,tr("Parts Layout"),tr("The change in display will take effect the next time TinkerCell starts"));
 	}
 
-	void NodesTreeContainer::escapeSignalSlot(const QWidget*)
+	void CatalogWidget::otherButtonPressed(QAbstractButton * button)
 	{
+		if (!button) return;
+
+		emit sendEscapeSignal(this);
+
+		QCursor cursor(button->icon().pixmap(2 * button->iconSize()));
+
+		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+		for (int i=0; i < allWindows.size(); ++i)
+			if (allWindows[i]->scene)
+				allWindows[i]->setCursor(cursor);
+		
+		for (int i=0; i < widgetsToUpdate.size(); ++i)
+			if (widgetsToUpdate[i])
+				widgetsToUpdate[i]->setCursor(cursor);
+
+		emit buttonPressed(button->text());
+	}
+
+	void CatalogWidget::escapeSignalSlot(const QWidget* widget)
+	{
+		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+
+		for (int i=0; i < allWindows.size(); ++i)
+			if (allWindows[i]->scene)
+				allWindows[i]->setCursor(Qt::ArrowCursor);
+
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
 				widgetsToUpdate[i]->setCursor(Qt::ArrowCursor);
 	}
 
-	bool NodesTreeContainer::setMainWindow(MainWindow * main)
+	bool CatalogWidget::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
 
@@ -119,12 +145,14 @@ namespace Tinkercell
 
 			if (layoutMode == TreeView)
 			{
+				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 				QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
 				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
 			{
+				setUpTabView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 			}
 
@@ -133,7 +161,7 @@ namespace Tinkercell
 				mainWindow->settingsMenu->addSeparator();
 				QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Use Tree view of parts and connections"));
 				treeViewAction->setCheckable(true);
-				treeViewAction->setChecked(NodesTreeContainer::layoutMode == NodesTreeContainer::TreeView);
+				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
 
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
 
@@ -145,27 +173,26 @@ namespace Tinkercell
 		return false;
 	}
 
-	void NodesTreeContainer::nodeButtonPressed ( int i )
+	void CatalogWidget::nodeButtonPressed ( int n )
 	{
-		if (nodes.size() > i)
+		if (nodes.size() > n && nodes[n])
 		{
-			emit sendEscapeSignal(this);
-			qDebug() << nodes[i]->name;
-			emit nodeSelected(nodes[i]);
+			emit nodeSelected(nodes[n]);
 		}
 	}
-	void NodesTreeContainer::connectionButtonPressed ( int i )
+	void CatalogWidget::connectionButtonPressed ( int n )
 	{
-		if (connections.size() > i)
+		if (connections.size() > n && connections[n])
 		{
-			emit sendEscapeSignal(this);
-			emit connectionSelected(connections[i]);
+			emit connectionSelected(connections[n]);
 		}
 	}
 
-	void NodesTreeContainer::nodeSelectedSlot(NodeFamily* nodeFamily)
+	void CatalogWidget::nodeSelectedSlot(NodeFamily* nodeFamily)
 	{
 		if (!nodeFamily || nodes.isEmpty() || !currentScene()) return;
+
+		emit buttonPressed(nodeFamily->name);
 
 		int w = 20, h = 20;
 		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
@@ -179,10 +206,16 @@ namespace Tinkercell
 			if (h > 50) h = 50;
 		}
 
+		QCursor cursor(nodeFamily->pixmap.scaled(w,h));
+
+		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+		for (int i=0; i < allWindows.size(); ++i)
+			if (allWindows[i]->scene)
+				allWindows[i]->setCursor(cursor);
+		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
-				widgetsToUpdate[i]->setCursor(QCursor(nodeFamily->pixmap.scaled(w,h)));
-
+				widgetsToUpdate[i]->setCursor(cursor);
 		if (nodes.contains(nodeFamily)) return;
 
 		QList<QAbstractButton*> buttons = nodesButtonGroup.buttons();
@@ -216,10 +249,12 @@ namespace Tinkercell
 		buttons[0]->setIconSize(QSize(w,h));
 	}
 
-    void NodesTreeContainer::connectionSelectedSlot(ConnectionFamily* family)
+    void CatalogWidget::connectionSelectedSlot(ConnectionFamily* family)
 	{
 		if (!family || connections.isEmpty() || !currentScene()) return;
 
+		emit buttonPressed(family->name);
+		
 		int w = 20, h = 20;
 
 		if (family->pixmap.width() > family->pixmap.height())
@@ -233,10 +268,16 @@ namespace Tinkercell
 			if (h > 50) h = 50;
 		}
 
+		QCursor cursor(family->pixmap.scaled(w,h));
+
+		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
+		for (int i=0; i < allWindows.size(); ++i)
+			if (allWindows[i]->scene)
+				allWindows[i]->setCursor(cursor);
+		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
-				widgetsToUpdate[i]->setCursor(QCursor(family->pixmap.scaled(w,h)));
-
+				widgetsToUpdate[i]->setCursor(cursor);
 		if (connections.contains(family)) return;
 
 		QList<QAbstractButton*> buttons = connectionsButtonGroup.buttons();
@@ -258,16 +299,12 @@ namespace Tinkercell
 		buttons[0]->setIconSize(QSize(w, h));
 	}
 
-	NodesTreeContainer::~NodesTreeContainer()
+	CatalogWidget::~CatalogWidget()
 	{
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
-		QSettings settings("TinkerCell", "TinkerCell");
-
-		settings.beginGroup("NodesTreeContainer");
-		settings.setValue(tr("Mode"),(int)(NodesTreeContainer::layoutMode));
+		settings.beginGroup("CatalogWidget");
+		settings.setValue(tr("Mode"),(int)(CatalogWidget::layoutMode));
 
 		if (layoutMode == TreeView)
 		{
@@ -308,7 +345,7 @@ namespace Tinkercell
 		settings.endGroup();
 	}
 
-	QSize NodesTreeContainer::sizeHint() const
+	QSize CatalogWidget::sizeHint() const
 	{
 		if (layoutMode == TreeView)
 			return QSize(140, 600);
@@ -316,27 +353,23 @@ namespace Tinkercell
 			return QSize(600,80);
 	}
 
-	void NodesTreeContainer::keyPressEvent ( QKeyEvent * event )
+	void CatalogWidget::keyPressEvent ( QKeyEvent * event )
 	{
 		emit keyPressed(event->key(),event->modifiers());
           if (event->key() == Qt::Key_Escape || event->key() == Qt::Key_Space)
                emit sendEscapeSignal(this);
 	}
 
-	void NodesTreeContainer::contextMenuEvent(QContextMenuEvent *)
+	void CatalogWidget::contextMenuEvent(QContextMenuEvent *)
 	{
 		emit sendEscapeSignal(this);
 	}
 
-	void NodesTreeContainer::setNumberOfRecentItems()
+	void CatalogWidget::setNumberOfRecentItems()
 	{
 		if (layoutMode != TreeView) return;
 
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("LastSelectedNodes");
 
@@ -353,21 +386,18 @@ namespace Tinkercell
 		settings.endGroup();
 	}
 
-	void NodesTreeContainer::setUpTreeView()
+	void CatalogWidget::setUpTreeView()
 	{
 		toolBox = new QToolBox;
 		QGridLayout * buttonsLayout = new QGridLayout;
 		buttonsLayout->addWidget(&arrowButton,0,0,Qt::AlignCenter);
 
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		int n = 5;
 		QStringList allFamilyNames;
 
-		settings.beginGroup("NodesTreeContainer");
+		settings.beginGroup("CatalogWidget");
 
 		if (nodesTree)
 		{
@@ -509,7 +539,7 @@ namespace Tinkercell
 		setLayout(layout);
 	}
 
-	void NodesTreeContainer::makeTabWidget()
+	void CatalogWidget::makeTabWidget()
 	{
 		QStringList tabGroups;
 
@@ -560,10 +590,17 @@ namespace Tinkercell
 		}
 	}
 
-	void NodesTreeContainer::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
+	void CatalogWidget::addNewButtons(const QList<QToolButton*>& buttons,const QString& group)
 	{
 		if (!tabWidget) return;
 		int i = 0;
+
+		for (i=0; i < buttons.size(); ++i)
+			if (!nodesButtonGroup.buttons().contains(buttons[i]) &&
+				!connectionsButtonGroup.buttons().contains(buttons[i]) &&
+				!otherButtonsGroup.buttons().contains(buttons[i]))
+				otherButtonsGroup.addButton(buttons[i]);
+
 		for (i=0; i < tabGroupButtons.size(); ++i)
 			if (group.toLower() == tabGroupButtons[i].first.toLower())
 			{
@@ -575,10 +612,23 @@ namespace Tinkercell
 			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,buttons);
 		makeTabWidget();
 
+		//if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
+	}
+
+	void CatalogWidget::showGroup(const QString& group)
+	{
+		if (!tabWidget) return;
+		int i = 0;
+		for (i=0; i < tabGroupButtons.size(); ++i)
+			if (group.toLower() == tabGroupButtons[i].first.toLower())
+			{
+				break;
+			}
+			
 		if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
 
-	void NodesTreeContainer::setUpTabView()
+	void CatalogWidget::setUpTabView()
 	{
 		QList< QPair< QString, QStringList> > tabGroups;
 
@@ -597,9 +647,9 @@ namespace Tinkercell
 													tr("Compartments"),
 													QStringList() << "Compartment")
 
-					<< QPair<QString, QStringList>(
+					/*<< QPair<QString, QStringList>(
 													tr("Modules"),
-													QStringList() << "Module")
+													QStringList() << "Module")*/
 
 					<< QPair<QString, QStringList>(
 													tr("Reaction"),
@@ -611,11 +661,8 @@ namespace Tinkercell
 
 		numNodeTabs = 4;
 
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-		QSettings settings("TinkerCell", "TinkerCell");
-		settings.beginGroup("NodesTreeContainer");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
+		settings.beginGroup("CatalogWidget");
 		numNodeTabs = settings.value(tr("numNodeTabs"),numNodeTabs).toInt();
 		QStringList savedTabNames = settings.value(tr("familyTabNames"),QStringList()).toStringList();
 		QStringList savedTabs = settings.value(tr("familyTabs"),QStringList()).toStringList();
@@ -842,7 +889,7 @@ namespace Tinkercell
 		setLayout(layout);
 	}
 
-	void NodesTreeContainer::initialValueComboBoxChanged(const QString& s)
+	void CatalogWidget::initialValueComboBoxChanged(const QString& s)
 	{
 		if (!initialValuesTable) return;
 
@@ -881,7 +928,7 @@ namespace Tinkercell
 			initialValuesTable->setItem(i,0,new QTableWidgetItem(values[i]));
 	}
 
-	void NodesTreeContainer::initialValuesChanged()
+	void CatalogWidget::initialValuesChanged()
 	{
 		if (!initialValuesTable || !initialValuesComboBox) return;
 
@@ -943,7 +990,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
      Tinkercell::ConnectionsTree * connectionsTree = new Tinkercell::ConnectionsTree;
 	 main->addTool(connectionsTree);
 
-	 Tinkercell::NodesTreeContainer * treeContainer = new Tinkercell::NodesTreeContainer(nodesTree,connectionsTree);
-	 main->addTool(treeContainer);
+	 Tinkercell::CatalogWidget * widget = new Tinkercell::CatalogWidget(nodesTree,connectionsTree);
+	 main->addTool(widget);
 }
 

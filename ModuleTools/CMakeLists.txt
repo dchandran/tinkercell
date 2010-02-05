@@ -24,7 +24,7 @@ QT4_WRAP_CPP( ModuleTool_MOC ModuleTool.h ModuleConnectionGraphicsItem.h)
 ADD_LIBRARY( ModuleTool 
   SHARED
   ModuleTool.cpp
-  ModuleConnectionGraphicsItem.cpp
+  #ModuleConnectionGraphicsItem.cpp
   ${ModuleTool_MOC}
   ${TinkercellCore_MOC}
   )
@@ -50,7 +50,7 @@ QT4_WRAP_CPP( ModuleIconTool_MOC ModuleIconTool.h)
 ADD_LIBRARY( ModuleIconTool 
   SHARED
   ModuleIconTool.cpp
-  ModuleConnectionGraphicsItem.cpp
+  #ModuleConnectionGraphicsItem.cpp
   ${ModuleIconTool_MOC}
   ${TinkercellCore_MOC}
   )

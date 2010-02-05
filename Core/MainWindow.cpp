@@ -54,6 +54,7 @@ namespace Tinkercell
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
+	QString MainWindow::defaultFileExtension("tic");
 
 	QString MainWindow::userHomePath;
 	QString MainWindow::userHome()
@@ -81,7 +82,6 @@ namespace Tinkercell
 		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
 		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
 		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
-
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
@@ -406,7 +406,7 @@ namespace Tinkercell
 			fileName =
 				QFileDialog::getSaveFileName(this, tr("Save Current Model"),
 				previousFileName,
-				tr("XML Files (*.xml)"));
+				(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
 			if (fileName.isEmpty())
 				return;
 			else
@@ -415,7 +415,7 @@ namespace Tinkercell
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {
-			QMessageBox::warning(this, tr("Tinkercell File"),
+			QMessageBox::warning(this, (PROJECTNAME + tr(" files")),
 				tr("Cannot write file %1:\n%2.")
 				.arg(fileName)
 				.arg(file.errorString()));
@@ -427,10 +427,13 @@ namespace Tinkercell
 
 	void MainWindow::saveWindowAs()
 	{
+		QString def = previousFileName;
+		def.replace(QRegExp("\\..*$"),tr(".") + defaultFileExtension);
+
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Save Current Model"),
-			previousFileName,
-			tr("XML Files (*.xml)"));
+			def,
+			(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
 		if (fileName.isEmpty())
 			return;
 
@@ -438,7 +441,7 @@ namespace Tinkercell
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {
-			QMessageBox::warning(this, tr("Tinkercell File"),
+			QMessageBox::warning(this, (PROJECTNAME + tr(" files")),
 				tr("Cannot write file %1:\n%2.")
 				.arg(fileName)
 				.arg(file.errorString()));
@@ -466,9 +469,12 @@ namespace Tinkercell
 
 	void MainWindow::open()
 	{
+		QString def = previousFileName;
+		def.replace(QRegExp("\\..*$"),tr(".") + defaultFileExtension);
+
 		QStringList fileNames =
 			QFileDialog::getOpenFileNames(this, tr("Open File"),
-			previousFileName /*, tr("XML Files (*.xml)")*/);
+			def);
 		for (int i=0; i < fileNames.size(); ++i)
 			if (!fileNames[i].isEmpty())
 				open(fileNames[i]);
@@ -616,7 +622,7 @@ namespace Tinkercell
 		}
 	}
 
-	GraphicsScene* MainWindow::currentScene()
+	GraphicsScene* MainWindow::currentScene() const
 	{
 		NetworkWindow * net = currentWindow();
 		if (net)
@@ -624,7 +630,15 @@ namespace Tinkercell
 		return 0;
 	}
 
-	TextEditor* MainWindow::currentTextEditor()
+	GraphicsView* MainWindow::currentView() const
+	{
+		NetworkWindow * net = currentWindow();
+		if (net)
+			return net->currentView();
+		return 0;
+	}
+
+	TextEditor* MainWindow::currentTextEditor() const
 	{
 		NetworkWindow * net = currentWindow();
 		if (net)
@@ -632,24 +646,24 @@ namespace Tinkercell
 		return 0;
 	}
 
-	NetworkWindow* MainWindow::currentWindow()
+	NetworkWindow* MainWindow::currentWindow() const
 	{	
 	    return currentNetworkWindow;
 	}
 
-	NetworkWindow * MainWindow::currentNetwork()
+	NetworkWindow * MainWindow::currentNetwork() const
 	{	
 	    return currentNetworkWindow;
 	}
 	
-	SymbolsTable * MainWindow::currentSymbolsTable()
+	SymbolsTable * MainWindow::currentSymbolsTable() const
 	{	
 		if (currentNetworkWindow)
 			return &(currentNetworkWindow->symbolsTable);
 	    return 0;
 	}
 
-	QList<NetworkWindow*> MainWindow::allWindows()
+	QList<NetworkWindow*> MainWindow::allWindows() const
 	{
 		return allNetworkWindows;
 	}
@@ -839,7 +853,7 @@ namespace Tinkercell
 		emit escapeSignal(widget);
 	}
 
-	QUndoStack * MainWindow::historyStack()
+	QUndoStack * MainWindow::historyStack() const
 	{
 		if (historyWindow.stack())
 			return historyWindow.stack();

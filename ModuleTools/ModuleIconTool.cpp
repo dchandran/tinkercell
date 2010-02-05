@@ -20,6 +20,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "LoadSaveTool.h"
+#include "CatalogWidget.h"
 #include "ModuleIconTool.h"
 
 namespace Tinkercell
@@ -41,8 +42,8 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-            connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
-                    this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
+            //connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
+            //        this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget *)),
@@ -50,30 +51,27 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)),
 					this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			toolLoaded(0);
+			
+			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
+			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
         return true;
     }
 
-	void ModuleIconTool::toolLoaded(Tool*)
+	void ModuleIconTool::toolLoaded(Tool * tool)
 	{
-		static bool tool1 = false, tool2 = false;
+		if (!tool) return;
 
-		if (tool1 && tool2) return;
-
-		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
-		if (tool && !tool1)
+		if (tool->name == tr("Parts and Connections Catalog"))
 		{
-			tool1 = true;
-			NodesTree * nodesTree = static_cast<NodesTree*>(tool);
-			connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),nodesTree,SLOT(addNewButton(const QList<QToolButton*>& ,const QString& )));
+			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
+			connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),catalog,SLOT(addNewButtons(const QList<QToolButton*>& ,const QString& )));
+			connect(this,SIGNAL(showGroup(const QString&)),catalog,SLOT(showGroup(const QString&)));
 			readModuleFiles();
 		}
 
-		tool = mainWindow->tool(tr("Save and Load"));
-		if (tool && !tool2)
+		if (tool->name == tr("Save and Load"))
 		{
-			tool2 = true;
 			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
 			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString& )),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString& )));
 			connect(this,SIGNAL(saveItems(const QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(saveItems(const QList<QGraphicsItem*>&, const QString&)));
@@ -120,6 +118,7 @@ namespace Tinkercell
 		button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 		buttonGroup.addButton(button);
 		emit addNewButton(QList<QToolButton*>() << button,tr("Modules"));
+		emit showGroup(tr("Modules"));
 	}
 
 	void  ModuleIconTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
@@ -184,7 +183,6 @@ namespace Tinkercell
 			if (scene)
 			{
 				scene->useDefaultBehavior = true;
-				mainWindow->setCursor(Qt::ArrowCursor);
 			}
 			mode = none;
 
@@ -250,9 +248,14 @@ namespace Tinkercell
 		    if (connection = ConnectionGraphicsItem::cast(insertList[i]))
 		    {
 		        QList<QGraphicsItem*> controlpts = connection->controlPointsAsGraphicsItems();
+				QList<QGraphicsItem*> visited;
+
 		        for (int j=0; j < controlpts.size(); ++j)
-                    if (controlpts[j] && !controlpts[j]->parentItem())
+                    if (controlpts[j] && !visited.contains(controlpts[j]) && !controlpts[j]->parentItem())
+					{
                         controlpts[j]->setPos( controlpts[j]->pos() + pos );
+						visited << controlpts[j];
+					}
 		    }
 		    else
 		    {

@@ -229,11 +229,7 @@ namespace Tinkercell
 				dockWidget->setAutoFillBackground(true);
 				//dockWidget->setWindowOpacity(0.9);
 
-				QCoreApplication::setOrganizationName("TinkerCell");
-				QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-				QCoreApplication::setApplicationName("TinkerCell");
-
-				QSettings settings("TinkerCell", "TinkerCell");
+				QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 				settings.beginGroup("ModelSummaryTool");
 				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
@@ -282,11 +278,7 @@ namespace Tinkercell
 
 	void ModelSummaryTool::sceneClosing(NetworkWindow * , bool *)
 	{
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{

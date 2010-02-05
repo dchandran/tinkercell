@@ -82,11 +82,9 @@ namespace Tinkercell
 	void BasicInformationTool::setInitialValue()
 	{
 		initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
+		
 
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("BasicInformationTool");
 		settings.setValue(tr("initial value"),initialValue);
@@ -95,12 +93,7 @@ namespace Tinkercell
 
 	bool BasicInformationTool::setMainWindow(MainWindow * main)
 	{
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-
-		QSettings settings("TinkerCell", "TinkerCell");
-
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("BasicInformationTool");
 		BasicInformationTool::initialValue = settings.value(tr("initial value"),initialValue).toDouble();
 		settings.endGroup();
@@ -144,12 +137,8 @@ namespace Tinkercell
 				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
 				dockWidget->setAutoFillBackground(true);
 				//dockWidget->setWindowOpacity(0.8);
-
-				QCoreApplication::setOrganizationName("TinkerCell");
-				QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-				QCoreApplication::setApplicationName("TinkerCell");
-
-				QSettings settings("TinkerCell", "TinkerCell");
+	
+				QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 				if (type == both || type == numerical)
 				{
@@ -191,11 +180,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::windowClosing(NetworkWindow * , bool *)
 	{
-		QCoreApplication::setOrganizationName("TinkerCell");
-		QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-		QCoreApplication::setApplicationName("TinkerCell");
-
-		QSettings settings("TinkerCell", "TinkerCell");
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		if (dockWidget)
 		{
@@ -320,7 +305,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::historyUpdate(int i)
 	{
-		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))// && dockWidget && dockWidget->isVisible())
+		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()) && dockWidget && dockWidget->isVisible())
 			updateTable();
 		NetworkWindow * win = currentWindow();
 		if (mainWindow && win && mainWindow->statusBar())
@@ -706,6 +691,8 @@ namespace Tinkercell
 
 		QStringList names, values;
 		QStringList headers;
+		QStringList oldVarNames = currentVarNames;
+		currentVarNames.clear();
 
 		DataTable<qreal> * nDataTable = 0;
 		DataTable<QString> * sDataTable = 0;
@@ -720,12 +707,15 @@ namespace Tinkercell
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
 						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
-							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))))
+							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))) 
+							&&
+							(parentWidget() == dockWidget || oldVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j))))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
-							headers << itemHandles[i]->fullName() + tr(".");
+							headers << (itemHandles[i]->fullName() + tr("."));
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
+							currentVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
 						}
 					}
 				}
@@ -735,12 +725,15 @@ namespace Tinkercell
 					for (int j=0; j < sDataTable->rows(); ++j)
 					{
 						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
-							sDataTable->rowName(j) == tr("typein") || sDataTable->rowName(j) == tr("typeout")))
+							sDataTable->rowName(j) == tr("typein") || sDataTable->rowName(j) == tr("typeout"))
+							&&
+							(parentWidget() == dockWidget || oldVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j))))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
 							headers << itemHandles[i]->fullName() + tr(".");
 							names += sDataTable->rowName(j);
 							values += (sDataTable->value(j,0));
+							currentVarNames << (itemHandles[i]->fullName() + tr(".") + sDataTable->rowName(j));
 						}
 					}
 				}

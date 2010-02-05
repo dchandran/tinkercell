@@ -61,7 +61,7 @@ namespace Tinkercell
 {
 	static QString PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
 	static QString ORGANIZATIONNAME = QObject::tr("TinkerCell");
-	static QString PROJECTNAME = QObject::tr("Tinkercell");
+	static QString PROJECTNAME = QObject::tr("TinkerCell");
 	static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
 	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
 	typedef void (*MatrixInputFunction)(Matrix);
@@ -119,6 +119,9 @@ namespace Tinkercell
 
 		/*! \brief the default option to use for console window*/
 		static TOOL_WINDOW_OPTION defaultConsoleWindowOption;
+
+		/*! \brief the default extension for saving files*/
+		static QString defaultFileExtension;
 
 		/*! \brief register all the TinkerCell data structures with Qt*/
 		static void RegisterDataTypes();
@@ -187,27 +190,32 @@ namespace Tinkercell
 		* \brief gets the current scene that is active
 		* \return GraphicsScene* current scene
 		*/
-		GraphicsScene * currentScene();
+		GraphicsScene * currentScene() const;
+		/*!
+		* \brief gets the current view for the current scene that is active
+		* \return GraphicsView* current scene
+		*/
+		GraphicsView * currentView() const;
 		/*!
 		* \brief gets the text editor that is active
 		* \return TextEditor* current scene
 		*/
-		TextEditor * currentTextEditor();
+		TextEditor * currentTextEditor() const;
 		/*!
 		* \brief gets the current window that is active
 		* \return NetworkWindow* current network window
 		*/
-		NetworkWindow * currentWindow();
+		NetworkWindow * currentWindow() const;
 		/*!
 		* \brief (same as currentWindow) gets the current window that is active
 		* \return NetworkWindow* current network window
 		*/
-		NetworkWindow * currentNetwork();
+		NetworkWindow * currentNetwork() const;
 		/*!
 		* \brief same as currentWindow()->symbolsTable
 		* \return SymbolsTable* current network window's symbols table
 		*/
-		SymbolsTable * currentSymbolsTable();
+		SymbolsTable * currentSymbolsTable() const;
 		/*!
 		* \brief sets the active window
 		* \param NetworkWindow* network window
@@ -217,12 +225,12 @@ namespace Tinkercell
 		* \brief gets all the windows in the main window
 		* \return QList<NetworkWindow*> list of windows
 		*/
-		QList<NetworkWindow*> allWindows();
+		QList<NetworkWindow*> allWindows() const;
 		/*!
 		* \brief the history stack of the current window.
 		* \return QUndoStack* current scene's history stack or null if current scene is null
 		*/
-		QUndoStack * historyStack();
+		QUndoStack * historyStack() const;
 		/*!
 		* \brief the history stack widget of the current window.
 		* \return QUndoView* current scene's history stack or null if current scene is null

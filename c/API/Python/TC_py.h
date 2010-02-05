@@ -16,10 +16,30 @@
 int printOutput = 1;
 int printError = 1;
 
-void outputOn() { printOutput = 1; }
-void outputOff() { printOutput = 0; }
-void errorOn() { printError = 1; }
-void errorOff() { printError = 0; }
+static PyObject * outputOn(PyObject *self, PyObject *args) 
+{ 
+	printOutput = 1; 
+	Py_INCREF(Py_None);
+	return Py_None;	
+}
+static PyObject * outputOff(PyObject *self, PyObject *args) 
+{ 
+	printOutput = 0; 
+	Py_INCREF(Py_None);
+	return Py_None;	
+}
+static PyObject * errorOn(PyObject *self, PyObject *args) 
+{ 
+	printError = 1; 
+	Py_INCREF(Py_None);
+	return Py_None;	
+}
+static PyObject * errorOff(PyObject *self, PyObject *args) 
+{ 
+	printError = 0; 
+	Py_INCREF(Py_None);
+	return Py_None;	
+}
 
 static PyMethodDef pytcMethods[] = {
 //misc
@@ -165,9 +185,9 @@ static PyMethodDef pytcMethods[] = {
 	{"setRate", pytc_setRate, METH_VARARGS, "set the rate for a given item. example: item = find('J0'); setRate(item,'rate1');"},
 
 //events and assignments
-	{"eventTriggers", pytc_getEventTriggers, METH_VARARGS, "get all the event triggers for given items. example: A = allItems(); eventTriggers(A);"},
-	{"eventResponses", pytc_getEventResponses, METH_VARARGS, "get all the event responses corresponding to triggers for given items. example: A = allItems(); eventResponses(A);"},
-	{"addEvent", pytc_addEvent, METH_VARARGS, "set an event for a given item. example: a = find(\"A\"); addEvent(a,\"time > 10\",\"a = 0\");"},
+	{"eventTriggers", pytc_getEventTriggers, METH_VARARGS, "get all the event triggers. example: print eventTriggers();"},
+	{"eventResponses", pytc_getEventResponses, METH_VARARGS, "get all the event responses corresponding to triggers. example: print eventResponses();"},
+	{"addEvent", pytc_addEvent, METH_VARARGS, "set an event defined by a trigger and a response. example: addEvent(\"time > 10\",\"a = 0\");"},
 	{"forcingFunctionNames", pytc_getForcingFunctionNames, METH_VARARGS, "get all forcing function name for given items. example: A = allItems(); forcingFunctionNames(A);"},
 	{"forcingFunctionAssignments", pytc_getForcingFunctionAssignments, METH_VARARGS, "get all forcing function assignment rules for given items. example: A = allItems(); forcingFunctionAssignments(A);"},
 	{"setForcingFunction", pytc_addForcingFunction, METH_VARARGS, "add or modify a function for the given item. example: a = find(\"A\"); setForcingFunction(a,\"func\",\"sin(time)*a\");"},

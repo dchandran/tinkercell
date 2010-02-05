@@ -41,13 +41,13 @@ namespace Tinkercell
     {
         Q_OBJECT
     signals:
-        void getEventTriggers(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-        void getEventResponses(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-        void addEvent(QSemaphore*,ItemHandle*,const QString&, const QString&);
+        void getEventTriggers(QSemaphore*,QStringList*);
+        void getEventResponses(QSemaphore*,QStringList*);
+        void addEvent(QSemaphore*,const QString&, const QString&);
     public slots:
-        char** getEventTriggers(Array);
-        char** getEventResponses(Array);
-        void addEvent(OBJ,const char*, const char*);
+        char** getEventTriggers();
+        char** getEventResponses();
+        void addEvent(const char*, const char*);
     };
 
 
@@ -56,32 +56,38 @@ namespace Tinkercell
         Q_OBJECT
 
     public:
-        QList<ItemHandle*> itemHandles;
         SimulationEventsTool();
         bool setMainWindow(MainWindow * main);
         QSize sizeHint() const;
 
     public slots:
-        void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
-        void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers );
         void addEvent();
         void removeEvents();
         void historyUpdate(int);
         void setupFunctionPointers( QLibrary * );
         void sceneClosing(NetworkWindow * , bool * );
 
+	signals:
+		void addNewButtons(const QList<QToolButton*>&,const QString& group);
+
     private slots:
 
-        void getEventTriggers(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-        void getEventResponses(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
-        void addEvent(QSemaphore*,ItemHandle*,const QString&, const QString&);
+		void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);
+		void escapeSignal(const QWidget*);
+		void toolLoaded (Tool * tool);
+		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void insertButtonPressed(const QString&);
+        void getEventTriggers(QSemaphore*,QStringList*);
+        void getEventResponses(QSemaphore*,QStringList*);
+        void addEvent(QSemaphore*,const QString&, const QString&);
+		void itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
     protected:
 
         QListWidget eventsListWidget;
         void updateTable();
         void connectTCFunctions();
-        void insertData(ItemHandle*);
 
         QDialog * eventDialog;
         QLineEdit * eventIf, * eventThen;
@@ -92,9 +98,9 @@ namespace Tinkercell
         QString oldEvent;
         QGroupBox * groupBox;
 
-        static char** _getEventTriggers(Array);
-        static char** _getEventResponses(Array);
-        static void _addEvent(OBJ,const char*, const char*);
+        static char** _getEventTriggers();
+        static char** _getEventResponses();
+        static void _addEvent(const char*, const char*);
 
     protected slots:
         void eventDialogFinished();
@@ -107,6 +113,9 @@ namespace Tinkercell
 
     private:
 
+		enum Mode { none, inserting };
+		Mode mode;
+
         static SimulationEventsTool_FToS fToS;
 
         void select(int i=0);
@@ -115,8 +124,6 @@ namespace Tinkercell
         bool openedByUser;
         NodeGraphicsItem item;
         QDockWidget * dockWidget;
-
-        friend class VisualTool;
 
 		static bool parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s);
 

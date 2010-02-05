@@ -81,10 +81,7 @@
 		<text>A biological cell, e.g. a bacterium</text>
 	</node>
 </node>
-<node family="Module" type="generic">
-   <text>A module is a network that can contain interfaces and can be connected to other modules.</text>
-</node>
 <node family="Empty">
-   <text>This item can be used to represent multiple things such as degradation, dilution, or even an alternative transcriptional terminator.</text>
+   <text>This item can be used to represent multiple things such as degradation, dilution, or even a transcriptional terminator.</text>
 </node>
 </NodesTree>

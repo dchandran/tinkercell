@@ -103,8 +103,6 @@ namespace Tinkercell
         void buttonPressed(NodeFamily * node);
         /*! \brief load a new hierarchy of nodes from a new xml file*/
         void changeTree();
-		/*! \brief insert new button into the widget under the specific group*/
-        void addNewButton(const QList<QToolButton*>&,const QString& group);
 
     signals:
         /*! \brief one of the nodes in the tree has been selected*/
@@ -113,8 +111,6 @@ namespace Tinkercell
         void keyPressed(int, Qt::KeyboardModifiers);
         /*! \brief exit the current operation*/
         void sendEscapeSignal(const QWidget*);
-		/*! \brief insert new button into the widget under the specific group*/
-        void addNewButtonSignal(const QList<QToolButton*>&,const QString& group);
 
     protected:
         /*! \brief sends escape signal if ESC or SPACE is pressed*/

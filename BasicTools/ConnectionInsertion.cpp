@@ -490,7 +490,7 @@ namespace Tinkercell
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
 				connectionFamily = static_cast<ConnectionFamily*>(connectionFamily->parent());
-
+			/*
 			if (connectionFamily != 0 && !connectionFamily->pixmap.isNull())
 			{
 				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
@@ -504,7 +504,7 @@ namespace Tinkercell
 				for (int i=0; i < allWindows.size(); ++i)
 					if (allWindows[i]->scene)
 						allWindows[i]->setCursor(Qt::ArrowCursor);
-			}
+			}*/
 			if (mainWindow->currentScene())
 			{
 				mainWindow->currentScene()->useDefaultBehavior = false;
@@ -603,7 +603,7 @@ namespace Tinkercell
 			typeIn = typeIn0;
 			return false;
 		}
-
+		/*
 		if (!selectedFamily->pixmap.isNull())
 		{
 			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
@@ -619,7 +619,7 @@ namespace Tinkercell
 					if (allWindows[i]->scene)
 						allWindows[i]->setCursor(Qt::ArrowCursor);
 			connectionsTree->setCursor(Qt::ArrowCursor);
-		}
+		}*/
 		return true;
 	}
 
@@ -861,26 +861,17 @@ namespace Tinkercell
 						setSelectColor();
 				}
 			}
-			else
-			{
-				clear();
-			}
 		}
 	}
 
 	void ConnectionInsertion::clear(bool arrows)
 	{
 		selectedFamily = 0;
-		connectionsTree->setCursor(Qt::ArrowCursor);
 		revertColors();
 		selectedConnections.clear();
 		selectedNodes.clear();
 		if (arrows)
 		{
-			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(Qt::ArrowCursor);
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = true;
 		}

@@ -73,6 +73,8 @@
         <file>images/up.png</file>
         <file>images/down.png</file>
         <file>images/module.png</file>
+		<file>images/connectmodules.png</file>
+		<file>images/lollipop.png</file>
         <file>images/parts.png</file>
 		<file>images/export.png</file>
 		<file>images/calc.png</file>
@@ -80,5 +82,9 @@
 		<file>images/camera.png</file>
 		<file>images/monitor.PNG</file>
 		<file>images/lock.png</file>
+		<file>images/clock.png</file>
+		<file>images/stepFunc.png</file>
+		<file>images/pulseFunc.png</file>
+		<file>images/sinFunc.png</file>
     </qresource>
 </RCC>

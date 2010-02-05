@@ -10,6 +10,7 @@ This tool allows insertion of nodes from the NodesTree
 
 #include <QtDebug>
 #include "GraphicsScene.h"
+#include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NetworkWindow.h"
@@ -53,31 +54,13 @@ namespace Tinkercell
 	void NodeInsertion::nodeSelected(NodeFamily * nodeFamily)
 	{
 		if ((selectedNodeFamily ||
-			   (mainWindow && mainWindow->currentScene() && mainWindow->currentScene()->useDefaultBehavior))
+			   (mainWindow && currentScene() && currentScene()->useDefaultBehavior))
 			&& nodeFamily && nodesTree)
 		{
 			selectedNodeFamily = nodeFamily;
 
 			while (nodeFamily != 0 && nodeFamily->pixmap.isNull())
 				nodeFamily = static_cast<NodeFamily*>(nodeFamily->parent());
-
-			if (nodeFamily != 0 && !nodeFamily->pixmap.isNull())
-			{
-				qreal asp = (double)nodeFamily->pixmap.height()/(double)nodeFamily->pixmap.width();
-				
-				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(QCursor(nodeFamily->pixmap.scaled(30,(int)(30*asp))));
-				
-			}
-			else
-			{
-				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(Qt::ArrowCursor);
-			}
 
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = false;
@@ -321,10 +304,6 @@ namespace Tinkercell
 					scene->insert(text + tr("inserted"),list);
 				}
 			}
-			else
-			{
-				clear();
-			}
 		}
 	}
 
@@ -347,23 +326,17 @@ namespace Tinkercell
 	void NodeInsertion::clear(bool setArrows)
 	{
 		selectedNodeFamily = 0;
-		nodesTree->setCursor(Qt::ArrowCursor);
 		if (setArrows)
 		{
-			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(Qt::ArrowCursor);
-
 			if (mainWindow->currentScene())
 				mainWindow->currentScene()->useDefaultBehavior = true;
 		}
 	}
 
-	void NodeInsertion::sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers)
+	void NodeInsertion::sceneRightClick(GraphicsScene * scene, QGraphicsItem*, QPointF, Qt::KeyboardModifiers)
 	{
-		if (selectedNodeFamily)
-			clear();
+		if (scene && scene->useDefaultBehavior) return;
+		mainWindow->sendEscapeSignal(this);
 	}
 
 	void NodeInsertion::escapeSignal(const QWidget * )

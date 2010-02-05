@@ -111,6 +111,13 @@ namespace Tinkercell
 		return 0;
 	}
 
+	NetworkWindow * Tool::currentNetwork() const
+	{
+		if (mainWindow)
+			return mainWindow->currentWindow();
+		return 0;
+	}
+
 	NetworkWindow * Tool::currentWindow() const
 	{
 		if (mainWindow)

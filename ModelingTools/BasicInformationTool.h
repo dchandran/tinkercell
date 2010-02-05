@@ -31,6 +31,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QTableView>
+#include <QStringList>
 
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
@@ -137,8 +138,11 @@ namespace Tinkercell
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
 		void setInitialValue();
-	protected:
+
+	private:
+
 		void insertDataMatrix(ItemHandle * handle);
+		QStringList currentVarNames;
 		QTableWidget tableWidget;
 		QList< QPair<ItemHandle*,int> > tableItems;
 		QGroupBox * groupBox;

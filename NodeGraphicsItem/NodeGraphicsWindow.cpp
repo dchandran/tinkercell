@@ -297,7 +297,7 @@
 	{	
 		for (int i=0; i < 3; ++i)
 		{			
-			shapeButtons[i]->setIcon(paintShape(i,value));
+			shapeButtons[i]->setIcon(paintShape(i+2,value));
 			drawScene.lineWidth = value;
 		}
 		
@@ -360,7 +360,7 @@
 		drawScene.currentPoints.clear();	
 		drawScene.mode = id;
 		
-		if (id == 4)
+		if (id == 5)
 		{
 			QPixmap bucket(QString(":/images/bucket.png"));	
 			bucket = bucket.scaled(QSize(30,30));
@@ -370,7 +370,7 @@
 			setCursor(bucket.transformed(transform));
 		}
 		else
-		if (id == 5)
+		if (id == 6)
 		{
 			QPixmap pencil(QString(":/images/pencil.png"));
 			pencil.setMask(pencil.createMaskFromColor(QColor(255,255,255)));
@@ -396,23 +396,23 @@
 		setSizeGroupLayout->addWidget(&width,0,Qt::AlignLeft);
 		setSizeGroupLayout->addWidget(&height,1,Qt::AlignLeft);
 		
-		QToolButton *button;
+		QToolButton * button;
 		
 		QGroupBox * arrowPointGroup = new QGroupBox("select or insert points");	
 		QVBoxLayout * arrowPointGroupLayout = new QVBoxLayout(arrowPointGroup);
 		arrowPointGroup->setAttribute(Qt::WA_ContentsPropagated);
 		button = new QToolButton(arrowPointGroup);
-		button->setIcon(paintShape(-2,4));
+		button->setIcon(paintShape(0,4));
 		button->setIconSize(QSize(50, 50));
 		button->setCheckable(true);
-		buttonGroup->addButton(button, -2);
+		buttonGroup->addButton(button, 0);
 		arrowPointGroupLayout->addWidget(button,0,Qt::AlignCenter);
 			
 		button = new QToolButton(arrowPointGroup);
-		button->setIcon(paintShape(-1,5));
+		button->setIcon(paintShape(1,5));
 		button->setIconSize(QSize(50, 50));
 		button->setCheckable(true);
-		buttonGroup->addButton(button, -1);
+		buttonGroup->addButton(button, 1);
 		arrowPointGroupLayout->addWidget(button,0,Qt::AlignCenter);
 
 		QGroupBox * shapesGroup = new QGroupBox("choose shape type");
@@ -427,10 +427,10 @@
 		for (int i=0; i < 3; ++i)
 		{
 			button = new QToolButton(shapesGroup);
-			button->setIcon(paintShape(i,drawScene.lineWidth));
+			button->setIcon(paintShape(i+2,drawScene.lineWidth));
 			button->setIconSize(QSize(50, 50));
 			button->setCheckable(true);
-			buttonGroup->addButton(button, i);
+			buttonGroup->addButton(button, i+2);
 			shapesGroupLayout->addWidget(button,0,Qt::AlignCenter);
 			shapeButtons[i] = button;
 		}
@@ -462,14 +462,6 @@
 		QHBoxLayout * bucketAndPencilLayout = new QHBoxLayout;
 		
 		button = new QToolButton(attributesGroup);
-		button->setIcon(QIcon(QPixmap(QString(":/images/pencil.png"))));
-		button->setIconSize(QSize(30, 30));
-		button->setCheckable(true);
-		button->setPopupMode(QToolButton::MenuButtonPopup);
-		buttonGroup->addButton(button, 5);
-		bucketAndPencilLayout->addWidget(button,0,Qt::AlignRight);
-		
-		button = new QToolButton(attributesGroup);
 		button->setIcon(QIcon(QPixmap(QString(":/images/bucket.png"))));
 		button->setIconSize(QSize(30, 30));
 		button->setCheckable(true);
@@ -482,10 +474,17 @@
 		fillMenu->addAction(linearGradient);
 		fillMenu->addAction(radialGradient);
 		button->setMenu(fillMenu);
-		button->setPopupMode(QToolButton::MenuButtonPopup);
-		
-		buttonGroup->addButton(button, 4);
+		button->setPopupMode(QToolButton::MenuButtonPopup);		
+		buttonGroup->addButton(button, 5);
 		bucketAndPencilLayout->addWidget(button,0,Qt::AlignLeft);
+
+		button = new QToolButton(attributesGroup);
+		button->setIcon(QIcon(QPixmap(QString(":/images/pencil.png"))));
+		button->setIconSize(QSize(30, 30));
+		button->setCheckable(true);
+		button->setPopupMode(QToolButton::MenuButtonPopup);
+		buttonGroup->addButton(button, 6);
+		bucketAndPencilLayout->addWidget(button,0,Qt::AlignRight);
 		
 		connect(fill,SIGNAL(triggered()),this,SLOT(fillSelected()));
 		connect(linearGradient,SIGNAL(triggered()),this,SLOT(linearGradientSelected()));
@@ -558,7 +557,7 @@
 		
 		switch(type)
 		{
-			case -2:
+			case 0:
 				{				
 					QPainterPath path;
 					path.moveTo(QPoint(-60,-60));
@@ -578,21 +577,21 @@
 					painter.drawPath(path);				
 				}
 				break;
-			case -1:
+			case 1:
 				{				
 					painter.setBrush(QBrush(QColor(0,0,255,100)));
 					painter.drawEllipse(QRect(-50,-50,100,100));
 				}
 				break;
-			case 0:
+			case 2:
 				{
 					painter.drawArc(QRect(-100,-100,200,200),16*drawScene.arcStart,16*drawScene.arcSpan);
 				}
 				break;
-			case 1:
+			case 3:
 				painter.drawLine(QLineF(QPoint(-100,-100),QPoint(100,100)));
 				break;
-			case 2:
+			case 4:
 				{
 					QPainterPath path;
 					path.moveTo(QPoint(-100,-100));

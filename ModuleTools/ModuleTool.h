@@ -75,34 +75,40 @@ namespace Tinkercell
 		static void connectedItems(const QList<ItemHandle*>&, QList<ItemHandle*>&, QList<ItemHandle*>&);
 
 	signals:
+
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
+		void addNewButtons(const QList<QToolButton*>&,const QString& group);
 
 	public slots:
 
 		void select(int);
-		void escapeSignal(const QWidget*);
-		void itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
+		void escapeSignal(const QWidget * );
+		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
+		void toolLoaded (Tool * tool);
 
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
-		//void itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
-		//void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
-		//void parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
-
-		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
-		void mouseReleased(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
-	protected:
+	private slots:
+		
+		void moduleButtonPressed(const QString&);
+
+	private:
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
 
-		enum Mode { none, connecting };
+		enum Mode { none, inserting, linking, connecting };
 		Mode mode;
-		QGraphicsLineItem lineItem;
+
+		Tool * catalogTool;
+
+		//QGraphicsLineItem lineItem;
+		QList<NodeGraphicsItem*> selectedItems;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 
@@ -120,8 +126,9 @@ namespace Tinkercell
 		QAction * makeLink, * separator;
 		friend class VisualTool;
 
-	protected slots:
+	private slots:
 		void makeLinks();
+		void makeLinks(GraphicsScene * ,QList<QGraphicsItem*> & );
 
 	};
 

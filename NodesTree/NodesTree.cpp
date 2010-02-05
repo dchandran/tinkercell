@@ -52,10 +52,7 @@ namespace Tinkercell
           NodesTreeReader reader;
           QString appDir = QCoreApplication::applicationDirPath();
 
-          QCoreApplication::setOrganizationName("TinkerCell");
-          QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-          QCoreApplication::setApplicationName("TinkerCell");
-          QSettings settings("TinkerCell", "TinkerCell");
+          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
           settings.beginGroup("NodesTree");
 
           QString xmlFile ;
@@ -116,7 +113,7 @@ namespace Tinkercell
      {
           if (node)
           {
-               emit sendEscapeSignal(this);
+			   emit sendEscapeSignal(this);
                emit nodeSelected(node);
           }
      }
@@ -149,11 +146,7 @@ namespace Tinkercell
           if (fileName.isEmpty())
                return;
 
-          QCoreApplication::setOrganizationName("TinkerCell");
-          QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-          QCoreApplication::setApplicationName("TinkerCell");
-
-          QSettings settings("TinkerCell", "TinkerCell");
+          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
           settings.setValue("file", fileName);
@@ -314,11 +307,7 @@ namespace Tinkercell
      void NodesTree::windowClosing(NetworkWindow * , bool *)
      {
           //save state of the tree
-          QCoreApplication::setOrganizationName("TinkerCell");
-          QCoreApplication::setOrganizationDomain("www.tinkercell.com");
-          QCoreApplication::setApplicationName("TinkerCell");
-
-          QSettings settings("TinkerCell", "TinkerCell");
+          QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
 
@@ -361,11 +350,6 @@ namespace Tinkercell
 	QTreeWidget & NodesTree::widget()
 	{
 		return treeWidget;
-	}
-
-	void NodesTree::addNewButton(const QList<QToolButton*>& buttons,const QString& group)
-	{
-		emit addNewButtonSignal(buttons,group);
 	}
 }
 

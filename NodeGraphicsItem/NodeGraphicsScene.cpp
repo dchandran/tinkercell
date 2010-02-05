@@ -23,7 +23,7 @@ namespace NodeImageDesigner
 /*! \brief Constructor - sets scene size, makes new current shape*/
 DrawScene::DrawScene(QWidget *parent) : QGraphicsScene(parent)
 {   
-	mode = -2;
+	mode = -1;
 	//setSceneRect(0,0,500,500);
 	selectedItem = 0;
 	
@@ -51,11 +51,11 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	//if (mode == 4) { point.rx() += 20; point.ry() += 30; }
 	//if (mode == 5) { point.rx() += 20; }
 
-	if (mode == -1)
+	if (mode == 1)
 	{
 		NodeGraphicsItem::ControlPoint * controlPoint = new NodeGraphicsItem::ControlPoint();
 		controlPoint->setPos(point);
-		addItem(controlPoint);
+		addItem(controlPoint);		
 		node.addControlPoint(controlPoint);
 		return;
 	}
@@ -67,7 +67,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		NodeGraphicsItem::Shape tempShape;
 		if (typeid(*selectedItem) == typeid(tempShape))
 		{
-			if (mode == 4)
+			if (mode == 5)
 			{	
 				colorPt1 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
 				
@@ -75,7 +75,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 				return;
 			}
 			else
-			if (mode == 5)
+			if (mode == 6)
 			{
 				((NodeGraphicsItem::Shape*)(selectedItem))->setPen(QPen(color1,lineWidth));
 				selectedItem = 0;
@@ -86,7 +86,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		NodeGraphicsItem::ControlPoint tempPoint;
 		if (typeid(*selectedItem) == typeid(tempPoint))
 		{			
-			if (currentShape && mode >=0 && mode < NodeGraphicsItem::numShapeTypes)
+			if (currentShape && mode >= 2 && mode < (NodeGraphicsItem::numShapeTypes+2))
 			{
 				if (currentShape->controlPoints.size() < 1 || 
 					currentShape->controlPoints[currentShape->controlPoints.size()-1] != (NodeGraphicsItem::ControlPoint*)selectedItem)
@@ -100,7 +100,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 				
 				if (currentShape->controlPoints.size() > 0)
 				{
-					switch (NodeGraphicsItem::ShapeType(mode))
+					switch (NodeGraphicsItem::ShapeType(mode-2))
 					{
 						case NodeGraphicsItem::arc:
 							{
@@ -195,7 +195,7 @@ void DrawScene::keyPressEvent (QKeyEvent * event)
 /*! \brief move selected control point. If control is held, adjusts the point */
 void DrawScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-	if (mode == -2 && selectedItem && mouseEvent->buttons() == Qt::LeftButton)
+	if (mode == 0 && selectedItem && mouseEvent->buttons() == Qt::LeftButton)
 	{
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
 		
@@ -234,7 +234,7 @@ void DrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	//selectedItem = 0;
 	NodeGraphicsItem::Shape tempShape;
-	if (selectedItem && mode == 4 && typeid(*selectedItem) == typeid(tempShape))
+	if (selectedItem && mode == 5 && typeid(*selectedItem) == typeid(tempShape))
 	{
 		QPointF point = mouseEvent->scenePos();	
 		

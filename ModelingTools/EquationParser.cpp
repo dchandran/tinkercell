@@ -66,8 +66,9 @@ namespace Tinkercell
 		{
 			parser.Eval();
 
-			if (handle && handle->data && handle->hasNumericalData(QString("Numerical Attributes")))
+			if (handle)
 			{
+				bool isItem = !handle->name.isEmpty() && handle->hasNumericalData(QString("Numerical Attributes"));
 				// Get the map with the variables
 				mu::varmap_type variables = parser.GetVar();
 
@@ -151,7 +152,12 @@ namespace Tinkercell
 									}
 									else
 									{
-										//qDebug() << str << "not in symbol table";
+										if (!isItem)
+										{
+											if (win->console())
+												win->console()->error(QString("unknown variable : " ) + QString(item->first.data()));
+											return false;
+										}
 										DataTable<qreal> dat(handle->data->numericalData[QString("Numerical Attributes")]);
 
 										if (!str.contains(QRegExp(QString("^") + handle->fullName() + QString("\\."))))

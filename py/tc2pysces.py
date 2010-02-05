@@ -11,8 +11,8 @@ def load():
     inits = pytc.initialValues(A);
     funcsNames = pytc.forcingFunctionNames(A);
     funcsAssign0 = pytc.forcingFunctionAssignments(A);
-    triggers = pytc.eventTriggers(A);
-    events0 = pytc.eventResponses(A);
+    triggers = pytc.eventTriggers();
+    events0 = pytc.eventResponses();
     emptyExists = False;
     modelString = '';
     rates = [];

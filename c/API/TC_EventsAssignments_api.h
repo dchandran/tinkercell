@@ -3,39 +3,39 @@
 
 #include "../TCstructs.h"
 
-char** (*_tc_getEventTriggers)(Array) = 0;
+char** (*_tc_getEventTriggers)() = 0;
 /*! 
  \brief get the event triggers for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getEventTriggers(Array a)
+char** tc_getEventTriggers()
 {
 	if (_tc_getEventTriggers)
-		return _tc_getEventTriggers(a);
+		return _tc_getEventTriggers();
 	return 0;
 }
 
-char** (*_tc_getEventResponses)(Array) = 0;
+char** (*_tc_getEventResponses)() = 0;
 /*! 
  \brief get the event responses for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getEventResponses(Array a)
+char** tc_getEventResponses()
 {
 	if (_tc_getEventResponses)
-		return _tc_getEventResponses(a);
+		return _tc_getEventResponses();
 	return 0;
 }
 
-void (*_tc_addEvent)(OBJ item,const char* trigger, const char* event) = 0;
+void (*_tc_addEvent)(const char* trigger, const char* event) = 0;
 /*! 
- \brief set the event trigger and response for an item
+ \brief set the event trigger and response
  \ingroup Events and forcing functions
 */
-void tc_addEvent(OBJ item,const char* trigger, const char* event)
+void tc_addEvent(const char* trigger, const char* event)
 {
 	if (_tc_addEvent)
-		_tc_addEvent(item,trigger,event);
+		_tc_addEvent(trigger,event);
 }
 
 /*! 
@@ -43,9 +43,9 @@ void tc_addEvent(OBJ item,const char* trigger, const char* event)
  \ingroup init
 */
 void tc_SimulationEventsTool_api(
-		char** (*getEventTriggers)(Array),
-		 char** (*getEventResponses)(Array),
-		 void (*addEvent)(OBJ,const char*, const char*)
+		char** (*getEventTriggers)(),
+		 char** (*getEventResponses)(),
+		 void (*addEvent)(const char*, const char*)
 	)
 {
 	_tc_getEventTriggers = getEventTriggers;

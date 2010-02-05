@@ -262,6 +262,7 @@ namespace Tinkercell
 				main ,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
 			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkWindows.size()));
+
 			main->setCurrentWindow(this);
 		}
 	}

@@ -71,8 +71,16 @@ namespace Tinkercell
 		virtual GraphicsScene* currentScene() const;
 		/*! \brief the main window's current text editor*/
 		virtual TextEditor* currentTextEditor() const;
-		/*! \brief the main window's current window*/
+		/*! 
+		* \brief the main window's current window
+		* \return NetworkWindow* current network window
+		*/
 		virtual NetworkWindow* currentWindow() const;
+		/*!
+		* \brief (same as currentWindow) gets the current window that is active
+		* \return NetworkWindow* current network window
+		*/
+		virtual NetworkWindow * currentNetwork() const;
 
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core

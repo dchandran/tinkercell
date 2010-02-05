@@ -1,41 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/OtherItems/clock.xml" width="60" height="60">
     <ControlPoints>
-        <ControlPoint x="142" y="92"></ControlPoint>
-        <ControlPoint x="339" y="275"></ControlPoint>
-        <ControlPoint x="230" y="184"></ControlPoint>
-        <ControlPoint x="324" y="180"></ControlPoint>
-        <ControlPoint x="231" y="172"></ControlPoint>
-        <ControlPoint x="239" y="255"></ControlPoint>
-        <ControlPoint x="246" y="184"></ControlPoint>
+        <ControlPoint x="142" y="92"/>
+        <ControlPoint x="339" y="275"/>
+        <ControlPoint x="230" y="184"/>
+        <ControlPoint x="324" y="180"/>
+        <ControlPoint x="231" y="172"/>
+        <ControlPoint x="239" y="255"/>
+        <ControlPoint x="246" y="184"/>
+        <ControlPoint x="104" y="55"/>
+        <ControlPoint x="377" y="313"/>
     </ControlPoints>
     <Shapes>
         <Shape Negative="0">
-            <ControlPoints indices="0,1,0"></ControlPoints>
-            <LineTypes sequence="arc,arc,arc"></LineTypes>
-            <Parameters values="0,360,0,360,0,360"></Parameters>
-            <Pen Width="8" Color="#6464ff" Alpha="255"></Pen>
+            <ControlPoints indices="0,1,0"/>
+            <LineTypes sequence="arc,arc,arc"/>
+            <Parameters values="0,360,0,360,0,360"/>
+            <Pen Width="8" Color="#6464ff" Alpha="255"/>
             <Gradient Type="0">
-                <Stop Value="0" Color="#ffffff" Alpha="255"></Stop>
-                <Stop Value="1" Color="#aed1ff" Alpha="255"></Stop>
-                <Start x="201" y="152"></Start>
-                <End x="207" y="309"></End>
+                <Stop Value="0" Color="#ffffff" Alpha="255"/>
+                <Stop Value="1" Color="#aed1ff" Alpha="255"/>
+                <Start x="201" y="152"/>
+                <End x="207" y="309"/>
             </Gradient>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="2,3,4,2"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#000c7c" Alpha="255"></Fill>
+            <ControlPoints indices="2,3,4,2"/>
+            <LineTypes sequence="line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#646464" Alpha="255"/>
+            <Fill Color="#000c7c" Alpha="255"/>
         </Shape>
         <Shape Negative="0">
-            <ControlPoints indices="2,5,6,2"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#000c7c" Alpha="255"></Fill>
+            <ControlPoints indices="2,5,6,2"/>
+            <LineTypes sequence="line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="0" Color="#646464" Alpha="255"/>
+            <Fill Color="#000c7c" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="7,8,7"/>
+            <LineTypes sequence="arc,arc,arc"/>
+            <Parameters values="0,360,0,360,0,360"/>
+            <Pen Width="4" Color="#7f7f7f" Alpha="255"/>
+            <Fill Color="#bfbfbf" Alpha="0"/>
         </Shape>
     </Shapes>
 </PartGraphicsItem>

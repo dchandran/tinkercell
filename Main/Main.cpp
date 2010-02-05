@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
     PROJECTNAME = QObject::tr("Tinkercell");
+	Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
 	QApplication app(argc, argv);
 
     QString appDir = QCoreApplication::applicationDirPath();

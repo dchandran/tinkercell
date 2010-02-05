@@ -4,9 +4,11 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
  
- Function that loads dll into main window
+ Displays the nodes and connection tree
 
 ****************************************************************************/
+#include <QAbstractButton>
+#include <QButtonGroup>
 #include <QToolBox>
 #include <QComboBox>
 #include <QTableWidget>
@@ -23,7 +25,6 @@
 #define MY_EXPORT
 #endif
 
-
 namespace Tinkercell
 {
     /*!
@@ -32,7 +33,7 @@ namespace Tinkercell
 			holds the nodes tree and connections tree as separate tool boxes.
       \ingroup plugins
     */
-    class MY_EXPORT NodesTreeContainer : public Tool
+    class MY_EXPORT CatalogWidget : public Tool
     {
         Q_OBJECT
 
@@ -56,10 +57,10 @@ namespace Tinkercell
         \param Widget* parent widget
         \param QString filename from which to load heirarchy of nodes. default = NodesTree/NodesTree.xml
          */
-        NodesTreeContainer(NodesTree * nodesTree=new NodesTree(), ConnectionsTree * connectionsTree=new ConnectionsTree(), QWidget * parent=0);
+        CatalogWidget(NodesTree * nodesTree=new NodesTree(), ConnectionsTree * connectionsTree=new ConnectionsTree(), QWidget * parent=0);
 
         /*! \brief destructor*/
-        ~NodesTreeContainer();
+        ~CatalogWidget();
 
         /*! \brief default window size*/
         QSize sizeHint() const;
@@ -67,10 +68,14 @@ namespace Tinkercell
 	public slots:
 		/*! \brief connect to escape signal and add docking widget*/
 		bool setMainWindow(MainWindow * );
+		/*! \brief insert new button into the widget under the specific group*/
+        void addNewButtons(const QList<QToolButton*>&,const QString& group);
 	
 	signals:
         /*! \brief key pressed inside this widget*/
         void keyPressed(int, Qt::KeyboardModifiers);
+		/*! \brief button pressed inside this widget*/
+        void buttonPressed(const QString& name);
 		/*! \brief one of the nodes in the tree has been selected*/
         void nodeSelected(NodeFamily* nodeFamily);
 		 /*! \brief one of the items on the tree is selected (button pressed)*/
@@ -103,9 +108,11 @@ namespace Tinkercell
 		void initialValuesChanged();
 		/*! \brief intial attributes combo box selection changed*/
 		void initialValueComboBoxChanged(const QString&);
-		/*! \brief insert new button into the widget under the specific group*/
-        void addNewButton(const QList<QToolButton*>&,const QString& group);
-		
+		/*! \brief make one of the groups visible*/
+        void showGroup(const QString& group);
+		/*! \brief set the cursor icon when button pressed*/
+		void otherButtonPressed ( QAbstractButton * button );
+
     private:
 
         /*! \brief tree widget that holds the buttons for each node family*/
@@ -114,6 +121,8 @@ namespace Tinkercell
         QToolButton arrowButton;
         /*! \brief the tree item containing the arrow button at the very top of the tree of nodes*/
         QTreeWidgetItem arrowItem;
+		/*! \brief stores all node and connection buttons*/
+		QButtonGroup otherButtonsGroup;
 		/*! \brief stores the recently selected node button indices*/
 		QButtonGroup nodesButtonGroup;
 		/*! \brief stores the recently selected connection button indices*/

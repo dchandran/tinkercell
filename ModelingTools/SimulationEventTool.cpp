@@ -112,7 +112,7 @@ namespace Tinkercell
 			sinButton->setToolTip(tr("Insert a sin function as as input for one of the variables in the model"));
 
 			emit addNewButtons(
-				QList<QToolButton*>() << clockButton << stepButton << pulseButton << sinButton
+				QList<QToolButton*>() << clockButton << stepButton << pulseButton << sinButton,
 				tr("Inputs"));
 		}
 	}
@@ -325,6 +325,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
 	{
+		int key = keyEvent->key();
 		if (!scene || !scene->useDefaultBehavior || scene->selected().size() != 1 ||
 			!(key == Qt::Key_Enter || key == Qt::Key_Return)
 			) 

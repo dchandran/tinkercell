@@ -141,7 +141,7 @@ namespace Tinkercell
 			
 			QToolButton * connectButton = new QToolButton;
 			connectButton->setText(tr("Connect input/output"));
-			connectButton->setIcon(QIcon(QPixmap(tr(":/images/connectmodule.png"))));
+			connectButton->setIcon(QIcon(QPixmap(tr(":/images/connectmodules.png"))));
 			connectButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			
 			emit addNewButtons(

@@ -71,6 +71,16 @@ namespace Tinkercell
 		return clickedPoint;
 	}
 
+	/*! \brief Returns the point where mouse was clicked last
+	* Precondition: None
+	* Postcondition: None
+	* \param void
+	* \return ref to last clicked point*/
+	QPoint& GraphicsScene::lastScreenPoint()
+	{
+		return clickedScreenPoint;
+	}
+
 	/*! \brief Returns the list of pointers to items that are currently selected
 	* Precondition: None
 	* Postcondition: None
@@ -267,6 +277,7 @@ namespace Tinkercell
 		if (networkWindow)
 			networkWindow->setAsCurrentWindow();
 
+		clickedScreenPoint = mouseEvent->screenPos();
 		clickedPoint = mouseEvent->scenePos();
 		clickedButton = mouseEvent->button();
 		mouseDown = true;

@@ -254,7 +254,7 @@ namespace Tinkercell
 	NodeGraphicsItem* NodeGraphicsItem::clone() const
 	{
 		NodeGraphicsItem* node = new NodeGraphicsItem(*this);
-		node->className = NodeGraphicsItem::CLASSNAME;
+		//node->className = NodeGraphicsItem::CLASSNAME;
 		return node;
 	}
 
@@ -263,6 +263,7 @@ namespace Tinkercell
 	{
 		clear();
 		fileName = copy.fileName;
+		//className = copy.className;
 		defaultSize = copy.defaultSize;
 		/*QList<QGraphicsItem*> children = childItems();
 		for (int i=0; i < children.size(); ++i)

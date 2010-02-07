@@ -261,7 +261,7 @@ namespace Tinkercell
 	ConnectionGraphicsItem* ConnectionGraphicsItem::clone() const
 	{
 		ConnectionGraphicsItem * c = new ConnectionGraphicsItem(*this);
-		c->className = ConnectionGraphicsItem::CLASSNAME;
+		//c->className = ConnectionGraphicsItem::CLASSNAME;
 		return c;
 	}
 

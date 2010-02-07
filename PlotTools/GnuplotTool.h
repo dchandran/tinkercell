@@ -115,7 +115,7 @@ namespace Tinkercell
         void setupFunctionPointers( QLibrary * );
 
         /*! \brief prevent other plot tool from loading */
-        void toolAboutToBeLoaded( Tool * , bool * );
+       //void toolAboutToBeLoaded( Tool * , bool * );
 
 	private:
 	
@@ -137,5 +137,3 @@ namespace Tinkercell
 		
 	};
 }
-
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);

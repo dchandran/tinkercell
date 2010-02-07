@@ -821,6 +821,7 @@ namespace Tinkercell
 		QList<NodeHandle*> activators, repressors;
 		QList<ConnectionHandle*> TFconnections;
 		ItemHandle * rbs = 0, * promoter = 0, * regulator = 0;
+		QString rate;
 
 		QList<ItemHandle*> targetHandles;
 		QList<QString> hashStrings;
@@ -878,8 +879,8 @@ namespace Tinkercell
 						&& promoter->hasNumericalData(tr("Numerical Attributes"))
 						&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
 					{
-						DataTable<QString> * sDat = new DataTable<QString>(promoter->data->textData[tr("Assignments")]);
-						QString s0 = tr("");
+						//DataTable<QString> * sDat = new DataTable<QString>(promoter->data->textData[tr("Assignments")]);
+						//QString s0 = tr("");
 
 						bool missing = activators.isEmpty() && repressors.isEmpty();
 						if (sDat->getRowNames().contains(tr("rate")))
@@ -902,7 +903,7 @@ namespace Tinkercell
 
 						if (!sDat->getRowNames().contains(tr("rate")) || missing)
 						{
-							QString s = hillEquation(TFconnections,activators,repressors);
+							rate = hillEquation(TFconnections,activators,repressors);
 
 							if (!s.isNull() && !s.isEmpty())
 								s = promoter->fullName() + tr(".strength*") + s;

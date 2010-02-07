@@ -17,7 +17,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	
 	Tinkercell::PlotTool * plotTool = new Tinkercell::PlotTool;
 	main->addTool(plotTool);
-	/*Tinkercell::GraphStringTool * graphTool = new Tinkercell::GraphStringTool;
-	main->addTool(graphTool);*/
+	Tinkercell::GnuplotTool * gnuplotTool = new Tinkercell::GnuplotTool;
+	main->addTool(gnuplotTool);
 }
 

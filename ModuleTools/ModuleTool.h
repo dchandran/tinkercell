@@ -84,6 +84,8 @@ namespace Tinkercell
 		void select(int);
 		void escapeSignal(const QWidget * );
 		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles);
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles);
+		void parentHandleChanged(NetworkWindow * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		void toolLoaded (Tool * tool);
 
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);

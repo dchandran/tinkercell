@@ -7,6 +7,7 @@
 
 ****************************************************************************/
 
+#include <QRegExp>
 #include <QColor>
 #include <QColorDialog>
 #include <QSettings>
@@ -263,7 +264,7 @@ namespace Tinkercell
 
 			if (fileName.isEmpty() || fileName.isNull()) return;
 
-			MainWindow::previousFileName = fileName;
+			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
 
 			if (surfacePlot)
 			{
@@ -321,7 +322,7 @@ namespace Tinkercell
 
 		if (fileName.isEmpty() || fileName.isNull()) return;
 
-		MainWindow::previousFileName = fileName;
+		MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
 
 		if (surfacePlot)
 			surfacePlot->saveVector(fileName, tr("PS"),VectorWriter::PIXEL,VectorWriter::NOSORT);

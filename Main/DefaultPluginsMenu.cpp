@@ -152,8 +152,7 @@ namespace Tinkercell
 	  }
 	  
       QAction * action = menu->addAction(name);
-
-      action->setCheckable(true);
+	  action->setCheckable(true);
 
       actions << action;
 
@@ -166,7 +165,13 @@ namespace Tinkercell
       {
         action->setChecked(true);
       }
+	  connect(action,SIGNAL(toggled(bool)),this,SLOT(toggleTool(bool)));
     }
+	
+	void DefaultPluginsMenu::toggleTool(bool)
+	{
+		QMessageBox::information(this->parentWidget(),tr("Plug-in menu"),tr("Changes in the plug-ins will take effect the next time TinkerCell starts"));
+	}
 
 }
 

@@ -43,7 +43,8 @@ namespace Tinkercell
 		for (int i=0; i < numItems; ++i)
 		{
 			if (hiddenItems.contains(items[i]) || 
-				(scene && networkWindow && networkWindow->currentGraphicsView != this && (&scene->selectionRect) == items[i])
+				(scene && networkWindow && networkWindow->currentGraphicsView != this &&  
+					(&(scene->selectionRect) == items[i] || scene->movingItemsGroup == items[i]))
 				)
 			{
 				items[i] = items[numItems-1];
@@ -117,11 +118,12 @@ namespace Tinkercell
 	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
 	GraphicsView::GraphicsView(NetworkWindow * network, QWidget * parent)
-		: QGraphicsView (network->scene,parent), scene(scene), networkWindow(network)
+		: QGraphicsView (network->scene,parent), scene(network->scene), networkWindow(network)
 	{
-		if (network)
+		if (network && !network->graphicsViews.contains(this))
 			network->graphicsViews << this;
 
+		setOptimizationFlag(QGraphicsView::IndirectPainting);
 		setCacheMode(QGraphicsView::CacheBackground);
 
 		//setViewportUpdateMode (QGraphicsView::FullViewportUpdate);

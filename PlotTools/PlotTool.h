@@ -47,26 +47,39 @@
 #include "qwt_legend_item.h"
 #include "PlotWidget.h"
 
+#ifdef Q_WS_WIN
+#define MY_EXPORT __declspec(dllexport)
+#else
+#define MY_EXPORT
+#endif
+
 namespace Tinkercell
 {
 
 	class PlotWidget;
 
-	class PlotTool_FToS : public QObject
+	class MY_EXPORT PlotSignals : public QObject
 	{
 		Q_OBJECT
 
 		signals:
 
-			void plot(QSemaphore*, DataTable<qreal>&,int,const QString&,int all);
-			void surface(QSemaphore*, DataTable<qreal>&, const QString&);
-			void plotData(QSemaphore*, DataTable<qreal>*,int);
+			void gnuplotDataTable(QSemaphore*, DataTable<qreal>& m, int x, const QString& title, int all);
+			void plotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
+			void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
+			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
+			void plotMultiplot(QSemaphore*,int x, int y);
+			void getDataTable(QSemaphore*,DataTable<qreal>&, int index);
 
-		public slots:
+		private slots:
 
-			void plot(Matrix a0,int a1,const char*, int);
-			void surface(Matrix a0,const char*);
-			Matrix plotData(int);
+			void plotMatrix(Matrix m, int x, const char* title, int all);
+			void plotMatrix3D(Matrix m, const char * title);
+			void plotHistC(Matrix m, double bins, const char * title);
+			void plotErrorbarsC(Matrix m, int x, const char* title);
+			void plotMultiplot(int x, int y);
+			Matrix getDataMatrix(int index);
+
 	};
 
 	/*!
@@ -93,6 +106,14 @@ namespace Tinkercell
 		virtual QDockWidget * addDockWidget(const QString& title, QWidget * widget, Qt::DockWidgetArea area = Qt::BottomDockWidgetArea);
 
 		QCheckBox * keepOldPlots, *holdCurrentPlot;
+		
+	signals:
+	
+		void plotDataTable(QSemaphore*, DataTable<qreal>& m, int x, const QString& title, int all);
+		void plotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
+		void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
+		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
+		void plotMultiplot(QSemaphore*,int x, int y);
 
 	public slots:
 
@@ -169,7 +190,7 @@ namespace Tinkercell
 		QToolBar * otherToolBar;
 
 	private slots:
-        void toolAboutToBeLoaded( Tool * , bool * );
+        //void toolAboutToBeLoaded( Tool * , bool * );
 		void actionTriggered(QAction*);
 		void subWindowActivated(QMdiSubWindow *);
 		void setupFunctionPointers( QLibrary * );

@@ -341,7 +341,7 @@ namespace Tinkercell
 
 		 highlighterPy = new CandPythonSyntaxHighlighter(editorPy->document());
 
-                 editorC->setPlainText(tr("#include \"TC_api.h\"\nvoid run()\n{\n\n\n\n   return; \n}\n"));
+         editorC->setPlainText(tr("#include \"TC_api.h\"\nvoid run()\n{\n\n\n\n   return; \n}\n"));
 		 editorPy->setPlainText(tr("import pytc\n"));
 	 }
 
@@ -605,7 +605,7 @@ namespace Tinkercell
 
 		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
-			 MainWindow::previousFileName = fileName;
+			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {
@@ -625,7 +625,7 @@ namespace Tinkercell
 
 		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
-			 MainWindow::previousFileName = fileName;
+			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {
@@ -732,6 +732,7 @@ namespace Tinkercell
 
 	 TCFunctionsListView::TCFunctionsListView(MainWindow* mainWindow, const QString& cDir, const QString& pyFile, CodeEditor * textEdit)
 	 {
+		 console = mainWindow->console();
 		 if (!cDir.isEmpty()) readCHeaders(cDir);
 		 if (!pyFile.isEmpty()) readPythonHeader(mainWindow, pyFile);
 		 sortItems(0,Qt::AscendingOrder);
@@ -819,6 +820,7 @@ namespace Tinkercell
 				 if (regexGroup.numCaptures() > 0 && regexGroup.capturedTexts().at(1).length() > 1)
 				 {
 					QString s = regexGroup.capturedTexts().at(1); //category
+					console->message(s);
 					if (s.contains(QRegExp("\\s*init\\s*")))
 					{
 						currentItem = 0;

@@ -10,6 +10,7 @@
 
 #include "MainWindow.h"
 #include "PlotTool.h"
+#include "GnuplotTool.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

@@ -528,11 +528,11 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>&, int)), this, SLOT(getDataTable(QSemaphore*,DataTable<qreal>&, int)));
     }
 
-    void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
+    /*void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
     {
         if (tool && tool != this && tool->category.toLower() == tr("plot"))
             (*b) = false;
-    }
+    }*/
 
     bool GnuplotTool::setMainWindow(MainWindow * main)
     {
@@ -543,8 +543,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),
                     this,SLOT(setupFunctionPointers( QLibrary * )));
 
-            connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
-                    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
+            //connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
+                //    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
 
             setWindowTitle(name);
             QDockWidget * dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
@@ -698,11 +698,4 @@ namespace Tinkercell
     }
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
-
-	Tinkercell::GnuplotTool * gnuplotTool = new Tinkercell::GnuplotTool;
-	main->addTool(gnuplotTool);
-}
 

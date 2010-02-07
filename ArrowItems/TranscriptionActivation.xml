@@ -10,7 +10,7 @@
             <ControlPoints indices="0,1,0"/>
             <LineTypes sequence="arc,arc,arc"/>
             <Parameters values="0,360,0,360,0,360"/>
-            <Pen Width="0" Color="#646464" Alpha="255"/>
+            <Pen Width="0" Color="#1B7200" Alpha="255"/>
             <Fill Color="#63636a" Alpha="255"/>
         </Shape>
     </Shapes>

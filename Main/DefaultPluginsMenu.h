@@ -41,6 +41,7 @@ class DefaultPluginsMenu : public QMenu
 
   public slots:
     void toolAboutToBeLoaded( Tool * tool, bool * shouldLoad );
+	void toggleTool(bool);
 	void toggleToolsLayout();
 	void toggleHistoryLayout();
 	void toggleConsoleLayout();

@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <QSettings>
+#include <QRegExp>
 #include <QColorDialog>
 #include <QPushButton>
 #include <QGroupBox>
@@ -472,7 +473,7 @@ namespace Tinkercell
 			
 			if (fileName.isEmpty() || fileName.isNull()) return;
 			
-			MainWindow::previousFileName = fileName;
+			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
 			//QPrinter printer(QPrinter::HighResolution);
 			QPrinter printer(QPrinter::ScreenResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
@@ -770,7 +771,7 @@ namespace Tinkercell
 	
 	bool Plot2DWidget::canAppendData() const
 	{
-		return false;
+		return true;
 	}
 	
 	void Plot2DWidget::appendData(const DataTable<qreal>& newData)

@@ -161,6 +161,12 @@ namespace Tinkercell
 		*/
 		QDockWidget * addToolWindow(QWidget * tool, TOOL_WINDOW_OPTION option = DockWidget, Qt::DockWidgetArea initArea = Qt::RightDockWidgetArea, Qt::DockWidgetAreas allowedAreas = Qt::AllDockWidgetAreas, bool inMenu = true);
 		/*!
+		* \brief set the cursor for all windows
+		* \param QCursor cursor
+		* \return void
+		*/
+		void setCursor(QCursor cursor);
+		/*!
 		* \brief add a new tool to the list of tools stored in the main window
 		* \param the name of the new tool
 		* \param the new tool

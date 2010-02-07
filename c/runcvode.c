@@ -136,6 +136,8 @@ void run(Matrix input)
 					void run() \n\
 					{\n\
 						int i,j;\n\
+						double mx=0;\n\
+						OBJ x;\n\
 					    Array A;\n\
 						Matrix data,ss;\n\
 						char ** names;\n\
@@ -158,10 +160,17 @@ void run(Matrix input)
 			            ss.values = malloc(TCvars * sizeof(double));\n\
 			            ss.rows = TCvars;\n\
 			            ss.cols = 1;\n\
+						for (i=0; i < TCvars; ++i)\n\
+						{\n\
+							if (i == 0 || valueAt(data,(data.rows-1),i+1) > mx)\n\
+								mx = valueAt(data,(data.rows-1),i+1);\n\
+						}\n\
 					    for (i=0; i < TCvars; ++i)\n\
 			            {\n\
 			               valueAt(ss,i,0) = valueAt(data,(data.rows-1),i+1);\n\
-						   tc_displayNumber(tc_find(names[i]),valueAt(ss,i,0));\n\
+						   x = tc_find(names[i]);\n\
+						   tc_displayNumber(x,valueAt(ss,i,0));\n\
+						   if (mx > 0) tc_setColor(x,200*(1.0 - valueAt(ss,i,0)/mx),200*(1.0 - valueAt(ss,i,0)/mx),200*(1.0 - valueAt(ss,i,0)/mx),0); \n\
 			            }\n\
 						if (%i)\n\
 						{\n\

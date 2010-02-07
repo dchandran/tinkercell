@@ -13,7 +13,7 @@ for numerical attributes. The buttons are drawn as NodeGraphicsItems using the d
 textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
-
+#include <QToolTip>
 #include "NetworkWindow.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
@@ -274,7 +274,18 @@ namespace Tinkercell
 
 	void SimulationEventsTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode == none || button == Qt::RightButton || !scene || !scene->symbolsTable || scene->useDefaultBehavior) return;
+		if (mode == none || button == Qt::RightButton || !scene || !scene->symbolsTable || scene->useDefaultBehavior)
+		{
+			if (dockWidget && dockWidget->widget() != this)
+				dockWidget->setWidget(this);
+
+			if (dockWidget && dockWidget->isVisible())
+				dockWidget->hide();
+
+			QToolTip::showText(scene->lastScreenPoint(),"tool tip",mainWindow);
+
+			return;
+		}
 
 		if (mode == inserting)
 		{

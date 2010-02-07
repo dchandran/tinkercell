@@ -118,10 +118,14 @@ namespace Tinkercell
 		* \param void
 		* \return GraphicsView * current graphics view*/
 		virtual GraphicsView * currentView() const;
-		/*! \brief Returns the point where mouse was clicked last
+		/*! \brief Returns the point where mouse was clicked last on the scene coordinates
 		* \param void
-		* \return QPointF& ref to last clicked point*/
+		* \return QPointF& ref to last clicked point on the scene*/
 		virtual QPointF& lastPoint();
+		/*! \brief Returns the point where mouse was clicked last on the screen coordinates
+		* \param void
+		* \return QPointF& ref to last clicked point on the screen*/
+		virtual QPoint& lastScreenPoint();
 		/*! \brief Returns the list of pointers to items that are currently selected
 		* \param void
 		* \return QList<QGraphicsItem*>& list of pointers to selected items*/
@@ -487,6 +491,8 @@ namespace Tinkercell
 		static void clearStaticItems();
 		/*! \brief point where mouse is clicked*/
 		QPointF clickedPoint;
+		/*! \brief point where mouse is clicked on the screen*/
+		QPoint clickedScreenPoint;
 		/*! \brief button that was used when mouse was clicked*/
 		Qt::MouseButton clickedButton;
 		/*! \brief mouse is being pressed*/

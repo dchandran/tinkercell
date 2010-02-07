@@ -32,11 +32,11 @@ namespace Tinkercell
 		Plot Tool
 	************************************/
 
-	void PlotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
+	/*void PlotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
     {
         if (tool && tool != this && tool->category.toLower() == tr("plot"))
             (*b) = false;
-    }
+    }*/
 
 	PlotTool::PlotTool() : Tool(tr("Qwt Plot Tool"),tr("Plot")), actionGroup(this)
 	{
@@ -161,8 +161,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
-			connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
-                    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
+			//connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
+                //    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
 
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/graph.png")));

@@ -3571,4 +3571,13 @@ namespace Tinkercell
 			return current->createView();
 		return 0;
 	}
+
+	void MainWindow::setCursor(QCursor cursor)
+	{
+		QMainWindow::setCursor(cursor);
+		QList<NetworkWindow*> allWins = allWindows();
+		for (int i=0; i < allWins.size(); ++i)
+			if (allWins[i]->scene)
+				allWins[i]->setCursor(cursor);
+	}
 }

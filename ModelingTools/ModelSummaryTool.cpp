@@ -311,10 +311,13 @@ namespace Tinkercell
 		QVBoxLayout * layout = new QVBoxLayout;
 		tabWidget = new QTabWidget(this);
 		layout->addWidget(tabWidget);
-		QToolButton * closeButton = new QToolButton;
+		QPushButton * closeButton = new QPushButton;
 		closeButton->setText(tr("Close"));
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(deselect()));
-		layout->addWidget(closeButton,Qt::AlignBottom);
+		QHBoxLayout * buttonLayout = new QHBoxLayout;
+		buttonLayout->addWidget(closeButton);
+		buttonLayout->addStretch(1);
+		layout->addLayout(buttonLayout,Qt::AlignBottom);
 		//connect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
 
 		setLayout(layout);

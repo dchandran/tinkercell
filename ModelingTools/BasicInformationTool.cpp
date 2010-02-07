@@ -239,6 +239,7 @@ namespace Tinkercell
 
 		QStringList names, values;
 		QStringList headers;
+		currentVarNames.clear();
 
 		DataTable<qreal> * nDataTable = 0;
 
@@ -259,10 +260,11 @@ namespace Tinkercell
 							(itemHandles[i]->family() && !itemHandles[i]->family()->numericalAttributes.contains(nDataTable->rowName(j))))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
-							headers << itemHandles[i]->fullName();
+							headers << (itemHandles[i]->fullName() + tr("."));
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
 							constants.insert(str,nDataTable->value(j,0));
+							currentVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
 							remove = false;
 						}
 					}

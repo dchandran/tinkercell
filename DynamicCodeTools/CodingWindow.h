@@ -28,6 +28,7 @@
 #include <QHash>
 #include "CodeEditor.h"
 #include "Tool.h"
+#include "ConsoleWindow.h"
 #include "CThread.h"
 #include "SyntaxHighlighter.h"
 
@@ -52,6 +53,7 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		TCFunctionsListView(MainWindow *, const QString&, const QString&, CodeEditor * textEdit);
+		ConsoleWindow * console;
 
 	signals:
 		void insertText(const QString&);

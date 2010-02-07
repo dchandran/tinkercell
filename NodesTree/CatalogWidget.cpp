@@ -105,11 +105,7 @@ namespace Tinkercell
 		emit sendEscapeSignal(this);
 
 		QCursor cursor(button->icon().pixmap(2 * button->iconSize()));
-
-		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-		for (int i=0; i < allWindows.size(); ++i)
-			if (allWindows[i]->scene)
-				allWindows[i]->setCursor(cursor);
+		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
@@ -122,9 +118,7 @@ namespace Tinkercell
 	{
 		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
 
-		for (int i=0; i < allWindows.size(); ++i)
-			if (allWindows[i]->scene)
-				allWindows[i]->setCursor(Qt::ArrowCursor);
+		mainWindow->setCursor(Qt::ArrowCursor);
 
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
@@ -209,9 +203,7 @@ namespace Tinkercell
 		QCursor cursor(nodeFamily->pixmap.scaled(w,h));
 
 		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-		for (int i=0; i < allWindows.size(); ++i)
-			if (allWindows[i]->scene)
-				allWindows[i]->setCursor(cursor);
+		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
@@ -271,9 +263,7 @@ namespace Tinkercell
 		QCursor cursor(family->pixmap.scaled(w,h));
 
 		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-		for (int i=0; i < allWindows.size(); ++i)
-			if (allWindows[i]->scene)
-				allWindows[i]->setCursor(cursor);
+		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])

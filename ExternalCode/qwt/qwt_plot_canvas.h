@@ -12,7 +12,7 @@
 #ifndef QWT_PLOT_CANVAS_H
 #define QWT_PLOT_CANVAS_H
 
-#include <QFrame>
+#include <qframe.h>
 #include <qpen.h>
 #include "qwt_global.h"
 
@@ -20,7 +20,7 @@ class QwtPlot;
 class QPixmap;
 
 /*!
-  Canvas of a QwtPlot. 
+  \brief Canvas of a QwtPlot. 
   \sa QwtPlot 
 */
 class QWT_EXPORT QwtPlotCanvas : public QFrame
@@ -96,6 +96,8 @@ public:
     QPixmap *paintCache();
     const QPixmap *paintCache() const;
     void invalidatePaintCache();
+
+    void replot();
 
 protected:
     virtual void hideEvent(QHideEvent *);

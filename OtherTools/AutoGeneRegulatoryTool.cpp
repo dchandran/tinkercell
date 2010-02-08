@@ -821,7 +821,7 @@ namespace Tinkercell
 		QList<NodeHandle*> activators, repressors;
 		QList<ConnectionHandle*> TFconnections;
 		ItemHandle * rbs = 0, * promoter = 0, * regulator = 0;
-		QString rate;
+		QString rate, s0;
 
 		QList<ItemHandle*> targetHandles;
 		QList<QString> hashStrings;
@@ -875,60 +875,6 @@ namespace Tinkercell
 					if (!promoter && regulator)
 						promoter = regulator;
 
-					if (promoter && promoter->hasTextData(tr("Assignments"))
-						&& promoter->hasNumericalData(tr("Numerical Attributes"))
-						&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
-					{
-						//DataTable<QString> * sDat = new DataTable<QString>(promoter->data->textData[tr("Assignments")]);
-						//QString s0 = tr("");
-
-						bool missing = activators.isEmpty() && repressors.isEmpty();
-						if (sDat->getRowNames().contains(tr("rate")))
-						{
-							s0 = sDat->value(tr("rate"),0);
-							for (int j=0; j < activators.size(); ++j)
-								if (activators[j] && !s0.contains(activators[j]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-
-							for (int j=0; j < repressors.size(); ++j)
-								if (repressors[j] && !s0.contains(repressors[j]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-						}
-
-						if (!sDat->getRowNames().contains(tr("rate")) || missing)
-						{
-							rate = hillEquation(TFconnections,activators,repressors);
-
-							if (!s.isNull() && !s.isEmpty())
-								s = promoter->fullName() + tr(".strength*") + s;
-							else
-								s = promoter->fullName() + tr(".strength");
-
-							if (!sDat->getRowNames().contains(tr("rate")) ||
-								 sDat->value(tr("rate"),0) != s)
-								{
-									sDat->value(tr("rate"),0) = s;
-									targetHandles += promoter;
-									hashStrings += tr("Assignments");
-									dataTables += sDat;
-								}
-								else
-								{
-									delete sDat;
-								}
-						}
-						else
-						{
-							delete sDat;
-						}
-					}
-
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
@@ -936,14 +882,43 @@ namespace Tinkercell
 							connections[j]->hasTextData(tr("Rates")))
 					{
 						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rates")]);
-
-						if (promoter
-							&& promoter->hasNumericalData(tr("Numerical Attributes"))
-							&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
+						if (promoter)
 						{
-							if (sDat->value(0,0) != promoter->fullName() + tr(".rate"))
+							bool missing = activators.isEmpty() && repressors.isEmpty();
+							s0 = sDat->value(0,0);
+							for (int k=0; k < activators.size(); ++k)
+								if (activators[k] && !s0.contains(activators[k]->fullName()))
+								{
+									missing = true;
+									break;
+								}
+
+							for (int k=0; k < repressors.size(); ++k)
+								if (repressors[k] && !s0.contains(repressors[k]->fullName()))
+								{
+									missing = true;
+									break;
+								}
+								
+							rate = hillEquation(TFconnections,activators,repressors);
+							
+							if (promoter->hasNumericalData(tr("Numerical Attributes"))
+								&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
+								{
+									if (!rate.isEmpty())
+										rate = promoter->fullName() + tr(".strength*") + rate;
+									else
+										rate = promoter->fullName() + tr(".strength");
+								}
+								else
+								{
+									if (!rate.isEmpty())
+										rate = tr("0.0");
+								}
+								
+							if (missing)
 							{
-								sDat->value(0,0) = promoter->fullName() + tr(".rate");
+								sDat->value(0,0) = rate;
 								targetHandles += connections[j];
 								hashStrings += tr("Rates");
 								dataTables += sDat;
@@ -1512,9 +1487,6 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 
-		QList<ItemHandle*> parts, upstream;
-		QList<NodeHandle*> parts2;
-
 		QList<ItemHandle*> handles;
 
 		for (int i=0; i < handles0.size(); ++i)
@@ -1531,6 +1503,9 @@ namespace Tinkercell
 
 				}
 			}
+			
+		QList<ItemHandle*> parts, upstream;
+		QList<NodeHandle*> parts2;
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -1588,30 +1563,31 @@ namespace Tinkercell
 		QList<NodeHandle*> parts2;
 
 		QList<ItemHandle*> moving;
-
+		QList<ItemHandle*> connections;
 		NodeHandle * handle = 0;
-		/*
-		bool b = false;
-
+		
 		for (int i=0; i < items.size(); ++i)
 		{
-			handle = getHandle(items[i]);
-			if (handle)
+			handle = NodeHandle::cast( getHandle(items[i]) );
+			if (handle && handle->isA(tr("Promoter")))
 			{
-				b = true;
-				for (int j=0 ; j < handle->graphicsItems.size(); ++j)
-					if (qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])
-						&&
-						!items.contains(handle->graphicsItems[j]))
-						{
-							b = false;
-							break;
-						}
-				if (b)
-					moving << handle;
+				connections = scene->symbolsTable->handlesFamily.values(tr("Transcription"));
+				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
+				for (int j=0; j < connections.size(); ++j)
+					if (connections[j] 
+						&& connections[j]->hasTextData(tr("rates"))
+						&& connections[j]->textData(tr("rates")).contains(handle->fullName()))
+					{
+						DataTable<QString> newRates(connections[j]->data->textData[tr("rates")]);
+						newRates.value(0,0) = tr("0.0");
+						QString s = connections[j]->fullName() + tr(" rate = 0.0");
+						scene->changeData(s,connections[j],tr("rates"),&newRates);
+						if (console())
+							console()->message(s);
+					}
 			}
-		}*/
-
+		}
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
@@ -1660,48 +1636,61 @@ namespace Tinkercell
 		QList< DataTable<QString>* > newTextData;
 
 		QList<ItemHandle*> visited;
-                ConnectionHandle * connection;
+		ConnectionHandle * connection;
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-            if ((connection = ConnectionHandle::cast(handles[i]))
-                            && !visited.contains(handles[i]) && handles[i]->isA("Transcription Regulation"))
+            if ((connection = ConnectionHandle::cast(handles[i])) 
+				&& !visited.contains(handles[i]) 
+				&& handles[i]->isA("Transcription Regulation"))
 			{
 				visited << handles[i];
-                                QList<NodeHandle*> nodes = connection->nodes();
-                                if (nodes.size() > 1 && nodes[1] &&
-                                        !handles.contains(nodes[1]) &&
-                                        nodes[1]->data &&
-                                        nodes[1]->hasTextData("Assignments") &&
-                                        !visited.contains(nodes[1]))
-				{
-                                        DataTable<QString>* newData = new DataTable<QString>(nodes[1]->data->textData[tr("Assignments")]);
+				QList<ItemHandle*> parts, upstream;
 
-					QString s = hillEquation(nodes[1],handles[i]);
-					if (newData->rowNames().contains(tr("rate")) &&
-						newData->value(tr("rate"),0).contains(handles[i]->fullName()) &&
-                                                !s.isEmpty() && !(newData->rowNames().contains(nodes[1]->name)))
-					{
-						newData->value(tr("rate"),0) = s;
-                        regulatory << nodes[1];
-						newTextData << newData;
-						toolNames << tr("Assignments");
-                        if (console())
-                            console()->message(nodes[1]->fullName() + tr(" has rate: ") + s);
-					}
-					else
-					{
-						delete newData;
-					}
-                    visited << nodes[1];
+				QList<NodeGraphicsItem*> nodes;
+				QList<NodeHandle*> nodeHandles = connection->nodesOut();
+				NodeGraphicsItem * startNode = 0;
+
+				for (int j=0; j < nodeHandles.size(); ++j)
+				{
+					if (nodeHandles[j])
+						for (int k=0; k < nodeHandles[j]->graphicsItems.size(); ++k)
+						{
+							startNode = NodeGraphicsItem::cast(nodeHandles[j]->graphicsItems[k]);
+							if (startNode)
+								break;
+						}
+					if (startNode)
+						break;
+				}
+
+				ItemHandle * handle = getHandle(startNode);
+				if (!startNode || !handle) continue;
+
+				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
+				findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+
+				if (!parts.contains(handle))
+					parts.push_front(handle);
+
+				while (!upstream.isEmpty())
+				{
+					parts.push_front(upstream.first());
+					upstream.pop_front();
+				}
+				
+				nodeHandles.clear();
+				NodeHandle * nodeHandle = 0;
+				
+				for (int j=0; j < parts.size(); ++j)
+					if ((nodeHandle = NodeHandle::cast(parts[j])) && !nodeHandles.contains(nodeHandle))
+						nodeHandles << nodeHandle;
+
+				if (!nodeHandles.isEmpty())
+				{
+					autoAssignRates(nodeHandles);
 				}
 			}
-		}
-		if (!regulatory.isEmpty())
-		{
-			scene->changeData(tr("some transcription rates changed"),regulatory,toolNames,newTextData);
-			for (int i=0; i < newTextData.size(); ++i)
-				delete newTextData[i];
 		}
 	}
 

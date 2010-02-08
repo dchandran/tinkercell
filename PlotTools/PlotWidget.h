@@ -31,8 +31,6 @@
 
 namespace Tinkercell
 {
-	class PlotTool;
-
 	/*!
 	\brief A widget containing a data plot, legend and options. This class does not perform any plotting. 
 			This class serves as a template for other widgets that perform the plotting. 
@@ -40,8 +38,10 @@ namespace Tinkercell
 	class PlotWidget : public QWidget
 	{
 		Q_OBJECT
-	public:
 		
+	public:
+		/*! \brief used for identifying the plot type*/
+		PlotTool::PlotType type;
 		/*! \brief tool bar containing all the options for this widget*/
 		QToolBar toolBar;
 		/*! \brief constructor with plot tool as parent*/
@@ -54,7 +54,9 @@ namespace Tinkercell
 		virtual bool canAppendData() const;
 		/*! \brief append more data to the currently existing plot*/
 		virtual void appendData(const DataTable<qreal>&);
-		/*! \brief get the data inside this plot as a table*/
+		/*! \brief update data for the current plot*/
+		virtual void updateData(const DataTable<qreal>&);
+		/*! \brief get the data inside this plot as teb-delimited text*/
 		virtual QString dataToString(const QString& delim=QString("\t"));
 		
 	protected:

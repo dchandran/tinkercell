@@ -19,112 +19,11 @@
 #include <QProcess>
 #include <QDir>
 #include "ConsoleWindow.h"
+#include "PlotTool.h"
 #include "GnuplotTool.h"
 
 namespace Tinkercell
 {
-	GnuplotTool_FToS GnuplotTool::fToS;
-	
-	void GnuplotTool_FToS::gnuplotMatrix(Matrix m, int x, const char* title, int all)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		DataTable<qreal> * dat = ConvertValue(m);
-		s->acquire();
-		emit gnuplotDataTable(s, *dat,x,QString(title),all);
-		s->acquire();
-		s->release();
-		delete s;
-		delete dat;
-	}
-
-	void GnuplotTool_FToS::gnuplotMatrix3D(Matrix m, const char * title)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		DataTable<qreal> * dat = ConvertValue(m);
-		s->acquire();
-		emit gnuplotDataTable3D(s, *dat,QString(title));
-		s->acquire();
-		s->release();
-		delete s;
-		delete dat;
-	}
-
-	void GnuplotTool_FToS::gnuplotHistC(Matrix m, double bins, const char * title)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		DataTable<qreal> * dat = ConvertValue(m);
-		s->acquire();
-		emit gnuplotHist(s, *dat,bins,QString(title));
-		s->acquire();
-		s->release();
-		delete s;
-		delete dat;
-	}
-
-	void GnuplotTool_FToS::gnuplotErrorbarsC(Matrix m, int x, const char* title)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		DataTable<qreal> * dat = ConvertValue(m);
-		s->acquire();
-		emit gnuplotErrorbars(s,*dat,x,QString(title));
-		s->acquire();
-		s->release();
-		delete s;
-		delete dat;
-	}
-
-	void GnuplotTool_FToS::gnuplotMultiplot(int x, int y)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit gnuplotMultiplot(s, x, y);
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-	Matrix GnuplotTool_FToS::getDataMatrix(int index)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		DataTable<qreal> dat;
-		emit getDataTable(s, dat, index);
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(dat);
-	}
-	
-	void GnuplotTool::gnuplotMatrix(Matrix m, int x, const char* title, int all)
-	{
-		fToS.gnuplotMatrix(m,x,title,all);
-	}
-
-	void GnuplotTool::gnuplotMatrix3D(Matrix m, const char * title)
-	{
-		fToS.gnuplotMatrix3D(m,title);
-	}
-
-	void GnuplotTool::gnuplotHistC(Matrix m, double bins, const char * title)
-	{
-		fToS.gnuplotHistC(m,bins,title);
-	}
-
-	void GnuplotTool::gnuplotErrorbarsC(Matrix m, int x, const char* title)
-	{
-		fToS.gnuplotErrorbarsC(m,x,title);
-	}
-	
-	void GnuplotTool::gnuplotMultiplotC(int x, int y)
-	{
-		fToS.gnuplotMultiplot(x,y);
-	}
-
-	Matrix GnuplotTool::getDataMatrix(int index)
-	{
-		return fToS.getDataMatrix(index);
-	}
-	
 	void GnuplotTool::runScriptFile(const QString& filename)
     {
     #ifdef Q_WS_WIN
@@ -157,13 +56,6 @@ namespace Tinkercell
 		if (previousCommands.size() < numPlots)
 			return;
 		
-		QDir dir(MainWindow::userHome());
-        if (!dir.cd(tr("gnuplot")))
-        {
-            dir.mkdir(tr("gnuplot"));
-            dir.cd(tr("gnuplot"));
-        }
-
         QString s, allscripts;
 
 		if (previousCommands.size() <= 1)
@@ -184,20 +76,6 @@ namespace Tinkercell
 		if (editor)
             editor->setPlainText(allscripts);
 
-		if (allscripts.contains(dir.absolutePath()))
-			s = allscripts;
-		else
-			s = tr("cd '") + dir.absolutePath() + tr("'\n") + allscripts + tr("\n");
-
-        QString filename(dir.absoluteFilePath(tr("script.txt")));
-        QFile file(filename);
-        if (file.open(QIODevice::WriteOnly))
-        {
-            file.write(s.toAscii());
-            file.close();
-            runScriptFile(filename);
-        }
-
 		if (previousCommands.size() >= numPlots)
 		{
 			numPlots = multiplotRows = multiplotCols = 1;
@@ -208,8 +86,7 @@ namespace Tinkercell
     void GnuplotTool::gnuplotDataTable(QSemaphore * sem, DataTable<qreal>& m, int x, const QString& title, int all)
     {
 		m.description() = title;
-        data << m;
-		
+        
 		labels = m.getColNames();
 
         QDir dir(MainWindow::userHome());
@@ -287,8 +164,7 @@ namespace Tinkercell
         if (m.cols() < 3) return;
 
 		m.description() = title;
-        data << m;
-		
+        
 		labels = m.getColNames();
 
         QString z;
@@ -360,8 +236,7 @@ namespace Tinkercell
 		m.removeCol(tr("Time"));
 		
 		m.description() = title;
-        data << m;
-		
+        
 		labels = m.getColNames();
 		
         QDir dir(MainWindow::userHome());
@@ -436,8 +311,7 @@ namespace Tinkercell
     void GnuplotTool::gnuplotErrorbars(QSemaphore * sem, DataTable<qreal>& m, int x, const QString& title)
     {
 		m.description() = title;
-        data << m;
-		
+        
 		if (sem)
 			sem->release();
     }
@@ -452,53 +326,42 @@ namespace Tinkercell
 			sem->release();
     }
 
-    void GnuplotTool::getDataTable(QSemaphore * sem, DataTable<qreal> & dat, int index)
-    {
-        if (data.isEmpty())
-            data << DataTable<qreal>();
-
-        if (index < 0) index = 0;
-        if (index >= data.size()) index = data.size() - 1;
-        dat = data[index];
-		
-		if (sem)
-			sem->release();
-    }
-
     GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("Gnuplot"),tr("Plot"),parent), editor(0)
     {
 		multiplotRows = multiplotCols = 1;
         QVBoxLayout * layout = new QVBoxLayout;
         QHBoxLayout * buttonsLayout = new QHBoxLayout;
 
-        QToolButton * button1 = new QToolButton;
+	/*
+       QToolButton * button1 = new QToolButton;
         button1->setIcon(QIcon(tr(":/images/save.png")));
         connect(button1,SIGNAL(pressed()),this,SLOT(savePlot()));
         button1->setToolTip(tr("Save image"));
 		button1->setIconSize(QSize(25,25));
+		 buttonsLayout->addWidget(button1);
 
         QToolButton * button2 = new QToolButton;
         button2->setIcon(QIcon(tr(":/images/export.png")));
         connect(button2,SIGNAL(pressed()),this,SLOT(writeData()));
         button2->setToolTip(tr("Save as tab-delimited text"));
 		button2->setIconSize(QSize(25,25));
+		 buttonsLayout->addWidget(button2);
 
         QToolButton * button3 = new QToolButton;
         button3->setIcon(QIcon(tr(":/images/copy.png")));
         connect(button3,SIGNAL(pressed()),this,SLOT(copyData()));
         button3->setToolTip(tr("Copy data to clipboard"));
 		button3->setIconSize(QSize(25,25));
-
+		 buttonsLayout->addWidget(button3);
+	*/
+	
         QToolButton * button4 = new QToolButton;
         button4->setIcon(QIcon(tr(":/images/play.png")));
         connect(button4,SIGNAL(pressed()),this,SLOT(runScript()));
         button4->setToolTip(tr("Run script"));
 		button4->setIconSize(QSize(25,25));
-
-        buttonsLayout->addWidget(button1);
-        buttonsLayout->addWidget(button2);
-        buttonsLayout->addWidget(button3);
         buttonsLayout->addWidget(button4);
+		
 		buttonsLayout->setSpacing(16);
 		buttonsLayout->addStretch(1);
 
@@ -511,21 +374,19 @@ namespace Tinkercell
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);
 		
-		connect(&fToS,SIGNAL(gnuplotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
+		connect(PlotSignals::instance,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
 				this, SLOT(gnuplotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)));
 		
-		connect(&fToS,SIGNAL(gnuplotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
+		connect(PlotSignals::instance,SIGNAL(plotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
 				this, SLOT(gnuplotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)));
 		
-		connect(&fToS,SIGNAL(gnuplotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)),
+		connect(PlotSignals::instance,SIGNAL(plotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)),
 				this,SLOT(gnuplotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)));
 		
-		connect(&fToS,SIGNAL(gnuplotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)),
+		connect(PlotSignals::instance,SIGNAL(plotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)),
 				this, SLOT(gnuplotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)));
 		
-		connect(&fToS,SIGNAL(gnuplotMultiplot(QSemaphore*,int, int)), this, SLOT(gnuplotMultiplot(QSemaphore*,int, int)));
-		
-		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>&, int)), this, SLOT(getDataTable(QSemaphore*,DataTable<qreal>&, int)));
+		connect(PlotSignals::instance,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(gnuplotMultiplot(QSemaphore*,int, int)));
     }
 
     /*void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
@@ -540,8 +401,8 @@ namespace Tinkercell
 
         if (mainWindow)
         {
-            connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),
-                    this,SLOT(setupFunctionPointers( QLibrary * )));
+            //connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),
+                //    this,SLOT(setupFunctionPointers( QLibrary * )));
 
             //connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
                 //    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
@@ -554,42 +415,38 @@ namespace Tinkercell
                 dockWidget->hide();
                 QToolBar * toolBar = mainWindow->toolBarForTools;
                 if (toolBar)
-                    toolBar->addAction(QIcon(tr(":/images/graph.png")),tr("gnuplot"),dockWidget,SLOT(show()));
+                    toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
             }
         }
 
         return (mainWindow != 0);
     }
 
-    typedef void (*tc_PlotTool_api)(
-		void (*plot)(Matrix,int,const char*,int) ,
-		void (*surface)(Matrix,const char*) ,
-		void (*hist)(Matrix,double,const char*) ,
-		void (*errorbars)(Matrix,int,const char*) ,
-		void (*multiplot)(int,int),
-		Matrix (*plotData)(int)
-		);
-
-    void GnuplotTool::setupFunctionPointers( QLibrary * library )
-    {
-        tc_PlotTool_api f = (tc_PlotTool_api)library->resolve("tc_PlotTool_api");
-		if (f)
-		{
-			f(
-				&(gnuplotMatrix),
-				&(gnuplotMatrix3D),
-				&(gnuplotHistC),
-				&(gnuplotErrorbarsC),
-				&(gnuplotMultiplotC),
-				&(getDataMatrix)
-			);
-		}
-    }
-
     void GnuplotTool::runScript()
     {
         if (editor)
-            runScript(editor->toPlainText());
+		{
+            QString s = editor->toPlainText();
+			
+			QDir dir(MainWindow::userHome());
+			if (!dir.cd(tr("gnuplot")))
+			{
+				dir.mkdir(tr("gnuplot"));
+				dir.cd(tr("gnuplot"));
+			}
+
+			if (!s.contains(dir.absolutePath()))
+				s = tr("cd '") + dir.absolutePath() + tr("'\n") + s + tr("\n");
+
+			QString filename(dir.absoluteFilePath(tr("script.txt")));
+			QFile file(filename);
+			if (file.open(QIODevice::WriteOnly))
+			{
+				file.write(s.toAscii());
+				file.close();
+				runScriptFile(filename);
+			}
+		}
     }
 
     void GnuplotTool::savePlot()
@@ -610,6 +467,7 @@ namespace Tinkercell
 		}
     }
 
+/*
     void GnuplotTool::copyData()
     {
 		if (data.size() < 1) return;
@@ -696,6 +554,7 @@ namespace Tinkercell
 				console()->error(tr("Cannot write to file."));
 
     }
+*/
 }
 
 

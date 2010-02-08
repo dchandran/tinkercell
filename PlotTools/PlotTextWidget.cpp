@@ -27,6 +27,7 @@ namespace Tinkercell
 	
 	PlotTextWidget::PlotTextWidget(const DataTable<qreal>& table, PlotTool * parent, const QString& text) : PlotWidget(parent), dataTable(table)
 	{
+		type = PlotTool::Text;
 		textEdit = new CodeEditor;
 		
 		QHBoxLayout * layout = new QHBoxLayout;

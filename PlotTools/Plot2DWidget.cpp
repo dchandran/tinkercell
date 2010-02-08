@@ -18,6 +18,7 @@
 #include <QListWidget>
 #include <QTableWidget>
 #include "qwt_scale_engine.h"
+#include "qwt_symbol.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -27,6 +28,26 @@
 
 namespace Tinkercell
 {
+	/**********************
+	Scatterplot data Column
+	**********************/
+	ScatterPlotColumn::ScatterPlotColumn(DataTable<qreal> * data, int x, int y) : 
+			QwtPlotMarker(), dataTable(data), column(y), xaxis(x) 
+	{ 
+	}
+		
+	void ScatterPlotColumn::draw(QPainter *painter,
+			const QwtScaleMap &xMap, const QwtScaleMap &yMap,
+			const QRect &canvasRect) const
+	{
+		int x,y;
+		for (int i=0; i < dataTable->rows(); ++i)
+		{
+			x = xMap.transform(dataTable->at(i,xaxis));
+			y = yMap.transform(dataTable->at(i,column));
+			QwtPlotMarker::drawAt(painter, canvasRect, QPoint(x, y));
+		}
+	}
 	/**********************
 	Data Column
 	**********************/
@@ -133,7 +154,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void DataPlot::plot(const DataTable<qreal>& dat, int x, const QString& title, int dt)
+	void DataPlot::plot(const DataTable<qreal>& dat, int x, const QString& title, int dt, bool scatterplot)
 	{
 		delta = dt;
 		xcolumn = x;
@@ -146,7 +167,7 @@ namespace Tinkercell
 		}
 		setAutoReplot(false);
 		this->dataTable = dat;
-		visibleDataTable = dat;
+		//visibleDataTable = dat;
 		
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)
@@ -163,21 +184,38 @@ namespace Tinkercell
 		QList<QwtPlotCurve*> curves;
 		for (int i=0, c = 0, t = 0; i < dataTable.cols(); ++i)
 		{
+			if (c >= penList.size())
+				c = 0;
 			if (i != x && dataTable.colName(i).toLower() != tr("time"))
 			{
-				QwtPlotCurve * curve = new QwtPlotCurve(dataTable.colName(i));
-				curve->setRenderHint(QwtPlotItem::RenderAntialiased);
-				
-				if (c >= penList.size())
+				if (scatterplot)
 				{
-					c = 0;
+					QwtPlotMarker * marker = new ScatterPlotColumn(&dataTable,x,i);
+					if (c < 10)
+						marker->setSymbol(
+								QwtSymbol(QwtSymbol::Style(c),
+													Qt::NoBrush,
+													penList[c],
+													QSize(1,1)));
+					else
+						marker->setSymbol(
+								QwtSymbol(QwtSymbol::Style(c-10),
+													Qt::NoBrush,
+													penList[c],
+													QSize(1,1)));
+					marker->setLinePen(penList[c]);
+					marker->attach(this);
+					marker->updateLegend(legend());
 				}
-				
-				curve->setPen(penList[c]);
-				curve->setData( DataColumn(&dataTable,x,i,dt) );
-				curve->attach(this);
-				curve->updateLegend(legend());
-				
+				else
+				{
+					QwtPlotCurve * curve = new QwtPlotCurve(dataTable.colName(i));
+					curve->setRenderHint(QwtPlotItem::RenderAntialiased);						
+					curve->setPen(penList[c]);
+					curve->setData( DataColumn(&dataTable,x,i,dt) );
+					curve->attach(this);
+					curve->updateLegend(legend());
+				}
 				++c;
 			}
 		}
@@ -204,7 +242,7 @@ namespace Tinkercell
 			zoomer->setZoomBase();
 		}
 		
-		replotUsingHideList();
+		//replotUsingHideList();
 	}
 	
 	void DataPlot::replotUsingHideList()
@@ -258,20 +296,20 @@ namespace Tinkercell
 		replot();
 	}
 	
-	void DataPlot::makeVisibleDataTable()
+	/*void DataPlot::makeVisibleDataTable()
 	{
 		visibleDataTable = dataTable;
-		//for (int i=0; i < hideList.size(); ++i)
-			//visibleDataTable.removeCol(hideList[i]);
-	}
+		for (int i=0; i < hideList.size(); ++i)
+			visibleDataTable.removeCol(hideList[i]);
+	}*/
 	
 	/*********************************
 		Plot Widget
 	*********************************/
 	
-	
 	Plot2DWidget::Plot2DWidget(PlotTool * parent) : PlotWidget(parent), buttonsGroup(this)
 	{
+		type = PlotTool::Plot2D;
 		if (DataPlot::penList.isEmpty())
 		{
 			QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
@@ -304,6 +342,16 @@ namespace Tinkercell
 		}
 		
 		dataPlot = new DataPlot();
+		
+		QwtPlotPicker * d_picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
+																	QwtPicker::PointSelection | QwtPicker::DragSelection, 
+																	QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, 
+																	dataPlot->canvas());
+		d_picker->setRubberBandPen(QColor(Qt::green));
+		d_picker->setRubberBand(QwtPicker::CrossRubberBand);
+		d_picker->setTrackerPen(QColor(Qt::white));
+		connect(d_picker, SIGNAL(moved(const QPoint &)),
+						SLOT(mouseMoved(const QPoint &)));
 		
 		axisNames = new QComboBox();
 		connect(axisNames,SIGNAL(currentIndexChanged(int)),dataPlot,SLOT(setXAxis(int)));
@@ -429,7 +477,8 @@ namespace Tinkercell
 						dataPlot->dataTable,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),
-						dataPlot->delta);
+						dataPlot->delta,
+						type == PlotTool::ScatterPlot);
 	}
 	
 	void Plot2DWidget::plot(const DataTable<qreal>& matrix,const QString& title,int x)
@@ -442,7 +491,7 @@ namespace Tinkercell
 			dt = (int)(matrix.rows() / 100) + 1;
 		}
 		
-		dataPlot->plot(matrix,x,title,dt);
+		dataPlot->plot(matrix,x,title,dt,type == PlotTool::ScatterPlot);
 		if (axisNames)
 		{
 			axisNames->clear();
@@ -455,9 +504,48 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return 0;
 		
-		dataPlot->makeVisibleDataTable();
+		//dataPlot->makeVisibleDataTable();
 		
-		return &(dataPlot->visibleDataTable);
+		return &(dataPlot->dataTable);
+	}
+	
+	void Plot2DWidget::updateData(const DataTable<qreal> & newData)
+	{
+		if (!dataPlot) return;
+		
+		DataTable<qreal> & dataTable = dataPlot->dataTable;
+		dataTable = newData;
+		
+		int removeSz = 0;
+		for (int i=0; i < newData.cols(); ++i)
+			if (dataPlot->hideList.contains(newData.colName(i)))
+				++removeSz;
+				
+		dataTable.resize(newData.rows(), newData.cols() - removeSz);
+		dataTable.setRowNames(newData.getRowNames());
+		
+		for (int i=0, k = 0; i < newData.cols(); ++i)
+			if (!dataPlot->hideList.contains(dataTable.colName(i)))
+			{
+				dataTable.colName(k) = dataTable.colName(i);
+				for (int j=0; j < dataTable.rows(); ++j)
+					dataTable.value(j,k) = newData.at(j,i);
+				++k;
+			}
+		if (dataPlot->hideList.isEmpty())
+		{
+			dataPlot->replot();
+		}
+		else
+		{
+			dataPlot->hideList.clear();
+			dataPlot->plot(	dataTable,
+						dataPlot->xcolumn,
+						dataPlot->title().text(),
+						dataPlot->delta,
+						type == PlotTool::ScatterPlot);
+		}
+		
 	}
 	
 	void Plot2DWidget::exportData(const QString& type)
@@ -473,7 +561,7 @@ namespace Tinkercell
 			
 			if (fileName.isEmpty() || fileName.isNull()) return;
 			
-			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
+			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
 			//QPrinter printer(QPrinter::HighResolution);
 			QPrinter printer(QPrinter::ScreenResolution);
 			printer.setOutputFormat(QPrinter::PdfFormat);
@@ -496,18 +584,7 @@ namespace Tinkercell
 		else
 		if (type.toLower() == tr("latex"))
 		{
-			bool b;
-			if (plotTool->keepOldPlots)
-			{
-				b = plotTool->keepOldPlots->isChecked();
-				plotTool->keepOldPlots->setChecked(true);
-			}
 			plotTool->addWidget(new PlotTextWidget(dataPlot->dataTable,plotTool, latex()));
-			if (plotTool->keepOldPlots)
-			{
-				plotTool->keepOldPlots->setChecked(b);
-			}
-			
 		}
 		else
 		{
@@ -581,15 +658,15 @@ namespace Tinkercell
 		dataPlot->setAxisTitle(QwtPlot::yLeft, s);
 	}
 	
-	void Plot2DWidget::mouseMoveEvent ( QMouseEvent * event )
+	void Plot2DWidget::mouseMoved ( const QPoint& p )
 	{
-		if (!event || !plotTool || !dataPlot) return;
+		if (p.isNull() || !plotTool || !dataPlot) return;
 		
 		plotTool->setStatusBarMessage(
 			tr("  x: ") 
-			+ QString::number(dataPlot->invTransform(QwtPlot::xBottom,event->pos().x()))
+			+ QString::number(p.x())
 			+ tr("  y: ") 
-			+ QString::number(dataPlot->invTransform(QwtPlot::yLeft,event->pos().y()))
+			+ QString::number(p.y())
 		);
 	}
 	
@@ -779,26 +856,41 @@ namespace Tinkercell
 		if (!dataPlot) return;
 		
 		DataTable<qreal> dataTable(*data());
+		int xIndex = -1;
+		
+		QStringList colNames = newData.getColNames();
+		
+		if (dataPlot->xcolumn >= 0)
+			xIndex = colNames.indexOf(dataTable.colName(dataPlot->xcolumn));
+		
 		for (int i=0; i < dataTable.cols(); ++i)
-			dataTable.colName(i) += tr("'"); 
+			if (colNames.contains(dataTable.colName(i)) && i != dataPlot->xcolumn)
+				dataTable.colName(i) += tr("'"); 
 		
 		int m = newData.rows();
 		if (m > dataTable.rows())
 			m = dataTable.rows();
 		
 		int n = dataTable.cols();
-		dataTable.resize(m,dataTable.cols() + newData.cols());
 		
-		for (int i=0; i < newData.cols(); ++i)
-		{
-			dataTable.colName(i+n) = newData.colName(i);
-			for (int j=0; j < m; ++j)
-				dataTable.value(j,i+n) = newData.at(j,i);
-		}
+		if (xIndex >= 0)
+			dataTable.resize(m,dataTable.cols() + newData.cols() - 1);
+		else
+			dataTable.resize(m,dataTable.cols() + newData.cols());
+		
+		for (int i=0, k=0; i < newData.cols(); ++i)
+			if (i != xIndex)
+			{
+				dataTable.colName(k+n) = newData.colName(i);
+				for (int j=0; j < m; ++j)
+					dataTable.value(j,k+n) = newData.at(j,i);
+				++k;
+			}
 		
 		dataPlot->plot(	dataTable,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),
-						dataPlot->delta);
+						dataPlot->delta,
+						type == PlotTool::ScatterPlot);
 	}
 }

@@ -20,7 +20,7 @@ namespace Tinkercell
 
 	Plot3DWidget::Plot3DWidget(PlotTool * parent) : PlotWidget(parent), surfacePlot(0), function(0)
 	{
-		meshSizeX = meshSizeY = 100;
+		type = PlotTool::SurfacePlot;
 
 		QVBoxLayout * layout = new QVBoxLayout;
 
@@ -147,7 +147,12 @@ namespace Tinkercell
 		surfacePlot->setColor();
 		surfacePlot->minZ = minZ;
 		surfacePlot->maxZ = maxZ;
-		surfacePlot->loadFromData(tableToArray(dataTable2),dataTable2.rows(),dataTable2.cols(),minX,maxX,minY,maxY);
+		double ** array = tableToArray(dataTable2);
+		surfacePlot->loadFromData(array,dataTable2.rows(),dataTable2.cols(),minX,maxX,minY,maxY);
+		
+		for (int i=0; i < dataTable2.rows(); ++i)
+			delete array[i];
+		delete array;
 
 		setTitle(title);
 
@@ -164,6 +169,12 @@ namespace Tinkercell
 
 		surfacePlot->updateData();
 		surfacePlot->updateGL();
+	}
+	
+	void Plot3DWidget::updateData(const DataTable<qreal>& data)
+	{
+		if (surfacePlot)
+			surface(data,surfacePlot->title);
 	}
 
 	DataTable<qreal>* Plot3DWidget::data()
@@ -264,7 +275,7 @@ namespace Tinkercell
 
 			if (fileName.isEmpty() || fileName.isNull()) return;
 
-			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
+			MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
 
 			if (surfacePlot)
 			{
@@ -292,7 +303,10 @@ namespace Tinkercell
 	void Plot3DWidget::setTitle(const QString& s)
 	{
 		if (surfacePlot)
+		{
 			surfacePlot->setTitle(s);
+			surfacePlot->title = s;
+		}
 	}
 
 	void Plot3DWidget::setXLabel(const QString& s)
@@ -322,7 +336,7 @@ namespace Tinkercell
 
 		if (fileName.isEmpty() || fileName.isNull()) return;
 
-		MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
+		MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
 
 		if (surfacePlot)
 			surfacePlot->saveVector(fileName, tr("PS"),VectorWriter::PIXEL,VectorWriter::NOSORT);

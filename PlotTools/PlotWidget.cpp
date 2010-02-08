@@ -29,6 +29,10 @@ namespace Tinkercell
 		return 0;
 	}
 	
+	void PlotWidget::updateData(const DataTable<qreal>&)
+	{
+	}
+	
 	void PlotWidget::exportData(const QString & type)
 	{
 		QString output = dataToString();

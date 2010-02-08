@@ -55,12 +55,22 @@ namespace Tinkercell
 		friend class Plot2DWidget;
 	};
 	
+	class ScatterPlotColumn : public QwtPlotMarker
+	{
+	private:
+		DataTable<qreal> * dataTable;
+		int column,xaxis;
+	public:
+		ScatterPlotColumn(DataTable<qreal> * data, int x, int y);		
+		void draw(QPainter *painter,const QwtScaleMap &xMap, const QwtScaleMap &yMap,const QRect &canvasRect) const;
+	};
+	
 	class DataPlot : public QwtPlot
 	{
 		Q_OBJECT
 	public:
 		DataPlot(QWidget * parent = 0);
-		void plot(const DataTable<qreal>&,int,const QString&,int dt=1);
+		void plot(const DataTable<qreal>&,int x, const QString& title,  int dt=1,bool scatterplot=false);
 		virtual QSize minimumSizeHint() const;
 		virtual QSize sizeHint() const;
 		virtual void setLogX(bool);
@@ -68,8 +78,8 @@ namespace Tinkercell
 		void replotUsingHideList();
 		
 	protected:
-		void makeVisibleDataTable();
-		DataTable<qreal> dataTable, visibleDataTable;
+		//void makeVisibleDataTable();
+		DataTable<qreal> dataTable;//, visibleDataTable;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QPen> penList;
@@ -113,6 +123,7 @@ namespace Tinkercell
 		virtual bool canAppendData() const;
 		virtual void appendData(const DataTable<qreal>&);
 		virtual void plot(const DataTable<qreal>& matrix,const QString& title,int x=0);
+		virtual void updateData(const DataTable<qreal>&);
 		
 	public slots:
 		void exportData(const QString&);
@@ -130,6 +141,7 @@ namespace Tinkercell
 	private slots:
 		void buttonPressed(int);
 		void penSet();
+		void mouseMoved(const QPoint&);
 	
 	private:
 		QWidget * dialogWidget();
@@ -139,9 +151,6 @@ namespace Tinkercell
 		QComboBox * axisNames;
 		QComboBox * lineTypes;
 		QButtonGroup buttonsGroup;
-		
-	protected:
-		virtual void mouseMoveEvent ( QMouseEvent * event );
 	};
 
 }

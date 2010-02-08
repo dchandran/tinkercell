@@ -34,10 +34,10 @@ namespace Tinkercell
 	public:
 		static QColor DEFAULT_LOW_COLOR;
 		static QColor DEFAULT_HIGH_COLOR;
-		int meshSizeX;
-		int meshSizeY;
+		
 		Plot3DWidget(PlotTool * parent = 0);
 		DataTable<qreal>* data();
+		void updateData(const DataTable<qreal>&);
 		void surface(const DataTable<qreal>& matrix,const QString& title=QString());
 
 	public slots:
@@ -86,6 +86,7 @@ namespace Tinkercell
 			public:
 				Plot();
 				void setColor();
+				QString title;
 				double minZ, maxZ;
 				QColor minColor, maxColor;
 		};

@@ -509,12 +509,15 @@ namespace Tinkercell
 		
 		MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, dllName, funcname, Qt::Horizontal);
 		
-		QStringList names(data.getColNames());
+		QStringList names(data.getRowNames());
 		QList<double> min, max;
 		for (int i=0; i < names.size(); ++i)
 		{
-				min <<  data.value(i,0);
-				max << data.value(i,1);
+			names[i].replace(tr("_"),tr("."));
+			names[i].replace(tr(".."),tr("_"));
+			min <<  data.value(i,0);
+			max << data.value(i,1);
+			console()->message(names[i] + tr(" ") + QString::number(min[i]) + tr(" ") + QString::number(max[i]));
 		}
 		widget->setSliders(names, min, max);
 		

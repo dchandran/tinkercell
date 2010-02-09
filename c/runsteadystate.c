@@ -32,7 +32,7 @@ void loadAllNames()
 	int i,len;
 	Matrix params;
 	char ** names;
-	Array A;
+	Array A,B;
 
 	if (selectAll)
 		A = tc_allItems();
@@ -47,10 +47,11 @@ void loadAllNames()
 	if (A && A[0])
 	{
 		params = tc_getModelParameters(A);
-		names = tc_getNames(tc_itemsOfFamilyFrom("Molecule\0",A));
+		B = tc_itemsOfFamilyFrom("Molecule\0",A);
+		names = tc_getNames(B);
 		len = 0;
 		while (names[len]) ++len;
-		allNames = malloc((len+params.rows+1)*sizeof(char*));
+		allNames = (char**)malloc((len+params.rows+1)*sizeof(char*));
 		for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
 		for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
 		allNames[(len+params.rows)] = 0;
@@ -58,6 +59,7 @@ void loadAllNames()
 		params.rownames = 0;
 		TCFreeMatrix(params);
 		TCFreeArray(A);
+		TCFreeArray(B);
 	}
 }
 

@@ -56,7 +56,7 @@ namespace Tinkercell
 		* \param QList<double> minimum value for each of the sliders
 		* \param QList<double> maximum value for each of the sliders
 		*/
-		virtual void setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues, double increments = 0.1);
+		virtual void setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues);
 		
 	public:
 
@@ -126,6 +126,8 @@ namespace Tinkercell
 		QWidget * slidersWidget;
 		
 		QGridLayout * slidersLayout;	
+		
+		virtual void initialLayout(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues);
 	};
 }
 

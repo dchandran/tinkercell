@@ -47,15 +47,16 @@ void setup()
 
 void run(Matrix input)
 {
-	Array A;
+	Array A, B;
 	FILE * out;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
 	int xaxis = 0;
 	int selection = 0;
 	int rateplot = 0;
-	int sz = 0, k = 0, update = 0;
-
+	int i=0, sz = 0, k = 0, update = 0;
+	Matrix params, initVals, allParams;
+	
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
@@ -78,16 +79,48 @@ void run(Matrix input)
 		if (A[0] == 0)
 		{
 			TCFreeArray(A);
-			//A = tc_allItems();
 			tc_errorReport("No Model Selected\0");
 			return;
-
 		}
 	}
 	else
 	{
 		A = tc_allItems();
 	}
+
+	params = tc_getModelParameters(A);
+	B = tc_itemsOfFamilyFrom("Molecule\0",A);
+	initVals = tc_getInitialValues(B);
+	
+	allParams.rows = (initVals.rows+params.rows);
+	allParams.cols = 3;
+	allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
+	allParams.values = (double*)malloc(3*allParams.rows*sizeof(double));
+	allParams.colnames = 0;
+	
+	for (i=0; i < params.rows; ++i)
+	{
+		allParams.rownames[i] = params.rownames[i];
+		valueAt(allParams,i,1) = 
+				2*valueAt(params,i,0) - 
+								(valueAt(allParams,i,0) = valueAt(params,i,0)/10.0);
+	}
+	for (i=0; i < initVals.rows; ++i)
+	{
+		allParams.rownames[i+params.rows] = initVals.rownames[i];
+		valueAt(allParams,i+params.rows,1) = 
+				2*valueAt(initVals,i,0) - 
+								(valueAt(allParams,i+params.rows,0) = valueAt(initVals,i,0)/10.0);
+	}
+	allParams.rownames[(initVals.rows+params.rows)] = 0;
+	
+	free(params.rownames);
+	params.rownames = 0;
+	free(initVals.rownames);
+	initVals.rownames = 0;
+	TCFreeMatrix(initVals);
+	TCFreeMatrix(params);
+	TCFreeArray(B);
 
 	if (A[0] != 0)
 	{
@@ -105,7 +138,7 @@ void run(Matrix input)
 		tc_errorReport("No Model\0");
 		return;
 	}
-
+	
 	out = fopen("ode.c","a");
 
 	fprintf( out , "\
@@ -133,7 +166,7 @@ void run(Matrix input)
 					}\n\
 					\n\
 					\n\
-					void run() \n\
+					void run(Matrix input) \n\
 					{\n\
 						int i,j;\n\
 						double mx=0;\n\
@@ -201,8 +234,10 @@ void run(Matrix input)
 						return;\n}\n",
 						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
-
-	tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");
+	
+	tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
+	
+	TCFreeMatrix(allParams);
 	return;
 
 }

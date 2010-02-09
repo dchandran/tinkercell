@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include <QTabWidget>
+#include <QScrollArea>
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include "ItemFamily.h"

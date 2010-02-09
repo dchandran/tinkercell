@@ -139,22 +139,22 @@ namespace Tinkercell
 		toolBar.addAction(action);
 
 		//C interface
-		connect(PlotSignals::instance,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
+		connect(&fToS,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
 				this, SLOT(plotData(QSemaphore*,DataTable<qreal>&, int, const QString& , int)));
 		
-		connect(PlotSignals::instance,SIGNAL(plotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
+		connect(&fToS,SIGNAL(plotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
 				this, SLOT(surface(QSemaphore*,DataTable<qreal>&, const QString&)));
 		
-		connect(PlotSignals::instance,SIGNAL(plotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)),
+		connect(&fToS,SIGNAL(plotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)),
 				this,SLOT(plotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)));
 		
-		connect(PlotSignals::instance,SIGNAL(plotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)),
+		connect(&fToS,SIGNAL(plotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)),
 				this, SLOT(plotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)));
 				
-		connect(PlotSignals::instance,SIGNAL(plotScatter(QSemaphore*,DataTable<qreal>&, const QString&)),
+		connect(&fToS,SIGNAL(plotScatter(QSemaphore*,DataTable<qreal>&, const QString&)),
 				this, SLOT(plotScatter(QSemaphore*,DataTable<qreal>&, const QString&)));
 		
-		connect(PlotSignals::instance,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
+		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
 	}
 
 	QSize PlotTool::sizeHint() const
@@ -348,6 +348,8 @@ namespace Tinkercell
 		}
 
 		plot(matrix,title,x,all,Plot2D);
+		
+		emit plotDataTable(matrix, x, title, all);
 
 		if (s)
 			s->release();
@@ -362,19 +364,25 @@ namespace Tinkercell
 		}
 
 		plot(matrix,title,0,1,ScatterPlot);
-
+		
+		emit plotScatterplot(matrix, title);
+		
 		if (s)
 			s->release();
 	}
 	
-	void PlotTool::plotHist(QSemaphore* s,DataTable<qreal>&, double, const QString&)
+	void PlotTool::plotHist(QSemaphore* s,DataTable<qreal>& data, double binsz, const QString& title)
 	{
+		emit plotHist(data , binsz, title);
+		
 		if (s)
 			s->release();
 	}
 	
-	void PlotTool::plotErrorbars(QSemaphore* s,DataTable<qreal>&, int, const QString&)
+	void PlotTool::plotErrorbars(QSemaphore* s,DataTable<qreal>& data, int x, const QString& title)
 	{
+		emit plotErrorbars(data , x, title);
+		
 		if (s)
 			s->release();
 	}
@@ -391,9 +399,11 @@ namespace Tinkercell
 			holdCurrentPlot->setChecked(b);
 	}
 	
-	void PlotTool::plotMultiplot(QSemaphore* s,int , int )
+	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		hold();
+		emit plotMultiplot( x, y);
+		
 		if (s)
 			s->release();
 	}
@@ -407,6 +417,8 @@ namespace Tinkercell
 		}
 
 		surfacePlot(matrix,title);
+		
+		emit plotDataTable3D(matrix, title);
 
 		if (s)
 			s->release();
@@ -425,6 +437,7 @@ namespace Tinkercell
 				(*matrix) = *(plotWidget->data());
 			}
 		}
+		
 		if (s)
 			s->release();
 	}
@@ -576,6 +589,12 @@ namespace Tinkercell
 				s = s.left(10) + tr("...");
 			data.colName(i) = s;
 		}
+		
+		for (int j=0; j < data.rows(); ++j)
+		{
+			data.value(j,0) = x;
+			x += dx;
+		}
 
 		ItemHandle * handle;
 
@@ -594,10 +613,9 @@ namespace Tinkercell
 
 			QList< QPair<QString,qreal> > values;
 			values << QPair<QString,qreal>(xaxis,x);
-
+			x = start;
 			for (int j=0; j < data.rows(); ++j)
 			{
-				data.value(j,0) = x;
 				values[0].second = x;
 				data.value(j,i+1) = EquationParser::eval(net,s,&b,values);
 				x += dx;
@@ -694,11 +712,9 @@ namespace Tinkercell
 			PlotWidget * widget = static_cast<PlotWidget*>(multiplePlotsArea->currentSubWindow()->widget());
 			widget->mouseMoveEvent(event);
 		}
-	}	
+	}
 	
-	PlotSignals * PlotSignals::instance = new PlotSignals;
-	
-	void PlotSignals::plotMatrix(Matrix m, int x, const char* title, int all)
+	void PlotTool_FtoS::plotMatrix(Matrix m, int x, const char* title, int all)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -710,7 +726,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotSignals::plotMatrix3D(Matrix m, const char * title)
+	void PlotTool_FtoS::plotMatrix3D(Matrix m, const char * title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -722,7 +738,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotSignals::plotHistC(Matrix m, double bins, const char * title)
+	void PlotTool_FtoS::plotHistC(Matrix m, double bins, const char * title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -734,7 +750,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotSignals::plotErrorbarsC(Matrix m, int x, const char* title)
+	void PlotTool_FtoS::plotErrorbarsC(Matrix m, int x, const char* title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -746,7 +762,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	void PlotSignals::plotScatterC(Matrix m, const char* title)
+	void PlotTool_FtoS::plotScatterC(Matrix m, const char* title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -758,7 +774,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotSignals::plotMultiplotC(int x, int y)
+	void PlotTool_FtoS::plotMultiplotC(int x, int y)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -768,7 +784,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Matrix PlotSignals::getDataMatrix(int index)
+	Matrix PlotTool_FtoS::getDataMatrix(int index)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -782,37 +798,39 @@ namespace Tinkercell
 	
 	void PlotTool::plotMatrix(Matrix m, int x, const char* title, int all)
 	{
-		PlotSignals::instance->plotMatrix(m,x,title,all);
+		fToS.plotMatrix(m,x,title,all);
 	}
 
 	void PlotTool::plotMatrix3D(Matrix m, const char * title)
 	{
-		PlotSignals::instance->plotMatrix3D(m,title);
+		fToS.plotMatrix3D(m,title);
 	}
 
 	void PlotTool::plotHistC(Matrix m, double bins, const char * title)
 	{
-		PlotSignals::instance->plotHistC(m,bins,title);
+		fToS.plotHistC(m,bins,title);
 	}
 
 	void PlotTool::plotErrorbarsC(Matrix m, int x, const char* title)
 	{
-		PlotSignals::instance->plotErrorbarsC(m,x,title);
+		fToS.plotErrorbarsC(m,x,title);
 	}
 	
 	void PlotTool::plotScatterC(Matrix m, const char* title)
 	{
-		PlotSignals::instance->plotScatterC(m,title);
+		fToS.plotScatterC(m,title);
 	}
 	
 	void PlotTool::plotMultiplotC(int x, int y)
 	{
-		PlotSignals::instance->plotMultiplotC(x,y);
+		fToS.plotMultiplotC(x,y);
 	}
 
 	Matrix PlotTool::getDataMatrix(int index)
 	{
-		return PlotSignals::instance->getDataMatrix(index);
+		return fToS.getDataMatrix(index);
 	}
+	
+	PlotTool_FtoS PlotTool::fToS;
 
 }

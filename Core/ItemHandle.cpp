@@ -834,9 +834,9 @@ namespace Tinkercell
 					nodesDisconnected = connection->nodesDisconnected();
 
 					bool ok = false;
-					for (int i=0; i < nodesOut.size(); ++i)
+					for (int i=0; i < nodesIn.size(); ++i)
 					{
-						if (nodesOut[i] && nodesOut[i]->handle())
+						if (nodesIn[i] && nodesIn[i]->handle())
 						{
 							ok = true;
 							break;

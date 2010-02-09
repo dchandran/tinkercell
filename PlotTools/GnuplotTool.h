@@ -43,15 +43,15 @@ namespace Tinkercell
 
 	private slots:
 	
-		void gnuplotDataTable(QSemaphore*,DataTable<qreal>& m, int x, const QString& title, int all);
+		void gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
 		
-		void gnuplotDataTable3D(QSemaphore*,DataTable<qreal>& m, const QString& title);
+		void gnuplotDataTable3D(DataTable<qreal>& m, const QString& title);
 		
-		void gnuplotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
+		void gnuplotHist(DataTable<qreal>& m, double bins, const QString& title);
 		
-		void gnuplotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
+		void gnuplotErrorbars(DataTable<qreal>& m, int x, const QString& title);
 		
-		void gnuplotMultiplot(QSemaphore*,int x, int y);
+		void gnuplotMultiplot(int x, int y);
 
         /*! \brief run the current gnuplot script */
         void runScript();

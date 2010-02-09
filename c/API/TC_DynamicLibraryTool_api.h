@@ -27,6 +27,18 @@ int tc_compileBuildLoad(const char * filename,const char* function,const char* t
 	return 0;
 }
 
+int (*_tc_compileBuildLoadSliders)(const char * filename,const char* function,const char* title, Matrix inputs) = 0;
+/*! 
+ \brief compile a c file, generate the library, and load it
+ \ingroup Programming interface
+*/
+int tc_compileBuildLoadSliders(const char * filename,const char* function,const char* title, Matrix inputs)
+{
+	if (_tc_compileBuildLoadSliders)
+		return _tc_compileBuildLoadSliders(filename,function,title,inputs);
+	return 0;
+}
+
 void (*_tc_runPythonCode)(const char* code) = 0;
 /*! 
  \brief run the Python code given by the string
@@ -122,6 +134,7 @@ void tc_DynamicLibraryMenu_api(
 void tc_LoadCLibraries_api(
 		int (*compileAndRun)(const char * ,const char* ),
 		int (*compileBuildLoad)(const char * ,const char* , const char*),
+		int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , Matrix ),
 		void (*loadLibrary)(const char*),
 		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char *, int, int, int),
 		void (*callback)(void (*f)(void)),
@@ -130,6 +143,7 @@ void tc_LoadCLibraries_api(
 {
 	_tc_compileAndRun = compileAndRun;
 	_tc_compileBuildLoad = compileBuildLoad;
+	_tc_compileBuildLoadSliders = compileBuildLoadSliders;
 	_tc_loadLibrary = loadLibrary;
 	_tc_addFunction = addFunction;
 	_tc_callback = callback;

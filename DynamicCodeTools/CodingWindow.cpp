@@ -605,7 +605,7 @@ namespace Tinkercell
 
 		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
-			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
+			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {
@@ -625,7 +625,7 @@ namespace Tinkercell
 
 		 if (!fileName.isNull() && !fileName.isEmpty())
 		 {
-			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.\*")));
+			 MainWindow::previousFileName = fileName.remove(QRegExp(tr("\\.*")));
 			 QFile file(fileName);
 			 if (file.open(QFile::WriteOnly | QFile::Text))
 			 {

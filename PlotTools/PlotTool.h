@@ -58,12 +58,9 @@ namespace Tinkercell
 	class PlotWidget;
 	class PlotTool;
 
-	class MY_EXPORT PlotSignals : public QObject
+	class PlotTool_FtoS : public QObject
 	{
 		Q_OBJECT
-
-		public:
-			static PlotSignals * instance;
 
 		signals:
 
@@ -94,6 +91,20 @@ namespace Tinkercell
 	class PlotTool : public Tool
 	{
 		Q_OBJECT
+		
+	signals:
+	
+		void plotDataTable(DataTable<qreal>& m, int x, const QString& title, int all);
+		
+		void plotDataTable3D(DataTable<qreal>& m, const QString& title);
+		
+		void plotHist(DataTable<qreal>& m, double bins, const QString& title);
+		
+		void plotErrorbars(DataTable<qreal>& m, int x, const QString& title);
+		
+		void plotMultiplot(int x, int y);
+		
+		void plotScatterplot(DataTable<qreal>& m, const QString& title);
 
 	public:
 	
@@ -193,6 +204,8 @@ namespace Tinkercell
 		QDoubleSpinBox spinBox1, spinBox2;
 		QSpinBox spinBox3;
 		QLineEdit xaxisLine;
+		
+		static PlotTool_FtoS fToS;
 
 		 /*! \brief launch gnuplot and plot the given matrix*/
         static void plotMatrix(Matrix m, int x, const char* title, int all);

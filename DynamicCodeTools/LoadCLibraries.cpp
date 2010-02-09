@@ -22,6 +22,7 @@
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
 #include "LoadCLibraries.h"
+#include "MultithreadedSliderWidget.h"
 #include <QtDebug>
 
 namespace Tinkercell
@@ -242,6 +243,7 @@ namespace Tinkercell
     {
         connect(&fToS,SIGNAL(compileAndRun(QSemaphore*,int*,const QString&,const QString&)),this,SLOT(compileAndRunC(QSemaphore*,int*,const QString&,const QString&)));
         connect(&fToS,SIGNAL(compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&)),this,SLOT(compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&)));
+		connect(&fToS,SIGNAL(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)),this,SLOT(compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&,DataTable<qreal>&)));
         connect(&fToS,SIGNAL(loadLibrary(QSemaphore*,const QString&)),this,SLOT(loadLibrary(QSemaphore*,const QString&)));
         connect(&fToS,SIGNAL(addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int,int)),
                    this,SLOT(addFunction(QSemaphore*,VoidFunction,QString,QString,QString,QString,QString,int,int,int)));
@@ -253,6 +255,7 @@ namespace Tinkercell
     typedef void (*tc_LoadCLibraries_api)(
             int (*compileAndRun)(const char * ,const char* ),
             int (*compileBuildLoad)(const char *, const char* , const char*),
+			int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , Matrix),
             void (*loadLib)(const char*),
             void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
             void (*callback)(void (*f)()),
@@ -267,6 +270,7 @@ namespace Tinkercell
             f(
                     &(_compileAndRun),
                     &(_compileBuildLoad),
+					&(_compileBuildLoadSliders),
                     &(_loadLibrary),
                     &(_addFunction),
                     &(_callback),
@@ -334,7 +338,7 @@ namespace Tinkercell
 	{
 		_compileAndRun(s.toAscii().data(),a.toAscii().data());
 	}
-
+	
 	void LoadCLibrariesTool::compileBuildLoadC(const QString& s,const QString& f,const QString& t)
 	{
 		_compileBuildLoad(s.toAscii().data(),f.toAscii().data(),t.toAscii().data());
@@ -429,6 +433,97 @@ namespace Tinkercell
 
         if (s) s->release();
     }
+	
+	void LoadCLibrariesTool::compileBuildLoadSliders(QSemaphore* s,int* r,const QString& filename,const QString& funcname, const QString& title, DataTable<qreal>& data)
+    {
+        if (filename.isEmpty() || filename.isNull())
+        {
+            if (r) (*r) = 0;
+            if (s) s->release();
+            return;
+        }
+
+		QString dllName("temp");
+		dllName += QString::number(++numLibFiles);
+
+        QString errors;
+        QString output;
+        QProcess proc;
+        QString appDir = QCoreApplication::applicationDirPath();
+
+		QString userHome = MainWindow::userHome();
+		QDir userHomeDir(userHome);
+
+		if (!userHomeDir.cd(tr("temp")))
+		{
+			userHomeDir.mkdir(tr("temp"));
+			userHomeDir.cd(tr("temp"));
+		}
+
+		proc.setWorkingDirectory(userHome);
+
+#ifdef Q_WS_WIN
+
+		dllName = tr("temp\\") + dllName;
+		appDir.replace(tr("/"),tr("\\"));
+		userHome.replace(tr("/"),tr("\\"));
+
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
+        proc.waitForFinished();
+        errors += (proc.readAllStandardError());
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#else
+#ifdef Q_WS_MAC
+
+		dllName = tr("temp/") + dllName;
+        proc.start(tr("gcc -bundle -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".dylib ") + filename);
+        proc.waitForFinished();
+        if (!errors.isEmpty())	errors += tr("\n\n");
+        errors += (proc.readAllStandardError());
+        if (!output.isEmpty())	output += tr("\n\n");
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#else
+		dllName = tr("temp/") + dllName;
+        proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
+        proc.waitForFinished();
+        if (!errors.isEmpty())	errors += tr("\n\n");
+        errors += (proc.readAllStandardError());
+        if (!output.isEmpty())	output += tr("\n\n");
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#endif
+#endif
+
+        if (console())
+            if (!errors.isEmpty())
+                console()->error(errors);
+            else
+                console()->message(output);
+
+        if (errors.size() > 0)
+        {
+            if (r) (*r) = 0;
+            if (s) s->release();
+		    return;
+        }
+
+		
+		MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, dllName, funcname, Qt::Horizontal);
+		
+		QStringList names(data.getColNames());
+		QList<double> min, max;
+		for (int i=0; i < names.size(); ++i)
+		{
+				min <<  data.value(i,0);
+				max << data.value(i,1);
+		}
+		widget->setSliders(names, min, max);
+		
+		widget->show();
+
+        if (r) (*r) = 1;
+
+        if (s) s->release();
+    }
 
     void LoadCLibrariesTool::loadLibrary(QSemaphore* s,const QString& file)
     {
@@ -451,6 +546,11 @@ namespace Tinkercell
     {
         return fToS.compileBuildLoad(cfile,f,t);
     }
+	
+	int LoadCLibrariesTool::_compileBuildLoadSliders(const char * cfile,const char* f,const char* t, Matrix m)
+	{
+		return fToS.compileBuildLoadSliders(cfile,f,t,m);
+	}
 
     void LoadCLibrariesTool::_loadLibrary(const char * c)
     {
@@ -493,6 +593,20 @@ namespace Tinkercell
         s->acquire();
         s->release();
         delete s;
+        return p;
+    }
+	
+	int LoadCLibrariesTool_FToS::compileBuildLoadSliders(const char * cfile,const char* f,const char* t, Matrix m)
+    {
+        QSemaphore * s = new QSemaphore(1);
+        int p;
+		DataTable<qreal> * dat = ConvertValue(m);
+        s->acquire();
+        emit compileBuildLoadSliders(s,&p,ConvertValue(cfile),ConvertValue(f),ConvertValue(t),*dat);
+        s->acquire();
+        s->release();
+        delete s;
+		delete dat;
         return p;
     }
 

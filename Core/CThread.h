@@ -61,9 +61,15 @@ namespace Tinkercell
 		/*! \brief display progress of this thread (0-100). This signal is usually connected
 		to a slot in ProgressBarSignalItem*/
 		virtual void progress(int);
+		
+	public slots:
+	
+		/*! \brief uload the C library*/
+		virtual void unload();
 
 	public:
 
+		/*! \brief style sheet for the dialog*/
 		static QString style;
 
 		/*! \brief emits the progress signal*/

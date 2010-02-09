@@ -25,6 +25,17 @@ void tc_plot(Matrix data,int xaxis,const char* title, int includeAll)
 		_tc_plot(data,xaxis,title,includeAll);
 }
 
+void (*_tc_scatterplot)(Matrix data,const char* title) = 0;
+/*!
+ \brief plot the 2-columns in the matrix (with headers) as a scatter plot
+ \ingroup Plotting
+*/
+void tc_scatterplot(Matrix data,const char* title)
+{
+	if (_tc_scatterplot)
+		_tc_scatterplot(data,title);
+}
+
 void (*_tc_errorBars)(Matrix data,int xaxis,const char* title, int includeAll) = 0;
 /*!
  \brief plot the data in the matrix (with headers) with the given x-axis and title. For each column i, the i+1 and i+2 columns should contain the upper and lower bounds (errors).
@@ -83,6 +94,7 @@ void tc_PlotTool_api(
 	void (*surface)(Matrix M, const char*),
 	void (*hist)(Matrix data,double bins,const char* title),
 	void (*errorBars)(Matrix data,int xaxis,const char* title, int),
+	void (*scatterplot)(Matrix data,const char* title) ,
 	void (*multiplot)(int r, int c),
 	Matrix (*plotData)(int))
 {
@@ -91,6 +103,7 @@ void tc_PlotTool_api(
 	_tc_surface = surface;
 	_tc_hist = hist;
 	_tc_errorBars = errorBars;
+	_tc_scatterplot = scatterplot;
 	_tc_multiplot = multiplot;
 }
 

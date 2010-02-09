@@ -83,7 +83,7 @@ namespace Tinkercell
 		}
     }
 	
-    void GnuplotTool::gnuplotDataTable(QSemaphore * sem, DataTable<qreal>& m, int x, const QString& title, int all)
+    void GnuplotTool::gnuplotDataTable(DataTable<qreal>& m, int x, const QString& title, int all)
     {
 		m.description() = title;
         
@@ -153,13 +153,10 @@ namespace Tinkercell
             }
         
 		runScript(s);
-		
-		if (sem)
-			sem->release();
 	}
 
     
-	void GnuplotTool::gnuplotDataTable3D(QSemaphore * sem, DataTable<qreal>& m, const QString& title)
+	void GnuplotTool::gnuplotDataTable3D(DataTable<qreal>& m, const QString& title)
 	{
         if (m.cols() < 3) return;
 
@@ -225,12 +222,9 @@ namespace Tinkercell
 		s += tr(".txt' with lines\n");
 
         runScript(s);
-		
-		if (sem)
-			sem->release();
     }
 
-    void GnuplotTool::gnuplotHist(QSemaphore * sem, DataTable<qreal>& m, double bins, const QString& title)
+    void GnuplotTool::gnuplotHist(DataTable<qreal>& m, double bins, const QString& title)
     {
 		m.removeCol(tr("time"));
 		m.removeCol(tr("Time"));
@@ -303,27 +297,18 @@ namespace Tinkercell
 		}
 		
         runScript(s); 
-		
-		if (sem)
-			sem->release();
     }
 
-    void GnuplotTool::gnuplotErrorbars(QSemaphore * sem, DataTable<qreal>& m, int x, const QString& title)
+    void GnuplotTool::gnuplotErrorbars(DataTable<qreal>& m, int x, const QString& title)
     {
 		m.description() = title;
-        
-		if (sem)
-			sem->release();
     }
 
-	void GnuplotTool::gnuplotMultiplot(QSemaphore * sem, int x, int y)
+	void GnuplotTool::gnuplotMultiplot(int x, int y)
     {
 		multiplotRows = x;
 		multiplotCols = y;
 		previousCommands.clear();
-		
-		if (sem)
-			sem->release();
     }
 
     GnuplotTool::GnuplotTool(QWidget * parent) : Tool(tr("Gnuplot"),tr("Plot"),parent), editor(0)
@@ -373,40 +358,14 @@ namespace Tinkercell
 
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);
-		
-		connect(PlotSignals::instance,SIGNAL(plotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)),
-				this, SLOT(gnuplotDataTable(QSemaphore*,DataTable<qreal>&, int, const QString& , int)));
-		
-		connect(PlotSignals::instance,SIGNAL(plotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)),
-				this, SLOT(gnuplotDataTable3D(QSemaphore*,DataTable<qreal>&, const QString&)));
-		
-		connect(PlotSignals::instance,SIGNAL(plotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)),
-				this,SLOT(gnuplotHist(QSemaphore*,DataTable<qreal>&, double, const QString&)));
-		
-		connect(PlotSignals::instance,SIGNAL(plotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)),
-				this, SLOT(gnuplotErrorbars(QSemaphore*,DataTable<qreal>&, int, const QString&)));
-		
-		connect(PlotSignals::instance,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(gnuplotMultiplot(QSemaphore*,int, int)));
     }
-
-    /*void GnuplotTool::toolAboutToBeLoaded( Tool * tool, bool * b)
-    {
-        if (tool && tool != this && tool->category.toLower() == tr("plot"))
-            (*b) = false;
-    }*/
-
+	
     bool GnuplotTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
 
         if (mainWindow)
         {
-            //connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),
-                //    this,SLOT(setupFunctionPointers( QLibrary * )));
-
-            //connect(mainWindow, SIGNAL(toolAboutToBeLoaded( Tool * , bool * )),
-                //    this, SLOT(toolAboutToBeLoaded( Tool * , bool * )));
-
             setWindowTitle(name);
             QDockWidget * dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
             if (dockWidget)
@@ -417,6 +376,28 @@ namespace Tinkercell
                 if (toolBar)
                     toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
             }
+			
+			Tool * tool = mainWindow->tool(tr("Plot"));
+			
+			if (tool)
+			{
+				PlotTool * plotTool = static_cast<PlotTool*>(tool);
+				
+				connect(plotTool,SIGNAL(plotDataTable(DataTable<qreal>&, int, const QString& , int)),
+						this, SLOT(gnuplotDataTable(DataTable<qreal>&, int, const QString& , int)));
+		
+				connect(plotTool,SIGNAL(plotDataTable3D(DataTable<qreal>&, const QString&)),
+						this, SLOT(gnuplotDataTable3D(DataTable<qreal>&, const QString&)));
+			
+				connect(plotTool,SIGNAL(plotHist(DataTable<qreal>&, double, const QString&)),
+						this,SLOT(gnuplotHist(DataTable<qreal>&, double, const QString&)));
+			
+				connect(plotTool,SIGNAL(plotErrorbars(DataTable<qreal>&, int, const QString&)),
+						this, SLOT(gnuplotErrorbars(DataTable<qreal>&, int, const QString&)));
+				
+				connect(plotTool,SIGNAL(plotMultiplot(int, int)), this, SLOT(gnuplotMultiplot(int, int)));
+			}
+			
         }
 
         return (mainWindow != 0);

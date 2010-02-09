@@ -105,6 +105,7 @@ namespace Tinkercell
 		c->setFrameShadow ( QFrame::Plain );
 		c->setFrameShape ( QFrame::NoFrame );
 		c->setFrameStyle (QFrame::NoFrame );
+		connect(this,SIGNAL(legendChecked(QwtPlotItem*,bool)),this,SLOT(itemChecked(QwtPlotItem*,bool)));
 	}
 
 	QSize DataPlot::minimumSizeHint() const
@@ -179,8 +180,6 @@ namespace Tinkercell
 		insertLegend(new QwtLegend(this), QwtPlot::RightLegend,0.2);
 		legend()->setItemMode(QwtLegend::CheckableItem);
 		
-		connect(this,SIGNAL(legendChecked(QwtPlotItem*,bool)),this,SLOT(itemChecked(QwtPlotItem*,bool)));
-		
 		QList<QwtPlotCurve*> curves;
 		for (int i=0, c = 0, t = 0; i < dataTable.cols(); ++i)
 		{
@@ -226,8 +225,15 @@ namespace Tinkercell
 				setAxisTitle(xBottom, "Index");
 			else
 				setAxisTitle(xBottom, "Time");
-		
+				
 		QString ylabel = axisTitle(QwtPlot::yLeft).text();
+		
+		if (dataTable.cols() == 2)
+			if (x == 0)
+				ylabel = dataTable.colName(1);
+			else
+				ylabel = dataTable.colName(0);
+		
 		if (ylabel.isEmpty() || ylabel.isNull())
 			ylabel = tr("Values");
 		setAxisTitle(yLeft, ylabel);
@@ -344,8 +350,9 @@ namespace Tinkercell
 		dataPlot = new DataPlot();
 		
 		QwtPlotPicker * d_picker = new QwtPlotPicker(QwtPlot::xBottom, QwtPlot::yLeft,
-																	QwtPicker::PointSelection | QwtPicker::DragSelection, 
-																	QwtPlotPicker::CrossRubberBand, QwtPicker::AlwaysOn, 
+																	QwtPicker::PointSelection,
+																	QwtPlotPicker::CrossRubberBand, 
+																	QwtPicker::AlwaysOn, 
 																	dataPlot->canvas());
 		d_picker->setRubberBandPen(QColor(Qt::green));
 		d_picker->setRubberBand(QwtPicker::CrossRubberBand);
@@ -514,7 +521,17 @@ namespace Tinkercell
 		if (!dataPlot) return;
 		
 		DataTable<qreal> & dataTable = dataPlot->dataTable;
-		dataTable = newData;
+		bool same = (dataTable.cols() == newData.cols());
+		
+		if (same)
+		{
+			for (int i=0; i < dataTable.cols(); ++i)
+				if (dataTable.colName(i) != newData.colName(i))
+				{
+					same = false;
+					break;
+				}
+		}
 		
 		int removeSz = 0;
 		for (int i=0; i < newData.cols(); ++i)
@@ -525,14 +542,14 @@ namespace Tinkercell
 		dataTable.setRowNames(newData.getRowNames());
 		
 		for (int i=0, k = 0; i < newData.cols(); ++i)
-			if (!dataPlot->hideList.contains(dataTable.colName(i)))
+			if (!dataPlot->hideList.contains(newData.colName(i)))
 			{
 				dataTable.colName(k) = dataTable.colName(i);
 				for (int j=0; j < dataTable.rows(); ++j)
 					dataTable.value(j,k) = newData.at(j,i);
 				++k;
 			}
-		if (dataPlot->hideList.isEmpty())
+		if (same && dataPlot->hideList.isEmpty())
 		{
 			dataPlot->replot();
 		}
@@ -546,6 +563,15 @@ namespace Tinkercell
 						type == PlotTool::ScatterPlot);
 		}
 		
+		if (newData.cols() > dataPlot->xcolumn)
+		{
+			dataPlot->setAxisTitle(QwtPlot::xBottom, newData.colName(dataPlot->xcolumn));
+			if (newData.cols() == 2)
+				if (dataPlot->xcolumn == 0)
+					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.colName(1));
+				else
+					dataPlot->setAxisTitle(QwtPlot::yLeft, newData.colName(0));
+		}
 	}
 	
 	void Plot2DWidget::exportData(const QString& type)
@@ -662,11 +688,14 @@ namespace Tinkercell
 	{
 		if (p.isNull() || !plotTool || !dataPlot) return;
 		
+		double x = dataPlot->invTransform(QwtPlot::xBottom, p.x()),
+					 y = dataPlot->invTransform(QwtPlot::yLeft, p.y());
+		
 		plotTool->setStatusBarMessage(
 			tr("  x: ") 
-			+ QString::number(p.x())
+			+ QString::number(x)
 			+ tr("  y: ") 
-			+ QString::number(p.y())
+			+ QString::number(y)
 		);
 	}
 	

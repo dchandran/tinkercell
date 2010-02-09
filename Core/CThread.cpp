@@ -58,8 +58,8 @@ namespace Tinkercell
 	{
 		if (lib)
 		{
-			if (lib->isLoaded())
-				lib->unload();
+			unload();
+			
 			if (!lib->parent())
 				delete lib;
 			lib = 0;
@@ -205,7 +205,7 @@ namespace Tinkercell
 
 		if (lib && autoUnloadLibrary)
 		{
-			lib->unload();
+			unload();
 		}
 	}
 
@@ -226,9 +226,26 @@ namespace Tinkercell
 	
 	void CThread::cleanupAfterTerminated()
 	{
-		if (lib && autoUnloadLibrary)
+		if (autoUnloadLibrary)
+		{
+			unload();
+		}
+	}
+	
+	void CThread::unload()
+	{
+		if (lib && lib->isLoaded())
 		{
 			lib->unload();
+		}
+		
+		QList<QString> keys = cthreads.keys();
+		QList<CThread*> values = cthreads.values();
+		
+		for (int i=0; i < keys.size() && i < values.size(); ++i)
+		{
+			if (values[i] == this)
+				cthreads.remove(keys[i]);
 		}
 	}
 
@@ -240,7 +257,6 @@ namespace Tinkercell
 
 		QWidget * dialog = new QWidget(newThread->mainWindow);
 		dialog->setStyleSheet(CThread::style);
-
 
 		dialog->move(newThread->mainWindow->pos() + QPoint(10,10));
 		dialog->setWindowIcon(icon);
@@ -332,7 +348,7 @@ namespace Tinkercell
 	QWidget * ProcessThread::dialog(MainWindow * mainWindow, ProcessThread * newThread, const QString& text, QIcon icon)
 	{
 		QWidget * dialog = new QDialog(mainWindow);
-
+		
 		dialog->setStyleSheet(CThread::style);
 		dialog->hide();
 
@@ -409,5 +425,4 @@ namespace Tinkercell
 	{
 		return errStream;
 	}
-
 }

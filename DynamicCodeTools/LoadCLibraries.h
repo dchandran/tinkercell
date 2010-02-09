@@ -43,6 +43,7 @@ namespace Tinkercell
 		
 			void compileAndRun(QSemaphore*,int*,const QString&,const QString&);
 			void compileBuildLoad(QSemaphore*,int*,const QString&,const QString&,const QString&);
+			void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 			void loadLibrary(QSemaphore*,const QString&);
 			void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 			void callback(QSemaphore*,VoidFunction);
@@ -51,6 +52,7 @@ namespace Tinkercell
 		public slots:
 			int compileAndRun(const char * cfile,const char* args);
 			int compileBuildLoad(const char * cfile,const char* f,const char* title);
+			int compileBuildLoadSliders(const char * cfile,const char* f,const char* title, Matrix);
 			void loadLibrary(const char*);
 			void addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char*, int, int, int);
 			void callback(VoidFunction);
@@ -81,6 +83,7 @@ namespace Tinkercell
 	protected slots:
 		void compileAndRunC(QSemaphore*,int*,const QString&,const QString&);
 		void compileBuildLoadC(QSemaphore*,int*,const QString&,const QString&,const QString&);
+		void compileBuildLoadSliders(QSemaphore*,int*,const QString&,const QString&,const QString&, DataTable<qreal>& );
 		void loadLibrary(QSemaphore*,const QString&);
 		void addFunction(QSemaphore*,VoidFunction, const QString& , const QString& , const QString& , const QString& ,const QString& , int, int, int);
 		void callback(QSemaphore*,VoidFunction);
@@ -101,6 +104,7 @@ namespace Tinkercell
 		static LoadCLibrariesTool_FToS fToS;		
 		static int _compileAndRun(const char * cfile,const char* args);
         static int _compileBuildLoad(const char * cfile,const char* f,const char* title);
+		static int _compileBuildLoadSliders(const char * cfile,const char* f,const char* title, Matrix);
 		static void _loadLibrary(const char*);
 		static void _addFunction(VoidFunction, const char*, const char*, const char*, const char*, const char *, int, int, int);
 		static void _callback(VoidFunction);

@@ -365,8 +365,11 @@ namespace Tinkercell
 		settings.beginGroup("LastSelectedNodes");
 
 		int n = settings.value(tr("numRows"),5).toInt();
+#if QT_VERSION > 0x045000
 		n = QInputDialog::getInt(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
-
+#elseif
+	n = QInputDialog::getInteger(this,tr("Recent items"), tr("Number of recent items (will take event when TinkerCell starts)"), 2*n, 2, 20, 2);
+#endif
 		n = n/2;
 
 		settings.setValue("numRows",n);

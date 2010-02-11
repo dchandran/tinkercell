@@ -97,7 +97,7 @@ namespace Tinkercell
 		/*!
 		* \brief whenver the sliders change, the function in the C library is called
 		*/
-		virtual void sliderChanged();
+		virtual void sliderChanged(int);
 		
 		/*!
 		* \brief whenver the text change, the function in the C library is called
@@ -126,6 +126,8 @@ namespace Tinkercell
 		QWidget * slidersWidget;
 		
 		QGridLayout * slidersLayout;	
+		
+		MainWindow * mainWindow;
 		
 		virtual void initialLayout(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues);
 	};

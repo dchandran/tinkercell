@@ -122,8 +122,9 @@ namespace Tinkercell
 	{
 		if (network && !network->graphicsViews.contains(this))
 			network->graphicsViews << this;
-
+#if QT_VERSION > 0x046000
 		setOptimizationFlag(QGraphicsView::IndirectPainting);
+#endif
 		setCacheMode(QGraphicsView::CacheBackground);
 
 		//setViewportUpdateMode (QGraphicsView::FullViewportUpdate);

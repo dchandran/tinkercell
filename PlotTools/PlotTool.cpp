@@ -32,7 +32,7 @@ namespace Tinkercell
 		Plot Tool
 	************************************/
 
-	PlotTool::PlotTool() : Tool(tr("Qwt Plot Tool"),tr("Plot")), actionGroup(this)
+	PlotTool::PlotTool() : Tool(tr("Default Plot Tool"),tr("Plot")), actionGroup(this)
 	{
 		otherToolBar = 0;
 		dockWidget = 0;

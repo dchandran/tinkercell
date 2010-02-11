@@ -93,9 +93,9 @@ void run(Matrix input)
 	initVals = tc_getInitialValues(B);
 	
 	allParams.rows = (initVals.rows+params.rows);
-	allParams.cols = 3;
+	allParams.cols = 2;
 	allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
-	allParams.values = (double*)malloc(3*allParams.rows*sizeof(double));
+	allParams.values = (double*)malloc(2*allParams.rows*sizeof(double));
 	allParams.colnames = 0;
 	
 	for (i=0; i < params.rows; ++i)
@@ -175,6 +175,9 @@ void run(Matrix input)
 						Matrix data,ss;\n\
 						char ** names;\n\
 						TCinitialize();\n\
+						if (input.rows > TCparams)\n\
+							assignParameters(input.values);\n\
+						TCFreeMatrix(input);\n\
 						rates = malloc(TCreactions * sizeof(double));\n\
 						double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, 0);\n\
 						free(rates);\n\

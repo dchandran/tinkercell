@@ -377,7 +377,7 @@ namespace Tinkercell
                     toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
             }
 			
-			Tool * tool = mainWindow->tool(tr("Plot"));
+			Tool * tool = mainWindow->tool(tr("Default Plot Tool"));
 			
 			if (tool)
 			{

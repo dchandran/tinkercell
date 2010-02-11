@@ -12,6 +12,7 @@ Uses CThread.
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include "ConsoleWindow.h"
 #include "MultithreadedSliderWidget.h"
 
 #ifdef Q_WS_WIN
@@ -59,7 +60,7 @@ namespace Tinkercell
 	}
 
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, CThread * thread, Qt::Orientation orientation)
-		: QWidget(parent), orientation(orientation)
+		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = thread;
@@ -69,7 +70,7 @@ namespace Tinkercell
 	}
 
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, const QString & lib, const QString & functionName, Qt::Orientation orientation)
-		: QWidget(parent), orientation(orientation)
+		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = new CThread(parent, lib);
@@ -86,9 +87,9 @@ namespace Tinkercell
 	
 	void MultithreadedSliderWidget::minmaxChanged()
 	{
-		if (!cthread || sliders.isEmpty() || cthread->isRunning()) return;
+		if (!cthread || sliders.isEmpty()) return;
 		
-		double delta,x;
+		double range,x;
 		bool ok;
 		
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
@@ -106,27 +107,27 @@ namespace Tinkercell
 				else
 					maxline[i]->setText(QString::number(max[i]));
 					
-				delta = (max[i]-min[i])/100.0;
-				sliders[i]->setValue((int)((values.value(i,0) - min[i]) * 100.0/delta));
+				range = (max[i]-min[i]);
+				sliders[i]->setValue((int)((values.value(i,0) - min[i]) * 100.0/range));
 			}
 	}
 	
 	void MultithreadedSliderWidget::valueChanged()
 	{
-		if (!cthread || sliders.isEmpty() || cthread->isRunning()) return;
-		
-		double delta,x;
+		if (!cthread || sliders.isEmpty()) return;
+
+		double range,x;
 		bool ok;
 		
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
-				delta = (max[i]-min[i])/100.0;
+				range = (max[i]-min[i]);
 				x = valueline[i]->text().toDouble(&ok);
 				if (ok)
 				{
 					values.value(i,0) = x;
-					sliders[i]->setValue((int)((values.value(i,0) - min[i]) * 100.0/delta));
+					sliders[i]->setValue((int)((x - min[i]) * 100.0/range));
 				}
 				else
 				{
@@ -134,24 +135,37 @@ namespace Tinkercell
 				}
 			}
 		cthread->setArg(values);
+		
+		if (cthread->isRunning())
+		{
+			mainWindow->console()->message(tr("Previous run has not finished yet"));
+			return;
+		}
+		
 		cthread->start();
 	}
 
-	void MultithreadedSliderWidget::sliderChanged()
+	void MultithreadedSliderWidget::sliderChanged(int)
 	{
-		if (!cthread || sliders.isEmpty() || cthread->isRunning()) return;
+		if (!cthread || sliders.isEmpty()) return;
 		
-		double delta;
+		double range;
 		
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
-				delta = (max[i]-min[i])/100.0;
-				values.value(i,0) = min[i] + delta * (double)(sliders[i]->value())/100.0;
+				range = (max[i]-min[i]);
+				values.value(i,0) = min[i] + range * (double)(sliders[i]->value())/100.0;
 				valueline[i]->setText(QString::number(values.value(i,0)));
 			}
 		cthread->setArg(values);
-
+		
+		if (cthread->isRunning())
+		{
+			mainWindow->console()->message(tr("Previous run has not finished yet"));
+			return;
+		}
+		
 		cthread->start();
 	}
 	
@@ -174,11 +188,10 @@ namespace Tinkercell
 		values.setColNames(options);
 			
 		slidersLayout->addWidget(new QLabel(tr("name")),0,0,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("")),0,1,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("value")),0,2,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("min")),0,3,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("max")),0,4,Qt::AlignCenter);
-		slidersLayout->setColumnStretch(1,5);
+		slidersLayout->addWidget(new QLabel(tr("")),0,1,0,10,Qt::AlignCenter);
+		slidersLayout->addWidget(new QLabel(tr("value")),0,11,Qt::AlignCenter);
+		slidersLayout->addWidget(new QLabel(tr("min")),0,12,Qt::AlignCenter);
+		slidersLayout->addWidget(new QLabel(tr("max")),0,13,Qt::AlignCenter);
 			
 		for (int i=0; i < options.size() && i < minValues.size() && i < maxValues.size(); ++i)
 		{
@@ -190,36 +203,36 @@ namespace Tinkercell
 			slider->setOrientation(orientation);
 			slider->setRange(0,100);
 			slider->setValue(50);
-			slidersLayout->addWidget(slider,1+i,1,Qt::AlignLeft);
+			slidersLayout->addWidget(slider,1+i,1,1+i,10);
 			sliders << slider;
-			connect(slider,SIGNAL(sliderReleased()),this,SLOT(valueChanged()));
+			slider->setTracking(false);
+			connect(slider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 
 			values.value(i,0) = (maxValues[i] + minValues[i])/2.0;
 			
 			line = new QLineEdit;
 			line->setText(QString::number(values.value(i,0) ));
-			slidersLayout->addWidget(line,1+i,2,Qt::AlignLeft);
+			slidersLayout->addWidget(line,1+i,11,Qt::AlignLeft);
 			valueline << line;
 			connect(line,SIGNAL(editingFinished()),this,SLOT(valueChanged()));
 
 			line = new QLineEdit;
 			line->setText(QString::number(minValues[i]));
-			slidersLayout->addWidget(line,1+i,3,Qt::AlignCenter);
+			slidersLayout->addWidget(line,1+i,12,Qt::AlignCenter);
 			minline << line;
 			min << minValues[i];
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
 
 			line = new QLineEdit;
 			line->setText(QString::number(maxValues[i]));
-			slidersLayout->addWidget(line,1+i,4,Qt::AlignLeft);
+			slidersLayout->addWidget(line,1+i,13,Qt::AlignLeft);
 			maxline << line;
-			min << maxValues[i];
+			max << maxValues[i];
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
 		}
 
 		slidersWidget = new QWidget;
-		slidersWidget->setLayout(slidersLayout);
-		
+		slidersWidget->setLayout(slidersLayout);		
 		
 		QVBoxLayout * layout = new QVBoxLayout;
 		QHBoxLayout * buttonLayout = new QHBoxLayout;		
@@ -228,9 +241,12 @@ namespace Tinkercell
 		buttonLayout->addStretch(1);
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(slidersWidget);
+		scrollArea->setWidgetResizable(true);
 		layout->addWidget(scrollArea);
 		layout->addLayout(buttonLayout);
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
 		setLayout(layout);
+		
+		valueChanged();
 	}
 }

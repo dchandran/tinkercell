@@ -473,6 +473,10 @@ namespace Tinkercell
 		nameItem->setFont(font);
 
 		scene->insert(handle->name + tr(" inserted"), insertList);
+		
+		selectedConnections.clear();
+		selectedNodes.clear();
+		selectedFamily = 0;
 
 		if (sem)
 			sem->release();

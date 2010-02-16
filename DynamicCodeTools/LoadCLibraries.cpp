@@ -517,7 +517,6 @@ namespace Tinkercell
 			names[i].replace(tr(".."),tr("_"));
 			min <<  data.value(i,0);
 			max << data.value(i,1);
-			console()->message(names[i] + tr(" ") + QString::number(min[i]) + tr(" ") + QString::number(max[i]));
 		}
 		widget->setSliders(names, min, max);
 		

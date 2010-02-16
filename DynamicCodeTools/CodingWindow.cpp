@@ -33,23 +33,11 @@ namespace Tinkercell
 
 	CodingWindow::CodingWindow()
 		 : Tool(tr("Coding Window"),tr("Coding"))
-	 {
+	{
 		 QString appDir = QCoreApplication::applicationDirPath();
 		 QString homeDir = MainWindow::userHome();
 		 fileName = homeDir + tr("/code.c");
-		 #ifdef Q_WS_WIN
-         commandC = tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/code.dll -lodesim -lssa");
-		 commandPy = appDir + tr("/dlls/runpy");
-		 #else
-		 #ifdef Q_WS_MAC
-		 commandC = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
-		 commandPy = appDir + tr("/dlls/runpy");
-		 #else
-		 commandC = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/code.so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux
-		 commandPy = appDir + tr("/dlls/runpy");
-		 #endif
-		 #endif
-
+		 
 		 toolBar = 0;
 		 window = new QMainWindow;
 
@@ -59,159 +47,146 @@ namespace Tinkercell
 		 setupEditor();
 		 setupMenu();
 		 setupDialog();
-	 }
-
+	}
+	
 	void CodingWindow::convertCodeToButton()
 	{
-		QString tcdir("Tinkercell");
-
-		QString dllDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
-
-		QString dllname = dllDescription;
-		dllname.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
-
-
-		QDir dir(MainWindow::userHome());
-		if (!dir.exists(tcdir))
-		{
-			dir.mkdir(tcdir);
-		}
-
-		dir.cd(tcdir);
-
-		QString dllsdir("dlls");
-
-		if (!dir.exists(dllsdir))
-		{
-			dir.mkdir(dllsdir);
-		}
-
-		dir.cd(dllsdir);
-
-		QString command, file;
-
-		QString appDir = QCoreApplication::applicationDirPath();
-  		 #ifdef Q_WS_MAC
-		 appDir += tr("/../../..");
-		 #endif
-		 QString homeDir = MainWindow::userHome() + tr("/");
-		 file = homeDir + tr("code.c");
-		 #ifdef Q_WS_WIN
-		 command = tr("\"") + appDir + tr("\"\\win32\\tcc -Iwin32\\include -Iwin32 -Lwin32\\lib -w -shared -rdynamic odesim.o cells_ssa.o \"") + homeDir + tr("\"/code.c -o \"") + homeDir + tr("\"/dlls/") + dllname + tr(".dll -I\"") + appDir + tr("\"/c");
-		 #else
-		 #ifdef Q_WS_MAC
-		 command = tr("gcc -bundle -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa");
-		 #else
-		 command = tr("gcc -w -shared ") + homeDir + tr("/code.c -o ") + homeDir + tr("/dlls/") + dllname + tr(".so -I") + appDir + tr("/c -L") + appDir + tr("/lib -lm -lodesim -lssa"); //linux
-		 #endif
-		 #endif
-
-		if (editorC && tabWidget->currentIndex() == 0)
-		{
-			QFile qfile(homeDir + tr("code.c"));
-			if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
-				return;
-
-			QTextStream out(&qfile);
-			out << (editorC->toPlainText());
-			qfile.close();
-
-			QProcess proc;
-			QString errors,output;
-
-			proc.start(command);
-			proc.waitForFinished();
-
-			errors = (proc.readAllStandardError());
-			if (!output.isEmpty())
-				output += tr("\n\n");
-
-			output += proc.readAllStandardOutput();
-
-            if (console())
-			if (!errors.isEmpty())
-				console()->error(errors);
-			else
-				console()->message(output);
-
-			QFile dllsfile(dir.filePath(tr("menu.txt")));
-			QString entireFile;
-
-			if (dllsfile.open(QFile::ReadOnly))
-			{
-				entireFile = dllsfile.readAll();
-				dllsfile.close();
-			}
-
-			if (!dllsfile.open(QFile::WriteOnly | QFile::Text))
-				return;
-
-			entireFile += tr("\ndlls/") + dllname + tr(",") + dllDescription + tr(",") + tr("dlls/default.png");
-
-			dllsfile.write(entireFile.toAscii());
-
-			dllsfile.close();
-
-			emit reloadLibraryList(dir.filePath(tr("menu.txt")),false);
-		}
-		else
 		if (editorPy && tabWidget->currentIndex() == 1)
+			convertCodeToButtonPy();
+		else
+		if (editorC && tabWidget->currentIndex() == 0)
+			convertCodeToButtonC( editorC->toPlainText() );
+	}
+
+	void CodingWindow::convertCodeToButtonC( const QString & code, const QString & descr)
+	{
+		QString userHome = MainWindow::userHome();
+		QString filename = userHome + tr("/code.c");
+		QFile qfile(filename);
+		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 		{
-			QFile pyfile(homeDir + tr("dlls/") + dllname + tr(".py"));
-			if (!pyfile.open(QIODevice::WriteOnly | QIODevice::Text))
-				return;
+			QMessageBox::about(this, tr("Error"),
+					 tr("Cannot write file: ") + userHome + tr("/code.c"));
+			return;
+		}
+		
+		QString dllDescription = descr;
+		if (dllDescription.isEmpty())
+			dllDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
+		QString dllName = dllDescription;
+		dllName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
 
-			QTextStream outpy(&pyfile);
-			outpy << (editorPy->toPlainText());
-			pyfile.close();
+		QTextStream out(&qfile);
+		out << tr("void tc_main()\n{\n    tc_addFunction(&run, \"") 
+			<< dllDescription 
+			<< tr("\" , \"") << dllDescription 
+			<< tr("\" ,") << tr("\"New\"")
+			<< tr(",") << tr("\"Plugins/c/default.png\"")
+			<< tr(",") << tr("\"\"") 
+			<< tr(", 1, 0, 0);\n}\n\n")
+			<< code;
+		qfile.close();
 
-			QFile qfile(homeDir + tr("code.c"));
-			if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
-				return;
+		QString errors;
+        QString output;
+        QProcess proc;
+        QString appDir = QCoreApplication::applicationDirPath();
 
-			QTextStream out(&qfile);
-            out << tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"dlls/") + dllname + tr(".py\");\n    return 0;\n}\n");
-			qfile.close();
+		QDir userHomeDir(userHome);
 
-			QProcess proc;
-			QString errors,output;
-
-			proc.start(command);
-			proc.waitForFinished();
-
-			errors = (proc.readAllStandardError());
-			if (!output.isEmpty())
-				output += tr("\n\n");
-
-			output += proc.readAllStandardOutput();
-
-            if (console())
-                if (!errors.isEmpty())
-                    console()->error(errors);
-                else
-                    console()->message(output);
-
-			QFile dllsfile(dir.filePath(tr("menu.txt")));
-			QString entireFile;
-
-			if (dllsfile.open(QFile::ReadOnly))
-			{
-				entireFile = dllsfile.readAll();
-				dllsfile.close();
-			}
-
-			if (!dllsfile.open(QFile::WriteOnly | QFile::Text))
-				return;
-
-			entireFile += tr("\ndlls/") + dllname + tr(",") + dllDescription + tr(",") + tr("dlls/default.png");
-
-			dllsfile.write(entireFile.toAscii());
-
-			dllsfile.close();
-
-			emit reloadLibraryList(dir.filePath(tr("menu.txt")),false);
+		if (!userHomeDir.cd(tr("Plugins")))
+		{
+			userHomeDir.mkdir(tr("Plugins"));
+			userHomeDir.cd(tr("Plugins"));
+		}
+		
+		if (!userHomeDir.cd(tr("c")))
+		{
+			userHomeDir.mkdir(tr("c"));
+			userHomeDir.cd(tr("c"));
 		}
 
+		proc.setWorkingDirectory(userHome);
+
+#ifdef Q_WS_WIN
+
+		dllName = tr("Plugins\\c\\") + dllName;
+		appDir.replace(tr("/"),tr("\\"));
+		userHome.replace(tr("/"),tr("\\"));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\tcc -I\"") + appDir + ("\"/win32/include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/win32/lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
+        proc.waitForFinished();
+        errors += (proc.readAllStandardError());
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#else
+#ifdef Q_WS_MAC
+
+		dllName = tr("Plugins/c/") + dllName;
+        proc.start(tr("gcc -bundle -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".dylib ") + filename);
+        proc.waitForFinished();
+        if (!errors.isEmpty())	errors += tr("\n\n");
+        errors += (proc.readAllStandardError());
+        if (!output.isEmpty())	output += tr("\n\n");
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#else
+		dllName = tr("Plugins/c/") + dllName;
+        proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
+        proc.waitForFinished();
+        if (!errors.isEmpty())	errors += tr("\n\n");
+        errors += (proc.readAllStandardError());
+        if (!output.isEmpty())	output += tr("\n\n");
+        output += tr("\n\n") + (proc.readAllStandardOutput());
+#endif
+#endif
+
+        if (console())
+            if (!errors.isEmpty())
+                console()->error(errors);
+            else
+                console()->message(output);
+
+        if (errors.size() > 0)
+        {
+            return;
+        }
+		
+		mainWindow->loadDynamicLibrary(dllName);
+	}
+		
+	
+	void CodingWindow::convertCodeToButtonPy()
+	{
+		if (!editorPy) return;
+		
+		QString userHome = MainWindow::userHome();
+		QDir userHomeDir(userHome);
+
+		if (!userHomeDir.cd(tr("Plugins")))
+		{
+			userHomeDir.mkdir(tr("Plugins"));
+			userHomeDir.cd(tr("Plugins"));
+		}
+		
+		if (!userHomeDir.cd(tr("py")))
+		{
+			userHomeDir.mkdir(tr("py"));
+			userHomeDir.cd(tr("py"));
+		}
+		
+		QString pyDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
+		QString pyName = pyDescription;
+		pyName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
+		
+		QFile pyfile(userHome + tr("/Plugins/py/") + pyName + tr(".py"));
+		if (!pyfile.open(QIODevice::WriteOnly | QIODevice::Text))
+			return;
+
+		QTextStream outpy(&pyfile);
+		outpy << (editorPy->toPlainText());
+		pyfile.close();
+
+		convertCodeToButtonC(
+			tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"Plugins/py/") + pyName + tr(".py\");\n    return 0;\n}\n"),
+			pyDescription);
 	}
 
 	bool CodingWindow::setMainWindow(MainWindow* main)
@@ -520,9 +495,9 @@ namespace Tinkercell
 		qfile.close();
 
 #ifdef Q_WS_WIN
-		emit compileBuildLoadC(tr("code.c odesim.o cells_ssa.o"),tr("run"),tr("C code"));
+		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
 #else
-		emit compileBuildLoadC(tr("code.c -lodesim -lcells_ssa"),tr("run"),tr("C code"));
+		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
 #endif
 	 }
 
@@ -538,16 +513,16 @@ namespace Tinkercell
 		QLabel * label3 = new QLabel(tr("compile Python using: "));
 
 		fileNameEdit = new QLineEdit(fileName);
-		commandPyEdit = new QLineEdit(commandPy);
-		commandCEdit = new QLineEdit(commandC);
+		//commandPyEdit = new QLineEdit(commandPy);
+		//commandCEdit = new QLineEdit(commandC);
 
 		layout->addWidget(label1,0,0,Qt::AlignLeft);
 		layout->addWidget(label2,1,0,Qt::AlignLeft);
 		layout->addWidget(label3,2,0,Qt::AlignLeft);
 
 		layout->addWidget(fileNameEdit,0,1);//,Qt::AlignRight);
-		layout->addWidget(commandCEdit,1,1);//Qt::AlignRight);
-		layout->addWidget(commandPyEdit,2,1);//,Qt::AlignRight);
+		//layout->addWidget(commandCEdit,1,1);//Qt::AlignRight);
+		//layout->addWidget(commandPyEdit,2,1);//,Qt::AlignRight);
 
 		layout->addWidget(okButton,3,0,Qt::AlignRight);
 		layout->addWidget(cancelButton,3,1);//,Qt::AlignCenter);
@@ -560,10 +535,10 @@ namespace Tinkercell
 
 	 void CodingWindow::dialogFinished()
 	 {
-		if (fileNameEdit == 0 || commandPyEdit == 0 || commandCEdit == 0) return;
+		if (fileNameEdit == 0 /*|| commandPyEdit == 0 || commandCEdit == 0*/) return;
 		fileName = fileNameEdit->text();
-		commandPy = commandPyEdit->text();
-		commandC = commandCEdit->text();
+		//commandPy = commandPyEdit->text();
+		//commandC = commandCEdit->text();
 	 }
 
 	 QSize CodingWindow::sizeHint() const

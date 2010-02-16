@@ -142,99 +142,113 @@ void run(Matrix input)
 	out = fopen("ode.c","a");
 
 	fprintf( out , "\
-				   #include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
-				   static double _time0_ = 0.0;\n\
-				   static double * rates = 0;\n\
-				   void odeFunc( double time, double * u, double * du, void * udata )\n\
-				   {\n\
-						int i,j;\n\
-						TCpropensity(time, u, rates, udata);\n\
-						for (i=0; i < TCvars; ++i)\n\
-						{\n\
-							du[i] = 0;\n\
-							for (j=0; j < TCreactions; ++j)\n\
-							{\n\
-								if (getValue(TCstoic,TCreactions,i,j) != 0)\n\
-								du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);\n\
-							}\n\
-						}\n\
-						if (time > _time0_)\n\
-						{\n\
-							tc_showProgress(\"Deterministic simulation\",(int)(100 * time/%lf));\n\
-							_time0_ += %lf;\n\
-						}\n\
-					}\n\
-					\n\
-					\n\
-					void run(Matrix input) \n\
-					{\n\
-						int i,j;\n\
-						double mx=0;\n\
-						OBJ x;\n\
-					    Array A;\n\
-						Matrix data,ss;\n\
-						char ** names;\n\
-						TCinitialize();\n\
-						if (input.rows > TCparams)\n\
-							assignParameters(input.values);\n\
-						TCFreeMatrix(input);\n\
-						rates = malloc(TCreactions * sizeof(double));\n\
-						double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, 0);\n\
-						free(rates);\n\
-						if (!y) \
-						{\n\
-							tc_errorReport(\"Numerical integration (CVODE) failed! Some values might be reaching Inf. Double check your model.\");\n\
-							return;\n\
-						}\n\
-						data.rows = %i;\n\
-						data.cols = (TCvars+1);\n\
-						data.values = y;\n\
-						names = TCvarnames;\n\
-						A = tc_findItems(TCvarnames);\n\
-						ss.rownames = 0;\n\
-			            ss.colnames = 0;\n\
-			            ss.values = malloc(TCvars * sizeof(double));\n\
-			            ss.rows = TCvars;\n\
-			            ss.cols = 1;\n\
-						for (i=0; i < TCvars; ++i)\n\
-						{\n\
-							if (i == 0 || valueAt(data,(data.rows-1),i+1) > mx)\n\
-								mx = valueAt(data,(data.rows-1),i+1);\n\
-						}\n\
-					    for (i=0; i < TCvars; ++i)\n\
-			            {\n\
-			               valueAt(ss,i,0) = valueAt(data,(data.rows-1),i+1);\n\
-						   x = tc_find(names[i]);\n\
-						   tc_displayNumber(x,valueAt(ss,i,0));\n\
-						   if (mx > 0) tc_setColor(x,200*(1.0 - valueAt(ss,i,0)/mx),200*(1.0 - valueAt(ss,i,0)/mx),200*(1.0 - valueAt(ss,i,0)/mx),0); \n\
-			            }\n\
-						if (%i)\n\
-						{\n\
-						   tc_setInitialValues(A,ss);\n\
-						}\n\
-						free(A);\n\
-						free(ss.values);\n\
-						if (%i)\n\
-						{\n\
-							double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
-							free(y);\n\
-							y = y0;\n\
-							TCvars = TCreactions;\n\
-							names = TCreactionnames;\n\
-						}\n\
-						data.cols = 1+TCvars;\n\
-						data.values = y;\n\
-						data.rownames = 0;\n\
-						data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-						data.colnames[0] = \"time\\0\";\n\
-						for (i=0; i<TCvars; ++i)\n\
-						{\n\
-							data.colnames[1+i] = names[i];\n\
-						}\n\
-						tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-						free(data.colnames);\n\
-						free(y);\n\
-						return;\n}\n",
+#include \"TC_api.h\"\n\
+#include \"cvodesim.h\"\n\n\
+static double _time0_ = 0.0;\n\
+static double * rates = 0;\n\
+void odeFunc( double time, double * u, double * du, void * udata )\n\
+{\n\
+	int i,j;\n\
+	TCpropensity(time, u, rates, udata);\n\
+	for (i=0; i < TCvars; ++i)\n\
+	{\n\
+		du[i] = 0;\n\
+		for (j=0; j < TCreactions; ++j)\n\
+		{\n\
+			if (getValue(TCstoic,TCreactions,i,j) != 0)\n\
+			du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);\n\
+		}\n\
+	}\n\
+	if (time > _time0_)\n\
+	{\n\
+		tc_showProgress(\"Deterministic simulation\",(int)(100 * time/%lf));\n\
+		_time0_ += %lf;\n\
+	}\n\
+}\n\
+\n\
+\n\
+void run(Matrix input) \n\
+{\n\
+	int i,j;\n\
+	double mx=0;\n\
+	OBJ x;\n\
+	Array A;\n\
+	Matrix data, ss1, ss2;\n\
+	char ** names;\n\
+	rates = malloc(TCreactions * sizeof(double));\n\
+	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+	(*model) = TC_initial_model;\n\
+	TCinitialize(model);\n\
+	if (input.rows > TCparams)\n\
+		TCassignParameters(input.values,model);\n\
+	for (i=0; i < TCvars; ++i)\n\
+		if (input.rows > (TCparams + i))\n\
+			TCinit[i] = valueAt(input,TCparams+i,0);\n\
+	\n\
+	double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
+	free(rates);\n\
+	if (!y) \
+	{\n\
+		tc_errorReport(\"Numerical integration (CVODE) failed! Some values might be reaching Inf. Double check your model.\");\n\
+		return;\n\
+	}\n\
+	data.rows = %i;\n\
+	data.cols = (TCvars+1);\n\
+	data.values = y;\n\
+	names = TCvarnames;\n\
+	A = tc_findItems(TCvarnames);\n\
+	ss1.rownames = 0;\n\
+	ss1.colnames = 0;\n\
+	ss1.values = TCgetVars(model);\n\
+	ss1.rows = TCvars;\n\
+	ss1.cols = 1;\n\
+	ss2.rownames = 0;\n\
+	ss2.colnames = 0;\n\
+	ss2.values = TCgetRates(model);\n\
+	ss2.rows = TCreactions;\n\
+	ss2.cols = 1;\n\
+	for (i=0; i < TCvars; ++i)\n\
+	{\n\
+	   x = A[i];\n\
+	   tc_displayNumber(x,valueAt(ss1,i,0));\n\
+	}\n\
+	if (%i)\n\
+	{\n\
+	   tc_setInitialValues(A,ss1);\n\
+	}\n\
+	free(A);\n\
+	A = tc_findItems(TCreactionnames);\n\
+	for (i=0; i < TCreactions; ++i)\n\
+	{\n\
+	   x = A[i];\n\
+	   tc_displayNumber(x,valueAt(ss2,i,0));\n\
+	}\n\
+	free(ss1.values);\n\
+	free(ss2.values);\n\
+	free(model);\n\
+	if (%i)\n\
+	{\n\
+		double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
+		free(y);\n\
+		y = y0;\n\
+		TCvars = TCreactions;\n\
+		names = TCreactionnames;\n\
+	}\n\
+	data.cols = 1+TCvars;\n\
+	data.values = y;\n\
+	data.rownames = 0;\n\
+	data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+	data.colnames[0] = \"time\\0\";\n\
+	for (i=0; i<TCvars; ++i)\n\
+	{\n\
+		data.colnames[1+i] = names[i];\n\
+	}\n\
+	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
+	TCFreeMatrix(input);\n\
+	free(data.colnames);\n\
+	free(y);\n\
+	return;\n\
+}\n",
 						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
 	

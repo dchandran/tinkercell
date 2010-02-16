@@ -23,30 +23,17 @@ Uses CThread.
 
 namespace Tinkercell
 {
-
-	void MultithreadedSliderWidget::setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)
+	void MultithreadedSliderWidget::setVisibleSliders(const QStringList& options)
 	{
-		QSlider * slider;
-		QLabel * label;
-		QLineEdit * line;
-	
-		if (!slidersLayout)  //initialize
-		{
-			initialLayout(options,minValues,maxValues);
-			return;
-		}
-
 		int k;
 		bool visible;
-		for (int i=0; i < sliders.size(); ++i)
+		QList<QString> keys = sliderWidgets.keys();
+		
+		for (int i=0; i < keys.size(); ++i)
 		{
-			k = options.indexOf(values.colName(i));
+			k = options.indexOf(keys[i]);
 			visible = (k > -1);
-			sliders[i]->setVisible(visible);
-			labels[i]->setVisible(visible);
-			minline[i]->setVisible(visible);
-			maxline[i]->setVisible(visible);
-			valueline[i]->setVisible(visible);
+			sliderWidgets[ keys[i] ]->setVisible(visible);
 		}
 	}
 
@@ -64,8 +51,8 @@ namespace Tinkercell
 	{
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = thread;
-		slidersLayout = 0;	
 		setWindowFlags(Qt::Window);
+		slidersLayout = 0;
 		hide();
 	}
 
@@ -75,8 +62,8 @@ namespace Tinkercell
 		setAttribute(Qt::WA_DeleteOnClose);
 		cthread = new CThread(parent, lib);
 		cthread->setMatrixFunction(functionName.toAscii().data());
-		slidersLayout = 0;	
 		setWindowFlags(Qt::Window);
+		slidersLayout = 0;
 		hide();
 	}
 
@@ -169,14 +156,12 @@ namespace Tinkercell
 		cthread->start();
 	}
 	
-	void MultithreadedSliderWidget::initialLayout(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)
+	void MultithreadedSliderWidget::setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)
 	{
 		QSlider * slider;
 		QLabel * label;
 		QLineEdit * line;
 
-		slidersLayout = new QGridLayout;
-		
 		sliders.clear();
 		labels.clear();
 		min.clear();
@@ -185,25 +170,37 @@ namespace Tinkercell
 		maxline.clear();
 		valueline.clear();
 		values.resize(options.size(),1);
-		values.setColNames(options);
-			
-		slidersLayout->addWidget(new QLabel(tr("name")),0,0,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("")),0,1,0,10,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("value")),0,11,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("min")),0,12,Qt::AlignCenter);
-		slidersLayout->addWidget(new QLabel(tr("max")),0,13,Qt::AlignCenter);
-			
+		values.setRowNames(options);
+		values.setColNames(QStringList() << "value");
+		
+		QHBoxLayout* layout = new QHBoxLayout;
+		
+		layout->addWidget(new QLabel(tr("name")));
+		layout->addWidget(new QLabel(tr("")));
+		layout->addWidget(new QLabel(tr("value")));
+		layout->addWidget(new QLabel(tr("min")));
+		layout->addWidget(new QLabel(tr("max")));
+		
+		QVBoxLayout * slidersLayout = new QVBoxLayout;
+		QWidget * widget = new QWidget;
+		widget->setLayout(layout);
+		slidersLayout->addWidget(widget);		
+
 		for (int i=0; i < options.size() && i < minValues.size() && i < maxValues.size(); ++i)
 		{
+			layout = new QHBoxLayout;
+			
 			label = new QLabel(options[i]);
-			slidersLayout->addWidget(label,1+i,0,Qt::AlignRight);
+			label->setMaximumWidth(80);
+			layout->addWidget(label);
 			labels << label;
 
 			slider = new QSlider;
 			slider->setOrientation(orientation);
 			slider->setRange(0,100);
 			slider->setValue(50);
-			slidersLayout->addWidget(slider,1+i,1,1+i,10);
+			slider->setMinimumWidth(100);
+			layout->addWidget(slider,5);
 			sliders << slider;
 			slider->setTracking(false);
 			connect(slider,SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
@@ -212,29 +209,37 @@ namespace Tinkercell
 			
 			line = new QLineEdit;
 			line->setText(QString::number(values.value(i,0) ));
-			slidersLayout->addWidget(line,1+i,11,Qt::AlignLeft);
+			line->setMaximumWidth(80);
+			layout->addWidget(line);
 			valueline << line;
 			connect(line,SIGNAL(editingFinished()),this,SLOT(valueChanged()));
 
 			line = new QLineEdit;
 			line->setText(QString::number(minValues[i]));
-			slidersLayout->addWidget(line,1+i,12,Qt::AlignCenter);
+			line->setMaximumWidth(80);
+			layout->addWidget(line);
 			minline << line;
 			min << minValues[i];
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
 
 			line = new QLineEdit;
 			line->setText(QString::number(maxValues[i]));
-			slidersLayout->addWidget(line,1+i,13,Qt::AlignLeft);
+			line->setMaximumWidth(80);
+			layout->addWidget(line);
 			maxline << line;
 			max << maxValues[i];
 			connect(line,SIGNAL(editingFinished()),this,SLOT(minmaxChanged()));
+			
+			QWidget * widget = new QWidget;
+			widget->setLayout(layout);
+			slidersLayout->addWidget(widget);
+			sliderWidgets[ options[i] ] = widget;
 		}
-
-		slidersWidget = new QWidget;
+		
+		QWidget * slidersWidget = new QWidget;
 		slidersWidget->setLayout(slidersLayout);		
 		
-		QVBoxLayout * layout = new QVBoxLayout;
+		QVBoxLayout * mainlayout = new QVBoxLayout;
 		QHBoxLayout * buttonLayout = new QHBoxLayout;		
 		QPushButton * closeButton = new QPushButton(tr("Close"));
 		buttonLayout->addWidget(closeButton);
@@ -242,11 +247,16 @@ namespace Tinkercell
 		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(slidersWidget);
 		scrollArea->setWidgetResizable(true);
-		layout->addWidget(scrollArea);
-		layout->addLayout(buttonLayout);
+		mainlayout->addWidget(scrollArea);
+		mainlayout->addLayout(buttonLayout);
 		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
-		setLayout(layout);
+		setLayout(mainlayout);
 		
 		valueChanged();
+	}
+	
+	DataTable<qreal> MultithreadedSliderWidget::data() const
+	{
+		return values;
 	}
 }

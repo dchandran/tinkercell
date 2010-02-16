@@ -222,6 +222,10 @@ namespace Tinkercell
 	void CThread::setArg(const DataTable<qreal>& dat)
 	{
 		argMatrix = dat;
+		Matrix m = ConvertValue(argMatrix);
+		DataTable<qreal> * d = ConvertValue(m);
+		mainWindow->console()->printTable(*d);
+		delete d;
 	}
 	
 	void CThread::cleanupAfterTerminated()

@@ -1,4 +1,5 @@
 /****************************************************************************
+/****************************************************************************
 
 Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
@@ -238,14 +239,23 @@ namespace Tinkercell
 		QFile cfile (filename + QString(".c"));
 		QFile pyfile (filename + QString(".py"));
 		QString name;
-
+		
+		QList<ItemHandle*> namelessHandles;
+		
 		int i,j;
+		
+		for (i=0; i < handles.size(); ++i)
+			if (handles[i] && handles[i]->name.isEmpty())
+			{
+				namelessHandles << handles[i];
+				handles[i]->name = tr("model");
+			}
 
 		if (!cfile.open(QFile::WriteOnly | QFile::Text) || !pyfile.open(QFile::WriteOnly | QFile::Text))
 		{
 			return 0;
 		}
-		QStringList cmodel, pymodel;
+		QStringList code, pycode;
 
 		//multiple cells
 
@@ -286,9 +296,6 @@ namespace Tinkercell
 				dat.value(0,0) *= popSz;
 			}
 		}
-
-		//
-
 		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
 
 		for (i=0; i < rates.size(); ++i)
@@ -299,7 +306,10 @@ namespace Tinkercell
 		}
 
 		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles,replaceDot,true);
-		if (N.rows() < 1 || N.cols() < 1 || rates.isEmpty()) return 0;
+		
+		int r = N.rows(), c = N.cols();
+		
+		if (r < 1 || c < 1 || rates.isEmpty()) return 0;
 
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		params.insertCol(1,tr("used"));
@@ -322,8 +332,6 @@ namespace Tinkercell
 				params.value(i,1) = 0.0;
 		}
 
-		QStringList expressions, code, pycode;
-
 		//restore modified cells
 		for (i=0; i < modifiedHandles.size(); ++i)
 		{
@@ -336,14 +344,10 @@ namespace Tinkercell
 			}
 		}
 
-		cmodel << "#include <math.h>\n\n";
-
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;
-		QStringList vars;
-		QStringList initValues;
-
-		QStringList fixedVars;
+		QStringList vars, fluxes, initValues, eventTriggers, eventActions, assignmentNames, 
+					assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
 		for (i=0; i < handles.size(); ++i)
 		{
@@ -351,23 +355,17 @@ namespace Tinkercell
 			{
 				if (handles[i]->data)
 				{
-					if (handles[i]->hasNumericalData(tr("Initial Value")))
+					if (handles[i]->hasNumericalData(tr("Initial Value")) && !from.contains(handles[i]))
 					{
-						cmodel << tr("double ") + handles[i]->fullName(replaceDot) + tr(" = ") +
-							toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0)) + tr(";\n");
-						pymodel << handles[i]->fullName(replaceDot) + tr(" = ") +
-							toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0)) + tr(";\n");
 						vars << handles[i]->fullName(replaceDot);
 						initValues << toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0));
 					}
-					else
+					/*else
 						if (!handles[i]->name.isEmpty())
 						{
-							cmodel << tr("double ") + handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
-							pymodel << handles[i]->fullName(replaceDot) + tr(" = 0.0;\n");
 							vars << handles[i]->fullName(replaceDot);
 							initValues << "0.0";
-						}
+						}*/
 					if (handles[i]->hasNumericalData(tr("Fixed")) &&
 						handles[i]->data->numericalData[tr("Fixed")].at(0,0) > 0)
 					{
@@ -400,9 +398,9 @@ namespace Tinkercell
 
 							if (s1.isEmpty() || s2.isEmpty()) continue;
 
-							code << tr("   if (") + s1 + tr(") {") + s2 + tr(";}\n");
-							pycode << tr("   if (") + s1 + tr("): ") + s2 + tr(";\n");
-
+							eventTriggers << s1;
+							eventActions << s2;
+							
 							for (int k=0; k < params.rows(); ++k)
 								if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
 									params.value(k,1) = 1.0;
@@ -429,15 +427,10 @@ namespace Tinkercell
 
 							for (k=0; k < from.size() && k < to.size(); ++k)
                                 s2.replace(from[k]->fullName(replaceDot),to[k]->fullName(replaceDot));
-
-							s2.replace(tr(","),tr(", double "));
-							s2 = tr("(double ") + s2 + tr(")");
-
-							cmodel << tr("   double ") + name + replaceDot + dat.rowName(j)
-								+ s2 + tr("{ return ") + s1 + tr(";}\n");
-
-							pymodel << tr("   defn ") + name + replaceDot + dat.rowName(j)
-								+ s2 + tr(": return ") + s1 + tr(";\n");
+								
+							functionNames << name + replaceDot + dat.rowName(j);
+							functionArgs << s2;
+							functionDefs << s1;
 						}
 					}
 				}
@@ -469,35 +462,25 @@ namespace Tinkercell
 
 							if (s1.isEmpty() || s2.isEmpty()) continue;
 
-							if (s1.isEmpty() || s1 == handles[i]->fullName() || s1 == handles[i]->fullName(replaceDot))
+							if (s1.isEmpty() || s1 == name)
 							{
-								expressions << tr("   ") + name + tr(" = ") + s2 + tr(";\n");
-								if (!fixedVars.contains(handles[i]->fullName(replaceDot)))
-									fixedVars << handles[i]->fullName(replaceDot);
+								assignmentNames << name;
+								assignmentDefs << s2;
+								
+								if (!fixedVars.contains(name))
+									fixedVars << name;
 							}
 							else
 								if (handles[i]->hasNumericalData(tr("Numerical Attributes")) &&
 									handles[i]->data->numericalData["Numerical Attributes"].rowNames().contains(dat.rowName(j)))
 								{
-									if (handles[i]->name.isEmpty())
-										expressions << tr("   ") + s1 + tr(" = ") + s2 + tr(";\n");
-									else
-										expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
+									assignmentNames << name + replaceDot + s1;
+									assignmentDefs << s2;
 								}
 								else
 								{
-									if (handles[i]->name.isEmpty())
-									{
-										expressions << tr("   ") + s1 + tr(" = ") + s2 + tr(";\n");
-										cmodel << tr("double ") + s1 + tr(" = 0.0;\n");
-										pymodel << s1 + tr(" = 0.0;\n");
-									}
-									else
-									{
-										expressions << tr("   ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = ") + s2 + tr(";\n");
-										cmodel << tr("double ") + handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
-										pymodel << handles[i]->fullName(replaceDot) + replaceDot + s1 + tr(" = 0.0;\n");
-									}
+									assignmentNames << name + replaceDot + s1;
+									assignmentDefs << s2;
 								}
 								for (int k=0; k < params.rows(); ++k)
 									if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
@@ -506,8 +489,103 @@ namespace Tinkercell
 				}
 			}
 		}
+		
+		code += tr("#include <stdio.h>\n#include <stdlib.h>\n#include <math.h>\n\n"); 
+		for (i=0; i < functionNames.size(); ++i)
+		{
+			name = functionNames[i];
+			s2 = functionArgs[i];
+			s1 = functionDefs[i];
+			
+			s2.replace(tr(","),tr(", double "));
+			s2 = tr("(double ") + s2 + tr(")");
+			code += tr("    double ") + name + s2 + tr("{ return ") + s1 + tr(";}\n\n");
+		}
+		
+		code += tr("typedef struct\n{\n");
+		pycode += "class TCmodel:\n";
+		
+		QStringList allValues;
+		
+		for (i=0; i < N.rows(); ++i)
+			if (!vars.contains(N.rowName(i)))
+			{
+				vars << N.rowName(i);
+				initValues << tr("0.0");
+			}
+		
+		fluxes = N.getColNames();
+		
+		for (i=0; i < vars.size(); ++i)
+		{
+			code += tr("    double ");
+			code += vars[i];
+			code += tr(";\n");
+			allValues << initValues[i];
+			
+			pycode += tr("    ");
+			pycode += vars[i];
+			pycode += tr(" = ");
+			pycode += initValues[i];
+			pycode += tr(";\n");
+		}
+		
+		for (i=0; i < fluxes.size(); ++i)
+		{
+			code += tr("    double ");
+			code += fluxes[i];
+			code += tr(";\n");
+			allValues << tr("0.0");
+			
+			pycode += tr("    ");
+			pycode += fluxes[i];
+			pycode += tr(" = 0.0;\n");
+		}
+		
+		for (i=0; i < assignmentNames.size(); ++i)
+		{
+			code += tr("    double ");
+			code += assignmentNames[i];
+			code += tr(";\n");
+			allValues << tr("0.0");
+			
+			pycode += tr("    ");
+			pycode += assignmentNames[i];
+			pycode += tr(" = 0.0;\n");
+		}
+		
+		QStringList trueParams;
+		for (i = 0; i < params.rows(); ++i)
+			if (params.value(i,1) > 0 && !assignmentNames.contains(params.rowName(i)))
+			{
+				trueParams << params.rowName(i);
+				
+				code += tr("    double "); 
+				code += params.rowName(i);
+				code += tr(";\n");
+				allValues << toString(params.at(i,0));
+				
+				pycode += tr("    ");
+				pycode += params.rowName(i);
+				pycode += tr(" = ");
+				pycode += toString(params.at(i,0));
+				pycode += tr(";\n");
+			}
+		
+		code += tr("} TCmodel;\n\n");		
+		code += tr("TCmodel TC_initial_model = {");
+		code += allValues.join(tr(","));
+		code += tr("};\n\n");
+		
+		for (i=0; i < functionNames.size(); ++i)
+		{
+			name = functionNames[i];
+			s2 = functionArgs[i];
+			s1 = functionDefs[i];
+			pycode += tr("    defn ") + name + s2 + tr(": return ") + s1 + tr(";\n");
+		}
 
-		if (fixedVars.size() < N.rows())
+		/*if (fixedVars.size() < N.rows())
 		{
 			DataTable<qreal> N2(N);
 			N.resize(N.rows()-fixedVars.size(), N.cols());
@@ -527,165 +605,312 @@ namespace Tinkercell
 				}
 			}
 		}
-		else
-		{
-			for (i=0; i < N.rows(); ++i)
+		else*/
+		for (i=0; i < r; ++i)
+			if (fixedVars.contains(N.rowName(i)))
 			{
-				for (j=0; j < N.cols(); ++j)
+				for (j=0; j < c; ++j)
 				{
 					N.value(i,j) = 0.0;
 				}
 			}
+		
+		//get array of current param values
+		code += tr("\ndouble * TCgetParameters( TCmodel * model )\n{ \n");
+		code += tr("   double * k = (double*)malloc(");
+		code += QString::number(trueParams.size());
+		code += tr("*sizeof(double));\n");
+		
+		pycode += tr("    defn TCgetParameters ():\n    k = range(0,");
+		pycode += QString::number(trueParams.size());
+		pycode += tr(");\n");
+		
+		for (i = 0; i < trueParams.size(); ++i)
+		{
+			code += tr("   k[");
+			code += QString::number(i);
+			code += tr("] = model->");
+			code += trueParams[i];
+			code += tr(";\n");
+			
+			pycode += tr("        k[");
+			pycode += QString::number(i);
+			pycode += tr("] = ");
+			pycode += trueParams[i];
+			pycode += tr(";\n");
+		}
+		code += tr("    return k;\n}\n\n");
+		pycode += tr("        return k;\n\n");
+		
+		//get array of current variable values
+		code += tr("\ndouble * TCgetVars( TCmodel * model )\n{ \n");
+		code += tr("   double * k = (double*)malloc(");
+		code += QString::number(r);
+		code += tr("*sizeof(double));\n");
+		
+		pycode += tr("    defn TCgetVars ():\n    k = range(0,");
+		pycode += QString::number(r);
+		pycode += tr(");\n");
+		
+		for (i = 0; i < r; ++i)
+		{
+			code += tr("   k[");
+			code += QString::number(i);
+			code += tr("] = model->");
+			code += N.rowName(i);
+			code += tr(";\n");
+			
+			pycode += tr("        k[");
+			pycode += QString::number(i);
+			pycode += tr("] = ");
+			pycode += N.rowName(i);
+			pycode += tr(";\n");
+		}
+		code += tr("    return k;\n}\n\n");
+		pycode += tr("        return k;\n\n");
+		
+		//get array of current rates
+		code += tr("\ndouble * TCgetRates( TCmodel * model )\n{ \n");
+		code += tr("   double * k = (double*)malloc(");
+		code += QString::number(c);
+		code += tr("*sizeof(double));\n");
+		
+		pycode += tr("    defn TCgetRates ():\n    k = range(0,");
+		pycode += QString::number(c);
+		pycode += tr(");\n");
+		
+		for (i = 0; i < c; ++i)
+		{
+			code += tr("   k[");
+			code += QString::number(i);
+			code += tr("] = model->");
+			code += N.colName(i);
+			code += tr(";\n");
+			
+			pycode += tr("        k[");
+			pycode += QString::number(i);
+			pycode += tr("] = ");
+			pycode += N.colName(i);
+			pycode += tr(";\n");
+		}
+		code += tr("    return k;\n}\n\n");
+		pycode += tr("        return k;\n\n");
+		
+		//write assign-parameters function (not needed for simulation, but could be useful for some purpose)
+		code += tr("\nvoid TCassignParameters( double * k, TCmodel * model )\n{ \n");
+		pycode += tr("    defn TCassignParameters ( k ):\n");
+		
+		for (i = 0; i < trueParams.size(); ++i)
+		{
+			code += tr("   model->");
+			code += trueParams[i];
+			code += tr(" = k[");
+			code += QString::number(i);
+			code += "];\n";
+			
+			pycode += tr("        ");
+			pycode += trueParams[i];
+			pycode += tr(" = k[");
+			pycode += QString::number(i);
+			pycode += tr("];\n");
+		}
+		
+		code += tr("}\n\n");
+		pycode += tr("\n\n");
+
+		//print header and beginning of propensity function
+		code += tr("\nvoid TCpropensity(double time, double * u, double * rates, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
+		pycode += tr("\n    defn TCpropensity(u, time):\n");
+
+		//declare variables
+		for (i = 0; i < N.rows(); ++i)
+		{
+			code += tr("    model->");
+			code += N.rowName(i);
+			code += tr(" = u[");
+			code += QString::number(i);
+			code += tr("];\n");
+			
+			pycode += tr("        ");
+			pycode += N.rowName(i);
+			pycode += tr(" = u[");
+			pycode += QString::number(i);
+			pycode += tr("];\n");
 		}
 
-		for (i=0; i < N.rows(); ++i)
-			if (!vars.contains(N.rowName(i)))
+		//assignments
+		if (!assignmentNames.isEmpty())
+			for (i=0; i < assignmentNames.size(); ++i)
 			{
-				cmodel << tr("double ") + N.rowName(i) + tr(" = 0.0;\n");
-				pymodel << N.rowName(i) + tr(" = 0.0;\n");
+				pycode += tr("        ");
+				pycode += assignmentNames[i];
+				pycode += tr(" = ");
+				pycode += assignmentDefs[i];
+				
+				code += tr("    model->");
+				code += assignmentNames[i];
+				code += tr(" = ");
+				code += insertPrefix(handles,tr("model->"),assignmentDefs[i],replaceDot);
+			}
+		
+		//events
+		if (!eventTriggers.isEmpty())
+			for (i=0; i < eventTriggers.size(); ++i)
+			{
+				pycode += tr("        if (");
+				pycode += eventTriggers[i];
+				pycode += tr("): ");
+				pycode += eventActions[i];
+				pycode += tr(";\n");
+				
+				code += tr("        if (");
+				code += insertPrefix(handles,tr("model->"),eventTriggers[i],replaceDot);
+				code += tr(") { ");
+				code += insertPrefix(handles,tr("model->"),eventActions[i],replaceDot);
+				code += tr("}\n");
+			}
+			
+		//declare variables again if changed by assignment or event
+		if (!assignmentNames.isEmpty()  || !eventTriggers.isEmpty())
+		{
+			for (i = 0; i < N.rows(); ++i)
+			{
+				code += tr("    u[");
+				code += QString::number(i);
+				code += tr("] = ");
+				code += N.rowName(i);
+				code += tr(";\n");
+				
+				pycode += tr("        u[");
+				pycode += QString::number(i);
+				pycode += tr("] = ");
+				pycode += N.rowName(i);
+				pycode += tr(";\n");
+			}
+		}
+
+		//print the rates
+		pycode += tr("        rates = range(0,") + QString::number(rates.size()) + tr(");\n");
+		for (i = 0; i < rates.size() && i < c; ++i)
+		{
+			code += tr("    rates[");
+			code += QString::number(i);
+			code += tr("] = model->");
+			code += N.colName(i);
+			code += tr(" = ");
+			code += insertPrefix(handles,tr("model->"),rates[i],replaceDot);
+			code += tr(";\n");
+			
+			pycode += tr("        rates[");
+			pycode += QString::number(i);
+			pycode += tr("] = ");
+			pycode += N.colName(i);
+			pycode += tr(" = ");
+			pycode += rates[i];
+			pycode += tr(";\n");
+		}
+
+		code += tr("}\n\ndouble TCstoic[] = { ");
+		pycode << tr("        return rates;\n    TCstoic = ( ");
+
+
+		for (i = 0; i < r; ++i)
+			for (j=0; j < c; ++j)
+			{
+				code += toString( N.at(i,j) );
+				pycode += QString::number( N.at(i,j) );
+				
+				if (i < (r-1) || j < (c-1))
+				{
+					code += tr(",");
+					pycode += tr(",");
+				}
 			}
 
-			for (i = 0; i < params.rows(); ++i)
-				if (params.value(i,1) > 0)
-				{
-					cmodel << "double " << params.rowName(i) << " = " << toString(params.at(i,0)) << ";\n";
-					pymodel << params.rowName(i) << " = " << toString(params.at(i,0)) << ";\n";
-				}
+		code += tr("};\n\n");
+		pycode += tr(");\n\n");
 
-				QStringList trueParams;
-				//write assign parameters function (not needed for simulation, but could be useful for some purpose)
-				cmodel << "\nvoid assignParameters( double * k )\n { \n";
-				pymodel << "\ndefn assignParameters ( k ):\n";
-				j = 0;
-				for (i = 0; i < params.rows(); ++i)
-					if (params.value(i,1) > 0)
-					{
-						trueParams << params.rowName(i);
-						cmodel << "   " << params.rowName(i) << " = k[" << QString::number(j) << "];\n";
-						pymodel << "   " << params.rowName(i) << " = k[" << QString::number(j) << "];\n";
-						++j;
-					}
-					cmodel << "}\n\n";
-					pymodel << "\n\n";
-
-					//print header and beginning of ode function f
-					cmodel << "\nvoid TCpropensity(double time, double * u, double * rates, void * data)\n{\n";
-					pymodel << "\ndefn TCpropensity(u, time):\n";
-
-					//declare variables
-					for (i = 0; i < N.rows(); ++i)
-					{
-						cmodel << "   " << N.rowName(i) << " = u[" << QString::number(i) << "];\n";
-						pymodel << "   " << N.rowName(i) << " = u[" << QString::number(i) << "];\n";
-					}
-
-					//write code
-					if (!code.isEmpty() || !expressions.isEmpty())
-					{
-
-						cmodel << expressions;
-						pymodel << expressions;
-
-						cmodel << code;
-						pymodel << pycode;
-
-						//declare variables
-						for (i = 0; i < N.rows(); ++i)
-						{
-							cmodel << "   " << "u[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-							pymodel << "   " << "u[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-						}
-					}
-
-					//print the rates
-					pymodel << tr("   rates = range(0,") + QString::number(rates.size()) + tr(");\n");
-					for (i = 0; i < rates.size(); ++i)
-					{
-						cmodel << "   rates[" << QString::number(i) << "] = " << rates[i] << ";\n";
-						pymodel << "   rates[" << QString::number(i) << "] = " << rates[i] << ";\n";
-					}
-					cmodel << "};\n";
-					pymodel << "   return rates;\n";
-
-					cmodel << "double TCstoic[] = { ";
-					pymodel << "TCstoic = ( ";
-
-					for (i = 0; i < N.rows(); ++i)
-						for (j=0; j < N.cols(); ++j)
-						{
-							cmodel << toString( N.at(i,j) ) << ",";
-							pymodel << QString::number( N.at(i,j) ) << ",";
-						}
-						cmodel.pop_back(); //remove last comma
-						pymodel.pop_back();
-
-						cmodel << "};\n\n";
-						pymodel << ");\n\n";
-						//write simulation information
-						cmodel << "int TCvars = " << QString::number(N.rows()) << ";\n";
-						cmodel << "int TCreactions = " << QString::number(N.cols()) << ";\n";
-						cmodel << "int TCparams = " << QString::number(trueParams.size()) << ";\n";
-
-						pymodel << "TCvars = " << QString::number(N.rows()) << ";\n";
-						pymodel << "TCreactions = " << QString::number(N.cols()) << ";\n";
-						pymodel << "TCparams = " << QString::number(trueParams.size()) << ";\n";
-
-						//variable names
-						cmodel << "char * TCvarnames[] = {\"" << N.getRowNames().join("\",\"") << "\",0};\n\n";
-						pymodel << "TCvarnames = (\"" << N.getRowNames().join("\",\"") << "\");\n\n";
-
-						//reaction names
-						cmodel << "char * TCreactionnames[] = {\"" << N.getColNames().join("\",\"") << "\",0};\n\n";
-						pymodel << "TCreactionnames = (\"" << N.getColNames().join("\",\"") << "\");\n\n";
-
-						//param names
-						cmodel << "char * TCparamnames[] = {\"" << trueParams.join("\",\"") << "\",0};\n\n";
-						pymodel << "TCparamnames = (\"" << trueParams.join("\",\"") << "\");\n\n";
-
-						cmodel << "double TCinit[" << QString::number(N.rows()) << "];\n";
-						pymodel << "TCinit = range(0," << QString::number(N.rows()) << ");\n";
-
-						cmodel << "\nvoid TCinitialize()\n{\n";
-						pymodel << "\ndefn TCinitialize():\n";
-
-						for (i = 0; i < N.rows(); ++i)
-						{
-							int k = vars.indexOf(N.rowName(i));
-							if (k > -1)
-							{
-								cmodel << "   " <<  N.rowName(i) << " = TCinit["<< QString::number(i) << "] = " << initValues[k] << ";\n";
-								pymodel << "   " <<  N.rowName(i) << " = TCinit[" << QString::number(i) << "] = " << initValues[k] << ";\n";
-							}
-							else
-							{
-								cmodel << "   TCinit[" << QString::number(i) << "] = 0.0;\n";
-								pymodel << "   TCinit[" << QString::number(i) << "] = 0.0;\n";
-							}
-						}
-						cmodel << "}\n\n";
-						pymodel << "\n\n";
-
-						cmodel << "\nvoid TCreinitialize()\n{\n";
-						pymodel << "\ndefn TCreinitialize():\n";
-
-						for (i = 0; i < N.rows(); ++i)
-						{
-							int k = vars.indexOf(N.rowName(i));
-							if (k > -1)
-							{
-								cmodel << "   TCinit[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-								pymodel << "   TCinit[" << QString::number(i) << "] = " << N.rowName(i) << ";\n";
-							}
-						}
-						cmodel << "}\n\n";
-						pymodel << "\n\n";
-
-
-						cfile.write(cmodel.join("").toAscii());
-						cfile.close();
-
-						pyfile.write(pymodel.join("").toAscii());
-						pyfile.close();
-						return 1;
+		//write simulation information
+		code += tr("int TCvars = ");
+		code += QString::number(r);
+		code += tr(";\n");
+		
+		code += tr("int TCreactions = ");
+		code += QString::number(c);
+		code += tr(";\n");
+		code += tr("int TCparams = ");
+		code += QString::number(trueParams.size());
+		code += tr(";\n");
+		
+		//variable names
+		code += tr("char * TCvarnames[] = {\"");
+		code += N.getRowNames().join("\",\"");
+		code += tr("\",0};\n\n");
+		
+		pycode += tr("    TCvarnames = (\"");
+		pycode += N.getRowNames().join("\",\"");
+		pycode += tr("\");\n\n");		
+		
+		//reaction names
+		code += tr("char * TCreactionnames[] = {\"");
+		code += N.getColNames().join("\",\"");
+		code += tr("\",0};\n\n");
+		
+		pycode += tr("    TCreactionnames = (\"");
+		pycode += N.getColNames().join("\",\"");
+		pycode += tr("\");\n\n");
+		
+		code += tr("double TCinit[");
+		code += QString::number(r);
+		code += tr("];\n");
+		pycode += tr("TCinit = range(0,");
+		pycode += QString::number(r);
+		pycode += tr(");\n");
+		
+		code += tr("\nvoid TCinitialize(TCmodel * model)\n{\n");
+		pycode += tr("\n    defn TCinitialize():\n");
+		
+		for (i = 0; i < r; ++i)
+		{
+			code += tr("    TCinit[");
+			code += QString::number(i);
+			code += tr("] = model->");
+			code += N.rowName(i);
+			code += tr(";\n");
+			
+			pycode += tr("        ");
+			pycode += tr(" = TCinit[");
+			pycode += QString::number(i);
+			pycode += tr("] = ");
+			pycode += N.rowName(i);
+			pycode += tr(";\n");
+		}
+		
+		code += tr("}\n\n");
+		pycode += tr("\n\n");
+		
+		for (i=0; i < namelessHandles.size(); ++i)
+			if (namelessHandles[i])
+				namelessHandles[i]->name = tr("");
+		
+		cfile.write(code.join("").toAscii());
+		cfile.close();
+		
+		pyfile.write(pycode.join("").toAscii());
+		pyfile.close();
+		return 1;
+	}
+	
+	QString ModelFileGenerator::insertPrefix(const QList<ItemHandle*>& handles, const QString& pref, const QString& str, const QString& sep)
+	{
+		QString s = str;
+		QString name;
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i])
+			{
+				name = handles[i]->fullName(sep);
+				s.replace(name,pref + name);
+			}
+		return s;
 	}
 }

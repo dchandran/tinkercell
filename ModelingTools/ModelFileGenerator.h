@@ -69,8 +69,11 @@ namespace Tinkercell
 		void connectCFuntions();
 		static int _generateModelFile(const char*,Array);
 		static Matrix _getParameters(Array );
+	
+	private:
+		static QString insertPrefix(const QList<ItemHandle*>& handles, const QString& pref, const QString& s, const QString& sep=QString("_"));
 	};
-
+	
 	static void replaceHatWithPow(QString& string)
 	{
 		QRegExp hats[] = 

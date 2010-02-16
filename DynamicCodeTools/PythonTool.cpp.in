@@ -223,18 +223,14 @@ namespace Tinkercell
                     if (file.open(QFile::ReadOnly | QFile::Text))
                     {
                         opened = true;
-                        break;
+                        loadFromFile(libMenu,file);
+						file.close();
                     }
                 }
                 if (!opened)
                 {
                     if (console())
 						console()->error(filename +  tr(" file not found"));
-                }
-                else
-                {
-                    loadFromFile(libMenu,file);
-                    file.close();
                 }
             }
         }

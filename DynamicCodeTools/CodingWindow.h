@@ -76,7 +76,6 @@ namespace Tinkercell
 	signals:
 		void runPy(const QString&);
 		void stopPy();
-		void reloadLibraryList(const QString&, bool);
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
 
 	public slots:
@@ -102,6 +101,8 @@ namespace Tinkercell
 		void setupMenu();
 		void setupDialog();
 		void runC(const QString&);
+		void convertCodeToButtonPy();
+		void convertCodeToButtonC( const QString & code, const QString & descr = QString());
 
 		QTimeLine timer;
 		QMainWindow * window;
@@ -115,7 +116,7 @@ namespace Tinkercell
 		CandPythonSyntaxHighlighter *highlighterC;
 		CandPythonSyntaxHighlighter *highlighterPy;
 
-		QString commandC, commandPy, fileName;
+		QString fileName;
 		QDialog commandDialog;
 
 	};

@@ -17,7 +17,10 @@ Uses CThread.
 #include <QSlider>
 #include <QLabel>
 #include <QGridLayout>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QScrollArea>
+#include <QHash>
 #include "CThread.h"
 
 #ifdef Q_WS_WIN
@@ -51,12 +54,18 @@ namespace Tinkercell
 	public slots:
 	
 		/*!
-		* \brief setup the slide options and initial values
+		* \brief setup the sliders options and initial values
 		* \param QStringList names for the sliders
 		* \param QList<double> minimum value for each of the sliders
 		* \param QList<double> maximum value for each of the sliders
 		*/
 		virtual void setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues);
+		
+		/*!
+		* \brief set the sliders visible
+		* \param QStringList names for the sliders
+		*/
+		virtual void setVisibleSliders(const QStringList& options);
 		
 	public:
 
@@ -86,6 +95,11 @@ namespace Tinkercell
 		* \brief the cthread that is run every time the sliders change
 		*/
 		virtual CThread * thread() const;
+		
+		/*!
+		* \brief table containing the variables, current values, min and max
+		*/
+		virtual DataTable<qreal> data() const;
 
 	protected slots:
 
@@ -123,13 +137,11 @@ namespace Tinkercell
 		
 		QList<double> min, max;
 		
-		QWidget * slidersWidget;
+		QVBoxLayout * slidersLayout;
 		
-		QGridLayout * slidersLayout;	
+		QHash< QString, QWidget* > sliderWidgets;
 		
 		MainWindow * mainWindow;
-		
-		virtual void initialLayout(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues);
 	};
 }
 

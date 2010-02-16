@@ -495,9 +495,9 @@ namespace Tinkercell
 		qfile.close();
 
 #ifdef Q_WS_WIN
-		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
+		emit compileBuildLoadC(tr("code.c -lodesim -lssa"),tr("run"),tr("C code"));
 #else
-		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
+		emit compileBuildLoadC(tr("code.c -lodesim -lssa"),tr("run"),tr("C code"));
 #endif
 	 }
 

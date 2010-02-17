@@ -762,7 +762,7 @@ namespace Tinkercell
 
 	 void TCFunctionsListView::readCHeaders(const QString& dirname)
 	 {
-	  	 QDir dir(dirname);
+		 QDir dir(dirname);
 		 dir.setFilter(QDir::Files);
 		 dir.setSorting(QDir::Name);
 
@@ -775,10 +775,10 @@ namespace Tinkercell
 		 {
 			QFileInfo fileInfo = list.at(i);
 			QFile file(fileInfo.absoluteFilePath());
-		    if (fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
-
-			QRegExp regexComments(tr("\\brief([^\\n\\r]+)"));
-			QRegExp regexGroup(tr("\\ingroup([^\\n\\r]+)"));
+			if (fileInfo.completeSuffix().toLower() != tr("h") || !file.open(QFile::ReadOnly)) continue;
+			
+			QRegExp regexComments(tr("brief\\s*([^\\n\\r]+)"));
+			QRegExp regexGroup(tr("ingroup\\s*([^\\n\\r]+)"));
 			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(tc_[A-Za-z0-9]+)\\s*(\\([^\\)]*\\))"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
@@ -788,14 +788,13 @@ namespace Tinkercell
 			 while (!file.atEnd())
 			 {
 				 QString line(file.readLine());
-
+				 
 				 regexGroup.indexIn(line);
 				 regexComments.indexIn(line);
 				 regexFunction.indexIn(line);
 				 if (regexGroup.numCaptures() > 0 && regexGroup.capturedTexts().at(1).length() > 1)
 				 {
 					QString s = regexGroup.capturedTexts().at(1); //category
-					console->message(s);
 					if (s.contains(QRegExp("\\s*init\\s*")))
 					{
 						currentItem = 0;

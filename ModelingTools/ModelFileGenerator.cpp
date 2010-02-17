@@ -746,11 +746,13 @@ namespace Tinkercell
 				pycode += assignmentNames[i];
 				pycode += tr(" = ");
 				pycode += assignmentDefs[i];
+				pycode += tr(";\n");
 				
 				code += tr("    model->");
 				code += assignmentNames[i];
 				code += tr(" = ");
 				code += insertPrefix(handles,tr("model->"),assignmentDefs[i],replaceDot);
+				code += tr(";\n");
 			}
 		
 		//events
@@ -777,7 +779,7 @@ namespace Tinkercell
 			{
 				code += tr("    u[");
 				code += QString::number(i);
-				code += tr("] = ");
+				code += tr("] = model->");
 				code += N.rowName(i);
 				code += tr(";\n");
 				

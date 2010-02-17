@@ -401,7 +401,7 @@ namespace Tinkercell
 	
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
-		hold();
+		//hold();
 		emit plotMultiplot( x, y);
 		
 		if (s)

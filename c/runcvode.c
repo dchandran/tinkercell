@@ -129,6 +129,7 @@ void run(Matrix input)
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
+			TCFreeMatrix(allParams);
 			return;
 		}
 	}
@@ -140,8 +141,23 @@ void run(Matrix input)
 	}
 	
 	out = fopen("ode.c","a");
-
-	fprintf( out , "\
+	
+	if (!out)
+	{
+		TCFreeArray(A);
+		TCFreeMatrix(allParams);
+		tc_errorReport("Cannot write to file ode.c in user directory\0");
+		return;
+	}
+	
+	fprintf(out, "void assignInputs(double * k, TCmodel * model)\n{\n" );
+	
+	for (i=0; i < allParams.rows; ++i)
+	{
+		fprintf(out, "    model->%s = k[%i];\n", allParams.rownames[i], i );
+	}
+	
+	fprintf( out , "}\n\
 #include \"TC_api.h\"\n\
 #include \"cvodesim.h\"\n\n\
 static double _time0_ = 0.0;\n\
@@ -178,12 +194,9 @@ void run(Matrix input) \n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n\
-	TCinitialize(model);\n\
 	if (input.rows > TCparams)\n\
-		TCassignParameters(input.values,model);\n\
-	for (i=0; i < TCvars; ++i)\n\
-		if (input.rows > (TCparams + i))\n\
-			TCinit[i] = valueAt(input,TCparams+i,0);\n\
+		assignInputs(input.values,model);\n\
+	TCinitialize(model);\n\
 	\n\
 	double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
 	free(rates);\n\
@@ -223,6 +236,7 @@ void run(Matrix input) \n\
 	   x = A[i];\n\
 	   tc_displayNumber(x,valueAt(ss2,i,0));\n\
 	}\n\
+	free(A);\n\
 	free(ss1.values);\n\
 	free(ss2.values);\n\
 	free(model);\n\
@@ -248,8 +262,7 @@ void run(Matrix input) \n\
 	free(data.colnames);\n\
 	free(y);\n\
 	return;\n\
-}\n",
-						(end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
+}\n", (end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
 	fclose(out);
 	
 	tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);

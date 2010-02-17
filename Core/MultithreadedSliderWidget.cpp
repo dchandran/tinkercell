@@ -106,6 +106,10 @@ namespace Tinkercell
 		double range,x;
 		bool ok;
 		
+		for (int i=0; i < sliders.size(); ++i)
+			if (sliders[i])
+				disconnect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+		
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
@@ -121,7 +125,10 @@ namespace Tinkercell
 					valueline[i]->setText(QString::number(values.value(i,0)));
 				}
 			}
-		cthread->setArg(values);
+		
+		for (int i=0; i < sliders.size(); ++i)
+			if (sliders[i])
+				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 		
 		if (cthread->isRunning())
 		{
@@ -129,6 +136,7 @@ namespace Tinkercell
 			return;
 		}
 		
+		cthread->setArg(values);
 		cthread->start();
 	}
 
@@ -145,7 +153,6 @@ namespace Tinkercell
 				values.value(i,0) = min[i] + range * (double)(sliders[i]->value())/100.0;
 				valueline[i]->setText(QString::number(values.value(i,0)));
 			}
-		cthread->setArg(values);
 		
 		if (cthread->isRunning())
 		{
@@ -153,6 +160,7 @@ namespace Tinkercell
 			return;
 		}
 		
+		cthread->setArg(values);		
 		cthread->start();
 	}
 	

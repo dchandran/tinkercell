@@ -102,41 +102,44 @@ void run(Matrix input)
 	out = fopen("langevin.c","a");
 
 	fprintf( out , "\
-				   #include \"TC_api.h\"\n#include \"langevin.h\"\n\n\
-				   static double _time0_ = 0.0;\n\
-				   void ssaFunc(double time, double * u, double * rates, void * data)\n\
-				   {\n\
-				   TCpropensity(time, u, rates, data);\n\
-				   if (time > _time0_)\n\
-				   {\n\
-				   tc_showProgress(\"Langevin Simulation\",(int)(100 * time/%lf));\n\
-				   _time0_ += %lf;\n\
-				   }\n\
-				   }\n\
-				   \n\
-				   \n\
-				   void run() \n\
-				   {\n\
-				   initMTrand();\n\
-				   TCinitialize();\n\
-				   double * y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, 0);\n\
-				   if (!y) \
-				   {\n\
-				   tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
-				   return;\n\
-				   }\n\
-				   Matrix data;\n\
-				   data.rows = %i;\n\
-				   data.cols = 1+TCvars;\n\
-				   data.values = y;\n\
-				   data.rownames = 0;\n\
-				   data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-				   data.colnames[0] = \"time\\0\";\n\
-				   int i,j;\n\
-				   for (i=0; i<TCvars; ++i) data.colnames[1+i] = TCvarnames[i];\n\
-				   tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-				   free(data.colnames);  free(y);\n\
-				   return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
+#include \"TC_api.h\"\n#include \"langevin.h\"\n\n\
+static double _time0_ = 0.0;\n\
+void ssaFunc(double time, double * u, double * rates, void * data)\n\
+{\n\
+	TCpropensity(time, u, rates, data);\n\
+	if (time > _time0_)\n\
+	{\n\
+		tc_showProgress(\"Langevin Simulation\",(int)(100 * time/%lf));\n\
+		_time0_ += %lf;\n\
+	}\n\
+}\n\
+\n\
+\n\
+void run() \n\
+{\n\
+	int i,j;\n\
+	Matrix data;\n\
+	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+	initMTrand();\n\
+	(*model) = TC_initial_model;\n\
+	TCinitialize(model);\n\
+	double * y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model);\n\
+	if (!y) \
+	{\n\
+		tc_errorReport(\"CVode failed! Possible cause of failure: some values are reaching infinity. Double check your model.\");\n\
+		return;\n\
+	}\n\
+	free(model);\n\
+	data.rows = %i;\n\
+	data.cols = 1+TCvars;\n\
+	data.values = y;\n\
+	data.rownames = 0;\n\
+	data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+	data.colnames[0] = \"time\\0\";\n\
+	for (i=0; i<TCvars; ++i) data.colnames[1+i] = TCvarnames[i];\n\
+	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
+	free(data.colnames);  free(y);\n\
+	return;\n}\n", (end-start), (end-start)/20.0, end, dt, sz, xaxis);
 	fclose(out);
 
 	tc_compileBuildLoad("langevin.c -lodesim -lssa\0","run\0","Langevin Simulation\0");

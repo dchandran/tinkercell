@@ -164,6 +164,8 @@ void run(Matrix input)
 	fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
 				  dat.cols = 1+TCvars;\n\
 				  double * values = malloc(dat.cols * dat.rows * sizeof(double));\n\
+				  TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+				  (*model) = TC_initial_model;\n\
 				  dat.values = values;\n\
 				  dat.rownames = 0;\n\
 				  dat.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
@@ -172,17 +174,18 @@ void run(Matrix input)
 				  dat.colnames[0] = \"%s\";\n",end,start,dt,param);
 
 	fprintf( out, "\n\
-				  %s = %lf;\n\
 				  for (i=0; i < dat.rows; ++i)\n\
 				  {\n\
-					  valueAt(dat,i,0) = %s;\n\
-					  TCinitialize();\n\
+				      (*model) = TC_initial_model;\n\
+					  model->%s = %lf + i * %lf;\n\
+					  valueAt(dat,i,0) = model->%s;\n\
+					  TCinitialize(model);\n\
 					  double * y = 0;\n\
 					  int sz = (int)(%lf*10.0);\n\
 					  if (%i)\n\
-					  y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, 0);\n\
+						y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, (void*)model );\n\
 					  else \n\
-					  y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, 0);\n\
+						y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, (void*)model );\n\
 					  if (y)\n\
 					  {\n\
 						for (j=0; j<TCvars; ++j)\n\
@@ -194,11 +197,11 @@ void run(Matrix input)
 						for (j=0; j<TCvars; ++j)\n\
 						valueAt(dat,i,j+1) = 0;\n\
 					  }\n\
-					  %s += %lf;\n\
 					  tc_showProgress(\"At Time T\",(100*i)/dat.rows);\n\
 				  }\n\
+				  free(model);\n\
 				  tc_plot(dat,0,\"At time=%lf\",0);\n\
-				  free(dat.colnames);\n}\n",param,start,param,time,doStochastic,time,time,param,dt,time);
+				  free(dat.colnames);\n     free(dat.values);\n}\n",param,start,dt,param,time,doStochastic,time,time,time);
 
 	fclose(out);
 

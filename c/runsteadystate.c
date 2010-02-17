@@ -199,6 +199,8 @@ void run(Matrix input)
 	fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
 				  int i,j;\n\
 				  double * y, * y0;\n\
+				  TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+				  (*model) = TC_initial_model;\n\
 				  if (%i) \n\
 				  {\n\
 					dat.cols = 1+TCreactions;\n\
@@ -216,13 +218,13 @@ void run(Matrix input)
 				  dat.colnames[0] = \"%s\";\n",end,start,dt,rateplot,param);
 
 	fprintf( out, "\n\
-				 TCinitialize();\n\
 				 for (i=0; i < dat.rows; ++i)\n\
 				 {\n\
-					%s = %lf + i * %lf;\n\
-					TCreinitialize();\n\
-					valueAt(dat,i,0) = %s;\n\
-					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
+				    (*model) = TC_initial_model;\n\
+					model->%s = %lf + i * %lf;\n\
+					TCinitialize(model);\n\
+					valueAt(dat,i,0) = model->%s;\n\
+					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
 					if (y)\n\
 					{\n\
 						if (%i)\n\
@@ -244,11 +246,11 @@ void run(Matrix input)
 						for (j=0; j<TCvars; ++j)\n\
 						   valueAt(dat,i,j+1) = 0.0;\n\
 					}\n\
-					TCinitialize();\n\
 					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
 				}\n\
+				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				free(dat.colnames);\n}\n",param,start,dt,param,rateplot);
+				free(dat.colnames);\n    free(dat.values);\n}\n",param,start,dt,param,rateplot);
 
 	fclose(out);
 
@@ -365,10 +367,12 @@ void run2D(Matrix input)
       double * y, *y0;\n\
       int i,j;\n\
       char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
+	  TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+	  (*model) = TC_initial_model;\n\
       dat.cols = 3;\n\
       dat.rows = rows * cols;\n\
       dat.colnames = colnames;\n\
-      dat.values = malloc(3 * cols * rows * sizeof(double));\n\
+      dat.values = (double*)malloc(3 * cols * rows * sizeof(double));\n\
       dat.rownames = 0;\n",
       endx,startx,dx,endy,starty,dy,param1,param2,target);
 
@@ -377,18 +381,19 @@ void run2D(Matrix input)
       {\n\
         for (j=0; j < cols; ++j)\n\
 		{\n\
-		   valueAt(dat,i*cols + j,0) = %s = %lf + i * %lf;\n\
-		   valueAt(dat,i*cols + j,1) = %s = %lf + j * %lf;\n\
-		   TCreinitialize();\n\
-		   y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit,0,1E-4,100000.0,10);\n\
-		   valueAt(dat,i*cols + j,2) = %s;\n\
+		   (*model) = TC_initial_model;\n\
+		   valueAt(dat,i*cols + j,0) = model->%s = %lf + i * %lf;\n\
+		   valueAt(dat,i*cols + j,1) = model->%s = %lf + j * %lf;\n\
+		   TCinitialize(model);\n\
+		   y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
+		   valueAt(dat,i*cols + j,2) = model->%s;\n\
 		   if (y)\n\
 			  free(y);\n\
-		   TCinitialize();\n\
         }\n\
 		tc_showProgress(\"2-parameter steady state\",(100*i)/rows);\n\
       }\n\
-      tc_surface(dat,\"Steady State Plot\");\n}\n",param1,startx, dx, param2,starty, dy, target);
+	  free(model);\n\
+      tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n}\n",param1,startx, dx, param2,starty, dy, target);
 
 	fclose(out);
 

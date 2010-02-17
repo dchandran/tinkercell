@@ -79,6 +79,10 @@ namespace Tinkercell
 		double range,x;
 		bool ok;
 		
+		for (int i=0; i < sliders.size(); ++i)
+			if (sliders[i])
+				disconnect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
+		
 		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
@@ -97,6 +101,9 @@ namespace Tinkercell
 				range = (max[i]-min[i]);
 				sliders[i]->setValue((int)((values.value(i,0) - min[i]) * 100.0/range));
 			}
+		for (int i=0; i < sliders.size(); ++i)
+			if (sliders[i])
+				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 	}
 	
 	void MultithreadedSliderWidget::valueChanged()

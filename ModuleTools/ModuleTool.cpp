@@ -142,16 +142,19 @@ namespace Tinkercell
 			moduleButton->setText(tr("New module"));
 			moduleButton->setIcon(QIcon(QPixmap(tr(":/images/module.png"))));
 			moduleButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
+			moduleButton->setToolTip(tr("A module is a self-contained subsystem that can be used to build larger systems"));
 			
 			QToolButton * linkButton = new QToolButton;
 			linkButton->setText(tr("Insert input/output"));
 			linkButton->setIcon(QIcon(QPixmap(tr(":/images/lollipop.png"))));
 			linkButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
+			linkButton->setToolTip(tr("Use this to set an item inside a module as an input or ouput for that module"));
 			
 			QToolButton * connectButton = new QToolButton;
 			connectButton->setText(tr("Connect input/output"));
 			connectButton->setIcon(QIcon(QPixmap(tr(":/images/connectmodules.png"))));
 			connectButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
+			connectButton->setToolTip(tr("Use this to connect inputs and ouputs of two modules"));
 			
 			emit addNewButtons(
 				QList<QToolButton*>() << moduleButton << linkButton << connectButton,

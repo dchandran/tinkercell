@@ -87,7 +87,7 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("BasicInformationTool");
-		settings.setValue(tr("initial value"),initialValue);
+		settings.setValue(tr("Initial value"),initialValue);
 		settings.endGroup();
 	}
 
@@ -95,7 +95,7 @@ namespace Tinkercell
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("BasicInformationTool");
-		BasicInformationTool::initialValue = settings.value(tr("initial value"),initialValue).toDouble();
+		BasicInformationTool::initialValue = settings.value(tr("Initial value"),initialValue).toDouble();
 		settings.endGroup();
 
 		Tool::setMainWindow(main);

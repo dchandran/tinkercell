@@ -117,8 +117,6 @@ namespace Tinkercell
 
 	void CatalogWidget::escapeSignalSlot(const QWidget* widget)
 	{
-		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-
 		mainWindow->setCursor(Qt::ArrowCursor);
 
 		for (int i=0; i < widgetsToUpdate.size(); ++i)

@@ -100,7 +100,7 @@ namespace Tinkercell
 			stepButton->setToolTip(tr("Insert a step function as input for one of the variables in the model"));
 
 			QToolButton * pulseButton = new QToolButton;
-			pulseButton->setText(tr("Inpulse"));
+			pulseButton->setText(tr("Impulse"));
 			pulseButton->setIcon(QIcon(QPixmap(tr(":/images/pulseFunc.png"))));
 			pulseButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			pulseButton->setToolTip(tr("Insert an delta function as as input for one of the variables in the model"));
@@ -128,6 +128,9 @@ namespace Tinkercell
 			setupDialogs();
 
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
+			
+			connect(this, SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+					mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),
 					this,SLOT(escapeSignal(const QWidget*)));
@@ -282,12 +285,10 @@ namespace Tinkercell
 			if (dockWidget && dockWidget->isVisible())
 				dockWidget->hide();
 
-			QToolTip::showText(scene->lastScreenPoint(),"tool tip",mainWindow);
-
 			return;
 		}
 
-		if (mode == inserting)
+		if (mode == addingEvent)
 		{
 			QString appDir = QApplication::applicationDirPath();
 			NodeGraphicsItem * image = new NodeGraphicsItem;
@@ -304,12 +305,99 @@ namespace Tinkercell
 
 			return;
 		}
+		
+		QList<QGraphicsItem*> items = scene->items(point);
+		NodeGraphicsItem * node = 0;
+		ItemHandle * handle = 0;
+		for (int i=0; i < items.size(); ++i)
+			if ((node = NodeGraphicsItem::cast(getGraphicsItem(items[i]))) && 
+				(handle = node->handle()) &&
+				(handle->hasNumericalData(tr("Initial Value"))) &&
+				(handle->hasNumericalData(tr("Numerical Attributes"))) &&
+				(handle->hasTextData(tr("Assignments"))))
+			{
+				break;
+			}
+			else
+			{
+				handle = 0;
+				node = 0;
+			}
+		
+		if (!node || !handle)
+		{
+			QMessageBox::information(this,tr("Cannot insert function"),tr("Select an item with a quantitative value (e.g. concentration)"));
+			return;
+		}
+		
+		QString name = handle->fullName();
+		DataTable<QString> assignments(handle->textDataTable(tr("Assignments")));
+		DataTable<qreal> parameters(handle->numericalDataTable(tr("Numerical Attributes")));
+		
+		ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
+		connection->lineType = ConnectionGraphicsItem::line;
+		connection->curveSegments += ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(connection,node));
+		NodeGraphicsItem * image = new NodeGraphicsItem;
+		QString appDir = QApplication::applicationDirPath();
+		NodeGraphicsReader reader;
+		QString command;
+		
+		if (mode == addingStep)
+		{
+			reader.readXml(image, appDir + tr("/OtherItems/stepFunc.xml"));
+			image->setToolTip(tr("Step function"));	
+			command = tr("Step function inserted");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".step_a/(1.0 + exp(pow(") + name + tr(".step_b-time,") + name + tr(".step_c)))");
+			parameters.value( tr("step_a"), 0 ) = 1.0;
+			parameters.value( tr("step_b"), 0 ) = 2.0;
+			parameters.value( tr("step_c"), 0 ) = 4.0;
+		}
+		
+		if (mode == addingPulse)
+		{
+			reader.readXml(image, appDir + tr("/OtherItems/pulseFunc.xml"));
+			image->setToolTip(tr("Impulse function"));
+			command = tr("Impulse function inserted");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_a*exp( - pow(") + name + tr(".impulse_b*(time - ") + name + tr(".impulse_c),2))");
+			parameters.value( tr("impulse_a"), 0 ) = 1.0;
+			parameters.value( tr("impulse_b"), 0 ) = 2.0;
+			parameters.value( tr("impulse_c"), 0 ) = 4.0;
+		}
+		
+		if (mode == addingWave)
+		{
+			reader.readXml(image, appDir + tr("/OtherItems/sinFunc.xml"));
+			image->setToolTip(tr("Sine function"));
+			command = tr("Sine function inserted");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".sine_a + ") + name + tr(".sine_a*sin(time/") + name + tr(".sine_b)");
+			parameters.value( tr("sine_a"), 0 ) = 1.0;
+			parameters.value( tr("sine_b"), 0 ) = 2.0;
+		}
+		
+		image->normalize();
+		image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
+			image->defaultSize.height()/image->sceneBoundingRect().height());
+		image->setPos(QPointF(node->sceneBoundingRect().left() - 100.0, node->scenePos().y()));
+		connection->curveSegments += ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(connection,image));
+		connection->className = tr("Forcing function");
+		connection->defaultPen = QPen(QColor(10,155,10),3.0);
+		connection->setPen(connection->defaultPen);
+		connection->lineType = ConnectionGraphicsItem::line;
+		
+		QList<QUndoCommand*> list;		
+		QList<QGraphicsItem*> newItems;
+		newItems << image << connection;
+		
+		list << new InsertGraphicsCommand(command, scene, newItems)
+			 << new ChangeDataCommand<qreal>(command, &handle->numericalDataTable(tr("Numerical Attributes")), &parameters)
+			 << new ChangeDataCommand<QString>(command, &handle->textDataTable(tr("Assignments")), &assignments);
+		//scene->insert(command,newItems);
+		scene->networkWindow->history.push(new CompositeCommand(command,list));
+		emit itemsInserted(scene,newItems,QList<ItemHandle*>());
 	}
 
 	void SimulationEventsTool::escapeSignal(const QWidget* )
     {
-		if (mode == inserting && currentScene())
-			currentScene()->useDefaultBehavior = true;
 		mode = none;
     }
 
@@ -574,9 +662,18 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!mainWindow || !scene) return;
 
-		if (name == tr("New event"))
-			mode = inserting;
-
+		if (name.toLower() == tr("new event"))
+			mode = addingEvent;
+		
+		if (name.toLower() == tr("step input"))
+			mode = addingStep;
+			
+		if (name.toLower() == tr("impulse"))
+			mode = addingPulse;
+			
+		if (name.toLower() == tr("wave input"))
+			mode = addingWave;
+		
 		if (mode != none)
 			scene->useDefaultBehavior = false;
 	}

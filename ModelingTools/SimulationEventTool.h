@@ -69,6 +69,7 @@ namespace Tinkercell
 
 	signals:
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
+		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 
     private slots:
 
@@ -113,7 +114,7 @@ namespace Tinkercell
 
     private:
 
-		enum Mode { none, inserting };
+		enum Mode { none, addingEvent, addingStep, addingPulse, addingWave };
 		Mode mode;
 
         static SimulationEventsTool_FToS fToS;

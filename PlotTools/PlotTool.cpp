@@ -225,17 +225,6 @@ namespace Tinkercell
 			otherToolBar = 0;
 		}
 
-		if (dockWidget)
-		{
-			dockWidget->show();
-			dockWidget->raise();
-		}
-		else
-		{
-			show();
-			this->raise();
-		}
-
 		QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
 		if (newPlot->type == Text || (keepOldPlots && keepOldPlots->isChecked()))
 		{
@@ -303,6 +292,17 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
 
 		addWidget(newPlot);
+		
+		if (dockWidget)
+		{
+			dockWidget->show();
+			dockWidget->raise();
+		}
+		else
+		{
+			show();
+			this->raise();
+		}
 	}
 
 	void PlotTool::surfacePlot(const DataTable<qreal>& matrix,const QString& title)
@@ -337,6 +337,17 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(tr("Finished 3D plot"));
 
 		addWidget(newPlot);
+		
+		if (dockWidget)
+		{
+			dockWidget->show();
+			dockWidget->raise();
+		}
+		else
+		{
+			show();
+			this->raise();
+		}
 	}
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)

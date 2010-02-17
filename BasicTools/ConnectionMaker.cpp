@@ -98,7 +98,7 @@ namespace Tinkercell
 			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(items.at(i));
 			if (connection)
 			{
-				int inputs = 0;
+				int inputs = 0, outputs = 0;
 				QList<NodeGraphicsItem*> nodes = connection->nodes();
 				QList<ArrowHeadItem*> arrowHeadsStart, arrowHeadsEnd;
 
@@ -111,6 +111,11 @@ namespace Tinkercell
 				for (int j=0; j < arrowHeadsStart.size() && j < arrowHeadsEnd.size(); ++j)
 					if (arrowHeadsStart[j] == 0 && arrowHeadsEnd[j] == 0)
 						++inputs;
+					else
+						++outputs;
+						
+				if (inputs == 0 || outputs == 0)
+					inputs = outputs = (int)(connection->curveSegments.size()/2);
 
 				if (!connection->isValid())
 				{
@@ -428,7 +433,7 @@ namespace Tinkercell
 		}
 
 		FixMultipleConnections(connection,nodes,inputs);
-		connection->lineType = ConnectionGraphicsItem::bezier;
+		//connection->lineType = ConnectionGraphicsItem::bezier;
 
 		for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
 			if (nodes[i])

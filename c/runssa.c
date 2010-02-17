@@ -196,14 +196,14 @@ void run(Matrix input) \n\
 	A = tc_findItems(TCvarnames);\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
-	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],var[i]);\n\
+	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
 	   tc_displayText(A[i],s);\n\
 	}\n\
 	free(A);\n\
 	A = tc_findItems(TCreactionnames);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
-	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],var[i+TCvars]);\n\
+	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
 	   tc_displayText(A[i],s);\n\
 	}\n\
 	free(A);\n\

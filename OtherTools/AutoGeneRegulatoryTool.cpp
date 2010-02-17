@@ -1027,7 +1027,7 @@ namespace Tinkercell
 				else
 				if (i == (parts.size() - 1))
 				{
-					if (!promoter && regulator)
+					/*if (!promoter && regulator)
 						promoter = regulator;
 					if (promoter && promoter->hasTextData(tr("Assignments"))
 						&& promoter->hasNumericalData(tr("Numerical Attributes"))
@@ -1087,7 +1087,7 @@ namespace Tinkercell
 						rbs = 0;
 						promoter = 0;
 						regulator = 0;
-					}
+					}*/
 				}
 
 				if (parts[i]->isA(tr("Terminator")) && NodeHandle::cast(parts[i]))

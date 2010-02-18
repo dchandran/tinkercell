@@ -39,9 +39,6 @@ namespace Tinkercell
 
 			QToolBar * toolBar = mainWindow->toolBarEdits;
 
-			//connect(this,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<ItemHandle*>&)),
-			//		mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<ItemHandle*>&)));
-
 			QAction * replaceNode = new QAction(QIcon(":/images/parts.png"),tr("Replace graphics"),mainWindow->centralWidget());
 			replaceNode->setToolTip(tr("Replace node graphics"));
 			connect(replaceNode,SIGNAL(triggered()),this,SLOT(substituteNodeGraphics()));

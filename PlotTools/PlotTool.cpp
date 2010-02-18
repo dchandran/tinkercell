@@ -278,7 +278,7 @@ namespace Tinkercell
 					else
 						widget->updateData(matrix);
 					if (mainWindow && mainWindow->statusBar())
-							mainWindow->statusBar()->showMessage(tr("Finished plotting"));
+						mainWindow->statusBar()->showMessage(tr("Finished plotting"));
 					return;
 				}
 			}
@@ -352,6 +352,12 @@ namespace Tinkercell
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
 	{
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		{
+			numMultiplots = 0;
+			hold(false);
+		}
+		
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
 		{
@@ -368,6 +374,12 @@ namespace Tinkercell
 	
 	void PlotTool::plotScatter(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		{
+			numMultiplots = 0;
+			hold(false);
+		}
+		
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
 		{
@@ -384,6 +396,20 @@ namespace Tinkercell
 	
 	void PlotTool::plotHist(QSemaphore* s,DataTable<qreal>& data, double binsz, const QString& title)
 	{
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		{
+			numMultiplots = 0;
+			hold(false);
+		}
+		
+		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
+		for (int i=0; i < data.cols(); ++i)
+		{
+			data.colName(i).replace(regexp,tr("."));
+		}
+
+		plot(data,title,0,1,HistogramPlot);
+		
 		emit plotHist(data , binsz, title);
 		
 		if (s)
@@ -392,6 +418,18 @@ namespace Tinkercell
 	
 	void PlotTool::plotErrorbars(QSemaphore* s,DataTable<qreal>& data, int x, const QString& title)
 	{
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		{
+			numMultiplots = 0;
+			hold(false);
+		}
+		
+		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
+		for (int i=0; i < data.cols(); ++i)
+		{
+			data.colName(i).replace(regexp,tr("."));
+		}
+		
 		emit plotErrorbars(data , x, title);
 		
 		if (s)
@@ -412,7 +450,10 @@ namespace Tinkercell
 	
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
-		//hold();
+		numMultiplots = x*y;
+		if (numMultiplots > 1)
+			hold();
+
 		emit plotMultiplot( x, y);
 		
 		if (s)
@@ -421,6 +462,12 @@ namespace Tinkercell
 
 	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		{
+			numMultiplots = 0;
+			hold(false);
+		}
+		
 		QRegExp regexp(tr("(?!\\d)_(?!\\d)"));
 		for (int i=0; i < matrix.cols(); ++i)
 		{

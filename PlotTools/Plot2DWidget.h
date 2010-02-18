@@ -26,6 +26,7 @@
 #include "qwt_legend.h"
 #include "qwt_data.h"
 #include "qwt_text.h"
+#include "qwt_symbol.h"
 #include "qwt_plot_layout.h"
 #include "qwt_plot_zoomer.h"
 #include "qwt_legend_item.h"
@@ -50,19 +51,9 @@ namespace Tinkercell
 	private:
 		DataTable<qreal> * dataTable;
 		int column, xaxis, dt;
-		
+				
 		friend class DataPlot;
 		friend class Plot2DWidget;
-	};
-	
-	class ScatterPlotColumn : public QwtPlotMarker
-	{
-	private:
-		DataTable<qreal> * dataTable;
-		int column,xaxis;
-	public:
-		ScatterPlotColumn(DataTable<qreal> * data, int x, int y);		
-		void draw(QPainter *painter,const QwtScaleMap &xMap, const QwtScaleMap &yMap,const QRect &canvasRect) const;
 	};
 	
 	class DataPlot : public QwtPlot
@@ -70,20 +61,20 @@ namespace Tinkercell
 		Q_OBJECT
 	public:
 		DataPlot(QWidget * parent = 0);
-		void plot(const DataTable<qreal>&,int x, const QString& title,  int dt=1,bool scatterplot=false);
+		void plot(const DataTable<qreal>&,int x, const QString& title,  int dt=1);
 		virtual QSize minimumSizeHint() const;
 		virtual QSize sizeHint() const;
 		virtual void setLogX(bool);
 		virtual void setLogY(bool);
-		void replotUsingHideList();
 		
 	protected:
-		//void makeVisibleDataTable();
-		DataTable<qreal> dataTable;//, visibleDataTable;
+		DataTable<qreal> dataTable;
 		QwtPlotZoomer * zoomer;
 		QStringList hideList;
 		static QList<QPen> penList;
 		int xcolumn, delta;
+		PlotTool::PlotType type;
+		void convertToFrequencyData();
 		
 	protected slots:
 		void itemChecked(QwtPlotItem *,	bool);

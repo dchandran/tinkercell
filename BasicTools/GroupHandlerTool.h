@@ -38,36 +38,41 @@ namespace Tinkercell
 	class GroupHandlerTool_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+	signals:
 		void merge(QSemaphore*, QList<ItemHandle*>&);
 		void separate(QSemaphore*,ItemHandle*);
-		public slots:
-			void merge(Array);
-			void separate(OBJ);
+	public slots:
+		void merge(Array);
+		void separate(OBJ);
 	};
 
 	class MY_EXPORT GroupHandlerTool : public Tool
 	{
 		Q_OBJECT;
 
-signals:
+	signals:
 		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
+		void substituteNodeGraphics();
 
 	public:
 		GroupHandlerTool();
 		bool setMainWindow(MainWindow * main);
 		void mergeItems(GraphicsScene*,QList<QGraphicsItem*>&);
 		void separateItems(GraphicsScene*,QList<QGraphicsItem*>&);
-		public slots:
-			void merge();
-			void separate();
-			void alias();
-			void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers );
-			void toolLoaded(Tool*);
-			void setupFunctionPointers( QLibrary * );
-			private slots:
-				void merge(QSemaphore*, QList<ItemHandle*>&);
-				void separate(QSemaphore*,ItemHandle*);
+
+	public slots:
+		void merge();
+		void separate();
+		void alias();
+		void decorate();
+		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers );
+		void toolLoaded(Tool*);
+		void setupFunctionPointers( QLibrary * );
+
+	private slots:
+		void merge(QSemaphore*, QList<ItemHandle*>&);
+		void separate(QSemaphore*,ItemHandle*);
+
 	protected:
 		QList<QGraphicsItem*> targetItems;
 		void connectCollisionDetector();

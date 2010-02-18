@@ -9,7 +9,7 @@ A special QUndoCommand is provided for this functionality. Buttons are also plac
 in the MainWindow toolbar.
 
 ****************************************************************************/
-
+#include <QMessageBox>
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "CThread.h"
@@ -21,6 +21,7 @@ in the MainWindow toolbar.
 #include "GroupHandlerTool.h"
 #include "CollisionDetection.h"
 #include "ConsoleWindow.h"
+#include "GraphicsReplaceTool.h"
 
 namespace Tinkercell
 {
@@ -34,7 +35,8 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			QToolBar * toolBar = new QToolBar(tr("Merging tool"),mainWindow);
+			/*QToolBar * toolBar = new QToolBar(tr("Merging tool"),mainWindow);
+			
 			QAction * group = new QAction(QIcon(tr(":/images/group.png")),tr("Merge"),toolBar);
 			connect(group,SIGNAL(triggered()),this,SLOT(merge()));
 			group->setToolTip(tr("Merge selected items"));
@@ -46,35 +48,45 @@ namespace Tinkercell
 			ungroup->setToolTip(tr("Separate selected items"));
 			ungroup->setShortcut(tr("CTRL+SHIFT+M"));
 			toolBar->addAction(ungroup);
+			*/
 
-			QAction * alias = new QAction(QIcon(tr(":/images/alias.png")),tr("Alias"),toolBar);
+			QAction * alias = new QAction(QIcon(tr(":/images/alias.png")),tr("Alias"),this);
 			connect(alias,SIGNAL(triggered()),this,SLOT(alias()));
-			alias->setToolTip(tr("Alias selected items"));
+			alias->setToolTip(tr("Create an alias of selected items"));
+			//toolBar->addAction(alias);
+			
+			QAction * decorate = new QAction(tr("Add decorator"),this);
+			connect(alias,SIGNAL(triggered()),this,SLOT(decorate()));
+			alias->setToolTip(tr("Create an alias with different image"));
 			//toolBar->addAction(alias);
 
 			if (mainWindow->toolBarEdits)
-				mainWindow->toolBarEdits->addAction(alias);
+			{
+				mainWindow->toolBarEdits->addAction(decorate);
+			}
 
-			mainWindow->addToolBar(toolBar);
+			//mainWindow->addToolBar(toolBar);
 
 			mainWindow->contextItemsMenu.addAction(alias);
-			mainWindow->contextItemsMenu.addAction(group);
-			mainWindow->contextItemsMenu.addAction(ungroup);
+			mainWindow->contextItemsMenu.addAction(decorate);
+			//mainWindow->contextItemsMenu.addAction(group);
+			//mainWindow->contextItemsMenu.addAction(ungroup);
 
 			if (mainWindow->editMenu)
 			{
-				mainWindow->editMenu->addAction(group);
-				mainWindow->editMenu->addAction(ungroup);
+				mainWindow->editMenu->addAction(decorate);
+				//mainWindow->editMenu->addAction(group);
+				//mainWindow->editMenu->addAction(ungroup);
 			}
-
-			//connectCollisionDetector();
 
 			connect(this,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				mainWindow,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			//connect(mainWindow,SIGNAL(toolLoaded(Tool*),this,SLOT(toolLoaded(Tool*)));
-
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+			
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			
+			toolLoaded(0);
 
 			return true;
 		}
@@ -86,7 +98,7 @@ namespace Tinkercell
 		static bool alreadyConnected = false;
 		if (alreadyConnected || !mainWindow) return;
 
-		if (mainWindow->tool(tr("Collision Detection")))
+		/*if (mainWindow->tool(tr("Collision Detection")))
 		{
 			QWidget * widget = mainWindow->tool(tr("Collision Detection"));
 			CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
@@ -95,6 +107,17 @@ namespace Tinkercell
 				alreadyConnected = true;
 				connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )),
 					this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )));
+			}
+		}*/
+		
+		if (mainWindow->tool(tr("Graphics Replace Tool")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Graphics Replace Tool"));
+			GraphicsReplaceTool * replaceTool = static_cast<GraphicsReplaceTool*>(widget);
+			if (replaceTool)
+			{
+				alreadyConnected = true;
+				connect(this,SIGNAL(substituteNodeGraphics()), replaceTool, SLOT(substituteNodeGraphics()));
 			}
 		}
 	}
@@ -491,10 +514,42 @@ namespace Tinkercell
 		for (int i=0; i<selected.size(); ++i)
 			if ((NodeGraphicsItem::cast(selected[i]) && getHandle(selected[i]))
 				|| TextGraphicsItem::cast(selected[i]))
-				newItems += cloneGraphicsItem(selected[i]);
+			{
+				QGraphicsItem * item = cloneGraphicsItem(selected[i]);
+				newItems += item;
+				item->setPos( item->scenePos() + QPointF(100,100) );
+			}
 
 		scene->insert(tr("alias inserted"),newItems);
-		scene->move(newItems,QPointF(100,100));
+	}
+	
+	void GroupHandlerTool::decorate()
+	{
+		if (!mainWindow || !mainWindow->currentScene()) return;
+
+		GraphicsScene * scene = mainWindow->currentScene();
+		QList<QGraphicsItem*> & selected = scene->selected();
+		
+		if (selected.size() != 1)
+		{
+			QMessageBox::information(this,tr("Cannot add items"),tr("Please select exactly one item"));
+			return;
+		}
+		
+		NodeGraphicsItem * node = NodeGraphicsItem::cast(selected[0]);
+		
+		if (!node)
+		{
+			QMessageBox::information(this,tr("Cannot add items"),tr("Please select a node item (not connections or text)"));
+			return;
+		}
+		
+		node->setPos( node->scenePos() + QPointF(50,50) );
+		scene->insert(tr("decorator inserted"),node);
+		scene->selected().clear();
+		scene->selected() += node;
+		
+		emit substituteNodeGraphics();
 	}
 
 	void GroupHandlerTool::nodeCollided(const QList<QGraphicsItem*>& list, NodeGraphicsItem * item, QPointF , Qt::KeyboardModifiers )

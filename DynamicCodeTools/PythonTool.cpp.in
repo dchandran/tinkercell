@@ -61,6 +61,9 @@ namespace Tinkercell
             {
                 desc = ls[0].trimmed();
                 pyFile = ls[1].trimmed();
+				
+				if (pyFileNames.contains(pyFile)) continue;
+				
                 functionName = ls[2].trimmed();
                 QStringList functionNameSplit = functionName.split(tr("::"));
 

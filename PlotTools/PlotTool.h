@@ -234,6 +234,7 @@ namespace Tinkercell
 		QToolBar toolBar;
 		QMenu * exportMenu;
 		QToolBar * otherToolBar;
+		int numMultiplots;
 
 	private slots:
         //void toolAboutToBeLoaded( Tool * , bool * );

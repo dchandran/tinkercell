@@ -581,7 +581,7 @@ namespace Tinkercell
 		if (same)
 		{
 			dataPlot->dataTable = newData;
-			processData();
+			dataPlot->processData();
 			dataPlot->replotUsingHideList();
 		}
 		else

@@ -917,7 +917,7 @@ namespace Tinkercell
 		DataTable<qreal> dataTable(*data());
 		int xIndex = -1;
 		
-		QStringList colNames = newData.getColNames();
+		QStringList colNames = dataTable.getColNames();
 		
 		if (dataPlot->xcolumn >= 0)
 			xIndex = colNames.indexOf(dataTable.colName(dataPlot->xcolumn));
@@ -926,12 +926,8 @@ namespace Tinkercell
 			if (i != dataPlot->xcolumn)
 			{
 				QString s = dataTable.colName(i);
-				if (colNames.contains(dataTable.colName(i)))
-					dataTable.colName(i) += tr("'");
-				
-				int k = 1;
 				while (colNames.contains(dataTable.colName(i)))
-					dataTable.colName(i) += QString::number(++k);
+					dataTable.colName(i) += tr("'");
 					
 				if (dataPlot->hideList.contains(s))
 					dataPlot->hideList << dataTable.colName(i);

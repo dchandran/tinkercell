@@ -33,7 +33,7 @@ namespace Tinkercell
 {
 	/*! \brief This class is used to run specific functions inside a C dynamic library
 	as a separate thread. Uses CThread to call the C functions
-	\ingroup core
+	\ingroup io
 	*/
 	class MY_EXPORT MultithreadedSliderWidget : public QWidget
 	{

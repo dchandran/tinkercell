@@ -52,6 +52,7 @@ namespace Tinkercell
 
 	/*!
 	\brief Classes that inherit from this class can be used as GUI windows that provide interface to C programs (library files).
+	\ingroup io
 	\sa LPSolveInput
 	*/
 	class MY_EXPORT AbstractInputWindow : public Tool

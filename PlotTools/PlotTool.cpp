@@ -455,8 +455,7 @@ namespace Tinkercell
 		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 			numMultiplots = 0;
 			
-		if (numMultiplots > 1)
-			hold();
+		hold(numMultiplots > 1);
 
 		emit plotMultiplot( x, y);
 		

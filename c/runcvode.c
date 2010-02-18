@@ -24,14 +24,14 @@ void setup()
 {
 	Matrix m;
 	char * cols[] = { "value",0 };
-	char * rows[] = { "model", "time", "step size", "plot", "update model", 0 };
-	double values[] = { 0, 100, 0.1, 0, 0 };
+	char * rows[] = { "model", "time", "step size", "plot", "update model", "use sliders", 0 };
+	double values[] = { 0, 100, 0.1, 0, 0, 1 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
 	char * options2[] = { "Variables", "Rates", 0 };
 	char * options3[] = { "No", "Yes", 0 };
 	FILE * file;
 
-	m.rows = 5;
+	m.rows = 6;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
@@ -41,6 +41,7 @@ void setup()
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  options1);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  options2);
 	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  options3);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  options3);
 
 	return;
 }
@@ -54,7 +55,10 @@ void run(Matrix input)
 	int xaxis = 0;
 	int selection = 0;
 	int rateplot = 0;
+	int slider = 1;
 	int i=0, sz = 0, k = 0, update = 0;
+	char * runfuncInput = "Matrix input";
+	char * runfunc = "";
 	Matrix params, initVals, allParams;
 	
 	if (input.cols > 0)
@@ -69,7 +73,12 @@ void run(Matrix input)
 			rateplot = (int)valueAt(input,3,0);
 		if (input.rows > 4)
 			update = (int)valueAt(input,4,0);
+		if (input.rows > 5)
+			slider = (int)valueAt(input,5,0);
 	}
+	
+	if (slider)
+		runfunc = runfuncInput;
 
 	sz = (int)((end - start) / dt);
 
@@ -183,7 +192,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 }\n\
 \n\
 \n\
-void run(Matrix input) \n\
+void run(%s) \n\
 {\n\
 	int i,j;\n\
 	double mx=0;\n\
@@ -194,10 +203,13 @@ void run(Matrix input) \n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n\
-	if (input.rows > TCparams)\n\
-		assignInputs(input.values,model);\n\
-	TCinitialize(model);\n\
-	\n\
+	\n", (end-start), (end-start)/20.0, runfunc);
+
+if (slider)
+	fprintf(out, "    if (input.rows > TCparams)\n    assignInputs(input.values,model);\n");
+
+fprintf( out , "\
+    TCinitialize(model);\n\
 	double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
 	free(rates);\n\
 	if (!y) \
@@ -258,14 +270,19 @@ void run(Matrix input) \n\
 		data.colnames[1+i] = names[i];\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-	TCFreeMatrix(input);\n\
 	free(data.colnames);\n\
-	free(y);\n\
-	return;\n\
-}\n", (end-start), (end-start)/20.0, start, end, dt, sz, update, rateplot, xaxis);
+	free(y);", start, end, dt, sz, update, rateplot, xaxis);
+	
+
+	if (slider)
+		fprintf(out, "    TCFreeMatrix(input);\n    return;\n}\n");
+
 	fclose(out);
 	
-	tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
+	if (slider)
+		tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
+	else
+		tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");
 	
 	TCFreeMatrix(allParams);
 	return;

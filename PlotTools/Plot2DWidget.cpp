@@ -140,6 +140,8 @@ namespace Tinkercell
 		double xmin, xmax, width;
 		DataTable<qreal> histData;
 		
+		delta = 100;
+		
 		histData.resize(delta, dataTable.cols());
 		histData.setColNames(dataTable.getColNames());
 		xmax = xmin = dataTable.value(0,0);
@@ -157,7 +159,7 @@ namespace Tinkercell
 		
 		width = (xmax-xmin)/(double)delta;
 		
-		if (width == 0.0)
+		if (width <= 0.0)
 			width = xmax;
 		
 		for (int i=0; i < dataTable.cols(); ++i)
@@ -169,9 +171,12 @@ namespace Tinkercell
 				histData.value( (int)(dataTable.value(j,i)/width) , i ) += 1.0;
 		}
 		
-		histData.removeCol(tr("time"));
-		histData.removeCol(tr("Time"));
-		histData.removeCol(tr("TIME"));		
+		if (xcolumn >= 0 && xcolumn < histData.cols())
+		{
+			histData.colName(xcolumn) = tr("values");
+			for (int i=0; i < delta; ++i)
+				histData.value(i,xcolumn) = (double)i * width;
+		}
 		dataTable = histData;
 	}
 	
@@ -214,7 +219,10 @@ namespace Tinkercell
 				curve->setPen(penList[c]);
 				curve->setData( DataColumn(&dataTable,x,i,dt) );
 				curve->attach(this);
-				curve->updateLegend(legend());
+				
+				if (dataTable.cols() > 2)
+					curve->updateLegend(legend());
+					
 				++c;
 				
 				if (type == PlotTool::ScatterPlot)
@@ -262,7 +270,6 @@ namespace Tinkercell
 			QwtDoubleRect rect = zoomer->zoomRect();
 			rect.adjust(-1.0,-1.0,1.0,1.0);
 			zoomer->setZoomBase(rect);
-			zoomer->zoom(rect);
 		}
 	}
 	
@@ -569,14 +576,14 @@ namespace Tinkercell
 			}*/
 		
 		dataPlot->type = type;
-		if (same && dataPlot->hideList.isEmpty())
+		if (same)
 		{
 			dataPlot->dataTable = newData;
-			dataPlot->replot();
+			dataPlot->replotUsingHideList();
 		}
 		else
 		{
-			dataPlot->hideList.clear();
+			//dataPlot->hideList.clear();
 			dataPlot->plot(	newData,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),
@@ -913,10 +920,16 @@ namespace Tinkercell
 			xIndex = colNames.indexOf(dataTable.colName(dataPlot->xcolumn));
 		
 		for (int i=0; i < dataTable.cols(); ++i)
-			if (colNames.contains(dataTable.colName(i)) && i != dataPlot->xcolumn)
+			if (i != dataPlot->xcolumn)
 			{
 				QString s = dataTable.colName(i);
-				dataTable.colName(i) += tr("'");
+				if (colNames.contains(dataTable.colName(i)))
+					dataTable.colName(i) += tr("'");
+				
+				int k = 1;
+				while (colNames.contains(dataTable.colName(i)))
+					dataTable.colName(i) += QString::number(++k);
+					
 				if (dataPlot->hideList.contains(s))
 					dataPlot->hideList << dataTable.colName(i);
 			}

@@ -56,7 +56,7 @@ namespace Tinkercell
 			//toolBar->addAction(alias);
 			
 			QAction * decorate = new QAction(tr("Add decorator"),this);
-			connect(alias,SIGNAL(triggered()),this,SLOT(decorate()));
+			connect(decorate,SIGNAL(triggered()),this,SLOT(decorate()));
 			alias->setToolTip(tr("Create an alias with different image"));
 			//toolBar->addAction(alias);
 
@@ -526,7 +526,7 @@ namespace Tinkercell
 	void GroupHandlerTool::decorate()
 	{
 		if (!mainWindow || !mainWindow->currentScene()) return;
-
+		
 		GraphicsScene * scene = mainWindow->currentScene();
 		QList<QGraphicsItem*> & selected = scene->selected();
 		
@@ -544,10 +544,11 @@ namespace Tinkercell
 			return;
 		}
 		
-		node->setPos( node->scenePos() + QPointF(50,50) );
-		scene->insert(tr("decorator inserted"),node);
+		QGraphicsItem * copy = cloneGraphicsItem(node);
+		copy->setPos( node->scenePos() + QPointF(50,50) );
+		scene->insert(tr("decorator inserted"),copy);
 		scene->selected().clear();
-		scene->selected() += node;
+		scene->selected() += copy;
 		
 		emit substituteNodeGraphics();
 	}

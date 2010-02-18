@@ -17,7 +17,9 @@ void runSSA(Matrix input)
 	int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
 	Array A,B;
 	FILE * out;
-	char* appDir;
+	int slider = 1;
+	char * runfuncInput = "Matrix input";
+	char * runfunc = "";
 	Matrix params, initVals, allParams;
 
 	if (input.cols > 0)
@@ -30,7 +32,12 @@ void runSSA(Matrix input)
 			maxsz = (int)valueAt(input,2,0);
 		if (input.rows > 3)
 			rateplot = (int)valueAt(input,3,0);
+		if (input.rows > 4)
+			slider = (int)valueAt(input,4,0);
 	}
+	
+	if (slider)
+		runfunc = runfuncInput;
 
 	if (selection > 0)
 	{
@@ -167,7 +174,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 	free(sum_x);\n\
 	free(sum_xx);\n\
 }\n\
-void run(Matrix input) \n\
+void run(%s) \n\
 {\n\
 	initMTrand();\n\
 	int sz = 0,i;\n\
@@ -177,9 +184,12 @@ void run(Matrix input) \n\
 	char ** names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
-	(*model) = TC_initial_model;\n\
-	if (input.rows > TCparams)\n\
-		assignInputs(input.values,model);\n\
+	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
+
+if (slider)
+	fprintf(out, "    if (input.rows > TCparams)\n    assignInputs(input.values,model);\n");
+
+fprintf(out, "\
 	TCinitialize(model);\n\
 	y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, (void*)model);\n\
 	if (!y) \
@@ -230,13 +240,18 @@ void run(Matrix input) \n\
 	tc_hist(data,1,\"Histogram\");\n\
 	free(data.colnames);\n\
 	free(y);\n\
-	free(model);\n\
-	return;\n}\n",time,time/20.0,time,maxsz,rateplot,xaxis);
+	free(model);\n",time,maxsz,rateplot,xaxis);
+
+	if (slider)
+		fprintf(out, "    TCFreeMatrix(input);\n    return;\n}\n");
 
 	fclose(out);
 
-	//tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
-	tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
+	if (slider)
+		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
+	else
+		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
+	
 	
 	TCFreeMatrix(allParams);
 	
@@ -373,12 +388,13 @@ void setupSSA()
 {
 	Matrix m;
 	char * cols[] = { "value" };
-	char * rows[] = { "model", "time", "max size", "plot", 0 };
-	double values[] = { 0, 100, 100000, 0 };
+	char * rows[] = { "model", "time", "max size", "plot", "show sliders", 0 };
+	double values[] = { 0, 100, 100000, 0 , 1 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
 	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important
+	char * options3[] = { "No", "Yes", 0 }; //null terminated -- very important
 
-	m.rows = 4;
+	m.rows = 5;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
@@ -387,6 +403,7 @@ void setupSSA()
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
 	tc_addInputWindowOptions("Gillespie algorithm",0, 0,  options1);
 	tc_addInputWindowOptions("Gillespie algorithm",3, 0,  options2);
+	tc_addInputWindowOptions("Gillespie algorithm",4, 0,  options3);
 }
 
 void setupCellSSA()

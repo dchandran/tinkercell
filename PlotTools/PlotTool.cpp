@@ -352,7 +352,7 @@ namespace Tinkercell
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
 	{
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -374,7 +374,7 @@ namespace Tinkercell
 	
 	void PlotTool::plotScatter(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -396,7 +396,7 @@ namespace Tinkercell
 	
 	void PlotTool::plotHist(QSemaphore* s,DataTable<qreal>& data, double binsz, const QString& title)
 	{
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -418,7 +418,7 @@ namespace Tinkercell
 	
 	void PlotTool::plotErrorbars(QSemaphore* s,DataTable<qreal>& data, int x, const QString& title)
 	{
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -451,6 +451,10 @@ namespace Tinkercell
 	void PlotTool::plotMultiplot(QSemaphore* s, int x, int y)
 	{
 		numMultiplots = x*y;
+		
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+			numMultiplots = 0;
+			
 		if (numMultiplots > 1)
 			hold();
 
@@ -462,7 +466,7 @@ namespace Tinkercell
 
 	void PlotTool::surface(QSemaphore * s, DataTable<qreal>& matrix,const QString& title)
 	{
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);

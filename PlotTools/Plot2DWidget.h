@@ -11,6 +11,7 @@
 #define TINKERCELL_PLOT2DWIDGET_H
 
 #include <QButtonGroup>
+#include <QCheckBox>
 #include <QDoubleSpinBox>
 #include <QComboBox>
 #include <QColorDialog>
@@ -39,6 +40,7 @@ namespace Tinkercell
 	class Plot2DWidget;
 	class DataPlot;
 	class GetPenInfoDialog;
+	class ShowHideLegendItemsWidget;
 
 	class DataColumn : public QwtData
 	{
@@ -75,6 +77,7 @@ namespace Tinkercell
 		int xcolumn, delta;
 		PlotTool::PlotType type;
 		void convertToFrequencyData();
+		void replotUsingHideList();
 		
 	protected slots:
 		void itemChecked(QwtPlotItem *,	bool);
@@ -82,6 +85,7 @@ namespace Tinkercell
 		
 		friend class Plot2DWidget;
 		friend class GetPenInfoDialog;
+		friend class ShowHideLegendItemsWidget;
 	};
 	
 	class GetPenInfoDialog : public QDialog
@@ -100,6 +104,21 @@ namespace Tinkercell
 		QColorDialog colorDialog;
 		QDoubleSpinBox spinBox;
 		QComboBox comboBox;
+	};
+	
+	class ShowHideLegendItemsWidget : public QDialog
+	{
+		Q_OBJECT
+	public:
+		ShowHideLegendItemsWidget(DataPlot * plot, QWidget * parent);
+		
+	private slots:
+		void updatePlot();
+		
+	private:
+		DataPlot * plot;
+		QStringList names;
+		QList<QCheckBox*> checkBoxes;
 	};
 
 	/*!
@@ -132,6 +151,7 @@ namespace Tinkercell
 	private slots:
 		void buttonPressed(int);
 		void penSet();
+		void legendConfigure();
 		void mouseMoved(const QPoint&);
 	
 	private:

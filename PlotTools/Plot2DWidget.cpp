@@ -145,14 +145,15 @@ namespace Tinkercell
 		xmax = xmin = dataTable.value(0,0);
 		
 		for (int i=0; i < dataTable.cols(); ++i)
-			for (int j=0; j < dataTable.rows(); ++j)
-			{
-				if (xmin > dataTable.value(j,i))
-					xmin = dataTable.value(j,i);
-				
-				if (xmax < dataTable.value(j,i))
-					xmax = dataTable.value(j,i);
-			}
+			if (dataTable.colName(i).toLower() != tr("time"))
+				for (int j=0; j < dataTable.rows(); ++j)
+				{
+					if (xmin > dataTable.value(j,i))
+						xmin = dataTable.value(j,i);
+					
+					if (xmax < dataTable.value(j,i))
+						xmax = dataTable.value(j,i);
+				}
 		
 		width = (xmax-xmin)/(double)delta;
 		
@@ -206,7 +207,7 @@ namespace Tinkercell
 		{
 			if (c >= penList.size())
 				c = 0;
-			if (i != x && dataTable.colName(i).toLower() != tr("time"))
+			if (i != x && dataTable.colName(i).toLower() != tr("time") && !hideList.contains(dataTable.colName(i)))
 			{
 				QwtPlotCurve * curve = new QwtPlotCurve(dataTable.colName(i));
 				curve->setRenderHint(QwtPlotItem::RenderAntialiased);						
@@ -258,10 +259,13 @@ namespace Tinkercell
 		replot();
 		if (zoomer)
 		{
-			zoomer->setZoomBase();
+			QwtDoubleRect rect = zoomer->zoomRect();
+			rect.adjust(-1.0,-1.0,1.0,1.0);
+			zoomer->setZoomBase(rect);
+			zoomer->zoom(rect);
 		}
 	}
-	/*
+	
 	void DataPlot::replotUsingHideList()
 	{
 		const QwtPlotItemList& list = itemList();
@@ -276,7 +280,7 @@ namespace Tinkercell
 			}
 		replot();
 	}
-	*/
+	
 	
 	void DataPlot::setLogX(bool b)
 	{
@@ -322,7 +326,6 @@ namespace Tinkercell
 	{
 		type = PlotTool::Plot2D;
 		dataPlot = new DataPlot();
-		dataPlot->type = type;
 		
 		if (DataPlot::penList.isEmpty())
 		{
@@ -436,6 +439,13 @@ namespace Tinkercell
 		toolBar.addWidget(logScale);
 		toolBar.addWidget(changeColors);
 		
+		
+		QToolButton * configLegend = new QToolButton(this);
+		configLegend->setText(tr("Legend.."));
+		configLegend->setToolTip(tr("Configure what to show on the plot"));
+		connect(configLegend,SIGNAL(pressed()),this,SLOT(legendConfigure()));		
+		toolBar.addWidget(configLegend);		
+		
 		connect(&buttonsGroup,SIGNAL(buttonPressed(int)),this,SLOT(buttonPressed(int)));
 		
 		setMinimumHeight(200);
@@ -453,44 +463,45 @@ namespace Tinkercell
 	
 	void Plot2DWidget::penSet()
 	{
-			int k = dialog->currentIndex();
-			DataPlot::penList[k] = dialog->getPen();
-			
-			QAbstractButton * button = buttonsGroup.button(k);
-			if (button)
-				button->setStyleSheet(tr("background-color: ") + DataPlot::penList[k].color().name());
-			
-			QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
-			QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
-			QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
+		int k = dialog->currentIndex();
+		DataPlot::penList[k] = dialog->getPen();
+		
+		QAbstractButton * button = buttonsGroup.button(k);
+		if (button)
+			button->setStyleSheet(tr("background-color: ") + DataPlot::penList[k].color().name());
+		
+		QCoreApplication::setOrganizationName(Tinkercell::ORGANIZATIONNAME);
+		QCoreApplication::setOrganizationDomain(Tinkercell::PROJECTWEBSITE);
+		QCoreApplication::setApplicationName(Tinkercell::ORGANIZATIONNAME);
 
-			QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
-			
-			settings.beginGroup("Plot2DWidget");
-			
-			QStringList colors, penWidth, penStyles;
-			
-			QList<QPen>& penList = DataPlot::penList;
-			
-			for (int i=0; i < penList.size(); ++i)
-			{
-				colors << penList[i].color().name();
-				penStyles << QString::number((int)(penList[i].style()));
-				penWidth << QString::number(penList[i].widthF());
-			}
-			
-			settings.setValue(tr("colors"),colors);
-			settings.setValue(tr("widths"),penWidth);
-			settings.setValue(tr("styles"),penStyles);
-			
-			settings.endGroup();
-			
-			//dataPlot->replot();
-			dataPlot->plot(	
-						dataPlot->dataTable,
-						dataPlot->xcolumn,
-						dataPlot->title().text(),
-						dataPlot->delta);
+		QSettings settings(Tinkercell::ORGANIZATIONNAME, Tinkercell::ORGANIZATIONNAME);
+		
+		settings.beginGroup("Plot2DWidget");
+		
+		QStringList colors, penWidth, penStyles;
+		
+		QList<QPen>& penList = DataPlot::penList;
+		
+		for (int i=0; i < penList.size(); ++i)
+		{
+			colors << penList[i].color().name();
+			penStyles << QString::number((int)(penList[i].style()));
+			penWidth << QString::number(penList[i].widthF());
+		}
+		
+		settings.setValue(tr("colors"),colors);
+		settings.setValue(tr("widths"),penWidth);
+		settings.setValue(tr("styles"),penStyles);
+		
+		settings.endGroup();
+		
+		//dataPlot->replot();
+		dataPlot->type = type;
+		dataPlot->plot(	
+					dataPlot->dataTable,
+					dataPlot->xcolumn,
+					dataPlot->title().text(),
+					dataPlot->delta);
 	}
 	
 	void Plot2DWidget::plot(const DataTable<qreal>& matrix,const QString& title,int x)
@@ -506,6 +517,7 @@ namespace Tinkercell
 		if (type == PlotTool::HistogramPlot)
 			dt = 100;
 		
+		dataPlot->type = type;
 		dataPlot->plot(matrix,x,title,dt);
 		if (axisNames)
 		{
@@ -526,7 +538,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return;
 		
-		DataTable<qreal> dataTable = dataPlot->dataTable;
+		DataTable<qreal> & dataTable = dataPlot->dataTable;
 		bool same = (dataTable.cols() == newData.cols());
 		
 		if (same)
@@ -539,7 +551,7 @@ namespace Tinkercell
 				}
 		}
 		
-		int removeSz = 0;
+		/*int removeSz = 0;
 		for (int i=0; i < newData.cols(); ++i)
 			if (dataPlot->hideList.contains(newData.colName(i)))
 				++removeSz;
@@ -554,16 +566,18 @@ namespace Tinkercell
 				for (int j=0; j < dataTable.rows(); ++j)
 					dataTable.value(j,k) = newData.at(j,i);
 				++k;
-			}
+			}*/
+		
+		dataPlot->type = type;
 		if (same && dataPlot->hideList.isEmpty())
 		{
-			dataPlot->dataTable = dataTable;
+			dataPlot->dataTable = newData;
 			dataPlot->replot();
 		}
 		else
 		{
 			dataPlot->hideList.clear();
-			dataPlot->plot(	dataTable,
+			dataPlot->plot(	newData,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),
 						dataPlot->delta);
@@ -900,7 +914,12 @@ namespace Tinkercell
 		
 		for (int i=0; i < dataTable.cols(); ++i)
 			if (colNames.contains(dataTable.colName(i)) && i != dataPlot->xcolumn)
-				dataTable.colName(i) += tr("'"); 
+			{
+				QString s = dataTable.colName(i);
+				dataTable.colName(i) += tr("'");
+				if (dataPlot->hideList.contains(s))
+					dataPlot->hideList << dataTable.colName(i);
+			}
 		
 		int m = newData.rows();
 		if (m > dataTable.rows())
@@ -922,9 +941,85 @@ namespace Tinkercell
 				++k;
 			}
 		
+		dataPlot->type = type;
 		dataPlot->plot(	dataTable,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),
 						dataPlot->delta);
+	}
+	
+	
+	/***************************
+	Legend show-hide widget
+	***************************/
+	
+	ShowHideLegendItemsWidget::ShowHideLegendItemsWidget(DataPlot * plot, QWidget * parent) : QDialog(parent)
+	{
+		this->plot = plot;
+		
+		if (!plot) return;
+		
+		QString s;
+		int rows = plot->dataTable.cols();
+		QTableWidget * tableWidget = new QTableWidget(rows,1);
+		tableWidget->horizontalHeader()->hide();
+		tableWidget->verticalHeader()->hide();
+		
+		for (int i=0; i < rows; ++i)
+		{
+			s = plot->dataTable.colName(i);
+			QCheckBox * button = new QCheckBox( s );
+			//button->setStyleSheet(tr("background-color: ") + DataPlot::penList[i].color().name());
+			tableWidget->setCellWidget(i,0,button);
+			checkBoxes << button;
+			names << s;
+			button->setChecked ( !plot->hideList.contains(s) );
+		}
+		
+		QHBoxLayout * layout1 = new QHBoxLayout;
+		layout1->addWidget(tableWidget);		
+		
+		QHBoxLayout * layout2 = new QHBoxLayout;
+		QPushButton * okButton = new QPushButton(tr("&Update plot"));
+		QPushButton * cancelButton = new QPushButton(tr("&Cancel"));
+		connect(okButton,SIGNAL(released()),this,SLOT(accept()));	
+		connect(cancelButton,SIGNAL(released()),this,SLOT(reject()));
+		layout2->addStretch(3);
+		layout2->addWidget(cancelButton);
+		layout2->addWidget(okButton);
+		layout2->addStretch(3);
+		
+		
+		QVBoxLayout * layout3 = new QVBoxLayout;
+		layout3->addLayout(layout1,1);
+		layout3->addLayout(layout2,1);
+		
+		connect(this,SIGNAL(accepted()),this,SLOT(updatePlot()));
+		setLayout(layout3);
+		
+		setAttribute(Qt::WA_DeleteOnClose);
+	}
+	
+	void ShowHideLegendItemsWidget::updatePlot()
+	{
+		if (!plot) return;
+		
+		plot->hideList.clear();
+		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
+			if (checkBoxes[i] && !checkBoxes[i]->isChecked())			
+				plot->hideList << names[i];
+				//newData.removeCol(names[i]);
+		
+		plot->plot(plot->dataTable,
+					plot->xcolumn,
+					plot->title().text(),
+					plot->delta);
+	}
+	
+	void Plot2DWidget::legendConfigure()
+	{
+		if (!dataPlot) return;
+		ShowHideLegendItemsWidget * dialog = new ShowHideLegendItemsWidget(dataPlot,this);
+		dialog->exec();
 	}
 }

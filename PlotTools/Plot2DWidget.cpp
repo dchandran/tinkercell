@@ -135,8 +135,10 @@ namespace Tinkercell
 		}
 	}
 	
-	void DataPlot::convertToFrequencyData()
+	void DataPlot::processData()
 	{
+		if (type != PlotTool::HistogramPlot) return;
+		
 		double xmin, xmax, width;
 		DataTable<qreal> histData;
 		
@@ -184,8 +186,7 @@ namespace Tinkercell
 	{
 		delta = dt;
 		xcolumn = x;
-		if (type == PlotTool::HistogramPlot)
-			convertToFrequencyData();
+		processData();
 			
 		if (!this->isVisible())
 		{
@@ -546,6 +547,7 @@ namespace Tinkercell
 		if (!dataPlot) return;
 		
 		DataTable<qreal> & dataTable = dataPlot->dataTable;
+		
 		bool same = (dataTable.cols() == newData.cols());
 		
 		if (same)
@@ -579,6 +581,7 @@ namespace Tinkercell
 		if (same)
 		{
 			dataPlot->dataTable = newData;
+			processData();
 			dataPlot->replotUsingHideList();
 		}
 		else

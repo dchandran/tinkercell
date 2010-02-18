@@ -452,7 +452,7 @@ namespace Tinkercell
 	{
 		numMultiplots = x*y;
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 			numMultiplots = 0;
 			
 		if (numMultiplots > 1)

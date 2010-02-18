@@ -76,7 +76,7 @@ namespace Tinkercell
 		static QList<QPen> penList;
 		int xcolumn, delta;
 		PlotTool::PlotType type;
-		void convertToFrequencyData();
+		void processData();
 		void replotUsingHideList();
 		
 	protected slots:

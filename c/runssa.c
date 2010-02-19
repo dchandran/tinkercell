@@ -394,7 +394,7 @@ void setupSSA()
 	double values[] = { 0, 100, 100000, 0 , 1 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
 	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important
-	char * options3[] = { "No", "Yes", 0 }; //null terminated -- very important
+	char * options3[] = { "Yes", "No", 0 }; //null terminated -- very important
 
 	m.rows = 5;
 	m.cols = 1;

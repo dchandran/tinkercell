@@ -25,10 +25,10 @@ void setup()
 	Matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size", "plot", "update model", "use sliders", 0 };
-	double values[] = { 0, 100, 0.1, 0, 0, 1 };
+	double values[] = { 0, 100, 0.1, 0, 1, 1 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
 	char * options2[] = { "Variables", "Rates", 0 };
-	char * options3[] = { "No", "Yes", 0 };
+	char * options3[] = { "Yes", "No", 0 };
 	FILE * file;
 
 	m.rows = 6;

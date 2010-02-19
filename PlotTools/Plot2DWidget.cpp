@@ -977,6 +977,14 @@ namespace Tinkercell
 		tableWidget->horizontalHeader()->hide();
 		tableWidget->verticalHeader()->hide();
 		
+		QToolButton * allButton = new QToolButton;
+		allButton->setText(tr("All"));
+		connect(allButton,SIGNAL(released()),this,SLOT(checkAll()));
+		
+		QToolButton * noneButton = new QToolButton;
+		noneButton->setText(tr("None"));
+		connect(noneButton,SIGNAL(released()),this,SLOT(checkNone()));
+		
 		for (int i=0; i < rows; ++i)
 		{
 			s = plot->dataTable.colName(i);
@@ -988,8 +996,13 @@ namespace Tinkercell
 			button->setChecked ( !plot->hideList.contains(s) );
 		}
 		
+		QHBoxLayout * layout0 = new QHBoxLayout;
+		layout0->addWidget(allButton);
+		layout0->addWidget(noneButton);
+		layout0->addStretch(3);
+		
 		QHBoxLayout * layout1 = new QHBoxLayout;
-		layout1->addWidget(tableWidget);		
+		layout1->addWidget(tableWidget);
 		
 		QHBoxLayout * layout2 = new QHBoxLayout;
 		QPushButton * okButton = new QPushButton(tr("&Update plot"));
@@ -1003,13 +1016,28 @@ namespace Tinkercell
 		
 		
 		QVBoxLayout * layout3 = new QVBoxLayout;
+		layout3->addLayout(layout0,0);
 		layout3->addLayout(layout1,1);
-		layout3->addLayout(layout2,1);
+		layout3->addLayout(layout2,0);
 		
 		connect(this,SIGNAL(accepted()),this,SLOT(updatePlot()));
 		setLayout(layout3);
 		
 		setAttribute(Qt::WA_DeleteOnClose);
+	}
+	
+	void ShowHideLegendItemsWidget::checkAll()
+	{
+		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
+			if (checkBoxes[i] && !checkBoxes[i]->isChecked())			
+				checkBoxes[i]->setChecked(true);
+	}
+	
+	void ShowHideLegendItemsWidget::checkNone()
+	{
+		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
+			if (checkBoxes[i] && checkBoxes[i]->isChecked())			
+				checkBoxes[i]->setChecked(false);
 	}
 	
 	void ShowHideLegendItemsWidget::updatePlot()

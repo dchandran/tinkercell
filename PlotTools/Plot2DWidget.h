@@ -114,6 +114,8 @@ namespace Tinkercell
 		
 	private slots:
 		void updatePlot();
+		void checkAll();
+		void checkNone();
 		
 	private:
 		DataPlot * plot;

@@ -729,7 +729,7 @@ namespace Tinkercell
 				otherToolBar->hide();
 			}
 			otherToolBar = &plotWidget->toolBar;
-			window->addToolBar(Qt::TopToolBarArea,otherToolBar);
+			window->addToolBar(Qt::RightToolBarArea,otherToolBar);
 			otherToolBar->show();
 		}
 	}

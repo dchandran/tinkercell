@@ -55,9 +55,9 @@ namespace Tinkercell
 			alias->setToolTip(tr("Create an alias of selected items"));
 			//toolBar->addAction(alias);
 			
-			QAction * decorate = new QAction(tr("Add decorator"),this);
+			QAction * decorate = new QAction(QIcon(tr(":/images/star.png")),tr("Add decorator"),this);
 			connect(decorate,SIGNAL(triggered()),this,SLOT(decorate()));
-			alias->setToolTip(tr("Create an alias with different image"));
+			alias->setToolTip(tr("Add a decoration item to selected object"));
 			//toolBar->addAction(alias);
 
 			if (mainWindow->toolBarEdits)

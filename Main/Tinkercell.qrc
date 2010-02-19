@@ -87,6 +87,7 @@
 		<file>images/stepFunc.png</file>
 		<file>images/pulseFunc.png</file>
 		<file>images/sinFunc.png</file>
-		<file>images/legend.png</file>		
+		<file>images/legend.png</file>
+		<file>images/star.png</file>
     </qresource>
 </RCC>

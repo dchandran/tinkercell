@@ -78,6 +78,11 @@ void run(Matrix input)
 	}
 	
 	if (slider)
+		slider = 0;
+	else
+		slider = 1;
+	
+	if (slider)
 		runfunc = runfuncInput;
 
 	sz = (int)((end - start) / dt);

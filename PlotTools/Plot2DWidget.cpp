@@ -450,7 +450,7 @@ namespace Tinkercell
 		
 		QToolButton * configLegend = new QToolButton(this);
 		//configLegend->setText(tr("Legend.."));
-		configLegend->setIcon(tr(":/images/legend.png"));
+		configLegend->setIcon(QIcon(tr(":/images/legend.png")));
 		configLegend->setToolTip(tr("Configure what to show on the plot"));
 		connect(configLegend,SIGNAL(pressed()),this,SLOT(legendConfigure()));		
 		toolBar.addWidget(configLegend);		

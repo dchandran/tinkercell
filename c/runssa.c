@@ -37,6 +37,11 @@ void runSSA(Matrix input)
 	}
 	
 	if (slider)
+		slider = 0;
+	else
+		slider = 1;
+	
+	if (slider)
 		runfunc = runfuncInput;
 
 	if (selection > 0)

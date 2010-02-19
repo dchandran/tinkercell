@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="">
+    <ControlPoints>
+        <ControlPoint x="155.148" y="121.534"></ControlPoint>
+        <ControlPoint x="172.402" y="121.534"></ControlPoint>
+        <ControlPoint x="172.402" y="159.534"></ControlPoint>
+        <ControlPoint x="155.148" y="159.534"></ControlPoint>
+        <ControlPoint x="189.037" y="138.103"></ControlPoint>
+        <ControlPoint x="189.037" y="145.702"></ControlPoint>
+        <ControlPoint x="274.634" y="138.103"></ControlPoint>
+        <ControlPoint x="274.634" y="145.702"></ControlPoint>
+        <ControlPoint x="322.952" y="163.01"></ControlPoint>
+        <ControlPoint x="3.4519" y="140.784"></ControlPoint>
+        <ControlPoint x="273.747" y="114.713"></ControlPoint>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,4,6,7,5,2,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line,line,line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="1" Color="#6464ff" Alpha="255"></Pen>
+            <Fill Color="#374e9a" Alpha="255"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="0,9,3,0"></ControlPoints>
+            <LineTypes sequence="line,line,line,line"></LineTypes>
+            <Parameters values=""></Parameters>
+            <Pen Width="4" Color="#ffffff" Alpha="0"></Pen>
+            <Fill Color="#ffffff" Alpha="0"></Fill>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="10,8,10"></ControlPoints>
+            <LineTypes sequence="arc,arc,arc"></LineTypes>
+            <Parameters values="0,360,0,360,0,360"></Parameters>
+            <Pen Width="7" Color="#ff0303" Alpha="255"></Pen>
+            <Fill Color="#ffffff" Alpha="0"></Fill>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

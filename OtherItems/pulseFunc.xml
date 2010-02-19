@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PartGraphicsItem>
+<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/OtherItems/pulseFunc.xml" width="30" height="30">
+    <ControlPoints>
+        <ControlPoint x="-199" y="-183"/>
+        <ControlPoint x="103" y="-183"/>
+        <ControlPoint x="100" y="82"/>
+        <ControlPoint x="-199" y="82"/>
+        <ControlPoint x="-177" y="-157"/>
+        <ControlPoint x="78" y="-157"/>
+        <ControlPoint x="78" y="60"/>
+        <ControlPoint x="-176" y="60"/>
+        <ControlPoint x="-159" y="5"/>
+        <ControlPoint x="-98" y="5"/>
+        <ControlPoint x="-99" y="-127"/>
+        <ControlPoint x="-55" y="-58"/>
+        <ControlPoint x="-71" y="-18"/>
+        <ControlPoint x="-159" y="37"/>
+        <ControlPoint x="64" y="18"/>
+        <ControlPoint x="64" y="37"/>
+        <ControlPoint x="-63" y="-127"/>
+        <ControlPoint x="-73" y="26"/>
+        <ControlPoint x="-9" y="37"/>
+        <ControlPoint x="-67" y="19"/>
+        <ControlPoint x="-73" y="-98"/>
+        <ControlPoint x="-73" y="39"/>
+    </ControlPoints>
+    <Shapes>
+        <Shape Negative="0">
+            <ControlPoints indices="0,1,2,3,0"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="2" Color="#9a9a9a" Alpha="255"/>
+            <Fill Color="#ffffff" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="4,5,6,7,4"/>
+            <LineTypes sequence="line,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="4" Color="#99a269" Alpha="255"/>
+            <Fill Color="#f0ffa5" Alpha="255"/>
+        </Shape>
+        <Shape Negative="0">
+            <ControlPoints indices="8,9,10,16,11,17,14,15,18,19,12,20,21,13,8"/>
+            <LineTypes sequence="line,line,line,bezier,line,line,bezier,line,line,line,line"/>
+            <Parameters values=""/>
+            <Pen Width="1" Color="#0a0b07" Alpha="255"/>
+            <Fill Color="#0a0b07" Alpha="255"/>
+        </Shape>
+    </Shapes>
+</PartGraphicsItem>

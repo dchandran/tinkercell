@@ -46,7 +46,7 @@ namespace Tinkercell
         if (treeDelegate)
             delete treeDelegate;
 
-		if (treeView->model())
+		if (treeView && treeView->model())
             delete treeView->model();
     }
 
@@ -66,8 +66,7 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
                     this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
 			
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)),
-                    this,SLOT(windowClosing(NetworkWindow *, bool*)));
+			//connect(mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)),this,SLOT(windowClosing(NetworkWindow *, bool*)));
 
             connect(this,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
                     mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
@@ -114,7 +113,7 @@ namespace Tinkercell
             }
         }
     }
-
+/*
 	void ContainerTreeTool::windowClosing(NetworkWindow *, bool*)
 	{
 		treeView->setUpdatesEnabled(false);
@@ -126,7 +125,7 @@ namespace Tinkercell
 		
         treeView->setModel(0);
 	}
-
+*/
     void ContainerTreeTool::windowChanged(NetworkWindow * , NetworkWindow * win)
     {
         if (!win) return;

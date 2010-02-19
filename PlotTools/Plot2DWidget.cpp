@@ -449,7 +449,8 @@ namespace Tinkercell
 		
 		
 		QToolButton * configLegend = new QToolButton(this);
-		configLegend->setText(tr("Legend.."));
+		//configLegend->setText(tr("Legend.."));
+		configLegend->setIcon(tr(":/images/legend.png"));
 		configLegend->setToolTip(tr("Configure what to show on the plot"));
 		connect(configLegend,SIGNAL(pressed()),this,SLOT(legendConfigure()));		
 		toolBar.addWidget(configLegend);		
@@ -977,12 +978,10 @@ namespace Tinkercell
 		tableWidget->horizontalHeader()->hide();
 		tableWidget->verticalHeader()->hide();
 		
-		QToolButton * allButton = new QToolButton;
-		allButton->setText(tr("All"));
+		QPushButton * allButton = new QPushButton(tr("&All"));
 		connect(allButton,SIGNAL(released()),this,SLOT(checkAll()));
 		
-		QToolButton * noneButton = new QToolButton;
-		noneButton->setText(tr("None"));
+		QPushButton * noneButton = new QPushButton(tr("&None"));
 		connect(noneButton,SIGNAL(released()),this,SLOT(checkNone()));
 		
 		for (int i=0; i < rows; ++i)
@@ -997,6 +996,7 @@ namespace Tinkercell
 		}
 		
 		QHBoxLayout * layout0 = new QHBoxLayout;
+		layout0->addStretch(3);
 		layout0->addWidget(allButton);
 		layout0->addWidget(noneButton);
 		layout0->addStretch(3);
@@ -1010,8 +1010,8 @@ namespace Tinkercell
 		connect(okButton,SIGNAL(released()),this,SLOT(accept()));	
 		connect(cancelButton,SIGNAL(released()),this,SLOT(reject()));
 		layout2->addStretch(3);
-		layout2->addWidget(cancelButton);
 		layout2->addWidget(okButton);
+		layout2->addWidget(cancelButton);
 		layout2->addStretch(3);
 		
 		
@@ -1048,7 +1048,6 @@ namespace Tinkercell
 		for (int i=0; i < checkBoxes.size() && i < names.size(); ++i)
 			if (checkBoxes[i] && !checkBoxes[i]->isChecked())			
 				plot->hideList << names[i];
-				//newData.removeCol(names[i]);
 		
 		plot->plot(plot->dataTable,
 					plot->xcolumn,

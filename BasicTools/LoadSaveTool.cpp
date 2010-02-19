@@ -45,7 +45,6 @@ namespace Tinkercell
 			if (button == QMessageBox::Ok)
 			{
 				mainWindow->saveWindow();
-				(*close) = false;
 			}
 			else
 				if (button == QMessageBox::Cancel)

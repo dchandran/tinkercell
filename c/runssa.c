@@ -244,6 +244,8 @@ fprintf(out, "\
 
 	if (slider)
 		fprintf(out, "    TCFreeMatrix(input);\n    return;\n}\n");
+	else
+		fprintf(out, "    return;\n}\n");
 
 	fclose(out);
 

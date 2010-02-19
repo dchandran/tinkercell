@@ -4,7 +4,7 @@
         <file>images/question.png</file>
         <file>images/alias.png</file>
         <file>images/arrow.png</file>
-		<file>images/rightarrow.png</file>
+	<file>images/rightarrow.png</file>
         <file>images/bringFront.png</file>
         <file>images/blueDot.png</file>
         <file>images/blueRect.png</file>
@@ -20,7 +20,7 @@
         <file>images/fitSelected.png</file>
         <file>images/function.png</file>
         <file>images/graph.png</file>
-		<file>images/graph2.png</file>
+	<file>images/graph2.png</file>
         <file>images/group.png</file>
         <file>images/horizontalFlip.png</file>
         <file>images/image.png</file>
@@ -74,18 +74,18 @@
         <file>images/up.png</file>
         <file>images/down.png</file>
         <file>images/module.png</file>
-		<file>images/connectmodules.png</file>
-		<file>images/lollipop.png</file>
+	<file>images/connectmodules.png</file>
+	<file>images/lollipop.png</file>
         <file>images/parts.png</file>
-		<file>images/export.png</file>
-		<file>images/calc.png</file>
-		<file>images/latex.png</file>
-		<file>images/camera.png</file>
-		<file>images/monitor.PNG</file>
-		<file>images/lock.png</file>
-		<file>images/clock.png</file>
-		<file>images/stepFunc.png</file>
-		<file>images/pulseFunc.png</file>
-		<file>images/sinFunc.png</file>
+	<file>images/export.png</file>
+	<file>images/calc.png</file>
+	<file>images/latex.png</file>
+	<file>images/camera.png</file>
+	<file>images/monitor.png</file>
+	<file>images/lock.png</file>
+	<file>images/clock.png</file>
+	<file>images/stepFunc.png</file>
+	<file>images/pulseFunc.png</file>
+	<file>images/sinFunc.png</file>
     </qresource>
 </RCC>

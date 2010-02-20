@@ -17,15 +17,17 @@ void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
 int main(int argc, char *argv[])
 {
+    QApplication app(argc, argv);
+
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
     PROJECTNAME = QObject::tr("Tinkercell");
-	Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
-	QApplication app(argc, argv);
+    Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
+    
 
     QString appDir = QCoreApplication::applicationDirPath();
 	
-	QFile styleFile(appDir + QString("/tinkercell.qss"));
+    QFile styleFile(appDir + QString("/tinkercell.qss"));
 
     if (styleFile.open(QFile::ReadOnly | QFile::Text))
     {
@@ -38,7 +40,7 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
     
-	mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
+   mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
 

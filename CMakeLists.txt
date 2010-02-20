@@ -97,13 +97,13 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/ExternalCode/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
-	${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/
-	${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
-	${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
-	${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony
     ${TINKERCELL_BINARY_DIR}/c/
     ${TINKERCELL_BINARY_DIR}/c/lpsolve/
     ${TINKERCELL_BINARY_DIR}/c/sundials/
@@ -111,8 +111,8 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/c/cvode/
     ${TINKERCELL_BINARY_DIR}/Core/
     ${TINKERCELL_BINARY_DIR}/BasicTools/
-	${TINKERCELL_BINARY_DIR}/ModuleTools/
-	${TINKERCELL_BINARY_DIR}/ModelingTools/
+    ${TINKERCELL_BINARY_DIR}/ModuleTools/
+    ${TINKERCELL_BINARY_DIR}/ModelingTools/
     ${TINKERCELL_BINARY_DIR}/OtherTools/
     ${TINKERCELL_BINARY_DIR}/AntimonyEditor/
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
@@ -128,17 +128,17 @@ IF( QT4_FOUND )
     ${PYTHON_INCLUDE_PATH}
     ${QT_INCLUDES}
 # INCLUDE DIRECTORIES FROM TINKERCELL
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode_src/cvode/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode_src/sundials/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/nvec_par/
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
-	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/c/sundials/
@@ -146,8 +146,8 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/c/cvode/
     ${TINKERCELL_SOURCE_DIR}/Core/
     ${TINKERCELL_SOURCE_DIR}/BasicTools/
-	${TINKERCELL_SOURCE_DIR}/ModuleTools/
-	${TINKERCELL_SOURCE_DIR}/ModelingTools/
+    ${TINKERCELL_SOURCE_DIR}/ModuleTools/
+    ${TINKERCELL_SOURCE_DIR}/ModelingTools/
     ${TINKERCELL_SOURCE_DIR}/OtherTools/
     ${TINKERCELL_SOURCE_DIR}/AntimonyEditor/
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
@@ -158,6 +158,11 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
  )
+
+IF (UNIX AND NOT APPLE)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+ENDIF(UNIX AND NOT APPLE)
 
 #----------------------------------------------------------------------------
 #   Tinkercell plugins and other components

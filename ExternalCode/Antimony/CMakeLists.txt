@@ -106,8 +106,8 @@ INCLUDE_DIRECTORIES(
 
 SET( ANTIMONY_SRC
 	src/Antimony.cpp
-    src/antimony_api.cpp
-    src/antimony.tab.cpp
+	src/antimony_api.cpp
+	src/antimony.tab.cpp
 	src/dnastrand.cpp
 	src/event.cpp
 	src/formula.cpp
@@ -123,6 +123,7 @@ SET( ANTIMONY_SRC
 )
    
 #ADD_DEFINITIONS(-DNSBML)
+ADD_DEFINITIONS(-fPIC)
 ADD_DEFINITIONS(-DNCELLML)
 ADD_DEFINITIONS(-DLIB_EXPORTS)
 

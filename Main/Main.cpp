@@ -17,6 +17,7 @@ void LoadPluginsFromDir(const QString&,MainWindow *,QSplashScreen*);
 
 int main(int argc, char *argv[])
 {
+    QApplication::setColorSpec (QApplication::ManyColor);
     QApplication app(argc, argv);
 
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");

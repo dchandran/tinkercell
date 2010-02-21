@@ -1,13 +1,14 @@
+#include <QApplication>
 #include "MultiCell.h"
 #include "CellTypeSelector.h"
 
 int main(int argc, char *argv[])
 {
+	QApplication app(argc, argv);
+    
     Tinkercell::PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     Tinkercell::ORGANIZATIONNAME = QObject::tr("MultiCell Simulator");
     Tinkercell::PROJECTNAME = QObject::tr("MultiCell Simulator");
-	
-    QApplication app(argc, argv);
 
 	QString appDir = QCoreApplication::applicationDirPath();
 	

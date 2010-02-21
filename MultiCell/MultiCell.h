@@ -139,9 +139,9 @@ namespace Multicell
 		virtual void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget * sender);
 	private:
-		
+			
 		QString uniqueName();
-		
+				
 		NodeGraphicsItem* itemOnTopOf;
 		QList<NodeGraphicsItem*> selectedItems;
 	};

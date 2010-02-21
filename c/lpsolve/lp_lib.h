@@ -123,12 +123,16 @@
 #define INVERSE_LUSOL            3
 #define INVERSE_GLPKLU           4
 
+#define RoleIsExternalInvEngine
+
 #ifndef RoleIsExternalInvEngine            /* Defined in inverse DLL drivers */
   #ifdef ExcludeNativeInverse
-    #define INVERSE_ACTIVE       INVERSE_NONE       /* Disable native engine */
+    #define INVERSE_ACTIVE       INVERSE_NONE       /* Disable native engine */	
   #else
     #define INVERSE_ACTIVE       INVERSE_LEGACY      /* User or DLL-selected */
   #endif
+#else
+	#define INVERSE_ACTIVE    INVERSE_LUSOL
 #endif
 
 
@@ -2283,5 +2287,10 @@ STATIC int compute_theta(lprec *lp, int rownr, LREAL *theta, int isupbound, REAL
 /* Pivot utility routines */
 STATIC int findBasisPos(lprec *lp, int notint, int *var_basic);
 STATIC MYBOOL check_degeneracy(lprec *lp, REAL *pcol, int *degencount);
+
+#define INLINE static
+#define O3
+#define YY_NEVER_INTERACTIVE
+#define PARSER_LP
 
 #endif /* HEADER_lp_lib */

@@ -110,15 +110,15 @@ QMainWindow::separator {
      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                                        stop:0 #EEEEEE, stop: 1.0 #FFFFFF);
  }
- */
+
 
  QMenuBar::item {
-     spacing: 3px; /* spacing between menu bar items */
+     spacing: 3px; 
      padding: 1px 4px;
      border-radius: 4px;
  }
 
- QMenuBar::item:selected { /* when selected using mouse or keyboard */
+ QMenuBar::item:selected { 
      background: #EDEEF1;
  }
 
@@ -132,7 +132,6 @@ QMainWindow::separator {
      border: 1px #8A8C94;
  }
 
-/*
  QMenu::item {
      background-color: transparent;
  }

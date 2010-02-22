@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include "TC_api.h"
+#include <string.h>
 
 char selected_var1[100];
 char selected_var2[100];

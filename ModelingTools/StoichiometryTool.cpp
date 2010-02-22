@@ -134,9 +134,10 @@ namespace Tinkercell
 				//QSize sz = settings.value("size", sizeHint()).toSize();
 				//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
 
+				dockWidget->hide();
 				dockWidget->setFloating(true);
 				settings.endGroup();
-				dockWidget->hide();
+				
 			}
 		}
 		return (mainWindow != 0);

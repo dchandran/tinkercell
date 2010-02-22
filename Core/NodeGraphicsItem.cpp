@@ -192,8 +192,10 @@ namespace Tinkercell
 		QTransform t0 = copy.sceneTransform();
 		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
 		setPos(copy.scenePos());
-		setTransform(t1);
 
+#if QT_VERSION > 0x046000		
+		setTransform(t1);
+#endif
 		/**copy handle**/
 		className = copy.className;
 		itemHandle = copy.itemHandle;
@@ -222,6 +224,10 @@ namespace Tinkercell
 			}
 
 		refresh();
+
+#if QT_VERSION < 0x046000		
+		setTransform(t1);
+#endif
 
 		ControlPoint * topleft = new ControlPoint(this);
 		topleft->setPos( copy.sceneBoundingRect().topLeft() );
@@ -274,7 +280,10 @@ namespace Tinkercell
 		setParentItem(0);
 		setBoundingBoxVisible(false);
 
-		//resetTransform();
+#if QT_VERSION < 0x046000		
+		resetTransform();
+#endif
+
 		setPos(copy.scenePos());
 
 		for (int i=0; i < copy.controlPoints.size(); ++i)
@@ -295,9 +304,12 @@ namespace Tinkercell
 			}
 
 		refresh();
-		//QTransform t0 = copy.sceneTransform();
-		//QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
-		//setTransform(t1);
+
+#if QT_VERSION < 0x046000
+		QTransform t0 = copy.sceneTransform();
+		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
+		setTransform(t1);
+#endif
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
 			if (boundaryControlPoints[i])

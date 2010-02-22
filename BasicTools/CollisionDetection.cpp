@@ -181,7 +181,7 @@ namespace Tinkercell
 				for (int i=0; i < itemsNearby.size(); ++i)
 				{
 					itemHit = NodeGraphicsItem::topLevelNodeItem(itemsNearby[i]);
-					if (itemHit && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
+					if (itemHit && scene->isVisible(itemHit) && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
 					{
 						item = itemHit;
 						break;

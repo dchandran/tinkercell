@@ -62,8 +62,8 @@ namespace Tinkercell
 			if (dockWidget)
 			{
 				//dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setFloating(true);
 				dockWidget->hide();
+				dockWidget->setFloating(true);
 				//dockWidget->setWindowOpacity(0.8);
 			}
 		}

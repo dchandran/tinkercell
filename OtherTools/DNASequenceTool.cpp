@@ -220,9 +220,9 @@ namespace Tinkercell
 			setWindowTitle(name);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget, Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
 			dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-			dockWidget->setFloating(true);
 			dockWidget->hide();
-
+			dockWidget->setFloating(true);
+			
 			if (mainWindow->tool(tr("C Labels Tool")))
 			{
 				CLabelsTool * labelsTool = static_cast<CLabelsTool*>(mainWindow->tool(tr("C Labels Tool")));

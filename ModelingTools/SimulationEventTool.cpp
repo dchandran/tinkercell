@@ -177,11 +177,11 @@ namespace Tinkercell
 				//dockWidget->resize(settings.value("size", sizeHint()).toSize());
 				//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
 
+				dockWidget->hide();
 				if (settings.value("floating", true).toBool())
 					dockWidget->setFloating(true);
 
 				settings.endGroup();
-				dockWidget->hide();
 			}
 		}
 		return (mainWindow != 0);
@@ -295,6 +295,7 @@ namespace Tinkercell
 			NodeGraphicsReader reader;
 			reader.readXml(image, appDir + tr("/OtherItems/clock.xml"));
 			image->normalize();
+			image->className = tr("Event function");
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
 				image->defaultSize.height()/image->sceneBoundingRect().height());
 
@@ -347,31 +348,31 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/OtherItems/stepFunc.xml"));
 			image->setToolTip(tr("Step function"));	
 			command = tr("Step function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".step_a/(1.0 + exp(pow(") + name + tr(".step_b-time,") + name + tr(".step_c)))");
-			parameters.value( tr("step_a"), 0 ) = 1.0;
-			parameters.value( tr("step_b"), 0 ) = 2.0;
-			parameters.value( tr("step_c"), 0 ) = 4.0;
+			assignments.value( handle->fullName() , 0 ) = name + tr(".step_height/(1.0 + exp(pow(") + name + tr(".step_time,") + name + tr(".step_steepness) - pow(time,") + name + tr(".step_steepness)))");
+			parameters.value( tr("step_height"), 0 ) = 1.0;
+			parameters.value( tr("step_time"), 0 ) = 2.0;
+			parameters.value( tr("step_steepness"), 0 ) = 4.0;
 		}
-		
+		else		
 		if (mode == addingPulse)
 		{
 			reader.readXml(image, appDir + tr("/OtherItems/pulseFunc.xml"));
 			image->setToolTip(tr("Impulse function"));
 			command = tr("Impulse function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_a*exp( - pow(") + name + tr(".impulse_b*(time - ") + name + tr(".impulse_c),2))");
-			parameters.value( tr("impulse_a"), 0 ) = 1.0;
-			parameters.value( tr("impulse_b"), 0 ) = 2.0;
-			parameters.value( tr("impulse_c"), 0 ) = 4.0;
+			assignments.value( handle->fullName() , 0 ) = name + tr(".impulse_height*exp( - pow(") + name + tr(".impulse_width*(time - ") + name + tr(".impulse_time),2))");
+			parameters.value( tr("impulse_height"), 0 ) = 1.0;
+			parameters.value( tr("impulse_width"), 0 ) = 2.0;
+			parameters.value( tr("impulse_time"), 0 ) = 4.0;
 		}
-		
+		else
 		if (mode == addingWave)
 		{
 			reader.readXml(image, appDir + tr("/OtherItems/sinFunc.xml"));
 			image->setToolTip(tr("Sine function"));
 			command = tr("Sine function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".sine_a + ") + name + tr(".sine_a*sin(time/") + name + tr(".sine_b)");
-			parameters.value( tr("sine_a"), 0 ) = 1.0;
-			parameters.value( tr("sine_b"), 0 ) = 2.0;
+			assignments.value( handle->fullName() , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time/") + name + tr(".sin_frequency)");
+			parameters.value( tr("sin_amplitude"), 0 ) = 1.0;
+			parameters.value( tr("sin_frequency"), 0 ) = 2.0;
 		}
 		
 		image->normalize();
@@ -408,7 +409,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		ItemHandle * modelItem = scene->networkWindow->modelItem();
 
-		if (!node || node->handle() || !modelItem || !node->fileName.contains(tr("clock"))) return;
+		if (!node || node->handle() || !modelItem || node->className != tr("Event function")) return;
 
 		if (!modelItem->hasTextData(tr("Events")))
 		{
@@ -435,7 +436,7 @@ namespace Tinkercell
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		ItemHandle * modelItem = scene->networkWindow->modelItem();
 
-		if (!node || node->handle() || !modelItem || !node->fileName.contains(tr("clock"))) return;
+		if (!node || node->handle() || !modelItem || node->className != tr("Event function")) return;
 
 		if (!modelItem->hasTextData(tr("Events")))
 		{
@@ -458,18 +459,67 @@ namespace Tinkercell
 		if (!modelItem) return;
 
 		NodeGraphicsItem * node = 0;
+		ConnectionGraphicsItem * connection = 0;
+		
 		for (int i=0; i < items.size(); ++i)
 			if ( (node = NodeGraphicsItem::cast(items[i])) && 
-				(node->handle() == 0) &&
-				(node->fileName.contains(tr("clock"))))
-			{
-				if (modelItem->hasTextData(tr("Events")))
+				 (node->handle() == 0) && 
+ 			 	 (node->className == tr("Event function")) && 
+ 				 modelItem->hasTextData(tr("Events")))
 				{
 					DataTable<QString> emptyData;
-					scene->changeData(tr("Events removed"),modelItem,tr("Events"),&emptyData);
+					scene->changeData(tr("Events removed"),modelItem,tr("Events"),&emptyData);					
 					break;
 				}
-			}
+
+
+		QList<DataTable<QString>*> newTextTables, oldTextTables;
+		QList<DataTable<qreal>*> newNumericalTables, oldNumericalTables;
+		QList<ItemHandle*> handles;
+		
+		for (int i=0; i < items.size(); ++i)
+			if ( (connection = ConnectionGraphicsItem::cast(items[i])) && 
+				 (connection->handle() == 0) && 
+ 			 	 (connection->className == tr("Forcing function")))
+				{
+					QList<NodeGraphicsItem*> nodes = connection->nodes();
+					ItemHandle * nodeHandle = 0;
+					for (int j=0; j < nodes.size(); ++j)
+						if (nodes[j] && (nodeHandle = nodes[j]->handle()))
+							break;
+					
+					if (nodeHandle && nodeHandle->hasTextData(tr("Assignments")) && nodeHandle->hasNumericalData(tr("Numerical Attributes")))
+					{
+						handles << nodeHandle;
+						
+						DataTable<QString> * newData1 = new DataTable<QString>(nodeHandle->textDataTable(tr("Assignments")));
+						newData1->removeRow(nodeHandle->fullName());
+						newData1->removeRow(nodeHandle->name);
+						oldTextTables << &(nodeHandle->textDataTable(tr("Assignments")));
+						newTextTables << newData1;
+						
+						DataTable<qreal> * newData2 = new DataTable<qreal>(nodeHandle->numericalDataTable(tr("Numerical Attributes")));
+						newData2->removeRow(tr("step_height"));
+						newData2->removeRow(tr("step_time"));
+						newData2->removeRow(tr("step_steepness"));
+						newData2->removeRow(tr("impulse_height"));
+						newData2->removeRow(tr("impulse_width"));
+						newData2->removeRow(tr("impulse_time"));
+						newData2->removeRow(tr("sin_amplitude"));
+						newData2->removeRow(tr("sin_frequency"));
+						
+						oldNumericalTables << &(nodeHandle->numericalDataTable(tr("Numerical Attributes")));
+						newNumericalTables << newData2;
+					}
+				}
+
+		scene->changeData(tr("Forcing function changed"),handles, oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
+
+		for (int i=0; i < newNumericalTables.size(); ++i)
+			delete newNumericalTables[i];
+			
+		for (int i=0; i < newTextTables.size(); ++i)
+			delete newTextTables[i];
 	}
 
 	void SimulationEventsTool::updateTable()

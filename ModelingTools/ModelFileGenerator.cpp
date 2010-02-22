@@ -543,16 +543,17 @@ namespace Tinkercell
 		}
 		
 		for (i=0; i < assignmentNames.size(); ++i)
-		{
-			code += tr("    double ");
-			code += assignmentNames[i];
-			code += tr(";\n");
-			allValues << tr("0.0");
+			if (!vars.contains(assignmentNames[i]))
+			{
+				code += tr("    double ");
+				code += assignmentNames[i];
+				code += tr(";\n");
+				allValues << tr("0.0");
 			
-			pycode += tr("    ");
-			pycode += assignmentNames[i];
-			pycode += tr(" = 0.0;\n");
-		}
+				pycode += tr("    ");
+				pycode += assignmentNames[i];
+				pycode += tr(" = 0.0;\n");
+			}
 		
 		QStringList trueParams;
 		for (i = 0; i < params.rows(); ++i)
@@ -913,6 +914,7 @@ namespace Tinkercell
 				name = handles[i]->fullName(sep);
 				s.replace(name,pref + name);
 			}
+		s.replace(pref+pref,pref);
 		return s;
 	}
 }

@@ -189,7 +189,7 @@ namespace Tinkercell
 	 : QAbstractItemModel(parent)
 	{
 		rootItem = new ContainerTreeItem;
-                this->window = win;
+		this->window = win;
 
         if (win)
 		{

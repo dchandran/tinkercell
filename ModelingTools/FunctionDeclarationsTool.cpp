@@ -106,8 +106,8 @@ namespace Tinkercell
 				dockWidget->setAutoFillBackground(true);
 				//dockWidget->setWindowOpacity(0.8);
 
-				dockWidget->setFloating(true);
 				dockWidget->hide();
+				dockWidget->setFloating(true);
 			}
 
 			toolLoaded(0);

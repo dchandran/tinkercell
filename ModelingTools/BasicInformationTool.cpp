@@ -152,9 +152,10 @@ namespace Tinkercell
 					//dockWidget->resize(settings.value("size", sizeHint()).toSize());
 					//dockWidget->move(settings.value("pos", dockWidget->pos()).toPoint());
 				}
-				dockWidget->setFloating(true);
+				
 				settings.endGroup();
 				dockWidget->hide();
+				dockWidget->setFloating(true);
 			}
 
 			pluginLoaded(0);

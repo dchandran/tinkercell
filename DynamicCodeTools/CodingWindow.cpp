@@ -224,9 +224,9 @@ namespace Tinkercell
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/cmd.png")));
 			dock = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
-			dock->setFloating(true);
 			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
 			dock->hide();
+			dock->setFloating(true);
 
 			QToolBar * toolBar = mainWindow->toolBarForTools;
 			QAction * action = new QAction(tr("Coding Window"),toolBar);

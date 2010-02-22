@@ -180,8 +180,8 @@ namespace Tinkercell
 			if (dockWidget)
 			{
 				QPoint p = mainWindow->rect().bottomRight() - QPoint(sizeHint().width(),sizeHint().height());
-				dockWidget->setFloating(true);
 				dockWidget->hide();
+				dockWidget->setFloating(true);
 			}
 
 			QToolBar * toolBar = mainWindow->toolBarForTools;
@@ -258,11 +258,19 @@ namespace Tinkercell
 
 	void PlotTool::plot(const DataTable<qreal>& matrix,const QString& title,int x,int all,PlotTool::PlotType type)
 	{
-		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Plotting...."));
-
 		if (!all)
 			pruneDataTable(const_cast< DataTable<qreal>& >(matrix),x,mainWindow);
+		
+		if (dockWidget)
+		{
+			dockWidget->show();
+			dockWidget->raise();
+		}
+		else
+		{
+			show();
+			this->raise();
+		}
 
 		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			!(keepOldPlots && keepOldPlots->isChecked()))
@@ -292,7 +300,10 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(tr("Finished plotting"));
 
 		addWidget(newPlot);
-		
+	}
+
+	void PlotTool::surfacePlot(const DataTable<qreal>& matrix,const QString& title)
+	{
 		if (dockWidget)
 		{
 			dockWidget->show();
@@ -303,12 +314,6 @@ namespace Tinkercell
 			show();
 			this->raise();
 		}
-	}
-
-	void PlotTool::surfacePlot(const DataTable<qreal>& matrix,const QString& title)
-	{
-		if (mainWindow && mainWindow->statusBar())
-			mainWindow->statusBar()->showMessage(tr("Plotting...."));
 		
 		if ((holdCurrentPlot && holdCurrentPlot->isChecked()) ||
 			!(keepOldPlots && keepOldPlots->isChecked()))
@@ -337,22 +342,10 @@ namespace Tinkercell
 			mainWindow->statusBar()->showMessage(tr("Finished 3D plot"));
 
 		addWidget(newPlot);
-		
-		if (dockWidget)
-		{
-			dockWidget->show();
-			dockWidget->raise();
-		}
-		else
-		{
-			show();
-			this->raise();
-		}
 	}
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
 	{
-		console()->message("plotting...");
 		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;

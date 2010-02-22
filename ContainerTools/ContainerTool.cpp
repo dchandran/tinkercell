@@ -137,7 +137,11 @@ namespace Tinkercell
             delete (treeView->model());
         }
 
-        ContainerTreeModel * model = new ContainerTreeModel(win);
+		ContainerTreeModel * model = 0;
+
+		if (win)
+			model = new ContainerTreeModel(win);
+
         treeView->setModel(model);
 
         treeView->setSortingEnabled(true);
@@ -457,7 +461,7 @@ namespace Tinkercell
 
         for (int i=0; i < movingItems.size(); ++i)
         {
-            if (!movingItems[i]) continue;
+            if (!movingItems[i] || !scene->isVisible(movingItems[i])) continue;
 
             QRectF itemRect = movingItems[i]->sceneBoundingRect();
             if (itemRect.width() >= hitRect.width() || itemRect.height() >= hitRect.height()) continue;
@@ -479,12 +483,18 @@ namespace Tinkercell
 				}
             if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child))
             {
-                stillWithParent = false;
-                if (child->parent)
+                stillWithParent = true;
+                for (int j=0; j < child->graphicsItems.size(); ++j)
+            		if (scene->isVisible(child->graphicsItems[j]))
+            		{
+            			stillWithParent = false;
+	            		break;
+					}
+                if (child->parent && !stillWithParent)
                 {
-                    for (int j=0; j < child->graphicsItems.size(); ++j)
-                    {
-                        if (child->graphicsItems[j])
+	                for (int j=0; j < child->graphicsItems.size(); ++j)
+	                {
+	                    if (child->graphicsItems[j])
 						{
 							for (int k=0; k < child->parent->graphicsItems.size(); ++k)
 							{
@@ -496,16 +506,12 @@ namespace Tinkercell
 								}
 							}
 						}
-                        if (stillWithParent)
-                            break;
-                    }
+	                    if (stillWithParent)
+	                        break;
+                	}
                 }
-                if (stillWithParent)
-                {
-                    //if (console())
-                        //console()->message(child->name + tr(" belongs with ") + child->parent->fullName());
-                }
-                else
+                
+                if (!stillWithParent)
                 {
                     newChildren += child;
                     temp = child->name;
@@ -737,22 +743,30 @@ namespace Tinkercell
 			child = movedChildNodes[i];
 			if (child->graphicsItems.isEmpty()) continue;
 
-            outOfBox = true;
-			for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
-			{
-				for (int k=0; k < child->graphicsItems.size(); ++k)
-					if (child->graphicsItems[k])
-					{
-						QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
-						QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-						if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
+            outOfBox = false;
+            for (int j=0; j < child->parent->graphicsItems.size(); ++j)
+            	if (scene->isVisible(child->parent->graphicsItems[j]))
+            	{
+            		outOfBox = true;
+            		break;
+				}
+            
+            if (outOfBox)
+				for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
+				{
+					for (int k=0; k < child->graphicsItems.size(); ++k)
+						if (child->graphicsItems[k])
 						{
-							outOfBox = false; //yes, still contained inside the module/Compartment
-							break;
+							QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
+							QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
+							if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
+							{
+								outOfBox = false; //yes, still contained inside the module/Compartment
+								break;
+							}
 						}
-					}
-				if (!outOfBox) break;
-			}
+					if (!outOfBox) break;
+				}
 			if (outOfBox)
 			{
 				children += child;

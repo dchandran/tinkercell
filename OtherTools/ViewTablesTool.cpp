@@ -126,9 +126,9 @@ namespace Tinkercell
 			
 			if (dockWidget)
 			{
-				dockWidget->setFloating(true);
 				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()*2));
 				dockWidget->hide();
+				dockWidget->setFloating(true);
 			}
 		}
 		return (mainWindow != 0);

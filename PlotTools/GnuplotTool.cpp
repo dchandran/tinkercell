@@ -370,11 +370,11 @@ namespace Tinkercell
             QDockWidget * dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::BottomDockWidgetArea);
             if (dockWidget)
             {
-                dockWidget->setFloating(true);
                 dockWidget->hide();
                 QToolBar * toolBar = mainWindow->toolBarForTools;
                 if (toolBar)
                     toolBar->addAction(QIcon(tr(":/images/graph2.png")),tr("gnuplot"),dockWidget,SLOT(show()));
+				dockWidget->setFloating(true);
             }
 			
 			Tool * tool = mainWindow->tool(tr("Default Plot Tool"));

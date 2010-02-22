@@ -105,15 +105,16 @@ QMainWindow::separator {
      spacing: 5px;
  }*/
 
+/*
  QMenuBar {
      background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
                                        stop:0 #EEEEEE, stop: 1.0 #FFFFFF);
  }
+ */
 
  QMenuBar::item {
      spacing: 3px; /* spacing between menu bar items */
      padding: 1px 4px;
-     background: transparent;
      border-radius: 4px;
  }
 
@@ -131,11 +132,11 @@ QMainWindow::separator {
      border: 1px #8A8C94;
  }
 
+/*
  QMenu::item {
-     /* sets background of menu item. set this to something non-transparent
-         if you want menu color and menu item color to be different */
      background-color: transparent;
  }
+*/
 
  QMenu::item:selected { /* when user selects item using mouse or keyboard */
      background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,

@@ -182,7 +182,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 void run(%s) \n\
 {\n\
 	initMTrand();\n\
-	int sz = 0,i;\n\
+	int sz = 0,i,j;\n\
 	double * y, *y0, * mu, * var;\n\
 	Matrix data;\n\
 	Array A;\n\
@@ -238,7 +238,6 @@ fprintf(out, "\
 	data.rownames = 0;\n\
 	data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
 	data.colnames[0] = \"time\\0\";\n\
-	int i,j;\n\
 	for(i=0; i<TCvars; ++i) data.colnames[1+i] = names[i];\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
@@ -350,7 +349,7 @@ void runCellSSA(Matrix input)
 				   {\n\
 				   initMTrand();\n\
 				   TCinitialize();\n\
-				   int sz = 0;\n\
+				   int sz = 0,i,j;\n\
 				   double ** y = cells_ssa(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %i, 0, %i, %lf, %lf, %lf);\n\
 				   if (!y || !y[0] || !y[1]) \
 				   {\n\
@@ -373,7 +372,6 @@ void runCellSSA(Matrix input)
 				   data1.rownames = 0;\n\
 				   data1.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
 				   data1.colnames[0] = \"time\\0\";\n\
-				   int i,j;\n\
 				   for(i=0; i<TCvars; ++i) data1.colnames[1+i] = names[i];\n\
 				   tc_plot(data1,0,\"Multi-cell simulation\",0);\n\
 				   tc_plot(data2,0,\"Cell growth\",1);\n\

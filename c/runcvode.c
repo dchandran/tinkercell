@@ -56,7 +56,7 @@ void run(Matrix input)
 	int selection = 0;
 	int rateplot = 0;
 	int slider = 1;
-	int i=0, sz = 0, k = 0, update = 0;
+	int i=0, sz = 0, k = 0, update = 1;
 	char * runfuncInput = "Matrix input";
 	char * runfunc = "";
 	Matrix params, initVals, allParams;
@@ -81,6 +81,11 @@ void run(Matrix input)
 		slider = 0;
 	else
 		slider = 1;
+		
+	if (update)
+		update = 0;
+	else
+		update = 1;
 	
 	if (slider)
 		runfunc = runfuncInput;

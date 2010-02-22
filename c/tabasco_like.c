@@ -5,8 +5,8 @@ void setup();
 
 void tc_main()
 {
-	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
-	tc_addFunction(&run, "Add N intermediate steps", "converts a single step reaction into N reactions using mass-action kinetics", "Generate kinetics", "Plugins/c/tabasco_like.PNG", "Elongation", 1, 1, 0);
+	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
+	tc_addFunction(&run, "Add N intermediate steps", "converts a single step reaction into N reactions using mass-action kinetics", "Generate kinetics", "Plugins/c/tabasco_like.png", "Elongation", 1, 1, 0);
 }
 
 void run()

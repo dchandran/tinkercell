@@ -17,7 +17,7 @@ void setup();
 void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setup, "Continuous stochastic simulation", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.PNG", "", 1, 0, 0);
+	tc_addFunction(&setup, "Continuous stochastic simulation", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
 }
 
 void setup(Matrix input)

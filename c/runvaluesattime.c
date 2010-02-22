@@ -59,7 +59,7 @@ void tc_main()
 
 	selected_var = "";
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.PNG", "", 1, 0, 0);
+	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.png", "", 1, 0, 0);
 	tc_callback(&callback);
 	tc_callWhenExiting(&unload);
 }

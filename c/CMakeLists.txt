@@ -1,17 +1,27 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
-ADD_LIBRARY( ssa
- SHARED
- mtrand.c
- ssa.c
- cells_ssa.c
- langevin.c
- )
+IF ( WIN32 )
+	ADD_LIBRARY( ssa
+		SHARED
+		mtrand.c
+		ssa.c
+		cells_ssa.c
+		langevin.c
+	)
+ELSE ( WIN32 )
+	ADD_LIBRARY( ssa
+		STATIC
+		mtrand.c
+		ssa.c
+		cells_ssa.c
+		langevin.c
+	)
+ENDIF ( WIN32 )
  
 IF ( WIN32 )
   INSTALL(TARGETS ssa DESTINATION c)
 ELSE ( WIN32 )
-  INSTALL(TARGETS ssa LIBRARY DESTINATION c)
+  INSTALL(TARGETS ssa ARCHIVE DESTINATION c)
 ENDIF( WIN32 )
 
 IF( WIN32 AND NOT UNIX)

@@ -352,6 +352,7 @@ namespace Tinkercell
 
 	void PlotTool::plotData(QSemaphore * s, DataTable<qreal>& matrix,int x,const QString& title,int all)
 	{
+		console()->message("plotting...");
 		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;

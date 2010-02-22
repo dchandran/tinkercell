@@ -692,8 +692,7 @@ namespace Tinkercell
 		if (nodesTree)
 		{
 			connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelectedSlot(NodeFamily*)));
-			connect(nodesTree,SIGNAL(addNewButtonSignal(const QList<QToolButton*>&,const QString&)),SLOT(addNewButton(const QList<QToolButton*>&,const QString&)));
-
+			
 			QList<NodeFamily*> allFamilies = nodesTree->nodeFamilies.values();
 			QList<ItemFamily*> rootFamilies;
 			QList<NodeFamily*> families;

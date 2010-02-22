@@ -401,7 +401,7 @@ namespace Tinkercell
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 		dllName = tr("temp/") + dllName;
-        proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc -w --shared -fPIC -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -484,7 +484,7 @@ namespace Tinkercell
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 		dllName = tr("temp/") + dllName;
-        proc.start(tr("gcc -w --shared -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc -w --shared -fPIC -I\"") + appDir + tr("\"/c -L\"") + appDir + tr("\"/c -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());

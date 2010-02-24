@@ -186,7 +186,7 @@ namespace Tinkercell
 	{
 		delta = dt;
 		xcolumn = x;
-		processData();
+		
 			
 		if (!this->isVisible())
 		{
@@ -195,8 +195,11 @@ namespace Tinkercell
 			else
 				this->show();
 		}
+		
 		setAutoReplot(false);
 		this->dataTable = dat;
+		
+		processData();
 		
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)

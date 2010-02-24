@@ -1,6 +1,10 @@
-
 #ifndef HEADER_lp_lib
 #define HEADER_lp_lib
+
+#define INLINE static
+#define O3
+#define YY_NEVER_INTERACTIVE
+#define PARSER_LP
 
 /* --------------------------------------------------------------------------
 
@@ -205,6 +209,7 @@
 
 /* Include/header files                                                      */
 /* ------------------------------------------------------------------------- */
+
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2287,10 +2292,5 @@ STATIC int compute_theta(lprec *lp, int rownr, LREAL *theta, int isupbound, REAL
 /* Pivot utility routines */
 STATIC int findBasisPos(lprec *lp, int notint, int *var_basic);
 STATIC MYBOOL check_degeneracy(lprec *lp, REAL *pcol, int *degencount);
-
-#define INLINE static
-#define O3
-#define YY_NEVER_INTERACTIVE
-#define PARSER_LP
 
 #endif /* HEADER_lp_lib */

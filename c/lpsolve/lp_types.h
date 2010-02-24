@@ -179,7 +179,7 @@
   #define STATIC
 #endif
 
-#if !defined INLINE
+#ifndef INLINE
   #if defined __cplusplus
     #define INLINE inline
   #elif (defined _WIN32) || (defined WIN32) || (defined _WIN64) || (defined WIN64)

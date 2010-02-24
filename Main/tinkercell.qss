@@ -6,15 +6,16 @@ QMainWindow::separator {
      background: #B2B2B2;
      width: 4px; /* when vertical */
      height: 4px; /* when horizontal */
- }
+}
 
  QMainWindow::separator:hover {
      background: #ACACAC;
  } 
  
+ /*
   QMainWindow {
      background: #7B7B7B;
-  } 
+  } */
   
   QToolBox::tab {
         background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,

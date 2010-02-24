@@ -200,6 +200,7 @@ fprintf(out, "\
 	if (!y) \
 	{\n\
 		tc_errorReport(\"Stochastic simulation failed! Some values might be becoming negative or reaching Inf. Double check your model.\");\n\
+		free(model);\n\
 		return;\n\
 	}\n\
 	data.rows = sz;\n\

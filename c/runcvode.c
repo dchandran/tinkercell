@@ -225,6 +225,7 @@ fprintf( out , "\
 	if (!y) \
 	{\n\
 		tc_errorReport(\"Numerical integration (CVODE) failed! Some values might be reaching Inf. Double check your model.\");\n\
+		free(model);\n\
 		return;\n\
 	}\n\
 	data.rows = %i;\n\

@@ -61,8 +61,7 @@ extern status	TwoPhasemethod(int, int, dbl *, dbl *, dbl *, dbl *, dbl,
 #define	MaxConds	256
 
 extern status	QuasiNewtonMethod(int, dbl(), dbl *(), dbl *, dbl *, int, dbl);
-extern status	NelderMeadSimplexMethod(int, dbl(), dbl *, dbl, dbl *,
-					int, dbl);
+extern status	NelderMeadSimplexMethod(int, dbl (*f)(int, double x[]), dbl *, dbl, dbl *, int, dbl);
 extern status	MultiplierMethod(int, dbl (), dbl *(),
 				 int, dbl *(), dbl **(),
 				 int, dbl *(), dbl **(),

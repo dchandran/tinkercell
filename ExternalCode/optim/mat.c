@@ -9,9 +9,7 @@
 	Vector operations
 **************************************************/
 
-extern void vectorcopy(n, x, y)
-int	n;
-dbl	x[], y[];
+extern void vectorcopy(int	n, dbl	x[], dbl y[])
 {
 	int	i;
 	
@@ -20,9 +18,7 @@ dbl	x[], y[];
 	}
 }
 
-extern void vectorfill(n, x, a)
-int	n;
-dbl	x[], a;
+extern void vectorfill(int	n, dbl	x[], dbl a)
 {
 	int	i;
 	
@@ -31,9 +27,7 @@ dbl	x[], a;
 	}
 }
 
-extern dbl vectorvector(n, x, y)	/* inner product xy */
-int	n;
-dbl	x[], y[];
+extern dbl vectorvector(int	n, dbl	x[], dbl y[])	/* inner product xy */
 {
 	int	i;
 	dbl	sum;
@@ -45,9 +39,7 @@ dbl	x[], y[];
 	return(sum);
 }
 
-extern void scalarvector(n, y, k, x)	/* y = kx   k = scalar */
-int	n;
-dbl	y[], k, x[];
+extern void scalarvector(int n, dbl	y[], dbl k, dbl x[])	/* y = kx   k = scalar */
 {
 	int	i;
 	
@@ -56,9 +48,7 @@ dbl	y[], k, x[];
 	}
 }
 
-extern void vectoradd(n, x, y, z)	/* x = y + z */
-int	n;
-dbl	x[], y[], z[];
+extern void vectoradd(int n, dbl x[], dbl y[], dbl z[])	/* x = y + z */
 {
 	int	i;
 	
@@ -67,9 +57,7 @@ dbl	x[], y[], z[];
 	}
 }
 
-extern void vectorsub(n, x, y, z)	/* x = y - z */
-int	n;
-dbl	x[], y[], z[];
+extern void vectorsub(int n, dbl x[], dbl y[], dbl z[])	/* x = y - z */
 {
 	int	i;
 	
@@ -82,9 +70,7 @@ dbl	x[], y[], z[];
 	Matrix operations
 **************************************************/
 
-extern void matrixvector(m, n, y, a, x)	/* y = Ax   A = (m,n) matrix */
-int	m, n;
-dbl	y[], a[], x[];
+extern void matrixvector(int m, int n, dbl y[], dbl a[], dbl x[])	/* y = Ax   A = (m,n) matrix */
 {
 	int	i, j;
 	
@@ -96,9 +82,7 @@ dbl	y[], a[], x[];
 	}
 }
 
-extern void matrixrowvector(m, n, y, a, i)	/* y = i-th row vector of A */
-int	m, n, i;
-dbl	y[], a[];
+extern void matrixrowvector(int m, int n, dbl y[], dbl a[], int i)	/* y = i-th row vector of A */
 {
 	int	j;
 	
@@ -107,9 +91,7 @@ dbl	y[], a[];
 	}
 }
 
-extern void matrixcolumnvector(m, n, x, a, j)	/* y = j-th column vector of A */
-int	m, n, j;
-dbl	x[], a[];
+extern void matrixcolumnvector(int m, int n, dbl x[], dbl a[], int j)	/* y = j-th column vector of A */
 {
 	int	i;
 	
@@ -118,9 +100,7 @@ dbl	x[], a[];
 	}
 }
 
-extern void matrixcopy(m, n, a, b)
-int	m, n;
-dbl	a[], b[];
+extern void matrixcopy(int m, int n, dbl a[], dbl b[])
 {
 	int	i, j;
 	
@@ -131,9 +111,7 @@ dbl	a[], b[];
 	}
 }
 
-extern void matrixunit(n, a)	/* A = I   (n,n) matrices */
-int	n;
-dbl	a[];
+extern void matrixunit(int n, dbl a[])	/* A = I   (n,n) matrices */
 {
 	int	i, j, m;
 	
@@ -146,9 +124,7 @@ dbl	a[];
 	}
 }
 
-extern void scalarmatrix(m, n, a, k, b)	/* A = kB   k = scalar */
-int	m, n;
-dbl	a[], k, b[];
+extern void scalarmatrix(int m, int n, dbl a[], dbl k, dbl b[])	/* A = kB   k = scalar */
 {
 	int	i, j;
 	
@@ -159,9 +135,7 @@ dbl	a[], k, b[];
 	}
 }
 
-extern void matrixadd(m, n, a, b, c)	/* A = B + C   (m,n) matrices */
-int	m, n;
-dbl	a[], b[], c[];
+extern void matrixadd(int m, int n, dbl a[], dbl b[], dbl c[])	/* A = B + C   (m,n) matrices */
 {
 	int	i, j;
 	
@@ -172,9 +146,7 @@ dbl	a[], b[], c[];
 	}
 }
 
-extern void matrixsub(m, n, a, b, c)	/* A = B - C   (m,n) matrices */
-int	m, n;
-dbl	a[], b[], c[];
+extern void matrixsub(int m, int n, dbl a[], dbl b[], dbl c[])	/* A = B - C   (m,n) matrices */
 {
 	int	i, j;
 	
@@ -190,9 +162,7 @@ dbl	a[], b[], c[];
 		A=(m,n) B=(m,l) C=(l,n) matrices
 */
 
-extern void matrixmatrix(m, n, l, a, b, c)	/* A = BC */
-int	m, n, l;
-dbl	a[], b[], c[];
+extern void matrixmatrix(int m, int n, int l, dbl a[], dbl b[], dbl c[])	/* A = BC */
 {
 	int	i, j, k;
 	
@@ -211,9 +181,7 @@ dbl	a[], b[], c[];
 		A=(m,n) B=(n,m) matrices
 */
 
-extern void matrixtranspose(m, n, a, b)		/* A = B^{T} */
-int	m, n;
-dbl	a[], b[];
+extern void matrixtranspose(int m, int n, dbl a[], dbl b[])		/* A = B^{T} */
 {
 	int	i, j;
 	
@@ -229,9 +197,7 @@ dbl	a[], b[];
 		A = (m,n) matrix
 */
 
-extern void matrixrowscalar(m, n, a, i, p)	/* i-th row *= p */
-int	m, n, i;
-dbl	a[], p;
+extern void matrixrowscalar(int m, int n, dbl a[], int i, dbl p)	/* i-th row *= p */
 {
 	int	j;
 	
@@ -240,9 +206,7 @@ dbl	a[], p;
 	}
 }
 
-extern void matrixrowexchange(m, n, a, i0, i1)	/* swap row i0 and row i1 */
-int	m, n, i0, i1;
-dbl	a[];
+extern void matrixrowexchange(int m, int n, dbl a[], int i0, int i1)	/* swap row i0 and row i1 */
 {
 	int	j;
 	dbl	tmp;
@@ -254,9 +218,7 @@ dbl	a[];
 	}
 }
 
-extern void matrixrowadd(m, n, a, i0, p, i1)	/* row i0 += p * row i1 */
-int	m, n, i0, i1;
-dbl	a[], p;
+extern void matrixrowadd(int m, int n, dbl a[], int i0, dbl p, int i1)	/* row i0 += p * row i1 */
 {
 	int	j;
 	
@@ -265,11 +227,9 @@ dbl	a[], p;
 	}
 }
 
-extern void matrixrowaddtwo(ma, mb, n, a, b, ia, p, ib)
+extern void matrixrowaddtwo(int ma, int mb, int n, dbl a[], dbl b[], int ia, dbl p, int ib)
 /* row ia of matrix A += p * row ib of matrix B */
 /* A = (ma,n) matrix   B = (mb,n) matrix */
-int	ma, mb, n, ia, ib;
-dbl	a[], b[], p;
 {
 	int	j;
 	
@@ -287,11 +247,7 @@ dbl	a[], b[], p;
 		*pimax = row number corresponding to the maximum absolute value
 		*pmax = the maximum value
 */
-extern void matrixsearchcolumnmaxabs(m, n, a, j, is, ie, pimax, pmax)
-int	m, n, j, is, ie;
-dbl	a[];
-int	*pimax;
-dbl	*pmax;
+extern void matrixsearchcolumnmaxabs(int m, int n, dbl a[], int j, int is, int ie, int *pimax, dbl *pmax)
 {
 	int	i;
 	dbl	value;
@@ -313,9 +269,7 @@ dbl	*pmax;
 	output:	Ainv = (n,n) matrix
 */
 
-extern void matrixinverse(n, ainv, a, eps)	/* Ainv = a^{-1} */
-int	n;
-dbl	a[], ainv[], eps;
+extern void matrixinverse(int n, dbl ainv[], dbl a[], dbl eps)	/* Ainv = a^{-1} */
 {
 	int	i, j, m, imax;
 	dbl	max, div, mul;
@@ -407,10 +361,7 @@ dbl	a[], ainv[], eps;
 
 static char	*format = " %lf ";
 
-extern void vectorfprint(fd, n, x)
-FILE	*fd;
-int	n;
-dbl	x[];
+extern void vectorfprint(FILE *fd, int n, dbl x[])
 {
 	int	i;
 	
@@ -420,10 +371,7 @@ dbl	x[];
 	fputc('\n', fd);
 }
 
-extern void vectorfscan(fd, n, x)
-FILE	*fd;
-int	n;
-dbl	x[];
+extern void vectorfscan(FILE *fd, int n, dbl x[])
 {
 	int	i;
 	
@@ -432,10 +380,7 @@ dbl	x[];
 	}
 }
 
-extern void matrixfprint(fd, m, n, a)
-FILE	*fd;
-int	m, n;
-dbl	a[];
+extern void matrixfprint(FILE *fd, int m, int n, dbl a[])
 {
 	int	i, j;
 	
@@ -447,10 +392,7 @@ dbl	a[];
 	}
 }
 
-extern void matrixfscan(fd, m, n, a)
-FILE	*fd;
-int	m, n;
-dbl	a[];
+extern void matrixfscan(FILE *fd, int m, int n, dbl a[])
 {
 	int	i, j;
 	
@@ -461,16 +403,12 @@ dbl	a[];
 	}
 }
 
-extern void matrixprintformat(fmt)
-char	*fmt;
+extern void matrixprintformat(char *fmt)
 {
 	format = fmt;
 }
 
-extern void matrixallocfscan(fd, m, n, pa)
-FILE	*fd;
-int	m, n;
-dbl	**pa;
+extern void matrixallocfscan(FILE *fd, int m, int n, dbl **pa)
 {
 	int	i, j;
 	dbl	*a;

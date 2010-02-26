@@ -87,11 +87,6 @@ namespace Tinkercell
 		MultithreadedSliderWidget(MainWindow * parent, const QString & lib, const QString & functionName, Qt::Orientation orientation = Qt::Horizontal);
 		
 		/*!
-		* \brief destructor
-		*/
-		~MultithreadedSliderWidget();
-		
-		/*!
 		* \brief the cthread that is run every time the sliders change
 		*/
 		virtual CThread * thread() const;

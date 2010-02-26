@@ -37,15 +37,6 @@ namespace Tinkercell
 		}
 	}
 
-	MultithreadedSliderWidget::~MultithreadedSliderWidget()
-	{
-		if (cthread)
-		{
-			cthread->unload();
-			delete cthread;
-		}
-	}
-
 	MultithreadedSliderWidget::MultithreadedSliderWidget(MainWindow * parent, CThread * thread, Qt::Orientation orientation)
 		: QWidget(parent), orientation(orientation), mainWindow(parent)
 	{

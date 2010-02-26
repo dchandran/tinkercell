@@ -234,6 +234,11 @@ namespace Tinkercell
 	
 	void CThread::unload()
 	{
+		if (isRunning())
+		{
+			terminate();
+		}
+		
 		if (lib && lib->isLoaded())
 		{
 			lib->unload();

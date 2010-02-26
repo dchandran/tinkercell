@@ -1,0 +1,2 @@
+FILE(GLOB WIN32_MINGW_LIB *.h)
+INSTALL(FILES ${WIN32_MINGW_LIB} DESTINATION win32/mingw/lib/gcc/mingw32/3.4.5/include)

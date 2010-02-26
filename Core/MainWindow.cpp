@@ -78,10 +78,10 @@ namespace Tinkercell
 	{
 		QString home = userHome();
 		
-		QString userTemp = home + tr("/temp");
+		QString temp = home + tr("/temp");
 		
-		if (!userTemp.isEmpty() && QDir(userTemp).exists())		
-			return userTemp;
+		if (!temp.isEmpty() && QDir(temp).exists())		
+			return temp;
 		
 		QDir dir(home);
 
@@ -89,9 +89,9 @@ namespace Tinkercell
 			dir.mkdir(QString("temp"));
 
 		dir.cd(QString("temp"));
-		userTemp = dir.absolutePath();
+		temp = dir.absolutePath();
 
-		return userTemp;
+		return temp;
 	}
 
 	void MainWindow::setUserHome()
@@ -120,11 +120,11 @@ namespace Tinkercell
 			appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {	
-			temp + tr("/") + dllFile,
+			dllFile,
 			home + tr("/") + dllFile,
+			temp + tr("/") + dllFile,
 			current + tr("/") + dllFile,
 			appDir + tr("/") + dllFile,
-			dllFile
 		};
 
 		QLibrary * lib = new QLibrary(this);

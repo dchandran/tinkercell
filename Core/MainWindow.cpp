@@ -73,6 +73,26 @@ namespace Tinkercell
 
 		return userHomePath;
 	}
+	
+	QString MainWindow::userTemp()
+	{
+		QString home = userHome();
+		
+		QString userTemp = home + tr("/temp");
+		
+		if (!userTemp.isEmpty() && QDir(userTemp).exists())		
+			return userTemp;
+		
+		QDir dir(home);
+
+		if (!dir.exists(QString("temp")))
+			dir.mkdir(QString("temp"));
+
+		dir.cd(QString("temp"));
+		userTemp = dir.absolutePath();
+
+		return userTemp;
+	}
 
 	void MainWindow::setUserHome()
 	{
@@ -95,10 +115,12 @@ namespace Tinkercell
 	void MainWindow::loadDynamicLibrary(const QString& dllFile)
 	{
 		QString home = userHome(),
+			temp = userTemp(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {	
+			temp + tr("/") + dllFile,
 			home + tr("/") + dllFile,
 			current + tr("/") + dllFile,
 			appDir + tr("/") + dllFile,
@@ -108,7 +130,7 @@ namespace Tinkercell
 		QLibrary * lib = new QLibrary(this);
 
 		bool loaded = false;
-		for (int i=0; i < 4; ++i) //try different possibilities
+		for (int i=0; i < 5; ++i) //try different possibilities
 		{
 			lib->setFileName(name[i]);
 			loaded = lib->load();
@@ -1071,14 +1093,16 @@ namespace Tinkercell
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		QString name[] = {	MainWindow::userHome() + tr("/") + filename,
+		QString name[] = {	
+			MainWindow::userTemp() + tr("/") + filename,
+			MainWindow::userHome() + tr("/") + filename,
 			filename,
 			QDir::currentPath() + tr("/") + filename,
 			appDir + tr("/") + filename };
 
 		QFile file;
 		bool opened = false;
-		for (int i=0; i < 4; ++i)
+		for (int i=0; i < 5; ++i)
 		{
 			file.setFileName(name[i]);
 			if (file.open(QFile::ReadOnly | QFile::Text))

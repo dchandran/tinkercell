@@ -21,13 +21,14 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 	QProcess proc;
     QString appDir = QCoreApplication::applicationDirPath();
-	QString homeDir = Tinkercell::MainWindow::userHome();
+	QString homeDir = Tinkercell::MainWindow::userTemp();
 
 	proc.setWorkingDirectory(appDir);
 	homeDir.replace(QObject::tr("/"),QObject::tr("\\"));
 	appDir.replace(QObject::tr("/"),QObject::tr("\\"));
 
-	QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\c\\*.dll \"") + homeDir + QObject::tr("\" /Y"));
+	//QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\c\\*.dll \"") + homeDir + QObject::tr("\" /Y"));
+	QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\mingw\\bin\\*.* \"") + homeDir + QObject::tr("\" /Y"));
 	system(s.toAscii().data());
 
 #endif

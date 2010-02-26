@@ -187,7 +187,7 @@ namespace Tinkercell
 	void CThread::run()
 	{
 		QString current = QDir::currentPath();
-		QDir::setCurrent(MainWindow::userHome());
+		QDir::setCurrent(MainWindow::userTemp());
 
 		if (f1)
 			f1();
@@ -313,11 +313,13 @@ namespace Tinkercell
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)
 	{
 		QString  home = MainWindow::userHome(),
+			temp = MainWindow::userTemp(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {  
 			libname,
+			temp + QObject::tr("/") + libname,
 			home + QObject::tr("/") + libname,
 			current + QObject::tr("/") + libname,
 			appDir + QObject::tr("/") + libname,
@@ -326,7 +328,7 @@ namespace Tinkercell
 		QLibrary * lib = new QLibrary(parent);
 		
 		bool loaded = false;
-		for (int i=0; i < 4; ++i) //try different possibilities
+		for (int i=0; i < 5; ++i) //try different possibilities
 		{
 			lib->setFileName(name[i]);
 			loaded = lib->load();
@@ -396,7 +398,7 @@ namespace Tinkercell
 		if (mainWindow && !exe.isEmpty())
 		{
 			QString current = QDir::currentPath();
-			QDir::setCurrent(MainWindow::userHome());
+			QDir::setCurrent(MainWindow::userTemp());
 
 			//setPriority(QThread::LowestPriority);
 			connect(this,SIGNAL(terminated()),&process,SLOT(kill()));

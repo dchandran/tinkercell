@@ -82,7 +82,7 @@ namespace Tinkercell
         {
             QString currentDir = QDir::currentPath();
 
-            QDir::setCurrent(MainWindow::userHome());
+            QDir::setCurrent(MainWindow::userTemp());
 
             f();
 
@@ -105,7 +105,7 @@ namespace Tinkercell
         {
             QString currentDir = QDir::currentPath();
 
-            QDir::setCurrent(MainWindow::userHome());
+            QDir::setCurrent(MainWindow::userTemp());
 
             setCPointers();
             f();
@@ -137,7 +137,7 @@ namespace Tinkercell
         if (f)
         {
             QString currentDir = QDir::currentPath();
-            QDir::setCurrent(MainWindow::userHome());
+            QDir::setCurrent(MainWindow::userTemp());
 
             f(code.toAscii().data(),outputFile.toAscii().data());
 

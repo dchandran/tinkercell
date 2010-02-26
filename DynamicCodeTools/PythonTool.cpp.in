@@ -213,6 +213,7 @@ namespace Tinkercell
                 QString name[] = { 
                   tr( "@TINKERCELL_SOURCE_DIR@/bin/" ) + filename,
                   tr( "@TINKERCELL_BINARY_DIR@/bin/" ) + filename,
+				  MainWindow::userTemp() + tr("/") + filename,
                   MainWindow::userHome() + tr("/") + filename,
                   filename,
                   QDir::currentPath() + tr("/") + filename,
@@ -220,7 +221,7 @@ namespace Tinkercell
 
                 QFile file;
                 bool opened = false;
-                for (int i=0; i < 6; ++i)
+                for (int i=0; i < 7; ++i)
                 {
                     file.setFileName(name[i]);
                     if (file.open(QFile::ReadOnly | QFile::Text))
@@ -385,6 +386,8 @@ namespace Tinkercell
 
             QString name[] = {	MainWindow::userHome() + tr("/") + filename,
                                 MainWindow::userHome() + tr("/py/") + filename,
+								MainWindow::userTemp() + tr("/") + filename,
+                                MainWindow::userTemp() + tr("/py/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/py/") + filename ,
@@ -392,7 +395,7 @@ namespace Tinkercell
 
             QFile file;
             bool opened = false;
-            for (int i=0; i < 6; ++i)
+            for (int i=0; i < 8; ++i)
             {
                 file.setFileName(name[i]);
                 if (file.open(QFile::ReadOnly | QFile::Text))

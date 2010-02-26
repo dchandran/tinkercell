@@ -149,6 +149,10 @@ namespace Tinkercell
 		*/
 		static QString userHome();
 		/*!
+		* \brief The TinkerCell user temporary directory, which is userHome()/temp
+		*/
+		static QString userTemp();
+		/*!
 		* \brief Add a new docking window to the main window.
 		           The name and icon are obtained using the widget's windowTitle and windowIcon, so
 				   be sure to set those before calling this function.

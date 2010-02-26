@@ -35,7 +35,7 @@ namespace Tinkercell
 		 : Tool(tr("Coding Window"),tr("Coding"))
 	{
 		 QString appDir = QCoreApplication::applicationDirPath();
-		 QString homeDir = MainWindow::userHome();
+		 QString homeDir = MainWindow::userTemp();
 		 fileName = homeDir + tr("/code.c");
 		 
 		 toolBar = 0;
@@ -60,7 +60,7 @@ namespace Tinkercell
 
 	void CodingWindow::convertCodeToButtonC( const QString & code, const QString & descr)
 	{
-		QString userHome = MainWindow::userHome();
+		QString userHome = MainWindow::userTemp();
 		QString filename = userHome + tr("/code.c");
 		QFile qfile(filename);
 		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))

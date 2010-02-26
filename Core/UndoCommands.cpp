@@ -2182,17 +2182,19 @@ namespace Tinkercell
 		QFile file (fileName);
 
 		QString  home = MainWindow::userHome(),
+				temp = MainWindow::userTemp(),
 				current = QDir::currentPath(),
 				appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {  
 			fileName,
 			home + QObject::tr("/") + fileName,
+			temp + QObject::tr("/") + fileName,
 			current + QObject::tr("/") + fileName,
 			appDir + QObject::tr("/") + fileName,
 		};
 
-		for (int i=0; i < 4; ++i)
+		for (int i=0; i < 5; ++i)
 		{
 			file.setFileName(name[i]);
 			if (file.exists())

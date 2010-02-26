@@ -113,7 +113,7 @@ namespace Tinkercell
 		dllName = tr("Plugins\\c\\") + dllName;
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\mingw\\bin\\gcc -I\"") + appDir + ("\"\\win32\\mingw\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\mingw\\lib -w -shared -rdynamic ") + filename + tr(" -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\mingw\\bin\\gcc -I\"") + appDir + ("\"\\win32\\mingw\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\mingw\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());

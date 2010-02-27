@@ -1,2 +1,0 @@
-FILE(GLOB WIN32_MINGW_BIN  mingw*.* *.exe *.dll)
-INSTALL(FILES ${WIN32_MINGW_BIN} DESTINATION win32/mingw/bin)

@@ -288,7 +288,7 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
         proc.start(tr("del a.out"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\mingw\\bin\\gcc -I\"") + appDir + ("\"\\win32\\mingw\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\mingw\\lib -r -w ") + filename  + tr(" -o a.out"));
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -r -w ") + filename  + tr(" -o a.out"));
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
@@ -365,7 +365,7 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\mingw\\bin\\gcc -I\"") + appDir + ("\"\\win32\\mingw\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\mingw\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll "));		
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
@@ -438,7 +438,7 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\mingw\\bin\\gcc -I\"") + appDir + ("\"\\win32\\mingw\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\mingw\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());

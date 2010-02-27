@@ -28,7 +28,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	appDir.replace(QObject::tr("/"),QObject::tr("\\"));
 
 	//QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\c\\*.dll \"") + homeDir + QObject::tr("\" /Y"));
-	QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\mingw\\bin\\*.* \"") + homeDir + QObject::tr("\" /Y"));
+	QString s(QObject::tr("copy \"") + appDir + QObject::tr("\"\\win32\\*.* \"") + homeDir + QObject::tr("\" /Y"));
 	system(s.toAscii().data());
 
 #endif

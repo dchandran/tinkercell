@@ -5,17 +5,17 @@ FILE( GLOB SUNDIALS_SRC  "sundials/*.c" )
 FILE( GLOB NVECSER_SRC  "nvec_ser/*.c" )  
 FILE( GLOB OPTIM_SRC  "../optim/*.c" )
 
-IF ( WIN32 )
-	ADD_LIBRARY( odesim
-		SHARED
-		${CVODE_SRC}
-		${SUNDIALS_SRC}
-		${NVECSER_SRC}
-		${OPTIM_SRC}
-		${TINKERCELL_SOURCE_DIR}/c/eigen.c
-		${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
-	)
-ELSE ( WIN32 )
+#IF ( WIN32 )
+#	ADD_LIBRARY( odesim
+#		SHARED
+#		${CVODE_SRC}
+#		${SUNDIALS_SRC}
+#		${NVECSER_SRC}
+#		${OPTIM_SRC}
+#		${TINKERCELL_SOURCE_DIR}/c/eigen.c
+#		${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
+#	)
+#ELSE ( WIN32 )
 	ADD_LIBRARY( odesim
 		STATIC
 		${CVODE_SRC}
@@ -25,7 +25,7 @@ ELSE ( WIN32 )
 		${TINKERCELL_SOURCE_DIR}/c/eigen.c
 		${TINKERCELL_SOURCE_DIR}/c/cvodesim.c
 	)	
-ENDIF( WIN32 )
+#ENDIF( WIN32 )
 
 IF (NOT APPLE)
    TARGET_LINK_LIBRARIES( odesim

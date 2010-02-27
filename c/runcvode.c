@@ -210,6 +210,7 @@ void run(%s) \n\
 	Array A;\n\
 	Matrix data, ss1, ss2;\n\
 	char ** names;\n\
+	double * y;\n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n\
@@ -220,7 +221,7 @@ if (slider)
 
 fprintf( out , "\
     TCinitialize(model);\n\
-	double * y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
+	y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
 	free(rates);\n\
 	if (!y) \
 	{\n\

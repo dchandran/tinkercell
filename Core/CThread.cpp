@@ -223,7 +223,7 @@ namespace Tinkercell
 	{
 		argMatrix = dat;
 	}
-	
+
 	void CThread::cleanupAfterTerminated()
 	{
 		if (autoUnloadLibrary)
@@ -231,13 +231,13 @@ namespace Tinkercell
 			unload();
 		}
 	}
-	
+
 	void CThread::unload()
 	{
-		if (isRunning())
+		/*if (isRunning())
 		{
 			terminate();
-		}
+		}*/
 		
 		if (lib && lib->isLoaded())
 		{
@@ -292,6 +292,7 @@ namespace Tinkercell
 
 		connect(killButton,SIGNAL(released()),newThread,SLOT(terminate()));
 		connect(newThread,SIGNAL(finished()),dialog,SLOT(close()));
+		connect(newThread,SIGNAL(terminated()),dialog,SLOT(close()));
 		connect(newThread,SIGNAL(started()),dialog,SLOT(show()));
 		return dialog;
 	}

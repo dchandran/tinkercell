@@ -96,6 +96,7 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}
     ${TINKERCELL_BINARY_DIR}/bin
     ${TINKERCELL_BINARY_DIR}/ExternalCode/
+	${TINKERCELL_BINARY_DIR}/ExternalCode/lapack
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/

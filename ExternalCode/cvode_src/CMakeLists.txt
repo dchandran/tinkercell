@@ -1,4 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+#INCLUDE(${TINKERCELL_BINARY_DIR}/ExternalCode/lapack/clapack-targets.cmake)
 
 FILE( GLOB CVODE_SRC  "cvode/*.c" )
 FILE( GLOB SUNDIALS_SRC  "sundials/*.c" )  
@@ -37,7 +38,7 @@ ELSE (NOT APPLE)
    TARGET_LINK_LIBRARIES( odesim
 	   odesim
 	   $${VEC_LIB}
-   )   
+   )
 ENDIF(NOT APPLE)
  
 IF ( WIN32 )

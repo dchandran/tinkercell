@@ -250,7 +250,7 @@ namespace Tinkercell
 		{
 			if ((node = NodeGraphicsItem::cast(items[i])) 
 				&& node->boundaryControlPoints.size() > 0
-				&& node->fileName.toLower().contains(tr("/lock.xml")))
+				&& (node->name.toLower() == tr("lock")))
 			{
 				for (int k=0; k < node->boundaryControlPoints.size(); ++k)
 					if (node->boundaryControlPoints[k])
@@ -423,7 +423,7 @@ namespace Tinkercell
 						{
 							if ((lockNode = NodeGraphicsItem::cast(handles[i]->graphicsItems[j]))
 								&& 
-								lockNode->fileName.toLower().contains(tr("/lock.xml")))
+								(lockNode->name.toLower() == tr("lock")))
 							{
 								removeItems << lockNode;
 							}
@@ -578,7 +578,7 @@ namespace Tinkercell
 									{
 										if ((lockNode = NodeGraphicsItem::cast(itemHandles[i]->graphicsItems[j]))
 											&& 
-											lockNode->fileName.toLower().contains(tr("/lock.xml")))
+											(lockNode->name.toLower() == tr("lock")))
 										{
 											removeItems << lockNode;
 										}

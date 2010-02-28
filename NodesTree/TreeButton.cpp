@@ -19,7 +19,6 @@ namespace Tinkercell
 
 	FamilyTreeButton::FamilyTreeButton(NodeFamily* family , QWidget * parent) : QToolButton(parent), nodeFamily(family), connectionFamily(0)
 	{
-		nodesTree = 0;
 		if (!nodeFamily) return;
 
 		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + nodeFamily->name, this);
@@ -208,7 +207,7 @@ namespace Tinkercell
 			QString currentFile = tr("");
 			if (node->graphicsItems.size() > 0 &&
 				NodeGraphicsItem::topLevelNodeItem(node->graphicsItems[0]))
-				currentFile = (NodeGraphicsItem::topLevelNodeItem(node->graphicsItems[0]))->fileName;
+				currentFile = newFileName;
 
 			QString fileName;
 
@@ -241,6 +240,7 @@ namespace Tinkercell
 
 				nodeitem->normalize();
 				node->graphicsItems += nodeitem;
+				newFileName = fileName;
 			}
 			else
 			{

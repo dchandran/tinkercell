@@ -188,11 +188,11 @@ namespace Tinkercell
                settings.beginGroup("NodesTree");
                QString s;
 
-               QString iconFile = appDir + QString("/") + NodesTree::iconFile(node->name);
+               QString iconFile = appDir + QString("/") + tree->iconFile(node->name);
 
                if (node->graphicsItems.isEmpty())
                {
-                    QString nodeImageFile = appDir + QString("/") + NodesTree::nodeImageFile(node->name);
+                    QString nodeImageFile = appDir + QString("/") + tree->nodeImageFile(node->name);
 
                     s = settings.value(node->name, QString()).toString();
                     if (!s.isEmpty())

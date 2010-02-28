@@ -1,36 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Part.xml" width="80" height="50">
-    <ControlPoints>
-        <ControlPoint x="327" y="104"></ControlPoint>
-        <ControlPoint x="353" y="104"></ControlPoint>
-        <ControlPoint x="366" y="122"></ControlPoint>
-        <ControlPoint x="366" y="143"></ControlPoint>
-        <ControlPoint x="366" y="233"></ControlPoint>
-        <ControlPoint x="366" y="264"></ControlPoint>
-        <ControlPoint x="353" y="279"></ControlPoint>
-        <ControlPoint x="327" y="277"></ControlPoint>
-        <ControlPoint x="147" y="277"></ControlPoint>
-        <ControlPoint x="117" y="277"></ControlPoint>
-        <ControlPoint x="103" y="264"></ControlPoint>
-        <ControlPoint x="103" y="233"></ControlPoint>
-        <ControlPoint x="103" y="143"></ControlPoint>
-        <ControlPoint x="103" y="122"></ControlPoint>
-        <ControlPoint x="117" y="104"></ControlPoint>
-        <ControlPoint x="147" y="104"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0"></ControlPoints>
-            <LineTypes sequence="bezier,line,bezier,line,bezier,line,bezier,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="8" Color="#9eaad1" Alpha="255"></Pen>
-            <Gradient Type="0">
-                <Stop Value="0" Color="#ffffff" Alpha="131"></Stop>
-                <Stop Value="1" Color="#bdc1d0" Alpha="255"></Stop>
-                <Start x="234" y="162"></Start>
-                <End x="236" y="269"></End>
-            </Gradient>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <linearGradient id="shape0color" x1="5.97072%" y1="1.97972%" x2="6.38453%" y2="20.5482%">
+                <stop offset="0%" stop-color="#ffffff" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#bababa" stop-alpha="1"/>
+            </linearGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="generic node" width="80" height="50">
+                <g>
+                    <rectangle x="100%" y="100%" width="-100" height="-100" rx="53" ry="53" fill="shape0color" stroke="#2f2f2f" stroke-width="4" stroke-alpha="1"/>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

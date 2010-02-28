@@ -193,13 +193,13 @@ namespace Tinkercell
 		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
 		setPos(copy.scenePos());
 
-#if QT_VERSION > x040600
+#if QT_VERSION > 0x040600
 		setTransform(t1);
 #endif
 		/**copy handle**/
 		className = copy.className;
 		itemHandle = copy.itemHandle;
-		fileName = copy.fileName;
+		name = copy.name;
 		defaultSize = copy.defaultSize;
 
 		if (itemHandle)
@@ -225,7 +225,7 @@ namespace Tinkercell
 
 		refresh();
 
-#if QT_VERSION < x040600		
+#if QT_VERSION < 0x040600		
 		setTransform(t1);
 #endif
 
@@ -268,7 +268,7 @@ namespace Tinkercell
 	NodeGraphicsItem& NodeGraphicsItem::operator = (const NodeGraphicsItem& copy)
 	{
 		clear();
-		fileName = copy.fileName;
+		name = copy.name;
 		//className = copy.className;
 		defaultSize = copy.defaultSize;
 		/*QList<QGraphicsItem*> children = childItems();
@@ -724,18 +724,6 @@ namespace Tinkercell
 					if (pts > j && params > (k+1))
 					{
 						qreal start = parameters[k], span = parameters[k+1];
-						/*qreal prop = 360.0/span;
-						qreal w = (controlPoints[j]->scenePos().x()-controlPoints[j-1]->scenePos().x()) * prop/2.0,
-						h = (controlPoints[j]->scenePos().x()-controlPoints[j-1]->scenePos().x()) * prop/2.0;
-						path.arcMoveTo(QRectF(
-						controlPoints[j]->scenePos().x() - cos(parameters[k])*w,
-						controlPoints[j-1]->scenePos().x() - sin(parameters[k])*h,
-						w,
-						h),start);
-						path.arcTo(QRectF(controlPoints[j]->scenePos().x() - cos(parameters[k])*w,
-						controlPoints[j-1]->scenePos().x() - sin(parameters[k])*h,
-						w,
-						h),start,span);*/
 						qreal w = (controlPoints[j]->scenePos().x()-controlPoints[j-1]->scenePos().x()),
 							h = (controlPoints[j]->scenePos().y()-controlPoints[j-1]->scenePos().y());
 						path.arcMoveTo(QRectF(controlPoints[j-1]->scenePos().x(),controlPoints[j-1]->scenePos().y(),w,h),start);
@@ -761,6 +749,17 @@ namespace Tinkercell
 					j += 3;
 				}
 				break;
+			case rectangle:
+				{
+					if (pts > j && params > k)
+					{
+						QRectF rect(controlPoints[j-1]->scenePos(),controlPoints[j]->scenePos());
+						path.addRoundedRect(rect,parameters[k],parameters[k]);
+					}
+					++j;
+					++k;
+				}
+				break;
 			}
 			++i;
 		}
@@ -782,16 +781,10 @@ namespace Tinkercell
 	/*! \brief Checks if the polygon is closed*/
 	bool NodeGraphicsItem::Shape::isClosed() const
 	{
-		/*for (int i=0; i < controlPoints.size()-1; ++i)
-		{
-		for (int j=i+1; j < controlPoints.size(); ++j)
-		{
-		if (controlPoints[i] && controlPoints[i] == controlPoints[j])
-		return true;
-		}
-		}
-		return false;*/
 		if (controlPoints.size() < 2) return false;
+		
+		if (types.contains(rectangle) || types.contains(arc)) return true;
+		
 		return (controlPoints.first() == controlPoints.last());
 	}
 

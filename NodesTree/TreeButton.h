@@ -54,6 +54,7 @@ protected:
 	QMenu menu;
 	NodeFamily * nodeFamily;
 	ConnectionFamily* connectionFamily;
+	QString newFileName;
 	
 	NodesTree * nodesTree;
 	friend class NodesTree;

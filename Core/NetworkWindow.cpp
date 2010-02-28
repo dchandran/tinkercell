@@ -51,6 +51,8 @@ namespace Tinkercell
 		emit closing(this,&b);
 		if (b)
 		{
+			emit closed(this);
+			
 			disconnect();
 			
 			QList<GraphicsView*> list = graphicsViews;

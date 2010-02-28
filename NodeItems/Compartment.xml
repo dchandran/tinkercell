@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Compartment.xml" width="200" height="150">
-    <ControlPoints>
-        <ControlPoint x="34" y="70"></ControlPoint>
-        <ControlPoint x="373" y="316"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="0,1,0"></ControlPoints>
-            <LineTypes sequence="arc,arc,arc"></LineTypes>
-            <Parameters values="0,360,0,360,0,360"></Parameters>
-            <Pen Width="4" Color="#79a349" Alpha="255"></Pen>
-            <Gradient Type="1">
-                <Stop Value="0" Color="#86fd36" Alpha="20"></Stop>
-                <Stop Value="1" Color="#87fa51" Alpha="134"></Stop>
-                <Start x="154" y="142"></Start>
-                <End x="328" y="256"></End>
-            </Gradient>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <radialGradient id="shape0color" x1="30.7054%" y1="28.5714%" x2="71.3693%" y2="55.6851%">
+                <stop offset="0%" stop-color="#e4ffdd" stop-alpha="0.117647"/>
+                <stop offset="100%" stop-color="#1bb413" stop-alpha="0.411765"/>
+            </radialGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="compartment" width="200" height="150">
+                <g>
+                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#88bc66" stroke-width="3" stroke-alpha="0.882353"/>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

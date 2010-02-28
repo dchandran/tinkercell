@@ -66,7 +66,7 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
                     this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
 			
-			//connect(mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)),this,SLOT(windowClosing(NetworkWindow *, bool*)));
+			connect(mainWindow,SIGNAL(windowClosed(NetworkWindow *)),this,SLOT(windowClosed(NetworkWindow *)));
 
             connect(this,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
                     mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
@@ -113,8 +113,8 @@ namespace Tinkercell
             }
         }
     }
-/*
-	void ContainerTreeTool::windowClosing(NetworkWindow *, bool*)
+
+	void ContainerTreeTool::windowClosed(NetworkWindow *)
 	{
 		treeView->setUpdatesEnabled(false);
 
@@ -125,7 +125,7 @@ namespace Tinkercell
 		
         treeView->setModel(0);
 	}
-*/
+
     void ContainerTreeTool::windowChanged(NetworkWindow * , NetworkWindow * win)
     {
         if (!win) return;

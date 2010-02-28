@@ -375,6 +375,7 @@ namespace Tinkercell
 			allNetworkWindows << subWindow;
 		
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
+		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 		
 		popIn(subWindow);
 		emit windowOpened(subWindow);
@@ -390,6 +391,7 @@ namespace Tinkercell
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
+		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 		
 		popIn(subWindow);
 		emit windowOpened(subWindow);

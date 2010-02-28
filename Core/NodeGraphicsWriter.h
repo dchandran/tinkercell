@@ -56,18 +56,24 @@ namespace Tinkercell
 		static bool writeNodeGraphics(NodeGraphicsItem * idrawable,QXmlStreamWriter *);
 
 	private:
-		/*! \brief Writes a control point in an Node graphics item to an XML file 
-		* \param NodeImage pointer to write as XML
-		* \param index of control point in NodeImage's control points' vector
-		* \param the xml writer in use
-		* \return void*/
-		static void writeControlPoint(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
 		/*! \brief Writes a shape inside an Node graphics item to an XML file
 		* \param NodeImage pointer to write as XML
 		* \param index of shape in NodeImage's shape vector
 		* \param the xml writer in use
 		* \return void*/
 		static void writeShape(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+		/*! \brief Writes the fill color used in a shape inside an Node graphics item to an XML file
+		* \param NodeImage pointer to write as XML
+		* \param index of shape in NodeImage's shape vector
+		* \param the xml writer in use
+		* \return void*/
+		static void writeShapeColors(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+		/*! \brief Writes the fill gradient used in a shape inside an Node graphics item to an XML file
+		* \param NodeImage pointer to write as XML
+		* \param index of shape in NodeImage's shape vector
+		* \param the xml writer in use
+		* \return void*/
+		static void writeShapeGradients(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
 
 
 	};

@@ -23,9 +23,9 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * idrawable,const QString& fileName)
+	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,const QString& fileName)
 	{
-		if (!idrawable) return false;
+		if (!node) return false;
 
 		QFile file (fileName);
 
@@ -37,10 +37,10 @@ namespace Tinkercell
 		setDevice(&file);
 
 		writeStartDocument();
-		writeDTD("<!DOCTYPE PartGraphicsItem>");
+		writeDTD("<!DOCTYPE NodeGraphicsItem>");
 
-		idrawable->fileName = fileName;
-		writeNodeGraphics(idrawable,&file);
+		node->name = fileName;
+		writeNodeGraphics(node,&file);
 
 		writeEndDocument();
 
@@ -51,16 +51,16 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * idrawable,QIODevice * device)
+	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,QIODevice * device)
 	{
-		if (!idrawable || !device) return false;
+		if (!node || !device) return false;
 
 		setDevice(device);
 
 		writeStartDocument();
-		writeDTD("<!DOCTYPE PartGraphicsItem>");
+		writeDTD("<!DOCTYPE NodeGraphicsItem>");
 
-		writeNodeGraphics(idrawable,device);
+		writeNodeGraphics(node,device);
 
 		writeEndDocument();
 
@@ -70,72 +70,169 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * idrawable,QIODevice * device)
+	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node,QIODevice * device)
 	{
-		if (!idrawable || !device) return false;
+		if (!node || !device) return false;
 		setDevice(device);
 
-		return writeNodeGraphics(idrawable,const_cast<NodeGraphicsWriter*>(this));
+		return writeNodeGraphics(node,const_cast<NodeGraphicsWriter*>(this));
 	}
 	/*! \brief Writes an NodeImage as an XML file using the IO device provided 
 	* \param NodeImage pointer to write as XML
 	* \param XML writer to use
 	* \return void*/ 
-	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * idrawable, QXmlStreamWriter * writer)
+	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node, QXmlStreamWriter * writer)
 	{
-		if (!idrawable || !writer) return false;
+		if (!node || !writer) return false;
 
+		writer->writeStartElement("listOfRenderInformation");
+		writer->writeAttribute("xmlns", "http://projects.eml.org/bcb/sbml/render/level2");
 
-		writer->writeStartElement("PartGraphicsItem");
-		writer->writeAttribute("version", "1.0");
-		writer->writeAttribute("filename", idrawable->fileName);
-		writer->writeAttribute("width", QString::number(idrawable->sceneBoundingRect().width()));
-		writer->writeAttribute("height", QString::number(idrawable->sceneBoundingRect().height()));
+		writer->writeStartElement("renderInformation");
+			writer->writeAttribute("id","TinkerCell_Style");
+			writer->writeAttribute("programName","TinkerCell");
 
-		writer->writeStartElement("ControlPoints");
-		for (int i = 0; i < idrawable->controlPoints.size(); ++i)
+		bool writeColors = false, writeGradients = false;
+
+		for (int i = 0; i < node->shapes.size(); ++i)
 		{
-			try
-			{
-				writeControlPoint(idrawable, i, writer);
-			}
-			catch(...)
-			{
-			}
-		}
-		writer->writeEndElement();
+			if (!writeColors && node->shapes[i] && !node->shapes[i]->defaultBrush.gradient())
+				writeColors = true;
+			if (!writeGradients && node->shapes[i] && node->shapes[i]->defaultBrush.gradient())
+				writeGradients = true;
 
-		writer->writeStartElement("Shapes");
-		for (int i = 0; i < idrawable->shapes.size(); ++i)
+			if (writeColors && writeGradients)
+				break;
+		}
+
+		if (writeColors)
 		{
-			try
-			{
-				writeShape(idrawable, i, writer);
-			}
-			catch(...)
-			{
-			}
+			writer->writeStartElement("listOfColorDefinitions");
+			for (int i = 0; i < node->shapes.size(); ++i)
+				writeShapeColors(node, i, writer);
+			writer->writeEndElement();
 		}
-		writer->writeEndElement();
 
-		writer->writeEndElement();
+		if (writeGradients)
+		{
+			writer->writeStartElement("listOfGradientDefinitions");
+			for (int i = 0; i < node->shapes.size(); ++i)
+				writeShapeGradients(node, i, writer);
+			writer->writeEndElement();
+		}
 
+		writer->writeStartElement("listOfStyles");
+		writer->writeStartElement("style");
+			writer->writeAttribute("idList", node->name);
+			writer->writeAttribute("width", QString::number(node->defaultSize.width()));
+			writer->writeAttribute("height", QString::number(node->defaultSize.height()));
+		writer->writeStartElement("g");
+		
+		//normalize
+		QPointF pos;
+		QPointF min = node->sceneBoundingRect().topLeft();
+		QPointF max = node->sceneBoundingRect().bottomRight();
+		for (int i=0; i < node->controlPoints.size(); ++i)
+		{
+			pos = node->controlPoints[i]->scenePos();
+			if (pos.x() < min.x()) min.rx() = pos.x();
+			if (pos.y() < min.y()) min.ry() = pos.y();
+			if (pos.x() > max.x()) max.rx() = pos.x();
+			if (pos.y() > max.y()) max.ry() = pos.y();
+		}
+
+		QSizeF size(max.x() - min.x(), max.y() - min.y());
+
+		for (int i=0; i < node->controlPoints.size(); ++i)
+		{
+			pos = node->controlPoints[i]->scenePos() - min;
+			pos.rx() = pos.x() / size.width() * 100.0;
+			pos.ry() = pos.y() / size.height() * 100.0;
+			node->controlPoints[i]->setPos(pos);
+		}
+
+		//write
+		for (int i = 0; i < node->shapes.size(); ++i)
+		{
+			writeShape(node, i, writer);
+		}
+
+		//undo normalization
+		for (int i=0; i < node->controlPoints.size(); ++i)
+		{
+			pos = node->controlPoints[i]->scenePos();
+			pos.rx() = pos.x() * size.width() / 100.0;
+			pos.ry() = pos.y() * size.height() / 100.0;
+			node->controlPoints[i]->setPos(pos + min);
+		}
+
+		writer->writeEndElement(); //g
+		writer->writeEndElement(); //style
+		writer->writeEndElement(); //list of styles
+		writer->writeEndElement(); //render information
+		writer->writeEndElement(); //list of render styles
 		return true;
 	}
-	/*! \brief Writes a control point in an NodeGraphicsItem to an XML file 
-	* \param NodeGraphicsItem pointer to write as XML
-	* \param index of control point in NodeGraphicsItem's control points' vector
-	* \return void*/
-	void NodeGraphicsWriter::writeControlPoint(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter * writer)
-	{
-		if (writer && idrawable)
-		{
-			NodeGraphicsItem::ControlPoint * ptr = idrawable->controlPoints[i];
-			if (!ptr) return;
 
-			writer->writeStartElement("ControlPoint");
-			writer->writeAttribute("x",QString::number(ptr->x()));
-			writer->writeAttribute("y",QString::number(ptr->y()));
+	void NodeGraphicsWriter::writeShapeGradients(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
+	{
+		if (writer && node)
+		{
+			NodeGraphicsItem::Shape * ptr = node->shapes[index];
+			if (!ptr || !ptr->defaultBrush.gradient()) return;
+
+			const QGradient * gradient = ptr->defaultBrush.gradient();
+		
+			if (gradient->type() == QGradient::LinearGradient)
+				writer->writeStartElement("linearGradient");
+			else
+				writer->writeStartElement("radialGradient");
+
+			QRectF rect = node->sceneBoundingRect();
+			QPointF min = node->sceneBoundingRect().topLeft();
+			QPointF max = node->sceneBoundingRect().bottomRight();
+
+			ptr->gradientPoints.first.rx() = (ptr->gradientPoints.first.rx() - rect.left())/rect.width() * 100.0;
+			ptr->gradientPoints.first.ry() = (ptr->gradientPoints.first.ry() - rect.top())/rect.height() * 100.0;
+			ptr->gradientPoints.second.rx() = (ptr->gradientPoints.second.rx() - rect.left())/rect.width() * 100.0;
+			ptr->gradientPoints.second.ry() = (ptr->gradientPoints.second.ry() - rect.top())/rect.height() * 100.0;
+
+			writer->writeAttribute("id",QString("shape") + QString::number(index) + QString("color"));
+			writer->writeAttribute("x1",QString::number(ptr->gradientPoints.first.x()) + QString("%"));
+			writer->writeAttribute("y1",QString::number(ptr->gradientPoints.first.y()) + QString("%"));
+			writer->writeAttribute("x2",QString::number(ptr->gradientPoints.second.x()) + QString("%"));
+			writer->writeAttribute("y2",QString::number(ptr->gradientPoints.second.y()) + QString("%"));
+
+			QGradientStops stops = gradient->stops();
+			for (int i=0; i < stops.size(); ++i)
+			{
+				writer->writeStartElement("stop");
+				writer->writeAttribute("offset",QString::number(stops[i].first * 100.0) + QString("%"));
+				writer->writeAttribute("stop-color",stops[i].second.name());
+				writer->writeAttribute("stop-alpha",QString::number(stops[i].second.alphaF()));
+				writer->writeEndElement();
+			}
+
+			ptr->gradientPoints.first.rx() = ptr->gradientPoints.first.rx() * 100.0/rect.width() + rect.left();
+			ptr->gradientPoints.first.ry() = ptr->gradientPoints.first.ry() * 100.0/rect.height() + rect.top();
+			ptr->gradientPoints.second.rx() = ptr->gradientPoints.second.rx() * 100.0/rect.width() + rect.left();
+			ptr->gradientPoints.second.ry() = ptr->gradientPoints.second.ry() * 100.0/rect.height() + rect.top();
+
+			writer->writeEndElement();
+		}
+	}
+
+	void NodeGraphicsWriter::writeShapeColors(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
+	{
+		if (writer && node)
+		{
+			NodeGraphicsItem::Shape * ptr = node->shapes[index];
+			if (!ptr || ptr->defaultBrush.gradient()) return;
+
+			writer->writeStartElement("colorDefinition");
+			writer->writeAttribute("id",QString("shape") + QString::number(index) + QString("color"));
+			writer->writeAttribute("value",ptr->defaultBrush.color().name());
+			writer->writeAttribute("alpha",QString::number(ptr->defaultBrush.color().alpha()));
 			writer->writeEndElement();
 		}
 	}
@@ -144,101 +241,130 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param index of shape in NodeGraphicsItem's shape vector
 	* \return void*/
-	void NodeGraphicsWriter::writeShape(NodeGraphicsItem * idrawable, int index, QXmlStreamWriter * writer)
+	void NodeGraphicsWriter::writeShape(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
 	{
-		if (writer && idrawable)
+		if (writer && node)
 		{
-			NodeGraphicsItem::Shape * ptr = idrawable->shapes[index];
+			NodeGraphicsItem::Shape * ptr = node->shapes[index];
 			if (!ptr) return;
 
-			QStringList shapeNames;
-			shapeNames << "arc" << "line" << "bezier";
-
-			writer->writeStartElement("Shape");
-			writer->writeAttribute("Negative",QString::number((int)ptr->negative));
-			writer->writeStartElement("ControlPoints");
-			QStringList indices;
-			for (int i=0; i < ptr->controlPoints.size(); ++i)
-			{
-				for (int j=0; j < idrawable->controlPoints.size(); ++j)
-				{
-					if (idrawable->controlPoints[j] == ptr->controlPoints[i])
-					{
-						indices << QString::number(j);
-						break;
-					}
-				}			
-			}
-			writer->writeAttribute("indices",indices.join(QString(",")));
-			writer->writeEndElement();
-
-			writer->writeStartElement("LineTypes");
-			QStringList types;
-			for (int i=0; i < ptr->types.size(); ++i)
-			{
-				if (ptr->types[i] < 3)
-					types << shapeNames[ ptr->types[i] ];
-			}
-			writer->writeAttribute("sequence",types.join(QString(",")));
-			writer->writeEndElement();
-
-			writer->writeStartElement("Parameters");
-			QStringList params;			
-			for (int i=0; i < ptr->parameters.size(); ++i)
-			{
-				params << QString::number(ptr->parameters[i]);
-			}
-			writer->writeAttribute("values",params.join(QString(",")));
-			writer->writeEndElement();
+			bool isPolygon = ptr->types.contains(Tinkercell::NodeGraphicsItem::bezier) ||
+							 ptr->types.contains(Tinkercell::NodeGraphicsItem::line);
 
 			QPen pen = ptr->defaultPen;
 
-			writer->writeStartElement("Pen");
-			writer->writeAttribute("Width",QString::number(pen.width()));
-			writer->writeAttribute("Color",pen.color().name());
-			writer->writeAttribute("Alpha",QString::number(pen.color().alpha()));
-			writer->writeEndElement();
-
-			const QGradient * gradient = ptr->defaultBrush.gradient();
-			if (gradient)			
-			{			
-				writer->writeStartElement("Gradient");
-
-				writer->writeAttribute("Type",QString::number(gradient->type()));
-
-				QGradientStops stops = gradient->stops();
-
-				if (stops.size() > 0)
+			if (isPolygon)
+			{
+				writer->writeStartElement("polygon");
+				writer->writeAttribute("fill",QString("shape") + QString::number(index) + QString("color"));
+				writer->writeAttribute("stroke",pen.color().name());
+				writer->writeAttribute("stroke-width",QString::number(pen.widthF()));
+				writer->writeAttribute("stroke-alpha",QString::number(pen.color().alphaF()));
+				writer->writeStartElement("listOfCurveSegments");
+			}
+			
+			for (int i=0, j=1, p=0; i < ptr->types.size() && j < ptr->controlPoints.size(); ++i)
+			{
+				if (ptr->types[i] == Tinkercell::NodeGraphicsItem::line)
 				{
-					for (int i=0; i < stops.size(); ++i)
+					if (isPolygon)
 					{
-						writer->writeStartElement("Stop");
-						writer->writeAttribute("Value",QString::number(stops[i].first));
-						writer->writeAttribute("Color",stops[i].second.name());
-						writer->writeAttribute("Alpha",QString::number(stops[i].second.alpha()));
+						writer->writeStartElement("curveSegment");
+						writer->writeAttribute("xsi:type","LineSegment");
+						writer->writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+							writer->writeStartElement("start");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + QString("%"));
+							writer->writeEndElement();
+							writer->writeStartElement("end");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + QString("%"));
+							writer->writeEndElement();
 						writer->writeEndElement();
 					}
+					++j;
 				}
+				if (ptr->types[i] == Tinkercell::NodeGraphicsItem::bezier && (j+2 < ptr->controlPoints.size()))
+				{
+					if (isPolygon)
+					{
+						writer->writeStartElement("curveSegment");
+						writer->writeAttribute("xsi:type","CubicBezier");
+						writer->writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
+							writer->writeStartElement("start");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + QString("%"));
+							writer->writeEndElement();
+							writer->writeStartElement("basePoint1");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + QString("%"));
+							writer->writeEndElement();
+							writer->writeStartElement("basePoint2");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+1]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+1]->pos().y()) + QString("%"));
+							writer->writeEndElement();
+							writer->writeStartElement("end");
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+2]->pos().x()) + QString("%"));
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+2]->pos().y()) + QString("%"));
+							writer->writeEndElement();
+						writer->writeEndElement();
+					}
+					j += 3;
+				}
+				if (ptr->types[i] == Tinkercell::NodeGraphicsItem::arc && (p+1 < ptr->parameters.size()))
+				{
+					if (!isPolygon)
+					{
+						QPointF p1 = ptr->controlPoints[j-1]->pos();
+						QPointF p2 = ptr->controlPoints[j]->pos();
 
-				writer->writeStartElement("Start");
-				writer->writeAttribute("x",QString::number(ptr->gradientPoints.first.x()));
-				writer->writeAttribute("y",QString::number(ptr->gradientPoints.first.y()));
-				writer->writeEndElement();
-				writer->writeStartElement("End");
-				writer->writeAttribute("x",QString::number(ptr->gradientPoints.second.x()));
-				writer->writeAttribute("y",QString::number(ptr->gradientPoints.second.y()));
-				writer->writeEndElement();
+						writer->writeStartElement("ellipse");
+						writer->writeAttribute("cx",QString::number(((p1+p2)/2).x()) + QString("%"));
+						writer->writeAttribute("cy",QString::number(((p1+p2)/2).y()) + QString("%"));
+						writer->writeAttribute("rx",QString::number(((p2-p1)/2).x()) + QString("%"));
+						writer->writeAttribute("ry",QString::number(((p2-p1)/2).y()) + QString("%"));
+						writer->writeAttribute("angleStart",QString::number(ptr->parameters[p]));
+						writer->writeAttribute("angleEnd",QString::number(ptr->parameters[p+1]));
 
-				writer->writeEndElement();
+						writer->writeAttribute("fill",QString("shape") + QString::number(index) + QString("color"));
+						writer->writeAttribute("stroke",pen.color().name());
+						writer->writeAttribute("stroke-width",QString::number(pen.widthF()));
+						writer->writeAttribute("stroke-alpha",QString::number(pen.color().alphaF()));
+						writer->writeEndElement();
+					}
+					++j;
+					p += 2;
+				}
+				if (ptr->types[i] == Tinkercell::NodeGraphicsItem::rectangle && (p < ptr->parameters.size()))
+				{
+					if (!isPolygon)
+					{
+						qreal w =	ptr->controlPoints[j]->scenePos().x() - ptr->controlPoints[j-1]->scenePos().x();
+						qreal h =	ptr->controlPoints[j]->scenePos().y() - ptr->controlPoints[j-1]->scenePos().y();
+
+						writer->writeStartElement("rectangle");
+						writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->scenePos().x()) + QString("%"));
+						writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->scenePos().y()) + QString("%"));
+						writer->writeAttribute("width",QString::number(w));
+						writer->writeAttribute("height",QString::number(h));
+						writer->writeAttribute("rx",QString::number(ptr->parameters[p]));
+						writer->writeAttribute("ry",QString::number(ptr->parameters[p]));
+
+						writer->writeAttribute("fill",QString("shape") + QString::number(index) + QString("color"));
+						writer->writeAttribute("stroke",pen.color().name());
+						writer->writeAttribute("stroke-width",QString::number(pen.widthF()));
+						writer->writeAttribute("stroke-alpha",QString::number(pen.color().alphaF()));
+						writer->writeEndElement();
+					}
+					++j;
+					++p;
+				}
 			}
-			else
+			if (isPolygon)
 			{
-				writer->writeStartElement("Fill");
-				writer->writeAttribute("Color",ptr->defaultBrush.color().name());
-				writer->writeAttribute("Alpha",QString::number(ptr->defaultBrush.color().alpha()));
-				writer->writeEndElement();
+				writer->writeEndElement(); //list of curve segments
+				writer->writeEndElement(); //polygon
 			}
-			writer->writeEndElement();
 		}
 	}
 

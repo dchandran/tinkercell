@@ -1,46 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/Barrel.xml" width="60" height="60">
-    <ControlPoints>
-        <ControlPoint x="113" y="80"></ControlPoint>
-        <ControlPoint x="197" y="146"></ControlPoint>
-        <ControlPoint x="294" y="141"></ControlPoint>
-        <ControlPoint x="373" y="105"></ControlPoint>
-        <ControlPoint x="283" y="106"></ControlPoint>
-        <ControlPoint x="231" y="123"></ControlPoint>
-        <ControlPoint x="161" y="172"></ControlPoint>
-        <ControlPoint x="166" y="256"></ControlPoint>
-        <ControlPoint x="120" y="302"></ControlPoint>
-        <ControlPoint x="167" y="340"></ControlPoint>
-        <ControlPoint x="281" y="364"></ControlPoint>
-        <ControlPoint x="366" y="309"></ControlPoint>
-        <ControlPoint x="314" y="254"></ControlPoint>
-        <ControlPoint x="316" y="167"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="0,1,2,3,4,5,0"></ControlPoints>
-            <LineTypes sequence="bezier,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Gradient Type="0">
-                <Stop Value="0" Color="#2415ee" Alpha="255"></Stop>
-                <Stop Value="1" Color="#35363b" Alpha="255"></Stop>
-                <Start x="255" y="126"></Start>
-                <End x="258" y="108"></End>
-            </Gradient>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="0,6,7,8,9,10,11,12,13,3,2,1,0"></ControlPoints>
-            <LineTypes sequence="bezier,bezier,bezier,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Gradient Type="0">
-                <Stop Value="0" Color="#f9bea7" Alpha="255"></Stop>
-                <Stop Value="1" Color="#b05254" Alpha="255"></Stop>
-                <Start x="293" y="227"></Start>
-                <End x="178" y="221"></End>
-            </Gradient>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <linearGradient id="shape0color" x1="273.077%" y1="95.6921%" x2="278.846%" y2="58.2474%">
+                <stop offset="0%" stop-color="#2415ee" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#35363b" stop-alpha="1"/>
+            </linearGradient>
+            <linearGradient id="shape1color" x1="77.3333%" y1="49.2778%" x2="51.6667%" y2="49.2778%">
+                <stop offset="0%" stop-color="#ffd8ca" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#b44e1f" stop-alpha="1"/>
+            </linearGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="membrane channel" width="60" height="60">
+                <g>
+                    <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="0%"/>
+                                <basePoint1 x="32.3077%" y="23.2394%"/>
+                                <basePoint2 x="69.6154%" y="21.4789%"/>
+                                <end x="100%" y="8.80282%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="8.80282%"/>
+                                <basePoint1 x="65.3846%" y="9.15493%"/>
+                                <basePoint2 x="45.3846%" y="15.1408%"/>
+                                <end x="0%" y="0%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="0%"/>
+                                <basePoint1 x="18.4615%" y="32.3944%"/>
+                                <basePoint2 x="20.3846%" y="61.9718%"/>
+                                <end x="2.69231%" y="78.169%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="2.69231%" y="78.169%"/>
+                                <basePoint1 x="20.7692%" y="91.5493%"/>
+                                <basePoint2 x="64.6154%" y="100%"/>
+                                <end x="97.3077%" y="80.6338%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="97.3077%" y="80.6338%"/>
+                                <basePoint1 x="77.3077%" y="61.2676%"/>
+                                <basePoint2 x="78.0769%" y="30.6338%"/>
+                                <end x="100%" y="8.80282%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="8.80282%"/>
+                                <basePoint1 x="69.6154%" y="21.4789%"/>
+                                <basePoint2 x="32.3077%" y="23.2394%"/>
+                                <end x="0%" y="0%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

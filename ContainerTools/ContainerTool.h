@@ -77,7 +77,7 @@ namespace Tinkercell
 	public slots:
 		void updateTree(int);
 		void windowChanged(NetworkWindow * , NetworkWindow * );
-		//void windowClosing(NetworkWindow *, bool*);
+		void windowClosed(NetworkWindow *);
 		void itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF point, Qt::KeyboardModifiers );
 		void itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
 		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);

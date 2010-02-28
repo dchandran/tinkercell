@@ -14,6 +14,8 @@ This file defines an xml reader that reads a NodeGraphicsItem file
 #include <math.h>
 #include <QIODevice>
 #include <QFile>
+#include <QHash>
+#include <QList>
 #include <QStatusBar>
 #include <QXmlStreamReader>
 #include "NodeGraphicsItem.h"
@@ -47,17 +49,35 @@ namespace Tinkercell
 		* \return Token Typer*/ 
 		QXmlStreamReader::TokenType readNext();
 	private:
-		/*! \brief Reads a control point into an NodeGraphicsItem from an XML file 
+		/*! \brief Gets a control point from the list of control points (or adds one if not found)
 		* \param NodeGraphicsItem pointer to write as XML
-		* \param index of control point in NodeGraphicsItem's control points' vector
+		* \param QPointF point
 		* \return void*/
-		void readControlPoint(NodeGraphicsItem * idrawable);
+		NodeGraphicsItem::ControlPoint * getControlPoint(NodeGraphicsItem * , const QPointF&);
 		/*! \brief Reads a shape into an NodeGraphicsItem from an XML file
 		* \param NodeGraphicsItem pointer to write as XML
-		* \param index of shape in NodeGraphicsItem's shape vector
+		* \return NodeGraphicsItem::Shape **/
+		NodeGraphicsItem::Shape * readPolygon(NodeGraphicsItem *);
+		/*! \brief Reads a rect shape into an NodeGraphicsItem from an XML file
+		* \param NodeGraphicsItem pointer to write as XML
 		* \return void*/
-		void readShape(NodeGraphicsItem * idrawable);
+		void readRect(NodeGraphicsItem *);
+		/*! \brief Reads a arc shape into an NodeGraphicsItem from an XML file
+		* \param NodeGraphicsItem pointer to write as XML
+		* \return void*/
+		void readArc(NodeGraphicsItem *);
+		/*! \brief Reads all brush information from XML file
+		* \return void*/
+		void readBrushes();
 
+		struct BrushStruct
+		{
+			QBrush brush;
+			QPointF start, end;
+		};
+
+		/*! \brief all the fill types used in the file*/
+		QHash<QString, BrushStruct > brushes;
 	};
 
 }

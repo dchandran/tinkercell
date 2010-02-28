@@ -1,157 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="C:/Users/Deepak/Projects/Tinkercell/trunk/NodeItems/Gene.xml" width="1108.93" height="242.567">
-    <ControlPoints>
-        <ControlPoint x="139.827" y="172"/>
-        <ControlPoint x="303" y="174"/>
-        <ControlPoint x="303" y="264.716"/>
-        <ControlPoint x="141.062" y="264.716"/>
-        <ControlPoint x="25.7037" y="207"/>
-        <ControlPoint x="141.062" y="207"/>
-        <ControlPoint x="141.062" y="231.765"/>
-        <ControlPoint x="25.7037" y="231.765"/>
-        <ControlPoint x="303" y="207"/>
-        <ControlPoint x="470.168" y="207"/>
-        <ControlPoint x="470.168" y="231.765"/>
-        <ControlPoint x="303" y="233.305"/>
-        <ControlPoint x="208.935" y="172"/>
-        <ControlPoint x="208.935" y="62.963"/>
-        <ControlPoint x="355.333" y="64.5025"/>
-        <ControlPoint x="316.994" y="43.1047"/>
-        <ControlPoint x="318.533" y="98.332"/>
-        <ControlPoint x="355.333" y="82.6187"/>
-        <ControlPoint x="232.804" y="82.6187"/>
-        <ControlPoint x="232.804" y="172.46"/>
-        <ControlPoint x="431.838" y="73.7398"/>
-        <ControlPoint x="316.994" y="22.1491"/>
-        <ControlPoint x="316.994" y="120.073"/>
-        <ControlPoint x="25.7037" y="264.716"/>
-        <ControlPoint x="470.168" y="264.716"/>
-        <ControlPoint x="683.785" y="207"/>
-        <ControlPoint x="683.785" y="157.436"/>
-        <ControlPoint x="975.684" y="157.436"/>
-        <ControlPoint x="1032.91" y="207"/>
-        <ControlPoint x="1134.63" y="207"/>
-        <ControlPoint x="1134.63" y="233.305"/>
-        <ControlPoint x="1032.91" y="233.305"/>
-        <ControlPoint x="975.684" y="264.716"/>
-        <ControlPoint x="682.268" y="264.716"/>
-        <ControlPoint x="683.785" y="233.305"/>
-        <ControlPoint x="493.997" y="157.436"/>
-        <ControlPoint x="571.476" y="157.436"/>
-        <ControlPoint x="595.067" y="207"/>
-        <ControlPoint x="595.962" y="233.305"/>
-        <ControlPoint x="597.753" y="264.716"/>
-        <ControlPoint x="1134.63" y="264.716"/>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="5,0,12,19,1,8,11,2,3,6,5"/>
-            <LineTypes sequence="line,line,line,line,line,line,line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="8" Color="#000000" Alpha="255"/>
-            <Gradient Type="0">
-                <Stop Value="0" Color="#8fffa2" Alpha="255"/>
-                <Stop Value="1" Color="#188d0b" Alpha="255"/>
-                <Start x="221" y="210"/>
-                <End x="221" y="245"/>
-            </Gradient>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="4,5,6,7,4"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="8,9,10,11,8"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="12,13,14,15,21,20,22,16,17,18,19,12"/>
-            <LineTypes sequence="line,line,line,line,line,line,line,line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="23,7,6,3,23"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#ffffff" Alpha="0"/>
-            <Fill Color="#ffffff" Alpha="0"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="2,11,10,24,2"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#ffffff" Alpha="0"/>
-            <Fill Color="#ffffff" Alpha="0"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="10,9,37,38,10"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="10,38,39,24,10"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#ffffff" Alpha="0"/>
-            <Fill Color="#ffffff" Alpha="0"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="38,34,33,39,38"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#ffffff" Alpha="0"/>
-            <Fill Color="#ffffff" Alpha="0"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="37,25,34,38,37"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="25,26,27,28,31,32,33,25"/>
-            <LineTypes sequence="line,line,line,line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="9" Color="#000000" Alpha="255"/>
-            <Gradient Type="0">
-                <Stop Value="0" Color="#65b5b6" Alpha="255"/>
-                <Stop Value="1" Color="#243c8d" Alpha="255"/>
-                <Start x="827.938" y="188.168"/>
-                <End x="827.938" y="236.255"/>
-            </Gradient>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="28,29,30,31,28"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#000000" Alpha="255"/>
-            <Fill Color="#000000" Alpha="255"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="31,30,40,32,31"/>
-            <LineTypes sequence="line,line,line,line,line"/>
-            <Parameters values=""/>
-            <Pen Width="0" Color="#ffffff" Alpha="0"/>
-            <Fill Color="#ffffff" Alpha="0"/>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="9,35,36,37,9"/>
-            <LineTypes sequence="bezier"/>
-            <Parameters values=""/>
-            <Pen Width="9" Color="#000000" Alpha="255"/>
-            <Fill Color="#269a24" Alpha="255"/>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfGradientDefinitions>
+            <linearGradient id="shape0color" x1="0.146067%" y1="13.8632%" x2="0.146067%" y2="15.3505%">
+                <stop offset="0%" stop-color="#c5c5c5" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#000000" stop-alpha="1"/>
+            </linearGradient>
+            <linearGradient id="shape1color" x1="0.243768%" y1="1.96486%" x2="0.243768%" y2="4.30208%">
+                <stop offset="0%" stop-color="#676767" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#000000" stop-alpha="1"/>
+            </linearGradient>
+            <linearGradient id="shape2color" x1="0.569964%" y1="12.8009%" x2="0.569964%" y2="17.4754%">
+                <stop offset="0%" stop-color="#115cff" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#464b7a" stop-alpha="1"/>
+            </linearGradient>
+        </listOfGradientDefinitions>
+        <listOfStyles>
+            <style idList="gene" width="220" height="50">
+                <g>
+                    <polygon fill="shape0color" stroke="#959bac" stroke-width="1" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="100%"/>
+                                <end x="0%" y="84.3173%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="84.3173%"/>
+                                <end x="100%" y="84.3173%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="84.3173%"/>
+                                <end x="100%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="100%"/>
+                                <end x="0%" y="100%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape1color" stroke="#959bac" stroke-width="1" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="24.3412%" y="84.3173%"/>
+                                <end x="24.3412%" y="18.6842%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="24.3412%" y="18.6842%"/>
+                                <end x="35.3623%" y="18.6842%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="35.3623%" y="18.6842%"/>
+                                <end x="31.2994%" y="0%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="31.2994%" y="0%"/>
+                                <end x="39.4234%" y="22.3731%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="39.4234%" y="22.3731%"/>
+                                <end x="31.5535%" y="49.3927%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="31.5535%" y="49.3927%"/>
+                                <end x="35.3623%" y="27.6852%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="35.3623%" y="27.6852%"/>
+                                <end x="25.7649%" y="27.6852%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="25.7649%" y="27.6852%"/>
+                                <end x="25.7649%" y="84.3173%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="25.7649%" y="84.3173%"/>
+                                <end x="24.3412%" y="84.3173%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape2color" stroke="#0a3ba3" stroke-width="8" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="39.1689%" y="72.4986%"/>
+                                <end x="88.2237%" y="72.4986%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="88.2237%" y="72.4986%"/>
+                                <end x="88.2237%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="88.2237%" y="100%"/>
+                                <end x="39.4234%" y="100%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="39.4234%" y="100%"/>
+                                <end x="39.1689%" y="72.4986%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

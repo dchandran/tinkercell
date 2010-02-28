@@ -1,81 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/PartItems/mRNA.xml" width="70" height="20">
-    <ControlPoints>
-        <ControlPoint x="-9" y="244"></ControlPoint>
-        <ControlPoint x="212.487" y="394.628"></ControlPoint>
-        <ControlPoint x="290.628" y="159.77"></ControlPoint>
-        <ControlPoint x="506" y="273"></ControlPoint>
-        <ControlPoint x="284" y="190"></ControlPoint>
-        <ControlPoint x="181" y="429.089"></ControlPoint>
-        <ControlPoint x="49" y="281"></ControlPoint>
-        <ControlPoint x="48.366" y="230.124"></ControlPoint>
-        <ControlPoint x="60.6945" y="233.764"></ControlPoint>
-        <ControlPoint x="116" y="301"></ControlPoint>
-        <ControlPoint x="120.098" y="244.807"></ControlPoint>
-        <ControlPoint x="133.859" y="301.628"></ControlPoint>
-        <ControlPoint x="208" y="295"></ControlPoint>
-        <ControlPoint x="196" y="237"></ControlPoint>
-        <ControlPoint x="205" y="234"></ControlPoint>
-        <ControlPoint x="286" y="269"></ControlPoint>
-        <ControlPoint x="363" y="252"></ControlPoint>
-        <ControlPoint x="376.115" y="200.628"></ControlPoint>
-        <ControlPoint x="364" y="200"></ControlPoint>
-        <ControlPoint x="440" y="254"></ControlPoint>
-        <ControlPoint x="455.859" y="254.628"></ControlPoint>
-        <ControlPoint x="455" y="207"></ControlPoint>
-        <ControlPoint x="279" y="222"></ControlPoint>
-        <ControlPoint x="295" y="266"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="0,1,2,3,4,5,0"></ControlPoints>
-            <LineTypes sequence="bezier,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#7dddff" Alpha="210"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="6,7,8,6"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="9,10,11,9"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="12,13,14,12"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="15,22,23,15"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="16,18,17,16"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="19,21,20,19"></ControlPoints>
-            <LineTypes sequence="line,line,line,line"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#6464ff" Alpha="255"></Fill>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#0081d0" alpha="255"/>
+            <colorDefinition id="shape1color" value="#6464ff" alpha="255"/>
+            <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
+            <colorDefinition id="shape3color" value="#6464ff" alpha="255"/>
+            <colorDefinition id="shape4color" value="#6464ff" alpha="255"/>
+            <colorDefinition id="shape5color" value="#6464ff" alpha="255"/>
+            <colorDefinition id="shape6color" value="#6464ff" alpha="255"/>
+        </listOfColorDefinitions>
+        <listOfStyles>
+            <style idList="mRNA" width="70" height="20">
+                <g>
+                    <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="0%" y="31.2752%"/>
+                                <basePoint1 x="43.0072%" y="87.2044%"/>
+                                <basePoint2 x="58.1802%" y="0%"/>
+                                <end x="100%" y="42.0431%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="100%" y="42.0431%"/>
+                                <basePoint1 x="56.8932%" y="11.2246%"/>
+                                <basePoint2 x="36.8932%" y="100%"/>
+                                <end x="0%" y="31.2752%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="11.2621%" y="45.0135%"/>
+                                <end x="11.139%" y="26.1229%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="11.139%" y="26.1229%"/>
+                                <end x="13.5329%" y="27.4745%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="13.5329%" y="27.4745%"/>
+                                <end x="11.2621%" y="45.0135%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape2color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="24.2718%" y="52.4397%"/>
+                                <end x="25.0676%" y="31.5748%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="25.0676%" y="31.5748%"/>
+                                <end x="27.7396%" y="52.6729%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="27.7396%" y="52.6729%"/>
+                                <end x="24.2718%" y="52.4397%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape3color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="42.1359%" y="50.2118%"/>
+                                <end x="39.8058%" y="28.676%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="39.8058%" y="28.676%"/>
+                                <end x="41.5534%" y="27.5621%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="41.5534%" y="27.5621%"/>
+                                <end x="42.1359%" y="50.2118%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape4color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="57.2816%" y="40.5579%"/>
+                                <end x="55.9223%" y="23.1064%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="55.9223%" y="23.1064%"/>
+                                <end x="59.0291%" y="39.4439%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="59.0291%" y="39.4439%"/>
+                                <end x="57.2816%" y="40.5579%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape5color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="72.233%" y="34.2456%"/>
+                                <end x="72.4272%" y="14.9377%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="72.4272%" y="14.9377%"/>
+                                <end x="74.7796%" y="15.1709%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="74.7796%" y="15.1709%"/>
+                                <end x="72.233%" y="34.2456%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape6color" stroke="#646464" stroke-width="0" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="87.1845%" y="34.9882%"/>
+                                <end x="90.0971%" y="17.5368%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="90.0971%" y="17.5368%"/>
+                                <end x="90.2639%" y="35.2214%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="90.2639%" y="35.2214%"/>
+                                <end x="87.1845%" y="34.9882%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

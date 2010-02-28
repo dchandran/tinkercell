@@ -655,7 +655,6 @@ namespace Tinkercell
 				{
 					if (arrowHeads[i] && (arrowHeads.indexOf(arrowHeads[i]) == i))
 					{
-						console()->message(arrowHeads[i]->fileName);
 						transforms << arrowHeads[i]->transform();
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
@@ -868,7 +867,7 @@ namespace Tinkercell
 		{
 			if (reader.isStartElement())
 			{
-				if (reader.name() == "PartGraphicsItem")
+				if (reader.name() == "listOfRenderInformation")
 				{
 					reader.readNodeGraphics(node,reader.device());
 				}

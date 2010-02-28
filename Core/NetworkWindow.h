@@ -174,6 +174,8 @@ namespace Tinkercell
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/
 		void closing(NetworkWindow *, bool * );
+		/*! \brief signal send after closing*/
+		void closed(NetworkWindow *);
 		/*! \brief signals whenever an item is renamed
 		* \param NetworkWindow* window where the event took place
 		* \param QList<ItemHandle*>& items

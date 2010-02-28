@@ -991,12 +991,18 @@ namespace Tinkercell
 		*/
 		void setupFunctionPointers( QLibrary * );
 		/*!
-		* \brief signals when a window is going to closed
+		* \brief signals when a window is going to close
 		* \param NetworkWindow *  the window that is closing
 		* \param Boolean setting to false will prevent this window from closing
 		* \return void
 		*/
 		void windowClosing(NetworkWindow *, bool*);
+		/*!
+		* \brief signals after a window is closed
+		* \param NetworkWindow *  the window that was closed
+		* \return void
+		*/
+		void windowClosed(NetworkWindow *);
 		/*!
 		* \brief signals used inform that the model is going to be saved as it is
 		* \param NetworkWindow *  the window where model was loaded (usually current scene)

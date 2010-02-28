@@ -79,13 +79,13 @@ namespace Tinkercell
             Icon files are NodeItems/nodename.png, where nodename is the node family name.
            \param QString node family name
         */
-        static QString iconFile(QString name);
+        QString iconFile(QString name);
 
         /*! \brief get the name of a node family's node graphics file from its name.
             Graphics files are NodeItems/nodename.xml, where nodename is the node family name.
            \param QString node family name
         */
-        static QString nodeImageFile(QString name);
+        QString nodeImageFile(QString name);
 
         /*! \brief get the tree widget located inside this Tool.
         */
@@ -150,6 +150,9 @@ namespace Tinkercell
 
         /*! \brief stores the previous graphics file name*/
         QString temporaryFileName;
+
+        /*! \brief store all the node graphics file names*/
+        QHash<QString,QString> nodeGraphicsFileNames;
 
         friend class FamilyTreeButton;
     };

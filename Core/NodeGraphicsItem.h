@@ -73,7 +73,7 @@ namespace Tinkercell
 		*/
 		static NodeGraphicsItem * topLevelNodeItem(QGraphicsItem* item, bool ignoreControlPoints = false);
 		/*! \brief file where the graphics item is stored*/
-		QString fileName;
+		QString name;
 		/*! Constructor: does nothing */
 		NodeGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Copy Constructor */
@@ -87,9 +87,9 @@ namespace Tinkercell
 		/*! \brief checks that this is a valid drawable*/
 		bool isValid() const;
 		/*! \brief number of different type of shapes available*/
-		static const int numShapeTypes = 3;
+		static const int numShapeTypes = 4;
 		/*! \brief arc, line, or beizier */
-		typedef enum {arc, line, bezier} ShapeType;
+		typedef enum {arc, line, bezier, rectangle} ShapeType;
 		/*! \brief default size for this item*/
 		QSizeF defaultSize;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem

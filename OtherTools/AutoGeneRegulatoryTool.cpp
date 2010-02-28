@@ -1446,7 +1446,7 @@ namespace Tinkercell
 		{
 			if ((node = NodeGraphicsItem::cast(items[i]))
 				&& node->boundaryControlPoints.size() > 0
-				&& node->fileName.toLower().contains(tr("/phosphate.xml")))
+				&& (node->name.toLower() == tr("phosphate")))
 			{
 				for (int k=0; k < node->boundaryControlPoints.size(); ++k)
 					if (node->boundaryControlPoints[k])

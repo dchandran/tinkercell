@@ -1,60 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="">
-    <ControlPoints>
-        <ControlPoint x="47" y="153"></ControlPoint>
-        <ControlPoint x="72" y="68"></ControlPoint>
-        <ControlPoint x="291" y="57"></ControlPoint>
-        <ControlPoint x="377" y="153"></ControlPoint>
-        <ControlPoint x="377" y="170"></ControlPoint>
-        <ControlPoint x="321" y="265"></ControlPoint>
-        <ControlPoint x="112" y="262"></ControlPoint>
-        <ControlPoint x="47" y="170"></ControlPoint>
-        <ControlPoint x="125" y="90"></ControlPoint>
-        <ControlPoint x="282" y="236"></ControlPoint>
-        <ControlPoint x="138" y="104"></ControlPoint>
-        <ControlPoint x="267" y="225"></ControlPoint>
-        <ControlPoint x="43" y="61"></ControlPoint>
-        <ControlPoint x="277" y="20"></ControlPoint>
-        <ControlPoint x="379.515" y="161.561"></ControlPoint>
-        <ControlPoint x="414.571" y="240.817"></ControlPoint>
-        <ControlPoint x="132.602" y="330.742"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="7,0,1,2,3,4,5,6,7"></ControlPoints>
-            <LineTypes sequence="line,bezier,line,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="7" Color="#000000" Alpha="255"></Pen>
-            <Fill Color="#ffffff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="9,8,9"></ControlPoints>
-            <LineTypes sequence="arc,arc"></LineTypes>
-            <Parameters values="0,360,0,360"></Parameters>
-            <Pen Width="0" Color="#646464" Alpha="255"></Pen>
-            <Fill Color="#5739d0" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="10,11,10"></ControlPoints>
-            <LineTypes sequence="arc,arc"></LineTypes>
-            <Parameters values="0,360,0,360"></Parameters>
-            <Pen Width="4" Color="#000000" Alpha="255"></Pen>
-            <Fill Color="#000000" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="0,12,13,3,2,1,0"></ControlPoints>
-            <LineTypes sequence="bezier,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="8" Color="#000000" Alpha="255"></Pen>
-            <Fill Color="#ffffff" Alpha="255"></Fill>
-        </Shape>
-        <Shape Negative="0">
-            <ControlPoints indices="7,6,5,14,15,16,7"></ControlPoints>
-            <LineTypes sequence="bezier,bezier"></LineTypes>
-            <Parameters values=""></Parameters>
-            <Pen Width="8" Color="#4c4c4c" Alpha="13"></Pen>
-            <Fill Color="#4c4c4c" Alpha="104"></Fill>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#ffffff" alpha="255"/>
+            <colorDefinition id="shape1color" value="#5739d0" alpha="255"/>
+            <colorDefinition id="shape2color" value="#000000" alpha="255"/>
+            <colorDefinition id="shape3color" value="#ffffff" alpha="255"/>
+            <colorDefinition id="shape4color" value="#4c4c4c" alpha="104"/>
+        </listOfColorDefinitions>
+        <listOfStyles>
+            <style idList="eye" width="307.41" height="281.48">
+                <g>
+                    <polygon fill="shape0color" stroke="#000000" stroke-width="7" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="1.07651%" y="48.2716%"/>
+                                <end x="1.07651%" y="42.8008%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="1.07651%" y="42.8008%"/>
+                                <basePoint1 x="7.8047%" y="15.4469%"/>
+                                <basePoint2 x="66.7436%" y="11.907%"/>
+                                <end x="89.8886%" y="42.8008%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="89.8886%" y="42.8008%"/>
+                                <end x="89.8886%" y="48.2716%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="89.8886%" y="48.2716%"/>
+                                <basePoint1 x="74.8175%" y="78.8435%"/>
+                                <basePoint2 x="18.5698%" y="77.8781%"/>
+                                <end x="1.07651%" y="48.2716%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <ellipse cx="43.195%" cy="46.0189%" rx="-21.1265%" ry="-23.4922%" angleStart="0" angleEnd="360" fill="shape1color" stroke="#646464" stroke-width="0" stroke-alpha="1"/>
+                    <ellipse cx="42.9258%" cy="46.5016%" rx="17.3587%" ry="19.4695%" angleStart="0" angleEnd="360" fill="shape2color" stroke="#000000" stroke-width="4" stroke-alpha="1"/>
+                    <polygon fill="shape3color" stroke="#000000" stroke-width="8" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="1.07651%" y="42.8008%"/>
+                                <basePoint1 x="0%" y="13.1942%"/>
+                                <basePoint2 x="62.9759%" y="0%"/>
+                                <end x="89.8886%" y="42.8008%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="89.8886%" y="42.8008%"/>
+                                <basePoint1 x="66.7436%" y="11.907%"/>
+                                <basePoint2 x="7.8047%" y="15.4469%"/>
+                                <end x="1.07651%" y="42.8008%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                    <polygon fill="shape4color" stroke="#4c4c4c" stroke-width="8" stroke-alpha="1">
+                        <listOfCurveSegments>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="1.07651%" y="48.2716%"/>
+                                <basePoint1 x="18.5698%" y="77.8781%"/>
+                                <basePoint2 x="74.8175%" y="78.8435%"/>
+                                <end x="90.5655%" y="45.5558%"/>
+                            </curveSegment>
+                            <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                <start x="90.5655%" y="45.5558%"/>
+                                <basePoint1 x="100%" y="71.0612%"/>
+                                <basePoint2 x="24.1144%" y="100%"/>
+                                <end x="1.07651%" y="48.2716%"/>
+                            </curveSegment>
+                        </listOfCurveSegments>
+                    </polygon>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

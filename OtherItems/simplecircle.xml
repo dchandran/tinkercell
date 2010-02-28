@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE PartGraphicsItem>
-<PartGraphicsItem version="1.0" filename="D:/C++ Projects/Tinkercell/OtherItems/simplecircle.xml" width="118" height="114">
-    <ControlPoints>
-        <ControlPoint x="162" y="138"></ControlPoint>
-        <ControlPoint x="280" y="252"></ControlPoint>
-    </ControlPoints>
-    <Shapes>
-        <Shape Negative="0">
-            <ControlPoints indices="0,1,0"></ControlPoints>
-            <LineTypes sequence="arc,arc,arc"></LineTypes>
-            <Parameters values="0,360,0,360,0,360"></Parameters>
-            <Pen Width="8" Color="#6464ff" Alpha="189"></Pen>
-            <Fill Color="#6464ff" Alpha="0"></Fill>
-        </Shape>
-    </Shapes>
-</PartGraphicsItem>
+<!DOCTYPE NodeGraphicsItem>
+<listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+    <renderInformation id="TinkerCell_Style" programName="TinkerCell">
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#6464ff" alpha="0"/>
+        </listOfColorDefinitions>
+        <listOfStyles>
+            <style idList="circle" width="118" height="114">
+                <g>
+                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#6464ff" stroke-width="8" stroke-alpha="1"/>
+                </g>
+            </style>
+        </listOfStyles>
+    </renderInformation>
+</listOfRenderInformation>

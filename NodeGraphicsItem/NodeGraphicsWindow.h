@@ -18,6 +18,8 @@
 #include <QSlider>
 #include <QAction>
 #include <QFileDialog>
+#include <QDoubleSpinBox>
+#include <QLineEdit>
 #include "NodeGraphicsScene.h"
 #include "NodeGraphicsWriter.h"
 #include "NodeGraphicsReader.h"
@@ -39,6 +41,7 @@ public:
 public slots:
 	void setArcStartAngle(int value);
 	void setArcSpanAngle(int value);
+	void setRoundness(int value);
 	void setLineWidth(int value);
 	
 	void setAlpha1(int value);
@@ -69,11 +72,11 @@ protected:
 	void wheelEvent ( QWheelEvent * );
 
 private:
-    DrawScene drawScene;
+	DrawScene drawScene;
 	QGraphicsView graphicsView;
 	QButtonGroup* buttonGroup;	
 	
-	QToolButton * shapeButtons[3];
+	QToolButton * shapeButtons[4];
 	QPushButton * colorButtons[2];
 	
 	QWidget* makeToolBox();
@@ -86,6 +89,8 @@ private:
 	QAction *fill, *linearGradient, *radialGradient;
 	
 	QString previousFileName;
+	
+	QLineEdit name;
 	
 	QDoubleSpinBox height,width;
 };

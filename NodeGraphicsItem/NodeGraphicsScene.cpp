@@ -10,13 +10,6 @@
 #include "NodeGraphicsScene.h"
 #include <typeinfo>
 
-namespace Tinkercell
-{
-	void setHandle(QGraphicsItem* item, ItemHandle * handle)
-	{
-	}
-}
-
 namespace NodeImageDesigner
 {
 
@@ -48,14 +41,12 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		return;
 
 	QPointF point = mouseEvent->scenePos();
-	//if (mode == 4) { point.rx() += 20; point.ry() += 30; }
-	//if (mode == 5) { point.rx() += 20; }
 
 	if (mode == 1)
 	{
 		NodeGraphicsItem::ControlPoint * controlPoint = new NodeGraphicsItem::ControlPoint();
 		controlPoint->setPos(point);
-		addItem(controlPoint);		
+		addItem(controlPoint);
 		node.addControlPoint(controlPoint);
 		return;
 	}
@@ -67,7 +58,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 		NodeGraphicsItem::Shape tempShape;
 		if (typeid(*selectedItem) == typeid(tempShape))
 		{
-			if (mode == 5)
+			if (mode == 7)
 			{	
 				colorPt1 = ((NodeGraphicsItem::Shape*)(selectedItem))->mapFromScene(point);
 				
@@ -75,7 +66,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 				return;
 			}
 			else
-			if (mode == 6)
+			if (mode == 8)
 			{
 				((NodeGraphicsItem::Shape*)(selectedItem))->setPen(QPen(color1,lineWidth));
 				selectedItem = 0;
@@ -120,6 +111,12 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 								currentShape->types.push_back(NodeGraphicsItem::bezier);
 							}
 							break;
+						case NodeGraphicsItem::rectangle:
+							{
+								currentShape->types.push_back(NodeGraphicsItem::rectangle);
+								currentShape->parameters.push_back((qreal)rectRoundedness);
+							}
+							break;
 					}
 				}
 				currentShape->refresh();
@@ -136,7 +133,7 @@ void DrawScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 					
 					currentShape = new NodeGraphicsItem::Shape();
 						
-					currentPoints.clear();
+					currentPoints.clear();					
 				}
 				selectedItem = 0;
 			}
@@ -234,7 +231,7 @@ void DrawScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	//selectedItem = 0;
 	NodeGraphicsItem::Shape tempShape;
-	if (selectedItem && mode == 5 && typeid(*selectedItem) == typeid(tempShape))
+	if (selectedItem && mode == 7 && typeid(*selectedItem) == typeid(tempShape))
 	{
 		QPointF point = mouseEvent->scenePos();	
 		

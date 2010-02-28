@@ -23,12 +23,6 @@ int main(int argc, char *argv[])
     
 	mainWin.setGeometry(100,100,700,400);
 	
-  	printf("hello 1\n");
-	
-    Tinkercell::MainWindow mainWin2;
-    
-	printf("hello 2\n");
-    
     mainWin.show();
     app.exec();
 	return 0;

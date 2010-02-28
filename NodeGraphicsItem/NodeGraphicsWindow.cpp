@@ -8,6 +8,8 @@
  ****************************************************************************/
 
 #include <QtDebug>
+#include <QGridLayout>
+#include <QLabel>
 #include <QRegExp>
 #include <QScrollArea>
 #include <QSplitter>
@@ -15,7 +17,6 @@
 #include <QSettings>
 #include "NodeGraphicsWindow.h"
 
-	
 	NodeImageDesigner::MainWindow::MainWindow()
 	{
 		createMenus();
@@ -23,9 +24,10 @@
 		height.setRange(1,1000);
 		width.setValue(50);
 		height.setValue(50);
+		name.setText("new node");
 		
-		connect(&height,SIGNAL(valueChanged ( double ) ), this, SLOT(sizeChanged(double)));
-		connect(&width,SIGNAL(valueChanged ( double ) ), this, SLOT(sizeChanged(double)));
+		//connect(&height,SIGNAL(valueChanged ( double ) ), this, SLOT(sizeChanged(double)));
+		//connect(&width,SIGNAL(valueChanged ( double ) ), this, SLOT(sizeChanged(double)));
 		
 		setPalette(QPalette(QColor(255, 255, 255)));
 		setAutoFillBackground(true);
@@ -41,13 +43,13 @@
 		graphicsView.setRenderHint(QPainter::Antialiasing);
 		splitter->addWidget(&graphicsView);
 		
-		splitter->setStretchFactor(0,1);
+		splitter->setStretchFactor(0,0);
 		splitter->setStretchFactor(1,1);
 		
 		setCentralWidget(splitter);
 		setWindowTitle(tr("NodeGraphicsItem Builder"));
 		
-		statusBar()->showMessage("Welcome to NodeGraphicsItem builder...happy building!");
+		statusBar()->showMessage("Welcome to Polygon builder!");
 		
 		QSettings settings("TinkerCell", "DrawingProgram");
 		settings.beginGroup("MainWindow");
@@ -73,7 +75,7 @@
 		QAction	* docAction;
 	
 		exitAction = new QAction(tr("E&xit"), this);
-		exitAction->setShortcut(tr("Ctrl+X"));
+		exitAction->setShortcut(tr("Ctrl+Q"));
 		exitAction->setStatusTip(tr("Quit Scenediagram example"));
 		connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 		connect(exitAction, SIGNAL(triggered()), this, SIGNAL(exited()));
@@ -152,6 +154,47 @@
 		
 		NodeImageReader reader;	
 		reader.readNodeGraphics(&drawScene.node,&file);
+
+		QPointF p;
+		for (int i=0; i < drawScene.node.controlPoints.size(); ++i)
+		{
+			p = drawScene.node.controlPoints[i]->pos();
+			p.rx() *= drawScene.node.defaultSize.width() / 20.0;
+			p.ry() *= drawScene.node.defaultSize.height() / 20.0;
+			drawScene.node.controlPoints[i]->setPos(p);
+		}
+		for (int i=0; i < drawScene.node.shapes.size(); ++i)
+		{
+			drawScene.node.shapes[i]->gradientPoints.first.rx() *= drawScene.node.defaultSize.width() / 20.0;
+			drawScene.node.shapes[i]->gradientPoints.first.ry() *= drawScene.node.defaultSize.height() / 20.0;
+			drawScene.node.shapes[i]->gradientPoints.second.rx() *= drawScene.node.defaultSize.width() / 20.0;
+			drawScene.node.shapes[i]->gradientPoints.second.ry() *= drawScene.node.defaultSize.height() / 20.0;
+			const QGradient * gradient = drawScene.node.shapes[i]->defaultBrush.gradient();
+			if (gradient)
+			{
+				QPointF p1 = drawScene.node.shapes[i]->gradientPoints.first,
+						p2 = drawScene.node.shapes[i]->gradientPoints.second;
+
+				if (gradient->type() == QGradient::RadialGradient)
+				{
+					QRadialGradient newGradient(
+										p1,
+										sqrt( (p2.y()-p1.y())*(p2.y()-p1.y()) + 
+											  (p2.x()-p1.x())*(p2.x()-p1.x())));
+					newGradient.setStops(gradient->stops());
+					drawScene.node.shapes[i]->defaultBrush = QBrush(newGradient);
+					drawScene.node.shapes[i]->setBrush(drawScene.node.shapes[i]->defaultBrush);
+				}
+				else
+				{
+					QLinearGradient newGradient(p1,p2);
+					newGradient.setStops(gradient->stops());
+					drawScene.node.shapes[i]->defaultBrush = QBrush(newGradient);
+					drawScene.node.shapes[i]->setBrush(drawScene.node.shapes[i]->defaultBrush);
+				}
+			}
+		}
+
 		drawScene.node.refresh();
 		
 		for (int i=0; i < drawScene.node.controlPoints.size(); ++i)
@@ -163,6 +206,7 @@
 		{
 			width.setValue(drawScene.node.defaultSize.width());
 			height.setValue(drawScene.node.defaultSize.height());
+			name.setText(drawScene.node.name);
 			drawScene.node.resetTransform();
 		}
 	}
@@ -202,7 +246,10 @@
 			}
 		}
 		
-		drawScene.node.fileName = fileName;
+		drawScene.node.name = name.text();
+		drawScene.node.defaultSize.setHeight(height.value());
+		drawScene.node.defaultSize.setWidth(width.value());
+
 		writer.writeXml(&(drawScene.node),&file);
 		
 		QGraphicsView * view = 0;
@@ -258,49 +305,34 @@
 	void NodeImageDesigner::MainWindow::setArcStartAngle(int value)
 	{
 		drawScene.arcStart = value;	
-			
-		QPixmap pixmap(250, 250);
-		pixmap.fill(Qt::transparent);
 		
-		QPainter painter(&pixmap);
-		painter.setPen(QPen(Qt::black, drawScene.lineWidth));
-		painter.translate(125, 125);
-		
-		painter.setRenderHint(QPainter::Antialiasing);
-		
-		painter.drawArc(QRect(-100,-100,200,200),16*drawScene.arcStart,16*drawScene.arcSpan);
-			
 		if (shapeButtons[0])
-			shapeButtons[0]->setIcon(QIcon(pixmap));	
+			shapeButtons[0]->setIcon(paintShape(2,drawScene.lineWidth));	
 	}
 
 	void NodeImageDesigner::MainWindow::setArcSpanAngle(int value)
 	{
 		drawScene.arcSpan = value;
-			
-		QPixmap pixmap(250, 250);
-		pixmap.fill(Qt::transparent);
 		
-		QPainter painter(&pixmap);
-		painter.setPen(QPen(Qt::black, drawScene.lineWidth));
-		painter.translate(125, 125);
-		
-		painter.setRenderHint(QPainter::Antialiasing);
-		
-		painter.drawArc(QRect(-100,-100,200,200),16*drawScene.arcStart,16*drawScene.arcSpan);
-			
 		if (shapeButtons[0])
-			shapeButtons[0]->setIcon(QIcon(pixmap));	
+			shapeButtons[0]->setIcon(paintShape(2,drawScene.lineWidth));	
+	}
+	
+	void NodeImageDesigner::MainWindow::setRoundness(int value)
+	{
+		drawScene.rectRoundedness = value;
+
+		if (shapeButtons[3])
+			shapeButtons[3]->setIcon(paintShape(5,drawScene.lineWidth));
 	}
 
 	void NodeImageDesigner::MainWindow::setLineWidth(int value)
-	{	
-		for (int i=0; i < 3; ++i)
+	{
+		drawScene.lineWidth = value;
+		for (int i=0; i < 4; ++i)
 		{			
 			shapeButtons[i]->setIcon(paintShape(i+2,value));
-			drawScene.lineWidth = value;
 		}
-		
 	}
 
 	void NodeImageDesigner::MainWindow::setAlpha1(int value)
@@ -357,10 +389,11 @@
 	void NodeImageDesigner::MainWindow::buttonPressed(int id)
 	{
 		drawScene.node.resetTransform();
-		drawScene.currentPoints.clear();	
+		drawScene.currentPoints.clear();
 		drawScene.mode = id;
+		statusBar()->showMessage(tr("mode = ") + QString::number(id));
 		
-		if (id == 5)
+		if (id == 7)
 		{
 			QPixmap bucket(QString(":/images/bucket.png"));	
 			bucket = bucket.scaled(QSize(30,30));
@@ -370,7 +403,7 @@
 			setCursor(bucket.transformed(transform));
 		}
 		else
-		if (id == 6)
+		if (id == 8)
 		{
 			QPixmap pencil(QString(":/images/pencil.png"));
 			pencil.setMask(pencil.createMaskFromColor(QColor(255,255,255)));
@@ -390,11 +423,16 @@
 	    
 		connect(buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(buttonPressed(int)));
 		
-		QGroupBox * setSizeGroup = new QGroupBox("set width and height");
-		QHBoxLayout * setSizeGroupLayout = new QHBoxLayout(setSizeGroup);
+		QGroupBox * setSizeGroup = new QGroupBox("properties");
+		QGridLayout * setSizeGroupLayout = new QGridLayout(setSizeGroup);
 		setSizeGroup->setAttribute(Qt::WA_ContentsPropagated);
-		setSizeGroupLayout->addWidget(&width,0,Qt::AlignLeft);
-		setSizeGroupLayout->addWidget(&height,1,Qt::AlignLeft);
+		setSizeGroupLayout->addWidget(new QLabel("name"),0,0);
+		setSizeGroupLayout->addWidget(new QLabel("width"),1,0);
+		setSizeGroupLayout->addWidget(new QLabel("height"),2,0);
+		setSizeGroupLayout->addWidget(&name,0,1);
+		setSizeGroupLayout->addWidget(&width,1,1);
+		setSizeGroupLayout->addWidget(&height,2,1);
+		setSizeGroup->setLayout(setSizeGroupLayout);
 		
 		QToolButton * button;
 		
@@ -415,16 +453,20 @@
 		buttonGroup->addButton(button, 1);
 		arrowPointGroupLayout->addWidget(button,0,Qt::AlignCenter);
 
-		QGroupBox * shapesGroup = new QGroupBox("choose shape type");
+		QGroupBox * shapesGroup = new QGroupBox("shape type");
 		QVBoxLayout * shapesGroupLayout = new QVBoxLayout(shapesGroup);
-		//shapesGroup->setTitle("basic shapes");
+
+		QGroupBox * shapesEditsGroup = new QGroupBox("edit shapes");
+		QVBoxLayout * shapesEditsGroupLayout = new QVBoxLayout(shapesEditsGroup);
+
 		
 		drawScene.lineWidth = 8;
 		drawScene.arcStart = 0;
-		drawScene.arcSpan = 90;
+		drawScene.arcSpan = 360;
+		drawScene.rectRoundedness = 10;
 		alpha = 255;
 		
-		for (int i=0; i < 3; ++i)
+		for (int i=0; i < 4; ++i)
 		{
 			button = new QToolButton(shapesGroup);
 			button->setIcon(paintShape(i+2,drawScene.lineWidth));
@@ -435,27 +477,42 @@
 			shapeButtons[i] = button;
 		}
 		
-		QSlider *arcStart = new QSlider(Qt::Horizontal,shapesGroup);
+		QSlider *arcStart = new QSlider(Qt::Horizontal,shapesEditsGroup);
+		arcStart->setToolTip("change arc starting angle");
 		arcStart->setRange(0, 360);
 		arcStart->setValue(drawScene.arcStart);
 		connect(arcStart,SIGNAL(valueChanged(int)),this,SLOT(setArcStartAngle(int)));
-		shapesGroupLayout->addWidget(arcStart);
+		shapesEditsGroupLayout->addWidget(new QLabel("arc start:"));
+		shapesEditsGroupLayout->addWidget(arcStart);
 		
-		QSlider *arcSpan = new QSlider(Qt::Horizontal,shapesGroup);	
+		QSlider *arcSpan = new QSlider(Qt::Horizontal,shapesEditsGroup);	
+		arcSpan->setToolTip("change arc angle range");
 		arcSpan->setRange(0, 360);
 		arcSpan->setValue(drawScene.arcSpan);
 		connect(arcSpan,SIGNAL(valueChanged(int)),this,SLOT(setArcSpanAngle(int)));
-		shapesGroupLayout->addWidget(arcSpan);
+		shapesEditsGroupLayout->addWidget(new QLabel("arc span:"));
+		shapesEditsGroupLayout->addWidget(arcSpan);
+		
+		QSlider *rectRound = new QSlider(Qt::Horizontal,shapesEditsGroup);	
+		rectRound->setToolTip("change rectangle roundedness");
+		rectRound->setRange(0, 100);
+		rectRound->setValue(drawScene.rectRoundedness);
+		connect(rectRound,SIGNAL(valueChanged(int)),this,SLOT(setRoundness(int)));
+		shapesEditsGroupLayout->addWidget(new QLabel("roundness:"));
+		shapesEditsGroupLayout->addWidget(rectRound);
 		
 		QSlider *linewidth = new QSlider(Qt::Horizontal,shapesGroup);	
+		linewidth->setToolTip("change line width");
 		linewidth->setRange(0, 20);
 		linewidth->setValue(drawScene.lineWidth);
 		connect(linewidth,SIGNAL(valueChanged(int)),this,SLOT(setLineWidth(int)));
+		shapesGroupLayout->addWidget(new QLabel("line width:"));
 		shapesGroupLayout->addWidget(linewidth);
 		
 		shapesGroup->setLayout(shapesGroupLayout);
+		shapesEditsGroup->setLayout(shapesEditsGroupLayout);
 		
-		QGroupBox * attributesGroup = new QGroupBox("fill and outline color");
+		QGroupBox * attributesGroup = new QGroupBox("colors");
 		QVBoxLayout * attributesGroupLayout = new QVBoxLayout(attributesGroup);
 		//attributesGroup->setTitle("shape attributes");
 		
@@ -475,7 +532,7 @@
 		fillMenu->addAction(radialGradient);
 		button->setMenu(fillMenu);
 		button->setPopupMode(QToolButton::MenuButtonPopup);		
-		buttonGroup->addButton(button, 5);
+		buttonGroup->addButton(button, 7);
 		bucketAndPencilLayout->addWidget(button,0,Qt::AlignLeft);
 
 		button = new QToolButton(attributesGroup);
@@ -483,7 +540,7 @@
 		button->setIconSize(QSize(30, 30));
 		button->setCheckable(true);
 		button->setPopupMode(QToolButton::MenuButtonPopup);
-		buttonGroup->addButton(button, 6);
+		buttonGroup->addButton(button, 8);
 		bucketAndPencilLayout->addWidget(button,0,Qt::AlignRight);
 		
 		connect(fill,SIGNAL(triggered()),this,SLOT(fillSelected()));
@@ -505,7 +562,8 @@
 		connect(colorButtons[0], SIGNAL(pressed()), this, SLOT(color1Changed()));
 		attributesGroupLayout->addWidget(colorButtons[0],1,Qt::AlignCenter);
 		
-		QSlider *transparency = new QSlider(Qt::Horizontal,attributesGroup);	
+		QSlider * transparency = new QSlider(Qt::Horizontal,attributesGroup);	
+		transparency->setToolTip("change first color transparency");
 		transparency->setRange(0, 255);
 		transparency->setValue(alpha);
 		connect(transparency,SIGNAL(valueChanged(int)),this,SLOT(setAlpha1(int)));
@@ -523,12 +581,14 @@
 		attributesGroupLayout->addWidget(colorButtons[1],1,Qt::AlignCenter);	
 		
 		transparency = new QSlider(Qt::Horizontal,attributesGroup);	
+		transparency->setToolTip("change second color transparency");
 		transparency->setRange(0, 255);
 		transparency->setValue(alpha);
 		connect(transparency,SIGNAL(valueChanged(int)),this,SLOT(setAlpha2(int)));
 		attributesGroupLayout->addWidget(transparency);
 		
 		shapesGroup->setAttribute(Qt::WA_ContentsPropagated);
+		shapesEditsGroup->setAttribute(Qt::WA_ContentsPropagated);
 		attributesGroup->setAttribute(Qt::WA_ContentsPropagated);
 		QVBoxLayout *layout = new QVBoxLayout;
 		
@@ -536,6 +596,7 @@
 		layout->addWidget(arrowPointGroup);
 		layout->addWidget(shapesGroup);
 		layout->addWidget(attributesGroup);
+		layout->addWidget(shapesEditsGroup);
 		
 		QWidget *widget = new QWidget;
 		widget->setLayout(layout);
@@ -557,7 +618,7 @@
 		
 		switch(type)
 		{
-			case 0:
+			case 0: //arrow
 				{				
 					QPainterPath path;
 					path.moveTo(QPoint(-60,-60));
@@ -577,25 +638,35 @@
 					painter.drawPath(path);				
 				}
 				break;
-			case 1:
+			case 1:  //dot
 				{				
 					painter.setBrush(QBrush(QColor(0,0,255,100)));
 					painter.drawEllipse(QRect(-50,-50,100,100));
 				}
 				break;
-			case 2:
+			case 2: //arc
 				{
 					painter.drawArc(QRect(-100,-100,200,200),16*drawScene.arcStart,16*drawScene.arcSpan);
 				}
 				break;
-			case 3:
-				painter.drawLine(QLineF(QPoint(-100,-100),QPoint(100,100)));
+			case 3: //line
+				{
+					painter.drawLine(QLineF(QPoint(-100,-100),QPoint(100,100)));
+				}
 				break;
-			case 4:
+			case 4: //bezier
 				{
 					QPainterPath path;
 					path.moveTo(QPoint(-100,-100));
 					path.cubicTo(QPoint(100,-90),QPoint(-100,90),QPoint(100,100));
+					painter.drawPath(path);
+				}
+				break;
+			case 5: //round rect
+				{
+					QPainterPath path;
+					path.moveTo(QPoint(-100,-100));
+					path.addRoundedRect(QRectF(QPointF(-90,-90),QPoint(90,90)),drawScene.rectRoundedness,drawScene.rectRoundedness);
 					painter.drawPath(path);
 				}
 				break;

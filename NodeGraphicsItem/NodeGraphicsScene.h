@@ -45,6 +45,8 @@ public:
 	int arcStart;
 	/*! \brief the span angle for adding a new arc to the NodeGraphicsItem*/
 	int arcSpan;
+	/*! \brief the roundedness of a new rect added to the NodeGraphicsItem*/
+	int rectRoundedness;
 	/*! \brief the line width for adding a new lines, arcs, or curves to the NodeGraphicsItem*/
 	int lineWidth;	
 	/*! \brief the start color for the gradient color*/

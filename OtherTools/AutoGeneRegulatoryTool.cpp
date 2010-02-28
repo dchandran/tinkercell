@@ -1090,7 +1090,7 @@ namespace Tinkercell
 					}*/
 				}
 
-				if (parts[i]->isA(tr("Terminator")) && NodeHandle::cast(parts[i]))
+				if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
 				{
 					regulator = 0;
 					promoter = 0;
@@ -1382,14 +1382,14 @@ namespace Tinkercell
 
 		QGraphicsItem * dnaItem = 0;
 
-		if ((handle = getHandle(item)) && handle->isA("Part"))
+		if ((handle = getHandle(item)) && handle->isA("Part") && !handle->isA("Vector"))
 		{
 			dnaItem = item;
 			select << dnaItem;
 		}
 		else
 			for (int i=0; i < items.size(); ++i)
-				if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part"))
+				if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 				{
 					dnaItem = items[i];
 					select << dnaItem;
@@ -1406,7 +1406,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p1);
 				itemLeft = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part"))
+					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 					{
 						itemLeft = items[i];
 						select << itemLeft;
@@ -1420,7 +1420,7 @@ namespace Tinkercell
 				QList<QGraphicsItem*> items = scene->items(p2);
 				itemRight = 0;
 				for (int i=0; i < items.size(); ++i)
-					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part"))
+					if (!select.contains(items[i]) && qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) && (handle = getHandle(items[i])) && handle->isA("Part") && !handle->isA("Vector"))
 					{
 						itemRight = items[i];
 						select << itemRight;
@@ -1496,7 +1496,7 @@ namespace Tinkercell
 				{
 					QList<NodeHandle*> nodes = (ConnectionHandle::cast(handles0[i]))->nodes();
 					for (int j=0; j < nodes.size(); ++j)
-						if (nodes[j]->isA(tr("Part")) && !handles.contains(nodes[j]) && !handles0.contains(nodes[j]))
+						if (nodes[j]->isA(tr("Part")) && !nodes[j]->isA(tr("Vector"))  && !handles.contains(nodes[j]) && !handles0.contains(nodes[j]))
 						{
 							handles += nodes[j];
 						}
@@ -1525,8 +1525,8 @@ namespace Tinkercell
 			ItemHandle * handle = getHandle(startNode);
 			if (!startNode || !handle) continue;
 
-			findAllParts(scene->scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
-			findAllParts(scene->scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+			findAllParts(scene->scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector" ,true);
+			findAllParts(scene->scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1599,8 +1599,8 @@ namespace Tinkercell
 
 			QList<ItemHandle*> parts,upstream;
 
-			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
-			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+			findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+			findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1667,8 +1667,8 @@ namespace Tinkercell
 				ItemHandle * handle = getHandle(startNode);
 				if (!startNode || !handle) continue;
 
-				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator",true);
-				findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator",true);
+				findAllParts(scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector",true);
+				findAllParts(scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 				if (!parts.contains(handle))
 					parts.push_front(handle);

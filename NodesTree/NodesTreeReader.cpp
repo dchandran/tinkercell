@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QColor>
 #include "NodesTreeReader.h"
+
 namespace Tinkercell
 {
 
@@ -184,30 +185,16 @@ namespace Tinkercell
                //node file
                QString appDir = QCoreApplication::applicationDirPath();
 
-               QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-               settings.beginGroup("NodesTree");
-               QString s;
-
-               QString iconFile = appDir + QString("/") + tree->iconFile(node->name);
+               QString iconFile = tree->iconFile(node->name);
+			   if (!QFile::exists(iconFile))
+			   		iconFile = appDir + QString("/") + iconFile;
 
                if (node->graphicsItems.isEmpty())
                {
-                    QString nodeImageFile = appDir + QString("/") + tree->nodeImageFile(node->name);
-
-                    s = settings.value(node->name, QString()).toString();
-                    if (!s.isEmpty())
-                    {
-                         s = s.split(QString(","))[0];
-                         if (QFile(s).exists())
-                         {
-                              nodeImageFile = s;
-                              QString pngFile = nodeImageFile;
-                              pngFile.replace(QRegExp(QString("xml$")),QString("PNG"));
-                              pngFile.replace(QRegExp(QString("XML$")),QString("PNG"));
-                              iconFile = pngFile;
-                         }
-                    }
-
+               		QString nodeImageFile = tree->nodeImageFile(node->name);
+               		if (!QFile::exists(nodeImageFile))
+						nodeImageFile = appDir + QString("/") + nodeImageFile;
+				                    
                     NodeGraphicsReader imageReader;
                     NodeGraphicsItem * nodeitem = new NodeGraphicsItem;
                     imageReader.readXml(nodeitem,nodeImageFile);
@@ -222,7 +209,6 @@ namespace Tinkercell
                     }
                }
                //set icon
-               settings.endGroup();
 
                if (node->pixmap.load(iconFile))
                     node->pixmap.setMask(node->pixmap.createMaskFromColor(QColor(255,255,255)));

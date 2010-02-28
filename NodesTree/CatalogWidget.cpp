@@ -123,7 +123,7 @@ namespace Tinkercell
 			if (widgetsToUpdate[i])
 				widgetsToUpdate[i]->setCursor(Qt::ArrowCursor);
 	}
-
+	
 	bool CatalogWidget::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -132,7 +132,9 @@ namespace Tinkercell
 		{
 			connect(&arrowButton,SIGNAL(pressed()),mainWindow,SLOT(sendEscapeSignal()));
 			connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
+			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignalSlot(const QWidget*)));
+			
 			setWindowTitle(tr("Parts and Connections"));
 			setWindowIcon(QIcon(tr(":/images/appicon.png")));
 

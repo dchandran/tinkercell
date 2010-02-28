@@ -121,12 +121,13 @@ namespace Tinkercell
     private slots:
         /*! \brief new node graphics xml file selected by user*/
         void nodeFileAccepted();
-        /*! \brief one of the windows is closing*/
-        void windowClosing(NetworkWindow * , bool *);
         /*! \brief user requested changing the nodes tree xml file*/
         void selectNewNodeFile();
 		/*! \brief enter pressed or double clicked*/
 		void itemActivated( QListWidgetItem * );
+        /*! \brief one of the windows is closing*/
+        void windowClosing(NetworkWindow * , bool *);
+
     private:
 
         /*! \brief replaces the nodes graphics file with a new one*/

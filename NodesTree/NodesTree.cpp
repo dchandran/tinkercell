@@ -10,6 +10,7 @@
 ****************************************************************************/
 
 #include "NodesTree.h"
+#include "ConsoleWindow.h"
 #include <QtDebug>
 #include <QRegExp>
 
@@ -54,21 +55,17 @@ namespace Tinkercell
           QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
           settings.beginGroup("NodesTree");
           
-          QString nodeFiles = settings.value("nodeFiles",QString()).toString();
+          QStringList nodeSettings = settings.value("nodeFiles",QStringList()).toStringList();
           QHash<QString,bool> expandedNodes;
           
-          if (!nodeFiles.isEmpty())
-          { 
-               QStringList nodeSettings = nodeFiles.split(tr(";"));
-               for (int i=0; i < nodeSettings.size(); ++i)
-               {
-                   QStringList lst = nodeSettings[i].split(tr(","));
-                   if (lst.size() > 2)
-                   {
-	                   nodeGraphicsFileNames[ lst[0] ] = lst[1];
-	                   expandedNodes[ lst[0] ] = (lst[2] == tr("expanded"));
-	               }   
-               }
+		  for (int i=0; i < nodeSettings.size(); ++i)
+          {
+          	QStringList lst = nodeSettings[i].split(tr(","));
+            if (lst.size() > 2)
+            {
+	        	nodeGraphicsFileNames[ lst[0] ] = lst[1];
+	         	expandedNodes[ lst[0] ] = (lst[2] == tr("expanded"));
+	        }
           }
 
           QString xmlFile ;
@@ -323,8 +320,9 @@ namespace Tinkercell
           QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
           settings.beginGroup("NodesTree");
-
+          
           QList<QString> keys = nodeFamilies.keys();
+          QStringList nodeFiles;
 
           for (int i=0; i < keys.size(); ++i)
           {
@@ -333,8 +331,6 @@ namespace Tinkercell
                QToolButton * button = treeButtons.value( keys[i] );
                FamilyTreeButton * treeButton = 0;
                if (button) treeButton = static_cast<FamilyTreeButton*>(button);	
-               
-               QString nodeFiles;
                
                if (family && item && family->graphicsItems.size() > 0 && qgraphicsitem_cast<NodeGraphicsItem*>(family->graphicsItems[0]))
                {
@@ -345,22 +341,31 @@ namespace Tinkercell
                     	newFile = nodeImageFile(family->name);
                     
                     if (item->isExpanded())
-                         nodeFiles += (family->name + tr(",") + newFile + tr(",expanded;"));
+                         nodeFiles << (family->name + tr(",") + newFile + tr(",expanded"));
                     else
-                         nodeFiles += (family->name + tr(",") + newFile + tr(",collapsed;"));
+                         nodeFiles << (family->name + tr(",") + newFile + tr(",collapsed"));
                }
-               settings.setValue("nodeFiles",nodeFiles);
-
           }
+          settings.setValue("nodeFiles",nodeFiles);
           settings.endGroup();
      }
 
 	 QString NodesTree::iconFile(QString name)
 	 {
-		QString file = tr("NodeItems/");
-		file += name;
-		file.replace(tr(" "),tr(""));
-		file += tr(".PNG");
+	 	QString file;
+		if (nodeGraphicsFileNames.contains(name) && QFile::exists(nodeGraphicsFileNames[name]))
+		{
+			file = nodeGraphicsFileNames[name];
+			file.replace(tr(".XML"),tr(".PNG"));
+			file.replace(tr(".xml"),tr(".PNG"));
+		}
+		else
+		{
+			file = tr("NodeItems/");
+			file += name;
+			file.replace(tr(" "),tr(""));
+			file += tr(".PNG");
+		}
 		return  file;
 	 }
 

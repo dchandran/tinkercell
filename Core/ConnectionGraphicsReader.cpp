@@ -458,7 +458,7 @@ namespace Tinkercell
 
 			if (reader.isStartElement())
 			{
-				if (reader.name() == "PartGraphicsItem")
+				if (reader.name() == "listOfRenderInformation")
 				{
 					reader.readNodeGraphics(node,reader.device());
 				}
@@ -507,77 +507,6 @@ namespace Tinkercell
 		if (node)
 		{
 			transform.setMatrix(m11,m12, 0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
-			//transform.setMatrix(m11, 0.0,0.0, 0.0, m22, 0.0, 0.0, 0.0, 1.0);
-			node->refresh();
-			node->setPos(pos);
-			node->setTransform(transform);
-		}
-
-		return node;
-	}
-
-	NodeGraphicsItem * ConnectionGraphicsReader::readNode(NodeGraphicsReader & reader,QString name)
-	{
-		if (!(reader.isStartElement() && reader.name() == name)) return 0;
-
-		NodeGraphicsItem * node = new NodeGraphicsItem;
-
-		qreal n=0,m11=0,m12=0,m21=0,m22=0;
-		QPointF pos;
-		QTransform transform;
-
-		while (!reader.atEnd() && !(reader.isEndElement() && reader.name() == name))
-		{
-			reader.readNext();
-
-			if (reader.isStartElement())
-			{
-				if (reader.name() == "PartGraphicsItem")
-				{
-					reader.readNodeGraphics(node,reader.device());
-				}
-				else
-					if (reader.name() == "pos")
-					{
-						QXmlStreamAttributes attribs = reader.attributes();
-						bool ok;
-						if (attribs.size() == 3)
-						{
-							n = attribs.at(0).value().toString().toDouble(&ok);
-							if (ok)
-								pos.rx() = n;
-
-							n = attribs.at(1).value().toString().toDouble(&ok);
-							if (ok)
-								pos.ry() = n;
-						}
-					}
-					else
-						if (reader.name() == "transform")
-						{
-							QXmlStreamAttributes attribs = reader.attributes();
-							bool ok;
-							if (attribs.size() == 4)
-							{
-								n = attribs.at(0).value().toString().toDouble(&ok);
-								if (ok) m11 = n;
-
-								n = attribs.at(1).value().toString().toDouble(&ok);
-								if (ok) m12 = n;
-
-								n = attribs.at(2).value().toString().toDouble(&ok);
-								if (ok) m21 = n;
-
-								n = attribs.at(3).value().toString().toDouble(&ok);
-								if (ok) m22 = n;
-							}
-						}
-			}
-		}
-		if (node)
-		{
-			transform.setMatrix(m11,m12, 0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
-			//transform.setMatrix(m11, 0.0,0.0, 0.0, m22, 0.0, 0.0, 0.0, 1.0);
 			node->refresh();
 			node->setPos(pos);
 			node->setTransform(transform);

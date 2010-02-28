@@ -113,7 +113,10 @@ namespace Tinkercell
 		modelWriter.writeAttribute("m22",QString::number(t1.m22()));
 		modelWriter.writeEndElement();
 
+		t1 = node->transform();
+		node->resetTransform();
 		NodeGraphicsWriter::writeNodeGraphics(node,&modelWriter);
+		node->setTransform(t1);
 		modelWriter.writeEndElement();
 	}
 
@@ -914,8 +917,6 @@ namespace Tinkercell
 		{
 			transform.setMatrix(m11,m12,0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
 			node->refresh();
-			node->setPos(pos);
-			node->setTransform(transform);
 		}
 		return node;
 	}

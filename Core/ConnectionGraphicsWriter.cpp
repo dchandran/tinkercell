@@ -118,7 +118,7 @@ namespace Tinkercell
 		if (connection->centerRegionItem)
 		{
 			writer->writeStartElement("Decorator");
-			writeNode(connection->centerRegionItem,writer);
+			writeArrowHead(connection->centerRegionItem,writer);
 			writer->writeEndElement();
 		}
 		writer->writeEndElement();
@@ -256,31 +256,10 @@ namespace Tinkercell
 			writer->writeAttribute("m22",QString::number(t1.m22()));
 			writer->writeEndElement();
 
+			t1 = node->transform();
+			node->resetTransform();
 			NodeGraphicsWriter::writeNodeGraphics(node,writer);
-		}
-	}
-
-	void ConnectionGraphicsWriter::writeNode(NodeGraphicsItem* node, QXmlStreamWriter* writer)
-	{
-
-		if (node && writer)
-		{
-			QTransform t1 = node->sceneTransform();
-			QPointF pos = node->scenePos();
-
-			writer->writeStartElement("pos");
-			writer->writeAttribute("x",QString::number(pos.x()));
-			writer->writeAttribute("y",QString::number(pos.y()));
-			writer->writeEndElement();
-
-			writer->writeStartElement("transform");
-			writer->writeAttribute("m11",QString::number(t1.m11()));
-			writer->writeAttribute("m12",QString::number(t1.m12()));
-			writer->writeAttribute("m21",QString::number(t1.m21()));
-			writer->writeAttribute("m22",QString::number(t1.m22()));
-			writer->writeEndElement();
-
-			NodeGraphicsWriter::writeNodeGraphics(node,writer);
+			node->setTransform(t1);
 		}
 	}
 

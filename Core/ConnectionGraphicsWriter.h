@@ -66,11 +66,6 @@ namespace Tinkercell
 		* \param xml writer in use
 		* \return void*/
 		static void writeArrowHead(ArrowHeadItem * arrowHead, QXmlStreamWriter * );
-		/*! \brief Writes a node using NodeGraphicsWriter to an XML file 
-		* \param NodeGraphicsItem * node pointer to write
-		* \param xml writer in use
-		* \return void*/
-		static void writeNode(NodeGraphicsItem * node, QXmlStreamWriter * );
 		/*! \brief Writes a CurveSegment of a ConnectionGraphicsItem to an XML file
 		* \param control points of the connection item where this CurveSegment belongs
 		* \param xml writer in use

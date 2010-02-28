@@ -1027,11 +1027,20 @@ namespace Tinkercell
 			{
 				if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 				{
-					QPointF colorPt1 = item->mapFromScene(from),
-						colorPt2 = item->mapFromScene(to);
+					QRectF rect = item->sceneBoundingRect();
+					QPointF colorPt1 = (from - rect.topLeft()),
+						colorPt2 = (to - rect.topLeft()),
+						p1 = item->mapFromScene(from),
+						p2 = item->mapFromScene(to);
+
+					colorPt1.rx() = colorPt1.x() / rect.width() * 100.0;
+					colorPt2.rx() = colorPt2.x() / rect.width() * 100.0;
+					colorPt1.ry() = colorPt1.y() / rect.height() * 100.0;
+					colorPt2.ry() = colorPt2.y() / rect.height() * 100.0;
+
 					if (gradientType == QGradient::LinearGradient)
 					{
-						QLinearGradient gradient(colorPt1,colorPt2);
+						QLinearGradient gradient(p1,p2);
 						gradient.setColorAt(0,brushColor1);
 						gradient.setColorAt(1,brushColor2);
 						scene->setBrush(tr("brush changed"),item,QBrush(gradient));
@@ -1044,8 +1053,7 @@ namespace Tinkercell
 					}
 					else
 					{
-						QRadialGradient gradient(colorPt1,sqrt( (colorPt2.y()-colorPt1.y())*(colorPt2.y()-colorPt1.y()) +
-							(colorPt2.x()-colorPt1.x())*(colorPt2.x()-colorPt1.x())));
+						QRadialGradient gradient(p1,sqrt( (p2.y()-p1.y())*(p2.y()-p1.y()) +	(p2.x()-p1.x())*(p2.x()-p1.x())));
 						gradient.setColorAt(0,brushColor1);
 						gradient.setColorAt(1,brushColor2);
 						scene->setBrush(tr("brush changed"),item,QBrush(gradient));

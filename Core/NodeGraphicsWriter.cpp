@@ -23,7 +23,7 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,const QString& fileName)
+	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,const QString& fileName, bool normalize)
 	{
 		if (!node) return false;
 
@@ -40,7 +40,7 @@ namespace Tinkercell
 		writeDTD("<!DOCTYPE NodeGraphicsItem>");
 
 		node->name = fileName;
-		writeNodeGraphics(node,&file);
+		writeNodeGraphics(node,&file,normalize);
 
 		writeEndDocument();
 
@@ -51,7 +51,7 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,QIODevice * device)
+	bool NodeGraphicsWriter::writeXml(NodeGraphicsItem * node,QIODevice * device, bool normalize)
 	{
 		if (!node || !device) return false;
 
@@ -60,7 +60,7 @@ namespace Tinkercell
 		writeStartDocument();
 		writeDTD("<!DOCTYPE NodeGraphicsItem>");
 
-		writeNodeGraphics(node,device);
+		writeNodeGraphics(node,device,normalize);
 
 		writeEndDocument();
 
@@ -70,18 +70,18 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param QIODevice to use
 	* \return void*/
-	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node,QIODevice * device)
+	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node,QIODevice * device, bool normalize)
 	{
 		if (!node || !device) return false;
 		setDevice(device);
 
-		return writeNodeGraphics(node,const_cast<NodeGraphicsWriter*>(this));
+		return writeNodeGraphics(node,const_cast<NodeGraphicsWriter*>(this),normalize);
 	}
 	/*! \brief Writes an NodeImage as an XML file using the IO device provided 
 	* \param NodeImage pointer to write as XML
 	* \param XML writer to use
 	* \return void*/ 
-	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node, QXmlStreamWriter * writer)
+	bool NodeGraphicsWriter::writeNodeGraphics(NodeGraphicsItem * node, QXmlStreamWriter * writer, bool normalize)
 	{
 		if (!node || !writer) return false;
 
@@ -117,7 +117,7 @@ namespace Tinkercell
 		{
 			writer->writeStartElement("listOfGradientDefinitions");
 			for (int i = 0; i < node->shapes.size(); ++i)
-				writeShapeGradients(node, i, writer);
+				writeShapeGradients(node, i, writer,normalize);
 			writer->writeEndElement();
 		}
 
@@ -132,40 +132,48 @@ namespace Tinkercell
 		QPointF pos;
 		QPointF min = node->sceneBoundingRect().topLeft();
 		QPointF max = node->sceneBoundingRect().bottomRight();
-		for (int i=0; i < node->controlPoints.size(); ++i)
-		{
-			pos = node->controlPoints[i]->scenePos();
-			if (pos.x() < min.x()) min.rx() = pos.x();
-			if (pos.y() < min.y()) min.ry() = pos.y();
-			if (pos.x() > max.x()) max.rx() = pos.x();
-			if (pos.y() > max.y()) max.ry() = pos.y();
-		}
-
 		QSizeF size(max.x() - min.x(), max.y() - min.y());
-
-		for (int i=0; i < node->controlPoints.size(); ++i)
+		
+		if (normalize)
 		{
-			pos = node->controlPoints[i]->scenePos() - min;
-			pos.rx() = pos.x() / size.width() * 100.0;
-			pos.ry() = pos.y() / size.height() * 100.0;
-			node->controlPoints[i]->setPos(pos);
-		}
+			for (int i=0; i < node->controlPoints.size(); ++i)
+			{
+				pos = node->controlPoints[i]->scenePos();
+				if (pos.x() < min.x()) min.rx() = pos.x();
+				if (pos.y() < min.y()) min.ry() = pos.y();
+				if (pos.x() > max.x()) max.rx() = pos.x();
+				if (pos.y() > max.y()) max.ry() = pos.y();
+			}
+			
+			size = QSizeF(max.x() - min.x(), max.y() - min.y());
 
+			for (int i=0; i < node->controlPoints.size(); ++i)
+			{
+				pos = node->controlPoints[i]->scenePos() - min;
+				pos.rx() = pos.x() / size.width() * 100.0;
+				pos.ry() = pos.y() / size.height() * 100.0;
+				node->controlPoints[i]->setPos(pos);
+			}
+		}
+		
 		//write
 		for (int i = 0; i < node->shapes.size(); ++i)
 		{
-			writeShape(node, i, writer);
+			writeShape(node, i, writer,normalize);
 		}
 
 		//undo normalization
-		for (int i=0; i < node->controlPoints.size(); ++i)
+		if (normalize)
 		{
-			pos = node->controlPoints[i]->scenePos();
-			pos.rx() = pos.x() * size.width() / 100.0;
-			pos.ry() = pos.y() * size.height() / 100.0;
-			node->controlPoints[i]->setPos(pos + min);
+			for (int i=0; i < node->controlPoints.size(); ++i)
+			{
+				pos = node->controlPoints[i]->scenePos();
+				pos.rx() = pos.x() * size.width() / 100.0;
+				pos.ry() = pos.y() * size.height() / 100.0;
+				node->controlPoints[i]->setPos(pos + min);
+			}
 		}
-
+		
 		writer->writeEndElement(); //g
 		writer->writeEndElement(); //style
 		writer->writeEndElement(); //list of styles
@@ -174,7 +182,7 @@ namespace Tinkercell
 		return true;
 	}
 
-	void NodeGraphicsWriter::writeShapeGradients(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
+	void NodeGraphicsWriter::writeShapeGradients(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer, bool normalize)
 	{
 		if (writer && node)
 		{
@@ -187,21 +195,28 @@ namespace Tinkercell
 				writer->writeStartElement("linearGradient");
 			else
 				writer->writeStartElement("radialGradient");
-
+				
+			QString unit;
+			
 			QRectF rect = node->sceneBoundingRect();
 			QPointF min = node->sceneBoundingRect().topLeft();
 			QPointF max = node->sceneBoundingRect().bottomRight();
+			
+			if (normalize)
+			{
+				unit = QObject::tr("%");
 
-			ptr->gradientPoints.first.rx() = (ptr->gradientPoints.first.rx() - rect.left())/rect.width() * 100.0;
-			ptr->gradientPoints.first.ry() = (ptr->gradientPoints.first.ry() - rect.top())/rect.height() * 100.0;
-			ptr->gradientPoints.second.rx() = (ptr->gradientPoints.second.rx() - rect.left())/rect.width() * 100.0;
-			ptr->gradientPoints.second.ry() = (ptr->gradientPoints.second.ry() - rect.top())/rect.height() * 100.0;
+				ptr->gradientPoints.first.rx() = (ptr->gradientPoints.first.rx() - rect.left())/rect.width() * 100.0;
+				ptr->gradientPoints.first.ry() = (ptr->gradientPoints.first.ry() - rect.top())/rect.height() * 100.0;
+				ptr->gradientPoints.second.rx() = (ptr->gradientPoints.second.rx() - rect.left())/rect.width() * 100.0;
+				ptr->gradientPoints.second.ry() = (ptr->gradientPoints.second.ry() - rect.top())/rect.height() * 100.0;
+			}
 
 			writer->writeAttribute("id",QString("shape") + QString::number(index) + QString("color"));
-			writer->writeAttribute("x1",QString::number(ptr->gradientPoints.first.x()) + QString("%"));
-			writer->writeAttribute("y1",QString::number(ptr->gradientPoints.first.y()) + QString("%"));
-			writer->writeAttribute("x2",QString::number(ptr->gradientPoints.second.x()) + QString("%"));
-			writer->writeAttribute("y2",QString::number(ptr->gradientPoints.second.y()) + QString("%"));
+			writer->writeAttribute("x1",QString::number(ptr->gradientPoints.first.x()) + unit);
+			writer->writeAttribute("y1",QString::number(ptr->gradientPoints.first.y()) + unit);
+			writer->writeAttribute("x2",QString::number(ptr->gradientPoints.second.x()) + unit);
+			writer->writeAttribute("y2",QString::number(ptr->gradientPoints.second.y()) + unit);
 
 			QGradientStops stops = gradient->stops();
 			for (int i=0; i < stops.size(); ++i)
@@ -213,11 +228,14 @@ namespace Tinkercell
 				writer->writeEndElement();
 			}
 
-			ptr->gradientPoints.first.rx() = ptr->gradientPoints.first.rx() * 100.0/rect.width() + rect.left();
-			ptr->gradientPoints.first.ry() = ptr->gradientPoints.first.ry() * 100.0/rect.height() + rect.top();
-			ptr->gradientPoints.second.rx() = ptr->gradientPoints.second.rx() * 100.0/rect.width() + rect.left();
-			ptr->gradientPoints.second.ry() = ptr->gradientPoints.second.ry() * 100.0/rect.height() + rect.top();
-
+			if (normalize)
+			{
+				ptr->gradientPoints.first.rx() = ptr->gradientPoints.first.rx() * 100.0/rect.width() + rect.left();
+				ptr->gradientPoints.first.ry() = ptr->gradientPoints.first.ry() * 100.0/rect.height() + rect.top();
+				ptr->gradientPoints.second.rx() = ptr->gradientPoints.second.rx() * 100.0/rect.width() + rect.left();
+				ptr->gradientPoints.second.ry() = ptr->gradientPoints.second.ry() * 100.0/rect.height() + rect.top();
+			}
+			
 			writer->writeEndElement();
 		}
 	}
@@ -241,7 +259,7 @@ namespace Tinkercell
 	* \param NodeGraphicsItem pointer to write as XML
 	* \param index of shape in NodeGraphicsItem's shape vector
 	* \return void*/
-	void NodeGraphicsWriter::writeShape(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer)
+	void NodeGraphicsWriter::writeShape(NodeGraphicsItem * node, int index, QXmlStreamWriter * writer, bool normalize)
 	{
 		if (writer && node)
 		{
@@ -252,6 +270,11 @@ namespace Tinkercell
 							 ptr->types.contains(Tinkercell::NodeGraphicsItem::line);
 
 			QPen pen = ptr->defaultPen;
+			
+			QString unit;
+			
+			if (normalize)
+				unit = QObject::tr("%");
 
 			if (isPolygon)
 			{
@@ -273,12 +296,12 @@ namespace Tinkercell
 						writer->writeAttribute("xsi:type","LineSegment");
 						writer->writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 							writer->writeStartElement("start");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + unit);
 							writer->writeEndElement();
 							writer->writeStartElement("end");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + unit);
 							writer->writeEndElement();
 						writer->writeEndElement();
 					}
@@ -292,20 +315,20 @@ namespace Tinkercell
 						writer->writeAttribute("xsi:type","CubicBezier");
 						writer->writeAttribute("xmlns:xsi","http://www.w3.org/2001/XMLSchema-instance");
 							writer->writeStartElement("start");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->pos().y()) + unit);
 							writer->writeEndElement();
 							writer->writeStartElement("basePoint1");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j]->pos().y()) + unit);
 							writer->writeEndElement();
 							writer->writeStartElement("basePoint2");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+1]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+1]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+1]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+1]->pos().y()) + unit);
 							writer->writeEndElement();
 							writer->writeStartElement("end");
-							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+2]->pos().x()) + QString("%"));
-							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+2]->pos().y()) + QString("%"));
+							writer->writeAttribute("x",QString::number(ptr->controlPoints[j+2]->pos().x()) + unit);
+							writer->writeAttribute("y",QString::number(ptr->controlPoints[j+2]->pos().y()) + unit);
 							writer->writeEndElement();
 						writer->writeEndElement();
 					}
@@ -319,10 +342,10 @@ namespace Tinkercell
 						QPointF p2 = ptr->controlPoints[j]->pos();
 
 						writer->writeStartElement("ellipse");
-						writer->writeAttribute("cx",QString::number(((p1+p2)/2).x()) + QString("%"));
-						writer->writeAttribute("cy",QString::number(((p1+p2)/2).y()) + QString("%"));
-						writer->writeAttribute("rx",QString::number(((p2-p1)/2).x()) + QString("%"));
-						writer->writeAttribute("ry",QString::number(((p2-p1)/2).y()) + QString("%"));
+						writer->writeAttribute("cx",QString::number(((p1+p2)/2).x()) + unit);
+						writer->writeAttribute("cy",QString::number(((p1+p2)/2).y()) + unit);
+						writer->writeAttribute("rx",QString::number(((p2-p1)/2).x()) + unit);
+						writer->writeAttribute("ry",QString::number(((p2-p1)/2).y()) + unit);
 						writer->writeAttribute("angleStart",QString::number(ptr->parameters[p]));
 						writer->writeAttribute("angleEnd",QString::number(ptr->parameters[p+1]));
 
@@ -343,8 +366,8 @@ namespace Tinkercell
 						qreal h =	ptr->controlPoints[j]->scenePos().y() - ptr->controlPoints[j-1]->scenePos().y();
 
 						writer->writeStartElement("rectangle");
-						writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->scenePos().x()) + QString("%"));
-						writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->scenePos().y()) + QString("%"));
+						writer->writeAttribute("x",QString::number(ptr->controlPoints[j-1]->scenePos().x()) + unit);
+						writer->writeAttribute("y",QString::number(ptr->controlPoints[j-1]->scenePos().y()) + unit);
 						writer->writeAttribute("width",QString::number(w));
 						writer->writeAttribute("height",QString::number(h));
 						writer->writeAttribute("rx",QString::number(ptr->parameters[p]));

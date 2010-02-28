@@ -280,7 +280,7 @@ namespace Tinkercell
 		setParentItem(0);
 		setBoundingBoxVisible(false);
 
-#if QT_VERSION < x040600		
+#if QT_VERSION < 0x040600		
 		resetTransform();
 #endif
 
@@ -305,7 +305,7 @@ namespace Tinkercell
 
 		refresh();
 
-#if QT_VERSION < x040600
+#if QT_VERSION < 0x040600
 		QTransform t0 = copy.sceneTransform();
 		QTransform t1(t0.m11(),t0.m12(),0,t0.m21(),t0.m22(),0,0,0,1);
 		setTransform(t1);

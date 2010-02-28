@@ -65,11 +65,6 @@ namespace Tinkercell
 		* \param name of the entry, i.e. ArrowAtStart or ArrowAtEnd
 		* \return arrow item*/
 		static ArrowHeadItem * readArrow(NodeGraphicsReader & reader,QString name);
-		/*! \brief Reads a node item from xml file. 
-		* \param node reader
-		* \param name of the entry
-		* \return arrow item*/
-		static NodeGraphicsItem * readNode(NodeGraphicsReader & reader,QString name);
 		/*! \brief Reads the center region of a connection from xml file. 
 		* \param target connection
 		* \param name of the entry

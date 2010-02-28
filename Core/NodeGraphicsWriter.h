@@ -38,22 +38,22 @@ namespace Tinkercell
 		* \param NodeImage pointer to write as XML
 		* \param QIODevice to use
 		* \return void*/ 
-		bool writeXml(NodeGraphicsItem * idrawable,const QString& fileName);
+		bool writeXml(NodeGraphicsItem * idrawable,const QString& fileName, bool normalize=true);
 		/*! \brief Writes an Node graphics item XML file with the document headers
 		* \param NodeImage pointer to write as XML
 		* \param QIODevice to use
 		* \return void*/ 
-		bool writeXml(NodeGraphicsItem * idrawable,QIODevice * device);
+		bool writeXml(NodeGraphicsItem * idrawable,QIODevice * device, bool normalize=true);
 		/*! \brief Writes an NodeImage as an XML file using the IO device provided 
 		* \param NodeImage pointer to write as XML
 		* \param QIODevice to use
 		* \return void*/ 
-		bool writeNodeGraphics(NodeGraphicsItem * idrawable,QIODevice * device);
+		bool writeNodeGraphics(NodeGraphicsItem * idrawable,QIODevice * device, bool normalize=false);
 		/*! \brief Writes an NodeImage as an XML file using the xml writer provided 
 		* \param NodeImage pointer to write as XML
 		* \param XML writer to use
 		* \return void*/ 
-		static bool writeNodeGraphics(NodeGraphicsItem * idrawable,QXmlStreamWriter *);
+		static bool writeNodeGraphics(NodeGraphicsItem * idrawable,QXmlStreamWriter *, bool normalize=false);
 
 	private:
 		/*! \brief Writes a shape inside an Node graphics item to an XML file
@@ -61,7 +61,7 @@ namespace Tinkercell
 		* \param index of shape in NodeImage's shape vector
 		* \param the xml writer in use
 		* \return void*/
-		static void writeShape(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+		static void writeShape(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*, bool normalize);
 		/*! \brief Writes the fill color used in a shape inside an Node graphics item to an XML file
 		* \param NodeImage pointer to write as XML
 		* \param index of shape in NodeImage's shape vector
@@ -73,7 +73,7 @@ namespace Tinkercell
 		* \param index of shape in NodeImage's shape vector
 		* \param the xml writer in use
 		* \return void*/
-		static void writeShapeGradients(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*);
+		static void writeShapeGradients(NodeGraphicsItem * idrawable, int i, QXmlStreamWriter*, bool normalize);
 
 
 	};

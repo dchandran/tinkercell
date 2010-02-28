@@ -10,7 +10,6 @@
 ****************************************************************************/
 
 #include "NodesTree.h"
-#include "ConsoleWindow.h"
 #include <QtDebug>
 #include <QRegExp>
 

@@ -1405,17 +1405,35 @@ namespace Tinkercell
 
 			if (graphicsItems[i])
 			{
+				QTransform t = graphicsItems[i]->transform();
+				
 				if (sizeFactor.size() > i && !sizeFactor[i].isNull())
-					graphicsItems[i]->scale(sizeFactor[i].x(),sizeFactor[i].y());
+				{
+					QTransform scale(sizeFactor[i].x(), 0, 0, sizeFactor[i].y(), 0, 0);
+					t = (t * scale);
+				}
 
 				if (angleChange.size() > i)
-					graphicsItems[i]->rotate(angleChange[i]);
+				{
+					double sinx = sin(angleChange[i] * 3.14/180.0),
+						   cosx = cos(angleChange[i] * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					t = (t * rotate);
+				}
 
 				if (hFlip)
-					graphicsItems[i]->scale(-1,1);
+				{
+					QTransform scale(-1.0, 0, 0, 1.0, 0, 0);
+					t = (t * scale);
+				}
 
 				if (vFlip)
-					graphicsItems[i]->scale(1,-1);
+				{
+					QTransform scale(1.0, 0, 0, -1.0, 0, 0);
+					t = (t * scale);
+				}
+				
+				graphicsItems[i]->setTransform(t);
 
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)
@@ -1431,17 +1449,35 @@ namespace Tinkercell
 
 			if (graphicsItems[i])
 			{
+				QTransform t = graphicsItems[i]->transform();
+				
 				if (sizeFactor.size() > i && !sizeFactor[i].isNull())
-					graphicsItems[i]->scale(1.0/sizeFactor[i].x(),1.0/sizeFactor[i].y());
+				{
+					QTransform scale(1.0/sizeFactor[i].x(), 0, 0, 1.0/sizeFactor[i].y(), 0, 0);
+					t = (t * scale);
+				}
 
 				if (angleChange.size() > i)
-					graphicsItems[i]->rotate(-angleChange[i]);
+				{
+					double sinx = sin(-angleChange[i] * 3.14/180.0),
+						   cosx = cos(-angleChange[i] * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					t = (t * rotate);
+				}
 
 				if (hFlip)
-					graphicsItems[i]->scale(-1,1);
+				{
+					QTransform scale(-1.0, 0, 0, 1.0, 0, 0);
+					t = (t * scale);
+				}
 
 				if (vFlip)
-					graphicsItems[i]->scale(1,-1);
+				{
+					QTransform scale(1.0, 0, 0, -1.0, 0, 0);
+					t = (t * scale);
+				}
+				
+				graphicsItems[i]->setTransform(t);
 
 				NodeGraphicsItem * node = qgraphicsitem_cast<NodeGraphicsItem*>(graphicsItems[i]);
 				if (node)

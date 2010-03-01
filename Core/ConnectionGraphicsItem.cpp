@@ -636,7 +636,12 @@ namespace Tinkercell
 
 					if (curveSegments[i].arrowStart->angle != angle)
 					{
-						curveSegments[i].arrowStart->rotate(angle - curveSegments[i].arrowStart->angle);
+						double dx = angle - curveSegments[i].arrowStart->angle;
+						double sinx = sin(dx * 3.14/180.0),
+							  cosx = cos(dx * 3.14/180.0);
+						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+						QTransform t = curveSegments[i].arrowStart->transform();
+						curveSegments[i].arrowStart->setTransform(t * rotate);
 						curveSegments[i].arrowStart->angle = angle;
 					}
 				}
@@ -687,7 +692,12 @@ namespace Tinkercell
 
 				if (curveSegments[i].arrowEnd->angle != angle)
 				{
-					curveSegments[i].arrowEnd->rotate(angle - curveSegments[i].arrowEnd->angle);
+					double dx = angle - curveSegments[i].arrowEnd->angle;
+					double sinx = sin(dx * 3.14/180.0),
+					  	   cosx = cos(dx * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					QTransform t = curveSegments[i].arrowEnd->transform();
+					curveSegments[i].arrowEnd->setTransform(t * rotate);				
 					curveSegments[i].arrowEnd->angle = angle;
 				}
 			}
@@ -772,7 +782,12 @@ namespace Tinkercell
 
 					if (curveSegments[0].arrowEnd->angle != angle)
 					{
-						curveSegments[0].arrowEnd->rotate(angle - curveSegments[0].arrowEnd->angle);
+						double dx = angle - curveSegments[0].arrowEnd->angle;
+						double sinx = sin(dx * 3.14/180.0),
+							   cosx = cos(dx * 3.14/180.0);
+						QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+						QTransform t = curveSegments[0].arrowEnd->transform();
+						curveSegments[0].arrowEnd->setTransform(t * rotate);
 						curveSegments[0].arrowEnd->angle = angle;
 					}
 				}
@@ -864,47 +879,6 @@ namespace Tinkercell
 			for (int i=0; i < otherConnections.size(); ++i)
 				if (otherConnections[i] && otherConnections[i] != this)
 					otherConnections[i]->refresh();
-
-			//}
-			/*
-			ControlPoint * cp1 = 0, * cp2 = 0;
-			for (int i=0; i < curveSegments.size(); ++i)
-			{
-			if (curveSegments[i].last() == cp && curveSegments[i].size() > 1)
-			{
-			if (cp1 == 0)
-			cp1 = curveSegments[i][ curveSegments[i].size()-1 ];
-			else
-			if (cp2 == 0 && cp1 != curveSegments[i][ curveSegments[i].size()-1 ])
-			{
-			cp2 = curveSegments[i][ curveSegments[i].size()-1 ];
-			break;
-			}
-			}
-			}
-
-			if (cp1 && cp2)
-			{
-			qreal angle;
-			if (cp2->x() == cp1->x())
-			if (cp1->y() < cp2->y())
-			angle = 90.0;
-			else
-			angle = -90.0;
-			else
-			angle = atan((cp1->y()-cp2->y())/(cp1->x()-cp2->x())) * 180.0/3.14159;
-
-			if (cp1->x() > cp2->x())
-			if (cp1->y() < cp2->y())
-			angle += 180.0;
-			else
-			angle -= 180.0;
-			if (centerRegionItem->angle != angle)
-			{
-			centerRegionItem->rotate(angle - centerRegionItem->angle);
-			centerRegionItem->angle = angle;
-			}
-			}*/
 		}
 
 		QPainterPath path;

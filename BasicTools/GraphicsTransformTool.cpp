@@ -347,7 +347,11 @@ namespace Tinkercell
 				{
 					node = NodeGraphicsItem::cast(targetItems[i]);
 					if (node) node->setBoundingBoxVisible(false);
-					targetItems[i]->rotate(dx);
+					QTransform t = targetItems[i]->transform();
+					double sinx = sin(dx * 3.14/180.0),
+						   cosx = cos(dx * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					targetItems[i]->setTransform(t * rotate);
 				}
 			}
 		}
@@ -375,7 +379,11 @@ namespace Tinkercell
 					(NodeGraphicsItem::cast(targetItems[i]) 
 					|| TextGraphicsItem::cast(targetItems[i])) )
 				{
-					targetItems[i]->rotate(-totalRotated);
+					QTransform t = targetItems[i]->transform();
+					double sinx = sin(-totalRotated * 3.14/180.0),
+						   cosx = cos(-totalRotated * 3.14/180.0);
+					QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+					targetItems[i]->setTransform(t * rotate);
 					list += targetItems[i];
 					scaleList += QPointF(1,1);
 					rotateList += totalRotated;

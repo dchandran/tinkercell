@@ -75,7 +75,6 @@ namespace Tinkercell
 		void autoTFTriggeredDown();
 		void insertmRNAstep();
 		void autoAssignRates(QList<NodeHandle*>&);
-		void adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
 		
 	signals:
 		void itemsInsertedSignal(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
@@ -90,6 +89,7 @@ namespace Tinkercell
 		void partsUpstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>* parts);
 		void alignParts(QSemaphore*,const QList<ItemHandle*>&);
+		void adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
 	
 	private:
 		QTimeLine glowTimer;
@@ -101,7 +101,7 @@ namespace Tinkercell
 		QAction autoPhosphate;
 		QAction * separator;
 		bool doAssignment;
-		//QStringList copiedHandles;
+		bool justAdjustedPlasmid;
 		
 		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		

@@ -88,7 +88,7 @@ void tc_setRate(OBJ x, char* r)
 	free(c[0]);
 	c[0] = r;
 	_tc_setRates(a,c);
-	TCFreeChars(c);
+	free(c);
 }
 /*! 
 \brief set stoichiometry for the given items

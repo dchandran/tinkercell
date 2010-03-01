@@ -379,7 +379,7 @@ namespace Tinkercell
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-        proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L\"") + appDir + tr("/c  -llapack -lblas -lf2c -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c  -llapack -lblas -lf2c -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());

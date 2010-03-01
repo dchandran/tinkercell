@@ -234,7 +234,7 @@ static PyObject * pytc_setRates(PyObject *self, PyObject *args)
 	tc_setRates(array,crates);
 	
 	free(array);
-	TCFreeChars(crates);
+	free(crates);
 	
     Py_INCREF(Py_None);
     return Py_None;

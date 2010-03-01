@@ -433,11 +433,8 @@ namespace Tinkercell
 				{
 					arrow = new ArrowHeadItem(*arrow);
 					arrow->connectionItem = item;
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 				}
 				else
 				{
@@ -446,14 +443,9 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					double w = 0.1;
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 				}
-				//if (numRequiredIn == 1 && numRequiredOut == 1)
-				//item->curveSegments.last().arrowEnd = arrow;
-				//else
 				item->curveSegments.last().arrowStart = arrow;
 				insertList += arrow;
 			}
@@ -711,44 +703,6 @@ namespace Tinkercell
 				{
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();
-					//not making new connections, but just editting existing ones
-					/*if (selectedConnections.size() > 0)
-					{
-					if (selectedNodes.size() == 0) return;
-					for (int i=0; i < selectedNodes.size(); ++i)
-					{
-					if (selectedNodes[i])
-					for (int j=0; j < selectedConnections.size(); ++j)
-					if (selectedConnections[j] && selectedConnections[j]->centerPoint())
-					{
-					QPointF p = 0.5*(selectedNodes[i]->scenePos() + selectedConnections[j]->centerPoint()->scenePos());
-					ConnectionGraphicsItem::CurveSegment pathVector(4);
-					pathVector[0] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j],selectedNodes[i]);
-					pathVector[1] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j]);
-					pathVector[2] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j]);
-					pathVector[3] = new ConnectionGraphicsItem::ControlPoint(p,selectedConnections[j]);
-					//pathVector[3] = selectedConnections[j]->centerPoint();
-
-					ArrowHeadItem * arrow = new ArrowHeadItem(selectedConnections[j]);
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-					NodeGraphicsReader imageReader;
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					arrow->scale(0.1,0.1);
-					pathVector.arrowEnd = arrow;
-
-					AddCurveSegmentCommand * command = new AddCurveSegmentCommand(tr("connection modified"),scene,selectedConnections[j],pathVector);
-					if (scene->historyStack)
-					scene->historyStack->push(command);
-					else
-					command->redo();
-
-					selectedConnections[j]->refresh();
-					}
-					}
-					return;
-					}*/
-
 					ConnectionHandle * handle = 0;
 					QList<QGraphicsItem*> insertList;
 
@@ -763,7 +717,10 @@ namespace Tinkercell
 								if (node->isValid())
 								{
 									node->normalize();
-									node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
+									
+									if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
+										node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+
 									selectedConnections[j]->centerRegionItem = node;
 								}
 							}
@@ -803,11 +760,8 @@ namespace Tinkercell
 							{
 								arrow = new ArrowHeadItem(*arrow);
 								arrow->connectionItem = item;
-								//arrow->scale(0.1,0.1);
-								double w = 0.1;
 								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-									w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-								arrow->scale(w,w);
+									arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 							}
 							else
 							{
@@ -816,15 +770,9 @@ namespace Tinkercell
 								arrow = new ArrowHeadItem(item);
 								imageReader.readXml(arrow,nodeImageFile);
 								arrow->normalize();
-								//arrow->scale(0.1,0.1);
-								double w = 0.1;
 								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-									w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-								arrow->scale(w,w);
+									arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 							}
-							//if (numRequiredIn == 1 && numRequiredOut == 1)
-							//item->curveSegments.last().arrowEnd = arrow;
-							//else
 							item->curveSegments.last().arrowStart = arrow;
 							insertList += arrow;
 						}

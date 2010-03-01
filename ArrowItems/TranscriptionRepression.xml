@@ -6,7 +6,7 @@
             <colorDefinition id="shape0color" value="#ca0003" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="bar" width="6" height="3">
+            <style idList="bar" width="40" height="10">
                 <g>
                     <polygon fill="shape0color" stroke="#ffc743" stroke-width="3" stroke-alpha="1">
                         <listOfCurveSegments>

@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 
+#include <QDebug>
 #include "UndoCommands.h"
 #include "ItemHandle.h"
 #include "CThread.h"
@@ -270,11 +271,8 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(item);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 					
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
@@ -475,11 +473,9 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(transcription);
 					imageReader1.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+						
 					transcription->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 					
@@ -487,10 +483,9 @@ namespace Tinkercell
 					arrow = new ArrowHeadItem(translation);
 					imageReader2.readXml(arrow,nodeImageFile);
 					arrow->normalize();
-					//arrow->scale(0.1,0.1);
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+	
 					translation->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -1365,9 +1360,15 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene || !item || items.isEmpty()) return;
 
-		bool partCollided = false;
+		ItemHandle * handle = item->handle();
+		
+		if (handle && handle->isA(tr("Vector")))
+		{
+			adjustPlasmid(scene,item);
+			return;
+		}
 
-		ItemHandle * handle = 0;
+		bool partCollided = false;
 
 		for (int i=0; i < items.size(); ++i)
 			if ((handle = getHandle(items[i])) && handle->isA(tr("Part")))
@@ -1559,7 +1560,27 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>& distance, Qt::KeyboardModifiers)
 	{
 		if (!scene) return;
+		
+		QList<NodeGraphicsItem*> vectors;
+		ItemHandle * h = 0;
+		
+		for (int i=0; i < items.size(); ++i)
+		{
+			h = getHandle(items[i]);
 
+			if (h && h->isA(tr("Vector")))
+			{
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+					adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
+			}
+			else
+			if (h && (h = h->parentOfFamily(tr("Vector"))))
+			{
+				for (int j=0; j < h->graphicsItems.size(); ++j)
+					adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);				
+			}
+		}
+		
 		QList<NodeHandle*> parts2;
 
 		QList<ItemHandle*> moving;
@@ -1569,22 +1590,47 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
-			if (handle && handle->isA(tr("Promoter")))
+			if (NodeGraphicsItem::cast(items[i]) && handle && handle->isA(tr("Promoter")))
 			{
 				connections = scene->symbolsTable->handlesFamily.values(tr("Transcription"));
 				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
 				for (int j=0; j < connections.size(); ++j)
+				{
 					if (connections[j] 
-						&& connections[j]->hasTextData(tr("rates"))
-						&& connections[j]->textData(tr("rates")).contains(handle->fullName()))
+						&& connections[j]->hasTextData(tr("Rates"))
+						&& connections[j]->textData(tr("Rates")).contains(handle->fullName()))
 					{
-						DataTable<QString> newRates(connections[j]->data->textData[tr("rates")]);
-						newRates.value(0,0) = tr("0.0");
-						QString s = connections[j]->fullName() + tr(" rate = 0.0");
-						scene->changeData(s,connections[j],tr("rates"),&newRates);
-						if (console())
-							console()->message(s);
+						bool intersects = false;
+						ConnectionGraphicsItem * connection = 0;
+						QList<NodeGraphicsItem*> nodes;
+						for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
+						{
+							if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))
+							{
+								nodes = connection->nodesWithoutArrows();
+								for (int l=0; l < nodes.size(); ++l)
+									if (nodes[l] && 
+										items[i]->sceneBoundingRect().adjusted(-10.0,-10.0,10.0,10.0).intersects(nodes[l]->sceneBoundingRect()))
+									{
+										intersects = true;
+										break;
+									}
+							}
+							if (intersects)
+								break;
+						}
+						
+						if (!intersects)
+						{				
+							DataTable<QString> newRates(connections[j]->data->textData[tr("Rates")]);
+							newRates.value(0,0) = tr("0.0");
+							QString s = connections[j]->fullName() + tr(" rate = 0.0");
+							scene->changeData(s,connections[j],tr("Rates"),&newRates);
+							if (console())
+								console()->message(s);
+						}
 					}
+				}
 			}
 		}
 		
@@ -2053,6 +2099,90 @@ namespace Tinkercell
 		if (positives.isEmpty()) positives << tr("1.0");
 		QString rate = tr("(") + positives.join(" + ") + tr(")/(") + allTFs.join("*") + tr(")");
 		return rate;
+	}
+	
+	void AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
+	{
+		if (!vector || !scene) return;
+	
+		ItemHandle * vectorHandle = vector->handle();
+		ItemHandle * handle = 0;
+		
+		QList<ItemHandle*> children, parents;
+		QList<QGraphicsItem*> intersectingItems = scene->items(vector->sceneBoundingRect());
+		
+		for (int i=0; i < intersectingItems.size(); ++i)
+		{
+			handle = getHandle(intersectingItems[i]);
+			if (handle && !handle->isChildOf(vectorHandle) && 
+				handle->isA(tr("Part")) && !handle->isA(tr("Vector")) && 
+				(!handle->parent || vectorHandle->isChildOf(handle->parent)))
+			{
+				children << handle;
+				parents << vectorHandle;
+			}
+		}
+	
+		QList<QGraphicsItem*> list;
+		QList<ItemHandle*> existingChildren = vectorHandle->children;
+		
+		for (int i=0; i < existingChildren.size(); ++i)
+			if (existingChildren[i])
+			{
+				list = existingChildren[i]->graphicsItems;
+				for (int j=0; j < list.size(); ++j)
+					if (scene->isVisible(list[j]) && NodeGraphicsItem::cast(list[j]) && !intersectingItems.contains(list[j]))
+					{
+						children << existingChildren[i];
+						parents << 0;
+						break;
+					}
+			}
+		
+		if (!children.isEmpty())
+			scene->setParentHandle(children, parents);
+			
+		existingChildren = vectorHandle->children;
+		QList<QGraphicsItem*> nodesInPlasmid;
+		
+		for (int i=0; i < existingChildren.size(); ++i)
+			if (existingChildren[i])
+			{
+				list = existingChildren[i]->graphicsItems;
+				for (int j=0; j < list.size(); ++j)
+					if (scene->isVisible(list[j]) && NodeGraphicsItem::cast(list[j]))
+					{
+						nodesInPlasmid << list[j];
+					}
+			}
+			
+		if (align && !nodesInPlasmid.isEmpty())
+		{
+			list = scene->selected();
+			scene->selected() = nodesInPlasmid;
+			emit alignCompactHorizontal();		
+			scene->selected() = list;
+			
+			QGraphicsItem * leftMost = nodesInPlasmid[0], * rightMost = nodesInPlasmid[0];
+			for (int i=0; i < nodesInPlasmid.size(); ++i)
+			{
+				if (nodesInPlasmid[i] && leftMost && nodesInPlasmid[i]->scenePos().x() < leftMost->scenePos().x())
+					leftMost = nodesInPlasmid[i];
+				if (nodesInPlasmid[i] && rightMost && nodesInPlasmid[i]->scenePos().x() > rightMost->scenePos().x())
+					rightMost = nodesInPlasmid[i];
+			}
+			
+			if (vector->boundaryControlPoints.size() > 1 && vector->boundaryControlPoints[0] && vector->boundaryControlPoints[1])
+			{
+				QList<QGraphicsItem*> controls;
+				controls << vector->boundaryControlPoints[0] << vector->boundaryControlPoints[1];
+				QList<QPointF> dist;
+				dist << (leftMost->sceneBoundingRect().topLeft() - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos())
+		  			 << (rightMost->sceneBoundingRect().topRight() + QPointF(100,0) - vector->boundaryControlPoints[1]->scenePos());
+		  		scene->move(controls,dist);
+			}
+			
+		}
 	}
 
 	/*****************************************

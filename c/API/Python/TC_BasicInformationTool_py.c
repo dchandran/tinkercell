@@ -499,7 +499,7 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 
 		M = tc_getParametersExcept(array1,array2);
 		free(array1);
-		TCFreeChars(array2);
+		free(array2);
 
 		if (M.rows > 0 && M.values && M.rownames)
 		{
@@ -575,7 +575,7 @@ static PyObject * pytc_getAllTextNamed(PyObject *self, PyObject *args)
 
 		M = tc_getAllTextNamed(array1,array2);
 		free(array1);
-		TCFreeChars(array2);
+		free(array2);
 
 		if (M)
 		{

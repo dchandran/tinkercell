@@ -34,7 +34,7 @@ Note: please leave a newline at the end of file
 /**************************************************************************************/
 
 print all the sequence in this model in FASTA format; printSequences.py; Sequence::Print all sequences; Plugins/c/printSequences.png
-automatically derive the fractional saturation model for a regulator part; hillEquations.py; Generate kinetics::Hill equations; Plugins/c/hillequation.png; menu; Transcription Regulator; tool
+automatically derive the fractional saturation model for a regulator part; hillEquations.py; Generate kinetics::Hill equations; Plugins/c/hillequation.png; menu; Synthesis; tool
 compute and visually show the control coefficients using PySCeS; controlCoefficients.py; Analysis::Control Coefficients; Plugins/c/pysces.png
 compute the conservation laws using PySCeS; conservationLaws.py; Network structure::Conservation Laws; Plugins/c/pysces.png
 search the RegulonDB database for E.coli parts; DB/Regulon/searchRegulonDB.py; Database search::Search E.coli Database (RegulonDB); Plugins/c/database.png; menu; Part; tool

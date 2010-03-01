@@ -75,7 +75,7 @@ namespace Tinkercell
 		void autoTFTriggeredDown();
 		void insertmRNAstep();
 		void autoAssignRates(QList<NodeHandle*>&);
-		//void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void adjustPlasmid(GraphicsScene * , NodeGraphicsItem*, bool align=true);
 		
 	signals:
 		void itemsInsertedSignal(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );

@@ -526,7 +526,7 @@ static PyObject * pytc_createInputWindow(PyObject *self, PyObject *args)
 
 	tc_createInputWindowFromFile(M,filename,funcname, title);
 
-	TCFreeChars(M.rownames);
+	free(M.rownames);
 	free(M.values);
 
 	Py_INCREF(Py_None);
@@ -566,7 +566,7 @@ static PyObject * pytc_addInputWindowOptions(PyObject *self, PyObject *args)
 
 	tc_addInputWindowOptions(title,i,j,coptions);
 
-	TCFreeChars(coptions);
+	free(coptions);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1363,7 +1363,7 @@ static PyObject * pytc_setAnnotation(PyObject *self, PyObject *args)
 
 	tc_setAnnotation((void*)k,annotations);
 
-	TCFreeChars(annotations);
+	free(annotations);
 
 	Py_INCREF(Py_None);
 	return Py_None;
@@ -1420,7 +1420,7 @@ static PyObject * pytc_getFromList(PyObject *self, PyObject *args)
 		}
 
 		j = tc_getFromList(s,array,s0, k);
-		TCFreeChars(array);
+		free(array);
 	}
 
 	return Py_BuildValue("i",j);
@@ -1465,7 +1465,7 @@ static PyObject * pytc_getNumbers(PyObject *self, PyObject *args)
 
 		values = malloc(n*sizeof(double));
 		tc_getNumbers(array,values);
-		TCFreeChars(array);
+		free(array);
 
 		pylist2 = PyTuple_New(n);
 

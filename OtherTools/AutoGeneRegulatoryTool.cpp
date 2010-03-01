@@ -1625,7 +1625,9 @@ namespace Tinkercell
 						}
 						
 						for (int k=0; k < nodes.size(); ++k)
-							if (nodes[k] && items[i]->sceneBoundingRect().adjusted(-10.0,-10.0,10.0,10.0).intersects(nodes[k]->sceneBoundingRect()))
+							if (nodes[k] && 
+								(items.contains(nodes[k]) ||
+									items[i]->sceneBoundingRect().adjusted(-10.0,-10.0,10.0,10.0).intersects(nodes[k]->sceneBoundingRect())))
 							{
 								intersects = true;
 								break;
@@ -2196,11 +2198,16 @@ namespace Tinkercell
 				p1.rx() = rect.left();
 				p1.ry() = leftMost->scenePos().y();
 				if (leftMostNode)
+				{
+					qreal leftx = 0.0;
 					for (int i=0; i < leftMostNode->shapes.size(); ++i)
-						if (leftMostNode->shapes[i] && leftMostNode->shapes[i]->sceneBoundingRect().left() <= rect.left())
+						if (leftMostNode->shapes[i] && 
+							(leftx == 0.0 || leftMostNode->shapes[i]->boundingRect().left() <= leftx))
 						{
-							p1.ry() = leftMostNode->shapes[i]->scenePos().y();
+							p1.ry() = leftMostNode->shapes[i]->sceneBoundingRect().y();
+							leftx = leftMostNode->shapes[i]->boundingRect().left();
 						}
+				}
 				p2 = rightMost->sceneBoundingRect().bottomRight();
 				
 				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos())

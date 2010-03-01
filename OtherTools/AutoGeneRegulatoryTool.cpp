@@ -2190,9 +2190,17 @@ namespace Tinkercell
 				QList<QGraphicsItem*> controls;
 				controls << vector->boundaryControlPoints[0] << vector->boundaryControlPoints[1];
 				QList<QPointF> dist;
+				NodeGraphicsItem * leftMostNode = NodeGraphicsItem::cast(leftMost);
 				QPointF p1,p2;
-				p1.rx() = leftMost->sceneBoundingRect().left();
+				QRectF rect = leftMost->sceneBoundingRect();
+				p1.rx() = rect.left();
 				p1.ry() = leftMost->scenePos().y();
+				if (leftMostNode)
+					for (int i=0; i < leftMostNode->shapes.size(); ++i)
+						if (leftMostNode->shapes[i] && leftMostNode->shapes[i]->sceneBoundingRect().left() <= rect.left())
+						{
+							p1.ry() = leftMostNode->shapes[i]->scenePos().y();
+						}
 				p2 = rightMost->sceneBoundingRect().bottomRight();
 				
 				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos())

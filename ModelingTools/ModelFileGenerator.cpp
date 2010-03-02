@@ -908,12 +908,25 @@ namespace Tinkercell
 	{
 		QString s = str;
 		QString name;
+		QList<ItemHandle*> lowerLevelItems;
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i])
 			{
-				name = handles[i]->fullName(sep);
-				s.replace(name,pref + name);
+				if (!handles[i]->parent)
+				{
+					name = handles[i]->fullName(sep);
+					s.replace(name,pref + name);
+				}
+				else
+				{
+					lowerLevelItems << handles[i];
+				}
 			}
+		for (int i=0; i < lowerLevelItems.size(); ++i)
+		{
+			name = lowerLevelItems[i]->fullName(sep);
+			s.replace(name,pref + name);
+		}
 		s.replace(pref+pref,pref);
 		return s;
 	}

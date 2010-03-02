@@ -597,6 +597,8 @@ namespace Tinkercell
 		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, ItemHandle * parent);
 		/*! \brief constructor*/
 		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, const QList<ItemHandle*>& parents);
+		/*! \brief destructor*/
+		~SetParentHandleCommand();
 		/*! \brief redo parent change*/
 		void redo();
 		/*! \brief undo parent change*/
@@ -609,6 +611,7 @@ namespace Tinkercell
 		QList<ItemHandle*> oldParents;
 	private:
 		NetworkWindow * net;
+		RenameCommand * renameCommand;
 	};
 
 	/*! \brief this command is used to hide handles. Hidden handles will generally be ignored as part of the network.

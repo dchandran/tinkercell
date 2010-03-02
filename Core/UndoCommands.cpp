@@ -2557,10 +2557,13 @@ namespace Tinkercell
 		children += childlist;
 		newParents += parents;
 		for (int i=0; i < childlist.size(); ++i)
+		{
 			if (childlist[i])
 				oldParents += childlist[i]->parent;
 			else
 				oldParents += 0;
+		}
+		renameCommand = 0;
 	}
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, const QList<ItemHandle*>& childlist, ItemHandle * parent)
 		: QUndoCommand(name)
@@ -2575,10 +2578,22 @@ namespace Tinkercell
 			else
 				oldParents += 0;
 		}
+		renameCommand = 0;
 	}
+	
+	SetParentHandleCommand::~SetParentHandleCommand()
+	{
+		if (renameCommand)
+			delete renameCommand;
+	}
+	
 	void SetParentHandleCommand::redo()
 	{
 		QList<QString> newNames, oldNames;
+		QStringList allNames;
+		QString s1,s2;
+		if (net)
+			allNames = net->symbolsTable.handlesFullName.keys();
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])
 			{
@@ -2586,41 +2601,41 @@ namespace Tinkercell
 				{
 					oldNames += children[i]->fullName();
 					children[i]->setParent(newParents[i]);
-					newNames += children[i]->fullName();
+					s1 = children[i]->fullName();
+					s2 = RenameCommand::assignUniqueName(s1,allNames);
+					newNames += s2;
+					allNames += s2;
 				}
 			}
 
-			if (!net) return;
+		if (!net) return;
 
-			QList<ItemHandle*> handles = net->allHandles();
-
-			for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
-			{
-				RenameCommand::findReplaceAllHandleData(handles,oldNames[i],newNames[i]);
-			}
+		QList<ItemHandle*> allHandles = net->allHandles();
+		
+		if (!renameCommand)
+			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
+			
+		renameCommand->redo();
 	}
 	void SetParentHandleCommand::undo()
 	{
 		QList<QString> newNames, oldNames;
+		QStringList allNames;
+		QString s1,s2;
+		if (net)
+			allNames = net->symbolsTable.handlesFullName.keys();
+		
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])
 			{
 				if (children[i] != oldParents[i] && !children[i]->isChildOf(oldParents[i]))
 				{
-					oldNames += children[i]->fullName();
 					children[i]->setParent(oldParents[i]);
-					newNames += children[i]->fullName();
 				}
 			}
-
-			if (!net) return;
-
-			QList<ItemHandle*> handles = net->allHandles();
-
-			for (int i=0; i < oldNames.size() && i < newNames.size(); ++i)
-			{
-				RenameCommand::findReplaceAllHandleData(handles,oldNames[i],newNames[i]);
-			}
+			
+		if (renameCommand)
+			renameCommand->undo();
 	}
 
 	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, const QList<bool>& values)

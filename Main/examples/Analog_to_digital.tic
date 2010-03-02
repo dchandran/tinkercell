@@ -6,7 +6,7 @@
         <Handle type="2" name="J35" parent="" family="Transcription Activation" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;6;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;36;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -47,7 +47,7 @@
         <Handle type="2" name="J33" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -61,7 +61,7 @@
         <Handle type="2" name="J32" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -75,7 +75,7 @@
         <Handle type="2" name="J31" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -89,7 +89,7 @@
         <Handle type="2" name="J30" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -103,7 +103,7 @@
         <Handle type="2" name="J29" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -117,7 +117,7 @@
         <Handle type="2" name="J0" parent="" family="Transcription Repression" visible="true">
             <TableOfReals>
                 <Table key="Stoichiometry" rows="0" cols="0" rowNames="" colNames="" desc="Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same." values=""/>
-                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.05;1"/>
+                <Table key="Numerical Attributes" rows="5" cols="1" rowNames="h;numin;numout;Kd;k0" colNames="value" desc="Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values." values="2;1;1;0.001;1"/>
                 <Table key="Fixed" rows="1" cols="1" rowNames="fix" colNames="value" desc="Fixed: stores 1 if this is a fixed variable, 0 otherwise" values="0"/>
             </TableOfReals>
             <TableOfStrings>
@@ -4884,7 +4884,7 @@
     </Nodes>
     <Connections>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J35" visible="yes" z="180.9">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#2fc814" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="213.997" y="78.4066"/>
                     <ControlPoint x="570.891" y="219.513"/>
@@ -4923,7 +4923,7 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J34" visible="yes" z="177.9">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#2fc814" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="213.997" y="100.186"/>
                     <ControlPoint x="295.16" y="100.186"/>
@@ -4962,21 +4962,27 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J33" visible="yes" z="171.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="1819.07" y="229.789"/>
-                    <ControlPoint x="1421.74" y="229.789"/>
-                    <ControlPoint x="1471.74" y="229.789"/>
-                    <ControlPoint x="1521.74" y="229.789"/>
+                    <ControlPoint x="1894.07" y="252.102"/>
+                    <ControlPoint x="1425.46" y="237.227"/>
+                    <ControlPoint x="1475.46" y="237.227"/>
+                    <ControlPoint x="2034.95" y="252.102"/>
+                    <ControlPoint x="1421.03" y="375.609"/>
+                    <ControlPoint x="1471.03" y="375.609"/>
+                    <ControlPoint x="2034.95" y="859.065"/>
+                    <ControlPoint x="1703.66" y="1000.38"/>
+                    <ControlPoint x="1753.66" y="1000.38"/>
+                    <ControlPoint x="1525.46" y="859.065"/>
                     <ControlPoint x="1791.33" y="622.818"/>
                     <ControlPoint x="1675.67" y="1325.26"/>
-                    <ControlPoint x="1521.74" y="1676.48"/>
+                    <ControlPoint x="1525.46" y="1676.48"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="P6" NodeAtStartX="1856.57" NodeAtStartY="226.597" NodeAtEnd="e3" NodeAtEndX="1608.79" NodeAtEndY="1731.48">
-                        <ControlPoints indices="0,1,2,3,4,5,6"/>
+                    <Path numPoints="13" NodeAtStart="P6" NodeAtStartX="1856.57" NodeAtStartY="226.597" NodeAtEnd="e3" NodeAtEndX="1608.79" NodeAtEndY="1731.48">
+                        <ControlPoints indices="0,1,2,3,4,5,6,7,8,9,10,11,12"/>
                         <ArrowAtEnd>
-                            <pos x="1521.74" y="1676.48" angle="90"/>
+                            <pos x="1525.46" y="1676.48" angle="90"/>
                             <transform m11="7.96327e-05" m12="0.1" m21="-0.4" m22="0.000318531"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -5020,21 +5026,27 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J32" visible="yes" z="168.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="540.881" y="306.509"/>
+                    <ControlPoint x="615.881" y="302.79"/>
                     <ControlPoint x="270.931" y="306.509"/>
                     <ControlPoint x="320.931" y="306.509"/>
-                    <ControlPoint x="370.931" y="306.509"/>
+                    <ControlPoint x="809.761" y="302.79"/>
+                    <ControlPoint x="647.498" y="617.337"/>
+                    <ControlPoint x="697.498" y="617.337"/>
+                    <ControlPoint x="809.761" y="963.194"/>
+                    <ControlPoint x="654.936" y="1030.13"/>
+                    <ControlPoint x="704.936" y="1030.13"/>
+                    <ControlPoint x="375.609" y="963.194"/>
                     <ControlPoint x="553.332" y="674.402"/>
                     <ControlPoint x="509.221" y="1337.61"/>
-                    <ControlPoint x="370.931" y="1669.22"/>
+                    <ControlPoint x="375.609" y="1669.22"/>
                 </ControlPoints>
                 <CurveSegments>
-                    <Path numPoints="7" NodeAtStart="P1" NodeAtStartX="578.381" NodeAtStartY="297.797" NodeAtEnd="e2" NodeAtEndX="483.507" NodeAtEndY="1724.22">
-                        <ControlPoints indices="0,1,2,3,4,5,6"/>
+                    <Path numPoints="13" NodeAtStart="P1" NodeAtStartX="578.381" NodeAtStartY="297.797" NodeAtEnd="e2" NodeAtEndX="483.507" NodeAtEndY="1724.22">
+                        <ControlPoints indices="0,1,2,3,4,5,6,7,8,9,10,11,12"/>
                         <ArrowAtEnd>
-                            <pos x="370.931" y="1669.22" angle="90"/>
+                            <pos x="375.609" y="1669.22" angle="90"/>
                             <transform m11="7.96327e-05" m12="0.1" m21="-0.4" m22="0.000318531"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -5078,12 +5090,12 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J31" visible="yes" z="165.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="615.881" y="302.153"/>
-                    <ControlPoint x="784.93" y="302.153"/>
-                    <ControlPoint x="834.93" y="302.153"/>
-                    <ControlPoint x="884.93" y="302.153"/>
+                    <ControlPoint x="615.881" y="279.839"/>
+                    <ControlPoint x="784.93" y="279.839"/>
+                    <ControlPoint x="834.93" y="279.839"/>
+                    <ControlPoint x="884.93" y="279.839"/>
                     <ControlPoint x="692.08" y="525.03"/>
                     <ControlPoint x="874.447" y="889.498"/>
                     <ControlPoint x="884.93" y="1071.73"/>
@@ -5136,7 +5148,7 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J30" visible="yes" z="162.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="1894.07" y="226.597"/>
                     <ControlPoint x="1992.97" y="226.597"/>
@@ -5194,21 +5206,21 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J29" visible="yes" z="159.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="2335.47" y="714.461"/>
-                    <ControlPoint x="2341.45" y="714.461"/>
-                    <ControlPoint x="2391.45" y="714.461"/>
-                    <ControlPoint x="2441.45" y="714.461"/>
+                    <ControlPoint x="2335.47" y="718.179"/>
+                    <ControlPoint x="2360.04" y="718.179"/>
+                    <ControlPoint x="2410.04" y="718.179"/>
+                    <ControlPoint x="2460.04" y="718.179"/>
                     <ControlPoint x="2370.43" y="1007.23"/>
                     <ControlPoint x="2492.04" y="1476.63"/>
-                    <ControlPoint x="2441.45" y="1754.57"/>
+                    <ControlPoint x="2460.04" y="1711.33"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="7" NodeAtStart="P7" NodeAtStartX="2297.97" NodeAtStartY="727.528" NodeAtEnd="e4" NodeAtEndX="2567.09" NodeAtEndY="1766.33">
                         <ControlPoints indices="0,1,2,3,4,5,6"/>
                         <ArrowAtEnd>
-                            <pos x="2441.45" y="1754.57" angle="90"/>
+                            <pos x="2460.04" y="1711.33" angle="90"/>
                             <transform m11="7.96327e-05" m12="0.1" m21="-0.4" m22="0.000318531"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -5252,7 +5264,7 @@
             </ConnectionGraphicsItem>
         </ConnectionItem>
         <ConnectionItem className="ConnectionGraphicsItem" handle="J0" visible="yes" z="156.6">
-            <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
+            <ConnectionGraphicsItem version="1.0" color="#d15217" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
                     <ControlPoint x="1105.65" y="742.623"/>
                     <ControlPoint x="1379.65" y="742.623"/>
@@ -6242,7 +6254,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" handle="J16" visible="yes" z="79">
             <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="2678.24" y="1395.44"/>
+                    <ControlPoint x="2673.69" y="1395.44"/>
                     <ControlPoint x="2202.81" y="1077.45"/>
                     <ControlPoint x="2225.31" y="1077.45"/>
                     <ControlPoint x="2720.07" y="1395.44"/>
@@ -6361,13 +6373,13 @@
                     <ControlPoint x="2627.57" y="1552.96"/>
                     <ControlPoint x="2144.06" y="1196.51"/>
                     <ControlPoint x="2144.06" y="1147.14"/>
-                    <ControlPoint x="2627.57" y="1467.44"/>
+                    <ControlPoint x="2627.57" y="1455.44"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="rna4" NodeAtStartX="2627.57" NodeAtStartY="1575.44" NodeAtEnd="P4" NodeAtEndX="2627.57" NodeAtEndY="1395.44">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="2627.57" y="1440.44" angle="-90"/>
+                            <pos x="2627.57" y="1455.44" angle="-90"/>
                             <transform m11="0.000398163" m12="-0.5" m21="0.25" m22="0.000199082"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -6552,7 +6564,7 @@
         <ConnectionItem className="ConnectionGraphicsItem" handle="J12" visible="yes" z="59">
             <ConnectionGraphicsItem version="1.0" color="#3232ff" width="5" type="line" style="1" gap="10">
                 <ControlPoints>
-                    <ControlPoint x="1734.46" y="1371.48"/>
+                    <ControlPoint x="1729.91" y="1371.48"/>
                     <ControlPoint x="1411.49" y="1066.56"/>
                     <ControlPoint x="1433.99" y="1066.56"/>
                     <ControlPoint x="1776.29" y="1371.48"/>
@@ -6671,13 +6683,13 @@
                     <ControlPoint x="1683.79" y="1529"/>
                     <ControlPoint x="1352.74" y="1185.62"/>
                     <ControlPoint x="1352.74" y="1136.25"/>
-                    <ControlPoint x="1683.79" y="1443.48"/>
+                    <ControlPoint x="1683.79" y="1431.48"/>
                 </ControlPoints>
                 <CurveSegments>
                     <Path numPoints="4" NodeAtStart="rna3" NodeAtStartX="1683.79" NodeAtStartY="1551.48" NodeAtEnd="P3" NodeAtEndX="1683.79" NodeAtEndY="1371.48">
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
-                            <pos x="1683.79" y="1416.48" angle="-89.9999"/>
+                            <pos x="1683.79" y="1431.48" angle="-89.9999"/>
                             <transform m11="0.000398826" m12="-0.5" m21="0.25" m22="0.000199413"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
@@ -7182,7 +7194,7 @@
                         <ControlPoints indices="0,1,2,3"/>
                         <ArrowAtEnd>
                             <pos x="679.592" y="197.46" angle="-44.7511"/>
-                            <transform m11="0.14209" m12="-0.140749" m21="0.140749" m22="0.14209"/>
+                            <transform m11="0.14209" m12="-0.14075" m21="0.14075" m22="0.14209"/>
                             <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
                                 <renderInformation id="TinkerCell_Style" programName="TinkerCell">
                                     <listOfGradientDefinitions>
@@ -7484,27 +7496,27 @@
         <TextItem text="J35" handle="J35" x="1689" y="78.4066" color="#000000" m11="1" m12="0" m21="0" m22="1" z="182.9" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J34" handle="J34" x="415.16" y="100.186" color="#000000" m11="1" m12="0" m21="0" m22="1" z="179.9" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="m1" handle="m1" x="156.237" y="135.186" color="#000000" m11="1" m12="0" m21="0" m22="1" z="176.9" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J33" handle="J33" x="1541.74" y="249.789" color="#000000" m11="1" m12="0" m21="0" m22="1" z="173.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J32" handle="J32" x="390.931" y="326.509" color="#000000" m11="1" m12="0" m21="0" m22="1" z="170.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J31" handle="J31" x="904.93" y="302.153" color="#000000" m11="1" m12="0" m21="0" m22="1" z="167.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J33" handle="J33" x="1991.73" y="871.627" color="#000000" m11="1" m12="0" m21="0" m22="1" z="173.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J32" handle="J32" x="744.226" y="897.659" color="#000000" m11="1" m12="0" m21="0" m22="1" z="170.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J31" handle="J31" x="904.93" y="279.839" color="#000000" m11="1" m12="0" m21="0" m22="1" z="167.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J30" handle="J30" x="2112.97" y="226.597" color="#000000" m11="1" m12="0" m21="0" m22="1" z="164.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J29" handle="J29" x="2461.45" y="714.461" color="#000000" m11="1" m12="0" m21="0" m22="1" z="161.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J29" handle="J29" x="2480.04" y="718.179" color="#000000" m11="1" m12="0" m21="0" m22="1" z="161.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J0" handle="J0" x="1499.65" y="742.623" color="#000000" m11="1" m12="0" m21="0" m22="1" z="158.6" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J28" handle="J28" x="2363.9" y="695.367" color="#000000" m11="1" m12="0" m21="0" m22="1" z="141" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J28" handle="J28" x="2293.24" y="635.864" color="#000000" m11="1" m12="0" m21="0" m22="1" z="141" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J27" handle="J27" x="2376.26" y="927.028" color="#000000" m11="1" m12="0" m21="0" m22="1" z="137" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J26" handle="J26" x="2317.47" y="823" color="#000000" m11="1" m12="0" m21="0" m22="1" z="133" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J25" handle="J25" x="2315.88" y="1002.72" color="#000000" m11="1" m12="0" m21="0" m22="1" z="132" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rna7" handle="rna7" x="2197.97" y="907.528" color="#000000" m11="1" m12="0" m21="0" m22="1" z="127" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="P7" handle="P7" x="2230.47" y="727.528" color="#000000" m11="1" m12="0" m21="0" m22="1" z="126" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="e7" handle="e7" x="2333.97" y="1127.53" color="#000000" m11="1" m12="0" m21="0" m22="1" z="123" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J24" handle="J24" x="1914.5" y="182.509" color="#000000" m11="1" m12="0" m21="0" m22="1" z="121" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J24" handle="J24" x="1847.56" y="130.445" color="#000000" m11="1" m12="0" m21="0" m22="1" z="121" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J23" handle="J23" x="1934.86" y="426.097" color="#000000" m11="1" m12="0" m21="0" m22="1" z="117" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J22" handle="J22" x="1876.07" y="322.069" color="#000000" m11="1" m12="0" m21="0" m22="1" z="113" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J21" handle="J21" x="1874.48" y="501.787" color="#000000" m11="1" m12="0" m21="0" m22="1" z="112" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="rna6" handle="rna6" x="1756.57" y="406.597" color="#000000" m11="1" m12="0" m21="0" m22="1" z="107" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="P6" handle="P6" x="1789.07" y="226.597" color="#000000" m11="1" m12="0" m21="0" m22="1" z="106" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="e6" handle="e6" x="1892.57" y="626.597" color="#000000" m11="1" m12="0" m21="0" m22="1" z="103" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J20" handle="J20" x="1143.62" y="711.763" color="#000000" m11="1" m12="0" m21="0" m22="1" z="101" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J20" handle="J20" x="1084.12" y="652.261" color="#000000" m11="1" m12="0" m21="0" m22="1" z="101" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J19" handle="J19" x="1146.44" y="966.232" color="#000000" m11="1" m12="0" m21="0" m22="1" z="97" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J18" handle="J18" x="1087.65" y="862.203" color="#000000" m11="1" m12="0" m21="0" m22="1" z="93" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J17" handle="J17" x="1086.05" y="1041.92" color="#000000" m11="1" m12="0" m21="0" m22="1" z="92" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
@@ -7532,7 +7544,7 @@
         <TextItem text="rna2" handle="rna2" x="458.507" y="1544.22" color="#000000" m11="1" m12="0" m21="0" m22="1" z="27" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="P2" handle="P2" x="477.939" y="1355.51" color="#000000" m11="1" m12="0" m21="0" m22="1" z="26" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="e2" handle="e2" x="594.507" y="1764.22" color="#000000" m11="1" m12="0" m21="0" m22="1" z="23" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
-        <TextItem text="J4" handle="J4" x="647.447" y="236.063" color="#000000" m11="1" m12="0" m21="0" m22="1" z="21" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
+        <TextItem text="J4" handle="J4" x="610.258" y="198.874" color="#000000" m11="1" m12="0" m21="0" m22="1" z="21" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J3" handle="J3" x="656.671" y="497.297" color="#000000" m11="1" m12="0" m21="0" m22="1" z="17" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J2" handle="J2" x="597.881" y="393.268" color="#000000" m11="1" m12="0" m21="0" m22="1" z="13" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>
         <TextItem text="J1" handle="J1" x="596.285" y="572.986" color="#000000" m11="1" m12="0" m21="0" m22="1" z="12" font="MS Shell Dlg 2" size="22" bold="0" italics="0" underline="0"/>

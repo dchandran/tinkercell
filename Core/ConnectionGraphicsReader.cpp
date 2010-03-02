@@ -220,7 +220,6 @@ namespace Tinkercell
 			else
 				if (startConnectionHandle && pathVector[0])
 				{
-					qDebug() << startConnectionHandle->name;
 					for (int i=0; i < startConnectionHandle->graphicsItems.size(); ++i)
 						if (qgraphicsitem_cast<ConnectionGraphicsItem*>(startConnectionHandle->graphicsItems[i]))
 						{

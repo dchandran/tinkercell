@@ -917,6 +917,7 @@ namespace Tinkercell
 		{
 			transform.setMatrix(m11,m12,0.0, m21, m22, 0.0, 0.0, 0.0, 1.0);
 			node->refresh();
+			node->setPos(pos);
 		}
 		return node;
 	}

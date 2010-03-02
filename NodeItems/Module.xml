@@ -3,15 +3,15 @@
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
         <listOfGradientDefinitions>
-            <linearGradient id="shape0color" x1="0.510729%" y1="0.738515%" x2="0.52575%" y2="1.22127%">
-                <stop offset="0%" stop-color="#3dc5ff" stop-alpha="0"/>
-                <stop offset="100%" stop-color="#5aa2ff" stop-alpha="0.258824"/>
+            <linearGradient id="shape0color" x1="53.2876%" y1="83.7377%" x2="53.2876%" y2="96.6613%">
+                <stop offset="0%" stop-color="#ffffff" stop-alpha="0"/>
+                <stop offset="100%" stop-color="#1cc3ff" stop-alpha="0.317647"/>
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
             <style idList="module" width="360" height="360">
                 <g>
-                    <rectangle x="0%" y="0%" width="100" height="100" rx="1" ry="1" fill="shape0color" stroke="#3dc5ff" stroke-width="3" stroke-alpha="1"/>
+                    <rectangle x="0%" y="0%" width="100" height="100" rx="1" ry="1" fill="shape0color" stroke="#2a7fff" stroke-width="0" stroke-alpha="1"/>
                 </g>
             </style>
         </listOfStyles>

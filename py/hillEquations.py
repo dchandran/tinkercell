@@ -31,6 +31,8 @@ if (len(synthesis) > 0):
 								indiv.append(s);
 								s = "(1+" + s + ")";
 							fracs.append(s);
+				p = genes[0];
+				if pytc.isA(p,"Promoter"): promotername = pytc.getName(p);
 			rate = "0.0";			
 			if len(promotername) > 0:
 				rate = "";
@@ -60,7 +62,9 @@ if (len(synthesis) > 0):
 					rate = promotername + ".strength";
 				else:
 					rate = promotername + ".strength*" + rate;
-			pytc.write(name + " has rate : " + rate+"\n");
-			pytc.setRate(i,rate);
+				pytc.write(name + " has rate : " + rate+"\n");
+				pytc.setRate(i,rate);
+			else:
+				pytc.write("no promoter found for this transcription reaction\n");
 else:
-	pytc.errorReport("no regulatory element selected");
+	pytc.errorReport("please select at least one transcription reaction");

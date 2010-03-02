@@ -185,6 +185,8 @@ namespace Tinkercell
 			QRectF boundingRectangle;
 			/*! \brief reconstruct bounding rect*/
 			virtual void recomputeBoundingRect();
+			/*! \brief get pen width based on bounding rect*/
+			virtual qreal getPenWidthForBoundingRect();
 		};
 		/*! \brief add a new control point*/
 		virtual void addControlPoint(ControlPoint * control);

@@ -92,9 +92,7 @@ namespace Tinkercell
 		boundaryControlPoints << topleft << bottomright;
 
 		boundingBoxItem = new QGraphicsRectItem(this);
-		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-		if (w > 300.0) w = 300.0;
-		boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),getPenWidthForBoundingRect(),Qt::DashLine));
 		boundingBoxItem->setBrush(Qt::NoBrush);
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
@@ -247,13 +245,18 @@ namespace Tinkercell
 		boundaryControlPoints << topleft << bottomright;
 
 		boundingBoxItem = new QGraphicsRectItem(this);
-		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-		if (w > 300.0) w = 300.0;
-		boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),getPenWidthForBoundingRect(),Qt::DashLine));
 		boundingBoxItem->setBrush(Qt::NoBrush);
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
 		boundingBoxItem->setRect(boundingRect());
+	}
+	
+	qreal NodeGraphicsItem::getPenWidthForBoundingRect()
+	{
+		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
+		if (w > 10.0) w = 10.0;
+		return w;
 	}
 
 	/*! \brief make a copy of this item*/
@@ -339,9 +342,7 @@ namespace Tinkercell
 		boundaryControlPoints << topleft << bottomright;
 
 		boundingBoxItem = new QGraphicsRectItem(this);
-		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-		if (w > 300.0) w = 300.0;
-		boundingBoxItem->setPen(QPen(QColor(255,100,100),w,Qt::DashLine));
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),getPenWidthForBoundingRect(),Qt::DashLine));
 		boundingBoxItem->setBrush(Qt::NoBrush);
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
@@ -468,11 +469,8 @@ namespace Tinkercell
 				if (boundingBoxItem)
 				{
 					QPen pen = boundingBoxItem->pen();
-					qreal w = 1000.0/(rect.width() + rect.height());
-					if (w > 100.0)
-						pen.setWidthF(2.0);
-					else
-						pen.setWidthF(w);
+					qreal w = getPenWidthForBoundingRect();
+					pen.setWidthF(w);
 					boundingBoxItem->setPen(pen);
 				}
 			}
@@ -971,7 +969,7 @@ namespace Tinkercell
 
 		if (boundingBoxItem)
 		{
-			boundingBoxItem->setPen(QPen(QColor(255,100,100),(1000.0/(0.5*(sceneBoundingRect().width() + sceneBoundingRect().height()))),Qt::DashLine));
+			boundingBoxItem->setPen(QPen(QColor(255,100,100),getPenWidthForBoundingRect(),Qt::DashLine));
 			boundingBoxItem->setBrush(Qt::NoBrush);
 			boundingBoxItem->setVisible(false);
 			boundingBoxItem->setPos(0,0);

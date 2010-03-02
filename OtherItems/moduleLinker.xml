@@ -7,7 +7,7 @@
             <colorDefinition id="shape1color" value="#ffffff" alpha="0"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="lollipop" width="40" height="20">
+            <style idList="lollipop" width="80" height="40">
                 <g>
                     <polygon fill="shape0color" stroke="#6464ff" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>

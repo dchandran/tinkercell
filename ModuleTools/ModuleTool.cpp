@@ -223,7 +223,7 @@ namespace Tinkercell
 				linker->className = linkerClassName;
 				setToolTip(QString("Module interface"));
 
-				linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().width());
+				linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
 				if (linker->boundaryControlPoints.size() > 0)
 				{
 					for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
@@ -254,18 +254,15 @@ namespace Tinkercell
 				delete toInsert[i];
     }
 
-    QPointF ModuleTool::VisualTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * linker)
+    QPointF ModuleTool::VisualTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item)
     {
+    	NodeGraphicsItem * linker = NodeGraphicsItem::cast(item);
+    	
         if (!linker || !module) return scenePos;
 
-        qreal width = linker->sceneBoundingRect().width();
+		linker->resetTransform();
 
-		if (linker->sceneBoundingRect().height() > width)
-			width = linker->sceneBoundingRect().height();
-
-        linker->resetTransform();
-
-        linker->scale(width/linker->sceneBoundingRect().width(),width/linker->sceneBoundingRect().width());
+        linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
 
         qreal w = 0;
 

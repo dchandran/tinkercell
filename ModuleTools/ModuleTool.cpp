@@ -455,7 +455,7 @@ namespace Tinkercell
 					return;
 				}
 
-				if (handle1->family() != handle2->family())
+				if (!(handle1->family()->isA(handle2->family()) || handle2->family()->isA(handle1->family())))
 				{
 					QMessageBox::information(this,
 						tr("Cannot connect"),

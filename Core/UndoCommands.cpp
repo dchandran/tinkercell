@@ -2589,42 +2589,47 @@ namespace Tinkercell
 	
 	void SetParentHandleCommand::redo()
 	{
-		QList<QString> newNames, oldNames;
-		QStringList allNames;
-		QString s1,s2;
-		if (net)
-			allNames = net->symbolsTable.handlesFullName.keys();
+		if (!renameCommand && net)
+		{
+			QList<QString> newNames, oldNames;
+			QStringList allNames;
+			QString s0, s1,s2;
+			if (net)
+				allNames = net->symbolsTable.handlesFullName.keys();
+			for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
+				if (children[i] && newParents[i] != oldParents[i])
+				{
+					if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
+					{
+						oldNames += children[i]->fullName();
+						children[i]->setParent(newParents[i]);
+						s1 = children[i]->fullName();
+						children[i]->setParent(oldParents[i]);
+						s2 = RenameCommand::assignUniqueName(s1,allNames);
+						newNames += s2;
+						allNames += s2;
+					}
+				}
+			QList<ItemHandle*> allHandles = net->allHandles();		
+			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
+		}
+		
+		renameCommand->redo();
+		
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])
 			{
 				if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
 				{
-					oldNames += children[i]->fullName();
 					children[i]->setParent(newParents[i]);
-					s1 = children[i]->fullName();
-					s2 = RenameCommand::assignUniqueName(s1,allNames);
-					newNames += s2;
-					allNames += s2;
 				}
 			}
-
-		if (!net) return;
-
-		QList<ItemHandle*> allHandles = net->allHandles();
-		
-		if (!renameCommand)
-			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
-			
-		renameCommand->redo();
 	}
 	void SetParentHandleCommand::undo()
 	{
-		QList<QString> newNames, oldNames;
-		QStringList allNames;
-		QString s1,s2;
-		if (net)
-			allNames = net->symbolsTable.handlesFullName.keys();
-		
+		if (renameCommand)
+			renameCommand->undo();
+			
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])
 			{
@@ -2633,9 +2638,6 @@ namespace Tinkercell
 					children[i]->setParent(oldParents[i]);
 				}
 			}
-			
-		if (renameCommand)
-			renameCommand->undo();
 	}
 
 	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, const QList<bool>& values)

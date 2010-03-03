@@ -653,7 +653,7 @@ namespace Tinkercell
 						!items.contains(node))
 						items << node;
 			}
-			
+		if (!items.isEmpty())
 			net->scene->remove(tr("Links removed"), items);
 	}
 	

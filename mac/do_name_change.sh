@@ -2,10 +2,11 @@
 
 #run in the bin folder
 
-LIBFILES="*.dylib"
-PLUGINFILES="Plugins/*.dylib"
+PATH = 'pwd'
+LIBFILES='*.dylib'
+PLUGINFILES='Plugins/*.dylib'
 
-for f in "$LIBFILES"
+for f in $LIBFILES
 do
   echo "Processing $f ..."
   cp $f Tinkercell.app/Contents/Frameworks/
@@ -14,23 +15,25 @@ do
         Tinkercell.app/Contents/Frameworks/$f
 done
 
-for f2 in "$LIBFILES"
+for f2 in $LIBFILES
 do
+    echo "install_name_tool Tinkercell ... $f2"
     install_name_tool \
-          -change $f2 \
-          @executable_path/../Frameworks/$f2 \
+          -change $PATH/$f2 \
+          ../Frameworks/$f2 \
           Tinkercell.app/Contents/MacOS/Tinkercell
 done
 
-for f1 in "$PLUGINFILES"
+for f1 in $PLUGINFILES
 do
-  echo "Processing $f ..."
-  for f2 in "$LIBFILES"
+  for f2 in $LIBFILES
   do
+    echo "install_name_tool $f1 ... $f2"
     install_name_tool \
-          -change $f2 \
-          @executable_path/../Frameworks/$f2 \
-          Tinkercell.app/Contents/MacOS/Plugins/$f1
+          -change $PATH/$f2 \
+          ../Frameworks/$f2 \
+          Tinkercell.app/Contents/MacOS/$f1
   done
 done
+
 

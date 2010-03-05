@@ -157,12 +157,12 @@ namespace Tinkercell
 		}
 		else
 		{
-			QPointF diff(50.0,50.0);
+			/*QPointF diff(50.0,50.0);
 			for (int i=0; i < node->controlPoints.size(); ++i)
 			{
 				pos = node->controlPoints[i]->pos() + diff;
 				node->controlPoints[i]->setPos(pos);
-			}
+			}*/
 		}
 		
 		//write
@@ -184,14 +184,13 @@ namespace Tinkercell
 		}
 		else
 		{
-			QPointF diff(50.0,50.0);
+			/*QPointF diff(50.0,50.0);
 			for (int i=0; i < node->controlPoints.size(); ++i)
 			{
 				pos = node->controlPoints[i]->pos() - diff;
 				node->controlPoints[i]->setPos(pos);
-			}
+			}*/
 		}
-
 		
 		writer->writeEndElement(); //g
 		writer->writeEndElement(); //style

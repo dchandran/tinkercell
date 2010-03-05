@@ -1037,10 +1037,10 @@ namespace Tinkercell
 						p1 = item->mapFromScene(from),
 						p2 = item->mapFromScene(to);
 
-					colorPt1.rx() = colorPt1.x() / rect.width() * 100.0;
-					colorPt2.rx() = colorPt2.x() / rect.width() * 100.0;
-					colorPt1.ry() = colorPt1.y() / rect.height() * 100.0;
-					colorPt2.ry() = colorPt2.y() / rect.height() * 100.0;
+					colorPt1.rx() = colorPt1.x() / rect.width() * 100.0 - 50.0;
+					colorPt2.rx() = colorPt2.x() / rect.width() * 100.0 - 50.0;
+					colorPt1.ry() = colorPt1.y() / rect.height() * 100.0 - 50.0;
+					colorPt2.ry() = colorPt2.y() / rect.height() * 100.0 - 50.0;
 
 					if (gradientType == QGradient::LinearGradient)
 					{

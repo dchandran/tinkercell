@@ -1148,7 +1148,7 @@ namespace Tinkercell
 				delete command;
 			}
 
-			emit itemsRemoved(this,items, handles);
+			emit itemsRemoved(this,allitems, handles);
 	}
 	/*! \brief this command changes the brush of an item*/
 	void GraphicsScene::setBrush(const QString& name, QGraphicsItem * item, const QBrush& to)

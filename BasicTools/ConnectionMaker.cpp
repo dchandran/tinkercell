@@ -482,8 +482,14 @@ namespace Tinkercell
 						}
 						AddControlPointCommand command(tr(""),scene,cp);
 						command.redo();
+						
+						if (connection->handle()->isA(tr("Transcription Repression")))
+							connection->defaultPen.setColor(QColor(tr("#C30000")));
+						else
+							connection->defaultPen.setColor(QColor(tr("#049102")));
+						connection->setPen(connection->defaultPen);
 					}
-					connection->lineType = ConnectionGraphicsItem::line;
+				connection->lineType = ConnectionGraphicsItem::line;
 			}
 	}
 

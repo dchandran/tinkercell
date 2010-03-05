@@ -28,6 +28,7 @@ for f in $LIBFILES
 do
   echo "Processing $f ..."
   cp $f Tinkercell.app/Contents/Frameworks/
+  cp $f NodeGraphics.app/Contents/Frameworks/
   install_name_tool \
         -id @executable_path/../Frameworks/$f \
         Tinkercell.app/Contents/Frameworks/$f
@@ -39,12 +40,21 @@ do
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
           Tinkercell.app/Contents/MacOS/Tinkercell
+    install_name_tool \
+          -change $CURPATH/$f2 \
+          @executable_path/../Frameworks/$f2 \
+          NodeGraphics.app/Contents/MacOS/Tinkercell
 done
 
 install_name_tool \
           -change $CURPATH/libmuparser.dylib \
           @executable_path/../Frameworks/libmuparser.dylib \
           Tinkercell.app/Contents/Frameworks/libTinkerCellCore.dylib
+
+install_name_tool \
+          -change $CURPATH/libmuparser.dylib \
+          @executable_path/../Frameworks/libmuparser.dylib \
+          NodeGraphics.app/Contents/Frameworks/libTinkerCellCore.dylib
 
 for f1 in $PLUGINFILES
 do

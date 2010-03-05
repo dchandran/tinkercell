@@ -217,13 +217,16 @@ namespace Tinkercell
 				
 			QString unit;
 			
-			QRectF rect = node->sceneBoundingRect();
-			QPointF min = node->sceneBoundingRect().topLeft();
-			QPointF max = node->sceneBoundingRect().bottomRight();
+			QRectF rect;
+			QPointF min, max;
 			
 			if (normalize)
 			{
 				unit = QObject::tr("%");
+				
+				rect = node->sceneBoundingRect();
+				min = node->sceneBoundingRect().topLeft();
+				max = node->sceneBoundingRect().bottomRight();
 
 				ptr->gradientPoints.first.rx() = (ptr->gradientPoints.first.rx() - rect.left())/rect.width() * 100.0;
 				ptr->gradientPoints.first.ry() = (ptr->gradientPoints.first.ry() - rect.top())/rect.height() * 100.0;

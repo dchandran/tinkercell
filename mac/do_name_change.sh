@@ -9,6 +9,9 @@ CPLUGINFILES='Plugins/c/*.dylib'
 
 cp -R Plugins Tinkercell.app/Contents/MacOS/
 cp -R ../../c Tinkercell.app/Contents/MacOS/
+cp Plugins/c/libode* Tinkercell.app/Contents/MacOS/c/
+cp Plugins/c/lib*.a Tinkercell.app/Contents/MacOS/c/
+cp lib*.a Tinkercell.app/Contents/MacOS/c/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
 cp -R ../../OtherItems Tinkercell.app/Contents/MacOS/

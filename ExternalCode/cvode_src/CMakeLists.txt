@@ -28,18 +28,18 @@ FILE( GLOB OPTIM_SRC  "../optim/*.c" )
 	)	
 #ENDIF( WIN32 )
 
-IF (NOT APPLE)
-   TARGET_LINK_LIBRARIES( odesim
-	   odesim
-	   lapack
-   )
-ELSE (NOT APPLE)
-   FIND_PACKAGE( VEC_LIB Veclib )
-   TARGET_LINK_LIBRARIES( odesim
-	   odesim
-	   $${VEC_LIB}
-   )
-ENDIF(NOT APPLE)
+#IF (NOT APPLE)
+TARGET_LINK_LIBRARIES( odesim
+   odesim
+   lapack
+)
+#ELSE (NOT APPLE)
+#   FIND_PACKAGE( VEC_LIB Veclib )
+#   TARGET_LINK_LIBRARIES( odesim
+#	   odesim
+#	   $${VEC_LIB}
+#   )
+#ENDIF(NOT APPLE)
  
 IF ( WIN32 )
   INSTALL(TARGETS odesim DESTINATION c)

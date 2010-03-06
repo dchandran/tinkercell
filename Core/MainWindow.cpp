@@ -360,10 +360,14 @@ namespace Tinkercell
 			
 			historyWindow.setStack(&(window->history));
 			
-			if (window != currentNetworkWindow)
-				emit windowChanged(currentNetworkWindow,window);
+			NetworkWindow * oldWindow = currentNetworkWindow;
+			
+			currentNetworkWindow = window;
+			
+			if (window != oldWindow)
+				emit windowChanged(oldWindow,window);
 		}
-		currentNetworkWindow = window;
+		
 	}
 
 	GraphicsScene * MainWindow::newGraphicsWindow()
@@ -944,22 +948,41 @@ namespace Tinkercell
 
 	void MainWindow::closeEvent(QCloseEvent *event)
 	{
+		bool b = true;
 		QList<NetworkWindow*> list = allNetworkWindows;
+		currentNetworkWindow = 0;
 		for (int i=0; i < list.size(); ++i)
-			if (list[i] && allNetworkWindows.contains(list[i]))			
-				list[i]->close();
-		
-		if (!allNetworkWindows.isEmpty())
-		{
-			event->ignore();
-			return;
-		}
+			if (list[i] && allNetworkWindows.contains(list[i]))
+			{
+				b = true;
+				emit windowClosing(list[i],&b);
+				if (b)		
+				{
+					emit windowClosed(list[i]);
+					disconnect(list[i]);
+					allNetworkWindows.removeAll(list[i]);
+					list[i]->close();
+				}
+				else
+				{
+					currentNetworkWindow = list[i];
+					event->ignore();
+					return;
+				}
+			}
 		
 		if (tabWidget)
 			tabWidget->clear();
 		
 		QList<QString> keys = this->toolsHash.keys();
 		QList<Tool*> toolsHash = this->toolsHash.values();
+		
+		for (int i=0; i < toolsHash.size(); ++i)
+		{
+			if (toolsHash[i])			
+				disconnect(toolsHash[i]);
+		}
+		
 		for (int i=0; i < toolsHash.size(); ++i)
 		{
 			if (toolsHash[i])
@@ -970,7 +993,6 @@ namespace Tinkercell
 						if (i != j && toolsHash[j] == toolsHash[i])
 							toolsHash[j] = 0;
 
-					disconnect(toolsHash[i]);
 					toolsHash[i]->close();
 					delete toolsHash[i];
 				}

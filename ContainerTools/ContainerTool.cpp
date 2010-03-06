@@ -121,23 +121,23 @@ namespace Tinkercell
         if (treeView->model())
         {
             delete (treeView->model());
+			treeView->setModel(0);
         }
-		
-        treeView->setModel(0);
 	}
 
-    void ContainerTreeTool::windowChanged(NetworkWindow * , NetworkWindow * win)
+    void ContainerTreeTool::windowChanged(NetworkWindow * , NetworkWindow * )
     {
-        if (!win) return;
-
         treeView->setUpdatesEnabled(false);
 
         if (treeView->model())
         {
             delete (treeView->model());
+			treeView->setModel(0);
         }
 
 		ContainerTreeModel * model = 0;
+
+		NetworkWindow * win = currentWindow();
 
 		if (win)
 			model = new ContainerTreeModel(win);

@@ -880,8 +880,8 @@ namespace Tinkercell
 						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rates")]);
 						if (promoter)
 						{
-							bool missing = activators.isEmpty() && repressors.isEmpty();
 							s0 = sDat->value(0,0);
+							bool missing = (s0 == tr("0.0"));
 							for (int k=0; k < activators.size(); ++k)
 								if (activators[k] && !s0.contains(activators[k]->fullName()))
 								{
@@ -948,12 +948,8 @@ namespace Tinkercell
 							QString s = sDat->value(tr("translation"),0);
 
 							if (rbs && !s.contains(rbs->fullName()))
-								s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
-							else
-								s.replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
-
-							if (sDat->value(tr("translation"),0) != s)
 							{
+								s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
 								sDat->value(tr("translation"),0) = s;
 								if (!dataTables.contains(sDat))
 								{
@@ -988,7 +984,7 @@ namespace Tinkercell
 													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rates")]);
 													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
-													if (sDat2->value(0,0) != s)
+													if (!sDat2->value(0,0).contains(rbs->fullName()))
 													{
 														sDat2->value(0,0) = s;
 														targetHandles += connections2[l];
@@ -1596,9 +1592,10 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
-			if (NodeGraphicsItem::cast(items[i]) && handle && handle->isA(tr("Promoter")))
+			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Promoter")) || handle->isA(tr("RBS"))))
 			{
 				connections = scene->symbolsTable->handlesFamily.values(tr("Transcription"));
+				connections += scene->symbolsTable->handlesFamily.values(tr("Translation"));
 				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
 				for (int j=0; j < connections.size(); ++j)
 				{
@@ -1609,7 +1606,7 @@ namespace Tinkercell
 						bool intersects = false;
 						ConnectionGraphicsItem * connection = 0;
 						QList<NodeGraphicsItem*> nodes0, nodes;
-						QList<ConnectionGraphicsItem*> nodeConnections;
+						QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
 						for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 						{
 							if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))							
@@ -1621,7 +1618,12 @@ namespace Tinkercell
 							nodes0 = nodeConnections[k]->nodesWithoutArrows();
 							nodes << nodes0;
 							for (int l=0; l < nodes0.size(); ++l)
-								nodeConnections << nodes0[l]->connectionsWithArrows();
+							{
+								nodeConnections0 = nodes0[l]->connectionsWithArrows();
+								for (int m=0; m < nodeConnections0.size(); ++m)
+									if (!nodeConnections.contains(nodeConnections0[m]))
+										nodeConnections << nodeConnections0[m];
+							}
 						}
 						
 						for (int k=0; k < nodes.size(); ++k)

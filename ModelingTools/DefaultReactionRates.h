@@ -41,12 +41,13 @@ namespace Tinkercell
 
 			DataTable<qreal> stoichiometryMatrix;
 			DataTable<QString> rates;
-
+			
+			rates.value(0,0) = QString("0.0");
 			if (handle->hasNumericalData(QString("Numerical Attributes")))
 			{
-				if (isTranscription)
+				if (handle->data->numericalData[QString("Numerical Attributes")].rowNames().contains(QString("k0")))
 				{
-					rates.value(0,0) = QString("0.0");
+					rates.value(0,0) = handle->fullName() + QString(".k0");
 				}
 				else
 				if (isBinding)
@@ -54,22 +55,6 @@ namespace Tinkercell
 					rates.value(0,0) = QString("1.0");
 					rates.value(1,0) = handle->fullName() + QString(".Kd*") + handle->fullName() + QString(".complex");
 				}
-				else
-				{
-					rates.value(0,0) = handle->fullName() + QString(".k0");
-					int sz = handle->data->numericalData[QString("Numerical Attributes")].rows();
-					if (!handle->data->numericalData[QString("Numerical Attributes")].rowNames().contains(QString("k0")))
-					{
-						handle->data->numericalData[QString("Numerical Attributes")].value(sz,0) = 0.5;
-						handle->data->numericalData[QString("Numerical Attributes")].rowName(sz) = QString("k0");
-					}
-				}
-			}
-			else
-			{
-				rates.value(0,0) = QString("0.5");
-				if (isBinding)
-					rates.value(1,0) = QString("0.5");
 			}
 
 			nodes.clear();
@@ -83,7 +68,7 @@ namespace Tinkercell
 			for (int i=0; i < connectedNodes.size(); ++i)
 			{
 				node = connectedNodes[i];
-				if (node && !(node->isA(QString("Empty")) || node->isA(QString("Part"))) && node->isA(QString("Node")))
+				if (node && !(node->isA(QString("Empty"))) && node->isA(QString("Molecule")))
 				{
 					if (nodesIn.contains(node))
 					{

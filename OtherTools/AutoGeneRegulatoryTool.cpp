@@ -881,7 +881,7 @@ namespace Tinkercell
 						if (promoter)
 						{
 							s0 = sDat->value(0,0);
-							bool missing = (s0 == tr("0.0"));
+							bool missing = (s0 == tr("0.0") || s0 == tr("0"));
 							for (int k=0; k < activators.size(); ++k)
 								if (activators[k] && !s0.contains(activators[k]->fullName()))
 								{

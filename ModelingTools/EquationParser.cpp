@@ -152,7 +152,34 @@ namespace Tinkercell
 									}
 									else
 									{
-										if (!isItem)
+										ItemHandle * handle2 = handle;
+										QString newp(str);
+										int k = newp.indexOf(QString("."));
+										if (k > -1)
+										{
+											newp = newp.left(k);
+											
+											if (symbolsTable->handlesFullName.contains(newp))
+											{
+												handle2 = symbolsTable->handlesFullName[newp];
+											}
+											else
+											if (symbolsTable->handlesFirstName.contains(newp))
+											{
+												handle2 = symbolsTable->handlesFirstName[newp];
+											}
+											
+											if (!handle2 || !handle2->hasNumericalData(QString("Numerical Attributes")))
+											{
+												handle2 = handle;
+											}
+											else
+											{
+												str.remove(newp + QString("."));
+											}
+										}
+										
+										if (!isItem && (handle2 == handle))
 										{
 											if (win->console())
 												win->console()->error(QString("unknown variable : " ) + QString(item->first.data()));
@@ -162,7 +189,7 @@ namespace Tinkercell
 
 										if (!str.contains(QRegExp(QString("^") + handle->fullName() + QString("\\."))))
 										{
-											str2 = handle->fullName() + QString(".") + str;
+											str2 = handle2->fullName() + QString(".") + str;
 											s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + str2 + QString("\\2"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("$")),QString("\\1") + str2);
@@ -170,10 +197,10 @@ namespace Tinkercell
 										else
 										{
 											str2 = str;
-											str.replace(QRegExp(QString("^") + handle->fullName() + QString("\\.")),QString(""));
+											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
 										}
 										dat.value(str,0) = 1.0;
-										win->changeData(handle->fullName() + QString(".") + str + QString(" = 1"),handle,QString("Numerical Attributes"),&dat);
+										win->changeData(handle2->fullName() + QString(".") + str + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
 										if (win->console())
                                             win->console()->message(QString("New parameter ") + str2 + QString(" = 1.0"));
 									}

@@ -31,6 +31,8 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QTableView>
+#include <QTableWidget>
+#include <QList>
 #include <QStringList>
 
 #include "NodeGraphicsItem.h"
@@ -138,6 +140,7 @@ namespace Tinkercell
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
 		void setInitialValue();
+		void setInitialValueDone();
 
 	private:
 
@@ -165,13 +168,15 @@ namespace Tinkercell
 
 		virtual void keyPressEvent ( QKeyEvent * event );
 
-	private:
-
 		bool openedByUser;
 		NodeGraphicsItem item;
 		TextComboDoubleDelegate delegate;
 		QDockWidget * dockWidget;
-		static double initialValue;
+		QDialog * initialValuesDialog;
+		QTableWidget * initialValuesTable;
+		static QStringList initialValuesFamilyNames;
+		static QList<double> initialValues;
+		void loadInitialValues();
 	};
 
 

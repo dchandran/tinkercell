@@ -15,7 +15,7 @@
         <listOfStyles>
             <style idList="ecoli cell" width="600" height="200">
                 <g>
-                    <polygon fill="shape0color" stroke="#30ff83" stroke-width="4" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#00aa00" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="13.8425%" y="20.8633%"/>

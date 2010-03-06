@@ -15,7 +15,7 @@
         <listOfStyles>
             <style idList="round cell" width="500" height="400">
                 <g>
-                    <polygon fill="shape0color" stroke="#4b72ff" stroke-width="3" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#0000ff" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="15.8845%" y="17.7606%"/>

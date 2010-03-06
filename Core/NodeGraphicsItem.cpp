@@ -255,7 +255,7 @@ namespace Tinkercell
 	qreal NodeGraphicsItem::getPenWidthForBoundingRect()
 	{
 		qreal w = (1000.0/((sceneBoundingRect().width() + sceneBoundingRect().height())));
-		if (w > 10.0) w = 10.0;
+		if (w > 1.0) w = 1.0;
 		return w;
 	}
 

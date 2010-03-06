@@ -30,9 +30,13 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "ModuleTool.h"
+#include "NodesTree.h"
 
 namespace Tinkercell
 {
+	
+	QStringList BasicInformationTool::initialValuesFamilyNames;
+	QList<double> BasicInformationTool::initialValues;
 
 	void BasicInformationTool::select(int)
 	{
@@ -77,31 +81,113 @@ namespace Tinkercell
 		}
 	}
 
-	double BasicInformationTool::initialValue = 1.0;
-
 	void BasicInformationTool::setInitialValue()
 	{
-		initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
+		initialValuesDialog->exec();
+	}
+	
+	void BasicInformationTool::setInitialValueDone()
+	{
+		if (!mainWindow) return;
+		//initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
 		
-
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-
+		settings.beginGroup("BasicInformationTool");	
+		
+		QStringList list;
+		bool ok;
+		double d;
+		
+		for (int i=0; i < initialValuesFamilyNames.size() && i < initialValues.size(); ++i)
+		{			
+			if (initialValuesTable->rowCount() > i && initialValuesTable->item(i,0))
+			{
+				d = initialValuesTable->item(i,0)->text().toDouble(&ok);
+				if (ok)
+				{
+					initialValues[i] = d;
+				}
+				
+				initialValuesTable->item(i,0)->setText( QString::number(initialValues[i]) );
+			}
+			list << (initialValuesFamilyNames[i] + tr(",") + QString::number(initialValues[i]));
+		}
+		
+		settings.setValue(tr("Initial value"),list);
+		settings.endGroup();
+	}
+	
+	void BasicInformationTool::loadInitialValues()
+	{
+		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
+		
+		if (!tool) return;
+		
+		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("BasicInformationTool");
-		settings.setValue(tr("Initial value"),initialValue);
+		
+		NodesTree * nodesTree = static_cast<NodesTree*>(tool);
+
+		QStringList families(nodesTree->nodeFamilies.keys());
+		QStringList keys, rownames;
+		NodeFamily * family;
+		
+		for (int i=0; i < families.size(); ++i)
+		{
+			family = nodesTree->nodeFamilies[ families[i] ];
+			if (family && !family->measurementUnit.first.isEmpty())
+			{
+				keys << families[i];
+				rownames << (families[i] + tr("(") + family->measurementUnit.first + tr(")"));
+			}
+		}
+		
+		initialValuesFamilyNames = keys;
+		
+		initialValuesTable->setColumnCount(1);
+		initialValuesTable->setRowCount(keys.size());
+		
+		initialValuesTable->setVerticalHeaderLabels(rownames);
+		initialValuesTable->setHorizontalHeaderLabels(QStringList() << "value");
+		
+		QStringList list = settings.value(tr("Initial value"),QStringList()).toStringList();
+		QStringList pair;
+		initialValues.clear();
+		
+		for (int i=0; i < keys.size(); ++i)		
+			initialValues << 1.0;		
+		bool ok;
+
+		for (int i=0; i < list.size(); ++i)
+		{
+			pair = list[i].split(",");
+			if (pair.size() == 2)
+			{
+				double d = pair[1].toDouble(&ok);
+				int k = keys.indexOf(pair[0]);
+				if (ok && k >= 0)
+					initialValues[k] = d;
+			}
+		}
+		
+		for (int i=0; i < keys.size(); ++i)
+		{
+			initialValuesTable->setItem (i, 0, new QTableWidgetItem( QString::number(initialValues[i])) );
+		}
+		
 		settings.endGroup();
 	}
 
 	bool BasicInformationTool::setMainWindow(MainWindow * main)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-		settings.beginGroup("BasicInformationTool");
-		BasicInformationTool::initialValue = settings.value(tr("Initial value"),initialValue).toDouble();
-		settings.endGroup();
 
 		Tool::setMainWindow(main);
 
 		if (mainWindow)
 		{
+			loadInitialValues();
+			
 			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
@@ -575,34 +661,52 @@ namespace Tinkercell
 						message += tr("\nThis table also shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
 					}
 
-					connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
-					connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
+		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
+		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));
 
-					QToolButton * question = new QToolButton(this);
-					question->setIcon(QIcon(":/images/question.png"));
+		QToolButton * question = new QToolButton(this);
+		question->setIcon(QIcon(":/images/question.png"));
 
-					QMessageBox * messageBox = new QMessageBox(QMessageBox::Information,tr("About Attributes Table"),message,QMessageBox::StandardButtons(QMessageBox::Close), const_cast<QWidget*>((QWidget*)this), Qt::WindowFlags (Qt::Dialog));
-					connect(question,SIGNAL(pressed()),messageBox,SLOT(exec()));
+		QMessageBox * messageBox = new QMessageBox(QMessageBox::Information,tr("About Attributes Table"),message,QMessageBox::StandardButtons(QMessageBox::Close), const_cast<QWidget*>((QWidget*)this), Qt::WindowFlags (Qt::Dialog));
+		connect(question,SIGNAL(pressed()),messageBox,SLOT(exec()));
 
-					actionsLayout->addWidget(addAttribAction);
-					actionsLayout->addWidget(removeAttribAction);
-					actionsLayout->addStretch(1);
-					actionsLayout->addWidget(question);
+		actionsLayout->addWidget(addAttribAction);
+		actionsLayout->addWidget(removeAttribAction);
+		actionsLayout->addStretch(1);
+		actionsLayout->addWidget(question);
 
-					QVBoxLayout * boxLayout = new QVBoxLayout;
-					boxLayout->addWidget(&tableWidget,1);
+		QVBoxLayout * boxLayout = new QVBoxLayout;
+		boxLayout->addWidget(&tableWidget,1);
 
-					boxLayout->addLayout(actionsLayout);
-					groupBox->setLayout(boxLayout);
+		boxLayout->addLayout(actionsLayout);
+		groupBox->setLayout(boxLayout);
 
-					dockWidget = 0;
+		dockWidget = 0;
 
-					QVBoxLayout * layout = new QVBoxLayout;
-					layout->addWidget(groupBox);
-					setLayout(layout);
+		QVBoxLayout * layout = new QVBoxLayout;
+		layout->addWidget(groupBox);
+		setLayout(layout);
 
-					connectTCFunctions();
-
+		connectTCFunctions();
+		
+		initialValuesDialog = new QDialog(this);
+		initialValuesDialog->setWindowTitle(tr("Set initial values"));
+		layout = new QVBoxLayout;
+		initialValuesTable = new QTableWidget;
+		layout->addWidget(initialValuesTable);
+		QHBoxLayout * closeButtonLayout = new QHBoxLayout;
+		QPushButton * okDialogButton = new QPushButton(tr("Set changes"));
+		QPushButton * cancelDialogButton = new QPushButton(tr("Close without saving"));
+		connect(okDialogButton,SIGNAL(released()),initialValuesDialog,SLOT(accept()));
+		connect(cancelDialogButton,SIGNAL(released()),initialValuesDialog,SLOT(reject()));
+		connect(initialValuesDialog,SIGNAL(accepted()),this,SLOT(setInitialValueDone()));
+		closeButtonLayout->addStretch(2);
+		closeButtonLayout->addWidget(okDialogButton);
+		closeButtonLayout->addWidget(cancelDialogButton);
+		closeButtonLayout->addStretch(2);
+		
+		layout->addLayout(closeButtonLayout);
+		initialValuesDialog->setLayout(layout);
 	}
 
 	QSize BasicInformationTool::sizeHint() const
@@ -621,15 +725,22 @@ namespace Tinkercell
 
 		if (!family->measurementUnit.first.isEmpty() && !handle->hasNumericalData(QString("Initial Value")))
 		{
-			DataTable<qreal> initialValues;
-			initialValues.resize(1,1);
+			DataTable<qreal> table;
+			table.resize(1,1);
 
-			initialValues.rowName(0) = family->measurementUnit.first;
-			initialValues.colName(0) = family->measurementUnit.second;
-			initialValues.value(0,0) = BasicInformationTool::initialValue;
-			initialValues.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
+			table.rowName(0) = family->measurementUnit.first;
+			table.colName(0) = family->measurementUnit.second;
+			table.value(0,0) = 1.0;
+			
+			int k = initialValuesFamilyNames.indexOf(family->name);
+			if (k >= 0 && k < initialValues.size())
+			{
+				table.value(0,0) = initialValues[k];
+			}
+			
+			table.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
 
-			handle->data->numericalData.insert(QString("Initial Value"),initialValues);
+			handle->data->numericalData.insert(QString("Initial Value"),table);
 		}
 
 		if (!handle->hasNumericalData(QString("Fixed")))
@@ -802,7 +913,7 @@ namespace Tinkercell
 				tableItems << QPair<ItemHandle*,int>(lastItem,nDat.rowNames().size());
 
 				nDat.resize(nDat.rows()+1,nDat.cols());
-				nDat.value(nDat.rows()-1,0) = BasicInformationTool::initialValue;
+				nDat.value(nDat.rows()-1,0) = 1.0;
 				nDat.rowName(nDat.rows()-1) = name;
 
 				win->changeData(lastItem->fullName() + tr(".") + name + tr(" added"), lastItem,this->name,&nDat);

@@ -263,10 +263,9 @@ fprintf( out , "\
 	free(A);\n\
 	free(ss1.values);\n\
 	free(ss2.values);\n\
-	free(model);\n\
 	if (%i)\n\
 	{\n\
-		double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), 0);\n\
+		double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
 		TCvars = TCreactions;\n\
@@ -283,6 +282,7 @@ fprintf( out , "\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
 	free(data.colnames);\n\
+	free(model);\n\
 	free(y);", start, end, dt, sz, update, rateplot, xaxis);
 	
 

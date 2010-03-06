@@ -747,34 +747,34 @@ namespace Tinkercell
 								QString & target = sDat->value(k,l);// = QString("0.0");
 
 								int n = regexp1.indexIn(target);
-								while (n != -1)
+								if (n != -1)
 								{
 									target = newname;
 									//target.replace(oldname,newname);
-									n = regexp1.indexIn(target);
+									//n = regexp1.indexIn(target);
 									affected = true;
 								}
 								n = regexp2.indexIn(target);
-								while (n != -1)
+								if (n != -1)
 								{
 									target = newname;
 									//target.replace(regexp2,newname+QString("\\1"));
-									n = regexp2.indexIn(target);
+									//n = regexp2.indexIn(target);
 									affected = true;
 								}
 								n = regexp3.indexIn(target);
-								while (n != -1)
+								if (n != -1)
 								{
 									target = newname;
 									//target.replace(regexp3,QString("\\1")+newname);
-									n = regexp3.indexIn(target);
+									//n = regexp3.indexIn(target);
 									affected = true;
 								}
 								n = regexp4.indexIn(target);
-								while (n != -1)
+								if (n != -1)
 								{
 									target = newname;
-									n = regexp4.indexIn(target);
+									//n = regexp4.indexIn(target);
 									affected = true;
 								}
 							}

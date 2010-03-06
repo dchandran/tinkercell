@@ -904,30 +904,27 @@ namespace Tinkercell
 		return 1;
 	}
 	
-	QString ModelFileGenerator::insertPrefix(const QList<ItemHandle*>& handles, const QString& pref, const QString& str, const QString& sep)
+	QString ModelFileGenerator::insertPrefix(const QList<ItemHandle*>& handles, const QString& prefix, const QString& str, const QString& sep)
 	{
 		QString s = str;
 		QString name;
 		QList<ItemHandle*> lowerLevelItems;
+		
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i])
 			{
-				if (!handles[i]->parent)
-				{
-					name = handles[i]->fullName(sep);
-					s.replace(name,pref + name);
-				}
-				else
-				{
-					lowerLevelItems << handles[i];
-				}
+				name = handles[i]->fullName(sep);
+				
+				QRegExp regexp1(tr("^") + name + tr("$")),  //just old name
+						regexp2(tr("^") + name + tr("([^A-Za-z0-9])")),  //oldname+(!letter/num)
+						regexp3(tr("([^A-Za-z0-9_>])") + name + tr("$")), //(!letter/num)+oldname
+						regexp4(tr("([^A-Za-z0-9_>])") + name + tr("([^A-Za-z0-9])")); //(!letter/num)+oldname+(!letter/num)
+				
+				s.replace(regexp1,prefix + name);
+				s.replace(regexp2,prefix + name + tr("\\1"));
+				s.replace(regexp3,tr("\\1") + prefix + name);
+				s.replace(regexp4,tr("\\1") + prefix + name + tr("\\2"));
 			}
-		for (int i=0; i < lowerLevelItems.size(); ++i)
-		{
-			name = lowerLevelItems[i]->fullName(sep);
-			s.replace(name,pref + name);
-		}
-		s.replace(pref+pref,pref);
 		return s;
 	}
 }

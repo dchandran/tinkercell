@@ -55,7 +55,7 @@ namespace Tinkercell
 
 				for (int i=0; i < actions.size(); ++i)
 
-					if (actions[i] && actions[i]->text() == tr("Close page"))
+					if (actions[i] && actions[i]->text() == tr("&Close page"))
 					{
 						QMenu * exportmenu = new QMenu(tr("&Export SBML/Antimony"));
 						QMenu * importmenu = new QMenu(tr("&Import SBML"));
@@ -754,6 +754,7 @@ namespace Tinkercell
 							s += name;
 							if (N.rows() > 1)
 								s += tr("_") + N.rowName(r);
+							s += tr(": ");
 							s += lhs.join(tr(" + "));
 							s += tr(" -> ");
 							s += rhs.join(tr(" + "));

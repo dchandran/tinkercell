@@ -715,7 +715,7 @@ namespace Tinkercell
                         linkers << items2[j];
                     else
                         items << items2[j];
-
+/*
                 for (int j=0; j < linkers.size(); ++j)
                 {
                     handle = getHandle(linkers[j]);
@@ -730,7 +730,7 @@ namespace Tinkercell
                                     linkers << handle->graphicsItems[k];
                                 }
                     }
-                }
+                }*/
 
                 module = handles[i]->parent;
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
@@ -746,7 +746,7 @@ namespace Tinkercell
                 module = parents[i];
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
                 {
-                    items << linkers;
+                    //items << linkers;
                     GraphicsView * otherView = moduleHandles[module];
                     for (int j=0; j < views.size(); ++j)
                         if (views[j])

@@ -196,3 +196,4 @@ double* getDerivatives2(int m, int n, double * N, PropensityFunction f, double *
 void writeToFile(char* filename, double* data, int rows, int cols);
 
 #endif
+

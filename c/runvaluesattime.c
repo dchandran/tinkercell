@@ -5,7 +5,6 @@ the steady state table by changing this value.
 
 ****************************************************************************/
 
-#include "cvodesim.h"
 #include "TC_api.h"
 
 static char * selected_var;

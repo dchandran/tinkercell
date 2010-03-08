@@ -266,7 +266,7 @@ namespace Tinkercell
 
 	void Plot3DWidget::exportData(const QString& type)
 	{
-		if (type.toLower() == tr("image"))
+		if (type.toLower() == tr("save graph"))
 		{
 			QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
@@ -284,7 +284,7 @@ namespace Tinkercell
 			}
 		}
 		else
-		if (type.toLower() == tr("snapshot"))
+		if (type.toLower() == tr("copy image"))
 		{
 			QClipboard * clipboard = QApplication::clipboard();
 			if (clipboard && surfacePlot)

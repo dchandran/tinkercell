@@ -61,7 +61,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsDownstream(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
 		connect(&fToS,SIGNAL(alignParts(QSemaphore*,const QList<ItemHandle*>&)),this,SLOT(alignParts(QSemaphore*,const QList<ItemHandle*>&)));
 	}
-	
+
 	/*void AutoGeneRegulatoryTool::copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
@@ -274,7 +274,7 @@ namespace Tinkercell
 					arrow->normalize();
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-					
+
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -318,13 +318,13 @@ namespace Tinkercell
 
 		treeWidget = mainWindow->tool(tr("Connections Tree"));
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
-		
-		if (!nodesTree->nodeFamilies.contains("Protein") || 
-			!nodesTree->nodeFamilies.contains("mRNA") || 
+
+		if (!nodesTree->nodeFamilies.contains("Protein") ||
+			!nodesTree->nodeFamilies.contains("mRNA") ||
 			!nodesTree->nodeFamilies.contains("Empty") ||
 			!connectionsTree->connectionFamilies.contains("Synthesis") ||
 			!connectionsTree->connectionFamilies.contains("Biochemical")
-			) 
+			)
 			return;
 
 
@@ -355,7 +355,7 @@ namespace Tinkercell
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
 				proteinNode->name = tr("P");
 				proteinNode->name = NodeInsertion::findUniqueName(proteinNode,sceneItems);
-				
+
 				NodeHandle * rnaNode = new NodeHandle(rnaFamily);
 				rnaNode->name = tr("rna");
 				rnaNode->name = NodeInsertion::findUniqueName(rnaNode,sceneItems);
@@ -387,7 +387,7 @@ namespace Tinkercell
 						qreal w = rnaItem->sceneBoundingRect().width();
 
 						rnaItem->setPos(xpos, ypos - 2.0*rnaItem->sceneBoundingRect().height());
-						
+
 						rnaItem->setBoundingBoxVisible(false);
 
 						if (rnaItem->isValid())
@@ -439,7 +439,7 @@ namespace Tinkercell
 					nameItem->setFont(font);
 					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), proteinItem->scenePos().y());
 					list += nameItem;
-					
+
 					nameItem = new TextGraphicsItem(rnaNode,0);
 					font = nameItem->font();
 					font.setPointSize(22);
@@ -450,7 +450,7 @@ namespace Tinkercell
 					ConnectionGraphicsItem * transcription = new ConnectionGraphicsItem;
 					ConnectionHandle * connection1 = new ConnectionHandle(transcriptionFamily,transcription);
 					list += transcription;
-					
+
 					ConnectionGraphicsItem * translation = new ConnectionGraphicsItem;
 					ConnectionHandle * connection2 = new ConnectionHandle(translationFamily,translation);
 					list += translation;
@@ -460,7 +460,7 @@ namespace Tinkercell
 
 					transcription->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(transcription,rnaItem));
-					
+
 					translation->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,rnaItem));
 
@@ -470,23 +470,23 @@ namespace Tinkercell
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
 					NodeGraphicsReader imageReader1;
-					
+
 					arrow = new ArrowHeadItem(transcription);
 					imageReader1.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-						
+
 					transcription->curveSegments.last().arrowStart = arrow;
 					list += arrow;
-					
+
 					NodeGraphicsReader imageReader2;
 					arrow = new ArrowHeadItem(translation);
 					imageReader2.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-	
+
 					translation->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -494,7 +494,7 @@ namespace Tinkercell
 					transcription->lineType = ConnectionGraphicsItem::line;
 					connection1->name = NodeInsertion::findUniqueName(connection1,sceneItems);
                     sceneItems << rnaNode << connection1;
-					
+
 					connection2->name = tr("J");
 					translation->lineType = ConnectionGraphicsItem::line;
 					connection2->name = NodeInsertion::findUniqueName(connection2,sceneItems);
@@ -506,7 +506,7 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					list += nameItem;
-					
+
 					nameItem = new TextGraphicsItem(connection2,0);
 					nameItem->setPos( 0.5*(proteinItem->scenePos() + rnaItem->scenePos()));
 					font = nameItem->font();
@@ -567,7 +567,7 @@ namespace Tinkercell
 
 					item->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,emptyItem));
-						
+
 					list += item;
 
 					ArrowHeadItem * arrow = 0;
@@ -596,7 +596,7 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 				}
-				
+
 				emptyNode = new NodeHandle(emptyFamily);
 				emptyNode->name = tr("emp");
 				emptyNode->name = NodeInsertion::findUniqueName(emptyNode,sceneItems);
@@ -645,7 +645,7 @@ namespace Tinkercell
 
 					item->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,emptyItem));
-						
+
 					list += item;
 
 					ArrowHeadItem * arrow = 0;
@@ -895,9 +895,9 @@ namespace Tinkercell
 									missing = true;
 									break;
 								}
-								
+
 							rate = hillEquation(TFconnections,activators,repressors);
-							
+
 							if (promoter->hasNumericalData(tr("Numerical Attributes"))
 								&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
 								{
@@ -911,7 +911,7 @@ namespace Tinkercell
 									if (!rate.isEmpty())
 										rate = tr("0.0");
 								}
-								
+
 							if (missing)
 							{
 								sDat->value(0,0) = rate;
@@ -1290,7 +1290,7 @@ namespace Tinkercell
 						  this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-			
+
 			//connect(mainWindow,SIGNAL(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
 				//		this,SLOT(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
 			connectPlugins();
@@ -1357,13 +1357,13 @@ namespace Tinkercell
 		if (!scene || !item || items.isEmpty()) return;
 
 		ItemHandle * handle = item->handle();
-		
+
 		if (!justAdjustedPlasmid && handle && handle->isA(tr("Vector")))
 		{
 			adjustPlasmid(scene,item);
 			return;
 		}
-		
+
 		justAdjustedPlasmid = false;
 
 		bool partCollided = false;
@@ -1502,7 +1502,7 @@ namespace Tinkercell
 
 				}
 			}
-			
+
 		QList<ItemHandle*> parts, upstream;
 		QList<NodeHandle*> parts2;
 
@@ -1558,11 +1558,11 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>& distance, Qt::KeyboardModifiers)
 	{
 		if (!scene) return;
-		
+
 		if (!justAdjustedPlasmid)
-		{	
+		{
 			ItemHandle * h = 0;
-			
+
 			for (int i=0; i < items.size(); ++i)
 			{
 				h = getHandle(items[i]);
@@ -1576,19 +1576,19 @@ namespace Tinkercell
 				if (h && (h = h->parentOfFamily(tr("Vector"))))
 				{
 					for (int j=0; j < h->graphicsItems.size(); ++j)
-						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);				
+						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
 				}
 			}
 		}
-		
+
 		justAdjustedPlasmid = false;
-		
+
 		QList<NodeHandle*> parts2;
 
 		QList<ItemHandle*> moving;
 		QList<ItemHandle*> connections;
 		NodeHandle * handle = 0;
-		
+
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
@@ -1599,20 +1599,20 @@ namespace Tinkercell
 				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] 
+					if (connections[j]
 						&& connections[j]->hasTextData(tr("Rates"))
 						&& connections[j]->textData(tr("Rates")).contains(handle->fullName()))
 					{
-						bool intersects = false;
+						bool intersects = false, beforeIntersected = false;
 						ConnectionGraphicsItem * connection = 0;
 						QList<NodeGraphicsItem*> nodes0, nodes;
 						QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
 						for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 						{
-							if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))							
+							if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))
 								nodeConnections << connection;
 						}
-						
+
 						for (int k=0; k < nodeConnections.size(); ++k)
 						{
 							nodes0 = nodeConnections[k]->nodesWithoutArrows();
@@ -1625,18 +1625,30 @@ namespace Tinkercell
 										nodeConnections << nodeConnections0[m];
 							}
 						}
-						
+
+						QRectF rect1,rect2;
+						QPointF pos = items[i]->scenePos() - distance[i];
+
 						for (int k=0; k < nodes.size(); ++k)
-							if (nodes[k] && 
-								(items.contains(nodes[k]) ||
-									items[i]->sceneBoundingRect().adjusted(-10.0,-10.0,10.0,10.0).intersects(nodes[k]->sceneBoundingRect())))
+							if (nodes[k])
 							{
-								intersects = true;
-								break;
+                                rect1 = items[i]->sceneBoundingRect();
+                                rect2 = nodes[k]->sceneBoundingRect();
+
+								if (items.contains(nodes[k]) ||
+									rect1.adjusted(-10.0,-10.0,10.0,10.0).intersects(rect2))
+									intersects = true;
+
+                                rect1 = QRectF(pos.rx() - rect1.width(), pos.ry() - rect1.height(), pos.rx() + rect1.width(), pos.ry() + rect1.height());
+                                if (rect1.intersects(rect2))
+                                    beforeIntersected = true;
+
+								if (intersects && beforeIntersected)
+                                    break;
 							}
-						
-						if (!intersects)
-						{				
+
+						if (!intersects && beforeIntersected)
+						{
 							DataTable<QString> newRates(connections[j]->data->textData[tr("Rates")]);
 							newRates.value(0,0) = tr("0.0");
 							QString s = connections[j]->fullName() + tr(" rate = 0.0");
@@ -1648,7 +1660,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
 		for (int i=0; i < items.size(); ++i)
 		{
 			NodeGraphicsItem * startNode = NodeGraphicsItem::topLevelNodeItem(items[i]);
@@ -1701,8 +1713,8 @@ namespace Tinkercell
 
 		for (int i=0; i < handles.size(); ++i)
 		{
-            if ((connection = ConnectionHandle::cast(handles[i])) 
-				&& !visited.contains(handles[i]) 
+            if ((connection = ConnectionHandle::cast(handles[i]))
+				&& !visited.contains(handles[i])
 				&& handles[i]->isA("Transcription Regulation"))
 			{
 				visited << handles[i];
@@ -1739,10 +1751,10 @@ namespace Tinkercell
 					parts.push_front(upstream.first());
 					upstream.pop_front();
 				}
-				
+
 				nodeHandles.clear();
 				NodeHandle * nodeHandle = 0;
-				
+
 				for (int j=0; j < parts.size(); ++j)
 					if ((nodeHandle = NodeHandle::cast(parts[j])) && !nodeHandles.contains(nodeHandle))
 						nodeHandles << nodeHandle;
@@ -1860,7 +1872,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = getHandle(items[i]);
-			if (handle && handle->isA(family) && handle->children.isEmpty() && 
+			if (handle && handle->isA(family) && handle->children.isEmpty() &&
 				( (flipped && items[i]->transform().m11() < 0) || (!flipped && items[i]->transform().m11() > 0) ))
 				break;
 			else
@@ -2115,34 +2127,34 @@ namespace Tinkercell
 		QString rate = tr("(") + positives.join(" + ") + tr(")/(") + allTFs.join("*") + tr(")");
 		return rate;
 	}
-	
+
 	void AutoGeneRegulatoryTool::adjustPlasmid(GraphicsScene * scene, NodeGraphicsItem * vector, bool align)
 	{
 		if (!vector || !scene) return;
-		
+
 		justAdjustedPlasmid = true;
-	
+
 		ItemHandle * vectorHandle = vector->handle();
 		ItemHandle * handle = 0;
-		
+
 		QList<ItemHandle*> children, parents;
 		QList<QGraphicsItem*> intersectingItems = scene->items(vector->sceneBoundingRect());
-		
+
 		for (int i=0; i < intersectingItems.size(); ++i)
 		{
 			handle = getHandle(intersectingItems[i]);
-			if (handle && !handle->isChildOf(vectorHandle) && 
-				handle->isA(tr("Part")) && !handle->isA(tr("Vector")) && 
+			if (handle && !handle->isChildOf(vectorHandle) &&
+				handle->isA(tr("Part")) && !handle->isA(tr("Vector")) &&
 				(!handle->parent || vectorHandle->isChildOf(handle->parent)))
 			{
 				children << handle;
 				parents << vectorHandle;
 			}
 		}
-	
+
 		QList<QGraphicsItem*> list;
 		QList<ItemHandle*> existingChildren = vectorHandle->children;
-		
+
 		for (int i=0; i < existingChildren.size(); ++i)
 			if (existingChildren[i])
 			{
@@ -2155,13 +2167,13 @@ namespace Tinkercell
 						break;
 					}
 			}
-		
+
 		if (!children.isEmpty())
 			scene->setParentHandle(children, parents);
-			
+
 		existingChildren = vectorHandle->children;
 		QList<QGraphicsItem*> nodesInPlasmid;
-		
+
 		for (int i=0; i < existingChildren.size(); ++i)
 			if (existingChildren[i])
 			{
@@ -2172,14 +2184,14 @@ namespace Tinkercell
 						nodesInPlasmid << list[j];
 					}
 			}
-			
+
 		if (align && !nodesInPlasmid.isEmpty())
 		{
 			list = scene->selected();
 			scene->selected() = nodesInPlasmid;
-			emit alignCompactHorizontal();		
+			emit alignCompactHorizontal();
 			scene->selected() = list;
-			
+
 			QGraphicsItem * leftMost = nodesInPlasmid[0], * rightMost = nodesInPlasmid[0];
 			for (int i=0; i < nodesInPlasmid.size(); ++i)
 			{
@@ -2188,7 +2200,7 @@ namespace Tinkercell
 				if (nodesInPlasmid[i] && rightMost && nodesInPlasmid[i]->scenePos().x() > rightMost->scenePos().x())
 					rightMost = nodesInPlasmid[i];
 			}
-			
+
 			if (vector->boundaryControlPoints.size() > 1 && vector->boundaryControlPoints[0] && vector->boundaryControlPoints[1])
 			{
 				QList<QGraphicsItem*> controls;
@@ -2203,7 +2215,7 @@ namespace Tinkercell
 				{
 					qreal leftx = 0.0;
 					for (int i=0; i < leftMostNode->shapes.size(); ++i)
-						if (leftMostNode->shapes[i] && 
+						if (leftMostNode->shapes[i] &&
 							(leftx == 0.0 || leftMostNode->shapes[i]->boundingRect().left() <= leftx))
 						{
 							p1.ry() = leftMostNode->shapes[i]->sceneBoundingRect().y();
@@ -2211,12 +2223,12 @@ namespace Tinkercell
 						}
 				}
 				p2 = rightMost->sceneBoundingRect().bottomRight();
-				
+
 				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos())
 		  			 << (p2 + QPointF(100,200) - vector->boundaryControlPoints[1]->scenePos());
 		  		scene->move(controls,dist);
 			}
-			
+
 		}
 	}
 

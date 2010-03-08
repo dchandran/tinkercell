@@ -108,13 +108,24 @@ namespace Tinkercell
 			if (sliders[i])
 				disconnect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 		
-		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
+		for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
-				range = (max[i]-min[i]);
+				
 				x = valueline[i]->text().toDouble(&ok);
 				if (ok)
 				{
+					if (x > max[i])
+					{
+						max[i] = x;
+						maxline[i]->setText(QString::number(max[i]));
+					}
+					if (x < min[i])
+					{
+						min[i] = x;
+						minline[i]->setText(QString::number(min[i]));
+					}
+					range = (max[i]-min[i]);
 					values.value(i,0) = x;
 					sliders[i]->setValue((int)((x - min[i]) * 100.0/range));
 				}
@@ -128,13 +139,14 @@ namespace Tinkercell
 			if (sliders[i])
 				connect(sliders[i],SIGNAL(valueChanged(int)),this,SLOT(sliderChanged(int)));
 		
+		cthread->setArg(values);
+		
 		if (cthread->isRunning())
 		{
 			mainWindow->console()->message(tr("Previous run has not finished yet"));
 			return;
 		}
 		
-		cthread->setArg(values);
 		cthread->start();
 	}
 
@@ -144,22 +156,24 @@ namespace Tinkercell
 		
 		double range;
 		
-		for (int i=0; i < sliders.size() && i < max.size() && i < min.size(); ++i)
+		for (int i=0; i < valueline.size() && i < sliders.size() && i < max.size() && i < min.size(); ++i)
 			if (sliders[i])
 			{
 				range = (max[i]-min[i]);
-				values.value(i,0) = min[i] + range * (double)(sliders[i]->value())/100.0;
-				valueline[i]->setText(QString::number(values.value(i,0)));
+				values.value(i,0) = min[i] + (range * sliders[i]->value())/100.0;
+				valueline[i]->setText(QString::number(values.value(i,0)).left(6));
 			}
+
+		valueChanged();
 		
-		if (cthread->isRunning())
+		/*if (cthread->isRunning())
 		{
 			mainWindow->console()->message(tr("Previous run has not finished yet"));
 			return;
-		}
+		}*/
 		
-		cthread->setArg(values);		
-		cthread->start();
+		//cthread->setArg(values);		
+		//cthread->start();
 	}
 	
 	void MultithreadedSliderWidget::setSliders(const QStringList& options, const QList<double>& minValues, const QList<double>& maxValues)

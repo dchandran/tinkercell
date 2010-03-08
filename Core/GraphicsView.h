@@ -57,8 +57,8 @@ namespace Tinkercell
 	class ItemData;
 	class NetworkWindow;
 	class GraphicsScene;
-	
-	/*! \brief view for a graphics scene. 
+
+	/*! \brief view for a graphics scene.
 		Provides the ability to set specific items invisible when they might
 		might be visible in other views.
 		\ingroup helper
@@ -80,21 +80,25 @@ namespace Tinkercell
 		*/
 		GraphicsView(NetworkWindow * networkWindow = 0, QWidget * parent = 0);
 		/*! \brief show the given item in this view (does not affect other views of the same the scene)
-		*	\param QGraphicsView* 
+		*	\param QGraphicsView*
 		*/
 		virtual void showItem(QGraphicsItem*);
 		/*! \brief hide the given item in this view (does not affect other views of the same the scene)
-		*	\param QGraphicsView* 
+		*	\param QGraphicsView*
 		*/
 		virtual void hideItem(QGraphicsItem*);
 		/*! \brief show the given items in this view (does not affect other views of the same the scene)
-		*	\param QList<QGraphicsItem*>&* 
+		*	\param QList<QGraphicsItem*>&*
 		*/
 		virtual void showItems(const QList<QGraphicsItem*>&);
 		/*! \brief hide the given items in this view (does not affect other views of the same the scene)
-		*	\param QList<QGraphicsItem*>&* 
+		*	\param QList<QGraphicsItem*>&*
 		*/
 		virtual void hideItems(const QList<QGraphicsItem*>&);
+		/*! \brief check is an item is visible in this view (used by scene::isVisible())
+		*	\param QGraphicsItem*
+		*/
+		virtual bool checkVisibility(QGraphicsItem*) const;
 
 	protected:
 		/*! \brief close window event -- removes this view from the network window's views list
@@ -123,12 +127,12 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 		/*! \brief list of items to hide*/
 		QHash<QGraphicsItem*,bool> hiddenItems;
-		
+
 		friend class GraphicsScene;
 		friend class NetworkWindow;
 		friend class SetGraphicsViewVisibilityCommand;
 	};
-	
+
 	/*! \brief show and hide specific items from a given graphics view
 	* \ingroup undo*/
 	class MY_EXPORT SetGraphicsViewVisibilityCommand : public QUndoCommand

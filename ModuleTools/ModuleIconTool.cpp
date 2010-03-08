@@ -51,12 +51,27 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)),
 					this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>& , QPointF, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			
+
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
 			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
         return true;
     }
+
+    void ModuleIconTool::moduleButtonPressed(const QString& name)
+	{
+		if (!mainWindow) return;
+
+		int k = moduleFilenames.indexOf(name);
+
+		if (k > -1)
+		{
+			QString filename = MainWindow::userHome() + tr("/modules/") + name + tr(".xml");
+			mainWindow->open(filename);
+		}
+
+		mainWindow->sendEscapeSignal(this);
+	}
 
 	void ModuleIconTool::toolLoaded(Tool * tool)
 	{
@@ -67,6 +82,7 @@ namespace Tinkercell
 			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
 			connect(this,SIGNAL(addNewButton(const QList<QToolButton*>& ,const QString& )),catalog,SLOT(addNewButtons(const QList<QToolButton*>& ,const QString& )));
 			connect(this,SIGNAL(showGroup(const QString&)),catalog,SLOT(showGroup(const QString&)));
+			connect(catalog,SIGNAL(buttonPressed(const QString&)),this,SLOT(moduleButtonPressed(const QString&)));
 			readModuleFiles();
 		}
 
@@ -97,8 +113,11 @@ namespace Tinkercell
 			homeDir.mkdir(tr("modules"));
 			homeDir.cd(tr("modules"));
 		}
-		QString filename = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".xml"),
-				iconfile = MainWindow::userHome() + tr("/modules/") + handle->fullName(tr("_")) + tr(".png");
+
+		QString name = handle->fullName(tr("_"));
+
+		QString filename = MainWindow::userHome() + tr("/modules/") + name + tr(".xml"),
+				iconfile = MainWindow::userHome() + tr("/modules/") + name + tr(".png");
 		/*
 		QRectF viewport = scene->viewport();
 		int w = 100;
@@ -112,12 +131,16 @@ namespace Tinkercell
 
 		emit saveItems(items, filename);
 
-		QToolButton * button = new QToolButton(this);
-		button->setIcon(QIcon(pixmap));
-		button->setText(handle->fullName());
-		button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
-		buttonGroup.addButton(button);
-		emit addNewButton(QList<QToolButton*>() << button,tr("Modules"));
+		if (!moduleFilenames.contains(name))
+		{
+			moduleFilenames << name;
+			QToolButton * button = new QToolButton(this);
+			button->setIcon(QIcon(pixmap));
+			button->setText(name);
+			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
+			buttonGroup.addButton(button);
+			emit addNewButton(QList<QToolButton*>() << button,tr("Modules"));
+		}
 		emit showGroup(tr("Modules"));
 	}
 
@@ -304,13 +327,13 @@ namespace Tinkercell
 		for (int i=0; i < files.size(); ++i)
 		{
 			files[i].remove(tr(".xml"));
-			QString filename = MainWindow::userHome() + tr("/modules/") + files[i] + tr(".xml"),
-					iconfile = MainWindow::userHome() + tr("/modules/") + files[i] + tr(".png");
+			QString iconfile = MainWindow::userHome() + tr("/modules/") + files[i] + tr(".png");
 
 			QPixmap pixmap(iconfile);
 			QToolButton * button = new QToolButton(this);
 			button->setIcon(QIcon(pixmap));
 			button->setText(files[i]);
+			moduleFilenames << files[i];
 			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 			buttonGroup.addButton(button);
 			buttons << button;

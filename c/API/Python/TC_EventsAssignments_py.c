@@ -9,17 +9,17 @@ static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 	PyObject *strlist;
 	PyObject * item;
 	char ** names=0;
-	
+
 	names = tc_getEventTriggers();
-	
+
 	if (names)
 	{
 		len = 0;
-		
+
 		while (names[len] != 0) ++len;
-		
+
 		strlist = PyTuple_New(len);
-		
+
 		for (i=0; i<len && names[i]!=0; i++)
 		{
 			item = Py_BuildValue("s",names[i]);
@@ -31,7 +31,7 @@ static PyObject * pytc_getEventTriggers(PyObject *self, PyObject *args)
 	{
 		strlist = PyTuple_New(0);
 	}
-	
+
 	return Py_BuildValue("O",strlist);
 }
 
@@ -41,18 +41,18 @@ static PyObject * pytc_getEventResponses(PyObject *self, PyObject *args)
 	PyObject *strlist;
 	PyObject * item;
 	char ** names=0;
-	
+
 
 	names = tc_getEventResponses();
-	
+
 	if (names)
 	{
 		len = 0;
-		
+
 		while (names[len] != 0) ++len;
-		
+
 		strlist = PyTuple_New(len);
-		
+
 		for (i=0; i<len && names[i]!=0; i++)
 		{
 			item = Py_BuildValue("s",names[i]);
@@ -64,7 +64,7 @@ static PyObject * pytc_getEventResponses(PyObject *self, PyObject *args)
 	{
 		strlist = PyTuple_New(0);
 	}
-	
+
 	return Py_BuildValue("O",strlist);
 }
 
@@ -73,9 +73,9 @@ static PyObject * pytc_addEvent(PyObject *self, PyObject *args)
 	char * s1, *s2;
 	if (!PyArg_ParseTuple(args, "ss", &s1, &s2))
         return NULL;
-	
+
 	tc_addEvent(s1,s2);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }
@@ -88,10 +88,10 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 	char ** names;
 	PyObject *strlist;
 	PyObject * item=0;
-	
+
 	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
-	
+
 	isList = 1;
 	n = 0;
 	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
@@ -107,7 +107,7 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 
 		for(i=0; i<n; ++i)
 		{
-			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
 	}
 
@@ -115,18 +115,18 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 	{
 		array = tc_allItems();
 	}
-	
+
 	names = tc_getForcingFunctionNames(array);
 	free(array);
-	
+
 	if (names)
 	{
 		len = 0;
-		
+
 		while (names[len] != 0) ++len;
-		
+
 		strlist = PyTuple_New(len);
-		
+
 		for (i=0; i<len && names[i]!=0; i++)
 		{
 			item = Py_BuildValue("s",names[i]);
@@ -138,7 +138,7 @@ static PyObject * pytc_getForcingFunctionNames(PyObject *self, PyObject *args)
 	{
 		strlist = PyTuple_New(0);
 	}
-	
+
 	return Py_BuildValue("O",strlist);
 }
 
@@ -150,10 +150,10 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 	char ** names=0;
 	PyObject *strlist;
 	PyObject * item;
-	
+
 	if(!PyArg_ParseTuple(args, "|O", &pylist))
 		return NULL;
-	
+
 	isList = 1;
 	n = 0;
 	if (pylist && (PyList_Check(pylist) || PyTuple_Check(pylist)))
@@ -169,7 +169,7 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 
 		for(i=0; i<n; ++i)
 		{
-			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
 	}
 
@@ -177,18 +177,18 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 	{
 		array = tc_allItems();
 	}
-	
+
 	names = tc_getForcingFunctionAssignments(array);
 	free(array);
-	
+
 	if (names)
 	{
 		len = 0;
-		
+
 		while (names[len] != 0) ++len;
-		
+
 		strlist = PyTuple_New(len);
-		
+
 		for (i=0; i<len && names[i]!=0; i++)
 		{
 			item = Py_BuildValue("s",names[i]);
@@ -200,7 +200,7 @@ static PyObject * pytc_getForcingFunctionAssignments(PyObject *self, PyObject *a
 	{
 		strlist = PyTuple_New(0);
 	}
-	
+
 	return Py_BuildValue("O",strlist);
 }
 
@@ -210,9 +210,9 @@ static PyObject * pytc_addForcingFunction(PyObject *self, PyObject *args)
 	char * s1, *s2;
 	if(!PyArg_ParseTuple(args, "iss", &item,&s1, &s2))
         return NULL;
-	
+
 	tc_addForcingFunction((void*)item,s1,s2);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }
@@ -223,9 +223,9 @@ static PyObject * pytc_displayText(PyObject *self, PyObject *args)
 	char * s;
 	if(!PyArg_ParseTuple(args, "is", &item,&s))
         return NULL;
-	
+
 	tc_displayText((void*)item,s);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }
@@ -236,9 +236,9 @@ static PyObject * pytc_displayNumber(PyObject *self, PyObject *args)
 	double d;
 	if(!PyArg_ParseTuple(args, "id", &item,&d))
         return NULL;
-	
+
 	tc_displayNumber((void*)item,d);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }
@@ -248,9 +248,9 @@ static PyObject * pytc_highlight(PyObject *self, PyObject *args)
 	int item,r=0,g=0,b=0;
 	if(!PyArg_ParseTuple(args, "i|iii", &item,&r,&g,&b))
         return NULL;
-	
+
 	tc_highlight((void*)item,r,g,b);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }

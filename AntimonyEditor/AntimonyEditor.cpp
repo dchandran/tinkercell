@@ -2,7 +2,7 @@
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  see COPYRIGHT.TXT
- 
+
  A tool that allows users to construct models using Antimony scripts in the TextEditor
 
 ****************************************************************************/
@@ -18,9 +18,8 @@
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 #include "AntimonyEditor.h"
-#include "StoichiometryTool.h"
-#include "ModelFileGenerator.h"
 #include "ModelSummaryTool.h"
+#include "ModuleTool.h"
 #include <QToolButton>
 #include <QRegExp>
 #include <QFile>
@@ -28,6 +27,7 @@
 #include <QRegExp>
 #include <QtDebug>
 #include <QSemaphore>
+#include <QFileDialog>
 
 //Antimony headers
 #include "antimony_api.h"
@@ -35,7 +35,7 @@
 namespace Tinkercell
 {
 	AntimonyEditor_FtoS AntimonyEditor::fToS;
-	
+
 	AntimonyEditor::AntimonyEditor() : TextParser(tr("Antimony Parser"))
 	{
 		scriptDisplayWindow = new CodeEditor(this);
@@ -48,14 +48,36 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			mainWindow->addParser(this);
-			
+
+			if (mainWindow->fileMenu)
+			{
+				QList<QAction*> actions = mainWindow->fileMenu->actions();
+
+				for (int i=0; i < actions.size(); ++i)
+
+					if (actions[i] && actions[i]->text() == tr("Close page"))
+					{
+						QMenu * exportmenu = new QMenu(tr("&Export SBML/Antimony"));
+						QMenu * importmenu = new QMenu(tr("&Import SBML"));
+						mainWindow->fileMenu->insertMenu(actions[i],importmenu);
+						mainWindow->fileMenu->insertMenu(actions[i],exportmenu);
+						importmenu->addAction(tr("load SBML file"),this,SLOT(loadSBMLFile()));
+						importmenu->addAction(tr("get SBML from clipboard"),this,SLOT(pasteSBMLText()));
+						exportmenu->addAction(tr("save SBML file"),this,SLOT(saveSBMLFile()));
+						exportmenu->addAction(tr("copy SBML text"),this,SLOT(copySBMLText()));
+						exportmenu->addAction(tr("save Antimony file"),this,SLOT(saveAntimonyFile()));
+						exportmenu->addAction(tr("copy Antimony text"),this,SLOT(copyAntimonyText()));
+						break;
+					}
+			}
+
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));			
+			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
-			
+
 			connectTCFunctions();
 		}
 		return false;
@@ -214,7 +236,7 @@ namespace Tinkercell
 		if (!editor) return;
 
 		QString modelString = editor->toPlainText() + tr("\n");
-		
+
 		QList<TextItem*> itemsToInsert = parse(modelString);
 
 		if (!itemsToInsert.isEmpty())
@@ -284,7 +306,7 @@ namespace Tinkercell
 			moduleText = new NodeTextItem;
 			setHandle(moduleText,moduleHandle);
 			itemsToInsert += moduleText;
-			
+
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("");
 
@@ -445,7 +467,7 @@ namespace Tinkercell
 					if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
 						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
-				
+
 				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
 
 				int numEvents = (int)getNumEvents(moduleName);
@@ -609,16 +631,25 @@ namespace Tinkercell
 
 	void AntimonyEditor::toolLoaded(Tool*)
 	{
-		static bool connected = false;
-		if (connected) return;
+		static bool connected1 = false, connected2 = false;
+		if (connected1 && connected2) return;
 
 		if (mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
+			connected1 = true;
 			QWidget * widget = mainWindow->tool(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
 			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
 					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
-			connected = true;
+		}
+
+		if (mainWindow && mainWindow->tool(tr("Module Connection Tool")))
+		{
+		    connected2 = true;
+			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
+			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
+			connect(moduleTool,SIGNAL(createTextWindow(const QList<ItemHandle*>&)),
+					this,SLOT(createTextWindow(const QList<ItemHandle*>&)));
 		}
 	}
 
@@ -629,13 +660,13 @@ namespace Tinkercell
 		ItemHandle * handle = items[0];
 
 		if (handle && handle->isA(tr("Module")) && currentWindow())
-		{		
+		{
 			QString s = getAntimonyScript(items);
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
 		}
 	}
-	
+
 	void AntimonyEditor::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
 	{
 		if (scene && scene->symbolsTable && handles.size() > 0)
@@ -647,8 +678,141 @@ namespace Tinkercell
 			}
 		}
 	}
-	
-	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& handles)
+
+	void AntimonyEditor::appendScript(QString& s, const QList<ItemHandle*>& childHandles)
+	{
+		QRegExp regex(tr("\\.(?!\\d)"));
+		QString s2;
+		for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j] && childHandles[j]->isA(tr("Module")))
+			{
+				s += tr("    ");
+				s += childHandles[j]->name;
+				s += tr(": ");
+				s += childHandles[j]->name;
+				s += tr(";\n\n");
+			}
+
+		for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j] && childHandles[j]->isA(tr("compartment")))
+			{
+				if (s2.isEmpty())
+					s2 += tr("    compartment ");
+				else
+					s2 += tr(", ");
+				s2 += childHandles[j]->fullName(tr("_"));
+
+				if (!s2.isEmpty())
+				{
+					QString s3;
+					for (int j=0; j < childHandles.size(); ++j)
+						if (childHandles[j] && childHandles[j]->children.isEmpty())
+						{
+							if (s3.isEmpty())
+								s3 += tr("    species ");
+							else
+								s3 += tr(", ");
+							s3 += childHandles[j]->fullName(tr("_"));
+							if (childHandles[j]->parent && childHandles[j]->parent->isA(tr("compartment")))
+								s3 += tr("in ") + childHandles[j]->parent->fullName(tr("_"));
+						}
+
+					s += s2;
+					s += tr("\n");
+					s += s3;
+					s += tr("\n\n");
+				}
+			}
+
+		QString name, rate;
+		QStringList lhs, rhs;
+		for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j])
+			{
+				name = childHandles[j]->fullName(tr("_"));
+				if (childHandles[j]->hasNumericalData(tr("Stoichiometry")) &&
+					 childHandles[j]->hasTextData(tr("Rates")))
+					{
+
+
+						DataTable<qreal>& N = childHandles[j]->numericalDataTable(tr("Stoichiometry"));
+						DataTable<QString>& V = childHandles[j]->textDataTable(tr("Rates"));
+						for (int r=0; r < N.rows(); ++r)
+						{
+							lhs.clear();
+							rhs.clear();
+							rate = V.value(r,0);
+							for (int c=0; c < N.cols(); ++c)
+								if (N.value(r,c) < 0)
+									lhs += N.colName(c);
+								else
+								if (N.value(r,c) > 0)
+									rhs += N.colName(c);
+
+							rate.replace(regex,tr("_"));
+							s += tr("    ");
+							s += name;
+							if (N.rows() > 1)
+								s += tr("_") + N.rowName(r);
+							s += lhs.join(tr(" + "));
+							s += tr(" -> ");
+							s += rhs.join(tr(" + "));
+							s += tr(";    ");
+							s += rate + tr(";\n");
+						}
+
+					}
+
+				if (childHandles[j]->hasNumericalData(tr("Numerical Attributes")))
+				{
+					DataTable<qreal>& params = childHandles[j]->numericalDataTable(tr("Numerical Attributes"));
+
+					for (int r=0; r < params.rows(); ++r)
+					{
+						s += tr("    ");
+						s += name;
+						s += tr("_");
+						s += params.rowName(r);
+						s += tr(" = ");
+						s += QString::number(params.value(r,0));
+						s += tr(";\n");
+					}
+				}
+
+				if (childHandles[j]->hasTextData(tr("Assignments")))
+				{
+					DataTable<QString>& assigns = childHandles[j]->textDataTable(tr("Assignments"));
+
+					for (int r=0; r < assigns.rows(); ++r)
+					{
+						QString rule = assigns.value(r,0);
+						rule.replace(regex,tr("_"));
+						s += tr("    ");
+						if (!name.isEmpty())
+						{
+							s += name;
+							s += tr("_");
+						}
+						s += assigns.rowName(j);
+						s += tr(" = ");
+						s += rule;
+						s += tr(";\n");
+					}
+				}
+
+				if (childHandles[j]->hasNumericalData(tr("Initial Value")) && !name.isEmpty())
+				{
+					s += tr("    ");
+					s += name;
+					s += tr(" = ");
+					s += QString::number(childHandles[j]->numericalData(tr("Initial Value")));
+					s += tr(";\n");
+				}
+
+			}
+	}
+
+	QString AntimonyEditor::getAntimonyScript(const QList<ItemHandle*>& list)
 	{
 		//QString s("Model M\n");
 		QString s;
@@ -660,155 +824,189 @@ namespace Tinkercell
 		operator
 		compartment
 		*/
-		
-		QString s2;
-		for (int i=0; i < handles.size(); ++i)		
-			if (handles[i] && handles[i]->isA(tr("compartment")))			
+
+		QList<ItemHandle*> visitedHandles, allHandles, childHandles, temp;
+		ItemHandle * root;
+
+		for (int i=0; i < list.size(); ++i)
+		{
+			root = 0;
+			if (list[i]) root = list[i]->root();
+
+			if (root)
 			{
-				if (s2.isEmpty()) 
-					s2 += tr("    compartment ");
-				else
-					s2 += tr(", ");
-				s2 += handles[i]->fullName(tr("_"));
+				temp = root->allChildren();
+				if (!allHandles.contains(root))
+					allHandles << root;
 			}
-		
-		if (!s2.isEmpty())
-		{
-			QString s3;
-			for (int i=0; i < handles.size(); ++i)		
-				if (handles[i] && handles[i]->children.isEmpty())
-				{
-					if (s3.isEmpty()) 
-						s3 += tr("    species ");
-					else
-						s3 += tr(", ");
-					s3 += handles[i]->fullName(tr("_"));
-					if (handles[i]->parent && handles[i]->parent->isA(tr("compartment")))
-						s3 += tr("in ") + handles[i]->parent->fullName(tr("_"));
-				}
-			
-			s += s2;
-			s += tr("\n");
-			s += s3;
-			s += tr("\n\n");
-		}
-		
-		DataTable<qreal> N = StoichiometryTool::getStoichiometry(handles);
-		QStringList rates = StoichiometryTool::getRates(handles);
-		DataTable<qreal> params = ModelFileGenerator::getUsedParameters(handles);
 
-		for (int i=0; i < N.cols() && i < rates.size(); ++i)
-		{
-			QStringList lhs, rhs;
-			for (int j=0; j < N.rows(); ++j)
-				if (N.value(j,i) < 0)
-					lhs += N.rowName(j);
-				else
-				if (N.value(j,i) > 0)
-					rhs += N.rowName(j);
-
-			s += tr("    ");
-			s += lhs.join(tr(" + ")); 
-			s += tr(" -> ");
-			s += rhs.join(tr(" + ")); 
-			s += tr(";    ");
-			s += rates[i] + tr(";\n");
+			for (int j=0; j < temp.size(); ++j)
+				if (temp[j] && !allHandles.contains(temp[j]))
+					allHandles << temp[j];
 		}
 
-		s += tr("\n");
-
-		for (int i=0; i < params.rows(); ++i)
-		{
-			s += tr("    ");
-			s += params.rowName(i);
-			s += tr(" = ");
-			s += QString::number(params.value(i,0));
-			s += tr(";\n");
-		}
-
-		s += tr("\n");
-
-		QRegExp regex(tr("\\.(?!\\d)"));
-
-		for (int i=0; i < handles.size(); ++i)
-		{
-			if (handles[i]->hasTextData(tr("Assignments")))
+		for (int i=0; i < allHandles.size(); ++i)
+			if (allHandles[i]->isA(tr("Module")))
 			{
-				DataTable<QString> assigns = handles[i]->data->textData[tr("Assignments")];
-				for (int j=0; j < assigns.rows(); ++j)
-				{
-					QString rule = assigns.value(j,0);
-					rule.replace(regex,tr("_"));
-					s += tr("    ");
-					if (!handles[i]->name.isEmpty())
-					{
-						s += handles[i]->fullName(tr("_"));
-						s += tr("_");
-					}
-					s += assigns.rowName(j);
-					s += tr(" = ");
-					s += rule;
-					s += tr("\n");
-				}
-			}
-		}
+				visitedHandles << allHandles[i];
 
-		for (int i=0; i < handles.size(); ++i)
-		{
-			if (handles[i]->hasNumericalData(tr("Initial Value")) && !handles[i]->name.isEmpty())
-			{
-				s += tr("    ");
-				s += handles[i]->fullName(tr("_"));
-				s += tr(" = ");
-				s += QString::number(handles[i]->numericalData(tr("Initial Value"))); 
-				s += tr("\n");
-			}
-		}
+				s += tr("Module ");
+				s += allHandles[i]->name;
+				s += tr("()\n");
+				childHandles = allHandles[i]->children;
 
-		//s += tr("\nend\n");
+				visitedHandles << childHandles;
+
+				appendScript(s,childHandles);
+
+				s += tr("end;\n\n");
+			}
+
+		childHandles.clear();
+
+		for (int i=0; i < allHandles.size(); ++i)
+			if (allHandles[i] && !visitedHandles.contains(allHandles[i]))
+				childHandles << allHandles[i];
+
+		appendScript(s,childHandles);
+
 		return s;
 	}
-	
+
+	void AntimonyEditor::createTextWindow(const QList<ItemHandle*>& items)
+	{
+		if (!mainWindow) return;
+
+		TextEditor * newEditor = mainWindow->newTextWindow();
+
+		if (!newEditor || !newEditor->networkWindow) return;
+
+		newEditor->networkWindow->popOut();
+		newEditor->setText(getAntimonyScript(items));
+	}
+
+	void AntimonyEditor::loadSBMLFile()
+	{
+		QString file = QFileDialog::getOpenFileName (this, tr("Load SBML file"));
+
+		if (!file.isNull() && !file.isEmpty())
+			loadSBMLFileSlot(0, file);
+	}
+
+	void AntimonyEditor::pasteSBMLText()
+	{
+		QClipboard * clipboard = QApplication::clipboard();
+		if (clipboard)
+		{
+			QString s = clipboard->text();
+
+			if (!s.isNull() && !s.isEmpty())
+				loadSBMLStringSlot(0, s);
+		}
+	}
+
+	void AntimonyEditor::saveSBMLFile()
+	{
+		if (!currentNetwork()) return;
+
+		QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"));
+
+		if (!file.isNull() && !file.isEmpty())
+		{
+			QList<ItemHandle*> handles = currentNetwork()->allHandles();
+			handles << currentNetwork()->modelItem();
+			writeSBMLFileSlot(0, handles, file);
+		}
+	}
+
+	void AntimonyEditor::copySBMLText()
+	{
+		if (!currentNetwork()) return;
+
+		QList<ItemHandle*> handles = currentNetwork()->allHandles();
+		handles << currentNetwork()->modelItem();
+		QString s;
+		getSBMLStringSlot(0, handles, &s);
+		QClipboard * clipboard = QApplication::clipboard();
+		if (clipboard)
+		{
+			clipboard->setText(s);
+			if (console())
+				console()->message(tr("SBML text copied to clipboard"));
+		}
+	}
+
+	void AntimonyEditor::saveAntimonyFile()
+	{
+		if (!currentNetwork()) return;
+
+		QString file = QFileDialog::getSaveFileName (this, tr("Save SBML file"));
+
+		if (!file.isNull() && !file.isEmpty())
+		{
+			QList<ItemHandle*> handles = currentNetwork()->allHandles();
+			handles << currentNetwork()->modelItem();
+			writeAntimonyFileSlot(0, handles, file);
+		}
+	}
+
+	void AntimonyEditor::copyAntimonyText()
+	{
+		if (!currentNetwork()) return;
+
+		QList<ItemHandle*> handles = currentNetwork()->allHandles();
+		handles << currentNetwork()->modelItem();
+		QString s;
+		getAntimonyStringSlot(0, handles, &s);
+		QClipboard * clipboard = QApplication::clipboard();
+		if (clipboard)
+		{
+			clipboard->setText(s);
+			if (console())
+				console()->message(tr("SBML text copied to clipboard"));
+		}
+	}
+
 	/**********************
 	       C API
 	***********************/
-	
+
 	void AntimonyEditor::loadSBMLStringSlot(QSemaphore* s,const QString& sbml)
 	{
 		if (mainWindow)
 			mainWindow->newTextWindow();
-			
+
 		if (currentTextEditor() && loadString (sbml.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));
 		}
-		
+
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::loadAntimonyStringSlot(QSemaphore* s,const QString& ant)
 	{
 		if (mainWindow)
 			mainWindow->newTextWindow();
-			
+
 		if (currentTextEditor())
 		{
 			currentTextEditor()->setText(ant);
 		}
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::loadSBMLFileSlot(QSemaphore* s,const QString& file)
 	{
 		if (mainWindow)
 			mainWindow->newTextWindow();
-			
+
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));
-			
+
 			if (mainWindow->currentWindow())
 			{
 				QRegExp regexp(tr("([A-Za-z_0-9]+)\\."));
@@ -817,20 +1015,20 @@ namespace Tinkercell
 					mainWindow->currentWindow()->setWindowTitle(regexp.cap(1));
 			}
 		}
-		
+
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::loadAntimonyFileSlot(QSemaphore* s,const QString& file)
 	{
 		if (mainWindow)
 			mainWindow->newTextWindow();
-		
+
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));
-			
+
 			if (mainWindow->currentWindow())
 			{
 				QRegExp regexp(tr("([A-Za-z_0-9]+)\\."));
@@ -839,10 +1037,10 @@ namespace Tinkercell
 					mainWindow->currentWindow()->setWindowTitle(regexp.cap(1));
 			}
 		}
-		
+
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::getSBMLStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString* sbml)
 	{
 		if (sbml && currentWindow())
@@ -853,17 +1051,17 @@ namespace Tinkercell
 		}
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::getAntimonyStringSlot(QSemaphore* s,const QList<ItemHandle*>& items, QString* ant)
 	{
 		if (ant && currentWindow())
 		{
 			(*ant) = getAntimonyScript(items);
 		}
-		if (s) 
+		if (s)
 			s->release();
 	}
-	
+
 	void AntimonyEditor::writeSBMLFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
 		if (currentTextEditor() && currentWindow())
@@ -874,7 +1072,7 @@ namespace Tinkercell
 		}
 		if (s) s->release();
 	}
-	
+
 	void AntimonyEditor::writeAntimonyFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
 	{
 		if (currentTextEditor() && currentWindow())
@@ -885,7 +1083,7 @@ namespace Tinkercell
 		}
 		if (s) s->release();
 	}
-	
+
 	typedef void (*tc_Antimony_api)(
 				void (*loadAntimonyString)(const char *),
 				void (*loadSBMLString)(const char *),
@@ -895,7 +1093,7 @@ namespace Tinkercell
 				char* (*getAntimonyString)(Array),
 				void (*writeSBMLFile)(Array,const char*),
 				void (*writeAntimonyFile)(Array,const char*));
-	
+
 	void AntimonyEditor::setupFunctionPointers( QLibrary * library)
 	{
 		tc_Antimony_api f = (tc_Antimony_api)library->resolve("tc_Antimony_api");
@@ -913,34 +1111,34 @@ namespace Tinkercell
 			);
 		}
 	}
-	
+
 	void AntimonyEditor::connectTCFunctions()
 	{
 		connect(&fToS,SIGNAL(loadSBMLStringSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadSBMLStringSlot(QSemaphore*,const QString&)));
-		
+
 		connect(&fToS,SIGNAL(loadAntimonyStringSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadAntimonyStringSlot(QSemaphore*,const QString&)));
-		
+
 		connect(&fToS,SIGNAL(loadSBMLFileSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadSBMLFileSlot(QSemaphore*,const QString&)));
-				
+
 		connect(&fToS,SIGNAL(loadAntimonyFileSignal(QSemaphore*,const QString&)),
 				this,SLOT(loadAntimonyFileSlot(QSemaphore*,const QString&)));
-				
+
 		connect(&fToS,SIGNAL(getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*)),
 				this,SLOT(getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*)));
-		
+
 		connect(&fToS,SIGNAL(getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*)),
 				this,SLOT(getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*)));
-			
+
 		connect(&fToS,SIGNAL(writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
 				this,SLOT(writeSBMLFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&)));
-		
+
 		connect(&fToS,SIGNAL(writeAntimonyFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&)),
 				this,SLOT(writeAntimonyFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&)));
 	}
-	
+
 	void AntimonyEditor_FtoS::loadSBMLString(const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);

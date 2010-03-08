@@ -128,8 +128,8 @@ namespace Tinkercell
 
 		//setup toolbar
 
-		addExportOption(QIcon(tr(":/images/save.png")),tr("Image"),tr("Save image"));
-		addExportOption(QIcon(tr(":/images/camera.png")),tr("Snapshot"),tr("Copy image to clipboard"));
+		addExportOption(QIcon(tr(":/images/save.png")),tr("Save graph"),tr("Save graph image"));
+		addExportOption(QIcon(tr(":/images/camera.png")),tr("Copy image"),tr("Copy image to clipboard"));
 		addExportOption(QIcon(tr(":/images/new.png")),tr("Text"),tr("Show the data table"));
 		addExportOption(QIcon(tr(":/images/latex.png")),tr("LaTeX"),tr("Export data to LaTeX"));
 		addExportOption(QIcon(tr(":/images/copy.png")),tr("Clipboard"),tr("Copy data to clipboard"));

@@ -37,19 +37,19 @@ static PyObject * pytc_insertConnection(PyObject *self, PyObject *args)
 		array2 = malloc( (1+n2) * sizeof(void*) );
 		array2[n2] = 0;
 
-		for(i=0; i<n1; ++i) 
-		{ 
-			array1[i] = isList1 ? (void*)((int)PyInt_AsLong( PyList_GetItem( partsFrom, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( partsFrom, i ) ));
+		for(i=0; i<n1; ++i)
+		{
+			array1[i] = isList1 ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( partsFrom, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( partsFrom, i ) ));
 		}
-		for(i=0; i<n2; ++i) 
-		{ 
-			array2[i] = isList2 ? (void*)((int)PyInt_AsLong( PyList_GetItem( partsTo, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( partsTo, i ) ));
+		for(i=0; i<n2; ++i)
+		{
+			array2[i] = isList2 ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( partsTo, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( partsTo, i ) ));
 		}
 
 		o = tc_insertConnection(array1,array2,s,f);
 	}
 
-	return Py_BuildValue("i",(int)o);
+	return Py_BuildValue("i",(size_t)o);
 }
 
 static PyObject * pytc_getConnectedNodes(PyObject *self, PyObject *args)
@@ -72,9 +72,9 @@ static PyObject * pytc_getConnectedNodes(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -92,7 +92,7 @@ static PyObject * pytc_getConnectedNodesIn(PyObject *self, PyObject *args)
 	int i,len;
 	void ** array;
 	PyObject *pylist, *item;
-	
+
 	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
@@ -106,9 +106,9 @@ static PyObject * pytc_getConnectedNodesIn(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -126,7 +126,7 @@ static PyObject * pytc_getConnectedNodesOut(PyObject *self, PyObject *args)
 	int i,len;
 	void ** array;
 	PyObject *pylist, *item;
-	
+
 	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
@@ -139,9 +139,9 @@ static PyObject * pytc_getConnectedNodesOut(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -173,9 +173,9 @@ static PyObject * pytc_getConnectedNodesOther(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -193,7 +193,7 @@ static PyObject * pytc_getConnections(PyObject *self, PyObject *args)
 	int i,len;
 	void ** array;
 	PyObject *pylist, *item;
-	
+
 	if(!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
@@ -207,9 +207,9 @@ static PyObject * pytc_getConnections(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -233,7 +233,7 @@ static PyObject * pytc_getConnectionsIn(PyObject *self, PyObject *args)
 		return NULL;
 
 	array = tc_getConnectionsIn((void*)i);
-	
+
 	if (array)
 	{
 		len = 0;
@@ -242,9 +242,9 @@ static PyObject * pytc_getConnectionsIn(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -276,9 +276,9 @@ static PyObject * pytc_getConnectionsOut(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);
@@ -310,9 +310,9 @@ static PyObject * pytc_getConnectionsOther(PyObject *self, PyObject *args)
 
 		pylist = PyTuple_New(len);
 
-		for (i=0; i<len; i++) 
+		for (i=0; i<len; i++)
 		{
-			item = Py_BuildValue("i",(int)(array[i]));
+			item = Py_BuildValue("i",(size_t)(array[i]));
 			PyTuple_SetItem(pylist, i, item);
 		}
 		free(array);

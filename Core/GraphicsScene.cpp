@@ -49,7 +49,7 @@ namespace Tinkercell
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView)
 			return QRectF();
-		
+
 		GraphicsView * view = networkWindow->currentGraphicsView;
 
 		if (view)
@@ -224,9 +224,9 @@ namespace Tinkercell
 	{
 		if (!item || item->scene() == this) return;
 		QGraphicsScene::addItem(item);
-		
+
 		item->setVisible( item->isVisible() );
-		
+
 		if (item->zValue())
 		{
 			item->setZValue(item->zValue());
@@ -286,10 +286,10 @@ namespace Tinkercell
 		Tool::GraphicsItem * gitem = 0;
 
 		QGraphicsItem * p = itemAt(clickedPoint);
-		
+
 		if (p)
 			gitem = Tool::GraphicsItem::cast(p->topLevelItem());
-		
+
 		if (!gitem)
 		{
 			p = getGraphicsItem(p);
@@ -310,7 +310,7 @@ namespace Tinkercell
 							networkWindow->currentGraphicsView &&
 							networkWindow->currentGraphicsView->hiddenItems.contains(p))
 							p = 0;
-							
+
 						if (p && !TextGraphicsItem::cast(p))
 							break;
 					}
@@ -319,7 +319,7 @@ namespace Tinkercell
 
 			item = p;
 		}
-		
+
 		if (movingItemsGroup)
 		{
 			destroyItemGroup(movingItemsGroup);
@@ -518,7 +518,7 @@ namespace Tinkercell
 				for (int i=0; i < itemsIntersected.size(); ++i)
 					if (ConnectionGraphicsItem::cast(itemsIntersected[i]))
 						itemsInRect.append(itemsIntersected[i]);
-				
+
 				QGraphicsItem* item = 0;
 				for (int i=0; i < itemsInRect.size(); ++i)
 					if (itemsInRect[i] != &selectionRect &&
@@ -606,7 +606,7 @@ namespace Tinkercell
 	void GraphicsScene::scaleView(qreal scaleFactor)
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-		
+
 		QGraphicsView * view = networkWindow->currentGraphicsView;
 
 		qreal factor = networkWindow->currentGraphicsView->matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
@@ -874,7 +874,7 @@ namespace Tinkercell
 	void GraphicsScene::fitSelected()
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-		
+
 		if (selectedItems.size() < 1)
 			fitAll();
 		else
@@ -1572,7 +1572,7 @@ namespace Tinkercell
 					viewport = items[0]->sceneBoundingRect().normalized();
 				else
 					viewport = QRectF( clickedPoint, selectionRect.sceneBoundingRect().normalized().size() );*/
-				int w = 540;
+				int w = 640;
 				int h = (int)(viewport.height() * w/viewport.width());
 				QImage image(w,h,QImage::Format_ARGB32);
 				scene->print(&image);
@@ -1586,6 +1586,20 @@ namespace Tinkercell
 
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+
+		// copy the hidden/visible information for all views
+		if (networkWindow)
+		{
+			for (int i=0; i < networkWindow->graphicsViews.size(); ++i)
+				if (networkWindow->graphicsViews[i])
+					for (int j=0; j < duplicateItems.size() && j < items.size(); ++j)
+					{
+						if (networkWindow->graphicsViews[i]->hiddenItems.contains(items[j]))
+							networkWindow->graphicsViews[i]->hiddenItems[ duplicateItems[j] ] =
+								networkWindow->graphicsViews[i]->hiddenItems[ items[j] ];
+					}
+		}
+
 		emit copyItems(this,duplicateItems,allNewHandles);
 
 		GraphicsScene::copiedFromScene = scene;
@@ -2032,7 +2046,7 @@ namespace Tinkercell
 			return networkWindow->allHandles();
 		return QList<ItemHandle*>();
 	}
-	
+
 	/*! \brief show item*/
 	void GraphicsScene::showItems(const QString& name, QGraphicsItem* item)
 	{
@@ -2091,14 +2105,14 @@ namespace Tinkercell
 		if (networkWindow)
 			networkWindow->showItems(name,handle);
 	}
-	
+
 	/*! \brief show handles that were hidden*/
 	void GraphicsScene::showItems(const QString& name, const QList<ItemHandle*>& handles)
 	{
 		if (networkWindow)
 			networkWindow->showItems(name,handles);
 	}
-	
+
 	/*! \brief hide handle*/
 	void GraphicsScene::hideItems(const QString& name, ItemHandle* handle)
 	{
@@ -2215,22 +2229,21 @@ namespace Tinkercell
             return networkWindow->console();
         return 0;
     }
-	
+
 	GraphicsView * GraphicsScene::currentView() const
 	{
 		if (networkWindow)
             return networkWindow->currentView();
         return 0;
 	}
-	
-	bool GraphicsScene::isVisible(QGraphicsItem * item)
+
+	bool GraphicsScene::isVisible(QGraphicsItem * item) const
 	{
 		if (!item || !item->isVisible()) return false;
 
-		if (networkWindow && 
-			networkWindow->currentGraphicsView && 
-			networkWindow->currentGraphicsView->hiddenItems.contains(item))
-			return false;
+		if (networkWindow &&
+			networkWindow->currentGraphicsView)
+			return networkWindow->currentGraphicsView->checkVisibility(item);
 
         return true;
 	}

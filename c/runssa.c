@@ -199,7 +199,7 @@ fprintf(out, "\
 	y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, (void*)model);\n\
 	if (!y) \
 	{\n\
-		tc_errorReport(\"Stochastic simulation failed! Some values might be becoming negative or reaching Inf. Double check your model.\");\n\
+		tc_errorReport(\"Stochastic simulation failed! Try simulating for a short time to see what is going wrong. \");\n\
 		free(model);\n\
 		return;\n\
 	}\n\

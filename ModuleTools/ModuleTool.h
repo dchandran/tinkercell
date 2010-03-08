@@ -50,6 +50,7 @@
 
 namespace Tinkercell
 {
+	class GraphicsView;
 
 	class MY_EXPORT ModuleTool : public Tool
 	{
@@ -78,6 +79,7 @@ namespace Tinkercell
 
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
+		void createTextWindow(const QList<ItemHandle*>&);
 
 	public slots:
 
@@ -91,15 +93,19 @@ namespace Tinkercell
 		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
-		
+
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
 	private slots:
-		
+
 		void moduleButtonPressed(const QString&);
+		void historyChanged(int);
 
 	private:
+
+		QHash<GraphicsView*,ItemHandle*> moduleViews;
+		QHash<ItemHandle*,GraphicsView*> moduleHandles;
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
@@ -109,7 +115,6 @@ namespace Tinkercell
 
 		Tool * catalogTool;
 
-		//QGraphicsLineItem lineItem;
 		QList<NodeGraphicsItem*> selectedItems;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);

@@ -81,9 +81,12 @@ namespace Tinkercell
 		QButtonGroup buttonGroup;
 		QAction * addToTabMenu, *separator;
 		QString filename;
+		
+		QStringList moduleFilenames;
 
 	protected slots:
 		void enterInsertMode(QAbstractButton* button);
+		void moduleButtonPressed(const QString&);
 		void addNewButton();
 	};
 

@@ -46,20 +46,20 @@ namespace Tinkercell
 			event->accept();
 			return;
 		}
-		
+
 		bool b = true;
 		emit closing(this,&b);
 		if (b)
 		{
 			emit closed(this);
-			
+
 			disconnect();
-			
+
 			QList<GraphicsView*> list = graphicsViews;
 			for (int i=1; i < list.size(); ++i)
 				if (list[i])
 					list[i]->close();
-			
+
 			if (mainWindow->currentNetworkWindow == this)
 				mainWindow->currentNetworkWindow = 0;
 
@@ -81,21 +81,21 @@ namespace Tinkercell
             return mainWindow->console();
         return 0;
     }
-	
+
 	QList<GraphicsView*> NetworkWindow::views() const
 	{
 		return graphicsViews;
 	}
-	
+
 	GraphicsView* NetworkWindow::currentView() const
 	{
 		return currentGraphicsView;
 	}
-	
+
 	GraphicsView * NetworkWindow::createView(const QList<QGraphicsItem*>& hideItems)
 	{
 		if (!mainWindow) return 0;
-		
+
 		GraphicsView * view = new GraphicsView(this);
 		view->hideItems(hideItems);
 		view->setParent(mainWindow);
@@ -106,7 +106,7 @@ namespace Tinkercell
 		return view;
 	}
 
-	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) : 
+	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) :
 		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
 	{
 		setFocusPolicy(Qt::StrongFocus);
@@ -211,23 +211,23 @@ namespace Tinkercell
 		view->centerOn(0,0)	;
 	}
 
-	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) : 
+	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) :
 		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
 	{
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
-		
+
 		if (!editor) editor = new TextEditor;
 		this->textEditor = editor;
 		editor->networkWindow = this;
-		
+
 		QHBoxLayout * layout = new QHBoxLayout;
 
 		if (TextEditor::SideBarEnabled)
 			layout->addWidget(editor->widget(Qt::Horizontal));
 		else
 			layout->addWidget(editor);
-		
+
 		layout->setContentsMargins(0,0,0,0);
 		setLayout(layout);
 		setAttribute(Qt::WA_DeleteOnClose);
@@ -278,7 +278,7 @@ namespace Tinkercell
 	{
 		return symbolsTable.handlesFullName.values();
 	}
-	
+
 	QList<ItemHandle*> NetworkWindow::allHandlesSortedByFamily() const
 	{
 		return symbolsTable.allHandlesSortedByFamily();
@@ -700,22 +700,22 @@ namespace Tinkercell
 
 		emit dataChanged(handles);
 	}
-	
+
 	void NetworkWindow::showItems(const QString& name, ItemHandle* handle)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handle, true));
 	}
-	
+
 	void NetworkWindow::showItems(const QString& name, const QList<ItemHandle*>& handles)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handles, true));
 	}
-	
+
 	void NetworkWindow::hideItems(const QString& name, ItemHandle* handle)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handle, false));
 	}
-	
+
 	void NetworkWindow::hideItems(const QString& name, const QList<ItemHandle*>& handles)
 	{
 		history.push(new SetHandleVisibilityCommand(name, handles, false));
@@ -831,12 +831,12 @@ namespace Tinkercell
 		}
 		return true;
 	}
-	
+
 	void NetworkWindow::focusInEvent ( QFocusEvent * )
 	{
 		mainWindow->setCurrentWindow(this);
 	}
-	
+
 	void NetworkWindow::resizeEvent (QResizeEvent * event)
 	{
 		if (mainWindow && windowState() == Qt::WindowMinimized)
@@ -848,20 +848,20 @@ namespace Tinkercell
 			QWidget::resizeEvent(event);
 	}
 
-	
-	
+
+
 	void NetworkWindow::setAsCurrentWindow()
 	{
 		if (mainWindow && mainWindow->currentWindow() != this)
 			mainWindow->setCurrentWindow(this);
 	}
-	
+
 	void NetworkWindow::popOut()
 	{
 		if (mainWindow)
 			mainWindow->popOut(this);
 	}
-	
+
 	void NetworkWindow::popIn()
 	{
 		if (mainWindow)

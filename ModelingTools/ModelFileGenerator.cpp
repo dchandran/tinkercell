@@ -573,6 +573,18 @@ namespace Tinkercell
 				pycode += tr(";\n");
 			}
 		
+		for (i=0; i < eventTriggers.size(); ++i)
+		{
+			code += tr("    double _event"); 
+			code += QString::number(i);
+			code += tr(";\n");
+			allValues << toString(1.0);
+			
+			pycode += tr("    _event");
+			pycode += QString::number(i);
+			pycode += tr(" = true;\n");
+		}
+		
 		code += tr("} TCmodel;\n\n");		
 		code += tr("TCmodel TC_initial_model = {");
 		code += allValues.join(tr(","));
@@ -760,17 +772,25 @@ namespace Tinkercell
 		if (!eventTriggers.isEmpty())
 			for (i=0; i < eventTriggers.size(); ++i)
 			{
-				pycode += tr("        if (");
+				pycode += tr("        if ( _event");
+				pycode += QString::number(i);
+				pycode += tr(" and (");
 				pycode += eventTriggers[i];
-				pycode += tr("): ");
+				pycode += tr(")): ");
 				pycode += eventActions[i];
-				pycode += tr(";\n");
+				pycode += tr("; _event");
+				pycode += QString::number(i);
+				pycode += tr(" = false;\n");
 				
-				code += tr("        if (");
+				code += tr("        if ( model->_event");
+				code += QString::number(i);
+				code += tr(" > 0.0 && (");
 				code += insertPrefix(handles,tr("model->"),eventTriggers[i],replaceDot);
-				code += tr(") { ");
+				code += tr(")) { ");
 				code += insertPrefix(handles,tr("model->"),eventActions[i],replaceDot);
-				code += tr("}\n");
+				pycode += tr("; model->_event");
+				pycode += QString::number(i);
+				pycode += tr(" = 0.0;}\n");
 			}
 			
 		//declare variables again if changed by assignment or event

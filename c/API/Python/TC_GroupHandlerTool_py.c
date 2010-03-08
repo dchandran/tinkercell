@@ -8,7 +8,7 @@ static PyObject * pytc_merge(PyObject *self, PyObject *args)
 	PyObject * parts;
 	int isList, i, n=0;
 	void ** array;
-	
+
 	if(!PyArg_ParseTuple(args, "O", &parts))
         return NULL;
 
@@ -17,21 +17,21 @@ static PyObject * pytc_merge(PyObject *self, PyObject *args)
 		isList = PyList_Check(parts);
 		n = isList ? PyList_Size(parts) : PyTuple_Size (parts);
 	}
-	
+
 	if (n > 0)
 	{
-	
+
 		array = malloc( (1+n) * sizeof(void*) );
 		array[n] = 0;
-		
-		for(i=0; i<n; ++i) 
-		{ 
-			array[i] = isList ? (void*)((int)PyInt_AsLong( PyList_GetItem( parts, i ) )) : (void*)((int)PyInt_AsLong( PyTuple_GetItem( parts, i ) ));
+
+		for(i=0; i<n; ++i)
+		{
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( parts, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( parts, i ) ));
 		}
-	
+
 		tc_merge(array);
 	}
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }
@@ -41,9 +41,9 @@ static PyObject * pytc_separate(PyObject *self, PyObject *args)
 	int i;
 	if(!PyArg_ParseTuple(args, "i", &i))
         return NULL;
-	
+
 	tc_separate((void*)i);
-	
+
 	Py_INCREF(Py_None);
     return Py_None;
 }

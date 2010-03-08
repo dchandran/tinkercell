@@ -376,7 +376,7 @@ namespace Tinkercell
 																	dataPlot->canvas());
 		d_picker->setRubberBandPen(QColor(Qt::green));
 		d_picker->setRubberBand(QwtPicker::CrossRubberBand);
-		d_picker->setTrackerPen(QColor(Qt::white));
+		d_picker->setTrackerPen(QColor(Qt::black));
 		connect(d_picker, SIGNAL(moved(const QPoint &)),
 						SLOT(mouseMoved(const QPoint &)));
 		
@@ -613,7 +613,7 @@ namespace Tinkercell
 	{
 		if (!dataPlot) return;
 		
-		if (type.toLower() == tr("image"))
+		if (type.toLower() == tr("save graph"))
 		{
 			QString fileName = 
 				QFileDialog::getSaveFileName(this, tr("Print to File"),
@@ -632,12 +632,15 @@ namespace Tinkercell
 			dataPlot->print(printer);
 		}
 		else
-		if (type.toLower() == tr("snapshot"))
+		if (type.toLower() == tr("copy image"))
 		{
 			QClipboard * clipboard = QApplication::clipboard();
 			if (clipboard)
 			{
 				QImage image(600,400,QImage::Format_ARGB32);
+				QPainter painter(&image);		
+				QRectF rect( 0, 0, image.width(), image.height());
+				painter.fillRect(rect,QBrush(Qt::white));
 				dataPlot->print(image);
 				clipboard->setImage(image);
 			}

@@ -22,7 +22,7 @@ void setup();
 void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
-	tc_addFunction(&setup, "Correlation Test", "check how varying a parameter affects the qualitative behavior of the steady state (uses 20 points for steady state curve)", "Parameter scan", "Plugins/c/steadyState.png", "", 1, 0, 0);
+	tc_addFunction(&setup, "Correlation Test", "check how varying a parameter affects the qualitative behavior of the steady state (uses 20 points for steady state curve)", "Parameter scan", "Plugins/c/steadystate.png", "", 1, 0, 0);
 }
 
 void setup()

@@ -225,7 +225,7 @@ fprintf( out , "\
 	free(rates);\n\
 	if (!y) \
 	{\n\
-		tc_errorReport(\"Numerical integration (CVODE) failed! Some values might be reaching Inf. Double check your model.\");\n\
+		tc_errorReport(\"Integration failed! Current model is too difficult to solve. Try changing parameters or simulating for a short time.\");\n\
 		free(model);\n\
 		return;\n\
 	}\n\

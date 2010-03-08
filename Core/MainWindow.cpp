@@ -59,13 +59,13 @@ namespace Tinkercell
 	QString MainWindow::userHomePath;
 	QString MainWindow::userHome()
 	{
-		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())		
+		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())
 			return userHomePath;
-		
+
 		QDir dir = QDir::homePath();
 		QString tcdir = PROJECTNAME;
 
-		if (!dir.exists(tcdir))		
+		if (!dir.exists(tcdir))
 			dir.mkdir(tcdir);
 
 		dir.cd(tcdir);
@@ -73,16 +73,16 @@ namespace Tinkercell
 
 		return userHomePath;
 	}
-	
+
 	QString MainWindow::userTemp()
 	{
 		QString home = userHome();
-		
+
 		QString temp = home + tr("/temp");
-		
-		if (!temp.isEmpty() && QDir(temp).exists())		
+
+		if (!temp.isEmpty() && QDir(temp).exists())
 			return temp;
-		
+
 		QDir dir(home);
 
 		if (!dir.exists(QString("temp")))
@@ -119,7 +119,7 @@ namespace Tinkercell
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
-		QString name[] = {	
+		QString name[] = {
 			dllFile,
 			home + tr("/") + dllFile,
 			temp + tr("/") + dllFile,
@@ -231,13 +231,13 @@ namespace Tinkercell
 		tabWidget = new QTabWidget;
 		tabWidget->setStyleSheet(tr("QTabBar::tab { min-width: 36ex; }"));
 		connect(tabWidget,SIGNAL(currentChanged(int)),this,SLOT(tabIndexChanged(int)));
-		
+
 		QToolButton * upButton = new QToolButton;
 		upButton->setIcon(QIcon(tr(":/images/rightarrow.png")));
 		tabWidget->setCornerWidget(upButton);
 		connect(upButton,SIGNAL(pressed()),this,SLOT(popOut()));
 		upButton->setToolTip(tr("Pop-out"));
-		
+
 		setCentralWidget(tabWidget);
 
 		setWindowTitle(tr("Tinkercell"));
@@ -263,7 +263,7 @@ namespace Tinkercell
 			historyWindow.setWindowIcon(QIcon(tr(":/images/undo.png")));
 			addToolWindow(&historyWindow,MainWindow::defaultHistoryWindowOption,Qt::RightDockWidgetArea);
 		}
-		
+
 		if (enableConsoleWindow)
 		{
 			consoleWindow = new ConsoleWindow(this);
@@ -336,7 +336,7 @@ namespace Tinkercell
 		GraphicsScene::clearStaticItems();
 		saveSettings();
 	}
-	
+
 	void MainWindow::tabIndexChanged(int i)
 	{
 		QWidget * w = tabWidget->currentWidget();
@@ -354,36 +354,36 @@ namespace Tinkercell
 				if (i > -1 && i < tabWidget->count() && i != tabWidget->currentIndex())
 					tabWidget->setCurrentIndex(i);
 			}
-			
+
 			if (!window->hasFocus())
 				window->setFocus();
-			
+
 			historyWindow.setStack(&(window->history));
-			
+
 			NetworkWindow * oldWindow = currentNetworkWindow;
-			
+
 			currentNetworkWindow = window;
-			
+
 			if (window != oldWindow)
 				emit windowChanged(oldWindow,window);
 		}
-		
+
 	}
 
 	GraphicsScene * MainWindow::newGraphicsWindow()
 	{
 		GraphicsScene * scene = new GraphicsScene;
 		NetworkWindow * subWindow = new NetworkWindow(this, scene);
-		
+
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
-		
+
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
-		
+
 		popIn(subWindow);
 		emit windowOpened(subWindow);
-		
+
 		return scene;
 	}
 
@@ -396,10 +396,10 @@ namespace Tinkercell
 			allNetworkWindows << subWindow;
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
-		
+
 		popIn(subWindow);
 		emit windowOpened(subWindow);
-		
+
 		return textedit;
 	}
 
@@ -545,7 +545,7 @@ namespace Tinkercell
 
 		previousFileName = fileName;
 
-		
+
 		/*QPrinter printer(QPrinter::HighResolution);
 		//printer.setResolution(300);
 		printer.setOutputFormat(QPrinter::PdfFormat);
@@ -675,17 +675,17 @@ namespace Tinkercell
 	}
 
 	NetworkWindow* MainWindow::currentWindow() const
-	{	
+	{
 	    return currentNetworkWindow;
 	}
 
 	NetworkWindow * MainWindow::currentNetwork() const
-	{	
+	{
 	    return currentNetworkWindow;
 	}
-	
+
 	SymbolsTable * MainWindow::currentSymbolsTable() const
-	{	
+	{
 		if (currentNetworkWindow)
 			return &(currentNetworkWindow->symbolsTable);
 	    return 0;
@@ -811,7 +811,7 @@ namespace Tinkercell
 		editMenu->addAction(deleteAction);
 		deleteAction->setToolTip(tr("Delete selected items"));
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
-		
+
 		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create &view"),this);
 		editMenu->addAction(createViewAction);
 		createViewAction->setToolTip(tr("Create view of current network"));
@@ -838,7 +838,7 @@ namespace Tinkercell
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
 		toolBarEdits->addAction(createViewAction);
-		
+
 		/*QSize iconSize(16,16);
 		toolBarBasic->setIconSize(iconSize);
 		toolBarEdits->setIconSize(iconSize);
@@ -852,7 +852,7 @@ namespace Tinkercell
 		contextScreenMenu.addAction(closeAction);
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
-		
+
 		contextEditorMenu.addAction(undoAction);
 		contextEditorMenu.addAction(redoAction);
 		contextEditorMenu.addAction(closeAction);
@@ -956,7 +956,7 @@ namespace Tinkercell
 			{
 				b = true;
 				emit windowClosing(list[i],&b);
-				if (b)		
+				if (b)
 				{
 					emit windowClosed(list[i]);
 					disconnect(list[i]);
@@ -970,19 +970,19 @@ namespace Tinkercell
 					return;
 				}
 			}
-		
+
 		if (tabWidget)
 			tabWidget->clear();
-		
+
 		QList<QString> keys = this->toolsHash.keys();
 		QList<Tool*> toolsHash = this->toolsHash.values();
-		
+
 		for (int i=0; i < toolsHash.size(); ++i)
 		{
-			if (toolsHash[i])			
+			if (toolsHash[i])
 				disconnect(toolsHash[i]);
 		}
-		
+
 		for (int i=0; i < toolsHash.size(); ++i)
 		{
 			if (toolsHash[i])
@@ -998,7 +998,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
 		event->accept();
 	}
 
@@ -1117,7 +1117,7 @@ namespace Tinkercell
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		QString name[] = {	
+		QString name[] = {
 			MainWindow::userTemp() + tr("/") + filename,
 			MainWindow::userHome() + tr("/") + filename,
 			filename,
@@ -2857,7 +2857,7 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(p);
 	}
-	
+
 	void MainWindow::getNumber(QSemaphore* s,double* p,const QString& name)
     {
         if (p)
@@ -3030,30 +3030,30 @@ namespace Tinkercell
         if (s)
             s->release();
     }
-	
+
 	void MainWindow::askQuestion(QSemaphore* s, const QString& msg, int * x)
 	{
 		QMessageBox::StandardButton ans = QMessageBox::question(this,tr("Question"),msg,QMessageBox::Yes | QMessageBox::No);
-		
+
 		if (x)
-			
+
 			if (ans == QMessageBox::Yes)
 				(*x) = 1;
-			else 
+			else
 				(*x) = 0;
-			
+
 		if (s)
 			s->release();
 	}
-	
+
 	void MainWindow::messageDialog(QSemaphore* s, const QString& msg)
 	{
 		QMessageBox::information(this,tr("Message"),msg);
-		
-		if (s) 
+
+		if (s)
 			s->release();
 	}
-	
+
     char* MainWindow::_getString(const char* title)
     {
         return fToS.getString(title);
@@ -3078,12 +3078,12 @@ namespace Tinkercell
     {
         return fToS.getNumbers(names,res);
     }
-	
+
 	int MainWindow::_askQuestion(const char* msg)
     {
         return fToS.askQuestion(msg);
     }
-	
+
 	void MainWindow::_messageDialog(const char* msg)
     {
         return fToS.messageDialog(msg);
@@ -3137,7 +3137,7 @@ namespace Tinkercell
         delete s;
         return ConvertValue(p);
     }
-	
+
 	int MainWindow_FtoS::askQuestion(const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -3149,7 +3149,7 @@ namespace Tinkercell
         delete s;
 		return x;
     }
-	
+
 	void MainWindow_FtoS::messageDialog(const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
@@ -3282,13 +3282,13 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)));
 
 		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
-		
+
 		connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
         connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)));
         connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
         connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
         connect(&fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
-		
+
 		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
 		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
 	}
@@ -3356,7 +3356,7 @@ namespace Tinkercell
 		char** (*tc_getStringDataNames)(OBJ),
 
 		void (*tc_zoom)(double),
-		
+
 		char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, char**,const char*, int),
 		double (*getNumber)(const char*),
@@ -3364,7 +3364,7 @@ namespace Tinkercell
 		char* (*getFilename)(),
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*)
-		
+
 		);
 
 	void MainWindow::setupFunctionPointersSlot(QSemaphore* s,QLibrary * library)
@@ -3538,7 +3538,7 @@ namespace Tinkercell
 			scene->setGridSize(GraphicsScene::GRID);
 		}
 	}
-	
+
 	void MainWindow::changeConsoleBgColor()
 	{
 		if (consoleWindow && consoleWindow->editor())
@@ -3547,7 +3547,7 @@ namespace Tinkercell
 			consoleWindow->editor()->setBackgroundColor(color);
 		}
 	}
-	
+
 	void MainWindow::changeConsoleTextColor()
 	{
 		if (consoleWindow && consoleWindow->editor())
@@ -3556,7 +3556,7 @@ namespace Tinkercell
 			consoleWindow->editor()->setPlainTextColor(color);
 		}
 	}
-	
+
 	void MainWindow::changeConsoleMsgColor()
 	{
 		if (consoleWindow && consoleWindow->editor())
@@ -3565,7 +3565,7 @@ namespace Tinkercell
 			consoleWindow->editor()->setOutputTextColor(color);
 		}
 	}
-	
+
 	void MainWindow::changeConsoleErrorMsgColor()
 	{
 		if (consoleWindow && consoleWindow->editor())
@@ -3574,12 +3574,12 @@ namespace Tinkercell
 			consoleWindow->editor()->setErrorTextColor(color);
 		}
 	}
-	
+
 	void MainWindow::popOut()
 	{
 		popOut(currentWindow());
 	}
-	
+
 	void MainWindow::popOut(NetworkWindow * win)
 	{
 		if (allowViewModeToChange && win && tabWidget && tabWidget->count() > 1)
@@ -3596,7 +3596,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	void MainWindow::popIn(NetworkWindow * win)
 	{
 		if (allowViewModeToChange && win && tabWidget)
@@ -3611,7 +3611,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	
+
 	GraphicsView * MainWindow::createView()
 	{
 		NetworkWindow * current = currentWindow();
@@ -3624,8 +3624,14 @@ namespace Tinkercell
 	{
 		QMainWindow::setCursor(cursor);
 		QList<NetworkWindow*> allWins = allWindows();
+		QList<GraphicsView*> views;
 		for (int i=0; i < allWins.size(); ++i)
-			if (allWins[i]->scene)
-				allWins[i]->setCursor(cursor);
+		{
+			allWins[i]->setCursor(cursor);
+			views = allWins[i]->views();
+			for (int j=0; j < views.size(); ++j)
+                if (views[j])
+                    views[j]->setCursor(cursor);
+		}
 	}
 }

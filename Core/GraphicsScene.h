@@ -54,7 +54,7 @@ namespace Tinkercell
 	class NetworkWindow;
 	class GraphicsView;
 	class ConsoleWindow;
-	
+
 	/*! \brief The primary task of the graphics scene is to draws items.
 	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
 	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
@@ -197,7 +197,7 @@ namespace Tinkercell
 		/*! \brief check if a graphics item is visible in the current graphics view
 		* \param QGraphicsItem * item
 		* \return bool*/
-		virtual bool isVisible(QGraphicsItem*);
+		virtual bool isVisible(QGraphicsItem*) const;
 		/*! \brief select all items*/
 		virtual void selectAll();
 		/*! \brief select items with the given text */

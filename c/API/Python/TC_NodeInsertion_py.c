@@ -6,11 +6,11 @@
 static PyObject * pytc_insert(PyObject *self, PyObject *args)
 {
 	char * s;
-	char * f = "Species\0";
+	char * f = "Molecule\0";
 	if(!PyArg_ParseTuple(args, "s|s", &s, &f))
         return NULL;
-	
+
 	void * o = tc_insert(s,f);
-	 
-	return Py_BuildValue("i",(int)o);
+
+	return Py_BuildValue("i",(size_t)o);
 }

@@ -26,26 +26,31 @@ affecting other views.
 
 namespace Tinkercell
 {
+    bool GraphicsView::checkVisibility(QGraphicsItem * item) const
+	{
+		return ( (item != 0) && (item->isVisible()) && !(hiddenItems.contains(item)) );
+	}
+
 	void GraphicsView::drawBackground( QPainter * painter, const QRectF & rect )
 	{
 		if (!background.isNull() && painter)
 			painter->drawPixmap(rect,background,QRectF(background.rect()));
 	}
-	
+
 	void GraphicsView::drawForeground( QPainter * painter, const QRectF & rect )
 	{
 		if (!foreground.isNull() && painter)
 			painter->drawPixmap(rect,foreground,QRectF(foreground.rect()));
 	}
-	
+
 	void GraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
 	{
 		for (int i=0; i < numItems; ++i)
 		{
-			if (hiddenItems.contains(items[i]) || 
-				(scene && networkWindow && networkWindow->currentGraphicsView != this &&  
-					(&(scene->selectionRect) == items[i] || scene->movingItemsGroup == items[i]))
-				)
+			if ((hiddenItems.contains(items[i]) ||
+				(scene && networkWindow && networkWindow->currentGraphicsView != this &&
+					(&(scene->selectionRect) == items[i] || scene->movingItemsGroup == items[i])))
+				&& !Tool::GraphicsItem::cast(items[i]->topLevelItem()))
 			{
 				items[i] = items[numItems-1];
 				items[numItems-1] = 0;
@@ -55,7 +60,7 @@ namespace Tinkercell
 		}
 		QGraphicsView::drawItems(painter,numItems,items,options);
 	}
-	
+
 	void GraphicsView::wheelEvent(QWheelEvent * wheelEvent)
 	{
 		if (wheelEvent->modifiers() & Qt::ControlModifier)
@@ -71,7 +76,7 @@ namespace Tinkercell
 			QGraphicsView::wheelEvent(wheelEvent);
 		}
 	}
-	
+
 	void GraphicsView::closeEvent(QCloseEvent *event)
 	{
 		if (networkWindow)
@@ -143,10 +148,10 @@ namespace Tinkercell
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 		fitInView(QRectF(0,0,1000,800),Qt::KeepAspectRatio);
-		
+
 		setFocusPolicy(Qt::StrongFocus);
 	}
-	
+
 	void GraphicsView::showItem(QGraphicsItem* item)
 	{
 		if (!networkWindow) return;
@@ -159,12 +164,12 @@ namespace Tinkercell
 			delete command;
 		}
 	}
-	
+
 	void GraphicsView::hideItem(QGraphicsItem* item)
 	{
 		if (!networkWindow) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,false);
-		
+
 		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
 			networkWindow->history.push(command);
 		else
@@ -173,7 +178,7 @@ namespace Tinkercell
 			delete command;
 		}
 	}
-	
+
 	void GraphicsView::showItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow) return;
@@ -186,7 +191,7 @@ namespace Tinkercell
 			delete command;
 		}
 	}
-	
+
 	void GraphicsView::hideItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow) return;
@@ -199,29 +204,29 @@ namespace Tinkercell
 			delete command;
 		}
 	}
-	
+
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
 	{
 		if (networkWindow)
 			networkWindow->currentGraphicsView = this;
 		QGraphicsView::mousePressEvent(event);
 	}
-	
+
 	void GraphicsView::keyPressEvent ( QKeyEvent * event )
 	{
 		if (networkWindow)
 			networkWindow->currentGraphicsView = this;
 		QGraphicsView::keyPressEvent(event);
 	}
-	
-	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, QGraphicsItem * item, bool show) 
+
+	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, QGraphicsItem * item, bool show)
 	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
 	{
 		if (show)
 			setText(QString("items displayed in view"));
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
-		
+
 		if (!Tool::GraphicsItem::cast(item->topLevelItem()))
 		{
 			if (connection = ConnectionGraphicsItem::cast(item))
@@ -234,7 +239,7 @@ namespace Tinkercell
 			if (node = NodeGraphicsItem::cast(item))
 			{
 				items << node;
-				
+
 				QList<ControlPoint*> controls = node->allControlPoints();
 				for (int j=0; j < controls.size(); ++j)
 					items << controls[j];
@@ -249,20 +254,20 @@ namespace Tinkercell
 					items << items[j]->childItems();
 		}
 	}
-	
+
 	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, const QList<QGraphicsItem*> & list, bool show)
 	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
 	{
 		if (show)
 			setText(QString("items displayed in view"));
-		
+
 		for (int i=0; i < list.size(); ++i)
 		{
 			if (Tool::GraphicsItem::cast(list[i]->topLevelItem())) continue;
-			
+
 			ConnectionGraphicsItem * connection = 0;
 			NodeGraphicsItem * node = 0;
-			
+
 			if (connection = ConnectionGraphicsItem::cast(list[i]))
 			{
 				items << connection
@@ -273,7 +278,7 @@ namespace Tinkercell
 			if (node = NodeGraphicsItem::cast(list[i]))
 			{
 				items << node;
-				
+
 				QList<ControlPoint*> controls = node->allControlPoints();
 				for (int j=0; j < controls.size(); ++j)
 					items << controls[j];
@@ -289,7 +294,7 @@ namespace Tinkercell
 					items << items[j]->childItems();
 		}
 	}
-	
+
 	void SetGraphicsViewVisibilityCommand::redo()
 	{
 		if (view)
@@ -301,7 +306,7 @@ namespace Tinkercell
 					view->hiddenItems[ items[i] ] = true;
 		}
 	}
-	
+
 	void SetGraphicsViewVisibilityCommand::undo()
 	{
 		if (view)

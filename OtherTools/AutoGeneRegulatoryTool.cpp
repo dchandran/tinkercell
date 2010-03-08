@@ -802,7 +802,6 @@ namespace Tinkercell
 				}
 			}
 		}
-
 		if (!list.isEmpty())
 		{
 			scene->insert(tr("auto degradation"),list);

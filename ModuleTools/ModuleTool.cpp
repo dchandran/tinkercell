@@ -116,6 +116,16 @@ namespace Tinkercell
 			if (!tree->nodeFamilies.contains(tr("Module")))
 			{
 				NodeFamily * moduleFamily = new NodeFamily(tr("Module"));
+				
+				QString appDir = QCoreApplication::applicationDirPath();
+				NodeGraphicsItem * image = new NodeGraphicsItem;
+				NodeGraphicsReader reader;
+				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
+				image->normalize();
+				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
+					image->defaultSize.height()/image->sceneBoundingRect().height());
+				
+				moduleFamily->graphicsItems += image;
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->color = QColor(0,0,255);
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
@@ -439,20 +449,28 @@ namespace Tinkercell
 			if (!nodesTree->nodeFamilies.contains(tr("Module"))) return;
 
 			NodeHandle * handle = new NodeHandle(tr("mod1"));
-			handle->setFamily(nodesTree->nodeFamilies.value(tr("Module")));
+			NodeFamily * moduleFamily = nodesTree->nodeFamilies.value(tr("Module"));
+			handle->setFamily(moduleFamily);
 
 			int n = 1;
 			while (scene->symbolsTable->handlesFullName.contains(handle->name))
 				handle->name = tr("mod") + QString::number(++n);
 
 			QString appDir = QApplication::applicationDirPath();
-			NodeGraphicsItem * image = new NodeGraphicsItem;
-			NodeGraphicsReader reader;
-			reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
-			image->normalize();
-			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-				image->defaultSize.height()/image->sceneBoundingRect().height());
-
+			NodeGraphicsItem * image;
+			if (moduleFamily->graphicsItems.size() > 0)
+			{
+				image = new NodeGraphicsItem(moduleFamily->graphicsItems[0]);
+			}
+			else
+			{
+				image = new NodeGraphicsItem;
+				NodeGraphicsReader reader;
+				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
+				image->normalize();
+				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
+					image->defaultSize.height()/image->sceneBoundingRect().height());
+			}
 			image->setHandle(handle);
 			image->setPos(point);
 

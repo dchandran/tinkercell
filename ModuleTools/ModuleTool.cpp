@@ -687,7 +687,7 @@ namespace Tinkercell
 		if (!net->scene) return;
 
 		NodeGraphicsItem * node = 0;
-		QList<QGraphicsItem*> items, items2;
+		QList<QGraphicsItem*> items, items2, linkers;
 
 		for (int i =0; i < handles.size(); ++i)
 			for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
@@ -703,16 +703,34 @@ namespace Tinkercell
 
         items.clear();
         QList<GraphicsView*> views = net->views();
-        ItemHandle * module = 0;
+        ItemHandle * module = 0, * handle = 0;
 
         for (int i=0; i < handles.size() && i < parents.size(); ++i)
             if (handles[i] && handles[i]->parent != parents[i])
             {
                 items2 = handles[i]->allGraphicsItems();
+                linkers.clear();
                 for (int j=0; j < items2.size(); ++j)
-                    if (!( (node = NodeGraphicsItem::cast(items2[j])) &&
-                            node->className == linkerClassName ))
-                            items << items2[j];
+                    if ((node = NodeGraphicsItem::cast(items2[j])) && node->className == linkerClassName )
+                        linkers << items2[j];
+                    else
+                        items << items2[j];
+
+                for (int j=0; j < linkers.size(); ++j)
+                {
+                    handle = getHandle(linkers[j]);
+                    if (handle)
+                    {
+                        QRectF rect = linkers[j]->sceneBoundingRect().adjusted(-10,-10,10,10);
+                        for (int k=0; k < handle->graphicsItems.size(); ++k)
+                            if (TextGraphicsItem::cast(handle->graphicsItems[k]) &&
+                                rect.intersects(handle->graphicsItems[k]->sceneBoundingRect()))
+                                {
+                                    items.removeAll(handle->graphicsItems[k]);
+                                    linkers << handle->graphicsItems[k];
+                                }
+                    }
+                }
 
                 module = handles[i]->parent;
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
@@ -728,6 +746,7 @@ namespace Tinkercell
                 module = parents[i];
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
                 {
+                    items << linkers;
                     GraphicsView * otherView = moduleHandles[module];
                     for (int j=0; j < views.size(); ++j)
                         if (views[j])

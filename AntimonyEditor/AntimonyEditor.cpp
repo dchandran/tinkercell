@@ -310,6 +310,9 @@ namespace Tinkercell
 
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("main");
+			
+			QStringList symbolsInModule;
+			symbolsInModule << moduleHandle->name;
 
 			QList<ItemHandle*> handlesInModule;
 			QHash<QString,NodeHandle*> speciesItems;
@@ -332,7 +335,6 @@ namespace Tinkercell
 				QList<NodeTextItem*> nodesIn, nodesOut;
 				DataTable<qreal> stoichiometry;
 				DataTable<QString> rate;
-
 				QStringList colNames;
 
 				for (int var=0; var<numReactants; ++var)
@@ -364,6 +366,7 @@ namespace Tinkercell
 
 				reactionHandle->name = rxnnames[rxn];
 				stoichiometry.rowName(0) = reactionHandle->name;
+				symbolsInModule << reactionHandle->name;
 
 				for (int var=0; var<numReactants; ++var)
 				{
@@ -373,6 +376,7 @@ namespace Tinkercell
 						handle = new NodeHandle(speciesFamily);
 						handlesInModule << handle;
 						handle->name = tr(leftrxnnames[rxn][var]);
+						symbolsInModule << handle->name;
 						speciesItems[tr(leftrxnnames[rxn][var])] = handle;
 						NodeTextItem * n = new NodeTextItem(handle);
 						nodesIn << n;
@@ -393,6 +397,7 @@ namespace Tinkercell
 						partHandle = new NodeHandle(speciesFamily);
 						handlesInModule << partHandle;
 						partHandle->name = tr(rightrxnnames[rxn][var]);
+						symbolsInModule << partHandle->name;
 						speciesItems[tr(rightrxnnames[rxn][var])] = partHandle;
 						NodeTextItem * n = new NodeTextItem(partHandle);
 						nodesOut << n;
@@ -464,6 +469,7 @@ namespace Tinkercell
 				{
 					QString x(assignmentValues[j]);
 					assgnsTable.value(tr(assignmentNames[j]),0) = x;
+					symbolsInModule << tr(assignmentNames[j]);
 					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
 
@@ -498,6 +504,7 @@ namespace Tinkercell
 				{
 					bool ok;
 					qreal x = QString(paramValues[j]).toDouble(&ok);
+					symbolsInModule << tr(paramNames[j]);
 					if (ok)
 					{
 						paramsTable.value(tr(paramNames[j]),0) = x;
@@ -510,12 +517,14 @@ namespace Tinkercell
 					}
 				}
 				
-				numParams = (int)getNumSymbolsOfType(moduleName,allUnknown);
-				paramNames = getSymbolNamesOfType(moduleName,allUnknown);
-				paramValues = getSymbolEquationsOfType(moduleName,allUnknown);
+				numParams = (int)getNumSymbolsOfType(moduleName,allSymbols);
+				paramNames = getSymbolNamesOfType(moduleName,allSymbols);
+				paramValues = getSymbolEquationsOfType(moduleName,allSymbols);
 
 				for (int j=0; j < numParams; ++j)
 				{
+					if (symbolsInModule.contains(tr(paramNames[j]))) continue;
+					
 					bool ok;
 					qreal x = QString(paramValues[j]).toDouble(&ok);
 					if (ok)

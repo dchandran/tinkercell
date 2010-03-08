@@ -292,6 +292,7 @@ namespace Tinkercell
 
 		int nummods = (int)getNumModules();
 		char** modnames = getModuleNames();
+		
 		QList<TextItem*> itemsToInsert;
 
 		for (int i=0; i < nummods; ++i)
@@ -308,7 +309,7 @@ namespace Tinkercell
 			itemsToInsert += moduleText;
 
 			if (QString(modnames[i]) == tr("__main"))
-				moduleHandle->name = tr("");
+				moduleHandle->name = tr("main");
 
 			QList<ItemHandle*> handlesInModule;
 			QHash<QString,NodeHandle*> speciesItems;
@@ -450,8 +451,7 @@ namespace Tinkercell
 						speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
 					}
 				}
-
-
+				
 				int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
 				char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
 				char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
@@ -464,8 +464,7 @@ namespace Tinkercell
 				{
 					QString x(assignmentValues[j]);
 					assgnsTable.value(tr(assignmentNames[j]),0) = x;
-					if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
 				}
 
 				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
@@ -502,24 +501,42 @@ namespace Tinkercell
 					if (ok)
 					{
 						paramsTable.value(tr(paramNames[j]),0) = x;
-						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
-							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 					}
 					else
 					{
-						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
-							RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
 						moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
 					}
 				}
+				
+				numParams = (int)getNumSymbolsOfType(moduleName,allUnknown);
+				paramNames = getSymbolNamesOfType(moduleName,allUnknown);
+				paramValues = getSymbolEquationsOfType(moduleName,allUnknown);
+
+				for (int j=0; j < numParams; ++j)
+				{
+					bool ok;
+					qreal x = QString(paramValues[j]).toDouble(&ok);
+					if (ok)
+					{
+						paramsTable.value(tr(paramNames[j]),0) = x;
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+					}
+					else
+					{
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+						moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
+					}
+				}
+				
 				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
 
 				for (int j=0; j < handlesInModule.size(); ++j)
 					if (handlesInModule[j])
 					{
 						handlesInModule[j]->setParent(moduleHandle);
-						if (!moduleHandle->name.isNull() && !moduleHandle->name.isEmpty())
-							RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+						RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
 					}
 			}
 

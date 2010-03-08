@@ -1750,7 +1750,7 @@ namespace Tinkercell
 	{
 		if (oldname == newname0 || target.size() > 1000) return;
 		QString newname = newname0;
-		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_x_x_x_"));
+		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
 		//qDebug() << "substitute " << oldname << " with " << newname0 << " in " << target;
 		QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name

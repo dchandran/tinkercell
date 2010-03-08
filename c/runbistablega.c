@@ -32,29 +32,15 @@ void run()
 	while (appDir[sz] != 0) ++sz;
 
 	cmd = malloc((sz*8 + 200) * sizeof(char));
-
-
-	if (tc_isWindows())
-	{
-		sprintf(cmd,"gcc -o a.exe \"%s/c/\"mtrand.c \"%s/c/\"ga.c \"%s/c/\"ga_bistable.c \"%s/c/\"mat.c \"%s/c/\"neldermead.c \"%s/c/\"findBistability.c -I. -I\"%s\"/c -L\"%s\"/lib -lm -lodesim\0",appDir,appDir,appDir,appDir,appDir,appDir,appDir,appDir);
-	}
+	
+	if (tc_isWindows())	
+		sprintf(cmd, "%s\\c\\mtrand.c %s\\c\\ga.c %s\\c\\ga_bistable.c %s\\c\\mat.c %s\\c\\neldermead.c %s\\c\\findBistability.c -lm -lodesim", appDir,appDir,appDir,appDir,appDir,appDir);
 	else
-	{
-		sprintf(cmd,"gcc -o a.out %s/c/mtrand.c %s/c/ga.c %s/c/ga_bistable.c %s/c/mat.c %s/c/neldermead.c %s/c/findBistability.c -I. -I%s/c -L%s/lib -lm -lodesim\0",appDir,appDir,appDir,appDir,appDir,appDir,appDir,appDir);
-	}
-
-	if (tc_isWindows())
-	{  
-		system(cmd);
-		system("a.exe");
-	}
-	else
-	{
-		system(cmd);
-		system("./a.out");
-	}
-
-	tc_printFile("temp.out");
+		sprintf(cmd, "%s/c/mtrand.c %s/c/ga.c %s/c/ga_bistable.c %s/c/mat.c %s/c/neldermead.c %s/c/findBistability.c -lm -lodesim", appDir,appDir,appDir,appDir,appDir,appDir);
+			
+	tc_compileAndRun(cmd,"");
+	
+	free(cmd);
 
 }
 

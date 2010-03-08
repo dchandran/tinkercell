@@ -295,7 +295,7 @@ namespace Tinkercell
 #else
         proc.start(tr("rm a.out"));
         proc.waitForFinished();
-        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr("/c  -llapack -lblas -lf2c ") + filename);
+        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr("/c -llapack -lblas -lf2c ") + filename);
         proc.waitForFinished();
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());

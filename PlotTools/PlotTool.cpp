@@ -718,13 +718,19 @@ namespace Tinkercell
 		if (subwindow && subwindow->widget() && window)
 		{
 			PlotWidget * plotWidget = static_cast<PlotWidget*>(subwindow->widget());
-			if (otherToolBar)
+			if (otherToolBar != &plotWidget->toolBar)
 			{
-				otherToolBar->hide();
+				if (otherToolBar)
+					otherToolBar->hide();
+			
+				otherToolBar = &plotWidget->toolBar;
+				
+				if (otherToolBar)
+				{
+					window->addToolBar(Qt::RightToolBarArea,otherToolBar);
+					otherToolBar->show();
+				}
 			}
-			otherToolBar = &plotWidget->toolBar;
-			window->addToolBar(Qt::RightToolBarArea,otherToolBar);
-			otherToolBar->show();
 		}
 	}
 

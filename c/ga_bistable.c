@@ -598,3 +598,86 @@ BistablePoint makeBistable(int n, int p,double* iv, int maxIter, int popSz, void
    deleteBadParams();
    return ans;
 }
+
+/************************
+   Just for Tinkercell
+************************/
+
+#include "TC_api.h"
+#include "cvodesim.h"
+#include "ode.c"
+
+static double _time0_ = 0.0;
+static double * rates = 0;
+void odeFunc( double time, double * u, double * du, void * udata )
+{
+	int i,j;
+	TCpropensity(time, u, rates, udata);
+	for (i=0; i < TCvars; ++i)
+	{
+		du[i] = 0;
+		for (j=0; j < TCreactions; ++j)
+		{
+			if (getValue(TCstoic,TCreactions,i,j) != 0)
+			du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);
+		}
+	}
+}
+
+int main()
+{
+	int i,j;
+	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));
+	double * rates = malloc(TCreactions * sizeof(double));
+	TCinitialize(model);
+	
+	(*model) = TC_initial_model;
+	
+	BistablePoint p = makeBistable(TCvars, TCparams, TCinit , 1000, 1000, &odeFunc);
+	
+   	if (p.stable1)
+	{
+		printf("First stable point:\n");
+		for (i=0; i < p.param->numVars; ++i)
+			printf("%lf\n",p.stable1[i]);		
+		printf("\n");
+		free(p.stable1);
+	}
+	
+	if (p.stable2)
+	{
+		printf("Second stable point:\n");
+		for (i=0; i < p.param->numVars; ++i)
+			printf("%lf\n",p.stable2[i]);		
+		printf("\n");
+		free(p.stable2);
+	}
+	
+	if (p.unstable)
+	{
+		printf("Unstable point:\n");
+		for (i=0; i < p.param->numVars; ++i)
+			printf("%lf\n",p.unstable[i]);		
+		printf("\n");
+		free(p.unstable);
+	}
+	
+	if (p.param)
+	{
+		printf("Parameters of bistable system:\n");
+		for (i=0; i < p.param->numParams; ++i)
+			printf("%lf\n",p.param->params[i]);
+		
+		printf("\n");
+		
+		if (p.param->params) free (p.param->params);
+		if (p.param->alphas) free (p.param->alphas);
+		free(p.param);
+	}
+	
+	free(rates);
+	free(model);
+	return 0;
+}
+
+

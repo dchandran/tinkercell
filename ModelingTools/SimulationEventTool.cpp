@@ -370,7 +370,7 @@ namespace Tinkercell
 			reader.readXml(image, appDir + tr("/OtherItems/sinFunc.xml"));
 			image->setToolTip(tr("Sine function"));
 			command = tr("Sine function inserted");
-			assignments.value( handle->fullName() , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time/") + name + tr(".sin_frequency)");
+			assignments.value( handle->fullName() , 0 ) = name + tr(".sin_amplitude + ") + name + tr(".sin_amplitude*sin(time*") + name + tr(".sin_frequency)");
 			parameters.value( tr("sin_amplitude"), 0 ) = 1.0;
 			parameters.value( tr("sin_frequency"), 0 ) = 2.0;
 		}

@@ -938,12 +938,19 @@ namespace Tinkercell
 				QRegExp regexp1(tr("^") + name + tr("$")),  //just old name
 						regexp2(tr("^") + name + tr("([^A-Za-z0-9])")),  //oldname+(!letter/num)
 						regexp3(tr("([^A-Za-z0-9_>])") + name + tr("$")), //(!letter/num)+oldname
-						regexp4(tr("([^A-Za-z0-9_>])") + name + tr("([^A-Za-z0-9])")); //(!letter/num)+oldname+(!letter/num)
+						regexp4(tr("([^A-Za-z0-9_>])") + name + tr("([^A-Za-z0-9])")), //(!letter/num)+oldname+(!letter/num)
+						regexp5(tr("([^A-Za-z0-9_>])max\\s*\\(")),
+						regexp6(tr("([^A-Za-z0-9_>])min\\s*\\(")),
+						regexp7(tr("([^A-Za-z0-9_>])abs\\s*\\("));
 				
 				s.replace(regexp1,prefix + name);
 				s.replace(regexp2,prefix + name + tr("\\1"));
 				s.replace(regexp3,tr("\\1") + prefix + name);
 				s.replace(regexp4,tr("\\1") + prefix + name + tr("\\2"));
+				
+				s.replace(regexp5,tr("\\1fmax("));
+				s.replace(regexp6,tr("\\1fmin("));
+				s.replace(regexp7,tr("\\1fabs("));
 			}
 		return s;
 	}

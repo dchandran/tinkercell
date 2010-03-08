@@ -175,8 +175,4 @@ Matrix rbind(Matrix A, int fromA, int toA, Matrix B, int fromB, int toB)
 	return C;
 }
 
-float max(float a, float b) { if (a > b) return a; else return b; }
-
-float min(float a, float b) { if (a < b) return a; else return b; }
-
 #endif

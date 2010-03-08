@@ -158,6 +158,10 @@ namespace Tinkercell
 				tr("Modules"));
 		}
 	}
+	
+	void ModuleTool::historyChanged(int)
+	{
+	}
 
 	NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
     {

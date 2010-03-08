@@ -1627,7 +1627,13 @@ namespace Tinkercell
 						}
 
 						QRectF rect1,rect2;
-						QPointF pos = items[i]->scenePos() - distance[i];
+						QPointF pos = items[i]->scenePos();
+
+						if (distance.size() > i)
+                            pos = pos - distance[i];
+                        else
+                            if (!distance.isEmpty())
+                                pos = pos - distance[0];
 
 						for (int k=0; k < nodes.size(); ++k)
 							if (nodes[k])
@@ -1639,7 +1645,7 @@ namespace Tinkercell
 									rect1.adjusted(-10.0,-10.0,10.0,10.0).intersects(rect2))
 									intersects = true;
 
-                                rect1 = QRectF(pos.rx() - rect1.width(), pos.ry() - rect1.height(), pos.rx() + rect1.width(), pos.ry() + rect1.height());
+                                rect1 = QRectF(pos.rx() - rect1.width()/2, pos.ry() - rect1.height()/2, pos.rx() + rect1.width()/2, pos.ry() + rect1.height()/2);
                                 if (rect1.intersects(rect2))
                                     beforeIntersected = true;
 

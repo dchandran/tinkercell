@@ -30,7 +30,6 @@
 #include <QSemaphore>
 #include <QFileDialog>
 
-//Antimony headers
 #include "antimony_api.h"
 
 namespace Tinkercell
@@ -247,8 +246,7 @@ namespace Tinkercell
 	}
 
 	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
-	{
-		
+	{		
 		long ok = loadString(modelString.toAscii().data());
 
 		if (ok < 0)
@@ -525,19 +523,14 @@ namespace Tinkercell
 
 			for (int j=0; j < numParams; ++j)
 			{
-				if (symbolsInModule.contains(tr(paramNames[j]))) continue;
-				
-				bool ok;
-				qreal x = QString(paramValues[j]).toDouble(&ok);
-				if (ok)
+				if (!symbolsInModule.contains(tr(paramNames[j])))
 				{
+					bool ok;
+					qreal x = QString(paramValues[j]).toDouble(&ok);
+					if (!ok)
+						x = 1.0;
 					paramsTable.value(tr(paramNames[j]),0) = x;
 					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
-				}
-				else
-				{
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
-					moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
 			

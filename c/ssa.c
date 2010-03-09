@@ -19,12 +19,15 @@ double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0
 	v = (double*) malloc( n * sizeof(double) );   //rates
 	
 	iter = i = k = 0;
-	rand = lambda = time = sum = 0;
+	rand = lambda = sum = 0;
 	
+	time = startTime;
 	//initialize values
 	getValue(x,1+m,0,0) = startTime;
 	for (i = 0; i < m; ++i)
 	{
+		if (x0[i] < 0.0)
+			x0[i] = 1.0;
 		if (x0[i] > 0.0 && x0[i] < 1.0)
 			x0[i] = 1.0;
 		getValue(x,1+m,0,i+1) = y[i] = x0[i];   
@@ -39,9 +42,12 @@ double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0
 		}
 		
 		propensity(time, y, v, dataptr);  //calculate rates
+		for (i=0; i < n; ++i)
+			if (v[i] < 0.0)
+				v[i] = 0.0;
 		
 		lambda = 0;
-		for (i =0; i < n; ++i) lambda += v[i];   //lambda = sum of rates
+		for (i=0; i < n; ++i) lambda += v[i];   //lambda = sum of rates
 		
 		if (lambda <= 0) 
 		{ 
@@ -89,29 +95,26 @@ double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0
 	return x;
 }
 
-double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, void (*f)(double,double*,double*,void*), void* param)
+double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, void (*f)(double,double*,double*,void*), void* param)
 {
 	int i,j;
-	double * y, * rates, * dat;
+	double * y, * rates, * dat, time = 0.0;
 	
 	y = malloc( cols1 * sizeof(double));
 	rates = malloc( cols2 * sizeof(double));
-	dat = malloc(rows * (skip+cols2) * ( sizeof(double)));
+	dat = malloc(rows * (1+cols2) * ( sizeof(double)));
 	
 	for (i=0; i < rows; ++i)
 	{
 		for (j=0; j < cols1; ++j)		
-			y[j] = getValue(data,(cols1+skip),i,(j+skip));  //get simulated data row i
+			y[j] = getValue(data,1+cols1,i,j+1);  //get simulated data row i
 		
-		if (skip > 0)
-			f(getValue(data,cols1+skip,i,skip-1),y,rates,param); //get rates
-		else
-			f(0,y,rates,param); //get rates
-		for (j=0; j < skip; ++j)
-			getValue(dat,skip+cols2,i,j) = getValue(data,cols1+skip,i,j);
-			
+		time = getValue(data,1+cols1,i,0);
+		f(time,y,rates,param); //get rates
+		
+		getValue(dat,1+cols2,i,0) = time;
 		for (j=0; j < cols2; ++j)
-			getValue(dat,skip+cols2,i,j+skip) = rates[j];
+			getValue(dat,1+cols2,i,1+j) = rates[j];
 	}
 	
 	free(y);

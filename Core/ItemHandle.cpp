@@ -214,6 +214,12 @@ namespace Tinkercell
 			data = 0;
 		parent = 0;
 		setParent(copy.parent);
+		
+		/*for (int i=0; i < copy.children.size(); ++i)
+			if (copy.children[i] && copy.children[i]->graphicsItems.isEmpty() && copy.children[i]->textItems.isEmpty())
+			{
+				children << copy.children[i]->clone();
+			}*/
 	}
 
 	/*! \brief operator = */
@@ -222,6 +228,7 @@ namespace Tinkercell
 		visible = copy.visible;
 		if (data)
 			delete data;
+		
 		for (int i=0; i < graphicsItems.size(); ++i)
 			if (getHandle(graphicsItems[i]) == this)
 				setHandle(graphicsItems[i],0);
@@ -235,6 +242,7 @@ namespace Tinkercell
 			data = 0;
 		parent = 0;
 		setParent(copy.parent);
+		
 		return *this;
 	}
 

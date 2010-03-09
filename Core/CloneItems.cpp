@@ -1,3 +1,4 @@
+#include <QHash>
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -108,8 +109,9 @@ namespace Tinkercell
 		QList<ArrowHeadItem*> arrowHeads;
 
 		//for copying handles
-		ItemHandle * handle, *cloneHandle;
+		ItemHandle * handle, *cloneHandle, *cloneChildHandle;
 		QList<ItemHandle*> oldHandles;
+		QList<ItemHandle*> childHandles;
 		allNewHandles.clear();
 
 		QRectF boundingRect;
@@ -185,10 +187,29 @@ namespace Tinkercell
 							{
 								cloneHandle = handle->clone();
 								cloneHandle->setParent(0);
+								cloneHandle->textItems.clear();
 								cloneHandle->children.clear();
 								cloneHandle->graphicsItems.clear();
 								allNewHandles << cloneHandle;
 								originalAndCloneHandles << QPair<ItemHandle*,ItemHandle*>(handle,cloneHandle);
+								
+								childHandles = handle->children;
+								for (int j=0; j < childHandles.size(); ++j)
+									if ((handle = childHandles[j]) && handle->graphicsItems.isEmpty())
+									{
+										cloneChildHandle = handle->clone();
+										cloneChildHandle->setParent(0);
+										cloneChildHandle->textItems.clear();
+										cloneChildHandle->children.clear();
+										cloneChildHandle->graphicsItems.clear();
+										
+										for (int k=0; k < handle->children.size(); ++k)
+											if (!childHandles.contains(handle->children[k]))
+												childHandles << handle->children[k];
+										
+										allNewHandles << cloneChildHandle;
+										originalAndCloneHandles << QPair<ItemHandle*,ItemHandle*>(handle,cloneChildHandle);
+									}
 							}
 						}
 						else
@@ -246,7 +267,8 @@ namespace Tinkercell
 	QList<TextItem*> cloneTextItems(const QList<TextItem*>& items)
 	{
 		QList<TextItem*> newItems;
-		QList<ItemHandle*> oldHandles;
+		QList<ItemHandle*> oldHandles, childHandles;
+		QHash<ItemHandle*,ItemHandle*> hash;
 
 		for (int i=0; i < items.size(); ++i)
 		{
@@ -257,27 +279,58 @@ namespace Tinkercell
 				newItems << 0;
 		}
 
-		ItemHandle * handle = 0, * handle2 = 0;
+		ItemHandle * handle = 0, * handle2 = 0, * cloneChildHandle = 0;
 		for (int i=0; i< items.size(); ++i)
 		{
 			handle = getHandle(items[i]);
 			if (newItems[i])
 				if (handle)
-					setHandle(newItems[i],handle->clone());
+				{
+					if (hash.contains(handle))
+					{
+						setHandle(newItems[i],hash[handle]);
+					}
+					else
+					{
+						handle2 = handle->clone();
+						handle2->setParent(0);
+						handle2->textItems.clear();
+						handle2->children.clear();
+						handle2->graphicsItems.clear();
+						hash[handle] = handle2;
+						setHandle(newItems[i],handle2);
+						
+						childHandles = handle->children;
+						for (int j=0; j < childHandles.size(); ++j)
+							if ((handle = childHandles[j]) && handle->textItems.isEmpty() && handle->graphicsItems.isEmpty())
+							{
+								cloneChildHandle = handle->clone();
+								cloneChildHandle->setParent(0);
+								cloneChildHandle->textItems.clear();
+								cloneChildHandle->children.clear();
+								cloneChildHandle->graphicsItems.clear();
+								
+								for (int k=0; k < handle->children.size(); ++k)
+									if (!childHandles.contains(handle->children[k]))
+										childHandles << handle->children[k];
+								
+								hash[handle] = cloneChildHandle;
+							}
+					}
+				}
 				else
 					setHandle(newItems[i],0);
 		}
 
-		for (int i=0; i< newItems.size(); ++i)
+		for (int i=0; i< items.size() && i< newItems.size(); ++i)
 		{
 			handle = getHandle(items[i]);
 			handle2 = getHandle(newItems[i]);
 			if (handle && handle->parent && handle2)
 			{
-				int j = oldHandles.indexOf(handle->parent);
-				if (j >= 0)
+				if (hash.contains(handle->parent))
 				{
-					handle2->setParent(getHandle(newItems[j]));
+					handle2->setParent( hash[handle->parent] );
 				}
 			}
 		}

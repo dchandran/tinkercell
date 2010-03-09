@@ -283,15 +283,34 @@ namespace Tinkercell
 
 	void InsertTextItemsCommand::redo()
 	{
-		if (textEditor)
+		if (textEditor && textEditor->networkWindow)
 		{
+			QStringList allNames(textEditor->networkWindow->symbolsTable.handlesFullName.keys());
+			QString s0,s1;
+			
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && !list.contains(items[i]))
 				{
 					list << items[i];
 					if (handles.size() > i)
+					{
 						items[i]->setHandle(handles[i]);
+						s0 = s1 = handles[i]->fullName();
+						if (handles[i] && allNames.contains(s1))
+						{
+							if (s0[ s0.length()-1 ].isNumber())
+								s0 = s0.left( s0.length()-1 );
+							int k=0;
+							s1 = s0 + QString::number(k);
+							while (allNames.contains(s1))
+								s1 = s0 + QString::number(++k);
+							s0 = handles[i]->name;
+							s0 = s0.left(s0.length()-1) + QString::number(k);
+							handles[i]->name = s0;
+							allNames << s0;
+						}
+					}
 				}
 		}
 	}
@@ -397,13 +416,16 @@ namespace Tinkercell
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		ConnectionGraphicsItem * connection;
-		if (graphicsScene)
+		if (graphicsScene && graphicsScene->networkWindow)
+		{
+			QStringList allNames(graphicsScene->networkWindow->symbolsTable.handlesFullName.keys());
+			QString s0,s1;
+			
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{
 				if (graphicsItems[i] && graphicsItems[i]->scene() != graphicsScene)
 				{
 					graphicsScene->addItem(graphicsItems[i]);
-					setHandle(graphicsItems[i],handles[i]);
 					if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i])))
 					{
 						connections << connection;
@@ -413,8 +435,29 @@ namespace Tinkercell
 						parentGraphicsItems[i] &&
 						parentGraphicsItems[i]->scene() == graphicsScene)
 						graphicsItems[i]->setParentItem(parentGraphicsItems[i]);
+						
+					
+					if (handles.size() > i)
+					{
+						setHandle(graphicsItems[i],handles[i]);
+						s0 = s1 = handles[i]->fullName();
+						if (handles[i] && allNames.contains(s1))
+						{
+							if (s0[ s0.length()-1 ].isNumber())
+								s0 = s0.left( s0.length()-1 );
+							int k=0;
+							s1 = s0 + QString::number(k);
+							while (allNames.contains(s1))
+								s1 = s0 + QString::number(++k);
+							s0 = handles[i]->name;
+							s0 = s0.left(s0.length()-1) + QString::number(k);
+							handles[i]->name = s0;
+							allNames << s0;
+						}
+					}
 				}
 			}
+		}
 
 		for (int i=0; i < connections.size(); ++i)
 		{

@@ -45,13 +45,12 @@ double * SSA(int, int, double *, PropensityFunction, double*, double, double,int
 * \param int number of rows in the simulated data
 * \param int number of species
 * \param int number of reactions
-* \param int the number of columns to skip (IMPORTANT: index starts at 1), i.e. first column is time, use 1. Use 0 for none.
 * \param (*f)(time, y-values, rates) pointer to propensity function -- f(time, y-values, rates) --- assign values to the rates array
 * \param void* any external data
 * \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
 * \ingroup gillespie
 */
-double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2, int skip, PropensityFunction, void* param);
+double * getRatesFromSimulatedData(double* data, int rows, int , int , PropensityFunction, void* param);
 
 
 #endif

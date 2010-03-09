@@ -739,6 +739,7 @@ namespace Tinkercell
                 for (int j=0; j < handle->children.size(); ++j)
                     if ((child = NodeHandle::cast(handle->children[j])) && child->graphicsItems.size() > 0)
 					{
+						console()->message("here");
 						inside = false;
 						for (int k=0; k < child->graphicsItems.size(); ++k)
 						{

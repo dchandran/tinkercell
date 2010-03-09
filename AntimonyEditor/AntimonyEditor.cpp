@@ -248,7 +248,6 @@ namespace Tinkercell
 
 	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
 	{
-		console()->message("here");
 		
 		long ok = loadString(modelString.toAscii().data());
 

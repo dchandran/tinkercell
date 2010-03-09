@@ -130,7 +130,7 @@ namespace Tinkercell
 		/*! \brief display antimony script when a module info is being displayed (see modelSummaryTool)        */
 		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		/*! \brief makes a new text window with the script representing the given items*/
-		void createTextWindow(const QList<ItemHandle*>&);
+		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
 		void setupFunctionPointers( QLibrary * library);

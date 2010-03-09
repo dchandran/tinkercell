@@ -2,7 +2,7 @@
 
 #run in the bin folder
 
-CURPATH = $1
+CURPATH=$1
 LIBFILES='*.dylib'
 PLUGINFILES='Plugins/*.dylib'
 CPLUGINFILES='Plugins/c/*.dylib'
@@ -43,7 +43,7 @@ do
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
-          NodeGraphics.app/Contents/MacOS/Tinkercell
+          NodeGraphics.app/Contents/MacOS/NodeGraphics
 done
 
 install_name_tool \

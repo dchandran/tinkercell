@@ -96,6 +96,8 @@ namespace Tinkercell
 					this, SLOT(parentHandleChanged(NetworkWindow *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
+			
+			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
 
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
 
@@ -171,6 +173,37 @@ namespace Tinkercell
 	
 	void ModuleTool::historyChanged(int)
 	{
+		TextEditor * textEditor = currentTextEditor();
+		if (textEditor && moduleScripts.contains(textEditor))
+		{
+			GraphicsScene * scene = moduleScripts[textEditor].first;
+			ItemHandle * moduleHandle = moduleScripts[textEditor].second;
+			ItemHandle * handle;
+			
+			if (!scene || !moduleHandle) return;
+			
+			QList<TextItem*> newTextItems = cloneTextItems(textEditor->items());
+			QList<ItemHandle*> children, parents, oldChildren;
+			
+			oldChildren = moduleHandle->children;
+			for (int i=0; i < oldChildren.size(); ++i)
+			{
+				children << oldChildren[i];
+				parents << 0;
+			}
+			
+			for (int i=0; i < newTextItems.size(); ++i)
+			{
+				handle = getHandle(newTextItems[i]);
+				if (handle && !handle->parent)
+				{
+					children << handle;
+					parents << moduleHandle;
+				}
+			}
+			
+			scene->setParentHandle(children,parents);
+		}
 	}
 
 	NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
@@ -210,70 +243,125 @@ namespace Tinkercell
 
         bool alreadyLinked = false;
         NodeGraphicsItem * node;
-        ItemHandle * handle;
+        ItemHandle * handle, * moduleHandle;
 
         QList<QGraphicsItem*> items;
+        QList<TextItem*> textItems;
 
         for (int i=0; i < selectedItems.size(); ++i)
         {
-            handle = getHandle(selectedItems[i]);
-            if (NodeGraphicsItem::cast(selectedItems[i]) && handle->isA(tr("Module")))
+            moduleHandle = getHandle(selectedItems[i]);
+            if (moduleHandle && NodeGraphicsItem::cast(selectedItems[i]) && moduleHandle->isA(tr("Module")))
             {
-                for (int j=0; j < handle->children.size(); ++j)
-                    if (handle->children[j])
-                        items << handle->children[j]->graphicsItems;
+                for (int j=0; j < moduleHandle->children.size(); ++j)
+                    if (handle = moduleHandle->children[j])
+                    {
+                    	alreadyLinked = false;
+				        for (int k=0; k < handle->graphicsItems.size(); ++k)
+				            if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[k])) &&
+								(node->className == linkerClassName))
+				        {
+				            alreadyLinked = true;
+				            break;
+				        }
+
+				        if (!alreadyLinked)
+				        {
+				            items << moduleHandle->children[j]->graphicsItems;
+    	                    textItems << moduleHandle->children[j]->textItems;
+    	                }
+                    }
             }
+        }
+        
+        if (!moduleHandle)
+        {
+        	items = selectedItems;
+        	textItems.clear();
         }
 
         for (int i=0; i < items.size(); ++i)
         {
             handle = getHandle(items[i]);
-            if (NodeGraphicsItem::cast(items[i]) && handle && NodeHandle::cast(handle))
-            {
-                alreadyLinked = false;
-                for (int j=0; j < handle->graphicsItems.size(); ++j)
-                    if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
-						(node->className == linkerClassName))
-                {
-                    alreadyLinked = true;
-                    break;
-                }
+            
+            if (!NodeHandle::cast(handle)) continue;
+            
+            NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
 
-                if (alreadyLinked) continue;
+            if (!module) continue;
+            NodeGraphicsItem * linker = new NodeGraphicsItem;
+			QString appDir = QCoreApplication::applicationDirPath();
+			NodeGraphicsReader reader;
+			reader.readXml(linker,appDir + linkerFileName);
+			linker->normalize();
+			linker->className = linkerClassName;
+			setToolTip(QString("Module interface"));
 
-                NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
+			linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
+			if (linker->boundaryControlPoints.size() > 0)
+			{
+				for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
+					if (linker->boundaryControlPoints[j])
+					{
+						if (linker->boundaryControlPoints[j]->scene())
+							linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
+						delete linker->boundaryControlPoints[j];
+					}
+				linker->boundaryControlPoints.clear();
+			}
 
-                if (!module) continue;
-                NodeGraphicsItem * linker = new NodeGraphicsItem;
-				QString appDir = QCoreApplication::applicationDirPath();
-				NodeGraphicsReader reader;
-				reader.readXml(linker,appDir + linkerFileName);
-				linker->normalize();
-				linker->className = linkerClassName;
-				setToolTip(QString("Module interface"));
+			setHandle(linker,handle);
+			linker->setPos(VisualTool::getPoint(module,items[i]->scenePos(),linker));
+            toInsert += (QGraphicsItem*)linker;
 
-				linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
-				if (linker->boundaryControlPoints.size() > 0)
-				{
-					for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
-						if (linker->boundaryControlPoints[j])
-						{
-							if (linker->boundaryControlPoints[j]->scene())
-								linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
-							delete linker->boundaryControlPoints[j];
-						}
-					linker->boundaryControlPoints.clear();
-				}
+			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
+			linkerText->setPos(linker->pos());
+			linkerText->scale(1.5,1.5);
+			toInsert += (QGraphicsItem*)linkerText;            
+        }
+        
+        for (int i=0; i < textItems.size(); ++i)
+        {
+            handle = getHandle(textItems[i]);
+            if (!NodeHandle::cast(handle)) continue;
+            
+            NodeGraphicsItem * module = 0;
+            
+            for (int j=0; j < moduleHandle->graphicsItems.size(); ++j)
+            	if (module = NodeGraphicsItem::cast(moduleHandle->graphicsItems[j]))
+            		break;
 
-				setHandle(linker,handle);
-				linker->setPos(VisualTool::getPoint(module,items[i]->scenePos(),linker));
-                toInsert += (QGraphicsItem*)linker;
+            if (!module) continue;
+            
+            NodeGraphicsItem * linker = new NodeGraphicsItem;
+			QString appDir = QCoreApplication::applicationDirPath();
+			NodeGraphicsReader reader;
+			reader.readXml(linker,appDir + linkerFileName);
+			linker->normalize();
+			linker->className = linkerClassName;
+			setToolTip(QString("Module interface"));
 
-				TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
-				linkerText->setPos(linker->pos());
-				linkerText->scale(1.5,1.5);
-				toInsert += (QGraphicsItem*)linkerText;
-            }
+			linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
+			if (linker->boundaryControlPoints.size() > 0)
+			{
+				for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
+					if (linker->boundaryControlPoints[j])
+					{
+						if (linker->boundaryControlPoints[j]->scene())
+							linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
+						delete linker->boundaryControlPoints[j];
+					}
+				linker->boundaryControlPoints.clear();
+			}
+
+			setHandle(linker,handle);
+			linker->setPos(VisualTool::getPoint(module,module->scenePos(),linker));
+            toInsert += (QGraphicsItem*)linker;
+
+			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
+			linkerText->setPos(linker->pos());
+			linkerText->scale(1.5,1.5);
+			toInsert += (QGraphicsItem*)linkerText;            
         }
 
         scene->insert("module interface created",toInsert);
@@ -1071,16 +1159,39 @@ namespace Tinkercell
 				}
             }
 	}
-
-	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
-    {
-		if (!scene || !item || !modifier || !mainWindow) return;
+	
+	void ModuleTool::createView()
+	{
+		GraphicsScene * scene = currentScene();
+		if (scene && scene->selected().size() == 1)
+			createView(scene, scene->selected().at(0));
+	}
+	
+	void ModuleTool::createView(GraphicsScene * scene, QGraphicsItem * item)
+	{
+		if (!scene || !mainWindow || !item) return;
+		
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem, *node;
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
-			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect()),
-								  childItems = handle->allGraphicsItems(),
+			QList<QGraphicsItem*> childItems = handle->allGraphicsItems();
+			if (childItems.isEmpty())
+			{
+				if (!handle->textItems.isEmpty())
+				{
+					QList<ItemHandle*> handles;
+					handles << handle->allChildren();
+					
+					TextEditor * newEditor = mainWindow->newTextWindow();
+					newEditor->networkWindow->popOut();
+					moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);					
+					emit createTextWindow(newEditor, handles);
+				}
+				return;
+			}
+			
+			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5)),
 								  hideItems,
 								  allItems = scene->items();
 
@@ -1122,6 +1233,12 @@ namespace Tinkercell
 				moduleHandles[handle] = view;
 			}
 		}
+	}
+
+	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
+    {
+		if (!scene || !item || !modifier || !mainWindow) return;
+		createView(scene,item);
     }
 
 

@@ -27,6 +27,7 @@ also be used by other plugins
 namespace Tinkercell
 {
 	class ItemHandle;
+	class TextItem;
 	
 	/*! \brief gets the parent of this item that is a node, text, connection, or control point
 	* \param QGraphicsItem * Qt graphics item
@@ -48,6 +49,11 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	MY_EXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles , bool deep = true);
+	/*! \brief clone given items
+		\param QList<TextItem*> items to clone
+	*/
+	MY_EXPORT QList<TextItem*> cloneTextItems(const QList<TextItem*>&);
+	
 }
 
 #endif

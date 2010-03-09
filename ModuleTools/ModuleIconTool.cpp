@@ -42,8 +42,6 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
         if (mainWindow != 0)
         {
-            //connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
-            //        this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget *)),
@@ -68,9 +66,8 @@ namespace Tinkercell
 		{
 			QString filename = MainWindow::userHome() + tr("/modules/") + name + tr(".xml");
 			mainWindow->open(filename);
+			mainWindow->sendEscapeSignal(this);
 		}
-
-		mainWindow->sendEscapeSignal(this);
 	}
 
 	void ModuleIconTool::toolLoaded(Tool * tool)

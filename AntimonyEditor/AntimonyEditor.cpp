@@ -20,6 +20,7 @@
 #include "AntimonyEditor.h"
 #include "ModelSummaryTool.h"
 #include "ModuleTool.h"
+#include "CloneItems.h"
 #include <QToolButton>
 #include <QRegExp>
 #include <QFile>
@@ -247,7 +248,8 @@ namespace Tinkercell
 
 	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
 	{
-		//parse
+		console()->message("here");
+		
 		long ok = loadString(modelString.toAscii().data());
 
 		if (ok < 0)
@@ -327,7 +329,7 @@ namespace Tinkercell
 
 			int numrxn = (int)getNumReactions(moduleName);
 
-			for (int rxn=0; rxn < numrxn; rxn++)
+			for (int rxn=0; rxn < numrxn; ++rxn)
 			{
 				int numReactants = getNumReactants(moduleName,rxn);
 				int numProducts = getNumProducts(moduleName,rxn);
@@ -367,7 +369,7 @@ namespace Tinkercell
 				reactionHandle->name = rxnnames[rxn];
 				stoichiometry.rowName(0) = reactionHandle->name;
 				symbolsInModule << reactionHandle->name;
-
+				
 				for (int var=0; var<numReactants; ++var)
 				{
 					NodeHandle * handle = 0;
@@ -388,7 +390,7 @@ namespace Tinkercell
 					}
 					stoichiometry.value(0,tr(leftrxnnames[rxn][var])) -= leftrxnstoichs[rxn][var];
 				}
-
+				
 				for (int var=0; var<numProducts; var++)
 				{
 					NodeHandle * partHandle = 0;
@@ -422,132 +424,132 @@ namespace Tinkercell
 				c->nodesIn = nodesIn;
 				c->nodesOut = nodesOut;
 				itemsToInsert += c;
-
-				int numSpecies = (int)getNumSymbolsOfType(moduleName,varSpecies);
-				char ** speciesNames = getSymbolNamesOfType(moduleName,varSpecies);
-				char ** speciesValues = getSymbolEquationsOfType(moduleName,varSpecies);
-				for (int j=0; j < numSpecies; ++j)
-				{
-					bool ok;
-					qreal x = QString(speciesValues[j]).toDouble(&ok);
-					QString s(speciesNames[j]);
-					if (ok && speciesItems.contains(s))
-					{
-						speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.first,speciesFamily->measurementUnit.second) = x;
-						speciesItems[s]->numericalData(tr("Fixed")) = 0;
-					}
-				}
-
-				int numConstSpecies = (int)getNumSymbolsOfType(moduleName,constSpecies);
-				char ** constSpeciesNames = getSymbolNamesOfType(moduleName,constSpecies);
-				char ** constSpeciesValues = getSymbolEquationsOfType(moduleName,constSpecies);
-				for (int j=0; j < numConstSpecies; ++j)
-				{
-					bool ok;
-					qreal x = QString(constSpeciesValues[j]).toDouble(&ok);
-					QString s(constSpeciesNames[j]);
-					if (ok && speciesItems.contains(s))
-					{
-						speciesItems[s]->numericalData(tr("Initial Value")) = x;
-						speciesItems[s]->data->numericalData[ tr("Initial Value") ].rowName(0) = tr("concentration");
-						speciesItems[s]->data->numericalData[ tr("Initial Value") ].colName(0) = tr("uM");
-						speciesItems[s]->numericalData(tr("Fixed")) = 1;
-						speciesItems[s]->data->numericalData[ tr("Fixed") ].rowName(0) = tr("fix");
-						speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
-					}
-				}
-				
-				int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
-				char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
-				char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
-
-				DataTable<QString> assgnsTable;
-				QList<ItemHandle*> handlesInModule2 = handlesInModule;
-				handlesInModule2 << moduleHandle;
-
-				for (int j=0; j < numAssignments; ++j)
-				{
-					QString x(assignmentValues[j]);
-					assgnsTable.value(tr(assignmentNames[j]),0) = x;
-					symbolsInModule << tr(assignmentNames[j]);
-					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
-				}
-
-				moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
-
-				int numEvents = (int)getNumEvents(moduleName);
-				char ** eventNames = getEventNames(moduleName);
-
-				DataTable<QString> eventsTable;
-				for (int j=0; j < numEvents; ++j)
-				{
-					QString trigger(getTriggerForEvent(moduleName,j));
-
-					int n = (int)getNumAssignmentsForEvent(moduleName,j);
-
-					for (int k=0; k < n; ++k)
-					{
-						QString x(getNthAssignmentVariableForEvent(moduleName,j,k));
-						QString f(getNthAssignmentEquationForEvent(moduleName,j,k));
-
-						eventsTable.value(trigger,0) = x + tr(" = ") + f;
-					}
-				}
-				moduleHandle->data->textData[tr("Events")] = eventsTable;
-
-				int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
-				char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
-				char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
-
-				DataTable<qreal> paramsTable;
-				for (int j=0; j < numParams; ++j)
-				{
-					bool ok;
-					qreal x = QString(paramValues[j]).toDouble(&ok);
-					symbolsInModule << tr(paramNames[j]);
-					if (ok)
-					{
-						paramsTable.value(tr(paramNames[j]),0) = x;
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
-					}
-					else
-					{
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
-						moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
-					}
-				}
-				
-				numParams = (int)getNumSymbolsOfType(moduleName,allSymbols);
-				paramNames = getSymbolNamesOfType(moduleName,allSymbols);
-				paramValues = getSymbolEquationsOfType(moduleName,allSymbols);
-
-				for (int j=0; j < numParams; ++j)
-				{
-					if (symbolsInModule.contains(tr(paramNames[j]))) continue;
-					
-					bool ok;
-					qreal x = QString(paramValues[j]).toDouble(&ok);
-					if (ok)
-					{
-						paramsTable.value(tr(paramNames[j]),0) = x;
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
-					}
-					else
-					{
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
-						moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
-					}
-				}
-				
-				moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
-
-				for (int j=0; j < handlesInModule.size(); ++j)
-					if (handlesInModule[j])
-					{
-						handlesInModule[j]->setParent(moduleHandle);
-						RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
-					}
 			}
+
+			int numSpecies = (int)getNumSymbolsOfType(moduleName,varSpecies);
+			char ** speciesNames = getSymbolNamesOfType(moduleName,varSpecies);
+			char ** speciesValues = getSymbolEquationsOfType(moduleName,varSpecies);
+			for (int j=0; j < numSpecies; ++j)
+			{
+				bool ok;
+				qreal x = QString(speciesValues[j]).toDouble(&ok);
+				QString s(speciesNames[j]);
+				if (ok && speciesItems.contains(s))
+				{
+					speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.first,speciesFamily->measurementUnit.second) = x;
+					speciesItems[s]->numericalData(tr("Fixed")) = 0;
+				}
+			}
+
+			int numConstSpecies = (int)getNumSymbolsOfType(moduleName,constSpecies);
+			char ** constSpeciesNames = getSymbolNamesOfType(moduleName,constSpecies);
+			char ** constSpeciesValues = getSymbolEquationsOfType(moduleName,constSpecies);
+			for (int j=0; j < numConstSpecies; ++j)
+			{
+				bool ok;
+				qreal x = QString(constSpeciesValues[j]).toDouble(&ok);
+				QString s(constSpeciesNames[j]);
+				if (ok && speciesItems.contains(s))
+				{
+					speciesItems[s]->numericalData(tr("Initial Value")) = x;
+					speciesItems[s]->data->numericalData[ tr("Initial Value") ].rowName(0) = tr("concentration");
+					speciesItems[s]->data->numericalData[ tr("Initial Value") ].colName(0) = tr("uM");
+					speciesItems[s]->numericalData(tr("Fixed")) = 1;
+					speciesItems[s]->data->numericalData[ tr("Fixed") ].rowName(0) = tr("fix");
+					speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
+				}
+			}
+			
+			int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
+			char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
+			char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
+
+			DataTable<QString> assgnsTable;
+			QList<ItemHandle*> handlesInModule2 = handlesInModule;
+			handlesInModule2 << moduleHandle;
+
+			for (int j=0; j < numAssignments; ++j)
+			{
+				QString x(assignmentValues[j]);
+				assgnsTable.value(tr(assignmentNames[j]),0) = x;
+				symbolsInModule << tr(assignmentNames[j]);
+				RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(assignmentNames[j]),moduleHandle->name + tr(".") + tr(assignmentNames[j]));
+			}
+
+			moduleHandle->data->textData[tr("Assignments")] = assgnsTable;
+
+			int numEvents = (int)getNumEvents(moduleName);
+			char ** eventNames = getEventNames(moduleName);
+
+			DataTable<QString> eventsTable;
+			for (int j=0; j < numEvents; ++j)
+			{
+				QString trigger(getTriggerForEvent(moduleName,j));
+
+				int n = (int)getNumAssignmentsForEvent(moduleName,j);
+
+				for (int k=0; k < n; ++k)
+				{
+					QString x(getNthAssignmentVariableForEvent(moduleName,j,k));
+					QString f(getNthAssignmentEquationForEvent(moduleName,j,k));
+
+					eventsTable.value(trigger,0) = x + tr(" = ") + f;
+				}
+			}
+			moduleHandle->data->textData[tr("Events")] = eventsTable;
+
+			int numParams = (int)getNumSymbolsOfType(moduleName,constFormulas);
+			char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
+			char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
+
+			DataTable<qreal> paramsTable;
+			for (int j=0; j < numParams; ++j)
+			{
+				bool ok;
+				qreal x = QString(paramValues[j]).toDouble(&ok);
+				symbolsInModule << tr(paramNames[j]);
+				if (ok)
+				{
+					paramsTable.value(tr(paramNames[j]),0) = x;
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+				}
+				else
+				{
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+					moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
+				}
+			}
+			
+			numParams = (int)getNumSymbolsOfType(moduleName,allSymbols);
+			paramNames = getSymbolNamesOfType(moduleName,allSymbols);
+			paramValues = getSymbolEquationsOfType(moduleName,allSymbols);
+
+			for (int j=0; j < numParams; ++j)
+			{
+				if (symbolsInModule.contains(tr(paramNames[j]))) continue;
+				
+				bool ok;
+				qreal x = QString(paramValues[j]).toDouble(&ok);
+				if (ok)
+				{
+					paramsTable.value(tr(paramNames[j]),0) = x;
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
+				}
+				else
+				{
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramValues[j]),moduleHandle->name + tr(".") + tr(paramValues[j]));
+					moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
+				}
+			}
+			
+			moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
+
+			for (int j=0; j < handlesInModule.size(); ++j)
+				if (handlesInModule[j])
+				{
+					handlesInModule[j]->setParent(moduleHandle);
+					RenameCommand::findReplaceAllHandleData(handlesInModule2,handlesInModule[j]->name,handlesInModule[j]->fullName());
+				}
 
 			if (handlesInModule.isEmpty())
 			{
@@ -576,83 +578,7 @@ namespace Tinkercell
 
 	QList<TextItem*> AntimonyEditor::clone(const QList<TextItem*>& items)
 	{
-		QList<TextItem*> newItems;
-		QList<ItemHandle*> oldHandles;
-
-		for (int i=0; i < items.size(); ++i)
-		{
-			oldHandles << getHandle(items[i]);
-			if (items[i])
-				newItems << items[i]->clone();
-			else
-				newItems << 0;
-		}
-
-		ItemHandle * handle = 0, * handle2 = 0;
-		for (int i=0; i< items.size(); ++i)
-		{
-			handle = getHandle(items[i]);
-			if (newItems[i])
-				if (handle)
-					setHandle(newItems[i],handle->clone());
-				else
-					setHandle(newItems[i],0);
-		}
-
-		for (int i=0; i< newItems.size(); ++i)
-		{
-			handle = getHandle(items[i]);
-			handle2 = getHandle(newItems[i]);
-			if (handle && handle->parent && handle2)
-			{
-				int j = oldHandles.indexOf(handle->parent);
-				if (j >= 0)
-				{
-					handle2->setParent(getHandle(newItems[j]));
-				}
-			}
-		}
-
-		for (int i=0; i < items.size(); ++i)
-		{
-			if (items[i] && items[i]->asNode() && newItems[i]->asNode())
-			{
-				NodeTextItem* newNode = newItems[i]->asNode();
-				newNode->connections.clear();
-				QList<ConnectionTextItem*>& connections = items[i]->asNode()->connections;
-				for(int j=0; j < connections.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (connections[j] == items[k] && newItems[k]->asConnection())
-						{
-							newNode->connections << newItems[k]->asConnection();
-						}
-			}
-			else
-			if (items[i] && items[i]->asConnection() && newItems[i]->asConnection())
-			{
-				ConnectionTextItem* newConnection = newItems[i]->asConnection();
-				newConnection->nodesIn.clear();
-				newConnection->nodesOut.clear();
-				newConnection->nodesOther.clear();
-				QList<NodeTextItem*>& nodesIn = items[i]->asConnection()->nodesIn;
-				QList<NodeTextItem*>& nodesOut = items[i]->asConnection()->nodesOut;
-				QList<NodeTextItem*>& nodesOther = items[i]->asConnection()->nodesOther;
-				for(int j=0; j < nodesIn.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesIn[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesIn << newItems[k]->asNode();
-				for(int j=0; j < nodesOut.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesOut[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesOut << newItems[k]->asNode();
-				for(int j=0; j < nodesOther.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesOther[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesOther << newItems[k]->asNode();
-
-			}
-		}
-		return newItems;
+		return cloneTextItems(items);
 	}
 
 	void AntimonyEditor::toolLoaded(Tool*)
@@ -674,8 +600,8 @@ namespace Tinkercell
 		    connected2 = true;
 			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
 			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
-			connect(moduleTool,SIGNAL(createTextWindow(const QList<ItemHandle*>&)),
-					this,SLOT(createTextWindow(const QList<ItemHandle*>&)));
+			connect(moduleTool,SIGNAL(createTextWindow(TextEditor*, const QList<ItemHandle*>&)),
+					this,SLOT(createTextWindow(TextEditor*, const QList<ItemHandle*>&)));
 		}
 	}
 
@@ -900,15 +826,9 @@ namespace Tinkercell
 		return s;
 	}
 
-	void AntimonyEditor::createTextWindow(const QList<ItemHandle*>& items)
+	void AntimonyEditor::createTextWindow(TextEditor * newEditor, const QList<ItemHandle*>& items)
 	{
-		if (!mainWindow) return;
-
-		TextEditor * newEditor = mainWindow->newTextWindow();
-
 		if (!newEditor || !newEditor->networkWindow) return;
-
-		newEditor->networkWindow->popOut();
 		newEditor->setText(getAntimonyScript(items));
 	}
 

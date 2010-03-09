@@ -1,6 +1,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
+#include "TextItem.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
 #include "Tool.h"
@@ -240,5 +241,86 @@ namespace Tinkercell
 		}
 
 		return duplicateItems;
+	}
+	
+	QList<TextItem*> cloneTextItems(const QList<TextItem*>& items)
+	{
+		QList<TextItem*> newItems;
+		QList<ItemHandle*> oldHandles;
+
+		for (int i=0; i < items.size(); ++i)
+		{
+			oldHandles << getHandle(items[i]);
+			if (items[i])
+				newItems << items[i]->clone();
+			else
+				newItems << 0;
+		}
+
+		ItemHandle * handle = 0, * handle2 = 0;
+		for (int i=0; i< items.size(); ++i)
+		{
+			handle = getHandle(items[i]);
+			if (newItems[i])
+				if (handle)
+					setHandle(newItems[i],handle->clone());
+				else
+					setHandle(newItems[i],0);
+		}
+
+		for (int i=0; i< newItems.size(); ++i)
+		{
+			handle = getHandle(items[i]);
+			handle2 = getHandle(newItems[i]);
+			if (handle && handle->parent && handle2)
+			{
+				int j = oldHandles.indexOf(handle->parent);
+				if (j >= 0)
+				{
+					handle2->setParent(getHandle(newItems[j]));
+				}
+			}
+		}
+
+		for (int i=0; i < items.size(); ++i)
+		{
+			if (items[i] && items[i]->asNode() && newItems[i]->asNode())
+			{
+				NodeTextItem* newNode = newItems[i]->asNode();
+				newNode->connections.clear();
+				QList<ConnectionTextItem*>& connections = items[i]->asNode()->connections;
+				for(int j=0; j < connections.size(); ++j)
+					for (int k=0; k < items.size(); ++k)
+						if (connections[j] == items[k] && newItems[k]->asConnection())
+						{
+							newNode->connections << newItems[k]->asConnection();
+						}
+			}
+			else
+			if (items[i] && items[i]->asConnection() && newItems[i]->asConnection())
+			{
+				ConnectionTextItem* newConnection = newItems[i]->asConnection();
+				newConnection->nodesIn.clear();
+				newConnection->nodesOut.clear();
+				newConnection->nodesOther.clear();
+				QList<NodeTextItem*>& nodesIn = items[i]->asConnection()->nodesIn;
+				QList<NodeTextItem*>& nodesOut = items[i]->asConnection()->nodesOut;
+				QList<NodeTextItem*>& nodesOther = items[i]->asConnection()->nodesOther;
+				for(int j=0; j < nodesIn.size(); ++j)
+					for (int k=0; k < items.size(); ++k)
+						if (nodesIn[j] == items[k] && newItems[k]->asNode())
+							newConnection->nodesIn << newItems[k]->asNode();
+				for(int j=0; j < nodesOut.size(); ++j)
+					for (int k=0; k < items.size(); ++k)
+						if (nodesOut[j] == items[k] && newItems[k]->asNode())
+							newConnection->nodesOut << newItems[k]->asNode();
+				for(int j=0; j < nodesOther.size(); ++j)
+					for (int k=0; k < items.size(); ++k)
+						if (nodesOther[j] == items[k] && newItems[k]->asNode())
+							newConnection->nodesOther << newItems[k]->asNode();
+
+			}
+		}
+		return newItems;
 	}
 }

@@ -79,7 +79,7 @@ namespace Tinkercell
 
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
-		void createTextWindow(const QList<ItemHandle*>&);
+		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 
 	public slots:
 
@@ -101,10 +101,13 @@ namespace Tinkercell
 
 		void moduleButtonPressed(const QString&);
 		void historyChanged(int);
+		void createView();
+		void createView(GraphicsScene *, QGraphicsItem *);
 
 	private:
 
 		QHash<GraphicsView*,ItemHandle*> moduleViews;
+		QHash<TextEditor*, QPair<GraphicsScene*,ItemHandle*> > moduleScripts;
 		QHash<ItemHandle*,GraphicsView*> moduleHandles;
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);

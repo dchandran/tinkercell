@@ -190,7 +190,7 @@ namespace Tinkercell
 						  }
 					}
 			}
-			
+
 			if (!list.isEmpty())
 			{
 				scene->insert(text + tr("inserted"),list);
@@ -246,7 +246,7 @@ namespace Tinkercell
 	}
 
 	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
-	{		
+	{
 		long ok = loadString(modelString.toAscii().data());
 
 		if (ok < 0)
@@ -291,7 +291,7 @@ namespace Tinkercell
 
 		int nummods = (int)getNumModules();
 		char** modnames = getModuleNames();
-		
+
 		QList<TextItem*> itemsToInsert;
 
 		for (int i=0; i < nummods; ++i)
@@ -309,7 +309,7 @@ namespace Tinkercell
 
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("main");
-			
+
 			QStringList symbolsInModule;
 			symbolsInModule << moduleHandle->name;
 
@@ -366,7 +366,7 @@ namespace Tinkercell
 				reactionHandle->name = rxnnames[rxn];
 				stoichiometry.rowName(0) = reactionHandle->name;
 				symbolsInModule << reactionHandle->name;
-				
+
 				for (int var=0; var<numReactants; ++var)
 				{
 					NodeHandle * handle = 0;
@@ -387,7 +387,7 @@ namespace Tinkercell
 					}
 					stoichiometry.value(0,tr(leftrxnnames[rxn][var])) -= leftrxnstoichs[rxn][var];
 				}
-				
+
 				for (int var=0; var<numProducts; var++)
 				{
 					NodeHandle * partHandle = 0;
@@ -456,7 +456,7 @@ namespace Tinkercell
 					speciesItems[s]->data->numericalData[ tr("Fixed") ].colName(0) = tr("value");
 				}
 			}
-			
+
 			int numAssignments = (int)getNumSymbolsOfType(moduleName,varFormulas);
 			char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
 			char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
@@ -516,7 +516,7 @@ namespace Tinkercell
 					moduleHandle->data->textData[tr("Assignments")].value(tr(paramNames[j]),0) = paramValues[j];
 				}
 			}
-			
+
 			numParams = (int)getNumSymbolsOfType(moduleName,allSymbols);
 			paramNames = getSymbolNamesOfType(moduleName,allSymbols);
 			paramValues = getSymbolEquationsOfType(moduleName,allSymbols);
@@ -533,7 +533,7 @@ namespace Tinkercell
 					RenameCommand::findReplaceAllHandleData(handlesInModule2,tr(paramNames[j]),moduleHandle->name + tr(".") + tr(paramNames[j]));
 				}
 			}
-			
+
 			moduleHandle->data->numericalData[tr("Numerical Attributes")] = paramsTable;
 
 			for (int j=0; j < handlesInModule.size(); ++j)
@@ -627,6 +627,8 @@ namespace Tinkercell
 	{
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s2;
+		QString allEqns;
+		QStringList usedSymbols;
 		for (int j=0; j < childHandles.size(); ++j)
 			if (childHandles[j] && childHandles[j]->isA(tr("Module")))
 			{
@@ -677,8 +679,6 @@ namespace Tinkercell
 				if (childHandles[j]->hasNumericalData(tr("Stoichiometry")) &&
 					 childHandles[j]->hasTextData(tr("Rates")))
 					{
-
-
 						DataTable<qreal>& N = childHandles[j]->numericalDataTable(tr("Stoichiometry"));
 						DataTable<QString>& V = childHandles[j]->textDataTable(tr("Rates"));
 						for (int r=0; r < N.rows(); ++r)
@@ -686,6 +686,8 @@ namespace Tinkercell
 							lhs.clear();
 							rhs.clear();
 							rate = V.value(r,0);
+							allEqns += rate;
+
 							for (int c=0; c < N.cols(); ++c)
 								if (N.value(r,c) < 0)
 									lhs += N.colName(c);
@@ -707,23 +709,14 @@ namespace Tinkercell
 						}
 
 					}
+			}
 
-				if (childHandles[j]->hasNumericalData(tr("Numerical Attributes")))
-				{
-					DataTable<qreal>& params = childHandles[j]->numericalDataTable(tr("Numerical Attributes"));
+        s += tr("\n");
 
-					for (int r=0; r < params.rows(); ++r)
-					{
-						s += tr("    ");
-						s += name;
-						s += tr("_");
-						s += params.rowName(r);
-						s += tr(" = ");
-						s += QString::number(params.value(r,0));
-						s += tr(";\n");
-					}
-				}
-
+        for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j])
+            {
+                name = childHandles[j]->fullName(tr("_"));
 				if (childHandles[j]->hasTextData(tr("Assignments")))
 				{
 					DataTable<QString>& assigns = childHandles[j]->textDataTable(tr("Assignments"));
@@ -738,13 +731,49 @@ namespace Tinkercell
 							s += name;
 							s += tr("_");
 						}
-						s += assigns.rowName(j);
+						s += assigns.rowName(r);
 						s += tr(" = ");
 						s += rule;
 						s += tr(";\n");
+
+						allEqns += rule;
+						usedSymbols << (name + tr(".") + assigns.rowName(r));
 					}
 				}
+            }
 
+        s += tr("\n");
+
+        for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j])
+			{
+			    name = childHandles[j]->fullName(tr("_"));
+				if (childHandles[j]->hasNumericalData(tr("Numerical Attributes")))
+				{
+					DataTable<qreal>& params = childHandles[j]->numericalDataTable(tr("Numerical Attributes"));
+
+					for (int r=0; r < params.rows(); ++r)
+                        if (allEqns.contains(name + tr(".") + params.rowName(r)) &&
+                            !usedSymbols.contains(name + tr(".") + params.rowName(r)))
+                        {
+                            s += tr("    ");
+                            s += name;
+                            s += tr("_");
+                            s += params.rowName(r);
+                            s += tr(" = ");
+                            s += QString::number(params.value(r,0));
+                            s += tr(";\n");
+                            usedSymbols << (name + tr(".") + params.rowName(r));
+                        }
+				}
+			}
+
+        s += tr("\n");
+
+        for (int j=0; j < childHandles.size(); ++j)
+			if (childHandles[j])
+			{
+			    name = childHandles[j]->fullName(tr("_"));
 				if (childHandles[j]->hasNumericalData(tr("Initial Value")) && !name.isEmpty())
 				{
 					s += tr("    ");
@@ -753,7 +782,6 @@ namespace Tinkercell
 					s += QString::number(childHandles[j]->numericalData(tr("Initial Value")));
 					s += tr(";\n");
 				}
-
 			}
 	}
 

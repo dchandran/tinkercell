@@ -65,7 +65,7 @@ namespace Tinkercell
 
             connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
                     this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
-			
+
 			connect(mainWindow,SIGNAL(windowClosed(NetworkWindow *)),this,SLOT(windowClosed(NetworkWindow *)));
 
             connect(this,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
@@ -77,7 +77,7 @@ namespace Tinkercell
 
             treeView->setColumnWidth(0,50);
             treeView->setColumnWidth(2,20);
-			
+
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/new.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
@@ -510,7 +510,7 @@ namespace Tinkercell
 	                        break;
                 	}
                 }
-                
+
                 if (!stillWithParent)
                 {
                     newChildren += child;
@@ -741,7 +741,7 @@ namespace Tinkercell
 		for (int i=0; i < movedChildNodes.size(); ++i)
 		{
 			child = movedChildNodes[i];
-			if (child->graphicsItems.isEmpty()) continue;
+			if (child->graphicsItems.isEmpty() || !child->textItems.isEmpty()) continue;
 
             outOfBox = false;
             for (int j=0; j < child->parent->graphicsItems.size(); ++j)
@@ -750,7 +750,7 @@ namespace Tinkercell
             		outOfBox = true;
             		break;
 				}
-            
+
             if (outOfBox)
 				for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
 				{

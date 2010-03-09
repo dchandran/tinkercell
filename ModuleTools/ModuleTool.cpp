@@ -96,7 +96,7 @@ namespace Tinkercell
 					this, SLOT(parentHandleChanged(NetworkWindow *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-			
+
 			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
 
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
@@ -118,7 +118,7 @@ namespace Tinkercell
 			if (!tree->nodeFamilies.contains(tr("Module")))
 			{
 				NodeFamily * moduleFamily = new NodeFamily(tr("Module"));
-				
+
 				QString appDir = QCoreApplication::applicationDirPath();
 				NodeGraphicsItem * image = new NodeGraphicsItem;
 				NodeGraphicsReader reader;
@@ -126,7 +126,7 @@ namespace Tinkercell
 				image->normalize();
 				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
 					image->defaultSize.height()/image->sceneBoundingRect().height());
-				
+
 				moduleFamily->graphicsItems += image;
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->color = QColor(0,0,255);
@@ -170,7 +170,7 @@ namespace Tinkercell
 				tr("Modules"));
 		}
 	}
-	
+
 	void ModuleTool::historyChanged(int)
 	{
 		TextEditor * textEditor = currentTextEditor();
@@ -179,19 +179,19 @@ namespace Tinkercell
 			GraphicsScene * scene = moduleScripts[textEditor].first;
 			ItemHandle * moduleHandle = moduleScripts[textEditor].second;
 			ItemHandle * handle;
-			
+
 			if (!scene || !moduleHandle) return;
-			
+
 			QList<TextItem*> newTextItems = cloneTextItems(textEditor->items());
 			QList<ItemHandle*> children, parents, oldChildren;
-			
+
 			oldChildren = moduleHandle->children;
 			for (int i=0; i < oldChildren.size(); ++i)
 			{
 				children << oldChildren[i];
 				parents << 0;
 			}
-			
+
 			for (int i=0; i < newTextItems.size(); ++i)
 			{
 				handle = getHandle(newTextItems[i]);
@@ -201,7 +201,7 @@ namespace Tinkercell
 					parents << moduleHandle;
 				}
 			}
-			
+
 			scene->setParentHandle(children,parents);
 		}
 	}
@@ -273,7 +273,7 @@ namespace Tinkercell
                     }
             }
         }
-        
+
         if (!moduleHandle)
         {
         	items = selectedItems;
@@ -283,9 +283,9 @@ namespace Tinkercell
         for (int i=0; i < items.size(); ++i)
         {
             handle = getHandle(items[i]);
-            
+
             if (!NodeHandle::cast(handle)) continue;
-            
+
             NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
 
             if (!module) continue;
@@ -317,22 +317,22 @@ namespace Tinkercell
 			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
 			linkerText->setPos(linker->pos());
 			linkerText->scale(1.5,1.5);
-			toInsert += (QGraphicsItem*)linkerText;            
+			toInsert += (QGraphicsItem*)linkerText;
         }
-        
+
         for (int i=0; i < textItems.size(); ++i)
         {
             handle = getHandle(textItems[i]);
             if (!NodeHandle::cast(handle)) continue;
-            
+
             NodeGraphicsItem * module = 0;
-            
+
             for (int j=0; j < moduleHandle->graphicsItems.size(); ++j)
             	if (module = NodeGraphicsItem::cast(moduleHandle->graphicsItems[j]))
             		break;
 
             if (!module) continue;
-            
+
             NodeGraphicsItem * linker = new NodeGraphicsItem;
 			QString appDir = QCoreApplication::applicationDirPath();
 			NodeGraphicsReader reader;
@@ -361,7 +361,7 @@ namespace Tinkercell
 			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
 			linkerText->setPos(linker->pos());
 			linkerText->scale(1.5,1.5);
-			toInsert += (QGraphicsItem*)linkerText;            
+			toInsert += (QGraphicsItem*)linkerText;
         }
 
         scene->insert("module interface created",toInsert);
@@ -737,31 +737,31 @@ namespace Tinkercell
             if ( (handle = modules[i]) && handle->isA(tr("Module")) )
             {
                 for (int j=0; j < handle->children.size(); ++j)
-                    if ((child = NodeHandle::cast(handle->children[j])) && child->graphicsItems.size() > 0)
+                    if (child = NodeHandle::cast(handle->children[j]))
 					{
-						console()->message("here");
-						inside = false;
-						for (int k=0; k < child->graphicsItems.size(); ++k)
-						{
-							if (child->graphicsItems[k] && !scene->isVisible(child->graphicsItems[k]))
-								inside = true;
-							else
-								if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k])))
-									//&& !(node->className == ModuleLinkerItem::CLASSNAME))
-								{
-									for (int l=0; l < handle->graphicsItems.size(); ++l)
-									{
-										if (handle->graphicsItems[l] &&
-											handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect()))
-										{
-											inside = true;
-											break;
-										}
-									}
-									if (inside)
-										break;
-								}
-						}
+						inside = !child->textItems.isEmpty() || child->graphicsItems.isEmpty();
+						if (!inside)
+                            for (int k=0; k < child->graphicsItems.size(); ++k)
+                            {
+                                if (child->graphicsItems[k] && !scene->isVisible(child->graphicsItems[k]))
+                                    inside = true;
+                                else
+                                    if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k]))
+                                        && node->className != linkerClassName)
+                                    {
+                                        for (int l=0; l < handle->graphicsItems.size(); ++l)
+                                        {
+                                            if (handle->graphicsItems[l] &&
+                                                handle->graphicsItems[l]->sceneBoundingRect().contains(node->sceneBoundingRect()))
+                                            {
+                                                inside = true;
+                                                break;
+                                            }
+                                        }
+                                        if (inside)
+                                            break;
+                                    }
+                            }
 
 						if (inside)
 						{
@@ -1160,18 +1160,18 @@ namespace Tinkercell
 				}
             }
 	}
-	
+
 	void ModuleTool::createView()
 	{
 		GraphicsScene * scene = currentScene();
 		if (scene && scene->selected().size() == 1)
 			createView(scene, scene->selected().at(0));
 	}
-	
+
 	void ModuleTool::createView(GraphicsScene * scene, QGraphicsItem * item)
 	{
 		if (!scene || !mainWindow || !item) return;
-		
+
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem, *node;
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
@@ -1183,15 +1183,15 @@ namespace Tinkercell
 				{
 					QList<ItemHandle*> handles;
 					handles << handle->allChildren();
-					
+
 					TextEditor * newEditor = mainWindow->newTextWindow();
 					newEditor->networkWindow->popOut();
-					moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);					
+					moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);
 					emit createTextWindow(newEditor, handles);
 				}
 				return;
 			}
-			
+
 			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5)),
 								  hideItems,
 								  allItems = scene->items();

@@ -230,7 +230,7 @@ fprintf(out, "\
 	names = TCvarnames;\n\
 	if (%i)\n\
 	{\n\
-		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), (void*)model);\n\
+		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
 		TCvars = TCreactions;\n\

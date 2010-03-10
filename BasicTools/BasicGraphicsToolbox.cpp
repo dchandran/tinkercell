@@ -923,7 +923,9 @@ namespace Tinkercell
 	{
 		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
 		{
-			zoomRect.setRect( QRectF(scene->lastPoint(), point ));
+			QRectF rect(scene->lastPoint(), point );
+			
+			zoomRect.setRect(QRectF(rect.topLeft(),rect.bottomRight()));
 		}
 	}
 
@@ -938,6 +940,7 @@ namespace Tinkercell
 				QList<QGraphicsView*> views = scene->views();
 
 				QRectF rect(from,to);
+				rect = QRectF(rect.topLeft(),rect.bottomRight());
 				if (scene->items(rect).size() < 2)
 				{
 					scene->centerOn(to);
@@ -955,7 +958,6 @@ namespace Tinkercell
 
 			zoomRect.setVisible(false);
 			zoomRect.setRect(QRectF(0,0,0,0));
-
 
 			if (zoomRect.scene() == scene)
 				scene->removeItem(&zoomRect);

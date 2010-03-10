@@ -43,43 +43,6 @@ namespace Tinkercell
 				VoidFunction f = unloadFunctions[i];
 				f();
 			}
-
-		bool exists = true;
-		QString file;
-
-		QDir userHomeDir(MainWindow::userTemp());
-		QString userHome = userHomeDir.absolutePath();
-
-#ifdef Q_WS_WIN
-		
-		userHome.replace(tr("/"),tr("\\"));
-		for (int i=1; exists; ++i)
-		{
-			file = tr("\"") + userHome + tr("\"\\temp") + QString::number(i) + tr(".dll");
-			if (exists = QFile::exists(file))
-				QFile::remove(file);
-		}
-#else
-#ifdef Q_WS_MAC
-		
-		for (int i=1; exists; ++i)
-		{
-			file = userHome + tr("/temp") + QString::number(i) + tr(".dylib");
-			if (exists = QFile::exists(file))
-				QFile::remove(file);
-		}
-#else
-
-		for (int i=1; exists; ++i)
-		{
-			file = userHome + tr("/temp") + QString::number(i) + tr(".so");
-			if (exists = QFile::exists(file))
-				QFile::remove(file);
-		}
-
-#endif
-#endif
-
 	}
 
     bool LoadCLibrariesTool::setMainWindow(MainWindow * main)

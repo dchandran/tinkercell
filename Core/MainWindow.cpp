@@ -335,6 +335,21 @@ namespace Tinkercell
 	{
 		GraphicsScene::clearStaticItems();
 		saveSettings();
+		
+		QString tempDir = userTemp();
+		QString cmd;
+		
+#ifdef Q_WS_WIN
+		
+		tempDir.replace(tr("/"),tr("\\"));
+		cmd = tr("del \"") + tempDir + tr("\"\\*.* /Y");
+		
+#else
+
+		cmd = tr("rm ") + tempDir + tr("/*.*");
+		
+#endif
+		system(cmd.toAscii().data());
 	}
 
 	void MainWindow::tabIndexChanged(int i)

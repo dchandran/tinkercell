@@ -296,9 +296,9 @@ namespace Tinkercell
 					if (handles.size() > i)
 					{
 						items[i]->setHandle(handles[i]);
-						s0 = s1 = handles[i]->fullName();
 						if (handles[i] && allNames.contains(s1))
 						{
+							s0 = s1 = handles[i]->fullName();
 							if (s0[ s0.length()-1 ].isNumber())
 								s0 = s0.left( s0.length()-1 );
 							int k=0;
@@ -440,9 +440,9 @@ namespace Tinkercell
 					if (handles.size() > i)
 					{
 						setHandle(graphicsItems[i],handles[i]);
-						s0 = s1 = handles[i]->fullName();
 						if (handles[i] && allNames.contains(s1))
 						{
+							s0 = s1 = handles[i]->fullName();
 							if (s0[ s0.length()-1 ].isNumber())
 								s0 = s0.left( s0.length()-1 );
 							int k=0;

@@ -124,8 +124,6 @@ namespace Tinkercell
 				NodeGraphicsReader reader;
 				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
 				image->normalize();
-				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-					image->defaultSize.height()/image->sceneBoundingRect().height());
 
 				moduleFamily->graphicsItems += image;
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
@@ -559,10 +557,10 @@ namespace Tinkercell
 			}
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
 					image->defaultSize.height()/image->sceneBoundingRect().height());
-			
-			image->setBoundingBoxVisible(false);
-			image->setHandle(handle);
 			image->setPos(point);
+			image->adjustBoundaryControlPoints();
+			image->setHandle(handle);
+			
 
 			scene->insert(handle->name + tr(" inserted"),image);
 

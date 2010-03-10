@@ -770,12 +770,13 @@ namespace Tinkercell
 		QAction * redoAction = editMenu->addAction(QIcon(tr(":/images/redo.png")),tr("&Redo"));
 		redoAction->setShortcut(QKeySequence::Redo);
 		connect(redoAction,SIGNAL(triggered()),this,SLOT(redo()));
+		
+		viewMenu = menuBar()->addMenu(tr("&View"));
 
-		QAction* fitAll = editMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
+		QAction* fitAll = viewMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
 		fitAll->setShortcut(tr("F5"));
 		connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
-
-		viewMenu = menuBar()->addMenu(tr("&View"));
+		
 
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
 		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
@@ -813,7 +814,7 @@ namespace Tinkercell
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
 
 		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create &view"),this);
-		editMenu->addAction(createViewAction);
+		viewMenu->addAction(createViewAction);
 		createViewAction->setToolTip(tr("Create view of current network"));
 		connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));
 

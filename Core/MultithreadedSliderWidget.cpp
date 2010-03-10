@@ -211,7 +211,7 @@ namespace Tinkercell
 			layout = new QHBoxLayout;
 			
 			label = new QLabel(options[i]);
-			label->setMaximumWidth(options[i].size() * 3);
+			//label->setMaximumWidth(options[i].size() * 3);
 			layout->addWidget(label);
 			labels << label;
 

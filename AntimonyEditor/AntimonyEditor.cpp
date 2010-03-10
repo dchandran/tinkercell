@@ -158,9 +158,9 @@ namespace Tinkercell
 									image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
 
 							   qreal w = image->sceneBoundingRect().width();
-
-							   image->setBoundingBoxVisible(false);
 							   image->setPos(xpos + w/2.0, point.y());
+							   image->adjustBoundaryControlPoints();
+							   image->setBoundingBoxVisible(false);
 
 							   if (image->isValid())
 							   {

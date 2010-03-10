@@ -205,6 +205,7 @@ namespace Tinkercell
                 && (handle = getHandle(items[i]))
                 && (handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
             {
+				QRectF sceneBoundingRect = items[i]->sceneBoundingRect().adjusted(-10,-10,10,10);
                 QList<ItemHandle*> list = handle->children;
                 for (int j=0; j < list.size(); ++j)
                 {
@@ -216,7 +217,7 @@ namespace Tinkercell
 							{
 								if (child->graphicsItems[k] != items[i] &&
 									!scene->moving().contains(child->graphicsItems[k]) &&
-									items[i]->sceneBoundingRect().intersects(child->graphicsItems[k]->sceneBoundingRect()))
+									sceneBoundingRect.intersects(child->graphicsItems[k]->sceneBoundingRect()))
 								{
 									if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(child->graphicsItems[k])))
 									{
@@ -753,20 +754,23 @@ namespace Tinkercell
 
             if (outOfBox)
 				for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
-				{
-					for (int k=0; k < child->graphicsItems.size(); ++k)
-						if (child->graphicsItems[k])
-						{
-							QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
-							QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
-							if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
+					if (child->parent->graphicsItems[j])
+					{
+						//QPainterPath p1 = child->parent->graphicsItems[j]->mapToScene(child->parent->graphicsItems[j]->shape());
+						QRectF p1 = child->parent->graphicsItems[j]->sceneBoundingRect().adjusted(-5,-5,5,5);
+						for (int k=0; k < child->graphicsItems.size(); ++k)
+							if (child->graphicsItems[k])
 							{
-								outOfBox = false; //yes, still contained inside the module/Compartment
-								break;
+								//QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
+								QRectF p2 = child->graphicsItems[k]->sceneBoundingRect();
+								if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
+								{
+									outOfBox = false; //yes, still contained inside the module/Compartment
+									break;
+								}
 							}
-						}
-					if (!outOfBox) break;
-				}
+						if (!outOfBox) break;
+					}
 			if (outOfBox)
 			{
 				children += child;

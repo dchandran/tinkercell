@@ -185,12 +185,12 @@ namespace Tinkercell
 												win->console()->error(QString("unknown variable : " ) + QString(item->first.data()));
 											return false;
 										}
-										DataTable<qreal> dat(handle->data->numericalData[QString("Numerical Attributes")]);
+										DataTable<qreal> dat(handle2->data->numericalData[QString("Numerical Attributes")]);
 
-										if (!str.contains(QRegExp(QString("^") + handle->fullName() + QString("\\."))))
+										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))))
 										{
-											str2 = handle2->fullName() + QString(".") + str;
-											s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
+											str2 = handle2->fullName() + QString(".") + str2;
+											s.replace(QRegExp(QString("^")+str2+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + str2 + QString("\\2"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("$")),QString("\\1") + str2);
 										}
@@ -199,10 +199,11 @@ namespace Tinkercell
 											str2 = str;
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
 										}
-										dat.value(str,0) = 1.0;
-										win->changeData(handle2->fullName() + QString(".") + str + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
+										
+										dat.value(str2,0) = 1.0;
+										win->changeData(handle2->fullName() + QString(".") + str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
 										if (win->console())
-                                            win->console()->message(QString("New parameter ") + str2 + QString(" = 1.0"));
+                                            win->console()->message(str2 + QString(" = 1.0"));
 									}
 							}
 					}

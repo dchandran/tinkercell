@@ -97,6 +97,8 @@ namespace Tinkercell
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
 		boundingBoxItem->setRect(boundingRect());
+		
+		setBoundingBoxVisible(false);
 	}
 
 	/*! reset of control points that control the bounding box of this figure */
@@ -250,6 +252,8 @@ namespace Tinkercell
 		boundingBoxItem->setVisible(false);
 		boundingBoxItem->setPos(0,0);
 		boundingBoxItem->setRect(boundingRect());
+		
+		setBoundingBoxVisible(false);
 	}
 	
 	qreal NodeGraphicsItem::getPenWidthForBoundingRect()

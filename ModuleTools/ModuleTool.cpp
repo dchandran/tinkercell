@@ -553,12 +553,14 @@ namespace Tinkercell
 			else
 			{
 				image = new NodeGraphicsItem;
+				image->normalize();
 				NodeGraphicsReader reader;
 				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
 			}
-			image->normalize();
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
 					image->defaultSize.height()/image->sceneBoundingRect().height());
+			
+			image->setBoundingBoxVisible(false);
 			image->setHandle(handle);
 			image->setPos(point);
 
@@ -585,7 +587,7 @@ namespace Tinkercell
 		if (mode == connecting && nodeItems.size() == 1)
 		{
 			selectedItems << NodeGraphicsItem::cast(nodeItems[0]);
-			selectedItems.last()->setPen(QPen(QBrush(QColor(255,0,0)),10));
+			selectedItems.last()->setAlpha(100);
 
 			if (selectedItems.size() == 2)
 			{

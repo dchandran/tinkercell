@@ -159,9 +159,8 @@ namespace Tinkercell
 
 							   qreal w = image->sceneBoundingRect().width();
 
-							   image->setPos(xpos + w/2.0, point.y());
-
 							   image->setBoundingBoxVisible(false);
+							   image->setPos(xpos + w/2.0, point.y());
 
 							   if (image->isValid())
 							   {

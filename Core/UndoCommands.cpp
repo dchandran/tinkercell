@@ -331,7 +331,14 @@ namespace Tinkercell
 			}
 			
 			if (!renameCommand && !newNames.isEmpty())
-				renameCommand = new RenameCommand(QString("rename"),handles,oldNames,newNames);
+			{
+				QList<ItemHandle*> allHandles;
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i])
+						allHandles << handles[i] << handles[i]->allChildren();
+					
+				renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
+			}
 			
 			if (renameCommand)
 				renameCommand->redo();
@@ -498,7 +505,14 @@ namespace Tinkercell
 			}
 			
 			if (!renameCommand && !newNames.isEmpty())
-				renameCommand = new RenameCommand(QString("rename"),handles,oldNames,newNames);
+			{
+				QList<ItemHandle*> allHandles;
+				for (int i=0; i < handles.size(); ++i)
+					if (handles[i])
+						allHandles << handles[i] << handles[i]->allChildren();
+					
+				renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
+			}
 			
 			if (renameCommand)
 				renameCommand->redo();

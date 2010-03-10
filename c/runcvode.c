@@ -48,7 +48,7 @@ void setup()
 
 void run(Matrix input)
 {
-	Array A, B;
+	Array A,B;
 	FILE * out;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
@@ -59,7 +59,7 @@ void run(Matrix input)
 	int i=0, sz = 0, k = 0, update = 1;
 	char * runfuncInput = "Matrix input";
 	char * runfunc = "";
-	Matrix params, initVals, allParams;
+	Matrix params, initVals, allParams, N;
 	
 	if (input.cols > 0)
 	{
@@ -110,8 +110,12 @@ void run(Matrix input)
 	if (slider)
 	{
 		params = tc_getModelParameters(A);
-		B = tc_itemsOfFamilyFrom("Molecule\0",A);
-		initVals = tc_getInitialValues(B);
+		//B = tc_itemsOfFamilyFrom("Molecule\0",A);
+		N = tc_getStoichiometry(A);
+		B = tc_findItems(N.rownames);
+		TCFreeMatrix(N);
+		
+		initVals = tc_getInitialValues(A);
 		
 		allParams.rows = (initVals.rows+params.rows);
 		allParams.cols = 2;
@@ -176,8 +180,6 @@ void run(Matrix input)
 		return;
 	}
 	
-	fprintf(out, "void assignInputs(double * k, TCmodel * model)\n{\n TCassignParameters(k,model);  TCassignVars(k+TCparams,model); \n}\n" );
-	
 
 	fprintf( out , "\
 #include \"TC_api.h\"\n\
@@ -220,7 +222,7 @@ void run(%s) \n\
 	\n", (end-start), (end-start)/20.0, runfunc);
 
 if (slider)
-	fprintf(out, "    if (input.rows > TCparams)\n    assignInputs(input.values,model);\n");
+	fprintf(out, "    if (input.rows > TCparams)\n    TCassignParametersAndVars(input.values,model);\n");
 
 fprintf( out , "\
     TCinitialize(model);\n\

@@ -20,7 +20,7 @@ void runSSA(Matrix input)
 	int slider = 1;
 	char * runfuncInput = "Matrix input";
 	char * runfunc = "";
-	Matrix params, initVals, allParams;
+	Matrix params, initVals, allParams, N;
 
 	if (input.cols > 0)
 	{
@@ -64,7 +64,10 @@ void runSSA(Matrix input)
 	if (slider)
 	{
 		params = tc_getModelParameters(A);
-		B = tc_itemsOfFamilyFrom("Molecule\0",A);
+		//B = tc_itemsOfFamilyFrom("Molecule\0",A);
+		N = tc_getStoichiometry(A);
+		B = tc_findItems(N.rownames);
+		TCFreeMatrix(N);
 		initVals = tc_getInitialValues(B);
 		
 		allParams.rows = (initVals.rows+params.rows);
@@ -130,8 +133,6 @@ void runSSA(Matrix input)
 		return;
 	}
 	
-	fprintf(out, "void assignInputs(double * k, TCmodel * model)\n{\n TCassignParameters(k,model);  TCassignVars(k+TCparams,model); \n}\n" );
-
 	fprintf( out , "}\n\
 #include \"TC_api.h\"\n\
 #include \"ssa.h\"\n\n\
@@ -193,7 +194,7 @@ void run(%s) \n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
 
 if (slider)
-	fprintf(out, "    if (input.rows > TCparams)\n    assignInputs(input.values,model);\n");
+	fprintf(out, "    if (input.rows > TCparams)\n    TCassignParametersAndVars(input.values,model);\n");
 
 fprintf(out, "\
 	TCinitialize(model);\n\

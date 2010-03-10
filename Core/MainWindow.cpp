@@ -342,7 +342,7 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
 		
 		tempDir.replace(tr("/"),tr("\\"));
-		cmd = tr("del \"") + tempDir + tr("\"\\*.* /Y");
+		cmd = tr("del \"") + tempDir + tr("\"\\*.* /q");
 		
 #else
 

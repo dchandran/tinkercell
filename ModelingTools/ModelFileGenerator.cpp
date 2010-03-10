@@ -753,6 +753,42 @@ namespace Tinkercell
 
 		code += tr("}\n\n");
 		pycode += tr("\n\n");
+		
+		code += tr("\nvoid TCassignParametersAndVars( double * k, TCmodel * model )\n{ \n");
+		pycode += tr("    defn TCassignParametersAndVars ( k ):\n");
+
+		for (i = 0; i < trueParams.size(); ++i)
+		{
+			code += tr("   model->");
+			code += trueParams[i];
+			code += tr(" = k[");
+			code += QString::number(i);
+			code += "];\n";
+
+			pycode += tr("        ");
+			pycode += trueParams[i];
+			pycode += tr(" = k[");
+			pycode += QString::number(i);
+			pycode += tr("];\n");
+		}
+		
+		for (i = 0; i < r; ++i)
+		{
+			code += tr("   model->");
+			code += N.rowName(i);
+			code += tr(" = k[");
+			code += QString::number(i+trueParams.size());
+			code += "];\n";
+
+			pycode += tr("        ");
+			pycode += N.rowName(i);
+			pycode += tr(" = k[");
+			pycode += QString::number(i+trueParams.size());
+			pycode += tr("];\n");
+		}
+
+		code += tr("}\n\n");
+		pycode += tr("\n\n");
 
 		//print header and beginning of propensity function
 		code += tr("\nvoid TCpropensity(double time, double * u, double * rates, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");

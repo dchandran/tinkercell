@@ -555,10 +555,10 @@ namespace Tinkercell
 				image = new NodeGraphicsItem;
 				NodeGraphicsReader reader;
 				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
-				image->normalize();
-				image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-					image->defaultSize.height()/image->sceneBoundingRect().height());
 			}
+			image->normalize();
+			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
+					image->defaultSize.height()/image->sceneBoundingRect().height());
 			image->setHandle(handle);
 			image->setPos(point);
 

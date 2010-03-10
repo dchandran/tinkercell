@@ -70,22 +70,22 @@ install_name_tool \
 install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \
           @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
-          Tinkercell.app/Contents/MacOS/NodeGraphics
+          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
           -change QtGui.framework/Versions/4/QtGui \
           @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
-          Tinkercell.app/Contents/MacOS/NodeGraphics
+          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
           -change QtXml.framework/Versions/4/QtXml \
           @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
-          Tinkercell.app/Contents/MacOS/NodeGraphics
+          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 install_name_tool \
           -change QtOpenGL.framework/Versions/4/QtOpenGL \
           @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
-          Tinkercell.app/Contents/MacOS/NodeGraphics
+          NodeGraphics.app/Contents/MacOS/NodeGraphics
 
 #Mu parser
 install_name_tool \

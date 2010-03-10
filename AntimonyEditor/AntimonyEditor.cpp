@@ -1030,13 +1030,21 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void AntimonyEditor::writeSBMLFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& file)
+	void AntimonyEditor::writeSBMLFileSlot(QSemaphore* s,const QList<ItemHandle*>& items, const QString& filename)
 	{
 		if (currentTextEditor() && currentWindow())
 		{
 			QString ant = getAntimonyScript(items);
 			if (loadString(ant.toAscii().data()) != -1)
-				writeSBMLFile(file.toAscii().data(),"__main");
+			{
+				QString s = tr(getSBMLString("__main"));
+				QFile file(filename);
+				if (file.open(QIODevice::WriteOnly))
+				{
+					file.write(s.toAscii());
+					file.close();
+				}
+			}
 		}
 		if (s) s->release();
 	}

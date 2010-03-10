@@ -256,6 +256,8 @@ namespace Tinkercell
 					delete items[i];
 				items[i] = 0;
 			}
+		if (renameCommand)
+			delete renameCommand;
 	}
 
 	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
@@ -268,6 +270,7 @@ namespace Tinkercell
 		setText(s.join(QObject::tr(",")) + QObject::tr(" added"));
 		textEditor = editor;
 		items = list;
+		renameCommand = 0;
 	}
 
 	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, TextItem * item)
@@ -279,39 +282,59 @@ namespace Tinkercell
 			setText(QObject::tr("items added"));
 		textEditor = editor;
 		items << item;
+		renameCommand = 0;
 	}
 
 	void InsertTextItemsCommand::redo()
 	{
 		if (textEditor && textEditor->networkWindow)
 		{
-			QStringList allNames(textEditor->networkWindow->symbolsTable.handlesFullName.keys());
+			QHash<QString,ItemHandle*>& allNames = textEditor->networkWindow->symbolsTable.handlesFullName;
+			QStringList oldNames, newNames;
 			QString s0,s1;
+			bool isNum;
 			
 			QList<TextItem*>& list = textEditor->items();
 			for (int i=0; i < items.size(); ++i)
+			{
 				if (items[i] && !list.contains(items[i]))
 				{
 					list << items[i];
 					if (handles.size() > i)
 					{
 						items[i]->setHandle(handles[i]);
-						if (handles[i] && allNames.contains(s1))
+						if (handles[i] && !renameCommand)
 						{
 							s0 = s1 = handles[i]->fullName();
-							if (s0[ s0.length()-1 ].isNumber())
-								s0 = s0.left( s0.length()-1 );
-							int k=0;
-							s1 = s0 + QString::number(k);
-							while (allNames.contains(s1))
-								s1 = s0 + QString::number(++k);
-							s0 = handles[i]->name;
-							s0 = s0.left(s0.length()-1) + QString::number(k);
-							handles[i]->name = s0;
-							allNames << s0;
+							if (allNames.contains(s1) || newNames.contains(s1))
+							{
+								oldNames << handles[i]->fullName();
+								
+								isNum = s0[ s0.length()-1 ].isNumber();
+								if (isNum)
+									s0 = s0.left( s0.length()-1 );
+								int k=0;
+								s1 = s0 + QString::number(k);
+								while (allNames.contains(s1))
+									s1 = s0 + QString::number(++k);
+								if (isNum)							
+									handles[i]->name = s1.right(handles[i]->name.length());
+								else
+									handles[i]->name = s1.right(handles[i]->name.length()+1);
+								
+								
+								newNames << handles[i]->fullName();
+							}
 						}
 					}
 				}
+			}
+			
+			if (!renameCommand && !newNames.isEmpty())
+				renameCommand = new RenameCommand(QString("rename"),handles,oldNames,newNames);
+			
+			if (renameCommand)
+				renameCommand->redo();
 		}
 	}
 
@@ -328,6 +351,8 @@ namespace Tinkercell
 					handles[i] = items[i]->handle();
 					items[i]->setHandle(0);
 				}
+			if (renameCommand)
+				renameCommand->undo();
 		}
 	}
 
@@ -393,6 +418,7 @@ namespace Tinkercell
 		graphicsItems.append(item);
 		handles.clear();
 		handles += getHandle(item);
+		renameCommand = 0;
 	}
 
 	InsertGraphicsCommand::InsertGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items)
@@ -410,15 +436,19 @@ namespace Tinkercell
 
 			handles += getHandle(items[i]);
 		}
+		renameCommand = 0;
 	}
 
 	void InsertGraphicsCommand::redo()
 	{
 		QList<ConnectionGraphicsItem*> connections;
 		ConnectionGraphicsItem * connection;
+		bool isNum;
+		
 		if (graphicsScene && graphicsScene->networkWindow)
 		{
-			QStringList allNames(graphicsScene->networkWindow->symbolsTable.handlesFullName.keys());
+			QHash<QString,ItemHandle*>& allNames = graphicsScene->networkWindow->symbolsTable.handlesFullName;
+			QStringList newNames, oldNames;
 			QString s0,s1;
 			
 			for (int i=0; i<graphicsItems.size(); ++i)
@@ -440,23 +470,38 @@ namespace Tinkercell
 					if (handles.size() > i)
 					{
 						setHandle(graphicsItems[i],handles[i]);
-						if (handles[i] && allNames.contains(s1))
+						if (handles[i] && !renameCommand)
 						{
 							s0 = s1 = handles[i]->fullName();
-							if (s0[ s0.length()-1 ].isNumber())
-								s0 = s0.left( s0.length()-1 );
-							int k=0;
-							s1 = s0 + QString::number(k);
-							while (allNames.contains(s1))
-								s1 = s0 + QString::number(++k);
-							s0 = handles[i]->name;
-							s0 = s0.left(s0.length()-1) + QString::number(k);
-							handles[i]->name = s0;
-							allNames << s0;
+							if (allNames.contains(s1) || newNames.contains(s1))
+							{
+								oldNames << handles[i]->fullName();
+								
+								isNum = s0[ s0.length()-1 ].isNumber();
+								if (isNum)
+									s0 = s0.left( s0.length()-1 );
+								int k=0;
+								s1 = s0 + QString::number(k);
+								while (allNames.contains(s1))
+									s1 = s0 + QString::number(++k);
+								if (isNum)							
+									handles[i]->name = s1.right(handles[i]->name.length());
+								else
+									handles[i]->name = s1.right(handles[i]->name.length()+1);
+								
+								
+								newNames << handles[i]->fullName();
+							}
 						}
 					}
 				}
 			}
+			
+			if (!renameCommand && !newNames.isEmpty())
+				renameCommand = new RenameCommand(QString("rename"),handles,oldNames,newNames);
+			
+			if (renameCommand)
+				renameCommand->redo();
 		}
 
 		for (int i=0; i < connections.size(); ++i)
@@ -475,6 +520,7 @@ namespace Tinkercell
 	{
 		ConnectionGraphicsItem * connection = 0;
 		if (graphicsScene)
+		{
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{
 				if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
@@ -504,6 +550,9 @@ namespace Tinkercell
 					setHandle(graphicsItems[i],0);
 				}
 			}
+			if (renameCommand)
+				renameCommand->undo();
+		}
 	}
 
 	InsertGraphicsCommand::~InsertGraphicsCommand()
@@ -584,6 +633,9 @@ namespace Tinkercell
             delete listToDelete[i];
 
 		graphicsItems.clear();
+		
+		if (renameCommand)
+			delete renameCommand;
 	}
 
 	RemoveGraphicsCommand::~RemoveGraphicsCommand()

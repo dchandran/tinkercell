@@ -291,6 +291,7 @@ namespace Tinkercell
 		{
 			QHash<QString,ItemHandle*>& allNames = textEditor->networkWindow->symbolsTable.handlesFullName;
 			QStringList oldNames, newNames;
+			QList<ItemHandle*> nameChangeHandles;
 			QString s0,s1;
 			bool isNum;
 			
@@ -303,10 +304,13 @@ namespace Tinkercell
 					if (handles.size() > i)
 					{
 						items[i]->setHandle(handles[i]);
-						if (handles[i] && !renameCommand)
+						if (handles[i] && !renameCommand && !nameChangeHandles.contains(handles[i]))
 						{
+							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
-							if (allNames.contains(s1) || newNames.contains(s1))
+							if (newNames.contains(s0) || 
+								(allNames.contains(s0) && handles[i] != allNames[s0] &&
+									(!handles[i]->parent || (allNames[s0] && allNames[s0]->parent == handles[i]->parent))))
 							{
 								oldNames << handles[i]->fullName();
 								
@@ -316,8 +320,7 @@ namespace Tinkercell
 								int k=0;
 								s1 = s0 + QString::number(k);
 								while (allNames.contains(s1))
-									s1 = s0 + QString::number(++k);
-								
+									s1 = s0 + QString::number(++k);								
 								newNames << s1;
 							}
 						}
@@ -451,6 +454,7 @@ namespace Tinkercell
 		{
 			QHash<QString,ItemHandle*>& allNames = graphicsScene->networkWindow->symbolsTable.handlesFullName;
 			QStringList newNames, oldNames;
+			QList<ItemHandle*> nameChangeHandles;
 			QString s0,s1;
 			
 			for (int i=0; i<graphicsItems.size(); ++i)
@@ -472,12 +476,15 @@ namespace Tinkercell
 					if (handles.size() > i)
 					{
 						setHandle(graphicsItems[i],handles[i]);
-						if (handles[i] && !renameCommand)
+						if (handles[i] && !renameCommand && !nameChangeHandles.contains(handles[i]))
 						{
+							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
-							if (allNames.contains(s1) || newNames.contains(s1))
+							if (newNames.contains(s0) || 
+								(allNames.contains(s0) && handles[i] != allNames[s0] &&
+									(!handles[i]->parent || (allNames[s0] && allNames[s0]->parent == handles[i]->parent))))
 							{
-								oldNames << handles[i]->fullName();
+								oldNames << s0;
 								
 								isNum = s0[ s0.length()-1 ].isNumber();
 								if (isNum)

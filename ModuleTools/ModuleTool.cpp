@@ -546,9 +546,9 @@ namespace Tinkercell
 
 			QString appDir = QApplication::applicationDirPath();
 			NodeGraphicsItem * image;
-			if (moduleFamily->graphicsItems.size() > 0)
+			if (moduleFamily && moduleFamily->graphicsItems.size() > 0 && NodeGraphicsItem::cast(moduleFamily->graphicsItems[0]))
 			{
-				image = new NodeGraphicsItem(moduleFamily->graphicsItems[0]);
+				image = NodeGraphicsItem::cast(moduleFamily->graphicsItems[0])->clone();
 			}
 			else
 			{

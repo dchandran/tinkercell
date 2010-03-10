@@ -107,40 +107,43 @@ void run(Matrix input)
 		A = tc_allItems();
 	}
 
-	params = tc_getModelParameters(A);
-	B = tc_itemsOfFamilyFrom("Molecule\0",A);
-	initVals = tc_getInitialValues(B);
-	
-	allParams.rows = (initVals.rows+params.rows);
-	allParams.cols = 2;
-	allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
-	allParams.values = (double*)malloc(2*allParams.rows*sizeof(double));
-	allParams.colnames = 0;
-	
-	for (i=0; i < params.rows; ++i)
+	if (slider)
 	{
-		allParams.rownames[i] = params.rownames[i];
-		valueAt(allParams,i,1) = 
-				2*valueAt(params,i,0) - 
-								(valueAt(allParams,i,0) = valueAt(params,i,0)/10.0);
-	}
-	for (i=0; i < initVals.rows; ++i)
-	{
-		allParams.rownames[i+params.rows] = initVals.rownames[i];
-		valueAt(allParams,i+params.rows,1) = 
-				2*valueAt(initVals,i,0) - 
-								(valueAt(allParams,i+params.rows,0) = valueAt(initVals,i,0)/10.0);
-	}
-	allParams.rownames[(initVals.rows+params.rows)] = 0;
+		params = tc_getModelParameters(A);
+		B = tc_itemsOfFamilyFrom("Molecule\0",A);
+		initVals = tc_getInitialValues(B);
+		
+		allParams.rows = (initVals.rows+params.rows);
+		allParams.cols = 2;
+		allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
+		allParams.values = (double*)malloc(2*allParams.rows*sizeof(double));
+		allParams.colnames = 0;
+		
+		for (i=0; i < params.rows; ++i)
+		{
+			allParams.rownames[i] = params.rownames[i];
+			valueAt(allParams,i,1) = 
+					2*valueAt(params,i,0) - 
+									(valueAt(allParams,i,0) = valueAt(params,i,0)/10.0);
+		}
+		for (i=0; i < initVals.rows; ++i)
+		{
+			allParams.rownames[i+params.rows] = initVals.rownames[i];
+			valueAt(allParams,i+params.rows,1) = 
+					2*valueAt(initVals,i,0) - 
+									(valueAt(allParams,i+params.rows,0) = valueAt(initVals,i,0)/10.0);
+		}
+		allParams.rownames[(initVals.rows+params.rows)] = 0;
 	
-	free(params.rownames);
-	params.rownames = 0;
-	free(initVals.rownames);
-	initVals.rownames = 0;
-	TCFreeMatrix(initVals);
-	TCFreeMatrix(params);
-	TCFreeArray(B);
-
+		free(params.rownames);
+		params.rownames = 0;
+		free(initVals.rownames);
+		initVals.rownames = 0;
+		TCFreeMatrix(initVals);
+		TCFreeMatrix(params);
+		TCFreeArray(B);
+	}
+	
 	if (A[0] != 0)
 	{
 		k = tc_writeModel( "ode", A );
@@ -148,13 +151,16 @@ void run(Matrix input)
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
-			TCFreeMatrix(allParams);
+			if (slider)
+				TCFreeMatrix(allParams);
 			return;
 		}
 	}
 	else
 	{
 		TCFreeArray(A);
+		if (slider)
+			TCFreeMatrix(allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -164,19 +170,16 @@ void run(Matrix input)
 	if (!out)
 	{
 		TCFreeArray(A);
-		TCFreeMatrix(allParams);
+		if (slider)
+			TCFreeMatrix(allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
 	
-	fprintf(out, "void assignInputs(double * k, TCmodel * model)\n{\n" );
+	fprintf(out, "void assignInputs(double * k, TCmodel * model)\n{\n TCassignParameters(k,model);  TCassignVars(k+TCparams,model); \n}\n" );
 	
-	for (i=0; i < allParams.rows; ++i)
-	{
-		fprintf(out, "    model->%s = k[%i];\n", allParams.rownames[i], i );
-	}
-	
-	fprintf( out , "}\n\
+
+	fprintf( out , "\
 #include \"TC_api.h\"\n\
 #include \"cvodesim.h\"\n\n\
 static double _time0_ = 0.0;\n\
@@ -294,11 +297,14 @@ fprintf( out , "\
 	fclose(out);
 	
 	if (slider)
+	{
 		tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
+		TCFreeMatrix(allParams);
+	}
 	else
 		tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");
 	
-	TCFreeMatrix(allParams);
+	
 	return;
 
 }

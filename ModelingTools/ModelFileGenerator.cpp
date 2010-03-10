@@ -470,21 +470,14 @@ namespace Tinkercell
 								if (!fixedVars.contains(name))
 									fixedVars << name;
 							}
-							else
-								if (handles[i]->hasNumericalData(tr("Numerical Attributes")) &&
-									handles[i]->data->numericalData["Numerical Attributes"].rowNames().contains(dat.rowName(j)))
-								{
-									assignmentNames << name + replaceDot + s1;
-									assignmentDefs << s2;
-								}
-								else
-								{
-									assignmentNames << name + replaceDot + s1;
-									assignmentDefs << s2;
-								}
-								for (int k=0; k < params.rows(); ++k)
-									if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
-										params.value(k,1) = 1.0;
+							else								
+							{
+								assignmentNames << name + replaceDot + s1;
+								assignmentDefs << s2;
+							}
+							for (int k=0; k < params.rows(); ++k)
+								if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+									params.value(k,1) = 1.0;
 						}
 				}
 			}
@@ -565,7 +558,7 @@ namespace Tinkercell
 
 		QStringList trueParams;
 		for (i = 0; i < params.rows(); ++i)
-			if (!allSymbols.contains(params.rowName(i)))
+			if (!allSymbols.contains(params.rowName(i)) && params.at(i,1) > 0)
 			{
 				trueParams << params.rowName(i);
 				allSymbols << params.rowName(i);
@@ -733,6 +726,27 @@ namespace Tinkercell
 
 			pycode += tr("        ");
 			pycode += trueParams[i];
+			pycode += tr(" = k[");
+			pycode += QString::number(i);
+			pycode += tr("];\n");
+		}
+
+		code += tr("}\n\n");
+		pycode += tr("\n\n");
+		
+		code += tr("\nvoid TCassignVars( double * k, TCmodel * model )\n{ \n");
+		pycode += tr("    defn TCassignVar ( k ):\n");
+
+		for (i = 0; i < r; ++i)
+		{
+			code += tr("   model->");
+			code += N.rowName(i);
+			code += tr(" = k[");
+			code += QString::number(i);
+			code += "];\n";
+
+			pycode += tr("        ");
+			pycode += N.rowName(i);
 			pycode += tr(" = k[");
 			pycode += QString::number(i);
 			pycode += tr("];\n");
@@ -921,7 +935,7 @@ namespace Tinkercell
 
 		code += tr("}\n\n");
 		pycode += tr("\n\n");
-
+		
 		for (i=0; i < namelessHandles.size(); ++i)
 			if (namelessHandles[i])
 				namelessHandles[i]->name = tr("");

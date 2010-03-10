@@ -46,7 +46,44 @@ do
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 done
   
-#QT frameworks    
+#QT frameworks install for TinkerCell
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+        Tinkercell.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+        Tinkercell.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+        Tinkercell.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+        Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+
+#QT frameworks install for NodeGraphics
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+        NodeGraphics.app/Contents/Frameworks/QtCore.framework/Versions/4/QtCore
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+        NodeGraphics.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+        NodeGraphics.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+
+install_name_tool \
+        -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+        NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+
+#QT framework change pointer for TinkerCell
+    
 install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \
           @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
@@ -66,6 +103,8 @@ install_name_tool \
           -change QtOpenGL.framework/Versions/4/QtOpenGL \
           @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
           Tinkercell.app/Contents/MacOS/Tinkercell
+
+#QT framework change pointer for NodeGraphcs
 
 install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \

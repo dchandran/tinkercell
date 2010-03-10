@@ -133,7 +133,7 @@ void runSSA(Matrix input)
 		return;
 	}
 	
-	fprintf( out , "}\n\
+	fprintf( out , "\
 #include \"TC_api.h\"\n\
 #include \"ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\

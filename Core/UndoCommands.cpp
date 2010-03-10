@@ -309,8 +309,7 @@ namespace Tinkercell
 							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
 							if (newNames.contains(s0) || 
-								(allNames.contains(s0) && handles[i] != allNames[s0] &&
-									(!handles[i]->parent || (allNames[s0] && allNames[s0]->parent == handles[i]->parent))))
+								(allNames.contains(s0) && handles[i] != allNames[s0] && !handles[i]->parent))
 							{
 								oldNames << handles[i]->fullName();
 								
@@ -481,8 +480,7 @@ namespace Tinkercell
 							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
 							if (newNames.contains(s0) || 
-								(allNames.contains(s0) && handles[i] != allNames[s0] &&
-									(!handles[i]->parent || (allNames[s0] && allNames[s0]->parent == handles[i]->parent))))
+								(allNames.contains(s0) && handles[i] != allNames[s0] && !handles[i]->parent))
 							{
 								oldNames << s0;
 								

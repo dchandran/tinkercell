@@ -44,28 +44,12 @@ IF( APPLE AND BUILD_BUNDLE )
 
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
-      COMMAND install_name_tool -change ${QT_LIBRARY_DIR}/QtCore.framework
-          @executable_path/../Frameworks/QtCore.framework 
-          ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/Tinkercell
-
  	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
-      COMMAND install_name_tool -change ${QT_LIBRARY_DIR}/QtGui.framework
-          @executable_path/../Frameworks/QtGui.framework 
-          ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/Tinkercell
-
 	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
-      COMMAND install_name_tool -change ${QT_LIBRARY_DIR}/QtXml.framework
-          @executable_path/../Frameworks/QtXml.framework 
-          ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/Tinkercell
-
 	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtOpenGL.framework
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Frameworks/
-      COMMAND install_name_tool -change ${QT_LIBRARY_DIR}/QtOpenGL.framework
-          @executable_path/../Frameworks/QtOpenGL.framework 
-          ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/MacOS/Tinkercell
-          
       COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
         ${EXECUTABLE_OUTPUT_PATH}/Tinkercell.app/Contents/Resources
   )

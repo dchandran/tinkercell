@@ -45,7 +45,49 @@ do
           @executable_path/../Frameworks/$f2 \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 done
+  
+#QT frameworks    
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          Tinkercell.app/Contents/Frameworks/Tinkercell
 
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtGui \
+          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          Tinkercell.app/Contents/Frameworks/Tinkercell
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtXml \
+          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          Tinkercell.app/Contents/Frameworks/Tinkercell
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtOpenGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          Tinkercell.app/Contents/Frameworks/Tinkercell
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          Tinkercell.app/Contents/Frameworks/NodeGraphics
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtGui \
+          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          Tinkercell.app/Contents/Frameworks/NodeGraphics
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtXml \
+          @executable_path/../Frameworks/QtXml.framework/Versions/4/QtXml \
+          Tinkercell.app/Contents/Frameworks/NodeGraphics
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtOpenGL \
+          @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
+          Tinkercell.app/Contents/Frameworks/NodeGraphics
+
+#Mu parser
 install_name_tool \
           -change $CURPATH/libmuparser.dylib \
           @executable_path/../Frameworks/libmuparser.dylib \

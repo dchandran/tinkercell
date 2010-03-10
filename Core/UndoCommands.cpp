@@ -317,12 +317,6 @@ namespace Tinkercell
 								s1 = s0 + QString::number(k);
 								while (allNames.contains(s1))
 									s1 = s0 + QString::number(++k);
-								if (isNum)							
-									handles[i]->name = s1.right(handles[i]->name.length());
-								else
-									handles[i]->name = s1.right(handles[i]->name.length()+1);
-								
-								
 								newNames << handles[i]->fullName();
 							}
 						}
@@ -491,11 +485,6 @@ namespace Tinkercell
 								s1 = s0 + QString::number(k);
 								while (allNames.contains(s1))
 									s1 = s0 + QString::number(++k);
-								if (isNum)							
-									handles[i]->name = s1.right(handles[i]->name.length());
-								else
-									handles[i]->name = s1.right(handles[i]->name.length()+1);
-								
 								
 								newNames << handles[i]->fullName();
 							}

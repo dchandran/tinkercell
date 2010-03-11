@@ -157,7 +157,6 @@ namespace Tinkercell
 				}
 			}
 		}
-
 	}
 
 	void MoveCommand::refreshAllConnectionIn(const QList<QGraphicsItem*>& moving)

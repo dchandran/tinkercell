@@ -7,7 +7,6 @@
  Automatically manage gene regulatory network rates and parameters
 
 ****************************************************************************/
-
 #include <QDebug>
 #include "UndoCommands.h"
 #include "ItemHandle.h"
@@ -1587,7 +1586,8 @@ namespace Tinkercell
 		QList<ItemHandle*> moving;
 		QList<ItemHandle*> connections;
 		NodeHandle * handle = 0;
-
+		QString rate;
+		
 		for (int i=0; i < items.size(); ++i)
 		{
 			handle = NodeHandle::cast( getHandle(items[i]) );
@@ -1598,68 +1598,70 @@ namespace Tinkercell
 				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j]
-						&& connections[j]->hasTextData(tr("Rates"))
-						&& connections[j]->textData(tr("Rates")).contains(handle->fullName()))
+					if (connections[j] && connections[j]->hasTextData(tr("Rates")))
 					{
-						bool intersects = false, beforeIntersected = false;
-						ConnectionGraphicsItem * connection = 0;
-						QList<NodeGraphicsItem*> nodes0, nodes;
-						QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
-						for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
+						rate = connections[j]->textData(tr("Rates")); 
+						if (rate.contains(handle->fullName()) && !rate.contains(tr(".") + handle->fullName()))
 						{
-							if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))
-								nodeConnections << connection;
-						}
-
-						for (int k=0; k < nodeConnections.size(); ++k)
-						{
-							nodes0 = nodeConnections[k]->nodesWithoutArrows();
-							nodes << nodes0;
-							for (int l=0; l < nodes0.size(); ++l)
+							bool intersects = false, beforeIntersected = false;
+							ConnectionGraphicsItem * connection = 0;
+							QList<NodeGraphicsItem*> nodes0, nodes;
+							QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
+							for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 							{
-								nodeConnections0 = nodes0[l]->connectionsWithArrows();
-								for (int m=0; m < nodeConnections0.size(); ++m)
-									if (!nodeConnections.contains(nodeConnections0[m]))
-										nodeConnections << nodeConnections0[m];
-							}
-						}
-
-						QRectF rect1,rect2;
-						QPointF pos = items[i]->scenePos();
-
-						if (distance.size() > i)
-                            pos = pos - distance[i];
-                        else
-                            if (!distance.isEmpty())
-                                pos = pos - distance[0];
-
-						for (int k=0; k < nodes.size(); ++k)
-							if (nodes[k])
-							{
-                                rect1 = items[i]->sceneBoundingRect();
-                                rect2 = nodes[k]->sceneBoundingRect();
-
-								if (items.contains(nodes[k]) ||
-									rect1.adjusted(-10.0,-10.0,10.0,10.0).intersects(rect2))
-									intersects = true;
-
-                                rect1 = QRectF(pos.rx() - rect1.width()/2, pos.ry() - rect1.height()/2, pos.rx() + rect1.width()/2, pos.ry() + rect1.height()/2);
-                                if (rect1.intersects(rect2))
-                                    beforeIntersected = true;
-
-								if (intersects && beforeIntersected)
-                                    break;
+								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))
+									nodeConnections << connection;
 							}
 
-						if (!intersects && beforeIntersected)
-						{
-							DataTable<QString> newRates(connections[j]->data->textData[tr("Rates")]);
-							newRates.value(0,0) = tr("0.0");
-							QString s = connections[j]->fullName() + tr(" rate = 0.0");
-							scene->changeData(s,connections[j],tr("Rates"),&newRates);
-							if (console())
-								console()->message(s);
+							for (int k=0; k < nodeConnections.size(); ++k)
+							{
+								nodes0 = nodeConnections[k]->nodesWithoutArrows();
+								nodes << nodes0;
+								for (int l=0; l < nodes0.size(); ++l)
+								{
+									nodeConnections0 = nodes0[l]->connectionsWithArrows();
+									for (int m=0; m < nodeConnections0.size(); ++m)
+										if (!nodeConnections.contains(nodeConnections0[m]))
+											nodeConnections << nodeConnections0[m];
+								}
+							}
+
+							QRectF rect1,rect2;
+							QPointF pos = items[i]->scenePos();
+
+							if (distance.size() > i)
+								pos = pos - distance[i];
+							else
+								if (!distance.isEmpty())
+									pos = pos - distance[0];
+
+							for (int k=0; k < nodes.size(); ++k)
+								if (nodes[k])
+								{
+									rect1 = items[i]->sceneBoundingRect();
+									rect2 = nodes[k]->sceneBoundingRect();
+
+									if (items.contains(nodes[k]) ||
+										rect1.adjusted(-10.0,-10.0,10.0,10.0).intersects(rect2))
+										intersects = true;
+
+									rect1 = QRectF(pos.rx() - rect1.width()/2, pos.ry() - rect1.height()/2, pos.rx() + rect1.width()/2, pos.ry() + rect1.height()/2);
+									if (rect1.intersects(rect2))
+										beforeIntersected = true;
+
+									if (intersects && beforeIntersected)
+										break;
+								}
+
+							if (!intersects && beforeIntersected)
+							{
+								DataTable<QString> newRates(connections[j]->data->textData[tr("Rates")]);
+								newRates.value(0,0) = tr("0.0");
+								QString s = connections[j]->fullName() + tr(" rate = 0.0");
+								scene->changeData(s,connections[j],tr("Rates"),&newRates);
+								if (console())
+									console()->message(s);
+							}
 						}
 					}
 				}
@@ -2229,8 +2231,17 @@ namespace Tinkercell
 				}
 				p2 = rightMost->sceneBoundingRect().bottomRight();
 
-				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos())
-		  			 << (p2 + QPointF(100,200) - vector->boundaryControlPoints[1]->scenePos());
+				dist << (p1 - QPointF(100,0) - vector->boundaryControlPoints[0]->scenePos());
+				
+				QPointF p3(0,0);
+				
+				if (p2.y() > vector->boundaryControlPoints[1]->sceneBoundingRect().top())
+		  			p3.ry() = p2.y() + 200.0 - vector->boundaryControlPoints[1]->scenePos().y();
+				
+				if (p2.x() > vector->boundaryControlPoints[1]->sceneBoundingRect().left())
+		  			p3.rx() = p2.x() + 100.0 - vector->boundaryControlPoints[1]->scenePos().x();
+				
+				dist << p3;
 		  		scene->move(controls,dist);
 			}
 

@@ -1750,8 +1750,6 @@ namespace Tinkercell
 
 		emit itemsAboutToBeInserted(scene,items,handles);
 
-		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);
-
 		for (int i=0; i < handles.size(); ++i)
 		{
 			handle1 = handles[i];
@@ -1789,6 +1787,7 @@ namespace Tinkercell
 		}
 
 		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
+		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);
 		scene->clearSelection();
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
@@ -1796,7 +1795,10 @@ namespace Tinkercell
 		if (scene->historyStack)
 			scene->historyStack->push(compositeCommand);
 		else
+		{
 			compositeCommand->redo();
+			delete compositeCommand;
+		}
 
         emit itemsInserted(scene,items,handles);
 

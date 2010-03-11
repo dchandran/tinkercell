@@ -245,12 +245,14 @@ namespace Tinkercell
 
         QList<QGraphicsItem*> items;
         QList<TextItem*> textItems;
+        QList<ItemHandle*> visited;
 
         for (int i=0; i < selectedItems.size(); ++i)
         {
             moduleHandle = getHandle(selectedItems[i]);
-            if (moduleHandle && NodeGraphicsItem::cast(selectedItems[i]) && moduleHandle->isA(tr("Module")))
+            if (moduleHandle && !visited.contains(moduleHandle) && NodeGraphicsItem::cast(selectedItems[i]) && moduleHandle->isA(tr("Module")))
             {
+            	visited << moduleHandle;
                 for (int j=0; j < moduleHandle->children.size(); ++j)
                     if (handle = moduleHandle->children[j])
                     {
@@ -277,12 +279,16 @@ namespace Tinkercell
         	items = selectedItems;
         	textItems.clear();
         }
+        
+        visited.clear();
 
         for (int i=0; i < items.size(); ++i)
         {
             handle = getHandle(items[i]);
 
-            if (!NodeHandle::cast(handle)) continue;
+            if (!NodeHandle::cast(handle) || visited.contains(handle)) continue;
+            
+            visited << handle;
 
             NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
 

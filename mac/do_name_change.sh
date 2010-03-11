@@ -167,6 +167,10 @@ do
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
           Tinkercell.app/Contents/Frameworks/$f
+    install_name_tool \
+          -change $CURPATH/$f2 \
+          @executable_path/../Frameworks/$f2 \
+          NodeGraphics.app/Contents/Frameworks/$f
   done
   
   install_name_tool \

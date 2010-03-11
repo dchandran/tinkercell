@@ -26,17 +26,12 @@ SET( TINKERCELL_NODEGRAPHICS_MOC_SRC
 
 IF( APPLE AND BUILD_BUNDLE )
 
-  IF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app )
-  
-    ADD_CUSTOM_COMMAND( TARGET NodeGraphics PRE_BUILD
-      COMMAND rm ARGS -rf ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app )
-
-  ENDIF( EXISTS ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app )
-
-
-  SET( MACOSX_NODEGRAPHICS_BUNDLE_ICON_FILE
-       ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/nodegraphics.icns
-  )
+  SET(CPACK_BUNDLE_NAME "NodeGraphics")  
+  SET(CPACK_BUNDLE_PLIST info.plist)  
+  SET( MACOSX_BUNDLE_ICON_FILE nodegraphics.icns  )
+  SET( MACOSX_BUNDLE_SHORT_VERSION_STRING ${TINKERCELL_VERSION}  )
+  SET( MACOSX_BUNDLE_VERSION ${TINKERCELL_VERSION}  )
+  SET( MACOSX_BUNDLE_LONG_VERSION_STRING Version ${TINKERCELL_VERSION}  )
 
   ADD_EXECUTABLE( NodeGraphics
     MACOSX_BUNDLE
@@ -52,10 +47,10 @@ IF( APPLE AND BUILD_BUNDLE )
   )
  
   ADD_CUSTOM_COMMAND( TARGET NodeGraphics POST_BUILD
-    COMMAND mkdir ARGS -p 
-      ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources
-      ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks
-      ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS
+      COMMAND mkdir ARGS -p 
+        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Resources
+        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks
+        ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/MacOS
       
       COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
         ${EXECUTABLE_OUTPUT_PATH}/NodeGraphics.app/Contents/Frameworks/

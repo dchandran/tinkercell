@@ -298,4 +298,6 @@ do
   done
 done
 
+mkdir TinkerCell
+ln -s /Applications TinkerCell/Applications
 

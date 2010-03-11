@@ -63,7 +63,7 @@ install_name_tool \
         -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
         NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
 
-#QtCore name change for other Qt frameworks
+#QtCore name change for other Qt frameworks in TinkerCell.app
 
 install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \
@@ -79,6 +79,33 @@ install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \
           @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
           Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+
+install_name_tool \
+          -change QtGui.framework/Versions/4/QtGui \
+          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+          
+#QtCore name change for other Qt frameworks in TinkerCell.app
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          NodeGraphics.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          NodeGraphics.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+          
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+
+install_name_tool \
+          -change QtGui.framework/Versions/4/QtGui \
+          @executable_path/../Frameworks/QtGui.framework/Versions/4/QtGui \
+          NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
 
 #QT framework name change for TinkerCell.app
 

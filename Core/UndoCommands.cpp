@@ -2704,13 +2704,16 @@ namespace Tinkercell
 				{
 					if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
 					{
-						oldNames += children[i]->fullName();
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
-						s2 = RenameCommand::assignUniqueName(s1,allNames);
-						newNames += s2;
-						allNames += s2;
+						if (net && net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i])
+						{
+							oldNames += children[i]->fullName();
+							s2 = RenameCommand::assignUniqueName(s1,allNames);
+							newNames += s2;
+							allNames += s2;
+						}
 					}
 				}
 			QList<ItemHandle*> allHandles = net->allHandles();		

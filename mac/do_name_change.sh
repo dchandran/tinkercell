@@ -299,5 +299,7 @@ do
 done
 
 mkdir TinkerCell
-ln -s /Applications TinkerCell/Applications
+cp TinkerCell.app TinkerCell
+cp NodeGraphics.app TinkerCell
+ln -s /Applications TinkerCell
 

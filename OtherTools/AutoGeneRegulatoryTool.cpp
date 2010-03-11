@@ -1557,30 +1557,6 @@ namespace Tinkercell
 	{
 		if (!scene) return;
 
-		if (!justAdjustedPlasmid)
-		{
-			ItemHandle * h = 0;
-
-			for (int i=0; i < items.size(); ++i)
-			{
-				h = getHandle(items[i]);
-
-				if (h && h->isA(tr("Vector")))
-				{
-					for (int j=0; j < h->graphicsItems.size(); ++j)
-						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-				}
-				else
-				if (h && (h = h->parentOfFamily(tr("Vector"))))
-				{
-					for (int j=0; j < h->graphicsItems.size(); ++j)
-						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
-				}
-			}
-		}
-
-		justAdjustedPlasmid = false;
-
 		QList<NodeHandle*> parts2;
 
 		QList<ItemHandle*> moving;
@@ -1667,6 +1643,30 @@ namespace Tinkercell
 				}
 			}
 		}
+		
+		if (!justAdjustedPlasmid)
+		{
+			ItemHandle * h = 0;
+
+			for (int i=0; i < items.size(); ++i)
+			{
+				h = getHandle(items[i]);
+
+				if (h && h->isA(tr("Vector")))
+				{
+					for (int j=0; j < h->graphicsItems.size(); ++j)
+						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
+				}
+				else
+				if (h && (h = h->parentOfFamily(tr("Vector"))))
+				{
+					for (int j=0; j < h->graphicsItems.size(); ++j)
+						adjustPlasmid(scene,NodeGraphicsItem::cast(h->graphicsItems[j]),false);
+				}
+			}
+		}
+
+		justAdjustedPlasmid = false;
 
 		for (int i=0; i < items.size(); ++i)
 		{

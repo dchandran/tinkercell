@@ -124,25 +124,24 @@ install_name_tool \
           @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
           NodeGraphics.app/Contents/MacOS/NodeGraphics
 
-#Mu parser name change
-
-install_name_tool \
-          -change $CURPATH/libmuparser.dylib \
-          @executable_path/../Frameworks/libmuparser.dylib \
-          Tinkercell.app/Contents/Frameworks/libTinkerCellCore.dylib
-
-install_name_tool \
-          -change $CURPATH/libmuparser.dylib \
-          @executable_path/../Frameworks/libmuparser.dylib \
-          NodeGraphics.app/Contents/Frameworks/libTinkerCellCore.dylib
-
 #for all libraries used in Tinkercell.app and NodeGraphics.app
 
 for f in $LIBFILES
 do
-  echo "Processing $f ..."
+  echo "Processing $f"
+  
   cp $f Tinkercell.app/Contents/Frameworks/
+  
   cp $f NodeGraphics.app/Contents/Frameworks/
+  
+  for f2 in $LIBFILES
+  do
+    install_name_tool \
+          -change $CURPATH/$f2 \
+          @executable_path/../Frameworks/$f2 \
+          Tinkercell.app/Contents/Frameworks/$f
+  done
+  
   install_name_tool \
         -id @executable_path/../Frameworks/$f \
         Tinkercell.app/Contents/Frameworks/$f
@@ -203,6 +202,7 @@ done
 
 for f1 in $PLUGINFILES
 do
+  echo "Processing $f1"
   install_name_tool \
           -id \
           @executable_path/$f1 \
@@ -230,7 +230,6 @@ do
 
   for f2 in $LIBFILES
   do
-    echo "install_name_tool $CURPATH/$f2 ... Tinkercell.app/Contents/MacOS/$f1"
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/../Frameworks/$f2 \
@@ -238,7 +237,6 @@ do
   done
   for f2 in $PLUGINFILES
   do
-    echo "install_name_tool $CURPATH/$f2 ... Tinkercell.app/Contents/MacOS/$f1"
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \
@@ -246,7 +244,6 @@ do
   done
   for f2 in $CPLUGINFILES
   do
-    echo "install_name_tool $CURPATH/$f2 ... Tinkercell.app/Contents/MacOS/$f1"
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \
@@ -256,13 +253,13 @@ done
 
 for f1 in $CPLUGINFILES
 do
+  echo "Processing $f1"
   install_name_tool \
           -id \
           @executable_path/$f1 \
           Tinkercell.app/Contents/MacOS/$f1  
   for f2 in $CPLUGINFILES
   do
-    echo "install_name_tool $CURPATH/$f2 ... Tinkercell.app/Contents/MacOS/$f1"
     install_name_tool \
           -change $CURPATH/$f2 \
           @executable_path/$f2 \

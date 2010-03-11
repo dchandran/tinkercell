@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     PROJECTWEBSITE = QObject::tr("www.tinkercell.com");
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
-    PROJECTNAME = QObject::tr("Tinkercell");
+    PROJECTNAME = QObject::tr("TinkerCell");
     Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
     
 

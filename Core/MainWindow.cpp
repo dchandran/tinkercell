@@ -49,20 +49,23 @@ namespace Tinkercell
 {
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
+	
+	/********** GLOBAL VARIABLES **********/
 
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultHistoryWindowOption = MainWindow::ToolBoxWidget;
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
 	QString MainWindow::defaultFileExtension("tic");
-
 	QString MainWindow::userHomePath;
+	/*************************************/
+	
 	QString MainWindow::userHome()
 	{
 		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())
 			return userHomePath;
 
-		QDir dir = QDir::homePath();
+		QDir dir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 		QString tcdir = PROJECTNAME;
 
 		if (!dir.exists(tcdir))
@@ -76,19 +79,19 @@ namespace Tinkercell
 
 	QString MainWindow::userTemp()
 	{
-		QString home = userHome();
+		QString location = QDesktopServices::storageLocation(QDesktopServices::TempLocation);
 
-		QString temp = home + tr("/temp");
+		QString temp = location + tr("/TinkerCell");
 
 		if (!temp.isEmpty() && QDir(temp).exists())
 			return temp;
 
-		QDir dir(home);
+		QDir dir(location);
 
-		if (!dir.exists(QString("temp")))
-			dir.mkdir(QString("temp"));
+		if (!dir.exists(QString("TinkerCell")))
+			dir.mkdir(QString("TinkerCell"));
 
-		dir.cd(QString("temp"));
+		dir.cd(QString("TinkerCell"));
 		temp = dir.absolutePath();
 
 		return temp;

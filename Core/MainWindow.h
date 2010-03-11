@@ -145,11 +145,11 @@ namespace Tinkercell
 		*/
 		virtual ~MainWindow();
 		/*!
-		* \brief The TinkerCell user directory, which is $HOME/Tinkercell by default, but users may change this setting
+		* \brief The TinkerCell user directory, which is User's Documents Folder/TinkerCell by default, but users may change this setting
 		*/
 		static QString userHome();
 		/*!
-		* \brief The TinkerCell user temporary directory, which is userHome()/temp
+		* \brief The TinkerCell user temporary directory, which is <SYSTEM TEMP FOLDER>/TinkerCell
 		*/
 		static QString userTemp();
 		/*!

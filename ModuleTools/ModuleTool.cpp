@@ -286,7 +286,7 @@ namespace Tinkercell
         {
             handle = getHandle(items[i]);
 
-            if (!NodeHandle::cast(handle) || visited.contains(handle)) continue;
+            if (!NodeHandle::cast(handle) || handle->isA(tr("empty")) || visited.contains(handle)) continue;
             
             visited << handle;
 

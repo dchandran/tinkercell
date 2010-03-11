@@ -82,8 +82,25 @@ install_name_tool \
         -id @executable_path/../Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL \
         NodeGraphics.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
 
+#QT framework change pointer for other Qt frameworks
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          Tinkercell.app/Contents/Frameworks/QtGui.framework/Versions/4/QtGui
+
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          Tinkercell.app/Contents/Frameworks/QtXml.framework/Versions/4/QtXml
+          
+install_name_tool \
+          -change QtCore.framework/Versions/4/QtCore \
+          @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \
+          Tinkercell.app/Contents/Frameworks/QtOpenGL.framework/Versions/4/QtOpenGL
+
 #QT framework change pointer for TinkerCell
-    
+
 install_name_tool \
           -change QtCore.framework/Versions/4/QtCore \
           @executable_path/../Frameworks/QtCore.framework/Versions/4/QtCore \

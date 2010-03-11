@@ -318,7 +318,7 @@ namespace Tinkercell
 
 		settings.beginGroup("MainWindow");
 
-		resize(settings.value("size", QSize(1000, 500)).toSize());
+		resize(settings.value("size", QSize(1000, 800)).toSize());
 		move(settings.value("pos", QPoint(100, 100)).toPoint());
 		if (settings.value("maximized",false).toBool())
 			showMaximized();

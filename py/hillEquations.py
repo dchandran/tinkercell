@@ -29,7 +29,7 @@ if (len(synthesis) > 0):
 							s = "((" + n + "/" + cname + ".Kd)^" + cname + ".h)";
 							if not isRepressor:
 								indiv.append(s);
-								s = "(1+" + s + ")";
+							s = "(1+" + s + ")";
 							fracs.append(s);
 				p = genes[0];
 				if pytc.isA(p,"Promoter"): promotername = pytc.getName(p);

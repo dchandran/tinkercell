@@ -499,6 +499,13 @@ namespace Tinkercell
 
 		QStringList allValues;
 		QStringList allSymbols;
+		
+		for (i=0; i < N.rows(); ++i)
+			if (!vars.contains(N.rowName(i)))
+			{
+				vars << N.rowName(i);
+				initValues << tr("0.0");
+			}
 
 		for (i=0; i < vars.size(); ++i)
             if (!allSymbols.contains(vars[i]))
@@ -516,15 +523,6 @@ namespace Tinkercell
                 pycode += initValues[i];
                 pycode += tr(";\n");
             }
-
-		for (i=0; i < N.rows(); ++i)
-			if (!allSymbols.contains(N.rowName(i)))
-			{
-				vars << N.rowName(i);
-				initValues << tr("0.0");
-
-				allSymbols << N.rowName(i);
-			}
 
 		fluxes = N.getColNames();
 

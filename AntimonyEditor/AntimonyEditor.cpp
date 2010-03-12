@@ -671,7 +671,7 @@ namespace Tinkercell
 			}
 
 		QString name, rate;
-		QStringList lhs, rhs;
+		QStringList lhs, rhs, species;
 		for (int j=0; j < childHandles.size(); ++j)
 			if (childHandles[j])
 			{
@@ -690,10 +690,16 @@ namespace Tinkercell
 
 							for (int c=0; c < N.cols(); ++c)
 								if (N.value(r,c) < 0)
-									lhs += N.colName(c);
+								{
+									species = N.colName(c);
+									lhs += species.replace(tr("."),tr("_"));
+								}
 								else
 								if (N.value(r,c) > 0)
-									rhs += N.colName(c);
+								{
+									species = N.colName(c);
+									rhs += species.replace(tr("."),tr("_"));
+								}
 
 							rate.replace(regex,tr("_"));
 							s += tr("    ");

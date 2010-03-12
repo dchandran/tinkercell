@@ -1,3 +1,11 @@
+#TINKERCELL HEADER BEGIN
+#category: Steady state
+#name: Compute steady state
+#descr: compute steady state and eigenvalues using PySCeS
+#icon: Plugins/c/pysces.png
+#menu: yes
+#TINKERCELL HEADER END
+
 import pytc
 import numpy
 import pysces

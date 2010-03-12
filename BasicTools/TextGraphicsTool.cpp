@@ -144,16 +144,28 @@ namespace Tinkercell
 								NodeGraphicsItem * node = NodeGraphicsItem::cast(handle->graphicsItems[j]);
 								if (node)
 								{
-									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
-										if (node->boundaryControlPoints[k])
-										{	
-											p1 = node->boundaryControlPoints[k]->scenePos();
-											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
-											{
-												dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-												(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
-											}
+									if (node->boundaryControlPoints.isEmpty())
+									{
+										p1 = node->scenePos();
+										if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
+										{
+											dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
+											(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node,p0 - p1);
 										}
+									}
+									else
+									{
+										for (int k=0; k < node->boundaryControlPoints.size(); ++k)
+											if (node->boundaryControlPoints[k])
+											{	
+												p1 = node->boundaryControlPoints[k]->scenePos();
+												if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
+												{
+													dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
+													(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
+												}
+											}
+									}
 								}
 							}
 						}
@@ -175,58 +187,71 @@ namespace Tinkercell
 		QList<ItemHandle*> visited;
 
 		for (int i=0; i < items.size(); ++i)
-		{
-			if (TextGraphicsItem::cast(items[i]))
+			if (scene->isVisible(items[i]))
 			{
-				QPointF p0 = items[i]->scenePos();
-				qreal dist = 0;
-				handle = getHandle(items[i]);
-				if (handle)
+				if (TextGraphicsItem::cast(items[i]))
 				{
-					visited += handle;
-					for (int j=0; j < handle->graphicsItems.size(); ++j)
+					QPointF p0 = items[i]->scenePos();
+					qreal dist = 0;
+					handle = getHandle(items[i]);
+					if (handle)
 					{
-						if (!TextGraphicsItem::cast(handle->graphicsItems[j]))
+						visited += handle;
+						for (int j=0; j < handle->graphicsItems.size(); ++j)
 						{
-							QPointF p1;
-							ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(handle->graphicsItems[j]);
-							if (connection && connection->centerPoint())
+							if (handle->graphicsItems[j] && !TextGraphicsItem::cast(handle->graphicsItems[j]))
 							{
-								p1 = connection->centerLocation();
-								if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
+								QPointF p1;
+								ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(handle->graphicsItems[j]);
+								if (connection && connection->centerPoint())
 								{
-									dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-									(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
+									p1 = connection->centerLocation();
+									if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
+									{
+										dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
+										(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(connection,p0 - p1);
+									}
 								}
-							}
-							else
-							{
-								NodeGraphicsItem * node = NodeGraphicsItem::cast(handle->graphicsItems[j]);
-								if (node)
+								else
 								{
-									for (int k=0; k < node->boundaryControlPoints.size(); ++k)
-										if (node->boundaryControlPoints[k])
-										{	
-											p1 = node->boundaryControlPoints[k]->scenePos();
+									NodeGraphicsItem * node = NodeGraphicsItem::cast(handle->graphicsItems[j]);
+									if (node)
+									{
+										if (node->boundaryControlPoints.isEmpty())
+										{
+											p1 = node->scenePos();
 											if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
 											{
 												dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
-												(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
+												(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node,p0 - p1);
 											}
 										}
+										else
+										{
+											for (int k=0; k < node->boundaryControlPoints.size(); ++k)
+												if (node->boundaryControlPoints[k])
+												{	
+													p1 = node->boundaryControlPoints[k]->scenePos();
+													if (dist == 0 || ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry())) < dist)
+													{
+														dist = ((p1.rx()-p0.rx())*(p1.rx()-p0.rx()) + (p1.ry()-p0.ry())*(p1.ry()-p0.ry()));
+														(TextGraphicsItem::cast(items[i]))->relativePosition = QPair<QGraphicsItem*,QPointF>(node->boundaryControlPoints[k],p0 - p1);
+													}
+												}
+										}
+									}
 								}
 							}
 						}
 					}
 				}
+				else
+				{
+					nonTextItems += items[i];
+					NodeGraphicsItem * node = NodeGraphicsItem::cast(items[i]);
+					if (node) nonTextItems << node->connectionsAsGraphicsItems();
+				}
 			}
-			else
-			{
-				nonTextItems += items[i];
-				NodeGraphicsItem * node = NodeGraphicsItem::cast(items[i]);
-				if (node) nonTextItems << node->connectionsAsGraphicsItems();
-			}
-		}
 
 		ConnectionGraphicsItem::ControlPoint * ccp = 0;
 		NodeGraphicsItem::ControlPoint * pcp = 0;

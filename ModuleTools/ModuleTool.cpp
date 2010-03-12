@@ -1181,6 +1181,7 @@ namespace Tinkercell
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem, *node;
 		TextGraphicsItem * textItem;
+		NodeGraphicsItem::ControlPoint * cp;
 		
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
@@ -1227,7 +1228,10 @@ namespace Tinkercell
 				if (moduleItem != childItems[i] &&
 					getHandle(childItems[i]) != handle &&
 					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName) &&
-					!((textItem = TextGraphicsItem::cast(childItems[i])) && (node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName)
+					!((textItem = TextGraphicsItem::cast(childItems[i])) && 
+						(((node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName) ||
+						 ((cp = static_cast<NodeGraphicsItem::ControlPoint*>(textItem->relativePosition.first)) && 
+						 	cp->nodeItem && cp->nodeItem->className == linkerClassName) ))
 					)
 				{
 					hideItems << childItems[i];

@@ -1,3 +1,13 @@
+#TINKERCELL HEADER BEGIN
+#category: Database
+#name: Search E.coli parts (RegulonDB)
+#descr: search the RegulonDB database for E.coli parts
+#icon: Plugins/c/database.png
+#menu: yes
+#specific for: Part 
+#tool: yes
+#TINKERCELL HEADER END
+
 import pytc
 
 try:

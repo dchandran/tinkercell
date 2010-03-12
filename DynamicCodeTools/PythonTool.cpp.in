@@ -15,6 +15,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QFile>
+#include <QFileInfoList>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
@@ -36,18 +37,29 @@ namespace Tinkercell
         connectTCFunctions();
     }
 
-    void PythonTool::loadFromFile(DynamicLibraryMenu * libMenu, QFile& file)
+    void PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
         if (!libMenu) return;
+        
+        dir.setFilter(QDir::Files);
+		dir.setSorting(QDir::Name);
 
-        QStringList lines;
+		QFileInfoList list = dir.entryInfoList();
+		
+		for (int i = 0; i < list.size(); ++i)
+		{
+			QFileInfo fileInfo = list.at(i);
+			QFile file(fileInfo.absoluteFilePath());
+			if (fileInfo.completeSuffix().toLower() != tr("py") || !file.open(QFile::ReadOnly)) continue;
+			
+			QStringList visitedFunctions;
 
-        while (!file.atEnd())
-        {
-            QByteArray line = file.readLine();
-            if (!line.isEmpty())
-                lines << line.trimmed();
-        }
+			 while (!file.atEnd())
+			 {
+				 QString line(file.readLine());
+				 if (line.toLower().contains(tr("")))
+				 
+			 }
 		
 		QString desc, pyFile, functionName, categoryName, iconfile, menu,  family, tool;
 
@@ -206,35 +218,30 @@ namespace Tinkercell
 
                 DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
 
-                QString filename(tr("pythonscripts.txt"));
-
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = { 
-                  tr( "@TINKERCELL_SOURCE_DIR@/bin/" ) + filename,
-                  tr( "@TINKERCELL_BINARY_DIR@/bin/" ) + filename,
-				  MainWindow::userTemp() + tr("/") + filename,
-                  MainWindow::userHome() + tr("/") + filename,
-                  filename,
-                  QDir::currentPath() + tr("/") + filename,
-                  appDir + tr("/") + filename };
+                  tr( "@TINKERCELL_SOURCE_DIR@/bin/py" ),
+                  tr( "@TINKERCELL_BINARY_DIR@/bin/py" ),
+				  MainWindow::userTemp() + tr("/py"),
+                  MainWindow::userHome() + tr("/py"),
+                  QDir::currentPath() + tr("/py"),
+                  appDir + tr("/py")
+               };
 
-                QFile file;
                 bool opened = false;
                 for (int i=0; i < 7; ++i)
                 {
-                    file.setFileName(name[i]);
-                    if (file.open(QFile::ReadOnly | QFile::Text))
+                    QDir dir.setFileName(name[i]);
+                    if (dir.exists())
                     {
-                        opened = true;
-                        loadFromFile(libMenu,file);
-						file.close();
+                        opened = opened || loadFromDir(libMenu,dir);
                     }
                 }
                 if (!opened)
                 {
                     if (console())
-						console()->error(filename +  tr(" file not found"));
+						console()->message(tr("No python plugins found (located in the /py folder)"));
                 }
             }
         }

@@ -1,3 +1,13 @@
+#TINKERCELL HEADER BEGIN
+#category: Generate kinetics
+#name: Hill equations
+#descr: automatically generate the equilibrium rate equation for transcription
+#icon: Plugins/c/hillequation.png
+#menu: yes
+#specific for: Synthesis 
+#tool: yes
+#TINKERCELL HEADER END
+
 import pytc
 items = pytc.selectedItems();
 synthesis = [];

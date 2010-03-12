@@ -1,3 +1,11 @@
+#TINKERCELL HEADER BEGIN
+#category: Network structure
+#name: Centrality measures
+#descr: uses NetworkX to make centrality measurements
+#icon: Plugins/c/nodedges.png
+#menu: yes
+#TINKERCELL HEADER END
+
 import pytc
 import networkx as nx
 

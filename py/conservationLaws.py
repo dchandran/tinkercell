@@ -1,9 +1,14 @@
+#TINKERCELL HEADER BEGIN
+#descr: compute the conservation laws using PySCeS
+#category: Network structure
+#name: Conservation laws
+#icon: Plugins/c/pysces.png
+#menu: yes
+#TINKERCELL HEADER END
+
 import pytc
 import pysces
 import tc2pysces
-#modelstring = tc2pysces.load();
-#mod = pysces.model("model",loader='string',fString=modelstring);
-#mod.doLoad();
 outputOff();
 mod = tc2pysces.load();
 outputOn();

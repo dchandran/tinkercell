@@ -80,7 +80,7 @@ namespace Tinkercell
 			(*b) = true;
 	}
 
-	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeNode(GraphicsScene * scene, NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
 	{
 		if (!node) return;
 		ItemHandle * handle = getHandle(node);
@@ -92,7 +92,7 @@ namespace Tinkercell
 			modelWriter.writeAttribute("handle",handle->fullName(tr(".")));
 		else
 			modelWriter.writeAttribute("handle","");
-		if (node->isVisible())
+		if (scene->isVisible(node))
 			modelWriter.writeAttribute("visible","yes");
 		else
 			modelWriter.writeAttribute("visible","no");
@@ -120,7 +120,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
 	{
 		if (!connection) return;
 		ItemHandle * handle = getHandle(connection);
@@ -132,7 +132,7 @@ namespace Tinkercell
 			modelWriter.writeAttribute(tr("handle"),handle->fullName(tr(".")));
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
-		if (connection->isVisible())
+		if (scene->isVisible(connection))
 			modelWriter.writeAttribute("visible","yes");
 		else
 			modelWriter.writeAttribute("visible","no");
@@ -142,9 +142,9 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
 	{
-		if (!text || !text->isVisible()) return;
+		if (!text) return;
 
 		modelWriter.writeStartElement(tr("TextItem"));
 		modelWriter.writeAttribute(tr("text"),text->toPlainText());
@@ -153,6 +153,10 @@ namespace Tinkercell
 			modelWriter.writeAttribute(tr("handle"),handle->fullName());
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
+		if (scene->isVisible(text))
+			modelWriter.writeAttribute("visible","yes");
+		else
+			modelWriter.writeAttribute("visible","no");
 
 		QPointF pos = text->scenePos();
 		modelWriter.writeAttribute(tr("x"),QString::number(pos.x()));
@@ -177,7 +181,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::saveItems(const QList<QGraphicsItem*>& allitems, const QString& filename)
+	void LoadSaveTool::saveItems(GraphicsScene * scene, const QList<QGraphicsItem*>& allitems, const QString& filename)
 	{
 		if (allitems.isEmpty() || filename.isEmpty()) return;
 
@@ -253,7 +257,7 @@ namespace Tinkercell
 		for (int i=0; i < nodeItems.size(); ++i)
 		{
 			node = nodeItems[i];
-			writeNode(node,modelWriter);
+			writeNode(scene,node,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -273,12 +277,12 @@ namespace Tinkercell
 		for (int i=0; i < firstSetofConnections.size(); ++i)
 		{
 			connection = firstSetofConnections[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(scene,connection,modelWriter);
 		}
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			connection = connectionItems[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(scene,connection,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -286,7 +290,7 @@ namespace Tinkercell
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
-			writeText(text,modelWriter);
+			writeText(scene,text,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -361,7 +365,7 @@ namespace Tinkercell
 		for (int i=0; i < nodeItems.size(); ++i)
 		{
 			node = nodeItems[i];
-			writeNode(node,modelWriter);
+			writeNode(scene,node,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -381,12 +385,12 @@ namespace Tinkercell
 		for (int i=0; i < firstSetofConnections.size(); ++i)
 		{
 			connection = firstSetofConnections[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(scene,connection,modelWriter);
 		}
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			connection = connectionItems[i];
-			writeConnection(connection,modelWriter);
+			writeConnection(scene,connection,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -394,7 +398,7 @@ namespace Tinkercell
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
-			writeText(text,modelWriter);
+			writeText(scene,text,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -434,8 +438,8 @@ namespace Tinkercell
 
 		if (!scene) return;
 
-		QList<QGraphicsItem*> items;
-		loadItems(items,filename);
+		QList<QGraphicsItem*> items, hideItems;
+		loadItems(items,filename, hideItems);
 
 		if (items.size() > 0)
 		{
@@ -453,6 +457,9 @@ namespace Tinkercell
 			}
 
 			scene->fitAll();
+			
+			if (scene->currentView())
+				scene->currentView()->hideItems(hideItems);
 
 			if (scene->historyStack)
 				scene->historyStack->clear();
@@ -474,15 +481,13 @@ namespace Tinkercell
 		}
 	}
 
-	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
+	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename, QList<QGraphicsItem*>& hideItems)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
 		if (!mainWindow->tool(tr("Nodes Tree")) || !mainWindow->tool(tr("Connections Tree")))
 		{
-			//if (console())
-                //console()->error(tr("No Nodes or Connections set available."));
 			QMessageBox::information(this,tr("Error"),tr("No Nodes or Connections set available."));
 			return;
 		}
@@ -598,7 +603,7 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			bool v;
+			bool v = true;
 			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z,v);
 			if (node)
 			{
@@ -623,7 +628,7 @@ namespace Tinkercell
 		{
 			QString s;
 			qreal z;
-			bool v;
+			bool v = true;
 			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z,v);
 			if (connection)
 			{
@@ -680,7 +685,8 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			TextGraphicsItem * text = readText(nodeReader,s,t,p,z);
+			bool v = true;
+			TextGraphicsItem * text = readText(nodeReader,s,t,p,z,v);
 			if (text)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -689,7 +695,7 @@ namespace Tinkercell
 				points << p;
 				items << text;
 				zValues << z;
-				visibles << true;
+				visibles << v;
 			}
 			nodeReader.readNext();
 		}
@@ -704,13 +710,14 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
-				items[i]->setVisible(visibles[i]);
+				if (visibles[i])
+					hideItems << items[i];
 			}
 		}
 
 	}
 
-	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
+	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, bool & visible)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
 		{
@@ -728,6 +735,9 @@ namespace Tinkercell
 					{
 						handle = attribs[i].value().toString();
 					}
+					else
+					if (attribs[i].name().toString() == tr("visible"))
+						visible = (attribs[i].value().toString().toLower() == QString("yes"));					
 					else
 						if (attribs[i].name().toString() == tr("x"))
 							pos.rx() = attribs[i].value().toString().toDouble(&ok);

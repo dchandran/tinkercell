@@ -1,3 +1,11 @@
+#TINKERCELL HEADER BEGIN
+#category: Sequence
+#name: Print all sequences
+#descr: print all the sequence in this model in FASTA format
+#icon: Plugins/c/printSequences.png
+#menu: yes
+#TINKERCELL HEADER END
+
 import pytc
 A = pytc.itemsOfFamily('Part');
 

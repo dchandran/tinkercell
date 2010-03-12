@@ -53,8 +53,8 @@ namespace Tinkercell
 
 	signals:
 		void addNewButton(const QList<QToolButton*>& ,const QString& );
-		void loadItems(QList<QGraphicsItem*>&, const QString& );
-		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
+		void loadItems(QList<QGraphicsItem*>&, const QString& ,QList<QGraphicsItem*>&);
+		void saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString& filename);
 		void showGroup(const QString& group);
 
 	public slots:

@@ -58,8 +58,8 @@ namespace Tinkercell
 
 	public slots:
 		void prepareModelForSaving(NetworkWindow*,bool*);
-		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
-		void loadItems(QList<QGraphicsItem*>&, const QString& filename);
+		void saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString& filename);
+		void loadItems(QList<QGraphicsItem*>&, const QString& filename, QList<QGraphicsItem*>&);
 		void saveModel(const QString& filename);
 		void loadModel(const QString& filename);
 		void historyChanged( int );
@@ -69,10 +69,10 @@ namespace Tinkercell
 
 		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,bool&);
 		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&,bool&);
-		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
-		static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
-		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
-		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
+		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&, bool&);
+		static void writeNode(GraphicsScene * scene, NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
+		static void writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
+		static void writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
 
 		QHash<GraphicsScene*,bool> savedScenes;
 	};

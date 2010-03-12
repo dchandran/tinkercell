@@ -86,8 +86,8 @@ namespace Tinkercell
 		if (tool->name == tr("Save and Load"))
 		{
 			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
-			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString& )),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString& )));
-			connect(this,SIGNAL(saveItems(const QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(saveItems(const QList<QGraphicsItem*>&, const QString&)));
+			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString& , QList<QGraphicsItem*>&)),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString& , QList<QGraphicsItem*>&)));
+			connect(this,SIGNAL(saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString&)));
 		}
 	}
 
@@ -126,7 +126,7 @@ namespace Tinkercell
 		QPixmap pixmap(tr(":/images/module.png"));
 		pixmap.save(iconfile,"png");
 
-		emit saveItems(items, filename);
+		emit saveItems(scene, items, filename);
 
 		if (!moduleFilenames.contains(name))
 		{
@@ -220,9 +220,10 @@ namespace Tinkercell
     {
         if (!scene || !scene->symbolsTable) return;
 
+		QList<QGraphicsItem*> hideItems;
         if (insertList.isEmpty() && !filename.isEmpty() && !filename.isNull())
         {
-            emit loadItems(insertList,filename);
+            emit loadItems(insertList,filename,hideItems);
         }
 
         NodeGraphicsItem * node;
@@ -289,6 +290,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> newList = cloneGraphicsItems(insertList,handles);
 
 		scene->insert(moduleName + tr(" inserted"),insertList);
+		if (scene->currentView())
+			scene->currentView()->hideItems(hideItems);
 		insertList.clear();
 		insertList = newList;
 

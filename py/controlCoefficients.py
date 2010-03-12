@@ -1,3 +1,10 @@
+#TINKERCELL HEADER BEGIN
+#category: Analysis
+#name: Control coefficients
+#descr: compute control coefficients using PySCeS
+#icon: Plugins/c/pysces.png
+#TINKERCELL HEADER END
+
 import pytc
 import numpy
 import pysces

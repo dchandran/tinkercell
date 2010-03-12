@@ -86,7 +86,7 @@ namespace Tinkercell
 		if (networkWindow)
 		{
 			networkWindow->graphicsViews.removeAll(this);
-			if (networkWindow->graphicsView.isEmpty())
+			if (networkWindow->graphicsViews.isEmpty())
 				networkWindow->currentGraphicsView = 0;
 			else
 				networkWindow->currentGraphicsView = networkWindow->graphicsViews[0];

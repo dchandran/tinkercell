@@ -670,8 +670,8 @@ namespace Tinkercell
 				}
 			}
 
-		QString name, rate;
-		QStringList lhs, rhs, species;
+		QString name, rate, species;
+		QStringList lhs, rhs;
 		for (int j=0; j < childHandles.size(); ++j)
 			if (childHandles[j])
 			{

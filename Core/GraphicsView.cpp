@@ -84,7 +84,13 @@ namespace Tinkercell
 	void GraphicsView::closeEvent(QCloseEvent *event)
 	{
 		if (networkWindow)
+		{
 			networkWindow->graphicsViews.removeAll(this);
+			if (networkWindow->graphicsView.isEmpty())
+				networkWindow->currentGraphicsView = 0;
+			else
+				networkWindow->currentGraphicsView = networkWindow->graphicsViews[0];
+		}
 	}
 
 	void GraphicsView::scrollContentsBy ( int dx, int dy )

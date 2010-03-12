@@ -49,7 +49,7 @@ namespace Tinkercell
 {
 	typedef void (*TinkercellPluginEntryFunction)(MainWindow*);
 	typedef void (*TinkercellCEntryFunction)();
-	
+
 	/********** GLOBAL VARIABLES **********/
 
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultToolWindowOption = MainWindow::ToolBoxWidget;
@@ -59,7 +59,7 @@ namespace Tinkercell
 	QString MainWindow::defaultFileExtension("tic");
 	QString MainWindow::userHomePath;
 	/*************************************/
-	
+
 	QString MainWindow::userHome()
 	{
 		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())
@@ -338,19 +338,19 @@ namespace Tinkercell
 	{
 		GraphicsScene::clearStaticItems();
 		saveSettings();
-		
+
 		QString tempDir = userTemp();
 		QString cmd;
-		
+
 #ifdef Q_WS_WIN
-		
+
 		tempDir.replace(tr("/"),tr("\\"));
 		cmd = tr("del \"") + tempDir + tr("\"\\*.* /q");
-		
+
 #else
 
 		cmd = tr("rm ") + tempDir + tr("/*.*");
-		
+
 #endif
 		system(cmd.toAscii().data());
 	}
@@ -788,13 +788,13 @@ namespace Tinkercell
 		QAction * redoAction = editMenu->addAction(QIcon(tr(":/images/redo.png")),tr("&Redo"));
 		redoAction->setShortcut(QKeySequence::Redo);
 		connect(redoAction,SIGNAL(triggered()),this,SLOT(redo()));
-		
+
 		viewMenu = menuBar()->addMenu(tr("&View"));
 
 		QAction* fitAll = viewMenu->addAction(QIcon(tr(":/images/fitAll.png")),tr("Fit &all"));
 		fitAll->setShortcut(tr("F5"));
 		connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
-		
+
 
 		settingsMenu = menuBar()->addMenu(tr("&Settings"));
 		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
@@ -3635,7 +3635,7 @@ namespace Tinkercell
 	{
 		NetworkWindow * current = currentWindow();
 		if (current)
-			return current->createView();
+			return current->createView(current->currentView());
 		return 0;
 	}
 

@@ -95,19 +95,25 @@ namespace Tinkercell
 		virtual void popOut();
 		/*! \brief calls mainWindow's popIn method*/
 		virtual void popIn();
-		/*! \brief get all the views of this network window. 
+		/*! \brief get all the views of this network window.
 			The first view will always be the main view
 		* \return QList<GraphicsView*>
 		*/
 		virtual QList<GraphicsView*> views() const;
-		/*! \brief get the current view of this network window. 
+		/*! \brief get the current view of this network window.
 		* \return GraphicsView*
 		*/
 		virtual GraphicsView* currentView() const;
 		/*! \brief create a new view for this network window
+		* \param QList<QGraphicsItem*> items to hide (optional)
 		* \return GraphicsView* the new view
 		*/
 		virtual GraphicsView * createView(const QList<QGraphicsItem*>& hideItems = QList<QGraphicsItem*>());
+		/*! \brief create a new view based on an existing view
+		* \param GraphicsView* the original view (if invalid defaults to current view)
+		* \return GraphicsView* the new view
+		*/
+		virtual GraphicsView * createView(GraphicsView*);
 		/*! \brief checks whether a string is a correct formula.
 		\param QString target string
 		\param QStringList returns any new variables not found in this network
@@ -169,7 +175,7 @@ namespace Tinkercell
 		virtual void updateSymbolsTable();
 		/*! \brief updates the symbols table. The int argument is so that this can be connected to the history changed signal*/
 		virtual void updateSymbolsTable(int);
-		
+
 	signals:
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/

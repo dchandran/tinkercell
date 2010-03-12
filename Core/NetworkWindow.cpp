@@ -97,12 +97,25 @@ namespace Tinkercell
 		if (!mainWindow) return 0;
 
 		GraphicsView * view = new GraphicsView(this);
-		QList<QGraphicsItem*> hideItems2 = hideItems;
 
-		if (currentGraphicsView)
-			hideItems2 << currentGraphicsView->hiddenItems.values(); //build on current view
+		view->hideItems(hideItems);
+		view->setParent(mainWindow);
+		view->setWindowFlags(Qt::Window);
+		view->setAttribute(Qt::WA_DeleteOnClose);
+		if (!view->isVisible())
+			view->show();
+		return view;
+	}
 
-		view->hideItems(hideItems2);
+	GraphicsView * NetworkWindow::createView(GraphicsView * anotherView)
+	{
+		if (!mainWindow) return 0;
+
+		GraphicsView * view = new GraphicsView(this);
+
+		if (anotherView && graphicsViews.contains(anotherView))
+			view->hideItems(anotherView->hiddenItems.keys()); //build on current view
+
 		view->setParent(mainWindow);
 		view->setWindowFlags(Qt::Window);
 		view->setAttribute(Qt::WA_DeleteOnClose);

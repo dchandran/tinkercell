@@ -1180,6 +1180,8 @@ namespace Tinkercell
 
 		ItemHandle * handle = getHandle(item);
 		NodeGraphicsItem * moduleItem, *node;
+		TextGraphicsItem * textItem;
+		
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
 			QList<QGraphicsItem*> childItems = handle->allGraphicsItems();
@@ -1224,7 +1226,9 @@ namespace Tinkercell
 			{
 				if (moduleItem != childItems[i] &&
 					getHandle(childItems[i]) != handle &&
-					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName))
+					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName) &&
+					!((textItem = TextGraphicsItem::cast(childItems[i])) && (node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName)
+					)
 				{
 					hideItems << childItems[i];
 				}

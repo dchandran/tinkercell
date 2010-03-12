@@ -1,5 +1,4 @@
 /****************************************************************************
-
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
@@ -7,6 +6,7 @@
  Automatically manage gene regulatory network rates and parameters
 
 ****************************************************************************/
+
 #include <QDebug>
 #include "UndoCommands.h"
 #include "ItemHandle.h"

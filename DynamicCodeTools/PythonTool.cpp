@@ -222,7 +222,7 @@ namespace Tinkercell
                };
 
                 bool opened = false;
-                for (int i=0; i < 6; ++i)
+                for (int i=0; i < 4; ++i)
                 {
                     QDir dir(name[i]);
                     if (dir.exists())

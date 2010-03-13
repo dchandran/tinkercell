@@ -37,119 +37,107 @@ namespace Tinkercell
         connectTCFunctions();
     }
 
-    void PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
+    bool PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
-        if (!libMenu) return;
+    	bool filesFound = false;
+        if (!libMenu) return filesFound;
         
         dir.setFilter(QDir::Files);
 		dir.setSorting(QDir::Name);
 
 		QFileInfoList list = dir.entryInfoList();
+
+		QString appDir = QCoreApplication::applicationDirPath();
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
 			QFileInfo fileInfo = list.at(i);
-			QFile file(fileInfo.absoluteFilePath());
+			
+			QString pyFile = fileInfo.absoluteFilePath();
+			if (pyFileNames.contains(pyFile)) continue;
+			
+			QFile file(pyFile);
 			if (fileInfo.completeSuffix().toLower() != tr("py") || !file.open(QFile::ReadOnly)) continue;
 			
-			QStringList visitedFunctions;
+			QString category, name, descr, icon, specific;
+			bool menu = true, tool = true;
 
-			 while (!file.atEnd())
-			 {
-				 QString line(file.readLine());
-				 if (line.toLower().contains(tr("")))
-				 
-			 }
-		
-		QString desc, pyFile, functionName, categoryName, iconfile, menu,  family, tool;
-
-        QString appDir = QCoreApplication::applicationDirPath();
-
-        for (int i=0; i < lines.size(); ++i)
-        {
-            QStringList ls = lines[i].split(tr(";"));
-
-            if (ls.size() >= 3)
-            {
-                desc = ls[0].trimmed();
-                pyFile = ls[1].trimmed();
+			while (!file.atEnd()) //inside python script file
+			{
+				QString line(file.readLine());
+				if (line.toLower().contains(tr("tinkercell")) && 
+					line.toLower().contains(tr("header")) && 
+					line.toLower().contains(tr("end")))
+					break;
 				
-				if (pyFileNames.contains(pyFile)) continue;
-				
-                functionName = ls[2].trimmed();
-                QStringList functionNameSplit = functionName.split(tr("::"));
-
-                if (functionNameSplit.size() >= 2)
-                {
-                    functionName = functionNameSplit[1];
-                    categoryName = functionNameSplit[0];
-                }
-                else
-                {
-                    functionName = functionNameSplit[0];
-                    categoryName = tr("misc.");
-                }
-
-                menu = tr("menu");
-                family = tr("");
-                tool = tr("notool");
-                iconfile = tr("");
-                if (ls.size() > 3)
-                {
-                    iconfile = ls[3].trimmed();
-
-                    if (!QFile(iconfile).exists())
-                        iconfile = appDir + tr("/") + iconfile;
-
-                    if (ls.size() > 4)
-                    {
-                        menu = ls[4].trimmed();
-
-                        if (ls.size() > 5)
-                        {
-                            family = ls[5].trimmed();
-
-                            if (ls.size() > 6)
-                                tool = ls[6].trimmed();
-                        }
-                    }
-                }
+				QStringList words = line.split(tr(":"));
+				if (words.size() == 2)
+				{
+					QString s1 = words[0].trimmed(), s2 = words[1].trimmed();
+					if (s1 == tr("category"))
+						category = s2;
+					else
+					if (s1 == tr("name"))
+						name = s2;
+					else
+					if (s1 == tr("descr"))
+						descr = s2;
+					else
+					if (s1 == tr("icon"))
+						icon = s2;
+					else
+					if (s1 == tr("menu"))
+						menu = (s2.toLower().contains("yes"));
+					else
+					if (s1 == tr("tool"))
+						tool = (s2.toLower().contains("yes"));
+					else
+					if (s1.contains(tr("specific")))
+						specific = s2;
+				}
+			}
+			filesFound = true;
+			
+			if (!QFile(icon).exists())
+				icon = appDir + tr("/") + icon;
 		
-				QPixmap pixmap(iconfile);
+			QPixmap pixmap(icon);
 
-                QToolButton * button = libMenu->addFunction(categoryName, functionName, QIcon(pixmap));
+            QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
 
-                if (button)
-                {
-                    button->setToolTip(desc);
-                    buttonsGroup.addButton(button,pyFileNames.size());
-                    pyFileNames << pyFile;
-                }
+			if (button)
+			{
+				button->setToolTip(descr);
+				buttonsGroup.addButton(button,pyFileNames.size());
+				pyFileNames << pyFile;
+			}
 
-                if (menu == tr("menu"))
-                {
-                    QAction * menuItem = libMenu->addMenuItem(categoryName, functionName,QIcon(pixmap));
-                    if (menuItem)
-                    {
-                        menuItem->setToolTip(desc);
-                        actionsGroup.addAction(menuItem);
-                        hashPyFile[menuItem] = pyFile;
-                    }
+			if (menu)
+			{
+				QAction * menuItem = libMenu->addMenuItem(category, name,QIcon(pixmap));
+				if (menuItem)
+				{
+					menuItem->setToolTip(descr);
+					actionsGroup.addAction(menuItem);
+					hashPyFile[menuItem] = pyFile;
+				}
+			}
+			
+			if (!specific.isEmpty())
+			{
+				QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
+				if (contextAction)
+				{
+					contextAction->setToolTip(descr);
+					actionsGroup.addAction(contextAction);
+					hashPyFile[contextAction] = pyFile;
+				}
+			}
+			
+		} //done reading one py script file
 
-                    if (!family.isEmpty())
-                    {
-                        QAction * contextAction = libMenu->addContextMenuItem(family, functionName, pixmap, tool==tr("tool"));
-                        if (contextAction)
-                        {
-                            contextAction->setToolTip(desc);
-                            actionsGroup.addAction(contextAction);
-                            hashPyFile[contextAction] = pyFile;
-                        }
-                    }
-                }
-            }
-        }
-		
+			
+		return filesFound;
     }
 
     bool PythonTool::setMainWindow(MainWindow * main)
@@ -232,7 +220,7 @@ namespace Tinkercell
                 bool opened = false;
                 for (int i=0; i < 7; ++i)
                 {
-                    QDir dir.setFileName(name[i]);
+                    QDir dir(name[i]);
                     if (dir.exists())
                     {
                         opened = opened || loadFromDir(libMenu,dir);

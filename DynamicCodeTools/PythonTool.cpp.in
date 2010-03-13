@@ -48,6 +48,8 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
+		QString userHome = MainWindow::userHome();
+		
 		
 		for (int i = 0; i < list.size(); ++i)
 		{
@@ -96,15 +98,21 @@ namespace Tinkercell
 						specific = s2;
 				}
 			}
-			filesFound = true;
 			
-			if (!QFile(icon).exists())
+			file.close();
+			
+			filesFound = true;
+		
+			if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
+			
+			if (!QFile(icon).exists() && QFile(userHome + tr("/") + icon).exists())
+				icon = userHome + tr("/") + icon;
 		
 			QPixmap pixmap(icon);
-
+		
             QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
-
+		
 			if (button)
 			{
 				button->setToolTip(descr);
@@ -114,7 +122,7 @@ namespace Tinkercell
 
 			if (menu)
 			{
-				QAction * menuItem = libMenu->addMenuItem(category, name,QIcon(pixmap));
+				QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
 				if (menuItem)
 				{
 					menuItem->setToolTip(descr);
@@ -132,11 +140,9 @@ namespace Tinkercell
 					actionsGroup.addAction(contextAction);
 					hashPyFile[contextAction] = pyFile;
 				}
-			}
-			
+			}	
 		} //done reading one py script file
 
-			
 		return filesFound;
     }
 

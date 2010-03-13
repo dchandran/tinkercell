@@ -6,7 +6,13 @@ while ($line = <FILE>)
 {
 	if ($line =~ /{\"(\S+)\",.+,.+,\s*\"(.*)example:(.*)\"\s*}/)
 	{
-		print "$1\n    $2\n    example:\n      $3\n\n";
+		$a = $1;
+		$b = $2;
+		$c = $3;
+		
+		$c =~ s/\\"/"/g;
+		
+		print "<b>$a</b><br>\n&nbsp;&nbsp;&nbsp;$b<br>\n&nbsp;&nbsp;&nbsp;example:<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$c<br><br>\n\n";
 	}
 }
 

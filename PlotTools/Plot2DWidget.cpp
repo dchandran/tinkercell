@@ -164,6 +164,9 @@ namespace Tinkercell
 		if (width <= 0.0)
 			width = xmax;
 		
+		if (width <= 0.0)
+			width = 1.0;
+		
 		for (int i=0; i < dataTable.cols(); ++i)
 		{
 			for (int j=0; j < delta; ++j)

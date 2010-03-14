@@ -139,12 +139,6 @@ namespace Tinkercell
 	{
 		if (type != PlotTool::HistogramPlot) return;
 		
-		if (dataTable.rows() < 2 || dataTable.cols() < 1)
-		{
-			type = PlotTool::ScatterPlot;
-			return;
-		}
-		
 		double xmin, xmax, width;
 		DataTable<qreal> histData;
 		
@@ -195,7 +189,6 @@ namespace Tinkercell
 	{
 		delta = dt;
 		xcolumn = x;
-		
 			
 		if (!this->isVisible())
 		{
@@ -209,7 +202,7 @@ namespace Tinkercell
 		this->dataTable = dat;
 		
 		processData();
-		
+	
 		QRegExp regex(tr("\\_(?!_)"));
 		for (int i=0; i < dataTable.rows(); ++i)
 		{
@@ -236,8 +229,6 @@ namespace Tinkercell
 				if (dataTable.cols() > 2)
 					curve->updateLegend(legend());
 					
-				++c;
-				
 				if (type == PlotTool::ScatterPlot)
 				{
 					curve->setStyle(QwtPlotCurve::NoCurve);
@@ -251,6 +242,8 @@ namespace Tinkercell
 					curve->setSymbol ( 
 						QwtSymbol( QwtSymbol::NoSymbol , Qt::NoBrush, penList[c], QSize(5,5) ));
 				}
+				
+				++c;
 			}
 		}
 		if (dataTable.cols() > x)

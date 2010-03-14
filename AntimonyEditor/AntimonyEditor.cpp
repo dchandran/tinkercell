@@ -869,7 +869,7 @@ namespace Tinkercell
 	void AntimonyEditor::pasteSBMLText()
 	{
 		QClipboard * clipboard = QApplication::clipboard();
-		if (clipboard)
+		if (clipboard && mainWindow)
 		{
 			QString s = clipboard->text();
 
@@ -946,10 +946,11 @@ namespace Tinkercell
 
 	void AntimonyEditor::loadSBMLStringSlot(QSemaphore* s,const QString& sbml)
 	{
+		TextEditor * textEditor = 0;
 		if (mainWindow)
-			mainWindow->newTextWindow();
+			textEditor = mainWindow->newTextWindow();
 
-		if (currentTextEditor() && loadString (sbml.toAscii().data()) != -1)
+		if (textEditor && loadString (sbml.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
 			currentTextEditor()->setText(tr(ant));

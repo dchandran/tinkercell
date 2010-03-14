@@ -27,6 +27,7 @@ the stoichiometry and rates tables.
 #include "BasicInformationTool.h"
 #include "CThread.h"
 #include "DefaultReactionRates.h"
+#include "ConnectionsTree.h"
 #include "EquationParser.h"
 #include "ModuleTool.h"
 #include "muParserDef.h"
@@ -304,31 +305,47 @@ namespace Tinkercell
 			updateTable();
 		}
 
-		bool reactions = false;
+		bool reactions = false, species = false;
 		ItemHandle * handle;
 
 		for (int i=0; i < list.size(); ++i)
-			if (ConnectionGraphicsItem::cast(list[i]) && (handle = getHandle(list[i])) && handle->isA(tr("Biochemical")))
-			{
+		{
+			handle = getHandle(list[i]);
+			
+			if (ConnectionHandle::cast(handle) && handle->isA(tr("Biochemical")))
 				reactions = true;
+			
+			if (NodeHandle::cast(handle) && handle->isA(tr("Molecule")))
+				species = true;
+				
+			if (reactions && species)
 				break;
-			}
-
-			if (reactions)
-			{
-				if (separator)
-					mainWindow->contextItemsMenu.addAction(separator);
-				else
-					separator = mainWindow->contextItemsMenu.addSeparator();
-
-				mainWindow->contextItemsMenu.addAction(&autoReverse);
-			}
+		}
+		
+		if (reactions || species)
+		{
+			if (separator)
+				mainWindow->contextItemsMenu.addAction(separator);
 			else
-			{
-				if (separator)
-					mainWindow->contextItemsMenu.removeAction(separator);
-				mainWindow->contextItemsMenu.removeAction(&autoReverse);
-			}
+				separator = mainWindow->contextItemsMenu.addSeparator();
+				
+			if (reactions)
+				mainWindow->contextItemsMenu.addAction(autoReverse);
+			else
+				mainWindow->contextItemsMenu.removeAction(autoReverse);
+			
+			if (species)
+				mainWindow->contextItemsMenu.addAction(autoDimer);
+			else
+				mainWindow->contextItemsMenu.removeAction(autoDimer);
+		}
+		else
+		{
+			if (separator)
+				mainWindow->contextItemsMenu.removeAction(separator);
+			mainWindow->contextItemsMenu.removeAction(autoReverse);
+			mainWindow->contextItemsMenu.removeAction(autoDimer);
+		}
 	}
 
 	void StoichiometryTool::sceneClosing(NetworkWindow * , bool *)
@@ -579,7 +596,9 @@ namespace Tinkercell
 
 
 	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),
-		autoReverse("Make reversible",this),separator(0)
+		autoReverse(new QAction("Make reversible",this)),
+		autoDimer(new QAction("Make dimer",this)),
+		separator(0)
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
 		openedByUser = false;
@@ -708,8 +727,11 @@ namespace Tinkercell
 
 		//matrixTable.setItemDelegate(&delegate);
 
-		connect(&autoReverse,SIGNAL(triggered()),this,SLOT(addReverseReaction()));
-		autoReverse.setIcon(QIcon(":/images/horizontalFlip.png"));
+		connect(autoReverse,SIGNAL(triggered()),this,SLOT(addReverseReaction()));
+		autoReverse->setIcon(QIcon(":/images/horizontalFlip.png"));
+		
+		connect(autoDimer,SIGNAL(triggered()),this,SLOT(addDimer()));
+		autoDimer->setIcon(QIcon(":/images/plus.png"));
 	}
 
 	void StoichiometryTool::addReverseReaction()
@@ -810,6 +832,162 @@ namespace Tinkercell
 			emit setMiddleBox(1,filename);
 		}
 	}
+	
+	void StoichiometryTool::addDimer()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene || !mainWindow || !scene->networkWindow) return;
+		if (!mainWindow->tool(tr("Connections Tree"))) return;
+
+		QWidget * treeWidget = mainWindow->tool(tr("Connections Tree"));
+		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
+
+		if (!connectionsTree->connectionFamilies.contains("Biochemical")) return;
+
+		NodeFamily * nodeFamily = 0;
+		ConnectionFamily * connectionFamily = connectionsTree->connectionFamilies["Biochemical"];
+
+		QList<QGraphicsItem*>& selected = scene->selected();
+		ItemHandle * handle = 0;
+
+		QStringList sceneItems(scene->networkWindow->symbolsTable.handlesFullName.keys());
+		QList<QGraphicsItem*> list;
+
+		QString appDir = QCoreApplication::applicationDirPath();
+
+		QList<ItemHandle*> visitedHandles;
+
+		for (int i=0; i < selected.size(); ++i)
+		{
+			handle = getHandle(selected[i]);
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Molecule") && !visitedHandles.contains(handle))
+			{
+				nodeFamily = NodeFamily::cast(handle->family());
+				if (!nodeFamily) continue;
+				
+				visitedHandles += handle;
+				NodeHandle * node = new NodeHandle(nodeFamily);
+				node->name = handle->name + tr("_dimer");
+				node->name = RenameCommand::assignUniqueName(node->name,sceneItems);
+
+				qreal xpos = (selected[i]->sceneBoundingRect().right() + 100.0),
+					  ypos = (selected[i]->sceneBoundingRect().top() - 100.0),
+					  height = 0.0;
+
+				NodeGraphicsItem * image = 0;
+
+				for (int k=0; k < 2; ++k)
+					for (int j=0; j < nodeFamily->graphicsItems.size(); ++j)
+					{
+						image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[j]));
+						if (image)
+						{
+							image = image->clone();
+
+							if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
+								image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
+
+							qreal w = image->sceneBoundingRect().width();
+
+							image->setPos(xpos, ypos);
+
+							image->setBoundingBoxVisible(false);
+
+							if (image->isValid())
+							{
+								xpos += w;
+								setHandle(image,node);
+								list += image;
+							}
+							if (image->sceneBoundingRect().height() > height)
+								height = image->sceneBoundingRect().height();
+						}
+					}
+				
+				if (image)
+				{
+					TextGraphicsItem * nameItem;
+					QFont font;
+
+					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
+					ConnectionHandle * connection = new ConnectionHandle(connectionFamily,item);
+
+					item->curveSegments +=
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
+
+					item->curveSegments +=
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,image));
+
+					ArrowHeadItem * arrow = 0;
+					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
+					NodeGraphicsReader imageReader;
+					arrow = new ArrowHeadItem(item);
+					imageReader.readXml(arrow,nodeImageFile);
+					arrow->normalize();
+					double w = 0.1;
+					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
+					arrow->scale(w,w);
+					item->curveSegments.last().arrowStart = arrow;
+					list += arrow;
+
+					connection->name = tr("J0");
+					item->lineType = ConnectionGraphicsItem::line;
+					connection->name = RenameCommand::assignUniqueName(connection->name,sceneItems);
+                    sceneItems << node->fullName() << connection->fullName();
+
+					nameItem = new TextGraphicsItem(connection,0);
+					list += nameItem;
+					nameItem->setPos( 0.5*(image->pos() + selected[i]->scenePos() ) );
+					font = nameItem->font();
+					font.setPointSize(22);
+					nameItem->setFont(font);
+					
+					nameItem = new TextGraphicsItem(node,0);
+					list += nameItem;
+					nameItem->setPos( image->sceneBoundingRect().bottomRight() );
+					font = nameItem->font();
+					font.setPointSize(22);
+					nameItem->setFont(font);
+					
+					//make the rates and stoichiometry table
+					
+					DataTable<qreal> stoichiometryMatrix;
+					DataTable<QString> rates;
+					
+					rates.resize(2,1);
+					stoichiometryMatrix.resize(2,2);
+					
+					rates.colName(0) = tr("rates");
+					stoichiometryMatrix.rowName(0) = rates.rowName(0) = tr("bind");
+					stoichiometryMatrix.rowName(1) = rates.rowName(1) = tr("unbind");
+					stoichiometryMatrix.colName(0) = handle->fullName();
+					stoichiometryMatrix.colName(1) = node->fullName();
+					
+					stoichiometryMatrix.value(0,0) = -2.0;
+					stoichiometryMatrix.value(0,1) = 1.0;
+					stoichiometryMatrix.value(1,0) = 2.0;
+					stoichiometryMatrix.value(1,1) = -1.0;
+					rates.value(0,0) = connection->fullName() + tr(".k0 * ") + handle->fullName() + tr("*") + handle->fullName();
+					rates.value(1,0) = connection->fullName() + tr(".k0 * ") + node->fullName();
+					
+					stoichiometryMatrix.description() = QString("Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same.");
+					rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
+
+					connection->data->numericalData.insert(tr("Stoichiometry"),stoichiometryMatrix);
+					connection->data->textData.insert(tr("Rates"),rates);
+					
+					////
+
+					list += item;
+				}
+			}
+		}
+		if (!list.isEmpty())
+		{
+			scene->insert(tr("dimer added"),list);
+		}
+	}	
 
 	QSize StoichiometryTool::sizeHint() const
 	{

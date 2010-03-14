@@ -75,7 +75,9 @@ namespace Tinkercell
 				QStringList words = line.split(tr(":"));
 				if (words.size() == 2)
 				{
-					QString s1 = words[0].trimmed(), s2 = words[1].trimmed();
+					QString s1 = words[0].remove(tr("#")).trimmed(), 
+							s2 = words[1].trimmed();
+
 					if (s1 == tr("category"))
 						category = s2;
 					else
@@ -100,6 +102,8 @@ namespace Tinkercell
 			}
 			
 			file.close();
+			
+			if (name.isNull() || name.isEmpty()) continue;
 			
 			filesFound = true;
 		

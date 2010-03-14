@@ -133,7 +133,7 @@ namespace Tinkercell
 			static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * );
 		};
 
-		QAction * makeLink, * separator;
+		QAction * makeLink, * separator, * createViewAction;
 		friend class VisualTool;
 
 	private slots:

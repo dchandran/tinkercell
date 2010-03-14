@@ -177,6 +177,8 @@ namespace Tinkercell
 		void setStoichiometry(int, int);
 		/*! \brief make a biochemical reaction reversible by adding another row in the stoichiometry table*/
 		void addReverseReaction();
+		/*! \brief make a dimer*/
+		void addDimer();
 
 	protected:
 		/*! \brief not used any longer*/
@@ -223,7 +225,7 @@ namespace Tinkercell
 		/*! \brief the dock widget for this widget*/
 		QDockWidget * dockWidget;
 		/*! \brief make a reaction reversible*/
-		QAction autoReverse;
+		QAction * autoReverse, * autoDimer;
 		/*! \brief separator for the action that makes a reaction reversible*/
 		QAction * separator;
 

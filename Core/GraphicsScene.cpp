@@ -864,8 +864,18 @@ namespace Tinkercell
 	void GraphicsScene::fitAll()
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-		QGraphicsView* view = networkWindow->currentGraphicsView;
-		QRectF rect = itemsBoundingRect();
+		GraphicsView* view = networkWindow->currentGraphicsView;
+		
+		QRectF rect;
+		QGraphicsItem * parent;
+		QList<QGraphicsItem*> allItems = items();
+		for (int i=0; i < allItems.size(); ++i)
+		{
+			parent = getGraphicsItem(allItems[i]);
+			if (parent && !view->hiddenItems.contains(parent))
+				rect.unite(parent->sceneBoundingRect());
+		}
+		
 		view->fitInView(rect,Qt::KeepAspectRatio);
 		view->centerOn(rect.center());
 	}

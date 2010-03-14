@@ -50,9 +50,14 @@ namespace Tinkercell
         separator = 0;
         VisualTool * visualTool = new VisualTool(this);
         this->graphicsItems += visualTool;
+        
         makeLink = new QAction(tr("Set input/output"),this);
         makeLink->setIcon(QIcon(tr(":/images/lollipop.png")));
         connect(makeLink,SIGNAL(triggered()),this,SLOT(makeLinks()));
+        
+        createViewAction = new QAction(tr("View module in separate window"),this);
+        createViewAction->setIcon(QIcon(tr(":/images/changeView.png")));
+        connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));
 
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
@@ -477,6 +482,14 @@ namespace Tinkercell
 
             if (handle->isA(tr("Module")))
             {
+                if (moduleTool->separator)
+                	mainWindow->contextItemsMenu.addAction(moduleTool->separator);
+               	else
+               		moduleTool->separator = mainWindow->contextItemsMenu.addSeparator();
+
+                mainWindow->contextItemsMenu.addAction(moduleTool->makeLink);
+                mainWindow->contextItemsMenu.addAction(moduleTool->createViewAction);
+                
                 Tool::GraphicsItem::visible(b);
                 return;
             }
@@ -1252,7 +1265,19 @@ namespace Tinkercell
 
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
-		if (!scene || !item || !modifier || !mainWindow) return;
+		if (!scene || !item || !mainWindow) return;
+		
+		ItemHandle * handle = getHandle(item);
+		if (!handle || !handle->isA(tr("Module"))) return;
+		
+		QList<QGraphicsItem*> subitems = handle->allGraphicsItems();
+		NodeGraphicsItem * node;
+		
+		for (int i=0; i < subitems.size(); ++i)
+			if (subitems[i] && scene->isVisible(subitems[i]) && (getHandle(subitems[i]) != handle) && 
+				!((node = NodeGraphicsItem::cast(subitems[i])) && node->className == linkerClassName))
+				return;
+		
 		createView(scene,item);
     }
 

@@ -163,24 +163,26 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 		isList = PyList_Check(pylist);
 		n = isList ? PyList_Size(pylist) : PyTuple_Size (pylist);
 	}
+	
+	if (n > 0)
+	{
+		array = malloc( (1+n) * sizeof(void*) );
+		array[n] = 0;
+
+		for(i=0; i<n; ++i)
+		{
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
+		}
+	}
+	else
+	{
+		array = tc_allItems();
+		n = 0;
+		while (array[n]) ++n;
+	}
 
 	if (n > 0)
 	{
-		if (pylist)
-		{
-			array = malloc( (1+n) * sizeof(void*) );
-			array[n] = 0;
-
-			for(i=0; i<n; ++i)
-			{
-				array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-			}
-		}
-		else
-		{
-			array = tc_allItems();
-		}
-
 		M = tc_getInitialValues(array);
 		free(array);
 
@@ -204,7 +206,11 @@ static PyObject * pytc_allInitialValues(PyObject *self, PyObject *args)
 			params = PyTuple_New(0);
 			values = PyTuple_New(0);
 		}
-
+	}
+	else
+	{
+		params = PyTuple_New(0);
+		values = PyTuple_New(0);
 	}
 
 	twoTuples = PyTuple_New(2);
@@ -234,45 +240,43 @@ static PyObject * pytc_allFixedVars(PyObject *self, PyObject *args)
 	}
 	if (n > 0)
 	{
-		if (pylist)
+		array = malloc( (1+n) * sizeof(void*) );
+		array[n] = 0;
+
+		for(i=0; i<n; ++i)
 		{
-			array = malloc( (1+n) * sizeof(void*) );
-			array[n] = 0;
-
-			for(i=0; i<n; ++i)
-			{
-				array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-			}
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
-		else
+	}
+	else
+	{
+		array = tc_allItems();
+		n = 0;
+		while (array[n]) ++n;
+	}
+
+	M = tc_getFixedVariables(array);
+	free(array);
+
+	if (M.rows > 0 && M.values && M.rownames)
+	{
+		params = PyTuple_New(M.rows);
+		values = PyTuple_New(M.rows);
+
+		for (i=0; i < M.rows; i++)
 		{
-			array = tc_allItems();
+			item = Py_BuildValue("s",M.rownames[i]);
+			PyTuple_SetItem(params, i, item);
+
+			item = Py_BuildValue("d",valueAt(M,i,0));
+			PyTuple_SetItem(values, i, item);
 		}
-
-		M = tc_getFixedVariables(array);
-		free(array);
-
-		if (M.rows > 0 && M.values && M.rownames)
-		{
-			params = PyTuple_New(M.rows);
-			values = PyTuple_New(M.rows);
-
-			for (i=0; i < M.rows; i++)
-			{
-				item = Py_BuildValue("s",M.rownames[i]);
-				PyTuple_SetItem(params, i, item);
-
-				item = Py_BuildValue("d",valueAt(M,i,0));
-				PyTuple_SetItem(values, i, item);
-			}
-			TCFreeMatrix(M);
-		}
-		else
-		{
-			params = PyTuple_New(0);
-			values = PyTuple_New(0);
-		}
-
+		TCFreeMatrix(M);
+	}
+	else
+	{
+		params = PyTuple_New(0);
+		values = PyTuple_New(0);
 	}
 
 	twoTuples = PyTuple_New(2);
@@ -302,45 +306,43 @@ static PyObject * pytc_allParamsAndFixedVars(PyObject *self, PyObject *args)
 	}
 	if (n > 0)
 	{
-		if (pylist)
+		array = malloc( (1+n) * sizeof(void*) );
+		array[n] = 0;
+
+		for(i=0; i<n; ++i)
 		{
-			array = malloc( (1+n) * sizeof(void*) );
-			array[n] = 0;
-
-			for(i=0; i<n; ++i)
-			{
-				array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
-			}
+			array[i] = isList ? (void*)((size_t)PyInt_AsLong( PyList_GetItem( pylist, i ) )) : (void*)((size_t)PyInt_AsLong( PyTuple_GetItem( pylist, i ) ));
 		}
-		else
+	}
+	else
+	{
+		array = tc_allItems();
+		n = 0;
+		while (array[n]) ++n;
+	}
+
+	M = tc_getParametersAndFixedVariables(array);
+	free(array);
+
+	if (M.rows > 0 && M.values && M.rownames)
+	{
+		params = PyTuple_New(M.rows);
+		values = PyTuple_New(M.rows);
+
+		for (i=0; i < M.rows; i++)
 		{
-			array = tc_allItems();
+			item = Py_BuildValue("s",M.rownames[i]);
+			PyTuple_SetItem(params, i, item);
+
+			item = Py_BuildValue("d",valueAt(M,i,0));
+			PyTuple_SetItem(values, i, item);
 		}
-
-		M = tc_getParametersAndFixedVariables(array);
-		free(array);
-
-		if (M.rows > 0 && M.values && M.rownames)
-		{
-			params = PyTuple_New(M.rows);
-			values = PyTuple_New(M.rows);
-
-			for (i=0; i < M.rows; i++)
-			{
-				item = Py_BuildValue("s",M.rownames[i]);
-				PyTuple_SetItem(params, i, item);
-
-				item = Py_BuildValue("d",valueAt(M,i,0));
-				PyTuple_SetItem(values, i, item);
-			}
-			TCFreeMatrix(M);
-		}
-		else
-		{
-			params = PyTuple_New(0);
-			values = PyTuple_New(0);
-		}
-
+		TCFreeMatrix(M);
+	}
+	else
+	{
+		params = PyTuple_New(0);
+		values = PyTuple_New(0);
 	}
 
 	twoTuples = PyTuple_New(2);
@@ -445,7 +447,11 @@ static PyObject * pytc_getParametersNamed(PyObject *self, PyObject *args)
 			params = PyTuple_New(0);
 			values = PyTuple_New(0);
 		}
-
+	}
+	else
+	{
+		params = PyTuple_New(0);
+		values = PyTuple_New(0);
 	}
 
 	twoTuples = PyTuple_New(2);
@@ -521,7 +527,11 @@ static PyObject * pytc_getParametersExcept(PyObject *self, PyObject *args)
 			params = PyTuple_New(0);
 			values = PyTuple_New(0);
 		}
-
+	}
+	else
+	{
+		params = PyTuple_New(0);
+		values = PyTuple_New(0);
 	}
 
 	twoTuples = PyTuple_New(2);

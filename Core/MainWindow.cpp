@@ -1422,16 +1422,20 @@ namespace Tinkercell
 
 			if ((*returnPtr) == 0)
 			{
-				s.replace(tr("_"),tr("."));
-				if (win->symbolsTable.handlesFullName.contains(s))
-					(*returnPtr) = win->symbolsTable.handlesFullName[s];
-				else
+				int k = -1;
+				while ( (k = s.lastIndexOf(tr("_"))) != -1 && ((*returnPtr) == 0))
 				{
-					if (win->symbolsTable.handlesFirstName.contains(s))
-						(*returnPtr) = win->symbolsTable.handlesFirstName[s];
+					s[k] = QChar('.');
+					if (win->symbolsTable.handlesFullName.contains(s))
+						(*returnPtr) = win->symbolsTable.handlesFullName[s];
 					else
-						if (win->symbolsTable.dataRowsAndCols.contains(s))
-							(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
+					{
+						if (win->symbolsTable.handlesFirstName.contains(s))
+							(*returnPtr) = win->symbolsTable.handlesFirstName[s];
+						else
+							if (win->symbolsTable.dataRowsAndCols.contains(s))
+								(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
+					}
 				}
 			}
 		}
@@ -1459,6 +1463,7 @@ namespace Tinkercell
 		{
 			name = names[i];
 			handle = 0;
+			int k;
 
 			if (win->symbolsTable.handlesFullName.contains(name))
 				handle = win->symbolsTable.handlesFullName[name];
@@ -1479,16 +1484,19 @@ namespace Tinkercell
 
 				if (handle == 0)
 				{
-					s.replace(tr("_"),tr("."));
-					if (win->symbolsTable.handlesFullName.contains(s))
-						handle = win->symbolsTable.handlesFullName[s];
-					else
+					while ( (k = s.lastIndexOf(tr("_"))) != -1 && (handle == 0))
 					{
-						if (win->symbolsTable.handlesFirstName.contains(s))
-							handle = win->symbolsTable.handlesFirstName[s];
+						s[k] = QChar('.');
+						if (win->symbolsTable.handlesFullName.contains(s))
+							handle = win->symbolsTable.handlesFullName[s];
 						else
-							if (win->symbolsTable.dataRowsAndCols.contains(s))
-								handle = win->symbolsTable.dataRowsAndCols[s].first;
+						{
+							if (win->symbolsTable.handlesFirstName.contains(s))
+								handle = win->symbolsTable.handlesFirstName[s];
+							else
+								if (win->symbolsTable.dataRowsAndCols.contains(s))
+									handle = win->symbolsTable.dataRowsAndCols[s].first;
+						}
 					}
 				}
 			}

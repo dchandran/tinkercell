@@ -42,7 +42,7 @@ Array tc_partsDownstream(OBJ o)
 void (*_tc_alignParts)(Array) = 0;
 /*! 
  \brief Align the given DNA parts in the order given
- \ingroup Get items
+ \ingroup Get and set position
 */
 void tc_alignParts(Array a)
 {

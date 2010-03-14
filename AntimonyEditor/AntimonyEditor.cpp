@@ -953,7 +953,7 @@ namespace Tinkercell
 		if (textEditor && loadString (sbml.toAscii().data()) != -1)
 		{
 			char * ant = getAntimonyString();
-			currentTextEditor()->setText(tr(ant));
+			textEditor->setText(tr(ant));
 		}
 
 		if (s) s->release();

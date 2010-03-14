@@ -620,13 +620,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::centerOn(const QPointF& point)
 	{
-		QList<QGraphicsView*> list = views();
-
-		for (int i=0; i < list.size(); ++i)
-			if (list[i])
-			{
-				list[i]->centerOn(point);
-			}
+        if (networkWindow && networkWindow->currentGraphicsView)
+            networkWindow->currentGraphicsView->centerOn(point);
 	}
 	/*! \brief when key is pressed
 	* Precondition: None

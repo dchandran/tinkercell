@@ -751,7 +751,7 @@ namespace Tinkercell
 
 		code += tr("}\n\n");
 		pycode += tr("\n\n");
-		
+		/*
 		code += tr("\nvoid TCassignParametersAndVars( double * k, TCmodel * model )\n{ \n");
 		pycode += tr("    defn TCassignParametersAndVars ( k ):\n");
 
@@ -786,7 +786,7 @@ namespace Tinkercell
 		}
 
 		code += tr("}\n\n");
-		pycode += tr("\n\n");
+		pycode += tr("\n\n");*/
 
 		//print header and beginning of propensity function
 		code += tr("\nvoid TCpropensity(double time, double * u, double * rates, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");

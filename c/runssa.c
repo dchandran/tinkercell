@@ -194,7 +194,10 @@ void run(%s) \n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
 
 if (slider)
-	fprintf(out, "    if (input.rows > TCparams)\n    TCassignParametersAndVars(input.values,model);\n");
+{
+	for (i=0; i < allParams.rows; ++i)
+		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",allParams.rownames[i],i);
+}
 
 fprintf(out, "\
 	TCinitialize(model);\n\

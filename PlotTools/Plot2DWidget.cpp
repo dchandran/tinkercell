@@ -139,6 +139,12 @@ namespace Tinkercell
 	{
 		if (type != PlotTool::HistogramPlot) return;
 		
+		if (dataTable.rows() < 2 || dataTable.cols() < 1)
+		{
+			type = PlotTool::ScatterPlot;
+			return;
+		}
+		
 		double xmin, xmax, width;
 		DataTable<qreal> histData;
 		

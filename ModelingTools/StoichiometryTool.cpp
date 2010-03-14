@@ -867,7 +867,7 @@ namespace Tinkercell
 				
 				visitedHandles += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
-				node->name = handle->name + tr("_dimer");
+				node->name = handle->name + tr("dimer");
 				node->name = RenameCommand::assignUniqueName(node->name,sceneItems);
 
 				qreal xpos = (selected[i]->sceneBoundingRect().right() + 100.0),

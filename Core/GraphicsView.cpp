@@ -47,14 +47,13 @@ namespace Tinkercell
 	{
 		for (int i=0; i < numItems; ++i)
 		{
-			if (hiddenItems.contains(items[i]) ||
-				(
-					((scene && networkWindow && networkWindow->currentGraphicsView != this) &&
-					 ( 
-						(&(scene->selectionRect) == items[i] || scene->movingItemsGroup == items[i]) ||
-						Tool::GraphicsItem::cast(items[i]->topLevelItem())
-					 ))
-				))
+            if (
+                hiddenItems.contains(items[i]) ||
+				(	scene &&
+					networkWindow &&
+                    networkWindow->currentGraphicsView != this &&
+					!getGraphicsItem(items[i]))
+               )
 			{
 				items[i] = items[numItems-1];
 				items[numItems-1] = 0;

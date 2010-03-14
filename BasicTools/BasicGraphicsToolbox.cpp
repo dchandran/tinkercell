@@ -323,7 +323,7 @@ namespace Tinkercell
 		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
 
 		QString imageFile = QFileDialog::getOpenFileName(this,tr("Select image file"),MainWindow::previousFileName);
-		
+
 		if (imageFile.isEmpty() || imageFile.isNull()) return;
 
 		if (!currentView->background.load(imageFile))
@@ -747,7 +747,7 @@ namespace Tinkercell
 		{
 			currentScene()->useDefaultBehavior = false;
 			mainWindow->sendEscapeSignal(this);
-			
+
 			mainWindow->setCursor(QCursor(QPixmap(tr(":/images/zoomin.png")).scaled(25,25)));
 
 			mode = zoom;
@@ -924,7 +924,7 @@ namespace Tinkercell
 		if (scene && button == Qt::LeftButton && mode == zoom && zoomRect.isVisible())
 		{
 			QRectF rect(scene->lastPoint(), point );
-			
+
 			zoomRect.setRect(QRectF(rect.topLeft(),rect.bottomRight()));
 		}
 	}
@@ -937,8 +937,6 @@ namespace Tinkercell
 		{
 			if (button == Qt::LeftButton)
 			{
-				QList<QGraphicsView*> views = scene->views();
-
 				QRectF rect(from,to);
 				rect = QRectF(rect.topLeft(),rect.bottomRight());
 				if (scene->items(rect).size() < 2)
@@ -948,11 +946,8 @@ namespace Tinkercell
 				}
 				else
 				{
-					for (int i=0; i < views.size(); ++i)
-						if (views[i])
-						{
-							views[i]->fitInView(rect,Qt::KeepAspectRatio);
-						}
+				    if (scene->currentView())
+                        scene->currentView()->fitInView(rect,Qt::KeepAspectRatio);
 				}
 			}
 
@@ -964,7 +959,7 @@ namespace Tinkercell
 
 			scene->useDefaultBehavior = true;
 			mode = this->none;
-			
+
 			mainWindow->setCursor(Qt::ArrowCursor);
 			return;
 		}
@@ -1835,7 +1830,7 @@ namespace Tinkercell
 			QList<NodeGraphicsItem*> nodesList;
 			ConnectionGraphicsItem * conn;
 
-			for (int i=0; i < h->graphicsItems.size(); ++i)		
+			for (int i=0; i < h->graphicsItems.size(); ++i)
 				if ((conn = ConnectionGraphicsItem::cast(h->graphicsItems[i])))
 				{
 					QList<ArrowHeadItem*> arrows = conn->arrowHeads();
@@ -1932,7 +1927,7 @@ namespace Tinkercell
 	{
 		fToS.changeGraphics(o,f);
 	}
-	
+
 	void BasicGraphicsToolbox_FToS::changeGraphics(OBJ o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);

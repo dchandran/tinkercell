@@ -865,17 +865,26 @@ namespace Tinkercell
 	{
 		if (!networkWindow || !networkWindow->currentGraphicsView) return;
 		GraphicsView* view = networkWindow->currentGraphicsView;
-		
+
 		QRectF rect;
+		QPointF topLeft(0,0), bottomRight(0,0);
 		QGraphicsItem * parent;
 		QList<QGraphicsItem*> allItems = items();
 		for (int i=0; i < allItems.size(); ++i)
 		{
 			parent = getGraphicsItem(allItems[i]);
 			if (parent && !view->hiddenItems.contains(parent))
-				rect.unite(parent->sceneBoundingRect());
+			{
+				rect = parent->sceneBoundingRect();
+				if (topLeft.x() == 0 || rect.left() < topLeft.x()) topLeft.rx() = rect.left();
+				if (bottomRight.x() == 0 || rect.right() > bottomRight.x()) bottomRight.rx() = rect.right();
+
+				if (topLeft.y() == 0 || rect.top() < topLeft.y()) topLeft.ry() = rect.top();
+				if (bottomRight.y() == 0 || rect.bottom() > bottomRight.y()) bottomRight.ry() = rect.bottom();
+			}
 		}
-		
+
+        rect = QRectF(topLeft, bottomRight);
 		view->fitInView(rect,Qt::KeepAspectRatio);
 		view->centerOn(rect.center());
 	}

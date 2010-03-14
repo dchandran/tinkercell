@@ -168,8 +168,8 @@ static PyMethodDef pytcMethods[] = {
 	{"changeArrowHead", pytc_changeArrowHead, METH_VARARGS, "change the arrowhead for a connection by specifying the arrowhead graphics file. example: J = find(\"J0\"); changeArrowHead(J, \"ArrowItems/Binding.xml\");"},
 	
 //plot
-	{"plot", pytc_plot, METH_VARARGS, "Plot the given set of values (2D array) with the given headers and x-axis. example: data = [[0,0] , [1,1] , [2,4] ,  [3,9] ,  [4,16] ]; where each pair is a row. plot([\"x\",\"y\"],data,0,\"my plot\");"},
-	{"scatterplot", pytc_scatterplot, METH_VARARGS, "Plot the given set of values (2-column array) with the given headers. example: data = [[0,0] , [1,1] , [2,4] ,  [3,9] ,  [4,16] ]; where each pair is a row. scatterplot([\"x\",\"y\"],data,\"my plot\");"},
+	{"plot", pytc_plot, METH_VARARGS, "Plot the given set of values (2D array) with the given headers and x-axis. example: data = [ [0,1,2,3,4] , [0,1,4,9,16] ]; plot([\"x\",\"y\"],data,\"my plot\");"},
+	{"scatterplot", pytc_scatterplot, METH_VARARGS, "Plot the given set of values (2-column array) with the given headers. example: data = [ [0,1,2,3,4] , [0,1,4,9,16] ]; scatterplot([\"x\",\"y\"],data,\"my plot\");"},
 	{"surface", pytc_surface, METH_VARARGS, "Plot 3D surface, given a matrix with 3 columns (x,y,z). example: data = [ [0,1,2,3,4] , [1,2,3,4,5] , [2,3,4,5,6] ]; surface([\"x\",\"y\",\"z\"],data,\"my plot\");"},
 	{"getPlotData", pytc_getPlotData, METH_VARARGS, "Get the values and headers of the data that is displayed in the plot window. example: data = plotData(); print data;"},
 	{"histogram", pytc_hist, METH_VARARGS, "plot a histogram of each column in the data. example: p = plotData(); histogram(p[0],p[1]);"},

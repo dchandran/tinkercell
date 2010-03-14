@@ -6,8 +6,7 @@
 
 static PyObject * pytc_plot(PyObject *self, PyObject *args)
 {
-PyObject * colNames, * values, *item;
-	int xaxis = 0, opt = 1;
+	PyObject * colNames, * values, *item;
 	char * title = "";
 	int isList1,n1=0,isList2,n2=0;
 	int n3, isList3, rows;
@@ -16,7 +15,7 @@ PyObject * colNames, * values, *item;
 	double * nums;
 	Matrix M;
 
-	if(!PyArg_ParseTuple(args, "OO|isi", &colNames, &values, &xaxis, &title, &opt))
+	if(!PyArg_ParseTuple(args, "OO|s", &colNames, &values, &title))
         return NULL;
 	
 	if (PyList_Check(colNames) || PyTuple_Check(colNames))
@@ -80,9 +79,9 @@ PyObject * colNames, * values, *item;
 		M.rownames = 0;
 		M.values = nums;
 		
-		tc_plot(M,xaxis,title,opt);
+		tc_plot(M,0,title,1);
 	
-		TCFreeMatrix(M);
+		free(nums);
 	}
 	
 	Py_INCREF(Py_None);
@@ -166,7 +165,7 @@ static PyObject * pytc_scatterplot(PyObject *self, PyObject *args)
 		
 		tc_scatterplot(M,title);
 	
-		TCFreeMatrix(M);
+		free(nums);
 	}
 	
 	Py_INCREF(Py_None);
@@ -252,7 +251,7 @@ static PyObject * pytc_hist(PyObject *self, PyObject *args)
 		
 		tc_hist(M,bins,title);
 	
-		TCFreeMatrix(M);
+		free(nums);
 	}
 	
 	Py_INCREF(Py_None);
@@ -331,7 +330,7 @@ static PyObject * pytc_surface(PyObject *self, PyObject *args)
 		
 		tc_surface(M,title);
 	
-		TCFreeMatrix(M);
+		free(nums);
 	}
 	
 	Py_INCREF(Py_None);
@@ -357,7 +356,7 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 	int i=-1,j;
 	Matrix M;
 	PyObject *ilist;
-	PyObject * item, *rowItem;
+	PyObject * item, *colItem;
 	int rows, cols;
 	PyObject * nlist, *clist;
 
@@ -384,13 +383,13 @@ static PyObject * pytc_getPlotData(PyObject *self, PyObject *args)
 		
 		for (i=0; i < cols; i++)
 		{
-			rowItem = PyTuple_New(rows);
+			colItem = PyTuple_New(rows);
 			for (j=0; j < rows; j++)
 			{
 				item = Py_BuildValue("d",valueAt(M,j,i));
-				PyTuple_SetItem(rowItem, j, item);
+				PyTuple_SetItem(colItem, j, item);
 			}
-			PyTuple_SetItem(nlist, i, rowItem);
+			PyTuple_SetItem(nlist, i, colItem);
 		}
 		
 		PyTuple_SetItem(ilist, 0, clist);

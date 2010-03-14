@@ -1281,9 +1281,7 @@ static PyObject * pytc_setNumericalDataMatrix(PyObject *self, PyObject *args)
 
 		tc_setNumericalDataMatrix((void*)object,title,M);
 
-		tc_print("done");
-
-		TCFreeMatrix(M);
+		free(nums);
 	}
 
 	Py_INCREF(Py_None);

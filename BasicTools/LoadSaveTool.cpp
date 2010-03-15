@@ -458,10 +458,10 @@ namespace Tinkercell
 
 			scene->fitAll();
 			
-			if (scene->currentView())
+			if (scene->currentView() && !hideItems.isEmpty())
 				scene->currentView()->hideItems(hideItems);
 
-			if (scene->historyStack)
+			if (scene->historyStack && scene->historyStack->undoLimit() == 1)
 				scene->historyStack->clear();
 
 			savedScenes[scene] = true;

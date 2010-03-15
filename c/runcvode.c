@@ -86,9 +86,6 @@ void run(Matrix input)
 		update = 0;
 	else
 		update = 1;
-	
-	if (slider)
-		runfunc = runfuncInput;
 
 	sz = (int)((end - start) / dt);
 
@@ -146,6 +143,7 @@ void run(Matrix input)
 		TCFreeMatrix(initVals);
 		TCFreeMatrix(params);
 		TCFreeArray(B);
+		runfunc = runfuncInput;
 	}
 	
 	if (A[0] != 0)

@@ -41,9 +41,6 @@ void runSSA(Matrix input)
 	else
 		slider = 1;
 	
-	if (slider)
-		runfunc = runfuncInput;
-
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
@@ -99,6 +96,7 @@ void runSSA(Matrix input)
 		TCFreeMatrix(initVals);
 		TCFreeMatrix(params);
 		TCFreeArray(B);
+		runfunc = runfuncInput;
 	}
 	
 	if (A[0] != 0)

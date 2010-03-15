@@ -30,14 +30,15 @@ void unload()
 void loadAllNames()
 {
 	int i,len;
-	Matrix params;
+	Matrix params, N;
 	char ** names;
 	Array A,B;
 
 	if (selectAll)
-		A = tc_allItems();
-	else
 		A = tc_selectedItems();
+	
+	if (!A || !A[0])
+		A = tc_allItems();
 
 	if (allNames)
 		TCFreeChars(allNames);
@@ -47,8 +48,8 @@ void loadAllNames()
 	if (A && A[0])
 	{
 		params = tc_getModelParameters(A);
-		B = tc_itemsOfFamilyFrom("Molecule\0",A);
-		names = tc_getNames(B);
+		N = tc_getStoichiometry(A);
+		names = N.rownames;
 		len = 0;
 		while (names[len]) ++len;
 		allNames = (char**)malloc((len+params.rows+1)*sizeof(char*));
@@ -58,8 +59,12 @@ void loadAllNames()
 		free(params.rownames);
 		params.rownames = 0;
 		TCFreeMatrix(params);
+		free(N.rownames);
+		N.rownames = 0;
+		TCFreeMatrix(N);
 		TCFreeArray(A);
 		TCFreeArray(B);
+		
 	}
 }
 
@@ -88,14 +93,15 @@ void setup1()
 {
 	Matrix m;
 	char * cols[] = { "value" };
-	char * rows[] = { "model", "variable", "start", "end", "increments", "plot", 0 };
-	double values[] = { 0.0, 0.0, 0.0, 10, 0.1, 0 };
+	char * rows[] = { "model", "variable", "start", "end", "increments", "plot", "use sliders", 0 };
+	double values[] = { 0.0, 0.0, 0.0, 10, 0.1, 0, 1 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
 	char * options2[] = { "Variables", "Rates", 0 }; //null terminated -- very important
+	char * options3[] = { "Yes", "No", 0 };
 
 	loadAllNames();
 
-	m.rows = 6;
+	m.rows = 7;
 	m.cols = 1;
 	m.colnames = cols;
 	m.rownames = rows;
@@ -105,6 +111,7 @@ void setup1()
 	tc_addInputWindowOptions("Steady state analysis",0, 0, options1);
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
 	tc_addInputWindowOptions("Steady state analysis",5, 0, options2);
+	tc_addInputWindowOptions("Steady state analysis",6, 0, options3);
 }
 
 void setup2()
@@ -129,20 +136,23 @@ void setup2()
 
 void run(Matrix input)
 {
+	Matrix params, initVals, allParams, N;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
-	int selection = 0;
+	int selection = 0, slider = 1;
 	int index = 0;
 	int rateplot = 0;
-	Array A;
+	Array A, B;
 	int i;
 	char * param;
+	char * runfuncInput = "Matrix input";
+	char * runfunc = "";
 	FILE * out;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)valueAt(input,0,0);
+			selectAll = selection = (int)valueAt(input,0,0);
 		if (input.rows > 1)
 			index = valueAt(input,1,0);
 		if (input.rows > 2)
@@ -153,7 +163,14 @@ void run(Matrix input)
 			dt = valueAt(input,4,0);
 		if (input.rows > 5)
 			rateplot = (int)valueAt(input,5,0);
+		if (input.rows > 6)
+			slider = (int)valueAt(input,6,0);
 	}
+	
+	if (slider == 0)
+		slider = 1;
+	else
+		slider = 0;
 
 	if (selection > 0)
 	{
@@ -168,6 +185,47 @@ void run(Matrix input)
 	{
 		A = tc_allItems();
 	}
+	
+	if (slider)
+	{
+		params = tc_getModelParameters(A);
+		N = tc_getStoichiometry(A);
+		B = tc_findItems(N.rownames);
+		TCFreeMatrix(N);
+		
+		initVals = tc_getInitialValues(A);
+		
+		allParams.rows = (initVals.rows+params.rows);
+		allParams.cols = 2;
+		allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
+		allParams.values = (double*)malloc(2*allParams.rows*sizeof(double));
+		allParams.colnames = 0;
+		
+		for (i=0; i < params.rows; ++i)
+		{
+			allParams.rownames[i] = params.rownames[i];
+			valueAt(allParams,i,1) = 
+					2*valueAt(params,i,0) - 
+									(valueAt(allParams,i,0) = valueAt(params,i,0)/10.0);
+		}
+		for (i=0; i < initVals.rows; ++i)
+		{
+			allParams.rownames[i+params.rows] = initVals.rownames[i];
+			valueAt(allParams,i+params.rows,1) = 
+					2*valueAt(initVals,i,0) - 
+									(valueAt(allParams,i+params.rows,0) = valueAt(initVals,i,0)/10.0);
+		}
+		allParams.rownames[(initVals.rows+params.rows)] = 0;
+	
+		free(params.rownames);
+		params.rownames = 0;
+		free(initVals.rownames);
+		initVals.rownames = 0;
+		TCFreeMatrix(initVals);
+		TCFreeMatrix(params);
+		TCFreeArray(B);
+		runfunc = runfuncInput;
+	}
 
 	if (A[0] != 0)
 	{
@@ -176,6 +234,8 @@ void run(Matrix input)
 	else
 	{
 		TCFreeArray(A);
+		if (slider)
+			TCFreeMatrix(allParams);
 		return;
 	}
 
@@ -184,6 +244,8 @@ void run(Matrix input)
 	if (index < 0)
 	{
 		tc_print("steady state: no valid variable selected\0");
+		if (slider)
+			TCFreeMatrix(allParams);
 		return;
 	}
 
@@ -192,36 +254,42 @@ void run(Matrix input)
 
 	out = fopen("ss.c","a");
 
-	fprintf( out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-				   void run() \n\
-				   {\n   Matrix dat;\n" );
+	fprintf( out , "\
+#include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
+void run(%s) \n\
+{\n    Matrix dat;\n    int i,j;\n", runfunc);
 
-	fprintf( out, "   dat.rows = (int)((%lf-%lf)/%lf);\n\
-				  int i,j;\n\
-				  double * y, * y0;\n\
-				  TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
-				  (*model) = TC_initial_model;\n\
-				  if (%i) \n\
-				  {\n\
-					dat.cols = 1+TCreactions;\n\
-					dat.colnames = malloc( (1+TCreactions) * sizeof(char*) );\n\
-					for(i=0; i<TCreactions; ++i) dat.colnames[1+i] = TCreactionnames[i];\n\
-				  }\n\
-				  else\n\
-				  {\n\
-					dat.cols = 1+TCvars;\n\
-					dat.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-					for(i=0; i<TCvars; ++i) dat.colnames[1+i] = TCvarnames[i];\n\
-				  }\n\
-				  dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
-				  dat.rownames = 0;\n\
-				  dat.colnames[0] = \"%s\";\n",end,start,dt,rateplot,param);
+	fprintf( out, "\
+    dat.rows = (int)((%lf-%lf)/%lf);\n\
+    double * y, * y0;\n\
+    TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+    (*model) = TC_initial_model;\n\
+    if (%i) \n\
+    {\n\
+        dat.cols = 1+TCreactions;\n\
+        dat.colnames = malloc( (1+TCreactions) * sizeof(char*) );\n\
+        for(i=0; i<TCreactions; ++i) dat.colnames[1+i] = TCreactionnames[i];\n\
+    }\n\
+    else\n\
+    {\n\
+        dat.cols = 1+TCvars;\n\
+        dat.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
+        for(i=0; i<TCvars; ++i) dat.colnames[1+i] = TCvarnames[i];\n\
+	}\n\
+	dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
+	dat.rownames = 0;\n\
+	dat.colnames[0] = \"%s\";\n",end,start,dt,rateplot,param);
 
 	fprintf( out, "\n\
 				 for (i=0; i < dat.rows; ++i)\n\
 				 {\n\
-				    (*model) = TC_initial_model;\n\
-					model->%s = %lf + i * %lf;\n\
+				    (*model) = TC_initial_model;\n");
+	if (slider)
+	{
+		for (i=0; i < allParams.rows; ++i)
+			fprintf(out, "    model->%s = valueAt(input,%i,0);\n",allParams.rownames[i],i);
+	}
+	fprintf( out, "model->%s = %lf + i * %lf;\n\
 					TCinitialize(model);\n\
 					valueAt(dat,i,0) = model->%s;\n\
 					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
@@ -230,11 +298,11 @@ void run(Matrix input)
 						if (%i)\n\
 						{\n\
 							y0 = malloc(TCreactions * sizeof(double));\n\
-							TCpropensity(0.0, y, y0, 0);\n\
+							TCpropensity(0.0, y, y0, (void*)model);\n\
 							free(y);\n\
 							y = y0;\n\
 							for (j=0; j<TCreactions; ++j)\n\
-							valueAt(dat,i,j+1) = y[j];\n\
+							    valueAt(dat,i,j+1) = y[j];\n\
 						}\n\
 						else\n\
 						for (j=0; j<TCvars; ++j)\n\
@@ -243,18 +311,35 @@ void run(Matrix input)
 					}\n\
 					else\n\
 					{\n\
-						for (j=0; j<TCvars; ++j)\n\
-						   valueAt(dat,i,j+1) = 0.0;\n\
+						if (%i)\n\
+							for (j=0; j<TCreactions; ++j)\n\
+							   valueAt(dat,i,j+1) = 0.0;\n\
+						else\n\
+							for (j=0; j<TCvars; ++j)\n\
+							   valueAt(dat,i,j+1) = 0.0;\n\
 					}\n\
 					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				free(dat.colnames);\n    free(dat.values);\n}\n",param,start,dt,param,rateplot);
+				free(dat.colnames);\n    free(dat.values);\n",param,start,dt,param,rateplot,rateplot);
+
+	if (slider)
+		fprintf(out, "    TCFreeMatrix(input);\n    return;\n}\n");
+	else
+		fprintf(out, "    return;\n}\n");
 
 	fclose(out);
+	
+	if (slider)
+	{
+		tc_compileBuildLoadSliders("ss.c -lodesim\0","run\0","Steady state\0",allParams);
+		TCFreeMatrix(allParams);
+	}
+	else
+		tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
 
-	tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
+	
 	return;
 }
 
@@ -275,7 +360,7 @@ void run2D(Matrix input)
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)valueAt(input,0,0);
+			selectAll = selection = (int)valueAt(input,0,0);
 		if (input.rows > 1)
 			index1 = valueAt(input,1,0);
 		if (input.rows > 2)

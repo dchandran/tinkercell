@@ -2113,9 +2113,9 @@ namespace Tinkercell
 			if (nodeHandle)
 			{
 				QString s0 = nodeHandle->fullName();
-				QString s1 = tr("((") + s0 + tr("/") + cname + tr(".Kd)^") + cname + tr(".h)");
+				QString s1 = tr("(1 + ((") + s0 + tr("/") + cname + tr(".Kd)^") + cname + tr(".h))");
 				positives << s1;
-				allTFs << tr("(1+") + s1 + tr(")");
+				allTFs << s1;
 			}
 		}
 
@@ -2127,15 +2127,18 @@ namespace Tinkercell
 			if (nodeHandle)
 			{
 				QString s0 = nodeHandle->fullName();
-				QString s1 = tr("((") + s0 + tr("/") + cname + tr(".Kd)^") + cname + tr(".h)");
-				allTFs << tr("(1+") + s1 + tr(")");
+				QString s1 = tr("(1+ ((") + s0 + tr("/") + cname + tr(".Kd)^") + cname + tr(".h))");
+				allTFs << s1;
 			}
 		}
 
 		if (allTFs.isEmpty()) return tr("");
 
-		if (positives.isEmpty()) positives << tr("1.0");
-		QString rate = tr("(") + positives.join(" + ") + tr(")/(") + allTFs.join("*") + tr(")");
+		QString rate;
+		if (positives.isEmpty()) 
+			rate = handle->fullName() + tr(".strength)/(") + allTFs.join("*") + tr(")");
+		else
+			rate = handle->fullName() + tr(".strength*(") + positives.join(" * ") + tr(" - 1)/(") + allTFs.join("*") + tr(")");
 		return rate;
 	}
 

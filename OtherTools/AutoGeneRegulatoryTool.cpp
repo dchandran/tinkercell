@@ -2136,9 +2136,9 @@ namespace Tinkercell
 
 		QString rate;
 		if (positives.isEmpty()) 
-			rate = handle->fullName() + tr(".strength)/(") + allTFs.join("*") + tr(")");
+			rate =tr("1.0/(") + allTFs.join("*") + tr(")");
 		else
-			rate = handle->fullName() + tr(".strength*(") + positives.join(" * ") + tr(" - 1)/(") + allTFs.join("*") + tr(")");
+			rate = tr("(") + positives.join(" * ") + tr(" - 1)/(") + allTFs.join("*") + tr(")");
 		return rate;
 	}
 

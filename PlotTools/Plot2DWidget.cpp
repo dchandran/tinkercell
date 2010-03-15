@@ -249,7 +249,7 @@ namespace Tinkercell
 			}
 		}
 		
-		hideList.clear();		
+		//hideList.clear();
 		
 		if (dataTable.cols() > x)
 			setAxisTitle(xBottom, dataTable.colName(x));
@@ -560,7 +560,7 @@ namespace Tinkercell
 		
 		DataTable<qreal> & dataTable = dataPlot->dataTable;
 		
-		bool same = (dataTable.cols() == newData.cols() && dataPlot->hideList.isEmpty());
+		bool same = (dataTable.cols() == newData.cols());
 		
 		if (same)
 		{

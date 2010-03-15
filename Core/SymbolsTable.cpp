@@ -111,6 +111,7 @@ namespace Tinkercell
 				if (handle != &modelItem)
 				{
 					handlesFullName[handle->fullName()] = handle;
+					handlesFullName[handle->fullName(QObject::tr("_"))] = handle;
 					handlesFirstName.insertMulti(handle->name,handle);
 				}
 
@@ -129,8 +130,12 @@ namespace Tinkercell
 							if (!nDat.rowName(k).isEmpty())
 							{
 								if (!handle->name.isEmpty())
+								{
 									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
+									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k),
+										QPair<ItemHandle*,QString>(handle,keys[j]));
+								}
 								dataRowsAndCols.insertMulti(nDat.rowName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
@@ -141,8 +146,12 @@ namespace Tinkercell
 							if (!nDat.colName(k).isEmpty())
 							{
 								if (!handle->name.isEmpty())
+								{
 									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
+									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
+										QPair<ItemHandle*,QString>(handle,keys[j]));
+								}
 								dataRowsAndCols.insertMulti(nDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
@@ -159,8 +168,12 @@ namespace Tinkercell
 							if (!sDat.rowName(k).isEmpty())
 							{
 								if (!handle->name.isEmpty())
+								{
 									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
+									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
+										QPair<ItemHandle*,QString>(handle,keys[j]));
+								}
 								dataRowsAndCols.insertMulti(sDat.rowName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
@@ -171,8 +184,12 @@ namespace Tinkercell
 							if (!sDat.colName(k).isEmpty())
 							{
 								if (!handle->name.isEmpty())
+								{
 									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
+									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+										QPair<ItemHandle*,QString>(handle,keys[j]));
+								}
 								dataRowsAndCols.insertMulti(sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}

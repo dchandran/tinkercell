@@ -429,7 +429,7 @@ namespace Tinkercell
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !scene->allHandles().isEmpty())
+		if (!scene || !scene->allHandles().isEmpty() || scene->historyStack->undoLimit() > 0)
 		{
 			mainWindow->newGraphicsWindow();
 		}
@@ -461,7 +461,7 @@ namespace Tinkercell
 			if (scene->currentView() && !hideItems.isEmpty())
 				scene->currentView()->hideItems(hideItems);
 
-			if (scene->historyStack && scene->historyStack->undoLimit() == 1)
+			if (scene->historyStack)
 				scene->historyStack->clear();
 
 			savedScenes[scene] = true;

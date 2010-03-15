@@ -50,7 +50,7 @@ if (len(synthesis) > 0):
 					if len(indiv) < 1:
 						indiv.append("1.0");
 					if k == 0:
-						rate = " + ".join(indiv) + "/(" + "*".join(fracs) + ")";
+						rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
 					if k == 3:
 						rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
 						for c in connectors:

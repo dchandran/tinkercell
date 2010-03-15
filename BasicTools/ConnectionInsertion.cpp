@@ -512,7 +512,7 @@ namespace Tinkercell
 	QString ConnectionInsertion::findUniqueName(ItemHandle * handle1, const QList<ItemHandle*>& items)
 	{
 		if (!handle1) return tr("");
-		int	c = 0;
+		int	c = 1;
 		QString name = handle1->name;
 		bool uniqueName = false;
 
@@ -785,7 +785,7 @@ namespace Tinkercell
 					{
 						handle = new ConnectionHandle(selectedFamily,item);
 
-						handle->name = tr("J0");
+						handle->name = tr("J1");
 						handle->name = findUniqueName(handle,scene->allHandles());
 
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);

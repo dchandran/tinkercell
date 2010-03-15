@@ -1941,7 +1941,7 @@ namespace Tinkercell
 		QString name = str;
 
 		bool taken = true;
-		int c = 0;
+		int c = 1;
 		while (taken)
 		{
 			taken = (notAvailable.contains(name));

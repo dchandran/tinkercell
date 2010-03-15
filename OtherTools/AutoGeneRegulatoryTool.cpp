@@ -321,7 +321,8 @@ namespace Tinkercell
 		if (!nodesTree->nodeFamilies.contains("Protein") ||
 			!nodesTree->nodeFamilies.contains("mRNA") ||
 			!nodesTree->nodeFamilies.contains("Empty") ||
-			!connectionsTree->connectionFamilies.contains("Synthesis") ||
+			!connectionsTree->connectionFamilies.contains("Transcription") ||
+			!connectionsTree->connectionFamilies.contains("Translation") ||
 			!connectionsTree->connectionFamilies.contains("Biochemical")
 			)
 			return;
@@ -332,8 +333,8 @@ namespace Tinkercell
 		NodeFamily * rnaFamily = nodesTree->nodeFamilies["mRNA"];
 
 		ConnectionFamily * biochemicalFamily = connectionsTree->connectionFamilies["Biochemical"];
-		ConnectionFamily * transcriptionFamily = connectionsTree->connectionFamilies["Synthesis"];
-		ConnectionFamily * translationFamily = connectionsTree->connectionFamilies["Synthesis"];
+		ConnectionFamily * transcriptionFamily = connectionsTree->connectionFamilies["Transcription"];
+		ConnectionFamily * translationFamily = connectionsTree->connectionFamilies["Translation"];
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;

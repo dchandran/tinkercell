@@ -429,12 +429,10 @@ namespace Tinkercell
 	void LoadSaveTool::loadModel(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !scene->allHandles().isEmpty() || scene->historyStack->undoLimit() > 0)
+		if (!scene || !scene->allHandles().isEmpty() || (scene->historyStack && scene->historyStack->count() > 0))
 		{
-			mainWindow->newGraphicsWindow();
+			scene = mainWindow->newGraphicsWindow();
 		}
-
-		scene = currentScene();
 
 		if (!scene) return;
 

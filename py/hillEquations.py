@@ -49,17 +49,12 @@ if (len(synthesis) > 0):
 				if k == 0 or k == 3:
 					if len(indiv) < 1:
 						indiv.append("1.0");
-					if k == 0:
-						rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
-					if k == 3:
-						rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
-						for c in connectors:
-							pytc.changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
+					rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
 				elif k == 4 or k == 1:
 					rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						pytc.changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
-				elif (k == 2 or k == 5):
+				elif k == 2 or k == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						pytc.changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");

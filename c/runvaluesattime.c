@@ -17,6 +17,7 @@ void unload()
 {
 	if (allNames)
 		TCFreeChars(allNames);
+	allNames = 0;
 }
 
 void loadAllNames()
@@ -24,7 +25,7 @@ void loadAllNames()
 	int i,len;
 	Matrix params,N;
 	char ** names;
-	Array A,B;
+	Array A;
 
 	if (selectAll)
 		A = tc_selectedItems();
@@ -55,7 +56,6 @@ void loadAllNames()
 		N.rownames = 0;
 		TCFreeMatrix(N);
 		TCFreeArray(A);
-		TCFreeArray(B);
 	}
 }
 

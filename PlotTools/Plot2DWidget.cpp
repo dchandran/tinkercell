@@ -182,6 +182,8 @@ namespace Tinkercell
 			for (int i=0; i < delta; ++i)
 				histData.value(i,xcolumn) = (double)i * width;
 		}
+		
+		histData.colName(0) = tr("values");
 		dataTable = histData;
 	}
 	
@@ -246,6 +248,9 @@ namespace Tinkercell
 				++c;
 			}
 		}
+		
+		hideList.clear();		
+		
 		if (dataTable.cols() > x)
 			setAxisTitle(xBottom, dataTable.colName(x));
 		else
@@ -593,7 +598,6 @@ namespace Tinkercell
 		}
 		else
 		{
-			//dataPlot->hideList.clear();
 			dataPlot->plot(	newData,
 						dataPlot->xcolumn,
 						dataPlot->title().text(),

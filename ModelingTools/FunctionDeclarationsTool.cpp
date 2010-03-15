@@ -152,7 +152,7 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::historyUpdate(int i)
 	{
-		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))// && dockWidget && dockWidget->isVisible())
+		if (parentWidget() && parentWidget()->isVisible())
 			updateTable();
 	}
 

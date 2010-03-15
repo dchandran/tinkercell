@@ -356,7 +356,7 @@ namespace Tinkercell
 		
 		emit plotDataTable(matrix, x, title, all);
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -378,7 +378,7 @@ namespace Tinkercell
 		
 		emit plotScatterplot(matrix, title);
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -400,7 +400,7 @@ namespace Tinkercell
 		
 		emit plotHist(data , binsz, title);
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -420,7 +420,7 @@ namespace Tinkercell
 		
 		emit plotErrorbars(data , x, title);
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);
@@ -470,7 +470,7 @@ namespace Tinkercell
 		
 		emit plotDataTable3D(matrix, title);
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots < multiplePlotsArea->subWindowList().size())
+		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
 		{
 			numMultiplots = 0;
 			hold(false);

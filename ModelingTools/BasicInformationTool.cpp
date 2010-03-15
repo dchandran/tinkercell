@@ -326,7 +326,7 @@ namespace Tinkercell
 
 		QStringList names, values;
 		QStringList headers;
-		currentVarNames.clear();
+		ignoredVarNames.clear();
 
 		DataTable<qreal> * nDataTable = 0;
 
@@ -351,8 +351,11 @@ namespace Tinkercell
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
 							constants.insert(str,nDataTable->value(j,0));
-							currentVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
 							remove = false;
+						}
+						else
+						{
+							ignoredVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
 						}
 					}
 				}
@@ -394,7 +397,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::historyUpdate(int i)
 	{
-		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()) && dockWidget && dockWidget->isVisible())
+		if (parentWidget() && parentWidget()->isVisible())
 			updateTable();
 		NetworkWindow * win = currentWindow();
 		if (mainWindow && win && mainWindow->statusBar())
@@ -805,8 +808,6 @@ namespace Tinkercell
 
 		QStringList names, values;
 		QStringList headers;
-		QStringList oldVarNames = currentVarNames;
-		currentVarNames.clear();
 
 		DataTable<qreal> * nDataTable = 0;
 		DataTable<QString> * sDataTable = 0;
@@ -820,16 +821,12 @@ namespace Tinkercell
 					nDataTable = &(itemHandles[i]->data->numericalData[this->name]);
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
-						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
-							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))) 
-							&&
-							(parentWidget() == dockWidget || oldVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j))))
+						if (parentWidget() == dockWidget || !ignoredVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j)))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
 							headers << (itemHandles[i]->fullName() + tr("."));
 							names += nDataTable->rowName(j);
 							values += QString::number(nDataTable->value(j,0));
-							currentVarNames << (itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j));
 						}
 					}
 				}
@@ -838,16 +835,12 @@ namespace Tinkercell
 					sDataTable = &(itemHandles[i]->data->textData[this->name]);
 					for (int j=0; j < sDataTable->rows(); ++j)
 					{
-						if (!(itemHandles[i]->type == ConnectionHandle::TYPE &&
-							sDataTable->rowName(j) == tr("typein") || sDataTable->rowName(j) == tr("typeout"))
-							&&
-							(parentWidget() == dockWidget || oldVarNames.contains(itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j))))
+						if (parentWidget() == dockWidget || !ignoredVarNames.contains(itemHandles[i]->fullName() + tr(".") + sDataTable->rowName(j)))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
 							headers << itemHandles[i]->fullName() + tr(".");
 							names += sDataTable->rowName(j);
 							values += (sDataTable->value(j,0));
-							currentVarNames << (itemHandles[i]->fullName() + tr(".") + sDataTable->rowName(j));
 						}
 					}
 				}

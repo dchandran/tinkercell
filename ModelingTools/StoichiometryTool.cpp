@@ -211,7 +211,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::historyUpdate(int )
 	{
-		if (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible()))// && dockWidget && dockWidget->isVisible())
+		if (parentWidget() && parentWidget()->isVisible())
 			updateTable();
 	}
 

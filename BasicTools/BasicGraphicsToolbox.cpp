@@ -28,7 +28,7 @@ namespace Tinkercell
 	{
 		mode = none;
 		colorToolBar = new QToolBar(name,this);
-		gradientType = QGradient::LinearGradient;
+		gradientType = QGradient::NoGradient;
 		QToolButton * changeBrush = new QToolButton(colorToolBar);
 		changeBrush->setPopupMode(QToolButton::MenuButtonPopup);
 		changeBrush->setIcon(QIcon(tr(":/images/bucket.png")));

@@ -203,7 +203,7 @@ namespace Tinkercell
 										dat.value(str2,0) = 1.0;
 										win->changeData(handle2->fullName() + QString(".") + str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
 										if (win->console())
-                                            win->console()->message(str2 + QString(" = 1.0"));
+                                            win->console()->message(handle2->fullName() + QString(".") + str2 + QString(" = 1.0"));
 									}
 							}
 					}

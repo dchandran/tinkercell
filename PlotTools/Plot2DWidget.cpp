@@ -560,7 +560,7 @@ namespace Tinkercell
 		
 		DataTable<qreal> & dataTable = dataPlot->dataTable;
 		
-		bool same = (dataTable.cols() == newData.cols());
+		bool same = (dataTable.cols() == newData.cols() && dataPlot->hideList.isEmpty());
 		
 		if (same)
 		{
@@ -594,7 +594,7 @@ namespace Tinkercell
 		{
 			dataPlot->dataTable = newData;
 			dataPlot->processData();
-			dataPlot->replotUsingHideList();
+			dataPlot->replot();
 		}
 		else
 		{

@@ -145,7 +145,7 @@ namespace Tinkercell
 	private:
 
 		void insertDataMatrix(ItemHandle * handle);
-		QStringList currentVarNames;
+		QStringList ignoredVarNames;
 		QTableWidget tableWidget;
 		QList< QPair<ItemHandle*,int> > tableItems;
 		QGroupBox * groupBox;

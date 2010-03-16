@@ -1199,26 +1199,12 @@ namespace Tinkercell
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
 			QList<QGraphicsItem*> childItems = handle->allGraphicsItems();
-			if (childItems.isEmpty())
-			{
-				if (!handle->textItems.isEmpty())
-				{
-					QList<ItemHandle*> handles;
-					handles << handle->allChildren();
-
-					TextEditor * newEditor = mainWindow->newTextWindow();
-					newEditor->networkWindow->popOut();
-					moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);
-					emit createTextWindow(newEditor, handles);
-				}
-				return;
-			}
-
-			QList<QGraphicsItem*> collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5)),
+			
+			QList<QGraphicsItem*> //collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5)),
 								  hideItems,
 								  allItems = scene->items();
 
-			ConnectionGraphicsItem * connection;
+			/*ConnectionGraphicsItem * connection;
 
 			for (int i=0; i < collidingItems.size(); ++i)
 				if (
@@ -1234,7 +1220,7 @@ namespace Tinkercell
 					QMessageBox::information(this,tr("Cannot compress module"),
 						tr("Please adjust any connections that are intersecting the module before compressing it."));
 				return;
-			}
+			}*/
 
 			for (int i=0; i < childItems.size(); ++i)
 			{
@@ -1249,6 +1235,18 @@ namespace Tinkercell
 				{
 					hideItems << childItems[i];
 				}
+			}
+			
+			if (hideItems.isEmpty())
+			{
+				QList<ItemHandle*> handles;
+				handles << handle->allChildren();
+
+				TextEditor * newEditor = mainWindow->newTextWindow();
+				newEditor->networkWindow->popOut();
+				moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);
+				emit createTextWindow(newEditor, handles);
+				return;
 			}
 
 			if (scene->networkWindow && scene->networkWindow->currentView())

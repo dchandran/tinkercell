@@ -1586,7 +1586,7 @@ namespace Tinkercell
 							QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
 							for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 							{
-								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])))
+								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])) && (scene->isVisible(connection)))
 									nodeConnections << connection;
 							}
 
@@ -1613,7 +1613,7 @@ namespace Tinkercell
 									pos = pos - distance[0];
 
 							for (int k=0; k < nodes.size(); ++k)
-								if (nodes[k])
+								if (nodes[k] && scene->isVisible(nodes[k]))
 								{
 									rect1 = items[i]->sceneBoundingRect();
 									rect2 = nodes[k]->sceneBoundingRect();

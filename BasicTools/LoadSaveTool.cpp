@@ -647,7 +647,7 @@ namespace Tinkercell
 						items << controlPoints[i];
 						points << controlPoints[i]->pos();
 						zValues << (z+0.1);
-						visibles << false;
+						visibles << v;
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads;
@@ -665,7 +665,7 @@ namespace Tinkercell
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
 						zValues << (z+0.1);
-						visibles << true;
+						visibles << v;
 					}
 				}
 			}
@@ -708,7 +708,7 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
-				if (visibles[i])
+				if (!visibles[i])
 					hideItems << items[i];
 			}
 		}

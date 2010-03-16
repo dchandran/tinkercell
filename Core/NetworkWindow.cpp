@@ -97,6 +97,9 @@ namespace Tinkercell
 		if (!mainWindow) return 0;
 
 		GraphicsView * view = new GraphicsView(this);
+	
+		if (!currentGraphicsView)
+			currentGraphicsView = view;
 
 		view->hideItems(hideItems);
 		view->setParent(mainWindow);
@@ -112,6 +115,8 @@ namespace Tinkercell
 		if (!mainWindow) return 0;
 
 		GraphicsView * view = new GraphicsView(this);
+		if (!currentGraphicsView)
+			currentGraphicsView = view;
 
 		if (anotherView && graphicsViews.contains(anotherView))
 			view->hideItems(anotherView->hiddenItems.keys()); //build on current view
@@ -135,6 +140,7 @@ namespace Tinkercell
 		scene->networkWindow = this;
 
 		GraphicsView * view = new GraphicsView(this);
+		currentGraphicsView = view;
 
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(view);
@@ -232,6 +238,7 @@ namespace Tinkercell
 	NetworkWindow::NetworkWindow(MainWindow * main,TextEditor * editor) :
 		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
 	{
+		currentGraphicsView = 0;
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
 

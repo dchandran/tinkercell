@@ -43,6 +43,7 @@ namespace Tinkercell
 			painter->drawPixmap(rect,foreground,QRectF(foreground.rect()));
 	}
 
+
 	void GraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
 	{
 		for (int i=0; i < numItems; ++i)
@@ -64,6 +65,25 @@ namespace Tinkercell
 		QGraphicsView::drawItems(painter,numItems,items,options);
 	}
 
+/*
+	void GraphicsView::paintEvent(QPaintEvent *event)
+	{
+		if (scene)
+		{
+			QList<QGraphicsItem*> items = scene->items();
+			for (int i=0; i < items.size(); ++i)
+				items[i]->setVisible(
+				!(
+	                hiddenItems.contains(items[i]) ||
+					(	scene &&
+					networkWindow &&
+                    networkWindow->currentGraphicsView != this &&
+					!getGraphicsItem(items[i]))
+               	));
+		}
+		QGraphicsView::paintEvent(event);
+	}
+*/
 	void GraphicsView::wheelEvent(QWheelEvent * wheelEvent)
 	{
 		if (wheelEvent->modifiers() & Qt::ControlModifier)
@@ -95,9 +115,10 @@ namespace Tinkercell
 	void GraphicsView::scrollContentsBy ( int dx, int dy )
 	{
 		QGraphicsView::scrollContentsBy(dx,dy);
-		if (viewport())
-			viewport()->update();
+		if (scene) 
+			scene->update();
 	}
+	
 
 	void GraphicsView::dragEnterEvent(QDragEnterEvent * /*event*/)
 	{
@@ -136,14 +157,16 @@ namespace Tinkercell
 	{
 		if (network && !network->graphicsViews.contains(this))
 			network->graphicsViews << this;
+
 #if QT_VERSION > 0x040600
 		setOptimizationFlag(QGraphicsView::IndirectPainting);
 #endif
+		
 		setCacheMode(QGraphicsView::CacheBackground);
+		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
 
 		//setViewportUpdateMode (QGraphicsView::FullViewportUpdate);
 		//setViewportUpdateMode (QGraphicsView::SmartViewportUpdate);
-		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
 		//setViewport(new QGLWidget);
 		//setDragMode(QGraphicsView::RubberBandDrag);
 		//setDragMode(QGraphicsView::ScrollHandDrag);
@@ -165,13 +188,8 @@ namespace Tinkercell
 	{
 		if (!networkWindow) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,true);
-		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
-			networkWindow->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+
+		networkWindow->history.push(command);
 	}
 
 	void GraphicsView::hideItem(QGraphicsItem* item)
@@ -179,52 +197,52 @@ namespace Tinkercell
 		if (!networkWindow) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,false);
 
-		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
-			networkWindow->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		networkWindow->history.push(command);
 	}
 
 	void GraphicsView::showItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,true);
-		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
-			networkWindow->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+
+		networkWindow->history.push(command);
 	}
 
 	void GraphicsView::hideItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,false);
-		if (networkWindow->graphicsViews.size() > 0 && networkWindow->graphicsViews[0] == this)
-			networkWindow->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		
+		networkWindow->history.push(command);
 	}
 
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
 	{
 		if (networkWindow)
-			networkWindow->currentGraphicsView = this;
+		{
+			if (scene && networkWindow->currentGraphicsView != this)
+			{
+				scene->deselect();
+				networkWindow->currentGraphicsView = this;
+			}
+			networkWindow->setAsCurrentWindow();
+		}
+		
 		QGraphicsView::mousePressEvent(event);
 	}
 
 	void GraphicsView::keyPressEvent ( QKeyEvent * event )
 	{
 		if (networkWindow)
-			networkWindow->currentGraphicsView = this;
+		{
+			if (scene && networkWindow->currentGraphicsView != this)
+			{
+				scene->deselect();
+				networkWindow->currentGraphicsView = this;
+			}
+			networkWindow->setAsCurrentWindow();
+		}
+
 		QGraphicsView::keyPressEvent(event);
 	}
 
@@ -327,5 +345,4 @@ namespace Tinkercell
 					view->hiddenItems[ items[i] ] = true;
 		}
 	}
-
 }

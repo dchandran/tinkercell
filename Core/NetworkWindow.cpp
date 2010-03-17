@@ -30,10 +30,14 @@ namespace Tinkercell
 {
 	NetworkWindow::~NetworkWindow()
 	{
-		disconnect(&history);
+		this->disconnect();
+		history.disconnect();
 		history.clear();
 		if (scene)
 		{
+			if (GraphicsScene::copiedFromScene == scene)
+				GraphicsScene::copiedFromScene = 0;
+
 			if (graphicsViews.size() == 1 && graphicsViews[0] && graphicsViews[0]->parentWidget() == this)
 				delete scene;
 		}
@@ -115,6 +119,7 @@ namespace Tinkercell
 		if (!mainWindow) return 0;
 
 		GraphicsView * view = new GraphicsView(this);
+		
 		if (!currentGraphicsView)
 			currentGraphicsView = view;
 

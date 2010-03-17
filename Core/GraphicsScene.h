@@ -485,6 +485,8 @@ namespace Tinkercell
 		QGraphicsRectItem selectionRect;
 		/*! \brief used to store copied items*/
 		static QList<QGraphicsItem*> duplicateItems;
+		/*! \brief used to store copied items that are hidden*/
+		static QList<QGraphicsItem*> duplicatedHiddenItems;
 		/*! \brief used to store copied items*/
 		static GraphicsScene * copiedFromScene;
 		/*! \brief clears copied items*/
@@ -548,7 +550,7 @@ namespace Tinkercell
 		* \return void*/
 		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
 		/*! \brief draw background grid if in grid mode*/
-		virtual void drawBackground( QPainter*, const QRectF &);
+		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
 	public:
 		/*! \brief snap the node item to the grid
 		* \param NodeGraphicsItem*

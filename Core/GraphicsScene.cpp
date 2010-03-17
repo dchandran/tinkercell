@@ -274,9 +274,6 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
-		if (networkWindow)
-			networkWindow->setAsCurrentWindow();
-
 		clickedScreenPoint = mouseEvent->screenPos();
 		clickedPoint = mouseEvent->scenePos();
 		clickedButton = mouseEvent->button();
@@ -630,9 +627,6 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::keyPressEvent (QKeyEvent * keyEvent)
 	{
-		if (networkWindow)
-			networkWindow->setAsCurrentWindow();
-
 		if (!keyEvent) return;
 		keyEvent->setAccepted(false);
 
@@ -849,8 +843,11 @@ namespace Tinkercell
 	{
 		selectedItems.clear();
 		movingItems.clear();
-		if (movingItemsGroup != 0)
+		if (movingItemsGroup)
+		{
 			destroyItemGroup(movingItemsGroup);
+			movingItemsGroup = 0;
+		}
 		emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
 
 	}
@@ -1563,6 +1560,7 @@ namespace Tinkercell
                 delete duplicateItems[i];
 
         duplicateItems.clear();
+        duplicatedHiddenItems.clear();
 	}
 
 	void GraphicsScene::copy()
@@ -1601,18 +1599,11 @@ namespace Tinkercell
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
 
-		// copy the hidden/visible information for all views
-		if (networkWindow)
-		{
-			for (int i=0; i < networkWindow->graphicsViews.size(); ++i)
-				if (networkWindow->graphicsViews[i])
-					for (int j=0; j < duplicateItems.size() && j < items.size(); ++j)
-					{
-						if (networkWindow->graphicsViews[i]->hiddenItems.contains(items[j]))
-							networkWindow->graphicsViews[i]->hiddenItems[ duplicateItems[j] ] =
-								networkWindow->graphicsViews[i]->hiddenItems[ items[j] ];
-					}
-		}
+		for (int i=0; i < items.size(); ++i)
+			if (!isVisible(items[i]))
+				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
+
+		qDebug() << GraphicsScene::duplicatedHiddenItems.size();
 
 		emit copyItems(this,duplicateItems,allNewHandles);
 
@@ -1638,7 +1629,12 @@ namespace Tinkercell
 		clearStaticItems();
 
 		QList<ItemHandle*> allNewHandles;
+
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+
+		for (int i=0; i < items.size(); ++i)
+			if (!isVisible(items[i]))
+				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
 
 		emit copyItems(this,duplicateItems,allNewHandles);
 
@@ -1674,7 +1670,6 @@ namespace Tinkercell
 
 		scene->select(list);
 	}
-
 
 	void GraphicsScene::paste()
 	{
@@ -1718,7 +1713,15 @@ namespace Tinkercell
 		}
 
 		QList<ItemHandle*> allNewHandles;
+		QList<QGraphicsItem*> hideItems = duplicatedHiddenItems;
+		
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
+		duplicatedHiddenItems.clear();
+		
+		for (int i=0; i < items.size(); ++i)
+			if (!isVisible(items[i]))
+				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
+		
 		emit copyItems(this,duplicateItems,allNewHandles);
 
 		QList<QUndoCommand*> commands;
@@ -1801,7 +1804,9 @@ namespace Tinkercell
 		}
 
 		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
-		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);
+		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);		
+		commands << new SetGraphicsViewVisibilityCommand(currentView(), hideItems, false);
+		
 		scene->clearSelection();
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
@@ -2143,6 +2148,7 @@ namespace Tinkercell
 	}
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;
+	QList<QGraphicsItem*> GraphicsScene::duplicatedHiddenItems;
 	GraphicsScene* GraphicsScene::copiedFromScene;
 
 	void GraphicsScene::enableGrid(int sz)

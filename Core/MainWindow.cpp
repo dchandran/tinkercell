@@ -352,7 +352,7 @@ namespace Tinkercell
 		cmd = tr("rm ") + tempDir + tr("/*.*");
 
 #endif
-		system(cmd.toAscii().data());
+		int r = system(cmd.toAscii().data());
 	}
 
 	void MainWindow::tabIndexChanged(int i)
@@ -373,8 +373,8 @@ namespace Tinkercell
 					tabWidget->setCurrentIndex(i);
 			}
 
-			if (!window->hasFocus())
-				window->setFocus();
+			if (window->currentView() && !window->currentView()->hasFocus())
+				window->currentView()->setFocus();
 
 			historyWindow.setStack(&(window->history));
 
@@ -399,6 +399,7 @@ namespace Tinkercell
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
+		currentNetworkWindow = subWindow;
 		popIn(subWindow);
 		emit windowOpened(subWindow);
 
@@ -415,6 +416,7 @@ namespace Tinkercell
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
+		currentNetworkWindow = subWindow;
 		popIn(subWindow);
 		emit windowOpened(subWindow);
 

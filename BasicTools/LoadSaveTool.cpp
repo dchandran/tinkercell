@@ -49,7 +49,7 @@ namespace Tinkercell
 			else
 				if (button == QMessageBox::Cancel)
 					(*close) = false;
-			
+
 			if (*close)
 				savedScenes.remove(win->scene);
 		}
@@ -454,10 +454,10 @@ namespace Tinkercell
 				}
 			}
 
-			scene->fitAll();
-			
 			if (scene->currentView() && !hideItems.isEmpty())
 				scene->currentView()->hideItems(hideItems);
+
+            scene->fitAll();
 
 			if (scene->historyStack)
 				scene->historyStack->clear();
@@ -651,7 +651,7 @@ namespace Tinkercell
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads;
-				arrowHeads	<< connection->arrowHeads() 
+				arrowHeads	<< connection->arrowHeads()
 							<< connection->modifierArrowHeads();
 
 				if (connection->centerRegionItem)
@@ -735,7 +735,7 @@ namespace Tinkercell
 					}
 					else
 					if (attribs[i].name().toString() == tr("visible"))
-						visible = (attribs[i].value().toString().toLower() == QString("yes"));					
+						visible = (attribs[i].value().toString().toLower() == QString("yes"));
 					else
 						if (attribs[i].name().toString() == tr("x"))
 							pos.rx() = attribs[i].value().toString().toDouble(&ok);

@@ -50,11 +50,11 @@ namespace Tinkercell
         separator = 0;
         VisualTool * visualTool = new VisualTool(this);
         this->graphicsItems += visualTool;
-        
+
         makeLink = new QAction(tr("Set input/output"),this);
         makeLink->setIcon(QIcon(tr(":/images/lollipop.png")));
         connect(makeLink,SIGNAL(triggered()),this,SLOT(makeLinks()));
-        
+
         createViewAction = new QAction(tr("View module in separate window"),this);
         createViewAction->setIcon(QIcon(tr(":/images/changeView.png")));
         connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));
@@ -284,7 +284,7 @@ namespace Tinkercell
         	items = selectedItems;
         	textItems.clear();
         }
-        
+
         visited.clear();
 
         for (int i=0; i < items.size(); ++i)
@@ -292,7 +292,7 @@ namespace Tinkercell
             handle = getHandle(items[i]);
 
             if (!NodeHandle::cast(handle) || handle->isA(tr("empty")) || visited.contains(handle)) continue;
-            
+
             visited << handle;
 
             NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
@@ -489,7 +489,7 @@ namespace Tinkercell
 
                 mainWindow->contextItemsMenu.addAction(moduleTool->makeLink);
                 mainWindow->contextItemsMenu.addAction(moduleTool->createViewAction);
-                
+
                 Tool::GraphicsItem::visible(b);
                 return;
             }
@@ -579,7 +579,7 @@ namespace Tinkercell
 			image->setPos(point);
 			image->adjustBoundaryControlPoints();
 			image->setHandle(handle);
-			
+
 
 			scene->insert(handle->name + tr(" inserted"),image);
 
@@ -1195,14 +1195,14 @@ namespace Tinkercell
 		NodeGraphicsItem * moduleItem, *node;
 		TextGraphicsItem * textItem;
 		NodeGraphicsItem::ControlPoint * cp;
-		
+
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
 			QList<QGraphicsItem*> childItems = handle->allGraphicsItems();
-			
-			QList<QGraphicsItem*> //collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5)),
-								  hideItems,
+
+			QList<QGraphicsItem*> hideItems,
 								  allItems = scene->items();
+								  //collidingItems = scene->items(moduleItem->sceneBoundingRect().adjusted(-5,-5,5,5));
 
 			/*ConnectionGraphicsItem * connection;
 
@@ -1227,16 +1227,18 @@ namespace Tinkercell
 				if (moduleItem != childItems[i] &&
 					getHandle(childItems[i]) != handle &&
 					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName) &&
-					!((textItem = TextGraphicsItem::cast(childItems[i])) && 
+					!((textItem = TextGraphicsItem::cast(childItems[i])) &&
 						(((node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName) ||
-						 ((cp = static_cast<NodeGraphicsItem::ControlPoint*>(textItem->relativePosition.first)) && 
+						 ((cp = static_cast<NodeGraphicsItem::ControlPoint*>(textItem->relativePosition.first)) &&
 						 	cp->nodeItem && cp->nodeItem->className == linkerClassName) ))
 					)
 				{
 					hideItems << childItems[i];
+					if (getHandle(childItems[i]))
+						qDebug() << getHandle(childItems[i])->name;
 				}
 			}
-			
+
 			if (hideItems.isEmpty())
 			{
 				QList<ItemHandle*> handles;
@@ -1251,12 +1253,19 @@ namespace Tinkercell
 
 			if (scene->networkWindow && scene->networkWindow->currentView())
 			{
+				if (moduleHandles.contains(handle) &&
+					scene->networkWindow->views().contains(moduleHandles[handle]))
+				{
+					moduleHandles[handle]->close();
+				}
 				scene->networkWindow->currentView()->hideItems(hideItems);
 				GraphicsView * view = scene->networkWindow->createView(allItems);
 				view->showItems(hideItems);
 
 				moduleViews[view] = handle;
 				moduleHandles[handle] = view;
+
+				scene->deselect();
 			}
 		}
 	}
@@ -1264,18 +1273,20 @@ namespace Tinkercell
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
 		if (!scene || !item || !mainWindow) return;
-		
+
 		ItemHandle * handle = getHandle(item);
 		if (!handle || !handle->isA(tr("Module"))) return;
-		
+
 		QList<QGraphicsItem*> subitems = handle->allGraphicsItems();
 		NodeGraphicsItem * node;
-		
+
 		for (int i=0; i < subitems.size(); ++i)
-			if (subitems[i] && scene->isVisible(subitems[i]) && (getHandle(subitems[i]) != handle) && 
-				!((node = NodeGraphicsItem::cast(subitems[i])) && node->className == linkerClassName))
+			if ((node = NodeGraphicsItem::cast(subitems[i])) && 
+				scene->isVisible(subitems[i]) && 
+				(getHandle(subitems[i]) != handle) &&
+				!(node->className == linkerClassName))
 				return;
-		
+
 		createView(scene,item);
     }
 

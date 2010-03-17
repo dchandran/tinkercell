@@ -1598,14 +1598,13 @@ namespace Tinkercell
 
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-
+		
 		for (int i=0; i < items.size(); ++i)
 			if (!isVisible(items[i]))
 				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
 
-		qDebug() << GraphicsScene::duplicatedHiddenItems.size();
-
 		emit copyItems(this,duplicateItems,allNewHandles);
+	
 
 		GraphicsScene::copiedFromScene = scene;
 	}
@@ -1719,7 +1718,7 @@ namespace Tinkercell
 		duplicatedHiddenItems.clear();
 		
 		for (int i=0; i < items.size(); ++i)
-			if (!isVisible(items[i]))
+			if (hideItems.contains(items[i]))
 				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
 		
 		emit copyItems(this,duplicateItems,allNewHandles);

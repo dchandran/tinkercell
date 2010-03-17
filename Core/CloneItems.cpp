@@ -132,6 +132,9 @@ namespace Tinkercell
                         TextGraphicsItem::cast(items0[i]))
                         items << items0[i];
             }
+        
+        //return value
+        items0 = items;
 
         //top level handles
 		for (int i=0; i < items.size(); ++i)

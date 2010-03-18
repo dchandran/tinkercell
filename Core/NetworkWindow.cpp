@@ -30,8 +30,6 @@ namespace Tinkercell
 {
 	NetworkWindow::~NetworkWindow()
 	{
-		this->disconnect();
-		history.disconnect();
 		history.clear();
 		if (scene)
 		{
@@ -58,7 +56,8 @@ namespace Tinkercell
 			emit closed(this);
 
 			disconnect();
-
+			disconnect(&history);
+			
 			QList<GraphicsView*> list = graphicsViews;
 			for (int i=1; i < list.size(); ++i)
 				if (list[i])
@@ -864,7 +863,8 @@ namespace Tinkercell
 
 	void NetworkWindow::focusInEvent ( QFocusEvent * )
 	{
-		mainWindow->setCurrentWindow(this);
+		if (mainWindow && mainWindow->currentNetworkWindow != this)
+			mainWindow->setCurrentWindow(this);
 	}
 
 	void NetworkWindow::resizeEvent (QResizeEvent * event)
@@ -882,7 +882,7 @@ namespace Tinkercell
 
 	void NetworkWindow::setAsCurrentWindow()
 	{
-		if (mainWindow && mainWindow->currentWindow() != this)
+		if (mainWindow && mainWindow->currentNetworkWindow != this)
 			mainWindow->setCurrentWindow(this);
 	}
 

@@ -17,7 +17,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 
 
 ****************************************************************************/
-
+#include <QDebug>
 #include <QLibrary>
 #include <QSettings>
 #include <QInputDialog>
@@ -364,28 +364,28 @@ namespace Tinkercell
 
 	void MainWindow::setCurrentWindow(NetworkWindow * window)
 	{
-		if (window)
+		currentNetworkWindow = 0;
+		if (window && allNetworkWindows.contains(window))
 		{
 			if (tabWidget)
 			{
 				int i = tabWidget->indexOf(window);
 				if (i > -1 && i < tabWidget->count() && i != tabWidget->currentIndex())
-					tabWidget->setCurrentIndex(i);
+					tabWidget->setCurrentIndex(i);				
 			}
-
-			if (window->currentView() && !window->currentView()->hasFocus())
-				window->currentView()->setFocus();
-
+			
 			historyWindow.setStack(&(window->history));
-
+			
 			NetworkWindow * oldWindow = currentNetworkWindow;
 
 			currentNetworkWindow = window;
+			
+			if (!window->hasFocus())
+				window->setFocus();
 
 			if (window != oldWindow)
 				emit windowChanged(oldWindow,window);
 		}
-
 	}
 
 	GraphicsScene * MainWindow::newGraphicsWindow()
@@ -399,7 +399,6 @@ namespace Tinkercell
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
-		currentNetworkWindow = subWindow;
 		popIn(subWindow);
 		emit windowOpened(subWindow);
 
@@ -416,7 +415,6 @@ namespace Tinkercell
 		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
-		currentNetworkWindow = subWindow;
 		popIn(subWindow);
 		emit windowOpened(subWindow);
 

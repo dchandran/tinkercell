@@ -220,11 +220,12 @@ namespace Tinkercell
 	{
 		if (networkWindow)
 		{
-			if (scene && networkWindow->currentGraphicsView != this)
-			{
+			if (scene) 
 				scene->deselect();
+				
+			if (networkWindow->currentGraphicsView != this)
 				networkWindow->currentGraphicsView = this;
-			}
+			
 			networkWindow->setAsCurrentWindow();
 		}
 		
@@ -235,11 +236,12 @@ namespace Tinkercell
 	{
 		if (networkWindow)
 		{
-			if (scene && networkWindow->currentGraphicsView != this)
-			{
+			if (scene) 
 				scene->deselect();
+				
+			if (networkWindow->currentGraphicsView != this)
 				networkWindow->currentGraphicsView = this;
-			}
+			
 			networkWindow->setAsCurrentWindow();
 		}
 

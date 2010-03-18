@@ -5,7 +5,7 @@ www.tinkercell.com
 Contributors
 ---------------------------
 
-Deepak Chandran: TinkerCell is part of Deepak
+Deepak Chandran: TinkerCell is part of Deepak's PhD work
 
 Herbert Sauro: Deepak's PhD advisor
 

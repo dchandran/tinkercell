@@ -1261,7 +1261,8 @@ namespace Tinkercell
 				scene->networkWindow->currentView()->hideItems(hideItems);
 				GraphicsView * view = scene->networkWindow->createView(allItems);
 				view->showItems(hideItems);
-
+				
+				view->fitAll();
 				moduleViews[view] = handle;
 				moduleHandles[handle] = view;
 

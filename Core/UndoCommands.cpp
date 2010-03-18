@@ -2688,6 +2688,16 @@ namespace Tinkercell
 	{
 		if (renameCommand)
 			delete renameCommand;
+		for (int i=0; i < children.size(); ++i)
+		{
+			if (children[i] && children[i]->graphicsItems.isEmpty() && net && !net->symbolsTable.isValidPointer((void*)(children[i])))
+			{
+				for (int j=i+1; j < children.size(); ++j)
+					if (children[i] == children[j])
+						children[j] = 0;
+				delete children[i];
+			}
+		}
 	}
 	
 	void SetParentHandleCommand::redo()

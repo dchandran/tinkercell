@@ -163,6 +163,7 @@ namespace Tinkercell
 		textTables.setFont(font);
 		
 		textEdit = new CodeEditor(this);
+		textEdit->setTabStopWidth(160);
 		textEdit->setFont(font);
 		
 		QGroupBox * groupBox1 = new QGroupBox(tr(" Numerical tables "),this);

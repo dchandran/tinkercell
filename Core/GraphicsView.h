@@ -72,6 +72,8 @@ namespace Tinkercell
 		QPixmap foreground;
 		/*! \brief the scene displayed by this view */
 		GraphicsScene * scene;
+		/*! \brief adjusts the view to fit all items*/
+		virtual void fitAll();
 		/*! \brief the network window that this view belongs to */
 		NetworkWindow * networkWindow;
 		/*! \brief default constructor

@@ -56,18 +56,21 @@ namespace Tinkercell
 			emit closed(this);
 
 			disconnect();
-			disconnect(&history);
+			
+			disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
+			disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 			
 			QList<GraphicsView*> list = graphicsViews;
 			for (int i=1; i < list.size(); ++i)
 				if (list[i])
 					list[i]->close();
 
-			if (mainWindow->currentNetworkWindow == this)
-				mainWindow->currentNetworkWindow = 0;
-
 			if (mainWindow)
+			{
+				if (mainWindow->currentNetworkWindow == this)
+					mainWindow->currentNetworkWindow = 0;
 				mainWindow->allNetworkWindows.removeAll(this);
+			}
 
 			event->accept();
 		}

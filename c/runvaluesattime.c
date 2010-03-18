@@ -4,14 +4,14 @@ Asks user for a parameter or variable name (string), and then generates a code t
 the steady state table by changing this value.
 
 ****************************************************************************/
-
+#include <string.h>
 #include "TC_api.h"
 
-static char * selected_var;
+static char selected_var[100];
 static char ** allNames = 0;
-void run(Matrix input);
-void setup();
-int selectAll = 1;
+static void run(Matrix input);
+static void setup();
+static int selectAll = 1;
 
 void unload()
 {
@@ -23,9 +23,9 @@ void unload()
 void loadAllNames()
 {
 	int i,len;
-	Matrix params,N;
+	Matrix params, N;
 	char ** names;
-	Array A;
+	Array A = 0;
 
 	if (selectAll)
 		A = tc_selectedItems();
@@ -69,7 +69,7 @@ void tc_main()
 {
 	allNames = 0;
 
-	selected_var = "";
+	strcpy(selected_var,"\0");
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Values at time=T0", "uses repeated simulation to compute state of system at the given time", "Parameter scan", "Plugins/c/steadystate.png", "", 1, 0, 0);
 	tc_callback(&callback);
@@ -181,7 +181,7 @@ void run(Matrix input)
 	}
 
 	param = allNames[index]; //the parameter to vary
-	selected_var = param;
+	strcpy(selected_var,param);
 	
 	if (slider)
 	{

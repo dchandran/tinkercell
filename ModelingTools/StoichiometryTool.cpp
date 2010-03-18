@@ -931,7 +931,7 @@ namespace Tinkercell
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
-					connection->name = tr("J0");
+					connection->name = tr("J1");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = RenameCommand::assignUniqueName(connection->name,sceneItems);
                     sceneItems << node->fullName() << connection->fullName();

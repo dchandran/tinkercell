@@ -220,11 +220,11 @@ namespace Tinkercell
 	{
 		if (networkWindow)
 		{
-			if (scene) 
+			if (scene && networkWindow->currentGraphicsView != this)
+			{
 				scene->deselect();
-				
-			if (networkWindow->currentGraphicsView != this)
 				networkWindow->currentGraphicsView = this;
+			}
 			
 			networkWindow->setAsCurrentWindow();
 		}
@@ -236,11 +236,11 @@ namespace Tinkercell
 	{
 		if (networkWindow)
 		{
-			if (scene) 
+			if (scene && networkWindow->currentGraphicsView != this)
+			{
 				scene->deselect();
-				
-			if (networkWindow->currentGraphicsView != this)
 				networkWindow->currentGraphicsView = this;
+			}
 			
 			networkWindow->setAsCurrentWindow();
 		}
@@ -256,7 +256,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 
-		if (!Tool::GraphicsItem::cast(item->topLevelItem()))
+		if (item && !getGraphicsItem(item->topLevelItem()))
 		{
 			if (connection = ConnectionGraphicsItem::cast(item))
 			{
@@ -292,7 +292,7 @@ namespace Tinkercell
 
 		for (int i=0; i < list.size(); ++i)
 		{
-			if (Tool::GraphicsItem::cast(list[i]->topLevelItem())) continue;
+			if (!list[i] || !getGraphicsItem(list[i])) continue;
 
 			ConnectionGraphicsItem * connection = 0;
 			NodeGraphicsItem * node = 0;
@@ -317,11 +317,10 @@ namespace Tinkercell
 			{
 				items << list[i];
 			}
-
-			for (int j=0; j < items.size(); ++j)
-				if (items[j])
-					items << items[j]->childItems();
 		}
+		for (int j=0; j < items.size(); ++j)
+			if (items[j])
+				items << items[j]->childItems();
 	}
 
 	void SetGraphicsViewVisibilityCommand::redo()

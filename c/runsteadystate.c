@@ -9,12 +9,12 @@ the steady state table by changing this value.
 
 #include "TC_api.h"
 
-char selected_var[100];
-char selected_var1[100];
-char selected_var2[100];
-char target_var[100];
-char ** allNames = 0;
-int selectAll = 1;
+static char selected_var[100];
+static char selected_var1[100];
+static char selected_var2[100];
+static char target_var[100];
+static char ** allNames = 0;
+static int selectAll = 1;
 
 void run(Matrix input);
 void run2D(Matrix input);
@@ -33,7 +33,7 @@ void loadAllNames()
 	int i,len;
 	Matrix params, N;
 	char ** names;
-	Array A;
+	Array A = 0;
 
 	if (selectAll)
 		A = tc_selectedItems();

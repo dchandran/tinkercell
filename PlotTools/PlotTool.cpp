@@ -281,6 +281,8 @@ namespace Tinkercell
 				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 				if (widget && widget->type == type)
 				{
+					matrix.description() = title;
+					
 					if (widget->canAppendData()  && holdCurrentPlot && holdCurrentPlot->isChecked())
 						widget->appendData(matrix);
 					else

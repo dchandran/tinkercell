@@ -595,12 +595,13 @@ namespace Tinkercell
 			dataPlot->dataTable = newData;
 			dataPlot->processData();
 			dataPlot->replot();
+			dataPlot->setTitle(newData.description());
 		}
 		else
 		{
 			dataPlot->plot(	newData,
 						dataPlot->xcolumn,
-						dataPlot->title().text(),
+						newData.description(),
 						dataPlot->delta);
 		}
 		

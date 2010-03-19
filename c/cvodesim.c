@@ -135,8 +135,8 @@ static int _EventFunction(realtype t,N_Vector y, realtype *gout, void * g_data)
 
 typedef struct
 {
-   void (*propensityFunction)(double, double*,double*,void*) = NULL;
-   double * StoichiometryMatrix;
+   void (*propensityFunction)(double, double*,double*,void*);
+   double * N;
    int numReactions;
    int numVars;
    double * rates;
@@ -147,6 +147,7 @@ static void odeFunc( double time, double * u, double * du, void * udata )
 {
    int i,j;
    ODEsim2Struct * s = (ODEsim2Struct*)udata;
+   double * StoichiometryMatrix = s->N;
    double * rates = s->rates;
    int numReactions = s->numReactions;
    int numVars = s->numVars;
@@ -187,7 +188,7 @@ double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,voi
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
-	s->StoichiometryMatrix = N;
+	s->N = N;
 	s->propensityFunction = f;
 	s->numReactions = n;
 	s->numVars = m;
@@ -216,7 +217,7 @@ double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,voi
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
-	s->StoichiometryMatrix = N;
+	s->N = N;
 	s->propensityFunction = f;
 	s->numReactions = n;
 	s->numVars = m;
@@ -247,7 +248,7 @@ double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
-	s->StoichiometryMatrix = N;
+	s->N = N;
 	s->propensityFunction = f;
 	s->numReactions = n;
 	s->numVars = m;
@@ -272,7 +273,7 @@ double* getDerivatives2(int m, int n, double * N, void (*f)(double,double*,doubl
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
-	s->StoichiometryMatrix = N;
+	s->N = N;
 	s->propensityFunction = f;
 	s->numReactions = n;
 	s->numVars = m;

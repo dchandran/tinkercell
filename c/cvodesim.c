@@ -13,7 +13,7 @@ static void (*ODEfunc)(double, double*, double*, void*) = NULL;
  * relative error tolerance
  * absolute error tolerance
 */
-double RelTol = 1.0E-10, AbsTol = 1.0E-6;
+double RelTol = 1.0E-10, AbsTol = 1.0E-7;
 
 int ODE_POSITIVE_VALUES_ONLY = 0;
 
@@ -44,6 +44,7 @@ typedef struct
   EventFunction * eventFunctions;
   int numEvents;
 } UserFunction;
+
 
 /* f routine. Compute f(t,u). */
 
@@ -131,17 +132,31 @@ static int _EventFunction(realtype t,N_Vector y, realtype *gout, void * g_data)
 }
 
 /* The following is to convert a propensity function and stoichiometry to an ode function*/
-static double * StoichiometryMatrix = 0;
-static int numReactions = 0;
-static int numVars = 0;
-static double * rates = 0;
 
-static void (*propensityFunction)(double, double*,double*,void*) = NULL;
+typedef struct
+{
+   void (*propensityFunction)(double, double*,double*,void*) = NULL;
+   double * StoichiometryMatrix;
+   int numReactions;
+   int numVars;
+   double * rates;
+   void * data;
+} ODEsim2Struct;
 
 static void odeFunc( double time, double * u, double * du, void * udata )
 {
    int i,j;
-   propensityFunction(time, u, rates, udata);
+   ODEsim2Struct * s = (ODEsim2Struct*)udata;
+   double * rates = s->rates;
+   int numReactions = s->numReactions;
+   int numVars = s->numVars;
+   
+   s->propensityFunction(time, u, rates, s->data);
+   
+   for (j=0; j < numReactions; ++j)
+      if (rates[j] < 0)
+	     rates[j] = 0.0;
+   
    for (i=0; i < numVars; ++i)
    {
       du[i] = 0;
@@ -171,14 +186,19 @@ static void odeFunc( double time, double * u, double * du, void * udata )
 double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,void*), double *x0, double startTime, double endTime, double dt, void * dataptr)
 {
 	double * y;
+	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
+	s->StoichiometryMatrix = N;
+	s->propensityFunction = f;
+	s->numReactions = n;
+	s->numVars = m;
+	s->rates = (double*) malloc(n * sizeof(double));
+	s->data = dataptr;
 	
-	StoichiometryMatrix = N;
-	propensityFunction = f;
-	numReactions = n;
-	numVars = m;
-	rates = (double*) malloc(n * sizeof(double));
-	y = ODEsim(m,x0,&odeFunc,startTime,endTime,dt,dataptr);
-	free(rates);
+	y = ODEsim(m,x0,&odeFunc,startTime,endTime,dt,s);
+	
+	free(s->rates);
+	free(s);
+	
 	return(y);
 }
 
@@ -192,16 +212,22 @@ double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,voi
  * /param: additional parameters needed for ode function
  * /ret: 2D array made into linear array -- use getValue(array,N,i,j)
  */
-double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * point, void * params, double * eigenreal, double * eigenim)
+double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * point, void * dataptr, double * eigenreal, double * eigenim)
 {
 	double * y;
-	StoichiometryMatrix = N;
-	propensityFunction = f;
-	numReactions = n;
-	numVars = m;
-	rates = (double*) malloc(n * sizeof(double));
-	y = jacobian(m,point,&odeFunc,params, eigenreal, eigenim);
-	free(rates);
+	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
+	s->StoichiometryMatrix = N;
+	s->propensityFunction = f;
+	s->numReactions = n;
+	s->numVars = m;
+	s->rates = (double*) malloc(n * sizeof(double));
+	s->data = dataptr;
+	
+	y = jacobian(m,point, &odeFunc, s, eigenreal, eigenim);
+	
+	free(s->rates);
+	free(s);
+	
 	return(y);
 }
 
@@ -217,16 +243,19 @@ double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,voi
  * /param: the difference in time to use for estimating steady state
  * /ret: array of values
  */
-double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initialValues, void * params, double minerr, double maxtime, double delta)
+double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initialValues, void * dataptr, double minerr, double maxtime, double delta)
 {
 	double * y;
-	StoichiometryMatrix = N;
-	propensityFunction = f;
-	numReactions = n;
-	numVars = m;
-	rates = (double*) malloc(n * sizeof(double));
-	y = steadyState(m, initialValues, &odeFunc, params, minerr, maxtime, delta);
-	free(rates);
+	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
+	s->StoichiometryMatrix = N;
+	s->propensityFunction = f;
+	s->numReactions = n;
+	s->numVars = m;
+	s->rates = (double*) malloc(n * sizeof(double));
+	s->data = dataptr;
+	y = steadyState(m, initialValues, &odeFunc, dataptr, minerr, maxtime, delta);
+	free(s->rates);
+	free(s);
 	return(y);
 }
 /*
@@ -239,16 +268,19 @@ double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,
  * /param: time for simulation
  * /ret: array of values
  */
-double* getDerivatives2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initValues, double startTime, double endTime, double stepSize, void * params)
+double* getDerivatives2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initValues, double startTime, double endTime, double stepSize, void * dataptr)
 {
 	double * y;
-	StoichiometryMatrix = N;
-	propensityFunction = f;
-	numReactions = n;
-	numVars = m;
-	rates = (double*) malloc(n * sizeof(double));
-	y = getDerivatives(m, initValues, &odeFunc, startTime, endTime, stepSize, params);
-	free(rates);
+	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
+	s->StoichiometryMatrix = N;
+	s->propensityFunction = f;
+	s->numReactions = n;
+	s->numVars = m;
+	s->rates = (double*) malloc(n * sizeof(double));
+	s->data = dataptr;
+	y = getDerivatives(m, initValues, &odeFunc, startTime, endTime, stepSize, dataptr);
+	free(s->rates);
+	free(s);
 	return(y);
 }
 

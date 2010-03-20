@@ -281,8 +281,6 @@ namespace Tinkercell
 				PlotWidget * widget = static_cast<PlotWidget*>(list[i]->widget());
 				if (widget && widget->type == type)
 				{
-					matrix.description() = title;
-					
 					if (widget->canAppendData()  && holdCurrentPlot && holdCurrentPlot->isChecked())
 						widget->appendData(matrix);
 					else
@@ -353,7 +351,8 @@ namespace Tinkercell
 		{
 			matrix.colName(i).replace(regexp,tr("."));
 		}
-
+		
+		matrix.description() = title;
 		plot(matrix,title,x,all,Plot2D);
 		
 		emit plotDataTable(matrix, x, title, all);
@@ -376,6 +375,7 @@ namespace Tinkercell
 			matrix.colName(i).replace(regexp,tr("."));
 		}
 
+		matrix.description() = title;
 		plot(matrix,title,0,1,ScatterPlot);
 		
 		emit plotScatterplot(matrix, title);
@@ -398,6 +398,7 @@ namespace Tinkercell
 			data.colName(i).replace(regexp,tr("."));
 		}
 
+		data.description() = title;
 		plot(data,title,0,1,HistogramPlot);
 		
 		emit plotHist(data , binsz, title);
@@ -420,6 +421,7 @@ namespace Tinkercell
 			data.colName(i).replace(regexp,tr("."));
 		}
 		
+		data.description() = title;
 		emit plotErrorbars(data , x, title);
 		
 		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
@@ -468,6 +470,7 @@ namespace Tinkercell
 			matrix.colName(i).replace(regexp,tr("."));
 		}
 
+		matrix.description() = title;
 		surfacePlot(matrix,title);
 		
 		emit plotDataTable3D(matrix, title);

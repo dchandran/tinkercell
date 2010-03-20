@@ -254,7 +254,7 @@ double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,
 	s->numVars = m;
 	s->rates = (double*) malloc(n * sizeof(double));
 	s->data = dataptr;
-	y = steadyState(m, initialValues, &odeFunc, dataptr, minerr, maxtime, delta);
+	y = steadyState(m, initialValues, &odeFunc, s, minerr, maxtime, delta);
 	free(s->rates);
 	free(s);
 	return(y);
@@ -279,7 +279,7 @@ double* getDerivatives2(int m, int n, double * N, void (*f)(double,double*,doubl
 	s->numVars = m;
 	s->rates = (double*) malloc(n * sizeof(double));
 	s->data = dataptr;
-	y = getDerivatives(m, initValues, &odeFunc, startTime, endTime, stepSize, dataptr);
+	y = getDerivatives(m, initValues, &odeFunc, startTime, endTime, stepSize, s);
 	free(s->rates);
 	free(s);
 	return(y);

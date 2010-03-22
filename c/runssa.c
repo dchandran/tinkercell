@@ -135,12 +135,13 @@ void runSSA(Matrix input)
 #include \"TC_api.h\"\n\
 #include \"ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\
+static int id = 0;\n\
 void ssaFunc(double time, double * u, double * rates, void * data)\n\
 {\n\
 	TCpropensity(time, u, rates, data);\n\
 	if (time > _time0_)\n\
 	{\n\
-			tc_showProgress(\"Gillespie algorithm\",(int)(100 * time/%lf));\n\
+			tc_showProgress(id,(int)(100 * time/%lf));\n\
 			_time0_ += %lf;\n\
 	}\n\
 }\n\
@@ -189,6 +190,7 @@ void run(%s) \n\
 	char ** names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+	id = tc_getProgressMeterID();\n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
 
 if (slider)

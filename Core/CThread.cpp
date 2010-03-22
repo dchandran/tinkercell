@@ -31,6 +31,8 @@ namespace Tinkercell
 	LIBRARY THREAD
 	*******************/
 	
+	int CThread::lastProgressMeterIndex = 0;
+	
 	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{
@@ -120,7 +122,7 @@ namespace Tinkercell
 		f4 = (MatrixFunction)lib->resolve(f);
 	}
 
-	typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));
+	typedef void (*progress_api_initialize)( int (*getProgressMeterIndex)(), void (*showProgress)(int , int) );
 
 	void CThread::setLibrary(QLibrary * lib)
 	{
@@ -139,7 +141,7 @@ namespace Tinkercell
 			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
 			if (f0)
 			{
-				f0(&(setProgress));
+				f0( &(getProgressMeterIndex), &(setProgress) );
 			}
 		}
 	}
@@ -164,7 +166,7 @@ namespace Tinkercell
 			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
 			if (f0)
 			{
-				f0(&(setProgress));
+				f0( &(getProgressMeterIndex), &(setProgress));
 			}
 		}
 	}
@@ -244,7 +246,7 @@ namespace Tinkercell
 			lib->unload();
 		}
 		
-		QList<QString> keys = cthreads.keys();
+		QList<int> keys = cthreads.keys();
 		QList<CThread*> values = cthreads.values();
 		
 		for (int i=0; i < keys.size() && i < values.size(); ++i)
@@ -281,7 +283,7 @@ namespace Tinkercell
 			QProgressBar * progressbar = new QProgressBar;
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
-			cthreads.insertMulti(title,newThread);
+			cthreads.insert(++lastProgressMeterIndex,newThread);
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
 		}
 
@@ -297,18 +299,22 @@ namespace Tinkercell
 		return dialog;
 	}
 
-	QHash<QString,CThread*> CThread::cthreads;
+	QHash<int,CThread*> CThread::cthreads;
 
-	void CThread::setProgress(const char * name, int progress)
+	void CThread::setProgress(int index, int progress)
 	{
-		QString s(name);
-		if (cthreads.contains(s))
+		if (cthreads.contains(index))
 		{
-			QList<CThread*> threads = cthreads.values(s);
+			QList<CThread*> threads = cthreads.values(index);
 			for (int i=0; i < threads.size(); ++i)
 				if (threads[i])
 					threads[i]->emitSignal(progress);
 		}
+	}
+	
+	int CThread::getProgressMeterIndex()
+	{
+		return lastProgressMeterIndex;
 	}
 	
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)

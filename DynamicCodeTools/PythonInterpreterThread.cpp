@@ -38,10 +38,10 @@ namespace Tinkercell
 		}
         f = 0;
         disconnect(this);
-        CThread::cthreads.insertMulti(tr("python thread"),this);
+        CThread::cthreads.insert( ++CThread::lastProgressMeterIndex,this);
     }
 
-    typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));
+    typedef void (*progress_api_initialize)(int (*tc_getProgressMeterIndex)(), void (*tc_showProgress)(int, int));
 
     void PythonInterpreterThread::setCPointers()
     {
@@ -54,7 +54,7 @@ namespace Tinkercell
         progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
         if (f0)
         {
-            f0(&(CThread::setProgress));
+            f0( &(CThread::getProgressMeterIndex), &(CThread::setProgress));
         }        
     }
 

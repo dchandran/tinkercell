@@ -836,23 +836,35 @@ void tc_Main_api_initialize(
 	_tc_messageDialog = messageDialog;
 }
 
-void (*_tc_showProgress)(const char * name, int progress);
+int (*_tc_getProgressMeterID)();
 /*! 
  \brief show progress of current operation. provide name of this library file.
  \ingroup Input and Output
 */
-void tc_showProgress(const char * name, int progress)
+int tc_getProgressMeterID()
+{
+	if (_tc_getProgressMeterID)
+		return _tc_getProgressMeterID();
+	return 0;
+}
+void (*_tc_showProgress)(int index, int progress);
+/*! 
+ \brief show progress of current operation. provide ID obtained from tc_getProgressMeterID.
+ \ingroup Input and Output
+*/
+void tc_showProgress(int index, int progress)
 {
 	if (_tc_showProgress)
-		_tc_showProgress(name,progress);
+		_tc_showProgress(index,progress);
 }
 /*! 
  \brief initialize main
  \ingroup init
 */
-void tc_Progress_api_initialize( void (*tc_showProgress0)(const char * , int) )
+void tc_Progress_api_initialize( int (*getProgressMeterID)(), void (*showProgress)(int , int) )
 {
-	_tc_showProgress = tc_showProgress0;
+	_tc_getProgressMeterID = getProgressMeterID;
+	_tc_showProgress = showProgress;
 }
 
 #endif

@@ -74,9 +74,12 @@ namespace Tinkercell
 
 		/*! \brief emits the progress signal*/
 		virtual void emitSignal(int i) { emit progress(i); }
+		
+		/*! \brief get the id for the newest progress bar*/
+		static int getProgressMeterIndex();
 
-		/*! \brief set progress on a thread with the given name*/
-		static void setProgress(const char * name, int progress);
+		/*! \brief set progress on a thread. the first arg is the id returned from createProgressMeter*/
+		static void setProgress(int index, int progress);
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)
@@ -85,7 +88,7 @@ namespace Tinkercell
 		static QLibrary * loadLibrary(const QString& name, QObject * parent = 0);
 
 		/*! \brief hash stores the name and progress bar pointers for updating progress on different threads*/
-		static QHash<QString,CThread*> cthreads;
+		static QHash<int,CThread*> cthreads;
 
 		/*!
 		* \brief constructor
@@ -246,6 +249,9 @@ namespace Tinkercell
 		* \brief the main function that runs one of the specified functions
 		*/
 		virtual void run();
+		
+		/*!\brief used to provide an index to the progress meters for each thread*/
+		static int lastProgressMeterIndex;
 	protected slots:
 		/*!
 		* \brief cleanup (such as unload libraries) upon termination

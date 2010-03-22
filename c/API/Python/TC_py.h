@@ -155,6 +155,7 @@ static PyMethodDef pytcMethods[] = {
 	{"compileBuildLoad", pytc_compileBuildLoad, METH_VARARGS, "build a C program as a dynamic library and load into TinkerCell. example: compileBuildLoad(\"mycode.c -lm\",\"main\"); #will call the main function in mycode.c"},
 	{"callFunction", pytc_callFunction, METH_VARARGS, "execute a program that is listed in the functions menu. example: callFunction(\"Deterministic simulation\");"},
 	{"loadLibrary", pytc_loadLibrary, METH_VARARGS, "load a dynamic C library. example: loadLibrary(\"mycode.dll\");"},
+	{"addPythonPlugin", pytc_addPythonPlugin, METH_VARARGS, "add python script to the functions menu. example: addPythonPlugin(\"mycode.py\",\"my code name\", \"my code description\", \"category\", \"icon.png\");"},
 
 //basic graphics
 	{"getColorR", pytc_getColorR, METH_VARARGS, "get the Red value of the color of the given object. example: A = find(\"A\"); r = getColorR(A);"},

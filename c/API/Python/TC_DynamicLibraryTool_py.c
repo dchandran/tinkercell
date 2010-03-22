@@ -64,4 +64,16 @@ static PyObject * pytc_loadLibrary(PyObject *self, PyObject *args)
 	Py_INCREF(Py_None);
 	return Py_None;	
 }
+static PyObject * pytc_addPythonPlugin(PyObject *self, PyObject *args)
+{
+	char * a, *b, *c, *d, *e;
+
+	if(!PyArg_ParseTuple(args, "sssss", &a, &b, &c, &d, &e))
+		return NULL;
+
+	tc_addPythonPlugin(a,b,c,d,e);
+	
+	Py_INCREF(Py_None);
+	return Py_None;
+}
 

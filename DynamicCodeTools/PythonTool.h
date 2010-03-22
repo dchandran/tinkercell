@@ -39,9 +39,11 @@ namespace Tinkercell
 		signals:
 			void runPythonCode(QSemaphore*,const QString&);
 			void runPythonFile(QSemaphore*,const QString&);
+			void addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);
 		public slots:
 			void runPythonCode(const char*);
 			void runPythonFile(const char*);
+			void addPythonPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
 	class MY_EXPORT PythonTool : public Tool
@@ -66,7 +68,8 @@ namespace Tinkercell
 	protected slots:
 		void buttonPressed (int);	 
 		void actionTriggered(QAction *);
-	
+		void addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&);
+			
 	signals:
 	
 		void pythonStarted();
@@ -83,7 +86,9 @@ namespace Tinkercell
 		static PythonTool_FToS fToS;
 		static void _runPythonCode(const char*);
         static void _runPythonFile(const char*);
+        static void _addPythonPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 }
 
 #endif
+

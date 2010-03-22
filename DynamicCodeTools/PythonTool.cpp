@@ -33,7 +33,6 @@ namespace Tinkercell
 
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
         connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
-
         connectTCFunctions();
     }
 
@@ -276,11 +275,14 @@ namespace Tinkercell
     {
         connect(&fToS,SIGNAL(runPythonCode(QSemaphore*,const QString&)),this,SLOT(runPythonCode(QSemaphore*,const QString&)));
         connect(&fToS,SIGNAL(runPythonFile(QSemaphore*,const QString&)),this,SLOT(runPythonFile(QSemaphore*,const QString&)));
+        connect(&fToS,SIGNAL(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+        		this,SLOT(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
     typedef void (*tc_PythonTool_api)(
             void (*runPythonCode)(const char*),
-            void (*runPythonFile)(const char*)
+            void (*runPythonFile)(const char*),
+            void (*addPythonPlugin)(const char*,const char*,const char*,const char*,const char*)
             );
 
     void PythonTool::setupFunctionPointers( QLibrary * library)
@@ -291,7 +293,8 @@ namespace Tinkercell
             //qDebug() << "tc_PythonTool_api resolved";
             f(
                     &(_runPythonCode),
-                    &(_runPythonFile)
+                    &(_runPythonFile),
+                    &(_addPythonPlugin)
                     );
         }
     }
@@ -310,6 +313,11 @@ namespace Tinkercell
     {
         return fToS.runPythonFile(c);
     }
+    
+    void PythonTool::_addPythonPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    {
+        return fToS.addPythonPlugin(file,name,descr,category,icon);
+    }
 
     void PythonTool_FToS::runPythonCode(const char* c)
     {
@@ -326,6 +334,16 @@ namespace Tinkercell
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
         emit runPythonFile(s,ConvertValue(c));
+        s->acquire();
+        s->release();
+        delete s;
+    }
+    
+    void PythonTool_FToS::addPythonPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    {
+        QSemaphore * s = new QSemaphore(1);
+        s->acquire();
+        emit addPythonPlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
         s->acquire();
         s->release();
         delete s;
@@ -355,6 +373,67 @@ namespace Tinkercell
         runPythonFile(file);
         if (sem)
             sem->release();
+    }
+    
+    void PythonTool::addPythonPlugin(QSemaphore * sem,const QString& pyFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
+    {
+    	QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+        
+        if (!widget) return;
+        
+        DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+        
+		if (name.isNull() || name.isEmpty())
+		{
+			if (sem) 
+				sem->release();
+			return;
+		}
+		
+		QString appDir = QCoreApplication::applicationDirPath();
+		QString userHome = MainWindow::userHome();
+		
+		QString icon = icon0;
+		
+		if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
+			icon = appDir + tr("/") + icon;
+		
+		if (!QFile(icon).exists() && QFile(userHome + tr("/") + icon).exists())
+			icon = userHome + tr("/") + icon;
+	
+		QPixmap pixmap(icon);
+	
+        QToolButton * button = libMenu->addFunction(category, name, QIcon(pixmap));
+	
+		if (button)
+		{
+			button->setToolTip(descr);
+			buttonsGroup.addButton(button,pyFileNames.size());
+			pyFileNames << pyFile;
+		}
+
+		QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
+		if (menuItem)
+		{
+			menuItem->setToolTip(descr);
+			actionsGroup.addAction(menuItem);
+			hashPyFile[menuItem] = pyFile;
+		}
+		
+		/*
+		if (!specific.isEmpty())
+		{
+			QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
+			if (contextAction)
+			{
+				contextAction->setToolTip(descr);
+				actionsGroup.addAction(contextAction);
+				hashPyFile[contextAction] = pyFile;
+			}
+		}*/
+			
+    	if (sem)
+    		sem->release();
     }
 
     void PythonTool::runPythonCode(const QString& code)

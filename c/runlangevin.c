@@ -104,12 +104,13 @@ void run(Matrix input)
 	fprintf( out , "\
 #include \"TC_api.h\"\n#include \"langevin.h\"\n\n\
 static double _time0_ = 0.0;\n\
+static int id = 0;\n\
 void ssaFunc(double time, double * u, double * rates, void * data)\n\
 {\n\
 	TCpropensity(time, u, rates, data);\n\
 	if (time > _time0_)\n\
 	{\n\
-		tc_showProgress(\"Langevin Simulation\",(int)(100 * time/%lf));\n\
+		tc_showProgress(id,(int)(100 * time/%lf));\n\
 		_time0_ += %lf;\n\
 	}\n\
 }\n\
@@ -123,6 +124,7 @@ void run() \n\
 	initMTrand();\n\
 	(*model) = TC_initial_model;\n\
 	TCinitialize(model);\n\
+	id = tc_getProgressMeterID();\n\
 	double * y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model);\n\
 	if (!y) \
 	{\n\

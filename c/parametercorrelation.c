@@ -177,6 +177,7 @@ void run(Matrix input)
 					int i,j,k;\n" );
 
 	fprintf( out, "   \
+				  int id = tc_getProgressMeterID();\n\
 				  dat.rows = (int)((%lf-%lf)/%lf);\n\
 				  dat.cols = (int)((%lf-%lf)/%lf);\n\
 				  dat.colnames = malloc( (1+dat.cols) * sizeof(char*) );\n\
@@ -240,7 +241,7 @@ void run(Matrix input)
 						  if (__X)\n\
 							free(__X);\n\
 						}\n\
-						tc_showProgress(\"2-Parameter Correlation Test\",(100*i)/dat.rows);\n\
+						tc_showProgress(id,(100*i)/dat.rows);\n\
 				  }\n\
 				  FILE * out = fopen(\"corr.tab\",\"w\");\n\
 				  fprintf( out, \"\\n\");\n\

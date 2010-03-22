@@ -61,6 +61,17 @@ void  tc_runPythonFile(const char* filename)
 		_tc_runPythonFile(filename);
 }
 
+void  (*_tc_addPythonPlugin)(const char*,const char*,const char*,const char*, const char*) = 0;
+/*! 
+ \brief add a python script to the functions menu
+ \ingroup Programming interface
+*/
+void  tc_addPythonPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon)
+{
+	if (_tc_addPythonPlugin)
+		_tc_addPythonPlugin(file,name,description,category,icon);
+}
+
 void (*_tc_callFunction)(const char* functionTitle) = 0;
 /*! 
  \brief call a function listed in the functions menu, e.g. "Deterministic simulation"
@@ -156,11 +167,13 @@ void tc_LoadCLibraries_api(
 */
 void tc_PythonTool_api(
 		void (*runPythonCode)(const char*),
-		void (*runPythonFile)(const char*)
+		void (*runPythonFile)(const char*),
+		void (*addPythonPlugin)(const char*,const char*,const char*,const char*,const char*)
 )
 {
 	_tc_runPythonCode = runPythonCode;
 	_tc_runPythonFile = runPythonFile;
+	_tc_addPythonPlugin = addPythonPlugin;
 }
 
 #endif

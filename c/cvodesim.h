@@ -19,6 +19,9 @@ The wrapper provides support for event functions and user defined structs as par
 #ifndef GA_CVODE_WRAPPER_FILE
 #define GA_CVODE_WRAPPER_FILE
 
+//#define SUNDIALS_DOUBLE_PRECISION
+//#define SUNDIALS_EXTENDED_PRECISION
+
 #include <cvode/cvode.h>             /* prototypes for CVODE fcts. and consts. */
 #include <cvode/cvode_band.h>
 #include <nvector/nvector_serial.h>  /* serial N_Vector types, fcts., and macros */
@@ -26,8 +29,6 @@ The wrapper provides support for event functions and user defined structs as par
 #include <sundials/sundials_types.h> /* definition of type realtype */
 #include <sundials/sundials_math.h>  /* definition of ABS and EXP */
 #include "eigen.h"   /*eigenvalue computation */
-
-#define SUNDIALS_DOUBLE_PRECISION 1
 
 /*!
  * \brief The type for the user defined differential equation function
@@ -196,4 +197,3 @@ double* getDerivatives2(int m, int n, double * N, PropensityFunction f, double *
 void writeToFile(char* filename, double* data, int rows, int cols);
 
 #endif
-

@@ -42,9 +42,9 @@ namespace Tinkercell
 
 		mu::Parser parser;
 
-		s.replace(QRegExp(QString("\\.(?!\\d)")),QString("_qqq_"));
+		s.replace(QRegExp(QString("\\.(?!\\d)")),QString("_@@@_"));
 		parser.SetExpr(s.toAscii().data());
-		s.replace(QString("_qqq_"),QString("."));
+		s.replace(QString("_@@@_"),QString("."));
 		parser.SetVarFactory(AddVariable, 0);
 
 		SymbolsTable * symbolsTable = &win->symbolsTable;
@@ -56,7 +56,7 @@ namespace Tinkercell
 			{
 				DataTable<QString>& sDat = allHandles[i]->data->textData[QString("Functions")];
 				for (int j=0; j < sDat.rows(); ++j)
-					parser.DefineFun((allHandles[i]->fullName() + QString("_qqq_") + sDat.rowName(j)).toAscii().data(), &(CallFunction), true);
+					parser.DefineFun((allHandles[i]->fullName() + QString("_@@@_") + sDat.rowName(j)).toAscii().data(), &(CallFunction), true);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace Tinkercell
 				{
 					str = QString(item->first.data());
 					str.replace(QRegExp(QString("[^A-Za-z0-9_]")),QString(""));
-					str.replace(QString("_qqq_"),QString("."));
+					str.replace(QString("_@@@_"),QString("."));
 					QString str2 = str;
 					str2.replace(QString("_"),QString("."));
 					if (handle && !reservedWords.contains(str) &&

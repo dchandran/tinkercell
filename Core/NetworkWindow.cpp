@@ -780,9 +780,9 @@ namespace Tinkercell
 
 		mu::Parser parser;
 
-		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_qqq_"));
+		s.replace(QRegExp(tr("\\.(?!\\d)")),tr("_@@@_"));
 		parser.SetExpr(s.toAscii().data());
-		s.replace(tr("_qqq_"),tr("."));
+		s.replace(tr("_@@@_"),tr("."));
 		parser.SetVarFactory(AddVariable, 0);
 		QString str;
 
@@ -801,7 +801,7 @@ namespace Tinkercell
 			{
 				str = tr(item->first.data());
 				str.replace(QRegExp(tr("[^A-Za-z0-9_]")),tr(""));
-				str.replace(tr("_qqq_"),tr("."));
+				str.replace(tr("_@@@_"),tr("."));
 				QString str2 = str;
 				str2.replace(tr("_"),tr("."));
 				if (!reservedWords.contains(str) &&

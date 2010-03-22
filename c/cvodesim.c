@@ -307,8 +307,6 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 	
 	t = 0.0;
 	tout = 0.0;
-	reltol = 0.0;
-	abstol = 1.0e-5;
 	
 	if (startTime < 0) startTime = 0;
 	if (endTime < startTime) { return 0; }
@@ -347,7 +345,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 	cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
 	if (check_flag((void *)cvode_mem, "CVodeCreate", 0)) return(0);
 
-	flag = CVodeMalloc(cvode_mem, f, 0, u, CV_SS, reltol, &abstol);
+	flag = CVodeMalloc(cvode_mem, f, startTime, u, CV_SS, reltol, &abstol);
 	if (check_flag(&flag, "CVodeMalloc", 1))
 	{
 		CVodeFree(&cvode_mem);
@@ -391,14 +389,13 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 
 	/* setup for simulation */
 
-	startTime = 0.0;
 	t = startTime;
 	tout = startTime;
 	i = 0;
 
 	/*main simulation loop*/
 
-	while ((tout <= endTime) && (i <= M))
+	while (i <= M)
 	{
 		/*store data*/
 		if (data)

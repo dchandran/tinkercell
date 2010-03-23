@@ -686,6 +686,29 @@ void tc_messageDialog(const char* message)
 		_tc_messageDialog(message);
 }
 
+static void * _cthread_ptr = 0;
+
+/*!
+ \brief get pointer to the current thread
+ \ingroup Programming interface
+*/
+void * tc_thisThread()
+{
+	return _cthread_ptr;
+}
+
+
+void (*_tc_createSliders)(void*, Matrix, void (*f)(Matrix)) = 0;
+/*!
+ \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
+ \ingroup Input and Output
+*/
+void tc_createSliders(Matrix input, void (*f)(Matrix))
+{
+	if (_tc_createSliders && _cthread_ptr)
+		_tc_createSliders(_cthread_ptr, input,f);
+}
+
 /*! 
  \brief initialize main
  \ingroup init
@@ -760,7 +783,9 @@ void tc_Main_api_initialize(
 		char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
-		void (*messageDialog)(const char*)
+		void (*messageDialog)(const char*),
+		
+		void (*createSliders)(void*, Matrix, void (*f)(Matrix))
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -834,6 +859,8 @@ void tc_Main_api_initialize(
 	
 	_tc_askQuestion = askQuestion;
 	_tc_messageDialog = messageDialog;
+	
+	_tc_createSliders = createSliders;
 }
 
 int (*_tc_getProgressMeterID)();
@@ -857,14 +884,19 @@ void tc_showProgress(int index, int progress)
 	if (_tc_showProgress)
 		_tc_showProgress(index,progress);
 }
+
 /*! 
  \brief initialize main
  \ingroup init
 */
-void tc_Progress_api_initialize( int (*getProgressMeterID)(), void (*showProgress)(int , int) )
+void tc_CThread_api_initialize( 
+	void * cthread,
+	int (*getProgressMeterID)(), 
+	void (*showProgress)(int , int)	)
 {
 	_tc_getProgressMeterID = getProgressMeterID;
 	_tc_showProgress = showProgress;
+	_cthread_ptr = cthread;
 }
 
 #endif

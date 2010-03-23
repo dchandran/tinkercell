@@ -81,6 +81,7 @@ namespace Tinkercell
 	class TextItem;
 	class GraphicsView;
 	class SymbolsTable;
+	class CThread;
 
 	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
 	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
@@ -686,6 +687,12 @@ namespace Tinkercell
 		* \return void
 		*/
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction);
+		/*!
+		* \brief make a new dialog with sliders. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \return void
+		*/
+		void createSliders(QSemaphore*, CThread * , const DataTable<qreal>&, MatrixInputFunction);
 		/*!
 		* \brief change an input window. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
@@ -1420,6 +1427,10 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
+		static void _createSliders(void*, Matrix, MatrixInputFunction);
+		/*!
+		* \brief part of the C API framework.
+		*/
 		static void _addInputWindowOptions(const char*, int i, int j, char **);
 		/*!
 		* \brief part of the C API framework.
@@ -1600,6 +1611,7 @@ namespace Tinkercell
 		void outputTable(QSemaphore*,const DataTable<qreal>&);
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString&,const QString&,const QString&);
 		void createInputWindow(QSemaphore*,const DataTable<qreal>&, const QString &, MatrixInputFunction);
+		void createSliders(QSemaphore*,CThread*, const DataTable<qreal>&, MatrixInputFunction);
 		void addInputWindowOptions(QSemaphore*, const QString&, int i, int j, const QStringList&);
 		void addInputWindowCheckbox(QSemaphore*, const QString&, int i, int j);
 		void openNewWindow(QSemaphore*,const QString&);
@@ -1668,6 +1680,7 @@ namespace Tinkercell
 		void printFile(const char*);
 		void createInputWindow(Matrix, const char*, const char*,const char*);
 		void createInputWindow(Matrix, const char*, MatrixInputFunction);
+		void createSliders(void*, Matrix, MatrixInputFunction);
 		void addInputWindowOptions(const char*, int i, int j, char **);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);

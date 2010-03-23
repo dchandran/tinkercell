@@ -122,8 +122,27 @@ namespace Tinkercell
 		f4 = (MatrixFunction)lib->resolve(f);
 	}
 
-	typedef void (*progress_api_initialize)( int (*getProgressMeterIndex)(), void (*showProgress)(int , int) );
-
+	typedef void (*cthread_api_initialize)(
+		void * cthread,
+		int (*getProgressMeterID)(), 
+		void (*showProgress)(int , int) );
+		
+	void CThread::setupCFunctionPoints()
+	{
+		if (lib)
+		{
+			cthread_api_initialize f0 = (cthread_api_initialize)lib->resolve("tc_CThread_api_initialize");
+			if (f0)
+			{
+				f0( 
+					static_cast<void*>(this),
+					&(getProgressMeterIndex), 
+					&(setProgress)
+				);
+			}
+		}
+	}
+	
 	void CThread::setLibrary(QLibrary * lib)
 	{
 		this->lib = lib;
@@ -135,15 +154,8 @@ namespace Tinkercell
 			s->acquire();
 			s->release();
 		}
-
-		if (lib)
-		{
-			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
-			if (f0)
-			{
-				f0( &(getProgressMeterIndex), &(setProgress) );
-			}
-		}
+		
+		setupCFunctionPoints();
 	}
 
 	void CThread::setLibrary(const QString& libname)
@@ -154,20 +166,7 @@ namespace Tinkercell
 		
 		if (mainWindow && loaded)
 		{
-			QSemaphore * s = new QSemaphore(1);
-			s->acquire();
-			mainWindow->setupNewThread(s,lib);
-			s->acquire();
-			s->release();
-		}
-
-		if (lib && loaded)
-		{
-			progress_api_initialize f0 = (progress_api_initialize)lib->resolve("tc_Progress_api_initialize");
-			if (f0)
-			{
-				f0( &(getProgressMeterIndex), &(setProgress));
-			}
+			setLibrary(lib);
 		}
 	}
 

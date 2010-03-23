@@ -41,6 +41,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "Tool.h"
 #include "MainWindow.h"
 #include "CThread.h"
+#include "MultithreadedSliderWidget.h"
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 #include "TextParser.h"
@@ -1179,18 +1180,46 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
+	
 	void MainWindow::createInputWindow(QSemaphore* s,const DataTable<qreal>& data, const QString& dll,const QString& function,const QString& title)
 	{
 		SimpleInputWindow::CreateWindow(this,title,dll,function,data);
 		if (s)
 			s->release();
 	}
+	
 	void MainWindow::createInputWindow(QSemaphore* s,const DataTable<qreal>& dat,const QString& title, MatrixInputFunction f)
 	{
 		SimpleInputWindow::CreateWindow(this,title,f,dat);
 		if (s)
 			s->release();
 	}
+	
+	void MainWindow::createSliders(QSemaphore* s, CThread * cthread, const DataTable<qreal>& data, MatrixInputFunction f)
+	{
+		if (cthread)
+		{
+			cthread->setFunction(f);
+			
+			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
+			
+			QStringList names(data.getRowNames());
+			QList<double> min, max;
+			for (int i=0; i < names.size(); ++i)
+			{
+				names[i].replace(tr("_"),tr("."));
+				names[i].replace(tr(".."),tr("_"));
+				min <<  data.value(i,0);
+				max << data.value(i,1);
+			}
+			widget->setSliders(names, min, max);
+			
+			widget->show();
+		}
+		if (s)
+			s->release();
+	}
+	
 	void MainWindow::addInputWindowOptions(QSemaphore* s,const QString& name, int i, int j,const QStringList& options)
 	{
 		SimpleInputWindow::AddOptions(name,i,j,options);
@@ -2163,6 +2192,11 @@ namespace Tinkercell
 	{
 		return fToS.createInputWindow(m,a,f);
 	}
+	
+	void  MainWindow::_createSliders(void* c, Matrix m,MatrixInputFunction f)
+	{
+		return fToS.createSliders(c,m,f);
+	}
 
 	void  MainWindow::_addInputWindowOptions(const char* a,int i, int j, char ** c)
 	{
@@ -2607,6 +2641,19 @@ namespace Tinkercell
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit createInputWindow(s,*dat,ConvertValue(title),f);
+		s->acquire();
+		s->release();
+		delete s;
+		delete dat;
+	}
+	
+	void MainWindow_FtoS::createSliders(void * c, Matrix m, MatrixInputFunction f)
+	{
+		CThread * cthread = static_cast<CThread*>(c);
+		DataTable<qreal>* dat = ConvertValue(m);
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit createSliders(s,cthread,*dat,f);
 		s->acquire();
 		s->release();
 		delete s;
@@ -3275,6 +3322,9 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)),
 			this,SLOT(createInputWindow(QSemaphore*,const DataTable<qreal>&,const QString&,MatrixInputFunction)));
+		
+		connect(&fToS,SIGNAL(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)),
+			this,SLOT(createSliders(QSemaphore*,CThread*,const DataTable<qreal>&,MatrixInputFunction)));
 
 		connect(&fToS,SIGNAL(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)),
 			this,SLOT(addInputWindowOptions(QSemaphore*,const QString&, int, int, const QStringList&)));
@@ -3359,6 +3409,8 @@ namespace Tinkercell
 
 		void (*tc_createInputWindow0)(Matrix, const char*, const char*,const char*),
 		void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
+		void (*tc_createSliders)(void*, Matrix, void (*f)(Matrix)),
+		
 		void (*tc_addInputWindowOptions)(const char*, int i, int j, char **),
 		void (*tc_addInputWindowCheckbox)(const char*, int i, int j),
 		void (*tc_openNewWindow)(const char*),
@@ -3431,6 +3483,7 @@ namespace Tinkercell
 				&(_appDir),
 				&(_createInputWindow1),
 				&(_createInputWindow2),
+				&(_createSliders),
 				&(_addInputWindowOptions),
 				&(_addInputWindowCheckbox),
 				&(_openNewWindow),

@@ -220,9 +220,10 @@ namespace Tinkercell
 
 		if (frozen)
 		{
-			if (cursor.block().text() == ConsoleWindow::Prompt)
+			QString blockText = cursor.block().text();
+			if (blockText.contains(ConsoleWindow::Prompt))
 			{
-				cursor.setPosition(currentPosition-2,QTextCursor::KeepAnchor);
+				cursor.setPosition(currentPosition - blockText.size() - 1, QTextCursor::KeepAnchor);
 				cursor.removeSelectedText();
 			}
 		}

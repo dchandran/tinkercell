@@ -863,26 +863,15 @@ void tc_Main_api_initialize(
 	_tc_createSliders = createSliders;
 }
 
-int (*_tc_getProgressMeterID)();
+void (*_tc_showProgress)(void * thread, int progress);
 /*! 
- \brief show progress of current operation. provide name of this library file.
+ \brief show progress of current operation
  \ingroup Input and Output
 */
-int tc_getProgressMeterID()
+void tc_showProgress(int progress)
 {
-	if (_tc_getProgressMeterID)
-		return _tc_getProgressMeterID();
-	return 0;
-}
-void (*_tc_showProgress)(int index, int progress);
-/*! 
- \brief show progress of current operation. provide ID obtained from tc_getProgressMeterID.
- \ingroup Input and Output
-*/
-void tc_showProgress(int index, int progress)
-{
-	if (_tc_showProgress)
-		_tc_showProgress(index,progress);
+	if (_tc_showProgress && _cthread_ptr)
+		_tc_showProgress(_cthread_ptr,progress);
 }
 
 /*! 
@@ -891,10 +880,8 @@ void tc_showProgress(int index, int progress)
 */
 void tc_CThread_api_initialize( 
 	void * cthread,
-	int (*getProgressMeterID)(), 
-	void (*showProgress)(int , int)	)
+	void (*showProgress)(void*, int)	)
 {
-	_tc_getProgressMeterID = getProgressMeterID;
 	_tc_showProgress = showProgress;
 	_cthread_ptr = cthread;
 }

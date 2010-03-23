@@ -60,7 +60,7 @@ namespace Tinkercell
 	signals:
 		/*! \brief display progress of this thread (0-100). This signal is usually connected
 		to a slot in ProgressBarSignalItem*/
-		virtual void progress(int);
+		void progress(int);
 		
 	public slots:
 	
@@ -74,12 +74,9 @@ namespace Tinkercell
 
 		/*! \brief emits the progress signal*/
 		virtual void emitSignal(int i) { emit progress(i); }
-		
-		/*! \brief get the id for the newest progress bar*/
-		static int getProgressMeterIndex();
 
 		/*! \brief set progress on a thread. the first arg is the id returned from createProgressMeter*/
-		static void setProgress(int index, int progress);
+		static void setProgress(void * ptr, int progress);
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)
@@ -88,7 +85,7 @@ namespace Tinkercell
 		static QLibrary * loadLibrary(const QString& name, QObject * parent = 0);
 
 		/*! \brief hash stores the name and progress bar pointers for updating progress on different threads*/
-		static QHash<int,CThread*> cthreads;
+		static QList<CThread*> cthreads;
 
 		/*!
 		* \brief constructor

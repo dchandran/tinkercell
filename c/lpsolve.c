@@ -40,8 +40,6 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 		return;
 	}
 
-	//tc_showProgress("lpsolve",5);
-
 	/**setup the objective***/
 
 
@@ -61,8 +59,6 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 		set_maxim(lp);
 	else
 		set_minim(lp);
-
-	//tc_showProgress("lpsolve",10);
 
 	/**setup the constraints***/
 
@@ -131,8 +127,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	{
 		tc_print("lpsolve: a sub-optimal solution was found.");
 	}
-
-	//tc_showProgress("lpsolve",70);
+	
 	/**get solution and display on the screen***/
 	soln = malloc((input.rows + input.cols - 2)*sizeof(double));
 	get_primal_solution(lp, soln);
@@ -171,7 +166,6 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	}
 
 	tc_printTable(output);
-	//tc_showProgress("lpsolve",100);
 
 	free(output.colnames);
 	free(output.values);

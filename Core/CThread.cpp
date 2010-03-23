@@ -124,8 +124,7 @@ namespace Tinkercell
 
 	typedef void (*cthread_api_initialize)(
 		void * cthread,
-		int (*getProgressMeterID)(), 
-		void (*showProgress)(int , int) );
+		void (*showProgress)(void* , int) );
 		
 	void CThread::setupCFunctionPoints()
 	{
@@ -136,7 +135,6 @@ namespace Tinkercell
 			{
 				f0( 
 					static_cast<void*>(this),
-					&(getProgressMeterIndex), 
 					&(setProgress)
 				);
 			}
@@ -245,14 +243,7 @@ namespace Tinkercell
 			lib->unload();
 		}
 		
-		QList<int> keys = cthreads.keys();
-		QList<CThread*> values = cthreads.values();
-		
-		for (int i=0; i < keys.size() && i < values.size(); ++i)
-		{
-			if (values[i] == this)
-				cthreads.remove(keys[i]);
-		}
+		cthreads.removeAll(this);
 	}
 
 	QString CThread::style = QString("background-color: qlineargradient(x1: 0, y1: 1, x2: 0, y2: 0, stop: 1.0 #585858, stop: 0.5 #0E0E0E, stop: 0.5 #9A9A9A, stop: 1.0 #E2E2E2);");
@@ -282,7 +273,7 @@ namespace Tinkercell
 			QProgressBar * progressbar = new QProgressBar;
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
-			cthreads.insert(++lastProgressMeterIndex,newThread);
+			cthreads << newThread;
 			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
 		}
 
@@ -298,22 +289,13 @@ namespace Tinkercell
 		return dialog;
 	}
 
-	QHash<int,CThread*> CThread::cthreads;
+	QList<CThread*> CThread::cthreads;
 
-	void CThread::setProgress(int index, int progress)
+	void CThread::setProgress(void * ptr, int progress)
 	{
-		if (cthreads.contains(index))
-		{
-			QList<CThread*> threads = cthreads.values(index);
-			for (int i=0; i < threads.size(); ++i)
-				if (threads[i])
-					threads[i]->emitSignal(progress);
-		}
-	}
-	
-	int CThread::getProgressMeterIndex()
-	{
-		return lastProgressMeterIndex;
+		CThread * thread = static_cast<CThread*>(ptr);
+		if (cthreads.contains(thread))
+			thread->emitSignal(progress);
 	}
 	
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)

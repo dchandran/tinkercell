@@ -16,12 +16,12 @@ static char _CALLBACK_STRING_ARGS[_CALLBACK_STR_LEN];
 static void PYTHON_CALLBACK_ARGS(Matrix m)
 {
 	int i,j;
-	char * str = (char*)malloc((_CALLBACK_STR_LEN + (m.rows() * 20)) * sizeof(char));
+	char * str = (char*)malloc((_CALLBACK_STR_LEN + (m.rows * 20)) * sizeof(char));
 	
 	for (i=0; _CALLBACK_STRING_ARGS[i]; ++i)
 		str[i] = _CALLBACK_STRING_ARGS[i];
 	
-	for (j=0; j < m.rows(); ++j)
+	for (j=0; j < m.rows; ++j)
 		sprintf(str,"%s%0.4lf",str,m.values[j]);
 	
 	sprintf(str,"%s\0",str);
@@ -50,7 +50,7 @@ static PyObject * pytc_setCallback(PyObject *self, PyObject *args)
 	}
 	
 	for (; i < _CALLBACK_STR_LEN; ++i)
-		_CALLBACK_STRING = 0;
+		_CALLBACK_STRING[i] = 0;
 
 	if (s && !_CALLBACK_ADDED)
 	{
@@ -123,7 +123,7 @@ static PyObject * pytc_setSliderCallback(PyObject *self, PyObject *args)
 		}
 		
 		for (; i < _CALLBACK_STRING_ARGS; ++i)
-			_CALLBACK_STRING_ARGS = 0;
+			_CALLBACK_STRING_ARGS[i] = 0;
 
 		if (names && minv && maxv && s)
 			tc_createSliders(M,&(PYTHON_CALLBACK_ARGS));
@@ -143,7 +143,7 @@ static PyObject * pytc_showProgress(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "i", &i))
 		return NULL;
 
-	tc_showProgress("python thread",i);
+	tc_showProgress(i);
 
 	Py_INCREF(Py_None);
 	return Py_None;	

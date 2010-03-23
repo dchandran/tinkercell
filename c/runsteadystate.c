@@ -317,7 +317,7 @@ void run(%s) \n\
 							for (j=0; j<TCvars; ++j)\n\
 							   valueAt(dat,i,j+1) = 0.0;\n\
 					}\n\
-					tc_showProgress(\"Steady state\",(100*i)/dat.rows);\n\
+					tc_showProgress((100*i)/dat.rows);\n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
@@ -474,7 +474,7 @@ void run2D(Matrix input)
 		   if (y)\n\
 			  free(y);\n\
         }\n\
-		tc_showProgress(\"2-parameter steady state\",(100*i)/rows);\n\
+		tc_showProgress((100*i)/rows);\n\
       }\n\
 	  free(model);\n\
       tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n}\n",param1,startx, dx, param2,starty, dy, target);

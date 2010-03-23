@@ -97,7 +97,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
    TCpropensity(time, u, rates, data);\n\
    if (time > _time0_)\n\
    {\n\
-     tc_showProgress(\"ssa\",(int)(100 * time/%lf));\n\
+     tc_showProgress((int)(100 * time/%lf));\n\
 	 _time0_ += %lf;\n\
    }\n\
 }\n\

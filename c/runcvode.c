@@ -184,7 +184,6 @@ void run(Matrix input)
 #include \"cvodesim.h\"\n\n\
 static double _time0_ = 0.0;\n\
 static double * rates = 0;\n\
-static int id = 0;\n\
 void odeFunc( double time, double * u, double * du, void * udata )\n\
 {\n\
 	int i,j;\n\
@@ -200,7 +199,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 	}\n\
 	if (time > _time0_)\n\
 	{\n\
-		tc_showProgress(id,(int)(100 * time/%lf));\n\
+		tc_showProgress((int)(100 * time/%lf));\n\
 		_time0_ += %lf;\n\
 	}\n\
 }\n\
@@ -218,7 +217,6 @@ void run(%s) \n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n\
-	id = tc_getProgressMeterID();\n\
 	\n", (end-start), (end-start)/20.0, runfunc);
 
 if (slider)

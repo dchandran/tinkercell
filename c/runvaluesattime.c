@@ -229,7 +229,7 @@ void run(Matrix input)
 	out = fopen("timet.c","a");
 
 	fprintf( out , "\
-#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\nstatic int id = 0;\n\
+#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\n\
 void run(%s) \n\
 {\n    initMTrand();\n    Matrix dat;\n    int i,j;\n", runfunc );
 
@@ -269,7 +269,6 @@ void run(%s) \n\
         model->%s = %lf + i * %lf;\n\
         valueAt(dat,i,0) = model->%s;\n\
         TCinitialize(model);\n\
-        id = tc_getProgressMeterID();\n\
         double * y = 0;\n\
         int sz = (int)(%lf*10.0);\n\
         if (%i)\n\
@@ -306,7 +305,7 @@ void run(%s) \n\
 				for (j=0; j<TCvars; ++j)\n\
 				   valueAt(dat,i,j+1) = 0.0;\n\
         }\n\
-        tc_showProgress(id,(100*i)/dat.rows);\n\
+        tc_showProgress((100*i)/dat.rows);\n\
     }\n\
     free(model);\n\
     tc_plot(dat,0,\"At time=%lf\",0);\n\

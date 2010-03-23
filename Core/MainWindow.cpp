@@ -1201,7 +1201,7 @@ namespace Tinkercell
 		{
 			cthread->setFunction(f);
 			
-			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
+			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(this, cthread, Qt::Horizontal);
 			
 			QStringList names(data.getRowNames());
 			QList<double> min, max;
@@ -1209,8 +1209,8 @@ namespace Tinkercell
 			{
 				names[i].replace(tr("_"),tr("."));
 				names[i].replace(tr(".."),tr("_"));
-				min <<  data.value(i,0);
-				max << data.value(i,1);
+				min <<  data.at(i,0);
+				max << data.at(i,1);
 			}
 			widget->setSliders(names, min, max);
 			

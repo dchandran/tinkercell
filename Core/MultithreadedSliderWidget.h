@@ -118,24 +118,42 @@ namespace Tinkercell
 		/*!
 		* \brief whenver the slides change, cthread->start() is called
 		*/
-		CThread * cthread;
-	
-		Qt::Orientation orientation;
-		
+		CThread * cthread;	
+		/*!
+		* \brief orientation of the sliders
+		*/
+		Qt::Orientation orientation;		
+		/*!
+		* \brief table storing slider values
+		*/
 		DataTable<qreal> values;
-		
+		/*!
+		* \brief slider labels in same order as sliders list
+		*/
 		QList< QLabel* > labels;
- 
+		/*!
+		* \brief all the sliders
+		*/
 		QList< QSlider* > sliders;
-		
+		/*!
+		* \brief slider min, max, and values in same order as sliders list
+		*/
 		QList< QLineEdit* > minline, maxline, valueline;
-		
+		/*!
+		* \brief slider min and max in same order as sliders list
+		*/
 		QList<double> min, max;
-		
+		/*!
+		* \brief slider layout
+		*/
 		QVBoxLayout * slidersLayout;
-		
+		/*!
+		* \brief sliders by name
+		*/
 		QHash< QString, QWidget* > sliderWidgets;
-		
+		/*!
+		* \brief main window
+		*/
 		MainWindow * mainWindow;
 	};
 }

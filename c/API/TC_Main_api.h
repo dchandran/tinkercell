@@ -750,6 +750,8 @@ void tc_Main_api_initialize(
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
+		void (*createSliders)(void*, Matrix, void (*f)(Matrix)),
+		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, char **),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
@@ -783,9 +785,7 @@ void tc_Main_api_initialize(
 		char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
-		void (*messageDialog)(const char*),
-		
-		void (*createSliders)(void*, Matrix, void (*f)(Matrix))
+		void (*messageDialog)(const char*)
 	)
 {
 	_tc_allItems = tc_allItems0;

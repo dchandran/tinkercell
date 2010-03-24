@@ -1234,8 +1234,6 @@ namespace Tinkercell
 					)
 				{
 					hideItems << childItems[i];
-					if (getHandle(childItems[i]))
-						qDebug() << getHandle(childItems[i])->name;
 				}
 			}
 
@@ -1248,9 +1246,8 @@ namespace Tinkercell
 				newEditor->networkWindow->popOut();
 				moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);
 				emit createTextWindow(newEditor, handles);
-				return;
 			}
-
+			else
 			if (scene->networkWindow && scene->networkWindow->currentView())
 			{
 				if (moduleHandles.contains(handle) &&
@@ -1258,16 +1255,19 @@ namespace Tinkercell
 				{
 					moduleHandles[handle]->close();
 				}
-				scene->networkWindow->currentView()->hideItems(hideItems);
+				
+				if (scene->networkWindow->currentView())
+					scene->networkWindow->currentView()->hideItems(hideItems[0]);
+					
 				GraphicsView * view = scene->networkWindow->createView(allItems);
 				view->showItems(hideItems);
 				
 				view->fitAll();
 				moduleViews[view] = handle;
 				moduleHandles[handle] = view;
-
-				scene->deselect();
 			}
+			
+			scene->deselect();
 		}
 	}
 

@@ -73,14 +73,17 @@ namespace Tinkercell
 
 	void GraphicsView::drawItems(QPainter *painter, int numItems, QGraphicsItem *items[], const QStyleOptionGraphicsItem options[])
 	{
+		QGraphicsItem * item;
 		for (int i=0; i < numItems; ++i)
 		{
+			item = getGraphicsItem(items[i]);
             if (
-                hiddenItems.contains(items[i]) ||
-				(	scene &&
+                hiddenItems.contains(item) ||
+				(
 					networkWindow &&
                     networkWindow->currentGraphicsView != this &&
-					!getGraphicsItem(items[i]))
+					!item
+				)
                )
 			{
 				items[i] = items[numItems-1];
@@ -283,12 +286,14 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 
-		if (item && !getGraphicsItem(item->topLevelItem()))
+		item = getGraphicsItem(item);
+
+		if (item)
 		{
 			if (connection = ConnectionGraphicsItem::cast(item))
 			{
 				items << connection
-					  << connection->controlPointsAsGraphicsItems()
+					  << connection->controlPointsAsGraphicsItems(true)
 					  << connection->arrowHeadsAsGraphicsItems();
 			}
 			else
@@ -305,9 +310,9 @@ namespace Tinkercell
 			{
 				items << item;
 			}
-			for (int j=0; j < items.size(); ++j)
+			/*for (int j=0; j < items.size(); ++j)
 				if (items[j])
-					items << items[j]->childItems();
+					items << items[j]->childItems();*/
 		}
 	}
 
@@ -317,37 +322,37 @@ namespace Tinkercell
 		if (show)
 			setText(QString("items displayed in view"));
 
+		QGraphicsItem * item;
+		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
+				
 		for (int i=0; i < list.size(); ++i)
-		{
-			if (!list[i] || !getGraphicsItem(list[i])) continue;
-
-			ConnectionGraphicsItem * connection = 0;
-			NodeGraphicsItem * node = 0;
-
-			if (connection = ConnectionGraphicsItem::cast(list[i]))
+			if (item = getGraphicsItem(list[i]))
 			{
-				items << connection
-					  << connection->controlPointsAsGraphicsItems()
-					  << connection->arrowHeadsAsGraphicsItems();
-			}
-			else
-			if (node = NodeGraphicsItem::cast(list[i]))
-			{
-				items << node;
+				if (connection = ConnectionGraphicsItem::cast(item))
+				{
+					items << connection
+						  << connection->controlPointsAsGraphicsItems(true)
+						  << connection->arrowHeadsAsGraphicsItems();
+				}
+				else
+				if (node = NodeGraphicsItem::cast(item))
+				{
+					items << node;
 
-				QList<ControlPoint*> controls = node->allControlPoints();
-				for (int j=0; j < controls.size(); ++j)
-					items << controls[j];
+					QList<ControlPoint*> controls = node->allControlPoints();
+					for (int j=0; j < controls.size(); ++j)
+						items << controls[j];
+				}
+				else
+				if (ControlPoint::cast(item) || TextGraphicsItem::cast(item))
+				{
+					items << item;
+				}
 			}
-			else
-			if (ControlPoint::cast(list[i]) || TextGraphicsItem::cast(list[i]))
-			{
-				items << list[i];
-			}
-		}
-		for (int j=0; j < items.size(); ++j)
+		/*for (int j=0; j < items.size(); ++j)
 			if (items[j])
-				items << items[j]->childItems();
+				items << items[j]->childItems();*/
 	}
 
 	void SetGraphicsViewVisibilityCommand::redo()
@@ -355,10 +360,12 @@ namespace Tinkercell
 		if (view)
 		{
 			for (int i=0; i < items.size(); ++i)
-				if (show)
-					view->hiddenItems.remove(items[i]);
-				else
-					view->hiddenItems[ items[i] ] = true;
+				if (items[i])
+					if (show)
+						view->hiddenItems.remove(items[i]);
+					else
+						view->hiddenItems[ items[i] ] = true;
+				
 		}
 	}
 
@@ -367,10 +374,11 @@ namespace Tinkercell
 		if (view)
 		{
 			for (int i=0; i < items.size(); ++i)
-				if (!show)
-					view->hiddenItems.remove(items[i]);
-				else
-					view->hiddenItems[ items[i] ] = true;
+				if (items[i])				
+					if (!show)
+						view->hiddenItems.remove(items[i]);
+					else
+						view->hiddenItems[ items[i] ] = true;
 		}
 	}
 }

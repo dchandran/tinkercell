@@ -21,10 +21,12 @@ static void PYTHON_CALLBACK_ARGS(Matrix m)
 	for (i=0; _CALLBACK_STRING_ARGS[i]; ++i)
 		str[i] = _CALLBACK_STRING_ARGS[i];
 	
+	sprintf(str,"(%s",str);
+	
 	for (j=0; j < m.rows; ++j)
 		sprintf(str,"%s%0.4lf",str,m.values[j]);
 	
-	sprintf(str,"%s\0",str);
+	sprintf(str,"%s)\0",str);
 	
 	tc_runPythonCode(str);
 	
@@ -109,7 +111,7 @@ static PyObject * pytc_setSliderCallback(PyObject *self, PyObject *args)
 		M.cols = 2;
 		M.rows = n1;		
 		M.colnames = 0;
-		M.rownames = names;
+		M.rownames = rownames;
 		M.values = nums;
 		
 		for (i=0; s && s[i]; ++i)
@@ -122,7 +124,7 @@ static PyObject * pytc_setSliderCallback(PyObject *self, PyObject *args)
 			s = 0;
 		}
 		
-		for (; i < _CALLBACK_STRING_ARGS; ++i)
+		for (; i < _CALLBACK_STR_LEN; ++i)
 			_CALLBACK_STRING_ARGS[i] = 0;
 
 		if (names && minv && maxv && s)

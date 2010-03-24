@@ -156,7 +156,9 @@ static PyMethodDef pytcMethods[] = {
 	{"callFunction", pytc_callFunction, METH_VARARGS, "execute a program that is listed in the functions menu. example: callFunction(\"Deterministic simulation\");"},
 	{"loadLibrary", pytc_loadLibrary, METH_VARARGS, "load a dynamic C library. example: loadLibrary(\"mycode.dll\");"},
 	{"addPythonPlugin", pytc_addPythonPlugin, METH_VARARGS, "add python script to the functions menu. example: addPythonPlugin(\"mycode.py\",\"my code name\", \"my code description\", \"category\", \"icon.png\");"},
-
+	{"setCallback", pytc_setCallback, METH_VARARGS, "set the python callback function or command. example: setCallback(\"myfunction()\");"},
+	{"createSliders", pytc_setSliderCallback, METH_VARARGS, "set the callback function for sliders. arguments include: parameter names, min values, max values, function name. example: createSliders( (\"A\",\"B\",\"C\"), (0.1,0.1,0.1), (1.0,1.0,1.0), \"f\");"},
+	
 //basic graphics
 	{"getColorR", pytc_getColorR, METH_VARARGS, "get the Red value of the color of the given object. example: A = find(\"A\"); r = getColorR(A);"},
 	{"getColorG", pytc_getColorG, METH_VARARGS, "get the Green value of the color of the given object. example: A = find(\"A\"); r = getColorG(A);"},

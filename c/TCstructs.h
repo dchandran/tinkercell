@@ -78,7 +78,7 @@ double getValue(Matrix M, int i, int j)
 	return 0.0;
 }
 
-double setValue(Matrix M, int i, int j, double d)
+void setValue(Matrix M, int i, int j, double d)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;

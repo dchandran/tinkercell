@@ -155,7 +155,7 @@ namespace Tinkercell
 			for (int i=0; i < m.rows; ++i)
 				for (int j=0; j < m.cols; ++j)
 				{
-					D->value(i,j) = valueAt(m,i,j);
+					D->value(i,j) = getValue(m,i,j);
 				}
 		}
 		catch(...)
@@ -193,7 +193,7 @@ namespace Tinkercell
 
 		for (int i=0; i < m.cols; ++i)
 		{
-			QString s = D.colName(i);			
+			QString s = D.colName(i);
 			m.colnames[i] = new char[s.length()+1];
 			//m.colnames[i] = (char*)_aligned_malloc((s.length()+1)*sizeof(char),16);
 			m.colnames[i][s.length()] = '\0';
@@ -204,7 +204,7 @@ namespace Tinkercell
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				valueAt(m,i,j) = D.at(i,j);
+				setValue(m,i,j,D.at(i,j));
 			}
 
 			return m;

@@ -45,8 +45,8 @@ namespace Tinkercell
         void getEventResponses(QSemaphore*,QStringList*);
         void addEvent(QSemaphore*,const QString&, const QString&);
     public slots:
-        char** getEventTriggers();
-        char** getEventResponses();
+        ArrayOfStrings getEventTriggers();
+        ArrayOfStrings getEventResponses();
         void addEvent(const char*, const char*);
     };
 
@@ -99,8 +99,8 @@ namespace Tinkercell
         QString oldEvent;
         QGroupBox * groupBox;
 
-        static char** _getEventTriggers();
-        static char** _getEventResponses();
+        static ArrayOfStrings _getEventTriggers();
+        static ArrayOfStrings _getEventResponses();
         static void _addEvent(const char*, const char*);
 
     protected slots:

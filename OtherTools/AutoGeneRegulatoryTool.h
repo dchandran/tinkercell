@@ -44,10 +44,10 @@ namespace Tinkercell
 			void alignParts(QSemaphore*,const QList<ItemHandle*>&);
 			
 		public slots:
-			Array partsIn(OBJ);
-			Array partsUpstream(OBJ);
-			Array partsDownstream(OBJ);
-			void alignParts(Array);
+			ArrayOfItems partsIn(void*);
+			ArrayOfItems partsUpstream(void*);
+			ArrayOfItems partsDownstream(void*);
+			void alignParts(ArrayOfItems);
 	};
 
 
@@ -105,10 +105,10 @@ namespace Tinkercell
 		
 		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		
-		static Array _partsIn(OBJ);
-		static Array _partsUpstream(OBJ);
-		static Array _partsDownstream(OBJ);
-		static void _alignParts(Array);
+		static ArrayOfItems _partsIn(void*);
+		static ArrayOfItems _partsUpstream(void*);
+		static ArrayOfItems _partsDownstream(void*);
+		static void _alignParts(ArrayOfItems);
 		
 		static AutoGeneRegulatoryTool_FtoS fToS;
 		

@@ -55,10 +55,10 @@ namespace Tinkercell
 		void loadAntimonyString(const char *);
 		void loadSBMLFile(const char *);
 		void loadAntimonyFile(const char *);
-		char* getSBMLString(Array);
-		char* getAntimonyString(Array);
-		void writeSBMLFile(Array,const char*);
-		void writeAntimonyFile(Array,const char*);
+		char* getSBMLString(ArrayOfItems);
+		char* getAntimonyString(ArrayOfItems);
+		void writeSBMLFile(ArrayOfItems,const char*);
+		void writeAntimonyFile(ArrayOfItems,const char*);
 
 	};
 
@@ -149,10 +149,10 @@ namespace Tinkercell
 		static void _loadAntimonyString(const char *);
 		static void _loadSBMLFile(const char *);
 		static void _loadAntimonyFile(const char *);
-		static char* _getSBMLString(Array);
-		static char* _getAntimonyString(Array);
-		static void _writeSBMLFile(Array,const char*);
-		static void _writeAntimonyFile(Array,const char*);
+		static char* _getSBMLString(ArrayOfItems);
+		static char* _getAntimonyString(ArrayOfItems);
+		static void _writeSBMLFile(ArrayOfItems,const char*);
+		static void _writeAntimonyFile(ArrayOfItems,const char*);
 		void connectTCFunctions();
 		static void appendScript(QString&, const QList<ItemHandle*>&);
 

@@ -2259,7 +2259,7 @@ namespace Tinkercell
 	            C API
 	******************************************/
 
-	typedef void (*tc_GRN_api) (Array (*f1)(OBJ), Array (*f2)(OBJ), Array (*f3)(OBJ), void (*f4)(Array) );
+	typedef void (*tc_GRN_api) (ArrayOfItems (*f1)(void*), ArrayOfItems (*f2)(void*), ArrayOfItems (*f3)(void*), void (*f4)(ArrayOfItems) );
 
 	void AutoGeneRegulatoryTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -2317,12 +2317,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void AutoGeneRegulatoryTool::_alignParts(Array A)
+	void AutoGeneRegulatoryTool::_alignParts(ArrayOfItems A)
     {
         fToS.alignParts(A);
     }
 
-    void AutoGeneRegulatoryTool_FtoS::alignParts(Array A)
+    void AutoGeneRegulatoryTool_FtoS::alignParts(ArrayOfItems A)
     {
         QList<ItemHandle*> * list = ConvertValue(A);
 		QSemaphore * s = new QSemaphore(1);
@@ -2380,12 +2380,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	Array AutoGeneRegulatoryTool::_partsIn(OBJ o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsIn(void* o)
     {
         return fToS.partsIn(o);
     }
 
-    Array AutoGeneRegulatoryTool_FtoS::partsIn(OBJ o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsIn(void* o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2394,7 +2394,7 @@ namespace Tinkercell
         s->acquire();
         s->release();
         delete s;
-        Array A = ConvertValue(*p);
+        ArrayOfItems A = ConvertValue(*p);
         delete p;
         return A;
     }
@@ -2441,12 +2441,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	Array AutoGeneRegulatoryTool::_partsUpstream(OBJ o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsUpstream(void* o)
     {
         return fToS.partsUpstream(o);
     }
 
-    Array AutoGeneRegulatoryTool_FtoS::partsUpstream(OBJ o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsUpstream(void* o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2455,7 +2455,7 @@ namespace Tinkercell
         s->acquire();
         s->release();
         delete s;
-        Array A = ConvertValue(*p);
+        ArrayOfItems A = ConvertValue(*p);
         delete p;
         return A;
     }
@@ -2496,12 +2496,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	Array AutoGeneRegulatoryTool::_partsDownstream(OBJ o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsDownstream(void* o)
     {
         return fToS.partsDownstream(o);
     }
 
-    Array AutoGeneRegulatoryTool_FtoS::partsDownstream(OBJ o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsDownstream(void* o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2510,7 +2510,7 @@ namespace Tinkercell
         s->acquire();
         s->release();
         delete s;
-        Array A = ConvertValue(*p);
+        ArrayOfItems A = ConvertValue(*p);
         delete p;
         return A;
     }

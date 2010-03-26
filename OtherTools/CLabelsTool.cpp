@@ -46,10 +46,10 @@ namespace Tinkercell
 	}
 	
 	typedef void (*tc_CLabelsTool_api)(
-		 void (*displayText)(OBJ item,const char*),
-		 void (*displayNumber)(OBJ item,double),
+		 void (*displayText)(void* item,const char*),
+		 void (*displayNumber)(void* item,double),
 		 void (*setDisplayLabelColor)(int r1, int g1, int b1, int r2, int g2, int b2),
-		 void (*highlightItem)(OBJ item, int r, int g, int b)
+		 void (*highlightItem)(void* item, int r, int g, int b)
 	);
 	
 	void CLabelsTool::historyChanged( int )
@@ -260,12 +260,12 @@ namespace Tinkercell
 	
 	CLabelsTool_FToS CLabelsTool::fToS;
 	
-	void CLabelsTool::_displayText(OBJ o,const char* c)
+	void CLabelsTool::_displayText(void* o,const char* c)
 	{
 		fToS.displayText(o,c);
 	}
 	
-	void CLabelsTool::_displayNumber(OBJ o,double d)
+	void CLabelsTool::_displayNumber(void* o,double d)
 	{
 		fToS.displayNumber(o,d);
 	}
@@ -275,17 +275,17 @@ namespace Tinkercell
 		fToS.setDisplayLabelColor(r1,g1,b1,r2,g2,b2);
 	}
 	
-	void CLabelsTool::_highlightItem(OBJ o, int r, int g, int b)
+	void CLabelsTool::_highlightItem(void* o, int r, int g, int b)
 	{
 		fToS.highlightItem(o,r,g,b);
 	}
 	
-	void CLabelsTool_FToS::displayText(OBJ o,const char* c)
+	void CLabelsTool_FToS::displayText(void* o,const char* c)
 	{
 		emit displayText(ConvertValue(o),ConvertValue(c));
 	}
 	
-	void CLabelsTool_FToS::displayNumber(OBJ o,double d)
+	void CLabelsTool_FToS::displayNumber(void* o,double d)
 	{
 		emit displayText(ConvertValue(o),QString::number(d));
 	}
@@ -295,7 +295,7 @@ namespace Tinkercell
 		emit setLabelColor(r1,g1,b1,r2,b2,g2);
 	}
 	
-	void CLabelsTool_FToS::highlightItem(OBJ o, int r, int g, int b)
+	void CLabelsTool_FToS::highlightItem(void* o, int r, int g, int b)
 	{
 		emit highlightItem(ConvertValue(o),QColor(r,g,b));
 	}

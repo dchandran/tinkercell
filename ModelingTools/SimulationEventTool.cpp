@@ -742,8 +742,8 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_SimulationEventsTool_api)(
-		char** (*getEventTriggers)(),
-		char** (*getEventResponses)(),
+		ArrayOfStrings (*getEventTriggers)(),
+		ArrayOfStrings (*getEventResponses)(),
 		void (*addEvent)(const char*, const char*)
 		);
 
@@ -868,12 +868,12 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	char** SimulationEventsTool::_getEventTriggers()
+	ArrayOfStrings SimulationEventsTool::_getEventTriggers()
 	{
 		return fToS.getEventTriggers();
 	}
 
-	char** SimulationEventsTool_FToS::getEventTriggers()
+	ArrayOfStrings SimulationEventsTool_FToS::getEventTriggers()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -882,15 +882,15 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		return (char**)ConvertValue(p);
+		return (ArrayOfStrings)ConvertValue(p);
 	}
 
-	char** SimulationEventsTool::_getEventResponses()
+	ArrayOfStrings SimulationEventsTool::_getEventResponses()
 	{
 		return fToS.getEventResponses();
 	}
 
-	char** SimulationEventsTool_FToS::getEventResponses()
+	ArrayOfStrings SimulationEventsTool_FToS::getEventResponses()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -899,7 +899,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		return (char**)ConvertValue(p);
+		return (ArrayOfStrings)ConvertValue(p);
 	}
 
 	void SimulationEventsTool::_addEvent( const char* a, const char* b)

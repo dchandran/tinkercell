@@ -1071,10 +1071,10 @@ namespace Tinkercell
 				void (*loadSBMLString)(const char *),
 				void (*loadSBMLFile)(const char *),
 				void (*loadAntimonyFile)(const char *),
-				char* (*getSBMLString)(Array),
-				char* (*getAntimonyString)(Array),
-				void (*writeSBMLFile)(Array,const char*),
-				void (*writeAntimonyFile)(Array,const char*));
+				char* (*getSBMLString)(ArrayOfItems),
+				char* (*getAntimonyString)(ArrayOfItems),
+				void (*writeSBMLFile)(ArrayOfItems,const char*),
+				void (*writeAntimonyFile)(ArrayOfItems,const char*));
 
 	void AntimonyEditor::setupFunctionPointers( QLibrary * library)
 	{
@@ -1157,7 +1157,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-	char* AntimonyEditor_FtoS::getSBMLString(Array a)
+	char* AntimonyEditor_FtoS::getSBMLString(ArrayOfItems a)
 	{
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
@@ -1170,7 +1170,7 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(str);
 	}
-	char* AntimonyEditor_FtoS::getAntimonyString(Array a)
+	char* AntimonyEditor_FtoS::getAntimonyString(ArrayOfItems a)
 	{
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
@@ -1183,7 +1183,7 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(str);
 	}
-	void AntimonyEditor_FtoS::writeSBMLFile(Array a,const char* c)
+	void AntimonyEditor_FtoS::writeSBMLFile(ArrayOfItems a,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1194,7 +1194,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-	void AntimonyEditor_FtoS::writeAntimonyFile(Array a,const char* c)
+	void AntimonyEditor_FtoS::writeAntimonyFile(ArrayOfItems a,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1222,19 +1222,19 @@ namespace Tinkercell
 	{
 		fToS.loadAntimonyFile(c);
 	}
-	char* AntimonyEditor::_getSBMLString(Array a)
+	char* AntimonyEditor::_getSBMLString(ArrayOfItems a)
 	{
 		return fToS.getSBMLString(a);
 	}
-	char* AntimonyEditor::_getAntimonyString(Array a)
+	char* AntimonyEditor::_getAntimonyString(ArrayOfItems a)
 	{
 		return fToS.getAntimonyString(a);
 	}
-	void AntimonyEditor::_writeSBMLFile(Array a,const char* c)
+	void AntimonyEditor::_writeSBMLFile(ArrayOfItems a,const char* c)
 	{
 		fToS.writeSBMLFile(a,c);
 	}
-	void AntimonyEditor::_writeAntimonyFile(Array a,const char* c)
+	void AntimonyEditor::_writeAntimonyFile(ArrayOfItems a,const char* c)
 	{
 		fToS.writeAntimonyFile(a,c);
 	}

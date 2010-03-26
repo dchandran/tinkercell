@@ -57,10 +57,10 @@ namespace Tinkercell
 		void getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
 	public slots:
-		Matrix getStoichiometry(Array);
-		void setStoichiometry(Array,Matrix );
-		char** getRates(Array);
-		void setRates(Array,char** );
+		Matrix getStoichiometry(ArrayOfItems);
+		void setStoichiometry(ArrayOfItems,Matrix );
+		ArrayOfStrings getRates(ArrayOfItems);
+		void setRates(ArrayOfItems,ArrayOfStrings );
 	};
 
 	/*! \brief This class adds the Rates string data and Stoichiometry numerical data 
@@ -195,13 +195,13 @@ namespace Tinkercell
 		/*! \brief connect to the the C API static class*/
 		void connectCFuntions();
 		/*! \brief used for the C API*/
-		static Matrix _getStoichiometry(Array);
+		static Matrix _getStoichiometry(ArrayOfItems);
 		/*! \brief used for the C API*/
-		static void _setStoichiometry(Array ,Matrix );
+		static void _setStoichiometry(ArrayOfItems ,Matrix );
 		/*! \brief used for the C API*/
-		static char** _getRates(Array );
+		static ArrayOfStrings _getRates(ArrayOfItems );
 		/*! \brief used for the C API*/
-		static void _setRates(Array ,char** );
+		static void _setRates(ArrayOfItems ,ArrayOfStrings );
 		/*! \brief delete and + for adding/removing rows/columns*/
 		virtual void keyPressEvent ( QKeyEvent * event );
 

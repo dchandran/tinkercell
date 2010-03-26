@@ -193,7 +193,7 @@ void tc_createInputWindow(Matrix input, const char* title, void (*f)(Matrix));
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
 */
-void tc_addInputWindowOptions(const char* title, int i, int j, char ** options);
+void tc_addInputWindowOptions(const char* title, int i, int j, ArrayOfStrings options);
 
 /*! 
  \brief add a yes or no type of option to an existing input window at the i,j-th cell
@@ -357,7 +357,7 @@ void tc_Main_api_initialize(
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
 		void (*createSliders)(void*, Matrix, void (*f)(Matrix)),
 		
-		void (*tc_addInputWindowOptions0)(const char*, int i, int j, char **),
+		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
 		

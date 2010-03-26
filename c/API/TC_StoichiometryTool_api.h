@@ -78,15 +78,15 @@ char* tc_getRate(OBJ x)
 void tc_setRate(OBJ x, char* r)
 {
 	OBJ a[] = { 0, 0 };
-	char ** c;
+	ArrayOfStrings c;
 
 	if (!x) return;
 
 	a[0] = x;
 	c = _tc_getRates(a);
-	if (!c || !c[0]) return;
-	free(c[0]);
-	c[0] = r;
+	if (!c.strings || c.length < 1 || !c.strings[0]) return;
+	free(c.strings[0]);
+	c.strings[0] = r;
 	_tc_setRates(a,c);
 	free(c);
 }

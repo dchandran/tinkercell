@@ -385,7 +385,10 @@ namespace Tinkercell
 				window->setFocus();
 
 			if (window != oldWindow)
+			{
+				emit escapeSignal(this);
 				emit windowChanged(oldWindow,window);
+			}
 		}
 	}
 

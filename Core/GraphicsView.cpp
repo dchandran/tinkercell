@@ -293,7 +293,7 @@ namespace Tinkercell
 			if (connection = ConnectionGraphicsItem::cast(item))
 			{
 				items << connection
-					  << connection->controlPointsAsGraphicsItems(true)
+					 // << connection->controlPointsAsGraphicsItems(true)
 					  << connection->arrowHeadsAsGraphicsItems();
 			}
 			else
@@ -332,7 +332,7 @@ namespace Tinkercell
 				if (connection = ConnectionGraphicsItem::cast(item))
 				{
 					items << connection
-						  << connection->controlPointsAsGraphicsItems(true)
+						 // << connection->controlPointsAsGraphicsItems(true)
 						  << connection->arrowHeadsAsGraphicsItems();
 				}
 				else

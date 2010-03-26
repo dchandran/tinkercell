@@ -53,6 +53,7 @@ namespace Tinkercell
 		emit closing(this,&b);
 		if (b)
 		{
+			mainWindow->sendEscapeSignal(mainWindow);
 			emit closed(this);
 
 			disconnect();

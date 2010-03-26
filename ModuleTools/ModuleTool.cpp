@@ -1256,15 +1256,16 @@ namespace Tinkercell
 					moduleHandles[handle]->close();
 				}
 				
-				if (scene->networkWindow->currentView())
-					scene->networkWindow->currentView()->hideItems(hideItems[0]);
-					
-				GraphicsView * view = scene->networkWindow->createView(allItems);
-				view->showItems(hideItems);
+				GraphicsView * oldView = scene->networkWindow->currentView();
+				GraphicsView * newView = scene->networkWindow->createView(allItems);
+				newView->showItems(hideItems);
 				
-				view->fitAll();
-				moduleViews[view] = handle;
-				moduleHandles[handle] = view;
+				newView->fitAll();
+				moduleViews[newView] = handle;
+				moduleHandles[handle] = newView;
+				
+				if (oldView)
+					oldView->hideItems(hideItems);
 			}
 			
 			scene->deselect();

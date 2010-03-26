@@ -73,7 +73,7 @@ namespace Tinkercell
 			/*! \brief stops the "glowing" effect when items are inserted*/
 			void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 
-signals:
+	signals:
 			/*!
 			\brief two or more items have been moved on top of a node item
 			\param QList<QGraphicsItem*> the moving items
@@ -91,17 +91,17 @@ signals:
 			*/
 			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
 
-			private slots:
-				/*!
-				\brief used to make items "glow" using a QTimeLine
-				\param int the time line status
-				*/
-				void makeNodeGlow(int alpha);
-				/*!
-				\brief stops the "glow" effect in response to QTimeLine
-				\param int the time line status
-				*/
-				void stopGlow(QTimeLine::State);
+	private slots:
+		/*!
+		\brief used to make items "glow" using a QTimeLine
+		\param int the time line status
+		*/
+		void makeNodeGlow(int alpha);
+		/*!
+		\brief stops the "glow" effect in response to QTimeLine
+		\param int the time line status
+		*/
+		void stopGlow(QTimeLine::State);
 	private:
 		/*!\brief timer used to make objects glow (change transparency)*/
 		QTimeLine glowTimer;

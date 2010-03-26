@@ -629,8 +629,8 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_AssignmentFunctionsTool_api)(
-		char** (*getForcingFunctionNames)(Array),
-		char** (*getForcingFunctionAssignments)(Array),
+		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
+		ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
 		void (*addForcingFunction)(OBJ,const char*, const char*)
 		);
 
@@ -751,12 +751,12 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	char** AssignmentFunctionsTool::_getForcingFunctionNames(Array a0)
+	ArrayOfStrings AssignmentFunctionsTool::_getForcingFunctionNames(ArrayOfItems a0)
 	{
 		return fToS.getForcingFunctionNames(a0);
 	}
 
-	char** AssignmentFunctionsTool_FToS::getForcingFunctionNames(Array a0)
+	ArrayOfStrings AssignmentFunctionsTool_FToS::getForcingFunctionNames(ArrayOfItems a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -767,15 +767,15 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-		return (char**)ConvertValue(p);
+		return (ArrayOfStrings)ConvertValue(p);
 	}
 
-	char** AssignmentFunctionsTool::_getForcingFunctionAssignments(Array a0)
+	ArrayOfStrings AssignmentFunctionsTool::_getForcingFunctionAssignments(ArrayOfItems a0)
 	{
 		return fToS.getForcingFunctionAssignments(a0);
 	}
 
-	char** AssignmentFunctionsTool_FToS::getForcingFunctionAssignments(Array a0)
+	ArrayOfStrings AssignmentFunctionsTool_FToS::getForcingFunctionAssignments(ArrayOfItems a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -786,7 +786,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-		return (char**)ConvertValue(p);
+		return (ArrayOfStrings)ConvertValue(p);
 	}
 
 	void AssignmentFunctionsTool::_addForcingFunction(OBJ o, const char* a, const char* b)

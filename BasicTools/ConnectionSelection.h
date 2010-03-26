@@ -42,7 +42,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 
-signals:
+	signals:
 		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
 		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
 		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
@@ -53,16 +53,16 @@ signals:
 		void setStraight(QSemaphore*,ItemHandle*,int);
 		void setAllStraight(QSemaphore*,int);
 
-		public slots:
-			double getControlPointX(OBJ a0,OBJ a1,int a2);
-			double getControlPointY(OBJ a0,OBJ a1,int a2);
-			void setControlPoint(OBJ a0,OBJ a1,int i,double a2,double a3);
-			void setCenterPoint(OBJ a0,double a1,double a2);
-			double getCenterPointX(OBJ);
-			double getCenterPointY(OBJ);
-			void setStraight(OBJ,int);
-			void setAllStraight(int);
-			void setLineWidth(OBJ,double,int);
+	public slots:
+		double getControlPointX(void* a0,void* a1,int a2);
+		double getControlPointY(void* a0,void* a1,int a2);
+		void setControlPoint(void* a0,void* a1,int i,double a2,double a3);
+		void setCenterPoint(void* a0,double a1,double a2);
+		double getCenterPointX(void*);
+		double getCenterPointY(void*);
+		void setStraight(void*,int);
+		void setAllStraight(int);
+		void setLineWidth(void*,double,int);
 	};
 
 	/*! \brief This class listens to selection events from the scene and responds by changing colors
@@ -170,15 +170,15 @@ signals:
 		//QMenu connectorsMenu;
 		void connectTCFunctions();
 		static ConnectionSelection_FToS fToS;
-		static double _getControlPointX(OBJ ,OBJ ,int );
-		static double _getControlPointY(OBJ ,OBJ ,int );
-		static void _setControlPoint(OBJ ,OBJ ,int i, double ,double );
-		static double _getCenterPointX(OBJ);
-		static double _getCenterPointY(OBJ);
-		static void _setCenterPoint(OBJ,double,double);
-		static void _setStraight(OBJ,int);
+		static double _getControlPointX(void* ,void* ,int );
+		static double _getControlPointY(void* ,void* ,int );
+		static void _setControlPoint(void* ,void* ,int i, double ,double );
+		static double _getCenterPointX(void*);
+		static double _getCenterPointY(void*);
+		static void _setCenterPoint(void*,double,double);
+		static void _setStraight(void*,int);
 		static void _setAllStraight(int);
-		static void _setLineWidth(OBJ,double,int);
+		static void _setLineWidth(void*,double,int);
 
 		class LineTypeChanged : public QUndoCommand
 		{

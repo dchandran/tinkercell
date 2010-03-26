@@ -52,7 +52,7 @@ namespace Tinkercell
 	class ConnectionInsertion_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
+	signals:
 		void insertConnection(QSemaphore*,ItemHandle** item,const QList<ItemHandle*>&,const QList<ItemHandle*>&,const QString&, const QString&);
 		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
@@ -62,16 +62,16 @@ signals:
 		void getConnectionsIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectionsOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectionsOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-		public slots:
-			OBJ insertConnection(Array, Array, const char*, const char*);
-			Array getConnectedNodes(OBJ);
-			Array getConnectedNodesIn(OBJ);
-			Array getConnectedNodesOut(OBJ);
-			Array getConnectedNodesOther(OBJ);
-			Array getConnections(OBJ);
-			Array getConnectionsIn(OBJ);
-			Array getConnectionsOut(OBJ);
-			Array getConnectionsOther(OBJ);
+	public slots:
+		void* insertConnection(ArrayOfItems, ArrayOfItems, const char*, const char*);
+		ArrayOfItems getConnectedNodes(void*);
+		ArrayOfItems getConnectedNodesIn(void*);
+		ArrayOfItems getConnectedNodesOut(void*);
+		ArrayOfItems getConnectedNodesOther(void*);
+		ArrayOfItems getConnections(void*);
+		ArrayOfItems getConnectionsIn(void*);
+		ArrayOfItems getConnectionsOut(void*);
+		ArrayOfItems getConnectionsOther(void*);
 	};
 
 	/*!\brief This class allows users to select items from the connection tree and insert them onto the scene.
@@ -188,23 +188,23 @@ signals:
 		static ConnectionInsertion_FToS fToS;
 
 		/*!\brief C API function*/
-		static OBJ _insertConnection(Array, Array, const char*, const char*);
+		static void* _insertConnection(ArrayOfItems, ArrayOfItems, const char*, const char*);
 		/*!\brief C API function*/
-		static Array _getConnectedNodes(OBJ);
+		static ArrayOfItems _getConnectedNodes(void*);
 		/*!\brief C API function*/
-		static Array _getConnectedNodesIn(OBJ);
+		static ArrayOfItems _getConnectedNodesIn(void*);
 		/*!\brief C API function*/
-		static Array _getConnectedNodesOut(OBJ);
+		static ArrayOfItems _getConnectedNodesOut(void*);
 		/*!\brief C API function*/
-		static Array _getConnectedNodesOther(OBJ);
+		static ArrayOfItems _getConnectedNodesOther(void*);
 		/*!\brief C API function*/
-		static Array _getConnections(OBJ);
+		static ArrayOfItems _getConnections(void*);
 		/*!\brief C API function*/
-		static Array _getConnectionsIn(OBJ);
+		static ArrayOfItems _getConnectionsIn(void*);
 		/*!\brief C API function*/
-		static Array _getConnectionsOut(OBJ);
+		static ArrayOfItems _getConnectionsOut(void*);
 		/*!\brief C API function*/
-		static Array _getConnectionsOther(OBJ);
+		static ArrayOfItems _getConnectionsOther(void*);
 	};
 
 }

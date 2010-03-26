@@ -74,18 +74,18 @@ namespace Tinkercell
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
 	public slots:
-		Matrix getInitialValues(Array );
-		void setInitialValues(Array,Matrix);
-		Matrix getParameters(Array );
-		Matrix getFixedVars(Array);
-		Matrix getFixedAndParameters(Array);
-		char* getTextData(OBJ ,const char* );
-		double getNumericalData(OBJ ,const char* );
-		Matrix getParametersNamed(Array, char**);
-		Matrix getParametersExcept(Array, char**);
-		char** getAllTextDataNamed(Array, char**);
-		void setTextData(OBJ ,const char* ,const char* );
-		void setNumericalData(OBJ ,const char* ,double );
+		Matrix getInitialValues(ArrayOfItems );
+		void setInitialValues(ArrayOfItems,Matrix);
+		Matrix getParameters(ArrayOfItems );
+		Matrix getFixedVars(ArrayOfItems);
+		Matrix getFixedAndParameters(ArrayOfItems);
+		char* getTextData(void* ,const char* );
+		double getNumericalData(void* ,const char* );
+		Matrix getParametersNamed(ArrayOfItems, ArrayOfItemsOfStrings);
+		Matrix getParametersExcept(ArrayOfItems, ArrayOfItemsOfStrings);
+		ArrayOfItemsOfStrings getAllTextDataNamed(ArrayOfItems, ArrayOfItemsOfStrings);
+		void setTextData(void* ,const char* ,const char* );
+		void setNumericalData(void* ,const char* ,double );
 	};
 
 	/*!
@@ -153,18 +153,18 @@ namespace Tinkercell
 		void updateTable();
 		static BasicInformationTool_FToS fToS;
 		void connectTCFunctions();
-		static Matrix _getInitialValues(Array );
-		static void _setInitialValues(Array,Matrix);
-		static Matrix _getParameters(Array );
-		static Matrix _getFixedVars(Array);
-		static Matrix _getFixedAndParameters(Array);
-		static char* _getTextData(OBJ ,const char* );
-		static double _getNumericalData(OBJ ,const char* );
-		static Matrix _getParametersNamed(Array, char**);
-		static Matrix _getParametersExcept(Array, char**);
-		static char** _getAllTextDataNamed(Array, char**);
-		static void _setTextData(OBJ ,const char* ,const char* );
-		static void _setNumericalData(OBJ ,const char* ,double );
+		static Matrix _getInitialValues(ArrayOfItems );
+		static void _setInitialValues(ArrayOfItems,Matrix);
+		static Matrix _getParameters(ArrayOfItems );
+		static Matrix _getFixedVars(ArrayOfItems);
+		static Matrix _getFixedAndParameters(ArrayOfItems);
+		static char* _getTextData(void* ,const char* );
+		static double _getNumericalData(void* ,const char* );
+		static Matrix _getParametersNamed(ArrayOfItems, ArrayOfStrings);
+		static Matrix _getParametersExcept(ArrayOfItems, ArrayOfStrings);
+		static ArrayOfStrings _getAllTextDataNamed(ArrayOfItems, ArrayOfStrings);
+		static void _setTextData(void* ,const char* ,const char* );
+		static void _setNumericalData(void* ,const char* ,double );
 
 		virtual void keyPressEvent ( QKeyEvent * event );
 

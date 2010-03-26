@@ -41,8 +41,8 @@ namespace Tinkercell
 		void getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item);
 		void setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list);
 	public slots:
-		char** getAnnotation(OBJ);
-		void setAnnotation(OBJ,char**);
+		ArrayOfStrings getAnnotation(void*);
+		void setAnnotation(void*,ArrayOfStrings);
 	};
 
 	class MY_EXPORT NameFamilyDialog : public Tool
@@ -71,7 +71,6 @@ namespace Tinkercell
 	protected:
 		QDialog * dialog;
 		QPlainTextEdit * textEdit;
-		//QList<QLineEdit*> lineEdits;
 		ItemHandle* selectedItem;
 		NodeGraphicsItem idcard;
 		
@@ -97,9 +96,9 @@ namespace Tinkercell
 	private:
 		void connectTCFunctions();
 		/*! \brief node of the C API framework*/
-		static char** _getAnnotation(OBJ);
+		static ArrayOfStrings _getAnnotation(void*);
 		/*! \brief node of the C API framework*/
-		static void _setAnnotation(OBJ,char**);
+		static void _setAnnotation(void*,ArrayOfStrings);
 		/*! \brief node of the C API framework*/
 		static NameFamilyDialog_FtoS fToS;
 	};

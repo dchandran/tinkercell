@@ -72,7 +72,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,QString,QString)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,QString,QString)));
 	}
 
-	typedef void (*tc_NodeInsertion_api)(OBJ (*insertItem)(const char* , const char* ));
+	typedef void (*tc_NodeInsertion_api)(void* (*insertItem)(const char* , const char* ));
 
 	void NodeInsertion::setupFunctionPointers( QLibrary * library )
 	{
@@ -349,12 +349,12 @@ namespace Tinkercell
 
 	NodeInsertion_FToS NodeInsertion::fToS;
 
-	OBJ NodeInsertion::_insertItem(const char* a, const char* b)
+	void* NodeInsertion::_insertItem(const char* a, const char* b)
 	{
 		return fToS.insertItem(a,b);
 	}
 
-	OBJ NodeInsertion_FToS::insertItem(const char* a0, const char* a1)
+	void* NodeInsertion_FToS::insertItem(const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;

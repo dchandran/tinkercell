@@ -56,12 +56,12 @@ namespace Tinkercell
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
 
 	public slots:
-		int getColorR(OBJ);
-		int getColorG(OBJ);
-		int getColorB(OBJ);
-		void setColor(OBJ,int,int,int,int);
-		void changeGraphics(OBJ,const char*);
-		void changeArrowHead(OBJ,const char*);
+		int getColorR(void*);
+		int getColorG(void*);
+		int getColorB(void*);
+		void setColor(void*,int,int,int,int);
+		void changeGraphics(void*,const char*);
+		void changeArrowHead(void*,const char*);
 	};
 
 	class BasicGraphicsToolbox : public Tool
@@ -152,12 +152,12 @@ namespace Tinkercell
 	private:
 		static BasicGraphicsToolbox_FToS fToS;
 		void connectTCFunctions();
-		static int _getColorR(OBJ);
-		static int _getColorG(OBJ);
-		static int _getColorB(OBJ);
-		static void _setColor(OBJ,int,int,int,int);
-		static void _changeGraphics(OBJ,const char*);
-		static void _changeArrowHead(OBJ,const char*);
+		static int _getColorR(void*);
+		static int _getColorG(void*);
+		static int _getColorB(void*);
+		static void _setColor(void*,int,int,int,int);
+		static void _changeGraphics(void*,const char*);
+		static void _changeArrowHead(void*,const char*);
 		QList<QGraphicsItem*> temporarilyChangedItems;
 	};
 

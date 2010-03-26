@@ -163,8 +163,8 @@ static void odeFunc( double time, double * u, double * du, void * udata )
       du[i] = 0;
       for (j=0; j < numReactions; ++j)
       {
-         if (getValue(StoichiometryMatrix,numReactions,i,j) != 0)
-            du[i] += rates[j]*getValue(StoichiometryMatrix,numReactions,i,j);
+         if (StoichiometryMatrix[numReactions*i + j] != 0)
+            du[i] += rates[j]*StoichiometryMatrix[numReactions*i + j];
        }
    }
 }
@@ -181,7 +181,7 @@ static void odeFunc( double time, double * u, double * du, void * udata )
 * /param  end time 
 * /param  time increments for the simulation
 * /param  user data type for storing other information
-* /return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
+* /return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
 */
 
 double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,void*), double *x0, double startTime, double endTime, double dt, void * dataptr)
@@ -211,7 +211,7 @@ double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,voi
  * /param  pointer to propensity function -- f(time, y-values, rates) --- assign values to the rates array
  * /param: array of values (point where Jacobian will be calculated)
  * /param: additional parameters needed for ode function
- * /ret: 2D array made into linear array -- use getValue(array,N,i,j)
+ * /ret: 2D array made into linear array
  */
 double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * point, void * dataptr, double * eigenreal, double * eigenim)
 {
@@ -400,7 +400,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 		/*store data*/
 		if (data)
 		{
-		   getValue(data,N+1,i,0) = t;
+		   data[ (N+1)*i ] = t;
 		   for (j=0; j < N; ++j)
 		   {
 			   if (ODE_POSITIVE_VALUES_ONLY && (NV_DATA_S(u))[j] < 0) //special for bio networks
@@ -413,7 +413,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 				  return 0;
 			   }
 			   else
-				 getValue(data,N+1,i,j+1) = (NV_DATA_S(u))[j]; //normal case
+				 data[ i*(N+1) + j+1) = (NV_DATA_S(u))[j]; //normal case
 		   }
 		}
 		++i;
@@ -446,7 +446,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
  * @param: array of values (point where Jacobian will be calculated)
  * @param: ode function pointer
  * @param: additional parameters needed for ode function
- * @ret: 2D array made into linear array -- use getValue(array,N,i,j)
+ * @ret: 2D array made into linear array
  */
 double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,void*), void * params, double * wr, double * wi)
 {
@@ -470,7 +470,7 @@ double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,v
 		point[i] -= dx;             //x = x0
 		for (j=0; j < N; ++j)
 		{
-			getValue(J,N,j,i) = (dy1[j] - dy0[j])/(dx+dx);  // J[j,i] = f(x+h) - f(x-h) / 2h
+			J[ N*j + i ] = (dy1[j] - dy0[j])/(dx+dx);  // J[j,i] = f(x+h) - f(x-h) / 2h
 		}
 	}
 	free (dy0);
@@ -673,7 +673,7 @@ double* getDerivatives(int N, double * initialValues, void (*odefnc)(double,doub
   
 	for (i=0; i < N; ++i)
 	{
-	  dy[i] = ( getValue(y,1+N,sz,1+i) - getValue(y,1+N,sz - 1,1+i) )/ stepSize;
+	  dy[i] = ( y[ sz*(1+N) + 1+i ] - y[ (1+N)*(sz-1) + 1+i) )/ stepSize;
 	}
 	
 	free(y);
@@ -703,10 +703,10 @@ void writeToFile(char* filename, double* data, int rows, int cols)
 	
 	for (i=0; i < rows; ++i)
 	{
-		fprintf(out, "%lf",getValue(data,cols,i,0));
+		fprintf(out, "%lf", data [ i*cols ]);
 
 		for (j=1; j < cols; ++j)
-			fprintf(out, "\t%lf",getValue(data,cols,i,j));
+			fprintf(out, "\t%lf", data[cols*i + j]);
 
 		fprintf(out, "\n");
 	}

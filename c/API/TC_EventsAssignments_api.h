@@ -3,24 +3,24 @@
 
 #include "../TCstructs.h"
 
-char** (*_tc_getEventTriggers)() = 0;
+ArrayOfStrings (*_tc_getEventTriggers)() = 0;
 /*! 
  \brief get the event triggers for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getEventTriggers()
+ArrayOfStrings tc_getEventTriggers()
 {
 	if (_tc_getEventTriggers)
 		return _tc_getEventTriggers();
 	return 0;
 }
 
-char** (*_tc_getEventResponses)() = 0;
+ArrayOfStrings (*_tc_getEventResponses)() = 0;
 /*! 
  \brief get the event responses for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getEventResponses()
+ArrayOfStrings tc_getEventResponses()
 {
 	if (_tc_getEventResponses)
 		return _tc_getEventResponses();
@@ -43,8 +43,8 @@ void tc_addEvent(const char* trigger, const char* event)
  \ingroup init
 */
 void tc_SimulationEventsTool_api(
-		char** (*getEventTriggers)(),
-		 char** (*getEventResponses)(),
+		ArrayOfStrings (*getEventTriggers)(),
+		 ArrayOfStrings (*getEventResponses)(),
 		 void (*addEvent)(const char*, const char*)
 	)
 {
@@ -53,24 +53,24 @@ void tc_SimulationEventsTool_api(
 	_tc_addEvent = addEvent;
 }
 
-char** (*_tc_getForcingFunctionNames)(Array) = 0;
+ArrayOfStrings (*_tc_getForcingFunctionNames)(Array) = 0;
 /*! 
  \brief get the forcing function names for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getForcingFunctionNames(Array a)
+ArrayOfStrings tc_getForcingFunctionNames(Array a)
 {
 	if (_tc_getForcingFunctionNames)
 		return _tc_getForcingFunctionNames(a);
 	return 0;
 }
 
-char** (*_tc_getForcingFunctionAssignments)(Array) = 0;
+ArrayOfStrings (*_tc_getForcingFunctionAssignments)(Array) = 0;
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Events and forcing functions
 */
-char** tc_getForcingFunctionAssignments(Array a)
+ArrayOfStrings tc_getForcingFunctionAssignments(Array a)
 {
 	if (_tc_getForcingFunctionAssignments)
 		return _tc_getForcingFunctionAssignments(a);
@@ -93,8 +93,8 @@ void tc_addForcingFunction(OBJ item,const char* functionName, const char* assign
  \ingroup init
 */
 void tc_AssignmentFunctionsTool_api(
-		char** (*getForcingFunctionNames)(Array),
-		 char** (*getForcingFunctionAssignments)(Array),
+		ArrayOfStrings (*getForcingFunctionNames)(Array),
+		 ArrayOfStrings (*getForcingFunctionAssignments)(Array),
 		 void (*addForcingFunction)(OBJ,const char*, const char*)
 	)
 {

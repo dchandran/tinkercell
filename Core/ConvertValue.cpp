@@ -8,7 +8,6 @@ This file defines a set of functions that can be used to convert C data types,
 such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
 and QGraphicsItem.
 
-
 ****************************************************************************/
 
 #include <math.h>
@@ -20,23 +19,21 @@ and QGraphicsItem.
 
 namespace Tinkercell
 {
-	/*! \brief construct a Matrix with 0 rows and columns (see TCstructs.h for Matrix)
-	\return empty matrix 
-	*/
+
 	Matrix emptyMatrix()
 	{
 		Matrix m;
 		m.values = 0;
-		m.rownames = 0;
-		m.colnames = 0;
+		m.rownames.length = 0;
+		m.colnames.length = 0;
+		m.rownames.strings = 0;
+		m.colnames.strings = 0;
 		m.cols = 0;
 		m.rows = 0;
 		return m;
 	}
-	/*! \brief convert void* to QGraphicsItem (item on the scene) pointer
-	\return pointer to an item on the scene
-	*/
-	ItemHandle* ConvertValue(OBJ o)
+
+	ItemHandle* ConvertValue(void * o)
 	{
 		MainWindow * main = MainWindow::instance();
 		if (main && 
@@ -46,17 +43,13 @@ namespace Tinkercell
 			return static_cast<ItemHandle*>(o);
 		return 0;
 	}
-	/*! \brief convert QGraphicsItem (item on the scene) pointer to void *
-	\return pointer to an item on the scene
-	*/
-	OBJ ConvertValue(ItemHandle* item)
+
+	void * ConvertValue(ItemHandle* item)
 	{
-		return (OBJ)(item);
+		return (void *)(item);
 	}
-	/*! \brief convert void** to QList of QGraphicsItem (item on the scene) pointers
-	\return list of pointers to items on the scene
-	*/
-	QList<ItemHandle*>* ConvertValue(Array A)
+
+	QList<ItemHandle*>* ConvertValue(ArrayOfItems A)
 	{
 		MainWindow * main = MainWindow::instance();
 		QList<ItemHandle*> * list = new QList<ItemHandle*>();
@@ -65,37 +58,31 @@ namespace Tinkercell
 			SymbolsTable * table = main->currentSymbolsTable();
 			if (table)
 			{
-				for (int i=0; A[i] != 0; ++i)
-					if (table->isValidPointer(A[i]))
-						(*list) += static_cast<ItemHandle*>(A[i]);
+				for (int i=0; i < A.length; ++i)
+					if (table->isValidPointer(A.items[i]))
+						(*list) += static_cast<ItemHandle*>(A.items[i]);
 			}
 		}
 		return list;
 	}
-	/*! \brief convert to list of QGraphicsItem pointers to null-terminated array of void*
-	\return null-terminated array of pointers to items on the scene
-	*/
-	Array ConvertValue(const QList<ItemHandle*>& list)
+
+	ArrayOfItems ConvertValue(const QList<ItemHandle*>& list)
 	{
-		Array A = new OBJ[list.size()+1];
-		//Array A = (OBJ*)_aligned_malloc( (1+list.size()) * sizeof(OBJ) ,16);
-		A[list.size()] = 0; //null terminated
+		ArrayOfItems A;
+		A.length = list.size();
+		A.items = new void*[A.length];
 		for (int i=0; i < list.size(); ++i)
-			A[i] = (OBJ)list[i];
+			A.items[i] = (void*)list[i];
 		return A;
 	}
-	/*! \brief convert char* to QString
-	\return Qt String
-	*/
+
 	QString ConvertValue(const char* c)
 	{
 		int sz = 0;
 		for (int i=0; c != 0 && c[i] != 0; ++i) ++sz;
 		return QString( QByteArray::fromRawData(c,sz) );
 	}
-	/*! \brief convert QString to null-terminated char*
-	\return null-terminated char* 
-	*/
+
 	char* ConvertValue(const QString& s)
 	{
 		char * c = new char[s.length()+1];
@@ -105,100 +92,54 @@ namespace Tinkercell
 			c[i] = s[i].toAscii();
 		return c;
 	}	
-	/*! \brief convert char** to QStringList
-	\return Qt StringList
-	*/
-	QStringList ConvertValue(char** c)
-	{
-		QStringList slist;
-		for (int i=0; c != 0 && c[i] != 0; ++i)
-			slist += QString(c[i]);
-		return slist;
-	}
-	/*! \brief convert QStringList to null-terminated char**
-	\return array of char* 
-	*/
-	char** ConvertValue(const QStringList& list)
-	{
-		//qDebug() << "converting string list";
-		char ** cs = new char*[list.size() + 1];
-		//char ** cs = (char**)_aligned_malloc((list.size() + 1)*sizeof(char*),16);
-		cs[list.size()] = 0;
-		for (int i=0; i < list.size(); ++i)
-		{
-			QString s = list[i];
-			cs[i] = new char[s.length()+1];
-			//cs[i] = (char*)_aligned_malloc((s.length()+1)*sizeof(char),16);
-			cs[i][s.length()] = '\0';
-			for (int j=0; j < s.length(); ++j)
-				cs[i][j] = s[j].toAscii();
-		}
-		return cs;
-	}
-	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
-	\return DataTable of qreals
-	*/
+
 	DataTable<qreal>* ConvertValue(Matrix m)
 	{
 		DataTable<qreal>* D = new DataTable<qreal>;
 		if (m.rows < 0 || m.cols < 0) return D;
-		try
-		{
-			D->resize(m.rows,m.cols);
+		D->resize(m.rows,m.cols);
 
-			for (int i=0; i < m.rows && m.rownames && m.rownames[i]; ++i)
-				D->rowName(i) = QString(m.rownames[i]);
+		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
+			D->rowName(i) = QString(m.rownames.strings[i]);
 
-			for (int i=0; i < m.cols && m.colnames && m.colnames[i]; ++i)
-				D->colName(i) = QString(m.colnames[i]);
+		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
+			D->colName(i) = QString(m.colnames.strings[i]);
 
-			for (int i=0; i < m.rows; ++i)
-				for (int j=0; j < m.cols; ++j)
-				{
-					D->value(i,j) = getValue(m,i,j);
-				}
-		}
-		catch(...)
-		{
-		}
+		for (int i=0; i < m.rows; ++i)
+			for (int j=0; j < m.cols; ++j)
+			{
+				D->value(i,j) = getValue(m,i,j);
+			}
+
 		return D;
 	}
-	/*! \brief convert Datatable<double> to Matrix (see DataTable.h and TCstructs.h)
-	\return Matrix with null-terminated rownames, colnames, values
-	*/
+	
 	Matrix ConvertValue(const DataTable<qreal>& D)
 	{
 		Matrix m;
 
-		m.rows = D.rows();
-		m.cols = D.cols();		
-		m.rownames = new char*[m.rows+1];
-		//m.rownames = (char**)_aligned_malloc((m.rows+1)*sizeof(char*),16);
-		m.rownames[m.rows] = 0;
-		m.colnames = new char*[m.cols+1];
-		//m.colnames = (char**)_aligned_malloc((m.cols+1)*sizeof(char*),16);
-		m.colnames[m.cols] = 0;
-		m.values = new double[m.rows * m.cols + 1];
-		//m.values = (double*)_aligned_malloc((m.rows * m.cols)*sizeof(double),16);
+		m.rownames.length = m.rows = D.rows();
+		m.colnames.length = m.cols = D.cols();		
+		m.rownames.strings = new char*[m.rows];	
+		m.colnames.strings = new char*[m.cols];
+		m.values = new double[m.rows * m.cols];
 
 		for (int i=0; i < m.rows; ++i)
 		{
 			QString s = D.rowName(i);			
-			m.rownames[i] = new char[s.length()+1];
-			//m.rownames[i] = (char*)_aligned_malloc((s.length()+1)*sizeof(char),16);
-			m.rownames[i][s.length()] = '\0';
+			m.rownames.strings[i] = new char[s.length()+1];
+			m.rownames.strings[i][s.length()] = '\0';
 			for (int j=0; j < s.length(); ++j)
-				m.rownames[i][j] = s[j].toAscii();
+				m.rownames.strings[i][j] = s[j].toAscii();
 		}
 
 		for (int i=0; i < m.cols; ++i)
 		{
 			QString s = D.colName(i);
-			m.colnames[i] = new char[s.length()+1];
-			//m.colnames[i] = (char*)_aligned_malloc((s.length()+1)*sizeof(char),16);
-			m.colnames[i][s.length()] = '\0';
+			m.colnames.strings[i] = new char[s.length()+1];
+			m.colnames.strings[i][s.length()] = '\0';
 			for (int j=0; j < s.length(); ++j)
-				m.colnames[i][j] = s[j].toAscii();
+				m.colnames.strings[i][j] = s[j].toAscii();
 		}
 
 		for (int i=0; i < m.rows; ++i)
@@ -209,4 +150,89 @@ namespace Tinkercell
 
 			return m;
 	}
+	
+	DataTable<QString>* ConvertValue(TableOfStrings m)
+	{
+		DataTable<QString>* D = new DataTable<QString>;
+		if (m.rows < 0 || m.cols < 0) return D;
+		D->resize(m.rows,m.cols);
+
+		for (int i=0; i < m.rows && m.rownames.strings && m.rownames.strings[i]; ++i)
+			D->rowName(i) = QString(m.rownames.strings[i]);
+
+		for (int i=0; i < m.cols && m.colnames.strings && m.colnames.strings[i]; ++i)
+			D->colName(i) = QString(m.colnames.strings[i]);
+
+		for (int i=0; i < m.rows; ++i)
+			for (int j=0; j < m.cols; ++j)
+			{
+				D->value(i,j) = QString(getString(m,i,j));
+			}
+
+		return D;
+	}
+	
+	TableOfStrings ConvertValue(const DataTable<QString>& D)
+	{
+		TableOfStrings m;
+
+		m.rownames.length = m.rows = D.rows();
+		m.colnames.length = m.cols = D.cols();		
+		m.rownames.strings = new char*[m.rows];	
+		m.colnames.strings = new char*[m.cols];
+		m.strings = new char*[m.rows * m.cols];
+
+		for (int i=0; i < m.rows; ++i)
+		{
+			QString s = D.rowName(i);			
+			m.rownames.strings[i] = new char[s.length()+1];
+			m.rownames.strings[i][s.length()] = '\0';
+			for (int j=0; j < s.length(); ++j)
+				m.rownames.strings[i][j] = s[j].toAscii();
+		}
+
+		for (int i=0; i < m.cols; ++i)
+		{
+			QString s = D.colName(i);
+			m.colnames.strings[i] = new char[s.length()+1];
+			m.colnames.strings[i][s.length()] = '\0';
+			for (int j=0; j < s.length(); ++j)
+				m.colnames.strings[i][j] = s[j].toAscii();
+		}
+
+		for (int i=0; i < m.rows; ++i)
+			for (int j=0; j < m.cols; ++j)
+			{
+				setString(m,i,j,D.at(i,j).toAscii().data());
+			}
+
+			return m;
+	}
+	
+	QStringList ConvertValue(ArrayOfStrings c)
+	{
+		QStringList slist;
+		for (int i=0; i < c.length && c.strings && c.strings[i]; ++i)
+			slist += QString(c.strings[i]);
+		return slist;
+	}
+
+	ArrayOfStrings ConvertValue(const QStringList& list)
+	{
+		char ** cs = new char*[list.size()];
+		cs[list.size()] = 0;
+		for (int i=0; i < list.size(); ++i)
+		{
+			QString s = list[i];
+			cs[i] = new char[s.length()+1];
+			cs[i][s.length()] = '\0';
+			for (int j=0; j < s.length(); ++j)
+				cs[i][j] = s[j].toAscii();
+		}
+		ArrayOfStrings A;
+		A.length = list.size();
+		A.strings = cs;
+		return A;
+	}
 }
+

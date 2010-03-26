@@ -1098,10 +1098,169 @@ namespace Tinkercell
 		if (handles.size() > 0 && editor)
 			emit itemsInserted(editor->networkWindow, handles);
 	}
+	
+	void MainWindow::addParser(TextParser * parser)
+	{
+		static QActionGroup * actionGroup = 0;
 
-	/***********************************************/
-	/**************C Functions**********************/
-	/***********************************************/
+		if (!parser) return;
+
+		if (!parsersMenu)
+		{
+
+			parsersMenu = new QMenu(tr("&Parsers"));
+			menuBar()->insertMenu(helpMenu->menuAction(),parsersMenu);
+		}
+
+		if (!actionGroup)
+		{
+			actionGroup = new QActionGroup(this);
+			actionGroup->setExclusive(true);
+		}
+
+		QAction * action = parsersMenu->addAction(QIcon(parser->icon),parser->name);
+		connect(action,SIGNAL(triggered()),parser,SLOT(activate()));
+		action->setCheckable(true);
+		actionGroup->addAction(action);
+		action->setChecked(true);
+
+		TextParser::setParser(parser);
+	}
+
+	void MainWindow::gridOff()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		scene->disableGrid();
+	}
+
+	void MainWindow::gridOn()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		if (GraphicsScene::GRID == 0)
+			GraphicsScene::GRID = 100;
+
+		scene->enableGrid(GraphicsScene::GRID);
+	}
+
+	void MainWindow::setGridSize()
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		bool ok;
+		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
+											GraphicsScene::GRID,0,(int)(currentScene()->sceneRect().width()/10.0),1,&ok);
+		if (ok)
+		{
+			GraphicsScene::GRID = d;
+			scene->setGridSize(GraphicsScene::GRID);
+		}
+	}
+
+	void MainWindow::changeConsoleBgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::BackgroundColor,this);
+			consoleWindow->editor()->setBackgroundColor(color);
+		}
+	}
+
+	void MainWindow::changeConsoleTextColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::PlainTextColor,this);
+			consoleWindow->editor()->setPlainTextColor(color);
+		}
+	}
+
+	void MainWindow::changeConsoleMsgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::OutputTextColor,this);
+			consoleWindow->editor()->setOutputTextColor(color);
+		}
+	}
+
+	void MainWindow::changeConsoleErrorMsgColor()
+	{
+		if (consoleWindow && consoleWindow->editor())
+		{
+			QColor color = QColorDialog::getColor(ConsoleWindow::ErrorTextColor,this);
+			consoleWindow->editor()->setErrorTextColor(color);
+		}
+	}
+
+	void MainWindow::popOut()
+	{
+		popOut(currentWindow());
+	}
+
+	void MainWindow::popOut(NetworkWindow * win)
+	{
+		if (allowViewModeToChange && win && tabWidget && tabWidget->count() > 1)
+		{
+			int i = tabWidget->indexOf(win);
+			if (i > -1 && i < tabWidget->count())
+			{
+				tabWidget->removeTab(i);
+				win->setParent(this);
+				win->setWindowFlags(Qt::Window);
+				if (!win->isVisible())
+					win->show();
+				setCurrentWindow(win);
+			}
+		}
+	}
+
+	void MainWindow::popIn(NetworkWindow * win)
+	{
+		if (allowViewModeToChange && win && tabWidget)
+		{
+			int i = tabWidget->indexOf(win);
+			if (i == -1)
+			{
+				//win->setParent(0);
+				win->setWindowFlags(Qt::Widget);
+				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
+				setCurrentWindow(win);
+			}
+		}
+	}
+
+	GraphicsView * MainWindow::createView()
+	{
+		NetworkWindow * current = currentWindow();
+		if (current)
+			return current->createView(current->currentView());
+		return 0;
+	}
+
+	void MainWindow::setCursor(QCursor cursor)
+	{
+		QMainWindow::setCursor(cursor);
+		QList<NetworkWindow*> allWins = allWindows();
+		QList<GraphicsView*> views;
+		for (int i=0; i < allWins.size(); ++i)
+		{
+			allWins[i]->setCursor(cursor);
+			views = allWins[i]->views();
+			for (int j=0; j < views.size(); ++j)
+                if (views[j])
+                    views[j]->setCursor(cursor);
+		}
+	}
+
+	/***********************************************
+	            C Interface Functions
+	***********************************************/
+
 	void MainWindow::zoom(QSemaphore* sem, qreal factor)
 	{
 		if (currentScene())
@@ -1740,97 +1899,8 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void MainWindow::getNumericalData(QSemaphore* sem,qreal* ret,ItemHandle* item,const QString& tool, const QString& row, const QString& col)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
 
-		if (ret && item && item->data && item->data->numericalData.contains(tool))
-		{
-			DataTable<qreal>& dat = item->data->numericalData[tool];
-			if (dat.rowNames().contains(row) &&  dat.colNames().contains(col))
-				(*ret) = dat.value(row,col);
-			else
-				(*ret) = dat.value(0,0);
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getStringData(QSemaphore* sem,QString* ret,ItemHandle* item,const QString& tool, const QString& row, const QString& col)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (ret && item && item->data && item->data->textData.contains(tool))
-		{
-			DataTable<QString>& dat = item->data->textData[tool];
-			if (dat.rowNames().contains(row) &&  dat.colNames().contains(col))
-				(*ret) = dat.value(row,col);
-			else
-				(*ret) = dat.value(0,0);
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getNumericalDataRows(QSemaphore* sem ,QStringList* list,ItemHandle* item,const QString& tool)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data && item->data->numericalData.contains(tool))
-		{
-			DataTable<qreal>& dat = item->data->numericalData[tool];
-			(*list) = dat.getRowNames();
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getNumericalDataCols(QSemaphore* sem ,QStringList* list,ItemHandle* item,const QString& tool)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data && item->data->numericalData.contains(tool))
-		{
-			DataTable<qreal>& dat = item->data->numericalData[tool];
-			(*list) = dat.getColNames();
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getStringDataRows(QSemaphore* sem ,QStringList* list,ItemHandle* item,const QString& tool)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data && item->data->textData.contains(tool))
-		{
-			DataTable<QString>& dat = item->data->textData[tool];
-			(*list) = dat.getRowNames();
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getStringDataCols(QSemaphore* sem ,QStringList* list,ItemHandle* item,const QString& tool)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data && item->data->textData.contains(tool))
-		{
-			DataTable<QString>& dat = item->data->textData[tool];
-			(*list) = dat.getColNames();
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getNumericalDataMatrix(QSemaphore* sem,DataTable<qreal>* dat,ItemHandle* item,const QString& tool)
+	void MainWindow::getNumericalData(QSemaphore* sem,DataTable<qreal>* dat,ItemHandle* item,const QString& tool)
 	{
 		if (!item && currentWindow())
 			item = &(currentWindow()->symbolsTable.modelItem);
@@ -1843,7 +1913,7 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void MainWindow::setNumericalDataMatrix(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat)
+	void MainWindow::setNumericalData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat)
 	{
 		if (!item && currentWindow())
 			item = &(currentWindow()->symbolsTable.modelItem);
@@ -1864,172 +1934,40 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void MainWindow::getStringDataRow(QSemaphore* sem,QStringList* list,ItemHandle* item,const QString& tool, const QString& row)
+	void MainWindow::getTextData(QSemaphore* sem,DataTable<QString>* dat,ItemHandle* item,const QString& tool)
 	{
 		if (!item && currentWindow())
 			item = &(currentWindow()->symbolsTable.modelItem);
 
-		if (list && item && item->data && item->data->textData.contains(tool))
+		if (dat && item && item->data && item->data->textData.contains(tool))
 		{
-			DataTable<QString>& dat = item->data->textData[tool];
-			if (dat.rowNames().contains(row))
-			{
-				int j = dat.rowNames().indexOf(row);
-				for (int i=0; i < dat.cols(); ++i)
-				{
-					(*list) << dat.at(j,i);
-				}
-			}
+			(*dat) = item->data->textData[tool];
 		}
 		if (sem)
 			sem->release();
 	}
 
-	void MainWindow::getStringDataCol(QSemaphore* sem,QStringList* list,ItemHandle* item,const QString& tool, const QString& col)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data && item->data->textData.contains(tool))
-		{
-			DataTable<QString>& dat = item->data->textData[tool];
-			if (dat.colNames().contains(col))
-			{
-				int j = dat.colNames().indexOf(col);
-				for (int i=0; i < dat.rows(); ++i)
-				{
-					(*list) << dat.at(i,j);
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::setNumericalData(QSemaphore* sem,ItemHandle* item,const QString& tool, const QString& row, const QString& col,qreal value)
+	void MainWindow::setTextData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<QString>& dat)
 	{
 		if (!item && currentWindow())
 			item = &(currentWindow()->symbolsTable.modelItem);
 
 		if (item && item->data)
 		{
-			if (item->data->numericalData.contains(tool))
-			{
-				DataTable<qreal> dat = item->data->numericalData[tool];
-				if (row.isEmpty() && col.isEmpty())
-					dat.value(0,0) = value;
-				else
-				{
-					if (row.isEmpty())
-						dat.value(0,col) = value;
-					else
-						if (col.isEmpty())
-							dat.value(row,0) = value;
-						else
-							dat.value(row,col) = value;
-				}
-				NetworkWindow * win = currentWindow();
-				if (win)
-				{
-					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
-				}
-			}
-			else
-			{
-				item->data->numericalData[tool] = DataTable<qreal>();
-
-				DataTable<qreal> dat;
-				dat.resize(1,1);
-				dat.rowName(0) = row;
-				dat.colName(0) = col;
-				dat.value(0,0) = value;
-
-				NetworkWindow * win = currentWindow();
-				if (win)
-				{
-					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
-				}
-			}
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::setStringData(QSemaphore* sem,ItemHandle* item,const QString& tool, const QString& row, const QString& col,const QString& value)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (item && item->data)
-		{
-			if (item->data->textData.contains(tool))
-			{
-				DataTable<QString> dat = item->data->textData[tool];
-				if (row.isEmpty() && col.isEmpty())
-					dat.value(0,0) = value;
-				else
-				{
-					if (row.isEmpty())
-						dat.value(0,col) = value;
-					else
-						if (col.isEmpty())
-							dat.value(row,0) = value;
-						else
-							dat.value(row,col) = value;
-				}
-				NetworkWindow * win = currentWindow();
-				if (win)
-				{
-					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
-				}
-			}
-			else
+			if (!item->data->textData.contains(tool))
 			{
 				item->data->textData[tool] = DataTable<QString>();
-
-				DataTable<QString> dat;
-				dat.resize(1,1);
-				dat.rowName(0) = row;
-				dat.colName(0) = col;
-				dat.value(0,0) = value;
-
-				NetworkWindow * win = currentWindow();
-				if (win)
-				{
-					win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
-				}
+			}
+			NetworkWindow * win = currentWindow();
+			if (win)
+			{
+				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
 			}
 		}
 		if (sem)
 			sem->release();
 	}
-
-	void MainWindow::getNumericalDataNames(QSemaphore* sem,QStringList* list, ItemHandle* item)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data)
-		{
-			(*list) << item->data->numericalData.keys();
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void MainWindow::getStringDataNames(QSemaphore* sem,QStringList* list, ItemHandle* item)
-	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
-
-		if (list && item && item->data)
-		{
-			(*list) << item->data->textData.keys();
-		}
-		if (sem)
-			sem->release();
-	}
-
+	
 	void MainWindow::getChildren(QSemaphore* sem,QList<ItemHandle*>* ret,ItemHandle* item)
 	{
 		if (item && ret)
@@ -2061,17 +1999,17 @@ namespace Tinkercell
 		fToS.zoom(x);
 	}
 
-	OBJ MainWindow::_find(const char* c)
+	void* MainWindow::_find(const char* c)
 	{
 		return fToS.find(c);
 	}
 
-	Array MainWindow::_findItems(char** c)
+	ArrayOfItems MainWindow::_findItems(ArrayOfStrings c)
 	{
 		return fToS.findItems(c);
 	}
 
-	void MainWindow::_select(OBJ o)
+	void MainWindow::_select(void* o)
 	{
 		return fToS.select(o);
 	}
@@ -2081,77 +2019,77 @@ namespace Tinkercell
 		return fToS.deselect();
 	}
 
-	Array MainWindow::_allItems()
+	ArrayOfItems MainWindow::_allItems()
 	{
 		return fToS.allItems();
 	}
 
-	Array MainWindow::_itemsOfFamily(const char* f)
+	ArrayOfItems MainWindow::_itemsOfFamily(const char* f)
 	{
 		return fToS.itemsOfFamily(f);
 	}
 
-	Array MainWindow::_itemsOfFamily2(const char* f, Array a)
+	ArrayOfItems MainWindow::_itemsOfFamily2(const char* f, ArrayOfItems a)
 	{
 		return fToS.itemsOfFamily(f,a);
 	}
 
-	Array MainWindow::_selectedItems()
+	ArrayOfItems MainWindow::_selectedItems()
 	{
 		return fToS.selectedItems();
 	}
 
-	char* MainWindow::_getName(OBJ o)
+	char* MainWindow::_getName(void* o)
 	{
 		return fToS.getName(o);
 	}
 
-	void MainWindow::_setName(OBJ o,const char* c)
+	void MainWindow::_setName(void* o,const char* c)
 	{
 		return fToS.setName(o,c);
 	}
 
-	char** MainWindow::_getNames(Array a)
+	ArrayOfStrings MainWindow::_getNames(ArrayOfItems a)
 	{
 		return fToS.getNames(a);
 	}
 
-	char* MainWindow::_getFamily(OBJ o)
+	char* MainWindow::_getFamily(void* o)
 	{
 		return fToS.getFamily(o);
 	}
 
-	int MainWindow::_isA(OBJ o,const char* c)
+	int MainWindow::_isA(void* o,const char* c)
 	{
 		return fToS.isA(o,c);
 	}
 
-	void MainWindow::_removeItem(OBJ o)
+	void MainWindow::_removeItem(void* o)
 	{
 		return fToS.removeItem(o);
 	}
 
-	void MainWindow::_setPos(OBJ o,double x,double y)
+	void MainWindow::_setPos(void* o,double x,double y)
 	{
 		return fToS.setPos(o,x,y);
 	}
 
-	void MainWindow::_setPos2(Array a,Matrix m)
+	void MainWindow::_setPos2(ArrayOfItems a,Matrix m)
 	{
 		return fToS.setPos(a,m);
 	}
 
-	Matrix MainWindow::_getPos(Array a)
+	Matrix MainWindow::_getPos(ArrayOfItems a)
 	{
 		return fToS.getPos(a);
 	}
 
-	double MainWindow::_getY(OBJ o)
+	double MainWindow::_getY(void* o)
 	{
 		return fToS.getY(o);
 	}
 
-	double MainWindow::_getX(OBJ o)
+	double MainWindow::_getX(void* o)
 	{
 		return fToS.getX(o);
 	}
@@ -2201,7 +2139,7 @@ namespace Tinkercell
 		return fToS.createSliders(c,m,f);
 	}
 
-	void  MainWindow::_addInputWindowOptions(const char* a,int i, int j, char ** c)
+	void  MainWindow::_addInputWindowOptions(const char* a,int i, int j, ArrayOfStrings c)
 	{
 		return fToS.addInputWindowOptions(a,i,j,c);
 	}
@@ -2236,82 +2174,32 @@ namespace Tinkercell
 		return fToS.appDir();
 	}
 
-	double MainWindow::_getNumericalData(OBJ o,const char* a, const char* b, const char* c)
+	Matrix MainWindow::_getNumericalData(void* o,const char* a)
 	{
-		return fToS.getNumericalData(o,a,b,c);
+		return fToS.getNumericalData(o,a);
 	}
 
-	char* MainWindow::_getStringData(OBJ o,const char* a, const char* b, const char* c)
+	void MainWindow::_setNumericalData(void* o ,const char* a,Matrix m)
 	{
-		return fToS.getStringData(o,a,b,c);
+		return fToS.setNumericalData(o,a,m);
+	}
+	
+	TableOfStrings MainWindow::_getTextData(void* o,const char* a)
+	{
+		return fToS.getTextData(o,a);
 	}
 
-	char** MainWindow::_getNumericalDataRows(OBJ o,const char* a)
+	void MainWindow::_setTextData(void* o ,const char* a,TableOfStrings m)
 	{
-		return fToS.getNumericalDataRows(o,a);
+		return fToS.setTextData(o,a,m);
 	}
 
-	char** MainWindow::_getNumericalDataCols(OBJ o,const char* a)
-	{
-		return fToS.getNumericalDataCols(o,a);
-	}
-
-	char** MainWindow::_getStringDataRows(OBJ o,const char* a)
-	{
-		return fToS.getStringDataRows(o,a);
-	}
-
-	char** MainWindow::_getStringDataCols(OBJ o,const char* a)
-	{
-		return fToS.getStringDataCols(o,a);
-	}
-
-	Matrix MainWindow::_getNumericalDataMatrix(OBJ o,const char* a)
-	{
-		return fToS.getNumericalDataMatrix(o,a);
-	}
-
-	void MainWindow::_setNumericalDataMatrix(OBJ o ,const char* a,Matrix m)
-	{
-		return fToS.setNumericalDataMatrix(o,a,m);
-	}
-
-	char** MainWindow::_getStringDataRow(OBJ o,const char* a,const char* b)
-	{
-		return fToS.getStringDataRow(o,a,b);
-	}
-
-	char** MainWindow::_getStringDataCol(OBJ o,const char* a,const char* b)
-	{
-		return fToS.getStringDataCol(o,a,b);
-	}
-
-	void MainWindow::_setNumericalData(OBJ o,const char* a, const char* b, const char* c,double v)
-	{
-		return fToS.setNumericalData(o,a,b,c,v);
-	}
-
-	void MainWindow::_setStringData(OBJ o,const char* a, const char* b, const char* c,const char * v)
-	{
-		return fToS.setStringData(o,a,b,c,v);
-	}
-
-	char** MainWindow::_getStringDataNames(OBJ o)
-	{
-		return fToS.getStringDataNames(o);
-	}
-
-	char** MainWindow::_getNumericalDataNames(OBJ o)
-	{
-		return fToS.getNumericalDataNames(o);
-	}
-
-	Array MainWindow::_getChildren(OBJ o)
+	ArrayOfItems MainWindow::_getChildren(void* o)
 	{
 		return fToS.getChildren(o);
 	}
 
-	OBJ MainWindow::_getParent(OBJ o)
+	void* MainWindow::_getParent(void* o)
 	{
 		return fToS.getParent(o);
 	}
@@ -2321,7 +2209,7 @@ namespace Tinkercell
 		emit zoom(0,x);
 	}
 
-	OBJ MainWindow_FtoS::find(const char* c)
+	void* MainWindow_FtoS::find(const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * p;
@@ -2333,7 +2221,7 @@ namespace Tinkercell
 		return p;
 	}
 
-	Array MainWindow_FtoS::findItems(char** c)
+	ArrayOfItems MainWindow_FtoS::findItems(ArrayOfStrings c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2342,12 +2230,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	void MainWindow_FtoS::select(OBJ o)
+	void MainWindow_FtoS::select(void* o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2367,7 +2255,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Array MainWindow_FtoS::allItems()
+	ArrayOfItems MainWindow_FtoS::allItems()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2376,12 +2264,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	Array MainWindow_FtoS::itemsOfFamily(const char * f)
+	ArrayOfItems MainWindow_FtoS::itemsOfFamily(const char * f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2390,12 +2278,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	Array MainWindow_FtoS::itemsOfFamily(const char * f, Array a)
+	ArrayOfItems MainWindow_FtoS::itemsOfFamily(const char * f, ArrayOfItems a)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a);
@@ -2405,13 +2293,13 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		delete list;
 		return A;
 	}
 
-	Array MainWindow_FtoS::selectedItems()
+	ArrayOfItems MainWindow_FtoS::selectedItems()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2420,12 +2308,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	char* MainWindow_FtoS::getName(OBJ o)
+	char* MainWindow_FtoS::getName(void* o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -2437,7 +2325,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	void MainWindow_FtoS::setName(OBJ o, const char* c)
+	void MainWindow_FtoS::setName(void* o, const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2447,7 +2335,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	char** MainWindow_FtoS::getNames(Array a0)
+	ArrayOfStrings MainWindow_FtoS::getNames(ArrayOfItems a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -2461,7 +2349,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char* MainWindow_FtoS::getFamily(OBJ a0)
+	char* MainWindow_FtoS::getFamily(void* a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -2473,7 +2361,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	int MainWindow_FtoS::isA(OBJ a0, const char* name)
+	int MainWindow_FtoS::isA(void* a0, const char* name)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		int p = 0;
@@ -2485,7 +2373,7 @@ namespace Tinkercell
 		return p;
 	}
 
-	void MainWindow_FtoS::removeItem(OBJ a0)
+	void MainWindow_FtoS::removeItem(void* a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2495,7 +2383,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void MainWindow_FtoS::setPos(OBJ a0,double a1,double a2)
+	void MainWindow_FtoS::setPos(void* a0,double a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2505,7 +2393,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void MainWindow_FtoS::setPos(Array a0,Matrix m)
+	void MainWindow_FtoS::setPos(ArrayOfItems a0,Matrix m)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2519,7 +2407,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Matrix MainWindow_FtoS::getPos(Array a0)
+	Matrix MainWindow_FtoS::getPos(ArrayOfItems a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2530,17 +2418,21 @@ namespace Tinkercell
 		s->release();
 		delete list;
 		delete s;
+		Matrix m;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
-		return emptyMatrix();
+		m.values = 0;
+		m.rownames.length = m.colnames.length = 0;
+		m.rownames.strings = m.colnames.strings = 0;
+		return m;
 	}
 
 
-	double MainWindow_FtoS::getY(OBJ a0)
+	double MainWindow_FtoS::getY(void* a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -2552,7 +2444,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	double MainWindow_FtoS::getX(OBJ a0)
+	double MainWindow_FtoS::getX(void* a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -2663,7 +2555,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void MainWindow_FtoS::addInputWindowOptions(const char * a, int i, int j, char** list)
+	void MainWindow_FtoS::addInputWindowOptions(const char * a, int i, int j, ArrayOfStrings list)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2741,151 +2633,75 @@ namespace Tinkercell
 		return ConvertValue(dir);
 	}
 
-	double MainWindow_FtoS::getNumericalData(OBJ o,const char* a, const char* b, const char* c)
-	{
-		qreal d=0.0;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getNumericalData(s,&d,ConvertValue(o),ConvertValue(a),ConvertValue(b),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return (double)d;
-	}
-
-	char* MainWindow_FtoS::getStringData(OBJ o,const char* a, const char* b, const char* c)
-	{
-		QString str;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getStringData(s,&str,ConvertValue(o),ConvertValue(a),ConvertValue(b),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(str);
-	}
-
-	void MainWindow_FtoS::setNumericalData(OBJ o,const char* a, const char* b, const char* c,double v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setNumericalData(s,ConvertValue(o),ConvertValue(a),ConvertValue(b),ConvertValue(c),(qreal)v);
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-	char** MainWindow_FtoS::getNumericalDataRows(OBJ o,const char* c)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getNumericalDataRows(s,&p,ConvertValue(o),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-
-	char** MainWindow_FtoS::getNumericalDataCols(OBJ o,const char* c)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getNumericalDataCols(s,&p,ConvertValue(o),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-	char** MainWindow_FtoS::getStringDataRows(OBJ o,const char* c)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getStringDataRows(s,&p,ConvertValue(o),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-	char** MainWindow_FtoS::getStringDataCols(OBJ o,const char* c)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getStringDataCols(s,&p,ConvertValue(o),ConvertValue(c));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-
-	Matrix MainWindow_FtoS::getNumericalDataMatrix(OBJ o,const char* c)
+	Matrix MainWindow_FtoS::getNumericalData(void* o,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * p = new DataTable<qreal>;
 		s->acquire();
-		emit getNumericalDataMatrix(s,p,ConvertValue(o),ConvertValue(c));
+		emit getNumericalData(s,p,ConvertValue(o),ConvertValue(c));
 		s->acquire();
 		s->release();
 		delete s;
+		Matrix m;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
-		return emptyMatrix();
+		m.values = 0;
+		m.rownames.length = m.colnames.length =0;
+		m.rownames.strings = m.colnames.strings = 0;
+		return m;
 	}
 
-	void MainWindow_FtoS::setNumericalDataMatrix(OBJ o, const char * c, Matrix M)
+	void MainWindow_FtoS::setNumericalData(void* o, const char * c, Matrix M)
 	{
 		DataTable<qreal>* dat = ConvertValue(M);
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit setNumericalDataMatrix(s,ConvertValue(o),ConvertValue(c),*dat);
+		emit setNumericalData(s,ConvertValue(o),ConvertValue(c),*dat);
+		s->acquire();
+		s->release();
+		delete s;
+		delete dat;
+	}
+	
+	TableOfStrings MainWindow_FtoS::getTextData(void* o,const char* c)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		DataTable<QString> * p = new DataTable<QString>;
+		s->acquire();
+		emit getTextData(s,p,ConvertValue(o),ConvertValue(c));
+		s->acquire();
+		s->release();
+		delete s;
+		TableOfStrings m;
+		if (p)
+		{
+			m = ConvertValue(*p);
+			delete p;
+			return m;
+		}
+		m.strings = 0;
+		m.rownames.length = m.colnames.length =0;
+		m.rownames.strings = m.colnames.strings = 0;
+		return m;
+	}
+
+	void MainWindow_FtoS::setTextData(void* o, const char * c, TableOfStrings M)
+	{
+		DataTable<QString>* dat = ConvertValue(M);
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit setTextData(s,ConvertValue(o),ConvertValue(c),*dat);
 		s->acquire();
 		s->release();
 		delete s;
 		delete dat;
 	}
 
-	char** MainWindow_FtoS::getStringDataRow(OBJ o ,const char* c,const char* v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getStringDataRow(s,&p,ConvertValue(o),ConvertValue(c),ConvertValue(v));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-
-	char** MainWindow_FtoS::getStringDataCol(OBJ o ,const char* c,const char* v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QStringList p;
-		s->acquire();
-		emit getStringDataCol(s,&p,ConvertValue(o),ConvertValue(c),ConvertValue(v));
-		s->acquire();
-		s->release();
-		delete s;
-		return ConvertValue(p);
-	}
-
-	void MainWindow_FtoS::setStringData(OBJ o,const char* a, const char* b, const char* c,const char * v)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setStringData(s,ConvertValue(o),ConvertValue(a),ConvertValue(b),ConvertValue(c),ConvertValue(v));
-		s->acquire();
-		s->release();
-		delete s;
-	}
-
-	char** MainWindow_FtoS::getNumericalDataNames(OBJ o)
+	ArrayOfStrings MainWindow_FtoS::getNumericalDataNames(void* o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
@@ -2897,19 +2713,19 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char** MainWindow_FtoS::getStringDataNames(OBJ o)
+	ArrayOfStrings MainWindow_FtoS::getTextDataNames(void* o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit getStringDataNames(s,&p,ConvertValue(o));
+		emit getTextDataNames(s,&p,ConvertValue(o));
 		s->acquire();
 		s->release();
 		delete s;
 		return ConvertValue(p);
 	}
 
-	Array MainWindow_FtoS::getChildren(OBJ o)
+	ArrayOfItems MainWindow_FtoS::getChildren(void* o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -2918,12 +2734,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*p);
+		ArrayOfItems A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	OBJ MainWindow_FtoS::getParent(OBJ o)
+	void* MainWindow_FtoS::getParent(void* o)
 	{
 		ItemHandle * p = 0;
 		QSemaphore * s = new QSemaphore(1);
@@ -3141,7 +2957,7 @@ namespace Tinkercell
         return fToS.getFilename();
     }
 
-    int MainWindow::_getSelectedString(const char* title,char ** list,const char* c, int i)
+    int MainWindow::_getSelectedString(const char* title,ArrayOfStrings list,const char* c, int i)
     {
         return fToS.getSelectedString(title,list,c,i);
     }
@@ -3151,7 +2967,7 @@ namespace Tinkercell
         return fToS.getNumber(title);
     }
 
-    void MainWindow::_getNumbers(char** names, double * res)
+    void MainWindow::_getNumbers(ArrayOfStrings names, double * res)
     {
         return fToS.getNumbers(names,res);
     }
@@ -3179,7 +2995,7 @@ namespace Tinkercell
         return (double)p;
     }
 
-    void MainWindow_FtoS::getNumbers(char** c, double * d)
+    void MainWindow_FtoS::getNumbers(ArrayOfStrings c, double * d)
     {
         //qDebug() << "get number dialog";
         QSemaphore * s = new QSemaphore(1);
@@ -3237,7 +3053,7 @@ namespace Tinkercell
         delete s;
     }
 
-    int MainWindow_FtoS::getSelectedString(const char* c, char ** list,const char* c1, int i)
+    int MainWindow_FtoS::getSelectedString(const char* c, ArrayOfStrings list,const char* c1, int i)
     {
         //qDebug() << "get item dialog";
         QSemaphore * s = new QSemaphore(1);
@@ -3249,39 +3065,6 @@ namespace Tinkercell
         delete s;
         return p;
     }
-
-
-
-	void MainWindow::_deleteArray(Array /*A*/)
-	{
-	}
-
-	void MainWindow::_deleteMatrix(Matrix /*M*/)
-	{
-		/*if (M.colnames)
-		{
-		//for (int i=0; M.colnames[i] != 0; ++i)
-		//	delete M.colnames[i];
-		//delete M.colnames;
-		}
-		if (M.rownames)
-		{
-		//for (int i=0; M.rownames[i] != 0; ++i)
-		//	delete M.rownames[i];
-		//delete M.rownames;
-		}
-		if (M.values) delete M.values;*/
-	}
-
-	void MainWindow::_deleteStrings(char** /*str*/)
-	{
-		/*if (str);
-		{
-		//for (int i=0; str[i] != 0; ++i)
-		//	delete str[i];
-		//delete str;
-		}*/
-	}
 
 	/*******************************************/
 	/*******************************************/
@@ -3342,23 +3125,13 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(appDir(QSemaphore*,QString*)),this,SLOT(appDir(QSemaphore*,QString*)));
 		connect(&fToS,SIGNAL(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),this,SLOT(getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getParent(QSemaphore*,ItemHandle**,ItemHandle*)),this,SLOT(getParent(QSemaphore*,ItemHandle**,ItemHandle*)));
-		connect(&fToS,SIGNAL(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&, const QString&, const QString&)),this,SLOT(getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&, const QString&, const QString&)));
-		connect(&fToS,SIGNAL(getStringData(QSemaphore*,QString*,ItemHandle*,const QString&, const QString&, const QString&)),this,SLOT(getStringData(QSemaphore*,QString*,ItemHandle*,const QString&, const QString&, const QString&)));
-		connect(&fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,qreal)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,qreal)));
-		connect(&fToS,SIGNAL(setStringData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,const QString&)),this,SLOT(setStringData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,const QString&)));
 
-		connect(&fToS,SIGNAL(getNumericalDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&)),this,SLOT(getNumericalDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(getNumericalDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&)),this,SLOT(getNumericalDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(getStringDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&)),this,SLOT(getStringDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(getStringDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&)),this,SLOT(getStringDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)),this,SLOT(getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)),this,SLOT(setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)));
+		connect(&fToS,SIGNAL(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)),this,SLOT(getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)),this,SLOT(setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&)));
 
-		connect(&fToS,SIGNAL(getNumericalDataMatrix(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)),this,SLOT(getNumericalDataMatrix(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(setNumericalDataMatrix(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)),this,SLOT(setNumericalDataMatrix(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&)));
-
-		connect(&fToS,SIGNAL(getStringDataRow(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&)),this,SLOT(getStringDataRow(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&)));
-		connect(&fToS,SIGNAL(getStringDataCol(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&)),this,SLOT(getStringDataCol(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&)));
-
-		connect(&fToS,SIGNAL(getStringDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getStringDataNames(QSemaphore*,QStringList*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getTextDataNames(QSemaphore*,QStringList*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)),this,SLOT(getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*)));
 
 		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
@@ -3374,76 +3147,67 @@ namespace Tinkercell
 	}
 
 	typedef void (*main_api_func)(
-		Array (*tc_allItems0)(),
-		Array (*tc_selectedItems0)(),
-		Array (*tc_itemsOfFamily0)(const char*),
-		Array (*tc_itemsOfFamily1)(const char*,Array),
-		OBJ (*tc_find0)(const char*),
-		Array (*tc_finds0)(char**),
-		void (*tc_select0)(OBJ),
+		ArrayOfItems (*tc_allItems0)(),
+		ArrayOfItems (*tc_selectedItems0)(),
+		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
+		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
+		void * (*tc_find0)(const char*),
+		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
+		void (*tc_select0)(void *),
 		void (*tc_deselect0)(),
-		char* (*tc_getName0)(OBJ),
-		void (*tc_setName0)(OBJ,const char*),
+		char* (*tc_getName0)(void *),
+		void (*tc_setName0)(void * item,const char* name),
+		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
+		char* (*tc_getFamily0)(void *),
+		int (*tc_isA0)(void *,const char*),
 
-		char** (*tc_getNames0)(Array),
-		char* (*tc_getFamily0)(OBJ),
-		int (*tc_isA0)(OBJ,const char*),
-
-		void (*tc_clearText0)(),
+		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
 		void (*tc_errorReport0)(const char*),
 		void (*tc_outputTable0)(Matrix),
 		void (*tc_printFile0)(const char*),
 
-		void (*tc_removeItem0)(OBJ),
+		void (*tc_removeItem0)(void *),
 
-		double (*tc_getY0)(OBJ),
-		double (*tc_getX0)(OBJ),
-		Matrix (*tc_getPos0)(Array),
-		void (*tc_setPos0)(OBJ,double,double),
-		void (*tc_setPos1)(Array,Matrix),
+		double (*tc_getY0)(void *),
+		double (*tc_getX0)(void *),
+		Matrix (*tc_getPos0)(ArrayOfItems),
+		void (*tc_setPos0)(void *,double,double),
+		void (*tc_setPos1)(ArrayOfItems,Matrix),
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
-
 		char* (*tc_appDir0)(),
-
-		void (*tc_createInputWindow0)(Matrix, const char*, const char*,const char*),
-		void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
-		void (*tc_createSliders)(void*, Matrix, void (*f)(Matrix)),
 		
-		void (*tc_addInputWindowOptions)(const char*, int i, int j, char **),
-		void (*tc_addInputWindowCheckbox)(const char*, int i, int j),
-		void (*tc_openNewWindow)(const char*),
-
-		double (*tc_getNumericalData)(OBJ,const char*, const char*, const char*),
-		char* (*tc_getStringData)(OBJ,const char*, const char*, const char*),
-		void (*tc_setNumericalData)(OBJ,const char*, const char*, const char*,double),
-		void (*tc_setStringData)(OBJ,const char*, const char*, const char*,const char*),
-		Array (*tc_getChildren)(OBJ),
-		OBJ (*tc_getParent)(OBJ),
-
-		char** (*tc_getNumericalDataRows)(OBJ,const char*),
-		char** (*tc_getNumericalDataCols)(OBJ,const char*),
-		char** (*tc_getStringDataRows)(OBJ,const char*),
-		char** (*tc_getStringDataCols)(OBJ,const char*),
-		Matrix (*tc_getNumericalDataMatrix)(OBJ,const char*),
-		void (*tc_setNumericalDataMatrix)(OBJ,const char*,Matrix),
-		char** (*tc_getStringDataRow)(OBJ,const char*,const char*),
-		char** (*tc_getStringDataCol)(OBJ,const char*,const char*),
-
-		char** (*tc_getNumericalDataNames)(OBJ),
-		char** (*tc_getStringDataNames)(OBJ),
-
-		void (*tc_zoom)(double),
-
+		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
+        void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
+		void (*createSliders)(void*, Matrix, void (*f)(Matrix)),
+		
+		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
+		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
+		void (*tc_openNewWindow0)(const char * title),
+		
+		ArrayOfItems (*tc_getChildren0)(void *),
+		void * (*tc_getParent0)(void *),
+		
+		Matrix (*tc_getNumericalData0)(void *,const char*),
+		void (*tc_setNumericalData0)(void *,const char*,Matrix),
+		TableOfStrings (*tc_getTextData0)(void *,const char*),
+		void (*tc_setTextData0)(void *,const char*, TableOfStrings),
+				
+		ArrayOfStrings (*tc_getNumericalDataNames0)(void *),
+		ArrayOfStrings (*tc_getTextDataNames0)(void *),
+		
+		void (*tc_zoom0)(double factor),
+		
 		char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, char**,const char*, int),
+		int (*getSelectedString)(const char*, ArrayOfStrings, const char*, int),
 		double (*getNumber)(const char*),
-		void (*getNumbers)(char**,double*),
+		void (*getNumbers)( ArrayOfStrings, double * ),
 		char* (*getFilename)(),
+		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*)
 
@@ -3490,22 +3254,14 @@ namespace Tinkercell
 				&(_addInputWindowOptions),
 				&(_addInputWindowCheckbox),
 				&(_openNewWindow),
-				&(_getNumericalData),
-				&(_getStringData),
-				&(_setNumericalData),
-				&(_setStringData),
 				&(_getChildren),
 				&(_getParent),
-				&(_getNumericalDataRows),
-				&(_getNumericalDataCols),
-				&(_getStringDataRows),
-				&(_getStringDataCols),
-				&(_getNumericalDataMatrix),
-				&(_setNumericalDataMatrix),
-				&(_getStringDataRow),
-				&(_getStringDataCol),
+				&(_getNumericalData),
+				&(_setNumericalData),
+				&(_getTextData),
+				&(_setTextData),
 				&(_getNumericalDataNames),
-				&(_getStringDataNames),
+				&(_getTextDataNames),
 				&(_zoom),
 				&(_getString),
 				&(_getSelectedString),
@@ -3536,13 +3292,13 @@ namespace Tinkercell
 		qRegisterMetaType< QStringList* >("QStringList*");
 
 		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>");
-		qRegisterMetaType< DataTable<QString> >("DataTable<qreal>");
+		qRegisterMetaType< DataTable<QString> >("DataTable<QString>");
 
 		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>&");
-		qRegisterMetaType< DataTable<QString> >("DataTable<qreal>&");
+		qRegisterMetaType< DataTable<QString> >("DataTable<QString>&");		
 
 		qRegisterMetaType< DataTable<qreal>* >("DataTable<qreal>*");
-		qRegisterMetaType< DataTable<QString>* >("DataTable<qreal>*");
+		qRegisterMetaType< DataTable<QString>* >("DataTable<QString>*");
 
 		qRegisterMetaType< ItemHandle* >("ItemHandle*");
 		qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>");
@@ -3558,163 +3314,8 @@ namespace Tinkercell
 		qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
 
 		qRegisterMetaType< Matrix >("Matrix");
-	}
-
-	void MainWindow::addParser(TextParser * parser)
-	{
-		static QActionGroup * actionGroup = 0;
-
-		if (!parser) return;
-
-		if (!parsersMenu)
-		{
-
-			parsersMenu = new QMenu(tr("&Parsers"));
-			menuBar()->insertMenu(helpMenu->menuAction(),parsersMenu);
-		}
-
-		if (!actionGroup)
-		{
-			actionGroup = new QActionGroup(this);
-			actionGroup->setExclusive(true);
-		}
-
-		QAction * action = parsersMenu->addAction(QIcon(parser->icon),parser->name);
-		connect(action,SIGNAL(triggered()),parser,SLOT(activate()));
-		action->setCheckable(true);
-		actionGroup->addAction(action);
-		action->setChecked(true);
-
-		TextParser::setParser(parser);
-	}
-
-	void MainWindow::gridOff()
-	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		scene->disableGrid();
-	}
-
-	void MainWindow::gridOn()
-	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		if (GraphicsScene::GRID == 0)
-			GraphicsScene::GRID = 100;
-
-		scene->enableGrid(GraphicsScene::GRID);
-	}
-
-	void MainWindow::setGridSize()
-	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		bool ok;
-		int d = QInputDialog::getInteger (this,tr("Grid size"),tr("Set canvas grid size"),
-											GraphicsScene::GRID,0,(int)(currentScene()->sceneRect().width()/10.0),1,&ok);
-		if (ok)
-		{
-			GraphicsScene::GRID = d;
-			scene->setGridSize(GraphicsScene::GRID);
-		}
-	}
-
-	void MainWindow::changeConsoleBgColor()
-	{
-		if (consoleWindow && consoleWindow->editor())
-		{
-			QColor color = QColorDialog::getColor(ConsoleWindow::BackgroundColor,this);
-			consoleWindow->editor()->setBackgroundColor(color);
-		}
-	}
-
-	void MainWindow::changeConsoleTextColor()
-	{
-		if (consoleWindow && consoleWindow->editor())
-		{
-			QColor color = QColorDialog::getColor(ConsoleWindow::PlainTextColor,this);
-			consoleWindow->editor()->setPlainTextColor(color);
-		}
-	}
-
-	void MainWindow::changeConsoleMsgColor()
-	{
-		if (consoleWindow && consoleWindow->editor())
-		{
-			QColor color = QColorDialog::getColor(ConsoleWindow::OutputTextColor,this);
-			consoleWindow->editor()->setOutputTextColor(color);
-		}
-	}
-
-	void MainWindow::changeConsoleErrorMsgColor()
-	{
-		if (consoleWindow && consoleWindow->editor())
-		{
-			QColor color = QColorDialog::getColor(ConsoleWindow::ErrorTextColor,this);
-			consoleWindow->editor()->setErrorTextColor(color);
-		}
-	}
-
-	void MainWindow::popOut()
-	{
-		popOut(currentWindow());
-	}
-
-	void MainWindow::popOut(NetworkWindow * win)
-	{
-		if (allowViewModeToChange && win && tabWidget && tabWidget->count() > 1)
-		{
-			int i = tabWidget->indexOf(win);
-			if (i > -1 && i < tabWidget->count())
-			{
-				tabWidget->removeTab(i);
-				win->setParent(this);
-				win->setWindowFlags(Qt::Window);
-				if (!win->isVisible())
-					win->show();
-				setCurrentWindow(win);
-			}
-		}
-	}
-
-	void MainWindow::popIn(NetworkWindow * win)
-	{
-		if (allowViewModeToChange && win && tabWidget)
-		{
-			int i = tabWidget->indexOf(win);
-			if (i == -1)
-			{
-				//win->setParent(0);
-				win->setWindowFlags(Qt::Widget);
-				tabWidget->addTab(win,win->windowIcon(),win->windowTitle());
-				setCurrentWindow(win);
-			}
-		}
-	}
-
-	GraphicsView * MainWindow::createView()
-	{
-		NetworkWindow * current = currentWindow();
-		if (current)
-			return current->createView(current->currentView());
-		return 0;
-	}
-
-	void MainWindow::setCursor(QCursor cursor)
-	{
-		QMainWindow::setCursor(cursor);
-		QList<NetworkWindow*> allWins = allWindows();
-		QList<GraphicsView*> views;
-		for (int i=0; i < allWins.size(); ++i)
-		{
-			allWins[i]->setCursor(cursor);
-			views = allWins[i]->views();
-			for (int j=0; j < views.size(); ++j)
-                if (views[j])
-                    views[j]->setCursor(cursor);
-		}
+		qRegisterMetaType< TableOfStrings >("TableOfStrings");
+		qRegisterMetaType< ArrayOfStrings >("ArrayOfStrings");
+		qRegisterMetaType< ArrayOfItems >("ArrayOfItems");
 	}
 }

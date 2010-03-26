@@ -10,6 +10,8 @@
  
 #include "TC_api.h"
 
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )
+
 int run(Matrix input)
 {
    Matrix m;
@@ -104,8 +106,8 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
       du[i] = 0;\n\
       for (j=0; j < TCreactions; ++j)\n\
       {\n\
-         if (getValue(TCstoic,TCreactions,i,j) != 0)\n\
-            du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);\n\
+         if (valueAt(TCstoic,TCreactions,i,j) != 0)\n\
+            du[i] += rates[j]*valueAt(TCstoic,TCreactions,i,j);\n\
        }\n\
    }\n\
    if (time > _time0_)\n\

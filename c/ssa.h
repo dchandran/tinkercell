@@ -12,13 +12,6 @@
 #include <stdlib.h>
 #include "mtrand.h"
 
-#ifndef getValue
-/*! \brief
-* get the i,j th value from a 2D array stored as a single 1D array with N columns
-*/
-#define getValue(array, N, i, j) ( array[ (i)*(N) + (j) ] )
-#endif
-
 #ifndef _PropensityFunction
 #define _PropensityFunction
 typedef void (*PropensityFunction)(double time,double* y,double* rates,void* params);
@@ -35,7 +28,7 @@ typedef void (*PropensityFunction)(double time,double* y,double* rates,void* par
 * \param int max size of array to allocate (will stop even if end time is not reached)
 * \param int returns the size of the final array here
 * \param void* any external data
-* \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
+* \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
 * \ingroup gillespie
 */
 double * SSA(int, int, double *, PropensityFunction, double*, double, double,int, int*,void*);
@@ -47,7 +40,7 @@ double * SSA(int, int, double *, PropensityFunction, double*, double, double,int
 * \param int number of reactions
 * \param (*f)(time, y-values, rates) pointer to propensity function -- f(time, y-values, rates) --- assign values to the rates array
 * \param void* any external data
-* \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
+* \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
 * \ingroup gillespie
 */
 double * getRatesFromSimulatedData(double* data, int rows, int , int , PropensityFunction, void* param);

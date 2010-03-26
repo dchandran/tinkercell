@@ -6,15 +6,73 @@ struct Matrix newMatrix(int rows, int cols)
 	struct Matrix M;
 	M.rows = M.rownames.length = rows;
 	M.cols = M.colnames.length = cols;
-	M.colnames.strings = (char**)malloc( (cols+1) * sizeof(char*) );
-	M.rownames.strings = (char**)malloc( (rows+1) * sizeof(char*) );
-	for (i=0; i < cols+1; ++i)
+	M.colnames.strings = (char**)malloc( cols * sizeof(char*) );
+	M.rownames.strings = (char**)malloc( rows * sizeof(char*) );
+	M.values = (double*)malloc( rows * cols * sizeof(double) );
+	for (i=0; i < cols; ++i)
 		M.colnames.strings[i] = 0;
-	for (i=0; i < rows+1; ++i)
+	for (i=0; i < rows; ++i)
 		M.rownames.strings[i] = 0;
+	for (i=0; i < rows*cols; ++i)
+		M.values[i] = 0.0;
 	return M;
 }
 
+struct TableOfStrings newTableOfStrings(int rows, int cols)
+{
+	int i;
+	struct TableOfStrings M;
+	M.rows = M.rownames.length = rows;
+	M.cols = M.colnames.length = cols;
+	M.colnames.strings = (char**)malloc( cols * sizeof(char*) );
+	M.rownames.strings = (char**)malloc( rows * sizeof(char*) );
+	M.strings = (char**)malloc( rows * cols * sizeof(char*) );
+	for (i=0; i < cols; ++i)
+		M.colnames.strings[i] = 0;
+	for (i=0; i < rows; ++i)
+		M.rownames.strings[i] = 0;
+	for (i=0; i < rows*cols; ++i)
+		M.strings[i] = 0;
+	return M;
+}
+
+struct ArrayOfStrings newArrayOfStrings(int len)
+{
+	int i;
+	ArrayOfStrings A;
+	if (len < 1)
+	{
+		A.length = 0;
+		A.strings = 0;
+	}
+	else
+	{
+		A.length = len;
+		A.strings = (char**)malloc(len * sizeof(char*));
+		for (i=0; i < len; ++i)
+			A.strings[i] = 0;
+	}
+	return A;
+}
+
+struct ArrayOfItems newArrayOfItems(int len)
+{
+	int i;
+	ArrayOfItems A;
+	if (len < 1)
+	{
+		A.length = 0;
+		A.items = 0;
+	}
+	else
+	{
+		A.length = len;
+		A.items = (void**)malloc(len * sizeof(void*));
+		for (i=0; i < len; ++i)
+			A.items[i] = 0;
+	}
+	return A;
+}
 double getValue(struct Matrix M, int i, int j)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
@@ -32,7 +90,7 @@ const char * getRowName(struct Matrix M, int i)
 { 
 	if (i >= 0 && i < M.rows)
 		return M.rownames.strings[i];
-	return "";
+	return 0;
 }
 
 void setRowName(struct Matrix M, int i, const char * s)
@@ -52,7 +110,7 @@ const char * getColumnName(struct Matrix M, int j)
 { 
 	if (j >= 0 && j < M.cols)
 		return M.colnames.strings[j];
-	return "";
+	return 0;
 }
 
 void setColumnName(struct Matrix M, int j, const char * s)
@@ -72,7 +130,7 @@ const char* getString(struct TableOfStrings S, int i, int j)
 {
 	if (i >= 0 && j >= 0 && i < S.rows && j < S.cols)
 		return S.strings[ i*S.cols + j ];
-	return "";
+	return 0;
 }
 
 void setString(struct TableOfStrings S, int i, int j, const char * s)
@@ -93,7 +151,7 @@ const char* ithString(struct ArrayOfStrings S, int i)
 {
 	if (i >= 0 && i < S.length)
 		return S.strings[ i ];
-	return "";
+	return 0;
 }
 
 void * ithItem(struct ArrayOfItems A, int i)
@@ -101,5 +159,211 @@ void * ithItem(struct ArrayOfItems A, int i)
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
+}
+
+void deleteMatrix(struct Matrix M)
+{
+	int i;
+	if (M.values)
+		free(M.values);
+	if (M.rownames.strings)
+	{
+		for (i=0; i < (M).rows; ++i) free(M.rownames.strings[i]);
+		free(M.rownames.strings);
+	}
+	if (M.colnames.strings)
+	{
+		for (i=0; i < (M).cols; ++i) free(M.colnames.strings[i]);
+		free(M.colnames.strings);
+	}
+}
+
+void deleteTableOfStrings(struct TableOfStrings M)
+{
+	int i;
+	if (M.strings)
+		free(M.strings);
+	if (M.rownames.strings)
+	{
+		for (i=0; i < (M).rows; ++i) free(M.rownames.strings[i]);
+		free(M.rownames.strings);
+	}
+	if (M.colnames.strings)
+	{
+		for (i=0; i < (M).cols; ++i) free(M.colnames.strings[i]);
+		free(M.colnames.strings);
+	}
+}
+
+void deleteArrayOfItems(struct ArrayOfItems A)
+{
+	if (A.items) 
+		free(A.items);
+}
+
+void deleteArrayOfStrings(struct ArrayOfStrings C)
+{
+	int i;
+	if (!C.strings) return;
+	for (i=0; i < C.length; ++i) free(C.strings[i]);
+	free(C.strings);
+}
+
+struct Matrix cbind(struct Matrix A, struct Matrix B)
+{
+	int i,j,k=0;
+	struct Matrix C;
+	int fromA = 0, toA = A.cols, fromB = 0, toB = B.cols;
+
+	C.colnames.length = C.rownames.length = 0;
+	C.colnames.strings = C.rownames.strings = 0;
+	C.rows = C.cols = 0;
+	C.values = 0;
+
+	if (A.rows != B.rows) return C;
+	if (fromA < 0 || toA < 0 || fromA > A.cols || toA > A.cols ||
+		fromB < 0 || toB < 0 || fromB > B.cols || toB > B.cols ||
+		fromA >= toA || fromB >= toB)
+		return C;
+
+	C.rows = A.rows;
+	C.cols = ((toA - fromA) + (toB - fromB));
+	C.values = (double*)malloc( C.rows * C.cols * sizeof(double) );
+	
+	for (i=0; i < (C.rows*C.cols); ++i)
+		C.values[i] = 0.0;
+
+	if (A.colnames.strings && B.colnames.strings)
+	{
+		C.colnames.length = C.cols;
+		C.colnames.strings = (char**)malloc( C.cols * sizeof(char*) );
+		for (i=0; i < A.cols; ++i)
+		{
+			k = 0;
+			while (A.colnames.strings[i] && A.colnames.strings[i][k]) ++k;
+			C.colnames.strings[i] = (char*)malloc((1+k) * sizeof(char));
+			C.colnames.strings[i][k] = 0;
+			for (j=0; j < k; ++j)
+				C.colnames.strings[i][j] = A.colnames.strings[i][j];
+		}
+		for (i=0; i < B.cols; ++i)
+		{
+			k = 0;
+			while (B.colnames.strings[i] && B.colnames.strings[i][k]) ++k;
+			C.colnames.strings[i+A.cols] = (char*)malloc((1+k) * sizeof(char));
+			C.colnames.strings[i+A.cols][k] = 0;
+			for (j=0; j < k; ++j)
+				C.colnames.strings[i+A.cols][j] = B.colnames.strings[i][j];
+		}
+	}
+
+	if (A.rownames.strings && B.rownames.strings)
+	{
+		C.rownames.length = C.rows;
+		C.rownames.strings = (char**)malloc( C.rows * sizeof(char*) );
+		for (i=0; i < A.rows; ++i)
+		{
+			k = 0;
+			while (A.rownames.strings[i] && A.rownames.strings[i][k]) ++k;
+			C.rownames.strings[i] = (char*)malloc((1+k) * sizeof(char));
+			C.rownames.strings[i][k] = 0;
+			for (j=0; j < k; ++j)
+				C.rownames.strings[i][j] = A.rownames.strings[i][j];
+		}
+	}
+	
+	k = (toA - fromA);
+	for (i=fromA; i < toA; ++i)
+	{
+		for (j=0; j < C.rows; ++j)
+			C.values[ j*C.cols + i - fromA ] = A.values[ j * A.cols + i ];
+	}
+	
+	for (i=fromB; i < toB; ++i)
+	{
+		for (j=0; j < C.rows; ++j)
+			C.values[ j*C.cols + k + i - fromB ] = B.values[ j * B.cols + i ];
+	}
+	return C;
+}
+
+struct Matrix rbind(struct Matrix A, struct Matrix B)
+{
+	int i,j,k=0;
+	struct Matrix C;
+	int fromA = 0, toA = A.rows, fromB = 0, toB = B.rows;
+
+	C.colnames.strings = C.rownames.strings = 0;
+	C.colnames.length = C.rownames.length = 0;
+	C.rows = C.cols = 0;
+	C.values = 0;
+
+	if (A.cols != B.cols) return C;
+	if (fromA < 0 || toA < 0 || fromA > A.cols || toA > A.cols ||
+		fromB < 0 || toB < 0 || fromB > B.cols || toB > B.cols ||
+		fromA >= toA || fromB >= toB)
+		return C;
+
+	C.cols = A.cols;
+	C.rows = ((toA - fromA) + (toB - fromB));
+	C.values = (double*)malloc( C.rows * C.cols * sizeof(double) );
+	
+	for (i=0; i < (C.rows*C.cols); ++i)
+		C.values[i] = 0.0;
+
+	if (A.rownames.strings && B.rownames.strings)
+	{
+		C.rownames.length = C.rows;
+		C.rownames.strings = (char**)malloc( C.rows * sizeof(char*) );
+		for (i=0; i < A.rows; ++i)
+		{
+			k = 0;
+			while (A.rownames.strings[i] && A.rownames.strings[i][k]) ++k;
+			C.rownames.strings[i] = (char*)malloc((k+1) * sizeof(char));
+			C.rownames.strings[i][k] = 0;
+			for (j=0; j < k; ++j)
+				C.rownames.strings[i][j] = A.colnames.strings[i][j];
+		}
+		for (i=0; i < B.rows; ++i)
+		{
+			k = 0;
+			while (B.rownames.strings[i] && B.rownames.strings[i][k]) ++k;
+			C.rownames.strings[i+A.cols] = (char*)malloc((1+k) * sizeof(char));
+			C.rownames.strings[i+A.cols][k] = 0;
+			for (j=0; j < k; ++j)
+				C.rownames.strings[i+A.cols][j] = B.rownames.strings[i][j];
+		}
+	}
+
+	if (A.colnames.strings && B.colnames.strings)
+	{
+		C.colnames.length = C.cols;
+		C.colnames.strings = (char**)malloc( (C.cols + 1) * sizeof(char*) );
+		C.colnames.strings[C.cols] = 0;
+		for (i=0; i < A.cols; ++i)
+		{
+			k = 0;
+			while (A.colnames.strings[i] && A.colnames.strings[i][k]) ++k;
+			C.colnames.strings[i] = (char*)malloc((1+k) * sizeof(char));
+			C.colnames.strings[i][k] = 0;
+			for (j=0; j < k; ++j)
+				C.colnames.strings[i][j] = A.colnames.strings[i][j];
+		}
+	}
+	
+	k = (toA - fromA);
+	for (i=fromA; i < toA; ++i)
+	{
+		for (j=0; j < C.cols; ++j)
+			C.values[ (i-fromA)*C.cols + j ] = A.values[ i * A.cols + j ];
+	}
+	
+	for (i=fromB; i < toB; ++i)
+	{
+		for (j=0; j < C.cols; ++j)
+			C.values[ (i + k - fromB)*C.cols + j ] = B.values[ i * B.cols + j ];
+	}
+
+	return C;
 }
 

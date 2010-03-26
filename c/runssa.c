@@ -145,6 +145,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
 static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
 {\n\
 	int i,j;\n\

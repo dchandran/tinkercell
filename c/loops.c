@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "loops.h"
 
-#define getValue(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
+#define valueAt(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
 
 void freeLoopsInfo(LoopsInformation info)
 {
@@ -29,8 +29,8 @@ static int alreadyExistsInLoops(int * newLoop, int N)
 		k = 1;
 		for (j=0; j < N; ++j)
 		{
-			if ((getValue(Loops,N,i,j) + newLoop[j] != 0)  //one or both are non-zero
-				&& (getValue(Loops,N,i,j) * newLoop[j] <= 0)) //opposite sign or one is zero
+			if ((valueAt(Loops,N,i,j) + newLoop[j] != 0)  //one or both are non-zero
+				&& (valueAt(Loops,N,i,j) * newLoop[j] <= 0)) //opposite sign or one is zero
 			{
 				k = 0;
 				break;
@@ -106,7 +106,7 @@ LoopsInformation getLoops(double * values, int n)
 		prod = 1.0;
 		for (j=0; j < n; ++j) //for all the nodes...
 		{
-			if (getValue(Loops,n,i,j) > 0) //... in loop i
+			if (valueAt(Loops,n,i,j) > 0) //... in loop i
 			{
 				++count;
 			}
@@ -117,7 +117,7 @@ LoopsInformation getLoops(double * values, int n)
 
 		for (j=0; j < n; ++j)
 		{
-			k = getValue(Loops,n,i,j);
+			k = valueAt(Loops,n,i,j);
 			if (k > 0) //... in loop i
 			{
 				info.nodes[i][k-1] = j;
@@ -130,7 +130,7 @@ LoopsInformation getLoops(double * values, int n)
 				k = j+1;
 			else
 				k = 0;
-			prod *= getValue(values,n,info.nodes[i][j],info.nodes[i][k]);
+			prod *= valueAt(values,n,info.nodes[i][j],info.nodes[i][k]);
 		}
 
 		if (prod > 0)
@@ -186,7 +186,7 @@ void recursiveLoopSearch(int n, int index, int * path, double * values, int N, i
 
 		for (i=0; i < N; ++i)  //loop through all nodes...
 		{
-			if (getValue(values,N,n,i) != 0) //... that interact with node-n
+			if (valueAt(values,N,n,i) != 0) //... that interact with node-n
 			{
 				 //follow that path
 				recursiveLoopSearch(i, index+1, path, values, N, visited, temp);

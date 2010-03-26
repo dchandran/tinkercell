@@ -30,24 +30,24 @@ void tc_setStoichiometry(Array A,Matrix N)
 		_tc_setStoichiometry(A,N);
 }
 
-char** (*_tc_getRates)(Array A) = 0;
+ArrayOfStrings (*_tc_getRates)(Array A) = 0;
 /*! 
 \brief get rates for the given items
 \ingroup Stoichiometry
 */
-char** tc_getRates(Array A)
+ArrayOfStrings tc_getRates(Array A)
 {
 	if (_tc_getRates)
 		return _tc_getRates(A);
 	return 0;
 }
 
-void (*_tc_setRates)(Array ,char** rates) = 0;
+void (*_tc_setRates)(Array ,ArrayOfStrings rates) = 0;
 /*! 
 \brief set rates for the given items (same order as N)
 \ingroup Stoichiometry
 */
-void tc_setRates(Array A,char** rates)
+void tc_setRates(Array A,ArrayOfStrings rates)
 {
 	if (_tc_setRates)
 		_tc_setRates(A,rates);
@@ -106,8 +106,8 @@ void tc_setStoichiometryFor(OBJ x, Matrix N)
 void tc_StoichiometryTool_api(
 							  Matrix (*getStoichiometry)(Array ),
 							  void (*setStoichiometry)(Array ,Matrix ),
-							  char** (*getRates)(Array ),
-							  void (*setRates)(Array ,char** )
+							  ArrayOfStrings (*getRates)(Array ),
+							  void (*setRates)(Array ,ArrayOfStrings )
 							  )
 {
 	_tc_getStoichiometry = getStoichiometry;

@@ -5,7 +5,9 @@
  **
  ****************************************************************************/
  
- #include "correlation.h"
+#include "correlation.h"
+
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )
 
 double correlation(double * X, double * Y, int sz)
 {
@@ -76,11 +78,11 @@ double colCorrelation(double * M1, double * M2, int colsM1, int colsM2, int iM1,
    double mXY = 0,mX = 0, mY = 0, mX2 = 0, mY2 = 0;
    for (i = 0; i < sz; ++i)
    {
-        mX += getValue(M1, colsM1, i, iM1);
-        mY += getValue(M2, colsM2, i, iM2);
-        mXY += getValue(M1, colsM1, i, iM1) * getValue(M2, colsM2, i, iM2);
-        mX2 += getValue(M1, colsM1, i, iM1) * getValue(M1, colsM1, i, iM1);
-        mY2 += getValue(M2, colsM2, i, iM2) * getValue(M2, colsM2, i, iM2);
+        mX += valueAt(M1, colsM1, i, iM1);
+        mY += valueAt(M2, colsM2, i, iM2);
+        mXY += valueAt(M1, colsM1, i, iM1) * valueAt(M2, colsM2, i, iM2);
+        mX2 += valueAt(M1, colsM1, i, iM1) * valueAt(M1, colsM1, i, iM1);
+        mY2 += valueAt(M2, colsM2, i, iM2) * valueAt(M2, colsM2, i, iM2);
    }
    mX /= (double)sz;
    mY /= (double)sz;

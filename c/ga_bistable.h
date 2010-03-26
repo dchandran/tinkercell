@@ -73,3 +73,4 @@ typedef struct
 BistablePoint makeBistable(int n, int p,double* iv, int maxiter, int popsz, void (*odefnc)(double,double*,double*,void*));
 
 #endif
+

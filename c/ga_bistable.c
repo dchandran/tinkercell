@@ -1,6 +1,8 @@
 #include "ga_bistable.h"
 #include "opt.h"
 
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )
+
 static Parameters * _PARAM = 0;
 static double * _DU = 0;
 static double * _U = 0;
@@ -277,8 +279,8 @@ double fitness(void * individual)
        double diff = 0.0;
        for (i=0; i < N; ++i)
        {
-          diff += (getValue(y,N+1,2000,i+1)-ss0[i])*(getValue(y,N+1,2000,i+1)-ss0[i]);
-          if (getValue(y,N+1,2000,i+1) < 0.0) //negative steady state
+          diff += (valueAt(y,N+1,2000,i+1)-ss0[i])*(valueAt(y,N+1,2000,i+1)-ss0[i]);
+          if (valueAt(y,N+1,2000,i+1) < 0.0) //negative steady state
           {
              diff = 0.0;
              break;
@@ -294,14 +296,14 @@ double fitness(void * individual)
 
        double * yend = malloc(N*sizeof(double));
        for (i=0; i<N; ++i)
-           yend[i] = getValue(y,N+1,2000,i+1);
+           yend[i] = valueAt(y,N+1,2000,i+1);
 
        double maxdy = 0;
        for (i=0; i < N; ++i)
-            if (((getValue(y,N+1,2000,i+1)-(getValue(y,N+1,1900,i+1)))*
-                 (getValue(y,N+1,2000,i+1)-(getValue(y,N+1,1900,i+1)))) > maxdy)
-                maxdy = ((getValue(y,N+1,2000,i+1)-(getValue(y,N+1,1900,i+1)))*
-                         (getValue(y,N+1,2000,i+1)-(getValue(y,N+1,1900,i+1))));
+            if (((valueAt(y,N+1,2000,i+1)-(valueAt(y,N+1,1900,i+1)))*
+                 (valueAt(y,N+1,2000,i+1)-(valueAt(y,N+1,1900,i+1)))) > maxdy)
+                maxdy = ((valueAt(y,N+1,2000,i+1)-(valueAt(y,N+1,1900,i+1)))*
+                         (valueAt(y,N+1,2000,i+1)-(valueAt(y,N+1,1900,i+1))));
        double score = 10.0/(10.0  + (maxdy));*/
        /*if (score > 0.3)
        {
@@ -618,8 +620,8 @@ void odeFunc( double time, double * u, double * du, void * udata )
 		du[i] = 0;
 		for (j=0; j < TCreactions; ++j)
 		{
-			if (getValue(TCstoic,TCreactions,i,j) != 0)
-			du[i] += rates[j]*getValue(TCstoic,TCreactions,i,j);
+			if (valueAt(TCstoic,TCreactions,i,j) != 0)
+			du[i] += rates[j]*valueAt(TCstoic,TCreactions,i,j);
 		}
 	}
 }

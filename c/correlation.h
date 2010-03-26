@@ -12,13 +12,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifndef getValue
-/*! \brief
-* get the i,j th value from a 2D array stored as a single 1D array with N columns
-*/
-#define getValue(array, N, i, j) ( array[ (i)*(N) + (j) ] )
-#endif
-
 /* calculates correlation between two vectors
  * \param double* first vector of doubles
  * \param double* second vector of doubles

@@ -42,13 +42,6 @@
 typedef void (*PropensityFunction)(double time,double* y,double* rates,void* params);
 #endif
 
-#ifndef getValue
-/*! \brief
-* get the i,j th value from a 2D array stored as a single 1D array with N columns
-*/
-#define getValue(array, N, i, j) ( array[ (i)*(N) + (j) ] )
-#endif
-
 /*! \brief Stochastic simulation with cell growth (logistic model)
 * \param int number of species (rows of stoichiometry matrix)
 * \param int number of reactions (columns of stoichiometry matrix)

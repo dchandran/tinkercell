@@ -1,5 +1,7 @@
 #include "langevin.h"
 
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
+
 double rnorm()
 {
 	return (sqrt(-2.0*log( mtrand() )) *cos (2.0*3.14159* mtrand() ));
@@ -21,9 +23,9 @@ double * Langevin(int n, int m, double * N, PropensityFunction propensity, doubl
 	while (t < endTime)
 	{
 		//store into output matrix
-		getValue(array,1+n, k, 0) = t;
+		valueAt(array,1+n, k, 0) = t;
 		for (i=0; i < n; ++i)
-			getValue(array,1+n, k, i+1) = y[i];
+			valueAt(array,1+n, k, i+1) = y[i];
 	
 		propensity(t, y, rates, params);  //get rates
 		
@@ -37,8 +39,8 @@ double * Langevin(int n, int m, double * N, PropensityFunction propensity, doubl
 			dy[i] = 0;
 			for (j=0; j < m; ++j)
 			{
-				if (getValue(N,m,i,j) != 0)
-					dy[i] += rates[j]*getValue(N,m,i,j)*dt - rnorm()*getValue(N,m,i,j)*sqrt(rates[j]*dt);
+				if (valueAt(N,m,i,j) != 0)
+					dy[i] += rates[j]*valueAt(N,m,i,j)*dt - rnorm()*valueAt(N,m,i,j)*sqrt(rates[j]*dt);
 			}
 			y[i] += dy[i];
 		}

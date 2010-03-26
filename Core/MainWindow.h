@@ -756,65 +756,7 @@ namespace Tinkercell
 		* \param ItemHandle* item to change
 		* \return void
 		*/
-		void getStringDataNames(QSemaphore*,QStringList*,ItemHandle*);
-		/*!
-		* \brief returns the data value. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param qreal*  return value
-		* \param ItemHandle* item to change
-		* \param QString tool name
-		* \param QString row name
-		* \param QString column name
-		* \return void
-		*/
-		void getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&, const QString&, const QString&);
-		/*!
-		* \brief returns the data value. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param qreal*  return value
-		* \param ItemHandle* item to change
-		* \param QString tool name
-		* \param QString row name
-		* \param QString column name
-		* \return void
-		*/
-		void getStringData(QSemaphore*,QString*,ItemHandle*,const QString&, const QString&, const QString&);
-		/*!
-		* \brief returns the data headers. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param QStringList*  return value
-		* \param ItemHandle* item
-		* \param QString tool name
-		* \return void
-		*/
-		void getNumericalDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		/*!
-		* \brief returns the data headers. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param QStringList*  return value
-		* \param ItemHandle* item
-		* \param QString tool name
-		* \return void
-		*/
-		void getNumericalDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		/*!
-		* \brief returns the data headers. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param QStringList*  return value
-		* \param ItemHandle* item
-		* \param QString tool name
-		* \return void
-		*/
-		void getStringDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		/*!
-		* \brief returns the data headers. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param QStringList*  return value
-		* \param ItemHandle* item
-		* \param QString tool name
-		* \return void
-		*/
-		void getStringDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&);
+		void getTextDataNames(QSemaphore*,QStringList*,ItemHandle*);
 		/*!
 		* \brief returns the data matrix. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
@@ -823,7 +765,7 @@ namespace Tinkercell
 		* \param QString tool name
 		* \return void
 		*/
-		void getNumericalDataMatrix(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&);
+		void getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&);
 		/*!
 		* \brief sets a data matrix for an item. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
@@ -832,47 +774,26 @@ namespace Tinkercell
 		* \param DataTable new table to insert
 		* \return void
 		*/
-		void setNumericalDataMatrix(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat);
+		void setNumericalData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat);
 		/*!
-		* \brief returns a data matrix row. This function is designed to be used with the C API framework
+		* \brief returns the data matrix. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
-		* \param QStringList* return value
+		* \param DataTable* return value
 		* \param ItemHandle* item
 		* \param QString tool name
 		* \return void
 		*/
-		void getStringDataRow(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&);
+		void getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&);
 		/*!
-		* \brief returns a data matrix col. This function is designed to be used with the C API framework
+		* \brief sets a data matrix for an item. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
-		* \param QStringList* return value
 		* \param ItemHandle* item
 		* \param QString tool name
+		* \param DataTable new table to insert
 		* \return void
 		*/
-		void getStringDataCol(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&);
-		/*!
-		* \brief sets the data value. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param ItemHandle* item to change
-		* \param QString tool name
-		* \param QString row name
-		* \param QString column name
-		* \param qreal value
-		* \return void
-		*/
-		void setNumericalData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,qreal);
-		/*!
-		* \brief sets the data value. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param ItemHandle* item to change
-		* \param QString tool name
-		* \param QString row name
-		* \param QString column name
-		* \param qreal value
-		* \return void
-		*/
-		void setStringData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,const QString&);
+		void setTextData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<QString>& dat);
+
 		/*!
 		* \brief get children of an item. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
@@ -1307,43 +1228,31 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _deleteArray(Array);
+		static ArrayOfItems _allItems();
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _deleteMatrix(Matrix);
+		static ArrayOfItems _itemsOfFamily(const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _deleteStrings(char**);
+		static ArrayOfItems _itemsOfFamily2(const char*, ArrayOfItems);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static Array _allItems();
+		static ArrayOfItems _selectedItems();
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static Array _itemsOfFamily(const char*);
+		static void* _find(const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static Array _itemsOfFamily2(const char*, Array);
+		static ArrayOfItems _findItems(ArrayOfStrings);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static Array _selectedItems();
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static OBJ _find(const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static Array _findItems(char**);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static void _select(OBJ);
+		static void _select(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
@@ -1351,47 +1260,47 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char* _getName(OBJ);
+		static char* _getName(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _setName(OBJ,const char*);
+		static void _setName(void*,const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getNames(Array);
+		static ArrayOfStrings _getNames(ArrayOfItems);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char* _getFamily(OBJ);
+		static char* _getFamily(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static int _isA(OBJ,const char*);
+		static int _isA(void*,const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _removeItem(OBJ);
+		static void _removeItem(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _setPos(OBJ,double ,double );
+		static void _setPos(void*,double ,double );
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _setPos2(Array,Matrix);
+		static void _setPos2(ArrayOfItems,Matrix);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static Matrix _getPos(Array);
+		static Matrix _getPos(ArrayOfItems);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static double _getY(OBJ);
+		static double _getY(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static double _getX(OBJ);
+		static double _getX(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
@@ -1431,7 +1340,7 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static void _addInputWindowOptions(const char*, int i, int j, char **);
+		static void _addInputWindowOptions(const char*, int i, int j, ArrayOfStrings);
 		/*!
 		* \brief part of the C API framework.
 		*/
@@ -1459,67 +1368,35 @@ namespace Tinkercell
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getNumericalDataNames(OBJ);
+		static ArrayOfStrings _getNumericalDataNames(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getStringDataNames(OBJ);
+		static ArrayOfStrings _getTextDataNames(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static double _getNumericalData(OBJ,const char*, const char*, const char*);
+		static Matrix _getNumericalData(void*,const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char* _getStringData(OBJ,const char*, const char*, const char*);
+		static void _setNumericalData(void*, const char *, Matrix);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getNumericalDataRows(OBJ,const char*);
+		static TableOfStrings _getTextData(void*,const char*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getNumericalDataCols(OBJ,const char*);
+		static void _setTextData(void*, const char *, TableOfStrings);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getStringDataRows(OBJ,const char*);
+		static ArrayOfItems _getChildren(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
-		static char** _getStringDataCols(OBJ,const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static Matrix _getNumericalDataMatrix(OBJ,const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static void _setNumericalDataMatrix(OBJ, const char *, Matrix);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static char** _getStringDataRow(OBJ,const char*,const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static char** _getStringDataCol(OBJ,const char*,const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static void _setNumericalData(OBJ,const char*, const char*, const char*,double);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static void _setStringData(OBJ,const char*, const char*, const char*,const char*);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static Array _getChildren(OBJ);
-		/*!
-		* \brief part of the C API framework.
-		*/
-		static OBJ _getParent(OBJ);
+		static void* _getParent(void*);
 		/*!
 		* \brief part of the C API framework.
 		*/
@@ -1527,7 +1404,7 @@ namespace Tinkercell
         /*!
 		* \brief part of the C API framework.
 		*/
-		static int _getSelectedString(const char*, char**,const char*, int);
+		static int _getSelectedString(const char*, ArrayOfStrings,const char*, int);
         /*!
 		* \brief part of the C API framework.
 		*/
@@ -1535,7 +1412,7 @@ namespace Tinkercell
         /*!
 		* \brief part of the C API framework.
 		*/
-		static void _getNumbers(char**, double *);
+		static void _getNumbers(ArrayOfStrings, double *);
         /*!
 		* \brief part of the C API framework.
 		*/
@@ -1622,22 +1499,12 @@ namespace Tinkercell
 		void zoom(QSemaphore*,qreal);
 
 		void getNumericalDataNames(QSemaphore*,QStringList*,ItemHandle*);
-		void getStringDataNames(QSemaphore*,QStringList*,ItemHandle*);
-		void getNumericalData(QSemaphore*,qreal*,ItemHandle*,const QString&, const QString&, const QString&);
-		void getStringData(QSemaphore*,QString*,ItemHandle*,const QString&, const QString&, const QString&);
-		void setNumericalData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,qreal);
-		void setStringData(QSemaphore*,ItemHandle*,const QString&, const QString&, const QString&,const QString&);
+		void getTextDataNames(QSemaphore*,QStringList*,ItemHandle*);
 
-		void getNumericalDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		void getNumericalDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		void getStringDataRows(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-		void getStringDataCols(QSemaphore*,QStringList*,ItemHandle*,const QString&);
-
-		void getNumericalDataMatrix(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&);
-		void setNumericalDataMatrix(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&);
-		void getStringDataRow(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&);
-		void getStringDataCol(QSemaphore*,QStringList*,ItemHandle*,const QString&,const QString&);
-
+		void getNumericalData(QSemaphore*,DataTable<qreal>*,ItemHandle*,const QString&);
+		void setNumericalData(QSemaphore*,ItemHandle*,const QString&,const DataTable<qreal>&);
+		void getTextData(QSemaphore*,DataTable<QString>*,ItemHandle*,const QString&);
+		void setTextData(QSemaphore*,ItemHandle*,const QString&,const DataTable<QString>&);
 
 		void getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
@@ -1653,25 +1520,25 @@ namespace Tinkercell
 
 	public slots:
 		void zoom(double);
-		Array allItems();
-		Array itemsOfFamily(const char*);
-		Array itemsOfFamily(const char*, Array);
-		Array selectedItems();
-		OBJ find(const char*);
-		Array findItems(char**);
-		void select(OBJ);
+		ArrayOfItems allItems();
+		ArrayOfItems itemsOfFamily(const char*);
+		ArrayOfItems itemsOfFamily(const char*, ArrayOfItems);
+		ArrayOfItems selectedItems();
+		void* find(const char*);
+		ArrayOfItems findItems(ArrayOfStrings);
+		void select(void*);
 		void deselect();
-		char* getName(OBJ);
-		void setName(OBJ,const char*);
-		char** getNames(Array);
-		char* getFamily(OBJ);
-		int isA(OBJ,const char*);
-		void removeItem(OBJ);
-		void setPos(OBJ,double ,double );
-		void setPos(Array,Matrix);
-		Matrix getPos(Array);
-		double getY(OBJ);
-		double getX(OBJ);
+		char* getName(void*);
+		void setName(void*,const char*);
+		ArrayOfStrings getNames(ArrayOfItems);
+		char* getFamily(void*);
+		int isA(void*,const char*);
+		void removeItem(void*);
+		void setPos(void*,double ,double );
+		void setPos(ArrayOfItems,Matrix);
+		Matrix getPos(ArrayOfItems);
+		double getY(void*);
+		double getX(void*);
 		void moveSelected(double ,double );
 		void outputTable(Matrix m);
 		void outputText(const char*);
@@ -1681,7 +1548,7 @@ namespace Tinkercell
 		void createInputWindow(Matrix, const char*, const char*,const char*);
 		void createInputWindow(Matrix, const char*, MatrixInputFunction);
 		void createSliders(void*, Matrix, MatrixInputFunction);
-		void addInputWindowOptions(const char*, int i, int j, char **);
+		void addInputWindowOptions(const char*, int i, int j, ArrayOfStrings);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
 		int isWindows();
@@ -1689,32 +1556,23 @@ namespace Tinkercell
 		int isLinux();
 		char* appDir();
 
-		char** getNumericalDataNames(OBJ);
-		char** getStringDataNames(OBJ);
+		ArrayOfStrings getNumericalDataNames(void*);
+		ArrayOfStrings getTextDataNames(void*);
 
-		double getNumericalData(OBJ,const char*, const char*, const char*);
-		char* getStringData(OBJ,const char*, const char*, const char*);
+		Matrix getNumericalData(void*,const char*);
+		void setNumericalData(void*,const char*, Matrix);
+		
+		TableOfStrings getTextData(void*,const char*);
+		void setTextData(void*,const char*,TableOfStrings);
 
-		char** getNumericalDataRows(OBJ,const char*);
-		char** getNumericalDataCols(OBJ,const char*);
-		char** getStringDataRows(OBJ,const char*);
-		char** getStringDataCols(OBJ,const char*);
-
-		Matrix getNumericalDataMatrix(OBJ,const char*);
-		void setNumericalDataMatrix(OBJ,const char*, Matrix);
-		char** getStringDataRow(OBJ,const char*,const char*);
-		char** getStringDataCol(OBJ,const char*,const char*);
-
-		void setNumericalData(OBJ,const char*, const char*, const char*,double);
-		void setStringData(OBJ,const char*, const char*, const char*,const char*);
-		Array getChildren(OBJ);
-		OBJ getParent(OBJ);
+		ArrayOfItems getChildren(void*);
+		void* getParent(void*);
 		
 		char* getString(const char*);
         char* getFilename();
-        int getSelectedString(const char*, char**,const char*,int);
+        int getSelectedString(const char*, ArrayOfStrings,const char*,int);
         double getNumber(const char*);
-        void getNumbers(char**, double*);
+        void getNumbers(ArrayOfStrings, double*);
         
 		int askQuestion(const char*);
 		void messageDialog(const char*);

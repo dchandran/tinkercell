@@ -34,34 +34,34 @@ namespace Tinkercell
 	class MainWindow;
 	class ItemHandle;
 
-	/*! \brief construct a Matrix with 0 rows and columns (see TCstructs.h for Matrix)
+	/*! \brief construct a Matrix with 0 rows and columns
 	\ingroup helper
-	\return empty matrix 
+	\return Matrix 
 	*/
 	MY_EXPORT Matrix emptyMatrix();
-	/*! \brief convert void* to QGraphicsItem (item on the scene) pointer
+	/*! \brief convert void* to ItemHandle pointer
 	\ingroup helper
-	\return pointer to an item on the scene
+	\return ItemHandle*
 	*/
-	MY_EXPORT ItemHandle* ConvertValue(OBJ);
-	/*! \brief convert QGraphicsItem (item on the scene) pointer to void *
+	MY_EXPORT ItemHandle* ConvertValue(void*);
+	/*! \brief convert ItemHandle pointer to void *
 	\ingroup helper
-	\return pointer to an item on the scene
+	\return void* 
 	*/
-	MY_EXPORT OBJ ConvertValue(ItemHandle*);
-	/*! \brief convert void** to QList of QGraphicsItem (item on the scene) pointers
+	MY_EXPORT void* ConvertValue(ItemHandle*);
+	/*! \brief convert ArrayOfItems to QList of ItemHandle pointers
 	\ingroup helper
-	\return list of pointers to items on the scene
+	\return QList<ItemHandle*>
 	*/
-	MY_EXPORT QList<ItemHandle*>* ConvertValue(Array);
-	/*! \brief convert to list of QGraphicsItem pointers to null-terminated array of void*
+	MY_EXPORT QList<ItemHandle*>* ConvertValue(ArrayOfItems);
+	/*! \brief convert QList of ItemHandle pointers to ArrayOfItems
 	\ingroup helper
-	\return null-terminated array of pointers to items on the scene
+	\return ArrayOfItems
 	*/
-	MY_EXPORT Array ConvertValue(const QList<ItemHandle*>&);
+	MY_EXPORT ArrayOfItems ConvertValue(const QList<ItemHandle*>&);
 	/*! \brief convert char* to QString
 	\ingroup helper
-	\return Qt String
+	\return QString
 	*/
 	MY_EXPORT QString ConvertValue(const char*);
 	/*! \brief convert QString to null-terminated char*
@@ -69,16 +69,16 @@ namespace Tinkercell
 	\return null-terminated char* 
 	*/
 	MY_EXPORT char* ConvertValue(const QString&);
-	/*! \brief convert char** to QStringList
+	/*! \brief convert TableOfStrings to DataTable of QString
 	\ingroup helper
-	\return Qt StringList
+	\return QStringList
 	*/
-	MY_EXPORT QStringList ConvertValue(char**);
-	/*! \brief convert QStringList to null-terminated char**
+	MY_EXPORT DataTable<QString>* ConvertValue(TableOfStrings);
+	/*! \brief convert DataTable of QStrings to TableOfStrings
 	\ingroup helper
-	\return array of char* 
+	\return TableOfStrings
 	*/
-	MY_EXPORT char** ConvertValue(const QStringList&);
+	MY_EXPORT TableOfStrings ConvertValue(const DataTable<QString>&);
 	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return DataTable of qreals
@@ -86,9 +86,19 @@ namespace Tinkercell
 	MY_EXPORT DataTable<qreal>* ConvertValue(Matrix);
 	/*! \brief convert Datatable<double> to Matrix (see DataTable.h and TCstructs.h)
 	\ingroup helper
-	\return Matrix with null-terminated rownames, colnames, values
+	\return Matrix
 	*/
 	MY_EXPORT Matrix ConvertValue(const DataTable<qreal>&);
-
+	/*! \brief convert ArrayOfStrings to QStringList
+	\ingroup helper
+	\return QStringList
+	*/
+	MY_EXPORT QStringList ConvertValue(ArrayOfStrings);
+	/*! \brief convert QStringList to ArrayOfStrings
+	\ingroup helper
+	\return ArrayOfStrings
+	*/
+	MY_EXPORT ArrayOfStrings ConvertValue(const QStringList& );
 }
 #endif
+

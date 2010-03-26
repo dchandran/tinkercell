@@ -23,22 +23,22 @@ double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0
 	
 	time = startTime;
 	//initialize values
-	getValue(x,1+m,0,0) = startTime;
+	x[ 0 ] = startTime;
 	for (i = 0; i < m; ++i)
 	{
 		if (x0[i] < 0.0)
 			x0[i] = 1.0;
 		if (x0[i] > 0.0 && x0[i] < 1.0)
 			x0[i] = 1.0;
-		getValue(x,1+m,0,i+1) = y[i] = x0[i];   
+		x[ i+1 ] = y[i] = x0[i];   
 	}
 	
 	while (time < endTime && iter < maxSz)   //the big loop
 	{	
-		getValue(x,1+m,iter,0) = time;
+		x[ (1+m)*iter ] = time;
 		for (i = 0; i < m; ++i)   //store output data
 		{
-			getValue(x,1+m,iter,i+1) = y[i];		
+			x[ (1+m)*iter + i+1 ] = y[i];		
 		}
 		
 		propensity(time, y, v, dataptr);  //calculate rates
@@ -107,14 +107,14 @@ double * getRatesFromSimulatedData(double* data, int rows, int cols1, int cols2,
 	for (i=0; i < rows; ++i)
 	{
 		for (j=0; j < cols1; ++j)		
-			y[j] = getValue(data,1+cols1,i,j+1);  //get simulated data row i
+			y[j] = data [ (1+cols1)*i + j+1 ];  //get simulated data row i
 		
-		time = getValue(data,1+cols1,i,0);
+		time = data [ (1+cols1)*i ];
 		f(time,y,rates,param); //get rates
 		
-		getValue(dat,1+cols2,i,0) = time;
+		dat [ (1+cols2)*i ] = time;
 		for (j=0; j < cols2; ++j)
-			getValue(dat,1+cols2,i,1+j) = rates[j];
+			dat [ (1+cols2)*i + 1+j ] = rates[j];
 	}
 	
 	free(y);

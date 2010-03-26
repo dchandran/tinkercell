@@ -80,7 +80,7 @@ void ODEtolerance(double,double);
  * \param ending time for the simulation
  * \param time increments for the simulation
  * \param user data type for storing other information
- * \return one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
+ * \return one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
  * \ingroup cvodewrapper
  */
 double* ODEsim(int N, double * initValues, ODEFunction function, double startTime, double endTime, double stepSize, void * params);
@@ -97,7 +97,7 @@ double* ODEsim(int N, double * initValues, ODEFunction function, double startTim
 * \param  end time 
 * \param  time increments for the simulation
 * \param  user data type for storing other information
-* \return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. Use getValue(y,n,i,j) if needed
+* \return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
 * \ingroup cvodewrapper
 */
 double * ODEsim2(int, int, double *, PropensityFunction f, double*, double, double, double,void*);
@@ -111,7 +111,7 @@ double * ODEsim2(int, int, double *, PropensityFunction f, double*, double, doub
  * \param additional parameters needed for ode function
  * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
  * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
- * \return 2D array made into linear array -- use getValue(array,N,i,j)
+ * \return 2D array made into linear array
  * \ingroup cvodewrapper
  */
 double* jacobian(int N, double * point,  ODEFunction function, void * params, double * eigenreal, double * eigenim);
@@ -126,7 +126,7 @@ double* jacobian(int N, double * point,  ODEFunction function, void * params, do
  * \param additional parameters needed for ode function
  * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
  * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
- * \return 2D array made into linear array -- use getValue(array,N,i,j)
+ * \return 2D array made into linear array (row-wise)
  * \ingroup cvodewrapper
  */
 double* jacobian2(int m, int n, double * N, PropensityFunction f, double * point, void * params, double * eigenreal, double * eigenim);
@@ -182,10 +182,6 @@ double* getDerivatives(int N, double * initValues, ODEFunction function, double 
  * \ingroup cvodewrapper
  */
 double* getDerivatives2(int m, int n, double * N, PropensityFunction f, double * initValues, double startTime, double endTime, double stepSize, void * params);
-
-#ifndef getValue
-#define getValue(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
-#endif
 
 /*!
 * \brief print a linearized 2D table to a file

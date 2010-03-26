@@ -98,12 +98,12 @@ double tc_getParameter(OBJ item,const char* attribute)
 	return 0.0;
 }
 
-Matrix (*_tc_getParametersNamed)(Array,char** attibutes) = 0;
+Matrix (*_tc_getParametersNamed)(Array,ArrayOfStrings attibutes) = 0;
 /*! 
  \brief get all numerical attributes with the given names for the given items
  \ingroup Attributes
 */
-Matrix tc_getParametersNamed(Array a,char** attibutes)
+Matrix tc_getParametersNamed(Array a,ArrayOfStrings attibutes)
 {
 	Matrix M;
 	if (_tc_getParametersNamed)
@@ -113,12 +113,12 @@ Matrix tc_getParametersNamed(Array a,char** attibutes)
 	return M;
 }
 
-Matrix (*_tc_getParametersExcept)(Array,char** attributes) = 0;
+Matrix (*_tc_getParametersExcept)(Array,ArrayOfStrings attributes) = 0;
 /*! 
  \brief get all numerical attributes EXCEPT the given names
  \ingroup Attributes
 */
-Matrix tc_getParametersExcept(Array a,char** attributes)
+Matrix tc_getParametersExcept(Array a,ArrayOfStrings attributes)
 {
 	Matrix M;
 	if (_tc_getParametersExcept)
@@ -128,12 +128,12 @@ Matrix tc_getParametersExcept(Array a,char** attributes)
 	return M;
 }
 
-char** (*_tc_getAllTextNamed)(Array,char** attributes) = 0;
+ArrayOfStrings (*_tc_getAllTextNamed)(Array,ArrayOfStrings attributes) = 0;
 /*! 
  \brief get all text attributes with the given name for the given items
  \ingroup Attributes
 */
-char** tc_getAllTextNamed(Array a,char** attributes)
+ArrayOfStrings tc_getAllTextNamed(Array a,ArrayOfStrings attributes)
 {
 	if (_tc_getAllTextNamed)
 		return _tc_getAllTextNamed(a,attributes);
@@ -168,7 +168,7 @@ void tc_setParameter(OBJ item,const char* attribute,double value)
 */
 void tc_BasicInformationTool_Text_api(
 		char* (*getTextData)(OBJ ,const char* ),
-		char** (*getAllTextDataNamed)(Array,char**),
+		ArrayOfStrings (*getAllTextDataNamed)(Array,ArrayOfStrings),
 		void (*setTextData)(OBJ ,const char* ,const char* ))
 {
 	_tc_getTextAttribute = getTextData;
@@ -183,8 +183,8 @@ void tc_BasicInformationTool_Numeric_api(
 		Matrix (*getFixedVariabes)(Array),
 		Matrix (*getParametersAndFixedVariabes)(Array ),
 		double (*getNumericalData)(OBJ ,const char* ),
-		Matrix (*getParametersNamed)(Array,char**),
-		Matrix (*getParametersExcept)(Array,char**),
+		Matrix (*getParametersNamed)(Array,ArrayOfStrings),
+		Matrix (*getParametersExcept)(Array,ArrayOfStrings),
 		void (*setNumericalData)(OBJ ,const char* ,double )
 	)
 {

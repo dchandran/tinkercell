@@ -6,6 +6,9 @@
  ****************************************************************************/
  
  #include "cells_ssa.h"
+
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
+
 /*
  * print a linearized 2D table to a file
 */
@@ -17,10 +20,10 @@ static void writeToFile(char* filename, double* data, int rows, int cols)
 	out = fopen(filename,"w");
 	for (i=0; i < rows; ++i)
 	{
-		fprintf(out, "%lf",getValue(data,cols,i,0));
+		fprintf(out, "%lf",valueAt(data,cols,i,0));
 
 		for (j=1; j < cols; ++j)
-			fprintf(out, "\t%lf",getValue(data,cols,i,j));
+			fprintf(out, "\t%lf",valueAt(data,cols,i,j));
 
 		fprintf(out, "\n");
 	}
@@ -48,7 +51,7 @@ double ** cells_ssa(int m, int n, double * N, PropensityFunction propensity, dou
 
 	for (i=0; i < (numPoints); ++i)
 	{
-		getValue(simu,m+1,i,0) = gridSz * (double)i; //time
+		valueAt(simu,m+1,i,0) = gridSz * (double)i; //time
 		cells[i] = 0.0;
 	}
 	
@@ -68,9 +71,9 @@ double ** cells_ssa(int m, int n, double * N, PropensityFunction propensity, dou
 	}
 	growthRates[numCells-1] = 1.0 + mutantAdv;
 	
-	getValue(simu,1+m,0,0) = 0;
+	valueAt(simu,1+m,0,0) = 0;
 	for (j=0; j < m; ++j)
-		getValue(simu,1+m,0,j+1) = x0[j];
+		valueAt(simu,1+m,0,j+1) = x0[j];
 	
 	v = (double*) malloc( n * sizeof(double) );   //rates vector
 	
@@ -176,7 +179,7 @@ double ** cells_ssa(int m, int n, double * N, PropensityFunction propensity, dou
 				for (; t0 < t1; ++t0) //fill in grid
 				{	
 					for (i = 0; i < m; ++i)   //store output concentrations data
-						getValue(simu,1+m,t0,i+1) += y[i];	
+						valueAt(simu,1+m,t0,i+1) += y[i];	
 				}
 				prevt = time+t;
 				

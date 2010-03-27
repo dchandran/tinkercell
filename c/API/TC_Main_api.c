@@ -9,7 +9,7 @@ ArrayOfItems tc_allItems()
 {
 	if (_tc_allItems)
 		return _tc_allItems();
-	return 0;
+	return newArrayOfItems(0);
 }
 
 ArrayOfItems (*_tc_selectedItems)() = 0;
@@ -21,7 +21,7 @@ ArrayOfItems tc_selectedItems()
 {
 	if (_tc_selectedItems)
 		return _tc_selectedItems();
-	return 0;
+	return newArrayOfItems(0);
 }
 
 ArrayOfItems (*_tc_itemsOfFamily)(const char* family) = 0;
@@ -33,7 +33,7 @@ ArrayOfItems tc_itemsOfFamily(const char* family)
 {
 	if (_tc_itemsOfFamily)
 		return _tc_itemsOfFamily(family);
-	return 0;
+	return newArrayOfItems(0);
 }
 
 ArrayOfItems (*_tc_itemsOfFamilyFrom)(const char* family, ArrayOfItems itemsToSelectFrom) = 0;
@@ -45,7 +45,7 @@ ArrayOfItems tc_itemsOfFamilyFrom(const char* family, ArrayOfItems itemsToSelect
 {
 	if (_tc_itemsOfFamilyFrom)
 		return _tc_itemsOfFamilyFrom(family,itemsToSelectFrom);
-	return 0;
+	return newArrayOfItems(0);
 }
 
 void * (*_tc_find)(const char* fullname) = 0;
@@ -69,7 +69,7 @@ ArrayOfItems tc_findItems(ArrayOfStrings names)
 {
 	if (_tc_findItems)
 		return _tc_findItems(names);
-	return 0;
+	return newArrayOfItems(0);
 }
 
 void (*_tc_select)(void * item) = 0;
@@ -94,12 +94,12 @@ void tc_deselect()
 		_tc_deselect();
 }
 
-char* (*_tc_getName)(void * item) = 0;
+const char* (*_tc_getName)(void * item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-char* tc_getName(void * item)
+const char* tc_getName(void * item)
 {
 	if (_tc_getName)
 		return _tc_getName(item);
@@ -126,15 +126,15 @@ ArrayOfStrings tc_getNames(ArrayOfItems items)
 {
 	if (_tc_getNames)
 		return _tc_getNames(items);
-	return 0;
+	return newArrayOfStrings(0);
 }
 
-char* (*_tc_getFamily)(void * item) = 0;
+const char* (*_tc_getFamily)(void * item) = 0;
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
 */
-char* tc_getFamily(void * item)
+const char* tc_getFamily(void * item)
 {
 	if (_tc_getFamily)
 		return _tc_getFamily(item);
@@ -251,12 +251,9 @@ Matrix (*_tc_getPos)(ArrayOfItems items) = 0;
 */
 Matrix tc_getPos(ArrayOfItems items)
 {
-	Matrix M;
 	if (_tc_getPos)
 		return _tc_getPos(items);
-	M.rows = M.cols = 0;
-	M.rownames = M.colnames = 0;
-	return M;
+	return newMatrix(0,0);
 }
 
 void (*_tc_setPos)(void * item,double x,double y) = 0;
@@ -277,7 +274,7 @@ void (*_tc_setPosMulti)(ArrayOfItems items, Matrix positions) = 0;
 */
 void tc_setPosMulti(ArrayOfItems items, Matrix positions)
 {
-	if (_tc_setPosMulti && items)
+	if (_tc_setPosMulti && items.length > 0 && items.items && positions.rows == items.length)
 		_tc_setPosMulti(items,positions);
 }
 
@@ -328,12 +325,12 @@ int tc_isLinux()
 	return 0;
 }
 
-char* (*_tc_appDir)() = 0;
+const char* (*_tc_appDir)() = 0;
 /*! 
  \brief TinkerCell application folder
  \ingroup System information
 */
-char* tc_appDir()
+const char* tc_appDir()
 {
 	if (_tc_appDir)
 		return _tc_appDir();
@@ -404,7 +401,7 @@ ArrayOfItems tc_getChildren(void * o)
 {
 	if (_tc_getChildren)
 		return _tc_getChildren(o);
-	return 0;
+	return newArrayOfItems(0);
 }
 
 void * (*_tc_getParent)(void *) = 0;
@@ -426,14 +423,9 @@ Matrix (*_tc_getNumericalData)(void * item,const char* data) = 0;
 */
 Matrix tc_getNumericalData(void * item,const char* data)
 {
-	Matrix M;
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
-	M.rows = M.cols = 0;
-	M.rownames.length = M.colnames.length = 0;
-	M.rownames.strings = M.colnames.strings = 0;
-	M.values = 0;
-	return M;
+	return newMatrix(0,0);
 }
 
 void (*_tc_setNumericalData)(void *,const char*,Matrix) = 0;
@@ -454,14 +446,9 @@ TableOfStrings (*_tc_getTextData)(void * item,const char* data) = 0;
 */
 TableOfStrings tc_getTextData(void * item,const char* data)
 {
-	TableOfStrings M;
 	if (_tc_getTextData)
 		return _tc_getTextData(item,data);
-	M.rows = M.cols = 0;
-	M.rownames.length = M.colnames.length = 0;
-	M.rownames.strings = M.colnames.strings = 0;
-	M.values = 0;
-	return M;
+	return newTableOfStrings(0,0);
 }
 
 void (*_tc_setTextData)(void *,const char*,TableOfStrings) = 0;
@@ -485,7 +472,7 @@ ArrayOfStrings tc_getNumericalDataNames(void * o)
 {
 	if (_tc_getNumericalDataNames)
 		return _tc_getNumericalDataNames(o);
-	return 0;
+	return newArrayOfStrings(0);
 }
 
 ArrayOfStrings (*_tc_getTextDataNames)(void *) = 0;
@@ -497,7 +484,7 @@ ArrayOfStrings tc_getTextDataNames(void * o)
 {
 	if (_tc_getTextDataNames)
 		return _tc_getTextDataNames(o);
-	return 0;
+	return newArrayOfStrings(0);
 }
 
 void (*_tc_zoom)(double factor) = 0;
@@ -511,24 +498,24 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
-char* (*_tc_getString)(const char* title) = 0;
+const char* (*_tc_getString)(const char* title) = 0;
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Dialogs
 */
-char* tc_getString(const char* title)
+const char* tc_getString(const char* title)
 {
 	if (_tc_getString)
 		return _tc_getString(title);
 	return 0;
 }
 
-char* (*_tc_getFilename)() = 0;
+const char* (*_tc_getFilename)() = 0;
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Dialogs
 */
-char* tc_getFilename()
+const char* tc_getFilename()
 {
 	if (_tc_getFilename)
 		return _tc_getFilename();
@@ -631,10 +618,10 @@ void tc_Main_api_initialize(
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
 		void (*tc_select0)(void *),
 		void (*tc_deselect0)(),
-		char* (*tc_getName0)(void *),
+		const char* (*tc_getName0)(void *),
 		void (*tc_setName0)(void * item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		char* (*tc_getFamily0)(void *),
+		const char* (*tc_getFamily0)(void *),
 		int (*tc_isA0)(void *,const char*),
 
 		void (*tc_clearText)(),
@@ -655,7 +642,7 @@ void tc_Main_api_initialize(
 		int (*tc_isWindows0)(),
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
-		char* (*tc_appDir0)(),
+		const char* (*tc_appDir0)(),
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
@@ -671,18 +658,18 @@ void tc_Main_api_initialize(
 		Matrix (*tc_getNumericalData0)(void *,const char*),
 		void (*tc_setNumericalData0)(void *,const char*,Matrix),
 		TableOfStrings (*tc_getTextData0)(void *,const char*),
-		void (*tc_setTextData0)(void *,const char*, TableOfString),
+		void (*tc_setTextData0)(void *,const char*, TableOfStrings),
 				
 		ArrayOfStrings (*tc_getNumericalDataNames0)(void *),
 		ArrayOfStrings (*tc_getTextDataNames0)(void *),
 		
 		void (*tc_zoom0)(double factor),
 		
-		char* (*getString)(const char*),
+		const char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, ArrayOfStrings, const char*, int),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( ArrayOfStrings, double * ),
-		char* (*getFilename)(),
+		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*)

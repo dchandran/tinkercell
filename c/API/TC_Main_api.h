@@ -55,7 +55,7 @@ void tc_deselect();
  \brief get the full name of an item
  \ingroup Annotation
 */
-char* tc_getName(void * item);
+const char* tc_getName(void * item);
 
 /*! 
  \brief set the name of an item (not full name)
@@ -73,7 +73,7 @@ ArrayOfStrings tc_getNames(ArrayOfItems items);
  \brief get the family name of an item
  \ingroup Annotation
 */
-char* tc_getFamily(void * item);
+const char* tc_getFamily(void * item);
 
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
@@ -97,7 +97,7 @@ void tc_errorReport(const char* text);
  \brief show table in the output window.
  \ingroup Input and Output
 */
-void tc_printTable(Matrix data)
+void tc_printTable(Matrix data);
 
 /*! 
  \brief show file contents in the output window. 
@@ -175,7 +175,7 @@ int tc_isLinux();
  \brief TinkerCell application folder
  \ingroup System information
 */
-char* tc_appDir();
+const char* tc_appDir();
 
 /*! 
  \brief create an input window that can call a dynamic library
@@ -264,12 +264,12 @@ void tc_zoom(double factor);
  \brief get a text from the user (dialog)
  \ingroup Dialogs
 */
-char* tc_getString(const char* title);
+const char* tc_getString(const char* title);
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Dialogs
 */
-char* tc_getFilename();
+const char* tc_getFilename();
 
 /*! 
  \brief get a text from the user (dialog) from a list of selections
@@ -367,7 +367,7 @@ void tc_Main_api_initialize(
 		Matrix (*tc_getNumericalData0)(void *,const char*),
 		void (*tc_setNumericalData0)(void *,const char*,Matrix),
 		TableOfStrings (*tc_getTextData0)(void *,const char*),
-		void (*tc_setTextData0)(void *,const char*, TableOfString),
+		void (*tc_setTextData0)(void *,const char*, TableOfStrings),
 				
 		ArrayOfStrings (*tc_getNumericalDataNames0)(void *),
 		ArrayOfStrings (*tc_getTextDataNames0)(void *),

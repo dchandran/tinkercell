@@ -1,42 +1,54 @@
 #include "TCstructs.h"
 
-struct Matrix newMatrix(int rows, int cols)
+Matrix newMatrix(int rows, int cols)
 {
 	int i;
-	struct Matrix M;
-	M.rows = M.rownames.length = rows;
-	M.cols = M.colnames.length = cols;
-	M.colnames.strings = (char**)malloc( cols * sizeof(char*) );
-	M.rownames.strings = (char**)malloc( rows * sizeof(char*) );
-	M.values = (double*)malloc( rows * cols * sizeof(double) );
-	for (i=0; i < cols; ++i)
-		M.colnames.strings[i] = 0;
-	for (i=0; i < rows; ++i)
-		M.rownames.strings[i] = 0;
-	for (i=0; i < rows*cols; ++i)
-		M.values[i] = 0.0;
+	Matrix M;
+	M.rows = rows;
+	M.cols = cols;
+	M.colnames = newArrayOfStrings(cols);
+	M.rownames = newArrayOfStrings(rows);
+	
+	if (rows > 0 && cols > 0)
+	{
+		M.values = (double*)malloc( rows * cols * sizeof(double) );
+		for (i=0; i < cols; ++i)
+			M.colnames.strings[i] = 0;
+		for (i=0; i < rows; ++i)
+			M.rownames.strings[i] = 0;
+		for (i=0; i < rows*cols; ++i)
+			M.values[i] = 0.0;
+	}
+	else
+		M.values = 0;
 	return M;
 }
 
-struct TableOfStrings newTableOfStrings(int rows, int cols)
+TableOfStrings newTableOfStrings(int rows, int cols)
 {
 	int i;
-	struct TableOfStrings M;
-	M.rows = M.rownames.length = rows;
-	M.cols = M.colnames.length = cols;
-	M.colnames.strings = (char**)malloc( cols * sizeof(char*) );
-	M.rownames.strings = (char**)malloc( rows * sizeof(char*) );
-	M.strings = (char**)malloc( rows * cols * sizeof(char*) );
-	for (i=0; i < cols; ++i)
-		M.colnames.strings[i] = 0;
-	for (i=0; i < rows; ++i)
-		M.rownames.strings[i] = 0;
-	for (i=0; i < rows*cols; ++i)
-		M.strings[i] = 0;
+	TableOfStrings M;
+	M.rows = rows;
+	M.cols = cols;
+
+	M.colnames = newArrayOfStrings(cols);
+	M.rownames = newArrayOfStrings(rows);
+	if (rows > 0 && cols > 0)
+	{
+		M.strings = (char**)malloc( rows * cols * sizeof(char*) );
+		for (i=0; i < cols; ++i)
+			M.colnames.strings[i] = 0;
+		for (i=0; i < rows; ++i)
+			M.rownames.strings[i] = 0;
+		for (i=0; i < rows*cols; ++i)
+			M.strings[i] = 0;
+	}
+	else
+		M.strings = 0;
 	return M;
 }
 
-struct ArrayOfStrings newArrayOfStrings(int len)
+ArrayOfStrings newArrayOfStrings(int len)
 {
 	int i;
 	ArrayOfStrings A;
@@ -55,7 +67,7 @@ struct ArrayOfStrings newArrayOfStrings(int len)
 	return A;
 }
 
-struct ArrayOfItems newArrayOfItems(int len)
+ArrayOfItems newArrayOfItems(int len)
 {
 	int i;
 	ArrayOfItems A;
@@ -73,27 +85,27 @@ struct ArrayOfItems newArrayOfItems(int len)
 	}
 	return A;
 }
-double getValue(struct Matrix M, int i, int j)
+double getValue(Matrix M, int i, int j)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		return M.values[ i*M.cols + j ];
 	return 0.0;
 }
 
-void setValue(struct Matrix M, int i, int j, double d)
+void setValue(Matrix M, int i, int j, double d)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;
 }
 
-const char * getRowName(struct Matrix M, int i)
+const char * getRowName(Matrix M, int i)
 { 
 	if (i >= 0 && i < M.rows)
 		return M.rownames.strings[i];
 	return 0;
 }
 
-void setRowName(struct Matrix M, int i, const char * s)
+void setRowName(Matrix M, int i, const char * s)
 {
 	int n=0;
 	char * str;
@@ -106,14 +118,14 @@ void setRowName(struct Matrix M, int i, const char * s)
 	}
 }
 
-const char * getColumnName(struct Matrix M, int j)
+const char * getColumnName(Matrix M, int j)
 { 
 	if (j >= 0 && j < M.cols)
 		return M.colnames.strings[j];
 	return 0;
 }
 
-void setColumnName(struct Matrix M, int j, const char * s)
+void setColumnName(Matrix M, int j, const char * s)
 {
 	int n=0;
 	char * str;
@@ -126,14 +138,14 @@ void setColumnName(struct Matrix M, int j, const char * s)
 	}
 }
 
-const char* getString(struct TableOfStrings S, int i, int j)
+const char* getString(TableOfStrings S, int i, int j)
 {
 	if (i >= 0 && j >= 0 && i < S.rows && j < S.cols)
 		return S.strings[ i*S.cols + j ];
 	return 0;
 }
 
-void setString(struct TableOfStrings S, int i, int j, const char * s)
+void setString(TableOfStrings S, int i, int j, const char * s)
 {
 	int n=0;
 	char * str;
@@ -147,21 +159,41 @@ void setString(struct TableOfStrings S, int i, int j, const char * s)
 	}
 }
 
-const char* ithString(struct ArrayOfStrings S, int i)
+const char* ithString(ArrayOfStrings S, int i)
 {
 	if (i >= 0 && i < S.length)
 		return S.strings[ i ];
 	return 0;
 }
 
-void * ithItem(struct ArrayOfItems A, int i)
+void ithStringSet(ArrayOfStrings S, int i, const char * c)
+{
+	int n=0;
+	char * str;
+	if (i >= 0 && i < S.length)
+	{
+		while (s && s[n]) ++n;
+		str = (char*)malloc((n+1)*sizeof(char));
+		sprintf(str,"%s\0",s);
+	
+		S.strings[ i ] = str;
+	}
+}
+
+void * ithItem(ArrayOfItems A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void deleteMatrix(struct Matrix M)
+void ithItemSet(ArrayOfItems A, int i, void * o)
+{
+	if (i >= 0 && i < A.length)
+		A.items[ i ] = o;
+}
+
+void deleteMatrix(Matrix M)
 {
 	int i;
 	if (M.values)
@@ -178,7 +210,7 @@ void deleteMatrix(struct Matrix M)
 	}
 }
 
-void deleteTableOfStrings(struct TableOfStrings M)
+void deleteTableOfStrings(TableOfStrings M)
 {
 	int i;
 	if (M.strings)
@@ -195,13 +227,13 @@ void deleteTableOfStrings(struct TableOfStrings M)
 	}
 }
 
-void deleteArrayOfItems(struct ArrayOfItems A)
+void deleteArrayOfItems(ArrayOfItems A)
 {
 	if (A.items) 
 		free(A.items);
 }
 
-void deleteArrayOfStrings(struct ArrayOfStrings C)
+void deleteArrayOfStrings(ArrayOfStrings C)
 {
 	int i;
 	if (!C.strings) return;
@@ -209,10 +241,10 @@ void deleteArrayOfStrings(struct ArrayOfStrings C)
 	free(C.strings);
 }
 
-struct Matrix cbind(struct Matrix A, struct Matrix B)
+Matrix cbind(Matrix A, Matrix B)
 {
 	int i,j,k=0;
-	struct Matrix C;
+	Matrix C;
 	int fromA = 0, toA = A.cols, fromB = 0, toB = B.cols;
 
 	C.colnames.length = C.rownames.length = 0;
@@ -287,10 +319,10 @@ struct Matrix cbind(struct Matrix A, struct Matrix B)
 	return C;
 }
 
-struct Matrix rbind(struct Matrix A, struct Matrix B)
+Matrix rbind(Matrix A, Matrix B)
 {
 	int i,j,k=0;
-	struct Matrix C;
+	Matrix C;
 	int fromA = 0, toA = A.rows, fromB = 0, toB = B.rows;
 
 	C.colnames.strings = C.rownames.strings = 0;

@@ -1968,6 +1968,26 @@ namespace Tinkercell
 			sem->release();
 	}
 	
+	void MainWindow::getNumericalDataNames(QSemaphore* sem,QStringList* list,ItemHandle* item)
+	{
+		if (item && list)
+		{
+			(*list) << item->data->numericalData.keys();
+		}
+		if (sem)
+			sem->release();
+	}
+
+	void MainWindow::getTextDataNames(QSemaphore*sem,QStringList* list,ItemHandle* item)
+	{
+		if (item && list)
+		{
+			(*list) << item->data->textData.keys();
+		}
+		if (sem)
+			sem->release();
+	}
+
 	void MainWindow::getChildren(QSemaphore* sem,QList<ItemHandle*>* ret,ItemHandle* item)
 	{
 		if (item && ret)
@@ -2192,6 +2212,16 @@ namespace Tinkercell
 	void MainWindow::_setTextData(void* o ,const char* a,TableOfStrings m)
 	{
 		return fToS.setTextData(o,a,m);
+	}
+	
+	ArrayOfStrings MainWindow::_getTextDataNames(void * o)
+	{
+		return fToS.getTextDataNames(o);
+	}
+	
+	ArrayOfStrings MainWindow::_getNumericalDataNames(void * o)
+	{
+		return fToS.getNumericalDataNames(o);
 	}
 
 	ArrayOfItems MainWindow::_getChildren(void* o)
@@ -2688,7 +2718,7 @@ namespace Tinkercell
 		m.rownames.strings = m.colnames.strings = 0;
 		return m;
 	}
-
+	
 	void MainWindow_FtoS::setTextData(void* o, const char * c, TableOfStrings M)
 	{
 		DataTable<QString>* dat = ConvertValue(M);

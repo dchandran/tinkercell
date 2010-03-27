@@ -1,22 +1,14 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
-#IF ( WIN32 )
-#	ADD_LIBRARY( ssa
-#		SHARED
-#		mtrand.c
-#		ssa.c
-#		cells_ssa.c
-#		langevin.c
-#	)
-#ELSE ( WIN32 )
-	ADD_LIBRARY( ssa
-		STATIC
-		mtrand.c
-		ssa.c
-		cells_ssa.c
-		langevin.c
-	)
-#ENDIF ( WIN32 )
+ADD_SUBDIRECTORY(API)
+
+ADD_LIBRARY( ssa
+	STATIC
+	mtrand.c
+	ssa.c
+	cells_ssa.c
+	langevin.c
+)
  
 IF ( WIN32 )
   INSTALL(TARGETS ssa DESTINATION c)
@@ -35,6 +27,8 @@ ADD_LIBRARY( runlangevin
   runlangevin.c
 )
 
+TARGET_LINK_LIBRARIES( runlangevin runlangevin tc )
+
 IF ( WIN32 )
   INSTALL(TARGETS runlangevin DESTINATION Plugins/c)
 ELSE ( WIN32 )
@@ -45,6 +39,8 @@ ADD_LIBRARY( runsteadystate
   SHARED
   runsteadystate.c
 )
+
+TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tc )
 
 IF ( WIN32 )
   INSTALL(TARGETS runsteadystate DESTINATION Plugins/c)
@@ -57,6 +53,8 @@ ADD_LIBRARY( runcvode
   runcvode.c
 )
 
+TARGET_LINK_LIBRARIES( runcvode runcvode tc )
+
 IF ( WIN32 )
   INSTALL(TARGETS runcvode DESTINATION Plugins/c)
 ELSE ( WIN32 )
@@ -67,6 +65,8 @@ ADD_LIBRARY( runssa
   SHARED
   runssa.c
 )
+
+TARGET_LINK_LIBRARIES( runssa runssa tc )
 
 IF ( WIN32 )
   INSTALL(TARGETS runssa DESTINATION Plugins/c)
@@ -79,6 +79,8 @@ ADD_LIBRARY( runloops
   runLoops.c
 )
 
+TARGET_LINK_LIBRARIES( runloops runloops tc )
+
 IF ( WIN32 )
   INSTALL(TARGETS runloops DESTINATION Plugins/c)
 ELSE ( WIN32 )
@@ -89,6 +91,8 @@ ADD_LIBRARY( loadFullBindingKinetics
   SHARED
   loadFullBindingKinetics.c
 )
+
+TARGET_LINK_LIBRARIES( loadFullBindingKinetics loadFullBindingKinetics tc )
 
 IF ( WIN32 )
   INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
@@ -101,6 +105,8 @@ ADD_LIBRARY( runbistablega
   runbistablega.c
 )
 
+TARGET_LINK_LIBRARIES( runbistablega runbistablega tc )
+
 IF ( WIN32 )
   INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
 ELSE ( WIN32 )
@@ -111,6 +117,8 @@ ADD_LIBRARY( runvaluesattime
   SHARED
   runvaluesattime.c
 )
+
+TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tc )
 
 IF ( WIN32 )
   INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
@@ -123,6 +131,8 @@ ADD_LIBRARY( tabasco_like
   tabasco_like.c
 )
 
+TARGET_LINK_LIBRARIES( tabasco_like tabasco_like tc )
+
 IF ( WIN32 )
   INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
 ELSE ( WIN32 )
@@ -133,6 +143,8 @@ ADD_LIBRARY( parametercorrelation
   SHARED
   parametercorrelation.c
 )
+
+TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tc )
 
 IF ( WIN32 )
   INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
@@ -185,9 +197,10 @@ ADD_LIBRARY( lpsolve
   ${LPSOLVE_SRC}
 )
 
+TARGET_LINK_LIBRARIES( lpsolve lpsolve tc )
+
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
-
 
 IF ( WIN32 )
   INSTALL(TARGETS lpsolve DESTINATION Plugins/c)
@@ -203,16 +216,15 @@ IF(PYTHONLIBS_FOUND)
   )
 
   ADD_LIBRARY( runpy 
-  SHARED
-  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
+	  SHARED
+  	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
   )
   
   TARGET_LINK_LIBRARIES( runpy
     runpy
+    tc
     ${PYTHON_LIBRARIES}
   )
-  
-  
   
   IF ( WIN32 )
     INSTALL(TARGETS runpy DESTINATION Plugins/c)
@@ -225,7 +237,7 @@ ENDIF(PYTHONLIBS_FOUND)
 
 
 ##
-## NOTE: what about reorganizing folder structure?
+## CPack
 ##
 
 FILE( GLOB C_SRC "*.c" "*.h" )

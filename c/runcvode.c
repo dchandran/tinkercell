@@ -26,29 +26,29 @@ void setup()
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size", "plot", "update model", "use sliders", 0 };
 	double values[] = { 0, 100, 0.1, 0, 1, 1 };
-	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
-	char * options2[] = { "Variables", "Rates", 0 };
-	char * options3[] = { "Yes", "No", 0 };
+	char * options1[] = { "Full model", "Selected only" };
+	char * options2[] = { "Variables", "Rates" };
+	char * options3[] = { "Yes", "No"};
 	FILE * file;
 
-	m.rows = 6;
-	m.cols = 1;
-	m.colnames = cols;
-	m.rownames = rows;
+	m.rows = m.rownames.length = 6;
+	m.cols = m.colnames.length =  1;
+	m.colnames.strings = cols;
+	m.rownames.strings = rows;
 	m.values = values;
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  options1);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  options2);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  options3);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  options3);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  (ArrayOfStrings){2,options1});
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  (ArrayOfStrings){2,options2});
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  (ArrayOfStrings){2,options3});
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  (ArrayOfStrings){2,options3});
 
 	return;
 }
 
 void run(Matrix input)
 {
-	Array A,B;
+	ArrayOfItems A,B;
 	FILE * out;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
@@ -64,17 +64,17 @@ void run(Matrix input)
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)valueAt(input,0,0);
+			selection = (int)getValue(input,0,0);
 		if (input.rows > 1)
-			end = valueAt(input,1,0);
+			end = getValue(input,1,0);
 		if (input.rows > 2)
-			dt = valueAt(input,2,0);
+			dt = getValue(input,2,0);
 		if (input.rows > 3)
-			rateplot = (int)valueAt(input,3,0);
+			rateplot = (int)getValue(input,3,0);
 		if (input.rows > 4)
-			update = (int)valueAt(input,4,0);
+			update = (int)getValue(input,4,0);
 		if (input.rows > 5)
-			slider = (int)valueAt(input,5,0);
+			slider = (int)getValue(input,5,0);
 	}
 	
 	if (slider)
@@ -92,9 +92,9 @@ void run(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (A[0] == 0)
+		if (ithItem(A,0) == 0)
 		{
-			TCFreeArray(A);
+			deleteArrayOfItems(A);
 			tc_errorReport("No Model Selected\0");
 			return;
 		}
@@ -107,62 +107,49 @@ void run(Matrix input)
 	if (slider)
 	{
 		params = tc_getModelParameters(A);
-		//B = tc_itemsOfFamilyFrom("Molecule\0",A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		TCFreeMatrix(N);
-		
-		initVals = tc_getInitialValues(A);
-		
-		allParams.rows = (initVals.rows+params.rows);
-		allParams.cols = 2;
-		allParams.rownames = (char**)malloc((initVals.rows+params.rows+1)*sizeof(char*));
-		allParams.values = (double*)malloc(2*allParams.rows*sizeof(double));
-		allParams.colnames = 0;
-		
+		deleteMatrix(N);
+		initVals = tc_getInitialValues(B);
+
+		allParams = newMatrix(initVals.rows+params.rows,2);
+
 		for (i=0; i < params.rows; ++i)
 		{
-			allParams.rownames[i] = params.rownames[i];
-			valueAt(allParams,i,1) = 
-					2*valueAt(params,i,0) - 
-									(valueAt(allParams,i,0) = valueAt(params,i,0)/10.0);
+			setRowName(allParams,i, getRowName(params,i));
+			setValue(allParams,i,0,getValue(params,i,0)/10.0);
+			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
 		}
 		for (i=0; i < initVals.rows; ++i)
 		{
-			allParams.rownames[i+params.rows] = initVals.rownames[i];
-			valueAt(allParams,i+params.rows,1) = 
-					2*valueAt(initVals,i,0) - 
-									(valueAt(allParams,i+params.rows,0) = valueAt(initVals,i,0)/10.0);
+			setRowName(allParams,i+params.rows, getRowName(initVals,i));
+			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
+			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
-		allParams.rownames[(initVals.rows+params.rows)] = 0;
-	
-		free(params.rownames);
-		params.rownames = 0;
-		free(initVals.rownames);
-		initVals.rownames = 0;
-		TCFreeMatrix(initVals);
-		TCFreeMatrix(params);
-		TCFreeArray(B);
+		
+		deleteMatrix(initVals);
+		deleteMatrix(params);
+		deleteArrayOfItems(B);
 		runfunc = runfuncInput;
 	}
 	
-	if (A[0] != 0)
+	if (ithItem(A,0))
 	{
 		k = tc_writeModel( "ode", A );
-		TCFreeArray(A);
+		deleteArrayOfItems(A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				TCFreeMatrix(allParams);
+				deleteMatrix(allParams);
 			return;
 		}
 	}
 	else
 	{
-		TCFreeArray(A);
+		deleteArrayOfItems(A);
 		if (slider)
-			TCFreeMatrix(allParams);
+			deleteMatrix(allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -171,9 +158,9 @@ void run(Matrix input)
 	
 	if (!out)
 	{
-		TCFreeArray(A);
+		deleteArrayOfItems(A);
 		if (slider)
-			TCFreeMatrix(allParams);
+			deleteMatrix(allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -223,7 +210,7 @@ void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",allParams.rownames[i],i);
+		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
 }
 
 fprintf( out , "\
@@ -294,7 +281,7 @@ fprintf( out , "\
 	
 
 	if (slider)
-		fprintf(out, "    TCFreeMatrix(input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -303,7 +290,7 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
-		TCFreeMatrix(allParams);
+		deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");

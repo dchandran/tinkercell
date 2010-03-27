@@ -21,7 +21,10 @@ and QGraphicsItem.
 #include <QGraphicsItem>
 #include <QStringList>
 #include <math.h>
-#include "TCstructs.h"
+extern "C"
+{
+	#include "TCstructs.h"
+}
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

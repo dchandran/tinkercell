@@ -6,98 +6,104 @@
 #include <math.h>
 
 /*!\brief An array of strings with length information. Use ithString(M,i) to get the i-th string.*/
-struct ArrayOfStrings
+typedef struct 
 {
 	int length;
 	char ** strings;
-};
+} ArrayOfStrings;
 
 
 /*!\brief An array of void * objects with length information. Use ithItem(M,i) to get the i-th item.*/
-struct ArrayOfItems
+typedef struct 
 {
 	int length;
 	void ** items;
-};
+} ArrayOfItems;
 
 
 /*!\brief A 2D table of doubles with row and column names. Use getValue(M,i,j) to get the i,j-th value in Matrix M.*/
-struct Matrix
+typedef struct 
 {
 	int rows, cols;
 	double * values;
-	struct ArrayOfStrings rownames;
-	struct ArrayOfStrings colnames;
-};
+	ArrayOfStrings rownames;
+	ArrayOfStrings colnames;
+} Matrix;
 
 /*!\brief A 2D table of strings with row and column names. Use getString(M,i,j) to get the i,j-th value in Matrix M.*/
-struct TableOfStrings
+typedef struct 
 {
 	int rows, cols;
 	char ** strings;
-	struct ArrayOfStrings rownames;
-	struct ArrayOfStrings colnames;
-};
+	ArrayOfStrings rownames;
+	ArrayOfStrings colnames;
+} TableOfStrings;
 
 /*!\brief Create a matrix with the given rows and columns*/
-struct Matrix newMatrix(int rows, int cols);
+Matrix newMatrix(int rows, int cols);
 
 /*!\brief Create a strings table with the given rows and columns*/
-struct TableOfStrings newTableOfStrings(int rows, int cols);
+TableOfStrings newTableOfStrings(int rows, int cols);
 
 /*!\brief Create an array of strings*/
-struct ArrayOfStrings newArrayOfStrings(int len);
+ArrayOfStrings newArrayOfStrings(int len);
 
 /*!\brief Create an array of items*/
-struct ArrayOfItems newArrayOfItems(int len);
+ArrayOfItems newArrayOfItems(int len);
 
 /*!\brief get i,jth value from a Matrix*/
-double getValue(struct Matrix M, int i, int j);
+double getValue(Matrix M, int i, int j);
 
 /*!\brief set i,jth value of a Matrix*/
-void setValue(struct Matrix M, int i, int j, double d);
+void setValue(Matrix M, int i, int j, double d);
 
 /*!\brief get ith row name from a Matrix*/
-const char * getRowName(struct Matrix M, int i);
+const char * getRowName(Matrix M, int i);
 
 /*!\brief set ith row name for a Matrix*/
-void setRowName(struct Matrix M, int i, const char * s);
+void setRowName(Matrix M, int i, const char * s);
 
 /*!\brief get jth column name of a Matrix*/
-const char * getColumnName(struct Matrix M, int j);
+const char * getColumnName(Matrix M, int j);
 
 /*!\brief set jth column name of a Matrix*/
-void setColumnName(struct Matrix M, int j, const char * s);
+void setColumnName(Matrix M, int j, const char * s);
 
 /*!\brief get i,j-th string in a table*/
-const char* getString(struct TableOfStrings S, int i, int j);
+const char* getString(TableOfStrings S, int i, int j);
 
 /*!\brief set i,jth string in a table*/
-void setString(struct TableOfStrings S, int i, int j, const char * s);
+void setString(TableOfStrings S, int i, int j, const char * s);
 
 /*!\brief get ith string in array of strings*/
-const char* ithString(struct ArrayOfStrings S, int i);
+const char* ithString(ArrayOfStrings S, int i);
+
+/*!\brief set ith string in array of strings*/
+void ithStringSet(ArrayOfStrings S, int i, const char * c);
+
+/*!\brief get ith void * item in array of items*/
+void * ithItem(ArrayOfItems A, int i);
 
 /*!\brief set ith void * item in array of items*/
-void * ithItem(struct ArrayOfItems A, int i);
+void ithItemSet(ArrayOfItems A, int i, void * o);
 
 /*!\brief delete a matrix*/
-void deleteMatrix(struct Matrix M);
+void deleteMatrix(Matrix M);
 
 /*!\brief delete a strings table*/
-void deleteTableOfStrings(struct TableOfStrings M);
+void deleteTableOfStrings(TableOfStrings M);
 
 /*!\brief delete an array */
-void deleteArrayOfItems(struct ArrayOfItems A);
+void deleteArrayOfItems(ArrayOfItems A);
 
 /*!\brief delete an array */
-void deleteArrayOfStrings(struct ArrayOfStrings C);
+void deleteArrayOfStrings(ArrayOfStrings C);
 
 /*!\brief combine two matrices by appending their columns. row size must be equal for both matrices*/
-struct Matrix cbind(struct Matrix A, struct Matrix B);
+Matrix cbind(Matrix A, Matrix B);
 
 /*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices*/
-struct Matrix rbind(struct Matrix A, struct Matrix B);
+Matrix rbind(Matrix A, Matrix B);
 
 #endif
 

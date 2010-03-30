@@ -476,8 +476,8 @@ void run2D(Matrix input)
       char * colnames[] = {\"%s\", \"%s\", \"%s\", 0};\n\
 	  TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	  (*model) = TC_initial_model;\n\
-      dat.cols = 3;\n\
-      dat.colnames.length = dat.rows = rows * cols;\n\
+      dat.colnames.length = dat.cols = 3;\n\
+      dat.rows = rows * cols;\n\
       dat.colnames.strings = colnames;\n\
       dat.values = (double*)malloc(3 * cols * rows * sizeof(double));\n\
       dat.rownames = newArrayOfStrings(0);\n",

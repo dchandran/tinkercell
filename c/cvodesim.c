@@ -413,7 +413,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 				  return 0;
 			   }
 			   else
-				 data[ i*(N+1) + j+1) = (NV_DATA_S(u))[j]; //normal case
+				 data[ i*(N+1) + j+1 ] = (NV_DATA_S(u))[j]; //normal case
 		   }
 		}
 		++i;
@@ -673,7 +673,7 @@ double* getDerivatives(int N, double * initialValues, void (*odefnc)(double,doub
   
 	for (i=0; i < N; ++i)
 	{
-	  dy[i] = ( y[ sz*(1+N) + 1+i ] - y[ (1+N)*(sz-1) + 1+i) )/ stepSize;
+	  dy[i] = ( y[ sz*(1+N) + 1+i ] - y[ (1+N)*(sz-1) + 1+i ] )/ stepSize;
 	}
 	
 	free(y);

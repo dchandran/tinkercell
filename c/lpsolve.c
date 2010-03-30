@@ -8,7 +8,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	REAL * row;
 	REAL * obj;
 	REAL * soln;
-	OBJ o;
+	void* o;
 	double max = 0.0;
 	Matrix output;
 
@@ -48,7 +48,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	for (i=1; i < (input.cols-1); ++i)
 	{
-		obj[i] = valueAt(input,0,i+1);
+		obj[i] = getValue(input,0,i+1);
 		set_lowbo(lp,i,0.0);
 		set_upbo(lp,i,100.0);
 	}
@@ -69,13 +69,13 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 		for (j=1; j < (input.cols-1); ++j)
 			row[j] = valueAt(input,i,j+1);
 
-		if (valueAt(input,i,0) == 0)
+		if (getValue(input,i,0) == 0)
 			add_constraint(lp, row, EQ , valueAt(input,i,1));
 		else
-			if (valueAt(input,i,0) == 1)
-				add_constraint(lp, row, LE , valueAt(input,i,1));
+			if (getValue(input,i,0) == 1)
+				add_constraint(lp, row, LE , getValue(input,i,1));
 			else
-				add_constraint(lp, row, GE , valueAt(input,i,1));
+				add_constraint(lp, row, GE , getValue(input,i,1));
 	}
 
 	free(row);
@@ -135,13 +135,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	/**output**/
 
-	output.rows = 1;
-	output.rownames = 0;
-	output.cols = input.cols-2;
-	output.colnames = malloc((input.cols-2)*sizeof(char*));
-	output.values = malloc((input.cols-2) * sizeof(double));
-
-
+	output = newMatrix(1,input.cols-2);
 
 	for (i=0; i < (input.cols-2); ++i)
 		if (max < soln[input.rows+i])
@@ -152,8 +146,8 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	tc_deselect();
 	for (i=0; i < (input.cols-2); ++i)
 	{
-		output.colnames[i] = input.colnames[i+2];
-		o = tc_find(input.colnames[i+2]);  //find the item with the column name
+		setColumnName(output,i, getColumnName(input,i+2));
+		o = tc_find(getColumnName(input,i+2));  //find the item with the column name
 		if (o)
 		{
 			tc_displayNumber(o,soln[input.rows+i]);
@@ -167,8 +161,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	tc_printTable(output);
 
-	free(output.colnames);
-	free(output.values);
+	deleteMatrix(output);
 	free(soln);
 	delete_lp(lp);
 	//TCFreeArray(all);

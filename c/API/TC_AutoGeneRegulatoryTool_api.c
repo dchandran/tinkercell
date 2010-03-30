@@ -1,6 +1,3 @@
-#ifndef TINKERCELL_TC_AUTOGENEREGULATORYTOOL_API_H
-#define TINKERCELL_TC_AUTOGENEREGULATORYTOOL_API_H
-
 #include "TC_AutoGeneRegulatoryTool_api.h"
 
 ArrayOfItems (*_tc_partsIn)(void*) = 0;
@@ -64,4 +61,3 @@ void tc_AutoGeneRegulatoryTool_api(
 	_tc_alignParts = f4;
 }
 
-#endif

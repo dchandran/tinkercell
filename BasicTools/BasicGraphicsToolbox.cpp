@@ -350,12 +350,12 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_BasicGraphicsToolbox_api)(
-		int (*getColorR)(OBJ),
-		int (*getColorG)(OBJ),
-		int (*getColorB)(OBJ),
-		void (*setColor)(OBJ,int,int,int, int),
-		void (*changeGraphics)(OBJ,const char*),
-		void (*changeArrowHead)(OBJ,const char*));
+		int (*getColorR)(void*),
+		int (*getColorG)(void*),
+		int (*getColorB)(void*),
+		void (*setColor)(void*,int,int,int, int),
+		void (*changeGraphics)(void*,const char*),
+		void (*changeArrowHead)(void*,const char*));
 
 
 	void BasicGraphicsToolbox::setupFunctionPointers( QLibrary * library )
@@ -1860,12 +1860,12 @@ namespace Tinkercell
 	*****************************/
 	BasicGraphicsToolbox_FToS BasicGraphicsToolbox::fToS;
 
-	int BasicGraphicsToolbox::_getColorR(OBJ o)
+	int BasicGraphicsToolbox::_getColorR(void* o)
 	{
 		return fToS.getColorR(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorR(OBJ o)
+	int BasicGraphicsToolbox_FToS::getColorR(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -1876,12 +1876,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	int BasicGraphicsToolbox::_getColorG(OBJ o)
+	int BasicGraphicsToolbox::_getColorG(void* o)
 	{
 		return fToS.getColorG(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorG(OBJ o)
+	int BasicGraphicsToolbox_FToS::getColorG(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -1892,12 +1892,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	int BasicGraphicsToolbox::_getColorB(OBJ o)
+	int BasicGraphicsToolbox::_getColorB(void* o)
 	{
 		return fToS.getColorB(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorB(OBJ o)
+	int BasicGraphicsToolbox_FToS::getColorB(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -1908,12 +1908,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	void BasicGraphicsToolbox::_setColor(OBJ o,int r, int g, int b, int p)
+	void BasicGraphicsToolbox::_setColor(void* o,int r, int g, int b, int p)
 	{
 		return fToS.setColor(o,r,g,b,p);
 	}
 
-	void BasicGraphicsToolbox_FToS::setColor(OBJ o,int r, int g, int b, int p)
+	void BasicGraphicsToolbox_FToS::setColor(void* o,int r, int g, int b, int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1923,12 +1923,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void BasicGraphicsToolbox::_changeGraphics(OBJ o,const char* f)
+	void BasicGraphicsToolbox::_changeGraphics(void* o,const char* f)
 	{
 		fToS.changeGraphics(o,f);
 	}
 
-	void BasicGraphicsToolbox_FToS::changeGraphics(OBJ o,const char* f)
+	void BasicGraphicsToolbox_FToS::changeGraphics(void* o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1938,12 +1938,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void BasicGraphicsToolbox::_changeArrowHead(OBJ o,const char* f)
+	void BasicGraphicsToolbox::_changeArrowHead(void* o,const char* f)
 	{
 		fToS.changeArrowHead(o,f);
 	}
 
-	void BasicGraphicsToolbox_FToS::changeArrowHead(OBJ o,const char* f)
+	void BasicGraphicsToolbox_FToS::changeArrowHead(void* o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

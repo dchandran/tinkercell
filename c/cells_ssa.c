@@ -7,7 +7,7 @@
  
  #include "cells_ssa.h"
 
-#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )
 
 /*
  * print a linearized 2D table to a file

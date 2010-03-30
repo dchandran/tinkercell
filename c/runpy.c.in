@@ -1,5 +1,5 @@
 #import <Python.h>
-#include "API/Python/TC_py.h"
+//#include "API/Python/TC_py.h"
 
 #cmakedefine CMAKE_WIN32
 
@@ -29,11 +29,11 @@ void initialize()
 #endif
 	Py_Initialize();
 	
-	Py_InitModule("pytc", pytcMethods);
+	//Py_InitModule("pytc", pytcMethods);
 	mainmod = PyImport_AddModule("__main__");
-	dlfl = PyImport_AddModule("pytc");
+	//dlfl = PyImport_AddModule("pytc");
 	main_dict = PyModule_GetDict( mainmod );
-	dlfl_dict = PyModule_GetDict( dlfl );
+	//dlfl_dict = PyModule_GetDict( dlfl );
 	
 	pyout = fopen("py.out","a");
 }
@@ -63,15 +63,13 @@ void exec(const char * code,const char * outfile)
 		Py_DECREF(evalVal);
 	}*/
 
-	if (printOutput)
-		tc_printFile(outfile);
+	tc_printFile(outfile);
 	
 	if (errdata != NULL) 
 	{ 
 		s = PyObject_Str(errdata); 
 		errString = PyString_AsString(s);
-		if (printError)
-			tc_errorReport(errString);
+		tc_errorReport(errString);
 		Py_DECREF(s); 
 	}
 	

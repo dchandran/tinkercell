@@ -81,9 +81,9 @@ namespace Tinkercell
 		Matrix getFixedAndParameters(ArrayOfItems);
 		char* getTextData(void* ,const char* );
 		double getNumericalData(void* ,const char* );
-		Matrix getParametersNamed(ArrayOfItems, ArrayOfItemsOfStrings);
-		Matrix getParametersExcept(ArrayOfItems, ArrayOfItemsOfStrings);
-		ArrayOfItemsOfStrings getAllTextDataNamed(ArrayOfItems, ArrayOfItemsOfStrings);
+		Matrix getParametersNamed(ArrayOfItems, ArrayOfStrings);
+		Matrix getParametersExcept(ArrayOfItems, ArrayOfStrings);
+		ArrayOfStrings getAllTextDataNamed(ArrayOfItems, ArrayOfStrings);
 		void setTextData(void* ,const char* ,const char* );
 		void setNumericalData(void* ,const char* ,double );
 	};

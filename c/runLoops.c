@@ -14,18 +14,18 @@ void tc_main()
 void run()
 {
 	int k;
-	Array A;
+	ArrayOfItems A;
 	FILE * out;
 	
 	A = tc_selectedItems();
 	
-	if (A[0] == 0)
+	if (ithItem(A,0) == 0)
 		A = tc_allItems();
     
-	if (A[0] != 0)
+	if (ithItem(A,0) != 0)
 	{
 	   k = tc_writeModel( "runloops", A );
-       TCFreeArray(A);
+       deleteArrayOfItems(A);
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
@@ -34,7 +34,7 @@ void run()
 	}
 	else
 	{
-       TCFreeArray(A);
+       deleteArrayOfItems(A);
 	   tc_errorReport("No Model\0");
        return;  
 	}
@@ -76,3 +76,4 @@ int run(Matrix M)\n\
    fclose(out);
    return;
 }
+

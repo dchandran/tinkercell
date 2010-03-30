@@ -136,15 +136,15 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		OBJ (*insertConnection)(Array, Array, const char*, const char*),
-		Array (*getConnectedNodes)(OBJ),
-		Array (*getConnectedNodesIn)(OBJ),
-		Array (*getConnectedNodesOut)(OBJ),
-		Array (*getConnectedNodesOther)(OBJ),
-		Array (*getConnections)(OBJ),
-		Array (*getConnectionsIn)(OBJ),
-		Array (*getConnectionsOut)(OBJ),
-		Array (*getConnectionsOther)(OBJ));
+		void* (*insertConnection)(ArrayOfItems, ArrayOfItems, const char*, const char*),
+		ArrayOfItems (*getConnectedNodes)(void*),
+		ArrayOfItems (*getConnectedNodesIn)(void*),
+		ArrayOfItems (*getConnectedNodesOut)(void*),
+		ArrayOfItems (*getConnectedNodesOther)(void*),
+		ArrayOfItems (*getConnections)(void*),
+		ArrayOfItems (*getConnectionsIn)(void*),
+		ArrayOfItems (*getConnectionsOut)(void*),
+		ArrayOfItems (*getConnectionsOther)(void*));
 
 
 	void ConnectionInsertion::setupFunctionPointers( QLibrary * library )
@@ -939,12 +939,12 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS ConnectionInsertion::fToS;
 
-	OBJ ConnectionInsertion::_insertConnection(Array A1, Array A2, const char* a0, const char* a1)
+	void* ConnectionInsertion::_insertConnection(ArrayOfItems A1, ArrayOfItems A2, const char* a0, const char* a1)
 	{
 		return fToS.insertConnection(A1, A2, a0, a1);
 	}
 
-	OBJ ConnectionInsertion_FToS::insertConnection(Array A1, Array A2, const char* a0, const char* a1)
+	void* ConnectionInsertion_FToS::insertConnection(ArrayOfItems A1, ArrayOfItems A2, const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;
@@ -960,12 +960,12 @@ namespace Tinkercell
 		return ConvertValue(item);
 	}
 
-	Array ConnectionInsertion::_getConnectedNodes(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodes(void* x)
 	{
 		return fToS.getConnectedNodes(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectedNodes(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -974,17 +974,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectedNodesIn(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodesIn(void* x)
 	{
 		return fToS.getConnectedNodesIn(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectedNodesIn(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesIn(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -993,17 +993,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectedNodesOut(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodesOut(void* x)
 	{
 		return fToS.getConnectedNodesOut(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectedNodesOut(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesOut(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1012,17 +1012,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectedNodesOther(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodesOther(void* x)
 	{
 		return fToS.getConnectedNodesOther(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectedNodesOther(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesOther(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1031,17 +1031,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnections(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnections(void* x)
 	{
 		return fToS.getConnections(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnections(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnections(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1050,17 +1050,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectionsIn(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectionsIn(void* x)
 	{
 		return fToS.getConnectionsIn(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectionsIn(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectionsIn(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1069,17 +1069,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectionsOut(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectionsOut(void* x)
 	{
 		return fToS.getConnectionsOut(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectionsOut(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectionsOut(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1088,17 +1088,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	Array ConnectionInsertion::_getConnectionsOther(OBJ x)
+	ArrayOfItems ConnectionInsertion::_getConnectionsOther(void* x)
 	{
 		return fToS.getConnectionsOther(x);
 	}
 
-	Array ConnectionInsertion_FToS::getConnectionsOther(OBJ x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectionsOther(void* x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1107,7 +1107,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Array A = ConvertValue(*list);
+		ArrayOfItems A = ConvertValue(*list);
 		delete list;
 		return A;
 	}

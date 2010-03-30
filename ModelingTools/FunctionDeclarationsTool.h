@@ -62,7 +62,7 @@ namespace Tinkercell
 	public slots:
 		ArrayOfStrings getForcingFunctionNames(ArrayOfItems);
 		ArrayOfStrings getForcingFunctionAssignments(ArrayOfItems);
-		void addForcingFunction(OBJ,const char*, const char*);
+		void addForcingFunction(void*,const char*, const char*);
 	};
 
 	/*!
@@ -125,7 +125,7 @@ namespace Tinkercell
 
 		static ArrayOfStrings _getForcingFunctionNames(ArrayOfItems);
 		static ArrayOfStrings _getForcingFunctionAssignments(ArrayOfItems);
-		static void _addForcingFunction(OBJ,const char*, const char*);
+		static void _addForcingFunction(void*,const char*, const char*);
 	};
 
 

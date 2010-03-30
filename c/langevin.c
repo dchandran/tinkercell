@@ -1,6 +1,6 @@
 #include "langevin.h"
 
-#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )
 
 double rnorm()
 {

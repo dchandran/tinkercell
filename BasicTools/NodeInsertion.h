@@ -54,7 +54,7 @@ namespace Tinkercell
 signals:
 		void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
 		public slots:
-			OBJ insertItem(const char* , const char* );
+			void* insertItem(const char* , const char* );
 	};
 
 	/*! \brief This class listens to the NodesTree signals and allows users to insert items from
@@ -118,7 +118,7 @@ signals:
 		/*! \brief the C API function to signal converter*/
 		static NodeInsertion_FToS fToS;
 		/*! \brief the C API function*/
-		static OBJ _insertItem(const char* , const char* );
+		static void* _insertItem(const char* , const char* );
 
 	public:
 		/*! \brief finds a unique name, given the set of all items in the network

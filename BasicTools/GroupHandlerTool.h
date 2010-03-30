@@ -42,8 +42,8 @@ namespace Tinkercell
 		void merge(QSemaphore*, QList<ItemHandle*>&);
 		void separate(QSemaphore*,ItemHandle*);
 	public slots:
-		void merge(Array);
-		void separate(OBJ);
+		void merge(ArrayOfItems);
+		void separate(void*);
 	};
 
 	class MY_EXPORT GroupHandlerTool : public Tool
@@ -79,8 +79,8 @@ namespace Tinkercell
 		static QString findUniqueName(const QStringList&);
 		void connectTCFunctions();
 		static GroupHandlerTool_FToS fToS;
-		static void _merge( Array );
-		static void _separate(OBJ );
+		static void _merge( ArrayOfItems );
+		static void _separate(void* );
 		static ItemFamily* findBestFamilyOption(QList<ItemFamily*>&);
 	};
 

@@ -35,8 +35,6 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 				matrix[k*3 + 0] = (x - (1<<(i+1))); //complex without i
 				matrix[k*3 + 1] = (1<<(i+1));  //i
 				matrix[k*3 + 2] = x;    //complex
-				//ks[k*2 + 0] = kon[i];
-				//ks[k*2 + 1] = koff[i];
 				++k;
 			}
 		}
@@ -45,24 +43,21 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	M.rows = 2*N2-1;
 	M.cols = k*2;
 	M.values = (double*)malloc(M.cols * M.rows * sizeof(double));
-	M.rownames = (char**)malloc((M.rows+1) * sizeof(char*));
-	M.rownames[M.rows] = 0;
-	M.colnames = (char**)malloc((M.cols+1) * sizeof(char*));
-	M.colnames[M.cols] = 0;
-	//printf("rows = %i\n",M.rows);
+	M.rownames = newArrayOfStrings(M.rows);
+	M.colnames = newArrayOfStrings(M.cols);
 
-	js = malloc(M.rows * sizeof(int));
+	js = (int*)malloc(M.rows * sizeof(int));
 
 	j = 0;
 	j2 = 1;
 	j3 = 0;
 	for (i=1; i <= M.rows; ++i)
 	{
-		M.rownames[i-1] = malloc(10*sizeof(char));
+		M.rownames.strings[i-1] = malloc(10*sizeof(char));
 
 		if (i==(1<<j))
 		{
-			sprintf(M.rownames[i-1],"%s\0",proteinNames[j]);
+			sprintf(M.rownames.strings[i-1],"%s\0",proteinNames[j]);
 			++j;
 			js[i-1] = j3;
 			if (rxnNames[j3+1])		 
@@ -70,7 +65,7 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 		}
 		else
 		{
-			sprintf(M.rownames[i-1],"%s.I%i\0",proteinNames[j-1],j2);
+			sprintf(M.rownames.strings[i-1],"%s.I%i\0",proteinNames[j-1],j2);
 			js[i-1] = j3;
 			++j2;
 		}
@@ -78,7 +73,7 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 
 	for (i=0; i<(M.cols * M.rows); ++i) M.values[i] = 0;
 
-	usedSpecies = malloc(M.rows * sizeof(int));
+	usedSpecies = (int*)malloc(M.rows * sizeof(int));
 	for (i=0; i < M.rows; ++i) usedSpecies[i] = 0;
 
 	for (i=0; i<k; ++i)
@@ -91,18 +86,18 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 
 		//printf("a=%i  b=%i  c=%i\n",a,b,c);
 
-		valueAt(M,a,i*2+0) = -1.0;
-		valueAt(M,b,i*2+0) = -1.0;
-		valueAt(M,c,i*2+0) = 1.0;
+		setValue(M,a,i*2+0, -1.0);
+		setValue(M,b,i*2+0, -1.0);
+		setValue(M,c,i*2+0, 1.0);
 
-		valueAt(M,a,i*2+1) = 1.0;
-		valueAt(M,b,i*2+1) = 1.0;
-		valueAt(M,c,i*2+1) = -1.0;
+		setValue(M,a,i*2+1, 1.0);
+		setValue(M,b,i*2+1, 1.0);
+		setValue(M,c,i*2+1, -1.0);
 
-		M.colnames[i*2+0] = malloc(100*sizeof(char));  //rate bind
-		sprintf(M.colnames[i*2+0],"%s*%s\0",M.rownames[a],M.rownames[b]);
-		M.colnames[i*2+1] = malloc(100*sizeof(char));  //rate unbind
-		sprintf(M.colnames[i*2+1],"%s.Kd*%s\0",rxnNames[ js[a] ],M.rownames[c]);
+		M.colnames.strings[i*2+0] = (char*)malloc(100*sizeof(char));  //rate bind
+		sprintf(M.colnames.strings[i*2+0],"%s*%s\0",M.rownames.strings[a],M.rownames.strings[b]);
+		M.colnames.strings[i*2+1] = (char*)malloc(100*sizeof(char));  //rate unbind
+		sprintf(M.colnames.strings[i*2+1],"%s.Kd*%s\0",rxnNames[ js[a] ],M.rownames.strings[c]);
 	}
 
 	k = 0;
@@ -113,17 +108,16 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	M2.cols = M.cols;
 	M2.values = (double*)malloc(M2.cols * M2.rows * sizeof(double));
 	M2.colnames = M.colnames;
-	M2.rownames = (char**)malloc((k+1) * sizeof(char*));
-	M2.rownames[M2.rows] = 0;
+	M2.rownames = newArrayOfStrings(k);
 	for (i=0,j=0; i<M.rows; ++i)
 		if (usedSpecies[i])
 		{
-			M2.rownames[j] = M.rownames[i];
+			M2.rownames.strings[j] = M.rownames.strings[i];
 			++j;
 		}
 		else
 		{
-			free(M.rownames[i]);
+			free(M.rownames.strings[i]);
 		} 
 		k = 0;
 		for (i=0; i<M.rows; ++i)
@@ -132,14 +126,14 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 			{
 				for (j=0; j<M.cols; ++j)
 				{
-					valueAt(M2,k,j) = valueAt(M,i,j);
+					setValue(M2,k,j,getValue(M,i,j));
 				}
 				++k;
 			}
 		}
 
-		free(M.rownames);
 		free(M.values);
+		free(M.rownames.strings);
 		free(matrix);
 		free(js);
 		free(usedSpecies);
@@ -160,21 +154,21 @@ int main()
 
 	for (j=0; j < M.cols; ++j)
 	{
-		printf("%s ",M.colnames[j]);
+		printf("%s ",M.colnames.strings[j]);
 	}
 	printf("\n");
 
 	for (i=0; i < M.rows; ++i)
 	{
-		printf("%s ",M.rownames[i]);
+		printf("%s ",M.rownames.strings[i]);
 		for (j=0; j < M.cols; ++j)
 		{
-			printf("%lf ",valueAt(M,i,j));
+			printf("%lf ",getValue(M,i,j));
 		}
 		printf("\n");
 	}
 	free(M.values);
-	free(M.colnames);
-	free(M.rownames);
+	free(M.colnames.strings);
+	free(M.rownames.strings);
 	return 0;
 }

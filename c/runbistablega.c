@@ -22,11 +22,11 @@ void run()
 	char* appDir;
 	int sz = 0;
 	char* cmd;
-	Array A = tc_allItems();
+	ArrayOfItems A = tc_allItems();
 	tc_writeModel("ode.c",A); //generate ode model
 
 	appDir = tc_appDir();
-	TCFreeArray(A);   
+	deleteArrayOfItems(A);   
 
 
 	while (appDir[sz] != 0) ++sz;

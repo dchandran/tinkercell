@@ -34,4 +34,3 @@ void tc_GroupHandlerTool_api(
 	_tc_separate = separate;
 }
 
-#endif

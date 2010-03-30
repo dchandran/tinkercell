@@ -407,6 +407,255 @@ void setupSSA()
 	tc_addInputWindowOptions("Gillespie algorithm",4, 0, (ArrayOfStrings){ 2, options3 });
 }
 
+void runLangevin(Matrix input)
+{
+	int i;
+	double time = 50.0, dt = 0.1;
+	int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
+	ArrayOfItems A,B;
+	FILE * out;
+	int slider = 1;
+	char * runfuncInput = "Matrix input";
+	char * runfunc = "";
+	Matrix params, initVals, allParams, N;
+
+	if (input.cols > 0)
+	{
+		if (input.rows > 0)
+			selection = (int)getValue(input,0,0);
+		if (input.rows > 1)
+			time = getValue(input,1,0);
+		if (input.rows > 2)
+			dt = getValue(input,2,0);
+		if (input.rows > 3)
+			rateplot = (int)getValue(input,3,0);
+		if (input.rows > 4)
+			slider = (int)getValue(input,4,0);
+	}
+	
+	if (dt > time/2.0) dt = time/10.0;
+	
+	if (slider)
+		slider = 0;
+	else
+		slider = 1;
+	
+	if (selection > 0)
+	{
+		A = tc_selectedItems();
+		if (ithItem(A,0) == 0)
+		{
+			deleteArrayOfItems(A);
+			tc_errorReport("No Model Selected\0");
+			return;
+
+		}
+	}
+	else
+	{
+		A = tc_allItems();
+	}
+
+	if (slider)
+	{
+		params = tc_getModelParameters(A);
+		N = tc_getStoichiometry(A);
+		B = tc_findItems(N.rownames);
+		deleteMatrix(N);
+		initVals = tc_getInitialValues(B);
+
+		allParams = newMatrix(initVals.rows+params.rows,2);
+
+		for (i=0; i < params.rows; ++i)
+		{
+			setRowName(allParams,i, getRowName(params,i));
+			setValue(allParams,i,0,getValue(params,i,0)/10.0);
+			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
+		}
+		for (i=0; i < initVals.rows; ++i)
+		{
+			setRowName(allParams,i+params.rows, getRowName(initVals,i));
+			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
+			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
+		}
+		
+		deleteMatrix(initVals);
+		deleteMatrix(params);
+		deleteArrayOfItems(B);
+		runfunc = runfuncInput;
+	}
+	
+	if (ithItem(A,0) != 0)
+	{
+		k = tc_writeModel( "runssa", A );
+		deleteArrayOfItems(A);
+		if (!k)
+		{
+			tc_errorReport("No Model\0");
+			if (slider)
+				deleteMatrix(allParams);
+			return;
+		}
+	}
+	else
+	{
+		deleteArrayOfItems(A);
+		if (slider)
+			deleteMatrix(allParams);
+		tc_errorReport("No Model\0");
+		return;
+	}
+
+	out = fopen("runssa.c","a");
+	
+	if (!out)
+	{
+		deleteArrayOfItems(A);
+		if (slider)
+			deleteMatrix(allParams);
+		tc_errorReport("Cannot write to file runssa.c in user directory\0");
+		return;
+	}
+	
+	fprintf( out , "\
+#include \"TC_api.h\"\n\
+#include \"ssa.h\"\n\n\
+static double _time0_ = 0.0;\n\
+void ssaFunc(double time, double * u, double * rates, void * data)\n\
+{\n\
+	TCpropensity(time, u, rates, data);\n\
+	if (time > _time0_)\n\
+	{\n\
+			tc_showProgress((int)(100 * time/%lf));\n\
+			_time0_ += %lf;\n\
+	}\n\
+}\n\
+\n\
+#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
+static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
+{\n\
+	int i,j;\n\
+	double * sum_xx = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
+	double * sum_x = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
+	double * rates = (double*)malloc(TCreactions * sizeof(double));\n\
+	double * u = (double*)malloc(TCvars * sizeof(double));\n\
+	for (i=0; i < (TCvars+TCreactions); ++i)\n\
+		sum_x[i] = sum_xx[i] = 0.0;\n\
+	for (i=values->rows/2; i < values->rows; ++i)\n\
+	{\n\
+		for (j=0; j < TCvars; ++j)\n\
+		{\n\
+			u[j] = valueAt((*values),i,j+1);\n\
+			sum_x[j] += u[j];\n\
+			sum_xx[j] += u[j]*u[j];\n\
+		}\n\
+		TCpropensity(0,u,rates,data);\n\
+		for (j=0; j < TCreactions; ++j)\n\
+		{\n\
+			sum_x[j+TCvars] += rates[j];\n\
+			sum_xx[j+TCvars] += rates[j]*rates[j];\n\
+		}\n\
+	}\n\
+	for (j=0; j < (TCvars+TCreactions); ++j)\n\
+	{\n\
+		mu[j] = sum_x[j]/(values->rows/2);\n\
+		var[j] = sum_xx[j]/(values->rows/2) - mu[j]*mu[j];\n\
+	}\n\
+	free(u);\n\
+	free(rates);\n\
+	free(sum_x);\n\
+	free(sum_xx);\n\
+}\n\
+void run(%s) \n\
+{\n\
+	initMTrand();\n\
+	int sz = 0,i,j;\n\
+	double * y, *y0, * mu, * var;\n\
+	Matrix data;\n\
+	ArrayOfItems A;\n\
+	char ** names;\n\
+	char s[100];\n\
+	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
+	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
+
+if (slider)
+{
+	for (i=0; i < allParams.rows; ++i)
+		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+}
+
+fprintf(out, "\
+	TCinitialize(model);\n\
+	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model);\n\
+	if (!y) \
+	{\n\
+		tc_errorReport(\"Stochastic simulation failed! Try simulating for a short time to see what is going wrong. \");\n\
+		free(model);\n\
+		return;\n\
+	}\n\
+	sz = %i;\n\
+	data.rows = sz;\n\
+	data.cols = 1+TCvars;\n\
+	data.values = y;\n\
+	mu = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
+	var = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
+	computeStats(mu,var,&data,(void*)model);\n\
+	A = tc_findItems(TCvarnames);\n\
+	for (i=0; i < TCvars; ++i)\n\
+	{\n\
+	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
+	   tc_displayText(A[i],s);\n\
+	}\n\
+	free(A);\n\
+	A = tc_findItems(TCreactionnames);\n\
+	for (i=0; i < TCreactions; ++i)\n\
+	{\n\
+	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
+	   tc_displayText(A[i],s);\n\
+	}\n\
+	free(A);\n\
+	free(mu);\n\
+	free(var);\n\
+	names = TCvarnames;\n\
+	if (%i)\n\
+	{\n\
+		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
+		free(y);\n\
+		y = y0;\n\
+		TCvars = TCreactions;\n\
+		names = TCreactionnames;\n\
+	}\n\
+	data.cols = 1+TCvars;\n\
+	data.values = y;\n\
+	data.rownames = newArrayOfStrings(0);\n\
+	data.colnames = newArrayOfStrings(TCvars+1);\n\
+	data.colnames.strings[0] = \"time\\0\";\n\
+	for(i=0; i<TCvars; ++i) data.colnames.strings[1+i] = names[i];\n\
+	tc_multiplot(2,1);\n\
+	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+	tc_hist(data,1,\"Histogram\");\n\
+	free(data.colnames.strings);\n\
+	free(y);\n\
+	free(model);\n",time,dt,(int)(time/dt),rateplot,xaxis);
+
+	if (slider)
+		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
+	else
+		fprintf(out, "    return;\n}\n");
+
+	fclose(out);
+
+	if (slider)
+	{
+		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
+		deleteMatrix(allParams);
+	}
+	else
+		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
+	
+	return;
+}
+
 void setupCellSSA()
 {
 	Matrix m;
@@ -425,9 +674,34 @@ void setupCellSSA()
 	tc_addInputWindowOptions("Multi-cell stochastic simulation",0, 0,  (ArrayOfStrings){2, options1});
 }
 
+void setupLangevin()
+{
+	Matrix m;
+	char * cols[] = { "value" };
+	char * rows[] = { "model", "time", "step size", "plot", "show sliders", 0 };
+	double values[] = { 0, 100, 0.1, 0 , 1 };
+	char * options1[] = { "Full model", "Selected only" };
+	char * options2[] = { "Variables", "Rates"};
+	char * options3[] = { "Yes", "No" };
+	
+	m.rows = 5;
+	m.cols = 1;
+	m.colnames.length = 1;
+	m.colnames.strings = cols;
+	m.rownames.length = 5;
+	m.rownames.strings = rows;
+	m.values = values;
+
+	tc_createInputWindow(m,"Langevin algorithm",&runLangevin);
+	tc_addInputWindowOptions("Langevin algorithm",0, 0, (ArrayOfStrings){ 2, options1 });
+	tc_addInputWindowOptions("Langevin algorithm",3, 0, (ArrayOfStrings){ 2, options2 });
+	tc_addInputWindowOptions("Langevin algorithm",4, 0, (ArrayOfStrings){ 2, options3 });
+}
+
 void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setupSSA, "Discreet stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
+	tc_addFunction(&setupSSA, "Stochastic simulation (Discreet)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
+	tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
 	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/cells.png", "", 1, 0, 0);
 }

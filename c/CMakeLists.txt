@@ -22,19 +22,6 @@ ELSE( WIN32 AND NOT UNIX)
    OPTION( CMAKE_WIN32 "This is a Windows OS" OFF )
 ENDIF( WIN32 AND NOT UNIX)
 
-ADD_LIBRARY( runlangevin
-  SHARED
-  runlangevin.c
-)
-
-TARGET_LINK_LIBRARIES( runlangevin runlangevin tc )
-
-IF ( WIN32 )
-  INSTALL(TARGETS runlangevin DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runlangevin LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
-
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c

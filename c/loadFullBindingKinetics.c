@@ -18,69 +18,63 @@ void tc_main()
 
 void run()
 {
-  Array selected = tc_selectedItems();
-  OBJ p; 
-  OBJ* C;
+  ArrayOfItems selected = tc_selectedItems();
+  void* p; 
+  ArrayOfItems C;
   int i, j, k, N = 0;
-  OBJ * js;
-  OBJ * tfs;
-  char ** names, ** jnames;
+  ArrayOfItems js, tfs, parts;
+  ArrayOfStrings names, jnames;
   Matrix m;
   
-  if (selected[0] == 0) return;
-  p = selected[0];
+  p = ithValue(selected,0);
+  if (p == 0) return;
 
   //if (! tc_isA(p,"Regulator")) return;
 
   C = tc_getConnections(p);
 
   //count the number of repressors/activators
-  for (i=0; C[i]!=0; ++i)
+  for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(C[i],"Binding"))
+     if (tc_isA(ithItem(C,i),"Binding"))
      {
         ++N;
-     }        
+     }
   }
   
   
-  //double * kon = malloc(N*sizeof(double));
-  //double * koff = malloc(N*sizeof(double));
-  js = malloc((N+1)*sizeof(OBJ));
-  js[N] = 0;
+  js = newArrayOfItems(N);
 
   //get kon,koff,and trans.reg. connections
-  j=0;
-  for (i=0; C[i]!=0; ++i)
+  j = 0;
+  for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(C[i],"Binding"))
+     if (tc_isA(ithItem(C,i),"Binding"))
      {
-        //kon[j] = tc_getNumericalData(C[i],"kon");
-        //koff[j] = tc_getNumericalData(C[i],"koff");
-        js[j] = C[i];
+        ithItemSet(js,j, ithItem(C,i));
         ++j;
      }         
   }
 
   //get the repressors/activators names
 
-  tfs = malloc((N+2)*sizeof(OBJ));
-  tfs[0] = p;
-  tfs[N+1] = 0; //very important - null terminated
+  tfs = newArrayOfItems(N+1);
+  ithItemSet(tfs,0,p);
   k = 1;
-  for (i=0; C[i]!=0; ++i)
+  for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(C[i],"Binding"))
+     if (tc_isA(ithItem(C,i),"Binding"))
      {
-        OBJ* parts = tc_getConnectedNodes(C[i]);
-        for (j=0; parts[j] != 0; ++j)
+        parts = tc_getConnectedNodes(ithItem(C,i));
+        for (j=0; i < parts.length; ++j)
         {
-           if (parts[j] != p)
+           if (ithItem(parts,j) != p)
            {
-              tfs[k] = parts[j];  //save tfs
+              ithItemSet( tfs, k, ithItem(parts,j));  //save tfs
               ++k;
            }
         }
+        deleteArrayOfItems(parts);
      }
   }
   
@@ -88,23 +82,21 @@ void run()
   jnames = tc_getNames(js);  //get names of reactions
 
   //main function that generates the full stoichiometry and rates
-  m = fullBindingKinetics(N,jnames,names);
+  m = fullBindingKinetics(N,jnames.strings,names.strings);
 
   //output that matrix to screen and item
   tc_printTable(m);
   tc_setRates(js,m.colnames);
-  if (m.colnames)  free(m.colnames);
-  m.colnames = 0;
+  if (m.colnames.strings)  free(m.colnames.strings);
+  m.colnames = newArrayOfStrings(0);
   tc_setStoichiometry(js,m);
 
-  free(js);  
-  free(tfs);  
-  if (m.values)  free(m.values);
-  if (m.rownames) free(m.rownames);
-  if (m.colnames)  free(m.colnames);
+  deleteArrayOfItems(js); 
+  deleteArrayOfItems(tfs);  
+  deleteMatrix(m);
 
-  TCFreeChars(names);
-  TCFreeChars(jnames);
-  TCFreeArray(selected);
+  deleteArrayOfString(names);
+  deleteArrayOfString(jnames);
+  deleteArrayOfItems(selected);
   return; 
 }

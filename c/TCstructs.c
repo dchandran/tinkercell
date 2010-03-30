@@ -166,7 +166,7 @@ const char* ithString(ArrayOfStrings S, int i)
 	return 0;
 }
 
-void ithStringSet(ArrayOfStrings S, int i, const char * c)
+void ithStringSet(ArrayOfStrings S, int i, const char * s)
 {
 	int n=0;
 	char * str;
@@ -198,16 +198,10 @@ void deleteMatrix(Matrix M)
 	int i;
 	if (M.values)
 		free(M.values);
-	if (M.rownames.strings)
-	{
-		for (i=0; i < (M).rows; ++i) free(M.rownames.strings[i]);
-		free(M.rownames.strings);
-	}
-	if (M.colnames.strings)
-	{
-		for (i=0; i < (M).cols; ++i) free(M.colnames.strings[i]);
-		free(M.colnames.strings);
-	}
+	M.rows = M.cols = 0;	
+	deleteArrayOfStrings(M.rownames);
+	deleteArrayOfStrings(M.colnames);
+
 }
 
 void deleteTableOfStrings(TableOfStrings M)
@@ -215,30 +209,32 @@ void deleteTableOfStrings(TableOfStrings M)
 	int i;
 	if (M.strings)
 		free(M.strings);
-	if (M.rownames.strings)
-	{
-		for (i=0; i < (M).rows; ++i) free(M.rownames.strings[i]);
-		free(M.rownames.strings);
-	}
-	if (M.colnames.strings)
-	{
-		for (i=0; i < (M).cols; ++i) free(M.colnames.strings[i]);
-		free(M.colnames.strings);
-	}
+	M.rows = M.cols = 0;
+	deleteArrayOfStrings(M.rownames);
+	deleteArrayOfStrings(M.colnames);
+
 }
 
 void deleteArrayOfItems(ArrayOfItems A)
 {
 	if (A.items) 
 		free(A.items);
+	A.length = 0;
+	A.items = 0;
 }
 
 void deleteArrayOfStrings(ArrayOfStrings C)
 {
 	int i;
-	if (!C.strings) return;
-	for (i=0; i < C.length; ++i) free(C.strings[i]);
-	free(C.strings);
+	if (C.strings)
+	{
+		for (i=0; i < C.length; ++i) 
+			if (C.strings[i]) 
+				free(C.strings[i]);
+		free(C.strings);
+	}
+	C.length = 0;
+	C.strings = 0;
 }
 
 Matrix cbind(Matrix A, Matrix B)

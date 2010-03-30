@@ -8,8 +8,8 @@
 ** 
 ****************************************************************************/
 
-#include "TC_api.h"
 #include <string.h>
+#include "TC_api.h"
 
 char selected_var1[100];
 char selected_var2[100];
@@ -34,15 +34,15 @@ void setup()
 	double values[] = { 0.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 1.0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
 	
-	m.rows = 8;
-	m.cols = 1;
-	m.colnames = cols;
-	m.rownames = rows;
+	m.rownames.length = m.rows = 8;
+	m.colnames.length = m.cols = 1;
+	m.colnames.strings = cols;
+	m.rownames.strings = rows;
 	m.values = values;
 
 
 	tc_createInputWindow(m,"Correlation Test",&run);
-	tc_addInputWindowOptions("Correlation Test",0, 0,  options1);
+	tc_addInputWindowOptions("Correlation Test",0, 0,  (ArrayOfStrings){2, options1});
 	
 	return; 
 }
@@ -55,45 +55,45 @@ void run(Matrix input)
 	int index1 = 0, index2 = 1, index3 = 2, index4 = 3;
 	int minsz = 10, arraysz = 20;
 	int rateplot = 0;
-	Array A;
+	ArrayOfItems A;
 	int i, len;
 	Matrix params;
-	char ** names, ** allNames;
+	ArrayOfStrings names, allNames;
 	char * param1, * param2, * target, * var;
 	FILE * out;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)valueAt(input,0,0);
+			selection = (int)getValue(input,0,0);
 		
 		if (input.rows > 1)
-			startvar = valueAt(input,1,0);
+			startvar = getValue(input,1,0);
 		if (input.rows > 2)
 		{
-			endvar = valueAt(input,2,0);
+			endvar = getValue(input,2,0);
 			dvar = (endvar - startvar)/((double)arraysz);
 		}
 			
 		if (input.rows > 3)
-			startx = valueAt(input,3,0);
+			startx = getValue(input,3,0);
 		if (input.rows > 4)
-			endx = valueAt(input,4,0);
+			endx = getValue(input,4,0);
 			
 		if (input.rows > 5)
-			starty = valueAt(input,5,0);
+			starty = getValue(input,5,0);
 		if (input.rows > 6)
-			endy = valueAt(input,6,0);
+			endy = getValue(input,6,0);
 		if (input.rows > 7)
-			dy = dx = valueAt(input,7,0);
+			dy = dx = getValue(input,7,0);
 	}
 
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (A[0] == 0)
+		if (ithItem(A,0) == 0)
 		{
-			TCFreeArray(A);
+			deleteArrayOfItems(A);
 			A = tc_allItems();
 		}
 	}
@@ -103,29 +103,26 @@ void run(Matrix input)
 	}   
 
 
-	if (A[0] != 0)
+	if (ithItem(A,0) != 0)
 	{
 		tc_writeModel( "corr", A );  //writes to ss2D.c and ss2D.py
 	}
 	else
 	{
-		TCFreeArray(A);
+		deleteArrayOfItems(A);
 		return;  
 	}
 
 	params = tc_getModelParameters(A);
 	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
 
-	len = 0;
-	while (names[len]) ++len;
+	len = names.length;
 
-	allNames = malloc((len+params.rows+1)*sizeof(char*));
+	allNames = newArrayOfStrings(len+params.rows);
 
-	for (i=0; i < params.rows; ++i) allNames[i] = params.rownames[i];
+	for (i=0; i < params.rows; ++i) allNames.strings[i] = getRowName(params,i);
 
-	for (i=0; i < len; ++i) allNames[i+params.rows] = names[i];
-
-	allNames[(len+params.rows)] = 0;   
+	for (i=0; i < len; ++i) allNames.strings[i+params.rows] = ithString(names,i);
 
 	index1 = tc_getFromList("Select First Parameter",allNames,selected_var1,0); 
 	if (index1 >= 0)
@@ -136,8 +133,8 @@ void run(Matrix input)
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	
 	{
-		TCFreeArray(A);   
-		TCFreeMatrix(params);
+		deleteArrayOfItems(A);   
+		deleteMatrix(params);
 		tc_errorReport("Correlation Text: cannot choose the same variable twice\0");
 		return;
 	}
@@ -145,23 +142,23 @@ void run(Matrix input)
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0)
 		index4 = tc_getFromList("Select Target for Steady State Analysis",names,target_y_var,0);
 
-	TCFreeArray(A);   
+	deleteArrayOfItems(A);   
 
 	if (index1 < 0 || index1 >= (params.rows+len) || 
 		index2 < 0 || index2 >= (params.rows+len) || 
 		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
-		TCFreeMatrix(params);
+		deleteMatrix(params);
 		tc_print("Correlation Text: no valid variable selected\0");
 		return;
 	}
 
 
-	param1 = allNames[index1]; //the first parameter to vary
-	param2 = allNames[index2]; //the second parameter to vary
-	var = allNames[index3]; //the var for steady state
-	target = names[index4]; //the target for steady state
+	param1 = allNames.strings[index1]; //the first parameter to vary
+	param2 = allNames.strings[index2]; //the second parameter to vary
+	var = allNames.strings[index3]; //the var for steady state
+	target = names.strings[index4]; //the target for steady state
 
 	strcpy(selected_var1,param1);
 	strcpy(selected_var2,param2);
@@ -262,9 +259,9 @@ void run(Matrix input)
 
 	tc_compileBuildLoad("corr.c -lodesim\0","run\0","2-Parameter Correlation Test\0");
 
-	free(allNames);
-	TCFreeChars(names);
-	TCFreeMatrix(params);
+	free(allNames.strings);
+	deleteArrayOfStrings(names);
+	deleteMatrix(params);
 	return;  
 }
 

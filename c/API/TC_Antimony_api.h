@@ -34,14 +34,14 @@ void tc_loadAntimonyFile(const char * antimony);
  \return char* sbml model
  \ingroup Antimony
 */
-char* tc_getSBMLString(ArrayOfItems items);
+const char* tc_getSBMLString(ArrayOfItems items);
 /*!
  \brief get antimony model as a string
  \param ArrayOfItems the subset of items in the model (use tc_allItems() for complete model)
  \return char* antimony model
  \ingroup Antimony
 */
-char* tc_getAntimonyString(ArrayOfItems items);
+const char* tc_getAntimonyString(ArrayOfItems items);
 /*!
  \brief write sbml model to file
  \param ArrayOfItems the subset of items in the model (use tc_allItems() for complete model)
@@ -66,8 +66,8 @@ void tc_Antimony_api(
 	void (*loadSBMLString)(const char *),
 	void (*loadSBMLFile)(const char *),
 	void (*loadAntimonyFile)(const char *),
-	char* (*getSBMLString)(ArrayOfItems),
-	char* (*getAntimonyString)(ArrayOfItems),
+	const char* (*getSBMLString)(ArrayOfItems),
+	const char* (*getAntimonyString)(ArrayOfItems),
 	void (*writeSBMLFile)(ArrayOfItems,const char*),
 	void (*writeAntimonyFile)(ArrayOfItems,const char*));
 #endif

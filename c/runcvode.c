@@ -1,8 +1,8 @@
 /****************************************************************************
 **
-**	This file creates an input window which allows users to run the runcvode.c code
-**	with specific inputs for start time, end time, step size, and x-axis
-** And...
+** This file creates an input window which allows users to run the runcvode.c code
+** with specific inputs for start time, end time, step size, and x-axis
+** and...
 ** gets information from TinkerCell, generates a differential equation model, runs
 ** the simulation, and outputs the data to TinkerCell
 **

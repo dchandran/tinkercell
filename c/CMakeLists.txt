@@ -208,7 +208,6 @@ IF(PYTHONLIBS_FOUND)
   
   TARGET_LINK_LIBRARIES( runpy
     runpy
-    tinkercellapi
     ${PYTHON_LIBRARIES}
   )
   

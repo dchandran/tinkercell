@@ -1,4 +1,5 @@
 try:
+    from tinkercell import *
     from numpy import *
     from scipy import *
     print 'Python modules loaded: Numpy and Scipy'

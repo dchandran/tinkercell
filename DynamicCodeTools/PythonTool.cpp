@@ -185,7 +185,7 @@ namespace Tinkercell
 			QString pydir = appDir + tr("/py");
 			#endif
 			
-			QString s = tr("import sys\nsys.path.append(\"")+pydir+tr("\")\nfrom pytc import *\n");
+			QString s = tr("import sys\nsys.path.append(\"")+pydir+tr("\")\n");
 			
 			QFile file(appDir + tr("/py/init.py"));
 			if (file.open(QFile::ReadOnly | QFile::Text))

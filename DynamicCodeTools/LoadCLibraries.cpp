@@ -249,17 +249,15 @@ namespace Tinkercell
 
 #ifdef Q_WS_WIN
 		appDir.replace(tr("/"),tr("\\"));
-        proc.start(tr("del a.out"));
+		proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -r -w ") + filename  + tr(" -o a.exe -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
-		proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -r -w ") + filename  + tr(" -ltc -llapack -lblas -lf2c -o a.out"));
-        proc.waitForFinished();
+        QString exeName = tr("a.exe");
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
 #else
-        proc.start(tr("rm a.out"));
+        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr("/c ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
-        proc.start(tr("gcc -o a.out -I") + appDir + tr("/c -L") + appDir + tr("/c -ltc -llapack -lblas -lf2c ") + filename);
-        proc.waitForFinished();
+        QString exeName = tr("a.out");
         QString errors(proc.readAllStandardError());
         QString output(proc.readAllStandardOutput());
 #endif
@@ -277,7 +275,7 @@ namespace Tinkercell
             return;
         }
 
-        ProcessThread * newThread = new ProcessThread(filename,args,mainWindow);
+        ProcessThread * newThread = new ProcessThread(exeName,args,mainWindow);
 
         QRegExp regexp(".*/([^/]+)$");
         QString title = filename;
@@ -328,21 +326,21 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".dll"));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll -lm -ltinkercellapi -llapack -lblas -lf2c -fpic"));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC
 
-        proc.start(tr("gcc -bundle -w --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".dylib ") + filename);
+        proc.start(tr("gcc -bundle --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -o ") + dllName + tr(".dylib ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-        proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -o ") + dllName + tr(".so ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -401,21 +399,21 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC
 
-	    proc.start(tr("gcc -bundle -w --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".dylib ") + filename);
+	    proc.start(tr("gcc -bundle -w --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dylib ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-	    proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -ltc -llapack -lblas -lf2c -o ") + dllName + tr(".so ") + filename);
+	    proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -ltinkercell -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -584,3 +582,4 @@ namespace Tinkercell
     }
 
 }
+

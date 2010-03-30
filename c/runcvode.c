@@ -168,7 +168,8 @@ void run(Matrix input)
 
 	fprintf( out , "\
 #include \"TC_api.h\"\n\
-#include \"cvodesim.h\"\n\n\
+#include \"cvodesim.h\"\n\
+#include \"ssa.h\"\n\n\
 static double _time0_ = 0.0;\n\
 static double * rates = 0;\n\
 #define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
@@ -197,11 +198,11 @@ void run(%s) \n\
 {\n\
 	int i,j;\n\
 	double mx=0;\n\
-	OBJ x;\n\
-	Array A;\n\
+	void * x;\n\
+	ArrayOfItems A;\n\
 	Matrix data, ss1, ss2;\n\
-	char ** names;\n\
-	double * y;\n\
+	ArrayOfStrings names;\n\
+	double * y, *y0;\n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n\
@@ -224,58 +225,59 @@ fprintf( out , "\
 		return;\n\
 	}\n\
 	data.rows = %i;\n\
-	data.cols = (TCvars+1);\n\
+	data.cols = TCvars;\n\
 	data.values = y;\n\
-	names = TCvarnames;\n\
-	A = tc_findItems(TCvarnames);\n\
-	ss1.rownames = 0;\n\
-	ss1.colnames = 0;\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
+	A = tc_findItems(names);\n\
+	ss1 = ss2 = newMatrix(0,0);\n\
 	ss1.values = TCgetVars(model);\n\
 	ss1.rows = TCvars;\n\
 	ss1.cols = 1;\n\
-	ss2.rownames = 0;\n\
-	ss2.colnames = 0;\n\
 	ss2.values = TCgetRates(model);\n\
 	ss2.rows = TCreactions;\n\
 	ss2.cols = 1;\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
-	   x = A[i];\n\
-	   tc_displayNumber(x,valueAt(ss1,i,0));\n\
+	   x = ithItem(A,i);\n\
+	   tc_displayNumber(x,getValue(ss1,i,0));\n\
 	}\n\
 	if (%i)\n\
 	{\n\
 	   tc_setInitialValues(A,ss1);\n\
 	}\n\
-	free(A);\n\
-	A = tc_findItems(TCreactionnames);\n\
+	deleteArrayOfItems(A);\n\
+	names.length = TCreactions;\n\
+	names.strings = TCreactionnames;\n\
+	A = tc_findItems(names);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
-	   x = A[i];\n\
-	   tc_displayNumber(x,valueAt(ss2,i,0));\n\
+	   x = ithItem(A,i);\n\
+	   tc_displayNumber(x,getValue(ss2,i,0));\n\
 	}\n\
-	free(A);\n\
-	free(ss1.values);\n\
-	free(ss2.values);\n\
+	deleteArrayOfItems(A);\n\
+	deleteMatrix(ss1);\n\
+	deleteMatrix(ss2);\n\
 	if (%i)\n\
 	{\n\
-		double * y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , 1 , &(TCpropensity), (void*)model);\n\
+		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
 		TCvars = TCreactions;\n\
-		names = TCreactionnames;\n\
+		names.length = TCvars;\n\
+		names.strings = TCreactionnames;\n\
 	}\n\
 	data.cols = 1+TCvars;\n\
 	data.values = y;\n\
-	data.rownames = 0;\n\
-	data.colnames = malloc( (1+TCvars) * sizeof(char*) );\n\
-	data.colnames[0] = \"time\\0\";\n\
+	data.rownames = newArrayOfStrings(0);\n\
+	data.colnames = newArrayOfStrings(TCvars);\n\
+	setColumnName(data,0,\"time\\0\");\n\
 	for (i=0; i<TCvars; ++i)\n\
 	{\n\
-		data.colnames[1+i] = names[i];\n\
+		setColumnName(data,1+i,ithString(names,i));\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-	free(data.colnames);\n\
+	deleteMatrix(data);\n\
 	free(model);\n\
 	free(y);", start, end, dt, sz, update, rateplot, xaxis);
 	

@@ -327,10 +327,10 @@ void tc_Main_api_initialize(
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
 		void (*tc_select0)(void *),
 		void (*tc_deselect0)(),
-		char* (*tc_getName0)(void *),
+		const char* (*tc_getName0)(void *),
 		void (*tc_setName0)(void * item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		char* (*tc_getFamily0)(void *),
+		const char* (*tc_getFamily0)(void *),
 		int (*tc_isA0)(void *,const char*),
 
 		void (*tc_clearText)(),
@@ -351,7 +351,7 @@ void tc_Main_api_initialize(
 		int (*tc_isWindows0)(),
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
-		char* (*tc_appDir0)(),
+		const char* (*tc_appDir0)(),
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
@@ -374,11 +374,11 @@ void tc_Main_api_initialize(
 		
 		void (*tc_zoom0)(double factor),
 		
-		char* (*getString)(const char*),
+		const char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, ArrayOfStrings, const char*, int),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( ArrayOfStrings, double * ),
-		char* (*getFilename)(),
+		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*)

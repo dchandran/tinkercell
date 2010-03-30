@@ -38,15 +38,6 @@ typedef struct
 LoopsInformation;
 
 /*!
-* \brief Marco used to get the i,j-th value from an array with N elements: getValue(array,N,i,j)
-* \ingroup loops
-*/
-#ifndef getValue
-
-#define getValue(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
-
-#endif
-/*!
 * \brief free all the array in the loop return struct
 * \ingroup loops
 */

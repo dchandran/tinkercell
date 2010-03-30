@@ -14,5 +14,3 @@
 */
 int eigenvalues(double * A, int n, double * reals, double * im);
 
-
-#define getValue(array, N, i, j) ( array[ i*(N) + j ] )

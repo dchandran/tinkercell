@@ -19,7 +19,7 @@ void tc_main()
 
 void run()
 {
-	char* appDir;
+	const char* appDir;
 	int sz = 0;
 	char* cmd;
 	ArrayOfItems A = tc_allItems();

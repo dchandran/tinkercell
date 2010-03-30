@@ -105,7 +105,7 @@ void run(Matrix input)
 	int doStochastic = 0;
 	int selection = 0, index = 0, sz = 0, rateplot = 0, slider = 1;
 	ArrayOfItems A, B;
-	char * param;
+	const char * param;
 	FILE * out;
 	Matrix params, initVals, allParams, N;
 	char * runfuncInput = "Matrix input";

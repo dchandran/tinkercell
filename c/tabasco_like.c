@@ -42,7 +42,7 @@ void run()
 	                 {
 						if ((k+1) < newN.rows)
 						{
-							setVvalue(newN,k,k,-1.0);														
+							setValue(newN,k,k,-1.0);														
 							setValue(newN,k+1,k,1.0);
 						}
 						else

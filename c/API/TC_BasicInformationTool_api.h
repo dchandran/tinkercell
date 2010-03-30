@@ -68,7 +68,7 @@ void tc_setParameter(void* item,const char* attribute,double value);
  \ingroup init
 */
 void tc_BasicInformationTool_Text_api(
-		char* (*getTextData)(void* ,const char* ),
+		const char* (*getTextData)(void* ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
 		void (*setTextData)(void* ,const char* ,const char* ));
 

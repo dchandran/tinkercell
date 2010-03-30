@@ -27,7 +27,7 @@ ADD_LIBRARY( runsteadystate
   runsteadystate.c
 )
 
-TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tc )
+TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runsteadystate DESTINATION Plugins/c)
@@ -40,7 +40,7 @@ ADD_LIBRARY( runcvode
   runcvode.c
 )
 
-TARGET_LINK_LIBRARIES( runcvode runcvode tc )
+TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runcvode DESTINATION Plugins/c)
@@ -53,7 +53,7 @@ ADD_LIBRARY( runssa
   runssa.c
 )
 
-TARGET_LINK_LIBRARIES( runssa runssa tc )
+TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runssa DESTINATION Plugins/c)
@@ -66,7 +66,7 @@ ADD_LIBRARY( runloops
   runLoops.c
 )
 
-TARGET_LINK_LIBRARIES( runloops runloops tc )
+TARGET_LINK_LIBRARIES( runloops runloops tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runloops DESTINATION Plugins/c)
@@ -79,7 +79,7 @@ ADD_LIBRARY( loadFullBindingKinetics
   loadFullBindingKinetics.c
 )
 
-TARGET_LINK_LIBRARIES( loadFullBindingKinetics loadFullBindingKinetics tc )
+TARGET_LINK_LIBRARIES( loadFullBindingKinetics loadFullBindingKinetics tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
@@ -92,7 +92,7 @@ ADD_LIBRARY( runbistablega
   runbistablega.c
 )
 
-TARGET_LINK_LIBRARIES( runbistablega runbistablega tc )
+TARGET_LINK_LIBRARIES( runbistablega runbistablega tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
@@ -105,7 +105,7 @@ ADD_LIBRARY( runvaluesattime
   runvaluesattime.c
 )
 
-TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tc )
+TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
@@ -118,7 +118,7 @@ ADD_LIBRARY( tabasco_like
   tabasco_like.c
 )
 
-TARGET_LINK_LIBRARIES( tabasco_like tabasco_like tc )
+TARGET_LINK_LIBRARIES( tabasco_like tabasco_like tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
@@ -131,7 +131,7 @@ ADD_LIBRARY( parametercorrelation
   parametercorrelation.c
 )
 
-TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tc )
+TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
@@ -184,7 +184,7 @@ ADD_LIBRARY( lpsolve
   ${LPSOLVE_SRC}
 )
 
-TARGET_LINK_LIBRARIES( lpsolve lpsolve tc )
+TARGET_LINK_LIBRARIES( lpsolve lpsolve tinkercellapi )
 
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
@@ -209,7 +209,7 @@ IF(PYTHONLIBS_FOUND)
   
   TARGET_LINK_LIBRARIES( runpy
     runpy
-    tc
+    tinkercellapi
     ${PYTHON_LIBRARIES}
   )
   

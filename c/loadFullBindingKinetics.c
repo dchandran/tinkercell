@@ -36,7 +36,7 @@ void run()
   //count the number of repressors/activators
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(ithItem(C,i),"Binding"))
+     if (tc_isA(nthItem(C,i),"Binding"))
      {
         ++N;
      }
@@ -49,9 +49,9 @@ void run()
   j = 0;
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(ithItem(C,i),"Binding"))
+     if (tc_isA(nthItem(C,i),"Binding"))
      {
-        ithItemSet(js,j, ithItem(C,i));
+        nthItemSet(js,j, nthItem(C,i));
         ++j;
      }         
   }
@@ -59,18 +59,18 @@ void run()
   //get the repressors/activators names
 
   tfs = newArrayOfItems(N+1);
-  ithItemSet(tfs,0,p);
+  nthItemSet(tfs,0,p);
   k = 1;
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(ithItem(C,i),"Binding"))
+     if (tc_isA(nthItem(C,i),"Binding"))
      {
-        parts = tc_getConnectedNodes(ithItem(C,i));
+        parts = tc_getConnectedNodes(nthItem(C,i));
         for (j=0; i < parts.length; ++j)
         {
-           if (ithItem(parts,j) != p)
+           if (nthItem(parts,j) != p)
            {
-              ithItemSet( tfs, k, ithItem(parts,j));  //save tfs
+              nthItemSet( tfs, k, nthItem(parts,j));  //save tfs
               ++k;
            }
         }

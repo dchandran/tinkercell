@@ -159,14 +159,14 @@ void setString(TableOfStrings S, int i, int j, const char * s)
 	}
 }
 
-const char* ithString(ArrayOfStrings S, int i)
+const char* nthString(ArrayOfStrings S, int i)
 {
 	if (i >= 0 && i < S.length)
 		return S.strings[ i ];
 	return 0;
 }
 
-void ithStringSet(ArrayOfStrings S, int i, const char * s)
+void nthStringSet(ArrayOfStrings S, int i, const char * s)
 {
 	int n=0;
 	char * str;
@@ -180,14 +180,14 @@ void ithStringSet(ArrayOfStrings S, int i, const char * s)
 	}
 }
 
-void * ithItem(ArrayOfItems A, int i)
+void * nthItem(ArrayOfItems A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void ithItemSet(ArrayOfItems A, int i, void * o)
+void nthItemSet(ArrayOfItems A, int i, void * o)
 {
 	if (i >= 0 && i < A.length)
 		A.items[ i ] = o;
@@ -199,6 +199,7 @@ void deleteMatrix(Matrix M)
 	if (M.values)
 		free(M.values);
 	M.rows = M.cols = 0;	
+	M.values = 0;
 	deleteArrayOfStrings(M.rownames);
 	deleteArrayOfStrings(M.colnames);
 
@@ -210,6 +211,7 @@ void deleteTableOfStrings(TableOfStrings M)
 	if (M.strings)
 		free(M.strings);
 	M.rows = M.cols = 0;
+	M.strings = 0;
 	deleteArrayOfStrings(M.rownames);
 	deleteArrayOfStrings(M.colnames);
 

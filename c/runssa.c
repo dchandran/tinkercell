@@ -44,7 +44,7 @@ void runSSA(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			tc_errorReport("No Model Selected\0");
@@ -86,7 +86,7 @@ void runSSA(Matrix input)
 		runfunc = runfuncInput;
 	}
 	
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
 		deleteArrayOfItems(A);
@@ -182,7 +182,7 @@ void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
 }
 
 fprintf(out, "\
@@ -291,7 +291,7 @@ void runCellSSA(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			tc_errorReport("No Model Selected\0");
@@ -304,7 +304,7 @@ void runCellSSA(Matrix input)
 		A = tc_allItems();
 	}
 
-	if (ithItem(A,0))
+	if (nthItem(A,0))
 	{
 		k = tc_writeModel( "cells_ssa", A );
 		deleteArrayOfItems(A);
@@ -443,7 +443,7 @@ void runLangevin(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			tc_errorReport("No Model Selected\0");
@@ -485,7 +485,7 @@ void runLangevin(Matrix input)
 		runfunc = runfuncInput;
 	}
 	
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
 		deleteArrayOfItems(A);

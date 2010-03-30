@@ -20,19 +20,19 @@ void run()
    ArrayOfItems flux = newArrayOfItems(1);
    
    if (numSteps > 0) 
-	   for (i=0; ithItem(A,i)!=0; ++i)
+	   for (i=0; nthItem(A,i)!=0; ++i)
 	   {
-		    if (tc_isA( ithItem(A,i),"Connection"))
+		    if (tc_isA( nthItem(A,i),"Connection"))
 		    {
-		        parts = tc_getConnectedNodes( ithItem(A,i) );
-		        if (ithItem(parts,0) && ithItem(parts,1) && parts.length == 2)
+		        parts = tc_getConnectedNodes( nthItem(A,i) );
+		        if (nthItem(parts,0) && nthItem(parts,1) && parts.length == 2)
 		        {
 		        	newN = newMatrix(numSteps + 1,numSteps + 1);
 		            
-					rxnname = tc_getName(ithItem(A,i));
+					rxnname = tc_getName(nthItem(A,i));
 	                partnames = tc_getNames(parts);
-	                setRowName(newN,0, ithString(partnames,0) );
-	                setRowName(newN,newN.rows-1,ithString(partnames,1));
+	                setRowName(newN,0, nthString(partnames,0) );
+	                setRowName(newN,newN.rows-1,nthString(partnames,1));
 					 
 	                 for (j=0; j < newN.rows; ++j)
 						 for (k=0; k < newN.cols; ++k)
@@ -64,13 +64,13 @@ void run()
 							sprintf(newN.colnames.strings[k], "%s.leak*%s\0",rxnname,getRowName(newN,k-1));
 					
 					 }
-					 if (tc_isA( ithItem(parts,0),"Promoter\0") )
+					 if (tc_isA( nthItem(parts,0),"Promoter\0") )
 						setValue(newN,0,0, 0.0);
-					 if ((tc_isA( ithItem(parts,1),"Terminator\0") || tc_isA( ithItem(parts,1),"Empty\0") )&& newN.cols > 2)
+					 if ((tc_isA( nthItem(parts,1),"Terminator\0") || tc_isA( nthItem(parts,1),"Empty\0") )&& newN.cols > 2)
 						setValue(newN,newN.rows-1,newN.cols-2,0.0);
-					 tc_setParameter( ithItem(A,i),"k0",0.1);
-					 tc_setParameter( ithItem(A,i),"leak",0.01);
-	                 ithItemSet(flux, 0, ithItem(A,i));
+					 tc_setParameter( nthItem(A,i),"k0",0.1);
+					 tc_setParameter( nthItem(A,i),"leak",0.01);
+	                 nthItemSet(flux, 0, nthItem(A,i));
 	                 rates = newN.colnames;
 	                 newN.colnames = newArrayOfStrings(0);
 	                 tc_setStoichiometry(flux , newN);

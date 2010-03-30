@@ -535,31 +535,28 @@ namespace Tinkercell
 		if (!main) return;
 
 		QList<NetworkWindow*> allWindows = main->allWindows();
-		QList<ItemHandle*> allItems;
+		QStringList names;
+		QHash<QString,int> hash;
 		for (int i=0; i < allWindows.size(); ++i)
-			allItems << allWindows[i]->allHandles();
-		QHash<QString,int> names;
-		ItemHandle * handle = 0;
-
-		for (int i=0; i < allItems.size(); ++i)
 		{
-			handle = allItems[i];
-			if (handle)
-				names[handle->fullName(".")] = names[handle->fullName("_")] = 1;
+			names = allWindows[i]->symbolsTable.handlesFullName.keys();
+			for (int j=0; j < names.size(); ++j)
+				hash[ names[j] ] = 1;
 		}
-
+		
 		bool hasItems = false;
 
 		for (int i=0; i < table.cols(); ++i)
-			if (names.contains(table.colName(i)))
+			if (hash.contains(table.colName(i)))
 			{
 				hasItems = true;
 				break;
 			}
 
-		QList<int> removeCols;
+		if (!hasItems) return;
+		
 		for (int i=0; i < table.cols(); ++i)
-			if (!names.contains(table.colName(i)) && (x != i))
+			if (!hash.contains(table.colName(i)) && (x != i))
 			{
 				table.removeCol(i);
 				--i;

@@ -91,7 +91,7 @@ void run(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			A = tc_allItems();
@@ -103,7 +103,7 @@ void run(Matrix input)
 	}   
 
 
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		tc_writeModel( "corr", A );  //writes to ss2D.c and ss2D.py
 	}
@@ -122,7 +122,7 @@ void run(Matrix input)
 
 	for (i=0; i < params.rows; ++i) allNames.strings[i] = getRowName(params,i);
 
-	for (i=0; i < len; ++i) allNames.strings[i+params.rows] = ithString(names,i);
+	for (i=0; i < len; ++i) allNames.strings[i+params.rows] = nthString(names,i);
 
 	index1 = tc_getFromList("Select First Parameter",allNames,selected_var1,0); 
 	if (index1 >= 0)

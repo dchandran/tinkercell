@@ -28,21 +28,21 @@ void loadAllNames()
 	if (selectAll)
 		A = tc_selectedItems();
 	
-	if (A.length < 1 || !ithItem(A,0))
+	if (A.length < 1 || !nthItem(A,0))
 		A = tc_allItems();
 
 	deleteArrayOfStrings(allNames);
 
-	if (ithItem(A,0))
+	if (nthItem(A,0))
 	{
 		params = tc_getModelParameters(A);
 		N = tc_getStoichiometry(A);
 		len = N.rows;
 		allNames = newArrayOfStrings(len+params.rows);
 		for (i=0; i < params.rows; ++i) 
-			ithStringSet(allNames,i,getRowName(params,i));
+			nthStringSet(allNames,i,getRowName(params,i));
 		for (i=0; i < len; ++i) 
-			ithStringSet(allNames,i+params.rows,getRowName(N,i));
+			nthStringSet(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
 		deleteMatrix(params);
@@ -142,7 +142,7 @@ void run(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItem(A);
 			A = tc_allItems();
@@ -155,7 +155,7 @@ void run(Matrix input)
 
 	sz = (int)((end - start) / dt);
 
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		tc_writeModel( "timet", A );
 	}
@@ -172,7 +172,7 @@ void run(Matrix input)
 		return;
 	}
 
-	param = ithString(allNames,index); //the parameter to vary
+	param = nthString(allNames,index); //the parameter to vary
 	strcpy(selected_var,param);
 	
 	if (slider)

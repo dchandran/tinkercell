@@ -36,21 +36,21 @@ void loadAllNames()
 	if (selectAll)
 		A = tc_selectedItems();
 	
-	if (A.length < 1 || !ithItem(A,0))
+	if (A.length < 1 || !nthItem(A,0))
 		A = tc_allItems();
 
 	deleteArrayOfStrings(allNames);
 
-	if (ithItem(A,0))
+	if (nthItem(A,0))
 	{
 		params = tc_getModelParameters(A);
 		N = tc_getStoichiometry(A);
 		len = N.rows;
 		allNames = newArrayOfStrings(len+params.rows);
 		for (i=0; i < params.rows; ++i) 
-			ithStringSet(allNames,i,getRowName(params,i));
+			nthStringSet(allNames,i,getRowName(params,i));
 		for (i=0; i < len; ++i) 
-			ithStringSet(allNames,i+params.rows,getRowName(N,i));
+			nthStringSet(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
 		deleteMatrix(params);
@@ -166,7 +166,7 @@ void run(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			A = tc_allItems();
@@ -206,7 +206,7 @@ void run(Matrix input)
 		runfunc = runfuncInput;
 	}
 
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		tc_writeModel( "ss", A );  //writes to ss.c and ss.py
 	}
@@ -228,7 +228,7 @@ void run(Matrix input)
 		return;
 	}
 
-	param = ithString(allNames,index); //the parameter to vary
+	param = nthString(allNames,index); //the parameter to vary
 	strcpy(selected_var,param);
 
 	out = fopen("ss.c","a");
@@ -362,7 +362,7 @@ void run2D(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayofItems(A);
 			A = tc_allItems();
@@ -374,7 +374,7 @@ void run2D(Matrix input)
 	}
 
 
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 		tc_writeModel( "ss2D", A );  //writes to ss2D.c and ss2D.py
 	}
@@ -408,9 +408,9 @@ void run2D(Matrix input)
 		return;
 	}
 
-	param1 = ithString(allNames,index1); //the first parameter to vary
-	param2 = ithString(allNames,index2); //the second parameter to vary
-	target = ithString(names,index3); //the target z-axis
+	param1 = nthString(allNames,index1); //the first parameter to vary
+	param2 = nthString(allNames,index2); //the second parameter to vary
+	target = nthString(names,index3); //the target z-axis
 
 	strcpy(selected_var1,param1);
 	strcpy(selected_var2,param2);

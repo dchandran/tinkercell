@@ -92,7 +92,7 @@ void run(Matrix input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (ithItem(A,0) == 0)
+		if (nthItem(A,0) == 0)
 		{
 			deleteArrayOfItems(A);
 			tc_errorReport("No Model Selected\0");
@@ -133,7 +133,7 @@ void run(Matrix input)
 		runfunc = runfuncInput;
 	}
 	
-	if (ithItem(A,0))
+	if (nthItem(A,0))
 	{
 		k = tc_writeModel( "ode", A );
 		deleteArrayOfItems(A);
@@ -211,7 +211,7 @@ void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
 }
 
 fprintf( out , "\
@@ -239,7 +239,7 @@ fprintf( out , "\
 	ss2.cols = 1;\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
-	   x = ithItem(A,i);\n\
+	   x = nthItem(A,i);\n\
 	   tc_displayNumber(x,getValue(ss1,i,0));\n\
 	}\n\
 	if (%i)\n\
@@ -252,7 +252,7 @@ fprintf( out , "\
 	A = tc_findItems(names);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
-	   x = ithItem(A,i);\n\
+	   x = nthItem(A,i);\n\
 	   tc_displayNumber(x,getValue(ss2,i,0));\n\
 	}\n\
 	deleteArrayOfItems(A);\n\
@@ -270,16 +270,15 @@ fprintf( out , "\
 	data.cols = 1+TCvars;\n\
 	data.values = y;\n\
 	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(TCvars);\n\
+	data.colnames = newArrayOfStrings(data.cols);\n\
 	setColumnName(data,0,\"time\\0\");\n\
 	for (i=0; i<TCvars; ++i)\n\
 	{\n\
-		setColumnName(data,1+i,ithString(names,i));\n\
+		setColumnName(data,1+i,nthString(names,i));\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
 	deleteMatrix(data);\n\
-	free(model);\n\
-	free(y);", start, end, dt, sz, update, rateplot, xaxis);
+	free(model);\n", start, end, dt, sz, update, rateplot, xaxis);
 	
 
 	if (slider)

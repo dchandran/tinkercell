@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 
-/*!\brief An array of strings with length information. Use ithString(M,i) to get the i-th string.*/
+/*!\brief An array of strings with length information. Use nthString(M,i) to get the i-th string.*/
 typedef struct 
 {
 	int length;
@@ -13,7 +13,7 @@ typedef struct
 } ArrayOfStrings;
 
 
-/*!\brief An array of void * objects with length information. Use ithItem(M,i) to get the i-th item.*/
+/*!\brief An array of void * objects with length information. Use nthItem(M,i) to get the i-th item.*/
 typedef struct 
 {
 	int length;
@@ -76,16 +76,16 @@ const char* getString(TableOfStrings S, int i, int j);
 void setString(TableOfStrings S, int i, int j, const char * s);
 
 /*!\brief get ith string in array of strings*/
-const char* ithString(ArrayOfStrings S, int i);
+const char* nthString(ArrayOfStrings S, int i);
 
 /*!\brief set ith string in array of strings*/
-void ithStringSet(ArrayOfStrings S, int i, const char * c);
+void nthStringSet(ArrayOfStrings S, int i, const char * c);
 
 /*!\brief get ith void * item in array of items*/
-void * ithItem(ArrayOfItems A, int i);
+void * nthItem(ArrayOfItems A, int i);
 
 /*!\brief set ith void * item in array of items*/
-void ithItemSet(ArrayOfItems A, int i, void * o);
+void nthItemSet(ArrayOfItems A, int i, void * o);
 
 /*!\brief delete a matrix*/
 void deleteMatrix(Matrix M);

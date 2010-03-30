@@ -174,7 +174,7 @@ void run(%s) \n\
 	double * y, *y0, * mu, * var;\n\
 	Matrix data;\n\
 	ArrayOfItems A;\n\
-	char ** names;\n\
+	ArrayOfStrings names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
@@ -204,26 +204,27 @@ fprintf(out, "\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
-	   tc_displayText(A[i],s);\n\
+	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
-	free(A);\n\
+	deleteArrayOfItems(A);\n\
 	A = tc_findItems(TCreactionnames);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
-	   tc_displayText(A[i],s);\n\
+	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
-	free(A);\n\
+	deleteArrayOfItems(A);\n\
 	free(mu);\n\
 	free(var);\n\
-	names = TCvarnames;\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
 	if (%i)\n\
 	{\n\
 		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
-		TCvars = TCreactions;\n\
-		names = TCreactionnames;\n\
+		names.length = TCvars = TCreactions;\n\
+		names.strings = TCreactionnames;\n\
 	}\n\
 	data.cols = 1+TCvars;\n\
 	data.values = y;\n\

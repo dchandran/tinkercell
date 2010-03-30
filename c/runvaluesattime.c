@@ -214,7 +214,7 @@ void run(%s) \n\
 {\n    initMTrand();\n    Matrix dat;\n    int i,j;\n", runfunc );
 
 	fprintf( out, "\
-    length = dat.rows = (int)((%lf-%lf)/%lf);\n\
+    dat.rows = (int)((%lf-%lf)/%lf);\n\
     double * y, * y0, *y1;\n\
     TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
     (*model) = TC_initial_model;\n\
@@ -227,7 +227,7 @@ void run(%s) \n\
     else\n\
     {\n\
         dat.cols = 1+TCvars;\n\
-        dat.colnames = newArrayOfStrings(TCvars);\n\
+        dat.colnames = newArrayOfStrings(1+TCvars);\n\
         for(i=0; i<TCvars; ++i) dat.colnames.strings[1+i] = TCvarnames[i];\n\
 	}\n\
 	dat.values = malloc(dat.cols * dat.rows * sizeof(double));\n\
@@ -242,12 +242,12 @@ void run(%s) \n\
 	if (slider)
 	{
 		for (i=0; i < allParams.rows; ++i)
-			fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+			fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
 	}
 
     fprintf( out,"\
         model->%s = %lf + i * %lf;\n\
-        getValue(dat,i,0) = model->%s;\n\
+        setValue(dat,i,0,model->%s);\n\
         TCinitialize(model);\n\
         double * y = 0;\n\
         int sz = (int)(%lf*10.0);\n\
@@ -289,7 +289,7 @@ void run(%s) \n\
     }\n\
     free(model);\n\
     tc_plot(dat,0,\"At time=%lf\",0);\n\
-    free(dat.colnames);\n\
+    free(dat.colnames.strings);\n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 
 	if (slider)

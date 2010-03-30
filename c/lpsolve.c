@@ -55,7 +55,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	set_obj_fn(lp, obj);
 
-	if (valueAt(input,0,0) > 0)
+	if (getValue(input,0,0) > 0)
 		set_maxim(lp);
 	else
 		set_minim(lp);
@@ -67,10 +67,10 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	{
 		row[0] = 0;
 		for (j=1; j < (input.cols-1); ++j)
-			row[j] = valueAt(input,i,j+1);
+			row[j] = getValue(input,i,j+1);
 
 		if (getValue(input,i,0) == 0)
-			add_constraint(lp, row, EQ , valueAt(input,i,1));
+			add_constraint(lp, row, EQ , getValue(input,i,1));
 		else
 			if (getValue(input,i,0) == 1)
 				add_constraint(lp, row, LE , getValue(input,i,1));
@@ -162,10 +162,9 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	tc_printTable(output);
 
 	deleteMatrix(&output);
+	deleteMatrix(&input);
 	free(soln);
 	delete_lp(lp);
-	//TCFreeArray(all);
-	//TCFreeMatrix(N);
 
 	tc_zoom(0.99);
 

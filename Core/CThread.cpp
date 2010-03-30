@@ -126,7 +126,7 @@ namespace Tinkercell
 		void * cthread,
 		void (*showProgress)(void* , int) );
 		
-	void CThread::setupCFunctionPoints()
+	void CThread::setupCFunctionPointers()
 	{
 		if (lib)
 		{
@@ -153,7 +153,7 @@ namespace Tinkercell
 			s->release();
 		}
 		
-		setupCFunctionPoints();
+		setupCFunctionPointers();
 	}
 
 	void CThread::setLibrary(const QString& libname)

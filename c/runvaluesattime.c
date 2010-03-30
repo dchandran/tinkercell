@@ -302,7 +302,7 @@ void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("timet.c -lodesim -lssa\0","run\0","At Time T\0",allParams);
-		TCFreeMatrix(allParams);
+		deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("timet.c -lodesim -lssa\0","run\0","At Time T\0");

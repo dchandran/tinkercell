@@ -7,7 +7,6 @@ ADD_LIBRARY( ssa
 	mtrand.c
 	ssa.c
 	cells_ssa.c
-	langevin.c
 )
  
 IF ( WIN32 )

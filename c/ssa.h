@@ -45,5 +45,26 @@ double * SSA(int, int, double *, PropensityFunction, double*, double, double,int
 */
 double * getRatesFromSimulatedData(double* data, int rows, int , int , PropensityFunction, void* param);
 
+/*! \brief Continuous stochastic simulation using Langevin algorithm (stochastic diff. eqs)
+* \param int number of species (rows of stoichiometry matrix)
+* \param int number of reactions (columns of stoichiometry matrix)
+* \param double* stoichiometry matrix as one array, arranged as { row1, row2, row3... }, where each row is for one species
+* \param (*f)(time, y-values, rates) pointer to propensity function -- f(time, y-values, rates) --- assign values to the rates array
+* \param double* initial values for species
+* \param double start time
+* \param double end time 
+* \param int max size of array to allocate (will stop even if end time is not reached)
+* \param int returns the size of the final array here
+* \param void* any external data
+* \return double* one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
+* \ingroup gillespie
+*/
+double * Langevin(int n, int m, double * N, PropensityFunction propensity, double * inits, double endTime, double dt, void * params);
+
+/* \brief normal random number with mu=0 , var=1
+* \return double
+* \ingroup gillespie
+*/
+double rnorm();
 
 #endif

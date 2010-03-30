@@ -209,7 +209,7 @@ namespace Tinkercell
 		/*!
 		* \brief setup the C pointers in TC_Main.h
 		*/
-		virtual void setupCFunctionPoints();
+		virtual void setupCFunctionPointers();
 		/*!
 		* \brief whether or not to automatically unload the library when the thread is done running
 		*/

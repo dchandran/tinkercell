@@ -132,7 +132,6 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
 static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
 {\n\
 	int i,j;\n\
@@ -146,7 +145,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 	{\n\
 		for (j=0; j < TCvars; ++j)\n\
 		{\n\
-			u[j] = valueAt((*values),i,j+1);\n\
+			u[j] = getValue((*values),i,j+1);\n\
 			sum_x[j] += u[j];\n\
 			sum_xx[j] += u[j]*u[j];\n\
 		}\n\
@@ -200,43 +199,46 @@ fprintf(out, "\
 	mu = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
 	var = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
 	computeStats(mu,var,&data,(void*)model);\n\
-	A = tc_findItems(TCvarnames);\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
+	A = tc_findItems(names);\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
 	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
 	deleteArrayOfItems(A);\n\
-	A = tc_findItems(TCreactionnames);\n\
+	names.length = TCreactions;\n\
+	names.strings = TCreactionnames;\n\
+	A = tc_findItems(names);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
 	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
 	deleteArrayOfItems(A);\n\
-	free(mu);\n\
-	free(var);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
+	free(mu);\n\
+	free(var);\n\
 	if (%i)\n\
 	{\n\
 		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
-		names.length = TCvars = TCreactions;\n\
+		names.length = TCreactions;\n\
 		names.strings = TCreactionnames;\n\
 	}\n\
-	data.cols = 1+TCvars;\n\
+	data.cols = 1+names.length;\n\
 	data.values = y;\n\
 	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(TCvars+1);\n\
-	data.colnames.strings[0] = \"time\\0\";\n\
-	for(i=0; i<TCvars; ++i) data.colnames.strings[1+i] = names[i];\n\
+	data.colnames = newArrayOfStrings(names.length+1);\n\
+	setColumnName(data,0,\"time\\0\");\n\
+	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	free(data.colnames.strings);\n\
-	free(y);\n\
+	deleteMatrix(data);\n\
 	free(model);\n",time,maxsz,rateplot,xaxis);
 
 	if (slider)
@@ -274,19 +276,19 @@ void runCellSSA(Matrix input)
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)valueAt(input,0,0);
+			selection = (int)getValue(input,0,0);
 		if (input.rows > 1)
-			time = valueAt(input,1,0);
+			time = getValue(input,1,0);
 		if (input.rows > 2)
-			numcells = (int)valueAt(input,2,0);
+			numcells = (int)getValue(input,2,0);
 		if (input.rows > 3)
-			replication = valueAt(input,3,0);
+			replication = getValue(input,3,0);
 		if (input.rows > 4)
-			death = valueAt(input,4,0);
+			death = getValue(input,4,0);
 		if (input.rows > 5)
-			mutants = (int)valueAt(input,5,0);
+			mutants = (int)getValue(input,5,0);
 		if (input.rows > 6)
-			gridsz = (int)valueAt(input,6,0);
+			gridsz = (int)getValue(input,6,0);
 	}
 
 	if (selection > 0)
@@ -532,7 +534,6 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-#define valueAt(array, N, i, j) ( array[ (i)*(N) + (j) ] )\n\
 static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
 {\n\
 	int i,j;\n\
@@ -546,7 +547,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 	{\n\
 		for (j=0; j < TCvars; ++j)\n\
 		{\n\
-			u[j] = valueAt((*values),i,j+1);\n\
+			u[j] = getValue((*values),i,j+1);\n\
 			sum_x[j] += u[j];\n\
 			sum_xx[j] += u[j]*u[j];\n\
 		}\n\
@@ -574,7 +575,7 @@ void run(%s) \n\
 	double * y, *y0, * mu, * var;\n\
 	Matrix data;\n\
 	ArrayOfItems A;\n\
-	char ** names;\n\
+	ArrayOfStrings names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
@@ -582,7 +583,7 @@ void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
 }
 
 fprintf(out, "\
@@ -601,42 +602,46 @@ fprintf(out, "\
 	mu = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
 	var = (double*)malloc((TCvars+TCreactions)*sizeof(double));\n\
 	computeStats(mu,var,&data,(void*)model);\n\
-	A = tc_findItems(TCvarnames);\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
+	A = tc_findItems(names);\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
-	   tc_displayText(A[i],s);\n\
+	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
-	free(A);\n\
-	A = tc_findItems(TCreactionnames);\n\
+	deleteArrayOfItems(A);\n\
+	names.length = TCreactions;\n\
+	names.strings = TCreactionnames;\n\
+	A = tc_findItems(names);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
-	   tc_displayText(A[i],s);\n\
+	   tc_displayText(nthItem(A,i),s);\n\
 	}\n\
-	free(A);\n\
+	deleteArrayOfItems(A);\n\
 	free(mu);\n\
 	free(var);\n\
-	names = TCvarnames;\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
 	if (%i)\n\
 	{\n\
 		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
 		free(y);\n\
 		y = y0;\n\
-		TCvars = TCreactions;\n\
-		names = TCreactionnames;\n\
+		names.length = TCreactions;\n\
+		names.strings = TCreactionnames;\n\
 	}\n\
-	data.cols = 1+TCvars;\n\
+	data.cols = 1+names.length;\n\
 	data.values = y;\n\
 	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(TCvars+1);\n\
-	data.colnames.strings[0] = \"time\\0\";\n\
-	for(i=0; i<TCvars; ++i) data.colnames.strings[1+i] = names[i];\n\
+	data.colnames = newArrayOfStrings(names.length+1);\n\
+	setColumnName(data,0,\"time\\0\");\n\
+	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	free(data.colnames.strings);\n\
-	free(y);\n\
+	deleteMatrix(data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot,xaxis);
 
 	if (slider)

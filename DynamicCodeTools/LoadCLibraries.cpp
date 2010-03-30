@@ -399,21 +399,21 @@ namespace Tinkercell
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll -lm -ltinkercellapi -llapack -lblas -lf2c -fpic"));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 #ifdef Q_WS_MAC
 
-	    proc.start(tr("gcc -bundle -w --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dylib ") + filename);
+        proc.start(tr("gcc -bundle --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -o ") + dllName + tr(".dylib ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
         if (!output.isEmpty())	output += tr("\n\n");
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
-	    proc.start(tr("gcc -w --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -ltinkercellapi -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -o ") + dllName + tr(".so ") + filename + tr(" -lm -ltinkercellapi -llapack -lblas -lf2c"));
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());

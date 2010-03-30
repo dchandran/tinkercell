@@ -69,7 +69,7 @@ const char* tc_getRate(void* x)
 	A.length = 1;
 	A.items = a;
 	ArrayOfStrings s = _tc_getRates(A);
-	return ithString(s,0);
+	return nthString(s,0);
 }
 /*! 
 \brief set rate for the given items
@@ -89,7 +89,7 @@ void tc_setRate(void* x, const char* r)
 	if (!c.strings || c.length < 1 || !c.strings[0]) return;
 	
 	free(c.strings[0]);
-	ithStringSet(c,0,r);
+	nthStringSet(c,0,r);
 	_tc_setRates(A,c);
 
 	deleteArrayOfStrings(c);

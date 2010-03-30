@@ -109,11 +109,14 @@ void setup2()
 {
 	Matrix m;
 	char * cols[] = { "value" };
-	char * rows[] = { "model", "x-variable","x-start", "x-end", "x-increment size", "y-variable","y-start", "y-end", "y-increments size", 0 };
-	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0 };
-	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important
+	char * rows[] = { "model", "x-variable","x-start", "x-end", "x-increment size", "y-variable","y-start", "y-end", "y-increments size", "use sliders" };
+	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0, 1.0 };
+	char * options1[] = { "Full model", "Selected only"}; 
+	char * options2[] = { "Yes", "No"};
+	
+	loadAllNames();
 
-	m.rownames.length = m.rows = 9;
+	m.rownames.length = m.rows = 10;
 	m.colnames.length = m.cols = 1;
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
@@ -121,6 +124,7 @@ void setup2()
 
 	tc_createInputWindow(m,"2-D Steady state analysis",&run2D);
 	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, (ArrayOfStrings){2, options1});
+	tc_addInputWindowOptions("2-D Steady state analysis",9, 0, (ArrayOfStrings){2, options2});
 	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
@@ -212,7 +216,7 @@ void run(Matrix input)
 	}
 	else
 	{
-		deleteArray(A);
+		deleteArrayOfItems(A);
 		if (slider)
 			deleteMatrix(allParams);
 		return;
@@ -247,17 +251,17 @@ void run(%s) \n\
     {\n\
         dat.cols = 1+TCreactions;\n\
         dat.colnames = newArrayOfStrings(1+TCreactions);\n\
-        for(i=0; i<TCreactions; ++i) dat.colnames.strings[1+i] = TCreactionnames[i];\n\
+        for(i=0; i<TCreactions; ++i) setColumnName(dat,1+i,TCreactionnames[i]);\n\
     }\n\
     else\n\
     {\n\
         dat.cols = 1+TCvars;\n\
         dat.colnames = newArrayOfStrings(1+TCvars);\n\
-        for(i=0; i<TCvars; ++i) dat.colnames[1+i] = TCvarnames[i];\n\
+        for(i=0; i<TCvars; ++i) setColumnName(dat,1+i,TCvarnames[i]);\n\
 	}\n\
 	dat.values = (double*)malloc(dat.cols * dat.rows * sizeof(double));\n\
 	dat.rownames = newArrayOfStrings(0);\n\
-	dat.colnames.strings[0] = \"%s\";\n",end,start,dt,rateplot,param);
+	setColumnName(dat,0,\"%s\");\n",end,start,dt,rateplot,param);
 
 	fprintf( out, "\n\
 				 for (i=0; i < dat.rows; ++i)\n\
@@ -266,9 +270,10 @@ void run(%s) \n\
 	if (slider)
 	{
 		for (i=0; i < allParams.rows; ++i)
-			fprintf(out, "    model->%s = valueAt(input,%i,0);\n",getRowName(allParams,i),i);
+			fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
 	}
-	fprintf( out, "model->%s = %lf + i * %lf;\n\
+	fprintf( out, "\
+					model->%s = %lf + i * %lf;\n\
 					TCinitialize(model);\n\
 					setValue(dat,i,0,model->%s);\n\
 					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
@@ -301,7 +306,7 @@ void run(%s) \n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				free(dat.colnames.rownames);\n    free(dat.values);\n",param,start,dt,param,rateplot,rateplot);
+				deleteMatrix(dat);\n",param,start,dt,param,rateplot,rateplot);
 
 	if (slider)
 		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
@@ -313,7 +318,7 @@ void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ss.c -lodesim\0","run\0","Steady state\0",allParams);
-		TCFreeMatrix(allParams);
+		deleteMatrix(allParams);
 	}
 	else
 		tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
@@ -324,17 +329,19 @@ void run(%s) \n\
 
 void run2D(Matrix input)
 {
+	Matrix params, initVals, allParams, N;
 	double startx = 0.0, endx = 50.0, starty = 0.0, endy = 50.0;
 	double dx = 0.1, dy = 0.1;
 	int selection = 0;
 	int index1 = 0, index2 = 1, index3 = 2;
 	int rateplot = 0;
-	ArrayOfItems A = newArrayOfItems(0);
-	int i, len;
-	Matrix params;
+	ArrayOfItems A = newArrayOfItems(0), B;
+	int i, len, slider = 1;
 	ArrayOfStrings names;
 	const char * param1, * param2, * target;
 	FILE * out;
+	char * runfuncInput = "Matrix input";
+	char * runfunc = "";
 
 	if (input.cols > 0)
 	{
@@ -357,7 +364,15 @@ void run2D(Matrix input)
 			endy = getValue(input,7,0);
 		if (input.rows > 8)
 			dy = getValue(input,8,0);
+		
+		if (input.rows > 9)
+			slider = getValue(input,9,0);
 	}
+	
+	if (slider == 0)
+		slider = 1;
+	else
+		slider = 0;
 
 	if (selection > 0)
 	{
@@ -380,7 +395,7 @@ void run2D(Matrix input)
 	}
 	else
 	{
-		TCFreeArray(A);
+		deleteArrayOfItems(A);
 		return;
 	}
 
@@ -391,18 +406,49 @@ void run2D(Matrix input)
 	{
 		deleteArrayOfItems(A);
 		deleteArrayOfStrings(names);
+		deleteMatrix(params);
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
 
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getFromList("Select Target",names,target_var,0);
+	
+	allParams = newMatrix(0,0);
+	
+	if (slider)
+	{
+		N = tc_getStoichiometry(A);
+		B = tc_findItems(N.rownames);
+		deleteMatrix(N);
+		initVals = tc_getInitialValues(B);
 
-	deleteArray(A);
+		allParams = newMatrix(initVals.rows+params.rows,2);
+
+		for (i=0; i < params.rows; ++i)
+		{
+			setRowName(allParams,i, getRowName(params,i));
+			setValue(allParams,i,0,getValue(params,i,0)/10.0);
+			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
+		}
+		for (i=0; i < initVals.rows; ++i)
+		{
+			setRowName(allParams,i+params.rows, getRowName(initVals,i));
+			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
+			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
+		}
+		
+		deleteMatrix(initVals);
+		deleteArrayOfItems(B);
+		runfunc = runfuncInput;
+	}
+
+	deleteArrayOfItems(A);
 
 	if (index1 < 0 || index2 < 0 || index3 < 0)
 	{
 		deleteMatrix(params);
+		deleteMatrix(allParams);
 		deleteArrayOfStrings(names);
 		tc_print("2D steady state: no valid variable selected\0");
 		return;
@@ -418,10 +464,9 @@ void run2D(Matrix input)
 
 	out = fopen("ss2D.c","a");
 
-	fprintf(out , "#include \"TC_api.h\"\n\n#include \"cvodesim.h\"\n\n\
-  void run() \n\
-  {\n\
-      Matrix dat;\n");
+	fprintf( out , "\
+	#include \"TC_api.h\"\n    #include \"cvodesim.h\"\n\n\
+	void run(%s) \n\	{\n    Matrix dat;\n", runfunc);
 
 	fprintf(out, "\
 	  int rows = (int)((%lf-%lf)/%lf);\n\
@@ -443,7 +488,15 @@ void run2D(Matrix input)
       {\n\
         for (j=0; j < cols; ++j)\n\
 		{\n\
-		   (*model) = TC_initial_model;\n\
+		   (*model) = TC_initial_model;\n");
+	
+	  if (slider)
+	  {
+		for (i=0; i < allParams.rows; ++i)
+			fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
+	  }
+	
+	  fprintf(out,"\
 		   setValue(dat,i*cols + j,0,model->%s = %lf + i * %lf);\n\
 		   setValue(dat,i*cols + j,1,model->%s = %lf + j * %lf);\n\
 		   TCinitialize(model);\n\
@@ -455,13 +508,25 @@ void run2D(Matrix input)
 		tc_showProgress((100*i)/rows);\n\
       }\n\
 	  free(model);\n\
-      tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n}\n",param1,startx, dx, param2,starty, dy, target);
+      tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n",param1,startx, dx, param2,starty, dy, target);
+      
+      if (slider)
+		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
+	  else
+		fprintf(out, "    return;\n}\n");
 
-	fclose(out);
+	  fclose(out);
+	
+	  if (slider)
+	  {
+		  tc_compileBuildLoadSliders("ss2D.c -lodesim\0","run\0","2-parameter steady state\0",allParams);
+		  deleteMatrix(allParams);
+  	  }
+	  else
+		  tc_compileBuildLoad("ss2D.c -lodesim\0","run\0","2-parameter steady state\0");
 
-	tc_compileBuildLoad("ss2D.c -lodesim\0","run\0","2-parameter steady state\0");
 
-	TCFreeMatrix(params);
+	deleteMatrix(params);
 	return;
 }
 

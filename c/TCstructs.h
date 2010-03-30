@@ -79,25 +79,25 @@ void setString(TableOfStrings S, int i, int j, const char * s);
 const char* nthString(ArrayOfStrings S, int i);
 
 /*!\brief set ith string in array of strings*/
-void nthStringSet(ArrayOfStrings S, int i, const char * c);
+void setNthString(ArrayOfStrings S, int i, const char * c);
 
 /*!\brief get ith void * item in array of items*/
 void * nthItem(ArrayOfItems A, int i);
 
 /*!\brief set ith void * item in array of items*/
-void nthItemSet(ArrayOfItems A, int i, void * o);
+void setNthItem(ArrayOfItems A, int i, void * o);
 
 /*!\brief delete a matrix*/
-void deleteMatrix(Matrix M);
+void deleteMatrix(Matrix *M);
 
 /*!\brief delete a strings table*/
-void deleteTableOfStrings(TableOfStrings M);
+void deleteTableOfStrings(TableOfStrings *M);
 
 /*!\brief delete an array */
-void deleteArrayOfItems(ArrayOfItems A);
+void deleteArrayOfItems(ArrayOfItems *A);
 
 /*!\brief delete an array */
-void deleteArrayOfStrings(ArrayOfStrings C);
+void deleteArrayOfStrings(ArrayOfStrings *C);
 
 /*!\brief combine two matrices by appending their columns. row size must be equal for both matrices*/
 Matrix cbind(Matrix A, Matrix B);

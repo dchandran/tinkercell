@@ -26,7 +26,7 @@ void run()
 	tc_writeModel("ode.c",A); //generate ode model
 
 	appDir = tc_appDir();
-	deleteArrayOfItems(A);   
+	deleteArrayOfItems(&A);
 
 
 	while (appDir[sz] != 0) ++sz;

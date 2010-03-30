@@ -10,6 +10,8 @@
 ****************************************************************************/
 
 #include "DefaultPluginsMenu.h"
+#include "ConsoleWindow.h"
+#include <QColor>
 
 using namespace Tinkercell;
 
@@ -24,6 +26,8 @@ int main(int argc, char *argv[])
     ORGANIZATIONNAME = QObject::tr("TinkerCell");
     PROJECTNAME = QObject::tr("TinkerCell");
     Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
+    Tinkercell::ConsoleWindow::Prompt = QObject::tr(">>>");	
+	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#101e77");
     
 
     QString appDir = QCoreApplication::applicationDirPath();
@@ -41,7 +45,7 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
     
-   mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
+    mainWindow.setWindowTitle(QObject::tr("Tinkercell: synthetic biology CAD"));
     mainWindow.statusBar()->showMessage(QObject::tr("Welcome to Tinkercell"));
 
 

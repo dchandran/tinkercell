@@ -161,7 +161,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	tc_printTable(output);
 
-	deleteMatrix(output);
+	deleteMatrix(&output);
 	free(soln);
 	delete_lp(lp);
 	//TCFreeArray(all);

@@ -93,7 +93,7 @@ void run(Matrix input)
 		A = tc_selectedItems();
 		if (nthItem(A,0) == 0)
 		{
-			deleteArrayOfItems(A);
+			deleteArrayOfItems(&A);
 			A = tc_allItems();
 		}
 	}
@@ -109,7 +109,7 @@ void run(Matrix input)
 	}
 	else
 	{
-		deleteArrayOfItems(A);
+		deleteArrayOfItems(&A);
 		return;  
 	}
 
@@ -120,9 +120,9 @@ void run(Matrix input)
 
 	allNames = newArrayOfStrings(len+params.rows);
 
-	for (i=0; i < params.rows; ++i) allNames.strings[i] = getRowName(params,i);
+	for (i=0; i < params.rows; ++i) setNthString(allNames,i,getRowName(params,i));
 
-	for (i=0; i < len; ++i) allNames.strings[i+params.rows] = nthString(names,i);
+	for (i=0; i < len; ++i) setNthString(allNames,i+params.rows,nthString(names,i));
 
 	index1 = tc_getFromList("Select First Parameter",allNames,selected_var1,0); 
 	if (index1 >= 0)
@@ -133,8 +133,8 @@ void run(Matrix input)
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	
 	{
-		deleteArrayOfItems(A);   
-		deleteMatrix(params);
+		deleteArrayOfItems(&A);   
+		deleteMatrix(&params);
 		tc_errorReport("Correlation Text: cannot choose the same variable twice\0");
 		return;
 	}
@@ -142,14 +142,14 @@ void run(Matrix input)
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0)
 		index4 = tc_getFromList("Select Target for Steady State Analysis",names,target_y_var,0);
 
-	deleteArrayOfItems(A);   
+	deleteArrayOfItems(&A);   
 
 	if (index1 < 0 || index1 >= (params.rows+len) || 
 		index2 < 0 || index2 >= (params.rows+len) || 
 		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
-		deleteMatrix(params);
+		deleteMatrix(&params);
 		tc_print("Correlation Text: no valid variable selected\0");
 		return;
 	}
@@ -259,9 +259,9 @@ void run(Matrix input)
 
 	tc_compileBuildLoad("corr.c -lodesim\0","run\0","2-Parameter Correlation Test\0");
 
-	free(allNames.strings);
-	deleteArrayOfStrings(names);
-	deleteMatrix(params);
+	deleteArrayOfStrings(&allNames);
+	deleteArrayOfStrings(&names);
+	deleteMatrix(&params);
 	return;  
 }
 

@@ -70,20 +70,20 @@ void run()
 						setValue(newN,newN.rows-1,newN.cols-2,0.0);
 					 tc_setParameter( nthItem(A,i),"k0",0.1);
 					 tc_setParameter( nthItem(A,i),"leak",0.01);
-	                 nthItemSet(flux, 0, nthItem(A,i));
+	                 setNthItem(flux, 0, nthItem(A,i));
 	                 rates = newN.colnames;
 	                 newN.colnames = newArrayOfStrings(0);
 	                 tc_setStoichiometry(flux , newN);
 	                 newN.colnames = rates;
 					 tc_setRates(flux,rates);
-	                 deleteMatrix(newN);
+	                 deleteMatrix(&newN);
 		        }
-		        deleteArrayOfItems(parts);
+		        deleteArrayOfItems(&parts);
 		    }
    	}
 
-  deleteArrayOfItems(A);
-  deleteArrayOfItems(flux);
+  deleteArrayOfItems(&A);
+  deleteArrayOfItems(&flux);
 
   return; 
 }

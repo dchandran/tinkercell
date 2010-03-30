@@ -94,7 +94,7 @@ void run(Matrix input)
 		A = tc_selectedItems();
 		if (nthItem(A,0) == 0)
 		{
-			deleteArrayOfItems(A);
+			deleteArrayOfItems(&A);
 			tc_errorReport("No Model Selected\0");
 			return;
 		}
@@ -109,7 +109,7 @@ void run(Matrix input)
 		params = tc_getModelParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -127,29 +127,29 @@ void run(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(initVals);
-		deleteMatrix(params);
-		deleteArrayOfItems(B);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
+		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
 	
 	if (nthItem(A,0))
 	{
 		k = tc_writeModel( "ode", A );
-		deleteArrayOfItems(A);
+		deleteArrayOfItems(&A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(allParams);
+				deleteMatrix(&allParams);
 			return;
 		}
 	}
 	else
 	{
-		deleteArrayOfItems(A);
+		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -158,9 +158,9 @@ void run(Matrix input)
 	
 	if (!out)
 	{
-		deleteArrayOfItems(A);
+		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -246,7 +246,7 @@ fprintf( out , "\
 	{\n\
 	   tc_setInitialValues(A,ss1);\n\
 	}\n\
-	deleteArrayOfItems(A);\n\
+	deleteArrayOfItems(&A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -255,9 +255,9 @@ fprintf( out , "\
 	   x = nthItem(A,i);\n\
 	   tc_displayNumber(x,getValue(ss2,i,0));\n\
 	}\n\
-	deleteArrayOfItems(A);\n\
-	deleteMatrix(ss1);\n\
-	deleteMatrix(ss2);\n\
+	deleteArrayOfItems(&A);\n\
+	deleteMatrix(&ss1);\n\
+	deleteMatrix(&ss2);\n\
 	if (%i)\n\
 	{\n\
 		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\
@@ -277,12 +277,12 @@ fprintf( out , "\
 		setColumnName(data,1+i,nthString(names,i));\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-	deleteMatrix(data);\n\
+	deleteMatrix(&data);\n\
 	free(model);\n", start, end, dt, sz, update, rateplot, xaxis);
 	
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -291,7 +291,7 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
-		deleteMatrix(allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");

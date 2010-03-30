@@ -93,11 +93,11 @@ ADD_LIBRARY( runbistablega
 
 TARGET_LINK_LIBRARIES( runbistablega runbistablega tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
+#IF ( WIN32 )
+#  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
+#ELSE ( WIN32 )
+#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
+#ENDIF( WIN32 )
 
 ADD_LIBRARY( runvaluesattime 
   SHARED
@@ -106,11 +106,11 @@ ADD_LIBRARY( runvaluesattime
 
 TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
+#IF ( WIN32 )
+#  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
+#ELSE ( WIN32 )
+#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
+#ENDIF( WIN32 )
 
 ADD_LIBRARY( tabasco_like 
   SHARED
@@ -132,11 +132,11 @@ ADD_LIBRARY( parametercorrelation
 
 TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
+#IF ( WIN32 )
+#  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
+#ELSE ( WIN32 )
+#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
+#ENDIF( WIN32 )
 
 #ADD_SUBDIRECTORY( lpsolve )
 

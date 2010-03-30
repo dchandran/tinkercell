@@ -51,7 +51,7 @@ void run()
   {
      if (tc_isA(nthItem(C,i),"Binding"))
      {
-        nthItemSet(js,j, nthItem(C,i));
+        setNthItem(js,j, nthItem(C,i));
         ++j;
      }         
   }
@@ -59,7 +59,7 @@ void run()
   //get the repressors/activators names
 
   tfs = newArrayOfItems(N+1);
-  nthItemSet(tfs,0,p);
+  setNthItem(tfs,0,p);
   k = 1;
   for (i=0; i < C.length; ++i)
   {
@@ -70,11 +70,11 @@ void run()
         {
            if (nthItem(parts,j) != p)
            {
-              nthItemSet( tfs, k, nthItem(parts,j));  //save tfs
+              setNthItem( tfs, k, nthItem(parts,j));  //save tfs
               ++k;
            }
         }
-        deleteArrayOfItems(parts);
+        deleteArrayOfItems(&parts);
      }
   }
   
@@ -91,12 +91,12 @@ void run()
   m.colnames = newArrayOfStrings(0);
   tc_setStoichiometry(js,m);
 
-  deleteArrayOfItems(js); 
-  deleteArrayOfItems(tfs);  
-  deleteMatrix(m);
+  deleteArrayOfItems(&js); 
+  deleteArrayOfItems(&tfs);  
+  deleteMatrix(&m);
 
   deleteArrayOfString(names);
   deleteArrayOfString(jnames);
-  deleteArrayOfItems(selected);
+  deleteArrayOfItems(&selected);
   return; 
 }

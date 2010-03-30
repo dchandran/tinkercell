@@ -11,27 +11,26 @@ static char selected_var[100];
 static ArrayOfStrings allNames;
 static void run(Matrix input);
 static void setup();
-static int selectAll = 1;
+static int selectedItemsOnly = 1;
 
 void unload()
 {
-	deleteArrayOfStrings(allNames);
+	deleteArrayOfStrings(&allNames);
 }
 
 void loadAllNames()
 {
 	int i,len;
 	Matrix params, N;
-	char ** names;
 	ArrayOfItems A = newArrayOfItems(0);
 
-	if (selectAll)
+	if (selectedItemsOnly)
 		A = tc_selectedItems();
 	
 	if (A.length < 1 || !nthItem(A,0))
 		A = tc_allItems();
 
-	deleteArrayOfStrings(allNames);
+	deleteArrayOfStrings(&allNames);
 
 	if (nthItem(A,0))
 	{
@@ -40,14 +39,14 @@ void loadAllNames()
 		len = N.rows;
 		allNames = newArrayOfStrings(len+params.rows);
 		for (i=0; i < params.rows; ++i) 
-			nthStringSet(allNames,i,getRowName(params,i));
+			setNthString(allNames,i,getRowName(params,i));
 		for (i=0; i < len; ++i) 
-			nthStringSet(allNames,i+params.rows,getRowName(N,i));
+			setNthString(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
-		deleteMatrix(params);
-		deleteMatrix(N);
-		deleteArrayOfItems(A);
+		deleteMatrix(&params);
+		deleteMatrix(&N);
+		deleteArrayOfItems(&A);
 	}
 }
 
@@ -115,7 +114,7 @@ void run(Matrix input)
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selectAll = selection = (int)getValue(input,0,0);
+			selectedItemsOnly = selection = (int)getValue(input,0,0);
 		if (input.rows > 1)
 			doStochastic = (int)(getValue(input,1,0) > 0);
 		if (input.rows > 2)
@@ -180,7 +179,7 @@ void run(Matrix input)
 		params = tc_getModelParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -198,13 +197,13 @@ void run(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(initVals);
-		deleteMatrix(params);
-		deleteArrayOfItems(B);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
+		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
 	
-	deleteArrayOfItems(A);
+	deleteArrayOfItems(&A);
 
 	out = fopen("timet.c","a");
 
@@ -293,7 +292,7 @@ void run(%s) \n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -302,7 +301,7 @@ void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("timet.c -lodesim -lssa\0","run\0","At Time T\0",allParams);
-		deleteMatrix(allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("timet.c -lodesim -lssa\0","run\0","At Time T\0");

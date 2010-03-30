@@ -89,10 +89,10 @@ void tc_setRate(void* x, const char* r)
 	if (!c.strings || c.length < 1 || !c.strings[0]) return;
 	
 	free(c.strings[0]);
-	nthStringSet(c,0,r);
+	setNthString(c,0,r);
 	_tc_setRates(A,c);
 
-	deleteArrayOfStrings(c);
+	deleteArrayOfStrings(&c);
 }
 /*! 
 \brief set stoichiometry for the given items

@@ -70,9 +70,13 @@ namespace Tinkercell
 	{
 		ArrayOfItems A;
 		A.length = list.size();
-		A.items = new void*[A.length];
-		for (int i=0; i < list.size(); ++i)
-			A.items[i] = (void*)list[i];
+		A.items = 0;
+		if (A.length > 0)
+		{
+			A.items = new void*[A.length];
+			for (int i=0; i < list.size(); ++i)
+				A.items[i] = (void*)list[i];
+		}
 		return A;
 	}
 
@@ -178,9 +182,21 @@ namespace Tinkercell
 
 		m.rownames.length = m.rows = D.rows();
 		m.colnames.length = m.cols = D.cols();		
-		m.rownames.strings = new char*[m.rows];	
-		m.colnames.strings = new char*[m.cols];
-		m.strings = new char*[m.rows * m.cols];
+		
+		if (m.rows > 0)
+			m.rownames.strings = new char*[m.rows];	
+		else
+			m.rownames.strings = 0;
+			
+		if (m.cols > 0)
+			m.colnames.strings = new char*[m.cols];
+		else
+			m.colnames.strings = 0;
+		
+		if (m.rows > 0 && m.cols > 0)
+			m.strings = new char*[m.rows * m.cols];
+		else
+			m.strings = 0;
 
 		for (int i=0; i < m.rows; ++i)
 		{
@@ -206,7 +222,7 @@ namespace Tinkercell
 				setString(m,i,j,D.at(i,j).toAscii().data());
 			}
 
-			return m;
+		return m;
 	}
 	
 	QStringList ConvertValue(ArrayOfStrings c)
@@ -219,6 +235,13 @@ namespace Tinkercell
 
 	ArrayOfStrings ConvertValue(const QStringList& list)
 	{
+		ArrayOfStrings A;
+		if (list.size() < 1)
+		{
+			A.length = 0;
+			A.strings = 0;
+			return A;
+		}
 		char ** cs = new char*[list.size()];
 		cs[list.size()] = 0;
 		for (int i=0; i < list.size(); ++i)
@@ -229,7 +252,6 @@ namespace Tinkercell
 			for (int j=0; j < s.length(); ++j)
 				cs[i][j] = s[j].toAscii();
 		}
-		ArrayOfStrings A;
 		A.length = list.size();
 		A.strings = cs;
 		return A;

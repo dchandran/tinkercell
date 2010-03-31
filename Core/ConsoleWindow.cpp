@@ -172,7 +172,7 @@ namespace Tinkercell
 
 		cursor.setCharFormat(messageFormat);
 
-		if (s.right(1) != QChar('\n'))
+		if (s.right(1).contains(QChar('\n')))
             cursor.insertText(s + tr("\n"));
 		else
             cursor.insertText(s);
@@ -223,7 +223,7 @@ namespace Tinkercell
 			QString blockText = cursor.block().text();
 			if (blockText.contains(ConsoleWindow::Prompt))
 			{
-				cursor.setPosition(currentPosition - blockText.size() - 1, QTextCursor::KeepAnchor);
+				cursor.setPosition(currentPosition - blockText.size(), QTextCursor::KeepAnchor);
 				cursor.removeSelectedText();
 			}
 		}

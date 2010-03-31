@@ -177,8 +177,12 @@ namespace Tinkercell
 		else
             cursor.insertText(s);
 
-        cursor.setCharFormat(normalFormat);
-        cursor.insertText(ConsoleWindow::Prompt);
+		
+		if (!frozen)
+		{
+	        cursor.setCharFormat(normalFormat);
+    	    cursor.insertText(ConsoleWindow::Prompt);
+    	}
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -218,9 +222,9 @@ namespace Tinkercell
 
 		this->frozen = frozen;
 
+		QString blockText = cursor.block().text();
 		if (frozen)
 		{
-			QString blockText = cursor.block().text();
 			if (blockText.contains(ConsoleWindow::Prompt))
 			{
 				cursor.setPosition(currentPosition - blockText.size(), QTextCursor::KeepAnchor);
@@ -229,9 +233,13 @@ namespace Tinkercell
 		}
 		else
 		{
-			cursor.setCharFormat(normalFormat);
-			if (cursor.block().text() != ConsoleWindow::Prompt)
+			if (blockText != ConsoleWindow::Prompt)
+			{
+				cursor.setPosition(currentPosition - blockText.size(), QTextCursor::KeepAnchor);
+				cursor.removeSelectedText();
+				cursor.setCharFormat(normalFormat);
 				cursor.insertText(ConsoleWindow::Prompt);
+			}
 		}
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();

@@ -69,7 +69,7 @@ namespace Tinkercell
 			void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 			void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 			void plotMultiplot(QSemaphore*,int x, int y);
-			void getDataTable(QSemaphore*,DataTable<qreal>&, int index);
+			void getDataTable(QSemaphore*,DataTable<qreal>*, int index);
 			void plotScatter(QSemaphore*,DataTable<qreal>&,const QString& title);
 
 		private slots:
@@ -230,7 +230,7 @@ namespace Tinkercell
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
 		void plotScatter(QSemaphore*, DataTable<qreal>&,const QString&);
 		void surface(QSemaphore*, DataTable<qreal>&,const QString&);
-		void getData(QSemaphore*, DataTable<qreal>&,int i = -1);		
+		void getData(QSemaphore*, DataTable<qreal>*,int i);		
 		void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 		void plotMultiplot(QSemaphore*,int x, int y);

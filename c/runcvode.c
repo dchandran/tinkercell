@@ -258,6 +258,8 @@ fprintf( out , "\
 	deleteArrayOfItems(&A);\n\
 	deleteMatrix(&ss1);\n\
 	deleteMatrix(&ss2);\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
 	if (%i)\n\
 	{\n\
 		y0 = getRatesFromSimulatedData(y, data.rows, TCvars , TCreactions , &(TCpropensity), (void*)model);\n\

@@ -211,6 +211,8 @@ fprintf(out, "\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
@@ -614,6 +616,8 @@ fprintf(out, "\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
+	names.length = TCvars;\n\
+	names.strings = TCvarnames;\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\

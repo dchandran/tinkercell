@@ -123,10 +123,22 @@ namespace Tinkercell
 		Matrix m;
 
 		m.rownames.length = m.rows = D.rows();
-		m.colnames.length = m.cols = D.cols();		
-		m.rownames.strings = new char*[m.rows];	
-		m.colnames.strings = new char*[m.cols];
-		m.values = new double[m.rows * m.cols];
+		m.colnames.length = m.cols = D.cols();
+		
+		if (m.rows > 0)
+			m.rownames.strings = new char*[m.rows];	
+		else
+			m.rownames.strings = 0;
+			
+		if (m.cols > 0)			
+			m.colnames.strings = new char*[m.cols];
+		else
+			m.colnames.strings = 0;
+		
+		if (m.rows > 0 && m.cols > 0)
+			m.values = new double[m.rows * m.cols];
+		else
+			m.values = 0;
 
 		for (int i=0; i < m.rows; ++i)
 		{
@@ -152,7 +164,7 @@ namespace Tinkercell
 				setValue(m,i,j,D.at(i,j));
 			}
 
-			return m;
+		return m;
 	}
 	
 	DataTable<QString>* ConvertValue(TableOfStrings m)

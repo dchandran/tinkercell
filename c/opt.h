@@ -61,8 +61,7 @@ extern status	TwoPhasemethod(int, int, dbl *, dbl *, dbl *, dbl *, dbl,
 #define	MaxConds	256
 
 extern status	QuasiNewtonMethod(int, dbl(), dbl *(), dbl *, dbl *, int, dbl);
-extern status	NelderMeadSimplexMethod(int, dbl(), dbl *, dbl, dbl *,
-					int, dbl);
+extern status	NelderMeadSimplexMethod(int, dbl (*f)(int, double x[]), dbl *, dbl, dbl *, int, dbl);
 extern status	MultiplierMethod(int, dbl (), dbl *(),
 				 int, dbl *(), dbl **(),
 				 int, dbl *(), dbl **(),
@@ -85,4 +84,4 @@ extern dbl	GaussIntegral2Dmarginal1Params(dbl(), dbl, dbl, dbl, int, dbl *);
 extern dbl	GaussIntegral2Dmarginal2Params(dbl(), dbl, dbl, dbl, int, dbl *);
 extern void	GaussIntegralInitialize(char *);
 
-//extern void	RungeKutta(FILE *, int, double *, void(), double *, double, int);
+extern void	RungeKutta(FILE *, int, double *, void(), double *, double, int);

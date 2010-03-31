@@ -18,7 +18,7 @@
 #define SKIPTIME	100	/* print interval for debugging */
 
 static int	nvar;
-static dbl	(*objective)();
+static dbl	(*objective)(int n, double x[]);
 
 static dbl	**simp, *fvalue;
 static int	ih, is, il;
@@ -209,14 +209,14 @@ static void expansion()
 	return value: --- suceess, failure, or timeout
 								*/
 
-extern status NelderMeadSimplexMethod(n, f, xinit, length, fopt, timeout, eps)
-int	n;
-dbl	(*f)();
-dbl	*xinit;
-dbl	length;
-dbl	*fopt;
-int	timeout;
-dbl	eps;
+extern status NelderMeadSimplexMethod(
+int	n,
+dbl	(*f)(int n, double x[]),
+dbl	*xinit,
+dbl	length,
+dbl	*fopt,
+int	timeout,
+dbl	eps)
 {
 	status	stat = failure;
 	int	count, i;
@@ -292,3 +292,4 @@ dbl	eps;
 	
 	return stat;
 }
+

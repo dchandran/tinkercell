@@ -13,7 +13,7 @@ static void (*ODEfunc)(double, double*, double*, void*) = NULL;
  * relative error tolerance
  * absolute error tolerance
 */
-double RelTol = 1.0E-10, AbsTol = 1.0E-7;
+double RelTol = 1.0E-3, AbsTol = 1.0E-16;
 
 int ODE_POSITIVE_VALUES_ONLY = 0;
 

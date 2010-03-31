@@ -409,6 +409,7 @@ namespace Tinkercell
 								this->ensureCursorVisible();
 							}
 							QString completionPrefix = textUnderCursor();
+							
 							bool isShortcut = ((event->modifiers() & Qt::ControlModifier) && event->key() == Qt::Key_E); // CTRL+E
 
 							if (!c || !isShortcut) // dont process the shortcut when we have a completer
@@ -427,10 +428,10 @@ namespace Tinkercell
 							}
 
 							//static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-= "); // end of word
-							bool hasModifier = (event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+							bool hasModifier = false;//(event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 
 
-							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < ConsoleWindow::Prompt.size()))
+							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < 3))
 							{
 								c->popup()->hide();
 								if (cursor.position() < currentPosition)

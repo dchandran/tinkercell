@@ -52,7 +52,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	public:
-		TCFunctionsListView(MainWindow *, const QString&, const QString&, CodeEditor * textEdit);
+		TCFunctionsListView(MainWindow *, const QString&, CodeEditor * textEdit);
 		ConsoleWindow * console;
 
 	signals:
@@ -60,7 +60,6 @@ namespace Tinkercell
 
 	protected:
 		virtual void readCHeaders(const QString& dirName);
-		virtual void readPythonHeader(MainWindow *,const QString& fileName);
 		virtual void mouseDoubleClickEvent ( QMouseEvent * event );
 		virtual void keyPressEvent ( QKeyEvent * event );
 	};

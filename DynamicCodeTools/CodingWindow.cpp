@@ -197,13 +197,13 @@ namespace Tinkercell
 
 		QSplitter * splitter1 = new QSplitter(Qt::Horizontal);
         splitter1->addWidget(editorC);
-        splitter1->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), QString(), editorC));
+        splitter1->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editorC));
         splitter1->setStretchFactor(0,2);
 
         QSplitter * splitter2 = new QSplitter(Qt::Horizontal);
         splitter2->addWidget(editorPy);
 
-        splitter2->addWidget(new TCFunctionsListView(mainWindow, QString(), appDir + tr("/c/API/Python/TC_py.h"),editorPy));
+        splitter2->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editorPy));
         splitter2->setStretchFactor(0,2);
 
         tabWidget->addTab(splitter1,tr("C"));
@@ -705,11 +705,10 @@ namespace Tinkercell
 	      FUNCTIONS LIST
 	 *********************************/
 
-	 TCFunctionsListView::TCFunctionsListView(MainWindow* mainWindow, const QString& cDir, const QString& pyFile, CodeEditor * textEdit)
+	 TCFunctionsListView::TCFunctionsListView(MainWindow* mainWindow, const QString& cDir, CodeEditor * textEdit)
 	 {
 		 console = mainWindow->console();
 		 if (!cDir.isEmpty()) readCHeaders(cDir);
-		 if (!pyFile.isEmpty()) readPythonHeader(mainWindow, pyFile);
 		 sortItems(0,Qt::AscendingOrder);
 		 setSelectionMode(QAbstractItemView::SingleSelection);
 		 setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -717,47 +716,6 @@ namespace Tinkercell
 		 setHeaderHidden ( true );
 		 if (textEdit)
 			 connect(this,SIGNAL(insertText(const QString&)),textEdit,SLOT(insertPlainText(const QString&)));
-	 }
-
-	 void TCFunctionsListView::readPythonHeader(MainWindow * mainWindow, const QString& filename)
-	 {
-		QFile file(filename);
-		if (!file.open(QFile::ReadOnly)) return;
-
-		QStringList funcNames;
-
-		QRegExp regexExample(tr("\"(.+)\",.+,.+,.*\".*(example.+)\""));
-
-		QTreeWidgetItem * currentItem = new QTreeWidgetItem(QStringList() << tr("pytc"));
-		addTopLevelItem(currentItem);
-		QString name,ex;
-		while (!file.atEnd())
-		{
-			QString line(file.readLine());
-			regexExample.indexIn(line);
-			if (regexExample.numCaptures() > 1 && !regexExample.capturedTexts().at(1).isEmpty())
-			{
-				name = regexExample.capturedTexts().at(1);
-				funcNames << name;
-				ex = tr("#") + regexExample.capturedTexts().at(2);
-				ex.replace(tr("\\\""),tr("\""));
-				QTreeWidgetItem * childItem = new QTreeWidgetItem(QStringList() << name << ex);
-				currentItem->addChild(childItem);
-			}
-		}
-		expandAll();
-		file.close();
-
-		funcNames.sort();
-		if (mainWindow && mainWindow->console() && mainWindow->console()->editor())
-		{
-			QCompleter * completer = new QCompleter(this);
-			completer->setModel(new QStringListModel(funcNames, completer));
-			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
-			completer->setCaseSensitivity(Qt::CaseInsensitive);
-			completer->setWrapAround(false);
-			mainWindow->console()->editor()->setCompleter(completer);
-		}
 	 }
 
 	 void TCFunctionsListView::readCHeaders(const QString& dirname)
@@ -770,6 +728,8 @@ namespace Tinkercell
 		 //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
 		 QHash<QString,QTreeWidgetItem*> tree;
+		 
+		 QStringList visitedFunctions;
 
 		 for (int i = 0; i < list.size(); ++i)
 		 {
@@ -782,8 +742,6 @@ namespace Tinkercell
 			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(tc_[A-Za-z0-9]+)\\s*(\\([^\\)]*\\))"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
-			
-			QStringList visitedFunctions;
 
 			 while (!file.atEnd())
 			 {
@@ -840,8 +798,16 @@ namespace Tinkercell
 			 }
 			file.close();
 		 }
-
-		 //QApplication::restoreOverrideCursor();
+		 
+		 if (console && console->editor())
+		 {
+			QCompleter * completer = new QCompleter(this);
+			completer->setModel(new QStringListModel(visitedFunctions, completer));
+			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+			completer->setCaseSensitivity(Qt::CaseInsensitive);
+			completer->setWrapAround(false);
+			console->editor()->setCompleter(completer);
+		 }
 	 }
 
 	 void TCFunctionsListView::mouseDoubleClickEvent ( QMouseEvent *  )

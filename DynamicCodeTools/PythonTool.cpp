@@ -155,7 +155,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
+			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/py/_tinkercell"), mainWindow);
 			pythonInterpreter->initialize();
 
 			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));

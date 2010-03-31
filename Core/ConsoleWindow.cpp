@@ -282,7 +282,7 @@ namespace Tinkercell
 	{
 		if (!event || !document()) return;
 		
-		currentPosition = document()->lastBlock().position() + 2;
+		currentPosition = document()->lastBlock().position() + ConsoleWindow::Prompt.size();
 
 		if (c && c->popup()->isVisible())
 		{
@@ -320,7 +320,7 @@ namespace Tinkercell
 		if (key == Qt::Key_Return || key == Qt::Key_Enter)
 		{
 			if (frozen || (cursor.position() < currentPosition)) return;
-			QString command = cursor.block().text().remove(0,2);
+			QString command = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());
 
 			cursor.movePosition(QTextCursor::EndOfBlock);
 			cursor.setPosition(currentPosition,QTextCursor::KeepAnchor);
@@ -430,7 +430,7 @@ namespace Tinkercell
 							bool hasModifier = (event->modifiers() != Qt::NoModifier) && !ctrlOrShift;
 
 
-							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < 2))
+							if (!isShortcut && (hasModifier || event->text().isEmpty() || completionPrefix.length() < ConsoleWindow::Prompt.size()))
 							{
 								c->popup()->hide();
 								if (cursor.position() < currentPosition)

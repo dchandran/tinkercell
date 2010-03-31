@@ -201,22 +201,42 @@ IF(PYTHONLIBS_FOUND)
     @ONLY
   )
 
-  ADD_LIBRARY( runpy 
-	  SHARED
-  	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
-  )
+#  ADD_LIBRARY( runpy 
+#	  SHARED
+#  	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
+#  )
   
-  TARGET_LINK_LIBRARIES( runpy
-    runpy
+#  TARGET_LINK_LIBRARIES( runpy
+#    runpy
+#    tinkercellapi
+#    ${PYTHON_LIBRARIES}
+#  )
+  
+#  IF ( WIN32 )
+#    INSTALL(TARGETS runpy DESTINATION Plugins/c)
+#  ELSE ( WIN32 )
+#    INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
+#  ENDIF( WIN32 )
+  
+  ADD_LIBRARY( _tinkercell
+  	  SHARED
+	  tinkercell_wrap.c
+	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
+  )
+    
+  TARGET_LINK_LIBRARIES( _tinkercell
+    _tinkercell
+    tinkercellapi
     ${PYTHON_LIBRARIES}
   )
   
+  SET_TARGET_PROPERTIES( _tinkercell PROPERTIES PREFIX "")
+  
   IF ( WIN32 )
-    INSTALL(TARGETS runpy DESTINATION Plugins/c)
+    INSTALL(TARGETS _tinkercell DESTINATION py)
   ELSE ( WIN32 )
-    INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
+    INSTALL(TARGETS _tinkercell LIBRARY DESTINATION py)
   ENDIF( WIN32 )
-
   
 ENDIF(PYTHONLIBS_FOUND)
 
@@ -267,10 +287,17 @@ INSTALL( FILES ${NVECTOR_HDRS}
   COMPONENT CVODE
 )
 
-FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG)
+FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG )
 
 INSTALL( FILES ${C_ICON_FILES}
   DESTINATION Plugins/c
+  COMPONENT Plugins
+)
+
+FILE( GLOB SWIG_FILES tinkercell.* )
+
+INSTALL( FILES ${SWIG_FILES}
+  DESTINATION py
   COMPONENT Plugins
 )
 

@@ -150,21 +150,7 @@ namespace Tinkercell
 			\param QString title
 			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
 		*/
-		void surfacePlot(const DataTable<qreal>& matrix, const QString& title);
-		
-		/*! \brief histogram plot of the given data
-			\param DataTable<qreal> table where value(x,y) is the z value
-			\param QString title
-			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
-		*/
-		//void histogram(const DataTable<qreal>& matrix, const QString& title);
-		
-		/*! \brief scatter plot of the given data
-			\param DataTable<qreal> table where value(x,y) is the z value
-			\param QString title
-			\param int 0 or 1, indicating whether to plot only those items that are visible on the screen
-		*/
-		//void scatterplot(const DataTable<qreal>& matrix, const QString& title);
+		void surfacePlot(const DataTable<qreal>& matrix, const QString& title);		
 
 		/*! \brief add export option. This will add a new button to the set of export options.
 			When user selects this option, the exportData method in the current PlotWidget
@@ -244,7 +230,7 @@ namespace Tinkercell
 		void plotData(QSemaphore*, DataTable<qreal>&,int,const QString&,int);
 		void plotScatter(QSemaphore*, DataTable<qreal>&,const QString&);
 		void surface(QSemaphore*, DataTable<qreal>&,const QString&);
-		void getData(QSemaphore*, DataTable<qreal>*,int i = -1);		
+		void getData(QSemaphore*, DataTable<qreal>&,int i = -1);		
 		void plotHist(QSemaphore*,DataTable<qreal>& m, double bins, const QString& title);
 		void plotErrorbars(QSemaphore*,DataTable<qreal>& m, int x, const QString& title);
 		void plotMultiplot(QSemaphore*,int x, int y);

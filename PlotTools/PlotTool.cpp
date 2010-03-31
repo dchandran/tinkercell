@@ -155,6 +155,8 @@ namespace Tinkercell
 				this, SLOT(plotScatter(QSemaphore*,DataTable<qreal>&, const QString&)));
 		
 		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
+		
+		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>&, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>&,int)));
 	}
 
 	QSize PlotTool::sizeHint() const
@@ -485,9 +487,9 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void PlotTool::getData(QSemaphore* s, DataTable<qreal>* matrix,int index)
+	void PlotTool::getData(QSemaphore* s, DataTable<qreal>& matrix,int index)
 	{
-		if (matrix && multiplePlotsArea)
+		if ( multiplePlotsArea)
 		{
 			QList<QMdiSubWindow*> list = multiplePlotsArea->subWindowList();
 			if (index < 0 || index >= list.size())
@@ -495,7 +497,7 @@ namespace Tinkercell
 			if (index >= 0 && list.size() > index && list[index] && list[index]->widget())
 			{
 				PlotWidget * plotWidget = static_cast<PlotWidget*>(list[index]->widget());
-				(*matrix) = *(plotWidget->data());
+				matrix = *(plotWidget->data());
 			}
 		}
 		

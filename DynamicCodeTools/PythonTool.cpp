@@ -155,7 +155,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/py/_tinkercell"), mainWindow);
+			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell"), mainWindow);
 			pythonInterpreter->initialize();
 
 			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
@@ -182,12 +182,12 @@ namespace Tinkercell
 			#ifdef Q_WS_WIN
 			QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
 			#else
-			QString pydir = appDir + tr("/py");
+			QString pydir = appDir + tr("/python");
 			#endif
 			
 			QString s = tr("import sys\nsys.path.append(\"")+pydir+tr("\")\n");
 			
-			QFile file(appDir + tr("/py/init.py"));
+			QFile file(appDir + tr("/python/init.py"));
 			if (file.open(QFile::ReadOnly | QFile::Text))
             {
                 s += file.readAll();
@@ -218,10 +218,10 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::userTemp() + tr("/py"),
-                  MainWindow::userHome() + tr("/py"),
-                  QDir::currentPath() + tr("/py"),
-                  appDir + tr("/py")
+				  MainWindow::userTemp() + tr("/python"),
+                  MainWindow::userHome() + tr("/python"),
+                  QDir::currentPath() + tr("/python"),
+                  appDir + tr("/python")
                };
 
                 bool opened = false;
@@ -236,7 +236,7 @@ namespace Tinkercell
                 if (!opened)
                 {
                     if (console())
-						console()->message(tr("No python plugins found (located in the /py folder)"));
+						console()->message(tr("No python plugins found (located in the /python folder)"));
                 }
             }
         }
@@ -467,12 +467,12 @@ namespace Tinkercell
             QString appDir = QCoreApplication::applicationDirPath();
 
             QString name[] = {	MainWindow::userHome() + tr("/") + filename,
-                                MainWindow::userHome() + tr("/py/") + filename,
+                                MainWindow::userHome() + tr("/python/") + filename,
 								MainWindow::userTemp() + tr("/") + filename,
-                                MainWindow::userTemp() + tr("/py/") + filename,
+                                MainWindow::userTemp() + tr("/python/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
-                                appDir + tr("/py/") + filename ,
+                                appDir + tr("/python/") + filename ,
                                 appDir + tr("/") + filename };
 
             QFile file;

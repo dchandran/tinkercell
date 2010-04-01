@@ -54,20 +54,6 @@ SET(C_LIBRARY_OUTPUT_PATH
 )
 
 #---------------------------------------------------------------------------
-# Doxygen documentation
-#---------------------------------------------------------------------------
-OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
-
-#---------------------------------------------------------------------------
-# Python
-#---------------------------------------------------------------------------
-FIND_PACKAGE( PythonLibs )
-
-IF( NOT PYTHONLIBS_FOUND )
-  MESSAGE( SEND_ERROR "TinkerCell requires python to be installed" )
-ENDIF( NOT PYTHONLIBS_FOUND )
-
-#---------------------------------------------------------------------------
 # Qt4
 #---------------------------------------------------------------------------
 FIND_PACKAGE( Qt4 )
@@ -198,7 +184,6 @@ IF( QT4_FOUND )
   ENDIF ( WIN32 )
 
   INCLUDE_DIRECTORIES( BEFORE
-    ${PYTHON_INCLUDE_PATH}
     ${QT_INCLUDES}
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/
@@ -265,7 +250,25 @@ ENDIF(UNIX AND NOT APPLE)
   ADD_SUBDIRECTORY( AntimonyEditor )
   ADD_SUBDIRECTORY( DB )
   ADD_SUBDIRECTORY( c )
-  ADD_SUBDIRECTORY( py )
+  
+#---------------------------------------------------------------------------
+# Doxygen documentation
+#---------------------------------------------------------------------------
+OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
+
+#---------------------------------------------------------------------------
+# SWIG
+#---------------------------------------------------------------------------
+
+FIND_PACKAGE(SWIG)
+IF (SWIG_FOUND)
+   INCLUDE(${SWIG_USE_FILE})
+   ADD_SUBDIRECTORY( py )
+#   ADD_SUBDIRECTORY( ruby )
+#   ADD_SUBDIRECTORY( perl )
+#   ADD_SUBDIRECTORY( R )
+ENDIF (SWIG_FOUND)
+
 
 #----------------------------------------------------------------------------
 # Other programs (not really part of Tinkercell)

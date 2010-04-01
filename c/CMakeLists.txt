@@ -194,53 +194,6 @@ ELSE ( WIN32 )
   INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
 ENDIF( WIN32 )
 
-IF(PYTHONLIBS_FOUND)
-
-  CONFIGURE_FILE( runpy.c.in 
-    ${TINKERCELL_BINARY_DIR}/c/runpy.c
-    @ONLY
-  )
-
-#  ADD_LIBRARY( runpy 
-#	  SHARED
-#  	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
-#  )
-  
-#  TARGET_LINK_LIBRARIES( runpy
-#    runpy
-#    tinkercellapi
-#    ${PYTHON_LIBRARIES}
-#  )
-  
-#  IF ( WIN32 )
-#    INSTALL(TARGETS runpy DESTINATION Plugins/c)
-#  ELSE ( WIN32 )
-#    INSTALL(TARGETS runpy LIBRARY DESTINATION Plugins/c)
-#  ENDIF( WIN32 )
-  
-  ADD_LIBRARY( _tinkercell
-  	  SHARED
-	  tinkercell_wrap.c
-	  ${TINKERCELL_BINARY_DIR}/c/runpy.c 
-  )
-    
-  TARGET_LINK_LIBRARIES( _tinkercell
-    _tinkercell
-    tinkercellapi
-    ${PYTHON_LIBRARIES}
-  )
-  
-  SET_TARGET_PROPERTIES( _tinkercell PROPERTIES PREFIX "")
-  
-  IF ( WIN32 )
-    INSTALL(TARGETS _tinkercell DESTINATION py)
-  ELSE ( WIN32 )
-    INSTALL(TARGETS _tinkercell LIBRARY DESTINATION py)
-  ENDIF( WIN32 )
-  
-ENDIF(PYTHONLIBS_FOUND)
-
-
 ##
 ## CPack
 ##
@@ -258,13 +211,6 @@ INSTALL( FILES ${API_SRC}
   DESTINATION c/API
   COMPONENT C_API
 )
-
-#FILE( GLOB API_PYTHON_SRC "API/Python/*.h" "API/Python/*.c")
-
-#INSTALL( FILES ${API_PYTHON_SRC}
-#  DESTINATION c/API/Python
-#  COMPONENT PYTHON_API
-#)
 
 FILE( GLOB CVODE_HDRS "cvode/*.h" )
 

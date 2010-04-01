@@ -1,0 +1,5735 @@
+# This is an automatically generated file by the R module for SWIG.
+
+##   Generated via the command line invocation:
+##	 swig -r tinkercell.i
+
+
+#                         srun.swg                            #
+#
+# This is the basic code that is needed at run time within R to
+# provide and define the relevant classes.  It is included
+# automatically in the generated code by copying the contents of
+# srun.swg into the newly created binding code.
+
+
+# This could be provided as a separate run-time library but this
+# approach allows the code to to be included directly into the
+# generated bindings and so removes the need to have and install an
+# additional library.  We may however end up with multiple copies of
+# this and some confusion at run-time as to which class to use. This
+# is an issue when we use NAMESPACES as we may need to export certain
+# classes.
+
+######################################################################
+
+if(length(getClassDef("RSWIGStruct")) == 0) 
+  setClass("RSWIGStruct", representation("VIRTUAL"))
+
+
+
+if(length(getClassDef("ExternalReference")) == 0) 
+# Should be virtual but this means it loses its slots currently
+#representation("VIRTUAL")
+  setClass("ExternalReference", representation( ref = "externalptr"))
+
+
+
+if(length(getClassDef("NativeRoutinePointer")) == 0) 
+  setClass("NativeRoutinePointer", 
+              representation(parameterTypes = "character",
+                             returnType = "character",
+                             "VIRTUAL"), 
+              contains = "ExternalReference")
+
+if(length(getClassDef("CRoutinePointer")) == 0) 
+  setClass("CRoutinePointer", contains = "NativeRoutinePointer")
+
+
+if(length(getClassDef("EnumerationValue")) == 0) 
+  setClass("EnumerationValue", contains = "integer")
+
+
+if(!isGeneric("copyToR")) 
+ setGeneric("copyToR",
+            function(value, obj = new(gsub("Ref$", "", class(value)))) 
+               standardGeneric("copyToR"
+           ))
+
+setGeneric("delete", function(obj) standardGeneric("delete"))
+
+
+SWIG_createNewRef = 
+function(className, ..., append = TRUE)
+{
+  f = get(paste("new", className, sep = "_"), mode = "function")
+
+  f(...)
+}
+
+if(!isGeneric("copyToC")) 
+ setGeneric("copyToC", 
+             function(value, obj = RSWIG_createNewRef(class(value)))
+              standardGeneric("copyToC"
+            ))
+
+
+# 
+defineEnumeration =
+function(name, .values, where = topenv(parent.frame()), suffix = "Value")
+{
+   # Mirror the class definitions via the E analogous to .__C__
+  defName = paste(".__E__", name, sep = "")
+  assign(defName,  .values,  envir = where)
+
+  if(nchar(suffix))
+    name = paste(name, suffix, sep = "")
+
+  setClass(name, contains = "EnumerationValue", where = where)
+}
+
+enumToInteger <- function(name,type)
+{
+   if (is.character(name)) {
+   ans <- as.integer(get(paste(".__E__", type, sep = ""))[name])
+   if (is.na(ans)) {warning("enum not found ", name, " ", type)}
+   ans
+   } 
+}
+
+enumFromInteger =
+function(i,type)
+{
+  itemlist <- get(paste(".__E__", type, sep=""))
+  names(itemlist)[match(i, itemlist)]
+}
+
+coerceIfNotSubclass =
+function(obj, type) 
+{
+    if(!is(obj, type)) {as(obj, type)} else obj
+}
+
+
+setClass("SWIGArray", representation(dims = "integer"), contains = "ExternalReference")
+
+setMethod("length", "SWIGArray", function(x) x@dims[1])
+
+
+defineEnumeration("SCopyReferences",
+                   .values = c( "FALSE" = 0, "TRUE" = 1, "DEEP" = 2))
+
+assert = 
+function(condition, message = "")
+{
+  if(!condition)
+    stop(message)
+
+  TRUE
+}
+
+
+if(FALSE) {
+print.SWIGFunction =
+function(x, ...)
+ {
+ }
+}
+
+
+#######################################################################
+
+R_SWIG_getCallbackFunctionStack =
+function()
+{
+    # No PACKAGE argument as we don't know what the DLL is.
+  .Call("R_SWIG_debug_getCallbackFunctionData")
+}
+
+R_SWIG_addCallbackFunctionStack =
+function(fun, userData = NULL)
+{
+    # No PACKAGE argument as we don't know what the DLL is.
+  .Call("R_SWIG_R_pushCallbackFunctionData", fun, userData)
+}
+
+
+#######################################################################
+
+
+setClass('_p_ArrayOfStrings', contains = 'ExternalReference')
+setClass("ArrayOfStrings",
+    representation(
+        length = "numeric",
+        strings = "character"),
+        contains = "RSWIGStruct")
+
+
+# End class ArrayOfStrings
+
+setClass('_p_ArrayOfItems', contains = 'ExternalReference')
+setClass("ArrayOfItems",
+    representation(
+        length = "numeric"),
+        contains = "RSWIGStruct")
+
+
+# End class ArrayOfItems
+
+setClass('_p_Matrix', contains = 'ExternalReference')
+setClass("Matrix",
+    representation(
+        rows = "numeric",
+        cols = "numeric"),
+        contains = "RSWIGStruct")
+
+
+# End class Matrix
+
+setClass('_p_TableOfStrings', contains = 'ExternalReference')
+setClass("TableOfStrings",
+    representation(
+        rows = "numeric",
+        cols = "numeric",
+        strings = "character"),
+        contains = "RSWIGStruct")
+
+
+# End class TableOfStrings
+
+setClass('_p_f_Matrix__void',
+        prototype = list(parameterTypes = c('_Matrix'),
+                        returnType = '_p_f_Matrix__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___ArrayOfItems',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___ArrayOfItems'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__ArrayOfItems',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__ArrayOfItems'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems',
+        prototype = list(parameterTypes = c('_p_char', '_ArrayOfItems'),
+                        returnType = '_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__p_void',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__p_void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfStrings__ArrayOfItems',
+        prototype = list(parameterTypes = c('_ArrayOfStrings'),
+                        returnType = '_p_f_ArrayOfStrings__ArrayOfItems'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__void',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___void',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__p_char',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__p_char'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems__ArrayOfStrings',
+        prototype = list(parameterTypes = c('_ArrayOfItems'),
+                        returnType = '_p_f_ArrayOfItems__ArrayOfStrings'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__double',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__double'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems__Matrix',
+        prototype = list(parameterTypes = c('_ArrayOfItems'),
+                        returnType = '_p_f_ArrayOfItems__Matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_double_double__void',
+        prototype = list(parameterTypes = c('_p_void', '_double', '_double'),
+                        returnType = '_p_f_p_void_double_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_Matrix__void',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_Matrix'),
+                        returnType = '_p_f_ArrayOfItems_Matrix__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_double_double__void',
+        prototype = list(parameterTypes = c('_double', '_double'),
+                        returnType = '_p_f_double_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___int',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___p_char',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___p_char'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_Matrix', '_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void',
+        prototype = list(parameterTypes = c('_Matrix', '_p_char', '_p_f_Matrix__void'),
+                        returnType = '_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_Matrix_p_f_Matrix__void__void',
+        prototype = list(parameterTypes = c('_p_void', '_Matrix', '_p_f_Matrix__void'),
+                        returnType = '_p_f_p_void_Matrix_p_f_Matrix__void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_int_int_ArrayOfStrings__void',
+        prototype = list(parameterTypes = c('_p_char', '_int', '_int', '_ArrayOfStrings'),
+                        returnType = '_p_f_p_q_const__char_int_int_ArrayOfStrings__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_int_int__void',
+        prototype = list(parameterTypes = c('_p_char', '_int', '_int'),
+                        returnType = '_p_f_p_q_const__char_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__ArrayOfItems',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__ArrayOfItems'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__p_void',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__p_void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__Matrix',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__Matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char_Matrix__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_char', '_Matrix'),
+                        returnType = '_p_f_p_void_p_q_const__char_Matrix__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__TableOfStrings',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__TableOfStrings'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char_TableOfStrings__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_char', '_TableOfStrings'),
+                        returnType = '_p_f_p_void_p_q_const__char_TableOfStrings__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__ArrayOfStrings',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__ArrayOfStrings'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_double__void',
+        prototype = list(parameterTypes = c('_double'),
+                        returnType = '_p_f_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__p_char',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__p_char'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int',
+        prototype = list(parameterTypes = c('_p_char', '_ArrayOfStrings', '_p_char', '_int'),
+                        returnType = '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__double',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__double'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfStrings_p_double__void',
+        prototype = list(parameterTypes = c('_ArrayOfStrings', '_p_double'),
+                        returnType = '_p_f_ArrayOfStrings_p_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char'),
+                        returnType = '_p_f_p_q_const__char__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_int__void',
+        prototype = list(parameterTypes = c('_p_void', '_int'),
+                        returnType = '_p_f_p_void_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void__int',
+        prototype = list(parameterTypes = c('_p_void'),
+                        returnType = '_p_f_p_void__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_int_int_int_int__void',
+        prototype = list(parameterTypes = c('_p_void', '_int', '_int', '_int', '_int'),
+                        returnType = '_p_f_p_void_int_int_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__p_char',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__p_char'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
+                        returnType = '_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_char', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char__double',
+        prototype = list(parameterTypes = c('_p_void', '_p_char'),
+                        returnType = '_p_f_p_void_p_q_const__char__double'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_ArrayOfStrings__Matrix',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
+                        returnType = '_p_f_ArrayOfItems_ArrayOfStrings__Matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_q_const__char_double__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_char', '_double'),
+                        returnType = '_p_f_p_void_p_q_const__char_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfItems', '_p_char', '_p_char'),
+                        returnType = '_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_void_int__double',
+        prototype = list(parameterTypes = c('_p_void', '_p_void', '_int'),
+                        returnType = '_p_f_p_void_p_void_int__double'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_p_void_int_double_double__void',
+        prototype = list(parameterTypes = c('_p_void', '_p_void', '_int', '_double', '_double'),
+                        returnType = '_p_f_p_void_p_void_int_double_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int__void',
+        prototype = list(parameterTypes = c('_int'),
+                        returnType = '_p_f_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_double_int__void',
+        prototype = list(parameterTypes = c('_p_void', '_double', '_int'),
+                        returnType = '_p_f_p_void_double_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems__void',
+        prototype = list(parameterTypes = c('_ArrayOfItems'),
+                        returnType = '_p_f_ArrayOfItems__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char__p_void',
+        prototype = list(parameterTypes = c('_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__p_void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_ArrayOfStrings__void',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfStrings'),
+                        returnType = '_p_f_ArrayOfItems_ArrayOfStrings__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_void__void',
+        prototype = list(parameterTypes = c('_void'),
+                        returnType = '_p_f_void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_Matrix__int',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_Matrix'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_Matrix__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void',
+        prototype = list(parameterTypes = c('_p_f___void', '_p_char', '_p_char', '_p_char', '_p_char', '_p_char', '_int', '_int', '_int'),
+                        returnType = '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_f_void__void__void',
+        prototype = list(parameterTypes = c('_p_f_void__void'),
+                        returnType = '_p_f_p_f_void__void__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_char', '_p_char', '_p_char', '_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_Matrix_int_p_q_const__char_int__void',
+        prototype = list(parameterTypes = c('_Matrix', '_int', '_p_char', '_int'),
+                        returnType = '_p_f_Matrix_int_p_q_const__char_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_Matrix_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_Matrix', '_p_char'),
+                        returnType = '_p_f_Matrix_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_Matrix_double_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_Matrix', '_double', '_p_char'),
+                        returnType = '_p_f_Matrix_double_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int_int__void',
+        prototype = list(parameterTypes = c('_int', '_int'),
+                        returnType = '_p_f_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int__Matrix',
+        prototype = list(parameterTypes = c('_int'),
+                        returnType = '_p_f_int__Matrix'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_ArrayOfItems__int',
+        prototype = list(parameterTypes = c('_p_char', '_ArrayOfItems'),
+                        returnType = '_p_f_p_q_const__char_ArrayOfItems__int'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f___ArrayOfStrings',
+        prototype = list(parameterTypes = c(),
+                        returnType = '_p_f___ArrayOfStrings'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_q_const__char_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_p_char', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_double__void',
+        prototype = list(parameterTypes = c('_p_void', '_double'),
+                        returnType = '_p_f_p_void_double__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_int_int_int_int_int_int__void',
+        prototype = list(parameterTypes = c('_int', '_int', '_int', '_int', '_int', '_int'),
+                        returnType = '_p_f_int_int_int_int_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_int_int_int__void',
+        prototype = list(parameterTypes = c('_p_void', '_int', '_int', '_int'),
+                        returnType = '_p_f_p_void_int_int_int__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_p_void_ArrayOfStrings__void',
+        prototype = list(parameterTypes = c('_p_void', '_ArrayOfStrings'),
+                        returnType = '_p_f_p_void_ArrayOfStrings__void'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems__p_char',
+        prototype = list(parameterTypes = c('_ArrayOfItems'),
+                        returnType = '_p_f_ArrayOfItems__p_char'),
+        contains = 'CRoutinePointer')
+
+##
+setClass('_p_f_ArrayOfItems_p_q_const__char__void',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_p_char'),
+                        returnType = '_p_f_ArrayOfItems_p_q_const__char__void'),
+        contains = 'CRoutinePointer')
+
+##
+
+
+
+setMethod('[', "ExternalReference",
+function(x,i,j, ..., drop=TRUE) 
+if (!is.null(x$"__getitem__")) 
+sapply(i, function(n) x$"__getitem__"(i=as.integer(n-1))))
+
+setMethod('[<-' , "ExternalReference",
+function(x,i,j, ..., value) 
+if (!is.null(x$"__setitem__")) {
+sapply(1:length(i), function(n) 
+x$"__setitem__"(i=as.integer(i[n]-1), x=value[n]))
+x
+})
+
+setAs('ExternalReference', 'character',
+function(from) {if (!is.null(from$"__str__")) from$"__str__"()})
+
+setMethod('print', 'ExternalReference',
+function(x) {print(as(x, "character"))})
+
+# Start of ArrayOfStrings_length_set
+
+`ArrayOfStrings_length_set` = function(self, s_length)
+{
+  s_length = as(s_length, "integer");     
+  
+  if(length(s_length) > 1) {
+    Rf_warning("using only the first element of s_length")
+  }
+  
+  .Call('R_swig_ArrayOfStrings_length_set', self, s_length, PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfStrings_length_set`, 'returnType') = 'void'
+attr(`ArrayOfStrings_length_set`, "inputTypes") = c('_p_ArrayOfStrings', 'numeric')
+class(`ArrayOfStrings_length_set`) = c("SWIGFunction", class('ArrayOfStrings_length_set'))
+
+# Start of ArrayOfStrings_length_get
+
+`ArrayOfStrings_length_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_ArrayOfStrings_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfStrings_length_get`, 'returnType') = 'numeric'
+attr(`ArrayOfStrings_length_get`, "inputTypes") = c('_p_ArrayOfStrings')
+class(`ArrayOfStrings_length_get`) = c("SWIGFunction", class('ArrayOfStrings_length_get'))
+
+# Start of ArrayOfStrings_strings_set
+
+`ArrayOfStrings_strings_set` = function(self, s_strings)
+{
+  .Call('R_swig_ArrayOfStrings_strings_set', self, s_strings, PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfStrings_strings_set`, 'returnType') = 'void'
+attr(`ArrayOfStrings_strings_set`, "inputTypes") = c('_p_ArrayOfStrings', 'character')
+class(`ArrayOfStrings_strings_set`) = c("SWIGFunction", class('ArrayOfStrings_strings_set'))
+
+# Start of ArrayOfStrings_strings_get
+
+`ArrayOfStrings_strings_get` = function(self)
+{
+  ans = .Call('R_swig_ArrayOfStrings_strings_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_p_char"
+  
+  ans
+  
+}
+
+attr(`ArrayOfStrings_strings_get`, 'returnType') = 'character'
+attr(`ArrayOfStrings_strings_get`, "inputTypes") = c('_p_ArrayOfStrings')
+class(`ArrayOfStrings_strings_get`) = c("SWIGFunction", class('ArrayOfStrings_strings_get'))
+
+# Start of new_ArrayOfStrings
+
+`ArrayOfStrings` = function()
+{
+  ans = .Call('R_swig_new_ArrayOfStrings', PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`ArrayOfStrings`, 'returnType') = '_p_ArrayOfStrings'
+class(`ArrayOfStrings`) = c("SWIGFunction", class('ArrayOfStrings'))
+
+# Start of delete_ArrayOfStrings
+
+`delete_ArrayOfStrings` = function(self)
+{
+  .Call('R_swig_delete_ArrayOfStrings', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_ArrayOfStrings`, 'returnType') = 'void'
+attr(`delete_ArrayOfStrings`, "inputTypes") = c('_p_ArrayOfStrings')
+class(`delete_ArrayOfStrings`) = c("SWIGFunction", class('delete_ArrayOfStrings'))
+
+# Start of accessor method for ArrayOfStrings
+setMethod('$', '_p_ArrayOfStrings', function(x, name)
+
+{
+  accessorFuns = list('length' = ArrayOfStrings_length_get, 'strings' = ArrayOfStrings_strings_get)
+  vaccessors = c('length', 'strings')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for ArrayOfStrings
+# Start of accessor method for ArrayOfStrings
+setMethod('$<-', '_p_ArrayOfStrings', function(x, name, value)
+
+{
+  accessorFuns = list('length' = ArrayOfStrings_length_set, 'strings' = ArrayOfStrings_strings_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_ArrayOfStrings', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('length' = ArrayOfStrings_length_set, 'strings' = ArrayOfStrings_strings_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for ArrayOfStrings
+setMethod('delete', '_p_ArrayOfStrings', function(obj) {delete_ArrayOfStrings(obj)})
+# Start definition of copy functions & methods for ArrayOfStrings
+CopyToR_ArrayOfStrings = function(value, obj = new("ArrayOfStrings"))
+{
+  obj@length = value$length
+  obj@strings = value$strings
+  obj
+}
+
+
+
+CopyToC_ArrayOfStrings = function(value, obj)
+{
+  obj$length = value@length
+  obj$strings = value@strings
+  obj
+}
+
+
+
+# Start definition of copy methods for ArrayOfStrings
+setMethod('copyToR', '_p_ArrayOfStrings', CopyToR_ArrayOfStrings)
+setMethod('copyToC', 'ArrayOfStrings', CopyToC_ArrayOfStrings)
+
+# End definition of copy methods for ArrayOfStrings
+# End definition of copy functions & methods for ArrayOfStrings
+# Start of ArrayOfItems_length_set
+
+`ArrayOfItems_length_set` = function(self, s_length)
+{
+  s_length = as(s_length, "integer");     
+  
+  if(length(s_length) > 1) {
+    Rf_warning("using only the first element of s_length")
+  }
+  
+  .Call('R_swig_ArrayOfItems_length_set', self, s_length, PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfItems_length_set`, 'returnType') = 'void'
+attr(`ArrayOfItems_length_set`, "inputTypes") = c('_p_ArrayOfItems', 'numeric')
+class(`ArrayOfItems_length_set`) = c("SWIGFunction", class('ArrayOfItems_length_set'))
+
+# Start of ArrayOfItems_length_get
+
+`ArrayOfItems_length_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_ArrayOfItems_length_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfItems_length_get`, 'returnType') = 'numeric'
+attr(`ArrayOfItems_length_get`, "inputTypes") = c('_p_ArrayOfItems')
+class(`ArrayOfItems_length_get`) = c("SWIGFunction", class('ArrayOfItems_length_get'))
+
+# Start of ArrayOfItems_items_set
+
+`ArrayOfItems_items_set` = function(self, s_items)
+{
+  .Call('R_swig_ArrayOfItems_items_set', self, s_items, PACKAGE='tinkercell')
+  
+}
+
+attr(`ArrayOfItems_items_set`, 'returnType') = 'void'
+attr(`ArrayOfItems_items_set`, "inputTypes") = c('_p_ArrayOfItems', '_p_p_void')
+class(`ArrayOfItems_items_set`) = c("SWIGFunction", class('ArrayOfItems_items_set'))
+
+# Start of ArrayOfItems_items_get
+
+`ArrayOfItems_items_get` = function(self)
+{
+  ans = .Call('R_swig_ArrayOfItems_items_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_p_void"
+  
+  ans
+  
+}
+
+attr(`ArrayOfItems_items_get`, 'returnType') = '_p_p_void'
+attr(`ArrayOfItems_items_get`, "inputTypes") = c('_p_ArrayOfItems')
+class(`ArrayOfItems_items_get`) = c("SWIGFunction", class('ArrayOfItems_items_get'))
+
+# Start of new_ArrayOfItems
+
+`ArrayOfItems` = function()
+{
+  ans = .Call('R_swig_new_ArrayOfItems', PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`ArrayOfItems`, 'returnType') = '_p_ArrayOfItems'
+class(`ArrayOfItems`) = c("SWIGFunction", class('ArrayOfItems'))
+
+# Start of delete_ArrayOfItems
+
+`delete_ArrayOfItems` = function(self)
+{
+  .Call('R_swig_delete_ArrayOfItems', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_ArrayOfItems`, 'returnType') = 'void'
+attr(`delete_ArrayOfItems`, "inputTypes") = c('_p_ArrayOfItems')
+class(`delete_ArrayOfItems`) = c("SWIGFunction", class('delete_ArrayOfItems'))
+
+# Start of accessor method for ArrayOfItems
+setMethod('$', '_p_ArrayOfItems', function(x, name)
+
+{
+  accessorFuns = list('length' = ArrayOfItems_length_get, 'items' = ArrayOfItems_items_get)
+  vaccessors = c('length', 'items')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for ArrayOfItems
+# Start of accessor method for ArrayOfItems
+setMethod('$<-', '_p_ArrayOfItems', function(x, name, value)
+
+{
+  accessorFuns = list('length' = ArrayOfItems_length_set, 'items' = ArrayOfItems_items_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_ArrayOfItems', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('length' = ArrayOfItems_length_set, 'items' = ArrayOfItems_items_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for ArrayOfItems
+setMethod('delete', '_p_ArrayOfItems', function(obj) {delete_ArrayOfItems(obj)})
+# Start definition of copy functions & methods for ArrayOfItems
+CopyToR_ArrayOfItems = function(value, obj = new("ArrayOfItems"))
+{
+  obj@length = value$length
+  obj
+}
+
+
+
+CopyToC_ArrayOfItems = function(value, obj)
+{
+  obj$length = value@length
+  obj
+}
+
+
+
+# Start definition of copy methods for ArrayOfItems
+setMethod('copyToR', '_p_ArrayOfItems', CopyToR_ArrayOfItems)
+setMethod('copyToC', 'ArrayOfItems', CopyToC_ArrayOfItems)
+
+# End definition of copy methods for ArrayOfItems
+# End definition of copy functions & methods for ArrayOfItems
+# Start of Matrix_rows_set
+
+`Matrix_rows_set` = function(self, s_rows)
+{
+  s_rows = as(s_rows, "integer");     
+  
+  if(length(s_rows) > 1) {
+    Rf_warning("using only the first element of s_rows")
+  }
+  
+  .Call('R_swig_Matrix_rows_set', self, s_rows, PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_rows_set`, 'returnType') = 'void'
+attr(`Matrix_rows_set`, "inputTypes") = c('_p_Matrix', 'numeric')
+class(`Matrix_rows_set`) = c("SWIGFunction", class('Matrix_rows_set'))
+
+# Start of Matrix_rows_get
+
+`Matrix_rows_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_Matrix_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_rows_get`, 'returnType') = 'numeric'
+attr(`Matrix_rows_get`, "inputTypes") = c('_p_Matrix')
+class(`Matrix_rows_get`) = c("SWIGFunction", class('Matrix_rows_get'))
+
+# Start of Matrix_cols_set
+
+`Matrix_cols_set` = function(self, s_cols)
+{
+  s_cols = as(s_cols, "integer");     
+  
+  if(length(s_cols) > 1) {
+    Rf_warning("using only the first element of s_cols")
+  }
+  
+  .Call('R_swig_Matrix_cols_set', self, s_cols, PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_cols_set`, 'returnType') = 'void'
+attr(`Matrix_cols_set`, "inputTypes") = c('_p_Matrix', 'numeric')
+class(`Matrix_cols_set`) = c("SWIGFunction", class('Matrix_cols_set'))
+
+# Start of Matrix_cols_get
+
+`Matrix_cols_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_Matrix_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_cols_get`, 'returnType') = 'numeric'
+attr(`Matrix_cols_get`, "inputTypes") = c('_p_Matrix')
+class(`Matrix_cols_get`) = c("SWIGFunction", class('Matrix_cols_get'))
+
+# Start of Matrix_values_set
+
+`Matrix_values_set` = function(self, s_values)
+{
+  .Call('R_swig_Matrix_values_set', self, s_values, PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_values_set`, 'returnType') = 'void'
+attr(`Matrix_values_set`, "inputTypes") = c('_p_Matrix', 'numeric')
+class(`Matrix_values_set`) = c("SWIGFunction", class('Matrix_values_set'))
+
+# Start of Matrix_values_get
+
+`Matrix_values_get` = function(self)
+{
+  ans = .Call('R_swig_Matrix_values_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_double"
+  
+  ans
+  
+}
+
+attr(`Matrix_values_get`, 'returnType') = 'numeric'
+attr(`Matrix_values_get`, "inputTypes") = c('_p_Matrix')
+class(`Matrix_values_get`) = c("SWIGFunction", class('Matrix_values_get'))
+
+# Start of Matrix_rownames_set
+
+`Matrix_rownames_set` = function(self, s_rownames)
+{
+  .Call('R_swig_Matrix_rownames_set', self, s_rownames, PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_rownames_set`, 'returnType') = 'void'
+attr(`Matrix_rownames_set`, "inputTypes") = c('_p_Matrix', '_p_ArrayOfStrings')
+class(`Matrix_rownames_set`) = c("SWIGFunction", class('Matrix_rownames_set'))
+
+# Start of Matrix_rownames_get
+
+`Matrix_rownames_get` = function(self)
+{
+  ans = .Call('R_swig_Matrix_rownames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`Matrix_rownames_get`, 'returnType') = '_p_ArrayOfStrings'
+attr(`Matrix_rownames_get`, "inputTypes") = c('_p_Matrix')
+class(`Matrix_rownames_get`) = c("SWIGFunction", class('Matrix_rownames_get'))
+
+# Start of Matrix_colnames_set
+
+`Matrix_colnames_set` = function(self, s_colnames)
+{
+  .Call('R_swig_Matrix_colnames_set', self, s_colnames, PACKAGE='tinkercell')
+  
+}
+
+attr(`Matrix_colnames_set`, 'returnType') = 'void'
+attr(`Matrix_colnames_set`, "inputTypes") = c('_p_Matrix', '_p_ArrayOfStrings')
+class(`Matrix_colnames_set`) = c("SWIGFunction", class('Matrix_colnames_set'))
+
+# Start of Matrix_colnames_get
+
+`Matrix_colnames_get` = function(self)
+{
+  ans = .Call('R_swig_Matrix_colnames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`Matrix_colnames_get`, 'returnType') = '_p_ArrayOfStrings'
+attr(`Matrix_colnames_get`, "inputTypes") = c('_p_Matrix')
+class(`Matrix_colnames_get`) = c("SWIGFunction", class('Matrix_colnames_get'))
+
+# Start of new_Matrix
+
+`Matrix` = function()
+{
+  ans = .Call('R_swig_new_Matrix', PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`Matrix`, 'returnType') = '_p_Matrix'
+class(`Matrix`) = c("SWIGFunction", class('Matrix'))
+
+# Start of delete_Matrix
+
+`delete_Matrix` = function(self)
+{
+  .Call('R_swig_delete_Matrix', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_Matrix`, 'returnType') = 'void'
+attr(`delete_Matrix`, "inputTypes") = c('_p_Matrix')
+class(`delete_Matrix`) = c("SWIGFunction", class('delete_Matrix'))
+
+# Start of accessor method for Matrix
+setMethod('$', '_p_Matrix', function(x, name)
+
+{
+  accessorFuns = list('rows' = Matrix_rows_get, 'cols' = Matrix_cols_get, 'values' = Matrix_values_get, 'rownames' = Matrix_rownames_get, 'colnames' = Matrix_colnames_get)
+  vaccessors = c('rows', 'cols', 'values', 'rownames', 'colnames')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for Matrix
+# Start of accessor method for Matrix
+setMethod('$<-', '_p_Matrix', function(x, name, value)
+
+{
+  accessorFuns = list('rows' = Matrix_rows_set, 'cols' = Matrix_cols_set, 'values' = Matrix_values_set, 'rownames' = Matrix_rownames_set, 'colnames' = Matrix_colnames_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_Matrix', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('rows' = Matrix_rows_set, 'cols' = Matrix_cols_set, 'values' = Matrix_values_set, 'rownames' = Matrix_rownames_set, 'colnames' = Matrix_colnames_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for Matrix
+setMethod('delete', '_p_Matrix', function(obj) {delete_Matrix(obj)})
+# Start definition of copy functions & methods for Matrix
+CopyToR_Matrix = function(value, obj = new("Matrix"))
+{
+  obj@rows = value$rows
+  obj@cols = value$cols
+  obj
+}
+
+
+
+CopyToC_Matrix = function(value, obj)
+{
+  obj$rows = value@rows
+  obj$cols = value@cols
+  obj
+}
+
+
+
+# Start definition of copy methods for Matrix
+setMethod('copyToR', '_p_Matrix', CopyToR_Matrix)
+setMethod('copyToC', 'Matrix', CopyToC_Matrix)
+
+# End definition of copy methods for Matrix
+# End definition of copy functions & methods for Matrix
+# Start of TableOfStrings_rows_set
+
+`TableOfStrings_rows_set` = function(self, s_rows)
+{
+  s_rows = as(s_rows, "integer");     
+  
+  if(length(s_rows) > 1) {
+    Rf_warning("using only the first element of s_rows")
+  }
+  
+  .Call('R_swig_TableOfStrings_rows_set', self, s_rows, PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_rows_set`, 'returnType') = 'void'
+attr(`TableOfStrings_rows_set`, "inputTypes") = c('_p_TableOfStrings', 'numeric')
+class(`TableOfStrings_rows_set`) = c("SWIGFunction", class('TableOfStrings_rows_set'))
+
+# Start of TableOfStrings_rows_get
+
+`TableOfStrings_rows_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_TableOfStrings_rows_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_rows_get`, 'returnType') = 'numeric'
+attr(`TableOfStrings_rows_get`, "inputTypes") = c('_p_TableOfStrings')
+class(`TableOfStrings_rows_get`) = c("SWIGFunction", class('TableOfStrings_rows_get'))
+
+# Start of TableOfStrings_cols_set
+
+`TableOfStrings_cols_set` = function(self, s_cols)
+{
+  s_cols = as(s_cols, "integer");     
+  
+  if(length(s_cols) > 1) {
+    Rf_warning("using only the first element of s_cols")
+  }
+  
+  .Call('R_swig_TableOfStrings_cols_set', self, s_cols, PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_cols_set`, 'returnType') = 'void'
+attr(`TableOfStrings_cols_set`, "inputTypes") = c('_p_TableOfStrings', 'numeric')
+class(`TableOfStrings_cols_set`) = c("SWIGFunction", class('TableOfStrings_cols_set'))
+
+# Start of TableOfStrings_cols_get
+
+`TableOfStrings_cols_get` = function(self, .copy = FALSE)
+{
+  .Call('R_swig_TableOfStrings_cols_get', self, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_cols_get`, 'returnType') = 'numeric'
+attr(`TableOfStrings_cols_get`, "inputTypes") = c('_p_TableOfStrings')
+class(`TableOfStrings_cols_get`) = c("SWIGFunction", class('TableOfStrings_cols_get'))
+
+# Start of TableOfStrings_strings_set
+
+`TableOfStrings_strings_set` = function(self, s_strings)
+{
+  .Call('R_swig_TableOfStrings_strings_set', self, s_strings, PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_strings_set`, 'returnType') = 'void'
+attr(`TableOfStrings_strings_set`, "inputTypes") = c('_p_TableOfStrings', 'character')
+class(`TableOfStrings_strings_set`) = c("SWIGFunction", class('TableOfStrings_strings_set'))
+
+# Start of TableOfStrings_strings_get
+
+`TableOfStrings_strings_get` = function(self)
+{
+  ans = .Call('R_swig_TableOfStrings_strings_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_p_char"
+  
+  ans
+  
+}
+
+attr(`TableOfStrings_strings_get`, 'returnType') = 'character'
+attr(`TableOfStrings_strings_get`, "inputTypes") = c('_p_TableOfStrings')
+class(`TableOfStrings_strings_get`) = c("SWIGFunction", class('TableOfStrings_strings_get'))
+
+# Start of TableOfStrings_rownames_set
+
+`TableOfStrings_rownames_set` = function(self, s_rownames)
+{
+  .Call('R_swig_TableOfStrings_rownames_set', self, s_rownames, PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_rownames_set`, 'returnType') = 'void'
+attr(`TableOfStrings_rownames_set`, "inputTypes") = c('_p_TableOfStrings', '_p_ArrayOfStrings')
+class(`TableOfStrings_rownames_set`) = c("SWIGFunction", class('TableOfStrings_rownames_set'))
+
+# Start of TableOfStrings_rownames_get
+
+`TableOfStrings_rownames_get` = function(self)
+{
+  ans = .Call('R_swig_TableOfStrings_rownames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`TableOfStrings_rownames_get`, 'returnType') = '_p_ArrayOfStrings'
+attr(`TableOfStrings_rownames_get`, "inputTypes") = c('_p_TableOfStrings')
+class(`TableOfStrings_rownames_get`) = c("SWIGFunction", class('TableOfStrings_rownames_get'))
+
+# Start of TableOfStrings_colnames_set
+
+`TableOfStrings_colnames_set` = function(self, s_colnames)
+{
+  .Call('R_swig_TableOfStrings_colnames_set', self, s_colnames, PACKAGE='tinkercell')
+  
+}
+
+attr(`TableOfStrings_colnames_set`, 'returnType') = 'void'
+attr(`TableOfStrings_colnames_set`, "inputTypes") = c('_p_TableOfStrings', '_p_ArrayOfStrings')
+class(`TableOfStrings_colnames_set`) = c("SWIGFunction", class('TableOfStrings_colnames_set'))
+
+# Start of TableOfStrings_colnames_get
+
+`TableOfStrings_colnames_get` = function(self)
+{
+  ans = .Call('R_swig_TableOfStrings_colnames_get', self, PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`TableOfStrings_colnames_get`, 'returnType') = '_p_ArrayOfStrings'
+attr(`TableOfStrings_colnames_get`, "inputTypes") = c('_p_TableOfStrings')
+class(`TableOfStrings_colnames_get`) = c("SWIGFunction", class('TableOfStrings_colnames_get'))
+
+# Start of new_TableOfStrings
+
+`TableOfStrings` = function()
+{
+  ans = .Call('R_swig_new_TableOfStrings', PACKAGE='tinkercell')
+  class(ans) <- "_p_TableOfStrings"
+  
+  ans
+  
+}
+
+attr(`TableOfStrings`, 'returnType') = '_p_TableOfStrings'
+class(`TableOfStrings`) = c("SWIGFunction", class('TableOfStrings'))
+
+# Start of delete_TableOfStrings
+
+`delete_TableOfStrings` = function(self)
+{
+  .Call('R_swig_delete_TableOfStrings', self, PACKAGE='tinkercell')
+  
+}
+
+attr(`delete_TableOfStrings`, 'returnType') = 'void'
+attr(`delete_TableOfStrings`, "inputTypes") = c('_p_TableOfStrings')
+class(`delete_TableOfStrings`) = c("SWIGFunction", class('delete_TableOfStrings'))
+
+# Start of accessor method for TableOfStrings
+setMethod('$', '_p_TableOfStrings', function(x, name)
+
+{
+  accessorFuns = list('rows' = TableOfStrings_rows_get, 'cols' = TableOfStrings_cols_get, 'strings' = TableOfStrings_strings_get, 'rownames' = TableOfStrings_rownames_get, 'colnames' = TableOfStrings_colnames_get)
+  vaccessors = c('rows', 'cols', 'strings', 'rownames', 'colnames')
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name))
+  f = accessorFuns[[idx]]
+  formals(f)[[1]] = x
+  if (is.na(match(name, vaccessors))) f else f(x)
+}
+
+
+)
+# end of accessor method for TableOfStrings
+# Start of accessor method for TableOfStrings
+setMethod('$<-', '_p_TableOfStrings', function(x, name, value)
+
+{
+  accessorFuns = list('rows' = TableOfStrings_rows_set, 'cols' = TableOfStrings_cols_set, 'strings' = TableOfStrings_strings_set, 'rownames' = TableOfStrings_rownames_set, 'colnames' = TableOfStrings_colnames_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+setMethod('[[<-', c('_p_TableOfStrings', 'character'),function(x, i, j, ..., value)
+
+{
+  name = i
+  accessorFuns = list('rows' = TableOfStrings_rows_set, 'cols' = TableOfStrings_cols_set, 'strings' = TableOfStrings_strings_set, 'rownames' = TableOfStrings_rownames_set, 'colnames' = TableOfStrings_colnames_set)
+  idx = pmatch(name, names(accessorFuns))
+  if(is.na(idx)) 
+  return(callNextMethod(x, name, value))
+  f = accessorFuns[[idx]]
+  f(x, value)
+  x
+}
+
+
+)
+# end of accessor method for TableOfStrings
+setMethod('delete', '_p_TableOfStrings', function(obj) {delete_TableOfStrings(obj)})
+# Start definition of copy functions & methods for TableOfStrings
+CopyToR_TableOfStrings = function(value, obj = new("TableOfStrings"))
+{
+  obj@rows = value$rows
+  obj@cols = value$cols
+  obj@strings = value$strings
+  obj
+}
+
+
+
+CopyToC_TableOfStrings = function(value, obj)
+{
+  obj$rows = value@rows
+  obj$cols = value@cols
+  obj$strings = value@strings
+  obj
+}
+
+
+
+# Start definition of copy methods for TableOfStrings
+setMethod('copyToR', '_p_TableOfStrings', CopyToR_TableOfStrings)
+setMethod('copyToC', 'TableOfStrings', CopyToC_TableOfStrings)
+
+# End definition of copy methods for TableOfStrings
+# End definition of copy functions & methods for TableOfStrings
+# Start of newMatrix
+
+`newMatrix` = function(rows, cols, .copy = FALSE)
+{
+  rows = as(rows, "integer");     
+  
+  if(length(rows) > 1) {
+    Rf_warning("using only the first element of rows")
+  }
+  
+  cols = as(cols, "integer");     
+  
+  if(length(cols) > 1) {
+    Rf_warning("using only the first element of cols")
+  }
+  
+  ans = .Call('R_swig_newMatrix', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`newMatrix`, 'returnType') = '_p_Matrix'
+attr(`newMatrix`, "inputTypes") = c('numeric', 'numeric')
+class(`newMatrix`) = c("SWIGFunction", class('newMatrix'))
+
+# Start of newTableOfStrings
+
+`newTableOfStrings` = function(rows, cols, .copy = FALSE)
+{
+  rows = as(rows, "integer");     
+  
+  if(length(rows) > 1) {
+    Rf_warning("using only the first element of rows")
+  }
+  
+  cols = as(cols, "integer");     
+  
+  if(length(cols) > 1) {
+    Rf_warning("using only the first element of cols")
+  }
+  
+  ans = .Call('R_swig_newTableOfStrings', rows, cols, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_TableOfStrings"
+  
+  ans
+  
+}
+
+attr(`newTableOfStrings`, 'returnType') = '_p_TableOfStrings'
+attr(`newTableOfStrings`, "inputTypes") = c('numeric', 'numeric')
+class(`newTableOfStrings`) = c("SWIGFunction", class('newTableOfStrings'))
+
+# Start of newArrayOfStrings
+
+`newArrayOfStrings` = function(len, .copy = FALSE)
+{
+  len = as(len, "integer");     
+  
+  if(length(len) > 1) {
+    Rf_warning("using only the first element of len")
+  }
+  
+  ans = .Call('R_swig_newArrayOfStrings', len, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`newArrayOfStrings`, 'returnType') = '_p_ArrayOfStrings'
+attr(`newArrayOfStrings`, "inputTypes") = c('numeric')
+class(`newArrayOfStrings`) = c("SWIGFunction", class('newArrayOfStrings'))
+
+# Start of newArrayOfItems
+
+`newArrayOfItems` = function(len, .copy = FALSE)
+{
+  len = as(len, "integer");     
+  
+  if(length(len) > 1) {
+    Rf_warning("using only the first element of len")
+  }
+  
+  ans = .Call('R_swig_newArrayOfItems', len, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`newArrayOfItems`, 'returnType') = '_p_ArrayOfItems'
+attr(`newArrayOfItems`, "inputTypes") = c('numeric')
+class(`newArrayOfItems`) = c("SWIGFunction", class('newArrayOfItems'))
+
+# Start of getValue
+
+`getValue` = function(M, i, j, .copy = FALSE)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  .Call('R_swig_getValue', M, i, j, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`getValue`, 'returnType') = 'numeric'
+attr(`getValue`, "inputTypes") = c('_p_Matrix', 'numeric', 'numeric')
+class(`getValue`) = c("SWIGFunction", class('getValue'))
+
+# Start of setValue
+
+`setValue` = function(M, i, j, d)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  
+  .Call('R_swig_setValue', M, i, j, d, PACKAGE='tinkercell')
+  
+}
+
+attr(`setValue`, 'returnType') = 'void'
+attr(`setValue`, "inputTypes") = c('_p_Matrix', 'numeric', 'numeric', 'numeric')
+class(`setValue`) = c("SWIGFunction", class('setValue'))
+
+# Start of getRowName
+
+`getRowName` = function(M, i)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  .Call('R_swig_getRowName', M, i, PACKAGE='tinkercell')
+  
+}
+
+attr(`getRowName`, 'returnType') = 'character'
+attr(`getRowName`, "inputTypes") = c('_p_Matrix', 'numeric')
+class(`getRowName`) = c("SWIGFunction", class('getRowName'))
+
+# Start of setRowName
+
+`setRowName` = function(M, i, s)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  s = as(s, "character") 
+  .Call('R_swig_setRowName', M, i, s, PACKAGE='tinkercell')
+  
+}
+
+attr(`setRowName`, 'returnType') = 'void'
+attr(`setRowName`, "inputTypes") = c('_p_Matrix', 'numeric', 'character')
+class(`setRowName`) = c("SWIGFunction", class('setRowName'))
+
+# Start of getColumnName
+
+`getColumnName` = function(M, j)
+{
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  .Call('R_swig_getColumnName', M, j, PACKAGE='tinkercell')
+  
+}
+
+attr(`getColumnName`, 'returnType') = 'character'
+attr(`getColumnName`, "inputTypes") = c('_p_Matrix', 'numeric')
+class(`getColumnName`) = c("SWIGFunction", class('getColumnName'))
+
+# Start of setColumnName
+
+`setColumnName` = function(M, j, s)
+{
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  s = as(s, "character") 
+  .Call('R_swig_setColumnName', M, j, s, PACKAGE='tinkercell')
+  
+}
+
+attr(`setColumnName`, 'returnType') = 'void'
+attr(`setColumnName`, "inputTypes") = c('_p_Matrix', 'numeric', 'character')
+class(`setColumnName`) = c("SWIGFunction", class('setColumnName'))
+
+# Start of getString
+
+`getString` = function(S, i, j)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  .Call('R_swig_getString', S, i, j, PACKAGE='tinkercell')
+  
+}
+
+attr(`getString`, 'returnType') = 'character'
+attr(`getString`, "inputTypes") = c('_p_TableOfStrings', 'numeric', 'numeric')
+class(`getString`) = c("SWIGFunction", class('getString'))
+
+# Start of setString
+
+`setString` = function(S, i, j, s)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  s = as(s, "character") 
+  .Call('R_swig_setString', S, i, j, s, PACKAGE='tinkercell')
+  
+}
+
+attr(`setString`, 'returnType') = 'void'
+attr(`setString`, "inputTypes") = c('_p_TableOfStrings', 'numeric', 'numeric', 'character')
+class(`setString`) = c("SWIGFunction", class('setString'))
+
+# Start of nthString
+
+`nthString` = function(S, i)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  .Call('R_swig_nthString', S, i, PACKAGE='tinkercell')
+  
+}
+
+attr(`nthString`, 'returnType') = 'character'
+attr(`nthString`, "inputTypes") = c('_p_ArrayOfStrings', 'numeric')
+class(`nthString`) = c("SWIGFunction", class('nthString'))
+
+# Start of setNthString
+
+`setNthString` = function(S, i, c)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  c = as(c, "character") 
+  .Call('R_swig_setNthString', S, i, c, PACKAGE='tinkercell')
+  
+}
+
+attr(`setNthString`, 'returnType') = 'void'
+attr(`setNthString`, "inputTypes") = c('_p_ArrayOfStrings', 'numeric', 'character')
+class(`setNthString`) = c("SWIGFunction", class('setNthString'))
+
+# Start of nthItem
+
+`nthItem` = function(A, i)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  ans = .Call('R_swig_nthItem', A, i, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`nthItem`, 'returnType') = '_p_void'
+attr(`nthItem`, "inputTypes") = c('_p_ArrayOfItems', 'numeric')
+class(`nthItem`) = c("SWIGFunction", class('nthItem'))
+
+# Start of setNthItem
+
+`setNthItem` = function(A, i, o)
+{
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  
+  .Call('R_swig_setNthItem', A, i, o, PACKAGE='tinkercell')
+  
+}
+
+attr(`setNthItem`, 'returnType') = 'void'
+attr(`setNthItem`, "inputTypes") = c('_p_ArrayOfItems', 'numeric', '_p_void')
+class(`setNthItem`) = c("SWIGFunction", class('setNthItem'))
+
+# Start of deleteMatrix
+
+`deleteMatrix` = function(M)
+{
+  .Call('R_swig_deleteMatrix', M, PACKAGE='tinkercell')
+  
+}
+
+attr(`deleteMatrix`, 'returnType') = 'void'
+attr(`deleteMatrix`, "inputTypes") = c('_p_Matrix')
+class(`deleteMatrix`) = c("SWIGFunction", class('deleteMatrix'))
+
+# Start of deleteTableOfStrings
+
+`deleteTableOfStrings` = function(M)
+{
+  .Call('R_swig_deleteTableOfStrings', M, PACKAGE='tinkercell')
+  
+}
+
+attr(`deleteTableOfStrings`, 'returnType') = 'void'
+attr(`deleteTableOfStrings`, "inputTypes") = c('_p_TableOfStrings')
+class(`deleteTableOfStrings`) = c("SWIGFunction", class('deleteTableOfStrings'))
+
+# Start of deleteArrayOfItems
+
+`deleteArrayOfItems` = function(A)
+{
+  .Call('R_swig_deleteArrayOfItems', A, PACKAGE='tinkercell')
+  
+}
+
+attr(`deleteArrayOfItems`, 'returnType') = 'void'
+attr(`deleteArrayOfItems`, "inputTypes") = c('_p_ArrayOfItems')
+class(`deleteArrayOfItems`) = c("SWIGFunction", class('deleteArrayOfItems'))
+
+# Start of deleteArrayOfStrings
+
+`deleteArrayOfStrings` = function(C)
+{
+  .Call('R_swig_deleteArrayOfStrings', C, PACKAGE='tinkercell')
+  
+}
+
+attr(`deleteArrayOfStrings`, 'returnType') = 'void'
+attr(`deleteArrayOfStrings`, "inputTypes") = c('_p_ArrayOfStrings')
+class(`deleteArrayOfStrings`) = c("SWIGFunction", class('deleteArrayOfStrings'))
+
+# Start of cbind
+
+`cbind` = function(A, B, .copy = FALSE)
+{
+  ans = .Call('R_swig_cbind', A, B, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`cbind`, 'returnType') = '_p_Matrix'
+attr(`cbind`, "inputTypes") = c('_p_Matrix', '_p_Matrix')
+class(`cbind`) = c("SWIGFunction", class('cbind'))
+
+# Start of rbind
+
+`rbind` = function(A, B, .copy = FALSE)
+{
+  ans = .Call('R_swig_rbind', A, B, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`rbind`, 'returnType') = '_p_Matrix'
+attr(`rbind`, "inputTypes") = c('_p_Matrix', '_p_Matrix')
+class(`rbind`) = c("SWIGFunction", class('rbind'))
+
+# Start of tc_allItems
+
+`tc_allItems` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_allItems', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_allItems`, 'returnType') = '_p_ArrayOfItems'
+class(`tc_allItems`) = c("SWIGFunction", class('tc_allItems'))
+
+# Start of tc_selectedItems
+
+`tc_selectedItems` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_selectedItems', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_selectedItems`, 'returnType') = '_p_ArrayOfItems'
+class(`tc_selectedItems`) = c("SWIGFunction", class('tc_selectedItems'))
+
+# Start of tc_itemsOfFamily
+
+`tc_itemsOfFamily` = function(family, .copy = FALSE)
+{
+  family = as(family, "character") 
+  ans = .Call('R_swig_tc_itemsOfFamily', family, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_itemsOfFamily`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_itemsOfFamily`, "inputTypes") = c('character')
+class(`tc_itemsOfFamily`) = c("SWIGFunction", class('tc_itemsOfFamily'))
+
+# Start of tc_itemsOfFamilyFrom
+
+`tc_itemsOfFamilyFrom` = function(family, itemsToSelectFrom, .copy = FALSE)
+{
+  family = as(family, "character") 
+  
+  ans = .Call('R_swig_tc_itemsOfFamilyFrom', family, itemsToSelectFrom, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_itemsOfFamilyFrom`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_itemsOfFamilyFrom`, "inputTypes") = c('character', '_p_ArrayOfItems')
+class(`tc_itemsOfFamilyFrom`) = c("SWIGFunction", class('tc_itemsOfFamilyFrom'))
+
+# Start of tc_find
+
+`tc_find` = function(fullname)
+{
+  fullname = as(fullname, "character") 
+  ans = .Call('R_swig_tc_find', fullname, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`tc_find`, 'returnType') = '_p_void'
+attr(`tc_find`, "inputTypes") = c('character')
+class(`tc_find`) = c("SWIGFunction", class('tc_find'))
+
+# Start of tc_findItems
+
+`tc_findItems` = function(names, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_findItems', names, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_findItems`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_findItems`, "inputTypes") = c('_p_ArrayOfStrings')
+class(`tc_findItems`) = c("SWIGFunction", class('tc_findItems'))
+
+# Start of tc_select
+
+`tc_select` = function(item)
+{
+  .Call('R_swig_tc_select', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_select`, 'returnType') = 'void'
+attr(`tc_select`, "inputTypes") = c('_p_void')
+class(`tc_select`) = c("SWIGFunction", class('tc_select'))
+
+# Start of tc_deselect
+
+`tc_deselect` = function()
+{
+  .Call('R_swig_tc_deselect', PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_deselect`, 'returnType') = 'void'
+class(`tc_deselect`) = c("SWIGFunction", class('tc_deselect'))
+
+# Start of tc_getName
+
+`tc_getName` = function(item)
+{
+  .Call('R_swig_tc_getName', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getName`, 'returnType') = 'character'
+attr(`tc_getName`, "inputTypes") = c('_p_void')
+class(`tc_getName`) = c("SWIGFunction", class('tc_getName'))
+
+# Start of tc_rename
+
+`tc_rename` = function(item, name)
+{
+  name = as(name, "character") 
+  .Call('R_swig_tc_rename', item, name, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_rename`, 'returnType') = 'void'
+attr(`tc_rename`, "inputTypes") = c('_p_void', 'character')
+class(`tc_rename`) = c("SWIGFunction", class('tc_rename'))
+
+# Start of tc_getNames
+
+`tc_getNames` = function(items, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getNames', items, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getNames`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getNames`) = c("SWIGFunction", class('tc_getNames'))
+
+# Start of tc_getFamily
+
+`tc_getFamily` = function(item)
+{
+  .Call('R_swig_tc_getFamily', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getFamily`, 'returnType') = 'character'
+attr(`tc_getFamily`, "inputTypes") = c('_p_void')
+class(`tc_getFamily`) = c("SWIGFunction", class('tc_getFamily'))
+
+# Start of tc_isA
+
+`tc_isA` = function(item, family, .copy = FALSE)
+{
+  family = as(family, "character") 
+  .Call('R_swig_tc_isA', item, family, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_isA`, 'returnType') = 'numeric'
+attr(`tc_isA`, "inputTypes") = c('_p_void', 'character')
+class(`tc_isA`) = c("SWIGFunction", class('tc_isA'))
+
+# Start of tc_print
+
+`tc_print` = function(text)
+{
+  text = as(text, "character") 
+  .Call('R_swig_tc_print', text, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_print`, 'returnType') = 'void'
+attr(`tc_print`, "inputTypes") = c('character')
+class(`tc_print`) = c("SWIGFunction", class('tc_print'))
+
+# Start of tc_errorReport
+
+`tc_errorReport` = function(text)
+{
+  text = as(text, "character") 
+  .Call('R_swig_tc_errorReport', text, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_errorReport`, 'returnType') = 'void'
+attr(`tc_errorReport`, "inputTypes") = c('character')
+class(`tc_errorReport`) = c("SWIGFunction", class('tc_errorReport'))
+
+# Start of tc_printTable
+
+`tc_printTable` = function(data)
+{
+  .Call('R_swig_tc_printTable', data, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printTable`, 'returnType') = 'void'
+attr(`tc_printTable`, "inputTypes") = c('_p_Matrix')
+class(`tc_printTable`) = c("SWIGFunction", class('tc_printTable'))
+
+# Start of tc_printFile
+
+`tc_printFile` = function(filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_printFile', filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_printFile`, 'returnType') = 'void'
+attr(`tc_printFile`, "inputTypes") = c('character')
+class(`tc_printFile`) = c("SWIGFunction", class('tc_printFile'))
+
+# Start of tc_clear
+
+`tc_clear` = function()
+{
+  .Call('R_swig_tc_clear', PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_clear`, 'returnType') = 'void'
+class(`tc_clear`) = c("SWIGFunction", class('tc_clear'))
+
+# Start of tc_remove
+
+`tc_remove` = function(item)
+{
+  .Call('R_swig_tc_remove', item, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_remove`, 'returnType') = 'void'
+attr(`tc_remove`, "inputTypes") = c('_p_void')
+class(`tc_remove`) = c("SWIGFunction", class('tc_remove'))
+
+# Start of tc_getY
+
+`tc_getY` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getY', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getY`, 'returnType') = 'numeric'
+attr(`tc_getY`, "inputTypes") = c('_p_void')
+class(`tc_getY`) = c("SWIGFunction", class('tc_getY'))
+
+# Start of tc_getX
+
+`tc_getX` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getX', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getX`, 'returnType') = 'numeric'
+attr(`tc_getX`, "inputTypes") = c('_p_void')
+class(`tc_getX`) = c("SWIGFunction", class('tc_getX'))
+
+# Start of tc_getPos
+
+`tc_getPos` = function(items, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getPos', items, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getPos`, 'returnType') = '_p_Matrix'
+attr(`tc_getPos`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getPos`) = c("SWIGFunction", class('tc_getPos'))
+
+# Start of tc_setPos
+
+`tc_setPos` = function(item, x, y)
+{
+  .Call('R_swig_tc_setPos', item, x, y, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setPos`, 'returnType') = 'void'
+attr(`tc_setPos`, "inputTypes") = c('_p_void', 'numeric', 'numeric')
+class(`tc_setPos`) = c("SWIGFunction", class('tc_setPos'))
+
+# Start of tc_setPosMulti
+
+`tc_setPosMulti` = function(items, positions)
+{
+  .Call('R_swig_tc_setPosMulti', items, positions, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setPosMulti`, 'returnType') = 'void'
+attr(`tc_setPosMulti`, "inputTypes") = c('_p_ArrayOfItems', '_p_Matrix')
+class(`tc_setPosMulti`) = c("SWIGFunction", class('tc_setPosMulti'))
+
+# Start of tc_moveSelected
+
+`tc_moveSelected` = function(dx, dy)
+{
+  .Call('R_swig_tc_moveSelected', dx, dy, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_moveSelected`, 'returnType') = 'void'
+attr(`tc_moveSelected`, "inputTypes") = c('numeric', 'numeric')
+class(`tc_moveSelected`) = c("SWIGFunction", class('tc_moveSelected'))
+
+# Start of tc_isWindows
+
+`tc_isWindows` = function(.copy = FALSE)
+{
+  .Call('R_swig_tc_isWindows', as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_isWindows`, 'returnType') = 'numeric'
+class(`tc_isWindows`) = c("SWIGFunction", class('tc_isWindows'))
+
+# Start of tc_isMac
+
+`tc_isMac` = function(.copy = FALSE)
+{
+  .Call('R_swig_tc_isMac', as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_isMac`, 'returnType') = 'numeric'
+class(`tc_isMac`) = c("SWIGFunction", class('tc_isMac'))
+
+# Start of tc_isLinux
+
+`tc_isLinux` = function(.copy = FALSE)
+{
+  .Call('R_swig_tc_isLinux', as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_isLinux`, 'returnType') = 'numeric'
+class(`tc_isLinux`) = c("SWIGFunction", class('tc_isLinux'))
+
+# Start of tc_appDir
+
+`tc_appDir` = function()
+{
+  .Call('R_swig_tc_appDir', PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_appDir`, 'returnType') = 'character'
+class(`tc_appDir`) = c("SWIGFunction", class('tc_appDir'))
+
+# Start of tc_createInputWindowFromFile
+
+`tc_createInputWindowFromFile` = function(input, filename, functionname, title)
+{
+  filename = as(filename, "character") 
+  functionname = as(functionname, "character") 
+  title = as(title, "character") 
+  .Call('R_swig_tc_createInputWindowFromFile', input, filename, functionname, title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_createInputWindowFromFile`, 'returnType') = 'void'
+attr(`tc_createInputWindowFromFile`, "inputTypes") = c('_p_Matrix', 'character', 'character', 'character')
+class(`tc_createInputWindowFromFile`) = c("SWIGFunction", class('tc_createInputWindowFromFile'))
+
+# Start of tc_createInputWindow
+
+`tc_createInputWindow` = function(input, title, f)
+{
+  title = as(title, "character") 
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 1)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_createInputWindow', input, title, f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_createInputWindow`, 'returnType') = 'void'
+attr(`tc_createInputWindow`, "inputTypes") = c('_p_Matrix', 'character', '_p_f_Matrix__void')
+class(`tc_createInputWindow`) = c("SWIGFunction", class('tc_createInputWindow'))
+
+# Start of tc_addInputWindowOptions
+
+`tc_addInputWindowOptions` = function(title, i, j, options)
+{
+  title = as(title, "character") 
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  
+  .Call('R_swig_tc_addInputWindowOptions', title, i, j, options, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addInputWindowOptions`, 'returnType') = 'void'
+attr(`tc_addInputWindowOptions`, "inputTypes") = c('character', 'numeric', 'numeric', '_p_ArrayOfStrings')
+class(`tc_addInputWindowOptions`) = c("SWIGFunction", class('tc_addInputWindowOptions'))
+
+# Start of tc_addInputWindowCheckbox
+
+`tc_addInputWindowCheckbox` = function(title, i, j)
+{
+  title = as(title, "character") 
+  i = as(i, "integer");     
+  
+  if(length(i) > 1) {
+    Rf_warning("using only the first element of i")
+  }
+  
+  j = as(j, "integer");     
+  
+  if(length(j) > 1) {
+    Rf_warning("using only the first element of j")
+  }
+  
+  .Call('R_swig_tc_addInputWindowCheckbox', title, i, j, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addInputWindowCheckbox`, 'returnType') = 'void'
+attr(`tc_addInputWindowCheckbox`, "inputTypes") = c('character', 'numeric', 'numeric')
+class(`tc_addInputWindowCheckbox`) = c("SWIGFunction", class('tc_addInputWindowCheckbox'))
+
+# Start of tc_openNewWindow
+
+`tc_openNewWindow` = function(title)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_openNewWindow', title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_openNewWindow`, 'returnType') = 'void'
+attr(`tc_openNewWindow`, "inputTypes") = c('character')
+class(`tc_openNewWindow`) = c("SWIGFunction", class('tc_openNewWindow'))
+
+# Start of tc_getChildren
+
+`tc_getChildren` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getChildren', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getChildren`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getChildren`, "inputTypes") = c('_p_void')
+class(`tc_getChildren`) = c("SWIGFunction", class('tc_getChildren'))
+
+# Start of tc_getParent
+
+`tc_getParent` = function(o)
+{
+  ans = .Call('R_swig_tc_getParent', o, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`tc_getParent`, 'returnType') = '_p_void'
+attr(`tc_getParent`, "inputTypes") = c('_p_void')
+class(`tc_getParent`) = c("SWIGFunction", class('tc_getParent'))
+
+# Start of tc_getNumericalData
+
+`tc_getNumericalData` = function(item, data, .copy = FALSE)
+{
+  data = as(data, "character") 
+  ans = .Call('R_swig_tc_getNumericalData', item, data, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getNumericalData`, 'returnType') = '_p_Matrix'
+attr(`tc_getNumericalData`, "inputTypes") = c('_p_void', 'character')
+class(`tc_getNumericalData`) = c("SWIGFunction", class('tc_getNumericalData'))
+
+# Start of tc_setNumericalData
+
+`tc_setNumericalData` = function(o, title, data)
+{
+  title = as(title, "character") 
+  
+  .Call('R_swig_tc_setNumericalData', o, title, data, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setNumericalData`, 'returnType') = 'void'
+attr(`tc_setNumericalData`, "inputTypes") = c('_p_void', 'character', '_p_Matrix')
+class(`tc_setNumericalData`) = c("SWIGFunction", class('tc_setNumericalData'))
+
+# Start of tc_getTextData
+
+`tc_getTextData` = function(item, data, .copy = FALSE)
+{
+  data = as(data, "character") 
+  ans = .Call('R_swig_tc_getTextData', item, data, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_TableOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getTextData`, 'returnType') = '_p_TableOfStrings'
+attr(`tc_getTextData`, "inputTypes") = c('_p_void', 'character')
+class(`tc_getTextData`) = c("SWIGFunction", class('tc_getTextData'))
+
+# Start of tc_setTextData
+
+`tc_setTextData` = function(o, title, data)
+{
+  title = as(title, "character") 
+  
+  .Call('R_swig_tc_setTextData', o, title, data, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setTextData`, 'returnType') = 'void'
+attr(`tc_setTextData`, "inputTypes") = c('_p_void', 'character', '_p_TableOfStrings')
+class(`tc_setTextData`) = c("SWIGFunction", class('tc_setTextData'))
+
+# Start of tc_getNumericalDataNames
+
+`tc_getNumericalDataNames` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getNumericalDataNames', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getNumericalDataNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getNumericalDataNames`, "inputTypes") = c('_p_void')
+class(`tc_getNumericalDataNames`) = c("SWIGFunction", class('tc_getNumericalDataNames'))
+
+# Start of tc_getTextDataNames
+
+`tc_getTextDataNames` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getTextDataNames', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getTextDataNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getTextDataNames`, "inputTypes") = c('_p_void')
+class(`tc_getTextDataNames`) = c("SWIGFunction", class('tc_getTextDataNames'))
+
+# Start of tc_zoom
+
+`tc_zoom` = function(factor)
+{
+  .Call('R_swig_tc_zoom', factor, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_zoom`, 'returnType') = 'void'
+attr(`tc_zoom`, "inputTypes") = c('numeric')
+class(`tc_zoom`) = c("SWIGFunction", class('tc_zoom'))
+
+# Start of tc_getString
+
+`tc_getString` = function(title)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_getString', title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getString`, 'returnType') = 'character'
+attr(`tc_getString`, "inputTypes") = c('character')
+class(`tc_getString`) = c("SWIGFunction", class('tc_getString'))
+
+# Start of tc_getFilename
+
+`tc_getFilename` = function()
+{
+  .Call('R_swig_tc_getFilename', PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getFilename`, 'returnType') = 'character'
+class(`tc_getFilename`) = c("SWIGFunction", class('tc_getFilename'))
+
+# Start of tc_getFromList
+
+`tc_getFromList` = function(title, list, selectedString, comboBox, .copy = FALSE)
+{
+  title = as(title, "character") 
+  
+  selectedString = as(selectedString, "character") 
+  comboBox = as(comboBox, "integer");     
+  
+  if(length(comboBox) > 1) {
+    Rf_warning("using only the first element of comboBox")
+  }
+  
+  .Call('R_swig_tc_getFromList', title, list, selectedString, comboBox, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getFromList`, 'returnType') = 'numeric'
+attr(`tc_getFromList`, "inputTypes") = c('character', '_p_ArrayOfStrings', 'character', 'numeric')
+class(`tc_getFromList`) = c("SWIGFunction", class('tc_getFromList'))
+
+# Start of tc_getNumber
+
+`tc_getNumber` = function(title, .copy = FALSE)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_getNumber', title, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getNumber`, 'returnType') = 'numeric'
+attr(`tc_getNumber`, "inputTypes") = c('character')
+class(`tc_getNumber`) = c("SWIGFunction", class('tc_getNumber'))
+
+# Start of tc_getNumbers
+
+`tc_getNumbers` = function(labels, result)
+{
+  .Call('R_swig_tc_getNumbers', labels, result, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getNumbers`, 'returnType') = 'void'
+attr(`tc_getNumbers`, "inputTypes") = c('_p_ArrayOfStrings', 'numeric')
+class(`tc_getNumbers`) = c("SWIGFunction", class('tc_getNumbers'))
+
+# Start of tc_askQuestion
+
+`tc_askQuestion` = function(message, .copy = FALSE)
+{
+  message = as(message, "character") 
+  .Call('R_swig_tc_askQuestion', message, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_askQuestion`, 'returnType') = 'numeric'
+attr(`tc_askQuestion`, "inputTypes") = c('character')
+class(`tc_askQuestion`) = c("SWIGFunction", class('tc_askQuestion'))
+
+# Start of tc_messageDialog
+
+`tc_messageDialog` = function(message)
+{
+  message = as(message, "character") 
+  .Call('R_swig_tc_messageDialog', message, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_messageDialog`, 'returnType') = 'void'
+attr(`tc_messageDialog`, "inputTypes") = c('character')
+class(`tc_messageDialog`) = c("SWIGFunction", class('tc_messageDialog'))
+
+# Start of tc_thisThread
+
+`tc_thisThread` = function()
+{
+  ans = .Call('R_swig_tc_thisThread', PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`tc_thisThread`, 'returnType') = '_p_void'
+class(`tc_thisThread`) = c("SWIGFunction", class('tc_thisThread'))
+
+# Start of tc_createSliders
+
+`tc_createSliders` = function(input, f)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 0)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_createSliders', input, f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_createSliders`, 'returnType') = 'void'
+attr(`tc_createSliders`, "inputTypes") = c('_p_Matrix', '_p_f_Matrix__void')
+class(`tc_createSliders`) = c("SWIGFunction", class('tc_createSliders'))
+
+# Start of tc_Main_api_initialize
+
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_setName0, tc_getNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog)
+{
+  if(is.function(tc_allItems0)) {
+    assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
+  } else {
+    if(is.character(tc_allItems0)) {
+      tc_allItems0 = getNativeSymbolInfo(tc_allItems0)
+    }
+    if(is(tc_allItems0, "NativeSymbolInfo")) {
+      tc_allItems0 = tc_allItems0$address
+    }
+  }
+  if(is.function(tc_selectedItems0)) {
+    assert('...' %in% names(formals(tc_selectedItems0)) || length(formals(tc_selectedItems0)) >= 0)
+  } else {
+    if(is.character(tc_selectedItems0)) {
+      tc_selectedItems0 = getNativeSymbolInfo(tc_selectedItems0)
+    }
+    if(is(tc_selectedItems0, "NativeSymbolInfo")) {
+      tc_selectedItems0 = tc_selectedItems0$address
+    }
+  }
+  if(is.function(tc_itemsOfFamily0)) {
+    assert('...' %in% names(formals(tc_itemsOfFamily0)) || length(formals(tc_itemsOfFamily0)) >= 1)
+  } else {
+    if(is.character(tc_itemsOfFamily0)) {
+      tc_itemsOfFamily0 = getNativeSymbolInfo(tc_itemsOfFamily0)
+    }
+    if(is(tc_itemsOfFamily0, "NativeSymbolInfo")) {
+      tc_itemsOfFamily0 = tc_itemsOfFamily0$address
+    }
+  }
+  if(is.function(tc_itemsOfFamily1)) {
+    assert('...' %in% names(formals(tc_itemsOfFamily1)) || length(formals(tc_itemsOfFamily1)) >= 2)
+  } else {
+    if(is.character(tc_itemsOfFamily1)) {
+      tc_itemsOfFamily1 = getNativeSymbolInfo(tc_itemsOfFamily1)
+    }
+    if(is(tc_itemsOfFamily1, "NativeSymbolInfo")) {
+      tc_itemsOfFamily1 = tc_itemsOfFamily1$address
+    }
+  }
+  if(is.function(tc_find0)) {
+    assert('...' %in% names(formals(tc_find0)) || length(formals(tc_find0)) >= 1)
+  } else {
+    if(is.character(tc_find0)) {
+      tc_find0 = getNativeSymbolInfo(tc_find0)
+    }
+    if(is(tc_find0, "NativeSymbolInfo")) {
+      tc_find0 = tc_find0$address
+    }
+  }
+  if(is.function(tc_findItems0)) {
+    assert('...' %in% names(formals(tc_findItems0)) || length(formals(tc_findItems0)) >= 1)
+  } else {
+    if(is.character(tc_findItems0)) {
+      tc_findItems0 = getNativeSymbolInfo(tc_findItems0)
+    }
+    if(is(tc_findItems0, "NativeSymbolInfo")) {
+      tc_findItems0 = tc_findItems0$address
+    }
+  }
+  if(is.function(tc_select0)) {
+    assert('...' %in% names(formals(tc_select0)) || length(formals(tc_select0)) >= 1)
+  } else {
+    if(is.character(tc_select0)) {
+      tc_select0 = getNativeSymbolInfo(tc_select0)
+    }
+    if(is(tc_select0, "NativeSymbolInfo")) {
+      tc_select0 = tc_select0$address
+    }
+  }
+  if(is.function(tc_deselect0)) {
+    assert('...' %in% names(formals(tc_deselect0)) || length(formals(tc_deselect0)) >= 0)
+  } else {
+    if(is.character(tc_deselect0)) {
+      tc_deselect0 = getNativeSymbolInfo(tc_deselect0)
+    }
+    if(is(tc_deselect0, "NativeSymbolInfo")) {
+      tc_deselect0 = tc_deselect0$address
+    }
+  }
+  if(is.function(tc_getName0)) {
+    assert('...' %in% names(formals(tc_getName0)) || length(formals(tc_getName0)) >= 1)
+  } else {
+    if(is.character(tc_getName0)) {
+      tc_getName0 = getNativeSymbolInfo(tc_getName0)
+    }
+    if(is(tc_getName0, "NativeSymbolInfo")) {
+      tc_getName0 = tc_getName0$address
+    }
+  }
+  if(is.function(tc_setName0)) {
+    assert('...' %in% names(formals(tc_setName0)) || length(formals(tc_setName0)) >= 2)
+  } else {
+    if(is.character(tc_setName0)) {
+      tc_setName0 = getNativeSymbolInfo(tc_setName0)
+    }
+    if(is(tc_setName0, "NativeSymbolInfo")) {
+      tc_setName0 = tc_setName0$address
+    }
+  }
+  if(is.function(tc_getNames0)) {
+    assert('...' %in% names(formals(tc_getNames0)) || length(formals(tc_getNames0)) >= 1)
+  } else {
+    if(is.character(tc_getNames0)) {
+      tc_getNames0 = getNativeSymbolInfo(tc_getNames0)
+    }
+    if(is(tc_getNames0, "NativeSymbolInfo")) {
+      tc_getNames0 = tc_getNames0$address
+    }
+  }
+  if(is.function(tc_getFamily0)) {
+    assert('...' %in% names(formals(tc_getFamily0)) || length(formals(tc_getFamily0)) >= 0)
+  } else {
+    if(is.character(tc_getFamily0)) {
+      tc_getFamily0 = getNativeSymbolInfo(tc_getFamily0)
+    }
+    if(is(tc_getFamily0, "NativeSymbolInfo")) {
+      tc_getFamily0 = tc_getFamily0$address
+    }
+  }
+  if(is.function(tc_isA0)) {
+    assert('...' %in% names(formals(tc_isA0)) || length(formals(tc_isA0)) >= 2)
+  } else {
+    if(is.character(tc_isA0)) {
+      tc_isA0 = getNativeSymbolInfo(tc_isA0)
+    }
+    if(is(tc_isA0, "NativeSymbolInfo")) {
+      tc_isA0 = tc_isA0$address
+    }
+  }
+  if(is.function(tc_clearText)) {
+    assert('...' %in% names(formals(tc_clearText)) || length(formals(tc_clearText)) >= 0)
+  } else {
+    if(is.character(tc_clearText)) {
+      tc_clearText = getNativeSymbolInfo(tc_clearText)
+    }
+    if(is(tc_clearText, "NativeSymbolInfo")) {
+      tc_clearText = tc_clearText$address
+    }
+  }
+  if(is.function(tc_outputText0)) {
+    assert('...' %in% names(formals(tc_outputText0)) || length(formals(tc_outputText0)) >= 1)
+  } else {
+    if(is.character(tc_outputText0)) {
+      tc_outputText0 = getNativeSymbolInfo(tc_outputText0)
+    }
+    if(is(tc_outputText0, "NativeSymbolInfo")) {
+      tc_outputText0 = tc_outputText0$address
+    }
+  }
+  if(is.function(tc_errorReport0)) {
+    assert('...' %in% names(formals(tc_errorReport0)) || length(formals(tc_errorReport0)) >= 0)
+  } else {
+    if(is.character(tc_errorReport0)) {
+      tc_errorReport0 = getNativeSymbolInfo(tc_errorReport0)
+    }
+    if(is(tc_errorReport0, "NativeSymbolInfo")) {
+      tc_errorReport0 = tc_errorReport0$address
+    }
+  }
+  if(is.function(tc_outputTable0)) {
+    assert('...' %in% names(formals(tc_outputTable0)) || length(formals(tc_outputTable0)) >= 0)
+  } else {
+    if(is.character(tc_outputTable0)) {
+      tc_outputTable0 = getNativeSymbolInfo(tc_outputTable0)
+    }
+    if(is(tc_outputTable0, "NativeSymbolInfo")) {
+      tc_outputTable0 = tc_outputTable0$address
+    }
+  }
+  if(is.function(tc_printFile0)) {
+    assert('...' %in% names(formals(tc_printFile0)) || length(formals(tc_printFile0)) >= 0)
+  } else {
+    if(is.character(tc_printFile0)) {
+      tc_printFile0 = getNativeSymbolInfo(tc_printFile0)
+    }
+    if(is(tc_printFile0, "NativeSymbolInfo")) {
+      tc_printFile0 = tc_printFile0$address
+    }
+  }
+  if(is.function(tc_removeItem0)) {
+    assert('...' %in% names(formals(tc_removeItem0)) || length(formals(tc_removeItem0)) >= 0)
+  } else {
+    if(is.character(tc_removeItem0)) {
+      tc_removeItem0 = getNativeSymbolInfo(tc_removeItem0)
+    }
+    if(is(tc_removeItem0, "NativeSymbolInfo")) {
+      tc_removeItem0 = tc_removeItem0$address
+    }
+  }
+  if(is.function(tc_getY0)) {
+    assert('...' %in% names(formals(tc_getY0)) || length(formals(tc_getY0)) >= 1)
+  } else {
+    if(is.character(tc_getY0)) {
+      tc_getY0 = getNativeSymbolInfo(tc_getY0)
+    }
+    if(is(tc_getY0, "NativeSymbolInfo")) {
+      tc_getY0 = tc_getY0$address
+    }
+  }
+  if(is.function(tc_getX0)) {
+    assert('...' %in% names(formals(tc_getX0)) || length(formals(tc_getX0)) >= 0)
+  } else {
+    if(is.character(tc_getX0)) {
+      tc_getX0 = getNativeSymbolInfo(tc_getX0)
+    }
+    if(is(tc_getX0, "NativeSymbolInfo")) {
+      tc_getX0 = tc_getX0$address
+    }
+  }
+  if(is.function(tc_getPos0)) {
+    assert('...' %in% names(formals(tc_getPos0)) || length(formals(tc_getPos0)) >= 1)
+  } else {
+    if(is.character(tc_getPos0)) {
+      tc_getPos0 = getNativeSymbolInfo(tc_getPos0)
+    }
+    if(is(tc_getPos0, "NativeSymbolInfo")) {
+      tc_getPos0 = tc_getPos0$address
+    }
+  }
+  if(is.function(tc_setPos0)) {
+    assert('...' %in% names(formals(tc_setPos0)) || length(formals(tc_setPos0)) >= 3)
+  } else {
+    if(is.character(tc_setPos0)) {
+      tc_setPos0 = getNativeSymbolInfo(tc_setPos0)
+    }
+    if(is(tc_setPos0, "NativeSymbolInfo")) {
+      tc_setPos0 = tc_setPos0$address
+    }
+  }
+  if(is.function(tc_setPos1)) {
+    assert('...' %in% names(formals(tc_setPos1)) || length(formals(tc_setPos1)) >= 2)
+  } else {
+    if(is.character(tc_setPos1)) {
+      tc_setPos1 = getNativeSymbolInfo(tc_setPos1)
+    }
+    if(is(tc_setPos1, "NativeSymbolInfo")) {
+      tc_setPos1 = tc_setPos1$address
+    }
+  }
+  if(is.function(tc_moveSelected0)) {
+    assert('...' %in% names(formals(tc_moveSelected0)) || length(formals(tc_moveSelected0)) >= 2)
+  } else {
+    if(is.character(tc_moveSelected0)) {
+      tc_moveSelected0 = getNativeSymbolInfo(tc_moveSelected0)
+    }
+    if(is(tc_moveSelected0, "NativeSymbolInfo")) {
+      tc_moveSelected0 = tc_moveSelected0$address
+    }
+  }
+  if(is.function(tc_isWindows0)) {
+    assert('...' %in% names(formals(tc_isWindows0)) || length(formals(tc_isWindows0)) >= 0)
+  } else {
+    if(is.character(tc_isWindows0)) {
+      tc_isWindows0 = getNativeSymbolInfo(tc_isWindows0)
+    }
+    if(is(tc_isWindows0, "NativeSymbolInfo")) {
+      tc_isWindows0 = tc_isWindows0$address
+    }
+  }
+  if(is.function(tc_isMac0)) {
+    assert('...' %in% names(formals(tc_isMac0)) || length(formals(tc_isMac0)) >= 0)
+  } else {
+    if(is.character(tc_isMac0)) {
+      tc_isMac0 = getNativeSymbolInfo(tc_isMac0)
+    }
+    if(is(tc_isMac0, "NativeSymbolInfo")) {
+      tc_isMac0 = tc_isMac0$address
+    }
+  }
+  if(is.function(tc_isLinux0)) {
+    assert('...' %in% names(formals(tc_isLinux0)) || length(formals(tc_isLinux0)) >= 0)
+  } else {
+    if(is.character(tc_isLinux0)) {
+      tc_isLinux0 = getNativeSymbolInfo(tc_isLinux0)
+    }
+    if(is(tc_isLinux0, "NativeSymbolInfo")) {
+      tc_isLinux0 = tc_isLinux0$address
+    }
+  }
+  if(is.function(tc_appDir0)) {
+    assert('...' %in% names(formals(tc_appDir0)) || length(formals(tc_appDir0)) >= 0)
+  } else {
+    if(is.character(tc_appDir0)) {
+      tc_appDir0 = getNativeSymbolInfo(tc_appDir0)
+    }
+    if(is(tc_appDir0, "NativeSymbolInfo")) {
+      tc_appDir0 = tc_appDir0$address
+    }
+  }
+  if(is.function(tc_createInputWindow0)) {
+    assert('...' %in% names(formals(tc_createInputWindow0)) || length(formals(tc_createInputWindow0)) >= 4)
+  } else {
+    if(is.character(tc_createInputWindow0)) {
+      tc_createInputWindow0 = getNativeSymbolInfo(tc_createInputWindow0)
+    }
+    if(is(tc_createInputWindow0, "NativeSymbolInfo")) {
+      tc_createInputWindow0 = tc_createInputWindow0$address
+    }
+  }
+  if(is.function(tc_createInputWindow1)) {
+    assert('...' %in% names(formals(tc_createInputWindow1)) || length(formals(tc_createInputWindow1)) >= 3)
+  } else {
+    if(is.character(tc_createInputWindow1)) {
+      tc_createInputWindow1 = getNativeSymbolInfo(tc_createInputWindow1)
+    }
+    if(is(tc_createInputWindow1, "NativeSymbolInfo")) {
+      tc_createInputWindow1 = tc_createInputWindow1$address
+    }
+  }
+  if(is.function(createSliders)) {
+    assert('...' %in% names(formals(createSliders)) || length(formals(createSliders)) >= 3)
+  } else {
+    if(is.character(createSliders)) {
+      createSliders = getNativeSymbolInfo(createSliders)
+    }
+    if(is(createSliders, "NativeSymbolInfo")) {
+      createSliders = createSliders$address
+    }
+  }
+  if(is.function(tc_addInputWindowOptions0)) {
+    assert('...' %in% names(formals(tc_addInputWindowOptions0)) || length(formals(tc_addInputWindowOptions0)) >= 4)
+  } else {
+    if(is.character(tc_addInputWindowOptions0)) {
+      tc_addInputWindowOptions0 = getNativeSymbolInfo(tc_addInputWindowOptions0)
+    }
+    if(is(tc_addInputWindowOptions0, "NativeSymbolInfo")) {
+      tc_addInputWindowOptions0 = tc_addInputWindowOptions0$address
+    }
+  }
+  if(is.function(tc_addInputWindowCheckbox0)) {
+    assert('...' %in% names(formals(tc_addInputWindowCheckbox0)) || length(formals(tc_addInputWindowCheckbox0)) >= 3)
+  } else {
+    if(is.character(tc_addInputWindowCheckbox0)) {
+      tc_addInputWindowCheckbox0 = getNativeSymbolInfo(tc_addInputWindowCheckbox0)
+    }
+    if(is(tc_addInputWindowCheckbox0, "NativeSymbolInfo")) {
+      tc_addInputWindowCheckbox0 = tc_addInputWindowCheckbox0$address
+    }
+  }
+  if(is.function(tc_openNewWindow0)) {
+    assert('...' %in% names(formals(tc_openNewWindow0)) || length(formals(tc_openNewWindow0)) >= 0)
+  } else {
+    if(is.character(tc_openNewWindow0)) {
+      tc_openNewWindow0 = getNativeSymbolInfo(tc_openNewWindow0)
+    }
+    if(is(tc_openNewWindow0, "NativeSymbolInfo")) {
+      tc_openNewWindow0 = tc_openNewWindow0$address
+    }
+  }
+  if(is.function(tc_getChildren0)) {
+    assert('...' %in% names(formals(tc_getChildren0)) || length(formals(tc_getChildren0)) >= 1)
+  } else {
+    if(is.character(tc_getChildren0)) {
+      tc_getChildren0 = getNativeSymbolInfo(tc_getChildren0)
+    }
+    if(is(tc_getChildren0, "NativeSymbolInfo")) {
+      tc_getChildren0 = tc_getChildren0$address
+    }
+  }
+  if(is.function(tc_getParent0)) {
+    assert('...' %in% names(formals(tc_getParent0)) || length(formals(tc_getParent0)) >= 1)
+  } else {
+    if(is.character(tc_getParent0)) {
+      tc_getParent0 = getNativeSymbolInfo(tc_getParent0)
+    }
+    if(is(tc_getParent0, "NativeSymbolInfo")) {
+      tc_getParent0 = tc_getParent0$address
+    }
+  }
+  if(is.function(tc_getNumericalData0)) {
+    assert('...' %in% names(formals(tc_getNumericalData0)) || length(formals(tc_getNumericalData0)) >= 2)
+  } else {
+    if(is.character(tc_getNumericalData0)) {
+      tc_getNumericalData0 = getNativeSymbolInfo(tc_getNumericalData0)
+    }
+    if(is(tc_getNumericalData0, "NativeSymbolInfo")) {
+      tc_getNumericalData0 = tc_getNumericalData0$address
+    }
+  }
+  if(is.function(tc_setNumericalData0)) {
+    assert('...' %in% names(formals(tc_setNumericalData0)) || length(formals(tc_setNumericalData0)) >= 3)
+  } else {
+    if(is.character(tc_setNumericalData0)) {
+      tc_setNumericalData0 = getNativeSymbolInfo(tc_setNumericalData0)
+    }
+    if(is(tc_setNumericalData0, "NativeSymbolInfo")) {
+      tc_setNumericalData0 = tc_setNumericalData0$address
+    }
+  }
+  if(is.function(tc_getTextData0)) {
+    assert('...' %in% names(formals(tc_getTextData0)) || length(formals(tc_getTextData0)) >= 2)
+  } else {
+    if(is.character(tc_getTextData0)) {
+      tc_getTextData0 = getNativeSymbolInfo(tc_getTextData0)
+    }
+    if(is(tc_getTextData0, "NativeSymbolInfo")) {
+      tc_getTextData0 = tc_getTextData0$address
+    }
+  }
+  if(is.function(tc_setTextData0)) {
+    assert('...' %in% names(formals(tc_setTextData0)) || length(formals(tc_setTextData0)) >= 3)
+  } else {
+    if(is.character(tc_setTextData0)) {
+      tc_setTextData0 = getNativeSymbolInfo(tc_setTextData0)
+    }
+    if(is(tc_setTextData0, "NativeSymbolInfo")) {
+      tc_setTextData0 = tc_setTextData0$address
+    }
+  }
+  if(is.function(tc_getNumericalDataNames0)) {
+    assert('...' %in% names(formals(tc_getNumericalDataNames0)) || length(formals(tc_getNumericalDataNames0)) >= 1)
+  } else {
+    if(is.character(tc_getNumericalDataNames0)) {
+      tc_getNumericalDataNames0 = getNativeSymbolInfo(tc_getNumericalDataNames0)
+    }
+    if(is(tc_getNumericalDataNames0, "NativeSymbolInfo")) {
+      tc_getNumericalDataNames0 = tc_getNumericalDataNames0$address
+    }
+  }
+  if(is.function(tc_getTextDataNames0)) {
+    assert('...' %in% names(formals(tc_getTextDataNames0)) || length(formals(tc_getTextDataNames0)) >= 0)
+  } else {
+    if(is.character(tc_getTextDataNames0)) {
+      tc_getTextDataNames0 = getNativeSymbolInfo(tc_getTextDataNames0)
+    }
+    if(is(tc_getTextDataNames0, "NativeSymbolInfo")) {
+      tc_getTextDataNames0 = tc_getTextDataNames0$address
+    }
+  }
+  if(is.function(tc_zoom0)) {
+    assert('...' %in% names(formals(tc_zoom0)) || length(formals(tc_zoom0)) >= 1)
+  } else {
+    if(is.character(tc_zoom0)) {
+      tc_zoom0 = getNativeSymbolInfo(tc_zoom0)
+    }
+    if(is(tc_zoom0, "NativeSymbolInfo")) {
+      tc_zoom0 = tc_zoom0$address
+    }
+  }
+  if(is.function(getString)) {
+    assert('...' %in% names(formals(getString)) || length(formals(getString)) >= 1)
+  } else {
+    if(is.character(getString)) {
+      getString = getNativeSymbolInfo(getString)
+    }
+    if(is(getString, "NativeSymbolInfo")) {
+      getString = getString$address
+    }
+  }
+  if(is.function(getSelectedString)) {
+    assert('...' %in% names(formals(getSelectedString)) || length(formals(getSelectedString)) >= 4)
+  } else {
+    if(is.character(getSelectedString)) {
+      getSelectedString = getNativeSymbolInfo(getSelectedString)
+    }
+    if(is(getSelectedString, "NativeSymbolInfo")) {
+      getSelectedString = getSelectedString$address
+    }
+  }
+  if(is.function(getNumber)) {
+    assert('...' %in% names(formals(getNumber)) || length(formals(getNumber)) >= 1)
+  } else {
+    if(is.character(getNumber)) {
+      getNumber = getNativeSymbolInfo(getNumber)
+    }
+    if(is(getNumber, "NativeSymbolInfo")) {
+      getNumber = getNumber$address
+    }
+  }
+  if(is.function(getNumbers)) {
+    assert('...' %in% names(formals(getNumbers)) || length(formals(getNumbers)) >= 2)
+  } else {
+    if(is.character(getNumbers)) {
+      getNumbers = getNativeSymbolInfo(getNumbers)
+    }
+    if(is(getNumbers, "NativeSymbolInfo")) {
+      getNumbers = getNumbers$address
+    }
+  }
+  if(is.function(getFilename)) {
+    assert('...' %in% names(formals(getFilename)) || length(formals(getFilename)) >= 0)
+  } else {
+    if(is.character(getFilename)) {
+      getFilename = getNativeSymbolInfo(getFilename)
+    }
+    if(is(getFilename, "NativeSymbolInfo")) {
+      getFilename = getFilename$address
+    }
+  }
+  if(is.function(askQuestion)) {
+    assert('...' %in% names(formals(askQuestion)) || length(formals(askQuestion)) >= 1)
+  } else {
+    if(is.character(askQuestion)) {
+      askQuestion = getNativeSymbolInfo(askQuestion)
+    }
+    if(is(askQuestion, "NativeSymbolInfo")) {
+      askQuestion = askQuestion$address
+    }
+  }
+  if(is.function(messageDialog)) {
+    assert('...' %in% names(formals(messageDialog)) || length(formals(messageDialog)) >= 0)
+  } else {
+    if(is.character(messageDialog)) {
+      messageDialog = getNativeSymbolInfo(messageDialog)
+    }
+    if(is(messageDialog, "NativeSymbolInfo")) {
+      messageDialog = messageDialog$address
+    }
+  }
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_setName0, tc_getNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_Main_api_initialize`, 'returnType') = 'void'
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___ArrayOfItems', '_p_f___ArrayOfItems', '_p_f_p_q_const__char__ArrayOfItems', '_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems', '_p_f_p_q_const__char__p_void', '_p_f_ArrayOfStrings__ArrayOfItems', '_p_f_p_void__void', '_p_f___void', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_Matrix__void', '_p_f_p_q_const__char__void', '_p_f_p_void__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_ArrayOfItems__Matrix', '_p_f_p_void_double_double__void', '_p_f_ArrayOfItems_Matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void', '_p_f_p_void_Matrix_p_f_Matrix__void__void', '_p_f_p_q_const__char_int_int_ArrayOfStrings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__p_void', '_p_f_p_void_p_q_const__char__Matrix', '_p_f_p_void_p_q_const__char_Matrix__void', '_p_f_p_void_p_q_const__char__TableOfStrings', '_p_f_p_void_p_q_const__char_TableOfStrings__void', '_p_f_p_void__ArrayOfStrings', '_p_f_p_void__ArrayOfStrings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int', '_p_f_p_q_const__char__double', '_p_f_ArrayOfStrings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void')
+class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
+
+# Start of tc_showProgress
+
+`tc_showProgress` = function(progress)
+{
+  progress = as(progress, "integer");     
+  
+  if(length(progress) > 1) {
+    Rf_warning("using only the first element of progress")
+  }
+  
+  .Call('R_swig_tc_showProgress', progress, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_showProgress`, 'returnType') = 'void'
+attr(`tc_showProgress`, "inputTypes") = c('numeric')
+class(`tc_showProgress`) = c("SWIGFunction", class('tc_showProgress'))
+
+# Start of tc_CThread_api_initialize
+
+`tc_CThread_api_initialize` = function(cthread, showProgress)
+{
+  if(is.function(showProgress)) {
+    assert('...' %in% names(formals(showProgress)) || length(formals(showProgress)) >= 2)
+  } else {
+    if(is.character(showProgress)) {
+      showProgress = getNativeSymbolInfo(showProgress)
+    }
+    if(is(showProgress, "NativeSymbolInfo")) {
+      showProgress = showProgress$address
+    }
+  }
+  .Call('R_swig_tc_CThread_api_initialize', cthread, showProgress, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_CThread_api_initialize`, 'returnType') = 'void'
+attr(`tc_CThread_api_initialize`, "inputTypes") = c('_p_void', '_p_f_p_void_int__void')
+class(`tc_CThread_api_initialize`) = c("SWIGFunction", class('tc_CThread_api_initialize'))
+
+# Start of tc_getColorR
+
+`tc_getColorR` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getColorR', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getColorR`, 'returnType') = 'numeric'
+attr(`tc_getColorR`, "inputTypes") = c('_p_void')
+class(`tc_getColorR`) = c("SWIGFunction", class('tc_getColorR'))
+
+# Start of tc_getColorG
+
+`tc_getColorG` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getColorG', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getColorG`, 'returnType') = 'numeric'
+attr(`tc_getColorG`, "inputTypes") = c('_p_void')
+class(`tc_getColorG`) = c("SWIGFunction", class('tc_getColorG'))
+
+# Start of tc_getColorB
+
+`tc_getColorB` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getColorB', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getColorB`, 'returnType') = 'numeric'
+attr(`tc_getColorB`, "inputTypes") = c('_p_void')
+class(`tc_getColorB`) = c("SWIGFunction", class('tc_getColorB'))
+
+# Start of tc_setColor
+
+`tc_setColor` = function(item, R, G, B, permanent)
+{
+  R = as(R, "integer");     
+  
+  if(length(R) > 1) {
+    Rf_warning("using only the first element of R")
+  }
+  
+  G = as(G, "integer");     
+  
+  if(length(G) > 1) {
+    Rf_warning("using only the first element of G")
+  }
+  
+  B = as(B, "integer");     
+  
+  if(length(B) > 1) {
+    Rf_warning("using only the first element of B")
+  }
+  
+  permanent = as(permanent, "integer");     
+  
+  if(length(permanent) > 1) {
+    Rf_warning("using only the first element of permanent")
+  }
+  
+  .Call('R_swig_tc_setColor', item, R, G, B, permanent, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setColor`, 'returnType') = 'void'
+attr(`tc_setColor`, "inputTypes") = c('_p_void', 'numeric', 'numeric', 'numeric', 'numeric')
+class(`tc_setColor`) = c("SWIGFunction", class('tc_setColor'))
+
+# Start of tc_changeNodeImage
+
+`tc_changeNodeImage` = function(item, filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_changeNodeImage', item, filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_changeNodeImage`, 'returnType') = 'void'
+attr(`tc_changeNodeImage`, "inputTypes") = c('_p_void', 'character')
+class(`tc_changeNodeImage`) = c("SWIGFunction", class('tc_changeNodeImage'))
+
+# Start of tc_changeArrowHead
+
+`tc_changeArrowHead` = function(connection, filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_changeArrowHead', connection, filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_changeArrowHead`, 'returnType') = 'void'
+attr(`tc_changeArrowHead`, "inputTypes") = c('_p_void', 'character')
+class(`tc_changeArrowHead`) = c("SWIGFunction", class('tc_changeArrowHead'))
+
+# Start of tc_BasicGraphicsToolbox_api
+
+`tc_BasicGraphicsToolbox_api` = function(getColorR, getColorG, getColorB, setColor, changeNodeImage, changeArrowHead)
+{
+  if(is.function(getColorR)) {
+    assert('...' %in% names(formals(getColorR)) || length(formals(getColorR)) >= 1)
+  } else {
+    if(is.character(getColorR)) {
+      getColorR = getNativeSymbolInfo(getColorR)
+    }
+    if(is(getColorR, "NativeSymbolInfo")) {
+      getColorR = getColorR$address
+    }
+  }
+  if(is.function(getColorG)) {
+    assert('...' %in% names(formals(getColorG)) || length(formals(getColorG)) >= 0)
+  } else {
+    if(is.character(getColorG)) {
+      getColorG = getNativeSymbolInfo(getColorG)
+    }
+    if(is(getColorG, "NativeSymbolInfo")) {
+      getColorG = getColorG$address
+    }
+  }
+  if(is.function(getColorB)) {
+    assert('...' %in% names(formals(getColorB)) || length(formals(getColorB)) >= 0)
+  } else {
+    if(is.character(getColorB)) {
+      getColorB = getNativeSymbolInfo(getColorB)
+    }
+    if(is(getColorB, "NativeSymbolInfo")) {
+      getColorB = getColorB$address
+    }
+  }
+  if(is.function(setColor)) {
+    assert('...' %in% names(formals(setColor)) || length(formals(setColor)) >= 5)
+  } else {
+    if(is.character(setColor)) {
+      setColor = getNativeSymbolInfo(setColor)
+    }
+    if(is(setColor, "NativeSymbolInfo")) {
+      setColor = setColor$address
+    }
+  }
+  if(is.function(changeNodeImage)) {
+    assert('...' %in% names(formals(changeNodeImage)) || length(formals(changeNodeImage)) >= 0)
+  } else {
+    if(is.character(changeNodeImage)) {
+      changeNodeImage = getNativeSymbolInfo(changeNodeImage)
+    }
+    if(is(changeNodeImage, "NativeSymbolInfo")) {
+      changeNodeImage = changeNodeImage$address
+    }
+  }
+  if(is.function(changeArrowHead)) {
+    assert('...' %in% names(formals(changeArrowHead)) || length(formals(changeArrowHead)) >= 0)
+  } else {
+    if(is.character(changeArrowHead)) {
+      changeArrowHead = getNativeSymbolInfo(changeArrowHead)
+    }
+    if(is(changeArrowHead, "NativeSymbolInfo")) {
+      changeArrowHead = changeArrowHead$address
+    }
+  }
+  .Call('R_swig_tc_BasicGraphicsToolbox_api', getColorR, getColorG, getColorB, setColor, changeNodeImage, changeArrowHead, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_BasicGraphicsToolbox_api`, 'returnType') = 'void'
+attr(`tc_BasicGraphicsToolbox_api`, "inputTypes") = c('_p_f_p_void__int', '_p_f_p_void__int', '_p_f_p_void__int', '_p_f_p_void_int_int_int_int__void', '_p_f_p_void_p_q_const__char__void', '_p_f_p_void_p_q_const__char__void')
+class(`tc_BasicGraphicsToolbox_api`) = c("SWIGFunction", class('tc_BasicGraphicsToolbox_api'))
+
+# Start of tc_getParameters
+
+`tc_getParameters` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getParameters', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getParameters`, 'returnType') = '_p_Matrix'
+attr(`tc_getParameters`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getParameters`) = c("SWIGFunction", class('tc_getParameters'))
+
+# Start of tc_getInitialValues
+
+`tc_getInitialValues` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getInitialValues', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getInitialValues`, 'returnType') = '_p_Matrix'
+attr(`tc_getInitialValues`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getInitialValues`) = c("SWIGFunction", class('tc_getInitialValues'))
+
+# Start of tc_setInitialValues
+
+`tc_setInitialValues` = function(items, values)
+{
+  .Call('R_swig_tc_setInitialValues', items, values, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setInitialValues`, 'returnType') = 'void'
+attr(`tc_setInitialValues`, "inputTypes") = c('_p_ArrayOfItems', '_p_Matrix')
+class(`tc_setInitialValues`) = c("SWIGFunction", class('tc_setInitialValues'))
+
+# Start of tc_getFixedVariables
+
+`tc_getFixedVariables` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getFixedVariables', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getFixedVariables`, 'returnType') = '_p_Matrix'
+attr(`tc_getFixedVariables`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getFixedVariables`) = c("SWIGFunction", class('tc_getFixedVariables'))
+
+# Start of tc_getParametersAndFixedVariables
+
+`tc_getParametersAndFixedVariables` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getParametersAndFixedVariables', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getParametersAndFixedVariables`, 'returnType') = '_p_Matrix'
+attr(`tc_getParametersAndFixedVariables`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getParametersAndFixedVariables`) = c("SWIGFunction", class('tc_getParametersAndFixedVariables'))
+
+# Start of tc_getTextAttribute
+
+`tc_getTextAttribute` = function(item, attribute)
+{
+  attribute = as(attribute, "character") 
+  .Call('R_swig_tc_getTextAttribute', item, attribute, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getTextAttribute`, 'returnType') = 'character'
+attr(`tc_getTextAttribute`, "inputTypes") = c('_p_void', 'character')
+class(`tc_getTextAttribute`) = c("SWIGFunction", class('tc_getTextAttribute'))
+
+# Start of tc_getParameter
+
+`tc_getParameter` = function(item, attribute, .copy = FALSE)
+{
+  attribute = as(attribute, "character") 
+  .Call('R_swig_tc_getParameter', item, attribute, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getParameter`, 'returnType') = 'numeric'
+attr(`tc_getParameter`, "inputTypes") = c('_p_void', 'character')
+class(`tc_getParameter`) = c("SWIGFunction", class('tc_getParameter'))
+
+# Start of tc_getParametersNamed
+
+`tc_getParametersNamed` = function(a, attibutes, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getParametersNamed', a, attibutes, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getParametersNamed`, 'returnType') = '_p_Matrix'
+attr(`tc_getParametersNamed`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+class(`tc_getParametersNamed`) = c("SWIGFunction", class('tc_getParametersNamed'))
+
+# Start of tc_getParametersExcept
+
+`tc_getParametersExcept` = function(a, attributes, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getParametersExcept', a, attributes, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getParametersExcept`, 'returnType') = '_p_Matrix'
+attr(`tc_getParametersExcept`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+class(`tc_getParametersExcept`) = c("SWIGFunction", class('tc_getParametersExcept'))
+
+# Start of tc_getAllTextNamed
+
+`tc_getAllTextNamed` = function(a, attributes, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getAllTextNamed', a, attributes, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getAllTextNamed`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getAllTextNamed`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+class(`tc_getAllTextNamed`) = c("SWIGFunction", class('tc_getAllTextNamed'))
+
+# Start of tc_setTextAttribute
+
+`tc_setTextAttribute` = function(item, attribute, value)
+{
+  attribute = as(attribute, "character") 
+  value = as(value, "character") 
+  .Call('R_swig_tc_setTextAttribute', item, attribute, value, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setTextAttribute`, 'returnType') = 'void'
+attr(`tc_setTextAttribute`, "inputTypes") = c('_p_void', 'character', 'character')
+class(`tc_setTextAttribute`) = c("SWIGFunction", class('tc_setTextAttribute'))
+
+# Start of tc_setParameter
+
+`tc_setParameter` = function(item, attribute, value)
+{
+  attribute = as(attribute, "character") 
+  
+  .Call('R_swig_tc_setParameter', item, attribute, value, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setParameter`, 'returnType') = 'void'
+attr(`tc_setParameter`, "inputTypes") = c('_p_void', 'character', 'numeric')
+class(`tc_setParameter`) = c("SWIGFunction", class('tc_setParameter'))
+
+# Start of tc_BasicInformationTool_Text_api
+
+`tc_BasicInformationTool_Text_api` = function(getTextData, getAllTextDataNamed, setTextData)
+{
+  if(is.function(getTextData)) {
+    assert('...' %in% names(formals(getTextData)) || length(formals(getTextData)) >= 2)
+  } else {
+    if(is.character(getTextData)) {
+      getTextData = getNativeSymbolInfo(getTextData)
+    }
+    if(is(getTextData, "NativeSymbolInfo")) {
+      getTextData = getTextData$address
+    }
+  }
+  if(is.function(getAllTextDataNamed)) {
+    assert('...' %in% names(formals(getAllTextDataNamed)) || length(formals(getAllTextDataNamed)) >= 2)
+  } else {
+    if(is.character(getAllTextDataNamed)) {
+      getAllTextDataNamed = getNativeSymbolInfo(getAllTextDataNamed)
+    }
+    if(is(getAllTextDataNamed, "NativeSymbolInfo")) {
+      getAllTextDataNamed = getAllTextDataNamed$address
+    }
+  }
+  if(is.function(setTextData)) {
+    assert('...' %in% names(formals(setTextData)) || length(formals(setTextData)) >= 3)
+  } else {
+    if(is.character(setTextData)) {
+      setTextData = getNativeSymbolInfo(setTextData)
+    }
+    if(is(setTextData, "NativeSymbolInfo")) {
+      setTextData = setTextData$address
+    }
+  }
+  .Call('R_swig_tc_BasicInformationTool_Text_api', getTextData, getAllTextDataNamed, setTextData, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_BasicInformationTool_Text_api`, 'returnType') = 'void'
+attr(`tc_BasicInformationTool_Text_api`, "inputTypes") = c('_p_f_p_void_p_q_const__char__p_char', '_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings', '_p_f_p_void_p_q_const__char_p_q_const__char__void')
+class(`tc_BasicInformationTool_Text_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Text_api'))
+
+# Start of tc_BasicInformationTool_Numeric_api
+
+`tc_BasicInformationTool_Numeric_api` = function(getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData)
+{
+  if(is.function(getInitialValues)) {
+    assert('...' %in% names(formals(getInitialValues)) || length(formals(getInitialValues)) >= 0)
+  } else {
+    if(is.character(getInitialValues)) {
+      getInitialValues = getNativeSymbolInfo(getInitialValues)
+    }
+    if(is(getInitialValues, "NativeSymbolInfo")) {
+      getInitialValues = getInitialValues$address
+    }
+  }
+  if(is.function(setInitialValues)) {
+    assert('...' %in% names(formals(setInitialValues)) || length(formals(setInitialValues)) >= 0)
+  } else {
+    if(is.character(setInitialValues)) {
+      setInitialValues = getNativeSymbolInfo(setInitialValues)
+    }
+    if(is(setInitialValues, "NativeSymbolInfo")) {
+      setInitialValues = setInitialValues$address
+    }
+  }
+  if(is.function(getParameters)) {
+    assert('...' %in% names(formals(getParameters)) || length(formals(getParameters)) >= 0)
+  } else {
+    if(is.character(getParameters)) {
+      getParameters = getNativeSymbolInfo(getParameters)
+    }
+    if(is(getParameters, "NativeSymbolInfo")) {
+      getParameters = getParameters$address
+    }
+  }
+  if(is.function(getFixedVariabes)) {
+    assert('...' %in% names(formals(getFixedVariabes)) || length(formals(getFixedVariabes)) >= 0)
+  } else {
+    if(is.character(getFixedVariabes)) {
+      getFixedVariabes = getNativeSymbolInfo(getFixedVariabes)
+    }
+    if(is(getFixedVariabes, "NativeSymbolInfo")) {
+      getFixedVariabes = getFixedVariabes$address
+    }
+  }
+  if(is.function(getParametersAndFixedVariabes)) {
+    assert('...' %in% names(formals(getParametersAndFixedVariabes)) || length(formals(getParametersAndFixedVariabes)) >= 0)
+  } else {
+    if(is.character(getParametersAndFixedVariabes)) {
+      getParametersAndFixedVariabes = getNativeSymbolInfo(getParametersAndFixedVariabes)
+    }
+    if(is(getParametersAndFixedVariabes, "NativeSymbolInfo")) {
+      getParametersAndFixedVariabes = getParametersAndFixedVariabes$address
+    }
+  }
+  if(is.function(getNumericalData)) {
+    assert('...' %in% names(formals(getNumericalData)) || length(formals(getNumericalData)) >= 2)
+  } else {
+    if(is.character(getNumericalData)) {
+      getNumericalData = getNativeSymbolInfo(getNumericalData)
+    }
+    if(is(getNumericalData, "NativeSymbolInfo")) {
+      getNumericalData = getNumericalData$address
+    }
+  }
+  if(is.function(getParametersNamed)) {
+    assert('...' %in% names(formals(getParametersNamed)) || length(formals(getParametersNamed)) >= 2)
+  } else {
+    if(is.character(getParametersNamed)) {
+      getParametersNamed = getNativeSymbolInfo(getParametersNamed)
+    }
+    if(is(getParametersNamed, "NativeSymbolInfo")) {
+      getParametersNamed = getParametersNamed$address
+    }
+  }
+  if(is.function(getParametersExcept)) {
+    assert('...' %in% names(formals(getParametersExcept)) || length(formals(getParametersExcept)) >= 0)
+  } else {
+    if(is.character(getParametersExcept)) {
+      getParametersExcept = getNativeSymbolInfo(getParametersExcept)
+    }
+    if(is(getParametersExcept, "NativeSymbolInfo")) {
+      getParametersExcept = getParametersExcept$address
+    }
+  }
+  if(is.function(setNumericalData)) {
+    assert('...' %in% names(formals(setNumericalData)) || length(formals(setNumericalData)) >= 3)
+  } else {
+    if(is.character(setNumericalData)) {
+      setNumericalData = getNativeSymbolInfo(setNumericalData)
+    }
+    if(is(setNumericalData, "NativeSymbolInfo")) {
+      setNumericalData = setNumericalData$address
+    }
+  }
+  .Call('R_swig_tc_BasicInformationTool_Numeric_api', getInitialValues, setInitialValues, getParameters, getFixedVariabes, getParametersAndFixedVariabes, getNumericalData, getParametersNamed, getParametersExcept, setNumericalData, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_BasicInformationTool_Numeric_api`, 'returnType') = 'void'
+attr(`tc_BasicInformationTool_Numeric_api`, "inputTypes") = c('_p_f_ArrayOfItems__Matrix', '_p_f_ArrayOfItems_Matrix__void', '_p_f_ArrayOfItems__Matrix', '_p_f_ArrayOfItems__Matrix', '_p_f_ArrayOfItems__Matrix', '_p_f_p_void_p_q_const__char__double', '_p_f_ArrayOfItems_ArrayOfStrings__Matrix', '_p_f_ArrayOfItems_ArrayOfStrings__Matrix', '_p_f_p_void_p_q_const__char_double__void')
+class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_BasicInformationTool_Numeric_api'))
+
+# Start of tc_insertConnection
+
+`tc_insertConnection` = function(partsFrom, partsTo, name, family)
+{
+  name = as(name, "character") 
+  family = as(family, "character") 
+  ans = .Call('R_swig_tc_insertConnection', partsFrom, partsTo, name, family, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`tc_insertConnection`, 'returnType') = '_p_void'
+attr(`tc_insertConnection`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfItems', 'character', 'character')
+class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
+
+# Start of tc_getConnectedNodes
+
+`tc_getConnectedNodes` = function(connection, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectedNodes', connection, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectedNodes`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodes`, "inputTypes") = c('_p_void')
+class(`tc_getConnectedNodes`) = c("SWIGFunction", class('tc_getConnectedNodes'))
+
+# Start of tc_getConnectedNodesIn
+
+`tc_getConnectedNodesIn` = function(connection, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectedNodesIn', connection, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectedNodesIn`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodesIn`, "inputTypes") = c('_p_void')
+class(`tc_getConnectedNodesIn`) = c("SWIGFunction", class('tc_getConnectedNodesIn'))
+
+# Start of tc_getConnectedNodesOut
+
+`tc_getConnectedNodesOut` = function(connection, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectedNodesOut', connection, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectedNodesOut`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodesOut`, "inputTypes") = c('_p_void')
+class(`tc_getConnectedNodesOut`) = c("SWIGFunction", class('tc_getConnectedNodesOut'))
+
+# Start of tc_getConnectedNodesOther
+
+`tc_getConnectedNodesOther` = function(connection, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectedNodesOther', connection, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectedNodesOther`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectedNodesOther`, "inputTypes") = c('_p_void')
+class(`tc_getConnectedNodesOther`) = c("SWIGFunction", class('tc_getConnectedNodesOther'))
+
+# Start of tc_getConnections
+
+`tc_getConnections` = function(part, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnections', part, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnections`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnections`, "inputTypes") = c('_p_void')
+class(`tc_getConnections`) = c("SWIGFunction", class('tc_getConnections'))
+
+# Start of tc_getConnectionsIn
+
+`tc_getConnectionsIn` = function(part, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectionsIn', part, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectionsIn`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectionsIn`, "inputTypes") = c('_p_void')
+class(`tc_getConnectionsIn`) = c("SWIGFunction", class('tc_getConnectionsIn'))
+
+# Start of tc_getConnectionsOut
+
+`tc_getConnectionsOut` = function(part, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectionsOut', part, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectionsOut`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectionsOut`, "inputTypes") = c('_p_void')
+class(`tc_getConnectionsOut`) = c("SWIGFunction", class('tc_getConnectionsOut'))
+
+# Start of tc_getConnectionsOther
+
+`tc_getConnectionsOther` = function(part, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getConnectionsOther', part, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_getConnectionsOther`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_getConnectionsOther`, "inputTypes") = c('_p_void')
+class(`tc_getConnectionsOther`) = c("SWIGFunction", class('tc_getConnectionsOther'))
+
+# Start of tc_ConnectionInsertion_api
+
+`tc_ConnectionInsertion_api` = function(insertConnection, getConnectedParts, getConnectedPartsIn, getConnectedPartsOut, getConnectedPartsOther, getConnections, getConnectionsIn, getConnectionsOut, getConnectionsOther)
+{
+  if(is.function(insertConnection)) {
+    assert('...' %in% names(formals(insertConnection)) || length(formals(insertConnection)) >= 4)
+  } else {
+    if(is.character(insertConnection)) {
+      insertConnection = getNativeSymbolInfo(insertConnection)
+    }
+    if(is(insertConnection, "NativeSymbolInfo")) {
+      insertConnection = insertConnection$address
+    }
+  }
+  if(is.function(getConnectedParts)) {
+    assert('...' %in% names(formals(getConnectedParts)) || length(formals(getConnectedParts)) >= 0)
+  } else {
+    if(is.character(getConnectedParts)) {
+      getConnectedParts = getNativeSymbolInfo(getConnectedParts)
+    }
+    if(is(getConnectedParts, "NativeSymbolInfo")) {
+      getConnectedParts = getConnectedParts$address
+    }
+  }
+  if(is.function(getConnectedPartsIn)) {
+    assert('...' %in% names(formals(getConnectedPartsIn)) || length(formals(getConnectedPartsIn)) >= 0)
+  } else {
+    if(is.character(getConnectedPartsIn)) {
+      getConnectedPartsIn = getNativeSymbolInfo(getConnectedPartsIn)
+    }
+    if(is(getConnectedPartsIn, "NativeSymbolInfo")) {
+      getConnectedPartsIn = getConnectedPartsIn$address
+    }
+  }
+  if(is.function(getConnectedPartsOut)) {
+    assert('...' %in% names(formals(getConnectedPartsOut)) || length(formals(getConnectedPartsOut)) >= 0)
+  } else {
+    if(is.character(getConnectedPartsOut)) {
+      getConnectedPartsOut = getNativeSymbolInfo(getConnectedPartsOut)
+    }
+    if(is(getConnectedPartsOut, "NativeSymbolInfo")) {
+      getConnectedPartsOut = getConnectedPartsOut$address
+    }
+  }
+  if(is.function(getConnectedPartsOther)) {
+    assert('...' %in% names(formals(getConnectedPartsOther)) || length(formals(getConnectedPartsOther)) >= 0)
+  } else {
+    if(is.character(getConnectedPartsOther)) {
+      getConnectedPartsOther = getNativeSymbolInfo(getConnectedPartsOther)
+    }
+    if(is(getConnectedPartsOther, "NativeSymbolInfo")) {
+      getConnectedPartsOther = getConnectedPartsOther$address
+    }
+  }
+  if(is.function(getConnections)) {
+    assert('...' %in% names(formals(getConnections)) || length(formals(getConnections)) >= 0)
+  } else {
+    if(is.character(getConnections)) {
+      getConnections = getNativeSymbolInfo(getConnections)
+    }
+    if(is(getConnections, "NativeSymbolInfo")) {
+      getConnections = getConnections$address
+    }
+  }
+  if(is.function(getConnectionsIn)) {
+    assert('...' %in% names(formals(getConnectionsIn)) || length(formals(getConnectionsIn)) >= 0)
+  } else {
+    if(is.character(getConnectionsIn)) {
+      getConnectionsIn = getNativeSymbolInfo(getConnectionsIn)
+    }
+    if(is(getConnectionsIn, "NativeSymbolInfo")) {
+      getConnectionsIn = getConnectionsIn$address
+    }
+  }
+  if(is.function(getConnectionsOut)) {
+    assert('...' %in% names(formals(getConnectionsOut)) || length(formals(getConnectionsOut)) >= 0)
+  } else {
+    if(is.character(getConnectionsOut)) {
+      getConnectionsOut = getNativeSymbolInfo(getConnectionsOut)
+    }
+    if(is(getConnectionsOut, "NativeSymbolInfo")) {
+      getConnectionsOut = getConnectionsOut$address
+    }
+  }
+  if(is.function(getConnectionsOther)) {
+    assert('...' %in% names(formals(getConnectionsOther)) || length(formals(getConnectionsOther)) >= 0)
+  } else {
+    if(is.character(getConnectionsOther)) {
+      getConnectionsOther = getNativeSymbolInfo(getConnectionsOther)
+    }
+    if(is(getConnectionsOther, "NativeSymbolInfo")) {
+      getConnectionsOther = getConnectionsOther$address
+    }
+  }
+  .Call('R_swig_tc_ConnectionInsertion_api', insertConnection, getConnectedParts, getConnectedPartsIn, getConnectedPartsOut, getConnectedPartsOther, getConnections, getConnectionsIn, getConnectionsOut, getConnectionsOther, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_ConnectionInsertion_api`, 'returnType') = 'void'
+attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems')
+class(`tc_ConnectionInsertion_api`) = c("SWIGFunction", class('tc_ConnectionInsertion_api'))
+
+# Start of tc_getControlPointX
+
+`tc_getControlPointX` = function(connection, part, whichPoint, .copy = FALSE)
+{
+  whichPoint = as(whichPoint, "integer");     
+  
+  if(length(whichPoint) > 1) {
+    Rf_warning("using only the first element of whichPoint")
+  }
+  
+  .Call('R_swig_tc_getControlPointX', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getControlPointX`, 'returnType') = 'numeric'
+attr(`tc_getControlPointX`, "inputTypes") = c('_p_void', '_p_void', 'numeric')
+class(`tc_getControlPointX`) = c("SWIGFunction", class('tc_getControlPointX'))
+
+# Start of tc_getControlPointY
+
+`tc_getControlPointY` = function(connection, part, whichPoint, .copy = FALSE)
+{
+  whichPoint = as(whichPoint, "integer");     
+  
+  if(length(whichPoint) > 1) {
+    Rf_warning("using only the first element of whichPoint")
+  }
+  
+  .Call('R_swig_tc_getControlPointY', connection, part, whichPoint, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getControlPointY`, 'returnType') = 'numeric'
+attr(`tc_getControlPointY`, "inputTypes") = c('_p_void', '_p_void', 'numeric')
+class(`tc_getControlPointY`) = c("SWIGFunction", class('tc_getControlPointY'))
+
+# Start of tc_setControlPoint
+
+`tc_setControlPoint` = function(connection, part, whichPoint, x, y)
+{
+  whichPoint = as(whichPoint, "integer");     
+  
+  if(length(whichPoint) > 1) {
+    Rf_warning("using only the first element of whichPoint")
+  }
+  
+  
+  
+  .Call('R_swig_tc_setControlPoint', connection, part, whichPoint, x, y, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setControlPoint`, 'returnType') = 'void'
+attr(`tc_setControlPoint`, "inputTypes") = c('_p_void', '_p_void', 'numeric', 'numeric', 'numeric')
+class(`tc_setControlPoint`) = c("SWIGFunction", class('tc_setControlPoint'))
+
+# Start of tc_setCenterPoint
+
+`tc_setCenterPoint` = function(connection, y, x)
+{
+  .Call('R_swig_tc_setCenterPoint', connection, y, x, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setCenterPoint`, 'returnType') = 'void'
+attr(`tc_setCenterPoint`, "inputTypes") = c('_p_void', 'numeric', 'numeric')
+class(`tc_setCenterPoint`) = c("SWIGFunction", class('tc_setCenterPoint'))
+
+# Start of tc_getCenterPointX
+
+`tc_getCenterPointX` = function(connection, .copy = FALSE)
+{
+  .Call('R_swig_tc_getCenterPointX', connection, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getCenterPointX`, 'returnType') = 'numeric'
+attr(`tc_getCenterPointX`, "inputTypes") = c('_p_void')
+class(`tc_getCenterPointX`) = c("SWIGFunction", class('tc_getCenterPointX'))
+
+# Start of tc_getCenterPointY
+
+`tc_getCenterPointY` = function(connection, .copy = FALSE)
+{
+  .Call('R_swig_tc_getCenterPointY', connection, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getCenterPointY`, 'returnType') = 'numeric'
+attr(`tc_getCenterPointY`, "inputTypes") = c('_p_void')
+class(`tc_getCenterPointY`) = c("SWIGFunction", class('tc_getCenterPointY'))
+
+# Start of tc_setStraight
+
+`tc_setStraight` = function(item, straight)
+{
+  straight = as(straight, "integer");     
+  
+  if(length(straight) > 1) {
+    Rf_warning("using only the first element of straight")
+  }
+  
+  .Call('R_swig_tc_setStraight', item, straight, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setStraight`, 'returnType') = 'void'
+attr(`tc_setStraight`, "inputTypes") = c('_p_void', 'numeric')
+class(`tc_setStraight`) = c("SWIGFunction", class('tc_setStraight'))
+
+# Start of tc_setAllStraight
+
+`tc_setAllStraight` = function(straight)
+{
+  straight = as(straight, "integer");     
+  
+  if(length(straight) > 1) {
+    Rf_warning("using only the first element of straight")
+  }
+  
+  .Call('R_swig_tc_setAllStraight', straight, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setAllStraight`, 'returnType') = 'void'
+attr(`tc_setAllStraight`, "inputTypes") = c('numeric')
+class(`tc_setAllStraight`) = c("SWIGFunction", class('tc_setAllStraight'))
+
+# Start of tc_setLineWidth
+
+`tc_setLineWidth` = function(item, width, permanent)
+{
+  permanent = as(permanent, "integer");     
+  
+  if(length(permanent) > 1) {
+    Rf_warning("using only the first element of permanent")
+  }
+  
+  .Call('R_swig_tc_setLineWidth', item, width, permanent, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setLineWidth`, 'returnType') = 'void'
+attr(`tc_setLineWidth`, "inputTypes") = c('_p_void', 'numeric', 'numeric')
+class(`tc_setLineWidth`) = c("SWIGFunction", class('tc_setLineWidth'))
+
+# Start of tc_ConnectionSelection_api
+
+`tc_ConnectionSelection_api` = function(getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth)
+{
+  if(is.function(getControlPointX)) {
+    assert('...' %in% names(formals(getControlPointX)) || length(formals(getControlPointX)) >= 3)
+  } else {
+    if(is.character(getControlPointX)) {
+      getControlPointX = getNativeSymbolInfo(getControlPointX)
+    }
+    if(is(getControlPointX, "NativeSymbolInfo")) {
+      getControlPointX = getControlPointX$address
+    }
+  }
+  if(is.function(getControlPointY)) {
+    assert('...' %in% names(formals(getControlPointY)) || length(formals(getControlPointY)) >= 0)
+  } else {
+    if(is.character(getControlPointY)) {
+      getControlPointY = getNativeSymbolInfo(getControlPointY)
+    }
+    if(is(getControlPointY, "NativeSymbolInfo")) {
+      getControlPointY = getControlPointY$address
+    }
+  }
+  if(is.function(setControlPoint)) {
+    assert('...' %in% names(formals(setControlPoint)) || length(formals(setControlPoint)) >= 5)
+  } else {
+    if(is.character(setControlPoint)) {
+      setControlPoint = getNativeSymbolInfo(setControlPoint)
+    }
+    if(is(setControlPoint, "NativeSymbolInfo")) {
+      setControlPoint = setControlPoint$address
+    }
+  }
+  if(is.function(setCenterPoint)) {
+    assert('...' %in% names(formals(setCenterPoint)) || length(formals(setCenterPoint)) >= 0)
+  } else {
+    if(is.character(setCenterPoint)) {
+      setCenterPoint = getNativeSymbolInfo(setCenterPoint)
+    }
+    if(is(setCenterPoint, "NativeSymbolInfo")) {
+      setCenterPoint = setCenterPoint$address
+    }
+  }
+  if(is.function(getCenterPointX)) {
+    assert('...' %in% names(formals(getCenterPointX)) || length(formals(getCenterPointX)) >= 0)
+  } else {
+    if(is.character(getCenterPointX)) {
+      getCenterPointX = getNativeSymbolInfo(getCenterPointX)
+    }
+    if(is(getCenterPointX, "NativeSymbolInfo")) {
+      getCenterPointX = getCenterPointX$address
+    }
+  }
+  if(is.function(getCenterPointY)) {
+    assert('...' %in% names(formals(getCenterPointY)) || length(formals(getCenterPointY)) >= 0)
+  } else {
+    if(is.character(getCenterPointY)) {
+      getCenterPointY = getNativeSymbolInfo(getCenterPointY)
+    }
+    if(is(getCenterPointY, "NativeSymbolInfo")) {
+      getCenterPointY = getCenterPointY$address
+    }
+  }
+  if(is.function(setStraight)) {
+    assert('...' %in% names(formals(setStraight)) || length(formals(setStraight)) >= 0)
+  } else {
+    if(is.character(setStraight)) {
+      setStraight = getNativeSymbolInfo(setStraight)
+    }
+    if(is(setStraight, "NativeSymbolInfo")) {
+      setStraight = setStraight$address
+    }
+  }
+  if(is.function(setAllStraight)) {
+    assert('...' %in% names(formals(setAllStraight)) || length(formals(setAllStraight)) >= 1)
+  } else {
+    if(is.character(setAllStraight)) {
+      setAllStraight = getNativeSymbolInfo(setAllStraight)
+    }
+    if(is(setAllStraight, "NativeSymbolInfo")) {
+      setAllStraight = setAllStraight$address
+    }
+  }
+  if(is.function(setLineWidth)) {
+    assert('...' %in% names(formals(setLineWidth)) || length(formals(setLineWidth)) >= 3)
+  } else {
+    if(is.character(setLineWidth)) {
+      setLineWidth = getNativeSymbolInfo(setLineWidth)
+    }
+    if(is(setLineWidth, "NativeSymbolInfo")) {
+      setLineWidth = setLineWidth$address
+    }
+  }
+  .Call('R_swig_tc_ConnectionSelection_api', getControlPointX, getControlPointY, setControlPoint, setCenterPoint, getCenterPointX, getCenterPointY, setStraight, setAllStraight, setLineWidth, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_ConnectionSelection_api`, 'returnType') = 'void'
+attr(`tc_ConnectionSelection_api`, "inputTypes") = c('_p_f_p_void_p_void_int__double', '_p_f_p_void_p_void_int__double', '_p_f_p_void_p_void_int_double_double__void', '_p_f_p_void_double_double__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_p_void_int__void', '_p_f_int__void', '_p_f_p_void_double_int__void')
+class(`tc_ConnectionSelection_api`) = c("SWIGFunction", class('tc_ConnectionSelection_api'))
+
+# Start of tc_merge
+
+`tc_merge` = function(parts)
+{
+  .Call('R_swig_tc_merge', parts, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_merge`, 'returnType') = 'void'
+attr(`tc_merge`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_merge`) = c("SWIGFunction", class('tc_merge'))
+
+# Start of tc_separate
+
+`tc_separate` = function(part)
+{
+  .Call('R_swig_tc_separate', part, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_separate`, 'returnType') = 'void'
+attr(`tc_separate`, "inputTypes") = c('_p_void')
+class(`tc_separate`) = c("SWIGFunction", class('tc_separate'))
+
+# Start of tc_GroupHandlerTool_api
+
+`tc_GroupHandlerTool_api` = function(merge, separate)
+{
+  if(is.function(merge)) {
+    assert('...' %in% names(formals(merge)) || length(formals(merge)) >= 1)
+  } else {
+    if(is.character(merge)) {
+      merge = getNativeSymbolInfo(merge)
+    }
+    if(is(merge, "NativeSymbolInfo")) {
+      merge = merge$address
+    }
+  }
+  if(is.function(separate)) {
+    assert('...' %in% names(formals(separate)) || length(formals(separate)) >= 0)
+  } else {
+    if(is.character(separate)) {
+      separate = getNativeSymbolInfo(separate)
+    }
+    if(is(separate, "NativeSymbolInfo")) {
+      separate = separate$address
+    }
+  }
+  .Call('R_swig_tc_GroupHandlerTool_api', merge, separate, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_GroupHandlerTool_api`, 'returnType') = 'void'
+attr(`tc_GroupHandlerTool_api`, "inputTypes") = c('_p_f_ArrayOfItems__void', '_p_f_p_void__void')
+class(`tc_GroupHandlerTool_api`) = c("SWIGFunction", class('tc_GroupHandlerTool_api'))
+
+# Start of tc_insert
+
+`tc_insert` = function(name, family)
+{
+  name = as(name, "character") 
+  family = as(family, "character") 
+  ans = .Call('R_swig_tc_insert', name, family, PACKAGE='tinkercell')
+  class(ans) <- "_p_void"
+  
+  ans
+  
+}
+
+attr(`tc_insert`, 'returnType') = '_p_void'
+attr(`tc_insert`, "inputTypes") = c('character', 'character')
+class(`tc_insert`) = c("SWIGFunction", class('tc_insert'))
+
+# Start of tc_NodeInsertion_api
+
+`tc_NodeInsertion_api` = function(insertItem)
+{
+  if(is.function(insertItem)) {
+    assert('...' %in% names(formals(insertItem)) || length(formals(insertItem)) >= 2)
+  } else {
+    if(is.character(insertItem)) {
+      insertItem = getNativeSymbolInfo(insertItem)
+    }
+    if(is(insertItem, "NativeSymbolInfo")) {
+      insertItem = insertItem$address
+    }
+  }
+  .Call('R_swig_tc_NodeInsertion_api', insertItem, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_NodeInsertion_api`, 'returnType') = 'void'
+attr(`tc_NodeInsertion_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__p_void')
+class(`tc_NodeInsertion_api`) = c("SWIGFunction", class('tc_NodeInsertion_api'))
+
+# Start of tc_getStoichiometry
+
+`tc_getStoichiometry` = function(A, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getStoichiometry', A, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getStoichiometry`, 'returnType') = '_p_Matrix'
+attr(`tc_getStoichiometry`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getStoichiometry`) = c("SWIGFunction", class('tc_getStoichiometry'))
+
+# Start of tc_setStoichiometry
+
+`tc_setStoichiometry` = function(A, N)
+{
+  .Call('R_swig_tc_setStoichiometry', A, N, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setStoichiometry`, 'returnType') = 'void'
+attr(`tc_setStoichiometry`, "inputTypes") = c('_p_ArrayOfItems', '_p_Matrix')
+class(`tc_setStoichiometry`) = c("SWIGFunction", class('tc_setStoichiometry'))
+
+# Start of tc_getRates
+
+`tc_getRates` = function(A, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getRates', A, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getRates`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getRates`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getRates`) = c("SWIGFunction", class('tc_getRates'))
+
+# Start of tc_setRates
+
+`tc_setRates` = function(A, rates)
+{
+  .Call('R_swig_tc_setRates', A, rates, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setRates`, 'returnType') = 'void'
+attr(`tc_setRates`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfStrings')
+class(`tc_setRates`) = c("SWIGFunction", class('tc_setRates'))
+
+# Start of tc_getStoichiometryFor
+
+`tc_getStoichiometryFor` = function(x, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getStoichiometryFor', x, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getStoichiometryFor`, 'returnType') = '_p_Matrix'
+attr(`tc_getStoichiometryFor`, "inputTypes") = c('_p_void')
+class(`tc_getStoichiometryFor`) = c("SWIGFunction", class('tc_getStoichiometryFor'))
+
+# Start of tc_getRate
+
+`tc_getRate` = function(x)
+{
+  .Call('R_swig_tc_getRate', x, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getRate`, 'returnType') = 'character'
+attr(`tc_getRate`, "inputTypes") = c('_p_void')
+class(`tc_getRate`) = c("SWIGFunction", class('tc_getRate'))
+
+# Start of tc_setRate
+
+`tc_setRate` = function(x, r)
+{
+  r = as(r, "character") 
+  .Call('R_swig_tc_setRate', x, r, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setRate`, 'returnType') = 'void'
+attr(`tc_setRate`, "inputTypes") = c('_p_void', 'character')
+class(`tc_setRate`) = c("SWIGFunction", class('tc_setRate'))
+
+# Start of tc_setStoichiometryFor
+
+`tc_setStoichiometryFor` = function(x, N)
+{
+  .Call('R_swig_tc_setStoichiometryFor', x, N, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setStoichiometryFor`, 'returnType') = 'void'
+attr(`tc_setStoichiometryFor`, "inputTypes") = c('_p_void', '_p_Matrix')
+class(`tc_setStoichiometryFor`) = c("SWIGFunction", class('tc_setStoichiometryFor'))
+
+# Start of tc_StoichiometryTool_api
+
+`tc_StoichiometryTool_api` = function(getStoichiometry, setStoichiometry, getRates, setRates)
+{
+  if(is.function(getStoichiometry)) {
+    assert('...' %in% names(formals(getStoichiometry)) || length(formals(getStoichiometry)) >= 0)
+  } else {
+    if(is.character(getStoichiometry)) {
+      getStoichiometry = getNativeSymbolInfo(getStoichiometry)
+    }
+    if(is(getStoichiometry, "NativeSymbolInfo")) {
+      getStoichiometry = getStoichiometry$address
+    }
+  }
+  if(is.function(setStoichiometry)) {
+    assert('...' %in% names(formals(setStoichiometry)) || length(formals(setStoichiometry)) >= 0)
+  } else {
+    if(is.character(setStoichiometry)) {
+      setStoichiometry = getNativeSymbolInfo(setStoichiometry)
+    }
+    if(is(setStoichiometry, "NativeSymbolInfo")) {
+      setStoichiometry = setStoichiometry$address
+    }
+  }
+  if(is.function(getRates)) {
+    assert('...' %in% names(formals(getRates)) || length(formals(getRates)) >= 0)
+  } else {
+    if(is.character(getRates)) {
+      getRates = getNativeSymbolInfo(getRates)
+    }
+    if(is(getRates, "NativeSymbolInfo")) {
+      getRates = getRates$address
+    }
+  }
+  if(is.function(setRates)) {
+    assert('...' %in% names(formals(setRates)) || length(formals(setRates)) >= 2)
+  } else {
+    if(is.character(setRates)) {
+      setRates = getNativeSymbolInfo(setRates)
+    }
+    if(is(setRates, "NativeSymbolInfo")) {
+      setRates = setRates$address
+    }
+  }
+  .Call('R_swig_tc_StoichiometryTool_api', getStoichiometry, setStoichiometry, getRates, setRates, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_StoichiometryTool_api`, 'returnType') = 'void'
+attr(`tc_StoichiometryTool_api`, "inputTypes") = c('_p_f_ArrayOfItems__Matrix', '_p_f_ArrayOfItems_Matrix__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_ArrayOfItems_ArrayOfStrings__void')
+class(`tc_StoichiometryTool_api`) = c("SWIGFunction", class('tc_StoichiometryTool_api'))
+
+# Start of tc_compileAndRun
+
+`tc_compileAndRun` = function(command, s_args, .copy = FALSE)
+{
+  command = as(command, "character") 
+  s_args = as(s_args, "character") 
+  .Call('R_swig_tc_compileAndRun', command, s_args, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_compileAndRun`, 'returnType') = 'numeric'
+attr(`tc_compileAndRun`, "inputTypes") = c('character', 'character')
+class(`tc_compileAndRun`) = c("SWIGFunction", class('tc_compileAndRun'))
+
+# Start of tc_compileBuildLoad
+
+`tc_compileBuildLoad` = function(filename, s_arg2, title, .copy = FALSE)
+{
+  filename = as(filename, "character") 
+  s_arg2 = as(s_arg2, "character") 
+  title = as(title, "character") 
+  .Call('R_swig_tc_compileBuildLoad', filename, s_arg2, title, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_compileBuildLoad`, 'returnType') = 'numeric'
+attr(`tc_compileBuildLoad`, "inputTypes") = c('character', 'character', 'character')
+class(`tc_compileBuildLoad`) = c("SWIGFunction", class('tc_compileBuildLoad'))
+
+# Start of tc_compileBuildLoadSliders
+
+`tc_compileBuildLoadSliders` = function(filename, s_arg2, title, inputs, .copy = FALSE)
+{
+  filename = as(filename, "character") 
+  s_arg2 = as(s_arg2, "character") 
+  title = as(title, "character") 
+  
+  .Call('R_swig_tc_compileBuildLoadSliders', filename, s_arg2, title, inputs, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_compileBuildLoadSliders`, 'returnType') = 'numeric'
+attr(`tc_compileBuildLoadSliders`, "inputTypes") = c('character', 'character', 'character', '_p_Matrix')
+class(`tc_compileBuildLoadSliders`) = c("SWIGFunction", class('tc_compileBuildLoadSliders'))
+
+# Start of tc_runPythonCode
+
+`tc_runPythonCode` = function(code)
+{
+  code = as(code, "character") 
+  .Call('R_swig_tc_runPythonCode', code, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_runPythonCode`, 'returnType') = 'void'
+attr(`tc_runPythonCode`, "inputTypes") = c('character')
+class(`tc_runPythonCode`) = c("SWIGFunction", class('tc_runPythonCode'))
+
+# Start of tc_runPythonFile
+
+`tc_runPythonFile` = function(filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_runPythonFile', filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_runPythonFile`, 'returnType') = 'void'
+attr(`tc_runPythonFile`, "inputTypes") = c('character')
+class(`tc_runPythonFile`) = c("SWIGFunction", class('tc_runPythonFile'))
+
+# Start of tc_addPythonPlugin
+
+`tc_addPythonPlugin` = function(file, name, description, category, icon)
+{
+  file = as(file, "character") 
+  name = as(name, "character") 
+  description = as(description, "character") 
+  category = as(category, "character") 
+  icon = as(icon, "character") 
+  .Call('R_swig_tc_addPythonPlugin', file, name, description, category, icon, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addPythonPlugin`, 'returnType') = 'void'
+attr(`tc_addPythonPlugin`, "inputTypes") = c('character', 'character', 'character', 'character', 'character')
+class(`tc_addPythonPlugin`) = c("SWIGFunction", class('tc_addPythonPlugin'))
+
+# Start of tc_callFunction
+
+`tc_callFunction` = function(functionTitle)
+{
+  functionTitle = as(functionTitle, "character") 
+  .Call('R_swig_tc_callFunction', functionTitle, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_callFunction`, 'returnType') = 'void'
+attr(`tc_callFunction`, "inputTypes") = c('character')
+class(`tc_callFunction`) = c("SWIGFunction", class('tc_callFunction'))
+
+# Start of tc_loadLibrary
+
+`tc_loadLibrary` = function(filename)
+{
+  filename = as(filename, "character") 
+  .Call('R_swig_tc_loadLibrary', filename, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_loadLibrary`, 'returnType') = 'void'
+attr(`tc_loadLibrary`, "inputTypes") = c('character')
+class(`tc_loadLibrary`) = c("SWIGFunction", class('tc_loadLibrary'))
+
+# Start of tc_addFunction
+
+`tc_addFunction` = function(f, title, description, category, iconFile, target_family, show_menu, in_tool_menu, make_default)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 0)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  title = as(title, "character") 
+  description = as(description, "character") 
+  category = as(category, "character") 
+  iconFile = as(iconFile, "character") 
+  target_family = as(target_family, "character") 
+  show_menu = as(show_menu, "integer");     
+  
+  if(length(show_menu) > 1) {
+    Rf_warning("using only the first element of show_menu")
+  }
+  
+  in_tool_menu = as(in_tool_menu, "integer");     
+  
+  if(length(in_tool_menu) > 1) {
+    Rf_warning("using only the first element of in_tool_menu")
+  }
+  
+  make_default = as(make_default, "integer");     
+  
+  if(length(make_default) > 1) {
+    Rf_warning("using only the first element of make_default")
+  }
+  
+  .Call('R_swig_tc_addFunction', f, title, description, category, iconFile, target_family, show_menu, in_tool_menu, make_default, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addFunction`, 'returnType') = 'void'
+attr(`tc_addFunction`, "inputTypes") = c('_p_f___void', 'character', 'character', 'character', 'character', 'character', 'numeric', 'numeric', 'numeric')
+class(`tc_addFunction`) = c("SWIGFunction", class('tc_addFunction'))
+
+# Start of tc_callback
+
+`tc_callback` = function(f)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 1)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_callback', f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_callback`, 'returnType') = 'void'
+attr(`tc_callback`, "inputTypes") = c('_p_f_void__void')
+class(`tc_callback`) = c("SWIGFunction", class('tc_callback'))
+
+# Start of tc_callWhenExiting
+
+`tc_callWhenExiting` = function(f)
+{
+  if(is.function(f)) {
+    assert('...' %in% names(formals(f)) || length(formals(f)) >= 0)
+  } else {
+    if(is.character(f)) {
+      f = getNativeSymbolInfo(f)
+    }
+    if(is(f, "NativeSymbolInfo")) {
+      f = f$address
+    }
+  }
+  .Call('R_swig_tc_callWhenExiting', f, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_callWhenExiting`, 'returnType') = 'void'
+attr(`tc_callWhenExiting`, "inputTypes") = c('_p_f_void__void')
+class(`tc_callWhenExiting`) = c("SWIGFunction", class('tc_callWhenExiting'))
+
+# Start of tc_DynamicLibraryMenu_api
+
+`tc_DynamicLibraryMenu_api` = function(callFunction)
+{
+  if(is.function(callFunction)) {
+    assert('...' %in% names(formals(callFunction)) || length(formals(callFunction)) >= 0)
+  } else {
+    if(is.character(callFunction)) {
+      callFunction = getNativeSymbolInfo(callFunction)
+    }
+    if(is(callFunction, "NativeSymbolInfo")) {
+      callFunction = callFunction$address
+    }
+  }
+  .Call('R_swig_tc_DynamicLibraryMenu_api', callFunction, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_DynamicLibraryMenu_api`, 'returnType') = 'void'
+attr(`tc_DynamicLibraryMenu_api`, "inputTypes") = c('_p_f_p_q_const__char__void')
+class(`tc_DynamicLibraryMenu_api`) = c("SWIGFunction", class('tc_DynamicLibraryMenu_api'))
+
+# Start of tc_LoadCLibraries_api
+
+`tc_LoadCLibraries_api` = function(compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, callback, unload)
+{
+  if(is.function(compileAndRun)) {
+    assert('...' %in% names(formals(compileAndRun)) || length(formals(compileAndRun)) >= 2)
+  } else {
+    if(is.character(compileAndRun)) {
+      compileAndRun = getNativeSymbolInfo(compileAndRun)
+    }
+    if(is(compileAndRun, "NativeSymbolInfo")) {
+      compileAndRun = compileAndRun$address
+    }
+  }
+  if(is.function(compileBuildLoad)) {
+    assert('...' %in% names(formals(compileBuildLoad)) || length(formals(compileBuildLoad)) >= 3)
+  } else {
+    if(is.character(compileBuildLoad)) {
+      compileBuildLoad = getNativeSymbolInfo(compileBuildLoad)
+    }
+    if(is(compileBuildLoad, "NativeSymbolInfo")) {
+      compileBuildLoad = compileBuildLoad$address
+    }
+  }
+  if(is.function(compileBuildLoadSliders)) {
+    assert('...' %in% names(formals(compileBuildLoadSliders)) || length(formals(compileBuildLoadSliders)) >= 4)
+  } else {
+    if(is.character(compileBuildLoadSliders)) {
+      compileBuildLoadSliders = getNativeSymbolInfo(compileBuildLoadSliders)
+    }
+    if(is(compileBuildLoadSliders, "NativeSymbolInfo")) {
+      compileBuildLoadSliders = compileBuildLoadSliders$address
+    }
+  }
+  if(is.function(loadLibrary)) {
+    assert('...' %in% names(formals(loadLibrary)) || length(formals(loadLibrary)) >= 0)
+  } else {
+    if(is.character(loadLibrary)) {
+      loadLibrary = getNativeSymbolInfo(loadLibrary)
+    }
+    if(is(loadLibrary, "NativeSymbolInfo")) {
+      loadLibrary = loadLibrary$address
+    }
+  }
+  if(is.function(addFunction)) {
+    assert('...' %in% names(formals(addFunction)) || length(formals(addFunction)) >= 9)
+  } else {
+    if(is.character(addFunction)) {
+      addFunction = getNativeSymbolInfo(addFunction)
+    }
+    if(is(addFunction, "NativeSymbolInfo")) {
+      addFunction = addFunction$address
+    }
+  }
+  if(is.function(callback)) {
+    assert('...' %in% names(formals(callback)) || length(formals(callback)) >= 1)
+  } else {
+    if(is.character(callback)) {
+      callback = getNativeSymbolInfo(callback)
+    }
+    if(is(callback, "NativeSymbolInfo")) {
+      callback = callback$address
+    }
+  }
+  if(is.function(unload)) {
+    assert('...' %in% names(formals(unload)) || length(formals(unload)) >= 0)
+  } else {
+    if(is.character(unload)) {
+      unload = getNativeSymbolInfo(unload)
+    }
+    if(is(unload, "NativeSymbolInfo")) {
+      unload = unload$address
+    }
+  }
+  .Call('R_swig_tc_LoadCLibraries_api', compileAndRun, compileBuildLoad, compileBuildLoadSliders, loadLibrary, addFunction, callback, unload, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_LoadCLibraries_api`, 'returnType') = 'void'
+attr(`tc_LoadCLibraries_api`, "inputTypes") = c('_p_f_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_Matrix__int', '_p_f_p_q_const__char__void', '_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void', '_p_f_p_f_void__void__void', '_p_f_p_f_void__void__void')
+class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'))
+
+# Start of tc_PythonTool_api
+
+`tc_PythonTool_api` = function(runPythonCode, runPythonFile, addPythonPlugin)
+{
+  if(is.function(runPythonCode)) {
+    assert('...' %in% names(formals(runPythonCode)) || length(formals(runPythonCode)) >= 0)
+  } else {
+    if(is.character(runPythonCode)) {
+      runPythonCode = getNativeSymbolInfo(runPythonCode)
+    }
+    if(is(runPythonCode, "NativeSymbolInfo")) {
+      runPythonCode = runPythonCode$address
+    }
+  }
+  if(is.function(runPythonFile)) {
+    assert('...' %in% names(formals(runPythonFile)) || length(formals(runPythonFile)) >= 0)
+  } else {
+    if(is.character(runPythonFile)) {
+      runPythonFile = getNativeSymbolInfo(runPythonFile)
+    }
+    if(is(runPythonFile, "NativeSymbolInfo")) {
+      runPythonFile = runPythonFile$address
+    }
+  }
+  if(is.function(addPythonPlugin)) {
+    assert('...' %in% names(formals(addPythonPlugin)) || length(formals(addPythonPlugin)) >= 5)
+  } else {
+    if(is.character(addPythonPlugin)) {
+      addPythonPlugin = getNativeSymbolInfo(addPythonPlugin)
+    }
+    if(is(addPythonPlugin, "NativeSymbolInfo")) {
+      addPythonPlugin = addPythonPlugin$address
+    }
+  }
+  .Call('R_swig_tc_PythonTool_api', runPythonCode, runPythonFile, addPythonPlugin, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_PythonTool_api`, 'returnType') = 'void'
+attr(`tc_PythonTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
+class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
+
+# Start of tc_surface
+
+`tc_surface` = function(z, title)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_surface', z, title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_surface`, 'returnType') = 'void'
+attr(`tc_surface`, "inputTypes") = c('_p_Matrix', 'character')
+class(`tc_surface`) = c("SWIGFunction", class('tc_surface'))
+
+# Start of tc_plot
+
+`tc_plot` = function(data, xaxis, title, includeAll)
+{
+  xaxis = as(xaxis, "integer");     
+  
+  if(length(xaxis) > 1) {
+    Rf_warning("using only the first element of xaxis")
+  }
+  
+  title = as(title, "character") 
+  includeAll = as(includeAll, "integer");     
+  
+  if(length(includeAll) > 1) {
+    Rf_warning("using only the first element of includeAll")
+  }
+  
+  .Call('R_swig_tc_plot', data, xaxis, title, includeAll, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_plot`, 'returnType') = 'void'
+attr(`tc_plot`, "inputTypes") = c('_p_Matrix', 'numeric', 'character', 'numeric')
+class(`tc_plot`) = c("SWIGFunction", class('tc_plot'))
+
+# Start of tc_scatterplot
+
+`tc_scatterplot` = function(data, title)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_scatterplot', data, title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_scatterplot`, 'returnType') = 'void'
+attr(`tc_scatterplot`, "inputTypes") = c('_p_Matrix', 'character')
+class(`tc_scatterplot`) = c("SWIGFunction", class('tc_scatterplot'))
+
+# Start of tc_errorBars
+
+`tc_errorBars` = function(data, xaxis, title, includeAll)
+{
+  xaxis = as(xaxis, "integer");     
+  
+  if(length(xaxis) > 1) {
+    Rf_warning("using only the first element of xaxis")
+  }
+  
+  title = as(title, "character") 
+  includeAll = as(includeAll, "integer");     
+  
+  if(length(includeAll) > 1) {
+    Rf_warning("using only the first element of includeAll")
+  }
+  
+  .Call('R_swig_tc_errorBars', data, xaxis, title, includeAll, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_errorBars`, 'returnType') = 'void'
+attr(`tc_errorBars`, "inputTypes") = c('_p_Matrix', 'numeric', 'character', 'numeric')
+class(`tc_errorBars`) = c("SWIGFunction", class('tc_errorBars'))
+
+# Start of tc_hist
+
+`tc_hist` = function(data, binSize, title)
+{
+  title = as(title, "character") 
+  .Call('R_swig_tc_hist', data, binSize, title, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_hist`, 'returnType') = 'void'
+attr(`tc_hist`, "inputTypes") = c('_p_Matrix', 'numeric', 'character')
+class(`tc_hist`) = c("SWIGFunction", class('tc_hist'))
+
+# Start of tc_multiplot
+
+`tc_multiplot` = function(rows, cols)
+{
+  rows = as(rows, "integer");     
+  
+  if(length(rows) > 1) {
+    Rf_warning("using only the first element of rows")
+  }
+  
+  cols = as(cols, "integer");     
+  
+  if(length(cols) > 1) {
+    Rf_warning("using only the first element of cols")
+  }
+  
+  .Call('R_swig_tc_multiplot', rows, cols, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_multiplot`, 'returnType') = 'void'
+attr(`tc_multiplot`, "inputTypes") = c('numeric', 'numeric')
+class(`tc_multiplot`) = c("SWIGFunction", class('tc_multiplot'))
+
+# Start of tc_getPlotData
+
+`tc_getPlotData` = function(whichPlot, .copy = FALSE)
+{
+  whichPlot = as(whichPlot, "integer");     
+  
+  if(length(whichPlot) > 1) {
+    Rf_warning("using only the first element of whichPlot")
+  }
+  
+  ans = .Call('R_swig_tc_getPlotData', whichPlot, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getPlotData`, 'returnType') = '_p_Matrix'
+attr(`tc_getPlotData`, "inputTypes") = c('numeric')
+class(`tc_getPlotData`) = c("SWIGFunction", class('tc_getPlotData'))
+
+# Start of tc_PlotTool_api
+
+`tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData)
+{
+  if(is.function(plot)) {
+    assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 4)
+  } else {
+    if(is.character(plot)) {
+      plot = getNativeSymbolInfo(plot)
+    }
+    if(is(plot, "NativeSymbolInfo")) {
+      plot = plot$address
+    }
+  }
+  if(is.function(surface)) {
+    assert('...' %in% names(formals(surface)) || length(formals(surface)) >= 2)
+  } else {
+    if(is.character(surface)) {
+      surface = getNativeSymbolInfo(surface)
+    }
+    if(is(surface, "NativeSymbolInfo")) {
+      surface = surface$address
+    }
+  }
+  if(is.function(hist)) {
+    assert('...' %in% names(formals(hist)) || length(formals(hist)) >= 3)
+  } else {
+    if(is.character(hist)) {
+      hist = getNativeSymbolInfo(hist)
+    }
+    if(is(hist, "NativeSymbolInfo")) {
+      hist = hist$address
+    }
+  }
+  if(is.function(errorBars)) {
+    assert('...' %in% names(formals(errorBars)) || length(formals(errorBars)) >= 0)
+  } else {
+    if(is.character(errorBars)) {
+      errorBars = getNativeSymbolInfo(errorBars)
+    }
+    if(is(errorBars, "NativeSymbolInfo")) {
+      errorBars = errorBars$address
+    }
+  }
+  if(is.function(scatterplot)) {
+    assert('...' %in% names(formals(scatterplot)) || length(formals(scatterplot)) >= 0)
+  } else {
+    if(is.character(scatterplot)) {
+      scatterplot = getNativeSymbolInfo(scatterplot)
+    }
+    if(is(scatterplot, "NativeSymbolInfo")) {
+      scatterplot = scatterplot$address
+    }
+  }
+  if(is.function(multiplot)) {
+    assert('...' %in% names(formals(multiplot)) || length(formals(multiplot)) >= 2)
+  } else {
+    if(is.character(multiplot)) {
+      multiplot = getNativeSymbolInfo(multiplot)
+    }
+    if(is(multiplot, "NativeSymbolInfo")) {
+      multiplot = multiplot$address
+    }
+  }
+  if(is.function(plotData)) {
+    assert('...' %in% names(formals(plotData)) || length(formals(plotData)) >= 1)
+  } else {
+    if(is.character(plotData)) {
+      plotData = getNativeSymbolInfo(plotData)
+    }
+    if(is(plotData, "NativeSymbolInfo")) {
+      plotData = plotData$address
+    }
+  }
+  .Call('R_swig_tc_PlotTool_api', plot, surface, hist, errorBars, scatterplot, multiplot, plotData, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_PlotTool_api`, 'returnType') = 'void'
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_Matrix_int_p_q_const__char_int__void', '_p_f_Matrix_p_q_const__char__void', '_p_f_Matrix_double_p_q_const__char__void', '_p_f_Matrix_int_p_q_const__char_int__void', '_p_f_Matrix_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__Matrix')
+class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
+
+# Start of tc_getModelParameters
+
+`tc_getModelParameters` = function(A, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getModelParameters', A, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_Matrix"
+  
+  ans
+  
+}
+
+attr(`tc_getModelParameters`, 'returnType') = '_p_Matrix'
+attr(`tc_getModelParameters`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getModelParameters`) = c("SWIGFunction", class('tc_getModelParameters'))
+
+# Start of tc_writeModel
+
+`tc_writeModel` = function(file, items, .copy = FALSE)
+{
+  file = as(file, "character") 
+  
+  .Call('R_swig_tc_writeModel', file, items, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_writeModel`, 'returnType') = 'numeric'
+attr(`tc_writeModel`, "inputTypes") = c('character', '_p_ArrayOfItems')
+class(`tc_writeModel`) = c("SWIGFunction", class('tc_writeModel'))
+
+# Start of tc_ModelFileGenerator_api
+
+`tc_ModelFileGenerator_api` = function(modelgen, getModelParameters)
+{
+  if(is.function(modelgen)) {
+    assert('...' %in% names(formals(modelgen)) || length(formals(modelgen)) >= 2)
+  } else {
+    if(is.character(modelgen)) {
+      modelgen = getNativeSymbolInfo(modelgen)
+    }
+    if(is(modelgen, "NativeSymbolInfo")) {
+      modelgen = modelgen$address
+    }
+  }
+  if(is.function(getModelParameters)) {
+    assert('...' %in% names(formals(getModelParameters)) || length(formals(getModelParameters)) >= 0)
+  } else {
+    if(is.character(getModelParameters)) {
+      getModelParameters = getNativeSymbolInfo(getModelParameters)
+    }
+    if(is(getModelParameters, "NativeSymbolInfo")) {
+      getModelParameters = getModelParameters$address
+    }
+  }
+  .Call('R_swig_tc_ModelFileGenerator_api', modelgen, getModelParameters, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_ModelFileGenerator_api`, 'returnType') = 'void'
+attr(`tc_ModelFileGenerator_api`, "inputTypes") = c('_p_f_p_q_const__char_ArrayOfItems__int', '_p_f_ArrayOfItems__Matrix')
+class(`tc_ModelFileGenerator_api`) = c("SWIGFunction", class('tc_ModelFileGenerator_api'))
+
+# Start of tc_getEventTriggers
+
+`tc_getEventTriggers` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getEventTriggers', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getEventTriggers`, 'returnType') = '_p_ArrayOfStrings'
+class(`tc_getEventTriggers`) = c("SWIGFunction", class('tc_getEventTriggers'))
+
+# Start of tc_getEventResponses
+
+`tc_getEventResponses` = function(.copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getEventResponses', as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getEventResponses`, 'returnType') = '_p_ArrayOfStrings'
+class(`tc_getEventResponses`) = c("SWIGFunction", class('tc_getEventResponses'))
+
+# Start of tc_addEvent
+
+`tc_addEvent` = function(trigger, event)
+{
+  trigger = as(trigger, "character") 
+  event = as(event, "character") 
+  .Call('R_swig_tc_addEvent', trigger, event, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addEvent`, 'returnType') = 'void'
+attr(`tc_addEvent`, "inputTypes") = c('character', 'character')
+class(`tc_addEvent`) = c("SWIGFunction", class('tc_addEvent'))
+
+# Start of tc_SimulationEventsTool_api
+
+`tc_SimulationEventsTool_api` = function(getEventTriggers, getEventResponses, addEvent)
+{
+  if(is.function(getEventTriggers)) {
+    assert('...' %in% names(formals(getEventTriggers)) || length(formals(getEventTriggers)) >= 0)
+  } else {
+    if(is.character(getEventTriggers)) {
+      getEventTriggers = getNativeSymbolInfo(getEventTriggers)
+    }
+    if(is(getEventTriggers, "NativeSymbolInfo")) {
+      getEventTriggers = getEventTriggers$address
+    }
+  }
+  if(is.function(getEventResponses)) {
+    assert('...' %in% names(formals(getEventResponses)) || length(formals(getEventResponses)) >= 0)
+  } else {
+    if(is.character(getEventResponses)) {
+      getEventResponses = getNativeSymbolInfo(getEventResponses)
+    }
+    if(is(getEventResponses, "NativeSymbolInfo")) {
+      getEventResponses = getEventResponses$address
+    }
+  }
+  if(is.function(addEvent)) {
+    assert('...' %in% names(formals(addEvent)) || length(formals(addEvent)) >= 2)
+  } else {
+    if(is.character(addEvent)) {
+      addEvent = getNativeSymbolInfo(addEvent)
+    }
+    if(is(addEvent, "NativeSymbolInfo")) {
+      addEvent = addEvent$address
+    }
+  }
+  .Call('R_swig_tc_SimulationEventsTool_api', getEventTriggers, getEventResponses, addEvent, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_SimulationEventsTool_api`, 'returnType') = 'void'
+attr(`tc_SimulationEventsTool_api`, "inputTypes") = c('_p_f___ArrayOfStrings', '_p_f___ArrayOfStrings', '_p_f_p_q_const__char_p_q_const__char__void')
+class(`tc_SimulationEventsTool_api`) = c("SWIGFunction", class('tc_SimulationEventsTool_api'))
+
+# Start of tc_getForcingFunctionNames
+
+`tc_getForcingFunctionNames` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getForcingFunctionNames', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getForcingFunctionNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getForcingFunctionNames`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getForcingFunctionNames`) = c("SWIGFunction", class('tc_getForcingFunctionNames'))
+
+# Start of tc_getForcingFunctionAssignments
+
+`tc_getForcingFunctionAssignments` = function(a, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getForcingFunctionAssignments', a, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getForcingFunctionAssignments`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getForcingFunctionAssignments`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getForcingFunctionAssignments`) = c("SWIGFunction", class('tc_getForcingFunctionAssignments'))
+
+# Start of tc_addForcingFunction
+
+`tc_addForcingFunction` = function(item, functionName, assignmentRule)
+{
+  functionName = as(functionName, "character") 
+  assignmentRule = as(assignmentRule, "character") 
+  .Call('R_swig_tc_addForcingFunction', item, functionName, assignmentRule, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_addForcingFunction`, 'returnType') = 'void'
+attr(`tc_addForcingFunction`, "inputTypes") = c('_p_void', 'character', 'character')
+class(`tc_addForcingFunction`) = c("SWIGFunction", class('tc_addForcingFunction'))
+
+# Start of tc_AssignmentFunctionsTool_api
+
+`tc_AssignmentFunctionsTool_api` = function(getForcingFunctionNames, getForcingFunctionAssignments, addForcingFunction)
+{
+  if(is.function(getForcingFunctionNames)) {
+    assert('...' %in% names(formals(getForcingFunctionNames)) || length(formals(getForcingFunctionNames)) >= 0)
+  } else {
+    if(is.character(getForcingFunctionNames)) {
+      getForcingFunctionNames = getNativeSymbolInfo(getForcingFunctionNames)
+    }
+    if(is(getForcingFunctionNames, "NativeSymbolInfo")) {
+      getForcingFunctionNames = getForcingFunctionNames$address
+    }
+  }
+  if(is.function(getForcingFunctionAssignments)) {
+    assert('...' %in% names(formals(getForcingFunctionAssignments)) || length(formals(getForcingFunctionAssignments)) >= 0)
+  } else {
+    if(is.character(getForcingFunctionAssignments)) {
+      getForcingFunctionAssignments = getNativeSymbolInfo(getForcingFunctionAssignments)
+    }
+    if(is(getForcingFunctionAssignments, "NativeSymbolInfo")) {
+      getForcingFunctionAssignments = getForcingFunctionAssignments$address
+    }
+  }
+  if(is.function(addForcingFunction)) {
+    assert('...' %in% names(formals(addForcingFunction)) || length(formals(addForcingFunction)) >= 0)
+  } else {
+    if(is.character(addForcingFunction)) {
+      addForcingFunction = getNativeSymbolInfo(addForcingFunction)
+    }
+    if(is(addForcingFunction, "NativeSymbolInfo")) {
+      addForcingFunction = addForcingFunction$address
+    }
+  }
+  .Call('R_swig_tc_AssignmentFunctionsTool_api', getForcingFunctionNames, getForcingFunctionAssignments, addForcingFunction, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_AssignmentFunctionsTool_api`, 'returnType') = 'void'
+attr(`tc_AssignmentFunctionsTool_api`, "inputTypes") = c('_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_p_void_p_q_const__char_p_q_const__char__void')
+class(`tc_AssignmentFunctionsTool_api`) = c("SWIGFunction", class('tc_AssignmentFunctionsTool_api'))
+
+# Start of tc_displayText
+
+`tc_displayText` = function(item, text)
+{
+  text = as(text, "character") 
+  .Call('R_swig_tc_displayText', item, text, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_displayText`, 'returnType') = 'void'
+attr(`tc_displayText`, "inputTypes") = c('_p_void', 'character')
+class(`tc_displayText`) = c("SWIGFunction", class('tc_displayText'))
+
+# Start of tc_displayNumber
+
+`tc_displayNumber` = function(item, number)
+{
+  .Call('R_swig_tc_displayNumber', item, number, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_displayNumber`, 'returnType') = 'void'
+attr(`tc_displayNumber`, "inputTypes") = c('_p_void', 'numeric')
+class(`tc_displayNumber`) = c("SWIGFunction", class('tc_displayNumber'))
+
+# Start of tc_setDisplayLabelColor
+
+`tc_setDisplayLabelColor` = function(r1, g1, b1, r2, g2, b2)
+{
+  r1 = as(r1, "integer");     
+  
+  if(length(r1) > 1) {
+    Rf_warning("using only the first element of r1")
+  }
+  
+  g1 = as(g1, "integer");     
+  
+  if(length(g1) > 1) {
+    Rf_warning("using only the first element of g1")
+  }
+  
+  b1 = as(b1, "integer");     
+  
+  if(length(b1) > 1) {
+    Rf_warning("using only the first element of b1")
+  }
+  
+  r2 = as(r2, "integer");     
+  
+  if(length(r2) > 1) {
+    Rf_warning("using only the first element of r2")
+  }
+  
+  g2 = as(g2, "integer");     
+  
+  if(length(g2) > 1) {
+    Rf_warning("using only the first element of g2")
+  }
+  
+  b2 = as(b2, "integer");     
+  
+  if(length(b2) > 1) {
+    Rf_warning("using only the first element of b2")
+  }
+  
+  .Call('R_swig_tc_setDisplayLabelColor', r1, g1, b1, r2, g2, b2, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setDisplayLabelColor`, 'returnType') = 'void'
+attr(`tc_setDisplayLabelColor`, "inputTypes") = c('numeric', 'numeric', 'numeric', 'numeric', 'numeric', 'numeric')
+class(`tc_setDisplayLabelColor`) = c("SWIGFunction", class('tc_setDisplayLabelColor'))
+
+# Start of tc_highlight
+
+`tc_highlight` = function(item, r, g, b)
+{
+  r = as(r, "integer");     
+  
+  if(length(r) > 1) {
+    Rf_warning("using only the first element of r")
+  }
+  
+  g = as(g, "integer");     
+  
+  if(length(g) > 1) {
+    Rf_warning("using only the first element of g")
+  }
+  
+  b = as(b, "integer");     
+  
+  if(length(b) > 1) {
+    Rf_warning("using only the first element of b")
+  }
+  
+  .Call('R_swig_tc_highlight', item, r, g, b, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_highlight`, 'returnType') = 'void'
+attr(`tc_highlight`, "inputTypes") = c('_p_void', 'numeric', 'numeric', 'numeric')
+class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
+
+# Start of tc_CLabelsTool_api
+
+`tc_CLabelsTool_api` = function(displayText, displayNumber, setDisplayLabelColor, highlight)
+{
+  if(is.function(displayText)) {
+    assert('...' %in% names(formals(displayText)) || length(formals(displayText)) >= 0)
+  } else {
+    if(is.character(displayText)) {
+      displayText = getNativeSymbolInfo(displayText)
+    }
+    if(is(displayText, "NativeSymbolInfo")) {
+      displayText = displayText$address
+    }
+  }
+  if(is.function(displayNumber)) {
+    assert('...' %in% names(formals(displayNumber)) || length(formals(displayNumber)) >= 2)
+  } else {
+    if(is.character(displayNumber)) {
+      displayNumber = getNativeSymbolInfo(displayNumber)
+    }
+    if(is(displayNumber, "NativeSymbolInfo")) {
+      displayNumber = displayNumber$address
+    }
+  }
+  if(is.function(setDisplayLabelColor)) {
+    assert('...' %in% names(formals(setDisplayLabelColor)) || length(formals(setDisplayLabelColor)) >= 6)
+  } else {
+    if(is.character(setDisplayLabelColor)) {
+      setDisplayLabelColor = getNativeSymbolInfo(setDisplayLabelColor)
+    }
+    if(is(setDisplayLabelColor, "NativeSymbolInfo")) {
+      setDisplayLabelColor = setDisplayLabelColor$address
+    }
+  }
+  if(is.function(highlight)) {
+    assert('...' %in% names(formals(highlight)) || length(formals(highlight)) >= 4)
+  } else {
+    if(is.character(highlight)) {
+      highlight = getNativeSymbolInfo(highlight)
+    }
+    if(is(highlight, "NativeSymbolInfo")) {
+      highlight = highlight$address
+    }
+  }
+  .Call('R_swig_tc_CLabelsTool_api', displayText, displayNumber, setDisplayLabelColor, highlight, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_CLabelsTool_api`, 'returnType') = 'void'
+attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_p_void_p_q_const__char__void', '_p_f_p_void_double__void', '_p_f_int_int_int_int_int_int__void', '_p_f_p_void_int_int_int__void')
+class(`tc_CLabelsTool_api`) = c("SWIGFunction", class('tc_CLabelsTool_api'))
+
+# Start of tc_getAnnotation
+
+`tc_getAnnotation` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getAnnotation', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getAnnotation`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getAnnotation`, "inputTypes") = c('_p_void')
+class(`tc_getAnnotation`) = c("SWIGFunction", class('tc_getAnnotation'))
+
+# Start of tc_setAnnotation
+
+`tc_setAnnotation` = function(o, annot)
+{
+  .Call('R_swig_tc_setAnnotation', o, annot, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_setAnnotation`, 'returnType') = 'void'
+attr(`tc_setAnnotation`, "inputTypes") = c('_p_void', '_p_ArrayOfStrings')
+class(`tc_setAnnotation`) = c("SWIGFunction", class('tc_setAnnotation'))
+
+# Start of tc_NameFamily_api_initialize
+
+`tc_NameFamily_api_initialize` = function(tc_getAnnotation0, tc_setAnnotation0)
+{
+  if(is.function(tc_getAnnotation0)) {
+    assert('...' %in% names(formals(tc_getAnnotation0)) || length(formals(tc_getAnnotation0)) >= 0)
+  } else {
+    if(is.character(tc_getAnnotation0)) {
+      tc_getAnnotation0 = getNativeSymbolInfo(tc_getAnnotation0)
+    }
+    if(is(tc_getAnnotation0, "NativeSymbolInfo")) {
+      tc_getAnnotation0 = tc_getAnnotation0$address
+    }
+  }
+  if(is.function(tc_setAnnotation0)) {
+    assert('...' %in% names(formals(tc_setAnnotation0)) || length(formals(tc_setAnnotation0)) >= 2)
+  } else {
+    if(is.character(tc_setAnnotation0)) {
+      tc_setAnnotation0 = getNativeSymbolInfo(tc_setAnnotation0)
+    }
+    if(is(tc_setAnnotation0, "NativeSymbolInfo")) {
+      tc_setAnnotation0 = tc_setAnnotation0$address
+    }
+  }
+  .Call('R_swig_tc_NameFamily_api_initialize', tc_getAnnotation0, tc_setAnnotation0, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_NameFamily_api_initialize`, 'returnType') = 'void'
+attr(`tc_NameFamily_api_initialize`, "inputTypes") = c('_p_f_p_void__ArrayOfStrings', '_p_f_p_void_ArrayOfStrings__void')
+class(`tc_NameFamily_api_initialize`) = c("SWIGFunction", class('tc_NameFamily_api_initialize'))
+
+# Start of tc_partsIn
+
+`tc_partsIn` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_partsIn', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_partsIn`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsIn`, "inputTypes") = c('_p_void')
+class(`tc_partsIn`) = c("SWIGFunction", class('tc_partsIn'))
+
+# Start of tc_partsUpstream
+
+`tc_partsUpstream` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_partsUpstream', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_partsUpstream`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsUpstream`, "inputTypes") = c('_p_void')
+class(`tc_partsUpstream`) = c("SWIGFunction", class('tc_partsUpstream'))
+
+# Start of tc_partsDownstream
+
+`tc_partsDownstream` = function(o, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_partsDownstream', o, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfItems"
+  
+  ans
+  
+}
+
+attr(`tc_partsDownstream`, 'returnType') = '_p_ArrayOfItems'
+attr(`tc_partsDownstream`, "inputTypes") = c('_p_void')
+class(`tc_partsDownstream`) = c("SWIGFunction", class('tc_partsDownstream'))
+
+# Start of tc_alignParts
+
+`tc_alignParts` = function(a)
+{
+  .Call('R_swig_tc_alignParts', a, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_alignParts`, 'returnType') = 'void'
+attr(`tc_alignParts`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_alignParts`) = c("SWIGFunction", class('tc_alignParts'))
+
+# Start of tc_AutoGeneRegulatoryTool_api
+
+`tc_AutoGeneRegulatoryTool_api` = function(f1, f2, f3, f4)
+{
+  if(is.function(f1)) {
+    assert('...' %in% names(formals(f1)) || length(formals(f1)) >= 0)
+  } else {
+    if(is.character(f1)) {
+      f1 = getNativeSymbolInfo(f1)
+    }
+    if(is(f1, "NativeSymbolInfo")) {
+      f1 = f1$address
+    }
+  }
+  if(is.function(f2)) {
+    assert('...' %in% names(formals(f2)) || length(formals(f2)) >= 0)
+  } else {
+    if(is.character(f2)) {
+      f2 = getNativeSymbolInfo(f2)
+    }
+    if(is(f2, "NativeSymbolInfo")) {
+      f2 = f2$address
+    }
+  }
+  if(is.function(f3)) {
+    assert('...' %in% names(formals(f3)) || length(formals(f3)) >= 0)
+  } else {
+    if(is.character(f3)) {
+      f3 = getNativeSymbolInfo(f3)
+    }
+    if(is(f3, "NativeSymbolInfo")) {
+      f3 = f3$address
+    }
+  }
+  if(is.function(f4)) {
+    assert('...' %in% names(formals(f4)) || length(formals(f4)) >= 0)
+  } else {
+    if(is.character(f4)) {
+      f4 = getNativeSymbolInfo(f4)
+    }
+    if(is(f4, "NativeSymbolInfo")) {
+      f4 = f4$address
+    }
+  }
+  .Call('R_swig_tc_AutoGeneRegulatoryTool_api', f1, f2, f3, f4, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_AutoGeneRegulatoryTool_api`, 'returnType') = 'void'
+attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_p_void__ArrayOfItems', '_p_f_ArrayOfItems__void')
+class(`tc_AutoGeneRegulatoryTool_api`) = c("SWIGFunction", class('tc_AutoGeneRegulatoryTool_api'))
+
+# Start of tc_loadSBMLString
+
+`tc_loadSBMLString` = function(sbml)
+{
+  sbml = as(sbml, "character") 
+  .Call('R_swig_tc_loadSBMLString', sbml, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_loadSBMLString`, 'returnType') = 'void'
+attr(`tc_loadSBMLString`, "inputTypes") = c('character')
+class(`tc_loadSBMLString`) = c("SWIGFunction", class('tc_loadSBMLString'))
+
+# Start of tc_loadAntimonyString
+
+`tc_loadAntimonyString` = function(antimony)
+{
+  antimony = as(antimony, "character") 
+  .Call('R_swig_tc_loadAntimonyString', antimony, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_loadAntimonyString`, 'returnType') = 'void'
+attr(`tc_loadAntimonyString`, "inputTypes") = c('character')
+class(`tc_loadAntimonyString`) = c("SWIGFunction", class('tc_loadAntimonyString'))
+
+# Start of tc_loadSBMLFile
+
+`tc_loadSBMLFile` = function(sbml)
+{
+  sbml = as(sbml, "character") 
+  .Call('R_swig_tc_loadSBMLFile', sbml, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_loadSBMLFile`, 'returnType') = 'void'
+attr(`tc_loadSBMLFile`, "inputTypes") = c('character')
+class(`tc_loadSBMLFile`) = c("SWIGFunction", class('tc_loadSBMLFile'))
+
+# Start of tc_loadAntimonyFile
+
+`tc_loadAntimonyFile` = function(antimony)
+{
+  antimony = as(antimony, "character") 
+  .Call('R_swig_tc_loadAntimonyFile', antimony, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_loadAntimonyFile`, 'returnType') = 'void'
+attr(`tc_loadAntimonyFile`, "inputTypes") = c('character')
+class(`tc_loadAntimonyFile`) = c("SWIGFunction", class('tc_loadAntimonyFile'))
+
+# Start of tc_getSBMLString
+
+`tc_getSBMLString` = function(items)
+{
+  .Call('R_swig_tc_getSBMLString', items, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getSBMLString`, 'returnType') = 'character'
+attr(`tc_getSBMLString`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getSBMLString`) = c("SWIGFunction", class('tc_getSBMLString'))
+
+# Start of tc_getAntimonyString
+
+`tc_getAntimonyString` = function(items)
+{
+  .Call('R_swig_tc_getAntimonyString', items, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getAntimonyString`, 'returnType') = 'character'
+attr(`tc_getAntimonyString`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getAntimonyString`) = c("SWIGFunction", class('tc_getAntimonyString'))
+
+# Start of tc_writeSBMLFile
+
+`tc_writeSBMLFile` = function(items, file)
+{
+  file = as(file, "character") 
+  .Call('R_swig_tc_writeSBMLFile', items, file, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_writeSBMLFile`, 'returnType') = 'void'
+attr(`tc_writeSBMLFile`, "inputTypes") = c('_p_ArrayOfItems', 'character')
+class(`tc_writeSBMLFile`) = c("SWIGFunction", class('tc_writeSBMLFile'))
+
+# Start of tc_writeAntimonyFile
+
+`tc_writeAntimonyFile` = function(items, file)
+{
+  file = as(file, "character") 
+  .Call('R_swig_tc_writeAntimonyFile', items, file, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_writeAntimonyFile`, 'returnType') = 'void'
+attr(`tc_writeAntimonyFile`, "inputTypes") = c('_p_ArrayOfItems', 'character')
+class(`tc_writeAntimonyFile`) = c("SWIGFunction", class('tc_writeAntimonyFile'))
+
+# Start of tc_Antimony_api
+
+`tc_Antimony_api` = function(loadAntimonyString, loadSBMLString, loadSBMLFile, loadAntimonyFile, getSBMLString, getAntimonyString, writeSBMLFile, writeAntimonyFile)
+{
+  if(is.function(loadAntimonyString)) {
+    assert('...' %in% names(formals(loadAntimonyString)) || length(formals(loadAntimonyString)) >= 0)
+  } else {
+    if(is.character(loadAntimonyString)) {
+      loadAntimonyString = getNativeSymbolInfo(loadAntimonyString)
+    }
+    if(is(loadAntimonyString, "NativeSymbolInfo")) {
+      loadAntimonyString = loadAntimonyString$address
+    }
+  }
+  if(is.function(loadSBMLString)) {
+    assert('...' %in% names(formals(loadSBMLString)) || length(formals(loadSBMLString)) >= 0)
+  } else {
+    if(is.character(loadSBMLString)) {
+      loadSBMLString = getNativeSymbolInfo(loadSBMLString)
+    }
+    if(is(loadSBMLString, "NativeSymbolInfo")) {
+      loadSBMLString = loadSBMLString$address
+    }
+  }
+  if(is.function(loadSBMLFile)) {
+    assert('...' %in% names(formals(loadSBMLFile)) || length(formals(loadSBMLFile)) >= 0)
+  } else {
+    if(is.character(loadSBMLFile)) {
+      loadSBMLFile = getNativeSymbolInfo(loadSBMLFile)
+    }
+    if(is(loadSBMLFile, "NativeSymbolInfo")) {
+      loadSBMLFile = loadSBMLFile$address
+    }
+  }
+  if(is.function(loadAntimonyFile)) {
+    assert('...' %in% names(formals(loadAntimonyFile)) || length(formals(loadAntimonyFile)) >= 0)
+  } else {
+    if(is.character(loadAntimonyFile)) {
+      loadAntimonyFile = getNativeSymbolInfo(loadAntimonyFile)
+    }
+    if(is(loadAntimonyFile, "NativeSymbolInfo")) {
+      loadAntimonyFile = loadAntimonyFile$address
+    }
+  }
+  if(is.function(getSBMLString)) {
+    assert('...' %in% names(formals(getSBMLString)) || length(formals(getSBMLString)) >= 1)
+  } else {
+    if(is.character(getSBMLString)) {
+      getSBMLString = getNativeSymbolInfo(getSBMLString)
+    }
+    if(is(getSBMLString, "NativeSymbolInfo")) {
+      getSBMLString = getSBMLString$address
+    }
+  }
+  if(is.function(getAntimonyString)) {
+    assert('...' %in% names(formals(getAntimonyString)) || length(formals(getAntimonyString)) >= 0)
+  } else {
+    if(is.character(getAntimonyString)) {
+      getAntimonyString = getNativeSymbolInfo(getAntimonyString)
+    }
+    if(is(getAntimonyString, "NativeSymbolInfo")) {
+      getAntimonyString = getAntimonyString$address
+    }
+  }
+  if(is.function(writeSBMLFile)) {
+    assert('...' %in% names(formals(writeSBMLFile)) || length(formals(writeSBMLFile)) >= 2)
+  } else {
+    if(is.character(writeSBMLFile)) {
+      writeSBMLFile = getNativeSymbolInfo(writeSBMLFile)
+    }
+    if(is(writeSBMLFile, "NativeSymbolInfo")) {
+      writeSBMLFile = writeSBMLFile$address
+    }
+  }
+  if(is.function(writeAntimonyFile)) {
+    assert('...' %in% names(formals(writeAntimonyFile)) || length(formals(writeAntimonyFile)) >= 0)
+  } else {
+    if(is.character(writeAntimonyFile)) {
+      writeAntimonyFile = getNativeSymbolInfo(writeAntimonyFile)
+    }
+    if(is(writeAntimonyFile, "NativeSymbolInfo")) {
+      writeAntimonyFile = writeAntimonyFile$address
+    }
+  }
+  .Call('R_swig_tc_Antimony_api', loadAntimonyString, loadSBMLString, loadSBMLFile, loadAntimonyFile, getSBMLString, getAntimonyString, writeSBMLFile, writeAntimonyFile, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_Antimony_api`, 'returnType') = 'void'
+attr(`tc_Antimony_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_ArrayOfItems__p_char', '_p_f_ArrayOfItems__p_char', '_p_f_ArrayOfItems_p_q_const__char__void', '_p_f_ArrayOfItems_p_q_const__char__void')
+class(`tc_Antimony_api`) = c("SWIGFunction", class('tc_Antimony_api'))
+
+

@@ -176,7 +176,7 @@ namespace Tinkercell
 		QString pyName = pyDescription;
 		pyName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
 		
-		QFile pyfile(userHome + tr("/Plugins/py/") + pyName + tr(".py"));
+		QFile pyfile(userHome + tr("/python/") + pyName + tr(".py"));
 		if (!pyfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
 
@@ -185,7 +185,7 @@ namespace Tinkercell
 		pyfile.close();
 
 		convertCodeToButtonC(
-			tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"Plugins/py/") + pyName + tr(".py\");\n    return 0;\n}\n"),
+			tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"/python/") + pyName + tr(".py\");\n    return 0;\n}\n"),
 			pyDescription);
 	}
 

@@ -1,13 +1,17 @@
-#include <Python.h>
-#include "TC_api.h"
+#include <EXTERN.h>               /* from the Perl distribution     */
+#include <perl.h>                 /* from the Perl distribution     */
 
-#cmakedefine CMAKE_WIN32
+static PerlInterpreter *my_perl;  /***    The Perl interpreter    ***/
 
-#ifndef CMAKE_WIN32
-#include "dlfcn.h"
-#endif
-
-FILE * pyout;
+int main(int argc, char **argv, char **env)
+{
+    my_perl = perl_alloc();
+    perl_construct(my_perl);
+    perl_parse(my_perl, NULL, argc, argv, (char **)NULL);
+    perl_run(my_perl);
+    perl_destruct(my_perl);
+    perl_free(my_perl);
+}
 
 PyObject* main_dict;
 PyObject* dlfl_dict;
@@ -17,24 +21,21 @@ PyObject *errobj;
 PyObject *errdata;
 PyObject *errtraceback;
 
+FILE * pmout;
+
 void initialize()
 {
-	PyObject *mainmod;
-	PyObject *dlfl;
-#ifndef CMAKE_WIN32
-	dlopen("@PYTHON_LIBRARIES@", RTLD_LAZY | RTLD_GLOBAL);	
-	Py_SetProgramName("Tinkercell");
-#endif
-	Py_Initialize();
+    my_perl = perl_alloc();
+    perl_construct(my_perl);
+    perl_parse(my_perl, NULL, argc, argv, (char **)NULL);
+    perl_run(my_perl);
+    perl_destruct(my_perl);
+    perl_free(my_perl);
 	
-	//Py_InitModule("pytc", pytcMethods);
-	mainmod = PyImport_AddModule("__main__");
-	//dlfl = PyImport_AddModule("pytc");
-	main_dict = PyModule_GetDict( mainmod );
-	//dlfl_dict = PyModule_GetDict( dlfl );
+	pmout = fopen("pm.out","w+");
 }
 
-void exec(const char * code,const char * outfile)
+void exec(const char * code)
 {
 	char *retString, 
 	 	   *errString;
@@ -59,7 +60,7 @@ void exec(const char * code,const char * outfile)
 		Py_DECREF(evalVal);
 	}*/
 
-	tc_printFile(outfile);
+	tc_printFile(pmout);
 	
 	if (errdata != NULL) 
 	{ 
@@ -82,4 +83,6 @@ void finalize()
 	Py_XDECREF(errtraceback); 
 	
     Py_Finalize();
+	
+	fclose(pmout);
 }

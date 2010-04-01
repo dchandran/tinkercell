@@ -251,8 +251,6 @@ namespace Tinkercell
 		*/
 		virtual void run();
 		
-		/*!\brief used to provide an index to the progress meters for each thread*/
-		static int lastProgressMeterIndex;
 	protected slots:
 		/*!
 		* \brief cleanup (such as unload libraries) upon termination

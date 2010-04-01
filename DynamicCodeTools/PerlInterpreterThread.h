@@ -4,11 +4,12 @@
 
  see COPYRIGHT.TXT
 
- The python interpreter that runs as a separate thread and can accept strings to parse and execute
+ The perl interpreter that runs as a separate thread and can accept strings to parse and execute
  
 ****************************************************************************/
-#ifndef TINKERCELL_PYTHONINTERPRETERTHREAD_H
-#define TINKERCELL_PYTHONINTERPRETERTHREAD_H
+
+#ifndef TINKERCELL_PERLINTERPRETERTHREAD_H
+#define TINKERCELL_PERLINTERPRETERTHREAD_H
 
 #include <QQueue>
 #include <QLibrary>
@@ -23,7 +24,7 @@
 namespace Tinkercell
 {
 
-    class PythonInterpreterThread : public CThread
+    class PerlInterpreterThread : public CThread
 	{
 		Q_OBJECT
 		
@@ -36,11 +37,11 @@ namespace Tinkercell
 		void progress(int);
 		
 	public:
-		PythonInterpreterThread(const QString&, MainWindow* main);
-		virtual ~PythonInterpreterThread();
+		PerlInterpreterThread(const QString&, MainWindow* main);
+		virtual ~PerlInterpreterThread();
 		void setCPointers();
 		
-		static QLibrary * pythonLibrary;
+		static QLibrary * perlLibrary;
 		
 	public slots:
 		void initialize();
@@ -48,7 +49,7 @@ namespace Tinkercell
 		void finalize();
 
 	protected:
-		QString pythonCode;
+		QString perlCode;
 		virtual void run();
 		execFunc f;
 		QQueue<QString> commandQueue;

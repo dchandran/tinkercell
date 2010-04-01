@@ -4,7 +4,7 @@
  Contact: Deepak Chandran (dchandran1@gmail.com)
  See COPYRIGHT.TXT
  
-The python interpreter that runs as a separate thread and can accept strings to parse and execute
+The perl interpreter that runs as a separate thread and can accept strings to parse and execute
 
 
 ****************************************************************************/
@@ -15,11 +15,11 @@ The python interpreter that runs as a separate thread and can accept strings to 
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "ConsoleWindow.h"
-#include "PythonInterpreterThread.h"
+#include "PerlInterpreterThread.h"
 
 namespace Tinkercell
 {
-    PythonInterpreterThread::PythonInterpreterThread(const QString & dllname, MainWindow* main)
+    PerlInterpreterThread::PerlInterpreterThread(const QString & dllname, MainWindow* main)
         : CThread(main,dllname,false)
     {
         f = 0;
@@ -27,7 +27,7 @@ namespace Tinkercell
         CThread::cthreads << this;
     }
 
-    void PythonInterpreterThread::setCPointers()
+    void PerlInterpreterThread::setCPointers()
     {
         if (!lib ||!mainWindow) return;
         QSemaphore * s = new QSemaphore(1);
@@ -37,7 +37,7 @@ namespace Tinkercell
         s->release();
     }
 
-    void PythonInterpreterThread::runCode(const QString& code)
+    void PerlInterpreterThread::runCode(const QString& code)
     {
         if (!mainWindow || !lib || !lib->isLoaded()) return;
 		
@@ -47,12 +47,12 @@ namespace Tinkercell
 			return;
 		}
 		
-		pythonCode = code;
+		perlCode = code;
 
         start();
     }
 
-    void PythonInterpreterThread::finalize()
+    void PerlInterpreterThread::finalize()
     {
         if (!lib || !lib->isLoaded()) return;
 
@@ -69,11 +69,11 @@ namespace Tinkercell
         }
     }
 
-    void PythonInterpreterThread::initialize()
+    void PerlInterpreterThread::initialize()
     {
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
-			qDebug() << "Python interpreter: lib not loaded" << mainWindow << " " << lib;
+			qDebug() << "perl Interpreter: lib not loaded" << mainWindow << " " << lib;
 			return;
 		}
 
@@ -94,15 +94,14 @@ namespace Tinkercell
         mainWindow->statusBar()->showMessage(tr("Python initialized"));
     }
 
-    void PythonInterpreterThread::run()
+    void PerlInterpreterThread::run()
     {
-        if (!lib || !lib->isLoaded() || pythonCode.isEmpty()) return;
+        if (!lib || !lib->isLoaded() || perlCode.isEmpty()) return;
 
         QString code;
-		code =  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
-		code += pythonCode;
-		code +=  QObject::tr("\n_outfile.close();\n");
-
+        code = QObject::tr("use IO::Handle\nopen OUTPUT, '>', \"pm.out\";\nopen ERROR,  '>', \"pm.out\";\n\n");
+        code += perlCode;
+        
         if (!f)
             f = (execFunc)lib->resolve("exec");
 
@@ -111,19 +110,19 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::userTemp());
 
-            f(code.toAscii().data(),"py.out");
+            f(code.toAscii().data(),outputFile.toAscii().data());
 
             QDir::setCurrent(currentDir);
         }
 		
 		if (!commandQueue.isEmpty())
 		{
-			pythonCode = commandQueue.dequeue();
+			perlCode = commandQueue.dequeue();
 			run();
 		}
     }
 
-    PythonInterpreterThread::~PythonInterpreterThread()
+    PerlInterpreterThread::~PerlInterpreterThread()
     {
         finalize();
     }

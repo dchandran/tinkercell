@@ -9,8 +9,6 @@
 ****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-//#include <QProcess>
-#include "ConsoleWindow.h"
 #include "DynamicCodeMain.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)

@@ -130,6 +130,7 @@ namespace Tinkercell
 			{
 				menu = new QMenu(&functionsMenu);
 				menu->setTitle(category);
+				menu->setIcon(icon);
 				functionsSubMenus.append(menu);
 				functionsMenu.addMenu(menu);
 			}

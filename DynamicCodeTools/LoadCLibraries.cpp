@@ -124,7 +124,7 @@ namespace Tinkercell
             {
                 if (QFile::exists(name[i]))
                 {
-                    iconFile =name[i];
+                    iconFile = name[i];
                     break;
                 }
             }
@@ -142,7 +142,7 @@ namespace Tinkercell
 
             if (show_menu > 0)
             {
-                QAction * action = libMenu->addMenuItem(cat, title,icon, deft > 0);
+                QAction * action = libMenu->addMenuItem(cat, title, icon, deft > 0);
                 if (action)
 				{
 					action->setToolTip(desc);

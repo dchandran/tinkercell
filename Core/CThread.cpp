@@ -31,8 +31,6 @@ namespace Tinkercell
 	LIBRARY THREAD
 	*******************/
 	
-	int CThread::lastProgressMeterIndex = 0;
-	
 	CThread::CThread(MainWindow * main, QLibrary * libPtr, bool autoUnload)
 		: QThread(main), mainWindow(main), autoUnloadLibrary(autoUnload)
 	{

@@ -13,6 +13,7 @@
 #include "PythonTool.h"
 #include "CodingWindow.h"
 #include "DynamicLibraryMenu.h"
+#include "DynamicLibraryMenu.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)

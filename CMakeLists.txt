@@ -125,11 +125,81 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/CInputWindows/
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
    )
+  IF ( WIN32 )
+	  LINK_DIRECTORIES( 
+	    BEFORE
+		${CPP_LIBRARY_OUTPUT_PATH}/Release
+		${CPP_LIBRARY_OUTPUT_PATH}/Debug
+		${C_LIBRARY_OUTPUT_PATH}/Release
+		${C_LIBRARY_OUTPUT_PATH}/Debug
+		${TINKERCELL_BINARY_DIR}/Release
+		${TINKERCELL_BINARY_DIR}/Debug
+		${TINKERCELL_BINARY_DIR}/bin/Release
+		${TINKERCELL_BINARY_DIR}/bin/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/lapack/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/lapack/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/optim/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/optim/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/sbml/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/sbml/Debug
+		${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/Release
+		${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony/Debug
+		${TINKERCELL_BINARY_DIR}/c/Release
+		${TINKERCELL_BINARY_DIR}/c/Debug
+		${TINKERCELL_BINARY_DIR}/c/lpsolve/Release
+		${TINKERCELL_BINARY_DIR}/c/lpsolve/Debug
+		${TINKERCELL_BINARY_DIR}/c/sundials/Release
+		${TINKERCELL_BINARY_DIR}/c/sundials/Debug
+		${TINKERCELL_BINARY_DIR}/c/nvector/Release
+		${TINKERCELL_BINARY_DIR}/c/nvector/Debug
+		${TINKERCELL_BINARY_DIR}/c/cvode/Release
+		${TINKERCELL_BINARY_DIR}/c/cvode/Debug
+		${TINKERCELL_BINARY_DIR}/Core/Release
+		${TINKERCELL_BINARY_DIR}/Core/Debug
+		${TINKERCELL_BINARY_DIR}/BasicTools/Release
+		${TINKERCELL_BINARY_DIR}/BasicTools/Debug
+		${TINKERCELL_BINARY_DIR}/ModuleTools/Release
+		${TINKERCELL_BINARY_DIR}/ModuleTools/Debug
+		${TINKERCELL_BINARY_DIR}/ModelingTools/Release
+		${TINKERCELL_BINARY_DIR}/ModelingTools/Debug
+		${TINKERCELL_BINARY_DIR}/OtherTools/Release
+		${TINKERCELL_BINARY_DIR}/OtherTools/Debug
+		${TINKERCELL_BINARY_DIR}/AntimonyEditor/Release
+		${TINKERCELL_BINARY_DIR}/AntimonyEditor/Debug
+		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Release
+		${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/Debug
+		${TINKERCELL_BINARY_DIR}/NodesTree/Release
+		${TINKERCELL_BINARY_DIR}/NodesTree/Debug
+		${TINKERCELL_BINARY_DIR}/PlotTools/Release
+		${TINKERCELL_BINARY_DIR}/PlotTools/Debug
+		${TINKERCELL_BINARY_DIR}/ContainerTools/Release
+		${TINKERCELL_BINARY_DIR}/ContainerTools/Debug
+		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Release
+		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Debug
+		${TINKERCELL_BINARY_DIR}/CInputWindows/Release
+		${TINKERCELL_BINARY_DIR}/CInputWindows/Debug
+		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Release
+		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Debug
+	   )
+  ENDIF ( WIN32 )
 
   INCLUDE_DIRECTORIES( BEFORE
     ${PYTHON_INCLUDE_PATH}
     ${QT_INCLUDES}
-# INCLUDE DIRECTORIES FROM TINKERCELL
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/

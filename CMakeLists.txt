@@ -263,11 +263,12 @@ OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
 #FIND_PACKAGE(SWIG)
 #IF (SWIG_FOUND)
 #   INCLUDE(${SWIG_USE_FILE})
-   ADD_SUBDIRECTORY( py )
+#ENDIF (SWIG_FOUND)
+
+ADD_SUBDIRECTORY( python )
 #   ADD_SUBDIRECTORY( ruby )
 #   ADD_SUBDIRECTORY( perl )
 #   ADD_SUBDIRECTORY( R )
-#ENDIF (SWIG_FOUND)
 
 
 #----------------------------------------------------------------------------

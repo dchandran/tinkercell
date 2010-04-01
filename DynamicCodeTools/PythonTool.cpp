@@ -177,10 +177,10 @@ namespace Tinkercell
 			toolLoaded(0);
 			
 			if (console())
-				console()->message(tr("Python initializing (init.py) ... DO NOT EXIT AT THIS TIME"));
+				console()->message(tr("Python initializing (init.py) ...\n"));
 
 			#ifdef Q_WS_WIN
-			QString pydir = appDir.replace("/","\\\\") + tr("\\\\py");
+			QString pydir = appDir.replace("/","\\\\") + tr("\\\\python");
 			#else
 			QString pydir = appDir + tr("/python");
 			#endif

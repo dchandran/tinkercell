@@ -253,7 +253,7 @@ namespace Tinkercell
 	{
 		if (nodeFamily)
 			return nodeFamily;
-		if (connectionFamily);
+		if (connectionFamily)
 			return connectionFamily;
 		return 0;
 	}

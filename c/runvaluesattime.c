@@ -171,7 +171,7 @@ void run(Matrix input)
 	if (index < 0)
 	{
 		tc_print("steady state: no variable selected\0");
-		deleteArrayOfItem(A);
+		deleteArrayOfItems(&A);
 		return;
 	}
 

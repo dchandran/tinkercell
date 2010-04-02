@@ -77,9 +77,9 @@ namespace Tinkercell
                if (node->graphicsItems.size() > 0 &&
                    NodeGraphicsItem::topLevelNodeItem(node->graphicsItems[0]) &&
                    (NodeGraphicsItem::topLevelNodeItem(node->graphicsItems[0]))->isValid())
-                    hasGraphics += true;
+                    hasGraphics = true;
                else
-                    hasGraphics += false;
+                    hasGraphics = false;
 
                hasNodeGraphics += hasGraphics;
 

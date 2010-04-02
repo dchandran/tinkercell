@@ -12,14 +12,14 @@ Matrix tc_getModelParameters(ArrayOfItems A);
  \brief write the ODE, stoichiometry, and rates functions to a file
  \ingroup Modeling
 */
-int tc_writeModel(const char* file, ArrayOfItems items);
+int tc_writeModel(String file, ArrayOfItems items);
 
 /*! 
  \brief initialize model generator functions
  \ingroup init
 */
 void tc_ModelFileGenerator_api(
-	int (*modelgen)(const char*, ArrayOfItems ),
+	int (*modelgen)(String, ArrayOfItems ),
 	Matrix (*getModelParameters)(ArrayOfItems)
 );
 

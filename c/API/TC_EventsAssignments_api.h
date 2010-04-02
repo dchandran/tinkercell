@@ -17,7 +17,7 @@ ArrayOfStrings tc_getEventResponses();
  \brief set the event trigger and response
  \ingroup Events and forcing functions
 */
-void tc_addEvent(const char* trigger, const char* event);
+void tc_addEvent(String trigger, String event);
 /*! 
  \brief initialize
  \ingroup init
@@ -25,7 +25,7 @@ void tc_addEvent(const char* trigger, const char* event);
 void tc_SimulationEventsTool_api(
 		ArrayOfStrings (*getEventTriggers)(),
 		 ArrayOfStrings (*getEventResponses)(),
-		 void (*addEvent)(const char*, const char*)
+		 void (*addEvent)(String, String)
 	);
 
 /*! 
@@ -43,7 +43,7 @@ ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a);
  \brief set the forcing function for an item
  \ingroup Events and forcing functions
 */
-void tc_addForcingFunction(void* item,const char* functionName, const char* assignmentRule);
+void tc_addForcingFunction(Item item,String functionName, String assignmentRule);
 
 /*! 
  \brief initialize
@@ -52,18 +52,18 @@ void tc_addForcingFunction(void* item,const char* functionName, const char* assi
 void tc_AssignmentFunctionsTool_api(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
-		 void (*addForcingFunction)(void*,const char*, const char*)
+		 void (*addForcingFunction)(Item,String, String)
 	);
 /*! 
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayText(void* item,const char* text);
+void tc_displayText(Item item,String text);
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayNumber(void* item,double number);
+void tc_displayNumber(Item item,double number);
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \ingroup Input and Output
@@ -73,17 +73,17 @@ void tc_setDisplayLabelColor(int r1,int g1,int b1,int r2,int g2,int b2);
  \brief highlights an item (the highlight is temporary) with the given color (rgb)
  \ingroup Input and Output
 */
-void tc_highlight(void* item,int r,int g,int b);
+void tc_highlight(Item item,int r,int g,int b);
 
 /*! 
  \brief initialize
  \ingroup init
 */
 void tc_CLabelsTool_api(
-		void (*displayText)(void* item,const char*),
-		void (*displayNumber)(void* item,double),
+		void (*displayText)(Item item,String),
+		void (*displayNumber)(Item item,double),
 		void (*setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2),
-		void (*highlight)(void*,int,int,int)
+		void (*highlight)(Item,int,int,int)
 	);
 
 

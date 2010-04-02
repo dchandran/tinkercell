@@ -27,22 +27,22 @@ void tc_setRates(ArrayOfItems A,ArrayOfStrings rates);
 \brief get stoichiometry for the given items
 \ingroup Stoichiometry
 */
-Matrix tc_getStoichiometryFor(void* x);
+Matrix tc_getStoichiometryFor(Item x);
 /*! 
 \brief get rate for the given items
 \ingroup Stoichiometry
 */
-String tc_getRate(void* x);
+String tc_getRate(Item x);
 /*! 
 \brief set rate for the given items
 \ingroup Stoichiometry
 */
-void tc_setRate(void* x, String r);
+void tc_setRate(Item x, String r);
 /*! 
 \brief set stoichiometry for the given items
 \ingroup Stoichiometry
 */
-void tc_setStoichiometryFor(void* x, Matrix N);
+void tc_setStoichiometryFor(Item x, Matrix N);
 /*! 
 \brief initialize stiochiometry functions
 \ingroup Stoichiometry

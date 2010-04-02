@@ -24,12 +24,12 @@ ArrayOfStrings tc_getEventResponses()
 	return newArrayOfStrings(0);
 }
 
-void (*_tc_addEvent)(const char* trigger, const char* event) = 0;
+void (*_tc_addEvent)(String trigger, String event) = 0;
 /*! 
  \brief set the event trigger and response
  \ingroup Events and forcing functions
 */
-void tc_addEvent(const char* trigger, const char* event)
+void tc_addEvent(String trigger, String event)
 {
 	if (_tc_addEvent)
 		_tc_addEvent(trigger,event);
@@ -42,7 +42,7 @@ void tc_addEvent(const char* trigger, const char* event)
 void tc_SimulationEventsTool_api(
 		ArrayOfStrings (*getEventTriggers)(),
 		 ArrayOfStrings (*getEventResponses)(),
-		 void (*addEvent)(const char*, const char*)
+		 void (*addEvent)(String, String)
 	)
 {
 	_tc_getEventTriggers = getEventTriggers;
@@ -74,12 +74,12 @@ ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a)
 	return newArrayOfStrings(0);
 }
 
-void (*_tc_addForcingFunction)(void* item,const char* functionName, const char* assignmentRule) = 0;
+void (*_tc_addForcingFunction)(void* item,String functionName, String assignmentRule) = 0;
 /*! 
  \brief set the forcing function for an item
  \ingroup Events and forcing functions
 */
-void tc_addForcingFunction(void* item,const char* functionName, const char* assignmentRule)
+void tc_addForcingFunction(void* item,String functionName, String assignmentRule)
 {
 	if (_tc_addForcingFunction)
 		_tc_addForcingFunction(item,functionName,assignmentRule);
@@ -92,7 +92,7 @@ void tc_addForcingFunction(void* item,const char* functionName, const char* assi
 void tc_AssignmentFunctionsTool_api(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
-		 void (*addForcingFunction)(void*,const char*, const char*)
+		 void (*addForcingFunction)(void*,String, String)
 	)
 {
 	_tc_getForcingFunctionNames = getForcingFunctionNames;
@@ -100,12 +100,12 @@ void tc_AssignmentFunctionsTool_api(
 	_tc_addForcingFunction = addForcingFunction;
 }
 
-void (*_tc_displayText)(void* item,const char* text) = 0;
+void (*_tc_displayText)(void* item,String text) = 0;
 /*! 
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayText(void* item,const char* text)
+void tc_displayText(void* item,String text)
 {
 	if (_tc_displayText)
 		_tc_displayText(item,text);
@@ -148,7 +148,7 @@ void tc_highlight(void* item,int r,int g,int b)
  \ingroup init
 */
 void tc_CLabelsTool_api(
-		void (*displayText)(void* item,const char*),
+		void (*displayText)(void* item,String),
 		void (*displayNumber)(void* item,double),
 		void (*setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2),
 		void (*highlight)(void*,int,int,int)

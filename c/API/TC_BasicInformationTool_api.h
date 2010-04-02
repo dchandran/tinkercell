@@ -32,12 +32,12 @@ Matrix tc_getParametersAndFixedVariables(ArrayOfItems a);
  \brief get the text attribute with the given name for the given item
  \ingroup Attributes
 */
-const char* tc_getTextAttribute(void* item,const char* attribute);
+String tc_getTextAttribute(Item item,String attribute);
 /*! 
  \brief get the numerical attribute with the given name for the given item
  \ingroup Attributes
 */
-double tc_getParameter(void* item,const char* attribute);
+double tc_getParameter(Item item,String attribute);
 /*! 
  \brief get all numerical attributes with the given names for the given items
  \ingroup Attributes
@@ -57,20 +57,20 @@ ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings attributes);
  \brief set text attribute for the given item
  \ingroup Attributes
 */
-void tc_setTextAttribute(void* item,const char* attribute,const char* value);
+void tc_setTextAttribute(Item item,String attribute,String value);
 /*! 
  \brief set numerical attribute for the given item
  \ingroup Attributes
 */
-void tc_setParameter(void* item,const char* attribute,double value);
+void tc_setParameter(Item item,String attribute,double value);
 /*! 
  \brief initialize attribute functions
  \ingroup init
 */
 void tc_BasicInformationTool_Text_api(
-		const char* (*getTextData)(void* ,const char* ),
+		String (*getTextData)(Item ,String ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
-		void (*setTextData)(void* ,const char* ,const char* ));
+		void (*setTextData)(Item ,String ,String ));
 
 void tc_BasicInformationTool_Numeric_api(
 		Matrix (*getInitialValues)(ArrayOfItems ),
@@ -78,9 +78,9 @@ void tc_BasicInformationTool_Numeric_api(
 		Matrix (*getParameters)(ArrayOfItems ),
 		Matrix (*getFixedVariabes)(ArrayOfItems),
 		Matrix (*getParametersAndFixedVariabes)(ArrayOfItems ),
-		double (*getNumericalData)(void* ,const char* ),
+		double (*getNumericalData)(Item ,String ),
 		Matrix (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
 		Matrix (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
-		void (*setNumericalData)(void* ,const char* ,double )
+		void (*setNumericalData)(Item ,String ,double )
 	);
 #endif

@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#define Item void *
+#define String const char *
 
 /*!\brief An array of strings with length information. Use nthString(M,i) to get the i-th string.*/
 typedef struct 

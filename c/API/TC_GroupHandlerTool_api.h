@@ -13,7 +13,7 @@ void tc_merge(ArrayOfItems parts);
  \brief separate all the graphical items in the handle 
  \ingroup Merging
 */
-void tc_separate(void* part);
+void tc_separate(Item part);
 
 /*! 
  \brief initialize grouping
@@ -21,7 +21,7 @@ void tc_separate(void* part);
 */
 void tc_GroupHandlerTool_api(
 		void (*merge)(ArrayOfItems),
-		void (*separate)(void*)
+		void (*separate)(Item)
 	);
 
 #endif

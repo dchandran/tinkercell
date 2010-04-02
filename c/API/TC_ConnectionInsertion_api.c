@@ -1,11 +1,11 @@
 #include "TC_ConnectionInsertion_api.h"
 
-void* (*_tc_insertConnection)(ArrayOfItems partsFrom, ArrayOfItems partsTo, const char* name, const char* family) = 0;
+void* (*_tc_insertConnection)(ArrayOfItems partsFrom, ArrayOfItems partsTo, String name, String family) = 0;
 /*! 
  \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
  \ingroup Connections
 */
-void* tc_insertConnection(ArrayOfItems partsFrom, ArrayOfItems partsTo, const char* name, const char* family) 
+void* tc_insertConnection(ArrayOfItems partsFrom, ArrayOfItems partsTo, String name, String family) 
 {
 	if (_tc_insertConnection)
 		return _tc_insertConnection(partsFrom, partsTo, name, family);
@@ -113,7 +113,7 @@ ArrayOfItems tc_getConnectionsOther(void* part)
  \ingroup init
 */
 void tc_ConnectionInsertion_api(
-		void* (*insertConnection)(ArrayOfItems, ArrayOfItems, const char*, const char*),
+		void* (*insertConnection)(ArrayOfItems, ArrayOfItems, String, String),
 		ArrayOfItems (*getConnectedParts)(void*),
 		ArrayOfItems (*getConnectedPartsIn)(void*),
 		ArrayOfItems (*getConnectedPartsOut)(void*),

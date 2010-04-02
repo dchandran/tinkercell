@@ -7,14 +7,14 @@
  \brief insert an item with the given name and family. returns the inserted connection
  \ingroup Insert and remove
 */
-void* tc_insert(const char* name, const char* family);
+Item tc_insert(const char* name, const char* family);
 
 /*! 
  \brief initializing function
  \ingroup init
 */
 void tc_NodeInsertion_api(
-		void* (*insertItem)(const char* , const char* )
+		Item (*insertItem)(const char* , const char* )
 );
 
 #endif

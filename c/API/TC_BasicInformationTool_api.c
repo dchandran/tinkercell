@@ -61,24 +61,24 @@ Matrix tc_getParametersAndFixedVariables(ArrayOfItems a)
 	return newMatrix(0,0);
 }
 
-const char* (*_tc_getTextAttribute)(void* item,const char* attribute) = 0;
+String (*_tc_getTextAttribute)(void* item,String attribute) = 0;
 /*! 
  \brief get the text attribute with the given name for the given item
  \ingroup Attributes
 */
-const char* tc_getTextAttribute(void* item,const char* attribute)
+String tc_getTextAttribute(void* item,String attribute)
 {
 	if (_tc_getTextAttribute)
 		return _tc_getTextAttribute(item,attribute);
 	return 0;
 }
 
-double (*_tc_getParameter)(void* item,const char* attribute) = 0;
+double (*_tc_getParameter)(void* item,String attribute) = 0;
 /*! 
  \brief get the numerical attribute with the given name for the given item
  \ingroup Attributes
 */
-double tc_getParameter(void* item,const char* attribute)
+double tc_getParameter(void* item,String attribute)
 {
 	if (_tc_getParameter)
 		return _tc_getParameter(item,attribute);
@@ -121,23 +121,23 @@ ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings attributes)
 	return newArrayOfStrings(0);
 }
 
-void (*_tc_setTextAttribute)(void* item,const char* attribute,const char* value) = 0;
+void (*_tc_setTextAttribute)(void* item,String attribute,String value) = 0;
 /*! 
  \brief set text attribute for the given item
  \ingroup Attributes
 */
-void tc_setTextAttribute(void* item,const char* attribute,const char* value)
+void tc_setTextAttribute(void* item,String attribute,String value)
 {
 	if (_tc_setTextAttribute)
 		_tc_setTextAttribute(item,attribute,value);
 }
 
-void (*_tc_setParameter)(void* item,const char* attribute,double value) = 0;
+void (*_tc_setParameter)(void* item,String attribute,double value) = 0;
 /*! 
  \brief set numerical attribute for the given item
  \ingroup Attributes
 */
-void tc_setParameter(void* item,const char* attribute,double value)
+void tc_setParameter(void* item,String attribute,double value)
 {
 	if (_tc_setParameter)
 		_tc_setParameter(item,attribute,value);
@@ -148,9 +148,9 @@ void tc_setParameter(void* item,const char* attribute,double value)
  \ingroup init
 */
 void tc_BasicInformationTool_Text_api(
-		const char* (*getTextData)(void* ,const char* ),
+		String (*getTextData)(void* ,String ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
-		void (*setTextData)(void* ,const char* ,const char* ))
+		void (*setTextData)(void* ,String ,String ))
 {
 	_tc_getTextAttribute = getTextData;
 	_tc_getAllTextNamed = getAllTextDataNamed;
@@ -163,10 +163,10 @@ void tc_BasicInformationTool_Numeric_api(
 		Matrix (*getParameters)(ArrayOfItems ),
 		Matrix (*getFixedVariabes)(ArrayOfItems),
 		Matrix (*getParametersAndFixedVariabes)(ArrayOfItems ),
-		double (*getNumericalData)(void* ,const char* ),
+		double (*getNumericalData)(void* ,String ),
 		Matrix (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
 		Matrix (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
-		void (*setNumericalData)(void* ,const char* ,double )
+		void (*setNumericalData)(void* ,String ,double )
 	)
 {
 	_tc_getInitialValues = getInitialValues;

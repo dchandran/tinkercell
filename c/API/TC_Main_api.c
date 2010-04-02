@@ -24,36 +24,36 @@ ArrayOfItems tc_selectedItems()
 	return newArrayOfItems(0);
 }
 
-ArrayOfItems (*_tc_itemsOfFamily)(const char* family) = 0;
+ArrayOfItems (*_tc_itemsOfFamily)(String family) = 0;
 /*!
  \brief get all items of the given family items
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamily(const char* family)
+ArrayOfItems tc_itemsOfFamily(String family)
 {
 	if (_tc_itemsOfFamily)
 		return _tc_itemsOfFamily(family);
 	return newArrayOfItems(0);
 }
 
-ArrayOfItems (*_tc_itemsOfFamilyFrom)(const char* family, ArrayOfItems itemsToSelectFrom) = 0;
+ArrayOfItems (*_tc_itemsOfFamilyFrom)(String family, ArrayOfItems itemsToSelectFrom) = 0;
 /*! 
  \brief get subset of items that belong to the given family
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamilyFrom(const char* family, ArrayOfItems itemsToSelectFrom)
+ArrayOfItems tc_itemsOfFamilyFrom(String family, ArrayOfItems itemsToSelectFrom)
 {
 	if (_tc_itemsOfFamilyFrom)
 		return _tc_itemsOfFamilyFrom(family,itemsToSelectFrom);
 	return newArrayOfItems(0);
 }
 
-void * (*_tc_find)(const char* fullname) = 0;
+void * (*_tc_find)(String fullname) = 0;
 /*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
-void * tc_find(const char* fullname)
+void * tc_find(String fullname)
 {
 	if (_tc_find)
 		return _tc_find(fullname);
@@ -94,24 +94,24 @@ void tc_deselect()
 		_tc_deselect();
 }
 
-const char* (*_tc_getName)(void * item) = 0;
+String (*_tc_getName)(void * item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-const char* tc_getName(void * item)
+String tc_getName(void * item)
 {
 	if (_tc_getName)
 		return _tc_getName(item);
 	return 0;
 }
 
-void (*_tc_rename)(void * item,const char* name) = 0;
+void (*_tc_rename)(void * item,String name) = 0;
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Annotation
 */
-void tc_rename(void * item,const char* name)
+void tc_rename(void * item,String name)
 {
 	if (_tc_rename)
 		_tc_rename(item,name);
@@ -129,47 +129,47 @@ ArrayOfStrings tc_getNames(ArrayOfItems items)
 	return newArrayOfStrings(0);
 }
 
-const char* (*_tc_getFamily)(void * item) = 0;
+String (*_tc_getFamily)(void * item) = 0;
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
 */
-const char* tc_getFamily(void * item)
+String tc_getFamily(void * item)
 {
 	if (_tc_getFamily)
 		return _tc_getFamily(item);
 	return 0;
 }
 
-int (*_tc_isA)(void * item,const char* family) = 0;
+int (*_tc_isA)(void * item,String family) = 0;
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
 */
-int tc_isA(void * item,const char* family)
+int tc_isA(void * item,String family)
 {
 	if (_tc_isA)
 		return _tc_isA(item,family);
 	return 0;
 }
 
-void (*_tc_print)(const char* text) = 0;
+void (*_tc_print)(String text) = 0;
 /*! 
  \brief show text in the output window.
  \ingroup Input and Output
 */
-void tc_print(const char* text)
+void tc_print(String text)
 {
 	if (_tc_print && text)
 		_tc_print(text);
 }
 
-void (*_tc_errorReport)(const char* text) = 0;
+void (*_tc_errorReport)(String text) = 0;
 /*! 
  \brief show error text in the output window.
  \ingroup Input and Output
 */
-void tc_errorReport(const char* text)
+void tc_errorReport(String text)
 {
 	if (_tc_errorReport && text)
 		_tc_errorReport(text);
@@ -186,12 +186,12 @@ void tc_printTable(Matrix data)
 		_tc_printTable(data);
 }
 
-void (*_tc_printFile)(const char* filename) = 0;
+void (*_tc_printFile)(String filename) = 0;
 /*! 
  \brief show file contents in the output window. 
  \ingroup Input and Output
 */
-void tc_printFile(const char* filename)
+void tc_printFile(String filename)
 {
 	if (_tc_printFile)
 		_tc_printFile(filename);
@@ -325,52 +325,52 @@ int tc_isLinux()
 	return 0;
 }
 
-const char* (*_tc_appDir)() = 0;
+String (*_tc_appDir)() = 0;
 /*! 
  \brief TinkerCell application folder
  \ingroup System information
 */
-const char* tc_appDir()
+String tc_appDir()
 {
 	if (_tc_appDir)
 		return _tc_appDir();
 	return 0;
 }
 
-void (*_tc_createInputWindowFromFile)(Matrix input, const char* filename,const char* functionname, const char* title) = 0;
+void (*_tc_createInputWindowFromFile)(Matrix input, String filename,String functionname, String title) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindowFromFile(Matrix input, const char* filename,const char* functionname, const char* title)
+void tc_createInputWindowFromFile(Matrix input, String filename,String functionname, String title)
 {
 	if (_tc_createInputWindowFromFile)
 		_tc_createInputWindowFromFile(input,filename,functionname,title);
 }
 
-void (*_tc_createInputWindow)(Matrix, const char* title, void (*f)(Matrix)) = 0;
+void (*_tc_createInputWindow)(Matrix, String title, void (*f)(Matrix)) = 0;
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindow(Matrix input, const char* title, void (*f)(Matrix))
+void tc_createInputWindow(Matrix input, String title, void (*f)(Matrix))
 {
 	if (_tc_createInputWindow)
 		_tc_createInputWindow(input,title,f);
 }
 
-void (*_tc_addInputWindowOptions)(const char*, int i, int j, ArrayOfStrings) = 0;
+void (*_tc_addInputWindowOptions)(String, int i, int j, ArrayOfStrings) = 0;
 /*! 
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
 */
-void tc_addInputWindowOptions(const char* title, int i, int j, ArrayOfStrings options)
+void tc_addInputWindowOptions(String title, int i, int j, ArrayOfStrings options)
 {
 	if (_tc_addInputWindowOptions)
 		_tc_addInputWindowOptions(title,i,j,options);
 }
 
-void (*_tc_addInputWindowCheckbox)(const char*, int i, int j) = 0;
+void (*_tc_addInputWindowCheckbox)(String, int i, int j) = 0;
 /*! 
  \brief add a yes or no type of option to an existing input window at the i,j-th cell
  \ingroup Input and Output
@@ -416,47 +416,47 @@ void * tc_getParent(void * o)
 	return 0;
 }
 
-Matrix (*_tc_getNumericalData)(void * item,const char* data) = 0;
+Matrix (*_tc_getNumericalData)(void * item,String data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
 */
-Matrix tc_getNumericalData(void * item,const char* data)
+Matrix tc_getNumericalData(void * item,String data)
 {
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
 	return newMatrix(0,0);
 }
 
-void (*_tc_setNumericalData)(void *,const char*,Matrix) = 0;
+void (*_tc_setNumericalData)(void *,String,Matrix) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
 */
-void tc_setNumericalData(void * o,const char* title,Matrix data)
+void tc_setNumericalData(void * o,String title,Matrix data)
 {
 	if (_tc_setNumericalData)
 		_tc_setNumericalData(o, title, data);
 }
 
-TableOfStrings (*_tc_getTextData)(void * item,const char* data) = 0;
+TableOfStrings (*_tc_getTextData)(void * item,String data) = 0;
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-TableOfStrings tc_getTextData(void * item,const char* data)
+TableOfStrings tc_getTextData(void * item,String data)
 {
 	if (_tc_getTextData)
 		return _tc_getTextData(item,data);
 	return newTableOfStrings(0,0);
 }
 
-void (*_tc_setTextData)(void *,const char*,TableOfStrings) = 0;
+void (*_tc_setTextData)(void *,String,TableOfStrings) = 0;
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-void tc_setTextData(void * o,const char* title,TableOfStrings data)
+void tc_setTextData(void * o,String title,TableOfStrings data)
 {
 	if (_tc_setTextData)
 		_tc_setTextData(o, title, data);
@@ -498,48 +498,48 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
-const char* (*_tc_getString)(const char* title) = 0;
+String (*_tc_getString)(String title) = 0;
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Dialogs
 */
-const char* tc_getString(const char* title)
+String tc_getString(String title)
 {
 	if (_tc_getString)
 		return _tc_getString(title);
 	return 0;
 }
 
-const char* (*_tc_getFilename)() = 0;
+String (*_tc_getFilename)() = 0;
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Dialogs
 */
-const char* tc_getFilename()
+String tc_getFilename()
 {
 	if (_tc_getFilename)
 		return _tc_getFilename();
 	return 0;
 }
 
-int (*_tc_getFromList)(const char* title, ArrayOfStrings list,const char* selectedString, int comboBox) = 0;
+int (*_tc_getFromList)(String title, ArrayOfStrings list,String selectedString, int comboBox) = 0;
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Dialogs
 */
-int tc_getFromList(const char* title, ArrayOfStrings list,const char* selectedString, int comboBox)
+int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox)
 {
 	if (_tc_getFromList)
 		return _tc_getFromList(title,list,selectedString,comboBox);
 	return 0;
 }
 
-double (*_tc_getNumber)(const char* title) = 0;
+double (*_tc_getNumber)(String title) = 0;
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Dialogs
 */
-double tc_getNumber(const char* title)
+double tc_getNumber(String title)
 {
 	if (_tc_getNumber)
 		return _tc_getNumber(title);
@@ -557,26 +557,26 @@ void tc_getNumbers(ArrayOfStrings labels, double* result)
 		_tc_getNumbers(labels,result);
 }
 
-int (*_tc_askQuestion)(const char*) = 0;
+int (*_tc_askQuestion)(String) = 0;
 /*! 
  \brief display a dialog with a text and a yes and no button
  \param char* displayed message or question
  \ingroup Dialogs
 */
-int tc_askQuestion(const char* message)
+int tc_askQuestion(String message)
 {
 	if (_tc_askQuestion && message)
 		return _tc_askQuestion(message);
 	return 0;
 }
 
-void (*_tc_messageDialog)(const char*) = 0;
+void (*_tc_messageDialog)(String) = 0;
 /*! 
  \brief display a dialog with a text message and a close button
  \param char* displayed message
  \ingroup Dialogs
 */
-void tc_messageDialog(const char* message)
+void tc_messageDialog(String message)
 {
 	if (_tc_messageDialog && message)
 		_tc_messageDialog(message);
@@ -612,23 +612,23 @@ void tc_createSliders(Matrix input, void (*f)(Matrix))
 void tc_Main_api_initialize(
 	    ArrayOfItems (*tc_allItems0)(),
 		ArrayOfItems (*tc_selectedItems0)(),
-		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
-		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
-		void * (*tc_find0)(const char*),
+		ArrayOfItems (*tc_itemsOfFamily0)(String),
+		ArrayOfItems (*tc_itemsOfFamily1)(String, ArrayOfItems),
+		void * (*tc_find0)(String),
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
 		void (*tc_select0)(void *),
 		void (*tc_deselect0)(),
-		const char* (*tc_getName0)(void *),
-		void (*tc_setName0)(void * item,const char* name),
+		String (*tc_getName0)(void *),
+		void (*tc_setName0)(void * item,String name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		const char* (*tc_getFamily0)(void *),
-		int (*tc_isA0)(void *,const char*),
+		String (*tc_getFamily0)(void *),
+		int (*tc_isA0)(void *,String),
 
 		void (*tc_clearText)(),
-		void (*tc_outputText0)(const char*),
-		void (*tc_errorReport0)(const char*),
+		void (*tc_outputText0)(String),
+		void (*tc_errorReport0)(String),
 		void (*tc_outputTable0)(Matrix),
-		void (*tc_printFile0)(const char*),
+		void (*tc_printFile0)(String),
 
 		void (*tc_removeItem0)(void *),
 
@@ -642,37 +642,37 @@ void tc_Main_api_initialize(
 		int (*tc_isWindows0)(),
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
-		const char* (*tc_appDir0)(),
+		String (*tc_appDir0)(),
 		
-		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
+		void (*tc_createInputWindow0)(Matrix,String,String, String),
+        void (*tc_createInputWindow1)(Matrix, String, void (*f)(Matrix)),
 		void (*createSliders)(void*, Matrix, void (*f)(Matrix)),
 		
-		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
-		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
+		void (*tc_addInputWindowOptions0)(String, int i, int j, ArrayOfStrings),
+		void (*tc_addInputWindowCheckbox0)(String, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
 		
 		ArrayOfItems (*tc_getChildren0)(void *),
 		void * (*tc_getParent0)(void *),
 		
-		Matrix (*tc_getNumericalData0)(void *,const char*),
-		void (*tc_setNumericalData0)(void *,const char*,Matrix),
-		TableOfStrings (*tc_getTextData0)(void *,const char*),
-		void (*tc_setTextData0)(void *,const char*, TableOfStrings),
+		Matrix (*tc_getNumericalData0)(void *,String),
+		void (*tc_setNumericalData0)(void *,String,Matrix),
+		TableOfStrings (*tc_getTextData0)(void *,String),
+		void (*tc_setTextData0)(void *,String, TableOfStrings),
 				
 		ArrayOfStrings (*tc_getNumericalDataNames0)(void *),
 		ArrayOfStrings (*tc_getTextDataNames0)(void *),
 		
 		void (*tc_zoom0)(double factor),
 		
-		const char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, ArrayOfStrings, const char*, int),
-		double (*getNumber)(const char*),
+		String (*getString)(String),
+		int (*getSelectedString)(String, ArrayOfStrings, String, int),
+		double (*getNumber)(String),
 		void (*getNumbers)( ArrayOfStrings, double * ),
-		const char* (*getFilename)(),
+		String (*getFilename)(),
 		
-		int (*askQuestion)(const char*),
-		void (*messageDialog)(const char*)
+		int (*askQuestion)(String),
+		void (*messageDialog)(String)
 	)
 {
 	_tc_allItems = tc_allItems0;

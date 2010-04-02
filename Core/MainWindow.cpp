@@ -3174,6 +3174,19 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
 		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
+
+		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double)));
+		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
+		connect(&fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
+		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,double)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,double)));
+		connect(&fToS,SIGNAL(getAngle(QSemaphore*, ItemHandle*, double*)),this,SLOT(getAngle(QSemaphore*, ItemHandle*, double*)));
+		
+		connect(&fToS,SIGNAL(getColorR(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorR(QSemaphore*,int*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getColorG(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorG(QSemaphore*,int*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getColorB(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorB(QSemaphore*,int*,ItemHandle*)));
+		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,int,int,int,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,int,int,int,int)));
+		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
 	}
 
 	typedef void (*main_api_func)(
@@ -3239,7 +3252,20 @@ namespace Tinkercell
 		char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
-		void (*messageDialog)(const char*)
+		void (*messageDialog)(const char*),
+		
+		void (*setSize)(void*,double,double),
+		double (*getWidth)(void*),
+		double (*getHeight)(void*),
+		void (*setAngle)(void*,double,double),
+		double (*getAngle)(void*),
+		int (*getColorR)(void*),
+		int (*getColorG)(void*),
+		int (*getColorB)(void*),
+		void (*setColor)(void*,int,int,int,int),
+		
+		void changeGraphics(void*,const char*),
+		void changeArrowHead(void*,const char*)
 
 		);
 
@@ -3299,8 +3325,19 @@ namespace Tinkercell
 				&(_getNumbers),
 				&(_getFilename),
 				&(_askQuestion),
-				&(_messageDialog)
-				);
+				&(_messageDialog),
+				&(_setSize),
+				&(_getWidth),
+				&(_getHeight),
+				&(_setAngle),
+				&(_getAngle),
+				&(_getColorR),
+				&(_getColorG),
+				&(_getColorB),
+				&(_setColor),
+				&(_changeGraphics),
+				&(_changeArrowHead)
+			);
 		}
 
 		emit setupFunctionPointers(library); //let all the other plug-ins setup their functions

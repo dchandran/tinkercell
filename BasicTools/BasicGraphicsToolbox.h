@@ -43,37 +43,6 @@ buttons for all these functions.
 
 namespace Tinkercell
 {
-	class BasicGraphicsToolbox_FToS : public QObject
-	{
-		Q_OBJECT
-		
-	signals:
-		void setSize(QSemaphore*, ItemHandle*,double,double);
-		void getWidth(QSemaphore*, ItemHandle*, double*);
-		void getHeight(QSemaphore*, ItemHandle*,double*);
-		void setAngle(QSemaphore*, ItemHandle*,double,double);
-		void getAngle(QSemaphore*, ItemHandle*, double*);
-		void getColorR(QSemaphore*,int*,ItemHandle*);
-		void getColorG(QSemaphore*,int*,ItemHandle*);
-		void getColorB(QSemaphore*,int*,ItemHandle*);
-		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
-		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
-		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
-
-	public slots:
-		void setSize(void*,double,double);
-		double getWidth(void*);
-		double getHeight(void*);
-		void setAngle(void*,double,double);
-		double getAngle(void*);
-		int getColorR(void*);
-		int getColorG(void*);
-		int getColorB(void*);
-		void setColor(void*,int,int,int,int);
-		void changeGraphics(void*,const char*);
-		void changeArrowHead(void*,const char*);
-	};
-
 	class BasicGraphicsToolbox : public Tool
 	{
 		Q_OBJECT
@@ -81,15 +50,6 @@ namespace Tinkercell
 	public:
 		BasicGraphicsToolbox();
 		bool setMainWindow(MainWindow * main);
-
-	private slots:
-		void getColorRGB(ItemHandle*,int*,int);
-		void getColorR(QSemaphore*,int*,ItemHandle*);
-		void getColorG(QSemaphore*,int*,ItemHandle*);
-		void getColorB(QSemaphore*,int*,ItemHandle*);
-		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
-		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
-		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
 
 	public slots:
 
@@ -158,17 +118,6 @@ namespace Tinkercell
 		QToolButton * alignButton;
 		enum AlignMode { left, right, bottom, top, centervertical, centerhorizontal, evenspacedvertical, evenspacedhorizontal, compactvertical, compacthorizontal };
 		AlignMode alignMode;
-
-	private:
-		static BasicGraphicsToolbox_FToS fToS;
-		void connectTCFunctions();
-		static int _getColorR(void*);
-		static int _getColorG(void*);
-		static int _getColorB(void*);
-		static void _setColor(void*,int,int,int,int);
-		static void _changeGraphics(void*,const char*);
-		static void _changeArrowHead(void*,const char*);
-		QList<QGraphicsItem*> temporarilyChangedItems;
 	};
 
 

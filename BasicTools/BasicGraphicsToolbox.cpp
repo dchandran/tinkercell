@@ -343,20 +343,9 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getColorG(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorG(QSemaphore*,int*,ItemHandle*)));
 		connect(&fToS,SIGNAL(getColorB(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorB(QSemaphore*,int*,ItemHandle*)));
 		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,int,int,int,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,int,int,int,int)));
-		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),
-				this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),
-				this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
+		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
 	}
-
-	typedef void (*tc_BasicGraphicsToolbox_api)(
-		int (*getColorR)(void*),
-		int (*getColorG)(void*),
-		int (*getColorB)(void*),
-		void (*setColor)(void*,int,int,int, int),
-		void (*changeGraphics)(void*,const char*),
-		void (*changeArrowHead)(void*,const char*));
-
 
 	void BasicGraphicsToolbox::setupFunctionPointers( QLibrary * library )
 	{

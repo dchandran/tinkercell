@@ -599,23 +599,6 @@ namespace Tinkercell
 		*/
 		void setPos(QSemaphore*,ItemHandle* item, qreal X, qreal Y);
 		/*!
-		* \brief sets the size of the item. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param ItemHandle* item pointer
-		* \param double new width
-		* \param double new height
-		* \return void
-		*/
-		void setSize(QSemaphore*,ItemHandle* item, qreal w, qreal h);
-		/*!
-		* \brief sets the angle of the item. This function is designed to be used with the C API framework
-		* \param QSemaphore* semaphore
-		* \param ItemHandle* item pointer
-		* \param double new angle
-		* \return void
-		*/
-		void setAngle(QSemaphore*,ItemHandle* item, qreal theta);
-		/*!
 		* \brief sets the x,y position of several items. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
 		* \param QList<ItemHandle*> item pointers
@@ -897,7 +880,51 @@ namespace Tinkercell
 		* \brief part of the C API framework.
 		*/
 		void messageDialog(QSemaphore*, const QString&);
-        
+		/*!
+		* \brief part of the C API framework.
+		*/
+        void setSize(QSemaphore*, ItemHandle*,double,double);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getWidth(QSemaphore*, ItemHandle*, double*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getHeight(QSemaphore*, ItemHandle*,double*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void setAngle(QSemaphore*, ItemHandle*,double,double);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getAngle(QSemaphore*, ItemHandle*, double*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getColorR(QSemaphore*,int*,ItemHandle*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getColorG(QSemaphore*,int*,ItemHandle*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void getColorB(QSemaphore*,int*,ItemHandle*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
+
 	signals:
 
 		/*!
@@ -1090,7 +1117,7 @@ namespace Tinkercell
 		void itemsInserted(NetworkWindow * win, const QList<ItemHandle*>&);
 		/*!
 		* \brief A convenient signal that is emitted when items are removed from a GraphicsScene
-		or TextEditor. Warning: listening to the other itemsRemoved signals may cause redundancy
+				or TextEditor. Warning: listening to the other itemsRemoved signals may cause redundancy
 		* \param NetworkWindow* where the editting happened
 		* \param ItemHandle* removed items
 		*/
@@ -1434,15 +1461,73 @@ namespace Tinkercell
 		* \brief part of the C API framework.
 		*/
 		static char* _getFilename();
-		/*! \brief Dialog for selecting strings. */
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static void _setSize(void*,double,double);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static double _getWidth(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static double _getHeight(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static void _setAngle(void*,double,double);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static double _getAngle(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static int _getColorR(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static int _getColorG(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static int _getColorB(void*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static void _setColor(void*,int,int,int,int);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static void _changeGraphics(void*,const char*);
+		/*!
+		* \brief part of the C API framework.
+		*/
+		static void _changeArrowHead(void*,const char*);
+		/*! 
+		* \brief Dialog for selecting strings. 
+		*/
         QDialog * getStringDialog;
-        /*! \brief widget for selecting strings. */
+        /*! 
+		* \brief widget for selecting strings. 
+		*/
         QListWidget getStringList;
-        /*! \brief number for selecting strings. */
+        /*! 
+		* \brief number for selecting strings. 
+		*/
         int getStringListNumber;
-        /*! \brief list for selecting numbers. */
+		/*! 
+		* \brief items changed through the C api
+		*/
+		QList<QGraphicsItem*> temporarilyChangedItems;
+        /*! 
+		* \brief list for selecting numbers. 
+		*/
         QStringList getStringListText;
-        /*! \brief label for selecting numbers. */
+        /*! 
+		* \brief label for selecting numbers. 
+		*/
         QLabel getStringListLabel;
 		/*!
 		* \brief part of the C API framework.
@@ -1534,6 +1619,19 @@ namespace Tinkercell
 		
 		void askQuestion(QSemaphore*,const QString&,int*);
 		void messageDialog(QSemaphore*,const QString&);
+		
+		void setSize(QSemaphore*, ItemHandle*,double,double);
+		void getWidth(QSemaphore*, ItemHandle*, double*);
+		void getHeight(QSemaphore*, ItemHandle*,double*);
+		void setAngle(QSemaphore*, ItemHandle*,double,double);
+		void getAngle(QSemaphore*, ItemHandle*, double*);
+		void getColorR(QSemaphore*,int*,ItemHandle*);
+		void getColorG(QSemaphore*,int*,ItemHandle*);
+		void getColorB(QSemaphore*,int*,ItemHandle*);
+		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
+		
+		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
+		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
 
 	public slots:
 		void zoom(double);
@@ -1593,6 +1691,19 @@ namespace Tinkercell
         
 		int askQuestion(const char*);
 		void messageDialog(const char*);
+		
+		void setSize(void*,double,double);
+		double getWidth(void*);
+		double getHeight(void*);
+		void setAngle(void*,double,double);
+		double getAngle(void*);
+		int getColorR(void*);
+		int getColorG(void*);
+		int getColorB(void*);
+		void setColor(void*,int,int,int,int);
+		
+		void changeGraphics(void*,const char*);
+		void changeArrowHead(void*,const char*);
 	};
 
 }

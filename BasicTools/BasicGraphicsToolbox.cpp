@@ -190,8 +190,6 @@ namespace Tinkercell
 		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
 		changePenMenu->addAction(changePenWidth);
 
-		connectTCFunctions();
-
 		findText = replaceText = 0;
 		findToolBar = 0;
 	}
@@ -293,8 +291,6 @@ namespace Tinkercell
                 this,
                 SLOT(sendToBack()));
 
-			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene * , QPointF , Qt::MouseButton, Qt::KeyboardModifiers )),
@@ -335,33 +331,6 @@ namespace Tinkercell
 		GraphicsView * currentView;
 		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
 		currentView->background = QPixmap();
-	}
-
-	void BasicGraphicsToolbox::connectTCFunctions()
-	{
-		connect(&fToS,SIGNAL(getColorR(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorR(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getColorG(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorG(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getColorB(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorB(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,int,int,int,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,int,int,int,int)));
-		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
-		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
-	}
-
-	void BasicGraphicsToolbox::setupFunctionPointers( QLibrary * library )
-	{
-		tc_BasicGraphicsToolbox_api f = (tc_BasicGraphicsToolbox_api)library->resolve("tc_BasicGraphicsToolbox_api");
-		if (f)
-		{
-			//qDebug() << "tc_BasicGraphicsToolbox_api resolved";
-			f(
-				&(_getColorR),
-				&(_getColorG),
-				&(_getColorB),
-				&(_setColor),
-				&(_changeGraphics),
-				&(_changeArrowHead)
-				);
-		}
 	}
 
 	void BasicGraphicsToolbox::getColorRGB(ItemHandle* handle,int* r,int rgb)
@@ -431,132 +400,6 @@ namespace Tinkercell
 				}
 			}
 		}
-	}
-
-	void BasicGraphicsToolbox::getColorR(QSemaphore* s,int* r,ItemHandle* item)
-	{
-		getColorRGB(item,r,0);
-		if (s)
-			s->release();
-	}
-
-	void BasicGraphicsToolbox::getColorG(QSemaphore* s,int* g,ItemHandle* item)
-	{
-		getColorRGB(item,g,1);
-		if (s)
-			s->release();
-	}
-
-	void BasicGraphicsToolbox::getColorB(QSemaphore* s,int* b,ItemHandle* item)
-	{
-		getColorRGB(item,b,2);
-		if (s)
-			s->release();
-	}
-
-	void BasicGraphicsToolbox::setColor(QSemaphore* s,ItemHandle* handle,int r,int g,int b, int permanent)
-	{
-		GraphicsScene * scene = currentScene();
-		QGraphicsItem* item;
-		if (handle && scene)
-			for (int i=0; i < handle->graphicsItems.size(); ++i)
-			{
-				item = handle->graphicsItems[i];
-				if (item && scene)
-				{
-					QList<QGraphicsItem*> items;
-					QList<QBrush> brushes;
-					QList<QPen> pens;
-					QColor color(r,g,b);
-					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
-					if (node != 0)
-					{
-						for (int j=0; j < node->shapes.size(); ++j)
-						{
-							NodeGraphicsItem::Shape * aitem = node->shapes[j];
-
-							if (aitem != 0)
-							{
-								QBrush brush = aitem->defaultBrush;
-								if (brush.gradient() != 0)
-								{
-									QGradient gradient(*brush.gradient() );
-									QGradientStops stops = gradient.stops();
-									if (stops.size() > 0)
-									{
-										color.setAlpha(stops[ stops.size() - 1 ].second.alpha());
-										stops[ stops.size() - 1 ].second = color;
-										gradient.setStops(stops);
-										QBrush newBrush(gradient);
-										if (permanent)
-										{
-											brushes += newBrush;
-											items += aitem;
-										}
-										else
-										{
-											aitem->setBrush(newBrush);
-											temporarilyChangedItems << aitem;
-										}
-									}
-								}
-								else
-								{
-									color.setAlpha(brush.color().alpha());
-									QBrush newBrush(color);
-									if (permanent)
-									{
-										items += aitem;
-										brushes += newBrush;
-									}
-									else
-									{
-										aitem->setBrush(newBrush);
-										temporarilyChangedItems << aitem;
-									}
-								}
-								QPen newPen(aitem->defaultPen);
-								newPen.setColor(color);
-								if (permanent)
-								{
-									pens += newPen;
-								}
-								else
-								{
-									aitem->setPen(newPen);
-									temporarilyChangedItems << aitem;
-								}
-							}
-						}
-					}
-					else
-					{
-						ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(item);
-						if (connection != 0)
-						{
-							QPen newPen(color,connection->defaultPen.widthF());
-							color.setAlpha(connection->defaultBrush.color().alpha());
-							//QBrush newBrush(color);
-							if (permanent)
-							{
-								pens += newPen;
-								brushes += connection->brush();
-								items += connection;
-							}
-							else
-							{
-								connection->setPen(newPen);
-								//connection->setBrush(newBrush);
-								temporarilyChangedItems << connection;
-							}
-						}
-					}
-					if (permanent)
-						scene->setBrushAndPen(tr("colors changed"),items,brushes,pens);
-				}
-			}
-			if (s)
-				s->release();
 	}
 
 	void BasicGraphicsToolbox::closeFind()
@@ -1169,24 +1012,6 @@ namespace Tinkercell
 				mainWindow->currentScene()->useDefaultBehavior = true;
 			mode = none;
 		}
-		if (temporarilyChangedItems.size() > 0)
-		{
-			NodeGraphicsItem::Shape * shape = 0;
-			ConnectionGraphicsItem * connection = 0;
-			for (int i=0; i < temporarilyChangedItems.size(); ++i)
-				if (shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(temporarilyChangedItems[i]))
-				{
-					shape->setPen(shape->defaultPen);
-					shape->setBrush(shape->defaultBrush);
-				}
-				else
-					if (connection = ConnectionGraphicsItem::cast(temporarilyChangedItems[i]))
-					{
-						connection->setPen(connection->defaultPen);
-						connection->setBrush(connection->defaultBrush);
-					}
-					temporarilyChangedItems.clear();
-		}
 	}
 
 	QList<QGraphicsItem*> BasicGraphicsToolbox::itemsToAlign(QList<QGraphicsItem*>& selected)
@@ -1782,164 +1607,6 @@ namespace Tinkercell
 		case evenspacedhorizontal: return alignEvenSpacedHorizontal();
 		default: return;
 		}
-	}
-
-	void BasicGraphicsToolbox::changeGraphics(QSemaphore* s,ItemHandle* h,const QString& file)
-	{
-		if (h)
-		{
-			QStringList filenames;
-			QList<NodeGraphicsItem*> nodesList;
-			NodeGraphicsItem * node;
-
-			for (int i=0; i < h->graphicsItems.size(); ++i)
-				if ((node = NodeGraphicsItem::cast(h->graphicsItems[i])))
-				{
-					nodesList << node;
-					filenames << file;
-				}
-
-			if (nodesList.size() > 0)
-			{
-				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("image changed for ") + h->fullName(),nodesList,filenames);
-				if (currentWindow())
-					currentWindow()->history.push(command);
-			}
-		}
-
-		if (s)
-			s->release();
-	}
-
-	void BasicGraphicsToolbox::changeArrowHead(QSemaphore* s,ItemHandle* h,const QString& file)
-	{
-		if (h)
-		{
-			QStringList filenames;
-			QList<NodeGraphicsItem*> nodesList;
-			ConnectionGraphicsItem * conn;
-
-			for (int i=0; i < h->graphicsItems.size(); ++i)
-				if ((conn = ConnectionGraphicsItem::cast(h->graphicsItems[i])))
-				{
-					QList<ArrowHeadItem*> arrows = conn->arrowHeads();
-
-					for (int j=0; j < arrows.size(); ++j)
-					{
-						nodesList << arrows[j];
-						filenames << file;
-					}
-				}
-
-			if (nodesList.size() > 0)
-			{
-				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("arrowheads changed for ") + h->fullName(),nodesList,filenames,false);
-				if (currentWindow())
-					currentWindow()->history.push(command);
-			}
-		}
-
-		if (s)
-			s->release();
-	}
-
-
-	/****************************
-	Function to Signal
-	*****************************/
-	BasicGraphicsToolbox_FToS BasicGraphicsToolbox::fToS;
-
-	int BasicGraphicsToolbox::_getColorR(void* o)
-	{
-		return fToS.getColorR(o);
-	}
-
-	int BasicGraphicsToolbox_FToS::getColorR(void* o)
-	{
-		int i;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getColorR(s,&i,ConvertValue(o));
-		s->acquire();
-		s->release();
-		return i;
-	}
-
-	int BasicGraphicsToolbox::_getColorG(void* o)
-	{
-		return fToS.getColorG(o);
-	}
-
-	int BasicGraphicsToolbox_FToS::getColorG(void* o)
-	{
-		int i;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getColorG(s,&i,ConvertValue(o));
-		s->acquire();
-		s->release();
-		return i;
-	}
-
-	int BasicGraphicsToolbox::_getColorB(void* o)
-	{
-		return fToS.getColorB(o);
-	}
-
-	int BasicGraphicsToolbox_FToS::getColorB(void* o)
-	{
-		int i;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getColorB(s,&i,ConvertValue(o));
-		s->acquire();
-		s->release();
-		return i;
-	}
-
-	void BasicGraphicsToolbox::_setColor(void* o,int r, int g, int b, int p)
-	{
-		return fToS.setColor(o,r,g,b,p);
-	}
-
-	void BasicGraphicsToolbox_FToS::setColor(void* o,int r, int g, int b, int p)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit setColor(s,ConvertValue(o),r,g,b,p);
-		s->acquire();
-		s->release();
-		return;
-	}
-
-	void BasicGraphicsToolbox::_changeGraphics(void* o,const char* f)
-	{
-		fToS.changeGraphics(o,f);
-	}
-
-	void BasicGraphicsToolbox_FToS::changeGraphics(void* o,const char* f)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit changeGraphics(s,ConvertValue(o),ConvertValue(f));
-		s->acquire();
-		s->release();
-		return;
-	}
-
-	void BasicGraphicsToolbox::_changeArrowHead(void* o,const char* f)
-	{
-		fToS.changeArrowHead(o,f);
-	}
-
-	void BasicGraphicsToolbox_FToS::changeArrowHead(void* o,const char* f)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit changeArrowHead(s,ConvertValue(o),ConvertValue(f));
-		s->acquire();
-		s->release();
-		return;
 	}
 
 }

@@ -1,26 +1,26 @@
-#TINKERCELL HEADER BEGIN
-#category: Steady state
-#name: Compute steady state
-#descr: compute steady state and eigenvalues using PySCeS
-#icon: Plugins/c/pysces.png
-#menu: yes
-#TINKERCELL HEADER END
+"""
+category: Steady state
+name: Compute steady state
+description: compute steady state and eigenvalues using PySCeS
+icon: Plugins/c/pysces.png
+menu: yes
+"""
 
-import pytc
+
 import numpy
 import pysces
-import tc2pysces
+from tc2pysces import *
 
 outputOff();
-mod = tc2pysces.load();
+mod = getPyscesModel();
 mod.doState();
 outputOn();
 mod.doEigenShow();
 print mod.jacobian;
-names = mod.jacobian_row;
-items = pytc.find(names);
+names = toStrings( mod.jacobian_row );
+items = fromItems( tc_findItems(names) );
 values = mod.data_sstate.getSpecies();
 for i in range(0,len(items)):
-    pytc.displayNumber(items[i],values[i]);
-#pytc.setInitialValues(items,values.tolist());
+    tc_displayNumber(items[i],values[i]);
+
 outputOn();

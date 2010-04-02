@@ -1,34 +1,34 @@
-#TINKERCELL HEADER BEGIN
-#category: Analysis
-#name: Control coefficients
-#descr: compute control coefficients using PySCeS
-#icon: Plugins/c/pysces.png
-#TINKERCELL HEADER END
+"""
+category: Analysis
+name: Control coefficients
+description: compute control coefficients using PySCeS
+icon: Plugins/c/pysces.png
+"""
 
-import pytc
+from tinkercell import *
 import numpy
 import pysces
-import tc2pysces
+from tc2pysces import * 
 import display
 
 outputOff();
-mod = tc2pysces.load();
+mod = getPyscesModel();
 outputOn();
 mod.doMca();
 
-pytc.showProgress(60);
+tc_showProgress(60);
 
 #get selected nodes, if any, and reactions
-selected = pytc.selectedItems();
-N = pytc.stoichiometry(pytc.allItems());
+selected = tc_selectedItems();
+N = tc_stoichiometry(tc_allItems());
 
-pytc.showProgress(90);
+tc_showProgress(90);
 mod.showCC();
 names = [];
 
 if len(selected) == 1:   #if selected items
     s = selected[0];
-    name = pytc.getName(s);
+    name = tc_getName(s);
     inN = False;
     for i in N[0]:
         if i == name:
@@ -44,6 +44,6 @@ if len(selected) == 1:   #if selected items
             numbers[i] = mod.cc.__getattribute__(name + "_" + names[i]) 
         display.numbers(names,numbers);
 
-pytc.showProgress(100);
+tc_showProgress(100);
 
-pytc.zoom(0.99);
+tc_zoom(0.99);

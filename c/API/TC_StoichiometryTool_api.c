@@ -62,7 +62,7 @@ Matrix tc_getStoichiometryFor(void* x)
 \brief get rate for the given items
 \ingroup init
 */
-const char* tc_getRate(void* x)
+String tc_getRate(void* x)
 {
 	void* a[] = { x };
 	ArrayOfItems A;
@@ -75,7 +75,7 @@ const char* tc_getRate(void* x)
 \brief set rate for the given items
 \ingroup init
 */
-void tc_setRate(void* x, const char* r)
+void tc_setRate(void* x, String r)
 {
 	void* a[] = { x };
 	ArrayOfStrings c;

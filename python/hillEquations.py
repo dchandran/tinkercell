@@ -1,48 +1,52 @@
-#TINKERCELL HEADER BEGIN
-#category: Generate kinetics
-#name: Hill equations
-#descr: automatically generate the equilibrium rate equation for transcription
-#icon: Plugins/c/hillequation.png
-#menu: yes
-#specific for: Synthesis 
-#tool: yes
-#TINKERCELL HEADER END
+"""
+category: Generate kinetics
+name: Hill equations
+description: automatically generate the equilibrium rate equation for transcription
+icon: Plugins/c/hillequation.png
+menu: yes
+specific for: Synthesis 
+tool: yes
+"""
 
-import pytc
-items = pytc.selectedItems();
+from tinkercell import *
+items = tc_selectedItems();
 synthesis = [];
-for i in items:
-	if pytc.isA(i,"Synthesis"):
-		synthesis.append(i);
+for i in range(0,items.length):
+	if tc_isA( nthItem(items,i),"Synthesis"):
+		synthesis.append( nthItem(items,i) );
 
 if (len(synthesis) > 0):
-	k = pytc.getFromList("Select the logical function to approximate:",("Auto","Activation","Repression","AND","OR","NOR","XOR"));
+	strList = toStings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
+	k = tc_getFromList("Select the logical function to approximate:",strList);
+	deleteArrayOfStrings(strList);
 	if k > -1:
 		for i in synthesis:
 			fracs = [];
 			indiv = [];
 			connectors = [];
 			promotername = "";
-			genes = pytc.getConnectedNodesIn(i);
-			if len(genes) > 0 and pytc.isA(genes[0],"Part"):
-				upstream = pytc.partsUpstream(genes[0]);
-				for p in upstream:
-					if pytc.isA(p,"Promoter"): promotername = pytc.getName(p);
-					connectors = pytc.getConnectionsIn(p);
+			genes = tc_getConnectedNodesIn( nthItem(synthesis,i) );
+			if genes.length > 0 and tc_isA( nthItem(genes,0) ,"Part"):
+				upstream = tc_partsUpstream( nthItem(genes,0) );
+				for j in range(0,upstream.length):
+					p = nthItem(upstream,j);
+					if tc_isA(p,"Promoter"): promotername = tc_getName(p);
+					connectors = tc_getConnectionsIn(p);
 					isRepressor = False;
-					for c in connectors:
-						isRepressor = (k==0 and pytc.isA(c,"Transcription Repression"));
-						cname = pytc.getName(c);
-						parts = pytc.getConnectedNodesIn(c);
-						pnames = pytc.getNames(parts);
-						for n in pnames:
-							s = "((" + n + "/" + cname + ".Kd)^" + cname + ".h)";
+					for k in range(0,connectors.length):
+						c = nthItem(connectors,k);
+						isRepressor = (k==0 and tc_isA(c,"Transcription Repression"));
+						cname = tc_getName(c);
+						parts = tc_getConnectedNodesIn(c);
+						pnames = tc_getNames(parts);
+						for n in range(0,pnames.length):
+							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
 							if not isRepressor:
 								indiv.append(s);
 							s = "(1+" + s + ")";
 							fracs.append(s);
 				p = genes[0];
-				if pytc.isA(p,"Promoter"): promotername = pytc.getName(p);
+				if tc_isA(p,"Promoter"): promotername = tc_getName(p);
 			rate = "0.0";			
 			if len(promotername) > 0:
 				rate = "";
@@ -52,24 +56,27 @@ if (len(synthesis) > 0):
 					rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
 				elif k == 4 or k == 1:
 					rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
-					for c in connectors:
-						pytc.changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
+					for j in range(0,connectors.length):
+						c = nthItem(connectors,j);
+						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
 				elif k == 2 or k == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
-					for c in connectors:
-						pytc.changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
+					for j in range(0,connectors.length):
+						c = nthItem(connectors,j);
+						tc_changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
 				elif k == 6:
 					rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
-					for c in connectors:
-						pytc.changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
-				name = pytc.getName(i);
+					for j in range(0,connectors.length):
+						c = nthItem(connectors,j);
+						tc_changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
+				name = tc_getName( nthItem(synthesis,i) );
 				if rate == "1.0/()":
 					rate = promotername + ".strength";
 				else:
 					rate = promotername + ".strength*" + rate;
-				pytc.write(name + " has rate : " + rate+"\n");
-				pytc.setRate(i,rate);
+				tc_print(name + " has rate : " + rate+"\n");
+				tc_setRate(i,rate);
 			else:
-				pytc.write("no promoter found for this transcription reaction\n");
+				tc_print("no promoter found for this transcription reaction\n");
 else:
-	pytc.errorReport("please select at least one transcription reaction");
+	tc_errorReport("please select at least one transcription reaction");

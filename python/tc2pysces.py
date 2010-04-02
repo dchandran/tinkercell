@@ -1,4 +1,4 @@
-def load():
+def getPyscesModel():
     import pytc
     import pysces
     import re

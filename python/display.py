@@ -1,7 +1,7 @@
-import pytc
+from tinkercell import *
 
 def numbers(itemNames, numbers,adjustLine=True,adjustColors=True,minLineWidth=0.1,maxLineWidth=10.0):
-    items = pytc.find(itemNames);
+    items = tc_find(itemNames);
     n = len(numbers);
     if (len(itemNames) < n):
         n = len(itemNames);
@@ -21,18 +21,18 @@ def numbers(itemNames, numbers,adjustLine=True,adjustColors=True,minLineWidth=0.
         lineColorR = (numbers[i] * ratio2) * 250.0;
         lineColorG = (1.0 - numbers[i] * ratio2) * 250.0;
         if not items[i] == 0:
-            pytc.displayNumber(items[i],numbers[i]);
+            tc_displayNumber(items[i],numbers[i]);
             if adjustColors:
-                pytc.setColor(items[i],lineColorR,lineColorG,0.0);
+                tc_setColor(items[i],lineColorR,lineColorG,0.0);
             if adjustLine:
-               pytc.setLineWidth(items[i],lineWidth);
+               tc_setLineWidth(items[i],lineWidth);
 
 def text(itemNames, text):
-    items = pytc.find(itemNames);
+    items = tc_find(itemNames);
     n = len(numbers);
     if (len(itemNames) < n):
         n = len(itemNames);
     for i in items:
         if not items[i] == 0:
-            pytc.displayText(items[i],text[i]);
+            tc_displayText(items[i],text[i]);
 

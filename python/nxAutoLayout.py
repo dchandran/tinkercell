@@ -1,24 +1,24 @@
 def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, graphviz) 
 
-	import pytc
+	from tinkercell import *
 	import networkx as nx
 
-	nodes = pytc.itemsOfFamily("node");
-	connections = pytc.itemsOfFamily("connection");
+	nodes = tc_itemsOfFamily("node");
+	connections = tc_itemsOfFamily("connection");
 
 	#connections are from 1...numConnections, nodes are the rest
 
-	numNodes = len(nodes);
-	numConnections = len(connections);
+	numNodes = nodes.length;
+	numConnections = connections.length;
 
 	M = [];
 
 	for  i in range(0,numConnections):
-		connected_nodes = pytc.getConnectedNodes( connections[i] );
-		for j in connected_nodes:
+		connected_nodes = tc_getConnectedNodes( nthItem(connections,i) );
+		for j in range(0,connected_nodes.length):
 			n = 0;
 			for k in range(0,numNodes):
-				if nodes[k] == j:
+				if nthItem(nodes,k) == nthItem(connected_nodes,j):
 					n = k;
 					break;
 			
@@ -77,15 +77,24 @@ def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, g
 		Array.append(connections[i]);
 		PosX.append(Pos[i][0]);
 		PosY.append(Pos[i][1]);
-	#   pytc.setCenterPoint(connections[i],Pos[i][0],Pos[i][1]);
 
 	for i in range(numConnections,numConnections+numNodes):
 		Array.append(nodes[i-numConnections]);
 		PosX.append(Pos[i][0]);
 		PosY.append(Pos[i][1]);
-	#   pytc.setPos(nodes[i-numConnections],Pos[i][0],Pos[i][1]);
 
-	pytc.setAllStraight();
-	pytc.setPosMulti(Array,[ PosX, PosY ]);
+	tc_setAllStraight();
+	
+	Array2 = newArrayOfItems( len(Array) );
+	for i in Array:
+		setNthItem(Array2,i);
+	
+	Pos = newMatrix( len(PosX), 2 );
+	for i in range(0,len(PosX)):
+		setValue(Pos, i, 0, PosX[i]);
+		setValue(Pos, i, 1, PosY[i]);
+	
+	tc_setPosMulti(Array,Pos);
 
 	print "layout finished";
+

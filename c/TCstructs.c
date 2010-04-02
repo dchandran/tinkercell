@@ -100,42 +100,22 @@ void setValue(Matrix M, int i, int j, double d)
 
 const char * getRowName(Matrix M, int i)
 { 
-	if (i >= 0 && i < M.rows)
-		return M.rownames.strings[i];
-	return 0;
+	return nthString(M.rownames,i);
 }
 
 void setRowName(Matrix M, int i, const char * s)
 {
-	int n=0;
-	char * str;
-	if (i >= 0 && i < M.rows)
-	{
-		while (s && s[n]) ++n;
-		str = (char*)malloc((n+1)*sizeof(char));
-		sprintf(str,"%s\0",s);
-		M.rownames.strings[i] = str;
-	}
+	setNthString(M.rownames,i,s);
 }
 
 const char * getColumnName(Matrix M, int j)
 { 
-	if (j >= 0 && j < M.cols)
-		return M.colnames.strings[j];
-	return 0;
+	return nthString(M.colnames,i);
 }
 
 void setColumnName(Matrix M, int j, const char * s)
 {
-	int n=0;
-	char * str;
-	if (j >= 0 && j < M.cols)
-	{
-		while (s && s[n]) ++n;
-		str = (char*)malloc((n+1)*sizeof(char));
-		sprintf(str,"%s\0",s);
-		M.colnames.strings[j] = str;
-	}
+	setNthString(M.colnames,i,s);
 }
 
 const char* getString(TableOfStrings S, int i, int j)

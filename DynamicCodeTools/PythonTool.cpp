@@ -62,14 +62,18 @@ namespace Tinkercell
 			
 			QString category, name, descr, icon, specific;
 			bool menu = true, tool = true;
+			bool startedParsing = false;
 
 			while (!file.atEnd()) //inside python script file
 			{
 				QString line(file.readLine());
-				if (line.toLower().contains(tr("tinkercell")) && 
-					line.toLower().contains(tr("header")) && 
-					line.toLower().contains(tr("end")))
-					break;
+				if (line.toLower().contains(tr("\"\"\"")))
+					if (startedParsing)
+						break;
+					else
+						startedParsing = true;
+				
+				if (!startedParsing) continue;
 				
 				QStringList words = line.split(tr(":"));
 				if (words.size() == 2)
@@ -83,7 +87,7 @@ namespace Tinkercell
 					if (s1 == tr("name"))
 						name = s2;
 					else
-					if (s1 == tr("descr"))
+					if (s1 == tr("description"))
 						descr = s2;
 					else
 					if (s1 == tr("icon"))

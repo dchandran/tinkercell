@@ -1,9 +1,9 @@
-import pytc
+from tinkercell import *
 import sys
 import re
 import os
 
-appDir = pytc.appDir();
+appDir = tc_appDir();
 fastaFile = appDir + '/DB/Regulon/genes.fasta';
 bindingSitesFiles = [appDir + '/DB/Regulon/BindingSiteSet.txt'];
 geneProductsFiles = [appDir + '/DB/Regulon/GeneProductSet.txt'];

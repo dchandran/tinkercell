@@ -1,23 +1,23 @@
-#TINKERCELL HEADER BEGIN
-#category: Sequence
-#name: Print all sequences
-#descr: print all the sequence in this model in FASTA format
-#icon: Plugins/c/printSequences.png
-#menu: yes
-#TINKERCELL HEADER END
+"""
+category: Sequence
+name: Print all sequences
+description: print all the sequence in this model in FASTA format
+icon: Plugins/c/printSequences.png
+menu: yes
+"""
 
-import pytc
-A = pytc.itemsOfFamily('Part');
+from tinkercell import *
+A = tc_itemsOfFamily('Part');
 
-if (len(A) > 0):
-  names = pytc.getNames(A);
+if (A.length > 0):
+  names = tc_getNames(A);
   attribs = ('sequence',);
-  seqs = pytc.getAllTextNamed(A,attribs);
+  seqs = tc_getAllTextNamed(A,attribs);
 
-  n = len(seqs);
+  n = seqs.length;
   s = '';
   for i in range(0,n):
-    s += '>' + names[i] + '\n' + seqs[i] + '\n';
+    s += '>' + nthString(names,i) + '\n' + nthString(seqs,i) + '\n';
 
-  pytc.write(s);
+  tc_write(s);
 

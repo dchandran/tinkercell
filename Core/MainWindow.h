@@ -599,6 +599,23 @@ namespace Tinkercell
 		*/
 		void setPos(QSemaphore*,ItemHandle* item, qreal X, qreal Y);
 		/*!
+		* \brief sets the size of the item. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \param ItemHandle* item pointer
+		* \param double new width
+		* \param double new height
+		* \return void
+		*/
+		void setSize(QSemaphore*,ItemHandle* item, qreal w, qreal h);
+		/*!
+		* \brief sets the angle of the item. This function is designed to be used with the C API framework
+		* \param QSemaphore* semaphore
+		* \param ItemHandle* item pointer
+		* \param double new angle
+		* \return void
+		*/
+		void setAngle(QSemaphore*,ItemHandle* item, qreal theta);
+		/*!
 		* \brief sets the x,y position of several items. This function is designed to be used with the C API framework
 		* \param QSemaphore* semaphore
 		* \param QList<ItemHandle*> item pointers

@@ -530,14 +530,16 @@ namespace Tinkercell
 		* \param QString name of command
 		* \param NodeGraphicsItem* the target node
 		* \param QString xml file name
+		* \param bool whether or not to transform the new graphics item to the original item's angle and size
 		*/
-		ReplaceNodeGraphicsCommand(const QString&,NodeGraphicsItem*,const QString&);
+		ReplaceNodeGraphicsCommand(const QString&,NodeGraphicsItem*,const QString&,bool transform=true);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param QList<NodeGraphicsItem*> the target nodes
 		* \param QStringList xml file names
+		* \param bool whether or not to transform the new graphics item to the original item's angle and size
 		*/
-		ReplaceNodeGraphicsCommand(const QString&,const QList<NodeGraphicsItem*>&,const QList<QString>&);
+		ReplaceNodeGraphicsCommand(const QString&,const QList<NodeGraphicsItem*>&,const QList<QString>&,bool transform=true);
 		void undo();
 		void redo();
 		~ReplaceNodeGraphicsCommand();
@@ -545,10 +547,7 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> targetNodes;
 		QList<NodeGraphicsItem> oldNodes, newNodes;
 		QList< QGraphicsItem* > itemsToDelete;
-		//QList< QVector<NodeGraphicsItem::Shape*> > oldShapes, newShapes;
-		//QList< QVector<NodeGraphicsItem::ControlPoint*> > 	oldBoundaryControlPoints, oldControlPoints,
-		//													newBoundaryControlPoints, newControlPoints;
-		void loadFromFile(NodeGraphicsItem*,const QString&);
+		void loadFromFile(NodeGraphicsItem*,const QString&, bool transform);
 	};
 
 	/*! \brief this command assigns handles to items

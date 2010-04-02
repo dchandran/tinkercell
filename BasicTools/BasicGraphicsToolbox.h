@@ -48,6 +48,11 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	signals:
+		void setSize(QSemaphore*, ItemHandle*,double,double);
+		void getWidth(QSemaphore*, ItemHandle*, double*);
+		void getHeight(QSemaphore*, ItemHandle*,double*);
+		void setAngle(QSemaphore*, ItemHandle*,double,double);
+		void getAngle(QSemaphore*, ItemHandle*, double*);
 		void getColorR(QSemaphore*,int*,ItemHandle*);
 		void getColorG(QSemaphore*,int*,ItemHandle*);
 		void getColorB(QSemaphore*,int*,ItemHandle*);
@@ -56,6 +61,11 @@ namespace Tinkercell
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
 
 	public slots:
+		void setSize(void*,double,double);
+		double getWidth(void*);
+		double getHeight(void*);
+		void setAngle(void*,double,double);
+		double getAngle(void*);
 		int getColorR(void*);
 		int getColorG(void*);
 		int getColorB(void*);

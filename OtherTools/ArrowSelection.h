@@ -43,7 +43,7 @@ public:
 	bool setMainWindow(MainWindow * main);
 	
 public slots:
-        void select(int);
+    void select(int);
 	void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 	void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 	//void toolSelected(GraphicsScene*, GraphicalTool*, QPointF, Qt::KeyboardModifiers);
@@ -76,3 +76,4 @@ private:
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
+

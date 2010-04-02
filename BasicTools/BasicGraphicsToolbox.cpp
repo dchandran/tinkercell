@@ -1844,7 +1844,7 @@ namespace Tinkercell
 
 			if (nodesList.size() > 0)
 			{
-				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("arrowheads changed for ") + h->fullName(),nodesList,filenames);
+				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("arrowheads changed for ") + h->fullName(),nodesList,filenames,false);
 				if (currentWindow())
 					currentWindow()->history.push(command);
 			}

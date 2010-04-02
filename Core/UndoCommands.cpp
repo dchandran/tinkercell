@@ -2194,7 +2194,7 @@ namespace Tinkercell
 		if (command) command->redo();
 	}
 
-	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,NodeGraphicsItem* node,const QString& filename)
+	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,NodeGraphicsItem* node,const QString& filename,bool transform)
 		: QUndoCommand(text)
 	{
 		if (node && !qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()))
@@ -2204,12 +2204,12 @@ namespace Tinkercell
 			oldNodes += copy1;
 
 			NodeGraphicsItem copy2(*node);
-			loadFromFile(&copy2,filename);
+			loadFromFile(&copy2,filename,transform);
 			newNodes += copy2;
 		}
 	}
 
-	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,const QList<NodeGraphicsItem*>& nodes,const QList<QString>& filenames)
+	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,const QList<NodeGraphicsItem*>& nodes,const QList<QString>& filenames, bool transform)
 		: QUndoCommand(text)
 	{
 		for (int i=0; i < nodes.size() && i < filenames.size(); ++i)
@@ -2225,7 +2225,7 @@ namespace Tinkercell
 
 				NodeGraphicsItem copy2(*node);
 				setHandle(&copy2,0);
-				loadFromFile(&copy2,filename);
+				loadFromFile(&copy2,filename,transform);
 				newNodes += copy2;
 			}
 		}
@@ -2314,7 +2314,7 @@ namespace Tinkercell
 			if (itemsToDelete[i] && itemsToDelete[i]->scene())
 				itemsToDelete[i]->scene()->removeItem(itemsToDelete[i]);
 	}
-	void ReplaceNodeGraphicsCommand::loadFromFile(NodeGraphicsItem* node,const QString& fileName)
+	void ReplaceNodeGraphicsCommand::loadFromFile(NodeGraphicsItem* node,const QString& fileName, bool transform)
 	{
 		if (!node) return;
 
@@ -2361,7 +2361,14 @@ namespace Tinkercell
 		node->normalize();
 
 		node->setPos(p);
-		node->setTransform(t1);
+		
+		if (transform)
+			node->setTransform(t1);
+		else
+		{
+			QRectF rect = node->boundingRect();
+			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
+		}
 
 		//node->setParentItem(parent);
 	}

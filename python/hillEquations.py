@@ -16,8 +16,8 @@ for i in range(0,items.length):
 		synthesis.append( nthItem(items,i) );
 
 if (len(synthesis) > 0):
-	strList = toStings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
-	k = tc_getFromList("Select the logical function to approximate:",strList);
+	strList = toStrings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
+	k = tc_getFromList("Select the logical function to approximate:",strList,"Auto",0);
 	deleteArrayOfStrings(strList);
 	if k > -1:
 		for i in synthesis:
@@ -25,7 +25,7 @@ if (len(synthesis) > 0):
 			indiv = [];
 			connectors = [];
 			promotername = "";
-			genes = tc_getConnectedNodesIn( nthItem(synthesis,i) );
+			genes = tc_getConnectedNodesIn( i );
 			if genes.length > 0 and tc_isA( nthItem(genes,0) ,"Part"):
 				upstream = tc_partsUpstream( nthItem(genes,0) );
 				for j in range(0,upstream.length):
@@ -41,11 +41,12 @@ if (len(synthesis) > 0):
 						pnames = tc_getNames(parts);
 						for n in range(0,pnames.length):
 							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
+							tc_print(s);
 							if not isRepressor:
 								indiv.append(s);
 							s = "(1+" + s + ")";
 							fracs.append(s);
-				p = genes[0];
+				p = nthItem(genes,0);
 				if tc_isA(p,"Promoter"): promotername = tc_getName(p);
 			rate = "0.0";			
 			if len(promotername) > 0:
@@ -59,6 +60,7 @@ if (len(synthesis) > 0):
 					for j in range(0,connectors.length):
 						c = nthItem(connectors,j);
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
+						tc_setColor(c,
 				elif k == 2 or k == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
 					for j in range(0,connectors.length):
@@ -69,7 +71,7 @@ if (len(synthesis) > 0):
 					for j in range(0,connectors.length):
 						c = nthItem(connectors,j);
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
-				name = tc_getName( nthItem(synthesis,i) );
+				name = tc_getName( i );
 				if rate == "1.0/()":
 					rate = promotername + ".strength";
 				else:

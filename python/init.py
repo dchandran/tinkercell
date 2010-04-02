@@ -5,7 +5,7 @@ try:
         n = len(array);
         A = newArrayOfItems(n);
         for i in range(0, n):
-            setNthItem(A, array[i]);
+            setNthItem(A, i, array[i]);
 
         return A;
     
@@ -22,7 +22,7 @@ try:
         n = len(array);
         A = newArrayOfStrings(n);
         for i in range(0, n):
-            setNthString(A, array[i]);
+            setNthString(A, i, array[i]);
 
         return A;
     

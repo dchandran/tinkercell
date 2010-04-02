@@ -108,12 +108,12 @@ void setRowName(Matrix M, int i, const char * s)
 	setNthString(M.rownames,i,s);
 }
 
-const char * getColumnName(Matrix M, int j)
+const char * getColumnName(Matrix M, int i)
 { 
 	return nthString(M.colnames,i);
 }
 
-void setColumnName(Matrix M, int j, const char * s)
+void setColumnName(Matrix M, int i, const char * s)
 {
 	setNthString(M.colnames,i,s);
 }

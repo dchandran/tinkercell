@@ -110,7 +110,7 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::userTemp());
 
-            f(code.toAscii().data(),outputFile.toAscii().data());
+            f(code.toAscii().data(),"pm.out");
 
             QDir::setCurrent(currentDir);
         }

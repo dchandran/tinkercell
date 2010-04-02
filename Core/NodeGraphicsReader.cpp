@@ -58,7 +58,6 @@ namespace Tinkercell
 		QString fill, stroke, s;
 		QBrush brush;
 		QPen pen;
-		bool polygon;
 
 		while (!atEnd() && !(isEndElement() && name() == "listOfRenderInformation"))
 		{

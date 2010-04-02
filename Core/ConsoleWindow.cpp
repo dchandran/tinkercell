@@ -172,11 +172,7 @@ namespace Tinkercell
 
 		cursor.setCharFormat(messageFormat);
 
-		if (s.right(1).contains(QChar('\n')))
-            cursor.insertText(s + tr("\n"));
-		else
-            cursor.insertText(s);
-
+		cursor.insertText(s + tr("\n"));
 		
 		if (!frozen)
 		{
@@ -344,7 +340,7 @@ namespace Tinkercell
 					currentHistoryIndex = historyStack.size();
 				}
 				
-				if (command.toLower() == tr("clear"))
+				if (command.trimmed().toLower() == tr("clear"))
 	            	clearText();
 	            else
 					emit commandExecuted(command);

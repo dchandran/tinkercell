@@ -66,9 +66,10 @@ String tc_getRate(void* x)
 {
 	void* a[] = { x };
 	ArrayOfItems A;
+	ArrayOfStrings s;
 	A.length = 1;
 	A.items = a;
-	ArrayOfStrings s = _tc_getRates(A);
+	s = tc_getRates(A);
 	return nthString(s,0);
 }
 /*! 
@@ -94,7 +95,7 @@ void tc_setRate(void* x, String r)
 
 	deleteArrayOfStrings(&c);
 }
-/*! 
+/*!
 \brief set stoichiometry for the given items
 \ingroup init
 */

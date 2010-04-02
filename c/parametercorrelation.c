@@ -27,13 +27,12 @@ void tc_main()
 
 void setup()
 {
-	int i;
 	Matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "var start", "var end", "parameter 1 start", "parameter 1 end", "parameter 2 start", "parameter 2 end", "increments size", 0 };
 	double values[] = { 0.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 1.0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	
+	ArrayOfStrings a1 = {2, options1};
 	m.rownames.length = m.rows = 8;
 	m.colnames.length = m.cols = 1;
 	m.colnames.strings = cols;
@@ -42,7 +41,7 @@ void setup()
 
 
 	tc_createInputWindow(m,"Correlation Test",&run);
-	tc_addInputWindowOptions("Correlation Test",0, 0,  (ArrayOfStrings){2, options1});
+	tc_addInputWindowOptions("Correlation Test",0, 0,  a1);
 	
 	return; 
 }

@@ -78,7 +78,7 @@ namespace Tinkercell
 				Qwt3D::RGBA operator()(Qwt3D::Triple const &t) const;
 				Qwt3D::ColorVector& createVector(Qwt3D::ColorVector& vec) { return vec; }
 				QColor start, end;
-				double min, max;
+				double minZ, maxZ;
 		};
 
 		class Plot : public SurfacePlot

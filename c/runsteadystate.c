@@ -89,6 +89,9 @@ void setup1()
 	char * options1[] = { "Full model", "Selected only" };
 	char * options2[] = { "Variables", "Rates" }; 
 	char * options3[] = { "Yes", "No" };
+	ArrayOfStrings a1 = {2, options1};
+	ArrayOfStrings a2 = {2, options2};
+	ArrayOfStrings a3 = {2, options3};
 
 	loadAllNames();
 
@@ -99,10 +102,10 @@ void setup1()
 	m.values = values;
 
 	tc_createInputWindow(m,"Steady state analysis",&run);
-	tc_addInputWindowOptions("Steady state analysis",0, 0, (ArrayOfStrings){2, options1});
+	tc_addInputWindowOptions("Steady state analysis",0, 0, a1);
 	tc_addInputWindowOptions("Steady state analysis",1, 0, allNames);
-	tc_addInputWindowOptions("Steady state analysis",5, 0, (ArrayOfStrings){2, options2});
-	tc_addInputWindowOptions("Steady state analysis",6, 0, (ArrayOfStrings){2, options3});
+	tc_addInputWindowOptions("Steady state analysis",5, 0, a2);
+	tc_addInputWindowOptions("Steady state analysis",6, 0, a3);
 }
 
 void setup2()
@@ -113,6 +116,8 @@ void setup2()
 	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0, 1.0 };
 	char * options1[] = { "Full model", "Selected only"}; 
 	char * options2[] = { "Yes", "No"};
+	ArrayOfStrings a1 = {2, options1};
+	ArrayOfStrings a2 = {2, options2};
 	
 	loadAllNames();
 
@@ -123,8 +128,8 @@ void setup2()
 	m.values = values;
 
 	tc_createInputWindow(m,"2-D Steady state analysis",&run2D);
-	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, (ArrayOfStrings){2, options1});
-	tc_addInputWindowOptions("2-D Steady state analysis",9, 0, (ArrayOfStrings){2, options2});
+	tc_addInputWindowOptions("2-D Steady state analysis",0, 0, a1);
+	tc_addInputWindowOptions("2-D Steady state analysis",9, 0, a2);
 	tc_addInputWindowOptions("2-D Steady state analysis",1, 0, allNames);
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
@@ -336,7 +341,7 @@ void run2D(Matrix input)
 	int index1 = 0, index2 = 1, index3 = 2;
 	int rateplot = 0;
 	ArrayOfItems A = newArrayOfItems(0), B;
-	int i, len, slider = 1;
+	int i, slider = 1;
 	ArrayOfStrings names;
 	const char * param1, * param2, * target;
 	FILE * out;
@@ -379,7 +384,7 @@ void run2D(Matrix input)
 		A = tc_selectedItems();
 		if (nthItem(A,0) == 0)
 		{
-			deleteArrayofItems(A);
+			deleteArrayOfItems(&A);
 			A = tc_allItems();
 		}
 	}

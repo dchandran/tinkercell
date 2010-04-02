@@ -273,7 +273,6 @@ void runCellSSA(Matrix input)
 	int gridsz = 100;
 	FILE * out;
 	ArrayOfItems A;
-	char * cmd;
 
 	if (input.cols > 0)
 	{
@@ -397,7 +396,10 @@ void setupSSA()
 	char * options1[] = { "Full model", "Selected only" };
 	char * options2[] = { "Variables", "Rates"};
 	char * options3[] = { "Yes", "No" };
-	
+	ArrayOfStrings a1 = { 2, options1 };
+	ArrayOfStrings a2 = { 2, options2 };
+	ArrayOfStrings a3 = { 2, options3 };
+
 	m.rows = 5;
 	m.cols = 1;
 	m.colnames.length = 1;
@@ -407,9 +409,9 @@ void setupSSA()
 	m.values = values;
 
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
-	tc_addInputWindowOptions("Gillespie algorithm",0, 0, (ArrayOfStrings){ 2, options1 });
-	tc_addInputWindowOptions("Gillespie algorithm",3, 0, (ArrayOfStrings){ 2, options2 });
-	tc_addInputWindowOptions("Gillespie algorithm",4, 0, (ArrayOfStrings){ 2, options3 });
+	tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
+	tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
+	tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
 }
 
 void runLangevin(Matrix input)
@@ -673,6 +675,7 @@ void setupCellSSA()
 	char * rows[] = { "model", "time", "num. cells", "growth rate", "death rate", "mutation rate", "num. points" , 0 };
 	double values[] = { 0, 100, 100, 0.05, 0.001, 0.001, 100 };
 	char * options1[] = { "Full model", "Selected only" }; 
+	ArrayOfStrings a1 = {2, options1};
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
 	m.values = values;
@@ -681,7 +684,7 @@ void setupCellSSA()
 	m.cols = m.colnames.length = 1;
 
 	tc_createInputWindow(m,"Multi-cell stochastic simulation",&runCellSSA);
-	tc_addInputWindowOptions("Multi-cell stochastic simulation",0, 0,  (ArrayOfStrings){2, options1});
+	tc_addInputWindowOptions("Multi-cell stochastic simulation",0, 0,  a1);
 }
 
 void setupLangevin()
@@ -693,7 +696,10 @@ void setupLangevin()
 	char * options1[] = { "Full model", "Selected only" };
 	char * options2[] = { "Variables", "Rates"};
 	char * options3[] = { "Yes", "No" };
-	
+	ArrayOfStrings a1 = {2, options1};
+	ArrayOfStrings a2 = {2, options2};
+	ArrayOfStrings a3 = {2, options3};
+
 	m.rows = 5;
 	m.cols = 1;
 	m.colnames.length = 1;
@@ -703,9 +709,9 @@ void setupLangevin()
 	m.values = values;
 
 	tc_createInputWindow(m,"Langevin algorithm",&runLangevin);
-	tc_addInputWindowOptions("Langevin algorithm",0, 0, (ArrayOfStrings){ 2, options1 });
-	tc_addInputWindowOptions("Langevin algorithm",3, 0, (ArrayOfStrings){ 2, options2 });
-	tc_addInputWindowOptions("Langevin algorithm",4, 0, (ArrayOfStrings){ 2, options3 });
+	tc_addInputWindowOptions("Langevin algorithm",0, 0, a1);
+	tc_addInputWindowOptions("Langevin algorithm",3, 0, a2);
+	tc_addInputWindowOptions("Langevin algorithm",4, 0, a3);
 }
 
 void tc_main()

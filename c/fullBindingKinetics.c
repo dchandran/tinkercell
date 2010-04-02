@@ -143,7 +143,6 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 int main()
 {
 	int N = 3;
-	int total;
 	char* proteinNames[] = { "P\0", "A\0","B\0" };
 	char* fluxNames[] = {"j0"};
 	Matrix M = fullBindingKinetics(2,fluxNames,proteinNames);

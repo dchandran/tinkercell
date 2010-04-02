@@ -30,6 +30,9 @@ void setup()
 	char * options2[] = { "Variables", "Rates" };
 	char * options3[] = { "Yes", "No"};
 	FILE * file;
+	ArrayOfStrings a1 = {2,options1};
+	ArrayOfStrings a2 = {2,options2};
+	ArrayOfStrings a3 = {2,options3};
 
 	m.rows = m.rownames.length = 6;
 	m.cols = m.colnames.length =  1;
@@ -38,10 +41,10 @@ void setup()
 	m.values = values;
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  (ArrayOfStrings){2,options1});
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  (ArrayOfStrings){2,options2});
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  (ArrayOfStrings){2,options3});
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  (ArrayOfStrings){2,options3});
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  a1);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
+	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  a3);
 
 	return;
 }

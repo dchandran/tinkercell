@@ -371,14 +371,14 @@ namespace Tinkercell
 	}
 
 	Plot3DWidget::StandardColor::StandardColor(double minz, const QColor& c1, double maxz, const QColor& c2) :
-		start(c1), end(c2), min(minz), max(maxz)
+		start(c1), end(c2), minZ(minz), maxZ(maxz)
 	{
 	}
 
 	Qwt3D::RGBA Plot3DWidget::StandardColor::operator()(double, double, double z) const
 	{
 		Qwt3D::RGBA c;
-		if (z <= min)
+		if (z <= minZ)
 		{
 			c.r = start.redF();
 			c.g = start.greenF();
@@ -386,7 +386,7 @@ namespace Tinkercell
 			c.a = start.alphaF();
 			return c;
 		}
-		if (z >= max)
+		if (z >= maxZ)
 		{
 			c.r = end.redF();
 			c.g = end.greenF();
@@ -395,7 +395,7 @@ namespace Tinkercell
 			return c;
 		}
 
-		double x2 = (z - min)/(max-min), x1 = (max - z)/(max-min);
+		double x2 = (z - minZ)/(maxZ-minZ), x1 = (maxZ - z)/(maxZ-minZ);
 
 		c.r = x1*start.redF() + x2*end.redF();
 		c.g = x1*start.greenF() + x2*end.greenF();

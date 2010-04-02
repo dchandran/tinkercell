@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#define Item void *
-#define String const char *
+typedef void* Item;
+typedef const char * String;
 
 /*!\brief An array of strings with length information. Use nthString(M,i) to get the i-th string.*/
 typedef struct 

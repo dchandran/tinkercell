@@ -175,7 +175,6 @@ void setNthItem(ArrayOfItems A, int i, void * o)
 
 void deleteMatrix(Matrix * M)
 {
-	int i;
 	if (!M) return;
 	if (M->values)
 		free(M->values);
@@ -188,7 +187,6 @@ void deleteMatrix(Matrix * M)
 
 void deleteTableOfStrings(TableOfStrings * M)
 {
-	int i;
 	if (!M) return;
 	if (M->strings)
 		free(M->strings);

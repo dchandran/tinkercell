@@ -19,10 +19,10 @@ void run()
 	
 	A = tc_selectedItems();
 	
-	if (ithItem(A,0) == 0)
+	if (nthItem(A,0) == 0)
 		A = tc_allItems();
     
-	if (ithItem(A,0) != 0)
+	if (nthItem(A,0) != 0)
 	{
 	   k = tc_writeModel( "runloops", A );
        deleteArrayOfItems(&A);

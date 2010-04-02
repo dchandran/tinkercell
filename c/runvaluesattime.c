@@ -77,6 +77,10 @@ void setup()
 	char * options2[] = { "ODE", "Stochastic" };
 	char * options3[] = { "Variables", "Rates" };
 	char * options4[] = { "Yes", "No" };
+	ArrayOfStrings a1 = {2, options1};
+	ArrayOfStrings a2 = {2, options2};
+	ArrayOfStrings a3 = {2, options3};
+	ArrayOfStrings a4 = {2, options4};
 
 	loadAllNames();
 
@@ -88,11 +92,11 @@ void setup()
 
 	//tc_createInputWindow(m,"dlls/runvaluesattime","run2","At Time T");
 	tc_createInputWindow(m,"At Time T",&run);
-	tc_addInputWindowOptions("At Time T",0, 0, (ArrayOfStrings){2, options1});
-	tc_addInputWindowOptions("At Time T",1, 0, (ArrayOfStrings){2, options2});
+	tc_addInputWindowOptions("At Time T",0, 0, a1);
+	tc_addInputWindowOptions("At Time T",1, 0, a2);
 	tc_addInputWindowOptions("At Time T",2, 0, allNames);
-	tc_addInputWindowOptions("At Time T",7, 0, (ArrayOfStrings){2, options3});
-	tc_addInputWindowOptions("At Time T",8, 0, (ArrayOfStrings){2, options4});
+	tc_addInputWindowOptions("At Time T",7, 0, a3);
+	tc_addInputWindowOptions("At Time T",8, 0, a4);
 
 	return;
 }
@@ -143,7 +147,7 @@ void run(Matrix input)
 		A = tc_selectedItems();
 		if (nthItem(A,0) == 0)
 		{
-			deleteArrayOfItem(A);
+			deleteArrayOfItems(&A);
 			A = tc_allItems();
 		}
 	}
@@ -160,7 +164,7 @@ void run(Matrix input)
 	}
 	else
 	{
-		deleteArrayOfItem(A);
+		deleteArrayOfItems(&A);
 		return;
 	}
 

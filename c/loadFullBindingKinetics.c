@@ -26,7 +26,7 @@ void run()
   ArrayOfStrings names, jnames;
   Matrix m;
   
-  p = ithValue(selected,0);
+  p = nthItem(selected,0);
   if (p == 0) return;
 
   //if (! tc_isA(p,"Regulator")) return;
@@ -95,8 +95,8 @@ void run()
   deleteArrayOfItems(&tfs);  
   deleteMatrix(&m);
 
-  deleteArrayOfString(names);
-  deleteArrayOfString(jnames);
+  deleteArrayOfStrings(&names);
+  deleteArrayOfStrings(&jnames);
   deleteArrayOfItems(&selected);
   return; 
 }

@@ -44,7 +44,7 @@ void (*_tc_alignParts)(ArrayOfItems) = 0;
 void tc_alignParts(ArrayOfItems a)
 {
 	if (_tc_alignParts)
-		return _tc_alignParts(a);
+		_tc_alignParts(a);
 }
 
 /*! 

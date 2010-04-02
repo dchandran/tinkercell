@@ -270,8 +270,11 @@ namespace Tinkercell
                 historyStack << command;
                 currentHistoryIndex = historyStack.size();
             }
-
-            emit commandExecuted(command);
+            
+            if (command.toLower() == tr("clear"))
+            	clearText();
+            else
+            	emit commandExecuted(command);
         }
 
         if (cursor.block().text() != ConsoleWindow::Prompt)

@@ -16,7 +16,7 @@ QT4_WRAP_CPP( SIMPLEDESIGNER_MOC
   SimpleDesigner.h
   ${TINKERCELL_CORE_HDRS} )
 
-QT4_ADD_RESOURCES( TINKERCELL_QRC simpledesigner.qrc )
+QT4_ADD_RESOURCES( SIMPLEDESIGNER_QRC simpledesigner.qrc )
 
 IF( APPLE AND BUILD_BUNDLE )
   
@@ -34,7 +34,7 @@ IF( APPLE AND BUILD_BUNDLE )
     MACOSX_BUNDLE
     SimpleDesigner.cpp
     ${SIMPLEDESIGNER_MOC}
-    ${TINKERCELL_QRC}
+    ${SIMPLEDESIGNER_QRC}
   )
 
   TARGET_LINK_LIBRARIES( SimpleDesigner
@@ -78,7 +78,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 	    ADD_EXECUTABLE( SimpleDesigner WIN32 
         SimpleDesigner.cpp
         ${SIMPLEDESIGNER_MOC}
-        ${TINKERCELL_QRC}
+        ${SIMPLEDESIGNER_QRC}
        )
 
       TARGET_LINK_LIBRARIES( SimpleDesigner

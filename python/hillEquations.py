@@ -14,12 +14,13 @@ synthesis = [];
 for i in range(0,items.length):
 	if tc_isA( nthItem(items,i),"Synthesis"):
 		synthesis.append( nthItem(items,i) );
+deleteArrayOfItems(items);
 
 if (len(synthesis) > 0):
 	strList = toStrings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
-	k = tc_getFromList("Select the logical function to approximate:",strList,"Auto",0);
+	t = tc_getFromList("Select the logical function to approximate:",strList,"Auto",0);
 	deleteArrayOfStrings(strList);
-	if k > -1:
+	if t > -1:
 		for i in synthesis:
 			fracs = [];
 			indiv = [];
@@ -31,46 +32,48 @@ if (len(synthesis) > 0):
 				for j in range(0,upstream.length):
 					p = nthItem(upstream,j);
 					if tc_isA(p,"Promoter"): promotername = tc_getName(p);
-					connectors = tc_getConnectionsIn(p);
+					connectors2 = tc_getConnectionsIn(p);
 					isRepressor = False;
-					for k in range(0,connectors.length):
-						c = nthItem(connectors,k);
-						isRepressor = (k==0 and tc_isA(c,"Transcription Repression"));
+					for k in range(0,connectors2.length):
+						c = nthItem(connectors2,k);
+						connectors.append(c);
+						isRepressor = (t==0 and tc_isA(c,"Transcription Repression"));
 						cname = tc_getName(c);
 						parts = tc_getConnectedNodesIn(c);
 						pnames = tc_getNames(parts);
 						for n in range(0,pnames.length):
 							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
-							tc_print(s);
 							if not isRepressor:
 								indiv.append(s);
 							s = "(1+" + s + ")";
 							fracs.append(s);
+					deleteArrayOfItems(connectors2);
 				p = nthItem(genes,0);
-				if tc_isA(p,"Promoter"): promotername = tc_getName(p);
+				if tc_isA(p,"Promoter"):
+					promotername = tc_getName(p);
+			deleteArrayOfItems(genes);
 			rate = "0.0";			
 			if len(promotername) > 0:
 				rate = "";
-				if k == 0 or k == 3:
+				if t == 0 or t == 3:
 					if len(indiv) < 1:
 						indiv.append("1.0");
 					rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
-				elif k == 4 or k == 1:
+				elif t == 4 or t == 1:
 					rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
-					for j in range(0,connectors.length):
-						c = nthItem(connectors,j);
+					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
-						tc_setColor(c,
-				elif k == 2 or k == 5:
+						tc_setColor(c,10,255,10,1);
+				elif t == 2 or t == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
-					for j in range(0,connectors.length):
-						c = nthItem(connectors,j);
+					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
-				elif k == 6:
+						tc_setColor(c,255,10,10,1);
+				elif t == 6:
 					rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
-					for j in range(0,connectors.length):
-						c = nthItem(connectors,j);
+					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
+						tc_setColor(c,10,10,255,1);
 				name = tc_getName( i );
 				if rate == "1.0/()":
 					rate = promotername + ".strength";

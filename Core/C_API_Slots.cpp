@@ -2155,11 +2155,7 @@ namespace Tinkercell
 				if (node = temporarilyChangedSize[i].first)
 				{
 					QPointF p = node->scenePos();
-<<<<<<< .mine
 					node->setBoundingRect( p - temporarilyChangedSize[i].second, p + temporarilyChangedSize[i].second );
-=======
-					node->setBoundingRect( temporarilyChangedSize[i].second, temporarilyChangedSize[i].second );
->>>>>>> .r968
 				}
 			temporarilyChangedSize.clear();
 		}
@@ -2476,13 +2472,12 @@ namespace Tinkercell
 									QBrush newBrush(color);
 									if (permanent)
 									{
-										items += aitem;
-										
 										if (brush.color().name().toLower() == tr("#ffffff") ||
 											brush.color().name().toLower() == tr("#000000"))
 											brushes += brush;
 										else
 											brushes += newBrush;
+										items += aitem;
 									}
 									else
 									{
@@ -2563,19 +2558,11 @@ namespace Tinkercell
 				else
 				{
 					QPointF dp1(w/2, h/2);
-					QPointF p = mainNode->scenePos();
-<<<<<<< .mine
-					
+					QPointF p = mainNode->scenePos();					
 					QRectF rect = mainNode->sceneBoundingRect();
 					QPointF dp0( rect.center() - rect.topLeft() );
 					mainNode->setBoundingRect( p - dp1, p + dp1 );
-					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);
-=======
-					
-					QPointF dp0( mainNode->sceneBoundingRect().topLeft(), mainNode->sceneBoundingRect().bottomRight() );
-					mainNode->setBoundingRect( p - dp1, p + dp1 );
-					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);
->>>>>>> .r968
+					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);					
 				}
 			}
 		}

@@ -53,7 +53,6 @@ namespace Tinkercell
 
 	public slots:
 
-		void setupFunctionPointers( QLibrary * );
 		void setBackgroundImage();
 		void unsetBackgroundImage();
 		void bringToFront();

@@ -880,7 +880,7 @@ void tc_Main_api_initialize(
 	
 	_tc_createSliders = createSliders0;
 	
-	_tc_setSize = _tc_setSize0;
+	_tc_setSize = setSize0;
 	_tc_getWidth = getWidth0;
 	_tc_getHeight = getHeight0;
 	_tc_setAngle = setAngle0;
@@ -890,7 +890,7 @@ void tc_Main_api_initialize(
 	_tc_getColorB = getColorB0;
 	_tc_setColor = setColor0;
 	
-	_tc_changeGraphics = changeGraphics0;
+	_tc_changeNodeImage = changeGraphics0;
 	_tc_changeArrowHead = changeArrowHead0;
 }
 

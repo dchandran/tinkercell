@@ -22,9 +22,12 @@
 
 namespace Tinkercell
 {
-	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0)
+	Core_FtoS C_API_Slots::fToS;
+	
+	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0), undoSizeChange(0)
 	{ 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
 		connectTCFunctions();
 	}
 	
@@ -117,15 +120,15 @@ namespace Tinkercell
 		void (*setSize)(void*,double,double),
 		double (*getWidth)(void*),
 		double (*getHeight)(void*),
-		void (*setAngle)(void*,double,double),
+		void (*setAngle)(void*,double),
 		double (*getAngle)(void*),
 		int (*getColorR)(void*),
 		int (*getColorG)(void*),
 		int (*getColorB)(void*),
 		void (*setColor)(void*,int,int,int,int),
 		
-		void changeGraphics(void*,const char*),
-		void changeArrowHead(void*,const char*)
+		void (*changeGraphics)(void*,const char*),
+		void (*changeArrowHead)(void*,const char*)
 
 	);
 	
@@ -279,7 +282,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double)));
 		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
 		connect(&fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
-		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,double)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,double)));
+		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double)));
 		connect(&fToS,SIGNAL(getAngle(QSemaphore*, ItemHandle*, double*)),this,SLOT(getAngle(QSemaphore*, ItemHandle*, double*)));
 		
 		connect(&fToS,SIGNAL(getColorR(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorR(QSemaphore*,int*,ItemHandle*)));
@@ -2125,29 +2128,52 @@ namespace Tinkercell
         return p;
     }
     
-    void BasicGraphicsToolbox::escapeSlot(const QWidget* )
+    void C_API_Slots::escapeSlot(const QWidget* )
 	{
-		if (temporarilyChangedItems.size() > 0)
+		if (temporarilyColorChanged.size() > 0)
 		{
 			NodeGraphicsItem::Shape * shape = 0;
 			ConnectionGraphicsItem * connection = 0;
-			for (int i=0; i < temporarilyChangedItems.size(); ++i)
-				if (shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(temporarilyChangedItems[i]))
+			for (int i=0; i < temporarilyColorChanged.size(); ++i)
+				if (shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(temporarilyColorChanged[i]))
 				{
 					shape->setPen(shape->defaultPen);
 					shape->setBrush(shape->defaultBrush);
 				}
 				else
-					if (connection = ConnectionGraphicsItem::cast(temporarilyChangedItems[i]))
+					if (connection = ConnectionGraphicsItem::cast(temporarilyColorChanged[i]))
 					{
 						connection->setPen(connection->defaultPen);
 						connection->setBrush(connection->defaultBrush);
 					}
-			temporarilyChangedItems.clear();
+			temporarilyColorChanged.clear();
+		}
+		
+		NodeGraphicsItem * node;
+		
+		if (temporarilyChangedSize.size() > 0)
+		{
+			for (int i=0; i < temporarilyChangedSize.size(); ++i)
+				if (node = temporarilyChangedSize[i].first)
+				{
+					QPointF p = node->scenePos();
+					node->setBoundingRect( p + temporarilyChangedSize[i].second, p - temporarilyChangedSize[i].second );
+				}
+			temporarilyChangedSize.clear();
+		}
+		
+		if (temporarilyChangedAngle.size() > 0)
+		{
+			for (int i=0; i < temporarilyChangedAngle.size(); ++i)
+				if (node = temporarilyChangedAngle[i].first)
+				{
+					node->rotate( - temporarilyChangedAngle[i].second );
+				}
+			temporarilyChangedAngle.clear();
 		}
 	}
 	
-	void BasicGraphicsToolbox::changeGraphics(QSemaphore* s,ItemHandle* h,const QString& file)
+	void C_API_Slots::changeGraphics(QSemaphore* s,ItemHandle* h,const QString& file)
 	{
 		if (h)
 		{
@@ -2174,7 +2200,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void BasicGraphicsToolbox::changeArrowHead(QSemaphore* s,ItemHandle* h,const QString& file)
+	void C_API_Slots::changeArrowHead(QSemaphore* s,ItemHandle* h,const QString& file)
 	{
 		if (h)
 		{
@@ -2206,12 +2232,12 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void BasicGraphicsToolbox::_setSize(void* o, double w, double h)
+	void C_API_Slots::_setSize(void* o, double w, double h)
 	{
 		fToS.setSize(o,w,h);
 	}
 
-	void BasicGraphicsToolbox_FToS::setSize(void* o,double w, double h)
+	void Core_FtoS::setSize(void* o,double w, double h)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2220,26 +2246,26 @@ namespace Tinkercell
 		s->release();
 	}
 	
-	void BasicGraphicsToolbox::_setAngle(void* o, double t)
+	void C_API_Slots::_setAngle(void* o, double t)
 	{
 		fToS.setAngle(o,t);
 	}
 
-	void BasicGraphicsToolbox_FToS::setAngle(void* o,double t)
+	void Core_FtoS::setAngle(void* o,double t)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit setSize(s,ConvertValue(o),t);
+		emit setAngle(s,ConvertValue(o),t);
 		s->acquire();
 		s->release();
 	}
 
-	double BasicGraphicsToolbox::_getWidth(void* o)
+	double C_API_Slots::_getWidth(void* o)
 	{
 		return fToS.getWidth(o);
 	}
 
-	double BasicGraphicsToolbox_FToS::getHeight(void* o)
+	double Core_FtoS::getHeight(void* o)
 	{
 		double d;
 		QSemaphore * s = new QSemaphore(1);
@@ -2250,12 +2276,12 @@ namespace Tinkercell
 		return d;
 	}
 	
-	double BasicGraphicsToolbox::_getHeight(void* o)
+	double C_API_Slots::_getHeight(void* o)
 	{
 		return fToS.getHeight(o);
 	}
 
-	double BasicGraphicsToolbox_FToS::getHeight(void* o)
+	double Core_FtoS::getHeight(void* o)
 	{
 		double d;
 		QSemaphore * s = new QSemaphore(1);
@@ -2266,12 +2292,12 @@ namespace Tinkercell
 		return d;
 	}
 	
-	double BasicGraphicsToolbox::_getAngle(void* o)
+	double C_API_Slots::_getAngle(void* o)
 	{
 		return fToS.getAngle(o);
 	}
 
-	double BasicGraphicsToolbox_FToS::getAngle(void* o)
+	double Core_FtoS::getAngle(void* o)
 	{
 		double d;
 		QSemaphore * s = new QSemaphore(1);
@@ -2282,12 +2308,12 @@ namespace Tinkercell
 		return d;
 	}
 
-	int BasicGraphicsToolbox::_getColorR(void* o)
+	int C_API_Slots::_getColorR(void* o)
 	{
 		return fToS.getColorR(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorR(void* o)
+	int Core_FtoS::getColorR(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -2298,12 +2324,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	int BasicGraphicsToolbox::_getColorG(void* o)
+	int C_API_Slots::_getColorG(void* o)
 	{
 		return fToS.getColorG(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorG(void* o)
+	int Core_FtoS::getColorG(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -2314,12 +2340,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	int BasicGraphicsToolbox::_getColorB(void* o)
+	int C_API_Slots::_getColorB(void* o)
 	{
 		return fToS.getColorB(o);
 	}
 
-	int BasicGraphicsToolbox_FToS::getColorB(void* o)
+	int Core_FtoS::getColorB(void* o)
 	{
 		int i;
 		QSemaphore * s = new QSemaphore(1);
@@ -2330,12 +2356,12 @@ namespace Tinkercell
 		return i;
 	}
 
-	void BasicGraphicsToolbox::_setColor(void* o,int r, int g, int b, int p)
+	void C_API_Slots::_setColor(void* o,int r, int g, int b, int p)
 	{
 		return fToS.setColor(o,r,g,b,p);
 	}
 
-	void BasicGraphicsToolbox_FToS::setColor(void* o,int r, int g, int b, int p)
+	void Core_FtoS::setColor(void* o,int r, int g, int b, int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2345,12 +2371,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void BasicGraphicsToolbox::_changeGraphics(void* o,const char* f)
+	void C_API_Slots::_changeGraphics(void* o,const char* f)
 	{
 		fToS.changeGraphics(o,f);
 	}
 
-	void BasicGraphicsToolbox_FToS::changeGraphics(void* o,const char* f)
+	void Core_FtoS::changeGraphics(void* o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2360,12 +2386,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void BasicGraphicsToolbox::_changeArrowHead(void* o,const char* f)
+	void C_API_Slots::_changeArrowHead(void* o,const char* f)
 	{
 		fToS.changeArrowHead(o,f);
 	}
 
-	void BasicGraphicsToolbox_FToS::changeArrowHead(void* o,const char* f)
+	void Core_FtoS::changeArrowHead(void* o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2375,28 +2401,28 @@ namespace Tinkercell
 		return;
 	}
 	
-	void BasicGraphicsToolbox::getColorR(QSemaphore* s,int* r,ItemHandle* item)
+	void C_API_Slots::getColorR(QSemaphore* s,int* r,ItemHandle* item)
 	{
 		getColorRGB(item,r,0);
 		if (s)
 			s->release();
 	}
 
-	void BasicGraphicsToolbox::getColorG(QSemaphore* s,int* g,ItemHandle* item)
+	void C_API_Slots::getColorG(QSemaphore* s,int* g,ItemHandle* item)
 	{
 		getColorRGB(item,g,1);
 		if (s)
 			s->release();
 	}
 
-	void BasicGraphicsToolbox::getColorB(QSemaphore* s,int* b,ItemHandle* item)
+	void C_API_Slots::getColorB(QSemaphore* s,int* b,ItemHandle* item)
 	{
 		getColorRGB(item,b,2);
 		if (s)
 			s->release();
 	}
 
-	void BasicGraphicsToolbox::setColor(QSemaphore* s,ItemHandle* handle,int r,int g,int b, int permanent)
+	void C_API_Slots::setColor(QSemaphore* s,ItemHandle* handle,int r,int g,int b, int permanent)
 	{
 		GraphicsScene * scene = currentScene();
 		QGraphicsItem* item;
@@ -2438,7 +2464,7 @@ namespace Tinkercell
 										else
 										{
 											aitem->setBrush(newBrush);
-											temporarilyChangedItems << aitem;
+											temporarilyColorChanged << aitem;
 										}
 									}
 								}
@@ -2454,7 +2480,7 @@ namespace Tinkercell
 									else
 									{
 										aitem->setBrush(newBrush);
-										temporarilyChangedItems << aitem;
+										temporarilyColorChanged << aitem;
 									}
 								}
 								QPen newPen(aitem->defaultPen);
@@ -2466,7 +2492,7 @@ namespace Tinkercell
 								else
 								{
 									aitem->setPen(newPen);
-									temporarilyChangedItems << aitem;
+									temporarilyColorChanged << aitem;
 								}
 							}
 						}
@@ -2489,7 +2515,7 @@ namespace Tinkercell
 							{
 								connection->setPen(newPen);
 								//connection->setBrush(newBrush);
-								temporarilyChangedItems << connection;
+								temporarilyColorChanged << connection;
 							}
 						}
 					}
@@ -2499,6 +2525,125 @@ namespace Tinkercell
 			}
 			if (s)
 				s->release();
+	}
+	
+	void C_API_Slots::setSize(QSemaphore* s, ItemHandle* item,double w,double h, int permanent)
+	{
+		if (item)
+		{
+			QSizeF sz(0,0);
+			NodeGraphicsItem * node, * mainNode = 0;
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(item->graphicsItems[i])) &&
+					node->sceneBoundingRect().width() > sz.width() &&
+					node->sceneBoundingRect().height() > sz.height())
+				{
+					mainNode = node;
+				}
+			if (mainNode)
+			{
+				if (permanent && currentScene())
+				{
+					QPointF p;
+					p.rx() = w / mainNode->sceneBoundingRect().width();
+					p.ry() = h / mainNode->sceneBoundingRect().height();
+					currentScene()->transform(tr("resize ") + item->fullName(), mainNode, p);
+				}
+				else
+				{
+					QPointF dp(w/2, h/2);
+					QPointF p = mainNode->scenePos();
+					mainNode->setBoundingRect( p - dp, p + dp );
+					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp);
+				}
+			}
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::getWidth(QSemaphore* s, ItemHandle* item, double* x)
+	{
+		if (item && x)
+		{
+			QSizeF sz(0,0);
+			NodeGraphicsItem * node, * mainNode = 0;
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(item->graphicsItems[i])) &&
+					node->sceneBoundingRect().width() > sz.width() &&
+					node->sceneBoundingRect().height() > sz.height())
+				{
+					mainNode = node;
+				}
+			if (mainNode)
+			{
+				(*x) = mainNode->sceneBoundingRect().width();
+			}
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::getHeight(QSemaphore* s, ItemHandle* item,double* x)
+	{
+		if (item && x)
+		{
+			QSizeF sz(0,0);
+			NodeGraphicsItem * node, * mainNode = 0;
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(item->graphicsItems[i])) &&
+					node->sceneBoundingRect().width() > sz.width() &&
+					node->sceneBoundingRect().height() > sz.height())
+				{
+					mainNode = node;
+				}
+			if (mainNode)
+			{
+				(*x) = mainNode->sceneBoundingRect().height();
+			}
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::setAngle(QSemaphore* s, ItemHandle* item,double angle)
+	{
+		if (item)
+		{
+			QSizeF sz(0,0);
+			NodeGraphicsItem * node, * mainNode = 0;
+			for (int i=0; i < item->graphicsItems.size(); ++i)
+				if ((node = NodeGraphicsItem::cast(item->graphicsItems[i])) &&
+					node->sceneBoundingRect().width() > sz.width() &&
+					node->sceneBoundingRect().height() > sz.height())
+				{
+					mainNode = node;
+				}
+			if (mainNode)
+			{
+				if (permanent && currentScene())
+				{
+					currentScene()->transform(tr("rotate ") + item->fullName(), mainNode, QPointF(0,0), angle);
+				}
+				else
+				{
+					mainNode->rotate(angle);
+					temporarilyChangedAngle << QPair<NodeGraphicsItem*,double>(mainNode,angle);
+				}
+			}
+		}
+		if (s)
+			s->release();
+	}
+	
+	void C_API_Slots::getAngle(QSemaphore* s, ItemHandle* item, double* angle)
+	{
+		if (item && angle)
+		{
+			(*angle) = 0.0;
+		}
+		if (s)
+			s->release();
 	}
 	
 }

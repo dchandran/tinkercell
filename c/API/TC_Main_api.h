@@ -381,7 +381,20 @@ void tc_Main_api_initialize(
 		String (*getFilename)(),
 		
 		int (*askQuestion)(String),
-		void (*messageDialog)(String)
+		void (*messageDialog)(String),
+		
+		void (*setSize0)(void*,double,double,int),
+		double (*getWidth0)(void*),
+		double (*getHeight0)(void*),
+		void (*setAngle0)(void*,double,int),
+		double (*getAngle0)(void*),
+		int (*getColorR0)(void*),
+		int (*getColorG0)(void*),
+		int (*getColorB0)(void*),
+		void (*setColor0)(void*,int,int,int,int),
+		
+		void (*changeGraphics0)(void*,const char*),
+		void (*changeArrowHead0)(void*,const char*)
 	);
 
 /*! 

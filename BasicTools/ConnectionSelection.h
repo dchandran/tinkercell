@@ -82,7 +82,7 @@ namespace Tinkercell
 		\return success or failure
 		*/
 		bool setMainWindow(MainWindow * main);
-signals:
+	signals:
 		/*! \brief signal sent to main window when a center box is inserted*/
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 

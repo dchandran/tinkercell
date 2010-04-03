@@ -64,7 +64,6 @@ namespace Tinkercell
 	static QString PROJECTNAME = QObject::tr("TinkerCell");
 	static QString CPP_ENTRY_FUNCTION = QObject::tr("loadTCTool");
 	static QString C_ENTRY_FUNCTION = QObject::tr("tc_main");
-	typedef void (*MatrixInputFunction)(Matrix);
 
 	class ConsoleWindow;
 	class NodeGraphicsItem;
@@ -82,6 +81,7 @@ namespace Tinkercell
 	class GraphicsView;
 	class SymbolsTable;
 	class CThread;
+	class C_API_Slots;
 
 	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
 	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
@@ -826,6 +826,10 @@ namespace Tinkercell
 		* \brief the global main window
 		*/
 		static MainWindow * globalInstance;
+		/*!
+		* \brief C API class
+		*/
+		C_API_Slots * c_api_slots;
 	public:
 		/*!
 		* \brief stores the last opened directory

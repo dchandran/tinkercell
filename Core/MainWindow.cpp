@@ -43,6 +43,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 #include "TextParser.h"
+#include "C_API_Slots.h"
 
 namespace Tinkercell
 {
@@ -282,6 +283,7 @@ namespace Tinkercell
 		connectTCFunctions();
 
 		parsersMenu = 0;
+		c_api_slots = new C_API_Slots(this);
 	}
 
 	ConsoleWindow * MainWindow::console() const
@@ -351,6 +353,9 @@ namespace Tinkercell
 
 #endif
 		int r = system(cmd.toAscii().data());
+		
+		if (c_api_slots)
+			delete c_api_slots;
 	}
 
 	void MainWindow::tabIndexChanged(int i)

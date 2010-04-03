@@ -22,7 +22,13 @@ the API provided by this file is probably much larger than individual plug-in AP
 #include <QStringList>
 #include <QColor>
 #include <QGraphicsItem>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QFile>
+#include <QFileInfo>
+#include <QLabel>
 #include "DataTable.h"
+#include "TCstructs.h"
 
 namespace Tinkercell
 {
@@ -31,6 +37,10 @@ namespace Tinkercell
 	class GraphicsScene;
 	class MainWindow;
 	class ItemHandle;
+	class CThread;
+	class NodeGraphicsItem;
+	
+	typedef void (*MatrixInputFunction)(Matrix);
 	
 	/*! \brief Function to Signal converter for MainWindow*/
 	class MY_EXPORT Core_FtoS : public QObject
@@ -95,10 +105,10 @@ namespace Tinkercell
 		void askQuestion(QSemaphore*,const QString&,int*);
 		void messageDialog(QSemaphore*,const QString&);
 		
-		void setSize(QSemaphore*, ItemHandle*,double,double);
+		void setSize(QSemaphore*, ItemHandle*,double,double,int);
 		void getWidth(QSemaphore*, ItemHandle*, double*);
 		void getHeight(QSemaphore*, ItemHandle*,double*);
-		void setAngle(QSemaphore*, ItemHandle*,double,double);
+		void setAngle(QSemaphore*, ItemHandle*,double,int);
 		void getAngle(QSemaphore*, ItemHandle*, double*);
 		void getColorR(QSemaphore*,int*,ItemHandle*);
 		void getColorG(QSemaphore*,int*,ItemHandle*);
@@ -170,7 +180,7 @@ namespace Tinkercell
 		void setSize(void*,double,double);
 		double getWidth(void*);
 		double getHeight(void*);
-		void setAngle(void*,double,double);
+		void setAngle(void*,double);
 		double getAngle(void*);
 		int getColorR(void*);
 		int getColorG(void*);
@@ -181,13 +191,15 @@ namespace Tinkercell
 		void changeArrowHead(void*,const char*);
 	};
 
-	class C_API_Slots : public QObjects
+	class C_API_Slots : public QObject
 	{
 		Q_OBJECT
 		
 		C_API_Slots(MainWindow * );
 		
 	private:
+	
+		static Core_FtoS fToS;
 	
 		MainWindow * mainWindow;
 		ConsoleWindow * console() const;
@@ -243,10 +255,10 @@ namespace Tinkercell
         static double _getNumber(const char*);
         static void _getNumbers(ArrayOfStrings, double *);
         static char* _getFilename();
-		static void _setSize(void*,double,double);
+		static void _setSize(void*,double,double,int);
 		static double _getWidth(void*);
 		static double _getHeight(void*);
-		static void _setAngle(void*,double,double);
+		static void _setAngle(void*,double,int);
 		static double _getAngle(void*);
 		static int _getColorR(void*);
 		static int _getColorG(void*);
@@ -254,6 +266,8 @@ namespace Tinkercell
 		static void _setColor(void*,int,int,int,int);
 		static void _changeGraphics(void*,const char*);
 		static void _changeArrowHead(void*,const char*);
+		static int _askQuestion(const char*);
+		static void _messageDialog(const char*);
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
@@ -266,10 +280,6 @@ namespace Tinkercell
 		* \brief number for selecting strings. 
 		*/
         int getStringListNumber;
-		/*! 
-		* \brief items changed through the C api
-		*/
-		QList<QGraphicsItem*> temporarilyChangedItems;
         /*! 
 		* \brief list for selecting numbers. 
 		*/
@@ -278,21 +288,23 @@ namespace Tinkercell
 		* \brief label for selecting numbers. 
 		*/
         QLabel getStringListLabel;
-		static int _askQuestion(const char*);
-		 static void _messageDialog(const char*);
-		/*!
-		* \brief part of the C API framework. Converts static functions to signals
-		*/
-		static Core_FtoS fToS;
 		/*!
 		* \brief initializes all the functions in the fToS object
 		*/
 		void connectTCFunctions();
 		
 	private slots:
-		
+		/*!
+		* \brief connect to all the C API functions in TinkerCellCore
+		* \param QLibrary* target library
+		* \return void
+		*/		
 		void setupFunctionPointers(QLibrary * library);
-		
+		/*!
+		* \brief removes any temporary changes
+		* \param QWidget * transmitting widget
+		* \return void
+		*/
 		void escapeSlot ( const QWidget * );
 		/*!
 		* \brief zoom or unzoom. This function is designed to be used with the C API framework
@@ -687,10 +699,10 @@ namespace Tinkercell
         void getFilename(QSemaphore*,QString*);
 		void askQuestion(QSemaphore*, const QString&, int *);
 		void messageDialog(QSemaphore*, const QString&);
-        void setSize(QSemaphore*, ItemHandle*,double,double);
+        void setSize(QSemaphore*, ItemHandle*,double,double,int);
 		void getWidth(QSemaphore*, ItemHandle*, double*);
 		void getHeight(QSemaphore*, ItemHandle*,double*);
-		void setAngle(QSemaphore*, ItemHandle*,double,double);
+		void setAngle(QSemaphore*, ItemHandle*,double,int);
 		void getAngle(QSemaphore*, ItemHandle*, double*);
 		void getColorR(QSemaphore*,int*,ItemHandle*);
 		void getColorG(QSemaphore*,int*,ItemHandle*);
@@ -698,8 +710,11 @@ namespace Tinkercell
 		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
-		
-		QList<QGraphicsItem*> temporarilyChangedItems;
+	
+	private:
+		QList<QGraphicsItem*> temporarilyColorChanged;
+		QList< QPair<NodeGraphicsItem*,QPointF> > temporarilyChangedSize; 
+		QList< QPair<NodeGraphicsItem*,double> > temporarilyChangedAngle;
 	};
 }
 #endif

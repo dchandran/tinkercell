@@ -268,13 +268,13 @@ namespace Tinkercell
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void transform(const QString& name, QGraphicsItem * item,
 			const QPointF& sizechange,
-			qreal anglechange,
-			bool VFlip, bool HFlip);
+			qreal anglechange=0.0,
+			bool VFlip=false, bool HFlip=false);
 		/*! \brief this command changes the size, angle, and orientation of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual void transform(const QString& name, const QList<QGraphicsItem *>& items,
 			const QList<QPointF>& sizechange,
-			const QList<qreal>& anglechange,
-			bool VFlip, bool HFlip);
+			const QList<qreal>& anglechange=QList<qreal>(),
+			bool VFlip=false, bool HFlip=false);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void setParentItem(const QString& name, QGraphicsItem * item, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/

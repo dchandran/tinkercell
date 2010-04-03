@@ -223,7 +223,7 @@ double (*_tc_getY)(void * item) = 0;
 
 /*! 
  \brief get the x location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 double tc_getY(void * item)
 {
@@ -235,7 +235,7 @@ double tc_getY(void * item)
 double (*_tc_getX)(void * item) = 0;
 /*! 
  \brief get the y location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 double tc_getX(void * item)
 {
@@ -247,7 +247,7 @@ double tc_getX(void * item)
 Matrix (*_tc_getPos)(ArrayOfItems items) = 0;
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
- \ingroup Get and set position
+ \ingroup Appearance
 */
 Matrix tc_getPos(ArrayOfItems items)
 {
@@ -259,7 +259,7 @@ Matrix tc_getPos(ArrayOfItems items)
 void (*_tc_setPos)(void * item,double x,double y) = 0;
 /*! 
  \brief set the x and y location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_setPos(void * item,double x,double y)
 {
@@ -270,7 +270,7 @@ void tc_setPos(void * item,double x,double y)
 void (*_tc_setPosMulti)(ArrayOfItems items, Matrix positions) = 0;
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_setPosMulti(ArrayOfItems items, Matrix positions)
 {
@@ -281,7 +281,7 @@ void tc_setPosMulti(ArrayOfItems items, Matrix positions)
 void (*_tc_moveSelected)(double dx,double dy) = 0;
 /*! 
  \brief move all the selected items by a given amount
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_moveSelected(double dx,double dy)
 {
@@ -501,7 +501,7 @@ void tc_zoom(double factor)
 String (*_tc_getString)(String title) = 0;
 /*! 
  \brief get a text from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 String tc_getString(String title)
 {
@@ -513,7 +513,7 @@ String tc_getString(String title)
 String (*_tc_getFilename)() = 0;
 /*! 
  \brief get a file from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 String tc_getFilename()
 {
@@ -525,7 +525,7 @@ String tc_getFilename()
 int (*_tc_getFromList)(String title, ArrayOfStrings list,String selectedString, int comboBox) = 0;
 /*! 
  \brief get a text from the user (dialog) from a list of selections
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox)
 {
@@ -537,7 +537,7 @@ int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int 
 double (*_tc_getNumber)(String title) = 0;
 /*! 
  \brief get a number from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 double tc_getNumber(String title)
 {
@@ -549,7 +549,7 @@ double tc_getNumber(String title)
 void (*_tc_getNumbers)(ArrayOfStrings labels, double* result) = 0;
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 void tc_getNumbers(ArrayOfStrings labels, double* result)
 {
@@ -561,7 +561,7 @@ int (*_tc_askQuestion)(String) = 0;
 /*! 
  \brief display a dialog with a text and a yes and no button
  \param char* displayed message or question
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 int tc_askQuestion(String message)
 {
@@ -574,7 +574,7 @@ void (*_tc_messageDialog)(String) = 0;
 /*! 
  \brief display a dialog with a text message and a close button
  \param char* displayed message
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 void tc_messageDialog(String message)
 {
@@ -604,6 +604,134 @@ void tc_createSliders(Matrix input, void (*f)(Matrix))
 	if (_tc_createSliders && _cthread_ptr)
 		_tc_createSliders(_cthread_ptr, input,f);
 }
+
+void (*_tc_setSize)(void*,double,double,int) = 0;
+/*!
+ \brief Change the size of an item
+ \ingroup Appearance
+*/
+void tc_setSize(void * item,double width,double height,int permanent)
+{
+	if (_tc_setSize)
+		_tc_setSize(item,width,height,permanent);
+}
+
+double (*_tc_getWidth)(void*) = 0;
+/*!
+ \brief get the width of an item
+ \ingroup Appearance
+*/
+double tc_getWidth(void * item)
+{
+	if (_tc_getWidth)
+		_tc_getWidth(item);
+	return 1.0;
+}
+
+double (*_tc_getHeight)(void*) = 0;
+/*!
+ \brief get the width of an item
+ \ingroup Appearance
+*/
+double tc_getHeight(void * item)
+{
+	if (_tc_getHeight)
+		_tc_getHeight(item);
+	return 1.0;
+}
+
+void (*_tc_setAngle)(void*,double,int) = 0;
+/*!
+ \brief get the width of an item
+ \ingroup Appearance
+*/
+void tc_setAngle(void * item, double t,int permanent)
+{
+	if (_tc_setAngle)
+		_tc_setAngle(item,t,permanent);
+}
+
+double (*_tc_getAngle)(void*) = 0;
+/*!
+ \brief get the angle of an item
+ \ingroup Appearance
+*/
+double tc_getAngle(void* item)
+{
+	if (_tc_getAngle)
+		_tc_getAngle(item);
+	return 1.0;
+}
+
+int (*_tc_getColorR)(void* item) = 0;
+/*! 
+ \brief get the red color of the item
+ \ingroup Appearance
+*/
+int tc_getColorR(void* item)
+{
+	if (_tc_getColorR)
+		return _tc_getColorR(item);
+	return 0;
+}
+
+int (*_tc_getColorG)(void* item) = 0;
+/*! 
+ \brief get the green color of the item
+ \ingroup Appearance
+*/
+int tc_getColorG(void* item)
+{
+	if (_tc_getColorG)
+		return _tc_getColorG(item);
+	return 0;
+}
+
+int (*_tc_getColorB)(void* item) = 0;
+/*! 
+ \brief get the blue color of the item
+ \ingroup Appearance
+*/
+int tc_getColorB(void* item)
+{
+	if (_tc_getColorB)
+		return _tc_getColorB(item);
+	return 0;
+}
+
+void (*_tc_setColor)(void* item,int R,int G,int B, int permanent) = 0;
+/*! 
+ \brief set the rgb color  of the item and indicate whether or not the color is permanenet
+ \ingroup Appearance
+*/
+void tc_setColor(void* item,int R,int G,int B, int permanent)
+{
+	if (_tc_setColor)
+		_tc_setColor(item,R,G,B,permanent);
+}
+
+void (*_tc_changeNodeImage)(void*,const char*) = 0;
+/*! 
+ \brief change the graphics file for drawing one of the nodes
+ \ingroup Appearance
+*/
+void tc_changeNodeImage(void* item,const char* filename)
+{
+	if (_tc_changeNodeImage)
+		_tc_changeNodeImage(item,filename);
+}
+
+void (*_tc_changeArrowHead)(void*,const char*) = 0;
+/*! 
+ \brief change the graphics file for drawing the arrowheads for the given connection
+ \ingroup Appearance
+*/
+void tc_changeArrowHead(void* connection,const char* filename)
+{
+	if (_tc_changeArrowHead)
+		_tc_changeArrowHead(connection,filename);
+}
+
 
 /*! 
  \brief initialize main
@@ -646,7 +774,7 @@ void tc_Main_api_initialize(
 		
 		void (*tc_createInputWindow0)(Matrix,String,String, String),
         void (*tc_createInputWindow1)(Matrix, String, void (*f)(Matrix)),
-		void (*createSliders)(void*, Matrix, void (*f)(Matrix)),
+		void (*createSliders0)(void*, Matrix, void (*f)(Matrix)),
 		
 		void (*tc_addInputWindowOptions0)(String, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(String, int i, int j),
@@ -665,14 +793,27 @@ void tc_Main_api_initialize(
 		
 		void (*tc_zoom0)(double factor),
 		
-		String (*getString)(String),
-		int (*getSelectedString)(String, ArrayOfStrings, String, int),
-		double (*getNumber)(String),
-		void (*getNumbers)( ArrayOfStrings, double * ),
-		String (*getFilename)(),
+		String (*getString0)(String),
+		int (*getSelectedString0)(String, ArrayOfStrings, String, int),
+		double (*getNumber0)(String),
+		void (*getNumbers0)( ArrayOfStrings, double * ),
+		String (*getFilename0)(),
 		
-		int (*askQuestion)(String),
-		void (*messageDialog)(String)
+		int (*askQuestion0)(String),
+		void (*messageDialog0)(String),
+		
+		void (*setSize0)(void*,double,double,int),
+		double (*getWidth0)(void*),
+		double (*getHeight0)(void*),
+		void (*setAngle0)(void*,double,int),
+		double (*getAngle0)(void*),
+		int (*getColorR0)(void*),
+		int (*getColorG0)(void*),
+		int (*getColorB0)(void*),
+		void (*setColor0)(void*,int,int,int,int),
+		
+		void (*changeGraphics0)(void*,const char*),
+		void (*changeArrowHead0)(void*,const char*)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -728,16 +869,29 @@ void tc_Main_api_initialize(
 	
 	_tc_zoom = tc_zoom0;
 	
-	_tc_getString = getString;
-	_tc_getFromList = getSelectedString;
-	_tc_getNumber = getNumber;
-	_tc_getNumbers = getNumbers;
-	_tc_getFilename = getFilename;
+	_tc_getString = getString0;
+	_tc_getFromList = getSelectedString0;
+	_tc_getNumber = getNumber0;
+	_tc_getNumbers = getNumbers0;
+	_tc_getFilename = getFilename0;
 	
-	_tc_askQuestion = askQuestion;
-	_tc_messageDialog = messageDialog;
+	_tc_askQuestion = askQuestion0;
+	_tc_messageDialog = messageDialog0;
 	
-	_tc_createSliders = createSliders;
+	_tc_createSliders = createSliders0;
+	
+	_tc_setSize = _tc_setSize0;
+	_tc_getWidth = getWidth0;
+	_tc_getHeight = getHeight0;
+	_tc_setAngle = setAngle0;
+	_tc_getAngle = getAngle0;
+	_tc_getColorR = getColorR0;
+	_tc_getColorG = getColorG0;
+	_tc_getColorB = getColorB0;
+	_tc_setColor = setColor0;
+	
+	_tc_changeGraphics = changeGraphics0;
+	_tc_changeArrowHead = changeArrowHead0;
 }
 
 void (*_tc_showProgress)(void * thread, int progress);

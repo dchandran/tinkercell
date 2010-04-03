@@ -19,12 +19,13 @@
 #include "ConsoleWindow.h"
 #include "AbstractInputWindow.h"
 #include "TextParser.h"
+#include "UndoCommands.h"
 
 namespace Tinkercell
 {
 	Core_FtoS C_API_Slots::fToS;
 	
-	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0), undoSizeChange(0)
+	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0)
 	{ 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
@@ -117,10 +118,10 @@ namespace Tinkercell
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
 		
-		void (*setSize)(void*,double,double),
+		void (*setSize)(void*,double,double,int),
 		double (*getWidth)(void*),
 		double (*getHeight)(void*),
-		void (*setAngle)(void*,double),
+		void (*setAngle)(void*,double,int),
 		double (*getAngle)(void*),
 		int (*getColorR)(void*),
 		int (*getColorG)(void*),
@@ -279,10 +280,10 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(askQuestion(QSemaphore*,const QString&, int*)),this,SLOT(askQuestion(QSemaphore*,const QString&, int*)));
 		connect(&fToS,SIGNAL(messageDialog(QSemaphore*,const QString&)),this,SLOT(messageDialog(QSemaphore*,const QString&)));
 
-		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double)));
+		connect(&fToS,SIGNAL(setSize(QSemaphore*, ItemHandle*,double,double,int)),this,SLOT(setSize(QSemaphore*, ItemHandle*,double,double,int)));
 		connect(&fToS,SIGNAL(getWidth(QSemaphore*, ItemHandle*, double*)),this,SLOT(getWidth(QSemaphore*, ItemHandle*, double*)));
 		connect(&fToS,SIGNAL(getHeight(QSemaphore*, ItemHandle*,double*)),this,SLOT(getHeight(QSemaphore*, ItemHandle*,double*)));
-		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double)));
+		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,int)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,int)));
 		connect(&fToS,SIGNAL(getAngle(QSemaphore*, ItemHandle*, double*)),this,SLOT(getAngle(QSemaphore*, ItemHandle*, double*)));
 		
 		connect(&fToS,SIGNAL(getColorR(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorR(QSemaphore*,int*,ItemHandle*)));
@@ -428,9 +429,12 @@ namespace Tinkercell
 	}
 	void C_API_Slots::openNewWindow(QSemaphore* s,const QString& name)
 	{
-		newGraphicsWindow();
-		if (currentWindow())
-			currentWindow()->setWindowTitle(name);
+		if (mainWindow)
+		{
+			mainWindow->newGraphicsWindow();
+			if (currentWindow())
+				currentWindow()->setWindowTitle(name);
+		}
 		if (s)
 			s->release();
 	}
@@ -1039,12 +1043,6 @@ namespace Tinkercell
 		if (sem)
 			sem->release();
 	}
-
-	/*******************************************************************/
-	/*******************FUNCTION TO SIGNAL******************************/
-	/*******************************************************************/
-
-	Core_FtoS C_API_Slots::fToS;
 
 	void C_API_Slots::_zoom(double x)
 	{
@@ -2232,30 +2230,30 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::_setSize(void* o, double w, double h)
+	void C_API_Slots::_setSize(void* o, double w, double h, int p)
 	{
-		fToS.setSize(o,w,h);
+		fToS.setSize(o,w,h,p);
 	}
 
-	void Core_FtoS::setSize(void* o,double w, double h)
+	void Core_FtoS::setSize(void* o,double w, double h,int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit setSize(s,ConvertValue(o),w,h);
+		emit setSize(s,ConvertValue(o),w,h,p);
 		s->acquire();
 		s->release();
 	}
 	
-	void C_API_Slots::_setAngle(void* o, double t)
+	void C_API_Slots::_setAngle(void* o, double t,int p)
 	{
-		fToS.setAngle(o,t);
+		fToS.setAngle(o,t,p);
 	}
 
-	void Core_FtoS::setAngle(void* o,double t)
+	void Core_FtoS::setAngle(void* o,double t,int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit setAngle(s,ConvertValue(o),t);
+		emit setAngle(s,ConvertValue(o),t,p);
 		s->acquire();
 		s->release();
 	}
@@ -2265,7 +2263,7 @@ namespace Tinkercell
 		return fToS.getWidth(o);
 	}
 
-	double Core_FtoS::getHeight(void* o)
+	double Core_FtoS::getWidth(void* o)
 	{
 		double d;
 		QSemaphore * s = new QSemaphore(1);
@@ -2606,7 +2604,7 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::setAngle(QSemaphore* s, ItemHandle* item,double angle)
+	void C_API_Slots::setAngle(QSemaphore* s, ItemHandle* item,double angle,int permanent)
 	{
 		if (item)
 		{
@@ -2644,6 +2642,75 @@ namespace Tinkercell
 		}
 		if (s)
 			s->release();
+	}
+	
+	void C_API_Slots::getColorRGB(ItemHandle* handle,int* r,int rgb)
+	{
+		if (!handle || !r) return;
+		QGraphicsItem * item;
+		for (int i=0; i < handle->graphicsItems.size(); ++i)
+		{
+			item = handle->graphicsItems[i];
+			if (item)
+			{
+				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
+				if (node)
+				{
+					if (node->shapes.size() > 0 && node->shapes[0])
+					{
+						if (rgb == 0)
+							(*r) = node->shapes[0]->defaultBrush.color().red();
+						else
+							if (rgb == 1)
+								(*r) = node->shapes[0]->defaultBrush.color().green();
+							else
+								(*r) = node->shapes[0]->defaultBrush.color().blue();
+					}
+				}
+				else
+				{
+					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
+					if (connection)
+					{
+						if (rgb == 0)
+							(*r) = connection->defaultBrush.color().red();
+						else
+							if (rgb == 1)
+								(*r) = connection->defaultBrush.color().green();
+							else
+								(*r) = connection->defaultBrush.color().blue();
+					}
+					else
+					{
+						TextGraphicsItem * text = TextGraphicsItem::cast(item);
+						if (text)
+						{
+							if (rgb == 0)
+								(*r) = text->defaultTextColor().red();
+							else
+								if (rgb == 1)
+									(*r) = text->defaultTextColor().green();
+								else
+									(*r) = text->defaultTextColor().blue();
+						}
+						else
+						{
+							ControlPoint * cp = ControlPoint::cast(item);
+							if (cp)
+							{
+								if (rgb == 0)
+									(*r) = cp->defaultBrush.color().red();
+								else
+									if (rgb == 1)
+										(*r) = cp->defaultBrush.color().green();
+									else
+										(*r) = cp->defaultBrush.color().blue();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 }

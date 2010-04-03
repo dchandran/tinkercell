@@ -280,8 +280,6 @@ namespace Tinkercell
 			}
 		}
 
-		connectTCFunctions();
-
 		parsersMenu = 0;
 		c_api_slots = new C_API_Slots(this);
 	}

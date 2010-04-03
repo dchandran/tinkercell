@@ -177,10 +177,10 @@ namespace Tinkercell
 		int askQuestion(const char*);
 		void messageDialog(const char*);
 		
-		void setSize(void*,double,double);
+		void setSize(void*,double,double,int);
 		double getWidth(void*);
 		double getHeight(void*);
-		void setAngle(void*,double);
+		void setAngle(void*,double,int);
 		double getAngle(void*);
 		int getColorR(void*);
 		int getColorG(void*);
@@ -194,7 +194,8 @@ namespace Tinkercell
 	class C_API_Slots : public QObject
 	{
 		Q_OBJECT
-		
+	
+	public:	
 		C_API_Slots(MainWindow * );
 		
 	private:
@@ -203,8 +204,8 @@ namespace Tinkercell
 	
 		MainWindow * mainWindow;
 		ConsoleWindow * console() const;
-		ConsoleWindow * currentWindow() const;
-		ConsoleWindow * currentScene() const;
+		NetworkWindow * currentWindow() const;
+		GraphicsScene * currentScene() const;
 	
 		static void _zoom(double);
 		static ArrayOfItems _allItems();
@@ -635,32 +636,6 @@ namespace Tinkercell
 		* \return void
 		*/
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
-		/*!
-		* \brief loads files (library files or model files)
-		* \param QList<QFileInfo>& the name(s) of the file(s)
-		* \return void
-		*/
-		void dragAndDropFiles(const QList<QFileInfo>& files);
-		/*!
-		* \brief change console background color
-		* \return void
-		*/
-		void changeConsoleBgColor();
-		/*!
-		* \brief change console text color
-		* \return void
-		*/
-		void changeConsoleTextColor();
-		/*!
-		* \brief change console message text color
-		* \return void
-		*/
-		void changeConsoleMsgColor();
-		/*!
-		* \brief change console error text color
-		* \return void
-		*/
-		void changeConsoleErrorMsgColor();
 		/*! \brief Stores the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
@@ -704,6 +679,7 @@ namespace Tinkercell
 		void getHeight(QSemaphore*, ItemHandle*,double*);
 		void setAngle(QSemaphore*, ItemHandle*,double,int);
 		void getAngle(QSemaphore*, ItemHandle*, double*);
+		void getColorRGB(ItemHandle* handle,int* r,int rgb);
 		void getColorR(QSemaphore*,int*,ItemHandle*);
 		void getColorG(QSemaphore*,int*,ItemHandle*);
 		void getColorB(QSemaphore*,int*,ItemHandle*);

@@ -119,37 +119,37 @@ void tc_remove(Item item);
 
 /*! 
  \brief get the x location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 double tc_getY(Item item);
 
 /*! 
  \brief get the y location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 double tc_getX(Item item);
 
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
- \ingroup Get and set position
+ \ingroup Appearance
 */
 Matrix tc_getPos(ArrayOfItems items);
 
 /*! 
  \brief set the x and y location of an item
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_setPos(Item item,double x,double y);
 
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_setPosMulti(ArrayOfItems items, Matrix positions);
 
 /*! 
  \brief move all the selected items by a given amount
- \ingroup Get and set position
+ \ingroup Appearance
 */
 void tc_moveSelected(double dx,double dy);
 
@@ -220,37 +220,37 @@ Item tc_getParent(Item o);
 
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
- \ingroup Data
+ \ingroup Network data
 */
 Matrix tc_getNumericalData(Item item,String data);
 
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
- \ingroup Data
+ \ingroup Network data
 */
 void tc_setNumericalData(Item o,String title,Matrix data);
 
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
- \ingroup Data
+ \ingroup Network data
 */
 TableOfStrings tc_getTextData(Item item,String data);
 
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
- \ingroup Data
+ \ingroup Network data
 */
 void tc_setTextData(Item o,String title,TableOfStrings data);
 
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
- \ingroup Data
+ \ingroup Network data
 */
 ArrayOfStrings tc_getNumericalDataNames(Item o);
 
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
- \ingroup Data
+ \ingroup Network data
 */
 ArrayOfStrings tc_getTextDataNames(Item o);
 
@@ -262,43 +262,43 @@ void tc_zoom(double factor);
 
 /*! 
  \brief get a text from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 String tc_getString(String title);
 /*! 
  \brief get a file from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 String tc_getFilename();
 
 /*! 
  \brief get a text from the user (dialog) from a list of selections
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox);
 /*! 
  \brief get a number from the user (dialog)
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 double tc_getNumber(String title);
 
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 void tc_getNumbers(ArrayOfStrings labels, double* result);
 
 /*! 
  \brief display a dialog with a text and a yes and no button
  \param char* displayed message or question
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 int tc_askQuestion(String message);
 
 /*! 
  \brief display a dialog with a text message and a close button
  \param char* displayed message
- \ingroup Dialogs
+ \ingroup Input and Output
 */
 void tc_messageDialog(String message);
 
@@ -314,10 +314,6 @@ Item tc_thisThread();
 */
 void tc_createSliders(Matrix input, void (*f)(Matrix));
 
-/*! 
- \brief initialize main
- \ingroup init
-*/
 /*! 
  \brief get the red color of the item
  \ingroup Appearance
@@ -373,6 +369,11 @@ void tc_setAngle(Item item, double t,int permanent);
  \ingroup Appearance
 */
 double tc_getAngle(Item item);
+
+/*! 
+ \brief initialize main
+ \ingroup init
+*/
 void tc_Main_api_initialize(
 	    ArrayOfItems (*tc_allItems0)(),
 		ArrayOfItems (*tc_selectedItems0)(),

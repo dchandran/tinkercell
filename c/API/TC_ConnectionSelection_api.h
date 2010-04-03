@@ -5,12 +5,12 @@
 
 /*! 
  \brief get x position of a control point
- \ingroup Control points
+ \ingroup Connections
 */
 double tc_getControlPointX(Item connection,Item part,int whichPoint);
 /*! 
  \brief get y position of a control point
- \ingroup Control points
+ \ingroup Connections
 */
 double tc_getControlPointY(Item connection,Item part,int whichPoint);
 /*! 
@@ -20,37 +20,37 @@ double tc_getControlPointY(Item connection,Item part,int whichPoint);
  \param int the index of the point on that curve of interest
  \param double x value
  \param double y value
- \ingroup Control points
+ \ingroup Connections
 */
 void tc_setControlPoint(Item connection,Item part,int whichPoint, double x,double y);
 /*! 
  \brief set x and y position of the central control point
- \ingroup Control points
+ \ingroup Connections
 */
 void tc_setCenterPoint(Item connection,double y,double x);
 /*! 
  \brief get x position of the central control point
- \ingroup Control points
+ \ingroup Connections
 */
 double tc_getCenterPointX(Item connection);
 /*! 
  \brief get y position of the central control point
- \ingroup Control points
+ \ingroup Connections
 */
 double tc_getCenterPointY(Item connection);
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
- \ingroup Control points
+ \ingroup Connections
 */
 void tc_setStraight(Item item,int straight);
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
- \ingroup Control points
+ \ingroup Connections
 */
 void tc_setAllStraight(int straight);
 /*! 
  \brief set the line width. Indicate whether the change should be temporary or permanent.
- \ingroup Control points
+ \ingroup Connections
 */
 void tc_setLineWidth(Item item,double width, int permanent);
 

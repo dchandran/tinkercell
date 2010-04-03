@@ -5,17 +5,17 @@
 
 /*! 
  \brief get the event triggers for a set of items
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 ArrayOfStrings tc_getEventTriggers();
 /*! 
  \brief get the event responses for a set of items
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 ArrayOfStrings tc_getEventResponses();
 /*! 
  \brief set the event trigger and response
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 void tc_addEvent(String trigger, String event);
 /*! 
@@ -30,18 +30,18 @@ void tc_SimulationEventsTool_api(
 
 /*! 
  \brief get the forcing function names for a set of items
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 ArrayOfStrings tc_getForcingFunctionNames(ArrayOfItems a);
 /*! 
  \brief get the forcing function definitions for a set of items
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a);
 
 /*! 
  \brief set the forcing function for an item
- \ingroup Events and forcing functions
+ \ingroup Modeling
 */
 void tc_addForcingFunction(Item item,String functionName, String assignmentRule);
 

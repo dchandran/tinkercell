@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <values.h>
+//#include <values.h>
 #include "opt.h"
 
 #define	Debug		0

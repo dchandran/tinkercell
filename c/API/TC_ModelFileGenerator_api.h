@@ -5,12 +5,12 @@
 
 /*! 
  \brief get only the parameters used in the model
- \ingroup Attributes
+ \ingroup Modeling
 */
 Matrix tc_getModelParameters(ArrayOfItems A);
 /*! 
  \brief write the ODE, stoichiometry, and rates functions to a file
- \ingroup Modeling
+ \ingroup Programming
 */
 int tc_writeModel(String file, ArrayOfItems items);
 

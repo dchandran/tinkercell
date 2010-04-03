@@ -61,7 +61,7 @@ namespace Tinkercell
 	/*! \brief view for a graphics scene.
 		Provides the ability to set specific items invisible when they might
 		might be visible in other views.
-		\ingroup helper
+		\ingroup core
 	*/
 	class MY_EXPORT GraphicsView : public QGraphicsView
 	{

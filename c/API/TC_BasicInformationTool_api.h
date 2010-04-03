@@ -5,62 +5,62 @@
 
 /*! 
  \brief get all the parameters
- \ingroup Attributes
+ \ingroup Modeling
 */
 Matrix tc_getParameters(ArrayOfItems a);
 /*! 
  \brief get initial values of the given items. Fixed varianbles are included.
- \ingroup Attributes
+ \ingroup Modeling
 */
 Matrix tc_getInitialValues(ArrayOfItems a);
 /*! 
  \brief set initial values of the given items. 
- \ingroup Attributes
+ \ingroup Modeling
 */
 void tc_setInitialValues(ArrayOfItems items,Matrix values);
 /*! 
  \brief get all fixed variables
- \ingroup Attributes
+ \ingroup Modeling
 */
 Matrix tc_getFixedVariables(ArrayOfItems a);
 /*! 
  \brief get all the parameters and fixed variables
- \ingroup Attributes
+ \ingroup Modeling
 */
 Matrix tc_getParametersAndFixedVariables(ArrayOfItems a);
 /*! 
  \brief get the text attribute with the given name for the given item
- \ingroup Attributes
+ \ingroup Network data
 */
 String tc_getTextAttribute(Item item,String attribute);
 /*! 
  \brief get the numerical attribute with the given name for the given item
- \ingroup Attributes
+ \ingroup Modeling
 */
 double tc_getParameter(Item item,String attribute);
 /*! 
- \brief get all numerical attributes with the given names for the given items
- \ingroup Attributes
+ \brief get all numerical Modeling with the given names for the given items
+ \ingroup Modeling
 */
 Matrix tc_getParametersNamed(ArrayOfItems a,ArrayOfStrings attibutes);
 /*! 
- \brief get all numerical attributes EXCEPT the given names
- \ingroup Attributes
+ \brief get all numerical Modeling EXCEPT the given names
+ \ingroup Modeling
 */
-Matrix tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings attributes);
+Matrix tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings Modeling);
 /*! 
- \brief get all text attributes with the given name for the given items
- \ingroup Attributes
+ \brief get all text Modeling with the given name for the given items
+ \ingroup Network data
 */
-ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings attributes);
+ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings Modeling);
 /*! 
  \brief set text attribute for the given item
- \ingroup Attributes
+ \ingroup Network data
 */
 void tc_setTextAttribute(Item item,String attribute,String value);
 /*! 
  \brief set numerical attribute for the given item
- \ingroup Attributes
+ \ingroup Modeling
 */
 void tc_setParameter(Item item,String attribute,double value);
 /*! 

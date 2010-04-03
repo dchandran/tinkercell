@@ -191,6 +191,10 @@ namespace Tinkercell
 		void changeArrowHead(void*,const char*);
 	};
 
+	/*! \brief A set of slots that are called by C libraries
+	\ingroup CAPI
+	*/
+
 	class C_API_Slots : public QObject
 	{
 		Q_OBJECT

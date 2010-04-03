@@ -2155,7 +2155,7 @@ namespace Tinkercell
 				if (node = temporarilyChangedSize[i].first)
 				{
 					QPointF p = node->scenePos();
-					node->setBoundingRect( p + temporarilyChangedSize[i].second, p - temporarilyChangedSize[i].second );
+					node->setBoundingRect( temporarilyChangedSize[i].second, temporarilyChangedSize[i].second );
 				}
 			temporarilyChangedSize.clear();
 		}
@@ -2549,10 +2549,12 @@ namespace Tinkercell
 				}
 				else
 				{
-					QPointF dp(w/2, h/2);
+					QPointF dp1(w/2, h/2);
 					QPointF p = mainNode->scenePos();
-					mainNode->setBoundingRect( p - dp, p + dp );
-					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp);
+					
+					QPointF dp0( mainNode->sceneBoundingRect().topLeft(), mainNode->sceneBoundingRect().bottomRight() );
+					mainNode->setBoundingRect( p - dp1, p + dp1 );
+					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);
 				}
 			}
 		}

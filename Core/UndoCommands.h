@@ -301,12 +301,12 @@ namespace Tinkercell
 		* \param QList<QPen>& new pens (one for each item)
 		*/
 		ChangeBrushAndPenCommand(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens);
+		~ChangeBrushAndPenCommand();
 		void redo();
 		void undo();
 	private:
-		QList<QGraphicsItem*> graphicsItems;
-		QList<QPen> oldPen, newPen;
-		QList<QBrush> oldBrush, newBrush;
+		ChangeBrushCommand * changeBrushCommand;
+		ChangePenCommand * changePenCommand;
 	};
 
 	/*! \brief this command changes the pen of an item

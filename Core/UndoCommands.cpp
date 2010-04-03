@@ -1245,231 +1245,46 @@ namespace Tinkercell
 								aitem->setPen(oldPen[i]);
 		}
 	}
+	
+	ChangeBrushAndPenCommand::~ChangeBrushAndPenCommand()
+	{
+		if (changeBrushCommand)
+			delete changeBrushCommand;
+
+		if (changePenCommand)
+			delete changePenCommand;
+	}
 
 	ChangeBrushAndPenCommand::ChangeBrushAndPenCommand(const QString& name, QGraphicsItem * item, const QBrush& brush, const QPen& pen)
 		: QUndoCommand(name)
 	{
-		graphicsItems.clear();
-		oldPen.clear();
-		oldBrush.clear();
-		newPen.clear();
-		newBrush.clear();
-
-		QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(item);
-		NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item);
-		ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(item);
-		ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(item);
-		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(item);
-		if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(item);
-		TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(item);
-		if (aitem != 0 && shape == 0 && controlPoint == 0)
-		{
-			graphicsItems.append(aitem);
-			oldBrush.append(aitem->brush());
-			oldPen.append(aitem->pen());
-		}
-		else
-		{
-			if (shape != 0)
-			{
-				graphicsItems.append(shape);
-				oldBrush.append(shape->defaultBrush);
-				oldPen.append(shape->defaultPen);
-			}
-			else
-				if (connection != 0)
-				{
-					graphicsItems.append(connection);
-					oldBrush.append(connection->defaultBrush);
-					oldPen.append(connection->defaultPen);
-				}
-				else
-					if (controlPoint != 0)
-					{
-						graphicsItems.append(controlPoint);
-						oldBrush.append(controlPoint->defaultBrush);
-						oldPen.append(controlPoint->defaultPen);
-					}
-					else
-						if (textItem != 0)
-						{
-							graphicsItems.append(textItem);
-							oldBrush.append(QBrush(textItem->defaultTextColor()));
-							oldPen.append(QPen(textItem->defaultTextColor()));
-						}
-		}
-
-		newPen.append(pen);
-		newBrush.append(brush);
+		changeBrushCommand = new ChangeBrushCommand(name,item,brush);
+		changePenCommand = new ChangePenCommand(name,item,pen);
 	}
 
 	ChangeBrushAndPenCommand::ChangeBrushAndPenCommand(const QString& name, const QList<QGraphicsItem*>& items, const QList<QBrush>& brushes, const QList<QPen>& pens)
 		: QUndoCommand(name)
 	{
-		newPen.clear();
-		newBrush.clear();
-		for (int i=0; i < items.size(); ++i)
-		{
-			QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(items[i]);
-			NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(items[i]);
-			ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-			ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(items[i]);
-			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
-			if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i]);
-			TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(items[i]);
-			if (aitem != 0 && shape == 0 && connection == 0 && controlPoint == 0)
-			{
-				graphicsItems.append(aitem);
-				oldBrush.append(aitem->brush());
-				oldPen.append(aitem->pen());
-			}
-			else
-			{
-				if (shape != 0)
-				{
-					graphicsItems.append(shape);
-					oldBrush.append(shape->defaultBrush);
-					oldPen.append(shape->defaultPen);
-				}
-				else
-					if (connection != 0)
-					{
-						graphicsItems.append(connection);
-						oldBrush.append(connection->defaultBrush);
-						oldPen.append(connection->defaultPen);
-					}
-					else
-						if (controlPoint != 0)
-						{
-							graphicsItems.append(controlPoint);
-							oldBrush.append(controlPoint->defaultBrush);
-							oldPen.append(controlPoint->defaultPen);
-						}
-						else
-							if (textItem != 0)
-							{
-								graphicsItems.append(textItem);
-								oldBrush.append(QBrush(textItem->defaultTextColor()));
-								oldPen.append(QPen(textItem->defaultTextColor()));
-							}
-			}
-		}
-		newBrush = brushes;
-		newPen = pens;
+		changeBrushCommand = new ChangeBrushCommand(name,items,brushes);
+		changePenCommand = new ChangePenCommand(name,items,pens);
 	}
 
 	void ChangeBrushAndPenCommand::redo()
 	{
-		for (int i=0; i < graphicsItems.size(); ++i)
-		{
-			if (i < newPen.size())
-			{
-				QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
-				NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-				ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(graphicsItems[i]);
-				if (shape != 0)
-					shape->setPen( shape->defaultPen = newPen[i] );
-				else
-					if (connection != 0)
-					{
-						connection->setPen( connection->defaultPen = newPen[i] );
-						connection->refresh();
-					}
-					else
-						if (controlPoint != 0)
-							controlPoint->setPen( controlPoint->defaultPen = newPen[i] );
-						else
-							if (textItem != 0)
-								textItem->setDefaultTextColor( newPen[i].color() );
-							else
-								if (aitem != 0)
-									aitem->setPen(newPen[i]);
-			}
-			if (i < newBrush.size())
-			{
-				QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
-				NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-				ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (shape != 0)
-					shape->setBrush( shape->defaultBrush = newBrush[i] );
-				else
-					if (connection != 0)
-					{
-						connection->setBrush( connection->defaultBrush = newBrush[i] );
-						connection->refresh();
-					}
-					else
-						if (controlPoint != 0)
-							controlPoint->setBrush( controlPoint->defaultBrush = newBrush[i] );
-						else
-							if (aitem != 0)
-								aitem->setBrush(newBrush[i]);
-			}
-		}
+		if (changeBrushCommand)
+			changeBrushCommand->redo();
+			
+		if (changePenCommand)
+			changePenCommand->redo();
 	}
 
 	void ChangeBrushAndPenCommand::undo()
 	{
-		for (int i=0; i < graphicsItems.size(); ++i)
-		{
-			if (i < oldPen.size() && i < newPen.size())
-			{
-				QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
-				NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-				ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				TextGraphicsItem * textItem = qgraphicsitem_cast<TextGraphicsItem*>(graphicsItems[i]);
-				if (shape != 0)
-					shape->setPen( shape->defaultPen = oldPen[i] );
-				else
-					if (connection != 0)
-					{
-						connection->setPen( connection->defaultPen = oldPen[i] );
-						connection->refresh();
-					}
-					else
-						if (controlPoint != 0)
-							controlPoint->setPen( controlPoint->defaultPen = oldPen[i] );
-						else
-							if (textItem != 0)
-								textItem->setDefaultTextColor( oldPen[i].color() );
-							else
-								if (aitem != 0)
-									aitem->setPen(oldPen[i]);
-			}
-			if (i < oldBrush.size() && i < newBrush.size())
-			{
-				QAbstractGraphicsShapeItem * aitem = qgraphicsitem_cast<QAbstractGraphicsShapeItem*>(graphicsItems[i]);
-				NodeGraphicsItem::Shape * shape = qgraphicsitem_cast<NodeGraphicsItem::Shape*>(graphicsItems[i]);
-				ConnectionGraphicsItem * connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(graphicsItems[i]);
-				ControlPoint * controlPoint = qgraphicsitem_cast<ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (controlPoint == 0) controlPoint = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(graphicsItems[i]);
-				if (shape != 0)
-					shape->setBrush( shape->defaultBrush = oldBrush[i] );
-				else
-					if (controlPoint != 0)
-						controlPoint->setBrush( controlPoint->defaultBrush = oldBrush[i] );
-					else
-						if (connection != 0)
-						{
-							connection->setBrush(connection->defaultBrush = oldBrush[i]);
-							connection->refresh();
-						}
-						else
-							if (aitem != 0)
-								aitem->setBrush(oldBrush[i]);
-			}
-		}
+		if (changeBrushCommand)
+			changeBrushCommand->undo();
+			
+		if (changePenCommand)
+			changePenCommand->undo();
 	}
 
 	TransformCommand::TransformCommand(const QString& name, QGraphicsScene * scene, QGraphicsItem * item,

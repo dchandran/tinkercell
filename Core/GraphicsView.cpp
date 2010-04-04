@@ -149,6 +149,10 @@ namespace Tinkercell
 			scene->update();
 	}
 	
+	QSize GraphicsView::sizeHint() const
+	{
+		return QSize(500,500);
+	}
 
 	void GraphicsView::dragEnterEvent(QDragEnterEvent * /*event*/)
 	{
@@ -186,7 +190,7 @@ namespace Tinkercell
 		: QGraphicsView (network->scene,parent), scene(network->scene), networkWindow(network)
 	{
 		if (network && !network->graphicsViews.contains(this))
-			network->graphicsViews << this;
+			network->graphicsViews.push_front(this);
 
 #if QT_VERSION > 0x040600
 		setOptimizationFlag(QGraphicsView::IndirectPainting);
@@ -232,7 +236,7 @@ namespace Tinkercell
 
 	void GraphicsView::showItems(const QList<QGraphicsItem*>& items)
 	{
-		if (!networkWindow) return;
+		if (!networkWindow || items.isEmpty()) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,true);
 
 		networkWindow->history.push(command);
@@ -240,7 +244,7 @@ namespace Tinkercell
 
 	void GraphicsView::hideItems(const QList<QGraphicsItem*>& items)
 	{
-		if (!networkWindow) return;
+		if (!networkWindow || items.isEmpty()) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,false);
 		
 		networkWindow->history.push(command);

@@ -101,40 +101,32 @@ namespace Tinkercell
 
 	GraphicsView * NetworkWindow::createView(const QList<QGraphicsItem*>& hideItems)
 	{
-		if (!mainWindow) return 0;
+		if (!mainWindow || !scene) return 0;
 
-		GraphicsView * view = new GraphicsView(this);
+		GraphicsView * view = new GraphicsView(this,this);
 	
 		if (!currentGraphicsView)
 			currentGraphicsView = view;
 
 		view->hideItems(hideItems);
-		view->setParent(mainWindow);
 		view->setWindowFlags(Qt::Window);
 		view->setAttribute(Qt::WA_DeleteOnClose);
-		if (!view->isVisible())
-			view->show();
+		view->show();
+		
+		if (!scene->items().isEmpty())
+			view->fitAll();
+		
 		return view;
 	}
 
 	GraphicsView * NetworkWindow::createView(GraphicsView * anotherView)
 	{
-		if (!mainWindow) return 0;
-
-		GraphicsView * view = new GraphicsView(this);
-		
-		if (!currentGraphicsView)
-			currentGraphicsView = view;
-
 		if (anotherView && graphicsViews.contains(anotherView))
-			view->hideItems(anotherView->hiddenItems.keys()); //build on current view
-
-		view->setParent(mainWindow);
-		view->setWindowFlags(Qt::Window);
-		view->setAttribute(Qt::WA_DeleteOnClose);
-		if (!view->isVisible())
-			view->show();
-		return view;
+		{
+			return createView(anotherView->hiddenItems.keys());
+		}
+		
+		return createView();
 	}
 
 	NetworkWindow::NetworkWindow(MainWindow * main, GraphicsScene * scene) :
@@ -154,7 +146,6 @@ namespace Tinkercell
 		layout->addWidget(view);
 		layout->setContentsMargins(0,0,0,0);
 		setLayout(layout);
-
 		setAttribute(Qt::WA_DeleteOnClose);
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));

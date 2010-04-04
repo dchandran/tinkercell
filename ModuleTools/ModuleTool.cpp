@@ -1198,6 +1198,8 @@ namespace Tinkercell
 
 		if (handle && handle->isA(tr("Module")) && (moduleItem = NodeGraphicsItem::cast(item)))
 		{
+			scene->deselect();
+			
 			QList<QGraphicsItem*> childItems = handle->allGraphicsItems();
 
 			QList<QGraphicsItem*> hideItems,
@@ -1226,12 +1228,17 @@ namespace Tinkercell
 			{
 				if (moduleItem != childItems[i] &&
 					getHandle(childItems[i]) != handle &&
-					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName) &&
+					!((node = NodeGraphicsItem::cast(childItems[i])) && node->className == linkerClassName)
+					&&
 					!((textItem = TextGraphicsItem::cast(childItems[i])) &&
-						(((node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName) ||
-						 ((cp = static_cast<NodeGraphicsItem::ControlPoint*>(textItem->relativePosition.first)) &&
-						 	cp->nodeItem && cp->nodeItem->className == linkerClassName) ))
-					)
+						(
+							((node = NodeGraphicsItem::cast(textItem->relativePosition.first)) && node->className == linkerClassName ) ||
+							(textItem->relativePosition.first &&
+							 (cp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(textItem->relativePosition.first)) &&
+							 cp->nodeItem && 
+							 cp->nodeItem->className == linkerClassName) 
+						)
+					))
 				{
 					hideItems << childItems[i];
 				}
@@ -1250,27 +1257,23 @@ namespace Tinkercell
 			else
 			if (scene->networkWindow && scene->networkWindow->currentView())
 			{
-				/*if (moduleHandles.contains(handle) &&
+				if (moduleHandles.contains(handle) &&
 					scene->networkWindow->views().contains(moduleHandles[handle]))
 				{
-					moduleHandles[handle]->close();
+					moduleHandles[handle]->raise();
+					return;
 				}
 				
 				GraphicsView * oldView = scene->networkWindow->currentView();
-				GraphicsView * newView = scene->networkWindow->createView();
+				GraphicsView * newView = scene->networkWindow->createView(allItems);
 				
-				//allItems
-				//newView->showItems(hideItems);
-				
+				newView->showItems(hideItems);				
 				newView->fitAll();
-				//moduleViews[newView] = handle;
-				//moduleHandles[handle] = newView;
+				moduleViews[newView] = handle;
+				moduleHandles[handle] = newView;
 				
-				//if (oldView)
-					//oldView->hideItems(hideItems);*/
+				oldView->hideItems(hideItems);
 			}
-			
-			scene->deselect();
 		}
 	}
 

@@ -74,6 +74,8 @@ namespace Tinkercell
 		GraphicsScene * scene;
 		/*! \brief adjusts the view to fit all items*/
 		virtual void fitAll();
+		/*! \brief default size*/
+		virtual QSize sizeHint() const;
 		/*! \brief the network window that this view belongs to */
 		NetworkWindow * networkWindow;
 		/*! \brief default constructor

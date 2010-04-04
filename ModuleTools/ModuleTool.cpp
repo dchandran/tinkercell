@@ -1260,6 +1260,7 @@ namespace Tinkercell
 				if (moduleHandles.contains(handle) &&
 					scene->networkWindow->views().contains(moduleHandles[handle]))
 				{
+					moduleHandles[handle]->showNormal();
 					moduleHandles[handle]->raise();
 					return;
 				}

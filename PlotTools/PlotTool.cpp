@@ -266,11 +266,13 @@ namespace Tinkercell
 		if (dockWidget)
 		{
 			dockWidget->show();
+			dockWidget->showNormal();
 			dockWidget->raise();
 		}
 		else
 		{
 			show();
+			showNormal();
 			this->raise();
 		}
 

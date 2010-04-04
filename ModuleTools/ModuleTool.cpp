@@ -1250,22 +1250,24 @@ namespace Tinkercell
 			else
 			if (scene->networkWindow && scene->networkWindow->currentView())
 			{
-				if (moduleHandles.contains(handle) &&
+				/*if (moduleHandles.contains(handle) &&
 					scene->networkWindow->views().contains(moduleHandles[handle]))
 				{
 					moduleHandles[handle]->close();
 				}
 				
 				GraphicsView * oldView = scene->networkWindow->currentView();
-				GraphicsView * newView = scene->networkWindow->createView(allItems);
-				newView->showItems(hideItems);
+				GraphicsView * newView = scene->networkWindow->createView();
+				
+				//allItems
+				//newView->showItems(hideItems);
 				
 				newView->fitAll();
-				moduleViews[newView] = handle;
-				moduleHandles[handle] = newView;
+				//moduleViews[newView] = handle;
+				//moduleHandles[handle] = newView;
 				
-				if (oldView)
-					oldView->hideItems(hideItems);
+				//if (oldView)
+					//oldView->hideItems(hideItems);*/
 			}
 			
 			scene->deselect();

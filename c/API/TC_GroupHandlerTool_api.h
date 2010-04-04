@@ -7,19 +7,19 @@
  \brief merge an array of items
  \ingroup Merging
 */
-void tc_merge(ArrayOfItems parts);
+TCAPIEXPORT void tc_merge(ArrayOfItems parts);
 
 /*! 
  \brief separate all the graphical items in the handle 
  \ingroup Merging
 */
-void tc_separate(Item part);
+TCAPIEXPORT void tc_separate(Item part);
 
 /*! 
  \brief initialize grouping
  \ingroup init
 */
-void tc_GroupHandlerTool_api(
+TCAPIEXPORT void tc_GroupHandlerTool_api(
 		void (*merge)(ArrayOfItems),
 		void (*separate)(Item)
 	);

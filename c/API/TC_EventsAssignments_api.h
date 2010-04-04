@@ -7,22 +7,22 @@
  \brief get the event triggers for a set of items
  \ingroup Modeling
 */
-ArrayOfStrings tc_getEventTriggers();
+TCAPIEXPORT ArrayOfStrings tc_getEventTriggers();
 /*! 
  \brief get the event responses for a set of items
  \ingroup Modeling
 */
-ArrayOfStrings tc_getEventResponses();
+TCAPIEXPORT ArrayOfStrings tc_getEventResponses();
 /*! 
  \brief set the event trigger and response
  \ingroup Modeling
 */
-void tc_addEvent(String trigger, String event);
+TCAPIEXPORT void tc_addEvent(String trigger, String event);
 /*! 
  \brief initialize
  \ingroup init
 */
-void tc_SimulationEventsTool_api(
+TCAPIEXPORT void tc_SimulationEventsTool_api(
 		ArrayOfStrings (*getEventTriggers)(),
 		 ArrayOfStrings (*getEventResponses)(),
 		 void (*addEvent)(String, String)
@@ -32,24 +32,24 @@ void tc_SimulationEventsTool_api(
  \brief get the forcing function names for a set of items
  \ingroup Modeling
 */
-ArrayOfStrings tc_getForcingFunctionNames(ArrayOfItems a);
+TCAPIEXPORT ArrayOfStrings tc_getForcingFunctionNames(ArrayOfItems a);
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Modeling
 */
-ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a);
+TCAPIEXPORT ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a);
 
 /*! 
  \brief set the forcing function for an item
  \ingroup Modeling
 */
-void tc_addForcingFunction(Item item,String functionName, String assignmentRule);
+TCAPIEXPORT void tc_addForcingFunction(Item item,String functionName, String assignmentRule);
 
 /*! 
  \brief initialize
  \ingroup init
 */
-void tc_AssignmentFunctionsTool_api(
+TCAPIEXPORT void tc_AssignmentFunctionsTool_api(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
 		 void (*addForcingFunction)(Item,String, String)
@@ -58,33 +58,32 @@ void tc_AssignmentFunctionsTool_api(
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayText(Item item,String text);
+TCAPIEXPORT void tc_displayText(Item item,String text);
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayNumber(Item item,double number);
+TCAPIEXPORT void tc_displayNumber(Item item,double number);
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \ingroup Input and Output
 */
-void tc_setDisplayLabelColor(int r1,int g1,int b1,int r2,int g2,int b2);
+TCAPIEXPORT void tc_setDisplayLabelColor(int r1,int g1,int b1,int r2,int g2,int b2);
 /*! 
  \brief highlights an item (the highlight is temporary) with the given color (rgb)
  \ingroup Input and Output
 */
-void tc_highlight(Item item,int r,int g,int b);
+TCAPIEXPORT void tc_highlight(Item item,int r,int g,int b);
 
 /*! 
  \brief initialize
  \ingroup init
 */
-void tc_CLabelsTool_api(
+TCAPIEXPORT void tc_CLabelsTool_api(
 		void (*displayText)(Item item,String),
 		void (*displayNumber)(Item item,double),
 		void (*setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2),
 		void (*highlight)(Item,int,int,int)
 	);
-
 
 #endif

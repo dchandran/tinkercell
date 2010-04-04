@@ -7,12 +7,12 @@
  \brief get x position of a control point
  \ingroup Connections
 */
-double tc_getControlPointX(Item connection,Item part,int whichPoint);
+TCAPIEXPORT double tc_getControlPointX(Item connection,Item part,int whichPoint);
 /*! 
  \brief get y position of a control point
  \ingroup Connections
 */
-double tc_getControlPointY(Item connection,Item part,int whichPoint);
+TCAPIEXPORT double tc_getControlPointY(Item connection,Item part,int whichPoint);
 /*! 
  \brief set x and y position of a control point
  \param Item the connection
@@ -22,43 +22,43 @@ double tc_getControlPointY(Item connection,Item part,int whichPoint);
  \param double y value
  \ingroup Connections
 */
-void tc_setControlPoint(Item connection,Item part,int whichPoint, double x,double y);
+TCAPIEXPORT void tc_setControlPoint(Item connection,Item part,int whichPoint, double x,double y);
 /*! 
  \brief set x and y position of the central control point
  \ingroup Connections
 */
-void tc_setCenterPoint(Item connection,double y,double x);
+TCAPIEXPORT void tc_setCenterPoint(Item connection,double y,double x);
 /*! 
  \brief get x position of the central control point
  \ingroup Connections
 */
-double tc_getCenterPointX(Item connection);
+TCAPIEXPORT double tc_getCenterPointX(Item connection);
 /*! 
  \brief get y position of the central control point
  \ingroup Connections
 */
-double tc_getCenterPointY(Item connection);
+TCAPIEXPORT double tc_getCenterPointY(Item connection);
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Connections
 */
-void tc_setStraight(Item item,int straight);
+TCAPIEXPORT void tc_setStraight(Item item,int straight);
 /*! 
  \brief switch between beziers and lines for drawing the connector, where 1 = line, 0 = bezier
  \ingroup Connections
 */
-void tc_setAllStraight(int straight);
+TCAPIEXPORT void tc_setAllStraight(int straight);
 /*! 
  \brief set the line width. Indicate whether the change should be temporary or permanent.
  \ingroup Connections
 */
-void tc_setLineWidth(Item item,double width, int permanent);
+TCAPIEXPORT void tc_setLineWidth(Item item,double width, int permanent);
 
 /*! 
  \brief initialize control point functions
  \ingroup init
 */
-void tc_ConnectionSelection_api(
+TCAPIEXPORT void tc_ConnectionSelection_api(
 		double (*getControlPointX)(Item,Item,int),
 		double (*getControlPointY)(Item,Item,int),
 		void (*setControlPoint)(Item,Item,int,double,double),

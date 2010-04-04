@@ -7,374 +7,374 @@
  \brief get all visible items
  \ingroup Get items
 */
-ArrayOfItems tc_allItems();
+TCAPIEXPORT ArrayOfItems tc_allItems();
 
 /*! 
  \brief get all selected items
  \ingroup Get items
 */
-ArrayOfItems tc_selectedItems();
+TCAPIEXPORT ArrayOfItems tc_selectedItems();
 
 /*!
  \brief get all items of the given family items
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamily(String family);
+TCAPIEXPORT ArrayOfItems tc_itemsOfFamily(String family);
 
 /*! 
  \brief get subset of items that belong to the given family
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamilyFrom(String family, ArrayOfItems itemsToSelectFrom);
+TCAPIEXPORT ArrayOfItems tc_itemsOfFamilyFrom(String family, ArrayOfItems itemsToSelectFrom);
 
 /*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
-Item tc_find(String fullname);
+TCAPIEXPORT Item tc_find(String fullname);
 
 /*! 
  \brief get all items with the given names (full names)
  \ingroup Get items
 */
-ArrayOfItems tc_findItems(ArrayOfStrings names);
+TCAPIEXPORT ArrayOfItems tc_findItems(ArrayOfStrings names);
 
 /*! 
  \brief select an item
  \ingroup Get items
 */
-void tc_select(Item item);
+TCAPIEXPORT void tc_select(Item item);
 
 /*! 
  \brief deselect all items
  \ingroup Get items
 */
-void tc_deselect();
+TCAPIEXPORT void tc_deselect();
 
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-String tc_getName(Item item);
+TCAPIEXPORT String tc_getName(Item item);
 
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Annotation
 */
-void tc_rename(Item item,String name);
+TCAPIEXPORT void tc_rename(Item item,String name);
 
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
 */
-ArrayOfStrings tc_getNames(ArrayOfItems items);
+TCAPIEXPORT ArrayOfStrings tc_getNames(ArrayOfItems items);
 
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
 */
-String tc_getFamily(Item item);
+TCAPIEXPORT String tc_getFamily(Item item);
 
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
 */
-int tc_isA(Item item,String family);
+TCAPIEXPORT int tc_isA(Item item,String family);
 
 /*! 
  \brief show text in the output window.
  \ingroup Input and Output
 */
-void tc_print(String text);
+TCAPIEXPORT void tc_print(String text);
 
 /*! 
  \brief show error text in the output window.
  \ingroup Input and Output
 */
-void tc_errorReport(String text);
+TCAPIEXPORT void tc_errorReport(String text);
 
 /*! 
  \brief show table in the output window.
  \ingroup Input and Output
 */
-void tc_printTable(Matrix data);
+TCAPIEXPORT void tc_printTable(Matrix data);
 
 /*! 
  \brief show file contents in the output window. 
  \ingroup Input and Output
 */
-void tc_printFile(String filename);
+TCAPIEXPORT void tc_printFile(String filename);
 
 /*! 
  \brief cleat the contents in the output window. 
  \ingroup Input and Output
 */
-void tc_clear();
+TCAPIEXPORT void tc_clear();
 
 /*! 
  \brief delete an item
  \ingroup Insert and remove
 */
-void tc_remove(Item item);
+TCAPIEXPORT void tc_remove(Item item);
 
 /*! 
  \brief get the x location of an item
  \ingroup Appearance
 */
-double tc_getY(Item item);
+TCAPIEXPORT double tc_getY(Item item);
 
 /*! 
  \brief get the y location of an item
  \ingroup Appearance
 */
-double tc_getX(Item item);
+TCAPIEXPORT double tc_getX(Item item);
 
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Appearance
 */
-Matrix tc_getPos(ArrayOfItems items);
+TCAPIEXPORT Matrix tc_getPos(ArrayOfItems items);
 
 /*! 
  \brief set the x and y location of an item
  \ingroup Appearance
 */
-void tc_setPos(Item item,double x,double y);
+TCAPIEXPORT void tc_setPos(Item item,double x,double y);
 
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Appearance
 */
-void tc_setPosMulti(ArrayOfItems items, Matrix positions);
+TCAPIEXPORT void tc_setPosMulti(ArrayOfItems items, Matrix positions);
 
 /*! 
  \brief move all the selected items by a given amount
  \ingroup Appearance
 */
-void tc_moveSelected(double dx,double dy);
+TCAPIEXPORT void tc_moveSelected(double dx,double dy);
 
 /*! 
  \brief is this running in MS windows?
  \ingroup System information
 */
-int tc_isWindows();
+TCAPIEXPORT int tc_isWindows();
 
 /*! 
  \brief is this running in a Mac?
  \ingroup System information
 */
-int tc_isMac();
+TCAPIEXPORT int tc_isMac();
 
 /*! 
  \brief is this running in Linux?
  \ingroup System information
 */
-int tc_isLinux();
+TCAPIEXPORT int tc_isLinux();
 
 /*! 
  \brief TinkerCell application folder
  \ingroup System information
 */
-String tc_appDir();
+TCAPIEXPORT String tc_appDir();
 
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindowFromFile(Matrix input, String filename,String functionname, String title);
+TCAPIEXPORT void tc_createInputWindowFromFile(Matrix input, String filename,String functionname, String title);
 
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindow(Matrix input, String title, void (*f)(Matrix));
+TCAPIEXPORT void tc_createInputWindow(Matrix input, String title, void (*f)(Matrix));
 
 /*! 
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
 */
-void tc_addInputWindowOptions(String title, int i, int j, ArrayOfStrings options);
+TCAPIEXPORT void tc_addInputWindowOptions(String title, int i, int j, ArrayOfStrings options);
 
 /*! 
  \brief add a yes or no type of option to an existing input window at the i,j-th cell
  \ingroup Input and Output
 */
-void tc_addInputWindowCheckbox(String title, int i, int j);
+TCAPIEXPORT void tc_addInputWindowCheckbox(String title, int i, int j);
 
 /*! 
  \brief open a new graphics window
  \ingroup Input and Output
 */
-void tc_openNewWindow(String title);
+TCAPIEXPORT void tc_openNewWindow(String title);
 /*! 
  \brief get child items of the given item
  \ingroup Get items
 */
-ArrayOfItems tc_getChildren(Item o);
+TCAPIEXPORT ArrayOfItems tc_getChildren(Item o);
 
 /*! 
  \brief get parent item of the given item
  \ingroup Get items
 */
-Item tc_getParent(Item o);
+TCAPIEXPORT Item tc_getParent(Item o);
 
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Network data
 */
-Matrix tc_getNumericalData(Item item,String data);
+TCAPIEXPORT Matrix tc_getNumericalData(Item item,String data);
 
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Network data
 */
-void tc_setNumericalData(Item o,String title,Matrix data);
+TCAPIEXPORT void tc_setNumericalData(Item o,String title,Matrix data);
 
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Network data
 */
-TableOfStrings tc_getTextData(Item item,String data);
+TCAPIEXPORT TableOfStrings tc_getTextData(Item item,String data);
 
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Network data
 */
-void tc_setTextData(Item o,String title,TableOfStrings data);
+TCAPIEXPORT void tc_setTextData(Item o,String title,TableOfStrings data);
 
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Network data
 */
-ArrayOfStrings tc_getNumericalDataNames(Item o);
+TCAPIEXPORT ArrayOfStrings tc_getNumericalDataNames(Item o);
 
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Network data
 */
-ArrayOfStrings tc_getTextDataNames(Item o);
+TCAPIEXPORT ArrayOfStrings tc_getTextDataNames(Item o);
 
 /*! 
  \brief zoom by the given factor (0 - 1)
  \ingroup Input and Output
 */
-void tc_zoom(double factor);
+TCAPIEXPORT void tc_zoom(double factor);
 
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Input and Output
 */
-String tc_getString(String title);
+TCAPIEXPORT String tc_getString(String title);
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Input and Output
 */
-String tc_getFilename();
+TCAPIEXPORT String tc_getFilename();
 
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox);
+TCAPIEXPORT int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox);
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Input and Output
 */
-double tc_getNumber(String title);
+TCAPIEXPORT double tc_getNumber(String title);
 
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
  \ingroup Input and Output
 */
-void tc_getNumbers(ArrayOfStrings labels, double* result);
+TCAPIEXPORT void tc_getNumbers(ArrayOfStrings labels, double* result);
 
 /*! 
  \brief display a dialog with a text and a yes and no button
  \param char* displayed message or question
  \ingroup Input and Output
 */
-int tc_askQuestion(String message);
+TCAPIEXPORT int tc_askQuestion(String message);
 
 /*! 
  \brief display a dialog with a text message and a close button
  \param char* displayed message
  \ingroup Input and Output
 */
-void tc_messageDialog(String message);
+TCAPIEXPORT void tc_messageDialog(String message);
 
 /*!
  \brief get pointer to the current thread
  \ingroup Programming interface
 */
-Item tc_thisThread();
+TCAPIEXPORT Item tc_thisThread();
 
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
 */
-void tc_createSliders(Matrix input, void (*f)(Matrix));
+TCAPIEXPORT void tc_createSliders(Matrix input, void (*f)(Matrix));
 
 /*! 
  \brief get the red color of the item
  \ingroup Appearance
 */
-int tc_getColorR(Item item);
+TCAPIEXPORT int tc_getColorR(Item item);
 /*! 
  \brief get the green color of the item
  \ingroup Appearance
 */
-int tc_getColorG(Item item);
+TCAPIEXPORT int tc_getColorG(Item item);
 /*! 
  \brief get the blue color of the item
  \ingroup Appearance
 */
-int tc_getColorB(Item item);
+TCAPIEXPORT int tc_getColorB(Item item);
 /*! 
  \brief set the rgb color  of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
 */
-void tc_setColor(Item item,int R,int G,int B, int permanent);
+TCAPIEXPORT void tc_setColor(Item item,int R,int G,int B, int permanent);
 /*! 
  \brief change the graphics file for drawing one of the nodes
  \ingroup Appearance
 */
-void tc_changeNodeImage(Item item,String filename);
+TCAPIEXPORT void tc_changeNodeImage(Item item,String filename);
 /*! 
  \brief change the graphics file for drawing the arrowheads for the given connection
  \ingroup Appearance
 */
-void tc_changeArrowHead(Item connection,String filename);
+TCAPIEXPORT void tc_changeArrowHead(Item connection,String filename);
 /*!
  \brief Change the size of an item
  \ingroup Appearance
 */
-void tc_setSize(Item item,double width,double height,int permanent);
+TCAPIEXPORT void tc_setSize(Item item,double width,double height,int permanent);
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-double tc_getWidth(Item item);
+TCAPIEXPORT double tc_getWidth(Item item);
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-double tc_getHeight(Item item);
+TCAPIEXPORT double tc_getHeight(Item item);
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-void tc_setAngle(Item item, double t,int permanent);
+TCAPIEXPORT void tc_setAngle(Item item, double t,int permanent);
 /*!
  \brief get the angle of an item
  \ingroup Appearance
 */
-double tc_getAngle(Item item);
+TCAPIEXPORT double tc_getAngle(Item item);
 
 /*! 
  \brief initialize main
  \ingroup init
 */
-void tc_Main_api_initialize(
+TCAPIEXPORT void tc_Main_api_initialize(
 	    ArrayOfItems (*tc_allItems0)(),
 		ArrayOfItems (*tc_selectedItems0)(),
 		ArrayOfItems (*tc_itemsOfFamily0)(String),
@@ -457,13 +457,13 @@ void tc_Main_api_initialize(
  \brief show progress of current operation
  \ingroup Input and Output
 */
-void tc_showProgress(int progress);
+TCAPIEXPORT void tc_showProgress(int progress);
 
 /*! 
  \brief initialize main
  \ingroup init
 */
-void tc_CThread_api_initialize( 
+TCAPIEXPORT void tc_CThread_api_initialize( 
 	Item cthread,
 	void (*showProgress)(Item, int)	);
 

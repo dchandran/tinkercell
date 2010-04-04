@@ -17,7 +17,7 @@ PyObject *errobj;
 PyObject *errdata;
 PyObject *errtraceback;
 
-void initialize()
+TCAPIEXPORT void initialize()
 {
 	PyObject *mainmod;
 	PyObject *dlfl;
@@ -34,7 +34,7 @@ void initialize()
 	//dlfl_dict = PyModule_GetDict( dlfl );
 }
 
-void exec(const char * code,const char * outfile)
+TCAPIEXPORT void exec(const char * code,const char * outfile)
 {
 	char *retString, 
 	 	   *errString;
@@ -75,7 +75,7 @@ void exec(const char * code,const char * outfile)
 	Py_XDECREF(evalVal);
 }
 
-void finalize()
+TCAPIEXPORT void finalize()
 {
 	Py_XDECREF(errobj); 
 	Py_XDECREF(errdata); 

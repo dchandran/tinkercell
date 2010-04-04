@@ -18,8 +18,8 @@ IF(PYTHONLIBS_FOUND)
   
   ADD_LIBRARY( _tinkercell
   	  SHARED
+	  ${TINKERCELL_BINARY_DIR}/python/runpy.c
 	  tinkercell_wrap.c
-	  ${TINKERCELL_BINARY_DIR}/python/runpy.c 
   )
     
   TARGET_LINK_LIBRARIES( _tinkercell

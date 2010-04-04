@@ -107,5 +107,19 @@ Matrix cbind(Matrix A, Matrix B);
 /*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices*/
 Matrix rbind(Matrix A, Matrix B);
 
+# if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#   if defined(STATIC_LINKED)
+#     define TCAPIEXPORT
+#   else
+#     define TCAPIEXPORT __declspec(dllexport)
+#   endif
+# else
+#   if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
+#     define TCAPIEXPORT __attribute__ ((visibility("default")))
+#   else
+#     define TCAPIEXPORT
+#   endif
+# endif
+
 #endif
 

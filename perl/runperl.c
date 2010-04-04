@@ -4,14 +4,14 @@
 
 static PerlInterpreter *my_perl;
 
-void initialize()
+TCAPIEXPORT void initialize()
 {
     my_perl = perl_alloc();
     perl_construct(my_perl);
 }
 
 
-int exec(const char * code, const char * file)
+TCAPIEXPORT int exec(const char * code, const char * file)
 {
 	char * codes[] = {code};
 	
@@ -22,7 +22,7 @@ int exec(const char * code, const char * file)
     tc_printFile(file);
 }
 
-void finalize()
+TCAPIEXPORT void finalize()
 {
     perl_destruct(my_perl);
     perl_free(my_perl);

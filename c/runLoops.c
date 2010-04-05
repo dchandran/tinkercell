@@ -4,7 +4,7 @@ void run();
 void setup();
 
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&run, "Find loops", "loops in the Jacobian can sometimes indicate bistability or oscillations", "Network structure", "Plugins/c/nodedges.png", "", 1, 0, 0);

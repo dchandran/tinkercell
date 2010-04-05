@@ -13,7 +13,7 @@
 void run(Matrix input);
 void setup();
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setup, "Deterministic simulation", "uses Sundials library (compiles to C program)", "Simulate", "Plugins/c/cvode.png", "", 1, 0, 1);
@@ -197,7 +197,7 @@ void odeFunc( double time, double * u, double * du, void * udata )\n\
 }\n\
 \n\
 \n\
-void run(%s) \n\
+TCAPIEXPORT void run(%s) \n\
 {\n\
 	int i,j;\n\
 	double mx=0;\n\

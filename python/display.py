@@ -29,10 +29,10 @@ def numbers(itemNames, numbers,adjustLine=True,adjustColors=True,minLineWidth=0.
 
 def text(itemNames, text):
     items = tc_find(itemNames);
-    n = len(numbers);
+    n = len(text);
     if (len(itemNames) < n):
         n = len(itemNames);
-    for i in items:
-        if not items[i] == 0:
-            tc_displayText(items[i],text[i]);
+    for i in range(0,items.length):
+        if not nthItem(items,i) == 0:
+            tc_displayText( nthItem(items,i) ,text[i]);
 

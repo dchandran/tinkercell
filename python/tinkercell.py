@@ -940,7 +940,7 @@ def fromItems(array):
     for i in range(0, n):
         A[i] = nthItem(array,i);
 
-    delete(array);
+    deleteArrayOfItems(array);
     return A;
 
 def toStrings(array):
@@ -953,11 +953,11 @@ def toStrings(array):
 
 def fromStrings(array):
     n = array.length;
-    array = range(0,n);
+    A = range(0,n);
     for i in range(0, n):
         A[i] = nthString(array,i);
 
-    delete(array);
+    deleteArrayOfStrings(array);
     return A;
 
 def fromMatrix(matrix, row_wise = False):

@@ -3,7 +3,7 @@ def getPyscesModel():
     import pysces
     import re
   
-    A = fromItems( tc_allItems() );
+    A = tc_allItems();
     N = fromMatrix( tc_getStoichiometry(A) );
     rates0 = fromStrings( tc_getRates(A) );
     params = fromMatrix( tc_getParameters(A) );
@@ -13,6 +13,7 @@ def getPyscesModel():
     funcsAssign0 = fromStrings( tc_getForcingFunctionAssignments(A) );
     triggers = fromStrings(  tc_getEventTriggers() );
     events0 = fromStrings( tc_getEventResponses() );
+    deleteArrayOfItems(A);
     emptyExists = False;
     modelString = '';
     rates = [];

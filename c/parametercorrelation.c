@@ -19,7 +19,7 @@ char target_y_var[100];
 void run(Matrix input);
 void setup();
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
 	tc_addFunction(&setup, "Correlation Test", "check how varying a parameter affects the qualitative behavior of the steady state (uses 20 points for steady state curve)", "Parameter scan", "Plugins/c/steadystate.png", "", 1, 0, 0);
@@ -167,7 +167,7 @@ void run(Matrix input)
 	out = fopen("corr.c","a");
 
 	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"correlation.c\"\n\n\
-				   void run() \n\
+				   TCAPIEXPORT void run() \n\
 				   {\n\
 					Matrix dat;\n\
 					int i,j,k;\n" );

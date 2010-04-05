@@ -166,7 +166,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 	free(sum_x);\n\
 	free(sum_xx);\n\
 }\n\
-void run(%s) \n\
+TCAPIEXPORT void run(%s) \n\
 {\n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
@@ -340,7 +340,7 @@ void runCellSSA(Matrix input)
 				   }\n\
 				   \n\
 				   \n\
-				   void run() \n\
+				   TCAPIEXPORT void run() \n\
 				   {\n\
 				   initMTrand();\n\
 				   TCinitialize();\n\
@@ -572,7 +572,7 @@ static void computeStats(double * mu, double * var, Matrix * values, void * data
 	free(sum_x);\n\
 	free(sum_xx);\n\
 }\n\
-void run(%s) \n\
+TCAPIEXPORT void run(%s) \n\
 {\n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
@@ -714,10 +714,10 @@ void setupLangevin()
 	tc_addInputWindowOptions("Langevin algorithm",4, 0, a3);
 }
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
-	tc_addFunction(&setupSSA, "Stochastic simulation (Discreet)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
+	tc_addFunction(&setupSSA, "Stochastic simulation (Discrete)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
 	tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "Plugins/c/stochastic.png", "", 1, 0, 0);
 	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "Plugins/c/cells.png", "", 1, 0, 0);
 }

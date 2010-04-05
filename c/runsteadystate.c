@@ -67,7 +67,7 @@ void callback()
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	allNames = newArrayOfStrings(0);
 	target_var[0] = 0;
@@ -244,7 +244,7 @@ void run(Matrix input)
 
 	fprintf( out , "\
 #include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
-void run(%s) \n\
+TCAPIEXPORT void run(%s) \n\
 {\n    Matrix dat;\n    int i,j;\n", runfunc);
 
 	fprintf( out, "\
@@ -471,7 +471,7 @@ void run2D(Matrix input)
 
 	fprintf( out , "\
 	#include \"TC_api.h\"\n    #include \"cvodesim.h\"\n\n\
-	void run(%s) \n\	{\n    Matrix dat;\n", runfunc);
+	TCAPIEXPORT void run(%s) \n\	{\n    Matrix dat;\n", runfunc);
 
 	fprintf(out, "\
 	  int rows = (int)((%lf-%lf)/%lf);\n\

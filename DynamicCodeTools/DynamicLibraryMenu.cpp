@@ -206,8 +206,8 @@ namespace Tinkercell
 
 			toolBar->addWidget(menuButton);
 
-			setWindowTitle(tr("Tools"));
-			setWindowIcon(QIcon(tr(":/images/function.png")));
+			setWindowTitle(tr("Programs"));
+			setWindowIcon(QIcon(tr(":/images/play.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),

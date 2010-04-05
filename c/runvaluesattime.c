@@ -56,7 +56,7 @@ void callback()
 	tc_addInputWindowOptions("At Time T",2, 0, allNames);
 }
 
-void tc_main()
+TCAPIEXPORT void tc_main()
 {
 	allNames = newArrayOfStrings(0);
 
@@ -213,7 +213,7 @@ void run(Matrix input)
 
 	fprintf( out , "\
 #include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\n\
-void run(%s) \n\
+TCAPIEXPORT void run(%s) \n\
 {\n    initMTrand();\n    Matrix dat;\n    int i,j;\n", runfunc );
 
 	fprintf( out, "\

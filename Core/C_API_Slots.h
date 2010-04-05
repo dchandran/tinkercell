@@ -110,10 +110,8 @@ namespace Tinkercell
 		void getHeight(QSemaphore*, ItemHandle*,double*);
 		void setAngle(QSemaphore*, ItemHandle*,double,int);
 		void getAngle(QSemaphore*, ItemHandle*, double*);
-		void getColorR(QSemaphore*,int*,ItemHandle*);
-		void getColorG(QSemaphore*,int*,ItemHandle*);
-		void getColorB(QSemaphore*,int*,ItemHandle*);
-		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
+		void getColor(QSemaphore*,QString*,ItemHandle*);
+		void setColor(QSemaphore*,ItemHandle*,const QString&,int);
 		
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
@@ -182,10 +180,8 @@ namespace Tinkercell
 		double getHeight(void*);
 		void setAngle(void*,double,int);
 		double getAngle(void*);
-		int getColorR(void*);
-		int getColorG(void*);
-		int getColorB(void*);
-		void setColor(void*,int,int,int,int);
+		const char* getColor(void*);
+		void setColor(void*,const char*,int);
 		
 		void changeGraphics(void*,const char*);
 		void changeArrowHead(void*,const char*);
@@ -265,10 +261,8 @@ namespace Tinkercell
 		static double _getHeight(void*);
 		static void _setAngle(void*,double,int);
 		static double _getAngle(void*);
-		static int _getColorR(void*);
-		static int _getColorG(void*);
-		static int _getColorB(void*);
-		static void _setColor(void*,int,int,int,int);
+		static const char* _getColor(void*);
+		static void _setColor(void*,const char *,int);
 		static void _changeGraphics(void*,const char*);
 		static void _changeArrowHead(void*,const char*);
 		static int _askQuestion(const char*);
@@ -683,11 +677,8 @@ namespace Tinkercell
 		void getHeight(QSemaphore*, ItemHandle*,double*);
 		void setAngle(QSemaphore*, ItemHandle*,double,int);
 		void getAngle(QSemaphore*, ItemHandle*, double*);
-		void getColorRGB(ItemHandle* handle,int* r,int rgb);
-		void getColorR(QSemaphore*,int*,ItemHandle*);
-		void getColorG(QSemaphore*,int*,ItemHandle*);
-		void getColorB(QSemaphore*,int*,ItemHandle*);
-		void setColor(QSemaphore*,ItemHandle*,int,int,int,int);
+		void getColor(QSemaphore*,QString*,ItemHandle*);
+		void setColor(QSemaphore*,ItemHandle*,const QString&,int);
 		void changeGraphics(QSemaphore*,ItemHandle*,const QString&);
 		void changeArrowHead(QSemaphore*,ItemHandle*,const QString&);
 	

@@ -663,51 +663,27 @@ double tc_getAngle(void* item)
 	return 1.0;
 }
 
-int (*_tc_getColorR)(void* item) = 0;
+const char* (*_tc_getColor)(void* item) = 0;
 /*! 
- \brief get the red color of the item
+ \brief get the color of the item
  \ingroup Appearance
 */
-int tc_getColorR(void* item)
+const char * tc_getColor(void* item)
 {
-	if (_tc_getColorR)
-		return _tc_getColorR(item);
-	return 0;
+	if (_tc_getColor)
+		return _tc_getColor(item);
+	return "#000000";
 }
 
-int (*_tc_getColorG)(void* item) = 0;
+void (*_tc_setColor)(void* item,String name, int permanent) = 0;
 /*! 
- \brief get the green color of the item
+ \brief set the color of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
 */
-int tc_getColorG(void* item)
-{
-	if (_tc_getColorG)
-		return _tc_getColorG(item);
-	return 0;
-}
-
-int (*_tc_getColorB)(void* item) = 0;
-/*! 
- \brief get the blue color of the item
- \ingroup Appearance
-*/
-int tc_getColorB(void* item)
-{
-	if (_tc_getColorB)
-		return _tc_getColorB(item);
-	return 0;
-}
-
-void (*_tc_setColor)(void* item,int R,int G,int B, int permanent) = 0;
-/*! 
- \brief set the rgb color  of the item and indicate whether or not the color is permanenet
- \ingroup Appearance
-*/
-void tc_setColor(void* item,int R,int G,int B, int permanent)
+void tc_setColor(void* item,String name, int permanent)
 {
 	if (_tc_setColor)
-		_tc_setColor(item,R,G,B,permanent);
+		_tc_setColor(item,name,permanent);
 }
 
 void (*_tc_changeNodeImage)(void*,const char*) = 0;
@@ -807,10 +783,8 @@ void tc_Main_api_initialize(
 		double (*getHeight0)(void*),
 		void (*setAngle0)(void*,double,int),
 		double (*getAngle0)(void*),
-		int (*getColorR0)(void*),
-		int (*getColorG0)(void*),
-		int (*getColorB0)(void*),
-		void (*setColor0)(void*,int,int,int,int),
+		const char* (*getColor0)(void*),
+		void (*setColor0)(void*,const char*,int),
 		
 		void (*changeGraphics0)(void*,const char*),
 		void (*changeArrowHead0)(void*,const char*)
@@ -885,9 +859,7 @@ void tc_Main_api_initialize(
 	_tc_getHeight = getHeight0;
 	_tc_setAngle = setAngle0;
 	_tc_getAngle = getAngle0;
-	_tc_getColorR = getColorR0;
-	_tc_getColorG = getColorG0;
-	_tc_getColorB = getColorB0;
+	_tc_getColor = getColor0;
 	_tc_setColor = setColor0;
 	
 	_tc_changeNodeImage = changeGraphics0;

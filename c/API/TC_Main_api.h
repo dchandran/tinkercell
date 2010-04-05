@@ -315,55 +315,53 @@ TCAPIEXPORT Item tc_thisThread();
 TCAPIEXPORT void tc_createSliders(Matrix input, void (*f)(Matrix));
 
 /*! 
- \brief get the red color of the item
+ \brief get the color of the item
  \ingroup Appearance
 */
-TCAPIEXPORT int tc_getColorR(Item item);
-/*! 
- \brief get the green color of the item
- \ingroup Appearance
-*/
-TCAPIEXPORT int tc_getColorG(Item item);
-/*! 
- \brief get the blue color of the item
- \ingroup Appearance
-*/
-TCAPIEXPORT int tc_getColorB(Item item);
+TCAPIEXPORT String tc_getColor(Item item);
+
 /*! 
  \brief set the rgb color  of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setColor(Item item,int R,int G,int B, int permanent);
+TCAPIEXPORT void tc_setColor(Item item,String name, int permanent);
+
 /*! 
  \brief change the graphics file for drawing one of the nodes
  \ingroup Appearance
 */
 TCAPIEXPORT void tc_changeNodeImage(Item item,String filename);
+
 /*! 
  \brief change the graphics file for drawing the arrowheads for the given connection
  \ingroup Appearance
 */
 TCAPIEXPORT void tc_changeArrowHead(Item connection,String filename);
+
 /*!
  \brief Change the size of an item
  \ingroup Appearance
 */
 TCAPIEXPORT void tc_setSize(Item item,double width,double height,int permanent);
+
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
 TCAPIEXPORT double tc_getWidth(Item item);
+
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
 TCAPIEXPORT double tc_getHeight(Item item);
+
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
 TCAPIEXPORT void tc_setAngle(Item item, double t,int permanent);
+
 /*!
  \brief get the angle of an item
  \ingroup Appearance
@@ -444,10 +442,8 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		double (*getHeight0)(void*),
 		void (*setAngle0)(void*,double,int),
 		double (*getAngle0)(void*),
-		int (*getColorR0)(void*),
-		int (*getColorG0)(void*),
-		int (*getColorB0)(void*),
-		void (*setColor0)(void*,int,int,int,int),
+		const char * (*getColor)(void*),
+		void (*setColor0)(void*,String,int),
 		
 		void (*changeGraphics0)(void*,const char*),
 		void (*changeArrowHead0)(void*,const char*)

@@ -123,10 +123,8 @@ namespace Tinkercell
 		double (*getHeight)(void*),
 		void (*setAngle)(void*,double,int),
 		double (*getAngle)(void*),
-		int (*getColorR)(void*),
-		int (*getColorG)(void*),
-		int (*getColorB)(void*),
-		void (*setColor)(void*,int,int,int,int),
+		const char* (*getColor)(void*),
+		void (*setColor)(void*,const char*,int),
 		
 		void (*changeGraphics)(void*,const char*),
 		void (*changeArrowHead)(void*,const char*)
@@ -195,9 +193,7 @@ namespace Tinkercell
 				&(_getHeight),
 				&(_setAngle),
 				&(_getAngle),
-				&(_getColorR),
-				&(_getColorG),
-				&(_getColorB),
+				&(_getColor),
 				&(_setColor),
 				&(_changeGraphics),
 				&(_changeArrowHead)
@@ -286,10 +282,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(setAngle(QSemaphore*, ItemHandle*,double,int)),this,SLOT(setAngle(QSemaphore*, ItemHandle*,double,int)));
 		connect(&fToS,SIGNAL(getAngle(QSemaphore*, ItemHandle*, double*)),this,SLOT(getAngle(QSemaphore*, ItemHandle*, double*)));
 		
-		connect(&fToS,SIGNAL(getColorR(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorR(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getColorG(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorG(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(getColorB(QSemaphore*,int*,ItemHandle*)),this,SLOT(getColorB(QSemaphore*,int*,ItemHandle*)));
-		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,int,int,int,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,int,int,int,int)));
+		connect(&fToS,SIGNAL(getColor(QSemaphore*,QString*,ItemHandle*)),this,SLOT(getColor(QSemaphore*,QString*,ItemHandle*)));
+		connect(&fToS,SIGNAL(setColor(QSemaphore*,ItemHandle*,const QString&,int)),this,SLOT(setColor(QSemaphore*,ItemHandle*,const QString&,int)));
 		connect(&fToS,SIGNAL(changeGraphics(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeGraphics(QSemaphore*,ItemHandle*,const QString&)));
 		connect(&fToS,SIGNAL(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(changeArrowHead(QSemaphore*,ItemHandle*,const QString&)));
 	}
@@ -2306,64 +2300,32 @@ namespace Tinkercell
 		return d;
 	}
 
-	int C_API_Slots::_getColorR(void* o)
+	const char* C_API_Slots::_getColor(void* o)
 	{
-		return fToS.getColorR(o);
+		return fToS.getColor(o);
 	}
 
-	int Core_FtoS::getColorR(void* o)
+	const char* Core_FtoS::getColor(void* o)
 	{
-		int i;
 		QSemaphore * s = new QSemaphore(1);
+		QString name;
 		s->acquire();
-		emit getColorR(s,&i,ConvertValue(o));
+		emit getColor(s,&name,ConvertValue(o));
 		s->acquire();
 		s->release();
-		return i;
+		return ConvertValue(name);
 	}
 
-	int C_API_Slots::_getColorG(void* o)
+	void C_API_Slots::_setColor(void* o,const char * c, int p)
 	{
-		return fToS.getColorG(o);
+		return fToS.setColor(o,c,p);
 	}
 
-	int Core_FtoS::getColorG(void* o)
-	{
-		int i;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getColorG(s,&i,ConvertValue(o));
-		s->acquire();
-		s->release();
-		return i;
-	}
-
-	int C_API_Slots::_getColorB(void* o)
-	{
-		return fToS.getColorB(o);
-	}
-
-	int Core_FtoS::getColorB(void* o)
-	{
-		int i;
-		QSemaphore * s = new QSemaphore(1);
-		s->acquire();
-		emit getColorB(s,&i,ConvertValue(o));
-		s->acquire();
-		s->release();
-		return i;
-	}
-
-	void C_API_Slots::_setColor(void* o,int r, int g, int b, int p)
-	{
-		return fToS.setColor(o,r,g,b,p);
-	}
-
-	void Core_FtoS::setColor(void* o,int r, int g, int b, int p)
+	void Core_FtoS::setColor(void* o,const char * c, int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit setColor(s,ConvertValue(o),r,g,b,p);
+		emit setColor(s,ConvertValue(o),ConvertValue(c),p);
 		s->acquire();
 		s->release();
 		return;
@@ -2399,28 +2361,58 @@ namespace Tinkercell
 		return;
 	}
 	
-	void C_API_Slots::getColorR(QSemaphore* s,int* r,ItemHandle* item)
+	void C_API_Slots::getColor(QSemaphore* s,QString* name,ItemHandle* handle)
 	{
-		getColorRGB(item,r,0);
+		if (handle && name)
+		{
+			QGraphicsItem * item = 0;
+			for (int i=0; i < handle->graphicsItems.size(); ++i)
+			{
+				item = handle->graphicsItems[i];
+				if (item)
+				{
+					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
+					if (node)
+					{
+						if (node->shapes.size() > 0 && node->shapes[0])
+						{
+							(*name) = node->shapes[0]->defaultBrush.color().name();
+							break;
+						}
+					}
+					else
+					{
+						ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
+						if (connection)
+						{
+							(*name) = connection->defaultPen.color().name();
+							break;
+						}
+						else
+						{
+							TextGraphicsItem * text = TextGraphicsItem::cast(item);
+							if (text)
+							{
+								(*name) = text->defaultTextColor().name();
+							}
+							else
+							{
+								ControlPoint * cp = ControlPoint::cast(item);
+								if (cp)
+								{
+									(*name) = cp->defaultBrush.color().name();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 		if (s)
 			s->release();
 	}
 
-	void C_API_Slots::getColorG(QSemaphore* s,int* g,ItemHandle* item)
-	{
-		getColorRGB(item,g,1);
-		if (s)
-			s->release();
-	}
-
-	void C_API_Slots::getColorB(QSemaphore* s,int* b,ItemHandle* item)
-	{
-		getColorRGB(item,b,2);
-		if (s)
-			s->release();
-	}
-
-	void C_API_Slots::setColor(QSemaphore* s,ItemHandle* handle,int r,int g,int b, int permanent)
+	void C_API_Slots::setColor(QSemaphore* s,ItemHandle* handle,const QString& name, int permanent)
 	{
 		GraphicsScene * scene = currentScene();
 		QGraphicsItem* item;
@@ -2433,7 +2425,7 @@ namespace Tinkercell
 					QList<QGraphicsItem*> items;
 					QList<QBrush> brushes;
 					QList<QPen> pens;
-					QColor color(r,g,b);
+					QColor color(name);
 					NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
 					if (node != 0)
 					{
@@ -2490,7 +2482,7 @@ namespace Tinkercell
 									}
 								}
 								QPen newPen(aitem->defaultPen);
-								newPen.setColor(QColor(r,g,b));
+								newPen.setColor(QColor(name));
 								if (permanent)
 								{
 									pens += newPen;
@@ -2653,75 +2645,5 @@ namespace Tinkercell
 		if (s)
 			s->release();
 	}
-	
-	void C_API_Slots::getColorRGB(ItemHandle* handle,int* r,int rgb)
-	{
-		if (!handle || !r) return;
-		QGraphicsItem * item;
-		for (int i=0; i < handle->graphicsItems.size(); ++i)
-		{
-			item = handle->graphicsItems[i];
-			if (item)
-			{
-				NodeGraphicsItem * node = NodeGraphicsItem::topLevelNodeItem(item);
-				if (node)
-				{
-					if (node->shapes.size() > 0 && node->shapes[0])
-					{
-						if (rgb == 0)
-							(*r) = node->shapes[0]->defaultBrush.color().red();
-						else
-							if (rgb == 1)
-								(*r) = node->shapes[0]->defaultBrush.color().green();
-							else
-								(*r) = node->shapes[0]->defaultBrush.color().blue();
-					}
-				}
-				else
-				{
-					ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
-					if (connection)
-					{
-						if (rgb == 0)
-							(*r) = connection->defaultBrush.color().red();
-						else
-							if (rgb == 1)
-								(*r) = connection->defaultBrush.color().green();
-							else
-								(*r) = connection->defaultBrush.color().blue();
-					}
-					else
-					{
-						TextGraphicsItem * text = TextGraphicsItem::cast(item);
-						if (text)
-						{
-							if (rgb == 0)
-								(*r) = text->defaultTextColor().red();
-							else
-								if (rgb == 1)
-									(*r) = text->defaultTextColor().green();
-								else
-									(*r) = text->defaultTextColor().blue();
-						}
-						else
-						{
-							ControlPoint * cp = ControlPoint::cast(item);
-							if (cp)
-							{
-								if (rgb == 0)
-									(*r) = cp->defaultBrush.color().red();
-								else
-									if (rgb == 1)
-										(*r) = cp->defaultBrush.color().green();
-									else
-										(*r) = cp->defaultBrush.color().blue();
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	
 }
 

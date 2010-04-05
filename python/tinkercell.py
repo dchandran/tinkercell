@@ -465,17 +465,9 @@ def tc_createSliders(*args):
   return _tinkercell.tc_createSliders(*args)
 tc_createSliders = _tinkercell.tc_createSliders
 
-def tc_getColorR(*args):
-  return _tinkercell.tc_getColorR(*args)
-tc_getColorR = _tinkercell.tc_getColorR
-
-def tc_getColorG(*args):
-  return _tinkercell.tc_getColorG(*args)
-tc_getColorG = _tinkercell.tc_getColorG
-
-def tc_getColorB(*args):
-  return _tinkercell.tc_getColorB(*args)
-tc_getColorB = _tinkercell.tc_getColorB
+def tc_getColor(*args):
+  return _tinkercell.tc_getColor(*args)
+tc_getColor = _tinkercell.tc_getColor
 
 def tc_setColor(*args):
   return _tinkercell.tc_setColor(*args)

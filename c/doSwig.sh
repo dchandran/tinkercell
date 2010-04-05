@@ -9,4 +9,4 @@ mv tinkercell_wrap.c ../ruby
 swig -r tinkercell.i
 mv tinkercell_wrap.c ../R
 mv tinkercell.R ../R
-
+more ../python/tc2py.py >> ../python/tinkercell.py

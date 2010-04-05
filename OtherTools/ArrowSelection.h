@@ -53,7 +53,7 @@ public slots:
 	void sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers);
 	void toolLoaded(Tool*);
 signals:
-	void replaceNode();
+	void replaceNode(bool);
 private slots:
 	void replaceNodeSlot();
 private:

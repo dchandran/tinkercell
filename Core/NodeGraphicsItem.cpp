@@ -932,7 +932,7 @@ namespace Tinkercell
 					delete shapes[i];
 					shapes.remove(i);
 				}
-				refresh();
+			refresh();
 		}
 	}
 	/*! \brief add a shape to the set of shapes*/
@@ -1081,7 +1081,7 @@ namespace Tinkercell
 						shape->defaultBrush = shape->brush();
 					}
 					//		shapes[i]->translate(-center.x(), -center.y());
-					refresh();
+		refresh();
 	}
 
 	/*! \brief gets the node graphics item from its child item*/

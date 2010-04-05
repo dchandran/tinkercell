@@ -67,17 +67,17 @@ if (len(synthesis) > 0):
 					rate = " * ".join(indiv2) + "/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
-						tc_setColor(c,"#C30000",1);
+						tc_setColor(c,"#049102",1);
 				elif t == 4 or t == 1:
 					rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
-						tc_setColor(c,"#C30000",1);
+						tc_setColor(c,"#049102",1);
 				elif t == 2 or t == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
-						tc_setColor(c,"#049102",1);
+						tc_setColor(c,"#C30000",1);
 				elif t == 6:
 					rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
 					for c in connectors:

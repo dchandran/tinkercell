@@ -44,9 +44,9 @@ namespace Tinkercell
 
 		bool setMainWindow(MainWindow * main);
 
-
 	public slots:
 		void substituteNodeGraphics();
+		void substituteNodeGraphics(bool);
 
 	private slots:
 		void selectNewNodeFile();
@@ -58,6 +58,7 @@ namespace Tinkercell
 		bool fullReactionSelected(const ConnectionGraphicsItem*);
 		void makeNodeSelectionDialog();
 
+		bool _transform;
 		QList<QListWidget*> nodesListWidgets;
 		QTabWidget * tabWidget;
 		QStringList nodesFilesList;

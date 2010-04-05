@@ -2170,7 +2170,7 @@ namespace Tinkercell
 		node->clear();
 		node->setPos(QPointF());
 		node->resetTransform();
-
+		
 		NodeGraphicsReader reader;
 		reader.readNodeGraphics(node,&file);
 		node->normalize();

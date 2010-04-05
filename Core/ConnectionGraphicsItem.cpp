@@ -102,7 +102,7 @@ namespace Tinkercell
 	{
 		className = ArrowHeadItem::CLASSNAME;
 		connectionItem = connection;
-		angle = 0;
+		angle = 0.0;
 	}
 
 	/*! Constructor: init everything */
@@ -2302,5 +2302,10 @@ namespace Tinkercell
 				}
 				curveSegments.append(cv);
 			}
+	}
+	
+	void ArrowHeadItem::refresh()
+	{
+		angle = 0.0;
 	}
 }

@@ -37,18 +37,17 @@ namespace Tinkercell
         {
             alreadyConnected = true;
             GraphicsReplaceTool * copyPaste = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
-            connect(this,SIGNAL(replaceNode()),copyPaste,SLOT(substituteNodeGraphics()));
+            connect(this,SIGNAL(replaceNode(bool)),copyPaste,SLOT(substituteNodeGraphics(bool)));
         }
     }
 
     void ArrowSelectionTool::replaceNodeSlot()
     {
-        emit replaceNode();
+        emit replaceNode(false);
     }
 
     ArrowSelectionTool::ArrowSelectionTool() : Tool(tr("Arrow Selection Tool")) , showArrowSelection("Change arrowhead",this), separator(0)
     {
-		
         mainWindow = 0;
         transformTool = 0;
 
@@ -145,9 +144,7 @@ namespace Tinkercell
         if (!transformTool)
         {
             if (mainWindow && mainWindow->tool("Basic Transformations"))
-            {
                 transformTool = static_cast<GraphicsTransformTool*>(mainWindow->tool(tr("Basic Transformations")));
-            }
         }
 
         if (transformTool && transformTool->graphicsItems.size() > 0 && transformTool->graphicsItems[0])

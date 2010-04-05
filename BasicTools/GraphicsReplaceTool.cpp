@@ -182,13 +182,18 @@ namespace Tinkercell
                 console()->message(tr("this file is already listed"));
 		}
 	}
-
-
+	
 	void GraphicsReplaceTool::substituteNodeGraphics()
 	{
-		nodeSelectionDialog->exec();
+		substituteNodeGraphics(true);
 	}
 
+	void GraphicsReplaceTool::substituteNodeGraphics(bool b)
+	{
+		_transform = b;
+		nodeSelectionDialog->exec();
+	}
+	
 	void GraphicsReplaceTool::replaceNode()
 	{
 		if (!tabWidget || tabWidget->currentIndex() < 0 || tabWidget->currentIndex() >= nodesListWidgets.size()) return;
@@ -222,9 +227,7 @@ namespace Tinkercell
 		for (int i=0; i < nodesList.size(); ++i)
 			filenames += fileName;
 
-		//scene->clearSelection();
-
-		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("nodes image replaced"),nodesList,filenames);
+		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("nodes image replaced"),nodesList,filenames,_transform);
 		if (scene->historyStack)
 			scene->historyStack->push(command);
 		else

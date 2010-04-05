@@ -24,10 +24,11 @@ if (len(synthesis) > 0):
 		for i in synthesis:
 			fracs = [];
 			indiv = [];
+			indiv2 = [];
 			connectors = [];
 			promotername = "";
 			genes = tc_getConnectedNodesIn( i );
-			if genes.length > 0 and tc_isA( nthItem(genes,0) ,"Part"):
+			if genes.length > 0 and tc_isA( nthItem(genes,0) ,"Part" ):
 				upstream = tc_partsUpstream( nthItem(genes,0) );
 				for j in range(0,upstream.length):
 					p = nthItem(upstream,j);
@@ -45,6 +46,7 @@ if (len(synthesis) > 0):
 							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
 							if not isRepressor:
 								indiv.append(s);
+							indiv2.append(s);
 							s = "(1+" + s + ")";
 							fracs.append(s);
 					deleteArrayOfItems(connectors2);
@@ -55,25 +57,32 @@ if (len(synthesis) > 0):
 			rate = "0.0";			
 			if len(promotername) > 0:
 				rate = "";
-				if t == 0 or t == 3:
+				if t == 0:
 					if len(indiv) < 1:
 						indiv.append("1.0");
 					rate = " * ".join(indiv) + "/(" + "*".join(fracs) + ")";
+				elif t == 3:
+					if len(indiv2) < 1:
+						indiv2.append("1.0");
+					rate = " * ".join(indiv2) + "/(" + "*".join(fracs) + ")";
+					for c in connectors:
+						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
+						tc_setColor(c,"#C30000",1);
 				elif t == 4 or t == 1:
 					rate = "(" + " * ".join(fracs) + "- 1)/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionActivation.xml");
-						tc_setColor(c,10,255,10,1);
+						tc_setColor(c,"#C30000",1);
 				elif t == 2 or t == 5:
 					rate = " 1.0/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRepression.xml");
-						tc_setColor(c,255,10,10,1);
+						tc_setColor(c,"#049102",1);
 				elif t == 6:
 					rate = "(" + " + ".join(indiv) + ")/(" + "*".join(fracs) + ")";
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
-						tc_setColor(c,10,10,255,1);
+						tc_setColor(c,"#3232FF",1);
 				name = tc_getName( i );
 				if rate == "1.0/()":
 					rate = promotername + ".strength";

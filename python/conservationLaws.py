@@ -9,9 +9,9 @@ menu: yes
 from tinkercell import *
 import pysces
 from tc2pysces import *
-outputOff();
+
 mod = getPyscesModel();
-outputOn();
+
 mod.showNr();
 mod.showConserved();
 L0 = mod.L0matrix.getLabels();

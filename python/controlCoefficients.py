@@ -11,9 +11,7 @@ import pysces
 from tc2pysces import * 
 import display
 
-outputOff();
 mod = getPyscesModel();
-outputOn();
 mod.doMca();
 
 tc_showProgress(60);

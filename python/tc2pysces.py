@@ -1,24 +1,24 @@
 def getPyscesModel():
-    import pytc
+    from tinkercell import *
     import pysces
     import re
   
-    A = pytc.allItems();
-    N = pytc.stoichiometry(A);
-    rates0 = pytc.rates(A);
-    params = pytc.parameters(A);
-    fixed = pytc.fixedVariables(A);
-    inits = pytc.initialValues(A);
-    funcsNames = pytc.forcingFunctionNames(A);
-    funcsAssign0 = pytc.forcingFunctionAssignments(A);
-    triggers = pytc.eventTriggers();
-    events0 = pytc.eventResponses();
+    A = fromItems( tc_allItems() );
+    N = fromMatrix( tc_getStoichiometry(A) );
+    rates0 = fromStrings( tc_getRates(A) );
+    params = fromMatrix( tc_getParameters(A) );
+    fixed = fromMatrix( tc_getFixedVariables(A) );
+    inits = fromMatrix( tc_getInitialValues(A) );
+    funcsNames = fromStrings( tc_getForcingFunctionNames(A) );
+    funcsAssign0 = fromStrings( tc_getForcingFunctionAssignments(A) );
+    triggers = fromStrings(  tc_getEventTriggers() );
+    events0 = fromStrings( tc_getEventResponses() );
     emptyExists = False;
     modelString = '';
     rates = [];
     funcsAssign = [];
     events = [];
-  
+
     p = re.compile('\^');
     for i in rates0:
         rates.append(p.sub('**',i));

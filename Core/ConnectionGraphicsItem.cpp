@@ -2306,6 +2306,7 @@ namespace Tinkercell
 	
 	void ArrowHeadItem::refresh()
 	{
+		NodeGraphicsItem::refresh();
 		angle = 0.0;
 	}
 }

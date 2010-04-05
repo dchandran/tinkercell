@@ -1,40 +1,35 @@
-FIND_PACKAGE( PythonLibs )
+FIND_PACKAGE( PerlLibs )
 
-IF(PYTHONLIBS_FOUND)
+IF(PERLLIBS_FOUND)
 
-   INCLUDE_DIRECTORIES( BEFORE ${PYTHON_INCLUDE_PATH} )
+   INCLUDE_DIRECTORIES( BEFORE ${PERL_INCLUDE_PATH} )
     
-   FILE(GLOB PYTHON_SCRIPTS *.py)
+   FILE(GLOB PERL_SCRIPTS *.pm)
 
-   INSTALL(FILES ${PYTHON_SCRIPTS}
-     DESTINATION py
-     COMPONENT PythonScripts
+   INSTALL(FILES ${PERL_SCRIPTS}
+     DESTINATION perl
+     COMPONENT PerlScripts
    )
 
-  CONFIGURE_FILE( runpy.c.in 
-    ${TINKERCELL_BINARY_DIR}/py/runpy.c
-    @ONLY
-  )
-  
   ADD_LIBRARY( _tinkercell
   	  SHARED
 	  tinkercell_wrap.c
-	  ${TINKERCELL_BINARY_DIR}/py/runpy.c 
+	  runperl.c 
   )
     
   TARGET_LINK_LIBRARIES( _tinkercell
     _tinkercell
     tinkercellapi
-    ${PYTHON_LIBRARIES}
+    ${PERL_LIBRARIES}
   )
   
   SET_TARGET_PROPERTIES( _tinkercell PROPERTIES PREFIX "")
   
   IF ( WIN32 )
-    INSTALL(TARGETS _tinkercell DESTINATION py)
+    INSTALL(TARGETS _tinkercell DESTINATION perl)
   ELSE ( WIN32 )
-    INSTALL(TARGETS _tinkercell LIBRARY DESTINATION py)
+    INSTALL(TARGETS _tinkercell LIBRARY DESTINATION perl)
   ENDIF( WIN32 )
   
-ENDIF(PYTHONLIBS_FOUND)
+ENDIF(PERLLIBS_FOUND)
 

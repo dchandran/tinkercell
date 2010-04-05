@@ -31,8 +31,11 @@ IF(PYTHONLIBS_FOUND)
   SET_TARGET_PROPERTIES( _tinkercell PROPERTIES PREFIX "")
   
   IF ( UNIX )
-    COMMAND cat _tinkercell.py tc2py.py > tinkercell.py
-	COMMAND mv tinkercell.py _tinkercell.py
+    ADD_CUSTOM_COMMAND( 
+        TARGET _tinkercell POST_BUILD
+        COMMAND cat _tinkercell.py tc2py.py > tinkercell.py
+  	    COMMAND mv tinkercell.py _tinkercell.py
+	)
   ENDIF ( UNIX )
   
   IF ( WIN32 )

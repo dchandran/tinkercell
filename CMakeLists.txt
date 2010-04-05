@@ -28,6 +28,7 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( VERSION 2.4 )
   CMAKE_POLICY( SET CMP0005 NEW )
   CMAKE_POLICY( SET CMP0003 NEW )
+  CMAKE_POLICY( SET CMP0002 OLD )
 ENDIF(COMMAND CMAKE_POLICY)
 
 #---------------------------------------------------------------------------
@@ -260,15 +261,11 @@ OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
 # SWIG
 #---------------------------------------------------------------------------
 
-#FIND_PACKAGE(SWIG)
-#IF (SWIG_FOUND)
-#   INCLUDE(${SWIG_USE_FILE})
-#ENDIF (SWIG_FOUND)
-
+SET_PROPERTY(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS)
 ADD_SUBDIRECTORY( python )
-#   ADD_SUBDIRECTORY( ruby )
-#   ADD_SUBDIRECTORY( perl )
-#   ADD_SUBDIRECTORY( R )
+ADD_SUBDIRECTORY( ruby )
+ADD_SUBDIRECTORY( perl )
+ADD_SUBDIRECTORY( R )
 
 
 #----------------------------------------------------------------------------

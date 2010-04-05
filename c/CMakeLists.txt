@@ -2,6 +2,13 @@ SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
 ADD_SUBDIRECTORY(API)
 
+IF ( UNIX )
+    ADD_CUSTOM_COMMAND ( 
+        TARGET tinkercellapi POST_BUILD
+        COMMAND source doSwig.sh
+    )
+ENDIF ( UNIX )
+
 ADD_LIBRARY( ssa
 	STATIC
 	mtrand.c

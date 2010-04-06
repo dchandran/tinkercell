@@ -60,9 +60,12 @@ namespace Tinkercell
 			nodes.clear();
 			QList<NodeHandle*> connectedNodes = handle->nodes();
 			QList<NodeHandle*> nodesIn = handle->nodesIn();
+			QList<NodeHandle*> nodesOut = handle->nodesOut();
 			NodeHandle * node;
 			QStringList names;
 			QList<qreal> stoichiometry;
+			
+			int k;
 
 
 			for (int i=0; i < connectedNodes.size(); ++i)
@@ -70,8 +73,11 @@ namespace Tinkercell
 				node = connectedNodes[i];
 				if (node && !(node->isA(QString("Empty"))) && node->isA(QString("Molecule")))
 				{
-					if (nodesIn.contains(node))
+					k = nodesIn.indexOf(node);
+					if (k > -1)
 					{
+						nodesIn[k] = 0;
+						
 						if (!nodes.contains(node))
 						{
 							nodes += node;
@@ -91,23 +97,29 @@ namespace Tinkercell
 					}
 					else
 					{
-						if (!nodes.contains(node))
+						k = nodesOut.indexOf(node);
+						
+						if (k > -1)
 						{
-							nodes += node;
-							names += node->fullName();
-							if (!isTermination && !isBinding && !isGRN)
-								stoichiometry += 1.0;
+							nodesOut[k] = 0;
+							if (!nodes.contains(node))
+							{
+								nodes += node;
+								names += node->fullName();
+								if (!isTermination && !isBinding && !isGRN)
+									stoichiometry += 1.0;
+								else
+									stoichiometry += 0.0;
+							}
 							else
-								stoichiometry += 0.0;
-						}
-						else
-						{
-							if (!isTermination && !isGRN)
-								stoichiometry[ nodes.indexOf(node) ] += 1.0;
-						}
+							{
+								if (!isTermination && !isGRN)
+									stoichiometry[ nodes.indexOf(node) ] += 1.0;
+							}
 
-						if (isBinding)
-							rates.value(0,0) += QString("*") + node->fullName();
+							if (isBinding)
+								rates.value(0,0) += QString("*") + node->fullName();
+						}
 					}
 				}
 			}

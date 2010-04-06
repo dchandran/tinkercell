@@ -64,7 +64,7 @@ void run()
 							sprintf(newN.colnames.strings[k], "%s.leak*%s\0",rxnname,getRowName(newN,k-1));
 					
 					 }
-					 if (tc_isA( nthItem(parts,0),"Promoter\0") )
+					 if (tc_isA( nthItem(parts,0),"Part\0") )
 						setValue(newN,0,0, 0.0);
 					 if ((tc_isA( nthItem(parts,1),"Terminator\0") || tc_isA( nthItem(parts,1),"Empty\0") )&& newN.cols > 2)
 						setValue(newN,newN.rows-1,newN.cols-2,0.0);

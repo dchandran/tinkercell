@@ -109,7 +109,7 @@ void run(Matrix input)
 
 	if (slider)
 	{
-		params = tc_getModelParameters(A);
+		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
 		deleteMatrix(&N);

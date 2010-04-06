@@ -8,7 +8,7 @@ def toItems(array):
 
 def fromItems(array):
     n = array.length;
-    array = range(0,n);
+    A = range(0,n);
     for i in range(0, n):
         A[i] = nthItem(array,i);
 
@@ -76,3 +76,7 @@ def toMatrix(lists, row_wise = False , rows = [], cols = []):
         setColName(matrix,i,cols[i]);
 
     return A;
+
+def toHex(r,g,b):
+    hexchars = "0123456789ABCDEF0";
+    return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];

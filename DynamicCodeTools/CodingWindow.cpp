@@ -77,14 +77,14 @@ namespace Tinkercell
 		dllName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
 
 		QTextStream out(&qfile);
-		out << tr("void tc_main()\n{\n    tc_addFunction(&run, \"") 
+		out << code 
+			<< tr("\n\nTCAPIEXPORT void tc_main()\n{\n    tc_addFunction(&run, \"") 
 			<< dllDescription 
 			<< tr("\" , \"") << dllDescription 
 			<< tr("\" ,") << tr("\"New\"")
 			<< tr(",") << tr("\"Plugins/c/default.png\"")
 			<< tr(",") << tr("\"\"") 
-			<< tr(", 1, 0, 0);\n}\n\n")
-			<< code;
+			<< tr(", 1, 0, 0);\n}\n\n");
 		qfile.close();
 
 		QString errors;
@@ -377,7 +377,7 @@ namespace Tinkercell
 			{
 				editorC->clear();
 				editorC->defaultSavedFilename.clear();
-                                editorC->setPlainText(tr("#include \"TC_api.h\"\nvoid run()\n{\n\n\n\n   return 1; \n}\n"));
+                                editorC->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return 1; \n}\n"));
 			}
 			if (editorPy && tabWidget->currentIndex() == 1)
 			{
@@ -482,23 +482,19 @@ namespace Tinkercell
 			 return;
 
 		QTextStream out(&qfile);
-        if (code.contains( QRegExp(tr("void\\s+run\\s*\\(\\s*\\)")) ))
+        if (code.contains( QRegExp(tr("TCAPIEXPORT void\\s+run\\s*\\(\\s*\\)")) ))
 		{
 			out << code;
 		}
 		else
 		{
-            QMessageBox::information(mainWindow,tr("Error"),tr("no run() function in the code"));
+            QMessageBox::information(mainWindow,tr("Error"),tr("code must define: TCAPIEXPORT void run()"));
 			return;
 		}
 
 		qfile.close();
 
-#ifdef Q_WS_WIN
 		emit compileBuildLoadC(tr("code.c -lodesim -lssa"),tr("run"),tr("C code"));
-#else
-		emit compileBuildLoadC(tr("code.c -lodesim -lssa"),tr("run"),tr("C code"));
-#endif
 	 }
 
 	 void CodingWindow::setupDialog()

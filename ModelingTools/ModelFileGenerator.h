@@ -36,11 +36,9 @@ namespace Tinkercell
 		
 	signals:
 		void generateModelFile(QSemaphore*,int*, const QString&, const QList<ItemHandle*>&);
-		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
 
 	public slots:
 		int generateModelFile(const char*, ArrayOfItems);
-		Matrix getParameters(ArrayOfItems );
 	};
 
 	class MY_EXPORT ModelFileGenerator : public Tool
@@ -50,7 +48,6 @@ namespace Tinkercell
 	public:
 
 		static QString toString(double d);
-		static DataTable<qreal> getUsedParameters(const QList<ItemHandle*>&, const QString& sep=QString("_"));
 		
 		ModelFileGenerator();
 		
@@ -62,14 +59,12 @@ namespace Tinkercell
 
 	private slots:
 		void generateModelFile(QSemaphore*, int*, const QString&, const QList<ItemHandle*>&);
-		void getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-
+		
 	protected:
 		static ModelFileGenerator_FToS fToS;
 		void connectCFuntions();
 		static int _generateModelFile(const char*,ArrayOfItems);
-		static Matrix _getParameters(ArrayOfItems );
-	
+		
 	private:
 		static QString insertPrefix(const QList<ItemHandle*>& handles, const QString& pref, const QString& s, const QString& sep=QString("_"));
 	};

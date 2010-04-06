@@ -18,23 +18,24 @@ tc_showProgress(60);
 
 #get selected nodes, if any, and reactions
 selected = tc_selectedItems();
-N = tc_stoichiometry(tc_allItems());
+N = tc_getStoichiometry(tc_allItems());
 
 tc_showProgress(90);
 mod.showCC();
 names = [];
 
-if len(selected) == 1:   #if selected items
-    s = selected[0];
+if selected.length == 1:   #if selected items
+    s = nthItem(selected,0);
     name = tc_getName(s);
     inN = False;
-    for i in N[0]:
-        if i == name:
+    for i in range(0,N.rows):
+        if getRowName(N,i) == name:
             inN = True;
             break;
-    for i in N[1]:
-        names.append(i);
-        if i == name:
+    for i in range(0,N.cols):
+        s = getColumnName(N,i);
+        names.append(s);
+        if s == name:
             inN = True;
     if inN:
         numbers = range(0, len(names));

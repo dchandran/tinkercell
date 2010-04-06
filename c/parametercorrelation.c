@@ -112,7 +112,7 @@ void run(Matrix input)
 		return;  
 	}
 
-	params = tc_getModelParameters(A);
+	params = tc_getParameters(A);
 	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
 
 	len = names.length;

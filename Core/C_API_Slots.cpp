@@ -2454,12 +2454,13 @@ namespace Tinkercell
 										else
 										{
 											aitem->setBrush(newBrush);
-											temporarilyColorChanged << aitem;
+											if (!temporarilyColorChanged.contains(aitem));
+												temporarilyColorChanged << aitem;
 										}
 									}
 								}
 								else
-								{ 
+								{
 									color.setAlpha(brush.color().alpha());
 									QBrush newBrush(color);
 									if (permanent)
@@ -2478,7 +2479,8 @@ namespace Tinkercell
 											aitem->setBrush(brush);
 										else
 											aitem->setBrush(newBrush);
-										temporarilyColorChanged << aitem;
+										if (!temporarilyColorChanged.contains(aitem))
+											temporarilyColorChanged << aitem;
 									}
 								}
 								QPen newPen(aitem->defaultPen);
@@ -2502,7 +2504,6 @@ namespace Tinkercell
 						{
 							QPen newPen(color,connection->defaultPen.widthF());
 							color.setAlpha(connection->defaultBrush.color().alpha());
-							//QBrush newBrush(color);
 							if (permanent)
 							{
 								pens += newPen;
@@ -2512,8 +2513,8 @@ namespace Tinkercell
 							else
 							{
 								connection->setPen(newPen);
-								//connection->setBrush(newBrush);
-								temporarilyColorChanged << connection;
+								if (!temporarilyColorChanged.contains(connection))
+									temporarilyColorChanged << connection;
 							}
 						}
 					}
@@ -2550,11 +2551,20 @@ namespace Tinkercell
 				else
 				{
 					QPointF dp1(w/2, h/2);
-					QPointF p = mainNode->scenePos();					
+					QPointF p = mainNode->scenePos();
 					QRectF rect = mainNode->sceneBoundingRect();
 					QPointF dp0( rect.center() - rect.topLeft() );
 					mainNode->setBoundingRect( p - dp1, p + dp1 );
-					temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);					
+					
+					bool found = false;
+					for (int i=0; i < temporarilyChangedSize.size(); ++i)
+						if (mainNode == temporarilyChangedSize[i].first)
+						{
+							temporarilyChangedSize[i].second = dp0;
+							found = true;
+						}
+					if (!found)
+						temporarilyChangedSize << QPair<NodeGraphicsItem*,QPointF>(mainNode,dp0);
 				}
 			}
 		}

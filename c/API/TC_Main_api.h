@@ -304,7 +304,7 @@ TCAPIEXPORT void tc_messageDialog(String message);
 
 /*!
  \brief get pointer to the current thread
- \ingroup Programming interface
+ \ingroup Programming
 */
 TCAPIEXPORT Item tc_thisThread();
 

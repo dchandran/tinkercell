@@ -2,9 +2,9 @@ def getPyscesModel():
     from tinkercell import *
     import pysces
     import re
-  
+
     A = tc_allItems();
-    N = fromMatrix( tc_getStoichiometry(A) );
+    N = fromMatrix( tc_getStoichiometry(A), True );
     rates0 = fromStrings( tc_getRates(A) );
     params = fromMatrix( tc_getParameters(A) );
     fixed = fromMatrix( tc_getFixedVariables(A) );
@@ -32,7 +32,7 @@ def getPyscesModel():
 
     reacs = len(rates);
     species = len(N[0]);
- 
+
     for i in range(0,reacs):   #for each reaction
         lhs = [];
         rhs = [];
@@ -63,64 +63,62 @@ def getPyscesModel():
 
     #we are done with reactions. moving on to params, events, functions, etc.
     fix = '';
-  
+
     if emptyExists:
         fix = "FIX: EMPTY";
 
-    if len(fixed) == 2 and len(fixed[0]) == len(fixed[1]):
-        n = len(fixed[0]);
-        if n > 0:
-            if not emptyExists:
-                fix += "FIX:";
-            for i in range(0,n):
-                fix += " " + fixed[0][i];
-   
-        modelString = fix + "\n\n" + modelString;
- 
-    modelString += "# Init ext\n";
-  
-    #fixed variables
-    if len(fixed) == 2 and len(fixed[0]) == len(fixed[1]):
-        n = len(fixed[0]);
+    n = len(fixed[0]);
+    if n > 0 and len(fixed[0]) == len(fixed[2][0]):
+        if not emptyExists:
+            fix += "FIX:";
         for i in range(0,n):
-            modelString += fixed[0][i] + " = " + str(fixed[1][i]) + "\n";
-  
+            fix += " " + fixed[0][0][i];
+
+    modelString = fix + "\n\n" + modelString;
+
+    modelString += "# Init ext\n";
+
+    #fixed variables
+    if n > 0 and len(fixed[0]) == len(fixed[2][0]):
+        for i in range(0,n):
+            modelString += fixed[0][i] + " = " + str(fixed[2][0][i]) + "\n";
+
     #initial variables
     hashInits = {};
-    if len(inits) == 2 and len(inits[0]) == len(inits[1]):
-        modelString += "\n# Init vars\n";
-        n = len(inits[0]);
+    n = len(inits[0]);
+    if n > 0 and len(inits[0]) == len(inits[2][0]):
+        modelString += "\n# Init vars\n";    
         for i in range(0,n):
-            hashInits[ inits[0][i] ] = inits[1][i];
-            modelString += inits[0][i] + " = " + str(inits[1][i]) + "\n";
-    
+            hashInits[ inits[0][i] ] = inits[2][0][i];
+            modelString += inits[0][i] + " = " + str(inits[2][0][i]) + "\n";
+
     for j in N[0]:
         if not hashInits.has_key(j):
             modelString += j + " = 0.0\n";
 
-  #parameters -- remove unused parameters
-    if len(params) == 2 and len(params[0]) == len(params[1]):
+    #parameters -- remove unused parameters
+    n = len(params[0]);
+    if n > 0 and len(params[0]) == len(params[2][0]):
         modelString += "\n# Init params\n";
-        n = len(params[0]);
         for i in range(0,n):  #for each parameter
-            modelString += params[0][i] + " = " + str(params[1][i]) + "\n";
+            modelString += params[0][i] + " = " + str(params[2][0][i]) + "\n";
 
-    if len(funcsNames) > 0 and len(funcsNames) == len(funcsAssign):
+    n = len(funcsNames);
+    if n > 0 and len(funcsNames) == len(funcsAssign):
         modelString += "\n# Forcing functions\n";
-        n = len(funcsNames);
         for i in range(0,n):
             modelString += "!F " + funcsNames[i] + " = " + funcsAssign[i] + "\n";
-
-    if len(triggers) > 0 and len(triggers) == len(events):
+            
+    n = len(triggers);
+    if n > 0 and len(triggers) == len(events):
         modelString += "\n# Events\n";
-        n = len(triggers);
         for i in range(0,n):
             modelString += "Event: event" + str(i) + "," + triggers[i] + " , 0 {" + events[i] + "}\n";
 
     p = re.compile("\^");
     p.sub("**",modelString);
     #return modelString;
-  
+
     mod = pysces.model("model",loader="string",fString=modelString);
     mod.doLoad();  
     return mod;

@@ -41,8 +41,7 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ModelFileGenerator_api)(
-		int (*writeModel)(const char*,ArrayOfItems),
-		Matrix (*getParameters)(ArrayOfItems )
+		int (*writeModel)(const char*,ArrayOfItems)
 		);
 
 	void ModelFileGenerator::setupFunctionPointers( QLibrary * library)
@@ -51,8 +50,7 @@ namespace Tinkercell
 		if (f)
 		{
 			f(
-				&(_generateModelFile),
-				&(_getParameters)
+				&(_generateModelFile)
 				);
 		}
 	}
@@ -60,7 +58,6 @@ namespace Tinkercell
 	void ModelFileGenerator::connectCFuntions()
 	{
 		connect(&fToS,SIGNAL(generateModelFile(QSemaphore*,int*, const QString&,const QList<ItemHandle*>&)),this,SLOT(generateModelFile(QSemaphore*,int*,const QString&,const QList<ItemHandle*>&)));
-		connect(&fToS,SIGNAL(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)),this,SLOT(getParameters(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&)));
 	}
 
 	ModelFileGenerator_FToS ModelFileGenerator::fToS;
@@ -84,31 +81,6 @@ namespace Tinkercell
 		return i;
 	}
 
-	Matrix ModelFileGenerator::_getParameters(ArrayOfItems A)
-	{
-		return fToS.getParameters(A);
-	}
-
-	Matrix ModelFileGenerator_FToS::getParameters(ArrayOfItems a0)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*> * list = ConvertValue(a0);
-		DataTable<qreal> * p = new DataTable<qreal>;
-		s->acquire();
-		emit getParameters(s,p,*list);
-		s->acquire();
-		s->release();
-		delete s;
-		delete list;
-		if (p)
-		{
-			Matrix m = ConvertValue(*p);
-			delete p;
-			return m;
-		}
-		return emptyMatrix();
-	}
-
 	void ModelFileGenerator::generateModelFile(QSemaphore * s, int* i, const QString& filename, const QList<ItemHandle*>& items)
 	{
 		if (i)
@@ -116,113 +88,6 @@ namespace Tinkercell
 		else
 			ModelFileGenerator::generateModelFile(filename, items);
 
-		if (s)
-			s->release();
-	}
-
-	DataTable<qreal> ModelFileGenerator::getUsedParameters(const QList<ItemHandle*>& handles, const QString& replaceDot)
-	{
-		int i,j;
-		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
-		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
-		params.insertCol(1,tr("used"));
-
-		bool used = false;
-		for (i=0; i < params.rows(); ++i)
-		{
-			used = false;
-			for (j=0; j < rates.size(); ++j)
-			{
-				if (rates[j].contains(params.rowName(i)))
-				{
-					used = true;
-					break;
-				}
-			}
-			if (used)
-				params.value(i,1) = 1.0;
-			else
-				params.value(i,1) = 0.0;
-		}
-
-		QRegExp regex(tr("\\.(?!\\d)"));
-		QString s1,s2;
-
-		for (i=0; i < handles.size(); ++i)
-		{
-			if (!handles[i])
-				continue;
-
-			if (handles[i]->hasTextData(tr("Events")))
-			{
-				DataTable<QString>& dat = handles[i]->data->textData[tr("Events")];
-				if (dat.cols() == 1)
-					for (j=0; j < dat.rows(); ++j)
-					{
-						s1 =  dat.rowName(j);
-
-						s1.replace(regex,replaceDot);
-						s2 =  dat.value(j,0);
-
-						s2.replace(regex,replaceDot);
-
-						if (s1.isEmpty() || s2.isEmpty()) continue;
-
-						for (int k=0; k < params.rows(); ++k)
-							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
-								params.value(k,1) = 1.0;
-					}
-			}
-
-			if (handles[i]->hasTextData(tr("Assignments")))
-			{
-				DataTable<QString>& dat = handles[i]->data->textData[tr("Assignments")];
-				if (dat.cols() == 1)
-					for (j=0; j < dat.rows(); ++j)
-					{
-						s1 =  dat.rowName(j);
-						s1.replace(regex,replaceDot);
-						s2 =  dat.value(j,0);
-						s2.replace(regex,replaceDot);
-
-						if (s1.isEmpty() || s2.isEmpty()) continue;
-
-						for (int k=0; k < params.rows(); ++k)
-							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
-								params.value(k,1) = 1.0;
-					}
-			}
-		}
-
-		int count = 0;
-		for (int i=0; i < params.rows(); ++i)
-		{
-			if (params.value(i,1) > 0.0) ++count;
-		}
-
-		DataTable<qreal> params2;
-		params2.resize(count,1);
-		params2.colName(0) = params.colName(0);
-
-		for (int i=0, j=0; i < params.rows() && j < count; ++i)
-		{
-			if (params.value(i,1) > 0.0)
-			{
-				params2.rowName(j) = params.rowName(i);
-				params2.value(j,0) = params.value(i,0);
-				++j;
-			}
-		}
-		return params2;
-	}
-
-	void ModelFileGenerator::getParameters(QSemaphore* s,DataTable<qreal>* ptr,const QList<ItemHandle*>& handles)
-	{
-		if (ptr)
-		{
-			QString replaceDot("_");
-			(*ptr) = getUsedParameters(handles,replaceDot);
-		}
 		if (s)
 			s->release();
 	}

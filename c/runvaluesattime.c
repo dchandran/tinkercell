@@ -34,7 +34,7 @@ void loadAllNames()
 
 	if (nthItem(A,0))
 	{
-		params = tc_getModelParameters(A);
+		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		len = N.rows;
 		allNames = newArrayOfStrings(len+params.rows);
@@ -180,7 +180,7 @@ void run(Matrix input)
 	
 	if (slider)
 	{
-		params = tc_getModelParameters(A);
+		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
 		deleteMatrix(&N);

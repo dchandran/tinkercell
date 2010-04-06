@@ -2304,9 +2304,9 @@ namespace Tinkercell
 			}
 	}
 	
-	void ArrowHeadItem::refresh()
+	void ArrowHeadItem::normalize()
 	{
-		NodeGraphicsItem::refresh();
+		NodeGraphicsItem::normalize();
 		angle = 0.0;
 	}
 }

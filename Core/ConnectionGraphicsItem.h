@@ -84,7 +84,7 @@ namespace Tinkercell
 		*/
 		virtual NodeGraphicsItem* clone() const;
 		/*! \brief reset the angle of the arrow head item*/
-		virtual void refresh();
+		virtual void normalize();
 		/*! \brief used for checking type before static casts */
 		static const QString CLASSNAME;
 	};

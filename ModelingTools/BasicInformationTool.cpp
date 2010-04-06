@@ -1511,7 +1511,7 @@ namespace Tinkercell
 				if (!handles.contains(currentWindow()->modelItem()))
 					handles << currentWindow()->modelItem();
 
-			(*ptr) = getParameters(handles);
+			(*ptr) = getUsedParameters(handles);
 		}
 		if (s)
 			s->release();
@@ -1962,5 +1962,101 @@ namespace Tinkercell
 		{
 			removeSelectedAttributes();
 		}
+	}
+	
+	DataTable<qreal> BasicInformationTool::getUsedParameters(const QList<ItemHandle*>& handles, const QString& replaceDot)
+	{
+		int i,j;
+		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
+		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
+		params.insertCol(1,tr("used"));
+
+		bool used = false;
+		for (i=0; i < params.rows(); ++i)
+		{
+			used = false;
+			for (j=0; j < rates.size(); ++j)
+			{
+				if (rates[j].contains(params.rowName(i)))
+				{
+					used = true;
+					break;
+				}
+			}
+			if (used)
+				params.value(i,1) = 1.0;
+			else
+				params.value(i,1) = 0.0;
+		}
+
+		QRegExp regex(tr("\\.(?!\\d)"));
+		QString s1,s2;
+
+		for (i=0; i < handles.size(); ++i)
+		{
+			if (!handles[i])
+				continue;
+
+			if (handles[i]->hasTextData(tr("Events")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Events")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s1 =  dat.rowName(j);
+
+						s1.replace(regex,replaceDot);
+						s2 =  dat.value(j,0);
+
+						s2.replace(regex,replaceDot);
+
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
+
+			if (handles[i]->hasTextData(tr("Assignments")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Assignments")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s1 =  dat.rowName(j);
+						s1.replace(regex,replaceDot);
+						s2 =  dat.value(j,0);
+						s2.replace(regex,replaceDot);
+
+						if (s1.isEmpty() || s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)) || s1.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
+		}
+
+		int count = 0;
+		for (int i=0; i < params.rows(); ++i)
+		{
+			if (params.value(i,1) > 0.0) ++count;
+		}
+
+		DataTable<qreal> params2;
+		params2.resize(count,1);
+		params2.colName(0) = params.colName(0);
+
+		for (int i=0, j=0; i < params.rows() && j < count; ++i)
+		{
+			if (params.value(i,1) > 0.0)
+			{
+				params2.rowName(j) = params.rowName(i);
+				params2.value(j,0) = params.value(i,0);
+				++j;
+			}
+		}
+		return params2;
 	}
 }

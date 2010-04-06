@@ -39,17 +39,17 @@ namespace Tinkercell
 			
 			
 			connect(&fToS,SIGNAL(displayText(ItemHandle*,const QString&)),this,SLOT(displayText(ItemHandle*,const QString&)));
-			connect(&fToS,SIGNAL(setLabelColor(int, int, int, int, int, int)),this,SLOT(setDisplayLabelColor(int, int, int, int, int, int)));
+			connect(&fToS,SIGNAL(setLabelColor(QColor,QColor)),this,SLOT(setDisplayLabelColor(QColor,QColor)));
 			connect(&fToS,SIGNAL(highlightItem(ItemHandle*,QColor)),this,SLOT(highlightItem(ItemHandle*,QColor)));
 		}
 		return (mainWindow != 0);
 	}
 	
 	typedef void (*tc_CLabelsTool_api)(
-		 void (*displayText)(void* item,const char*),
-		 void (*displayNumber)(void* item,double),
-		 void (*setDisplayLabelColor)(int r1, int g1, int b1, int r2, int g2, int b2),
-		 void (*highlightItem)(void* item, int r, int g, int b)
+		 void (*displayText)(void* item,String),
+		void (*displayNumber)(void* item,double),
+		void (*setDisplayLabelColor)(const char *, const char *),
+		void (*highlight)(void*,const char*)
 	);
 	
 	void CLabelsTool::historyChanged( int )
@@ -235,11 +235,8 @@ namespace Tinkercell
 		}
 	}
 	
-	void CLabelsTool::setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2)
-	{
-		textColor = QColor(r1,g1,b1);
-		bgColor = QColor(r2,g2,b2);
-		
+	void CLabelsTool::setDisplayLabelColor(QColor textColor,QColor bgColor)
+	{	
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			if (textItems[i].second)
@@ -270,14 +267,14 @@ namespace Tinkercell
 		fToS.displayNumber(o,d);
 	}
 	
-	void CLabelsTool::_setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2)
+	void CLabelsTool::_setDisplayLabelColor(const char * a, const char * b)
 	{
-		fToS.setDisplayLabelColor(r1,g1,b1,r2,g2,b2);
+		fToS.setDisplayLabelColor(a,b);
 	}
 	
-	void CLabelsTool::_highlightItem(void* o, int r, int g, int b)
+	void CLabelsTool::_highlightItem(void* o, const char * c)
 	{
-		fToS.highlightItem(o,r,g,b);
+		fToS.highlightItem(o,c);
 	}
 	
 	void CLabelsTool_FToS::displayText(void* o,const char* c)
@@ -290,14 +287,14 @@ namespace Tinkercell
 		emit displayText(ConvertValue(o),QString::number(d));
 	}
 	
-	void CLabelsTool_FToS::setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2)
+	void CLabelsTool_FToS::setDisplayLabelColor(const char* c1, const char* c2)
 	{
-		emit setLabelColor(r1,g1,b1,r2,b2,g2);
+		emit setLabelColor(QColor(tr(c1)), QColor(tr(c2)));
 	}
 	
-	void CLabelsTool_FToS::highlightItem(void* o, int r, int g, int b)
+	void CLabelsTool_FToS::highlightItem(void* o, const char* c)
 	{
-		emit highlightItem(ConvertValue(o),QColor(r,g,b));
+		emit highlightItem(ConvertValue(o),QColor(tr(c)));
 	}
 }
 

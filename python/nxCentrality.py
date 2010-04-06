@@ -75,6 +75,6 @@ if len(N) == numNodes:  #print and display the values
 		s += nodeNames[i] + "\t" + str(N[i]) + "\n";
 	tc_print(s);
 	if worst > -1 and best > -1:
-		tc_highlight( nthItem(nodes,best) ,255,0,0);
-		tc_highlight( nthItem(nodes,worst) ,0,0,255);
+		tc_highlight( nthItem(nodes,best) , "#FF0000" );
+		tc_highlight( nthItem(nodes,worst) , "#00FF00");
 

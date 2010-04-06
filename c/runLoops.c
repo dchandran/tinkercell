@@ -61,9 +61,9 @@ int run(Matrix M)\n\
 		{\n\
 			tc_print(TCvarnames[ info.nodes[i][j] ]);\n\
 			if (info.loopTypes[i] > 0) \n\
-				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), 255, 0, 0 );\n\
+				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), \"#FF0000\" );\n\
 			else\n\
-				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), 0, 0, 255 );\n\
+				tc_highlight( tc_find(TCvarnames[ info.nodes[i][j] ]), \"#00FF00\" );\n\
 		}\n\
 		tc_print(\"\\n\");\n\
 	}\n\

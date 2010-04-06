@@ -42,12 +42,12 @@ namespace Tinkercell
 		signals:
 			void highlightItem(ItemHandle*,QColor);
 			void displayText(ItemHandle*,const QString&);
-			void setLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
+			void setLabelColor(QColor, QColor);
 		public slots:
-			void highlightItem(void*,int,int,int);
+			void highlightItem(void*,const char *);
 			void displayText(void*,const char*);
 			void displayNumber(void*,double);
-			void setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
+			void setDisplayLabelColor(const char *, const char *);
 	};
 
 	class MY_EXPORT CLabelsTool : public Tool
@@ -70,7 +70,7 @@ namespace Tinkercell
 		void sceneClosing(NetworkWindow * , bool *);
 		void displayText(ItemHandle*, const QString&);
 		void highlightItem(ItemHandle*,QColor);
-		void setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
+		void setDisplayLabelColor(QColor, QColor);
 		
 	protected:
 		QList< QPair<ItemHandle*,QGraphicsSimpleTextItem*> > textItems;
@@ -79,10 +79,10 @@ namespace Tinkercell
 		QColor bgColor, textColor;
 		
 		static CLabelsTool_FToS fToS;
-		static void _highlightItem(void*,int,int,int);
+		static void _highlightItem(void*,const char *);
 		static void _displayText(void*,const char*);
 		static void _displayNumber(void*,double);
-		static void _setDisplayLabelColor(int r1, int g1, int b1, int r2, int g2, int b2);
+		static void _setDisplayLabelColor(const char *, const char *);
 	};
 
 

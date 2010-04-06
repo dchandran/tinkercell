@@ -626,18 +626,6 @@ setClass('_p_f_p_void_double__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_int_int_int_int_int_int__void',
-        prototype = list(parameterTypes = c('_int', '_int', '_int', '_int', '_int', '_int'),
-                        returnType = '_p_f_int_int_int_int_int_int__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_p_void_int_int_int__void',
-        prototype = list(parameterTypes = c('_p_void', '_int', '_int', '_int'),
-                        returnType = '_p_f_p_void_int_int_int__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_p_void_ArrayOfStrings__void',
         prototype = list(parameterTypes = c('_p_void', '_ArrayOfStrings'),
                         returnType = '_p_f_p_void_ArrayOfStrings__void'),
@@ -5270,80 +5258,29 @@ class(`tc_displayNumber`) = c("SWIGFunction", class('tc_displayNumber'))
 
 # Start of tc_setDisplayLabelColor
 
-`tc_setDisplayLabelColor` = function(r1, g1, b1, r2, g2, b2)
+`tc_setDisplayLabelColor` = function(color1, color2)
 {
-  r1 = as.integer(r1) 
-  
-  if(length(r1) > 1) {
-    warning("using only the first element of r1")
-  }
-  
-  g1 = as.integer(g1) 
-  
-  if(length(g1) > 1) {
-    warning("using only the first element of g1")
-  }
-  
-  b1 = as.integer(b1) 
-  
-  if(length(b1) > 1) {
-    warning("using only the first element of b1")
-  }
-  
-  r2 = as.integer(r2) 
-  
-  if(length(r2) > 1) {
-    warning("using only the first element of r2")
-  }
-  
-  g2 = as.integer(g2) 
-  
-  if(length(g2) > 1) {
-    warning("using only the first element of g2")
-  }
-  
-  b2 = as.integer(b2) 
-  
-  if(length(b2) > 1) {
-    warning("using only the first element of b2")
-  }
-  
-  .Call('R_swig_tc_setDisplayLabelColor', r1, g1, b1, r2, g2, b2, PACKAGE='tinkercell')
+  color1 = as(color1, "character") 
+  color2 = as(color2, "character") 
+  .Call('R_swig_tc_setDisplayLabelColor', color1, color2, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_setDisplayLabelColor`, 'returnType') = 'void'
-attr(`tc_setDisplayLabelColor`, "inputTypes") = c('integer', 'integer', 'integer', 'integer', 'integer', 'integer')
+attr(`tc_setDisplayLabelColor`, "inputTypes") = c('character', 'character')
 class(`tc_setDisplayLabelColor`) = c("SWIGFunction", class('tc_setDisplayLabelColor'))
 
 # Start of tc_highlight
 
-`tc_highlight` = function(item, r, g, b)
+`tc_highlight` = function(item, color)
 {
-  r = as.integer(r) 
-  
-  if(length(r) > 1) {
-    warning("using only the first element of r")
-  }
-  
-  g = as.integer(g) 
-  
-  if(length(g) > 1) {
-    warning("using only the first element of g")
-  }
-  
-  b = as.integer(b) 
-  
-  if(length(b) > 1) {
-    warning("using only the first element of b")
-  }
-  
-  .Call('R_swig_tc_highlight', item, r, g, b, PACKAGE='tinkercell')
+  color = as(color, "character") 
+  .Call('R_swig_tc_highlight', item, color, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_highlight`, 'returnType') = 'void'
-attr(`tc_highlight`, "inputTypes") = c('_p_void', 'integer', 'integer', 'integer')
+attr(`tc_highlight`, "inputTypes") = c('_p_void', 'character')
 class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
 
 # Start of tc_CLabelsTool_api
@@ -5371,7 +5308,7 @@ class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
     }
   }
   if(is.function(setDisplayLabelColor)) {
-    assert('...' %in% names(formals(setDisplayLabelColor)) || length(formals(setDisplayLabelColor)) >= 6)
+    assert('...' %in% names(formals(setDisplayLabelColor)) || length(formals(setDisplayLabelColor)) >= 0)
   } else {
     if(is.character(setDisplayLabelColor)) {
       setDisplayLabelColor = getNativeSymbolInfo(setDisplayLabelColor)
@@ -5381,7 +5318,7 @@ class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
     }
   }
   if(is.function(highlight)) {
-    assert('...' %in% names(formals(highlight)) || length(formals(highlight)) >= 4)
+    assert('...' %in% names(formals(highlight)) || length(formals(highlight)) >= 0)
   } else {
     if(is.character(highlight)) {
       highlight = getNativeSymbolInfo(highlight)
@@ -5395,7 +5332,7 @@ class(`tc_highlight`) = c("SWIGFunction", class('tc_highlight'))
 }
 
 attr(`tc_CLabelsTool_api`, 'returnType') = 'void'
-attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_p_void_p_q_const__char__void', '_p_f_p_void_double__void', '_p_f_int_int_int_int_int_int__void', '_p_f_p_void_int_int_int__void')
+attr(`tc_CLabelsTool_api`, "inputTypes") = c('_p_f_p_void_p_q_const__char__void', '_p_f_p_void_double__void', '_p_f_p_q_const__char_p_q_const__char__void', '_p_f_p_void_p_q_const__char__void')
 class(`tc_CLabelsTool_api`) = c("SWIGFunction", class('tc_CLabelsTool_api'))
 
 # Start of tc_getAnnotation

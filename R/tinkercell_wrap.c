@@ -1121,53 +1121,51 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_f_int__Matrix swig_types[37]
 #define SWIGTYPE_p_f_int__void swig_types[38]
 #define SWIGTYPE_p_f_int_int__void swig_types[39]
-#define SWIGTYPE_p_f_int_int_int_int_int_int__void swig_types[40]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[41]
-#define SWIGTYPE_p_f_p_f_void__void__void swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[43]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int swig_types[44]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_Matrix__int swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[57]
-#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[58]
-#define SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void swig_types[59]
-#define SWIGTYPE_p_f_p_void__double swig_types[60]
-#define SWIGTYPE_p_f_p_void__p_char swig_types[61]
-#define SWIGTYPE_p_f_p_void__p_void swig_types[62]
-#define SWIGTYPE_p_f_p_void__void swig_types[63]
-#define SWIGTYPE_p_f_p_void_double__void swig_types[64]
-#define SWIGTYPE_p_f_p_void_double_double__void swig_types[65]
-#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[66]
-#define SWIGTYPE_p_f_p_void_double_int__void swig_types[67]
-#define SWIGTYPE_p_f_p_void_int__void swig_types[68]
-#define SWIGTYPE_p_f_p_void_int_int_int__void swig_types[69]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void swig_types[70]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[71]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[72]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[73]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[74]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[75]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[76]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[77]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[78]
-#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[79]
-#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[80]
-#define SWIGTYPE_p_f_void__void swig_types[81]
-#define SWIGTYPE_p_p_char swig_types[82]
-#define SWIGTYPE_p_p_void swig_types[83]
-#define SWIGTYPE_p_void swig_types[84]
-static swig_type_info *swig_types[86];
-static swig_module_info swig_module = {swig_types, 85, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[40]
+#define SWIGTYPE_p_f_p_f_void__void__void swig_types[41]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[42]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int swig_types[43]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[44]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[45]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_Matrix__int swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[56]
+#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[57]
+#define SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void swig_types[58]
+#define SWIGTYPE_p_f_p_void__double swig_types[59]
+#define SWIGTYPE_p_f_p_void__p_char swig_types[60]
+#define SWIGTYPE_p_f_p_void__p_void swig_types[61]
+#define SWIGTYPE_p_f_p_void__void swig_types[62]
+#define SWIGTYPE_p_f_p_void_double__void swig_types[63]
+#define SWIGTYPE_p_f_p_void_double_double__void swig_types[64]
+#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[65]
+#define SWIGTYPE_p_f_p_void_double_int__void swig_types[66]
+#define SWIGTYPE_p_f_p_void_int__void swig_types[67]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void swig_types[68]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[69]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[70]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[71]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[72]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[74]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[75]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[76]
+#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[77]
+#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[78]
+#define SWIGTYPE_p_f_void__void swig_types[79]
+#define SWIGTYPE_p_p_char swig_types[80]
+#define SWIGTYPE_p_p_void swig_types[81]
+#define SWIGTYPE_p_void swig_types[82]
+static swig_type_info *swig_types[84];
+static swig_module_info swig_module = {swig_types, 83, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -12341,32 +12339,34 @@ R_swig_tc_displayNumber ( SEXP item, SEXP number)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_setDisplayLabelColor ( SEXP r1, SEXP g1, SEXP b1, SEXP r2, SEXP g2, SEXP b2)
+R_swig_tc_setDisplayLabelColor ( SEXP color1, SEXP color2)
 {
-  int arg1 ;
-  int arg2 ;
-  int arg3 ;
-  int arg4 ;
-  int arg5 ;
-  int arg6 ;
+  String arg1 = (String) 0 ;
+  String arg2 = (String) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  arg1 = (int)(INTEGER(r1)[0]);
-  arg2 = (int)(INTEGER(g1)[0]);
-  arg3 = (int)(INTEGER(b1)[0]);
-  arg4 = (int)(INTEGER(r2)[0]);
-  arg5 = (int)(INTEGER(g2)[0]);
-  arg6 = (int)(INTEGER(b2)[0]);
-  tc_setDisplayLabelColor(arg1,arg2,arg3,arg4,arg5,arg6);
+  res1 = SWIG_AsCharPtrAndSize(color1, &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "String""'");
+  }
+  arg1 = (String)(buf1);
+  res2 = SWIG_AsCharPtrAndSize(color2, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "String""'");
+  }
+  arg2 = (String)(buf2);
+  tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
   r_ans = R_NilValue;
-  
-  
-  
-  
-  
-  
+  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -12375,13 +12375,14 @@ R_swig_tc_setDisplayLabelColor ( SEXP r1, SEXP g1, SEXP b1, SEXP r2, SEXP g2, SE
 
 
 SWIGEXPORT SEXP
-R_swig_tc_highlight ( SEXP item, SEXP r, SEXP g, SEXP b)
+R_swig_tc_highlight ( SEXP item, SEXP color)
 {
   Item arg1 = (Item) 0 ;
-  int arg2 ;
-  int arg3 ;
-  int arg4 ;
+  String arg2 = (String) 0 ;
   int res1 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12390,15 +12391,15 @@ R_swig_tc_highlight ( SEXP item, SEXP r, SEXP g, SEXP b)
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_highlight" "', argument " "1"" of type '" "Item""'"); 
   }
-  arg2 = (int)(INTEGER(r)[0]);
-  arg3 = (int)(INTEGER(g)[0]);
-  arg4 = (int)(INTEGER(b)[0]);
-  tc_highlight(arg1,arg2,arg3,arg4);
+  res2 = SWIG_AsCharPtrAndSize(color, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "String""'");
+  }
+  arg2 = (String)(buf2);
+  tc_highlight(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
-  
-  
-  
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -12447,125 +12448,13 @@ void _p_f_p_void_double__void(Item s_arg1, double s_arg2) {
 }
 
 
-void _p_f_int_int_int_int_int_int__void(int s_arg1, int s_arg2, int s_arg3, int s_arg4, int s_arg5, int s_arg6) {
-  int arg1 ;
-  int arg2 ;
-  int arg3 ;
-  int arg4 ;
-  int arg5 ;
-  int arg6 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 7));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg3);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg4);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg5);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg6);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_int_int_int_int_int_int__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-void _p_f_p_void_int_int_int__void(Item s_arg1, int s_arg2, int s_arg3, int s_arg4) {
-  Item arg1 = (Item) 0 ;
-  int arg2 ;
-  int arg3 ;
-  int arg4 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 5));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg3);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg4);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_int_int_int__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
 SWIGEXPORT SEXP
 R_swig_tc_CLabelsTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDisplayLabelColor, SEXP highlight)
 {
   void (*arg1)(Item,String) = (void (*)(Item,String)) 0 ;
   void (*arg2)(Item,double) = (void (*)(Item,double)) 0 ;
-  void (*arg3)(int,int,int,int,int,int) = (void (*)(int,int,int,int,int,int)) 0 ;
-  void (*arg4)(Item,int,int,int) = (void (*)(Item,int,int,int)) 0 ;
+  void (*arg3)(String,String) = (void (*)(String,String)) 0 ;
+  void (*arg4)(Item,String) = (void (*)(Item,String)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12594,24 +12483,24 @@ R_swig_tc_CLabelsTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDispla
   }
   if(TYPEOF(setDisplayLabelColor) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setDisplayLabelColor, (void**)(&arg3), SWIGTYPE_p_f_int_int_int_int_int_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setDisplayLabelColor, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(int,int,int,int,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(String,String)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_int_int_int_int_int_int__void;
+    arg3 = _p_f_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(setDisplayLabelColor, NULL);
   }
   if(TYPEOF(highlight) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(highlight, (void**)(&arg4), SWIGTYPE_p_f_p_void_int_int_int__void, 0);
+      int res = SWIG_R_ConvertPtr(highlight, (void**)(&arg4), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(Item,int,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(Item,String)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_p_void_int_int_int__void;
+    arg4 = _p_f_p_void_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(highlight, NULL);
   }
   tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
@@ -13440,7 +13329,6 @@ static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__vo
 static swig_type_info _swigt__p_f_int__Matrix = {"_p_f_int__Matrix", "Matrix (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int_int_int_int_int_int__void = {"_p_f_int_int_int_int_int_int__void", "void (*)(int,int,int,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)|void (*)(void (*)(),String,String,String,String,String,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)|int (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
@@ -13469,7 +13357,6 @@ static swig_type_info _swigt__p_f_p_void_double_double__void = {"_p_f_p_void_dou
 static swig_type_info _swigt__p_f_p_void_double_double_int__void = {"_p_f_p_void_double_double_int__void", "void (*)(void *,double,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_void_double_int__void = {"_p_f_p_void_double_int__void", "void (*)(void *,double,int)|void (*)(Item,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_void_int__void = {"_p_f_p_void_int__void", "void (*)(Item,int)|void (*)(void *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_int_int_int__void = {"_p_f_p_void_int_int_int__void", "void (*)(void *,int,int,int)|void (*)(Item,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_void_p_q_const__char_Matrix__void = {"_p_f_p_void_p_q_const__char_Matrix__void", "void (*)(void *,char const *,Matrix)|void (*)(Item,String,Matrix)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_void_p_q_const__char_TableOfStrings__void = {"_p_f_p_void_p_q_const__char_TableOfStrings__void", "void (*)(void *,char const *,TableOfStrings)|void (*)(Item,String,TableOfStrings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_void_p_q_const__char__double = {"_p_f_p_void_p_q_const__char__double", "double (*)(Item,String)|double (*)(void *,char const *)", 0, 0, (void*)0, 0};
@@ -13527,7 +13414,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_int__Matrix,
   &_swigt__p_f_int__void,
   &_swigt__p_f_int_int__void,
-  &_swigt__p_f_int_int_int_int_int_int__void,
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
   &_swigt__p_f_p_q_const__char_ArrayOfItems__int,
@@ -13556,7 +13442,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_void_double_double_int__void,
   &_swigt__p_f_p_void_double_int__void,
   &_swigt__p_f_p_void_int__void,
-  &_swigt__p_f_p_void_int_int_int__void,
   &_swigt__p_f_p_void_p_q_const__char_Matrix__void,
   &_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void,
   &_swigt__p_f_p_void_p_q_const__char__double,
@@ -13614,7 +13499,6 @@ static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_doubl
 static swig_cast_info _swigc__p_f_int__Matrix[] = {  {&_swigt__p_f_int__Matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_int_int_int_int_int_int__void[] = {  {&_swigt__p_f_int_int_int_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
@@ -13643,7 +13527,6 @@ static swig_cast_info _swigc__p_f_p_void_double_double__void[] = {  {&_swigt__p_
 static swig_cast_info _swigc__p_f_p_void_double_double_int__void[] = {  {&_swigt__p_f_p_void_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_void_double_int__void[] = {  {&_swigt__p_f_p_void_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_void_int__void[] = {  {&_swigt__p_f_p_void_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_int_int_int__void[] = {  {&_swigt__p_f_p_void_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_void_p_q_const__char_Matrix__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_Matrix__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_void_p_q_const__char__double[] = {  {&_swigt__p_f_p_void_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
@@ -13701,7 +13584,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_int__Matrix,
   _swigc__p_f_int__void,
   _swigc__p_f_int_int__void,
-  _swigc__p_f_int_int_int_int_int_int__void,
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
   _swigc__p_f_p_q_const__char_ArrayOfItems__int,
@@ -13730,7 +13612,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_void_double_double_int__void,
   _swigc__p_f_p_void_double_int__void,
   _swigc__p_f_p_void_int__void,
-  _swigc__p_f_p_void_int_int_int__void,
   _swigc__p_f_p_void_p_q_const__char_Matrix__void,
   _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void,
   _swigc__p_f_p_void_p_q_const__char__double,
@@ -14015,7 +13896,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_ConnectionSelection_api", (DL_FUNC) &R_swig_tc_ConnectionSelection_api, 9},
    {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 9},
    {"R_swig_tc_NodeInsertion_api", (DL_FUNC) &R_swig_tc_NodeInsertion_api, 1},
-   {"R_swig_tc_setDisplayLabelColor", (DL_FUNC) &R_swig_tc_setDisplayLabelColor, 6},
+   {"R_swig_tc_setDisplayLabelColor", (DL_FUNC) &R_swig_tc_setDisplayLabelColor, 2},
    {"R_swig_tc_getStoichiometryFor", (DL_FUNC) &R_swig_tc_getStoichiometryFor, 2},
    {"R_swig_tc_setStoichiometryFor", (DL_FUNC) &R_swig_tc_setStoichiometryFor, 2},
    {"R_swig_tc_getParametersAndFixedVariables", (DL_FUNC) &R_swig_tc_getParametersAndFixedVariables, 2},
@@ -14165,7 +14046,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 2},
    {"R_swig_tc_errorBars", (DL_FUNC) &R_swig_tc_errorBars, 4},
    {"R_swig_tc_getEventTriggers", (DL_FUNC) &R_swig_tc_getEventTriggers, 1},
-   {"R_swig_tc_highlight", (DL_FUNC) &R_swig_tc_highlight, 4},
+   {"R_swig_tc_highlight", (DL_FUNC) &R_swig_tc_highlight, 2},
    {"R_swig_TableOfStrings_cols_set", (DL_FUNC) &R_swig_TableOfStrings_cols_set, 2},
    {"R_swig_Matrix_cols_set", (DL_FUNC) &R_swig_Matrix_cols_set, 2},
    {"R_swig_tc_messageDialog", (DL_FUNC) &R_swig_tc_messageDialog, 1},

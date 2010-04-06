@@ -122,26 +122,26 @@ void tc_displayNumber(void* item,double number)
 		_tc_displayNumber(item,number);
 }
 
-void (*_tc_setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2) = 0;
+void (*_tc_setDisplayLabelColor)(const char *, const char *) = 0;
 /*! 
  \brief set the color for the number or text when using tc_displayNumber and tc_displayText
  \ingroup Input and Output
 */
-void tc_setDisplayLabelColor(int r1,int g1,int b1,int r2,int g2,int b2)
+void tc_setDisplayLabelColor(const char * a, const char * b)
 {
 	if (_tc_setDisplayLabelColor)
-		_tc_setDisplayLabelColor(r1,g1,b1,r2,g2,b2);
+		_tc_setDisplayLabelColor(a,b);
 }
 
-void (*_tc_highlight)(void* item,int,int,int) = 0;
+void (*_tc_highlight)(void* item,const char*) = 0;
 /*! 
- \brief highlights an item (the highlight is temporary) with the given color (rgb)
+ \brief highlights an item (the highlight is temporary) with the given color (hex)
  \ingroup Input and Output
 */
-void tc_highlight(void* item,int r,int g,int b)
+void tc_highlight(void* item,const char* color)
 {
 	if (_tc_highlight)
-		_tc_highlight(item,r,g,b);
+		_tc_highlight(item,color);
 }
 /*! 
  \brief initialize
@@ -150,8 +150,8 @@ void tc_highlight(void* item,int r,int g,int b)
 void tc_CLabelsTool_api(
 		void (*displayText)(void* item,String),
 		void (*displayNumber)(void* item,double),
-		void (*setDisplayLabelColor)(int r1,int g1,int b1,int r2,int g2,int b2),
-		void (*highlight)(void*,int,int,int)
+		void (*setDisplayLabelColor)(const char *, const char *),
+		void (*highlight)(void*,const char*)
 	)
 {
 	_tc_displayText = displayText;

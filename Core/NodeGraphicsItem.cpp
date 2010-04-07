@@ -368,6 +368,12 @@ namespace Tinkercell
 	NodeGraphicsItem::~NodeGraphicsItem()
 	{
 		clear();
+		
+		QList<QGraphicsItem*> children = this->childItems();
+			
+		for (int i=0; i < children.size(); ++i)
+			if (children[i])
+				children[i]->setParentItem(0);
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
 			if (boundaryControlPoints[i])

@@ -9,44 +9,73 @@
 
  The API uses six main data structures:
 
- Item: just a reference to a TinkerCell object (memory pointer)
+Item: just a reference to a TinkerCell object (memory pointer)
  
- String: exactly what the name means
+@section String 
+exactly what the name means
 
- ArrayOfItems: array of Items
-	example use:
-	     ArrayOfItems A = tc_allItems()
-		 A.length
-		 nthItem(A,3)
+@section ArrayOfItems
+array of Items
+    
+@subsection example
 
- ArrayOfStrings: array of Strings
-	example use:
+         ArrayOfItems A = tc_allItems()
+         
+    	 A.length
+    	 
+    	 nthItem(A,3)
+
+@section ArrayOfStrings
+array of Strings
+
+@subsection	example
+
 	     ArrayOfStrings S = tc_getNames( tc_allItems() )
+
 		 S.length
+
 		 nthString(S,3)
 
- Matrix: two dimensional array of reals with row and column names
-         the rownames and colnames fields are ArrayOfString objects
-	example use:
+@section Matrix
+Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
+
+@subsection example
+	
 	     Matrix M = tc_getNumericalData( tc_find("a"), "Numerical Attributes" )
+	     
 		 M.rows
+		 
 		 M.cols
+		 
 		 getColumnName(M,2)
+		 
 		 setColumnName(M,2,"col2")
+		 
 		 getRowName(M,1)
+		 
 		 setRowName(M,1,"row1")
+		 
 		 getValue(M,2,3)
+		 
 		 setValue(M,2,3,0.5)
 
- TableOfStrings: two dimensional array of Strings with row and column names
-         the rownames and colnames fields are ArrayOfString objects
-	example use:
+@section TableOfStrings
+Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
+
+@subsection example
+	
 	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )
+	     
 		 S.rows
+		 
 		 S.cols
+		 
 		 nthString( S.rownames, 1)
+		 
 		 nthString( S.colnames, 2)
+		 
 		 getString(S,2,3)
+		 
 		 setString(S,2,3,"hello")
 */
 

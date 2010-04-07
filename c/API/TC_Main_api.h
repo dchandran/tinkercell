@@ -290,14 +290,14 @@ TCAPIEXPORT void tc_getNumbers(ArrayOfStrings labels, double* result);
 
 /*! 
  \brief display a dialog with a text and a yes and no button
- \param char* displayed message or question
+ \param String displayed message or question
  \ingroup Input and Output
 */
 TCAPIEXPORT int tc_askQuestion(String message);
 
 /*! 
  \brief display a dialog with a text message and a close button
- \param char* displayed message
+ \param String displayed message
  \ingroup Input and Output
 */
 TCAPIEXPORT void tc_messageDialog(String message);
@@ -442,11 +442,11 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		double (*getHeight0)(void*),
 		void (*setAngle0)(void*,double,int),
 		double (*getAngle0)(void*),
-		const char * (*getColor)(void*),
+		String (*getColor)(void*),
 		void (*setColor0)(void*,String,int),
 		
-		void (*changeGraphics0)(void*,const char*),
-		void (*changeArrowHead0)(void*,const char*)
+		void (*changeGraphics0)(void*,String),
+		void (*changeArrowHead0)(void*,String)
 	);
 
 /*! 

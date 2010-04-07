@@ -50,9 +50,9 @@ void tc_setRates(ArrayOfItems A,ArrayOfStrings rates)
 \brief get stoichiometry for the given items
 \ingroup init
 */
-Matrix tc_getStoichiometryFor(void* x)
+Matrix tc_getStoichiometryFor(Item x)
 {
-	void* a[] = { x };
+	Item a[] = { x };
 	ArrayOfItems A;
 	A.length = 1;
 	A.items = a;
@@ -62,9 +62,9 @@ Matrix tc_getStoichiometryFor(void* x)
 \brief get rate for the given items
 \ingroup init
 */
-String tc_getRate(void* x)
+String tc_getRate(Item x)
 {
-	void* a[] = { x };
+	Item a[] = { x };
 	ArrayOfItems A;
 	ArrayOfStrings s;
 	A.length = 1;
@@ -76,9 +76,9 @@ String tc_getRate(void* x)
 \brief set rate for the given items
 \ingroup init
 */
-void tc_setRate(void* x, String r)
+void tc_setRate(Item x, String r)
 {
-	void* a[] = { x };
+	Item a[] = { x };
 	ArrayOfStrings c;
 	ArrayOfItems A;
 
@@ -99,9 +99,9 @@ void tc_setRate(void* x, String r)
 \brief set stoichiometry for the given items
 \ingroup init
 */
-void tc_setStoichiometryFor(void* x, Matrix N)
+void tc_setStoichiometryFor(Item x, Matrix N)
 {
-	void* a[] = { x };
+	Item a[] = { x };
 	ArrayOfItems A;
 	A.length = 1;
 	A.items = a;

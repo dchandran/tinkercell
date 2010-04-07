@@ -189,6 +189,7 @@ namespace Tinkercell
 
 										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))))
 										{
+											str = str2;
 											str2 = handle2->fullName() + QString(".") + str2;
 											s.replace(QRegExp(QString("^")+str2+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + str2 + QString("\\2"));
@@ -200,10 +201,10 @@ namespace Tinkercell
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
 										}
 										
-										dat.value(str2,0) = 1.0;
-										win->changeData(handle2->fullName() + QString(".") + str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
+										dat.value(str,0) = 1.0;
+										win->changeData(str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
 										if (win->console())
-                                            win->console()->message(handle2->fullName() + QString(".") + str2 + QString(" = 1.0"));
+                                            win->console()->message(str2 + QString(" = 1.0"));
 									}
 							}
 					}

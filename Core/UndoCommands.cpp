@@ -613,6 +613,7 @@ namespace Tinkercell
                         if (graphicsItems[k] == controlPoints[j])
                             graphicsItems[k] = 0;
                 }
+				listToDelete << graphicsItems[i];
 			}
 
         for (int i=0; i < listToDelete.size(); ++i)

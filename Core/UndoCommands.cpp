@@ -240,10 +240,12 @@ namespace Tinkercell
 			refreshAllConnectionIn(graphicsItems);
 	}
 	
+	QList<TextItem*> InsertTextItemsCommand::deletedItems;
+	
 	InsertTextItemsCommand::~InsertTextItemsCommand()
 	{
 		for (int i=0; i < items.size(); ++i)
-			if (items[i])
+			if (items[i] && !InsertTextItemsCommand::deletedItems.contains(items[i]))
 			{
 				textEditor->items().removeAll(items[i]);
 				for (int j=(i+1); j < items.size(); ++j)
@@ -252,7 +254,10 @@ namespace Tinkercell
 						items[j] = 0;
 				}
 				if (!items[i]->handle() || (items[i]->handle() && items[i]->handle()->parent == 0))
+				{
 					delete items[i];
+					InsertTextItemsCommand::deletedItems << items[i];
+				}
 				items[i] = 0;
 			}
 		if (renameCommand)
@@ -562,6 +567,8 @@ namespace Tinkercell
 				renameCommand->undo();
 		}
 	}
+	
+	QList<QGraphicsItem*> InsertGraphicsCommand::deletedItems;
 
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
@@ -587,10 +594,10 @@ namespace Tinkercell
 		{
 			if (graphicsItems[i] && !allitems.contains(graphicsItems[i]))
 			{
-			    if (graphicsItems[i] && graphicsItems[i]->parentItem())
+			    if (graphicsItems[i]->parentItem())
 					graphicsItems[i]->setParentItem(0);
 
-				if (graphicsItems[i] && graphicsItems[i]->scene())
+				if (graphicsItems[i]->scene())
 					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
 			}
 		}
@@ -605,7 +612,8 @@ namespace Tinkercell
 			{
                 QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems(true);
                 controlPoints << connection->arrowHeadsAsGraphicsItems();
-                controlPoints << connection->centerRegionItem;
+				controlPoints << connection->centerRegionItem;
+                
                 for (int j=0; j < controlPoints.size(); ++j)
                 {
                     listToDelete.removeAll(controlPoints[j]);
@@ -613,11 +621,20 @@ namespace Tinkercell
                         if (graphicsItems[k] == controlPoints[j])
                             graphicsItems[k] = 0;
                 }
-				listToDelete << graphicsItems[i];
+                
+                if (!listToDelete.contains(graphicsItems[i]))
+                	listToDelete << graphicsItems[i];
+				
+				InsertGraphicsCommand::deletedItems << graphicsItems[i];
+				InsertGraphicsCommand::deletedItems << controlPoints;
+				
+				graphicsItems[i] = 0;
 			}
 
         for (int i=0; i < listToDelete.size(); ++i)
-            delete listToDelete[i];
+        	if (!InsertGraphicsCommand::deletedItems.contains(listToDelete[i]))
+        	    delete listToDelete[i];
+	        
 
         listToDelete.clear();
         for (int i=0; i < graphicsItems.size(); ++i)
@@ -629,17 +646,24 @@ namespace Tinkercell
                 QList<ControlPoint*> controlPoints = node->allControlPoints();
                 for (int j=0; j < controlPoints.size(); ++j)
                 {
+                	InsertGraphicsCommand::deletedItems << controlPoints[j];
                     listToDelete.removeAll(controlPoints[j]);
                     for (int k=0; k < graphicsItems.size(); ++k)
                         if (graphicsItems[k] == controlPoints[j])
                             graphicsItems[k] = 0;
                 }
 
-			    listToDelete << graphicsItems[i];
+				if (!listToDelete.contains(graphicsItems[i]))
+				    listToDelete << graphicsItems[i];
+				
+				InsertGraphicsCommand::deletedItems << graphicsItems[i];
+				
+			    graphicsItems[i] = 0;
 			}
 
         for (int i=0; i < listToDelete.size(); ++i)
-            delete listToDelete[i];
+	        if (!InsertGraphicsCommand::deletedItems.contains(listToDelete[i]))
+        	    delete listToDelete[i];
 
 		graphicsItems.clear();
 		

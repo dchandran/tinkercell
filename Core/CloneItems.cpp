@@ -128,9 +128,7 @@ namespace Tinkercell
                             items << list[j];
                 }
                 else
-                    if (ConnectionGraphicsItem::cast(items0[i]) ||
-                        TextGraphicsItem::cast(items0[i]))
-                        items << items0[i];
+                    items << items0[i];
             }
         
         //return value

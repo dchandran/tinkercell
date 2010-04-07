@@ -1042,8 +1042,10 @@ namespace Tinkercell
 						}
 						if (curveSegments[i].arrowStart)
 							delete curveSegments[i].arrowStart;
+							
 						if (curveSegments[i].arrowEnd)
 							delete curveSegments[i].arrowEnd;
+
 						curveSegments[i].arrowStart = 0;
 						curveSegments[i].arrowEnd = 0;
 					}

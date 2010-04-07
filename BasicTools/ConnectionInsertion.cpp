@@ -722,6 +722,7 @@ namespace Tinkercell
 										node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 
 									selectedConnections[j]->centerRegionItem = node;
+									selectedConnections[j]->refresh();
 								}
 							}
 

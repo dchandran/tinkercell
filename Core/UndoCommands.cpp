@@ -2139,7 +2139,7 @@ namespace Tinkercell
 
 				(*targetNodes[i]) = oldNodes[i];
 				
-				if (!tranform && node->className == ArrowHeadItem::CLASSNAME)
+				if (!tranform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
 				{
 					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
 					arrow->angle = 0.0;

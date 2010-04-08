@@ -203,7 +203,7 @@ namespace Tinkercell
 				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
 				handlesDegraded += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
-				node->name = tr("TF");
+				node->name = tr("tf");
 				node->name = NodeInsertion::findUniqueName(node,sceneItems);
 
 				qreal xpos = selected[i]->sceneBoundingRect().left() - 100.0,
@@ -353,7 +353,7 @@ namespace Tinkercell
 			{
 				handlesDegraded += handle;
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
-				proteinNode->name = tr("P");
+				proteinNode->name = tr("p");
 				proteinNode->name = NodeInsertion::findUniqueName(proteinNode,sceneItems);
 
 				NodeHandle * rnaNode = new NodeHandle(rnaFamily);

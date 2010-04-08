@@ -15,7 +15,7 @@
     <connection family="2 to 3" numin="2" numout="3"></connection>
     <connection family="3 to 3" numin="3" numout="3"></connection>
   </connection>
-  <connection family="Binding" color="#179DFB" Kd="0.05" typein="Molecule" numin="1" typeout="Node" numout="1">
+  <connection family="Binding" color="#179DFB" Kd="1.0" typein="Molecule" numin="1" typeout="Node" numout="1">
     <text>This connection represents a dynamic binding and unbinding event.</text>
 	<connection family="Transcription Regulation" h="2.0" typein="Molecule" numin="1" typeout="Transcription Regulator" numout="1">
     <text>This connection represents a transcription factor regulating a gene.</text>

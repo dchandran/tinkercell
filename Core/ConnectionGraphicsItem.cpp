@@ -2316,10 +2316,4 @@ namespace Tinkercell
 				curveSegments.append(cv);
 			}
 	}
-	
-	void ArrowHeadItem::normalize()
-	{
-		NodeGraphicsItem::normalize();
-		angle = 0.0;
-	}
 }

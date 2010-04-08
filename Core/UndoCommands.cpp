@@ -2190,11 +2190,18 @@ namespace Tinkercell
 		node->setPos(p);
 		
 		if (transform)
+		{
 			node->setTransform(t1);
+		}
 		else
 		{
 			QRectF rect = node->boundingRect();
 			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
+			if (node->className == ArrowHeadItem::CLASSNAME)
+			{
+				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
+				arrow->angle = 0.0;
+			}
 		}
 
 		//node->setParentItem(parent);

@@ -22,6 +22,7 @@ to draw movable points.
 #include "ConnectionGraphicsItem.h"
 #include "NodeGraphicsItem.h"
 #include "ItemHandle.h"
+#include "UndoCommands.h"
 
 namespace Tinkercell
 {
@@ -374,34 +375,55 @@ namespace Tinkercell
 		for (int i=0; i < children.size(); ++i)
 			if (children[i])
 				children[i]->setParentItem(0);
+		
+		for (int i=0; i < controlPoints.size(); ++i)
+		{
+			if (controlPoints[i])
+			{
+				controlPoints[i]->nodeItem = 0;
+				if (controlPoints[i]->scene())
+					controlPoints[i]->scene()->removeItem(controlPoints[i]);
+				
+				if (!MainWindow::invalidPointers.contains((void*)controlPoints[i]))
+				{
+					delete controlPoints[i];
+					MainWindow::invalidPointers[ (void*)controlPoints[i] ] = true;
+				}
+				
+				controlPoints[i] = 0;
+			}
+		}
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
-			if (boundaryControlPoints[i])
+			if (boundaryControlPoints[i] && !MainWindow::invalidPointers.contains((void*)boundaryControlPoints[i]))
 			{
 				boundaryControlPoints[i]->nodeItem = 0;
-				if (!boundaryControlPoints[i]->scene())
-					delete boundaryControlPoints[i];
+				if (boundaryControlPoints[i]->scene())
+					boundaryControlPoints[i]->scene()->removeItem(boundaryControlPoints[i]);
+				
+				delete boundaryControlPoints[i];
+				MainWindow::invalidPointers[ (void*)boundaryControlPoints[i] ] = true;
+				
 				boundaryControlPoints[i] = 0;
 			}
 
-			if (boundingBoxItem)
-			{
-				removeFromGroup(boundingBoxItem);
-				if (boundingBoxItem->scene())
-					boundingBoxItem->scene()->removeItem(boundingBoxItem);
-				delete boundingBoxItem;
-				boundingBoxItem = 0;
-			}
+		if (boundingBoxItem)
+		{
+			removeFromGroup(boundingBoxItem);
+			if (boundingBoxItem->scene())
+				boundingBoxItem->scene()->removeItem(boundingBoxItem);
+			delete boundingBoxItem;
+			boundingBoxItem = 0;
+		}
 
+		if (!itemHandle) return;
 
-			if (!itemHandle) return;
+		ItemHandle * h = itemHandle;
 
-			ItemHandle * h = itemHandle;
+		setHandle(0);
 
-			setHandle(0);
-
-			if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
-				delete h;
+		if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
+			delete h;
 	}
 
 	/*! \brief checks that this is a valid drawable*/

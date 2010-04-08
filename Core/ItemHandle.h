@@ -18,6 +18,7 @@ graphics are used to draw a single item.
 #define TINKERCELL_HANDLER_H
 
 #include <QList>
+#include <QHash>
 #include <QTreeWidgetItem>
 #include <QUndoCommand>
 #include <QGraphicsItem>

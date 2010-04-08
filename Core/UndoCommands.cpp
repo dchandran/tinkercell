@@ -240,12 +240,10 @@ namespace Tinkercell
 			refreshAllConnectionIn(graphicsItems);
 	}
 	
-	QList<TextItem*> InsertTextItemsCommand::deletedItems;
-	
 	InsertTextItemsCommand::~InsertTextItemsCommand()
 	{
 		for (int i=0; i < items.size(); ++i)
-			if (items[i] && !InsertTextItemsCommand::deletedItems.contains(items[i]))
+			if (items[i] && !MainWindow::invalidPointers.contains((void*)items[i]))
 			{
 				textEditor->items().removeAll(items[i]);
 				for (int j=(i+1); j < items.size(); ++j)
@@ -256,7 +254,7 @@ namespace Tinkercell
 				if (!items[i]->handle() || (items[i]->handle() && items[i]->handle()->parent == 0))
 				{
 					delete items[i];
-					InsertTextItemsCommand::deletedItems << items[i];
+					MainWindow::invalidPointers[ (void*)items[i] ] = true;
 				}
 				items[i] = 0;
 			}
@@ -568,19 +566,18 @@ namespace Tinkercell
 		}
 	}
 	
-	QList<QGraphicsItem*> InsertGraphicsCommand::deletedItems;
-
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->graphicsItems.isEmpty())
+			if (!MainWindow::invalidPointers.contains( (void*)handles[i]) && handles[i] && handles[i]->graphicsItems.isEmpty())
 			{
 			    QList<ItemHandle*> children = handles[i]->allChildren();
 				for (int j=(i+1); j < handles.size(); ++j)
 					if (handles[i] == handles[j] || children.contains(handles[j]))
 						handles[j] = 0;
 				delete handles[i];
+				MainWindow::invalidPointers[ (void*) handles[i] ] = true;
 			}
 		}
 		handles.clear();
@@ -592,7 +589,7 @@ namespace Tinkercell
 
 		for (int i=0; i < graphicsItems.size(); ++i)
 		{
-			if (graphicsItems[i] && !allitems.contains(graphicsItems[i]))
+			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]) && !allitems.contains(graphicsItems[i]))
 			{
 			    if (graphicsItems[i]->parentItem())
 					graphicsItems[i]->setParentItem(0);
@@ -608,32 +605,22 @@ namespace Tinkercell
 			if (graphicsItems[i] &&
                 !allitems.contains(graphicsItems[i]) &&
                 !listToDelete.contains(graphicsItems[i]) &&
+                !MainWindow::invalidPointers.contains((void*)graphicsItems[i]) &&
                 (connection = ConnectionGraphicsItem::cast(graphicsItems[i])))
 			{
-                QList<QGraphicsItem*> controlPoints = connection->controlPointsAsGraphicsItems(true);
-                controlPoints << connection->arrowHeadsAsGraphicsItems();
-				controlPoints << connection->centerRegionItem;
-                
-                for (int j=0; j < controlPoints.size(); ++j)
-                {
-                    listToDelete.removeAll(controlPoints[j]);
-                    for (int k=0; k < graphicsItems.size(); ++k)
-                        if (graphicsItems[k] == controlPoints[j])
-                            graphicsItems[k] = 0;
-                }
-                
+			
                 if (!listToDelete.contains(graphicsItems[i]))
                 	listToDelete << graphicsItems[i];
-				
-				InsertGraphicsCommand::deletedItems << graphicsItems[i];
-				InsertGraphicsCommand::deletedItems << controlPoints;
 				
 				graphicsItems[i] = 0;
 			}
 
         for (int i=0; i < listToDelete.size(); ++i)
-        	if (!InsertGraphicsCommand::deletedItems.contains(listToDelete[i]))
+        	if (!MainWindow::invalidPointers.contains( (void*)listToDelete[i]))
+        	{
         	    delete listToDelete[i];
+        	    MainWindow::invalidPointers[ (void*) listToDelete[i] ] = true;
+        	}
 	        
 
         listToDelete.clear();
@@ -641,29 +628,21 @@ namespace Tinkercell
 			if (graphicsItems[i] &&
                 !allitems.contains(graphicsItems[i]) &&
                 !listToDelete.contains(graphicsItems[i]) &&
+                !MainWindow::invalidPointers.contains( (void*)graphicsItems[i]) &&
                 (node = NodeGraphicsItem::cast(graphicsItems[i])))
             {
-                QList<ControlPoint*> controlPoints = node->allControlPoints();
-                for (int j=0; j < controlPoints.size(); ++j)
-                {
-                	InsertGraphicsCommand::deletedItems << controlPoints[j];
-                    listToDelete.removeAll(controlPoints[j]);
-                    for (int k=0; k < graphicsItems.size(); ++k)
-                        if (graphicsItems[k] == controlPoints[j])
-                            graphicsItems[k] = 0;
-                }
-
-				if (!listToDelete.contains(graphicsItems[i]))
+                if (!listToDelete.contains(graphicsItems[i]))
 				    listToDelete << graphicsItems[i];
-				
-				InsertGraphicsCommand::deletedItems << graphicsItems[i];
 				
 			    graphicsItems[i] = 0;
 			}
 
         for (int i=0; i < listToDelete.size(); ++i)
-	        if (!InsertGraphicsCommand::deletedItems.contains(listToDelete[i]))
+	        if (!MainWindow::invalidPointers.contains( (void*)listToDelete[i]))
+	        {
         	    delete listToDelete[i];
+        	    MainWindow::invalidPointers[ (void*)listToDelete[i] ] = true;
+        	}
 
 		graphicsItems.clear();
 		
@@ -1997,8 +1976,11 @@ namespace Tinkercell
 	CompositeCommand::~CompositeCommand()
 	{
 		for (int i=0; i < commands.size(); ++i)
-			if (commands[i] && !doNotDelete.contains(commands[i]))
+			if (commands[i] && !doNotDelete.contains(commands[i]) && !MainWindow::invalidPointers.contains(commands[i]))
+			{
 				delete commands[i];
+				MainWindow::invalidPointers[ (void*)commands[i] ] = true;
+			}
 	}
 	void CompositeCommand::redo()
 	{
@@ -2023,7 +2005,11 @@ namespace Tinkercell
 	}
 	ReverseUndoCommand::~ReverseUndoCommand()
 	{
-		if (command && deleteCommand) delete command;
+		if (command && deleteCommand && !MainWindow::invalidPointers.contains(command)) 
+		{
+			delete command;
+			MainWindow::invalidPointers[ (void*)command ] = true;
+		}
 	}
 	void ReverseUndoCommand::redo()
 	{
@@ -2074,11 +2060,12 @@ namespace Tinkercell
 	ReplaceNodeGraphicsCommand::~ReplaceNodeGraphicsCommand()
 	{
 		for (int i=0; i < itemsToDelete.size(); ++i)
-			if (itemsToDelete[i])
+			if (itemsToDelete[i] && !MainWindow::invalidPointers.contains( (void*)itemsToDelete[i]))
 			{
 				if (itemsToDelete[i]->scene())
 					itemsToDelete[i]->scene()->removeItem(itemsToDelete[i]);
 				delete itemsToDelete[i];
+				MainWindow::invalidPointers[ (void*)itemsToDelete[i] ] = true;
 			}
 	}
 
@@ -2306,7 +2293,7 @@ namespace Tinkercell
 	{
 		oldHandles << newHandles;
 		for (int i=0; i < oldHandles.size(); ++i)
-			if (oldHandles[i])
+			if (oldHandles[i] && !MainWindow::invalidPointers.contains( (void*)oldHandles[i]))
 			{
 				bool pointedTo = false;
 				for (int j=0; j < oldHandles[i]->graphicsItems.size(); ++j)
@@ -2323,6 +2310,7 @@ namespace Tinkercell
 
 						oldHandles[i]->graphicsItems.clear();
 						delete oldHandles[i];
+						MainWindow::invalidPointers[ (void*)oldHandles[i] ] = true;
 						oldHandles[i] = 0;
 					}
 			}
@@ -2413,7 +2401,11 @@ namespace Tinkercell
 				{
 					handle = oldHandles[i];
 					oldHandles.removeAll(handle);
-					delete handle;
+					if (!MainWindow::invalidPointers.contains( (void*)handle ))
+					{
+						delete handle;
+						MainWindow::invalidPointers[ (void*)handle ] = true;
+					}
 				}
 			}
 		}
@@ -2792,3 +2784,4 @@ namespace Tinkercell
 		}
 	}
 }
+

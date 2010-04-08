@@ -22,6 +22,7 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include "ConnectionGraphicsItem.h"
 #include "ItemHandle.h"
 #include "NodeGraphicsReader.h"
+#include "UndoCommands.h"
 
 namespace Tinkercell
 {
@@ -1025,26 +1026,34 @@ namespace Tinkercell
 					}
 
 					curveSegments[i][j]->connectionItem = 0;
-					delete curveSegments[i][j];
+					
+					if (!MainWindow::invalidPointers.contains( (void*)curveSegments[i][j]) )
+					{
+						delete curveSegments[i][j];
+						MainWindow::invalidPointers[ (void*)curveSegments[i][j] ] = true;
+					}
 
 					curveSegments[i][j] = 0;
 
 					if (all)
 					{
-						if (curveSegments[i].arrowStart && curveSegments[i].arrowStart->scene())
+						if (curveSegments[i].arrowStart && 
+							!MainWindow::invalidPointers.contains( (void*)curveSegments[i].arrowStart) )
 						{
-							curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
-						}
-
-						if (curveSegments[i].arrowEnd && curveSegments[i].arrowEnd->scene())
-						{
-							curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
-						}
-						if (curveSegments[i].arrowStart)
+							if (curveSegments[i].arrowStart->scene())
+								curveSegments[i].arrowStart->scene()->removeItem(curveSegments[i].arrowStart);
 							delete curveSegments[i].arrowStart;
+							MainWindow::invalidPointers[ curveSegments[i].arrowStart ] = true;
+						}
 							
-						if (curveSegments[i].arrowEnd)
+						if (curveSegments[i].arrowEnd &&
+							!MainWindow::invalidPointers.contains( (void*)curveSegments[i].arrowEnd) )
+						{
+							if (curveSegments[i].arrowEnd->scene())
+								curveSegments[i].arrowEnd->scene()->removeItem(curveSegments[i].arrowEnd);
 							delete curveSegments[i].arrowEnd;
+							MainWindow::invalidPointers[ (void*)curveSegments[i].arrowEnd ] = true;
+						}
 
 						curveSegments[i].arrowStart = 0;
 						curveSegments[i].arrowEnd = 0;
@@ -1052,15 +1061,17 @@ namespace Tinkercell
 				}
 		curveSegments.clear();
 
-		if (centerRegionItem && all)
+		if (centerRegionItem && all && !MainWindow::invalidPointers.contains(centerRegionItem))
 		{
 			centerRegionItem->setParentItem(0);
 			centerRegionItem->connectionItem = 0;
 
 			if (centerRegionItem->scene())
 				centerRegionItem->scene()->removeItem(centerRegionItem);
-
+			
 			delete centerRegionItem;
+			MainWindow::invalidPointers[ (void*)centerRegionItem ] = true;
+			
 			centerRegionItem = 0;
 		}
 	}

@@ -50,6 +50,7 @@ namespace Tinkercell
 	class GraphicsScene;
 	class TextEditor;
 	class RenameCommand;
+	class ConnectionGraphicsItem;
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
@@ -82,8 +83,6 @@ namespace Tinkercell
 		TextEditor * textEditor;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
-		/*! \brief list of all items that have been freed by destructor*/
-		static QList<TextItem*> deletedItems;
 	};
 
 	/*! \brief this command inserts new handles to a NetworkWindow
@@ -190,8 +189,6 @@ namespace Tinkercell
 		QList<ItemHandle*> handles;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
-		/*! \brief list of all items that have been freed by destructor*/
-		static QList<QGraphicsItem*> deletedItems;
 	};
 	/*! \brief this command performs an removal and allows redo/undo of that removal
 	* \ingroup undo*/

@@ -1304,4 +1304,6 @@ namespace Tinkercell
 		qRegisterMetaType< ArrayOfStrings >("ArrayOfStrings");
 		qRegisterMetaType< ArrayOfItems >("ArrayOfItems");
 	}
+	
+	QHash<void*,bool> MainWindow::invalidPointers;
 }

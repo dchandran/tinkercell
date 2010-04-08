@@ -46,6 +46,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QSemaphore>
 #include <QLibrary>
 #include <QToolBox>
+#include <QHash>
 
 #include "HistoryWindow.h"
 #include "DataTable.h"
@@ -861,6 +862,11 @@ namespace Tinkercell
 		* \brief stores the last opened directory
 		*/
 		static QString previousFileName;
+		
+		/*!
+		* \brief stores list of all pointers that have been deleted (to prevent double-deletions)
+		*/
+		static QHash<void*,bool> invalidPointers;
 
 	};
 

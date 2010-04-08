@@ -78,7 +78,7 @@ namespace Tinkercell
 		NodeGraphicsItem(QGraphicsItem * parent = 0 );
 		/*! Copy Constructor */
 		NodeGraphicsItem(const NodeGraphicsItem& copy);
-		/*! Copy operator */
+		/*! basically does the same as copy constructor */
 		NodeGraphicsItem& operator = (const NodeGraphicsItem& copy);
 		/*! \brief make a copy of this node item*/
 		virtual NodeGraphicsItem* clone() const;

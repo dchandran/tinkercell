@@ -549,6 +549,7 @@ namespace Tinkercell
 		QList<NodeGraphicsItem> oldNodes, newNodes;
 		QList< QGraphicsItem* > itemsToDelete;
 		void loadFromFile(NodeGraphicsItem*,const QString&, bool transform);
+		bool transform;
 	};
 
 	/*! \brief this command assigns handles to items

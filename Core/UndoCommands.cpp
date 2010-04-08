@@ -2021,7 +2021,7 @@ namespace Tinkercell
 	}
 
 	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,NodeGraphicsItem* node,const QString& filename,bool transform)
-		: QUndoCommand(text)
+		: QUndoCommand(text), transform(transform)
 	{
 		if (node && !qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()))
 		{
@@ -2030,13 +2030,13 @@ namespace Tinkercell
 			oldNodes += copy1;
 
 			NodeGraphicsItem copy2(*node);
-			loadFromFile(&copy2,filename,transform);
+			loadFromFile(&copy2,filename);
 			newNodes += copy2;
 		}
 	}
 
 	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,const QList<NodeGraphicsItem*>& nodes,const QList<QString>& filenames, bool transform)
-		: QUndoCommand(text)
+		: QUndoCommand(text), transform(transform)
 	{
 		for (int i=0; i < nodes.size() && i < filenames.size(); ++i)
 		{
@@ -2051,7 +2051,7 @@ namespace Tinkercell
 
 				NodeGraphicsItem copy2(*node);
 				setHandle(&copy2,0);
-				loadFromFile(&copy2,filename,transform);
+				loadFromFile(&copy2,filename);
 				newNodes += copy2;
 			}
 		}
@@ -2093,12 +2093,16 @@ namespace Tinkercell
 								itemsToDelete << targetNodes[i]->boundaryControlPoints[j];
 							}
 
-							targetNodes[i]->shapes.clear();
-							targetNodes[i]->controlPoints.clear();
-							targetNodes[i]->boundaryControlPoints.clear();
+				targetNodes[i]->shapes.clear();
+				targetNodes[i]->controlPoints.clear();
+				targetNodes[i]->boundaryControlPoints.clear();
 
-							(*targetNodes[i]) = newNodes[i];
-
+				(*targetNodes[i]) = newNodes[i];
+				if (!tranform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				{
+					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
+					arrow->angle = 0.0;
+				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -2129,19 +2133,24 @@ namespace Tinkercell
 								itemsToDelete << targetNodes[i]->boundaryControlPoints[j];
 							}
 
-							targetNodes[i]->shapes.clear();
-							targetNodes[i]->controlPoints.clear();
-							targetNodes[i]->boundaryControlPoints.clear();
+				targetNodes[i]->shapes.clear();
+				targetNodes[i]->controlPoints.clear();
+				targetNodes[i]->boundaryControlPoints.clear();
 
-							(*targetNodes[i]) = oldNodes[i];
-
+				(*targetNodes[i]) = oldNodes[i];
+				
+				if (!tranform && node->className == ArrowHeadItem::CLASSNAME)
+				{
+					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
+					arrow->angle = 0.0;
+				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
 			if (itemsToDelete[i] && itemsToDelete[i]->scene())
 				itemsToDelete[i]->scene()->removeItem(itemsToDelete[i]);
 	}
-	void ReplaceNodeGraphicsCommand::loadFromFile(NodeGraphicsItem* node,const QString& fileName, bool transform)
+	void ReplaceNodeGraphicsCommand::loadFromFile(NodeGraphicsItem* node,const QString& fileName)
 	{
 		if (!node) return;
 

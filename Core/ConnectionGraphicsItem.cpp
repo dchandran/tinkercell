@@ -112,7 +112,7 @@ namespace Tinkercell
 		connectionItem = copy.connectionItem;
 		angle = copy.angle;
 	}
-
+	
 	/*! \brief make a copy of this item*/
 	NodeGraphicsItem* ArrowHeadItem::clone() const
 	{

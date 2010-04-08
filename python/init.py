@@ -23,5 +23,4 @@ try:
     print 'Python module loaded: NetworkX'
 except ImportError:
     print 'Python module not found: NetworkX'
-    NetworkX
 

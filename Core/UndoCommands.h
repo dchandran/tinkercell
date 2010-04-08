@@ -548,7 +548,7 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> targetNodes;
 		QList<NodeGraphicsItem> oldNodes, newNodes;
 		QList< QGraphicsItem* > itemsToDelete;
-		void loadFromFile(NodeGraphicsItem*,const QString&, bool transform);
+		void loadFromFile(NodeGraphicsItem*,const QString&);
 		bool transform;
 	};
 

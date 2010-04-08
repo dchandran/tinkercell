@@ -2098,7 +2098,7 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = newNodes[i];
-				if (!tranform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				if (!transform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
 				{
 					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
 					arrow->angle = 0.0;
@@ -2139,7 +2139,7 @@ namespace Tinkercell
 
 				(*targetNodes[i]) = oldNodes[i];
 				
-				if (!tranform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				if (!transform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
 				{
 					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
 					arrow->angle = 0.0;

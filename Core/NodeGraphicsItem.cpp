@@ -378,24 +378,6 @@ namespace Tinkercell
 		for (int i=0; i < children.size(); ++i)
 			if (children[i])
 				children[i]->setParentItem(0);
-		
-		for (int i=0; i < controlPoints.size(); ++i)
-		{
-			if (controlPoints[i])
-			{
-				controlPoints[i]->nodeItem = 0;
-				if (controlPoints[i]->scene())
-					controlPoints[i]->scene()->removeItem(controlPoints[i]);
-				
-				if (!MainWindow::invalidPointers.contains((void*)controlPoints[i]))
-				{
-					delete controlPoints[i];
-					MainWindow::invalidPointers[ (void*)controlPoints[i] ] = true;
-				}
-				
-				controlPoints[i] = 0;
-			}
-		}
 
 		for (int i=0; i < boundaryControlPoints.size(); ++i)
 			if (boundaryControlPoints[i] && !MainWindow::invalidPointers.contains((void*)boundaryControlPoints[i]))
@@ -1035,37 +1017,33 @@ namespace Tinkercell
 	{
 		for (int i=0; i < shapes.size(); ++i)
 		{
-			removeFromGroup(shapes[i]);
-			if (shapes[i])
+			if (shapes[i] && !MainWindow::invalidPointers.contains( (void*)shapes[i]))
 			{
+				removeFromGroup(shapes[i]);
 				if (shapes[i]->scene())
 					shapes[i]->scene()->removeItem(shapes[i]);
 				delete shapes[i];
+				MainWindow::invalidPointers[ (void*)shapes[i] ] = true;
+				
+				shapes[i] = 0;
 			}
 		}
+		
 		for (int i=0; i < controlPoints.size(); ++i)
 		{
-			if (controlPoints[i])
+			if (controlPoints[i] && !MainWindow::invalidPointers.contains((void*)controlPoints[i]))
 			{
 				removeFromGroup(controlPoints[i]);
 				if (controlPoints[i]->scene())
 					controlPoints[i]->scene()->removeItem(controlPoints[i]);
 				delete controlPoints[i];
+				MainWindow::invalidPointers[ (void*)controlPoints[i] ] = true;
+				
+				controlPoints[i] = 0;
 			}
 		}
-		/*for (int i=0; i < boundaryControlPoints.size(); ++i)
-		{
-		if (boundaryControlPoints[i])
-		{
-		removeFromGroup(boundaryControlPoints[i]);
-		if (boundaryControlPoints[i]->scene())
-		boundaryControlPoints[i]->scene()->removeItem(boundaryControlPoints[i]);
-		delete boundaryControlPoints[i];
-		}
-		}*/
 		shapes.clear();
 		controlPoints.clear();
-		//boundaryControlPoints.clear();
 	}
 	/*! \brief normalizes a node graphics item so that its center is 0,0 and width*height is 10
 	* \param NodeImage pointer to normalize

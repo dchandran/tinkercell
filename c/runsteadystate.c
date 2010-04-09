@@ -167,6 +167,25 @@ void run(Matrix input)
 			slider = (int)getValue(input,6,0);
 	}
 	
+	if (end < start) 
+	{
+		tc_errorReport("end value is less than start value");
+		return;
+	}
+	
+	if (dt < 0.0)
+	{
+		tc_errorReport("increment size must be positive");
+		return;
+	}
+
+	if ((end-start) < dt*2.0)
+	{
+		tc_errorReport("increment size is too large. Either change the start/end values or decrease the increment step size.");
+		return;
+	}
+
+	
 	if (slider == 0)
 		slider = 1;
 	else
@@ -372,6 +391,24 @@ void run2D(Matrix input)
 		
 		if (input.rows > 9)
 			slider = getValue(input,9,0);
+	}
+		
+	if (endx < startx || endy < starty) 
+	{
+		tc_errorReport("end value is less than start value");
+		return;
+	}
+	
+	if (dx < 0.0 || dy < 0.0)
+	{
+		tc_errorReport("increment size must be positive");
+		return;
+	}
+
+	if ((endx-startx) < dx*2.0 || (endy-starty) < dy*2.0)
+	{
+		tc_errorReport("increment size is too large. Either change the start/end values or decrease the increment step size.");
+		return;
 	}
 	
 	if (slider == 0)

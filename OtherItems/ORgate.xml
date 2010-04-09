@@ -14,7 +14,7 @@
         <listOfStyles>
             <style idList="or gate" width="50" height="50">
                 <g>
-                    <polygon fill="shape0color" stroke="#5e708a" stroke-width="8" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#5e708a" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="0%" y="0%"/>
@@ -34,7 +34,7 @@
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>
-                    <polygon fill="shape1color" stroke="#343434" stroke-width="3" stroke-alpha="1">
+                    <polygon fill="shape1color" stroke="#343434" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="17.1171%" y="82.8283%"/>

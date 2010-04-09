@@ -283,8 +283,11 @@ namespace Tinkercell
 	}
 
 	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, QGraphicsItem * item, bool show)
-	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
+	: QUndoCommand(QString("items hidden from view")), view(view), show(show), networkWindow(0)
 	{
+		if (view)
+			networkWindow = view->networkWindow;
+			
 		if (show)
 			setText(QString("items displayed in view"));
 		ConnectionGraphicsItem * connection = 0;
@@ -321,8 +324,11 @@ namespace Tinkercell
 	}
 
 	SetGraphicsViewVisibilityCommand::SetGraphicsViewVisibilityCommand(GraphicsView * view, const QList<QGraphicsItem*> & list, bool show)
-	: QUndoCommand(QString("items hidden from view")), view(view), show(show)
+	: QUndoCommand(QString("items hidden from view")), view(view), show(show), networkWindow(0)
 	{
+		if (view)
+			networkWindow = view->networkWindow;
+			
 		if (show)
 			setText(QString("items displayed in view"));
 
@@ -361,7 +367,7 @@ namespace Tinkercell
 
 	void SetGraphicsViewVisibilityCommand::redo()
 	{
-		if (view)
+		if (view && networkWindow && networkWindow->views().contains(view))
 		{
 			for (int i=0; i < items.size(); ++i)
 				if (items[i])
@@ -375,7 +381,7 @@ namespace Tinkercell
 
 	void SetGraphicsViewVisibilityCommand::undo()
 	{
-		if (view)
+		if (view && networkWindow && networkWindow->views().contains(view))
 		{
 			for (int i=0; i < items.size(); ++i)
 				if (items[i])				

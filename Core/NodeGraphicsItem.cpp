@@ -68,7 +68,8 @@ namespace Tinkercell
 	}
 
 	/*! Constructor: does nothing */
-	NodeGraphicsItem::NodeGraphicsItem(QGraphicsItem * parent) : QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0)
+	NodeGraphicsItem::NodeGraphicsItem(QGraphicsItem * parent) : 
+		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0), nameLocation(NoLocation)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -185,7 +186,8 @@ namespace Tinkercell
 	}
 
 	/*! Copy Constructor: deep copy of all pointers */
-	NodeGraphicsItem::NodeGraphicsItem(const NodeGraphicsItem& copy) : QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0)
+	NodeGraphicsItem::NodeGraphicsItem(const NodeGraphicsItem& copy) : 
+		QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0)
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -202,6 +204,7 @@ namespace Tinkercell
 		itemHandle = copy.itemHandle;
 		name = copy.name;
 		defaultSize = copy.defaultSize;
+		nameLocation = copy.nameLocation;
 
 		if (itemHandle)
 			setHandle(itemHandle);
@@ -522,6 +525,22 @@ namespace Tinkercell
 			//painter->drawRect(boundingRect());
 		}
 		QGraphicsItemGroup::paint(painter,option,widget);
+		
+		if (nameLocation != NoLocation && handle())
+		{
+			QString name = handle()->name;
+			QRectF rect = sceneBoundingRect();
+			if (nameLocation == TopLocation)
+				painter->drawText( QPointF(rect.left(), rect.top() - 10.0), name);
+			else
+			if (nameLocation == BottomLocation)
+				painter->drawText(QPointF(rect.left(), rect.bottom() + 1.0), name);
+			else
+			if (nameLocation == LeftLocation)
+				painter->drawText( QPointF(rect.center().x(), rect.left() - name.length() * 10.0), name);
+			else
+				painter->drawText( QPointF(rect.center().x(), rect.right() + 1.0) , name);
+		}
 	}
 
 	/*! \brief Constructor: Setup colors and z value */

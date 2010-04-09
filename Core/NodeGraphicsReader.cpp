@@ -58,6 +58,8 @@ namespace Tinkercell
 		QString fill, stroke, s;
 		QBrush brush;
 		QPen pen;
+		QStringList locationTypes;
+		locationTypes << "NoLocation" << "LeftLocation" << "RightLocation" << "BottomLocation" << "TopLocation" << "CenterLocation";
 
 		while (!atEnd() && !(isEndElement() && name() == "listOfRenderInformation"))
 		{
@@ -289,7 +291,13 @@ namespace Tinkercell
 					{
 						if (vec.at(i).name().toString() == QObject::tr("idList"))
 							node->name = vec.at(i).value().toString();
-
+						else
+						if (vec.at(i).name().toString() == QObject::tr("class"))
+							node->className = vec.at(i).value().toString();
+						else
+						if (vec.at(i).name().toString() == QObject::tr("textLocation"))
+							node->nameLocation = NodeGraphicsItem::NameLocation( locationTypes.indexOf(vec.at(i).value().toString()) );
+						else
 						if (vec.at(i).name().toString() == QObject::tr("width"))
 						{
 							width = vec.at(i).value().toString().toDouble(&ok);
@@ -297,7 +305,7 @@ namespace Tinkercell
 								width = 100.0;
 							node->defaultSize.setWidth(width);
 						}
-						
+						else
 						if (vec.at(i).name().toString() == QObject::tr("height"))
 						{
 							height = vec.at(i).value().toString().toDouble(&ok);

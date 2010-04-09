@@ -80,6 +80,18 @@ void run(Matrix input)
 			slider = (int)getValue(input,5,0);
 	}
 	
+	if (end < 0) 
+	{
+		tc_errorReport("select a positive time");
+		return;
+	}
+	
+	if (dt > end/2.0) 
+	{
+		tc_errorReport("step size is too small");
+		return;
+	}
+	
 	if (slider)
 		slider = 0;
 	else

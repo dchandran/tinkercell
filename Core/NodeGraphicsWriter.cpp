@@ -120,12 +120,17 @@ namespace Tinkercell
 				writeShapeGradients(node, i, writer,normalize);
 			writer->writeEndElement();
 		}
+		
+		QStringList locationTypes;
+		locationTypes << "NoLocation" << "LeftLocation" << "RightLocation" << "BottomLocation" << "TopLocation" << "CenterLocation";
 
 		writer->writeStartElement("listOfStyles");
 		writer->writeStartElement("style");
 			writer->writeAttribute("idList", node->name);
 			writer->writeAttribute("width", QString::number(node->defaultSize.width()));
 			writer->writeAttribute("height", QString::number(node->defaultSize.height()));
+			writer->writeAttribute("class", node->className);
+			writer->writeAttribute("textLocation", locationTypes[ (int)node->nameLocation ]);
 		writer->writeStartElement("g");
 		
 		//normalize

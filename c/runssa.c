@@ -36,6 +36,18 @@ void runSSA(Matrix input)
 			slider = (int)getValue(input,4,0);
 	}
 	
+	if (time < 0) 
+	{
+		tc_errorReport("simulation time must be a positive");
+		return;
+	}
+	
+	if (maxsz < time) 
+	{
+		tc_errorReport("maximum array size is set to be less than the simulation time itself");
+		return;
+	}
+	
 	if (slider)
 		slider = 0;
 	else
@@ -440,7 +452,16 @@ void runLangevin(Matrix input)
 			slider = (int)getValue(input,4,0);
 	}
 	
-	if (dt > time/2.0) dt = time/10.0;
+	if (time < 0) 
+	{
+		tc_errorReport("select a positive time");
+		return;
+	}
+	
+	if (dt > time/2.0)
+	{
+		tc_errorReport("step size is too small");
+	}
 	
 	if (slider)
 		slider = 0;

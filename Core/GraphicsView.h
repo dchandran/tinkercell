@@ -161,6 +161,7 @@ namespace Tinkercell
 		/*! \brief undo the change*/
 		void undo();
 	private:
+		NetworkWindow * networkWindow;
 		GraphicsView * view;
 		QList<QGraphicsItem*> items;
 		bool show;

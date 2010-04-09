@@ -89,9 +89,14 @@ namespace Tinkercell
 		/*! \brief number of different type of shapes available*/
 		static const int numShapeTypes = 4;
 		/*! \brief arc, line, or beizier */
-		typedef enum {arc, line, bezier, rectangle} ShapeType;
+		enum ShapeType {arc, line, bezier, rectangle};
 		/*! \brief default size for this item*/
 		QSizeF defaultSize;
+		/*! \brief position of the name text */
+		enum NameLocation {NoLocation, LeftLocation, RightLocation, BottomLocation, TopLocation, CenterLocation};
+		/*! \brief default size for this item*/
+		NameLocation nameLocation;
+		
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
 		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint

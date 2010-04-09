@@ -185,7 +185,7 @@ namespace Tinkercell
 		pyfile.close();
 
 		convertCodeToButtonC(
-			tr("#include \"TC_api.h\"\nvoid run()\n{\n    tc_runPythonFile(\"/python/") + pyName + tr(".py\");\n    return 0;\n}\n"),
+			tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n    tc_runPythonFile(\"/python/") + pyName + tr(".py\");\n    return 0;\n}\n"),
 			pyDescription);
 	}
 

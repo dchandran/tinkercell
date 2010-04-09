@@ -193,6 +193,10 @@ namespace Tinkercell
 								dataRowsAndCols.insertMulti(sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
+							
+							for (int l=0; l < sDat.rows(); ++l)
+								dataRowsAndCols.insertMulti(sDat.at(l,k),
+									QPair<ItemHandle*,QString>(handle,keys[j]));
 						}
 					}
 				}

@@ -126,9 +126,7 @@ TextGraphicsItem::~TextGraphicsItem()
 
 void TextGraphicsItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
-	scale(1.0/option->levelOfDetail,1.0/option->levelOfDetail);
 	QGraphicsTextItem::paint(painter,option,widget);
-	scale(option->levelOfDetail,option->levelOfDetail);
 }
 
 void TextGraphicsItem::showBorder(bool showBorder)

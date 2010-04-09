@@ -324,6 +324,9 @@ namespace Tinkercell
             toInsert += (QGraphicsItem*)linker;
 
 			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
+			QFont font = linkerText->font();
+			font.setPointSize(36);
+			linkerText->setFont(font);
 			linkerText->setPos(linker->pos());
 			linkerText->scale(1.5,1.5);
 			toInsert += (QGraphicsItem*)linkerText;

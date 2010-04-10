@@ -331,7 +331,7 @@ namespace Tinkercell
 			linkerText->scale(1.5,1.5);
 			toInsert += (QGraphicsItem*)linkerText;*/
 			
-			linker->nameLocation = NodeGraphicsItem::BottomLocation;
+			linker->setTextLocation( NodeGraphicsItem::BottomLocation );
         }
 
         for (int i=0; i < textItems.size(); ++i)

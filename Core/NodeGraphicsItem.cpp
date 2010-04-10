@@ -16,6 +16,7 @@ ControlPoint is a drawable item that is used by NodeGraphicsItem and ConnectionG
 to draw movable points.
 
 ****************************************************************************/
+#include <QFont>
 #include "ConsoleWindow.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
@@ -66,10 +67,49 @@ namespace Tinkercell
 		if (nodeItem)
 			nodeItem->setHandle(h);
 	}
+	
+	NodeGraphicsItem::TextLocation NodeGraphicsItem::textLocation() const
+	{
+		return _textLocation;
+	}
+	
+	void NodeGraphicsItem::setTextLocation(TextLocation loc)
+	{
+		_textLocation = loc;
+		
+		if (textItem && !MainWindow::invalidPointers.contains( (void*)textItem ))
+		{
+			delete textItem;
+			textItem = 0;
+		}
+
+		if (_textLocation != NoLocation)
+		{
+			QString s = name;
+			if (handle())
+				s = handle()->name;
+			
+			textItem = new QGraphicsSimpleTextItem(s, this);
+			QFont font = textItem->font();
+			font.setPointSize(16);
+
+			QRectF rect = boundingRect();
+			if (_textLocation == TopLocation)
+				textItem->setPos( QPointF(rect.left(), rect.top() - textItem->boundingRect().height()*1.5));
+			else
+			if (_textLocation == BottomLocation)
+				textItem->setPos(QPointF(rect.left(), rect.bottom() + textItem->boundingRect().height()*0.5));
+			else
+			if (_textLocation == LeftLocation)
+				textItem->setPos( QPointF(rect.left() - textItem->boundingRect().width()*1.2, rect.center().y()));
+			else
+				textItem->setPos( QPointF(rect.right() + textItem->boundingRect().width()*0.2, rect.center().y()));
+		}
+	}
 
 	/*! Constructor: does nothing */
 	NodeGraphicsItem::NodeGraphicsItem(QGraphicsItem * parent) : 
-		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0), nameLocation(NoLocation)
+		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0), textItem(0), _textLocation(NoLocation)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -187,7 +227,7 @@ namespace Tinkercell
 
 	/*! Copy Constructor: deep copy of all pointers */
 	NodeGraphicsItem::NodeGraphicsItem(const NodeGraphicsItem& copy) : 
-		QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0)
+		QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0), textItem(0), _textLocation(NoLocation)
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -204,7 +244,7 @@ namespace Tinkercell
 		itemHandle = copy.itemHandle;
 		name = copy.name;
 		defaultSize = copy.defaultSize;
-		nameLocation = copy.nameLocation;
+		_textLocation = copy._textLocation;
 
 		if (itemHandle)
 			setHandle(itemHandle);
@@ -228,6 +268,7 @@ namespace Tinkercell
 			}
 
 		refresh();
+		setTextLocation(copy._textLocation);
 
 #if QT_VERSION < 0x040600		
 		setTransform(t1);
@@ -507,22 +548,6 @@ namespace Tinkercell
 			//painter->drawRect(boundingRect());
 		}
 		QGraphicsItemGroup::paint(painter,option,widget);
-		
-		if (nameLocation != NoLocation && handle())
-		{
-			QString name = handle()->name;
-			QRectF rect = sceneBoundingRect();
-			if (nameLocation == TopLocation)
-				painter->drawText( QPointF(rect.left(), rect.top() - 10.0), name);
-			else
-			if (nameLocation == BottomLocation)
-				painter->drawText(QPointF(rect.left(), rect.bottom() + 1.0), name);
-			else
-			if (nameLocation == LeftLocation)
-				painter->drawText( QPointF(rect.center().x(), rect.left() - name.length() * 10.0), name);
-			else
-				painter->drawText( QPointF(rect.center().x(), rect.right() + 1.0) , name);
-		}
 	}
 
 	/*! \brief Constructor: Setup colors and z value */

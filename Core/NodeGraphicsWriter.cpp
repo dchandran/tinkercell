@@ -130,7 +130,7 @@ namespace Tinkercell
 			writer->writeAttribute("width", QString::number(node->defaultSize.width()));
 			writer->writeAttribute("height", QString::number(node->defaultSize.height()));
 			writer->writeAttribute("class", node->className);
-			writer->writeAttribute("textLocation", locationTypes[ (int)node->nameLocation ]);
+			writer->writeAttribute("textLocation", locationTypes[ (int)node->textLocation() ]);
 		writer->writeStartElement("g");
 		
 		//normalize

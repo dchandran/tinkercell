@@ -296,7 +296,7 @@ namespace Tinkercell
 							node->className = vec.at(i).value().toString();
 						else
 						if (vec.at(i).name().toString() == QObject::tr("textLocation"))
-							node->nameLocation = NodeGraphicsItem::NameLocation( locationTypes.indexOf(vec.at(i).value().toString()) );
+							node->setTextLocation( NodeGraphicsItem::TextLocation( locationTypes.indexOf(vec.at(i).value().toString()) ));
 						else
 						if (vec.at(i).name().toString() == QObject::tr("width"))
 						{

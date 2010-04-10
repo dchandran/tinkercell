@@ -29,6 +29,7 @@ to change color temporarily and then revert back to the default.
 #include <QGraphicsRectItem>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
+#include <QGraphicsSimpleTextItem>
 #include <QTransform>
 #include <QUndoCommand>
 #include <QTextCursor>
@@ -93,10 +94,11 @@ namespace Tinkercell
 		/*! \brief default size for this item*/
 		QSizeF defaultSize;
 		/*! \brief position of the name text */
-		enum NameLocation {NoLocation, LeftLocation, RightLocation, BottomLocation, TopLocation, CenterLocation};
-		/*! \brief default size for this item*/
-		NameLocation nameLocation;
-		
+		enum TextLocation {NoLocation, LeftLocation, RightLocation, BottomLocation, TopLocation, CenterLocation};
+		/*! \brief set the location of the name text for this item. use NoLocation to hide the name (default)*/
+		virtual void setTextLocation(TextLocation);
+		/*! \brief the location of the name text for this item*/
+		virtual TextLocation textLocation() const;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
 		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
@@ -209,7 +211,6 @@ namespace Tinkercell
 		virtual void resetBrush();
 		/*! \brief change outline color of all shapes to default pen*/
 		virtual void resetPen();
-
 		/*! \brief gets a polygon that represents this graphicsItem*/
 		virtual QPolygonF polygon() const;
 		/*! \brief gets a path that represents this graphicsItem*/
@@ -246,8 +247,6 @@ namespace Tinkercell
 		virtual void adjustToBoundaryControlPoints();
 		/*! \brief set the top left and bottom right corners of this node item*/
 		virtual void setBoundingRect(const QPointF&, const QPointF&);
-		/*! \brief the bounding box of this figure */
-		QGraphicsRectItem * boundingBoxItem;
 		/*! \brief show or hide the bounding box of this figure */
 		virtual void setBoundingBoxVisible(bool visible = true, bool controlPoints = true);
 		/*! \brief show the bounding box of this figure. same as setBoundingBoxVisible(true) */
@@ -283,6 +282,12 @@ namespace Tinkercell
 		virtual qreal getPenWidthForBoundingRect();
 		/*! \brief Tinkercell object that this drawable belongs in */
 		ItemHandle * itemHandle;
+		/*! \brief the bounding box of this figure */
+		QGraphicsRectItem * boundingBoxItem;
+		/*! \brief name item*/
+		QGraphicsSimpleTextItem * textItem;
+		/*! \brief name item's location*/
+		TextLocation _textLocation;
 	};
 
 }

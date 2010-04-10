@@ -323,13 +323,15 @@ namespace Tinkercell
 			linker->setPos(VisualTool::getPoint(module,items[i]->scenePos(),linker));
             toInsert += (QGraphicsItem*)linker;
 
-			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
+			/*TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
 			QFont font = linkerText->font();
 			font.setPointSize(36);
 			linkerText->setFont(font);
 			linkerText->setPos(linker->pos());
 			linkerText->scale(1.5,1.5);
-			toInsert += (QGraphicsItem*)linkerText;
+			toInsert += (QGraphicsItem*)linkerText;*/
+			
+			linker->nameLocation = NodeGraphicsItem::BottomLocation;
         }
 
         for (int i=0; i < textItems.size(); ++i)

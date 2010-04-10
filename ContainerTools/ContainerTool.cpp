@@ -271,24 +271,24 @@ namespace Tinkercell
         for (int i=0; i < items.size(); ++i)
             if (connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(items[i]))
             {
-            QList<NodeGraphicsItem*> nodes = connection->nodes();
+		        QList<NodeGraphicsItem*> nodes = connection->nodes();
 
-            for (int j=0; j < nodes.size(); ++j)
-                if (nodes[j])
-                {
-                handle = nodes[j]->handle();
-                if (handle)
-                {
-                    parentHandle = handle->parentOfFamily(tr("Compartment"));
-                    if (!parentHandle)
-                        parentHandle = handle->parentOfFamily(tr("Module"));
-                    if (parentHandle && !handles.contains(parentHandle))
-                    {
-                        handles << parentHandle;
-                    }
-                }
-            }
-        }
+		        for (int j=0; j < nodes.size(); ++j)
+		            if (nodes[j])
+		            {
+				        handle = nodes[j]->handle();
+				        if (handle)
+				        {
+				            parentHandle = handle->parentOfFamily(tr("Compartment"));
+				            if (!parentHandle)
+				                parentHandle = handle->parentOfFamily(tr("Module"));
+				            if (parentHandle && !handles.contains(parentHandle))
+				            {
+				                handles << parentHandle;
+				            }
+				        }
+				    }
+		    }
 
         for (int i=0; i < handleList.size(); ++i)
         {
@@ -341,8 +341,14 @@ namespace Tinkercell
                         childRect = child->graphicsItems[j]->sceneBoundingRect();
                         contained0 = false;
                         for (int l=0; l < handle->graphicsItems.size(); ++l)
-							if (handle->graphicsItems[l] && scene->isVisible(handle->graphicsItems[l]))
+							if (handle->graphicsItems[l])
 							{
+								if (!scene->isVisible(handle->graphicsItems[l]))
+								{
+									contained0 = true;
+									break;
+								}
+								
 								if (connection)
 								{
 									if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect()))
@@ -484,11 +490,11 @@ namespace Tinkercell
 				}
             if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child))
             {
-                stillWithParent = true;
+                stillWithParent = false;
                 for (int j=0; j < child->graphicsItems.size(); ++j)
-            		if (scene->isVisible(child->graphicsItems[j]))
+            		if (!scene->isVisible(child->graphicsItems[j]))
             		{
-            			stillWithParent = false;
+            			stillWithParent = true;
 	            		break;
 					}
                 if (child->parent && !stillWithParent)
@@ -744,11 +750,11 @@ namespace Tinkercell
 			child = movedChildNodes[i];
 			if (child->graphicsItems.isEmpty() || !child->textItems.isEmpty()) continue;
 
-            outOfBox = false;
+            outOfBox = true;
             for (int j=0; j < child->parent->graphicsItems.size(); ++j)
-            	if (scene->isVisible(child->parent->graphicsItems[j]))
+            	if (!scene->isVisible(child->parent->graphicsItems[j]))
             	{
-            		outOfBox = true;
+            		outOfBox = false;
             		break;
 				}
 

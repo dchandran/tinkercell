@@ -220,7 +220,7 @@ namespace Tinkercell
 
 	void GraphicsView::showItem(QGraphicsItem* item)
 	{
-		if (!networkWindow) return;
+		if (!networkWindow || !hiddenItems.contains(item)) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,true);
 
 		networkWindow->history.push(command);
@@ -228,7 +228,7 @@ namespace Tinkercell
 
 	void GraphicsView::hideItem(QGraphicsItem* item)
 	{
-		if (!networkWindow) return;
+		if (!networkWindow || hiddenItems.contains(item)) return;
 		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,item,false);
 
 		networkWindow->history.push(command);
@@ -237,17 +237,41 @@ namespace Tinkercell
 	void GraphicsView::showItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow || items.isEmpty()) return;
-		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,true);
-
-		networkWindow->history.push(command);
+		
+		bool doCommand = false;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (hiddenItems.contains(items[i]))
+			{
+				doCommand = true;
+				break;
+			}
+		
+		if (doCommand)
+		{
+			QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,true);
+			networkWindow->history.push(command);
+		}
 	}
 
 	void GraphicsView::hideItems(const QList<QGraphicsItem*>& items)
 	{
 		if (!networkWindow || items.isEmpty()) return;
-		QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,false);
+
+		bool doCommand = false;
 		
-		networkWindow->history.push(command);
+		for (int i=0; i < items.size(); ++i)
+			if (!hiddenItems.contains(items[i]))
+			{
+				doCommand = true;
+				break;
+			}
+		
+		if (doCommand)
+		{
+			QUndoCommand * command = new SetGraphicsViewVisibilityCommand(this,items,false);
+			networkWindow->history.push(command);
+		}
 	}
 
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
@@ -295,7 +319,7 @@ namespace Tinkercell
 
 		item = getGraphicsItem(item);
 
-		if (item)
+		if (view && item && ((show && view->hiddenItems.contains(item)) || (!show && !view->hiddenItems.contains(item))))
 		{
 			if (connection = ConnectionGraphicsItem::cast(item))
 			{
@@ -335,14 +359,18 @@ namespace Tinkercell
 		QGraphicsItem * item;
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
-				
+
 		for (int i=0; i < list.size(); ++i)
 			if (item = getGraphicsItem(list[i]))
 			{
+				if (view && 
+					((show && !view->hiddenItems.contains(item)) || (!show && view->hiddenItems.contains(item))))
+					continue;
+				
 				if (connection = ConnectionGraphicsItem::cast(item))
 				{
 					items << connection
-						 // << connection->controlPointsAsGraphicsItems(true)
+						  << connection->controlPointsAsGraphicsItems(true)
 						  << connection->arrowHeadsAsGraphicsItems();
 				}
 				else

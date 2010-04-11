@@ -43,7 +43,23 @@ namespace Tinkercell
 
     void ArrowSelectionTool::replaceNodeSlot()
     {
-        emit replaceNode(false);
+    	GraphicsScene * scene = currentScene();
+    	if (scene)
+    	{
+    		NodeGraphicsItem * node;
+    		ArrowHeadItem * arrow;
+	        emit replaceNode(false);
+			QList<QGraphicsItem*> & selected = scene->selected();
+    	    for (int i=0; i < selected.size(); ++i)
+    	    {
+    	    	if ((node = NodeGraphicsItem::cast(selected[i])) && (node->className == ArrowHeadItem::CLASSNAME))
+    	    	{
+    	    		arrow = static_cast<ArrowHeadItem*>(node);
+    	    		if (arrow->connectionItem)
+    	    			arrow->connectionItem->refresh();
+    	    	}
+    	    }
+    	}
     }
 
     ArrowSelectionTool::ArrowSelectionTool() : Tool(tr("Arrow Selection Tool")) , showArrowSelection("Change arrowhead",this), separator(0)

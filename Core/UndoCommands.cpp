@@ -1906,6 +1906,16 @@ namespace Tinkercell
 
 							}
 						}
+						else
+						{
+							NodeGraphicsItem * nodeItem = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]);
+							if (nodeItem && nodeItem->textItem)
+							{
+								oldNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,handle->name);
+								newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,newNames[i]);
+								nodeItem->textItem->setText(newNames[i]);
+							}
+						}
 					}
 
 					oldItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
@@ -1928,6 +1938,11 @@ namespace Tinkercell
 			for (int i=0; i < newTextItemsNames.size(); ++i)
 				if (newTextItemsNames[i].first)
 					newTextItemsNames[i].first->setPlainText(newTextItemsNames[i].second);
+					
+			for (int i=0; i < newNodeItemsNames.size(); ++i)
+				if (newNodeItemsNames[i].first && newNodeItemsNames[i].first->textItem)
+					newNodeItemsNames[i].first->textItem->setText(newNodeItemsNames[i].second);
+					
 
 			if (changeDataCommand)
 				changeDataCommand->undo();
@@ -1943,6 +1958,10 @@ namespace Tinkercell
 		for (int i=0; i < oldTextItemsNames.size(); ++i)
 			if (oldTextItemsNames[i].first)
 				oldTextItemsNames[i].first->setPlainText(oldTextItemsNames[i].second);
+
+		for (int i=0; i < oldNodeItemsNames.size(); ++i)
+			if (oldNodeItemsNames[i].first && oldNodeItemsNames[i].first->textItem)
+				oldNodeItemsNames[i].first->textItem->setText(oldNodeItemsNames[i].second);
 
 		if (changeDataCommand)
 		{

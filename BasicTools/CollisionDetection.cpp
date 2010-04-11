@@ -140,10 +140,14 @@ namespace Tinkercell
 		}
 		else
 			if (nodeBelowCursor)
-				if (alpha < 150)
-					nodeBelowCursor->setAlpha(alpha);
-				else
-					nodeBelowCursor->setAlpha(300 - alpha);
+			{
+				QRectF rect = nodeBelowCursor->sceneBoundingRect();
+				if (rect.width() < 500 && rect.height() < 500)				
+					if (alpha < 150)
+						nodeBelowCursor->setAlpha(alpha);
+					else
+						nodeBelowCursor->setAlpha(300 - alpha);
+			}
 	}
 
 	void CollisionDetection::itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>& , QPointF , Qt::KeyboardModifiers )
@@ -272,7 +276,7 @@ namespace Tinkercell
 			
 					if (scene->isVisible(nodeBelowCursor2))
 						nodeBelowCursor = nodeBelowCursor2;
-						
+					
 					glowTimer.stop();
 					glowTimer.setFrameRange(50,250);
 					glowTimer.setDirection(QTimeLine::Backward);

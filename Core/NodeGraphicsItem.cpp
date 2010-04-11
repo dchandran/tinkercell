@@ -53,6 +53,11 @@ namespace Tinkercell
 		{
 			itemHandle = handle;
 		}
+		
+		if (itemHandle && textItem)
+		{
+			textItem->setText(itemHandle->name);
+		}
 	}
 
 	ItemHandle * NodeGraphicsItem::ControlPoint::handle() const
@@ -90,9 +95,7 @@ namespace Tinkercell
 				s = handle()->name;
 			
 			textItem = new QGraphicsSimpleTextItem(s, this);
-			QFont font = textItem->font();
-			font.setPointSize(16);
-
+			
 			QRectF rect = boundingRect();
 			if (_textLocation == TopLocation)
 				textItem->setPos( QPointF(rect.left(), rect.top() - textItem->boundingRect().height()*1.5));
@@ -547,6 +550,17 @@ namespace Tinkercell
 			//painter->drawRoundRect(boundingRect());
 			//painter->drawRect(boundingRect());
 		}
+		
+		if (textItem && _textLocation != NoLocation)
+		{
+			QTransform t1 = transform();
+			t1.translate( -t1.dx(), -t1.dy() );
+			t1 = t1.inverted();
+			t1.translate( boundingRectangle.center().x(), boundingRectangle.center().y() );
+			t1.scale( 2.0 , 2.0 );
+			textItem->setTransform( t1 );
+		}
+		
 		QGraphicsItemGroup::paint(painter,option,widget);
 	}
 

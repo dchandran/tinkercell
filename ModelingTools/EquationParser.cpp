@@ -197,7 +197,6 @@ namespace Tinkercell
 										}
 										else
 										{
-											str2 = str;
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
 										}
 										

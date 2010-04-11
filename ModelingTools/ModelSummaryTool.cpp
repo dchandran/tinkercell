@@ -313,7 +313,7 @@ namespace Tinkercell
 		layout->addWidget(tabWidget);
 		QPushButton * closeButton = new QPushButton;
 		closeButton->setText(tr("Close"));
-		connect(closeButton,SIGNAL(pressed()),this,SLOT(deselect()));
+		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
 		QHBoxLayout * buttonLayout = new QHBoxLayout;
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);

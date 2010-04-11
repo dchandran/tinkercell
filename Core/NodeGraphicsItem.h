@@ -99,6 +99,8 @@ namespace Tinkercell
 		virtual void setTextLocation(TextLocation);
 		/*! \brief the location of the name text for this item*/
 		virtual TextLocation textLocation() const;
+		/*! \brief name item*/
+		QGraphicsSimpleTextItem * textItem;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
 		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
@@ -284,8 +286,6 @@ namespace Tinkercell
 		ItemHandle * itemHandle;
 		/*! \brief the bounding box of this figure */
 		QGraphicsRectItem * boundingBoxItem;
-		/*! \brief name item*/
-		QGraphicsSimpleTextItem * textItem;
 		/*! \brief name item's location*/
 		TextLocation _textLocation;
 	};

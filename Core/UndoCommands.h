@@ -467,6 +467,8 @@ namespace Tinkercell
 		QList< QPair<ItemHandle *, QString> > oldItemNames;
 		QList< QPair<TextGraphicsItem *, QString> > newTextItemsNames;
 		QList< QPair<TextGraphicsItem *, QString> > oldTextItemsNames;
+		QList< QPair<NodeGraphicsItem *, QString> > newNodeItemsNames;
+		QList< QPair<NodeGraphicsItem *, QString> > oldNodeItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 
     public:

@@ -1912,8 +1912,16 @@ namespace Tinkercell
 							if (nodeItem && nodeItem->textItem)
 							{
 								oldNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,handle->name);
-								newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,newNames[i]);
-								nodeItem->textItem->setText(newNames[i]);
+								if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
+								{
+									newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,regexp.cap(1));
+									nodeItem->textItem->setText(regexp.cap(1));
+								}
+								else
+								{
+									newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,newNames[i]);
+									nodeItem->textItem->setText(newNames[i]);
+								}
 							}
 						}
 					}

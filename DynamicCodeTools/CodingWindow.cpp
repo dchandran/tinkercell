@@ -777,7 +777,7 @@ namespace Tinkercell
 					QString name, str;
 					name = regexFunction.capturedTexts().at(2);
 					if (visitedFunctions.contains(name)) continue;
-					visitedFunctions << name;
+					visitedFunctions << name.trimmed();
 					if (regexFunction.capturedTexts().at(1) == tr("void"))
 						str = regexFunction.capturedTexts().at(2) + regexFunction.capturedTexts().at(3);
 					else
@@ -795,13 +795,14 @@ namespace Tinkercell
 			file.close();
 		 }
 		 
-		 if (console && console->editor())
+		 if (console && console->editor() && !console->editor()->completer())
 		 {
-			QCompleter * completer = new QCompleter(this);
-			completer->setModel(new QStringListModel(visitedFunctions, completer));
-			completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+			QCompleter * completer = new QCompleter(visitedFunctions,this);			
+			//completer->setModel(new QStringListModel(visitedFunctions, completer));
+			//completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+			//completer->setWrapAround(false);
 			completer->setCaseSensitivity(Qt::CaseInsensitive);
-			completer->setWrapAround(false);
+			
 			console->editor()->setCompleter(completer);
 		 }
 	 }

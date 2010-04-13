@@ -198,7 +198,7 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Transcription Regulator") && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Operator") && !handlesDegraded.contains(handle))
 			{
 				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
 				handlesDegraded += handle;
@@ -825,7 +825,7 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Transcription Regulator")))
+				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Operator")))
 				{
 					if (regulator == 0)
 						regulator = parts[i];
@@ -1792,7 +1792,7 @@ namespace Tinkercell
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;
-			if (!containsRegulator && handle && handle->isA("Transcription Regulator"))
+			if (!containsRegulator && handle && handle->isA("Operator"))
 				containsRegulator = true;
 			if (!containsCoding && handle && handle->isA("Coding"))
 				containsCoding = true;
@@ -2061,7 +2061,7 @@ namespace Tinkercell
 
 	QString AutoGeneRegulatoryTool::hillEquation(NodeHandle * handle, ItemHandle * except)
 	{
-		if (!handle || !handle->isA(tr("Transcription Regulator"))) return QString();
+		if (!handle || !handle->isA(tr("Operator"))) return QString();
 
 		QList<ConnectionHandle*> connections = handle->connections();
 

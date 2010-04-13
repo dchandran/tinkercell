@@ -621,6 +621,19 @@ namespace Tinkercell
 			
 		if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
+	
+	bool CatalogWidget::includeFamilyInCatalog(ItemFamily * family)
+	{
+		if (!family) return false;
+		
+		QList<ItemFamily*> children = family->children();
+		
+		for (int i=0; i < children.size(); ++i)
+			if (children[i] && children[i]->name.contains(family->name))
+				return false;
+			
+		return (children.size() < 5);
+	}
 
 	void CatalogWidget::setUpTabView()
 	{
@@ -715,7 +728,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+					if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
 						families << NodeFamily::cast(rootFamilies[i]);
 					rootFamilies << children;
 				}
@@ -805,7 +818,7 @@ namespace Tinkercell
 				}
 				else
 				{
-					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && children.size() < 5)
+					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
 						families << ConnectionFamily::cast(rootFamilies[i]);
 					rootFamilies << children;
 				}

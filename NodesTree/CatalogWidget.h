@@ -153,6 +153,9 @@ namespace Tinkercell
 		/*! \brief make the tab widget*/
 		void makeTabWidget();
 		
+		/*! \brief checks whether this family is too generic to include in the catalog*/
+		bool includeFamilyInCatalog(ItemFamily*);
+		
 		QTabWidget * tabWidget;
 		
 		/*! \brief buttons inside each tab of the tabview*/

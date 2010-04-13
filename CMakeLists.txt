@@ -8,13 +8,20 @@ SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} --export-all-symbols
 SET( TINKERCELL_MAJOR_VERSION "1" )
 SET( TINKERCELL_MINOR_VERSION "0" )
 
-FIND_PACKAGE( Subversion )
+# just in case someone wants
+# 1- to mirror using something different than svn
+# 2- to build it from tarball
+IF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
+  FIND_PACKAGE( Subversion )
 
-IF( Subversion_FOUND )
-  Subversion_WC_INFO( ${TINKERCELL_SOURCE_DIR} TINKERCELL )
-ELSE( Subversion_FOUND )
-  SET( TINKERCELL_WC_REVISION "0" )  
-ENDIF( Subversion_FOUND )
+  IF( Subversion_FOUND )
+    Subversion_WC_INFO( ${TINKERCELL_SOURCE_DIR} TINKERCELL )
+  ELSE( Subversion_FOUND )
+    SET( TINKERCELL_WC_REVISION "0" )  
+  ENDIF( Subversion_FOUND )
+ELSE( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
+  SET( TINKERCELL_WC_REVISION "0" )
+ENDIF( EXISTS ${CMAKE_SOURCE_DIR}/.svn )
 
 SET( TINKERCELL_VERSION
 "${TINKERCELL_MAJOR_VERSION}.${TINKERCELL_MINOR_VERSION}.${TINKERCELL_WC_REVISION}" )

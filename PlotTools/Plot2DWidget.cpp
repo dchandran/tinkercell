@@ -599,10 +599,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			dataPlot->plot(	newData,
-						dataPlot->xcolumn,
-						newData.description(),
-						dataPlot->delta);
+			plot(newData,newData.description(),	dataPlot->xcolumn);
 		}
 		
 		if (newData.cols() > dataPlot->xcolumn)

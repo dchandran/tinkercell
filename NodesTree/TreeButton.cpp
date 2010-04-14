@@ -31,7 +31,15 @@ namespace Tinkercell
 		setToolTip(nodeFamily->name + tr(": ") + nodeFamily->description);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
-		setText(nodeFamily->name);
+		
+		QString s = nodeFamily->name;
+		int sz = 16 - s.length();
+		if (sz > 0)
+		{
+			s = s.leftJustified(sz/2 + s.length());
+			s = s.rightJustified(16);
+		}
+		setText(s);
 		setIcon(QIcon(nodeFamily->pixmap));
 
 		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
@@ -67,7 +75,15 @@ namespace Tinkercell
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
-		setText(connectionFamily->name);
+		
+		QString s = connectionFamily->name;
+		int sz = 16 - s.length();
+		if (sz > 0)
+		{
+			s = s.leftJustified(sz/2 + s.length());
+			s = s.rightJustified(16);
+		}
+		setText(s);
 		setIcon(QIcon(connectionFamily->pixmap));
 
 		if (connectionFamily->pixmap.width() > connectionFamily->pixmap.height())

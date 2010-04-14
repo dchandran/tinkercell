@@ -255,7 +255,6 @@ namespace Tinkercell
 			return A;
 		}
 		char ** cs = new char*[list.size()];
-		cs[list.size()] = 0;
 		for (int i=0; i < list.size(); ++i)
 		{
 			QString s = list[i];

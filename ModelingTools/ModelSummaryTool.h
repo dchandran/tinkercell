@@ -32,6 +32,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QButtonGroup>
 #include <QTableView>
 #include <QTabWidget>
+#include <QPushButton>
 
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
@@ -93,6 +94,7 @@ namespace Tinkercell
 		QDockWidget * dockWidget;
 		QList<ItemHandle*> itemHandles;
 		QAction * toggleFixedAction, *separator;
+		QPushButton * closeButton;
 
 		friend class VisualTool;
 	};

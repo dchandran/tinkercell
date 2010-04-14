@@ -221,6 +221,8 @@ namespace Tinkercell
 
 			if (dockWidget)
 			{
+				connect(closeButton,SIGNAL(pressed()),dockWidget,SLOT(hide()));
+						
 				dockWidget->move(mainWindow->geometry().center());
 
 				dockWidget->setWindowFlags(Qt::Tool);
@@ -238,6 +240,10 @@ namespace Tinkercell
 				settings.endGroup();
 				dockWidget->hide();
 				dockWidget->setFloating(true);
+			}
+			else
+			{
+				connect(closeButton,SIGNAL(pressed()),this,SLOT(hide()));
 			}
 		}
 		return (mainWindow != 0);
@@ -311,9 +317,8 @@ namespace Tinkercell
 		QVBoxLayout * layout = new QVBoxLayout;
 		tabWidget = new QTabWidget(this);
 		layout->addWidget(tabWidget);
-		QPushButton * closeButton = new QPushButton;
+		closeButton = new QPushButton;
 		closeButton->setText(tr("Close"));
-		connect(closeButton,SIGNAL(pressed()),this,SLOT(close()));
 		QHBoxLayout * buttonLayout = new QHBoxLayout;
 		buttonLayout->addWidget(closeButton);
 		buttonLayout->addStretch(1);

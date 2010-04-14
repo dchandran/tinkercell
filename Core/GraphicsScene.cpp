@@ -308,7 +308,7 @@ namespace Tinkercell
 							networkWindow->currentGraphicsView->hiddenItems.contains(p))
 							p = 0;
 
-						if (p && !TextGraphicsItem::cast(p))
+						if (p)// && !TextGraphicsItem::cast(p))
 							break;
 					}
 				}

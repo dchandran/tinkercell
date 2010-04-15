@@ -55,8 +55,8 @@ namespace Tinkercell
 		void loadAntimonyString(const char *);
 		void loadSBMLFile(const char *);
 		void loadAntimonyFile(const char *);
-		char* getSBMLString(ArrayOfItems);
-		char* getAntimonyString(ArrayOfItems);
+		const char* getSBMLString(ArrayOfItems);
+		const char* getAntimonyString(ArrayOfItems);
 		void writeSBMLFile(ArrayOfItems,const char*);
 		void writeAntimonyFile(ArrayOfItems,const char*);
 
@@ -149,8 +149,8 @@ namespace Tinkercell
 		static void _loadAntimonyString(const char *);
 		static void _loadSBMLFile(const char *);
 		static void _loadAntimonyFile(const char *);
-		static char* _getSBMLString(ArrayOfItems);
-		static char* _getAntimonyString(ArrayOfItems);
+		static const char* _getSBMLString(ArrayOfItems);
+		static const char* _getAntimonyString(ArrayOfItems);
 		static void _writeSBMLFile(ArrayOfItems,const char*);
 		static void _writeAntimonyFile(ArrayOfItems,const char*);
 		void connectTCFunctions();

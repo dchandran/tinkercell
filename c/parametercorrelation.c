@@ -123,11 +123,11 @@ void run(Matrix input)
 
 	for (i=0; i < len; ++i) setNthString(allNames,i+params.rows,nthString(names,i));
 
-	index1 = tc_getStringFromList("Select First Parameter",allNames,selected_var1,0); 
+	index1 = tc_getStringFromList("Select First Parameter",allNames,selected_var1); 
 	if (index1 >= 0)
-		index2 = tc_getStringFromList("Select Second Parameter",allNames,selected_var2,0);
+		index2 = tc_getStringFromList("Select Second Parameter",allNames,selected_var2);
 	if (index1 >= 0 && index2 >= 0)
-		index3 = tc_getStringFromList("Select Variable for Steady State Analysis",allNames,target_x_var,0);
+		index3 = tc_getStringFromList("Select Variable for Steady State Analysis",allNames,target_x_var);
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0 &&
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	
@@ -139,7 +139,7 @@ void run(Matrix input)
 	}
 	
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0)
-		index4 = tc_getFromList("Select Target for Steady State Analysis",names,target_y_var,0);
+		index4 = tc_getStringFromList("Select Target for Steady State Analysis",names,target_y_var);
 
 	deleteArrayOfItems(&A);   
 

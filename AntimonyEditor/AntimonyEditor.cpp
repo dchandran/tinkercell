@@ -1071,8 +1071,8 @@ namespace Tinkercell
 				void (*loadSBMLString)(const char *),
 				void (*loadSBMLFile)(const char *),
 				void (*loadAntimonyFile)(const char *),
-				char* (*getSBMLString)(ArrayOfItems),
-				char* (*getAntimonyString)(ArrayOfItems),
+				const char* (*getSBMLString)(ArrayOfItems),
+				const char* (*getAntimonyString)(ArrayOfItems),
 				void (*writeSBMLFile)(ArrayOfItems,const char*),
 				void (*writeAntimonyFile)(ArrayOfItems,const char*));
 
@@ -1157,7 +1157,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 	}
-	char* AntimonyEditor_FtoS::getSBMLString(ArrayOfItems a)
+	const char* AntimonyEditor_FtoS::getSBMLString(ArrayOfItems a)
 	{
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
@@ -1170,7 +1170,7 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(str);
 	}
-	char* AntimonyEditor_FtoS::getAntimonyString(ArrayOfItems a)
+	const char* AntimonyEditor_FtoS::getAntimonyString(ArrayOfItems a)
 	{
 		QString str;
 		QSemaphore * s = new QSemaphore(1);
@@ -1222,11 +1222,11 @@ namespace Tinkercell
 	{
 		fToS.loadAntimonyFile(c);
 	}
-	char* AntimonyEditor::_getSBMLString(ArrayOfItems a)
+	const char* AntimonyEditor::_getSBMLString(ArrayOfItems a)
 	{
 		return fToS.getSBMLString(a);
 	}
-	char* AntimonyEditor::_getAntimonyString(ArrayOfItems a)
+	const char* AntimonyEditor::_getAntimonyString(ArrayOfItems a)
 	{
 		return fToS.getAntimonyString(a);
 	}

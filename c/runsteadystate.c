@@ -454,7 +454,7 @@ void run2D(Matrix input)
 	}
 
 	if (index1 >= 0 && index2 >= 0)
-		index3 = tc_getStringFromList("Select Target",names,target_var,0);
+		index3 = tc_getStringFromList("Select Target",names,target_var);
 	
 	allParams = newMatrix(0,0);
 	

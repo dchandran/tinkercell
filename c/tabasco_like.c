@@ -29,8 +29,8 @@ void run()
 		        {
 		        	newN = newMatrix(numSteps + 1,numSteps + 1);
 		            
-					rxnname = tc_getName(nthItem(A,i));
-	                partnames = tc_getNames(parts);
+					rxnname = tc_getUniqueName(nthItem(A,i));
+	                partnames = tc_getUniqueNames(parts);
 	                setRowName(newN,0, nthString(partnames,0) );
 	                setRowName(newN,newN.rows-1,nthString(partnames,1));
 					 

@@ -1111,7 +1111,7 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[40]
 #define SWIGTYPE_p_f_p_f_void__void__void swig_types[41]
 #define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int swig_types[43]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[43]
 #define SWIGTYPE_p_f_p_q_const__char__double swig_types[44]
 #define SWIGTYPE_p_f_p_q_const__char__int swig_types[45]
 #define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[46]
@@ -3353,6 +3353,30 @@ R_swig_tc_getName ( SEXP item, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
+R_swig_tc_getUniqueName ( SEXP item, SEXP s_swig_copy)
+{
+  String result;
+  Item arg1 = (Item) 0 ;
+  int res1 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "Item""'"); 
+  }
+  result = (String)tc_getUniqueName(arg1);
+  r_ans = SWIG_FromCharPtr((const char *)result);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_rename ( SEXP item, SEXP name)
 {
   Item arg1 = (Item) 0 ;
@@ -3408,6 +3432,37 @@ R_swig_tc_getNames ( SEXP items, SEXP s_swig_copy)
     }
   }
   result = tc_getNames(arg1);
+  r_ans = SWIG_R_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
+R_swig_tc_getUniqueNames ( SEXP items, SEXP s_swig_copy)
+{
+  ArrayOfStrings result;
+  ArrayOfItems arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  {
+    res1 = SWIG_R_ConvertPtr(items, &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "ArrayOfItems""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getUniqueNames" "', argument " "1"" of type '" "ArrayOfItems""'");
+    } else {
+      arg1 = *((ArrayOfItems *)(argp1));
+    }
+  }
+  result = tc_getUniqueNames(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -4438,13 +4493,12 @@ R_swig_tc_getFilename ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP comboBox, SEXP s_swig_copy)
+R_swig_tc_getStringFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP s_swig_copy)
 {
   int result;
   String arg1 = (String) 0 ;
   ArrayOfStrings arg2 ;
   String arg3 = (String) 0 ;
-  int arg4 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4459,31 +4513,29 @@ R_swig_tc_getFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP comboBo
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getFromList" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "String""'");
   }
   arg1 = (String)(buf1);
   {
     res2 = SWIG_R_ConvertPtr(list, &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getFromList" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "ArrayOfStrings""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getFromList" "', argument " "2"" of type '" "ArrayOfStrings""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "ArrayOfStrings""'");
     } else {
       arg2 = *((ArrayOfStrings *)(argp2));
     }
   }
   res3 = SWIG_AsCharPtrAndSize(selectedString, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getFromList" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "String""'");
   }
   arg3 = (String)(buf3);
-  arg4 = (int)(INTEGER(comboBox)[0]);
-  result = (int)tc_getFromList((char const *)arg1,arg2,(char const *)arg3,arg4);
+  result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
   r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-  
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -6421,11 +6473,10 @@ String _p_f_p_q_const__char__p_char(String s_arg1) {
 }
 
 
-int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int(String s_arg1, ArrayOfStrings s_arg2, String s_arg3, int s_arg4) {
+int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int(String s_arg1, ArrayOfStrings s_arg2, String s_arg3) {
   String arg1 = (String) 0 ;
   ArrayOfStrings arg2 ;
   String arg3 = (String) 0 ;
-  int arg4 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6433,7 +6484,7 @@ int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int(String s_arg1, 
   char * r_vmax= 0;
   int ecode = 0;
   
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 5));
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 4));
   r_nprotect++;
   r_swig_cb_data->el = r_swig_cb_data->expr;
   
@@ -6452,17 +6503,13 @@ int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int(String s_arg1, 
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = Rf_ScalarInteger(s_arg4);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
   
   
   r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int)");
   }
   result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -6738,7 +6785,7 @@ void _p_f_p_void_p_q_const__char_int__void(void * s_arg1, String s_arg2, int s_a
 
 
 SWIGEXPORT SEXP
-R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP getString, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0)
+R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP tc_itemsOfFamily0, SEXP tc_itemsOfFamily1, SEXP tc_find0, SEXP tc_findItems0, SEXP tc_select0, SEXP tc_deselect0, SEXP tc_getName0, SEXP tc_getUniqueName0, SEXP tc_setName0, SEXP tc_getNames0, SEXP tc_getUniqueNames0, SEXP tc_getFamily0, SEXP tc_isA0, SEXP tc_clearText, SEXP tc_outputText0, SEXP tc_errorReport0, SEXP tc_outputTable0, SEXP tc_printFile0, SEXP tc_removeItem0, SEXP tc_getY0, SEXP tc_getX0, SEXP tc_getPos0, SEXP tc_setPos0, SEXP tc_setPos1, SEXP tc_moveSelected0, SEXP tc_isWindows0, SEXP tc_isMac0, SEXP tc_isLinux0, SEXP tc_appDir0, SEXP tc_createInputWindow0, SEXP tc_createInputWindow1, SEXP createSliders, SEXP tc_addInputWindowOptions0, SEXP tc_addInputWindowCheckbox0, SEXP tc_openNewWindow0, SEXP tc_getChildren0, SEXP tc_getParent0, SEXP tc_getNumericalData0, SEXP tc_setNumericalData0, SEXP tc_getTextData0, SEXP tc_setTextData0, SEXP tc_getNumericalDataNames0, SEXP tc_getTextDataNames0, SEXP tc_zoom0, SEXP getString, SEXP getSelectedString, SEXP getNumber, SEXP getNumbers, SEXP getFilename, SEXP askQuestion, SEXP messageDialog, SEXP setSize0, SEXP getWidth0, SEXP getHeight0, SEXP setAngle0, SEXP getAngle0, SEXP getColor, SEXP setColor0, SEXP changeGraphics0, SEXP changeArrowHead0)
 {
   ArrayOfItems (*arg1)() = (ArrayOfItems (*)()) 0 ;
   ArrayOfItems (*arg2)() = (ArrayOfItems (*)()) 0 ;
@@ -6749,57 +6796,59 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   void (*arg7)(Item) = (void (*)(Item)) 0 ;
   void (*arg8)() = (void (*)()) 0 ;
   String (*arg9)(Item) = (String (*)(Item)) 0 ;
-  void (*arg10)(Item,String) = (void (*)(Item,String)) 0 ;
-  ArrayOfStrings (*arg11)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  String (*arg12)(Item) = (String (*)(Item)) 0 ;
-  int (*arg13)(Item,String) = (int (*)(Item,String)) 0 ;
-  void (*arg14)() = (void (*)()) 0 ;
-  void (*arg15)(String) = (void (*)(String)) 0 ;
-  void (*arg16)(String) = (void (*)(String)) 0 ;
-  void (*arg17)(Matrix) = (void (*)(Matrix)) 0 ;
+  String (*arg10)(Item) = (String (*)(Item)) 0 ;
+  void (*arg11)(Item,String) = (void (*)(Item,String)) 0 ;
+  ArrayOfStrings (*arg12)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
+  ArrayOfStrings (*arg13)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
+  String (*arg14)(Item) = (String (*)(Item)) 0 ;
+  int (*arg15)(Item,String) = (int (*)(Item,String)) 0 ;
+  void (*arg16)() = (void (*)()) 0 ;
+  void (*arg17)(String) = (void (*)(String)) 0 ;
   void (*arg18)(String) = (void (*)(String)) 0 ;
-  void (*arg19)(Item) = (void (*)(Item)) 0 ;
-  double (*arg20)(Item) = (double (*)(Item)) 0 ;
-  double (*arg21)(Item) = (double (*)(Item)) 0 ;
-  Matrix (*arg22)(ArrayOfItems) = (Matrix (*)(ArrayOfItems)) 0 ;
-  void (*arg23)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
-  void (*arg24)(ArrayOfItems,Matrix) = (void (*)(ArrayOfItems,Matrix)) 0 ;
-  void (*arg25)(double,double) = (void (*)(double,double)) 0 ;
-  int (*arg26)() = (int (*)()) 0 ;
-  int (*arg27)() = (int (*)()) 0 ;
+  void (*arg19)(Matrix) = (void (*)(Matrix)) 0 ;
+  void (*arg20)(String) = (void (*)(String)) 0 ;
+  void (*arg21)(Item) = (void (*)(Item)) 0 ;
+  double (*arg22)(Item) = (double (*)(Item)) 0 ;
+  double (*arg23)(Item) = (double (*)(Item)) 0 ;
+  Matrix (*arg24)(ArrayOfItems) = (Matrix (*)(ArrayOfItems)) 0 ;
+  void (*arg25)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
+  void (*arg26)(ArrayOfItems,Matrix) = (void (*)(ArrayOfItems,Matrix)) 0 ;
+  void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
   int (*arg28)() = (int (*)()) 0 ;
-  String (*arg29)() = (String (*)()) 0 ;
-  void (*arg30)(Matrix,String,String,String) = (void (*)(Matrix,String,String,String)) 0 ;
-  void (*arg31)(Matrix,String,void (*)(Matrix)) = (void (*)(Matrix,String,void (*)(Matrix))) 0 ;
-  void (*arg32)(Item,Matrix,void (*)(Matrix)) = (void (*)(Item,Matrix,void (*)(Matrix))) 0 ;
-  void (*arg33)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
-  void (*arg34)(String,int,int) = (void (*)(String,int,int)) 0 ;
-  void (*arg35)(String) = (void (*)(String)) 0 ;
-  ArrayOfItems (*arg36)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  Item (*arg37)(Item) = (Item (*)(Item)) 0 ;
-  Matrix (*arg38)(Item,String) = (Matrix (*)(Item,String)) 0 ;
-  void (*arg39)(Item,String,Matrix) = (void (*)(Item,String,Matrix)) 0 ;
-  TableOfStrings (*arg40)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
-  void (*arg41)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
-  ArrayOfStrings (*arg42)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  ArrayOfStrings (*arg43)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  void (*arg44)(double) = (void (*)(double)) 0 ;
-  String (*arg45)(String) = (String (*)(String)) 0 ;
-  int (*arg46)(String,ArrayOfStrings,String,int) = (int (*)(String,ArrayOfStrings,String,int)) 0 ;
-  double (*arg47)(String) = (double (*)(String)) 0 ;
-  void (*arg48)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
-  String (*arg49)() = (String (*)()) 0 ;
-  int (*arg50)(String) = (int (*)(String)) 0 ;
-  void (*arg51)(String) = (void (*)(String)) 0 ;
-  void (*arg52)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
-  double (*arg53)(void *) = (double (*)(void *)) 0 ;
-  double (*arg54)(void *) = (double (*)(void *)) 0 ;
-  void (*arg55)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
+  int (*arg29)() = (int (*)()) 0 ;
+  int (*arg30)() = (int (*)()) 0 ;
+  String (*arg31)() = (String (*)()) 0 ;
+  void (*arg32)(Matrix,String,String,String) = (void (*)(Matrix,String,String,String)) 0 ;
+  void (*arg33)(Matrix,String,void (*)(Matrix)) = (void (*)(Matrix,String,void (*)(Matrix))) 0 ;
+  void (*arg34)(Item,Matrix,void (*)(Matrix)) = (void (*)(Item,Matrix,void (*)(Matrix))) 0 ;
+  void (*arg35)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
+  void (*arg36)(String,int,int) = (void (*)(String,int,int)) 0 ;
+  void (*arg37)(String) = (void (*)(String)) 0 ;
+  ArrayOfItems (*arg38)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  Item (*arg39)(Item) = (Item (*)(Item)) 0 ;
+  Matrix (*arg40)(Item,String) = (Matrix (*)(Item,String)) 0 ;
+  void (*arg41)(Item,String,Matrix) = (void (*)(Item,String,Matrix)) 0 ;
+  TableOfStrings (*arg42)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
+  void (*arg43)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
+  ArrayOfStrings (*arg44)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  ArrayOfStrings (*arg45)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  void (*arg46)(double) = (void (*)(double)) 0 ;
+  String (*arg47)(String) = (String (*)(String)) 0 ;
+  int (*arg48)(String,ArrayOfStrings,String) = (int (*)(String,ArrayOfStrings,String)) 0 ;
+  double (*arg49)(String) = (double (*)(String)) 0 ;
+  void (*arg50)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
+  String (*arg51)() = (String (*)()) 0 ;
+  int (*arg52)(String) = (int (*)(String)) 0 ;
+  void (*arg53)(String) = (void (*)(String)) 0 ;
+  void (*arg54)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
+  double (*arg55)(void *) = (double (*)(void *)) 0 ;
   double (*arg56)(void *) = (double (*)(void *)) 0 ;
-  String (*arg57)(void *) = (String (*)(void *)) 0 ;
-  void (*arg58)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
-  void (*arg59)(void *,String) = (void (*)(void *,String)) 0 ;
-  void (*arg60)(void *,String) = (void (*)(void *,String)) 0 ;
+  void (*arg57)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
+  double (*arg58)(void *) = (double (*)(void *)) 0 ;
+  String (*arg59)(void *) = (String (*)(void *)) 0 ;
+  void (*arg60)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
+  void (*arg61)(void *,String) = (void (*)(void *,String)) 0 ;
+  void (*arg62)(void *,String) = (void (*)(void *,String)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -6903,569 +6952,593 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     arg9 = _p_f_p_void__p_char;
     R_SWIG_pushCallbackFunctionData(tc_getName0, NULL);
   }
-  if(TYPEOF(tc_setName0) != CLOSXP) {
+  if(TYPEOF(tc_getUniqueName0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setName0, (void**)(&arg10), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_getUniqueName0, (void**)(&arg10), SWIGTYPE_p_f_p_void__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "void (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "String (*)(Item)""'"); 
       }
     }
   } else {
-    arg10 = _p_f_p_void_p_q_const__char__void;
+    arg10 = _p_f_p_void__p_char;
+    R_SWIG_pushCallbackFunctionData(tc_getUniqueName0, NULL);
+  }
+  if(TYPEOF(tc_setName0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_setName0, (void**)(&arg11), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(Item,String)""'"); 
+      }
+    }
+  } else {
+    arg11 = _p_f_p_void_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_setName0, NULL);
   }
   if(TYPEOF(tc_getNames0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getNames0, (void**)(&arg11), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getNames0, (void**)(&arg12), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg11 = _p_f_ArrayOfItems__ArrayOfStrings;
+    arg12 = _p_f_ArrayOfItems__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getNames0, NULL);
+  }
+  if(TYPEOF(tc_getUniqueNames0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_getUniqueNames0, (void**)(&arg13), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "13"" of type '" "ArrayOfStrings (*)(ArrayOfItems)""'"); 
+      }
+    }
+  } else {
+    arg13 = _p_f_ArrayOfItems__ArrayOfStrings;
+    R_SWIG_pushCallbackFunctionData(tc_getUniqueNames0, NULL);
   }
   if(TYPEOF(tc_getFamily0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getFamily0, (void**)(&arg12), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(tc_getFamily0, (void**)(&arg14), SWIGTYPE_p_f_p_void__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "12"" of type '" "String (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "String (*)(Item)""'"); 
       }
     }
   } else {
-    arg12 = _p_f_p_void__p_char;
+    arg14 = _p_f_p_void__p_char;
     R_SWIG_pushCallbackFunctionData(tc_getFamily0, NULL);
   }
   if(TYPEOF(tc_isA0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_isA0, (void**)(&arg13), SWIGTYPE_p_f_p_void_p_q_const__char__int, 0);
+      int res = SWIG_R_ConvertPtr(tc_isA0, (void**)(&arg15), SWIGTYPE_p_f_p_void_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "13"" of type '" "int (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(Item,String)""'"); 
       }
     }
   } else {
-    arg13 = _p_f_p_void_p_q_const__char__int;
+    arg15 = _p_f_p_void_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(tc_isA0, NULL);
   }
   if(TYPEOF(tc_clearText) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_clearText, (void**)(&arg14), SWIGTYPE_p_f___void, 0);
+      int res = SWIG_R_ConvertPtr(tc_clearText, (void**)(&arg16), SWIGTYPE_p_f___void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "void (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "16"" of type '" "void (*)()""'"); 
       }
     }
   } else {
-    arg14 = _p_f___void;
+    arg16 = _p_f___void;
     R_SWIG_pushCallbackFunctionData(tc_clearText, NULL);
   }
   if(TYPEOF(tc_outputText0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_outputText0, (void**)(&arg15), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_outputText0, (void**)(&arg17), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(String)""'"); 
       }
     }
   } else {
-    arg15 = _p_f_p_q_const__char__void;
+    arg17 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_outputText0, NULL);
   }
   if(TYPEOF(tc_errorReport0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_errorReport0, (void**)(&arg16), SWIGTYPE_p_f_p_q_const__char__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "16"" of type '" "void (*)(String)""'"); 
-      }
-    }
-  } else {
-    arg16 = _p_f_p_q_const__char__void;
-    R_SWIG_pushCallbackFunctionData(tc_errorReport0, NULL);
-  }
-  if(TYPEOF(tc_outputTable0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(tc_outputTable0, (void**)(&arg17), SWIGTYPE_p_f_Matrix__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(Matrix)""'"); 
-      }
-    }
-  } else {
-    arg17 = _p_f_Matrix__void;
-    R_SWIG_pushCallbackFunctionData(tc_outputTable0, NULL);
-  }
-  if(TYPEOF(tc_printFile0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(tc_printFile0, (void**)(&arg18), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_errorReport0, (void**)(&arg18), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "18"" of type '" "void (*)(String)""'"); 
       }
     }
   } else {
     arg18 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(tc_errorReport0, NULL);
+  }
+  if(TYPEOF(tc_outputTable0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_outputTable0, (void**)(&arg19), SWIGTYPE_p_f_Matrix__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(Matrix)""'"); 
+      }
+    }
+  } else {
+    arg19 = _p_f_Matrix__void;
+    R_SWIG_pushCallbackFunctionData(tc_outputTable0, NULL);
+  }
+  if(TYPEOF(tc_printFile0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_printFile0, (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(String)""'"); 
+      }
+    }
+  } else {
+    arg20 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_printFile0, NULL);
   }
   if(TYPEOF(tc_removeItem0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_removeItem0, (void**)(&arg19), SWIGTYPE_p_f_p_void__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_removeItem0, (void**)(&arg21), SWIGTYPE_p_f_p_void__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(Item)""'"); 
       }
     }
   } else {
-    arg19 = _p_f_p_void__void;
+    arg21 = _p_f_p_void__void;
     R_SWIG_pushCallbackFunctionData(tc_removeItem0, NULL);
   }
   if(TYPEOF(tc_getY0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getY0, (void**)(&arg20), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(tc_getY0, (void**)(&arg22), SWIGTYPE_p_f_p_void__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(Item)""'"); 
       }
     }
   } else {
-    arg20 = _p_f_p_void__double;
+    arg22 = _p_f_p_void__double;
     R_SWIG_pushCallbackFunctionData(tc_getY0, NULL);
   }
   if(TYPEOF(tc_getX0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getX0, (void**)(&arg21), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(tc_getX0, (void**)(&arg23), SWIGTYPE_p_f_p_void__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(Item)""'"); 
       }
     }
   } else {
-    arg21 = _p_f_p_void__double;
+    arg23 = _p_f_p_void__double;
     R_SWIG_pushCallbackFunctionData(tc_getX0, NULL);
   }
   if(TYPEOF(tc_getPos0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getPos0, (void**)(&arg22), SWIGTYPE_p_f_ArrayOfItems__Matrix, 0);
+      int res = SWIG_R_ConvertPtr(tc_getPos0, (void**)(&arg24), SWIGTYPE_p_f_ArrayOfItems__Matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "Matrix (*)(ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "Matrix (*)(ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg22 = _p_f_ArrayOfItems__Matrix;
+    arg24 = _p_f_ArrayOfItems__Matrix;
     R_SWIG_pushCallbackFunctionData(tc_getPos0, NULL);
   }
   if(TYPEOF(tc_setPos0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setPos0, (void**)(&arg23), SWIGTYPE_p_f_p_void_double_double__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setPos0, (void**)(&arg25), SWIGTYPE_p_f_p_void_double_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "void (*)(Item,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(Item,double,double)""'"); 
       }
     }
   } else {
-    arg23 = _p_f_p_void_double_double__void;
+    arg25 = _p_f_p_void_double_double__void;
     R_SWIG_pushCallbackFunctionData(tc_setPos0, NULL);
   }
   if(TYPEOF(tc_setPos1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setPos1, (void**)(&arg24), SWIGTYPE_p_f_ArrayOfItems_Matrix__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setPos1, (void**)(&arg26), SWIGTYPE_p_f_ArrayOfItems_Matrix__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "24"" of type '" "void (*)(ArrayOfItems,Matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(ArrayOfItems,Matrix)""'"); 
       }
     }
   } else {
-    arg24 = _p_f_ArrayOfItems_Matrix__void;
+    arg26 = _p_f_ArrayOfItems_Matrix__void;
     R_SWIG_pushCallbackFunctionData(tc_setPos1, NULL);
   }
   if(TYPEOF(tc_moveSelected0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_moveSelected0, (void**)(&arg25), SWIGTYPE_p_f_double_double__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_moveSelected0, (void**)(&arg27), SWIGTYPE_p_f_double_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "27"" of type '" "void (*)(double,double)""'"); 
       }
     }
   } else {
-    arg25 = _p_f_double_double__void;
+    arg27 = _p_f_double_double__void;
     R_SWIG_pushCallbackFunctionData(tc_moveSelected0, NULL);
   }
   if(TYPEOF(tc_isWindows0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_isWindows0, (void**)(&arg26), SWIGTYPE_p_f___int, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "int (*)()""'"); 
-      }
-    }
-  } else {
-    arg26 = _p_f___int;
-    R_SWIG_pushCallbackFunctionData(tc_isWindows0, NULL);
-  }
-  if(TYPEOF(tc_isMac0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(tc_isMac0, (void**)(&arg27), SWIGTYPE_p_f___int, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "27"" of type '" "int (*)()""'"); 
-      }
-    }
-  } else {
-    arg27 = _p_f___int;
-    R_SWIG_pushCallbackFunctionData(tc_isMac0, NULL);
-  }
-  if(TYPEOF(tc_isLinux0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(tc_isLinux0, (void**)(&arg28), SWIGTYPE_p_f___int, 0);
+      int res = SWIG_R_ConvertPtr(tc_isWindows0, (void**)(&arg28), SWIGTYPE_p_f___int, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "28"" of type '" "int (*)()""'"); 
       }
     }
   } else {
     arg28 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(tc_isWindows0, NULL);
+  }
+  if(TYPEOF(tc_isMac0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_isMac0, (void**)(&arg29), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "29"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg29 = _p_f___int;
+    R_SWIG_pushCallbackFunctionData(tc_isMac0, NULL);
+  }
+  if(TYPEOF(tc_isLinux0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(tc_isLinux0, (void**)(&arg30), SWIGTYPE_p_f___int, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "30"" of type '" "int (*)()""'"); 
+      }
+    }
+  } else {
+    arg30 = _p_f___int;
     R_SWIG_pushCallbackFunctionData(tc_isLinux0, NULL);
   }
   if(TYPEOF(tc_appDir0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_appDir0, (void**)(&arg29), SWIGTYPE_p_f___p_char, 0);
+      int res = SWIG_R_ConvertPtr(tc_appDir0, (void**)(&arg31), SWIGTYPE_p_f___p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "29"" of type '" "String (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "String (*)()""'"); 
       }
     }
   } else {
-    arg29 = _p_f___p_char;
+    arg31 = _p_f___p_char;
     R_SWIG_pushCallbackFunctionData(tc_appDir0, NULL);
   }
   if(TYPEOF(tc_createInputWindow0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_createInputWindow0, (void**)(&arg30), SWIGTYPE_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_createInputWindow0, (void**)(&arg32), SWIGTYPE_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "30"" of type '" "void (*)(Matrix,String,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(Matrix,String,String,String)""'"); 
       }
     }
   } else {
-    arg30 = _p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void;
+    arg32 = _p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_createInputWindow0, NULL);
   }
   if(TYPEOF(tc_createInputWindow1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_createInputWindow1, (void**)(&arg31), SWIGTYPE_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_createInputWindow1, (void**)(&arg33), SWIGTYPE_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "void (*)(Matrix,String,void (*)(Matrix))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(Matrix,String,void (*)(Matrix))""'"); 
       }
     }
   } else {
-    arg31 = _p_f_Matrix_p_q_const__char_p_f_Matrix__void__void;
+    arg33 = _p_f_Matrix_p_q_const__char_p_f_Matrix__void__void;
     R_SWIG_pushCallbackFunctionData(tc_createInputWindow1, NULL);
   }
   if(TYPEOF(createSliders) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(createSliders, (void**)(&arg32), SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void, 0);
+      int res = SWIG_R_ConvertPtr(createSliders, (void**)(&arg34), SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(Item,Matrix,void (*)(Matrix))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(Item,Matrix,void (*)(Matrix))""'"); 
       }
     }
   } else {
-    arg32 = _p_f_p_void_Matrix_p_f_Matrix__void__void;
+    arg34 = _p_f_p_void_Matrix_p_f_Matrix__void__void;
     R_SWIG_pushCallbackFunctionData(createSliders, NULL);
   }
   if(TYPEOF(tc_addInputWindowOptions0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_addInputWindowOptions0, (void**)(&arg33), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_addInputWindowOptions0, (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(String,int,int,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(String,int,int,ArrayOfStrings)""'"); 
       }
     }
   } else {
-    arg33 = _p_f_p_q_const__char_int_int_ArrayOfStrings__void;
+    arg35 = _p_f_p_q_const__char_int_int_ArrayOfStrings__void;
     R_SWIG_pushCallbackFunctionData(tc_addInputWindowOptions0, NULL);
   }
   if(TYPEOF(tc_addInputWindowCheckbox0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_addInputWindowCheckbox0, (void**)(&arg34), SWIGTYPE_p_f_p_q_const__char_int_int__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_addInputWindowCheckbox0, (void**)(&arg36), SWIGTYPE_p_f_p_q_const__char_int_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(String,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(String,int,int)""'"); 
       }
     }
   } else {
-    arg34 = _p_f_p_q_const__char_int_int__void;
+    arg36 = _p_f_p_q_const__char_int_int__void;
     R_SWIG_pushCallbackFunctionData(tc_addInputWindowCheckbox0, NULL);
   }
   if(TYPEOF(tc_openNewWindow0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_openNewWindow0, (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_openNewWindow0, (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(String)""'"); 
       }
     }
   } else {
-    arg35 = _p_f_p_q_const__char__void;
+    arg37 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_openNewWindow0, NULL);
   }
   if(TYPEOF(tc_getChildren0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getChildren0, (void**)(&arg36), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(tc_getChildren0, (void**)(&arg38), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(Item)""'"); 
       }
     }
   } else {
-    arg36 = _p_f_Item__ArrayOfItems;
+    arg38 = _p_f_Item__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(tc_getChildren0, NULL);
   }
   if(TYPEOF(tc_getParent0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getParent0, (void**)(&arg37), SWIGTYPE_p_f_p_void__p_void, 0);
+      int res = SWIG_R_ConvertPtr(tc_getParent0, (void**)(&arg39), SWIGTYPE_p_f_p_void__p_void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "Item (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "Item (*)(Item)""'"); 
       }
     }
   } else {
-    arg37 = _p_f_p_void__p_void;
+    arg39 = _p_f_p_void__p_void;
     R_SWIG_pushCallbackFunctionData(tc_getParent0, NULL);
   }
   if(TYPEOF(tc_getNumericalData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getNumericalData0, (void**)(&arg38), SWIGTYPE_p_f_Item_String__Matrix, 0);
+      int res = SWIG_R_ConvertPtr(tc_getNumericalData0, (void**)(&arg40), SWIGTYPE_p_f_Item_String__Matrix, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "Matrix (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "Matrix (*)(Item,String)""'"); 
       }
     }
   } else {
-    arg38 = _p_f_Item_String__Matrix;
+    arg40 = _p_f_Item_String__Matrix;
     R_SWIG_pushCallbackFunctionData(tc_getNumericalData0, NULL);
   }
   if(TYPEOF(tc_setNumericalData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setNumericalData0, (void**)(&arg39), SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setNumericalData0, (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "void (*)(Item,String,Matrix)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(Item,String,Matrix)""'"); 
       }
     }
   } else {
-    arg39 = _p_f_p_void_p_q_const__char_Matrix__void;
+    arg41 = _p_f_p_void_p_q_const__char_Matrix__void;
     R_SWIG_pushCallbackFunctionData(tc_setNumericalData0, NULL);
   }
   if(TYPEOF(tc_getTextData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getTextData0, (void**)(&arg40), SWIGTYPE_p_f_Item_String__TableOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getTextData0, (void**)(&arg42), SWIGTYPE_p_f_Item_String__TableOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfStrings (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(Item,String)""'"); 
       }
     }
   } else {
-    arg40 = _p_f_Item_String__TableOfStrings;
+    arg42 = _p_f_Item_String__TableOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getTextData0, NULL);
   }
   if(TYPEOF(tc_setTextData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setTextData0, (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setTextData0, (void**)(&arg43), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(Item,String,TableOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(Item,String,TableOfStrings)""'"); 
       }
     }
   } else {
-    arg41 = _p_f_p_void_p_q_const__char_TableOfStrings__void;
+    arg43 = _p_f_p_void_p_q_const__char_TableOfStrings__void;
     R_SWIG_pushCallbackFunctionData(tc_setTextData0, NULL);
   }
   if(TYPEOF(tc_getNumericalDataNames0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getNumericalDataNames0, (void**)(&arg42), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getNumericalDataNames0, (void**)(&arg44), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(Item)""'"); 
       }
     }
   } else {
-    arg42 = _p_f_Item__ArrayOfStrings;
+    arg44 = _p_f_Item__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getNumericalDataNames0, NULL);
   }
   if(TYPEOF(tc_getTextDataNames0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getTextDataNames0, (void**)(&arg43), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getTextDataNames0, (void**)(&arg45), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(Item)""'"); 
       }
     }
   } else {
-    arg43 = _p_f_Item__ArrayOfStrings;
+    arg45 = _p_f_Item__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getTextDataNames0, NULL);
   }
   if(TYPEOF(tc_zoom0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_zoom0, (void**)(&arg44), SWIGTYPE_p_f_double__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_zoom0, (void**)(&arg46), SWIGTYPE_p_f_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "void (*)(double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "46"" of type '" "void (*)(double)""'"); 
       }
     }
   } else {
-    arg44 = _p_f_double__void;
+    arg46 = _p_f_double__void;
     R_SWIG_pushCallbackFunctionData(tc_zoom0, NULL);
   }
   if(TYPEOF(getString) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getString, (void**)(&arg45), SWIGTYPE_p_f_p_q_const__char__p_char, 0);
+      int res = SWIG_R_ConvertPtr(getString, (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "String (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "String (*)(String)""'"); 
       }
     }
   } else {
-    arg45 = _p_f_p_q_const__char__p_char;
+    arg47 = _p_f_p_q_const__char__p_char;
     R_SWIG_pushCallbackFunctionData(getString, NULL);
   }
   if(TYPEOF(getSelectedString) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getSelectedString, (void**)(&arg46), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int, 0);
+      int res = SWIG_R_ConvertPtr(getSelectedString, (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "46"" of type '" "int (*)(String,ArrayOfStrings,String,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(String,ArrayOfStrings,String)""'"); 
       }
     }
   } else {
-    arg46 = _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int;
+    arg48 = _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(getSelectedString, NULL);
   }
   if(TYPEOF(getNumber) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getNumber, (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__double, 0);
+      int res = SWIG_R_ConvertPtr(getNumber, (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "double (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "double (*)(String)""'"); 
       }
     }
   } else {
-    arg47 = _p_f_p_q_const__char__double;
+    arg49 = _p_f_p_q_const__char__double;
     R_SWIG_pushCallbackFunctionData(getNumber, NULL);
   }
   if(TYPEOF(getNumbers) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg48), SWIGTYPE_p_f_ArrayOfStrings_p_double__void, 0);
+      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg50), SWIGTYPE_p_f_ArrayOfStrings_p_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "void (*)(ArrayOfStrings,double *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "void (*)(ArrayOfStrings,double *)""'"); 
       }
     }
   } else {
-    arg48 = _p_f_ArrayOfStrings_p_double__void;
+    arg50 = _p_f_ArrayOfStrings_p_double__void;
     R_SWIG_pushCallbackFunctionData(getNumbers, NULL);
   }
   if(TYPEOF(getFilename) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getFilename, (void**)(&arg49), SWIGTYPE_p_f___p_char, 0);
+      int res = SWIG_R_ConvertPtr(getFilename, (void**)(&arg51), SWIGTYPE_p_f___p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "String (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "String (*)()""'"); 
       }
     }
   } else {
-    arg49 = _p_f___p_char;
+    arg51 = _p_f___p_char;
     R_SWIG_pushCallbackFunctionData(getFilename, NULL);
   }
   if(TYPEOF(askQuestion) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(askQuestion, (void**)(&arg50), SWIGTYPE_p_f_p_q_const__char__int, 0);
+      int res = SWIG_R_ConvertPtr(askQuestion, (void**)(&arg52), SWIGTYPE_p_f_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "int (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "int (*)(String)""'"); 
       }
     }
   } else {
-    arg50 = _p_f_p_q_const__char__int;
+    arg52 = _p_f_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(askQuestion, NULL);
   }
   if(TYPEOF(messageDialog) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(messageDialog, (void**)(&arg51), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(messageDialog, (void**)(&arg53), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "void (*)(String)""'"); 
       }
     }
   } else {
-    arg51 = _p_f_p_q_const__char__void;
+    arg53 = _p_f_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(messageDialog, NULL);
   }
   if(TYPEOF(setSize0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setSize0, (void**)(&arg52), SWIGTYPE_p_f_p_void_double_double_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setSize0, (void**)(&arg54), SWIGTYPE_p_f_p_void_double_double_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "void (*)(void *,double,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(void *,double,double,int)""'"); 
       }
     }
   } else {
-    arg52 = _p_f_p_void_double_double_int__void;
+    arg54 = _p_f_p_void_double_double_int__void;
     R_SWIG_pushCallbackFunctionData(setSize0, NULL);
   }
   if(TYPEOF(getWidth0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getWidth0, (void**)(&arg53), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getWidth0, (void**)(&arg55), SWIGTYPE_p_f_p_void__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "double (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(void *)""'"); 
       }
     }
   } else {
-    arg53 = _p_f_p_void__double;
+    arg55 = _p_f_p_void__double;
     R_SWIG_pushCallbackFunctionData(getWidth0, NULL);
   }
   if(TYPEOF(getHeight0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getHeight0, (void**)(&arg54), SWIGTYPE_p_f_p_void__double, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "double (*)(void *)""'"); 
-      }
-    }
-  } else {
-    arg54 = _p_f_p_void__double;
-    R_SWIG_pushCallbackFunctionData(getHeight0, NULL);
-  }
-  if(TYPEOF(setAngle0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(setAngle0, (void**)(&arg55), SWIGTYPE_p_f_p_void_double_int__void, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "void (*)(void *,double,int)""'"); 
-      }
-    }
-  } else {
-    arg55 = _p_f_p_void_double_int__void;
-    R_SWIG_pushCallbackFunctionData(setAngle0, NULL);
-  }
-  if(TYPEOF(getAngle0) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getAngle0, (void**)(&arg56), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getHeight0, (void**)(&arg56), SWIGTYPE_p_f_p_void__double, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(void *)""'"); 
       }
     }
   } else {
     arg56 = _p_f_p_void__double;
+    R_SWIG_pushCallbackFunctionData(getHeight0, NULL);
+  }
+  if(TYPEOF(setAngle0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(setAngle0, (void**)(&arg57), SWIGTYPE_p_f_p_void_double_int__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(void *,double,int)""'"); 
+      }
+    }
+  } else {
+    arg57 = _p_f_p_void_double_int__void;
+    R_SWIG_pushCallbackFunctionData(setAngle0, NULL);
+  }
+  if(TYPEOF(getAngle0) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(getAngle0, (void**)(&arg58), SWIGTYPE_p_f_p_void__double, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(void *)""'"); 
+      }
+    }
+  } else {
+    arg58 = _p_f_p_void__double;
     R_SWIG_pushCallbackFunctionData(getAngle0, NULL);
   }
   if(TYPEOF(getColor) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getColor, (void**)(&arg57), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(getColor, (void**)(&arg59), SWIGTYPE_p_f_p_void__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "String (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "String (*)(void *)""'"); 
       }
     }
   } else {
-    arg57 = _p_f_p_void__p_char;
+    arg59 = _p_f_p_void__p_char;
     R_SWIG_pushCallbackFunctionData(getColor, NULL);
   }
   if(TYPEOF(setColor0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setColor0, (void**)(&arg58), SWIGTYPE_p_f_p_void_p_q_const__char_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setColor0, (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "void (*)(void *,String,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(void *,String,int)""'"); 
       }
     }
   } else {
-    arg58 = _p_f_p_void_p_q_const__char_int__void;
+    arg60 = _p_f_p_void_p_q_const__char_int__void;
     R_SWIG_pushCallbackFunctionData(setColor0, NULL);
   }
   if(TYPEOF(changeGraphics0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(changeGraphics0, (void**)(&arg59), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(changeGraphics0, (void**)(&arg61), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "void (*)(void *,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(void *,String)""'"); 
       }
     }
   } else {
-    arg59 = _p_f_p_void_p_q_const__char__void;
+    arg61 = _p_f_p_void_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(changeGraphics0, NULL);
   }
   if(TYPEOF(changeArrowHead0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(changeArrowHead0, (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(changeArrowHead0, (void**)(&arg62), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(void *,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(void *,String)""'"); 
       }
     }
   } else {
-    arg60 = _p_f_p_void_p_q_const__char__void;
+    arg62 = _p_f_p_void_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(changeArrowHead0, NULL);
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,arg10,arg11,(char const *(*)(void *))arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,(char const *(*)())arg29,arg30,arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,(char const *(*)(char const *))arg45,arg46,arg47,arg48,(char const *(*)())arg49,arg50,arg51,arg52,arg53,arg54,arg55,arg56,(char const *(*)(void *))arg57,arg58,arg59,arg60);
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,(char const *(*)(void *))arg10,arg11,arg12,arg13,(char const *(*)(void *))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(void *))arg59,arg60,arg61,arg62);
   r_ans = R_NilValue;
+  
+  
   
   
   
@@ -13303,7 +13376,7 @@ static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (
 static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)|void (*)(void (*)(),String,String,String,String,String,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)|int (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int", "int (*)(char const *,ArrayOfStrings,char const *,int)|int (*)(String,ArrayOfStrings,String,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int", "int (*)(String,ArrayOfStrings,String)|int (*)(char const *,ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(String)|double (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(String)|int (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "String (*)(String)|char *(*)(char const *)", 0, 0, (void*)0, 0};
@@ -13388,7 +13461,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
   &_swigt__p_f_p_q_const__char_ArrayOfItems__int,
-  &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int,
+  &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__double,
   &_swigt__p_f_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__p_char,
@@ -13473,7 +13546,7 @@ static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__vo
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -13558,7 +13631,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
   _swigc__p_f_p_q_const__char_ArrayOfItems__int,
-  _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int,
+  _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__double,
   _swigc__p_f_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__p_char,
@@ -13862,8 +13935,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getConnectedNodesIn", (DL_FUNC) &R_swig_tc_getConnectedNodesIn, 2},
    {"R_swig_tc_insertConnection", (DL_FUNC) &R_swig_tc_insertConnection, 5},
    {"R_swig_tc_loadLibrary", (DL_FUNC) &R_swig_tc_loadLibrary, 1},
-   {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_getNames", (DL_FUNC) &R_swig_tc_getNames, 2},
+   {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
    {"R_swig_tc_plot", (DL_FUNC) &R_swig_tc_plot, 4},
    {"R_swig_tc_ConnectionSelection_api", (DL_FUNC) &R_swig_tc_ConnectionSelection_api, 9},
    {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 9},
@@ -13981,10 +14054,11 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_writeSBMLFile", (DL_FUNC) &R_swig_tc_writeSBMLFile, 2},
    {"R_swig_tc_setTextData", (DL_FUNC) &R_swig_tc_setTextData, 3},
    {"R_swig_tc_getTextData", (DL_FUNC) &R_swig_tc_getTextData, 3},
-   {"R_swig_tc_getFromList", (DL_FUNC) &R_swig_tc_getFromList, 5},
+   {"R_swig_tc_getUniqueName", (DL_FUNC) &R_swig_tc_getUniqueName, 2},
+   {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 2},
-   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 60},
+   {"R_swig_tc_Main_api_initialize", (DL_FUNC) &R_swig_tc_Main_api_initialize, 62},
    {"R_swig_tc_setPos", (DL_FUNC) &R_swig_tc_setPos, 3},
    {"R_swig_tc_NameFamily_api_initialize", (DL_FUNC) &R_swig_tc_NameFamily_api_initialize, 2},
    {"R_swig_tc_callFunction", (DL_FUNC) &R_swig_tc_callFunction, 1},
@@ -14049,6 +14123,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_LoadCLibraries_api", (DL_FUNC) &R_swig_tc_LoadCLibraries_api, 7},
    {"R_swig_tc_multiplot", (DL_FUNC) &R_swig_tc_multiplot, 2},
    {"R_swig_tc_setPosMulti", (DL_FUNC) &R_swig_tc_setPosMulti, 2},
+   {"R_swig_tc_getUniqueNames", (DL_FUNC) &R_swig_tc_getUniqueNames, 2},
    {"R_swig_tc_runPythonFile", (DL_FUNC) &R_swig_tc_runPythonFile, 1},
    {"R_swig_tc_getEventResponses", (DL_FUNC) &R_swig_tc_getEventResponses, 1},
    {"R_swig_tc_allItems", (DL_FUNC) &R_swig_tc_allItems, 1},

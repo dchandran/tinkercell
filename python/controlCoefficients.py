@@ -26,7 +26,7 @@ names = [];
 
 if selected.length == 1:   #if selected items
     s = nthItem(selected,0);
-    name = tc_getName(s);
+    name = tc_getUniqueName(s);
     inN = False;
     for i in range(0,N.rows):
         if getRowName(N,i) == name:

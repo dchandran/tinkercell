@@ -82,29 +82,26 @@ Two dimensional array of Strings with row and column names. The rownames and col
 /*! \defgroup Appearance 
 \brief get/set position, color, size, etc*/
 
-/*! \defgroup Get items 
+/*! \defgroup Get Get items 
 \brief get selected items or items of a family*/
 
 /*! \defgroup Annotation 
 \brief get annotation information about items*/
 
-/*! \defgroup Input and Output 
+/*! \defgroup Input Input and Output 
 \brief display dialogs or get user inputs*/
 
-/*! \defgroup System information 
+/*! \defgroup System System information 
 \brief get information about the OS and program directory*/
 
-/*! \defgroup Network data 
-\brief get/set information about the OS and program directory*/
+/*! \defgroup Network Network data 
+\brief get/set information about the individual items in the network*/
 
 /*! \defgroup Modeling
 \brief get/set parameters, equations, and so on*/
 
-/*! \defgroup Network data 
-\brief get/set information about the OS and program directory*/
-
 /*! \defgroup Connections
 \brief change appearance of connection arcs*/
 
-/*! \defgroup Antimony
+/*! \defgroup Antimony Antimony and SBML
 \brief SBML and Antimony related functions*/

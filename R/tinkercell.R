@@ -400,9 +400,9 @@ setClass('_p_f_p_q_const__char__p_char',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int',
-        prototype = list(parameterTypes = c('_p_char', '_ArrayOfStrings', '_p_char', '_int'),
-                        returnType = '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int'),
+setClass('_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int',
+        prototype = list(parameterTypes = c('_p_char', '_ArrayOfStrings', '_p_char'),
+                        returnType = '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int'),
         contains = 'CRoutinePointer')
 
 ##
@@ -2008,6 +2008,18 @@ attr(`tc_getName`, 'returnType') = 'character'
 attr(`tc_getName`, "inputTypes") = c('_p_void')
 class(`tc_getName`) = c("SWIGFunction", class('tc_getName'))
 
+# Start of tc_getUniqueName
+
+`tc_getUniqueName` = function(item, .copy = FALSE)
+{
+  .Call('R_swig_tc_getUniqueName', item, as.logical(.copy), PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_getUniqueName`, 'returnType') = 'character'
+attr(`tc_getUniqueName`, "inputTypes") = c('_p_void')
+class(`tc_getUniqueName`) = c("SWIGFunction", class('tc_getUniqueName'))
+
 # Start of tc_rename
 
 `tc_rename` = function(item, name)
@@ -2035,6 +2047,21 @@ class(`tc_rename`) = c("SWIGFunction", class('tc_rename'))
 attr(`tc_getNames`, 'returnType') = '_p_ArrayOfStrings'
 attr(`tc_getNames`, "inputTypes") = c('_p_ArrayOfItems')
 class(`tc_getNames`) = c("SWIGFunction", class('tc_getNames'))
+
+# Start of tc_getUniqueNames
+
+`tc_getUniqueNames` = function(items, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_getUniqueNames', items, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_ArrayOfStrings"
+  
+  ans
+  
+}
+
+attr(`tc_getUniqueNames`, 'returnType') = '_p_ArrayOfStrings'
+attr(`tc_getUniqueNames`, "inputTypes") = c('_p_ArrayOfItems')
+class(`tc_getUniqueNames`) = c("SWIGFunction", class('tc_getUniqueNames'))
 
 # Start of tc_getFamily
 
@@ -2512,26 +2539,20 @@ class(`tc_getString`) = c("SWIGFunction", class('tc_getString'))
 attr(`tc_getFilename`, 'returnType') = 'character'
 class(`tc_getFilename`) = c("SWIGFunction", class('tc_getFilename'))
 
-# Start of tc_getFromList
+# Start of tc_getStringFromList
 
-`tc_getFromList` = function(title, list, selectedString, comboBox, .copy = FALSE)
+`tc_getStringFromList` = function(title, list, selectedString, .copy = FALSE)
 {
   title = as(title, "character") 
   
   selectedString = as(selectedString, "character") 
-  comboBox = as(comboBox, "integer");     
-  
-  if(length(comboBox) > 1) {
-    Rf_warning("using only the first element of comboBox")
-  }
-  
-  .Call('R_swig_tc_getFromList', title, list, selectedString, comboBox, as.logical(.copy), PACKAGE='tinkercell')
+  .Call('R_swig_tc_getStringFromList', title, list, selectedString, as.logical(.copy), PACKAGE='tinkercell')
   
 }
 
-attr(`tc_getFromList`, 'returnType') = 'numeric'
-attr(`tc_getFromList`, "inputTypes") = c('character', '_p_ArrayOfStrings', 'character', 'numeric')
-class(`tc_getFromList`) = c("SWIGFunction", class('tc_getFromList'))
+attr(`tc_getStringFromList`, 'returnType') = 'numeric'
+attr(`tc_getStringFromList`, "inputTypes") = c('character', '_p_ArrayOfStrings', 'character')
+class(`tc_getStringFromList`) = c("SWIGFunction", class('tc_getStringFromList'))
 
 # Start of tc_getNumber
 
@@ -2751,7 +2772,7 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
 
 # Start of tc_Main_api_initialize
 
-`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_setName0, tc_getNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0)
+`tc_Main_api_initialize` = function(tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0)
 {
   if(is.function(tc_allItems0)) {
     assert('...' %in% names(formals(tc_allItems0)) || length(formals(tc_allItems0)) >= 0)
@@ -2843,6 +2864,16 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
       tc_getName0 = tc_getName0$address
     }
   }
+  if(is.function(tc_getUniqueName0)) {
+    assert('...' %in% names(formals(tc_getUniqueName0)) || length(formals(tc_getUniqueName0)) >= 0)
+  } else {
+    if(is.character(tc_getUniqueName0)) {
+      tc_getUniqueName0 = getNativeSymbolInfo(tc_getUniqueName0)
+    }
+    if(is(tc_getUniqueName0, "NativeSymbolInfo")) {
+      tc_getUniqueName0 = tc_getUniqueName0$address
+    }
+  }
   if(is.function(tc_setName0)) {
     assert('...' %in% names(formals(tc_setName0)) || length(formals(tc_setName0)) >= 2)
   } else {
@@ -2861,6 +2892,16 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
     }
     if(is(tc_getNames0, "NativeSymbolInfo")) {
       tc_getNames0 = tc_getNames0$address
+    }
+  }
+  if(is.function(tc_getUniqueNames0)) {
+    assert('...' %in% names(formals(tc_getUniqueNames0)) || length(formals(tc_getUniqueNames0)) >= 0)
+  } else {
+    if(is.character(tc_getUniqueNames0)) {
+      tc_getUniqueNames0 = getNativeSymbolInfo(tc_getUniqueNames0)
+    }
+    if(is(tc_getUniqueNames0, "NativeSymbolInfo")) {
+      tc_getUniqueNames0 = tc_getUniqueNames0$address
     }
   }
   if(is.function(tc_getFamily0)) {
@@ -3204,7 +3245,7 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
     }
   }
   if(is.function(getSelectedString)) {
-    assert('...' %in% names(formals(getSelectedString)) || length(formals(getSelectedString)) >= 4)
+    assert('...' %in% names(formals(getSelectedString)) || length(formals(getSelectedString)) >= 3)
   } else {
     if(is.character(getSelectedString)) {
       getSelectedString = getNativeSymbolInfo(getSelectedString)
@@ -3353,12 +3394,12 @@ class(`tc_getAngle`) = c("SWIGFunction", class('tc_getAngle'))
       changeArrowHead0 = changeArrowHead0$address
     }
   }
-  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_setName0, tc_getNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, PACKAGE='tinkercell')
+  .Call('R_swig_tc_Main_api_initialize', tc_allItems0, tc_selectedItems0, tc_itemsOfFamily0, tc_itemsOfFamily1, tc_find0, tc_findItems0, tc_select0, tc_deselect0, tc_getName0, tc_getUniqueName0, tc_setName0, tc_getNames0, tc_getUniqueNames0, tc_getFamily0, tc_isA0, tc_clearText, tc_outputText0, tc_errorReport0, tc_outputTable0, tc_printFile0, tc_removeItem0, tc_getY0, tc_getX0, tc_getPos0, tc_setPos0, tc_setPos1, tc_moveSelected0, tc_isWindows0, tc_isMac0, tc_isLinux0, tc_appDir0, tc_createInputWindow0, tc_createInputWindow1, createSliders, tc_addInputWindowOptions0, tc_addInputWindowCheckbox0, tc_openNewWindow0, tc_getChildren0, tc_getParent0, tc_getNumericalData0, tc_setNumericalData0, tc_getTextData0, tc_setTextData0, tc_getNumericalDataNames0, tc_getTextDataNames0, tc_zoom0, getString, getSelectedString, getNumber, getNumbers, getFilename, askQuestion, messageDialog, setSize0, getWidth0, getHeight0, setAngle0, getAngle0, getColor, setColor0, changeGraphics0, changeArrowHead0, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_Main_api_initialize`, 'returnType') = 'void'
-attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___ArrayOfItems', '_p_f___ArrayOfItems', '_p_f_String__ArrayOfItems', '_p_f_String_ArrayOfItems__ArrayOfItems', '_p_f_p_q_const__char__p_void', '_p_f_ArrayOfStrings__ArrayOfItems', '_p_f_p_void__void', '_p_f___void', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_Matrix__void', '_p_f_p_q_const__char__void', '_p_f_p_void__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_ArrayOfItems__Matrix', '_p_f_p_void_double_double__void', '_p_f_ArrayOfItems_Matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void', '_p_f_p_void_Matrix_p_f_Matrix__void__void', '_p_f_p_q_const__char_int_int_ArrayOfStrings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_Item__ArrayOfItems', '_p_f_p_void__p_void', '_p_f_Item_String__Matrix', '_p_f_p_void_p_q_const__char_Matrix__void', '_p_f_Item_String__TableOfStrings', '_p_f_p_void_p_q_const__char_TableOfStrings__void', '_p_f_Item__ArrayOfStrings', '_p_f_Item__ArrayOfStrings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int', '_p_f_p_q_const__char__double', '_p_f_ArrayOfStrings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_void_double_double_int__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_p_void_double_int__void', '_p_f_p_void__double', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char_int__void', '_p_f_p_void_p_q_const__char__void', '_p_f_p_void_p_q_const__char__void')
+attr(`tc_Main_api_initialize`, "inputTypes") = c('_p_f___ArrayOfItems', '_p_f___ArrayOfItems', '_p_f_String__ArrayOfItems', '_p_f_String_ArrayOfItems__ArrayOfItems', '_p_f_p_q_const__char__p_void', '_p_f_ArrayOfStrings__ArrayOfItems', '_p_f_p_void__void', '_p_f___void', '_p_f_p_void__p_char', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__void', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_ArrayOfItems__ArrayOfStrings', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char__int', '_p_f___void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_Matrix__void', '_p_f_p_q_const__char__void', '_p_f_p_void__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_ArrayOfItems__Matrix', '_p_f_p_void_double_double__void', '_p_f_ArrayOfItems_Matrix__void', '_p_f_double_double__void', '_p_f___int', '_p_f___int', '_p_f___int', '_p_f___p_char', '_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void', '_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void', '_p_f_p_void_Matrix_p_f_Matrix__void__void', '_p_f_p_q_const__char_int_int_ArrayOfStrings__void', '_p_f_p_q_const__char_int_int__void', '_p_f_p_q_const__char__void', '_p_f_Item__ArrayOfItems', '_p_f_p_void__p_void', '_p_f_Item_String__Matrix', '_p_f_p_void_p_q_const__char_Matrix__void', '_p_f_Item_String__TableOfStrings', '_p_f_p_void_p_q_const__char_TableOfStrings__void', '_p_f_Item__ArrayOfStrings', '_p_f_Item__ArrayOfStrings', '_p_f_double__void', '_p_f_p_q_const__char__p_char', '_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int', '_p_f_p_q_const__char__double', '_p_f_ArrayOfStrings_p_double__void', '_p_f___p_char', '_p_f_p_q_const__char__int', '_p_f_p_q_const__char__void', '_p_f_p_void_double_double_int__void', '_p_f_p_void__double', '_p_f_p_void__double', '_p_f_p_void_double_int__void', '_p_f_p_void__double', '_p_f_p_void__p_char', '_p_f_p_void_p_q_const__char_int__void', '_p_f_p_void_p_q_const__char__void', '_p_f_p_void_p_q_const__char__void')
 class(`tc_Main_api_initialize`) = c("SWIGFunction", class('tc_Main_api_initialize'))
 
 # Start of tc_showProgress

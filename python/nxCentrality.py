@@ -19,7 +19,7 @@ def getIndex(item,array):
 tc_print("generating adjacency matrix...");
 
 nodes = tc_itemsOfFamily("node");
-nodeNames = tc_getNames(nodes);
+nodeNames = tc_getUniqueNames(nodes);
 connections = tc_itemsOfFamily("connection");
 
 numNodes = nodes.length;

@@ -52,11 +52,11 @@ else:
         elif tc_isA(i,"Transcription Factor"):
             tfs.append(i);
 
-    promoterNames = fromStrings( tc_getNames( toItems(promoters) ) );
-    rbsNames = fromStrings( tc_getNames( toItems(rbs) ) );
-    codingNames = fromStrings( tc_getNames( toItems(coding) ) );
-    terminatorNames = fromStrings( tc_getNames( toItems(terminators) ) );
-    tfNames = fromStrings( tc_getNames( toItems(tfs) ) );
+    promoterNames = fromStrings( tc_getUniqueNames( toItems(promoters) ) );
+    rbsNames = fromStrings( tc_getUniqueNames( toItems(rbs) ) );
+    codingNames = fromStrings( tc_getUniqueNames( toItems(coding) ) );
+    terminatorNames = fromStrings( tc_getUniqueNames( toItems(terminators) ) );
+    tfNames = fromStrings( tc_getUniqueNames( toItems(tfs) ) );
     ignoreList = []; #list of names not found in the DB
 
     for i in range(0,len(promoters)): #for each selected promoter
@@ -68,7 +68,7 @@ else:
         
         for j in range(0, connections.length):  #look at parts regulating the promoter
             parts = tc_getConnectedNodesIn( nthItem(connections,j) );
-            pnames = tc_getNames(parts);
+            pnames = tc_getUniqueNames(parts);
             for k in range(0, parts.length ):
                 if tc_isA( nthItem(parts,k) ,"Protein"): #if a protein regulator
                     regulators.append( nthString(pnames,k) );  #get its name
@@ -116,7 +116,7 @@ else:
         
         for j in range(0,connections.length):  #look at parts regulated by this tf
             parts = tc_getConnectedNodesOut( nthItem(connections,j) );
-            pnames = tc_getNames(parts);
+            pnames = tc_getUniqueNames(parts);
             for k in range(0,parts.length):
                 if tc_isA( nthItem(parts,k) ,"Regulator"): #if regulatory element
                     promoters.append( nthString(pnames,k));  #get its name

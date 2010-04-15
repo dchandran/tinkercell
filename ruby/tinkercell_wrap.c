@@ -1805,7 +1805,7 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[40]
 #define SWIGTYPE_p_f_p_f_void__void__void swig_types[41]
 #define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int swig_types[43]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[43]
 #define SWIGTYPE_p_f_p_q_const__char__double swig_types[44]
 #define SWIGTYPE_p_f_p_q_const__char__int swig_types[45]
 #define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[46]
@@ -4006,6 +4006,28 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_getUniqueName(int argc, VALUE *argv, VALUE self) {
+  Item arg1 = (Item) 0 ;
+  int res1 ;
+  String result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0],SWIG_as_voidptrptr(&arg1), 0, 0);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "Item","tc_getUniqueName", 1, argv[0] )); 
+  }
+  result = (String)tc_getUniqueName(arg1);
+  vresult = SWIG_FromCharPtr((const char *)result);
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_rename(int argc, VALUE *argv, VALUE self) {
   Item arg1 = (Item) 0 ;
   String arg2 = (String) 0 ;
@@ -4058,6 +4080,36 @@ _wrap_tc_getNames(int argc, VALUE *argv, VALUE self) {
     }
   }
   result = tc_getNames(arg1);
+  vresult = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_tc_getUniqueNames(int argc, VALUE *argv, VALUE self) {
+  ArrayOfItems arg1 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  ArrayOfStrings result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  {
+    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "ArrayOfItems","tc_getUniqueNames", 1, argv[0] )); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfItems","tc_getUniqueNames", 1, argv[0]));
+    } else {
+      arg1 = *((ArrayOfItems *)(argp1));
+    }
+  }
+  result = tc_getUniqueNames(arg1);
   vresult = SWIG_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
@@ -5023,11 +5075,10 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_getFromList(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_getStringFromList(int argc, VALUE *argv, VALUE self) {
   String arg1 = (String) 0 ;
   ArrayOfStrings arg2 ;
   String arg3 = (String) 0 ;
-  int arg4 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5036,41 +5087,34 @@ _wrap_tc_getFromList(int argc, VALUE *argv, VALUE self) {
   int res3 ;
   char *buf3 = 0 ;
   int alloc3 = 0 ;
-  int val4 ;
-  int ecode4 = 0 ;
   int result;
   VALUE vresult = Qnil;
   
-  if ((argc < 4) || (argc > 4)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_getFromList", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_getStringFromList", 1, argv[0] ));
   }
   arg1 = (String)(buf1);
   {
     res2 = SWIG_ConvertPtr(argv[1], &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "ArrayOfStrings","tc_getFromList", 2, argv[1] )); 
+      SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "ArrayOfStrings","tc_getStringFromList", 2, argv[1] )); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfStrings","tc_getFromList", 2, argv[1]));
+      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfStrings","tc_getStringFromList", 2, argv[1]));
     } else {
       arg2 = *((ArrayOfStrings *)(argp2));
     }
   }
   res3 = SWIG_AsCharPtrAndSize(argv[2], &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), Ruby_Format_TypeError( "", "String","tc_getFromList", 3, argv[2] ));
+    SWIG_exception_fail(SWIG_ArgError(res3), Ruby_Format_TypeError( "", "String","tc_getStringFromList", 3, argv[2] ));
   }
   arg3 = (String)(buf3);
-  ecode4 = SWIG_AsVal_int(argv[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "int","tc_getFromList", 4, argv[3] ));
-  } 
-  arg4 = (int)(val4);
-  result = (int)tc_getFromList((char const *)arg1,arg2,(char const *)arg3,arg4);
+  result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
   vresult = SWIG_From_int((int)(result));
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -5520,60 +5564,62 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
   void (*arg7)(Item) = (void (*)(Item)) 0 ;
   void (*arg8)() = (void (*)()) 0 ;
   String (*arg9)(Item) = (String (*)(Item)) 0 ;
-  void (*arg10)(Item,String) = (void (*)(Item,String)) 0 ;
-  ArrayOfStrings (*arg11)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  String (*arg12)(Item) = (String (*)(Item)) 0 ;
-  int (*arg13)(Item,String) = (int (*)(Item,String)) 0 ;
-  void (*arg14)() = (void (*)()) 0 ;
-  void (*arg15)(String) = (void (*)(String)) 0 ;
-  void (*arg16)(String) = (void (*)(String)) 0 ;
-  void (*arg17)(Matrix) = (void (*)(Matrix)) 0 ;
+  String (*arg10)(Item) = (String (*)(Item)) 0 ;
+  void (*arg11)(Item,String) = (void (*)(Item,String)) 0 ;
+  ArrayOfStrings (*arg12)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
+  ArrayOfStrings (*arg13)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
+  String (*arg14)(Item) = (String (*)(Item)) 0 ;
+  int (*arg15)(Item,String) = (int (*)(Item,String)) 0 ;
+  void (*arg16)() = (void (*)()) 0 ;
+  void (*arg17)(String) = (void (*)(String)) 0 ;
   void (*arg18)(String) = (void (*)(String)) 0 ;
-  void (*arg19)(Item) = (void (*)(Item)) 0 ;
-  double (*arg20)(Item) = (double (*)(Item)) 0 ;
-  double (*arg21)(Item) = (double (*)(Item)) 0 ;
-  Matrix (*arg22)(ArrayOfItems) = (Matrix (*)(ArrayOfItems)) 0 ;
-  void (*arg23)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
-  void (*arg24)(ArrayOfItems,Matrix) = (void (*)(ArrayOfItems,Matrix)) 0 ;
-  void (*arg25)(double,double) = (void (*)(double,double)) 0 ;
-  int (*arg26)() = (int (*)()) 0 ;
-  int (*arg27)() = (int (*)()) 0 ;
+  void (*arg19)(Matrix) = (void (*)(Matrix)) 0 ;
+  void (*arg20)(String) = (void (*)(String)) 0 ;
+  void (*arg21)(Item) = (void (*)(Item)) 0 ;
+  double (*arg22)(Item) = (double (*)(Item)) 0 ;
+  double (*arg23)(Item) = (double (*)(Item)) 0 ;
+  Matrix (*arg24)(ArrayOfItems) = (Matrix (*)(ArrayOfItems)) 0 ;
+  void (*arg25)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
+  void (*arg26)(ArrayOfItems,Matrix) = (void (*)(ArrayOfItems,Matrix)) 0 ;
+  void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
   int (*arg28)() = (int (*)()) 0 ;
-  String (*arg29)() = (String (*)()) 0 ;
-  void (*arg30)(Matrix,String,String,String) = (void (*)(Matrix,String,String,String)) 0 ;
-  void (*arg31)(Matrix,String,void (*)(Matrix)) = (void (*)(Matrix,String,void (*)(Matrix))) 0 ;
-  void (*arg32)(Item,Matrix,void (*)(Matrix)) = (void (*)(Item,Matrix,void (*)(Matrix))) 0 ;
-  void (*arg33)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
-  void (*arg34)(String,int,int) = (void (*)(String,int,int)) 0 ;
-  void (*arg35)(String) = (void (*)(String)) 0 ;
-  ArrayOfItems (*arg36)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  Item (*arg37)(Item) = (Item (*)(Item)) 0 ;
-  Matrix (*arg38)(Item,String) = (Matrix (*)(Item,String)) 0 ;
-  void (*arg39)(Item,String,Matrix) = (void (*)(Item,String,Matrix)) 0 ;
-  TableOfStrings (*arg40)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
-  void (*arg41)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
-  ArrayOfStrings (*arg42)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  ArrayOfStrings (*arg43)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  void (*arg44)(double) = (void (*)(double)) 0 ;
-  String (*arg45)(String) = (String (*)(String)) 0 ;
-  int (*arg46)(String,ArrayOfStrings,String,int) = (int (*)(String,ArrayOfStrings,String,int)) 0 ;
-  double (*arg47)(String) = (double (*)(String)) 0 ;
-  void (*arg48)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
-  String (*arg49)() = (String (*)()) 0 ;
-  int (*arg50)(String) = (int (*)(String)) 0 ;
-  void (*arg51)(String) = (void (*)(String)) 0 ;
-  void (*arg52)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
-  double (*arg53)(void *) = (double (*)(void *)) 0 ;
-  double (*arg54)(void *) = (double (*)(void *)) 0 ;
-  void (*arg55)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
+  int (*arg29)() = (int (*)()) 0 ;
+  int (*arg30)() = (int (*)()) 0 ;
+  String (*arg31)() = (String (*)()) 0 ;
+  void (*arg32)(Matrix,String,String,String) = (void (*)(Matrix,String,String,String)) 0 ;
+  void (*arg33)(Matrix,String,void (*)(Matrix)) = (void (*)(Matrix,String,void (*)(Matrix))) 0 ;
+  void (*arg34)(Item,Matrix,void (*)(Matrix)) = (void (*)(Item,Matrix,void (*)(Matrix))) 0 ;
+  void (*arg35)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
+  void (*arg36)(String,int,int) = (void (*)(String,int,int)) 0 ;
+  void (*arg37)(String) = (void (*)(String)) 0 ;
+  ArrayOfItems (*arg38)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  Item (*arg39)(Item) = (Item (*)(Item)) 0 ;
+  Matrix (*arg40)(Item,String) = (Matrix (*)(Item,String)) 0 ;
+  void (*arg41)(Item,String,Matrix) = (void (*)(Item,String,Matrix)) 0 ;
+  TableOfStrings (*arg42)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
+  void (*arg43)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
+  ArrayOfStrings (*arg44)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  ArrayOfStrings (*arg45)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  void (*arg46)(double) = (void (*)(double)) 0 ;
+  String (*arg47)(String) = (String (*)(String)) 0 ;
+  int (*arg48)(String,ArrayOfStrings,String) = (int (*)(String,ArrayOfStrings,String)) 0 ;
+  double (*arg49)(String) = (double (*)(String)) 0 ;
+  void (*arg50)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
+  String (*arg51)() = (String (*)()) 0 ;
+  int (*arg52)(String) = (int (*)(String)) 0 ;
+  void (*arg53)(String) = (void (*)(String)) 0 ;
+  void (*arg54)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
+  double (*arg55)(void *) = (double (*)(void *)) 0 ;
   double (*arg56)(void *) = (double (*)(void *)) 0 ;
-  String (*arg57)(void *) = (String (*)(void *)) 0 ;
-  void (*arg58)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
-  void (*arg59)(void *,String) = (void (*)(void *,String)) 0 ;
-  void (*arg60)(void *,String) = (void (*)(void *,String)) 0 ;
+  void (*arg57)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
+  double (*arg58)(void *) = (double (*)(void *)) 0 ;
+  String (*arg59)(void *) = (String (*)(void *)) 0 ;
+  void (*arg60)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
+  void (*arg61)(void *,String) = (void (*)(void *,String)) 0 ;
+  void (*arg62)(void *,String) = (void (*)(void *,String)) 0 ;
   
-  if ((argc < 60) || (argc > 60)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 60)",argc); SWIG_fail;
+  if ((argc < 62) || (argc > 62)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 62)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f___ArrayOfItems);
@@ -5630,51 +5676,51 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[9], (void**)(&arg10), SWIGTYPE_p_f_p_void__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String)","tc_Main_api_initialize", 10, argv[9] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(Item)","tc_Main_api_initialize", 10, argv[9] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[10], (void**)(&arg11), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(argv[10], (void**)(&arg11), SWIGTYPE_p_f_p_void_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(ArrayOfItems)","tc_Main_api_initialize", 11, argv[10] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String)","tc_Main_api_initialize", 11, argv[10] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[11], (void**)(&arg12), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(argv[11], (void**)(&arg12), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(Item)","tc_Main_api_initialize", 12, argv[11] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(ArrayOfItems)","tc_Main_api_initialize", 12, argv[11] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[12], (void**)(&arg13), SWIGTYPE_p_f_p_void_p_q_const__char__int);
+    int res = SWIG_ConvertFunctionPtr(argv[12], (void**)(&arg13), SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(Item,String)","tc_Main_api_initialize", 13, argv[12] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(ArrayOfItems)","tc_Main_api_initialize", 13, argv[12] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[13], (void**)(&arg14), SWIGTYPE_p_f___void);
+    int res = SWIG_ConvertFunctionPtr(argv[13], (void**)(&arg14), SWIGTYPE_p_f_p_void__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)()","tc_Main_api_initialize", 14, argv[13] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(Item)","tc_Main_api_initialize", 14, argv[13] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[14], (void**)(&arg15), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[14], (void**)(&arg15), SWIGTYPE_p_f_p_void_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 15, argv[14] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(Item,String)","tc_Main_api_initialize", 15, argv[14] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[15], (void**)(&arg16), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[15], (void**)(&arg16), SWIGTYPE_p_f___void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 16, argv[15] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)()","tc_Main_api_initialize", 16, argv[15] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[16], (void**)(&arg17), SWIGTYPE_p_f_Matrix__void);
+    int res = SWIG_ConvertFunctionPtr(argv[16], (void**)(&arg17), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix)","tc_Main_api_initialize", 17, argv[16] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 17, argv[16] )); 
     }
   }
   {
@@ -5684,57 +5730,57 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[18], (void**)(&arg19), SWIGTYPE_p_f_p_void__void);
+    int res = SWIG_ConvertFunctionPtr(argv[18], (void**)(&arg19), SWIGTYPE_p_f_Matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item)","tc_Main_api_initialize", 19, argv[18] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix)","tc_Main_api_initialize", 19, argv[18] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[19], (void**)(&arg20), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(argv[19], (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(Item)","tc_Main_api_initialize", 20, argv[19] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 20, argv[19] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[20], (void**)(&arg21), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(argv[20], (void**)(&arg21), SWIGTYPE_p_f_p_void__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(Item)","tc_Main_api_initialize", 21, argv[20] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item)","tc_Main_api_initialize", 21, argv[20] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[21], (void**)(&arg22), SWIGTYPE_p_f_ArrayOfItems__Matrix);
+    int res = SWIG_ConvertFunctionPtr(argv[21], (void**)(&arg22), SWIGTYPE_p_f_p_void__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Matrix (*)(ArrayOfItems)","tc_Main_api_initialize", 22, argv[21] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(Item)","tc_Main_api_initialize", 22, argv[21] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[22], (void**)(&arg23), SWIGTYPE_p_f_p_void_double_double__void);
+    int res = SWIG_ConvertFunctionPtr(argv[22], (void**)(&arg23), SWIGTYPE_p_f_p_void__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,double,double)","tc_Main_api_initialize", 23, argv[22] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(Item)","tc_Main_api_initialize", 23, argv[22] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[23], (void**)(&arg24), SWIGTYPE_p_f_ArrayOfItems_Matrix__void);
+    int res = SWIG_ConvertFunctionPtr(argv[23], (void**)(&arg24), SWIGTYPE_p_f_ArrayOfItems__Matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfItems,Matrix)","tc_Main_api_initialize", 24, argv[23] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Matrix (*)(ArrayOfItems)","tc_Main_api_initialize", 24, argv[23] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[24], (void**)(&arg25), SWIGTYPE_p_f_double_double__void);
+    int res = SWIG_ConvertFunctionPtr(argv[24], (void**)(&arg25), SWIGTYPE_p_f_p_void_double_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(double,double)","tc_Main_api_initialize", 25, argv[24] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,double,double)","tc_Main_api_initialize", 25, argv[24] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[25], (void**)(&arg26), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(argv[25], (void**)(&arg26), SWIGTYPE_p_f_ArrayOfItems_Matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)()","tc_Main_api_initialize", 26, argv[25] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfItems,Matrix)","tc_Main_api_initialize", 26, argv[25] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[26], (void**)(&arg27), SWIGTYPE_p_f___int);
+    int res = SWIG_ConvertFunctionPtr(argv[26], (void**)(&arg27), SWIGTYPE_p_f_double_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)()","tc_Main_api_initialize", 27, argv[26] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(double,double)","tc_Main_api_initialize", 27, argv[26] )); 
     }
   }
   {
@@ -5744,165 +5790,165 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[28], (void**)(&arg29), SWIGTYPE_p_f___p_char);
+    int res = SWIG_ConvertFunctionPtr(argv[28], (void**)(&arg29), SWIGTYPE_p_f___int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)()","tc_Main_api_initialize", 29, argv[28] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)()","tc_Main_api_initialize", 29, argv[28] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[29], (void**)(&arg30), SWIGTYPE_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[29], (void**)(&arg30), SWIGTYPE_p_f___int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix,String,String,String)","tc_Main_api_initialize", 30, argv[29] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)()","tc_Main_api_initialize", 30, argv[29] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[30], (void**)(&arg31), SWIGTYPE_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void);
+    int res = SWIG_ConvertFunctionPtr(argv[30], (void**)(&arg31), SWIGTYPE_p_f___p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix,String,void (*)(Matrix))","tc_Main_api_initialize", 31, argv[30] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)()","tc_Main_api_initialize", 31, argv[30] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[31], (void**)(&arg32), SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void);
+    int res = SWIG_ConvertFunctionPtr(argv[31], (void**)(&arg32), SWIGTYPE_p_f_Matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,Matrix,void (*)(Matrix))","tc_Main_api_initialize", 32, argv[31] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix,String,String,String)","tc_Main_api_initialize", 32, argv[31] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[32], (void**)(&arg33), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void);
+    int res = SWIG_ConvertFunctionPtr(argv[32], (void**)(&arg33), SWIGTYPE_p_f_Matrix_p_q_const__char_p_f_Matrix__void__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String,int,int,ArrayOfStrings)","tc_Main_api_initialize", 33, argv[32] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Matrix,String,void (*)(Matrix))","tc_Main_api_initialize", 33, argv[32] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[33], (void**)(&arg34), SWIGTYPE_p_f_p_q_const__char_int_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[33], (void**)(&arg34), SWIGTYPE_p_f_p_void_Matrix_p_f_Matrix__void__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String,int,int)","tc_Main_api_initialize", 34, argv[33] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,Matrix,void (*)(Matrix))","tc_Main_api_initialize", 34, argv[33] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[34], (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[34], (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 35, argv[34] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String,int,int,ArrayOfStrings)","tc_Main_api_initialize", 35, argv[34] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[35], (void**)(&arg36), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(argv[35], (void**)(&arg36), SWIGTYPE_p_f_p_q_const__char_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfItems (*)(Item)","tc_Main_api_initialize", 36, argv[35] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String,int,int)","tc_Main_api_initialize", 36, argv[35] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[36], (void**)(&arg37), SWIGTYPE_p_f_p_void__p_void);
+    int res = SWIG_ConvertFunctionPtr(argv[36], (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Item (*)(Item)","tc_Main_api_initialize", 37, argv[36] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 37, argv[36] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[37], (void**)(&arg38), SWIGTYPE_p_f_Item_String__Matrix);
+    int res = SWIG_ConvertFunctionPtr(argv[37], (void**)(&arg38), SWIGTYPE_p_f_Item__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Matrix (*)(Item,String)","tc_Main_api_initialize", 38, argv[37] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfItems (*)(Item)","tc_Main_api_initialize", 38, argv[37] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[38], (void**)(&arg39), SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void);
+    int res = SWIG_ConvertFunctionPtr(argv[38], (void**)(&arg39), SWIGTYPE_p_f_p_void__p_void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String,Matrix)","tc_Main_api_initialize", 39, argv[38] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Item (*)(Item)","tc_Main_api_initialize", 39, argv[38] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[39], (void**)(&arg40), SWIGTYPE_p_f_Item_String__TableOfStrings);
+    int res = SWIG_ConvertFunctionPtr(argv[39], (void**)(&arg40), SWIGTYPE_p_f_Item_String__Matrix);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "TableOfStrings (*)(Item,String)","tc_Main_api_initialize", 40, argv[39] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "Matrix (*)(Item,String)","tc_Main_api_initialize", 40, argv[39] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[40], (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void);
+    int res = SWIG_ConvertFunctionPtr(argv[40], (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_Matrix__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String,TableOfStrings)","tc_Main_api_initialize", 41, argv[40] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String,Matrix)","tc_Main_api_initialize", 41, argv[40] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[41], (void**)(&arg42), SWIGTYPE_p_f_Item__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(argv[41], (void**)(&arg42), SWIGTYPE_p_f_Item_String__TableOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(Item)","tc_Main_api_initialize", 42, argv[41] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "TableOfStrings (*)(Item,String)","tc_Main_api_initialize", 42, argv[41] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[42], (void**)(&arg43), SWIGTYPE_p_f_Item__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(argv[42], (void**)(&arg43), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(Item)","tc_Main_api_initialize", 43, argv[42] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(Item,String,TableOfStrings)","tc_Main_api_initialize", 43, argv[42] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[43], (void**)(&arg44), SWIGTYPE_p_f_double__void);
+    int res = SWIG_ConvertFunctionPtr(argv[43], (void**)(&arg44), SWIGTYPE_p_f_Item__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(double)","tc_Main_api_initialize", 44, argv[43] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(Item)","tc_Main_api_initialize", 44, argv[43] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[44], (void**)(&arg45), SWIGTYPE_p_f_p_q_const__char__p_char);
+    int res = SWIG_ConvertFunctionPtr(argv[44], (void**)(&arg45), SWIGTYPE_p_f_Item__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(String)","tc_Main_api_initialize", 45, argv[44] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "ArrayOfStrings (*)(Item)","tc_Main_api_initialize", 45, argv[44] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[45], (void**)(&arg46), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int);
+    int res = SWIG_ConvertFunctionPtr(argv[45], (void**)(&arg46), SWIGTYPE_p_f_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(String,ArrayOfStrings,String,int)","tc_Main_api_initialize", 46, argv[45] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(double)","tc_Main_api_initialize", 46, argv[45] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[46], (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__double);
+    int res = SWIG_ConvertFunctionPtr(argv[46], (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(String)","tc_Main_api_initialize", 47, argv[46] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(String)","tc_Main_api_initialize", 47, argv[46] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[47], (void**)(&arg48), SWIGTYPE_p_f_ArrayOfStrings_p_double__void);
+    int res = SWIG_ConvertFunctionPtr(argv[47], (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfStrings,double *)","tc_Main_api_initialize", 48, argv[47] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(String,ArrayOfStrings,String)","tc_Main_api_initialize", 48, argv[47] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[48], (void**)(&arg49), SWIGTYPE_p_f___p_char);
+    int res = SWIG_ConvertFunctionPtr(argv[48], (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)()","tc_Main_api_initialize", 49, argv[48] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(String)","tc_Main_api_initialize", 49, argv[48] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[49], (void**)(&arg50), SWIGTYPE_p_f_p_q_const__char__int);
+    int res = SWIG_ConvertFunctionPtr(argv[49], (void**)(&arg50), SWIGTYPE_p_f_ArrayOfStrings_p_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(String)","tc_Main_api_initialize", 50, argv[49] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfStrings,double *)","tc_Main_api_initialize", 50, argv[49] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[50], (void**)(&arg51), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[50], (void**)(&arg51), SWIGTYPE_p_f___p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 51, argv[50] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)()","tc_Main_api_initialize", 51, argv[50] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[51], (void**)(&arg52), SWIGTYPE_p_f_p_void_double_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[51], (void**)(&arg52), SWIGTYPE_p_f_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,double,double,int)","tc_Main_api_initialize", 52, argv[51] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "int (*)(String)","tc_Main_api_initialize", 52, argv[51] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[52], (void**)(&arg53), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(argv[52], (void**)(&arg53), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(void *)","tc_Main_api_initialize", 53, argv[52] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Main_api_initialize", 53, argv[52] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[53], (void**)(&arg54), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(argv[53], (void**)(&arg54), SWIGTYPE_p_f_p_void_double_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(void *)","tc_Main_api_initialize", 54, argv[53] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,double,double,int)","tc_Main_api_initialize", 54, argv[53] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[54], (void**)(&arg55), SWIGTYPE_p_f_p_void_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[54], (void**)(&arg55), SWIGTYPE_p_f_p_void__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,double,int)","tc_Main_api_initialize", 55, argv[54] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(void *)","tc_Main_api_initialize", 55, argv[54] )); 
     }
   }
   {
@@ -5912,30 +5958,42 @@ _wrap_tc_Main_api_initialize(int argc, VALUE *argv, VALUE self) {
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[56], (void**)(&arg57), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(argv[56], (void**)(&arg57), SWIGTYPE_p_f_p_void_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(void *)","tc_Main_api_initialize", 57, argv[56] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,double,int)","tc_Main_api_initialize", 57, argv[56] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[57], (void**)(&arg58), SWIGTYPE_p_f_p_void_p_q_const__char_int__void);
+    int res = SWIG_ConvertFunctionPtr(argv[57], (void**)(&arg58), SWIGTYPE_p_f_p_void__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String,int)","tc_Main_api_initialize", 58, argv[57] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "double (*)(void *)","tc_Main_api_initialize", 58, argv[57] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[58], (void**)(&arg59), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[58], (void**)(&arg59), SWIGTYPE_p_f_p_void__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String)","tc_Main_api_initialize", 59, argv[58] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(void *)","tc_Main_api_initialize", 59, argv[58] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[59], (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[59], (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String)","tc_Main_api_initialize", 60, argv[59] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String,int)","tc_Main_api_initialize", 60, argv[59] )); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,arg10,arg11,(char const *(*)(void *))arg12,arg13,arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,(char const *(*)())arg29,arg30,arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,(char const *(*)(char const *))arg45,arg46,arg47,arg48,(char const *(*)())arg49,arg50,arg51,arg52,arg53,arg54,arg55,arg56,(char const *(*)(void *))arg57,arg58,arg59,arg60);
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[60], (void**)(&arg61), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String)","tc_Main_api_initialize", 61, argv[60] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[61], (void**)(&arg62), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(void *,String)","tc_Main_api_initialize", 62, argv[61] )); 
+    }
+  }
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,(char const *(*)(void *))arg10,arg11,arg12,arg13,(char const *(*)(void *))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(void *))arg59,arg60,arg61,arg62);
   return Qnil;
 fail:
   return Qnil;
@@ -9572,7 +9630,7 @@ static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (
 static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)|void (*)(void (*)(),String,String,String,String,String,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)|int (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int", "int (*)(char const *,ArrayOfStrings,char const *,int)|int (*)(String,ArrayOfStrings,String,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int", "int (*)(String,ArrayOfStrings,String)|int (*)(char const *,ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(String)|double (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(String)|int (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "String (*)(String)|char *(*)(char const *)", 0, 0, (void*)0, 0};
@@ -9657,7 +9715,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
   &_swigt__p_f_p_q_const__char_ArrayOfItems__int,
-  &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int,
+  &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__double,
   &_swigt__p_f_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__p_char,
@@ -9742,7 +9800,7 @@ static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__vo
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -9827,7 +9885,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
   _swigc__p_f_p_q_const__char_ArrayOfItems__int,
-  _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char_int__int,
+  _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__double,
   _swigc__p_f_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__p_char,
@@ -10218,8 +10276,10 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_select", _wrap_tc_select, -1);
   rb_define_module_function(mTinkercell, "tc_deselect", _wrap_tc_deselect, -1);
   rb_define_module_function(mTinkercell, "tc_getName", _wrap_tc_getName, -1);
+  rb_define_module_function(mTinkercell, "tc_getUniqueName", _wrap_tc_getUniqueName, -1);
   rb_define_module_function(mTinkercell, "tc_rename", _wrap_tc_rename, -1);
   rb_define_module_function(mTinkercell, "tc_getNames", _wrap_tc_getNames, -1);
+  rb_define_module_function(mTinkercell, "tc_getUniqueNames", _wrap_tc_getUniqueNames, -1);
   rb_define_module_function(mTinkercell, "tc_getFamily", _wrap_tc_getFamily, -1);
   rb_define_module_function(mTinkercell, "tc_isA", _wrap_tc_isA, -1);
   rb_define_module_function(mTinkercell, "tc_print", _wrap_tc_print, -1);
@@ -10254,7 +10314,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_zoom", _wrap_tc_zoom, -1);
   rb_define_module_function(mTinkercell, "tc_getString", _wrap_tc_getString, -1);
   rb_define_module_function(mTinkercell, "tc_getFilename", _wrap_tc_getFilename, -1);
-  rb_define_module_function(mTinkercell, "tc_getFromList", _wrap_tc_getFromList, -1);
+  rb_define_module_function(mTinkercell, "tc_getStringFromList", _wrap_tc_getStringFromList, -1);
   rb_define_module_function(mTinkercell, "tc_getNumber", _wrap_tc_getNumber, -1);
   rb_define_module_function(mTinkercell, "tc_getNumbers", _wrap_tc_getNumbers, -1);
   rb_define_module_function(mTinkercell, "tc_askQuestion", _wrap_tc_askQuestion, -1);

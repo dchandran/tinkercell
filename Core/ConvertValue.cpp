@@ -87,7 +87,7 @@ namespace Tinkercell
 		return QString( QByteArray::fromRawData(c,sz) );
 	}
 
-	char* ConvertValue(const QString& s)
+	const char* ConvertValue(const QString& s)
 	{
 		char * c = new char[s.length()+1];
 		//char * c = (char*)_aligned_malloc( (s.length()+1) * sizeof(char) , 16);

@@ -106,6 +106,18 @@ String tc_getName(Item item)
 	return 0;
 }
 
+String (*_tc_getUniqueName)(Item item) = 0;
+/*! 
+ \brief get the full name of an item
+ \ingroup Annotation
+*/
+String tc_getUniqueName(Item item)
+{
+	if (_tc_getUniqueName)
+		return _tc_getUniqueName(item);
+	return 0;
+}
+
 void (*_tc_rename)(Item item,String name) = 0;
 /*! 
  \brief set the name of an item (not full name)
@@ -128,6 +140,19 @@ ArrayOfStrings tc_getNames(ArrayOfItems items)
 		return _tc_getNames(items);
 	return newArrayOfStrings(0);
 }
+
+ArrayOfStrings (*_tc_getUniqueNames)(ArrayOfItems items) = 0;
+/*! 
+ \brief get the full names of several items
+ \ingroup Annotation
+*/
+ArrayOfStrings tc_getUniqueNames(ArrayOfItems items)
+{
+	if (_tc_getUniqueNames)
+		return _tc_getUniqueNames(items);
+	return newArrayOfStrings(0);
+}
+
 
 String (*_tc_getFamily)(Item item) = 0;
 /*! 
@@ -522,15 +547,15 @@ String tc_getFilename()
 	return 0;
 }
 
-int (*_tc_getFromList)(String title, ArrayOfStrings list,String selectedString, int comboBox) = 0;
+int (*_tc_getStringFromList)(String title, ArrayOfStrings list,String selectedString) = 0;
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox)
+int tc_getStringFromList(String title, ArrayOfStrings list,String selectedString)
 {
-	if (_tc_getFromList)
-		return _tc_getFromList(title,list,selectedString,comboBox);
+	if (_tc_getStringFromList)
+		return _tc_getStringFromList(title,list,selectedString);
 	return 0;
 }
 
@@ -723,8 +748,10 @@ void tc_Main_api_initialize(
 		void (*tc_select0)(Item),
 		void (*tc_deselect0)(),
 		String (*tc_getName0)(Item),
+		String (*tc_getUniqueName0)(Item),
 		void (*tc_setName0)(Item item,String name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
+		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
 		String (*tc_getFamily0)(Item),
 		int (*tc_isA0)(Item,String),
 
@@ -770,7 +797,7 @@ void tc_Main_api_initialize(
 		void (*tc_zoom0)(double factor),
 		
 		String (*getString0)(String),
-		int (*getSelectedString0)(String, ArrayOfStrings, String, int),
+		int (*getSelectedString0)(String, ArrayOfStrings, String),
 		double (*getNumber0)(String),
 		void (*getNumbers0)( ArrayOfStrings, double * ),
 		String (*getFilename0)(),
@@ -844,7 +871,7 @@ void tc_Main_api_initialize(
 	_tc_zoom = tc_zoom0;
 	
 	_tc_getString = getString0;
-	_tc_getFromList = getSelectedString0;
+	_tc_getStringFromList = getSelectedString0;
 	_tc_getNumber = getNumber0;
 	_tc_getNumbers = getNumbers0;
 	_tc_getFilename = getFilename0;

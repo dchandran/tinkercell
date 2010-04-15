@@ -65,8 +65,10 @@ namespace Tinkercell
 		void moveSelected(QSemaphore*,qreal ,qreal );
 		void getFamily(QSemaphore*,QString*,ItemHandle* );
 		void getName(QSemaphore*,QString*,ItemHandle* );
+		void getUniqueName(QSemaphore*,QString*,ItemHandle* );
 		void setName(QSemaphore*,ItemHandle*,const QString&);
 		void getNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		void getUniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void isA(QSemaphore*,int*,ItemHandle*, const QString&);
 		void outputText(QSemaphore*,const QString&);
 		void errorReport(QSemaphore*,const QString&);
@@ -98,7 +100,7 @@ namespace Tinkercell
 		
         void getString(QSemaphore*,QString*,const QString&);
         void getFilename(QSemaphore*,QString*);
-        void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int);
+        void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&);
         void getNumber(QSemaphore*,qreal*,const QString&);
         void getNumbers(QSemaphore*,const QStringList&,qreal*);
 		
@@ -126,10 +128,12 @@ namespace Tinkercell
 		ArrayOfItems findItems(ArrayOfStrings);
 		void select(void*);
 		void deselect();
-		char* getName(void*);
+		const char* getName(void*);
+		const char* getUniqueName(void*);
 		void setName(void*,const char*);
 		ArrayOfStrings getNames(ArrayOfItems);
-		char* getFamily(void*);
+		ArrayOfStrings getUniqueNames(ArrayOfItems);
+		const char* getFamily(void*);
 		int isA(void*,const char*);
 		void removeItem(void*);
 		void setPos(void*,double ,double );
@@ -152,7 +156,7 @@ namespace Tinkercell
 		int isWindows();
 		int isMac();
 		int isLinux();
-		char* appDir();
+		const char* appDir();
 
 		ArrayOfStrings getNumericalDataNames(void*);
 		ArrayOfStrings getTextDataNames(void*);
@@ -166,9 +170,9 @@ namespace Tinkercell
 		ArrayOfItems getChildren(void*);
 		void* getParent(void*);
 		
-		char* getString(const char*);
-        char* getFilename();
-        int getSelectedString(const char*, ArrayOfStrings,const char*,int);
+		const char* getString(const char*);
+        const char* getFilename();
+        int getSelectedString(const char*, ArrayOfStrings,const char*);
         double getNumber(const char*);
         void getNumbers(ArrayOfStrings, double*);
         
@@ -216,10 +220,12 @@ namespace Tinkercell
 		static ArrayOfItems _findItems(ArrayOfStrings);
 		static void _select(void*);
 		static void _deselect();
-		static char* _getName(void*);
+		static const char* _getName(void*);
+		static const char* _getUniqueName(void*);
 		static void _setName(void*,const char*);
 		static ArrayOfStrings _getNames(ArrayOfItems);
-		static char* _getFamily(void*);
+		static ArrayOfStrings _getUniqueNames(ArrayOfItems);
+		static const char* _getFamily(void*);
 		static int _isA(void*,const char*);
 		static void _removeItem(void*);
 		static void _setPos(void*,double ,double );
@@ -242,7 +248,7 @@ namespace Tinkercell
 		static int _isWindows();
 		static int _isMac();
 		static int _isLinux();
-		static char* _appDir();
+		static const char* _appDir();
 		static ArrayOfStrings _getNumericalDataNames(void*);
 		static ArrayOfStrings _getTextDataNames(void*);
 		static Matrix _getNumericalData(void*,const char*);
@@ -251,11 +257,11 @@ namespace Tinkercell
 		static void _setTextData(void*, const char *, TableOfStrings);
 		static ArrayOfItems _getChildren(void*);
 		static void* _getParent(void*);
-		static char* _getString(const char*);
-        static int _getSelectedString(const char*, ArrayOfStrings,const char*, int);
+		static const char* _getString(const char*);
+        static int _getSelectedString(const char*, ArrayOfStrings,const char*);
         static double _getNumber(const char*);
         static void _getNumbers(ArrayOfStrings, double *);
-        static char* _getFilename();
+        static const char* _getFilename();
 		static void _setSize(void*,double,double,int);
 		static double _getWidth(void*);
 		static double _getHeight(void*);
@@ -321,6 +327,14 @@ namespace Tinkercell
 		*/
 		void itemName(QSemaphore*,QString*,ItemHandle*);
 		/*!
+		* \brief gets name of given item. This function is designed to be used with the C API framework
+		* \param QSemaphore * semaphore
+		* \param return value
+		* \param item pointer
+		* \return void
+		*/
+		void uniqueName(QSemaphore*,QString*,ItemHandle*);
+		/*!
 		* \brief set name of given item. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
 		* \param QString new name
@@ -336,6 +350,14 @@ namespace Tinkercell
 		* \return void
 		*/
 		void itemNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		/*!
+		* \brief gets names of given items. This function is designed to be used with the C API framework
+		* \param QSemaphore * semaphore
+		* \param return value
+		* \param item pointers
+		* \return void
+		*/
+		void uniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		/*!
 		* \brief gets family of given item. This function is designed to be used with the C API framework
 		* \param QSemaphore * semaphore
@@ -657,7 +679,7 @@ namespace Tinkercell
         /*!
         * \brief Get string from user from a list. Part of the TinkerCell C interface.
         */
-        void getSelectedString(QSemaphore*, int*, const QString&, const QStringList&, const QString&, int);
+        void getSelectedString(QSemaphore*, int*, const QString&, const QStringList&, const QString&);
         /*!
         * \brief Get a number from user. Part of the TinkerCell C interface.
         */

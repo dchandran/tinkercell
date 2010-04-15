@@ -113,7 +113,7 @@ void run(Matrix input)
 	}
 
 	params = tc_getParameters(A);
-	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
+	names = tc_getUniqueNames(tc_itemsOfFamilyFrom("Node\0",A));
 
 	len = names.length;
 
@@ -123,11 +123,11 @@ void run(Matrix input)
 
 	for (i=0; i < len; ++i) setNthString(allNames,i+params.rows,nthString(names,i));
 
-	index1 = tc_getFromList("Select First Parameter",allNames,selected_var1,0); 
+	index1 = tc_getStringFromList("Select First Parameter",allNames,selected_var1,0); 
 	if (index1 >= 0)
-		index2 = tc_getFromList("Select Second Parameter",allNames,selected_var2,0);
+		index2 = tc_getStringFromList("Select Second Parameter",allNames,selected_var2,0);
 	if (index1 >= 0 && index2 >= 0)
-		index3 = tc_getFromList("Select Variable for Steady State Analysis",allNames,target_x_var,0);
+		index3 = tc_getStringFromList("Select Variable for Steady State Analysis",allNames,target_x_var,0);
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0 &&
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	

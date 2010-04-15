@@ -442,7 +442,7 @@ void run2D(Matrix input)
 	}
 
 	params = tc_getParameters(A);
-	names = tc_getNames(tc_itemsOfFamilyFrom("Node\0",A));
+	names = tc_getUniqueNames(tc_itemsOfFamilyFrom("Node\0",A));
 
 	if (index1 >= 0 && index2 >= 0 && (index1 == index2))
 	{
@@ -454,7 +454,7 @@ void run2D(Matrix input)
 	}
 
 	if (index1 >= 0 && index2 >= 0)
-		index3 = tc_getFromList("Select Target",names,target_var,0);
+		index3 = tc_getStringFromList("Select Target",names,target_var,0);
 	
 	allParams = newMatrix(0,0);
 	

@@ -71,7 +71,7 @@ namespace Tinkercell
 	\ingroup helper
 	\return null-terminated char* 
 	*/
-	MY_EXPORT char* ConvertValue(const QString&);
+	MY_EXPORT const char* ConvertValue(const QString&);
 	/*! \brief convert TableOfStrings to DataTable of QString
 	\ingroup helper
 	\return QStringList

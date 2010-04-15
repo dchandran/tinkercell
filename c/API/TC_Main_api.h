@@ -52,22 +52,34 @@ TCAPIEXPORT void tc_select(Item item);
 TCAPIEXPORT void tc_deselect();
 
 /*! 
- \brief get the full name of an item
- \ingroup Annotation
+ \brief get the name of an item
+ \ingroup Get items
 */
 TCAPIEXPORT String tc_getName(Item item);
 
 /*! 
+ \brief get the full name of an item
+ \ingroup Get items
+*/
+TCAPIEXPORT String tc_getUniqueName(Item item);
+
+/*! 
  \brief set the name of an item (not full name)
- \ingroup Annotation
+ \ingroup Get items
 */
 TCAPIEXPORT void tc_rename(Item item,String name);
 
 /*! 
- \brief get the full names of several items
- \ingroup Annotation
+ \brief get the names of several items
+ \ingroup Get items
 */
 TCAPIEXPORT ArrayOfStrings tc_getNames(ArrayOfItems items);
+
+/*! 
+ \brief get the full names of several items
+ \ingroup Get items
+*/
+TCAPIEXPORT ArrayOfStrings tc_getUniqueNames(ArrayOfItems items);
 
 /*! 
  \brief get the family name of an item
@@ -275,7 +287,7 @@ TCAPIEXPORT String tc_getFilename();
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-TCAPIEXPORT int tc_getFromList(String title, ArrayOfStrings list,String selectedString, int comboBox);
+TCAPIEXPORT int tc_getStringFromList(String title, ArrayOfStrings list,String selectedString);
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Input and Output
@@ -382,8 +394,10 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_select0)(Item),
 		void (*tc_deselect0)(),
 		String (*tc_getName0)(Item),
+		String (*tc_getUniqueName0)(Item),
 		void (*tc_setName0)(Item item,String name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
+		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
 		String (*tc_getFamily0)(Item),
 		int (*tc_isA0)(Item,String),
 
@@ -429,7 +443,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_zoom0)(double factor),
 		
 		String (*getString)(String),
-		int (*getSelectedString)(String, ArrayOfStrings, String, int),
+		int (*getSelectedString)(String, ArrayOfStrings, String),
 		double (*getNumber)(String),
 		void (*getNumbers)( ArrayOfStrings, double * ),
 		String (*getFilename)(),

@@ -62,10 +62,12 @@ namespace Tinkercell
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
 		void (*tc_select0)(void *),
 		void (*tc_deselect0)(),
-		char* (*tc_getName0)(void *),
+		const char* (*tc_getName0)(void *),
+		const char* (*tc_getUniqueName0)(void *),
 		void (*tc_setName0)(void * item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		char* (*tc_getFamily0)(void *),
+		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
+		const char* (*tc_getFamily0)(void *),
 		int (*tc_isA0)(void *,const char*),
 
 		void (*tc_clearText)(),
@@ -86,7 +88,7 @@ namespace Tinkercell
 		int (*tc_isWindows0)(),
 		int (*tc_isMac0)(),
 		int (*tc_isLinux0)(),
-		char* (*tc_appDir0)(),
+		const char* (*tc_appDir0)(),
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
@@ -109,11 +111,11 @@ namespace Tinkercell
 		
 		void (*tc_zoom0)(double factor),
 		
-		char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, ArrayOfStrings, const char*, int),
+		const char* (*getString)(const char*),
+		int (*getSelectedString)(const char*, ArrayOfStrings, const char*),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( ArrayOfStrings, double * ),
-		char* (*getFilename)(),
+		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
@@ -146,8 +148,10 @@ namespace Tinkercell
 				&(_select),
 				&(_deselect),
 				&(_getName),
+				&(_getUniqueName),
 				&(_setName),
 				&(_getNames),
+				&(_getUniqueNames),
 				&(_getFamily),
 				&(_isA),
 				&(_clearText),
@@ -223,9 +227,11 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(removeItem(QSemaphore*,ItemHandle*)),this,SLOT(removeItem(QSemaphore*,ItemHandle*)));
 		connect(&fToS,SIGNAL(moveSelected(QSemaphore*,qreal,qreal)),this,SLOT(moveSelected(QSemaphore*,qreal,qreal)));
 		connect(&fToS,SIGNAL(getName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemName(QSemaphore*,QString*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getUniqueName(QSemaphore*,QString*,ItemHandle*)),this,SLOT(uniqueName(QSemaphore*,QString*,ItemHandle*)));
 		connect(&fToS,SIGNAL(setName(QSemaphore*,ItemHandle*,const QString&)),this,SLOT(setName(QSemaphore*,ItemHandle*,const QString&)));
 
 		connect(&fToS,SIGNAL(getNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(itemNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(&fToS,SIGNAL(getUniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(uniqueNames(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
 		connect(&fToS,SIGNAL(getFamily(QSemaphore*,QString*,ItemHandle*)),this,SLOT(itemFamily(QSemaphore*,QString*,ItemHandle*)));
 		connect(&fToS,SIGNAL(isA(QSemaphore*,int*,ItemHandle*,const QString&)),this,SLOT(isA(QSemaphore*,int*,ItemHandle*,const QString&)));
 		connect(&fToS,SIGNAL(clearText(QSemaphore*)),this,SLOT(clearText(QSemaphore*)));
@@ -268,7 +274,7 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
 
 		connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
-        connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&,int)));
+        connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
         connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
         connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
         connect(&fToS,SIGNAL(getFilename(QSemaphore*,QString*)),this,SLOT(getFilename(QSemaphore*,QString*)));
@@ -559,6 +565,21 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				if (items[i])
+					(*list) << items[i]->name;
+			}
+		}
+		if (s)
+			s->release();
+	}
+
+	void C_API_Slots::uniqueNames(QSemaphore* s,QStringList* list,const QList<ItemHandle*>& items)
+	{
+		if (list)
+		{
+			(*list).clear();
+			for (int i=0; i < items.size(); ++i)
+			{
+				if (items[i])
 					(*list) << items[i]->fullName(tr("_"));
 			}
 		}
@@ -567,6 +588,16 @@ namespace Tinkercell
 	}
 
 	void C_API_Slots::itemName(QSemaphore* s,QString* name,ItemHandle* handle)
+	{
+		if (handle && name)
+		{
+			(*name) = handle->name;
+		}
+		if (s)
+			s->release();
+	}
+
+	void C_API_Slots::uniqueName(QSemaphore* s,QString* name,ItemHandle* handle)
 	{
 		if (handle && name)
 		{
@@ -1083,10 +1114,16 @@ namespace Tinkercell
 		return fToS.selectedItems();
 	}
 
-	char* C_API_Slots::_getName(void* o)
+	const char* C_API_Slots::_getName(void* o)
 	{
 		return fToS.getName(o);
 	}
+
+	const char* C_API_Slots::_getUniqueName(void* o)
+	{
+		return fToS.getUniqueName(o);
+	}
+
 
 	void C_API_Slots::_setName(void* o,const char* c)
 	{
@@ -1098,7 +1135,12 @@ namespace Tinkercell
 		return fToS.getNames(a);
 	}
 
-	char* C_API_Slots::_getFamily(void* o)
+	ArrayOfStrings C_API_Slots::_getUniqueNames(ArrayOfItems a)
+	{
+		return fToS.getUniqueNames(a);
+	}
+
+	const char* C_API_Slots::_getFamily(void* o)
 	{
 		return fToS.getFamily(o);
 	}
@@ -1213,7 +1255,7 @@ namespace Tinkercell
 		return fToS.isLinux();
 	}
 
-	char*  C_API_Slots::_appDir()
+	const char*  C_API_Slots::_appDir()
 	{
 		return fToS.appDir();
 	}
@@ -1367,7 +1409,7 @@ namespace Tinkercell
 		return A;
 	}
 
-	char* Core_FtoS::getName(void* o)
+	const char* Core_FtoS::getName(void* o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1378,6 +1420,19 @@ namespace Tinkercell
 		delete s;
 		return ConvertValue(p);
 	}
+	
+	const char* Core_FtoS::getUniqueName(void* o)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QString p;
+		s->acquire();
+		emit getUniqueName(s,&p,ConvertValue(o));
+		s->acquire();
+		s->release();
+		delete s;
+		return ConvertValue(p);
+	}
+
 
 	void Core_FtoS::setName(void* o, const char* c)
 	{
@@ -1403,7 +1458,21 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char* Core_FtoS::getFamily(void* a0)
+	ArrayOfStrings Core_FtoS::getUniqueNames(ArrayOfItems a0)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		QStringList p;
+		s->acquire();
+		QList<ItemHandle*> * list = ConvertValue(a0);
+		emit getUniqueNames(s,&p,*list);
+		s->acquire();
+		s->release();
+		delete s;
+		delete list;
+		return ConvertValue(p);
+	}
+
+	const char* Core_FtoS::getFamily(void* a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1675,7 +1744,7 @@ namespace Tinkercell
 		return i;
 	}
 
-	char* Core_FtoS::appDir()
+	const char* Core_FtoS::appDir()
 	{
 		QString dir;
 		QSemaphore * s = new QSemaphore(1);
@@ -1909,8 +1978,10 @@ namespace Tinkercell
         getStringList.setCurrentRow(0);
     }
 
-    void C_API_Slots::getSelectedString(QSemaphore* s,int* p,const QString& name, const QStringList& list0,const QString& init, int option)
+    void C_API_Slots::getSelectedString(QSemaphore* s,int* p,const QString& name, const QStringList& list0,const QString& init)
     {
+    	int option = 0;
+    	
         if (p)
         {
             getStringListText.clear();
@@ -2001,19 +2072,19 @@ namespace Tinkercell
 			s->release();
 	}
 
-    char* C_API_Slots::_getString(const char* title)
+    const char* C_API_Slots::_getString(const char* title)
     {
         return fToS.getString(title);
     }
 
-    char* C_API_Slots::_getFilename()
+    const char* C_API_Slots::_getFilename()
     {
         return fToS.getFilename();
     }
 
-    int C_API_Slots::_getSelectedString(const char* title,ArrayOfStrings list,const char* c, int i)
+    int C_API_Slots::_getSelectedString(const char* title,ArrayOfStrings list,const char* c)
     {
-        return fToS.getSelectedString(title,list,c,i);
+        return fToS.getSelectedString(title,list,c);
     }
 
     double C_API_Slots::_getNumber(const char* title)
@@ -2060,7 +2131,7 @@ namespace Tinkercell
         delete s;
     }
 
-    char* Core_FtoS::getString(const char* c)
+    const char* Core_FtoS::getString(const char* c)
     {
         //qDebug() << "get string dialog";
         QSemaphore * s = new QSemaphore(1);
@@ -2073,7 +2144,7 @@ namespace Tinkercell
         return ConvertValue(p);
     }
 
-    char* Core_FtoS::getFilename()
+    const char* Core_FtoS::getFilename()
     {
         QSemaphore * s = new QSemaphore(1);
         QString p;
@@ -2107,13 +2178,13 @@ namespace Tinkercell
         delete s;
     }
 
-    int Core_FtoS::getSelectedString(const char* c, ArrayOfStrings list,const char* c1, int i)
+    int Core_FtoS::getSelectedString(const char* c, ArrayOfStrings list,const char* c1)
     {
         //qDebug() << "get item dialog";
         QSemaphore * s = new QSemaphore(1);
         int p;
         s->acquire();
-        emit getSelectedString(s,&p,ConvertValue(c),ConvertValue(list),ConvertValue(c1), i);
+        emit getSelectedString(s,&p,ConvertValue(c),ConvertValue(list),ConvertValue(c1));
         s->acquire();
         s->release();
         delete s;

@@ -10,7 +10,7 @@ from tinkercell import *
 A = tc_itemsOfFamily('Part');
 
 if A.length > 0:
-  names = tc_getNames(A);
+  names = tc_getUniqueNames(A);
   attribs = ('sequence',);
   seqs = tc_getAllTextNamed(A, toStrings(attribs) );
 

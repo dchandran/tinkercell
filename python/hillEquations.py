@@ -32,16 +32,16 @@ if (len(synthesis) > 0):
 				upstream = tc_partsUpstream( nthItem(genes,0) );
 				for j in range(0,upstream.length):
 					p = nthItem(upstream,j);
-					if tc_isA(p,"Promoter"): promotername = tc_getName(p);
+					if tc_isA(p,"Promoter"): promotername = tc_getUniqueName(p);
 					connectors2 = tc_getConnectionsIn(p);
 					isRepressor = False;
 					for k in range(0,connectors2.length):
 						c = nthItem(connectors2,k);
 						connectors.append(c);
 						isRepressor = (t==0 and tc_isA(c,"Transcription Repression"));
-						cname = tc_getName(c);
+						cname = tc_getUniqueName(c);
 						parts = tc_getConnectedNodesIn(c);
-						pnames = tc_getNames(parts);
+						pnames = tc_getUniqueNames(parts);
 						for n in range(0,pnames.length):
 							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
 							if not isRepressor:
@@ -52,7 +52,7 @@ if (len(synthesis) > 0):
 					deleteArrayOfItems(connectors2);
 				p = nthItem(genes,0);
 				if tc_isA(p,"Promoter"):
-					promotername = tc_getName(p);
+					promotername = tc_getUniqueName(p);
 			deleteArrayOfItems(genes);
 			rate = "0.0";			
 			if len(promotername) > 0:
@@ -83,7 +83,7 @@ if (len(synthesis) > 0):
 					for c in connectors:
 						tc_changeArrowHead(c,"ArrowItems/TranscriptionRegulation.xml");
 						tc_setColor(c,"#3232FF",1);
-				name = tc_getName( i );
+				name = tc_getUniqueName( i );
 				if rate == "1.0/()":
 					rate = promotername + ".strength";
 				else:

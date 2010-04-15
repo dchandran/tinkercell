@@ -78,8 +78,8 @@ void run()
      }
   }
   
-  names = tc_getNames(tfs);  //get names of proteins
-  jnames = tc_getNames(js);  //get names of reactions
+  names = tc_getUniqueNames(tfs);  //get names of proteins
+  jnames = tc_getUniqueNames(js);  //get names of reactions
 
   //main function that generates the full stoichiometry and rates
   m = fullBindingKinetics(N,jnames.strings,names.strings);

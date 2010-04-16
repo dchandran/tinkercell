@@ -2068,13 +2068,13 @@ namespace Tinkercell
 		QStringList positives, allTFs;
 
 		for (int i=0; i < connections.size(); ++i)
-                        if (connections[i])
-		{
+		if (connections[i])
+			{
 				if (!connections[i]->isA("Transcription Regulation") || connections[i] == except)
 					continue;
-                                QString cname = connections[i]->fullName();
-                                bool isPositive = !(connections[i]->isA("Transcription Repression"));
-                                QList<NodeHandle*> nodesIn = connections[i]->nodesIn();
+                QString cname = connections[i]->fullName();
+                bool isPositive = !(connections[i]->isA("Transcription Repression"));
+                QList<NodeHandle*> nodesIn = connections[i]->nodesIn();
 				for (int j=0; j < nodesIn.size(); ++j)
 				{
 					ItemHandle * nodeHandle = (nodesIn[j]);

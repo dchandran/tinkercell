@@ -100,7 +100,7 @@ namespace Tinkercell
 							if (!handleHasVar)
 								handle = symbolsTable->dataRowsAndCols[str].first;
 							
-							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName(QString("_")))) )
+							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName())) )
 							{
 								s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str + QString("\\1"));
 								s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str + QString("\\2"));
@@ -122,7 +122,7 @@ namespace Tinkercell
 								if (!handleHasVar)
 									handle = symbolsTable->dataRowsAndCols[str2].first;
 								
-								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName(QString("_")))) )
+								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName())) )
 								{
 									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str2 + QString("\\1"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str2 + QString("\\2"));
@@ -154,13 +154,12 @@ namespace Tinkercell
 									{
 										ItemHandle * handle2 = handle;
 										QString newp(str);
-										int k = newp.indexOf(QString("_"));
+										int k = newp.indexOf(QString("."));
 										bool found = false;
 										
 										while (k > -1 && !found)
 										{
 											newp = newp.left(k);
-											win->console()->message(newp);
 											
 											if (symbolsTable->handlesFullName.contains(newp))
 											{
@@ -174,7 +173,7 @@ namespace Tinkercell
 												found = true;
 											}
 											
-											k = newp.indexOf(QString("_"));
+											k = newp.indexOf(QString("."));
 										}
 										
 										if (found)

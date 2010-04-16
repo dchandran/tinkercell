@@ -45,6 +45,12 @@ namespace Tinkercell
 
 		if (dockWidget && dockWidget->widget() != this)
 			dockWidget->setWidget(this);
+		
+		if (tabWidget->count() < 2)
+		{
+			tabWidget->addTab(ratesBox,tr("Rate equations"));
+			tabWidget->addTab(matrixBox,tr("Stoichiometry"));
+		}
 
 		connectionHandles.clear();
 		ConnectionHandle * connectionHandle = 0;
@@ -201,12 +207,21 @@ namespace Tinkercell
 			if (dockWidget && dockWidget->isVisible())
 				dockWidget->hide();
 
-			widgets.insertTab(0,this,tr("Rates"));
+			widgets.insertTab(0,ratesBox,tr("Rate equations"));
+			widgets.insertTab(1,matrixBox,tr("Stoichiometries"));
 			//hideMatrix();
 		}
 		else
+		{
 			if (dockWidget && dockWidget->widget() != this)
 				dockWidget->setWidget(this);
+
+			if (tabWidget->count() < 2)
+			{
+				tabWidget->addTab(ratesBox,tr("Rate equations"));
+				tabWidget->addTab(matrixBox,tr("Stoichiometry"));
+			}
+		}
 	}
 
 	void StoichiometryTool::historyUpdate(int )
@@ -235,7 +250,6 @@ namespace Tinkercell
 		tc_StoichiometryTool_api f = (tc_StoichiometryTool_api)library->resolve("tc_StoichiometryTool_api");
 		if (f)
 		{
-			//qDebug() << "tc_StoichiometryTool_api resolved";
 			f(
 				&(_getStoichiometry),
 				&(_setStoichiometry),
@@ -715,12 +729,13 @@ namespace Tinkercell
 
 		QHBoxLayout * layout = new QHBoxLayout;
 
-		QSplitter * splitter = new QSplitter;
-		splitter->addWidget(ratesBox);
-		splitter->addWidget(matrixBox);
+		//QSplitter * splitter = new QSplitter;
+		tabWidget = new QTabWidget;
+		tabWidget->addTab(ratesBox,tr("Rate equations"));
+		tabWidget->addTab(matrixBox,tr("Stoichiometry"));
 		//layout->addWidget(ratesBox,1);
 		//layout->addWidget(matrixBox,2);
-		layout->addWidget(splitter);
+		layout->addWidget(tabWidget);
 		setLayout(layout);
 
 		connectCFuntions();

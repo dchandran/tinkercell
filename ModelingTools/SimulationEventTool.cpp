@@ -287,27 +287,57 @@ namespace Tinkercell
 
 			return;
 		}
-
+		
+		QList<QGraphicsItem*> items;
+		
 		if (mode == addingEvent)
 		{
+			items = scene->items();
+			NodeGraphicsItem * image = 0;
+			ItemHandle * modelItem = 0; 
+			if (scene->networkWindow)
+				modelItem = scene->networkWindow->modelItem();
+			
+			if (modelItem && !modelItem->hasTextData(tr("Events")))
+			{
+				DataTable<QString> events;
+				events.resize(0,1);
+				events.colName(0) = tr("event");
+				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
+				modelItem->data->textData.insert(tr("Events"),events);
+			}
+		
+			for (int i=0; i < items.size(); ++i)
+			{
+				image = NodeGraphicsItem::cast(items[i]);
+				if (image && image->className == tr("Event function"))
+				{
+					mainWindow->sendEscapeSignal(this);
+					select(0);
+					return;
+				}
+			}
+		
 			QString appDir = QApplication::applicationDirPath();
-			NodeGraphicsItem * image = new NodeGraphicsItem;
+			image = new NodeGraphicsItem;
 			NodeGraphicsReader reader;
 			reader.readXml(image, appDir + tr("/OtherItems/clock.xml"));
 			image->normalize();
 			image->className = tr("Event function");
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-				image->defaultSize.height()/image->sceneBoundingRect().height());
+			image->defaultSize.height()/image->sceneBoundingRect().height());
 
 			image->setPos(point);
 			image->setToolTip(tr("List of events in this model"));
 
 			scene->insert(tr("Events box inserted"),image);
-
+			mainWindow->sendEscapeSignal(this);
+			
+			select(0);
 			return;
 		}
 		
-		QList<QGraphicsItem*> items = scene->items(point);
+		items = scene->items(point);
 		NodeGraphicsItem * node = 0;
 		ItemHandle * handle = 0;
 		for (int i=0; i < items.size(); ++i)

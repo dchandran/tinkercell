@@ -26,6 +26,7 @@ the stoichiometry and rates tables.
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QTableView>
+#include <QTabWidget>
 #include <QRegExp>
 #include <QTextEdit>
 
@@ -189,6 +190,9 @@ namespace Tinkercell
 		QList<DataTable<QString>*> textDataPtr;
 		/*! \brief Group boxes for displaying the rates and stoichiometry tables*/
 		QGroupBox * ratesBox, * matrixBox;
+		/*! \brief tab widget for rates and stoichiometries*/
+		QTabWidget * tabWidget;
+
 
 		/*! \brief used for the C API*/
 		static StoichiometryTool_FToS fToS;

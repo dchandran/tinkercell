@@ -203,9 +203,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
-    ${TINKERCELL_SOURCE_DIR}/c/sundials/
-    ${TINKERCELL_SOURCE_DIR}/c/nvector/
-    ${TINKERCELL_SOURCE_DIR}/c/cvode/
     ${TINKERCELL_SOURCE_DIR}/Core/
     ${TINKERCELL_SOURCE_DIR}/BasicTools/
     ${TINKERCELL_SOURCE_DIR}/ModuleTools/

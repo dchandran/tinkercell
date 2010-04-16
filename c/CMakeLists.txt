@@ -9,17 +9,46 @@ IF ( UNIX )
     )
 ENDIF ( UNIX )
 
+ADD_DEFINITIONS(-DNO_FPRINTF_OUTPUT)
+ADD_LIBRARY( ode
+  STATIC
+  eigen.c
+  cvodesim.c
+  ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/mat.c
+  ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/neldermead.c
+)
+
+TARGET_LINK_LIBRARIES( ode ode lapack sundials_cvode_static sundials_nvecserial_static)
+
+SET_TARGET_PROPERTIES(ode PROPERTIES LINKER_LANGUAGE C)
+
 ADD_LIBRARY( ssa
 	STATIC
 	mtrand.c
 	ssa.c
 	cells_ssa.c
 )
+
+SET_TARGET_PROPERTIES(ssa PROPERTIES LINKER_LANGUAGE C)
+
+ADD_LIBRARY( sbml_sim sbml_sim.cpp )
+
+TARGET_LINK_LIBRARIES( sbml_sim 
+   sbml_sim 
+   sbml 
+   ode
+   ssa 
+   muparser
+)
  
 IF ( WIN32 )
   INSTALL(TARGETS ssa DESTINATION c)
+  INSTALL(TARGETS ode DESTINATION c)
+  INSTALL(TARGETS sbml_sim DESTINATION c)
 ELSE ( WIN32 )
   INSTALL(TARGETS ssa ARCHIVE DESTINATION c)
+  INSTALL(TARGETS ode ARCHIVE DESTINATION c)
+  INSTALL(TARGETS sbml_sim ARCHIVE DESTINATION c)
 ENDIF( WIN32 )
 
 IF( WIN32 AND NOT UNIX)
@@ -48,24 +77,12 @@ ADD_LIBRARY( runcvode
 
 TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS runcvode DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
-
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
 TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
-
-IF ( WIN32 )
-  INSTALL(TARGETS runssa DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
 
 ADD_LIBRARY( runloops 
   SHARED
@@ -74,24 +91,12 @@ ADD_LIBRARY( runloops
 
 TARGET_LINK_LIBRARIES( runloops runloops tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS runloops DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
-
 ADD_LIBRARY( loadFullBindingKinetics 
   SHARED
   loadFullBindingKinetics.c
 )
 
 TARGET_LINK_LIBRARIES( loadFullBindingKinetics loadFullBindingKinetics tinkercellapi )
-
-IF ( WIN32 )
-  INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
 
 ADD_LIBRARY( runbistablega 
   SHARED
@@ -100,24 +105,12 @@ ADD_LIBRARY( runbistablega
 
 TARGET_LINK_LIBRARIES( runbistablega runbistablega tinkercellapi )
 
-#IF ( WIN32 )
-#  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
-#ELSE ( WIN32 )
-#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
-#ENDIF( WIN32 )
-
 ADD_LIBRARY( runvaluesattime 
   SHARED
   runvaluesattime.c
 )
 
 TARGET_LINK_LIBRARIES( runvaluesattime runvaluesattime tinkercellapi )
-
-#IF ( WIN32 )
-#  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
-#ELSE ( WIN32 )
-#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
-#ENDIF( WIN32 )
 
 ADD_LIBRARY( tabasco_like 
   SHARED
@@ -126,24 +119,12 @@ ADD_LIBRARY( tabasco_like
 
 TARGET_LINK_LIBRARIES( tabasco_like tabasco_like tinkercellapi )
 
-IF ( WIN32 )
-  INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
-
 ADD_LIBRARY( parametercorrelation 
   SHARED
   parametercorrelation.c
 )
 
 TARGET_LINK_LIBRARIES( parametercorrelation parametercorrelation tinkercellapi )
-
-#IF ( WIN32 )
-#  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
-#ELSE ( WIN32 )
-#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
-#ENDIF( WIN32 )
 
 #ADD_SUBDIRECTORY( lpsolve )
 
@@ -195,15 +176,32 @@ TARGET_LINK_LIBRARIES( lpsolve lpsolve tinkercellapi )
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
 #SET_TARGET_PROPERTIES(lpsolve PROPERTIES LINK_FLAGS "-DINLINE=static -O3 -DBFP_CALLMODEL=__stdcall -DYY_NEVER_INTERACTIVE -DPARSER_LP -DINVERSE_ACTIVE=INVERSE_LUSOL -DRoleIsExternalInvEngine -DExcludeNativeInverse")
 
-IF ( WIN32 )
-  INSTALL(TARGETS lpsolve DESTINATION Plugins/c)
-ELSE ( WIN32 )
-  INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
-ENDIF( WIN32 )
-
 ##
 ## CPack
 ##
+
+
+IF ( WIN32 )
+  INSTALL(TARGETS runssa DESTINATION Plugins/c)
+  INSTALL(TARGETS runcvode DESTINATION Plugins/c)
+  INSTALL(TARGETS runloops DESTINATION Plugins/c)
+  INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
+#  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
+#  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
+#  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
+  INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
+  INSTALL(TARGETS lpsolve DESTINATION Plugins/c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
+#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
+#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
+#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
+ENDIF( WIN32 )
 
 FILE( GLOB C_SRC "*.c" "*.h" )
 

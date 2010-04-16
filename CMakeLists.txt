@@ -89,14 +89,12 @@ IF( QT4_FOUND )
     ${C_LIBRARY_OUTPUT_PATH}
     ${TINKERCELL_BINARY_DIR}
     ${TINKERCELL_BINARY_DIR}/bin
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/
+	${TINKERCELL_BINARY_DIR}/ExternalCode/
 	${TINKERCELL_BINARY_DIR}/ExternalCode/lapack
     ${TINKERCELL_BINARY_DIR}/ExternalCode/muparser/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwt/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/qwtplot3d/include/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/cvode/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode_src/sundials/
-    ${TINKERCELL_BINARY_DIR}/ExternalCode/nvec_par/
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/optim/
     ${TINKERCELL_BINARY_DIR}/ExternalCode/sbml
     ${TINKERCELL_BINARY_DIR}/ExternalCode/Antimony
@@ -197,11 +195,10 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/muparser/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwt/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/qwtplot3d/include/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode_src/cvode/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode_src/sundials/
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/nvec_par/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
     ${TINKERCELL_SOURCE_DIR}/c/

@@ -82,7 +82,7 @@ namespace Tinkercell
 					str.replace(QRegExp(QString("[^A-Za-z0-9_]")),QString(""));
 					str.replace(QString("__Q_X_Z_W__"),QString("."));
 					QString str2 = str;
-					str2.replace(QString("_"),QString("."));
+					//str2.replace(QString("_"),QString("."));
 					if (handle && !reservedWords.contains(str) &&
 						!symbolsTable->handlesFullName.contains(str)) //maybe new symbol in the formula
 					{
@@ -100,7 +100,7 @@ namespace Tinkercell
 							if (!handleHasVar)
 								handle = symbolsTable->dataRowsAndCols[str].first;
 							
-							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName())) )
+							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName(QString("_")))) )
 							{
 								s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str + QString("\\1"));
 								s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str + QString("\\2"));
@@ -122,7 +122,7 @@ namespace Tinkercell
 								if (!handleHasVar)
 									handle = symbolsTable->dataRowsAndCols[str2].first;
 								
-								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName())) )
+								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName(QString("_")))) )
 								{
 									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str2 + QString("\\1"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str2 + QString("\\2"));
@@ -154,29 +154,35 @@ namespace Tinkercell
 									{
 										ItemHandle * handle2 = handle;
 										QString newp(str);
-										int k = newp.indexOf(QString("."));
-										if (k > -1)
+										int k = newp.indexOf(QString("_"));
+										bool found = false;
+										
+										while (k > -1 && !found)
 										{
 											newp = newp.left(k);
+											win->console()->message(newp);
 											
 											if (symbolsTable->handlesFullName.contains(newp))
 											{
 												handle2 = symbolsTable->handlesFullName[newp];
+												found = true;
 											}
 											else
 											if (symbolsTable->handlesFirstName.contains(newp))
 											{
 												handle2 = symbolsTable->handlesFirstName[newp];
+												found = true;
 											}
 											
+											k = newp.indexOf(QString("_"));
+										}
+										
+										if (found)
+										{
 											if (!handle2 || !handle2->hasNumericalData(QString("Numerical Attributes")))
-											{
 												handle2 = handle;
-											}
 											else
-											{
-												str.remove(newp + QString("."));
-											}
+												str.remove(newp + QString("_"));
 										}
 										
 										if (!isItem && (handle2 == handle))
@@ -185,9 +191,11 @@ namespace Tinkercell
 												win->console()->error(QString("unknown variable : " ) + QString(item->first.data()));
 											return false;
 										}
+
 										DataTable<qreal> dat(handle2->data->numericalData[QString("Numerical Attributes")]);
 
-										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))))
+										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))) &&
+											!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("_"))))
 										{
 											str = str2;
 											str2 = handle2->fullName() + QString(".") + str2;
@@ -198,6 +206,7 @@ namespace Tinkercell
 										else
 										{
 											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("\\.")),QString(""));
+											str.replace(QRegExp(QString("^") + handle2->fullName() + QString("_")),QString(""));
 										}
 										
 										dat.value(str,0) = 1.0;

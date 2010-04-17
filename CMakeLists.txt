@@ -61,6 +61,15 @@ SET(C_LIBRARY_OUTPUT_PATH
  CACHE PATH "Single output directory for building all c libraries."
 )
 
+#----------------
+# BOOST library
+#----------------
+
+find_package( Boost 1.41 COMPONENTS threads regex)
+set(Boost_USE_STATIC_LIBS   ON)
+set(Boost_USE_MULTITHREADED ON)
+INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIRS} )
+
 #---------------------------------------------------------------------------
 # Qt4
 #---------------------------------------------------------------------------

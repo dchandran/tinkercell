@@ -240,9 +240,9 @@ namespace Tinkercell
 				else
 				if (type == PlotTool::HistogramPlot)
 				{
-					curve->setStyle(QwtPlotCurve::Steps);
+					curve->setStyle(QwtPlotCurve::Sticks);
 					curve->setSymbol ( 
-						QwtSymbol( QwtSymbol::NoSymbol , Qt::NoBrush, penList[c], QSize(5,5) ));
+						QwtSymbol( QwtSymbol::Ellipse , Qt::NoBrush, penList[c], QSize(5,5) ));
 				}
 				
 				++c;

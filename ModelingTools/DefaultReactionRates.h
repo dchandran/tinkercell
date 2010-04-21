@@ -45,15 +45,17 @@ namespace Tinkercell
 			rates.value(0,0) = QString("0.0");
 			if (handle->hasNumericalData(QString("Numerical Attributes")))
 			{
-				if (handle->data->numericalData[QString("Numerical Attributes")].rowNames().contains(QString("k0")))
-				{
-					rates.value(0,0) = handle->fullName() + QString(".k0");
-				}
-				else
 				if (isBinding)
 				{
-					rates.value(0,0) = QString("1.0");
-					rates.value(1,0) = handle->fullName() + QString(".Kd*") + handle->fullName() + QString(".complex");
+					handle->data->numericalData[QString("Numerical Attributes")].value(QString("kf"),0) = 1.0;
+					handle->data->numericalData[QString("Numerical Attributes")].value(QString("kb"),0) = 1.0;
+					rates.value(0,0) = handle->fullName() + QString(".kf");
+					rates.value(1,0) = handle->fullName() + QString(".kb*") + handle->fullName() + QString(".complex");
+				}
+				else
+				{
+					handle->data->numericalData[QString("Numerical Attributes")].value(QString("k0"),0) = 1.0;
+					rates.value(0,0) = handle->fullName() + QString(".k0");
 				}
 			}
 

@@ -98,6 +98,9 @@ namespace Tinkercell
 
 		QList<ItemHandle*> from,to;
         ModuleTool::connectedItems(handles, from,to);
+        
+        if (currentNetwork() && currentNetwork()->modelItem() && !handles.contains(currentNetwork()->modelItem()))
+        	handles << currentNetwork()->modelItem();
 
 		filename.replace(QRegExp(tr("\\.\\s+$")),QString(""));
 		QFile cfile (filename + QString(".c"));

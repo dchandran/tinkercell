@@ -298,9 +298,11 @@ namespace Tinkercell
 		return &(symbolsTable.modelItem);
 	}
 
-	QList<ItemHandle*> NetworkWindow::allHandles() const
+	QList<ItemHandle*> NetworkWindow::allHandles()
 	{
-		return symbolsTable.handlesFullName.values();
+		QList<ItemHandle*> handles = symbolsTable.handlesFullName.values();
+		handles << &(symbolsTable.modelItem);
+		return handles;
 	}
 
 	QList<ItemHandle*> NetworkWindow::allHandlesSortedByFamily() const

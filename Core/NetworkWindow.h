@@ -82,7 +82,7 @@ namespace Tinkercell
 		\sa SymbolsTable*/
 		SymbolsTable symbolsTable;
 		/*! \brief get all the visible items in this network window*/
-		virtual QList<ItemHandle*> allHandles() const;
+		virtual QList<ItemHandle*> allHandles();
 		/*! \brief get list of all items sorted according to family*/
 		virtual QList<ItemHandle*> allHandlesSortedByFamily() const;
 		/*! \brief get the console window (same as mainWindow->console())*/

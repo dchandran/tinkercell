@@ -198,7 +198,7 @@ if (slider)
 
 fprintf(out, "\
 	TCinitialize(model);\n\
-	y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, (void*)model);\n\
+	y = SSA(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, 0, %lf, %i, &sz, (void*)model, TCevents, TCtriggers, TCresponses);\n\
 	if (!y) \
 	{\n\
 		tc_errorReport(\"Stochastic simulation failed! Try simulating for a short time to see what is going wrong. \");\n\
@@ -613,7 +613,7 @@ if (slider)
 
 fprintf(out, "\
 	TCinitialize(model);\n\
-	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model);\n\
+s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void*)model, TCevents, TCtriggers, TCresponses);\n\
 	if (!y) \
 	{\n\
 		tc_errorReport(\"Stochastic simulation failed! Try simulating for a short time to see what is going wrong. \");\n\

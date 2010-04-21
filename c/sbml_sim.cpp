@@ -24,9 +24,33 @@ void sbml_rates_function(double t, double * y, double * rates, void * data)
 	}
 }
 
-double power(double x, double e)
+int sbml_event_function(int i, double t, double * y, void * data)
 {
-	return pow(x,e);
+	SBML_sim * u = (SBML_sim*)data;
+	return u->triggerEqns[i].Eval();
+}
+
+void sbml_response_function(int i, double * y, void * data)
+{
+	SBML_sim * u = (SBML_sim*)data;
+	for (int j=0; j < u->responseEqns[i].size(); ++j)
+		 u->responseEqns[i][j].Eval();
+}
+
+static double power(double x, double e) {	return pow(x,e); }
+static double ge(double x, double y) { 	return (double)(x >= y); }
+static double gt(double x, double y) { 	return (double)(x > y); }
+static double le(double x, double y) { 	return (double)(x <= y); }
+static double lt(double x, double y) { 	return (double)(x < y); }
+
+
+static void addSBMLFunctions(mu::Parser & p)
+{
+	p.DefineFun("pow", &power , false);
+	p.DefineFun("ge", &ge , false);
+	p.DefineFun("gt", &gt , false);
+	p.DefineFun("le", &le , false);
+	p.DefineFun("lt", &lt , false);
 }
 
 SBML_sim::SBML_sim(string sbml_text, bool isFile)
@@ -49,9 +73,29 @@ SBML_sim::SBML_sim(string sbml_text, bool isFile)
 		ListOfReactions * reacs = model->getListOfReactions();
 		ListOfSpecies * species = model->getListOfSpecies();
 		ListOfSpeciesTypes * types = model->getListOfSpeciesTypes();
+		ListOfEvents * events = model->getListOfEvents();
 		ListOfRules * rules = model->getListOfRules();
 		
-		vector<string> assignmentEquations, rateEquations;
+		vector<string> assignmentEquations, rateEquations, eventTriggers;
+		vector< vector<string> > eventResponses;
+
+		for (int i=0; i < events->size(); ++i)
+		{
+			Event * e = events->get(i);
+			eventTriggers.push_back( SBML_formulaToString( e->getTrigger()->getMath() ) );
+			ListOfEventAssignments * eventAssn = e->getListOfEventAssignments();
+			vector<string> responses;
+			string s;
+			for (int j=0; j < eventAssn->size(); ++j)
+			{
+				s = eventAssn->get(j)->getVariable();
+				s.append("=");
+				s.append( SBML_formulaToString( eventAssn->get(j)->getMath() ) );
+				responses.push_back(s);
+			}
+
+			eventResponses.push_back( responses );
+		}
 		
 		for (int i=0; i < rules->size(); ++i)
 		{
@@ -113,7 +157,7 @@ SBML_sim::SBML_sim(string sbml_text, bool isFile)
 		for (int i=0; i < rateEquations.size(); ++i)
 		{
 			mu::Parser p;
-			p.DefineFun("pow", &power , false);
+			addSBMLFunctions(p);
 			p.SetExpr(rateEquations[i]);
 			
 			for (int j=0; j < variableNames.size(); ++j)
@@ -140,7 +184,7 @@ SBML_sim::SBML_sim(string sbml_text, bool isFile)
 		for (int i=0; i < assignmentEquations.size(); ++i)
 		{
 			mu::Parser p;
-			p.DefineFun("pow", &power , false);
+			addSBMLFunctions(p);
 			p.SetExpr(assignmentEquations[i]);
 			
 			for (int j=0; j < variableNames.size(); ++j)
@@ -159,8 +203,57 @@ SBML_sim::SBML_sim(string sbml_text, bool isFile)
 			}
 			catch(...)
 			{
-				assignmentVariables.clear();
-				assignmentEqns.clear();
+				//assignmentVariables.clear();
+				//assignmentEqns.clear();
+				break;
+			}
+		}
+
+		for (int i=0; i < eventTriggers.size(); ++i)
+		{
+			mu::Parser p;
+			addSBMLFunctions(p);
+			p.SetExpr(eventTriggers[i]);
+			
+			for (int j=0; j < variableNames.size(); ++j)
+				p.DefineVar(variableNames[j],&variableValues[j]);
+
+			for (int j=0; j < parameterNames.size(); ++j)
+				p.DefineVar(parameterNames[j],&parameterValues[j]);
+			
+			for (int j=0; j < assignmentVariables.size(); ++j)
+				p.DefineVar(assignmentVariables[j],&assignmentValues[j]);
+
+			try
+			{
+				p.Eval();
+				
+				//resposes for the trigger
+				vector<mu::Parser> responses;
+				for (int j=0; j < eventResponses[i].size(); ++j)
+				{
+					mu::Parser p;
+					addSBMLFunctions(p);
+					p.SetExpr(eventResponses[i][j]);
+
+					try
+					{
+						p.Eval();
+						responses.push_back(p);
+					}
+					catch(...) {}
+				}
+
+				if (responses.size() > 0)
+				{
+					triggerEqns.push_back(p);
+					responseEqns.push_back(responses);
+				}
+			}
+			catch(...)
+			{
+				//assignmentVariables.clear();
+				//assignmentEqns.clear();
 				break;
 			}
 		}
@@ -178,7 +271,7 @@ vector< vector<double> > SBML_sim::simulate(double time, double stepSize) const
 	for (int i=0; i < variableValues.size(); ++i)
 		y0[i] = variableValues[i];
 	
-	double * y = ODEsim2(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, 0.0, time, stepSize, (void*)this, 0, 0, 0);
+	double * y = ODEsim2(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, 0.0, time, stepSize, (void*)this, triggerEqns.size() , sbml_event_function, sbml_response_function);
 	
 	vector< vector<double> > res;
 	int sz = (int)(time/stepSize);
@@ -206,7 +299,7 @@ vector<double> SBML_sim::steadyState() const
 	for (int i=0; i < variableValues.size(); ++i)
 		y0[i] = variableValues[i];
 	
-	double * y = steadyState2(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, (void*)this, 1.0E-5, 10000.0, 1.0, 0, 0, 0);
+	double * y = steadyState2(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, (void*)this, 1.0E-5, 10000.0, 1.0, triggerEqns.size() , sbml_event_function, sbml_response_function);
 	vector< double > res(n,0.0);
 	
 	if (y)
@@ -230,7 +323,7 @@ vector< vector<double> > SBML_sim::ssa(double time) const
 		y0[i] = variableValues[i];
 		
 	int sz;
-	double * y = SSA(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, 0.0, time, 100000, &sz, (void*)this);
+	double * y = SSA(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, 0.0, time, 100000, &sz, (void*)this, triggerEqns.size(), sbml_event_function, sbml_response_function);
 	
 	vector< vector<double> > res;
 	

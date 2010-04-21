@@ -255,9 +255,9 @@ TCAPIEXPORT void run(%s) \n\
         double * y = 0;\n\
         int sz = (int)(%lf*10.0);\n\
         if (%i)\n\
-            y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, (void*)model );\n\
+            y = SSA(TCvars, TCreactions, TCstoic, &(TCpropensity), TCinit, 0, %lf, 200000, &sz, (void*)model , TCevents, TCtriggers, TCresponses);\n\
         else \n\
-            y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, (void*)model );\n\
+            y = ODEsim2(TCvars, TCreactions, TCstoic, &(TCpropensity),TCinit, 0, %lf, 0.1, (void*)model , TCevents, TCtriggers, TCresponses);\n\
         if (y)\n\
         {\n\
             y1 = malloc(TCvars * sizeof(double));\n\

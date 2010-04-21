@@ -9,7 +9,7 @@
 
 #define valueAt(array, N, i, j) ( array[ (((i)*(N)) + (j)) ] )
 
-double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0, double startTime, double endTime, int maxSz, int * arraysz, void * dataptr)  //ssa
+double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0, double startTime, double endTime, int maxSz, int * arraysz, void * dataptr, int numEvents, EventFunction eventFunction, ResponseFunction responseFunction)  //ssa
 {	
 	int iter, i, k, sz;
 	double * x, * y, * v, rand, lambda, time, sum, * x2;
@@ -35,6 +35,10 @@ double * SSA(int m, int n, double * N, PropensityFunction propensity, double *x0
 	
 	while (time < endTime && iter < maxSz)   //the big loop
 	{	
+		for (i=0; i < numEvents; ++i)               //events
+			if (eventFunction(i,time,y,dataptr) != 0)
+				responseFunction(i,y,dataptr);
+
 		x[ (1+m)*iter ] = time;
 		for (i = 0; i < m; ++i)   //store output data
 		{

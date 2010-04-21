@@ -33,8 +33,8 @@ typedef struct
   void (*ODEfunc)(double, double*, double*, void*);
   void * userData;
   int numEvents;
-  EventFunction * eventFunctions;
-  ResponseFunction * responseFunctions;
+  EventFunction eventFunction;
+  ResponseFunction responseFunction;
 } UserFunction;
 
 
@@ -90,7 +90,7 @@ static int check_flag(void *flagvalue, int opt)
 }
 
 /*event functions*/
-static int _EventFunction(realtype t,N_Vector y, realtype *gout, void * g_data)
+static int _CheckEventTriggers(realtype t,N_Vector y, realtype *gout, void * g_data)
 {
 	int i;
 	EventFunction event;
@@ -104,8 +104,8 @@ static int _EventFunction(realtype t,N_Vector y, realtype *gout, void * g_data)
 
 	for (i=0; i < info->numEvents; ++i)
 	{
-		event = info->eventFunctions[i];
-		gout[i] = (int)(event(t,u,info->userData) == 0);
+		event = info->eventFunction;
+		gout[i] = (int)(event(i, t,u,info->userData) == 0);
 	}
 
 	return (0);
@@ -125,10 +125,10 @@ static void _ProcessEvent(realtype t,N_Vector y, void * g_data)
 
 	for (i=0; i < info->numEvents; ++i)
 	{
-		event = info->eventFunctions[i];
-		response = info->responseFunctions[i];
-		if (event(t,u,(*info).userData) > 0)
-			response(u,(*info).userData);
+		event = info->eventFunction;
+		response = info->responseFunction;
+		if (event(i, t,u,(*info).userData) > 0)
+			response(i, u,(*info).userData);
 	}
 }
 
@@ -185,7 +185,7 @@ static void odeFunc( double time, double * u, double * du, void * udata )
 * /return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
 */
 
-double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,void*), double *x0, double startTime, double endTime, double dt, void * dataptr, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions)
+double * ODEsim2(int m, int n, double * N, void (*f)(double, double*,double*,void*), double *x0, double startTime, double endTime, double dt, void * dataptr, int numEvents, EventFunction eventFunctions, ResponseFunction responseFunctions)
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
@@ -245,7 +245,7 @@ double* jacobian2(int m, int n, double * N, void (*f)(double,double*,double*,voi
  * /param: the difference in time to use for estimating steady state
  * /ret: array of values
  */
-double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initialValues, void * dataptr, double minerr, double maxtime, double delta, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions)
+double* steadyState2(int m, int n, double * N, void (*f)(double,double*,double*,void*), double * initialValues, void * dataptr, double minerr, double maxtime, double delta, int numEvents, EventFunction eventFunctions, ResponseFunction responseFunctions)
 {
 	double * y;
 	ODEsim2Struct * s = (ODEsim2Struct*)malloc(sizeof(ODEsim2Struct));
@@ -286,7 +286,7 @@ double* getDerivatives2(int m, int n, double * N, void (*f)(double,double*,doubl
 	return(y);
 }
 
-double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,double*,void*), double startTime, double endTime, double stepSize, void * params, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions)
+double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,double*,void*), double startTime, double endTime, double stepSize, void * params, int numEvents, EventFunction eventFunctions, ResponseFunction responseFunctions)
 {
 	double reltol, abstol, t, tout, * data, * y;
 	void * cvode_mem = 0;
@@ -347,8 +347,8 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 	(*funcData).ODEfunc = odefnc;
 	(*funcData).userData = params;
 	(*funcData).numEvents = numEvents;
-	(*funcData).eventFunctions = eventFunctions;
-	(*funcData).responseFunctions = responseFunctions;
+	(*funcData).eventFunction = eventFunctions;
+	(*funcData).responseFunction = responseFunctions;
 
 	flag = CVodeSetUserData(cvode_mem, funcData);
 	if(check_flag(&flag, 1))
@@ -374,7 +374,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 
 	if (numEvents > 0)
 	{
-		flag = CVodeRootInit(cvode_mem, numEvents, _EventFunction);
+		flag = CVodeRootInit(cvode_mem, numEvents, _CheckEventTriggers);
 
 		if (flag != CV_SUCCESS)
 		{
@@ -431,7 +431,7 @@ double* ODEsim(int N, double* initialValues, void (*odefnc)(double,double*,doubl
 			CVodeGetRootInfo(cvode_mem, gi);
 			for (j=0; j < numEvents; ++j)
 				if (gi[j])
-					(responseFunctions[j])(y,params); //event triggered response
+					responseFunctions(j, y,params); //event triggered response
 			flag = CV_SUCCESS;
 		}
 		
@@ -509,7 +509,7 @@ double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,v
  * @param: maximum allowed value
  * @ret: array of values
  */
-double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*,double*,void*), void * params, double maxerr, double maxtime, double delta, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions)
+double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*,double*,void*), void * params, double maxerr, double maxtime, double delta, int numEvents, EventFunction eventFunctions, ResponseFunction responseFunctions)
 {
 	double t0, t, tout, startTime, endTime, stepSize, reltol, abstol, err, temp, * ss;
 	void * cvode_mem = 0;
@@ -576,8 +576,8 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	(*funcData).ODEfunc = odefnc;
 	(*funcData).userData = params;
 	(*funcData).numEvents = numEvents;
-	(*funcData).eventFunctions = eventFunctions;
-	(*funcData).responseFunctions = responseFunctions;
+	(*funcData).eventFunction = eventFunctions;
+	(*funcData).responseFunction = responseFunctions;
 
 	flag = CVodeSetUserData(cvode_mem, funcData);
 	if(check_flag(&flag, 1))
@@ -603,7 +603,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 
 	if (numEvents > 0)
 	{
-		flag = CVodeRootInit(cvode_mem, numEvents, _EventFunction);
+		flag = CVodeRootInit(cvode_mem, numEvents, _CheckEventTriggers);
 
 		if (flag != CV_SUCCESS)
 		{
@@ -635,7 +635,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 			CVodeGetRootInfo(cvode_mem, gi);
 			for (j=0; j < numEvents; ++j)
 				if (gi[j])
-					(responseFunctions[j])(u0,params); //event triggered response
+					responseFunctions(j, u0,params); //event triggered response
 			flag = CV_SUCCESS;
 		}
 		

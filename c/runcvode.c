@@ -231,7 +231,7 @@ if (slider)
 
 fprintf( out , "\
     TCinitialize(model);\n\
-	y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model);\n\
+	y = ODEsim(TCvars, TCinit, &(odeFunc), %lf, %lf, %lf, (void*)model, TCevents, TCtriggers, TCresponses);\n\
 	free(rates);\n\
 	if (!y) \
 	{\n\

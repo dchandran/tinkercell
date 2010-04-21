@@ -46,21 +46,25 @@ typedef void (*PropensityFunction)(double time,double* y,double* rates,void* par
 /*!
  * \brief The type for the user defined event function
  * \return int 0 for no event, 1 for trigger
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
-typedef int (*EventFunction)(double time, double* y, void* params);
-
+#ifndef _EventFunction
+#define _EventFunction
+typedef int (*EventFunction)(int i, double time, double* y, void* params);
+#endif
 /*!
  * \brief This function is triggered when an event occurs
  * \return void
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
-typedef void (*ResponseFunction)(double* y, void* params);
-
+#ifndef _ResponseFunction
+#define _ResponseFunction
+typedef void (*ResponseFunction)(int i, double* y, void* params);
+#endif
 /*!
  * \brief setting this flag will restrict the values to >= 0
  * \param only positive values
- * \ingroup cvodewrapper
+ * \ingroup simulation
 */
 void ODEonlyPositiveValuesAllowed(int);
 
@@ -68,7 +72,7 @@ void ODEonlyPositiveValuesAllowed(int);
  * \brief specify number of variables in the ODE system
  * \param relative error allowed
  * \param absolute error allowed
- * \ingroup cvodewrapper
+ * \ingroup simulation
 */
 void ODEtolerance(double,double);
 
@@ -82,13 +86,13 @@ void ODEtolerance(double,double);
  * \param time increments for the simulation
  * \param user data type for storing other information
  * \param int number of events (use 0 for none)
- * \param EventFunction* array of event functions (use 0 for none)
- * \param ResponseFunction* array of response functions for each event (use 0 for none)
+ * \param EventFunction event function (use 0 for none)
+ * \param ResponseFunction response function (use 0 for none)
  * \return one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}
            use y[ i*(n+1) + j ] to access i,j-th element, where y contains time as the first column and n variable columns
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
-double* ODEsim(int N, double * initValues, ODEFunction function, double startTime, double endTime, double stepSize, void * data, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions);
+double* ODEsim(int N, double * initValues, ODEFunction function, double startTime, double endTime, double stepSize, void * data, int numEvents, EventFunction eventFunction, ResponseFunction responseFunction);
 
 /*!
 * \brief The simulate function that accepts a stoichiometry matrix and propensity function. Uses CVODE integrator
@@ -101,13 +105,14 @@ double* ODEsim(int N, double * initValues, ODEFunction function, double startTim
 * \param  end time 
 * \param  time increments for the simulation
 * \param  user data type for storing other information
- * \param EventFunction* array of event functions (use 0 for none)
- * \param ResponseFunction* array of response functions for each event (use 0 for none)
+* \param int number of events
+* \param EventFunction event function (use 0 for none)
+* \param ResponseFunction response function (use 0 for none)
 * \return  one dimentional array -- { row1, row2...}, where each row contains {time1,x1,x2,....}. 
            use y[ i*(n+1) + j ] to access i,j-th element, where y contains time as the first column and n variable columns
-* \ingroup cvodewrapper
+* \ingroup simulation
 */
-double * ODEsim2(int variables, int reactions, double *, PropensityFunction f, double* initialValue, double startTime, double endTime, double stepSize, void * data, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions);
+double * ODEsim2(int variables, int reactions, double *, PropensityFunction f, double* initialValue, double startTime, double endTime, double stepSize, void * data, int numEvents, EventFunction eventFunction, ResponseFunction responseFunction);
 
 
 /*!
@@ -119,7 +124,7 @@ double * ODEsim2(int variables, int reactions, double *, PropensityFunction f, d
  * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
  * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
  * \return 2D array made into linear array
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
 double* jacobian(int N, double * point,  ODEFunction function, void * params, double * eigenreal, double * eigenim);
 
@@ -134,7 +139,7 @@ double* jacobian(int N, double * point,  ODEFunction function, void * params, do
  * \param double* (output) if non-zero, the real part of the eigenvalues will be returned here
  * \param double* (output) if non-zero, the imaginary part of the eigenvalues will be returned here
  * \return 2D array made into linear array (row-wise)
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
 double* jacobian2(int m, int n, double * N, PropensityFunction f, double * point, void * params, double * eigenreal, double * eigenim);
 
@@ -146,10 +151,13 @@ double* jacobian2(int m, int n, double * N, PropensityFunction f, double * point
  * \param minimum allowed value
  * \param maximum time for simulation
  * \param the difference in time to use for estimating steady state
+ * \param int number of events (use 0 for none)
+ * \param EventFunction event function (use 0 for none)
+ * \param ResponseFunction response function (use 0 for none)
  * \return array of values
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
-double* steadyState(int N, double * initialValues, ODEFunction function, void * params, double minerr, double maxtime, double delta, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions);
+double* steadyState(int N, double * initialValues, ODEFunction function, void * params, double minerr, double maxtime, double delta, int numEvents, EventFunction eventFunction, ResponseFunction responseFunction);
 
 /*!
  * \brief Bring a system to steady state
@@ -161,10 +169,13 @@ double* steadyState(int N, double * initialValues, ODEFunction function, void * 
  * \param minimum allowed value
  * \param maximum time for simulation
  * \param the difference in time to use for estimating steady state
+ * \param int number of events (use 0 for none)
+ * \param EventFunction event function (use 0 for none)
+ * \param ResponseFunction response function (use 0 for none)
  * \return array of values
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
-double* steadyState2(int m, int n, double * N, PropensityFunction f, double * initialValues, void * params, double minerr, double maxtime, double delta, int numEvents, EventFunction * eventFunctions, ResponseFunction * responseFunctions);
+double* steadyState2(int m, int n, double * N, PropensityFunction f, double * initialValues, void * params, double minerr, double maxtime, double delta, int numEvents, EventFunction eventFunction, ResponseFunction responseFunction);
 
 /*!
  * \brief Find the rates of change after simulating for the given amount of time
@@ -173,7 +184,7 @@ double* steadyState2(int m, int n, double * N, PropensityFunction f, double * in
  * \param ode function pointer
  * \param time for simulation
  * \return array of values
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
 double* getDerivatives(int N, double * initValues, ODEFunction function, double startTime, double endTime, double stepSize, void * params);
 
@@ -186,7 +197,7 @@ double* getDerivatives(int N, double * initValues, ODEFunction function, double 
  * \param array of initial values
  * \param time for simulation
  * \return array of values
- * \ingroup cvodewrapper
+ * \ingroup simulation
  */
 double* getDerivatives2(int m, int n, double * N, PropensityFunction f, double * initValues, double startTime, double endTime, double stepSize, void * params);
 

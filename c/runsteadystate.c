@@ -300,7 +300,7 @@ TCAPIEXPORT void run(%s) \n\
 					model->%s = %lf + i * %lf;\n\
 					TCinitialize(model);\n\
 					setValue(dat,i,0,model->%s);\n\
-					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
+					y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10, TCevents, TCtriggers, TCresponses);\n\
 					if (y)\n\
 					{\n\
 						if (%i)\n\
@@ -542,7 +542,7 @@ void run2D(Matrix input)
 		   setValue(dat,i*cols + j,0,model->%s = %lf + i * %lf);\n\
 		   setValue(dat,i*cols + j,1,model->%s = %lf + j * %lf);\n\
 		   TCinitialize(model);\n\
-		   y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10);\n\
+		   y = steadyState2(TCvars,TCreactions,TCstoic, &(TCpropensity), TCinit, (void*)model ,1E-4,100000.0,10, TCevents, TCtriggers, TCresponses);\n\
 		   setValue(dat,i*cols + j,2,model->%s);\n\
 		   if (y)\n\
 			  free(y);\n\

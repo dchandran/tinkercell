@@ -23,7 +23,16 @@ extern "C"
 }
 
 void sbml_rates_function(double t, double * y, double * rates, void * data);
+int sbml_event_function(int i, double t, double * y, void * data);
+void sbml_response_function(int i, double * y, void * data);
 
+
+/*! \brief Simulation class for simulating SBML models (deterministic and stochastic). 
+  Supports events. Functions are available for getting the assignment values, rate values, 
+  or species values at any point during simulation or after simulation. Species and parameter
+  setting functions are also available.
+ \ingroup simulation
+*/
 class SBML_sim
 {
 public:
@@ -96,6 +105,9 @@ private:
 	std::vector<std::string> assignmentVariables;
 	std::vector<double> assignmentValues;
 	std::vector<mu::Parser> assignmentEqns;
+
+	std::vector<mu::Parser> triggerEqns;
+	std::vector< std::vector<mu::Parser> > responseEqns;
 	
 	std::vector<std::string> variableNames;	
 	std::vector<double> variableValues;
@@ -106,6 +118,8 @@ private:
 	double * stoichiometryMatrix;
 	
 	friend void sbml_rates_function(double t, double * y, double * rates, void * data);
+	friend int sbml_event_function(int i, double t, double * y, void * data);
+	friend void sbml_response_function(int i, double * y, void * data);
 };
 
 #endif

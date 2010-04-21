@@ -256,7 +256,7 @@ void run(Matrix input)
 
 	fclose(out);
 
-	tc_compileBuildLoad("corr.c -lodesim\0","run\0","2-Parameter Correlation Test\0");
+	tc_compileBuildLoad("corr.c -lode\0","run\0","2-Parameter Correlation Test\0");
 
 	deleteArrayOfStrings(&allNames);
 	deleteArrayOfStrings(&names);

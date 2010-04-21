@@ -307,11 +307,11 @@ fprintf( out , "\
 	
 	if (slider)
 	{
-		tc_compileBuildLoadSliders("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0",allParams);
+		tc_compileBuildLoadSliders("ode.c -lode -lssa\0","run\0","Deterministic simulation\0",allParams);
 		deleteMatrix(&allParams);
 	}
 	else
-		tc_compileBuildLoad("ode.c -lodesim -lssa\0","run\0","Deterministic simulation\0");
+		tc_compileBuildLoad("ode.c -lode -lssa\0","run\0","Deterministic simulation\0");
 	
 	
 	return;

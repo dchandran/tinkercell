@@ -18,7 +18,7 @@ ADD_LIBRARY( ode
   ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/neldermead.c
 )
 
-TARGET_LINK_LIBRARIES( ode ode lapack sundials_cvode_static sundials_nvecserial_static)
+TARGET_LINK_LIBRARIES( ode ode lapack blas f2c sundials_cvode sundials_nvecserial)
 
 SET_TARGET_PROPERTIES(ode PROPERTIES LINKER_LANGUAGE C)
 
@@ -42,13 +42,9 @@ TARGET_LINK_LIBRARIES( sbml_sim
 )
  
 IF ( WIN32 )
-  INSTALL(TARGETS ssa DESTINATION c)
-  INSTALL(TARGETS ode DESTINATION c)
-  INSTALL(TARGETS sbml_sim DESTINATION c)
+  INSTALL(TARGETS ssa ode sbml_sim DESTINATION lib)
 ELSE ( WIN32 )
-  INSTALL(TARGETS ssa ARCHIVE DESTINATION c)
-  INSTALL(TARGETS ode ARCHIVE DESTINATION c)
-  INSTALL(TARGETS sbml_sim ARCHIVE DESTINATION c)
+  INSTALL(TARGETS ssa ode sbml_sim ARCHIVE DESTINATION lib)
 ENDIF( WIN32 )
 
 IF( WIN32 AND NOT UNIX)
@@ -62,7 +58,7 @@ ADD_LIBRARY( runsteadystate
   runsteadystate.c
 )
 
-TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
+TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi sbml_sim)
 
 IF ( WIN32 )
   INSTALL(TARGETS runsteadystate DESTINATION Plugins/c)
@@ -75,14 +71,14 @@ ADD_LIBRARY( runcvode
   runcvode.c
 )
 
-TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
+TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi sbml_sim)
 
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
-TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
+TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi sbml_sim)
 
 ADD_LIBRARY( runloops 
   SHARED

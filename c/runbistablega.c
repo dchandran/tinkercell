@@ -34,9 +34,9 @@ void run()
 	cmd = malloc((sz*8 + 200) * sizeof(char));
 	
 	if (tc_isWindows())	
-		sprintf(cmd, "%s\\c\\mtrand.c %s\\c\\ga.c %s\\c\\ga_bistable.c %s\\c\\mat.c %s\\c\\neldermead.c %s\\c\\findBistability.c -lm -lodesim", appDir,appDir,appDir,appDir,appDir,appDir);
+		sprintf(cmd, "%s\\c\\mtrand.c %s\\c\\ga.c %s\\c\\ga_bistable.c %s\\c\\mat.c %s\\c\\neldermead.c %s\\c\\findBistability.c -lm -lode", appDir,appDir,appDir,appDir,appDir,appDir);
 	else
-		sprintf(cmd, "%s/c/mtrand.c %s/c/ga.c %s/c/ga_bistable.c %s/c/mat.c %s/c/neldermead.c %s/c/findBistability.c -lm -lodesim", appDir,appDir,appDir,appDir,appDir,appDir);
+		sprintf(cmd, "%s/c/mtrand.c %s/c/ga.c %s/c/ga_bistable.c %s/c/mat.c %s/c/neldermead.c %s/c/findBistability.c -lm -lode", appDir,appDir,appDir,appDir,appDir,appDir);
 			
 	tc_compileAndRun(cmd,"");
 	

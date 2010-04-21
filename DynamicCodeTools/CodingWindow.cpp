@@ -113,7 +113,7 @@ namespace Tinkercell
 		dllName = tr("Plugins\\c\\") + dllName;
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -lm -ltinkercellapi -lodesim -lssa -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dll "));
+        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".dll "));
         proc.waitForFinished();
         errors += (proc.readAllStandardError());
         output += tr("\n\n") + (proc.readAllStandardOutput());
@@ -121,7 +121,7 @@ namespace Tinkercell
 #ifdef Q_WS_MAC
 
 		dllName = tr("Plugins/c/") + dllName;
-        proc.start(tr("gcc -bundle --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lodesim -lssa -llapack -lblas -lf2c -fpic -o ") + dllName + tr(".dylib ") + filename);
+        proc.start(tr("gcc -bundle --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".dylib ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -129,7 +129,7 @@ namespace Tinkercell
         output += tr("\n\n") + (proc.readAllStandardOutput());
 #else
 		dllName = tr("Plugins/c/") + dllName;
-        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lodesim -lssa -llapack -lblas -lf2c -o ") + dllName + tr(".so ") + filename);
+        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".so ") + filename);
         proc.waitForFinished();
         if (!errors.isEmpty())	errors += tr("\n\n");
         errors += (proc.readAllStandardError());
@@ -494,7 +494,7 @@ namespace Tinkercell
 
 		qfile.close();
 
-		emit compileBuildLoadC(tr("code.c -lodesim -lssa"),tr("run"),tr("C code"));
+		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
 	 }
 
 	 void CodingWindow::setupDialog()

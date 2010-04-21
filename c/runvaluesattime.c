@@ -304,11 +304,11 @@ TCAPIEXPORT void run(%s) \n\
 	
 	if (slider)
 	{
-		tc_compileBuildLoadSliders("timet.c -lodesim -lssa\0","run\0","At Time T\0",allParams);
+		tc_compileBuildLoadSliders("timet.c -lode -lssa\0","run\0","At Time T\0",allParams);
 		deleteMatrix(&allParams);
 	}
 	else
-		tc_compileBuildLoad("timet.c -lodesim -lssa\0","run\0","At Time T\0");
+		tc_compileBuildLoad("timet.c -lode -lssa\0","run\0","At Time T\0");
 		
 	return;
 }

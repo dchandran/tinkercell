@@ -511,7 +511,7 @@ double* jacobian(int N, double * point,  void (*odefnc)(double,double*,double*,v
  */
 double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*,double*,void*), void * params, double maxerr, double maxtime, double delta, int numEvents, EventFunction eventFunctions, ResponseFunction responseFunctions)
 {
-	double t0, t, tout, startTime, endTime, stepSize, reltol, abstol, err, temp, * ss;
+	double t0, t, tout, stepSize, reltol, abstol, err, temp, * ss;
 	void * cvode_mem = 0;
 	N_Vector u;
 	int flag, i, j;
@@ -521,11 +521,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	
 	t = 0.0;
 	tout = 0.0;
-	
-	if (startTime < 0) startTime = 0;
-	if (endTime < startTime) { return 0; }
-
-	if ( (2*stepSize) > (endTime-startTime) ) stepSize = (endTime - startTime)/2.0;
+	stepSize = delta/10.0;
 
 	/*setup tolerance*/
 
@@ -537,13 +533,6 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	u = N_VNew_Serial(N);  /* Allocate u vector */
 	if(check_flag((void*)u, 0)) { return(0); }
 
-	/* Initialize u vector */
-
-	udata = NV_DATA_S(u);
-
-	if (initialValues != NULL)
-		for (i=0; i < N; ++i)
-			udata[i] = initialValues[i];
 
 	/* allocate output vector */
 	ss = (double*) malloc (N * sizeof(double) );
@@ -554,19 +543,20 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 	u0 = (realtype*) malloc(N*sizeof(realtype));
 	if (initialValues != NULL)
 		for (i=0; i < N; ++i)
-			udata[i] = u0[i] = initialValues[i];
+			ss[i] = udata[i] = u0[i] = initialValues[i];
 
 	/* setup CVODE */
 
 	cvode_mem = CVodeCreate(CV_BDF, CV_NEWTON);
 	if (check_flag((void *)cvode_mem, 0)) return(0);
 
-	flag = CVodeInit(cvode_mem, f, startTime, u);
+	flag = CVodeInit(cvode_mem, f, t, u);
 	if (check_flag(&flag, 1))
 	{
 		CVodeFree(&cvode_mem);
 		N_VDestroy_Serial(u);
 		if (ss) free(ss);
+		if (u0) free(u0);
 		return(0);
 	}
 	
@@ -586,6 +576,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 		N_VDestroy_Serial(u);
 		free(funcData);
 		if (ss) free(ss);
+		if (u0) free(u0);
 		return(0);
 	}
 
@@ -596,6 +587,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 		N_VDestroy_Serial(u);
 		free(funcData);
 		if (ss) free(ss);
+		if (u0) free(u0);
 		return(0);
 	}
     
@@ -611,21 +603,22 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 			N_VDestroy_Serial(u);
 			free(funcData);
 			if (ss) free(ss);
+			if (u0) free(u0);
 			return(0);
 		}
 	}
 
 	/* setup for simulation */
 
-	t = startTime;
-	tout = startTime;
+	t = t0 = 0.0;
+	tout = t;
 	i = 0;
 	if (numEvents > 0)
 		gi = (int*)malloc(numEvents * sizeof(int));
 
 	/*main simulation loop*/
 	
-	while (tout <= endTime)
+	while (tout <= maxtime)
 	{
 		tout = t + stepSize;
 		flag = CVode(cvode_mem, tout, u, &t, CV_NORMAL);
@@ -635,7 +628,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 			CVodeGetRootInfo(cvode_mem, gi);
 			for (j=0; j < numEvents; ++j)
 				if (gi[j])
-					responseFunctions(j, u0,params); //event triggered response
+					responseFunctions(j, udata, params); //event triggered response
 			flag = CV_SUCCESS;
 		}
 		
@@ -651,16 +644,19 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 			u0 = 0;
 			return 0;
 		}
+		
+		err = maxerr + 1.0;
+
 		if (ss && (tout - t0) >= delta)  //measure difference between y[t] - y[t-delta]
 		{
 			t0 = tout;
-			err = ( (NV_DATA_S(u))[0] - u0[0] )*( (NV_DATA_S(u))[0] - u0[0] );
+			err = 0.0;
 			for (j=0; j < N; ++j)
 			{
-				temp = ( (NV_DATA_S(u))[j] - u0[j] )*( (NV_DATA_S(u))[j] - u0[j] );
+				temp = ( udata[j] - u0[j] )*( udata[j] - u0[j] );
 				if (temp > err) err = temp;         //max value from all dx/dt
-				ss[j] = u0[j] = (NV_DATA_S(u))[j];  //next y points
-				if (ODE_POSITIVE_VALUES_ONLY && (NV_DATA_S(u))[j] < 0)
+				ss[j] = u0[j] = udata[j];  //next y points
+				if (ODE_POSITIVE_VALUES_ONLY && udata[j] < 0)
 				{
 					CVodeFree(&cvode_mem);
 					N_VDestroy_Serial(u);
@@ -680,7 +676,7 @@ double* steadyState(int N, double * initialValues, void (*odefnc)(double,double*
 		   break;
 		}
 	}
-	if (tout >= endTime) //steady state not reached in the given amount of time
+	if (tout >= maxtime) //steady state not reached in the given amount of time
 	{
 		if (ss) free(ss);
 		if (u0) free(u0);

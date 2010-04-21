@@ -341,11 +341,11 @@ TCAPIEXPORT void run(%s) \n\
 	
 	if (slider)
 	{
-		tc_compileBuildLoadSliders("ss.c -lodesim\0","run\0","Steady state\0",allParams);
+		tc_compileBuildLoadSliders("ss.c -lode\0","run\0","Steady state\0",allParams);
 		deleteMatrix(&allParams);
 	}
 	else
-		tc_compileBuildLoad("ss.c -lodesim\0","run\0","Steady state\0");
+		tc_compileBuildLoad("ss.c -lode\0","run\0","Steady state\0");
 
 	
 	return;

@@ -198,7 +198,7 @@ namespace Tinkercell
 										{
 											str = str2;
 											str2 = handle2->fullName() + QString(".") + str2;
-											s.replace(QRegExp(QString("^")+str2+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
+											s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),str2 + QString("\\1"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + str2 + QString("\\2"));
 											s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("$")),QString("\\1") + str2);
 										}

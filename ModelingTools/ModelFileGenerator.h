@@ -35,7 +35,7 @@ namespace Tinkercell
 		Q_OBJECT
 		
 	signals:
-		void generateModelFile(QSemaphore*,int*, const QString&, const QList<ItemHandle*>&);
+		void generateModelFile(QSemaphore*,int*, const QString&, QList<ItemHandle*>&);
 
 	public slots:
 		int generateModelFile(const char*, ArrayOfItems);
@@ -52,13 +52,13 @@ namespace Tinkercell
 		ModelFileGenerator();
 		
 		bool setMainWindow(MainWindow * main);
-		static int generateModelFile(const QString& filename, const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
+		static int generateModelFile(const QString& filename, QList<ItemHandle*>&, const QString& replaceDot = QString("_"), NetworkWindow * network = 0);
 	
 	public slots:
 		void setupFunctionPointers(QLibrary*);
 
 	private slots:
-		void generateModelFile(QSemaphore*, int*, const QString&, const QList<ItemHandle*>&);
+		void generateModelFile(QSemaphore*, int*, const QString&, QList<ItemHandle*>&);
 		
 	protected:
 		static ModelFileGenerator_FToS fToS;

@@ -8,6 +8,7 @@ A small class that generates the ode and rates file from the given items
 
 ****************************************************************************/
 
+#include <QDebug>
 #include "ConsoleWindow.h"
 #include "ModelFileGenerator.h"
 #include "StoichiometryTool.h"
@@ -57,7 +58,7 @@ namespace Tinkercell
 
 	void ModelFileGenerator::connectCFuntions()
 	{
-		connect(&fToS,SIGNAL(generateModelFile(QSemaphore*,int*, const QString&,const QList<ItemHandle*>&)),this,SLOT(generateModelFile(QSemaphore*,int*,const QString&,const QList<ItemHandle*>&)));
+		connect(&fToS,SIGNAL(generateModelFile(QSemaphore*,int*, const QString&,QList<ItemHandle*>&)),this,SLOT(generateModelFile(QSemaphore*,int*,const QString&,QList<ItemHandle*>&)));
 	}
 
 	ModelFileGenerator_FToS ModelFileGenerator::fToS;
@@ -81,26 +82,26 @@ namespace Tinkercell
 		return i;
 	}
 
-	void ModelFileGenerator::generateModelFile(QSemaphore * s, int* i, const QString& filename, const QList<ItemHandle*>& items)
+	void ModelFileGenerator::generateModelFile(QSemaphore * s, int* i, const QString& filename, QList<ItemHandle*>& items)
 	{
 		if (i)
-			(*i) = ModelFileGenerator::generateModelFile(filename, items);
+			(*i) = ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentWindow());
 		else
-			ModelFileGenerator::generateModelFile(filename, items);
+			ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentWindow());
 
 		if (s)
 			s->release();
 	}
 
-	int ModelFileGenerator::generateModelFile(const QString& prefix, const QList<ItemHandle*>& handles,const QString& replaceDot)
+	int ModelFileGenerator::generateModelFile(const QString& prefix, QList<ItemHandle*>& handles,const QString& replaceDot, NetworkWindow * currentNetwork)
 	{
 		QString filename = prefix;
 
+		if (currentNetwork && currentNetwork->modelItem() && !handles.contains(currentNetwork->modelItem()))
+			handles << currentNetwork->modelItem();
+
 		QList<ItemHandle*> from,to;
         ModuleTool::connectedItems(handles, from,to);
-        
-        if (currentNetwork() && currentNetwork()->modelItem() && !handles.contains(currentNetwork()->modelItem()))
-        	handles << currentNetwork()->modelItem();
 
 		filename.replace(QRegExp(tr("\\.\\s+$")),QString(""));
 		QFile cfile (filename + QString(".c"));
@@ -111,12 +112,12 @@ namespace Tinkercell
 
 		int i,j;
 
-		for (i=0; i < handles.size(); ++i)
+		/*for (i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->name.isEmpty())
 			{
 				namelessHandles << handles[i];
 				handles[i]->name = tr("model");
-			}
+			}*/
 
 		if (!cfile.open(QFile::WriteOnly | QFile::Text) || !pyfile.open(QFile::WriteOnly | QFile::Text))
 		{
@@ -562,6 +563,7 @@ namespace Tinkercell
 			pycode += N.colName(i);
 			pycode += tr(";\n");
 		}
+
 		code += tr("    return k;\n}\n\n");
 		pycode += tr("        return k;\n\n");
 
@@ -856,9 +858,9 @@ namespace Tinkercell
 		code += tr("}\n\n");
 		pycode += tr("\n\n");
 		
-		for (i=0; i < namelessHandles.size(); ++i)
+		/*for (i=0; i < namelessHandles.size(); ++i)
 			if (namelessHandles[i])
-				namelessHandles[i]->name = tr("");
+				namelessHandles[i]->name = tr("");*/
 
 		cfile.write(code.join("").toAscii());
 		cfile.close();
@@ -891,7 +893,6 @@ namespace Tinkercell
 				s.replace(regexp2,prefix + name + tr("\\1"));
 				s.replace(regexp3,tr("\\1") + prefix + name);
 				s.replace(regexp4,tr("\\1") + prefix + name + tr("\\2"));
-
 				s.replace(regexp5,tr("\\1fmax("));
 				s.replace(regexp6,tr("\\1fmin("));
 				s.replace(regexp7,tr("\\1fabs("));

@@ -224,7 +224,10 @@ INSTALL( FILES ${CVODE_HDRS}
   COMPONENT CVODE
 )
 
-FILE( GLOB SUNDIALS_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials/*.h )
+FILE( GLOB 
+SUNDIALS_HDRS ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials/*.h 
+SUNDIALS_HDRS ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials/*.h 
+)
 
 INSTALL( FILES ${SUNDIALS_HDRS}
   DESTINATION c/sundials

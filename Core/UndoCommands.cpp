@@ -2600,14 +2600,16 @@ namespace Tinkercell
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
-						
+
 						oldNames += children[i]->fullName();
 						s2 = RenameCommand::assignUniqueName(s1,allNames);
 						newNames += s2;
 						allNames += s2;
+						
+						qDebug() << children[i]->fullName() << "   " << s2;
 					}
 				}
-			QList<ItemHandle*> allHandles = net->allHandles();		
+			QList<ItemHandle*> allHandles = net->allHandles();
 			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
 		}
 		

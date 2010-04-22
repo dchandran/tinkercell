@@ -20,6 +20,7 @@ namespace Tinkercell
 {
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
+		countHistory = 0;
 	}
 
 	void LoadSaveTool::historyChanged(int)
@@ -27,6 +28,12 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene)
 			savedScenes[scene] = false;
+		++countHistory;
+		if (countHistory > 10)
+		{
+			saveModel(MainWindow::userTemp() + tr("/backup.xml"));
+			countHistory = 0;
+		}
 	}
 
 	void LoadSaveTool::windowClosing(NetworkWindow * win, bool * close)
@@ -69,6 +76,13 @@ namespace Tinkercell
 					this,SLOT(prepareModelForSaving(NetworkWindow*,bool*)));
 			connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
 			connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
+			
+			QString filename = MainWindow::userTemp() + tr("/backup.xml");
+			QFile file(filename);
+			
+			if (file.open(QFile::ReadOnly | QFile::Text))
+				loadModel(filename);			
+			
 			return true;
 		}
 		return false;
@@ -421,9 +435,9 @@ namespace Tinkercell
 
 		emit modelSaved(scene->networkWindow);
 
-		mainWindow->statusBar()->showMessage(tr("model successfully saved in : ") + filename);
-		if (console())
-            console()->message(tr("model successfully saved in : ") + filename);
+		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
+		//if (console())
+          //  console()->message(tr("model successfully saved in : ") + filename);
 	}
 
 	void LoadSaveTool::loadModel(const QString& filename)
@@ -494,7 +508,7 @@ namespace Tinkercell
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(mainWindow->tool(tr("Connections Tree")));
 
 		QFile file1 (filename);
-
+		
 		if (!file1.open(QFile::ReadOnly | QFile::Text))
 		{
 			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);

@@ -52,7 +52,6 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 
 	signals:
-		void sceneChanged(GraphicsScene*);
 		void modelSaved(NetworkWindow*);
 		void modelLoaded(NetworkWindow*);
 
@@ -75,6 +74,7 @@ namespace Tinkercell
 		static void writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
 
 		QHash<GraphicsScene*,bool> savedScenes;
+		int countHistory;
 	};
 
 }

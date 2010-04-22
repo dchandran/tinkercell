@@ -1674,7 +1674,6 @@ namespace Tinkercell
 		QString newname = newname0;
 		newname.replace(QRegExp("[^A-Za-z0-9_]"),QString("_@@@_"));
 
-		//qDebug() << "substitute " << oldname << " with " << newname0 << " in " << target;
 		QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name
 			regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
 			regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
@@ -2529,6 +2528,7 @@ namespace Tinkercell
 		children += child;
 		newParents += parent;
 		oldParents += child->parent;
+		renameCommand = 0;
 	}
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, const QList<ItemHandle*>& childlist, const QList<ItemHandle*>& parents)
 		: QUndoCommand(name)

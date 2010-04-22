@@ -64,33 +64,34 @@ namespace Tinkercell
 		/*
 		if (scene)
 		{
-		QList<QGraphicsItem*> itemsAt;
-		NodeGraphicsItem * node = 0;
-		ConnectionGraphicsItem * connection = 0;
-		for (int i=0; i < items.size(); ++i)
-		{
-		//QRectF rect;
-		QPainterPath path;
-		if ((connection = ConnectionGraphicsItem::cast(items[i])))
-		{
-		QList<NodeGraphicsItem*> nodes = connection->nodes();
-		for (int j=0; j < nodes.size(); ++j)
-		if (nodes[j])
-		path = path.united(nodes[j]->mapToScene(nodes[j]->shape()));
+			QList<QGraphicsItem*> itemsAt;
+			NodeGraphicsItem * node = 0;
+			ConnectionGraphicsItem * connection = 0;
+			for (int i=0; i < items.size(); ++i)
+			{
+				//QRectF rect;
+				QPainterPath path;
+				if ((connection = ConnectionGraphicsItem::cast(items[i])))
+				{
+					QList<NodeGraphicsItem*> nodes = connection->nodes();
+					for (int j=0; j < nodes.size(); ++j)
+					if (nodes[j])
+					path = path.united(nodes[j]->mapToScene(nodes[j]->shape()));
+				}
+				//itemsAt = scene->items(rect);
+				itemsAt = scene->items(path);
+				QRectF rect = path.boundingRect();
+				for (int j=0; j < itemsAt.size(); ++j)
+				{
+					if (itemsAt[j]->sceneBoundingRect().contains(rect))
+					{
+						if ((node = NodeGraphicsItem::cast(itemsAt[j])))
+						emit nodeCollided(QList<QGraphicsItem*>() << connection, node, QPointF(), 0);
+					}
+				}
+			}
 		}
-		//itemsAt = scene->items(rect);
-		itemsAt = scene->items(path);
-		QRectF rect = path.boundingRect();
-		for (int j=0; j < itemsAt.size(); ++j)
-		{
-		if (itemsAt[j]->sceneBoundingRect().contains(rect))
-		{
-		if ((node = NodeGraphicsItem::cast(itemsAt[j])))
-		emit nodeCollided(QList<QGraphicsItem*>() << connection, node, QPointF(), 0);
-		}
-		}
-		}
-		}*/
+		*/
 	}
 
 	void CollisionDetection::stopGlow(QTimeLine::State state)
@@ -141,12 +142,10 @@ namespace Tinkercell
 		else
 			if (nodeBelowCursor)
 			{
-				QRectF rect = nodeBelowCursor->sceneBoundingRect();
-				if (rect.width() < 500 && rect.height() < 500)				
-					if (alpha < 150)
-						nodeBelowCursor->setAlpha(alpha);
-					else
-						nodeBelowCursor->setAlpha(300 - alpha);
+				if (alpha < 150)
+					nodeBelowCursor->setAlpha(alpha);
+				else
+					nodeBelowCursor->setAlpha(300 - alpha);
 			}
 	}
 
@@ -177,9 +176,7 @@ namespace Tinkercell
 
 			if (item == 0 && selected.size() == 1 && selected[0])
 			{
-				//QRectF rect = selected[0]->sceneBoundingRect();
 				QPainterPath path = selected[0]->mapToScene(selected[0]->shape());
-				//rect.adjust(-1,-1,1,1);
 				QList<QGraphicsItem*> itemsNearby = scene->items(path);
 				NodeGraphicsItem* itemHit = 0;
 				for (int i=0; i < itemsNearby.size(); ++i)
@@ -283,7 +280,29 @@ namespace Tinkercell
 					//glowTimer.setUpdateInterval(100);
 					glowTimer.setDuration(2000);
 					glowTimer.setLoopCount(0);
-					glowTimer.start();
+					
+					if (connectionBelowCursor)
+					{
+						glowTimer.start();
+					}
+					else					
+					if (nodeBelowCursor)
+					{
+						QRectF rect = nodeBelowCursor->sceneBoundingRect();
+						if (rect.width() < 500 && rect.height() < 500)
+							glowTimer.start();
+						else
+						{
+							for (int i=0; i < movingItems.size(); ++i)
+							{
+								if (NodeGraphicsItem::cast(movingItems[i]) || ConnectionGraphicsItem::cast(movingItems[i]))
+								{
+									glowTimer.start();
+									break;
+								}
+							}
+						}
+					}
 				}
 				else
 				{

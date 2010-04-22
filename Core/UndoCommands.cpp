@@ -19,6 +19,7 @@ This file contains a collection of commands that perform simple operations that 
 #include "ConsoleWindow.h"
 #include <QRegExp>
 #include <QStringList>
+#include <QDebug>
 
 namespace Tinkercell
 {
@@ -2590,6 +2591,7 @@ namespace Tinkercell
 			QString s0, s1,s2;
 			if (net)
 				allNames = net->symbolsTable.handlesFullName.keys();
+			
 			for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 				if (children[i] && newParents[i] != oldParents[i])
 				{
@@ -2598,20 +2600,19 @@ namespace Tinkercell
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
-						if (net && net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i])
-						{
-							oldNames += children[i]->fullName();
-							s2 = RenameCommand::assignUniqueName(s1,allNames);
-							newNames += s2;
-							allNames += s2;
-						}
+						
+						oldNames += children[i]->fullName();
+						s2 = RenameCommand::assignUniqueName(s1,allNames);
+						newNames += s2;
+						allNames += s2;
 					}
 				}
 			QList<ItemHandle*> allHandles = net->allHandles();		
 			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
 		}
 		
-		renameCommand->redo();
+		if (renameCommand)
+			renameCommand->redo();
 		
 		for (int i=0; i < children.size() && i < newParents.size() && i < oldParents.size(); ++i)
 			if (children[i] && newParents[i] != oldParents[i])

@@ -828,6 +828,9 @@ void tc_Main_api_initialize(
 	_tc_getName = tc_getName0;
 	_tc_rename = tc_setName0;
 	
+	_tc_getUniqueName = tc_getUniqueName0;
+	_tc_getUniqueNames = tc_getUniqueNames0;
+	
 	_tc_getNames = tc_getNames0;
 	_tc_getFamily = tc_getFamily0;
 	_tc_isA = tc_isA0;

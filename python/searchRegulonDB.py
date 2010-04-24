@@ -92,11 +92,11 @@ else:
         key = "";
         if len(displayList) == 0:
             displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS2.keys();
-            k = tc_getFromList("Available regulatory sites from Regulon DB: ", toStrings(displayList) ,"",0);
+            k = tc_getStringFromList("Available regulatory sites from Regulon DB: ", toStrings(displayList) ,"",0);
             if k > -1:
                 key = displayList[k];
         else:
-            k = tc_getFromList("Available sites regulated by " + ", ".join(regulators) + " : ", toStrings(displayList) ,"",0);
+            k = tc_getStringFromList("Available sites regulated by " + ", ".join(regulators) + " : ", toStrings(displayList) ,"",0);
             if k > -1:
                 key = displayList0[k];
         
@@ -141,11 +141,11 @@ else:
         key = "";
         if len(displayList) == 0:
             displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS1.keys();
-            k = tc_getFromList("Available transcription factors from Regulon DB: ", toStrings(displayList),"",0);
+            k = tc_getStringFromList("Available transcription factors from Regulon DB: ", toStrings(displayList),"",0);
             if k > -1:
                 key = displayList[k];
         else:
-            k = tc_getFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ", toStrings(displayList),"",0);
+            k = tc_getStringFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ", toStrings(displayList),"",0);
             if k > -1:
                 key = displayList0[k];
         
@@ -169,7 +169,7 @@ else:
         k = -1;
         key = "";
         displayList = RegulonDB.ECOLI_RBS.keys();
-        k = tc_getFromList("Available RBS sites from Regulon DB: ",toStrings(displayList),"",0);
+        k = tc_getStringFromList("Available RBS sites from Regulon DB: ",toStrings(displayList),"",0);
         if k > -1:
             key = displayList[k];
         
@@ -186,11 +186,10 @@ else:
         name = terminatorNames[i];
         
         displayList = [];
-        
         k = -1;
         key = "";
         displayList = RegulonDB.ECOLI_TERMINATORS.keys();
-        k = tc_getFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",toStrings(displayList),"",0);
+        k = tc_getStringFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",toStrings(displayList),"",0);
         if k > -1:
             key = displayList[k];
         

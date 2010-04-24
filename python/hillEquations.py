@@ -18,7 +18,7 @@ deleteArrayOfItems(items);
 
 if (len(synthesis) > 0):
 	strList = toStrings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
-	t = tc_getStringFromList("Select the logical function to approximate:",strList,"Auto",0);
+	t = tc_getStringFromList("Select the logical function to approximate:",strList,"Auto");
 	deleteArrayOfStrings(strList);
 	if t > -1:
 		for i in synthesis:

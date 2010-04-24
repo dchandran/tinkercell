@@ -44,7 +44,7 @@ G.add_edges_from(M);
 
 #user interface
 strList = toStrings( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
-option = tc_getStringFromList("Select type of centrality:", strList);
+option = tc_getStringFromList("Select type of centrality:", strList, "degree centrality");
 deleteArrayOfStrings(strList);
 
 N = [];

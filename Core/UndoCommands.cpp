@@ -2601,7 +2601,6 @@ namespace Tinkercell
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
-<<<<<<< .mine
 						
 						oldNames += children[i]->fullName();
 						
@@ -2612,13 +2611,6 @@ namespace Tinkercell
 						
 						newNames += s2;
 						allNames += s2;
-=======
-
-						oldNames += children[i]->fullName();
-						s2 = RenameCommand::assignUniqueName(s1,allNames);
-						newNames += s2;
-						allNames += s2;
->>>>>>> .r1053
 					}
 				}
 			QList<ItemHandle*> allHandles = net->allHandles();

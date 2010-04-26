@@ -136,7 +136,7 @@ namespace Tinkercell
 
         //top level handles
 		for (int i=0; i < items.size(); ++i)
-            if (!visited.contains(items[i]))
+            if (!visited.contains(items[i]) && !( (node1 = NodeGraphicsItem::cast(items[i])) && (node1->className == ArrowHeadItem::CLASSNAME) ) )
             {
                 visited << items[i];
                 handle = getHandle(items[i]);
@@ -153,7 +153,7 @@ namespace Tinkercell
                         {
                             node1 = connection->centerRegionItem;
                             connection = ConnectionGraphicsItem::cast(items[i]);
-                            if (connection && connection->centerRegionItem && connection->centerRegionItem->scene())
+                            if (connection && connection->centerRegionItem && connection->centerRegionItem->isVisible())
                             {
                                 node2 = connection->centerRegionItem;
                                 if (node1 && node2)
@@ -231,10 +231,6 @@ namespace Tinkercell
 					connectionItems[i]->replaceNode(originalsAndClones[k].first,originalsAndClones[k].second);
 				}
 			}
-
-			QList<QGraphicsItem*> arrows = connectionItems[i]->arrowHeadsAsGraphicsItems();
-			for (int k=0; k < arrows.size(); ++k)
-                duplicateItems.removeAll(arrows[k]);
 		}
 
 		//replace parent handles

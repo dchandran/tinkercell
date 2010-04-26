@@ -2518,7 +2518,6 @@ namespace Tinkercell
 
 						setHandle(items[j],keyHandles[i]);
 					}
-
 			}
 	}
 
@@ -2531,6 +2530,7 @@ namespace Tinkercell
 		oldParents += child->parent;
 		renameCommand = 0;
 	}
+
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, const QList<ItemHandle*>& childlist, const QList<ItemHandle*>& parents)
 		: QUndoCommand(name)
 	{
@@ -2546,6 +2546,7 @@ namespace Tinkercell
 		}
 		renameCommand = 0;
 	}
+
 	SetParentHandleCommand::SetParentHandleCommand(const QString& name, NetworkWindow * net, const QList<ItemHandle*>& childlist, ItemHandle * parent)
 		: QUndoCommand(name)
 	{
@@ -2561,7 +2562,7 @@ namespace Tinkercell
 		}
 		renameCommand = 0;
 	}
-	
+
 	SetParentHandleCommand::~SetParentHandleCommand()
 	{
 		if (renameCommand)
@@ -2581,7 +2582,7 @@ namespace Tinkercell
 			}
 		}*/
 	}
-	
+
 	void SetParentHandleCommand::redo()
 	{
 		if (!renameCommand && net)
@@ -2600,17 +2601,30 @@ namespace Tinkercell
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
+<<<<<<< .mine
+						
+						oldNames += children[i]->fullName();
+						
+						if (net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i])
+							s2 = RenameCommand::assignUniqueName(s1,allNames);
+						else
+							s2 = s1;
+						
+						newNames += s2;
+						allNames += s2;
+=======
 
 						oldNames += children[i]->fullName();
 						s2 = RenameCommand::assignUniqueName(s1,allNames);
 						newNames += s2;
 						allNames += s2;
+>>>>>>> .r1053
 					}
 				}
 			QList<ItemHandle*> allHandles = net->allHandles();
 			renameCommand = new RenameCommand(QString("rename"),allHandles,oldNames,newNames);
 		}
-		
+
 		if (renameCommand)
 			renameCommand->redo();
 		
@@ -2623,6 +2637,7 @@ namespace Tinkercell
 				}
 			}
 	}
+
 	void SetParentHandleCommand::undo()
 	{
 		if (renameCommand)

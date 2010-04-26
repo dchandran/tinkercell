@@ -10,8 +10,10 @@
 ****************************************************************************/
 
 #include "DefaultPluginsMenu.h"
+#include "GraphicsScene.h"
 #include "ConsoleWindow.h"
 #include <QColor>
+#include <QBrush>
 
 using namespace Tinkercell;
 
@@ -27,8 +29,11 @@ int main(int argc, char *argv[])
     PROJECTNAME = QObject::tr("TinkerCell");
     Tinkercell::MainWindow::defaultFileExtension = QObject::tr("tic");
     Tinkercell::ConsoleWindow::Prompt = QObject::tr(">>>");	
-	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#101e77");
-    
+	Tinkercell::ConsoleWindow::BackgroundColor = QColor("#222222");
+	
+	QColor color("#00EE00");
+	color.setAlpha(50);
+	Tinkercell::GraphicsScene::SelectionRectangleBrush = QBrush(color);
 
     QString appDir = QCoreApplication::applicationDirPath();
 	

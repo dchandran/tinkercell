@@ -256,7 +256,10 @@ namespace Tinkercell
 				if (handle->name == var) var = handle->fullName();
 
 				int k = 0;
-				while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + var))
+				while (
+					(win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + var)) &&
+					!(win->symbolsTable.dataRowsAndCols[handle->fullName() + tr(".") + var].second == tr("Assignments"))
+					)
 					var = regex1.cap(1) + QString::number(++k);
 
 				if (var.startsWith(handle->fullName() + tr(".")))
@@ -721,8 +724,12 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& var, const QString& func)
 	{
-		if (!item && currentWindow())
-			item = currentWindow()->modelItem();
+		NetworkWindow * win = currentWindow();
+		
+		if (!win) return;
+		
+		if (!item)
+			item = win->modelItem();
 
 		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
@@ -734,15 +741,31 @@ namespace Tinkercell
 			QString f = func;
 			QRegExp regex(QString("([A-Za-z0-9])_([A-Za-z])"));
 			f.replace(regex,QString("\\1.\\2"));
+			
+			int k = 0;
+			
+			QString s;
+			QString s0 = var;
+			
+			if (!item->name.isEmpty())
+				s0 = item->fullName() + tr(".") + s0;
+			
+			s = s0;
 
-			if (!dat.getRowNames().contains(var) || f != dat.value(var,0))
+			while (
+				(win->symbolsTable.dataRowsAndCols.contains(s)) &&
+				!(win->symbolsTable.dataRowsAndCols[s].second == tr("Assignments"))
+				)
+				s = s0 + QString::number(++k);
+			
+			if (!dat.getRowNames().contains(s) || f != dat.value(s,0))
 			{
-				dat.value(var,0) = func;
+				dat.value(s,0) = func;
 				if (currentWindow())
 					if (item->name.isEmpty())
-						currentWindow()->changeData(var + tr(" = ") + f,item,tr("Assignments"),&dat);
+						currentWindow()->changeData(s + tr(" = ") + f,item,tr("Assignments"),&dat);
 					else
-						currentWindow()->changeData(item->fullName() + tr(".") + var + tr(" = ") + f,item,tr("Assignments"),&dat);
+						currentWindow()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
 				else
 					item->data->textData[tr("Assignments")] = dat;
 			}

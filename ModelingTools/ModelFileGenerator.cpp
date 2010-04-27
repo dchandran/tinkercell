@@ -219,7 +219,7 @@ namespace Tinkercell
 
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->family())
+			if (handles[i])// && handles[i]->family())
 			{
 				if (handles[i]->data)
 				{
@@ -682,26 +682,7 @@ namespace Tinkercell
 				code += insertPrefix(handles,tr("model->"),assignmentDefs[i],replaceDot);
 				code += tr(";\n");
 			}
-/*
-		//declare variables again if changed by assignment or event
-		if (!assignmentNames.isEmpty())
-		{
-			for (i = 0; i < N.rows(); ++i)
-			{
-				code += tr("    u[");
-				code += QString::number(i);
-				code += tr("] = model->");
-				code += N.rowName(i);
-				code += tr(";\n");
 
-				pycode += tr("        u[");
-				pycode += QString::number(i);
-				pycode += tr("] = ");
-				pycode += N.rowName(i);
-				pycode += tr(";\n");
-			}
-		}
-*/
 		//print the rates
 		pycode += tr("        rates = range(0,") + QString::number(rates.size()) + tr(");\n");
 		for (i = 0; i < rates.size() && i < c; ++i)
@@ -744,55 +725,71 @@ namespace Tinkercell
 		pycode += tr(");\n\n");
 		
 		//events
-		code += tr("int TCtriggers(int i, double time, double * y, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
-		pycode += tr("TCtriggers(i,time, u)\n");
-		for (i=0; i < eventTriggers.size(); ++i)
-		{
-			pycode += tr("    if (i == ");
-			pycode += QString::number(i);
-			pycode += tr("): return ");
-			pycode += eventTriggers[i];
-			pycode += tr(";\n");
-			
-			code += tr("    if (i == ");
-			code += QString::number(i);
-			code += tr(") return ");
-			code += eventTriggers[i];
-			code += tr(";\n");
-		}
-		pycode += tr("    return 0\n");
-		code += tr("    return 0;\n}\n");
 		
-		code += tr("void TCresponses(int i, double * u, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
-		pycode += tr("TCresponses(u)\n");
-		for (i=0; i < eventActions.size(); ++i)
-		{
-			pycode += tr("    if (i == ");
-			pycode += QString::number(i);
-			pycode += tr("): ");
-			pycode += eventActions[i];
-			pycode += tr(";\n");
+		if (eventTriggers.size() > 0)
+		{		
+			code += tr("int TCtriggers(int i, double time, double * y, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
+			pycode += tr("TCtriggers(i,time, u)\n");
+			for (i=0; i < eventTriggers.size(); ++i)
+			{
+				pycode += tr("    if (i == ");
+				pycode += QString::number(i);
+				pycode += tr("): return ");
+				pycode += eventTriggers[i];
+				pycode += tr(";\n");
 			
-			code += tr("    if (i == ");
-			code += QString::number(i);
-			code += tr(") { ");
-			code += eventActions[i];
-			code += tr("};\n");
+				code += tr("    if (i == ");
+				code += QString::number(i);
+				code += tr(") return (");
+				code += insertPrefix(handles,tr("model->"),eventTriggers[i],replaceDot);
+				code += tr(");\n");
+			}
+			pycode += tr("    return 0\n");
+			code += tr("    return 0;\n}\n");
+		
+			code += tr("void TCresponses(int i, double * u, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
+			pycode += tr("TCresponses(u)\n");
+			for (i=0; i < eventActions.size(); ++i)
+			{
+				pycode += tr("    if (i == ");
+				pycode += QString::number(i);
+				pycode += tr("): ");
+				pycode += eventActions[i];
+				pycode += tr(";\n");
 			
-			code += tr("    u[");
-			code += QString::number(i);
-			code += tr("] = model->");
-			code += N.rowName(i);
-			code += tr(";\n");
+				code += tr("    if (i == ");
+				code += QString::number(i);
+				code += tr(") { ");
+				code += insertPrefix(handles,tr("model->"),eventActions[i],replaceDot);
+				code += tr("; }\n");
+			}
+			
+			for (i = 0; i < N.rows(); ++i)
+			{
+				code += tr("    u[");
+				code += QString::number(i);
+				code += tr("] = model->");
+				code += N.rowName(i);
+				code += tr(";\n");
 
-			pycode += tr("        u[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += N.rowName(i);
-			pycode += tr(";\n");
+				pycode += tr("        u[");
+				pycode += QString::number(i);
+				pycode += tr("] = ");
+				pycode += N.rowName(i);
+				pycode += tr(";\n");
+			}
+			
+			pycode += tr("\n");
+			code += tr("}\n");
 		}
-		pycode += tr("\n");
-		code += tr("    }\n");
+		else
+		{
+			code += tr("int (*TCtriggers)(int i, double time, double * y, void * data) = 0;\n");
+			pycode += tr("TCtriggers(i,time, u): return;\n");
+			
+			code += tr("void (*TCresponses)(int i, double * u, void * data) = 0;\n");
+			pycode += tr("TCresponses(u): return;\n");
+		}
 		
 
 		//write simulation information

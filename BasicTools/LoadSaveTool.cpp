@@ -21,6 +21,7 @@ namespace Tinkercell
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
 		countHistory = 0;
+		restoreFile = 0;
 	}
 
 	void LoadSaveTool::historyChanged(int)
@@ -81,11 +82,24 @@ namespace Tinkercell
 			QFile file(filename);
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))
-				loadModel(filename);			
+			{
+				restoreFile = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("Restore previous model?"), (QMessageBox::Yes | QMessageBox::No), mainWindow, Qt::Dialog);
+				restoreFile->show();
+				connect(restoreFile,SIGNAL(accepted()),this,SLOT(restore()));
+			}
 			
 			return true;
 		}
 		return false;
+	}
+	
+	void LoadSaveTool::restore()
+	{
+		QString filename = MainWindow::userTemp() + tr("/backup.xml");
+		QFile file(filename);
+		
+		if (file.open(QFile::ReadOnly | QFile::Text))
+			loadModel(filename);
 	}
 
 	void LoadSaveTool::prepareModelForSaving(NetworkWindow*, bool* b)
@@ -197,127 +211,8 @@ namespace Tinkercell
 
 	void LoadSaveTool::saveItems(GraphicsScene * scene, const QList<QGraphicsItem*>& allitems, const QString& filename)
 	{
-		if (allitems.isEmpty() || filename.isEmpty()) return;
+		if (!scene || allitems.isEmpty() || filename.isEmpty()) return;
 
-		NodeGraphicsItem * node = 0;
-		ConnectionGraphicsItem * connection = 0;
-		TextGraphicsItem * text = 0;
-
-		QFile file (filename);
-
-		if (!file.open(QFile::WriteOnly | QFile::Text))
-		{
-			mainWindow->statusBar()->showMessage(tr("file cannot be opened : ") + filename);
-			if (console())
-                console()->error(tr("file cannot be opened : ") + filename);
-			return;
-		}
-
-		ModelWriter modelWriter;
-		modelWriter.setDevice(&file);
-		modelWriter.setAutoFormatting(true);
-
-		modelWriter.writeStartDocument();
-		modelWriter.writeDTD("<!DOCTYPE TinkerCell>");
-
-		modelWriter.writeStartElement("Model");
-
-		modelWriter.writeStartElement("Handles");
-
-		QList<ItemHandle*> handles;
-		ItemHandle * handle;
-		for (int i=0; i < allitems.size(); ++i)
-		{
-			if ((handle = getHandle(allitems[i]))
-				&& !handles.contains(handle))
-			{
-				handles << handle;
-			}
-		}
-
-		modelWriter.writeModel(handles,&file);
-		modelWriter.writeEndElement();
-
-		QList<NodeGraphicsItem*> nodeItems;
-		QList<TextGraphicsItem*> textItems;
-		QList<ConnectionGraphicsItem*> connectionItems;
-
-		for (int i=0; i < allitems.size(); ++i)
-		{
-			node = NodeGraphicsItem::topLevelNodeItem(allitems[i]);
-			if (node && !nodeItems.contains(node))
-			{
-				nodeItems << node;
-			}
-			else
-			{
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(allitems[i]);
-				if (connection && !connectionItems.contains(connection))
-				{
-					connectionItems << connection;
-				}
-				else
-				{
-					text = TextGraphicsItem::cast(allitems[i]);
-					if (text && !textItems.contains(text))
-					{
-						textItems << text;
-					}
-				}
-			}
-		}
-
-		modelWriter.writeStartElement(tr("Nodes"));
-		for (int i=0; i < nodeItems.size(); ++i)
-		{
-			node = nodeItems[i];
-			writeNode(scene,node,modelWriter);
-		}
-		modelWriter.writeEndElement();
-
-		modelWriter.writeStartElement(tr("Connections"));
-		QList<ConnectionGraphicsItem*> firstSetofConnections;
-		for (int i=0; i < connectionItems.size(); ++i)
-		{
-			if (connectionItems[i] && connectionItems[i]->centerRegionItem &&
-				connectionItems[i]->centerRegionItem->scene() &&
-				!connectionItems[i]->centerRegionItem->connections().isEmpty())
-			{
-				firstSetofConnections += connectionItems[i];
-				connectionItems.removeAt(i);
-				--i;
-			}
-		}
-		for (int i=0; i < firstSetofConnections.size(); ++i)
-		{
-			connection = firstSetofConnections[i];
-			writeConnection(scene,connection,modelWriter);
-		}
-		for (int i=0; i < connectionItems.size(); ++i)
-		{
-			connection = connectionItems[i];
-			writeConnection(scene,connection,modelWriter);
-		}
-		modelWriter.writeEndElement();
-
-		modelWriter.writeStartElement(tr("Texts"));
-		for (int i=0; i < textItems.size(); ++i)
-		{
-			text = textItems[i];
-			writeText(scene,text,modelWriter);
-		}
-		modelWriter.writeEndElement();
-
-		modelWriter.writeEndElement();
-		modelWriter.writeEndDocument();
-	}
-
-	void LoadSaveTool::saveModel(const QString& filename)
-	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		QList<QGraphicsItem*> allitems = scene->items();
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
 		TextGraphicsItem * text = 0;
@@ -438,6 +333,15 @@ namespace Tinkercell
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
 		//if (console())
           //  console()->message(tr("model successfully saved in : ") + filename);
+	}
+
+	void LoadSaveTool::saveModel(const QString& filename)
+	{
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		QList<QGraphicsItem*> allitems = scene->items();
+		saveItems(scene,allitems,filename);
 	}
 
 	void LoadSaveTool::loadModel(const QString& filename)

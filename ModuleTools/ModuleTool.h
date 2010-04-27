@@ -17,6 +17,7 @@
 #include <QString>
 #include <QtDebug>
 #include <QGraphicsItem>
+#include <QGraphicsLineItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QAction>
@@ -96,6 +97,8 @@ namespace Tinkercell
 
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+		
+		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
 
 	private slots:
 
@@ -106,6 +109,7 @@ namespace Tinkercell
 
 	private:
 
+		QGraphicsLineItem lineItem;
 		QHash<GraphicsView*,ItemHandle*> moduleViews;
 		QHash<TextEditor*, QPair<GraphicsScene*,ItemHandle*> > moduleScripts;
 		QHash<ItemHandle*,GraphicsView*> moduleHandles;

@@ -101,7 +101,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*> allitems = handle->allGraphicsItems(), items;
 
 		for (int i=0; i < allitems.size(); ++i)
-			if (allitems[i] && rect.intersects(allitems[i]->sceneBoundingRect()))
+			if (allitems[i] && (!scene->isVisible(allitems[i]) || rect.intersects(allitems[i]->sceneBoundingRect())))
 				items << allitems[i];
 
 		QDir homeDir(MainWindow::userHome());
@@ -115,15 +115,14 @@ namespace Tinkercell
 
 		QString filename = MainWindow::userHome() + tr("/modules/") + name + tr(".xml"),
 				iconfile = MainWindow::userHome() + tr("/modules/") + name + tr(".png");
-		/*
-		QRectF viewport = scene->viewport();
-		int w = 100;
-		int h = (int)(viewport.height() * w/viewport.width());
+		
+		int w = 64;
+		int h = 64;
 		QImage image(w,h,QImage::Format_ARGB32);
-		scene->print(&image,rect0);
+		scene->print(&image);
 		QPixmap pixmap = QPixmap::fromImage(image);
-		*/
-		QPixmap pixmap(tr(":/images/module.png"));
+		
+		//QPixmap pixmap(tr(":/images/module.png"));
 		pixmap.save(iconfile,"png");
 
 		emit saveItems(scene, items, filename);

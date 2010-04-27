@@ -62,7 +62,8 @@ namespace Tinkercell
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
         mode = none;
-        //lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
+        
+        lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
     }
 
 	bool ModuleTool::setMainWindow(MainWindow * main)
@@ -246,7 +247,7 @@ namespace Tinkercell
 
         bool alreadyLinked = false;
         NodeGraphicsItem * node;
-        ItemHandle * handle, * moduleHandle;
+        ItemHandle * handle = 0, * moduleHandle = 0;
 
         QList<QGraphicsItem*> items;
         QList<TextItem*> textItems;
@@ -543,6 +544,10 @@ namespace Tinkercell
 		for (int i=0; i < selectedItems.size(); ++i)
 			selectedItems[i]->resetPen();
 		selectedItems.clear();
+		
+		lineItem.setVisible(false);
+        if (lineItem.scene())
+            lineItem.scene()->removeItem(&lineItem);
     }
 
 	void ModuleTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
@@ -609,7 +614,7 @@ namespace Tinkercell
 		if (mode == connecting && nodeItems.size() == 1)
 		{
 			selectedItems << NodeGraphicsItem::cast(nodeItems[0]);
-			selectedItems.last()->setAlpha(100);
+			//selectedItems.last()->setAlpha(100);
 
 			if (selectedItems.size() == 2)
 			{
@@ -895,10 +900,10 @@ namespace Tinkercell
             }
 	}
 
-/*
+
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
-        if (mode == connecting && scene)
+        if (mode == connecting && scene && selectedItems.size() == 1 && selectedItems[0])
         {
             if (lineItem.scene() != scene)
                 scene->addItem(&lineItem);
@@ -906,12 +911,12 @@ namespace Tinkercell
             if (!lineItem.isVisible())
                 lineItem.setVisible(true);
 
-            lineItem.setLine(QLineF(scene->lastPoint(),point));
+            lineItem.setLine(QLineF(selectedItems[0]->scenePos(),point));
             return;
         }
     }
 
-    void ModuleTool::mouseReleased(GraphicsScene * scene, QPointF , Qt::MouseButton, Qt::KeyboardModifiers )
+/*    void ModuleTool::mouseReleased(GraphicsScene * scene, QPointF , Qt::MouseButton, Qt::KeyboardModifiers )
     {
         if (mode != none)
             scene->useDefaultBehavior = true;

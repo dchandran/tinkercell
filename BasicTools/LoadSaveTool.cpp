@@ -21,7 +21,8 @@ namespace Tinkercell
 	LoadSaveTool::LoadSaveTool() : Tool(tr("Save and Load"),tr("Basic GUI"))
 	{
 		countHistory = 0;
-		restoreFile = 0;
+		restoreDialog = 0;
+		restoreButton = 0;
 	}
 
 	void LoadSaveTool::historyChanged(int)
@@ -83,9 +84,11 @@ namespace Tinkercell
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))
 			{
-				restoreFile = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("Restore previous model?"), (QMessageBox::Yes | QMessageBox::No), mainWindow, Qt::Dialog);
-				restoreFile->show();
-				connect(restoreFile,SIGNAL(accepted()),this,SLOT(restore()));
+				restoreDialog = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("TinkerCell closed unexpectedly.\nRestore previous model?"), 0, mainWindow, Qt::Dialog);
+				restoreDialog->addButton(tr("No"), QMessageBox::NoRole);
+				restoreButton = restoreDialog->addButton(tr("Yes"), QMessageBox::YesRole);				
+				restoreDialog->show();
+				connect(restoreDialog,SIGNAL(finished(int)),this,SLOT(restore(int)));
 			}
 			
 			return true;
@@ -93,13 +96,16 @@ namespace Tinkercell
 		return false;
 	}
 	
-	void LoadSaveTool::restore()
+	void LoadSaveTool::restore(int role)
 	{
-		QString filename = MainWindow::userTemp() + tr("/backup.xml");
-		QFile file(filename);
+		if (restoreDialog->clickedButton() == restoreButton)
+		{
+			QString filename = MainWindow::userTemp() + tr("/backup.xml");
+			QFile file(filename);
 		
-		if (file.open(QFile::ReadOnly | QFile::Text))
-			loadModel(filename);
+			if (file.open(QFile::ReadOnly | QFile::Text))
+				loadModel(filename);
+		}
 	}
 
 	void LoadSaveTool::prepareModelForSaving(NetworkWindow*, bool* b)

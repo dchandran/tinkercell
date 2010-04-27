@@ -20,6 +20,7 @@ This tool allows the loading and saving of models.
 #include <QHash>
 #include <QUndoCommand>
 #include <QMessageBox>
+#include <QPushButton>
 #include "MainWindow.h"
 #include "NetworkWindow.h"
 #include "GraphicsScene.h"
@@ -63,7 +64,7 @@ namespace Tinkercell
 		void loadModel(const QString& filename);
 		void historyChanged( int );
 		void windowClosing(NetworkWindow * win, bool * close);
-		void restore();
+		void restore(int);
 
 	protected:
 
@@ -77,7 +78,8 @@ namespace Tinkercell
 		QHash<GraphicsScene*,bool> savedScenes;
 		int countHistory;
 		
-		QMessageBox * restoreFile;
+		QMessageBox * restoreDialog;
+		QPushButton * restoreButton;
 	};
 
 }

@@ -316,7 +316,7 @@ namespace Tinkercell
 
 		 highlighterPy = new CandPythonSyntaxHighlighter(editorPy->document());
 
-         editorC->setPlainText(tr("#include \"TC_api.h\"\nvoid run()\n{\n\n\n\n   return; \n}\n"));
+         editorC->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
 		 editorPy->setPlainText(tr("from tinkercell import *\n"));
 	 }
 

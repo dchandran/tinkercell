@@ -1031,6 +1031,9 @@ namespace Tinkercell
 	
 	void C_API_Slots::getNumericalDataNames(QSemaphore* sem,QStringList* list,ItemHandle* item)
 	{
+		if (!item && currentWindow())
+			item = &(currentWindow()->symbolsTable.modelItem);
+			
 		if (item && list)
 		{
 			(*list) << item->data->numericalData.keys();
@@ -1041,6 +1044,9 @@ namespace Tinkercell
 
 	void C_API_Slots::getTextDataNames(QSemaphore*sem,QStringList* list,ItemHandle* item)
 	{
+		if (!item && currentWindow())
+			item = &(currentWindow()->symbolsTable.modelItem);
+			
 		if (item && list)
 		{
 			(*list) << item->data->textData.keys();

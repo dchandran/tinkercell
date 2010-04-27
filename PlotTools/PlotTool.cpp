@@ -454,13 +454,18 @@ namespace Tinkercell
 	{
 		numMultiplots = x*y;
 		
-		if (multiplePlotsArea && numMultiplots > 0 && numMultiplots <= multiplePlotsArea->subWindowList().size())
-			numMultiplots = 0;
-		
-		if (numMultiplots > 1 && keepOldPlots && !keepOldPlots->isChecked())
-			hold(true);
-
-		emit plotMultiplot( x, y);
+		if (numMultiplots > 0)
+		{
+			QList<QMdiSubWindow *> subWindowList = multiplePlotsArea->subWindowList();
+			for (int i=0; i < subWindowList.size(); ++i)
+				if (subWindowList[i])
+				{
+					subWindowList[i]->close();
+				}
+			subWindowList.clear();
+			hold(true);		
+			emit plotMultiplot( x, y);
+		}
 		
 		if (s)
 			s->release();

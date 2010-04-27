@@ -17,6 +17,7 @@
 #include <QPrinter>
 #include <QListWidget>
 #include <QTableWidget>
+#include <QDebug>
 #include "qwt_scale_engine.h"
 #include "qwt_symbol.h"
 #include "GraphicsScene.h"
@@ -124,13 +125,14 @@ namespace Tinkercell
 	
 	void DataPlot::setXAxis(int x)
 	{
-		if (x >= 0 && x < dataTable.cols())
+		if (x >= 0 && x != xcolumn && x < dataTable.cols())
 		{
 			int dt = 1;
 			if (dataTable.rows() > 100)
 			{
 				dt = (int)(dataTable.rows() / 100) + 1;
 			}
+			
 			plot(dataTable,x,title().text(),dt);
 		}
 	}
@@ -138,6 +140,8 @@ namespace Tinkercell
 	void DataPlot::processData()
 	{
 		if (type != PlotTool::HistogramPlot) return;
+		
+		if (dataTable.description().contains(tr("histogram"))) return;
 		
 		double xmin, xmax, width;
 		DataTable<qreal> histData;
@@ -160,7 +164,7 @@ namespace Tinkercell
 				}
 		
 		width = (xmax-xmin)/(double)delta;
-		
+				
 		if (width <= 0.0)
 			width = xmax;
 		
@@ -184,6 +188,8 @@ namespace Tinkercell
 		}
 		
 		histData.colName(0) = tr("values");
+		histData.description() = tr("histogram");
+		
 		dataTable = histData;
 	}
 	
@@ -191,7 +197,7 @@ namespace Tinkercell
 	{
 		delta = dt;
 		xcolumn = x;
-			
+
 		if (!this->isVisible())
 		{
 			if (this->parentWidget() && !this->parentWidget()->isVisible())
@@ -240,9 +246,11 @@ namespace Tinkercell
 				else
 				if (type == PlotTool::HistogramPlot)
 				{
+					QColor col = penList[c].color();
+					col.setAlpha(100);
 					curve->setStyle(QwtPlotCurve::Sticks);
 					curve->setSymbol ( 
-						QwtSymbol( QwtSymbol::Ellipse , Qt::NoBrush, penList[c], QSize(5,5) ));
+						QwtSymbol( QwtSymbol::Ellipse , QBrush(col), penList[c], QSize(5,5) ));
 				}
 				
 				++c;
@@ -517,6 +525,7 @@ namespace Tinkercell
 		
 		//dataPlot->replot();
 		dataPlot->type = type;
+
 		dataPlot->plot(	
 					dataPlot->dataTable,
 					dataPlot->xcolumn,

@@ -73,6 +73,8 @@ namespace Tinkercell
 
 	ControlPoint * ControlPoint::cast(QGraphicsItem* item)
 	{
+		if (MainWindow::invalidPointers.contains( (void*)item )) return 0;
+		
 		ControlPoint * idptr = 0;
 
 		QGraphicsItem * p = item;
@@ -2236,6 +2238,7 @@ namespace Tinkercell
 
 	ConnectionGraphicsItem* ConnectionGraphicsItem::cast(QGraphicsItem * q)
 	{
+		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 		return qgraphicsitem_cast<ConnectionGraphicsItem*>(q);
 	}
 

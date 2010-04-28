@@ -77,6 +77,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
                     this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 
+			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
+                    this,SLOT(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
+
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),
 					this,SLOT(escapeSignal(const QWidget*)));
 
@@ -640,6 +643,10 @@ namespace Tinkercell
 				for (int i=0; i < selectedItems.size(); ++i)
 					selectedItems[i]->resetPen();
 				selectedItems.clear();
+				
+				lineItem.setVisible(false);
+				if (lineItem.scene())
+				    lineItem.scene()->removeItem(&lineItem);
 			}
 		}
 	}

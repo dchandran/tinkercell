@@ -10,6 +10,7 @@ a handle
 ****************************************************************************/
 
 #include <QPainter>
+#include "MainWindow.h"
 #include "TextGraphicsItem.h"
 
 namespace Tinkercell
@@ -148,6 +149,7 @@ void TextGraphicsItem::setText(const QString& s)
 
 TextGraphicsItem* TextGraphicsItem::cast(QGraphicsItem * q)
 {
+	if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 	return qgraphicsitem_cast<TextGraphicsItem*>(q);
 }
 

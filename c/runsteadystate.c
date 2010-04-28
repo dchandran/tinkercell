@@ -561,11 +561,11 @@ void run2D(Matrix input)
 	
 	  if (slider)
 	  {
-		  tc_compileBuildLoadSliders("ss2D.c -lodesim\0","run\0","2-parameter steady state\0",allParams);
+		  tc_compileBuildLoadSliders("ss2D.c -lode\0","run\0","2-parameter steady state\0",allParams);
 		  deleteMatrix(&allParams);
   	  }
 	  else
-		  tc_compileBuildLoad("ss2D.c -lodesim\0","run\0","2-parameter steady state\0");
+		  tc_compileBuildLoad("ss2D.c -lode\0","run\0","2-parameter steady state\0");
 
 
 	deleteMatrix(&params);

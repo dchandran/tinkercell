@@ -26,7 +26,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "SimulationEventTool.h"
 #include "CatalogWidget.h"
 #include "ModuleTool.h"
-
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"

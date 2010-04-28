@@ -383,8 +383,8 @@ namespace Tinkercell
 
             scene->fitAll();
 
-			if (scene->historyStack)
-				scene->historyStack->clear();
+//			if (scene->historyStack)
+	//			scene->historyStack->clear();
 
 			savedScenes[scene] = true;
 

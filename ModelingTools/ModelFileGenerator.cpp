@@ -668,6 +668,7 @@ namespace Tinkercell
 
 		//assignments
 		if (!assignmentNames.isEmpty())
+		{
 			for (i=0; i < assignmentNames.size(); ++i)
 			{
 				pycode += tr("        ");
@@ -682,6 +683,22 @@ namespace Tinkercell
 				code += insertPrefix(handles,tr("model->"),assignmentDefs[i],replaceDot);
 				code += tr(";\n");
 			}
+			
+			for (i = 0; i < N.rows(); ++i)
+			{
+				code += tr("    u[");
+				code += QString::number(i);
+				code += tr("] = model->");
+				code += N.rowName(i);
+				code += tr(";\n");
+
+				pycode += tr("        u[");
+				pycode += QString::number(i);
+				pycode += tr("] = ");
+				pycode += N.rowName(i);
+				pycode += tr(";\n");
+			}
+		}
 
 		//print the rates
 		pycode += tr("        rates = range(0,") + QString::number(rates.size()) + tr(");\n");

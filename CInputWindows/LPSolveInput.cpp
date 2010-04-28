@@ -129,7 +129,7 @@ namespace Tinkercell
 		AbstractInputWindow::setMainWindow(main);
         if (mainWindow)
 		{
-			cthread = new CThread(main,tr("Plugins/c/liblpsolve"),false);
+			cthread = new CThread(main,tr("plugins/c/liblpsolve"),false);
 			cthread->setMatrixFunction("run");
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
@@ -169,7 +169,7 @@ namespace Tinkercell
                 alreadyConnected = true;
 				QString appDir = QCoreApplication::applicationDirPath();
 
-				QIcon icon(appDir + tr("/Plugins/c/lpsolve.png"));
+				QIcon icon(appDir + tr("/plugins/c/lpsolve.png"));
 
 				QToolButton * button = libMenu->addFunction(tr("Analysis"), tr("Flux Balance Analysis"), icon);
 				button->setToolTip(tr("uses LPsolve linear programming C library"));

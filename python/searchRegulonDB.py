@@ -2,7 +2,7 @@
 category: Database
 name: Search E.coli parts (RegulonDB)
 description: search the RegulonDB database for E.coli parts
-icon: Plugins/c/database.png
+icon: plugins/c/database.png
 menu: yes
 specific for: Part 
 tool: yes

@@ -305,20 +305,10 @@ namespace Tinkercell
 	{
 		_compileBuildLoad(s.toAscii().data(),f.toAscii().data(),t.toAscii().data());
 	}
-
-    void LoadCLibrariesTool::compileBuildLoadC(QSemaphore* s,int* r,const QString& filename,const QString& funcname, const QString& title)
-    {
-        if (filename.isEmpty() || filename.isNull())
-        {
-            if (r) (*r) = 0;
-            if (s) s->release();
-            return;
-        }
-
-		QString dllName("temp");
-		dllName += QString::number(++numLibFiles);
-
-        QString errors;
+	
+	bool LoadCLibrariesTool::compile(const QString& filename, QString& dllName)
+	{
+		QString errors;
         QString output;
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
@@ -338,6 +328,7 @@ namespace Tinkercell
 
 #ifdef Q_WS_WIN
 
+		dllName.replace(tr("/"),tr("\\"));
 		appDir.replace(tr("/"),tr("\\"));
 		userHome.replace(tr("/"),tr("\\"));
 
@@ -366,11 +357,30 @@ namespace Tinkercell
 
         if (console())
             if (!errors.isEmpty())
+            {
                 console()->error(errors);
+                return false;
+            }
             else
+            {
                 console()->message(output);
+            }
+       return true;
+	}
 
-        if (errors.size() > 0)
+    void LoadCLibrariesTool::compileBuildLoadC(QSemaphore* s,int* r,const QString& filename,const QString& funcname, const QString& title)
+    {
+        if (filename.isEmpty() || filename.isNull())
+        {
+            if (r) (*r) = 0;
+            if (s) s->release();
+            return;
+        }
+
+		QString dllName("temp");
+		dllName += QString::number(++numLibFiles);
+
+        if (!compile(filename,dllName))
         {
             if (r) (*r) = 0;
             if (s) s->release();
@@ -400,64 +410,12 @@ namespace Tinkercell
 		QString dllName("temp");
 		dllName += QString::number(++numLibFiles);
 
-        QString errors;
-        QString output;
-        QProcess proc;
-        QString appDir = QCoreApplication::applicationDirPath();
-
-		QString userHome = MainWindow::userTemp();
-		QDir userHomeDir(userHome);
-		proc.setWorkingDirectory(userHome);
-		
-		QString libs;
-		
-		if (filename.contains(tr("ode")) || filename.contains(tr("ssa")))
-			libs = tr(" -lm -ltinkercellapi -lsundials_cvode -lsundials_nvecserial -llapack -lblas -lf2c -fpic");
-		else
-			libs = tr(" -lm -ltinkercellapi -fpic");
-
-#ifdef Q_WS_WIN
-
-		appDir.replace(tr("/"),tr("\\"));
-		userHome.replace(tr("/"),tr("\\"));
-
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"/lib -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll") + libs);
-        proc.waitForFinished();
-        errors += (proc.readAllStandardError());
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#else
-#ifdef Q_WS_MAC
-
-        proc.start(tr("gcc -bundle --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".dylib ") + filename + libs);
-        proc.waitForFinished();
-        if (!errors.isEmpty())	errors += tr("\n\n");
-        errors += (proc.readAllStandardError());
-        if (!output.isEmpty())	output += tr("\n\n");
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#else
-        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -L") + appDir + tr("/lib -o ") + dllName + tr(".so ") + filename + libs);
-        proc.waitForFinished();
-        if (!errors.isEmpty())	errors += tr("\n\n");
-        errors += (proc.readAllStandardError());
-        if (!output.isEmpty())	output += tr("\n\n");
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#endif
-#endif
-
-
-        if (console())
-            if (!errors.isEmpty())
-                console()->error(errors);
-            else
-                console()->message(output);
-
-        if (errors.size() > 0)
+        if (!compile(filename,dllName))
         {
             if (r) (*r) = 0;
             if (s) s->release();
 		    return;
         }
-
 		
 		MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, dllName, funcname, Qt::Horizontal);
 		

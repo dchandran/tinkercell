@@ -61,9 +61,9 @@ ADD_LIBRARY( runsteadystate
 TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi sbml_sim)
 
 IF ( WIN32 )
-  INSTALL(TARGETS runsteadystate DESTINATION Plugins/c)
+  INSTALL(TARGETS runsteadystate DESTINATION plugins/c)
 ELSE ( WIN32 )
-  INSTALL(TARGETS runsteadystate LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS runsteadystate LIBRARY DESTINATION plugins/c)
 ENDIF( WIN32 )
 
 ADD_LIBRARY( runcvode 
@@ -178,25 +178,25 @@ TARGET_LINK_LIBRARIES( lpsolve lpsolve tinkercellapi )
 
 
 IF ( WIN32 )
-  INSTALL(TARGETS runssa DESTINATION Plugins/c)
-  INSTALL(TARGETS runcvode DESTINATION Plugins/c)
-  INSTALL(TARGETS runloops DESTINATION Plugins/c)
-  INSTALL(TARGETS loadFullBindingKinetics DESTINATION Plugins/c)
-#  INSTALL(TARGETS runbistablega DESTINATION Plugins/c)
-#  INSTALL(TARGETS runvaluesattime DESTINATION Plugins/c)
-#  INSTALL(TARGETS parametercorrelation DESTINATION Plugins/c)
-  INSTALL(TARGETS tabasco_like DESTINATION Plugins/c)
-  INSTALL(TARGETS lpsolve DESTINATION Plugins/c)
+  INSTALL(TARGETS runssa DESTINATION plugins/c)
+  INSTALL(TARGETS runcvode DESTINATION plugins/c)
+  INSTALL(TARGETS runloops DESTINATION plugins/c)
+  INSTALL(TARGETS loadFullBindingKinetics DESTINATION plugins/c)
+#  INSTALL(TARGETS runbistablega DESTINATION plugins/c)
+#  INSTALL(TARGETS runvaluesattime DESTINATION plugins/c)
+#  INSTALL(TARGETS parametercorrelation DESTINATION plugins/c)
+  INSTALL(TARGETS tabasco_like DESTINATION plugins/c)
+  INSTALL(TARGETS lpsolve DESTINATION plugins/c)
 ELSE ( WIN32 )
-  INSTALL(TARGETS runssa LIBRARY DESTINATION Plugins/c)
-  INSTALL(TARGETS runcvode LIBRARY DESTINATION Plugins/c)
-  INSTALL(TARGETS runloops LIBRARY DESTINATION Plugins/c)
-  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION Plugins/c)
-#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION Plugins/c)
-#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION Plugins/c)
-#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION Plugins/c)
-  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION Plugins/c)
-  INSTALL(TARGETS lpsolve LIBRARY DESTINATION Plugins/c)
+  INSTALL(TARGETS runssa LIBRARY DESTINATION plugins/c)
+  INSTALL(TARGETS runcvode LIBRARY DESTINATION plugins/c)
+  INSTALL(TARGETS runloops LIBRARY DESTINATION plugins/c)
+  INSTALL(TARGETS loadFullBindingKinetics LIBRARY DESTINATION plugins/c)
+#  INSTALL(TARGETS runbistablega LIBRARY DESTINATION plugins/c)
+#  INSTALL(TARGETS runvaluesattime LIBRARY DESTINATION plugins/c)
+#  INSTALL(TARGETS parametercorrelation LIBRARY DESTINATION plugins/c)
+  INSTALL(TARGETS tabasco_like LIBRARY DESTINATION plugins/c)
+  INSTALL(TARGETS lpsolve LIBRARY DESTINATION plugins/c)
 ENDIF( WIN32 )
 
 FILE( GLOB C_SRC "*.c" "*.h" )
@@ -240,6 +240,6 @@ INSTALL( FILES ${NVECTOR_HDRS}
 FILE( GLOB C_ICON_FILES icons/*.png icons/*.PNG )
 
 INSTALL( FILES ${C_ICON_FILES}
-  DESTINATION Plugins/c
-  COMPONENT Plugins
+  DESTINATION plugins/c
+  COMPONENT plugins
 )

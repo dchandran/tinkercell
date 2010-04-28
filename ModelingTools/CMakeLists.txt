@@ -56,11 +56,11 @@ TARGET_LINK_LIBRARIES( ModelingTools
 
 IF( WIN32 )
   INSTALL(TARGETS ModelingTools
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE( WIN32 )
   INSTALL(TARGETS ModelingTools
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
@@ -83,10 +83,10 @@ TARGET_LINK_LIBRARIES( SimulationEventTool
 
 IF ( WIN32 )
   INSTALL(TARGETS SimulationEventTool
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS SimulationEventTool
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )

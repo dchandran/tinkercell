@@ -2,7 +2,7 @@
 category: Sequence
 name: Print all sequences
 description: print all the sequence in this model in FASTA format
-icon: Plugins/c/printSequences.png
+icon: plugins/c/printSequences.png
 menu: yes
 """
 

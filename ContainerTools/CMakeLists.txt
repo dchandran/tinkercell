@@ -35,11 +35,11 @@ TARGET_LINK_LIBRARIES( ContainerTool
 
 IF ( WIN32 )
   INSTALL(TARGETS ContainerTool
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS ContainerTool
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 

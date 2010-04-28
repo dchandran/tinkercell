@@ -57,6 +57,7 @@ namespace Tinkercell
 
 	public slots:
 		void setupFunctionPointers( QLibrary * );
+		bool loadFromDir( QDir& );
 		bool loadFromDir(DynamicLibraryMenu* , QDir& );
 		void toolLoaded(Tool*);
 		void runPythonCode(const QString&);

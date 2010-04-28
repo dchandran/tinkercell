@@ -74,8 +74,10 @@ namespace Tinkercell
 
 	signals:
 		void runPy(const QString&);
+		void loadPyFromDir( QDir& );
 		void stopPy();
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
+		void compile(const QString&, QString&);
 
 	public slots:
 		void run();
@@ -101,7 +103,7 @@ namespace Tinkercell
 		void setupDialog();
 		void runC(const QString&);
 		void convertCodeToButtonPy();
-		void convertCodeToButtonC( const QString & code, const QString & descr = QString());
+		void convertCodeToButtonC();
 
 		QTimeLine timer;
 		QMainWindow * window;

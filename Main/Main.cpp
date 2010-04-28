@@ -73,11 +73,11 @@ int main(int argc, char *argv[])
 
     QString home = MainWindow::userHome();
 
-    LoadPluginsFromDir(appDir + QString("/Plugins"),&mainWindow, &splash);
-    LoadPluginsFromDir(home + QString("/Plugins"),&mainWindow, &splash);
+    LoadPluginsFromDir(appDir + QString("/plugins"),&mainWindow, &splash);
+    LoadPluginsFromDir(home + QString("/plugins"),&mainWindow, &splash);
 
-    LoadPluginsFromDir(appDir + QString("/Plugins/c"),&mainWindow, &splash);
-    LoadPluginsFromDir(home + QString("/Plugins/c"),&mainWindow, &splash);
+    LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
+    LoadPluginsFromDir(home + QString("/plugins/c"),&mainWindow, &splash);
 
     //mainWindow.newTextWindow();
     //mainWindow.newGraphicsWindow();

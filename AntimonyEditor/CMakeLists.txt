@@ -47,11 +47,11 @@ TARGET_LINK_LIBRARIES( AntimonyEditor
 
 IF( WIN32 )
   INSTALL(TARGETS AntimonyEditor
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE( WIN32 )
   INSTALL(TARGETS AntimonyEditor
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 

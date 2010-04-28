@@ -14,7 +14,7 @@ void run();
 TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?  
-	tc_addFunction(&run, "Force Bistability", "uses genetic algorithms to find parameters to make system bistable", "Optimize", "Plugins/c/default.png", "", 1, 0, 0);
+	tc_addFunction(&run, "Force Bistability", "uses genetic algorithms to find parameters to make system bistable", "Optimize", "plugins/c/default.png", "", 1, 0, 0);
 }
 
 void run()

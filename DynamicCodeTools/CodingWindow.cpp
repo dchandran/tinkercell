@@ -55,49 +55,53 @@ namespace Tinkercell
 			convertCodeToButtonPy();
 		else
 		if (editorC && tabWidget->currentIndex() == 0)
-			convertCodeToButtonC( editorC->toPlainText() );
+			convertCodeToButtonC();
 	}
 
-	void CodingWindow::convertCodeToButtonC( const QString & code, const QString & descr)
+	void CodingWindow::convertCodeToButtonC()
 	{
-		QString userHome = MainWindow::userTemp();
-		QString filename = userHome + tr("/code.c");
+		QString code = editorC->toPlainText();
+		if (!code.contains("tc_addFunction"))
+		{
+			code += 
+			tr("\n\nTCAPIEXPORT void tc_main()\n{\n\
+    /*the last three arguments are: specific family (string), show in menu (1 or 0), context menu (1 or 0), set as default function (1 or 0)*/ \n\n\
+    tc_addFunction(&run, \n\
+\"Function name\", \n\
+\"Short description\", \n\
+\"Category\", \n\
+\"plugins/c/default.png\", \n\
+\"\", 1, 0, 0); \n}\n\n");
+			editorC->setPlainText(code);
+			QMessageBox::information(this,tr("Program description missing"),tr("tc_main and tc_addFunction are required for adding a new C function to the programs menu. Take a look at the code."));
+			return;
+		}
+		
+		QString userTemp = MainWindow::userTemp();
+		QString userHome = MainWindow::userHome();
+		
+		QString filename = userTemp + tr("/code.c");
 		QFile qfile(filename);
 		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 		{
 			QMessageBox::about(this, tr("Error"),
-					 tr("Cannot write file: ") + userHome + tr("/code.c"));
+					 tr("Cannot write file: ") + userTemp + tr("/code.c"));
 			return;
 		}
 		
-		QString dllDescription = descr;
-		if (dllDescription.isEmpty())
-			dllDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
-		QString dllName = dllDescription;
+		QString dllName = QInputDialog::getText(this,tr("Program name"),tr("Name your program (one words):"));
 		dllName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
 
 		QTextStream out(&qfile);
-		out << code 
-			<< tr("\n\nTCAPIEXPORT void tc_main()\n{\n    tc_addFunction(&run, \"") 
-			<< dllDescription 
-			<< tr("\" , \"") << dllDescription 
-			<< tr("\" ,") << tr("\"New\"")
-			<< tr(",") << tr("\"Plugins/c/default.png\"")
-			<< tr(",") << tr("\"\"") 
-			<< tr(", 1, 0, 0);\n}\n\n");
+		out << code;
 		qfile.close();
-
-		QString errors;
-        QString output;
-        QProcess proc;
-        QString appDir = QCoreApplication::applicationDirPath();
 
 		QDir userHomeDir(userHome);
 
-		if (!userHomeDir.cd(tr("Plugins")))
+		if (!userHomeDir.cd(tr("plugins")))
 		{
-			userHomeDir.mkdir(tr("Plugins"));
-			userHomeDir.cd(tr("Plugins"));
+			userHomeDir.mkdir(tr("plugins"));
+			userHomeDir.cd(tr("plugins"));
 		}
 		
 		if (!userHomeDir.cd(tr("c")))
@@ -106,50 +110,18 @@ namespace Tinkercell
 			userHomeDir.cd(tr("c"));
 		}
 
-		proc.setWorkingDirectory(userHome);
-
-#ifdef Q_WS_WIN
-
-		dllName = tr("Plugins\\c\\") + dllName;
-		appDir.replace(tr("/"),tr("\\"));
-		userHome.replace(tr("/"),tr("\\"));
-        proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".dll "));
-        proc.waitForFinished();
-        errors += (proc.readAllStandardError());
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#else
-#ifdef Q_WS_MAC
-
-		dllName = tr("Plugins/c/") + dllName;
-        proc.start(tr("gcc -bundle --shared -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".dylib ") + filename);
-        proc.waitForFinished();
-        if (!errors.isEmpty())	errors += tr("\n\n");
-        errors += (proc.readAllStandardError());
-        if (!output.isEmpty())	output += tr("\n\n");
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#else
-		dllName = tr("Plugins/c/") + dllName;
-        proc.start(tr("gcc --shared -fPIC -I") + appDir + tr("/c -L") + appDir + tr("/c -lm -ltinkercellapi -lode -lssa -o ") + dllName + tr(".so ") + filename);
-        proc.waitForFinished();
-        if (!errors.isEmpty())	errors += tr("\n\n");
-        errors += (proc.readAllStandardError());
-        if (!output.isEmpty())	output += tr("\n\n");
-        output += tr("\n\n") + (proc.readAllStandardOutput());
-#endif
-#endif
-
-        if (console())
-            if (!errors.isEmpty())
-                console()->error(errors);
-            else
-                console()->message(output);
-
-        if (errors.size() > 0)
-        {
-            return;
-        }
+		dllName = userHome + tr("/plugins/c/") + dllName;
+		emit compile(tr("code.c"),dllName);
 		
-		mainWindow->loadDynamicLibrary(dllName);
+		if (QFile::exists(dllName))
+		{		
+			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
+			mainWindow->loadDynamicLibrary(dllName);
+		}
+		else
+		{
+			QMessageBox::information(this,tr("File not saved"),tr("Sorry, I dont like you"));
+		}
 	}
 		
 	
@@ -157,36 +129,49 @@ namespace Tinkercell
 	{
 		if (!editorPy) return;
 		
+		QString text = editorPy->toPlainText();
+		if (!text.startsWith("\"\"\""))
+		{
+			text = tr("\"\"\"\n\
+category: Miscellaneous\n\
+name: My function\n\
+description: This program does something\n\
+icon: plugins/c/default.png\n\
+menu: yes\n\
+tool: yes\n\
+specific for:\n\"\"\"\n\n") + text;
+			editorPy->setPlainText(text);
+			QMessageBox::information(this,tr("Program description missing"),tr("Please enter the program description in comments"));
+			return;
+		}		
+		
 		QString userHome = MainWindow::userHome();
 		QDir userHomeDir(userHome);
-
-		if (!userHomeDir.cd(tr("Plugins")))
+		
+		if (!userHomeDir.cd(tr("python")))
 		{
-			userHomeDir.mkdir(tr("Plugins"));
-			userHomeDir.cd(tr("Plugins"));
+			userHomeDir.mkdir(tr("python"));
+			if (!userHomeDir.cd(tr("python")))
+			{
+				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to the Documents folder"));
+				return;
+			}
 		}
 		
-		if (!userHomeDir.cd(tr("py")))
-		{
-			userHomeDir.mkdir(tr("py"));
-			userHomeDir.cd(tr("py"));
-		}
+		QString filename = QFileDialog::getSaveFileName(this,tr("Save your program"),userHomeDir.absolutePath(),tr("*.py"));
 		
-		QString pyDescription = QInputDialog::getText(this,tr("Program name"),tr("Name your program (2-4 words):"));
-		QString pyName = pyDescription;
-		pyName.replace(QRegExp("[^A-Za-z0-9]"),tr("_"));
+		QFile pyfile(filename);
 		
-		QFile pyfile(userHome + tr("/python/") + pyName + tr(".py"));
 		if (!pyfile.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
+		else
+			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + filename);
 
 		QTextStream outpy(&pyfile);
 		outpy << (editorPy->toPlainText());
 		pyfile.close();
-
-		convertCodeToButtonC(
-			tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n    tc_runPythonFile(\"/python/") + pyName + tr(".py\");\n    return 0;\n}\n"),
-			pyDescription);
+		
+		loadPyFromDir(userHomeDir);
 	}
 
 	bool CodingWindow::setMainWindow(MainWindow* main)
@@ -252,8 +237,10 @@ namespace Tinkercell
 				if (widget)
 				{
 					PythonTool * pyTool = static_cast<PythonTool*>(widget);
+					
 					connect(this,SIGNAL(runPy(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
 					connect(this,SIGNAL(stopPy()),pyTool,SLOT(stopPython()));
+					connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));
 
 					if (this->toolBar)
 					{
@@ -273,6 +260,8 @@ namespace Tinkercell
 					LoadCLibrariesTool * loadCTool = static_cast<LoadCLibrariesTool*>(widget);
 					connect(this,SIGNAL(compileBuildLoadC(const QString&,const QString&,const QString&)),
 							loadCTool,SLOT(compileBuildLoadC(const QString&,const QString&,const QString&)));
+					connect(this,SIGNAL(compile(const QString&, QString&)),
+							loadCTool,SLOT(compile(const QString&, QString&)));
 				}
 			}
 

@@ -2,7 +2,7 @@
 category: Steady state
 name: Compute steady state
 description: compute steady state and eigenvalues using PySCeS
-icon: Plugins/c/pysces.png
+icon: plugins/c/pysces.png
 menu: yes
 """
 

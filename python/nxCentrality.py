@@ -2,7 +2,7 @@
 category: Network structure
 name: Centrality measures
 description: uses NetworkX to make centrality measurements
-icon: Plugins/c/nodedges.png
+icon: plugins/c/nodedges.png
 menu: yes
 """
 

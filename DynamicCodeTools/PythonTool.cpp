@@ -35,6 +35,17 @@ namespace Tinkercell
         connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
         connectTCFunctions();
     }
+    
+    bool PythonTool::loadFromDir(QDir& dir)
+    {
+        QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
+        if (widget)
+        {
+            DynamicLibraryMenu * libMenu = static_cast<DynamicLibraryMenu*>(widget);
+    		return loadFromDir(libMenu, dir);
+    	}
+    	return false;
+    }
 
     bool PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
@@ -456,7 +467,7 @@ namespace Tinkercell
 		if (!pythonInterpreter && pythonInterpreter->isRunning())
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/Plugins/c/librunpy"), mainWindow);
+			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/plugins/c/librunpy"), mainWindow);
 			pythonInterpreter->initialize();
 
 			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));

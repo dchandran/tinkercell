@@ -79,6 +79,7 @@ namespace Tinkercell
 		void toolLoaded(Tool*);
 		void compileAndRunC(const QString&,const QString&);
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
+		bool compile(const QString& filename, QString& output);
 
 	protected slots:
 		void compileAndRunC(QSemaphore*,int*,const QString&,const QString&);

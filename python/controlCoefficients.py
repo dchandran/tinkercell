@@ -2,7 +2,7 @@
 category: Analysis
 name: Control coefficients
 description: compute control coefficients using PySCeS
-icon: Plugins/c/pysces.png
+icon: plugins/c/pysces.png
 """
 
 from tinkercell import *

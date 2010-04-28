@@ -2,7 +2,7 @@
 category: Generate kinetics
 name: Hill equations
 description: automatically generate the equilibrium rate equation for transcription
-icon: Plugins/c/hillequation.png
+icon: plugins/c/hillequation.png
 menu: yes
 specific for: Synthesis 
 tool: yes

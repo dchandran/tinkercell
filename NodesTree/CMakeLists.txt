@@ -38,13 +38,13 @@ TARGET_LINK_LIBRARIES( NodesTree
 
 IF ( WIN32 )
   INSTALL(TARGETS NodesTree
-    DESTINATION Plugins
-    COMPONENT Plugins
+    DESTINATION plugins
+    COMPONENT plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS NodesTree
-    LIBRARY DESTINATION Plugins
-    COMPONENT Plugins
+    LIBRARY DESTINATION plugins
+    COMPONENT plugins
   )
 ENDIF( WIN32 )
 

@@ -44,10 +44,10 @@ TARGET_LINK_LIBRARIES( DynamicCodeTools
 
 IF ( WIN32 )
   INSTALL(TARGETS DynamicCodeTools
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS DynamicCodeTools
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )

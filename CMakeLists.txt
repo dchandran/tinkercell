@@ -53,11 +53,11 @@ SET(EXECUTABLE_OUTPUT_PATH
  CACHE PATH "Single output directory for building all executables."
 )
 SET(CPP_LIBRARY_OUTPUT_PATH
- ${TINKERCELL_BINARY_DIR}/bin/Plugins/
+ ${TINKERCELL_BINARY_DIR}/bin/plugins/
  CACHE PATH "Single output directory for building all cpp libraries."
 )
 SET(C_LIBRARY_OUTPUT_PATH
- ${TINKERCELL_BINARY_DIR}/bin/Plugins/c/
+ ${TINKERCELL_BINARY_DIR}/bin/plugins/c/
  CACHE PATH "Single output directory for building all c libraries."
 )
 

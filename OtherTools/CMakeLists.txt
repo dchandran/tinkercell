@@ -37,11 +37,11 @@ TARGET_LINK_LIBRARIES( ArrowSelection
 
 IF ( WIN32 )
   INSTALL(TARGETS ArrowSelection
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS ArrowSelection
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
@@ -61,11 +61,11 @@ TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
 
 IF ( WIN32 )
   INSTALL(TARGETS AutoGeneRegulatoryTool
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS AutoGeneRegulatoryTool
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
@@ -88,11 +88,11 @@ TARGET_LINK_LIBRARIES( DNASequenceViewer
 
 IF ( WIN32 )
   INSTALL(TARGETS DNASequenceViewer
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS DNASequenceViewer
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
@@ -112,11 +112,11 @@ TARGET_LINK_LIBRARIES( ViewTablesTool
 
 IF ( WIN32 )
   INSTALL(TARGETS ViewTablesTool
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS ViewTablesTool
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
@@ -136,11 +136,11 @@ TARGET_LINK_LIBRARIES( CellPositionUpdateTool
 
 IF ( WIN32 )
   INSTALL(TARGETS CellPositionUpdateTool
-    DESTINATION Plugins
+    DESTINATION plugins
   )
 ELSE ( WIN32 )
   INSTALL(TARGETS CellPositionUpdateTool
-    LIBRARY DESTINATION Plugins
+    LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 

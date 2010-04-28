@@ -113,15 +113,8 @@ namespace Tinkercell
 		dllName = userHome + tr("/plugins/c/") + dllName;
 		emit compile(tr("code.c"),dllName);
 		
-		if (QFile::exists(dllName))
-		{		
-			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
-			mainWindow->loadDynamicLibrary(dllName);
-		}
-		else
-		{
-			QMessageBox::information(this,tr("File not saved"),tr("Sorry, I dont like you"));
-		}
+		QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
+		mainWindow->loadDynamicLibrary(dllName);
 	}
 		
 	

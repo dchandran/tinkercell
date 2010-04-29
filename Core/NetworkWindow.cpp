@@ -434,28 +434,11 @@ namespace Tinkercell
 	{
 		if (handles.size() != parentHandles.size()) return;
 
-		SetParentHandleCommand * command1 = new SetParentHandleCommand(tr("parent(s) changed"), this, handles, parentHandles);
-/*
-		QList<QString> newNames;
-		for (int i=0; i < handles.size(); ++i)
-			if (handles[i] && parentHandles[i])
-				newNames += parentHandles[i]->fullName() + tr(".") + handles[i]->name;
-			else
-				if (handles[i])
-					newNames += handles[i]->fullName();
-
-		QUndoCommand * command2 = new RenameCommand(tr("name changed"),this,handles,newNames);
-
-		QList<QUndoCommand*> list;
-		list << command2 << command1;
-
-		CompositeCommand * command = new CompositeCommand(tr("parent(s) changed"),list);
+		SetParentHandleCommand * command = new SetParentHandleCommand(tr("parent(s) changed"), this, handles, parentHandles);
 		history.push(command);
-*/
-		history.push(command1);
 
-		emit parentHandleChanged(this, command1->children, command1->oldParents);
-		emit dataChanged(command1->children);
+		emit parentHandleChanged(this, command->children, command->oldParents);
+		emit dataChanged(command->children);
 	}
 
 	void NetworkWindow::setParentHandle(ItemHandle * child, ItemHandle * parent)

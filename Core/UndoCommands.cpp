@@ -2604,7 +2604,8 @@ namespace Tinkercell
 						
 						oldNames += children[i]->fullName();
 						
-						if (net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i])
+						if ((net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i]) ||
+							(!net->symbolsTable.handlesFullName.contains(s1) && allNames.contains(s1)))
 							s2 = RenameCommand::assignUniqueName(s1,allNames);
 						else
 							s2 = s1;

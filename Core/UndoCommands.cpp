@@ -2535,15 +2535,17 @@ namespace Tinkercell
 		: QUndoCommand(name)
 	{
 		this->net = net;
-		children += childlist;
-		newParents += parents;
-		for (int i=0; i < childlist.size(); ++i)
-		{
-			if (childlist[i])
-				oldParents += childlist[i]->parent;
-			else
-				oldParents += 0;
-		}
+		
+		for (int i=0; i < childlist.size() && i < parents.size(); ++i)
+			if (childlist[i] && !children.contains(childlist[i]))
+			{
+				children += childlist[i];
+				newParents += parents[i];
+				if (childlist[i])
+					oldParents += childlist[i]->parent;
+				else
+					oldParents += 0;
+			}
 		renameCommand = 0;
 	}
 
@@ -2551,15 +2553,17 @@ namespace Tinkercell
 		: QUndoCommand(name)
 	{
 		this->net = net;
-		children += childlist;
+		
 		for (int i=0; i < childlist.size(); ++i)
-		{
-			newParents += parent;
-			if (childlist[i])
-				oldParents += childlist[i]->parent;
-			else
-				oldParents += 0;
-		}
+			if (childlist[i] && !children.contains(childlist[i]))
+			{
+				children += childlist[i];
+				newParents += parent;
+				if (childlist[i])
+					oldParents += childlist[i]->parent;
+				else
+					oldParents += 0;
+			}
 		renameCommand = 0;
 	}
 
@@ -2598,14 +2602,15 @@ namespace Tinkercell
 				{
 					if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
 					{
+						//MainWindow::instance()->console()->message(children[i]->name);
+						
 						children[i]->setParent(newParents[i]);
 						s1 = children[i]->fullName();
 						children[i]->setParent(oldParents[i]);
 						
 						oldNames += children[i]->fullName();
 						
-						if ((net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] != children[i]) ||
-							(!net->symbolsTable.handlesFullName.contains(s1) && allNames.contains(s1)))
+						if (allNames.contains(s1) && !(net->symbolsTable.handlesFullName.contains(s1) && net->symbolsTable.handlesFullName[s1] == children[i]))
 							s2 = RenameCommand::assignUniqueName(s1,allNames);
 						else
 							s2 = s1;

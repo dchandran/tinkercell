@@ -435,7 +435,7 @@ namespace Tinkercell
 		if (handles.size() != parentHandles.size()) return;
 
 		SetParentHandleCommand * command1 = new SetParentHandleCommand(tr("parent(s) changed"), this, handles, parentHandles);
-
+/*
 		QList<QString> newNames;
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && parentHandles[i])
@@ -450,8 +450,9 @@ namespace Tinkercell
 		list << command2 << command1;
 
 		CompositeCommand * command = new CompositeCommand(tr("parent(s) changed"),list);
-
 		history.push(command);
+*/
+		history.push(command1);
 
 		emit parentHandleChanged(this, command1->children, command1->oldParents);
 		emit dataChanged(command1->children);

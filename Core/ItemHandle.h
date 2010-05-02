@@ -4,13 +4,10 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is one of the main classes in Tinkercell
-This file defines the ItemHandle, NodeHandle, and ConnectionHandle classes.
-Each item in Tinkercell has a graphics item for drawing and a handle. The
-handle stores data information and family information about the item that is displayed.
-
-A handle can also have multiple items associate with it. This just means that multiple
-graphics are used to draw a single item.
+An Item Handle represents a single item in a network. The Handle can either
+be a Node or a Connection. Each Connection can be connected to multiple
+Nodes, with a relationship integer describing the role of the Node. -1 and 1 are
+reserved roles, indicating "in" and "out" nodes. 
 
 ****************************************************************************/
 
@@ -19,7 +16,7 @@ graphics are used to draw a single item.
 
 #include <QList>
 #include <QHash>
-#include <QTreeWidgetItem>
+#include <QPair>
 #include <QUndoCommand>
 #include <QGraphicsItem>
 
@@ -34,9 +31,7 @@ graphics are used to draw a single item.
 
 namespace Tinkercell
 {
-	class GraphicsScene;
 	class Tool;
-	class TextGraphicsItem;
 	class ItemHandle;
 	class NodeHandle;
 	class ConnectionHandle;
@@ -83,7 +78,7 @@ namespace Tinkercell
 	available for convinently getting the parents and children of an ItemHandle.
 
 	Use setHandle and getHandle functions to get and set the handles for
-	QGraphicsItems or TextItems. Use h->data->numericalData[string] or h->data->textData[string] to
+	QGraphicsItems. Use h->data->numericalData[string] or h->data->textData[string] to
 	get the DataTable with the particular name. Alternatively, h->numericalData(string) or h->textData(string)
 	can be used to access the data conviniently.
 
@@ -100,8 +95,6 @@ namespace Tinkercell
 		QString name;
 		/*! \brief list of graphical items used to draw this handle*/
 		QList<QGraphicsItem*> graphicsItems;
-		/*! \brief list of graphical items used to draw this handle*/
-		QList<TextItem*> textItems;
 		/*! \brief list of tools associated with this handle*/
 		QList<Tool*> tools;
 		/*! \brief the data (from each tool) for this handle
@@ -288,16 +281,23 @@ namespace Tinkercell
 		/*! \brief returns all the nodes connected to all the connectors in this handle
 		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodes() const;
-		/*! \brief
-		returns all the nodes that are on the "input" side of this connection.
-		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
-		or by looking at the lhs and rhs lists in text itesm
+		/*! \brief add a node to this connection
+		\param NodeHandle* node
+		\param int role of this node. -1 is for "in" nodes. +1 is for "out" nodes. Use any other values for specific purposes
+		*/
+		virtual QList<NodeHandle*> addNode(NodeHandle*, int role=0) const;
+		/*! \brief returns all the nodes that are on the "input" side of this connection. 
+		If this connection is represented by graphics items, then this 
+		is determined by looking at which nodes have an arrow-head associated with them in graphics items
+		If there are no graphics items, then this function uses the _nodes list to 
+		find the "in" nodes (role = -1).
 		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodesIn() const;
 		/*! \brief
-		returns all the nodes that are on the "output" side of this connection.
-		This is determined by looking at which nodes have an arrow-head associated with them in graphics items
-		or by looking at the lhs and rhs lists in text itesm
+		If this connection is represented by graphics items, then this 
+		is determined by looking at which nodes have NO arrow-head associated with them in graphics items
+		If there are no graphics items, then this function uses the _nodes list to 
+		find the "out" nodes (role = +1).
 		\return QList<NodeHandle*> list of node handles*/
 		virtual QList<NodeHandle*> nodesOut() const;
 		/*! \brief the family for this connection handle*/
@@ -332,6 +332,11 @@ namespace Tinkercell
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
 		static ConnectionHandle* cast(ItemHandle *);
+	protected:
+		/*! \brief the nodes that are connected by this connection and the role of each node.
+		    -1 and 1 are reseved roles, indicating in and out nodes
+		*/
+		QList< QPair<NodeHandle*, int> > _nodes;
 	};
 
 	/*! \brief get the handle from a graphics item
@@ -346,18 +351,6 @@ namespace Tinkercell
 	* \ingroup core
 	*/
 	MY_EXPORT void setHandle(QGraphicsItem*, ItemHandle*);
-	/*! \brief get the handle from a text item
-	* \param TextItem* text item
-	* \ingroup core
-	* \return ItemHandle* item handle (0 if none)
-	*/
-	MY_EXPORT ItemHandle * getHandle(TextItem*);
-	/*! \brief set the handle of a text item (use 0 to remove handle)
-	* \param TextItem* text item
-	* \param ItemHandle* handle (use 0 to remove handle)
-	* \ingroup core
-	*/
-	MY_EXPORT void setHandle(TextItem*, ItemHandle*);
 }
 
 #endif

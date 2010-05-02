@@ -4,11 +4,13 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-An Widget that is used to store a network.
+A class that is used to store a network. The network is a collection of Item Handles. 
+The history stack is also a key component of a network.
+
 The network can either be represented as text using TextEditor or visualized with graphical items in the
 GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
 The two main components of NetworkWindow are the SymbolsTable and HistoryStack
-This class provides functions for editing handles, such as changing names, data, etc.
+This class provides functions for inserting items, removing items, and changing information inside the model.
 
 ****************************************************************************/
 

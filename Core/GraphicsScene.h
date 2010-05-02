@@ -4,11 +4,8 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is one of the main classes in Tinkercell
-This file defines the GraphicsScene class where all the drawing takes place.
-In addition to drawing , the GraphicsScene provides serveral signals and functions
-that is useful for plugins, eg. move, insert, delete, changeData, etc.
-
+The GraphicsScene class is where all the drawing takes place.
+Use NetworkHandle to perform most of the basic operations on graphical items.
 ****************************************************************************/
 
 #ifndef TINKERCELL_GRAPHICSSCENE_H

@@ -4,39 +4,29 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the
+A class that is used to store a network. The network is a collection of Item Handles. 
+The history stack is also a key component of a network.
+
+The network can either be represented as text using TextEditor or visualized with graphical items in the
 GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
-This class provides functions for editing handles, such as changing names, data, etc.
+The two main components of NetworkWindow are the SymbolsTable and HistoryStack
+This class provides functions for inserting items, removing items, and changing information inside the model.
 
 ****************************************************************************/
 
-#ifndef TINKERCELL_MAINNETWORKWINDOW_H
-#define TINKERCELL_MAINNETWORKWINDOW_H
+#ifndef TINKERCELL_CORENETWORKHANDLE_H
+#define TINKERCELL_CORENETWORKHANDLE_H
 
 #include <stdlib.h>
 #include <QtGui>
-#include <QMdiArea>
-#include <QMdiSubWindow>
+#include <QObject>
 #include <QString>
-#include <QFileDialog>
-#include <QtDebug>
-#include <QTextEdit>
-#include <QAction>
-#include <QMenu>
-#include <QFile>
-#include <QHBoxLayout>
-#include <QMainWindow>
 #include <QHash>
 #include <QUndoCommand>
-#include <QMdiSubWindow>
-#include <QGraphicsView>
 
 #include "DataTable.h"
 #include "HistoryWindow.h"
 #include "SymbolsTable.h"
-#include "GraphicsScene.h"
-#include "GraphicsView.h"
-#include "TextEditor.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -51,78 +41,121 @@ namespace Tinkercell
 	class MainWindow;
 
 	/*! \brief
-	An MDI sub window that can either be represented as text using TextEditor or visualized with graphical items in the
+	A class that is used to store a network. The network is a collection of Item Handles. 
+	The history stack is also a key component of a network.
+	The network can either be represented as text using TextEditor or visualized with graphical items in the
 	GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
-	This class provides functions for editing handles, such as changing names, data, etc.
+	The two main components of NetworkWindow are the SymbolsTable and HistoryStack
+	This class provides functions for inserting items, removing items, and changing information inside the model.
 	\ingroup core
 	*/
-	/*! \brief An MDI sub window that just signals before closing */
-	class MY_EXPORT NetworkWindow : public QWidget
+	class MY_EXPORT NetworkHandle : public QObject
 	{
 		Q_OBJECT
-
-	public:
-		/*! \brief constructor*/
-		NetworkWindow(MainWindow *, GraphicsScene * scene);
-		/*! \brief constructor*/
-		NetworkWindow(MainWindow *, TextEditor * editor);
-		/*! \brief destructor*/
-		virtual ~NetworkWindow();
-		/*! \brief the file name for this window*/
-		QString filename;
-		/*! \brief the main window containing this network window*/
-		MainWindow * mainWindow;
-		/*! \brief the graphics scene displayed in this window*/
-		GraphicsScene * scene;
-		/*! \brief the text editor displayed in this window*/
-		TextEditor * textEditor;
+	private:
+		/*! \brief the file name where this network is saved*/
+		QString _filename;
+		/*! \brief the main window containing this network*/
+		MainWindow * _mainWindow;
+		/*! \brief all the graphics scenes used to display this network*/
+		QList<GraphicsScene *> _scenes;
+		/*! \brief all the the text editors used to display this network*/
+		QList<TextEditor *> _editors;
 		/*! \brief the undo stack*/
-		QUndoStack history;
+		QUndoStack _history;
 		/*! \brief holds a hash of all items and data in this scene.
 		\sa SymbolsTable*/
-		SymbolsTable symbolsTable;
-		/*! \brief get all the visible items in this network window*/
-		virtual QList<ItemHandle*> allHandles();
-		/*! \brief get list of all items sorted according to family*/
-		virtual QList<ItemHandle*> allHandlesSortedByFamily() const;
-		/*! \brief get the console window (same as mainWindow->console())*/
-		ConsoleWindow * console() const;
-		/*! \brief the model item*/
-		virtual ItemHandle* modelItem();
+		SymbolsTable _symbolsTable;
+		
 		/*! \brief calls mainWindow's setCurrentWindow method*/
-		virtual void setAsCurrentWindow();
-		/*! \brief calls mainWindow's popOut method*/
-		virtual void popOut();
-		/*! \brief calls mainWindow's popIn method*/
-		virtual void popIn();
-		/*! \brief get all the views of this network window.
-			The first view will always be the main view
-		* \return QList<GraphicsView*>
+		virtual void setAsCurrentNetwork();
+		
+	public:
+		/*! \name Constructor and destructor
+			\{
 		*/
-		virtual QList<GraphicsView*> views() const;
-		/*! \brief get the current view of this network window.
-		* \return GraphicsView*
+		/*! \brief constructor*/
+		NetworkHandle(MainWindow *);
+		/*! \brief destructor*/
+		virtual ~NetworkHandle();
+		
+		/*! \}
+			\name Get items
+			get the set of items in the model
+			\{
 		*/
-		virtual GraphicsView* currentView() const;
-		/*! \brief create a new view for this network window
-		* \param QList<QGraphicsItem*> items to hide (optional)
-		* \return GraphicsView* the new view
+		
+		/*! \brief get all the visible items in this network window*/
+		virtual QList<ItemHandle*> handles();
+		/*! \brief get list of all items sorted according to family*/
+		virtual QList<ItemHandle*> handlesSortedByFamily() const;
+		/*! \brief the model global item*/
+		virtual ItemHandle* globalHandle();
+		/*! \brief gets all the selected items from each graphics scene
+		* \return QList<ItemHandle*> list of selected item handles*/
+		virtual QList<ItemHandle*> selectedItems() const;
+		
+		/*! \}
+			\name graphics scenes for the network
+			get graphics scene or create graphics scenes
+			\{
 		*/
-		virtual GraphicsView * createView(const QList<QGraphicsItem*>& hideItems = QList<QGraphicsItem*>());
-		/*! \brief create a new view based on an existing view
-		* \param GraphicsView* the original view (if invalid defaults to current view)
-		* \return GraphicsView* the new view
+
+		/*! \brief get all the graphics scenes used to illustrate this network
+		* \return QList<GraphicsScene*>
+		*/		
+		virtual QList<GraphicsScene*> scenes() const;
+		/*! \brief create a new scene for this network
+		* \param QList<QGraphicsItem*> items to initialize the network with
+		* \return GraphicsScene* the new scene
 		*/
-		virtual GraphicsView * createView(GraphicsView*);
+		virtual GraphicsScene * createScene(const QList<QGraphicsItem*>& insertItems = QList<QGraphicsItem*>());
+		/*! \brief create a new scene that gets all the items inside the given item handle.
+		* \param ItemHandle * 
+		* \param QRectF only include the graphicss items 
+		* \return GraphicsScene* the new scene
+		*/
+		virtual GraphicsScene * createScene(ItemHandle *, const QRectF& boundingRect=QRectF());
 		/*! \brief checks whether a string is a correct formula.
-		\param QString target string
-		\param QStringList returns any new variables not found in this network
-		\return Boolean whether or not the string is valid*/
+		* \param QString target string (also the output)
+		* \param QStringList returns any new variables not found in this network
+		* \return Boolean whether or not the string is valid*/
 		virtual bool parseMath(QString&,QStringList&);
-		/*! \brief get all the selected items in this network window. The selected items
-		are determined differently depending on whether this window has a GraphicsScene
-		or a TextEditor. The selectedItems() from each is used to generate the selected handles*/
-		virtual QList<ItemHandle*> selectedHandles() const;
+		
+		/*! \}
+			\name insert and delete
+			These functions will insert or delete graphics items or item handles. The functions
+			automatically perform history updates and send appropriate signals, which will inform the 
+			other tools that an insertion or deletion has taken place. 
+			\{
+		*/
+		
+		/*! \brief insert graphics items. This function will automatically add a command to the history window and emit itemsInserted() signal*/
+		virtual void insert(const QString& desc, const QList<QGraphicsItem*> items);
+		/*! \brief insert a graphics item. This function will automatically add a command to the history window and emit itemsInserted() signal*/
+		virtual void insert(const QString& desc, QGraphicsItem*);
+		/*! \brief remove graphics items. This function will automatically add a command to the history window and emit itemsRemoved() signal*/
+		virtual void remove(const QString& desc, const QList<QGraphicsItem*> items);
+		/*! \brief remove a graphics item. This function will automatically add a command to the history window and emit itemsRemoved() signal*/
+		virtual void remove(const QString& desc, QGraphicsItem* items);
+		
+		/*! \brief insert items. This function will automatically add a command to the history window and emit itemsInserted() signal*/
+		virtual void insert(const QString& desc, const QList<ItemHandle*> items);
+		/*! \brief insert an item. This function will automatically add a command to the history window and emit itemsInserted() signal*/
+		virtual void insert(const QString& desc, ItemHandle*);
+		/*! \brief remove items. This function will automatically add a command to the history window and emit itemsRemoved() signal*/
+		virtual void remove(const QString& desc, const QList<ItemHandle*> items);
+		/*! \brief remove an item. This function will automatically add a command to the history window and emit itemsRemoved() signal*/
+		virtual void remove(const QString& desc, ItemHandle* items);
+
+		/*! \}
+			\name rename items or change network data
+			These functions will change the name or delete graphics items or item handles. The functions
+			automatically perform history updates and send appropriate signals, which will inform the 
+			other tools that an insertion or deletion has taken place. 
+			\{
+		*/
+
 		/*! \brief rename item and also adds undo command to history window and emits associated signal(s)*/
 		virtual void rename(const QString& oldname, const QString& new_name);
 		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
@@ -161,14 +194,12 @@ namespace Tinkercell
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
-		/*! \brief show handle that was hidden*/
-		virtual void showItems(const QString& name, ItemHandle* handle);
-		/*! \brief show handles that were hidden*/
-		virtual void showItems(const QString& name, const QList<ItemHandle*>& handles);
-		/*! \brief hide handle*/
-		virtual void hideItems(const QString& name, ItemHandle* handle);
-		/*! \brief hide handles*/
-		virtual void hideItems(const QString& name, const QList<ItemHandle*>& handles);
+
+		/*! \}
+			\name slots
+			update the symbols table that stores all the symbols in the network
+			\{
+		*/
 
 	public slots:
 		/*! \brief updates the symbols table*/
@@ -176,49 +207,38 @@ namespace Tinkercell
 		/*! \brief updates the symbols table. The int argument is so that this can be connected to the history changed signal*/
 		virtual void updateSymbolsTable(int);
 
+		/*! \}
+			\name signals
+			\{
+		*/
+
 	signals:
 		/*! \brief signal sent before closing
 		* \param Boolean setting to false will prevent this window from closing*/
-		void closing(NetworkWindow *, bool * );
+		void closing(NetworkHandle *, bool * );
 		/*! \brief signal send after closing*/
-		void closed(NetworkWindow *);
+		void closed(NetworkHandle *);
 		/*! \brief signals whenever an item is renamed
-		* \param NetworkWindow* window where the event took place
+		* \param NetworkHandle* window where the event took place
 		* \param QList<ItemHandle*>& items
 		* \param QList<QString>& old names
 		* \param QList<QString>& new names
 		* \return void*/
-		void itemsRenamed(NetworkWindow * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
+		void itemsRenamed(NetworkHandle * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
 		/*! \brief signals whenever item parent handle is changed
-		* \param NetworkWindow* window where the event took place
+		* \param NetworkHandle* window where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
-		void parentHandleChanged(NetworkWindow * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		void parentHandleChanged(NetworkHandle * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
 		* \return void*/
 		void dataChanged(const QList<ItemHandle*>& items);
-	protected:
-		/*! \brief informs the main window that the current window is this*/
-		virtual void focusInEvent ( QFocusEvent * event );
-		/*! \brief informs the main window that the current window is not this*/
-		//virtual void focusOutEvent ( QFocusEvent * event );
-		/*! \brief close window event -- asks whether to save file
-		* \param QCloseEvent * event
-		* \return void*/
-		virtual void closeEvent(QCloseEvent *event);
-		/*! \brief the network window switches to tab mode*/
-		virtual void resizeEvent ( QResizeEvent * );
-		/*! \brief all the views of the this network window*/
-		QList<GraphicsView*> graphicsViews;
-		/*! \brief current view of this network window*/
-		GraphicsView * currentGraphicsView;
-		/*! \brief window minimized = popIn*/
-		void changeEvent ( QEvent * event );
 
 		friend class GraphicsView;
 		friend class GraphicsScene;
+		friend class MainWindow;
 	};
 
 }

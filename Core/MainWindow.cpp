@@ -392,16 +392,13 @@ namespace Tinkercell
 		}
 	}
 
-	GraphicsScene * MainWindow::newGraphicsWindow()
+	GraphicsScene * MainWindow::createScene()
 	{
 		GraphicsScene * scene = new GraphicsScene;
-		NetworkWindow * subWindow = new NetworkWindow(this, scene);
+		NetworkHandle * network = new NetworkHandle(this, scene);
 
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
-
-		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
-		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
 		popIn(subWindow);
 		emit windowOpened(subWindow);
@@ -409,15 +406,13 @@ namespace Tinkercell
 		return scene;
 	}
 
-	TextEditor * MainWindow::newTextWindow()
+	TextEditor * MainWindow::newTextExitor()
 	{
 		TextEditor * textedit = new TextEditor;
 		NetworkWindow * subWindow = new NetworkWindow(this, textedit);
 
 		if (!allNetworkWindows.contains(subWindow))
 			allNetworkWindows << subWindow;
-		connect (subWindow,SIGNAL(closing(NetworkWindow *, bool*)),this,SIGNAL(windowClosing(NetworkWindow *, bool*)));
-		connect (subWindow,SIGNAL(closed(NetworkWindow *)),this,SIGNAL(windowClosed(NetworkWindow *)));
 
 		popIn(subWindow);
 		emit windowOpened(subWindow);

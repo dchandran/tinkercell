@@ -65,6 +65,17 @@ namespace Tinkercell
 	*/
 	class MY_EXPORT GraphicsView : public QGraphicsView
 	{
+		Q_OBJECT
+	
+	signals:
+		/*!
+		* \brief signals when a window is going to close
+		* \param NetworkWindow *  the window that is closing
+		* \param Boolean setting to false will prevent this window from closing
+		* \return void
+		*/
+		void windowClosing(NetworkWindow *, bool*);
+	
 	public:
 		/*! \brief background */
 		QPixmap background;
@@ -105,7 +116,7 @@ namespace Tinkercell
 		virtual bool checkVisibility(QGraphicsItem*) const;
 
 	protected:
-		/*! \brief close window event -- removes this view from the network window's views list
+		/*! \brief close window event
 		* \param QCloseEvent * event
 		* \return void*/
 		virtual void closeEvent(QCloseEvent *event);
@@ -135,36 +146,7 @@ namespace Tinkercell
 		//virtual void paintEvent(QPaintEvent *event);
 
 		friend class GraphicsScene;
-		friend class NetworkWindow;
-		friend class SetGraphicsViewVisibilityCommand;
-	};
-
-	/*! \brief show and hide specific items from a given graphics view
-	* \ingroup undo*/
-	class MY_EXPORT SetGraphicsViewVisibilityCommand : public QUndoCommand
-	{
-	public:
-		/*! \brief constructor
-		* \param GraphicsView* view
-		* \param QGraphicsItem* item to show or hide
-		* \param bool true=show false=hide
-		*/
-		SetGraphicsViewVisibilityCommand(GraphicsView *, QGraphicsItem * , bool);
-		/*! \brief constructor
-		* \param GraphicsView* view
-		* \param QList<QGraphicsItem*> items to show or hide
-		* \param bool true=show false=hide
-		*/
-		SetGraphicsViewVisibilityCommand(GraphicsView *, const QList<QGraphicsItem*> & , bool);
-		/*! \brief redo the change*/
-		void redo();
-		/*! \brief undo the change*/
-		void undo();
-	private:
-		NetworkWindow * networkWindow;
-		GraphicsView * view;
-		QList<QGraphicsItem*> items;
-		bool show;
+		friend class NetworkHandle;
 	};
 }
 

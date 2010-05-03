@@ -50,30 +50,30 @@ namespace Tinkercell
 		SymbolsTable(NetworkWindow *);
 		/*! \brief update the symbols table*/
 		virtual void update();
-		/*! \brief handle names and the corresponsing handles. This hash stores the unique full names, such a M.A
+		/*! \brief handle names and the corresponsing handles. This hash stores the unique full names, such a M.A and M_A
 		*/
-		QHash<QString,ItemHandle*> handlesFullName;
+		QHash<QString,ItemHandle*> uniqueItems;
 		/*! \brief handle names and the corresponsing handles. This hash stores the
 		the non-unique names, such as A. Therefore the hash may contain multiple values for the same
 		key (see QHash documentation)
 		*/
-		QHash<QString,ItemHandle*> handlesFirstName;
+		QHash<QString,ItemHandle*> nonuniqueItems;
 		/*! \brief row or column name and the corresponding handle and tool in which the row or column name belongs. Stores
-		full names as well as just the row or column name. For example, if A.k0 is a data item, then this table will contain
-		k0 as well as A.k0 with the same contents. The individual, non-unique, names such as k0 may have multiple hash values
+		full names only. For example, if A.k0 is a data item, then this table will contain
+		A.k0 and A_k0. All entries are unique.
+		*/
+		QHash<QString, QPair<ItemHandle*,QString> > uniqueData;
+		/*! \brief row or column name and the corresponding handle and tool in which the row or column name belongs. Stores
+		just the row or column name. For example, if A.k0 is a data item, then this table will contain
+		k0. The individual, non-unique, names such as k0 may have multiple hash values
 		for the same hash key (see QHash documentation).
 		*/
-		QHash<QString, QPair<ItemHandle*,QString> > dataRowsAndCols;
+		QHash<QString, QPair<ItemHandle*,QString> > nonuniqueData;
 		/*! \brief this hash contains all the list of items belonging in each family. The items are listed under their family only and
 		not under their parent families. For example, you will not find an item of family "Elephant" under the "Mammals" key. You will
 		have to specifically search under "Elephant" and use ItemFamily's isA method to find out that it is also a "Mammal"
 		*/
 		QHash<QString, ItemHandle* > handlesFamily;
-		/*! \brief This is a special item handle that does not represent any item on the scene. It is used to store "global" data.
-		*/
-		ItemHandle modelItem;
-		/*! \brief destructor*/
-		virtual ~SymbolsTable();
 
 		/*! \brief checks whether the given item handle pointer is valid*/
 		virtual bool isValidPointer(void*) const;
@@ -81,9 +81,14 @@ namespace Tinkercell
 		/*! \brief get list of all items sorted according to family*/
 		virtual QList<ItemHandle*> allHandlesSortedByFamily() const;
 		
+		/*! \brief get list of all items sorted according to their full name*/
+		virtual QList<ItemHandle*> allHandlesSortedByName() const;
+		
 	protected:
-		/*! \brief the graphics scene that this symbols table belongs with*/
-		NetworkWindow * networkWindow;
+		/*! \brief the network that this symbols table belongs with*/
+		NetworkHandle * network;
+		/*! \brief This is a special item handle that does not represent any item on the scene. It is used to store "global" data.*/
+		ItemHandle globalItem;
 		/*! \brief update the symbols table using a graphics scene*/
 		virtual void update(GraphicsScene *);
 		/*! \brief update the symbols table using a text editor*/
@@ -91,11 +96,10 @@ namespace Tinkercell
 		/*! \brief update the symbols table*/
 		virtual void update(const QList<ItemHandle*>&);
 
-		/*! \brief addresses of all handles
-		*/
+		/*! \brief addresses of all handles*/
 		QHash<void*,QString> handlesAddress;
 		
-		friend class NetworkWindow;
+		friend class NetworkHandle;
 	};
 }
 

@@ -11,7 +11,7 @@ connection names and data columns and rows, for each scene
 ****************************************************************************/
 
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "Tool.h"
 #include "SymbolsTable.h"
@@ -21,81 +21,64 @@ connection names and data columns and rows, for each scene
 namespace Tinkercell
 {
 
-	SymbolsTable::SymbolsTable(NetworkWindow * net) : networkWindow(net)
+	SymbolsTable::SymbolsTable(NetworkHandle * net) : network(net)
 	{
-		modelItem.data = new ItemData();
+		globalItem.data = new ItemData();
 	}
-
-	SymbolsTable::~SymbolsTable()
-	{
-	}
-
+	
 	void SymbolsTable::update()
 	{
-		if (networkWindow->scene)
-			update(networkWindow->scene);
-		else
-			if (networkWindow->textEditor)
-				update(networkWindow->textEditor);
-	}
-
-	void SymbolsTable::update(GraphicsScene * scene)
-	{
-		if (!scene) return;
-
-		handlesFirstName.clear();
-		handlesFullName.clear();
-		dataRowsAndCols.clear();
+		nonuniqueItems.clear();
+		uniqueItems.clear();
+		uniqueData.clear();
+		nonuniqueData.clear();
 		handlesFamily.clear();
 		handlesAddress.clear();
 
-		QList<QGraphicsItem*> items = scene->items();
-
-		ItemHandle * handle;
+		if (!network) return;
+		
+		QList<QGraphicsScene*>& scenes = network->_scene;
+		QList<TextEditor*>& editors = network->_editors;
+		
 		QList<ItemHandle*> handles;
+		handles << &globalItem;
 
-		handles << &modelItem;
-
-		for (int i=0; i < items.size(); ++i)
-			if (handle = getHandle(items[i]))
+		for (int j=0; j < scenes.size(); ++j)
+			if (scenes[j])
 			{
-				handle = handle->root();
-				if (handle && handle->visible && !handles.contains(handle))
-				{
-					handles << handle;
-					handles << handle->visibleChildren();
-				}
+				QList<QGraphicsItem*> items = scenes[j]->items();
+				ItemHandle * handle;
+
+				for (int i=0; i < items.size(); ++i)
+					if (handle = getHandle(items[i]))
+					{
+						handle = handle->root();
+						if (handle && handle->visible && !handles.contains(handle))
+						{
+							handles << handle;
+							handles << handle->visibleChildren();
+						}
+					}
 			}
-		update(handles);
-	}
 
-	void SymbolsTable::update(TextEditor  * editor)
-	{
-		if (!editor) return;
-
-		handlesFirstName.clear();
-		handlesFullName.clear();
-		dataRowsAndCols.clear();
-		handlesFamily.clear();
-
-		QList<TextItem*>& items = editor->items();
-
-		ItemHandle * handle;
-
-		QList<ItemHandle*> handles;
-
-		handles << &modelItem;
-
-		for (int i=0; i < items.size(); ++i)
-			if (handle = getHandle(items[i]))
+		for (int j=0; j < editors.size(); ++j)
+			if (editors[j])
 			{
-				handle = handle->root();
-				if (handle && handle->visible && !handles.contains(handle))
-				{
-					handles << handle;
-					handles << handle->visibleChildren();
-				}
+				QList<ItemHandle*> items = editors[j]->_handles;
+				ItemHandle * handle;
+
+				for (int i=0; i < items.size(); ++i)
+					if (handle = items[i])
+					{
+						handle = handle->root();
+						if (handle && handle->visible && !handles.contains(handle))
+						{
+							handles << handle;
+							handles << handle->visibleChildren();
+						}
+					}
 			}
+
 		update(handles);
 	}
 
@@ -104,15 +87,15 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((handle = items[i]) && !handlesFullName.contains(handle->fullName()))
+			if ((handle = items[i]) && !uniqueItems.contains(handle->fullName()))
 			{
 				handlesAddress[(void*)handle] = handle->fullName();
 
-				if (handle != &modelItem)
+				if (handle != &globalItem)
 				{
-					handlesFullName[handle->fullName()] = handle;
-					handlesFullName[handle->fullName(QObject::tr("_"))] = handle;
-					handlesFirstName.insertMulti(handle->name,handle);
+					uniqueItems[handle->fullName()] = handle;
+					uniqueItems[handle->fullName(QObject::tr("_"))] = handle;
+					nonuniqueItems.insertMulti(handle->name,handle);
 				}
 
 				if (handle->family())
@@ -131,12 +114,12 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
+									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k),
+									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
-								dataRowsAndCols.insertMulti(nDat.rowName(k),
+								nonuniqueData.insertMulti(nDat.rowName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 						}
@@ -147,12 +130,12 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
+									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
+									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
-								dataRowsAndCols.insertMulti(nDat.colName(k),
+								nonuniqueData.insertMulti(nDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 						}
@@ -169,12 +152,12 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
+									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
+									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
-								dataRowsAndCols.insertMulti(sDat.rowName(k),
+								nonuniqueData.insertMulti(sDat.rowName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 						}
@@ -185,17 +168,17 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									dataRowsAndCols.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
+									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									dataRowsAndCols.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
-								dataRowsAndCols.insertMulti(sDat.colName(k),
+								nonuniqueData.insertMulti(sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 							
 							for (int l=0; l < sDat.rows(); ++l)
-								dataRowsAndCols.insertMulti(sDat.at(l,k),
+								nonuniqueData.insertMulti(sDat.at(l,k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 						}
 					}
@@ -219,7 +202,7 @@ namespace Tinkercell
 	{
 		QList<ItemFamily*> allRootFamilies;
 		ItemFamily * root = 0;
-		QList<ItemHandle*> allHandles = handlesFullName.values();
+		QList<ItemHandle*> allHandles = uniqueItems.values();
 		
 		for (int i=0; i < allHandles.size(); ++i)
 			if (allHandles[i] && allHandles[i]->family())
@@ -238,6 +221,19 @@ namespace Tinkercell
 		for (int i=0; i < sortedFamilies.size(); ++i)
 			allHandles += handlesFamily.values(sortedFamilies[i]->name);
 		
+		return allHandles;
+	}
+	
+	QList<ItemHandle*> SymbolsTable::allHandlesSortedByName() const
+	{
+		QStringList names = uniqueItems.keys().
+		names.sort();
+		
+		QList<ItemHandle*> allHandles;
+		
+		for (int i=0; i < names.size(); ++i)
+			allHandles << uniqueItems[ names[i] ];
+
 		return allHandles;
 	}
 

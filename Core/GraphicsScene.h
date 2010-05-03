@@ -4,8 +4,11 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-The GraphicsScene class is where all the drawing takes place.
-Use NetworkHandle to perform most of the basic operations on graphical items.
+The primary task of the graphics scene is to draws items.
+All interactions with the GraphicsScene is done through MainWindow or NetworkHandle. 
+NetworkHandle provides functions such as move, insert, and remove. MainWindow relays
+all the signals, such as mouse and key events, from the GraphicsScene. So, there is rarely
+a need to directly  interact with the GraphicsScene
 ****************************************************************************/
 
 #ifndef TINKERCELL_GRAPHICSSCENE_H
@@ -50,17 +53,12 @@ namespace Tinkercell
 	class ItemData;
 	class NetworkWindow;
 	class GraphicsView;
-	class ConsoleWindow;
 
 	/*! \brief The primary task of the graphics scene is to draws items.
-	It also provides functions for conveniently moving, deleting, editing, changind data, etc.
-	The graphics scene sends signals for key events, mouse events, save events, etc. It also provides access to the
-	items currently selected and currently being moved so a plug-in can easily add items to the list
-	of moving items or selected items.
-	The default behaviors of the GraphicsScene (e.g selecting, moving) can be turned off by setting useDefaultBehavior=false. If
-	the default behaviors are off, GraphicsScene still emits the mouse and keyboard signals -- this allows another tool
-	to perform the actions.
-	The historyStack pointer can be used to add undo commands to the scene.
+	All interactions with the GraphicsScene is done through MainWindow or NetworkHandle. 
+	NetworkHandle provides functions such as move, insert, and remove. MainWindow relays
+	all the signals, such as mouse and key events, from the GraphicsScene. So, there is rarely
+	a need to directly  interact with the GraphicsScene
 	\ingroup core
 	*/
 	class MY_EXPORT GraphicsScene : public QGraphicsScene
@@ -90,7 +88,7 @@ namespace Tinkercell
 		static qreal MIN_DRAG_DISTANCE;
 
 		/*! \brief the containing network window*/
-		NetworkWindow * networkWindow;
+		NetworkHandle * network;
 		/*! \brief the containing network window's symbols table*/
 		SymbolsTable * symbolsTable;
 		/*! \brief indicates whether this scene is free to perform actions*/
@@ -111,10 +109,6 @@ namespace Tinkercell
 		* \param void
 		* \return QRectF rectangle*/
 		virtual QRectF viewport() const;
-		/*! \brief Returns the currently active graphics view
-		* \param void
-		* \return GraphicsView * current graphics view*/
-		virtual GraphicsView * currentView() const;
 		/*! \brief Returns the point where mouse was clicked last on the scene coordinates
 		* \param void
 		* \return QPointF& ref to last clicked point on the scene*/
@@ -138,8 +132,6 @@ namespace Tinkercell
 		/*! \brief top Z value
 		* \return double*/
 		virtual qreal ZValue();
-		/*! \brief get the console window (same as mainWindow->console())*/
-		ConsoleWindow * console() const;
 		/*! \brief Constructor: sets 10000x10000 scene */
 		GraphicsScene(QWidget * parent = 0);
 		/*! \brief destructor */
@@ -172,9 +164,6 @@ namespace Tinkercell
 		/*! \brief adjusts view to include all items
 		* \return void*/
 		virtual void fitAll();
-		/*! \brief adjusts view to include all selected items
-		* \return void*/
-		virtual void fitSelected();
 		/*! \brief Clear all selection and moving items list
 		* \return void*/
 		virtual void clearSelection();
@@ -191,10 +180,6 @@ namespace Tinkercell
 		* \param QList<QGraphicsItem*>& items to select
 		* \return void*/
 		virtual void select(const QList<QGraphicsItem*>& item);
-		/*! \brief check if a graphics item is visible in the current graphics view
-		* \param QGraphicsItem * item
-		* \return bool*/
-		virtual bool isVisible(QGraphicsItem*) const;
 		/*! \brief select all items*/
 		virtual void selectAll();
 		/*! \brief select items with the given text */
@@ -278,66 +263,6 @@ namespace Tinkercell
 		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& newParents);
-		/*! \brief rename item and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void rename(const QString& oldname, const QString& new_name);
-		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void rename(QGraphicsItem * item, const QString& new_name);
-		/*! \brief rename an item and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void rename(ItemHandle * item, const QString& new_name);
-		/*! \brief rename items and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void rename(const QList<QGraphicsItem *>& items, const QList<QString>& new_names);
-		/*! \brief places all the graphics items in the given list of handles under the new handle*/
-		virtual  void mergeHandles(const QList<ItemHandle*>& handles);
-		/*! \brief places all the graphics items under the new handle*/
-		virtual  void assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle);
-		/*! \brief change parent handles and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles);
-		/*! \brief change parent handle and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void setParentHandle(ItemHandle * child, ItemHandle * parent);
-		/*! \brief change parconst ent handles and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
-		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata);
-		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata);
-		/*! \brief change a list of numerical data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata);
-		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata);
-		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata);
-		/*! \brief change a list of text data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata);
-		/*! \brief change two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2);
-		/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2);
-		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
-		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual  void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
-		/*! \brief show item that were hidden*/
-		virtual  void showItems(const QString& name, QGraphicsItem* item);
-		/*! \brief show items that were hidden*/
-		virtual  void showItems(const QString& name, const QList<QGraphicsItem*>& items);
-		/*! \brief hide item*/
-		virtual  void hideItems(const QString& name, QGraphicsItem* item);
-		/*! \brief hide items*/
-		virtual  void hideItems(const QString& name, const QList<QGraphicsItem*>& items);
-		/*! \brief show handle that was hidden*/
-		virtual  void showItems(const QString& name, ItemHandle* handle);
-		/*! \brief show handles that were hidden*/
-		virtual  void showItems(const QString& name, const QList<ItemHandle*>& handles);
-		/*! \brief hide handle*/
-		virtual  void hideItems(const QString& name, ItemHandle* handle);
-		/*! \brief hide handles*/
-		virtual void hideItems(const QString& name, const QList<ItemHandle*>& handles);
 
 	signals:
 		/*! \brief signals just before items are copied
@@ -447,23 +372,6 @@ namespace Tinkercell
 		* \param QKeyEvent * key that is released
 		* \return void*/
 		void keyReleased(GraphicsScene * scene, QKeyEvent *);
-		/*! \brief signals whenever color of items are changed
-		* \param GraphicsScene* scene where the event took place
-		* \param QList<QGraphicsItem*>& items that changed color
-		* \return void*/
-		void colorChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items);
-		/*! \brief signals whenever item parents are changed
-		* \param GraphicsScene* scene where the event took place
-		* \param QList<QGraphicsItem*>& items
-		* \param QList<QGraphicsItem*>& new parents
-		* \return void*/
-		void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
-		/*! \brief signals whenever the handles for graphics items have changed
-		* \param GraphicsScene* scene where the event took place
-		* \param QList<GraphicsItem*>& items that are affected
-		* \param QList<ItemHandle*>& old handle for each items
-		* \return void*/
-		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 		/*! \brief signals whenever the current activities need to be stopped
 		* \param QWidget * the widget that send the signal
 		* \return void*/
@@ -513,11 +421,11 @@ namespace Tinkercell
 		/*! \brief when mouse is moving, all items in moving list are moved
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
-		virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
+		virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
 		/*! \brief when mouse is released, moving list is cleared
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
-		virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent);
+		virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 		/*! \brief when key is pressed
 		* \param QKeyEvent *  key event
 		* \return void*/
@@ -537,17 +445,18 @@ namespace Tinkercell
 		/*! \brief drag and drop event
 		* \param QGraphicsSceneDragDropEvent * drag and drop event
 		* \return void*/
-		virtual void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+		virtual void dragEnterEvent(QGraphicsSceneDragDropEvent * event);
 		/*! \brief drag and drop event
 		* \param QGraphicsSceneDragDropEvent * drag and drop event
 		* \return void*/
-		virtual void dropEvent(QGraphicsSceneDragDropEvent *event);
+		virtual void dropEvent(QGraphicsSceneDragDropEvent * event);
 		/*! \brief drag and drop event
 		* \param QGraphicsSceneDragDropEvent * drag and drop event
 		* \return void*/
 		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
 		/*! \brief draw background grid if in grid mode*/
 		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+
 	public:
 		/*! \brief snap the node item to the grid
 		* \param NodeGraphicsItem*
@@ -561,8 +470,9 @@ namespace Tinkercell
 		virtual void scaleView(qreal scaleFactor);
 
 		friend class MainWindow;
-		friend class NetworkWindow;
+		friend class NetworkHandle;
 		friend class GraphicsView;
+		friend class SymbolsTable;
 	};
 }
 

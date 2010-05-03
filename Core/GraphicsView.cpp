@@ -32,7 +32,7 @@ namespace Tinkercell
 		for (int i=0; i < allItems.size(); ++i)
 		{
 			parent = getGraphicsItem(allItems[i]);
-			if (parent && !hiddenItems.contains(parent))
+			if (parent)
 			{
 				rect = parent->sceneBoundingRect();
 				if (topLeft.x() == 0 || rect.left() < topLeft.x()) topLeft.rx() = rect.left();
@@ -126,6 +126,14 @@ namespace Tinkercell
 		if (network && !network->graphicsViews.contains(this))
 			network->graphicsViews.push_front(this);
 		
+		if (network->mainWindow)
+		{
+			connect(this,SIGNAL(windowClosing(NetworkWindow *, bool*)),
+					network->mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)));
+			connect(this,SIGNAL(windowClosed(NetworkWindow *)),
+					network->mainWindow,SIGNAL(windowClosed(NetworkWindow *)));
+		}
+		
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
 
@@ -179,6 +187,22 @@ namespace Tinkercell
 		}
 
 		QGraphicsView::keyPressEvent(event);
+	}
+	
+	void GraphicsView::closeEvent(QCloseEvent * event)
+	{
+		bool b = true;
+		
+		if (network)
+			emit windowClosing(network,&b);
+		
+		if (b)
+		{
+			if (network)
+				emit windowClosed(network);
+
+			event->accept();
+		}
 	}
 
 }

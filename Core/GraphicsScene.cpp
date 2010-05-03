@@ -47,10 +47,10 @@ namespace Tinkercell
 	* \return rectangle*/
 	QRectF GraphicsScene::viewport() const
 	{
-		if (!networkWindow || !networkWindow->currentGraphicsView)
+		if (!network || !network->currentGraphicsView)
 			return QRectF();
 
-		GraphicsView * view = networkWindow->currentGraphicsView;
+		GraphicsView * view = network->currentGraphicsView;
 
 		if (view)
 		{
@@ -118,14 +118,13 @@ namespace Tinkercell
 	/*! \brief Constructor: sets 10000x10000 scene */
 	GraphicsScene::GraphicsScene(QWidget * parent) : QGraphicsScene(parent)
 	{
+		network = 0;
 		gridSz = GRID;
 		mouseDown = false;
 		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
 		setFocus();
 		//setItemIndexMethod(NoIndex);
 
-		symbolsTable = 0;
-		historyStack = 0;
 		contextItemsMenu = 0;
 		contextScreenMenu = 0;
 		setSceneRect(0,0,10000,10000);
@@ -150,6 +149,8 @@ namespace Tinkercell
 		if (movingItemsGroup)
 			destroyItemGroup(movingItemsGroup);
 		select(0);
+		
+		/*
 		removeItem(&selectionRect);
 		QList<QGraphicsItem *> allitems1 = items();
 		QList<QGraphicsItem *> allitems2;
@@ -198,7 +199,7 @@ namespace Tinkercell
 			}
 		}
 
-		qDeleteAll(allitems2);
+		qDeleteAll(allitems2);*/
 	}
 	/*! \brief Clear all selection and moving items list
 	* Precondition: None
@@ -290,11 +291,6 @@ namespace Tinkercell
 		if (!gitem)
 		{
 			p = getGraphicsItem(p);
-			if (networkWindow &&
-				networkWindow->currentGraphicsView &&
-				networkWindow->currentGraphicsView->hiddenItems.contains(p))
-				p = 0;
-
 			if (!p || p->sceneBoundingRect().width() > 100 || p->sceneBoundingRect().height() > 100)
 			{
 				QList<QGraphicsItem*> ps = items(QRectF(clickedPoint.rx()-20.0,clickedPoint.ry()-20.0,40.0,40.0));
@@ -302,11 +298,7 @@ namespace Tinkercell
 				{
 					for (int i=0; i < ps.size(); ++i)
 					{
-						p = getGraphicsItem(ps[i]);
-						if (networkWindow &&
-							networkWindow->currentGraphicsView &&
-							networkWindow->currentGraphicsView->hiddenItems.contains(p))
-							p = 0;
+						p = getGraphicsItem(ps[i]);						
 
 						if (p)// && !TextGraphicsItem::cast(p))
 							break;
@@ -519,10 +511,7 @@ namespace Tinkercell
 				QGraphicsItem* item = 0;
 				for (int i=0; i < itemsInRect.size(); ++i)
 					if (itemsInRect[i] != &selectionRect &&
-						(item = getGraphicsItem(itemsInRect[i])) &&
-						!(networkWindow &&
-						  networkWindow->currentGraphicsView &&
-						  networkWindow->currentGraphicsView->hiddenItems.contains(item))
+						(item = getGraphicsItem(itemsInRect[i]))
 						)
 					{
 						if (item && itemsInRect[i] == item)
@@ -592,7 +581,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			emit escapeSignal(networkWindow);
+			emit escapeSignal(network);
 		}
 	}
 	/*! \brief zoom
@@ -602,13 +591,15 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::scaleView(qreal scaleFactor)
 	{
-		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-
-		QGraphicsView * view = networkWindow->currentGraphicsView;
-
-		qreal factor = networkWindow->currentGraphicsView->matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
-		if (!(factor < 0.07 || factor > 100))
-			networkWindow->currentGraphicsView->scale(scaleFactor, scaleFactor);
+		QList<QGraphicsView*> list = views();
+		
+		if (!list.isEmpty() && list[0])
+		{
+			QGraphicsView * view = list[0];
+			qreal factor = view->matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+			if (!(factor < 0.07 || factor > 100))
+				view->scale(scaleFactor, scaleFactor);
+		}
 	}
 	/*! \brief place center at the point
 	* Precondition: None
@@ -617,8 +608,13 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::centerOn(const QPointF& point)
 	{
-        if (networkWindow && networkWindow->currentGraphicsView)
-            networkWindow->currentGraphicsView->centerOn(point);
+		QList<QGraphicsView*> list = views();
+		
+		if (!list.isEmpty() && list[0])
+		{
+			QGraphicsView * view = list[0];
+			view->centerOn(point);
+		}
 	}
 	/*! \brief when key is pressed
 	* Precondition: None
@@ -640,16 +636,16 @@ namespace Tinkercell
 
 		if (keyEvent->matches(QKeySequence::Undo))
 		{
-			if (historyStack)
-				historyStack->undo();
+			if (network)
+				network->undo();
 			keyEvent->accept();
 			return;
 		}
 
 		if (keyEvent->matches(QKeySequence::Redo))
 		{
-			if (historyStack)
-				historyStack->redo();
+			if (network)
+				network->redo();
 			keyEvent->accept();
 			return;
 		}
@@ -686,7 +682,7 @@ namespace Tinkercell
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
 		{
-			emit escapeSignal(networkWindow);
+			emit escapeSignal(network);
 			keyEvent->accept();
 		}
 
@@ -855,34 +851,9 @@ namespace Tinkercell
 	/*! \brief adjusts view to include all items*/
 	void GraphicsScene::fitAll()
 	{
-		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-		networkWindow->currentGraphicsView->fitAll();
+		if (!network || !network->currentGraphicsView) return;
+		network->currentGraphicsView->fitAll();
 	}
-
-	/*! \brief adjusts view to include all selected items*/
-	void GraphicsScene::fitSelected()
-	{
-		if (!networkWindow || !networkWindow->currentGraphicsView) return;
-
-		if (selectedItems.size() < 1)
-			fitAll();
-		else
-		{
-			QRectF rect;
-			for (int i=0; i < selectedItems.size(); ++i)
-				if (selectedItems[i])
-				{
-					rect = rect.unite(selectedItems[i]->topLevelItem()->sceneBoundingRect());
-				}
-
-				QGraphicsView* view = networkWindow->currentGraphicsView;
-
-				QPoint a = view->mapFromScene(rect.topLeft());
-				QPoint b = view->mapFromScene(rect.bottomRight());
-				view->fitInView(QRectF(QRect(a,b)),Qt::KeepAspectRatio);
-		}
-	}
-
 
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(QGraphicsItem * item, const QPointF& distance)
@@ -891,8 +862,8 @@ namespace Tinkercell
 
 		QUndoCommand * command = new MoveCommand(this,item,distance);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -925,8 +896,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new MoveCommand(this,items, distance);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -962,8 +933,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new MoveCommand(this,items, distance);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1011,8 +982,8 @@ namespace Tinkercell
 		emit itemsAboutToBeInserted(this,items,handles);
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1042,8 +1013,8 @@ namespace Tinkercell
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1091,8 +1062,8 @@ namespace Tinkercell
 
 		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1129,8 +1100,8 @@ namespace Tinkercell
 
 			QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
-			if (historyStack)
-				historyStack->push(command);
+			if (network)
+				network->_history.push(command);
 			else
 			{
 				command->redo();
@@ -1144,8 +1115,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeBrushCommand(name, item, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1161,8 +1132,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeBrushCommand(name, items, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1176,8 +1147,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangePenCommand(name, item, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1193,8 +1164,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangePenCommand(name, items, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1209,8 +1180,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeBrushAndPenCommand(name, item, newBrush, newPen);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1226,8 +1197,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeBrushAndPenCommand(name, items, newBrushes, newPens);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1242,8 +1213,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeParentCommand(name, this, item, newParent);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1264,8 +1235,8 @@ namespace Tinkercell
 
 		QUndoCommand * command = new ChangeParentCommand(name, this, items, newParents);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1279,8 +1250,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeParentCommand(name, this, items, newParents);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1292,20 +1263,20 @@ namespace Tinkercell
 
 	void GraphicsScene::rename(const QString& oldname, const QString& newname)
 	{
-		if (networkWindow)
-			networkWindow->rename(oldname,newname);
+		if (network)
+			network->rename(oldname,newname);
 	}
 
 	void GraphicsScene::rename(QGraphicsItem* item, const QString& name)
 	{
-		if (networkWindow)
-			networkWindow->rename(getHandle(item),name);
+		if (network)
+			network->rename(getHandle(item),name);
 	}
 
 	void GraphicsScene::rename(ItemHandle* handle, const QString& name)
 	{
-		if (networkWindow)
-			networkWindow->rename(handle,name);
+		if (network)
+			network->rename(handle,name);
 	}
 
 	void GraphicsScene::rename(const QList<QGraphicsItem*>& items, const QList<QString>& names)
@@ -1315,8 +1286,8 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if (!handles.contains( handle = getHandle(items[i]) ))
 				handles += handle;
-		if (networkWindow)
-			networkWindow->rename(handles,names);
+		if (network)
+			network->rename(handles,names);
 	}
 
 	void GraphicsScene::assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
@@ -1327,8 +1298,8 @@ namespace Tinkercell
 			handles += getHandle(items[i]);
 
 		QUndoCommand * command = new AssignHandleCommand(tr("item defined"),items,newHandle);
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1340,20 +1311,20 @@ namespace Tinkercell
 
 	void GraphicsScene::setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles)
 	{
-		if (networkWindow)
-			networkWindow->setParentHandle(handles,parentHandles);
+		if (network)
+			network->setParentHandle(handles,parentHandles);
 	}
 
 	void GraphicsScene::setParentHandle(ItemHandle * child, ItemHandle * parent)
 	{
-		if (networkWindow)
-			networkWindow->setParentHandle(child,parent);
+		if (network)
+			network->setParentHandle(child,parent);
 	}
 
 	void GraphicsScene::setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent)
 	{
-		if (networkWindow)
-			networkWindow->setParentHandle(children,parent);
+		if (network)
+			network->setParentHandle(children,parent);
 	}
 
 	/*! \brief this command changes the z value of an item*/
@@ -1361,8 +1332,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeZCommand(name, this, item, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1375,8 +1346,8 @@ namespace Tinkercell
 	{
 		QUndoCommand * command = new ChangeZCommand(name, this, items, to);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1396,8 +1367,8 @@ namespace Tinkercell
 			sizechange,
 			anglechange,
 			VFlip, HFlip);
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1416,8 +1387,8 @@ namespace Tinkercell
 			anglechange,
 			VFlip, HFlip);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1429,7 +1400,7 @@ namespace Tinkercell
 	{
 		if (handles.isEmpty()) return;
 
-		MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),networkWindow, handles);
+		MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),network, handles);
 
 		if (!mergeCommand->newHandle)
 		{
@@ -1453,11 +1424,11 @@ namespace Tinkercell
 
 		QList<QUndoCommand*> commands;
 		commands += mergeCommand;
-		commands += new RenameCommand(tr("name changed"),networkWindow,handles,newNames);
+		commands += new RenameCommand(tr("name changed"),network,handles,newNames);
 		QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
 
-		if (historyStack)
-			historyStack->push(command);
+		if (network)
+			network->_history.push(command);
 		else
 		{
 			command->redo();
@@ -1471,7 +1442,7 @@ namespace Tinkercell
 	/*! \brief prints the current scene*/
 	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
 	{
-		if (!networkWindow || !networkWindow->currentGraphicsView) return;
+		if (!network || !network->currentGraphicsView) return;
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
 		painter.setBackground(QBrush(Qt::white));
@@ -1508,7 +1479,7 @@ namespace Tinkercell
 
 		painter.fillRect(rect,QBrush(Qt::white));
 
-		QGraphicsView * view = networkWindow->currentGraphicsView;
+		QGraphicsView * view = network->currentGraphicsView;
 
 		if (view)
 		{
@@ -1728,7 +1699,7 @@ namespace Tinkercell
 			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
 		}
 
-		QList<QString> allItems = scene->symbolsTable->handlesFullName.keys();
+		QList<QString> allItems = scene->symbolsTable->uniqueItems.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
 		ItemHandle *handle1;
@@ -1803,19 +1774,23 @@ namespace Tinkercell
 
 	void GraphicsScene::find(const QString& text)
 	{
-		if (!networkWindow || !symbolsTable || text.isNull() || text.isEmpty()) return;
-
+		if (!network || text.isNull() || text.isEmpty()) return;
+		
+		SymbolsTable * symbolsTable = &network->_symbolsTable;
 		NodeGraphicsItem* node = 0;
 		ConnectionGraphicsItem* connection = 0;
 
-		if (symbolsTable->handlesFullName.contains(text) ||
-			symbolsTable->handlesFirstName.contains(text))
+		if (symbolsTable->uniqueItems.contains(text) ||
+			symbolsTable->uniqueData.contains(text))
 		{
 			ItemHandle * handle = 0;
-			if (symbolsTable->handlesFullName.contains(text))
-				handle = symbolsTable->handlesFullName[text];
+			if (symbolsTable->uniqueItems.contains(text))
+				handle = symbolsTable->uniqueItems[text];
 			else
-				handle = symbolsTable->handlesFirstName[text];
+			if (symbolsTable->uniqueData.contains(text))
+				handle = symbolsTable->uniqueData[text].first;
+				
+			if (!handle) return;
 
 			bool alreadySelected = true;
 			for (int i=0; i < handle->graphicsItems.size(); ++i)
@@ -1840,288 +1815,52 @@ namespace Tinkercell
 					return;
 				}
 		}
-
-		QList<ItemHandle*> handles = networkWindow->allHandles();
-
-		QRegExp regex(text);
-
-		QList<ItemHandle*> highlightHandles;
-		const DataTable<qreal>* nData = 0;
-		const DataTable<QString>* sData = 0;
-		for (int i=0; i < handles.size(); ++i)
+		
+		if (symbolsTable->nonuniqueItems.contains(text) ||
+			symbolsTable->nonuniqueData.contains(text))
 		{
-			if (handles[i]->fullName(tr(".")).contains(regex) ||
-				handles[i]->fullName(tr("_")).contains(regex) ||
-				(handles[i]->family() && handles[i]->family()->name.contains(regex)))
+		
+			QList<ItemHandle*> items;
+			
+			if (symbolsTable->nonuniqueItems.contains(text))
 			{
-				highlightHandles += handles[i];
-				continue;
+				items = symbolsTable->nonuniqueItems.values(text);
 			}
-
-			bool found = false;
-
-			if (handles[i]->data)
+			
+			if (symbolsTable->nonuniqueData.contains(text))
 			{
-				QHashIterator<QString,DataTable<qreal> > itr1(handles[i]->data->numericalData);
-				while (itr1.hasNext() && !found)
-				{
-					itr1.next();
-					nData = &itr1.value();
-					for (int j=0; j < nData->rows(); ++j)
-					{
-						if (nData->rowName(j).contains(regex))
-						{
-							found = true;
-						}
-						if (found) break;
-					}
-
-					for (int j=0; j < nData->cols(); ++j)
-					{
-						if (nData->colName(j).contains(regex))
-						{
-							found = true;
-							break;
-						}
-					}
-				}
-
-				QHashIterator<QString,DataTable<QString> > itr2(handles[i]->data->textData);
-				while (itr2.hasNext() && !found)
-				{
-					itr2.next();
-					sData = &itr2.value();
-					for (int j=0; j < sData->rows(); ++j)
-					{
-						if (sData->rowName(j).contains(regex))
-						{
-							found = true;
-							break;
-						}
-					}
-					if (found) break;
-
-					for (int j=0; j < sData->cols(); ++j)
-					{
-						if (sData->colName(j).contains(regex))
-						{
-							found = true;
-							break;
-						}
-					}
-					if (found) break;
-
-					for (int j=0; j < sData->rows(); ++j)
-					{
-						for (int k=0; k < sData->cols(); ++k)
-						{
-							if (sData->at(j,k).contains(regex))
-							{
-								found = true;
-								break;
-							}
-						}
-						if (found) break;
-					}
-				}
-
-				if (found)
-					highlightHandles += handles[i];
+				QList< QPair<ItemHandle*,QString > > pairs = symbolsTable->nonuniqueData.values(text);
+				for (int i=0; i < pairs.size(); ++i)
+					items << pairs.first;
 			}
-		}
+			
+			for (int i=0; i < items.size(); ++i)
+			{
+				ItemHandle * handle = items[i];				
+				if (!handle) continue;
 
-		if (!highlightHandles.isEmpty())
-		{
+				bool alreadySelected = true;
+				for (int i=0; i < handle->graphicsItems.size(); ++i)
+					if (handle->graphicsItems[i])
+						if (!selectedItems.contains(handle->graphicsItems[i]))
+						{
+							alreadySelected = false;
+							break;
+						}
+				if (!alreadySelected)
+				{
+					selectedItems.clear();
+					selectedItems += handle->graphicsItems;					
+				}
+			}
+			
 			selectedItems.clear();
-			for (int i=0; i < highlightHandles.size(); ++i)
-			{
-				if (highlightHandles[i] && highlightHandles[i]->graphicsItems.size() > 0)
-				{
-					QList<QGraphicsItem*>& list = highlightHandles[i]->graphicsItems;
-					for (int j=0; j < list.size(); ++j)
-					{
-						if ((node = NodeGraphicsItem::cast(list[j])))
-						{
-							if (node->isVisible() && !selectedItems.contains(node))
-								selectedItems += node;
-						}
-						else
-						{
-							if ((connection = ConnectionGraphicsItem::cast(list[j])))
-							{
-								if (connection->isVisible() && !selectedItems.contains(connection))
-									selectedItems += connection;
-							}
-						}
-					}
-				}
-			}
+			QPointF p(0,0);
+			for (int j=0; j < selectedItems.size(); ++j)
+				p += selectedItems[j]->scenePos();
+			p /= selectedItems.size();
 			emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
 		}
-	}
-
-	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handle,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handle,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<QString>*>& newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,hashstring,newdata);
-	}
-
-	void GraphicsScene::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handle, hashstring, newdata1, newdata2);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles, hashstring, newdata1, newdata2);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,hashstring,newdata1,newdata2);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,olddata1,newdata1,olddata2,newdata2);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,olddata1,newdata1,olddata2,newdata2);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,olddata1,newdata1);
-	}
-
-	void GraphicsScene::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
-	{
-		if (networkWindow)
-			networkWindow->changeData(name, handles,olddata1,newdata1);
-	}
-
-	QList<ItemHandle*> GraphicsScene::allHandles() const
-	{
-		if (networkWindow)
-			return networkWindow->allHandles();
-		return QList<ItemHandle*>();
-	}
-
-	/*! \brief show item*/
-	void GraphicsScene::showItems(const QString& name, QGraphicsItem* item)
-	{
-		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, item, true);
-
-		if (historyStack)
-			historyStack->push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-	}
-	/*! \brief show items*/
-	void GraphicsScene::showItems(const QString& name, const QList<QGraphicsItem*>& items)
-	{
-		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, items, true);
-
-		if (historyStack)
-			historyStack->push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-	}
-	/*! \brief hide item*/
-	void GraphicsScene::hideItems(const QString& name, QGraphicsItem* item)
-	{
-		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, item, false);
-
-		if (historyStack)
-			historyStack->push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-	}
-	/*! \brief hide items*/
-	void GraphicsScene::hideItems(const QString& name, const QList<QGraphicsItem*>& items)
-	{
-		QUndoCommand * command = new SetGraphicsSceneVisibilityCommand(name, items, false);
-
-		if (historyStack)
-			historyStack->push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-	}
-	/*! \brief show handle that was hidden*/
-	void GraphicsScene::showItems(const QString& name, ItemHandle* handle)
-	{
-		if (networkWindow)
-			networkWindow->showItems(name,handle);
-	}
-
-	/*! \brief show handles that were hidden*/
-	void GraphicsScene::showItems(const QString& name, const QList<ItemHandle*>& handles)
-	{
-		if (networkWindow)
-			networkWindow->showItems(name,handles);
-	}
-
-	/*! \brief hide handle*/
-	void GraphicsScene::hideItems(const QString& name, ItemHandle* handle)
-	{
-		if (networkWindow)
-			networkWindow->hideItems(name,handle);
-	}
-	/*! \brief hide handles*/
-	void GraphicsScene::hideItems(const QString& name, const QList<ItemHandle*>& handles)
-	{
-		if (networkWindow)
-			networkWindow->hideItems(name,handles);
 	}
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;
@@ -2221,29 +1960,4 @@ namespace Tinkercell
 		}
 	}
 
-	/*! \brief get the console window (same as mainWindow->console())*/
-    ConsoleWindow * GraphicsScene::console() const
-    {
-        if (networkWindow)
-            return networkWindow->console();
-        return 0;
-    }
-
-	GraphicsView * GraphicsScene::currentView() const
-	{
-		if (networkWindow)
-            return networkWindow->currentView();
-        return 0;
-	}
-
-	bool GraphicsScene::isVisible(QGraphicsItem * item) const
-	{
-		if (!item || !item->isVisible()) return false;
-
-		if (networkWindow &&
-			networkWindow->currentGraphicsView)
-			return networkWindow->currentGraphicsView->checkVisibility(item);
-
-        return true;
-	}
 }

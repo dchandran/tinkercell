@@ -52,6 +52,7 @@ namespace Tinkercell
 	class MY_EXPORT NetworkHandle : public QObject
 	{
 		Q_OBJECT
+
 	private:
 		/*! \brief the file name where this network is saved*/
 		QString _filename;
@@ -65,7 +66,9 @@ namespace Tinkercell
 		QUndoStack _history;
 		/*! \brief holds a hash of all items and data in this scene.
 		\sa SymbolsTable*/
-		SymbolsTable _symbolsTable;		
+		SymbolsTable _symbolsTable;
+		/*! \brief pointer to current scene*/
+		GraphicsScene * _currentScene;
 		/*! \brief calls mainWindow's setCurrentWindow method*/
 		virtual void setAsCurrentNetwork();
 		
@@ -96,6 +99,24 @@ namespace Tinkercell
 		/*! \brief gets all the moving items from each graphics scene
 		* \return QList<ItemHandle*> list of selected item handles*/
 		virtual QList<GraphicsItem*> & movingItems() const;
+		
+		/*! \}
+			\name find item handles and data tables
+			\{
+		*/
+		
+		/*! \brief get all the items with the given name. Returns a list for non-unique names
+		* \param QString
+		* \return QList<ItemHandle*>*/		
+		QList<ItemHandle*> findItem(const QString&) const;
+		/*! \brief get all the items with the given name. returned list may be longer if names are non-unique
+		* \param QStringList
+		* \return QList<ItemHandle*>*/		
+		QList<ItemHandle*> findItem(const QStringList&) const;
+		/*! \brief get all the items and corresponding data table name that contains the given string. if non-unique, returns nothing
+		* \param QString
+		* \return QPair<ItemHandle*,QString>*/		
+		QPair<ItemHandle*,QString> findData(const QString&) const;
 		
 		/*! \}
 			\name graphics scenes for the network
@@ -299,11 +320,6 @@ namespace Tinkercell
 		*/
 
 	signals:
-		/*! \brief signal sent before closing
-		* \param Boolean setting to false will prevent this window from closing*/
-		void closing(NetworkHandle *, bool * );
-		/*! \brief signal send after closing*/
-		void closed(NetworkHandle *);
 		/*! \brief signals whenever an item is renamed
 		* \param NetworkHandle* window where the event took place
 		* \param QList<ItemHandle*>& items

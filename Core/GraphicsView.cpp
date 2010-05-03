@@ -123,10 +123,7 @@ namespace Tinkercell
 	GraphicsView::GraphicsView(NetworkWindow * network, QWidget * parent)
 		: QGraphicsView (network->scene,parent), scene(network->scene), networkWindow(network)
 	{
-		if (network && !network->graphicsViews.contains(this))
-			network->graphicsViews.push_front(this);
-		
-		if (network->mainWindow)
+		if (network->_scenes.size() < 2 network->mainWindow)
 		{
 			connect(this,SIGNAL(windowClosing(NetworkWindow *, bool*)),
 					network->mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)));
@@ -199,7 +196,10 @@ namespace Tinkercell
 		if (b)
 		{
 			if (network)
+			{
 				emit windowClosed(network);
+				network->close();
+			}
 
 			event->accept();
 		}

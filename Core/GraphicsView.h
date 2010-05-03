@@ -75,6 +75,12 @@ namespace Tinkercell
 		* \return void
 		*/
 		void windowClosing(NetworkWindow *, bool*);
+		/*!
+		* \brief signals after a window is closed
+		* \param NetworkWindow *  the window that was closed
+		* \return void
+		*/
+		void windowClosed(NetworkWindow *);
 	
 	public:
 		/*! \brief background */
@@ -93,27 +99,7 @@ namespace Tinkercell
 		*	\param NetworkWindow * window that this view belongs with
 		*	\param QWidget * parent
 		*/
-		GraphicsView(NetworkWindow * networkWindow = 0, QWidget * parent = 0);
-		/*! \brief show the given item in this view (does not affect other views of the same the scene)
-		*	\param QGraphicsView*
-		*/
-		virtual void showItem(QGraphicsItem*);
-		/*! \brief hide the given item in this view (does not affect other views of the same the scene)
-		*	\param QGraphicsView*
-		*/
-		virtual void hideItem(QGraphicsItem*);
-		/*! \brief show the given items in this view (does not affect other views of the same the scene)
-		*	\param QList<QGraphicsItem*>&*
-		*/
-		virtual void showItems(const QList<QGraphicsItem*>&);
-		/*! \brief hide the given items in this view (does not affect other views of the same the scene)
-		*	\param QList<QGraphicsItem*>&*
-		*/
-		virtual void hideItems(const QList<QGraphicsItem*>&);
-		/*! \brief check is an item is visible in this view (used by scene::isVisible())
-		*	\param QGraphicsItem*
-		*/
-		virtual bool checkVisibility(QGraphicsItem*) const;
+		GraphicsView(NetworkWindow * networkWindow = 0, QWidget * parent = 0);		
 
 	protected:
 		/*! \brief close window event

@@ -34,8 +34,55 @@ namespace Tinkercell
 	{
 		history.clear();
 	}
+	
+	QList<ItemHandle*> NetworkHandle::findItem(const QString& s) const
+	{
+		QList<ItemHandle*> items;
+		if (_symbolsTable.uniqueItems.contains(s))
+		{
+			items << _symbolsTable.uniqueItems[s];
+		}
+		else
+		if (_symbolsTable.nonuniqueItems.contains(s))
+		{
+			items = _symbolsTable.nonuniqueItems.values(s);
+		}
+		return items;
+	}
+	
+	QList<ItemHandle*> NetworkHandle::findItem(const QStringList& list) const
+	{
+		QList<ItemHandle*> items;
+		
+		for (int i=0; i < list.size(); ++i)
+		{
+			QString s = list[i];
+			if (_symbolsTable.uniqueItems.contains(s))
+			{
+				items += _symbolsTable.uniqueItems[s];
+			}
+			else
+			if (_symbolsTable.nonuniqueItems.contains(s))
+			{
+				QList<ItemHandle*> items2 = _symbolsTable.nonuniqueItems.values(s);
+				for (int j=0; j < items2.size(); ++j)
+				{
+					if (!items.contains(items2[j]))
+						items += items2[j];
+				}
+			}
+		}
+		return items;
+	}
+	
+	QPair<ItemHandle*,QString> NetworkHandle::findData(const QString& s) const
+	{
+		if (_symbolsTable.uniqueData.contains(s))
+			return _symbolsTable.uniqueData[s];
+		return QPair<ItemHandle*,QString>(0,QString());
+	}
 
-	void NetworkHandle::closeEvent(QCloseEvent *event)
+	void NetworkHandle::close()
 	{
 		if (!mainWindow)
 		{
@@ -43,15 +90,7 @@ namespace Tinkercell
 			return;
 		}
 
-		bool b = true;
-		emit closing(this,&b);
-		if (b)
-		{
-			mainWindow->sendEscapeSignal(mainWindow);
-			emit closed(this);
-
-			disconnect();
-			
+			disconnect();			
 			disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 			disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 			
@@ -89,8 +128,7 @@ namespace Tinkercell
 			scene->addItem(insertItems[i]);
 		}
 		
-		GraphicsView * view = new GraphicsView(scene);
-		
+		GraphicsView * view = new GraphicsView(scene);		
 		_scenes << scene;
 	}
 	
@@ -101,18 +139,11 @@ namespace Tinkercell
 		_scenes << scene;		
 	}
 
-	NetworkHandle::NetworkHandle(MainWindow * main, GraphicsScene * scene) :
-		mainWindow(main), scene(0), textEditor(0), symbolsTable(this), currentGraphicsView(0)
+	NetworkHandle::NetworkHandle(MainWindow * main) : QObject(main), mainWindow(main), symbolsTable(this)
 	{
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newscene.png")));
-
-		if (!scene) scene = new GraphicsScene;
-		this->scene = scene;
-		scene->networkWindow = this;
-
-		GraphicsView * view = new GraphicsView(this);
-		currentGraphicsView = view;
+		_currentScene = 0;
 
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(view);
@@ -181,15 +212,6 @@ namespace Tinkercell
 			connect(scene,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				main ,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
-				main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-				main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
-
 			connect(scene,SIGNAL(escapeSignal(const QWidget*)),
 				main ,SIGNAL(escapeSignal(const QWidget*)));
 
@@ -200,8 +222,19 @@ namespace Tinkercell
 				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 
 			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkHandles.size()));
-			main->setCurrentWindow(this);
+			
 		}
+		
+		main->setCurrentWindow(this);
+		
+		connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+
+		connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
+			main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+
+		connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
+			main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
 		view->centerOn(0,0)	;
 	}
@@ -272,7 +305,7 @@ namespace Tinkercell
 
 	QList<ItemHandle*> NetworkHandle::allHandles()
 	{
-		QList<ItemHandle*> handles = symbolsTable.handlesFullName.values();
+		QList<ItemHandle*> handles = _symbolsTable.uniqueItems.values();
 		handles << &(symbolsTable.modelItem);
 		return handles;
 	}
@@ -319,9 +352,9 @@ namespace Tinkercell
 
 		QString newname = Tinkercell::RemoveDisallowedCharactersFromName(s);
 
-		if (symbolsTable.handlesFullName.contains(newname))
+		if (_symbolsTable.uniqueItems.contains(newname))
 		{
-			QStringList existingNames = symbolsTable.handlesFullName.keys();
+			QStringList existingNames = _symbolsTable.uniqueItems.keys();
 
 			QString n = newname;
 
@@ -330,7 +363,7 @@ namespace Tinkercell
 
 			int i = 0;
 
-			while (symbolsTable.handlesFullName.contains(n))
+			while (_symbolsTable.uniqueItems.contains(n))
 				n = newname.left(newname.size()-1) + QString::number(i);
 
 			newname = n;
@@ -755,55 +788,66 @@ namespace Tinkercell
 				QString str2 = str;
 				str2.replace(tr("_"),tr("."));
 				if (!reservedWords.contains(str) &&
-					!symbolsTable.handlesFullName.contains(str)) //maybe new symbol in the formula
+					!_symbolsTable.uniqueItems.contains(str)) //maybe new symbol in the formula
 				{
-					if (symbolsTable.dataRowsAndCols.contains(str) && symbolsTable.dataRowsAndCols[str].first)
+					if (_symbolsTable.uniqueData.contains(str) && _symbolsTable.uniqueData[str].first)
 					{
-						if (! str.contains(QRegExp(tr("^")+symbolsTable.dataRowsAndCols[str].first->fullName())) )
+						if (! str.contains(QRegExp(tr("^")+_symbolsTable.uniqueData[str].first->fullName())) )
 						{
-							ItemHandle * handle = symbolsTable.dataRowsAndCols[str].first;
+							ItemHandle * handle = _symbolsTable.uniqueData[str].first;
 							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
 							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
 							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
 						}
 					}
 					else
-						if (symbolsTable.dataRowsAndCols.contains(str2) && symbolsTable.dataRowsAndCols[str2].first)
+					if (_symbolsTable.nonuniqueData.contains(str) && _symbolsTable.nonuniqueData[str].first)
+					{
+						if (! str.contains(QRegExp(tr("^")+_symbolsTable.nonuniqueData[str].first->fullName())) )
 						{
-							if (! str2.contains(QRegExp(tr("^")+symbolsTable.dataRowsAndCols[str2].first->fullName())) )
-							{
-								ItemHandle * handle = symbolsTable.dataRowsAndCols[str2].first;
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str2 + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str2 + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str2);
-							}
-							else
-							{
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),str2 + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + str + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + str);
-							}
+							ItemHandle * handle = _symbolsTable.nonuniqueData[str].first;
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str);
+						}
+					}
+					else
+					if (_symbolsTable.uniqueData.contains(str2) && _symbolsTable.uniqueData[str2].first)
+					{
+						if (! str2.contains(QRegExp(tr("^")+_symbolsTable.uniqueData[str2].first->fullName())) )
+						{
+							ItemHandle * handle = _symbolsTable.uniqueData[str2].first;
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),handle->fullName() + tr(".") + str2 + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + handle->fullName() + tr(".") + str2 + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + handle->fullName() + tr(".")  + str2);
 						}
 						else
 						{
-							if (symbolsTable.handlesFirstName.contains(str) && symbolsTable.handlesFirstName[str])
-							{
-								s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str]->fullName() + tr("\\1"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str]->fullName() + tr("\\2"));
-								s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str]->fullName());
-							}
-							else
-								if (symbolsTable.handlesFirstName.contains(str2) && symbolsTable.handlesFirstName[str2])
-								{
-									s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str2]->fullName() + tr("\\1"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName() + tr("\\2"));
-									s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName());
-								}
-								else
-								{
-									newvars << str;
-								}
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),str2 + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + str + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_\\.])")+str+tr("$")),tr("\\1") + str);
 						}
+					}
+					else
+					{
+						if (symbolsTable.nonuniqueItems.contains(str) && symbolsTable.nonuniqueItems[str])
+						{
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str]->fullName() + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str]->fullName() + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str]->fullName());
+						}
+						else
+						if (symbolsTable.nonuniqueItems.contains(str2) && symbolsTable.nonuniqueItems[str2])
+						{
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str2]->fullName() + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName() + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName());
+						}
+						else
+						{
+							newvars << str;
+						}
+					}
 				}
 			}
 		}

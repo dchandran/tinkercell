@@ -14,7 +14,7 @@ This file contains a collection of commands that perform simple operations that 
 #include "TextGraphicsItem.h"
 #include "Tool.h"
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
 #include <QRegExp>
@@ -241,29 +241,20 @@ namespace Tinkercell
 			refreshAllConnectionIn(graphicsItems);
 	}
 	
-	InsertTextItemsCommand::~InsertTextItemsCommand()
+	InsertHandleCommand::~InsertHandleCommand()
 	{
 		for (int i=0; i < items.size(); ++i)
 			if (items[i] && !MainWindow::invalidPointers.contains((void*)items[i]))
 			{
-				textEditor->items().removeAll(items[i]);
-				for (int j=(i+1); j < items.size(); ++j)
-				{
-					if (items[j] == items[i])
-						items[j] = 0;
-				}
-				if (!items[i]->handle() || (items[i]->handle() && items[i]->handle()->parent == 0))
-				{
-					delete items[i];
-					MainWindow::invalidPointers[ (void*)items[i] ] = true;
-				}
+				delete items[i];
+				MainWindow::invalidPointers[ (void*)items[i] ] = true;
 				items[i] = 0;
 			}
 		if (renameCommand)
 			delete renameCommand;
 	}
 
-	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, const QList<TextItem*> & list)
+	InsertHandleCommand::InsertHandleCommand(NetworkHandle * network, const QList<ItemHandle*> & list)
 	{
 		QStringList s;
 		ItemHandle * h = 0;
@@ -271,28 +262,28 @@ namespace Tinkercell
 			if (h = getHandle(list[i]))
 				s << h->name;
 		setText(s.join(QObject::tr(",")) + QObject::tr(" added"));
-		textEditor = editor;
+		this->network = network;
 		items = list;
 		renameCommand = 0;
 	}
 
-	InsertTextItemsCommand::InsertTextItemsCommand(TextEditor * editor, TextItem * item)
+	InsertHandleCommand::InsertHandleCommand(NetworkHandle * network, ItemHandle * item)
 	{
 		ItemHandle * h = getHandle(item);
 		if (h)
 			setText(h->name + QObject::tr(" added"));
 		else
 			setText(QObject::tr("items added"));
-		textEditor = editor;
+		this->network = network;
 		items << item;
 		renameCommand = 0;
 	}
 
-	void InsertTextItemsCommand::redo()
+	void InsertHandleCommand::redo()
 	{
-		if (textEditor && textEditor->networkWindow)
+		if (network)
 		{
-			QHash<QString,ItemHandle*>& allNames = textEditor->networkWindow->symbolsTable.handlesFullName;
+			QHash<QString,ItemHandle*>& allNames = network->symbolsTable.uniqueItems;
 			QStringList oldNames, newNames;
 			QList<ItemHandle*> nameChangeHandles;
 			QString s0,s1;
@@ -345,7 +336,7 @@ namespace Tinkercell
 		}
 	}
 
-	void InsertTextItemsCommand::undo()
+	void InsertHandleCommand::undo()
 	{
 		if (textEditor)
 		{

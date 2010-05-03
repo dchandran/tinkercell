@@ -11,7 +11,8 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 ****************************************************************************/
 
-#include "NetworkWindow.h"
+#include "DataTable.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -21,6 +22,9 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include "Tool.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
+#include "CloneItems.h"
+#include "SymbolsTable.h"
+#include "HistoryWindow.h"
 #include "GraphicsScene.h"
 #include <QRegExp>
 
@@ -116,9 +120,8 @@ namespace Tinkercell
 	}
 
 	/*! \brief Constructor: sets 10000x10000 scene */
-	GraphicsScene::GraphicsScene(QWidget * parent) : QGraphicsScene(parent)
+	GraphicsScene::GraphicsScene(NetworkHandle * parent) : QGraphicsScene(parent), network(parent)
 	{
-		network = 0;
 		gridSz = GRID;
 		mouseDown = false;
 		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
@@ -1623,13 +1626,11 @@ namespace Tinkercell
 
 	void GraphicsScene::paste()
 	{
-		if (!symbolsTable) return;
-
-		GraphicsScene * scene = this;
+		if (!network) return;
 
 		TextGraphicsItem* textItem = 0;
 		QClipboard * clipboard = QApplication::clipboard();
-		if (clipboard && !clipboard->text().isEmpty() && scene->selected().size() == 1 && (textItem = TextGraphicsItem::cast(scene->selected()[0])))
+		if (clipboard && !clipboard->text().isEmpty() && selectedItems.size() == 1 && (textItem = TextGraphicsItem::cast(selectedItems[0])))
 		{
 			textItem->setPlainText( textItem->toPlainText() + clipboard->text() );
 			return;
@@ -1648,7 +1649,7 @@ namespace Tinkercell
 		{
 			if ((connection = ConnectionGraphicsItem::cast(duplicateItems[i])))
 			{
-				if (copiedFromScene != scene)
+				if (copiedFromScene != this)
 				{
 					QList<NodeGraphicsItem*> allNodes = connection->nodes();
 					for (int j=0; j < allNodes.size(); ++j)
@@ -1696,12 +1697,12 @@ namespace Tinkercell
 		if (items.size() > 1)
 			center /= items.size();
 
-		if (!scene->lastPoint().isNull())
+		if (!lastPoint().isNull())
 		{
-			commands << new MoveCommand(scene,moveitems,scene->lastPoint() - center);
+			commands << new MoveCommand(this,moveitems,lastPoint() - center);
 		}
 
-		QList<QString> allItems = scene->symbolsTable->uniqueItems.keys();
+		QList<QString> allItems = network->_symbolsTable.uniqueItems.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
 		ItemHandle *handle1;
@@ -1715,7 +1716,7 @@ namespace Tinkercell
 			}
 		}
 
-		emit itemsAboutToBeInserted(scene,items,handles);
+		emit itemsAboutToBeInserted(this,items,handles);
 
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -1754,24 +1755,17 @@ namespace Tinkercell
 		}
 
 		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
-		commands << new InsertGraphicsCommand(tr("paste items"),scene,items);		
+		commands << new InsertGraphicsCommand(tr("paste items"),this,items);		
 		commands << new SetGraphicsViewVisibilityCommand(currentView(), hideItems, false);
 		
-		scene->clearSelection();
+		clearSelection();
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("paste items"),commands);
 
-		if (scene->historyStack)
-			scene->historyStack->push(compositeCommand);
-		else
-		{
-			compositeCommand->redo();
-			delete compositeCommand;
-		}
+		network->push(compositeCommand);
 
-        emit itemsInserted(scene,items,handles);
-
-		scene->select(items);
+        emit itemsInserted(this,items,handles);
+		select(items);
 	}
 
 	void GraphicsScene::find(const QString& text)

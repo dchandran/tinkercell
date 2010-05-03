@@ -33,11 +33,6 @@ a need to directly  interact with the GraphicsScene
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
 
-#include "DataTable.h"
-#include "HistoryWindow.h"
-#include "SymbolsTable.h"
-#include "CloneItems.h"
-
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
 #else
@@ -51,7 +46,7 @@ namespace Tinkercell
 	class ConnectionGraphicsItem;
 	class ItemHandle;
 	class ItemData;
-	class NetworkWindow;
+	class NetworkHandle;
 	class GraphicsView;
 
 	/*! \brief The primary task of the graphics scene is to draws items.
@@ -89,12 +84,8 @@ namespace Tinkercell
 
 		/*! \brief the containing network window*/
 		NetworkHandle * network;
-		/*! \brief the containing network window's symbols table*/
-		SymbolsTable * symbolsTable;
 		/*! \brief indicates whether this scene is free to perform actions*/
 		bool useDefaultBehavior;
-		/*! \brief a pointer to the NetworkWindow's history*/
-		QUndoStack* historyStack;
 		/*!
 		* \brief the context menu that is shown during right-click event on selected graphical items.
 		Plugins can add new actions to this menu.
@@ -133,7 +124,7 @@ namespace Tinkercell
 		* \return double*/
 		virtual qreal ZValue();
 		/*! \brief Constructor: sets 10000x10000 scene */
-		GraphicsScene(QWidget * parent = 0);
+		GraphicsScene(NetworkHandle * parent);
 		/*! \brief destructor */
 		virtual ~GraphicsScene();
 

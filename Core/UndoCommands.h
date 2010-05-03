@@ -54,33 +54,31 @@ namespace Tinkercell
 
 	/*! \brief this command inserts new handles to a NetworkWindow
 	* \ingroup undo*/
-	class MY_EXPORT InsertTextItemsCommand : public QUndoCommand
+	class MY_EXPORT InsertHandlesCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
-		* \param NetworkWindow* window where items are inserted
+		* \param NetworkHandle* window where items are inserted
 		* \param QList<ItemHandle*> new items
 		*/
-		InsertTextItemsCommand(TextEditor *, const QList<TextItem*> & );
+		InsertHandlesCommand(NetworkHandle *, const QList<ItemHandle*> & );
 		/*! \brief constructor
-		* \param NetworkWindow* window where items are inserted
+		* \param NetworkHandle* window where items are inserted
 		* \param ItemHandle* new item
 		*/
-		InsertTextItemsCommand(TextEditor *, TextItem*);
+		InsertHandlesCommand(NetworkHandle *, ItemHandle*);
 		/*! \brief destructor. deletes all text items and their handles (if not containing any graphics items)*/
-		~InsertTextItemsCommand();
+		~InsertHandlesCommand();
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
 		void undo();
 
 	private:
-		/*! \brief inserted items*/
-		QList<TextItem*> items;
 		/*! \brief inserted handles*/
-		QList<ItemHandle*> handles;
+		QList<ItemHandle*> items;
 		/*! \brief TextEditor where the change happened*/
-		TextEditor * textEditor;
+		NetworkHandle * network;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
 	};

@@ -320,6 +320,11 @@ namespace Tinkercell
 		to create a new toolbar
 		*/
 		QToolBar* toolBarForTools;
+		
+		/*! \}
+			\name slots
+			\{
+		*/
 
 	public slots:
 		/*!
@@ -469,11 +474,6 @@ namespace Tinkercell
 		*/
 		virtual void tabIndexChanged(int);
 		/*!
-		* \brief create a new view of the current network window
-		* \return GraphicsView* the new view
-		*/
-		virtual GraphicsView * createView();
-		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
 		* \param QList<QGraphicsItem*>& list of items removed
@@ -487,20 +487,6 @@ namespace Tinkercell
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
 		* \return void*/
 		void itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
-		/*!
-		* \brief signals whenever items are deleted
-		* \param TextEditor * editor where the items were removed
-		* \param QList<TextItem*>& list of items removed
-		* \param QList<ItemHandle*>& list of handles removed (does NOT have to be the same number as items removed)
-		* \return void*/
-		void itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
-		/*!
-		* \brief signals whenever items are added
-		* \param TextEditor * editor where the items were added
-		* \param QList<TextItem*>& list of new items
-		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
-		* \return void*/
-		void itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
 		/*!
 		* \brief send signal to other tools so that they can connect functions to signals
 		* \param QSemaphore* semaphore

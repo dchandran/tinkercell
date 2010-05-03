@@ -446,13 +446,7 @@ namespace Tinkercell
 		}
 
 		if (!itemHandle) return;
-
-		ItemHandle * h = itemHandle;
-
 		setHandle(0);
-
-		if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
-			delete h;
 	}
 
 	/*! \brief checks that this is a valid drawable*/

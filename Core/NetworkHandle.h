@@ -58,15 +58,14 @@ namespace Tinkercell
 		/*! \brief the main window containing this network*/
 		MainWindow * _mainWindow;
 		/*! \brief all the graphics scenes used to display this network*/
-		QList<GraphicsScene *> _scenes;
+		QList<GraphicsScene*> _scenes;
 		/*! \brief all the the text editors used to display this network*/
-		QList<TextEditor *> _editors;
+		QList<TextEditor*> _editors;
 		/*! \brief the undo stack*/
 		QUndoStack _history;
 		/*! \brief holds a hash of all items and data in this scene.
 		\sa SymbolsTable*/
-		SymbolsTable _symbolsTable;
-		
+		SymbolsTable _symbolsTable;		
 		/*! \brief calls mainWindow's setCurrentWindow method*/
 		virtual void setAsCurrentNetwork();
 		
@@ -106,7 +105,7 @@ namespace Tinkercell
 
 		/*! \brief get all the graphics scenes used to illustrate this network
 		* \return QList<GraphicsScene*>
-		*/		
+		*/
 		virtual QList<GraphicsScene*> scenes() const;
 		/*! \brief create a new scene for this network
 		* \param QList<QGraphicsItem*> items to initialize the network with

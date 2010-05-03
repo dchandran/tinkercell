@@ -116,13 +116,7 @@ TextGraphicsItem* TextGraphicsItem::clone()
 TextGraphicsItem::~TextGraphicsItem()
 {
     if (!itemHandle) return;
-
-    ItemHandle * h = itemHandle;
-
     setHandle(0);
-
-    if (h->graphicsItems.isEmpty() && h->textItems.isEmpty())
-        delete h;
 }
 
 void TextGraphicsItem::paint(QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget)

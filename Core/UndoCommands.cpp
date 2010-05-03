@@ -1561,7 +1561,10 @@ namespace Tinkercell
 		QStringList allNames;
 		for (int i=0; i < allhandles.size(); ++i)
 			if ((handle1 = (allhandles[i])) && (handle != handle1))
+			{
 				allNames << handle1->fullName();
+				allNames << handle1->fullName(QObject::tr("_"));
+			}
 
 		if (handle)
 		{
@@ -1607,7 +1610,10 @@ namespace Tinkercell
 		QStringList allNames;
 		for (int i=0; i < allItems.size(); ++i)
 			if ((handle1 = (allItems[i])) && (handle != handle1))
+			{
 				allNames << handle1->fullName();
+				allNames << handle1->fullName(QObject::tr("_"));
+			}
 
 		if (handle)
 		{
@@ -1630,7 +1636,10 @@ namespace Tinkercell
 		QStringList allNames;
 		for (int i=0; i < allhandles.size(); ++i)
 			if ((handle = (allhandles[i])) && !items.contains(handle))
+			{
 				allNames << handle->fullName();
+				allNames << handle->fullName(QObject::tr("_"));
+			}
 
 		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 		{
@@ -1655,7 +1664,10 @@ namespace Tinkercell
 		QStringList allNames;
 		for (int i=0; i < allItems.size(); ++i)
 			if ((handle = (allItems[i])) && !items.contains(handle))
+			{
 				allNames << handle->fullName();
+				allNames << handle->fullName(QObject::tr("_"));
+			}
 
 		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 		{

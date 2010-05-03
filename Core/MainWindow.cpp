@@ -830,11 +830,6 @@ namespace Tinkercell
 		deleteAction->setToolTip(tr("Delete selected items"));
 		connect(deleteAction,SIGNAL(triggered()),this,SLOT(remove()));
 
-		QAction * createViewAction = new QAction(QIcon(":/images/changeView.png"),tr("Create &view"),this);
-		viewMenu->addAction(createViewAction);
-		createViewAction->setToolTip(tr("Create view of current network"));
-		connect(createViewAction,SIGNAL(triggered()),this,SLOT(createView()));
-
 		QAction * selectAllAction = new QAction(tr("Select all"),this);
 		editMenu->addAction(selectAllAction);
 		selectAllAction->setToolTip(tr("Select all items"));

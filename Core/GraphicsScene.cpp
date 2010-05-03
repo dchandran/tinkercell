@@ -149,7 +149,9 @@ namespace Tinkercell
 		if (movingItemsGroup)
 			destroyItemGroup(movingItemsGroup);
 		select(0);
-		
+		if (GraphicsScene::copiedFromScene == this)
+			GraphicsScene::copiedFromScene = 0;
+
 		/*
 		removeItem(&selectionRect);
 		QList<QGraphicsItem *> allitems1 = items();

@@ -1224,26 +1224,21 @@ namespace Tinkercell
 		}
 	}
 
-	GraphicsView * MainWindow::createView()
-	{
-		NetworkWindow * current = currentWindow();
-		if (current)
-			return current->createView(current->currentView());
-		return 0;
-	}
-
 	void MainWindow::setCursor(QCursor cursor)
 	{
 		QMainWindow::setCursor(cursor);
 		QList<NetworkWindow*> allWins = allWindows();
-		QList<GraphicsView*> views;
+		QList<QGraphicsView*> views;
 		for (int i=0; i < allWins.size(); ++i)
 		{
 			allWins[i]->setCursor(cursor);
-			views = allWins[i]->views();
-			for (int j=0; j < views.size(); ++j)
-                if (views[j])
-                    views[j]->setCursor(cursor);
+			if (allWins[i]->scene)
+			{
+				views = allWins[i]->scene->views();
+				for (int j=0; j < views.size(); ++j)
+		            if (views[j])
+		                views[j]->setCursor(cursor);
+			}
 		}
 	}
 

@@ -120,16 +120,9 @@ namespace Tinkercell
 		}*/
 	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
-	GraphicsView::GraphicsView(NetworkWindow * network, QWidget * parent)
-		: QGraphicsView (network->scene,parent), scene(network->scene), networkWindow(network)
+	GraphicsView::GraphicsView(NetworkWindow * network)
+		: QGraphicsView (network->scene,network), scene(network->scene), networkWindow(network)
 	{
-		if (network->_scenes.size() < 2 network->mainWindow)
-		{
-			connect(this,SIGNAL(windowClosing(NetworkWindow *, bool*)),
-					network->mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)));
-			connect(this,SIGNAL(windowClosed(NetworkWindow *)),
-					network->mainWindow,SIGNAL(windowClosed(NetworkWindow *)));
-		}
 		
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
@@ -185,24 +178,4 @@ namespace Tinkercell
 
 		QGraphicsView::keyPressEvent(event);
 	}
-	
-	void GraphicsView::closeEvent(QCloseEvent * event)
-	{
-		bool b = true;
-		
-		if (network)
-			emit windowClosing(network,&b);
-		
-		if (b)
-		{
-			if (network)
-			{
-				emit windowClosed(network);
-				network->close();
-			}
-
-			event->accept();
-		}
-	}
-
 }

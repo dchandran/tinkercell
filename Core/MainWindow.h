@@ -4,16 +4,10 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is header file for Tinkercell's main window
-The MainWindow contains a set of NetworkWindows, which is the class
-that supports TextEditor or GraphicsScene.
-Each TextEditor or GraphicsScene emits various signals. Those
-signals are then emitted by the MainWindow; in this way, a plugin does not need
-to listen to each of the TextEditor or GraphicsScene signals but only the MainWindow's signals.
-
-The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
-
-The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
+MainWindow is the parent container for all the other widgets in TinkerCell
+The central widget in MainWindow is a tab widget. Each tab widget can hold
+a GraphicsView or a TextEditor.
+One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
 
 
 ****************************************************************************/
@@ -84,12 +78,11 @@ namespace Tinkercell
 	class CThread;
 	class C_API_Slots;
 
-	/*! \brief The MainWindow contains a set of GraphicScenes and/or TextEditors.
-	Each GraphicsScene and TextEditor is contained inside a NetworkWindow.
-	All three of these classes emit various signals. Those signals are relayed by the MainWindow.
-	In this way, a Tool does not need to listen to each of the GraphicsScene and TextEditor signals
-	but only the MainWindow's signals.	 The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
-	The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
+	/*! \brief 
+	MainWindow is the parent container for all the other widgets in TinkerCell
+	The central widget in MainWindow is a tab widget. Each tab widget can hold
+	a GraphicsView or a TextEditor.
+	One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
 	\ingroup core
 	*/
 	class MY_EXPORT MainWindow : public QMainWindow
@@ -99,6 +92,10 @@ namespace Tinkercell
 	public:
 	
 		friend class NetworkWindow;
+		friend class NetworkHandle;
+		friend class GraphicsScene;
+		friend class TextEditor;
+		friend class GraphicsView;
 
 		/*! \brief this enum is used to determine how to place a widget when used in addToolWindow.
 		             DockWidget = tool window is placed into a dockable widget
@@ -204,48 +201,33 @@ namespace Tinkercell
 		*/
 		GraphicsScene * currentScene() const;
 		/*!
-		* \brief gets the current view for the current scene that is active
-		* \return GraphicsView* current scene
-		*/
-		GraphicsView * currentView() const;
-		/*!
 		* \brief gets the text editor that is active
 		* \return TextEditor* current scene
 		*/
 		TextEditor * currentTextEditor() const;
 		/*!
-		* \brief gets the current window that is active
-		* \return NetworkWindow* current network window
-		*/
-		NetworkWindow * currentWindow() const;
-		/*!
 		* \brief (same as currentWindow) gets the current window that is active
-		* \return NetworkWindow* current network window
+		* \return NetworkHandle* current network window
 		*/
-		NetworkWindow * currentNetwork() const;
+		NetworkHandle * currentNetwork() const;
 		/*!
 		* \brief same as currentWindow()->symbolsTable
 		* \return SymbolsTable* current network window's symbols table
 		*/
 		SymbolsTable * currentSymbolsTable() const;
 		/*!
-		* \brief sets the active window
-		* \param NetworkWindow* network window
-		*/
-		void setCurrentWindow(NetworkWindow*);
-		/*!
 		* \brief gets all the windows in the main window
-		* \return QList<NetworkWindow*> list of windows
+		* \return QList<NetworkHandle*> list of windows
 		*/
-		QList<NetworkWindow*> allWindows() const;
+		QList<NetworkHandle*> allNetworks() const;
 		/*!
 		* \brief the history stack of the current window.
-		* \return QUndoStack* current scene's history stack or null if current scene is null
+		* \return QUndoStack* current scene's history stack or null if current network is null
 		*/
 		QUndoStack * historyStack() const;
 		/*!
 		* \brief the history stack widget of the current window.
-		* \return QUndoView* current scene's history stack or null if current scene is null
+		* \return QUndoView* current scene's history stack or null if current network is null
 		*/
 		QUndoView * historyWidget();
 		/*!
@@ -429,12 +411,6 @@ namespace Tinkercell
 		
 		/*! \brief pop-out the current window*/
 		void popOut();
-		
-		/*! \brief pop-out the given window*/
-		void popOut(NetworkWindow *);
-		
-		/*! \brief pop-in the given window*/
-		void popIn(NetworkWindow *);
 
 		/*! \brief get the console window*/
 		ConsoleWindow * console() const;
@@ -443,6 +419,16 @@ namespace Tinkercell
 		static MainWindow * instance();
 
 	protected slots:
+		/*! \brief pop-out the given window*/
+		void popOut(NetworkWindow *);
+		
+		/*! \brief pop-in the given window*/
+		void popIn(NetworkWindow *);
+		
+		/*!
+		* \brief sets the active window
+		*/
+		void setCurrentWindow(NetworkWindow*);
 		/*!
 		* \brief loads files (library files or model files)
 		* \param QList<QFileInfo>& the name(s) of the file(s)
@@ -535,28 +521,28 @@ namespace Tinkercell
 		void setupFunctionPointers( QLibrary * );
 		/*!
 		* \brief signals when a window is going to close
-		* \param NetworkWindow *  the window that is closing
+		* \param NetworkHandle *  the window that is closing
 		* \param Boolean setting to false will prevent this window from closing
 		* \return void
 		*/
-		void windowClosing(NetworkWindow *, bool*);
+		void windowClosing(NetworkHandle *, bool*);
 		/*!
 		* \brief signals after a window is closed
-		* \param NetworkWindow *  the window that was closed
+		* \param NetworkHandle *  the window that was closed
 		* \return void
 		*/
-		void windowClosed(NetworkWindow *);
+		void windowClosed(NetworkHandle *);
 		/*!
 		* \brief signals used inform that the model is going to be saved as it is
-		* \param NetworkWindow *  the window where model was loaded (usually current scene)
+		* \param NetworkHandle *  the window where model was loaded (usually current scene)
 		* \return void*/
-		void prepareModelForSaving(NetworkWindow*,bool*);
+		void prepareModelForSaving(NetworkHandle*,bool*);
 		/*!
 		* \brief signals used inform that the model has been saved
-		* \param NetworkWindow *  the window where model was loaded (usually current scene)
+		* \param NetworkHandle *  the window where model was loaded (usually current scene)
 		* \return void
 		*/
-		void modelSaved(NetworkWindow*);
+		void modelSaved(NetworkHandle*);
 		/*!
 		* \brief signals used selects a file to save the current model to
 		* \param QString& file that is selected by user
@@ -571,23 +557,23 @@ namespace Tinkercell
 		void loadModel(const QString& filename);
 		/*!
 		* \brief signals informs that the current window has just loaded a new model
-		* \param NetworkWindow *  the window where model was loaded (usually current scene)
+		* \param NetworkHandle *  the window where model was loaded (usually current scene)
 		* \return void
 		*/
-		void modelLoaded(NetworkWindow*);
+		void modelLoaded(NetworkHandle*);
 		/*!
 		* \brief signals whenever the new window is opened
-		* \param NetworkWindow* the current new window
+		* \param NetworkHandle* the current new window
 		* \return void
 		*/
-		void windowOpened(NetworkWindow*);
+		void windowOpened(NetworkHandle*);
 		/*!
 		* \brief signals whenever the current window changes
-		* \param NetworkWindow* the previous windpw
-		* \param NetworkWindow* the current new window
+		* \param NetworkHandle* the previous windpw
+		* \param NetworkHandle* the current new window
 		* \return void
 		*/
-		void windowChanged(NetworkWindow*,NetworkWindow*);
+		void windowChanged(NetworkHandle*,NetworkHandle*);
 		/*!
 		* \brief signals whenever a new item is selected (item can be sub-item, not top-level)
 		* \param GraphicsScene * scene where items are selected
@@ -682,17 +668,17 @@ namespace Tinkercell
 		/*!
 		* \brief A convenient signal that is emitted when items are inserted from a GraphicsScene
 		or TextEditor. Warning: listening to the other itemsInserted signals may cause redundancy
-		* \param NetworkWindow* where the editting happened
+		* \param NetworkHandle* where the editting happened
 		* \param QList<TextItem*> new items
 		*/
-		void itemsInserted(NetworkWindow * win, const QList<ItemHandle*>&);
+		void itemsInserted(NetworkHandle * win, const QList<ItemHandle*>&);
 		/*!
 		* \brief A convenient signal that is emitted when items are removed from a GraphicsScene
 				or TextEditor. Warning: listening to the other itemsRemoved signals may cause redundancy
-		* \param NetworkWindow* where the editting happened
+		* \param NetworkHandle* where the editting happened
 		* \param ItemHandle* removed items
 		*/
-		void itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& );
+		void itemsRemoved(NetworkHandle * win, const QList<ItemHandle*>& );
 		/*! \brief signals just before items are copied
 		* \param GraphicsScene * scene where the items are going to be copied
 		* \param QList<QGraphicsItem*>& list of graphics items going to be copied
@@ -761,12 +747,12 @@ namespace Tinkercell
 		* \return void*/
 		void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
 		/*! \brief signals whenever an item is renamed
-		* \param NetworkWindow * window where the event took place
+		* \param NetworkHandle * window where the event took place
 		* \param QList<ItemHandle*>& items
 		* \param QList<QString>& old names
 		* \param QList<QString>& new names
 		* \return void*/
-		void itemsRenamed(NetworkWindow * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
+		void itemsRenamed(NetworkHandle * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
 		/*! \brief signals whenever the handles for graphics items have changed
 		* \param GraphicsScene* scene where the event took place
 		* \param QList<GraphicsItem*>& items that are affected
@@ -774,11 +760,11 @@ namespace Tinkercell
 		* \return void*/
 		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 		/*! \brief signals whenever item parent handle is changed
-		* \param NetworkWindow * window where the event took place
+		* \param NetworkHandle * window where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
-		void parentHandleChanged(NetworkWindow * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		void parentHandleChanged(NetworkHandle * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
 		* \return void*/
@@ -820,10 +806,10 @@ namespace Tinkercell
 		/*! \brief the central multi-document interface widget*/
 		QTabWidget * tabWidget;
 		/*! \brief the list of all network windows*/
-		QList<NetworkWindow*> allNetworkWindows;
+		QList<NetworkHandle*> allNetworks;
 		/*! \brief the optional tool box that will only appear if one of the plug-ins uses the toolbox argument in the addToolWindow call*/
 		QToolBox * toolBox;
-		/*! \brief history view, not the stack itself. The stack is stored within each NetworkWindow*/
+		/*! \brief history view, not the stack itself. The stack is stored within each NetworkHandle*/
 		HistoryWindow historyWindow;
 		/*! \brief keep pointer to last selected window. Used by windowChanged signal*/
 		NetworkWindow * currentNetworkWindow;

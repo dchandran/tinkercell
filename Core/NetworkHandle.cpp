@@ -6,10 +6,9 @@ See COPYRIGHT.TXT
 
 A class that is used to store a network. The network is a collection of Item Handles. 
 The history stack is also a key component of a network.
-
 The network can either be represented as text using TextEditor or visualized with graphical items in the
 GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
-The two main components of NetworkHandle are the SymbolsTable and HistoryStack
+The two main components of NetworkWindow are the SymbolsTable and HistoryStack
 This class provides functions for inserting items, removing items, and changing information inside the model.
 
 ***************************************************************************************************/
@@ -94,7 +93,7 @@ namespace Tinkercell
 			disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 			disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 			
-			QList<GraphicsView*> list = graphicsViews;
+			QList<NetworkWindow*> list = _windows;
 			for (int i=1; i < list.size(); ++i)
 				if (list[i])
 					list[i]->close();
@@ -103,7 +102,7 @@ namespace Tinkercell
 			{
 				if (mainWindow->currentNetworkHandle == this)
 					mainWindow->currentNetworkHandle = 0;
-				mainWindow->allNetworkHandles.removeAll(this);
+				mainWindow->allNetworks.removeAll(this);
 			}
 
 			event->accept();
@@ -116,19 +115,22 @@ namespace Tinkercell
 
 	QList<GraphicsScene*> NetworkHandle::scenes() const
 	{
+		
 		return _scenes;
 	}
 
 	GraphicsScene * NetworkHandle::createScene(const QList<QGraphicsItem*>& insertItems)
 	{
+		if (!mainWindow) return 0;
+		
 		GraphicsScene * scene = new GraphicsScene(this);
+		
 		
 		for (int i=0; i < insertItems.size(); ++i)
 		{
 			scene->addItem(insertItems[i]);
 		}
 		
-		GraphicsView * view = new GraphicsView(scene);		
 		_scenes << scene;
 	}
 	
@@ -141,10 +143,6 @@ namespace Tinkercell
 
 	NetworkHandle::NetworkHandle(MainWindow * main) : QObject(main), mainWindow(main), symbolsTable(this)
 	{
-		setFocusPolicy(Qt::StrongFocus);
-		setWindowIcon(QIcon(tr(":/images/newscene.png")));
-		_currentScene = 0;
-
 		QHBoxLayout * layout = new QHBoxLayout;
 		layout->addWidget(view);
 		layout->setContentsMargins(0,0,0,0);
@@ -153,79 +151,6 @@ namespace Tinkercell
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
-
-		scene->symbolsTable = &symbolsTable;
-		scene->historyStack = &history;
-		scene->contextItemsMenu = &(main->contextItemsMenu);
-		scene->contextScreenMenu = &(main->contextScreenMenu);
-
-		if (main)
-		{
-			connect(scene,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
-				main, SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-				main ,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(mouseReleased(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-				main ,SIGNAL(mouseReleased(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(mouseDoubleClicked (GraphicsScene*, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)),
-				main ,SIGNAL(mouseDoubleClicked (GraphicsScene*, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(mouseDragged(GraphicsScene*,QPointF, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-				main ,SIGNAL(mouseDragged(GraphicsScene*,QPointF, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>& , Qt::KeyboardModifiers)),
-				main ,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>& , Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(mouseMoved(GraphicsScene*,QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers,QList<QGraphicsItem*>&)),
-				main ,SIGNAL(mouseMoved(GraphicsScene*,QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers,QList<QGraphicsItem*>&)));
-
-			connect(scene,SIGNAL(sceneRightClick(GraphicsScene*,QGraphicsItem*, QPointF, Qt::KeyboardModifiers)),
-				main ,SIGNAL(sceneRightClick(GraphicsScene*,QGraphicsItem*, QPointF, Qt::KeyboardModifiers)));
-
-			connect(scene,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent *)),
-				main ,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent *)));
-
-			connect(scene,SIGNAL(keyReleased(GraphicsScene*,QKeyEvent *)),
-				main ,SIGNAL(keyReleased(GraphicsScene*,QKeyEvent *)));
-
-			connect(scene,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
-			connect(scene,SIGNAL(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
-				main ,SIGNAL(itemsAboutToBeInserted(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-
-			connect(scene,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
-				main ,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-
-			connect(scene,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
-			connect(scene,SIGNAL(colorChanged(GraphicsScene*,const QList<QGraphicsItem*>&)),
-				main ,SIGNAL(colorChanged(GraphicsScene*,const QList<QGraphicsItem*>&)));
-
-			connect(scene,SIGNAL(parentItemChanged(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<QGraphicsItem*>&)),
-				main ,SIGNAL(parentItemChanged(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<QGraphicsItem*>&)));
-
-			connect(scene,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-
-			connect(scene,SIGNAL(escapeSignal(const QWidget*)),
-				main ,SIGNAL(escapeSignal(const QWidget*)));
-
-			connect(scene,SIGNAL(filesDropped(const QList<QFileInfo>&)),
-				main,SLOT(dragAndDropFiles(const QList<QFileInfo>&)));
-
-			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
-				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
-
-			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkHandles.size()));
-			
-		}
-		
-		main->setCurrentWindow(this);
 		
 		connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
 				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
@@ -236,7 +161,7 @@ namespace Tinkercell
 		connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
 			main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
-		view->centerOn(0,0)	;
+		view->centerOn(0,0);
 	}
 
 	NetworkHandle::NetworkHandle(MainWindow * main,TextEditor * editor) :
@@ -269,33 +194,7 @@ namespace Tinkercell
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 
-		if (main)
-		{
-			connect(editor,SIGNAL(itemsInserted(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&)),
-				main,SIGNAL(itemsInserted(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&)));
 
-			connect(editor,SIGNAL(itemsRemoved(TextEditor * , const QList<TextItem*>& , const QList<ItemHandle*>& )),
-				main,SIGNAL(itemsRemoved(TextEditor * , const QList<TextItem*>& , const QList<ItemHandle*>&)));
-
-			connect(editor,SIGNAL(textChanged(TextEditor *, const QString&, const QString&, const QString&)),
-				main,SIGNAL(textChanged(TextEditor *, const QString&, const QString&, const QString&)));
-
-			connect(editor,SIGNAL(lineChanged(TextEditor *, int, const QString&)),
-				main,SIGNAL(lineChanged(TextEditor *, int, const QString&)));
-
-			connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
-				main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-				main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
-
-			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworkHandles.size()));
-
-			main->setCurrentWindow(this);
-		}
 	}
 
 	ItemHandle* NetworkHandle::modelItem()

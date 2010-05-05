@@ -4,11 +4,8 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is one of the main classes in Tinkercell
 This file defines the GraphicsView class that is used to view the contents
-of a GraphicsScene. The class inherits from QGraphicsView. The main capability
-this class provides is the ability to show/hide items in this view without
-affecting other views.
+of a GraphicsScene. The class inherits from QGraphicsView. 
 
 ****************************************************************************/
 
@@ -58,29 +55,13 @@ namespace Tinkercell
 	class NetworkWindow;
 	class GraphicsScene;
 
-	/*! \brief view for a graphics scene.
-		Provides the ability to set specific items invisible when they might
-		might be visible in other views.
+	/*! \brief GraphicsView class that is used to view the contents 
+				of a GraphicsScene. The class inherits from QGraphicsView. 
 		\ingroup core
 	*/
 	class MY_EXPORT GraphicsView : public QGraphicsView
 	{
 		Q_OBJECT
-	
-	signals:
-		/*!
-		* \brief signals when a window is going to close
-		* \param NetworkWindow *  the window that is closing
-		* \param Boolean setting to false will prevent this window from closing
-		* \return void
-		*/
-		void windowClosing(NetworkWindow *, bool*);
-		/*!
-		* \brief signals after a window is closed
-		* \param NetworkWindow *  the window that was closed
-		* \return void
-		*/
-		void windowClosed(NetworkWindow *);
 	
 	public:
 		/*! \brief background */
@@ -99,13 +80,9 @@ namespace Tinkercell
 		*	\param NetworkWindow * window that this view belongs with
 		*	\param QWidget * parent
 		*/
-		GraphicsView(NetworkWindow * networkWindow = 0, QWidget * parent = 0);		
+		GraphicsView(NetworkWindow * networkWindow = 0);		
 
 	protected:
-		/*! \brief close window event
-		* \param QCloseEvent * event
-		* \return void*/
-		virtual void closeEvent(QCloseEvent *event);
 		/*! \brief draw background*/
 		virtual void drawBackground( QPainter * painter, const QRectF & rect );
 		/*! \brief draw foreground*/

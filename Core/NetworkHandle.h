@@ -7,6 +7,8 @@ See COPYRIGHT.TXT
 A class that is used to store a network. The network is a collection of Item Handles. 
 The history stack is also a key component of a network.
 
+A class that is used to store a network. The network is a collection of Item Handles. 
+The history stack is also a key component of a network.
 The network can either be represented as text using TextEditor or visualized with graphical items in the
 GraphicsScene. Each node and connection are contained in a handle, and each handle can either be represented as text or as graphics.
 The two main components of NetworkWindow are the SymbolsTable and HistoryStack
@@ -39,7 +41,8 @@ namespace Tinkercell
 	class ItemHandle;
 	class ItemData;
 	class MainWindow;
-
+	class NetworkWindow;
+	
 	/*! \brief
 	A class that is used to store a network. The network is a collection of Item Handles. 
 	The history stack is also a key component of a network.
@@ -58,10 +61,8 @@ namespace Tinkercell
 		QString _filename;
 		/*! \brief the main window containing this network*/
 		MainWindow * _mainWindow;
-		/*! \brief all the graphics scenes used to display this network*/
-		QList<GraphicsScene*> _scenes;
-		/*! \brief all the the text editors used to display this network*/
-		QList<TextEditor*> _editors;
+		/*! \brief all the windows used to display this network*/
+		QList<NetworkWindow*> _windows;
 		/*! \brief the undo stack*/
 		QUndoStack _history;
 		/*! \brief holds a hash of all items and data in this scene.
@@ -107,7 +108,7 @@ namespace Tinkercell
 		
 		/*! \brief get all the items with the given name. Returns a list for non-unique names
 		* \param QString
-		* \return QList<ItemHandle*>*/		
+		* \return QList<ItemHandle*>*/
 		QList<ItemHandle*> findItem(const QString&) const;
 		/*! \brief get all the items with the given name. returned list may be longer if names are non-unique
 		* \param QStringList
@@ -320,6 +321,7 @@ namespace Tinkercell
 		*/
 
 	signals:
+
 		/*! \brief signals whenever an item is renamed
 		* \param NetworkHandle* window where the event took place
 		* \param QList<ItemHandle*>& items
@@ -327,16 +329,19 @@ namespace Tinkercell
 		* \param QList<QString>& new names
 		* \return void*/
 		void itemsRenamed(NetworkHandle * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
+		
 		/*! \brief signals whenever item parent handle is changed
 		* \param NetworkHandle* window where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
 		void parentHandleChanged(NetworkHandle * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
 		* \return void*/
 		void dataChanged(const QList<ItemHandle*>& items);
+		
 		/*! \brief signals whenever the handles for graphics items have changed
 		* \param GraphicsScene* scene where the event took place
 		* \param QList<GraphicsItem*>& items that are affected
@@ -344,9 +349,12 @@ namespace Tinkercell
 		* \return void*/
 		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 
+	private:
+
 		friend class GraphicsView;
 		friend class GraphicsScene;
 		friend class MainWindow;
+		friend class NetworkWindow;
 	};
 
 }

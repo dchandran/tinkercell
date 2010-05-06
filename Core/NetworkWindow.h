@@ -27,11 +27,13 @@ namespace Tinkercell
 		* \return void
 		*/
 		void windowClosed(NetworkWindow *);
+
 	protected:
 		/*! \brief close window event
 		* \param QCloseEvent * event
 		* \return void*/
 		virtual void closeEvent(QCloseEvent *event);
+
 	private:
 
 		/*!\brief constructor with scene*/

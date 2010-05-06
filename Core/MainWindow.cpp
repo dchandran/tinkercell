@@ -394,11 +394,9 @@ namespace Tinkercell
 
 	GraphicsScene * MainWindow::createScene()
 	{
-		GraphicsScene * scene = new GraphicsScene;
-		NetworkHandle * network = new NetworkHandle(this, scene);
-
-		if (!allNetworkWindows.contains(subWindow))
-			allNetworkWindows << subWindow;
+		NetworkHandle * network = new NetworkHandle(this);
+		GraphicsScene * scene = network->createScene();
+		NetworkWindow * subWindow = scene->networkWindow;
 
 		popIn(subWindow);
 		emit windowOpened(subWindow);
@@ -412,7 +410,7 @@ namespace Tinkercell
 		NetworkWindow * subWindow = new NetworkWindow(this, textedit);
 
 		if (!allNetworkWindows.contains(subWindow))
-			allNetworkWindows << subWindow;
+			allNetworks << subWindow;
 
 		popIn(subWindow);
 		emit windowOpened(subWindow);

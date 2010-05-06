@@ -42,7 +42,7 @@ namespace Tinkercell
 
 	ItemHandle * getHandle(QGraphicsItem * item)
 	{
-		if (!item) return 0;
+		if (!item || MainWindow::invalidPointers.contains((void*)item)) return 0;
 
 		item = getGraphicsItem(item);
 
@@ -69,7 +69,7 @@ namespace Tinkercell
 
 	void setHandle(QGraphicsItem * item, ItemHandle * handle)
 	{
-		if (!item) return;
+		if (!item || MainWindow::invalidPointers.contains((void*)item)) return;
 
 		item = getGraphicsItem(item);
 
@@ -93,19 +93,6 @@ namespace Tinkercell
 			textItem->setHandle(handle);
 			return;
 		}
-
-	}
-
-	ItemHandle * getHandle(TextItem * item)
-	{
-		if (!item) return 0;
-		return item->handle();
-	}
-
-	void setHandle(TextItem* item, ItemHandle* handle)
-	{
-		if (!item) return;
-		item->setHandle(handle);
 	}
 
     /**********************************
@@ -170,31 +157,16 @@ namespace Tinkercell
 			setHandle(list[i],0);
 		}
 
-		QList<TextItem*> list2 = textItems;
-		textItems.clear();
-
-		for (int i=0; i < list2.size(); ++i)
-			if (list2[i] && !MainWindow::invalidPointers.contains((void*)list2[i]) && list2[i]->handle() == this)
+		for (int i=0; i < children.size(); ++i)
+		{
+			if (children[i] && !MainWindow::invalidPointers.contains((void*)children[i]))
 			{
-				setHandle(list2[i],0);
-				delete list2[i];
-				MainWindow::invalidPointers[ (void*)list2[i] ] = true;
+				children[i]->parent = 0;
+			    MainWindow::invalidPointers[ (void*)children[i] ] = true;
+				delete children[i];
 			}
-
-		if (!children.isEmpty())
-			for (int i=0; i < children.size(); ++i)
-			{
-				if (children[i] && !MainWindow::invalidPointers.contains((void*)children[i]) && children[i]->parent == this)
-				{
-				    children[i]->parent = 0;
-					if (children[i]->graphicsItems.isEmpty() && children[i]->textItems.isEmpty())
-					{
-						delete children[i];
-						MainWindow::invalidPointers[ (void*)children[i] ] = true;
-					}
-				}
-			}
-
+		}
+		
 		children.clear();
 	}
 	ItemHandle::ItemHandle(const QString& s) : QObject()

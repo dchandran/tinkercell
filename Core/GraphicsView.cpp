@@ -22,32 +22,6 @@ The GraphicsView class provides a view for a GraphicsScene. It
 
 namespace Tinkercell
 {
-	void GraphicsView::fitAll()
-	{
-		if (!networkWindow || !scene) return;
-		QRectF rect;
-		QPointF topLeft(0,0), bottomRight(0,0);
-		QGraphicsItem * parent;
-		QList<QGraphicsItem*> allItems = scene->items();
-		for (int i=0; i < allItems.size(); ++i)
-		{
-			parent = getGraphicsItem(allItems[i]);
-			if (parent)
-			{
-				rect = parent->sceneBoundingRect();
-				if (topLeft.x() == 0 || rect.left() < topLeft.x()) topLeft.rx() = rect.left();
-				if (bottomRight.x() == 0 || rect.right() > bottomRight.x()) bottomRight.rx() = rect.right();
-
-				if (topLeft.y() == 0 || rect.top() < topLeft.y()) topLeft.ry() = rect.top();
-				if (bottomRight.y() == 0 || rect.bottom() > bottomRight.y()) bottomRight.ry() = rect.bottom();
-			}
-		}
-
-        rect = QRectF(topLeft, bottomRight);
-		fitInView(rect,Qt::KeepAspectRatio);
-		centerOn(rect.center());
-	}
-
 	void GraphicsView::drawBackground( QPainter * painter, const QRectF & rect )
 	{
 		if (!background.isNull() && painter)
@@ -121,9 +95,8 @@ namespace Tinkercell
 	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
 	GraphicsView::GraphicsView(NetworkWindow * network)
-		: QGraphicsView (network->scene,network), scene(network->scene), networkWindow(network)
-	{
-		
+		: QGraphicsView (network->scene,network), scene(network->scene)
+	{		
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode (QGraphicsView::BoundingRectViewportUpdate);
 
@@ -146,17 +119,10 @@ namespace Tinkercell
 		setFocusPolicy(Qt::StrongFocus);
 	}
 
-
 	void GraphicsView::mousePressEvent ( QMouseEvent * event )
 	{
-		if (networkWindow)
+		if (scene && scene->networkWindow)
 		{
-			if (scene && networkWindow->currentGraphicsView != this)
-			{
-				scene->deselect();
-				networkWindow->currentGraphicsView = this;
-			}
-			
 			networkWindow->setAsCurrentWindow();
 		}
 		
@@ -165,17 +131,10 @@ namespace Tinkercell
 
 	void GraphicsView::keyPressEvent ( QKeyEvent * event )
 	{
-		if (networkWindow)
+		if (scene && scene->networkWindow)
 		{
-			if (scene && networkWindow->currentGraphicsView != this)
-			{
-				scene->deselect();
-				networkWindow->currentGraphicsView = this;
-			}
-			
 			networkWindow->setAsCurrentWindow();
 		}
-
 		QGraphicsView::keyPressEvent(event);
 	}
 }

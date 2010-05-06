@@ -42,7 +42,6 @@ text-based representation of a network.
 #include "HistoryWindow.h"
 #include "SymbolsTable.h"
 #include "Tool.h"
-#include "TextItem.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -68,6 +67,9 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 		friend class TextUndoCommand;
+		friend class NetworkWindow;
+		friend class NetworkHandle;
+		friend class MainWindow;
 
 	public:
 
@@ -82,31 +84,23 @@ namespace Tinkercell
 		void insertItem( TextItem* );
 		/*! \brief insert text items
 		\param QList<TextItem*> the items*/
-		void insertItems( const QList<TextItem*>& );
+		void insertItems( const QList<ItemHandle*>& );
 		/*! \brief remove an item
 		\param TextItem* the item*/
 		void removeItem( TextItem* );
 		/*! \brief remove text items
 		\param QList<TextItem*> the items*/
-		void removeItems( const QList<TextItem*>& );
+		void removeItems( const QList<ItemHandle*>& );
 		/*! \brief clear existing items and insert new items
 		\param QList<TextItem*> the new items*/
-		void setItems( const QList<TextItem*>& );
-		/*! \brief the network window containing this text editor*/
-		NetworkWindow * networkWindow;
+		void setItems( const QList<ItemHandle*>& );
 		/*! \brief all the items represented by the text in this TextEditor*/
-		QList<TextItem*>& items();
-		/*! \brief get the console window (same as mainWindow->console())*/
-		ConsoleWindow * console();
+		QList<ItemHandle*>& items();
 		/*! \brief push a command to the undo/redo stack
 		\param QUndoCommand* */
 		void push(QUndoCommand*);
 		/*! \brief gets the selected text*/
 		QString selectedText() const;
-		/*! \brief a pointer to the NetworkWindow SymbolsTable*/
-		SymbolsTable * symbolsTable;
-		/*! \brief a pointer to the NetworkWindow undo stack */
-		QUndoStack* historyStack;
 		/*!
 		* \brief the context menu that is shown during right-click event on a text editor with text selected.
 		Plugins can add new actions to this menu.
@@ -131,18 +125,16 @@ namespace Tinkercell
 		void lineChanged(TextEditor *, int, const QString&);
 		/*!
 		* \brief signal that is emitted when items are inserted in this TextEditor.
-		* \param TextEditor* where the editting happened
-		* \param QList<TextItem*> new items
+		* \param NetworkHandle* 
 		* \param QList<ItemHandle*> new item handles
 		*/
-		void itemsInserted(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&);
+		void itemsInserted(NetworkHandle *, const QList<ItemHandle*>&);
 		/*!
 		* \brief signal that is emitted when items are removed from this TextEditor.
-		* \param TextEditor* where the editting happened
-		* \param QList<TextItem*> removed items
+		* \param NetworkHandle* 
 		* \param QList<ItemHandle*> removed item handles
 		*/
-		void itemsRemoved(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&);
+		void itemsRemoved(NetworkHandle *, const QList<ItemHandle*>& );
 		/*! \brief request to parse the text in the current text editor
 		\param TextEditor* editor
 		*/
@@ -228,8 +220,12 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 		/*! \brief listens to mouse events just to activate this window*/
 		virtual void mousePressEvent ( QMouseEvent * event );
+		/*! \brief the network window containing this text editor*/
+		NetworkWindow * networkWindow;
+		/*! \brief the network handle containing this text editor*/
+		NetworkHandle * network;
 		/*! \brief all the items represented by the text in this TextEditor*/
-		QList<TextItem*> allItems;
+		QList<ItemHandle*> allItems;
 		/*! \brief creates context menu with actions in the contextMenu member*/
 		virtual void contextMenuEvent ( QContextMenuEvent * event );
 		/*! \brief emits line changed and text changed if needed*/

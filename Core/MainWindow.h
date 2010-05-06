@@ -652,20 +652,6 @@ namespace Tinkercell
 		* \return void*/
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 		/*!
-		* \brief signals whenever items are deleted
-		* \param TextEditor * editor where the items were removed
-		* \param QList<TextItem*>& list of items removed
-		* \param QList<ItemHandle*>& list of handles removed (does NOT have to be the same number as items removed)
-		* \return void*/
-		void itemsRemoved(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
-		/*!
-		* \brief signals whenever items are added
-		* \param TextEditor * editor where the items were added
-		* \param QList<TextItem*>& list of new items
-		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
-		* \return void*/
-		void itemsInserted(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles);
-		/*!
 		* \brief A convenient signal that is emitted when items are inserted from a GraphicsScene
 		or TextEditor. Warning: listening to the other itemsInserted signals may cause redundancy
 		* \param NetworkHandle* where the editting happened
@@ -836,9 +822,7 @@ namespace Tinkercell
 		*/
 		static QString previousFileName;
 		
-		/*!
-		* \brief stores list of all pointers that have been deleted (to prevent double-deletions)
-		*/
+		/*!\brief stores list of all pointers that have been deleted (to prevent double-deletions)*/
 		static QHash<void*,bool> invalidPointers;
 
 	};

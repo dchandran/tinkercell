@@ -47,6 +47,7 @@ namespace Tinkercell
 	class ItemHandle;
 	class ItemData;
 	class NetworkHandle;
+	class NetworkWindow;
 	class GraphicsView;
 
 	/*! \brief The primary task of the graphics scene is to draws items.
@@ -124,7 +125,7 @@ namespace Tinkercell
 		* \return double*/
 		virtual qreal ZValue();
 		/*! \brief Constructor: sets 10000x10000 scene */
-		GraphicsScene(NetworkHandle * parent);
+		GraphicsScene(NetworkWindow * parent);
 		/*! \brief destructor */
 		virtual ~GraphicsScene();
 
@@ -373,6 +374,10 @@ namespace Tinkercell
 		void filesDropped(const QList<QFileInfo>& files);
 
 	protected:
+		/*! \brief the network window widget inside of which this scene is located*/
+		NetworkWindow * networkWindow;
+		/*! \brief the network represented by this scene*/
+		NetworkHandle * network;
 		/*! \brief grid size. If zero, then disabled*/
 		int gridSz;
 		/*! \brief topmost Z value*/
@@ -461,6 +466,7 @@ namespace Tinkercell
 		virtual void scaleView(qreal scaleFactor);
 
 		friend class MainWindow;
+		friend class NetworkWindow;
 		friend class NetworkHandle;
 		friend class GraphicsView;
 		friend class SymbolsTable;

@@ -63,19 +63,15 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	
-	public:
+	private:
 		/*! \brief background */
 		QPixmap background;
 		/*! \brief foreground */
 		QPixmap foreground;
 		/*! \brief the scene displayed by this view */
 		GraphicsScene * scene;
-		/*! \brief adjusts the view to fit all items*/
-		virtual void fitAll();
 		/*! \brief default size*/
 		virtual QSize sizeHint() const;
-		/*! \brief the network window that this view belongs to */
-		NetworkWindow * networkWindow;
 		/*! \brief default constructor
 		*	\param NetworkWindow * window that this view belongs with
 		*	\param QWidget * parent
@@ -87,10 +83,6 @@ namespace Tinkercell
 		virtual void drawBackground( QPainter * painter, const QRectF & rect );
 		/*! \brief draw foreground*/
 		virtual void drawForeground( QPainter * painter, const QRectF & rect );
-		/*! \brief draw all items not in the hiddenItems list (obsolete)*/
-		virtual void drawItems(QPainter *painter, int numItems,
-                           QGraphicsItem *items[],
-                           const QStyleOptionGraphicsItem options[]);
 		/*! \brief drag on top event */
 		virtual void dropEvent(QDropEvent *);
 		/*! \brief drag and drop event*/
@@ -103,13 +95,11 @@ namespace Tinkercell
 		virtual void mousePressEvent ( QMouseEvent * event );
 		/*! \brief mouse event. sets the currentGraphicsView for NetworkWindow*/
 		virtual void keyPressEvent ( QKeyEvent * event );
-		/*! \brief list of items to hide*/
-		QHash<QGraphicsItem*,bool> hiddenItems;
-		/*! \brief hide the items in the hide list before painting*/
-		//virtual void paintEvent(QPaintEvent *event);
 
 		friend class GraphicsScene;
+		friend class NetworkWindow;
 		friend class NetworkHandle;
+		friend class MainWindow;
 	};
 }
 

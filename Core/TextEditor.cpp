@@ -138,7 +138,7 @@ namespace Tinkercell
 
 	TextEditor::~TextEditor()
 	{
-		for (int i=0; i < allItems.size(); ++i)
+		/*for (int i=0; i < allItems.size(); ++i)
 			if (allItems[i])
 			{
 				for (int j=(i+1); j < allItems.size(); ++j)
@@ -149,7 +149,7 @@ namespace Tinkercell
 				if (!allItems[i]->handle() || (allItems[i]->handle() && allItems[i]->handle()->parent == 0))
 					delete allItems[i];
 				allItems[i] = 0;
-			}
+			}*/
 	}
 
 	QString TextEditor::selectedText() const
@@ -221,32 +221,24 @@ namespace Tinkercell
 		emit itemsInserted(this, list, handles);
 	}
 
-	void TextEditor::removeItem( TextItem * item)
+	void TextEditor::removeItem( ItemHandle * item)
 	{
 		if (item && allItems.contains(item))
 		{
 			push( new RemoveTextItemsCommand(this,item) );
 
-			QList<TextItem*> list;
-			list << item;
 			QList<ItemHandle*> handles;
 			handles << getHandle(item);
-			emit itemsRemoved(this, list, handles);
+			emit itemsRemoved(this, handles);
 		}
 
 	}
 
-	void TextEditor::removeItems( const QList<TextItem*>& list)
+	void TextEditor::removeItems( const QList<ItemHandle*>& handles)
 	{
 		push( new RemoveTextItemsCommand(this,list) );
 
-		ItemHandle * h = 0;
-		QList<ItemHandle*> handles;
-		for (int i=0; i < list.size(); ++i)
-			if ((h = getHandle(list[i])) &&
-				!handles.contains(h))
-				handles << h;
-		emit itemsRemoved(this, list, handles);
+		emit itemsRemoved(this, handles);
 	}
 
 	void TextEditor::textChangedSlot()
@@ -273,8 +265,8 @@ namespace Tinkercell
 
 		if (event->matches(QKeySequence::Redo)) //redo
 		{
-			if (networkWindow)
-				networkWindow->history.redo();
+			if (network)
+				network->history.redo();
 			return;
 		}
 		else
@@ -312,10 +304,10 @@ namespace Tinkercell
 			if (changedBlockNumber > -1)
 			{
 				int i = -1;
-				if (networkWindow)
-					i = networkWindow->history.count();
+				if (network)
+					i = network->history.count();
 				emit textChanged(this, prevBlockText, changedBlockText, prevText);
-				if (networkWindow && i > -1 && i == networkWindow->history.count())
+				if (network && i > -1 && i == network->history.count())
 					push(0);
 				prevText = toPlainText();
 			}
@@ -459,7 +451,7 @@ namespace Tinkercell
 		
 		//make scroll area
 		contentsLayout->setContentsMargins(0,0,0,0);
-		contentsLayout->setSpacing(20);		
+		contentsLayout->setSpacing(20);
 		QWidget * widget = new QWidget;
 		widget->setLayout(contentsLayout);
 		widget->setPalette(QPalette(QColor(255,255,255)));
@@ -485,12 +477,4 @@ namespace Tinkercell
 		setLayout(newLayout);
 		if (oldLayout) delete oldLayout;
 	}
-
-	/*! \brief get the console window (same as mainWindow->console())*/
-    ConsoleWindow * TextEditor::console()
-    {
-        if (networkWindow)
-            return networkWindow->console();
-        return 0;
-    }
 }

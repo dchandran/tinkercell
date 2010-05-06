@@ -11,6 +11,9 @@ namespace Tinkercell
 	NetworkWindow::NetworkWindow(NetworkHandle * network, GraphicsScene * scene)
 		: QWidget(network), network(network), scene(scene), editor(0)
 	{
+		if (!network)
+			return;
+		
 		if (scene)
 		{
 			GraphicsView * view = new GraphicsView(this);
@@ -20,23 +23,25 @@ namespace Tinkercell
 			setLayout(layout);
 		}
 
-		if (network->_windows.size() == 0 && network->mainWindow)
+		if (network->networkWindows.size() == 0 && network->mainWindow)
 		{
 			connect(this,SIGNAL(windowClosing(NetworkWindow *, bool*)),
 					network->mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)));
 			connect(this,SIGNAL(windowClosed(NetworkWindow *)),
 					network->mainWindow,SIGNAL(windowClosed(NetworkWindow *)));
 		}
-
-		scene->symbolsTable = &symbolsTable;
-		scene->historyStack = &history;
-		scene->contextItemsMenu = &(main->contextItemsMenu);
-		scene->contextScreenMenu = &(main->contextScreenMenu);
+		
+		if (!network->networkWindows.contains(this))
+			network->networkWindows += this;
 
 		MainWindow * main = network->mainWindow;
 
 		if (main)
 		{
+			scene->contextItemsMenu = &(main->contextItemsMenu);
+			
+			scene->contextScreenMenu = &(main->contextScreenMenu);
+		
 			connect(scene,SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				main, SIGNAL(itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
@@ -109,6 +114,8 @@ namespace Tinkercell
 	NetworkWindow::NetworkWindow(NetworkHandle * network, TextEditor * editor)
 		: QWidget(network), network(network), scene(0), editor(editor)
 	{
+		if (!network) return;
+		
 		if (editor)
 		{
 			QVBoxLayout * layout = new QVBoxLayout;
@@ -116,8 +123,10 @@ namespace Tinkercell
 			layout->addWidget(editor);
 			setLayout(layout);
 		}
+		
+		MainWindow * main = network->mainWindow;
 
-		if (network->_windows.size() == 0 && network->mainWindow)
+		if (network->networkWindows.size() == 0 && network->mainWindow)
 		{
 			connect(this,SIGNAL(windowClosing(NetworkWindow *, bool*)),
 					network->mainWindow,SIGNAL(windowClosing(NetworkWindow *, bool*)));
@@ -125,13 +134,20 @@ namespace Tinkercell
 					network->mainWindow,SIGNAL(windowClosed(NetworkWindow *)));
 		}
 		
+		if (!network->networkWindows.contains(this))
+			network->networkWindows += this;
+		
 		if (main)
 		{
-			connect(editor,SIGNAL(itemsInserted(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&)),
-				main,SIGNAL(itemsInserted(TextEditor *, const QList<TextItem*>& , const QList<ItemHandle*>&)));
+			editor->contextEditorMenu = &(main->contextEditorMenu);
 
-			connect(editor,SIGNAL(itemsRemoved(TextEditor * , const QList<TextItem*>& , const QList<ItemHandle*>& )),
-				main,SIGNAL(itemsRemoved(TextEditor * , const QList<TextItem*>& , const QList<ItemHandle*>&)));
+			editor->contextSelectionMenu = &(main->contextSelectionMenu);
+		
+			connect(editor,SIGNAL(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)),
+				main,SIGNAL(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)));
+
+			connect(editor,SIGNAL(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>& )),
+				main,SIGNAL(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>&)));
 
 			connect(editor,SIGNAL(textChanged(TextEditor *, const QString&, const QString&, const QString&)),
 				main,SIGNAL(textChanged(TextEditor *, const QString&, const QString&, const QString&)));
@@ -169,6 +185,7 @@ namespace Tinkercell
 			if (network)
 			{
 				emit windowClosed(network);
+				network->networkWindows.removeAll(this);
 				network->close();
 			}
 

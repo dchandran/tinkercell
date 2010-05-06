@@ -560,15 +560,13 @@ namespace Tinkercell
 	
 	InsertGraphicsCommand::~InsertGraphicsCommand()
 	{
+		ItemHandle * handle = 0;
+		
 		for (int i=0; i < handles.size(); ++i)
 		{
-			if (!MainWindow::invalidPointers.contains( (void*)handles[i]) && handles[i] && handles[i]->graphicsItems.isEmpty())
+			if (!MainWindow::invalidPointers.contains( (void*)handles[i]) && handles[i])
 			{
-			    QList<ItemHandle*> children = handles[i]->allChildren();
-				for (int j=(i+1); j < handles.size(); ++j)
-					if (handles[i] == handles[j] || children.contains(handles[j]))
-						handles[j] = 0;
-				delete handles[i];
+			    delete handles[i];
 				MainWindow::invalidPointers[ (void*) handles[i] ] = true;
 			}
 		}
@@ -577,64 +575,26 @@ namespace Tinkercell
         ConnectionGraphicsItem * connection;
         NodeGraphicsItem * node;
 
-        QList<QGraphicsItem*> allitems = graphicsScene->items();
-
 		for (int i=0; i < graphicsItems.size(); ++i)
 		{
-			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]) && !allitems.contains(graphicsItems[i]))
+			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
 			{
+				if ((handle = getHandle(graphicsItems[i])) && !(!MainWindow::invalidPointers.contains((void*)handle)))
+				{
+					delete handle;
+					MainWindow::invalidPointers[ (void*) graphicsItems[i] ] = true;
+				}
+
 			    if (graphicsItems[i]->parentItem())
 					graphicsItems[i]->setParentItem(0);
 
 				if (graphicsItems[i]->scene())
 					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
+				
+				MainWindow::invalidPointers[ (void*) graphicsItems[i] ] = true;
+				delete graphicsItems[i];
 			}
 		}
-
-		QList<QGraphicsItem*> listToDelete;
-
-		for (int i=0; i < graphicsItems.size(); ++i)
-			if (graphicsItems[i] &&
-                !allitems.contains(graphicsItems[i]) &&
-                !listToDelete.contains(graphicsItems[i]) &&
-                !MainWindow::invalidPointers.contains((void*)graphicsItems[i]) &&
-                (connection = ConnectionGraphicsItem::cast(graphicsItems[i])))
-			{
-			
-                if (!listToDelete.contains(graphicsItems[i]))
-                	listToDelete << graphicsItems[i];
-				
-				graphicsItems[i] = 0;
-			}
-
-        for (int i=0; i < listToDelete.size(); ++i)
-        	if (!MainWindow::invalidPointers.contains( (void*)listToDelete[i]))
-        	{
-        	    delete listToDelete[i];
-        	    MainWindow::invalidPointers[ (void*) listToDelete[i] ] = true;
-        	}
-	        
-
-        listToDelete.clear();
-        for (int i=0; i < graphicsItems.size(); ++i)
-			if (graphicsItems[i] &&
-                !allitems.contains(graphicsItems[i]) &&
-                !listToDelete.contains(graphicsItems[i]) &&
-                !MainWindow::invalidPointers.contains( (void*)graphicsItems[i]) &&
-                (node = NodeGraphicsItem::cast(graphicsItems[i])))
-            {
-                if (!listToDelete.contains(graphicsItems[i]))
-				    listToDelete << graphicsItems[i];
-				
-			    graphicsItems[i] = 0;
-			}
-
-        for (int i=0; i < listToDelete.size(); ++i)
-	        if (!MainWindow::invalidPointers.contains( (void*)listToDelete[i]))
-	        {
-        	    delete listToDelete[i];
-        	    MainWindow::invalidPointers[ (void*)listToDelete[i] ] = true;
-        	}
 
 		graphicsItems.clear();
 		
@@ -664,7 +624,6 @@ namespace Tinkercell
 			itemParents.append(item->parentItem());
 		else
 			itemParents.append(0);
-
 	}
 
 	RemoveGraphicsCommand::RemoveGraphicsCommand(const QString& name, GraphicsScene * scene, const QList<QGraphicsItem*>& items)
@@ -2008,8 +1967,8 @@ namespace Tinkercell
 		for (int i=0; i < commands.size(); ++i)
 			if (commands[i] && !doNotDelete.contains(commands[i]) && !MainWindow::invalidPointers.contains(commands[i]))
 			{
-				delete commands[i];
 				MainWindow::invalidPointers[ (void*)commands[i] ] = true;
+				delete commands[i];
 			}
 	}
 	void CompositeCommand::redo()
@@ -2094,8 +2053,9 @@ namespace Tinkercell
 			{
 				if (itemsToDelete[i]->scene())
 					itemsToDelete[i]->scene()->removeItem(itemsToDelete[i]);
-				delete itemsToDelete[i];
+				
 				MainWindow::invalidPointers[ (void*)itemsToDelete[i] ] = true;
+				delete itemsToDelete[i];
 			}
 	}
 
@@ -2350,16 +2310,16 @@ namespace Tinkercell
 								oldHandles[j] = 0;
 
 						oldHandles[i]->graphicsItems.clear();
-						delete oldHandles[i];
+						
 						MainWindow::invalidPointers[ (void*)oldHandles[i] ] = true;
+						delete oldHandles[i];
 						oldHandles[i] = 0;
 					}
 			}
-
 	}
 
 	MergeHandlesCommand::MergeHandlesCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles) :
-	QUndoCommand(text)
+		QUndoCommand(text)
 	{
 		newHandle = 0;
 		oldHandles = handles;
@@ -2444,8 +2404,8 @@ namespace Tinkercell
 					oldHandles.removeAll(handle);
 					if (!MainWindow::invalidPointers.contains( (void*)handle ))
 					{
-						delete handle;
 						MainWindow::invalidPointers[ (void*)handle ] = true;
+						delete handle;						
 					}
 				}
 			}

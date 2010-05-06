@@ -58,20 +58,16 @@ namespace Tinkercell
 
 	private:
 		/*! \brief the file name where this network is saved*/
-		QString _filename;
+		QString filename;
 		/*! \brief the main window containing this network*/
-		MainWindow * _mainWindow;
+		MainWindow * mainWindow;
 		/*! \brief all the windows used to display this network*/
-		QList<NetworkWindow*> _windows;
+		QList<NetworkWindow*> networkWindows;
 		/*! \brief the undo stack*/
-		QUndoStack _history;
+		QUndoStack history;
 		/*! \brief holds a hash of all items and data in this scene.
 		\sa SymbolsTable*/
-		SymbolsTable _symbolsTable;
-		/*! \brief pointer to current scene*/
-		GraphicsScene * _currentScene;
-		/*! \brief calls mainWindow's setCurrentWindow method*/
-		virtual void setAsCurrentNetwork();
+		SymbolsTable symbolsTable;
 		
 	public:
 		/*! \name Constructor and destructor
@@ -314,6 +310,8 @@ namespace Tinkercell
 		virtual void undo();
 		/*! \brief redo last command*/
 		virtual void redo();
+		/*! \brief push a new command into the history stack*/
+		virtual void push(QUndoCommand*);
 
 		/*! \}
 			\name signals

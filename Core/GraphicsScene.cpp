@@ -4,7 +4,6 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This is one of the main classes in Tinkercell
 This file defines the GraphicsScene class where all the drawing takes place.
 In addition to drawing , the GraphicsScene provides serveral signals and functions
 that is useful for plugins, eg. move, insert, delete, changeData, etc.
@@ -51,10 +50,12 @@ namespace Tinkercell
 	* \return rectangle*/
 	QRectF GraphicsScene::viewport() const
 	{
-		if (!network || !network->currentGraphicsView)
-			return QRectF();
-
-		GraphicsView * view = network->currentGraphicsView;
+		GraphicsView * view = 0;
+		
+		QList<QGraphicsView*> list = views();
+	
+		if (list.size() > 0)
+			view = list[0];
 
 		if (view)
 		{
@@ -120,8 +121,12 @@ namespace Tinkercell
 	}
 
 	/*! \brief Constructor: sets 10000x10000 scene */
-	GraphicsScene::GraphicsScene(NetworkHandle * parent) : QGraphicsScene(parent), network(parent)
+	GraphicsScene::GraphicsScene(NetworkWindow * parent) : QGraphicsScene(parent), networkWindow(parent)
 	{
+		network = 0;
+		if (networkWindow)
+			network = networkWindow->network;
+
 		gridSz = GRID;
 		mouseDown = false;
 		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
@@ -150,11 +155,15 @@ namespace Tinkercell
 		selectedItems.clear();
 		movingItems.clear();
 		if (movingItemsGroup)
+		{
 			destroyItemGroup(movingItemsGroup);
+			movingItemsGroup = 0;
+		}
 		select(0);
 		if (GraphicsScene::copiedFromScene == this)
 			GraphicsScene::copiedFromScene = 0;
-
+		network = 0;
+		networkWindow = 0;
 		/*
 		removeItem(&selectionRect);
 		QList<QGraphicsItem *> allitems1 = items();
@@ -615,10 +624,11 @@ namespace Tinkercell
 	{
 		QList<QGraphicsView*> list = views();
 		
-		if (!list.isEmpty() && list[0])
+		for (int i=0; i < list.size(); ++i)
 		{
-			QGraphicsView * view = list[0];
-			view->centerOn(point);
+			QGraphicsView * view = list[i];
+			if (view)
+				view->centerOn(point);
 		}
 	}
 	/*! \brief when key is pressed
@@ -856,8 +866,34 @@ namespace Tinkercell
 	/*! \brief adjusts view to include all items*/
 	void GraphicsScene::fitAll()
 	{
-		if (!network || !network->currentGraphicsView) return;
-		network->currentGraphicsView->fitAll();
+		if (!networkWindow) return;
+		QRectF rect;
+		QPointF topLeft(0,0), bottomRight(0,0);
+		QGraphicsItem * parent;
+		QList<QGraphicsItem*> allItems = items();
+		for (int i=0; i < allItems.size(); ++i)
+		{
+			parent = getGraphicsItem(allItems[i]);
+			if (parent)
+			{
+				rect = parent->sceneBoundingRect();
+				if (topLeft.x() == 0 || rect.left() < topLeft.x()) topLeft.rx() = rect.left();
+				if (bottomRight.x() == 0 || rect.right() > bottomRight.x()) bottomRight.rx() = rect.right();
+
+				if (topLeft.y() == 0 || rect.top() < topLeft.y()) topLeft.ry() = rect.top();
+				if (bottomRight.y() == 0 || rect.bottom() > bottomRight.y()) bottomRight.ry() = rect.bottom();
+			}
+		}
+
+        rect = QRectF(topLeft, bottomRight);
+        
+        QList<QGraphicsView*> list = views();
+        for (int i=0; i < list.size(); ++i)
+        	if (list[i])
+		    {
+		    	list[i]->fitInView(rect,Qt::KeepAspectRatio);
+				list[i]->centerOn(rect.center());
+			}
 	}
 
 	/*! \brief a simple move operation with undo*/
@@ -868,7 +904,7 @@ namespace Tinkercell
 		QUndoCommand * command = new MoveCommand(this,item,distance);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -902,7 +938,7 @@ namespace Tinkercell
 		QUndoCommand * command = new MoveCommand(this,items, distance);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -939,7 +975,7 @@ namespace Tinkercell
 		QUndoCommand * command = new MoveCommand(this,items, distance);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -988,7 +1024,7 @@ namespace Tinkercell
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1019,7 +1055,7 @@ namespace Tinkercell
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1068,7 +1104,7 @@ namespace Tinkercell
 		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1106,7 +1142,7 @@ namespace Tinkercell
 			QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
 			if (network)
-				network->_history.push(command);
+				network->history.push(command);
 			else
 			{
 				command->redo();
@@ -1121,7 +1157,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeBrushCommand(name, item, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1138,7 +1174,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeBrushCommand(name, items, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1153,7 +1189,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangePenCommand(name, item, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1170,7 +1206,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangePenCommand(name, items, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1186,7 +1222,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeBrushAndPenCommand(name, item, newBrush, newPen);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1203,7 +1239,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeBrushAndPenCommand(name, items, newBrushes, newPens);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1219,7 +1255,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeParentCommand(name, this, item, newParent);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1241,7 +1277,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeParentCommand(name, this, items, newParents);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1256,7 +1292,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeParentCommand(name, this, items, newParents);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1304,7 +1340,7 @@ namespace Tinkercell
 
 		QUndoCommand * command = new AssignHandleCommand(tr("item defined"),items,newHandle);
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1338,7 +1374,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeZCommand(name, this, item, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1352,7 +1388,7 @@ namespace Tinkercell
 		QUndoCommand * command = new ChangeZCommand(name, this, items, to);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1373,7 +1409,7 @@ namespace Tinkercell
 			anglechange,
 			VFlip, HFlip);
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1393,7 +1429,7 @@ namespace Tinkercell
 			VFlip, HFlip);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1433,7 +1469,7 @@ namespace Tinkercell
 		QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
 
 		if (network)
-			network->_history.push(command);
+			network->history.push(command);
 		else
 		{
 			command->redo();
@@ -1702,7 +1738,7 @@ namespace Tinkercell
 			commands << new MoveCommand(this,moveitems,lastPoint() - center);
 		}
 
-		QList<QString> allItems = network->_symbolsTable.uniqueItems.keys();
+		QList<QString> allItems = network->symbolsTable.uniqueItems.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
 		ItemHandle *handle1;
@@ -1772,7 +1808,7 @@ namespace Tinkercell
 	{
 		if (!network || text.isNull() || text.isEmpty()) return;
 		
-		SymbolsTable * symbolsTable = &network->_symbolsTable;
+		SymbolsTable * symbolsTable = &network->symbolsTable;
 		NodeGraphicsItem* node = 0;
 		ConnectionGraphicsItem* connection = 0;
 

@@ -220,10 +220,12 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 		/*! \brief listens to mouse events just to activate this window*/
 		virtual void mousePressEvent ( QMouseEvent * event );
+
 		/*! \brief the network window containing this text editor*/
 		NetworkWindow * networkWindow;
 		/*! \brief the network handle containing this text editor*/
 		NetworkHandle * network;
+
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<ItemHandle*> allItems;
 		/*! \brief creates context menu with actions in the contextMenu member*/

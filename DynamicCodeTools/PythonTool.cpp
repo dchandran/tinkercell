@@ -311,10 +311,10 @@ namespace Tinkercell
         {
             //qDebug() << "tc_PythonTool_api resolved";
             f(
-                    &(_runPythonCode),
-                    &(_runPythonFile),
-                    &(_addPythonPlugin)
-                    );
+                &(_runPythonCode),
+                &(_runPythonFile),
+                &(_addPythonPlugin)
+                );
         }
     }
 

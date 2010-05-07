@@ -110,10 +110,10 @@ namespace Tinkercell
 		* \param QStringList
 		* \return QList<ItemHandle*>*/		
 		QList<ItemHandle*> findItem(const QStringList&) const;
-		/*! \brief get all the items and corresponding data table name that contains the given string. if non-unique, returns nothing
+		/*! \brief get all the items and corresponding data table name that contains the given string. if non-unique, returns a list
 		* \param QString
 		* \return QPair<ItemHandle*,QString>*/		
-		QPair<ItemHandle*,QString> findData(const QString&) const;
+		QList< QPair<ItemHandle*,QString> > findData(const QString&) const;
 		
 		/*! \}
 			\name graphics scenes for the network

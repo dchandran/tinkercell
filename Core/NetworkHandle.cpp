@@ -74,11 +74,16 @@ namespace Tinkercell
 		return items;
 	}
 	
-	QPair<ItemHandle*,QString> NetworkHandle::findData(const QString& s) const
+	QList< QPair<ItemHandle*,QString> > NetworkHandle::findData(const QString& s) const
 	{
+		QList< QPair<ItemHandle*,QString> > list;
+
 		if (symbolsTable.uniqueData.contains(s))
-			return symbolsTable.uniqueData[s];
-		return QPair<ItemHandle*,QString>(0,QString());
+			list = symbolsTable.uniqueData.values(s);
+		else
+			list = symbolsTable.nonuniqueData.values(s);
+
+		return list;
 	}
 
 	void NetworkHandle::close()
@@ -125,20 +130,25 @@ namespace Tinkercell
 		
 		GraphicsScene * scene = new GraphicsScene(this);
 		
-		
 		for (int i=0; i < insertItems.size(); ++i)
 		{
 			scene->addItem(insertItems[i]);
 		}
 		
-		_scenes << scene;
+		networkWindows << (new NetworkWindow(this,scene));
+		
+		return scene;
 	}
 	
-	GraphicsScene * NetworkHandle::createScene(ItemHandle *, const QRectF& boundingRect=QRectF())
+	GraphicsScene * NetworkHandle::createScene(ItemHandle * item, const QRectF& boundingRect=QRectF())
 	{
-		GraphicsScene * scene = new GraphicsScene(this);
-		GraphicsView * view = new GraphicsView(scene);
-		_scenes << scene;		
+		if (!item) return 0;
+		
+		QList<QGraphicsItem*> graphicsItems = item->allGraphicsItems();
+		
+		
+		
+		return createScene(graphicsItems);
 	}
 
 	NetworkHandle::NetworkHandle(MainWindow * main) : QObject(main), mainWindow(main), symbolsTable(this)

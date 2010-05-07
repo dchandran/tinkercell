@@ -15,7 +15,6 @@ The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
 
 The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
-
 ****************************************************************************/
 
 #include <QLibrary>
@@ -387,7 +386,7 @@ namespace Tinkercell
 			if (window != oldWindow)
 			{
 				emit escapeSignal(this);
-				emit windowChanged(oldWindow,window);
+				emit windowChanged(oldWindow->network,window->network);
 			}
 		}
 	}
@@ -399,23 +398,21 @@ namespace Tinkercell
 		NetworkWindow * subWindow = scene->networkWindow;
 
 		popIn(subWindow);
-		emit windowOpened(subWindow);
+		emit windowOpened(subWindow->network);
 
 		return scene;
 	}
 
 	TextEditor * MainWindow::newTextExitor()
 	{
-		TextEditor * textedit = new TextEditor;
-		NetworkWindow * subWindow = new NetworkWindow(this, textedit);
-
-		if (!allNetworkWindows.contains(subWindow))
-			allNetworks << subWindow;
+		NetworkHandle * network = new NetworkHandle(this);
+		GraphicsScene * scene = network->createEditor();
+		NetworkWindow * subWindow = scene->networkWindow;
 
 		popIn(subWindow);
-		emit windowOpened(subWindow);
+		emit windowOpened(subWindow->network);
 
-		return textedit;
+		return scene;
 	}
 
 	void MainWindow::allowMultipleViewModes(bool b)
@@ -667,36 +664,30 @@ namespace Tinkercell
 
 	GraphicsScene* MainWindow::currentScene() const
 	{
-		NetworkWindow * net = currentWindow();
-		if (net)
-			return net->scene;
+		if (currentNetworkWindow)
+			return currentNetworkWindow->scene;
 		return 0;
 	}
 
 	GraphicsView* MainWindow::currentView() const
 	{
-		NetworkWindow * net = currentWindow();
-		if (net)
-			return net->currentView();
+		if (currentNetworkWindow)
+			return currentNetworkWindow->currentView();
 		return 0;
 	}
 
 	TextEditor* MainWindow::currentTextEditor() const
 	{
-		NetworkWindow * net = currentWindow();
-		if (net)
-			return net->textEditor;
+		if (currentNetworkWindow)
+			return currentNetworkWindow->textEditor;
 		return 0;
-	}
-
-	NetworkWindow* MainWindow::currentWindow() const
-	{
-	    return currentNetworkWindow;
 	}
 
 	NetworkWindow * MainWindow::currentNetwork() const
 	{
-	    return currentNetworkWindow;
+		if (currentNetworkWindow)
+		    return currentNetworkWindow->network;
+		return 0;
 	}
 
 	SymbolsTable * MainWindow::currentSymbolsTable() const
@@ -716,13 +707,7 @@ namespace Tinkercell
 		if (currentScene())
 			currentScene()->fitAll();
 	}
-
-	void MainWindow::fitSelected()
-	{
-		if (currentScene())
-			currentScene()->fitSelected();
-	}
-
+	
 	void MainWindow::initializeMenus(bool enableScene, bool enableText)
 	{
 		fileMenu = menuBar()->addMenu(tr("&File"));

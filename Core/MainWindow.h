@@ -221,7 +221,7 @@ namespace Tinkercell
 		*/
 		QList<NetworkHandle*> allNetworks() const;
 		/*!
-		* \brief the history stack of the current window.
+		* \brief the history stack of the current network.
 		* \return QUndoStack* current scene's history stack or null if current network is null
 		*/
 		QUndoStack * historyStack() const;
@@ -386,10 +386,6 @@ namespace Tinkercell
 		* \brief adjusts the current's scene's view rectangle to fit all the visible items
 		*/
 		void fitAll();
-		/*!
-		* \brief adjusts the current's scene's view rectangle to fit all the selected items
-		*/
-		void fitSelected();
 		/*!
 		* \brief sends a signal to all plugins telling them to exit their current processes.
 		*/

@@ -202,7 +202,7 @@ namespace Tinkercell
 		GraphicsScene * currentScene() const;
 		/*!
 		* \brief gets the text editor that is active
-		* \return TextEditor* current scene
+		* \return TextEditor* current editor
 		*/
 		TextEditor * currentTextEditor() const;
 		/*!
@@ -210,11 +210,6 @@ namespace Tinkercell
 		* \return NetworkHandle* current network window
 		*/
 		NetworkHandle * currentNetwork() const;
-		/*!
-		* \brief same as currentWindow()->symbolsTable
-		* \return SymbolsTable* current network window's symbols table
-		*/
-		SymbolsTable * currentSymbolsTable() const;
 		/*!
 		* \brief gets all the windows in the main window
 		* \return QList<NetworkHandle*> list of windows

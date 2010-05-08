@@ -117,11 +117,42 @@ namespace Tinkercell
 			event->ignore();
 		}
 	}
+	
+	void NetworkHandle::setWindowTitle(const QString& title)
+	{
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i])
+				networkWindows[i]->setWindowTitle(title);
+	}
 
 	QList<GraphicsScene*> NetworkHandle::scenes() const
 	{
+		QList<GraphicsScene*> list;
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i] && networkWindows[i]->scene)
+				list << networkWindows[i]->scene;
+		return list;
+	}
+	
+	QList<TextEditor*> NetworkHandle::editors() const
+	{
+		QList<TextEditor*> list;
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i] && networkWindows[i]->editor)
+				list << networkWindows[i]->editor;
+		return list;
+	}
+	
+	TextEditor * NetworkHandle::createEditor(const QString& text)
+	{
+		if (!mainWindow) return 0;
 		
-		return _scenes;
+		TextEditor * tedit = new TextEditor(this);
+		tedit->setText(text);
+		
+		networkWindows << (new NetworkWindow(this,tedit));
+		
+		return tedit;
 	}
 
 	GraphicsScene * NetworkHandle::createScene(const QList<QGraphicsItem*>& insertItems)
@@ -145,8 +176,6 @@ namespace Tinkercell
 		if (!item) return 0;
 		
 		QList<QGraphicsItem*> graphicsItems = item->allGraphicsItems();
-		
-		
 		
 		return createScene(graphicsItems);
 	}
@@ -190,12 +219,36 @@ namespace Tinkercell
 	{
 		return symbolsTable.allHandlesSortedByFamily();
 	}
+	
+	GraphicsScene * NetworkHandle::currentScene() const
+	{
+		if (!mainWindow || !mainWindow->currentNetworkWindow || !networkWindows.contains(mainWindow->currentNetworkWindow))
+			return 0;
+		
+		return mainWindow->currentNetworkWindow->scene;
+	}
+
+	TextEditor * NetworkHandle::currentTextEditor() const
+	{
+		if (!mainWindow || !mainWindow->currentNetworkWindow || !networkWindows.contains(mainWindow->currentNetworkWindow))
+			return 0;
+		
+		return mainWindow->currentNetworkWindow->editor;
+	}
 
 	QList<ItemHandle*> NetworkHandle::selectedHandles() const
 	{
 		QList<ItemHandle*> handles;
-		QHash<ItemHandle*,int> hash;
 		ItemHandle* handle;
+		GraphicsScene * scene;
+		TextEditor * editor;
+		
+		if (!mainWindow || !mainWindow->currentNetworkWindow || !networkWindows.contains(mainWindow->currentNetworkWindow))
+			return;
+		
+		scene = mainWindow->currentNetworkWindow->scene;
+		editor = mainWindow->currentNetworkWindow->editor;
+
 		if (scene)
 		{
 			QList<QGraphicsItem*>& selected = scene->selected();
@@ -205,7 +258,6 @@ namespace Tinkercell
 				handle = getHandle(selected[i]);
 				if (handle && !handles.contains(handle))
 				{
-					//QList<ItemHandle*> children = handle->visibleChildren();
 					handles << handle;
 				}
 			}
@@ -214,7 +266,6 @@ namespace Tinkercell
 			if (textEditor)
 			{
 			}
-
 		return handles;
 	}
 
@@ -592,27 +643,6 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
-	void NetworkHandle::showItems(const QString& name, ItemHandle* handle)
-	{
-		history.push(new SetHandleVisibilityCommand(name, handle, true));
-	}
-
-	void NetworkHandle::showItems(const QString& name, const QList<ItemHandle*>& handles)
-	{
-		history.push(new SetHandleVisibilityCommand(name, handles, true));
-	}
-
-	void NetworkHandle::hideItems(const QString& name, ItemHandle* handle)
-	{
-		history.push(new SetHandleVisibilityCommand(name, handle, false));
-	}
-
-	void NetworkHandle::hideItems(const QString& name, const QList<ItemHandle*>& handles)
-	{
-		history.push(new SetHandleVisibilityCommand(name, handles, false));
-	}
-
-
 	/*! \brief update symbols table*/
 	void NetworkHandle::updateSymbolsTable()
 	{
@@ -733,62 +763,5 @@ namespace Tinkercell
 		}
 		return true;
 	}
-
-	void NetworkHandle::focusInEvent ( QFocusEvent * )
-	{
-		if (mainWindow && mainWindow->currentNetworkHandle != this)
-			mainWindow->setCurrentWindow(this);
-	}
-
-	void NetworkHandle::resizeEvent (QResizeEvent * event)
-	{
-		if (mainWindow && windowState() == Qt::WindowMinimized)
-		{
-			setWindowState(Qt::WindowNoState);
-			popIn();
-		}
-		else
-			QWidget::resizeEvent(event);
-	}
-
-
-
-	void NetworkHandle::setAsCurrentWindow()
-	{
-		if (mainWindow && mainWindow->currentNetworkHandle != this)
-			mainWindow->setCurrentWindow(this);
-	}
-
-	void NetworkHandle::popOut()
-	{
-		if (mainWindow)
-			mainWindow->popOut(this);
-	}
-
-	void NetworkHandle::popIn()
-	{
-		if (mainWindow)
-			mainWindow->popIn(this);
-	}
-
-	void NetworkHandle::changeEvent ( QEvent * event )
-	{
-		if (mainWindow && windowState() == Qt::WindowMinimized)
-		{
-			setWindowState(Qt::WindowNoState);
-			popIn();
-		}
-		else
-			QWidget::changeEvent(event);
-	}
-
-	/*bool NetworkHandle::winEvent ( MSG * m, long * result )
-	{
-		if (mainWindow && m->message == WM_SIZE && m->wParam == SIZE_MINIMIZED)
-		{
-			popIn();
-		}
-		return QWidget::winEvent(m,result);
-	}*/
-
 }
+

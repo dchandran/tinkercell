@@ -5,7 +5,7 @@
 #include "ItemHandle.h"
 #include "TextEditor.h"
 #include "TextItem.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "GraphicsView.h"
 #include "NodeGraphicsItem.h"
@@ -39,10 +39,10 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	NetworkWindow * C_API_Slots::currentWindow() const
+	NetworkHandle * C_API_Slots::currentNetwork() const
 	{
 		if (mainWindow)
-			return mainWindow->currentWindow();
+			return mainWindow->currentNetwork();
 		return 0;
 	}
 	
@@ -432,7 +432,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			mainWindow->newGraphicsWindow();
-			if (currentWindow())
+			if (currentNetwork())
 				currentWindow()->setWindowTitle(name);
 		}
 		if (s)
@@ -484,7 +484,7 @@ namespace Tinkercell
 
 	void C_API_Slots::allItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -500,7 +500,7 @@ namespace Tinkercell
 
 	void C_API_Slots::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr, const QString& family)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -521,7 +521,7 @@ namespace Tinkercell
 
 	void C_API_Slots::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QList<ItemHandle*>& handles,const QString& family)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -541,7 +541,7 @@ namespace Tinkercell
 
 	void C_API_Slots::selectedItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -644,7 +644,7 @@ namespace Tinkercell
 
 	void C_API_Slots::findItem(QSemaphore* s,ItemHandle** returnPtr,const QString& name)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (returnPtr)
@@ -698,7 +698,7 @@ namespace Tinkercell
 
 	void C_API_Slots::findItems(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QStringList& names)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentWindow();
 		if (!win || !returnPtr)
 		{
 			if (returnPtr)
@@ -985,7 +985,7 @@ namespace Tinkercell
 			{
 				item->data->numericalData[tool] = DataTable<qreal>();
 			}
-			NetworkWindow * win = currentWindow();
+			NetworkHandle * win = currentWindow();
 			if (win)
 			{
 				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
@@ -1019,7 +1019,7 @@ namespace Tinkercell
 			{
 				item->data->textData[tool] = DataTable<QString>();
 			}
-			NetworkWindow * win = currentWindow();
+			NetworkHandle * win = currentWindow();
 			if (win)
 			{
 				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);

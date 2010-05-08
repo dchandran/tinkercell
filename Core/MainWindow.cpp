@@ -365,7 +365,8 @@ namespace Tinkercell
 	void MainWindow::setCurrentWindow(NetworkWindow * window)
 	{
 		currentNetworkWindow = 0;
-		if (window && allNetworkWindows.contains(window))
+
+		if (window && window->network && allNetworkWindows.contains(window))
 		{
 			if (tabWidget)
 			{
@@ -374,7 +375,7 @@ namespace Tinkercell
 					tabWidget->setCurrentIndex(i);				
 			}
 			
-			historyWindow.setStack(&(window->history));
+			historyWindow.setStack(&(window->network->history));
 			
 			NetworkWindow * oldWindow = currentNetworkWindow;
 
@@ -406,13 +407,13 @@ namespace Tinkercell
 	TextEditor * MainWindow::newTextExitor()
 	{
 		NetworkHandle * network = new NetworkHandle(this);
-		GraphicsScene * scene = network->createEditor();
-		NetworkWindow * subWindow = scene->networkWindow;
+		TextEditor * editor = network->createEditor();
+		NetworkWindow * subWindow = editor->networkWindow;
 
 		popIn(subWindow);
 		emit windowOpened(subWindow->network);
 
-		return scene;
+		return editor;
 	}
 
 	void MainWindow::allowMultipleViewModes(bool b)
@@ -669,13 +670,6 @@ namespace Tinkercell
 		return 0;
 	}
 
-	GraphicsView* MainWindow::currentView() const
-	{
-		if (currentNetworkWindow)
-			return currentNetworkWindow->currentView();
-		return 0;
-	}
-
 	TextEditor* MainWindow::currentTextEditor() const
 	{
 		if (currentNetworkWindow)
@@ -688,13 +682,6 @@ namespace Tinkercell
 		if (currentNetworkWindow)
 		    return currentNetworkWindow->network;
 		return 0;
-	}
-
-	SymbolsTable * MainWindow::currentSymbolsTable() const
-	{
-		if (currentNetworkWindow)
-			return &(currentNetworkWindow->symbolsTable);
-	    return 0;
 	}
 
 	QList<NetworkWindow*> MainWindow::allWindows() const
@@ -1172,7 +1159,7 @@ namespace Tinkercell
 
 	void MainWindow::popOut()
 	{
-		popOut(currentWindow());
+		popOut(currentNetworkWindow);
 	}
 
 	void MainWindow::popOut(NetworkWindow * win)

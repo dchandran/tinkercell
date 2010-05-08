@@ -193,6 +193,61 @@ namespace Tinkercell
 		}
 	}
 	
+	void NetworkWindow::focusInEvent ( QFocusEvent * )
+	{
+		if (network && network->mainWindow && network->mainWindow->currentNetworkHandle != this)
+			network->mainWindow->setCurrentWindow(this);
+	}
+
+	void NetworkWindow::resizeEvent (QResizeEvent * event)
+	{
+		if (network && network->mainWindow && network->windowState() == Qt::WindowMinimized)
+		{
+			setWindowState(Qt::WindowNoState);
+			popIn();
+		}
+		else
+			QWidget::resizeEvent(event);
+	}
+
+	void NetworkWindow::setAsCurrentWindow()
+	{
+		if (network && network->mainWindow && network->mainWindow->currentNetworkHandle != this)
+			network->mainWindow->setCurrentWindow(this);
+	}
+
+	void NetworkWindow::popOut()
+	{
+		if (network && network->mainWindow)
+			network->mainWindow->popOut(this);
+	}
+
+	void NetworkWindow::popIn()
+	{
+		if (network && network->mainWindow)
+			network->mainWindow->popIn(this);
+	}
+
+	void NetworkWindow::changeEvent ( QEvent * event )
+	{
+		if (network && network->mainWindow && network->windowState() == Qt::WindowMinimized)
+		{
+			setWindowState(Qt::WindowNoState);
+			popIn();
+		}
+		else
+			QWidget::changeEvent(event);
+	}
+
+	/*bool NetworkHandle::winEvent ( MSG * m, long * result )
+	{
+		if (mainWindow && m->message == WM_SIZE && m->wParam == SIZE_MINIMIZED)
+		{
+			popIn();
+		}
+		return QWidget::winEvent(m,result);
+	}*/
+	
 }
 
 

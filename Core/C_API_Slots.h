@@ -1,5 +1,4 @@
 /****************************************************************************
-
 Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
@@ -33,7 +32,7 @@ the API provided by this file is probably much larger than individual plug-in AP
 namespace Tinkercell
 {
 	class ConsoleWindow;
-	class NetworkWindow;
+	class NetworkHandle;
 	class GraphicsScene;
 	class MainWindow;
 	class ItemHandle;
@@ -208,7 +207,7 @@ namespace Tinkercell
 	
 		MainWindow * mainWindow;
 		ConsoleWindow * console() const;
-		NetworkWindow * currentWindow() const;
+		NetworkHandle * currentHandle() const;
 		GraphicsScene * currentScene() const;
 	
 		static void _zoom(double);

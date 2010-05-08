@@ -28,13 +28,31 @@ namespace Tinkercell
 		*/
 		void windowClosed(NetworkWindow *);
 
-	protected:
-		/*! \brief close window event
+	private:
+		/*! \brief close event sends signal to all tools asking for confirmation becore closing
 		* \param QCloseEvent * event
 		* \return void*/
 		virtual void closeEvent(QCloseEvent *event);
-
-	private:
+		/*! \brief focus receved changes the main windows current network pointer
+		* \param QFocusEvent*
+		* \return void*/
+		virtual void NetworkWindow::focusInEvent ( QFocusEvent * );
+		/*! \brief resize event checks if the window has been minimized and calls popIn instead of minimizing
+		* \param QResizeEvent*
+		* \return void*/
+		virtual void NetworkWindow::resizeEvent (QResizeEvent * event);
+		/*! \brief calls main window's setAsCurrentWindow
+		* \return void*/
+		virtual void NetworkWindow::setAsCurrentWindow();
+		/*! \brief calls main window's popOut
+		* \return void*/
+		virtual void NetworkWindow::popOut();
+		/*! \brief calls main window's popIn
+		* \return void*/
+		virtual void NetworkWindow::popIn();
+		/*! \brief calls popIn when minimized
+		* \return void*/
+		virtual void NetworkWindow::changeEvent ( QEvent * event );
 
 		/*!\brief constructor with scene*/
 		NetworkWindow(NetworkHandle * network, GraphicsScene * scene);
@@ -43,7 +61,7 @@ namespace Tinkercell
 		NetworkWindow(NetworkHandle * network, TextEditor * editor);
 
 		/*! \brief set this window as the main window's current window*/		
-		void setAsCurrentWindow();
+		virtual void setAsCurrentWindow();
 		
 		/*!\brief the network displayed in this window*/
 		NetworkHandle * network;

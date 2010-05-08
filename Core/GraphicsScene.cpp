@@ -1441,32 +1441,13 @@ namespace Tinkercell
 	{
 		if (handles.isEmpty()) return;
 
-		MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),network, handles);
+		MergeHandlesCommand * command = new MergeHandlesCommand(tr("items merged"),network, handles);
 
-		if (!mergeCommand->newHandle)
+		if (!command->newHandle)
 		{
-			delete mergeCommand;
+			delete command;
 			return;
 		}
-
-		QString newName = mergeCommand->newHandle->fullName();
-		QList<QString> oldNames,newNames;
-
-		QList<QGraphicsItem*> items;
-
-		for (int i=0; i < handles.size(); ++i)
-		{
-			newNames += newName;
-			if (handles[i])
-				items += handles[i]->graphicsItems[0];
-			else
-				items += 0;
-		}
-
-		QList<QUndoCommand*> commands;
-		commands += mergeCommand;
-		commands += new RenameCommand(tr("name changed"),network,handles,newNames);
-		QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
 
 		if (network)
 			network->history.push(command);

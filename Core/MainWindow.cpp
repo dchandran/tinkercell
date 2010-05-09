@@ -29,6 +29,7 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include "TextEditor.h"
 #include "TextItem.h"
 #include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "GraphicsView.h"
 #include "MainWindow.h"
@@ -390,6 +391,11 @@ namespace Tinkercell
 				emit windowChanged(oldWindow->network,window->network);
 			}
 		}
+	}
+	
+	QList<NetworkHandle*> MainWindow::networks() const
+	{
+		return allNetworks;
 	}
 
 	GraphicsScene * MainWindow::createScene()

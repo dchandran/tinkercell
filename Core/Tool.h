@@ -32,7 +32,7 @@ namespace Tinkercell
 
 	class MainWindow;
 	class GraphicsScene;
-	class NetworkWindow;
+	class NetworkHandle;
 	class TextEditor;
 	class ConsoleWindow;
 
@@ -72,15 +72,10 @@ namespace Tinkercell
 		/*! \brief the main window's current text editor*/
 		virtual TextEditor* currentTextEditor() const;
 		/*! 
-		* \brief the main window's current window
-		* \return NetworkWindow* current network window
+		* \brief the main window's current network
+		* \return NetworkHandle* current network handle
 		*/
-		virtual NetworkWindow* currentWindow() const;
-		/*!
-		* \brief (same as currentWindow) gets the current window that is active
-		* \return NetworkWindow* current network window
-		*/
-		virtual NetworkWindow * currentNetwork() const;
+		virtual NetworkHandle* currentNetwork() const;
 
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core

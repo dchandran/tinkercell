@@ -46,13 +46,13 @@ This file contains a collection of commands that perform simple operations that 
 
 namespace Tinkercell
 {
-	class NetworkWindow;
+	class NetworkHandle;
 	class GraphicsScene;
 	class TextEditor;
 	class RenameCommand;
 	class ConnectionGraphicsItem;
 
-	/*! \brief this command inserts new handles to a NetworkWindow
+	/*! \brief this command inserts new handles to a NetworkHandle
 	* \ingroup undo*/
 	class MY_EXPORT InsertHandlesCommand : public QUndoCommand
 	{
@@ -61,12 +61,12 @@ namespace Tinkercell
 		* \param NetworkHandle* window where items are inserted
 		* \param QList<ItemHandle*> new items
 		*/
-		InsertHandlesCommand(NetworkHandle *, const QList<ItemHandle*> & );
+		InsertHandlesCommand(TextEditor *, const QList<ItemHandle*> & );
 		/*! \brief constructor
 		* \param NetworkHandle* window where items are inserted
 		* \param ItemHandle* new item
 		*/
-		InsertHandlesCommand(NetworkHandle *, ItemHandle*);
+		InsertHandlesCommand(TextEditor *, ItemHandle*);
 		/*! \brief destructor. deletes all text items and their handles (if not containing any graphics items)*/
 		~InsertHandlesCommand();
 		/*! \brief redo the change*/
@@ -78,26 +78,26 @@ namespace Tinkercell
 		/*! \brief inserted handles*/
 		QList<ItemHandle*> items;
 		/*! \brief TextEditor where the change happened*/
-		NetworkHandle * network;
+		TextEditor * textEditor;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
 	};
 
-	/*! \brief this command inserts new handles to a NetworkWindow
+	/*! \brief this command inserts new handles to a NetworkHandle
 	* \ingroup undo*/
-	class MY_EXPORT RemoveTextItemsCommand : public QUndoCommand
+	class MY_EXPORT RemoveHandlesCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
-		* \param NetworkWindow* window where items are inserted
+		* \param TextEditor* window where items are deleted
 		* \param QList<ItemHandle*> deleted items
 		*/
-		RemoveTextItemsCommand(TextEditor *, const QList<TextItem*> & );
+		RemoveHandlesCommand(TextEditor *, const QList<ItemHandle*> & );
 		/*! \brief constructor
-		* \param NetworkWindow* window where items are inserted
+		* \param TextEditor* window where items are deleted
 		* \param ItemHandle* deleted item
 		*/
-		RemoveTextItemsCommand(TextEditor *, TextItem*);
+		RemoveHandlesCommand(TextEditor *, ItemHandle*);
 		/*! \brief redo the change*/
 		void redo();
 		/*! \brief undo the change*/
@@ -107,9 +107,7 @@ namespace Tinkercell
 		/*! \brief used to update information*/
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief removed handles*/
-		QList<TextItem*> items;
-		/*! \brief removed handles*/
-		QList<ItemHandle*> handles;
+		QList<ItemHandle*> items;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
 	};
@@ -430,7 +428,7 @@ namespace Tinkercell
 		* \param ItemHandle* target item handle
 		* \param QString new name
 		*/
-		RenameCommand(const QString& name, NetworkWindow * win, ItemHandle * itemHandle, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle * , ItemHandle * itemHandle, const QString& newname);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param QList<QGraphicsItem*>& all the items to modify if they contain the new name
@@ -440,11 +438,11 @@ namespace Tinkercell
 		RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, ItemHandle * item, const QString& newname);
 		/*! \brief constructor
 		* \param QString name of command
-		* \param NetworkWindow* where change happened
+		* \param NetworkHandle* where change happened
 		* \param QList<ItemHandle*>& target items
 		* \param QList<QString> new names (one for each item)
 		*/
-		RenameCommand(const QString& name, NetworkWindow * win, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
+		RenameCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
 		/*! \brief constructor
 		* \param QString name of command
 		* \param QList<ItemHandle*>& all the items to modify if they contain the new name
@@ -576,7 +574,7 @@ namespace Tinkercell
 	class MY_EXPORT MergeHandlesCommand : public QUndoCommand
 	{
 	public:
-		MergeHandlesCommand(const QString& text, NetworkWindow * win, const QList<ItemHandle*>& handles);
+		MergeHandlesCommand(const QString& text, NetworkHandle * , const QList<ItemHandle*>& handles);
 		void redo();
 		void undo();
 		~MergeHandlesCommand();
@@ -598,11 +596,11 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, ItemHandle * child, ItemHandle * parent);
+		SetParentHandleCommand(const QString& name, NetworkHandle * , ItemHandle * child, ItemHandle * parent);
 		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, ItemHandle * parent);
+		SetParentHandleCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& children, ItemHandle * parent);
 		/*! \brief constructor*/
-		SetParentHandleCommand(const QString& name, NetworkWindow * currentWindow, const QList<ItemHandle*>& children, const QList<ItemHandle*>& parents);
+		SetParentHandleCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& children, const QList<ItemHandle*>& parents);
 		/*! \brief destructor*/
 		~SetParentHandleCommand();
 		/*! \brief redo parent change*/
@@ -616,7 +614,7 @@ namespace Tinkercell
 		/*! \brief changed parent handles*/
 		QList<ItemHandle*> oldParents;
 	private:
-		NetworkWindow * net;
+		NetworkHandle * net;
 		RenameCommand * renameCommand;
 	};
 

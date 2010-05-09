@@ -55,6 +55,7 @@ namespace Tinkercell
 	class ItemData;
 	class TextEditor;
 	class TextUndoCommand;
+	class MainWindow;
 	class ConsoleWindow;
 
 	/*! \brief This is the window that allows used to construct networks using text, as
@@ -66,9 +67,11 @@ namespace Tinkercell
 	class MY_EXPORT TextEditor : public CodeEditor
 	{
 		Q_OBJECT
+		
 		friend class TextUndoCommand;
 		friend class NetworkWindow;
 		friend class NetworkHandle;
+		friend class SymbolsTable;
 		friend class MainWindow;
 
 	public:
@@ -76,7 +79,7 @@ namespace Tinkercell
 		static bool SideBarEnabled;
 
 		/*! \brief default constructor*/
-		TextEditor( QWidget * parent = 0);
+		TextEditor( NetworkHandle * , QWidget * parent = 0);
 		/*! \brief destructor -- removes all the text items*/
 		~TextEditor();
 		/*! \brief insert a text item
@@ -111,6 +114,12 @@ namespace Tinkercell
 		Plugins can add new actions to this menu.
 		*/
 		QMenu * contextEditorMenu;
+		/*! \brief the network handle represented in this text editor*/
+		NetworkHandle * network;
+		/*! \brief the main window containing this network*/
+		MainWindow * mainWindow() const;
+		/*! \brief same as network->mainWindow->console()*/
+		ConsoleWindow * console() const;
 
 	signals:
 		/*! \brief some text inside this editor has been changed
@@ -223,8 +232,6 @@ namespace Tinkercell
 
 		/*! \brief the network window containing this text editor*/
 		NetworkWindow * networkWindow;
-		/*! \brief the network handle containing this text editor*/
-		NetworkHandle * network;
 
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<ItemHandle*> allItems;

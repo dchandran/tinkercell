@@ -30,7 +30,7 @@ namespace Tinkercell
 {
 	class Tool;
 	class MainWindow;
-	class NetworkWindow;
+	class NetworkHandle;
 	class ItemHandle;
 	class GraphicsScene;
 	class TextEditor;
@@ -47,7 +47,7 @@ namespace Tinkercell
 		/*! \brief constructor
 		\param NetworkWindow* network that this symbol table belongs in
 		*/
-		SymbolsTable(NetworkWindow *);
+		SymbolsTable(NetworkHandle *);
 		/*! \brief update the symbols table*/
 		virtual void update();
 		/*! \brief handle names and the corresponsing handles. This hash stores the unique full names, such a M.A and M_A

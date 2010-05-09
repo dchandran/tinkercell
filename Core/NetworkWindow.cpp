@@ -16,6 +16,9 @@ namespace Tinkercell
 		
 		if (scene)
 		{
+			scene->networkWindow = this;
+			scene->network = network;
+			
 			GraphicsView * view = new GraphicsView(this);
 			QVBoxLayout * layout = new QVBoxLayout;
 			layout->setContentsMargins(0,0,0,0);
@@ -118,6 +121,9 @@ namespace Tinkercell
 		
 		if (editor)
 		{
+			editor->networkWindow = this;
+			editor->network = network;
+			
 			QVBoxLayout * layout = new QVBoxLayout;
 			layout->setContentsMargins(0,0,0,0);
 			layout->addWidget(editor);
@@ -180,12 +186,17 @@ namespace Tinkercell
 		if (network)
 			emit windowClosing(network,&b);
 		
+		
 		if (b)
 		{
 			if (network)
 			{
 				emit windowClosed(network);
 				network->networkWindows.removeAll(this);
+
+				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+					network->mainWindow->currentNetworkWindow = 0;
+
 				network->close();
 			}
 

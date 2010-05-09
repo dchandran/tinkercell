@@ -12,7 +12,7 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 #include "MainWindow.h"
 #include "TextEditor.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "Tool.h"
 
@@ -111,17 +111,10 @@ namespace Tinkercell
 		return 0;
 	}
 
-	NetworkWindow * Tool::currentNetwork() const
+	NetworkHandle * Tool::currentNetwork() const
 	{
 		if (mainWindow)
-			return mainWindow->currentWindow();
-		return 0;
-	}
-
-	NetworkWindow * Tool::currentWindow() const
-	{
-		if (mainWindow)
-			return mainWindow->currentWindow();
+			return mainWindow->currentNetwork();
 		return 0;
 	}
 

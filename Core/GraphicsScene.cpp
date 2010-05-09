@@ -1972,5 +1972,19 @@ namespace Tinkercell
 			painter->drawLine(p1,p2);
 		}
 	}
+	
+	MainWindow * GraphicsScene::mainWindow() const
+	{
+		if (network)
+			return network->mainWindow;
+		return 0;
+	}
+	
+	ConsoleWindow * GraphicsScene::console() const
+	{
+		if (network && network->mainWindow)
+			return network->mainWindow->console();
+		return 0;
+	}
 
 }

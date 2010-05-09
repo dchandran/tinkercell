@@ -68,6 +68,7 @@ namespace Tinkercell
 	class ItemFamily;
 	class MainWindow_FtoS;
 	class NetworkWindow;
+	class NetworkHandle;
 	class TextEditor;
 	class Tool;
 	class HistoryStack;
@@ -214,7 +215,7 @@ namespace Tinkercell
 		* \brief gets all the windows in the main window
 		* \return QList<NetworkHandle*> list of windows
 		*/
-		QList<NetworkHandle*> allNetworks() const;
+		QList<NetworkHandle*> networks() const;
 		/*!
 		* \brief the history stack of the current network.
 		* \return QUndoStack* current scene's history stack or null if current network is null

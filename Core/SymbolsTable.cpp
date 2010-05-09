@@ -11,12 +11,13 @@ connection names and data columns and rows, for each scene
 ****************************************************************************/
 
 #include "MainWindow.h"
+#include "NetworkWindow.h"
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
+#include "TextEditor.h"
 #include "Tool.h"
 #include "SymbolsTable.h"
 #include "ConsoleWindow.h"
-#include "TextItem.h"
 
 namespace Tinkercell
 {
@@ -37,46 +38,49 @@ namespace Tinkercell
 
 		if (!network) return;
 		
-		QList<QGraphicsScene*>& scenes = network->_scene;
-		QList<TextEditor*>& editors = network->_editors;
+		GraphicsScene* scene = 0;
+		TextEditor * editor = 0;
+		QList<NetworkWindow*> windows = network->networkWindows;
 		
 		QList<ItemHandle*> handles;
 		handles << &globalItem;
 
-		for (int j=0; j < scenes.size(); ++j)
-			if (scenes[j])
+		for (int j=0; j < windows.size(); ++j)
+			if (windows[j])
 			{
-				QList<QGraphicsItem*> items = scenes[j]->items();
-				ItemHandle * handle;
+				if (windows[j]->scene)
+				{
+					QList<QGraphicsItem*> items = windows[j]->scene->items();
+					ItemHandle * handle;
 
-				for (int i=0; i < items.size(); ++i)
-					if (handle = getHandle(items[i]))
-					{
-						handle = handle->root();
-						if (handle && handle->visible && !handles.contains(handle))
+					for (int i=0; i < items.size(); ++i)
+						if (handle = getHandle(items[i]))
 						{
-							handles << handle;
-							handles << handle->visibleChildren();
+							handle = handle->root();
+							if (handle && handle->visible && !handles.contains(handle))
+							{
+								handles << handle;
+								handles << handle->visibleChildren();
+							}
 						}
-					}
-			}
+				}
+				else
+				if (windows[j]->editor)
+				{
+					QList<ItemHandle*> items = windows[j]->editor->allItems;
+					ItemHandle * handle;
 
-		for (int j=0; j < editors.size(); ++j)
-			if (editors[j])
-			{
-				QList<ItemHandle*> items = editors[j]->_handles;
-				ItemHandle * handle;
-
-				for (int i=0; i < items.size(); ++i)
-					if (handle = items[i])
-					{
-						handle = handle->root();
-						if (handle && handle->visible && !handles.contains(handle))
+					for (int i=0; i < items.size(); ++i)
+						if (handle = items[i])
 						{
-							handles << handle;
-							handles << handle->visibleChildren();
+							handle = handle->root();
+							if (handle && handle->visible && !handles.contains(handle))
+							{
+								handles << handle;
+								handles << handle->visibleChildren();
+							}
 						}
-					}
+				}
 			}
 
 		update(handles);
@@ -226,7 +230,7 @@ namespace Tinkercell
 	
 	QList<ItemHandle*> SymbolsTable::allHandlesSortedByName() const
 	{
-		QStringList names = uniqueItems.keys().
+		QStringList names = uniqueItems.keys();
 		names.sort();
 		
 		QList<ItemHandle*> allHandles;

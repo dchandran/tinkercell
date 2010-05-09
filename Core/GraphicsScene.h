@@ -49,6 +49,8 @@ namespace Tinkercell
 	class NetworkHandle;
 	class NetworkWindow;
 	class GraphicsView;
+	class MainWindow;
+	class ConsoleWindow;
 
 	/*! \brief The primary task of the graphics scene is to draws items.
 	All interactions with the GraphicsScene is done through MainWindow or NetworkHandle. 
@@ -83,8 +85,12 @@ namespace Tinkercell
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
 		static qreal MIN_DRAG_DISTANCE;
 
-		/*! \brief the containing network window*/
+		/*! \brief the network represented by this scene*/
 		NetworkHandle * network;
+		/*! \brief the main window for this network*/
+		MainWindow * mainWindow() const;
+		/*! \brief same as network->mainWindow->console()*/
+		ConsoleWindow * console() const;
 		/*! \brief indicates whether this scene is free to perform actions*/
 		bool useDefaultBehavior;
 		/*!
@@ -376,8 +382,6 @@ namespace Tinkercell
 	protected:
 		/*! \brief the network window widget inside of which this scene is located*/
 		NetworkWindow * networkWindow;
-		/*! \brief the network represented by this scene*/
-		NetworkHandle * network;
 		/*! \brief grid size. If zero, then disabled*/
 		int gridSz;
 		/*! \brief topmost Z value*/

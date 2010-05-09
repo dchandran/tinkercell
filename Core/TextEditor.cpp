@@ -12,6 +12,7 @@ text-based representation of a network.
 
 #include "ConsoleWindow.h"
 #include "NetworkWindow.h"
+#include "MainWindow.h"
 #include "TextEditor.h"
 #include "TextItem.h"
 #include "ItemFamily.h"
@@ -123,7 +124,7 @@ namespace Tinkercell
 		emit textChanged(this, tr(""), tr(""), oldText);
 	}
 
-	TextEditor::TextEditor( QWidget * parent) : CodeEditor(parent), editorWidget(0)
+	TextEditor::TextEditor( NetworkHandle * network, QWidget * parent) : CodeEditor(parent), editorWidget(0), network(network)
 	{
 		symbolsTable = 0;
 		historyStack = 0;
@@ -476,5 +477,19 @@ namespace Tinkercell
 		
 		setLayout(newLayout);
 		if (oldLayout) delete oldLayout;
+	}
+	
+	MainWindow * TextEditor::mainWindow() const
+	{
+		if (network)
+			return network->mainWindow;
+		return 0;
+	}
+	
+	ConsoleWindow * TextEditor::console() const
+	{
+		if (network && network->mainWindow)
+			return network->mainWindow->console();
+		return 0;
 	}
 }

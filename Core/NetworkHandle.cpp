@@ -15,6 +15,7 @@ This class provides functions for inserting items, removing items, and changing 
 
 #include <QHBoxLayout>
 #include "MainWindow.h"
+#include "NetworkWindow.h"
 #include "ConsoleWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -88,33 +89,21 @@ namespace Tinkercell
 
 	void NetworkHandle::close()
 	{
-		if (!mainWindow)
-		{
-			event->accept();
-			return;
-		}
-
-			disconnect();			
-			disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
-			disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
-			
-			QList<NetworkWindow*> list = networkWindows;
-			for (int i=1; i < list.size(); ++i)
-				if (list[i])
-					list[i]->close();
-
-			if (mainWindow)
+		disconnect();			
+		disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
+		disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
+		
+		QList<NetworkWindow*> list = networkWindows;
+		for (int i=1; i < list.size(); ++i)
+			if (list[i])
 			{
-				if (mainWindow->currentNetworkHandle == this)
-					mainWindow->currentNetworkHandle = 0;
-				mainWindow->allNetworks.removeAll(this);
+				list[i]->disconnect();
+				list[i]->close();
 			}
 
-			event->accept();
-		}
-		else
+		if (mainWindow)
 		{
-			event->ignore();
+			mainWindow->allNetworks.removeAll(this);
 		}
 	}
 	
@@ -143,7 +132,7 @@ namespace Tinkercell
 		return list;
 	}
 	
-	TextEditor * NetworkHandle::createEditor(const QString& text)
+	TextEditor * NetworkHandle::createTextEditor(const QString& text)
 	{
 		if (!mainWindow) return 0;
 		
@@ -187,6 +176,9 @@ namespace Tinkercell
 		layout->setContentsMargins(0,0,0,0);
 		setLayout(layout);
 		setAttribute(Qt::WA_DeleteOnClose);
+		
+		if (main && !main->networks.contains(this))
+			main->networks << this;
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
@@ -234,39 +226,6 @@ namespace Tinkercell
 			return 0;
 		
 		return mainWindow->currentNetworkWindow->editor;
-	}
-
-	QList<ItemHandle*> NetworkHandle::selectedHandles() const
-	{
-		QList<ItemHandle*> handles;
-		ItemHandle* handle;
-		GraphicsScene * scene;
-		TextEditor * editor;
-		
-		if (!mainWindow || !mainWindow->currentNetworkWindow || !networkWindows.contains(mainWindow->currentNetworkWindow))
-			return;
-		
-		scene = mainWindow->currentNetworkWindow->scene;
-		editor = mainWindow->currentNetworkWindow->editor;
-
-		if (scene)
-		{
-			QList<QGraphicsItem*>& selected = scene->selected();
-
-			for (int i=0; i < selected.size(); ++i)
-			{
-				handle = getHandle(selected[i]);
-				if (handle && !handles.contains(handle))
-				{
-					handles << handle;
-				}
-			}
-		}
-		else
-			if (textEditor)
-			{
-			}
-		return handles;
 	}
 
 	void NetworkHandle::rename(const QString& oldname, const QString& s)
@@ -738,16 +697,16 @@ namespace Tinkercell
 					{
 						if (symbolsTable.nonuniqueItems.contains(str) && symbolsTable.nonuniqueItems[str])
 						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str]->fullName() + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str]->fullName() + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str]->fullName());
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.nonuniqueItems[str]->fullName() + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.nonuniqueItems[str]->fullName() + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.nonuniqueItems[str]->fullName());
 						}
 						else
 						if (symbolsTable.nonuniqueItems.contains(str2) && symbolsTable.nonuniqueItems[str2])
 						{
-							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.handlesFirstName[str2]->fullName() + tr("\\1"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName() + tr("\\2"));
-							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.handlesFirstName[str2]->fullName());
+							s.replace(QRegExp(tr("^")+str+tr("([^a-zA-Z0-9_])")),symbolsTable.nonuniqueItems[str2]->fullName() + tr("\\1"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("([^a-zA-Z0-9_])")), tr("\\1") + symbolsTable.nonuniqueItems[str2]->fullName() + tr("\\2"));
+							s.replace(QRegExp(tr("([^a-zA-Z0-9_])")+str+tr("$")),tr("\\1") + symbolsTable.nonuniqueItems[str2]->fullName());
 						}
 						else
 						{

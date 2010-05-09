@@ -61,13 +61,14 @@ namespace Tinkercell
 		MainWindow * mainWindow;
 		/*! \brief all the windows used to display this network*/
 		QList<NetworkWindow*> networkWindows;
+		
+	public:
 		/*! \brief the undo stack*/
 		QUndoStack history;
 		/*! \brief holds a hash of all items and data in this scene.
 		\sa SymbolsTable*/
 		SymbolsTable symbolsTable;
 		
-	public:
 		/*! \name Constructor and destructor
 			\{
 		*/
@@ -88,9 +89,7 @@ namespace Tinkercell
 		virtual QList<ItemHandle*> handlesSortedByFamily() const;
 		/*! \brief the model global item*/
 		virtual ItemHandle* globalHandle();
-		/*! \brief gets all the selected items from current graphics scene
-		* \return QList<ItemHandle*> list of selected item handles*/
-		virtual QList<ItemHandle*> & selectedHandles();
+
 		/*!
 		* \brief gets the current scene that is active
 		* \return GraphicsScene* current scene
@@ -148,7 +147,7 @@ namespace Tinkercell
 		* \param QString (optional) initial script
 		* \return TextEditor* the new scene
 		*/
-		virtual TextEditor * createEditor(const QString& text = QString());
+		virtual TextEditor * createTextEditor(const QString& text = QString());
 		/*! \brief set all the title for each window representing this network
 		* \param QString
 		*/
@@ -281,6 +280,7 @@ namespace Tinkercell
 		friend class GraphicsScene;
 		friend class MainWindow;
 		friend class NetworkWindow;
+		friend class SymbolsTable;
 	};
 
 }

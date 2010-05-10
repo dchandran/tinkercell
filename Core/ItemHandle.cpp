@@ -14,7 +14,6 @@ Each item in Tinkercell has an associated family.
 #include "TextGraphicsItem.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
-#include "TextItem.h"
 #include "Tool.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
@@ -191,11 +190,6 @@ namespace Tinkercell
 		parent = 0;
 		setParent(copy.parent);
 		
-		/*for (int i=0; i < copy.children.size(); ++i)
-			if (copy.children[i] && copy.children[i]->graphicsItems.isEmpty() && copy.children[i]->textItems.isEmpty())
-			{
-				children << copy.children[i]->clone();
-			}*/
 	}
 
 	/*! \brief operator = */
@@ -523,20 +517,6 @@ namespace Tinkercell
 		}
 	}
 
-	NodeHandle::NodeHandle(NodeFamily * family, NodeTextItem * item)
-	{
-		type = NodeHandle::TYPE;
-		parent = 0;
-		data = new ItemData();
-		nodeFamily = family;
-		if (item)
-		{
-			textItems += item;
-			item->setHandle(this);
-		}
-	}
-
-
 	bool NodeHandle::setFamily(NodeFamily * itemFamily)
 	{
 		if (!itemFamily) return false;
@@ -587,27 +567,7 @@ namespace Tinkercell
 				}
 			}
 		}
-		else
-			if (textItems.size() > 0)
-			{
-				NodeTextItem * node;
-				QList<ConnectionTextItem*> connections;
-				for (int i=0; i < textItems.size(); ++i)
-					if (textItems[i])
-					{
-						node = textItems[i]->asNode();
-						if (node)
-						{
-							connections = node->connections;
-							for (int j=0; j < connections.size(); ++j)
-								if (connections[j] && connections[j]->handle() &&
-									connections[j]->handle()->type == ConnectionHandle::TYPE)
-									list << static_cast<ConnectionHandle*>(connections[j]->handle());
-						}
-					}
-			}
-
-			return list;
+		return list;
 	}
 
 	/************************************
@@ -650,19 +610,6 @@ namespace Tinkercell
 		}
 	}
 
-	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item)
-	{
-		type = ConnectionHandle::TYPE;
-		parent = 0;
-		data = new ItemData();
-		connectionFamily = family;
-		if (item)
-		{
-			textItems += item;
-			item->setHandle(this);
-		}
-	}
-
 	bool ConnectionHandle::setFamily(ConnectionFamily * itemFamily)
 	{
 		if (!itemFamily) return false;
@@ -673,12 +620,14 @@ namespace Tinkercell
 	ConnectionHandle::ConnectionHandle(const ConnectionHandle & copy) : ItemHandle(copy)
 	{
 		connectionFamily = copy.connectionFamily;
+		nodesWithRoles = copy.nodesWithRoles;
 	}
 
 	ConnectionHandle& ConnectionHandle::operator = (const ConnectionHandle& copy)
 	{
 	    ItemHandle::operator=(copy);
 	    connectionFamily = copy.connectionFamily;
+		nodesWithRoles = copy.nodesWithRoles;
 		return *this;
 	}
 
@@ -692,7 +641,7 @@ namespace Tinkercell
 		return connectionFamily;
 	}
 
-	QList<NodeHandle*> ConnectionHandle::nodes() const
+	QList<NodeHandle*> ConnectionHandle::nodes(int role) const
 	{
 		QList<NodeHandle*> nodeslist;
 
@@ -716,27 +665,12 @@ namespace Tinkercell
 			}
 		}
 		else
-			if (textItems.size() > 0)
-			{
-				ConnectionTextItem * connection;
-				QList<NodeTextItem*> nodes;
-				for (int i=0; i < textItems.size(); ++i)
-					if (textItems[i])
-					{
-						connection = textItems[i]->asConnection();
-						if (connection)
-						{
-							nodes = connection->nodes();
-							for (int i=0; i < nodes.size(); ++i)
-							{
-								if (nodes[i] && nodes[i]->handle() &&
-									nodes[i]->handle()->type == NodeHandle::TYPE)
-									nodeslist << static_cast<NodeHandle*>(nodes[i]->handle());
-							}
-						}
-					}
-			}
-			return nodeslist;
+		{
+			for (int i=0; i < nodesWithRoles.size(); ++i)
+				if (nodesWithRoles[i].first && (role == 0 || nodesWithRoles[i].second == role))
+					nodeslist << nodesWithRoles[i].second;
+		}
+		return nodeslist;
 	}
 
 	QList<NodeHandle*> ConnectionHandle::nodesIn() const
@@ -778,27 +712,10 @@ namespace Tinkercell
 			}
 		}
 		else
-			if (textItems.size() > 0)
-			{
-				ConnectionTextItem * connection;
-				QList<NodeTextItem*> nodes;
-				for (int i=0; i < textItems.size(); ++i)
-					if (textItems[i])
-					{
-						connection = textItems[i]->asConnection();
-						if (connection)
-						{
-							nodes = connection->nodesIn;
-							for (int i=0; i < nodes.size(); ++i)
-							{
-								if (nodes[i] && nodes[i]->handle() &&
-									nodes[i]->handle()->type == NodeHandle::TYPE)
-									nodesList << static_cast<NodeHandle*>(nodes[i]->handle());
-							}
-						}
-					}
-			}
-			return nodesList;
+		{
+			nodesList = nodes(-1);
+		}	
+		return nodesList;
 	}
 
 	QList<NodeHandle*> ConnectionHandle::nodesOut() const
@@ -840,27 +757,22 @@ namespace Tinkercell
 			}
 		}
 		else
-			if (textItems.size() > 0)
-			{
-				ConnectionTextItem * connection;
-				QList<NodeTextItem*> nodes;
-				for (int i=0; i < textItems.size(); ++i)
-					if (textItems[i])
-					{
-						connection = textItems[i]->asConnection();
-						if (connection)
-						{
-							nodes = connection->nodesOut;
-							for (int i=0; i < nodes.size(); ++i)
-							{
-								if (nodes[i] && nodes[i]->handle() &&
-									nodes[i]->handle()->type == NodeHandle::TYPE)
-									nodesList << static_cast<NodeHandle*>(nodes[i]->handle());
-							}
-						}
-					}
-			}
-			return nodesList;
+		{
+			nodesList = nodes(1);
+		}
+		return nodesList;
 	}
+	
+	void ConnectionHandle::addNode(NodeHandle * h, int role)
+	{
+		if (h)
+			nodesWithRoles << QPair<NodeHandle*,int>(h,role);
+	}
+	
+	void ConnectionHandle::clearNodes()
+	{
+		nodesWithRoles.clear();
+	}
+
 }
 

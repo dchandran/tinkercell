@@ -2,7 +2,6 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "TextItem.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
 #include "Tool.h"
@@ -188,7 +187,6 @@ namespace Tinkercell
 							{
 								cloneHandle = handle->clone();
 								cloneHandle->setParent(0);
-								cloneHandle->textItems.clear();
 								cloneHandle->children.clear();
 								cloneHandle->graphicsItems.clear();
 								allNewHandles << cloneHandle;
@@ -200,7 +198,6 @@ namespace Tinkercell
 									{
 										cloneChildHandle = handle->clone();
 										cloneChildHandle->setParent(0);
-										cloneChildHandle->textItems.clear();
 										cloneChildHandle->children.clear();
 										cloneChildHandle->graphicsItems.clear();
 										
@@ -261,116 +258,49 @@ namespace Tinkercell
 		return duplicateItems;
 	}
 	
-	QList<TextItem*> cloneTextItems(const QList<TextItem*>& items)
+	QList<ItemHandle*> cloneHandles(const QList<ItemHandle*>& oldHandles)
 	{
-		QList<TextItem*> newItems;
-		QList<ItemHandle*> oldHandles, childHandles;
+		QList<ItemHandle*> newHandles;
 		QHash<ItemHandle*,ItemHandle*> hash;
 
-		for (int i=0; i < items.size(); ++i)
-		{
-			oldHandles << getHandle(items[i]);
-			if (items[i])
-				newItems << items[i]->clone();
-			else
-				newItems << 0;
-		}
-
-		ItemHandle * handle = 0, * handle2 = 0, * cloneChildHandle = 0;
-		for (int i=0; i< items.size(); ++i)
-		{
-			handle = getHandle(items[i]);
-			if (newItems[i])
-				if (handle)
-				{
-					if (hash.contains(handle))
-					{
-						setHandle(newItems[i],hash[handle]);
-					}
-					else
-					{
-						handle2 = handle->clone();
-						handle2->setParent(0);
-						handle2->textItems.clear();
-						handle2->children.clear();
-						handle2->graphicsItems.clear();
-						hash[handle] = handle2;
-						setHandle(newItems[i],handle2);
-						
-						childHandles = handle->children;
-						for (int j=0; j < childHandles.size(); ++j)
-							if ((handle = childHandles[j]) && handle->textItems.isEmpty() && handle->graphicsItems.isEmpty())
-							{
-								cloneChildHandle = handle->clone();
-								cloneChildHandle->setParent(0);
-								cloneChildHandle->textItems.clear();
-								cloneChildHandle->children.clear();
-								cloneChildHandle->graphicsItems.clear();
-								
-								for (int k=0; k < handle->children.size(); ++k)
-									if (!childHandles.contains(handle->children[k]))
-										childHandles << handle->children[k];
-								
-								hash[handle] = cloneChildHandle;
-							}
-					}
-				}
-				else
-					setHandle(newItems[i],0);
-		}
-
-		for (int i=0; i< items.size() && i< newItems.size(); ++i)
-		{
-			handle = getHandle(items[i]);
-			handle2 = getHandle(newItems[i]);
-			if (handle && handle->parent && handle2)
+		ItemHandle * handle = 0, * handle2 = 0;
+		ConnectionHandle * connection = 0, * connection2 = 0;
+		for (int i=0; i < oldHandles.size(); ++i)
+			if ((handle = oldHandles[i]) && !hash.contains(handle))
 			{
-				if (hash.contains(handle->parent))
-				{
-					handle2->setParent( hash[handle->parent] );
-				}
+				handle2 = handle->clone();
+				newHandles << handle2;
+				handle2->setParent(0);
+				handle2->children.clear();
+				handle2->graphicsItems.clear();
+				hash[handle] = handle2;
 			}
-		}
 
-		for (int i=0; i < items.size(); ++i)
+		NodeHandle * node;
+		for (int i=0; i < oldHandles.size(); ++i)
 		{
-			if (items[i] && items[i]->asNode() && newItems[i]->asNode())
+			handle = oldHandles[i];
+			if (handle && (handle2 = hash[handle]))
 			{
-				NodeTextItem* newNode = newItems[i]->asNode();
-				newNode->connections.clear();
-				QList<ConnectionTextItem*>& connections = items[i]->asNode()->connections;
-				for(int j=0; j < connections.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (connections[j] == items[k] && newItems[k]->asConnection())
+				if (handle && handle->parent && hash.contains(handle->parent))
+				{
+					handle2->setParent( hash[ handle->parent ] );
+				}
+			
+				if (handle &&
+					(connection = ConnectionHandle::cast(handle)) && 
+					(connection2 = ConnectionHandle::cast(handle2)))
+				{
+					connection2->nodesWithRoles.clear();
+					for (int j=0; j < connection->nodesWithRoles.size(); ++j)
+						if (hash.contains(connection->nodesWithRoles[j].first) &&
+							(node = NodeHandle::cast(hash[connection->nodesWithRoles[j].first])))
 						{
-							newNode->connections << newItems[k]->asConnection();
+							connection2->addNode(node,connection->nodesWithRoles[j].second);
 						}
-			}
-			else
-			if (items[i] && items[i]->asConnection() && newItems[i]->asConnection())
-			{
-				ConnectionTextItem* newConnection = newItems[i]->asConnection();
-				newConnection->nodesIn.clear();
-				newConnection->nodesOut.clear();
-				newConnection->nodesOther.clear();
-				QList<NodeTextItem*>& nodesIn = items[i]->asConnection()->nodesIn;
-				QList<NodeTextItem*>& nodesOut = items[i]->asConnection()->nodesOut;
-				QList<NodeTextItem*>& nodesOther = items[i]->asConnection()->nodesOther;
-				for(int j=0; j < nodesIn.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesIn[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesIn << newItems[k]->asNode();
-				for(int j=0; j < nodesOut.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesOut[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesOut << newItems[k]->asNode();
-				for(int j=0; j < nodesOther.size(); ++j)
-					for (int k=0; k < items.size(); ++k)
-						if (nodesOther[j] == items[k] && newItems[k]->asNode())
-							newConnection->nodesOther << newItems[k]->asNode();
-
+				}
 			}
 		}
-		return newItems;
+		return newHandles;
 	}
 }

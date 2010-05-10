@@ -37,10 +37,7 @@ namespace Tinkercell
 	class ConnectionHandle;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
-	class TextItem;
-	class NodeTextItem;
-	class ConnectionTextItem;
-
+	
 	/*! \brief This function replaces disallowed characters in a name string
 	* \ingroup helper
 	* \param QString original string
@@ -71,7 +68,7 @@ namespace Tinkercell
 	/*! \brief
 	The ItemHandle represents a complete object in the network, whether it is a node or a
 	connection. The ItemHandle contains the name of the object and pointers to all the
-	QGraphicsItems and TextItems that are used to represent the object. Tools associated with
+	QGraphicsItems that are used to represent the object. Tools associated with
 	the object can be stored within the ItemHandle as well. The ItemHandle can also
 	optionally contain an ItemFamily, which can be used to distinguish different types of nodes or
 	connections, if needed. Each ItemHandle can contain one parent. Several functions are
@@ -249,8 +246,6 @@ namespace Tinkercell
 		virtual NodeHandle& operator = (const NodeHandle&);
 		/*! \brief constructor using initial family and graphics item*/
 		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item);
-		/*! \brief constructor using initial family and text item*/
-		NodeHandle(NodeFamily * nodeFamily, NodeTextItem * item);
 		/*! \brief return a clone of this handle
 		\return ItemFamily* node handle as item handle*/
 		virtual ItemHandle * clone() const;
@@ -280,12 +275,15 @@ namespace Tinkercell
 		static const int TYPE = 2;
 		/*! \brief returns all the nodes connected to all the connectors in this handle
 		\return QList<NodeHandle*> list of node handles*/
-		virtual QList<NodeHandle*> nodes() const;
-		/*! \brief add a node to this connection
+		virtual QList<NodeHandle*> nodes(int role = 0) const;
+		/*! \brief add a node to this connection (only applies to connections with NO grpahics items)
 		\param NodeHandle* node
 		\param int role of this node. -1 is for "in" nodes. +1 is for "out" nodes. Use any other values for specific purposes
 		*/
-		virtual QList<NodeHandle*> addNode(NodeHandle*, int role=0) const;
+		virtual void addNode(NodeHandle*, int role=0);
+		/*! \brief clear all nodes in connection (only applies to connections with NO graphics items)
+		*/
+		virtual void clearNodes();
 		/*! \brief returns all the nodes that are on the "input" side of this connection. 
 		If this connection is represented by graphics items, then this 
 		is determined by looking at which nodes have an arrow-head associated with them in graphics items
@@ -315,10 +313,6 @@ namespace Tinkercell
 		\param ConnectionFamily* initial family
 		\param ConnectionGraphicsItem* connection graphics item*/
 		ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item);
-		/*! \brief two parameter constructor
-		\param ConnectionFamily* initial family
-		\param ConnectionGraphicsItem* connection text item*/
-		ConnectionHandle(ConnectionFamily * family, ConnectionTextItem * item);
 		/*! \brief set the family for this handle
 		\param ConnectionFamily* connection family*/
 		virtual bool setFamily(ConnectionFamily * family);
@@ -332,11 +326,11 @@ namespace Tinkercell
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
 		static ConnectionHandle* cast(ItemHandle *);
-	protected:
 		/*! \brief the nodes that are connected by this connection and the role of each node.
+		     this list is ONLY used for connections with NO graphics items
 		    -1 and 1 are reseved roles, indicating in and out nodes
 		*/
-		QList< QPair<NodeHandle*, int> > _nodes;
+		QList< QPair<NodeHandle*, int> > nodesWithRoles;
 	};
 
 	/*! \brief get the handle from a graphics item

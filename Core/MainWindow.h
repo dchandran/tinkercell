@@ -305,6 +305,7 @@ namespace Tinkercell
 		*/
 
 	public slots:
+		
 		/*!
 		* \brief asks user for a new directory to be used as the user home directory (must be writtable)
 		*/
@@ -312,11 +313,11 @@ namespace Tinkercell
 		/*!
 		* \brief create new scene
 		*/
-		GraphicsScene * newGraphicsWindow();
+		GraphicsScene * newScene();
 		/*!
 		* \brief create new text editor
 		*/
-		TextEditor * newTextWindow();
+		TextEditor * newTextEditor();
 		/*!
 		* \brief triggered when the close button is clicked. Closes the current window
 		*/
@@ -816,6 +817,9 @@ namespace Tinkercell
 		
 		/*!\brief stores list of all pointers that have been deleted (to prevent double-deletions)*/
 		static QHash<void*,bool> invalidPointers;
+		
+		/*!\brief checks if the given address belongs to a handle*/
+		bool isValidHandlePointer(void * p);
 
 	};
 

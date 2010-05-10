@@ -32,6 +32,7 @@ a need to directly  interact with the GraphicsScene
 #include <QUndoCommand>
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
+#include "CloneItems.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -131,7 +132,7 @@ namespace Tinkercell
 		* \return double*/
 		virtual qreal ZValue();
 		/*! \brief Constructor: sets 10000x10000 scene */
-		GraphicsScene(NetworkWindow * parent);
+		GraphicsScene(NetworkHandle * network);
 		/*! \brief destructor */
 		virtual ~GraphicsScene();
 
@@ -261,7 +262,7 @@ namespace Tinkercell
 		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, QGraphicsItem * newParent);
 		/*! \brief this command changes the parent of an item and also adds undo command to history window and emits associated signal(s)*/
 		virtual  void setParentItem(const QString& name, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& newParents);
-
+		
 	signals:
 		/*! \brief signals just before items are copied
 		* \param GraphicsScene * scene where the items are going to be copied
@@ -378,6 +379,18 @@ namespace Tinkercell
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void*/
 		void filesDropped(const QList<QFileInfo>& files);
+		/*! \brief signals whenever color of items are changed
+		* \param GraphicsScene * scene where the event took place
+		* \param QList<QGraphicsItem*>& items that changed color
+		* \return void*/
+		void colorChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items);
+		/*! \brief signals whenever item parents are changed
+		* \param GraphicsScene * scene where the event took place
+		* \param QList<QGraphicsItem*>& items
+		* \param QList<QGraphicsItem*>& new parents
+		* \return void*/
+		void parentItemChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<QGraphicsItem*>& parents);
+
 
 	protected:
 		/*! \brief the network window widget inside of which this scene is located*/
@@ -390,8 +403,6 @@ namespace Tinkercell
 		QGraphicsRectItem selectionRect;
 		/*! \brief used to store copied items*/
 		static QList<QGraphicsItem*> duplicateItems;
-		/*! \brief used to store copied items that are hidden*/
-		static QList<QGraphicsItem*> duplicatedHiddenItems;
 		/*! \brief used to store copied items*/
 		static GraphicsScene * copiedFromScene;
 		/*! \brief clears copied items*/

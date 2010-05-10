@@ -722,5 +722,49 @@ namespace Tinkercell
 		}
 		return true;
 	}
+	
+	void GraphicsScene::assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
+	{
+		if (!newHandle) return;
+		QList<ItemHandle*> handles;
+		for (int i=0; i < items.size(); ++i)
+			handles += getHandle(items[i]);
+
+		QUndoCommand * command = new AssignHandleCommand(tr("item defined"),items,newHandle);
+		if (network)
+			network->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+
+		emit handlesChanged(this, items, handles);
+	}
+	
+	void NetworkHandle::mergeHandles(const QList<ItemHandle*>& handles)
+	{
+		if (handles.isEmpty()) return;
+
+		MergeHandlesCommand * command = new MergeHandlesCommand(tr("items merged"),network, handles);
+
+		if (!command->newHandle)
+		{
+			delete command;
+			return;
+		}
+
+		if (network)
+			network->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+
+		clearSelection();
+		emit handlesChanged(this, items, handles);
+	}
+
 }
 

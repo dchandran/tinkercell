@@ -83,19 +83,19 @@ namespace Tinkercell
 		/*! \brief destructor -- removes all the text items*/
 		~TextEditor();
 		/*! \brief insert a text item
-		\param TextItem* the item*/
-		void insertItem( TextItem* );
+		\param ItemHandle* the item*/
+		void insertItem( ItemHandle* );
 		/*! \brief insert text items
-		\param QList<TextItem*> the items*/
+		\param QList<ItemHandle*> the items*/
 		void insertItems( const QList<ItemHandle*>& );
 		/*! \brief remove an item
-		\param TextItem* the item*/
-		void removeItem( TextItem* );
+		\param ItemHandle* the item*/
+		void removeItem( ItemHandle* );
 		/*! \brief remove text items
-		\param QList<TextItem*> the items*/
+		\param QList<ItemHandle*> the items*/
 		void removeItems( const QList<ItemHandle*>& );
 		/*! \brief clear existing items and insert new items
-		\param QList<TextItem*> the new items*/
+		\param QList<ItemHandle*> the new items*/
 		void setItems( const QList<ItemHandle*>& );
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<ItemHandle*>& items();

@@ -19,6 +19,7 @@ The GraphicsView class provides a view for a GraphicsScene. It
 #include "ConsoleWindow.h"
 #include "CloneItems.h"
 #include "GraphicsScene.h"
+#include "GraphicsView.h"
 
 namespace Tinkercell
 {
@@ -123,7 +124,7 @@ namespace Tinkercell
 	{
 		if (scene && scene->networkWindow)
 		{
-			networkWindow->setAsCurrentWindow();
+			scene->networkWindow->setAsCurrentWindow();
 		}
 		
 		QGraphicsView::mousePressEvent(event);
@@ -133,7 +134,7 @@ namespace Tinkercell
 	{
 		if (scene && scene->networkWindow)
 		{
-			networkWindow->setAsCurrentWindow();
+			scene->networkWindow->setAsCurrentWindow();
 		}
 		QGraphicsView::keyPressEvent(event);
 	}

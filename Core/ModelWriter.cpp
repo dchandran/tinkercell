@@ -9,6 +9,7 @@ data.
 
 ****************************************************************************/
 
+#include "NetworkHandle.h"
 #include "ModelWriter.h"
 
 namespace Tinkercell
@@ -55,8 +56,8 @@ namespace Tinkercell
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
-		if (editor->symbolsTable)
-			writeHandle(&(editor->symbolsTable->modelItem),writer);
+		if (editor->network)
+			writeHandle(editor->network->globalHandle(),writer);
 
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)
@@ -95,8 +96,8 @@ namespace Tinkercell
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
-		if (scene->symbolsTable)
-			writeHandle(&(scene->symbolsTable->modelItem),writer);
+		if (scene->network)
+			writeHandle(scene->network->globalHandle(),writer);
 
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)

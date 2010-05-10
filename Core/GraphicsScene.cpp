@@ -12,6 +12,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 
 #include "DataTable.h"
 #include "NetworkHandle.h"
+#include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -50,7 +51,7 @@ namespace Tinkercell
 	* \return rectangle*/
 	QRectF GraphicsScene::viewport() const
 	{
-		GraphicsView * view = 0;
+		QGraphicsView * view = 0;
 		
 		QList<QGraphicsView*> list = views();
 	
@@ -121,12 +122,8 @@ namespace Tinkercell
 	}
 
 	/*! \brief Constructor: sets 10000x10000 scene */
-	GraphicsScene::GraphicsScene(NetworkWindow * parent) : QGraphicsScene(parent), networkWindow(parent)
+	GraphicsScene::GraphicsScene(NetworkHandle * net) : QGraphicsScene(net), networkWindow(0), network(net)
 	{
-		network = 0;
-		if (networkWindow)
-			network = networkWindow->network;
-
 		gridSz = GRID;
 		mouseDown = false;
 		useDefaultBehavior = USE_DEFAULT_BEHAVIOR;
@@ -584,7 +581,7 @@ namespace Tinkercell
 		{
 			if (selectedItems.size() > 0)
 			{
-				if (contextItemsMenu && currentView())
+				if (contextItemsMenu)
 					contextItemsMenu->exec(mouseEvent->screenPos());
 			}
 			else
@@ -595,7 +592,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			emit escapeSignal(network);
+			emit escapeSignal(network->mainWindow->currentNetworkWindow);
 		}
 	}
 	/*! \brief zoom
@@ -697,7 +694,7 @@ namespace Tinkercell
 
 		if (key == Qt::Key_Escape || key == Qt::Key_Space)
 		{
-			emit escapeSignal(network);
+			emit escapeSignal(network->mainWindow->currentNetworkWindow);
 			keyEvent->accept();
 		}
 
@@ -1302,72 +1299,6 @@ namespace Tinkercell
 		emit parentItemChanged(this,items,newParents);
 	}
 
-	void GraphicsScene::rename(const QString& oldname, const QString& newname)
-	{
-		if (network)
-			network->rename(oldname,newname);
-	}
-
-	void GraphicsScene::rename(QGraphicsItem* item, const QString& name)
-	{
-		if (network)
-			network->rename(getHandle(item),name);
-	}
-
-	void GraphicsScene::rename(ItemHandle* handle, const QString& name)
-	{
-		if (network)
-			network->rename(handle,name);
-	}
-
-	void GraphicsScene::rename(const QList<QGraphicsItem*>& items, const QList<QString>& names)
-	{
-		QList<ItemHandle*> handles;
-		ItemHandle * handle;
-		for (int i=0; i < items.size(); ++i)
-			if (!handles.contains( handle = getHandle(items[i]) ))
-				handles += handle;
-		if (network)
-			network->rename(handles,names);
-	}
-
-	void GraphicsScene::assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
-	{
-		if (!newHandle) return;
-		QList<ItemHandle*> handles;
-		for (int i=0; i < items.size(); ++i)
-			handles += getHandle(items[i]);
-
-		QUndoCommand * command = new AssignHandleCommand(tr("item defined"),items,newHandle);
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-
-		emit handlesChanged(this, items, handles);
-	}
-
-	void GraphicsScene::setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles)
-	{
-		if (network)
-			network->setParentHandle(handles,parentHandles);
-	}
-
-	void GraphicsScene::setParentHandle(ItemHandle * child, ItemHandle * parent)
-	{
-		if (network)
-			network->setParentHandle(child,parent);
-	}
-
-	void GraphicsScene::setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent)
-	{
-		if (network)
-			network->setParentHandle(children,parent);
-	}
-
 	/*! \brief this command changes the z value of an item*/
 	void GraphicsScene::setZValue(const QString& name, QGraphicsItem * item, double to)
 	{
@@ -1437,34 +1368,15 @@ namespace Tinkercell
 		}
 	}
 
-	void GraphicsScene::mergeHandles(const QList<ItemHandle*>& handles)
-	{
-		if (handles.isEmpty()) return;
-
-		MergeHandlesCommand * command = new MergeHandlesCommand(tr("items merged"),network, handles);
-
-		if (!command->newHandle)
-		{
-			delete command;
-			return;
-		}
-
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-
-		clearSelection();
-		emit handlesChanged(this, items, handles);
-	}
-
 	/*! \brief prints the current scene*/
 	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
 	{
-		if (!network || !network->currentGraphicsView) return;
+		if (!network) return;
+		
+		QList<QGraphicsView*> list = views();
+		
+		if (list.isEmpty() || !list[0]) return;
+		
 		QPainter painter(printer);
 		//painter.setBackgroundMode(Qt::OpaqueMode);
 		painter.setBackground(QBrush(Qt::white));
@@ -1501,14 +1413,11 @@ namespace Tinkercell
 
 		painter.fillRect(rect,QBrush(Qt::white));
 
-		QGraphicsView * view = network->currentGraphicsView;
+		QGraphicsView * view = list[0];
 
-		if (view)
-		{
-			QPointF p1 = view->mapFromScene(region.topLeft()),
-					p2 = view->mapFromScene(region.bottomRight());
-			view->render(&painter,QRectF(p1,p2));
-		}
+		QPointF p1 = view->mapFromScene(region.topLeft()),
+				p2 = view->mapFromScene(region.bottomRight());
+		view->render(&painter,QRectF(p1,p2));
 	}
 
 	void GraphicsScene::clearStaticItems()
@@ -1531,7 +1440,6 @@ namespace Tinkercell
                 delete duplicateItems[i];
 
         duplicateItems.clear();
-        duplicatedHiddenItems.clear();
 	}
 
 	void GraphicsScene::copy()
@@ -1570,10 +1478,6 @@ namespace Tinkercell
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
 		
-		for (int i=0; i < items.size(); ++i)
-			if (!isVisible(items[i]))
-				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
-
 		emit copyItems(this,duplicateItems,allNewHandles);
 	
 
@@ -1601,10 +1505,6 @@ namespace Tinkercell
 		QList<ItemHandle*> allNewHandles;
 
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-
-		for (int i=0; i < items.size(); ++i)
-			if (!isVisible(items[i]))
-				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
 
 		emit copyItems(this,duplicateItems,allNewHandles);
 
@@ -1681,14 +1581,8 @@ namespace Tinkercell
 		}
 
 		QList<ItemHandle*> allNewHandles;
-		QList<QGraphicsItem*> hideItems = duplicatedHiddenItems;
 		
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
-		duplicatedHiddenItems.clear();
-		
-		for (int i=0; i < items.size(); ++i)
-			if (hideItems.contains(items[i]))
-				GraphicsScene::duplicatedHiddenItems << GraphicsScene::duplicateItems[i];
 		
 		emit copyItems(this,duplicateItems,allNewHandles);
 
@@ -1772,8 +1666,7 @@ namespace Tinkercell
 		}
 
 		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
-		commands << new InsertGraphicsCommand(tr("paste items"),this,items);		
-		commands << new SetGraphicsViewVisibilityCommand(currentView(), hideItems, false);
+		commands << new InsertGraphicsCommand(tr("paste items"),this,items);
 		
 		clearSelection();
 
@@ -1842,9 +1735,9 @@ namespace Tinkercell
 			
 			if (symbolsTable->nonuniqueData.contains(text))
 			{
-				QList< QPair<ItemHandle*,QString > > pairs = symbolsTable->nonuniqueData.values(text);
+				QList< QPair<ItemHandle*,QString> > pairs = symbolsTable->nonuniqueData.values(text);
 				for (int i=0; i < pairs.size(); ++i)
-					items << pairs.first;
+					items << pairs[i].first;
 			}
 			
 			for (int i=0; i < items.size(); ++i)
@@ -1877,7 +1770,6 @@ namespace Tinkercell
 	}
 
 	QList<QGraphicsItem*> GraphicsScene::duplicateItems;
-	QList<QGraphicsItem*> GraphicsScene::duplicatedHiddenItems;
 	GraphicsScene* GraphicsScene::copiedFromScene;
 
 	void GraphicsScene::enableGrid(int sz)

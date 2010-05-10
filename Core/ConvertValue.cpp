@@ -36,9 +36,7 @@ namespace Tinkercell
 	ItemHandle* ConvertValue(void * o)
 	{
 		MainWindow * main = MainWindow::instance();
-		if (main && 
-			main->currentSymbolsTable() && 
-			main->currentSymbolsTable()->isValidPointer(o)
+		if (main && main->isValidHandlePointer(o)
 			)
 			return static_cast<ItemHandle*>(o);
 		return 0;
@@ -55,13 +53,9 @@ namespace Tinkercell
 		QList<ItemHandle*> * list = new QList<ItemHandle*>();
 		if (main)
 		{
-			SymbolsTable * table = main->currentSymbolsTable();
-			if (table)
-			{
-				for (int i=0; i < A.length; ++i)
-					if (table->isValidPointer(A.items[i]))
-						(*list) += static_cast<ItemHandle*>(A.items[i]);
-			}
+			for (int i=0; i < A.length; ++i)
+				if (main->isValidHandlePointer(A.items[i]))
+					(*list) += static_cast<ItemHandle*>(A.items[i]);
 		}
 		return list;
 	}

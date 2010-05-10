@@ -27,7 +27,6 @@ The MainWindow keeps a list of all plugins, and it is also responsible for loadi
 #include <QColorDialog>
 #include <QImage>
 #include "TextEditor.h"
-#include "TextItem.h"
 #include "NetworkWindow.h"
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
@@ -253,12 +252,6 @@ namespace Tinkercell
 		connect(this,SIGNAL(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)),
 			this,SLOT(itemsRemovedSlot(GraphicsScene*,QList<QGraphicsItem*>,QList<ItemHandle*>)));
 
-		connect(this,SIGNAL(itemsInserted(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
-			this,SLOT(itemsInsertedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
-
-		connect(this,SIGNAL(itemsRemoved(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)),
-			this,SLOT(itemsRemovedSlot(TextEditor*,QList<TextItem*>,QList<ItemHandle*>)));
-
 		if (showHistory)
 		{
 			historyWindow.setWindowTitle(tr("History"));
@@ -367,7 +360,7 @@ namespace Tinkercell
 	{
 		currentNetworkWindow = 0;
 
-		if (window && window->network && allNetworkWindows.contains(window))
+		if (window && window->network && allNetworks.contains(window->network))
 		{
 			if (tabWidget)
 			{
@@ -398,7 +391,7 @@ namespace Tinkercell
 		return allNetworks;
 	}
 
-	GraphicsScene * MainWindow::createScene()
+	GraphicsScene * MainWindow::newScene()
 	{
 		NetworkHandle * network = new NetworkHandle(this);
 		GraphicsScene * scene = network->createScene();
@@ -410,10 +403,10 @@ namespace Tinkercell
 		return scene;
 	}
 
-	TextEditor * MainWindow::newTextExitor()
+	TextEditor * MainWindow::newTextEditor()
 	{
 		NetworkHandle * network = new NetworkHandle(this);
-		TextEditor * editor = network->createEditor();
+		TextEditor * editor = network->createTextEditor();
 		NetworkWindow * subWindow = editor->networkWindow;
 
 		popIn(subWindow);
@@ -429,24 +422,22 @@ namespace Tinkercell
 
 	void MainWindow::closeWindow()
 	{
-		if (currentWindow())
+		if (currentNetworkWindow)
 		{
-			currentWindow()->close();
+			currentNetworkWindow->close();
 		}
 	}
 
 	void MainWindow::saveWindow()
 	{
-		NetworkWindow * win = currentWindow();
-
-		if (!win) return;
+		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
 
 		bool b = false;
-		emit prepareModelForSaving(win,&b);
+		emit prepareModelForSaving(currentNetworkWindow->network,&b);
 
 		if (!b) return;
 
-		QString fileName = win->filename;
+		QString fileName = currentNetworkWindow->filename;
 
 		if (fileName.isEmpty())
 		{
@@ -679,20 +670,15 @@ namespace Tinkercell
 	TextEditor* MainWindow::currentTextEditor() const
 	{
 		if (currentNetworkWindow)
-			return currentNetworkWindow->textEditor;
+			return currentNetworkWindow->editor;
 		return 0;
 	}
 
-	NetworkWindow * MainWindow::currentNetwork() const
+	NetworkHandle * MainWindow::currentNetwork() const
 	{
 		if (currentNetworkWindow)
 		    return currentNetworkWindow->network;
 		return 0;
-	}
-
-	QList<NetworkWindow*> MainWindow::allWindows() const
-	{
-		return allNetworkWindows;
 	}
 
 	void MainWindow::fitAll()
@@ -826,8 +812,7 @@ namespace Tinkercell
 		toolBarEdits->addAction(cutAction);
 		toolBarEdits->addAction(pasteAction);
 		toolBarEdits->addAction(deleteAction);
-		toolBarEdits->addAction(createViewAction);
-
+		
 		/*QSize iconSize(16,16);
 		toolBarBasic->setIconSize(iconSize);
 		toolBarEdits->setIconSize(iconSize);
@@ -860,9 +845,6 @@ namespace Tinkercell
 
 		contextScreenMenu.addAction(undoAction);
 		contextScreenMenu.addAction(redoAction);
-
-		contextScreenMenu.addAction(createViewAction);
-		contextEditorMenu.addAction(createViewAction);
 	}
 
 	void MainWindow::sendEscapeSignal(const QWidget * widget)
@@ -938,10 +920,10 @@ namespace Tinkercell
 	void MainWindow::closeEvent(QCloseEvent *event)
 	{
 		bool b = true;
-		QList<NetworkWindow*> list = allNetworkWindows;
+		QList<NetworkHandle*> list = allNetworks;
 		currentNetworkWindow = 0;
 		for (int i=0; i < list.size(); ++i)
-			if (list[i] && allNetworkWindows.contains(list[i]))
+			if (list[i] && allNetworks.contains(list[i]))
 			{
 				b = true;
 				emit windowClosing(list[i],&b);
@@ -949,12 +931,13 @@ namespace Tinkercell
 				{
 					emit windowClosed(list[i]);
 					disconnect(list[i]);
-					allNetworkWindows.removeAll(list[i]);
+					allNetworks.removeAll(list[i]);
 					list[i]->close();
 				}
 				else
+				if (list[i]->networkWindows.size() > 0 && list[i]->networkWindows[0]) 
 				{
-					currentNetworkWindow = list[i];
+					currentNetworkWindow = list[i]->networkWindows[0];
 					event->ignore();
 					return;
 				}
@@ -1044,25 +1027,13 @@ namespace Tinkercell
 	void MainWindow::itemsRemovedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles)
 	{
 		if (handles.size() > 0 && scene)
-			emit itemsRemoved(scene->networkWindow, handles);
+			emit itemsRemoved(scene->network, handles);
 	}
 
 	void MainWindow::itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles)
 	{
 		if (handles.size() > 0 && scene)
-			emit itemsInserted(scene->networkWindow, handles);
-	}
-
-	void MainWindow::itemsRemovedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles)
-	{
-		if (handles.size() > 0 && editor)
-			emit itemsRemoved(editor->networkWindow, handles);
-	}
-
-	void MainWindow::itemsInsertedSlot(TextEditor * editor, const QList<TextItem*>& item, const QList<ItemHandle*>& handles)
-	{
-		if (handles.size() > 0 && editor)
-			emit itemsInserted(editor->networkWindow, handles);
+			emit itemsInserted(scene->network, handles);
 	}
 	
 	void MainWindow::addParser(TextParser * parser)
@@ -1203,19 +1174,22 @@ namespace Tinkercell
 	void MainWindow::setCursor(QCursor cursor)
 	{
 		QMainWindow::setCursor(cursor);
-		QList<NetworkWindow*> allWins = allWindows();
-		QList<QGraphicsView*> views;
-		for (int i=0; i < allWins.size(); ++i)
-		{
-			allWins[i]->setCursor(cursor);
-			if (allWins[i]->scene)
+		for (int i=0; i < allNetworks.size(); ++i)
+			if (allNetworks[i])
 			{
-				views = allWins[i]->scene->views();
-				for (int j=0; j < views.size(); ++j)
-		            if (views[j])
-		                views[j]->setCursor(cursor);
+				QList<NetworkWindow*> windows = allNetworks[i]->networkWindows;
+				for (int j=0; j < windows.size(); ++j)
+				{
+					windows[i]->setCursor(cursor);
+					if (windows[j]->scene)
+					{
+						QList<QGraphicsView*> views = windows[j]->scene->views();
+						for (int k=0; k < views.size(); ++k)
+					        if (views[k])
+					            views[k]->setCursor(cursor);
+					}
+				}
 			}
-		}
 	}
 
 	void MainWindow::setupFunctionPointersSlot(QSemaphore* s,QLibrary * library)
@@ -1267,4 +1241,12 @@ namespace Tinkercell
 	}
 	
 	QHash<void*,bool> MainWindow::invalidPointers;
+	
+	bool MainWindow::isValidHandlePointer(void * p)
+	{
+		for (int i=0; i < allNetworks.size(); ++i)
+			if (allNetworks[i] && allNetworks[i]->symbolsTable.isValidPointer(p))
+				return true;
+		return false;
+	}
 }

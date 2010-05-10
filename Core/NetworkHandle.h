@@ -219,7 +219,10 @@ namespace Tinkercell
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1);
 		/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
 		virtual void changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1);
-
+		/*! \brief assign the handle for one or more items*/
+		virtual void assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle);
+		/*! \brief marge the graphics items and children of two or more handles*/
+		virtual void mergeHandles(const QList<ItemHandle*>& handles);
 		/*! \}
 			\name slots
 			update the symbols table that stores all the symbols in the network
@@ -248,19 +251,19 @@ namespace Tinkercell
 	signals:
 
 		/*! \brief signals whenever an item is renamed
-		* \param NetworkHandle* window where the event took place
+		* \param NetworkHandle* network where the event took place
 		* \param QList<ItemHandle*>& items
 		* \param QList<QString>& old names
 		* \param QList<QString>& new names
 		* \return void*/
-		void itemsRenamed(NetworkHandle * window, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
+		void itemsRenamed(NetworkHandle * network, const QList<ItemHandle*>& items, const QList<QString>& oldnames, const QList<QString>& newnames);
 		
 		/*! \brief signals whenever item parent handle is changed
-		* \param NetworkHandle* window where the event took place
+		* \param NetworkHandle* network where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
-		void parentHandleChanged(NetworkHandle * window, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		void parentHandleChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
@@ -268,16 +271,18 @@ namespace Tinkercell
 		void dataChanged(const QList<ItemHandle*>& items);
 		
 		/*! \brief signals whenever the handles for graphics items have changed
-		* \param GraphicsScene* scene where the event took place
+		* \param NetworkHandle* network where the event took place
 		* \param QList<GraphicsItem*>& items that are affected
 		* \param QList<ItemHandle*>& old handle for each items
 		* \return void*/
-		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
+		void handlesChanged(NetworkHandle * network, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 
+		
 	private:
 
 		friend class GraphicsView;
 		friend class GraphicsScene;
+		friend class TextEditor;
 		friend class MainWindow;
 		friend class NetworkWindow;
 		friend class SymbolsTable;

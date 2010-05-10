@@ -9,6 +9,7 @@ data.
 
 ****************************************************************************/
 
+#include "NetworkHandle.h"
 #include "ModelReader.h"
 #include "ConsoleWindow.h"
 #include <QtDebug>
@@ -39,9 +40,9 @@ namespace Tinkercell
 
 		QPair<QString,ItemHandle*> handle(QString(),0);
 		handle = readHandle(list);
-		if (scene && scene->symbolsTable && handle.second && handle.second->name.isEmpty())
+		if (scene && scene->network && handle.second && handle.second->name.isEmpty())
 		{
-			scene->symbolsTable->modelItem = (*handle.second);
+			(*scene->network->globalHandle()) = (*handle.second);
 			delete handle.second;
 			handle = readHandle(list);
 		}

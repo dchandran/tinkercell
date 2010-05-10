@@ -10,11 +10,11 @@ text-based representation of a network.
 
 ****************************************************************************/
 
+#include "NetworkHandle.h"
 #include "ConsoleWindow.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "TextEditor.h"
-#include "TextItem.h"
 #include "ItemFamily.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -33,7 +33,6 @@ text-based representation of a network.
 
 namespace Tinkercell
 {
-
 	bool TextEditor::SideBarEnabled = true;
 	void TextEditor::push(QUndoCommand * c)
 	{
@@ -42,8 +41,8 @@ namespace Tinkercell
 			text = c->text();
 		QUndoCommand * composite = new CompositeCommand(text, new TextUndoCommand(this, prevText, toPlainText()), c);
 
-		if (networkWindow)
-			networkWindow->history.push( composite );
+		if (network)
+			network->history.push( composite );
 		else
 		{
 			composite->redo();
@@ -53,14 +52,14 @@ namespace Tinkercell
 
 	void TextEditor::undo()
 	{
-		if (networkWindow)
-			networkWindow->history.undo();
+		if (network)
+			network->history.undo();
 	}
 
 	void TextEditor::redo()
 	{
-		if (networkWindow)
-			networkWindow->history.redo();
+		if (network)
+			network->history.redo();
 	}
 
 	void TextEditor::copy()
@@ -72,10 +71,10 @@ namespace Tinkercell
 	{
 		CodeEditor::cut();
 		int i = -1;
-		if (networkWindow)
-			i = networkWindow->history.count();
+		if (network)
+			i = network->history.count();
 		emit textChanged(this, tr(""), tr(""), prevText);
-		if (networkWindow && i > -1 && i == networkWindow->history.count())
+		if (network && i > -1 && i == network->history.count())
 			push(0);
 		prevText = toPlainText();
 	}
@@ -84,10 +83,10 @@ namespace Tinkercell
 	{
 		CodeEditor::paste();
 		int i = -1;
-		if (networkWindow)
-			i = networkWindow->history.count();
+		if (network)
+			i = network->history.count();
 		emit textChanged(this, tr(""), tr(""), prevText);
-		if (networkWindow && i > -1 && i == networkWindow->history.count())
+		if (network && i > -1 && i == network->history.count())
 			push(0);
 		prevText = toPlainText();
 	}
@@ -124,10 +123,8 @@ namespace Tinkercell
 		emit textChanged(this, tr(""), tr(""), oldText);
 	}
 
-	TextEditor::TextEditor( NetworkHandle * network, QWidget * parent) : CodeEditor(parent), editorWidget(0), network(network)
+	TextEditor::TextEditor( NetworkHandle * network, QWidget * parent) : CodeEditor(parent), editorWidget(0), network(network), networkWindow(0)
 	{
-		symbolsTable = 0;
-		historyStack = 0;
 		contextEditorMenu = 0;
 		contextSelectionMenu = 0;
 		setUndoRedoEnabled(false);
@@ -160,86 +157,73 @@ namespace Tinkercell
 
 	void TextEditor::contextMenuEvent ( QContextMenuEvent * event )
 	{
-		if (!networkWindow || !networkWindow->mainWindow || !event) return;
+		if (!network || !network->mainWindow || !event) return;
 
 		if (selectedText().isEmpty())
-			networkWindow->mainWindow->contextEditorMenu.exec(event->globalPos());
+			network->mainWindow->contextEditorMenu.exec(event->globalPos());
 		else
-			networkWindow->mainWindow->contextSelectionMenu.exec(event->globalPos());
+			network->mainWindow->contextSelectionMenu.exec(event->globalPos());
 	}
 
-	QList<TextItem*>& TextEditor::items()
+	QList<ItemHandle*>& TextEditor::items()
 	{
 		return allItems;
 	}
 
-	void TextEditor::setItems( const QList<TextItem*>& newItems)
+	void TextEditor::setItems( const QList<ItemHandle*>& newItems)
 	{
 		QList<QUndoCommand*> commands;
-		commands << new RemoveTextItemsCommand(this,allItems)
-			<< new InsertTextItemsCommand(this,newItems);
+		commands << new RemoveHandlesCommand(this,allItems)
+			<< new InsertHandlesCommand(this,newItems);
 
-		ItemHandle * h = 0;
-		QList<ItemHandle*> handles;
-		for (int i=0; i < newItems.size(); ++i)
-			if ( (h = getHandle(newItems[i]))
-				&& !handles.contains(h))
-			{
-				handles << h;
-			}
-			emit itemsRemoved(this, newItems, handles);
-			if (prevBlockText.isEmpty())
-				push( new CompositeCommand(tr("line ") + QString::number(prevBlockNumber) + tr(" changed"),commands)  );
-			else
-				push( new CompositeCommand(prevBlockText,commands)  );
-			emit itemsInserted(this, newItems, handles);
+	
+		emit itemsRemoved(network, allItems);
+	
+		if (prevBlockText.isEmpty())
+			push( new CompositeCommand(tr("line ") + QString::number(prevBlockNumber) + tr(" changed"),commands)  );
+		else
+			push( new CompositeCommand(prevBlockText,commands)  );
+	
+		emit itemsInserted(network, newItems);
 	}
 
-	void TextEditor::insertItem( TextItem * item )
+	void TextEditor::insertItem( ItemHandle * item )
 	{
 		if (item && !allItems.contains(item))
 		{
-			push( new InsertTextItemsCommand(this,item) );
+			push( new InsertHandlesCommand(this,item) );
 
-			QList<TextItem*> list;
-			list << item;
 			QList<ItemHandle*> handles;
-			handles << getHandle(item);
-			emit itemsInserted(this, list, handles);
+			handles << item;
+			emit itemsInserted(network, handles);
 		}
 	}
 
-	void TextEditor::insertItems( const QList<TextItem*>& list)
+	void TextEditor::insertItems( const QList<ItemHandle*>& list)
 	{
-		push( new InsertTextItemsCommand(this,list) );
+		push( new InsertHandlesCommand(this,list) );
 
-		ItemHandle * h = 0;
-		QList<ItemHandle*> handles;
-		for (int i=0; i < list.size(); ++i)
-			if ((h = getHandle(list[i])) &&
-				!handles.contains(h))
-				handles << h;
-		emit itemsInserted(this, list, handles);
+		emit itemsInserted(network, list);
 	}
 
 	void TextEditor::removeItem( ItemHandle * item)
 	{
 		if (item && allItems.contains(item))
 		{
-			push( new RemoveTextItemsCommand(this,item) );
+			push( new RemoveHandlesCommand(this,item) );
 
 			QList<ItemHandle*> handles;
-			handles << getHandle(item);
-			emit itemsRemoved(this, handles);
+			handles << item;
+			emit itemsRemoved(network, handles);
 		}
 
 	}
 
 	void TextEditor::removeItems( const QList<ItemHandle*>& handles)
 	{
-		push( new RemoveTextItemsCommand(this,list) );
+		push( new RemoveHandlesCommand(this,handles) );
 
-		emit itemsRemoved(this, handles);
+		emit itemsRemoved(network, handles);
 	}
 
 	void TextEditor::textChangedSlot()
@@ -273,8 +257,8 @@ namespace Tinkercell
 		else
 			if (event->matches(QKeySequence::Undo))  //undo
 			{
-				if (networkWindow)
-					networkWindow->history.undo();
+				if (network)
+					network->history.undo();
 				return;
 			}
 			else

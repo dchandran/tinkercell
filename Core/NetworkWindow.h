@@ -71,8 +71,12 @@ namespace Tinkercell
 		/*!\brief the editor inside this window. Either the scene or the editor must be 0*/
 		TextEditor * editor;
 		
+		/*!\brief filename associated with this window*/
+		QString filename;
+		
 		friend class MainWindow;
 		friend class GraphicsScene;
+		friend class GraphicsView;
 		friend class TextEditor;
 		friend class NetworkHandle;
 		friend class SymbolsTable;

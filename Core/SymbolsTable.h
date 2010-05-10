@@ -89,10 +89,6 @@ namespace Tinkercell
 		NetworkHandle * network;
 		/*! \brief This is a special item handle that does not represent any item on the scene. It is used to store "global" data.*/
 		ItemHandle globalItem;
-		/*! \brief update the symbols table using a graphics scene*/
-		virtual void update(GraphicsScene *);
-		/*! \brief update the symbols table using a text editor*/
-		virtual void update(TextEditor *);
 		/*! \brief update the symbols table*/
 		virtual void update(const QList<ItemHandle*>&);
 

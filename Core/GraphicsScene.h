@@ -196,8 +196,6 @@ namespace Tinkercell
 		virtual void cut();
 		/*! \brief paste copied items*/
 		virtual void paste();
-		/*! \brief get all the handles in the current network*/
-		virtual QList<ItemHandle*> allHandles() const;
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QGraphicsItem * item to move
 		* \param QPointF distance to move the item

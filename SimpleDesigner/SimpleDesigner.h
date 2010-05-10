@@ -22,11 +22,10 @@ This is an example application that uses the TinkerCell Core library
 #include <QGraphicsSimpleTextItem>
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "Tool.h"
-#include "NodeGraphicsReader.h"
 #include "ConsoleWindow.h"
 
 using namespace Tinkercell;
@@ -126,7 +125,7 @@ public slots:
 	
 	void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 	
-	void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
+	void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
 	
 	void escapeSignal(const QWidget * sender);
 	
@@ -156,3 +155,4 @@ private:
 	void addParameters(QStringList&);
 	void setToolTip(ItemHandle*);
 };
+

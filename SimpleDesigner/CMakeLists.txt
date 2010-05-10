@@ -1,20 +1,7 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-SET( TINKERCELL_CORE_HDRS
-  ../Core/MainWindow.h 
-  ../Core/NetworkWindow.h
-  ../Core/CodeEditor.h 
-  ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/TextItem.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
-  )
 
-QT4_WRAP_CPP( SIMPLEDESIGNER_MOC 
-  SimpleDesigner.h
-  ${TINKERCELL_CORE_HDRS} )
+QT4_WRAP_CPP( SIMPLEDESIGNER_MOC SimpleDesigner.h)
 
 QT4_ADD_RESOURCES( SIMPLEDESIGNER_QRC simpledesigner.qrc )
 

@@ -115,7 +115,8 @@ namespace Tinkercell
 		setRenderHint(QPainter::Antialiasing);
 		setCacheMode(QGraphicsView::CacheBackground);
 		setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-		fitInView(QRectF(0,0,1000,800),Qt::KeepAspectRatio);
+		fitInView(QRectF(0,0,10,10),Qt::KeepAspectRatio);
+		centerOn(5,5);
 
 		setFocusPolicy(Qt::StrongFocus);
 	}

@@ -296,6 +296,7 @@ namespace Tinkercell
 			{
 				if (items[i] && !list.contains(items[i]))
 				{
+					items[i]->network = textEditor->network;
 					list << items[i];
 					if (!renameCommand && !nameChangeHandles.contains(items[i]))
 					{
@@ -343,6 +344,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
 				{
+					items[i]->network = 0;
 					list.removeAll(items[i]);
 				}
 			if (renameCommand)
@@ -380,6 +382,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && !list.contains(items[i]))
 				{
+					items[i]->network = textEditor->network;
 					list << items[i];
 					//if (handles.size() > i)
 						//items[i]->setHandle(handles[i]);
@@ -395,6 +398,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
 				{
+					items[i]->network = 0;
 					list.removeAll(items[i]);
 				}
 		}
@@ -462,6 +466,7 @@ namespace Tinkercell
 					
 					if (handles.size() > i)
 					{
+						handles[i]->network = graphicsScene->network;
 						setHandle(graphicsItems[i],handles[i]);
 						if (handles[i] && !renameCommand && !nameChangeHandles.contains(handles[i]))
 						{
@@ -525,6 +530,9 @@ namespace Tinkercell
 				{
 					while (parentGraphicsItems.size() <= i) parentGraphicsItems << 0;
 					while (handles.size() <= i) handles << 0;
+					
+					if (handles[i])
+						handles[i]->network = 0;
 
 					parentGraphicsItems[i] = graphicsItems[i]->parentItem();
 
@@ -675,6 +683,7 @@ namespace Tinkercell
 
 			if (itemHandles.size() > i && itemHandles[i] != 0)
 			{
+				itemHandles[i]->network = 0;
 				if (itemHandles[i]->graphicsItems.isEmpty())
 				{
 					if (itemHandles[i]->parent)
@@ -891,10 +900,11 @@ namespace Tinkercell
 
 			if (itemHandles.size() > i && itemHandles[i] != 0)
 			{
+				itemHandles[i]->network = graphicsScene->network;
 				setHandle(graphicsItems[i],itemHandles[i]);
 
 				if (itemHandles[i]->parent)
-					itemHandles[i]->setParent(itemHandles[i]->parent);
+					itemHandles[i]->setParent(itemHandles[i]->parent,false);
 
 				for (int j=0; j < itemHandles[i]->children.size(); ++j)
 					if (itemHandles[i]->children[j])
@@ -2416,7 +2426,7 @@ namespace Tinkercell
 
 		for (int i=0; i < allChildren.size(); ++i)
 			if (allChildren[i])
-				allChildren[i]->setParent(newHandle);
+				allChildren[i]->setParent(newHandle,false);
 
 		TextGraphicsItem * textItem = 0;
 		ItemHandle * handle = 0;
@@ -2452,7 +2462,7 @@ namespace Tinkercell
 				QList<ItemHandle*> children = oldChildren[ keyHandles[i] ];
 				for (int j=0; j < children.size(); ++j)
 					if (children[j])
-						children[j]->setParent(keyHandles[i]);
+						children[j]->setParent(keyHandles[i],false);
 			}
 
 		TextGraphicsItem * textItem = 0;
@@ -2560,9 +2570,9 @@ namespace Tinkercell
 					{
 						//MainWindow::instance()->console()->message(children[i]->name);
 						
-						children[i]->setParent(newParents[i]);
+						children[i]->setParent(newParents[i],false);
 						s1 = children[i]->fullName();
-						children[i]->setParent(oldParents[i]);
+						children[i]->setParent(oldParents[i],false);
 						
 						oldNames += children[i]->fullName();
 						
@@ -2590,7 +2600,7 @@ namespace Tinkercell
 			{
 				if (children[i] != newParents[i] && !children[i]->isChildOf(newParents[i]))
 				{
-					children[i]->setParent(newParents[i]);
+					children[i]->setParent(newParents[i],false);
 				}
 			}
 	}
@@ -2605,7 +2615,7 @@ namespace Tinkercell
 			{
 				if (children[i] != oldParents[i] && !children[i]->isChildOf(oldParents[i]))
 				{
-					children[i]->setParent(oldParents[i]);
+					children[i]->setParent(oldParents[i],false);
 				}
 			}
 	}

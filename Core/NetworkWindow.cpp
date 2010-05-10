@@ -19,15 +19,12 @@ namespace Tinkercell
 			scene->networkWindow = this;
 			scene->network = network;
 			
-			GraphicsView * view = new GraphicsView(this);
-			view->setScene(scene);
+			GraphicsView * view = new GraphicsView(this);		
 			QVBoxLayout * layout = new QVBoxLayout;
 			layout->setContentsMargins(0,0,0,0);
 			layout->addWidget(view);
 			setLayout(layout);
 			setAttribute(Qt::WA_DeleteOnClose);
-			
-			view->centerOn(0,0);
 		}
 
 		if (network->networkWindows.size() == 0 && network->mainWindow)
@@ -97,8 +94,8 @@ namespace Tinkercell
 			connect(scene,SIGNAL(parentItemChanged(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<QGraphicsItem*>&)),
 				main ,SIGNAL(parentItemChanged(GraphicsScene*,const QList<QGraphicsItem*>&,const QList<QGraphicsItem*>&)));
 
-			connect(scene,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			connect(network,SIGNAL(handlesChanged(NetworkHandle*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+				main ,SIGNAL(handlesChanged(NetworkHandle*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
 			connect(scene,SIGNAL(escapeSignal(const QWidget*)),
 				main ,SIGNAL(escapeSignal(const QWidget*)));

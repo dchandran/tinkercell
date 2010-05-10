@@ -34,6 +34,7 @@
         <file>images/zoomout.png</file>
         <file>images/empty.png</file>
 		<file>images/1to1.png</file>
+		<file>images/rightarrow.png</file>
     </qresource>
 </RCC>
 

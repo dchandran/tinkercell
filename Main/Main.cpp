@@ -79,9 +79,7 @@ int main(int argc, char *argv[])
     LoadPluginsFromDir(appDir + QString("/plugins/c"),&mainWindow, &splash);
     LoadPluginsFromDir(home + QString("/plugins/c"),&mainWindow, &splash);
 
-    //mainWindow.newTextWindow();
-    //mainWindow.newGraphicsWindow();
-	mainWindow.newGraphicsWindow();
+	mainWindow.newScene();
 
     mainWindow.show();
 

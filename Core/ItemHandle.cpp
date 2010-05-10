@@ -10,6 +10,7 @@ Each item in Tinkercell has an associated family.
 
 ****************************************************************************/
 
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "TextGraphicsItem.h"
 #include "NodeGraphicsItem.h"
@@ -80,7 +81,7 @@ namespace Tinkercell
 		if (!item || MainWindow::invalidPointers.contains((void*)item)) return;
 
 		item = getGraphicsItem(item);
-
+		
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
 		if (node)
 		{
@@ -179,15 +180,18 @@ namespace Tinkercell
 	}
 	ItemHandle::ItemHandle(const QString& s) : QObject()
 	{
+		network = 0;
 		visible = true;
 		parent = 0;
 		data = 0;
 		name = s;
 		type = 0;
+		data = new ItemData;
 	}
 
 	ItemHandle::ItemHandle(const ItemHandle& copy) : QObject()
 	{
+		network = copy.network;
 		visible = copy.visible;
 		type = copy.type;
 		name = copy.name;
@@ -229,21 +233,47 @@ namespace Tinkercell
 	{
 		return new ItemHandle(*this);
 	}
+	
 	ItemFamily* ItemHandle::family() const
 	{
 		return 0;
 	}
 
-	void ItemHandle::setParent(ItemHandle * p)
+	void ItemHandle::rename(const QString& s)
 	{
-		if (parent)
+		if (network)
+			network->rename(this,s);
+	}
+	
+	void ItemHandle::changeData(const QString& hashstring, const DataTable<qreal>* newdata)
+	{
+		if (network)
+			network->changeData( name + QString("'s ") + hashstring + QString("changed"), this, hashstring, newdata);
+	}
+	
+	void ItemHandle::changeData(const QString& hashstring, const DataTable<QString>* newdata)
+	{
+		if (network)
+			network->changeData( name + QString("'s ") + hashstring + QString("changed"), this, hashstring, newdata);
+	}
+
+	void ItemHandle::setParent(ItemHandle * p, bool useCommand)
+	{
+		if (useCommand && network)
 		{
-			parent->children.removeAll(this);
+			network->setParentHandle(this,p);
 		}
-		parent = p;
-		if (p && !p->children.contains(this))
+		else
 		{
-			p->children.append(this);
+			if (parent)
+			{
+				parent->children.removeAll(this);
+			}
+			parent = p;
+			if (p && !p->children.contains(this))
+			{
+				p->children.append(this);
+			}
 		}
 	}
 
@@ -499,13 +529,11 @@ namespace Tinkercell
 
 	NodeHandle::NodeHandle(const QString& s) : ItemHandle(s)
 	{
-		parent = 0;
 		nodeFamily = 0;
-		data = new ItemData();
 		type = NodeHandle::TYPE;
 	}
 
-	NodeHandle::NodeHandle(NodeFamily * family)
+	NodeHandle::NodeHandle(NodeFamily * family) : ItemHandle()
 	{
 		parent = 0;
 		nodeFamily = family;
@@ -513,11 +541,9 @@ namespace Tinkercell
 		type = NodeHandle::TYPE;
 	}
 
-	NodeHandle::NodeHandle(NodeFamily * family, NodeGraphicsItem * item)
+	NodeHandle::NodeHandle(NodeFamily * family, NodeGraphicsItem * item) : ItemHandle()
 	{
 		type = NodeHandle::TYPE;
-		parent = 0;
-		data = new ItemData();
 		nodeFamily = family;
 		if (item)
 		{
@@ -598,19 +624,15 @@ namespace Tinkercell
 		data = new ItemData();
 	}
 
-	ConnectionHandle::ConnectionHandle(ConnectionFamily * family)
+	ConnectionHandle::ConnectionHandle(ConnectionFamily * family) : ItemHandle()
 	{
 		type = ConnectionHandle::TYPE;
-		parent = 0;
-		data = new ItemData();
 		connectionFamily = family;
 	}
 
-	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item)
+	ConnectionHandle::ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item) : ItemHandle()
 	{
 		type = ConnectionHandle::TYPE;
-		parent = 0;
-		data = new ItemData();
 		connectionFamily = family;
 		if (item)
 		{

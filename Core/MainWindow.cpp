@@ -358,8 +358,6 @@ namespace Tinkercell
 
 	void MainWindow::setCurrentWindow(NetworkWindow * window)
 	{
-		currentNetworkWindow = 0;
-
 		if (window && window->network && allNetworks.contains(window->network))
 		{
 			if (tabWidget)
@@ -381,9 +379,15 @@ namespace Tinkercell
 			if (window != oldWindow)
 			{
 				emit escapeSignal(this);
-				emit windowChanged(oldWindow->network,window->network);
+				
+				if (oldWindow)			
+					emit windowChanged(oldWindow->network,window->network);
+				else
+					emit windowChanged(0,window->network);
 			}
 		}
+		else
+			currentNetworkWindow = 0;
 	}
 	
 	QList<NetworkHandle*> MainWindow::networks() const
@@ -395,11 +399,13 @@ namespace Tinkercell
 	{
 		NetworkHandle * network = new NetworkHandle(this);
 		GraphicsScene * scene = network->createScene();
-		NetworkWindow * subWindow = scene->networkWindow;
-
-		popIn(subWindow);
-		emit windowOpened(subWindow->network);
-
+		
+		if (scene)
+		{
+			NetworkWindow * subWindow = scene->networkWindow;
+			popIn(subWindow);
+			emit windowOpened(subWindow->network);
+		}
 		return scene;
 	}
 
@@ -407,11 +413,13 @@ namespace Tinkercell
 	{
 		NetworkHandle * network = new NetworkHandle(this);
 		TextEditor * editor = network->createTextEditor();
-		NetworkWindow * subWindow = editor->networkWindow;
-
-		popIn(subWindow);
-		emit windowOpened(subWindow->network);
-
+		
+		if (editor)
+		{
+			NetworkWindow * subWindow = editor->networkWindow;
+			popIn(subWindow);
+			emit windowOpened(subWindow->network);
+		}
 		return editor;
 	}
 
@@ -698,7 +706,7 @@ namespace Tinkercell
 		{
 			QAction* newAction = fileMenu->addAction(QIcon(tr(":/images/newscene.png")),tr("&New Graphics Scene"));
 			newAction->setShortcut(QKeySequence::New);
-			connect (newAction, SIGNAL(triggered()),this,SLOT(newGraphicsWindow()));
+			connect (newAction, SIGNAL(triggered()),this,SLOT(newScene()));
 			toolBarBasic->addAction(newAction);
 		}
 
@@ -706,7 +714,7 @@ namespace Tinkercell
 		{
 			QAction* newAction2 = fileMenu->addAction(QIcon(tr(":/images/newtext.png")),tr("New Text &Editor"));
 			newAction2->setShortcut(tr("CTRL+SHIFT+N"));
-			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextWindow()));
+			connect (newAction2, SIGNAL(triggered()),this,SLOT(newTextEditor()));
 			toolBarBasic->addAction(newAction2);
 		}
 

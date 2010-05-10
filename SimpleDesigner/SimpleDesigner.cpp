@@ -87,10 +87,10 @@ void SimpleDesigner::nameChanged()
 	ItemHandle * handle = getHandle(selectedItem);
 	
 	if (name1->isVisible())
-		scene->rename(handle,name1->text());
+		handle->rename(name1->text());
 	else
 	if (name2->isVisible())
-		scene->rename(handle,name2->text());
+		handle->rename(name2->text());
 		
 	for (int i=0; i < handle->graphicsItems.size(); ++i)
 		handle->graphicsItems[i]->update();
@@ -98,19 +98,19 @@ void SimpleDesigner::nameChanged()
 
 void SimpleDesigner::addParameters(QStringList& newVars)
 {
-	NetworkWindow * network = currentWindow();
-	if (!network || !network->modelItem()) return;
+	NetworkHandle * network = currentNetwork();
+	if (!network || !network->globalHandle()) return;
 	
 	listWidget->clear();
 	
-	ItemHandle * modelItem = network->modelItem(); //handle for the entire model
+	ItemHandle * globalHandle = network->globalHandle(); //handle for the entire model
 	
 	QStringList vars;
 	DataTable<qreal> params;
 	
-	if (modelItem->hasNumericalData("parameters"))     
+	if (globalHandle->hasNumericalData("parameters"))     
 	{
-		params = modelItem->data->numericalData["parameters"]; //get existing set of parameters
+		params = globalHandle->data->numericalData["parameters"]; //get existing set of parameters
 		vars = params.getRowNames();
 	}
 	
@@ -121,7 +121,7 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 			params.value(newVars[i],0) = 1.0;   //add new parameters to existing set
 		}
 	
-	modelItem->data->numericalData["parameters"] = params;   //update with new set of parameters
+	globalHandle->data->numericalData["parameters"] = params;   //update with new set of parameters
 	
 	vars.clear();
 	
@@ -133,12 +133,10 @@ void SimpleDesigner::addParameters(QStringList& newVars)
 
 void SimpleDesigner::rateChanged() 
 {
-	NetworkWindow * win = currentWindow();
-	if (!win) return;
-	
-	GraphicsScene * scene = win->scene;
+	GraphicsScene * scene = currentScene();
 	if (!scene || scene->selected().size() != 1) return;
 	
+	NetworkHandle * net = scene->network;	
 	QGraphicsItem * selectedItem = scene->selected()[0];
 	ItemHandle * handle = getHandle(selectedItem);
 	
@@ -149,14 +147,14 @@ void SimpleDesigner::rateChanged()
 	
 	//find all the new variables in this equation
 	QStringList newVars;
-	bool ok = win->parseMath(formula,newVars);
+	bool ok = net->parseMath(formula,newVars);
 	
 	if (ok)
 	{
 		DataTable<QString> table;
 		table.value(0,0) = formula;
-		scene->changeData(handle->name + tr("'s rate changed"), handle,"rate",&table);
-		addParameters(newVars); //insert new variables into the modelItem
+		handle->changeData("rate",&table);
+		addParameters(newVars); //insert new variables into the globalHandle
 		setToolTip(handle);
 	}
 	else
@@ -179,7 +177,7 @@ void SimpleDesigner::concentrationChanged()
 	
 	table.value(0,0) = conc->text().toDouble(&ok);
 	
-	scene->changeData(handle->name + tr("'s concentration changed"), handle,"concentration",&table);
+	handle->changeData("concentration",&table);
 }
 
 void SimpleDesigner::actionTriggered(QAction* action)
@@ -208,8 +206,8 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 		if (dockWidget)
 			dockWidget->setFloating(true);
 		
-		connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
+		connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
 				
 		connect(mainWindow,
 				SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
@@ -235,13 +233,13 @@ bool SimpleDesigner::setMainWindow(MainWindow * main)
 
 void SimpleDesigner::mousePressed(GraphicsScene * scene, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers)
 {
-	if (!scene || !scene->networkWindow || mode != 1) return;
+	if (!scene || !scene->network || mode != 1) return;
 	
 	QGraphicsItem * item = new SimpleNode;
 	NodeHandle * handle = new NodeHandle;
 	
-	QList<QString> names = scene->networkWindow->symbolsTable.handlesFirstName.keys();
-	names += scene->networkWindow->symbolsTable.dataRowsAndCols.keys();
+	QList<QString> names = scene->network->symbolsTable.uniqueItems.keys();
+	names += scene->network->symbolsTable.uniqueData.keys();
 	
 	int i = 1;
 	handle->name = tr("s1");
@@ -282,7 +280,7 @@ void SimpleDesigner::setToolTip(ItemHandle* item)
 	}
 }
 
-void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>& items)
+void SimpleDesigner::itemsInserted(NetworkHandle * net,const QList<ItemHandle*>& items)
 {
 	for (int i=0; i < items.size(); ++i)
 	{
@@ -299,7 +297,7 @@ void SimpleDesigner::itemsInserted(NetworkWindow * win,const QList<ItemHandle*>&
 			{
 				QStringList newVars;
 				rate = connection->textData("rate");
-				bool ok = win->parseMath(rate,newVars);
+				bool ok = net->parseMath(rate,newVars);
 					
 				if (ok)
 				{
@@ -434,8 +432,8 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		list2 << NodeGraphicsItem::cast(nodeItems[1]);
 		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(list1,list2);
 		ConnectionHandle * handle = new ConnectionHandle;
-		QList<QString> names = scene->networkWindow->symbolsTable.handlesFirstName.keys();
-		names += scene->networkWindow->symbolsTable.dataRowsAndCols.keys();
+		QList<QString> names = scene->network->symbolsTable.uniqueItems.keys();
+		names += scene->network->symbolsTable.uniqueData.keys();
 
 		int i = 1;
 		handle->name = tr("J1");
@@ -485,8 +483,7 @@ int main(int argc, char *argv[])
 	
 	GraphicsScene::SelectionRectangleBrush = QBrush(QColor(5,5,5,40));
 
-    mainWindow.newGraphicsWindow();
-	mainWindow.newGraphicsWindow();
+    mainWindow.newScene();
 	
     mainWindow.show();
 

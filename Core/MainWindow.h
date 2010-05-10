@@ -737,7 +737,7 @@ namespace Tinkercell
 		* \param QList<GraphicsItem*>& items that are affected
 		* \param QList<ItemHandle*>& old handle for each items
 		* \return void*/
-		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
+		void handlesChanged(NetworkHandle * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 		/*! \brief signals whenever item parent handle is changed
 		* \param NetworkHandle * window where the event took place
 		* \param QList<ItemHandle*>& child items

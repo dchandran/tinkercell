@@ -218,13 +218,13 @@ namespace Tinkercell
 
 	ItemHandle* NetworkHandle::globalHandle()
 	{
-		return &(symbolsTable.globalItem);
+		return &(symbolsTable.globalHandle);
 	}
 
 	QList<ItemHandle*> NetworkHandle::handles()
 	{
 		QList<ItemHandle*> handles = symbolsTable.uniqueItems.values();
-		handles << &(symbolsTable.globalItem);
+		handles << &(symbolsTable.globalHandle);
 		return handles;
 	}
 

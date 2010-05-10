@@ -34,6 +34,7 @@ namespace Tinkercell
 	class Tool;
 	class ItemHandle;
 	class NodeHandle;
+	class NetworkHandle;
 	class ConnectionHandle;
 	class NodeGraphicsItem;
 	class ConnectionGraphicsItem;
@@ -97,6 +98,8 @@ namespace Tinkercell
 		/*! \brief the data (from each tool) for this handle
 		\sa ItemData*/
 		ItemData* data;
+		/*! \brief the network that this item belongs in*/
+		NetworkHandle * network;
 		/*! \brief this handles immediate parent (main parent if there are more than one)*/
 		ItemHandle * parent;
 		/*! \brief child handles that have this handle as a parent*/
@@ -129,8 +132,16 @@ namespace Tinkercell
 		\param QString replace the dot with some other separator */
 		virtual QString fullName(const QString& sep = QString(".")) const;
 		/*! \brief Set the parent for this handle
+		* \param ItemHandle * parent
+		* \param bool (optional) whether to call network's set parent command, which will update the history stack
 		\param ItemHandle* parent handle */
-		virtual void setParent(ItemHandle * parent);
+		virtual void setParent(ItemHandle * parent, bool useCommand=true);
+		/*! \brief set name of this handle and also adds undo command to history window and emits associated signal(s)*/
+		virtual void rename(const QString&);
+		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/
+		virtual void changeData(const QString& hashstring, const DataTable<qreal>* newdata);
+		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/
+		virtual void changeData(const QString& hashstring, const DataTable<QString>* newdata);		
 		/*! \brief get the top-level handle such that it is of the specified family. If no family is specified, then gets the top-level handle
 		\param ItemHandle* the family name */
 		virtual ItemHandle* root(const QString& family=QString("")) const;

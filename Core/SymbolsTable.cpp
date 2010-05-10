@@ -24,7 +24,7 @@ namespace Tinkercell
 
 	SymbolsTable::SymbolsTable(NetworkHandle * net) : network(net)
 	{
-		globalItem.data = new ItemData();
+		globalHandle.data = new ItemData();
 	}
 	
 	void SymbolsTable::update()
@@ -43,7 +43,7 @@ namespace Tinkercell
 		QList<NetworkWindow*> windows = network->networkWindows;
 		
 		QList<ItemHandle*> handles;
-		handles << &globalItem;
+		handles << &globalHandle;
 
 		for (int j=0; j < windows.size(); ++j)
 			if (windows[j])
@@ -93,9 +93,11 @@ namespace Tinkercell
 		{
 			if ((handle = items[i]) && !uniqueItems.contains(handle->fullName()))
 			{
+				handle->network = network;
+
 				handlesAddress[(void*)handle] = handle->fullName();
 
-				if (handle != &globalItem)
+				if (handle != &globalHandle)
 				{
 					uniqueItems[handle->fullName()] = handle;
 					uniqueItems[handle->fullName(QObject::tr("_"))] = handle;

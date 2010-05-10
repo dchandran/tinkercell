@@ -75,7 +75,7 @@ namespace Tinkercell
 		static void writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
 		static void writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
 
-		QHash<GraphicsScene*,bool> savedScenes;
+		QHash<NetworkHandle*,bool> savedNetworks;
 		int countHistory;
 		
 		QMessageBox * restoreDialog;

@@ -28,8 +28,8 @@ namespace Tinkercell
 	void LoadSaveTool::historyChanged(int)
 	{
 		GraphicsScene * scene = currentScene();
-		if (scene)
-			savedScenes[scene] = false;
+		if (scene && scene->network)
+			savedNetworks[scene->network] = false;
 		++countHistory;
 		if (countHistory > 10)
 		{
@@ -40,13 +40,13 @@ namespace Tinkercell
 
 	void LoadSaveTool::windowClosing(NetworkHandle * win, bool * close)
 	{
-		if (mainWindow && win && close && (*close) && savedScenes.contains(win->scene) && !savedScenes.value(win->scene))
+		if (mainWindow && win && close && (*close) && savedNetworks.contains(win) && !savedNetworks.value(win))
 		{
 			QString title = tr("Save");
 			if (mainWindow->currentNetwork())
 				title = mainWindow->currentNetwork()->windowTitle();
 			QMessageBox::StandardButton button = QMessageBox::question(
-				win,
+				mainWindow,
 				title,
 				tr("Save before closing?"),
 				QMessageBox::Ok | QMessageBox::No | QMessageBox::Cancel,
@@ -60,7 +60,7 @@ namespace Tinkercell
 					(*close) = false;
 
 			if (*close)
-				savedScenes.remove(win->scene);
+				savedNetworks.remove(win);
 		}
 	}
 
@@ -309,7 +309,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 		modelWriter.writeEndDocument();
 
-		savedScenes[scene] = true;
+		savedNetworks[scene->network] = true;
 
 		QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 		QString filename2 = filename;
@@ -321,7 +321,7 @@ namespace Tinkercell
 			mainWindow->currentNetwork()->setWindowTitle(filename2);
 		}
 
-		emit modelSaved(scene->network);
+		emit networkSaved(scene->network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
 		//if (console())
@@ -340,9 +340,9 @@ namespace Tinkercell
 	void LoadSaveTool::loadNetwork(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !scene->allHandles().isEmpty() || (scene->historyStack && scene->historyStack->count() > 0))
+		if (!scene || !scene->network || !scene->network->handles().isEmpty() || (scene->network->history.count() > 0))
 		{
-			scene = mainWindow->newGraphicsWindow();
+			scene = mainWindow->newScene();
 		}
 
 		if (!scene) return;
@@ -365,15 +365,12 @@ namespace Tinkercell
 				}
 			}
 
-			if (scene->currentView() && !hideItems.isEmpty())
-				scene->currentView()->hideItems(hideItems);
-
             scene->fitAll();
 
 //			if (scene->historyStack)
 	//			scene->historyStack->clear();
 
-			savedScenes[scene] = true;
+			savedNetworks[scene->network] = true;
 
 			QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 			QString filename2 = filename;

@@ -81,8 +81,9 @@ namespace Tinkercell
 		/*! \brief Writes a handle and all its children
 		* \param Item handle pointer to write as XML
 		* \return void*/
-		static void writeHandle(ItemHandle *, QXmlStreamWriter *);
-
+		static void writeHandle(ItemHandle *, QXmlStreamWriter *);		
+		/*! \brief delimiter*/
+		static QString sep;
 	};
 
 }

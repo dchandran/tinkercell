@@ -108,6 +108,10 @@ namespace Tinkercell
 		* \param void
 		* \return QRectF rectangle*/
 		virtual QRectF viewport() const;
+		/*! \brief set the background image for the scene*/
+		virtual void setBackground(const QPixmap&) const;
+		/*! \brief set the foreground image for the scene*/
+		virtual void setForeground(const QPixmap&) const;
 		/*! \brief Returns the point where mouse was clicked last on the scene coordinates
 		* \param void
 		* \return QPointF& ref to last clicked point on the scene*/
@@ -159,10 +163,14 @@ namespace Tinkercell
 		/*! \brief place center at the point
 		* \param QPointF point
 		* \return void*/
-		virtual void centerOn(const QPointF& point);
+		virtual void centerOn(const QPointF& point) const;
 		/*! \brief adjusts view to include all items
 		* \return void*/
-		virtual void fitAll();
+		virtual void fitAll() const;
+		/*! \brief adjusts view to include the given rect
+		* \param QRectF
+		* \return void*/
+		virtual void fitInView(const QRectF&) const;
 		/*! \brief Clear all selection and moving items list
 		* \return void*/
 		virtual void clearSelection();
@@ -170,7 +178,7 @@ namespace Tinkercell
 		* \param QPaintDevice * printer
 		* \param  QRectF region to print
 		* \return void */
-		virtual void print(QPaintDevice* printer,const QRectF& rect = QRectF());
+		virtual void print(QPaintDevice* printer,const QRectF& rect = QRectF()) const;
 		/*! \brief select one item (does not deselect other items)
 		* \param QGraphicsItem* item to select
 		* \return void*/

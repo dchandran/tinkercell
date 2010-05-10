@@ -4,7 +4,7 @@ Copyright (c) 2008 Deepak Chandran
 Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
-This tool allows the loading and saving of models.
+This tool allows the loading and saving of Networks.
 
 ****************************************************************************/
 #include "NodesTree.h"
@@ -33,18 +33,18 @@ namespace Tinkercell
 		++countHistory;
 		if (countHistory > 10)
 		{
-			saveModel(MainWindow::userTemp() + tr("/backup.xml"));
+			saveNetwork(MainWindow::userTemp() + tr("/backup.xml"));
 			countHistory = 0;
 		}
 	}
 
-	void LoadSaveTool::windowClosing(NetworkWindow * win, bool * close)
+	void LoadSaveTool::windowClosing(NetworkHandle * win, bool * close)
 	{
 		if (mainWindow && win && close && (*close) && savedScenes.contains(win->scene) && !savedScenes.value(win->scene))
 		{
 			QString title = tr("Save");
-			if (mainWindow->currentWindow())
-				title = mainWindow->currentWindow()->windowTitle();
+			if (mainWindow->currentNetwork())
+				title = mainWindow->currentNetwork()->windowTitle();
 			QMessageBox::StandardButton button = QMessageBox::question(
 				win,
 				title,
@@ -69,22 +69,22 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(saveModel(const QString&)),this,SLOT(saveModel(const QString&)));
-			connect(mainWindow,SIGNAL(loadModel(const QString&)),this,SLOT(loadModel(const QString&)));
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
+			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
-			connect(mainWindow,SIGNAL(prepareModelForSaving(NetworkWindow*,bool*)),
-					this,SLOT(prepareModelForSaving(NetworkWindow*,bool*)));
-			connect(this,SIGNAL(modelSaved(NetworkWindow*)),mainWindow,SIGNAL(modelSaved(NetworkWindow*)));
-			connect(this,SIGNAL(modelLoaded(NetworkWindow*)),mainWindow,SIGNAL(modelLoaded(NetworkWindow*)));
+			connect(mainWindow,SIGNAL(prepareNetworkForSaving(NetworkHandle*,bool*)),
+					this,SLOT(prepareNetworkForSaving(NetworkHandle*,bool*)));
+			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
+			connect(this,SIGNAL(networkLoaded(NetworkHandle*)),mainWindow,SIGNAL(networkLoaded(NetworkHandle*)));
 			
 			QString filename = MainWindow::userTemp() + tr("/backup.xml");
 			QFile file(filename);
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))
 			{
-				restoreDialog = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("TinkerCell closed unexpectedly.\nRestore previous model?"), 0, mainWindow, Qt::Dialog);
+				restoreDialog = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("TinkerCell closed unexpectedly.\nRestore previous network?"), 0, mainWindow, Qt::Dialog);
 				restoreDialog->addButton(tr("No"), QMessageBox::NoRole);
 				restoreButton = restoreDialog->addButton(tr("Yes"), QMessageBox::YesRole);				
 				restoreDialog->show();
@@ -104,13 +104,13 @@ namespace Tinkercell
 			QFile file(filename);
 		
 			if (file.open(QFile::ReadOnly | QFile::Text))
-				loadModel(filename);
+				loadNetwork(filename);
 		}
 	}
 
-	void LoadSaveTool::prepareModelForSaving(NetworkWindow*, bool* b)
+	void LoadSaveTool::prepareNetworkForSaving(NetworkHandle * net, bool* b)
 	{
-		if (currentScene() && b)
+		if (net && net->currentScene() && b)
 			(*b) = true;
 	}
 
@@ -126,10 +126,7 @@ namespace Tinkercell
 			modelWriter.writeAttribute("handle",handle->fullName(tr(".")));
 		else
 			modelWriter.writeAttribute("handle","");
-		if (scene->isVisible(node))
-			modelWriter.writeAttribute("visible","yes");
-		else
-			modelWriter.writeAttribute("visible","no");
+
 		modelWriter.writeAttribute("z",QString::number(node->zValue()));
 
 		QTransform t1 = node->sceneTransform();
@@ -166,10 +163,6 @@ namespace Tinkercell
 			modelWriter.writeAttribute(tr("handle"),handle->fullName(tr(".")));
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
-		if (scene->isVisible(connection))
-			modelWriter.writeAttribute("visible","yes");
-		else
-			modelWriter.writeAttribute("visible","no");
 		modelWriter.writeAttribute("z",QString::number(connection->zValue()));
 
 		ConnectionGraphicsWriter::writeConnectionGraphics(connection,&modelWriter);
@@ -187,10 +180,6 @@ namespace Tinkercell
 			modelWriter.writeAttribute(tr("handle"),handle->fullName());
 		else
 			modelWriter.writeAttribute(tr("handle"),tr(""));
-		if (scene->isVisible(text))
-			modelWriter.writeAttribute("visible","yes");
-		else
-			modelWriter.writeAttribute("visible","no");
 
 		QPointF pos = text->scenePos();
 		modelWriter.writeAttribute(tr("x"),QString::number(pos.x()));
@@ -327,21 +316,19 @@ namespace Tinkercell
 		if (regex.indexIn(filename) >= 0)
 			filename2 = regex.cap(1);
 
-		if (mainWindow->currentWindow())
+		if (mainWindow->currentNetwork())
 		{
-			mainWindow->currentWindow()->setWindowTitle(filename2);
-			mainWindow->currentWindow()->filename = filename;
-			//qDebug() << filename;
+			mainWindow->currentNetwork()->setWindowTitle(filename2);
 		}
 
-		emit modelSaved(scene->networkWindow);
+		emit modelSaved(scene->network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
 		//if (console())
           //  console()->message(tr("model successfully saved in : ") + filename);
 	}
 
-	void LoadSaveTool::saveModel(const QString& filename)
+	void LoadSaveTool::saveNetwork(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
@@ -350,7 +337,7 @@ namespace Tinkercell
 		saveItems(scene,allitems,filename);
 	}
 
-	void LoadSaveTool::loadModel(const QString& filename)
+	void LoadSaveTool::loadNetwork(const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene || !scene->allHandles().isEmpty() || (scene->historyStack && scene->historyStack->count() > 0))
@@ -360,8 +347,8 @@ namespace Tinkercell
 
 		if (!scene) return;
 
-		QList<QGraphicsItem*> items, hideItems;
-		loadItems(items,filename, hideItems);
+		QList<QGraphicsItem*> items;
+		loadItems(items,filename);
 
 		if (items.size() > 0)
 		{
@@ -393,17 +380,16 @@ namespace Tinkercell
 			if (regex.indexIn(filename) >= 0)
 				filename2 = regex.cap(1);
 
-			if (mainWindow->currentWindow())
+			if (mainWindow->currentNetwork())
 			{
-				mainWindow->currentWindow()->setWindowTitle(filename2);
-				mainWindow->currentWindow()->filename = filename;
+				mainWindow->currentNetwork()->setWindowTitle(filename2);
 			}
 
-			emit modelLoaded(scene->networkWindow);
+			emit networkLoaded(scene->network);
 		}
 	}
 
-	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename, QList<QGraphicsItem*>& hideItems)
+	void LoadSaveTool::loadItems(QList<QGraphicsItem*>& items, const QString& filename)
 	{
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
@@ -507,7 +493,6 @@ namespace Tinkercell
 		QList<QTransform> transforms;
 		QList<QPointF> points;
 		QList<qreal> zValues;
-		QList<bool> visibles;
 
 		//find starting point for nodes
 		NodeGraphicsReader nodeReader;
@@ -525,8 +510,7 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			bool v = true;
-			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z,v);
+			NodeGraphicsItem * node = readNode(nodeReader,s,t,p,z);
 			if (node)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -536,7 +520,6 @@ namespace Tinkercell
 				items << node;
 				nodes << node;
 				zValues << z;
-				visibles << v;
 			}
 			nodeReader.readNext();
 		}
@@ -550,8 +533,7 @@ namespace Tinkercell
 		{
 			QString s;
 			qreal z;
-			bool v = true;
-			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z,v);
+			ConnectionGraphicsItem * connection = readConnection(nodeReader,nodes,connections,s,z);
 			if (connection)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -561,7 +543,6 @@ namespace Tinkercell
 				connections << connection;
 				points << QPointF(0,0);
 				zValues << z;
-				visibles << v;
 				QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints(true);
 				for (int i=0; i < controlPoints.size(); ++i)
 				{
@@ -571,7 +552,6 @@ namespace Tinkercell
 						items << controlPoints[i];
 						points << controlPoints[i]->pos();
 						zValues << (z+0.1);
-						visibles << v;
 					}
 				}
 				QList<ArrowHeadItem*> arrowHeads;
@@ -589,7 +569,6 @@ namespace Tinkercell
 						points << arrowHeads[i]->pos();
 						items << arrowHeads[i];
 						zValues << (z+0.1);
-						visibles << v;
 					}
 				}
 			}
@@ -607,8 +586,7 @@ namespace Tinkercell
 			QTransform t;
 			QPointF p;
 			qreal z;
-			bool v = true;
-			TextGraphicsItem * text = readText(nodeReader,s,t,p,z,v);
+			TextGraphicsItem * text = readText(nodeReader,s,t,p,z);
 			if (text)
 			{
 				if (!s.isEmpty() && handlesHash.contains(s))
@@ -617,7 +595,6 @@ namespace Tinkercell
 				points << p;
 				items << text;
 				zValues << z;
-				visibles << v;
 			}
 			nodeReader.readNext();
 		}
@@ -632,14 +609,12 @@ namespace Tinkercell
 				items[i]->setTransform(transforms[i]);
 				items[i]->setPos(points[i]);
 				items[i]->setZValue(zValues[i]);
-				if (!visibles[i])
-					hideItems << items[i];
 			}
 		}
 
 	}
 
-	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, bool & visible)
+	TextGraphicsItem * LoadSaveTool::readText(QXmlStreamReader & nodeReader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "TextItem")
 		{
@@ -657,9 +632,6 @@ namespace Tinkercell
 					{
 						handle = attribs[i].value().toString();
 					}
-					else
-					if (attribs[i].name().toString() == tr("visible"))
-						visible = (attribs[i].value().toString().toLower() == QString("yes"));
 					else
 						if (attribs[i].name().toString() == tr("x"))
 							pos.rx() = attribs[i].value().toString().toDouble(&ok);
@@ -708,7 +680,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z, bool& visible)
+	ConnectionGraphicsItem * LoadSaveTool::readConnection(NodeGraphicsReader & nodeReader,QList<NodeGraphicsItem*>& nodes, QList<ConnectionGraphicsItem*>& connections, QString& handle, qreal& z)
 	{
 		if (nodeReader.isStartElement() && nodeReader.name() == "ConnectionItem")
 		{
@@ -734,11 +706,6 @@ namespace Tinkercell
 							z = attribs[i].value().toString().toDouble(&ok);
 							if (!ok) z = 1.0;
 						}
-						else
-							if (attribs[i].name().toString() == tr("visible"))
-							{
-								visible = (attribs[i].value().toString().toLower() == QString("yes"));
-							}
 			}
 
 			while (!nodeReader.atEnd() && !(nodeReader.isEndElement() && nodeReader.name() == QObject::tr("ConnectionItem")))
@@ -756,7 +723,7 @@ namespace Tinkercell
 		return 0;
 	}
 
-	NodeGraphicsItem * LoadSaveTool::readNode(NodeGraphicsReader & reader,QString& handle, QTransform& transform,QPointF& pos, qreal& z, bool& visible)
+	NodeGraphicsItem * LoadSaveTool::readNode(NodeGraphicsReader & reader,QString& handle, QTransform& transform,QPointF& pos, qreal& z)
 	{
 		if (!(reader.isStartElement() && reader.name() == QObject::tr("NodeItem"))) return 0;
 
@@ -780,11 +747,6 @@ namespace Tinkercell
 						z = attribs[i].value().toString().toDouble(&ok);
 						if (!ok) z = 1.0;
 					}
-					else
-						if (attribs[i].name().toString() == tr("visible"))
-						{
-							visible = (attribs[i].value().toString().toLower() == QString("yes"));
-						}
 		}
 
 		NodeGraphicsItem * node = 0;

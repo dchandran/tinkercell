@@ -10,7 +10,7 @@ in the MainWindow toolbar.
 
 ****************************************************************************/
 #include <QMessageBox>
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "CThread.h"
 #include "UndoCommands.h"
@@ -264,7 +264,7 @@ namespace Tinkercell
 
 		if (numHandles > 1)
 		{
-			MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
+			MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->network,handles);
 
 			scene->deselect();
 
@@ -295,15 +295,15 @@ namespace Tinkercell
 			commands += mergeCommand;
 			if (textToDelete.size() > 0)
 				commands += new RemoveGraphicsCommand(tr("remove text"),scene,textToDelete);
-			commands += new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
+			commands += new RenameCommand(tr("name changed"),scene->network,handles,newNames);
 			QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
 
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < items.size(); ++i)
 				oldHandles += getHandle(items[i]);*/
 
-			if (scene->historyStack)
-				scene->historyStack->push(mergeCommand);
+			if (scene->network)
+				scene->network->push(mergeCommand);
 			else
 			{
 				mergeCommand->redo();
@@ -331,8 +331,8 @@ namespace Tinkercell
 						for (int i=0; i < items.size(); ++i)
 							oldHandles += getHandle(items[i]);
 
-						if (scene->historyStack)
-							scene->historyStack->push(command);
+						if (scene->network)
+							scene->network->push(command);
 						else
 						{
 							command->redo();
@@ -410,7 +410,7 @@ namespace Tinkercell
 			scene->clearSelection();
 			QUndoCommand * command1 = new AssignHandleCommand(tr(""),list,handles);
 
-			QList<ItemHandle*> allitems = scene->allHandles();
+			QList<ItemHandle*> allitems = scene->network->handles();
 			QList<QString> newNames;
 
 			QStringList allNames;
@@ -428,15 +428,15 @@ namespace Tinkercell
 				allNames << newNames.last();
 			}
 
-			QUndoCommand * command2 = new RenameCommand(tr(""),allitems,handles,newNames);
+			QUndoCommand * command2 = new RenameCommand(tr(""),scene->network,allitems,handles,newNames);
 			QUndoCommand * command = new CompositeCommand(tr("items separated"),(QList<QUndoCommand*>() << command1 << command2));
 
 			QList<ItemHandle*> oldHandles;
 			for (int i=0; i < list.size(); ++i)
 				oldHandles += getHandle(list[i]);
 
-			if (scene->historyStack)
-				scene->historyStack->push(command);
+			if (scene->network)
+				scene->network->push(command);
 			else
 			{
 				command->redo();
@@ -638,8 +638,8 @@ namespace Tinkercell
 					if (!moveItems.isEmpty())
 					{
 						QUndoCommand * command = new MoveCommand(scene,moveItems,points);
-						if (scene->historyStack)
-							scene->historyStack->push(command);
+						if (scene->network)
+							scene->network->push(command);
 						else
 						{
 							command->redo();
@@ -650,45 +650,15 @@ namespace Tinkercell
 
 			if (handles.size() > 1 && bestHandle)
 			{
-				MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->networkWindow,handles);
+				MergeHandlesCommand * mergeCommand = new MergeHandlesCommand(tr("items merged"),scene->network,handles);
 
 				scene->deselect();
-
-				/*QString newName = mergeCommand->newHandle->fullName();
-				QList<QString> oldNames,newNames;
-
-				QList<QGraphicsItem*> textToDelete;
-				TextGraphicsItem * nameText = 0;
-
-				for (int i=0; i < handles.size(); ++i)
-				{
-					if (handles[i])
-						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
-							if ((nameText = TextGraphicsItem::cast(handles[i]->graphicsItems[j]))
-								&& nameText->toPlainText() == handles[i]->name)
-								textToDelete += nameText;
-				}
-				if (textToDelete.size() > 1)
-					textToDelete.pop_front();
-
-				for (int i=0; i < handles.size(); ++i)
-				{
-					newNames += newName;
-				}
-
-				QList<QUndoCommand*> commands;
-				commands += mergeCommand;
-				if (textToDelete.size() > 0)
-					commands += new RemoveGraphicsCommand(tr("remove text"),scene,textToDelete);
-				commands += new RenameCommand(tr("name changed"),scene->networkWindow,handles,newNames);
-				QUndoCommand * command = new CompositeCommand(tr("items merged"),commands);
-				*/
 				QList<ItemHandle*> oldHandles;
 				for (int i=0; i < items.size(); ++i)
 					oldHandles += getHandle(items[i]);
 
-				if (scene->historyStack)
-					scene->historyStack->push(mergeCommand);
+				if (scene->network)
+					scene->network->push(mergeCommand);
 				else
 				{
 					mergeCommand->redo();
@@ -705,8 +675,8 @@ namespace Tinkercell
 					for (int i=0; i < items.size(); ++i)
 						oldHandles += getHandle(items[i]);
 
-					if (scene->historyStack)
-						scene->historyStack->push(command);
+					if (scene->network)
+						scene->network->push(command);
 					else
 					{
 						command->redo();

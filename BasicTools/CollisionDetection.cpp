@@ -182,7 +182,7 @@ namespace Tinkercell
 				for (int i=0; i < itemsNearby.size(); ++i)
 				{
 					itemHit = NodeGraphicsItem::topLevelNodeItem(itemsNearby[i]);
-					if (itemHit && scene->isVisible(itemHit) && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
+					if (itemHit && itemHit->handle() && !movingItems.contains(itemHit) && !selected.contains(itemHit))
 					{
 						item = itemHit;
 						break;
@@ -268,11 +268,8 @@ namespace Tinkercell
 						glowTimer.stop();
 					}
 					
-					if (scene->isVisible(connectionBelowCursor2))
-						connectionBelowCursor = connectionBelowCursor2;
-			
-					if (scene->isVisible(nodeBelowCursor2))
-						nodeBelowCursor = nodeBelowCursor2;
+					connectionBelowCursor = connectionBelowCursor2;
+					nodeBelowCursor = nodeBelowCursor2;
 					
 					glowTimer.stop();
 					glowTimer.setFrameRange(50,250);

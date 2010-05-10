@@ -13,7 +13,7 @@ the context menu (mouse right-click).
 
 #include <QClipboard>
 
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -228,8 +228,8 @@ namespace Tinkercell
 			filenames += fileName;
 
 		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("nodes image replaced"),nodesList,filenames,_transform);
-		if (scene->historyStack)
-			scene->historyStack->push(command);
+		if (scene->network)
+			scene->network->push(command);
 		else
 			command->redo();
 

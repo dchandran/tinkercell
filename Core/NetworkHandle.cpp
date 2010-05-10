@@ -278,7 +278,7 @@ namespace Tinkercell
 
 		newNames += newname;
 
-		QUndoCommand * command = new RenameCommand(tr("name changed"),this->handles(),oldname,newname);
+		QUndoCommand * command = new RenameCommand(tr("name changed"),this,oldname,newname);
 
 		history.push(command);
 
@@ -794,6 +794,18 @@ namespace Tinkercell
 	{
 		history.push(cmd);
 	}
-
+	
+	QString NetworkHandle::windowTitle() const
+	{
+		QString s;
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i])
+			{
+				s = networkWindows[i]->windowTitle();
+				if (mainWindow && networkWindows[i] == mainWindow->currentNetworkWindow)
+					break;
+			}
+		return s;
+	}
 }
 

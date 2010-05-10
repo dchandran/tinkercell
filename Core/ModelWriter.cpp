@@ -181,6 +181,20 @@ namespace Tinkercell
 				writer->writeAttribute("visible",QString("true"));
 			else
 				writer->writeAttribute("visible",QString("false"));
+			
+			ConnectionHandle * connection = ConnectionHandle::cast(handle);
+			if (connection && !connection->nodesWithRoles.isEmpty())
+			{
+				QStringList names, roles;
+				for (int i=0; i < connection->nodesWithRoles.size(); ++i)
+					if (connection->nodesWithRoles[i].first)
+					{
+						names << connection->nodesWithRoles[i].first->fullName();
+						roles << QString::number(connection->nodesWithRoles[i].second);
+					}
+				writer->writeAttribute("nodes",names.join(sep));
+				writer->writeAttribute("roles",roles.join(sep));
+			}
 
 			if (handle->data)
 			{
@@ -223,7 +237,6 @@ namespace Tinkercell
 	* \return void*/
 	void ModelWriter::writeDataTable(const DataTable<qreal>& table, QXmlStreamWriter * writer)
 	{
-		QString sep(";");
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
@@ -249,7 +262,6 @@ namespace Tinkercell
 	* \return void*/
 	void ModelWriter::writeDataTable(const DataTable<QString>& table, QXmlStreamWriter * writer)
 	{
-		QString sep(";");
 		//writeStartElement("TableOfStrings");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
@@ -267,4 +279,6 @@ namespace Tinkercell
 
 			//writeEndElement();
 	}
+	
+	QString ModelWriter::sep(";;");
 }

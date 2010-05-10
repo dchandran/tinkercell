@@ -32,6 +32,7 @@ points.
 
 #include "ConnectionGraphicsItem.h"
 #include "ItemHandle.h"
+#include "NetworkHandle.h"
 #include "Tool.h"
 #include "MainWindow.h"
 

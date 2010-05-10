@@ -25,6 +25,7 @@ that is useful for plugins, eg. move, insert, delete, changeData, etc.
 #include "CloneItems.h"
 #include "SymbolsTable.h"
 #include "HistoryWindow.h"
+#include "GraphicsView.h"
 #include "GraphicsScene.h"
 #include <QRegExp>
 
@@ -623,7 +624,7 @@ namespace Tinkercell
 	* Postcondition: None
 	* \param point
 	* \return void*/
-	void GraphicsScene::centerOn(const QPointF& point)
+	void GraphicsScene::centerOn(const QPointF& point)  const
 	{
 		QList<QGraphicsView*> list = views();
 		
@@ -865,9 +866,20 @@ namespace Tinkercell
 		emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
 
 	}
+	
+	/*! \brief adjusts view to include rect*/
+	void GraphicsScene::fitInView(const QRectF& rect) const
+	{
+		QList<QGraphicsView*> list = views();
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				list[i]->fitInView(rect,Qt::KeepAspectRatio);
+			}
+	}
 
 	/*! \brief adjusts view to include all items*/
-	void GraphicsScene::fitAll()
+	void GraphicsScene::fitAll() const
 	{
 		if (!networkWindow) return;
 		QRectF rect;
@@ -1375,7 +1387,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief prints the current scene*/
-	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region)
+	void GraphicsScene::print(QPaintDevice * printer, const QRectF& region) const
 	{
 		if (!network) return;
 		
@@ -1671,7 +1683,7 @@ namespace Tinkercell
 			}
 		}
 
-		commands << new RenameCommand(tr("items renamed after pasting"),handles,itemsToRename,newNames);
+		commands << new RenameCommand(tr("items renamed after pasting"),network,handles,itemsToRename,newNames);
 		commands << new InsertGraphicsCommand(tr("paste items"),this,items);
 		
 		clearSelection();
@@ -1947,6 +1959,30 @@ namespace Tinkercell
 						movingItems.removeAll(node);
 					}
 				}
+			}
+	}
+	
+	void GraphicsScene::setBackground(const QPixmap& image) const
+	{
+		QList<QGraphicsView*> list = views();
+		GraphicsView * view;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				view = static_cast<GraphicsView*>(list[i]);
+				view->background = image;
+			}
+	}
+	
+	void GraphicsScene::setForeground(const QPixmap& image) const
+	{
+		QList<QGraphicsView*> list = views();
+		GraphicsView * view;
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				view = static_cast<GraphicsView*>(list[i]);
+				view->foreground = image;
 			}
 	}
 

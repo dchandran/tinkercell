@@ -22,7 +22,7 @@ This tool allows the loading and saving of models.
 #include <QMessageBox>
 #include <QPushButton>
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
@@ -53,24 +53,24 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 
 	signals:
-		void modelSaved(NetworkWindow*);
-		void modelLoaded(NetworkWindow*);
+		void networkSaved(NetworkHandle*);
+		void networkLoaded(NetworkHandle*);
 
 	public slots:
-		void prepareModelForSaving(NetworkWindow*,bool*);
+		void prepareNetworkForSaving(NetworkHandle*,bool*);
 		void saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString& filename);
-		void loadItems(QList<QGraphicsItem*>&, const QString& filename, QList<QGraphicsItem*>&);
-		void saveModel(const QString& filename);
-		void loadModel(const QString& filename);
+		void loadItems(QList<QGraphicsItem*>&, const QString& filename);
+		void saveNetwork(const QString& filename);
+		void loadNetwork(const QString& filename);
 		void historyChanged( int );
-		void windowClosing(NetworkWindow * win, bool * close);
+		void windowClosing(NetworkHandle * win, bool * close);
 		void restore(int);
 
 	protected:
 
-		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&,bool&);
-		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&,bool&);
-		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&, bool&);
+		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&);
+		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&);
+		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
 		static void writeNode(GraphicsScene * scene, NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
 		static void writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
 		static void writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	

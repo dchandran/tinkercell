@@ -16,6 +16,7 @@ data.
 
 namespace Tinkercell
 {
+	QString ModelReader::sep(";;");
 	/*! \brief Reads up to the next start node
 	* \return Token Typer*/ 
 	QXmlStreamReader::TokenType ModelReader::readNext()
@@ -39,23 +40,45 @@ namespace Tinkercell
 			setDevice(device);
 
 		QPair<QString,ItemHandle*> handle(QString(),0);
-		handle = readHandle(list);
+		
+		QList< QPair<ItemHandle*,QStringList> > nodes, roles;
+		
+		handle = readHandle(list,nodes,roles);
 		if (scene && scene->network && handle.second && handle.second->name.isEmpty())
 		{
 			(*scene->network->globalHandle()) = (*handle.second);
 			delete handle.second;
-			handle = readHandle(list);
+			handle = readHandle(list,nodes,roles);
 		}
 
 		while (handle.second)
 		{
 			list << handle;
-			handle = readHandle(list);
+			handle = readHandle(list,nodes,roles);
 		}
+
+		ConnectionHandle * connection;		
+		for (int i=0; i < nodes.size() && i < roles.size(); ++i)
+			if (connection = ConnectionHandle::cast(nodes[i].first))
+			{
+				NodeHandle * node;
+				for (int j=0; j < list.size(); ++j)
+				{
+					if (node = NodeHandle::cast(list[j].second))
+					{
+						int k = nodes[i].second.indexOf(node->fullName());
+						if (k > -1)
+						{
+							connection->addNode(node, roles[i].second[k].toInt());
+						}
+					}
+				}
+			}
+		
 		return list;
 	}
 
-	QPair<QString,ItemHandle*> ModelReader::readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles)
+	QPair<QString,ItemHandle*> ModelReader::readHandle(QList< QPair<QString,ItemHandle*> >& existingHandles, QList< QPair<ItemHandle*,QStringList> >& nodes, QList< QPair<ItemHandle*,QStringList> >& roles)
 	{
 		while (!atEnd() && !(isStartElement() && name() == "Handle"))
 		{
@@ -116,6 +139,16 @@ namespace Tinkercell
 									vec.at(i).value().toString().toLower() == QString("true") ||
 									vec.at(i).value().toString().toLower() == QString("yes");
 							}
+							else
+								if (vec.at(i).name().toString() == QObject::tr("nodes"))
+								{
+									nodes += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
+								}
+								else
+									if (vec.at(i).name().toString() == QObject::tr("roles"))
+									{
+										roles += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
+									}
 		}
 
 		if (handle)
@@ -163,7 +196,6 @@ namespace Tinkercell
 	* \return item handle*/
 	void ModelReader::readRealsTable(ItemHandle* handle)
 	{
-		QString sep(";");
 		if (handle && isStartElement() && name() == "Table")
 		{
 			if (!handle->data) handle->data = new ItemData;
@@ -244,7 +276,6 @@ namespace Tinkercell
 	* \return item handle*/
 	void ModelReader::readStringsTable(ItemHandle* handle)
 	{
-		QString sep(";");
 		if (handle && isStartElement() && name().toString() == QObject::tr("Table"))
 		{
 			if (!handle->data) handle->data = new ItemData;

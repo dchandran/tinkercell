@@ -410,46 +410,64 @@ namespace Tinkercell
 		virtual ~RenameCommand();
 		/*! \brief constructor
 		* \param QString name of command
+		* \param NetworkHandle * network
 		* \param QList affected items
 		* \param QString old name
 		* \param QString new name
 		*/
-		RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname);
 		/*! \brief constructor
 		* \param QString name of command
+		* \param NetworkHandle * network
+		* \param QString old name
+		* \param QString new name
+		*/
+		RenameCommand(const QString& name, NetworkHandle *, const QString& oldname, const QString& newname);
+		/*! \brief constructor
+		* \param QString name of command
+		* \param NetworkHandle * network
 		* \param QList affected items
 		* \param QString old name
 		* \param QString new name
 		*/
-		RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname);
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname);
+				/*! \brief constructor
+		* \param QString name of command
+		* \param NetworkHandle * network
+		* \param QString old name
+		* \param QString new name
+		*/
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<QString>& oldname, const QList<QString>& newname);
 		/*! \brief constructor
 		* \param QString name of command
-		* \param GraphicsScene* scene where change happened
+		* \param NetworkHandle * network
 		* \param ItemHandle* target item handle
 		* \param QString new name
 		*/
 		RenameCommand(const QString& name, NetworkHandle * , ItemHandle * itemHandle, const QString& newname);
 		/*! \brief constructor
 		* \param QString name of command
-		* \param QList<QGraphicsItem*>& all the items to modify if they contain the new name
+		* \param NetworkHandle * network
+		* \param QList<ItemHandle*>& all the items to modify if they contain the new name
 		* \param ItemHandle* target item
 		* \param QString new name
 		*/
-		RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, ItemHandle * item, const QString& newname);
+		RenameCommand(const QString& name, NetworkHandle *,  const QList<ItemHandle*>& allItems, ItemHandle * item, const QString& newname);
 		/*! \brief constructor
 		* \param QString name of command
-		* \param NetworkHandle* where change happened
+		* \param NetworkHandle * network
 		* \param QList<ItemHandle*>& target items
 		* \param QList<QString> new names (one for each item)
 		*/
 		RenameCommand(const QString& name, NetworkHandle * , const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
 		/*! \brief constructor
 		* \param QString name of command
+		* \param NetworkHandle * network
 		* \param QList<ItemHandle*>& all the items to modify if they contain the new name
 		* \param QList<ItemHandle*>& target items
 		* \param QList<QString> new names (one for each item)
 		*/
-		RenameCommand(const QString& name, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
+		RenameCommand(const QString& name, NetworkHandle *, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& itemhandles, const QList<QString>& newnames);
 		void redo();
 		void undo();
 		static void findReplaceAllHandleData(const QList<ItemHandle*>& allItems,const QString& oldName,const QString& newName);
@@ -466,6 +484,7 @@ namespace Tinkercell
 		QList< QPair<NodeGraphicsItem *, QString> > newNodeItemsNames;
 		QList< QPair<NodeGraphicsItem *, QString> > oldNodeItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
+		NetworkHandle * network;
 
     public:
 

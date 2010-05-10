@@ -164,8 +164,8 @@ namespace Tinkercell
 
 			if (!command->list.isEmpty())
 			{
-				if (currentScene()->historyStack)
-					currentScene()->historyStack->push(command);
+				if (currentScene()->network)
+					currentScene()->network->push(command);
 				else
 				{
 					command->redo();
@@ -199,8 +199,8 @@ namespace Tinkercell
 
 			if (!command->list.isEmpty())
 			{
-				if (currentScene()->historyStack)
-					currentScene()->historyStack->push(command);
+				if (currentScene()->network)
+					currentScene()->network->push(command);
 				else
 				{
 					command->redo();
@@ -447,7 +447,7 @@ namespace Tinkercell
 	void ConnectionSelection::newControlPoint()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !scene->historyStack) return;
+		if (!scene || !scene->network) return;
 
 		QPointF point = scene->lastPoint();
 		QList<QGraphicsItem*>& selected = scene->selected();
@@ -460,7 +460,7 @@ namespace Tinkercell
 				ConnectionGraphicsItem::ControlPoint * cp = new ConnectionGraphicsItem::ControlPoint(item);
 				cp->setPos(point);
 				scene->addItem(cp);
-				scene->historyStack->push(new AddControlPointCommand("control point added",scene,cp));
+				scene->network->push(new AddControlPointCommand("control point added",scene,cp));
 			}
 		}
 	}
@@ -475,8 +475,8 @@ namespace Tinkercell
 				ConnectionGraphicsItem::ControlPoint * cp = new ConnectionGraphicsItem::ControlPoint(item);
 				cp->setPos(point);
 				scene->addItem(cp);
-				if (scene->historyStack)
-					scene->historyStack->push(new AddControlPointCommand("control point added",scene,cp));
+				if (scene->network)
+					scene->network->push(new AddControlPointCommand("control point added",scene,cp));
 			}
 		}
 	}
@@ -621,16 +621,16 @@ namespace Tinkercell
 
 					if (cmmd1->graphicsItems.size() >= 1)
 					{
-						if (scene->historyStack)
-							scene->historyStack->push(cmmd1);
+						if (scene->network)
+							scene->network->push(cmmd1);
 					}
 					else
 					{
 						RemoveCurveSegmentCommand * cmmd2 = new RemoveCurveSegmentCommand("path removed",scene,p);
 						if (cmmd2->curveSegments.size() > 0)
 						{
-							if (scene->historyStack)
-								scene->historyStack->push(cmmd2);
+							if (scene->network)
+								scene->network->push(cmmd2);
 							else
 							{
 								cmmd2->redo();
@@ -1234,8 +1234,8 @@ namespace Tinkercell
 		}
 
 
-		if (scene->historyStack)
-		scene->historyStack->push(command);
+		if (scene->network)
+		scene->network->push(command);
 		else
 		{
 		command->redo();
@@ -1297,8 +1297,8 @@ namespace Tinkercell
 
 			QUndoCommand * command = new CompositeCommand(tr("center box added"),commands);
 
-			if (scene->historyStack)
-				scene->historyStack->push(command);
+			if (scene->network)
+				scene->network->push(command);
 			else
 			{
 				command->redo();
@@ -1356,8 +1356,8 @@ namespace Tinkercell
 		}
 
 
-		if (scene->historyStack)
-			scene->historyStack->push(command);
+		if (scene->network)
+			scene->network->push(command);
 		else
 		{
 			command->redo();
@@ -1392,8 +1392,8 @@ namespace Tinkercell
 			return;
 		}
 
-		if (scene->historyStack)
-			scene->historyStack->push(command);
+		if (scene->network)
+			scene->network->push(command);
 		else
 		{
 			command->redo();

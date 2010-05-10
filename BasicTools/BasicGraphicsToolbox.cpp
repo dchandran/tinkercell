@@ -12,7 +12,7 @@ buttons for all these functions.
 
 #include "GraphicsScene.h"
 #include "TextEditor.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -315,22 +315,21 @@ namespace Tinkercell
 
 	void BasicGraphicsToolbox::setBackgroundImage()
 	{
-		GraphicsView * currentView;
-		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
+		if (!currentScene()) return;
 
 		QString imageFile = QFileDialog::getOpenFileName(this,tr("Select image file"),MainWindow::previousFileName);
 
 		if (imageFile.isEmpty() || imageFile.isNull()) return;
 
-		if (!currentView->background.load(imageFile))
-			currentView->background = QPixmap();
+		QPixmap image;
+		if (image.load(imageFile))
+			currentScene()->setBackground(image);
 	}
 
 	void BasicGraphicsToolbox::unsetBackgroundImage()
 	{
-		GraphicsView * currentView;
-		if (!currentWindow() || !(currentView = currentWindow()->currentView())) return;
-		currentView->background = QPixmap();
+		if (!currentScene()) return;
+		currentScene()->setBackground(QPixmap());
 	}
 
 	void BasicGraphicsToolbox::closeFind()
@@ -355,15 +354,10 @@ namespace Tinkercell
 
 	void BasicGraphicsToolbox::rename()
 	{
-		if (!mainWindow || !findText || !replaceText || findText->text().isEmpty()) return;
+		if (!currentNetwork() || !findText || !replaceText || findText->text().isEmpty()) return;
 
-		//if (currentWindow())
-			//currentWindow()->rename(findText->text(),replaceText->text());
-		if (currentScene())
-			currentScene()->rename(findText->text(),replaceText->text());
-		else
-			if (currentTextEditor())
-				currentTextEditor()->replace(findText->text(),replaceText->text());
+		if (currentNetwork())
+			currentNetwork()->rename(findText->text(),replaceText->text());
 	}
 
 	void BasicGraphicsToolbox::noGradient()
@@ -709,8 +703,7 @@ namespace Tinkercell
 				}
 				else
 				{
-				    if (scene->currentView())
-                        scene->currentView()->fitInView(rect,Qt::KeepAspectRatio);
+				    scene->fitInView(rect);
 				}
 			}
 

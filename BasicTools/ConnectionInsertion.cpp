@@ -12,7 +12,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -455,7 +455,7 @@ namespace Tinkercell
 			center /= selectedNodes.size();
 
 		handle->name = name;
-		handle->name = findUniqueName(handle,scene->allHandles());
+		handle->name = findUniqueName(handle,scene->network->handles());
 
 		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 		insertList += nameItem;
@@ -787,7 +787,7 @@ namespace Tinkercell
 						handle = new ConnectionHandle(selectedFamily,item);
 
 						handle->name = tr("J1");
-						handle->name = findUniqueName(handle,scene->allHandles());
+						handle->name = findUniqueName(handle,scene->network->handles());
 
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 						insertList += nameItem;

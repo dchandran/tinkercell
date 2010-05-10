@@ -156,6 +156,10 @@ namespace Tinkercell
 		* \param QString
 		*/
 		virtual void setWindowTitle(const QString&);
+		/*! \brief get the title for current window representing this network
+		* \return QString
+		*/
+		virtual QString windowTitle() const;
 		/*! \brief checks whether a string is a correct formula.
 		* \param QString target string (also the output)
 		* \param QStringList returns any new variables not found in this network

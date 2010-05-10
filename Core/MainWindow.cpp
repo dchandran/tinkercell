@@ -11,7 +11,7 @@ signals are then emitted by the MainWindow; in this way, a plugin does not need
 signals are then emitted by the MainWindow; in this way, a plugin does not need
 to listen to each of the GraphicsScene signals but only the MainWindow's signals.
 
-The MainWindow also has its own signals, such as a toolLoaded, modelSaved, etc.
+The MainWindow also has its own signals, such as a toolLoaded, networkSaved, etc.
 
 The MainWindow keeps a list of all plugins, and it is also responsible for loading plugins.
 
@@ -441,7 +441,7 @@ namespace Tinkercell
 		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
 
 		bool b = false;
-		emit prepareModelForSaving(currentNetworkWindow->network,&b);
+		emit prepareNetworkForSaving(currentNetworkWindow->network,&b);
 
 		if (!b) return;
 
@@ -450,13 +450,15 @@ namespace Tinkercell
 		if (fileName.isEmpty())
 		{
 			fileName =
-				QFileDialog::getSaveFileName(this, tr("Save Current Model"),
+				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,
 				(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
 			if (fileName.isEmpty())
 				return;
 			else
-				previousFileName = fileName;
+			{
+				currentNetworkWindow->filename = previousFileName = fileName;
+			}
 		}
 		QFile file (fileName);
 
@@ -468,22 +470,24 @@ namespace Tinkercell
 			return;
 		}
 
-		emit saveModel(fileName);
+		emit saveNetwork(fileName);
 	}
 
 	void MainWindow::saveWindowAs()
 	{
-		QString def = previousFileName;
+		if (!currentNetworkWindow || !currentNetworkWindow->network) return;
+		
+		QString def = currentNetworkWindow->filename;
 		def.replace(QRegExp("\\..*$"),tr(".") + defaultFileExtension);
 
 		QString fileName =
-			QFileDialog::getSaveFileName(this, tr("Save Current Model"),
+			QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 			def,
 			(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
 		if (fileName.isEmpty())
 			return;
 
-		previousFileName = fileName;
+		currentNetworkWindow->filename = previousFileName = fileName;
 		QFile file (fileName);
 
 		if (!file.open(QFile::WriteOnly | QFile::Text)) {
@@ -494,7 +498,7 @@ namespace Tinkercell
 			return;
 		}
 
-		emit saveModel(fileName);
+		emit saveNetwork(fileName);
 	}
 
 	void MainWindow::open(const QString& fileName)
@@ -510,7 +514,10 @@ namespace Tinkercell
 		}
 
 		previousFileName = fileName;
-		emit loadModel(fileName);
+		emit loadNetwork(fileName);
+		
+		if (currentNetworkWindow)
+			currentNetworkWindow->filename = fileName;
 	}
 
 	void MainWindow::open()
@@ -1024,7 +1031,7 @@ namespace Tinkercell
 				else
 				{
 					previousFileName = files[i].absoluteFilePath();
-					emit loadModel(files[i].absoluteFilePath());
+					emit loadNetwork(files[i].absoluteFilePath());
 				}
 			}
 		}

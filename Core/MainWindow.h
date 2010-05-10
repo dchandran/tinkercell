@@ -423,7 +423,7 @@ namespace Tinkercell
 		*/
 		void setCurrentWindow(NetworkWindow*);
 		/*!
-		* \brief loads files (library files or model files)
+		* \brief loads files (library files or Network files)
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void
 		*/
@@ -526,34 +526,34 @@ namespace Tinkercell
 		*/
 		void windowClosed(NetworkHandle *);
 		/*!
-		* \brief signals used inform that the model is going to be saved as it is
-		* \param NetworkHandle *  the window where model was loaded (usually current scene)
+		* \brief signals used inform that the Network is going to be saved as it is
+		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
 		* \return void*/
-		void prepareModelForSaving(NetworkHandle*,bool*);
+		void prepareNetworkForSaving(NetworkHandle*,bool*);
 		/*!
-		* \brief signals used inform that the model has been saved
-		* \param NetworkHandle *  the window where model was loaded (usually current scene)
+		* \brief signals used inform that the Network has been saved
+		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
 		* \return void
 		*/
-		void modelSaved(NetworkHandle*);
+		void networkSaved(NetworkHandle*);
 		/*!
-		* \brief signals used selects a file to save the current model to
+		* \brief signals used selects a file to save the current Network to
 		* \param QString& file that is selected by user
 		* \return void
 		*/
-		void saveModel(const QString& filename);
+		void saveNetwork(const QString& filename);
 		/*!
 		* \brief signals used selects a file to open in the current window
 		* \param QString& file that is selected by user
 		* \return void
 		*/
-		void loadModel(const QString& filename);
+		void loadNetwork(const QString& filename);
 		/*!
-		* \brief signals informs that the current window has just loaded a new model
-		* \param NetworkHandle *  the window where model was loaded (usually current scene)
+		* \brief signals informs that the current window has just loaded a new Network
+		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
 		* \return void
 		*/
-		void modelLoaded(NetworkHandle*);
+		void networkLoaded(NetworkHandle*);
 		/*!
 		* \brief signals whenever the new window is opened
 		* \param NetworkHandle* the current new window

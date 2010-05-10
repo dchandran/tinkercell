@@ -37,6 +37,7 @@ This tool performs several tasks:
 #include "GraphicsScene.h"
 #include "NetworkWindow.h"
 #include "MainWindow.h"
+#include "TextGraphicsItem.h"
 #include "NodeGraphicsItem.h"
 #include "Tool.h"
 

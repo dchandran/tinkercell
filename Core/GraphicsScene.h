@@ -465,6 +465,8 @@ namespace Tinkercell
 		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
 		/*! \brief draw background grid if in grid mode*/
 		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+		/*! \brief used to select the entire connection during mouse click*/
+		virtual void selectConnections(const QPointF&);
 
 	public:
 		/*! \brief snap the node item to the grid

@@ -240,6 +240,7 @@ namespace Multicell
 	void MulticellInterface::mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&)
 	{
 		if (!scene) return;
+		
 		if (currentFamily && button == Qt::LeftButton)
 		{
 			QPointF p = point;
@@ -332,9 +333,10 @@ namespace Multicell
 
 	QString MulticellInterface::uniqueName()
 	{
-		if (!currentWindow()) return QString("x");
+		if (!currentNetwork()) return QString("x");
 
-		QStringList list(currentWindow()->symbolsTable.handlesFullName.keys());
+		QStringList list(currentNetwork()->symbolsTable.uniqueItems.keys());
+		list << currentNetwork()->symbolsTable.uniqueData.keys();
 
 		int i = 1;
 		QString name = tr("cell") + QString::number(i);

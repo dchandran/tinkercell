@@ -248,13 +248,13 @@ namespace Tinkercell
 	void ItemHandle::changeData(const QString& hashstring, const DataTable<qreal>* newdata)
 	{
 		if (network)
-			network->changeData( name + QString("'s ") + hashstring + QString("changed"), this, hashstring, newdata);
+			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
 	}
 	
 	void ItemHandle::changeData(const QString& hashstring, const DataTable<QString>* newdata)
 	{
 		if (network)
-			network->changeData( name + QString("'s ") + hashstring + QString("changed"), this, hashstring, newdata);
+			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
 	}
 
 	void ItemHandle::setParent(ItemHandle * p, bool useCommand)

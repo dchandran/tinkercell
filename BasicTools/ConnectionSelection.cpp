@@ -568,69 +568,6 @@ namespace Tinkercell
 					mainWindow->contextItemsMenu.removeAction(&showMiddleRect);
 					mainWindow->contextItemsMenu.removeAction(&hideMiddleRect);
 				}
-
-				ConnectionGraphicsItem * connection = 0;
-				NodeGraphicsItem * node = 0;
-				QList<QGraphicsItem*>& movingItems = scene->moving();
-				for (int i=movingItems.size()-1; i >= 0; --i)
-					if (movingItems[i] != 0)
-					{
-						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(movingItems[i])))
-						{
-							movingItems.removeAt(i);
-
-							for (int i=0; i < connection->curveSegments.size(); ++i)
-							{
-								if (connection->curveSegments[i].arrowStart)
-									movingItems.removeAll(connection->curveSegments[i].arrowStart);
-								if (connection->curveSegments[i].arrowEnd)
-									movingItems.removeAll(connection->curveSegments[i].arrowEnd);
-							}
-
-							QList<ConnectionGraphicsItem::ControlPoint*> list = connection->controlPoints();
-
-							bool noControlsSelected = true;
-							bool controlPointsExist = false;
-							for (int i=0; i < list.size(); ++i)
-							{
-								if (list[i] && list[i]->isVisible() && !list[i]->parentItem())
-									controlPointsExist = true;
-								
-								if (list[i] && list[i]->isVisible() && list[i]->sceneBoundingRect().contains(point))
-								{
-									noControlsSelected = false;
-									break;
-								}
-							}
-
-							if (noControlsSelected)
-							{
-								//connection->setControlPointsVisible(true);
-
-								for (int i=0; i < list.size(); ++i)
-									if (!movingItems.contains(list[i]) && list[i]->scene() == scene)
-										movingItems += list[i];
-
-								ItemHandle * handle = connection->handle();
-								if (handle && controlPointsExist)
-									for (int i=0; i < handle->graphicsItems.size(); ++i)
-									{
-										if (TextGraphicsItem::cast(handle->graphicsItems[i])
-											&& !movingItems.contains(handle->graphicsItems[i])
-											&& handle->graphicsItems[i]->scene() == scene)
-											movingItems += handle->graphicsItems[i];
-									}
-							}
-						}
-						else
-						{
-							if ((node = NodeGraphicsItem::topLevelNodeItem(movingItems[i])) && (node->className == ArrowHeadItem::CLASSNAME))
-							{
-								movingItems.removeAll(node);
-							}
-						}
-					}
-
 		}
 	}
 
@@ -844,8 +781,6 @@ namespace Tinkercell
 		if (!scene || moving.isEmpty()) return;
 
 		if (!moving.at(0)) return;
-
-		MoveCommand::refreshAllConnectionIn(moving);
 
 		QGraphicsItem * cp = 0;
 		for (int i=0; i < moving.size(); ++i)

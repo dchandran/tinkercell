@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
 	Tool * tool = new Multicell::MulticellInterface;
 	mainWindow.addTool(tool);
 	
-	mainWindow.newGraphicsWindow();
-	mainWindow.newGraphicsWindow();
+	mainWindow.newScene();
 	
     mainWindow.show();
 

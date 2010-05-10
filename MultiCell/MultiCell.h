@@ -26,7 +26,8 @@ Grid based multicell visual modeling interface
 #include <QGraphicsSimpleTextItem>
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
+#include "ItemHandle.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "Tool.h"

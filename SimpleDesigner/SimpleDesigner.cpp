@@ -473,7 +473,7 @@ int main(int argc, char *argv[])
 
 	QString appDir = QCoreApplication::applicationDirPath();
     
-    MainWindow mainWindow(true,false,false,false);
+    MainWindow mainWindow(true,true,true,true);
 	
 	mainWindow.setWindowTitle(QString("Simple Designer"));
     mainWindow.statusBar()->showMessage(QString("Welcome to Simple Designer"));

@@ -1,23 +1,9 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-SET( TINKERCELL_CORE_HDRS
-  ../Core/MainWindow.h 
-  ../Core/NetworkWindow.h
-  ../Core/CodeEditor.h 
-  ../Core/TextEditor.h 
-  ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/TextItem.h 
-  ../Core/ItemHandle.h 
-  ../Core/ItemFamily.h
-  )
-
 FILE( GLOB MULTICELL_SRC *.cpp )
 FILE( GLOB MULTICELL_HDRS *.h )
 
-QT4_WRAP_CPP( MULTICELL_MOC 
-  ${MULTICELL_HDRS}
-  ${TINKERCELL_CORE_HDRS} )
+QT4_WRAP_CPP( MULTICELL_MOC ${MULTICELL_HDRS})
 
 QT4_ADD_RESOURCES( MULTICELL_QRC multicell.qrc )
 

@@ -366,10 +366,10 @@ namespace Tinkercell
 								selectedItems.removeAll(item);
 						}
 					}
-
 				}
 
 				if (selectedItems.size() > 0)
+				{
 					for (QList<QGraphicsItem*>::const_iterator i = selectedItems.constBegin(); i != selectedItems.constEnd(); ++i)
 						if (*i && *i != &selectionRect)
 						{
@@ -378,12 +378,15 @@ namespace Tinkercell
 
 						if (mouseEvent->button())// == Qt::LeftButton)
 							emit itemsSelected(this, selectedItems,clickedPoint,mouseEvent->modifiers());
-
+						
+						selectConnections(clickedPoint);
+						
 						if (movingItems.size() > 0)
 						{
 							movingItemsGroup = createItemGroup(movingItems);
 							movingItemsGroup->setZValue(lastZ);
 						}
+				}
 			}
 			else
 			{
@@ -463,11 +466,14 @@ namespace Tinkercell
 				item = itemList[i]->topLevelItem();
 				break;
 			}
-
+		
+		MoveCommand::refreshAllConnectionIn(movingItems);
+			
 		emit mouseMoved(this, item, point1, clickedButton, mouseEvent->modifiers(), movingItems);
+
 		if (item)
 			emit mouseOnTopOf(this, item, point1, mouseEvent->modifiers(), movingItems);
-
+		
 		QGraphicsScene::mouseMoveEvent(mouseEvent);
 	}
 	/*! \brief when mouse is released, moving list is cleared
@@ -532,7 +538,7 @@ namespace Tinkercell
 								if (mouseEvent->modifiers() == Qt::ShiftModifier)
 									selectedItems.removeAll(item);
 					}
-					emit itemsSelected(this, selectedItems,point1,mouseEvent->modifiers());
+				emit itemsSelected(this, selectedItems,point1,mouseEvent->modifiers());
 			}
 			if ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE)
 				emit mouseDragged(this, point0, point1, clickedButton, mouseEvent->modifiers());
@@ -1877,6 +1883,71 @@ namespace Tinkercell
 		if (network && network->mainWindow)
 			return network->mainWindow->console();
 		return 0;
+	}
+	
+	void GraphicsScene::selectConnections(const QPointF& point)
+	{
+		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
+
+		for (int i=movingItems.size()-1; i >= 0; --i)
+			if (movingItems[i] != 0)
+			{
+				if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(movingItems[i])))
+				{
+					movingItems.removeAt(i);
+
+					for (int i=0; i < connection->curveSegments.size(); ++i)
+					{
+						if (connection->curveSegments[i].arrowStart)
+							movingItems.removeAll(connection->curveSegments[i].arrowStart);
+						if (connection->curveSegments[i].arrowEnd)
+							movingItems.removeAll(connection->curveSegments[i].arrowEnd);
+					}
+
+					QList<ConnectionGraphicsItem::ControlPoint*> list = connection->controlPoints();
+
+					bool noControlsSelected = true;
+					bool controlPointsExist = false;
+					for (int i=0; i < list.size(); ++i)
+					{
+						if (list[i] && list[i]->isVisible() && !list[i]->parentItem())
+							controlPointsExist = true;
+						
+						if (list[i] && list[i]->isVisible() && list[i]->sceneBoundingRect().contains(point))
+						{
+							noControlsSelected = false;
+							break;
+						}
+					}
+
+					if (noControlsSelected)
+					{
+						//connection->setControlPointsVisible(true);
+
+						for (int i=0; i < list.size(); ++i)
+							if (!movingItems.contains(list[i]) && list[i]->scene() == this)
+								movingItems += list[i];
+
+						ItemHandle * handle = connection->handle();
+						if (handle && controlPointsExist)
+							for (int i=0; i < handle->graphicsItems.size(); ++i)
+							{
+								if (TextGraphicsItem::cast(handle->graphicsItems[i])
+									&& !movingItems.contains(handle->graphicsItems[i])
+									&& handle->graphicsItems[i]->scene() == this)
+									movingItems += handle->graphicsItems[i];
+							}
+					}
+				}
+				else
+				{
+					if ((node = NodeGraphicsItem::topLevelNodeItem(movingItems[i])) && (node->className == ArrowHeadItem::CLASSNAME))
+					{
+						movingItems.removeAll(node);
+					}
+				}
+			}
 	}
 
 }

@@ -466,10 +466,10 @@ namespace Tinkercell
 					
 					if (handles.size() > i)
 					{
-						handles[i]->network = graphicsScene->network;
 						setHandle(graphicsItems[i],handles[i]);
 						if (handles[i] && !renameCommand && !nameChangeHandles.contains(handles[i]))
 						{
+							handles[i]->network = graphicsScene->network;
 							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
 							if (newNames.contains(s0) || 
@@ -681,7 +681,7 @@ namespace Tinkercell
 
 			setHandle(graphicsItems[i],0);
 
-			if (itemHandles.size() > i && itemHandles[i] != 0)
+			if (itemHandles.size() > i && itemHandles[i])
 			{
 				itemHandles[i]->network = 0;
 				if (itemHandles[i]->graphicsItems.isEmpty())
@@ -898,7 +898,7 @@ namespace Tinkercell
 				}
 			}
 
-			if (itemHandles.size() > i && itemHandles[i] != 0)
+			if (itemHandles.size() > i && itemHandles[i])
 			{
 				itemHandles[i]->network = graphicsScene->network;
 				setHandle(graphicsItems[i],itemHandles[i]);

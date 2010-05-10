@@ -108,6 +108,7 @@ namespace Tinkercell
 		//setDragMode(QGraphicsView::ScrollHandDrag);
 		//setOptimizationFlags(QGraphicsView::DontClipPainter | QGraphicsView::DontSavePainterState);
 
+		setMouseTracking (true);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground(true);
 		setAcceptDrops(true);

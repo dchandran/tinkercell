@@ -4,7 +4,6 @@
 #include "C_API_Slots.h"
 #include "ItemHandle.h"
 #include "TextEditor.h"
-#include "TextItem.h"
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "GraphicsView.h"
@@ -431,9 +430,9 @@ namespace Tinkercell
 	{
 		if (mainWindow)
 		{
-			mainWindow->newGraphicsWindow();
+			mainWindow->newScene();
 			if (currentNetwork())
-				currentWindow()->setWindowTitle(name);
+				currentNetwork()->setWindowTitle(name);
 		}
 		if (s)
 			s->release();
@@ -484,7 +483,7 @@ namespace Tinkercell
 
 	void C_API_Slots::allItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
-		NetworkHandle * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -492,7 +491,7 @@ namespace Tinkercell
 		}
 
 		if (returnPtr)
-			(*returnPtr) = win->allHandles();
+			(*returnPtr) = win->handles();
 
 		if (s)
 			s->release();
@@ -500,7 +499,7 @@ namespace Tinkercell
 
 	void C_API_Slots::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr, const QString& family)
 	{
-		NetworkHandle * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -509,7 +508,7 @@ namespace Tinkercell
 
 		if (returnPtr)
 		{
-			QList<ItemHandle*> handles = win->allHandles();
+			QList<ItemHandle*> handles = win->handles();
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i] && handles[i]->isA(family))
 					(*returnPtr) += handles[i];
@@ -521,7 +520,7 @@ namespace Tinkercell
 
 	void C_API_Slots::itemsOfFamily(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QList<ItemHandle*>& handles,const QString& family)
 	{
-		NetworkHandle * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win || !returnPtr)
 		{
 			if (s) s->release();
@@ -541,14 +540,14 @@ namespace Tinkercell
 
 	void C_API_Slots::selectedItems(QSemaphore* s,QList<ItemHandle*>* returnPtr)
 	{
-		NetworkHandle * win = currentWindow();
-		if (!win || !returnPtr)
+		GraphicsScene * scene = currentScene();
+		if (!scene || !returnPtr)
 		{
 			if (s) s->release();
 			return;
 		}
 
-		QList<ItemHandle*> list = win->selectedHandles();
+		QList<ItemHandle*> list = getHandle(scene->selected());
 
 		if (returnPtr)
 			(*returnPtr) = list;
@@ -609,9 +608,9 @@ namespace Tinkercell
 
 	void C_API_Slots::setName(QSemaphore* s,ItemHandle* handle,const QString& name)
 	{
-		if (handle && !name.isNull() && !name.isEmpty() && currentWindow())
+		if (handle && !name.isNull() && !name.isEmpty() && currentNetwork())
 		{
-			currentWindow()->rename(handle,name);
+			currentNetwork()->rename(handle,name);
 		}
 		if (s)
 			s->release();
@@ -644,7 +643,7 @@ namespace Tinkercell
 
 	void C_API_Slots::findItem(QSemaphore* s,ItemHandle** returnPtr,const QString& name)
 	{
-		NetworkHandle * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win || !returnPtr)
 		{
 			if (returnPtr)
@@ -698,7 +697,7 @@ namespace Tinkercell
 
 	void C_API_Slots::findItems(QSemaphore* s,QList<ItemHandle*>* returnPtr,const QStringList& names)
 	{
-		NetworkHandle * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win || !returnPtr)
 		{
 			if (returnPtr)
@@ -963,8 +962,8 @@ namespace Tinkercell
 
 	void C_API_Slots::getNumericalData(QSemaphore* sem,DataTable<qreal>* dat,ItemHandle* item,const QString& tool)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 
 		if (dat && item && item->data && item->data->numericalData.contains(tool))
 		{
@@ -976,8 +975,8 @@ namespace Tinkercell
 
 	void C_API_Slots::setNumericalData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 
 		if (item && item->data)
 		{
@@ -985,7 +984,7 @@ namespace Tinkercell
 			{
 				item->data->numericalData[tool] = DataTable<qreal>();
 			}
-			NetworkHandle * win = currentWindow();
+			NetworkHandle * win = currentNetwork();
 			if (win)
 			{
 				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
@@ -997,8 +996,8 @@ namespace Tinkercell
 
 	void C_API_Slots::getTextData(QSemaphore* sem,DataTable<QString>* dat,ItemHandle* item,const QString& tool)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 
 		if (dat && item && item->data && item->data->textData.contains(tool))
 		{
@@ -1010,8 +1009,8 @@ namespace Tinkercell
 
 	void C_API_Slots::setTextData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<QString>& dat)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 
 		if (item && item->data)
 		{
@@ -1019,7 +1018,7 @@ namespace Tinkercell
 			{
 				item->data->textData[tool] = DataTable<QString>();
 			}
-			NetworkHandle * win = currentWindow();
+			NetworkHandle * win = currentNetwork();
 			if (win)
 			{
 				win->changeData(tool + tr(" changed for ") + item->fullName(),item,tool,&dat);
@@ -1031,8 +1030,8 @@ namespace Tinkercell
 	
 	void C_API_Slots::getNumericalDataNames(QSemaphore* sem,QStringList* list,ItemHandle* item)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 			
 		if (item && list)
 		{
@@ -1044,8 +1043,8 @@ namespace Tinkercell
 
 	void C_API_Slots::getTextDataNames(QSemaphore*sem,QStringList* list,ItemHandle* item)
 	{
-		if (!item && currentWindow())
-			item = &(currentWindow()->symbolsTable.modelItem);
+		if (!item && currentNetwork())
+			item = &(currentNetwork()->symbolsTable.modelItem);
 			
 		if (item && list)
 		{
@@ -2260,8 +2259,8 @@ namespace Tinkercell
 			if (nodesList.size() > 0)
 			{
 				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("image changed for ") + h->fullName(),nodesList,filenames);
-				if (currentWindow())
-					currentWindow()->history.push(command);
+				if (currentNetwork())
+					currentNetwork()->history.push(command);
 			}
 		}
 
@@ -2292,8 +2291,8 @@ namespace Tinkercell
 			if (nodesList.size() > 0)
 			{
 				ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("arrowheads changed for ") + h->fullName(),nodesList,filenames,false);
-				if (currentWindow())
-					currentWindow()->history.push(command);
+				if (currentNetwork())
+					currentNetwork()->history.push(command);
 			}
 		}
 

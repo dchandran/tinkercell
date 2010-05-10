@@ -207,7 +207,7 @@ namespace Tinkercell
 	
 		MainWindow * mainWindow;
 		ConsoleWindow * console() const;
-		NetworkHandle * currentHandle() const;
+		NetworkHandle * currentNetwork() const;
 		GraphicsScene * currentScene() const;
 	
 		static void _zoom(double);

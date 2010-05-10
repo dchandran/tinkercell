@@ -62,8 +62,17 @@ namespace Tinkercell
 		{
 			return (cp->handle());
 		}
-
 		return 0;
+	}
+	
+	QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>& items)
+	{
+		QList<ItemHandle*> list;
+		ItemHandle * h = 0;
+		for (int i=0; i < items.size(); ++i)
+			if (h = getHandle(items[i]))
+				list << h;
+		return list;
 	}
 
 	void setHandle(QGraphicsItem * item, ItemHandle * handle)
@@ -668,7 +677,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < nodesWithRoles.size(); ++i)
 				if (nodesWithRoles[i].first && (role == 0 || nodesWithRoles[i].second == role))
-					nodeslist << nodesWithRoles[i].second;
+					nodeslist << nodesWithRoles[i].first;
 		}
 		return nodeslist;
 	}

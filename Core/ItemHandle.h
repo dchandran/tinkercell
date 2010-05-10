@@ -339,6 +339,12 @@ namespace Tinkercell
 	* \return ItemHandle* item handle (0 if none)
 	*/
 	MY_EXPORT ItemHandle * getHandle(QGraphicsItem*);
+	/*! \brief get the handles from graphics items
+	* \param QList<QGraphicsItem*> graphics item
+	* \ingroup core
+	* \return QList<ItemHandle*> item handles
+	*/
+	MY_EXPORT QList<ItemHandle*> getHandle(const QList<QGraphicsItem*>&);
 	/*! \brief set the handle of a graphics item (use 0 to remove handle)
 	* \param QGraphicsItem* graphics item
 	* \param ItemHandle* handle (use 0 to remove handle)

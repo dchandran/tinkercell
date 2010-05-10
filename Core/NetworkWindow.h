@@ -22,13 +22,13 @@ namespace Tinkercell
 		* \param Boolean setting to false will prevent this window from closing
 		* \return void
 		*/
-		void windowClosing(NetworkWindow *, bool*);
+		void windowClosing(NetworkHandle *, bool*);
 		/*!
 		* \brief signals after a window is closed
 		* \param NetworkWindow *  the window that was closed
 		* \return void
 		*/
-		void windowClosed(NetworkWindow *);
+		void windowClosed(NetworkHandle *);
 
 	protected:
 		/*! \brief close event sends signal to all tools asking for confirmation becore closing

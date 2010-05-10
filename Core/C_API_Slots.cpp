@@ -654,43 +654,17 @@ namespace Tinkercell
 
 		(*returnPtr) = 0;
 
-		if (win->symbolsTable.handlesFullName.contains(name))
-			(*returnPtr) = win->symbolsTable.handlesFullName[name];
-		else
+		QList<ItemHandle*> items = win->findItem(name);
+		
+		if (items.isEmpty())
 		{
-			QString s = name;
-
-			if (win->symbolsTable.handlesFullName.contains(s))
-				(*returnPtr) = win->symbolsTable.handlesFullName[s];
-			else
-			{
-				if (win->symbolsTable.handlesFirstName.contains(s))
-					(*returnPtr) = win->symbolsTable.handlesFirstName[s];
-				else
-					if (win->symbolsTable.dataRowsAndCols.contains(s))
-						(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
-			}
-
-			if ((*returnPtr) == 0)
-			{
-				int k = -1;
-				while ( (k = s.lastIndexOf(tr("_"))) != -1 && ((*returnPtr) == 0))
-				{
-					s[k] = QChar('.');
-					if (win->symbolsTable.handlesFullName.contains(s))
-						(*returnPtr) = win->symbolsTable.handlesFullName[s];
-					else
-					{
-						if (win->symbolsTable.handlesFirstName.contains(s))
-							(*returnPtr) = win->symbolsTable.handlesFirstName[s];
-						else
-							if (win->symbolsTable.dataRowsAndCols.contains(s))
-								(*returnPtr) = win->symbolsTable.dataRowsAndCols[s].first;
-					}
-				}
-			}
+			QList< QPair<ItemHandle*, QString> > data = win->findData(name);
+			if (data.size() > 0 && data[0].first)
+				(*returnPtr) = data[0].first;
 		}
-
+		else
+			(*returnPtr) = items[0];
+		
 		if (s)
 			s->release();
 	}
@@ -706,55 +680,17 @@ namespace Tinkercell
 			return;
 		}
 
-		returnPtr->clear();
-		QString name;
-		ItemHandle * handle = 0;
-
-		for (int i=0; i < names.size(); ++i)
+		QList<ItemHandle*> items = win->findItem(names);
+		
+		if (items.isEmpty())
 		{
-			name = names[i];
-			handle = 0;
-			int k;
-
-			if (win->symbolsTable.handlesFullName.contains(name))
-				handle = win->symbolsTable.handlesFullName[name];
-			else
-			{
-				QString s = name;
-
-				if (win->symbolsTable.handlesFullName.contains(s))
-					handle = win->symbolsTable.handlesFullName[s];
-				else
-				{
-					if (win->symbolsTable.handlesFirstName.contains(s))
-						handle = win->symbolsTable.handlesFirstName[s];
-					else
-						if (win->symbolsTable.dataRowsAndCols.contains(s))
-							handle= win->symbolsTable.dataRowsAndCols[s].first;
-				}
-
-				if (handle == 0)
-				{
-					while ( (k = s.lastIndexOf(tr("_"))) != -1 && (handle == 0))
-					{
-						s[k] = QChar('.');
-						if (win->symbolsTable.handlesFullName.contains(s))
-							handle = win->symbolsTable.handlesFullName[s];
-						else
-						{
-							if (win->symbolsTable.handlesFirstName.contains(s))
-								handle = win->symbolsTable.handlesFirstName[s];
-							else
-								if (win->symbolsTable.dataRowsAndCols.contains(s))
-									handle = win->symbolsTable.dataRowsAndCols[s].first;
-						}
-					}
-				}
-			}
-
-			if (handle)
-				returnPtr->append(handle);
+			QList< QPair<ItemHandle*, QString> > data = win->findData(names);
+			for (int i=0; i < data.size(); ++i)
+				if (data[i].first && !items.contains(data[i].first))
+					items << data[i].first;
 		}
+		
+		(*returnPtr) = items;
 
 		if (s)
 			s->release();
@@ -963,7 +899,7 @@ namespace Tinkercell
 	void C_API_Slots::getNumericalData(QSemaphore* sem,DataTable<qreal>* dat,ItemHandle* item,const QString& tool)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 
 		if (dat && item && item->data && item->data->numericalData.contains(tool))
 		{
@@ -976,7 +912,7 @@ namespace Tinkercell
 	void C_API_Slots::setNumericalData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<qreal>& dat)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 
 		if (item && item->data)
 		{
@@ -997,7 +933,7 @@ namespace Tinkercell
 	void C_API_Slots::getTextData(QSemaphore* sem,DataTable<QString>* dat,ItemHandle* item,const QString& tool)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 
 		if (dat && item && item->data && item->data->textData.contains(tool))
 		{
@@ -1010,7 +946,7 @@ namespace Tinkercell
 	void C_API_Slots::setTextData(QSemaphore* sem,ItemHandle* item,const QString& tool, const DataTable<QString>& dat)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 
 		if (item && item->data)
 		{
@@ -1031,7 +967,7 @@ namespace Tinkercell
 	void C_API_Slots::getNumericalDataNames(QSemaphore* sem,QStringList* list,ItemHandle* item)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 			
 		if (item && list)
 		{
@@ -1044,7 +980,7 @@ namespace Tinkercell
 	void C_API_Slots::getTextDataNames(QSemaphore*sem,QStringList* list,ItemHandle* item)
 	{
 		if (!item && currentNetwork())
-			item = &(currentNetwork()->symbolsTable.modelItem);
+			item = currentNetwork()->globalHandle();
 			
 		if (item && list)
 		{

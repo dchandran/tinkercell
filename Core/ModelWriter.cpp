@@ -52,7 +52,7 @@ namespace Tinkercell
 	{
 		if (!editor || !writer) return false;
 
-		QList<TextItem*> allItems = editor->items();
+		QList<ItemHandle*> allItems = editor->items();
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
@@ -62,7 +62,7 @@ namespace Tinkercell
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)
 		{
-			handle = getHandle(allItems[i]);
+			handle = allItems[i];
 			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
 			{
 				writeHandle(handle,writer);

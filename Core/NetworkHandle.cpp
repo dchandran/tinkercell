@@ -86,6 +86,35 @@ namespace Tinkercell
 
 		return list;
 	}
+	
+	QList< QPair<ItemHandle*,QString> > NetworkHandle::findData(const QStringList& list) const
+	{
+		QList<ItemHandle*> items;
+		QList< QPair<ItemHandle*,QString> > data;
+		
+		for (int i=0; i < list.size(); ++i)
+		{
+			QString s = list[i];
+			if (symbolsTable.uniqueData.contains(s))
+			{
+				data += symbolsTable.uniqueData[s];
+			}
+			else
+			if (symbolsTable.nonuniqueData.contains(s))
+			{
+				QList< QPair<ItemHandle*,QString> > items2 = symbolsTable.nonuniqueData.values(s);
+				for (int j=0; j < items2.size(); ++j)
+				{
+					if (!items.contains(items2[j].first))
+					{
+						items += items2[j].first;
+						data += items2[j];
+					}
+				}
+			}
+		}
+		return data;
+	}
 
 	void NetworkHandle::close()
 	{
@@ -160,7 +189,7 @@ namespace Tinkercell
 		return scene;
 	}
 	
-	GraphicsScene * NetworkHandle::createScene(ItemHandle * item, const QRectF& boundingRect=QRectF())
+	GraphicsScene * NetworkHandle::createScene(ItemHandle * item, const QRectF& boundingRect)
 	{
 		if (!item) return 0;
 		
@@ -170,15 +199,9 @@ namespace Tinkercell
 	}
 
 	NetworkHandle::NetworkHandle(MainWindow * main) : QObject(main), mainWindow(main), symbolsTable(this)
-	{
-		QHBoxLayout * layout = new QHBoxLayout;
-		layout->addWidget(view);
-		layout->setContentsMargins(0,0,0,0);
-		setLayout(layout);
-		setAttribute(Qt::WA_DeleteOnClose);
-		
-		if (main && !main->networks.contains(this))
-			main->networks << this;
+	{		
+		if (main && !main->allNetworks.contains(this))
+			main->allNetworks << this;
 
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
@@ -191,23 +214,21 @@ namespace Tinkercell
 
 		connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
 			main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
-
-		view->centerOn(0,0);
 	}
 
-	ItemHandle* NetworkHandle::modelItem()
+	ItemHandle* NetworkHandle::globalHandle()
 	{
-		return &(symbolsTable.modelItem);
+		return &(symbolsTable.globalItem);
 	}
 
-	QList<ItemHandle*> NetworkHandle::allHandles()
+	QList<ItemHandle*> NetworkHandle::handles()
 	{
 		QList<ItemHandle*> handles = symbolsTable.uniqueItems.values();
-		handles << &(symbolsTable.modelItem);
+		handles << &(symbolsTable.globalItem);
 		return handles;
 	}
 
-	QList<ItemHandle*> NetworkHandle::allHandlesSortedByFamily() const
+	QList<ItemHandle*> NetworkHandle::handlesSortedByFamily() const
 	{
 		return symbolsTable.allHandlesSortedByFamily();
 	}
@@ -257,7 +278,7 @@ namespace Tinkercell
 
 		newNames += newname;
 
-		QUndoCommand * command = new RenameCommand(tr("name changed"),this->allHandles(),oldname,newname);
+		QUndoCommand * command = new RenameCommand(tr("name changed"),this->handles(),oldname,newname);
 
 		history.push(command);
 
@@ -723,7 +744,7 @@ namespace Tinkercell
 		return true;
 	}
 	
-	void GraphicsScene::assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
+	void NetworkHandle::assignHandles(const QList<QGraphicsItem*>& items, ItemHandle* newHandle)
 	{
 		if (!newHandle) return;
 		QList<ItemHandle*> handles;
@@ -731,13 +752,8 @@ namespace Tinkercell
 			handles += getHandle(items[i]);
 
 		QUndoCommand * command = new AssignHandleCommand(tr("item defined"),items,newHandle);
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+
+		history.push(command);
 
 		emit handlesChanged(this, items, handles);
 	}
@@ -746,7 +762,7 @@ namespace Tinkercell
 	{
 		if (handles.isEmpty()) return;
 
-		MergeHandlesCommand * command = new MergeHandlesCommand(tr("items merged"),network, handles);
+		MergeHandlesCommand * command = new MergeHandlesCommand(tr("items merged"),this, handles);
 
 		if (!command->newHandle)
 		{
@@ -754,16 +770,29 @@ namespace Tinkercell
 			return;
 		}
 
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		history.push(command);
 
-		clearSelection();
+		QList<QGraphicsItem*> items;
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i])
+				items << handles[i]->allGraphicsItems();
+	
 		emit handlesChanged(this, items, handles);
+	}
+	
+	void NetworkHandle::undo()
+	{
+		history.undo();
+	}
+	
+	void NetworkHandle::redo()
+	{
+		history.redo();
+	}
+	
+	void NetworkHandle::push(QUndoCommand * cmd)
+	{
+		history.push(cmd);
 	}
 
 }

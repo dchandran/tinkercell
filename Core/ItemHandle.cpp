@@ -71,8 +71,7 @@ namespace Tinkercell
 		QList<ItemHandle*> list;
 		ItemHandle * h = 0;
 		for (int i=0; i < items.size(); ++i)
-			if (h = getHandle(items[i]))
-				list << h;
+			list << getHandle(items[i]);
 		return list;
 	}
 

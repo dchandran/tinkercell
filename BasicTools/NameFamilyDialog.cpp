@@ -10,7 +10,7 @@ An associated GraphicsTool is also defined.
 ****************************************************************************/
 
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "NodeGraphicsItem.h"
@@ -115,8 +115,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInsertedSlot(NetworkWindow*, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInsertedSlot(NetworkHandle*, const QList<ItemHandle*>&)));
 			connect(this,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
 				mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 			connect(this,SIGNAL(itemsAboutToBeInserted(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
@@ -127,7 +127,7 @@ namespace Tinkercell
 		return (mainWindow != 0);
 	}
 
-	void NameFamilyDialog::itemsInsertedSlot(NetworkWindow * scene, const QList<ItemHandle*>& handles)
+	void NameFamilyDialog::itemsInsertedSlot(NetworkHandle * scene, const QList<ItemHandle*>& handles)
 	{
 		if (!scene || handles.isEmpty()) return;
 		for (int i=0; i < handles.size(); ++i)
@@ -218,9 +218,9 @@ namespace Tinkercell
 
 	void NameFamilyDialog::dialogFinished()
 	{
-		if (!textEdit || !selectedItem || !mainWindow || !mainWindow->currentWindow()) return;
+		if (!textEdit || !selectedItem || !mainWindow || !currentNetwork()) return;
 
-		NetworkWindow * win = mainWindow->currentWindow();
+		NetworkHandle * net = currentNetwork();
 
 		bool containsConnections = false;
 
@@ -251,14 +251,14 @@ namespace Tinkercell
 		}
 
 		if (name != handle->name)
-			win->rename(handle,name);
+			net->rename(handle,name);
 
 		if (handle->data && handle->hasTextData(tr("Annotation")))
 		{
 			bool changed = false;
 
 			if (data != handle->data->textData[tr("Annotation")])
-				win->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
+				net->changeData(handle->fullName() + tr("'s annotation changed"), handle,tr("Annotation"),&data);
 		}
 
 		containsConnections = (ConnectionHandle::cast(selectedItem) != 0);
@@ -313,14 +313,15 @@ namespace Tinkercell
 							handles << handle2;
 							ItemHandle * noHandle = 0;
 
-							emit itemsAboutToBeInserted(win->scene,newitems,handles);
+							GraphicsScene * scene = net->currentScene();
+							emit itemsAboutToBeInserted(scene,newitems,handles);
 
-							commands << (new RemoveGraphicsCommand(tr(""),win->scene,handle->graphicsItems))
-								<< (new InsertGraphicsCommand(tr(""),win->scene,newitems));
+							commands << (new RemoveGraphicsCommand(tr(""),scene,handle->graphicsItems))
+								<< (new InsertGraphicsCommand(tr(""),scene,newitems));
 							if (handle->parent)
 							{
-								commands << (new SetParentHandleCommand(tr(""),win,handle,noHandle))
-									<< (new SetParentHandleCommand(tr(""),win,handle2,handle->parent));
+								commands << (new SetParentHandleCommand(tr(""),net,handle,noHandle))
+									<< (new SetParentHandleCommand(tr(""),net,handle2,handle->parent));
 							}
 						}
 					}
@@ -340,8 +341,8 @@ namespace Tinkercell
 		if (!commands.isEmpty())
 		{
 			CompositeCommand * command = new CompositeCommand(tr("family changed"),commands);
-			win->history.push(command);
-			emit itemsInserted(win->scene,newitems,handles);
+			net->push(command);
+			emit itemsInserted(net->currentScene(),newitems,handles);
 		}
 
 
@@ -351,15 +352,23 @@ namespace Tinkercell
 
 	void NameFamilyDialog::select(int)
 	{
-		NetworkWindow * win = currentWindow();
-		if (win->selectedHandles().size() != 1)
+		GraphicsScene * scene = currentScene();
+		
+		if (scene->selected().size() != 1)
 		{
 			if (console())
                 console()->error(tr("please select one item"));
 		}
 		else
 		{
-			showDialog(selectedItem = win->selectedHandles()[0]);
+			selectedItem = getHandle(scene->selected()[0]);
+			if (!selectedItem)
+			{
+				if (console())
+	                console()->error(tr("the selected item is not part of the network"));
+	        }
+	        else
+				showDialog(selectedItem);
 		}
 	}
 
@@ -416,8 +425,8 @@ namespace Tinkercell
 			for (int i=0; i < (list.size()-1); i+=2)
 				data.value( list[i] ,0) = list[i+1];
 
-			if (currentWindow())
-				currentWindow()->changeData(item->fullName() + tr("'s annotation changed"),item,tr("Annotation"),&data);
+			if (currentNetwork())
+				currentNetwork()->changeData(item->fullName() + tr("'s annotation changed"),item,tr("Annotation"),&data);
 		}
 		if (sem)
 			sem->release();

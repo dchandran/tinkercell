@@ -25,6 +25,7 @@ An associated GraphicsTool is also defined.
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "NodesTree.h"
+#include "NetworkHandle.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -56,7 +57,6 @@ namespace Tinkercell
 	signals:
 		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles);
-		void familyChanged(const QList<ItemHandle*>& items);
 		void nameChanged();
 
 	public slots:
@@ -64,7 +64,7 @@ namespace Tinkercell
 		void deselect(int i=0);
 		void showDialog(ItemHandle*);
 		void closeDialog();
-		void itemsInsertedSlot(NetworkWindow * , const QList<ItemHandle*>& handles);
+		void itemsInsertedSlot(NetworkHandle * , const QList<ItemHandle*>& handles);
 		void dialogFinished();
 		void setupFunctionPointers( QLibrary * );
 

@@ -44,12 +44,12 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-			//connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));
-			//connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+			//connect(mainWindow,SIGNAL(windowOpened(NetworkHandle*)),this,SLOT(windowOpened(NetworkHandle*)));
+			//connect(mainWindow,SIGNAL(windowChanged(NetworkHandle*,NetworkHandle*)),this,SLOT(windowChanged(NetworkHandle*,NetworkHandle*)));
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this ,SLOT(itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow*,bool*)),this,SLOT(windowClosing(NetworkWindow*,bool*)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle*,bool*)),this,SLOT(windowClosing(NetworkHandle*,bool*)));
 
 			return true;
 		}
@@ -57,7 +57,7 @@ namespace Tinkercell
 	}
 	void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& , Qt::KeyboardModifiers )
 	{
-		if (!scene || !scene->networkWindow || !scene->networkWindow->currentView()) return;
+		if (!scene) return;
 
 		QRectF rect;
 
@@ -67,12 +67,13 @@ namespace Tinkercell
 				rect = rect.unite(allItems[i]->sceneBoundingRect());
 		}
 
-		QGraphicsView * view = scene->networkWindow->currentView();
 		qreal scalex = 0.0;
-		scalex = (view->transform().m11());
+		
+		QRectF viewport = scene->viewport();
+		scalex = scene->sceneRect().width()/viewport.width();
 		
 		qreal maxx = rect.right() + 100.0/(scalex), miny = rect.top() - 20.0, w = 0;
-		if (maxx > scene->viewport().right() - 100.0) maxx = scene->viewport().left() + 100.0;
+		if (maxx > viewport.right() - 100.0) maxx = viewport.left() + 100.0;
 
 		for (int i=0; i < visibleTools.size(); ++i)
 		{
@@ -255,7 +256,7 @@ namespace Tinkercell
 
 	void NodeSelection::turnOnGraphicalTools(QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, GraphicsScene * scene)
 	{
-		if (!scene || !scene->networkWindow->currentView()) return;
+		if (!scene) return;
 
 		/*QRectF rect;
 
@@ -285,18 +286,15 @@ namespace Tinkercell
 
 		qreal scalex = 1, scaley = 1;
 
-		QGraphicsView* view = scene->networkWindow->currentView();
-
-		scalex = (view->transform().m11());
-		scaley = (view->transform().m22());
-
 		/*qreal maxx = rect.right() + 100.0/(scalex*scalex), miny = rect.top() - 20.0, w = 0;
 		if (maxx > scene->viewport().right() - 100.0) maxx = scene->viewport().left() + 100.0;
 		*/
 
-		QRectF rect = scene->viewport();
-		qreal maxx = rect.right() - 50.0/(scalex),
-			miny = rect.top() + 50.0/(scaley),
+		QRectF viewport = scene->viewport();
+		scalex = scene->sceneRect().width()/viewport.width();
+		scaley = scene->sceneRect().height()/viewport.height();
+		qreal maxx = viewport.right() - 50.0/(scalex),
+			miny = viewport.top() + 50.0/(scaley),
 			w = 0;
 
 		for (int i=0; i < visibleTools.size(); ++i)
@@ -331,9 +329,9 @@ namespace Tinkercell
 
 					if (bounds.width() > w) w = bounds.width();
 
-					if (miny > rect.bottom() - 50.0)
+					if (miny > viewport.bottom() - 50.0)
 					{
-						miny = rect.top() + 50.0/(scaley);
+						miny = viewport.top() + 50.0/(scaley);
 						maxx -= w * 1.5;
 					}
 				}
@@ -522,15 +520,12 @@ namespace Tinkercell
 		
 		for (int i=0; i < items.size(); ++i)
 		{
-			if (items[i] && (items[i]->scene() == scene) && !list.contains(items[i]) && (!items[i]->isVisible() || rect.intersects(items[i]->sceneBoundingRect())))
+			if (items[i] && (items[i]->scene() == scene) && !list.contains(items[i]) && rect.intersects(items[i]->sceneBoundingRect()))
 			{
 				list << items[i];
-				if (scene->isVisible(items[i]))
-				{
-					rect = rect.united(items[i]->sceneBoundingRect());
-					rect.adjust( -dx, -dx, dx, dx );
-					i = 0;
-				}
+				rect = rect.united(items[i]->sceneBoundingRect());
+				rect.adjust( -dx, -dx, dx, dx );
+				i = 0;
 				items[i] = 0;
 			}
 		}
@@ -578,7 +573,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * conn = 0;
 
 		for (int i=0; i < list.size(); ++i)
-			if (!scene->moving().contains(list[i]) && scene->isVisible(list[i]))
+			if (!scene->moving().contains(list[i]))
 			{
 				scene->moving() += list[i];
 				if ((node = NodeGraphicsItem::cast(list[i])))
@@ -713,11 +708,11 @@ namespace Tinkercell
 		}
 	}
 
-	void NodeSelection::windowClosing(NetworkWindow * window, bool * )
+	void NodeSelection::windowClosing(NetworkHandle * net, bool * )
 	{
 		deselect();
-		if (window && window->scene)
-			window->scene->clearSelection();
+		if (net && net->currentScene())
+			net->currentScene()->clearSelection();
 		turnOffGraphicalTools(true);
 	}
 

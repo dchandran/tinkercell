@@ -13,7 +13,7 @@ This tool allows insertion of nodes from the NodesTree
 #include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
@@ -141,7 +141,7 @@ namespace Tinkercell
 							handle->name.chop( handle->name.length() - 1 );
 						handle->name = name + tr("_") + handle->name;
 					}
-					handle->name = findUniqueName(handle,scene->allHandles(),false);
+					handle->name = findUniqueName(handle,scene->network->handles(),false);
 					if (item)
 						(*item) = handle;
 
@@ -251,7 +251,7 @@ namespace Tinkercell
 					handle->name = nodeFamily->name.toLower();
 					if (handle->name.length() > 4)
 						handle->name.chop( handle->name.length() - 1 );
-					handle->name = findUniqueName(handle,scene->allHandles());
+					handle->name = findUniqueName(handle,scene->network->handles());
 
 					text += handle->name + tr(" ");
 

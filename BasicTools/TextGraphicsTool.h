@@ -26,6 +26,7 @@ The tool also updates the name of a handle when the text item is changed (and vi
 #include <QButtonGroup>
 #include <QTableView>
 
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "TextGraphicsItem.h"
@@ -43,21 +44,20 @@ namespace Tinkercell
 		TextGraphicsTool();
 		bool setMainWindow(MainWindow * main);
 		void setText(TextGraphicsItem* item, const QString& text);
-signals:
-		void itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&);
-		public slots:
-			void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles);
-			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers);
-			//void handlesRenamed(NetworkWindow*, const QList<QGraphicsItem*>&, const QList<QString>&, const QList<QString>&);
-			void insertText();
-			void insertTextWith();
-			void mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers);
-			void itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
-			void itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&);
-			void mouseDoubleClicked (GraphicsScene*, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers);
-			void keyPressed(GraphicsScene*,QKeyEvent*);
-			void escapeSignal(const QWidget*);
-			void getFont();
+	signals:
+		void itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&);
+	public slots:
+		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles);
+		void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers);
+		void insertText();
+		void insertTextWith();
+		void mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers);
+		void itemsSelected(GraphicsScene*,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
+		void itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&);
+		void mouseDoubleClicked (GraphicsScene*, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers);
+		void keyPressed(GraphicsScene*,QKeyEvent*);
+		void escapeSignal(const QWidget*);
+		void getFont();
 	private:
 		void clear();
 		TextGraphicsItem * targetItem;

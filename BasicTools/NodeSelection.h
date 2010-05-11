@@ -35,7 +35,7 @@ This tool performs several tasks:
 #include <QFrame>
 
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "TextGraphicsItem.h"
 #include "NodeGraphicsItem.h"
@@ -72,7 +72,7 @@ namespace Tinkercell
 		void itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>&, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget*);
-		void windowClosing(NetworkWindow * window, bool*);
+		void windowClosing(NetworkHandle * window, bool*);
 		void historyChanged(int);
 
 	private:

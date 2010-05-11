@@ -95,8 +95,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
-			//connect(this,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-			//       mainWindow,SIGNAL(itemsRenamed(NetworkWindow*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
+			//connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
+			//       mainWindow,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
 				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
@@ -187,7 +187,7 @@ namespace Tinkercell
 		QList<ItemHandle*> visited;
 
 		for (int i=0; i < items.size(); ++i)
-			if (scene->isVisible(items[i]))
+			if (items[i])
 			{
 				if (TextGraphicsItem::cast(items[i]))
 				{
@@ -335,7 +335,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QUndoCommand * command = 0;
-			if (!name.isEmpty() && mainWindow->currentScene() && item->handle() && item->handle()->name == oldText)
+			if (!name.isEmpty() && mainWindow->currentNetwork() && item->handle() && item->handle()->name == oldText)
 			{	
 				QList<QGraphicsItem*> items; items << item;
 				QList<QString> oldNames; oldNames << oldText;
@@ -344,8 +344,8 @@ namespace Tinkercell
 				QList<QString> newNames; newNames << item->handle()->name;
 				item->handle()->name = oldText;
 
-				if (currentScene())
-					currentScene()->rename(items,newNames);
+				if (currentNetwork())
+					currentNetwork()->rename(getHandle(items),newNames);
 			}
 			else
 			{
@@ -363,43 +363,6 @@ namespace Tinkercell
 			}
 		}
 	}
-
-	/*void TextGraphicsTool::handlesRenamed(NetworkWindow * , const QList<QGraphicsItem*>& items, const QList<QString>& oldnames, const QList<QString>& newnames)
-	{
-	QList<QGraphicsItem*> textItems;
-	QList<QString> newNames;
-
-	ItemHandle * itemHandle = 0;
-	for (int i=0; i < items.size(); ++i)
-	{
-	itemHandle = getHandle(items[i]);
-
-	if (itemHandle)
-	for (int j=0; j < itemHandle->graphicsItems.size(); ++j)
-	{
-	TextGraphicsItem * textItem = TextGraphicsItem::cast(itemHandle->graphicsItems[j]);
-	if (textItem)
-	{
-	QString text1 = textItem->toPlainText(), text2 = oldnames.at(i);
-	if (text1 == text2)
-	{
-	textItems += textItem;
-	newNames += newnames.at(i);
-	}
-	}
-	}
-	}
-
-	if (!textItems.isEmpty() && !newNames.isEmpty())
-	{
-	ChangeTextCommand * command = new ChangeTextCommand(tr("text changed"),textItems,newNames);
-	if (mainWindow)		
-	if (mainWindow->historyStack())
-	mainWindow->historyStack()->push(command);
-	else
-	command->redo();
-	}
-	}*/
 
 	void TextGraphicsTool::insertText()
 	{
@@ -554,8 +517,8 @@ namespace Tinkercell
 					if ((handle2 = getHandle(itemsAt[i])) && handle2->name == textItem->toPlainText())
 					{
 						QUndoCommand * handleChange = new AssignHandleCommand(tr("text assigned"),textItem,handle2);
-						if (scene->historyStack)
-							scene->historyStack->push(handleChange);
+						if (scene->network)
+							scene->network->push(handleChange);
 						else
 						{
 							handleChange->redo();
@@ -651,8 +614,8 @@ namespace Tinkercell
 				}
 			}
 			QUndoCommand * command = new ChangeTextCommand(tr("font(s) changed"),items,texts,fonts);
-			if (scene->historyStack)
-				scene->historyStack->push(command);
+			if (scene->network)
+				scene->network->push(command);
 			else
 			{
 				command->redo();

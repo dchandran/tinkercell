@@ -151,6 +151,12 @@ namespace Tinkercell
 
 	public slots:
 
+		/*! \brief calls main window's popOut
+		* \return void*/
+		virtual void popOut();
+		/*! \brief calls main window's popIn
+		* \return void*/
+		virtual void popIn();
 		/*! \brief undo last edit*/
 		virtual void undo();
 		/*! \brief redo last undo*/

@@ -1985,5 +1985,18 @@ namespace Tinkercell
 				view->foreground = image;
 			}
 	}
+	
+	void GraphicsScene::popOut()
+	{
+		if (networkWindow)
+			networkWindow->popOut();
+	}
+	
+	void GraphicsScene::popIn()
+	{
+		if (networkWindow)
+			networkWindow->popIn();
+	}
+
 
 }

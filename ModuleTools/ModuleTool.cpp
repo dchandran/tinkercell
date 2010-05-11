@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QMessageBox>
 #include "ItemFamily.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
 #include "ConsoleWindow.h"
@@ -101,8 +102,8 @@ namespace Tinkercell
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
 					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
 
-			connect(mainWindow, SIGNAL(parentHandleChanged(NetworkWindow *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-					this, SLOT(parentHandleChanged(NetworkWindow *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+			connect(mainWindow, SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+					this, SLOT(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
@@ -829,7 +830,7 @@ namespace Tinkercell
 			}
 	}
 
-	void ModuleTool::parentHandleChanged(NetworkWindow * net, const QList<ItemHandle*> & handles, const QList<ItemHandle*> & parents)
+	void ModuleTool::parentHandleChanged(NetworkHandle * net, const QList<ItemHandle*> & handles, const QList<ItemHandle*> & parents)
 	{
 		if (!net->scene) return;
 
@@ -1266,8 +1267,8 @@ namespace Tinkercell
 				QList<ItemHandle*> handles;
 				handles << handle->allChildren();
 
-				TextEditor * newEditor = mainWindow->newTextWindow();
-				newEditor->networkWindow->popOut();
+				TextEditor * newEditor = mainWindow->newTextEditor();
+				newEditor->popOut();
 				moduleScripts[ newEditor ] = QPair<GraphicsScene*,ItemHandle*>(scene,handle);
 				emit createTextWindow(newEditor, handles);
 			}

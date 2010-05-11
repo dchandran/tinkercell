@@ -171,6 +171,12 @@ namespace Tinkercell
 		* \param QRectF
 		* \return void*/
 		virtual void fitInView(const QRectF&) const;
+		/*! \brief calls main window's popOut
+		* \return void*/
+		virtual void popOut();
+		/*! \brief calls main window's popIn
+		* \return void*/
+		virtual void popIn();
 		/*! \brief Clear all selection and moving items list
 		* \return void*/
 		virtual void clearSelection();

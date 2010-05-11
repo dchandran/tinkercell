@@ -476,4 +476,17 @@ namespace Tinkercell
 			return network->mainWindow->console();
 		return 0;
 	}
+	
+	void TextEditor::popOut()
+	{
+		if (networkWindow)
+			networkWindow->popOut();
+	}
+	
+	void TextEditor::popIn()
+	{
+		if (networkWindow)
+			networkWindow->popIn();
+	}
+
 }

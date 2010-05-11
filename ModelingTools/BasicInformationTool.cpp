@@ -17,7 +17,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QSettings>
 #include <QInputDialog>
 #include <QMessageBox>
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
@@ -40,7 +40,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::select(int)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
 		itemHandles = win->selectedHandles();
@@ -188,10 +188,10 @@ namespace Tinkercell
 		{
 			loadInitialValues();
 			
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(windowClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -265,7 +265,7 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::windowClosing(NetworkWindow * , bool *)
+	void BasicInformationTool::windowClosing(NetworkHandle * , bool *)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
@@ -399,13 +399,13 @@ namespace Tinkercell
 	{
 		if (parentWidget() && parentWidget()->isVisible())
 			updateTable();
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (mainWindow && win && mainWindow->statusBar())
 			mainWindow->statusBar()->showMessage(win->history.text(i-1));
 
 	}
 
-	void BasicInformationTool::itemsInserted(NetworkWindow* scene, const QList<ItemHandle*>& handles)
+	void BasicInformationTool::itemsInserted(NetworkHandle* scene, const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -448,7 +448,7 @@ namespace Tinkercell
 		}
 		recursive = false;
 
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
 		if (col > 1 || row >= tableItems.size() || !tableWidget.item(row,col)) return;
@@ -717,6 +717,7 @@ namespace Tinkercell
 		return QSize(300, 200);
 	}
 
+
 	void BasicInformationTool::insertDataMatrix(ItemHandle * handle)
 	{
 		if (handle == 0 || handle->family() == 0 || !handle->data) return;
@@ -865,7 +866,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::addAttribute()
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 		QString name;
 
@@ -943,7 +944,7 @@ namespace Tinkercell
 	void BasicInformationTool::removeSelectedAttributes()
 	{
 		QList<QTableWidgetItem*> selectedItems = tableWidget.selectedItems();
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
 		QList<ItemHandle*> handles1, handles2;
@@ -1295,8 +1296,8 @@ namespace Tinkercell
 			}
 			if (newData.size() > 0)
 			{
-				if (currentWindow())
-					currentWindow()->changeData(tr("Initial values changed"),handles2,tr("Initial Value"),newData);
+				if (currentNetwork())
+					currentNetwork()->changeData(tr("Initial values changed"),handles2,tr("Initial Value"),newData);
 				for (int i=0; i < newData.size(); ++i)
 					if (newData[i])
 						delete newData[i];
@@ -1351,9 +1352,9 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> handles = handles0;
 
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!handles.contains(currentWindow()->modelItem()))
-					handles << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!handles.contains(currentNetwork()->globalHandle()))
+					handles << currentNetwork()->globalHandle();
 
 			int i,j;
 			QString replaceDot("_");
@@ -1507,9 +1508,9 @@ namespace Tinkercell
 		if (ptr)
 		{
 			QList<ItemHandle*> handles = list;
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!handles.contains(currentWindow()->modelItem()))
-					handles << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!handles.contains(currentNetwork()->globalHandle()))
+					handles << currentNetwork()->globalHandle();
 
 			(*ptr) = getUsedParameters(handles);
 		}
@@ -1522,9 +1523,9 @@ namespace Tinkercell
 		if (ptr)
 		{
 			QList<ItemHandle*> handles = list;
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!handles.contains(currentWindow()->modelItem()))
-					handles << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!handles.contains(currentNetwork()->globalHandle()))
+					handles << currentNetwork()->globalHandle();
 
 			(*ptr) = getParameters(handles,text);
 		}
@@ -1537,9 +1538,9 @@ namespace Tinkercell
 		if (ptr)
 		{
 			QList<ItemHandle*> handles = list;
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!handles.contains(currentWindow()->modelItem()))
-					handles << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!handles.contains(currentNetwork()->globalHandle()))
+					handles << currentNetwork()->globalHandle();
 
 			(*ptr) = getParameters(handles,QStringList(),text);
 		}
@@ -1552,9 +1553,9 @@ namespace Tinkercell
 		if (ptr)
 		{
 			QList<ItemHandle*> handles = list;
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!handles.contains(currentWindow()->modelItem()))
-					handles << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!handles.contains(currentNetwork()->globalHandle()))
+					handles << currentNetwork()->globalHandle();
 
 			DataTable<QString> dat = getTextData(handles,text);
 			if (dat.cols() > 0)
@@ -1614,7 +1615,7 @@ namespace Tinkercell
 		{
 			if (handle->data && handle->hasTextData(name))
 			{
-				NetworkWindow * win = mainWindow->currentWindow();
+				NetworkHandle * win = mainWindow->currentNetwork();
 				if (win)
 				{
 					DataTable<QString> * newData = new DataTable<QString>(handle->data->textData[name]);
@@ -1658,7 +1659,7 @@ namespace Tinkercell
 		{
 			if (handle->data && handle->hasNumericalData(name))
 			{
-				NetworkWindow * win = mainWindow->currentWindow();
+				NetworkHandle * win = mainWindow->currentNetwork();
 				if (win)
 				{
 					DataTable<qreal> * newData = new DataTable<qreal>(handle->data->numericalData[name]);

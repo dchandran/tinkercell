@@ -16,7 +16,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include "ItemFamily.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "CatalogWidget.h"
 
 namespace Tinkercell
@@ -203,7 +203,6 @@ namespace Tinkercell
 
 		QCursor cursor(nodeFamily->pixmap.scaled(w,h));
 
-		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
 		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
@@ -263,7 +262,6 @@ namespace Tinkercell
 
 		QCursor cursor(family->pixmap.scaled(w,h));
 
-		QList<NetworkWindow*> allWindows = mainWindow->allWindows();
 		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)

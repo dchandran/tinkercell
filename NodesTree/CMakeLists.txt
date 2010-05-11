@@ -5,12 +5,11 @@ FILE( GLOB TINKERCELL_NODESTREE_HDRS *.h )
 
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
-  ../Core/NetworkWindow.h
+  ../Core/NetworkHandle.h
   ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 
-  ../Core/TextItem.h 
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
   )

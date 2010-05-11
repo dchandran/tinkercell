@@ -19,8 +19,6 @@ SET( TINKERCELL_CORE_HDRS
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
-QT4_ADD_RESOURCES( TINKERCELL_BASICTOOLS_QRC ../Main/Tinkercell.qrc )
-
 QT4_WRAP_CPP( ModelingTools_MOC 
    SpinBoxDelegate.h 
    DefaultReactionRates.h 
@@ -44,7 +42,6 @@ ADD_LIBRARY( ModelingTools
   ModelFileGenerator.cpp
   ModelSummaryTool.cpp
   DataToolsMain.cpp
-  ${TINKERCELL_BASICTOOLS_QRC}
 )
 
 TARGET_LINK_LIBRARIES( ModelingTools

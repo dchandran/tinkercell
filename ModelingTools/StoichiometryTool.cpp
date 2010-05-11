@@ -14,7 +14,7 @@ the stoichiometry and rates tables.
 #include <QToolBox>
 #include <QMessageBox>
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NodeGraphicsReader.h"
@@ -40,7 +40,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::select(int)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
 		if (dockWidget && dockWidget->widget() != this)
@@ -109,10 +109,10 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -282,9 +282,9 @@ namespace Tinkercell
 
 	void StoichiometryTool::setStoichiometrySlot(QSemaphore * s, QList<ItemHandle*>& items, const DataTable<qreal>& table)
 	{
-		if (mainWindow && mainWindow->currentWindow())
+		if (mainWindow && mainWindow->currentNetwork())
 		{
-			setStoichiometry(mainWindow->currentWindow(),items,table);
+			setStoichiometry(mainWindow->currentNetwork(),items,table);
 		}
 		if (s)
 			s->release();
@@ -292,8 +292,8 @@ namespace Tinkercell
 
 	void StoichiometryTool::setRatesSlot(QSemaphore * s, QList<ItemHandle*>& items, const QStringList& rates)
 	{
-		if (mainWindow && mainWindow->currentWindow())
-			setRates(mainWindow->currentWindow(),items,rates);
+		if (mainWindow && mainWindow->currentNetwork())
+			setRates(mainWindow->currentNetwork(),items,rates);
 		if (s)
 			s->release();
 	}
@@ -362,7 +362,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::sceneClosing(NetworkWindow * , bool *)
+	void StoichiometryTool::sceneClosing(NetworkHandle * , bool *)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
@@ -376,7 +376,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::itemsInserted(NetworkWindow* win, const QList<ItemHandle*>& handles)
+	void StoichiometryTool::itemsInserted(NetworkHandle* win, const QList<ItemHandle*>& handles)
 	{
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
@@ -537,22 +537,22 @@ namespace Tinkercell
 				}
 			}
 
-			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
-				mainWindow->currentWindow()->changeData(tr("stoichiometry changed"),handles,tr("Stoichiometry"),nDataTablesNew);
+			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
+				mainWindow->currentNetwork()->changeData(tr("stoichiometry changed"),handles,tr("Stoichiometry"),nDataTablesNew);
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
 				if (nDataTablesNew[i])
 					delete nDataTablesNew[i];
 	}
 
-	bool StoichiometryTool::parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s)
+	bool StoichiometryTool::parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s)
 	{
 		return EquationParser::validate(win, handle, s, QStringList() << "time");
 	}
 
 	void StoichiometryTool::setRate(int , int )
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 
 		QStringList rates;
@@ -600,8 +600,8 @@ namespace Tinkercell
 			}
 		}
 
-		if (mainWindow != 0 && mainWindow->currentWindow() != 0)
-			mainWindow->currentWindow()->changeData(tr("selected kinetics changed"),handles,tr("Rates"),sDataTablesNew);
+		if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
+			mainWindow->currentNetwork()->changeData(tr("selected kinetics changed"),handles,tr("Rates"),sDataTablesNew);
 
 		for (int i=0; i < sDataTablesNew.size(); ++i)
 			if (sDataTablesNew[i])
@@ -1187,9 +1187,9 @@ namespace Tinkercell
 			sDataTable->value(sDataTable->rows()-1,0) = tr("0");
 
 
-			if (mainWindow && mainWindow->currentWindow())
+			if (mainWindow && mainWindow->currentNetwork())
 			{
-				mainWindow->currentWindow()->changeData(tr("rates row for ") + lastItem->fullName() + tr(" added"),QList<ItemHandle*>() << lastItem,nDat,nDataTable,sDat,sDataTable);
+				mainWindow->currentNetwork()->changeData(tr("rates row for ") + lastItem->fullName() + tr(" added"),QList<ItemHandle*>() << lastItem,nDat,nDataTable,sDat,sDataTable);
 			}
 
 
@@ -1277,9 +1277,9 @@ namespace Tinkercell
 
 		if (nDataTablesNew.size() > 0)
 		{
-			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
+			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
 			{
-				mainWindow->currentWindow()->changeData(tr("selected rates removed"), QList<ItemHandle*>() << handles,nDataTablesOld,nDataTablesNew,sDataTablesOld,sDataTablesNew);
+				mainWindow->currentNetwork()->changeData(tr("selected rates removed"), QList<ItemHandle*>() << handles,nDataTablesOld,nDataTablesNew,sDataTablesOld,sDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1329,9 +1329,9 @@ namespace Tinkercell
 
 		if (nDataTablesNew.size() > 0)
 		{
-			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
+			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
 			{
-				mainWindow->currentWindow()->changeData(tr("intermediate steps added"), handles,tr("Stoichiometry"),nDataTablesNew);
+				mainWindow->currentNetwork()->changeData(tr("intermediate steps added"), handles,tr("Stoichiometry"),nDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1403,9 +1403,9 @@ namespace Tinkercell
 
 		if (nDataTablesNew.size() > 0)
 		{
-			if (mainWindow != 0 && mainWindow->currentWindow() != 0)
+			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
 			{
-				mainWindow->currentWindow()->changeData(tr("stoichiometry columns removed"), handles,tr("Stoichiometry"),nDataTablesNew);
+				mainWindow->currentNetwork()->changeData(tr("stoichiometry columns removed"), handles,tr("Stoichiometry"),nDataTablesNew);
 			}
 
 			for (int i=0; i < nDataTablesNew.size(); ++i)
@@ -1564,7 +1564,7 @@ namespace Tinkercell
 	}
 
 	//set the stoiciometry of the items from the matrix
-	void StoichiometryTool::setStoichiometry(NetworkWindow * win, QList<ItemHandle*>& connectionHandles,const DataTable<qreal>& N, const QString& replaceDot)
+	void StoichiometryTool::setStoichiometry(NetworkHandle * win, QList<ItemHandle*>& connectionHandles,const DataTable<qreal>& N, const QString& replaceDot)
 	{
 		DataTable<qreal> stoicMatrix = N.transpose();
 
@@ -1697,7 +1697,7 @@ namespace Tinkercell
 	}
 
 	//set the rates of the given items
-	void StoichiometryTool::setRates(NetworkWindow * win, QList<ItemHandle*>& connectionHandles,const QStringList& list, const QString& replaceDot)
+	void StoichiometryTool::setRates(NetworkHandle * win, QList<ItemHandle*>& connectionHandles,const QStringList& list, const QString& replaceDot)
 	{
 		if (connectionHandles.size() < 1)
 		{
@@ -1896,7 +1896,7 @@ namespace Tinkercell
 					for (int j=0; j < rates.rows(); ++j)
 					{
 						QString s = rates.value(j,0);
-						double d = EquationParser::eval(currentWindow(), s, &b);
+						double d = EquationParser::eval(currentNetwork(), s, &b);
 						if (b)
 							if (rates.rowName(j).isEmpty() || rates.rows() == 1)
 								values << connectionHandles[i]->fullName() + tr(" = ") + QString::number(d);

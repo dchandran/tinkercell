@@ -36,7 +36,7 @@ namespace Tinkercell
 		}
 	}
 
-	bool EquationParser::validate(NetworkWindow * win, ItemHandle * handle, QString& s, const QStringList& reservedWords)
+	bool EquationParser::validate(NetworkHandle * win, ItemHandle * handle, QString& s, const QStringList& reservedWords)
 	{
 		if (!win || !handle) return false;
 
@@ -48,7 +48,7 @@ namespace Tinkercell
 		parser.SetVarFactory(AddVariable, 0);
 
 		SymbolsTable * symbolsTable = &win->symbolsTable;
-		QList<ItemHandle*> allHandles = symbolsTable->handlesFullName.values();
+		QList<ItemHandle*> allHandles = symbolsTable->uniqueItems.values();
 
 		for (int i=0; i < allHandles.size(); ++i)
 		{
@@ -84,11 +84,11 @@ namespace Tinkercell
 					QString str2 = str;
 					//str2.replace(QString("_"),QString("."));
 					if (handle && !reservedWords.contains(str) &&
-						!symbolsTable->handlesFullName.contains(str)) //maybe new symbol in the formula
+						!symbolsTable->uniqueItems.contains(str)) //maybe new symbol in the formula
 					{
-						if (symbolsTable->dataRowsAndCols.contains(str) && symbolsTable->dataRowsAndCols[str].first)
+						if (symbolsTable->nonuniqueData.contains(str) && symbolsTable->nonuniqueData[str].first)
 						{
-							QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->dataRowsAndCols.values(str);
+							QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->nonuniqueData.values(str);
 							bool handleHasVar = false;
 							for (int i=0; i < localVariables.size(); ++i)
 								if (localVariables[i].first == handle)
@@ -98,9 +98,9 @@ namespace Tinkercell
 								}
 
 							if (!handleHasVar)
-								handle = symbolsTable->dataRowsAndCols[str].first;
+								handle = symbolsTable->nonuniqueData[str].first;
 							
-							if (! str.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str].first->fullName())) )
+							if (! str.contains(QRegExp(QString("^")+symbolsTable->nonuniqueData[str].first->fullName())) )
 							{
 								s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str + QString("\\1"));
 								s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str + QString("\\2"));
@@ -108,9 +108,9 @@ namespace Tinkercell
 							}
 						}
 						else
-							if (symbolsTable->dataRowsAndCols.contains(str2) && symbolsTable->dataRowsAndCols[str2].first)
+							if (symbolsTable->nonuniqueData.contains(str2) && symbolsTable->nonuniqueData[str2].first)
 							{
-								QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->dataRowsAndCols.values(str2);
+								QList< QPair<ItemHandle*,QString> > localVariables = symbolsTable->nonuniqueData.values(str2);
 								bool handleHasVar = false;
 								for (int i=0; i < localVariables.size(); ++i)
 									if (localVariables[i].first == handle)
@@ -120,9 +120,9 @@ namespace Tinkercell
 									}
 
 								if (!handleHasVar)
-									handle = symbolsTable->dataRowsAndCols[str2].first;
+									handle = symbolsTable->nonuniqueData[str2].first;
 								
-								if (! str2.contains(QRegExp(QString("^")+symbolsTable->dataRowsAndCols[str2].first->fullName())) )
+								if (! str2.contains(QRegExp(QString("^")+symbolsTable->uniqueData[str2].first->fullName())) )
 								{
 									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str2 + QString("\\1"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str2 + QString("\\2"));
@@ -137,18 +137,18 @@ namespace Tinkercell
 							}
 							else
 							{
-								if (symbolsTable->handlesFirstName.contains(str) && symbolsTable->handlesFirstName[str])
+								if (symbolsTable->nonuniqueItems.contains(str) && symbolsTable->nonuniqueItems[str])
 								{
-									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->handlesFirstName[str]->fullName() + QString("\\1"));
-									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->handlesFirstName[str]->fullName() + QString("\\2"));
-									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->handlesFirstName[str]->fullName());
+									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueItems[str]->fullName() + QString("\\1"));
+									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueItems[str]->fullName() + QString("\\2"));
+									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueItems[str]->fullName());
 								}
 								else
-									if (symbolsTable->handlesFirstName.contains(str2) && symbolsTable->handlesFirstName[str2])
+									if (symbolsTable->nonuniqueItems.contains(str2) && symbolsTable->nonuniqueItems[str2])
 									{
-										s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->handlesFirstName[str2]->fullName() + QString("\\1"));
-										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->handlesFirstName[str2]->fullName() + QString("\\2"));
-										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->handlesFirstName[str2]->fullName());
+										s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueItems[str2]->fullName() + QString("\\1"));
+										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueItems[str2]->fullName() + QString("\\2"));
+										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueItems[str2]->fullName());
 									}
 									else
 									{
@@ -161,15 +161,15 @@ namespace Tinkercell
 										{
 											newp = newp.left(k);
 											
-											if (symbolsTable->handlesFullName.contains(newp))
+											if (symbolsTable->uniqueItems.contains(newp))
 											{
-												handle2 = symbolsTable->handlesFullName[newp];
+												handle2 = symbolsTable->uniqueItems[newp];
 												found = true;
 											}
 											else
-											if (symbolsTable->handlesFirstName.contains(newp))
+											if (symbolsTable->nonuniqueItems.contains(newp))
 											{
-												handle2 = symbolsTable->handlesFirstName[newp];
+												handle2 = symbolsTable->nonuniqueItems[newp];
 												found = true;
 											}
 											
@@ -227,7 +227,7 @@ namespace Tinkercell
 		return true;
 	}
 
-	double EquationParser::eval(NetworkWindow * net, QString& s, bool * b, const QList<sd_pair> & assignments)
+	double EquationParser::eval(NetworkHandle * net, QString& s, bool * b, const QList<sd_pair> & assignments)
 	{
 		if (!net || s.isEmpty())
 		{
@@ -242,7 +242,7 @@ namespace Tinkercell
 		QRegExp regex3(QString("\\.([^\\.]+)"));
 
 		SymbolsTable * symbolsTable = &net->symbolsTable;
-		QList<ItemHandle*> allHandles = symbolsTable->handlesFullName.values();
+		QList<ItemHandle*> allHandles = symbolsTable->uniqueItems.values();
 
 		QStringList functionNames;
 		QList<QStringList> argsList;
@@ -299,7 +299,7 @@ namespace Tinkercell
 
 					if (existingNames.contains(n)) continue;
 
-					if (symbolsTable.handlesFullName.contains(n) && (handle = symbolsTable.handlesFullName[n]))
+					if (symbolsTable.uniqueItems.contains(n) && (handle = symbolsTable.uniqueItems[n]))
 					{
 						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
 						{
@@ -311,7 +311,7 @@ namespace Tinkercell
 						continue;
 					}
 
-					if (symbolsTable.handlesFirstName.contains(n) && (handle = symbolsTable.handlesFirstName[n]))
+					if (symbolsTable.nonuniqueItems.contains(n) && (handle = symbolsTable.nonuniqueItems[n]))
 					{
 						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
 						{
@@ -324,7 +324,7 @@ namespace Tinkercell
 						continue;
 					}
 
-					if (symbolsTable.dataRowsAndCols.contains(n) && (handle = symbolsTable.dataRowsAndCols[n].first))
+					if (symbolsTable.uniqueData.contains(n) && (handle = symbolsTable.uniqueData[n].first))
 					{
 						p = symbolsTable.dataRowsAndCols[n].second;
 						regex3.indexIn(n);

@@ -41,7 +41,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "Tool.h"
 #include "MainWindow.h"
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "SpinBoxDelegate.h"
 
 #ifdef Q_WS_WIN
@@ -115,14 +115,14 @@ namespace Tinkercell
 		void deselect(int i=0);
 
 		void setValue(int i, int j);
-		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void pluginLoaded(Tool*);
 		void addAttribute();
 		void removeSelectedAttributes();
 		void historyUpdate(int);
 		void setupFunctionPointers( QLibrary * );
-		void windowClosing(NetworkWindow * scene, bool * close);
+		void windowClosing(NetworkHandle * scene, bool * close);
 
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);

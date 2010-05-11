@@ -17,7 +17,7 @@ The class assumes existence of "Functions", "Assignments", and "Numerical Attrib
 #include <QList>
 #include <QStringList>
 #include <QRegExp>
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "ConsoleWindow.h"
 #include "muParserDef.h"
@@ -36,7 +36,7 @@ namespace Tinkercell
 	/*! \brief this class uses Muparser to parse a math equatio and automatically insert undefined
 		parameter names into the Numerical Attributes table. It uses the fact that the following tables
 		exist: "Functions" and "Numerical Attributes", which is why this class is a bit more specific
-		than the parseMath funciton provided in NetworkWindow class*/
+		than the parseMath funciton provided in NetworkHandle class*/
 	class MY_EXPORT EquationParser
 	{
 		typedef QPair<QString,qreal> sd_pair;
@@ -51,20 +51,20 @@ namespace Tinkercell
 	public:
 		/*! \brief check whether the formula is valid and add the undefined strings to the Numerical Attributes
 			table of the given handle
-			\param NetworkWindow * the working window
+			\param NetworkHandle * the working window
 			\param ItemHandle* the handle where new parameters will be added
 			\param QString the equation, which may also get corrected if some names are incomplete
 			\param QStringList list of variable names to ignore (optional)
 		*/
-		static bool validate(NetworkWindow * win, ItemHandle * handle, QString& s, const QStringList& reservedWords = QStringList());
+		static bool validate(NetworkHandle * win, ItemHandle * handle, QString& s, const QStringList& reservedWords = QStringList());
 		
 		/*! \brief returns the value of the string. Note: the string should not contain any function calls, except for basic fun
-			\param NetworkWindow * the working window
+			\param NetworkHandle * the working window
 			\param QString the equation
 			\param bool* used to indicate whether there was a parse error; false = parse error, true = no error
 			\param QList< QPair<QString,double> > optional argument for assigning values to variables
 		*/
-		static double eval(NetworkWindow * net, QString& s, bool * b = 0, const QList<sd_pair> & assignments = QList<sd_pair>());
+		static double eval(NetworkHandle * net, QString& s, bool * b = 0, const QList<sd_pair> & assignments = QList<sd_pair>());
 	};
 }
 

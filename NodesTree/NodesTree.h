@@ -24,6 +24,7 @@
 #include <QActionGroup>
 #include "MainWindow.h"
 #include "Tool.h"
+#include "NetworkHandle.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ItemHandle.h"
@@ -126,7 +127,7 @@ namespace Tinkercell
 		/*! \brief enter pressed or double clicked*/
 		void itemActivated( QListWidgetItem * );
         /*! \brief one of the windows is closing*/
-        void windowClosing(NetworkWindow * , bool *);
+        void windowClosing(NetworkHandle * , bool *);
 
     private:
 

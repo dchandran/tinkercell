@@ -177,7 +177,7 @@ namespace Tinkercell
             menu->exec(pos);
     }
 
-    void ConnectionsTree::windowClosing(NetworkWindow * , bool *)
+    void ConnectionsTree::windowClosing(NetworkHandle * , bool *)
     {
         //save state of the tree
         QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);

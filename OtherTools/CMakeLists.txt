@@ -7,12 +7,11 @@ ADD_DEFINITIONS(-DQT_SHARED)
 
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
-  ../Core/NetworkWindow.h
+  ../Core/NetworkHandle.h
   ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
-  ../Core/Tool.h 
-  ../Core/TextItem.h 
+  ../Core/Tool.h
   ../Core/ItemHandle.h 
   ../Core/ItemFamily.h
   )
@@ -20,8 +19,6 @@ SET( TINKERCELL_CORE_HDRS
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
 QT4_WRAP_CPP( ArrowSelection_MOC ArrowSelection.h)
-
-QT4_ADD_RESOURCES( TINKERCELL_OTHERTOOLS_QRC ../Main/Tinkercell.qrc )
 
 ADD_LIBRARY( ArrowSelection 
   SHARED

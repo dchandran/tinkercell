@@ -32,7 +32,7 @@ the stoichiometry and rates tables.
 
 #include "NodeGraphicsItem.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
@@ -96,21 +96,21 @@ namespace Tinkercell
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
 		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"), bool includeFixed=false);
 		/*! \brief set the stoichiometry matrix for all the given items, combined
-		\param NetworkWindow* current window
+		\param NetworkHandle* current window
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be set
 		\param DataTable combined stoichiometry matrix for all the items selected
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
-		static void setStoichiometry(NetworkWindow *,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
+		static void setStoichiometry(NetworkHandle *,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
 		/*! \brief get the rates array for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the rates will be generated
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
 		static QStringList getRates(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"));
 		/*! \brief set the rates for all the given items, combined
-		\param NetworkWindow* current window
+		\param NetworkHandle* current window
 		\param QList<ItemHandle*> all the items for which the rates will be set
 		\param DataTable combined rates array for all the items selected
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
-		static void setRates(NetworkWindow*,QList<ItemHandle*>&,const QStringList&,const QString& replaceDot = QString("_"));
+		static void setRates(NetworkHandle*,QList<ItemHandle*>&,const QStringList&,const QString& replaceDot = QString("_"));
 
 	public slots:
 		/*! \brief this widget has been selected. Argument does nothing */
@@ -118,7 +118,7 @@ namespace Tinkercell
 		/*! \brief this widget has been deselected. Argument does nothing */
 		void deselect(int i=0);
 		/*! \brief inserts the Rates and Stoichiometry tables for any new connection handle */
-		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles);
 		/*! \brief updates the internal connectionHandles list, which is used to display the rates and stoichiometry*/
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		/*! \brief connects to ModelSummaryTool and ConnectionSelectionTool*/
@@ -128,7 +128,7 @@ namespace Tinkercell
 		/*! \brief sets the C pointers for getRates, setRates, getStoichiometry, setStoic...etc*/
 		void setupFunctionPointers(QLibrary*);
 		/*! \brief when scene is closing, close this window and clear connectionHandles*/
-		void sceneClosing(NetworkWindow * , bool * close);
+		void sceneClosing(NetworkHandle * , bool * close);
 		/*! \brief used by ModelSummaryTool to show only the relevant parameters*/
 		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 		/*! \brief display rates in the ModelSummaryTool widget*/
@@ -212,10 +212,10 @@ namespace Tinkercell
 	private:
 		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
 		add any undefined variables in the Numerical Attributes table (where parameters are usually stored)
-		\param NetworkWindow the target network window (for symbols table)
+		\param NetworkHandle the target network window (for symbols table)
 		\param ItemHandle* the item handle that the equation belongs with
 		\param QString& the equation; this variable can get modified if it contains bad characters*/
-		static bool parseRateString(NetworkWindow*, ItemHandle *, QString&);
+		static bool parseRateString(NetworkHandle*, ItemHandle *, QString&);
 		
 		/*! \brief used to keep track of updated headers*/
 		QStringList updatedRowNames, updatedColumnNames;

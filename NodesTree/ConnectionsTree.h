@@ -23,6 +23,7 @@
 #include <QTreeWidget>
 #include "MainWindow.h"
 #include "Tool.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "ConnectionGraphicsItem.h"
 #include "ConnectionsTreeReader.h"
@@ -82,7 +83,7 @@ namespace Tinkercell
         void changeTree();
     private slots:
         /*! \brief current window is closing*/
-        void windowClosing(NetworkWindow * , bool *);
+        void windowClosing(NetworkHandle * , bool *);
     signals:
         /*! \brief one of the items on the tree is selected (button pressed)*/
         void connectionSelected(ConnectionFamily* family);

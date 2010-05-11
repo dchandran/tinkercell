@@ -14,7 +14,7 @@
 #include <QCheckBox>
 #include "GraphicsScene.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "ConsoleWindow.h"
 #include "EquationParser.h"
 #include "PlotTool.h"
@@ -543,12 +543,12 @@ namespace Tinkercell
 	{
 		if (!main) return;
 
-		QList<NetworkWindow*> allWindows = main->allWindows();
+		QList<NetworkHandle*> allNetworks = main->networks();
 		QStringList names;
 		QHash<QString,int> hash;
-		for (int i=0; i < allWindows.size(); ++i)
+		for (int i=0; i < allNetworks.size(); ++i)
 		{
-			names = allWindows[i]->symbolsTable.handlesFullName.keys();
+			names = allNetworks[i]->symbolsTable.uniqueItems.keys();
 			for (int j=0; j < names.size(); ++j)
 				hash[ names[j] ] = 1;
 		}
@@ -639,7 +639,7 @@ namespace Tinkercell
 			return;
 		}
 
-        NetworkWindow * net = currentWindow();
+        NetworkHandle * net = currentNetwork();
 
 		double x = start;
 		double dx = (end - start)/(double)points;

@@ -19,7 +19,6 @@
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
 #include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QAction>
 #include <QFile>
 #include <QHBoxLayout>
@@ -35,6 +34,7 @@
 #include <QTableWidgetItem>
 #include <QPair>
 
+#include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "NodeGraphicsWriter.h"
@@ -51,8 +51,6 @@
 
 namespace Tinkercell
 {
-	class GraphicsView;
-
 	class MY_EXPORT ModuleTool : public Tool
 	{
 		Q_OBJECT
@@ -110,9 +108,9 @@ namespace Tinkercell
 	private:
 
 		QGraphicsLineItem lineItem;
-		QHash<GraphicsView*,ItemHandle*> moduleViews;
+		QHash<GraphicsScene*,ItemHandle*> moduleViews;
 		QHash<TextEditor*, QPair<GraphicsScene*,ItemHandle*> > moduleScripts;
-		QHash<ItemHandle*,GraphicsView*> moduleHandles;
+		QHash<ItemHandle*,GraphicsScene*> moduleHandles;
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);

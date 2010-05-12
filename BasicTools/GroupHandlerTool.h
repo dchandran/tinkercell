@@ -22,6 +22,8 @@ in the MainWindow toolbar.
 #include <QUndoCommand>
 #include <QToolButton>
 
+#include "NetworkHandle.h"
+#include "GraphicsScene.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "MainWindow.h"
@@ -51,7 +53,7 @@ namespace Tinkercell
 		Q_OBJECT;
 
 	signals:
-		void handlesChanged(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
+		void handlesChanged(NetworkHandle * net, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& old);
 		void substituteNodeGraphics();
 
 	public:

@@ -8,7 +8,6 @@ This is source file for Tinkercell's main window
 The MainWindow contains a set of GraphicScenes, which is the class
 that performs all the drawing. Each GraphicsScene emits various signals. Those
 signals are then emitted by the MainWindow; in this way, a plugin does not need
-signals are then emitted by the MainWindow; in this way, a plugin does not need
 to listen to each of the GraphicsScene signals but only the MainWindow's signals.
 
 The MainWindow also has its own signals, such as a toolLoaded, networkSaved, etc.
@@ -1156,18 +1155,22 @@ namespace Tinkercell
 
 	void MainWindow::popOut(NetworkWindow * win)
 	{
-		if (allowViewModeToChange && win && tabWidget && tabWidget->count() > 1)
+		if (win)
 		{
-			int i = tabWidget->indexOf(win);
-			if (i > -1 && i < tabWidget->count())
+			if (allowViewModeToChange && tabWidget && tabWidget->count() > 1)
 			{
-				tabWidget->removeTab(i);
-				win->setParent(this);
-				win->setWindowFlags(Qt::Window);
-				if (!win->isVisible())
-					win->show();
-				setCurrentWindow(win);
+				int i = tabWidget->indexOf(win);
+				if (i > -1 && i < tabWidget->count())
+				{
+					tabWidget->removeTab(i);
+					win->setParent(this);
+					win->setWindowFlags(Qt::Window);
+					if (!win->isVisible())
+						win->show();
+					setCurrentWindow(win);
+				}
 			}
+			win->raise();
 		}
 	}
 
@@ -1195,7 +1198,7 @@ namespace Tinkercell
 				QList<NetworkWindow*> windows = allNetworks[i]->networkWindows;
 				for (int j=0; j < windows.size(); ++j)
 				{
-					windows[i]->setCursor(cursor);
+					windows[j]->setCursor(cursor);
 					if (windows[j]->scene)
 					{
 						QList<QGraphicsView*> views = windows[j]->scene->views();

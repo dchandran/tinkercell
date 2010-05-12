@@ -163,15 +163,6 @@ namespace Tinkercell
 			connect(editor,SIGNAL(lineChanged(TextEditor *, int, const QString&)),
 				main,SIGNAL(lineChanged(TextEditor *, int, const QString&)));
 
-			connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
-				main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
-
-			connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
-				main ,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
-
 			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));
 
 			main->setCurrentWindow(this);
@@ -187,7 +178,6 @@ namespace Tinkercell
 		
 		if (network)
 			emit windowClosing(network,&b);
-		
 		
 		if (b)
 		{

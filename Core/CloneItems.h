@@ -45,14 +45,15 @@ namespace Tinkercell
 	* \param QList<QGraphicsItem*> a list of pointers to a QGraphicsItems
 	* \param QList<ItemHandle*> return value: returns all the new handles here
 	* \param bool duplicate the handles as well (default = true). 
-	\return QList<QGraphicsItem*> a new list of QGraphicsItems that is clone of the argument
+	\return QList<QGraphicsItem*> a new list of QGraphicsItems that are clones of the corresponding argument
 	\ingroup core
 	*/
 	MY_EXPORT QList<QGraphicsItem*> cloneGraphicsItems( QList<QGraphicsItem*>& items, QList<ItemHandle*>& newHandles , bool deep = true);
-	/*! \brief clone given items
-		\param QList<TextItem*> items to clone
+	/*! \brief clone given handles
+		\param QList<ItemHandle*> items to clone
+		\return QList<ItemHandle*> clones
 	*/
-	MY_EXPORT QList<TextItem*> cloneTextItems(const QList<TextItem*>&);
+	MY_EXPORT QList<ItemHandle*> cloneHandles(const QList<ItemHandle*>&);
 	
 }
 

@@ -36,18 +36,18 @@ namespace Tinkercell
 	bool TextEditor::SideBarEnabled = true;
 	void TextEditor::push(QUndoCommand * c)
 	{
+		if (!network)
+		{
+			delete c;
+			return;
+		}
+		
 		QString text = tr("text changed");
 		if (c)
 			text = c->text();
 		QUndoCommand * composite = new CompositeCommand(text, new TextUndoCommand(this, prevText, toPlainText()), c);
 
-		if (network)
-			network->history.push( composite );
-		else
-		{
-			composite->redo();
-			delete composite;
-		}
+		network->history.push( composite );
 	}
 
 	void TextEditor::undo()

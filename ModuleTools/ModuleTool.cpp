@@ -190,7 +190,7 @@ namespace Tinkercell
 
 			if (!scene || !moduleHandle) return;
 
-			QList<TextItem*> newTextItems = cloneTextItems(textEditor->items());
+			QList<ItemHandle*> newTextItems = cloneHandles(textEditor->items());
 			QList<ItemHandle*> children, parents, oldChildren;
 
 			oldChildren = moduleHandle->children;
@@ -202,7 +202,7 @@ namespace Tinkercell
 
 			for (int i=0; i < newTextItems.size(); ++i)
 			{
-				handle = getHandle(newTextItems[i]);
+				handle = newTextItems[i];
 				if (handle && !handle->parent)
 				{
 					children << handle;
@@ -210,7 +210,7 @@ namespace Tinkercell
 				}
 			}
 
-			scene->setParentHandle(children,parents);
+			scene->network->setParentHandle(children,parents);
 		}
 	}
 
@@ -254,7 +254,7 @@ namespace Tinkercell
         ItemHandle * handle = 0, * moduleHandle = 0;
 
         QList<QGraphicsItem*> items;
-        QList<TextItem*> textItems;
+        QList<ItemHandle*> textItems;
         QList<ItemHandle*> visited;
 
         for (int i=0; i < selectedItems.size(); ++i)
@@ -278,17 +278,15 @@ namespace Tinkercell
 				        if (!alreadyLinked)
 				        {
 				            items << moduleHandle->children[j]->graphicsItems;
-    	                    textItems << moduleHandle->children[j]->textItems;
     	                }
                     }
             }
         }
 
         if (!moduleHandle)
-        {
         	items = selectedItems;
-        	textItems.clear();
-        }
+        else
+        	textItems = moduleHandle->allChildren();
 
         visited.clear();
 
@@ -341,8 +339,8 @@ namespace Tinkercell
 
         for (int i=0; i < textItems.size(); ++i)
         {
-            handle = getHandle(textItems[i]);
-            if (!NodeHandle::cast(handle)) continue;
+            handle = textItems[i];
+            if (!NodeHandle::cast(handle) || !handle->graphicsItems.isEmpty()) continue;
 
             NodeGraphicsItem * module = 0;
 
@@ -510,8 +508,7 @@ namespace Tinkercell
                 for (int j=0; j < handle->graphicsItems.size(); ++j)
                     if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
                         (node->className == linkerClassName) &&
-                        (node->scene() == items[i]->scene()) &&
-                        scene->isVisible(node))
+                        (node->scene() == items[i]->scene()))
                 {
                     alreadyLinked = true;
                     break;
@@ -556,7 +553,7 @@ namespace Tinkercell
 
 	void ModuleTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode == none || button == Qt::RightButton || !scene || !scene->symbolsTable || scene->useDefaultBehavior) return;
+		if (mode == none || button == Qt::RightButton || !scene || !scene->network || scene->useDefaultBehavior) return;
 
 		if (mode == inserting)
 		{
@@ -572,7 +569,7 @@ namespace Tinkercell
 			handle->setFamily(moduleFamily);
 
 			int n = 1;
-			while (scene->symbolsTable->handlesFullName.contains(handle->name))
+			while (scene->network->uniqueNames.contains(handle->name))
 				handle->name = tr("mod") + QString::number(++n);
 
 			QString appDir = QApplication::applicationDirPath();
@@ -588,12 +585,12 @@ namespace Tinkercell
 				NodeGraphicsReader reader;
 				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
 			}
+
 			image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),
-					image->defaultSize.height()/image->sceneBoundingRect().height());
+						 image->defaultSize.height()/image->sceneBoundingRect().height());
 			image->setPos(point);
 			image->adjustBoundaryControlPoints();
 			image->setHandle(handle);
-
 
 			scene->insert(handle->name + tr(" inserted"),image);
 
@@ -708,10 +705,9 @@ namespace Tinkercell
 
 		//graphics view adjustments
 
-		GraphicsView * currentView = scene->currentView();
-        if (moduleViews.contains(currentView))
+        if (moduleViews.contains(scene))
         {
-            ItemHandle * moduleHandle = moduleViews[currentView];
+            ItemHandle * moduleHandle = moduleViews[scene];
             if (moduleHandle)
                 scene->setParentHandle(handles,moduleHandle);
         }
@@ -776,11 +772,11 @@ namespace Tinkercell
                 for (int j=0; j < handle->children.size(); ++j)
                     if (child = NodeHandle::cast(handle->children[j]))
 					{
-						inside = !child->textItems.isEmpty() || child->graphicsItems.isEmpty();
+						inside = child->graphicsItems.isEmpty();
 						if (!inside)
                             for (int k=0; k < child->graphicsItems.size(); ++k)
                             {
-                                if (child->graphicsItems[k] && !scene->isVisible(child->graphicsItems[k]))
+                                if (child->graphicsItems[k])
                                     inside = true;
                                 else
                                     if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(child->graphicsItems[k]))
@@ -850,7 +846,7 @@ namespace Tinkercell
 			net->scene->remove(tr("Links removed"), items);
 
         items.clear();
-        QList<GraphicsView*> views = net->views();
+        QList<GraphicsScene*> scenes = net->scenes();
         ItemHandle * module = 0, * handle = 0;
 
         for (int i=0; i < handles.size() && i < parents.size(); ++i)
@@ -883,11 +879,11 @@ namespace Tinkercell
                 module = handles[i]->parent;
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
                 {
-                    GraphicsView * otherView = moduleHandles[module];
-                    for (int j=0; j < views.size(); ++j)
+                    GraphicsScene * otherScene = moduleHandles[module];
+                    for (int j=0; j < scenes.size(); ++j)
                     {
-                        if (views[j] && views[j] != otherView)
-                            views[j]->hideItems(items);
+                        if (scenes[j] && scenes[j] != otherScene)
+                            scenes[j]->remove(module->fullName() + tr(" items hidden"),items);
                     }
                 }
 
@@ -895,19 +891,18 @@ namespace Tinkercell
                 if (module && module->isA(tr("Module")) && moduleHandles.contains(module)) //new parent is module
                 {
                     //items << linkers;
-                    GraphicsView * otherView = moduleHandles[module];
-                    for (int j=0; j < views.size(); ++j)
-                        if (views[j])
+                    GraphicsScene * otherScene = moduleHandles[module];
+                    for (int j=0; j < scenes.size(); ++j)
+                        if (scenes[j])
                         {
-                            if (views[j] == otherView)
-                                views[j]->hideItems(items);
+                            if (scenes[j] == otherScene)
+                                scenes[j]->remove(items);
                             else
-                                views[j]->showItems(items);
+                                scenes[j]->remove(items);
                         }
                 }
             }
 	}
-
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
     {
@@ -1124,8 +1119,8 @@ namespace Tinkercell
 
 		QUndoCommand * compositeCommand = new CompositeCommand(tr("modules connected"),commands);
 
-		if (scene->historyStack)
-			scene->historyStack->push(compositeCommand);
+		if (scene->network)
+			scene->network->push(compositeCommand);
 		else
 		{
 			compositeCommand->redo();
@@ -1273,25 +1268,21 @@ namespace Tinkercell
 				emit createTextWindow(newEditor, handles);
 			}
 			else
-			if (scene->networkWindow && scene->networkWindow->currentView())
+			if (scene->network)
 			{
 				if (moduleHandles.contains(handle) &&
-					scene->networkWindow->views().contains(moduleHandles[handle]))
+					scene->network->scenes().contains(moduleHandles[handle]))
 				{
-					moduleHandles[handle]->showNormal();
-					moduleHandles[handle]->raise();
+					moduleHandles[handle]->popOut();
 					return;
 				}
 				
-				GraphicsView * oldView = scene->networkWindow->currentView();
-				GraphicsView * newView = scene->networkWindow->createView(allItems);
+				GraphicsScene * newScene = scene->network->createScene(hideItems);
 				
-				newView->showItems(hideItems);				
-				newView->fitAll();
-				moduleViews[newView] = handle;
-				moduleHandles[handle] = newView;
-				
-				oldView->hideItems(hideItems);
+				scene->remove(handle->name + tr(" hidden"), hideItems);
+				newScene->fitAll();
+				moduleViews[newScene] = handle;
+				moduleHandles[handle] = newScene;
 			}
 		}
 	}
@@ -1308,7 +1299,6 @@ namespace Tinkercell
 
 		for (int i=0; i < subitems.size(); ++i)
 			if ((node = NodeGraphicsItem::cast(subitems[i])) && 
-				scene->isVisible(subitems[i]) && 
 				(getHandle(subitems[i]) != handle) &&
 				!(node->className == linkerClassName))
 				return;

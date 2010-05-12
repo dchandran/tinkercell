@@ -79,8 +79,8 @@ namespace Tinkercell
 				//mainWindow->editMenu->addAction(ungroup);
 			}
 
-			connect(this,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-				mainWindow,SIGNAL(handlesChanged(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			connect(this,SIGNAL(handlesChanged(NetworkHandle*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+				mainWindow,SIGNAL(handlesChanged(NetworkHandle*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
@@ -309,7 +309,7 @@ namespace Tinkercell
 				mergeCommand->redo();
 				delete mergeCommand;
 			}
-			emit handlesChanged(scene,items,oldHandles);
+			emit handlesChanged(scene->network,items,oldHandles);
 			//scene->mergeHandles(handles);
 		}
 		else
@@ -338,7 +338,7 @@ namespace Tinkercell
 							command->redo();
 							delete command;
 						}
-						emit handlesChanged(scene,items,oldHandles);
+						emit handlesChanged(scene->network,items,oldHandles);
 					}
 			}
 			else
@@ -443,7 +443,7 @@ namespace Tinkercell
 				delete command;
 			}
 
-			emit handlesChanged(scene,list,oldHandles);
+			emit handlesChanged(scene->network,list,oldHandles);
 		}
 
 	}
@@ -664,7 +664,7 @@ namespace Tinkercell
 					mergeCommand->redo();
 					delete mergeCommand;
 				}
-				emit handlesChanged(scene,items,oldHandles);
+				emit handlesChanged(scene->network,items,oldHandles);
 			}
 			else
 				if (handles.size() == 1 && handles[0] && !items.isEmpty())
@@ -683,7 +683,7 @@ namespace Tinkercell
 						delete command;
 					}
 
-					emit handlesChanged(scene,items,oldHandles);
+					emit handlesChanged(scene->network,items,oldHandles);
 				}
 	}
 

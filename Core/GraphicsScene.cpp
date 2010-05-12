@@ -1027,6 +1027,8 @@ namespace Tinkercell
 
 	void GraphicsScene::insert(const QString& name, QGraphicsItem * item)
 	{
+		if (!network) return;
+		
 		QList<ItemHandle*> handles;
 		QList<QGraphicsItem*> items;
 		items.append(item);
@@ -1038,19 +1040,14 @@ namespace Tinkercell
 		emit itemsAboutToBeInserted(this,items,handles);
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		network->history.push(command);
 		emit itemsInserted(this,items,handles);
 	}
 
 	/*! \brief this command performs an insert and allows redo/undo of that insert*/
 	void GraphicsScene::insert(const QString& name, const QList<QGraphicsItem*>& items)
 	{
+		if (!network) return;
 		QList<ItemHandle*> handles;
 		QList<QGraphicsItem*> allItems = items;
 
@@ -1069,19 +1066,15 @@ namespace Tinkercell
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
 
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		network->history.push(command);
 
 		emit itemsInserted(this,allItems,handles);
 	}
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/
 	void GraphicsScene::remove(const QString& name, QGraphicsItem * item)
 	{
+		if (!network) return;
+		
 		ItemHandle * handle = getHandle(item);
 
 		QList<QGraphicsItem*> allitems;
@@ -1101,36 +1094,17 @@ namespace Tinkercell
 
 		emit itemsAboutToBeRemoved(this,allitems,handles);
 
-		/*
-		for (int i=0; i < allitems.size(); ++i)
-		if ((item = allitems[i]) && (handle = getHandle(item)))
-		{
-		items2 = handle->graphicsItems;
-		if (!TextGraphicsItem::cast(item))
-		{
-		for (int j=0; j < items2.size(); ++j)
-		if (items2[j] && !allitems.contains(items2[j]) && item->collidesWithItem(items2[j]))
-		{
-		allitems << items2[j];
-		}
-		}
-		}*/
-
 		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-
+		network->history.push(command);
+		
 		emit itemsRemoved(this,allitems,handles);
 	}
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/
 	void GraphicsScene::remove(const QString& name, const QList<QGraphicsItem*>& items)
 	{
+		if (!network) return;
+		
 		QList<QGraphicsItem*> allitems, items2;
 
 		QList<ItemHandle*> handles, handles2;
@@ -1152,19 +1126,13 @@ namespace Tinkercell
 				}
 			}
 
-			emit itemsAboutToBeRemoved(this,allitems,handles);
+		emit itemsAboutToBeRemoved(this,allitems,handles);
 
-			QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
+		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
 
-			if (network)
-				network->history.push(command);
-			else
-			{
-				command->redo();
-				delete command;
-			}
-
-			emit itemsRemoved(this,allitems, handles);
+		network->history.push(command);
+	
+		emit itemsRemoved(this,allitems, handles);
 	}
 	/*! \brief this command changes the brush of an item*/
 	void GraphicsScene::setBrush(const QString& name, QGraphicsItem * item, const QBrush& to)

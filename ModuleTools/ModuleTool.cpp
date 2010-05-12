@@ -569,7 +569,8 @@ namespace Tinkercell
 			handle->setFamily(moduleFamily);
 
 			int n = 1;
-			while (scene->network->uniqueNames.contains(handle->name))
+			while (scene->network->symbolsTable.uniqueItems.contains(handle->name) || 
+				   scene->network->symbolsTable.uniqueData.contains(handle->name))
 				handle->name = tr("mod") + QString::number(++n);
 
 			QString appDir = QApplication::applicationDirPath();
@@ -709,7 +710,7 @@ namespace Tinkercell
         {
             ItemHandle * moduleHandle = moduleViews[scene];
             if (moduleHandle)
-                scene->setParentHandle(handles,moduleHandle);
+                scene->network->setParentHandle(handles,moduleHandle);
         }
     }
 

@@ -16,7 +16,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 
 #include <QSettings>
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -198,13 +198,13 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)), this, SLOT(updateToolTips(const QList<ItemHandle*>&)));
 			
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)),
-				this,SLOT(itemsInserted(NetworkWindow *, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)),
+				this,SLOT(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)));
 			
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )),
 				this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
@@ -271,7 +271,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ModelSummaryTool::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
+	void ModelSummaryTool::itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -282,7 +282,7 @@ namespace Tinkercell
 		updateToolTips(handles);
 	}
 
-	void ModelSummaryTool::sceneClosing(NetworkWindow * , bool *)
+	void ModelSummaryTool::sceneClosing(NetworkHandle * , bool *)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
@@ -362,14 +362,16 @@ namespace Tinkercell
 	
 	void ModelSummaryTool::fixedAction()
 	{
-		NetworkWindow * net = currentWindow();
+		NetworkHandle * net = currentNetwork();
 		
 		if (!net) return;
 		
-		GraphicsScene * scene = net->scene;
+		GraphicsScene * scene = net->currentScene();
+		
+		if (!scene) return;
 		
 		QList<DataTable<qreal>*> nDataTablesNew, nDataTablesOld;
-		QList<ItemHandle*> handles = net->selectedHandles();
+		QList<ItemHandle*> handles = getHandle(scene->selected());
 		QList<ItemHandle*> changedHandles;
 		QList<QGraphicsItem*> insertItems, removeItems;
 		
@@ -470,12 +472,14 @@ namespace Tinkercell
 
 	void ModelSummaryTool::setValue(int,int)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
 		
 		disconnect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 		
-		GraphicsScene * scene = win->scene;
+		GraphicsScene * scene = win->currentScene();
+		
+		if (!scene) return;
 
 		DataTable<qreal> * nDataTable1 = 0, * nDataTable2 = 0;
 

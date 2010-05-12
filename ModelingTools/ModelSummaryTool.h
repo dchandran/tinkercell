@@ -39,7 +39,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "SpinBoxDelegate.h"
 
 #ifdef Q_WS_WIN
@@ -67,9 +67,9 @@ namespace Tinkercell
 	public slots:
 		void select(int i=0);
 		void deselect(int i=0);
-		void sceneClosing(NetworkWindow * , bool *);
+		void sceneClosing(NetworkHandle * , bool *);
 		void updateToolTips(const QList<ItemHandle*>&);
-		void itemsInserted(NetworkWindow *, const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle *, const QList<ItemHandle*>& handles);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
 		void keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent);
 		void mouseDoubleClicked(GraphicsScene* scene, QPointF, QGraphicsItem* item, Qt::MouseButton, Qt::KeyboardModifiers modifiers);

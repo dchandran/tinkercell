@@ -26,7 +26,7 @@
 #include <QButtonGroup>
 #include <QListView>
 
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "NodeGraphicsItem.h"
 #include "DataTable.h"
 #include "ItemHandle.h"
@@ -65,7 +65,7 @@ namespace Tinkercell
         void removeEvents();
         void historyUpdate(int);
         void setupFunctionPointers( QLibrary * );
-        void sceneClosing(NetworkWindow * , bool * );
+        void sceneClosing(NetworkHandle * , bool * );
 
 	signals:
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
@@ -126,7 +126,7 @@ namespace Tinkercell
         NodeGraphicsItem item;
         QDockWidget * dockWidget;
 
-		static bool parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s);
+		static bool parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s);
 
     };
 

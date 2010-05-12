@@ -13,7 +13,6 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include <QRegExp>
 #include <QSettings>
 #include <QMessageBox>
-#include "NetworkWindow.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
@@ -34,13 +33,13 @@ namespace Tinkercell
 {
 	void AssignmentFunctionsTool::select(int)
 	{
-		NetworkWindow * net = currentWindow();
+		NetworkHandle * net = currentNetwork();
 		if (!net) return;
 
 		if (dockWidget && dockWidget->widget() != this)
 			dockWidget->setWidget(this);
 
-		itemHandles = net->allHandles();
+		itemHandles = net->handles();
 
 		openedByUser = true;
 		updateTable();
@@ -80,8 +79,8 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -156,7 +155,7 @@ namespace Tinkercell
 			updateTable();
 	}
 
-	void AssignmentFunctionsTool::itemsInserted(NetworkWindow*, const QList<ItemHandle*>& handles)
+	void AssignmentFunctionsTool::itemsInserted(NetworkHandle*, const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -197,8 +196,11 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::setValue(int row,int col)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (!win) return;
+		
+		GraphicsScene * scene = win->currentScene();
+		if (!scene) return;
 
 		if (col > 0 || !tableWidget.item(row,col)) return;
 
@@ -209,8 +211,8 @@ namespace Tinkercell
 		if (row < tableItems.size())
 			handle = tableItems[row];
 		else
-			if (win->selectedHandles().size() > 0)
-				handle = win->selectedHandles().last();
+			if (scene->selected().size() > 0)
+				handle = getHandle(scene->selected()).last();
 
 		if (!handle || !handle->data) return;
 
@@ -250,15 +252,15 @@ namespace Tinkercell
 				QString var = regex1.cap(1),
 						func = regex1.cap(2);
 
-				if (!EquationParser::validate(currentWindow(), handle, func, QStringList() << "time"))
+				if (!EquationParser::validate(currentNetwork(), handle, func, QStringList() << "time"))
 					return;
 
 				if (handle->name == var) var = handle->fullName();
 
 				int k = 0;
 				while (
-					(win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + var)) &&
-					!(win->symbolsTable.dataRowsAndCols[handle->fullName() + tr(".") + var].second == tr("Assignments"))
+					(win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + var)) &&
+					!(win->symbolsTable.uniqueData[handle->fullName() + tr(".") + var].second == tr("Assignments"))
 					)
 					var = regex1.cap(1) + QString::number(++k);
 
@@ -605,7 +607,7 @@ namespace Tinkercell
 		}
 
 		if (sDats.size() > 0)
-			scene->changeData(tr("selected functions removed"),handles,toolNames,sDats);
+			scene->network->changeData(tr("selected functions removed"),handles,toolNames,sDats);
 
 		for (int i=0; i < sDats.size(); ++i)
 			delete sDats[i];
@@ -656,9 +658,9 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> items = handles;
 
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!items.contains(currentWindow()->modelItem()))
-					items << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!items.contains(currentNetwork()->globalHandle()))
+					items << currentNetwork()->globalHandle();
 
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
@@ -695,9 +697,9 @@ namespace Tinkercell
 
 			QList<ItemHandle*> items = handles;
 
-			if (currentWindow() && currentWindow()->modelItem())
-				if (!items.contains(currentWindow()->modelItem()))
-					items << currentWindow()->modelItem();
+			if (currentNetwork() && currentNetwork()->globalHandle())
+				if (!items.contains(currentNetwork()->globalHandle()))
+					items << currentNetwork()->globalHandle();
 
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
@@ -724,12 +726,12 @@ namespace Tinkercell
 
 	void AssignmentFunctionsTool::addForcingFunction(QSemaphore* sem,ItemHandle* item,const QString& var, const QString& func)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		
 		if (!win) return;
 		
 		if (!item)
-			item = win->modelItem();
+			item = win->globalHandle();
 
 		if (item && item->data && !func.isEmpty() && !var.isEmpty())
 		{
@@ -753,19 +755,19 @@ namespace Tinkercell
 			s = s0;
 
 			while (
-				(win->symbolsTable.dataRowsAndCols.contains(s)) &&
-				!(win->symbolsTable.dataRowsAndCols[s].second == tr("Assignments"))
+				(win->symbolsTable.uniqueData.contains(s)) &&
+				!(win->symbolsTable.uniqueData[s].second == tr("Assignments"))
 				)
 				s = s0 + QString::number(++k);
 			
 			if (!dat.getRowNames().contains(s) || f != dat.value(s,0))
 			{
 				dat.value(s,0) = func;
-				if (currentWindow())
+				if (currentNetwork())
 					if (item->name.isEmpty())
-						currentWindow()->changeData(s + tr(" = ") + f,item,tr("Assignments"),&dat);
+						currentNetwork()->changeData(s + tr(" = ") + f,item,tr("Assignments"),&dat);
 					else
-						currentWindow()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
+						currentNetwork()->changeData(item->fullName() + tr(".") + s + tr(" = ") + f,item,tr("Assignments"),&dat);
 				else
 					item->data->textData[tr("Assignments")] = dat;
 			}
@@ -835,7 +837,7 @@ namespace Tinkercell
 			if (tableItems[i])
 			{
 				QString s = updatedFunctions[i];
-				double d = EquationParser::eval(currentWindow(), s, &b);
+				double d = EquationParser::eval(currentNetwork(), s, &b);
 				if (b)
 				{
 					if (tableItems[i]->fullName() != updatedFunctionNames[i])

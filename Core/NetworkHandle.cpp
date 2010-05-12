@@ -807,5 +807,34 @@ namespace Tinkercell
 			}
 		return s;
 	}
+	
+	void NetworkHandle::remove(const QString& name, const QList<QGraphicsItem*>& items)
+	{
+		QHash< GraphicsScene*, QList<QGraphicsItem*> > hash;
+		GraphicsScene * scene;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] && items[i]->scene())
+			{
+				scene = static_cast<GraphicsScene*>(items[i]->scene());
+				if (!hash.contains(scene))
+					hash[scene] = QList<QGraphicsItem*>();
+				hash[scene] += items[i];				
+			}
+		
+		QList<GraphicsScene*> scenes = hash.keys();
+		for (int i=0; i < scenes.size(); ++i)
+		{
+			scenes[i]->remove(name,hash[ scenes[i] ]);
+		}
+	}
+	
+	ConsoleWindow * NetworkHandle::console() const
+	{
+		if (mainWindow)
+			return mainWindow->console();
+		return 0;
+	}
+
 }
 

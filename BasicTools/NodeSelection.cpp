@@ -291,10 +291,10 @@ namespace Tinkercell
 		*/
 
 		QRectF viewport = scene->viewport();
-		scalex = scene->sceneRect().width()/viewport.width();
-		scaley = scene->sceneRect().height()/viewport.height();
-		qreal maxx = viewport.right() - 50.0/(scalex),
-			miny = viewport.top() + 50.0/(scaley),
+		scalex = viewport.width();
+		scaley = viewport.height();
+		qreal maxx = viewport.right() - 0.05*scalex,
+			miny = viewport.top() + 0.05*scaley,
 			w = 0;
 
 		for (int i=0; i < visibleTools.size(); ++i)
@@ -317,11 +317,14 @@ namespace Tinkercell
 
 				tool->setZValue(scene->ZValue()+0.1);
 
-				tool->resetTransform();
-				tool->scale(0.5/scalex,0.5/scaley);
-				tool->setPos(QPointF(maxx,miny));
-
+				tool->resetTransform();				
 				QRectF bounds = tool->sceneBoundingRect();
+				
+				qreal ratio = bounds.height()/bounds.width();
+				
+				tool->scale(ratio*0.001*scalex,0.001*scaley);
+				tool->setPos(QPointF(maxx,miny));
+				bounds = tool->sceneBoundingRect();
 
 				if (tool->isVisible() && visibleTools.size() > 1)
 				{
@@ -331,7 +334,7 @@ namespace Tinkercell
 
 					if (miny > viewport.bottom() - 50.0)
 					{
-						miny = viewport.top() + 50.0/(scaley);
+						miny = viewport.top() + 0.05*scaley;
 						maxx -= w * 1.5;
 					}
 				}

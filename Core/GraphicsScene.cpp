@@ -1464,8 +1464,7 @@ namespace Tinkercell
 		QList<ItemHandle*> allNewHandles;
 		GraphicsScene::duplicateItems = cloneGraphicsItems(items,allNewHandles);
 		
-		emit copyItems(this,duplicateItems,allNewHandles);
-	
+		emit copyItems(this,duplicateItems,allNewHandles);	
 
 		GraphicsScene::copiedFromScene = scene;
 	}

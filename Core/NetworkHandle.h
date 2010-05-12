@@ -42,6 +42,7 @@ namespace Tinkercell
 	class ItemData;
 	class MainWindow;
 	class NetworkWindow;
+	class ConsoleWindow;
 	
 	/*! \brief
 	A class that is used to store a network. The network is a collection of Item Handles. 
@@ -100,6 +101,8 @@ namespace Tinkercell
 		* \return TextEditor* current editor
 		*/
 		virtual TextEditor * currentTextEditor() const;
+		/*! \brief same as main window's console()*/
+		ConsoleWindow * console() const;
 		
 		/*! \}
 			\name find item handles and data tables
@@ -127,7 +130,9 @@ namespace Tinkercell
 			\name create scene or editor
 			\{
 		*/
-
+		
+		/*! \brief this command performs an removal and also adds undo command to history window and emits associated signal(s)*/
+		virtual void remove(const QString& name, const QList<QGraphicsItem*>& items);
 		/*! \brief get all the graphics scenes used to illustrate this network
 		* \return QList<GraphicsScene*>
 		*/

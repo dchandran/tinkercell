@@ -40,10 +40,10 @@ namespace Tinkercell
 
 	void BasicInformationTool::select(int)
 	{
-		NetworkHandle * win = currentNetwork();
-		if (!win) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
 
-		itemHandles = win->selectedHandles();
+		itemHandles = getHandle(scene->selected());
 		if (itemHandles.size() < 1) return;
 
 		if (dockWidget && dockWidget->widget() != this)
@@ -489,7 +489,7 @@ namespace Tinkercell
 							nDat.rowName(rowNumber) = name;
 							QList<QUndoCommand*> commands;
 							commands << new ChangeDataCommand<qreal>(tr("change data"),&handle->data->numericalData[this->name],&nDat)
-								<< new RenameCommand(tr("rename"),win->allHandles(),handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
+									 << new RenameCommand(tr("rename"),win,handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
 							CompositeCommand * command = new CompositeCommand(
 								tr("renamed ") + oldname + tr(" to ") + name,
 								commands);
@@ -543,7 +543,7 @@ namespace Tinkercell
 							sDat.rowName(rowNumber) = name;
 							QList<QUndoCommand*> commands;
 							commands += new ChangeDataCommand<QString>(tr("change data"),&handle->data->textData[this->name],&sDat);
-							commands += new RenameCommand(tr("rename"),win->allHandles(),handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
+							commands += new RenameCommand(tr("rename"),win,handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
 							CompositeCommand * command = new CompositeCommand(
 								tr("renamed ") + oldname + tr(" to ") + name,
 								commands);
@@ -867,7 +867,8 @@ namespace Tinkercell
 	void BasicInformationTool::addAttribute()
 	{
 		NetworkHandle * win = currentNetwork();
-		if (!win) return;
+		GraphicsScene * scene = currentScene();
+		if (!win || !scene) return;
 		QString name;
 
 		int i=0;
@@ -875,8 +876,8 @@ namespace Tinkercell
 
 		if (tableItems.size() < 1)
 		{
-			if (win->selectedHandles().isEmpty()) return;
-			lastItem = win->selectedHandles()[0];
+			if (scene->selected().isEmpty()) return;
+			lastItem = getHandle(scene->selected())[0];
 		}
 		else
 		{
@@ -900,7 +901,7 @@ namespace Tinkercell
 				DataTable<qreal> nDat(lastItem->data->numericalData[this->name]);
 				i = 0;
 				name = tr("k0");
-				while (win->symbolsTable.dataRowsAndCols.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.uniqueData.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("k") + QString::number(++i);
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
@@ -922,7 +923,7 @@ namespace Tinkercell
 
 				i = 0;
 				name = tr("s0");
-				while (win->symbolsTable.dataRowsAndCols.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.uniqueData.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("s") + QString::number(++i);
 
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
@@ -1633,7 +1634,7 @@ namespace Tinkercell
 						QString s = text;
 
 						int k = 0;
-						while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
+						while (win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + s))
 							s = text + QString::number(++k);
 
 						newData->insertRow(rownames.size(),s);
@@ -1678,7 +1679,7 @@ namespace Tinkercell
 							QString s = text;
 
 							int k = 0;
-							while (win->symbolsTable.dataRowsAndCols.contains(handle->fullName() + tr(".") + s))
+							while (win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + s))
 								s = text + QString::number(++k);
 
 							newData->insertRow(rownames.size(),s);

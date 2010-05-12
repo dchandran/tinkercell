@@ -40,8 +40,8 @@ namespace Tinkercell
 
 	void StoichiometryTool::select(int)
 	{
-		NetworkHandle * win = currentNetwork();
-		if (!win) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
 
 		if (dockWidget && dockWidget->widget() != this)
 			dockWidget->setWidget(this);
@@ -55,7 +55,7 @@ namespace Tinkercell
 		connectionHandles.clear();
 		ConnectionHandle * connectionHandle = 0;
 
-		QList<ItemHandle*> list = win->selectedHandles();
+		QList<ItemHandle*> list = getHandle(scene->selected());
 
 		for (int i=0; i < list.size(); ++i)
 		{
@@ -63,6 +63,7 @@ namespace Tinkercell
 			if (connectionHandle  && !connectionHandles.contains(connectionHandle))
 				connectionHandles += connectionHandle;
 		}
+
 		if (connectionHandles.size() < 1) return;
 
 		updateTable();
@@ -82,10 +83,6 @@ namespace Tinkercell
 			else
 				show();
 		}
-
-		//showMatrix();
-		//else
-		//  editTool->hideMatrix();
 
 		this->setFocus();
 
@@ -819,8 +816,8 @@ namespace Tinkercell
 		{
 			QUndoCommand * command = new Change2DataCommand<qreal,QString>(tr("reversible reactions added"),nDataOld,nDataNew,sDataOld,sDataNew);
 
-			if (scene->historyStack)
-				scene->historyStack->push(command);
+			if (scene->network)
+				scene->network->push(command);
 			else
 			{
 				command->redo();
@@ -851,7 +848,7 @@ namespace Tinkercell
 	void StoichiometryTool::addDimer()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !mainWindow || !scene->networkWindow) return;
+		if (!scene || !mainWindow || !scene->network) return;
 		if (!mainWindow->tool(tr("Connections Tree"))) return;
 
 		QWidget * treeWidget = mainWindow->tool(tr("Connections Tree"));
@@ -865,7 +862,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
 
-		QStringList sceneItems(scene->networkWindow->symbolsTable.handlesFullName.keys());
+		QStringList sceneItems(scene->network->symbolsTable.uniqueItems.keys());
 		QList<QGraphicsItem*> list;
 
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -1185,6 +1182,7 @@ namespace Tinkercell
 				nDataTable->value(nDataTable->rows()-1,i) = 0;
 
 			sDataTable->value(sDataTable->rows()-1,0) = tr("0");
+
 
 
 			if (mainWindow && mainWindow->currentNetwork())

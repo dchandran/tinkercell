@@ -186,7 +186,7 @@ namespace Tinkercell
 							if (!cloneHandle)
 							{
 								cloneHandle = handle->clone();
-								cloneHandle->setParent(0);
+								cloneHandle->setParent(0,false);
 								cloneHandle->children.clear();
 								cloneHandle->graphicsItems.clear();
 								allNewHandles << cloneHandle;
@@ -197,7 +197,7 @@ namespace Tinkercell
 									if ((handle = childHandles[j]) && handle->graphicsItems.isEmpty())
 									{
 										cloneChildHandle = handle->clone();
-										cloneChildHandle->setParent(0);
+										cloneChildHandle->setParent(0,false);
 										cloneChildHandle->children.clear();
 										cloneChildHandle->graphicsItems.clear();
 										
@@ -241,7 +241,7 @@ namespace Tinkercell
 				{
 					if (originalAndCloneHandles[i].first->parent == originalAndCloneHandles[j].first)
 					{
-						originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second);
+						originalAndCloneHandles[i].second->setParent(originalAndCloneHandles[j].second,false);
 						parentCopied = true;
 						break;
 					}
@@ -270,7 +270,7 @@ namespace Tinkercell
 			{
 				handle2 = handle->clone();
 				newHandles << handle2;
-				handle2->setParent(0);
+				handle2->setParent(0,false);
 				handle2->children.clear();
 				handle2->graphicsItems.clear();
 				hash[handle] = handle2;
@@ -284,7 +284,7 @@ namespace Tinkercell
 			{
 				if (handle && handle->parent && hash.contains(handle->parent))
 				{
-					handle2->setParent( hash[ handle->parent ] );
+					handle2->setParent( hash[ handle->parent ],false );
 				}
 			
 				if (handle &&

@@ -52,7 +52,7 @@ namespace Tinkercell
 		ModelFileGenerator();
 		
 		bool setMainWindow(MainWindow * main);
-		static int generateModelFile(const QString& filename, QList<ItemHandle*>&, const QString& replaceDot = QString("_"), NetworkWindow * network = 0);
+		static int generateModelFile(const QString& filename, QList<ItemHandle*>&, const QString& replaceDot = QString("_"), NetworkHandle * network = 0);
 	
 	public slots:
 		void setupFunctionPointers(QLibrary*);

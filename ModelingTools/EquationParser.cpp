@@ -122,7 +122,7 @@ namespace Tinkercell
 								if (!handleHasVar)
 									handle = symbolsTable->nonuniqueData[str2].first;
 								
-								if (! str2.contains(QRegExp(QString("^")+symbolsTable->uniqueData[str2].first->fullName())) )
+								if (! str2.contains(QRegExp(QString("^")+symbolsTable->nonuniqueData[str2].first->fullName())) )
 								{
 									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),handle->fullName() + QString(".") + str2 + QString("\\1"));
 									s.replace(QRegExp(QString("([^a-zA-Z0-9_\\.])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + handle->fullName() + QString(".") + str2 + QString("\\2"));
@@ -310,7 +310,8 @@ namespace Tinkercell
 						}
 						continue;
 					}
-
+					
+					/*
 					if (symbolsTable.nonuniqueItems.contains(n) && (handle = symbolsTable.nonuniqueItems[n]))
 					{
 						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
@@ -322,11 +323,11 @@ namespace Tinkercell
 						}
 
 						continue;
-					}
+					}*/
 
 					if (symbolsTable.uniqueData.contains(n) && (handle = symbolsTable.uniqueData[n].first))
 					{
-						p = symbolsTable.dataRowsAndCols[n].second;
+						p = symbolsTable.uniqueData[n].second;
 						regex3.indexIn(n);
 
 						if (regex3.numCaptures() > 0)

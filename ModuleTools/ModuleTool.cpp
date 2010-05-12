@@ -829,7 +829,7 @@ namespace Tinkercell
 
 	void ModuleTool::parentHandleChanged(NetworkHandle * net, const QList<ItemHandle*> & handles, const QList<ItemHandle*> & parents)
 	{
-		if (!net->scene) return;
+		if (!net) return;
 
 		NodeGraphicsItem * node = 0;
 		QList<QGraphicsItem*> items, items2, linkers;
@@ -843,8 +843,11 @@ namespace Tinkercell
 						!items.contains(node))
 						items << node;
 			}
+
 		if (!items.isEmpty())
-			net->scene->remove(tr("Links removed"), items);
+		{
+			net->remove(tr("Links removed"),items);
+		}
 
         items.clear();
         QList<GraphicsScene*> scenes = net->scenes();
@@ -897,9 +900,9 @@ namespace Tinkercell
                         if (scenes[j])
                         {
                             if (scenes[j] == otherScene)
-                                scenes[j]->remove(items);
+                                scenes[j]->remove(module->fullName() + tr(" items hidden"),items);
                             else
-                                scenes[j]->remove(items);
+                                scenes[j]->remove(module->fullName() + tr(" items hidden"),items);
                         }
                 }
             }

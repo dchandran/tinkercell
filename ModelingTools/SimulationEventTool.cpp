@@ -14,7 +14,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
 #include <QToolTip>
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
 #include "EquationParser.h"
@@ -35,7 +35,7 @@ namespace Tinkercell
 {
 	void SimulationEventsTool::select(int)
 	{
-		NetworkWindow * net = currentWindow();
+		NetworkHandle * net = currentNetwork();
 		if (!net) return;
 
 		if (dockWidget && dockWidget->widget() != this)
@@ -126,7 +126,7 @@ namespace Tinkercell
 			eventDialog = new QDialog(mainWindow);
 			setupDialogs();
 
-			connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
+			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 			
 			connect(this, SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
@@ -186,7 +186,7 @@ namespace Tinkercell
 		return (mainWindow != 0);
 	}
 
-	void SimulationEventsTool::sceneClosing(NetworkWindow * , bool *)
+	void SimulationEventsTool::sceneClosing(NetworkHandle * , bool *)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
@@ -293,17 +293,17 @@ namespace Tinkercell
 		{
 			items = scene->items();
 			NodeGraphicsItem * image = 0;
-			ItemHandle * modelItem = 0; 
+			ItemHandle * globalHandle = 0; 
 			if (scene->networkWindow)
-				modelItem = scene->networkWindow->modelItem();
+				globalHandle = scene->networkWindow->globalHandle();
 			
-			if (modelItem && !modelItem->hasTextData(tr("Events")))
+			if (globalHandle && !globalHandle->hasTextData(tr("Events")))
 			{
 				DataTable<QString> events;
 				events.resize(0,1);
 				events.colName(0) = tr("event");
 				events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-				modelItem->data->textData.insert(tr("Events"),events);
+				globalHandle->data->textData.insert(tr("Events"),events);
 			}
 		
 			for (int i=0; i < items.size(); ++i)
@@ -436,17 +436,17 @@ namespace Tinkercell
 		if (!scene || modifiers != 0 || button == Qt::RightButton || !scene->networkWindow) return;
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * modelItem = scene->networkWindow->modelItem();
+		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
 
-		if (!node || node->handle() || !modelItem || node->className != tr("Event function")) return;
+		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
 
-		if (!modelItem->hasTextData(tr("Events")))
+		if (!globalHandle->hasTextData(tr("Events")))
 		{
 			DataTable<QString> events;
 			events.resize(0,1);
 			events.colName(0) = tr("event");
 			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			modelItem->data->textData.insert(tr("Events"),events);
+			globalHandle->data->textData.insert(tr("Events"),events);
 		}
 		
 		select(0);
@@ -463,17 +463,17 @@ namespace Tinkercell
 		QGraphicsItem * item = scene->selected()[0];
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * modelItem = scene->networkWindow->modelItem();
+		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
 
-		if (!node || node->handle() || !modelItem || node->className != tr("Event function")) return;
+		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
 
-		if (!modelItem->hasTextData(tr("Events")))
+		if (!globalHandle->hasTextData(tr("Events")))
 		{
 			DataTable<QString> events;
 			events.resize(0,1);
 			events.colName(0) = tr("event");
 			events.description() = tr("Events: set of triggers and events. The row names are the triggers, and the first column contains a string describing one or more events, usually an assignment.");
-			modelItem->data->textData.insert(tr("Events"),events);
+			globalHandle->data->textData.insert(tr("Events"),events);
 		}
 		
 		select(0);
@@ -483,9 +483,9 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->networkWindow) return;
 
-		ItemHandle * modelItem = scene->networkWindow->modelItem();
+		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
 
-		if (!modelItem) return;
+		if (!globalHandle) return;
 
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
@@ -494,10 +494,10 @@ namespace Tinkercell
 			if ( (node = NodeGraphicsItem::cast(items[i])) && 
 				 (node->handle() == 0) && 
  			 	 (node->className == tr("Event function")) && 
- 				 modelItem->hasTextData(tr("Events")))
+ 				 globalHandle->hasTextData(tr("Events")))
 				{
 					DataTable<QString> emptyData;
-					scene->changeData(tr("Events removed"),modelItem,tr("Events"),&emptyData);					
+					scene->changeData(tr("Events removed"),globalHandle,tr("Events"),&emptyData);					
 					break;
 				}
 
@@ -555,9 +555,9 @@ namespace Tinkercell
 	{
 		if (!currentNetwork()) return;
 
-		ItemHandle * modelItem = currentNetwork()->modelItem();
+		ItemHandle * globalHandle = currentNetwork()->globalHandle();
 
-		if (!modelItem) return;
+		if (!globalHandle) return;
 
 		eventsListWidget.clear();
 
@@ -566,9 +566,9 @@ namespace Tinkercell
 		DataTable<QString> * sDataTable = 0;
 
 
-		if (modelItem->hasTextData(tr("Events")))
+		if (globalHandle->hasTextData(tr("Events")))
 		{
-			sDataTable = &(modelItem->data->textData[tr("Events")]);
+			sDataTable = &(globalHandle->data->textData[tr("Events")]);
 			for (int j=0; j < sDataTable->rows(); ++j)
 			{
 				ifthens << (tr("WHEN  ") + sDataTable->rowName(j) + tr("   DO   ") + sDataTable->value(j,0));
@@ -646,7 +646,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::eventDialogFinished()
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 
 		if (!win || eventIf == 0 || eventThen == 0) return;
 
@@ -655,7 +655,7 @@ namespace Tinkercell
 
 		if (ifs.isEmpty() || thens.isEmpty()) return;
 
-		ItemHandle * lastItem = win->modelItem();
+		ItemHandle * lastItem = win->globalHandle();
 
 		if (lastItem == 0 || lastItem->data == 0) return;
 
@@ -698,7 +698,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::removeEvents()
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 
 		if (eventsListWidget.currentItem() && win)
 		{
@@ -711,7 +711,7 @@ namespace Tinkercell
 
 			QList<ItemHandle*> itemHandles;
 
-			itemHandles << win->modelItem();
+			itemHandles << win->globalHandle();
 
 			for (int i=0; i < itemHandles.size(); ++i)
 			{
@@ -791,7 +791,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::getEventTriggers(QSemaphore* sem,QStringList* list)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (list && win)
 		{
 			QList<ItemHandle*> items;
@@ -830,11 +830,11 @@ namespace Tinkercell
 
 	void SimulationEventsTool::getEventResponses(QSemaphore* sem,QStringList* list)
 	{
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * win = currentNetwork();
 		if (list && win)
 		{
 			QList<ItemHandle*> items;
-			items << win->modelItem();
+			items << win->globalHandle();
 
 			QList<ItemHandle*> from, to;
 			ModuleTool::connectedItems(win->allHandles(),from,to);
@@ -871,8 +871,8 @@ namespace Tinkercell
 	{
 		ItemHandle * item = 0;
 		
-		if (currentWindow())
-			item = currentWindow()->modelItem();
+		if (currentNetwork())
+			item = currentNetwork()->globalHandle();
 
 		if (item && item->data && !trigger.isEmpty() && !event.isEmpty())
 		{
@@ -946,7 +946,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	bool SimulationEventsTool::parseRateString(NetworkWindow * win, ItemHandle * handle, QString& s)
+	bool SimulationEventsTool::parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s)
 	{
 		return EquationParser::validate(win, handle, s, QStringList() << "time");
 	}

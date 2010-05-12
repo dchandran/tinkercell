@@ -161,7 +161,7 @@ namespace Tinkercell
 			{
 				if (existingHandles[i].second && existingHandles[i].second->fullName() == parent)
 				{
-					handle->setParent(existingHandles[i].second);
+					handle->setParent(existingHandles[i].second,false);
 					break;
 				}
 			}

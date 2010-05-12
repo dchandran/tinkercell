@@ -36,7 +36,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 
 #ifdef Q_WS_WIN
@@ -87,7 +87,7 @@ namespace Tinkercell
 		void deselect(int i=0);
 
 		void setValue(int i, int j);
-		void itemsInserted(NetworkWindow * scene, const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle * scene, const QList<ItemHandle*>& handles);
 		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void toolLoaded(Tool*);
 		void addAttribute();

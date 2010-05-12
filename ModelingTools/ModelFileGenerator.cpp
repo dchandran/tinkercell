@@ -85,20 +85,20 @@ namespace Tinkercell
 	void ModelFileGenerator::generateModelFile(QSemaphore * s, int* i, const QString& filename, QList<ItemHandle*>& items)
 	{
 		if (i)
-			(*i) = ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentWindow());
+			(*i) = ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentNetwork());
 		else
-			ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentWindow());
+			ModelFileGenerator::generateModelFile(filename, items, tr("_"), currentNetwork());
 
 		if (s)
 			s->release();
 	}
 
-	int ModelFileGenerator::generateModelFile(const QString& prefix, QList<ItemHandle*>& handles,const QString& replaceDot, NetworkWindow * currentNetwork)
+	int ModelFileGenerator::generateModelFile(const QString& prefix, QList<ItemHandle*>& handles,const QString& replaceDot, NetworkHandle * currentNetwork)
 	{
 		QString filename = prefix;
 
-		if (currentNetwork && currentNetwork->modelItem() && !handles.contains(currentNetwork->modelItem()))
-			handles << currentNetwork->modelItem();
+		if (currentNetwork && currentNetwork->globalHandle() && !handles.contains(currentNetwork->globalHandle()))
+			handles << currentNetwork->globalHandle();
 
 		QList<ItemHandle*> from,to;
         ModuleTool::connectedItems(handles, from,to);

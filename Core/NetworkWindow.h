@@ -2,6 +2,8 @@
 #define TINKERCELL_NETWORKWINDOW_H
 
 #include <QWidget>
+#include <QMainWindow>
+#include <QToolBar>
 
 namespace Tinkercell
 {
@@ -11,7 +13,7 @@ namespace Tinkercell
 	class TextEditor;
 	class NetworkHandle;
 		
-	class NetworkWindow : public QWidget
+	class NetworkWindow : public QMainWindow
 	{
 		Q_OBJECT
 

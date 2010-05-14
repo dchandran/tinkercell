@@ -25,6 +25,7 @@ This class provides functions for inserting items, removing items, and changing 
 #include <QString>
 #include <QHash>
 #include <QUndoCommand>
+#include <QToolBar>
 
 #include "DataTable.h"
 #include "HistoryWindow.h"
@@ -103,7 +104,11 @@ namespace Tinkercell
 		virtual TextEditor * currentTextEditor() const;
 		/*! \brief same as main window's console()*/
 		ConsoleWindow * console() const;
-		
+		/*!
+		* \brief add a toolbar to the given scene
+		* \return GraphicsScene* scene
+		*/
+		virtual QToolBar * addToolBar(Qt::ToolBarArea area=Qt::TopToolBarArea) const;
 		/*! \}
 			\name find item handles and data tables
 			\{

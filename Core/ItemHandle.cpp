@@ -161,9 +161,12 @@ namespace Tinkercell
 		graphicsItems.clear();
 
 		for (int i=0; i < list.size(); ++i)
-		{
-			setHandle(list[i],0);
-		}
+			if (list[i] && !MainWindow::invalidPointers.contains((void*)list[i]))
+			{
+				setHandle(list[i],0);
+				MainWindow::invalidPointers[ (void*)list[i] ] = true;
+				delete list[i];
+			}
 
 		for (int i=0; i < children.size(); ++i)
 		{

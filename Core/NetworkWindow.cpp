@@ -20,10 +20,7 @@ namespace Tinkercell
 			scene->network = network;
 			
 			GraphicsView * view = new GraphicsView(this);		
-			QVBoxLayout * layout = new QVBoxLayout;
-			layout->setContentsMargins(0,0,0,0);
-			layout->addWidget(view);
-			setLayout(layout);
+			setCentralWidget(view);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
 
@@ -124,14 +121,10 @@ namespace Tinkercell
 		{
 			editor->networkWindow = this;
 			editor->network = network;
-			
-			QVBoxLayout * layout = new QVBoxLayout;
-			layout->setContentsMargins(0,0,0,0);
-			layout->addWidget(editor);
-			setLayout(layout);
+			setCentralWidget(editor);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
-		
+
 		MainWindow * main = network->mainWindow;
 
 		if (network->networkWindows.size() == 0 && network->mainWindow)

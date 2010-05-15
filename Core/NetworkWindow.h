@@ -31,6 +31,35 @@ namespace Tinkercell
 		* \return void
 		*/
 		void windowClosed(NetworkHandle *);
+	public:
+		/*!\brief the network displayed in this window*/
+		NetworkHandle * network;
+
+		/*!\brief the scene inside this window. Either the scene or the editor must be 0*/
+		GraphicsScene * scene;
+
+		/*!\brief the editor inside this window. Either the scene or the editor must be 0*/
+		TextEditor * editor;
+
+		/*! \brief replace the current text editor or scene with a new scene
+		* \return GraphicsScene * scene*/
+		virtual GraphicsScene * newScene();
+
+		/*! \brief replace the current text editor or scene with a new text editor
+		* \return GraphicsScene * scene*/
+		virtual TextEdtor * newTextEditor();
+
+		/*! \brief add a toolbar specific to this window
+		* \return GraphicsScene * scene*/
+		virtual QToolBar * addToolBar(Qt::ToolBarArea area=Qt::TopToolBarArea) const;
+
+	public slots:
+		/*! \brief calls main window's popOut
+		* \return void*/
+		virtual void popOut();
+		/*! \brief calls main window's popIn
+		* \return void*/
+		virtual void popIn();
 
 	protected:
 		/*! \brief close event sends signal to all tools asking for confirmation becore closing
@@ -47,13 +76,7 @@ namespace Tinkercell
 		virtual void resizeEvent (QResizeEvent * event);
 		/*! \brief calls main window's setAsCurrentWindow
 		* \return void*/
-		virtual void setAsCurrentWindow();
-		/*! \brief calls main window's popOut
-		* \return void*/
-		virtual void popOut();
-		/*! \brief calls main window's popIn
-		* \return void*/
-		virtual void popIn();
+		virtual void setAsCurrentWindow();	
 		/*! \brief calls popIn when minimized
 		* \return void*/
 		virtual void changeEvent ( QEvent * event );
@@ -63,15 +86,6 @@ namespace Tinkercell
 
 		/*!\brief constructor with text editor*/
 		NetworkWindow(NetworkHandle * network, TextEditor * editor);
-		
-		/*!\brief the network displayed in this window*/
-		NetworkHandle * network;
-
-		/*!\brief the scene inside this window. Either the scene or the editor must be 0*/
-		GraphicsScene * scene;
-
-		/*!\brief the editor inside this window. Either the scene or the editor must be 0*/
-		TextEditor * editor;
 		
 		/*!\brief filename associated with this window*/
 		QString filename;

@@ -30,6 +30,7 @@ This class provides functions for inserting items, removing items, and changing 
 #include "DataTable.h"
 #include "HistoryWindow.h"
 #include "SymbolsTable.h"
+#include "NetworkWindow.h"
 
 #ifdef Q_WS_WIN
 #define MY_EXPORT __declspec(dllexport)
@@ -102,13 +103,14 @@ namespace Tinkercell
 		* \return TextEditor* current editor
 		*/
 		virtual TextEditor * currentTextEditor() const;
+		/*!
+		* \brief gets the window that is active
+		* \return NetworkWindow* current window
+		*/
+		virtual NetworkWindow * currentWindow() const;
 		/*! \brief same as main window's console()*/
 		ConsoleWindow * console() const;
-		/*!
-		* \brief add a toolbar to the given scene
-		* \return GraphicsScene* scene
-		*/
-		virtual QToolBar * addToolBar(Qt::ToolBarArea area=Qt::TopToolBarArea) const;
+
 		/*! \}
 			\name find item handles and data tables
 			\{

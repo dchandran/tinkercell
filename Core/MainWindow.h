@@ -207,8 +207,13 @@ namespace Tinkercell
 		*/
 		TextEditor * currentTextEditor() const;
 		/*!
-		* \brief (same as currentWindow) gets the current window that is active
-		* \return NetworkHandle* current network window
+		* \brief gets the current window that is active (each window contains either a scene or editor)
+		* \return NetworkWindow* current network window
+		*/
+		NetworkWindow * currentWindow() const;
+		/*!
+		* \brief gets the current window that is active
+		* \return NetworkHandle* current network
 		*/
 		NetworkHandle * currentNetwork() const;
 		/*!

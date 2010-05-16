@@ -673,6 +673,11 @@ namespace Tinkercell
 				delete tool;
 		}
 	}
+	
+	NetworkWindow * MainWindow::currentWindow() const
+	{
+		return currentNetworkWindow;
+	}
 
 	GraphicsScene* MainWindow::currentScene() const
 	{

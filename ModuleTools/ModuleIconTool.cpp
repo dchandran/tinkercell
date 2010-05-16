@@ -346,7 +346,7 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
     if (!main) return;
 
-    Tinkercell::ModuleIconTool * tool = new Tinkercell::ModuleIconTool;
-    main->addTool(tool);
+//    Tinkercell::ModuleIconTool * tool = new Tinkercell::ModuleIconTool;
+//	  main->addTool(tool);
 
 }

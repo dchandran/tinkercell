@@ -37,8 +37,7 @@ namespace Tinkercell
 
 	/*! \brief 
 	The symbols table is updated every time the scene or text editor changes. The symbols table contains the
-	list of item names and ItemHandle pointers as well as names and pointers to each data entry in each item. Only
-	ItemHandles with visible=true are loaded into the SymbolsTable.
+	list of item names and ItemHandle pointers as well as names and pointers to each data entry in each item.
 	\ingroup core
 	*/
 	class MY_EXPORT SymbolsTable

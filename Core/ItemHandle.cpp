@@ -125,19 +125,26 @@ namespace Tinkercell
 
     ItemData& ItemData::operator = (const ItemData& copy)
     {
-        numericalData.clear();
-        textData.clear();
-
-        QList<QString> keys = copy.numericalData.keys();
-        for (int i=0; i < keys.size(); ++i)
-            numericalData[ keys[i] ] = DataTable<qreal>(copy.numericalData[ keys[i] ]);
-
-        keys = copy.textData.keys();
-        for (int i=0; i < keys.size(); ++i)
-            textData[ keys[i] ] = DataTable<QString>(copy.textData[ keys[i] ]);
-
+        numericalData = copy.numericalData;
+        textData = copy.textData;
         return (*this);
     }
+    
+	void ItemData::push(const ItemData& t)
+	{
+		versions.push(*this);
+		numericalData = t.numericalData;
+        textData = t.textData;
+	}
+	
+	void ItemData::pop()
+	{
+		if (versions.isEmpty()) return;
+		
+		ItemData t = versions.pop();
+		numericalData = t.numericalData;
+        textData = t.textData;
+	}
 
 	/**********************************
 	ITEM HANDLE
@@ -183,7 +190,6 @@ namespace Tinkercell
 	ItemHandle::ItemHandle(const QString& s) : QObject()
 	{
 		network = 0;
-		visible = true;
 		parent = 0;
 		data = 0;
 		name = s;
@@ -194,7 +200,6 @@ namespace Tinkercell
 	ItemHandle::ItemHandle(const ItemHandle& copy) : QObject()
 	{
 		network = copy.network;
-		visible = copy.visible;
 		type = copy.type;
 		name = copy.name;
 		tools += copy.tools;
@@ -203,16 +208,16 @@ namespace Tinkercell
 		else
 			data = 0;
 		parent = 0;
-		setParent(copy.parent);
+		setParent(copy.parent,false);
 		
 	}
 
 	/*! \brief operator = */
 	ItemHandle& ItemHandle::operator = (const ItemHandle& copy)
 	{
-		visible = copy.visible;
 		if (data)
 			delete data;
+		data = 0;
 		
 		for (int i=0; i < graphicsItems.size(); ++i)
 			if (getHandle(graphicsItems[i]) == this)
@@ -221,12 +226,11 @@ namespace Tinkercell
 		type = copy.type;
 		name = copy.name;
 		tools += copy.tools;
+
 		if (copy.data)
 			data = new ItemData(*(copy.data));
-		else
-			data = 0;
-		parent = 0;
-		setParent(copy.parent);
+
+		setParent(copy.parent,false);
 		
 		return *this;
 	}
@@ -490,28 +494,6 @@ namespace Tinkercell
 			{
 				for (int j=0; j < handles[i]->children.size(); ++j)
 					if (!handles.contains(handles[i]->children[j]))
-						handles << handles[i]->children[j];
-			}
-		}
-		return handles;
-	}
-
-	QList<ItemHandle*> ItemHandle::visibleChildren() const
-	{
-		QList<ItemHandle*> handles;
-		for (int i=0; i < children.size(); ++i)
-			if (children[i] && children[i]->visible)
-				handles << children[i];
-
-		for (int i=0; i < handles.size(); ++i)
-		{
-			if (handles[i] && handles[i]->visible)
-			{
-				for (int j=0; j < handles[i]->children.size(); ++j)
-					if ( handles[i]->children[j] &&
-						!handles.contains(handles[i]->children[j]) &&
-						 handles[i]->children[j]->visible
-						)
 						handles << handles[i]->children[j];
 			}
 		}

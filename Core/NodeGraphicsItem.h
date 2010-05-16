@@ -29,7 +29,6 @@ to change color temporarily and then revert back to the default.
 #include <QGraphicsRectItem>
 #include <QStyleOptionGraphicsItem>
 #include <QGraphicsScene>
-#include <QGraphicsSimpleTextItem>
 #include <QTransform>
 #include <QUndoCommand>
 #include <QTextCursor>
@@ -93,14 +92,6 @@ namespace Tinkercell
 		enum ShapeType {arc, line, bezier, rectangle};
 		/*! \brief default size for this item*/
 		QSizeF defaultSize;
-		/*! \brief position of the name text */
-		enum TextLocation {NoLocation, LeftLocation, RightLocation, BottomLocation, TopLocation, CenterLocation};
-		/*! \brief set the location of the name text for this item. use NoLocation to hide the name (default)*/
-		virtual void setTextLocation(TextLocation);
-		/*! \brief the location of the name text for this item*/
-		virtual TextLocation textLocation() const;
-		/*! \brief name item*/
-		QGraphicsSimpleTextItem * textItem;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
 		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
@@ -286,8 +277,6 @@ namespace Tinkercell
 		ItemHandle * itemHandle;
 		/*! \brief the bounding box of this figure */
 		QGraphicsRectItem * boundingBoxItem;
-		/*! \brief name item's location*/
-		TextLocation _textLocation;
 	};
 
 }

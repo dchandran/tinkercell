@@ -481,8 +481,6 @@ namespace Tinkercell
 		QList< QPair<ItemHandle *, QString> > oldItemNames;
 		QList< QPair<TextGraphicsItem *, QString> > newTextItemsNames;
 		QList< QPair<TextGraphicsItem *, QString> > oldTextItemsNames;
-		QList< QPair<NodeGraphicsItem *, QString> > newNodeItemsNames;
-		QList< QPair<NodeGraphicsItem *, QString> > oldNodeItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		NetworkHandle * network;
 
@@ -636,26 +634,34 @@ namespace Tinkercell
 		NetworkHandle * net;
 		RenameCommand * renameCommand;
 	};
-
-	/*! \brief this command is used to hide handles. Hidden handles will generally be ignored as part of the network.
+	
+	/*! \brief this command is used to replace text data inside a handle
 	* \ingroup undo
 	*/
-	class MY_EXPORT SetHandleVisibilityCommand : public QUndoCommand
+	typedef ChangeDataCommand<QString> SetTextDataCommand;
+	
+	/*! \brief this command is used to replace numerical data inside a handle
+	* \ingroup undo
+	*/
+	typedef ChangeDataCommand<qreal> SetNumericalDataCommand;
+
+	/*! \brief this command is used to replace all the data inside a handle
+	* \ingroup undo
+	*/
+	class MY_EXPORT SetDataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor*/
-		SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>&, const QList<bool>&);
+		SetDataCommand(const QString& name, ItemHandle*, ItemData*);
 		/*! \brief constructor*/
-		SetHandleVisibilityCommand(const QString& name, ItemHandle*, bool);
-		/*! \brief constructor*/
-		SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>&, bool);
+		SetDataCommand(const QString& name, const QList<ItemHandle*>&, const QList<ItemData*>&);
 		/*! \brief redo parent change*/
 		void redo();
 		/*! \brief undo parent change*/
 		void undo();
 	private:
 		QList<ItemHandle*> handles;
-		QList<bool> before;
+		QList<ItemData> newData;
 	};
 	
 	/*! \brief this command is used to hide graphics items. 

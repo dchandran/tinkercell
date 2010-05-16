@@ -52,12 +52,7 @@ namespace Tinkercell
 		else
 		{
 			itemHandle = handle;
-		}
-		
-		if (itemHandle && textItem)
-		{
-			textItem->setText(itemHandle->name);
-		}
+		}		
 	}
 
 	ItemHandle * NodeGraphicsItem::ControlPoint::handle() const
@@ -73,46 +68,9 @@ namespace Tinkercell
 			nodeItem->setHandle(h);
 	}
 	
-	NodeGraphicsItem::TextLocation NodeGraphicsItem::textLocation() const
-	{
-		return _textLocation;
-	}
-	
-	void NodeGraphicsItem::setTextLocation(TextLocation loc)
-	{
-		_textLocation = loc;
-		
-		if (textItem && !MainWindow::invalidPointers.contains( (void*)textItem ))
-		{
-			delete textItem;
-			textItem = 0;
-		}
-
-		if (_textLocation != NoLocation)
-		{
-			QString s = name;
-			if (handle())
-				s = handle()->name;
-			
-			textItem = new QGraphicsSimpleTextItem(s, this);
-			
-			QRectF rect = boundingRect();
-			if (_textLocation == TopLocation)
-				textItem->setPos( QPointF(rect.left(), rect.top() - textItem->boundingRect().height()*1.5));
-			else
-			if (_textLocation == BottomLocation)
-				textItem->setPos(QPointF(rect.left(), rect.bottom() + textItem->boundingRect().height()*0.5));
-			else
-			if (_textLocation == LeftLocation)
-				textItem->setPos( QPointF(rect.left() - textItem->boundingRect().width()*1.2, rect.center().y()));
-			else
-				textItem->setPos( QPointF(rect.right() + textItem->boundingRect().width()*0.2, rect.center().y()));
-		}
-	}
-
 	/*! Constructor: does nothing */
 	NodeGraphicsItem::NodeGraphicsItem(QGraphicsItem * parent) : 
-		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0), textItem(0), _textLocation(NoLocation)
+		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0)
 	{
 		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 		setFlag(QGraphicsItem::ItemIsMovable, false);
@@ -230,7 +188,7 @@ namespace Tinkercell
 
 	/*! Copy Constructor: deep copy of all pointers */
 	NodeGraphicsItem::NodeGraphicsItem(const NodeGraphicsItem& copy) : 
-		QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0), textItem(0), _textLocation(NoLocation)
+		QGraphicsItemGroup (0) , itemHandle(0), boundingBoxItem(0)
 	{
 		setFlag(QGraphicsItem::ItemIsMovable, false);
 		setFlag(QGraphicsItem::ItemIsSelectable, false);
@@ -247,7 +205,6 @@ namespace Tinkercell
 		itemHandle = copy.itemHandle;
 		name = copy.name;
 		defaultSize = copy.defaultSize;
-		_textLocation = copy._textLocation;
 
 		if (itemHandle)
 			setHandle(itemHandle);
@@ -271,7 +228,6 @@ namespace Tinkercell
 			}
 
 		refresh();
-		setTextLocation(copy._textLocation);
 
 #if QT_VERSION < 0x040600		
 		setTransform(t1);
@@ -543,16 +499,6 @@ namespace Tinkercell
 			//painter->setPen(QPen(boundaryControlPoints[0]->defaultPen.color(),1.0));
 			//painter->drawRoundRect(boundingRect());
 			//painter->drawRect(boundingRect());
-		}
-		
-		if (textItem && _textLocation != NoLocation)
-		{
-			QTransform t1 = transform();
-			t1.translate( -t1.dx(), -t1.dy() );
-			t1 = t1.inverted();
-			t1.translate( boundingRectangle.center().x(), boundingRectangle.center().y() );
-			t1.scale( 2.0 , 2.0 );
-			textItem->setTransform( t1 );
 		}
 		
 		QGraphicsItemGroup::paint(painter,option,widget);

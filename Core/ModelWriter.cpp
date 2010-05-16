@@ -177,11 +177,6 @@ namespace Tinkercell
 			else
 				writer->writeAttribute("family","Node");
 			
-			if (handle->visible)
-				writer->writeAttribute("visible",QString("true"));
-			else
-				writer->writeAttribute("visible",QString("false"));
-			
 			ConnectionHandle * connection = ConnectionHandle::cast(handle);
 			if (connection && !connection->nodesWithRoles.isEmpty())
 			{
@@ -253,7 +248,7 @@ namespace Tinkercell
 			}
 			writer->writeAttribute("values",values.join(sep));
 
-			//writeEndElement();
+		//writeEndElement();
 	}
 
 	/*! \brief Writes a data table of strings into an XML file
@@ -277,7 +272,7 @@ namespace Tinkercell
 			}
 			writer->writeAttribute("values",values.join(sep));
 
-			//writeEndElement();
+		//writeEndElement();
 	}
 	
 	QString ModelWriter::sep(";;");

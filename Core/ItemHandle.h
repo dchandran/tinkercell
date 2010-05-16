@@ -15,6 +15,8 @@ reserved roles, indicating "in" and "out" nodes.
 #define TINKERCELL_HANDLER_H
 
 #include <QList>
+#include <QQueue>
+#include <QStack>
 #include <QHash>
 #include <QPair>
 #include <QUndoCommand>
@@ -48,7 +50,7 @@ namespace Tinkercell
 	/*! \brief
 	* This class is used to store information about nodes or connections.
 	* It contains a hashtable of data tables, which is used by different tools to store
-	* specific data.
+	* specific data. The versions queue can be used to keep previous versions of the data
 	* \ingroup helper
 	*/
 	class MY_EXPORT ItemData
@@ -64,6 +66,13 @@ namespace Tinkercell
 		ItemData(const ItemData&);
 		/*! \brief operator =*/
 		virtual ItemData& operator = (const ItemData&);
+		/*! \brief save the current data in a stack and replace the data*/
+		virtual void push(const ItemData&);
+		/*! \brief load the last saved data from a stack*/
+		virtual void pop();
+	private:
+		/*! \brief previous versions*/
+		QStack<ItemData> versions;
 	};
 
 	/*! \brief
@@ -81,7 +90,6 @@ namespace Tinkercell
 	can be used to access the data conviniently.
 
 	The SymbolsTable is used to store all the handles in a network.
-	Setting visible=false will prevent the SymbolsTable from loading that ItemHandle.
 	\ingroup core
 	*/
 	class MY_EXPORT ItemHandle: public QObject
@@ -104,8 +112,6 @@ namespace Tinkercell
 		ItemHandle * parent;
 		/*! \brief child handles that have this handle as a parent*/
 		QList<ItemHandle*> children;
-		/*! \brief this property must be true in order for this handle to appear in the symbols table*/
-		bool visible;
 		/*! \brief type of this handle (sub-classes can specify type)*/
 		int type;
 
@@ -158,9 +164,6 @@ namespace Tinkercell
 		/*! \brief gets the all child handles and their child handles
 		\return QList<ItemHandle*> list of handles*/
 		virtual QList<ItemHandle*> allChildren() const;
-		/*! \brief gets the all child handles and their child handles such that each handle's visible=true
-		\return QList<ItemHandle*> list of handles*/
-		virtual QList<ItemHandle*> visibleChildren() const;
 		/*! \brief does this handle have a numerical data table with this name?
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return bool true = has a numerical table by this name. false = does not have a numerical table by this name*/

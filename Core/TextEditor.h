@@ -116,6 +116,8 @@ namespace Tinkercell
 		QMenu * contextEditorMenu;
 		/*! \brief the network handle represented in this text editor*/
 		NetworkHandle * network;
+		/*! \brief the network window containing this text editor*/
+		NetworkWindow * networkWindow;
 		/*! \brief the main window containing this network*/
 		MainWindow * mainWindow() const;
 		/*! \brief same as network->mainWindow->console()*/
@@ -235,9 +237,6 @@ namespace Tinkercell
 		virtual void keyPressEvent ( QKeyEvent * event );
 		/*! \brief listens to mouse events just to activate this window*/
 		virtual void mousePressEvent ( QMouseEvent * event );
-
-		/*! \brief the network window containing this text editor*/
-		NetworkWindow * networkWindow;
 
 		/*! \brief all the items represented by the text in this TextEditor*/
 		QList<ItemHandle*> allItems;

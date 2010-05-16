@@ -100,8 +100,6 @@ namespace Tinkercell
 
 		QString itemName, family, parent;
 		
-		bool visible=true;
-
 		for (int i=0; i < vec.size(); ++i)
 		{
 			if (!handle && vec.at(i).name().toString() == QObject::tr("type"))
@@ -133,28 +131,20 @@ namespace Tinkercell
 							parent = vec.at(i).value().toString();
 						}
 						else
-							if (vec.at(i).name().toString() == QObject::tr("visible"))
+							if (vec.at(i).name().toString() == QObject::tr("nodes"))
 							{
-								visible =
-									vec.at(i).value().toString().toLower() == QString("true") ||
-									vec.at(i).value().toString().toLower() == QString("yes");
+								nodes += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
 							}
 							else
-								if (vec.at(i).name().toString() == QObject::tr("nodes"))
+								if (vec.at(i).name().toString() == QObject::tr("roles"))
 								{
-									nodes += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
+									roles += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
 								}
-								else
-									if (vec.at(i).name().toString() == QObject::tr("roles"))
-									{
-										roles += QPair<ItemHandle*,QStringList>(handle, vec.at(i).value().toString().split(sep));
-									}
 		}
 
 		if (handle)
 		{
 			handle->name = itemName;
-			handle->visible = visible;
 			pair.first = family;
 			pair.second = handle;
 			for (int i=0; i < existingHandles.size(); ++i)

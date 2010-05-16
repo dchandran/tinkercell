@@ -240,6 +240,14 @@ namespace Tinkercell
 		
 		return mainWindow->currentNetworkWindow->scene;
 	}
+	
+	NetworkWindow * NetworkHandle::currentWindow() const
+	{
+		if (!mainWindow || !mainWindow->currentNetworkWindow || !networkWindows.contains(mainWindow->currentNetworkWindow))
+			return 0;
+		
+		return mainWindow->currentNetworkWindow;
+	}
 
 	TextEditor * NetworkHandle::currentTextEditor() const
 	{

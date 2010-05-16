@@ -57,10 +57,10 @@ namespace Tinkercell
 						if (handle = getHandle(items[i]))
 						{
 							handle = handle->root();
-							if (handle && handle->visible && !handles.contains(handle))
+							if (handle && !handles.contains(handle))
 							{
 								handles << handle;
-								handles << handle->visibleChildren();
+								handles << handle->allChildren();
 							}
 						}
 				}
@@ -74,10 +74,10 @@ namespace Tinkercell
 						if (handle = items[i])
 						{
 							handle = handle->root();
-							if (handle && handle->visible && !handles.contains(handle))
+							if (handle && !handles.contains(handle))
 							{
 								handles << handle;
-								handles << handle->visibleChildren();
+								handles << handle->allChildren();
 							}
 						}
 				}

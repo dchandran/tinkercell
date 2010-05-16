@@ -40,6 +40,9 @@ namespace Tinkercell
 			s = s.rightJustified(16);
 		}
 		setText(s);
+		
+		if (nodeFamily->pixmap.isNull()) return;
+		
 		setIcon(QIcon(nodeFamily->pixmap));
 
 		if (nodeFamily->pixmap.width() > nodeFamily->pixmap.height())
@@ -84,6 +87,9 @@ namespace Tinkercell
 			s = s.rightJustified(16);
 		}
 		setText(s);
+		
+		if (connectionFamily->pixmap.isNull()) return;
+		
 		setIcon(QIcon(connectionFamily->pixmap));
 
 		if (connectionFamily->pixmap.width() > connectionFamily->pixmap.height())

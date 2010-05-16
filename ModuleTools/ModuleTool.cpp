@@ -333,8 +333,6 @@ namespace Tinkercell
 			linkerText->setPos(linker->pos());
 			linkerText->scale(1.5,1.5);
 			toInsert += (QGraphicsItem*)linkerText;*/
-			
-			linker->setTextLocation( NodeGraphicsItem::BottomLocation );
         }
 
         for (int i=0; i < textItems.size(); ++i)
@@ -1293,9 +1291,9 @@ namespace Tinkercell
 
 	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
-		if (!scene || !item || !mainWindow) return;
+		if (!scene || !scene->network || !item || !mainWindow) return;
 
-		ItemHandle * handle = getHandle(item);
+		/*ItemHandle * handle = getHandle(item);
 		if (!handle || !handle->isA(tr("Module"))) return;
 
 		QList<QGraphicsItem*> subitems = handle->allGraphicsItems();
@@ -1307,7 +1305,14 @@ namespace Tinkercell
 				!(node->className == linkerClassName))
 				return;
 
-		createView(scene,item);
+		createView(scene,item);*/
+		
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
+		if (connection)
+		{
+			GraphicsScene * scene = scene->network->createScene();
+			NetworkWindow * window = 
+		}
     }
 
 

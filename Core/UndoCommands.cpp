@@ -1899,24 +1899,6 @@ namespace Tinkercell
 
 							}
 						}
-						else
-						{
-							NodeGraphicsItem * nodeItem = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j]);
-							if (nodeItem && nodeItem->textItem)
-							{
-								oldNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,handle->name);
-								if (regexp.numCaptures() > 0 && !regexp.cap(1).isEmpty())
-								{
-									newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,regexp.cap(1));
-									nodeItem->textItem->setText(regexp.cap(1));
-								}
-								else
-								{
-									newNodeItemsNames << QPair<NodeGraphicsItem*,QString>(nodeItem,newNames[i]);
-									nodeItem->textItem->setText(newNames[i]);
-								}
-							}
-						}
 					}
 
 					oldItemNames << QPair<ItemHandle*,QString>(handle,handle->name);
@@ -1939,11 +1921,6 @@ namespace Tinkercell
 			for (int i=0; i < newTextItemsNames.size(); ++i)
 				if (newTextItemsNames[i].first)
 					newTextItemsNames[i].first->setPlainText(newTextItemsNames[i].second);
-					
-			for (int i=0; i < newNodeItemsNames.size(); ++i)
-				if (newNodeItemsNames[i].first && newNodeItemsNames[i].first->textItem)
-					newNodeItemsNames[i].first->textItem->setText(newNodeItemsNames[i].second);
-					
 
 			if (changeDataCommand)
 				changeDataCommand->undo();
@@ -1968,10 +1945,6 @@ namespace Tinkercell
 		for (int i=0; i < oldTextItemsNames.size(); ++i)
 			if (oldTextItemsNames[i].first)
 				oldTextItemsNames[i].first->setPlainText(oldTextItemsNames[i].second);
-
-		for (int i=0; i < oldNodeItemsNames.size(); ++i)
-			if (oldNodeItemsNames[i].first && oldNodeItemsNames[i].first->textItem)
-				oldNodeItemsNames[i].first->textItem->setText(oldNodeItemsNames[i].second);
 
 		if (changeDataCommand)
 		{
@@ -2662,56 +2635,43 @@ namespace Tinkercell
 			}
 	}
 
-	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, const QList<bool>& values)
+	SetDataCommand::SetDataCommand(const QString& name, const QList<ItemHandle*>& items, const QList<ItemData*>& data)
 		: QUndoCommand(name)
 	{
-		for (int i=0; i < items.size() && i < values.size(); ++i)
-		{
-			if (items[i] && items[i]->visible != values[i])
+		for (int i=0; i < items.size() && i < data.size(); ++i)
+			if (items[i] && data[i])
 			{
 				handles << items[i];
-				before << items[i]->visible;
+				newData << (*data[i]);
 			}
-		}
 	}
 
-	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, ItemHandle* item, bool value)
+	SetDataCommand::SetDataCommand(const QString& name, ItemHandle* item, ItemData* dat)
 		: QUndoCommand(name)
 	{
-		if (item && item->visible != value)
+		if (item && dat)
 		{
 			handles << item;
-			before << item->visible;
+			newData << (*dat);
 		}
 	}
 
-	SetHandleVisibilityCommand::SetHandleVisibilityCommand(const QString& name, const QList<ItemHandle*>& items, bool value)
-		: QUndoCommand(name)
+	void SetDataCommand::redo()
 	{
-		for (int i=0; i < items.size(); ++i)
-		{
-			if (items[i] && items[i]->visible != value)
+		for (int i=0; i < handles.size() && i < newData.size(); ++i)
+			if (handles[i])
 			{
-				handles << items[i];
-				before << items[i]->visible;
-			}
-		}
+				if (!handles[i]->data)
+					handles[i]->data = new ItemData;
+				handles[i]->data->push(newData[i]);
+			}					
 	}
 
-	void SetHandleVisibilityCommand::redo()
+	void SetDataCommand::undo()
 	{
-		for (int i=0; i < handles.size() && i < before.size(); ++i)
-		{
-			handles[i]->visible = !before[i];
-		}
-	}
-
-	void SetHandleVisibilityCommand::undo()
-	{
-		for (int i=0; i < handles.size() && i < before.size(); ++i)
-		{
-			handles[i]->visible = before[i];
-		}
+		for (int i=0; i < handles.size() && i < newData.size(); ++i)
+			if (handles[i] && handles[i]->data)
+				handles[i]->data->pop();
 	}
 	
 	SetGraphicsSceneVisibilityCommand::SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)

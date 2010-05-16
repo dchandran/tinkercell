@@ -47,11 +47,7 @@ namespace Tinkercell
 
 		/*! \brief replace the current text editor or scene with a new text editor
 		* \return GraphicsScene * scene*/
-		virtual TextEdtor * newTextEditor();
-
-		/*! \brief add a toolbar specific to this window
-		* \return GraphicsScene * scene*/
-		virtual QToolBar * addToolBar(Qt::ToolBarArea area=Qt::TopToolBarArea) const;
+		virtual TextEditor * newTextEditor();
 
 	public slots:
 		/*! \brief calls main window's popOut
@@ -80,6 +76,8 @@ namespace Tinkercell
 		/*! \brief calls popIn when minimized
 		* \return void*/
 		virtual void changeEvent ( QEvent * event );
+		/*! \brief make all the main window connections*/
+		virtual void connectToMainWindow();
 
 		/*!\brief constructor with scene*/
 		NetworkWindow(NetworkHandle * network, GraphicsScene * scene);

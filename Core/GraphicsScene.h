@@ -88,6 +88,8 @@ namespace Tinkercell
 
 		/*! \brief the network represented by this scene*/
 		NetworkHandle * network;
+		/*! \brief the network window widget inside of which this scene is located*/
+		NetworkWindow * networkWindow;
 		/*! \brief the main window for this network*/
 		MainWindow * mainWindow() const;
 		/*! \brief same as network->mainWindow->console()*/
@@ -405,8 +407,6 @@ namespace Tinkercell
 
 
 	protected:
-		/*! \brief the network window widget inside of which this scene is located*/
-		NetworkWindow * networkWindow;
 		/*! \brief grid size. If zero, then disabled*/
 		int gridSz;
 		/*! \brief topmost Z value*/

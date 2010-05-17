@@ -199,7 +199,7 @@ namespace Tinkercell
 		if (boundingRect.width() > 0 && boundingRect.height() > 0)
 		{
 			for (int i=0; i < graphicsItems.size(); ++i)
-				if (boundingRect.contains(graphicsItems[i]))
+				if (graphicsItems[i] && boundingRect.contains(graphicsItems[i]->sceneBoundingRect()))
 					graphicsItems2 << graphicsItems[i];
 		}
 		else

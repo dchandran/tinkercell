@@ -1314,8 +1314,8 @@ namespace Tinkercell
 				if (window && !items.isEmpty())
 				{
 					GraphicsScene * scene = window->newScene();
-					//scene->insert(tr("new model"),items);
-					//scene->fitAll();
+					scene->insert(tr("new model"),items);
+					scene->fitAll();
 				}
 			}
 		}

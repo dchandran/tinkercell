@@ -125,12 +125,12 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	QString homeDir() const
+	QString Tool::homeDir()
 	{
 		return MainWindow::userHome();
 	}
 	
-	QString tempDir() const
+	QString Tool::tempDir()
 	{
 		return MainWindow::userTemp();
 	}

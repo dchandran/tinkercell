@@ -1310,6 +1310,7 @@ namespace Tinkercell
 			if (QFile::exists(filename) && currentNetwork())
 			{			
 				emit loadItems(items, filename);
+								
 				NetworkWindow * window = currentNetwork()->currentWindow();
 				if (window && !items.isEmpty())
 				{

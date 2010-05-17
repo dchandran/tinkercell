@@ -124,7 +124,7 @@ namespace Tinkercell
 		Mode mode;
 
 		Tool * catalogTool;
-
+		
 		QList<NodeGraphicsItem*> selectedItems;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);

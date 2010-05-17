@@ -10,7 +10,9 @@
 
 #include <math.h>
 #include <QDir>
+#include <QToolBar>
 #include <QMessageBox>
+#include <QButtonGroup>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
@@ -113,6 +115,7 @@ namespace Tinkercell
 
 			catalogTool = 0;
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
+			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
 
         return true;
@@ -176,6 +179,12 @@ namespace Tinkercell
 			emit addNewButtons(
 				QList<QToolButton*>() << moduleButton << linkButton << connectButton,
 				tr("Modules"));
+		}
+		
+		if (tool->name == tr("Save and Load"))
+		{
+			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
+			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString&)));
 		}
 	}
 
@@ -1288,8 +1297,58 @@ namespace Tinkercell
 			}
 		}
 	}
+	
+	void ModuleTool::modelButtonClicked ( QAbstractButton * button )
+	{
+		if (button)
+		{
+			QString name = button->text();
+			QList<QGraphicsItem*> items;
+			
+			QString filename = MainWindow::userHome() + tr("/modules/") + name + tr(".tic");
+			
+			if (QFile::exists(filename) && currentNetwork())
+			{			
+				emit loadItems(items, filename);
+				NetworkWindow * window = currentNetwork()->currentWindow();
+				if (window && !items.isEmpty())
+				{
+					GraphicsScene * scene = window->newScene();
+					//scene->insert(tr("new model"),items);
+					//scene->fitAll();
+				}
+			}
+		}
+	}
+	
+	void ModuleTool::populateToolBar(QToolBar * toolBar)
+	{
+		if (!toolBar) return;
 
-	void  ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
+		QString dirname = MainWindow::userHome() + tr("/modules/");
+		QDir dir(dirname);
+		
+		if (!dir.exists())
+			return;
+		
+		QButtonGroup * group = new QButtonGroup(this);
+		connect(group,SIGNAL(buttonClicked(QAbstractButton*)),this,SLOT(modelButtonClicked(QAbstractButton*)));
+
+		dir.setFilter(QDir::Files);
+		dir.setSorting(QDir::Time);
+		QFileInfoList list = dir.entryInfoList();
+
+		for (int i = 0; i < list.size(); ++i)
+		{
+		    QFileInfo fileInfo = list.at(i);
+		    QToolButton * button = new QToolButton(toolBar);
+		    toolBar->addWidget(button);
+		    button->setText(fileInfo.baseName());
+		    group->addButton(button,i);
+		}
+	}
+
+	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
     {
 		if (!scene || !scene->network || !item || !mainWindow) return;
 
@@ -1310,8 +1369,15 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
 		if (connection)
 		{
-			GraphicsScene * scene = scene->network->createScene();
-			NetworkWindow * window = 
+			NetworkHandle * network = scene->network;
+			GraphicsScene * newScene = network->createScene();
+			NetworkWindow * window = newScene->networkWindow;
+			if (window)
+			{
+				QToolBar * toolBar = window->addToolBar(tr("available models"));
+				window->setIconSize(QSize(100,100));
+				populateToolBar(toolBar);
+			}
 		}
     }
 

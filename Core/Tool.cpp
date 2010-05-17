@@ -96,6 +96,13 @@ namespace Tinkercell
 	{
 		QGraphicsItemGroup::setVisible(b);
 	}
+	
+	NetworkWindow* Tool::currentWindow() const
+	{
+		if (mainWindow)
+			return mainWindow->currentWindow();
+		return 0;		
+	}
 
 	GraphicsScene* Tool::currentScene() const
 	{
@@ -116,6 +123,16 @@ namespace Tinkercell
 		if (mainWindow)
 			return mainWindow->currentNetwork();
 		return 0;
+	}
+	
+	QString homeDir() const
+	{
+		return MainWindow::userHome();
+	}
+	
+	QString tempDir() const
+	{
+		return MainWindow::userTemp();
 	}
 
 	Tool::GraphicsItem* Tool::GraphicsItem::cast(QGraphicsItem* q)

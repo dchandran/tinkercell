@@ -33,6 +33,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QPair>
+#include <QAbstractButton>
 
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
@@ -79,6 +80,7 @@ namespace Tinkercell
 		void itemsInsertedSignal(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
 		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
+		void loadItems(QList<QGraphicsItem*>&, const QString&);
 
 	public slots:
 
@@ -104,6 +106,7 @@ namespace Tinkercell
 		void historyChanged(int);
 		void createView();
 		void createView(GraphicsScene *, QGraphicsItem *);
+		void modelButtonClicked (QAbstractButton *);
 
 	private:
 
@@ -114,6 +117,8 @@ namespace Tinkercell
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
+
+		void populateToolBar(QToolBar *);
 
 		enum Mode { none, inserting, linking, connecting };
 		Mode mode;

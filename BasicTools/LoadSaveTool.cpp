@@ -38,7 +38,7 @@ namespace Tinkercell
 		}
 	}
 
-	void LoadSaveTool::windowClosing(NetworkHandle * win, bool * close)
+	void LoadSaveTool::networkClosing(NetworkHandle * win, bool * close)
 	{
 		if (mainWindow && win && close && (*close) && savedNetworks.contains(win) && !savedNetworks.value(win))
 		{
@@ -71,14 +71,13 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(saveNetwork(const QString&)),this,SLOT(saveNetwork(const QString&)));
 			connect(mainWindow,SIGNAL(loadNetwork(const QString&)),this,SLOT(loadNetwork(const QString&)));
-			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
+			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
 			connect(mainWindow,SIGNAL(historyChanged( int )),this,SLOT(historyChanged( int )));
 
-			connect(mainWindow,SIGNAL(prepareNetworkForSaving(NetworkHandle*,bool*)),
-					this,SLOT(prepareNetworkForSaving(NetworkHandle*,bool*)));
+			connect(mainWindow,SIGNAL(prepareNetworkForSaving(NetworkHandle*,bool*)),this,SLOT(prepareNetworkForSaving(NetworkHandle*,bool*)));
 			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
 			connect(this,SIGNAL(networkLoaded(NetworkHandle*)),mainWindow,SIGNAL(networkLoaded(NetworkHandle*)));
-			
+
 			QString filename = MainWindow::userTemp() + tr("/backup.xml");
 			QFile file(filename);
 			
@@ -86,7 +85,7 @@ namespace Tinkercell
 			{
 				restoreDialog = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("TinkerCell closed unexpectedly.\nRestore previous network?"), 0, mainWindow, Qt::Dialog);
 				restoreDialog->addButton(tr("No"), QMessageBox::NoRole);
-				restoreButton = restoreDialog->addButton(tr("Yes"), QMessageBox::YesRole);				
+				restoreButton = restoreDialog->addButton(tr("Yes"), QMessageBox::YesRole);
 				restoreDialog->show();
 				connect(restoreDialog,SIGNAL(finished(int)),this,SLOT(restore(int)));
 			}

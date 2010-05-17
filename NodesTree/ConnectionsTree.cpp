@@ -22,7 +22,7 @@ namespace Tinkercell
 {
     ConnectionsTree::~ConnectionsTree()
     {
-		windowClosing(0,0);
+		networkClosing(0,0);
         if (connectionFamilies.size() > 0)
         {
             QList<ConnectionFamily*> list = connectionFamilies.values();
@@ -177,7 +177,7 @@ namespace Tinkercell
             menu->exec(pos);
     }
 
-    void ConnectionsTree::windowClosing(NetworkHandle * , bool *)
+    void ConnectionsTree::networkClosing(NetworkHandle * , bool *)
     {
         //save state of the tree
         QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);

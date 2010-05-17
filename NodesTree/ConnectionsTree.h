@@ -82,8 +82,8 @@ namespace Tinkercell
         /*! \brief request to change the connections tree hierarchy*/
         void changeTree();
     private slots:
-        /*! \brief current window is closing*/
-        void windowClosing(NetworkHandle * , bool *);
+        /*! \brief current network is closing*/
+        void networkClosing(NetworkHandle * , bool *);
     signals:
         /*! \brief one of the items on the tree is selected (button pressed)*/
         void connectionSelected(ConnectionFamily* family);

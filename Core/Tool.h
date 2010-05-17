@@ -76,7 +76,24 @@ namespace Tinkercell
 		* \return NetworkHandle* current network handle
 		*/
 		virtual NetworkHandle* currentNetwork() const;
-
+		/*!
+		* \brief the main window's current network's current window
+		* \return NetworkWindow* current network handle
+		*/
+		virtual NetworkWindow* currentWindow() const;
+		/*!
+		* \brief same as MainWindow::userHome
+		*/
+		virtual QString homeDir() const;
+		/*!
+		* \brief same as MainWindow::userTemp
+		*/
+		virtual QString tempDir() const;
+		/*!
+		* \brief the main window's current network's current window
+		* \return NetworkWindow* current network handle
+		*/
+		virtual NetworkWindow* currentWindow() const;
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core
 		*/

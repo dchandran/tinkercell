@@ -118,24 +118,21 @@ namespace Tinkercell
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
 
-		if (network->networkWindows.size() == 0 && network->mainWindow)
-		{
-			connect(this,SIGNAL(windowClosing(NetworkHandle *, bool*)),
-					network->mainWindow,SIGNAL(windowClosing(NetworkHandle *, bool*)));
-			connect(this,SIGNAL(windowClosed(NetworkHandle *)),
-					network->mainWindow,SIGNAL(windowClosed(NetworkHandle *)));
-		}
-		
-		if (!network->networkWindows.contains(this))
-			network->networkWindows += this;
+		//if (!network->networkWindows.contains(this))
+			//network->networkWindows += this;
+
+		setWindowFlags(Qt::Window);
+		show();
 
 		MainWindow * main = network->mainWindow;
 
 		if (main)
 		{
+			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
+			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
-			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));			
-			main->setCurrentWindow(this);			
+			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));
+			main->setCurrentWindow(this);
 		}
 		
 		setFocusPolicy(Qt::StrongFocus);
@@ -156,20 +153,17 @@ namespace Tinkercell
 		}
 
 		MainWindow * main = network->mainWindow;
-
-		if (network->networkWindows.size() == 0 && network->mainWindow)
-		{
-			connect(this,SIGNAL(windowClosing(NetworkHandle *, bool*)),
-					network->mainWindow,SIGNAL(windowClosing(NetworkHandle *, bool*)));
-			connect(this,SIGNAL(windowClosed(NetworkHandle *)),
-					network->mainWindow,SIGNAL(windowClosed(NetworkHandle *)));
-		}
 		
-		if (!network->networkWindows.contains(this))
-			network->networkWindows += this;
+		//if (!network->networkWindows.contains(this))
+		//	network->networkWindows += this;
+		
+		setWindowFlags(Qt::Window);
+		show();
 		
 		if (main)
 		{
+			connect(this,SIGNAL(networkClosing(NetworkHandle *, bool*)),main,SIGNAL(networkClosing(NetworkHandle *, bool*)));
+			connect(this,SIGNAL(networkClosed(NetworkHandle *)),main,SIGNAL(networkClosed(NetworkHandle *)));
 			connectToMainWindow();
 			setWindowTitle(tr("network ") + QString::number(1 + main->allNetworks.size()));
 			main->setCurrentWindow(this);
@@ -178,26 +172,38 @@ namespace Tinkercell
 		setFocusPolicy(Qt::StrongFocus);
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
 	}
-	
+
 	void NetworkWindow::closeEvent(QCloseEvent * event)
 	{
-		bool b = true;
-		
-		if (network)
-			emit windowClosing(network,&b);
-		
-		if (b)
+		if (network->networkWindows.size() <= 1)
 		{
+			bool b = true;
+		
 			if (network)
+				emit networkClosing(network,&b);
+		
+			if (b)
 			{
-				emit windowClosed(network);
-				network->networkWindows.removeAll(this);
+				if (network)
+				{
+					emit networkClosed(network);
+					network->networkWindows.removeAll(this);
 
-				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-					network->mainWindow->currentNetworkWindow = 0;
+					if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+						network->mainWindow->currentNetworkWindow = 0;
 
-				network->close();
+					network->close();
+				}
+
+				event->accept();
 			}
+		}
+		else
+		{
+			network->networkWindows.removeAll(this);
+
+			if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+				network->mainWindow->currentNetworkWindow = 0;
 
 			event->accept();
 		}
@@ -277,6 +283,8 @@ namespace Tinkercell
 		setCentralWidget(view);
 		
 		connectToMainWindow();
+		
+		return scene;
 	}
 
 	TextEditor * NetworkWindow::newTextEditor()
@@ -306,6 +314,8 @@ namespace Tinkercell
 		setCentralWidget(editor);
 		
 		connectToMainWindow();
+		
+		return editor;
 	}
 
 	/*bool NetworkHandle::winEvent ( MSG * m, long * result )

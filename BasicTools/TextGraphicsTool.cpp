@@ -28,6 +28,7 @@ namespace Tinkercell
 		oldText = tr("");
 
 		toolBar = new QToolBar(tr("Text tool"),this);
+		toolBar->setObjectName(tr("Text tool"));
 		QToolButton * insertText = new QToolButton(toolBar);
 		insertText->setIcon(QIcon(tr(":/images/text.png")));
 		insertText->setToolTip(tr("Insert text"));

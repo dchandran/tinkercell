@@ -44,12 +44,10 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-			//connect(mainWindow,SIGNAL(windowOpened(NetworkHandle*)),this,SLOT(windowOpened(NetworkHandle*)));
-			//connect(mainWindow,SIGNAL(windowChanged(NetworkHandle*,NetworkHandle*)),this,SLOT(windowChanged(NetworkHandle*,NetworkHandle*)));
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this ,SLOT(itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle*,bool*)),this,SLOT(windowClosing(NetworkHandle*,bool*)));
+			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle*,bool*)),this,SLOT(networkClosing(NetworkHandle*,bool*)));
 
 			return true;
 		}
@@ -711,7 +709,7 @@ namespace Tinkercell
 		}
 	}
 
-	void NodeSelection::windowClosing(NetworkHandle * net, bool * )
+	void NodeSelection::networkClosing(NetworkHandle * net, bool *)
 	{
 		deselect();
 		if (net && net->currentScene())

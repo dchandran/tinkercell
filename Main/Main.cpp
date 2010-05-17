@@ -80,7 +80,9 @@ int main(int argc, char *argv[])
     LoadPluginsFromDir(home + QString("/plugins/c"),&mainWindow, &splash);
 
 	mainWindow.newScene();
-
+	
+	mainWindow.readSettings();
+	
     mainWindow.show();
 
     splash.finish(&mainWindow);

@@ -217,8 +217,6 @@ namespace Tinkercell
 		RegisterDataTypes();
 		previousFileName = QDir::currentPath();
 
-		readSettings();
-
 		consoleWindow = 0;
 		currentNetworkWindow = 0;
 		toolBox = 0;
@@ -274,6 +272,8 @@ namespace Tinkercell
 
 		parsersMenu = 0;
 		c_api_slots = new C_API_Slots(this);
+		
+		readSettings();
 	}
 
 	ConsoleWindow * MainWindow::console() const
@@ -297,6 +297,7 @@ namespace Tinkercell
 		settings.setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
 		settings.setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
 		settings.setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
+		settings.setValue("windowState", saveState());
 
 		settings.endGroup();
 	}
@@ -319,6 +320,8 @@ namespace Tinkercell
 		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
 		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());
 		defaultConsoleWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultConsoleWindowOption", (int)defaultConsoleWindowOption).toInt());
+		
+		restoreState(settings.value("windowState").toByteArray());
 
 		settings.endGroup();
 	}
@@ -377,12 +380,14 @@ namespace Tinkercell
 
 			if (window != oldWindow)
 			{
-				emit escapeSignal(this);
+				//emit escapeSignal(this);
+				if (window->scene)
+					if (oldWindow && oldWindow->scene)
+						window->scene->useDefaultBehavior = oldWindow->scene->useDefaultBehavior;
+					else
+						window->scene->useDefaultBehavior = GraphicsScene::USE_DEFAULT_BEHAVIOR;				
 				
-				if (oldWindow)			
-					emit windowChanged(oldWindow->network,window->network);
-				else
-					emit windowChanged(0,window->network);
+				emit windowChanged(oldWindow,window);
 			}
 		}
 		else
@@ -403,8 +408,9 @@ namespace Tinkercell
 		{
 			NetworkWindow * subWindow = scene->networkWindow;
 			popIn(subWindow);
-			emit windowOpened(subWindow->network);
+			emit networkOpened(subWindow->network);
 		}
+		
 		return scene;
 	}
 
@@ -417,7 +423,7 @@ namespace Tinkercell
 		{
 			NetworkWindow * subWindow = editor->networkWindow;
 			popIn(subWindow);
-			emit windowOpened(subWindow->network);
+			emit networkOpened(subWindow->network);
 		}
 		return editor;
 	}
@@ -600,6 +606,7 @@ namespace Tinkercell
 		if (option == DockWidget)
 		{
 			QDockWidget *dock = new QDockWidget(tool->windowTitle(), this);
+			dock->setObjectName(tool->windowTitle());
 			dock->setWindowIcon(tool->windowIcon());
 			dock->setAllowedAreas(allowedAreas);
 			dock->setWidget(tool);
@@ -615,6 +622,7 @@ namespace Tinkercell
 		if (!toolBox || option == NewToolBoxWidget)
 		{
 			dock = new QDockWidget(tr("Tools Window"), this);
+			dock->setObjectName(tool->windowTitle());
 			if (option == NewToolBoxWidget)
 				dock->setWindowTitle(tool->windowTitle());
 			toolBox = new QToolBox;
@@ -710,8 +718,13 @@ namespace Tinkercell
 	{
 		fileMenu = menuBar()->addMenu(tr("&File"));
 		toolBarBasic = new QToolBar(tr("Open/save/new toolbar"),this);
+		toolBarBasic->setObjectName(tr("Open/save/new toolbar"));
+		
 		toolBarEdits = new QToolBar(tr("Edit options"),this);
+		toolBarEdits->setObjectName(tr("Edit options"));
+		
 		toolBarForTools = new QToolBar(tr("Plug-ins"),this);
+		toolBarForTools->setObjectName(tr("Plug-ins"));
 
 		if (enableScene)
 		{
@@ -945,10 +958,10 @@ namespace Tinkercell
 			if (list[i] && allNetworks.contains(list[i]))
 			{
 				b = true;
-				emit windowClosing(list[i],&b);
+				emit networkClosing(list[i],&b);
 				if (b)
 				{
-					emit windowClosed(list[i]);
+					emit networkClosed(list[i]);
 					disconnect(list[i]);
 					allNetworks.removeAll(list[i]);
 					list[i]->close();

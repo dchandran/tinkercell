@@ -72,7 +72,7 @@ namespace Tinkercell
 		void itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>&, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget*);
-		void windowClosing(NetworkHandle * window, bool*);
+		void networkClosing(NetworkHandle *,bool*);
 		void historyChanged(int);
 
 	private:

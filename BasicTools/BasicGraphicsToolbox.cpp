@@ -28,6 +28,8 @@ namespace Tinkercell
 	{
 		mode = none;
 		colorToolBar = new QToolBar(name,this);
+		colorToolBar->setObjectName(name);
+
 		gradientType = QGradient::NoGradient;
 		QToolButton * changeBrush = new QToolButton(colorToolBar);
 		changeBrush->setPopupMode(QToolButton::MenuButtonPopup);
@@ -211,6 +213,8 @@ namespace Tinkercell
 		if (main != 0)
 		{
 			QToolBar * zoomToolBar = new QToolBar(tr("Zoom tool"),main->centralWidget());
+			zoomToolBar->setObjectName(tr("Zoom tool"));
+			
 			zoomToolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
 			zoomToolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
 
@@ -222,6 +226,8 @@ namespace Tinkercell
 			findText = new QLineEdit;
 			replaceText = new QLineEdit;
 			findToolBar = new QToolBar(tr("Find tool"),main->centralWidget());
+			findToolBar->setObjectName(tr("Find tool"));
+			
 			QAction * findAction = new QAction(QIcon(tr(":/images/find.png")),tr("Find text"),main->centralWidget());
 			findAction->setShortcut(QKeySequence::Find);
 

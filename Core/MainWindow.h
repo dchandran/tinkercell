@@ -412,6 +412,10 @@ namespace Tinkercell
 
 		/*! \brief get the console window*/
 		ConsoleWindow * console() const;
+		
+		/*! \brief read initial settings from settingsFileName
+		* \return void*/
+		void readSettings();
 
 		/*! \brief gets the global main window*/
 		static MainWindow * instance();
@@ -518,60 +522,60 @@ namespace Tinkercell
 		*/
 		void setupFunctionPointers( QLibrary * );
 		/*!
-		* \brief signals when a window is going to close
-		* \param NetworkHandle *  the window that is closing
+		* \brief signals when a network is going to close
+		* \param NetworkHandle *  the network that is closing
 		* \param Boolean setting to false will prevent this window from closing
 		* \return void
 		*/
-		void windowClosing(NetworkHandle *, bool*);
+		void networkClosing(NetworkHandle *, bool*);
 		/*!
 		* \brief signals after a window is closed
 		* \param NetworkHandle *  the window that was closed
 		* \return void
 		*/
-		void windowClosed(NetworkHandle *);
+		void networkClosed(NetworkHandle *);
 		/*!
 		* \brief signals used inform that the Network is going to be saved as it is
 		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
 		* \return void*/
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
 		/*!
-		* \brief signals used inform that the Network has been saved
-		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
+		* \brief signals used inform that the network has been saved
+		* \param NetworkHandle *  the window where network was loaded (usually current scene)
 		* \return void
 		*/
 		void networkSaved(NetworkHandle*);
 		/*!
-		* \brief signals used selects a file to save the current Network to
+		* \brief signals used selects a file to save the current network to
 		* \param QString& file that is selected by user
 		* \return void
 		*/
 		void saveNetwork(const QString& filename);
 		/*!
-		* \brief signals used selects a file to open in the current window
+		* \brief signals used selects a file to open in the current network
 		* \param QString& file that is selected by user
 		* \return void
 		*/
 		void loadNetwork(const QString& filename);
 		/*!
-		* \brief signals informs that the current window has just loaded a new Network
-		* \param NetworkHandle *  the window where Network was loaded (usually current scene)
+		* \brief signals informs that the current network has just loaded a new Network
+		* \param NetworkHandle *  the window where network was loaded (usually current scene)
 		* \return void
 		*/
 		void networkLoaded(NetworkHandle*);
 		/*!
-		* \brief signals whenever the new window is opened
+		* \brief signals whenever the new network is opened
 		* \param NetworkHandle* the current new window
 		* \return void
 		*/
-		void windowOpened(NetworkHandle*);
+		void networkOpened(NetworkHandle*);
 		/*!
 		* \brief signals whenever the current window changes
-		* \param NetworkHandle* the previous windpw
-		* \param NetworkHandle* the current new window
+		* \param NetworkWindow* the previous windpw
+		* \param NetworkWindow* the current new window
 		* \return void
 		*/
-		void windowChanged(NetworkHandle*,NetworkHandle*);
+		void windowChanged(NetworkWindow*,NetworkWindow*);
 		/*!
 		* \brief signals whenever a new item is selected (item can be sub-item, not top-level)
 		* \param GraphicsScene * scene where items are selected
@@ -769,9 +773,6 @@ namespace Tinkercell
 		QHash<QString,QLibrary*> dynamicallyLoadedLibraries;
 		/*! \brief the general window for command, errors, and messages*/
 		ConsoleWindow * consoleWindow;
-		/*! \brief read initial settings from settingsFileName
-		* \return void*/
-		void readSettings();
 		/*! \brief save initial settings to settingsFileName
 		* \return void*/
 		void saveSettings();

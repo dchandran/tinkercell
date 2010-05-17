@@ -17,6 +17,8 @@ namespace Tinkercell
 {
      NodesTree::~NodesTree()
      {
+		  networkClosing(0,0);
+
           QList<NodeFamily*> list = nodeFamilies.values();
 
           for (int i=0; i < list.size(); ++i)
@@ -132,9 +134,7 @@ namespace Tinkercell
           {
                connect(this,SIGNAL(sendEscapeSignal(const QWidget*)),mainWindow,SIGNAL(escapeSignal(const QWidget*)));
                
-               connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
-               
-			   return true;
+               return true;
           }
           return false;
      }
@@ -313,7 +313,7 @@ namespace Tinkercell
                temporaryFileName = nodesListWidget->currentItem()->data(3).toString();
      }
 
-     void NodesTree::windowClosing(NetworkHandle * , bool *)
+     void NodesTree::networkClosing(NetworkHandle * , bool *)
      {
           //save state of the tree
           QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);

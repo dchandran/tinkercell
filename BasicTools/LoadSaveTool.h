@@ -63,7 +63,7 @@ namespace Tinkercell
 		void saveNetwork(const QString& filename);
 		void loadNetwork(const QString& filename);
 		void historyChanged( int );
-		void windowClosing(NetworkHandle * win, bool * close);
+		void networkClosing(NetworkHandle * win, bool * close);
 		void restore(int);
 
 	protected:

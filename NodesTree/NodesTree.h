@@ -126,8 +126,8 @@ namespace Tinkercell
         void selectNewNodeFile();
 		/*! \brief enter pressed or double clicked*/
 		void itemActivated( QListWidgetItem * );
-        /*! \brief one of the windows is closing*/
-        void windowClosing(NetworkHandle * , bool *);
+        /*! \brief one of the network is closing*/
+        void networkClosing(NetworkHandle * , bool *);
 
     private:
 

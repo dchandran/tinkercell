@@ -103,7 +103,7 @@ namespace Tinkercell
 	}
 	
 	NetworkWindow::NetworkWindow(NetworkHandle * network, GraphicsScene * scene)
-		: QMainWindow(network->mainWindow), network(network), scene(scene), editor(0)
+		: QMainWindow(network->mainWindow), network(network), scene(scene), editor(0), handle(0)
 	{
 		if (!network)
 			return;
@@ -140,7 +140,7 @@ namespace Tinkercell
 	}
 	
 	NetworkWindow::NetworkWindow(NetworkHandle * network, TextEditor * editor)
-		: QMainWindow(network->mainWindow), network(network), scene(0), editor(editor)
+		: QMainWindow(network->mainWindow), network(network), scene(0), editor(editor), handle(0)
 	{
 		if (!network) return;
 		

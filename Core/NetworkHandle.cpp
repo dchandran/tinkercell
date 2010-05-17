@@ -194,8 +194,24 @@ namespace Tinkercell
 		if (!item) return 0;
 		
 		QList<QGraphicsItem*> graphicsItems = item->allGraphicsItems();
+		QList<QGraphicsItem*> graphicsItems2;
 		
-		return createScene(graphicsItems);
+		if (boundingRect.width() > 0 && boundingRect.height() > 0)
+		{
+			for (int i=0; i < graphicsItems.size(); ++i)
+				if (boundingRect.contains(graphicsItems[i]))
+					graphicsItems2 << graphicsItems[i];
+		}
+		else
+			graphicsItems2 = graphicsItems;
+		
+		
+		GraphicsScene * scene = createScene(graphicsItems2);
+		
+		if (scene->networkWindow)
+			scene->networkWindow->handle = item;
+		
+		return scene;
 	}
 
 	NetworkHandle::NetworkHandle(MainWindow * main) : QObject(main), mainWindow(main), symbolsTable(this)

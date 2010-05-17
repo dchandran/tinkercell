@@ -12,6 +12,7 @@ namespace Tinkercell
 	class GraphicsScene;
 	class TextEditor;
 	class NetworkHandle;
+	class ItemHandle;
 		
 	class NetworkWindow : public QMainWindow
 	{
@@ -34,6 +35,9 @@ namespace Tinkercell
 	public:
 		/*!\brief the network displayed in this window*/
 		NetworkHandle * network;
+		
+		/*!\brief this pointer will be non-zero if an ItemHandle is associated with this window*/
+		ItemHandle * handle;
 
 		/*!\brief the scene inside this window. Either the scene or the editor must be 0*/
 		GraphicsScene * scene;
@@ -72,7 +76,7 @@ namespace Tinkercell
 		virtual void resizeEvent (QResizeEvent * event);
 		/*! \brief calls main window's setAsCurrentWindow
 		* \return void*/
-		virtual void setAsCurrentWindow();	
+		virtual void setAsCurrentWindow();
 		/*! \brief calls popIn when minimized
 		* \return void*/
 		virtual void changeEvent ( QEvent * event );

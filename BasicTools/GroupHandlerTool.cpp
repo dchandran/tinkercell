@@ -97,18 +97,6 @@ namespace Tinkercell
 	{
 		static bool alreadyConnected = false;
 		if (alreadyConnected || !mainWindow) return;
-
-		/*if (mainWindow->tool(tr("Collision Detection")))
-		{
-			QWidget * widget = mainWindow->tool(tr("Collision Detection"));
-			CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
-			if (collisionDetection)
-			{
-				alreadyConnected = true;
-				connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )),
-					this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers )));
-			}
-		}*/
 		
 		if (mainWindow->tool(tr("Graphics Replace Tool")))
 		{
@@ -553,7 +541,7 @@ namespace Tinkercell
 		emit substituteNodeGraphics();
 	}
 
-	void GroupHandlerTool::nodeCollided(const QList<QGraphicsItem*>& list, NodeGraphicsItem * item, QPointF , Qt::KeyboardModifiers )
+	void GroupHandlerTool::nodeCollided(const QList<QGraphicsItem*>& list, NodeGraphicsItem * item, QPointF)
 	{
 		if (mainWindow == 0 || mainWindow->currentScene() == 0 || item == 0 || list.isEmpty()) return;
 		GraphicsScene * scene = mainWindow->currentScene();

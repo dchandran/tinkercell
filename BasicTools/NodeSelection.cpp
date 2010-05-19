@@ -53,7 +53,8 @@ namespace Tinkercell
 		}
 		return false;
 	}
-	void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& , Qt::KeyboardModifiers )
+
+	void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& )
 	{
 		if (!scene) return;
 

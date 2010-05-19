@@ -616,22 +616,30 @@ namespace Tinkercell
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+				/*! \brief signals whenever items are going to be moved (each item is the top-most item)
+		* \param GraphicsScene* scene where the items were moved
+		* \param QList<QGraphicsItem*>& list of pointers to all moving items
+		* \param QPointF distance by which items moved
+		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
+		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
+		* \return void*/
+		void itemsAboutToBeMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, QList<QUndoCommand*>&);
 		/*!
 		* \brief signals whenever items are being moved (each item is the top-most item)
 		* \param GraphicsScene * scene where the items were moved
 		* \param QList<QGraphicsItem*>& list of pointes to all moving items
-		* \param QPointF point where the item was
-		* \param QPointF point where the item is moved to
+		* \param QPointF distance by which items moved
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
-		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
+		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
 		/*!
 		* \brief signals just before items are deleted
 		* \param GraphicsScene* scene where the items are going to be removed
 		* \param QList<QGraphicsItem*>& list of items going to be removed
 		* \param QList<ItemHandle*>& list of handles going to be removed (does NOT have to be the same number as items removed)
+		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
 		* \return void*/
-		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles);
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		/*!
 		* \brief signals whenever items are deleted
 		* \param GraphicsScene * scene where the items were removed
@@ -644,8 +652,9 @@ namespace Tinkercell
 		* \param GraphicsScene* scene where the items are added
 		* \param QList<QGraphicsItem*>& list of new graphics items
 		* \param QList<ItemHandle*>& list of new handles (does NOT have to be the same number as items)
+		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
 		* \return void*/
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
 		/*!
 		* \brief signals whenever items are added
 		* \param GraphicsScene * scene where the items were added

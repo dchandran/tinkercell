@@ -67,7 +67,7 @@ namespace Tinkercell
 		void separate();
 		void alias();
 		void decorate();
-		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF , Qt::KeyboardModifiers );
+		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , QPointF );
 		void toolLoaded(Tool*);
 		void setupFunctionPointers( QLibrary * );
 

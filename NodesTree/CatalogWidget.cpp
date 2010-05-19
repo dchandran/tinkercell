@@ -626,11 +626,13 @@ namespace Tinkercell
 		
 		QList<ItemFamily*> children = family->children();
 		
-		for (int i=0; i < children.size(); ++i)
-			if (children[i] && children[i]->name.contains(family->name))
-				return false;
-			
-		return (children.size() < 5);
+		if (ConnectionFamily::cast(family) && children.size() > 5)
+			return false;
+		
+		if (NodeFamily::cast(family) && family->parent() && family->parent()->parent())
+			return false;
+		
+		return true;
 	}
 
 	void CatalogWidget::setUpTabView()

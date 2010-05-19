@@ -916,19 +916,6 @@ namespace Tinkercell
 	{
 		if (!item) return;
 
-		QUndoCommand * command = new MoveCommand(this,item,distance);
-
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-
-		QList<QGraphicsItem*> items;
-		items += item;
-
 		QPointF change = distance;
 		if (gridSz > 0)
 		{
@@ -937,9 +924,31 @@ namespace Tinkercell
 		}
 
 		QList<QPointF> dists;
-		while (dists.size() < items.size()) dists << change;
+		QList<QGraphicsItem*> items;
+		items += item;
+		dists += change;
+		
+		QList<QUndoCommand*> commands;
+		emit itemsAboutToBeMoved(this,items,dists,commands);
 
-		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		QUndoCommand * command = new MoveCommand(this,item,distance);
+		
+		if (!commands.isEmpty())
+		{
+			QString name = QObject::tr("items moved by (") + QString::number(distance.x()) + QObject::tr(",") + QString::number(distance.y()) + QObject::tr(")");
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
+
+		if (network)
+			network->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+		
+		emit itemsMoved(this,items,dists);
 
 		QPointF p = item->scenePos();
 		if (p.rx() > this->width() || p.ry() > this->height())
@@ -950,7 +959,27 @@ namespace Tinkercell
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QPointF& distance)
 	{
+		QPointF change = distance;
+		if (gridSz > 0)
+		{
+			change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+			change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
+		}
+		
+		QList<QPointF> dists;
+		while (dists.size() < items.size()) dists << change;
+
+		QList<QUndoCommand*> commands;
+		emit itemsAboutToBeMoved(this,items,dists,commands);
+
 		QUndoCommand * command = new MoveCommand(this,items, distance);
+		
+		if (!commands.isEmpty())
+		{
+			QString name = QObject::tr("items moved by (") + QString::number(distance.x()) + QObject::tr(",") + QString::number(distance.y()) + QObject::tr(")");
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
 
 		if (network)
 			network->history.push(command);
@@ -960,16 +989,7 @@ namespace Tinkercell
 			delete command;
 		}
 
-		QPointF change = distance;
-		if (gridSz > 0)
-		{
-			change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
-			change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
-		}
-		QList<QPointF> dists;
-		while (dists.size() < items.size()) dists << change;
-
-		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		emit itemsMoved(this,items,dists);
 
 		QPointF p;
 		for (int i=0; i < items.size(); ++i)
@@ -987,16 +1007,6 @@ namespace Tinkercell
 	/*! \brief a simple move operation with undo*/
 	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
 	{
-		QUndoCommand * command = new MoveCommand(this,items, distance);
-
-		if (network)
-			network->history.push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
-
 		QList<QPointF> dists = distance;
 
 		if (gridSz > 0)
@@ -1008,9 +1018,29 @@ namespace Tinkercell
 			}
 		}
 
+		QList<QUndoCommand*> commands;
+		emit itemsAboutToBeMoved(this,items,dists,commands);
+
+		QUndoCommand * command = new MoveCommand(this,items, distance);
+		
+		if (!commands.isEmpty())
+		{
+			QString name = QObject::tr("items moved by ...");
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
+
+		if (network)
+			network->history.push(command);
+		else
+		{
+			command->redo();
+			delete command;
+		}
+
 		while (dists.size() < items.size()) dists << QPointF();
 
-		emit itemsMoved(this,items,dists,Qt::NoModifier);
+		emit itemsMoved(this,items,dists);
 
 		QPointF p;
 		for (int i=0; i < items.size(); ++i)
@@ -1037,9 +1067,17 @@ namespace Tinkercell
 		if (handle)
 			handles += handle;
 
-		emit itemsAboutToBeInserted(this,items,handles);
-
+		QList<QUndoCommand*> commands;
+		emit itemsAboutToBeInserted(this,items,handles,commands);
+		
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, items);
+		
+		if (!commands.isEmpty())
+		{
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
+		
 		network->history.push(command);
 		emit itemsInserted(this,items,handles);
 	}
@@ -1062,9 +1100,16 @@ namespace Tinkercell
 			}
 		}
 
-		emit itemsAboutToBeInserted(this,allItems,handles);
+		QList<QUndoCommand*> commands;
+		emit itemsAboutToBeInserted(this,allItems,handles,commands);
 
 		QUndoCommand * command = new InsertGraphicsCommand(name, this, allItems);
+		
+		if (!commands.isEmpty())
+		{
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
 
 		network->history.push(command);
 
@@ -1092,9 +1137,16 @@ namespace Tinkercell
 					allitems << handles2[j]->allGraphicsItems();
 		}
 
-		emit itemsAboutToBeRemoved(this,allitems,handles);
+		QList<QUndoCommand*> commands;		
+		emit itemsAboutToBeRemoved(this,allitems,handles,commands);
 
 		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
+		
+		if (!commands.isEmpty())
+		{
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
 
 		network->history.push(command);
 		
@@ -1126,9 +1178,16 @@ namespace Tinkercell
 				}
 			}
 
-		emit itemsAboutToBeRemoved(this,allitems,handles);
+		QList<QUndoCommand*> commands;		
+		emit itemsAboutToBeRemoved(this,allitems,handles,commands);
 
 		QUndoCommand * command = new RemoveGraphicsCommand(name, this, allitems);
+		
+		if (!commands.isEmpty())
+		{
+			commands << command;
+			command = new CompositeCommand(name,commands);
+		}
 
 		network->history.push(command);
 	
@@ -1612,7 +1671,7 @@ namespace Tinkercell
 			}
 		}
 
-		emit itemsAboutToBeInserted(this,items,handles);
+		emit itemsAboutToBeInserted(this,items,handles,commands);
 
 		for (int i=0; i < handles.size(); ++i)
 		{

@@ -253,14 +253,22 @@ namespace Tinkercell
 	
 	void ItemHandle::changeData(const QString& hashstring, const DataTable<qreal>* newdata)
 	{
+		if (!data || !newdata) return;
+		
 		if (network)
 			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		else
+			data->numericalData[hashstring] = (*newdata);
 	}
 	
 	void ItemHandle::changeData(const QString& hashstring, const DataTable<QString>* newdata)
 	{
+		if (!data || !newdata) return;
+		
 		if (network)
 			network->changeData( name + QString("'s ") + hashstring + QString(" changed"), this, hashstring, newdata);
+		else
+			data->textData[hashstring] = (*newdata);			
 	}
 
 	void ItemHandle::setParent(ItemHandle * p, bool useCommand)

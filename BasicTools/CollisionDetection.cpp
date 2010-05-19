@@ -40,8 +40,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene *, QGraphicsItem *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(sceneMouseMoved(GraphicsScene *, QGraphicsItem *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
 
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-				this ,SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+				this ,SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -56,10 +56,10 @@ namespace Tinkercell
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
 			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
-				emit nodeCollided(items,nodeBelowCursor,QList<QPointF>(),0);
+				emit nodeCollided(items,nodeBelowCursor,QList<QPointF>());
 			else
 				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
-					emit connectionCollided(items,connectionBelowCursor,QList<QPointF>(),0);
+					emit connectionCollided(items,connectionBelowCursor,QList<QPointF>());
 		}
 		/*
 		if (scene)
@@ -315,17 +315,17 @@ namespace Tinkercell
 		}
 	}
 
-	void CollisionDetection::itemsMoved(GraphicsScene *,const QList<QGraphicsItem*>& movingItems, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers)
+	void CollisionDetection::itemsMoved(GraphicsScene *,const QList<QGraphicsItem*>& movingItems, const QList<QPointF>& distance)
 	{
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
 			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 			{
-				emit nodeCollided(movingItems,nodeBelowCursor,distance,modifiers);
+				emit nodeCollided(movingItems,nodeBelowCursor,distance);
 			}
 			else
 				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
-					emit connectionCollided(movingItems,connectionBelowCursor,distance,modifiers);
+					emit connectionCollided(movingItems,connectionBelowCursor,distance);
 		}
 	}
 

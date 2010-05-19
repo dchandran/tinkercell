@@ -67,7 +67,7 @@ namespace Tinkercell
 			The item is made to "glow" using a QTimeLine */
 			void sceneMouseMoved(GraphicsScene *, QGraphicsItem *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&);
 			/*! \brief checks whether a collision has occured when items have moved */
-			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers);
+			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&);
 			/*! \brief stops the "glowing" effect when items are selected*/
 			void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 			/*! \brief stops the "glowing" effect when items are inserted*/
@@ -81,7 +81,7 @@ namespace Tinkercell
 			\param QList<QPointF> the moving items' locations
 			\param Qt::KeyboardModifiers keyboard modifiers
 			*/
-			void nodeCollided(const QList<QGraphicsItem*>& movingNodes, NodeGraphicsItem * collidedNode, const QList<QPointF>& movingItemsPos, Qt::KeyboardModifiers );
+			void nodeCollided(const QList<QGraphicsItem*>& movingNodes, NodeGraphicsItem * collidedNode, const QList<QPointF>&  );
 			/*!
 			\brief two or more items have been moved on top of a connections item
 			\param QList<QGraphicsItem*> the moving items
@@ -89,7 +89,7 @@ namespace Tinkercell
 			\param QList<QPointF> the moving items' locations
 			\param Qt::KeyboardModifiers keyboard modifiers
 			*/
-			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
+			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , const QList<QPointF>&  );
 
 	private slots:
 		/*!

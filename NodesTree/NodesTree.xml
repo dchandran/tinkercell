@@ -41,16 +41,6 @@
 	  </node>
 	</node>
 	
-	<node family="Operator" Kd="1.0">
-	    <text>Transcription factor binding site</text>
-	    <node family="Inducible Promoter" composite="true">
-		  <text>A promoter that is requires a transcription factor for activation</text>
-		</node>
-		<node family="Repressible Promoter" composite="true">
-		  <text>A promoter that can be repressed by a transcription factor</text>
-		</node>
-	</node>
-	
 	<node family="Promoter" strength="1.0">
 		<text>RNA Polymerase binding site; may or may not include the operator sites, depending on the model</text>
 		<node family="Constitutive Promoter" composite="true">

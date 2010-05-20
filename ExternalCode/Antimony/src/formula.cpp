@@ -49,11 +49,6 @@ void Formula::AddMathThing(char maththing)
   m_components.push_back(newvar);
 }
 
-void Formula::AddFormula(const Formula* form2)
-{
-  m_components.insert(m_components.end(), form2->m_components.begin(), form2->m_components.end());
-}
-
 void Formula::AddEllipses()
 {
   vector<string> novar;
@@ -61,18 +56,6 @@ void Formula::AddEllipses()
   string ellipses = "...";
   newvar = make_pair(ellipses, novar);
   //assert(m_components.size()==0);
-  m_components.push_back(newvar);
-}
-
-void Formula::AddParentheses()
-{
-  vector<string> novar;
-  pair<string, vector<string> > newvar;
-  string math = "(";
-  newvar = make_pair(math, novar);
-  m_components.insert(m_components.begin(), newvar);
-  math = ")";
-  newvar = make_pair(math, novar);
   m_components.push_back(newvar);
 }
 

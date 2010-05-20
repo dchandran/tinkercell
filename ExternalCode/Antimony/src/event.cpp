@@ -9,9 +9,8 @@
 
 using namespace std;
 
-AntimonyEvent::AntimonyEvent(const Formula& delay, const Formula& trigger, Variable* var)
+AntimonyEvent::AntimonyEvent(const Formula& trigger, Variable* var)
   : m_trigger(trigger),
-    m_delay(delay),
     m_varresults(),
     m_formresults(),
     m_name(var->GetName()),
@@ -21,7 +20,6 @@ AntimonyEvent::AntimonyEvent(const Formula& delay, const Formula& trigger, Varia
 
 AntimonyEvent::AntimonyEvent()
   : m_trigger(),
-    m_delay(),
     m_varresults(),
     m_formresults(),
     m_name(),
@@ -71,7 +69,6 @@ void AntimonyEvent::SetNewTopName(string modname, string newtopname)
   m_module = modname;
   //Our dependents:
   m_trigger.SetNewTopName(modname, newtopname);
-  m_delay.SetNewTopName(modname, newtopname);
   assert(m_varresults.size() == m_formresults.size());
   for (size_t result=0; result<m_varresults.size(); result++) {
     m_varresults[result].insert(m_varresults[result].begin(), newtopname);
@@ -147,14 +144,11 @@ string AntimonyEvent::ToStringDelimitedBy(char cc) const
     assert(false);
     return "";
   }
-  retval += actualvar->GetNameDelimitedBy(cc) + ": at ";
-  if (!m_delay.IsEmpty()) {
-    retval += m_delay.ToDelimitedStringWithEllipses(cc) + " after ";
-  }
-  retval += m_trigger.ToDelimitedStringWithEllipses(cc) + ": ";
+  retval += actualvar->GetNameDelimitedBy(cc) + ": at(";
+  retval += m_trigger.ToDelimitedStringWithEllipses(cc) + "): ";
   for (size_t result=0; result<m_varresults.size(); result++) {
     if (result>0) {
-      retval += ", ";
+      retval += ": ";
     }
     Variable* resultvar = g_registry.GetModule(m_module)->GetVariable(m_varresults[result]);
     if (resultvar == NULL) {

@@ -1,0 +1,103 @@
+SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
+
+IF (WIN32)
+
+	IF (MINGW)
+		SET (LIBXML2_LIBRARIES ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/libxml2.dll.a)
+	ELSE(MINGW)
+		SET (LIBXML2_LIBRARIES ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/libxml2.lib)
+	ENDIF(MINGW)
+	SET (LIBXML2_INCLUDE_DIR ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/include)
+	
+ELSE(WIN32)	
+
+	FIND_PACKAGE(LIBXML2)
+	
+ENDIF(WIN32)
+
+INCLUDE_DIRECTORIES( 
+	BEFORE
+	${LIBXML2_INCLUDE_DIR}
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation
+)
+
+#ADD_DEFINITIONS(-DLIBSBML_STATIC)
+#ADD_DEFINITIONS(-D__cplusplus)
+ADD_DEFINITIONS(-DLIBSBML_EXPORTS)
+ADD_DEFINITIONS(-DLIBLAX_EXPORTS)
+
+ADD_DEFINITIONS(-DPACKAGE_NAME=\"libSBML\")
+ADD_DEFINITIONS(-DNDEBUG)
+ADD_DEFINITIONS(-DUSE_LIBXML)
+ADD_DEFINITIONS(-DUSE_LAYOUT)
+
+IF (WIN32)
+	ADD_DEFINITIONS(-DWIN32)
+	ADD_DEFINITIONS(-D_WIN32)
+	ADD_DEFINITIONS(-D_WINDOWS)
+	ADD_DEFINITIONS(-D_USRDLL)
+	ADD_DEFINITIONS(-D_EXPORTS)
+	ADD_DEFINITIONS(-DIN_LIBXML)
+	IF (MINGW)
+		ADD_DEFINITIONS(-DCYGWIN)
+	ENDIF(MINGW)
+ENDIF (WIN32)
+
+FILE( GLOB SBML_SRC_FILES
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/XML*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/XML*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/LibXML*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/LibXML*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util/*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/*.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units/*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math/*.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation/*.cpp 
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/*.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout/*.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common/*.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common/*.c
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/CompressCommon.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/InputDecompressor.cpp
+	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/OutputCompressor.cpp
+)
+
+ADD_LIBRARY( sbml
+  #SHARED
+  STATIC
+  ${SBML_SRC_FILES}
+)
+
+TARGET_LINK_LIBRARIES( sbml
+  sbml
+  ${LIBXML2_LIBRARIES}
+)
+
+
+IF ( WIN32 )
+   FILE( GLOB ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/*.dll DESTINATION bin/../ )
+   INSTALL(TARGETS DESTINATION bin/../)
+#  INSTALL(TARGETS sbml DESTINATION bin/../)
+#ELSE ( WIN32 )
+  #INSTALL(TARGETS sbml LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
+

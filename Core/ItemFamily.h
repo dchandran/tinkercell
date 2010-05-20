@@ -38,6 +38,17 @@ namespace Tinkercell
 	class NodeGraphicsItem;
 	class ArrowHeadItem;
 	class ConnectionGraphicsItem;
+	
+	/*! \brief A unit of measurement
+	\ingroup core
+	*/
+	class MY_EXPORT Unit
+	{
+	public:
+		QString measuredProperty; //e.g. "distance"
+		QString name; //e.g. m in "km"
+		Unit(const QString& property, const QString& name);
+	};
 
 	/*! \brief This class defines the family of a node or connection.
 	The class contains the icon for the family, family name, and minimal data that
@@ -53,8 +64,8 @@ namespace Tinkercell
 		QString description;
 		/*! \brief name of this family*/
 		QString name;
-		/*! \brief the measurement name and unit for items in this family. Example: <"concentration", "mM">*/
-		QPair<QString, QString> measurementUnit;
+		/*! \brief the measurement name and unit for items in this family*/
+		Unit measurementUnit;
 		/*! \brief the list of numerical attributes that are common to all members of this family*/
 		QHash<QString,qreal> numericalAttributes;
 		/*! \brief the list of string attributes that are common to all members of this family*/

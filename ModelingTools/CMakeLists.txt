@@ -45,7 +45,6 @@ ADD_LIBRARY( ModelingTools
 
 TARGET_LINK_LIBRARIES( ModelingTools
   ModelingTools
-  ModuleTool
   TinkerCellCore
   muparser
 )
@@ -72,7 +71,6 @@ ADD_LIBRARY( SimulationEventTool
 TARGET_LINK_LIBRARIES( SimulationEventTool
   SimulationEventTool
   ModelingTools
-  ModuleTool
   TinkerCellCore
   muparser
 )
@@ -86,3 +84,4 @@ ELSE ( WIN32 )
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
+

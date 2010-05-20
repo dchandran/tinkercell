@@ -50,7 +50,7 @@
   * - 21: modularStrands:    All defined DNA strands, with some being subparts of the others.
   *
   * Returned Pointers
-  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers you then own, and are created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
+  * The majority of the functions described below return pointers to arrays and/or strings.  These pointers pointers you then own, created with 'malloc':  you must 'free' them yourself to release the allocated memory.  Some programming environments will handle this automatically for you, and others will not.  If you want to not bother with it, the function 'freeAll' is provided, which will free every pointer created by this library.  In order for this to work, however, you must have not freed a single provided pointer yourself, and you must not subsequently try to reference any data provided by the library (your own copies of the data will be fine, of course).
   *
   * If the library runs out of memory when trying to return a pointer, it will return NULL instead and attempt to set an error message, retrievable with 'getLastError()'.
   *
@@ -200,7 +200,7 @@ LIB_EXTERN int   writeSBMLFile(const char* filename, const char* moduleName);
  * Returns the same output as writeSBMLFile, but to a char* array instead of to a file.  Returns the output of libSBML's 'writeSBMLToString", which "Returns the string on success and NULL if one of the underlying parser components fail (rare)."
  * NOTE:  This function is unavailable when libAntimony is compiled with the '-NSBML' flag.
  *
- *@see writeSBMLFile
+ *@see writeSBMLToString
  */
 LIB_EXTERN char* getSBMLString(const char* moduleName);
 #endif
@@ -331,20 +331,6 @@ LIB_EXTERN char** getSymbolEquationsOfType(const char* moduleName, return_type r
 
 
 /**
- * Returns the equations associated with the initial assignment for symbols of the given return type.
- * - Species:                 The initial assignment for the species in question
- * - Formulas and operators:  The initial assignment of the formula in question
- * - Compartments:            The initial assignment for the compartment
- *
- * - DNA Strands:             Nothing
- * - Reactions and genes:     Nothing
- * - Events:                  Nothing
- * - Interactions:            Nothing
- * - Modules:                 Nothing
- */
-LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, return_type rtype);
-
-/**
  * Returns the equations associated with the assignment rule for symbols of the given return type.
  * - Species:                 The assignment rule for the species in question
  * - Formulas and operators:  The assignment rule of the formula in question
@@ -352,6 +338,20 @@ LIB_EXTERN char** getSymbolInitialAssignmentsOfType(const char* moduleName, retu
  * - DNA Strands:             The assignment rule or reaction rate at the end of the strand.
  * - Reactions and genes:     The reaction rate (for consistency with DNA strands)
  *
+ * - Events:                  Nothing
+ * - Interactions:            Nothing
+ * - Modules:                 Nothing
+ */
+LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_type rtype);
+
+/**
+ * Returns the equations associated with the initial assignment for symbols of the given return type.
+ * - Species:                 The initial assignment for the species in question
+ * - Formulas and operators:  The initial assignment of the formula in question
+ * - Compartments:            The initial assignment for the compartment
+ *
+ * - DNA Strands:             Nothing
+ * - Reactions and genes:     Nothing
  * - Events:                  Nothing
  * - Interactions:            Nothing
  * - Modules:                 Nothing
@@ -372,8 +372,8 @@ LIB_EXTERN char** getSymbolAssignmentRulesOfType(const char* moduleName, return_
 LIB_EXTERN char** getSymbolRateRulesOfType(const char* moduleName, return_type rtype);
 
 /**
- * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" target="_top" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
- */
+ * Returns the compartments associated with the symbols of the given return type.  Note that unlike in SBML, any symbol of any type may have an associated compartment, including compartments themselves.  Rules about compartments in Antimony can be found in the <A class="el" HREF="Tutorial.pdf">Tutorial.pdf</a> document included with this documentation.
+ */ //LS DEBUG:  documentation check
 LIB_EXTERN char** getSymbolCompartmentsOfType(const char* moduleName, return_type rtype);
 
 /**
@@ -731,9 +731,9 @@ LIB_EXTERN bool    getIsNthModularDNAStrandOpen(const char* moduleName, unsigned
 
 /**
  * Frees all pointers handed to you by libAntimony.
- * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything* yourself, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
+ * All libAntimony functions above that return pointers return malloc'ed pointers that you now own.  If you wish, you can ignore this and never free anything, as long as you call 'freeAll' at the very end of your program.  If you free *anything*, however, calling this function will cause the program to crash!  It won't know that you already freed that pointer, and will attempt to free it again.  So either keep track of all memory management yourself, or use this function after you're completely done.
  *
- * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.  (To clear that memory, use clearPreviousLoads() )
+ * Note that this function only frees pointers handed to you by other antimony_api functions.  The models themselves are still in memory and are available.
  */
 LIB_EXTERN void freeAll();
 

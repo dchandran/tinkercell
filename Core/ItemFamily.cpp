@@ -16,6 +16,10 @@ namespace Tinkercell
 {
 	int NodeFamily::TYPE = 1;
 	int ConnectionFamily::TYPE = 2;
+	
+	Unit::Unit(const QString& p, const QString& s): property(p), name(s)
+	{
+	}
 
 	NodeFamily * NodeFamily::cast(ItemFamily* item)
 	{

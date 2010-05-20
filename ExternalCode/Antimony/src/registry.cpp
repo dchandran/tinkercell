@@ -31,11 +31,12 @@ Registry::Registry()
     m_variablenames(),
     m_functions(),
     m_storedvars(),
-    m_storedformulas(),
     m_modules(),
     m_currentModules(),
     m_currentReactantLists(),
     m_currentImportedModule(),
+    m_scratchFormula(),
+    m_scratchFormulas(),
     m_workingstrand(),
     m_currentEvent(),
     m_cc('_'),
@@ -52,7 +53,6 @@ Registry::Registry()
 Registry::~Registry()
 {
   FreeVariables();
-  FreeFormulas();
 }
 
 void Registry::ClearModules()
@@ -68,6 +68,8 @@ void Registry::ClearModules()
   m_currentModules.clear();
   m_currentReactantLists.clear();
   m_currentImportedModule.clear();
+  m_scratchFormula.Clear();
+  m_scratchFormulas.clear();
   m_workingstrand.Clear();
   m_currentEvent.clear();
   m_error.clear();
@@ -86,25 +88,16 @@ void Registry::FreeVariables()
   m_storedvars.clear();
 }
 
-void Registry::FreeFormulas()
-{
-  for (set<Formula*>::iterator form=m_storedformulas.begin(); form!=m_storedformulas.end(); form++) {
-    delete *form;
-  }
-  m_storedformulas.clear();
-}
-
 void Registry::ClearAll()
 {
   m_oldmodules.clear();
   m_olduserfunctions.clear();
   FreeVariables();
-  FreeFormulas();
   ClearModules();
 }
 
 //Return values:  1: antimony, unread 2: SBML, read
-int Registry::OpenString(string model)
+int Registry::OpenString(const string model)
 {
 #ifndef NSBML
   //Try opening as SBML:
@@ -113,9 +106,6 @@ int Registry::OpenString(string model)
   delete document;
   if (sbmlcheck==2) return 2;
 #endif
-  if (model[model.size()-1] != '\n') {
-    model.push_back('\n');
-  }
   m_files.push_back("");
   if (input != NULL) {
     m_oldinputs.push_back(input);
@@ -129,7 +119,7 @@ int Registry::OpenString(string model)
 }
 
 //Return values:  0: failure, 1: antimony, unread 2: SBML, read
-int Registry::OpenFile(const string& filename)
+int Registry::OpenFile(const string filename)
 {
 #ifndef NSBML
   //Try opening as SBML:
@@ -493,12 +483,6 @@ bool Registry::SetNewCurrentEvent(Formula* trigger)
   return SetNewCurrentEvent(trigger, evar);
 }
 
-bool Registry::SetNewCurrentEvent(Formula* delay, Formula* trigger)
-{
-  Variable* evar = CurrentModule()->AddNewNumberedVariable("_E");
-  return SetNewCurrentEvent(delay, trigger, evar);
-}
-
 bool Registry::SetNewCurrentEvent(Formula* trigger, Variable* var)
 {
   m_currentEvent = var->GetName();
@@ -520,15 +504,7 @@ bool Registry::SetNewCurrentEvent(Formula* trigger, Variable* var)
     }
   }
 #endif
-  Formula delay;
-  AntimonyEvent event(delay, *trigger,var);
-  return var->SetEvent(&event);
-}
-
-bool Registry::SetNewCurrentEvent(Formula* delay, Formula* trigger, Variable* var)
-{
-  m_currentEvent = var->GetName();
-  AntimonyEvent event(*delay, *trigger, var);
+  AntimonyEvent event(*trigger,var);
   return var->SetEvent(&event);
 }
 
@@ -536,6 +512,8 @@ bool Registry::AddResultToCurrentEvent(Variable* var, Formula* form)
 {
   //return
   CurrentModule()->GetVariable(m_currentEvent)->GetEvent()->AddResult(var, form);
+  m_scratchFormula = m_scratchFormulas.back();
+  m_scratchFormulas.pop_back();
   return false;
 }
 
@@ -546,9 +524,9 @@ bool Registry::SetCompartmentOfCurrentSubmod(Variable* var)
 
 Formula* Registry::NewBlankFormula()
 {
-  Formula* form = new Formula();
-  m_storedformulas.insert(form);
-  return form;
+  m_scratchFormulas.push_back(m_scratchFormula);
+  m_scratchFormula.Clear();
+  return &(m_scratchFormula);
 }
 
 string Registry::GetLastFile()

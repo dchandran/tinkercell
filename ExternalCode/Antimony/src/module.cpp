@@ -756,19 +756,11 @@ string Module::ListIn80Cols(string type, vector<string> names, string indent) co
 {
   if (names.size()==0) return "";
   string retval = "";
-  string oneline = indent + type;
-  if (type != "") {
-    oneline += " ";
-  }
-  oneline += names[0];
+  string oneline = indent + type + " " + names[0];
   for (size_t n=1; n<names.size(); n++) {
     if (oneline.size() > 71) {
       retval += oneline + ";\n";
-      oneline = indent + type;
-      if (type != "") {
-        oneline += " ";
-      }
-      oneline += names[n];
+      oneline = indent + type + " " + names[n];
     }
     else {
       oneline += ", " + names[n];
@@ -900,9 +892,6 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       compartmentnames.push_back(name);
     }
     else if (IsSpecies(m_variables[var]->GetType())) {
-      if (m_variables[var]->GetIsConst()) {
-        name = "$" + name;
-      }
       speciesnames.push_back(name);
     }
   }
@@ -981,9 +970,9 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
   firstone = true;
   for (size_t vnum=0; vnum<m_variables.size(); vnum++) {
     const Variable* var = m_variables[vnum];
-    if (var->IsPointer()) continue;
     var_type type = var->GetType();
-    if (type == varInteraction) {
+    if (var->IsPointer()) continue;
+    else if (type == varInteraction) {
       if (firstone) {
         retval += "\n" + indent + "// Interactions:\n";
         firstone = false;
@@ -996,9 +985,9 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
   firstone = true;
   for (size_t vnum=0; vnum<m_variables.size(); vnum++) {
     const Variable* var = m_variables[vnum];
-    if (var->IsPointer()) continue;
     var_type type = var->GetType();
-    if (type == varEvent) {
+    if (var->IsPointer()) continue;
+    else if (type == varEvent) {
       if (firstone) {
         retval += "\n" + indent + "// Events:\n";
         firstone = false;
@@ -1033,22 +1022,27 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
   vector<string> genenames;
   vector<string> innames;
   for (size_t var=0; var<m_variables.size(); var++) {
-    if (m_variables[var]->IsPointer()) continue;
     var_type type = m_variables[var]->GetType();
-    if (IsSpecies(type)) continue; //already named them and know if they're const.
     const_type isconst = m_variables[var]->GetConstType();
     string name = m_variables[var]->GetNameDelimitedBy(cc);
     Variable* comp = m_variables[var]->GetCompartment();
-    if (comp != NULL) {
+    if (comp != NULL && IsSpecies(type)==false) {
+      //We already list the species at the top of the file.
       name += " in " + comp->GetNameDelimitedBy(cc);
       innames.push_back(name);
     }
     switch(isconst) {
     case constVAR:
       varnames.push_back(name);
+      if (comp != NULL && IsSpecies(type)==false) {
+        innames.pop_back();
+      }
       break;
     case constCONST:
       constnames.push_back(name);
+      if (comp != NULL && IsSpecies(type)==false) {
+        innames.pop_back();
+      }
       break;
     case constDEFAULT:
       break;
@@ -1084,21 +1078,16 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       break;
     }
   }
-
-  if (DNAnames.size() || operatornames.size() || genenames.size() || varnames.size() || constnames.size() || innames.size()) {
-    retval += indent + "\n//Other declarations:\n";
-    retval += ListIn80Cols("DNA", DNAnames, indent);
-    retval += ListIn80Cols("operator", operatornames, indent);
-    retval += ListIn80Cols("gene", genenames, indent);
-    retval += ListIn80Cols("var", varnames, indent);
-    retval += ListIn80Cols("const", constnames, indent);
-    retval += ListIn80Cols("", innames, indent);
-  }
+  retval += "\n";
+  retval += ListIn80Cols("DNA", DNAnames, indent);
+  retval += ListIn80Cols("operator", operatornames, indent);
+  retval += ListIn80Cols("gene", genenames, indent);
+  retval += ListIn80Cols("var", varnames, indent);
+  retval += ListIn80Cols("const", constnames, indent);
 
   //Display names
   bool anydisplay = false;
   for (size_t var=0; var<m_variables.size(); var++) {
-    if (m_variables[var]->IsPointer()) continue;
     if (m_variables[var]->GetDisplayName() != "") {
       if (anydisplay == false) {
         retval += "\n" + indent + "//Display Names:\n";
@@ -1107,6 +1096,8 @@ string Module::GetAntimony(set<const Module*>& usedmods, bool funcsincluded) con
       retval += indent + m_variables[var]->GetNameDelimitedBy(cc) + " is \"" + m_variables[var]->GetDisplayName() + "\";\n";
     }
   }
+
+  //LS DEBUG:  list the innames!
 
   //end model definition
   if (m_modulename != MAINMODULE) {
@@ -1311,15 +1302,9 @@ void Module::LoadSBML(const SBMLDocument* sbmldoc)
 
     //Set the trigger:
     string triggerstring(parseASTNodeToString(event->getTrigger()->getMath()));
-    Formula trigger;
-    setFormulaWithString(triggerstring, &trigger);
-    Formula delay;
-    const Delay* sbmldelay = event->getDelay();
-    if (sbmldelay != NULL) {
-      string delaystring(parseASTNodeToString(sbmldelay->getMath()));
-      setFormulaWithString(delaystring, &delay);
-    }
-    AntimonyEvent antevent(delay, trigger,var);
+    Formula* trigger = g_registry.NewBlankFormula();
+    setFormulaWithString(triggerstring, trigger);
+    AntimonyEvent antevent(*trigger,var);
     var->SetEvent(&antevent);
 
     //Set the assignments:
@@ -1692,18 +1677,11 @@ void Module::CreateSBMLModel()
     if (eventvar->GetDisplayName() != "") {
       sbmlevent->setName(eventvar->GetDisplayName());
     }
-    Trigger* trig = sbmlevent->createTrigger();
+    Trigger trig(LEVELANDVERSION);
     ASTNode* ASTtrig = parseStringToASTNode(event->GetTrigger()->ToSBMLString());
-    trig->setMath(ASTtrig);
+    trig.setMath(ASTtrig);
     delete ASTtrig;
-    const Formula* delay = event->GetDelay();
-    if (!delay->IsEmpty()) {
-      ASTtrig = parseStringToASTNode(delay->ToSBMLString());
-      Delay* sbmldelay = sbmlevent->createDelay();
-      sbmldelay->setMath(ASTtrig);
-      delete ASTtrig;
-    }
-      
+    sbmlevent->setTrigger(&trig);
     long numasnts = static_cast<long>(event->GetNumAssignments());
     for (long asnt=numasnts-1; asnt>=0; asnt--) {
       //events are stored in reverse order.  Don't ask...

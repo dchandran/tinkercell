@@ -113,7 +113,7 @@ namespace Tinkercell
                     {
                          QStringList units = vec.at(i).value().toString().split(",");
                          if (units.size() == 2)
-                              family->measurementUnit = QPair<QString,QString>(units[0],units[1]);
+                              family->measurementUnit = Unit(units[0],units[1]);
                     }
                     else
                     {

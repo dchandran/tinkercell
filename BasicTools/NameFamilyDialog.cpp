@@ -119,8 +119,8 @@ namespace Tinkercell
 				this, SLOT(itemsInsertedSlot(NetworkHandle*, const QList<ItemHandle*>&)));
 			connect(this,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
 				mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
-			connect(this,SIGNAL(itemsAboutToBeInserted(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
-				mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
+			connect(this,SIGNAL(itemsAboutToBeInserted(GraphicsScene*, QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
+				mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
 			//connect(this,SIGNAL(dataChanged(QList<ItemHandle*>&)),mainWindow,SIGNAL(dataChanged(QList<ItemHandle*>&)));
 		}
@@ -314,7 +314,8 @@ namespace Tinkercell
 							ItemHandle * noHandle = 0;
 
 							GraphicsScene * scene = net->currentScene();
-							emit itemsAboutToBeInserted(scene,newitems,handles);
+							QList<QUndoCommand*> undolist;
+							emit itemsAboutToBeInserted(scene,newitems,handles,undolist);
 
 							commands << (new RemoveGraphicsCommand(tr(""),scene,handle->graphicsItems))
 								<< (new InsertGraphicsCommand(tr(""),scene,newitems));

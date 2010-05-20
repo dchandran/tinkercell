@@ -122,15 +122,15 @@ namespace Tinkercell
 			\param modifier keys used
 			\return nothing
 			*/
-			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers);
+			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&);
 
 			void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 
-			void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
+			void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
 
-			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF , Qt::KeyboardModifiers );
+			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF );
 
-			void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& );
+			void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 
 			void toolLoaded(Tool*);
 

@@ -616,7 +616,8 @@ namespace Tinkercell
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \return void*/
 		void mouseDragged(GraphicsScene * scene, QPointF from, QPointF to, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-				/*! \brief signals whenever items are going to be moved (each item is the top-most item)
+		/*! 
+		* \brief signals whenever items are going to be moved (each item is the top-most item)
 		* \param GraphicsScene* scene where the items were moved
 		* \param QList<QGraphicsItem*>& list of pointers to all moving items
 		* \param QPointF distance by which items moved

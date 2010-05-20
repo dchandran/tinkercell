@@ -72,8 +72,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene *, QKeyEvent*)),
 				this,SLOT(sceneKeyPressed(GraphicsScene *, QKeyEvent*)));
 
-			connect (mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
-				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
+			connect (mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
+				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
 			connect(mainWindow,SIGNAL(keyReleased(GraphicsScene *, QKeyEvent*)),
 				this,SLOT(sceneKeyReleased(GraphicsScene *, QKeyEvent*)));
@@ -87,8 +87,8 @@ namespace Tinkercell
 			connect(this, SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				mainWindow, SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-				this ,SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+				this ,SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
@@ -526,7 +526,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ConnectionSelection::itemsMoved(GraphicsScene * ,const QList<QGraphicsItem*>& movingItems, const QList<QPointF>& , Qt::KeyboardModifiers )
+	void ConnectionSelection::itemsMoved(GraphicsScene * ,const QList<QGraphicsItem*>& movingItems, const QList<QPointF>& )
 	{
 		adjustConnectorPoints(movingItems);
 	}
@@ -571,7 +571,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ConnectionSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	void ConnectionSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
 	{
 		if (!scene || items.isEmpty()) return;
 
@@ -737,7 +737,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ConnectionSelection::nodeCollided(const QList<QGraphicsItem*>& movingItems, NodeGraphicsItem * nodeBelow, const QList<QPointF>& , Qt::KeyboardModifiers )
+	void ConnectionSelection::nodeCollided(const QList<QGraphicsItem*>& movingItems, NodeGraphicsItem * nodeBelow, const QList<QPointF>& )
 	{
 		if (!nodeBelow || !mainWindow) return;
 		GraphicsScene * scene = mainWindow->currentScene();
@@ -881,7 +881,7 @@ namespace Tinkercell
 		cp->topLevelItem()->moveBy( closest.x() - p.x(), closest.y() - p.y() );
 	}
 
-	void ConnectionSelection::connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF , Qt::KeyboardModifiers )
+	void ConnectionSelection::connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF )
 	{
 	}
 

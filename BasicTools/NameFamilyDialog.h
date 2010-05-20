@@ -55,7 +55,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 	
 	signals:
-		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handles);
 		void nameChanged();
 

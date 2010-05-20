@@ -90,8 +90,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-				this, SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+				this, SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this ,SLOT(mousePressed(GraphicsScene*,QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -99,8 +99,8 @@ namespace Tinkercell
 			//connect(this,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)),
 			//       mainWindow,SIGNAL(itemsRenamed(NetworkHandle*, const QList<ItemHandle*>&, const QList<QString>&, const QList<QString>&)));
 
-			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),
-				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
+				this,SLOT(itemsRemoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
 			//connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene *, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)),
 			//this,SLOT(mouseDoubleClicked(GraphicsScene *, QPointF, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers)));
@@ -175,7 +175,7 @@ namespace Tinkercell
 		}
 	}
 
-	void TextGraphicsTool::itemsMoved(GraphicsScene* scene,const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
+	void TextGraphicsTool::itemsMoved(GraphicsScene* scene,const QList<QGraphicsItem*>& items, const QList<QPointF>&)
 	{
 		static bool selfCall = false;
 
@@ -400,7 +400,7 @@ namespace Tinkercell
 		}
 	}
 
-	void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	void TextGraphicsTool::itemsRemoved(GraphicsScene* scene,  QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
 	{
 		if (!scene || items.isEmpty()) return;
 

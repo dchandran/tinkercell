@@ -45,8 +45,9 @@ namespace Tinkercell
 	class MY_EXPORT Unit
 	{
 	public:
-		QString measuredProperty; //e.g. "distance"
+		QString property; //e.g. "distance"
 		QString name; //e.g. m in "km"
+		Unit();
 		Unit(const QString& property, const QString& name);
 	};
 

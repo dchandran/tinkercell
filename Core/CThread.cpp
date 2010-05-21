@@ -184,7 +184,7 @@ namespace Tinkercell
 	void CThread::run()
 	{
 		QString current = QDir::currentPath();
-		QDir::setCurrent(MainWindow::userTemp());
+		QDir::setCurrent(MainWindow::tempDir());
 
 		if (f1)
 			f1();
@@ -298,8 +298,8 @@ namespace Tinkercell
 	
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)
 	{
-		QString  home = MainWindow::userHome(),
-			temp = MainWindow::userTemp(),
+		QString  home = MainWindow::homeDir(),
+			temp = MainWindow::tempDir(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
@@ -384,7 +384,7 @@ namespace Tinkercell
 		if (mainWindow && !exe.isEmpty())
 		{
 			QString current = QDir::currentPath();
-			QDir::setCurrent(MainWindow::userTemp());
+			QDir::setCurrent(MainWindow::tempDir());
 
 			//setPriority(QThread::LowestPriority);
 			connect(this,SIGNAL(terminated()),&process,SLOT(kill()));

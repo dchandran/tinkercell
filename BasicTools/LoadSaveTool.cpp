@@ -33,7 +33,7 @@ namespace Tinkercell
 		++countHistory;
 		if (countHistory > 10)
 		{
-			saveNetwork(MainWindow::userTemp() + tr("/backup.xml"));
+			saveNetwork(MainWindow::tempDir() + tr("/backup.xml"));
 			countHistory = 0;
 		}
 	}
@@ -78,7 +78,7 @@ namespace Tinkercell
 			connect(this,SIGNAL(networkSaved(NetworkHandle*)),mainWindow,SIGNAL(networkSaved(NetworkHandle*)));
 			connect(this,SIGNAL(networkLoaded(NetworkHandle*)),mainWindow,SIGNAL(networkLoaded(NetworkHandle*)));
 
-			QString filename = MainWindow::userTemp() + tr("/backup.xml");
+			QString filename = MainWindow::tempDir() + tr("/backup.xml");
 			QFile file(filename);
 			
 			if (file.open(QFile::ReadOnly | QFile::Text))
@@ -99,7 +99,7 @@ namespace Tinkercell
 	{
 		if (restoreDialog->clickedButton() == restoreButton)
 		{
-			QString filename = MainWindow::userTemp() + tr("/backup.xml");
+			QString filename = MainWindow::tempDir() + tr("/backup.xml");
 			QFile file(filename);
 		
 			if (file.open(QFile::ReadOnly | QFile::Text))
@@ -298,11 +298,13 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 
 		modelWriter.writeStartElement(tr("Texts"));
+
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
 			writeText(scene,text,modelWriter);
 		}
+
 		modelWriter.writeEndElement();
 
 		modelWriter.writeEndElement();

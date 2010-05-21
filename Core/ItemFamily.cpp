@@ -20,6 +20,10 @@ namespace Tinkercell
 	Unit::Unit(const QString& p, const QString& s): property(p), name(s)
 	{
 	}
+	
+	Unit::Unit(): property(QString()), name(QString())
+	{
+	}
 
 	NodeFamily * NodeFamily::cast(ItemFamily* item)
 	{

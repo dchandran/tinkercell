@@ -82,11 +82,11 @@ namespace Tinkercell
 		*/
 		virtual NetworkWindow* currentWindow() const;
 		/*!
-		* \brief same as MainWindow::userHome
+		* \brief same as MainWindow::homeDir
 		*/
 		static QString homeDir();
 		/*!
-		* \brief same as MainWindow::userTemp
+		* \brief same as MainWindow::tempDir
 		*/
 		static QString tempDir();
 		/*! \brief tools that are drawn on the scene instead of displayed as a window

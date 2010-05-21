@@ -2167,8 +2167,8 @@ namespace Tinkercell
 
 		QFile file (fileName);
 
-		QString  home = MainWindow::userHome(),
-				temp = MainWindow::userTemp(),
+		QString  home = MainWindow::homeDir(),
+				temp = MainWindow::tempDir(),
 				current = QDir::currentPath(),
 				appDir = QCoreApplication::applicationDirPath();
 

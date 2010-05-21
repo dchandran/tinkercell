@@ -175,8 +175,7 @@ namespace Tinkercell
 		QDockWidget * dockWidget;
 		QDialog * initialValuesDialog;
 		QTableWidget * initialValuesTable;
-		static QStringList initialValuesFamilyNames;
-		static QList<double> initialValues;
+		static QHash<QString,double> initialValues;
 		void loadInitialValues();
 	};
 

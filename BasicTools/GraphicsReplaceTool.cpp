@@ -93,7 +93,7 @@ namespace Tinkercell
 				}
 			}
 
-			QDir userdir(MainWindow::userHome());
+			QDir userdir(MainWindow::homeDir());
 			if (userdir.exists(paths[i]))
 			{
 				userdir.cd(paths[i]);

@@ -3,11 +3,11 @@ SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
 IF (WIN32)
 
 	IF (MINGW)
-		SET (LIBXML2_LIBRARIES ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/libxml2.dll.a)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.dll.a)
 	ELSE(MINGW)
-		SET (LIBXML2_LIBRARIES ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/libxml2.lib)
+		SET (LIBXML2_LIBRARIES ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/libxml2.lib)
 	ENDIF(MINGW)
-	SET (LIBXML2_INCLUDE_DIR ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/include)
+	SET (LIBXML2_INCLUDE_DIR ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/include)
 	
 ELSE(WIN32)	
 
@@ -18,17 +18,17 @@ ENDIF(WIN32)
 INCLUDE_DIRECTORIES( 
 	BEFORE
 	${LIBXML2_INCLUDE_DIR}
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/util 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator/constraints/
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/units 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml/layout 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/math 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/common 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/compress 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/annotation
 )
 
 #ADD_DEFINITIONS(-DLIBSBML_STATIC)
@@ -54,31 +54,31 @@ IF (WIN32)
 ENDIF (WIN32)
 
 FILE( GLOB SBML_SRC_FILES
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/XML*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/XML*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/LibXML*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/xml/LibXML*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util/*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/util/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/*.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/validator/constraints/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units/*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/units/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math/*.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/math/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation/*.cpp 
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/annotation/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/*.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout/*.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/sbml/layout/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common/*.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/common/*.c
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/CompressCommon.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/InputDecompressor.cpp
-	${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/compress/OutputCompressor.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml/XML*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml/XML*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml/LibXML*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/xml/LibXML*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/util/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/util/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator/constraints/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/validator/constraints/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/units/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/units/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/math/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/math/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/annotation/*.cpp 
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/annotation/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml/layout/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/sbml/layout/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/common/*.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/common/*.c
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/compress/CompressCommon.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/compress/InputDecompressor.cpp
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/compress/OutputCompressor.cpp
 )
 
 ADD_LIBRARY( sbml
@@ -94,7 +94,7 @@ TARGET_LINK_LIBRARIES( sbml
 
 
 IF ( WIN32 )
-   FILE( GLOB ${NETWORKEVOLUTION_SOURCE_DIR}/external/sbml/win32/libxml2/lib/*.dll DESTINATION bin/../ )
+   FILE( GLOB ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml/win32/libxml2/lib/*.dll DESTINATION bin/../ )
    INSTALL(TARGETS DESTINATION bin/../)
 #  INSTALL(TARGETS sbml DESTINATION bin/../)
 #ELSE ( WIN32 )

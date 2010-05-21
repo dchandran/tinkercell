@@ -7,8 +7,8 @@
  The python interpreter that runs as a separate thread and can accept strings to parse and execute
  
 ****************************************************************************/
-#ifndef TINKERCELL_PYTHONINTERPRETERTHREAD_H
-#define TINKERCELL_PYTHONINTERPRETERTHREAD_H
+#ifndef TINKERCELL_GENERICINTERPRETERTHREAD_H
+#define TINKERCELL_GENERICINTERPRETERTHREAD_H
 
 #include <QQueue>
 #include <QLibrary>
@@ -17,41 +17,29 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
-#include "Tool.h"
 #include "CThread.h"
 
 namespace Tinkercell
 {
 
-    class PythonInterpreterThread : public CThread
+    class InterpreterThread : public CThread
 	{
 		Q_OBJECT
-		
-		typedef void (*initFunc)();
-		typedef void (*execFunc)(const char*,const char*);
-		typedef void (*finalFunc)();
-		
-	signals:
-	
-		void progress(int);
-		
+
 	public:
-		PythonInterpreterThread(const QString&, MainWindow* main);
-		virtual ~PythonInterpreterThread();
-		void setCPointers();
-		
-		static QLibrary * pythonLibrary;
+		InterpreterThread(const QString&, MainWindow* main);
+		virtual ~InterpreterThread();
+		virtual void setCPointers();
 		
 	public slots:
-		void initialize();
-		void runCode(const QString&);
-		void finalize();
+		virtual void initialize();
+		virtual void exec(const QString&);
+		virtual void finalize();
 
 	protected:
-		QString pythonCode;
+		QString code;
 		virtual void run();
-		execFunc f;
-		QQueue<QString> commandQueue;
+		QQueue<QString> codeQueue;
 	};
 }
 

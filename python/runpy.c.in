@@ -58,8 +58,6 @@ TCAPIEXPORT void exec(const char * code,const char * outfile)
 		Py_DECREF(s); 
 		Py_DECREF(evalVal);
 	}*/
-
-	tc_printFile(outfile);
 	
 	if (errdata != NULL) 
 	{ 

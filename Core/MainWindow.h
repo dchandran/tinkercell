@@ -147,11 +147,11 @@ namespace Tinkercell
 		/*!
 		* \brief The TinkerCell user directory, which is User's Documents Folder/TinkerCell by default, but users may change this setting
 		*/
-		static QString userHome();
+		static QString homeDir();
 		/*!
 		* \brief The TinkerCell user temporary directory, which is <SYSTEM TEMP FOLDER>/TinkerCell
 		*/
-		static QString userTemp();
+		static QString tempDir();
 		/*!
 		* \brief Add a new docking window to the main window.
 		           The name and icon are obtained using the widget's windowTitle and windowIcon, so
@@ -812,7 +812,7 @@ namespace Tinkercell
 		QHash<QString,Tool*> toolsHash;
 	private:
 		/*! \brief home directory path*/
-		static QString userHomePath;
+		static QString homeDirPath;
 		/*! \brief used to rename items*/
 		QLineEdit * renameOld;
 		/*! \brief used to rename items*/

@@ -332,8 +332,8 @@ namespace Tinkercell
 		QString appDir = QCoreApplication::applicationDirPath();
 
 		QString name[] = {
-			MainWindow::userTemp() + tr("/") + filename,
-			MainWindow::userHome() + tr("/") + filename,
+			MainWindow::tempDir() + tr("/") + filename,
+			MainWindow::homeDir() + tr("/") + filename,
 			filename,
 			QDir::currentPath() + tr("/") + filename,
 			appDir + tr("/") + filename };

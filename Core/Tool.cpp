@@ -127,12 +127,12 @@ namespace Tinkercell
 	
 	QString Tool::homeDir()
 	{
-		return MainWindow::userHome();
+		return MainWindow::homeDir();
 	}
 	
 	QString Tool::tempDir()
 	{
-		return MainWindow::userTemp();
+		return MainWindow::tempDir();
 	}
 
 	Tool::GraphicsItem* Tool::GraphicsItem::cast(QGraphicsItem* q)

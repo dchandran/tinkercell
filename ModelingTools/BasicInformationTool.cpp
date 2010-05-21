@@ -17,6 +17,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include <QSettings>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QTableWidgetItem>
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
@@ -35,8 +36,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 namespace Tinkercell
 {
 	
-	QStringList BasicInformationTool::initialValuesFamilyNames;
-	QList<double> BasicInformationTool::initialValues;
+	QHash<QString,double> BasicInformationTool::initialValues;
 
 	void BasicInformationTool::select(int)
 	{
@@ -97,21 +97,21 @@ namespace Tinkercell
 		QStringList list;
 		bool ok;
 		double d;
+		QString rowname;
+		QStringList keys = initialValues.keys(); 
 		
-		for (int i=0; i < initialValuesFamilyNames.size() && i < initialValues.size(); ++i)
-		{			
-			if (initialValuesTable->rowCount() > i && initialValuesTable->item(i,0))
+		for (int i=0; i < initialValuesTable->rowCount(); ++i)
+			if (initialValuesTable->item(i,0) && initialValuesTable->verticalHeaderItem(i))
 			{
+				rowname = initialValuesTable->verticalHeaderItem(i)->text();
 				d = initialValuesTable->item(i,0)->text().toDouble(&ok);
-				if (ok)
-				{
-					initialValues[i] = d;
-				}
-				
-				initialValuesTable->item(i,0)->setText( QString::number(initialValues[i]) );
+				if (ok && !rowname.isEmpty())
+					initialValues[ rowname ] = d;
+				else
+					if (!rowname.isEmpty())
+						initialValuesTable->item(i,0)->setText( QString::number(initialValues[rowname]) );
+				list << (nitialValuesTable->verticalHeaderItem(i) + tr(",") + initialValuesTable->item(i,0));
 			}
-			list << (initialValuesFamilyNames[i] + tr(",") + QString::number(initialValues[i]));
-		}
 		
 		settings.setValue(tr("Initial value"),list);
 		settings.endGroup();
@@ -131,31 +131,29 @@ namespace Tinkercell
 		QStringList families(nodesTree->nodeFamilies.keys());
 		QStringList keys, rownames;
 		NodeFamily * family;
+		QString key;
 		
 		for (int i=0; i < families.size(); ++i)
 		{
 			family = nodesTree->nodeFamilies[ families[i] ];
-			if (family && !family->measurementUnit.first.isEmpty())
+			if (family && !family->measurementUnit.property.isEmpty())
 			{
-				keys << families[i];
-				rownames << (families[i] + tr("(") + family->measurementUnit.first + tr(")"));
+				key = family->measurementUnit.property + tr("(") + family->measurementUnit.name + tr(")");
+				initialValues[key] = 1.0;
 			}
 		}
 		
-		initialValuesFamilyNames = keys;
+		keys = initialValues.key();
 		
 		initialValuesTable->setColumnCount(1);
 		initialValuesTable->setRowCount(keys.size());
 		
-		initialValuesTable->setVerticalHeaderLabels(rownames);
+		initialValuesTable->setVerticalHeaderLabels(keys);
 		initialValuesTable->setHorizontalHeaderLabels(QStringList() << "value");
 		
 		QStringList list = settings.value(tr("Initial value"),QStringList()).toStringList();
 		QStringList pair;
-		initialValues.clear();
-		
-		for (int i=0; i < keys.size(); ++i)		
-			initialValues << 1.0;		
+			
 		bool ok;
 
 		for (int i=0; i < list.size(); ++i)
@@ -172,7 +170,7 @@ namespace Tinkercell
 		
 		for (int i=0; i < keys.size(); ++i)
 		{
-			initialValuesTable->setItem (i, 0, new QTableWidgetItem( QString::number(initialValues[i])) );
+			initialValuesTable->setItem (i, 0, new QTableWidgetItem( QString::number(initialValues[ keys[i] ])) );
 		}
 		
 		settings.endGroup();

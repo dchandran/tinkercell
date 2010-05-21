@@ -55,13 +55,13 @@ namespace Tinkercell
 	MainWindow::TOOL_WINDOW_OPTION MainWindow::defaultConsoleWindowOption = MainWindow::DockWidget;
 	QString MainWindow::previousFileName;
 	QString MainWindow::defaultFileExtension("tic");
-	QString MainWindow::userHomePath;
+	QString MainWindow::homeDirPath;
 	/*************************************/
 
-	QString MainWindow::userHome()
+	QString MainWindow::homeDir()
 	{
-		if (!userHomePath.isEmpty() && QDir(userHomePath).exists())
-			return userHomePath;
+		if (!homeDirPath.isEmpty() && QDir(homeDirPath).exists())
+			return homeDirPath;
 
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 		QString tcdir = PROJECTNAME;
@@ -70,12 +70,12 @@ namespace Tinkercell
 			dir.mkdir(tcdir);
 
 		dir.cd(tcdir);
-		userHomePath = dir.absolutePath();
+		homeDirPath = dir.absolutePath();
 
-		return userHomePath;
+		return homeDirPath;
 	}
 
-	QString MainWindow::userTemp()
+	QString MainWindow::tempDir()
 	{
 		QString location = QDesktopServices::storageLocation(QDesktopServices::TempLocation);
 
@@ -97,7 +97,7 @@ namespace Tinkercell
 
 	void MainWindow::setUserHome()
 	{
-		QString home = QFileDialog::getExistingDirectory(this,tr("Select new user home directory"),userHome());
+		QString home = QFileDialog::getExistingDirectory(this,tr("Select new user home directory"),homeDir());
 		if (home.isEmpty() || home.isNull()) return;
 
 		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
@@ -107,7 +107,7 @@ namespace Tinkercell
 
 		settings.beginGroup("MainWindow");
 		settings.setValue("home", home);
-		userHomePath = home;
+		homeDirPath = home;
 		settings.endGroup();
 	}
 
@@ -115,8 +115,8 @@ namespace Tinkercell
 
 	void MainWindow::loadDynamicLibrary(const QString& dllFile)
 	{
-		QString home = userHome(),
-			temp = userTemp(),
+		QString home = homeDir(),
+			temp = tempDir(),
 			current = QDir::currentPath(),
 			appDir = QCoreApplication::applicationDirPath();
 
@@ -332,7 +332,7 @@ namespace Tinkercell
 		GraphicsScene::clearStaticItems();
 		saveSettings();
 
-		QString tempDir = userTemp();
+		QString tempDir = tempDir();
 		QString cmd;
 
 #ifdef Q_WS_WIN
@@ -458,12 +458,10 @@ namespace Tinkercell
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,
 				(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
-			if (fileName.isEmpty())
+			if (filename.isNull() || fileName.isEmpty())
 				return;
 			else
-			{
 				currentNetworkWindow->filename = previousFileName = fileName;
-			}
 		}
 		QFile file (fileName);
 

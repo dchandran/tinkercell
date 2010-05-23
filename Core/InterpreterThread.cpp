@@ -62,7 +62,7 @@ namespace Tinkercell
 
     void InterpreterThread::run()
     {
-		if (!commandQueue.isEmpty())
+		if (!codeQueue.isEmpty())
 		{
 			code = codeQueue.dequeue();
 			run();

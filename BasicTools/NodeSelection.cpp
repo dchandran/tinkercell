@@ -253,112 +253,6 @@ namespace Tinkercell
 			//changeColorCommand->redo();
 	}
 
-	void NodeSelection::turnOnGraphicalTools(QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, GraphicsScene * scene)
-	{
-		if (!scene) return;
-
-		/*QRectF rect;
-
-		for (int i=0; i < items.size(); ++i)
-		{
-		if (items[i])
-		rect = rect.unite(items[i]->sceneBoundingRect());
-		}*/
-
-		ItemHandle * itemHandle = 0;
-		Tool * tool;
-		for (int i=0; i < handles.size(); ++i)
-		{
-			if ((itemHandle = handles[i]))
-			{
-				for (int j=0; j < itemHandle->tools.size(); ++j)
-				{
-					tool = itemHandle->tools[j];
-					if (tool && !tool->graphicsItems.isEmpty())
-						for (int k=0; k < tool->graphicsItems.size(); ++k)
-							if (!visibleTools.contains(tool->graphicsItems[k]))
-								visibleTools += tool->graphicsItems[k];
-
-				}
-			}
-		}
-
-		qreal scalex = 1, scaley = 1;
-
-		/*qreal maxx = rect.right() + 100.0/(scalex*scalex), miny = rect.top() - 20.0, w = 0;
-		if (maxx > scene->viewport().right() - 100.0) maxx = scene->viewport().left() + 100.0;
-		*/
-
-		QRectF viewport = scene->viewport();
-		scalex = viewport.width();
-		scaley = viewport.height();
-		qreal maxx = viewport.right() - 0.05*scalex,
-			miny = viewport.top() + 0.05*scaley,
-			w = 0;
-
-		for (int i=0; i < visibleTools.size(); ++i)
-		{
-			Tool::GraphicsItem * tool = visibleTools[i];
-			if (tool && scene)
-			{
-				if (tool->scene() != scene)
-				{
-					if (tool->parentItem())
-						tool->setParentItem(0);
-
-					if (tool->scene() != 0)
-						tool->scene()->removeItem(tool);
-
-					scene->addItem(tool);
-				}
-
-				tool->visible(true);
-
-				tool->setZValue(scene->ZValue()+0.1);
-
-				tool->resetTransform();				
-				QRectF bounds = tool->sceneBoundingRect();
-				
-				qreal ratio = bounds.height()/bounds.width();
-				
-				tool->scale(ratio*0.001*scalex,0.001*scaley);
-				tool->setPos(QPointF(maxx,miny));
-				bounds = tool->sceneBoundingRect();
-
-				if (tool->isVisible() && visibleTools.size() > 1)
-				{
-					miny += bounds.height() * 1.5;
-
-					if (bounds.width() > w) w = bounds.width();
-
-					if (miny > viewport.bottom() - 50.0)
-					{
-						miny = viewport.top() + 0.05*scaley;
-						maxx -= w * 1.5;
-					}
-				}
-			}
-		}
-	}
-
-	void NodeSelection::turnOffGraphicalTools(bool)
-	{
-		for (int i=0; i < visibleTools.size(); ++i)
-		{
-			Tool::GraphicsItem * tool = visibleTools[i];
-			if (tool && tool->tool)
-			{
-				if (tool->scene())
-				{
-					tool->scene()->removeItem(tool);
-				}
-				tool->visible(false);
-				tool->deselect();
-			}
-		}
-		visibleTools.clear();
-	}
-
 	void NodeSelection::revertColor()
 	{
 		ItemHandle * handle = 0;
@@ -457,8 +351,6 @@ namespace Tinkercell
 			if (modifiers != Qt::ShiftModifier && modifiers != Qt::ControlModifier)
 			{
 				deselect();
-				if (scene != 0)
-					turnOffGraphicalTools();
 			}
 		}
 	}
@@ -594,7 +486,6 @@ namespace Tinkercell
 	void NodeSelection::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers modifiers)
 	{
 		deselect();
-		turnOffGraphicalTools();
 
 		if (mainWindow && scene && scene->useDefaultBehavior)
 		{
@@ -706,7 +597,6 @@ namespace Tinkercell
 				//	selectedHandleNodes.removeAll(seletedNodes[i]);
 				select();
 			}
-			turnOnGraphicalTools(allItems,itemHandles,scene);
 		}
 	}
 
@@ -715,7 +605,6 @@ namespace Tinkercell
 		deselect();
 		if (net && net->currentScene())
 			net->currentScene()->clearSelection();
-		turnOffGraphicalTools(true);
 	}
 
 	void NodeSelection::escapeSignal(const QWidget * )
@@ -723,8 +612,6 @@ namespace Tinkercell
 		deselect();
 		if (mainWindow && mainWindow->currentScene())
 			mainWindow->currentScene()->clearSelection();
-
-		turnOffGraphicalTools(true);
 	}
 
 	void NodeSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& list, QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
@@ -746,7 +633,6 @@ namespace Tinkercell
 				}
 
 				deselect();
-				turnOffGraphicalTools();
 				selectedNodes.clear();
 				selectedHandleNodes.clear();
 				selectedConnections.clear();

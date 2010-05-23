@@ -27,7 +27,8 @@ namespace Tinkercell
 		if (tool)
 		{
 			int k = tool->graphicsItems.indexOf(this);
-			tool->select(k);
+			if (k > -1)
+				tool->select(k);
 		}
 	}
 
@@ -36,31 +37,33 @@ namespace Tinkercell
 		if (tool)
 		{
 			int k = tool->graphicsItems.indexOf(this);
-			tool->deselect(k);
+			if (k > -1)
+				tool->deselect(k);
 		}
 	}
 
 	Tool::~Tool()
 	{
 		for (int i=0; i < graphicsItems.size(); ++i)
-			if (graphicsItems[i])
+			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)(graphicsItems[i])))
 			{
 				if (graphicsItems[i]->scene())
 					graphicsItems[i]->scene()->removeItem(graphicsItems[i]);
-
+					
+				MainWindow::invalidPointers[(void*)(graphicsItems[i])] = true;
 				delete graphicsItems[i];
 			}
 	}
 
-	Tool::Tool(): buttons(this)
+	Tool::Tool() : QWidget(), actionsGroup(this)
 	{
 		setMouseTracking(true);
-		name = "";
+		name = category = tr("");
 		mainWindow = 0;
 	}
 
-	Tool::Tool(const QString& Name, const QString& Cat, QWidget * parent): QWidget(parent), buttons(this), name(Name), category(Cat), mainWindow(0)
-	{
+	Tool::Tool(const QString& Name, const QString& Cat, QWidget * parent): QWidget(parent), name(Name), category(Cat), mainWindow(0), actionsGroup(this)
+	{		
 	}
 
 	bool Tool::setMainWindow(MainWindow * main)
@@ -68,7 +71,7 @@ namespace Tinkercell
 		if (mainWindow == main)
 			return true;
 		mainWindow = main;
-		connect(&buttons,SIGNAL( buttonClicked ( int )),this,SLOT( select( int ) ));
+		connect(&actionsGroup,SIGNAL(triggered(QAction*)),this,SLOT(actionTriggered(QAction*)));
 		if (main)
 		{
 			if (!main->tool(name))
@@ -76,6 +79,13 @@ namespace Tinkercell
 			return true;
 		}
 		return false;
+	}
+	
+	void Tool::actionTriggered( QAction * action )
+	{
+		int k = actionsGroup.actions().indexOf(action);
+		if (k > -1)
+			select(k);
 	}
 
 	void Tool::select(int)
@@ -146,4 +156,16 @@ namespace Tinkercell
             return mainWindow->console();
 	    return 0;
 	}
+	
+	void Tool::addAction(QAction* action)
+	{
+		actionsGroup.addAction(action);
+	}
+	
+	void Tool::addGraphicsItem(Tool::GraphicsItem * item)
+	{
+		if (item && !graphicsItems.contains(item))
+			graphicsItems << item;
+	}
 }
+

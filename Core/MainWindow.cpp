@@ -332,7 +332,7 @@ namespace Tinkercell
 		GraphicsScene::clearStaticItems();
 		saveSettings();
 
-		QString tempDir = tempDir();
+		QString tempDir = MainWindow::tempDir();
 		QString cmd;
 
 #ifdef Q_WS_WIN
@@ -458,7 +458,7 @@ namespace Tinkercell
 				QFileDialog::getSaveFileName(this, tr("Save Current Network"),
 				previousFileName,
 				(PROJECTNAME + tr(" files (*.") + defaultFileExtension + tr(")")));
-			if (filename.isNull() || fileName.isEmpty())
+			if (fileName.isNull() || fileName.isEmpty())
 				return;
 			else
 				currentNetworkWindow->filename = previousFileName = fileName;

@@ -37,13 +37,15 @@ namespace Tinkercell
 
 	void GraphicsView::wheelEvent(QWheelEvent * wheelEvent)
 	{
-		if (wheelEvent->modifiers() & Qt::ControlModifier)
+		if (scene && wheelEvent->modifiers() & Qt::ControlModifier)
 		{
 			double factor = 1.0 + 0.2 * qAbs(wheelEvent->delta()/120.0);
 			if (wheelEvent->delta() > 0)
 				scale(factor,factor);
 			else
 				scale(1.0/factor,1.0/factor);
+			
+			scane->scaleGraphicalTools();
 		}
 		else
 		{

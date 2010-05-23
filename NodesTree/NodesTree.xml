@@ -36,18 +36,12 @@
 	</node>
 	<node family="Coding">
 	  <text>A DNA sequence that encodes for a protein or RNA product.</text>
-	  <node family="Expression Casette" composite="true">
-	    <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-	  </node>
 	</node>
 	
 	<node family="Promoter" strength="1.0">
 		<text>RNA Polymerase binding site; may or may not include the operator sites, depending on the model</text>
 		<node family="Constitutive Promoter" composite="true">
 		  <text>A promoter that is active by default</text>
-		  <node family="Expression Casette" composite="true">
-		    <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-		  </node>
 		</node>
 		<node family="Inducible Promoter" composite="true">
 		  <text>A promoter that is requires a transcription factor for activation</text>
@@ -57,9 +51,6 @@
 		</node>
 		<node family="Repressible Promoter" composite="true">
 		  <text>A promoter that can be repressed by a transcription factor</text>
-		  <node family="Expression Casette" composite="true">
-		     <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-	   	  </node>
 		</node>
 	</node>
 	

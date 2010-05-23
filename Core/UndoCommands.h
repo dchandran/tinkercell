@@ -644,25 +644,6 @@ namespace Tinkercell
 	* \ingroup undo
 	*/
 	typedef ChangeDataCommand<qreal> SetNumericalDataCommand;
-
-	/*! \brief this command is used to replace all the data inside a handle
-	* \ingroup undo
-	*/
-	class MY_EXPORT SetDataCommand : public QUndoCommand
-	{
-	public:
-		/*! \brief constructor*/
-		SetDataCommand(const QString& name, ItemHandle*, ItemData*);
-		/*! \brief constructor*/
-		SetDataCommand(const QString& name, const QList<ItemHandle*>&, const QList<ItemData*>&);
-		/*! \brief redo parent change*/
-		void redo();
-		/*! \brief undo parent change*/
-		void undo();
-	private:
-		QList<ItemHandle*> handles;
-		QList<ItemData> newData;
-	};
 	
 	/*! \brief this command is used to hide graphics items. 
 		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.

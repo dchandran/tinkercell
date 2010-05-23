@@ -155,9 +155,9 @@ namespace Tinkercell
 				&& handles[i]->hasNumericalData(tr("Initial Value")))
 			{
 				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
-							+ handles[i]->family()->measurementUnit.first + tr(" = ")
+							+ handles[i]->family()->measurementUnit.property + tr(" = ")
 							+ QString::number(handles[i]->numericalData(tr("Initial Value")))
-							+ tr(" ") + handles[i]->family()->measurementUnit.second;
+							+ tr(" ") + handles[i]->family()->measurementUnit.name;
 				
 				if (handles[i]->hasNumericalData(tr("Fixed")) && handles[i]->numericalData(tr("Fixed")) > 0)
 					s = tr("[FIXED] ") + s;
@@ -169,7 +169,7 @@ namespace Tinkercell
 					}
 			}
 			else
-			if (ConnectionHandle::cast(handles[i]) && handles[i]->family() 
+			if (ConnectionHandle::cast(handles[i]) && handles[i]->family()
 				&& handles[i]->hasTextData(tr("Rates")))
 			{
 				QString s;
@@ -663,7 +663,7 @@ namespace Tinkercell
 
 		for (int i=0; i < itemHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (itemHandles[i] && itemHandles[i]->family() && !(itemHandles[i]->family()->measurementUnit.first.isEmpty())
+			if (itemHandles[i] && itemHandles[i]->family() && !(itemHandles[i]->family()->measurementUnit.name.isEmpty())
 				&& itemHandles[i]->data && itemHandles[i]->hasNumericalData(tr("Initial Value")))
 			{
 				nDataTable = &(itemHandles[i]->data->numericalData[tr("Initial Value")]);
@@ -674,8 +674,8 @@ namespace Tinkercell
 					else
 						parents += tr("");
 					names += itemHandles[i]->name;
-					suffixes += itemHandles[i]->family()->measurementUnit.second;
-					values += QString::number(nDataTable->value(j,0)) + tr(" ") + itemHandles[i]->family()->measurementUnit.second;
+					suffixes += itemHandles[i]->family()->measurementUnit.name;
+					values += QString::number(nDataTable->value(j,0)) + tr(" ") + itemHandles[i]->family()->measurementUnit.name;
 					constants.insert(itemHandles[i]->fullName(),nDataTable->value(j,0));
 				}
 			}

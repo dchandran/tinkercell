@@ -88,7 +88,7 @@ namespace Tinkercell
             f(script.toAscii().data(),"py.out");
             if (mainWindow && mainWindow->console())
             {
-            	QFile(tr("py.out"));
+            	QFile file(tr("py.out"));
             	if (file.open(QFile::ReadOnly | QFile::Text))
             	{
 		            QString allText(file.readAll());
@@ -100,7 +100,7 @@ namespace Tinkercell
             QDir::setCurrent(currentDir);
         }
 		
-		if (!commandQueue.isEmpty())
+		if (!codeQueue.isEmpty())
 		{
 			code = codeQueue.dequeue();
 			run();

@@ -23,11 +23,6 @@ namespace Tinkercell
 		
 	public:
 		OctaveInterpreterThread(const QString&, MainWindow* main);
-		virtual ~OctaveInterpreterThread();
-
-	public slots:
-		virtual void initialize();
-		virtual void finalize();
 
 	protected:
 		virtual void run();

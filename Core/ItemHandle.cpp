@@ -129,22 +129,6 @@ namespace Tinkercell
         textData = copy.textData;
         return (*this);
     }
-    
-	void ItemData::push(const ItemData& t)
-	{
-		versions.push(*this);
-		numericalData = t.numericalData;
-        textData = t.textData;
-	}
-	
-	void ItemData::pop()
-	{
-		if (versions.isEmpty()) return;
-		
-		ItemData t = versions.pop();
-		numericalData = t.numericalData;
-        textData = t.textData;
-	}
 
 	/**********************************
 	ITEM HANDLE

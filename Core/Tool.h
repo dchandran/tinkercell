@@ -15,8 +15,12 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 #include <QWidget>
 #include <QList>
-#include <QButtonGroup>
+#include <QHash>
+#include <QAction>
+#include <QActionGroup>
 #include <QToolButton>
+#include <QUndoCommand>
+#include <QGraphicsItem>
 #include <QGraphicsItemGroup>
 
 #include "MainWindow.h"
@@ -35,6 +39,7 @@ namespace Tinkercell
 	class NetworkHandle;
 	class TextEditor;
 	class ConsoleWindow;
+	class Tool::GraphicsItem;
 
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
@@ -68,19 +73,19 @@ namespace Tinkercell
 		/*! \brief console window (same as mainWindow->console())*/
 		ConsoleWindow* console();
 		/*! \brief the main window's current scene*/
-		virtual GraphicsScene* currentScene() const;
+		GraphicsScene* currentScene() const;
 		/*! \brief the main window's current text editor*/
-		virtual TextEditor* currentTextEditor() const;
+		TextEditor* currentTextEditor() const;
 		/*! 
 		* \brief the main window's current network
 		* \return NetworkHandle* current network handle
 		*/
-		virtual NetworkHandle* currentNetwork() const;
+		NetworkHandle* currentNetwork() const;
 		/*!
 		* \brief the main window's current network's current window
 		* \return NetworkWindow* current network window
 		*/
-		virtual NetworkWindow* currentWindow() const;
+		NetworkWindow* currentWindow() const;
 		/*!
 		* \brief same as MainWindow::homeDir
 		*/
@@ -89,6 +94,14 @@ namespace Tinkercell
 		* \brief same as MainWindow::tempDir
 		*/
 		static QString tempDir();
+		/*!
+		* \brief add an action that will be displayed in the context menu when specific items with this tool in their tools list are selected
+		*/
+		virtual void addAction(QAction*);
+		/*!
+		* \brief add a graphics item that will be displayed on the current scene when specific items with this tool in their tools list are selected
+		*/
+		virtual void addGraphicsItem(Tool::GraphicsItem*);
 		/*! \brief tools that are drawn on the scene instead of displayed as a window
 		\ingroup core
 		*/
@@ -119,22 +132,28 @@ namespace Tinkercell
 			static GraphicsItem* cast(QGraphicsItem*);
 		};
 
+	public slots:
+		/*! \brief what happens when this tool is selected */
+		virtual void select(int i=0);
+		/*! \brief what happens when this tool is deselected */
+		virtual void deselect(int i=0);
+
+	signals:
+		/*! \brief this tool is selected */
+		void selected();
+		/*! \brief this tool is deselected */
+		void deselected();
+		
+	private:
 		/*! \brief optional graphics item used to display this tool */
 		QList<GraphicsItem*> graphicsItems;
-		/*! \brief optional button used to display this tool */
-		QButtonGroup buttons;
-
-		public slots:
-			/*! \brief what happens when this tool is selected */
-			virtual void select(int i=0);
-			/*! \brief what happens when this tool is deselected */
-			virtual void deselect(int i=0);
-
-		signals:
-			/*! \brief this tool is selected */
-			void selected();
-			/*! \brief this tool is deselected */
-			void deselected();
+		/*! \brief actions displayed in the context menu when items related to this tool are selected */
+		QActionGroup actionsGroup;
+		
+		friend class GraphicsScene;		
+		friend class TextEditor;
+		friend class MainWindow;
+		friend class NetworkHandle;
 	};
 
 }

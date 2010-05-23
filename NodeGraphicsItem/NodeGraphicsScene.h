@@ -28,7 +28,6 @@ namespace NodeImageDesigner
 {
 
 typedef Tinkercell::NodeGraphicsItem NodeGraphicsItem;
-class MY_IMPORT NodeGraphicsItem::Shape;
 
 /*! \brief Scene where a single NodeGraphicsItem can be drawn. This scene contains the node and its control points.
  */

@@ -438,10 +438,18 @@ namespace Tinkercell
 		bool mouseDown;
 		/*! \brief list of pointers to selected items*/
 		QList<QGraphicsItem*> selectedItems;
+		/*! \brief list of pointers to tool items*/
+		QList<Tool::GraphicsItem*> visibleTools;
 		/*! \brief list of pointers to moving items*/
 		QList<QGraphicsItem*> movingItems;
 		/*! \brief group of moving items*/
 		QGraphicsItemGroup * movingItemsGroup;
+		/*! \brief hide the all graphical tools*/
+		virtual void hideGraphicalTools();
+		/*! \brief show graphical tools for selected items*/
+		virtual void showGraphicalTools();
+		/*! \brief scale the visible graphical tools according to viewport size*/
+		virtual void scaleGraphicalTools();
 		/*! \brief when mouse is pressed, the item at the position is added to selected list and moving list
 		* \param QGraphicsSceneMouseEvent * mouse event
 		* \return void*/
@@ -466,14 +474,13 @@ namespace Tinkercell
 		* \param QKeyEvent *  key event
 		* \return void*/
 		virtual void keyReleaseEvent (QKeyEvent * event);
-		/*! \brief when mouse wheel is turned, zoom
-		* \param QGraphicsSceneWheelEvent * mouse wheel event
-		* \return void*/
-		virtual void wheelEvent (QGraphicsSceneWheelEvent * wheelEvent);
 		/*! \brief context menu for the scene
 		* \param QGraphicsSceneContextMenuEvent * context menu event
 		* \return void*/
 		virtual void contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent );
+		/*! \brief populate the context menu using selected items' tools actions
+		* \return void*/
+		virtual void populateContextMenu();
 		/*! \brief drag and drop event
 		* \param QGraphicsSceneDragDropEvent * drag and drop event
 		* \return void*/

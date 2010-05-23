@@ -1203,7 +1203,7 @@ namespace Tinkercell
 		return connections;
 	}
 
-	QList<NodeGraphicsItem*> NodeGraphicsItem::adjacentNodeItems() const
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesAdjacent() const
 	{
 		QList<NodeGraphicsItem*> nodes;
 
@@ -1222,7 +1222,224 @@ namespace Tinkercell
 				nodes << node;
 
 		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesToLeft() const
+	{
+		QList<NodeGraphicsItem*> nodes;
 
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<QGraphicsItem*> items;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+		NodeGraphicsItem * node2 = 0;
+
+		while (node1)
+		{
+			rect = node1->sceneBoundingRect();
+			p = QPointF(rect.left() - 1.0, rect.center().y());
+			items = scene->items(p);
+
+			node1 = 0;
+			for (int i=0; i < items.size(); ++i)
+				if ((node2 = topLevelNodeItem(items[i])) && node2 != this && !nodes.contains(node2))
+				{
+					node1 = node2;
+					break;
+				}
+			if (node1)
+				nodes << node1;
+		}
+
+		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesToRight() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<QGraphicsItem*> items;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+		NodeGraphicsItem * node2 = 0;
+
+		while (node1)
+		{
+			rect = node1->sceneBoundingRect();
+			p = QPointF(rect.right() + 1.0, rect.center().y());
+			items = scene->items(p);
+
+			node1 = 0;
+			for (int i=0; i < items.size(); ++i)
+				if ((node2 = topLevelNodeItem(items[i])) && node2 != this && !nodes.contains(node2))
+				{
+					node1 = node2;
+					break;
+				}
+			if (node1)
+				nodes << node1;
+		}
+
+		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesAbove() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<QGraphicsItem*> items;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+		NodeGraphicsItem * node2 = 0;
+
+		while (node1)
+		{
+			rect = node1->sceneBoundingRect();
+			p = QPointF(rect.center().x(), rect.top() - 1.0);
+			items = scene->items(p);
+
+			node1 = 0;
+			for (int i=0; i < items.size(); ++i)
+				if ((node2 = topLevelNodeItem(items[i])) && node2 != this && !nodes.contains(node2))
+				{
+					node1 = node2;
+					break;
+				}
+			if (node1)
+				nodes << node1;
+		}
+
+		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesBelow() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<QGraphicsItem*> items;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+		NodeGraphicsItem * node2 = 0;
+
+		while (node1)
+		{
+			rect = node1->sceneBoundingRect();
+			p = QPointF(rect.center().x(), rect.bottom() + 1.0);
+			items = scene->items(p);
+
+			node1 = 0;
+			for (int i=0; i < items.size(); ++i)
+				if ((node2 = topLevelNodeItem(items[i])) && node2 != this && !nodes.contains(node2))
+				{
+					node1 = node2;
+					break;
+				}
+			if (node1)
+				nodes << node1;
+		}
+
+		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesUpstream() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<ConnectionGraphicsItem*> clist;
+		QList<NodeGraphicsItem*> nlist;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+
+		while (node1)
+		{
+			clist = node1->connectionsWithArrows();
+
+			node1 = 0;
+			for (int i=0; i < clist.size(); ++i)
+				if (clist[i])
+				{	
+					nlist = clist[i]->nodesWithoutArrows();
+					for (int j=0; j < nlist.size(); ++j)
+						if (nlist[j])
+						{
+							node1 = nlist[j];
+							break;
+						}
+					if (node1)
+						break;
+				}
+			if (node1 && node1 != this && !nodes.contains(node1))
+				nodes << node1;
+			else
+				node1 = 0;
+		}
+
+		return nodes;
+	}
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::nodesDownstream() const
+	{
+		QList<NodeGraphicsItem*> nodes;
+
+		QGraphicsScene * scene = this->scene();
+
+		if (!scene) return nodes;
+
+		QRectF rect;
+		QPointF p;
+		QList<ConnectionGraphicsItem*> clist;
+		QList<NodeGraphicsItem*> nlist;
+		NodeGraphicsItem * node1 = const_cast<NodeGraphicsItem*>(this);
+
+		while (node1)
+		{
+			clist = node1->connectionsWithoutArrows();
+
+			node1 = 0;
+			for (int i=0; i < clist.size(); ++i)
+				if (clist[i])
+				{	
+					nlist = clist[i]->nodesWithArrows();
+					for (int j=0; j < nlist.size(); ++j)
+						if (nlist[j])
+						{
+							node1 = nlist[j];
+							break;
+						}
+					if (node1)
+						break;
+				}
+			if (node1 && node1 != this && !nodes.contains(node1))
+				nodes << node1;
+			else
+				node1 = 0;
+		}
+
+		return nodes;
 	}
 
 	QList<Tinkercell::ControlPoint*> NodeGraphicsItem::allControlPoints() const

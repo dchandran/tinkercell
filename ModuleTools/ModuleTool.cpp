@@ -89,9 +89,6 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&)));
 
-			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
-                    mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
-
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
 
@@ -113,7 +110,6 @@ namespace Tinkercell
 
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
 
-			catalogTool = 0;
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
 			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
@@ -124,8 +120,9 @@ namespace Tinkercell
 	void ModuleTool::toolLoaded(Tool * tool)
 	{
 		if (!tool) return;
+		static connected1 = false, connected2 = false, connected3 = false;
 
-		if (tool->name == tr("Nodes Tree"))
+		if (tool->name == tr("Nodes Tree") && !connected1)
 		{
 			NodesTree * tree = static_cast<NodesTree*>(tool);
 			if (!tree->nodeFamilies.contains(tr("Module")))
@@ -144,13 +141,13 @@ namespace Tinkercell
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
 				tree->nodeFamilies[moduleFamily->name] = moduleFamily;
+				connected1 = true;
 			}
 		}
 
-		if (tool->name == tr("Parts and Connections Catalog"))
+		if (tool->name == tr("Parts and Connections Catalog") && !connected2)
 		{
 			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
-			catalogTool = catalog;
 
 			connect(this,SIGNAL(addNewButtons(const QList<QToolButton*>&,const QString&)),
 					catalog,SLOT(addNewButtons(const QList<QToolButton*>&,const QString&)));
@@ -179,47 +176,15 @@ namespace Tinkercell
 			emit addNewButtons(
 				QList<QToolButton*>() << moduleButton << linkButton << connectButton,
 				tr("Modules"));
+			
+			connected2 = true;
 		}
 		
-		if (tool->name == tr("Save and Load"))
+		if (tool->name == tr("Save and Load") && !connected3)
 		{
 			LoadSaveTool * loadSaveTool = static_cast<LoadSaveTool*>(tool);
 			connect(this,SIGNAL(loadItems(QList<QGraphicsItem*>&, const QString&)),loadSaveTool,SLOT(loadItems(QList<QGraphicsItem*>&, const QString&)));
-		}
-	}
-
-	void ModuleTool::historyChanged(int)
-	{
-		TextEditor * textEditor = currentTextEditor();
-		if (textEditor && moduleScripts.contains(textEditor))
-		{
-			GraphicsScene * scene = moduleScripts[textEditor].first;
-			ItemHandle * moduleHandle = moduleScripts[textEditor].second;
-			ItemHandle * handle;
-
-			if (!scene || !moduleHandle) return;
-
-			QList<ItemHandle*> newTextItems = cloneHandles(textEditor->items());
-			QList<ItemHandle*> children, parents, oldChildren;
-
-			oldChildren = moduleHandle->children;
-			for (int i=0; i < oldChildren.size(); ++i)
-			{
-				children << oldChildren[i];
-				parents << 0;
-			}
-
-			for (int i=0; i < newTextItems.size(); ++i)
-			{
-				handle = newTextItems[i];
-				if (handle && !handle->parent)
-				{
-					children << handle;
-					parents << moduleHandle;
-				}
-			}
-
-			scene->network->setParentHandle(children,parents);
+			connected3 = true;
 		}
 	}
 
@@ -241,161 +206,7 @@ namespace Tinkercell
         return 0;
     }
 
-    void ModuleTool::select(int)
-    {
-        makeLinks();
-    }
-
-    void ModuleTool::makeLinks()
-    {
-        GraphicsScene * scene = currentScene();
-        if (!scene) return;
-
-        makeLinks(scene,scene->selected());
-	}
-
-	void ModuleTool::makeLinks(GraphicsScene * scene,QList<QGraphicsItem*> & selectedItems)
-	{
-        QList<QGraphicsItem*> toInsert;
-
-        bool alreadyLinked = false;
-        NodeGraphicsItem * node;
-        ItemHandle * handle = 0, * moduleHandle = 0;
-
-        QList<QGraphicsItem*> items;
-        QList<ItemHandle*> textItems;
-        QList<ItemHandle*> visited;
-
-        for (int i=0; i < selectedItems.size(); ++i)
-        {
-            moduleHandle = getHandle(selectedItems[i]);
-            if (moduleHandle && !visited.contains(moduleHandle) && NodeGraphicsItem::cast(selectedItems[i]) && moduleHandle->isA(tr("Module")))
-            {
-            	visited << moduleHandle;
-                for (int j=0; j < moduleHandle->children.size(); ++j)
-                    if (handle = moduleHandle->children[j])
-                    {
-                    	alreadyLinked = false;
-				        for (int k=0; k < handle->graphicsItems.size(); ++k)
-				            if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[k])) &&
-								(node->className == linkerClassName))
-				        {
-				            alreadyLinked = true;
-				            break;
-				        }
-
-				        if (!alreadyLinked)
-				        {
-				            items << moduleHandle->children[j]->graphicsItems;
-    	                }
-                    }
-            }
-        }
-
-        if (!moduleHandle)
-        	items = selectedItems;
-        else
-        	textItems = moduleHandle->allChildren();
-
-        visited.clear();
-
-        for (int i=0; i < items.size(); ++i)
-        {
-            handle = getHandle(items[i]);
-
-            if (!NodeHandle::cast(handle) || handle->isA(tr("empty")) || visited.contains(handle)) continue;
-
-            visited << handle;
-
-            NodeGraphicsItem * module = VisualTool::parentModule(items[i]);
-
-            if (!module) continue;
-            NodeGraphicsItem * linker = new NodeGraphicsItem;
-			QString appDir = QCoreApplication::applicationDirPath();
-			NodeGraphicsReader reader;
-			reader.readXml(linker,appDir + linkerFileName);
-			linker->normalize();
-			linker->className = linkerClassName;
-			setToolTip(QString("Module interface"));
-
-			linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
-			if (linker->boundaryControlPoints.size() > 0)
-			{
-				for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
-					if (linker->boundaryControlPoints[j])
-					{
-						if (linker->boundaryControlPoints[j]->scene())
-							linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
-						delete linker->boundaryControlPoints[j];
-					}
-				linker->boundaryControlPoints.clear();
-			}
-
-			setHandle(linker,handle);
-			linker->setPos(VisualTool::getPoint(module,items[i]->scenePos(),linker));
-            toInsert += (QGraphicsItem*)linker;
-
-			/*TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
-			QFont font = linkerText->font();
-			font.setPointSize(36);
-			linkerText->setFont(font);
-			linkerText->setPos(linker->pos());
-			linkerText->scale(1.5,1.5);
-			toInsert += (QGraphicsItem*)linkerText;*/
-        }
-
-        for (int i=0; i < textItems.size(); ++i)
-        {
-            handle = textItems[i];
-            if (!NodeHandle::cast(handle) || !handle->graphicsItems.isEmpty()) continue;
-
-            NodeGraphicsItem * module = 0;
-
-            for (int j=0; j < moduleHandle->graphicsItems.size(); ++j)
-            	if (module = NodeGraphicsItem::cast(moduleHandle->graphicsItems[j]))
-            		break;
-
-            if (!module) continue;
-
-            NodeGraphicsItem * linker = new NodeGraphicsItem;
-			QString appDir = QCoreApplication::applicationDirPath();
-			NodeGraphicsReader reader;
-			reader.readXml(linker,appDir + linkerFileName);
-			linker->normalize();
-			linker->className = linkerClassName;
-			setToolTip(QString("Module interface"));
-
-			linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
-			if (linker->boundaryControlPoints.size() > 0)
-			{
-				for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
-					if (linker->boundaryControlPoints[j])
-					{
-						if (linker->boundaryControlPoints[j]->scene())
-							linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
-						delete linker->boundaryControlPoints[j];
-					}
-				linker->boundaryControlPoints.clear();
-			}
-
-			setHandle(linker,handle);
-			linker->setPos(VisualTool::getPoint(module,module->scenePos(),linker));
-            toInsert += (QGraphicsItem*)linker;
-
-			TextGraphicsItem * linkerText = new TextGraphicsItem(handle);
-			linkerText->setPos(linker->pos());
-			linkerText->scale(1.5,1.5);
-			toInsert += (QGraphicsItem*)linkerText;
-        }
-
-        scene->insert("module interface created",toInsert);
-
-		for (int i=0; i < toInsert.size(); ++i)
-			if (toInsert[i] && toInsert[i]->scene() != scene)
-				delete toInsert[i];
-    }
-
-    QPointF ModuleTool::VisualTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item)
+    QPointF ModuleTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item)
     {
     	NodeGraphicsItem * linker = NodeGraphicsItem::cast(item);
 
@@ -455,93 +266,6 @@ namespace Tinkercell
         linker->setTransform(t * rotate);
 
         return point;
-    }
-
-    void ModuleTool::VisualTool::visible(bool b)
-    {
-        if  (!b || !moduleTool)
-        {
-            Tool::GraphicsItem::visible(false);
-            return;
-        }
-
-        MainWindow * mainWindow = moduleTool->mainWindow;
-
-        if (!mainWindow)
-        {
-            Tool::GraphicsItem::visible(false);
-            return;
-        }
-
-		mainWindow->contextItemsMenu.removeAction(moduleTool->makeLink);
-        if (moduleTool->separator)
-			mainWindow->contextItemsMenu.removeAction(moduleTool->separator);
-
-        GraphicsScene * scene = mainWindow->currentScene();
-
-		if (!scene)
-        {
-            Tool::GraphicsItem::visible(false);
-            return;
-        }
-
-        QList<QGraphicsItem*> & items = scene->selected();
-        NodeGraphicsItem * node = 0;
-        bool alreadyLinked = false;
-
-        for (int i=0; i < items.size(); ++i)
-        {
-            ItemHandle * handle = getHandle(items[i]);
-
-            if (!handle) continue;
-
-            if (handle->isA(tr("Module")))
-            {
-                if (moduleTool->separator)
-                	mainWindow->contextItemsMenu.addAction(moduleTool->separator);
-               	else
-               		moduleTool->separator = mainWindow->contextItemsMenu.addSeparator();
-
-                mainWindow->contextItemsMenu.addAction(moduleTool->makeLink);
-                mainWindow->contextItemsMenu.addAction(moduleTool->createViewAction);
-
-                Tool::GraphicsItem::visible(b);
-                return;
-            }
-
-            if (handle && handle->isA("node"))
-            {
-                alreadyLinked = false;
-                for (int j=0; j < handle->graphicsItems.size(); ++j)
-                    if ((node = qgraphicsitem_cast<NodeGraphicsItem*>(handle->graphicsItems[j])) &&
-                        (node->className == linkerClassName) &&
-                        (node->scene() == items[i]->scene()))
-                {
-                    alreadyLinked = true;
-                    break;
-                }
-
-                if (alreadyLinked) continue;
-                NodeGraphicsItem * module = parentModule(items[i]);
-                if (module)
-                {
-                    Tool::GraphicsItem::visible(b);
-                    if (mainWindow)
-                    {
-                        if (moduleTool->separator)
-                            mainWindow->contextItemsMenu.addAction(moduleTool->separator);
-                        else
-                            moduleTool->separator = mainWindow->contextItemsMenu.addSeparator();
-
-                        mainWindow->contextItemsMenu.addAction(moduleTool->makeLink);
-
-                        return;
-                    }
-                }
-            }
-        }
-
-        Tool::GraphicsItem::visible(false);
     }
 
     void ModuleTool::escapeSignal(const QWidget* )
@@ -616,7 +340,7 @@ namespace Tinkercell
 
 		if (mode == linking)
 		{
-			makeLinks(scene,nodeItems);
+			//makeLinks(scene,nodeItems);
 			return;
 		}
 
@@ -632,7 +356,7 @@ namespace Tinkercell
 
 				if (!handle1 || !handle2 || !handle1->family() || !handle2->family())
 				{
-					QMessageBox::information(this, tr("Cannot connect"), tr("These objects do not belong in any family"));
+					QMessageBox::information(this, tr("Cannot connect"), tr("Cannot connect because these objects do not belong in any family"));
 					return;
 				}
 
@@ -640,6 +364,7 @@ namespace Tinkercell
 				{
 					QMessageBox::information(this,
 						tr("Cannot connect"),
+						 tr("Cannot connect because ") +
 						handle1->name + tr(" (") + handle1->family()->name + tr(") and ") +
 						handle2->name + tr(" (") + handle2->family()->name + tr(") are different types of objects")	);
 					return;
@@ -657,63 +382,18 @@ namespace Tinkercell
 		}
 	}
 
-	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles)
+	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*> commands)
 	{
 
 	}
 
-    void ModuleTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles)
+    void ModuleTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
     {
-        if (!scene) return;
-
-		for (int i=0; i < handles.size(); ++i)
-        {
-            ItemHandle * handle = handles[i];
-
-            if (NodeHandle::cast(handle) && handle->family() && !handle->tools.contains(this))
-            {
-				handle->tools += this;
-            }
-        }
-
-		NodeGraphicsItem * linker = 0;
-		ConnectionGraphicsItem * connection = 0;
-
-		for (int i=0; i < items.size(); ++i)
-		{
-			linker = NodeGraphicsItem::cast(items[i]);
-			if (linker && linker->className == linkerClassName && linker->boundaryControlPoints.size() > 0)
-			{
-				for (int j=0; j < linker->boundaryControlPoints.size(); ++j)
-					if (linker->boundaryControlPoints[j])
-					{
-						if (linker->boundaryControlPoints[j]->scene())
-							linker->boundaryControlPoints[j]->scene()->removeItem(linker->boundaryControlPoints[j]);
-						delete linker->boundaryControlPoints[j];
-					}
-				linker->boundaryControlPoints.clear();
-			}
-
-			if (!linker)
-			{
-				connection = ConnectionGraphicsItem::cast(items[i]);
-				if (connection && connection->className == connectionClassName)
-				{
-					QList<NodeGraphicsItem*> nodes = connection->nodes();
-					if (nodes.size() == 2 && nodes[0] && nodes[1] && nodes[0]->handle() && nodes[1]->handle())
-					{
-						QString s = nodes[0]->handle()->fullName();
-						s += tr(" is the same as ");
-						s += nodes[1]->handle()->fullName();
-						connection->setToolTip(s);
-					}
-				}
-			}
-		}
-
-		//graphics view adjustments
-
-        if (moduleViews.contains(scene))
+    	NetworkWindow * window = network->currentWindow();
+    	
+    	if (!window) return;
+    	
+        if (window->scene && window->handle)
         {
             ItemHandle * moduleHandle = moduleViews[scene];
             if (moduleHandle)
@@ -1104,9 +784,6 @@ namespace Tinkercell
         QList<ItemHandle*> handles;
         handles << handle1 << handle2;
 
-        QList<QUndoCommand*> commands;
-		commands << new InsertGraphicsCommand(tr("module connection"),scene,connection);
-
         ConnectionGraphicsItem::CurveSegment controlPoints;
 
         controlPoints += new ConnectionGraphicsItem::ControlPoint(point1,connection,link1);
@@ -1128,17 +805,7 @@ namespace Tinkercell
         connection->curveSegments += controlPoints;
         connection->lineType = ConnectionGraphicsItem::line;
 
-		QUndoCommand * compositeCommand = new CompositeCommand(tr("modules connected"),commands);
-
-		if (scene->network)
-			scene->network->push(compositeCommand);
-		else
-		{
-			compositeCommand->redo();
-			delete compositeCommand;
-		}
-
-		emit itemsInsertedSignal(scene, QList<QGraphicsItem*>() << connection, QList<ItemHandle*>());
+		scene->insert(tr("modules connected"),connection);
     }
 
 	void ModuleTool::connectedItems(const QList<ItemHandle*>& items, QList<ItemHandle*>& to, QList<ItemHandle*>& from)
@@ -1344,7 +1011,10 @@ namespace Tinkercell
 		    QFileInfo fileInfo = list.at(i);
 		    QToolButton * button = new QToolButton(toolBar);
 		    toolBar->addWidget(button);
-		    button->setText(fileInfo.baseName());
+		    QString base = fileInfo.baseName();
+		    button->setText(base);
+		    button->setIcon(QIcon(base + tr(".png")));   
+		    
 		    group->addButton(button,i);
 		}
 	}

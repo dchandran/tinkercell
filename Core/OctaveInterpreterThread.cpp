@@ -28,12 +28,10 @@ namespace Tinkercell
     
     void OctaveInterpreterThread::run()
     {
-        if (!lib || !lib->isLoaded() || code.isEmpty()) return;
+       if (!lib || !lib->isLoaded() || code.isEmpty()) return;
 
         QString script;
-		script =  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
 		script += code;
-		script +=  QObject::tr("\n_outfile.close();\nprint _\n");
 
         if (!f)
             f = (execFunc)lib->resolve("exec");
@@ -43,12 +41,22 @@ namespace Tinkercell
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
 
-            f(script.toAscii().data(),"octave.out");
+            f(script.toAscii().data(),"octav.out");
+            if (mainWindow && mainWindow->console())
+            {
+            	QFile file(tr("octav.out"));
+            	if (file.open(QFile::ReadOnly | QFile::Text))
+            	{
+		            QString allText(file.readAll());
+					mainWindow->console()->message(allText);
+					file.close();
+				}
+            }
 
             QDir::setCurrent(currentDir);
         }
 		
-		if (!commandQueue.isEmpty())
+		if (!codeQueue.isEmpty())
 		{
 			code = codeQueue.dequeue();
 			run();

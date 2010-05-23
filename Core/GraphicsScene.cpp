@@ -227,6 +227,7 @@ namespace Tinkercell
 		}
 		movingItems.clear();
 		emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
+		hideGraphicalTools();
 	}
 	/*! \brief Add a new item to the scene
 	* Precondition: None
@@ -378,7 +379,10 @@ namespace Tinkercell
 						}
 
 						if (mouseEvent->button())// == Qt::LeftButton)
+						{
 							emit itemsSelected(this, selectedItems,clickedPoint,mouseEvent->modifiers());
+							showGraphicalTools();
+						}
 						
 						selectConnections(clickedPoint);
 						
@@ -398,7 +402,10 @@ namespace Tinkercell
 
 				emit mousePressed(this, clickedPoint, clickedButton, mouseEvent->modifiers());
 				if (mouseEvent->button() == Qt::LeftButton)
+				{
 					emit itemsSelected(this, selectedItems,clickedPoint,mouseEvent->modifiers());
+					showGraphicalTools();
+				}
 
 				selectionRect.setZValue(lastZ);
 			}
@@ -540,6 +547,7 @@ namespace Tinkercell
 									selectedItems.removeAll(item);
 					}
 				emit itemsSelected(this, selectedItems,point1,mouseEvent->modifiers());
+				showGraphicalTools();
 			}
 			if ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE)
 				emit mouseDragged(this, point0, point1, clickedButton, mouseEvent->modifiers());
@@ -567,16 +575,7 @@ namespace Tinkercell
 		emit mouseDoubleClicked(this, point1, getGraphicsItem(p) , mouseEvent->button(), mouseEvent->modifiers());
 		QGraphicsScene::mouseDoubleClickEvent(mouseEvent);
 	}
-
-	/*! \brief when mouse wheel is turned, zoom
-	* Precondition: None
-	* Postcondition: None
-	* \param mouse wheel event
-	* \return void*/
-	void GraphicsScene::wheelEvent (QGraphicsSceneWheelEvent * wheelEvent)
-	{
-		QGraphicsScene::wheelEvent(wheelEvent);
-	}
+	
 	/*! \brief context menu for the scene
 	* Precondition: None
 	* Postcondition: None
@@ -588,6 +587,7 @@ namespace Tinkercell
 		{
 			if (selectedItems.size() > 0)
 			{
+				populateContextMenu();
 				if (contextItemsMenu)
 					contextItemsMenu->exec(mouseEvent->screenPos());
 			}
@@ -618,6 +618,7 @@ namespace Tinkercell
 			if (!(factor < 0.07 || factor > 100))
 				view->scale(scaleFactor, scaleFactor);
 		}
+		scaleGraphicalTools();
 	}
 	/*! \brief place center at the point
 	* Precondition: None
@@ -825,6 +826,8 @@ namespace Tinkercell
 			emit itemsSelected(this, selectedItems, item->scenePos() , Qt::NoModifier);
 		else
 			emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
+
+		showGraphicalTools();
 	}
 
 	/*! \brief select items*/
@@ -840,7 +843,9 @@ namespace Tinkercell
 					movingItems += item;
 			}
 		}
+		
 		emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
+		showGraphicalTools();
 	}
 
 	/*! \brief deselect items*/
@@ -850,6 +855,7 @@ namespace Tinkercell
 		{
 			selectedItems.removeAll(item);
 			emit itemsSelected(this, selectedItems, item->scenePos() , Qt::NoModifier);
+			showGraphicalTools();
 		}
 	}
 
@@ -864,7 +870,7 @@ namespace Tinkercell
 			movingItemsGroup = 0;
 		}
 		emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
-
+		showGraphicalTools();
 	}
 	
 	/*! \brief adjusts view to include rect*/
@@ -1762,6 +1768,7 @@ namespace Tinkercell
 					centerOn(p);
 
 					emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
+					showGraphicalTools();
 					return;
 				}
 		}
@@ -1810,6 +1817,7 @@ namespace Tinkercell
 				p += selectedItems[j]->scenePos();
 			p /= selectedItems.size();
 			emit itemsSelected(this,selectedItems,QPointF(),Qt::NoModifier);
+			showGraphicalTools();
 		}
 	}
 
@@ -2023,6 +2031,146 @@ namespace Tinkercell
 		if (networkWindow)
 			networkWindow->popIn();
 	}
+	
+	void GraphicsScene::hideGraphicalTools()
+	{
+		for (int i=0; i < visibleTools.size(); ++i)
+		{
+			Tool::GraphicsItem * tool = visibleTools[i];
+			if (tool && tool->tool)
+			{
+				if (tool->scene())
+				{
+					tool->scene()->removeItem(tool);
+				}
+				tool->visible(false);
+				tool->deselect();
+			}
+		}
+		visibleTools.clear();
+	}
+	
+	void GraphicsScene::showGraphicalTools()
+	{
+		hideGraphicalTools();
 
+		ItemHandle * itemHandle = 0;
+		Tool * tool;
+		for (int i=0; i < selectedItems.size(); ++i)
+		{
+			if (itemHandle = getHandles(selectedItems[i]))
+			{
+				for (int j=0; j < itemHandle->tools.size(); ++j)
+				{
+					tool = itemHandle->tools[j];
+					if (tool && !tool->graphicsItems.isEmpty())
+						for (int k=0; k < tool->graphicsItems.size(); ++k)
+							if (!visibleTools.contains(tool->graphicsItems[k]))
+								visibleTools += tool->graphicsItems[k];
+				}
+			}
+		}
+		scaleGraphicalTools();
+	}
 
+	void GraphicsScene::scaleGraphicalTools()
+	{
+		qreal scalex = 1, scaley = 1;
+		QRectF viewport = this->viewport();
+		scalex = viewport.width();
+		scaley = viewport.height();
+		qreal maxx = viewport.right() - 0.05*scalex,
+			  miny = viewport.top() + 0.05*scaley,
+			  w = 0;
+
+		for (int i=0; i < visibleTools.size(); ++i)
+		{
+			Tool::GraphicsItem * tool = visibleTools[i];
+			if (tool && scene)
+			{
+				if (tool->scene() != scene)
+				{
+					if (tool->parentItem())
+						tool->setParentItem(0);
+
+					if (tool->scene() != 0)
+						tool->scene()->removeItem(tool);
+
+					addItem(tool);
+				}
+
+				tool->visible(true);
+
+				tool->setZValue(scene->ZValue()+0.1);
+
+				tool->resetTransform();				
+				QRectF bounds = tool->sceneBoundingRect();
+				
+				qreal ratio = bounds.height()/bounds.width();
+				
+				tool->scale(ratio*0.001*scalex,0.001*scaley);
+				tool->setPos(QPointF(maxx,miny));
+				bounds = tool->sceneBoundingRect();
+
+				if (tool->isVisible() && visibleTools.size() > 1)
+				{
+					miny += bounds.height() * 1.5;
+
+					if (bounds.width() > w) w = bounds.width();
+
+					if (miny > viewport.bottom() - 50.0)
+					{
+						miny = viewport.top() + 0.05*scaley;
+						maxx -= w * 1.5;
+					}
+				}
+			}
+		}
+	}
+	
+	void GraphicsScene::populateContextMenu()
+	{
+		static QList<QAction*> separators, actions;
+		
+		if (!contextItemsMenu) return;
+
+		Tool * tool = 0;
+		QHash<QString,QAction*> hash;
+		QList<QAction*> list;
+		
+		for (int i=0; i < actions.size(); ++i)
+			if (actions[i])
+				contextItemsMenu->removeAction(actions[i]);
+		
+		for (int i=0; i < separators.size(); ++i)
+			if (separators[i])
+				contextItemsMenu->removeAction(separators[i]);
+
+		actions.clear();
+		
+		for (int i=0; i < visibleTools.size(); ++i)
+			if (visibleTools[i] && (tool = visibleTools[i]->tool) !tool->actionGroup.actions().isEmpty())
+			{
+				hash.insertMulti(tool->category,tool->actionGroup.actions());
+			}
+
+		QStringList keys = actions.keys();
+		int k=0;
+		
+		for (int i=0; i < keys.size(); ++i)
+		{
+			if (separators.size() > i)
+				contextItemsMenu->addAction(separators[i]);
+			else
+				separators << contextItemsMenu->addSeparator(); 
+			
+			list = hash.values(keys[i]);
+			for (int j=0; j < list.size(); ++j)
+			{
+				contextItemsMenu->addAction(list[j]);
+				actions << list[j];
+			}
+		}
+	}
 }
+

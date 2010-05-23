@@ -265,7 +265,26 @@ namespace Tinkercell
 		/*! \brief get all the connection items linked to this node as a list of qgraphicsitems*/
 		virtual QList<QGraphicsItem*> connectionsAsGraphicsItems();
 		/*! \brief get all the node items that are bordering this node*/
-		virtual QList<NodeGraphicsItem*> adjacentNodeItems() const;
+		virtual QList<NodeGraphicsItem*> nodesAdjacent() const;
+		/*! \brief get all the node items that are connected to this node directly or indirectly. 
+		       only nodes that are coming in are selected (with arrows)
+		       Note: if the node contains more than one connections with arrows, this list
+		       returns one downstream path from the possible paths*/
+		virtual QList<NodeGraphicsItem*> nodesUpstream() const;
+		/*! \brief get all the node items that are connected to this node directly or indirectly. 
+	       only nodes that are going out are selected (without arrows)
+	       Note: if the node contains more than one connections without arrows, this list
+	       returns one downstream path from the possible paths*/
+		virtual QList<NodeGraphicsItem*> nodesDownstream() const;
+		/*! \brief nodes to the left of this node in sequence*/
+		virtual QList<NodeGraphicsItem*> nodesToLeft() const;
+		/*! \brief nodes to the right of this node in sequence*/
+		virtual QList<NodeGraphicsItem*> nodesToRight() const;
+		/*! \brief nodes above of this node in sequence*/
+		virtual QList<NodeGraphicsItem*> nodesAbove() const;
+		/*! \brief nodes below of this node in sequence*/
+		virtual QList<NodeGraphicsItem*> nodesBelow() const;
+
 	protected:
 		/*! \brief bounding rectangle for the whole group*/
 		QRectF boundingRectangle;

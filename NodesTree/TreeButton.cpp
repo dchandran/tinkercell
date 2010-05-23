@@ -170,8 +170,8 @@ namespace Tinkercell
 
 			text += tr("Description: ") + family->description + tr("\n\n");
 
-			if (!family->measurementUnit.first.isEmpty() && !family->measurementUnit.second.isEmpty())
-				text += tr("Unit of measurement: ") + family->measurementUnit.second + tr("(") + family->measurementUnit.first + tr(")\n\n");
+			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
+				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
 			text += tr("Attributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")
@@ -199,8 +199,8 @@ namespace Tinkercell
 
 			text += tr("Description: ") + family->description + tr("\n\n");
 
-			if (!family->measurementUnit.first.isEmpty() && !family->measurementUnit.second.isEmpty())
-				text += tr("Unit of measurement: ") + family->measurementUnit.second + tr("(") + family->measurementUnit.first + tr(")\n\n");
+			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
+				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
 			if (family->textAttributes.contains(tr("typein")) && family->textAttributes.contains(tr("typeout")) &&
 				family->numericalAttributes.contains(tr("numin")) && family->numericalAttributes.contains(tr("numout")))

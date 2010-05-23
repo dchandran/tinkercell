@@ -25,7 +25,6 @@ namespace Tinkercell
 		
 	public:
 		PythonInterpreterThread(const QString&, MainWindow* main);
-		virtual ~PythonInterpreterThread();
 
 	public slots:
 		virtual void initialize();

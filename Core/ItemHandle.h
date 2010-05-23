@@ -66,13 +66,6 @@ namespace Tinkercell
 		ItemData(const ItemData&);
 		/*! \brief operator =*/
 		virtual ItemData& operator = (const ItemData&);
-		/*! \brief save the current data in a stack and replace the data*/
-		virtual void push(const ItemData&);
-		/*! \brief load the last saved data from a stack*/
-		virtual void pop();
-	private:
-		/*! \brief previous versions*/
-		QStack<ItemData> versions;
 	};
 
 	/*! \brief

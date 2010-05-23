@@ -2412,22 +2412,12 @@ namespace Tinkercell
 		{
 			if (oldHandles[i] && !oldHandles[i]->parent)
 			{
-				bool pointedTo = false;
-				for (int j=0; j < oldHandles[i]->graphicsItems.size(); ++j)
-					if (getHandle(oldHandles[i]->graphicsItems[j]) == oldHandles[i])
-					{
-						pointedTo = true;
-						break;
-					}
-				if (!pointedTo)
+				handle = oldHandles[i];
+				oldHandles.removeAll(handle);
+				if (!MainWindow::invalidPointers.contains( (void*)handle ))
 				{
-					handle = oldHandles[i];
-					oldHandles.removeAll(handle);
-					if (!MainWindow::invalidPointers.contains( (void*)handle ))
-					{
-						MainWindow::invalidPointers[ (void*)handle ] = true;
-						delete handle;						
-					}
+					MainWindow::invalidPointers[ (void*)handle ] = true;
+					delete handle;				
 				}
 			}
 		}
@@ -2635,45 +2625,6 @@ namespace Tinkercell
 			}
 	}
 
-	SetDataCommand::SetDataCommand(const QString& name, const QList<ItemHandle*>& items, const QList<ItemData*>& data)
-		: QUndoCommand(name)
-	{
-		for (int i=0; i < items.size() && i < data.size(); ++i)
-			if (items[i] && data[i])
-			{
-				handles << items[i];
-				newData << (*data[i]);
-			}
-	}
-
-	SetDataCommand::SetDataCommand(const QString& name, ItemHandle* item, ItemData* dat)
-		: QUndoCommand(name)
-	{
-		if (item && dat)
-		{
-			handles << item;
-			newData << (*dat);
-		}
-	}
-
-	void SetDataCommand::redo()
-	{
-		for (int i=0; i < handles.size() && i < newData.size(); ++i)
-			if (handles[i])
-			{
-				if (!handles[i]->data)
-					handles[i]->data = new ItemData;
-				handles[i]->data->push(newData[i]);
-			}					
-	}
-
-	void SetDataCommand::undo()
-	{
-		for (int i=0; i < handles.size() && i < newData.size(); ++i)
-			if (handles[i] && handles[i]->data)
-				handles[i]->data->pop();
-	}
-	
 	SetGraphicsSceneVisibilityCommand::SetGraphicsSceneVisibilityCommand(const QString& name, const QList<QGraphicsItem*>& list, const QList<bool>& values)
 		: QUndoCommand(name)
 	{

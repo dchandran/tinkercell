@@ -149,7 +149,7 @@ namespace Tinkercell
                          if (!family->textAttributes.contains(skeys[i]))
                               family->textAttributes[ skeys[i] ] = parentFamily->textAttributes[ skeys[i] ];
 
-                    if (family->measurementUnit.first.isEmpty())
+                    if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
 
                     family->description = parentFamily->description;

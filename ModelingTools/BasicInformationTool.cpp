@@ -30,7 +30,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "ModelSummaryTool.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
-#include "ModuleTool.h"
 #include "NodesTree.h"
 
 namespace Tinkercell
@@ -110,7 +109,7 @@ namespace Tinkercell
 				else
 					if (!rowname.isEmpty())
 						initialValuesTable->item(i,0)->setText( QString::number(initialValues[rowname]) );
-				list << (nitialValuesTable->verticalHeaderItem(i) + tr(",") + initialValuesTable->item(i,0));
+				list << (initialValuesTable->verticalHeaderItem(i)->text() + tr(",") + initialValuesTable->item(i,0)->text());
 			}
 		
 		settings.setValue(tr("Initial value"),list);
@@ -143,7 +142,7 @@ namespace Tinkercell
 			}
 		}
 		
-		keys = initialValues.key();
+		keys = initialValues.keys();
 		
 		initialValuesTable->setColumnCount(1);
 		initialValuesTable->setRowCount(keys.size());
@@ -162,17 +161,16 @@ namespace Tinkercell
 			if (pair.size() == 2)
 			{
 				double d = pair[1].toDouble(&ok);
-				int k = keys.indexOf(pair[0]);
-				if (ok && k >= 0)
-					initialValues[k] = d;
+				if (ok)
+					initialValues[ pair[0] ] = d;
 			}
 		}
-		
+
 		for (int i=0; i < keys.size(); ++i)
 		{
 			initialValuesTable->setItem (i, 0, new QTableWidgetItem( QString::number(initialValues[ keys[i] ])) );
 		}
-		
+
 		settings.endGroup();
 	}
 
@@ -725,19 +723,18 @@ namespace Tinkercell
 
 		ItemFamily* family = handle->family();
 
-		if (!family->measurementUnit.first.isEmpty() && !handle->hasNumericalData(QString("Initial Value")))
+		if (!family->measurementUnit.property.isEmpty() && !handle->hasNumericalData(QString("Initial Value")))
 		{
 			DataTable<qreal> table;
 			table.resize(1,1);
 
-			table.rowName(0) = family->measurementUnit.first;
-			table.colName(0) = family->measurementUnit.second;
+			table.rowName(0) = family->measurementUnit.property;
+			table.colName(0) = family->measurementUnit.name;
 			table.value(0,0) = 1.0;
 			
-			int k = initialValuesFamilyNames.indexOf(family->name);
-			if (k >= 0 && k < initialValues.size())
+			if (initialValues.contains(family->name))
 			{
-				table.value(0,0) = initialValues[k];
+				table.value(0,0) = initialValues[family->name];
 			}
 			
 			table.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
@@ -1116,13 +1113,9 @@ namespace Tinkercell
         ItemHandle * handle = 0;
         DataTable<qreal> * dataTable = 0;
 
-        QList<ItemHandle*> from, to;
-        ModuleTool::connectedItems(handles,from,to);
-
         for (int i=0; i < handles.size(); ++i)
         {
             handle = handles.at(i);
-            int k = from.indexOf(handle);
 
             if (handle && handle->data && handle->hasNumericalData(name))
             {
@@ -1139,10 +1132,7 @@ namespace Tinkercell
 								rownames += dataTable->rowName(j);
 							else
 							{
-							    if (k > -1)
-                                    rownames += to[k]->fullName(sep) + sep + dataTable->rowName(j);
-                                else
-                                    rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
+								rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
 							}
 							values += dataTable->at(j,0);
 						}
@@ -1171,13 +1161,9 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		DataTable<QString> * dataTable = 0;
 
-		QList<ItemHandle*> from, to;
-        ModuleTool::connectedItems(handles,from,to);
-
 		for (int i=0; i < handles.size(); ++i)
 		{
 			handle = handles.at(i);
-			int k = from.indexOf(handle);
 
 			if (handle && handle->data && handle->hasTextData(name))
 			{				dataTable = &(handle->data->textData[name]);
@@ -1192,17 +1178,9 @@ namespace Tinkercell
 						if (handle->name.isEmpty())
 							rownames += dataTable->rowName(j);
 						else
-						{
-                            if (k > -1)
-                                rownames += to[k]->fullName(sep) + sep + dataTable->rowName(j);
-                            else
-                                rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
-						}
+                            rownames += handle->fullName(sep) + sep + dataTable->rowName(j);
 
-						if (k > -1)
-                            values += dataTable->at(j,0).replace(handle->fullName(sep),to[k]->fullName(sep));
-						else
-                            values += dataTable->at(j,0);
+                        values += dataTable->at(j,0);
 					}
 				}
 			}

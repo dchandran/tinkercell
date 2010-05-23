@@ -629,7 +629,7 @@ namespace Tinkercell
 		if (ConnectionFamily::cast(family) && children.size() > 5)
 			return false;
 		
-		if (NodeFamily::cast(family) && family->parent() && family->parent()->parent())
+		if (NodeFamily::cast(family) && family->parent() && family->parent()->parent() && family->parent()->parent()->parent())
 			return false;
 		
 		return true;

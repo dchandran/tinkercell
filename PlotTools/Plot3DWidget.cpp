@@ -331,7 +331,7 @@ namespace Tinkercell
 	{
 		QString fileName =
 			QFileDialog::getSaveFileName(this, tr("Print to File"),
-                                          MainWindow::userHome(),
+                                          MainWindow::homeDir(),
                                           tr("PS Files (*.ps)"));
 
 		if (fileName.isEmpty() || fileName.isNull()) return;

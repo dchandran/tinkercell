@@ -55,10 +55,10 @@ namespace Tinkercell
 	{
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
-			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
+			if (nodeBelowCursor != 0 && !ToolGraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 				emit nodeCollided(items,nodeBelowCursor,QList<QPointF>());
 			else
-				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
+				if (connectionBelowCursor != 0 && !ToolGraphicsItem::cast(connectionBelowCursor->topLevelItem()))
 					emit connectionCollided(items,connectionBelowCursor,QList<QPointF>());
 		}
 		/*
@@ -319,12 +319,12 @@ namespace Tinkercell
 	{
 		if (nodeBelowCursor != 0 || connectionBelowCursor != 0)
 		{
-			if (nodeBelowCursor != 0 && !Tool::GraphicsItem::cast(nodeBelowCursor->topLevelItem()))
+			if (nodeBelowCursor != 0 && !ToolGraphicsItem::cast(nodeBelowCursor->topLevelItem()))
 			{
 				emit nodeCollided(movingItems,nodeBelowCursor,distance);
 			}
 			else
-				if (connectionBelowCursor != 0 && !Tool::GraphicsItem::cast(connectionBelowCursor->topLevelItem()))
+				if (connectionBelowCursor != 0 && !ToolGraphicsItem::cast(connectionBelowCursor->topLevelItem()))
 					emit connectionCollided(movingItems,connectionBelowCursor,distance);
 		}
 	}

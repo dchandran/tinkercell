@@ -629,11 +629,35 @@ namespace Tinkercell
 
 				NodeGraphicsItem* node = 0;
 				ConnectionGraphicsItem* connection = 0;
-
+				
 				QList<QGraphicsItem*> items = scene->items(QRectF(point.rx()-10.0,point.ry()-10.0,20.0,20.0));
 				for (int i=0; i < items.size(); ++i)
-					if ((node = NodeGraphicsItem::cast(items[i])) || (connection = ConnectionGraphicsItem::cast(items[i])))
+					if (connection = ConnectionGraphicsItem::cast(items[i]))
 						break;
+				
+				if (!connection)
+				{
+					QGraphicsItem * item = scene->itemAt(point);
+	
+					if (item)
+					{
+						node = NodeGraphicsItem::cast(item);
+						if (!node)
+							connection = ConnectionGraphicsItem::cast(item);
+					}
+
+					if (!node && !connection)
+					{				
+						items = scene->items(QRectF(point.rx()-10.0,point.ry()-10.0,20.0,20.0));
+						for (int i=0; i < items.size(); ++i)
+							if (node = NodeGraphicsItem::cast(items[i]))
+								break;
+					}
+					else
+					{
+						items << item;
+					}
+				}
 
 				int totalSelected = selectedNodes.size() + selectedConnections.size();
 				bool selected = false;

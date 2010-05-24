@@ -39,7 +39,7 @@ namespace Tinkercell
 	class NetworkHandle;
 	class TextEditor;
 	class ConsoleWindow;
-	class Tool::GraphicsItem;
+	class ToolGraphicsItem;
 
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
@@ -94,49 +94,30 @@ namespace Tinkercell
 		* \brief same as MainWindow::tempDir
 		*/
 		static QString tempDir();
+
+	public slots:
+		/*!
+		* \brief what happens when this tool is selected 
+		*/
+		virtual void select(int i=0);
+		/*! 
+		* \brief what happens when this tool is deselected 
+		*/
+		virtual void deselect(int i=0);
 		/*!
 		* \brief add an action that will be displayed in the context menu when specific items with this tool in their tools list are selected
 		*/
-		virtual void addAction(QAction*);
+		virtual void addAction(const QIcon&, const QString& text=QString(), const QString& tooltip=QString());
 		/*!
 		* \brief add a graphics item that will be displayed on the current scene when specific items with this tool in their tools list are selected
 		*/
-		virtual void addGraphicsItem(Tool::GraphicsItem*);
-		/*! \brief tools that are drawn on the scene instead of displayed as a window
-		\ingroup core
+		virtual void addGraphicsItem(ToolGraphicsItem*);
+
+	protected slots:
+		/*!
+		* \brief context menu action triggered
 		*/
-		class MY_EXPORT GraphicsItem : public QGraphicsItemGroup
-		{
-
-		public:
-			/*! \brief constructor must have an associated Tool*/
-			GraphicsItem(Tool*);
-			/*! \brief this item has been selected*/
-			virtual void select();
-			/*! \brief this item has been deselected*/
-			virtual void deselect();
-			/*! \brief main window for this tool*/
-			Tool * tool;
-			/*! \brief for enabling dynamic_cast*/
-			enum { Type = UserType + 10 };
-			/*! \brief for enabling dynamic_cast*/
-			int type() const
-			{
-				// Enable the use of dynamic_cast with this item.
-				return Type;
-			}
-			/*! \brief show or hide this graphical tool. The graphical tool may choose whether or not to be visible based on other factors.*/
-			virtual void visible(bool);
-			/*! \brief cast a graphics item to a Tool::GraphicsItem
-			\return Tool::GraphicsItem* can be 0 if invalid cast*/
-			static GraphicsItem* cast(QGraphicsItem*);
-		};
-
-	public slots:
-		/*! \brief what happens when this tool is selected */
-		virtual void select(int i=0);
-		/*! \brief what happens when this tool is deselected */
-		virtual void deselect(int i=0);
+		virtual void actionTriggered( QAction * action );
 
 	signals:
 		/*! \brief this tool is selected */
@@ -146,7 +127,7 @@ namespace Tinkercell
 		
 	private:
 		/*! \brief optional graphics item used to display this tool */
-		QList<GraphicsItem*> graphicsItems;
+		QList<ToolGraphicsItem*> graphicsItems;
 		/*! \brief actions displayed in the context menu when items related to this tool are selected */
 		QActionGroup actionsGroup;
 		
@@ -154,6 +135,37 @@ namespace Tinkercell
 		friend class TextEditor;
 		friend class MainWindow;
 		friend class NetworkHandle;
+		friend class ToolGraphicsItem;
+	};
+	
+	/*! \brief tools that are drawn on the scene instead of displayed as a window
+	\ingroup core
+	*/
+	class MY_EXPORT ToolGraphicsItem : public QGraphicsItemGroup
+	{
+
+	public:
+		/*! \brief constructor must have an associated Tool*/
+		ToolGraphicsItem(Tool*);
+		/*! \brief this item has been selected*/
+		virtual void select();
+		/*! \brief this item has been deselected*/
+		virtual void deselect();
+		/*! \brief main window for this tool*/
+		Tool * tool;
+		/*! \brief for enabling dynamic_cast*/
+		enum { Type = UserType + 10 };
+		/*! \brief for enabling dynamic_cast*/
+		int type() const
+		{
+			// Enable the use of dynamic_cast with this item.
+			return Type;
+		}
+		/*! \brief show or hide this graphical tool. The graphical tool may choose whether or not to be visible based on other factors.*/
+		virtual void visible(bool);
+		/*! \brief cast a graphics item to a ToolGraphicsItem
+		\return ToolGraphicsItem* can be 0 if invalid cast*/
+		static ToolGraphicsItem* cast(QGraphicsItem*);
 	};
 
 }

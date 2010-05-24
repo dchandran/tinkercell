@@ -15,7 +15,6 @@
 #include <QIcon>
 #include <QPixmap>
 #include <QString>
-#include <QtDebug>
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
 #include <QGraphicsScene>
@@ -68,19 +67,16 @@ namespace Tinkercell
 
 	public slots:
 
+		void select(int);
 		void escapeSignal(const QWidget *);
-		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommands*>&);
-		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommands*>&);
+		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void parentHandleChanged(NetworkHandle * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		void toolLoaded (Tool * tool);
-
 		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
-		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
-
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
-		
 		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
 
 	private slots:
@@ -92,14 +88,16 @@ namespace Tinkercell
 
 	private:
 
-		QGraphicsLineItem lineItem;
-		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
-		void adjustLinkerPositions(NodeGraphicsItem*);
-		void populateToolBar(QToolBar *);
-
 		enum Mode { none, inserting, linking, connecting };
 		Mode mode;
-		
+
+		QGraphicsLineItem lineItem;
+		QDockWidget * makeDockWidget(const QString&);
+
+		void createInterface(const QList<NodeGraphicsItem*>&);
+		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
+		void adjustLinkerPositions(NodeGraphicsItem*);
+
 		QList<NodeGraphicsItem*> selectedItems;
 		QAction * viewModule;
 

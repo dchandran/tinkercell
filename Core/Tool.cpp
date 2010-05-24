@@ -18,11 +18,11 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 
 namespace Tinkercell
 {
-	Tool::GraphicsItem::GraphicsItem(Tool * t) : tool(t)
+	ToolGraphicsItem::ToolGraphicsItem(Tool * t) : tool(t)
 	{
 	}
 
-	void Tool::GraphicsItem::select()
+	void ToolGraphicsItem::select()
 	{
 		if (tool)
 		{
@@ -32,7 +32,7 @@ namespace Tinkercell
 		}
 	}
 
-	void Tool::GraphicsItem::deselect()
+	void ToolGraphicsItem::deselect()
 	{
 		if (tool)
 		{
@@ -102,7 +102,7 @@ namespace Tinkercell
 		emit deselected();
 	}
 
-	void Tool::GraphicsItem::visible(bool b)
+	void ToolGraphicsItem::visible(bool b)
 	{
 		QGraphicsItemGroup::setVisible(b);
 	}
@@ -145,9 +145,9 @@ namespace Tinkercell
 		return MainWindow::tempDir();
 	}
 
-	Tool::GraphicsItem* Tool::GraphicsItem::cast(QGraphicsItem* q)
+	ToolGraphicsItem* ToolGraphicsItem::cast(QGraphicsItem* q)
 	{
-		return qgraphicsitem_cast<Tool::GraphicsItem*>(q);
+		return qgraphicsitem_cast<ToolGraphicsItem*>(q);
 	}
 
 	ConsoleWindow* Tool::console()
@@ -157,12 +157,14 @@ namespace Tinkercell
 	    return 0;
 	}
 	
-	void Tool::addAction(QAction* action)
+	void Tool::addAction(const QIcon& icon, const QString& text, const QString& tooltip)
 	{
+		QAction * action = new QAction(icon,text,this);
+		action->setToolTip(tooltip);
 		actionsGroup.addAction(action);
 	}
 	
-	void Tool::addGraphicsItem(Tool::GraphicsItem * item)
+	void Tool::addGraphicsItem(ToolGraphicsItem * item)
 	{
 		if (item && !graphicsItems.contains(item))
 			graphicsItems << item;

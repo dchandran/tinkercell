@@ -29,7 +29,6 @@ namespace Tinkercell
 		selectionColor3 = QColor(tr("#FFCC00"));
 		selectionColor1 = QColor(255,255,255,150);
 		mainWindow = 0;
-		visibleTools.clear();
 	}
 
 	void NodeSelection::historyChanged(int i)
@@ -52,49 +51,6 @@ namespace Tinkercell
 			return true;
 		}
 		return false;
-	}
-
-	void NodeSelection::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<QPointF>& )
-	{
-		if (!scene) return;
-
-		QRectF rect;
-
-		for (int i=0; i < allItems.size(); ++i)
-		{
-			if (allItems[i])
-				rect = rect.unite(allItems[i]->sceneBoundingRect());
-		}
-
-		qreal scalex = 0.0;
-		
-		QRectF viewport = scene->viewport();
-		scalex = scene->sceneRect().width()/viewport.width();
-		
-		qreal maxx = rect.right() + 100.0/(scalex), miny = rect.top() - 20.0, w = 0;
-		if (maxx > viewport.right() - 100.0) maxx = viewport.left() + 100.0;
-
-		for (int i=0; i < visibleTools.size(); ++i)
-		{
-			Tool::GraphicsItem * tool = visibleTools[i];
-			if (tool && scene && tool->scene() == scene)
-			{
-				tool->visible(true);
-				tool->setPos(QPointF(maxx,miny));
-				QRectF bounds = tool->sceneBoundingRect();
-				if (visibleTools.size() > 1)
-					miny += bounds.height() * 1.5;
-
-				if (bounds.width() > w) w = bounds.width();
-
-				if (miny > rect.bottom() + 20.0)
-				{
-					miny = rect.top() - 20.0;
-					maxx += w * 1.5;
-				}
-			}
-		}
-
 	}
 
 	void NodeSelection::setSelectColor()
@@ -496,7 +452,7 @@ namespace Tinkercell
 
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (qgraphicsitem_cast<Tool::GraphicsItem*>(items[i]->topLevelItem()))
+				if (qgraphicsitem_cast<ToolGraphicsItem*>(items[i]->topLevelItem()))
 				{
 					continue;
 				}

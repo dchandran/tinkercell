@@ -45,7 +45,7 @@ namespace Tinkercell
 			else
 				scale(1.0/factor,1.0/factor);
 			
-			scane->scaleGraphicalTools();
+			scene->scaleGraphicalTools();
 		}
 		else
 		{

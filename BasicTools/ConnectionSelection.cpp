@@ -24,42 +24,36 @@ points.
 namespace Tinkercell
 {
 
-	ConnectionSelection::ConnectionSelection() : Tool(tr("Connection Selection"),tr("Basic GUI")),
-		addControlPointAction("Add control point",this),
-		useStraightLinesAction("Use straight lines",this),
-		useCurvesAction("Use Bezier curves",this),
-		showMiddleRect("Show middle region",this),
-		hideMiddleRect("Hide middle region",this)
-		//connectorsMenu("Connectors appearance",this)
+	ConnectionSelection::ConnectionSelection() : Tool(tr("Connection Selection"),tr("Basic GUI"))
 	{
-		separator = 0;
 		mainWindow = 0;
 		controlHeld = false;
 		gridDist = 100.0;
 		connectTCFunctions();
 
-		addControlPointAction.setIcon(QIcon(":/images/blueDot.png"));
-		addControlPointAction.setToolTip("Insert new control point");
-		connect(&addControlPointAction,SIGNAL(triggered()),this,SLOT(newControlPoint()));
-
-		useStraightLinesAction.setToolTip("Use straight lines to draw the selected connectors");
-		connect(&useStraightLinesAction,SIGNAL(triggered()),this,SLOT(setLineTypeStraight()));
-
-		useCurvesAction.setToolTip("Use Bezier curves to draw the selected connectors");
-		connect(&useCurvesAction,SIGNAL(triggered()),this,SLOT(setLineTypeCurved()));
-
-		showMiddleRect.setIcon(QIcon(":/images/blueRect.png"));
-		showMiddleRect.setToolTip("Show information box for connector(s)");
-		connect(&showMiddleRect,SIGNAL(triggered()),this,SLOT(showMiddleBox()));
-
-		hideMiddleRect.setToolTip("Hide information box for connector(s)");
-		connect(&hideMiddleRect,SIGNAL(triggered()),this,SLOT(hideMiddleBox()));
-
-		/*connectorsMenu.addAction(&addControlPointAction);
-		connectorsMenu.addAction(&useStraightLinesAction);
-		connectorsMenu.addAction(&useCurvesAction);
-		connectorsMenu.addAction(&showMiddleRect);
-		connectorsMenu.addAction(&hideMiddleRect);*/
+		addAction(QIcon(":/images/blueDot.png"),tr("Add control point"),tr("Insert new control point"));
+		addAction(QIcon(),tr("Use Bezier lines"),tr("Use Bezier curves to draw the selected connectors"));
+		addAction(QIcon(),tr("Use straight lines"),tr("Use straight lines to draw the selected connectors"));
+		addAction(QIcon(":/images/blueRect.png"),tr("Show middle region"),tr("Show information box for connector(s)"));
+		addAction(QIcon(),tr("Hide middle region"),tr("Hide information box for connector(s)"));
+	}
+	
+	void ConnectionSelection::select(int i)
+	{
+		if (i==0)
+			newControlPoint();
+		else
+		if (i==1)
+			setLineTypeStraight();
+		else
+		if (i==2)
+			setLineTypeCurved();
+		else
+		if (i==3)
+			showMiddleBox();
+		else
+		if (i==4)
+			hideMiddleBox();
 	}
 
 	bool ConnectionSelection::setMainWindow(MainWindow * main)
@@ -78,14 +72,14 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(keyReleased(GraphicsScene *, QKeyEvent*)),
 				this,SLOT(sceneKeyReleased(GraphicsScene *, QKeyEvent*)));
 
-			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
-				this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
 				this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
 
 			connect(this, SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				mainWindow, SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			
+			connect(mainWindow, SIGNAL(itemsInserted(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInsertedSlot(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)),
 				this ,SLOT(itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&)));
@@ -103,6 +97,13 @@ namespace Tinkercell
 		}
 
 		return false;
+	}
+	
+	void ConnectionSelection::itemsInsertedSlot(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles)
+	{
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i] && ConnectionHandle::cast(handles[i]) && !handles[i]->tools.contains(this))
+				handles[i]->tools += this;
 	}
 
 	void ConnectionSelection::toolLoaded(Tool*)
@@ -531,46 +532,6 @@ namespace Tinkercell
 		adjustConnectorPoints(movingItems);
 	}
 
-	void ConnectionSelection::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers )
-	{
-		if (mainWindow && scene && scene->useDefaultBehavior)
-		{
-			bool hasConnections = false;
-			for (int i=0; i < items.size(); ++i)
-				if (ConnectionGraphicsItem::topLevelConnectionItem(items[i]))
-				{
-					hasConnections = true;
-					break;
-				}
-
-				if (hasConnections)
-				{
-					if (separator)
-						mainWindow->contextItemsMenu.addAction(separator);
-					else
-						separator = mainWindow->contextItemsMenu.addSeparator();
-					if (items.size() == 1 && ConnectionGraphicsItem::topLevelConnectionItem(items[0]))
-						mainWindow->contextItemsMenu.addAction(&addControlPointAction);
-					else
-						mainWindow->contextItemsMenu.removeAction(&addControlPointAction);
-					mainWindow->contextItemsMenu.addAction(&useStraightLinesAction);
-					mainWindow->contextItemsMenu.addAction(&useCurvesAction);
-					mainWindow->contextItemsMenu.addAction(&showMiddleRect);
-					mainWindow->contextItemsMenu.addAction(&hideMiddleRect);
-				}
-				else
-				{
-					if (separator)
-						mainWindow->contextItemsMenu.removeAction(separator);
-					mainWindow->contextItemsMenu.removeAction(&addControlPointAction);
-					mainWindow->contextItemsMenu.removeAction(&useStraightLinesAction);
-					mainWindow->contextItemsMenu.removeAction(&useCurvesAction);
-					mainWindow->contextItemsMenu.removeAction(&showMiddleRect);
-					mainWindow->contextItemsMenu.removeAction(&hideMiddleRect);
-				}
-		}
-	}
-
 	void ConnectionSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
 	{
 		if (!scene || items.isEmpty()) return;
@@ -690,7 +651,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				node = NodeGraphicsItem::topLevelNodeItem(items[i]);
-				if (node && (Tool::GraphicsItem::cast(node->topLevelItem()) == 0))
+				if (node && (ToolGraphicsItem::cast(node->topLevelItem()) == 0))
 				{
 					node->setBoundingBoxVisible(true);
 				}
@@ -818,7 +779,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			node = NodeGraphicsItem::topLevelNodeItem(items[i]);
-			if (node && !scene->moving().contains(node) && (Tool::GraphicsItem::cast(node->topLevelItem()) == 0))
+			if (node && !scene->moving().contains(node) && (ToolGraphicsItem::cast(node->topLevelItem()) == 0))
 			{
 				if (!avoidBoundary)
 					for (int j=0; j < node->boundaryControlPoints.size(); ++j)
@@ -1202,46 +1163,6 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene) return;
 
-		/*ShowHideMiddleRegion * command = new ShowHideMiddleRegion;
-		command->show = (value == 1);
-		QString appDir = QCoreApplication::applicationDirPath();
-		if (filename.isNull() || filename.isEmpty())
-		command->filename = appDir + tr("/NodeItems/Rect.xml");
-		else
-		command->filename = filename;
-
-		if (command->show)
-		command->setText("show middle box");
-		else
-		command->setText("hide middle box");
-
-		QList<QGraphicsItem*> &targetItems = scene->selected();
-
-		for (int i=0; i < targetItems.size(); ++i)
-		{
-			ConnectionGraphicsItem * connectionPtr = 0;
-			if (targetItems[i] &&
-				(connectionPtr = ConnectionGraphicsItem::cast(targetItems[i])))
-			{
-				command->list += connectionPtr;
-			}
-		}
-
-		if (command->list.isEmpty())
-		{
-			delete command;
-			return;
-		}
-
-
-		if (scene->network)
-		scene->network->push(command);
-		else
-		{
-		command->redo();
-		delete command;
-		}*/
-
 		QList<QGraphicsItem*> centerBoxes;
 		QList<QGraphicsItem*> &targetItems = scene->selected();
 
@@ -1291,11 +1212,10 @@ namespace Tinkercell
 
 
 			if (!filename.isNull() && !filename.isEmpty())
-				commands << new ReplaceNodeGraphicsCommand(tr("center box changed"),nodeItems,filenames);
+				commands << new ReplaceNodeGraphicsCommand(tr("center decorator changed"),nodeItems,filenames);
 
-			commands << new InsertGraphicsCommand(tr("center boxes added"),scene,items);
-
-			QUndoCommand * command = new CompositeCommand(tr("center box added"),commands);
+			commands << new InsertGraphicsCommand(tr("center decorator added"),scene,items);
+			QUndoCommand * command = new CompositeCommand(tr("center decorator added"),commands);
 
 			if (scene->network)
 				scene->network->push(command);
@@ -1311,7 +1231,7 @@ namespace Tinkercell
 		}
 		else
 		{
-			scene->remove(tr("center box removed"),items);
+			//scene->remove(tr("center decorator removed"),items);
 		}
 	}
 

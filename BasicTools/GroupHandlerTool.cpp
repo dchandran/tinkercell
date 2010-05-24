@@ -64,19 +64,12 @@ namespace Tinkercell
 			{
 				mainWindow->toolBarEdits->addAction(decorate);
 			}
-
-			//mainWindow->addToolBar(toolBar);
-
 			mainWindow->contextItemsMenu.addAction(alias);
 			mainWindow->contextItemsMenu.addAction(decorate);
-			//mainWindow->contextItemsMenu.addAction(group);
-			//mainWindow->contextItemsMenu.addAction(ungroup);
 
 			if (mainWindow->editMenu)
 			{
 				mainWindow->editMenu->addAction(decorate);
-				//mainWindow->editMenu->addAction(group);
-				//mainWindow->editMenu->addAction(ungroup);
 			}
 
 			connect(this,SIGNAL(handlesChanged(NetworkHandle*, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),

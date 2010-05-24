@@ -203,25 +203,42 @@ namespace Tinkercell
 
 	void GraphicsReplaceTool::replaceNode(QListWidgetItem * item)
 	{
-		if (!item || !mainWindow || !mainWindow->currentScene()) return;
-		GraphicsScene * scene = mainWindow->currentScene();
+		if (!item || !mainWindow || !currentScene()) return;
+		GraphicsScene * scene = currentScene();
 
 		QString fileName = item->data(3).toString();
 		if (fileName.isEmpty() || fileName.isNull()) return;
 
 		QList<QGraphicsItem*> & list = scene->selected();
-		QList<NodeGraphicsItem*> nodesList;
 
+		QList<NodeGraphicsItem*> nodesList;
+		QList<NodeGraphicsItem*> arrowHeadList;
+		
+		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
+		
 		for (int i=0; i < list.size(); ++i)
 		{
 			node = NodeGraphicsItem::cast(list[i]);
 			if (node)
 				nodesList += node;
+			else
+			{
+				connection = ConnectionGraphicsItem::cast(list[i]);
+				if (connection)
+				{
+					QList<ArrowHeadItem*> arrowHeads = connection->arrowHeads();
+					for (int j=0; j < arrowHeads.size(); ++j)
+						if (arrowHeads[j])
+							arrowHeadList += arrowHeads[j];
+				}
+			}
 		}
 
+		if (nodesList.isEmpty()) 
+			nodesList = arrowHeadList;
+		
 		if (nodesList.isEmpty()) return;
-
 
 		QList<QString> filenames;
 		for (int i=0; i < nodesList.size(); ++i)

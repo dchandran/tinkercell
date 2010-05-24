@@ -338,11 +338,11 @@ namespace Tinkercell
 #ifdef Q_WS_WIN
 
 		tempDir.replace(tr("/"),tr("\\"));
-		cmd = tr("del \"") + tempDir + tr("\"\\*.* /q");
+		cmd = tr("deltree /Y \"") + tempDir + tr("\"");
 
 #else
 
-		cmd = tr("rm ") + tempDir + tr("/*.*");
+		cmd = tr("rm -R ") + tempDir;
 
 #endif
 		int r = system(cmd.toAscii().data());

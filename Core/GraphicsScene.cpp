@@ -205,7 +205,7 @@ namespace Tinkercell
 
 		for (int i=0; i < allitems1.size(); ++i)
 		{
-			if (allitems1[i] && !allitems1[i]->parentItem() && !Tool::GraphicsItem::cast(allitems1[i]))
+			if (allitems1[i] && !allitems1[i]->parentItem() && !ToolGraphicsItem::cast(allitems1[i]))
 			{
 				allitems2 << allitems1[i];
 			}
@@ -294,12 +294,12 @@ namespace Tinkercell
 		mouseDown = true;
 
 		QGraphicsItem * item = 0;
-		Tool::GraphicsItem * gitem = 0;
+		ToolGraphicsItem * gitem = 0;
 
 		QGraphicsItem * p = itemAt(clickedPoint);
 
 		if (p)
-			gitem = Tool::GraphicsItem::cast(p->topLevelItem());
+			gitem = ToolGraphicsItem::cast(p->topLevelItem());
 
 		if (!gitem)
 		{
@@ -870,7 +870,7 @@ namespace Tinkercell
 			movingItemsGroup = 0;
 		}
 		emit itemsSelected(this, selectedItems, QPointF() , Qt::NoModifier);
-		showGraphicalTools();
+		hideGraphicalTools();
 	}
 	
 	/*! \brief adjusts view to include rect*/
@@ -1584,7 +1584,7 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 		{
 			QGraphicsItem * g = getGraphicsItem(items[i]);
-			if (g && ControlPoint::cast(g) == 0 && Tool::GraphicsItem::cast(g->topLevelItem()) == 0)
+			if (g && ControlPoint::cast(g) == 0 && ToolGraphicsItem::cast(g->topLevelItem()) == 0)
 				list += g;
 		}
 
@@ -2036,7 +2036,7 @@ namespace Tinkercell
 	{
 		for (int i=0; i < visibleTools.size(); ++i)
 		{
-			Tool::GraphicsItem * tool = visibleTools[i];
+			ToolGraphicsItem * tool = visibleTools[i];
 			if (tool && tool->tool)
 			{
 				if (tool->scene())
@@ -2058,7 +2058,7 @@ namespace Tinkercell
 		Tool * tool;
 		for (int i=0; i < selectedItems.size(); ++i)
 		{
-			if (itemHandle = getHandles(selectedItems[i]))
+			if (itemHandle = getHandle(selectedItems[i]))
 			{
 				for (int j=0; j < itemHandle->tools.size(); ++j)
 				{
@@ -2085,10 +2085,10 @@ namespace Tinkercell
 
 		for (int i=0; i < visibleTools.size(); ++i)
 		{
-			Tool::GraphicsItem * tool = visibleTools[i];
-			if (tool && scene)
+			ToolGraphicsItem * tool = visibleTools[i];
+			if (tool)
 			{
-				if (tool->scene() != scene)
+				if (tool->scene() != this)
 				{
 					if (tool->parentItem())
 						tool->setParentItem(0);
@@ -2101,7 +2101,7 @@ namespace Tinkercell
 
 				tool->visible(true);
 
-				tool->setZValue(scene->ZValue()+0.1);
+				tool->setZValue(ZValue()+0.1);
 
 				tool->resetTransform();				
 				QRectF bounds = tool->sceneBoundingRect();
@@ -2148,14 +2148,23 @@ namespace Tinkercell
 
 		actions.clear();
 		
-		for (int i=0; i < visibleTools.size(); ++i)
-			if (visibleTools[i] && (tool = visibleTools[i]->tool) !tool->actionGroup.actions().isEmpty())
+		ItemHandle * handle = 0;
+		QList<Tool*> visited;
+		
+		for (int i=0; i < selectedItems.size(); ++i)
+			if (handle = getHandle(selectedItems[i]))
 			{
-				hash.insertMulti(tool->category,tool->actionGroup.actions());
+				for (int j=0; j < handle->tools.size(); ++j)
+					if ((tool = handle->tools[j]) && !visited.contains(tool) && !tool->actionsGroup.actions().isEmpty())
+					{
+						visited << tool;
+						list = tool->actionsGroup.actions();
+						for (int k=0; k < list.size(); ++k)
+							hash.insertMulti(tool->category,list[k]);
+					}
 			}
 
-		QStringList keys = actions.keys();
-		int k=0;
+		QStringList keys = hash.keys();
 		
 		for (int i=0; i < keys.size(); ++i)
 		{

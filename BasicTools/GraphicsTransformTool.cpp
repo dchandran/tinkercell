@@ -131,9 +131,10 @@ namespace Tinkercell
 		eye.scale(40.0/eye.sceneBoundingRect().width(),30.0/eye.sceneBoundingRect().height());
 		eye.setToolTip(tr("Appearance"));
 		openedByUser = false;
-		graphicsItems += new GraphicsItem(this);
-		graphicsItems[0]->setToolTip(tr("Appearance"));
-		graphicsItems[0]->addToGroup(&eye);
+		ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
+		addGraphicsItem(toolGraphicsItem);
+		toolGraphicsItem->setToolTip(tr("Appearance"));
+		toolGraphicsItem->addToGroup(&eye);
 
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);

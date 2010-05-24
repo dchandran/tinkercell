@@ -89,7 +89,7 @@ namespace Tinkercell
         
 		labels = m.getColNames();
 
-        QDir dir(MainWindow::userHome());
+        QDir dir(MainWindow::tempDir());
         if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -188,7 +188,7 @@ namespace Tinkercell
                 s += tr("\n"); //next block
         }
 
-        QDir dir(MainWindow::userHome());
+        QDir dir(MainWindow::tempDir());
         if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -233,7 +233,7 @@ namespace Tinkercell
         
 		labels = m.getColNames();
 		
-        QDir dir(MainWindow::userHome());
+        QDir dir(MainWindow::tempDir());
         if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
@@ -409,7 +409,7 @@ namespace Tinkercell
 		{
             QString s = editor->toPlainText();
 			
-			QDir dir(MainWindow::userHome());
+			QDir dir(MainWindow::tempDir());
 			if (!dir.cd(tr("gnuplot")))
 			{
 				dir.mkdir(tr("gnuplot"));

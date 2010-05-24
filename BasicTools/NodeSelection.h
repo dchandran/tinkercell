@@ -70,7 +70,6 @@ namespace Tinkercell
 		void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>&);
 		void escapeSignal(const QWidget*);
 		void networkClosing(NetworkHandle *,bool*);
 		void historyChanged(int);
@@ -82,8 +81,7 @@ namespace Tinkercell
 		void revertColor();
 		void deselect();
 		void select();
-
-		QList<Tool::GraphicsItem*> visibleTools;
+		
 	public:
 		QList<QGraphicsItem*> allItems;
 		QList<NodeGraphicsItem*> selectedNodes;

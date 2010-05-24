@@ -1,9 +1,11 @@
+#include <QDebug>
 #include <QVBoxLayout>
 #include "GraphicsScene.h"
 #include "TextEditor.h"
 #include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "GraphicsView.h"
+#include "ConsoleWindow.h"
 #include "NetworkWindow.h"
 
 namespace Tinkercell
@@ -177,17 +179,20 @@ namespace Tinkercell
 	}
 
 	void NetworkWindow::closeEvent(QCloseEvent * event)
-	{
-		if (network->networkWindows.size() <= 1)
+	{		
+		if (scene)
+			scene->deselect();
+		
+		if (network && network->networkWindows.contains(this))
 		{
-			bool b = true;
-		
-			if (network)
-				emit networkClosing(network,&b);
-		
-			if (b)
+			if (network->networkWindows.size() <= 1)
 			{
+				bool b = true;
+		
 				if (network)
+					emit networkClosing(network,&b);
+		
+				if (b)
 				{
 					emit networkClosed(network);
 					network->networkWindows.removeAll(this);
@@ -196,20 +201,21 @@ namespace Tinkercell
 						network->mainWindow->currentNetworkWindow = 0;
 
 					network->close();
+					event->accept();
 				}
+			}
+			else
+			{
+				network->networkWindows.removeAll(this);
+
+				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+					network->mainWindow->currentNetworkWindow = 0;
 
 				event->accept();
 			}
 		}
 		else
-		{
-			network->networkWindows.removeAll(this);
-
-			if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
-				network->mainWindow->currentNetworkWindow = 0;
-
 			event->accept();
-		}
 	}
 	
 	void NetworkWindow::focusInEvent ( QFocusEvent * )

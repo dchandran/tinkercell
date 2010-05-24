@@ -35,9 +35,10 @@ namespace Tinkercell
 		idcard.normalize();
 		idcard.scale(40.0/idcard.sceneBoundingRect().width(),30.0/idcard.sceneBoundingRect().height());
 
-		graphicsItems += new GraphicsItem(this);
-		graphicsItems[0]->addToGroup(&idcard);
-		graphicsItems[0]->setToolTip(tr("Name, family, and Annotation"));
+		ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
+		addGraphicsItem(toolGraphicsItem);
+		toolGraphicsItem->addToGroup(&idcard);
+		toolGraphicsItem->setToolTip(tr("Name, family, and Annotation"));
 
 		/*QToolButton * toolButton = new QToolButton(this);
 		toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));

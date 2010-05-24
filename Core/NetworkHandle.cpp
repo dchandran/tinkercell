@@ -123,7 +123,9 @@ namespace Tinkercell
 		disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
 		QList<NetworkWindow*> list = networkWindows;
-		for (int i=1; i < list.size(); ++i)
+		networkWindows.clear();
+
+		for (int i=0; i < list.size(); ++i)
 			if (list[i])
 			{
 				list[i]->disconnect();

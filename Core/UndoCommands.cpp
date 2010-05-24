@@ -2033,7 +2033,7 @@ namespace Tinkercell
 	ReplaceNodeGraphicsCommand::ReplaceNodeGraphicsCommand(const QString& text,NodeGraphicsItem* node,const QString& filename,bool transform)
 		: QUndoCommand(text), transform(transform)
 	{
-		if (node && !qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()))
+		if (node && !qgraphicsitem_cast<ToolGraphicsItem*>(node->topLevelItem()))
 		{
 			targetNodes += node;
 			NodeGraphicsItem copy1(*node);
@@ -2052,7 +2052,7 @@ namespace Tinkercell
 		{
 			NodeGraphicsItem * node = nodes[i];
 			QString filename = filenames[i];
-			if (node && !qgraphicsitem_cast<Tool::GraphicsItem*>(node->topLevelItem()))
+			if (node && !qgraphicsitem_cast<ToolGraphicsItem*>(node->topLevelItem()))
 			{
 				targetNodes += node;
 				NodeGraphicsItem copy1(*node);

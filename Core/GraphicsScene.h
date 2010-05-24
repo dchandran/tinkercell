@@ -52,6 +52,7 @@ namespace Tinkercell
 	class GraphicsView;
 	class MainWindow;
 	class ConsoleWindow;
+	class ToolGraphicsItem;
 
 	/*! \brief The primary task of the graphics scene is to draws items.
 	All interactions with the GraphicsScene is done through MainWindow or NetworkHandle. 
@@ -439,7 +440,7 @@ namespace Tinkercell
 		/*! \brief list of pointers to selected items*/
 		QList<QGraphicsItem*> selectedItems;
 		/*! \brief list of pointers to tool items*/
-		QList<Tool::GraphicsItem*> visibleTools;
+		QList<ToolGraphicsItem*> visibleTools;
 		/*! \brief list of pointers to moving items*/
 		QList<QGraphicsItem*> movingItems;
 		/*! \brief group of moving items*/

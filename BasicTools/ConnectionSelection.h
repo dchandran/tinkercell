@@ -83,91 +83,83 @@ namespace Tinkercell
 		\return success or failure
 		*/
 		bool setMainWindow(MainWindow * main);
+
 	signals:
 		/*! \brief signal sent to main window when a center box is inserted*/
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 
-		public slots:
-			/*! \brief event that reponds to scene double-clicks. It an item is selected, then scene is centered on the item
-			\param the scene that was clicked on
-			\param point clicked on
-			\param graphics item clicked on (can be null)
-			\param the mouse button used for the click
-			\param the keyboard modifiers used
-			\return nothing
-			*/
-			void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
-			/*! \brief event that reponds to items selected. The selected items are highlighed and corresponding widgets are displayed.
-			\param the scene that was clicked on
-			\param the list of items selected
-			\param point that was selected (not used)
-			\param the mouse button used for the click
-			\param the keyboard modifiers used
-			\return nothing
-			*/
-			void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-			/*! \brief event that reponds to key pressed. If excape, items are deselected
-			\param the scene where key was pressed
-			\param the keyboard modifiers used
-			\return nothing
-			*/
-			void sceneKeyPressed(GraphicsScene *scene, QKeyEvent*);
+	public slots:
+		void select(int);
+		/*! \brief signal sent to main window when a center box is inserted*/
+		void itemsInsertedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 
-			void sceneKeyReleased(GraphicsScene *scene, QKeyEvent*);
-			/*! \brief event that reponds to items moved.
-			\param the scene that was clicked on
-			\param the list of items underneath mouse
-			\param point moved from
-			\param point moved to
-			\param modifier keys used
-			\return nothing
-			*/
-			void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&);
+		/*! \brief event that reponds to scene double-clicks. It an item is selected, then scene is centered on the item
+		\param the scene that was clicked on
+		\param point clicked on
+		\param graphics item clicked on (can be null)
+		\param the mouse button used for the click
+		\param the keyboard modifiers used
+		\return nothing
+		*/
+		void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
+		/*! \brief event that reponds to key pressed. If excape, items are deselected
+		\param the scene where key was pressed
+		\param the keyboard modifiers used
+		\return nothing
+		*/
+		void sceneKeyPressed(GraphicsScene *scene, QKeyEvent*);
 
-			void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
+		void sceneKeyReleased(GraphicsScene *scene, QKeyEvent*);
+		/*! \brief event that reponds to items moved.
+		\param the scene that was clicked on
+		\param the list of items underneath mouse
+		\param point moved from
+		\param point moved to
+		\param modifier keys used
+		\return nothing
+		*/
+		void itemsMoved(GraphicsScene*,const QList<QGraphicsItem*>&, const QList<QPointF>&);
 
-			void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
+		void mouseMoved(GraphicsScene * scene, QGraphicsItem* item, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>&);
 
-			void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF );
+		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
 
-			void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
+		void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF );
 
-			void toolLoaded(Tool*);
+		void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
 
-			void setupFunctionPointers( QLibrary * );
+		void toolLoaded(Tool*);
 
-			void setLineType(int);
-			void showMiddleBox(int, const QString& filename = QString());
-			void showMiddleBox();
-			void hideMiddleBox();
-			void arrowHeadDistance(double value);
-			void newControlPoint();
-			void setLineTypeStraight();
-			void setLineTypeCurved();
+		void setupFunctionPointers( QLibrary * );
 
-			private slots:
-				void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-				void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
-				void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
-				void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
-				void getCenterPointX(QSemaphore*,qreal*, ItemHandle*);
-				void getCenterPointY(QSemaphore*,qreal*, ItemHandle*);
-				void setStraight(QSemaphore*,ItemHandle*,int);
-				void setAllStraight(QSemaphore*,int);
-				void setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent);
-				void escapeSignal(const QWidget*);
+		void setLineType(int);
+		void showMiddleBox(int, const QString& filename = QString());
+		void showMiddleBox();
+		void hideMiddleBox();
+		void arrowHeadDistance(double value);
+		void newControlPoint();
+		void setLineTypeStraight();
+		void setLineTypeCurved();
+
+	private slots:
+		void getControlPointX(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void getControlPointY(QSemaphore*,qreal*,ItemHandle*,ItemHandle*,int);
+		void setControlPoint(QSemaphore*,ItemHandle*,ItemHandle*,int,qreal,qreal);
+		void setCenterPoint(QSemaphore*,ItemHandle*,qreal,qreal);
+		void getCenterPointX(QSemaphore*,qreal*, ItemHandle*);
+		void getCenterPointY(QSemaphore*,qreal*, ItemHandle*);
+		void setStraight(QSemaphore*,ItemHandle*,int);
+		void setAllStraight(QSemaphore*,int);
+		void setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent);
+		void escapeSignal(const QWidget*);
+
 	protected:
 		/*!\brief change control points of moved connection items (may not be needed for most connectors)*/
 		void adjustConnectorPoints(const QList<QGraphicsItem*>& movingItems);
 		void connectCollisionDetector();
 		bool controlHeld;
 		qreal gridDist;
-		QAction * separator;
-		QAction addControlPointAction;
-		QAction useStraightLinesAction;
-		QAction useCurvesAction;
-		QAction showMiddleRect;
-		QAction hideMiddleRect;
+		
 		//QMenu connectorsMenu;
 		void connectTCFunctions();
 		static ConnectionSelection_FToS fToS;
@@ -189,17 +181,7 @@ namespace Tinkercell
 			void undo();
 			void redo();
 		};
-		/*
-		class ShowHideMiddleRegion : public QUndoCommand
-		{
-		public:
-		QList<ConnectionGraphicsItem*> list;
-		bool show;
-		QString filename;
-		void undo();
-		void redo();
-		};
-		*/
+		
 		class ChangeArrowHeadDistance : public QUndoCommand
 		{
 		public:

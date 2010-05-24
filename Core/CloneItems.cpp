@@ -22,7 +22,7 @@ namespace Tinkercell
 
 		QGraphicsItem * p = item;
 
-		while (p && (Tool::GraphicsItem::cast(p->topLevelItem()) == 0))
+		while (p && (ToolGraphicsItem::cast(p->topLevelItem()) == 0))
 		{
 			text = TextGraphicsItem::cast(p);
 			if (text) return (QGraphicsItem*)(text);
@@ -63,7 +63,7 @@ namespace Tinkercell
 
 		QGraphicsItem * p = item;
 
-		while (p && (Tool::GraphicsItem::cast(p->topLevelItem()) == 0))
+		while (p && (ToolGraphicsItem::cast(p->topLevelItem()) == 0))
 		{
 			text = TextGraphicsItem::cast(p);
 			if (text) return (QGraphicsItem*)(text->clone());

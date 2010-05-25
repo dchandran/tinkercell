@@ -51,36 +51,59 @@ namespace Tinkercell
         NodeGraphicsItem * image = new NodeGraphicsItem;
         reader.readXml(image, appDir + interfaceFileName);
         image->normalize();
-        image->scale(40.0/image.sceneBoundingRect().width(),20.0/image.sceneBoundingRect().height());
+        image->scale(40.0/image->sceneBoundingRect().width(),20.0/image->sceneBoundingRect().height());
         ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
         toolGraphicsItem->addToGroup(image);
         toolGraphicsItem->setToolTip(tr("Module input/output"));
         addGraphicsItem(toolGraphicsItem);
         addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));
     }
-    
+
     void ModuleTool::select(int)
     {
     	GraphicsScene * scene = currentScene();
     	if (!scene) return;
-    	
-    	NodeGraphicsReader reader;
-        NodeGraphicsItem * image = new NodeGraphicsItem;
-        reader.readXml(image, appDir + interfaceFileName);
-        image->normalize();
-        image->scale(image->defaultSize.width()/image.sceneBoundingRect().width(),image->defaultSize.height()/image.sceneBoundingRect().height());
-        
+
+        NodeGraphicsItem * node = new NodeGraphicsItem;
+		reader.readXml(node, appDir + interfaceFileName);
+		node->normalize();
+		node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
     }
     
-    void ModuleTool::createInterface(const QList<NodeGraphicsItem*>& nodes, const QList<NodeGraphicsItem*>& modules)
+    void ModuleTool::createInterface(NodeGraphicsItem* module)
     {
-    	ItemHandle * h1, * h2;
-    	NodeGraphicsItem * node1, * node2;
-    	for (int i=0; i < nodes.size() && i < modules.size(); ++i)
-    		if ((h1 = getHandle(nodes[i])) && (h2 = modules[i]) && h1->isChildOf(h2))
+    	ItemHandle * h = getHandle(module);
+    	if (!h) return;
+    	
+    	QList<NodeGraphicsItem*> nodes;
+    	QList<ItemHandle*> linkerHandles;
+    	NodeGraphcsItem * inputNode;
+    	
+    	for (int i=0; i < h->children.size(); ++i)
+    		if (h->children[i] 
+    			&& h->children[i]->hasTextData(tr("Module role"))
+    			&& h->children[i]->textData(tr("Module role")) == tr("interface")
+    			&& !linkerHandles.contains(h->children[i]))
     		{
-    			node1 = new NodeGraphicsItem;
-    			
+    			linkerHandles << h->children[i];
+    		}
+    	
+    	
+    	
+    	ItemHandle * h1, * h2;
+    	NodeGraphicsItem * linker;
+    	NodeGraphicsReader reader;
+    	GraphicsScene * scene;
+    	
+    	for (int i=0; i < nodes.size() && i < modules.size(); ++i)
+    		if ((h1 = getHandle(nodes[i])) && (h2 = modules[i]) && h1->isChildOf(h2) && nodes[i]->scene() && modules[i]->scene())
+    		{
+    			scene = static_cast<GraphicsScene*>(modules[i]->scene());
+    			linker = new NodeGraphicsItem;
+    			reader.readXml(linker, appDir + interfaceFileName);
+    			linker->normalize();
+        		linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
+        		
     		}
     }
 
@@ -393,7 +416,7 @@ namespace Tinkercell
 		}
 	}
 
-	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*> commands)
+	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 
@@ -423,7 +446,7 @@ namespace Tinkercell
 		commands << rename;
 	}
 
-	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*> commands)
+	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 

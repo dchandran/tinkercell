@@ -95,6 +95,10 @@ namespace Tinkercell
 		MainWindow * mainWindow() const;
 		/*! \brief same as network->mainWindow->console()*/
 		ConsoleWindow * console() const;
+		/*! \brief same as networkWindow->handle*/
+		ItemHandle * localHandle() const;
+		/*! \brief same as network->globalHandle()*/
+		ItemHandle * globalHandle() const;
 		/*! \brief indicates whether this scene is free to perform actions*/
 		bool useDefaultBehavior;
 		/*!

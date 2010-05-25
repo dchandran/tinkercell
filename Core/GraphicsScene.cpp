@@ -1931,6 +1931,20 @@ namespace Tinkercell
 		return 0;
 	}
 	
+	ItemHandle * GraphicsScene::localHandle() const
+	{
+		if (networkWindow)
+			return networkWindow->handle;
+		return 0;
+	}
+	
+	ItemHandle * GraphicsScene::globalHandle() const
+	{
+		if (network)
+			return network->globalHandle();
+		return 0;
+	}
+	
 	void GraphicsScene::selectConnections(const QPointF& point)
 	{
 		ConnectionGraphicsItem * connection = 0;

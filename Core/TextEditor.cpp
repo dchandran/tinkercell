@@ -477,6 +477,20 @@ namespace Tinkercell
 		return 0;
 	}
 	
+	ItemHandle * TextEditor::localHandle() const
+	{
+		if (networkWindow)
+			return networkWindow->handle;
+		return 0;
+	}
+	
+	ItemHandle * TextEditor::globalHandle() const
+	{
+		if (network)
+			return network->globalHandle();
+		return 0;
+	}
+	
 	void TextEditor::popOut()
 	{
 		if (networkWindow)

@@ -59,17 +59,32 @@ namespace Tinkercell
         addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));
     }
 
+	//insert interface node
     void ModuleTool::select(int)
     {
     	GraphicsScene * scene = currentScene();
-    	if (!scene) return;
+    	if (!scene || !scene->localHandle()) return;
+    	
+    	QList<QGraphicsItem*> & selected = scene->selected();
+    	QList<QGraphicsItem*> itemsToInsert;
+		ItemHandle * h = 0;
+		
+		NodeGraphicsReader reader;
+		
+		for (int i=0; i < selected.size(); ++i)
+			if ((h = getHandle(selected[i])) && h->
+			{
+				NodeGraphicsItem * node = new NodeGraphicsItem;
+				reader.readXml(node, appDir + interfaceFileName);
+				node->normalize();
+				node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+				itemsToInsert << node;
+			}
 
-        NodeGraphicsItem * node = new NodeGraphicsItem;
-		reader.readXml(node, appDir + interfaceFileName);
-		node->normalize();
-		node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+		if (!itemsToInsert.isEmpty())
+			scene->insert(tr("Interface created"), itemsToInsert);
     }
-    
+
     void ModuleTool::createInterface(NodeGraphicsItem* module)
     {
     	ItemHandle * h = getHandle(module);
@@ -87,9 +102,7 @@ namespace Tinkercell
     		{
     			linkerHandles << h->children[i];
     		}
-    	
-    	
-    	
+
     	ItemHandle * h1, * h2;
     	NodeGraphicsItem * linker;
     	NodeGraphicsReader reader;
@@ -102,8 +115,7 @@ namespace Tinkercell
     			linker = new NodeGraphicsItem;
     			reader.readXml(linker, appDir + interfaceFileName);
     			linker->normalize();
-        		linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());
-        		
+        		linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());        		
     		}
     }
 

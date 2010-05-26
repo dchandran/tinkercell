@@ -2122,7 +2122,7 @@ namespace Tinkercell
 				
 				qreal ratio = bounds.height()/bounds.width();
 				
-				tool->scale(ratio*0.001*scalex,0.001*scaley);
+				tool->scale(0.001*scalex,ratio*0.001*scalex);
 				tool->setPos(QPointF(maxx,miny));
 				bounds = tool->sceneBoundingRect();
 

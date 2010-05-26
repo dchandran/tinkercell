@@ -57,9 +57,9 @@ namespace Tinkercell
 	{
 	public:
 		/*! \brief hash table that stores the numerical data for each tool*/
-		QHash<QString,DataTable<qreal> > numericalData;
+		QHash<QString,NumericalDataTable > numericalData;
 		/*! \brief hash table that stores the text data for each tool*/
-		QHash<QString,DataTable<QString> > textData;
+		QHash<QString,TextDataTable > textData;
 		/*! \brief default constructor*/
 		ItemData();
 		/*! \brief copy constructor*/
@@ -138,9 +138,9 @@ namespace Tinkercell
 		/*! \brief set name of this handle and also adds undo command to history window and emits associated signal(s)*/
 		virtual void rename(const QString&);
 		/*! \brief change numerical data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual void changeData(const QString& hashstring, const DataTable<qreal>* newdata);
+		virtual void changeData(const QString& hashstring, const NumericalDataTable* newdata);
 		/*! \brief change text data table and also adds undo command to history window and emits associated signal(s)*/
-		virtual void changeData(const QString& hashstring, const DataTable<QString>* newdata);		
+		virtual void changeData(const QString& hashstring, const TextDataTable* newdata);		
 		/*! \brief get the top-level handle such that it is of the specified family. If no family is specified, then gets the top-level handle
 		\param ItemHandle* the family name */
 		virtual ItemHandle* root(const QString& family=QString("")) const;
@@ -216,11 +216,11 @@ namespace Tinkercell
 		/*! \brief gets reference to a numerical table with the given name. Makes the table if needed
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return DataTable<double>& reference of table*/
-		virtual DataTable<qreal>& numericalDataTable(const QString& name);
+		virtual NumericalDataTable& numericalDataTable(const QString& name);
 		/*! \brief gets reference to a text table with the given name. Makes the table if needed
 		\param QString name of tool, e.g. "Numerical Attributes"
-		\return DataTable<QString>& reference of table*/
-		virtual DataTable<QString>& textDataTable(const QString& name);
+		\return TextDataTable& reference of table*/
+		virtual TextDataTable& textDataTable(const QString& name);
 	};
 
 	/*! \brief

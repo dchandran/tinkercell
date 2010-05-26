@@ -261,6 +261,7 @@ specific for:\n\"\"\"\n\n") + text;
 			if (mainWindow->helpMenu)
 			{
 				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
+
 			}
 
 			return true;
@@ -311,13 +312,13 @@ specific for:\n\"\"\"\n\n") + text;
 		 action->setShortcut(QKeySequence(QKeySequence::New));
 		 action->setToolTip(tr("New"));
 
-		 action = toolBar->addAction(QIcon(":/images/open.png"),tr("Open"),this,SLOT(open()));
-		 action->setShortcut(QKeySequence(QKeySequence::Open));
-		 action->setToolTip(tr("Open"));
+		 //action = toolBar->addAction(QIcon(":/images/open.png"),tr("Open"),this,SLOT(open()));
+		 //action->setShortcut(QKeySequence(QKeySequence::Open));
+		 //action->setToolTip(tr("Open"));
 
-		 action = toolBar->addAction(QIcon(":/images/save.png"),tr("Save"),this,SLOT(save()));
+		 action = toolBar->addAction(QIcon(":/images/save.png"),tr("Save"),this,SLOT(convertCodeToButton()));
 		 action->setShortcut(QKeySequence(QKeySequence::Save));
-		 action->setToolTip(tr("Save"));
+		 action->setToolTip(tr("Incorporate in TinkerCell"));
 
 		 action = toolBar->addAction(QIcon(":/images/undo.png"),tr("Undo"),this,SLOT(undo()));
 		 action->setToolTip(tr("Undo"));
@@ -334,8 +335,8 @@ specific for:\n\"\"\"\n\n") + text;
 		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPy()));
 		 action->setToolTip(tr("Terminate (Python only)"));
 
-		 action = toolBar->addAction(QIcon(":/images/default.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
-		 action->setToolTip(tr("Add code to the functions list"));
+		 //action = toolBar->addAction(QIcon(":/images/default.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
+		 //action->setToolTip(tr("Add code to the functions list"));
 
 		 action = toolBar->addAction(QIcon(":/images/about.png"),tr("About"),this,SLOT(about()));
 		 action->setToolTip(tr("About"));

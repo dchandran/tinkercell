@@ -7,9 +7,6 @@
     <text>Molecular species that diffuse through the cell, such as proteins, RNA, or metabolites.</text>
 	<node family="Small Molecule">
 	   <text>Metabolites, ions, and other small molecules</text>
-	   <node family="Phosphate">
-	     <text>Phosphates</text>
-	   </node>
 	</node>
 	<node family="Protein" sequence="GSWTQHNMCP">
 	    <text>Chain of amino acids.</text>
@@ -45,9 +42,6 @@
 		</node>
 		<node family="Inducible Promoter" composite="true">
 		  <text>A promoter that is requires a transcription factor for activation</text>
-		  <node family="Expression Casette" composite="true">
-		     <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-		  </node>
 		</node>
 		<node family="Repressible Promoter" composite="true">
 		  <text>A promoter that can be repressed by a transcription factor</text>
@@ -56,16 +50,10 @@
 	
 	<node family="RBS" strength="1.0">
 	   <text>Ribosome binding site</text>
-	   <node family="Expression Casette" composite="true">
-	      <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-	   </node>
 	</node>
 	
 	<node family="Terminator" strength="1.0">
 	   <text>Transcriptional terminator</text>
-	   <node family="Expression Casette" composite="true">
-	      <text>A complete protein coding region contains a promoter, an RBS, a protein-coding sequence, and transcriptional terminator</text>
-	   </node>
 	</node>
   </node>
 </node>

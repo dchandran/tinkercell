@@ -32,7 +32,6 @@ This file contains a collection of commands that perform simple operations that 
 #include <QGraphicsItemAnimation>
 #include <QPrinter>
 
-#include "DataTable.h"
 #include "ItemFamily.h"
 #include "ItemHandle.h"
 #include "DataTable.h"
@@ -634,16 +633,6 @@ namespace Tinkercell
 		NetworkHandle * net;
 		RenameCommand * renameCommand;
 	};
-	
-	/*! \brief this command is used to replace text data inside a handle
-	* \ingroup undo
-	*/
-	typedef ChangeDataCommand<QString> SetTextDataCommand;
-	
-	/*! \brief this command is used to replace numerical data inside a handle
-	* \ingroup undo
-	*/
-	typedef ChangeDataCommand<qreal> SetNumericalDataCommand;
 	
 	/*! \brief this command is used to hide graphics items. 
 		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.

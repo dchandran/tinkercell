@@ -30,7 +30,7 @@ the table.
 namespace Tinkercell
 {
 	/*! \brief DataTable is a 2D vector with row names and column names	
-	\ingroup helper
+	\ingroup core
 	*/
 	template <typename T>
 	class MY_EXPORT DataTable 
@@ -991,6 +991,25 @@ namespace Tinkercell
 				(*(targetDataTable2[i])) = oldDataTable2[i];
 	}
 	
+	/*! \brief a numerical data table
+	* \ingroup core
+	*/
+	typedef DataTable<QString> TextDataTable;
+	
+	/*! \brief a numerical data table
+	* \ingroup core
+	*/
+	typedef DataTable<qreal> NumericalDataTable;
+	
+	/*! \brief this command is used to replace text data inside a handle
+	* \ingroup undo
+	*/
+	typedef ChangeDataCommand<QString> ChangeTextDataCommand;
+	
+	/*! \brief this command is used to replace numerical data inside a handle
+	* \ingroup undo
+	*/
+	typedef ChangeDataCommand<qreal> ChangeNumericalDataCommand;
 }
 
 #endif

@@ -626,13 +626,13 @@ namespace Tinkercell
 		
 		QList<ItemFamily*> children = family->children();
 		
-		if (ConnectionFamily::cast(family) && children.size() > 5)
+		/*if (ConnectionFamily::cast(family) && !children.isEmpty())
 			return false;
 		
 		if (NodeFamily::cast(family) && family->parent() && family->parent()->parent() && family->parent()->parent()->parent())
-			return false;
+			return false;*/
 		
-		return true;
+		return children.isEmpty();
 	}
 
 	void CatalogWidget::setUpTabView()
@@ -721,17 +721,9 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (children.isEmpty())
-				{
-					if (!families.contains(NodeFamily::cast(rootFamilies[i])))
-						families << NodeFamily::cast(rootFamilies[i]);
-				}
-				else
-				{
-					if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
-						families << NodeFamily::cast(rootFamilies[i]);
-					rootFamilies << children;
-				}
+				if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
+					families << NodeFamily::cast(rootFamilies[i]);
+				rootFamilies << children;
 			}
 
 			for (int i=0; i < families.size(); ++i)
@@ -811,17 +803,9 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (children.isEmpty())
-				{
-					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])))
-						families << ConnectionFamily::cast(rootFamilies[i]);
-				}
-				else
-				{
-					if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
-						families << ConnectionFamily::cast(rootFamilies[i]);
-					rootFamilies << children;
-				}
+				if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
+					families << ConnectionFamily::cast(rootFamilies[i]);
+				rootFamilies << children;
 			}
 
 			for (int i=0; i < families.size(); ++i)

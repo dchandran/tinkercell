@@ -63,36 +63,61 @@ namespace Tinkercell
     void ModuleTool::select(int)
     {
     	GraphicsScene * scene = currentScene();
-    	if (!scene || !scene->localHandle()) return;
+    	if (!scene || !scene->localHandle() || !scene->localHandle()->isA(tr("module"))) return;
     	
     	QList<QGraphicsItem*> & selected = scene->selected();
     	QList<QGraphicsItem*> itemsToInsert;
 		ItemHandle * h = 0;
+		NodeGraphicsItem * node;
 		
 		NodeGraphicsReader reader;
+		QList<TextDataTable*> oldData, newData;
+		
+		QString appDir = QCoreApplication::applicationDirPath();
 		
 		for (int i=0; i < selected.size(); ++i)
-			if ((h = getHandle(selected[i])) && h->
+			if ((h = getHandle(selected[i])) && NodeHandle::cast(h))
 			{
-				NodeGraphicsItem * node = new NodeGraphicsItem;
+				node = new NodeGraphicsItem;
+				node->className = interfaceClassName;
+				node->setHandle(h);
 				reader.readXml(node, appDir + interfaceFileName);
 				node->normalize();
 				node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 				itemsToInsert << node;
+				
+				TextDataTable * dat = new TextDataTable;
+				h->textData(tr("Module role")) = tr("none");
+				dat->value(0,0) = tr("interface");
+				oldData << &(h->textDataTable(tr("Module role")));
+				newData << dat;
 			}
 
 		if (!itemsToInsert.isEmpty())
-			scene->insert(tr("Interface created"), itemsToInsert);
+		{
+			QList<QUndoCommand*> list;
+			list << new ChangeTextDataCommand(tr("Interface created"),oldData,newData);
+			list << new InsertGraphicsCommand(tr("Interface created"),scene,itemsToInsert);
+			scene->network->push(new CompositeCommand(tr("Interface created"),list));
+			for (int i=0; i < newData.size(); ++i)
+				delete newData[i];
+		}
     }
 
-    void ModuleTool::createInterface(NodeGraphicsItem* module)
+    QList<QGraphicsItem*> ModuleTool::createLinks(NodeGraphicsItem* module)
     {
-    	ItemHandle * h = getHandle(module);
-    	if (!h) return;
+    	if (!module || !module->scene()) return QList<QGraphicsItem*>();
+    	GraphicsScene * scene = static_cast<GraphicsScene*>(module->scene());
     	
-    	QList<NodeGraphicsItem*> nodes;
+    	ItemHandle * h = getHandle(module);
+    	if (!h) return QList<QGraphicsItem*>();
+    	
+    	QList<QGraphicsItem*> linkerNodes;
     	QList<ItemHandle*> linkerHandles;
-    	NodeGraphcsItem * inputNode;
+    	NodeGraphicsItem * node;
+    	
+    	QString appDir = QCoreApplication::applicationDirPath();
+    	bool hasInterface;
     	
     	for (int i=0; i < h->children.size(); ++i)
     		if (h->children[i] 
@@ -100,23 +125,32 @@ namespace Tinkercell
     			&& h->children[i]->textData(tr("Module role")) == tr("interface")
     			&& !linkerHandles.contains(h->children[i]))
     		{
-    			linkerHandles << h->children[i];
+    			hasInterface = false;
+    			for (int j=0; j < h->children[i]->graphicsItems.size(); ++j)
+    				if ((node = NodeGraphicsItem::cast(h->children[i]->graphicsItems[j])) && node->className == linkerClassName)
+    				{
+    					hasInterface = true;
+    					break;
+    				}
+    			if (!hasInterface)
+	    			linkerHandles << h->children[i];
     		}
 
-    	ItemHandle * h1, * h2;
     	NodeGraphicsItem * linker;
     	NodeGraphicsReader reader;
-    	GraphicsScene * scene;
     	
-    	for (int i=0; i < nodes.size() && i < modules.size(); ++i)
-    		if ((h1 = getHandle(nodes[i])) && (h2 = modules[i]) && h1->isChildOf(h2) && nodes[i]->scene() && modules[i]->scene())
-    		{
-    			scene = static_cast<GraphicsScene*>(modules[i]->scene());
-    			linker = new NodeGraphicsItem;
-    			reader.readXml(linker, appDir + interfaceFileName);
-    			linker->normalize();
-        		linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());        		
-    		}
+    	for (int i=0; i < linkerHandles.size(); ++i)
+		{
+			linker = new NodeGraphicsItem;
+			linker->setHandle(linkerHandles[i]);
+			linker->className = linkerClassName;
+			reader.readXml(linker, appDir + linkerFileName);
+			linker->normalize();
+    		linker->scale(linker->defaultSize.width()/linker->sceneBoundingRect().width(),linker->defaultSize.height()/linker->sceneBoundingRect().height());        		
+    		linker->setPos(getPoint(module,linker->scenePos(),node));
+    		linkerNodes << linker;
+		}    	
+    	return linkerNodes;
     }
 
 	bool ModuleTool::setMainWindow(MainWindow * main)
@@ -139,11 +173,11 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)),
-                    this, SLOT(itemsInserted(GraphicsScene*,const QList<QGraphicsItem *>&, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+                    this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 
-            connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-                    this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+            connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+                    this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
@@ -152,8 +186,6 @@ namespace Tinkercell
 					this, SLOT(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
-
-			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
 
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
 
@@ -167,7 +199,7 @@ namespace Tinkercell
 	void ModuleTool::toolLoaded(Tool * tool)
 	{
 		if (!tool) return;
-		static connected1 = false, connected2 = false, connected3 = false;
+		static bool connected1 = false, connected2 = false, connected3 = false;
 
 		if (tool->name == tr("Nodes Tree") && !connected1)
 		{
@@ -234,24 +266,6 @@ namespace Tinkercell
 			connected3 = true;
 		}
 	}
-
-	NodeGraphicsItem* ModuleTool::VisualTool::parentModule(QGraphicsItem* item)
-    {
-        ItemHandle * handle = getHandle(item);
-        if (!handle) return 0;
-
-        ItemHandle * module = handle->parentOfFamily(tr("module"));
-        if (!module) return 0;
-
-        NodeGraphicsItem * node;
-        for (int i=0; i < module->graphicsItems.size(); ++i)
-        {
-            node = qgraphicsitem_cast<NodeGraphicsItem*>(module->graphicsItems[i]);
-            if (node)
-                return node;
-        }
-        return 0;
-    }
 
     QPointF ModuleTool::getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item)
     {
@@ -435,10 +449,13 @@ namespace Tinkercell
 		ItemHandle * h1 = 0, * h2 = 0;
 		
 		ConnectionGraphicsItem * connection = 0;
+		NodeGraphicsItem * node = 0;
 		QList<NodeGraphicsItem*> nodes;
 		QStringList oldNames, newNames;
+		QList<QGraphicsItem*> newLinkers;
 		
 		for (int i=0; i < items.size(); ++i)
+		{
 			if ((connection = ConnectionGraphicsItem::cast(items[i])) && connection->className == connectionClassName)
 			{
 				nodes = connection->nodes();
@@ -453,8 +470,26 @@ namespace Tinkercell
 					}
 				}
 			}
+			if ((node = NodeGraphicsItem::cast(items[i])) 
+				&& (node->className == interfaceClassName)
+				&& node->handle() 
+				&& node->handle()->parent
+				&& node->handle()->parent->isA(tr("module")))
+				{
+					ItemHandle * parent = node->handle()->parent;
+					for (int j=0; j < parent->graphicsItems.size(); ++j)
+						if (NodeGraphicsItem::cast(parent->graphicsItems[j]) 
+							&& parent->graphicsItems[j]->scene()
+							&& parent->graphicsItems[j]->scene() != scene)
+						{
+							newLinkers << createLinks(NodeGraphicsItem::cast(parent->graphicsItems[j]));
+							GraphicsScene * moduleScene = static_cast<GraphicsScene*>(parent->graphicsItems[j]->scene());
+							commands << new InsertGraphicsCommand(tr("module linkers"),moduleScene,newLinkers);
+						}
+				}
+		}
 
-		RenameCommand * rename = new RenameCommand(scene->network,oldNames,newNames);
+		RenameCommand * rename = new RenameCommand(tr("module linkers"),scene->network,oldNames,newNames);
 		commands << rename;
 	}
 
@@ -476,7 +511,7 @@ namespace Tinkercell
 				{
 					h1 = getHandle(nodes[0]);
 					h2 = getHandle(nodes[1]);
-					if (h1 && h2 && )
+					if (h1 && h2 && h1 != h2)
 						commands << new RenameCommand(tr("module connection removed"),scene->network,handles,h2->fullName(),h1->fullName());
 				}
 			}
@@ -521,7 +556,7 @@ namespace Tinkercell
     	rename.redo();
     }
 
-    void ModuleTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>&, Qt::KeyboardModifiers)
+    void ModuleTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>&)
     {
 		if (!scene) return;
 
@@ -597,8 +632,18 @@ namespace Tinkercell
 
         if (!handle1 || !handle2 || !handle1->family() || !handle2->family()) return;
 
-        NodeGraphicsItem * module1 = parentModule(link1);
-        NodeGraphicsItem * module2 = parentModule(link2);
+        NodeGraphicsItem * module1 = 0;
+        NodeGraphicsItem * module2 = 0;
+        
+        if (handle1->parent)
+	        for (int i=0; i < handle1->parent->graphicsItems.size(); ++i)
+	        	if (module1 = NodeGraphicsItem::cast(handle1->parent->graphicsItems[i]))
+	        		break;
+
+        if (handle2->parent)
+	        for (int i=0; i < handle2->parent->graphicsItems.size(); ++i)
+	        	if (module2 = NodeGraphicsItem::cast(handle2->parent->graphicsItems[i]))
+	        		break;
 
 		QRectF rect1, rect2;
 		QPointF point1 = link1->scenePos(),
@@ -704,8 +749,8 @@ namespace Tinkercell
 	QDockWidget * ModuleTool::makeDockWidget(const QString & family)
 	{
 		QString s = family.toLower();
-		s.replace(tr(" "),tr("_"))
-		QString dirname = MainWindow::userHome() + tr("/") + s;
+		s.replace(tr(" "),tr("_"));
+		QString dirname = homeDir() + tr("/") + s;
 		QDir dir(dirname);
 		
 		if (!dir.exists())
@@ -726,25 +771,26 @@ namespace Tinkercell
 		for (int i = 0; i < list.size(); ++i)
 		{
 		    QFileInfo fileInfo = list.at(i);
-		    QToolButton * button = new QToolButton(toolBar);
+		    QToolButton * button = new QToolButton;
 		    button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
 		    QString base = fileInfo.baseName();
 		    button->setText(base);
-		    button->setToolTip(fileInfo.absoluteFilePath();
+		    button->setToolTip(fileInfo.absoluteFilePath());
 		    
 		    if (QFile::exists(dirname + base + tr(".png")))
 			    button->setIcon(QIcon(dirname + base + tr(".png")));
 		    else
 		    	button->setIcon(QIcon(tr(":/images/module.png")));
 		    group->addButton(button,i);
-		    layout->addWidget(button);
+		    layout->addWidget(button,0,Qt::AlignTop);
 		}
 		
+		layout->setContentsMargins(5,8,5,5);
+		layout->setSpacing(12);
 		widget->setLayout(layout);
 		widget->setPalette(QPalette(QColor(255,255,255)));
 		widget->setAutoFillBackground (true);
 
-		QScrollArea * scrollArea = new QScrollArea;
 		scrollArea->setWidget(widget);
 		scrollArea->setPalette(QPalette(QColor(255,255,255)));
 		scrollArea->setAutoFillBackground (true);
@@ -760,14 +806,16 @@ namespace Tinkercell
 		ItemHandle * handle = getHandle(item);
 		if (handle && handle->family())
 		{
-			NetworkHandle * network = scene->network;
-			GraphicsScene * newScene = network->createScene();
-			NetworkWindow * window = newScene->networkWindow;
-			if (window)
-			{				
-				QDockWidget * dock = makeDockWidget(handle->family()->name);
-				if (dock)
+			QDockWidget * dock = makeDockWidget(handle->family()->name);
+			if (dock)
+			{
+				NetworkHandle * network = scene->network;
+				GraphicsScene * newScene = network->createScene();
+				NetworkWindow * window = newScene->networkWindow;
+				if (window)
 					window->addDockWidget(Qt::TopDockWidgetArea,dock);
+				else
+					delete dock;
 			}
 		}
     }

@@ -74,7 +74,7 @@ namespace Tinkercell
 		void parentHandleChanged(NetworkHandle * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		void toolLoaded (Tool * tool);
 		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
-		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
+		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
@@ -94,7 +94,7 @@ namespace Tinkercell
 		QGraphicsLineItem lineItem;
 		QDockWidget * makeDockWidget(const QString&);
 
-		void createInterface(NodeGraphicsItem*);
+		QList<QGraphicsItem*> createLinks(NodeGraphicsItem*);
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
 

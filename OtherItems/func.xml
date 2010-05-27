@@ -8,7 +8,7 @@
             <colorDefinition id="shape2color" value="#4d4d4d" alpha="119"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="facebook" width="308" height="296">
+            <style idList="facebook" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#55007f" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>

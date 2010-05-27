@@ -16,7 +16,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="stoichiometry" width="30" height="30">
+            <style idList="stoichiometry" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>

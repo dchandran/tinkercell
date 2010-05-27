@@ -11,7 +11,7 @@
             <colorDefinition id="shape5color" value="#7e7e7e" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="roman" width="268" height="263">
+            <style idList="roman" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#7e7e7e" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>

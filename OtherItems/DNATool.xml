@@ -14,7 +14,7 @@
             <colorDefinition id="shape8color" value="#666666" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="dna square" width="307.41" height="281.48">
+            <style idList="dna square" width="80" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>

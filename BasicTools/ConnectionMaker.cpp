@@ -433,7 +433,6 @@ namespace Tinkercell
 		}
 
 		FixMultipleConnections(connection,nodes,inputs);
-		//connection->lineType = ConnectionGraphicsItem::bezier;
 
 		for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
 			if (nodes[i])
@@ -449,24 +448,11 @@ namespace Tinkercell
 						break;
 			}
 
-			if (connection->handle() && 
-				(connection->handle()->isA(tr("Transcription Regulation")) || 
-				connection->handle()->isA(tr("PoPS")) || 
-				connection->handle()->isA(tr("Synthesis"))) 
+			if (connection->lineType == ConnectionGraphicsItem::line
 				&& nodes.size() > 1 && nodes[0] && nodes[1])
 			{
 				ConnectionGraphicsItem::ControlPoint * cp;
-				if (connection->handle()->isA(tr("PoPS")))
-				{
-					cp = new ConnectionGraphicsItem::ControlPoint(QPointF((nodes[1]->scenePos().x() + nodes[0]->scenePos().x())/2.0,nodes[1]->scenePos().y()),connection);
-					connection->defaultPen.setStyle(Qt::DashLine);
-					connection->setPen(connection->defaultPen);
-					AddControlPointCommand command(tr(""),scene,cp);
-					command.redo();
-				}
-				else
-					if (connection->handle()->isA(tr("Transcription Regulation")))
-					{
+				
 						qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
 							  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
 						
@@ -482,14 +468,7 @@ namespace Tinkercell
 						}
 						AddControlPointCommand command(tr(""),scene,cp);
 						command.redo();
-						
-						if (connection->handle()->isA(tr("Transcription Repression")))
-							connection->defaultPen.setColor(QColor(tr("#C30000")));
-						else
-							connection->defaultPen.setColor(QColor(tr("#049102")));
-						connection->setPen(connection->defaultPen);
-					}
-				connection->lineType = ConnectionGraphicsItem::line;
+						connection->setPen(connection->defaultPen);					
 			}
 	}
 

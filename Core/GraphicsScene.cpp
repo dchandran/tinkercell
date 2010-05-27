@@ -2118,15 +2118,11 @@ namespace Tinkercell
 				}
 
 				tool->visible(true);
-
 				tool->setZValue(ZValue()+0.1);
-
-				tool->resetTransform();				
+				
 				QRectF bounds = tool->sceneBoundingRect();
-				
-				qreal ratio = bounds.height()/bounds.width();
-				
-				tool->scale(0.001*scalex,ratio*0.001*scalex);
+				tool->resetTransform();
+				tool->scale(0.001*(scalex),0.001*(scaley));
 				tool->setPos(QPointF(maxx,miny));
 				bounds = tool->sceneBoundingRect();
 

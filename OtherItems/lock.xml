@@ -14,7 +14,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="lock" width="12" height="20">
+            <style idList="lock" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#595959" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>

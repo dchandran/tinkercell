@@ -13,7 +13,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="monitor" width="197" height="210">
+            <style idList="monitor" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>

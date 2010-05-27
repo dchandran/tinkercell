@@ -739,8 +739,12 @@ namespace Tinkercell
 				{
 					GraphicsScene * scene = window->newScene();
 					scene->insert(tr("new model"),items);
-					scene->deselect();
-					scene->fitAll();
+					
+					QRectF rect;
+					for (int i=0; i < items.size(); ++i)
+						if (items[i])
+							rect.unite(items[i]->sceneBoundingRect());
+					scene->fitInView(rect);
 				}
 			}
 		}

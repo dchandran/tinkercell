@@ -8,7 +8,7 @@
             <colorDefinition id="shape2color" value="#ffffff" alpha="0"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="new node" width="40" height="20">
+            <style idList="new node" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#6464ff" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>

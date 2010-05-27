@@ -10,7 +10,7 @@
             <colorDefinition id="shape4color" value="#4c4c4c" alpha="104"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="eye" width="307.41" height="281.48">
+            <style idList="eye" width="60" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#000000" stroke-width="7" stroke-alpha="1">
                         <listOfCurveSegments>

@@ -16,7 +16,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="id card" width="35" height="40">
+            <style idList="id card" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#737373" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>

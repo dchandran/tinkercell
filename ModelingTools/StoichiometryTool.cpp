@@ -745,6 +745,14 @@ namespace Tinkercell
 		ratePlotWidget = new QWidget(this);
 		QVBoxLayout * plotLayout = new QVBoxLayout;
 		plotLayout->addWidget(plotWidget = new Plot2DWidget);
+		QHBoxLayout * optionsLayout = new QHBoxLayout;
+		optionsLayout->addWidget(new QLabel(tr("x-axis:")));
+		optionsLayout->addWidget(plotVar = new QComboBox);
+		optionsLayout->addWidget(new QLabel(tr("start:")));
+		optionsLayout->addWidget(startPlot = new QDoubleSpinBox);
+		optionsLayout->addWidget(new QLabel(tr("end:")));
+		optionsLayout->addWidget(endPlot = new QDoubleSpinBox);
+		plotLayout->addLayout(optionsLayout);
 		plotLayout->addWidget(plotLineEdit = new QLineEdit);
 		ratePlotWidget->setLayout(plotLayout);
 		ratePlotWidget->hide();
@@ -1162,18 +1170,44 @@ namespace Tinkercell
 		}
 		
 		ratesTable.resizeColumnToContents(0);
-		if (rates.size() == 1)
+		if (rates.size() == 1 && startPlot && endPlot)
 		{
+			ratesBox->setParent(this);
 			ratesBox->hide();
+			tabWidget->insertTab(0,ratePlotWidget,tr("Rate equation"));
 			ratePlotWidget->show();
 			NumericalDataTable plot;
 			plot.resize(100,2);
+			
+			QList< QPair<QString,qreal> > values;
+			QStringList vars = EquationParser::getVariablesInFormula(currentNetwork(),connectionHandles[0],rates[0]);
+			
+			values << QPair<QString,qreal>(vars[0],0.0);
+			
+			plotVar->clear();
+			plotVar->addItems(vars);
+			qreal min = startPlot->value();
+			qreal max = endPlot->value();
+			plotLineEdit->setText(rates[0]);
+			
+			mu::Parser parser;
+			EquationParser::eval(currentNetwork(),connectionHandles[0],rates[0],values,&parser);
 			for (int i=0; i < 100; ++i)
 			{
-				plot.value(i,0) = 0;
-				plot.value(i,1) = i*i - 2.0*i + 3.0*i;
+				plot.value(i,0) = values[0].second = i*(max-min) + min;
+				plot.value(i,1) = parser.eval();
 			}
-			plotWidget->plot(plot,tr("Rate equation"));
+			plot.rowName(0) = vars[0];
+			plot.rowName(1) = connectionHandles[0]->name;
+			
+			plotWidget->plot(plot,connectionHandles[0]->name + tr(" vs ") + vars[0],0);
+		}
+		else
+		{
+			ratePlotWidget->setParent(this);
+			ratePlotWidget->hide();
+			tabWidget->insertTab(0,ratesBox,tr("Rate equations"));
+			ratesBox->show();
 		}
 		
 		connect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));

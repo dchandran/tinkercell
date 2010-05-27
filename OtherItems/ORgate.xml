@@ -12,7 +12,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="or gate" width="50" height="50">
+            <style idList="or gate" width="80" height="80">
                 <g>
                     <polygon fill="shape0color" stroke="#5e708a" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>

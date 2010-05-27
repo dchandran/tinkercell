@@ -798,6 +798,15 @@ namespace Tinkercell
 						item->defaultPen.setStyle(Qt::DashLine);
 						item->setPen(item->defaultPen);
 					}
+					
+					if (handle->isA(tr("Gene Regulation")) || handle->isA(tr("Promoter Repression")))
+						item->lineType = ConnectionGraphicsItem::line;
+					
+					if (handle->isA(tr("Gene Repression")))
+						item->defaultPen.setColor(QColor(tr("#C30000")));
+					if (handle->isA(tr("Gene Activation")))
+						item->defaultPen.setColor(QColor(tr("#049102")));
+					
 					scene->insert(handle->name + tr(" inserted"), insertList);
 
 					selectedNodes.clear();

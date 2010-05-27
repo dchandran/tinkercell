@@ -30,6 +30,7 @@ the stoichiometry and rates tables.
 #include <QRegExp>
 #include <QTextEdit>
 #include <QLineEdit>
+#include <QDoubleSpinBox>
 
 #include "NodeGraphicsItem.h"
 #include "MainWindow.h"
@@ -237,7 +238,9 @@ namespace Tinkercell
 		QAction * separator;
 		
 		Plot2DWidget * plotWidget;
-		QLineEdit * plotLineEdit;		
+		QLineEdit * plotLineEdit;
+		QComboBox * plotVar;
+		QDoubleSpinBox * startPlot, * endPlot;
 		QWidget * ratePlotWidget;
 	};
 

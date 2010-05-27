@@ -14,7 +14,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="sigmoid curve" width="223" height="194">
+            <style idList="sigmoid curve" width="50" height="50">
                 <g>
                     <polygon fill="shape0color" stroke="#555555" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>

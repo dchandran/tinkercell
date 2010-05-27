@@ -1183,31 +1183,42 @@ namespace Tinkercell
 			QList< QPair<QString,qreal> > values;
 			QStringList vars = EquationParser::getVariablesInFormula(currentNetwork(),connectionHandles[0],rates[0]);
 			
-			values << QPair<QString,qreal>(vars[0],0.0);
-			
-			plotVar->clear();
-			plotVar->addItems(vars);
-			qreal min = startPlot->value();
-			qreal max = endPlot->value();
-			plotLineEdit->setText(rates[0]);
-			
-			mu::Parser parser;
-			bool b = true;
-			EquationParser::eval(currentNetwork(),rates[0],&b,values,&parser);
-			if (b)
+			if (vars.isEmpty())
 			{
-				for (int i=0; i < 100; ++i)
-				{
-					plot.value(i,0) = values[0].second = i/100.0*(max-min) + min;
-					plot.value(i,1) = parser.Eval();
-				}
+				ratePlotWidget->setParent(this);
+				ratePlotWidget->hide();
+				tabWidget->insertTab(0,ratesBox,tr("Rate equations"));
+				ratesBox->show();
 			}
 			else
-				console()->message("equation cannot be parsed");
-			plot.rowName(0) = vars[0];
-			plot.rowName(1) = connectionHandles[0]->name;
+				{
 			
-			plotWidget->plot(plot,tr("Rate equation"),0);
+				values << QPair<QString,qreal>(vars[0],0.0);
+			
+				plotVar->clear();
+				plotVar->addItems(vars);
+				qreal min = startPlot->value();
+				qreal max = endPlot->value();
+				plotLineEdit->setText(rates[0]);
+			
+				mu::Parser parser;
+				bool b = true;
+				EquationParser::eval(currentNetwork(),rates[0],&b,values,&parser);
+				if (b)
+				{
+					for (int i=0; i < 100; ++i)
+					{
+						plot.value(i,0) = values[0].second = i/100.0*(max-min) + min;
+						plot.value(i,1) = parser.Eval();
+					}
+				}
+				else
+					console()->message("equation cannot be parsed");
+				plot.rowName(0) = vars[0];
+				plot.rowName(1) = connectionHandles[0]->name;
+			
+				plotWidget->plot(plot,tr("Rate equation"),0);
+			}
 		}
 		else
 		{

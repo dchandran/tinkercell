@@ -1214,8 +1214,8 @@ namespace Tinkercell
 				}
 				else
 					console()->message("equation cannot be parsed");
-				plot.rowName(0) = vars[0];
-				plot.rowName(1) = connectionHandles[0]->name;
+				plot.colName(0) = vars[0];
+				plot.colName(1) = connectionHandles[0]->name;
 			
 				plotWidget->plot(plot,tr("Rate equation"),0);
 			}

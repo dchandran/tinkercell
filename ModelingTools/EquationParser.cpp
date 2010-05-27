@@ -242,7 +242,6 @@ namespace Tinkercell
 		{
 			if (b)
 				(*b) = false;
-			net->console()->message("here1");
 			return 0.0;
 		}
 
@@ -348,8 +347,7 @@ namespace Tinkercell
 		{
 			if (b)
 				(*b) = false;
-				
-			net->console()->message("here3");
+
 			return 0;
 		}
 

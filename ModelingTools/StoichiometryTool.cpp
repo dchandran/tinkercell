@@ -1212,8 +1212,6 @@ namespace Tinkercell
 						plot.value(i,1) = parser.Eval();
 					}
 				}
-				else
-					console()->message("equation cannot be parsed");
 				plot.colName(0) = vars[0];
 				plot.colName(1) = connectionHandles[0]->name;
 			

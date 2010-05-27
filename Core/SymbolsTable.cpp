@@ -101,6 +101,8 @@ namespace Tinkercell
 				{
 					uniqueItems[handle->fullName()] = handle;
 					uniqueItems[handle->fullName(QObject::tr("_"))] = handle;
+					nonuniqueItems.insertMulti(handle->fullName(),handle);
+					nonuniqueItems.insertMulti(handle->fullName(QObject::tr("_")),handle);
 					nonuniqueItems.insertMulti(handle->name,handle);
 				}
 
@@ -120,9 +122,14 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
+									uniqueData[handle->fullName() + QObject::tr(".") + nDat.rowName(k)] = 
+										QPair<ItemHandle*,QString>(handle,keys[j]);
+									uniqueData[handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k)] = 
+										QPair<ItemHandle*,QString>(handle,keys[j]);
+									
+									nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k),
+									nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k), 
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
 								nonuniqueData.insertMulti(nDat.rowName(k),
@@ -134,13 +141,17 @@ namespace Tinkercell
 						{
 							if (!nDat.colName(k).isEmpty())
 							{
-								if (!handle->name.isEmpty())
+								/*if (!handle->name.isEmpty())
 								{
 									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-								}
+								}*/
+								nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
+										QPair<ItemHandle*,QString>(handle,keys[j]));
+								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k), 
+									QPair<ItemHandle*,QString>(handle,keys[j]));
 								nonuniqueData.insertMulti(nDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
@@ -158,9 +169,14 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
+									uniqueData[handle->fullName() + QObject::tr(".") + sDat.rowName(k)] =
+										QPair<ItemHandle*,QString>(handle,keys[j]);
+									uniqueData[handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k)] =
+										QPair<ItemHandle*,QString>(handle,keys[j]);
+									
+									nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
+									nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								}
 								nonuniqueData.insertMulti(sDat.rowName(k),
@@ -172,13 +188,17 @@ namespace Tinkercell
 						{
 							if (!sDat.colName(k).isEmpty())
 							{
-								if (!handle->name.isEmpty())
+								/*if (!handle->name.isEmpty())
 								{
 									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-								}
+								}*/
+								nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
+									QPair<ItemHandle*,QString>(handle,keys[j]));
+								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+									QPair<ItemHandle*,QString>(handle,keys[j]));
 								nonuniqueData.insertMulti(sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}

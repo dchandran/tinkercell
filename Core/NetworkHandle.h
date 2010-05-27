@@ -183,7 +183,11 @@ namespace Tinkercell
 		* \return QString new string
 		*/
 		virtual QString makeUnique(const QString&, const QStringList& doNotUseNames=QStringList()) const;
-
+		/*! \brief checks whether the given string names a unique item or data entry
+		* \param QStringList target strings
+		* \return QStringList new strings
+		*/
+		virtual QStringList makeUnique(const QStringList&, const QStringList& doNotUseNames=QStringList()) const;
 		/*! \}
 			\name rename items
 			These functions automatically perform history updates and send appropriate signals, which will inform the 

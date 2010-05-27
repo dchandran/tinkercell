@@ -235,10 +235,14 @@ namespace Tinkercell
 
 	double EquationParser::eval(NetworkHandle * net, QString& s, bool * b, QList<sd_pair> & assignments, mu::Parser * parserPtr)
 	{
+		if (b)
+			(*b) = true;
+
 		if (!net || s.isEmpty())
 		{
 			if (b)
 				(*b) = false;
+			net->console()->message("here1");
 			return 0.0;
 		}
 
@@ -344,6 +348,8 @@ namespace Tinkercell
 		{
 			if (b)
 				(*b) = false;
+				
+			net->console()->message("here3");
 			return 0;
 		}
 
@@ -508,8 +514,6 @@ namespace Tinkercell
 										
 										if (!isItem && (handle2 == handle))
 										{
-											if (win->console())
-												win->console()->error(QString("unknown variable : " ) + QString(item->first.data()));
 											eqnVars.clear();
 											return eqnVars;
 										}
@@ -538,6 +542,10 @@ namespace Tinkercell
                                             win->console()->message(str2 + QString(" = 1.0"));
 									}
 							}
+					}
+					else
+					{
+						eqnVars << str;
 					}
 				}
 			}			

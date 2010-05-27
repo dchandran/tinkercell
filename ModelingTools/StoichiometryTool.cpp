@@ -1192,7 +1192,7 @@ namespace Tinkercell
 			plotLineEdit->setText(rates[0]);
 			
 			mu::Parser parser;
-			bool b;
+			bool b = true;
 			EquationParser::eval(currentNetwork(),rates[0],&b,values,&parser);
 			if (b)
 			{
@@ -1202,10 +1202,12 @@ namespace Tinkercell
 					plot.value(i,1) = parser.Eval();
 				}
 			}
+			else
+				console()->message("equation cannot be parsed");
 			plot.rowName(0) = vars[0];
 			plot.rowName(1) = connectionHandles[0]->name;
 			
-			plotWidget->plot(plot,connectionHandles[0]->name + tr(" vs ") + vars[0],0);
+			plotWidget->plot(plot,tr("Rate equation"),0);
 		}
 		else
 		{
@@ -1638,6 +1640,7 @@ namespace Tinkercell
 						int i = 0;
 						while (rowNames.contains(row))
 							row = tr("_J") + QString::number(i++); //avoid duplicate rowname
+
 						rowNames += row;
 						rates += sDataTable->value(j,0);
 					}

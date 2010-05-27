@@ -171,7 +171,6 @@ namespace Tinkercell
 		cursor.setPosition(currentPosition);
 
 		cursor.setCharFormat(messageFormat);
-
 		cursor.insertText(s + tr("\n"));
 		
 		if (!frozen)
@@ -399,27 +398,41 @@ namespace Tinkercell
 				else
 				if (key == Qt::Key_Tab && mainWindow && mainWindow->currentNetwork())
 				{
-					bool found = false;
 					QString text = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());
 					QStringList keys = mainWindow->currentNetwork()->symbolsTable.uniqueItems.keys();
+					QStringList options;
 					for (int i=0; i < keys.size(); ++i)
 						if (keys[i].startsWith(text))
 						{
-							cursor.insertText(keys[i].right(keys[i].size() - text.size()));
-							found = true;
-							break;
+							//cursor.insertText(keys[i].right(keys[i].size() - text.size()));
+							options << keys[i];
 						}
-					if (!found)
+					if (options.isEmpty())
 					{
 						keys = mainWindow->currentNetwork()->symbolsTable.uniqueData.keys();
 						for (int i=0; i < keys.size(); ++i)
 							if (keys[i].startsWith(text))
 							{
-								cursor.insertText(keys[i].right(keys[i].size() - text.size()));
-								found = true;
-								break;
+								//cursor.insertText(keys[i].right(keys[i].size() - text.size()));
+								options << keys[i];
 							}
 					}
+					
+					if (!options.isEmpty())
+					{
+						if (options.size() == 1)
+						{
+							cursor.insertText(options[0].right(options[0].size() - text.size()));
+						}
+						else
+						{
+							cursor.setCharFormat(messageFormat);
+							cursor.insertText(tr("\n") + options.join(tr("\n")) + tr("\n"));
+							cursor.setCharFormat(normalFormat);
+							cursor.insertText(ConsoleWindow::Prompt + text);
+						}
+					}
+					
 				}
 				else
 					if (frozen && event->modifiers() == Qt::ControlModifier && (key == Qt::Key_C))

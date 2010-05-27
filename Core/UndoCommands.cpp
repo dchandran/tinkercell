@@ -1562,8 +1562,7 @@ namespace Tinkercell
 		if (net)
 		{
 			oldNames << oldname;
-			for (int i=0; i < newname.size(); ++i)
-				newNames << net->makeUnique(newname[i]);
+			newNames << net->makeUnique(newname);			
 		}
 	}
 	
@@ -1579,8 +1578,7 @@ namespace Tinkercell
 		if (net)
 		{
 			oldNames << oldname;
-			for (int i=0; i < newname.size(); ++i)
-				newNames << net->makeUnique(newname[i]);
+			newNames << net->makeUnique(newname);
 		}
 	}
 
@@ -1628,6 +1626,7 @@ namespace Tinkercell
 			}
 
 		if (net)
+		{
 			for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 			{
 				handle = items[i];
@@ -1635,9 +1634,10 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
-					newNames += net->makeUnique(newnames[i]);
 				}
 			}
+			newNames = net->makeUnique(newnames);
+		}
 	}
 
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames)
@@ -1657,6 +1657,7 @@ namespace Tinkercell
 			}
 
 		if (net)
+		{
 			for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 			{
 				handle = (items[i]);
@@ -1664,9 +1665,10 @@ namespace Tinkercell
 				{
 					handles += handle;
 					oldNames += handle->fullName();
-					newNames += net->makeUnique(newnames[i]);
 				}
 			}
+			newNames = net->makeUnique(newnames);
+		}
 	}
 
 	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)

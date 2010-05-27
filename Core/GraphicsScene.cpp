@@ -1090,6 +1090,7 @@ namespace Tinkercell
 		
 		network->history.push(command);
 		emit itemsInserted(this,items,handles);
+		network->symbolsTable.update();
 	}
 
 	/*! \brief this command performs an insert and allows redo/undo of that insert*/
@@ -1124,6 +1125,7 @@ namespace Tinkercell
 		network->history.push(command);
 
 		emit itemsInserted(this,allItems,handles);
+		network->symbolsTable.update();
 	}
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/
 	void GraphicsScene::remove(const QString& name, QGraphicsItem * item)
@@ -1161,6 +1163,7 @@ namespace Tinkercell
 		network->history.push(command);
 		
 		emit itemsRemoved(this,allitems,handles);
+		network->symbolsTable.update();
 	}
 	/*! \brief this command performs an removal and allows redo/undo of that removal*/
 	void GraphicsScene::remove(const QString& name, const QList<QGraphicsItem*>& items)
@@ -1202,6 +1205,7 @@ namespace Tinkercell
 		network->history.push(command);
 	
 		emit itemsRemoved(this,allitems, handles);
+		network->symbolsTable.update();
 	}
 	/*! \brief this command changes the brush of an item*/
 	void GraphicsScene::setBrush(const QString& name, QGraphicsItem * item, const QBrush& to)
@@ -1729,6 +1733,7 @@ namespace Tinkercell
 		network->push(compositeCommand);
 
         emit itemsInserted(this,items,handles);
+        network->symbolsTable.update();
 		select(items);
 	}
 

@@ -218,9 +218,12 @@ namespace Tinkercell
 		}
 
 		this->clear();
-		insertLegend(new QwtLegend(this), QwtPlot::RightLegend,0.2);
-		legend()->setItemMode(QwtLegend::CheckableItem);
-		
+		if (dataTable.cols() > 2)
+		{
+			insertLegend(new QwtLegend(this), QwtPlot::RightLegend,0.2);
+			legend()->setItemMode(QwtLegend::CheckableItem);
+		}
+			
 		QList<QwtPlotCurve*> curves;
 		for (int i=0, c = 0, t = 0; i < dataTable.cols(); ++i)
 		{
@@ -296,6 +299,7 @@ namespace Tinkercell
 	{
 		const QwtPlotItemList& list = itemList();
 		QwtLegend * leg = legend();
+		if (!leg) return;
 		for (int i=0; i < dataTable.cols() && i < list.size(); ++i)
 			if (hideList.contains(dataTable.colName(i)))
 			{

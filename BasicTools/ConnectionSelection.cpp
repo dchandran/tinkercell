@@ -814,7 +814,7 @@ namespace Tinkercell
 			}
 			else
 			{
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]);
+				connection = ConnectionGraphicsItem::cast(items[i]);
 				if (connection && !scene->moving().contains(connection))
 				{
 					QList<ConnectionGraphicsItem::ControlPoint*> controlPoints = connection->controlPoints();

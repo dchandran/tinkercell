@@ -909,5 +909,37 @@ namespace Tinkercell
 		}
 		return str2;
 	}
+	
+	QStringList NetworkHandle::makeUnique(const QStringList& oldnames, const QStringList& doNotUse) const
+	{
+		QStringList newnames;
+		
+		for (int i=0; i < oldnames.size(); ++i)
+		{
+			QString name = oldnames[i];
+			while (name.length() > 1 && name[ name.length()-1 ].isNumber())
+				name = name.left(name.length()-1);
+
+			bool taken = true;
+			int c = 1;
+			QString str2 = name;
+		
+			while (taken)
+			{
+				taken = symbolsTable.uniqueItems.contains(str2) || 
+						symbolsTable.uniqueData.contains(str2) || 
+						doNotUse.contains(str2) ||
+						newnames.contains(str2);
+				if (taken)
+				{
+					str2 = name + QString::number(c);
+					++c;
+				}
+			}
+			newnames += str2;
+		}
+		
+		return newnames;
+	}
 }
 

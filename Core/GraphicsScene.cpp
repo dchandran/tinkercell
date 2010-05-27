@@ -1975,13 +1975,15 @@ namespace Tinkercell
 					bool controlPointsExist = false;
 					for (int i=0; i < list.size(); ++i)
 					{
-						if (list[i] && list[i]->isVisible() && !list[i]->parentItem())
+						if (!controlPointsExist && list[i] && list[i]->isVisible() && !list[i]->parentItem())
 							controlPointsExist = true;
 						
 						if (list[i] && list[i]->isVisible() && list[i]->sceneBoundingRect().contains(point))
 						{
+							if (!movingItems.contains(list[i]) && list[i]->scene() == this)
+								movingItems += list[i];
 							noControlsSelected = false;
-							break;
+							//break;
 						}
 					}
 

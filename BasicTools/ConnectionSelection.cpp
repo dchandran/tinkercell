@@ -15,6 +15,7 @@ points.
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
+#include "ConsoleWindow.h"
 #include "ConnectionSelection.h"
 #include "CollisionDetection.h"
 #include "NodeGraphicsItem.h"
@@ -739,7 +740,8 @@ namespace Tinkercell
 
 	void ConnectionSelection::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF , Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>& moving)
 	{
-		if (!scene || moving.isEmpty()) return;
+		controlHeld = false;
+		if (!scene || moving.size() != 1) return;
 
 		if (!moving.at(0)) return;
 
@@ -762,9 +764,11 @@ namespace Tinkercell
 		if (!cp) return;
 
 		bool avoidBoundary = false;
-
-		if (!controlHeld && !(modifiers == (Qt::ControlModifier | Qt::ShiftModifier)))
+		controlHeld = true;
+		
+		if (!controlHeld && !(modifiers == Qt::ControlModifier))
 		{
+			controlHeld = false;
 			return;
 		}
 
@@ -798,15 +802,15 @@ namespace Tinkercell
 						}
 					}
 
-					if ((closest.isNull() || ((p.x() - closest.x())*(p.x() - closest.x()) > (p.x() - node->scenePos().x())*(p.x() - node->scenePos().x())))
-						&& (gridDist > (p.x() - node->scenePos().x())*(p.x() - node->scenePos().x()))
-						)
-						closest.rx() = node->scenePos().x();
+				if ((closest.isNull() || ((p.x() - closest.x())*(p.x() - closest.x()) > (p.x() - node->scenePos().x())*(p.x() - node->scenePos().x())))
+					&& (gridDist > (p.x() - node->scenePos().x())*(p.x() - node->scenePos().x()))
+					)
+					closest.rx() = node->scenePos().x();
 
-					if ((closest.isNull() || ((p.y() - closest.y())*(p.y() - closest.y()) > (p.y() - node->scenePos().y())*(p.y() - node->scenePos().y())))
-						&& (gridDist > (p.y() - node->scenePos().y())*(p.y() - node->scenePos().y()))
-						)
-						closest.ry() = node->scenePos().y();
+				if ((closest.isNull() || ((p.y() - closest.y())*(p.y() - closest.y()) > (p.y() - node->scenePos().y())*(p.y() - node->scenePos().y())))
+					&& (gridDist > (p.y() - node->scenePos().y())*(p.y() - node->scenePos().y()))
+					)
+					closest.ry() = node->scenePos().y();
 			}
 			else
 			{

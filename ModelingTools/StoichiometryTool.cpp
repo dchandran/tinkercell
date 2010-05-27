@@ -752,6 +752,7 @@ namespace Tinkercell
 		optionsLayout->addWidget(startPlot = new QDoubleSpinBox);
 		optionsLayout->addWidget(new QLabel(tr("end:")));
 		optionsLayout->addWidget(endPlot = new QDoubleSpinBox);
+		endPlot->setValue(10.0);
 		plotLayout->addLayout(optionsLayout);
 		plotLayout->addWidget(plotLineEdit = new QLineEdit);
 		ratePlotWidget->setLayout(plotLayout);
@@ -1197,7 +1198,7 @@ namespace Tinkercell
 			{
 				for (int i=0; i < 100; ++i)
 				{
-					plot.value(i,0) = values[0].second = i*(max-min) + min;
+					plot.value(i,0) = values[0].second = i/100.0*(max-min) + min;
 					plot.value(i,1) = parser.Eval();
 				}
 			}

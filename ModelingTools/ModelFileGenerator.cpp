@@ -13,7 +13,6 @@ A small class that generates the ode and rates file from the given items
 #include "ModelFileGenerator.h"
 #include "StoichiometryTool.h"
 #include "BasicInformationTool.h"
-#include "ModuleTool.h"
 
 namespace Tinkercell
 {
@@ -100,9 +99,6 @@ namespace Tinkercell
 		if (currentNetwork && currentNetwork->globalHandle() && !handles.contains(currentNetwork->globalHandle()))
 			handles << currentNetwork->globalHandle();
 
-		QList<ItemHandle*> from,to;
-        ModuleTool::connectedItems(handles, from,to);
-
 		filename.replace(QRegExp(tr("\\.\\s+$")),QString(""));
 		QFile cfile (filename + QString(".c"));
 		QFile pyfile (filename + QString(".py"));
@@ -111,13 +107,6 @@ namespace Tinkercell
 		QList<ItemHandle*> namelessHandles;
 
 		int i,j;
-
-		/*for (i=0; i < handles.size(); ++i)
-			if (handles[i] && handles[i]->name.isEmpty())
-			{
-				namelessHandles << handles[i];
-				handles[i]->name = tr("model");
-			}*/
 
 		if (!cfile.open(QFile::WriteOnly | QFile::Text) || !pyfile.open(QFile::WriteOnly | QFile::Text))
 		{
@@ -223,7 +212,7 @@ namespace Tinkercell
 			{
 				if (handles[i]->data)
 				{
-					if (handles[i]->hasNumericalData(tr("Initial Value")) && !from.contains(handles[i]))
+					if (handles[i]->hasNumericalData(tr("Initial Value")))
 					{
 						vars << handles[i]->fullName(replaceDot);
 						initValues << toString(handles[i]->data->numericalData[tr("Initial Value")].value(0,0));
@@ -253,12 +242,6 @@ namespace Tinkercell
 							s1 =  dat.rowName(j);
 							s2 =  dat.value(j,0);
 
-							for (int k=0; k < from.size() && k < to.size(); ++k)
-							{
-							    s1.replace(from[k]->fullName(replaceDot),to[k]->fullName());
-                                s2.replace(from[k]->fullName(replaceDot),to[k]->fullName());
-							}
-
                             replaceHatWithPow(s1);
 							replaceHatWithPow(s2);
 							s1.replace(regex,replaceDot);
@@ -282,19 +265,12 @@ namespace Tinkercell
 					{
 						for (j=0; j < dat.rows(); ++j)
 						{
-						    int k = from.indexOf(handles[i]);
-						    if (k > -1)
-                                name = to[k]->fullName(replaceDot);
-                            else
-                                name = handles[i]->fullName(replaceDot);
+                            name = handles[i]->fullName(replaceDot);
 							s1 = dat.value(j,1);
 							replaceHatWithPow(s1);
 							s1.replace(regex,replaceDot);
 
 							s2 = dat.value(j,0);
-
-							for (k=0; k < from.size() && k < to.size(); ++k)
-                                s2.replace(from[k]->fullName(replaceDot),to[k]->fullName(replaceDot));
 
 							functionNames << name + replaceDot + dat.rowName(j);
 							functionArgs << s2;
@@ -309,20 +285,10 @@ namespace Tinkercell
 					if (dat.cols() == 1)
 						for (j=0; j < dat.rows(); ++j)
 						{
-						    int k = from.indexOf(handles[i]);
-						    if (k > -1)
-                                name = to[k]->fullName(replaceDot);
-                            else
-                                name = handles[i]->fullName(replaceDot);
+                            name = handles[i]->fullName(replaceDot);
 
 							s1 =  dat.rowName(j);
 							s2 =  dat.value(j,0);
-
-							for (k=0; k < from.size() && k < to.size(); ++k)
-							{
-							    s1.replace(from[k]->fullName(replaceDot),to[k]->fullName(replaceDot));
-                                s2.replace(from[k]->fullName(replaceDot),to[k]->fullName(replaceDot));
-							}
 
                             s1.replace(regex,replaceDot);
 							replaceHatWithPow(s2);

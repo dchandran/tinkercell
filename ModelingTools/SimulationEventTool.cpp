@@ -126,7 +126,7 @@ namespace Tinkercell
 			eventDialog = new QDialog(mainWindow);
 			setupDialogs();
 
-			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
+			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 			
 			connect(this, SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));

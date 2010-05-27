@@ -44,7 +44,7 @@ namespace Tinkercell
 	public:
 
 		/*! \brief default constructor*/
-		CommandTextEdit(QWidget * parent=0);
+		CommandTextEdit(MainWindow * parent=0);
 		/*! \brief  Whether or not this console in the frozen state. The text box will not add or remove text while it is frozen*/
 		virtual bool isFrozen();
 		/*! \brief set code completion*/
@@ -116,6 +116,8 @@ namespace Tinkercell
 		QString textUnderCursor() const;
 		/*! \brief used for code completion*/
 		QCompleter *c;
+		/*! \brief used for auto completion*/
+		MainWindow * mainWindow;
 	};
 
 	/*! \brief Used to create an output window that can display outputs

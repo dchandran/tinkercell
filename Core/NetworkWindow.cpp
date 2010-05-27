@@ -267,14 +267,12 @@ namespace Tinkercell
 	GraphicsScene * NetworkWindow::newScene()
 	{
 		if (!network) return 0;
+		QList<QGraphicsView*> views;
 		
 		if (scene)
 		{
 			QList<QGraphicsView*> views = scene->views();
 			delete scene;
-			for (int i=0; i < views.size(); ++i)
-				if (views[i] && views[i]->parentWidget() == this)
-					delete views[i];
 			scene = 0;
 		}
 		
@@ -288,8 +286,17 @@ namespace Tinkercell
 		scene->networkWindow = this;
 		scene->network = network;
 		
-		GraphicsView * view = new GraphicsView(this);		
-		setCentralWidget(view);
+		if (views.isEmpty())
+		{
+			GraphicsView * view = new GraphicsView(this);		
+			setCentralWidget(view);
+		}
+		else
+		{
+			for (int i=0; i < views.size(); ++i)
+				if (views[i])
+					views[i]->setScene(scene);
+		}
 		
 		connectToMainWindow();
 		

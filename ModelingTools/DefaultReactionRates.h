@@ -39,8 +39,8 @@ namespace Tinkercell
 			bool isGRN = (handle->isA(QString("Transcription Regulation")));
 			bool isBinding = !isGRN && (handle->isA(QString("Binding")));
 
-			DataTable<qreal> stoichiometryMatrix;
-			DataTable<QString> rates;
+			NumericalDataTable reactants, products;
+			TextDataTable rates;
 			
 			rates.value(0,0) = QString("0.0");
 			if (handle->hasNumericalData(QString("Numerical Attributes")))
@@ -125,54 +125,72 @@ namespace Tinkercell
 					}
 				}
 			}
+			
+			int n1=0,n2=0; 
+			for (int i=0; i < stoichiometry.size(); ++i)
+				if (stoichiometry[i] < 0)
+					++n1;
+				else
+				if (stoichiometry[i] > 0)
+					++n2;
 
 			if (isBinding)
 			{
-				stoichiometryMatrix.resize(2, 1+names.size());
-				stoichiometryMatrix.colName(names.size()) = handle->fullName() + QString(".complex");
+				reactants.resize(2, 1+names.size());
+				products.resize(2, 1+names.size());
+				products.colName(names.size()) = reactants.colName(names.size()) = handle->fullName() + QString(".complex");
 				rates.resize(2,1);
-				stoichiometryMatrix.rowName(0) = QString("bind");
+				products.rowName(0) = reactants.rowName(0) = QString("bind");
 				rates.rowName(0) = QString("bind");
-				stoichiometryMatrix.rowName(1) = QString("unbind");
+				products.rowName(1) = reactants.rowName(1) = QString("unbind");
 				rates.rowName(1) = QString("unbind");
-				for (int i=0; i < stoichiometryMatrix.cols()-1; ++i)
+				for (int i=0; i < products.cols()-1; ++i)
 				{
-					stoichiometryMatrix.value(0,i) = -1.0;
-					stoichiometryMatrix.value(1,i) = 1.0;
+					reactants.value(0,i) = 1.0;
+					products.value(1,i) = 1.0;
 				}
-				stoichiometryMatrix.value(0,stoichiometryMatrix.cols()-1) = 1.0;
-				stoichiometryMatrix.value(1,stoichiometryMatrix.cols()-1) = -1.0;
+				products.value(0,products.cols()-1) = 1.0;
+				reactants.value(1,reactants.cols()-1) = 1.0;
 			}
 			else
 				if (!isGRN)
 				{
-					stoichiometryMatrix.resize(1, names.size());
+					reactants.resize(1, n1);
+					products.resize(1, n2);
 					rates.resize(1,1);
-					stoichiometryMatrix.rowName(0) = handle->fullName();
+					products.rowName(0) = reactants.rowName(0) = handle->fullName();
 					rates.rowName(0) = handle->fullName();
-					for (int i=0; i < stoichiometryMatrix.cols(); ++i)
-						stoichiometryMatrix.value(0,i) = stoichiometry[i];
+					
+					for (int i=0, i1=0, i2=0; i < stoichiometry.size() && i < names.size(); ++i)
+						if (i1 < n1 && stoichiometry[i] < 0)
+						{
+							reactants.value(0,i1) = stoichiometry[i];
+							reactants.colName(i1) = names[i];
+							++i1;
+						}
+						else
+						if (i2 < n2 && stoichiometry[i] > 0)
+						{
+							products.value(0,i2) = stoichiometry[i];
+							products.colName(i2) = names[i];
+							++i2;
+						}
 				}
 
 			if (isGRN || isElongation)
 			{
-				stoichiometryMatrix.resize(0,0);
+				reactants.resize(0,0);
+				products.resize(0,0);
 				rates.resize(0,0);
 			}
-			else
-			{
-				rates.colName(0) = QString("rates");
-				for (int i=0; i < names.size(); ++i)
-				{
-					stoichiometryMatrix.colName(i) = names[i];
-				}
-			}
 
-			stoichiometryMatrix.description() = QString("Stochiometry: transpose of the normal Stoichiometry matrix. The rows correspond to the reactions and columns to the molecular species. The number of rows in this table and the rates table will be the same.");
+			reactants.description() = QString("Number of each reactant participating in this reaction");
+			products.description() = QString("Number of each product participating in this reaction");
 			rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
-			handle->data->numericalData.insert(QString("Stoichiometry"),stoichiometryMatrix);
-			handle->data->textData.insert(QString("Rates"),rates);
+			handle->data->numericalData.insert(QString("Reactant stoichiometries"),reactants);
+			handle->data->numericalData.insert(QString("Product stoichiometries"),products);
+			handle->data->textData.insert(QString("Rate equations"),rates);
 
 		}
 	};

@@ -301,7 +301,7 @@ namespace Tinkercell
 
 		GraphicsScene * scene = mainWindow->currentScene();
 
-		if (!scene)
+		if (!scene || !scene->network)
 		{
 			if (retitem)
 				(*retitem) = 0;
@@ -455,7 +455,7 @@ namespace Tinkercell
 			center /= selectedNodes.size();
 
 		handle->name = name;
-		handle->name = findUniqueName(handle,scene->network->handles());
+		handle->name = scene->network->makeUnique(name);
 
 		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 		insertList += nameItem;
@@ -507,39 +507,6 @@ namespace Tinkercell
 				mainWindow->currentScene()->clearSelection();
 			}
 		}
-	}
-
-	QString ConnectionInsertion::findUniqueName(ItemHandle * handle1, const QList<ItemHandle*>& items)
-	{
-		if (!handle1) return tr("");
-		int	c = 1;
-		QString name = handle1->name;
-		bool uniqueName = false;
-
-		ItemHandle* handle2 = 0;
-
-		while (!uniqueName)
-		{
-			uniqueName = true;
-
-			for (int i=0; i < items.size(); ++i)
-			{
-				handle2 = (items[i]);
-				if (handle2 && (handle1 != handle2) &&
-					handle2->fullName(tr(".")) == name)
-				{
-					uniqueName = false;
-					break;
-				}
-			}
-			if (!uniqueName)
-			{
-				name =  tr("J") + QString::number(c);
-				++c;
-			}
-		}
-
-		return name;
 	}
 
 	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection(NodeGraphicsItem * node)
@@ -810,8 +777,13 @@ namespace Tinkercell
 					{
 						handle = new ConnectionHandle(selectedFamily,item);
 
-						handle->name = tr("J1");
-						handle->name = findUniqueName(handle,scene->network->handles());
+						handle->name = tr("J_");
+						ItemHandle * h = 0;
+						for (int j=0; j < selectedNodes.size(); ++j)
+							if (h = getHandle(selectedNodes[j]))
+								handle->name += h->name + tr("_");
+						
+						handle->name = scene->network->makeUnique(handle->name.left( handle->name.size()-1 ));
 
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 						insertList += nameItem;

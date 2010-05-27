@@ -482,10 +482,6 @@ namespace Tinkercell
 		QList< QPair<TextGraphicsItem *, QString> > oldTextItemsNames;
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		NetworkHandle * network;
-
-    public:
-
-        static QString assignUniqueName(const QString&,const QStringList&);
 	};
 
 	/*! \brief this command can be used to combine multiple commands into one command

@@ -582,10 +582,10 @@ namespace Tinkercell
 		{
 			if (graphicsItems[i] && !MainWindow::invalidPointers.contains((void*)graphicsItems[i]))
 			{
-				if ((handle = getHandle(graphicsItems[i])) && !(!MainWindow::invalidPointers.contains((void*)handle)))
+				if ((handle = getHandle(graphicsItems[i])) && !MainWindow::invalidPointers.contains((void*)handle))
 				{
+					MainWindow::invalidPointers[ (void*) handle ] = true;
 					delete handle;
-					MainWindow::invalidPointers[ (void*) graphicsItems[i] ] = true;
 				}
 
 			    if (graphicsItems[i]->parentItem())
@@ -1512,20 +1512,11 @@ namespace Tinkercell
 		oldNames.clear();
 		newNames.clear();
 
-		ItemHandle * handle1;
-		QStringList allNames;
-		for (int i=0; i < allhandles.size(); ++i)
-			if ((handle1 = (allhandles[i])) && (handle != handle1))
-			{
-				allNames << handle1->fullName();
-				allNames << handle1->fullName(QObject::tr("_"));
-			}
-
-		if (handle)
+		if (handle && net)
 		{
 			handles += handle;
 			oldNames += handle->fullName();
-			newNames += assignUniqueName(newname,allNames);
+			newNames += net->makeUnique(newname);
 		}
 	}
 
@@ -1537,8 +1528,11 @@ namespace Tinkercell
 		oldNames.clear();
 		newNames.clear();
 
-		oldNames += oldname;
-		newNames += newname;
+		if (net)
+		{
+			oldNames += oldname;
+			newNames += net->makeUnique(newname);
+		}
 	}
 	
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QString& oldname, const QString& newname)
@@ -1550,8 +1544,11 @@ namespace Tinkercell
 		oldNames.clear();
 		newNames.clear();
 
-		oldNames += oldname;
-		newNames += newname;
+		if (net)
+		{
+			oldNames += oldname;
+			newNames += net->makeUnique(newname);
+		}
 	}
 	
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname)
@@ -1562,8 +1559,12 @@ namespace Tinkercell
 		oldNames.clear();
 		newNames.clear();
 
-		oldNames << oldname;
-		newNames << newname;
+		if (net)
+		{
+			oldNames << oldname;
+			for (int i=0; i < newname.size(); ++i)
+				newNames << net->makeUnique(newname[i]);
+		}
 	}
 	
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<QString>& oldname, const QList<QString>& newname)
@@ -1574,9 +1575,13 @@ namespace Tinkercell
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
-
-		oldNames << oldname;
-		newNames << newname;
+		
+		if (net)
+		{
+			oldNames << oldname;
+			for (int i=0; i < newname.size(); ++i)
+				newNames << net->makeUnique(newname[i]);
+		}
 	}
 
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, ItemHandle * handle, const QString& newname)
@@ -1596,11 +1601,11 @@ namespace Tinkercell
 				allNames << handle1->fullName(QObject::tr("_"));
 			}
 
-		if (handle)
+		if (handle && net)
 		{
 			handles += handle;
 			oldNames += handle->fullName();
-			newNames += assignUniqueName(newname,allNames);
+			newNames += net->makeUnique(newname);
 		}
 	}
 
@@ -1622,16 +1627,17 @@ namespace Tinkercell
 				allNames << handle->fullName(QObject::tr("_"));
 			}
 
-		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
-		{
-			handle = items[i];
-			if (handle)
+		if (net)
+			for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 			{
-				handles += handle;
-				oldNames += handle->fullName();
-				newNames += assignUniqueName(newnames[i],allNames);
+				handle = items[i];
+				if (handle)
+				{
+					handles += handle;
+					oldNames += handle->fullName();
+					newNames += net->makeUnique(newnames[i]);
+				}
 			}
-		}
 	}
 
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames)
@@ -1650,16 +1656,17 @@ namespace Tinkercell
 				allNames << handle->fullName(QObject::tr("_"));
 			}
 
-		for (int i=0; i < items.size() && i < newnames.size() ; ++i)
-		{
-			handle = (items[i]);
-			if (handle)
+		if (net)
+			for (int i=0; i < items.size() && i < newnames.size() ; ++i)
 			{
-				handles += handle;
-				oldNames += handle->fullName();
-				newNames += assignUniqueName(newnames[i],allNames);
+				handle = (items[i]);
+				if (handle)
+				{
+					handles += handle;
+					oldNames += handle->fullName();
+					newNames += net->makeUnique(newnames[i]);
+				}
 			}
-		}
 	}
 
 	void RenameCommand::substituteString(QString& target, const QString& oldname,const QString& newname0)
@@ -1746,27 +1753,6 @@ namespace Tinkercell
 				}
 			}
 		}
-	}
-
-	QString RenameCommand::assignUniqueName(const QString& str,const QStringList& notAvailable)
-	{
-		QString name = str;
-
-		bool taken = true;
-		int c = 1;
-		while (taken)
-		{
-			taken = (notAvailable.contains(name));
-			if (taken)
-			{
-				while (name.length() > 1 && name[ name.length()-1 ].isNumber())
-					name = name.left(name.length()-1);
-
-				name = name + QString::number(c);
-				++c;
-			}
-		}
-		return name;
 	}
 
 	RenameCommand::~RenameCommand()
@@ -2586,7 +2572,7 @@ namespace Tinkercell
 							(net->symbolsTable.uniqueItems.contains(s1) && net->symbolsTable.uniqueItems[s1] != children[i]) ||
 							(net->symbolsTable.uniqueData.contains(s1) && net->symbolsTable.uniqueData[s1].first != children[i])
 							)
-							s2 = RenameCommand::assignUniqueName(s1,allNames);
+							s2 = net->makeUnique(s1,allNames);
 						else
 							s2 = s1;
 						

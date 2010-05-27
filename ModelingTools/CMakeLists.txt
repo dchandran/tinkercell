@@ -47,6 +47,7 @@ TARGET_LINK_LIBRARIES( ModelingTools
   ModelingTools
   TinkerCellCore
   muparser
+  PlotTool
 )
 
 IF( WIN32 )

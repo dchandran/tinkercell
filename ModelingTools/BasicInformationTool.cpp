@@ -184,7 +184,7 @@ namespace Tinkercell
 		{
 			loadInitialValues();
 			
-			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
+			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
@@ -582,83 +582,74 @@ namespace Tinkercell
 			}
 
 			NodeGraphicsReader reader;
-
-			graphicsItems += new GraphicsItem(this);
-
-			/*QToolButton * toolButton = new QToolButton(this);
-			this->buttons.addButton(toolButton);*/
-
+			ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
+			addGraphicsItem(toolGraphicsItem);
+			
 			if (type == BasicInformationTool::both)
 			{
 				reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
-				graphicsItems[0]->setToolTip(tr("Attributes"));
-				//toolButton->setToolTip(tr("Attributes"));
-				//toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));
+				toolGraphicsItem->setToolTip(tr("Attributes"));
 			}
 			else
 				if (type == BasicInformationTool::numerical)
 				{
 					reader.readXml(&item,appDir + tr("/OtherItems/datasheet.xml"));
 					item.setToolTip(tr("Numerical attributes"));
-					graphicsItems[0]->setToolTip(tr("Numerical attributes"));
-					//toolButton->setToolTip(tr("Numerical Attributes"));
-					//toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));
+					toolGraphicsItem->setToolTip(tr("Numerical attributes"));
 				}
 				else
 				{
 					reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
 					item.setToolTip(tr("Text attributes"));
-					graphicsItems[0]->setToolTip(tr("Text attributes"));
-					//toolButton->setToolTip(tr("Text Attributes"));
-					//toolButton->setIcon(QIcon(appDir + tr("/BasicTools/monitor.PNG")));
+					toolGraphicsItem->setToolTip(tr("Text attributes"));
 				}
 
-				item.normalize();
-				item.scale(30.0/item.sceneBoundingRect().width(),40.0/item.sceneBoundingRect().height());
-				graphicsItems[0]->addToGroup(&item);
+			item.normalize();
+			item.scale(30.0/item.sceneBoundingRect().width(),40.0/item.sceneBoundingRect().height());
+			toolGraphicsItem->addToGroup(&item);
 
-				openedByUser = false;
+			openedByUser = false;
 
-				tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
-				connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
+			tableWidget.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
+			connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 
-				QFont font = this->font();
-				font.setPointSize(12);
-				tableWidget.setFont(font);
+			QFont font = this->font();
+			font.setPointSize(12);
+			tableWidget.setFont(font);
 
-				QHBoxLayout * actionsLayout = new QHBoxLayout;
+			QHBoxLayout * actionsLayout = new QHBoxLayout;
 
-				QToolButton * addAttribAction = new QToolButton(this);
-				addAttribAction->setIcon(QIcon(":/images/plus.png"));
+			QToolButton * addAttribAction = new QToolButton(this);
+			addAttribAction->setIcon(QIcon(":/images/plus.png"));
 
-				QToolButton * removeAttribAction = new QToolButton(this);
-				removeAttribAction->setIcon(QIcon(":/images/minus.png"));
+			QToolButton * removeAttribAction = new QToolButton(this);
+			removeAttribAction->setIcon(QIcon(":/images/minus.png"));
 
-				QString message;
-				if (type == BasicInformationTool::numerical)
+			QString message;
+			if (type == BasicInformationTool::numerical)
+			{
+				addAttribAction->setToolTip(tr("Add constant"));
+				removeAttribAction->setToolTip(tr("Remove constant"));
+				//tableWidget.setItemDelegate(&delegate);
+				//tableWidget.setFixedWidth(160);
+				groupBox->setMinimumWidth(100);
+				message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
+			}
+			else
+				if (type == BasicInformationTool::text)
 				{
-					addAttribAction->setToolTip(tr("Add constant"));
-					removeAttribAction->setToolTip(tr("Remove constant"));
-					//tableWidget.setItemDelegate(&delegate);
-					//tableWidget.setFixedWidth(160);
-					groupBox->setMinimumWidth(100);
-					message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
+					addAttribAction->setToolTip(tr("Add string"));
+					removeAttribAction->setToolTip(tr("Remove string"));
+					message = tr("This table shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
 				}
 				else
-					if (type == BasicInformationTool::text)
-					{
-						addAttribAction->setToolTip(tr("Add string"));
-						removeAttribAction->setToolTip(tr("Remove string"));
-						message = tr("This table shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
-					}
-					else
-					{
-						addAttribAction->setToolTip(tr("Add attribute"));
-						removeAttribAction->setToolTip(tr("Remove attribute"));
-						message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
-						message += tr("\nThis table also shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
-					}
+				{
+					addAttribAction->setToolTip(tr("Add attribute"));
+					removeAttribAction->setToolTip(tr("Remove attribute"));
+					message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
+					message += tr("\nThis table also shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
+				}
 
 		connect(addAttribAction,SIGNAL(pressed()),this,SLOT(addAttribute()));
 		connect(removeAttribAction,SIGNAL(pressed()),this,SLOT(removeSelectedAttributes()));

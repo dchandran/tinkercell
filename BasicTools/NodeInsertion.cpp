@@ -141,7 +141,7 @@ namespace Tinkercell
 							handle->name.chop( handle->name.length() - 1 );
 						handle->name = name + tr("_") + handle->name;
 					}
-					handle->name = findUniqueName(handle,scene->network->handles(),false);
+					handle->name = scene->network->makeUnique(handle->name);
 					if (item)
 						(*item) = handle;
 
@@ -251,7 +251,7 @@ namespace Tinkercell
 					handle->name = nodeFamily->name.toLower();
 					if (handle->name.length() > 4)
 						handle->name.chop( handle->name.length() - 1 );
-					handle->name = findUniqueName(handle,scene->network->handles());
+					handle->name = scene->network->makeUnique(handle->name);
 
 					text += handle->name + tr(" ");
 

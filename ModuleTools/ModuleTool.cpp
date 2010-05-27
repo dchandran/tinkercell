@@ -48,12 +48,11 @@ namespace Tinkercell
         
         QString appDir = QCoreApplication::applicationDirPath();
         NodeGraphicsReader reader;
-        NodeGraphicsItem * image = new NodeGraphicsItem;
-        reader.readXml(image, appDir + interfaceFileName);
-        image->normalize();
-        image->scale(40.0/image->sceneBoundingRect().width(),20.0/image->sceneBoundingRect().height());
+        reader.readXml(&image, appDir + interfaceFileName);
+        image.normalize();
+        image.scale(40.0/image.sceneBoundingRect().width(),20.0/image.sceneBoundingRect().height());
         ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
-        toolGraphicsItem->addToGroup(image);
+        toolGraphicsItem->addToGroup(&image);
         toolGraphicsItem->setToolTip(tr("Module input/output"));
         addGraphicsItem(toolGraphicsItem);
         addAction(QIcon(":/images/moduleInput.png"),tr("Module input/output"),tr("Set selected nodes as interfaces for this module"));
@@ -740,6 +739,7 @@ namespace Tinkercell
 				{
 					GraphicsScene * scene = window->newScene();
 					scene->insert(tr("new model"),items);
+					scene->deselect();
 					scene->fitAll();
 				}
 			}
@@ -795,7 +795,17 @@ namespace Tinkercell
 		scrollArea->setPalette(QPalette(QColor(255,255,255)));
 		scrollArea->setAutoFillBackground (true);
 		
-		dock->setWidget(scrollArea);
+		widget = new QWidget;
+		QVBoxLayout * vlayout = new QVBoxLayout;
+		vlayout->addWidget(scrollArea);
+		vlayout->setContentsMargins(0,0,0,0);
+		vlayout->setSpacing(0);
+		widget->setLayout(vlayout);
+		
+		dock->setWidget(widget);
+		dock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+		dock->setMaximumHeight(120);
+		
 		return dock;
 	}
 

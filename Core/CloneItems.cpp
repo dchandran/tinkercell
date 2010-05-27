@@ -4,6 +4,7 @@
 #include "TextGraphicsItem.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
+#include "MainWindow.h"
 #include "Tool.h"
 #include "CloneItems.h"
 
@@ -21,6 +22,9 @@ namespace Tinkercell
 		TextGraphicsItem * text = 0;
 
 		QGraphicsItem * p = item;
+		
+		if (MainWindow::invalidPointers.contains((void*)p))
+			return 0;
 
 		while (p && (ToolGraphicsItem::cast(p->topLevelItem()) == 0))
 		{
@@ -42,6 +46,9 @@ namespace Tinkercell
 				p = p->parentItem();
 			else
 				p = 0;
+			
+			if (MainWindow::invalidPointers.contains((void*)p))
+				return 0;
 		}
 
 		return (0);

@@ -9,7 +9,7 @@ a generic command prompt (e.g. by Python plugin)
 
 
 ****************************************************************************/
-
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 
@@ -95,7 +95,7 @@ namespace Tinkercell
 	}
 
 
-	CommandTextEdit::CommandTextEdit(QWidget * parent): QTextEdit(parent), c(0)
+	CommandTextEdit::CommandTextEdit(MainWindow * parent): QTextEdit(parent), c(0), mainWindow(parent)
 	{
 		setUndoRedoEnabled ( false );
 
@@ -397,6 +397,31 @@ namespace Tinkercell
 					}
 				}
 				else
+				if (key == Qt::Key_Tab && mainWindow && mainWindow->currentNetwork())
+				{
+					bool found = false;
+					QString text = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());
+					QStringList keys = mainWindow->currentNetwork()->symbolsTable.uniqueItems.keys();
+					for (int i=0; i < keys.size(); ++i)
+						if (keys[i].startsWith(text))
+						{
+							cursor.insertText(keys[i].right(keys[i].size() - text.size()));
+							found = true;
+							break;
+						}
+					if (!found)
+					{
+						keys = mainWindow->currentNetwork()->symbolsTable.uniqueData.keys();
+						for (int i=0; i < keys.size(); ++i)
+							if (keys[i].startsWith(text))
+							{
+								cursor.insertText(keys[i].right(keys[i].size() - text.size()));
+								found = true;
+								break;
+							}
+					}
+				}
+				else
 					if (frozen && event->modifiers() == Qt::ControlModifier && (key == Qt::Key_C))
 					{
 						emit commandInterrupted();
@@ -468,7 +493,7 @@ namespace Tinkercell
 	************************************/
 
 	ConsoleWindow::ConsoleWindow(MainWindow * main)
-		: Tool(tr("Console Window"))
+		: Tool(tr("Console Window")), commandTextEdit(main)
 	{
 		setMainWindow(main);
 		if (mainWindow)
@@ -582,3 +607,4 @@ namespace Tinkercell
 	}
 
 }
+

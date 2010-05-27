@@ -120,47 +120,6 @@ signals:
 		/*! \brief the C API function*/
 		static void* _insertItem(const char* , const char* );
 
-	public:
-		/*! \brief finds a unique name, given the set of all items in the network
-		\param ItemHandle * the item to rename
-		\param QList the set of all items
-		\param bool whether or not the current name has a number at the end, e.g. S1*/
-		static QString findUniqueName(ItemHandle * handle1, const QList<ItemHandle*>& items, bool number = true)
-		{
-			if (!handle1) return QString("");
-			int	c = 1;
-			QString name;
-			if (number)
-				name = handle1->fullName() + QString::number(c);
-			else
-				name = handle1->fullName();
-			bool uniqueName = false;
-
-			ItemHandle* handle2 = 0;
-
-			while (!uniqueName)
-			{
-				uniqueName = true;
-
-				for (int i=0; i < items.size(); ++i)
-				{
-					handle2 = (items[i]);
-					if (handle2 && (handle1 != handle2) &&
-						(handle2->fullName() == name || handle2->name == name))
-					{
-						uniqueName = false;
-						break;
-					}
-				}
-				if (!uniqueName)
-				{
-					name = handle1->fullName() + QString::number(c);
-					++c;
-				}
-			}
-
-			return name;
-		}
 	};
 
 }

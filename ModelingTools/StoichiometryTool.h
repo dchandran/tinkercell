@@ -29,6 +29,7 @@ the stoichiometry and rates tables.
 #include <QTabWidget>
 #include <QRegExp>
 #include <QTextEdit>
+#include <QLineEdit>
 
 #include "NodeGraphicsItem.h"
 #include "MainWindow.h"
@@ -36,6 +37,7 @@ the stoichiometry and rates tables.
 #include "DataTable.h"
 #include "ItemHandle.h"
 #include "Tool.h"
+#include "Plot2DWidget.h"
 #include "SpinBoxDelegate.h"
 
 #ifdef Q_WS_WIN
@@ -53,8 +55,8 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	signals:
-		void getStoichiometry(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&);
-		void setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const DataTable<qreal>&);
+		void getStoichiometry(QSemaphore*,NumericalDataTable*,const QList<ItemHandle*>&);
+		void setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&);
 		void getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
 		void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
 	public slots:
@@ -94,13 +96,13 @@ namespace Tinkercell
 		/*! \brief get the stoichiometry matrix for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be generated
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
-		static DataTable<qreal> getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"), bool includeFixed=false);
+		static NumericalDataTable getStoichiometry(const QList<ItemHandle*>&,const QString& replaceDot = QString("_"), bool includeFixed=false);
 		/*! \brief set the stoichiometry matrix for all the given items, combined
 		\param NetworkHandle* current window
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be set
 		\param DataTable combined stoichiometry matrix for all the items selected
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
-		static void setStoichiometry(NetworkHandle *,QList<ItemHandle*>&,const DataTable<qreal>&,const QString& replaceDot = QString("_"));
+		static void setStoichiometry(NetworkHandle *,QList<ItemHandle*>&,const NumericalDataTable&,const QString& replaceDot = QString("_"));
 		/*! \brief get the rates array for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the rates will be generated
 		\param QString naming scheme to use instead of A.B, e.g A_B*/
@@ -140,11 +142,11 @@ namespace Tinkercell
 
 	private slots:
 		/*! \brief used for the C API*/
-		void getStoichiometrySlot(QSemaphore*, DataTable<qreal>*, const QList<ItemHandle*>&);
+		void getStoichiometrySlot(QSemaphore*, NumericalDataTable*, const QList<ItemHandle*>&);
 		/*! \brief used for the C API*/
 		void getRatesSlot(QSemaphore *, QStringList*, const QList<ItemHandle*>&);
 		/*! \brief used for the C API*/
-		void setStoichiometrySlot(QSemaphore*, QList<ItemHandle*>&, const DataTable<qreal>&);
+		void setStoichiometrySlot(QSemaphore*, QList<ItemHandle*>&, const NumericalDataTable&);
 		/*! \brief used for the C API*/
 		void setRatesSlot(QSemaphore*, QList<ItemHandle*>&, const QStringList&);
 
@@ -185,7 +187,8 @@ namespace Tinkercell
 		/*! \brief not used any longer*/
 		QList<GraphicsScene*> scenePtr;
 		/*! \brief not used any longer*/
-		QList<DataTable<qreal>*> numericalDataPtr;
+
+		QList<NumericalDataTable*> numericalDataPtr;
 		/*! \brief not used any longer*/
 		QList<DataTable<QString>*> textDataPtr;
 		/*! \brief Group boxes for displaying the rates and stoichiometry tables*/
@@ -232,10 +235,14 @@ namespace Tinkercell
 		QAction * autoReverse, * autoDimer;
 		/*! \brief separator for the action that makes a reaction reversible*/
 		QAction * separator;
-
+		
+		Plot2DWidget * plotWidget;
+		QLineEdit * plotLineEdit;		
+		QWidget * ratePlotWidget;
 	};
 
 
 }
 
 #endif
+

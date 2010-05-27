@@ -24,7 +24,6 @@ Assignments are parameters that are defined as a function, eg. k1 = sin(time) + 
 #include "ModelSummaryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "EquationParser.h"
-#include "ModuleTool.h"
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -405,9 +404,10 @@ namespace Tinkercell
 
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
-		graphicsItems += new GraphicsItem(this);
-		graphicsItems[0]->addToGroup(&item);
-		graphicsItems[0]->setToolTip(name);
+		ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
+		addGraphicsItem(toolGraphicsItem);
+		toolGraphicsItem->addToGroup(&item);
+		toolGraphicsItem->setToolTip(name);
 
 		/*QToolButton * toolButton = new QToolButton(this);
 		toolButton->setIcon(QIcon(appDir + tr("/OtherItems/func.xml")));
@@ -692,9 +692,6 @@ namespace Tinkercell
 	{
 		if (list && !handles.isEmpty())
 		{
-		    QList<ItemHandle*> from,to;
-            ModuleTool::connectedItems(handles, from,to);
-
 			QList<ItemHandle*> items = handles;
 
 			if (currentNetwork() && currentNetwork()->globalHandle())
@@ -713,8 +710,6 @@ namespace Tinkercell
 					{
 						QString s = dat.value(j,0);
 						s.replace(regex,tr("_"));
-						for (int k=0; i < from.size() && k < to.size(); ++k)
-                            s.replace(from[k]->fullName(),to[k]->fullName());
 						(*list) << s;
 					}
 				}

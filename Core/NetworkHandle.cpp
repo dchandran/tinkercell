@@ -32,7 +32,7 @@ namespace Tinkercell
 {
 	NetworkHandle::~NetworkHandle()
 	{
-		history.clear();
+		close();
 	}
 	
 	QList<ItemHandle*> NetworkHandle::findItem(const QString& s) const
@@ -118,9 +118,9 @@ namespace Tinkercell
 
 	void NetworkHandle::close()
 	{
-		disconnect();			
-		disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
-		disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
+		disconnect(&history);
+		//disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
+		//disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
 		QList<NetworkWindow*> list = networkWindows;
 		networkWindows.clear();
@@ -136,6 +136,8 @@ namespace Tinkercell
 		{
 			mainWindow->allNetworks.removeAll(this);
 		}
+		
+		history.clear();
 	}
 	
 	void NetworkHandle::setWindowTitle(const QString& title)
@@ -396,7 +398,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief change numerical data table*/
-	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata)
+	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const NumericalDataTable* newdata)
 	{
 		if (handle && handle->data && handle->data->numericalData.contains(hashstring))
 		{
@@ -410,9 +412,9 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of numerical data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<NumericalDataTable*>& newdata)
 	{
-		QList<DataTable<qreal>*> oldTables, newTables;
+		QList<NumericalDataTable*> oldTables, newTables;
 
 		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata.size(); ++i)
 		{
@@ -433,9 +435,9 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 	/*! \brief change a list of numerical data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<NumericalDataTable*>& newdata)
 	{
-		QList<DataTable<qreal>*> oldTables, newTables;
+		QList<NumericalDataTable*> oldTables, newTables;
 
 		for (int i=0; i < handles.size() && i < newdata.size(); ++i)
 		{
@@ -456,7 +458,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 	/*! \brief change text data table*/
-	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<QString>* newdata)
+	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const TextDataTable* newdata)
 	{
 		if (handle && handle->data && handle->data->textData.contains(hashstring))
 		{
@@ -469,9 +471,9 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of text data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<QString>*>& newdata)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<TextDataTable*>& newdata)
 	{
-		QList<DataTable<QString>*> oldTables, newTables;
+		QList<TextDataTable*> oldTables, newTables;
 
 		for (int i=0; i < handles.size() && i < hashstrings.size() && i < newdata.size(); ++i)
 		{
@@ -492,9 +494,9 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 	/*! \brief change a list of text data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<QString>*>& newdata)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<TextDataTable*>& newdata)
 	{
-		QList<DataTable<QString>*> oldTables, newTables;
+		QList<TextDataTable*> oldTables, newTables;
 
 		for (int i=0; i < handles.size() && i < newdata.size(); ++i)
 		{
@@ -515,7 +517,7 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 	/*! \brief change two types of data tables*/
-	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const DataTable<qreal>* newdata1, const DataTable<QString>* newdata2)
+	void NetworkHandle::changeData(const QString& name, ItemHandle* handle, const QString& hashstring, const NumericalDataTable* newdata1, const TextDataTable* newdata2)
 	{
 		if (handle && handle->data && handle->data->numericalData.contains(hashstring) && handle->data->textData.contains(hashstring))
 		{
@@ -529,10 +531,10 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief change a list of two types of data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<QString>& hashstrings, const QList<NumericalDataTable*>& newdata1, const QList<TextDataTable*>& newdata2)
 	{
-		QList<DataTable<QString>*> oldTablesS, newTablesS;
-		QList<DataTable<qreal>*> oldTablesN, newTablesN;
+		QList<TextDataTable*> oldTablesS, newTablesS;
+		QList<NumericalDataTable*> oldTablesN, newTablesN;
 
 		int j = 0;
 		for (int i=0; j < handles.size() && j < hashstrings.size() && i < newdata1.size(); ++i, ++j)
@@ -564,9 +566,9 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a list of two types of data tables*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& newdata2)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QString& hashstring, const QList<NumericalDataTable*>& newdata1, const QList<TextDataTable*>& newdata2)
 	{
-		QList<DataTable<QString>*> oldTablesS, newTablesS;
+		QList<TextDataTable*> oldTablesS, newTablesS;
 
 		for (int i=0; i < handles.size() && i < newdata2.size(); ++i)
 		{
@@ -577,7 +579,7 @@ namespace Tinkercell
 			}
 		}
 
-		QList<DataTable<qreal>*> oldTablesN, newTablesN;
+		QList<NumericalDataTable*> oldTablesN, newTablesN;
 
 		for (int i=0; i < handles.size()  && i < newdata1.size(); ++i)
 		{
@@ -600,7 +602,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<DataTable<qreal>*>& olddata1, const QList<DataTable<qreal>*>& newdata1, const QList<DataTable<QString>*>& olddata2, const QList<DataTable<QString>*>& newdata2)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<NumericalDataTable*>& olddata1, const QList<NumericalDataTable*>& newdata1, const QList<TextDataTable*>& olddata2, const QList<TextDataTable*>& newdata2)
 	{
 		if ((olddata1.isEmpty() || newdata1.isEmpty()) &&
 			(olddata2.isEmpty() || newdata2.isEmpty())) return;
@@ -612,8 +614,32 @@ namespace Tinkercell
 		emit dataChanged(handles);
 	}
 
+	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<NumericalDataTable*>& olddata1, const QList<NumericalDataTable*>& newdata1)
+	{
+		if (olddata1.isEmpty() || newdata1.isEmpty()) return;
+
+		QUndoCommand * command = new ChangeDataCommand<qreal>(name,olddata1,newdata1);
+
+		history.push(command);
+
+		emit dataChanged(handles);
+	}
+	
+	/*! \brief change a list of two types of data tables and also adds undo command to history window and emits associated signal(s)*/
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, const QList<TextDataTable*>& olddata1, const QList<TextDataTable*>& newdata1)
+	{
+		if (olddata1.isEmpty() || newdata1.isEmpty()) return;
+
+		QUndoCommand * command = new ChangeDataCommand<QString>(name,olddata1,newdata1);
+
+		history.push(command);
+
+		emit dataChanged(handles);
+	}
+
 	/*! \brief change a two types of data tables and also adds undo command to history window and emits associated signal(s)*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1, DataTable<QString>* olddata2, const DataTable<QString>* newdata2)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, NumericalDataTable* olddata1, const NumericalDataTable* newdata1, TextDataTable* olddata2, const TextDataTable* newdata2)
 	{
 		if ((!olddata1 || !newdata1) &&
 			(!olddata2 || !newdata2)) return;
@@ -626,7 +652,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<qreal>* olddata1, const DataTable<qreal>* newdata1)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, NumericalDataTable* olddata1, const NumericalDataTable* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
 
@@ -638,7 +664,7 @@ namespace Tinkercell
 	}
 
 	/*! \brief change a data table and also adds undo command to history window and emits associated signal(s)*/
-	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, DataTable<QString>* olddata1, const DataTable<QString>* newdata1)
+	void NetworkHandle::changeData(const QString& name, const QList<ItemHandle*>& handles, TextDataTable* olddata1, const TextDataTable* newdata1)
 	{
 		if (!olddata1 || !newdata1) return;
 
@@ -861,6 +887,27 @@ namespace Tinkercell
 			return mainWindow->console();
 		return 0;
 	}
+	
+	QString NetworkHandle::makeUnique(const QString& str, const QStringList& doNotUse) const
+	{
+		QString name = str;
+		while (name.length() > 1 && name[ name.length()-1 ].isNumber())
+			name = name.left(name.length()-1);
 
+		bool taken = true;
+		int c = 1;
+		QString str2 = name;
+		
+		while (taken)
+		{
+			taken = symbolsTable.uniqueItems.contains(str2) || symbolsTable.uniqueData.contains(str2) || doNotUse.contains(str2);
+			if (taken)
+			{
+				str2 = name + QString::number(c);
+				++c;
+			}
+		}
+		return str2;
+	}
 }
 

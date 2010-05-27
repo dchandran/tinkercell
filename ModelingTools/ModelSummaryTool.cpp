@@ -198,7 +198,7 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)), this, SLOT(updateToolTips(const QList<ItemHandle*>&)));
 			
-			connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
+			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -347,10 +347,11 @@ namespace Tinkercell
 
 		item.normalize();
 		item.scale(30.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
-
-		graphicsItems += new GraphicsItem(this);
-		graphicsItems[0]->addToGroup(&item);
-		graphicsItems[0]->setToolTip(tr("Model summary"));
+		
+		ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
+		addGraphicsItem(toolGraphicsItem);		
+		toolGraphicsItem->addToGroup(&item);
+		toolGraphicsItem->setToolTip(tr("Model summary"));
 
 		separator = 0;
 		toggleFixedAction = new QAction(this);
@@ -533,7 +534,7 @@ namespace Tinkercell
 							}
 
 							if (itemHandles[i] && itemHandles[i]->name != names[n] && itemHandles[i]->graphicsItems.size() > 0 && itemHandles[i]->graphicsItems[0]
-							&& !itemsToRename.contains(itemHandles[i]->graphicsItems[0]))
+								&& !itemsToRename.contains(itemHandles[i]->graphicsItems[0]))
 							{
 								itemsToRename += itemHandles[i]->graphicsItems[0];
 								newNames += names[n];

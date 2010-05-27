@@ -1248,12 +1248,21 @@ namespace Tinkercell
 
 		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>");
 		qRegisterMetaType< DataTable<QString> >("DataTable<QString>");
+		
+		qRegisterMetaType< NumericalDataTable >("NumericalDataTable");
+		qRegisterMetaType< TextDataTable >("TextDataTable");
+		
+		qRegisterMetaType< NumericalDataTable >("NumericalDataTable&");
+		qRegisterMetaType< TextDataTable >("TextDataTable&");
 
 		qRegisterMetaType< DataTable<qreal> >("DataTable<qreal>&");
 		qRegisterMetaType< DataTable<QString> >("DataTable<QString>&");		
 
 		qRegisterMetaType< DataTable<qreal>* >("DataTable<qreal>*");
 		qRegisterMetaType< DataTable<QString>* >("DataTable<QString>*");
+		
+		qRegisterMetaType< NumericalDataTable* >("NumericalDataTable*");
+		qRegisterMetaType< TextDataTable* >("TextDataTable*");
 
 		qRegisterMetaType< ItemHandle* >("ItemHandle*");
 		qRegisterMetaType< QList<ItemHandle*> >("QList<ItemHandle*>");

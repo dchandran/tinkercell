@@ -177,10 +177,6 @@ namespace Tinkercell
 		void revertColors();
 		/*!\brief connect to the connections tree*/
 		void connectToConnectionsTree();
-		/*!\brief find a unique name given the set of existing items.
-		\param ItemHandle* target item
-		\param QList<ItemHandle*> list of existing items*/
-		QString findUniqueName(ItemHandle *, const QList<ItemHandle*>&);
 
 		/*!\brief connect the C API functions and signals*/
 		void connectTCFunctions();

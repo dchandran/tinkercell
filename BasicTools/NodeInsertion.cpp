@@ -249,8 +249,8 @@ namespace Tinkercell
 
 					NodeHandle * handle = new NodeHandle(nodeFamily);
 					handle->name = nodeFamily->name.toLower();
-					if (handle->name.length() > 4)
-						handle->name.chop( handle->name.length() - 1 );
+					if (handle->name.length() > 3)
+						handle->name = handle->name.left( 3 ) + tr("1");
 					handle->name = scene->network->makeUnique(handle->name);
 
 					text += handle->name + tr(" ");

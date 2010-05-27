@@ -1173,13 +1173,6 @@ namespace Tinkercell
 		ratesTable.resizeColumnToContents(0);
 		if (rates.size() == 1 && startPlot && endPlot)
 		{
-			ratesBox->setParent(this);
-			ratesBox->hide();
-			tabWidget->insertTab(0,ratePlotWidget,tr("Rate equation"));
-			ratePlotWidget->show();
-			NumericalDataTable plot;
-			plot.resize(100,2);
-			
 			QList< QPair<QString,qreal> > values;
 			QStringList vars = EquationParser::getVariablesInFormula(currentNetwork(),connectionHandles[0],rates[0]);
 			
@@ -1191,7 +1184,14 @@ namespace Tinkercell
 				ratesBox->show();
 			}
 			else
-				{
+			{
+				console()->message(vars.join(" "));
+				ratesBox->setParent(this);
+				ratesBox->hide();
+				tabWidget->insertTab(0,ratePlotWidget,tr("Rate equation"));
+				ratePlotWidget->show();
+				NumericalDataTable plot;
+				plot.resize(100,2);
 			
 				values << QPair<QString,qreal>(vars[0],0.0);
 			

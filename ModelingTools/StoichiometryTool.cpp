@@ -1191,11 +1191,15 @@ namespace Tinkercell
 			plotLineEdit->setText(rates[0]);
 			
 			mu::Parser parser;
-			EquationParser::eval(currentNetwork(),connectionHandles[0],rates[0],values,&parser);
-			for (int i=0; i < 100; ++i)
+			bool b;
+			EquationParser::eval(currentNetwork(),rates[0],&b,values,&parser);
+			if (b)
 			{
-				plot.value(i,0) = values[0].second = i*(max-min) + min;
-				plot.value(i,1) = parser.eval();
+				for (int i=0; i < 100; ++i)
+				{
+					plot.value(i,0) = values[0].second = i*(max-min) + min;
+					plot.value(i,1) = parser.Eval();
+				}
 			}
 			plot.rowName(0) = vars[0];
 			plot.rowName(1) = connectionHandles[0]->name;

@@ -226,8 +226,14 @@ namespace Tinkercell
 		}
 		return true;
 	}
+	
+	double EquationParser::eval(NetworkHandle * net, QString& s, bool * b)
+	{
+		QList<sd_pair> assignments;
+		return eval(net,s,b,assignments,0);
+	}
 
-	double EquationParser::eval(NetworkHandle * net, QString& s, bool * b, const QList<sd_pair> & assignments, mu::Parser * parserPtr)
+	double EquationParser::eval(NetworkHandle * net, QString& s, bool * b, QList<sd_pair> & assignments, mu::Parser * parserPtr)
 	{
 		if (!net || s.isEmpty())
 		{
@@ -281,7 +287,8 @@ namespace Tinkercell
 				existingNames << assignments[i].first;
 				existingNames[i].replace(regex1,QString(""));
 				existingNames[i].replace(regex2,QString("_"));
-				parser.DefineVar(assignments[i].first.toAscii().data(), &(assignments[i].second));
+				double * dp = &(assignments[i].second);
+				parser.DefineVar(assignments[i].first.toAscii().data(), dp);
 			}
 
 			if (net)

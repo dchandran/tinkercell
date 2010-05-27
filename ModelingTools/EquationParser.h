@@ -63,8 +63,17 @@ namespace Tinkercell
 			\param QString the equation
 			\param bool* used to indicate whether there was a parse error; false = parse error, true = no error
 			\param QList< QPair<QString,double> > optional argument for assigning values to variables
+
 		*/
-		static double eval(NetworkHandle * net, QString& s, bool * b = 0, const QList<sd_pair> & assignments = QList<sd_pair>(), mu::Parser * p=0);
+		static double eval(NetworkHandle * net, QString& s, bool * b = 0);
+		
+		/*! \brief returns the value of the string. Note: the string should not contain any function calls, except for basic fun
+			\param NetworkHandle * the working window
+			\param QString the equation
+			\param bool* used to indicate whether there was a parse error; false = parse error, true = no error
+			\param QList< QPair<QString,double> > optional argument for assigning values to variables
+		*/
+		static double eval(NetworkHandle * net, QString& s, bool * b, QList<sd_pair> & assignments, mu::Parser * p=0);
 		
 		/*! \brief get all the variables in the formula after validating it
 			\param NetworkHandle * the working window

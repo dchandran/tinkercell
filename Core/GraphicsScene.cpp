@@ -1161,7 +1161,7 @@ namespace Tinkercell
 		}
 
 		network->history.push(command);
-		
+		deselect();
 		emit itemsRemoved(this,allitems,handles);
 		network->symbolsTable.update();
 	}
@@ -1203,7 +1203,7 @@ namespace Tinkercell
 		}
 
 		network->history.push(command);
-	
+		deselect();
 		emit itemsRemoved(this,allitems, handles);
 		network->symbolsTable.update();
 	}

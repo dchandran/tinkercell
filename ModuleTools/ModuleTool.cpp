@@ -737,6 +737,11 @@ namespace Tinkercell
 				NetworkWindow * window = currentNetwork()->currentWindow();
 				if (window && !items.isEmpty())
 				{
+					ItemHandle * h;
+					for (int i=0; i < items.size(); ++i)
+						if (h = getHandle(items[i]))
+							h->setParent(window->handle);
+
 					GraphicsScene * scene = window->newScene();
 					scene->insert(tr("new model"),items);
 					
@@ -827,7 +832,10 @@ namespace Tinkercell
 				GraphicsScene * newScene = network->createScene();
 				NetworkWindow * window = newScene->networkWindow;
 				if (window)
+				{
 					window->addDockWidget(Qt::TopDockWidgetArea,dock);
+					window->handle = handle;
+				}
 				else
 					delete dock;
 			}

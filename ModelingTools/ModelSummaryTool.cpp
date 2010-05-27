@@ -169,15 +169,17 @@ namespace Tinkercell
 					}
 			}
 			else
-			if (ConnectionHandle::cast(handles[i]) && handles[i]->family()
-				&& handles[i]->hasTextData(tr("Rates")))
+			if (ConnectionHandle::cast(handles[i]) && handles[i]->family())
 			{
 				QString s;
 				
-				if (handles[i]->data->textData[tr("Rates")].rows() > 0 && handles[i]->data->textData[tr("Rates")].cols() > 0)
-					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") + handles[i]->data->textData[tr("Rates")].at(0,0);
+				if (handles[i]->hasTextData(tr("Rate equations")) && 
+					handles[i]->data->textData[tr("Rate equations")].rows() > 0 && 
+					handles[i]->data->textData[tr("Rate equations")].cols() > 0)
+					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("Rate = ") 
+						+ handles[i]->data->textData[tr("Rate equations")].at(0,0);
 				else
-					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");
+					s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n") + tr("[No Rate]");				
 				
 				for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 					if (ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))
@@ -514,6 +516,7 @@ namespace Tinkercell
 				if (itemHandles[i] != 0 && itemHandles[i]->data != 0)
 				{
 					if (itemHandles[i]->hasNumericalData(tr("Initial Value")))
+
 					{
 						nDataTable2 = 0;
 						if (itemHandles[i]->hasNumericalData(tr("Fixed")))
@@ -752,6 +755,7 @@ namespace Tinkercell
 		if (widgets[i])
 		layout2->addWidget(widgets[i]);
 		if ((i+1) < widgets.size() && widgets[i+1])
+
 		layout2->addWidget(widgets[i+1]);
 		layout->addLayout(layout2);
 		}

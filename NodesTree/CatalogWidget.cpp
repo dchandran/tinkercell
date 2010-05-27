@@ -721,7 +721,7 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (!families.contains(NodeFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
+				if (!families.contains(NodeFamily::cast(rootFamilies[i])) && includeFamilyInCatalog(rootFamilies[i]))
 					families << NodeFamily::cast(rootFamilies[i]);
 				rootFamilies << children;
 			}
@@ -803,7 +803,7 @@ namespace Tinkercell
 			for (int i=0; i < rootFamilies.size(); ++i)
 			{
 				QList<ItemFamily*> children = rootFamilies[i]->children();
-				if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && rootFamilies[i]->parent() && includeFamilyInCatalog(rootFamilies[i]))
+				if (!families.contains(ConnectionFamily::cast(rootFamilies[i])) && includeFamilyInCatalog(rootFamilies[i]))
 					families << ConnectionFamily::cast(rootFamilies[i]);
 				rootFamilies << children;
 			}

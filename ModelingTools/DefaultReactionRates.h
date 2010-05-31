@@ -43,18 +43,18 @@ namespace Tinkercell
 			TextDataTable rates;
 			
 			rates.value(0,0) = QString("0.0");
-			if (handle->hasNumericalData(QString("Numerical Attributes")))
+			if (handle->hasNumericalData(QString("Parameters")))
 			{
 				if (isBinding)
 				{
-					handle->data->numericalData[QString("Numerical Attributes")].value(QString("kf"),0) = 1.0;
-					handle->data->numericalData[QString("Numerical Attributes")].value(QString("kb"),0) = 1.0;
+					handle->data->numericalData[QString("Parameters")].value(QString("kf"),0) = 1.0;
+					handle->data->numericalData[QString("Parameters")].value(QString("kb"),0) = 1.0;
 					rates.value(0,0) = handle->fullName() + QString(".kf");
 					rates.value(1,0) = handle->fullName() + QString(".kb*") + handle->fullName() + QString(".complex");
 				}
 				else
 				{
-					handle->data->numericalData[QString("Numerical Attributes")].value(QString("k0"),0) = 1.0;
+					handle->data->numericalData[QString("Parameters")].value(QString("k0"),0) = 1.0;
 					rates.value(0,0) = handle->fullName() + QString(".k0");
 				}
 			}

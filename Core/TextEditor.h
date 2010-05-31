@@ -44,9 +44,9 @@ text-based representation of a network.
 #include "Tool.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -64,7 +64,7 @@ namespace Tinkercell
 	supporting parser tool, the TextEditor will not do anything.
 	\ingroup core
 	*/
-	class MY_EXPORT TextEditor : public CodeEditor
+	class TINKERCELLEXPORT TextEditor : public CodeEditor
 	{
 		Q_OBJECT
 		
@@ -256,7 +256,7 @@ namespace Tinkercell
 
 	/*! \brief this command performs a text change
 	* \ingroup undo*/
-	class MY_EXPORT TextUndoCommand : public QUndoCommand
+	class TINKERCELLEXPORT TextUndoCommand : public QUndoCommand
 	{
 
 	public:

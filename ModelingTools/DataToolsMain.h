@@ -7,11 +7,13 @@ See COPYRIGHT.TXT
 Function that loads dll into main window
 
 ****************************************************************************/
+
 #include "MainWindow.h"
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "FunctionDeclarationsTool.h"
 #include "ModelSummaryTool.h"
+#include "ContainerTool.h"
 #include "ModelFileGenerator.h"
 
 extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);

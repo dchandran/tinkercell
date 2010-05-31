@@ -121,7 +121,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/NodeGraphicsItem/
     ${TINKERCELL_BINARY_DIR}/NodesTree/
     ${TINKERCELL_BINARY_DIR}/PlotTools/
-    ${TINKERCELL_BINARY_DIR}/ContainerTools/
     ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
     ${TINKERCELL_BINARY_DIR}/CInputWindows/
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
@@ -187,8 +186,6 @@ IF( QT4_FOUND )
 		${TINKERCELL_BINARY_DIR}/NodesTree/Debug
 		${TINKERCELL_BINARY_DIR}/PlotTools/Release
 		${TINKERCELL_BINARY_DIR}/PlotTools/Debug
-		${TINKERCELL_BINARY_DIR}/ContainerTools/Release
-		${TINKERCELL_BINARY_DIR}/ContainerTools/Debug
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Release
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Debug
 		${TINKERCELL_BINARY_DIR}/CInputWindows/Release
@@ -221,7 +218,6 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/NodeGraphicsItem/
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
-    ${TINKERCELL_SOURCE_DIR}/ContainerTools/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
     ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
@@ -251,7 +247,6 @@ ENDIF(UNIX AND NOT APPLE)
   ADD_SUBDIRECTORY( DynamicCodeTools )
   ADD_SUBDIRECTORY( ModuleTools )
   ADD_SUBDIRECTORY( ModelingTools )
-  ADD_SUBDIRECTORY( ContainerTools )
   ADD_SUBDIRECTORY( OtherTools )
   ADD_SUBDIRECTORY( CInputWindows )
   ADD_SUBDIRECTORY( ArrowItems )

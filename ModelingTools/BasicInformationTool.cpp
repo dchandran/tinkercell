@@ -5,7 +5,7 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This class adds the "attributes" data to each item in Tinkercell.
-Two types of attributes are added -- "Numerical Attributes" and "Text Attributes".
+Two types of attributes are added -- "Parameters" and "Text Attributes".
 Attributes are essentially a <name,value> pair that are used to characterize an item.
 
 The BasicInformationTool contains two tools, one for text attributes and one
@@ -337,9 +337,8 @@ namespace Tinkercell
 					for (int j=0; j < nDataTable->rows(); ++j)
 					{
 						QString str = itemHandles[i]->fullName() + tr(".") + nDataTable->rowName(j);
-						if ((equations.isEmpty() && !(itemHandles[i]->type == ConnectionHandle::TYPE &&
-							(nDataTable->rowName(j) == tr("numin") || nDataTable->rowName(j) == tr("numout"))))
-							|| equations.contains(str) ||
+						if (equations.isEmpty() ||
+							equations.contains(str) ||
 							(itemHandles[i]->family() && !itemHandles[i]->family()->numericalAttributes.contains(nDataTable->rowName(j))))
 						{
 							tableItems << QPair<ItemHandle*,int>(itemHandles[i],j);
@@ -577,7 +576,7 @@ namespace Tinkercell
 			else
 			{
 				type = BasicInformationTool::numerical;
-				name = tr("Numerical Attributes");
+				name = tr("Parameters");
 				groupBox = new QGroupBox(tr(" Constants "),this);
 			}
 
@@ -720,6 +719,8 @@ namespace Tinkercell
 			table.resize(1,1);
 
 			table.rowName(0) = family->measurementUnit.property;
+
+
 			table.colName(0) = family->measurementUnit.name;
 			table.value(0,0) = 1.0;
 			
@@ -751,13 +752,14 @@ namespace Tinkercell
 			QList<QString> nKeys = family->numericalAttributes.keys();
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),1);
-			numericalAttributes.description() = tr("Numerical Attributes: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
+			numericalAttributes.description() = tr("Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
 
 			for (int i=0; i < numericalAttributes.rows() && i < nKeys.size(); ++i)
-			{
-				numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
-				numericalAttributes.rowName(i) = nKeys[i];
-			}
+				if (!(handle->type == ConnectionHandle::TYPE && (nKeys[i] == QString("numin") || nKeys[i] == QString("numout"))))
+				{
+					numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
+					numericalAttributes.rowName(i) = nKeys[i];
+				}
 
 			numericalAttributes.setColNames(colNames);
 			handle->data->numericalData.insert(this->name,numericalAttributes);
@@ -1099,7 +1101,7 @@ namespace Tinkercell
 		QStringList rownames;
         QList<qreal> values;
 
-        QString name("Numerical Attributes");
+        QString name("Parameters");
 
         ItemHandle * handle = 0;
         DataTable<qreal> * dataTable = 0;
@@ -1115,9 +1117,7 @@ namespace Tinkercell
                     for (int j=0; j < dataTable->rows(); ++j)
                     {
                     if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
-                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
-                        && !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
-                        )
+                        && (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))                        
 						{
 							if (handle->name.isEmpty())
 								rownames += dataTable->rowName(j);
@@ -1162,9 +1162,7 @@ namespace Tinkercell
 				for (int j=0; j < dataTable->rows(); ++j)
 				{
 					if ((mustHave.isEmpty() || mustHave.contains(dataTable->rowName(j).toLower()) || mustHave.contains(dataTable->rowName(j)))
-						&& (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j))))
-						&& !(handle->type == ConnectionHandle::TYPE && (dataTable->rowName(j) == QString("numin") || dataTable->rowName(j) == QString("numout")))
-						)
+						&& (exclude.isEmpty() || !(exclude.contains(dataTable->rowName(j).toLower()) || exclude.contains(dataTable->rowName(j)))))						
 					{
 						if (handle->name.isEmpty())
 							rownames += dataTable->rowName(j);
@@ -2029,3 +2027,4 @@ namespace Tinkercell
 		return params2;
 	}
 }
+

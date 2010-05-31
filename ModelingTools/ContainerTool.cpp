@@ -58,8 +58,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
                     this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 
-            connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
-                    this,SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
+            connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
+                    this,SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
 
             connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(updateTree(int)));
 
@@ -75,15 +75,14 @@ namespace Tinkercell
 
             treeView->setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 
-            treeView->setColumnWidth(0,50);
-            treeView->setColumnWidth(2,20);
+            treeView->setColumnWidth(0,70);
+            treeView->setColumnWidth(1,70);
 
 			setWindowTitle(tr("Model summary"));
-			setWindowIcon(QIcon(tr(":/images/new.png")));
+			setWindowIcon(QIcon(tr(":/images/monitor.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::RightDockWidgetArea);
 
             connectCollisionDetector();
-
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
             return true;
@@ -203,7 +202,7 @@ namespace Tinkercell
         {
             if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i])
                 && (handle = getHandle(items[i]))
-                && (handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
+                && handle->isA(tr("Compartment")))
             {
 				QRectF sceneBoundingRect = items[i]->sceneBoundingRect().adjusted(-10,-10,10,10);
                 QList<ItemHandle*> list = handle->children;
@@ -280,8 +279,6 @@ namespace Tinkercell
 				        if (handle)
 				        {
 				            parentHandle = handle->parentOfFamily(tr("Compartment"));
-				            if (!parentHandle)
-				                parentHandle = handle->parentOfFamily(tr("Module"));
 				            if (parentHandle && !handles.contains(parentHandle))
 				            {
 				                handles << parentHandle;
@@ -295,7 +292,7 @@ namespace Tinkercell
             handle = handleList[i];
 
             if (handle && handle->family() && !handles.contains(handle) &&
-                (handle->family()->isA(tr("Module")) || handle->family()->isA(tr("Compartment"))))
+                handle->family()->isA(tr("Compartment")))
                 handles << handle;
         }
 
@@ -422,7 +419,7 @@ namespace Tinkercell
         ItemHandle * handle = getHandle(nodeHit);
 
         //if items are placed into a Compartment or module...
-        if (!handle || !(handle->isA(tr("Module")) || handle->isA(tr("Compartment"))))
+        if (!handle || !handle->isA(tr("Compartment")))
             return;
 
 		ConnectionGraphicsItem::ControlPoint * cpt = 0;
@@ -680,7 +677,7 @@ namespace Tinkercell
         }
     }
 
-    void ContainerTreeTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist, Qt::KeyboardModifiers)
+    void ContainerTreeTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist)
     {
         if (!mainWindow || !scene || !scene->symbolsTable) return;
 
@@ -807,32 +804,7 @@ namespace Tinkercell
 
     QWidget *ContainerTreeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */,	const QModelIndex & index) const
     {
-        if (index.isValid())
-        {
-            ContainerTreeItem * item = static_cast<ContainerTreeItem*>(index.internalPointer());
-            ItemHandle * handle = item->handle();
-            QString attributeName = item->text();
-
-            if (handle && handle->data)
-            {
-
-                if (index.column() == 2)
-                {
-                    if (attributeName.isEmpty()) return 0;
-                    QLineEdit *editor = new QLineEdit(parent);
-                    return editor;
-                }
-
-                if (index.column() == 1)
-                {
-                    QComboBox *editor = new QComboBox(parent);
-                    return editor;
-                }
-            }
-        }
-
-        QLineEdit *textEditor = new QLineEdit(parent);
-        return textEditor;
+        return new QLineEdit(parent);
     }
 
     void ContainerTreeDelegate::setEditorData(QWidget *widget, const QModelIndex &index) const
@@ -842,78 +814,32 @@ namespace Tinkercell
             ContainerTreeItem * item = static_cast<ContainerTreeItem*>(index.internalPointer());
             ItemHandle * handle = item->handle();
             QString attributeName = item->text();
+            QLineEdit * editor = static_cast<QLineEdit*>(widget);
 
             if (handle && handle->data)
             {
 				if (index.column() == 0)
 				{
-					QLineEdit * textEditor = static_cast<QLineEdit*>(widget);
-					textEditor->setText( handle->name );
-					return;
-				}
-
-				if (index.column() == 2)
-				{
-					if (attributeName.isEmpty()) return;
-					QLineEdit * editor = static_cast<QLineEdit*>(widget);
-
-					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
-					{
-						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
-							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].cols() == 1
-							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames().contains(attributeName))
-						{
-							editor->setText(QString::number(
-								handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].value(attributeName,0)));
-						}
-					}
-
-					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
-					{
-						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
-							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1
-							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames().contains(attributeName))
-						{
-							editor->setText(handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].value(attributeName,0));
-						}
-					}
-
-					return;
+					if (attributeName.isEmpty())
+						editor->setText( handle->name );
+					else
+						editor->setText( attributeName );
 				}
 
 				if (index.column() == 1)
 				{
-					QComboBox * editor = static_cast<QComboBox*>(widget);
-
-					QStringList list;
-
-					for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
+					if (attributeName.isEmpty())
 					{
-						if (handle->hasNumericalData(ContainerTreeModel::NUMERICAL_DATA[i])
-							&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].cols() == 1)
-						{
-							list << handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames();
-						}
+						if (handle->hasNumericalData(QString("Initial Value")))
+							editor->setText( QString::number(handle->numericalData(QString("Initial Value"))) );
+						else
+							if (handle->hasTextData(QString("Rate equations")))
+								editor->setText( QString::number(handle->textData(QString("Rate equations"))) );
 					}
-
-					for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
-					{
-						if (handle->hasTextData(ContainerTreeModel::TEXT_DATA[i])
-							&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1)
-						{
-							list << handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames();
-						}
-					}
-
-					if (handle->type == ConnectionHandle::TYPE)
-					{
-						list.removeAll("numin");  //these are annoying
-						list.removeAll("numout");
-					}
-
-					editor->addItems(list);
-					editor->setCurrentIndex(list.indexOf(attributeName));
-					return;
+					else
+						if (handle->hasNumericalData(QString("Parameters")))
+							editor->setText( QString::number(handle->numericalData(QString("Parameters"),attributeName)) );
+										
 				}
 			}
         }
@@ -931,23 +857,8 @@ namespace Tinkercell
 
             if (handle && handle->data)// && !attributeName.isEmpty())
             {
-				if (index.column() == 2)
-				{
-					if (attributeName.isEmpty()) return;
-					QLineEdit * editor = static_cast<QLineEdit*>(widget);
-					value = QVariant(editor->text());
-				}
-				else
-				if (index.column() == 1)
-				{
-					QComboBox * editor = static_cast<QComboBox*>(widget);
-					value = QVariant(editor->currentText());
-				}
-				else
-				{
-					QLineEdit * editor = static_cast<QLineEdit*>(widget);
-					value = QVariant(editor->text());
-				}
+				QLineEdit * editor = static_cast<QLineEdit*>(widget);
+				value = QVariant(editor->text());
                 model->setData(index, value, Qt::EditRole);
             }
 
@@ -961,6 +872,8 @@ namespace Tinkercell
     {
         editor->setGeometry(option.rect);
     }
+    
+    /**********************************************************************/
 
     void ContainerTreeTool::adjustRates(GraphicsScene * scene, QList<ItemHandle*> childItems, QList<ItemHandle*> parentItems)
     {
@@ -978,7 +891,7 @@ namespace Tinkercell
             {
                 if (	childItems[i]	&&
                         !reactions.contains(childItems[i]) &&
-                        childItems[i]->hasTextData(tr("Rates")) &&
+                        childItems[i]->hasTextData(tr("Rate equations")) &&
                         childItems[i]->hasTextData(tr("Assignments")))
 
                     reactions << (childItems[i]);
@@ -990,7 +903,7 @@ namespace Tinkercell
                 for (int j=0; j < connections.size(); ++j)
                     if (connections[j] &&
                         !reactions.contains(connections[j]) &&
-                        connections[j]->hasTextData(tr("Rates")) &&
+                        connections[j]->hasTextData(tr("Rate equations")) &&
                         connections[j]->hasTextData(tr("Assignments")))
 
                         reactions << (connections[j]);
@@ -1004,7 +917,7 @@ namespace Tinkercell
 
         for (int i=0; i < reactions.size(); ++i)
         {
-            DataTable<QString> * rates = new DataTable<QString>(reactions[i]->data->textData[tr("Rates")]);
+            DataTable<QString> * rates = new DataTable<QString>(reactions[i]->data->textData[tr("Rate equations")]);
             DataTable<QString> * data = new DataTable<QString>(reactions[i]->data->textData[tr("Assignments")]);
 
             QList<NodeGraphicsItem*> nodesIn, nodesOut;
@@ -1074,7 +987,7 @@ namespace Tinkercell
 
                 targetHandles << reactions[i] << reactions[i];
                 newTables << data << rates;
-                toolNames << tr("Assignments") << tr("Rates");
+                toolNames << tr("Assignments") << tr("Rate equations");
             }
         }
 
@@ -1091,3 +1004,15 @@ namespace Tinkercell
     }
 
 }
+
+
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
+{
+	if (!main) return;
+	
+	Tinkercell::ContainerTreeTool * containerTool = new Tinkercell::ContainerTreeTool;
+	main->addTool(containerTool);
+
+}
+
+

@@ -32,6 +32,9 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	
 	Tinkercell::ModelFileGenerator * modelFileGenerator = new Tinkercell::ModelFileGenerator;
 	main->addTool(modelFileGenerator);
-
+	
+	Tinkercell::ContainerTreeTool * containerTool = new Tinkercell::ContainerTreeTool;
+	main->addTool(containerTool);
 }
+
 

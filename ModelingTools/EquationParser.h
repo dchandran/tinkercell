@@ -5,8 +5,8 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This file contains static functions for parsing a formula and placing undefined
-variable names in the "Numerical Attributes" data table of appropriate item handles.
-The class assumes existence of "Functions", "Assignments", and "Numerical Attributes"
+variable names in the Parameters data table of appropriate item handles.
+The class assumes existence of "Functions", "Assignments", and "Parameters"
 
 ****************************************************************************/
 #ifndef TINKERCELL_BASICTOOLS_EQUATION_PARSER_H
@@ -34,8 +34,8 @@ The class assumes existence of "Functions", "Assignments", and "Numerical Attrib
 namespace Tinkercell
 {
 	/*! \brief this class uses Muparser to parse a math equatio and automatically insert undefined
-		parameter names into the Numerical Attributes table. It uses the fact that the following tables
-		exist: "Functions" and "Numerical Attributes", which is why this class is a bit more specific
+		parameter names into the Parameters table. It uses the fact that the following tables
+		exist: "Functions" and "Parameters", which is why this class is a bit more specific
 		than the parseMath funciton provided in NetworkHandle class*/
 	class MY_EXPORT EquationParser
 	{
@@ -49,7 +49,7 @@ namespace Tinkercell
 		static void SubstituteFunctionCalls(const QStringList& functions, const QList<QStringList>& arglist, QString& s);
 	
 	public:
-		/*! \brief check whether the formula is valid and add the undefined strings to the Numerical Attributes
+		/*! \brief check whether the formula is valid and add the undefined strings to the Parameters
 			table of the given handle
 			\param NetworkHandle * the working window
 			\param ItemHandle* the handle where new parameters will be added

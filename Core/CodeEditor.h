@@ -56,9 +56,9 @@ class QWidget;
 
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 
@@ -67,7 +67,7 @@ namespace Tinkercell
 
 	class LineNumberArea;
 
-	class MY_EXPORT CodeEditor : public QPlainTextEdit
+	class TINKERCELLEXPORT CodeEditor : public QPlainTextEdit
 	{
 		Q_OBJECT
 
@@ -114,7 +114,7 @@ namespace Tinkercell
 	};
 
 
-	class MY_EXPORT LineNumberArea : public QWidget
+	class TINKERCELLEXPORT LineNumberArea : public QWidget
 	{
 	public:
 

@@ -5,7 +5,7 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This class adds the "attributes" data to each item in Tinkercell.
-Two types of attributes are added -- "Numerical Attributes" and "Text Attributes".
+Two types of attributes are added -- Parameters and "Text Attributes".
 Attributes are essentially a <name,value> pair that are used to characterize an item.
 
 The AssignmentFunctionsTool also comes with two GraphicalTools, one for text attributes and one

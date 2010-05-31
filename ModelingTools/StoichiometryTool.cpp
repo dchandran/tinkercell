@@ -379,7 +379,7 @@ namespace Tinkercell
 					if (connectionHandle->data &&
 						connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) &&
 						connectionHandle->hasNumericalData(tr("Product stoichiometries")) &&
-						connectionHandle->hasNumericalData(tr("Numerical Attributes")) &&
+						connectionHandle->hasNumericalData(tr("Parameters")) &&
 						connectionHandle->hasTextData(tr("Rate equations")) &&
 						(connectionHandle->nodes().size() > (connectionHandle->nodesIn().size() +connectionHandle->nodesOut().size())) &&
 						(connectionHandle->data->textData[tr("Rate equations")].rows() == 1))
@@ -397,7 +397,7 @@ namespace Tinkercell
 								s2 += nodes[j]->fullName();
 						QString name = connectionHandle->fullName();
 
-						NumericalDataTable* nDat = new NumericalDataTable(connectionHandle->data->numericalData[tr("Numerical Attributes")]);
+						NumericalDataTable* nDat = new NumericalDataTable(connectionHandle->data->numericalData[tr("Parameters")]);
 						TextDataTable* sDat = new TextDataTable(connectionHandle->data->textData[tr("Rate equations")]);
 						QString oldRate = sDat->value(0,0);
 						bool alreadyDone = true;
@@ -421,7 +421,7 @@ namespace Tinkercell
 								}
 								win->changeData(connectionHandle->fullName() + tr("'s kinetics changed"),
 												QList<ItemHandle*>() << connectionHandle << connectionHandle,
-												QList<QString>() << tr("Numerical Attributes") << tr("Rate equations"),
+												QList<QString>() << tr("Parameters") << tr("Rate equations"),
 												QList<NumericalDataTable*>() << nDat,
 												QList<TextDataTable*>() << sDat);
 								if (console())

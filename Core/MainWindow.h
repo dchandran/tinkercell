@@ -47,9 +47,9 @@ One of the main roles of MainWindow is to serve as a signal/slot hub for Tools.
 #include "ConvertValue.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -86,7 +86,7 @@ namespace Tinkercell
 	One of the main roles of MainWindow is to serve as a signal/slot hub for Tools. 
 	\ingroup core
 	*/
-	class MY_EXPORT MainWindow : public QMainWindow
+	class TINKERCELLEXPORT MainWindow : public QMainWindow
 	{
 		Q_OBJECT
 

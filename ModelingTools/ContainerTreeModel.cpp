@@ -8,6 +8,7 @@
 
 ****************************************************************************/
 
+#include "EquationParser.h"
 #include "ItemFamily.h"
 #include "ContainerTreeModel.h"
 
@@ -17,13 +18,12 @@ namespace Tinkercell
 	      CONTAINER TREE ITEM
 	******************************************/
 	
-	QStringList ContainerTreeModel::NUMERICAL_DATA(QStringList() << "Initial Value" << "Numerical Attributes");
-	QStringList ContainerTreeModel::TEXT_DATA(QStringList() << "Rates" << "Assignments");
-	
 	ContainerTreeItem::ContainerTreeItem(ItemHandle * handle, ContainerTreeItem *parent)
 	{
 		parentItem = parent;
 		itemHandle = handle;
+		attributeName = QString();
+		/*
 		if (itemHandle && itemHandle->family())
 		{
 			if (!itemHandle->family()->measurementUnit.first.isEmpty())
@@ -39,7 +39,7 @@ namespace Tinkercell
 				if (!keys.isEmpty())
 					attributeName = keys.first();
 			}
-		}
+		}*/
 	}
 
 	ContainerTreeItem::~ContainerTreeItem()
@@ -64,7 +64,7 @@ namespace Tinkercell
 
 	int ContainerTreeItem::columnCount() const
 	{
-		return 3;
+		return 2;
 	}
 
 	ItemHandle * ContainerTreeItem::handle()
@@ -84,37 +84,32 @@ namespace Tinkercell
 			if (column == 0)
 				return QVariant(QString("Name"));
 
-			if (column == 1)
-				return QVariant(QString("Attribute"));
-
 			return QVariant(QString("Value"));
 		}
 		
-		if (column == 0)
-			return QVariant(itemHandle->name);
-	
-		for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
-			if (itemHandle->data->numericalData.contains(ContainerTreeModel::NUMERICAL_DATA[i])
-				&& itemHandle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].cols() == 1
-				&& itemHandle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames().contains(attributeName))
+		
+		if (childItems.isEmpty())
+		{
+			if (column == 0)
+				return QVariant(attributeName);
+			else
+				if (itemHandle->data->numericalData[QString("Parameters")].getRowNames().contains(attributeName))
+					return QVariant(itemHandle->numericalData(QString("Parameters"),attributeName,0));
+		}
+		else
+		{
+			if (column == 0)
+				return QVariant(itemHandle->name);
+			else
 			{
-				if (column == 1)
-					return QVariant(attributeName);
-				if (column == 2)
-					return QVariant(itemHandle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].value(attributeName,0));
+				if (itemHandle->hasNumericalData(QString("Initial Value")))
+					return QVariant(itemHandle->numericalData(QString("Initial Value")));
+				else
+					if (itemHandle->hasTextData(QString("Rate equations")))
+						return QVariant(itemHandle->texData(QString("Rate equations")));
 			}
-			
-		for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
-			if (itemHandle->data->textData.contains(ContainerTreeModel::TEXT_DATA[i])
-				&& itemHandle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].cols() == 1
-				&& itemHandle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames().contains(attributeName))
-			{
-				if (column == 1)
-					return QVariant(attributeName);
-				if (column == 2)
-					return QVariant(itemHandle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].value(attributeName,0));
-			}
-
+		}
+		
 		return QVariant();
 	}
 
@@ -134,14 +129,14 @@ namespace Tinkercell
 	void ContainerTreeItem::sortChildren()
 	{
 		if (childItems.isEmpty()) return;
-		
+
 		ItemHandle * handle;
 		ItemFamily * family, * root;
-		QHash<QString, QStringList> item_names; 
+		QHash<QString, QStringList> item_names;
 		QStringList family_names;
 		QHash<QString,  QHash<QString,ContainerTreeItem*> > hash;
 		QList<ItemFamily*> families;
-		
+
 		for (int i=0; i < childItems.size(); ++i)
 		{
 			if (childItems[i] && (handle = childItems[i]->handle()) && (family = handle->family()))
@@ -185,15 +180,15 @@ namespace Tinkercell
 		  CONTAINER TREE MODEL
 	***************************************/
 
-	ContainerTreeModel::ContainerTreeModel(NetworkWindow * win, QObject *parent)
+	ContainerTreeModel::ContainerTreeModel(NetworkHandle * net, QObject *parent)
 	 : QAbstractItemModel(parent)
 	{
 		rootItem = new ContainerTreeItem;
-		this->window = win;
+		this->network = net;
 
-        if (win)
+        if (net)
 		{
-            QList<ItemHandle*> items = win->allHandlesSortedByFamily();
+            QList<ItemHandle*> items = net->allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -238,14 +233,14 @@ namespace Tinkercell
 	{
 		if (win)
 		{
-			if (win != this->window)
+			if (win != this->network)
 			{
 				delete rootItem;
 				rootItem = 0;
 			}
 			
 			ContainerTreeItem * rootItemNew = new ContainerTreeItem;
-            this->window = win;
+            this->network = win;
 			
             QList<ItemHandle*> items = win->allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
@@ -269,7 +264,32 @@ namespace Tinkercell
 			rootItem = rootItemNew;
 			emit layoutChanged();
 		}
-	}	
+	}
+	
+	void ContainerTreeModel::populateAttributes()
+	{
+		if (!itemHandle || !itemHandle->hasNumericalData(QString("Parameters"))) return;
+		
+		NumericalDataTable & attributes = itemHandle->data->numericalData[QString("Parameters")];
+		
+		bool found;
+		for (int i=0; i < attributes.rows(); ++i)
+		{
+			found = false;
+			for (int i=0; j < childItems.size(); ++j)
+				if (childItems[j] && childItems[j]->attributeName == attributes.rowName(i))
+				{
+					found = true;
+					break;
+				}
+			if (!found)
+			{
+				ContainerTreeModel * item = new ContainerTreeItem(itemHandle,this);
+				item->attributeName = attributes.rowName(i);
+				item->appendChild(child);
+			}
+		}		
+	}
 	
 	ContainerTreeItem* ContainerTreeModel::makeBranch(ItemHandle* handle, ContainerTreeItem * parentItem)
 	{
@@ -282,7 +302,7 @@ namespace Tinkercell
 			if (item->parentItem)
 				item->parentItem->childItems.removeAll(item);
 			item->parentItem = parentItem;
-		}		
+		}
 		
 		if (!item || (item->childItems.size() != handle->children.size()))
 		{
@@ -307,6 +327,8 @@ namespace Tinkercell
 				}
 			}
 		}
+		
+		item->populateAttributes();
 		return item;
 	}
 
@@ -353,7 +375,7 @@ namespace Tinkercell
 
 	bool ContainerTreeModel::setData(const QModelIndex & index, const QVariant & value, int)
 	{
-        if (!index.isValid() || !window)
+        if (!index.isValid() || !network)
 			return false;
 
 		ContainerTreeItem *item = static_cast<ContainerTreeItem*>(index.internalPointer());
@@ -362,68 +384,75 @@ namespace Tinkercell
 
 		ItemHandle * handle = item->handle();
 		
+		QString attributeName = item->text();
+		
 		if (!handle || !handle->data || !handle->family()) return false;
 
 		if (index.column() == 0)
 		{
-            if (window && handle
+            if (network 
+            	&& handle
 				&& !value.toString().isEmpty()
 				&& value.toString() != handle->name)
 			{
-				window->rename(handle, value.toString());
+				if (attributeName.isEmpty())
+					network->rename(handle, value.toString());
+				else
+					network->rename(handle->fullName() + tr(".") + attributeName, handle->fullName() + tr(".") + value.toString());
 				return true;
 			}
 		}
 		else
 		if (index.column() == 1)
-		{
-			item->text() = value.toString();
-			return true;
-		}
-		else
-		if (index.column() == 2)
-		{
-			QString attributeName = item->text();
-			if (attributeName.isEmpty()) return false;
-			
-			for (int i=0; i < ContainerTreeModel::NUMERICAL_DATA.size(); ++i)
+		{			
+			if (attributeName.isEmpty())
 			{
-				if (handle->data->numericalData.contains(ContainerTreeModel::NUMERICAL_DATA[i]) 
-					&& handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ].getRowNames().contains(attributeName))
+				if (handle->hasNumericalData(QString("Initial Value")))
 				{
-					DataTable<qreal> newTable(handle->data->numericalData[ ContainerTreeModel::NUMERICAL_DATA[i] ]);
+					NumericalDataTable newTable(handle->data->numericalData[ QString("Initial Value") ]);
 					bool ok;
 					double d = value.toDouble(&ok);
 					if (ok && newTable.value(attributeName,0) != d)
 					{
 						newTable.value(attributeName,0) = d;
-                        window->changeData(handle->fullName() + tr(".") + attributeName + tr(" = ") + QString::number(d),
+                        network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
 											handle,
-											ContainerTreeModel::NUMERICAL_DATA[i],
+											QString("Initial Value"),
 											&newTable);
+						return true;
 					}
-					return true;
 				}
-			}
-			
-			for (int i=0; i < ContainerTreeModel::TEXT_DATA.size(); ++i)
-			{
-				if (handle->data->textData.contains(ContainerTreeModel::TEXT_DATA[i]) 
-					&& handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ].getRowNames().contains(attributeName))
-				{
-					DataTable<QString> newTable(handle->data->textData[ ContainerTreeModel::TEXT_DATA[i] ]);
-					QString s = value.toString();
-					if (!s.isNull() && !s.isEmpty() && newTable.value(attributeName,0) != s)
+				else
+					if (handle->hasTextData(QString("Rate equations")))
 					{
-						newTable.value(attributeName,0) = s;
-                        /*window->changeData(handle->fullName() + tr(".") + attributeName + tr(" = ") + s,
+						QString s = value.toString();
+						if (EquationParser::validate(network, handle, s, QStringList() << "time"))
+						{
+							 TextDataTable newTable(handle->data->textData[ QString("Rate equations") ]);
+							 network->changeData(handle->fullName() + tr("'s rate = ") + s,
 											handle,
-											ContainerTreeModel::TEXT_DATA[i],
-											&newTable);*/
+											QString("Rate equations"),
+											&newTable);
+							return true;
+						}
 					}
-					return true;
-				}
 			}
+			else
+				if (handle->hasNumericalData(QString("Parameters")))
+				{
+					DataTable<qreal> newTable(handle->data->numericalData[ QString("Parameters") ]);
+					bool ok;
+					double d = value.toDouble(&ok);
+					if (ok && newTable.value(attributeName,0) != d)
+					{
+						newTable.value(attributeName,0) = d;
+						network->changeData(handle->fullName() + tr(".") + attributeName + tr(" = ") + QString::number(d),
+											handle,
+											QString("Parameters"),
+											&newTable);
+						return true;
+					}
+				}
 		}
 		return false;
 	}

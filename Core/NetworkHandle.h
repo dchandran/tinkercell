@@ -33,9 +33,9 @@ This class provides functions for inserting items, removing items, and changing 
 #include "NetworkWindow.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -55,7 +55,7 @@ namespace Tinkercell
 	This class provides functions for inserting items, removing items, and changing information inside the model.
 	\ingroup core
 	*/
-	class MY_EXPORT NetworkHandle : public QObject
+	class TINKERCELLEXPORT NetworkHandle : public QObject
 	{
 		Q_OBJECT
 

@@ -121,11 +121,11 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,double> > modifiedHandles;
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->data && handles[i]->hasNumericalData(QString("Numerical Attributes"))
+			if (handles[i] && handles[i]->data && handles[i]->hasNumericalData(QString("Parameters"))
 				&& handles[i]->family() && handles[i]->family()->isA("Cell"))
 			{
 				QList<ItemHandle*> handlesInCell;
-				double popSz = handles[i]->data->numericalData[QString("Numerical Attributes")].at("Count",0);
+				double popSz = handles[i]->data->numericalData[QString("Parameters")].at("Count",0);
 				if (popSz > 0)
 				{
 					handlesInCell << handles[i]->children;
@@ -880,3 +880,4 @@ namespace Tinkercell
 		return s;
 	}
 }
+

@@ -39,28 +39,22 @@
 namespace Tinkercell
 {
 
-	class ContainerTreeDelegate : public QItemDelegate
+	class TINKERCELLEXPORT ContainerTreeDelegate : public QItemDelegate
 	{
 		Q_OBJECT
 
 	public:
 
 		ContainerTreeDelegate(QTreeView * parent = 0);
-
-		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
-						   const QModelIndex &index) const;
-
+		QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 		void setEditorData(QWidget *editor, const QModelIndex &index) const;
-		void setModelData(QWidget *editor, QAbstractItemModel *model,
-					   const QModelIndex &index) const;
-
-		void updateEditorGeometry(QWidget *editor,
-			const QStyleOptionViewItem &option, const QModelIndex &index) const;
+		void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+		void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 	private:
 		QTreeView * treeView;
 	};
 
-	class ContainerTreeTool : public Tool
+	class TINKERCELLEXPORT ContainerTreeTool : public Tool
 	{
 		Q_OBJECT
 
@@ -81,8 +75,8 @@ namespace Tinkercell
 		void itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF point, Qt::KeyboardModifiers );
 		void itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
 		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
-		void itemsMoved(GraphicsScene * , const QList<QGraphicsItem*>& item, const QList<QPointF>& , Qt::KeyboardModifiers );
-		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
+		void itemsMoved(GraphicsScene * , const QList<QGraphicsItem*>& item, const QList<QPointF>& );
+		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& );
 		void toolLoaded(Tool*);
 		void indexSelected(const QModelIndex&);
 	private:
@@ -99,4 +93,7 @@ namespace Tinkercell
 
 }
 
+extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+
 #endif
+

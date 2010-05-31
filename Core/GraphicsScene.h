@@ -35,9 +35,9 @@ a need to directly  interact with the GraphicsScene
 #include "CloneItems.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -61,7 +61,7 @@ namespace Tinkercell
 	a need to directly  interact with the GraphicsScene
 	\ingroup core
 	*/
-	class MY_EXPORT GraphicsScene : public QGraphicsScene
+	class TINKERCELLEXPORT GraphicsScene : public QGraphicsScene
 	{
 		Q_OBJECT
 

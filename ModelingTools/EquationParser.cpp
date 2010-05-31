@@ -68,7 +68,7 @@ namespace Tinkercell
 
 			if (handle)
 			{
-				bool isItem = !handle->name.isEmpty() && handle->hasNumericalData(QString("Numerical Attributes"));
+				bool isItem = !handle->name.isEmpty() && handle->hasNumericalData(QString("Parameters"));
 				// Get the map with the variables
 				mu::varmap_type variables = parser.GetVar();
 
@@ -178,7 +178,7 @@ namespace Tinkercell
 										
 										if (found)
 										{
-											if (!handle2 || !handle2->hasNumericalData(QString("Numerical Attributes")))
+											if (!handle2 || !handle2->hasNumericalData(QString("Parameters")))
 												handle2 = handle;
 											else
 												str.remove(newp + QString("_"));
@@ -191,7 +191,7 @@ namespace Tinkercell
 											return false;
 										}
 
-										DataTable<qreal> dat(handle2->data->numericalData[QString("Numerical Attributes")]);
+										DataTable<qreal> dat(handle2->data->numericalData[QString("Parameters")]);
 
 										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))) &&
 											!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("_"))))
@@ -209,7 +209,7 @@ namespace Tinkercell
 										}
 										
 										dat.value(str,0) = 1.0;
-										win->changeData(str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
+										win->changeData(str2 + QString(" = 1"),handle2,QString("Parameters"),&dat);
 										if (win->console())
                                             win->console()->message(str2 + QString(" = 1.0"));
 									}
@@ -389,7 +389,7 @@ namespace Tinkercell
 
 			if (handle)
 			{
-				bool isItem = !handle->name.isEmpty() && handle->hasNumericalData(QString("Numerical Attributes"));
+				bool isItem = !handle->name.isEmpty() && handle->hasNumericalData(QString("Parameters"));
 				// Get the map with the variables
 				mu::varmap_type variables = parser.GetVar();
 
@@ -504,7 +504,7 @@ namespace Tinkercell
 										
 										if (found)
 										{
-											if (!handle2 || !handle2->hasNumericalData(QString("Numerical Attributes")))
+											if (!handle2 || !handle2->hasNumericalData(QString("Parameters")))
 												handle2 = handle;
 											else
 												str.remove(newp + QString("_"));
@@ -516,7 +516,7 @@ namespace Tinkercell
 											return eqnVars;
 										}
 
-										DataTable<qreal> dat(handle2->data->numericalData[QString("Numerical Attributes")]);
+										DataTable<qreal> dat(handle2->data->numericalData[QString("Parameters")]);
 
 										if (!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("\\."))) &&
 											!str2.contains(QRegExp(QString("^") + handle2->fullName() + QString("_"))))
@@ -535,7 +535,7 @@ namespace Tinkercell
 
 										eqnVars << str2;
 										dat.value(str,0) = 1.0;
-										win->changeData(str2 + QString(" = 1"),handle2,QString("Numerical Attributes"),&dat);
+										win->changeData(str2 + QString(" = 1"),handle2,QString("Parameters"),&dat);
 										if (win->console())
                                             win->console()->message(str2 + QString(" = 1.0"));
 									}

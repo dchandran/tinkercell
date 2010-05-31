@@ -26,9 +26,9 @@ A Tool is a Qt Widget with a name and pointer to the Tinkercell MainWindow.
 #include "MainWindow.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -44,7 +44,7 @@ namespace Tinkercell
 	/*! \brief everything other than the main window is a tool
 	\ingroup core
 	*/
-	class MY_EXPORT Tool : public QWidget
+	class TINKERCELLEXPORT Tool : public QWidget
 	{
 
 		Q_OBJECT
@@ -141,7 +141,7 @@ namespace Tinkercell
 	/*! \brief tools that are drawn on the scene instead of displayed as a window
 	\ingroup core
 	*/
-	class MY_EXPORT ToolGraphicsItem : public QGraphicsItemGroup
+	class TINKERCELLEXPORT ToolGraphicsItem : public QGraphicsItemGroup
 	{
 
 	public:

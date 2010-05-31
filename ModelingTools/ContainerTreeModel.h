@@ -28,7 +28,9 @@ namespace Tinkercell
 	class ContainerTreeItem
 	{
 		friend class ContainerTreeModel;
+
 	public:
+
 		ContainerTreeItem(ItemHandle* handle = 0, ContainerTreeItem *parent = 0);
 		~ContainerTreeItem();
 
@@ -43,7 +45,10 @@ namespace Tinkercell
 		ItemHandle * handle();
 		QString& text();
 		void sortChildren();
+
 	private:
+
+		void populateAttributes();
 		QList<ContainerTreeItem*> childItems;	
 		ContainerTreeItem *parentItem;
 		ItemHandle * itemHandle;
@@ -56,11 +61,8 @@ namespace Tinkercell
 
 	public:
 		
-		static QStringList NUMERICAL_DATA;
-		static QStringList TEXT_DATA;
-		
-		ContainerTreeModel(NetworkWindow * win = 0, QObject *parent = 0);
-        void reload(NetworkWindow *);
+		ContainerTreeModel(NetworkHandle * net = 0, QObject *parent = 0);
+        void reload(NetworkHandle *);
 		~ContainerTreeModel();
 
 		QVariant data(const QModelIndex &index, int role) const;
@@ -78,7 +80,7 @@ namespace Tinkercell
 
 	private:	
 		ContainerTreeItem *rootItem;
-		NetworkWindow * window;
+		NetworkHandle * network;
 		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*);
 		ContainerTreeItem* findTreeItem(ItemHandle*);		
 	};

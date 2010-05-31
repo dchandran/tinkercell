@@ -70,7 +70,7 @@ namespace Tinkercell
 	/*! \brief This class adds the Rates string data and Stoichiometry numerical data 
 				to each connection that is inserted and provides the table widgets
 				for editting those tables. This class also contains a useful function that
-				parses an equation and places any undefined variables in the item's Numerical Attributes
+				parses an equation and places any undefined variables in the item's Parameters
 				table
 	\ingroup plugins
 	*/
@@ -215,7 +215,7 @@ namespace Tinkercell
 
 	private:
 		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
-		add any undefined variables in the Numerical Attributes table (where parameters are usually stored)
+		add any undefined variables in the Parameters table (where parameters are usually stored)
 		\param NetworkHandle the target network window (for symbols table)
 		\param ItemHandle* the item handle that the equation belongs with
 		\param QString& the equation; this variable can get modified if it contains bad characters*/

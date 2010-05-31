@@ -26,9 +26,9 @@ scripting interface.
 #include "Tool.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -38,7 +38,7 @@ namespace Tinkercell
 	/*! \brief A command-line type text box that other tools can use for scripting interface
 	\ingroup io
 	*/
-	class MY_EXPORT CommandTextEdit : public QTextEdit
+	class TINKERCELLEXPORT CommandTextEdit : public QTextEdit
 	{
 		Q_OBJECT;
 	public:
@@ -123,7 +123,7 @@ namespace Tinkercell
 	/*! \brief Used to create an output window that can display outputs
 	\ingroup io
 	*/
-	class MY_EXPORT ConsoleWindow : public Tool
+	class TINKERCELLEXPORT ConsoleWindow : public Tool
 	{
 		Q_OBJECT
 

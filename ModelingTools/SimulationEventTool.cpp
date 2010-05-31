@@ -5,7 +5,7 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This class adds the "attributes" data to each item in Tinkercell.
-Two types of attributes are added -- "Numerical Attributes" and "Text Attributes".
+Two types of attributes are added -- "Parameters" and "Text Attributes".
 Attributes are essentially a <name,value> pair that are used to characterize an item.
 
 The SimulationEventsTool also comes with two GraphicalTools, one for text attributes and one
@@ -343,7 +343,7 @@ namespace Tinkercell
 			if ((node = NodeGraphicsItem::cast(getGraphicsItem(items[i]))) && 
 				(handle = node->handle()) &&
 				(handle->hasNumericalData(tr("Initial Value"))) &&
-				(handle->hasNumericalData(tr("Numerical Attributes"))) &&
+				(handle->hasNumericalData(tr("Parameters"))) &&
 				(handle->hasTextData(tr("Assignments"))))
 			{
 				break;
@@ -362,7 +362,7 @@ namespace Tinkercell
 		
 		QString name = handle->fullName();
 		DataTable<QString> assignments(handle->textDataTable(tr("Assignments")));
-		DataTable<qreal> parameters(handle->numericalDataTable(tr("Numerical Attributes")));
+		DataTable<qreal> parameters(handle->numericalDataTable(tr("Parameters")));
 		
 		ConnectionGraphicsItem * connection = new ConnectionGraphicsItem;
 		connection->lineType = ConnectionGraphicsItem::line;
@@ -419,7 +419,7 @@ namespace Tinkercell
 		newItems << image << connection;
 		
 		list << new InsertGraphicsCommand(command, scene, newItems)
-			 << new ChangeDataCommand<qreal>(command, &handle->numericalDataTable(tr("Numerical Attributes")), &parameters)
+			 << new ChangeDataCommand<qreal>(command, &handle->numericalDataTable(tr("Parameters")), &parameters)
 			 << new ChangeDataCommand<QString>(command, &handle->textDataTable(tr("Assignments")), &assignments);
 		//scene->insert(command,newItems);
 		scene->networkWindow->history.push(new CompositeCommand(command,list));
@@ -517,7 +517,7 @@ namespace Tinkercell
 						if (nodes[j] && (nodeHandle = nodes[j]->handle()))
 							break;
 					
-					if (nodeHandle && nodeHandle->hasTextData(tr("Assignments")) && nodeHandle->hasNumericalData(tr("Numerical Attributes")))
+					if (nodeHandle && nodeHandle->hasTextData(tr("Assignments")) && nodeHandle->hasNumericalData(tr("Parameters")))
 					{
 						handles << nodeHandle;
 						
@@ -527,7 +527,7 @@ namespace Tinkercell
 						oldTextTables << &(nodeHandle->textDataTable(tr("Assignments")));
 						newTextTables << newData1;
 						
-						DataTable<qreal> * newData2 = new DataTable<qreal>(nodeHandle->numericalDataTable(tr("Numerical Attributes")));
+						DataTable<qreal> * newData2 = new DataTable<qreal>(nodeHandle->numericalDataTable(tr("Parameters")));
 						newData2->removeRow(tr("step_height"));
 						newData2->removeRow(tr("step_time"));
 						newData2->removeRow(tr("step_steepness"));
@@ -537,7 +537,7 @@ namespace Tinkercell
 						newData2->removeRow(tr("sin_amplitude"));
 						newData2->removeRow(tr("sin_frequency"));
 						
-						oldNumericalTables << &(nodeHandle->numericalDataTable(tr("Numerical Attributes")));
+						oldNumericalTables << &(nodeHandle->numericalDataTable(tr("Parameters")));
 						newNumericalTables << newData2;
 					}
 				}

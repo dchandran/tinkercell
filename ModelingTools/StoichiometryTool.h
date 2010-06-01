@@ -189,8 +189,9 @@ namespace Tinkercell
 		QHBoxLayout * stoichiometryLayout;
 		QString currentVar;
 		
-		bool updatePlot();
-		bool updateStoichiometry();
+		bool replot(QString& rate, const QString& xaxis, qreal from, qreal to, QStringList& vars);
+		bool updatePlotWidget();
+		bool updateStoichiometryWidget();
 		void updateWidgets();
 
 	};

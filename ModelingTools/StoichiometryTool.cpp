@@ -373,7 +373,7 @@ namespace Tinkercell
 		optionsLayout->addWidget(new QLabel(tr("x-axis:")),0,Qt::AlignRight);
 		optionsLayout->addWidget(plotVar = new QComboBox,0,Qt::AlignLeft);
 		plotVar->setDuplicatesEnabled(false);
-		connect(plotVar,SIGNAL(currentIndexChanged(const QString & )),this,SLOT(xaxisChanged(const QString&)));
+		connect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
 		
 		optionsLayout->addSpacing(50);
 		
@@ -405,7 +405,12 @@ namespace Tinkercell
 		
 		stoichiometryWidget = new QWidget(this);
 		stoichiometryLayout = new QHBoxLayout;
-		stoichiometryWidget->setLayout(stoichiometryLayout);
+		
+		QHBoxLayout * stoicSuperLayout = new QHBoxLayout;
+		stoicSuperLayout->addStretch(2);
+		stoicSuperLayout->addLayout(stoichiometryLayout,1);
+		stoicSuperLayout->addStretch(2);
+		stoichiometryWidget->setLayout(stoicSuperLayout);
 	}
 
 	void StoichiometryTool::addReverseReaction()
@@ -682,18 +687,9 @@ namespace Tinkercell
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}
 	
-	bool StoichiometryTool::updatePlot()
+	bool StoichiometryTool::replot(QString& rate, const QString& xaxis, qreal min, qreal max, QStringList & vars)
 	{
-		if (!connectionHandle ||
-			!startPlot || 
-			!endPlot || 
-			!plotLineEdit ||
-			!plotVar ||
-			!connectionHandle->hasTextData(tr("Rate equations")))
-			return false;
-		
-		QString rate = connectionHandle->textData(tr("Rate equations"));
-		plotLineEdit->setText(rate);
+		if (!connectionHandle) return false;
 		
 		QList< QPair<QString,qreal> > values;
 		mu::Parser parser;
@@ -704,25 +700,19 @@ namespace Tinkercell
 		if (!b || values.isEmpty())
 			return false;
 		
-		QStringList vars;
-		
 		for (int i=0; i < values.size(); ++i)
-			vars += values[i].first;		
-
-		if (currentVar.isEmpty() || !vars.contains(currentVar))
-			currentVar = vars[0];
-
-		int k = vars.indexOf(currentVar);
+			vars += values[i].first;
+		
+		int k = vars.indexOf(xaxis);
+		
+		if (k < 0)
+			k = 0;
+		
+		currentVar = vars[k];
 		
 		NumericalDataTable plot;
 		plot.resize(100,2);
-
-		qreal min = startPlot->value();
-		qreal max = endPlot->value();
-		plotVar->clear();
-		plotVar->addItems(vars);
-		plotVar->setCurrentIndex(k);
-
+		
 		if (b)
 		{
 			for (int i=0; i < 100; ++i)
@@ -738,7 +728,36 @@ namespace Tinkercell
 		return true;
 	}
 	
-	bool StoichiometryTool::updateStoichiometry()
+	bool StoichiometryTool::updatePlotWidget()
+	{
+		if (!connectionHandle ||
+			!startPlot || 
+			!endPlot || 
+			!plotLineEdit ||
+			!plotVar ||
+			!connectionHandle->hasTextData(tr("Rate equations")))
+			return false;
+		
+		QString rate = connectionHandle->textData(tr("Rate equations"));
+		plotLineEdit->setText(rate);
+		
+		QStringList vars;
+
+		qreal min = startPlot->value();
+		qreal max = endPlot->value();
+		
+		disconnect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
+		
+		plotVar->clear();		
+		replot(rate,currentVar,min,max,vars);		
+		plotVar->addItems(vars);
+		
+		connect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
+		
+		return true;
+	}
+	
+	bool StoichiometryTool::updateStoichiometryWidget()
 	{
 		if (!connectionHandle || 
 			!connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) ||
@@ -750,7 +769,7 @@ namespace Tinkercell
 		
 		NumericalDataTable & reactants = connectionHandle->numericalDataTable(tr("Reactant stoichiometries")),
 						   & products = connectionHandle->numericalDataTable(tr("Product stoichiometries"));
-		
+
 		for (int i=reactants.cols(); i < reactantCoeffs.size(); ++i)
 			if (reactantCoeffs[i])
 			{
@@ -825,14 +844,18 @@ namespace Tinkercell
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
+				plusSigns[j]->show();
 				stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 				++j;
 			}
+			reactantCoeffs[i]->show();
+			reactantNames[i]->show();
 		}
 		
 		while (plusSigns.size() <= j)
 			plusSigns += (new QLabel(this));
 		plusSigns[j]->setText(tr("->"));
+		plusSigns[j]->show();
 		stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 		++j;
 		
@@ -847,9 +870,12 @@ namespace Tinkercell
 				while (plusSigns.size() <= j)
 					plusSigns += (new QLabel(this));
 				plusSigns[j]->setText(tr("+"));
+				plusSigns[j]->show();
 				stoichiometryLayout->addWidget(plusSigns[j],0,Qt::AlignCenter);
 				++j;
 			}
+			productCoeffs[i]->show();
+			productNames[i]->show();
 		}
 		
 		stoichiometryWidget->setLayout(stoichiometryLayout);
@@ -859,17 +885,27 @@ namespace Tinkercell
 		
 	void StoichiometryTool::xaxisChanged(const QString& s)
 	{
-		/*if (!s.isEmpty() && !currentVar.isEmpty() && s != currentVar)
+		if (!s.isEmpty() && !currentVar.isEmpty() && s != currentVar && connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
 		{
-			console()->message(s);
-			currentVar = s;
-			updatePlot();
-		}*/
+			QString rate = connectionHandle->textData(tr("Rate equations"));
+			QStringList vars;
+			qreal min = startPlot->value();
+			qreal max = endPlot->value();
+		
+			replot(rate,currentVar = s,min,max,vars);
+		}
 	}
 
 	void StoichiometryTool::startStopChanged(double)
 	{
-		updatePlot();
+		if (connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
+		{
+			QString rate = connectionHandle->textData(tr("Rate equations"));
+			QStringList vars;
+			qreal min = startPlot->value();
+			qreal max = endPlot->value();
+			replot(rate,currentVar,min,max,vars);
+		}
 	}
 	
 	void StoichiometryTool::rateEquationChanged()
@@ -889,7 +925,7 @@ namespace Tinkercell
 										connectionHandle,
 										tr("Rate equations"),
 										&newTable);
-					updatePlot();
+					updatePlotWidget();
 				}
 			}
 		}
@@ -932,7 +968,7 @@ namespace Tinkercell
 									QList<ItemHandle*>() << connectionHandle << connectionHandle,
 									QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),
 									QList<NumericalDataTable*>() << &reactants << &products);
-				updateStoichiometry();
+				updateStoichiometryWidget();
 			}
 		}
 	}	
@@ -942,8 +978,8 @@ namespace Tinkercell
 		if (ratePlotWidget && 
 		    stoichiometryWidget)
 		    {
-				updatePlot();
-				updateStoichiometry();
+				updatePlotWidget();
+				updateStoichiometryWidget();
 			}
 	}
 

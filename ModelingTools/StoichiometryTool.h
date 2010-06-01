@@ -23,6 +23,7 @@ the stoichiometry and rates tables.
 #include <QGraphicsRectItem>
 #include <QGraphicsWidget>
 #include <QSlider>
+#include <QLabel>
 #include <QToolButton>
 #include <QButtonGroup>
 #include <QTableView>
@@ -40,12 +41,6 @@ the stoichiometry and rates tables.
 #include "Tool.h"
 #include "Plot2DWidget.h"
 #include "SpinBoxDelegate.h"
-
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 namespace Tinkercell
 {
@@ -74,14 +69,12 @@ namespace Tinkercell
 				table
 	\ingroup plugins
 	*/
-	class MY_EXPORT StoichiometryTool : public Tool
+	class TINKERCELLEXPORT StoichiometryTool : public Tool
 	{
 		Q_OBJECT
 
 	public:
 
-		/*! \brief handles that are currectly selected and being displayed by the table table widgets*/
-		QList<ConnectionHandle*> connectionHandles;
 		/*! \brief constructor: intializes the table widgets*/
 		StoichiometryTool();
 		/*! \brief sets main window and connects to main window's signals
@@ -89,10 +82,6 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 		/*! \brief preferred size for this window*/
 		QSize sizeHint() const;
-		/*! \brief hide the stoichiometry matrix, i.e. show only the rates*/
-		void hideMatrix();
-		/*! \brief show stoichiometry matrix along with rates*/
-		void showMatrix();
 
 		/*! \brief get the stoichiometry matrix for all the given items, combined
 		\param QList<ItemHandle*> all the items for which the stoichiometry matrix will be generated
@@ -130,12 +119,6 @@ namespace Tinkercell
 		void historyUpdate(int);
 		/*! \brief sets the C pointers for getRates, setRates, getStoichiometry, setStoic...etc*/
 		void setupFunctionPointers(QLibrary*);
-		/*! \brief when scene is closing, close this window and clear connectionHandles*/
-		void sceneClosing(NetworkHandle * , bool * close);
-		/*! \brief used by ModelSummaryTool to show only the relevant parameters*/
-		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
-		/*! \brief display rates in the ModelSummaryTool widget*/
-		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
 
 	signals:
 		/*! \brief set the middle region of a connection for reversible reactions*/
@@ -151,53 +134,25 @@ namespace Tinkercell
 		/*! \brief used for the C API*/
 		void setRatesSlot(QSemaphore*, QList<ItemHandle*>&, const QStringList&);
 
-	protected:
+	private slots:
+		void aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+		void displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations);
+
 		/*! \brief insert Rates and Stoichiometry tables
 		\param ConnectionHandle * target handle*/
-		void insertDataMatrix(ConnectionHandle * handle);
-		/*! \brief widgets for displaying rates*/
-		QTableWidget ratesTable;
-		/*! \brief widgets for displaying stoichiometry*/
-		QTableWidget matrixTable;
-		/*! \brief delegate for the tables*/
-		SpinBoxDelegate delegate;
-		/*! \brief update table widget based on currently selected connections*/
-		void updateTable();
-
-	protected slots:
-		/*! \brief add new reaction*/
-		void addRow();
-		/*! \brief remove a reaction*/
-		void removeRow();
-		/*! \brief evaluate values for all visible rate equations*/
-		void eval();
-		/*! \brief add an intermediate species (column in transpose of stoichiometry matrix)*/
-		void addCol();
-		/*! \brief add a participating species (column in transpose of stoichiometry matrix)*/
-		void removeCol();
-		/*! \brief set rate of the connection at the given index*/
-		void setRate(int, int);
-		/*! \brief set stoichiometry for the connection/species at the given index*/
-		void setStoichiometry(int, int);
+		void insertDataMatrix(ConnectionHandle * handle);	
 		/*! \brief make a biochemical reaction reversible by adding another row in the stoichiometry table*/
 		void addReverseReaction();
 		/*! \brief make a dimer*/
 		void addDimer();
+		void xaxisChanged(const QString&);
+		void startStopChanged(double);
+		void rateEquationChanged();
+		void stoichiometryChanged();
 
 	protected:
-		/*! \brief not used any longer*/
-		QList<GraphicsScene*> scenePtr;
-		/*! \brief not used any longer*/
-
-		QList<NumericalDataTable*> numericalDataPtr;
-		/*! \brief not used any longer*/
-		QList<DataTable<QString>*> textDataPtr;
-		/*! \brief Group boxes for displaying the rates and stoichiometry tables*/
-		QGroupBox * ratesBox, * matrixBox;
 		/*! \brief tab widget for rates and stoichiometries*/
-		QTabWidget * tabWidget;
-
-
+		QTabWidget * tabWidget;		
 		/*! \brief used for the C API*/
 		static StoichiometryTool_FToS fToS;
 		/*! \brief connect to the the C API static class*/
@@ -210,10 +165,10 @@ namespace Tinkercell
 		static ArrayOfStrings _getRates(ArrayOfItems );
 		/*! \brief used for the C API*/
 		static void _setRates(ArrayOfItems ,ArrayOfStrings );
-		/*! \brief delete and + for adding/removing rows/columns*/
-		virtual void keyPressEvent ( QKeyEvent * event );
 
 	private:
+		/*! \brief handles that are currectly selected and being displayed by the table table widgets*/
+		ConnectionHandle * connectionHandle;
 		/*! \brief This function is useful for any tool that needs to parse an equation and automatically
 		add any undefined variables in the Parameters table (where parameters are usually stored)
 		\param NetworkHandle the target network window (for symbols table)
@@ -221,27 +176,26 @@ namespace Tinkercell
 		\param QString& the equation; this variable can get modified if it contains bad characters*/
 		static bool parseRateString(NetworkHandle*, ItemHandle *, QString&);
 		
-		/*! \brief used to keep track of updated headers*/
-		QStringList updatedRowNames, updatedColumnNames;
-
-		/*! \brief used to keep track of when to close the window automatically*/
-		bool openedByUser;
-		/*! \brief the icon to display for this tool*/
-		NodeGraphicsItem graphics1;
-		/*! \brief the icon to display for this tool*/
-		NodeGraphicsItem graphics2;
-		/*! \brief the dock widget for this widget*/
-		QDockWidget * dockWidget;
 		/*! \brief make a reaction reversible*/
 		QAction * autoReverse, * autoDimer;
 		/*! \brief separator for the action that makes a reaction reversible*/
 		QAction * separator;
-		
-		Plot2DWidget * plotWidget;
+
+		Plot2DWidget * plotWidget;		
 		QLineEdit * plotLineEdit;
 		QComboBox * plotVar;
 		QDoubleSpinBox * startPlot, * endPlot;
-		QWidget * ratePlotWidget;
+		QWidget * ratePlotWidget, * stoichiometryWidget;
+		QList<QLineEdit*> reactantCoeffs, productCoeffs;
+		QList<QLabel*> reactantNames, productNames;
+		QLabel * plusSign;
+		QHBoxLayout * stoichiometryLayout;
+		QString currentVar;
+		
+		bool updatePlot();
+		bool updateStoichiometry();
+		void updateWidgets();
+
 	};
 
 

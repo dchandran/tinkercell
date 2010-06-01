@@ -15,5 +15,6 @@ Function that loads dll into main window
 #include "ModelSummaryTool.h"
 #include "ContainerTool.h"
 #include "ModelFileGenerator.h"
+#include "SimulationEventTool.h"
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);

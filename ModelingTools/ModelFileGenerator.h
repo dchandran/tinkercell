@@ -21,11 +21,6 @@ A small class that generates the ode and rates file from the given items
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 namespace Tinkercell
 {
@@ -41,7 +36,7 @@ namespace Tinkercell
 		int generateModelFile(const char*, ArrayOfItems);
 	};
 
-	class MY_EXPORT ModelFileGenerator : public Tool
+	class TINKERCELLEXPORT ModelFileGenerator : public Tool
 	{
 		Q_OBJECT;
 

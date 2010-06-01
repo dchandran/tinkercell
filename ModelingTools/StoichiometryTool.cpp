@@ -40,65 +40,10 @@ namespace Tinkercell
 
 	void StoichiometryTool::select(int)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		if (dockWidget && dockWidget->widget() != this)
-			dockWidget->setWidget(this);
-		
-		if (tabWidget->count() < 2)
-		{
-			tabWidget->addTab(ratesBox,tr("Rate equations"));
-			tabWidget->addTab(ratePlotWidget,tr("Rate equation"));
-			tabWidget->addTab(matrixBox,tr("Stoichiometry"));
-		}
-
-		connectionHandles.clear();
-		ConnectionHandle * connectionHandle = 0;
-
-		QList<ItemHandle*> list = getHandle(scene->selected());
-
-		for (int i=0; i < list.size(); ++i)
-		{
-			connectionHandle = ConnectionHandle::cast(list[i]);
-			if (connectionHandle  && !connectionHandles.contains(connectionHandle))
-				connectionHandles += connectionHandle;
-		}
-
-		if (connectionHandles.size() < 1) return;
-
-		updateTable();
-
-		openedByUser = true;
-		if (dockWidget != 0)
-		{
-			if (dockWidget->isVisible())
-				openedByUser = false;
-			else
-				dockWidget->show();
-		}
-		else
-		{
-			if (isVisible())
-				openedByUser = false;
-			else
-				show();
-		}
-
-		this->setFocus();
-
 	}
 
 	void StoichiometryTool::deselect(int)
 	{
-		if (openedByUser && (!dockWidget || dockWidget->isFloating()))
-		{
-			openedByUser = false;
-			if (dockWidget != 0)
-				dockWidget->hide();
-			else
-				this->hide();
-		}
 	}
 
 	bool StoichiometryTool::setMainWindow(MainWindow * main)
@@ -107,8 +52,6 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
-
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 
@@ -122,17 +65,7 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyUpdate(int)));
 
 			setWindowTitle(name);
-			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
-			if (dockWidget)
-			{
-				dockWidget->setWindowFlags(Qt::Tool);
-				dockWidget->setAttribute(Qt::WA_ContentsPropagated);
-				dockWidget->setPalette(QPalette(QColor(255,255,255,255)));
-				dockWidget->setAutoFillBackground(true);
-				//dockWidget->setWindowOpacity(0.9);
-
-				dockWidget->move(mainWindow->geometry().bottomRight() - QPoint((int)(sizeHint().width()*1.5),(int)(sizeHint().height()*1.5)));
-			}
+			
 		}
 		return (mainWindow != 0);
 	}
@@ -165,59 +98,13 @@ namespace Tinkercell
 				connect(this,SIGNAL(setMiddleBox(int,const QString&)),connectionSelection, SLOT(showMiddleBox(int,const QString&)));
 			}
 		}
-	}
 
-	void StoichiometryTool::aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& , QHash<QString,QString>& equations)
-	{
-		connectionHandles.clear();
-		for (int i=0; i < items.size(); ++i)
-			if (items[i] && items[i]->type == ConnectionHandle::TYPE)
-				connectionHandles += static_cast<ConnectionHandle*>(items[i]);
-		updateTable();
-		for (int i=0; i < ratesTable.rowCount() && i < updatedRowNames.size(); ++i)
-			if (ratesTable.item(i,0) && !ratesTable.item(i,0)->text().isEmpty())
-			{
-				equations[ updatedRowNames[i] ] = ratesTable.item(i,0)->text();
-			}
-	}
-
-	void StoichiometryTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& , QHash<QString,qreal>& constants, QHash<QString,QString>& )
-	{
-		if (updatedRowNames.size() > 0)
-		{
-			for (int i=0; i < updatedColumnNames.size(); ++i)
-				if (!constants.contains(updatedColumnNames[i]))
-				{
-					constants[ updatedColumnNames[i] ] = 1.0;
-				}
-
-			if (dockWidget && dockWidget->isVisible())
-				dockWidget->hide();
-
-			if (ratesBox->isVisible())
-				widgets.insertTab(0,ratesBox,tr("Rate equations"));
-			else
-				widgets.insertTab(0,ratePlotWidget,tr("Rate equation"));
-			widgets.insertTab(1,matrixBox,tr("Stoichiometry matrix"));
-		}
-		else
-		{
-			if (dockWidget && dockWidget->widget() != this)
-				dockWidget->setWidget(this);
-
-			if (tabWidget->count() < 2)
-			{
-				tabWidget->addTab(ratesBox,tr("Rate equations"));
-				tabWidget->addTab(ratePlotWidget,tr("Rate equation"));
-				tabWidget->addTab(matrixBox,tr("Stoichiometry"));
-			}
-		}
 	}
 
 	void StoichiometryTool::historyUpdate(int )
 	{
 		if (parentWidget() && parentWidget()->isVisible())
-			updateTable();
+			updateWidgets();
 	}
 
 	void StoichiometryTool::connectCFuntions()
@@ -245,7 +132,7 @@ namespace Tinkercell
 				&(_setStoichiometry),
 				&(_getRates),
 				&(_setRates)
-				);
+			);
 		}
 	}
 
@@ -290,23 +177,21 @@ namespace Tinkercell
 
 	void StoichiometryTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers )
 	{
+		connectionHandle = 0;
 		if (scene && (isVisible() || (parentWidget() && parentWidget() != mainWindow && parentWidget()->isVisible())))
 		{
-			connectionHandles.clear();
 			ConnectionGraphicsItem * connection = 0;
-			ConnectionHandle * connectionHandle = 0;
 			for (int i=0; i < list.size(); ++i)
 			{
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(list[i]);
+				connection = ConnectionGraphicsItem::cast(list[i]);
 				if (connection && connection->handle() && connection->handle()->type == ConnectionHandle::TYPE)
 				{
 					connectionHandle = static_cast<ConnectionHandle*>(connection->handle());
-					if (connectionHandle)
-						connectionHandles += connectionHandle;
+					break;
 				}
 			}
 
-			updateTable();
+			updateWidgets();
 		}
 
 		bool reactions = false, species = false;
@@ -351,9 +236,20 @@ namespace Tinkercell
 			mainWindow->contextItemsMenu.removeAction(autoDimer);
 		}
 	}
-
-	void StoichiometryTool::sceneClosing(NetworkHandle * , bool *)
+	
+	void StoichiometryTool::aboutToDisplayModel(const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations)
 	{
+		if (connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
+			equations[ connectionHandle->fullName() ] = connectionHandle->textData(tr("Rate equations"));
+	}
+	
+	void StoichiometryTool::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& equations)
+	{
+		if (connectionHandle && ratePlotWidget && stoichiometryWidget)
+		{
+			widgets.insertTab(0,ratePlotWidget,tr("Rate equation"));
+			widgets.insertTab(1,stoichiometryWidget,tr("Reaction stoichiometry"));
+		}
 	}
 
 	void StoichiometryTool::itemsInserted(NetworkHandle* win, const QList<ItemHandle*>& handles)
@@ -363,8 +259,8 @@ namespace Tinkercell
 		{
 			if (handles[i] && handles[i]->family() && (connectionHandle = ConnectionHandle::cast(handles[i])))
 			{
-				if (!connectionHandle->tools.contains(this))
-					connectionHandle->tools += this;
+				//if (!connectionHandle->tools.contains(this))
+					//connectionHandle->tools += this;
 
 				if (connectionHandle->data &&
 					(
@@ -434,307 +330,23 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::hideMatrix()
-	{
-		if (matrixBox)
-		{
-			matrixBox->setVisible(false);
-			if (dockWidget && ratesBox)
-			{
-				resize( ratesBox->width() + 10, ratesBox->height() + 10);
-				dockWidget->resize( ratesBox->width() + 10, ratesBox->height() + 10);
-			}
-		}
-	}
-
-	void StoichiometryTool::showMatrix()
-	{
-		if (matrixBox)
-		{
-			matrixBox->setVisible(true);
-			if (dockWidget && ratesBox)
-			{
-				resize( matrixBox->width() + ratesBox->width() + 10, ratesBox->height() + 10);
-				dockWidget->resize( matrixBox->width() + ratesBox->width() + 10, ratesBox->height() + 10);
-			}
-		}
-	}
-
-	void StoichiometryTool::setStoichiometry(int , int )
-	{
-		bool ok = false;
-		qreal temp = 0;
-		NumericalDataTable stoicMatrix;
-		stoicMatrix.resize(matrixTable.rowCount(),matrixTable.columnCount());
-
-		QTableWidgetItem * tableItem = 0;
-
-		for (int i=0; i < matrixTable.rowCount(); ++i)
-			if (matrixTable.verticalHeaderItem(i))
-				stoicMatrix.rowName(i) = matrixTable.verticalHeaderItem(i)->text();
-
-		for (int j=0; j < matrixTable.columnCount(); ++j)
-			if (matrixTable.horizontalHeaderItem(j))
-				stoicMatrix.colName(j) = matrixTable.horizontalHeaderItem(j)->text();
-
-		for (int i=0; i < matrixTable.rowCount(); ++i)
-			for (int j=0; j < matrixTable.columnCount(); ++j)
-			{
-				tableItem = matrixTable.item(i,j);
-				if (tableItem != 0)
-				{
-					temp = tableItem->text().toDouble(&ok);
-					if (!ok) temp = 0;
-					stoicMatrix.value(i,j) = temp;
-				}
-			}
-
-			NumericalDataTable * nDataTable1 = 0, * nDataTable2 = 0;
-			QList<NumericalDataTable*> nDataTablesNew, nDataTablesOld;
-			QList<ItemHandle*> handles;
-
-			int n2 = 0, j0 = 0;
-			for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-			{
-				if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-				{
-					handles += connectionHandles[i];
-
-					if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries")) && connectionHandles[i]->hasNumericalData(tr("Product stoichiometries")))
-					{
-						
-						nDataTablesOld += &(connectionHandles[i]->data->numericalData[ tr("Reactant stoichiometries") ]);
-						nDataTablesOld += &(connectionHandles[i]->data->numericalData[ tr("Product stoichiometries") ]);
-						
-						nDataTable1 = new NumericalDataTable(connectionHandles[i]->data->numericalData[ tr("Reactant stoichiometries") ]);
-						nDataTable2 = new NumericalDataTable(connectionHandles[i]->data->numericalData[ tr("Product stoichiometries") ]);
-
-						for (int k=0; k < nDataTable1->rows() && k < nDataTable2->rows(); ++k)
-						{
-							for (int j=0; j < nDataTable1->cols(); ++j)     //get unique species
-							{
-								j0 = stoicMatrix.colNames().indexOf(nDataTable1->colName(j));
-								if (j0 >= 0)
-									if (stoicMatrix.value(n2,j0) < 0)
-										nDataTable1->value(k,j) = -stoicMatrix.value(n2,j0);
-									else
-										nDataTable1->value(k,j) = 0.0;
-							}
-							for (int j=0; j < nDataTable2->cols(); ++j)     //get unique species
-							{
-								j0 = stoicMatrix.colNames().indexOf(nDataTable2->colName(j));
-								if (j0 >= 0)
-									if (stoicMatrix.value(n2,j0) > 0)
-										nDataTable2->value(k,j) = stoicMatrix.value(n2,j0);
-									else
-										nDataTable2->value(k,j) = 0.0;
-							}
-							++n2;
-						}
-						nDataTablesNew += nDataTable1;
-						nDataTablesNew += nDataTable2;
-					}
-				}
-			}
-
-			if (currentNetwork() != 0)
-				currentNetwork()->changeData(tr("Stoichiometry changed"),handles,nDataTablesOld,nDataTablesNew);
-
-			for (int i=0; i < nDataTablesNew.size(); ++i)
-				if (nDataTablesNew[i])
-					delete nDataTablesNew[i];
-	}
-
 	bool StoichiometryTool::parseRateString(NetworkHandle * win, ItemHandle * handle, QString& s)
 	{
 		return EquationParser::validate(win, handle, s, QStringList() << "time");
 	}
 
-	void StoichiometryTool::setRate(int , int )
-	{
-		NetworkHandle * win = currentNetwork();
-		if (!win) return;
-
-		QStringList rates;
-
-		QTableWidgetItem * tableItem = 0;
-
-		for (int i=0; i < ratesTable.rowCount(); ++i)
-		{
-			tableItem = ratesTable.item(i,0);
-			if (tableItem != 0)
-				rates.append(tableItem->text());
-
-		}
-
-		TextDataTable * sDataTable = 0;
-
-		QList< TextDataTable *> sDataTablesNew;
-		QList<ItemHandle*> handles;
-
-		int n1 = 0;
-		bool change = false;
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-			{
-				handles += connectionHandles[i];
-				if (connectionHandles[i]->hasTextData(tr("Rate equations")))
-				{
-					sDataTable = new TextDataTable(connectionHandles[i]->data->textData[ tr("Rate equations") ]);
-					change = false;
-
-					for (int k=0; k < sDataTable->rows() && n1 < rates.size(); ++k)
-					{
-						QString s = rates.at(n1);
-						if (parseRateString(win, connectionHandles[i],s))
-						{
-							sDataTable->value(k,0) = s;
-							change = true;
-						}
-						++n1;
-					}
-					if (change)  //if anything changed
-						sDataTablesNew += sDataTable;
-				}
-			}
-		}
-
-		if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
-			mainWindow->currentNetwork()->changeData(tr("Selected kinetics changed"),handles,tr("Rate equations"),sDataTablesNew);
-
-		for (int i=0; i < sDataTablesNew.size(); ++i)
-			if (sDataTablesNew[i])
-				delete sDataTablesNew[i];
-	}
-
-
 	StoichiometryTool::StoichiometryTool() : Tool(tr("Stoichiometry and Rates"),tr("Modeling")),
 		autoReverse(new QAction("Make reversible",this)),
 		autoDimer(new QAction("Make dimer",this)),
-		separator(0)
+		separator(0),
+		plusSign(new QLabel(tr("+"),this))
 	{
 		QString appDir = QCoreApplication::applicationDirPath();
-		openedByUser = false;
-		NodeGraphicsReader reader;
-		reader.readXml(&graphics1,appDir + tr("/OtherItems/curve.xml"));
-		graphics1.setToolTip(tr("Reaction rates"));
-		graphics1.normalize();
-		graphics1.scale(40.0/graphics1.sceneBoundingRect().width(),40.0/graphics1.sceneBoundingRect().height());
-
-		reader.readXml(&graphics2,appDir + tr("/OtherItems/curve.xml"));
-		graphics2.setToolTip(tr("Reaction stoichiometry"));
-		graphics2.normalize();
-		graphics2.scale(40.0/graphics2.sceneBoundingRect().width(),40.0/graphics2.sceneBoundingRect().height());
-		
-		ToolGraphicsItem * toolGraphicsItem = new ToolGraphicsItem(this);
-		addGraphicsItem(toolGraphicsItem);
-		toolGraphicsItem->addToGroup(&graphics1);
-		toolGraphicsItem->setToolTip(tr("Reaction rates"));
-		
+	
 		setPalette(QPalette(QColor(255,255,255,255)));
 		setAutoFillBackground(true);
 
-		ratesTable.setAlternatingRowColors(true);
-		ratesTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
-		connect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));
-
-		matrixTable.setAlternatingRowColors(true);
-		matrixTable.setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
-		connect(&matrixTable,SIGNAL(cellChanged(int,int)),this,SLOT(setStoichiometry(int,int)));
-
-		QFont font = this->font();
-		font.setPointSize(12);
-		ratesTable.setFont(font);
-		matrixTable.setFont(font);
-
-		QHBoxLayout * rowButtonLayout = new QHBoxLayout;
-
-		QToolButton * addRow = new QToolButton(this);
-		addRow->setIcon(QIcon(":/images/plus.png"));
-
-		QToolButton * removeRow = new QToolButton(this);
-		removeRow->setIcon(QIcon(":/images/minus.png"));
-
-		addRow->setToolTip(tr("Add row"));
-		removeRow->setToolTip(tr("Remove row"));
-
-		QToolButton * calc = new QToolButton(this);
-		calc->setIcon(QIcon(":/images/calc.png"));
-		calc->setToolTip(tr("Get current rates"));
-
-		QToolButton * question1 = new QToolButton(this);
-		question1->setIcon(QIcon(":/images/question.png"));
-
-		QToolButton * question2 = new QToolButton(this);
-		question2->setIcon(QIcon(":/images/question.png"));
-
-		QString message = tr("The rates shows the reaction rates for the selected reactions.\nThe stoichiometry table shows the corresponding stoichiometries.\n\n For example, if the rates table shows J0.k0*A*B and the stoichiometry table shows -1 for A, -1 for B and +2 for C, then this means that that reaction consumes one A and one B and produces two C molecules, i.e. negative values indicate consumption and positive indicate production. \n\n The rate equation governs the speed at which this consumption and production is taking place. J0.k0 is a parameter for reaction J0. \n\n You may add intermediate molecules to the stoichiometry matrix by adding a column. For example, if there is an intermediate I when A is being converted to B, then you may add a new row and a new column and set the stoichiometries, i.e. A -1 and I +1 for the first reaction and I -1 and B +1 for ths second reaction. This is a way of adding intermediate steps without cluttering the drawing itself.");
-		QMessageBox * messageBox = new QMessageBox(QMessageBox::Information,tr("About Stoichiometry and Rates Tables"),message,QMessageBox::StandardButtons(QMessageBox::Close), const_cast<QWidget*>((QWidget*)this), Qt::WindowFlags (Qt::Dialog));
-		connect(question1,SIGNAL(pressed()),messageBox,SLOT(exec()));
-		connect(question2,SIGNAL(pressed()),messageBox,SLOT(exec()));
-
-		rowButtonLayout->addWidget(addRow);
-		rowButtonLayout->addWidget(removeRow);
-		rowButtonLayout->addWidget(calc);
-		rowButtonLayout->addStretch(1);
-		rowButtonLayout->addWidget(question1);
-
-		connect(addRow,SIGNAL(pressed()),this,SLOT(addRow()));
-		connect(removeRow,SIGNAL(pressed()),this,SLOT(removeRow()));
-		connect(calc,SIGNAL(pressed()),this,SLOT(eval()));
-
-		QVBoxLayout * colButtonLayout = new QVBoxLayout;
-
-		QToolButton * addCol = new QToolButton(this);
-		addCol->setIcon(QIcon(":/images/plus.png"));
-
-		QToolButton * removeCol = new QToolButton(this);
-		removeCol->setIcon(QIcon(":/images/minus.png"));
-
-		addCol->setToolTip(tr("Add column"));
-		removeCol->setToolTip(tr("Remove column"));
-
-		colButtonLayout->addWidget(addCol);
-		colButtonLayout->addWidget(removeCol);
-		colButtonLayout->addStretch(1);
-		colButtonLayout->addWidget(question2);
-
-		connect(addCol,SIGNAL(pressed()),this,SLOT(addCol()));
-		connect(removeCol,SIGNAL(pressed()),this,SLOT(removeCol()));
-
-		ratesBox = new QGroupBox(tr(" Reaction rates "),this);
-		ratesBox->setMinimumWidth(100);
-
-		matrixBox = new QGroupBox(tr(" Change in values due to each reaction "),this);
-		matrixBox->setMinimumWidth(100);
-		QVBoxLayout * ratesLayout = new QVBoxLayout;
-		ratesLayout->addWidget(&ratesTable);
-		ratesLayout->addLayout(rowButtonLayout);
-
-		QHBoxLayout * matrixLayout = new QHBoxLayout;
-		matrixLayout->addWidget(&matrixTable);
-		matrixLayout->addLayout(colButtonLayout);
-
-		ratesBox->setLayout(ratesLayout);
-		matrixBox->setLayout(matrixLayout);
-
-		dockWidget = 0;
-
-		QHBoxLayout * layout = new QHBoxLayout;
-
-		//QSplitter * splitter = new QSplitter;
-		tabWidget = new QTabWidget;
-		tabWidget->addTab(ratesBox,tr("Rate equations"));
-		tabWidget->addTab(matrixBox,tr("Stoichiometry"));
-		//layout->addWidget(ratesBox,1);
-		//layout->addWidget(matrixBox,2);
-		layout->addWidget(tabWidget);
-		setLayout(layout);
-
 		connectCFuntions();
-
-		//matrixTable.setItemDelegate(&delegate);
 
 		connect(autoReverse,SIGNAL(triggered()),this,SLOT(addReverseReaction()));
 		autoReverse->setIcon(QIcon(":/images/horizontalFlip.png"));
@@ -748,15 +360,29 @@ namespace Tinkercell
 		QHBoxLayout * optionsLayout = new QHBoxLayout;
 		optionsLayout->addWidget(new QLabel(tr("x-axis:")));
 		optionsLayout->addWidget(plotVar = new QComboBox);
+		connect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
+		
 		optionsLayout->addWidget(new QLabel(tr("start:")));
 		optionsLayout->addWidget(startPlot = new QDoubleSpinBox);
+		startPlot->setValue(0.0);
+		connect(startPlot,SIGNAL(valueChanged(double)),this,SLOT( startStopChanged(double) ));
+		
 		optionsLayout->addWidget(new QLabel(tr("end:")));
 		optionsLayout->addWidget(endPlot = new QDoubleSpinBox);
 		endPlot->setValue(10.0);
+		connect(endPlot,SIGNAL(valueChanged(double)),this,SLOT( startStopChanged(double) ));
+		
 		plotLayout->addLayout(optionsLayout);
 		plotLayout->addWidget(plotLineEdit = new QLineEdit);
 		ratePlotWidget->setLayout(plotLayout);
-		ratePlotWidget->hide();
+		connect(plotLineEdit,SIGNAL(editingFinished()),this,SLOT(rateEquationChanged()));
+		
+		stoichiometryWidget = new QWidget(this);
+		stoichiometryLayout = new QHBoxLayout;
+		stoichiometryWidget->setLayout(stoichiometryLayout);
+		tabWidget = new QTabWidget;
+		tabWidget->addTab(ratePlotWidget,tr("Rate equations"));
+		tabWidget->addTab(stoichiometryWidget,tr("Stoichiometry"));
 	}
 
 	void StoichiometryTool::addReverseReaction()
@@ -1032,529 +658,205 @@ namespace Tinkercell
 
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}
-
-	void StoichiometryTool::updateTable()
+	
+	bool StoichiometryTool::updatePlot()
 	{
-		updatedColumnNames.clear();
-		updatedRowNames.clear();
-
-		if (connectionHandles.size() < 1)
-		{
-			matrixTable.clearContents();
-			ratesTable.clearContents();
-			matrixTable.setRowCount(0);
-			matrixTable.setColumnCount(0);
-			ratesTable.setRowCount(0);
-			return;
-		}
-
-		QStringList colNames, rowNames, rates;
-		NumericalDataTable * nDataTable1 = 0, * nDataTable2 = 0;
-		TextDataTable * sDataTable = 0;
-		NumericalDataTable combinedTable;
-
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-			{
-				if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries")) &&
-					connectionHandles[i]->hasNumericalData(tr("Product stoichiometries")))
-				{
-					nDataTable1 = &(connectionHandles[i]->data->numericalData[tr("Reactant stoichiometries")]);
-					nDataTable2 = &(connectionHandles[i]->data->numericalData[tr("Product stoichiometries")]);
-					
-					for (int j=0; j < nDataTable1->cols(); ++j) //get unique reactants
-						if (!colNames.contains(nDataTable1->colName(j))
-							&& !colNames.contains(QString(nDataTable1->colName(j)).replace(".","_"))
-							&& !colNames.contains(QString(nDataTable1->colName(j)).replace("_",".")))
-							colNames += nDataTable1->colName(j);
-
-					for (int j=0; j < nDataTable2->cols(); ++j) //get unique products
-						if (!colNames.contains(nDataTable2->colName(j))
-							&& !colNames.contains(QString(nDataTable2->colName(j)).replace(".","_"))
-							&& !colNames.contains(QString(nDataTable2->colName(j)).replace("_",".")))
-							colNames += nDataTable2->colName(j);
-				}
-
-				if (connectionHandles[i]->hasTextData(tr("Rate equations")))
-				{
-					sDataTable = &(connectionHandles[i]->data->textData[tr("Rate equations")]);
-					for (int j=0; j < sDataTable->rows(); ++j) //get rates and reaction names
-					{
-						if (sDataTable->value(j,0).isEmpty()) continue;
-
-						QString row;
-						if (sDataTable->rows() > 1)
-						{
-							row = sDataTable->rowName(j);
-							if (row.length() == 0) row = tr("_J0");
-							row = connectionHandles[i]->fullName() + tr(".") + row;
-						}
-						else
-							row = connectionHandles[i]->fullName();
-
-						int i = 0;
-						while (rowNames.contains(row))
-							row = tr("_J") + QString::number(i++); //avoid duplicate rowname
-						rowNames += row;
-						rates += sDataTable->value(j,0);
-					}
-				}
-			}
-		}
-
-		combinedTable.resize(rowNames.size(),colNames.size());
-		for (int i=0; i < colNames.size(); ++i)
-			combinedTable.colName(i) = colNames[i];
-
-		for (int i=0; i < rowNames.size(); ++i)
-			combinedTable.rowName(i) = rowNames[i];
-
-		int n = 0, j0;
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-				if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries")) &&
-					connectionHandles[i]->hasNumericalData(tr("Product stoichiometries")))
-				{
-					nDataTable1 = &(connectionHandles[i]->data->numericalData[tr("Reactant stoichiometries")]);
-					nDataTable2 = &(connectionHandles[i]->data->numericalData[tr("Product stoichiometries")]);
-
-					for (int k=0; k < nDataTable1->rows() && k < nDataTable2->rows(); ++k)
-					{
-						for (int j=0; j < nDataTable1->cols(); ++j)     //get unique reactants
-						{
-							j0 = combinedTable.colNames().indexOf(nDataTable1->colName(j));
-							if (j0 < 0)
-								j0 = combinedTable.colNames().indexOf(QString(nDataTable1->colName(j)).replace(".","_"));
-							if (j0 < 0)
-								j0 = combinedTable.colNames().indexOf(QString(nDataTable1->colName(j)).replace("_","."));
-
-							if (j0 >= 0)
-								combinedTable.value(n,j0) -= nDataTable1->value(k,j);
-						}
-						
-						for (int j=0; j < nDataTable2->cols(); ++j)     //get unique products
-						{
-							j0 = combinedTable.colNames().indexOf(nDataTable2->colName(j));
-							if (j0 < 0)
-								j0 = combinedTable.colNames().indexOf(QString(nDataTable2->colName(j)).replace(".","_"));
-							if (j0 < 0)
-								j0 = combinedTable.colNames().indexOf(QString(nDataTable2->colName(j)).replace("_","."));
-
-							if (j0 >= 0)
-								combinedTable.value(n,j0) += nDataTable2->value(k,j);
-						}
-						++n;
-					}
-				}
-
-		ratesTable.setRowCount(rowNames.size());
-		ratesTable.setColumnCount(1);
-		ratesTable.setHorizontalHeaderLabels(QStringList() << "Rate equations");
-		ratesTable.setVerticalHeaderLabels(rowNames);
-
-		matrixTable.setRowCount(rowNames.size());
-		matrixTable.setColumnCount(colNames.size());
-		matrixTable.setHorizontalHeaderLabels(colNames);
-		matrixTable.setVerticalHeaderLabels(rowNames);
-
-		disconnect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));
-		disconnect(&matrixTable,SIGNAL(cellChanged(int,int)),this,SLOT(setStoichiometry(int,int)));
-
-		for (int i=0; i < matrixTable.rowCount(); ++i)
-		{
-			ratesTable.setItem(i,0,new QTableWidgetItem(rates[i]));
-			for (int j=0; j < matrixTable.columnCount(); ++j)
-			{
-				matrixTable.setItem(i,j,new QTableWidgetItem(QString::number(combinedTable.value(i,j))));
-			}
-		}
+		if (!connectionHandle ||
+			!startPlot || 
+			!endPlot || 
+			!plotLineEdit ||
+			!connectionHandle->hasTextData(tr("Rate equations")))
+			return false;
 		
-		ratesTable.resizeColumnToContents(0);
-		if (rates.size() == 1 && startPlot && endPlot)
-		{
-			QList< QPair<QString,qreal> > values;
-			QStringList vars = EquationParser::getVariablesInFormula(currentNetwork(),connectionHandles[0],rates[0]);
+		QString & rate = connectionHandle->textData(tr("Rate equations"));
+		
+		QList< QPair<QString,qreal> > values;
+		QStringList vars = EquationParser::getVariablesInFormula(currentNetwork(),connectionHandle,rate);
 			
-			if (vars.isEmpty())
-			{
-				ratePlotWidget->setParent(this);
-				ratePlotWidget->hide();
-				tabWidget->insertTab(0,ratesBox,tr("Rate equations"));
-				ratesBox->show();
-			}
-			else
-			{
-				console()->message(vars.join(" "));
-				ratesBox->setParent(this);
-				ratesBox->hide();
-				tabWidget->insertTab(0,ratePlotWidget,tr("Rate equation"));
-				ratePlotWidget->show();
-				NumericalDataTable plot;
-				plot.resize(100,2);
-			
-				values << QPair<QString,qreal>(vars[0],0.0);
-			
-				plotVar->clear();
-				plotVar->addItems(vars);
-				qreal min = startPlot->value();
-				qreal max = endPlot->value();
-				plotLineEdit->setText(rates[0]);
-			
-				mu::Parser parser;
-				bool b = true;
-				EquationParser::eval(currentNetwork(),rates[0],&b,values,&parser);
-				if (b)
-				{
-					for (int i=0; i < 100; ++i)
-					{
-						plot.value(i,0) = values[0].second = i/100.0*(max-min) + min;
-						plot.value(i,1) = parser.Eval();
-					}
-				}
-				plot.colName(0) = vars[0];
-				plot.colName(1) = connectionHandles[0]->name;
-			
-				plotWidget->plot(plot,tr("Rate equation"),0);
-			}
-		}
+		if (vars.isEmpty() || vars[0].isEmpty())
+			return false;
+
+		if (currentVar.isEmpty() || !vars.contains(currentVar))
+			currentVar = vars[0];			
 		else
 		{
-			ratePlotWidget->setParent(this);
-			ratePlotWidget->hide();
-			tabWidget->insertTab(0,ratesBox,tr("Rate equations"));
-			ratesBox->show();
+			int k = vars.indexOf(currentVar);
+			QString s = vars[k];
+			vars[k] = vars[0];
+			vars[0] = s;
+		}
+			
+		NumericalDataTable plot;
+		plot.resize(100,2);
+			
+		values << QPair<QString,qreal>(currentVar,0.0);
+			
+		plotVar->clear();
+		plotVar->addItems(vars);
+		qreal min = startPlot->value();
+		qreal max = endPlot->value();
+		plotLineEdit->setText(rate);
+			
+		mu::Parser parser;
+		bool b = true;
+		EquationParser::eval(currentNetwork(),rate,&b,values,&parser);
+		if (b)
+		{
+			for (int i=0; i < 100; ++i)
+			{
+				plot.value(i,0) = values[0].second = i/100.0*(max-min) + min;
+				plot.value(i,1) = parser.Eval();
+			}
+		}
+		plot.colName(0) = currentVar;
+		plot.colName(1) = connectionHandle->name;
+		plotWidget->plot(plot,tr("Rate equation"),0);
+		return true;
+	}
+	
+	bool StoichiometryTool::updateStoichiometry()
+	{
+		if (!connectionHandle || 
+			!connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) ||
+			!connectionHandle->hasNumericalData(tr("Product stoichiometries")) ||
+			!stoichiometryLayout) return false;
+		
+		NumericalDataTable & reactants = connectionHandle->numericalDataTable(tr("Reactant stoichiometries")),
+						   & products = connectionHandle->numericalDataTable(tr("Product stoichiometries"));
+		
+		for (int i=reactants.cols(); i < reactantCoeffs.size(); ++i)
+			if (reactantCoeffs[i])
+			{
+				stoichiometryLayout->removeWidget(reactantCoeffs[i]);
+				reactantCoeffs[i]->setParent(this);
+				reactantCoeffs[i]->hide();
+			}
+		
+		for (int i=products.cols(); i < productCoeffs.size(); ++i)
+			if (productCoeffs[i])
+			{
+				stoichiometryLayout->removeWidget(productCoeffs[i]);
+				productCoeffs[i]->setParent(this);
+				productCoeffs[i]->hide();
+			}
+			
+		for (int i=reactants.cols(); i < reactantNames.size(); ++i)
+			if (reactantNames[i])
+			{
+				stoichiometryLayout->removeWidget(reactantNames[i]);
+				reactantNames[i]->setParent(this);
+				reactantNames[i]->hide();
+			}
+		
+		for (int i=products.cols(); i < productNames.size(); ++i)
+			if (productNames[i])
+			{
+				stoichiometryLayout->removeWidget(productNames[i]);
+				productNames[i]->setParent(this);
+				productNames[i]->hide();
+			}
+		
+		QLineEdit * line;
+		while (reactantCoeffs.size() < reactants.cols())
+		{
+			reactantCoeffs += (line = new QLineEdit(this));
+			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
 		}
 		
-		connect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));
-		connect(&matrixTable,SIGNAL(cellChanged(int,int)),this,SLOT(setStoichiometry(int,int)));
-
-		updatedColumnNames = colNames;
-		updatedRowNames = rowNames;
-	}
-
-	void StoichiometryTool::addRow()
-	{
-		if (connectionHandles.isEmpty()) return;
-
-		ItemHandle * lastItem = connectionHandles.last();
-		if (lastItem == 0 || lastItem->data == 0) return;
-
-		disconnect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));
-		disconnect(&matrixTable,SIGNAL(cellChanged(int,int)),this,SLOT(setStoichiometry(int,int)));
-
-		//add a row in the rates data and stoichiometry data
-		if (lastItem->hasNumericalData(tr("Reactant stoichiometries")) &&
-			lastItem->hasNumericalData(tr("Product stoichiometries")) &&
-			lastItem->hasTextData(tr("Rate equations")))
+		while (productCoeffs.size() < products.cols())
 		{
-			QString rowName;
-
-			NumericalDataTable * nDat1 = &(lastItem->data->numericalData[tr("Reactant stoichiometries")]);
-			NumericalDataTable * nDat2 = &(lastItem->data->numericalData[tr("Product stoichiometries")]);
-			NumericalDataTable * nDataTable1 = new NumericalDataTable(*nDat1);
-			NumericalDataTable * nDataTable2 = new NumericalDataTable(*nDat2);
-
-			QString newName = QInputDialog::getText(this,tr("New Reaction"),tr("Row name (without prefix) :"));
-
-			if (newName.isNull() || newName.isEmpty())
-				return;
-			else
-				rowName = Tinkercell::RemoveDisallowedCharactersFromName(newName);
-
-			if (!nDataTable1->insertRow(nDataTable1->rows(),rowName) || !nDataTable2->insertRow(nDataTable2->rows(),rowName))
-			{
-				delete nDataTable1;
-				delete nDataTable2;
-				if (console())
-                    console()->error(tr("That row name is already being used."));
-				return;
-			}
-
-			TextDataTable * sDat = &(lastItem->data->textData[tr("Rate equations")]);
-			TextDataTable * sDataTable = new TextDataTable(*sDat);
-			if (!sDataTable->insertRow(sDataTable->rows(),rowName))
-			{
-				delete nDataTable1;
-				delete nDataTable2;
-				delete sDataTable;
-				if (console())
-                    console()->error(tr("That row name is already being used."));
-				return;
-			}
-
-			for (int i=0; i < nDataTable1->cols(); ++i)
-				nDataTable1->value(nDataTable1->rows()-1,i) = 0;
+			productCoeffs += (line = new QLineEdit(this));
+			connect(line,SIGNAL(editingFinished()),this,SLOT(stoichiometryChanged()));
+		}
 			
-			for (int i=0; i < nDataTable2->cols(); ++i)
-				nDataTable2->value(nDataTable2->rows()-1,i) = 0;
-
-			sDataTable->value(sDataTable->rows()-1,0) = tr("0");
-
-
-			if (mainWindow && mainWindow->currentNetwork())
-			{
-				mainWindow->currentNetwork()->changeData(tr("rates row for ") + lastItem->fullName() + tr(" added"),
-					QList<ItemHandle*>() << lastItem,
-					QList<NumericalDataTable*>() << nDat1 << nDat1,
-					QList<NumericalDataTable*>() << nDataTable1 << nDataTable2,
-					QList<TextDataTable*>() << sDat,
-					QList<TextDataTable*>() << sDataTable);
-			}
-
-			delete nDataTable1;
-			delete nDataTable2;
-			delete sDataTable;
-
-			int n = matrixTable.rowCount();
-			matrixTable.insertRow(n);
-			ratesTable.insertRow(n);
-
-			matrixTable.setVerticalHeaderItem(n, new QTableWidgetItem(rowName));
-			ratesTable.setVerticalHeaderItem(n, new QTableWidgetItem(rowName));
-
-			for (int i=0; i < matrixTable.columnCount(); ++i)
-				matrixTable.setItem(n,i,new QTableWidgetItem("0"));
-
-			ratesTable.setItem(n,0,new QTableWidgetItem("0"));
+		while (productNames.size() < products.cols())
+			productNames += (new QLabel(this));
+		
+		for (int i=0; i < reactants.cols(); ++i)
+		{
+			reactantCoeffs[i]->setText(QString::number(reactants.at(0,i)));
+			reactantNames[i]->setText(reactants.colName(i));
+			stoichiometryLayout->addWidget(reactantCoeffs[i]);
+			stoichiometryLayout->addWidget(reactantNames[i]);
 		}
-
-		connect(&ratesTable,SIGNAL(cellChanged(int,int)),this,SLOT(setRate(int,int)));
-		connect(&matrixTable,SIGNAL(cellChanged(int,int)),this,SLOT(setStoichiometry(int,int)));
+		
+		stoichiometryLayout->addWidget(plusSign);
+		
+		for (int i=0; i < products.cols(); ++i)
+		{
+			productCoeffs[i]->setText(QString::number(products.at(0,i)));
+			productNames[i]->setText(products.colName(i));
+			stoichiometryLayout->addWidget(productCoeffs[i]);
+			stoichiometryLayout->addWidget(productNames[i]);
+		}
+		
+		return true;
+	}
+		
+	void StoichiometryTool::xaxisChanged(const QString&)
+	{
+		updatePlot();
 	}
 
-	void StoichiometryTool::removeRow()
+	void StoichiometryTool::startStopChanged(double)
 	{
-		if (connectionHandles.size() < 1)
+		updatePlot();
+	}
+	
+	void StoichiometryTool::rateEquationChanged()
+	{
+		NetworkHandle * network = currentNetwork();
+		if (connectionHandle && plotLineEdit && network)
 		{
-			return;
-		}
-		QList<QTableWidgetItem*> selectedItems = ratesTable.selectedItems();
-		selectedItems += matrixTable.selectedItems();
-		if (selectedItems.isEmpty()) return;
-
-		NumericalDataTable * nDat1 = 0, * nDat2 = 0;
-		TextDataTable * sDat = 0;
-
-		QList< NumericalDataTable* > nDataTablesOld, nDataTablesNew;
-		QList< TextDataTable* > sDataTablesOld, sDataTablesNew;
-		QList<ItemHandle*> handles;
-
-		int n = 0;
-
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-		{
-			handles += connectionHandles[i];
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			QString rate = plotLineEdit->text();
+			if (parseRateString(network,connectionHandle,rate))
 			{
-				if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries"))
-					&& connectionHandles[i]->hasNumericalData(tr("Product stoichiometries"))
-					&& connectionHandles[i]->hasTextData(tr("Rate equations")))
-				{
-					nDat1 = &(connectionHandles[i]->data->numericalData[tr("Reactant stoichiometries")]);
-					nDat2 = &(connectionHandles[i]->data->numericalData[tr("Product stoichiometries")]);
-					sDat = &(connectionHandles[i]->data->textData[tr("Rate equations")]);
-
-					QList<int> rowsToRemove;
-					for (int j=0; j < nDat1->rows() && j < nDat2->rows() && j < sDat->rows(); ++j, ++n)
-					{
-						for (int k=0; k < selectedItems.size(); ++k)
-							if (selectedItems[k] && selectedItems[k]->row() == n)
-							{
-								rowsToRemove += j;
-								break;
-							}
-					}
-
-					NumericalDataTable * nDataTable1 = new NumericalDataTable(*nDat1),
-									   * nDataTable2 = new NumericalDataTable(*nDat2);
-					TextDataTable * sDataTable = new TextDataTable(*sDat);
-
-					for (int j=0; j < rowsToRemove.size(); ++j)
-					{
-						nDataTable1->removeRow(rowsToRemove[j]);
-						nDataTable2->removeRow(rowsToRemove[j]);
-						sDataTable->removeRow(rowsToRemove[j]);
-
-						for (int k=0; k < rowsToRemove.size(); ++k)
-							if (rowsToRemove[k] > rowsToRemove[j])
-								rowsToRemove[k] -= 1;
-					}
-
-					nDataTablesOld << nDat1 << nDat2;
-					sDataTablesOld += sDat;
-					nDataTablesNew << nDataTable1 << nDataTable2;
-					sDataTablesNew += sDataTable;
-				}
+				TextDataTable newTable(connectionHandle->textDataTable(tr("Rate equations")));
+				newTable.value(0,0) = rate;
+				
+				network->changeData(connectionHandle->fullName() + tr(" rate changed"),
+									connectionHandle,
+									tr("Rate equations"),
+									&newTable);
 			}
-		}
-
-		if (nDataTablesNew.size() > 0)
-		{
-			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
-			{
-				mainWindow->currentNetwork()->changeData(tr("Selected reactions removed"), 
-					handles,nDataTablesOld,nDataTablesNew,sDataTablesOld,sDataTablesNew);
-			}
-
-			for (int i=0; i < nDataTablesNew.size(); ++i)
-				delete nDataTablesNew[i];
-
-			for (int i=0; i < sDataTablesNew.size(); ++i)
-				delete sDataTablesNew[i];
 		}
 	}
-	void StoichiometryTool::addCol()
+	
+	void StoichiometryTool::stoichiometryChanged()
 	{
-		if (connectionHandles.size() < 1)
+		NetworkHandle * network = currentNetwork();
+		if (connectionHandle && network)
 		{
-			return;
-		}
-
-		NumericalDataTable * nDat1 = 0, * nDat2 = 0;
-
-		QList< NumericalDataTable* > nDataTablesNew, nDataTablesOld;
-
-		QString newName = QInputDialog::getText(this,tr("Add Intermediate Species"),tr("Column name (with prefix) :"));
-
-		if (newName.isNull() || newName.isEmpty()) return;
-
-		QString colName = newName;
-		QList<ItemHandle*> handles;
-
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			NumericalDataTable reactants(connectionHandle->numericalDataTable(tr("Reactant stoichiometries"))),
+							   products(connectionHandle->numericalDataTable(tr("Product stoichiometries")));
+			
+			double d;
+			bool ok;
+			for (int i=0; i < reactantCoeffs.size(); ++i)
 			{
-				if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries")) &&
-					connectionHandles[i]->hasNumericalData(tr("Product stoichiometries")))
-				{
-					handles << connectionHandles[i];
-					
-					nDat1 = &(connectionHandles[i]->data->numericalData[tr("Reactant stoichiometries")]);
-					nDat2 = &(connectionHandles[i]->data->numericalData[tr("Product stoichiometries")]);
-
-					NumericalDataTable * nDataTable1 = new NumericalDataTable(*nDat1),
-	 								   * nDataTable2 = new NumericalDataTable(*nDat2);
-
-					nDataTable1->insertCol(nDataTable1->cols(), colName);
-					nDataTable2->insertCol(nDataTable2->cols(), colName);
-
-					nDataTablesOld << nDat1 << nDat2;
-					nDataTablesNew << nDataTable1 << nDataTable2;
-				}
+				d = reactantCoeffs[i]->text().toDouble(&ok);
+				if (ok)
+					reactants.value(0,i) = d;
 			}
-		}
-
-		if (nDataTablesNew.size() > 0)
-		{
-			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
+			
+			for (int i=0; i < productCoeffs.size(); ++i)
 			{
-				mainWindow->currentNetwork()->changeData(tr("Hidden variables added"), handles, nDataTablesOld, nDataTablesNew);
+				d = productCoeffs[i]->text().toDouble(&ok);
+				if (ok)
+					products.value(0,i) = d;
 			}
-
-			for (int i=0; i < nDataTablesNew.size(); ++i)
-				delete nDataTablesNew[i];
+				
+			network->changeData(connectionHandle->fullName() + tr(" stoichiometry changed"),
+								QList<ItemHandle*>() << connectionHandle << connectionHandle,
+								QStringList() << tr("Reactant stoichiometries") << tr("Product stoichiometries"),
+								QList<NumericalDataTable*>() << &reactants << &products);
 		}
+	}	
 
-		updateTable();
-	}
-	void StoichiometryTool::removeCol()
+	void StoichiometryTool::updateWidgets()
 	{
-		if (connectionHandles.size() < 1)
-		{
-			return;
-		}
-		QList<QTableWidgetItem*> selectedItems = matrixTable.selectedItems();
-
-		if (selectedItems.isEmpty()) return;
-
-		NumericalDataTable * nDat1 = 0, * nDat2 = 0;
-		//TextDataTable * sDataTable = 0;
-
-		QList< NumericalDataTable* > nDataTablesNew, nDataTablesOld;
-		//QList< TextDataTable* > sDataTablesNew, sDataTablesOld;
-
-		QList<ItemHandle*> handles;
-
-
-		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
-			{
-				if (connectionHandles[i]->hasNumericalData(tr("Reactant stoichiometries")) &&
-					connectionHandles[i]->hasNumericalData(tr("Product stoichiometries")))
-				{
-					nDat1 = &(connectionHandles[i]->data->numericalData[tr("Reactant stoichiometries")]);
-					nDat2 = &(connectionHandles[i]->data->numericalData[tr("Product stoichiometries")]);
-
-					QList<int> colsToRemove;
-					for (int j=0; j < nDat1->cols(); ++j)
-					{
-						for (int k=0; k < selectedItems.size(); ++k)
-							if (selectedItems[k] &&
-								matrixTable.horizontalHeaderItem(selectedItems[k]->column())->text()
-								== nDat1->colName(j))
-							{
-								colsToRemove += j;
-								break;
-							}
-					}
-
-					NumericalDataTable * nDataTable1 = new NumericalDataTable(*nDat1);
-
-					for (int j=0; j < colsToRemove.size(); ++j)
-					{
-						nDataTable1->removeCol(colsToRemove[j]);
-
-						for (int k=0; k < colsToRemove.size(); ++k)
-							if (colsToRemove[k] > colsToRemove[j])
-								colsToRemove[k] -= 1;
-					}
-					
-					colsToRemove.clear();
-					for (int j=0; j < nDat2->cols(); ++j)
-					{
-						for (int k=0; k < selectedItems.size(); ++k)
-							if (selectedItems[k] &&
-								matrixTable.horizontalHeaderItem(selectedItems[k]->column())->text()
-								== nDat2->colName(j))
-							{
-								colsToRemove += j;
-								break;
-							}
-					}
-
-					NumericalDataTable * nDataTable2 = new NumericalDataTable(*nDat2);
-
-					for (int j=0; j < colsToRemove.size(); ++j)
-					{
-						nDataTable2->removeCol(colsToRemove[j]);
-
-						for (int k=0; k < colsToRemove.size(); ++k)
-							if (colsToRemove[k] > colsToRemove[j])
-								colsToRemove[k] -= 1;
-					}
-
-					nDataTablesOld << nDat1 << nDat2;
-					nDataTablesNew << nDataTable1 << nDataTable2;
-					handles += connectionHandles[i];
-				}
-			}
-		}
-
-		if (nDataTablesNew.size() > 0)
-		{
-			if (mainWindow != 0 && mainWindow->currentNetwork() != 0)
-			{
-				mainWindow->currentNetwork()->changeData(tr("stoichiometry columns removed"), handles,nDataTablesOld,nDataTablesNew);
-			}
-
-			for (int i=0; i < nDataTablesNew.size(); ++i)
-				delete nDataTablesNew[i];
-		}
-
-		updateTable();
+		updatePlot();
+		updateStoichiometry();
 	}
 
 	//get the stoiciometry of the items and return the matrix
@@ -2013,69 +1315,6 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-	}
-
-	void StoichiometryTool::keyPressEvent ( QKeyEvent * event )
-	{
-		if (event->key() == Qt::Key_Delete || event->key() == Qt::Key_Backspace)
-		{
-			QList<QTableWidgetItem*> selectedItems = ratesTable.selectedItems();
-			selectedItems += matrixTable.selectedItems();
-
-			int row = -1, col = -1;
-			bool rowSelected = true, colSelected = true;
-
-			for (int i=0; i < selectedItems.size(); ++i)
-			{
-				if (selectedItems[i])
-				{
-					if (rowSelected && row != -1 && selectedItems[i]->row() != row)
-					{
-						rowSelected = false;
-					}
-					if (colSelected && col != -1 && selectedItems[i]->column() != col)
-					{
-						colSelected = false;
-					}
-					row = selectedItems[i]->row();
-					col = selectedItems[i]->column();
-				}
-			}
-
-			if (rowSelected)
-				removeRow();
-			else
-				if (colSelected)
-					removeCol();
-		}
-	}
-
-	void StoichiometryTool::eval()
-	{
-		bool b;
-		QStringList values;
-		for (int i=0; i < connectionHandles.size() && i < updatedRowNames.size(); ++i)
-		{
-			if (connectionHandles[i] && connectionHandles[i]->hasTextData(tr("Rate equations")))
-			{
-				TextDataTable rates = connectionHandles[i]->data->textData[tr("Rate equations")];
-				if (rates.cols() == 1)
-					for (int j=0; j < rates.rows(); ++j)
-					{
-						QString s = rates.value(j,0);
-						double d = EquationParser::eval(currentNetwork(), s, &b);
-						if (b)
-							if (rates.rowName(j).isEmpty() || rates.rows() == 1)
-								values << connectionHandles[i]->fullName() + tr(" = ") + QString::number(d);
-							else
-								values << connectionHandles[i]->fullName() + tr(".") + rates.rowName(j) + tr(" = ") + QString::number(d);
-
-					}
-			}
-		}
-		if (values.size() > 0)
-			if (console())
-                console()->message(values.join(tr("\n")));
 	}
 }
 

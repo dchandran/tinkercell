@@ -21,7 +21,7 @@
 
 namespace Tinkercell
 {
-    ContainerTreeTool::ContainerTreeTool() : Tool(tr("Compartment Tool"),tr("Modeling"))
+    CompartmentTool::CompartmentTool() : Tool(tr("Compartment Tool"),tr("Modeling"))
     {
         treeView = new QTreeView(this);
         treeView->setAlternatingRowColors(true);
@@ -41,7 +41,7 @@ namespace Tinkercell
         setLayout(layout);
     }
 
-    ContainerTreeTool::~ContainerTreeTool()
+    CompartmentTool::~CompartmentTool()
     {
         if (treeDelegate)
             delete treeDelegate;
@@ -50,7 +50,7 @@ namespace Tinkercell
             delete treeView->model();
     }
 
-    bool ContainerTreeTool::setMainWindow(MainWindow * main)
+    bool CompartmentTool::setMainWindow(MainWindow * main)
     {
         Tool::setMainWindow(main);
         if (mainWindow)
@@ -66,10 +66,10 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*, NetworkWindow*)),
                     this,SLOT(windowChanged(NetworkWindow*, NetworkWindow*)));
 
-			connect(mainWindow,SIGNAL(windowClosed(NetworkWindow *)),this,SLOT(windowClosed(NetworkWindow *)));
+			connect(mainWindow,SIGNAL(networkClosed(NetworkHandle *)),this,SLOT(windowClosed(NetworkHandle *)));
 
-            connect(this,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-                    mainWindow,SIGNAL(parentHandleChanged(NetworkWindow*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+            connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+                    mainWindow,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
             windowChanged(0,mainWindow->currentWindow());
 
@@ -90,12 +90,12 @@ namespace Tinkercell
         return false;
     }
 
-    void ContainerTreeTool::toolLoaded(Tool*)
+    void CompartmentTool::toolLoaded(Tool*)
     {
         connectCollisionDetector();
     }
 
-    void ContainerTreeTool::connectCollisionDetector()
+    void CompartmentTool::connectCollisionDetector()
     {
         static bool alreadyConnected = false;
         if (alreadyConnected || !mainWindow) return;
@@ -107,13 +107,13 @@ namespace Tinkercell
             if (collisionDetection)
             {
                 alreadyConnected = true;
-                connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )),
-                        this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )));
+                connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& )),
+                        this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& )));
             }
         }
     }
 
-	void ContainerTreeTool::windowClosed(NetworkWindow *)
+	void CompartmentTool::windowClosed(NetworkHandle *)
 	{
 		treeView->setUpdatesEnabled(false);
 
@@ -124,7 +124,7 @@ namespace Tinkercell
         }
 	}
 
-    void ContainerTreeTool::windowChanged(NetworkWindow * , NetworkWindow * )
+    void CompartmentTool::windowChanged(NetworkWindow * , NetworkWindow * )
     {
         treeView->setUpdatesEnabled(false);
 
@@ -136,10 +136,10 @@ namespace Tinkercell
 
 		ContainerTreeModel * model = 0;
 
-		NetworkWindow * win = currentWindow();
+		NetworkHandle * net = currentNetwork();
 
-		if (win)
-			model = new ContainerTreeModel(win);
+		if (net)
+			model = new ContainerTreeModel(net);
 
         treeView->setModel(model);
 
@@ -149,22 +149,22 @@ namespace Tinkercell
         treeView->setUpdatesEnabled(true);
     }
 
-    void ContainerTreeTool::updateTree(int)
+    void CompartmentTool::updateTree(int)
     {
         if (!mainWindow) return;
-        NetworkWindow * win = mainWindow->currentWindow();
-        if (!win) return;
+        NetworkHandle * net = mainWindow->currentNetwork();
+        if (!net) return;
 
         treeView->setUpdatesEnabled(false);
 
         if (treeView->model())
         {
             ContainerTreeModel * model = static_cast<ContainerTreeModel*>(treeView->model());
-            model->reload(win);
+            model->reload(net);
         }
         else
         {
-            ContainerTreeModel * model = new ContainerTreeModel(win);
+            ContainerTreeModel * model = new ContainerTreeModel(net);
             treeView->setModel(model);
         }
 
@@ -175,10 +175,10 @@ namespace Tinkercell
 
     }
 
-    void ContainerTreeTool::indexSelected(const QModelIndex& index)
+    void CompartmentTool::indexSelected(const QModelIndex& index)
     {
         if (!mainWindow) return;
-        GraphicsScene * scene = mainWindow->currentScene();
+        /*GraphicsScene * scene = mainWindow->currentScene();
         if (!scene) return;
 
         if (index.isValid())
@@ -188,10 +188,10 @@ namespace Tinkercell
             {
                 scene->select(item->handle()->graphicsItems);
             }
-        }
+        }*/
     }
 
-    void ContainerTreeTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
+    void CompartmentTool::itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF , Qt::KeyboardModifiers )
     {
         if (!scene || items.isEmpty()) return;
 
@@ -238,7 +238,7 @@ namespace Tinkercell
         }
     }
 
-    bool ContainerTreeTool::connectionInsideRect(ConnectionGraphicsItem* connection, const QRectF& rect, bool all)
+    bool CompartmentTool::connectionInsideRect(ConnectionGraphicsItem* connection, const QRectF& rect, bool all)
     {
         if (!connection) return false;
 
@@ -256,9 +256,9 @@ namespace Tinkercell
         return all;
     }
 
-    void ContainerTreeTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handleList)
+    void CompartmentTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& handleList)
     {
-        if (!mainWindow || !scene) return;
+        if (!mainWindow || !scene || !scene->network) return;
         ItemHandle * handle = 0, * parentHandle = 0;
 
         QList<ItemHandle*> handles, newParents, newChildren, specialCaseChildren, specialCaseParents;
@@ -301,7 +301,6 @@ namespace Tinkercell
         QList<QGraphicsItem*> itemsToRename;
         QList<QString> newNames;
 
-        QStringList namesInContainer;
         QString temp;
 
         for (int k=0; k < handles.size(); ++k)
@@ -309,14 +308,9 @@ namespace Tinkercell
             newChildren.clear();
             itemsToRename.clear();
             newNames.clear();
-            namesInContainer.clear();
 
             handle = handles[k];
             if (!handle) continue;
-
-            for (int i=0; i < handle->children.size(); ++i)
-                if (handle->children[i])
-                    namesInContainer << handle->children[i]->name;
 
             bool contained = true, contained0 = true;
             QRectF childRect;
@@ -340,12 +334,6 @@ namespace Tinkercell
                         for (int l=0; l < handle->graphicsItems.size(); ++l)
 							if (handle->graphicsItems[l])
 							{
-								if (!scene->isVisible(handle->graphicsItems[l]))
-								{
-									contained0 = true;
-									break;
-								}
-								
 								if (connection)
 								{
 									if (connectionInsideRect(connection,handle->graphicsItems[l]->sceneBoundingRect()))
@@ -382,7 +370,7 @@ namespace Tinkercell
                         newChildren += child;
                         newParents += handle;
                         temp = child->name;
-                        temp = RenameCommand::assignUniqueName(temp,namesInContainer);
+                        temp = scene->network->makeUnique(temp);
                         if (temp != child->name)
                         {
                             itemsToRename += items[i];
@@ -394,7 +382,7 @@ namespace Tinkercell
         }
 
         if (!newChildren.isEmpty())
-            scene->setParentHandle(newChildren,newParents);
+            scene->network->setParentHandle(newChildren,newParents);
 
         newChildren << specialCaseChildren;
         newParents << specialCaseParents;
@@ -408,13 +396,13 @@ namespace Tinkercell
         }
     }
 
-    void ContainerTreeTool::nodeCollided(const QList<QGraphicsItem*>& movingItems0, NodeGraphicsItem * nodeHit, const QList<QPointF>& , Qt::KeyboardModifiers )
+    void CompartmentTool::nodeCollided(const QList<QGraphicsItem*>& movingItems0, NodeGraphicsItem * nodeHit, const QList<QPointF>& )
     {
         if (!mainWindow || !nodeHit) return;
 
         GraphicsScene * scene = mainWindow->currentScene();
 
-        if (!scene) return;
+        if (!scene || !scene->network) return;
 
         ItemHandle * handle = getHandle(nodeHit);
 
@@ -429,12 +417,7 @@ namespace Tinkercell
         QList<QGraphicsItem*> itemsToRename;
         QList<QString> newNames;
 
-        QStringList namesInContainer;
         QString temp;
-
-        for (int i=0; i < handle->children.size(); ++i)
-            if (handle->children[i])
-                namesInContainer << handle->children[i]->name;
 
         bool stillWithParent;
 
@@ -465,7 +448,7 @@ namespace Tinkercell
 
         for (int i=0; i < movingItems.size(); ++i)
         {
-            if (!movingItems[i] || !scene->isVisible(movingItems[i])) continue;
+            if (!movingItems[i]) continue;
 
             QRectF itemRect = movingItems[i]->sceneBoundingRect();
             if (itemRect.width() >= hitRect.width() || itemRect.height() >= hitRect.height()) continue;
@@ -488,12 +471,7 @@ namespace Tinkercell
             if (child && child != handle && !handle->children.contains(child) && !handle->isChildOf(child))
             {
                 stillWithParent = false;
-                for (int j=0; j < child->graphicsItems.size(); ++j)
-            		if (!scene->isVisible(child->graphicsItems[j]))
-            		{
-            			stillWithParent = true;
-	            		break;
-					}
+                
                 if (child->parent && !stillWithParent)
                 {
 	                for (int j=0; j < child->graphicsItems.size(); ++j)
@@ -519,7 +497,7 @@ namespace Tinkercell
                 {
                     newChildren += child;
                     temp = child->name;
-                    temp = RenameCommand::assignUniqueName(temp,namesInContainer);
+                    temp = scene->network->makeUnique(temp);
                     if (temp != child->name)
                     {
                         itemsToRename += movingItems[i];
@@ -533,7 +511,7 @@ namespace Tinkercell
         {
             if (!newChildren.isEmpty())
             {
-                scene->setParentHandle(newChildren,handle);
+                scene->network->setParentHandle(newChildren,handle);
 
                 QList<ItemHandle*> parentItems;
                 while (parentItems.size() < newChildren.size()) parentItems << handle;
@@ -544,7 +522,7 @@ namespace Tinkercell
         }
     }
 
-    void ContainerTreeTool::sendToBack(QGraphicsItem* item, GraphicsScene * scene)
+    void CompartmentTool::sendToBack(QGraphicsItem* item, GraphicsScene * scene)
     {
         if (item && scene)
         {
@@ -573,9 +551,9 @@ namespace Tinkercell
         }
     }
 
-    void ContainerTreeTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles)
+    void CompartmentTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>&, const QList<ItemHandle*>& handles)
     {
-        if (!mainWindow || !scene || !scene->symbolsTable) return;
+        if (!mainWindow || !scene || !scene->network) return;
 
         QList<ItemHandle*> children;
         QList<ItemHandle*> newParents;
@@ -585,7 +563,6 @@ namespace Tinkercell
         QList<QString> newNames;
 
         QString temp;
-        QStringList namesInModel(scene->symbolsTable->handlesFullName.keys());
 
         //if items are placed in or out of a Compartment or module...
 
@@ -612,13 +589,13 @@ namespace Tinkercell
 
         if (!children.isEmpty() && !newParents.isEmpty())
         {
-            scene->setParentHandle(children,newParents);
+            scene->network->setParentHandle(children,newParents);
 
             adjustRates(scene, children, newParents);
         }
     }
 
-    void ContainerTreeTool::moveChildItems(GraphicsScene * scene, const QList<QGraphicsItem*> & items0, const QList<QPointF> & dist)
+    void CompartmentTool::moveChildItems(GraphicsScene * scene, const QList<QGraphicsItem*> & items0, const QList<QPointF> & dist)
     {
         QList<QGraphicsItem*> connections;
         ConnectionGraphicsItem::ControlPoint * cp;
@@ -628,7 +605,6 @@ namespace Tinkercell
             if ((cp = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items0[i]))
                 && cp->connectionItem && !connections.contains(cp->connectionItem))
                 connections << cp->connectionItem;
-
         }
 
         QList<QGraphicsItem*> items;
@@ -636,13 +612,12 @@ namespace Tinkercell
 
         ItemHandle * handle, * child;
         QList<ItemHandle*> visited;
-        //NodeGraphicsItem * node;
-        //ConnectionGraphicsItem * connection;
+        
         for (int i=0; i < items0.size(); ++i)
         {
             if (qgraphicsitem_cast<NodeGraphicsItem*>(items0[i]) &&
                 (handle = getHandle(items0[i])) && !visited.contains(handle) &&
-                (handle->isA(tr("Compartment")) || handle->isA(tr("Module"))) &&
+                handle->isA(tr("Compartment")) &&
                 handle->children.size() > 0)
             {
                 visited += handle;
@@ -661,7 +636,6 @@ namespace Tinkercell
                          tcItem->sceneBoundingRect().height() < rect.height() &&
                          (child = getHandle(tcItem)) &&
                          child != handle &&
-                         //child->isChildOf(handle) &&
                          !items0.contains(tcItem) && !items.contains(tcItem) && !connections.contains(tcItem))
                     {
                         items << tcItem;
@@ -677,9 +651,9 @@ namespace Tinkercell
         }
     }
 
-    void ContainerTreeTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist)
+    void CompartmentTool::itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items0, const QList<QPointF>& dist)
     {
-        if (!mainWindow || !scene || !scene->symbolsTable) return;
+        if (!mainWindow || !scene || !scene->network) return;
 
         QList<ItemHandle*> children;
         QList<ItemHandle*> newParents;
@@ -696,8 +670,6 @@ namespace Tinkercell
 
         ConnectionGraphicsItem::ControlPoint * cp = 0;
         NodeGraphicsItem * node = 0;
-
-        QStringList namesInModel(scene->symbolsTable->handlesFullName.keys());
 
         QList<QGraphicsItem*> items = items0;
         for (int i=0; i < items0.size(); ++i)
@@ -725,35 +697,28 @@ namespace Tinkercell
                 items << node->connectionsAsGraphicsItems();
             }
 
-			if (handle->parent && (handle->parent->isA(tr("Module")) || handle->parent->isA(tr("Compartment"))))
+			if (handle->parent && handle->parent->isA(tr("Compartment")))
 				movedChildNodes << handle;
 			else
-				if (handle->isA(tr("Compartment")) || handle->isA(tr("Module")))
+				if (handle->isA(tr("Compartment")))
 				{
 					movedCompartmentNodes << handle;
 					movedChildNodes << handle->children;
 				}
-
 		}
 
 		for (int i=0; i < movedCompartmentNodes.size(); ++i)
 			for (int j=0; j < movedCompartmentNodes[i]->graphicsItems.size(); ++j)
 				if (node = qgraphicsitem_cast<NodeGraphicsItem*>(movedCompartmentNodes[i]->graphicsItems[j]))
-					nodeCollided(QList<QGraphicsItem*>(),node,QList<QPointF>(),Qt::NoModifier);
+					nodeCollided(QList<QGraphicsItem*>(),node,QList<QPointF>());
 
 
 		for (int i=0; i < movedChildNodes.size(); ++i)
 		{
 			child = movedChildNodes[i];
-			if (child->graphicsItems.isEmpty() || !child->textItems.isEmpty()) continue;
+			if (child->graphicsItems.isEmpty()) continue;
 
             outOfBox = true;
-            for (int j=0; j < child->parent->graphicsItems.size(); ++j)
-            	if (!scene->isVisible(child->parent->graphicsItems[j]))
-            	{
-            		outOfBox = false;
-            		break;
-				}
 
             if (outOfBox)
 				for (int j=0; j < child->parent->graphicsItems.size(); ++j) //is the item still inside the Compartment/module?
@@ -766,7 +731,7 @@ namespace Tinkercell
 							{
 								//QPainterPath p2 = child->graphicsItems[k]->mapToScene(child->graphicsItems[k]->shape());
 								QRectF p2 = child->graphicsItems[k]->sceneBoundingRect();
-								if (!scene->isVisible(child->graphicsItems[k]) || p1.intersects(p2) || p1.contains(p2))
+								if (p1.intersects(p2) || p1.contains(p2))
 								{
 									outOfBox = false; //yes, still contained inside the module/Compartment
 									break;
@@ -783,12 +748,12 @@ namespace Tinkercell
 
         if (!children.isEmpty() && !newParents.isEmpty())
         {
-            scene->setParentHandle(children,newParents);
+            scene->network->setParentHandle(children,newParents);
             adjustRates(scene,children,newParents);
         }
     }
 
-    QSize ContainerTreeTool::sizeHint() const
+    QSize CompartmentTool::sizeHint() const
     {
         return QSize(100, 300);
     }
@@ -834,7 +799,7 @@ namespace Tinkercell
 							editor->setText( QString::number(handle->numericalData(QString("Initial Value"))) );
 						else
 							if (handle->hasTextData(QString("Rate equations")))
-								editor->setText( QString::number(handle->textData(QString("Rate equations"))) );
+								editor->setText(handle->textData(QString("Rate equations")));
 					}
 					else
 						if (handle->hasNumericalData(QString("Parameters")))
@@ -875,11 +840,11 @@ namespace Tinkercell
     
     /**********************************************************************/
 
-    void ContainerTreeTool::adjustRates(GraphicsScene * scene, QList<ItemHandle*> childItems, QList<ItemHandle*> parentItems)
+    void CompartmentTool::adjustRates(GraphicsScene * scene, QList<ItemHandle*> childItems, QList<ItemHandle*> parentItems)
     {
         if (!scene || childItems.isEmpty() || childItems.size() != parentItems.size()) return;
 
-        QList< DataTable<QString>* > newTables;
+        QList< TextDataTable* > newTables;
         QList<QString> toolNames;
         QList<ItemHandle*> targetHandles;
         QList<ItemHandle*> reactions;
@@ -917,8 +882,8 @@ namespace Tinkercell
 
         for (int i=0; i < reactions.size(); ++i)
         {
-            DataTable<QString> * rates = new DataTable<QString>(reactions[i]->data->textData[tr("Rate equations")]);
-            DataTable<QString> * data = new DataTable<QString>(reactions[i]->data->textData[tr("Assignments")]);
+            TextDataTable * rates = new TextDataTable(reactions[i]->textDataTable(tr("Rate equations")));
+            TextDataTable * data = new TextDataTable(reactions[i]->textDataTable(tr("Assignments")));
 
             QList<NodeGraphicsItem*> nodesIn, nodesOut;
             QList<ItemHandle*> speciesIn, speciesOut;
@@ -993,7 +958,7 @@ namespace Tinkercell
 
         if (targetHandles.size() > 0)
         {
-            scene->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
+            scene->network->changeData(tr("volume added to rates"),targetHandles,toolNames,newTables);
             if (console())
                 console()->message(tr("Rates have been updated to include volume of Compartment(s)"));
         }
@@ -1004,15 +969,4 @@ namespace Tinkercell
     }
 
 }
-
-
-extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
-	
-	Tinkercell::ContainerTreeTool * containerTool = new Tinkercell::ContainerTreeTool;
-	main->addTool(containerTool);
-
-}
-
 

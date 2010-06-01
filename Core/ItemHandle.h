@@ -176,7 +176,7 @@ namespace Tinkercell
 		\param QString row name in data table
 		\param QString column name data table
 		\return double value*/
-		virtual qreal numericalData(const QString& name, const QString& row, const QString& column) const;
+		virtual qreal numericalData(const QString& name, const QString& row, const QString& column=QString()) const;
 		/*! \brief gets a text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param int row in data table
@@ -188,7 +188,7 @@ namespace Tinkercell
 		\param QString row name in data table
 		\param QString column name data table
 		\return QString value*/
-		virtual QString textData(const QString& name, const QString& row, const QString& column) const;
+		virtual QString textData(const QString& name, const QString& row, const QString& column=QString()) const;
 		/*! \brief gets a reference to the numerical attribute with the given name, row, column
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\param int row in data table
@@ -200,7 +200,7 @@ namespace Tinkercell
 		\param QString row name in data table
 		\param QString column name data table
 		\return double reference value*/
-		virtual qreal& numericalData(const QString& name, const QString& row, const QString& column);
+		virtual qreal& numericalData(const QString& name, const QString& row, const QString& column=QString());
 		/*! \brief gets a reference to the text attribute with the given name, row, column
 		\param QString name of tool, e.g. "Text Attributes"
 		\param int row in data table
@@ -212,7 +212,7 @@ namespace Tinkercell
 		\param QString row name in data table
 		\param QString column name data table
 		\return QString& reference value*/
-		virtual QString& textData(const QString& name, const QString& row, const QString& column);
+		virtual QString& textData(const QString& name, const QString& row, const QString& column=QString());
 		/*! \brief gets reference to a numerical table with the given name. Makes the table if needed
 		\param QString name of tool, e.g. "Numerical Attributes"
 		\return DataTable<double>& reference of table*/

@@ -106,7 +106,7 @@ namespace Tinkercell
 					return QVariant(itemHandle->numericalData(QString("Initial Value")));
 				else
 					if (itemHandle->hasTextData(QString("Rate equations")))
-						return QVariant(itemHandle->texData(QString("Rate equations")));
+						return QVariant(itemHandle->textData(QString("Rate equations")));
 			}
 		}
 		
@@ -188,7 +188,7 @@ namespace Tinkercell
 
         if (net)
 		{
-            QList<ItemHandle*> items = net->allHandlesSortedByFamily();
+            QList<ItemHandle*> items = net->symbolsTable.allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -199,7 +199,7 @@ namespace Tinkercell
 				{
 					handle = items[i]->root();
 					
-					if (handle && !visited.contains(handle) && handle->family() && handle->visible)
+					if (handle && !visited.contains(handle) && handle->family())
 					{	
 						visited += handle;
 						if ((treeItem = makeBranch(handle,rootItem)))
@@ -229,20 +229,20 @@ namespace Tinkercell
 		return 0;
 	}
 	
-	void ContainerTreeModel::reload(NetworkWindow * win)
+	void ContainerTreeModel::reload(NetworkHandle * net)
 	{
-		if (win)
+		if (net)
 		{
-			if (win != this->network)
+			if (net != this->network)
 			{
 				delete rootItem;
 				rootItem = 0;
 			}
 			
 			ContainerTreeItem * rootItemNew = new ContainerTreeItem;
-            this->network = win;
+            this->network = net;
 			
-            QList<ItemHandle*> items = win->allHandlesSortedByFamily();
+            QList<ItemHandle*> items = net->symbolsTable.allHandlesSortedByFamily();
 			ItemHandle* handle = 0;
 
 			QList<ItemHandle*> visited;
@@ -253,7 +253,7 @@ namespace Tinkercell
 				{
 					handle = items[i]->root();
 					
-					if (handle && !visited.contains(handle) && handle->family() && handle->visible)
+					if (handle && !visited.contains(handle) && handle->family())
 					{	
 						visited += handle;
 						if ((treeItem = makeBranch(handle,rootItemNew)))
@@ -266,7 +266,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void ContainerTreeModel::populateAttributes()
+	void ContainerTreeItem::populateAttributes()
 	{
 		if (!itemHandle || !itemHandle->hasNumericalData(QString("Parameters"))) return;
 		
@@ -276,7 +276,7 @@ namespace Tinkercell
 		for (int i=0; i < attributes.rows(); ++i)
 		{
 			found = false;
-			for (int i=0; j < childItems.size(); ++j)
+			for (int j=0; j < childItems.size(); ++j)
 				if (childItems[j] && childItems[j]->attributeName == attributes.rowName(i))
 				{
 					found = true;
@@ -284,9 +284,9 @@ namespace Tinkercell
 				}
 			if (!found)
 			{
-				ContainerTreeModel * item = new ContainerTreeItem(itemHandle,this);
+				ContainerTreeItem * item = new ContainerTreeItem(itemHandle,this);
 				item->attributeName = attributes.rowName(i);
-				item->appendChild(child);
+				item->appendChild(item);
 			}
 		}		
 	}
@@ -320,7 +320,7 @@ namespace Tinkercell
 			for (int i=0; i < handle->children.size(); ++i)
 			{
 				childHandle = handle->children[i];
-				if (childHandle && childHandle->visible && childHandle->family() && childHandle->parent == handle)
+				if (childHandle && childHandle->family() && childHandle->parent == handle)
 				{					
 					if (child = makeBranch(handle->children[i],item))
 						item->appendChild(child);

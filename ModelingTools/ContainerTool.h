@@ -54,24 +54,24 @@ namespace Tinkercell
 		QTreeView * treeView;
 	};
 
-	class TINKERCELLEXPORT ContainerTreeTool : public Tool
+	class TINKERCELLEXPORT CompartmentTool : public Tool
 	{
 		Q_OBJECT
 
 	public:
 
-		ContainerTreeTool();
-		~ContainerTreeTool();
+		CompartmentTool();
+		~CompartmentTool();
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
 
 	signals:
-        void parentHandleChanged(NetworkWindow * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+        void parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 
 	public slots:
 		void updateTree(int);
 		void windowChanged(NetworkWindow * , NetworkWindow * );
-		void windowClosed(NetworkWindow *);
+		void windowClosed(NetworkHandle *);
 		void itemsSelected(GraphicsScene * , const QList<QGraphicsItem*>& , QPointF point, Qt::KeyboardModifiers );
 		void itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
 		void itemsRemoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
@@ -92,8 +92,6 @@ namespace Tinkercell
 
 
 }
-
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
 

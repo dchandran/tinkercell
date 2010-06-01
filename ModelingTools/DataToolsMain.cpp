@@ -11,7 +11,7 @@ Function that loads dll into main window
 
 #include "DataToolsMain.h"
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 
@@ -33,8 +33,11 @@ extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
 	Tinkercell::ModelFileGenerator * modelFileGenerator = new Tinkercell::ModelFileGenerator;
 	main->addTool(modelFileGenerator);
 	
-	Tinkercell::ContainerTreeTool * containerTool = new Tinkercell::ContainerTreeTool;
+	Tinkercell::CompartmentTool * containerTool = new Tinkercell::CompartmentTool;
 	main->addTool(containerTool);
+	
+	Tinkercell::SimulationEventsTool * simulationEventsTool = new Tinkercell::SimulationEventsTool;
+	main->addTool(simulationEventsTool);
 }
 
 

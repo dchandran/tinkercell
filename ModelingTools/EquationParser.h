@@ -24,12 +24,6 @@ The class assumes existence of "Functions", "Assignments", and "Parameters"
 #include "muParser.h"
 #include "muParserInt.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 
 namespace Tinkercell
 {
@@ -37,7 +31,7 @@ namespace Tinkercell
 		parameter names into the Parameters table. It uses the fact that the following tables
 		exist: "Functions" and "Parameters", which is why this class is a bit more specific
 		than the parseMath funciton provided in NetworkHandle class*/
-	class MY_EXPORT EquationParser
+	class TINKERCELLEXPORT EquationParser
 	{
 		typedef QPair<QString,qreal> sd_pair;
 		

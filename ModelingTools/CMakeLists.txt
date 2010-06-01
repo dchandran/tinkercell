@@ -18,29 +18,39 @@ SET( TINKERCELL_CORE_HDRS
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
-QT4_WRAP_CPP( ModelingTools_MOC 
-   SpinBoxDelegate.h 
-   DefaultReactionRates.h 
-   BasicInformationTool.h
-   StoichiometryTool.h 
-   FunctionDeclarationsTool.h
-   ModelFileGenerator.h
-   ModelSummaryTool.h
-   DataToolsMain.h
+SET(MODELING_TOOLS_HDRS 
+  BasicInformationTool.h
+  ModelSummaryTool.h
+  ContainerTool.h
+  SimulationEventTool.h
+  ContainerTreeModel.h
+  FunctionDeclarationsTool.h
+  SpinBoxDelegate.h
+  ModelFileGenerator.h
+  StoichiometryTool.h
 )
+
+SET(MODELING_TOOLS_SRC 
+   BasicInformationTool.cpp
+   EquationParser.cpp
+   SimulationEventTool.cpp
+   ContainerTool.cpp
+   FunctionDeclarationsTool.cpp
+   SpinBoxDelegate.cpp
+   ContainerTreeModel.cpp
+   ModelFileGenerator.cpp
+   StoichiometryTool.cpp
+   DataToolsMain.cpp
+   ModelSummaryTool.cpp
+)
+
+QT4_WRAP_CPP( ModelingTools_MOC ${MODELING_TOOLS_HDRS})
 
 ADD_LIBRARY( ModelingTools
   SHARED
   ${ModelingTools_MOC}
   ${TinkercellCore_MOC}
-  EquationParser.cpp
-  SpinBoxDelegate.cpp
-  BasicInformationTool.cpp
-  StoichiometryTool.cpp
-  FunctionDeclarationsTool.cpp
-  ModelFileGenerator.cpp
-  ModelSummaryTool.cpp
-  DataToolsMain.cpp
+  ${MODELING_TOOLS_SRC}
 )
 
 TARGET_LINK_LIBRARIES( ModelingTools
@@ -56,32 +66,6 @@ IF( WIN32 )
   )
 ELSE( WIN32 )
   INSTALL(TARGETS ModelingTools
-    LIBRARY DESTINATION plugins
-  )
-ENDIF( WIN32 )
-
-QT4_WRAP_CPP( SimulationEventTool_MOC SimulationEventTool.h)
-
-ADD_LIBRARY( SimulationEventTool
-  SHARED
-  SimulationEventTool.cpp
-  ${SimulationEventTool_MOC}
-  ${TinkercellCore_MOC}
-  )
-
-TARGET_LINK_LIBRARIES( SimulationEventTool
-  SimulationEventTool
-  ModelingTools
-  TinkerCellCore
-  muparser
-)
-
-IF ( WIN32 )
-  INSTALL(TARGETS SimulationEventTool
-    DESTINATION plugins
-  )
-ELSE ( WIN32 )
-  INSTALL(TARGETS SimulationEventTool
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )

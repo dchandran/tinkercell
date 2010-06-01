@@ -382,7 +382,17 @@ namespace Tinkercell
 	{
 		if (data && data->numericalData.contains(name))
 		{
-			return data->numericalData[name].at(row,column);
+			if (!row.isEmpty() && !column.isEmpty())
+				return data->numericalData[name].at(row,column);
+				
+			if (row.isEmpty() && column.isEmpty())
+				return data->numericalData[name].at(0,0);
+			else
+				if (row.isEmpty())
+					return data->numericalData[name].at(0,column);
+				else
+				if (column.isEmpty())
+					return data->numericalData[name].at(row,0);
 		}
 		return 0.0;
 	}
@@ -400,7 +410,17 @@ namespace Tinkercell
 	{
 		if (data && data->textData.contains(name))
 		{
-			return data->textData[name].at(row,column);
+			if (!row.isEmpty() && !column.isEmpty())
+				return data->textData[name].at(row,column);
+				
+			if (row.isEmpty() && column.isEmpty())
+				return data->textData[name].at(0,0);
+			else
+				if (row.isEmpty())
+					return data->textData[name].at(0,column);
+				else
+				if (column.isEmpty())
+					return data->textData[name].at(row,0);
 		}
 		return QString();
 	}
@@ -425,6 +445,15 @@ namespace Tinkercell
 		{
 			data->numericalData[name] = DataTable<qreal>();
 		}
+				
+		if (row.isEmpty() && column.isEmpty())
+			return data->numericalData[name].value(0,0);
+		else
+			if (row.isEmpty())
+				return data->numericalData[name].value(0,column);
+			else
+			if (column.isEmpty())
+				return data->numericalData[name].value(row,0);
 
 		return data->numericalData[name].value(row,column);
 	}
@@ -449,6 +478,15 @@ namespace Tinkercell
 		{
 			data->textData[name] = DataTable<QString>();
 		}
+		
+		if (row.isEmpty() && column.isEmpty())
+			return data->textData[name].value(0,0);
+		else
+			if (row.isEmpty())
+				return data->textData[name].value(0,column);
+			else
+			if (column.isEmpty())
+				return data->textData[name].value(row,0);
 
 		return data->textData[name].value(row,column);
 	}

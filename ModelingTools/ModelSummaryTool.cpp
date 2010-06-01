@@ -634,7 +634,9 @@ namespace Tinkercell
 		tableWidget.setRowCount(0);
 
 		GraphicsScene * scene = currentScene();
-		if (!scene) return;
+		if (!scene || !scene->network) return;
+		
+		NetworkHandle * network = scene->network;
 
 		QHash<QString,qreal> constants;
 		QHash<QString,QString> equations;
@@ -712,12 +714,13 @@ namespace Tinkercell
 			tableWidget.setItem(i,2,new QTableWidgetItem(fixed[i]));
 		}
 
-		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
-
 		emit aboutToDisplayModel(itemHandles, constants, equations);
-
-		//widgets.insert(tr("Initial Values"),groupBox);
-
+		
+		QStringList vars = constants.keys();
+		for (int i=0; i < vars.size(); ++i)
+			if (network->symbolsTable.uniqueData.contains(vars[i]))
+				itemHandles << network->symbolsTable.uniqueData[ vars[i] ].first;
+		
 		if (tabWidget)
 		{
 			emit displayModel(*tabWidget, itemHandles, constants, equations);
@@ -725,57 +728,8 @@ namespace Tinkercell
 				tabWidget->insertTab(0,&groupBox,tr("Initial Values"));
 			tabWidget->setCurrentIndex(0);
 		}
-
-		//if (currentWidget)
-		//tabWidget->setCurrentWidget(currentWidget);
-
-		//connect(tabWidget,SIGNAL(currentChanged (int)),this,SLOT(currentChanged ( int)));
-
-		/*
-		if (!constants.isEmpty() && !equations.isEmpty())
-		{
-		emit graph(equations, constants.keys(),constants.values());
-		}
-
-		delete layout();
-
-
-		//QHBoxLayout * layout = new QHBoxLayout;
-		//QHBoxLayout * checksLayout = new QHBoxLayout;
-
-
-
-		for (int i=0; i < widgets.size(); i+=2)
-		{
-		//QCheckBox * check = new QCheckBox(this);
-		//connect(check,SIGNAL(checked(bool)),widgets[i],SLOT(setVisible(bool)));
-		//checksLayout->addWidget(check);
-
-		QVBoxLayout * layout2 = new QVBoxLayout;
-		if (widgets[i])
-		layout2->addWidget(widgets[i]);
-		if ((i+1) < widgets.size() && widgets[i+1])
-
-		layout2->addWidget(widgets[i+1]);
-		layout->addLayout(layout2);
-		}
-		//layout->insertStretch(0,20);
-
-		///QVBoxLayout * layoutv = new QVBoxLayout;
-		//layoutv->addLayout(checksLayout);
-		//layoutv->addLayout(layout);
-
-		setLayout(layout);*/
-
-		/*
-		QList<QString> keys = widgets.keys();
-		QList<QWidget*> wids = widgets.values();
-
-		for (int i=0; i < keys.size(); ++i)
-		if (wids[i])
-		{
-		tabWidget.insertTab(tabWidget.count(),wids[i],keys[i]);
-		}*/
+		
+		connect(&tableWidget,SIGNAL(cellChanged(int,int)),this,SLOT(setValue(int,int)));
 	}
 
 	void ModelSummaryTool::currentChanged ( int index )

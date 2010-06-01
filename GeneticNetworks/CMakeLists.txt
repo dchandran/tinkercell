@@ -18,50 +18,53 @@ SET( TINKERCELL_CORE_HDRS
 
 QT4_WRAP_CPP( TinkercellCore_MOC ${TINKERCELL_CORE_HDRS})
 
-QT4_WRAP_CPP( ViewTablesTool_MOC ViewTablesTool.h)
+QT4_WRAP_CPP( AutoGeneRegulatoryTool_MOC AutoGeneRegulatoryTool.h)
 
-ADD_LIBRARY( ViewTablesTool
+ADD_LIBRARY( AutoGeneRegulatoryTool
   SHARED
-  ViewTablesTool.cpp
-  ${ViewTablesTool_MOC}
+  AutoGeneRegulatoryTool.cpp
+  ${AutoGeneRegulatoryTool_MOC}
   ${TinkercellCore_MOC}
   )
 
-TARGET_LINK_LIBRARIES( ViewTablesTool
-  ViewTablesTool
+TARGET_LINK_LIBRARIES( AutoGeneRegulatoryTool
+  AutoGeneRegulatoryTool
   TinkerCellCore
 )
 
 IF ( WIN32 )
-  INSTALL(TARGETS ViewTablesTool
+  INSTALL(TARGETS AutoGeneRegulatoryTool
     DESTINATION plugins
   )
 ELSE ( WIN32 )
-  INSTALL(TARGETS ViewTablesTool
+  INSTALL(TARGETS AutoGeneRegulatoryTool
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
 
-QT4_WRAP_CPP( CellPositionUpdatingTool_MOC CellPositionUpdatingTool.h)
 
-ADD_LIBRARY( CellPositionUpdateTool
+QT4_WRAP_CPP( DNASequenceTool_MOC DNASequenceTool.h CLabelsTool.h)
+
+ADD_LIBRARY( DNASequenceViewer 
   SHARED
-  CellPositionUpdatingTool.cpp
-  ${CellPositionUpdatingTool_MOC}
+  CLabelsTool.cpp
+  DNASequenceTool.cpp
+  ${DNASequenceTool_MOC}
   ${TinkercellCore_MOC}
   )
 
-TARGET_LINK_LIBRARIES( CellPositionUpdateTool
-  CellPositionUpdateTool
-  TinkerCellCore 
+TARGET_LINK_LIBRARIES( DNASequenceViewer
+  DNASequenceViewer
+  TinkerCellCore
+  AutoGeneRegulatoryTool
 )
 
 IF ( WIN32 )
-  INSTALL(TARGETS CellPositionUpdateTool
+  INSTALL(TARGETS DNASequenceViewer
     DESTINATION plugins
   )
 ELSE ( WIN32 )
-  INSTALL(TARGETS CellPositionUpdateTool
+  INSTALL(TARGETS DNASequenceViewer
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )

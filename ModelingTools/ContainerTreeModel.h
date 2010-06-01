@@ -17,7 +17,7 @@
 #include <QList>
 #include <QVariant>
 
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 

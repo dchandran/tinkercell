@@ -14,6 +14,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
 #include <QToolTip>
+#include "UndoCommands.h"
 #include "NetworkHandle.h"
 #include "SymbolsTable.h"
 #include "GraphicsScene.h"
@@ -25,7 +26,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "TextGraphicsItem.h"
 #include "SimulationEventTool.h"
 #include "CatalogWidget.h"
-#include "ModuleTool.h"
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"
@@ -276,7 +276,7 @@ namespace Tinkercell
 
 	void SimulationEventsTool::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers)
 	{
-		if (mode == none || button == Qt::RightButton || !scene || !scene->symbolsTable || scene->useDefaultBehavior)
+		if (mode == none || button == Qt::RightButton || !scene || scene->useDefaultBehavior)
 		{
 			if (dockWidget && dockWidget->widget() != this)
 				dockWidget->setWidget(this);
@@ -295,7 +295,7 @@ namespace Tinkercell
 			NodeGraphicsItem * image = 0;
 			ItemHandle * globalHandle = 0; 
 			if (scene->networkWindow)
-				globalHandle = scene->networkWindow->globalHandle();
+				globalHandle = scene->network->globalHandle();
 			
 			if (globalHandle && !globalHandle->hasTextData(tr("Events")))
 			{
@@ -413,16 +413,16 @@ namespace Tinkercell
 		connection->defaultPen = QPen(QColor(10,155,10),3.0);
 		connection->setPen(connection->defaultPen);
 		connection->lineType = ConnectionGraphicsItem::line;
-		
-		QList<QUndoCommand*> list;		
+
+		QList<QUndoCommand*> list;
 		QList<QGraphicsItem*> newItems;
 		newItems << image << connection;
+
+		list << (new InsertGraphicsCommand(command, scene, newItems))
+			 << (new ChangeDataCommand<qreal>(command, &handle->numericalDataTable(tr("Parameters")), &parameters))
+			 << (new ChangeDataCommand<QString>(command, &handle->textDataTable(tr("Assignments")), &assignments));
 		
-		list << new InsertGraphicsCommand(command, scene, newItems)
-			 << new ChangeDataCommand<qreal>(command, &handle->numericalDataTable(tr("Parameters")), &parameters)
-			 << new ChangeDataCommand<QString>(command, &handle->textDataTable(tr("Assignments")), &assignments);
-		//scene->insert(command,newItems);
-		scene->networkWindow->history.push(new CompositeCommand(command,list));
+		scene->network->push(new CompositeCommand(command,list));
 		emit itemsInserted(scene,newItems,QList<ItemHandle*>());
 	}
 
@@ -436,7 +436,7 @@ namespace Tinkercell
 		if (!scene || modifiers != 0 || button == Qt::RightButton || !scene->networkWindow) return;
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
+		ItemHandle * globalHandle = scene->network->globalHandle();
 
 		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
 
@@ -463,7 +463,7 @@ namespace Tinkercell
 		QGraphicsItem * item = scene->selected()[0];
 
 		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
-		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
+		ItemHandle * globalHandle = scene->network->globalHandle();
 
 		if (!node || node->handle() || !globalHandle || node->className != tr("Event function")) return;
 
@@ -481,9 +481,9 @@ namespace Tinkercell
 
 	void SimulationEventsTool::itemsRemoved(GraphicsScene * scene, const QList<QGraphicsItem*>& items, const QList<ItemHandle*>& )
 	{
-		if (!scene || !scene->networkWindow) return;
+		if (!scene || !scene->network) return;
 
-		ItemHandle * globalHandle = scene->networkWindow->globalHandle();
+		ItemHandle * globalHandle = scene->network->globalHandle();
 
 		if (!globalHandle) return;
 
@@ -497,7 +497,7 @@ namespace Tinkercell
  				 globalHandle->hasTextData(tr("Events")))
 				{
 					DataTable<QString> emptyData;
-					scene->changeData(tr("Events removed"),globalHandle,tr("Events"),&emptyData);					
+					scene->network->changeData(tr("Events removed"),globalHandle,tr("Events"),&emptyData);					
 					break;
 				}
 
@@ -542,7 +542,7 @@ namespace Tinkercell
 					}
 				}
 
-		scene->changeData(tr("Forcing function changed"),handles, oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
+		scene->network->changeData(tr("Forcing function changed"),handles, oldNumericalTables,newNumericalTables, oldTextTables,newTextTables);
 
 		for (int i=0; i < newNumericalTables.size(); ++i)
 			delete newNumericalTables[i];
@@ -796,9 +796,6 @@ namespace Tinkercell
 		{
 			QList<ItemHandle*> items;
 
-			QList<ItemHandle*> from, to;
-			ModuleTool::connectedItems(win->allHandles(),from,to);
-
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -812,14 +809,8 @@ namespace Tinkercell
 					{
 						s = lst[j];
 						s.replace(regex,tr("_"));
-						int k = from.indexOf(items[i]);
-						if (k > -1)
-						{
-							s.replace(items[i]->fullName(tr("_")), to[k]->fullName(tr("_")));
-							(*list) << to[k]->fullName(tr("_")) + tr("_") + s;
-						}
-						else
-							(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
+
+						(*list) << items[i]->fullName(tr("_")) + tr("_") + s;
 					}
 				}
 			}
@@ -836,9 +827,6 @@ namespace Tinkercell
 			QList<ItemHandle*> items;
 			items << win->globalHandle();
 
-			QList<ItemHandle*> from, to;
-			ModuleTool::connectedItems(win->allHandles(),from,to);
-
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
@@ -854,9 +842,6 @@ namespace Tinkercell
 					{
 						QString s = dat.value(j,0);
 						s.replace(regex,tr("_"));
-						int k = from.indexOf(items[i]);
-						if (k > -1)
-							s.replace(items[i]->fullName(tr("_")), to[k]->fullName(tr("_")));
 
 						(*list) << s;
 					}
@@ -870,9 +855,15 @@ namespace Tinkercell
 	void SimulationEventsTool::addEvent(QSemaphore* sem,const QString& trigger, const QString& event)
 	{
 		ItemHandle * item = 0;
+		NetworkHandle * network = currentNetwork();
+		if (network)
+		{
+			if (sem)
+				sem->release();
+			return;
+		}
 		
-		if (currentNetwork())
-			item = currentNetwork()->globalHandle();
+		item = network->globalHandle();
 
 		if (item && item->data && !trigger.isEmpty() && !event.isEmpty())
 		{
@@ -888,10 +879,7 @@ namespace Tinkercell
 			s2.replace(regex,QString("\\1.\\2"));
 
 			dat.value(s1,0) = s2;
-			if (currentScene())
-				currentScene()->changeData(tr("new event: when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
-			else
-				item->data->textData[tr("Events")] = dat;
+			network->changeData(tr("new event: when ") + s1 + tr(" do ") + s2,item,tr("Events"),&dat);
 		}
 		if (sem)
 			sem->release();
@@ -950,16 +938,6 @@ namespace Tinkercell
 	{
 		return EquationParser::validate(win, handle, s, QStringList() << "time");
 	}
-
-}
-
-
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
-{
-	if (!main) return;
-
-	Tinkercell::SimulationEventsTool * simulationEventsTool = new Tinkercell::SimulationEventsTool;
-	main->addTool(simulationEventsTool);
 
 }
 

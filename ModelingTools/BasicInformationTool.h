@@ -44,12 +44,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NetworkHandle.h"
 #include "SpinBoxDelegate.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -94,7 +88,7 @@ namespace Tinkercell
 	Also insert data for ``initial value" and ``fixed".
 	\ingroup plugins
 	*/
-	class MY_EXPORT BasicInformationTool : public Tool
+	class TINKERCELLEXPORT BasicInformationTool : public Tool
 	{
 		Q_OBJECT;
 

@@ -39,12 +39,6 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NetworkHandle.h"
 #include "MainWindow.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*!
@@ -71,7 +65,7 @@ namespace Tinkercell
 	the text is parsed to determine whether it is an assignment or function.
 	\ingroup plugins
 	*/
-	class MY_EXPORT AssignmentFunctionsTool : public Tool
+	class TINKERCELLEXPORT AssignmentFunctionsTool : public Tool
 	{
 		Q_OBJECT
 

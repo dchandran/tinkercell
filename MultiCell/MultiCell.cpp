@@ -140,7 +140,7 @@ namespace Multicell
 				scene->insert(tr("new cell created"),cell);
 				cell->setBoundingBoxVisible(false);
 
-				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
+				QList<NodeGraphicsItem*> adjacentItems = cell->nodesAdjacent();
 
 				ItemHandle * handle = 0;
 				for (int i=0; i < adjacentItems.size(); ++i)
@@ -260,7 +260,7 @@ namespace Multicell
 				scene->insert(tr("new cell created"),cell);
 				cell->setBoundingBoxVisible(false);
 
-				QList<NodeGraphicsItem*> adjacentItems = cell->adjacentNodeItems();
+				QList<NodeGraphicsItem*> adjacentItems = cell->nodesAdjacent();
 
 				ItemHandle * handle = 0;
 				for (int i=0; i < adjacentItems.size(); ++i)

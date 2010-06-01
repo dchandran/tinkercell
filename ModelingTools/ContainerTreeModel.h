@@ -83,6 +83,10 @@ namespace Tinkercell
 		NetworkHandle * network;
 		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*);
 		ContainerTreeItem* findTreeItem(ItemHandle*);		
+	
+	public:
+		static QStringList NUMERICAL_DATA;
+		static QStringList TEXT_DATA;
 	};
 }
 

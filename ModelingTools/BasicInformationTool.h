@@ -109,7 +109,7 @@ namespace Tinkercell
 		void deselect(int i=0);
 
 		void setValue(int i, int j);
-		void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
+		void itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
 		void itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void pluginLoaded(Tool*);
 		void addAttribute();

@@ -681,12 +681,17 @@ namespace Tinkercell
 			QList< QPair<QString,qreal> > values;
 			values << QPair<QString,qreal>(xaxis,x);
 			x = start;
-			for (int j=0; j < data.rows(); ++j)
-			{
-				values[0].second = x;
-				data.value(j,i+1) = EquationParser::eval(net,s,&b,values);
-				x += dx;
-			}
+			
+			mu::Parser parser;
+			EquationParser::eval(net,s,&b,values,&parser);
+		
+			if (b)
+				for (int j=0; j < data.rows(); ++j)
+				{
+					values[0].second = x;
+					data.value(j,i+1) = parser.Eval();
+					x += dx;
+				}
 		}
 		plot(data,title,0,1);
 	}

@@ -280,36 +280,32 @@ namespace Tinkercell
 	void NetworkHandle::rename(const QString& oldname, const QString& s)
 	{
 		if (oldname == s) return;
+		
+		if (symbolsTable.uniqueItems.contains(oldname))
+		{
+			rename(symbolsTable.uniqueItems[oldname],s);
+			return;
+		}
+		
+		if (symbolsTable.nonuniqueItems.contains(oldname))
+		{
+			rename(symbolsTable.nonuniqueItems[oldname],s);
+			return;
+		}
 
-		QList<ItemHandle*> items;
 		QList<QString> oldNames, newNames;
 		oldNames += oldname;
 
 		QString newname = Tinkercell::RemoveDisallowedCharactersFromName(s);
 
-		if (symbolsTable.uniqueItems.contains(newname))
-		{
-			QStringList existingNames = symbolsTable.uniqueItems.keys();
-
-			QString n = newname;
-
-			if (newname[ newname.size()-1 ].isNumber())
-				n = newname.left(newname.size()-1);
-
-			int i = 0;
-
-			while (symbolsTable.uniqueItems.contains(n))
-				n = newname.left(newname.size()-1) + QString::number(i);
-
-			newname = n;
-		}
-
+		newname = makeUnique(newname);
 		newNames += newname;
 
-		QUndoCommand * command = new RenameCommand(tr("name changed"),this,oldname,newname);
+		QUndoCommand * command = new RenameCommand(oldname + tr(" renamed to ") + newname,this,oldname,newname);
 
 		history.push(command);
-
+	
+		QList<ItemHandle*> items = handles();
 		emit itemsRenamed(this, items, oldNames, newNames);
 		emit dataChanged(items);
 	}
@@ -330,9 +326,10 @@ namespace Tinkercell
 		else
 			newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
 
+		newname = makeUnique(newname);
 		newNames += newname;
 
-		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
+		QUndoCommand * command = new RenameCommand(handle->name + tr(" renamed to ") + newname,this,items,newNames);
 
 		history.push(command);
 
@@ -359,10 +356,11 @@ namespace Tinkercell
 				else
 					newname = Tinkercell::RemoveDisallowedCharactersFromName(newname);
 
+				newname = makeUnique(newname);
 				newNames += newname;
 			}
 
-		QUndoCommand * command = new RenameCommand(tr("name changed"),this,items,newNames);
+		QUndoCommand * command = new RenameCommand(tr("items renamed"),this,items,newNames);
 
 		history.push(command);
 
@@ -891,21 +889,24 @@ namespace Tinkercell
 	QString NetworkHandle::makeUnique(const QString& str, const QStringList& doNotUse) const
 	{
 		QString name = str;
-		while (name.length() > 1 && name[ name.length()-1 ].isNumber())
-			name = name.left(name.length()-1);
 
-		bool taken = true;
+		int k = name.length();
+		while (k > 0 && name[k-1].isNumber())
+			--k;
+		if (k < name.length())
+			name = name.left(k);
+
 		int c = 1;
 		QString str2 = name;
 		
+		bool taken = symbolsTable.uniqueItems.contains(str) || symbolsTable.uniqueData.contains(str) || doNotUse.contains(str);
+		if (!taken) return str;
+		
 		while (taken)
 		{
+			str2 = name + QString::number(c);
 			taken = symbolsTable.uniqueItems.contains(str2) || symbolsTable.uniqueData.contains(str2) || doNotUse.contains(str2);
-			if (taken)
-			{
-				str2 = name + QString::number(c);
-				++c;
-			}
+			++c;
 		}
 		return str2;
 	}
@@ -913,30 +914,37 @@ namespace Tinkercell
 	QStringList NetworkHandle::makeUnique(const QStringList& oldnames, const QStringList& doNotUse) const
 	{
 		QStringList newnames;
+		bool taken = true;
+		int c,k;
+		QString str2;
 		
 		for (int i=0; i < oldnames.size(); ++i)
 		{
 			QString name = oldnames[i];
-			while (name.length() > 1 && name[ name.length()-1 ].isNumber())
-				name = name.left(name.length()-1);
-
-			bool taken = true;
-			int c = 1;
-			QString str2 = name;
-		
-			while (taken)
-			{
-				taken = symbolsTable.uniqueItems.contains(str2) || 
-						symbolsTable.uniqueData.contains(str2) || 
-						doNotUse.contains(str2) ||
-						newnames.contains(str2);
-				if (taken)
+			taken = symbolsTable.uniqueItems.contains(name) || symbolsTable.uniqueData.contains(name) || doNotUse.contains(name);
+			if (taken)
+			{	
+				k = name.length();
+				while (k > 0 && name[k-1].isNumber())
+					--k;
+				if (k < name.length())
+					name = name.left(k);
+				c = 1;
+				str2 = name;
+			
+				while (taken)
 				{
 					str2 = name + QString::number(c);
+					taken = symbolsTable.uniqueItems.contains(str2) || 
+							symbolsTable.uniqueData.contains(str2) || 
+							doNotUse.contains(str2) ||
+							newnames.contains(str2);
 					++c;
 				}
+				newnames += str2;
 			}
-			newnames += str2;
+			else
+			 newnames += name;
 		}
 		
 		return newnames;

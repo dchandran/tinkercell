@@ -110,7 +110,7 @@ namespace Tinkercell
 		/*! \brief this widget has been deselected. Argument does nothing */
 		void deselect(int i=0);
 		/*! \brief inserts the Rates and Stoichiometry tables for any new connection handle */
-		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles);
+		void itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& );
 		/*! \brief updates the internal connectionHandles list, which is used to display the rates and stoichiometry*/
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		/*! \brief connects to ModelSummaryTool and ConnectionSelectionTool*/
@@ -151,8 +151,6 @@ namespace Tinkercell
 		void stoichiometryChanged();
 
 	protected:
-		/*! \brief tab widget for rates and stoichiometries*/
-		QTabWidget * tabWidget;		
 		/*! \brief used for the C API*/
 		static StoichiometryTool_FToS fToS;
 		/*! \brief connect to the the C API static class*/
@@ -187,8 +185,7 @@ namespace Tinkercell
 		QDoubleSpinBox * startPlot, * endPlot;
 		QWidget * ratePlotWidget, * stoichiometryWidget;
 		QList<QLineEdit*> reactantCoeffs, productCoeffs;
-		QList<QLabel*> reactantNames, productNames;
-		QLabel * plusSign;
+		QList<QLabel*> reactantNames, productNames, plusSigns;
 		QHBoxLayout * stoichiometryLayout;
 		QString currentVar;
 		

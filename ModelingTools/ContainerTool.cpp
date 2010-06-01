@@ -75,8 +75,8 @@ namespace Tinkercell
 
             treeView->setEditTriggers ( QAbstractItemView::CurrentChanged | QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked | QAbstractItemView::EditKeyPressed );
 
-            treeView->setColumnWidth(0,70);
-            treeView->setColumnWidth(1,70);
+            treeView->setColumnWidth(0,30);
+            treeView->setColumnWidth(1,50);
 
 			setWindowTitle(tr("Model summary"));
 			setWindowIcon(QIcon(tr(":/images/monitor.png")));
@@ -160,7 +160,7 @@ namespace Tinkercell
         if (treeView->model())
         {
             ContainerTreeModel * model = static_cast<ContainerTreeModel*>(treeView->model());
-            model->reload(net);
+            model->reload(net);            
         }
         else
         {
@@ -172,7 +172,6 @@ namespace Tinkercell
         treeView->sortByColumn(0,Qt::DescendingOrder);
 
         treeView->setUpdatesEnabled(true);
-
     }
 
     void CompartmentTool::indexSelected(const QModelIndex& index)
@@ -383,7 +382,7 @@ namespace Tinkercell
 
         if (!newChildren.isEmpty())
             scene->network->setParentHandle(newChildren,newParents);
-
+		
         newChildren << specialCaseChildren;
         newParents << specialCaseParents;
 
@@ -755,7 +754,7 @@ namespace Tinkercell
 
     QSize CompartmentTool::sizeHint() const
     {
-        return QSize(100, 300);
+        return QSize(80, 300);
     }
 
     /********************************

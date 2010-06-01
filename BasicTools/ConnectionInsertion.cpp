@@ -777,13 +777,13 @@ namespace Tinkercell
 					{
 						handle = new ConnectionHandle(selectedFamily,item);
 
-						handle->name = tr("J_");
-						ItemHandle * h = 0;
+						handle->name = tr("J1");
+						/*ItemHandle * h = 0;
 						for (int j=0; j < selectedNodes.size(); ++j)
 							if (h = getHandle(selectedNodes[j]))
-								handle->name += h->name + tr("_");
-						
-						handle->name = scene->network->makeUnique(handle->name.left( handle->name.size()-1 ));
+								handle->name += h->name + tr("_");*/
+
+						handle->name = scene->network->makeUnique(handle->name);
 
 						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
 						insertList += nameItem;

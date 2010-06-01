@@ -2129,7 +2129,12 @@ namespace Tinkercell
 				
 				QRectF bounds = tool->sceneBoundingRect();
 				tool->resetTransform();
-				tool->scale(0.001*(scalex),0.001*(scaley));
+				
+				qreal ratio = bounds.height()/bounds.width();
+				qreal scale = (scaley + scalex)/2.0;
+				
+				tool->scale(0.001*(scale),0.001*(scale));
+
 				tool->setPos(QPointF(maxx,miny));
 				bounds = tool->sceneBoundingRect();
 
@@ -2141,7 +2146,7 @@ namespace Tinkercell
 
 					if (miny > viewport.bottom() - 50.0)
 					{
-						miny = viewport.top() + 0.05*scaley;
+						miny = viewport.top() + 0.05*scale;
 						maxx -= w * 1.5;
 					}
 				}

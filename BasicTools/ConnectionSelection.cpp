@@ -764,9 +764,9 @@ namespace Tinkercell
 		if (!cp) return;
 
 		bool avoidBoundary = false;
-		controlHeld = true;
+		controlHeld = modifiers == Qt::ControlModifier;
 		
-		if (!controlHeld && !(modifiers == Qt::ControlModifier))
+		if (!controlHeld)
 		{
 			controlHeld = false;
 			return;

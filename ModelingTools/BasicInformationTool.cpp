@@ -186,8 +186,8 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
+				this, SLOT(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -400,7 +400,7 @@ namespace Tinkercell
 
 	}
 
-	void BasicInformationTool::itemsInserted(NetworkHandle* scene, const QList<ItemHandle*>& handles)
+	void BasicInformationTool::itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& )
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -461,14 +461,14 @@ namespace Tinkercell
 			{
 				if (rowNumber < nDat.rows())
 				{
-					if (handle->family() && handle->family()->numericalAttributes.contains(nDat.rowName(rowNumber)))
+					/*if (handle->family() && handle->family()->numericalAttributes.contains(nDat.rowName(rowNumber)))
 					{
 						recursive = true;
 						tableWidget.item(row,col)->setText(nDat.rowName(rowNumber));
 						if (console())
                             console()->message(nDat.rowName(rowNumber) + tr(" cannot be removed because it is a family attribute"));
 					}
-					else
+					else*/
 					{
 						QString name = tableWidget.item(row,col)->text();
 						name.replace(QRegExp(tr("[^a-zA-Z_0-9]")),tr(""));
@@ -481,15 +481,7 @@ namespace Tinkercell
 						else
 						{
 							QString oldname = nDat.rowName(rowNumber);
-							nDat.rowName(rowNumber) = name;
-							QList<QUndoCommand*> commands;
-							commands << new ChangeDataCommand<qreal>(tr("change data"),&handle->data->numericalData[this->name],&nDat)
-									 << new RenameCommand(tr("rename"),win,handle->fullName() + tr(".") + oldname,handle->fullName() + tr(".") + name);
-							CompositeCommand * command = new CompositeCommand(
-								tr("renamed ") + oldname + tr(" to ") + name,
-								commands);
-
-							win->history.push(command);
+							win->rename(handle->fullName() + tr(".") + oldname, handle->fullName() + tr(".") + name);
 						}
 					}
 				}
@@ -749,17 +741,18 @@ namespace Tinkercell
 
 		if ((type == both || type == numerical) && !(handle->hasNumericalData(name)))
 		{
-			QList<QString> nKeys = family->numericalAttributes.keys();
+			QStringList nKeys = family->numericalAttributes.keys();
+			nKeys.removeAll(tr("numin"));
+			nKeys.removeAll(tr("numout"));
 			DataTable<qreal> numericalAttributes;
 			numericalAttributes.resize(nKeys.size(),1);
 			numericalAttributes.description() = tr("Parameters: an Nx1 table storing all the real attributes for this item. Row names are the attribute names, and first column holds the values.");
 
-			for (int i=0; i < numericalAttributes.rows() && i < nKeys.size(); ++i)
-				if (!(handle->type == ConnectionHandle::TYPE && (nKeys[i] == QString("numin") || nKeys[i] == QString("numout"))))
-				{
-					numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
-					numericalAttributes.rowName(i) = nKeys[i];
-				}
+			for (int i=0; i < nKeys.size(); ++i)
+			{
+				numericalAttributes.value(i,0) = family->numericalAttributes.value(nKeys[i]);
+				numericalAttributes.rowName(i) = nKeys[i];
+			}
 
 			numericalAttributes.setColNames(colNames);
 			handle->data->numericalData.insert(this->name,numericalAttributes);
@@ -1774,6 +1767,8 @@ namespace Tinkercell
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		DataTable<qreal> * p = ConvertValue(M);
 		s->acquire();
+
+
 		emit setInitialValues(s,*list,*p);
 		s->acquire();
 		s->release();

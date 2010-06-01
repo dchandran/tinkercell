@@ -1717,6 +1717,10 @@ namespace Tinkercell
 		{
 			if (handles[i] && handles[i]->data)  //go through each handles num data and text data
 			{
+				QString fullname = handles[i]->fullName();
+				QString s = newname;
+				s.remove(fullname + QObject::tr("."));
+				
 				QList< QString > keys = handles[i]->data->numericalData.keys();
 				for (int j=0; j < keys.size(); ++j)  //go through each num data
 				{
@@ -1725,11 +1729,17 @@ namespace Tinkercell
 					{
 						if (nDat->rowName(k).contains(oldname))
 							substituteString(nDat->rowName(k),oldname,newname);
+
+						if (fullname + QObject::tr(".") + nDat->rowName(k) == oldname)						
+							nDat->rowName(k) = s;
 					}
 					for (int k=0; k < nDat->cols(); ++k)
 					{
 						if (nDat->colName(k).contains(oldname))
 							substituteString(nDat->colName(k),oldname,newname);
+						
+						if (fullname + QObject::tr(".") + nDat->colName(k) == oldname)						
+							nDat->colName(k) = s;
 					}
 				}
 				keys = handles[i]->data->textData.keys();
@@ -1740,11 +1750,17 @@ namespace Tinkercell
 					{
 						if (sDat->rowName(k).contains(oldname))
 							substituteString(sDat->rowName(k),oldname,newname);
+
+						if (fullname + QObject::tr(".") + sDat->rowName(k) == oldname)						
+							sDat->rowName(k) = s;
 					}
 					for (int k=0; k < sDat->cols(); ++k)
 					{
 						if (sDat->colName(k).contains(oldname))
 							substituteString(sDat->colName(k),oldname,newname);
+						
+						if (fullname + QObject::tr(".") + sDat->colName(k) == oldname)						
+							sDat->colName(k) = s;
 					}
 					for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
 						for (int l=0; l < sDat->cols(); ++l)

@@ -301,7 +301,7 @@ namespace Tinkercell
 		{
 			if (!itemHandles.contains(items[i]) && items[i])
 				itemHandles += items[i];
-
+			/*
 			if (!equations.isEmpty())
 				if (items[i] && items[i]->type == NodeHandle::TYPE)
 				{
@@ -317,7 +317,7 @@ namespace Tinkercell
 						for (int j=0; j < nodes.size(); ++j)
 							if (nodes[j] && !itemHandles.contains(nodes[j]))
 								itemHandles += nodes[j];
-					}
+					}*/
 		}
 
 		QStringList names, values;

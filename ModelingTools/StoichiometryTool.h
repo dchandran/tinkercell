@@ -188,6 +188,7 @@ namespace Tinkercell
 		QList<QLabel*> reactantNames, productNames, plusSigns;
 		QHBoxLayout * stoichiometryLayout;
 		QString currentVar;
+		QStringList varslist;
 		
 		bool replot(QString& rate, const QString& xaxis, qreal from, qreal to, QStringList& vars);
 		bool updatePlotWidget();

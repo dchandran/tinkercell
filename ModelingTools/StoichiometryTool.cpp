@@ -105,7 +105,6 @@ namespace Tinkercell
 	{
 		if (connectionHandle && ratePlotWidget && stoichiometryWidget && (ratePlotWidget->isVisible() || stoichiometryWidget->isVisible()))
 		{
-			console()->message("here");
 			updateWidgets();
 		}
 	}
@@ -246,6 +245,9 @@ namespace Tinkercell
 				break;
 		if (connectionHandle && connectionHandle->hasTextData(tr("Rate equations")))
 		{
+			updateWidgets();
+			for (int i=0; i < varslist.size(); ++i)
+				constants[ varslist[i] ] = 1.0;
 			equations[ connectionHandle->fullName() ] = connectionHandle->textData(tr("Rate equations"));
 		}
 	}
@@ -256,7 +258,6 @@ namespace Tinkercell
 		{
 			widgets.insertTab(0,ratePlotWidget,tr("Rate equation"));
 			widgets.insertTab(1,stoichiometryWidget,tr("Reaction stoichiometry"));
-			updateWidgets();
 		}
 	}
 
@@ -741,7 +742,7 @@ namespace Tinkercell
 		QString rate = connectionHandle->textData(tr("Rate equations"));
 		plotLineEdit->setText(rate);
 		
-		QStringList vars;
+		varslist.clear();
 
 		qreal min = startPlot->value();
 		qreal max = endPlot->value();
@@ -749,8 +750,8 @@ namespace Tinkercell
 		disconnect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
 		
 		plotVar->clear();		
-		replot(rate,currentVar,min,max,vars);		
-		plotVar->addItems(vars);
+		replot(rate,currentVar,min,max,varslist);		
+		plotVar->addItems(varslist);
 		
 		connect(plotVar,SIGNAL(activated(const QString & )),this,SLOT(xaxisChanged(const QString&)));
 		
@@ -878,7 +879,7 @@ namespace Tinkercell
 			productNames[i]->show();
 		}
 		
-		stoichiometryWidget->setLayout(stoichiometryLayout);
+		//stoichiometryWidget->setLayout(stoichiometryLayout);
 		
 		return true;
 	}

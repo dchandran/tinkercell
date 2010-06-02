@@ -48,7 +48,6 @@ namespace Tinkercell
 
 	private:
 
-		void populateAttributes();
 		QList<ContainerTreeItem*> childItems;	
 		ContainerTreeItem *parentItem;
 		ItemHandle * itemHandle;
@@ -78,15 +77,14 @@ namespace Tinkercell
 		
 		virtual void sort ( int column, Qt::SortOrder order = Qt::AscendingOrder );
 
-	private:	
+	private:
+
 		ContainerTreeItem *rootItem;
 		NetworkHandle * network;
-		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*);
-		ContainerTreeItem* findTreeItem(ItemHandle*);		
-	
-	public:
-		static QStringList NUMERICAL_DATA;
-		static QStringList TEXT_DATA;
+		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*,const QString& attribute=QString());
+		ContainerTreeItem* findTreeItem(ContainerTreeItem*, ItemHandle*,const QString& attribute);
+
+		QList<ContainerTreeItem*> markedForDeletion;
 	};
 }
 

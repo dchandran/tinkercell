@@ -18,30 +18,11 @@ namespace Tinkercell
 	      CONTAINER TREE ITEM
 	******************************************/
 	
-	QStringList ContainerTreeModel::NUMERICAL_DATA(QStringList() << "Initial Value" << "Numerical Attributes");
-	QStringList ContainerTreeModel::TEXT_DATA(QStringList() << "Rates" << "Assignments");
-	
 	ContainerTreeItem::ContainerTreeItem(ItemHandle * handle, ContainerTreeItem *parent)
 	{
 		parentItem = parent;
 		itemHandle = handle;
-		/*
-		if (itemHandle && itemHandle->family())
-		{
-			if (!itemHandle->family()->measurementUnit.name.isEmpty())
-				attributeName = itemHandle->family()->measurementUnit.name;
-			else
-			{
-				QList<QString> keys = itemHandle->family()->numericalAttributes.keys();
-				if (itemHandle->type == ConnectionHandle::TYPE)
-				{
-					keys.removeAll(QString("numin"));
-					keys.removeAll(QString("numout"));
-				}
-				if (!keys.isEmpty())
-					attributeName = keys.first();
-			}
-		}*/
+		attributeName = QString();
 	}
 
 	ContainerTreeItem::~ContainerTreeItem()
@@ -51,7 +32,8 @@ namespace Tinkercell
 
 	void ContainerTreeItem::appendChild(ContainerTreeItem *item)
 	{
-		childItems.append(item);
+		if (!childItems.contains(item))
+			childItems.append(item);
 	}
 
 	ContainerTreeItem *ContainerTreeItem::child(int row)
@@ -148,7 +130,7 @@ namespace Tinkercell
 					families << root->allChildren();
 				
 				item_names[family->name] << handle->fullName();
-				hash[family->name][handle->fullName()] = childItems[i];
+				hash[family->name].insertMulti(handle->fullName(),childItems[i]);
 				childItems[i]->sortChildren();
 			}
 		}
@@ -169,9 +151,12 @@ namespace Tinkercell
 				for (int j=0; j < names.size(); ++j)
 					if (hash[ family_names[i] ].contains(names[j]))
 					{
-						ContainerTreeItem* item = hash[ family_names[i] ][ names[j] ];
-						if (item && !childItems.contains(item))
-							childItems << item;
+						QList<ContainerTreeItem*> items = hash[ family_names[i] ].values( names[j] );
+						for (int k=0; k < items.size(); ++k)
+							if (items[k] && !childItems.contains(items[k]))
+							{
+								childItems << items[k];
+							}
 					}
 			}
 		}
@@ -212,18 +197,20 @@ namespace Tinkercell
 		}
 	}
 	
-	ContainerTreeItem* ContainerTreeModel::findTreeItem(ItemHandle* handle)
+	ContainerTreeItem* ContainerTreeModel::findTreeItem(ContainerTreeItem* root, ItemHandle* handle, const QString& attribute)
 	{
 		if (handle == 0) return rootItem;
-		if (!rootItem) return 0;
+		if (!root) return 0;
 		
-		QList<ContainerTreeItem*> queue = rootItem->childItems;
+		QList<ContainerTreeItem*> queue = root->childItems;
 		
 		for (int i=0; i < queue.size(); ++i)
 		{
 			if (queue[i])
 			{
-				if (queue[i]->handle() == handle && queue[i]->text().isEmpty()) return queue[i];
+				if (queue[i]->handle() == handle && queue[i]->attributeName == attribute)
+					return queue[i];
+
 				queue << queue[i]->childItems;
 			}
 		}		
@@ -238,9 +225,15 @@ namespace Tinkercell
 			{
 				delete rootItem;
 				rootItem = 0;
+				
+				for (int i=0; i < markedForDeletion.size(); ++i)
+					if (markedForDeletion[i])
+						delete markedForDeletion[i];
+		
+				markedForDeletion.clear();
 			}
 			
-			ContainerTreeItem * rootItemNew = new ContainerTreeItem;
+			ContainerTreeItem * newRootItem = new ContainerTreeItem;
             this->network = net;
 			
             QList<ItemHandle*> items = net->symbolsTable.allHandlesSortedByFamily();
@@ -257,101 +250,85 @@ namespace Tinkercell
 					if (handle && !visited.contains(handle) && handle->family())
 					{	
 						visited += handle;
-						if ((treeItem = makeBranch(handle,rootItemNew)))
-							rootItemNew->appendChild(treeItem);					
+						if ((treeItem = makeBranch(handle,newRootItem)))
+							newRootItem->appendChild(treeItem);
 					}
 				}
 			
-			delete rootItem;
-			rootItem = rootItemNew;
+			if (rootItem)
+				delete rootItem;
+			rootItem = newRootItem;
 			emit layoutChanged();
 		}
 	}
 	
-	void ContainerTreeItem::populateAttributes()
-	{
-		if (!itemHandle || !itemHandle->hasNumericalData(QString("Parameters")))
-			return;
-		
-		NumericalDataTable & attributes = itemHandle->numericalDataTable(QString("Parameters"));
-
-		for (int i=0; i < attributes.rows(); ++i)
-		{			
-			ContainerTreeItem * item = new ContainerTreeItem(itemHandle,this);
-			item->attributeName = attributes.rowName(i);
-			appendChild(item);
-		}
-	}
-
-	
-	ContainerTreeItem* ContainerTreeModel::makeBranch(ItemHandle* handle, ContainerTreeItem * parentItem)
+	ContainerTreeItem* ContainerTreeModel::makeBranch(ItemHandle* handle, ContainerTreeItem * parentItem, const QString & attribute)
 	{
 		if (!handle) return 0;
 		
-		ContainerTreeItem * item = findTreeItem(handle);
+		ContainerTreeItem * item;
+		
+		if (attribute.isEmpty())
+			item = findTreeItem(rootItem, handle,attribute);
+		else
+			item = findTreeItem(parentItem, handle,attribute);
 		
 		if (item)
 		{
-			if (item->parentItem)
+			if (item->parentItem && item->parentItem != parentItem)
+			{
 				item->parentItem->childItems.removeAll(item);
+			}
 			item->parentItem = parentItem;
+			if (!attribute.isEmpty())			
+				return item;
 		}		
-		
-		int k = handle->children.size();
-		
-		NumericalDataTable * params = 0;
-		if (handle->hasNumericalData(QString("Parameters")))
-		{
-			params = &(handle->numericalDataTable(QString("Parameters")));
-			k += params->rows();
-		}
-		
-		bool same = (item && (item->childItems.size() == k));
-		
-		if (same)
-		{
-			int j = 0;
-			if (params)			
-				for (int i=0; j < k && i < params->rows(); ++i, ++j)
-					if (!item->childItems[j])
-					{
-						same = false;
-						break;
-					} 
-					else
-					{
-						item->childItems[j]->itemHandle = handle;
-						item->childItems[j]->attributeName = params->rowName(i);
-						qDeleteAll(item->childItems[j]->childItems);
-						item->childItems[j]->childItems.clear();
-					}
-
-			if (same)
-				for (int i=0; j < k && i < handle->children.size(); ++i, ++j)
-					if (!item->childItems[j])
-					{
-						same = false;
-						break;
-					}
-					else
-					{
-						item->childItems[j]->itemHandle = handle->children[i];
-						item->childItems[j]->attributeName = QString();
-					}
-		}
-		
 	
-		if (!same)
+
+		int k = 0;
+		NumericalDataTable * params = 0;
+		
+		if (attribute.isEmpty())
+		{
+			k = handle->children.size();
+		
+			if (handle->hasNumericalData(QString("Parameters")))
+			{
+				params = &(handle->numericalDataTable(QString("Parameters")));
+				k += params->rows();
+			}
+		}
+
+		if (!item || item->childItems.size() != k)
 		{
 			if (item)
-				delete item;
+			{
+				if (item->parentItem)
+					item->parentItem = 0;
+				item->childItems.clear();
+				if (!markedForDeletion.contains(item))
+					markedForDeletion << item;
+			}
 			item = new ContainerTreeItem(handle,parentItem);
-			item->populateAttributes();
+			item->attributeName = attribute;
+			if (!attribute.isEmpty())
+				return item;			
 		}
 		
-		bool ok = false;
 		ItemHandle * childHandle = 0;
 		ContainerTreeItem * child = 0;
+		
+		if (params)
+		{
+			for (int i=0; i < params->rows(); ++i)
+			{
+				if (child = makeBranch(handle,item,params->rowName(i)))
+				{
+					item->appendChild(child);					
+				}
+			}
+		}
+		
 		if (!handle->children.isEmpty())
 		{
 			for (int i=0; i < handle->children.size(); ++i)
@@ -364,13 +341,23 @@ namespace Tinkercell
 				}
 			}
 		}
+		
 		return item;
 	}
 
 	ContainerTreeModel::~ContainerTreeModel()
 	{
 		if (rootItem)
+		{
+			markedForDeletion.removeAll(rootItem);
 			delete rootItem;
+		}
+		
+		for (int i=0; i < markedForDeletion.size(); ++i)
+			if (markedForDeletion[i])
+				delete markedForDeletion[i];
+
+		markedForDeletion.clear();
 	}
 
 	int ContainerTreeModel::columnCount(const QModelIndex &parent) const
@@ -523,6 +510,10 @@ namespace Tinkercell
 			parentItem = static_cast<ContainerTreeItem*>(parent.internalPointer());
 
 		ContainerTreeItem *childItem = parentItem->child(row);
+
+		if (markedForDeletion.contains(childItem))
+			return QModelIndex();
+			
 		if (childItem)
 			return createIndex(row, column, childItem);
 		else
@@ -537,9 +528,15 @@ namespace Tinkercell
 		ContainerTreeItem *childItem = static_cast<ContainerTreeItem*>(index.internalPointer());
 		if (!childItem)
 			return QModelIndex();
-			
+		
+		if (markedForDeletion.contains(childItem))
+			return QModelIndex();
+		
 		ContainerTreeItem *parentItem = childItem->parent();
 		if (!parentItem)
+			return QModelIndex();
+
+		if (markedForDeletion.contains(parentItem))
 			return QModelIndex();
 
 		if (parentItem == rootItem)
@@ -564,7 +561,7 @@ namespace Tinkercell
 	
 	void ContainerTreeModel::sort ( int , Qt::SortOrder )
 	{
-		if (rootItem)
+		if (rootItem)		
 			rootItem->sortChildren();
 	}
 

@@ -169,7 +169,7 @@ namespace Tinkercell
         }
 
         treeView->setSortingEnabled(true);
-        treeView->sortByColumn(0,Qt::DescendingOrder);
+        //treeView->sortByColumn(0,Qt::DescendingOrder);
 
         treeView->setUpdatesEnabled(true);
     }
@@ -768,6 +768,8 @@ namespace Tinkercell
 
     QWidget *ContainerTreeDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &/* option */,	const QModelIndex & index) const
     {
+    	if (index.isValid() && treeView)
+			treeView->scrollTo(index.sibling(index.row(),0));
         return new QLineEdit(parent);
     }
 
@@ -806,6 +808,7 @@ namespace Tinkercell
 										
 				}
 			}
+			
         }
     }
 
@@ -825,9 +828,6 @@ namespace Tinkercell
 				value = QVariant(editor->text());
                 model->setData(index, value, Qt::EditRole);
             }
-
-			if (treeView)
-				treeView->scrollTo(index.sibling(index.row(),0));
         }
     }
 

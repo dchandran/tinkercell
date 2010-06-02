@@ -111,7 +111,7 @@ namespace Tinkercell
     {
         if (libMenu)
         {
-            QString  home = MainWindow::userHome(),
+            QString  home = MainWindow::homeDir(),
                         current = QDir::currentPath(),
                         appDir = QCoreApplication::applicationDirPath();
 
@@ -245,7 +245,7 @@ namespace Tinkercell
         }
         QString appDir = QCoreApplication::applicationDirPath();
         QProcess proc;
-		proc.setWorkingDirectory(MainWindow::userTemp());
+		proc.setWorkingDirectory(MainWindow::tempDir());
 		
 		QString libs;
 		
@@ -313,10 +313,10 @@ namespace Tinkercell
         QProcess proc;
         QString appDir = QCoreApplication::applicationDirPath();
 
-		QString userHome = MainWindow::userTemp();
-		QDir userHomeDir(userHome);
+		QString homeDir = MainWindow::tempDir();
+		QDir homeDirDir(homeDir);
 
-		proc.setWorkingDirectory(userHome);
+		proc.setWorkingDirectory(homeDir);
 		
 		QString libs;
 		
@@ -330,7 +330,7 @@ namespace Tinkercell
 
 		dllName.replace(tr("/"),tr("\\"));
 		appDir.replace(tr("/"),tr("\\"));
-		userHome.replace(tr("/"),tr("\\"));
+		homeDir.replace(tr("/"),tr("\\"));
 
         proc.start(tr("\"") + appDir + tr("\"\\win32\\gcc -I\"") + appDir + ("\"\\win32\\include -I\"") + appDir + ("\"\\win32\\include\\sys -I\"") + appDir + ("\"/c -L\"") + appDir + ("\"/c -L\"") + appDir + ("\"\\win32\\lib -w --shared ") + filename + tr(" -o ") + dllName + tr(".dll") + libs);
         proc.waitForFinished();

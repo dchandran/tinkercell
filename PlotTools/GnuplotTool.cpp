@@ -90,11 +90,11 @@ namespace Tinkercell
 		labels = m.getColNames();
 
         QDir dir(MainWindow::tempDir());
-        if (!dir.cd(tr("gnuplot")))
+        /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
             dir.cd(tr("gnuplot"));
-        }
+        }*/
 
         QString file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
 
@@ -189,11 +189,11 @@ namespace Tinkercell
         }
 
         QDir dir(MainWindow::tempDir());
-        if (!dir.cd(tr("gnuplot")))
+        /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
             dir.cd(tr("gnuplot"));
-        }
+        }*/
 
         QFile file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
         if (file.open(QFile::WriteOnly))
@@ -234,11 +234,11 @@ namespace Tinkercell
 		labels = m.getColNames();
 		
         QDir dir(MainWindow::tempDir());
-        if (!dir.cd(tr("gnuplot")))
+        /*if (!dir.cd(tr("gnuplot")))
         {
             dir.mkdir(tr("gnuplot"));
             dir.cd(tr("gnuplot"));
-        }
+        }*/
 
         QString file(dir.absoluteFilePath(tr("data") + QString::number(previousCommands.size()) + tr(".txt")));
 
@@ -396,6 +396,8 @@ namespace Tinkercell
 						this, SLOT(gnuplotErrorbars(DataTable<qreal>&, int, const QString&)));
 				
 				connect(plotTool,SIGNAL(plotMultiplot(int, int)), this, SLOT(gnuplotMultiplot(int, int)));
+				
+				connect(plotTool,SIGNAL(gnuplot(const QString&)), this, SLOT(runScript(const QString&)));
 			}
 			
         }
@@ -410,11 +412,11 @@ namespace Tinkercell
             QString s = editor->toPlainText();
 			
 			QDir dir(MainWindow::tempDir());
-			if (!dir.cd(tr("gnuplot")))
+			/*if (!dir.cd(tr("gnuplot")))
 			{
 				dir.mkdir(tr("gnuplot"));
 				dir.cd(tr("gnuplot"));
-			}
+			}*/
 
 			if (!s.contains(dir.absolutePath()))
 				s = tr("cd '") + dir.absolutePath() + tr("'\n") + s + tr("\n");

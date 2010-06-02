@@ -35,7 +35,7 @@ namespace Tinkercell
 		 : Tool(tr("Coding Window"),tr("Coding"))
 	{
 		 QString appDir = QCoreApplication::applicationDirPath();
-		 QString homeDir = MainWindow::userTemp();
+		 QString homeDir = MainWindow::tempDir();
 		 fileName = homeDir + tr("/code.c");
 		 
 		 toolBar = 0;
@@ -77,15 +77,15 @@ namespace Tinkercell
 			return;
 		}
 		
-		QString userTemp = MainWindow::userTemp();
-		QString userHome = MainWindow::userHome();
+		QString tempDir = MainWindow::tempDir();
+		QString homeDir = MainWindow::homeDir();
 		
-		QString filename = userTemp + tr("/code.c");
+		QString filename = tempDir + tr("/code.c");
 		QFile qfile(filename);
 		if (!qfile.open(QIODevice::WriteOnly | QIODevice::Text))
 		{
 			QMessageBox::about(this, tr("Error"),
-					 tr("Cannot write file: ") + userTemp + tr("/code.c"));
+					 tr("Cannot write file: ") + tempDir + tr("/code.c"));
 			return;
 		}
 		
@@ -96,7 +96,7 @@ namespace Tinkercell
 		out << code;
 		qfile.close();
 
-		QDir userHomeDir(userHome);
+		QDir userHomeDir(homeDir);
 
 		if (!userHomeDir.cd(tr("plugins")))
 		{
@@ -110,7 +110,7 @@ namespace Tinkercell
 			userHomeDir.cd(tr("c"));
 		}
 
-		dllName = userHome + tr("/plugins/c/") + dllName;
+		dllName = homeDir + tr("/plugins/c/") + dllName;
 		emit compile(tr("code.c"),dllName);
 		
 		QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + dllName);		
@@ -138,8 +138,8 @@ specific for:\n\"\"\"\n\n") + text;
 			return;
 		}		
 		
-		QString userHome = MainWindow::userHome();
-		QDir userHomeDir(userHome);
+		QString homeDir = MainWindow::homeDir();
+		QDir userHomeDir(homeDir);
 		
 		if (!userHomeDir.cd(tr("python")))
 		{

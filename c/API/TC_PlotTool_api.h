@@ -38,7 +38,11 @@ TCAPIEXPORT void tc_multiplot(int rows, int cols);
  \ingroup Plotting
 */
 TCAPIEXPORT Matrix tc_getPlotData(int whichPlot);
-
+/*!
+ \brief plot the specific script using gnuplot
+ \ingroup Plotting
+*/
+TCAPIEXPORT Matrix tc_gnuplot(const char*);
 /*!
  \brief initializing function
  \ingroup init
@@ -50,6 +54,7 @@ TCAPIEXPORT void tc_PlotTool_api(
 	void (*errorBars)(Matrix data,int xaxis,String title, int),
 	void (*scatterplot)(Matrix data,String title) ,
 	void (*multiplot)(int r, int c),
-	Matrix (*plotData)(int));
+	Matrix (*plotData)(int)),
+	void (*gnuplot)(const char*);
 
 #endif

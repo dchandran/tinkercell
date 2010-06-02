@@ -69,9 +69,16 @@ namespace Tinkercell
 	{
 		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior) return;
 
-		int key = keyEvent->key();
+		QList<QGraphicsItem*> & selected = scene->selected();
+		
+		if (selected.size() == 1)
+		{
+			ItemHandle * h = getHandle(selected[0]);
+			if (h && !h->children.isEmpty() && !h->isA(tr("Compartment")))
+				return;
+		}
 
-		if (key == Qt::Key_Enter || key == Qt::Key_Return)
+		if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
 		{
 			updateTables();
 			if (!tabWidget || tabWidget->count() < 1) return;

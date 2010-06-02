@@ -241,7 +241,7 @@ namespace Tinkercell
 
 			QToolButton * linkButton = new QToolButton;
 			linkButton->setText(tr("Insert input/output"));
-			linkButton->setIcon(QIcon(QPixmap(tr(":/images/lollipop.png"))));
+			linkButton->setIcon(QIcon(QPixmap(tr(":/images/moduleInput.png"))));
 			linkButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			linkButton->setToolTip(tr("Use this to set an item inside a module as an input or ouput for that module"));
 
@@ -835,6 +835,21 @@ namespace Tinkercell
 				{
 					window->addDockWidget(Qt::TopDockWidgetArea,dock);
 					window->handle = handle;
+					
+					if (!handle->children.isEmpty())
+					{
+						QList<QGraphicsItem*> items, items2;
+						for (int i=0; i < handle->children.size(); ++i)
+						{
+							items2 = handle->children[i]->graphicsItems;
+							
+							if (items2[i] && !items2[i]->scene())
+								items << items2[i];
+						}
+						
+						if (!items.isEmpty())
+							newScene->insert(handle->name + tr(" expanded"),items);
+					}
 				}
 				else
 					delete dock;

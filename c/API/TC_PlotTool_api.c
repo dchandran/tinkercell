@@ -83,6 +83,18 @@ Matrix tc_getPlotData(int whichPlot)
 	return M;
 }
 
+
+void (*_tc_gnuplot)(const char * ) = 0;
+/*!
+ \brief gnuplot
+ \ingroup Plotting
+*/
+void tc_gnuplot(const char * s)
+{
+	if (_tc_gnuplot)
+		_tc_gnuplot(s);
+}
+
 /*!
  \brief initializing function
  \ingroup init
@@ -94,7 +106,8 @@ void tc_PlotTool_api(
 	void (*errorBars)(Matrix data,int xaxis,String title, int),
 	void (*scatterplot)(Matrix data,String title) ,
 	void (*multiplot)(int r, int c),
-	Matrix (*plotData)(int))
+	Matrix (*plotData)(int),
+	void (*gnuplot)(const char*))
 {
 	_tc_plot = plot;
 	_tc_getPlotData = plotData;
@@ -103,5 +116,6 @@ void tc_PlotTool_api(
 	_tc_errorBars = errorBars;
 	_tc_scatterplot = scatterplot;
 	_tc_multiplot = multiplot;
+	_tc_gnuplot = gnuplot;
 }
 

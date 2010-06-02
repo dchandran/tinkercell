@@ -463,7 +463,6 @@ namespace Tinkercell
 						parentGraphicsItems[i]->scene() == graphicsScene)
 						graphicsItems[i]->setParentItem(parentGraphicsItems[i]);
 						
-					
 					if (handles.size() > i)
 					{
 						setHandle(graphicsItems[i],handles[i]);
@@ -553,7 +552,11 @@ namespace Tinkercell
 							if (arrows[j] && arrows[j]->scene())
 								arrows[j]->scene()->removeItem(arrows[j]);
 					}
-					setHandle(graphicsItems[i],0);
+					
+					if (handles[i] && !handles[i]->parent)
+					{
+						setHandle(graphicsItems[i],0);
+					}
 				}
 			}
 			if (renameCommand)

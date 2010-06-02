@@ -157,6 +157,8 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(plotMultiplot(QSemaphore*,int, int)), this, SLOT(plotMultiplot(QSemaphore*,int, int)));
 		
 		connect(&fToS,SIGNAL(getDataTable(QSemaphore*,DataTable<qreal>*, int)), this, SLOT(getData(QSemaphore*, DataTable<qreal>*,int)));
+		
+		connect(&fToS,SIGNAL(gnuplot(QSemaphore*,const QString&)), this, SLOT(gnuplot(QSemaphore*,const QString&)));
 	}
 
 	QSize PlotTool::sizeHint() const
@@ -438,6 +440,13 @@ namespace Tinkercell
 			s->release();
 	}
 	
+	void PlotTool::gnuplot(QSemaphore * s, const QString& script)
+	{
+		emit gnuplot(script);
+		if (s)
+			s->release();
+	}
+	
 	void PlotTool::hold(bool b)
 	{
 		if (keepOldPlots)
@@ -519,7 +528,8 @@ namespace Tinkercell
 		void (*errorbars)(Matrix,int,const char*) ,
 		void (*scatterplot)(Matrix data,const char* title) ,
 		void (*multiplot)(int,int),
-		Matrix (*plotData)(int)
+		Matrix (*plotData)(int),
+		void (*gnuplot)(const char*)
 	);
 
     void PlotTool::setupFunctionPointers( QLibrary * library )
@@ -534,7 +544,8 @@ namespace Tinkercell
 				&(plotErrorbarsC),
 				&(plotScatterC),
 				&(plotMultiplotC),
-				&(getDataMatrix)
+				&(getDataMatrix),
+				&(_gnuplot)
 			);
 		}
     }
@@ -874,6 +885,16 @@ namespace Tinkercell
 		return ConvertValue(dat);
 	}
 	
+	void PlotTool_FtoS::gnuplot(const char * s)
+	{
+		QSemaphore * s = new QSemaphore(1);
+		s->acquire();
+		emit gnuplot(s,QString(s));
+		s->acquire();
+		s->release();
+		delete s;
+	}
+	
 	void PlotTool::plotMatrix(Matrix m, int x, const char* title, int all)
 	{
 		fToS.plotMatrix(m,x,title,all);
@@ -907,6 +928,11 @@ namespace Tinkercell
 	Matrix PlotTool::getDataMatrix(int index)
 	{
 		return fToS.getDataMatrix(index);
+	}
+	
+	void PlotTool::_gnuplot(const char * s)
+	{
+		return fToS.gnuplot(s);
 	}
 	
 	PlotTool_FtoS PlotTool::fToS;

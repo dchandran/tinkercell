@@ -110,8 +110,12 @@ namespace Tinkercell
 	NetworkWindow::NetworkWindow(NetworkHandle * network, GraphicsScene * scene)
 		: QMainWindow(network->mainWindow), network(network), scene(scene), editor(0), handle(0)
 	{
-		if (!network)
-			return;
+		if (!network) return;
+		
+		centralWidgetLayout = new QHBoxLayout;
+		QWidget * centralWidget = new QWidget;
+		centralWidget->setLayout(centralWidgetLayout);
+		setCentralWidget(centralWidget);
 		
 		if (scene)
 		{
@@ -119,7 +123,7 @@ namespace Tinkercell
 			scene->network = network;
 			
 			GraphicsView * view = new GraphicsView(this);		
-			setCentralWidget(view);
+			centralWidgetLayout->addWidget(view);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
 
@@ -149,11 +153,16 @@ namespace Tinkercell
 	{
 		if (!network) return;
 		
+		centralWidgetLayout = new QHBoxLayout;
+		QWidget * centralWidget = new QWidget;
+		centralWidget->setLayout(centralWidgetLayout);
+		setCentralWidget(centralWidget);
+		
 		if (editor)
 		{
 			editor->networkWindow = this;
 			editor->network = network;
-			setCentralWidget(editor);
+			centralWidgetLayout->addWidget(editor);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
 
@@ -289,7 +298,7 @@ namespace Tinkercell
 		if (views.isEmpty())
 		{
 			GraphicsView * view = new GraphicsView(this);		
-			setCentralWidget(view);
+			centralWidgetLayout->addWidget(view);
 		}
 		else
 		{
@@ -327,7 +336,7 @@ namespace Tinkercell
 		editor->networkWindow = this;
 		editor->network = network;
 			
-		setCentralWidget(editor);
+		centralWidgetLayout->addWidget(editor);
 		
 		connectToMainWindow();
 		

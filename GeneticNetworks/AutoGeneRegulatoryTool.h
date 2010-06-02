@@ -26,15 +26,9 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
-	class  MY_EXPORT AutoGeneRegulatoryTool_FtoS : public QObject
+	class TINKERCELLEXPORT AutoGeneRegulatoryTool_FtoS : public QObject
 	{
 		Q_OBJECT
 		signals:
@@ -51,7 +45,7 @@ namespace Tinkercell
 	};
 
 
-	class MY_EXPORT AutoGeneRegulatoryTool : public Tool
+	class TINKERCELLEXPORT AutoGeneRegulatoryTool : public Tool
 	{
 		Q_OBJECT
 
@@ -121,7 +115,8 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 
 #endif
+

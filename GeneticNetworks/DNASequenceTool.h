@@ -24,11 +24,6 @@
 #include "Tool.h"
 #include "CLabelsTool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 namespace Tinkercell
 {
@@ -55,7 +50,7 @@ namespace Tinkercell
 		QList<QColor> colors;
 	};
 
-	class MY_EXPORT DNASequenceViewer : public Tool
+	class TINKERCELLEXPORT DNASequenceViewer : public Tool
 	{
 		Q_OBJECT
 	public:
@@ -84,6 +79,7 @@ namespace Tinkercell
 	};
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 #endif
+

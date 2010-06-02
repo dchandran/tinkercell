@@ -122,8 +122,8 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/NodesTree/
     ${TINKERCELL_BINARY_DIR}/PlotTools/
     ${TINKERCELL_BINARY_DIR}/SegmentationAnimation/
-    ${TINKERCELL_BINARY_DIR}/CInputWindows/
     ${TINKERCELL_BINARY_DIR}/DynamicCodeTools/
+    ${TINKERCELL_BINARY_DIR}/GeneticNetworks/
    )
   IF ( WIN32 )
 	  LINK_DIRECTORIES( 
@@ -188,10 +188,10 @@ IF( QT4_FOUND )
 		${TINKERCELL_BINARY_DIR}/PlotTools/Debug
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Release
 		${TINKERCELL_BINARY_DIR}/SegmentationAnimation/Debug
-		${TINKERCELL_BINARY_DIR}/CInputWindows/Release
-		${TINKERCELL_BINARY_DIR}/CInputWindows/Debug
 		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Release
 		${TINKERCELL_BINARY_DIR}/DynamicCodeTools/Debug
+		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Release
+		${TINKERCELL_BINARY_DIR}/GeneticNetworks/Debug
 	   )
   ENDIF ( WIN32 )
 
@@ -219,8 +219,8 @@ IF( QT4_FOUND )
     ${TINKERCELL_SOURCE_DIR}/NodesTree/
     ${TINKERCELL_SOURCE_DIR}/PlotTools/
     ${TINKERCELL_SOURCE_DIR}/SegmentationAnimation/
-    ${TINKERCELL_SOURCE_DIR}/CInputWindows/
     ${TINKERCELL_SOURCE_DIR}/DynamicCodeTools/
+    ${TINKERCELL_SOURCE_DIR}/GeneticNetworks/
  )
 
 IF (UNIX AND NOT APPLE)
@@ -248,7 +248,6 @@ ENDIF(UNIX AND NOT APPLE)
   ADD_SUBDIRECTORY( ModuleTools )
   ADD_SUBDIRECTORY( ModelingTools )
   ADD_SUBDIRECTORY( OtherTools )
-  ADD_SUBDIRECTORY( CInputWindows )
   ADD_SUBDIRECTORY( ArrowItems )
   ADD_SUBDIRECTORY( NodeItems )
   ADD_SUBDIRECTORY( OtherItems )

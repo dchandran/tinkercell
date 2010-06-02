@@ -27,12 +27,6 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -50,7 +44,7 @@ namespace Tinkercell
 			void setDisplayLabelColor(const char *, const char *);
 	};
 
-	class MY_EXPORT CLabelsTool : public Tool
+	class TINKERCELLEXPORT CLabelsTool : public Tool
 	{
 		Q_OBJECT;
 
@@ -89,3 +83,4 @@ namespace Tinkercell
 }
 
 #endif
+

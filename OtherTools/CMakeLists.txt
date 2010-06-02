@@ -8,6 +8,7 @@ ADD_DEFINITIONS(-DQT_SHARED)
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkHandle.h
+  ../Core/AbstractInputWindow.h 
   ../Core/CodeEditor.h 
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
@@ -65,4 +66,29 @@ ELSE ( WIN32 )
     LIBRARY DESTINATION plugins
   )
 ENDIF( WIN32 )
+
+QT4_WRAP_CPP( LPSolveInput_MOC LPSolveInput.h ${TINKERCELL_CORE_HDRS})
+
+ADD_LIBRARY( LPSolveInput
+  SHARED
+  LPSolveInput.cpp
+  ${LPSolveInput_MOC}
+)
+
+TARGET_LINK_LIBRARIES( LPSolveInput
+  LPSolveInput
+  ModelingTools
+  DynamicCodeTools
+  TinkerCellCore
+)
+
+IF (WIN32)
+   INSTALL(TARGETS LPSolveInput
+       DESTINATION plugins
+   )
+ELSE(WIN32)
+   INSTALL(TARGETS LPSolveInput
+       LIBRARY DESTINATION plugins
+   )
+ENDIF(WIN32)
 

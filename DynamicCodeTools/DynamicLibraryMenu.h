@@ -145,7 +145,7 @@ namespace Tinkercell
 
         /*! \brief A generic graphical tool class that triggers an action when selected.
                                 This graphical tool is meant to serve as a user interface for C and other (Python, etc.) functions*/
-        class GraphicalActionTool : public Tool::GraphicsItem
+        class GraphicalActionTool : public ToolGraphicsItem
         {
         public:
             /*! \brief constructor

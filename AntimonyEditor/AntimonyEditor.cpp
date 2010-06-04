@@ -9,7 +9,7 @@
 
 #include <QClipboard>
 #include "TextEditor.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -73,7 +73,7 @@ namespace Tinkercell
 			}
 
 			connect(mainWindow,SIGNAL(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)),this,SLOT(copyItems(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(windowOpened(NetworkWindow*)),this,SLOT(windowOpened(NetworkWindow*)));
+			connect(mainWindow,SIGNAL(networkOpened(NetworkHandle*)),this,SLOT(networkOpened(NetworkHandle*)));
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
@@ -83,7 +83,7 @@ namespace Tinkercell
 		}
 		return false;
 	}
-
+/*
 	void AntimonyEditor::insertModule()
 	{
 		if (!currentTextEditor()) return;
@@ -198,12 +198,12 @@ namespace Tinkercell
 					mainWindow->setCurrentWindow(scene->networkWindow);
 			}
 	}
-
-	void AntimonyEditor::windowOpened(NetworkWindow * win)
+*/
+	void AntimonyEditor::networkOpened(NetworkHandle * win)
 	{
-		if (win && win->textEditor && TextParser::currentParser() == this)
+		if (win && win->currentTextEditor() && TextParser::currentParser() == this)
 		{
-			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(win->textEditor->document());
+			AntimonySyntaxHighlighter * as = new AntimonySyntaxHighlighter(win->currentTextEditor()->document());
 			connect(this,SIGNAL(validSyntax(bool)),as,SLOT(setValid(bool)));
 
 			QToolButton * button = new QToolButton;
@@ -213,7 +213,7 @@ namespace Tinkercell
 			button->setText(tr("Compile script"));
 			button->setToolTip(tr("interpret script using Antimony language"));
 			connect(button,SIGNAL(pressed()),this,SLOT(parse()));
-			win->textEditor->addSideBarWidget(button);
+			win->currentTextEditor()->addSideBarWidget(button);
 
 			button = new QToolButton;
 			button->setToolButtonStyle ( Qt::ToolButtonTextUnderIcon );
@@ -221,8 +221,8 @@ namespace Tinkercell
 			button->setIconSize(QSize(30,30));
 			button->setText(tr("Export modules"));
 			button->setToolTip(tr("export module(s) to the last graphics window"));
-			connect(button,SIGNAL(pressed()),this,SLOT(insertModule()));
-			win->textEditor->addSideBarWidget(button);
+			//connect(button,SIGNAL(pressed()),this,SLOT(insertModule()));
+			win->currentTextEditor()->addSideBarWidget(button);
 		}
 	}
 
@@ -237,7 +237,7 @@ namespace Tinkercell
 
 		QString modelString = editor->toPlainText() + tr("\n");
 
-		QList<TextItem*> itemsToInsert = parse(modelString);
+		QList<ItemHandle*> itemsToInsert = parse(modelString);
 
 		if (!itemsToInsert.isEmpty())
 		{
@@ -245,7 +245,7 @@ namespace Tinkercell
 		}
 	}
 
-	QList<TextItem*> AntimonyEditor::parse(const QString& modelString)
+	QList<ItemHandle*> AntimonyEditor::parse(const QString& modelString)
 	{
 		long ok = loadString(modelString.toAscii().data());
 
@@ -255,7 +255,7 @@ namespace Tinkercell
 				if (console())
                     console()->error(tr(getLastError()));
 			emit validSyntax(false);
-			return QList<TextItem*>();
+			return QList<ItemHandle*>();
 		}
 		else
 		{
@@ -284,7 +284,7 @@ namespace Tinkercell
 		{
 			if (console())
                 console()->error(tr("No parts and connection information"));
-			return QList<TextItem*>();
+			return QList<ItemHandle*>();
 		}
 
 		//load
@@ -292,20 +292,16 @@ namespace Tinkercell
 		int nummods = (int)getNumModules();
 		char** modnames = getModuleNames();
 
-		QList<TextItem*> itemsToInsert;
+		QList<ItemHandle*> itemsToInsert;
 
 		for (int i=0; i < nummods; ++i)
 		{
 			char * moduleName = modnames[i];
-			ItemHandle * moduleHandle;
-
-			NodeTextItem * moduleText = 0;
+			ItemHandle * moduleHandle = 0;
 
 			moduleHandle = new NodeHandle(moduleFamily);
 			moduleHandle->name = QString(moduleName);
-			moduleText = new NodeTextItem;
-			setHandle(moduleText,moduleHandle);
-			itemsToInsert += moduleText;
+			itemsToInsert += moduleHandle;
 
 			if (QString(modnames[i]) == tr("__main"))
 				moduleHandle->name = tr("main");
@@ -331,9 +327,9 @@ namespace Tinkercell
 				int numReactants = getNumReactants(moduleName,rxn);
 				int numProducts = getNumProducts(moduleName,rxn);
 
-				QList<NodeTextItem*> nodesIn, nodesOut;
-				DataTable<qreal> stoichiometry;
-				DataTable<QString> rate;
+				QList<NodeHandle*> nodesIn, nodesOut;
+				NumericalDataTable reactants, products;
+				TextDataTable rate;
 				QStringList colNames;
 
 				for (int var=0; var<numReactants; ++var)
@@ -343,6 +339,11 @@ namespace Tinkercell
 						colNames << tr(leftrxnnames[rxn][var]);
 					}
 				}
+				
+				reactants.resize(1,colNames.size());
+				reactants.setColNames(colNames);
+				colNames.clear();
+				
 				for (int var=0; var<numProducts; ++var)
 				{
 					if (!colNames.contains(tr(rightrxnnames[rxn][var])))
@@ -351,20 +352,20 @@ namespace Tinkercell
 					}
 				}
 
-				stoichiometry.resize(1,colNames.size());
-				stoichiometry.setColNames(colNames);
+				products.resize(1,colNames.size());
+				products.setColNames(colNames);
 
 				for (int j=0; j < colNames.size(); ++j)
 				{
-					stoichiometry.value(0,j) = 0;
+					products.value(0,j) = 0;
 				}
 
 				rate.resize(1,1);
-				ItemHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
+				ConnectionHandle * reactionHandle = new ConnectionHandle(biochemicalFamily);
 				handlesInModule << reactionHandle;
 
 				reactionHandle->name = rxnnames[rxn];
-				stoichiometry.rowName(0) = reactionHandle->name;
+				reactants.rowName(0) = products.rowName(0) = reactionHandle->name;
 				symbolsInModule << reactionHandle->name;
 
 				for (int var=0; var<numReactants; ++var)
@@ -377,15 +378,14 @@ namespace Tinkercell
 						handle->name = tr(leftrxnnames[rxn][var]);
 						symbolsInModule << handle->name;
 						speciesItems[tr(leftrxnnames[rxn][var])] = handle;
-						NodeTextItem * n = new NodeTextItem(handle);
-						nodesIn << n;
-						itemsToInsert  += n;
+						nodesIn << handle;
+						itemsToInsert  += handle;
 					}
 					else
 					{
 						handle = speciesItems[tr(leftrxnnames[rxn][var])];
 					}
-					stoichiometry.value(0,tr(leftrxnnames[rxn][var])) -= leftrxnstoichs[rxn][var];
+					reactants.value(0,tr(leftrxnnames[rxn][var])) = leftrxnstoichs[rxn][var];
 				}
 
 				for (int var=0; var<numProducts; var++)
@@ -398,29 +398,31 @@ namespace Tinkercell
 						partHandle->name = tr(rightrxnnames[rxn][var]);
 						symbolsInModule << partHandle->name;
 						speciesItems[tr(rightrxnnames[rxn][var])] = partHandle;
-						NodeTextItem * n = new NodeTextItem(partHandle);
-						nodesOut << n;
-						itemsToInsert += n;
+						nodesOut << partHandle;
+						itemsToInsert += partHandle;
 					}
 					else
 					{
 						partHandle = speciesItems[tr(rightrxnnames[rxn][var])];
 					}
 
-					stoichiometry.value(0,tr(rightrxnnames[rxn][var])) += rightrxnstoichs[rxn][var];
+					products.value(0,tr(rightrxnnames[rxn][var])) += rightrxnstoichs[rxn][var];
 				}
 
 				QString srate = tr(rxnrates[rxn]);
 				rate.rowName(0) = reactionHandle->name;
 				rate.colName(0) = tr("rate");
 				rate.value(0,0) = srate;
-				reactionHandle->data->textData[tr("Rates")] = rate;
-				reactionHandle->data->numericalData[tr("Stoichiometry")] = stoichiometry;
+				reactionHandle->data->textData[tr("Rate equations")] = rate;
+				reactionHandle->data->numericalData[tr("Reactant stoichiometries")] = reactants;
+				reactionHandle->data->numericalData[tr("Product stoichiometries")] = products;
 
-				ConnectionTextItem * c = new ConnectionTextItem(reactionHandle);
-				c->nodesIn = nodesIn;
-				c->nodesOut = nodesOut;
-				itemsToInsert += c;
+				for (int var=0; var < nodesIn.size(); ++var)
+					reactionHandle->addNode(nodesIn[var],-1);
+				
+				for (int var=0; var < nodesOut.size(); ++var)
+					reactionHandle->addNode(nodesOut[var],1);
+				itemsToInsert += reactionHandle;
 			}
 
 			int numSpecies = (int)getNumSymbolsOfType(moduleName,varSpecies);
@@ -433,7 +435,7 @@ namespace Tinkercell
 				QString s(speciesNames[j]);
 				if (ok && speciesItems.contains(s))
 				{
-					speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.first,speciesFamily->measurementUnit.second) = x;
+					speciesItems[s]->numericalData(tr("Initial Value"),speciesFamily->measurementUnit.name,speciesFamily->measurementUnit.property) = x;
 					speciesItems[s]->numericalData(tr("Fixed")) = 0;
 				}
 			}
@@ -461,7 +463,7 @@ namespace Tinkercell
 			char ** assignmentNames = getSymbolNamesOfType(moduleName,varFormulas);
 			char ** assignmentValues = getSymbolEquationsOfType(moduleName,varFormulas);
 
-			DataTable<QString> assgnsTable;
+			TextDataTable assgnsTable;
 			QList<ItemHandle*> handlesInModule2 = handlesInModule;
 			handlesInModule2 << moduleHandle;
 
@@ -478,7 +480,7 @@ namespace Tinkercell
 			int numEvents = (int)getNumEvents(moduleName);
 			char ** eventNames = getEventNames(moduleName);
 
-			DataTable<QString> eventsTable;
+			TextDataTable eventsTable;
 			for (int j=0; j < numEvents; ++j)
 			{
 				QString trigger(getTriggerForEvent(moduleName,j));
@@ -499,7 +501,7 @@ namespace Tinkercell
 			char ** paramNames = getSymbolNamesOfType(moduleName,constFormulas);
 			char ** paramValues = getSymbolEquationsOfType(moduleName,constFormulas);
 
-			DataTable<qreal> paramsTable;
+			NumericalDataTable paramsTable;
 			for (int j=0; j < numParams; ++j)
 			{
 				bool ok;
@@ -545,9 +547,6 @@ namespace Tinkercell
 
 			if (handlesInModule.isEmpty())
 			{
-				if (moduleText)
-					itemsToInsert.removeAll(moduleText);
-
 				if (moduleHandle)
 					delete moduleHandle;
 			}
@@ -568,9 +567,9 @@ namespace Tinkercell
 	{
 	}
 
-	QList<TextItem*> AntimonyEditor::clone(const QList<TextItem*>& items)
+	QList<ItemHandle*> AntimonyEditor::clone(const QList<ItemHandle*>& items)
 	{
-		return cloneTextItems(items);
+		return cloneHandles(items);
 	}
 
 	void AntimonyEditor::toolLoaded(Tool*)
@@ -583,8 +582,8 @@ namespace Tinkercell
 			connected1 = true;
 			QWidget * widget = mainWindow->tool(tr("Model Summary"));
 			ModelSummaryTool * modelSummary = static_cast<ModelSummaryTool*>(widget);
-			connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
-					this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
+			//connect(modelSummary,SIGNAL(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)),
+					//this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 		}
 
 		if (mainWindow && mainWindow->tool(tr("Module Connection Tool")))
@@ -597,7 +596,7 @@ namespace Tinkercell
 		}
 	}
 
-	void AntimonyEditor::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& )
+	/*void AntimonyEditor::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& )
 	{
 		if (!scriptDisplayWindow || items.size() != 1) return;
 
@@ -609,11 +608,11 @@ namespace Tinkercell
 			scriptDisplayWindow->setPlainText(s);
 			widgets.addTab(scriptDisplayWindow,tr("Antimony script"));
 		}
-	}
+	}*/
 
 	void AntimonyEditor::copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
 	{
-		if (scene && scene->symbolsTable && handles.size() > 0)
+		if (scene && handles.size() > 0)
 		{
 			QClipboard * clipboard = QApplication::clipboard();
 			if (clipboard)
@@ -677,10 +676,10 @@ namespace Tinkercell
 			{
 				name = childHandles[j]->fullName(tr("_"));
 				if (childHandles[j]->hasNumericalData(tr("Stoichiometry")) &&
-					 childHandles[j]->hasTextData(tr("Rates")))
+					 childHandles[j]->hasTextData(tr("Rate equations")))
 					{
-						DataTable<qreal>& N = childHandles[j]->numericalDataTable(tr("Stoichiometry"));
-						DataTable<QString>& V = childHandles[j]->textDataTable(tr("Rates"));
+						NumericalDataTable& N = childHandles[j]->numericalDataTable(tr("Stoichiometry"));
+						TextDataTable& V = childHandles[j]->textDataTable(tr("Rate equations"));
 						for (int r=0; r < N.rows(); ++r)
 						{
 							lhs.clear();
@@ -725,7 +724,7 @@ namespace Tinkercell
                 name = childHandles[j]->fullName(tr("_"));
 				if (childHandles[j]->hasTextData(tr("Assignments")))
 				{
-					DataTable<QString>& assigns = childHandles[j]->textDataTable(tr("Assignments"));
+					TextDataTable& assigns = childHandles[j]->textDataTable(tr("Assignments"));
 
 					for (int r=0; r < assigns.rows(); ++r)
 					{
@@ -756,7 +755,7 @@ namespace Tinkercell
 			    name = childHandles[j]->fullName(tr("_"));
 				if (childHandles[j]->hasNumericalData(tr("Numerical Attributes")))
 				{
-					DataTable<qreal>& params = childHandles[j]->numericalDataTable(tr("Numerical Attributes"));
+					NumericalDataTable& params = childHandles[j]->numericalDataTable(tr("Numerical Attributes"));
 
 					for (int r=0; r < params.rows(); ++r)
                         if (allEqns.contains(name + tr(".") + params.rowName(r)) &&
@@ -886,8 +885,8 @@ namespace Tinkercell
 
 		if (!file.isNull() && !file.isEmpty())
 		{
-			QList<ItemHandle*> handles = currentNetwork()->allHandles();
-			handles << currentNetwork()->modelItem();
+			QList<ItemHandle*> handles = currentNetwork()->handles();
+			handles << currentNetwork()->globalHandle();
 			writeSBMLFileSlot(0, handles, file);
 		}
 	}
@@ -896,8 +895,8 @@ namespace Tinkercell
 	{
 		if (!currentNetwork()) return;
 
-		QList<ItemHandle*> handles = currentNetwork()->allHandles();
-		handles << currentNetwork()->modelItem();
+		QList<ItemHandle*> handles = currentNetwork()->handles();
+		handles << currentNetwork()->globalHandle();
 		QString s;
 		getSBMLStringSlot(0, handles, &s);
 		QClipboard * clipboard = QApplication::clipboard();
@@ -917,8 +916,8 @@ namespace Tinkercell
 
 		if (!file.isNull() && !file.isEmpty())
 		{
-			QList<ItemHandle*> handles = currentNetwork()->allHandles();
-			handles << currentNetwork()->modelItem();
+			QList<ItemHandle*> handles = currentNetwork()->handles();
+			handles << currentNetwork()->globalHandle();
 			writeAntimonyFileSlot(0, handles, file);
 		}
 	}
@@ -927,8 +926,8 @@ namespace Tinkercell
 	{
 		if (!currentNetwork()) return;
 
-		QList<ItemHandle*> handles = currentNetwork()->allHandles();
-		handles << currentNetwork()->modelItem();
+		QList<ItemHandle*> handles = currentNetwork()->handles();
+		handles << currentNetwork()->globalHandle();
 		QString s;
 		getAntimonyStringSlot(0, handles, &s);
 		QClipboard * clipboard = QApplication::clipboard();
@@ -948,7 +947,7 @@ namespace Tinkercell
 	{
 		TextEditor * textEditor = 0;
 		if (mainWindow)
-			textEditor = mainWindow->newTextWindow();
+			textEditor = mainWindow->newTextEditor();
 
 		if (textEditor && loadString (sbml.toAscii().data()) != -1)
 		{
@@ -962,7 +961,7 @@ namespace Tinkercell
 	void AntimonyEditor::loadAntimonyStringSlot(QSemaphore* s,const QString& ant)
 	{
 		if (mainWindow)
-			mainWindow->newTextWindow();
+			mainWindow->newTextEditor();
 
 		if (currentTextEditor())
 		{
@@ -974,7 +973,7 @@ namespace Tinkercell
 	void AntimonyEditor::loadSBMLFileSlot(QSemaphore* s,const QString& file)
 	{
 		if (mainWindow)
-			mainWindow->newTextWindow();
+			mainWindow->newTextEditor();
 
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{
@@ -996,7 +995,7 @@ namespace Tinkercell
 	void AntimonyEditor::loadAntimonyFileSlot(QSemaphore* s,const QString& file)
 	{
 		if (mainWindow)
-			mainWindow->newTextWindow();
+			mainWindow->newTextEditor();
 
 		if (currentTextEditor() && loadFile (file.toAscii().data()) != -1)
 		{

@@ -29,7 +29,7 @@
 #include <QLineEdit>
 #include <QHash>
 #include <QSemaphore>
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "TextEditor.h"
 #include "ItemHandle.h"
 #include "TextParser.h"
@@ -71,7 +71,7 @@ namespace Tinkercell
 		/*! \brief make necessary signal/slot connections*/
 		bool setMainWindow(MainWindow*);
 		/*! \brief parse text and convert them to items*/
-		QList<TextItem*> parse(const QString& modelString);
+		QList<ItemHandle*> parse(const QString& modelString);
 
 		static QString getAntimonyScript(const QList<ItemHandle*>&);
 
@@ -94,14 +94,14 @@ namespace Tinkercell
         void lineChanged(TextEditor *, int, const QString&);
 		/*!
         * \brief if text editor is opened, sets its syntax highlighter
-        * \param NetworkWindow* the current new window
+        * \param NetworkHandle* the current new window
         * \return void
         */
-        void windowOpened(NetworkWindow*);
+        void networkOpened(NetworkHandle*);
 		/*!
         * \brief insert module(s) in the scene
         */
-		void insertModule();
+		//void insertModule();
 		/*!
         * \brief copy the antimony script of items as they are copied
         */
@@ -122,13 +122,13 @@ namespace Tinkercell
 		/*! \brief clone given items
 			\param QList<TextItem*> items to clone
 		*/
-		static QList<TextItem*> clone(const QList<TextItem*>&);
+		static QList<ItemHandle*> clone(const QList<ItemHandle*>&);
 
 		CodeEditor * scriptDisplayWindow;
 
 	private slots:
 		/*! \brief display antimony script when a module info is being displayed (see modelSummaryTool)        */
-		void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
+		//void displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&);
 		/*! \brief makes a new text window with the script representing the given items*/
 		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		/*! \brief used to connect to modelSummaryTool*/

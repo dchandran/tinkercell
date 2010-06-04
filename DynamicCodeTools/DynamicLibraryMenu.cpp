@@ -213,8 +213,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
@@ -224,7 +224,7 @@ namespace Tinkercell
 		return false;
 	}
 
-	void DynamicLibraryMenu::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
+	void DynamicLibraryMenu::itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{

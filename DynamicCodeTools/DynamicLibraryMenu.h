@@ -98,7 +98,7 @@ namespace Tinkercell
     protected slots:
         void select(int i=0);
         void deselect(int i=0);
-        void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
+        void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
         void itemsSelected(GraphicsScene * scene,const QList<QGraphicsItem*>& items, QPointF, Qt::KeyboardModifiers);
         /*!
         * \brief action in the tool bar menu sets the default action

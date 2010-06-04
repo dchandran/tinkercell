@@ -54,8 +54,8 @@ namespace Tinkercell
             connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 			connect(mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)),this,SLOT(dataChanged(const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this,SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsInserted(NetworkWindow * , const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)),this,SLOT(itemsRemoved(NetworkWindow * , const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)),this,SLOT(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>&)),this,SLOT(itemsRemoved(NetworkHandle * , const QList<ItemHandle*>&)));
 
             toolLoaded(0);
 
@@ -64,7 +64,7 @@ namespace Tinkercell
         return false;
     }
 
-	void LoadCLibrariesTool::itemsInserted(NetworkWindow * win, const QList<ItemHandle*>& handles)
+	void LoadCLibrariesTool::itemsInserted(NetworkHandle * win, const QList<ItemHandle*>& handles)
 	{
 		if (win && handles.size() > 0)
 			for (int i=0; i < callBackFunctions.size(); ++i)
@@ -75,7 +75,7 @@ namespace Tinkercell
 				}
 	}
 
-	void LoadCLibrariesTool::itemsRemoved(NetworkWindow * win, const QList<ItemHandle*>& handles)
+	void LoadCLibrariesTool::itemsRemoved(NetworkHandle * win, const QList<ItemHandle*>& handles)
 	{
 		if (win && handles.size() > 0)
 			for (int i=0; i < callBackFunctions.size(); ++i)

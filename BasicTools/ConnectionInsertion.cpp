@@ -486,21 +486,7 @@ namespace Tinkercell
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
 				connectionFamily = static_cast<ConnectionFamily*>(connectionFamily->parent());
-			/*
-			if (connectionFamily != 0 && !connectionFamily->pixmap.isNull())
-			{
-				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(QCursor(connectionFamily->pixmap.scaled(30,30)));
-			}
-			else
-			{
-				QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(Qt::ArrowCursor);
-			}*/
+
 			if (mainWindow->currentScene())
 			{
 				mainWindow->currentScene()->useDefaultBehavior = false;
@@ -566,23 +552,7 @@ namespace Tinkercell
 			typeIn = typeIn0;
 			return false;
 		}
-		/*
-		if (!selectedFamily->pixmap.isNull())
-		{
-			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(QCursor(selectedFamily->pixmap.scaled(30,30)));
-			connectionsTree->setCursor(selectedFamily->pixmap.scaled(30,30));
-		}
-		else
-		{
-			QList<NetworkWindow*> allWindows = mainWindow->allWindows();
-				for (int i=0; i < allWindows.size(); ++i)
-					if (allWindows[i]->scene)
-						allWindows[i]->setCursor(Qt::ArrowCursor);
-			connectionsTree->setCursor(Qt::ArrowCursor);
-		}*/
+
 		return true;
 	}
 

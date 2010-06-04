@@ -73,8 +73,8 @@ namespace Tinkercell
 	public slots:
 		void windowChanged(NetworkWindow*,NetworkWindow*);
 		void dataChanged(const QList<ItemHandle*>&);
-		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>&);
-		void itemsRemoved(NetworkWindow * , const QList<ItemHandle*>& );
+		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>&);
+		void itemsRemoved(NetworkHandle * , const QList<ItemHandle*>& );
 		void setupFunctionPointers( QLibrary * );
 		void toolLoaded(Tool*);
 		void compileAndRunC(const QString&,const QString&);

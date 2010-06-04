@@ -41,7 +41,7 @@ namespace Tinkercell
 		
 	public slots:
 		
-		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
+		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
 		
 	
 	};

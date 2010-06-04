@@ -1,8 +1,10 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+
+OPTION( EMBED_PERL "Embed Perl in TinkerCell" OFF )
 FIND_PACKAGE( Perl )
 FIND_PACKAGE( PerlLibs )
 
-IF(PERLLIBS_FOUND AND PERL_FOUND)
+IF(EMBED_PERL AND PERLLIBS_FOUND AND PERL_FOUND)
 
    INCLUDE_DIRECTORIES( BEFORE ${PERL_INCLUDE_PATH} )
    
@@ -13,14 +15,7 @@ IF(PERLLIBS_FOUND AND PERL_FOUND)
    IF ( NOT PERL_RETURN_VALUE )
        SET ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${PERL_OUTPUT}" )
 
-       FILE(GLOB PERL_SCRIPTS *.pm)
-
-       INSTALL(FILES ${PERL_SCRIPTS}
-          DESTINATION perl
-          COMPONENT PerlScripts
-       )
-  
-      ADD_LIBRARY( tcperl
+       ADD_LIBRARY( tcperl
   	      SHARED
     	  tinkercell_wrap.c
 	      runperl.c
@@ -40,7 +35,7 @@ IF(PERLLIBS_FOUND AND PERL_FOUND)
     
     ADD_CUSTOM_COMMAND ( 
           TARGET tcpy POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/plugins/c/tcperl.dll ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.pyd
+          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcperl.dll ${TINKERCELL_BINARY_DIR}/perl/_tinkercell.pyd
       )
     
   ELSE ( WIN32 )
@@ -48,17 +43,24 @@ IF(PERLLIBS_FOUND AND PERL_FOUND)
         #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
-              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/libtcperl.dylib ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.dylib
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcperl.dylib ${TINKERCELL_BINARY_DIR}/perl/_tinkercell.dylib
         )
     ELSE( APPLE )
         #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
-              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/libtcperl.so ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.so
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcperl.so ${TINKERCELL_BINARY_DIR}/perl/_tinkercell.so
         )    
     ENDIF( APPLE )
   ENDIF( WIN32 )
   
+  FILE(GLOB PERL_SCRIPTS *.pm ${TINKERCELL_BINARY_DIR}/perl/_tinkercell.*)
+
+       INSTALL(FILES ${PERL_SCRIPTS}
+          DESTINATION perl
+          COMPONENT PerlScripts
+       )
+  
   ENDIF ( NOT PERL_RETURN_VALUE )
-ENDIF(PERLLIBS_FOUND AND PERL_FOUND)
+ENDIF(EMBED_PERL AND PERLLIBS_FOUND AND PERL_FOUND)
 

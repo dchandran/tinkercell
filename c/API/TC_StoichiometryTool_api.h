@@ -7,12 +7,12 @@
 \brief get Modeling for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getStoichiometry(ArrayOfItems A);
+TCAPIEXPORT TableOfReals tc_getStoichiometry(ArrayOfItems A);
 /*! 
 \brief set Modeling for the given items (must be labeled)
 \ingroup Modeling
 */
-TCAPIEXPORT void tc_setStoichiometry(ArrayOfItems A,Matrix N);
+TCAPIEXPORT void tc_setStoichiometry(ArrayOfItems A,TableOfReals N);
 /*! 
 \brief get rates for the given items
 \ingroup Modeling
@@ -27,7 +27,7 @@ TCAPIEXPORT void tc_setRates(ArrayOfItems A,ArrayOfStrings rates);
 \brief get Modeling for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getStoichiometryFor(Item x);
+TCAPIEXPORT TableOfReals tc_getStoichiometryFor(Item x);
 /*! 
 \brief get rate for the given items
 \ingroup Modeling
@@ -42,14 +42,14 @@ TCAPIEXPORT void tc_setRate(Item x, String r);
 \brief set Modeling for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT void tc_setStoichiometryFor(Item x, Matrix N);
+TCAPIEXPORT void tc_setStoichiometryFor(Item x, TableOfReals N);
 /*! 
 \brief initialize stiochiometry functions
 \ingroup Modeling
 */
 TCAPIEXPORT void tc_StoichiometryTool_api(
-							  Matrix (*getStoichiometry)(ArrayOfItems ),
-							  void (*setStoichiometry)(ArrayOfItems ,Matrix ),
+							  TableOfReals (*getStoichiometry)(ArrayOfItems ),
+							  void (*setStoichiometry)(ArrayOfItems ,TableOfReals ),
 							  ArrayOfStrings (*getRates)(ArrayOfItems ),
 							  void (*setRates)(ArrayOfItems ,ArrayOfStrings )
 							  );

@@ -1,16 +1,11 @@
 SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+
+OPTION( EMBED_PYTHON "Embed Python in TinkerCell" OFF )
 FIND_PACKAGE( PythonLibs )
 
-IF(PYTHONLIBS_FOUND)
+IF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
 
-   INCLUDE_DIRECTORIES( BEFORE ${PYTHON_INCLUDE_PATH} )
-    
-   FILE(GLOB PYTHON_SCRIPTS *.py)
-
-   INSTALL(FILES ${PYTHON_SCRIPTS}
-     DESTINATION python
-     COMPONENT PythonScripts
-   )
+  INCLUDE_DIRECTORIES( BEFORE ${PYTHON_INCLUDE_PATH} )
 
   CONFIGURE_FILE( runpy.c.in 
     ${TINKERCELL_BINARY_DIR}/python/runpy.c
@@ -37,7 +32,7 @@ IF(PYTHONLIBS_FOUND)
     
     ADD_CUSTOM_COMMAND ( 
           TARGET tcpy POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/plugins/c/runpy.dll ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.pyd
+          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcpy.dll ${TINKERCELL_BINARY_DIR}/python/_tinkercell.pyd
       )
     
   ELSE ( WIN32 )
@@ -45,16 +40,23 @@ IF(PYTHONLIBS_FOUND)
         #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
-              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/librunpy.dylib ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.dylib
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcpy.dylib ${TINKERCELL_BINARY_DIR}/python/_tinkercell.dylib
         )
     ELSE( APPLE )
         #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
-              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/librunpy.so ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.so
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcpy.so ${TINKERCELL_BINARY_DIR}/python/_tinkercell.so
         )    
     ENDIF( APPLE )
   ENDIF( WIN32 )
   
-ENDIF(PYTHONLIBS_FOUND)
+  FILE(GLOB PYTHON_SCRIPTS *.py ${TINKERCELL_BINARY_DIR}/python/_tinkercell.*)
+
+  INSTALL(FILES ${PYTHON_SCRIPTS}
+     DESTINATION python
+     COMPONENT PythonScripts
+  )
+  
+ENDIF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
 

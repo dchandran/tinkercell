@@ -127,7 +127,7 @@ void run(TableOfReals input)
 		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newTableOfReals(initVals.rows+params.rows,2);
+		allParams = newMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -245,7 +245,7 @@ fprintf( out , "\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	A = tc_findItems(names);\n\
-	ss1 = ss2 = newTableOfReals(0,0);\n\
+	ss1 = ss2 = newMatrix(0,0);\n\
 	ss1.values = TCgetVars(model);\n\
 	ss1.rows = TCvars;\n\
 	ss1.cols = 1;\n\

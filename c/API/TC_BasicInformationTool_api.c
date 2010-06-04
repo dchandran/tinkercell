@@ -10,7 +10,7 @@ TableOfReals tc_getParameters(ArrayOfItems a)
 	if (_tc_getParameters)
 		return _tc_getParameters(a);
 
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 TableOfReals (*_tc_getInitialValues)(ArrayOfItems) = 0;
@@ -23,7 +23,7 @@ TableOfReals tc_getInitialValues(ArrayOfItems a)
 	if (_tc_getInitialValues)
 		return _tc_getInitialValues(a);
 		
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 void (*_tc_setInitialValues)(ArrayOfItems items,TableOfReals values) = 0;
@@ -46,7 +46,7 @@ TableOfReals tc_getFixedVariables(ArrayOfItems a)
 {
 	if (_tc_getFixedVariables)
 		return _tc_getFixedVariables(a);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 TableOfReals (*_tc_getParametersAndFixedVariables)(ArrayOfItems) = 0;
@@ -58,7 +58,7 @@ TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a)
 {
 	if (_tc_getParametersAndFixedVariables)
 		return _tc_getParametersAndFixedVariables(a);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 String (*_tc_getTextAttribute)(Item item,String attribute) = 0;
@@ -94,7 +94,7 @@ TableOfReals tc_getParametersNamed(ArrayOfItems a,ArrayOfStrings attibutes)
 {
 	if (_tc_getParametersNamed)
 		return _tc_getParametersNamed(a,attibutes);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 TableOfReals (*_tc_getParametersExcept)(ArrayOfItems,ArrayOfStrings attributes) = 0;
@@ -106,7 +106,7 @@ TableOfReals tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings attributes)
 {
 	if (_tc_getParametersExcept)
 		return _tc_getParametersExcept(a,attributes);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 ArrayOfStrings (*_tc_getAllTextNamed)(ArrayOfItems,ArrayOfStrings attributes) = 0;

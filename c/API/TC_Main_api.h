@@ -109,7 +109,7 @@ TCAPIEXPORT void tc_errorReport(String text);
  \brief show table in the output window.
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_printTable(Matrix data);
+TCAPIEXPORT void tc_printTable(TableOfReals data);
 
 /*! 
  \brief show file contents in the output window. 
@@ -145,7 +145,7 @@ TCAPIEXPORT double tc_getX(Item item);
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Appearance
 */
-TCAPIEXPORT Matrix tc_getPos(ArrayOfItems items);
+TCAPIEXPORT TableOfReals tc_getPos(ArrayOfItems items);
 
 /*! 
  \brief set the x and y location of an item
@@ -157,7 +157,7 @@ TCAPIEXPORT void tc_setPos(Item item,double x,double y);
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setPosMulti(ArrayOfItems items, Matrix positions);
+TCAPIEXPORT void tc_setPosMulti(ArrayOfItems items, TableOfReals positions);
 
 /*! 
  \brief move all the selected items by a given amount
@@ -193,13 +193,13 @@ TCAPIEXPORT String tc_appDir();
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_createInputWindowFromFile(Matrix input, String filename,String functionname, String title);
+TCAPIEXPORT void tc_createInputWindowFromFile(TableOfReals input, String filename,String functionname, String title);
 
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_createInputWindow(Matrix input, String title, void (*f)(Matrix));
+TCAPIEXPORT void tc_createInputWindow(TableOfReals input, String title, void (*f)(TableOfReals));
 
 /*! 
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
@@ -234,13 +234,13 @@ TCAPIEXPORT Item tc_getParent(Item o);
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Network data
 */
-TCAPIEXPORT Matrix tc_getNumericalData(Item item,String data);
+TCAPIEXPORT TableOfReals tc_getNumericalData(Item item,String data);
 
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Network data
 */
-TCAPIEXPORT void tc_setNumericalData(Item o,String title,Matrix data);
+TCAPIEXPORT void tc_setNumericalData(Item o,String title,TableOfReals data);
 
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
@@ -324,7 +324,7 @@ TCAPIEXPORT Item tc_thisThread();
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
 */
-TCAPIEXPORT void tc_createSliders(Matrix input, void (*f)(Matrix));
+TCAPIEXPORT void tc_createSliders(TableOfReals input, void (*f)(TableOfReals));
 
 /*! 
  \brief get the color of the item
@@ -404,16 +404,16 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(String),
 		void (*tc_errorReport0)(String),
-		void (*tc_outputTable0)(Matrix),
+		void (*tc_outputTable0)(TableOfReals),
 		void (*tc_printFile0)(String),
 
 		void (*tc_removeItem0)(Item),
 
 		double (*tc_getY0)(Item),
 		double (*tc_getX0)(Item),
-		Matrix (*tc_getPos0)(ArrayOfItems),
+		TableOfReals (*tc_getPos0)(ArrayOfItems),
 		void (*tc_setPos0)(Item,double,double),
-		void (*tc_setPos1)(ArrayOfItems,Matrix),
+		void (*tc_setPos1)(ArrayOfItems,TableOfReals),
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
@@ -421,9 +421,9 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		int (*tc_isLinux0)(),
 		String (*tc_appDir0)(),
 		
-		void (*tc_createInputWindow0)(Matrix,String,String, String),
-        void (*tc_createInputWindow1)(Matrix, String, void (*f)(Matrix)),
-		void (*createSliders)(Item, Matrix, void (*f)(Matrix)),
+		void (*tc_createInputWindow0)(TableOfReals,String,String, String),
+        void (*tc_createInputWindow1)(TableOfReals, String, void (*f)(TableOfReals)),
+		void (*createSliders)(Item, TableOfReals, void (*f)(TableOfReals)),
 		
 		void (*tc_addInputWindowOptions0)(String, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(String, int i, int j),
@@ -432,8 +432,8 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		ArrayOfItems (*tc_getChildren0)(Item),
 		Item (*tc_getParent0)(Item),
 		
-		Matrix (*tc_getNumericalData0)(Item,String),
-		void (*tc_setNumericalData0)(Item,String,Matrix),
+		TableOfReals (*tc_getNumericalData0)(Item,String),
+		void (*tc_setNumericalData0)(Item,String,TableOfReals),
 		TableOfStrings (*tc_getTextData0)(Item,String),
 		void (*tc_setTextData0)(Item,String, TableOfStrings),
 				

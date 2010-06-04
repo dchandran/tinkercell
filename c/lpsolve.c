@@ -135,7 +135,7 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 
 	/**output**/
 
-	output = newTableOfReals(1,input.cols-2);
+	output = newMatrix(1,input.cols-2);
 
 	for (i=0; i < (input.cols-2); ++i)
 		if (max < soln[input.rows+i])

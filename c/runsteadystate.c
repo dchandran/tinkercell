@@ -213,7 +213,7 @@ void run(TableOfReals input)
 		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newTableOfReals(initVals.rows+params.rows,2);
+		allParams = newMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -456,7 +456,7 @@ void run2D(TableOfReals input)
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getStringFromList("Select Target",names,target_var);
 	
-	allParams = newTableOfReals(0,0);
+	allParams = newMatrix(0,0);
 	
 	if (slider)
 	{
@@ -465,7 +465,7 @@ void run2D(TableOfReals input)
 		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newTableOfReals(initVals.rows+params.rows,2);
+		allParams = newMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{

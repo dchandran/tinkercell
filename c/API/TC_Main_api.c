@@ -278,7 +278,7 @@ TableOfReals tc_getPos(ArrayOfItems items)
 {
 	if (_tc_getPos)
 		return _tc_getPos(items);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 void (*_tc_setPos)(Item item,double x,double y) = 0;
@@ -450,7 +450,7 @@ TableOfReals tc_getNumericalData(Item item,String data)
 {
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 void (*_tc_setNumericalData)(Item,String,TableOfReals) = 0;

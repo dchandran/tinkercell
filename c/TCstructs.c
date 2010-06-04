@@ -1,6 +1,6 @@
 #include "TCstructs.h"
 
-TableOfReals newTableOfReals(int rows, int cols)
+TableOfReals newMatrix(int rows, int cols)
 {
 	int i;
 	TableOfReals M;

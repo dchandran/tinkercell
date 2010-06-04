@@ -77,7 +77,7 @@ void runSSA(TableOfReals input)
 		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newTableOfReals(initVals.rows+params.rows,2);
+		allParams = newMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -492,7 +492,7 @@ void runLangevin(TableOfReals input)
 		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newTableOfReals(initVals.rows+params.rows,2);
+		allParams = newMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{

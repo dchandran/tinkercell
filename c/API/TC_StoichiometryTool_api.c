@@ -9,7 +9,7 @@ TableOfReals tc_getStoichiometry(ArrayOfItems A)
 {
 	if (_tc_getStoichiometry)
 		return _tc_getStoichiometry(A);
-	return newTableOfReals(0,0);
+	return newMatrix(0,0);
 }
 
 void (*_tc_setStoichiometry)(ArrayOfItems ,TableOfReals N) = 0;

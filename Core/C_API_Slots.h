@@ -39,6 +39,7 @@ namespace Tinkercell
 	class CThread;
 	class NodeGraphicsItem;
 	
+	typedef TableOfReals Matrix;
 	typedef void (*MatrixInputFunction)(Matrix);
 	
 	/*! \brief Function to Signal converter for MainWindow*/

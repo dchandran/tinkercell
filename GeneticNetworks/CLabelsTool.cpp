@@ -26,7 +26,7 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-            connect(mainWindow,SIGNAL(windowClosing(NetworkWindow * , bool *)),this,SLOT(sceneClosing(NetworkWindow * , bool *)));
+            connect(mainWindow,SIGNAL(windowClosing(NetworkHandle * , bool *)),this,SLOT(networkClosing(NetworkHandle * , bool *)));
 		
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
@@ -97,7 +97,7 @@ namespace Tinkercell
 			clearLabels();
 	}
 	
-	void CLabelsTool::sceneClosing(NetworkWindow * , bool *)
+	void CLabelsTool::networkClosing(NetworkHandle * , bool *)
 	{
 		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
 			clearLabels();

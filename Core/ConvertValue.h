@@ -27,81 +27,82 @@ extern "C"
 }
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
 {
 	class MainWindow;
 	class ItemHandle;
+	typedef TableOfReals Matrix;
 
 	/*! \brief construct a Matrix with 0 rows and columns
 	\ingroup helper
 	\return Matrix 
 	*/
-	MY_EXPORT Matrix emptyMatrix();
+	TINKERCELLEXPORT Matrix emptyMatrix();
 	/*! \brief convert void* to ItemHandle pointer
 	\ingroup helper
 	\return ItemHandle*
 	*/
-	MY_EXPORT ItemHandle* ConvertValue(void*);
+	TINKERCELLEXPORT ItemHandle* ConvertValue(void*);
 	/*! \brief convert ItemHandle pointer to void *
 	\ingroup helper
 	\return void* 
 	*/
-	MY_EXPORT void* ConvertValue(ItemHandle*);
+	TINKERCELLEXPORT void* ConvertValue(ItemHandle*);
 	/*! \brief convert ArrayOfItems to QList of ItemHandle pointers
 	\ingroup helper
 	\return QList<ItemHandle*>
 	*/
-	MY_EXPORT QList<ItemHandle*>* ConvertValue(ArrayOfItems);
+	TINKERCELLEXPORT QList<ItemHandle*>* ConvertValue(ArrayOfItems);
 	/*! \brief convert QList of ItemHandle pointers to ArrayOfItems
 	\ingroup helper
 	\return ArrayOfItems
 	*/
-	MY_EXPORT ArrayOfItems ConvertValue(const QList<ItemHandle*>&);
+	TINKERCELLEXPORT ArrayOfItems ConvertValue(const QList<ItemHandle*>&);
 	/*! \brief convert char* to QString
 	\ingroup helper
 	\return QString
 	*/
-	MY_EXPORT QString ConvertValue(const char*);
+	TINKERCELLEXPORT QString ConvertValue(const char*);
 	/*! \brief convert QString to null-terminated char*
 	\ingroup helper
 	\return null-terminated char* 
 	*/
-	MY_EXPORT const char* ConvertValue(const QString&);
+	TINKERCELLEXPORT const char* ConvertValue(const QString&);
 	/*! \brief convert TableOfStrings to DataTable of QString
 	\ingroup helper
 	\return QStringList
 	*/
-	MY_EXPORT DataTable<QString>* ConvertValue(TableOfStrings);
+	TINKERCELLEXPORT DataTable<QString>* ConvertValue(TableOfStrings);
 	/*! \brief convert DataTable of QStrings to TableOfStrings
 	\ingroup helper
 	\return TableOfStrings
 	*/
-	MY_EXPORT TableOfStrings ConvertValue(const DataTable<QString>&);
+	TINKERCELLEXPORT TableOfStrings ConvertValue(const DataTable<QString>&);
 	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return DataTable of qreals
 	*/
-	MY_EXPORT DataTable<qreal>* ConvertValue(Matrix);
+	TINKERCELLEXPORT DataTable<qreal>* ConvertValue(Matrix);
 	/*! \brief convert Datatable<double> to Matrix (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return Matrix
 	*/
-	MY_EXPORT Matrix ConvertValue(const DataTable<qreal>&);
+	TINKERCELLEXPORT Matrix ConvertValue(const DataTable<qreal>&);
 	/*! \brief convert ArrayOfStrings to QStringList
 	\ingroup helper
 	\return QStringList
 	*/
-	MY_EXPORT QStringList ConvertValue(ArrayOfStrings);
+	TINKERCELLEXPORT QStringList ConvertValue(ArrayOfStrings);
 	/*! \brief convert QStringList to ArrayOfStrings
 	\ingroup helper
 	\return ArrayOfStrings
 	*/
-	MY_EXPORT ArrayOfStrings ConvertValue(const QStringList& );
+	TINKERCELLEXPORT ArrayOfStrings ConvertValue(const QStringList& );
 }
 #endif
 

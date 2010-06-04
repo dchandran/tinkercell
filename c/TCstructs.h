@@ -23,16 +23,17 @@ typedef struct
 } ArrayOfItems;
 
 
-/*!\brief A 2D table of doubles with row and column names. Use getValue(M,i,j) to get the i,j-th value in Matrix M.*/
+/*!\brief A 2D table of doubles with row and column names. Use getValue(M,i,j) to get the i,j-th value in TableOfReals M.*/
 typedef struct 
 {
 	int rows, cols;
 	double * values;
 	ArrayOfStrings rownames;
 	ArrayOfStrings colnames;
-} Matrix;
+} TableOfReals;
 
-/*!\brief A 2D table of strings with row and column names. Use getString(M,i,j) to get the i,j-th value in Matrix M.*/
+
+/*!\brief A 2D table of strings with row and column names. Use getString(M,i,j) to get the i,j-th value in TableOfReals M.*/
 typedef struct 
 {
 	int rows, cols;
@@ -42,7 +43,7 @@ typedef struct
 } TableOfStrings;
 
 /*!\brief Create a matrix with the given rows and columns*/
-Matrix newMatrix(int rows, int cols);
+TableOfReals newMatrix(int rows, int cols);
 
 /*!\brief Create a strings table with the given rows and columns*/
 TableOfStrings newTableOfStrings(int rows, int cols);
@@ -53,23 +54,23 @@ ArrayOfStrings newArrayOfStrings(int len);
 /*!\brief Create an array of items*/
 ArrayOfItems newArrayOfItems(int len);
 
-/*!\brief get i,jth value from a Matrix*/
-double getValue(Matrix M, int i, int j);
+/*!\brief get i,jth value from a TableOfReals*/
+double getValue(TableOfReals M, int i, int j);
 
-/*!\brief set i,jth value of a Matrix*/
-void setValue(Matrix M, int i, int j, double d);
+/*!\brief set i,jth value of a TableOfReals*/
+void setValue(TableOfReals M, int i, int j, double d);
 
-/*!\brief get ith row name from a Matrix*/
-const char * getRowName(Matrix M, int i);
+/*!\brief get ith row name from a TableOfReals*/
+const char * getRowName(TableOfReals M, int i);
 
-/*!\brief set ith row name for a Matrix*/
-void setRowName(Matrix M, int i, const char * s);
+/*!\brief set ith row name for a TableOfReals*/
+void setRowName(TableOfReals M, int i, const char * s);
 
-/*!\brief get jth column name of a Matrix*/
-const char * getColumnName(Matrix M, int j);
+/*!\brief get jth column name of a TableOfReals*/
+const char * getColumnName(TableOfReals M, int j);
 
-/*!\brief set jth column name of a Matrix*/
-void setColumnName(Matrix M, int j, const char * s);
+/*!\brief set jth column name of a TableOfReals*/
+void setColumnName(TableOfReals M, int j, const char * s);
 
 /*!\brief get i,j-th string in a table*/
 const char* getString(TableOfStrings S, int i, int j);
@@ -90,7 +91,7 @@ void * nthItem(ArrayOfItems A, int i);
 void setNthItem(ArrayOfItems A, int i, void * o);
 
 /*!\brief delete a matrix*/
-void deleteMatrix(Matrix *M);
+void deleteTableOfReals(TableOfReals *M);
 
 /*!\brief delete a strings table*/
 void deleteTableOfStrings(TableOfStrings *M);
@@ -102,10 +103,10 @@ void deleteArrayOfItems(ArrayOfItems *A);
 void deleteArrayOfStrings(ArrayOfStrings *C);
 
 /*!\brief combine two matrices by appending their columns. row size must be equal for both matrices*/
-Matrix cbind(Matrix A, Matrix B);
+TableOfReals cbind(TableOfReals A, TableOfReals B);
 
 /*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices*/
-Matrix rbind(Matrix A, Matrix B);
+TableOfReals rbind(TableOfReals A, TableOfReals B);
 
 # if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
 #   if defined(STATIC_LINKED)

@@ -16,7 +16,7 @@ char selected_var2[100];
 char target_x_var[100];
 char target_y_var[100];
 
-void run(Matrix input);
+void run(TableOfReals input);
 void setup();
 
 TCAPIEXPORT void tc_main()
@@ -27,7 +27,7 @@ TCAPIEXPORT void tc_main()
 
 void setup()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "var start", "var end", "parameter 1 start", "parameter 1 end", "parameter 2 start", "parameter 2 end", "increments size", 0 };
 	double values[] = { 0.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 1.0 };
@@ -46,7 +46,7 @@ void setup()
 	return; 
 }
 
-void run(Matrix input) 
+void run(TableOfReals input) 
 {
 	double startx = 0.0, endx = 50.0, starty = 0.0, endy = 50.0, startvar = 0.0, endvar = 100.0;
 	double dx = 0.1, dy = 0.1, dvar = 5.0;
@@ -56,7 +56,7 @@ void run(Matrix input)
 	int rateplot = 0;
 	ArrayOfItems A;
 	int i, len;
-	Matrix params;
+	TableOfReals params;
 	ArrayOfStrings names, allNames;
 	char * param1, * param2, * target, * var;
 	FILE * out;
@@ -133,7 +133,7 @@ void run(Matrix input)
 	
 	{
 		deleteArrayOfItems(&A);   
-		deleteMatrix(&params);
+		deleteTableOfReals(&params);
 		tc_errorReport("Correlation Text: cannot choose the same variable twice\0");
 		return;
 	}
@@ -148,7 +148,7 @@ void run(Matrix input)
 		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
-		deleteMatrix(&params);
+		deleteTableOfReals(&params);
 		tc_print("Correlation Text: no valid variable selected\0");
 		return;
 	}
@@ -169,7 +169,7 @@ void run(Matrix input)
 	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"correlation.c\"\n\n\
 				   TCAPIEXPORT void run() \n\
 				   {\n\
-					Matrix dat;\n\
+					TableOfReals dat;\n\
 					int i,j,k;\n" );
 
 	fprintf( out, "   \
@@ -189,7 +189,7 @@ void run(Matrix input)
 				  endx,startx,dx,endy,starty,dy,param1,param2);
 
 	fprintf( out, "\n\
-					Matrix ss;\n\
+					TableOfReals ss;\n\
 					double * __Y = (double*)malloc(%i * sizeof(double));\n\
 					ss.rows = %i;\n\
 					ss.cols = 2;\n\
@@ -260,7 +260,7 @@ void run(Matrix input)
 
 	deleteArrayOfStrings(&allNames);
 	deleteArrayOfStrings(&names);
-	deleteMatrix(&params);
+	deleteTableOfReals(&params);
 	return;  
 }
 

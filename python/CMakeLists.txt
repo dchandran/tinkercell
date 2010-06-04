@@ -1,3 +1,4 @@
+SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 FIND_PACKAGE( PythonLibs )
 
 IF(PYTHONLIBS_FOUND)
@@ -16,25 +17,43 @@ IF(PYTHONLIBS_FOUND)
     @ONLY
   )
   
-  ADD_LIBRARY( _tinkercell
+  ADD_LIBRARY( tcpy
   	  SHARED
 	  ${TINKERCELL_BINARY_DIR}/python/runpy.c
 	  tinkercell_wrap.c
   )
     
-  TARGET_LINK_LIBRARIES( _tinkercell
-    _tinkercell
+  TARGET_LINK_LIBRARIES( tcpy
+    tcpy
     tinkercellapi
     ${PYTHON_LIBRARIES}
   )
   
-  SET_TARGET_PROPERTIES( _tinkercell PROPERTIES PREFIX "")
+  #SET_TARGET_PROPERTIES( tcpy PROPERTIES PREFIX "")
   
   IF ( WIN32 )
-	SET_TARGET_PROPERTIES( _tinkercell PROPERTIES SUFFIX ".pyd" )
-    INSTALL(TARGETS _tinkercell DESTINATION python)
+	#SET_TARGET_PROPERTIES( tcpy PROPERTIES SUFFIX ".pyd" )
+    #INSTALL(TARGETS tcpy DESTINATION python)
+    
+    ADD_CUSTOM_COMMAND ( 
+          TARGET tcpy POST_BUILD
+          COMMAND copy ${TINKERCELL_BINARY_DIR}/plugins/c/runpy.dll ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.pyd
+      )
+    
   ELSE ( WIN32 )
-    INSTALL(TARGETS _tinkercell LIBRARY DESTINATION python)
+     IF( APPLE )
+        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
+        ADD_CUSTOM_COMMAND ( 
+              TARGET tcpy POST_BUILD
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/librunpy.dylib ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.dylib
+        )
+    ELSE( APPLE )
+        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
+        ADD_CUSTOM_COMMAND ( 
+              TARGET tcpy POST_BUILD
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/librunpy.so ${CMAKE_INSTALL_PREFIX}/python/_tinkercell.so
+        )    
+    ENDIF( APPLE )
   ENDIF( WIN32 )
   
 ENDIF(PYTHONLIBS_FOUND)

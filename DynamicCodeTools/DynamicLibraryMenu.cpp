@@ -155,7 +155,7 @@ namespace Tinkercell
 	}
 
 	DynamicLibraryMenu::GraphicalActionTool::GraphicalActionTool(const QString& family, const QString& name, const QPixmap& pixmap, Tool * tool)
-		: GraphicsItem(tool), targetAction(QIcon(pixmap),name,0), targetFamily(family)
+		: ToolGraphicsItem(tool), targetAction(QIcon(pixmap),name,0), targetFamily(family)
 	{
 		QGraphicsPixmapItem * pixmapItem = new QGraphicsPixmapItem(pixmap);
 		pixmapItem->scale(30.0/pixmapItem->boundingRect().width(),30.0/pixmapItem->boundingRect().height());
@@ -178,7 +178,7 @@ namespace Tinkercell
 		GraphicalActionTool * gtool = new GraphicalActionTool(familyName, functionName,icon,this);
 		graphicalTools += QPair<QString,GraphicalActionTool*>(familyName,gtool);
 		showGraphicalTool += showTool;
-		graphicsItems += gtool;
+		addGraphicsItem(gtool);
 		return &(gtool->targetAction);
 	}
 
@@ -258,7 +258,7 @@ namespace Tinkercell
 			}
 		}
 
-		Tool::GraphicsItem::visible(b && match && nonEmpty);
+		ToolGraphicsItem::visible(b && match && nonEmpty);
 
 	}
 

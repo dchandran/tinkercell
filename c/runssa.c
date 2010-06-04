@@ -10,7 +10,7 @@
 
 #include "TC_api.h"
 
-void runSSA(Matrix input)
+void runSSA(TableOfReals input)
 {
 	int maxsz = 100000,i;
 	double time = 50.0;
@@ -18,9 +18,9 @@ void runSSA(Matrix input)
 	ArrayOfItems A,B;
 	FILE * out;
 	int slider = 1;
-	char * runfuncInput = "Matrix input";
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
-	Matrix params, initVals, allParams, N;
+	TableOfReals params, initVals, allParams, N;
 
 	if (input.cols > 0)
 	{
@@ -74,10 +74,10 @@ void runSSA(Matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -92,8 +92,8 @@ void runSSA(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
+		deleteTableOfReals(&initVals);
+		deleteTableOfReals(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -106,7 +106,7 @@ void runSSA(Matrix input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				deleteTableOfReals(&allParams);
 			return;
 		}
 	}
@@ -114,7 +114,7 @@ void runSSA(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -125,7 +125,7 @@ void runSSA(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -144,7 +144,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
+static void computeStats(double * mu, double * var, TableOfReals * values, void * data)\n\
 {\n\
 	int i,j;\n\
 	double * sum_xx = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
@@ -183,7 +183,7 @@ TCAPIEXPORT void run(%s) \n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
 	double * y, *y0, * mu, * var;\n\
-	Matrix data;\n\
+	TableOfReals data;\n\
 	ArrayOfItems A;\n\
 	ArrayOfStrings names;\n\
 	char s[100];\n\
@@ -252,11 +252,11 @@ fprintf(out, "\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	deleteMatrix(&data);\n\
+	deleteTableOfReals(&data);\n\
 	free(model);\n",time,maxsz,rateplot,xaxis);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -265,7 +265,7 @@ fprintf(out, "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -273,7 +273,7 @@ fprintf(out, "\
 	return;
 }
 
-void runCellSSA(Matrix input)
+void runCellSSA(TableOfReals input)
 {
 	double time = 50.0;
 	int xaxis = 0;
@@ -363,8 +363,8 @@ void runCellSSA(Matrix input)
 				   tc_errorReport(\"Simulation failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
 				   return;\n\
 				   }\n\
-				   Matrix data1;\n\
-				   Matrix data2;\n\
+				   TableOfReals data1;\n\
+				   TableOfReals data2;\n\
 				   data2.rows = sz;\n\
 				   data2.cols = 2;\n\
 				   data2.values = y[0];\n\
@@ -401,7 +401,7 @@ void runCellSSA(Matrix input)
 
 void setupSSA()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "max size", "plot", "show sliders", 0 };
 	double values[] = { 0, 100, 100000, 0 , 1 };
@@ -426,7 +426,7 @@ void setupSSA()
 	tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
 }
 
-void runLangevin(Matrix input)
+void runLangevin(TableOfReals input)
 {
 	int i;
 	double time = 50.0, dt = 0.1;
@@ -434,9 +434,9 @@ void runLangevin(Matrix input)
 	ArrayOfItems A,B;
 	FILE * out;
 	int slider = 1;
-	char * runfuncInput = "Matrix input";
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
-	Matrix params, initVals, allParams, N;
+	TableOfReals params, initVals, allParams, N;
 
 	if (input.cols > 0)
 	{
@@ -489,10 +489,10 @@ void runLangevin(Matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -507,8 +507,8 @@ void runLangevin(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
+		deleteTableOfReals(&initVals);
+		deleteTableOfReals(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -521,7 +521,7 @@ void runLangevin(Matrix input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				deleteTableOfReals(&allParams);
 			return;
 		}
 	}
@@ -529,7 +529,7 @@ void runLangevin(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -540,7 +540,7 @@ void runLangevin(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -559,7 +559,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-static void computeStats(double * mu, double * var, Matrix * values, void * data)\n\
+static void computeStats(double * mu, double * var, TableOfReals * values, void * data)\n\
 {\n\
 	int i,j;\n\
 	double * sum_xx = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
@@ -598,7 +598,7 @@ TCAPIEXPORT void run(%s) \n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
 	double * y, *y0, * mu, * var;\n\
-	Matrix data;\n\
+	TableOfReals data;\n\
 	ArrayOfItems A;\n\
 	ArrayOfStrings names;\n\
 	char s[100];\n\
@@ -668,11 +668,11 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	deleteMatrix(&data);\n\
+	deleteTableOfReals(&data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot,xaxis);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -681,7 +681,7 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -691,7 +691,7 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 
 void setupCellSSA()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "num. cells", "growth rate", "death rate", "mutation rate", "num. points" , 0 };
 	double values[] = { 0, 100, 100, 0.05, 0.001, 0.001, 100 };
@@ -710,7 +710,7 @@ void setupCellSSA()
 
 void setupLangevin()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "step size", "plot", "show sliders", 0 };
 	double values[] = { 0, 100, 0.1, 0 , 1 };

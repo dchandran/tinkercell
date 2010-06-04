@@ -12,7 +12,7 @@
 #include "ItemHandle.h"
 #include "CThread.h"
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
@@ -183,8 +183,8 @@ namespace Tinkercell
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
-
-        QList<ItemHandle*> sceneItems = scene->allHandles();
+		
+		QStringList usedNames;
 		QList<QGraphicsItem*> list;
 
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -198,13 +198,14 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Operator") && !handlesDegraded.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Promoter") && !handlesDegraded.contains(handle))
 			{
 				regulatorNodes += qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]);
 				handlesDegraded += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
 				node->name = tr("tf");
-				node->name = NodeInsertion::findUniqueName(node,sceneItems);
+				node->name = scene->network->makeUnique(node->name,usedNames);
+				usedNames << node->name;
 
 				qreal xpos = selected[i]->sceneBoundingRect().left() - 100.0,
 					  ypos = selected[i]->sceneBoundingRect().top() - 100.0,
@@ -279,8 +280,8 @@ namespace Tinkercell
 
 					connection->name = tr("J");
 					item->lineType = ConnectionGraphicsItem::line;
-					connection->name = NodeInsertion::findUniqueName(connection,sceneItems);
-                                        sceneItems << node << connection;
+					connection->name = scene->network->makeUnique(connection->name,usedNames);
+                    usedNames << node->name << connection->name;
 
 					nameItem = new TextGraphicsItem(connection,0);
 					list += nameItem;
@@ -339,7 +340,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
 
-		QList<ItemHandle*> sceneItems = scene->allHandles();
+		QStringList usedNames;
 		QList<QGraphicsItem*> list;
 
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -354,11 +355,13 @@ namespace Tinkercell
 				handlesDegraded += handle;
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
 				proteinNode->name = tr("p");
-				proteinNode->name = NodeInsertion::findUniqueName(proteinNode,sceneItems);
-
+				proteinNode->name = scene->network->makeUnique(proteinNode->name,usedNames);
+				usedNames << proteinNode->name;
+				
 				NodeHandle * rnaNode = new NodeHandle(rnaFamily);
 				rnaNode->name = tr("rna");
-				rnaNode->name = NodeInsertion::findUniqueName(rnaNode,sceneItems);
+				rnaNode->name = scene->network->makeUnique(rnaNode->name,usedNames);
+				usedNames << rnaNode->name;
 
 				qreal xpos = (selected[i]->sceneBoundingRect().right() + selected[i]->scenePos().x())/2.0,
 					  ypos = selected[i]->scenePos().ry() - (selected[i]->sceneBoundingRect().height() * 2),
@@ -492,13 +495,13 @@ namespace Tinkercell
 
 					connection1->name = tr("J");
 					transcription->lineType = ConnectionGraphicsItem::line;
-					connection1->name = NodeInsertion::findUniqueName(connection1,sceneItems);
-                    sceneItems << rnaNode << connection1;
+					connection1->name = scene->network->makeUnique(connection1->name,usedNames);
+                    usedNames << rnaNode->name << connection1->name;
 
 					connection2->name = tr("J");
 					translation->lineType = ConnectionGraphicsItem::line;
-					connection2->name = NodeInsertion::findUniqueName(connection2,sceneItems);
-                    sceneItems << proteinNode << connection2;
+					connection2->name = scene->network->makeUnique(connection2->name,usedNames);
+                    usedNames << proteinNode->name << connection2->name;
 
 					nameItem = new TextGraphicsItem(connection1,0);
 					nameItem->setPos( 0.5*(rnaItem->scenePos() + selected[i]->scenePos()));
@@ -521,7 +524,8 @@ namespace Tinkercell
 
 				NodeHandle * emptyNode = new NodeHandle(emptyFamily);
 				emptyNode->name = tr("emp");
-				emptyNode->name = NodeInsertion::findUniqueName(emptyNode,sceneItems);
+				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
+				usedNames << emptyNode->name;
 
 				xpos = (rnaItem->sceneBoundingRect().right() + 100.0);
 				ypos = (rnaItem->scenePos().y());
@@ -586,8 +590,8 @@ namespace Tinkercell
 
 					connection->name = tr("J");
 					item->lineType = ConnectionGraphicsItem::line;
-					connection->name = NodeInsertion::findUniqueName(connection,sceneItems);
-                    sceneItems << emptyNode << connection;
+					connection->name = scene->network->makeUnique(connection->name,usedNames);
+                    usedNames << emptyNode->name << connection->name;
 
 					nameItem = new TextGraphicsItem(connection,0);
 					list += nameItem;
@@ -599,7 +603,8 @@ namespace Tinkercell
 
 				emptyNode = new NodeHandle(emptyFamily);
 				emptyNode->name = tr("emp");
-				emptyNode->name = NodeInsertion::findUniqueName(emptyNode,sceneItems);
+				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
+				usedNames << emptyNode->name;
 
 				xpos = (proteinItem->sceneBoundingRect().right() + 100.0);
 				ypos = (proteinItem->scenePos().y());
@@ -664,8 +669,8 @@ namespace Tinkercell
 
 					connection->name = tr("J");
 					item->lineType = ConnectionGraphicsItem::line;
-					connection->name = NodeInsertion::findUniqueName(connection,sceneItems);
-                    sceneItems << emptyNode << connection;
+					connection->name = scene->network->makeUnique(connection->name,usedNames);
+                    usedNames << emptyNode->name << connection->name;
 
 					nameItem = new TextGraphicsItem(connection,0);
 					list += nameItem;
@@ -708,7 +713,7 @@ namespace Tinkercell
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
 
-		QList<ItemHandle*> sceneItems = scene->allHandles();
+		QStringList usedNames;
 		QList<QGraphicsItem*> list;
 
 		QString appDir = QCoreApplication::applicationDirPath();
@@ -723,7 +728,8 @@ namespace Tinkercell
 				handlesDegraded += handle;
 				NodeHandle * node = new NodeHandle(nodeFamily);
 				node->name = tr("emp");
-				node->name = NodeInsertion::findUniqueName(node,sceneItems);
+				node->name = scene->network->makeUnique(node->name,usedNames);
+				usedNames << node->name;
 
 				qreal xpos = (selected[i]->sceneBoundingRect().right() + 100.0),
 					  ypos = (selected[i]->sceneBoundingRect().top() - 100.0),
@@ -788,8 +794,8 @@ namespace Tinkercell
 
 					connection->name = tr("J");
 					item->lineType = ConnectionGraphicsItem::line;
-					connection->name = NodeInsertion::findUniqueName(connection,sceneItems);
-                                        sceneItems << node << connection;
+					connection->name = scene->network->makeUnique(connection->name,usedNames);
+                    usedNames << node->name << connection->name;
 
 					nameItem = new TextGraphicsItem(connection,0);
 					list += nameItem;
@@ -825,7 +831,7 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Operator")))
+				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Promoter")))
 				{
 					if (regulator == 0)
 						regulator = parts[i];
@@ -874,9 +880,9 @@ namespace Tinkercell
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
 							connections[j]->isA(tr("Synthesis")) &&
-							connections[j]->hasTextData(tr("Rates")))
+							connections[j]->hasTextData(tr("Rate equations")))
 					{
-						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rates")]);
+						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rate equations")]);
 						if (promoter)
 						{
 							s0 = sDat->value(0,0);
@@ -915,7 +921,7 @@ namespace Tinkercell
 							{
 								sDat->value(0,0) = rate;
 								targetHandles += connections[j];
-								hashStrings += tr("Rates");
+								hashStrings += tr("Rate equations");
 								dataTables += sDat;
 							}
 						}
@@ -937,7 +943,7 @@ namespace Tinkercell
 								else
                                     sDat->value(0,0) = tr("0.0");
 								targetHandles += connections[j];
-								hashStrings += tr("Rates");
+								hashStrings += tr("Rate equations");
 								dataTables += sDat;
 							}
 
@@ -953,7 +959,7 @@ namespace Tinkercell
 								if (!dataTables.contains(sDat))
 								{
 									targetHandles += connections[j];
-									hashStrings += tr("Rates");
+									hashStrings += tr("Rate equations");
 									dataTables += sDat;
 								}
 							}
@@ -967,7 +973,7 @@ namespace Tinkercell
 									for (int l=0; l < connections2.size(); ++l)
 										if (connections2[l] &&
 											connections2[l]->nodesIn().contains(NodeHandle::cast(rna[k])) &&
-											connections2[l]->hasTextData(tr("Rates")))
+											connections2[l]->hasTextData(tr("Rate equations")))
 											if (rbs)
 											{
 												bool hasProtein = false;
@@ -980,14 +986,14 @@ namespace Tinkercell
 													}
 												if (hasProtein)
 												{
-													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rates")]);
+													DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rate equations")]);
 													QString s = rbs->fullName() + tr(".strength * ") + rna[k]->fullName();
 
 													if (!sDat2->value(0,0).contains(rbs->fullName()))
 													{
 														sDat2->value(0,0) = s;
 														targetHandles += connections2[l];
-														hashStrings += tr("Rates");
+														hashStrings += tr("Rate equations");
 														dataTables += sDat2;
 													}
 													else
@@ -996,12 +1002,12 @@ namespace Tinkercell
 											}
 											else
 											{
-												DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rates")]);
+												DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rate equations")]);
 												if (sDat2->value(0,0).contains(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*"))))
 												{
 													sDat2->value(0,0).replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
 													targetHandles += connections2[l];
-													hashStrings += tr("Rates");
+													hashStrings += tr("Rate equations");
 													dataTables += sDat2;
 												}
 												else
@@ -1091,7 +1097,7 @@ namespace Tinkercell
 
 			if (dataTables.size() > 0)
 			{
-				scene->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
+				scene->network->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
 			}
 
 			for (int i=0; i < dataTables.size(); ++i)
@@ -1103,7 +1109,6 @@ namespace Tinkercell
 	{
 		ItemHandle * handle = 0;
 
-		//QList<ItemHandle*> sceneItems = scene->allHandles();
 		QList<QGraphicsItem*> list;
 
 		ConnectionGraphicsItem * connection;
@@ -1121,11 +1126,11 @@ namespace Tinkercell
 				!connectionItems.contains(connection) &&
 				handle &&
 				handle->isA(tr("Transcription")) && !handles.contains(handle) && handle->data &&
-				handle->hasNumericalData(tr("Stoichiometry")) && handle->hasTextData(tr("Rates")))
+				handle->hasNumericalData(tr("Stoichiometry")) && handle->hasTextData(tr("Rate equations")))
 			{
 				connectionItems << connection;
 				DataTable<qreal> * stoichiometryMatrix = new DataTable<qreal>(handle->data->numericalData[tr("Stoichiometry")]);
-				DataTable<QString> * rates = new DataTable<QString>(handle->data->textData[tr("Rates")]);
+				DataTable<QString> * rates = new DataTable<QString>(handle->data->textData[tr("Rate equations")]);
 
 				if (stoichiometryMatrix->rowNames().contains(QString("transcription")) &&
 					rates->rowNames().contains(QString("transcription")) &&
@@ -1200,7 +1205,7 @@ namespace Tinkercell
 				handles += handle;
 
 				nDataOld += &(handle->data->numericalData[tr("Stoichiometry")]);
-				sDataOld += &(handle->data->textData[tr("Rates")]);
+				sDataOld += &(handle->data->textData[tr("Rate equations")]);
 
 				nDataNew += stoichiometryMatrix;
 				sDataNew += rates;
@@ -1242,29 +1247,18 @@ namespace Tinkercell
 				delete sDataNew[i];
 
 		return commands;
-
-		//scene->changeData(tr("mRNA step added"),handles,nDataOld,nDataNew,sDataOld,sDataNew);
-		//scene->setPen(tr("dashed pen style"),penItems,pens);
-		//itemsMoved(scene,genes,QList<QPointF>(),0);
 	}
 
 	void AutoGeneRegulatoryTool::insertmRNAstep()
 	{
 		GraphicsScene * scene = currentScene();
-		if (!scene || !mainWindow || !scene->networkWindow) return;
+		if (!scene || !mainWindow || !scene->network) return;
 
-		QList<ItemHandle*> handles = scene->networkWindow->selectedHandles();
+		QList<ItemHandle*> handles = getHandle(scene->selected());
 
-		QUndoCommand * command = new CompositeCommand(tr("insert mRNA step"),
-													  insertmRNAstep(scene->selected()));
-
-		if (scene->historyStack)
-			scene->historyStack->push(command);
-		else
-		{
-			command->redo();
-			delete command;
-		}
+		QUndoCommand * command = new CompositeCommand(tr("insert mRNA step"), insertmRNAstep(scene->selected()));
+		
+		scene->network->push(command);
 
 		emit dataChanged(handles);
 	}
@@ -1280,11 +1274,11 @@ namespace Tinkercell
 			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 						mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
-						this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
-						  this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
-                        connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&)),
-                                                  this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&)));
+					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
+					  this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
+            connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
+                          this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
 			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)),
 						  this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
@@ -1481,9 +1475,9 @@ namespace Tinkercell
 
 	}
 
-	void AutoGeneRegulatoryTool::itemsInserted(NetworkWindow* scene, const QList<ItemHandle*>& handles0)
+	void AutoGeneRegulatoryTool::itemsInserted(NetworkHandle* network, const QList<ItemHandle*>& handles0)
 	{
-		if (!scene) return;
+		if (!network) return;
 
 		QList<ItemHandle*> handles;
 
@@ -1523,8 +1517,8 @@ namespace Tinkercell
 			ItemHandle * handle = getHandle(startNode);
 			if (!startNode || !handle) continue;
 
-			findAllParts(scene->scene,startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector" ,true);
-			findAllParts(scene->scene,startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
+			findAllParts(network->currentScene(),startNode,tr("Part"),parts,false,QStringList() << "Terminator" << "Vector" ,true);
+			findAllParts(network->currentScene(),startNode,tr("Part"),upstream,true,QStringList() << "Terminator" << "Vector",true);
 
 			if (!parts.contains(handle))
 				parts.push_front(handle);
@@ -1570,14 +1564,14 @@ namespace Tinkercell
 			handle = NodeHandle::cast( getHandle(items[i]) );
 			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Promoter")) || handle->isA(tr("RBS"))))
 			{
-				connections = scene->symbolsTable->handlesFamily.values(tr("Transcription"));
-				connections += scene->symbolsTable->handlesFamily.values(tr("Translation"));
-				connections += scene->symbolsTable->handlesFamily.values(tr("Synthesis"));
+				connections = scene->network->symbolsTable.handlesFamily.values(tr("Transcription"));
+				connections += scene->network->symbolsTable.handlesFamily.values(tr("Translation"));
+				connections += scene->network->symbolsTable.handlesFamily.values(tr("Synthesis"));
 				for (int j=0; j < connections.size(); ++j)
 				{
-					if (connections[j] && connections[j]->hasTextData(tr("Rates")))
+					if (connections[j] && connections[j]->hasTextData(tr("Rate equations")))
 					{
-						rate = connections[j]->textData(tr("Rates")); 
+						rate = connections[j]->textData(tr("Rate equations")); 
 						if (rate.contains(handle->fullName()) && !rate.contains(tr(".") + handle->fullName()))
 						{
 							bool intersects = false, beforeIntersected = false;
@@ -1586,7 +1580,7 @@ namespace Tinkercell
 							QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
 							for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 							{
-								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k])) && (scene->isVisible(connection)))
+								if (connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k]))
 									nodeConnections << connection;
 							}
 
@@ -1613,7 +1607,7 @@ namespace Tinkercell
 									pos = pos - distance[0];
 
 							for (int k=0; k < nodes.size(); ++k)
-								if (nodes[k] && scene->isVisible(nodes[k]))
+								if (nodes[k])
 								{
 									rect1 = items[i]->sceneBoundingRect();
 									rect2 = nodes[k]->sceneBoundingRect();
@@ -1632,10 +1626,10 @@ namespace Tinkercell
 
 							if (!intersects && beforeIntersected)
 							{
-								DataTable<QString> newRates(connections[j]->data->textData[tr("Rates")]);
+								DataTable<QString> newRates(connections[j]->data->textData[tr("Rate equations")]);
 								newRates.value(0,0) = tr("0.0");
 								QString s = connections[j]->fullName() + tr(" rate = 0.0");
-								scene->changeData(s,connections[j],tr("Rates"),&newRates);
+								scene->network->changeData(s,connections[j],tr("Rate equations"),&newRates);
 								if (console())
 									console()->message(s);
 							}
@@ -1708,7 +1702,7 @@ namespace Tinkercell
 		}
 	}
 
-    void AutoGeneRegulatoryTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles)
+    void AutoGeneRegulatoryTool::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
 	{
 		if (!scene) return;
 
@@ -2174,7 +2168,7 @@ namespace Tinkercell
 			{
 				list = existingChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)
-					if (scene->isVisible(list[j]) && NodeGraphicsItem::cast(list[j]) && !intersectingItems.contains(list[j]))
+					if (NodeGraphicsItem::cast(list[j]) && !intersectingItems.contains(list[j]))
 					{
 						children << existingChildren[i];
 						parents << 0;
@@ -2183,7 +2177,7 @@ namespace Tinkercell
 			}
 
 		if (!children.isEmpty())
-			scene->setParentHandle(children, parents);
+			scene->network->setParentHandle(children, parents);
 
 		existingChildren = vectorHandle->children;
 		QList<QGraphicsItem*> nodesInPlasmid;
@@ -2193,7 +2187,7 @@ namespace Tinkercell
 			{
 				list = existingChildren[i]->graphicsItems;
 				for (int j=0; j < list.size(); ++j)
-					if (scene->isVisible(list[j]) && NodeGraphicsItem::cast(list[j]))
+					if (NodeGraphicsItem::cast(list[j]))
 					{
 						nodesInPlasmid << list[j];
 					}
@@ -2340,7 +2334,7 @@ namespace Tinkercell
 		if (parts && scene && h)
 		{
 			qreal y = -1.0;
-			QList<ItemHandle*> allChildren = h->visibleChildren();
+			QList<ItemHandle*> allChildren = h->allChildren();
 			NodeGraphicsItem * node = 0;
 			NodeGraphicsItem * topmost = 0;
 			for (int i=0; i < allChildren.size(); ++i)
@@ -2517,7 +2511,7 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 

@@ -24,12 +24,12 @@ int tc_compileBuildLoad(String filename,String function,String title)
 	return 0;
 }
 
-int (*_tc_compileBuildLoadSliders)(String filename,String function,String title, Matrix inputs) = 0;
+int (*_tc_compileBuildLoadSliders)(String filename,String function,String title, TableOfReals inputs) = 0;
 /*! 
  \brief compile a c file, generate the library, and load it
  \ingroup Programming interface
 */
-int tc_compileBuildLoadSliders(String filename,String function,String title, Matrix inputs)
+int tc_compileBuildLoadSliders(String filename,String function,String title, TableOfReals inputs)
 {
 	if (_tc_compileBuildLoadSliders)
 		return _tc_compileBuildLoadSliders(filename,function,title,inputs);
@@ -142,7 +142,7 @@ void tc_DynamicLibraryMenu_api(
 void tc_LoadCLibraries_api(
 		int (*compileAndRun)(String ,String ),
 		int (*compileBuildLoad)(String ,String , String),
-		int (*compileBuildLoadSliders)(String ,String ,String , Matrix ),
+		int (*compileBuildLoadSliders)(String ,String ,String , TableOfReals ),
 		void (*loadLibrary)(String),
 		void  (*addFunction)(void (*f)(), String, String, String, String, String, int, int, int),
 		void (*callback)(void (*f)(void)),

@@ -59,7 +59,7 @@ namespace Tinkercell
 	public slots:
 		void select(int i=0);
 		void deselect(int i=0);
-		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
 		void itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 		void itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers);
 		void toolLoaded(Tool*);

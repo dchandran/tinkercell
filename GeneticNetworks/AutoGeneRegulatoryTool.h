@@ -55,8 +55,8 @@ namespace Tinkercell
 	
 	public slots:
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& );
-		void itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles);
-		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&);
+		void itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles);
+		void itemsRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, Qt::KeyboardModifiers modifiers);
 		void nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers );
 		void toolLoaded(Tool*);

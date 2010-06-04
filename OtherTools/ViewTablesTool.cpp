@@ -16,7 +16,7 @@
 
 
 #include "GraphicsScene.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "MainWindow.h"
 #include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
@@ -29,10 +29,10 @@ namespace Tinkercell
 {
 	void ViewTablesTool::select(int)
 	{
-		NetworkWindow * win = currentWindow();
-		if (!win) return;
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
 
-		QList<ItemHandle*> list = win->selectedHandles();
+		QList<ItemHandle*> list = getHandle(scene->selected());
 		if (list.size() == 1 && list[0])
 		{
 			if (dockWidget && dockWidget->widget() != this)
@@ -72,7 +72,7 @@ namespace Tinkercell
 		}
 	}
 
-	ViewTablesTool::GraphicsItem2::GraphicsItem2(Tool * tool) : Tool::GraphicsItem(tool)
+	ViewTablesTool::GraphicsItem2::GraphicsItem2(Tool * tool) : ToolGraphicsItem(tool)
 	{
 	}
 
@@ -80,18 +80,18 @@ namespace Tinkercell
 	{
 		if (!tool)
 		{
-			GraphicsItem::visible(false);
+			ToolGraphicsItem::visible(false);
 			return;
 		}
 
 		GraphicsScene * scene = tool->currentScene();
 		if (!scene || scene->selected().size() != 1)
 		{
-			GraphicsItem::visible(false);
+			ToolGraphicsItem::visible(false);
 			return;
 		}
 
-		GraphicsItem::visible(b);
+		ToolGraphicsItem::visible(b);
 	}
 
 
@@ -117,8 +117,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				         this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)),
-						  this, SLOT(itemsInserted(NetworkWindow*, const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
+						  this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 			
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/new.png")));
@@ -134,7 +134,7 @@ namespace Tinkercell
 		return (mainWindow != 0);
 	}
 
-	void ViewTablesTool::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
+	void ViewTablesTool::itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -152,9 +152,10 @@ namespace Tinkercell
 
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
-		graphicsItems += new GraphicsItem2(this);
-		graphicsItems[0]->setToolTip(tr("View all tables"));
-		graphicsItems[0]->addToGroup(&item);
+		ToolGraphicsItem * toolGraphicsItem = new GraphicsItem2(this);
+		addGraphicsItem(toolGraphicsItem);
+		toolGraphicsItem->setToolTip(tr("View all tables"));
+		toolGraphicsItem->addToGroup(&item);
 
 		itemHandle = 0;
 		QFont font = this->font();
@@ -214,7 +215,7 @@ namespace Tinkercell
 	{
 		if (!item || !itemHandle || !itemHandle->hasNumericalData(item->text())) return;
 		
-		DataTable<qreal>& table = itemHandle->data->numericalData[item->text()];
+		NumericalDataTable& table = itemHandle->data->numericalData[item->text()];
 		
 		textEdit->clear();
 		

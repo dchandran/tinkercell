@@ -1,9 +1,9 @@
 #include "TCstructs.h"
 
-Matrix newMatrix(int rows, int cols)
+TableOfReals newTableOfReals(int rows, int cols)
 {
 	int i;
-	Matrix M;
+	TableOfReals M;
 	M.rows = rows;
 	M.cols = cols;
 	M.colnames = newArrayOfStrings(cols);
@@ -85,35 +85,35 @@ ArrayOfItems newArrayOfItems(int len)
 	}
 	return A;
 }
-double getValue(Matrix M, int i, int j)
+double getValue(TableOfReals M, int i, int j)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		return M.values[ i*M.cols + j ];
 	return 0.0;
 }
 
-void setValue(Matrix M, int i, int j, double d)
+void setValue(TableOfReals M, int i, int j, double d)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;
 }
 
-const char * getRowName(Matrix M, int i)
+const char * getRowName(TableOfReals M, int i)
 { 
 	return nthString(M.rownames,i);
 }
 
-void setRowName(Matrix M, int i, const char * s)
+void setRowName(TableOfReals M, int i, const char * s)
 {
 	setNthString(M.rownames,i,s);
 }
 
-const char * getColumnName(Matrix M, int i)
+const char * getColumnName(TableOfReals M, int i)
 { 
 	return nthString(M.colnames,i);
 }
 
-void setColumnName(Matrix M, int i, const char * s)
+void setColumnName(TableOfReals M, int i, const char * s)
 {
 	setNthString(M.colnames,i,s);
 }
@@ -173,7 +173,7 @@ void setNthItem(ArrayOfItems A, int i, void * o)
 		A.items[ i ] = o;
 }
 
-void deleteMatrix(Matrix * M)
+void deleteTableOfReals(TableOfReals * M)
 {
 	if (!M) return;
 	if (M->values)
@@ -221,10 +221,10 @@ void deleteArrayOfStrings(ArrayOfStrings * C)
 	C->strings = 0;
 }
 
-Matrix cbind(Matrix A, Matrix B)
+TableOfReals cbind(TableOfReals A, TableOfReals B)
 {
 	int i,j,k=0;
-	Matrix C;
+	TableOfReals C;
 	int fromA = 0, toA = A.cols, fromB = 0, toB = B.cols;
 
 	C.colnames.length = C.rownames.length = 0;
@@ -299,10 +299,10 @@ Matrix cbind(Matrix A, Matrix B)
 	return C;
 }
 
-Matrix rbind(Matrix A, Matrix B)
+TableOfReals rbind(TableOfReals A, TableOfReals B)
 {
 	int i,j,k=0;
-	Matrix C;
+	TableOfReals C;
 	int fromA = 0, toA = A.rows, fromB = 0, toB = B.rows;
 
 	C.colnames.strings = C.rownames.strings = 0;

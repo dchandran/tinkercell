@@ -10,7 +10,7 @@
 #include <math.h>
 #include "TCstructs.h"
 
-Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
+TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 {
 	int total = (1 << N) * N - N;
 	int * matrix = malloc(total * 3 * sizeof(int)); //[a + b <--> c] x N
@@ -19,8 +19,8 @@ Matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	int * js, * usedSpecies;
 	int j2 = 1, j3 = 0;
 	int a,b,c;
-	Matrix M;
-	Matrix M2;
+	TableOfReals M;
+	TableOfReals M2;
 
 	//double * ks = malloc(total * 2 * sizeof(double));
 
@@ -145,7 +145,7 @@ int main()
 	int N = 3;
 	char* proteinNames[] = { "P\0", "A\0","B\0" };
 	char* fluxNames[] = {"j0"};
-	Matrix M = fullBindingKinetics(2,fluxNames,proteinNames);
+	TableOfReals M = fullBindingKinetics(2,fluxNames,proteinNames);
 	int i=0,j=0;
 
 	//double kon[] = {10.0, 0.5, 0.9};

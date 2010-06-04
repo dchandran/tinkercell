@@ -201,8 +201,11 @@ namespace Tinkercell
 		item.normalize();
 		item.scale(35.0/item.sceneBoundingRect().width(),35.0/item.sceneBoundingRect().height());
 
-		graphicsItems += new GraphicsItem(this);
-		graphicsItems[0]->addToGroup(&item);
+		ToolGraphicsItem * gitem = new ToolGraphicsItem(this);
+		addGraphicsItem(gitem);
+		gitem->addToGroup(&item);
+		
+		addAction(QIcon(), tr("DNA sequence"), tr("View the DNA sequence of selected items"));
 	}
 	bool DNASequenceViewer::setMainWindow(MainWindow* main)
 	{
@@ -210,8 +213,8 @@ namespace Tinkercell
 
 		if (mainWindow != 0)
 		{
-			connect(mainWindow,SIGNAL(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)),
-						  this, SLOT(itemsInserted(NetworkWindow*,const QList<ItemHandle*>&)));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
+						  this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -232,7 +235,7 @@ namespace Tinkercell
 		return true;
 	}
 
-	void DNASequenceViewer::itemsInserted(NetworkWindow* , const QList<ItemHandle*>& handles)
+	void DNASequenceViewer::itemsInserted(NetworkHandle* , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{
@@ -247,18 +250,20 @@ namespace Tinkercell
 
 	void DNASequenceViewer::textChanged()
 	{
-		NetworkWindow * win = currentWindow();
-		if (!win) return;
+		NetworkHandle * net = currentNetwork();
+		if (!net || !net->currentScene()) return;
 
 		ItemHandle * handle = 0;
-		if (win->selectedHandles().size() == 1 &&
-			(handle = win->selectedHandles()[0]) &&
+		QList<QGraphicsItem*> & selected = net->currentScene()->selected();
+		
+		if (selected.size() == 1 &&
+			(handle = getHandle(selected[0])) &&
 			handle->isA(tr("Part")) &&
 			handle->data && handle->hasTextData(tr("Text Attributes")))
 		{
 			DataTable<QString> data(handle->data->textData[tr("Text Attributes")]);
 			data.value(tr("sequence"),0) = textEdit.toPlainText();
-			win->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
+			net->changeData(handle->fullName() + tr("'s sequence changed"),handle,tr("Text Attributes"),&data);
 		}
 	}
 
@@ -352,7 +357,7 @@ namespace Tinkercell
 	}
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 

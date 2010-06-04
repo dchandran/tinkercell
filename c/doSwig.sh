@@ -1,6 +1,8 @@
 swig -python tinkercell.i
 mv tinkercell_wrap.c ../python
 mv tinkercell.py ../python
+swig -octave -c++ tinkercell.i -o tinkercell_wrap.cxx
+mv tinkercell_wrap.cxx ../octave
 swig -perl tinkercell.i
 mv tinkercell_wrap.c ../perl
 mv tinkercell.pm ../perl

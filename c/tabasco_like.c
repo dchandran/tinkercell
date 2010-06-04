@@ -16,7 +16,7 @@ void run()
    int numSteps = (int)(tc_getNumber("number of steps:\0"));
    const char* rxnname;
    ArrayOfStrings partnames, rates;
-   Matrix newN;
+   TableOfReals newN;
    ArrayOfItems flux = newArrayOfItems(1);
    
    if (numSteps > 0) 
@@ -27,7 +27,7 @@ void run()
 		        parts = tc_getConnectedNodes( nthItem(A,i) );
 		        if (nthItem(parts,0) && nthItem(parts,1) && parts.length == 2)
 		        {
-		        	newN = newMatrix(numSteps + 1,numSteps + 1);
+		        	newN = newTableOfReals(numSteps + 1,numSteps + 1);
 		            
 					rxnname = tc_getUniqueName(nthItem(A,i));
 	                partnames = tc_getUniqueNames(parts);
@@ -76,7 +76,7 @@ void run()
 	                 tc_setStoichiometry(flux , newN);
 	                 newN.colnames = rates;
 					 tc_setRates(flux,rates);
-	                 deleteMatrix(&newN);
+	                 deleteTableOfReals(&newN);
 		        }
 		        deleteArrayOfItems(&parts);
 		    }

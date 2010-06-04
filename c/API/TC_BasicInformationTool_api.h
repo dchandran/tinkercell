@@ -7,27 +7,27 @@
  \brief get all the parameters
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getParameters(ArrayOfItems a);
+TCAPIEXPORT TableOfReals tc_getParameters(ArrayOfItems a);
 /*! 
  \brief get initial values of the given items. Fixed varianbles are included.
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getInitialValues(ArrayOfItems a);
+TCAPIEXPORT TableOfReals tc_getInitialValues(ArrayOfItems a);
 /*! 
  \brief set initial values of the given items. 
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setInitialValues(ArrayOfItems items,Matrix values);
+TCAPIEXPORT void tc_setInitialValues(ArrayOfItems items,TableOfReals values);
 /*! 
  \brief get all fixed variables
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getFixedVariables(ArrayOfItems a);
+TCAPIEXPORT TableOfReals tc_getFixedVariables(ArrayOfItems a);
 /*! 
  \brief get all the parameters and fixed variables
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getParametersAndFixedVariables(ArrayOfItems a);
+TCAPIEXPORT TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a);
 /*! 
  \brief get the text attribute with the given name for the given item
  \ingroup Network data
@@ -42,12 +42,12 @@ TCAPIEXPORT double tc_getParameter(Item item,String attribute);
  \brief get all numerical Modeling with the given names for the given items
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getParametersNamed(ArrayOfItems a,ArrayOfStrings attibutes);
+TCAPIEXPORT TableOfReals tc_getParametersNamed(ArrayOfItems a,ArrayOfStrings attibutes);
 /*! 
  \brief get all numerical Modeling EXCEPT the given names
  \ingroup Modeling
 */
-TCAPIEXPORT Matrix tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings Modeling);
+TCAPIEXPORT TableOfReals tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings Modeling);
 /*! 
  \brief get all text Modeling with the given name for the given items
  \ingroup Network data
@@ -73,14 +73,14 @@ TCAPIEXPORT void tc_BasicInformationTool_Text_api(
 		void (*setTextData)(Item ,String ,String ));
 
 TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
-		Matrix (*getInitialValues)(ArrayOfItems ),
-		void (*setInitialValues)(ArrayOfItems,Matrix),
-		Matrix (*getParameters)(ArrayOfItems ),
-		Matrix (*getFixedVariabes)(ArrayOfItems),
-		Matrix (*getParametersAndFixedVariabes)(ArrayOfItems ),
+		TableOfReals (*getInitialValues)(ArrayOfItems ),
+		void (*setInitialValues)(ArrayOfItems,TableOfReals),
+		TableOfReals (*getParameters)(ArrayOfItems ),
+		TableOfReals (*getFixedVariabes)(ArrayOfItems),
+		TableOfReals (*getParametersAndFixedVariabes)(ArrayOfItems ),
 		double (*getNumericalData)(Item ,String ),
-		Matrix (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
-		Matrix (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
+		TableOfReals (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
+		TableOfReals (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
 		void (*setNumericalData)(Item ,String ,double )
 	);
 #endif

@@ -24,11 +24,6 @@
 #include "DynamicLibraryMenu.h"
 #include "PythonInterpreterThread.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 namespace Tinkercell
 {
@@ -46,7 +41,7 @@ namespace Tinkercell
 			void addPythonPlugin(const char*,const char*,const char*,const char*,const char*);
 	};
 
-	class MY_EXPORT PythonTool : public Tool
+	class TINKERCELLEXPORT PythonTool : public Tool
 	{
 		Q_OBJECT
 

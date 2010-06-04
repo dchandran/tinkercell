@@ -1,7 +1,7 @@
 #include "TC_api.h"
 #include "lp_lib.h"
 
-void run(Matrix input) //first row = objective, rest = contraints, first two cols = arguments
+void run(TableOfReals input) //first row = objective, rest = contraints, first two cols = arguments
 {
 	lprec *lp;
 	int i,j,k;
@@ -10,7 +10,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 	REAL * soln;
 	void* o;
 	double max = 0.0;
-	Matrix output;
+	TableOfReals output;
 
 
 	/***get the stoichiometry matrix**
@@ -135,7 +135,7 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	/**output**/
 
-	output = newMatrix(1,input.cols-2);
+	output = newTableOfReals(1,input.cols-2);
 
 	for (i=0; i < (input.cols-2); ++i)
 		if (max < soln[input.rows+i])
@@ -161,8 +161,8 @@ void run(Matrix input) //first row = objective, rest = contraints, first two col
 
 	tc_printTable(output);
 
-	deleteMatrix(&output);
-	deleteMatrix(&input);
+	deleteTableOfReals(&output);
+	deleteTableOfReals(&input);
 	free(soln);
 	delete_lp(lp);
 

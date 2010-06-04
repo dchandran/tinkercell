@@ -58,7 +58,7 @@ namespace Tinkercell
 		QFileInfoList list = dir.entryInfoList();
 
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString userHome = MainWindow::userHome();
+		QString homeDir = MainWindow::homeDir();
 		
 		
 		for (int i = 0; i < list.size(); ++i)
@@ -124,8 +124,8 @@ namespace Tinkercell
 			if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
 				icon = appDir + tr("/") + icon;
 			
-			if (!QFile(icon).exists() && QFile(userHome + tr("/") + icon).exists())
-				icon = userHome + tr("/") + icon;
+			if (!QFile(icon).exists() && QFile(homeDir + tr("/") + icon).exists())
+				icon = homeDir + tr("/") + icon;
 		
 			QPixmap pixmap(icon);
 		
@@ -237,8 +237,8 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::userTemp() + tr("/python"),
-                  MainWindow::userHome() + tr("/python"),
+				  MainWindow::tempDir() + tr("/python"),
+                  MainWindow::homeDir() + tr("/python"),
                   QDir::currentPath() + tr("/python"),
                   appDir + tr("/python")
                };
@@ -410,15 +410,15 @@ namespace Tinkercell
 		}
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		QString userHome = MainWindow::userHome();
+		QString homeDir = MainWindow::homeDir();
 		
 		QString icon = icon0;
 		
 		if (!QFile(icon).exists() && QFile(appDir + tr("/") + icon).exists())
 			icon = appDir + tr("/") + icon;
 		
-		if (!QFile(icon).exists() && QFile(userHome + tr("/") + icon).exists())
-			icon = userHome + tr("/") + icon;
+		if (!QFile(icon).exists() && QFile(homeDir + tr("/") + icon).exists())
+			icon = homeDir + tr("/") + icon;
 	
 		QPixmap pixmap(icon);
 	
@@ -456,27 +456,9 @@ namespace Tinkercell
     }
 
     void PythonTool::runPythonCode(const QString& code)
-    {
-		/*if (pythonInterpreter && pythonInterpreter->isRunning())
-		{
-			disconnect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-			disconnect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-			disconnect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
-		}
-		
-		if (!pythonInterpreter && pythonInterpreter->isRunning())
-		{
-			QString appDir = QCoreApplication::applicationDirPath();
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/plugins/c/librunpy"), mainWindow);
-			pythonInterpreter->initialize();
-
-			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
-		}*/
-		
+    {	
         if (pythonInterpreter)
-            pythonInterpreter->runCode(code);
+            pythonInterpreter->exec(code);
     }
 
     void PythonTool::runPythonFile(const QString& filename)
@@ -485,10 +467,10 @@ namespace Tinkercell
         {
             QString appDir = QCoreApplication::applicationDirPath();
 
-            QString name[] = {	MainWindow::userHome() + tr("/") + filename,
-                                MainWindow::userHome() + tr("/python/") + filename,
-								MainWindow::userTemp() + tr("/") + filename,
-                                MainWindow::userTemp() + tr("/python/") + filename,
+            QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
+                                MainWindow::homeDir() + tr("/python/") + filename,
+								MainWindow::tempDir() + tr("/") + filename,
+                                MainWindow::tempDir() + tr("/python/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
                                 appDir + tr("/python/") + filename ,

@@ -29,19 +29,13 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
     /*!
           \brief A "middle man" class that converts static C functions to signals. Part of the generic TinkerCell C interface protocol.
         */
-    class MY_EXPORT DynamicLibraryMenu_FToS : public QObject
+    class TINKERCELLEXPORT DynamicLibraryMenu_FToS : public QObject
     {
         Q_OBJECT
      signals:
@@ -58,7 +52,7 @@ namespace Tinkercell
                         as a response to these actions and tool buttons.
                 \sa LoadCLibraries
         */
-    class MY_EXPORT DynamicLibraryMenu : public Tool
+    class TINKERCELLEXPORT DynamicLibraryMenu : public Tool
     {
         Q_OBJECT
 

@@ -24,7 +24,7 @@ void run()
   int i, j, k, N = 0;
   ArrayOfItems js, tfs, parts;
   ArrayOfStrings names, jnames;
-  Matrix m;
+  TableOfReals m;
   
   p = nthItem(selected,0);
   if (p == 0) return;
@@ -93,7 +93,7 @@ void run()
 
   deleteArrayOfItems(&js); 
   deleteArrayOfItems(&tfs);  
-  deleteMatrix(&m);
+  deleteTableOfReals(&m);
 
   deleteArrayOfStrings(&names);
   deleteArrayOfStrings(&jnames);

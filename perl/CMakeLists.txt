@@ -1,3 +1,4 @@
+SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 FIND_PACKAGE( Perl )
 FIND_PACKAGE( PerlLibs )
 
@@ -19,26 +20,45 @@ IF(PERLLIBS_FOUND AND PERL_FOUND)
           COMPONENT PerlScripts
        )
   
-      ADD_LIBRARY( tinkercell
+      ADD_LIBRARY( tcperl
   	      SHARED
     	  tinkercell_wrap.c
 	      runperl.c
       )
     
-      TARGET_LINK_LIBRARIES( tinkercell
-        tinkercell
+      TARGET_LINK_LIBRARIES( tcperl
+        tcperl
         tinkercellapi
         ${PERL_LIBRARIES}
       )
+
+  #SET_TARGET_PROPERTIES( tcperl PROPERTIES PREFIX "")
+
+  IF ( WIN32 )
+	#SET_TARGET_PROPERTIES( tcpy PROPERTIES SUFFIX ".pyd" )
+    #INSTALL(TARGETS tcpy DESTINATION python)
+    
+    ADD_CUSTOM_COMMAND ( 
+          TARGET tcpy POST_BUILD
+          COMMAND copy ${TINKERCELL_BINARY_DIR}/plugins/c/tcperl.dll ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.pyd
+      )
+    
+  ELSE ( WIN32 )
+     IF( APPLE )
+        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
+        ADD_CUSTOM_COMMAND ( 
+              TARGET tcpy POST_BUILD
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/libtcperl.dylib ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.dylib
+        )
+    ELSE( APPLE )
+        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
+        ADD_CUSTOM_COMMAND ( 
+              TARGET tcpy POST_BUILD
+              COMMAND cp ${TINKERCELL_BINARY_DIR}/plugins/c/libtcperl.so ${CMAKE_INSTALL_PREFIX}/perl/_tinkercell.so
+        )    
+    ENDIF( APPLE )
+  ENDIF( WIN32 )
   
-      SET_TARGET_PROPERTIES( tinkercell PROPERTIES PREFIX "")
-  
-      IF ( WIN32 )
-         INSTALL(TARGETS tinkercell DESTINATION perl)
-      ELSE ( WIN32 )
-         INSTALL(TARGETS tinkercell LIBRARY DESTINATION perl)
-      ENDIF( WIN32 )
-     
   ENDIF ( NOT PERL_RETURN_VALUE )
 ENDIF(PERLLIBS_FOUND AND PERL_FOUND)
 

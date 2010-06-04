@@ -10,7 +10,7 @@
 
 #include "TC_api.h"
 
-void run(Matrix input);
+void run(TableOfReals input);
 void setup();
 
 TCAPIEXPORT void tc_main()
@@ -22,7 +22,7 @@ TCAPIEXPORT void tc_main()
 
 void setup()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size", "plot", "update model", "use sliders", 0 };
 	double values[] = { 0, 100, 0.1, 0, 1, 1 };
@@ -49,7 +49,7 @@ void setup()
 	return;
 }
 
-void run(Matrix input)
+void run(TableOfReals input)
 {
 	ArrayOfItems A,B;
 	FILE * out;
@@ -60,9 +60,9 @@ void run(Matrix input)
 	int rateplot = 0;
 	int slider = 1;
 	int i=0, sz = 0, k = 0, update = 1;
-	char * runfuncInput = "Matrix input";
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
-	Matrix params, initVals, allParams, N;
+	TableOfReals params, initVals, allParams, N;
 	
 	if (input.cols > 0)
 	{
@@ -124,10 +124,10 @@ void run(Matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -142,8 +142,8 @@ void run(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
+		deleteTableOfReals(&initVals);
+		deleteTableOfReals(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -156,7 +156,7 @@ void run(Matrix input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				deleteTableOfReals(&allParams);
 			return;
 		}
 	}
@@ -164,7 +164,7 @@ void run(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -175,7 +175,7 @@ void run(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -215,7 +215,7 @@ TCAPIEXPORT void run(%s) \n\
 	double mx=0;\n\
 	void * x;\n\
 	ArrayOfItems A;\n\
-	Matrix data, ss1, ss2;\n\
+	TableOfReals data, ss1, ss2;\n\
 	ArrayOfStrings names;\n\
 	double * y, *y0;\n\
 	rates = malloc(TCreactions * sizeof(double));\n\
@@ -245,7 +245,7 @@ fprintf( out , "\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	A = tc_findItems(names);\n\
-	ss1 = ss2 = newMatrix(0,0);\n\
+	ss1 = ss2 = newTableOfReals(0,0);\n\
 	ss1.values = TCgetVars(model);\n\
 	ss1.rows = TCvars;\n\
 	ss1.cols = 1;\n\
@@ -271,8 +271,8 @@ fprintf( out , "\
 	   tc_displayNumber(x,getValue(ss2,i,0));\n\
 	}\n\
 	deleteArrayOfItems(&A);\n\
-	deleteMatrix(&ss1);\n\
-	deleteMatrix(&ss2);\n\
+	deleteTableOfReals(&ss1);\n\
+	deleteTableOfReals(&ss2);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	if (%i)\n\
@@ -294,12 +294,12 @@ fprintf( out , "\
 		setColumnName(data,1+i,nthString(names,i));\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-	deleteMatrix(&data);\n\
+	deleteTableOfReals(&data);\n\
 	free(model);\n", start, end, dt, sz, update, rateplot, xaxis);
 	
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -308,8 +308,9 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lode -lssa\0","run\0","Deterministic simulation\0",allParams);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&allParams);
 	}
+
 	else
 		tc_compileBuildLoad("ode.c -lode -lssa\0","run\0","Deterministic simulation\0");
 	

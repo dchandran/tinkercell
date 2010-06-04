@@ -200,12 +200,12 @@ void tc_errorReport(String text)
 		_tc_errorReport(text);
 }
 
-void (*_tc_printTable)(Matrix data) = 0;
+void (*_tc_printTable)(TableOfReals data) = 0;
 /*! 
  \brief show table in the output window.
  \ingroup Input and Output
 */
-void tc_printTable(Matrix data)
+void tc_printTable(TableOfReals data)
 {
 	if (_tc_printTable)
 		_tc_printTable(data);
@@ -269,16 +269,16 @@ double tc_getX(Item item)
 	return 0.0;
 }
 
-Matrix (*_tc_getPos)(ArrayOfItems items) = 0;
+TableOfReals (*_tc_getPos)(ArrayOfItems items) = 0;
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Appearance
 */
-Matrix tc_getPos(ArrayOfItems items)
+TableOfReals tc_getPos(ArrayOfItems items)
 {
 	if (_tc_getPos)
 		return _tc_getPos(items);
-	return newMatrix(0,0);
+	return newTableOfReals(0,0);
 }
 
 void (*_tc_setPos)(Item item,double x,double y) = 0;
@@ -292,12 +292,12 @@ void tc_setPos(Item item,double x,double y)
 		_tc_setPos(item,x,y);
 }
 
-void (*_tc_setPosMulti)(ArrayOfItems items, Matrix positions) = 0;
+void (*_tc_setPosMulti)(ArrayOfItems items, TableOfReals positions) = 0;
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Appearance
 */
-void tc_setPosMulti(ArrayOfItems items, Matrix positions)
+void tc_setPosMulti(ArrayOfItems items, TableOfReals positions)
 {
 	if (_tc_setPosMulti && items.length > 0 && items.items && positions.rows == items.length)
 		_tc_setPosMulti(items,positions);
@@ -362,23 +362,23 @@ String tc_appDir()
 	return 0;
 }
 
-void (*_tc_createInputWindowFromFile)(Matrix input, String filename,String functionname, String title) = 0;
+void (*_tc_createInputWindowFromFile)(TableOfReals input, String filename,String functionname, String title) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindowFromFile(Matrix input, String filename,String functionname, String title)
+void tc_createInputWindowFromFile(TableOfReals input, String filename,String functionname, String title)
 {
 	if (_tc_createInputWindowFromFile)
 		_tc_createInputWindowFromFile(input,filename,functionname,title);
 }
 
-void (*_tc_createInputWindow)(Matrix, String title, void (*f)(Matrix)) = 0;
+void (*_tc_createInputWindow)(TableOfReals, String title, void (*f)(TableOfReals)) = 0;
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindow(Matrix input, String title, void (*f)(Matrix))
+void tc_createInputWindow(TableOfReals input, String title, void (*f)(TableOfReals))
 {
 	if (_tc_createInputWindow)
 		_tc_createInputWindow(input,title,f);
@@ -441,24 +441,24 @@ Item tc_getParent(Item o)
 	return 0;
 }
 
-Matrix (*_tc_getNumericalData)(Item item,String data) = 0;
+TableOfReals (*_tc_getNumericalData)(Item item,String data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
 */
-Matrix tc_getNumericalData(Item item,String data)
+TableOfReals tc_getNumericalData(Item item,String data)
 {
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
-	return newMatrix(0,0);
+	return newTableOfReals(0,0);
 }
 
-void (*_tc_setNumericalData)(Item,String,Matrix) = 0;
+void (*_tc_setNumericalData)(Item,String,TableOfReals) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
 */
-void tc_setNumericalData(Item o,String title,Matrix data)
+void tc_setNumericalData(Item o,String title,TableOfReals data)
 {
 	if (_tc_setNumericalData)
 		_tc_setNumericalData(o, title, data);
@@ -619,12 +619,12 @@ Item tc_thisThread()
 }
 
 
-void (*_tc_createSliders)(Item, Matrix, void (*f)(Matrix)) = 0;
+void (*_tc_createSliders)(Item, TableOfReals, void (*f)(TableOfReals)) = 0;
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
 */
-void tc_createSliders(Matrix input, void (*f)(Matrix))
+void tc_createSliders(TableOfReals input, void (*f)(TableOfReals))
 {
 	if (_tc_createSliders && _cthread_ptr)
 		_tc_createSliders(_cthread_ptr, input,f);
@@ -744,6 +744,7 @@ void tc_Main_api_initialize(
 		ArrayOfItems (*tc_itemsOfFamily0)(String),
 		ArrayOfItems (*tc_itemsOfFamily1)(String, ArrayOfItems),
 		Item (*tc_find0)(String),
+
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
 		void (*tc_select0)(Item),
 		void (*tc_deselect0)(),
@@ -758,16 +759,16 @@ void tc_Main_api_initialize(
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(String),
 		void (*tc_errorReport0)(String),
-		void (*tc_outputTable0)(Matrix),
+		void (*tc_outputTable0)(TableOfReals),
 		void (*tc_printFile0)(String),
 
 		void (*tc_removeItem0)(Item),
 
 		double (*tc_getY0)(Item),
 		double (*tc_getX0)(Item),
-		Matrix (*tc_getPos0)(ArrayOfItems),
+		TableOfReals (*tc_getPos0)(ArrayOfItems),
 		void (*tc_setPos0)(Item,double,double),
-		void (*tc_setPos1)(ArrayOfItems,Matrix),
+		void (*tc_setPos1)(ArrayOfItems,TableOfReals),
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
@@ -775,9 +776,9 @@ void tc_Main_api_initialize(
 		int (*tc_isLinux0)(),
 		String (*tc_appDir0)(),
 		
-		void (*tc_createInputWindow0)(Matrix,String,String, String),
-        void (*tc_createInputWindow1)(Matrix, String, void (*f)(Matrix)),
-		void (*createSliders0)(Item, Matrix, void (*f)(Matrix)),
+		void (*tc_createInputWindow0)(TableOfReals,String,String, String),
+        void (*tc_createInputWindow1)(TableOfReals, String, void (*f)(TableOfReals)),
+		void (*createSliders0)(Item, TableOfReals, void (*f)(TableOfReals)),
 		
 		void (*tc_addInputWindowOptions0)(String, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(String, int i, int j),
@@ -786,8 +787,8 @@ void tc_Main_api_initialize(
 		ArrayOfItems (*tc_getChildren0)(Item),
 		Item (*tc_getParent0)(Item),
 		
-		Matrix (*tc_getNumericalData0)(Item,String),
-		void (*tc_setNumericalData0)(Item,String,Matrix),
+		TableOfReals (*tc_getNumericalData0)(Item,String),
+		void (*tc_setNumericalData0)(Item,String,TableOfReals),
 		TableOfStrings (*tc_getTextData0)(Item,String),
 		void (*tc_setTextData0)(Item,String, TableOfStrings),
 				

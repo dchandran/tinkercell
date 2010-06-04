@@ -50,7 +50,7 @@ namespace Tinkercell
 		void select(int i=0);
 		void deselect(int i=0);
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& list, QPointF , Qt::KeyboardModifiers );
-		void itemsInserted(NetworkWindow * , const QList<ItemHandle*>& handles);
+		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles);
 		
 	protected:
 
@@ -65,7 +65,7 @@ namespace Tinkercell
 	
 	private:
 
-		class GraphicsItem2 : public Tool::GraphicsItem
+		class GraphicsItem2 : public ToolGraphicsItem
 		{
 			public:
 				GraphicsItem2(Tool * tool);

@@ -9,7 +9,7 @@ the steady state table by changing this value.
 
 static char selected_var[100];
 static ArrayOfStrings allNames;
-static void run(Matrix input);
+static void run(TableOfReals input);
 static void setup();
 static int selectedItemsOnly = 1;
 
@@ -21,7 +21,7 @@ void unload()
 void loadAllNames()
 {
 	int i,len;
-	Matrix params, N;
+	TableOfReals params, N;
 	ArrayOfItems A = newArrayOfItems(0);
 
 	if (selectedItemsOnly)
@@ -44,8 +44,8 @@ void loadAllNames()
 			setNthString(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
-		deleteMatrix(&params);
-		deleteMatrix(&N);
+		deleteTableOfReals(&params);
+		deleteTableOfReals(&N);
 		deleteArrayOfItems(&A);
 	}
 }
@@ -69,7 +69,7 @@ TCAPIEXPORT void tc_main()
 
 void setup()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value", 0 };
 	char * rows[] = { "model", "simulation", "variable", "start", "end", "increments", "time", "plot", "use sliders"};
 	double values[] = { 0.0, 0.0, 0.0, 0.0, 10, 0.5 , 100.0, 0, 1  };
@@ -101,7 +101,7 @@ void setup()
 	return;
 }
 
-void run(Matrix input)
+void run(TableOfReals input)
 {
 	double start = 0.0, end = 50.0;
 	double dt = 0.1, time = 100.0;
@@ -110,8 +110,8 @@ void run(Matrix input)
 	ArrayOfItems A, B;
 	const char * param;
 	FILE * out;
-	Matrix params, initVals, allParams, N;
-	char * runfuncInput = "Matrix input";
+	TableOfReals params, initVals, allParams, N;
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
 	int i;
 
@@ -183,10 +183,10 @@ void run(Matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -201,8 +201,8 @@ void run(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
+		deleteTableOfReals(&initVals);
+		deleteTableOfReals(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -214,7 +214,7 @@ void run(Matrix input)
 	fprintf( out , "\
 #include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"ssa.h\"\n\
 TCAPIEXPORT void run(%s) \n\
-{\n    initMTrand();\n    Matrix dat;\n    int i,j;\n", runfunc );
+{\n    initMTrand();\n    TableOfReals dat;\n    int i,j;\n", runfunc );
 
 	fprintf( out, "\
     dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -296,7 +296,7 @@ TCAPIEXPORT void run(%s) \n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -305,7 +305,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("timet.c -lode -lssa\0","run\0","At Time T\0",allParams);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&allParams);
 	}
 	else
 		tc_compileBuildLoad("timet.c -lode -lssa\0","run\0","At Time T\0");

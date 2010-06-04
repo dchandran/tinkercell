@@ -35,7 +35,7 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( VERSION 2.4 )
   CMAKE_POLICY( SET CMP0005 NEW )
   CMAKE_POLICY( SET CMP0003 NEW )
-  CMAKE_POLICY( SET CMP0002 OLD )
+#  CMAKE_POLICY( SET CMP0002 OLD )
 ENDIF(COMMAND CMAKE_POLICY)
 
 #---------------------------------------------------------------------------
@@ -278,13 +278,11 @@ ADD_SUBDIRECTORY( R )
 # Other programs (not really part of Tinkercell)
 #----------------------------------------------------------------------------
 
-  OPTION( BUILD_RELATED_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
+  OPTION( BUILD_EXAMPLE_PROGRAMS "SimpleDesigner, Multicell, SegmentationAnimation" OFF )
 
-  IF( BUILD_RELATED_PROGRAMS )
-     ADD_SUBDIRECTORY( SegmentationAnimation )
-     ADD_SUBDIRECTORY( SimpleDesigner )
-     ADD_SUBDIRECTORY( MultiCell )
-  ENDIF( BUILD_RELATED_PROGRAMS )
+  IF( BUILD_EXAMPLE_PROGRAMS )
+     ADD_SUBDIRECTORY( Examples )
+  ENDIF( BUILD_EXAMPLE_PROGRAMS )
 
 #--------------------------------------------------------------------------------------------
 # Windows only: include specific binaries that are usually already available on Unix systems

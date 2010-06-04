@@ -45,7 +45,7 @@ void run()
 #include \"TC_api.h\"\n\
 #include \"cvodesim.h\"\n\
 #include \"loops.h\"\n\
-int run(Matrix M)\n\
+int run(TableOfReals M)\n\
 {\n\
    int i,j;\n\
    TCinitialize();\n\

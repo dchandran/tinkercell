@@ -885,11 +885,11 @@ namespace Tinkercell
 		return ConvertValue(dat);
 	}
 	
-	void PlotTool_FtoS::gnuplot(const char * s)
+	void PlotTool_FtoS::gnuplot(const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
-		emit gnuplot(s,QString(s));
+		emit gnuplot(s,QString(c));
 		s->acquire();
 		s->release();
 		delete s;

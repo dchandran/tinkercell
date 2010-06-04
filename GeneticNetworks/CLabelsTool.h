@@ -23,7 +23,7 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "MainWindow.h"
-#include "NetworkWindow.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 
@@ -61,7 +61,7 @@ namespace Tinkercell
 		void sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void itemsSelected(GraphicsScene *scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		void escapeSignal(const QWidget*);
-		void sceneClosing(NetworkWindow * , bool *);
+		void networkClosing(NetworkHandle * , bool *);
 		void displayText(ItemHandle*, const QString&);
 		void highlightItem(ItemHandle*,QColor);
 		void setDisplayLabelColor(QColor, QColor);

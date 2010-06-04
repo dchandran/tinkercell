@@ -16,8 +16,8 @@ static char target_var[100];
 static ArrayOfStrings allNames;
 static int selectAll = 1;
 
-void run(Matrix input);
-void run2D(Matrix input);
+void run(TableOfReals input);
+void run2D(TableOfReals input);
 void setup1();
 void setup2();
 
@@ -29,7 +29,7 @@ void unload()
 void loadAllNames()
 {
 	int i,len;
-	Matrix params, N;
+	TableOfReals params, N;
 	char ** names;
 	ArrayOfItems A = newArrayOfItems(0);
 
@@ -53,8 +53,8 @@ void loadAllNames()
 			setNthString(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
-		deleteMatrix(&params);
-		deleteMatrix(&N);
+		deleteTableOfReals(&params);
+		deleteTableOfReals(&N);
 		deleteArrayOfItems(&A);
 	}
 }
@@ -82,7 +82,7 @@ TCAPIEXPORT void tc_main()
 
 void setup1()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "variable", "start", "end", "increments", "plot", "use sliders", 0 };
 	double values[] = { 0.0, 0.0, 0.0, 10, 0.1, 0, 1 };
@@ -110,7 +110,7 @@ void setup1()
 
 void setup2()
 {
-	Matrix m;
+	TableOfReals m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "x-variable","x-start", "x-end", "x-increment size", "y-variable","y-start", "y-end", "y-increments size", "use sliders" };
 	double values[] = { 0.0, 0.0, 0.0, 10, 1.0 , 0.0, 0.0, 10, 1.0, 1.0 };
@@ -134,9 +134,9 @@ void setup2()
 	tc_addInputWindowOptions("2-D Steady state analysis",5, 0, allNames);
 }
 
-void run(Matrix input)
+void run(TableOfReals input)
 {
-	Matrix params, initVals, allParams, N;
+	TableOfReals params, initVals, allParams, N;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
 	int selection = 0, slider = 1;
@@ -145,7 +145,7 @@ void run(Matrix input)
 	ArrayOfItems A, B;
 	int i;
 	const char * param;
-	char * runfuncInput = "Matrix input";
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
 	FILE * out;
 
@@ -210,10 +210,10 @@ void run(Matrix input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -228,8 +228,8 @@ void run(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
+		deleteTableOfReals(&initVals);
+		deleteTableOfReals(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -242,7 +242,7 @@ void run(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		return;
 	}
 
@@ -252,7 +252,7 @@ void run(Matrix input)
 	{
 		tc_print("steady state: no valid variable selected\0");
 		if (slider)
-			deleteMatrix(&allParams);
+			deleteTableOfReals(&allParams);
 		return;
 	}
 
@@ -264,7 +264,7 @@ void run(Matrix input)
 	fprintf( out , "\
 #include \"TC_api.h\"\n#include \"cvodesim.h\"\n\n\
 TCAPIEXPORT void run(%s) \n\
-{\n    Matrix dat;\n    int i,j;\n", runfunc);
+{\n    TableOfReals dat;\n    int i,j;\n", runfunc);
 
 	fprintf( out, "\
     dat.rows = (int)((%lf-%lf)/%lf);\n\
@@ -330,10 +330,10 @@ TCAPIEXPORT void run(%s) \n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				deleteMatrix(&dat);\n",param,start,dt,param,rateplot,rateplot);
+				deleteTableOfReals(&dat);\n",param,start,dt,param,rateplot,rateplot);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -342,7 +342,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ss.c -lode\0","run\0","Steady state\0",allParams);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&allParams);
 	}
 	else
 		tc_compileBuildLoad("ss.c -lode\0","run\0","Steady state\0");
@@ -351,9 +351,9 @@ TCAPIEXPORT void run(%s) \n\
 	return;
 }
 
-void run2D(Matrix input)
+void run2D(TableOfReals input)
 {
-	Matrix params, initVals, allParams, N;
+	TableOfReals params, initVals, allParams, N;
 	double startx = 0.0, endx = 50.0, starty = 0.0, endy = 50.0;
 	double dx = 0.1, dy = 0.1;
 	int selection = 0;
@@ -364,7 +364,7 @@ void run2D(Matrix input)
 	ArrayOfStrings names;
 	const char * param1, * param2, * target;
 	FILE * out;
-	char * runfuncInput = "Matrix input";
+	char * runfuncInput = "TableOfReals input";
 	char * runfunc = "";
 
 	if (input.cols > 0)
@@ -448,7 +448,7 @@ void run2D(Matrix input)
 	{
 		deleteArrayOfItems(&A);
 		deleteArrayOfStrings(&names);
-		deleteMatrix(&params);
+		deleteTableOfReals(&params);
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
@@ -456,16 +456,16 @@ void run2D(Matrix input)
 	if (index1 >= 0 && index2 >= 0)
 		index3 = tc_getStringFromList("Select Target",names,target_var);
 	
-	allParams = newMatrix(0,0);
+	allParams = newTableOfReals(0,0);
 	
 	if (slider)
 	{
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		deleteTableOfReals(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = newTableOfReals(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
@@ -480,7 +480,7 @@ void run2D(Matrix input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
+		deleteTableOfReals(&initVals);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -489,8 +489,8 @@ void run2D(Matrix input)
 
 	if (index1 < 0 || index2 < 0 || index3 < 0)
 	{
-		deleteMatrix(&params);
-		deleteMatrix(&allParams);
+		deleteTableOfReals(&params);
+		deleteTableOfReals(&allParams);
 		deleteArrayOfStrings(&names);
 		tc_print("2D steady state: no valid variable selected\0");
 		return;
@@ -508,7 +508,8 @@ void run2D(Matrix input)
 
 	fprintf( out , "\
 	#include \"TC_api.h\"\n    #include \"cvodesim.h\"\n\n\
-	TCAPIEXPORT void run(%s) \n\	{\n    Matrix dat;\n", runfunc);
+	TCAPIEXPORT void run(%s) \n\
+	{\n    TableOfReals dat;\n", runfunc);
 
 	fprintf(out, "\
 	  int rows = (int)((%lf-%lf)/%lf);\n\
@@ -553,7 +554,7 @@ void run2D(Matrix input)
       tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n",param1,startx, dx, param2,starty, dy, target);
       
       if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
 	  else
 		fprintf(out, "    return;\n}\n");
 
@@ -562,13 +563,13 @@ void run2D(Matrix input)
 	  if (slider)
 	  {
 		  tc_compileBuildLoadSliders("ss2D.c -lode\0","run\0","2-parameter steady state\0",allParams);
-		  deleteMatrix(&allParams);
+		  deleteTableOfReals(&allParams);
   	  }
 	  else
 		  tc_compileBuildLoad("ss2D.c -lode\0","run\0","2-parameter steady state\0");
 
 
-	deleteMatrix(&params);
+	deleteTableOfReals(&params);
 	return;
 }
 

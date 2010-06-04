@@ -1,23 +1,23 @@
 #include "TC_StoichiometryTool_api.h"
 
-Matrix (*_tc_getStoichiometry)(ArrayOfItems ) = 0;
+TableOfReals (*_tc_getStoichiometry)(ArrayOfItems ) = 0;
 /*! 
 \brief get stoichiometry for the given items
 \ingroup Stoichiometry
 */
-Matrix tc_getStoichiometry(ArrayOfItems A)
+TableOfReals tc_getStoichiometry(ArrayOfItems A)
 {
 	if (_tc_getStoichiometry)
 		return _tc_getStoichiometry(A);
-	return newMatrix(0,0);
+	return newTableOfReals(0,0);
 }
 
-void (*_tc_setStoichiometry)(ArrayOfItems ,Matrix N) = 0;
+void (*_tc_setStoichiometry)(ArrayOfItems ,TableOfReals N) = 0;
 /*! 
 \brief set stoichiometry for the given items (must be labeled)
 \ingroup Stoichiometry
 */
-void tc_setStoichiometry(ArrayOfItems A,Matrix N)
+void tc_setStoichiometry(ArrayOfItems A,TableOfReals N)
 {
 	if (_tc_setStoichiometry)
 		_tc_setStoichiometry(A,N);
@@ -50,7 +50,7 @@ void tc_setRates(ArrayOfItems A,ArrayOfStrings rates)
 \brief get stoichiometry for the given items
 \ingroup init
 */
-Matrix tc_getStoichiometryFor(Item x)
+TableOfReals tc_getStoichiometryFor(Item x)
 {
 	Item a[] = { x };
 	ArrayOfItems A;
@@ -99,7 +99,7 @@ void tc_setRate(Item x, String r)
 \brief set stoichiometry for the given items
 \ingroup init
 */
-void tc_setStoichiometryFor(Item x, Matrix N)
+void tc_setStoichiometryFor(Item x, TableOfReals N)
 {
 	Item a[] = { x };
 	ArrayOfItems A;
@@ -112,8 +112,8 @@ void tc_setStoichiometryFor(Item x, Matrix N)
 \ingroup init
 */
 void tc_StoichiometryTool_api(
-							  Matrix (*getStoichiometry)(ArrayOfItems ),
-							  void (*setStoichiometry)(ArrayOfItems ,Matrix ),
+							  TableOfReals (*getStoichiometry)(ArrayOfItems ),
+							  void (*setStoichiometry)(ArrayOfItems ,TableOfReals ),
 							  ArrayOfStrings (*getRates)(ArrayOfItems ),
 							  void (*setRates)(ArrayOfItems ,ArrayOfStrings )
 							  )

@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include "ItemHandle.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -43,7 +44,7 @@ namespace Tinkercell
 		ItemHandle * handle;
 		
 		QList<ItemHandle*> handles;
-		QList<DataTable<qreal>*> newTables;
+		QList<NumericalDataTable*> newTables;
 		
 		for (int i=0; i < items.size(); ++i)
 			if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]) &&
@@ -51,7 +52,7 @@ namespace Tinkercell
 				handle->isA(tr("Cell")) && 
 				handle->hasNumericalData(tr("Numerical Attributes")))
 			{
-				DataTable<qreal> * dat = new DataTable<qreal>(handle->data->numericalData[tr("Numerical Attributes")]);
+				NumericalDataTable * dat = new NumericalDataTable(handle->data->numericalData[tr("Numerical Attributes")]);
 				QPointF pos = items[i]->scenePos();
 				
 				dat->value(tr("x"),0) = pos.x();
@@ -63,7 +64,7 @@ namespace Tinkercell
 			
 		if (handles.size() > 0)
 		{
-			scene->changeData(tr("cell position changed"),handles,tr("Numerical Attributes"),newTables);
+			scene->network->changeData(tr("cell position changed"),handles,tr("Numerical Attributes"),newTables);
 			for (int i=0; i < newTables.size(); ++i)
 				delete newTables[i];
 		}

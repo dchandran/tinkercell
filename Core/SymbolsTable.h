@@ -21,9 +21,9 @@ connection names and data columns and rows, for each scene
 #include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -40,7 +40,7 @@ namespace Tinkercell
 	list of item names and ItemHandle pointers as well as names and pointers to each data entry in each item.
 	\ingroup core
 	*/
-	class MY_EXPORT SymbolsTable
+	class TINKERCELLEXPORT SymbolsTable
 	{
 	public:
 		/*! \brief constructor

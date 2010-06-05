@@ -33,12 +33,6 @@ The parent class for all text parsers. TextEditor requires at least one
 #include "TextEditor.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*! \brief TextParser is the parent class for all parsers. Parsers
@@ -47,7 +41,7 @@ namespace Tinkercell
 		through the use of the TextParser interface. 
 		\ingroup core
 	*/
-	class MY_EXPORT TextParser : public Tool
+	class TINKERCELLEXPORT TextParser : public Tool
 	{
 	    Q_OBJECT
 		

@@ -18,9 +18,9 @@ This file defines an xml writer that writes a NodeGraphicsItem file
 #include "NodeGraphicsItem.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -29,7 +29,7 @@ namespace Tinkercell
 	/*! \brief An xml reader that reads a NodeGraphicsItem file
 	\ingroup io
 	*/
-	class MY_EXPORT NodeGraphicsWriter : public QXmlStreamWriter
+	class TINKERCELLEXPORT NodeGraphicsWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

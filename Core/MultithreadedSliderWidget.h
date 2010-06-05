@@ -23,19 +23,13 @@ Uses CThread.
 #include <QHash>
 #include "CThread.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*! \brief This class is used to run specific functions inside a C dynamic library
 	as a separate thread. Uses CThread to call the C functions
 	\ingroup io
 	*/
-	class MY_EXPORT MultithreadedSliderWidget : public QWidget
+	class TINKERCELLEXPORT MultithreadedSliderWidget : public QWidget
 	{
 		Q_OBJECT
 

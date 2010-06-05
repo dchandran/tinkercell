@@ -67,7 +67,6 @@ namespace Tinkercell
 		void autoGeneProductTriggered();
 		void autoTFTriggeredUp();
 		void autoTFTriggeredDown();
-		void insertmRNAstep();
 		void autoAssignRates(QList<NodeHandle*>&);
 		
 	signals:
@@ -96,8 +95,6 @@ namespace Tinkercell
 		QAction * separator;
 		bool doAssignment;
 		bool justAdjustedPlasmid;
-		
-		QList<QUndoCommand*> insertmRNAstep(const QList<QGraphicsItem*>& selected);
 		
 		static ArrayOfItems _partsIn(void*);
 		static ArrayOfItems _partsUpstream(void*);

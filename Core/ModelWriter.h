@@ -23,9 +23,9 @@ data.
 #include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -33,7 +33,7 @@ namespace Tinkercell
 	/*! \brief writes to an xml file handle names and data table information from a list of item handles
 	\ingroup io
 	*/
-	class MY_EXPORT ModelWriter : public QXmlStreamWriter
+	class TINKERCELLEXPORT ModelWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

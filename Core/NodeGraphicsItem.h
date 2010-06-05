@@ -36,9 +36,9 @@ to change color temporarily and then revert back to the default.
 #include "ControlPoint.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -47,11 +47,11 @@ namespace Tinkercell
 	class ItemHandle;
 	class ConnectionGraphicsItem;
 	class NodeGraphicsItem;
-	MY_EXPORT void setHandle(QGraphicsItem*,ItemHandle*);
+	TINKERCELLEXPORT void setHandle(QGraphicsItem*,ItemHandle*);
 
 	/*! \brief A simple figure made from one or more polygons. The class can be represented in an XML file
 	\ingroup core*/
-	class MY_EXPORT NodeGraphicsItem : public QGraphicsItemGroup
+	class TINKERCELLEXPORT NodeGraphicsItem : public QGraphicsItemGroup
 	{
 	public:
 		/*! \brief cast a graphics item to a node graphics item using qgraphicsitem_cast
@@ -94,7 +94,7 @@ namespace Tinkercell
 		QSizeF defaultSize;
 		/*! \brief a control point with a pointer to a NodeGraphicsItem
 		\ingroup core*/
-		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
+		class TINKERCELLEXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -129,7 +129,7 @@ namespace Tinkercell
 
 		/*! \brief A closed polygon path made from arcs, lines, and beziers
 		\ingroup core*/
-		class MY_EXPORT Shape : public QGraphicsPolygonItem
+		class TINKERCELLEXPORT Shape : public QGraphicsPolygonItem
 		{
 		public:
 			/*! \brief permanent brush for this control point*/

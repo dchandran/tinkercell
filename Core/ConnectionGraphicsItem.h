@@ -32,9 +32,9 @@ node graphics item and is used to draw the arrow heads at the end of the connect
 #include "NodeGraphicsItem.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -48,7 +48,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the rectangle
 	\ingroup helper
 	*/
-	MY_EXPORT QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
+	TINKERCELLEXPORT QPointF pointOnEdge(const QRectF&, const QPointF&, qreal dist = 0, bool straight = false);
 	/*! \brief gets the point on the edge of the shape such that it is in the same
 	line as the center of the shape's bounding rect and the point (arg)
 	\param QPainterPath the shape
@@ -56,7 +56,7 @@ namespace Tinkercell
 	\return QPointF the point on the edge of the shape
 	\ingroup helper
 	*/
-	MY_EXPORT QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
+	TINKERCELLEXPORT QPointF pointOnEdge(const NodeGraphicsItem&, const QPointF&, qreal dist = 0, bool straight = false);
 
 	class GraphicsScene;
 	class ItemHandle;
@@ -64,7 +64,7 @@ namespace Tinkercell
 	
 	/*! \brief A node graphics item that is used to draw arrow heads on connection items.
 	\ingroup core*/
-	class MY_EXPORT ArrowHeadItem : public NodeGraphicsItem
+	class TINKERCELLEXPORT ArrowHeadItem : public NodeGraphicsItem
 	{
 	public:
 		/*! \brief The connection item that this arrow head belongs with*/
@@ -89,7 +89,7 @@ namespace Tinkercell
 
 	/*! \brief A graphics nodes item that draws connection between two or more nodes and the arrow heads at the ends.
 	\ingroup core*/
-	class MY_EXPORT ConnectionGraphicsItem : public QGraphicsPathItem
+	class TINKERCELLEXPORT ConnectionGraphicsItem : public QGraphicsPathItem
 	{
 	public:
 		/*! \brief cast a graphics item to a connection graphics item using qgraphicsitem_cast
@@ -145,7 +145,7 @@ namespace Tinkercell
 
 		/*! \brief A control point with a pointer to a ConnectionGraphicsItem 
 		\ingroup core*/
-		class MY_EXPORT ControlPoint : public Tinkercell::ControlPoint
+		class TINKERCELLEXPORT ControlPoint : public Tinkercell::ControlPoint
 		{
 		public:
 			/*! \brief idrawables that this control point belong in*/
@@ -187,7 +187,7 @@ namespace Tinkercell
 
 		/*! \brief A set of control points and two arrow heads 
 		\ingroup core*/
-		class MY_EXPORT CurveSegment : public QVector<ConnectionGraphicsItem::ControlPoint*>
+		class TINKERCELLEXPORT CurveSegment : public QVector<ConnectionGraphicsItem::ControlPoint*>
 		{
 		public:
 			CurveSegment();
@@ -318,7 +318,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class MY_EXPORT AddControlPointCommand : public QUndoCommand
+	class TINKERCELLEXPORT AddControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -355,7 +355,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class MY_EXPORT RemoveControlPointCommand : public QUndoCommand
+	class TINKERCELLEXPORT RemoveControlPointCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -390,7 +390,7 @@ namespace Tinkercell
 
 	/*! \brief An command that adds a new control point to a connection item; it has undo and redo functionality 
 	\ingroup undo*/
-	class MY_EXPORT AddCurveSegmentCommand : public QUndoCommand
+	class TINKERCELLEXPORT AddCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo
@@ -429,7 +429,7 @@ namespace Tinkercell
 
 	/*! \brief A command that removed control points. Allows undo and redo
 	\ingroup undo*/
-	class MY_EXPORT RemoveCurveSegmentCommand : public QUndoCommand
+	class TINKERCELLEXPORT RemoveCurveSegmentCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor that makes the command. If added to history stack, also does redo

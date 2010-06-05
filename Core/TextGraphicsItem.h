@@ -18,9 +18,9 @@ a handle
 #include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -30,7 +30,7 @@ namespace Tinkercell
 	/*! \brief editable text item 
 	\ingroup core
 	*/
-	class MY_EXPORT TextGraphicsItem : public QGraphicsTextItem
+	class TINKERCELLEXPORT TextGraphicsItem : public QGraphicsTextItem
 	{
 		Q_OBJECT
 

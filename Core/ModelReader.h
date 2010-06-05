@@ -22,9 +22,9 @@ data.
 #include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -32,7 +32,7 @@ namespace Tinkercell
 	/*! \brief reads an xml file with handle names and data table information and generates a list of item handles
 	\ingroup io
 	*/
-	class MY_EXPORT ModelReader : public QXmlStreamReader
+	class TINKERCELLEXPORT ModelReader : public QXmlStreamReader
 	{
 	public: 
 		/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 

@@ -20,9 +20,9 @@ This is the header file for the xml writer that writes a connection item.
 #include "ConnectionGraphicsItem.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -31,7 +31,7 @@ namespace Tinkercell
 	/*! \brief This class is an xml writer that specifically writes a ConnectionGraphicsItem
 	\ingroup io
 	*/ 
-	class MY_EXPORT ConnectionGraphicsWriter : public QXmlStreamWriter
+	class TINKERCELLEXPORT ConnectionGraphicsWriter : public QXmlStreamWriter
 	{
 	public: 
 		/*! \brief default constructor*/

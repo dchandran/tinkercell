@@ -39,9 +39,9 @@ of a GraphicsScene. The class inherits from QGraphicsView.
 #include "CloneItems.h"
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -59,7 +59,7 @@ namespace Tinkercell
 				of a GraphicsScene. The class inherits from QGraphicsView. 
 		\ingroup core
 	*/
-	class MY_EXPORT GraphicsView : public QGraphicsView
+	class TINKERCELLEXPORT GraphicsView : public QGraphicsView
 	{
 		Q_OBJECT
 	

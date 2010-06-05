@@ -22,9 +22,9 @@ Each item in Tinkercell has an associated family.
 #include <QGraphicsItem>
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -42,7 +42,7 @@ namespace Tinkercell
 	/*! \brief A unit of measurement
 	\ingroup core
 	*/
-	class MY_EXPORT Unit
+	class TINKERCELLEXPORT Unit
 	{
 	public:
 		QString property; //e.g. "distance"
@@ -56,7 +56,7 @@ namespace Tinkercell
 	defines the family.
 	\ingroup core
 	*/
-	class MY_EXPORT ItemFamily
+	class TINKERCELLEXPORT ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
@@ -112,7 +112,7 @@ namespace Tinkercell
 	* It contains a list of NodeGraphicsItems that is the default for this family of nodes
 	* \ingroup core
 	*/
-	class MY_EXPORT NodeFamily: public ItemFamily
+	class TINKERCELLEXPORT NodeFamily: public ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/
@@ -146,7 +146,7 @@ namespace Tinkercell
 	* It contains a list ofConnectioGraphicsItems that is the default for this family of connections
 	* \ingroup core
 	*/
-	class MY_EXPORT ConnectionFamily: public ItemFamily
+	class TINKERCELLEXPORT ConnectionFamily: public ItemFamily
 	{
 	public:
 		/*! \brief used for casting between different sub-classes*/

@@ -15,12 +15,6 @@ Uses CThread.
 #include "ConsoleWindow.h"
 #include "MultithreadedSliderWidget.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	void MultithreadedSliderWidget::setVisibleSliders(const QStringList& options)

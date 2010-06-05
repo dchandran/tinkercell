@@ -37,12 +37,6 @@ users with the option to terminate the thread.
 #include "TCstructs.h"
 #include "DataTable.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*! \brief This class is used to run specific functions inside a C dynamic library
@@ -53,7 +47,7 @@ namespace Tinkercell
 	Only four types of functions are supported.
 	\ingroup core
 	*/
-	class MY_EXPORT CThread : public QThread
+	class TINKERCELLEXPORT CThread : public QThread
 	{
 		Q_OBJECT
 
@@ -261,7 +255,7 @@ namespace Tinkercell
 	/*! \brief This class is used to run a process (command + args) as a separate thread as a separate thread
 	\ingroup core
 	*/
-	class MY_EXPORT ProcessThread : public QThread
+	class TINKERCELLEXPORT ProcessThread : public QThread
 	{
 		Q_OBJECT
 	public:

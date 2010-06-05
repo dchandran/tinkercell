@@ -75,7 +75,7 @@ namespace Tinkercell
         QString script;
 		script =  QObject::tr("import sys\n_outfile = open('py.out','w')\nsys.stdout = _outfile;\n");
 		script += code;
-		script +=  QObject::tr("\n_outfile.close();\nprint _\n");
+		script +=  QObject::tr("\n_outfile.close();\n");
 
         if (!f)
             f = (execFunc)lib->resolve("exec");

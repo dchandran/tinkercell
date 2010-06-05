@@ -41,12 +41,6 @@ LPSolveInputWindow is a good example.
 #include "ConvertValue.h"
 #include "CThread.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -55,7 +49,7 @@ namespace Tinkercell
 	\ingroup io
 	\sa LPSolveInput
 	*/
-	class MY_EXPORT AbstractInputWindow : public Tool
+	class TINKERCELLEXPORT AbstractInputWindow : public Tool
 	{
 		Q_OBJECT
 
@@ -109,7 +103,7 @@ namespace Tinkercell
 	/*! \brief Used to create an input window that can receive user inputs for C plugins
 	\ingroup io
 	*/
-	class MY_EXPORT SimpleInputWindow : public AbstractInputWindow
+	class TINKERCELLEXPORT SimpleInputWindow : public AbstractInputWindow
 	{
 		Q_OBJECT
 	public:
@@ -191,7 +185,7 @@ namespace Tinkercell
 		virtual void comboBoxChanged(int);
 	protected:
 		/*! \brief delegate used inside the SimpleInputWindow*/
-		class MY_EXPORT ComboBoxDelegate : public QItemDelegate
+		class TINKERCELLEXPORT ComboBoxDelegate : public QItemDelegate
 		{
 		public:
 			ComboBoxDelegate(QObject *parent = 0);

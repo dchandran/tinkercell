@@ -52,7 +52,6 @@ namespace Tinkercell
 		connect(&autoGeneProduct,SIGNAL(triggered()),this,SLOT(autoGeneProductTriggered()));
 		connect(&autoPhosphate,SIGNAL(triggered()),this,SLOT(autoPhosphateTriggered()));
 		autoPhosphate.setIcon(QIcon(":/images/phosphate.png"));
-		connect(&mRNAstep,SIGNAL(triggered()),this,SLOT(insertmRNAstep()));
 		mRNAstep.setIcon(QIcon(":/images/upArrow.png"));
 
 		connect(&fToS,SIGNAL(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)),this,SLOT(partsIn(QSemaphore*, ItemHandle*, QList<ItemHandle*>*)));
@@ -686,7 +685,6 @@ namespace Tinkercell
 		{
 			scene->insert(tr("Gene product added"),list);
 			scene->selected() += list;
-			//insertmRNAstep();
 			scene->select(0);
 		}
 	}
@@ -932,8 +930,8 @@ namespace Tinkercell
 							    bool b = false;
 							    for (int k=0; k < connections.size(); ++k)
                                     if (connections[k] &&
-                                        connections[k]->hasNumericalData(tr("Stoichiometry")) &&
-                                        connections[k]->data->numericalData[tr("Stoichiometry")].getColNames().contains(parts[i]->fullName()))
+                                        connections[k]->hasNumericalData(tr("Products")) &&
+                                        connections[k]->data->numericalData[tr("Products")].getColNames().contains(parts[i]->fullName()))
                                         {
                                             b = true;
                                             break;
@@ -1105,164 +1103,6 @@ namespace Tinkercell
 					delete dataTables[i];
 	}
 
-	QList<QUndoCommand*> AutoGeneRegulatoryTool::insertmRNAstep(const QList<QGraphicsItem*>& selected)
-	{
-		ItemHandle * handle = 0;
-
-		QList<QGraphicsItem*> list;
-
-		ConnectionGraphicsItem * connection;
-		QList<ItemHandle*> handles;
-		QList<QGraphicsItem*> genes;
-		QList<DataTable<qreal>*> nDataNew, nDataOld;
-		QList<DataTable<QString>*> sDataNew, sDataOld;
-
-		QList<ConnectionGraphicsItem*> connectionItems;
-
-		for (int i=0; i < selected.size(); ++i)
-		{
-			handle = getHandle(selected[i]);
-			if ((connection = qgraphicsitem_cast<ConnectionGraphicsItem*>(selected[i])) &&
-				!connectionItems.contains(connection) &&
-				handle &&
-				handle->isA(tr("Transcription")) && !handles.contains(handle) && handle->data &&
-				handle->hasNumericalData(tr("Stoichiometry")) && handle->hasTextData(tr("Rate equations")))
-			{
-				connectionItems << connection;
-				DataTable<qreal> * stoichiometryMatrix = new DataTable<qreal>(handle->data->numericalData[tr("Stoichiometry")]);
-				DataTable<QString> * rates = new DataTable<QString>(handle->data->textData[tr("Rate equations")]);
-
-				if (stoichiometryMatrix->rowNames().contains(QString("transcription")) &&
-					rates->rowNames().contains(QString("transcription")) &&
-					stoichiometryMatrix->rowNames().contains(QString("translation")) &&
-					rates->rowNames().contains(QString("translation")) &&
-					stoichiometryMatrix->rowNames().contains(QString("degradation")) &&
-					rates->rowNames().contains(QString("degradation")))
-				{
-					delete stoichiometryMatrix;
-					delete rates;
-					continue;
-				}
-
-				int cols = stoichiometryMatrix->cols();
-				int rows = stoichiometryMatrix->rows();
-
-				stoichiometryMatrix->resize(rows + 2, cols + 1);
-				stoichiometryMatrix->colName(cols) = handle->fullName() + QString(".mRNA");
-
-				rates->resize(rows + 2,rates->cols());
-				if (rows > 0)
-				{
-					stoichiometryMatrix->rowName(rows-1) = QString("transcription");
-					rates->rowName(rows-1) = QString("transcription");
-				}
-
-				stoichiometryMatrix->rowName(rows) = QString("translation");
-				rates->rowName(rows) = QString("translation");
-
-				stoichiometryMatrix->rowName(rows+1) = QString("degradation");
-				rates->rowName(rows+1) = QString("degradation");
-
-				if (handle->hasNumericalData(tr("Numerical Attributes")))
-				{
-					DataTable<qreal> * params = new DataTable<qreal>(handle->data->numericalData[tr("Numerical Attributes")]);
-					if (!params->rowNames().contains(QString("k1")))
-					{
-						int sz = params->rows();
-						params->value(sz,0) = 1.0;
-						params->rowName(sz) = QString("k1");
-					}
-					if (!params->rowNames().contains(QString("degr")))
-					{
-						int sz = params->rows();
-						params->value(sz,0) = 1.0;
-						params->rowName(sz) = QString("degr");
-					}
-
-					handles += handle;
-
-					nDataOld += &(handle->data->numericalData[tr("Numerical Attributes")]);
-					nDataNew += params;
-
-					sDataOld += 0;
-					sDataNew += 0;
-				}
-
-				for (int i=0; i < cols+1; ++i)
-				{
-					stoichiometryMatrix->value(tr("degradation"),i) = 0.0; //mrna degr
-					stoichiometryMatrix->value(tr("transcription"),i) = 0.0; // transcription
-					stoichiometryMatrix->value(tr("translation"),i) = 1.0;
-				}
-
-				stoichiometryMatrix->value(tr("degradation"),cols) = -1.0; //mrna degr
-				stoichiometryMatrix->value(tr("transcription"),cols) = 1.0; //transcription
-				stoichiometryMatrix->value(tr("translation"),cols) = 0.0; //transcription
-
-				rates->value(tr("degradation"),0) = handle->fullName() + QString(".degr * ") + handle->fullName() + QString(".mRNA");
-				rates->value(tr("translation"),0) = handle->fullName() + QString(".k1 * ") + handle->fullName() + QString(".mRNA");
-
-				handles += handle;
-
-				nDataOld += &(handle->data->numericalData[tr("Stoichiometry")]);
-				sDataOld += &(handle->data->textData[tr("Rate equations")]);
-
-				nDataNew += stoichiometryMatrix;
-				sDataNew += rates;
-
-				QList<NodeGraphicsItem*> nodes = connection->nodes();
-				if (nodes.size() > 0 && nodes[0])
-					genes += nodes[0];
-			}
-			/*else
-			{
-				selected.removeAt(i);
-				--i;
-			}*/
-		}
-
-		QList<QGraphicsItem*> penItems;
-		QList<QPen> pens;
-
-		for (int i=0; i < connectionItems.size(); ++i)
-		{
-			penItems << connectionItems[i];
-			QPen pen = connectionItems[i]->defaultPen;
-			pen.setStyle(Qt::DashLine);
-			pens << pen;
-		}
-
-		QList<QUndoCommand*> commands;
-
-		commands << new Change2DataCommand<qreal,QString>
-					(tr("mRNA step added"),nDataOld,nDataNew,sDataOld,sDataNew)
-				 << new ChangePenCommand(tr("change pen style"), penItems, pens);
-
-		for (int i=0; i < nDataNew.size(); ++i)
-			if (nDataNew[i])
-				delete nDataNew[i];
-
-		for (int i=0; i < sDataNew.size(); ++i)
-			if (sDataNew[i])
-				delete sDataNew[i];
-
-		return commands;
-	}
-
-	void AutoGeneRegulatoryTool::insertmRNAstep()
-	{
-		GraphicsScene * scene = currentScene();
-		if (!scene || !mainWindow || !scene->network) return;
-
-		QList<ItemHandle*> handles = getHandle(scene->selected());
-
-		QUndoCommand * command = new CompositeCommand(tr("insert mRNA step"), insertmRNAstep(scene->selected()));
-		
-		scene->network->push(command);
-
-		emit dataChanged(handles);
-	}
-
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -1284,8 +1124,6 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
-			//connect(mainWindow,SIGNAL(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )),
-				//		this,SLOT(copyItems(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& )));
 			connectPlugins();
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -1459,7 +1297,7 @@ namespace Tinkercell
 					item = items[i];
 			}
 		}
-
+/*
 		if (item)
 		{
 			ItemHandle * handle = getHandle(item);
@@ -1471,7 +1309,7 @@ namespace Tinkercell
 				autoGeneProductTriggered();
 			}
 		}
-
+*/
 
 	}
 
@@ -1481,6 +1319,7 @@ namespace Tinkercell
 
 		QList<ItemHandle*> handles;
 
+/*
 		for (int i=0; i < handles0.size(); ++i)
 			if (handles0[i])
 			{
@@ -1495,6 +1334,7 @@ namespace Tinkercell
 
 				}
 			}
+*/
 
 		QList<ItemHandle*> parts, upstream;
 		QList<NodeHandle*> parts2;
@@ -1717,7 +1557,7 @@ namespace Tinkercell
 		{
             if ((connection = ConnectionHandle::cast(handles[i]))
 				&& !visited.contains(handles[i])
-				&& handles[i]->isA("Transcription Regulation"))
+				&& handles[i]->isA("Gene Regulation"))
 			{
 				visited << handles[i];
 				QList<ItemHandle*> parts, upstream;
@@ -1786,7 +1626,7 @@ namespace Tinkercell
 				containsSpecies = true;
 			if (!containsProteins && handle && handle->isA("Protein"))
 				containsProteins = true;
-			if (!containsRegulator && handle && handle->isA("Operator"))
+			if (!containsRegulator && handle && handle->isA("Promoter"))
 				containsRegulator = true;
 			if (!containsCoding && handle && handle->isA("Coding"))
 				containsCoding = true;
@@ -1894,8 +1734,8 @@ namespace Tinkercell
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
 							&& (!stopIfElongation || !connections[j]->handle()->data
-								|| !connections[j]->handle()->hasNumericalData(tr("Stoichiometry"))
-								|| connections[j]->handle()->data->numericalData[tr("Stoichiometry")].rows() < 1)
+								|| !connections[j]->handle()->hasNumericalData(tr("Products"))
+								|| connections[j]->handle()->data->numericalData[tr("Products")].rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];
@@ -1916,8 +1756,8 @@ namespace Tinkercell
 						if (connectedNodes.size() > 0 && connectedNodes[0] && (h = connectedNodes[0]->handle())
 							&& h->isA(family) && h->children.isEmpty() && !visited.contains(connectedNodes[0])
 							&& (!stopIfElongation || !connections[j]->handle()->data
-								|| !connections[j]->handle()->hasNumericalData(tr("Stoichiometry"))
-								|| connections[j]->handle()->data->numericalData[tr("Stoichiometry")].rows() < 1)
+								|| !connections[j]->handle()->hasNumericalData(tr("Products"))
+								|| connections[j]->handle()->data->numericalData[tr("Products")].rows() < 1)
 							)
 							{
 								visited += connectedNodes[0];
@@ -2055,7 +1895,7 @@ namespace Tinkercell
 
 	QString AutoGeneRegulatoryTool::hillEquation(NodeHandle * handle, ItemHandle * except)
 	{
-		if (!handle || !handle->isA(tr("Operator"))) return QString();
+		if (!handle || !handle->isA(tr("Promoter"))) return QString();
 
 		QList<ConnectionHandle*> connections = handle->connections();
 
@@ -2064,10 +1904,10 @@ namespace Tinkercell
 		for (int i=0; i < connections.size(); ++i)
 		if (connections[i])
 			{
-				if (!connections[i]->isA("Transcription Regulation") || connections[i] == except)
+				if (!connections[i]->isA("Gene Regulation") || connections[i] == except)
 					continue;
                 QString cname = connections[i]->fullName();
-                bool isPositive = !(connections[i]->isA("Transcription Repression"));
+                bool isPositive = !(connections[i]->isA("Gene Repression"));
                 QList<NodeHandle*> nodesIn = connections[i]->nodesIn();
 				for (int j=0; j < nodesIn.size(); ++j)
 				{

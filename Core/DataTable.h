@@ -22,9 +22,9 @@ the table.
 #include <QDebug>
 
 #ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
+#define TINKERCELLEXPORT __declspec(dllexport)
 #else
-#define MY_EXPORT
+#define TINKERCELLEXPORT
 #endif
 
 namespace Tinkercell
@@ -33,7 +33,7 @@ namespace Tinkercell
 	\ingroup core
 	*/
 	template <typename T>
-	class MY_EXPORT DataTable 
+	class TINKERCELLEXPORT DataTable 
 	{
 	protected:
 		/*! \brief the values in the table*/
@@ -285,7 +285,7 @@ namespace Tinkercell
 		\ingroup undo 
 	*/
 	template <typename T>
-	class MY_EXPORT ChangeDataCommand : public QUndoCommand
+	class TINKERCELLEXPORT ChangeDataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor
@@ -316,7 +316,7 @@ namespace Tinkercell
 		\ingroup undo
 	*/
 	template <typename T1, typename T2>
-	class MY_EXPORT Change2DataCommand : public QUndoCommand
+	class TINKERCELLEXPORT Change2DataCommand : public QUndoCommand
 	{
 	public:
 		/*! \brief constructor

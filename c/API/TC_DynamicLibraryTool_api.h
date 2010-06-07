@@ -89,4 +89,15 @@ TCAPIEXPORT void tc_PythonTool_api(
 		void (*addPythonPlugin)(String,String,String,String,String)
 );
 
+/*! 
+ \brief initialize dialogs and c interface
+ \ingroup init
+*/
+TCAPIEXPORT void tc_OctaveTool_api(
+		void (*runOctaveCode)(String),
+		void (*runPythonFile)(String),
+		void (*addOctavePlugin)(String,String,String,String,String)
+);
+
+
 #endif

@@ -26,7 +26,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="integral membrane protein multipass" width="60" height="50">
+            <style idList="integral membrane protein multipass" width="100" height="100">
                 <g>
                     <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>

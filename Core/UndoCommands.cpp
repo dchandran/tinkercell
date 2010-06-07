@@ -2764,5 +2764,41 @@ namespace Tinkercell
 			items[i]->setVisible(before[i]);
 		}
 	}
+	
+	SetHandleFamilyCommand::SetHandleFamilyCommand(const QString& name, const QList<ItemHandle*>& items, const QList<ItemFamily*>& families) 
+		: QUndoCommand(name)
+	{
+		for (int i=0; i < items.size() && i < families.size(); ++i)
+			if (items[i])
+			{
+				handles << items[i];
+				oldFamily << items[i]->family();
+				newFamily << families[i];
+			}
+	}
+	
+	SetHandleFamilyCommand::SetHandleFamilyCommand(const QString& name, ItemHandle* item, ItemFamily* family)
+	{
+		if (item)
+		{
+			handles << item;
+			oldFamily << item->family();
+			newFamily << family;
+		}
+	}
+	
+	void SetHandleFamilyCommand::redo()
+	{
+		for (int i=0; i < handles.size() && i < newFamily.size(); ++i)
+			if (handles[i])			
+				handles[i]->setFamily(newFamily[i],false);
+	}
+	
+	void SetHandleFamilyCommand::undo()
+	{
+		for (int i=0; i < handles.size() && i < oldFamily.size(); ++i)
+			if (handles[i])			
+				handles[i]->setFamily(oldFamily[i],false);
+	}
 }
 

@@ -15,6 +15,7 @@
 #include "ConsoleWindow.h"
 #include "CodingWindow.h"
 #include "PythonTool.h"
+#include "OctaveTool.h"
 #include "LoadCLibraries.h"
 #include <QRegExp>
 #include <QVBoxLayout>
@@ -231,8 +232,8 @@ specific for:\n\"\"\"\n\n") + text;
 				{
 					PythonTool * pyTool = static_cast<PythonTool*>(widget);
 					
-					connect(this,SIGNAL(runPy(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
-					connect(this,SIGNAL(stopPy()),pyTool,SLOT(stopPython()));
+					connect(this,SIGNAL(runPython(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
+					connect(this,SIGNAL(stopPython()),pyTool,SLOT(stopPython()));
 					connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));
 
 					if (this->toolBar)
@@ -240,7 +241,30 @@ specific for:\n\"\"\"\n\n") + text;
 						QProgressBar * progressBar = new QProgressBar(this->toolBar);
 						progressBar->setRange(0,100);
 						this->toolBar->addWidget(progressBar);
+						progressBar->setToolTip("Python progress meter");
 						connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
+					}
+				}
+			}
+			
+			if (mainWindow->tool(tr("Octave Interpreter")))
+			{
+				QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
+				if (widget)
+				{
+					OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
+					
+					connect(this,SIGNAL(runOctave(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
+					connect(this,SIGNAL(stopOctave()),ocTool,SLOT(stopOctave()));
+					connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));
+
+					if (this->toolBar)
+					{
+						QProgressBar * progressBar = new QProgressBar(this->toolBar);
+						progressBar->setRange(0,100);
+						this->toolBar->addWidget(progressBar);
+						progressBar->setToolTip("Octave progress meter");
+						connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
 					}
 				}
 			}
@@ -278,8 +302,8 @@ specific for:\n\"\"\"\n\n") + text;
 
 	 void CodingWindow::about()
 	 {
-		 QMessageBox::about(this, tr("About C Script Editor"),
-					 tr("This tool allows run-time execution of C and Python code."));
+		 QMessageBox::about(this, tr("About Coding Window"),
+					 tr("This tool allows run-time execution of C, Python, and Octave code. The code can also be added permanently to TinkerCell."));
 	 }
 
 	 void CodingWindow::setupEditor()
@@ -289,15 +313,10 @@ specific for:\n\"\"\"\n\n") + text;
 		 font.setFixedPitch(true);
 		 font.setPointSize(10);
 
-		 editorC = new RuntimeCodeEditor;
-		 editorC->setFont(font);
+		 editor = new RuntimeCodeEditor;
+		 editor->setFont(font);
 
-		 editorPy = new RuntimeCodeEditor;
-		 editorPy->setFont(font);
-
-		 highlighterC = new CandPythonSyntaxHighlighter(editorC->document());
-
-		 highlighterPy = new CandPythonSyntaxHighlighter(editorPy->document());
+		 highlighter = new CandPythonSyntaxHighlighter(editor->document());
 
          editorC->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
 		 editorPy->setPlainText(tr("from tinkercell import *\n"));
@@ -332,7 +351,7 @@ specific for:\n\"\"\"\n\n") + text;
 		 action = toolBar->addAction(QIcon(":/images/play.png"),tr("Run"),this,SLOT(run()));
 		 action->setToolTip(tr("Run code"));
 
-		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPy()));
+		 action = toolBar->addAction(QIcon(":/images/stop.png"),tr("Stop"),this,SIGNAL(stopPython()));
 		 action->setToolTip(tr("Terminate (Python only)"));
 
 		 //action = toolBar->addAction(QIcon(":/images/default.png"),tr("Buttonize"),this,SLOT(convertCodeToButton()));
@@ -449,7 +468,7 @@ specific for:\n\"\"\"\n\n") + text;
 				runC(editorC->toPlainText());
 
 			if (editorPy && tabWidget->currentIndex() == 1)
-				emit runPy(editorPy->toPlainText());
+				emit runPython(editorPy->toPlainText());
 
 			if (editorR && tabWidget->currentIndex() == 2)
 				return;
@@ -479,7 +498,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
 	 }
-
+/*
 	 void CodingWindow::setupDialog()
 	 {
 		QGridLayout * layout = new QGridLayout;
@@ -492,16 +511,12 @@ specific for:\n\"\"\"\n\n") + text;
 		QLabel * label3 = new QLabel(tr("compile Python using: "));
 
 		fileNameEdit = new QLineEdit(fileName);
-		//commandPyEdit = new QLineEdit(commandPy);
-		//commandCEdit = new QLineEdit(commandC);
 
 		layout->addWidget(label1,0,0,Qt::AlignLeft);
 		layout->addWidget(label2,1,0,Qt::AlignLeft);
 		layout->addWidget(label3,2,0,Qt::AlignLeft);
 
 		layout->addWidget(fileNameEdit,0,1);//,Qt::AlignRight);
-		//layout->addWidget(commandCEdit,1,1);//Qt::AlignRight);
-		//layout->addWidget(commandPyEdit,2,1);//,Qt::AlignRight);
 
 		layout->addWidget(okButton,3,0,Qt::AlignRight);
 		layout->addWidget(cancelButton,3,1);//,Qt::AlignCenter);
@@ -514,12 +529,10 @@ specific for:\n\"\"\"\n\n") + text;
 
 	 void CodingWindow::dialogFinished()
 	 {
-		if (fileNameEdit == 0 /*|| commandPyEdit == 0 || commandCEdit == 0*/) return;
+		if (fileNameEdit == 0) return;
 		fileName = fileNameEdit->text();
-		//commandPy = commandPyEdit->text();
-		//commandC = commandCEdit->text();
 	 }
-
+*/
 	 QSize CodingWindow::sizeHint() const
 	 {
 		 return QSize(500,300);

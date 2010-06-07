@@ -226,8 +226,11 @@ namespace Tinkercell
 		connect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		connect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
-		connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-				main ,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+		connect(this,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+				main ,SIGNAL(parentHandleChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+			
+		connect(this,SIGNAL(handleFamilyChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemFamily*>&)),
+				main ,SIGNAL(handleFamilyChanged(NetworkHandle *, const QList<ItemHandle*>&, const QList<ItemFamily*>&)));
 
 		connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 			main ,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
@@ -393,6 +396,33 @@ namespace Tinkercell
 		for (int i=0; i < children.size(); ++i)
 			parents << parent;
 		setParentHandle(children,parents);
+	}
+	
+	void NetworkHandle::setHandleFamily(const QList<ItemHandle*>& handles, const QList<ItemFamily*>& newfamilies)
+	{
+		if (handles.size() != newfamilies.size()) return;
+
+		SetHandleFamilyCommand * command = new SetHandleFamilyCommand(tr("family changed"), handles, newfamilies);
+		history.push(command);
+
+		emit handleFamilyChanged(this, command->handles, command->oldFamily);
+	}
+
+	void NetworkHandle::setHandleFamily(ItemHandle * handle, ItemFamily * newfamily)
+	{
+		QList<ItemHandle*> list1;
+		QList<ItemFamily*> list2;
+		list1 << handle;
+		list2 << newfamily;
+		setHandleFamily(list1,list2);
+	}
+
+	void NetworkHandle::setHandleFamily(const QList<ItemHandle*> handles, ItemFamily * newfamily)
+	{
+		QList<ItemFamily*> list;
+		for (int i=0; i < handles.size(); ++i)
+			list << newfamily;
+		setHandleFamily(handles,list);
 	}
 
 	/*! \brief change numerical data table*/
@@ -949,5 +979,7 @@ namespace Tinkercell
 		
 		return newnames;
 	}
+	
+	
 }
 

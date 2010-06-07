@@ -118,9 +118,9 @@ namespace Tinkercell
         }
     }
 
-    bool ConnectionsTree::setMainWindow(MainWindow * TinkercellWindow)
+    bool ConnectionsTree::setMainWindow(MainWindow * main)
     {
-        Tool::setMainWindow(TinkercellWindow);
+        Tool::setMainWindow(main);
 
         if (mainWindow)
         {
@@ -220,7 +220,7 @@ namespace Tinkercell
 		return  file;
 	}
 	
-	QTreeWidget & ConnectionsTree::widget() 
+	QTreeWidget & ConnectionsTree::widget()
 	{ 
 		return treeWidget; 
 	}

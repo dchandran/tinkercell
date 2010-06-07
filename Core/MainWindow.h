@@ -285,7 +285,7 @@ namespace Tinkercell
 		/*!
 		* \brief the menu for settings such as default plugins, Tinkercell home directory, etc.
 		*/
-		QMenu* settingsMenu;
+		QMenu* optionsMenu;
 		/*!
 		* \brief the menu for choosing one of the available parsers (will be 0 if there are no parsers)
 		*/
@@ -763,6 +763,12 @@ namespace Tinkercell
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
 		void parentHandleChanged(NetworkHandle * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		/*! \brief signals whenever item handles' families are changed
+		* \param NetworkHandle* network where the event took place
+		* \param QList<ItemHandle*>& child items
+		* \param QList<ItemFamily*>& old families
+		* \return void*/
+		void handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemFamily*>&);
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles
 		* \return void*/

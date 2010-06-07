@@ -175,7 +175,6 @@ namespace Tinkercell
 	{
 		network = 0;
 		parent = 0;
-		data = 0;
 		name = s;
 		type = 0;
 		data = new ItemData;
@@ -227,6 +226,10 @@ namespace Tinkercell
 	ItemFamily* ItemHandle::family() const
 	{
 		return 0;
+	}
+	
+	void ItemHandle::setFamily(ItemFamily*, bool)
+	{
 	}
 
 	void ItemHandle::rename(const QString& s)
@@ -547,14 +550,6 @@ namespace Tinkercell
 		type = NodeHandle::TYPE;
 	}
 
-	NodeHandle::NodeHandle(NodeFamily * family) : ItemHandle()
-	{
-		parent = 0;
-		nodeFamily = family;
-		data = new ItemData();
-		type = NodeHandle::TYPE;
-	}
-
 	NodeHandle::NodeHandle(NodeFamily * family, NodeGraphicsItem * item) : ItemHandle()
 	{
 		type = NodeHandle::TYPE;
@@ -566,11 +561,24 @@ namespace Tinkercell
 		}
 	}
 
-	bool NodeHandle::setFamily(NodeFamily * itemFamily)
+	void NodeHandle::setFamily(ItemFamily * p, bool useCommand)
 	{
-		if (!itemFamily) return false;
-		this->nodeFamily = (itemFamily);
-		return (this->nodeFamily != 0);
+		if (useCommand && network)
+		{
+			ItemHandle * item = const_cast<NodeHandle*>(this);
+			network->setHandleFamily(item,p);
+		}
+		else
+		{
+			if (!p)
+				this->nodeFamily = 0;
+			else
+			{
+				NodeFamily * itemFamily = NodeFamily::cast(p);
+				if (itemFamily);
+					this->nodeFamily = itemFamily;
+			}
+		}
 	}
 
 	ItemFamily* NodeHandle::family() const
@@ -654,12 +662,25 @@ namespace Tinkercell
 			item->setHandle(this);
 		}
 	}
-
-	bool ConnectionHandle::setFamily(ConnectionFamily * itemFamily)
-	{
-		if (!itemFamily) return false;
-		this->connectionFamily = (itemFamily);
-		return (this->connectionFamily != 0);
+	
+	void ConnectionHandle::setFamily(ItemFamily * p, bool useCommand)
+	{	
+		if (useCommand && network)
+		{
+			ItemHandle * item = const_cast<ConnectionHandle*>(this);
+			network->setHandleFamily(item,p);
+		}
+		else
+		{
+			if (!p)
+				this->connectionFamily = 0;
+			else
+			{
+				ConnectionFamily * itemFamily = ConnectionFamily::cast(p);
+				if (itemFamily);
+					this->connectionFamily = itemFamily;
+			}
+		}
 	}
 
 	ConnectionHandle::ConnectionHandle(const ConnectionHandle & copy) : ItemHandle(copy)
@@ -817,6 +838,49 @@ namespace Tinkercell
 	void ConnectionHandle::clearNodes()
 	{
 		nodesWithRoles.clear();
+	}
+	
+	bool ConnectionHandle::isValidFamily(ItemFamily * p) const
+	{
+		ConnectionFamily * family = ConnectionFamily::cast(p);		
+		if (!family) return false;		
+		if (!family->textAttributes.contains("typein") || !family->textAttributes.contains("typeout")) return false;
+		
+		QString typein = family->textAttributes["typein"],
+				typeout = family->textAttributes["typeout"];
+
+		QList<NodeHandle*> in = nodesIn(), out = nodesOut();
+
+		for (int i=0; i < in.size(); ++i)
+			if (!in[i] || !in[i]->isA(typein))
+				return false;
+
+		for (int i=0; i < out.size(); ++i)
+			if (!out[i] || !out[i]->isA(typeout))
+				return false;
+
+		return true;
+	}
+	
+	QList<ItemFamily*> ConnectionHandle::findValidSubfamilies() const
+	{
+		QList<ItemFamily*> validFamilies, list;
+		
+		//breadth first search starting from current family
+		if (family())
+			validFamilies << family();
+			
+		for (int i=0; i < validFamilies.size(); ++i)
+			if (validFamilies[i])
+			{
+				list = validFamilies[i]->children();
+				for (int j=0; j < list.size(); ++j)
+					if (!validFamilies.contains(list[j]) && isValidFamily(list[j]))
+						validFamilies << list[j];	
+			}
+		
+		
+		return validFamilies;
 	}
 
 }

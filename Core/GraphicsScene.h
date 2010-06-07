@@ -84,6 +84,10 @@ namespace Tinkercell
 		static QPen GridPen;
 		/*! \brief brush used to draw the foreground for the scene*/
 		static QBrush ForegroundBrush;
+		/*! \brief brush used to draw the background of tool tips*/
+		static QBrush ToolTipBackgroundBrush;
+		/*! \brief brush used to draw the text for tool tips*/
+		static QPen ToolTipTextPen;
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
 		static qreal MIN_DRAG_DISTANCE;
 
@@ -216,7 +220,10 @@ namespace Tinkercell
 		/*! \brief cut selected items*/
 		virtual void cut();
 		/*! \brief paste copied items*/
-		virtual void paste();
+		virtual void paste();		
+		/*! \brief show a tooltip a the given position*/
+		virtual void showToolTip(QPointF,const QString&);
+		
 		/*! \brief a simple move operation that also adds undo command to history window and emits associated signal(s)
 		* \param QGraphicsItem * item to move
 		* \param QPointF distance to move the item
@@ -427,6 +434,8 @@ namespace Tinkercell
 		qreal lastZ;
 		/*! \brief rectanglular selection area*/
 		QGraphicsRectItem selectionRect;
+		/*! \brief list of temporary tool tips*/
+		QList<QGraphicsItem*> toolTips;
 		/*! \brief used to store copied items*/
 		static QList<QGraphicsItem*> duplicateItems;
 		/*! \brief used to store copied items*/
@@ -449,6 +458,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> movingItems;
 		/*! \brief group of moving items*/
 		QGraphicsItemGroup * movingItemsGroup;
+		/*! \brief hide the all tool tips*/
+		virtual void hideToolTips();
 		/*! \brief hide the all graphical tools*/
 		virtual void hideGraphicalTools();
 		/*! \brief show graphical tools for selected items*/

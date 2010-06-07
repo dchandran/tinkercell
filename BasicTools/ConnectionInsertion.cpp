@@ -712,32 +712,6 @@ namespace Tinkercell
 
 						item->curveSegments +=
 							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selectedNodes[i]));
-
-						if (i >= numRequiredIn)
-						{
-							ArrowHeadItem * arrow = 0;
-							if (!selectedFamily->graphicsItems.isEmpty() &&
-								(arrow = qgraphicsitem_cast<ArrowHeadItem*>(selectedFamily->graphicsItems.last())) &&
-								arrow->isValid())
-							{
-								arrow = new ArrowHeadItem(*arrow);
-								arrow->connectionItem = item;
-								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-									arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-							}
-							else
-							{
-								QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-								NodeGraphicsReader imageReader;
-								arrow = new ArrowHeadItem(item);
-								imageReader.readXml(arrow,nodeImageFile);
-								arrow->normalize();
-								if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-									arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
-							}
-							item->curveSegments.last().arrowStart = arrow;
-							insertList += arrow;
-						}
 					}
 
 					if (selectedNodes.size() > 0)
@@ -769,13 +743,42 @@ namespace Tinkercell
 						item->setPen(item->defaultPen);
 					}
 					
-					if (handle->isA(tr("Gene Regulation")) || handle->isA(tr("Promoter Repression")))
-						item->lineType = ConnectionGraphicsItem::line;
+					handle->setFamily(handle->findValidSubfamilies().last());
 					
-					if (handle->isA(tr("Gene Repression")))
-						item->defaultPen.setColor(QColor(tr("#C30000")));
-					if (handle->isA(tr("Gene Activation")))
-						item->defaultPen.setColor(QColor(tr("#049102")));
+					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
+					{
+						ArrowHeadItem * arrow = 0;
+						if (!selectedFamily->graphicsItems.isEmpty() &&
+							(arrow = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.last())) &&
+							arrow->isValid())
+						{
+							arrow = new ArrowHeadItem(*arrow);
+							arrow->connectionItem = item;
+							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+						}
+						else
+						{
+							QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
+							NodeGraphicsReader imageReader;
+							arrow = new ArrowHeadItem(item);
+							imageReader.readXml(arrow,nodeImageFile);
+							arrow->normalize();
+							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
+								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+						}
+						item->curveSegments[i].arrowStart = arrow;
+						insertList += arrow;
+					}
+					
+					if (handle->family()->name.contains(tr("Gene")) || handle->family()->name.contains(tr("Transcription")))
+					{
+						item->lineType = ConnectionGraphicsItem::line;					
+						if (handle->family()->name.contains(tr("Repression")))
+							item->defaultPen.setColor(QColor(tr("#C30000")));
+						if (handle->family()->name.contains(tr("Activation")))
+							item->defaultPen.setColor(QColor(tr("#049102")));
+					}
 					
 					scene->insert(handle->name + tr(" inserted"), insertList);
 

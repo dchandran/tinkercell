@@ -76,22 +76,22 @@ namespace Tinkercell
 	
 	QList<ItemFamily*> ItemFamily::allChildren() const
 	{
-		QList<ItemFamily*> list;
-		return allChildren(list);
-	}
-	
-	QList<ItemFamily*> ItemFamily::allChildren(QList<ItemFamily*>& list) const
-	{
-		list << const_cast<ItemFamily*>(this);
-		QList<ItemFamily*> childs = children();
-		for (int i=0; i < childs.size(); ++i)
-			if (childs.at(i))
-				childs.at(i)->allChildren(list);
+		QList<ItemFamily*> list  = children(), list2;
+		
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				list2 = list[i]->children();
+				for (int j=0; j < list2.size(); ++j)
+					if (list2[j] && !list.contains(list2[j]))
+						list << list2[j];
+			}
+		
 		return list;
 	}
 
 	/**************************************
-	NODE FAMILY
+				NODE FAMILY
 	**************************************/
 
 	NodeFamily::NodeFamily(const QString& s)

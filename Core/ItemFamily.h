@@ -91,15 +91,10 @@ namespace Tinkercell
 		virtual QList<ItemFamily*> parents() const { return QList<ItemFamily*>(); }
 		/*! \brief get all the families that inherit directly from this family*/
 		virtual QList<ItemFamily*> children() const { return QList<ItemFamily*>(); }
-		/*! \brief get all the families that inherit from this family. the list will be ordered in a typical left-first ordering
+		/*! \brief get all the families that inherit from this family. the list will be ordered in a breadth-first ordering
 		*	\return QList<ItemFamily*>
 		*/
 		virtual QList<ItemFamily*> allChildren() const;
-		/*! \brief get all the families that inherit from this family. the list will be ordered in a typical left-first ordering
-		*	\param QList<ItemFamily*> initial list. this will also be the output
-		*	\return QList<ItemFamily*>
-		*/
-		virtual QList<ItemFamily*> allChildren(QList<ItemFamily*>& list) const;
 		/*! \brief constructor.
 			\param QString name*/
 		ItemFamily(const QString& name = QString());

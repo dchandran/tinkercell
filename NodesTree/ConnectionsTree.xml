@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ConnectionsTree>
 <ConnectionsTree version="1.0">
-<connection family="Connection" typein="Node" numin="1" typeout="Node" numout="1">
-  <text>A generic connection that can connect any part to any other part.</text>
-  <connection family="Biochemical" typein="Molecule" typeout="Molecule">
-    <text>This connection represents a biochemical reaction where reactant(s) are converted to product(s).</text>
+<connection family="Biochemical" typein="Node" numin="1" typeout="Node" numout="1">
+<text>This is a generic class representing any biological reaction with reactant(s) and/or product(s).</text>
     <connection family="1 to 1" numin="1" numout="1"></connection>
+    <connection family="Degradation" typein="Molecule" numin="1" typeout="Empty" numout="1">
+      <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
+    </connection>  
     <connection family="2 to 1" numin="2" numout="1"></connection>
     <connection family="3 to 1" numin="3" numout="1"></connection>
     <connection family="1 to 2" numin="1" numout="2"></connection>
@@ -14,29 +15,30 @@
     <connection family="1 to 3" numin="1" numout="3"></connection>
     <connection family="2 to 3" numin="2" numout="3"></connection>
     <connection family="3 to 3" numin="3" numout="3"></connection>
-  </connection>
-  <connection family="Regulation" typein="Molecule" numin="1" typeout="Promoter" numout="1">
+  <connection family="Regulation" typein="Molecule" numin="1" typeout="Node" numout="1">    
     <text>This connection represents a molecule regulating another.</text>
+    <connection family="Enzyme Catalysis" typein="Protein" numin="1" typeout="Biochemical" numout="1">
+    </connection> 
     <connection family="Activation" typein="Molecule" numin="1" typeout="Node" numout="1">
-        <connection family="Promoter Activation" typein="Transcription Factor" numin="1" typeout="Inducible Promoter" numout="1">
+        <connection family="Transcription Activation" typein="Transcription Factor" numin="1" typeout="Inducible Promoter" numout="1">
         </connection> 
     </connection>
 	<connection family="Repression" typein="Molecule" numin="1" typeout="Node" numout="1">
-        <connection family="Promoter Repression" typein="Transcription Factor" numin="1" typeout="Repressible Promoter" numout="1">
+        <connection family="Transcription Repression" typein="Transcription Factor" numin="1" typeout="Repressible Promoter" numout="1">
         </connection>
     </connection>
   </connection>
-  <connection family="Gene Regulation" typein="Coding" numin="1" typeout="Promoter" numout="1">
-    <text>This connection represents a transcription factor regulating a gene.</text>
-    <connection family="Gene Activation" typein="Coding" numin="1" typeout="Inducible Promoter" numout="1">
+  <connection family="Direct Gene Regulation" typein="Coding" numin="1" typeout="Promoter" numout="1">
+    <text>This connection represents a gene regulating another gene.</text>
+    <connection family="Direct Gene Activation" typein="Coding" numin="1" typeout="Inducible Promoter" numout="1">
     </connection>
-	<connection family="Gene Repression" typein="Coding" numin="1" typeout="Repressible Promoter" numout="1">
+	<connection family="Direct Gene Repression" typein="Coding" numin="1" typeout="Repressible Promoter" numout="1">
     </connection>
   </connection>
   <connection family="PoPS" typein="Part" numin="1" typeout="Part" numout="1">
     <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
   </connection>
-  <connection family="Production" typein="Node" numin="1" typeout="Molecule" numout="1">
+  <connection family="Production" typein="Empty" numin="1" typeout="Molecule" numout="1">
     <text>This connection represents production or influx of a molecular species.</text>
     <connection family="Transcription" typein="Empty" numin="1" typeout="mRNA" numout="1">
       <text>This connection represents a production of mRNA.</text>
@@ -45,8 +47,5 @@
       <text>This connection represents production of protein. </text>
     </connection>
   </connection>
-</connection>
-<connection family="Modifiers" typein="Node" numin="1" typeout="Connection" numout="1">
-  <text>This category represents visual modifications to existing connection. </text>
 </connection>
 </ConnectionsTree>

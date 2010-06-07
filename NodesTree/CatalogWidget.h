@@ -161,14 +161,8 @@ namespace Tinkercell
 		/*! \brief buttons inside each tab of the tabview*/
 		QList< QPair<QString,QList<QToolButton*> > > tabGroupButtons;
 		
-		/*! \brief table widget for setting initial attributes for families*/
-		QTableWidget * initialValuesTable;
-		
-		/*! \brief combo box widget for setting initial attributes for families*/
-		QComboBox * initialValuesComboBox;
-		
-		/*! \brief setup combo box widget for setting initial attributes for families*/
-		void setupInitialSettingsWidget(MainWindow * );
+		/*! \brief families that should be displayed in the catalog*/
+		QStringList familiesInCatalog;
     };
 
 

@@ -213,8 +213,15 @@ namespace Tinkercell
 		virtual void setParentHandle(const QList<ItemHandle*>& handles, const QList<ItemHandle*>& parentHandles);
 		/*! \brief change parent handle and also adds undo command to history window and emits associated signal(s)*/
 		virtual void setParentHandle(ItemHandle * child, ItemHandle * parent);
-		/*! \brief change parconst ent handles and also adds undo command to history window and emits associated signal(s)*/
+		/*! \brief change parent for handles and also adds undo command to history window and emits associated signal(s)*/
 		virtual void setParentHandle(const QList<ItemHandle*> children, ItemHandle * parent);
+		
+		/*! \brief change handles families and also adds undo command to history window and emits associated signal(s)*/
+		virtual void setHandleFamily(const QList<ItemHandle*>& handles, const QList<ItemFamily*>& newfamilies);
+		/*! \brief change handle and also adds undo command to history window and emits associated signal(s)*/
+		virtual void setHandleFamily(ItemHandle * handle, ItemFamily * newfamily);
+		/*! \brief change family for handles and also adds undo command to history window and emits associated signal(s)*/
+		virtual void setHandleFamily(const QList<ItemHandle*> handles, ItemFamily * newfamily);
 
 		/*! \}
 			\name change data in one or more items
@@ -298,6 +305,13 @@ namespace Tinkercell
 		* \param QList<ItemHandle*>& old parents
 		* \return void*/
 		void parentHandleChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+		
+		/*! \brief signals whenever item handles' families are changed
+		* \param NetworkHandle* network where the event took place
+		* \param QList<ItemHandle*>& child items
+		* \param QList<ItemFamily*>& old families
+		* \return void*/
+		void handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemFamily*>&);
 		
 		/*! \brief signals whenever some data is changed
 		* \param QList<ItemHandle*>& items handles

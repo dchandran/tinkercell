@@ -80,42 +80,6 @@ namespace Tinkercell
 		}
 	}
 
-	void BasicInformationTool::setInitialValue()
-	{
-		initialValuesDialog->exec();
-	}
-	
-	void BasicInformationTool::setInitialValueDone()
-	{
-		if (!mainWindow) return;
-		//initialValue = QInputDialog::getDouble (this, tr("Set initial value"), tr("initial values for new items = "), initialValue);
-		
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-		settings.beginGroup("BasicInformationTool");	
-		
-		QStringList list;
-		bool ok;
-		double d;
-		QString rowname;
-		QStringList keys = initialValues.keys(); 
-		
-		for (int i=0; i < initialValuesTable->rowCount(); ++i)
-			if (initialValuesTable->item(i,0) && initialValuesTable->verticalHeaderItem(i))
-			{
-				rowname = initialValuesTable->verticalHeaderItem(i)->text();
-				d = initialValuesTable->item(i,0)->text().toDouble(&ok);
-				if (ok && !rowname.isEmpty())
-					initialValues[ rowname ] = d;
-				else
-					if (!rowname.isEmpty())
-						initialValuesTable->item(i,0)->setText( QString::number(initialValues[rowname]) );
-				list << (initialValuesTable->verticalHeaderItem(i)->text() + tr(",") + initialValuesTable->item(i,0)->text());
-			}
-		
-		settings.setValue(tr("Initial value"),list);
-		settings.endGroup();
-	}
-	
 	void BasicInformationTool::loadInitialValues()
 	{
 		Tool * tool = mainWindow->tool(tr("Nodes Tree"));
@@ -137,38 +101,22 @@ namespace Tinkercell
 			family = nodesTree->nodeFamilies[ families[i] ];
 			if (family && !family->measurementUnit.property.isEmpty())
 			{
-				key = family->measurementUnit.property + tr("(") + family->measurementUnit.name + tr(")");
+				key = family->measurementUnit.property;
 				initialValues[key] = 1.0;
 			}
 		}
 		
-		keys = initialValues.keys();
-		
-		initialValuesTable->setColumnCount(1);
-		initialValuesTable->setRowCount(keys.size());
-		
-		initialValuesTable->setVerticalHeaderLabels(keys);
-		initialValuesTable->setHorizontalHeaderLabels(QStringList() << "value");
-		
-		QStringList list = settings.value(tr("Initial value"),QStringList()).toStringList();
-		QStringList pair;
+		keys = initialValues.keys();		
+		QStringList names = settings.value(tr("InitialValueNames"),QStringList()).toStringList();
+		QStringList values = settings.value(tr("InitialValues"),QStringList()).toStringList();
 			
 		bool ok;
 
-		for (int i=0; i < list.size(); ++i)
+		for (int i=0; i < names.size() && i < values.size(); ++i)
 		{
-			pair = list[i].split(",");
-			if (pair.size() == 2)
-			{
-				double d = pair[1].toDouble(&ok);
-				if (ok)
-					initialValues[ pair[0] ] = d;
-			}
-		}
-
-		for (int i=0; i < keys.size(); ++i)
-		{
-			initialValuesTable->setItem (i, 0, new QTableWidgetItem( QString::number(initialValues[ keys[i] ])) );
+			double d = values[i].toDouble(&ok);
+			if (ok && !names[i].isEmpty())
+				initialValues[ names[i] ] = d;
 		}
 
 		settings.endGroup();
@@ -200,12 +148,6 @@ namespace Tinkercell
 
 			setWindowTitle(name);
 			dockWidget = mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::BottomDockWidgetArea,Qt::NoDockWidgetArea);
-
-			if (mainWindow->settingsMenu && type == numerical)
-			{
-				mainWindow->settingsMenu->addSeparator();
-				mainWindow->settingsMenu->addAction(tr("Set initial value"),this,SLOT(setInitialValue()));
-			}
 
 			if (dockWidget)
 			{
@@ -278,6 +220,16 @@ namespace Tinkercell
 			//settings.setValue("floating", dockWidget && dockWidget->isFloating());
 			settings.setValue("size", dockWidget->size());
 			settings.setValue("pos", dockWidget->pos());
+			
+			QStringList values;
+			QStringList names = initialValues.keys();
+			QList<double> doubles = initialValues.values();
+			
+			for (int i=0; i < doubles.size(); ++i)	values << QString::number(doubles[i]);
+			
+			settings.setValue(tr("InitialValueNames"),names);
+			settings.setValue(tr("InitialValues"),values);
+			
 			settings.endGroup();
 		}
 	}
@@ -669,25 +621,6 @@ namespace Tinkercell
 		setLayout(layout);
 
 		connectTCFunctions();
-		
-		initialValuesDialog = new QDialog(this);
-		initialValuesDialog->setWindowTitle(tr("Set initial values"));
-		layout = new QVBoxLayout;
-		initialValuesTable = new QTableWidget;
-		layout->addWidget(initialValuesTable);
-		QHBoxLayout * closeButtonLayout = new QHBoxLayout;
-		QPushButton * okDialogButton = new QPushButton(tr("Set changes"));
-		QPushButton * cancelDialogButton = new QPushButton(tr("Close without saving"));
-		connect(okDialogButton,SIGNAL(released()),initialValuesDialog,SLOT(accept()));
-		connect(cancelDialogButton,SIGNAL(released()),initialValuesDialog,SLOT(reject()));
-		connect(initialValuesDialog,SIGNAL(accepted()),this,SLOT(setInitialValueDone()));
-		closeButtonLayout->addStretch(2);
-		closeButtonLayout->addWidget(okDialogButton);
-		closeButtonLayout->addWidget(cancelDialogButton);
-		closeButtonLayout->addStretch(2);
-		
-		layout->addLayout(closeButtonLayout);
-		initialValuesDialog->setLayout(layout);
 	}
 
 	QSize BasicInformationTool::sizeHint() const
@@ -713,12 +646,12 @@ namespace Tinkercell
 			table.rowName(0) = family->measurementUnit.property;
 
 
-			table.colName(0) = family->measurementUnit.name;
-			table.value(0,0) = 1.0;
+			table.colName(0) = family->measurementUnit.property;
+			table.value(0,0) = 0.0;
 			
-			if (initialValues.contains(family->name))
+			if (initialValues.contains(family->measurementUnit.property))
 			{
-				table.value(0,0) = initialValues[family->name];
+				table.value(0,0) = initialValues[family->measurementUnit.property];
 			}
 			
 			table.description() = tr("Initial value: stores measurement value of an item. See each family's measurement unit for detail.");
@@ -965,6 +898,7 @@ namespace Tinkercell
 			}
 
 			if ((type == both || type == text) && handle->hasTextData(this->name))
+
 			{
 				DataTable<QString> * sDat = new DataTable<QString>(handle->data->textData[this->name]);
 
@@ -1231,7 +1165,6 @@ namespace Tinkercell
 
 	void BasicInformationTool::setInitialValues(QSemaphore* s,const QList<ItemHandle*>& handles,const DataTable<qreal>& dat)
 	{
-
 		ItemHandle * handle = 0;
 		DataTable<qreal> * dataTable = 0;
 

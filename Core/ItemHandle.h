@@ -115,6 +115,8 @@ namespace Tinkercell
 		virtual ItemHandle * clone() const;
 		/*! \brief family that this items belongs in. Used for characterizing the nodes and connections.*/
 		virtual ItemFamily* family() const;
+		/*! \brief set the family that this items belongs in. */
+		virtual void setFamily(ItemFamily*, bool useCommand=true);
 		/*! \brief determines whether this handle belongs to the speicific family.
 		\param QString the family*/
 		virtual bool isA(const ItemFamily* family) const;
@@ -238,15 +240,12 @@ namespace Tinkercell
 		NodeFamily* nodeFamily;
 		/*! \brief default constructor -- initialize everything*/
 		NodeHandle(const QString& name = QString());
-		/*! \brief constructor with initial family
-		\param NodeFamily* family for this handle*/
-		NodeHandle(NodeFamily * nodeFamily);
 		/*! \brief copy constructor -- copies all the data (deep). graphic items are shallow copies*/
 		NodeHandle(const NodeHandle & copy);
 		/*! \brief operator = */
 		virtual NodeHandle& operator = (const NodeHandle&);
 		/*! \brief constructor using initial family and graphics item*/
-		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item);
+		NodeHandle(NodeFamily * nodeFamily, NodeGraphicsItem * item = 0);
 		/*! \brief return a clone of this handle
 		\return ItemFamily* node handle as item handle*/
 		virtual ItemHandle * clone() const;
@@ -255,7 +254,7 @@ namespace Tinkercell
 		virtual ItemFamily* family() const;
 		/*! \brief set the node family for this handle
 		\param NodeFamily* node family*/
-		virtual bool setFamily(NodeFamily *);
+		virtual void setFamily(ItemFamily *, bool useCommand=true);
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
@@ -316,13 +315,19 @@ namespace Tinkercell
 		ConnectionHandle(ConnectionFamily * family, ConnectionGraphicsItem * item);
 		/*! \brief set the family for this handle
 		\param ConnectionFamily* connection family*/
-		virtual bool setFamily(ConnectionFamily * family);
+		virtual void setFamily(ItemFamily * family, bool useCommand=true);
 		/*! \brief clone of this handle
 		\return ItemFamily* connection handle as item handle*/
 		virtual ItemHandle * clone() const;
 		/*! \brief family for this handle
 		\return ItemFamily* connection family as item family*/
 		virtual ItemFamily* family() const;
+		/*! \brief checks if a family is compatible with this connection
+		\return Boolean*/
+		virtual bool isValidFamily(ItemFamily * p) const;
+		/*! \brief find sub-families of the current family that this connection can potentially belong with
+		\return QList<ItemFamily*> valid connection families*/
+		virtual QList<ItemFamily*> findValidSubfamilies() const;
 		/*! \brief checks if the item handle is a node handle and casts it as a node item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/

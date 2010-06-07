@@ -186,15 +186,15 @@ QMainWindow::separator {
      border-bottom-color: #C2C7CB; /* same as pane color */
  }
  
-  QToolTip {
-     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                 stop: 0 #FEFFB9, stop: 0.4 #f4f4f4,
-                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
-     border: 2px solid #888888;
-     padding: 5px;
-     border-radius: 3px;
-     opacity: 255;
- } 
+#  QToolTip {
+#     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+#                                 stop: 0 #FEFFB9, stop: 0.4 #f4f4f4,
+#                                 stop: 0.5 #e7e7e7, stop: 1.0 #fafafa);
+#     border: 2px solid #888888;
+#     padding: 5px;
+#     border-radius: 3px;
+#     opacity: 255;
+# } 
  
  
 QDockWidget {

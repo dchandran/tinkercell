@@ -7,7 +7,7 @@
             <colorDefinition id="shape1color" value="#780000" alpha="0"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="empty set" width="30" height="30">
+            <style idList="empty set" width="40" height="40">
                 <g>
                 	<ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#780000" stroke-width="6" stroke-alpha="1"/>
                     <polygon fill="shape1color" stroke="#780000" stroke-width="6" stroke-alpha="1">

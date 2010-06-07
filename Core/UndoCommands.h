@@ -619,15 +619,17 @@ namespace Tinkercell
 		void redo();
 		/*! \brief undo parent change*/
 		void undo();
+	private:
 		/*! \brief changed children handles*/
 		QList<ItemHandle*> children;
 		/*! \brief assigned parent handles*/
 		QList<ItemHandle*> newParents;
 		/*! \brief changed parent handles*/
 		QList<ItemHandle*> oldParents;
-	private:
 		NetworkHandle * net;
 		RenameCommand * renameCommand;
+		
+		friend class NetworkHandle;
 	};
 	
 	/*! \brief this command is used to hide graphics items. 
@@ -650,6 +652,28 @@ namespace Tinkercell
 	private:
 		QList<QGraphicsItem*> items;
 		QList<bool> before;
+	};
+	
+	/*! \brief this command is used to hide graphics items. 
+		Hidden graphics items will be part (unless their handles are also hidden) of the network but not visible on the screen.
+	* \ingroup undo
+	*/
+	class TINKERCELLEXPORT SetHandleFamilyCommand : public QUndoCommand
+	{
+	public:
+		/*! \brief constructor*/
+		SetHandleFamilyCommand(const QString& name, const QList<ItemHandle*>&, const QList<ItemFamily*>&);
+		/*! \brief constructor*/
+		SetHandleFamilyCommand(const QString& name, ItemHandle*, ItemFamily*);
+		/*! \brief redo parent change*/
+		void redo();
+		/*! \brief undo parent change*/
+		void undo();
+	private:
+		QList<ItemHandle*> handles;
+		QList<ItemFamily*> oldFamily, newFamily;
+		
+		friend class NetworkHandle;
 	};
 
 }

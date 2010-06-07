@@ -26,6 +26,7 @@
 #include <QActionGroup>
 #include <QLineEdit>
 #include <QHash>
+#include <QRadioButton>
 #include "CodeEditor.h"
 #include "Tool.h"
 #include "ConsoleWindow.h"
@@ -73,16 +74,22 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow*);
 
 	signals:
-		void runPy(const QString&);
+		void runPython(const QString&);
 		void loadPyFromDir( QDir& );
-		void stopPy();
+		
+		void runOctave(const QString&);
+		void loadOctFromDir( QDir& );
+		
+		void stopPython();
+		void stopOctave();
+		
 		void compileBuildLoadC(const QString&,const QString&,const QString&);
 		void compile(const QString&, QString&);
 
 	public slots:
 		void run();
 		void about();
-		void dialogFinished();
+//		void dialogFinished();
 		virtual QSize sizeHint() const;
 		void newDoc();
 		void open();
@@ -100,22 +107,21 @@ namespace Tinkercell
 
 		void setupEditor();
 		void setupMenu();
-		void setupDialog();
+//		void setupDialog();
 		void runC(const QString&);
 		void convertCodeToButtonPy();
 		void convertCodeToButtonC();
 
 		QTimeLine timer;
 		QMainWindow * window;
-		QTabWidget * tabWidget;
-		RuntimeCodeEditor *editorC;
-		RuntimeCodeEditor *editorPy;
+		QRadioButton * cButton, * octaveButton, *pythonButton;
+//		QTabWidget * tabWidget;
+		RuntimeCodeEditor *editor;
 		QToolBar * toolBar;
 
 		RuntimeCodeEditor *editorR;
 		QLineEdit *commandCEdit, *commandPyEdit, *fileNameEdit;
-		CandPythonSyntaxHighlighter *highlighterC;
-		CandPythonSyntaxHighlighter *highlighterPy;
+		CandPythonSyntaxHighlighter *highlighter;
 
 		QString fileName;
 		QDialog commandDialog;

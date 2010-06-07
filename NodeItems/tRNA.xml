@@ -10,7 +10,7 @@
             <colorDefinition id="shape4color" value="#00007f" alpha="0"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="ribozyme" width="40" height="60">
+            <style idList="ribozyme" width="60" height="90">
                 <g>
                     <polygon fill="shape0color" stroke="#002eff" stroke-width="7" stroke-alpha="1">
                         <listOfCurveSegments>

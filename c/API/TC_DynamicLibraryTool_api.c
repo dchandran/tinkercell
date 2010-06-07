@@ -69,6 +69,46 @@ void  tc_addPythonPlugin(String file,String name,String description,String categ
 		_tc_addPythonPlugin(file,name,description,category,icon);
 }
 
+void (*_tc_runOctaveCode)(String code) = 0;
+/*! 
+ \brief run the Octave code given by the string
+ \ingroup Programming interface
+*/
+void tc_runOctaveCode(String code)
+{
+	if (_tc_runOctaveCode)
+		_tc_runOctaveCode(code);
+}
+
+void  (*_tc_runOctaveFile)(String filename) = 0;
+/*! 
+
+ \brief run the Octave code in the given file
+
+ \ingroup Programming interface
+
+*/
+void  tc_runOctaveFile(String filename)
+{
+	if (_tc_runOctaveFile)
+		_tc_runOctaveFile(filename);
+}
+
+void  (*_tc_addOctavePlugin)(String,String,String,String, String) = 0;
+/*! 
+
+ \brief add a Octave script to the functions menu
+
+ \ingroup Programming interface
+
+*/
+void  tc_addOctavePlugin(String file,String name,String description,String category, String icon)
+{
+	if (_tc_addOctavePlugin)
+		_tc_addOctavePlugin(file,name,description,category,icon);
+}
+
+
 void (*_tc_callFunction)(String functionTitle) = 0;
 /*! 
  \brief call a function listed in the functions menu, e.g. "Deterministic simulation"
@@ -172,4 +212,21 @@ void tc_PythonTool_api(
 	_tc_runPythonFile = runPythonFile;
 	_tc_addPythonPlugin = addPythonPlugin;
 }
+
+
+/*! 
+ \brief initialize dialogs and c interface
+ \ingroup init
+*/
+void tc_OctaveTool_api(
+		void (*runOctaveCode)(String),
+		void (*runOctaveFile)(String),
+		void (*addOctavePlugin)(String,String,String,String,String)
+)
+{
+	_tc_runOctaveCode = runOctaveCode;
+	_tc_runOctaveFile = runOctaveFile;
+	_tc_addOctavePlugin = addOctavePlugin;
+}
+
 

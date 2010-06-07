@@ -23,6 +23,7 @@ textsheet.xml files that define the NodeGraphicsItems.
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
+#include "BasicInformationTool.h"
 #include "ModelSummaryTool.h"
 
 namespace Tinkercell
@@ -523,7 +524,6 @@ namespace Tinkercell
 				if (itemHandles[i] != 0 && itemHandles[i]->data != 0)
 				{
 					if (itemHandles[i]->hasNumericalData(tr("Initial Value")))
-
 					{
 						nDataTable2 = 0;
 						if (itemHandles[i]->hasNumericalData(tr("Fixed")))
@@ -537,6 +537,8 @@ namespace Tinkercell
 							if (ok)
 							{
 								nDataTable1->value(j,0) = temp;
+								if (itemHandles[i]->family())
+									BasicInformationTool::initialValues[ itemHandles[i]->family()->measurementUnit.property ] = temp;
 							}
 							if (nDataTable2 && j < nDataTable2->rows())
 							{

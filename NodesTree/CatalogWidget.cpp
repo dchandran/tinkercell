@@ -44,50 +44,9 @@ namespace Tinkercell
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
         arrowButton.setIconSize(QSize(20,20));
-        //arrowButton.setPopupMode(QToolButton::MenuButtonPopup);
-		initialValuesTable = 0;//new QTableWidget(this);
-		initialValuesComboBox = 0;//new QComboBox(this);
 
 		connect(&otherButtonsGroup,SIGNAL(buttonPressed(QAbstractButton*)),
 				this,SLOT(otherButtonPressed(QAbstractButton*)));
-	}
-
-	void CatalogWidget::setupInitialSettingsWidget(MainWindow * main)
-	{
-		if (!main || !initialValuesTable || !initialValuesComboBox) return;
-
-		QDialog * dialog = new QDialog(main);
-
-		QVBoxLayout * layout = new QVBoxLayout;
-
-		connect(initialValuesComboBox,SIGNAL(currentIndexChanged(const QString&)),this,SLOT(initialValueComboBoxChanged(const QString&)));
-
-		initialValuesTable->setColumnCount(1);
-		initialValuesTable->setHorizontalHeaderLabels(QStringList() << tr("value"));
-
-		layout->addWidget(initialValuesComboBox);
-		layout->addWidget(initialValuesTable);
-
-		QPushButton * okButton = new QPushButton;
-		QPushButton * cancelButton = new QPushButton;
-		okButton->setText(tr("Set"));
-		cancelButton->setText(tr("Cancel"));
-
-		QHBoxLayout * layout2 = new QHBoxLayout;
-		layout2->addWidget(okButton);
-		layout2->addWidget(cancelButton);
-
-		connect(okButton,SIGNAL(pressed()),dialog,SLOT(accept()));
-		connect(cancelButton,SIGNAL(pressed()),dialog,SLOT(reject()));
-
-		layout->addLayout(layout2);
-		dialog->setLayout(layout);
-		dialog->hide();
-
-		if (mainWindow->settingsMenu)
-			mainWindow->settingsMenu->addAction(tr("Set initial values"), dialog, SLOT(exec()));
-
-		connect(dialog,SIGNAL(accepted()),this,SLOT(initialValuesChanged()));
 	}
 
 	void CatalogWidget::setTreeMode(bool b)
@@ -142,7 +101,7 @@ namespace Tinkercell
 			{
 				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-				QAction * setNumRows = mainWindow->settingsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
+				QAction * setNumRows = mainWindow->optionsMenu->addAction(QIcon(tr(":/images/up.png")), tr("Number of recent items"));
 				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
@@ -151,16 +110,14 @@ namespace Tinkercell
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
 			}
 
-			if (mainWindow->settingsMenu)
+			if (mainWindow->optionsMenu)
 			{
-				mainWindow->settingsMenu->addSeparator();
-				QAction * treeViewAction = mainWindow->settingsMenu->addAction(tr("Use Tree view of parts and connections"));
+				mainWindow->optionsMenu->addSeparator();
+				QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Use Tree view of parts and connections"));
 				treeViewAction->setCheckable(true);
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
 
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
-
-				setupInitialSettingsWidget(mainWindow);
 			}
 
 			return true;
@@ -329,6 +286,7 @@ namespace Tinkercell
 
 			settings.setValue(tr("familyTabNames"),list1);
 			settings.setValue(tr("familyTabs"),list2);
+			settings.setValue(tr("familiesInCatalog"),familiesInCatalog);
 		}
 
 		settings.endGroup();
@@ -498,9 +456,6 @@ namespace Tinkercell
 		}
 		settings.endGroup();
 
-		if (initialValuesComboBox)
-			initialValuesComboBox->addItems(allFamilyNames);
-
 		QWidget * widget = new QWidget;
 		widgetsToUpdate << widget;
 
@@ -624,15 +579,19 @@ namespace Tinkercell
 	{
 		if (!family) return false;
 		
-		QList<ItemFamily*> children = family->children();
+		if (!familiesInCatalog.isEmpty())
+			return familiesInCatalog.contains(family->name);
 		
-		/*if (ConnectionFamily::cast(family) && !children.isEmpty())
+		if (NodeFamily::cast(family) && !family->children().isEmpty())
 			return false;
 		
-		if (NodeFamily::cast(family) && family->parent() && family->parent()->parent() && family->parent()->parent()->parent())
-			return false;*/
+		if (ConnectionFamily::cast(family) && family->parent()) //ad-hoc
+			return family->parent()->isA("Biochemical");
 		
-		return children.isEmpty();
+		if (!familiesInCatalog.contains(family->name))
+			familiesInCatalog << family->name;
+
+		return true;
 	}
 
 	void CatalogWidget::setUpTabView()
@@ -654,26 +613,23 @@ namespace Tinkercell
 													tr("Compartments"),
 													QStringList() << "Compartment")
 
-					/*<< QPair<QString, QStringList>(
-													tr("Modules"),
-													QStringList() << "Module")*/
-
 					<< QPair<QString, QStringList>(
 													tr("Reaction"),
-													QStringList() << "Biochemical" << "Synthesis" << "PoPS")
+													QStringList() << "Biochemical" << "Production" << "PoPS")
 
 					<< QPair<QString, QStringList>(
 													tr("Regulation"),
-													QStringList() << "Binding" << "Modifiers");
+													QStringList() << "Regulation");
 
 		numNodeTabs = 4;
 
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
-		numNodeTabs = settings.value(tr("numNodeTabs"),numNodeTabs).toInt();
-		QStringList savedTabNames = settings.value(tr("familyTabNames"),QStringList()).toStringList();
-		QStringList savedTabs = settings.value(tr("familyTabs"),QStringList()).toStringList();
+		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		settings.endGroup();
 
+		
+		/*
 		if (savedTabNames.size()  == savedTabs.size()  && savedTabs.size() > numNodeTabs)
 		{
 			tabGroups.clear();
@@ -682,8 +638,7 @@ namespace Tinkercell
 				QString s = savedTabs[i].trimmed();
 				tabGroups << QPair<QString,QStringList>( savedTabNames[i], s.split(tr(",")) );
 			}
-		}
-		settings.endGroup();
+		}*/
 
 		QList<QToolButton*> usedButtons;
 
@@ -867,9 +822,6 @@ namespace Tinkercell
 			}
 		}
 
-		if (initialValuesComboBox)
-			initialValuesComboBox->addItems(allFamilyNames);
-
 		makeTabWidget();
 
 		QVBoxLayout * layout = new QVBoxLayout;
@@ -879,94 +831,6 @@ namespace Tinkercell
 		setLayout(layout);
 	}
 
-	void CatalogWidget::initialValueComboBoxChanged(const QString& s)
-	{
-		if (!initialValuesTable) return;
-
-		ItemFamily * family = 0;
-		for (int i=0; i < nodes.size(); ++i)
-			if (nodes[i] && nodes[i]->name ==s)
-			{
-				family = nodes[i];
-				break;
-			}
-		if (!family)
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i] && connections[i]->name ==s)
-				{
-					family = connections[i];
-					break;
-				}
-
-		initialValuesTable->clearContents();
-		if (!family) return;
-
-		QStringList rowLabels = family->numericalAttributes.keys();
-		rowLabels << family->textAttributes.keys();
-
-		initialValuesTable->setVerticalHeaderLabels(rowLabels);
-
-		QList<qreal> numbers = family->numericalAttributes.values();
-		QStringList values;
-		for (int i=0; i < numbers.size(); ++i)
-			values << QString::number(numbers[i]);
-		values << family->textAttributes.values();
-
-		initialValuesTable->setRowCount(rowLabels.size());
-
-		for (int i=0; i < values.size(); ++i)
-			initialValuesTable->setItem(i,0,new QTableWidgetItem(values[i]));
-	}
-
-	void CatalogWidget::initialValuesChanged()
-	{
-		if (!initialValuesTable || !initialValuesComboBox) return;
-
-		QString s = initialValuesComboBox->currentText();
-
-		ItemFamily * family = 0;
-		for (int i=0; i < nodes.size(); ++i)
-			if (nodes[i] && nodes[i]->name == s)
-			{
-				family = nodes[i];
-				break;
-			}
-		if (!family)
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i] && connections[i]->name ==s)
-				{
-					family = connections[i];
-					break;
-				}
-		if (!family) return;
-
-		int n1 = family->numericalAttributes.size();
-		int n2 = family->textAttributes.size();
-
-		if (initialValuesTable->rowCount() != (n1+n2)) return;
-
-		double d;
-		bool ok;
-		QString s2;
-
-		for (int i=0; i < (n1+n2); ++i)
-			if (initialValuesTable->verticalHeaderItem(i) && initialValuesTable->item(i,0))
-			{
-				QString s = initialValuesTable->verticalHeaderItem(i)->text();
-				s2 = initialValuesTable->item(i,0)->text();
-				if (family->numericalAttributes.contains(s))
-				{
-					d = s2.toDouble(&ok);
-					if (ok)
-						family->numericalAttributes[s] = d;
-				}
-				else
-				if (family->textAttributes.contains(s))
-				{
-					family->textAttributes[s] = s2;
-				}
-			}
-	}
 }
 
 

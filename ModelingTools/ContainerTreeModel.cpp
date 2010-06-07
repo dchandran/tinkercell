@@ -11,6 +11,7 @@
 #include "EquationParser.h"
 #include "ItemFamily.h"
 #include "ContainerTreeModel.h"
+#include "BasicInformationTool.h"
 
 namespace Tinkercell
 {
@@ -375,11 +376,13 @@ namespace Tinkercell
 
 		ContainerTreeItem *item = static_cast<ContainerTreeItem*>(index.internalPointer());
 
-		if (role == Qt::DecorationRole && index.column() == 0 && item->text().isEmpty())
+		ItemHandle * handle = item->handle();
+		
+		if (handle && handle->family())
 		{
-			ItemHandle * handle = item->handle();
-			if (handle && handle->family())
-			{
+
+			if (role == Qt::DecorationRole && index.column() == 0 && item->text().isEmpty())
+			{	
 				QPixmap pixmap = handle->family()->pixmap;
 				if (pixmap.isNull()) return QVariant();
 				int h = 15;
@@ -387,8 +390,20 @@ namespace Tinkercell
 				if (w > 25) w = 25;
 				return QVariant(pixmap.scaled(w, h));
 			}
-		}
 		
+			if (role == Qt::ToolTipRole)
+			{
+				if (ConnectionHandle::cast(handle))
+				{
+					return QVariant(tr("Reaction rate equation"));
+				}
+				else
+				{
+					return QVariant(handle->family()->measurementUnit.property);
+				}
+			}
+		}
+				
 		if (role != Qt::DisplayRole)
 			return QVariant();
 
@@ -437,6 +452,9 @@ namespace Tinkercell
 					if (ok && newTable.value(0,0) != d)
 					{
 						newTable.value(0,0) = d;
+						
+						BasicInformationTool::initialValues[ handle->family()->measurementUnit.property ] = d;
+						
                         network->changeData(handle->fullName() + tr(" = ") + QString::number(d),
 											handle,
 											QString("Initial Value"),

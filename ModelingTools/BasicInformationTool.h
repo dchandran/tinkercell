@@ -134,8 +134,6 @@ namespace Tinkercell
 		void getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&);
 		void getAllTextDataNamed(QSemaphore*,QStringList*,const QList<ItemHandle*>&,const QStringList&);
-		void setInitialValue();
-		void setInitialValueDone();
 
 	private:
 
@@ -167,8 +165,8 @@ namespace Tinkercell
 		NodeGraphicsItem item;
 		TextComboDoubleDelegate delegate;
 		QDockWidget * dockWidget;
-		QDialog * initialValuesDialog;
-		QTableWidget * initialValuesTable;
+	
+	public:
 		static QHash<QString,double> initialValues;
 		void loadInitialValues();
 	};

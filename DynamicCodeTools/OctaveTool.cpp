@@ -22,21 +22,21 @@
 #include "NodeGraphicsItem.h"
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
-#include "PythonTool.h"
+#include "OctaveTool.h"
 #include <QtDebug>
 
 namespace Tinkercell
 {
-    PythonTool::PythonTool() : Tool(tr("Python Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
+    OctaveTool::OctaveTool() : Tool(tr("Octave Interpreter"),tr("Coding")), actionsGroup(this), buttonsGroup(this)
     {
-        pythonInterpreter = 0;
+        octaveInterpreter = 0;
 
         connect(&actionsGroup,SIGNAL(triggered ( QAction *  )),this,SLOT(actionTriggered ( QAction *  )));
         connect(&buttonsGroup,SIGNAL(buttonPressed ( int  )),this,SLOT(buttonPressed ( int  )));
         connectTCFunctions();
     }
     
-    bool PythonTool::loadFromDir(QDir& dir)
+    bool OctaveTool::loadFromDir(QDir& dir)
     {
         QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
         if (widget)
@@ -47,7 +47,7 @@ namespace Tinkercell
     	return false;
     }
 
-    bool PythonTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
+    bool OctaveTool::loadFromDir(DynamicLibraryMenu * libMenu, QDir& dir)
     {
     	bool filesFound = false;
         if (!libMenu) return filesFound;
@@ -65,31 +65,29 @@ namespace Tinkercell
 		{
 			QFileInfo fileInfo = list.at(i);
 			
-			QString pyFile = fileInfo.absoluteFilePath();
-			if (pyFileNames.contains(pyFile)) continue;
+			QString octFile = fileInfo.absoluteFilePath();
+			if (octFileNames.contains(octFile)) continue;
 			
-			QFile file(pyFile);
-			if (fileInfo.completeSuffix().toLower() != tr("py") || !file.open(QFile::ReadOnly)) continue;
+			QFile file(octFile);
+			if (fileInfo.completeSuffix().toLower() != tr("m") || !file.open(QFile::ReadOnly)) continue;
 			
 			QString category, name, descr, icon, specific;
 			bool menu = true, tool = true;
-			bool startedParsing = false;
+			bool commentsLine = false;
 
-			while (!file.atEnd()) //inside python script file
+			while (!file.atEnd()) //inside octave script file
 			{
 				QString line(file.readLine());
-				if (line.toLower().contains(tr("\"\"\"")))
-					if (startedParsing)
-						break;
-					else
-						startedParsing = true;
+				commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%")));				
+				if (!commentsLine) continue;
 				
-				if (!startedParsing) continue;
+				line.remove(tr("#"));
+				line.remove(tr("%"));
 				
 				QStringList words = line.split(tr(":"));
 				if (words.size() == 2)
 				{
-					QString s1 = words[0].remove(tr("#")).trimmed(), 
+					QString s1 = words[0].trimmed(), 
 							s2 = words[1].trimmed();
 
 					if (s1 == tr("category"))
@@ -134,8 +132,8 @@ namespace Tinkercell
 			if (button)
 			{
 				button->setToolTip(descr);
-				buttonsGroup.addButton(button,pyFileNames.size());
-				pyFileNames << pyFile;
+				buttonsGroup.addButton(button,octFileNames.size());
+				octFileNames << octFile;
 			}
 
 			if (menu)
@@ -145,7 +143,7 @@ namespace Tinkercell
 				{
 					menuItem->setToolTip(descr);
 					actionsGroup.addAction(menuItem);
-					hashPyFile[menuItem] = pyFile;
+					hashOctFile[menuItem] = octFile;
 				}
 			}
 			
@@ -156,39 +154,36 @@ namespace Tinkercell
 				{
 					contextAction->setToolTip(descr);
 					actionsGroup.addAction(contextAction);
-					hashPyFile[contextAction] = pyFile;
+					hashOctFile[contextAction] = octFile;
 				}
 			}	
-		} //done reading one py script file
+		} //done reading one oct script file
 
 		return filesFound;
     }
 
-    bool PythonTool::setMainWindow(MainWindow * main)
+    bool OctaveTool::setMainWindow(MainWindow * main)
     {
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-		#ifdef Q_WS_WIN
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell.pyd"), mainWindow);
-		#else
-			pythonInterpreter = new PythonInterpreterThread(appDir + tr("/python/_tinkercell"), mainWindow);
-		#endif
-			pythonInterpreter->initialize();
+			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/tcrunoct"), mainWindow);
+			octaveInterpreter->initialize();
+			
 
-			connect(pythonInterpreter,SIGNAL(started()),this,SIGNAL(pythonStarted()));
-			connect(pythonInterpreter,SIGNAL(finished()),this,SIGNAL(pythonFinished()));
-			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
+			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
+			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
+			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
 			
 			ConsoleWindow * outWin = console();
-			/*if (outWin)
+			if (outWin)
 			{
-				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
-				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopPython()));					
-				connect(this,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
-				connect(this,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
-			}*/
+				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runOctaveCode(const QString&)));
+				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopOctave()));					
+				connect(this,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
+				connect(this,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
+			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -196,24 +191,24 @@ namespace Tinkercell
 			toolLoaded(0);
 			
 			if (console())
-				console()->message(tr("Python initializing (init.py) ...\n"));
+				console()->message(tr("Octave initializing (init.m) ...\n"));
 
 			#ifdef Q_WS_WIN
-			QString pydir = appDir.replace("/","\\\\") + tr("\\\\python");
+			QString octdir = appDir.replace("/","\\\\") + tr("\\\\octave");
 			#else
-			QString pydir = appDir + tr("/python");
+			QString octdir = appDir + tr("/octave");
 			#endif
 			
-			QString s = tr("import sys\nsys.path.append(\"")+pydir+tr("\")\n");
+			QString s = tr("import sys\nsys.path.append(\"")+octdir+tr("\")\n");
 			
-			QFile file(appDir + tr("/python/init.py"));
+			QFile file(appDir + tr("/octave/init.m"));
 			if (file.open(QFile::ReadOnly | QFile::Text))
             {
                 s += file.readAll();
                 file.close();
             }
 			
-			runPythonCode(s);
+			runOctaveCode(s);
 			
 			return true;
 		}
@@ -221,7 +216,7 @@ namespace Tinkercell
 		return false;
     }
 
-    void PythonTool::toolLoaded(Tool*)
+    void OctaveTool::toolLoaded(Tool*)
     {
         static bool connected = false;
 
@@ -237,10 +232,10 @@ namespace Tinkercell
                 QString appDir = QCoreApplication::applicationDirPath();
 
                 QString name[] = {
-				  MainWindow::tempDir() + tr("/python"),
-                  MainWindow::homeDir() + tr("/python"),
-                  QDir::currentPath() + tr("/python"),
-                  appDir + tr("/python")
+				  MainWindow::tempDir() + tr("/octave"),
+                  MainWindow::homeDir() + tr("/octave"),
+                  QDir::currentPath() + tr("/octave"),
+                  appDir + tr("/octave")
                };
 
                 bool opened = false;
@@ -255,146 +250,146 @@ namespace Tinkercell
                 if (!opened)
                 {
                     if (console())
-						console()->message(tr("No python plugins found (located in the /python folder)"));
+						console()->message(tr("No octave plugins found (located in the /octave folder)"));
                 }
             }
         }
 
-        if (pythonInterpreter)
-            pythonInterpreter->setCPointers();
+        if (octaveInterpreter)
+            octaveInterpreter->setCPointers();
     }
 
-    void PythonTool::buttonPressed ( int id )
+    void OctaveTool::buttonPressed ( int id )
     {
-        if (pyFileNames.size() <= id)
+        if (octFileNames.size() <= id)
             return;
 
-        QString pyfile = pyFileNames[id];
+        QString octfile = octFileNames[id];
 
-        if (!pyfile.isEmpty())
+        if (!octfile.isEmpty())
         {
-            runPythonFile(pyfile); //go
+            runOctaveFile(octfile); //go
         }
     }
 
-    void PythonTool::actionTriggered(QAction * item)
+    void OctaveTool::actionTriggered(QAction * item)
     {
-        if (!item || !hashPyFile.contains(item))
+        if (!item || !hashOctFile.contains(item))
             return;
 
-        QString pyfile = hashPyFile[item];
+        QString octfile = hashOctFile[item];
 
-        if (!pyfile.isEmpty())
+        if (!octfile.isEmpty())
         {
-            runPythonFile(pyfile); //go
+            runOctaveFile(octfile); //go
         }
     }
 
-    void PythonTool::connectTCFunctions()
+    void OctaveTool::connectTCFunctions()
     {
-        connect(&fToS,SIGNAL(runPythonCode(QSemaphore*,const QString&)),this,SLOT(runPythonCode(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(runPythonFile(QSemaphore*,const QString&)),this,SLOT(runPythonFile(QSemaphore*,const QString&)));
-        connect(&fToS,SIGNAL(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
-        		this,SLOT(addPythonPlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
+        connect(&fToS,SIGNAL(runOctaveCode(QSemaphore*,const QString&)),this,SLOT(runOctaveCode(QSemaphore*,const QString&)));
+        connect(&fToS,SIGNAL(runOctaveFile(QSemaphore*,const QString&)),this,SLOT(runOctaveFile(QSemaphore*,const QString&)));
+        connect(&fToS,SIGNAL(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)),
+        		this,SLOT(addOctavePlugin(QSemaphore*,const QString&,const QString&,const QString&,const QString&, const QString&)));
     }
 
-    typedef void (*tc_PythonTool_api)(
-            void (*runPythonCode)(const char*),
-            void (*runPythonFile)(const char*),
-            void (*addPythonPlugin)(const char*,const char*,const char*,const char*,const char*)
+    typedef void (*tc_OctaveTool_api)(
+            void (*runOctaveCode)(const char*),
+            void (*runOctaveFile)(const char*),
+            void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
             );
 
-    void PythonTool::setupFunctionPointers( QLibrary * library)
+    void OctaveTool::setupFunctionPointers( QLibrary * library)
     {
-        tc_PythonTool_api f = (tc_PythonTool_api)library->resolve("tc_PythonTool_api");
+        tc_OctaveTool_api f = (tc_OctaveTool_api)library->resolve("tc_OctaveTool_api");
         if (f)
         {
-            //qDebug() << "tc_PythonTool_api resolved";
+            //qDebug() << "tc_OctaveTool_api resolved";
             f(
-                &(_runPythonCode),
-                &(_runPythonFile),
-                &(_addPythonPlugin)
+                &(_runOctaveCode),
+                &(_runOctaveFile),
+                &(_addOctavePlugin)
                 );
         }
     }
 
     /******************************************************/
 
-    PythonTool_FToS PythonTool::fToS;
+    OctaveTool_FToS OctaveTool::fToS;
 
 
-    void PythonTool::_runPythonCode(const char* c)
+    void OctaveTool::_runOctaveCode(const char* c)
     {
-        return fToS.runPythonCode(c);
+        return fToS.runOctaveCode(c);
     }
 
-    void PythonTool::_runPythonFile(const char* c)
+    void OctaveTool::_runOctaveFile(const char* c)
     {
-        return fToS.runPythonFile(c);
+        return fToS.runOctaveFile(c);
     }
     
-    void PythonTool::_addPythonPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    void OctaveTool::_addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
-        return fToS.addPythonPlugin(file,name,descr,category,icon);
+        return fToS.addOctavePlugin(file,name,descr,category,icon);
     }
 
-    void PythonTool_FToS::runPythonCode(const char* c)
+    void OctaveTool_FToS::runOctaveCode(const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit runPythonCode(s,ConvertValue(c));
+        emit runOctaveCode(s,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;
     }
 
-    void PythonTool_FToS::runPythonFile(const char* c)
+    void OctaveTool_FToS::runOctaveFile(const char* c)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit runPythonFile(s,ConvertValue(c));
+        emit runOctaveFile(s,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;
     }
     
-    void PythonTool_FToS::addPythonPlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
+    void OctaveTool_FToS::addOctavePlugin(const char* file,const char* name,const char* descr,const char* category,const char* icon)
     {
         QSemaphore * s = new QSemaphore(1);
         s->acquire();
-        emit addPythonPlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
+        emit addOctavePlugin(s,tr(file),tr(name),tr(descr),tr(category),tr(icon));
         s->acquire();
         s->release();
         delete s;
     }
 
     /*******************
-          PYTHON STUFF
+          OCTAVE STUFF
     *********************/
 
-    void PythonTool::stopPython()
+    void OctaveTool::stopOctave()
     {
-        if (pythonInterpreter && pythonInterpreter->isRunning())
+        if (octaveInterpreter && octaveInterpreter->isRunning())
         {
-            pythonInterpreter->terminate();
+            octaveInterpreter->terminate();
         }
     }
 
-    void PythonTool::runPythonCode(QSemaphore* sem,const QString& code)
+    void OctaveTool::runOctaveCode(QSemaphore* sem,const QString& code)
     {
-        runPythonCode(code);
+        runOctaveCode(code);
         if (sem)
             sem->release();
     }
 
-    void PythonTool::runPythonFile(QSemaphore* sem,const QString& file)
+    void OctaveTool::runOctaveFile(QSemaphore* sem,const QString& file)
     {
-        runPythonFile(file);
+        runOctaveFile(file);
         if (sem)
             sem->release();
     }
     
-    void PythonTool::addPythonPlugin(QSemaphore * sem,const QString& pyFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
+    void OctaveTool::addOctavePlugin(QSemaphore * sem,const QString& octFile,const QString& name,const QString& descr,const QString& category, const QString& icon0)
     {
     	QWidget * widget = mainWindow->tool(tr("Dynamic Library Menu"));
         
@@ -427,8 +422,8 @@ namespace Tinkercell
 		if (button)
 		{
 			button->setToolTip(descr);
-			buttonsGroup.addButton(button,pyFileNames.size());
-			pyFileNames << pyFile;
+			buttonsGroup.addButton(button,octFileNames.size());
+			octFileNames << octFile;
 		}
 
 		QAction * menuItem = libMenu->addMenuItem(category, name, QIcon(pixmap));
@@ -436,7 +431,7 @@ namespace Tinkercell
 		{
 			menuItem->setToolTip(descr);
 			actionsGroup.addAction(menuItem);
-			hashPyFile[menuItem] = pyFile;
+			hashOctFile[menuItem] = octFile;
 		}
 		
 		/*
@@ -447,7 +442,7 @@ namespace Tinkercell
 			{
 				contextAction->setToolTip(descr);
 				actionsGroup.addAction(contextAction);
-				hashPyFile[contextAction] = pyFile;
+				hashOctFile[contextAction] = octFile;
 			}
 		}*/
 			
@@ -455,25 +450,25 @@ namespace Tinkercell
     		sem->release();
     }
 
-    void PythonTool::runPythonCode(const QString& code)
+    void OctaveTool::runOctaveCode(const QString& code)
     {	
-        if (pythonInterpreter)
-            pythonInterpreter->exec(code);
+        if (octaveInterpreter)
+            octaveInterpreter->exec(code);
     }
 
-    void PythonTool::runPythonFile(const QString& filename)
+    void OctaveTool::runOctaveFile(const QString& filename)
     {
-        if (pythonInterpreter)
+        if (octaveInterpreter)
         {
             QString appDir = QCoreApplication::applicationDirPath();
 
             QString name[] = {	MainWindow::homeDir() + tr("/") + filename,
-                                MainWindow::homeDir() + tr("/python/") + filename,
+                                MainWindow::homeDir() + tr("/octave/") + filename,
 								MainWindow::tempDir() + tr("/") + filename,
-                                MainWindow::tempDir() + tr("/python/") + filename,
+                                MainWindow::tempDir() + tr("/octave/") + filename,
                                 filename,
                                 QDir::currentPath() + tr("/") + filename,
-                                appDir + tr("/python/") + filename ,
+                                appDir + tr("/octave/") + filename ,
                                 appDir + tr("/") + filename };
 
             QFile file;
@@ -495,7 +490,7 @@ namespace Tinkercell
             else
             {
                 QString code(file.readAll());
-                runPythonCode(code);
+                runOctaveCode(code);
                 file.close();
             }
         }

@@ -61,7 +61,12 @@ namespace Tinkercell
 	QString MainWindow::homeDir()
 	{
 		if (!homeDirPath.isEmpty() && QDir(homeDirPath).exists())
+		{
+#ifdef Q_WS_WIN
+			homeDirPath.replace(tr("/"),tr("\\"));
+#endif
 			return homeDirPath;
+		}
 
 		QDir dir = QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
 		QString tcdir = PROJECTNAME;
@@ -71,7 +76,9 @@ namespace Tinkercell
 
 		dir.cd(tcdir);
 		homeDirPath = dir.absolutePath();
-
+#ifdef Q_WS_WIN
+		homeDirPath.replace(tr("/"),tr("\\"));
+#endif
 		return homeDirPath;
 	}
 
@@ -82,7 +89,12 @@ namespace Tinkercell
 		QString temp = location + tr("/TinkerCell");
 
 		if (!temp.isEmpty() && QDir(temp).exists())
+		{
+#ifdef Q_WS_WIN
+			temp.replace(tr("/"),tr("\\"));
+#endif
 			return temp;
+		}
 
 		QDir dir(location);
 
@@ -91,7 +103,9 @@ namespace Tinkercell
 
 		dir.cd(QString("TinkerCell"));
 		temp = dir.absolutePath();
-
+#ifdef Q_WS_WIN
+		temp.replace(tr("/"),tr("\\"));
+#endif
 		return temp;
 	}
 
@@ -259,9 +273,9 @@ namespace Tinkercell
 		if (enableConsoleWindow)
 		{
 			consoleWindow = new ConsoleWindow(this);
-			if (settingsMenu)
+			if (optionsMenu)
 			{
-				QMenu * consoleColorMenu = settingsMenu->addMenu(tr("Console window colors"));
+				QMenu * consoleColorMenu = optionsMenu->addMenu(tr("Console window colors"));
 
 				consoleColorMenu->addAction(tr("Background color"),this,SLOT(changeConsoleBgColor()));
 				consoleColorMenu->addAction(tr("Text color"),this,SLOT(changeConsoleTextColor()));
@@ -787,11 +801,11 @@ namespace Tinkercell
 		connect(fitAll,SIGNAL(triggered()),this,SLOT(fitAll()));
 
 
-		settingsMenu = menuBar()->addMenu(tr("&Settings"));
-		QAction * changeUserHome = settingsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
+		optionsMenu = menuBar()->addMenu(tr("&Options"));
+		QAction * changeUserHome = optionsMenu->addAction(QIcon(tr(":/images/appicon.png")), tr("&Set Home Directory"));
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
 
-		QMenu * setGridModeMenu = settingsMenu->addMenu(tr("&Grid mode"));
+		QMenu * setGridModeMenu = optionsMenu->addMenu(tr("&Grid mode"));
 
 		setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));
 		setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));

@@ -44,6 +44,10 @@ namespace Tinkercell
 	QPen GraphicsScene::GridPen = QPen(Qt::lightGray,2);
 
 	QBrush GraphicsScene::ForegroundBrush = Qt::NoBrush; //QBrush(Qt::lightGray,Qt::CrossPattern);
+	
+	QBrush GraphicsScene::ToolTipBackgroundBrush = QBrush(QColor(36,28,28,125));
+	
+	QPen GraphicsScene::ToolTipTextPen = QPen(QColor(255,255,255,255));
 
 	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
 
@@ -150,6 +154,7 @@ namespace Tinkercell
 	/*! \brief destructor */
 	GraphicsScene::~GraphicsScene()
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
 		selectedItems.clear();
 		movingItems.clear();
 		if (movingItemsGroup)
@@ -223,6 +228,7 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::clearSelection()
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
 		selectedItems.clear();
 		if (movingItemsGroup)
 		{
@@ -292,6 +298,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
+
 		clickedScreenPoint = mouseEvent->screenPos();
 		clickedPoint = mouseEvent->scenePos();
 		clickedButton = mouseEvent->button();
@@ -429,6 +437,9 @@ namespace Tinkercell
 	{
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
+		
+		if (!toolTips.isEmpty() && ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE/2.0))
+			hideToolTips();
 
 		if (useDefaultBehavior)
 		{
@@ -569,6 +580,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent )
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
+
 		QPointF point1 = mouseEvent->scenePos();
 		QGraphicsItem * p = itemAt(clickedPoint);
 		if (!p || p->sceneBoundingRect().width() > 500 || p->sceneBoundingRect().height() > 500)
@@ -587,6 +600,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::contextMenuEvent ( QGraphicsSceneContextMenuEvent * mouseEvent )
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
+
 		if (useDefaultBehavior)
 		{
 			if (selectedItems.size() > 0)
@@ -613,6 +628,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::scaleView(qreal scaleFactor)
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
+
 		QList<QGraphicsView*> list = views();
 		
 		if (!list.isEmpty() && list[0])
@@ -647,6 +664,8 @@ namespace Tinkercell
 	* \return void*/
 	void GraphicsScene::keyPressEvent (QKeyEvent * keyEvent)
 	{
+		if (!toolTips.isEmpty()) hideToolTips();
+
 		if (!keyEvent) return;
 		keyEvent->setAccepted(false);
 
@@ -2206,6 +2225,38 @@ namespace Tinkercell
 				actions << list[j];
 			}
 		}
+	}
+	
+	void GraphicsScene::showToolTip(QPointF p, const QString & text)
+	{
+		QGraphicsSimpleTextItem * textItem = new QGraphicsSimpleTextItem(text);
+		textItem->setBrush(Qt::NoBrush);
+		textItem->setPen(ToolTipTextPen);
+		
+		QRectF viewport = this->viewport();
+		qreal scale = 0.5 * (viewport.width() + viewport.height());		
+		textItem->scale(scale,scale);
+		textItem->setPos(p);
+		
+		QGraphicsRectItem * rectItem = new QGraphicsRectItem(textItem->boundingRect().adjusted(-5,-5,10,10));
+		rectItem->setPen(Qt::NoPen);
+		rectItem->setBrush(ToolTipBackgroundBrush);
+		
+		QGraphicsScene::addItem(rectItem);
+		QGraphicsScene::addItem(textItem);
+		
+		rectItem->setZValue(lastZ + 1.0);
+		textItem->setZValue(lastZ + 2.0);
+	}
+
+	void GraphicsScene::hideToolTips()
+	{
+		if (toolTips.isEmpty()) return;
+		
+		for (int i=0; i < toolTips.size(); ++i)
+			removeItem(toolTips[i]);
+		qDeleteAll(toolTips);
+		toolTips.clear();
 	}
 }
 

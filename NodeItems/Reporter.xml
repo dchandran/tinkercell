@@ -13,7 +13,7 @@
             <colorDefinition id="shape7color" value="#2e820f" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="green fluorescent protein" width="50" height="60">
+            <style idList="green fluorescent protein" width="80" height="90">
                 <g>
                     <polygon fill="shape0color" stroke="#09b51b" stroke-width="3" stroke-alpha="1">
                         <listOfCurveSegments>

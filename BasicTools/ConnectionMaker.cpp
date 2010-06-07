@@ -434,6 +434,35 @@ namespace Tinkercell
 
 		FixMultipleConnections(connection,nodes,inputs);
 
+		ItemHandle * h;
+
+		if (connection->lineType == ConnectionGraphicsItem::line
+			&& nodes.size() > 1 
+			&& nodes[0] 
+			&& nodes[1]
+			&& (h = getHandle(nodes[1])) 
+			&& (h->isA(tr("Part"))))
+		{
+			ConnectionGraphicsItem::ControlPoint * cp;
+			
+					qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
+						  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
+					
+					if ( (scene->lastPoint().x() - x1)*(scene->lastPoint().x() - x1) <
+						  (scene->lastPoint().x() - x2)*(scene->lastPoint().x() - x2) )
+						cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x1,nodes[0]->scenePos().y()),connection);
+					else
+						cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x2,nodes[0]->scenePos().y()),connection);
+
+					if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
+					{
+						cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
+					}
+					AddControlPointCommand command(tr(""),scene,cp);
+					command.redo();
+					connection->setPen(connection->defaultPen);					
+		}
+		
 		for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
 			if (nodes[i])
 			{
@@ -446,29 +475,6 @@ namespace Tinkercell
 					}
 					if (connection->lineType == ConnectionGraphicsItem::line)
 						break;
-			}
-
-			if (connection->lineType == ConnectionGraphicsItem::line
-				&& nodes.size() > 1 && nodes[0] && nodes[1])
-			{
-				ConnectionGraphicsItem::ControlPoint * cp;
-				
-						qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
-							  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
-						
-						if ( (scene->lastPoint().x() - x1)*(scene->lastPoint().x() - x1) <
-							  (scene->lastPoint().x() - x2)*(scene->lastPoint().x() - x2) )
-							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x1,nodes[0]->scenePos().y()),connection);
-						else
-							cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x2,nodes[0]->scenePos().y()),connection);
-
-						if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
-						{
-							cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
-						}
-						AddControlPointCommand command(tr(""),scene,cp);
-						command.redo();
-						connection->setPen(connection->defaultPen);					
 			}
 	}
 

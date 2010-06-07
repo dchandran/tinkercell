@@ -10,6 +10,9 @@
 	</node>
 	<node family="Protein" sequence="GSWTQHNMCP">
 	    <text>Chain of amino acids.</text>
+	    <node family="Enzyme">
+		   <text>proteins that catalyze a metabolic reaction.</text>
+		</node>
 		<node family="Transcription Factor" targetPromoter="promoterX" targetDNA="GGCCCGC">
 		   <text>proteins that bind to a regulatory site and influence the activity of the downstream promoter.</text>
 		</node>

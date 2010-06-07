@@ -17,7 +17,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="integral membrane protein receptor" width="30" height="60">
+            <style idList="integral membrane protein receptor" width="60" height="100">
                 <g>
                     <polygon fill="shape0color" stroke="#646464" stroke-width="0" stroke-alpha="1">
                         <listOfCurveSegments>

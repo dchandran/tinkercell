@@ -9,7 +9,7 @@
             </radialGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="protein" width="55" height="50">
+            <style idList="protein" width="70" height="60">
                 <g>
                     <polygon fill="shape0color" stroke="#ff301d" stroke-width="2" stroke-alpha="1">
                         <listOfCurveSegments>

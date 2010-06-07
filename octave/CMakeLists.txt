@@ -30,23 +30,25 @@ IF(EMBED_OCTAVE AND OCTAVE_LIBRARY AND OCTAVE_INCLUDE_DIR)
     tinkercellapi
     ${OCTAVE_LIBRARIES}
   )
+  
+  INSTALL(TARGETS tcrunoct DESTINATION octave)
 
   IF ( WIN32 )
     
     ADD_CUSTOM_COMMAND (
           TARGET tcoct POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/octave/tcoct.oct
+          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/octave/tinkercell.oct
       )
     
   ELSE ( WIN32 )
-        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
-        ADD_CUSTOM_COMMAND (
-              TARGET tcoct POST_BUILD
-              COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/octave/tcoct.oct
-        )
+
+    ADD_CUSTOM_COMMAND (
+         TARGET tcoct POST_BUILD
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/octave/tinkercell.oct
+    )
   ENDIF( WIN32 )
   
-  FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/octave/tcoct.oct)
+  FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/octave/tinkercell.oct)
   FILE(GLOB OCTAVE_SCRIPTS *.m)
 
   INSTALL(FILES ${OCTAVE_SCRIPTS}

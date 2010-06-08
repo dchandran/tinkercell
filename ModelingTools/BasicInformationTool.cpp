@@ -1859,7 +1859,7 @@ namespace Tinkercell
 		}
 	}
 	
-	DataTable<qreal> BasicInformationTool::getUsedParameters(const QList<ItemHandle*>& handles, const QString& replaceDot)
+	DataTable<qreal> BasicInformationTool::getUsedParameters(QList<ItemHandle*>& handles, const QString& replaceDot)
 	{
 		int i,j;
 		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);

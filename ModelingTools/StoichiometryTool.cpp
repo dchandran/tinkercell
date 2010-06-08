@@ -984,7 +984,7 @@ namespace Tinkercell
 	}
 
 	//get the stoiciometry of the items and return the matrix
-	NumericalDataTable StoichiometryTool::getStoichiometry(const QList<ItemHandle*>& connectionHandles, const QString& replaceDot, bool includeFixed)
+	NumericalDataTable StoichiometryTool::getStoichiometry(QList<ItemHandle*>& connectionHandles, const QString& replaceDot, bool includeFixed)
 	{
 		NumericalDataTable combinedTable;
 
@@ -1265,7 +1265,7 @@ namespace Tinkercell
 	}
 
 	//get the rates of the given items
-	QStringList StoichiometryTool::getRates(const QList<ItemHandle*>& connectionHandles, const QString& replaceDot)
+	QStringList StoichiometryTool::getRates(QList<ItemHandle*>& connectionHandles, const QString& replaceDot)
 	{
 		QStringList rates;
 		TextDataTable * sDataTable = 0;

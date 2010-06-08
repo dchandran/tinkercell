@@ -110,9 +110,9 @@ namespace Tinkercell
 
 	void StoichiometryTool::connectCFuntions()
 	{
-		connect(&fToS,SIGNAL(getStoichiometry(QSemaphore*,NumericalDataTable*,const QList<ItemHandle*>&)),this,SLOT(getStoichiometrySlot(QSemaphore*,NumericalDataTable*,const QList<ItemHandle*>&)));
+		connect(&fToS,SIGNAL(getStoichiometry(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)),this,SLOT(getStoichiometrySlot(QSemaphore*,NumericalDataTable*,QList<ItemHandle*>&)));
 		connect(&fToS,SIGNAL(setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)),this,SLOT(setStoichiometrySlot(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&)));
-		connect(&fToS,SIGNAL(getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&)),this,SLOT(getRatesSlot(QSemaphore*,QStringList*,const QList<ItemHandle*>&)));
+		connect(&fToS,SIGNAL(getRates(QSemaphore*,QStringList*,QList<ItemHandle*>&)),this,SLOT(getRatesSlot(QSemaphore*,QStringList*,QList<ItemHandle*>&)));
 		connect(&fToS,SIGNAL(setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&)),this,SLOT(setRatesSlot(QSemaphore*,QList<ItemHandle*>&,const QStringList&)));
 	}
 
@@ -137,7 +137,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::getStoichiometrySlot(QSemaphore * s, NumericalDataTable* p, const QList<ItemHandle*>& items)
+	void StoichiometryTool::getStoichiometrySlot(QSemaphore * s, NumericalDataTable* p, QList<ItemHandle*>& items)
 	{
 		if (p)
 		{
@@ -147,7 +147,7 @@ namespace Tinkercell
 			s->release();
 	}
 
-	void StoichiometryTool::getRatesSlot(QSemaphore * s, QStringList* p, const QList<ItemHandle*>& items)
+	void StoichiometryTool::getRatesSlot(QSemaphore * s, QStringList* p, QList<ItemHandle*>& items)
 	{
 		if (p)
 		{

@@ -219,7 +219,8 @@ namespace Tinkercell
 		
 		GraphicsScene * scene = network->currentScene();
 
-		NumericalDataTable N = StoichiometryTool::getStoichiometry(network->symbolsTable.uniqueItems.values(),tr("."));
+		QList<ItemHandle*> handles = network->handles();
+		NumericalDataTable N = StoichiometryTool::getStoichiometry(handles,tr("."));
 		dataTable.resize(N.rows()+1,N.cols()+2);
 		dataTable.colName(0) = tr("inequality");
 		dataTable.colName(1) = tr("constraint");

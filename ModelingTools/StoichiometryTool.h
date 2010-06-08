@@ -51,9 +51,9 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	signals:
-		void getStoichiometry(QSemaphore*,NumericalDataTable*,const QList<ItemHandle*>&);
+		void getStoichiometry(QSemaphore*,NumericalDataTable*, QList<ItemHandle*>&);
 		void setStoichiometry(QSemaphore*,QList<ItemHandle*>&,const NumericalDataTable&);
-		void getRates(QSemaphore*,QStringList*,const QList<ItemHandle*>&);
+		void getRates(QSemaphore*,QStringList*, QList<ItemHandle*>&);
 		void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
 	public slots:
 		Matrix getStoichiometry(ArrayOfItems);
@@ -126,9 +126,9 @@ namespace Tinkercell
 
 	private slots:
 		/*! \brief used for the C API*/
-		void getStoichiometrySlot(QSemaphore*, NumericalDataTable*, const QList<ItemHandle*>&);
+		void getStoichiometrySlot(QSemaphore*, NumericalDataTable*, QList<ItemHandle*>&);
 		/*! \brief used for the C API*/
-		void getRatesSlot(QSemaphore *, QStringList*, const QList<ItemHandle*>&);
+		void getRatesSlot(QSemaphore *, QStringList*, QList<ItemHandle*>&);
 		/*! \brief used for the C API*/
 		void setStoichiometrySlot(QSemaphore*, QList<ItemHandle*>&, const NumericalDataTable&);
 		/*! \brief used for the C API*/

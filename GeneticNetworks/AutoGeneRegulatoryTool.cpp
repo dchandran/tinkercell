@@ -338,18 +338,13 @@ namespace Tinkercell
 		for (int i=0; i < selected.size(); ++i)
 		{
 			handle = getHandle(selected[i]);
-			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Coding")) && !visited.contains(handle))
+			if (qgraphicsitem_cast<NodeGraphicsItem*>(selected[i]) && handle && handle->isA("Coding") && !visited.contains(handle))
 			{
 				visited += handle;
 				NodeHandle * proteinNode = new NodeHandle(proteinFamily);
 				proteinNode->name = tr("P1");
 				proteinNode->name = scene->network->makeUnique(proteinNode->name,usedNames);
 				usedNames << proteinNode->name;
-				
-				NodeHandle * rnaNode = new NodeHandle(rnaFamily);
-				rnaNode->name = tr("rna");
-				rnaNode->name = scene->network->makeUnique(rnaNode->name,usedNames);
-				usedNames << rnaNode->name;
 
 				qreal xpos = (selected[i]->sceneBoundingRect().right() + selected[i]->scenePos().x())/2.0,
 					  ypos = selected[i]->scenePos().ry() - (selected[i]->sceneBoundingRect().height() * 2),
@@ -558,14 +553,14 @@ namespace Tinkercell
 					nodeImageFile = appDir + tr("/OtherItems/simplecircle.xml");
 					imageReader.readXml(middleItem,nodeImageFile);
 					middleItem->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
+					
+					w = 0.1;
 					if (middleItem->defaultSize.width() > 0 && middleItem->defaultSize.height() > 0)
 						w = middleItem->defaultSize.width()/arrow->sceneBoundingRect().width();
 					middleItem->scale(w,w);
 					
-					TextGraphicsItem * nameItem = new TextGraphicsItem(proteinNode,0);
-					QFont font = nameItem->font();
+					nameItem = new TextGraphicsItem(proteinNode,0);
+					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), proteinItem->scenePos().y());
@@ -581,16 +576,15 @@ namespace Tinkercell
 					translation->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,middleItem));
 
-					ArrowHeadItem * arrow = 0;
 					nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
 					
-					arrow = new ArrowHeadItem(transcription);
+					arrow = new ArrowHeadItem(translation);
 					imageReader.readXml(arrow,nodeImageFile);
 					arrow->normalize();
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 
-					transcription->curveSegments.last().arrowStart = arrow;
+					translation->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
 				}
@@ -733,9 +727,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (!scene || !mainWindow || parts.isEmpty()) return;
 
-		QList<NodeHandle*> activators, repressors;
-		QList<ConnectionHandle*> TFconnections;
-		ItemHandle * rbs = 0, * promoter = 0, * regulator = 0;
+		ItemHandle * rbs = 0, * promoter = 0;
 		QString rate, s0;
 
 		QList<ItemHandle*> targetHandles;
@@ -745,35 +737,6 @@ namespace Tinkercell
 		for (int i=0; i < parts.size(); ++i)
 			if (parts[i])
 			{
-				if (NodeHandle::cast(parts[i]) && parts[i]->isA(tr("Promoter")))
-				{
-					if (regulator == 0)
-						regulator = parts[i];
-					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
-					for (int j=0; j < connections.size(); ++j)
-						if (connections[j] && connections[j]->isA(tr("Binding")))
-						{
-							if (connections[j]->isA(tr("Transcription Repression")))
-							{
-								QList<NodeHandle*> nodes = (connections[j])->nodesIn();
-								for (int k=0; k < nodes.size(); ++k)
-								{
-									repressors += nodes[k];
-									TFconnections += connections[j];
-								}
-							}
-							else
-							{
-								QList<NodeHandle*> nodes = (connections[j])->nodesIn();
-								for (int k=0; k < nodes.size(); ++k)
-								{
-									activators += nodes[k];
-									TFconnections += connections[j];
-								}
-							}
-						}
-				}
-
 				if (parts[i]->isA(tr("RBS")))
 				{
 					rbs = parts[i];
@@ -787,97 +750,52 @@ namespace Tinkercell
 
 				if (parts[i]->isA(tr("Coding")) && NodeHandle::cast(parts[i]))
 				{
-					if (!promoter && regulator)
-						promoter = regulator;
-
 					QList<ConnectionHandle*> connections = NodeHandle::cast(parts[i])->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] &&
-							connections[j]->isA(tr("Synthesis")) &&
+							connections[j]->isA(tr("Production")) &&
 							connections[j]->hasTextData(tr("Rate equations")))
 					{
 						DataTable<QString> * sDat = new DataTable<QString>(connections[j]->data->textData[tr("Rate equations")]);
+						s0 = sDat->value(0,0);
+						bool ok;
 						if (promoter)
 						{
-							s0 = sDat->value(0,0);
-							bool missing = (s0 == tr("0.0") || s0 == tr("0"));
-							for (int k=0; k < activators.size(); ++k)
-								if (activators[k] && !s0.contains(activators[k]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-
-							for (int k=0; k < repressors.size(); ++k)
-								if (repressors[k] && !s0.contains(repressors[k]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-
-							rate = hillEquation(TFconnections,activators,repressors);
-
-							if (promoter->hasNumericalData(tr("Numerical Attributes"))
-								&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
-								{
-									if (!rate.isEmpty())
-										rate = promoter->fullName() + tr(".strength*") + rate;
-									else
-										rate = promoter->fullName() + tr(".strength");
-								}
-								else
-								{
-									if (!rate.isEmpty())
-										rate = tr("0.0");
-								}
-
-							if (missing)
+							double d = s0.trimmed().toDouble(&ok);
+							
+							if (ok)
 							{
+								rate = tr("");
+							
+								if (promoter->hasNumericalData(tr("Parameters"))
+									&& promoter->data->numericalData[tr("Parameters")].getRowNames().contains(tr("strength")))
+									rate = promoter->fullName() + tr(".strength*") + rate;
+								
+								rate += promoter->fullName();
 								sDat->value(0,0) = rate;
 								targetHandles += connections[j];
 								hashStrings += tr("Rate equations");
 								dataTables += sDat;
 							}
-						}
-						else
-							if (sDat->value(0,0) != tr("0.0") &&
-                                !sDat->value(0,0).contains(parts[i]->fullName()))
+
+
+							if (sDat->getRowNames().contains(tr("translation")))
 							{
-							    bool b = false;
-							    for (int k=0; k < connections.size(); ++k)
-                                    if (connections[k] &&
-                                        connections[k]->hasNumericalData(tr("Products")) &&
-                                        connections[k]->data->numericalData[tr("Products")].getColNames().contains(parts[i]->fullName()))
-                                        {
-                                            b = true;
-                                            break;
-                                        }
-								if (b)
-                                    sDat->value(0,0) = connections[j]->fullName() + tr(".k0*") + parts[i]->fullName();
-								else
-                                    sDat->value(0,0) = tr("0.0");
-								targetHandles += connections[j];
-								hashStrings += tr("Rate equations");
-								dataTables += sDat;
-							}
+								QString s = sDat->value(tr("translation"),0);
 
-
-						if (sDat->getRowNames().contains(tr("translation")))
-						{
-							QString s = sDat->value(tr("translation"),0);
-
-							if (rbs && !s.contains(rbs->fullName()))
-							{
-								s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
-								sDat->value(tr("translation"),0) = s;
-								if (!dataTables.contains(sDat))
+								if (rbs && !s.contains(rbs->fullName()))
 								{
-									targetHandles += connections[j];
-									hashStrings += tr("Rate equations");
-									dataTables += sDat;
+									s = rbs->fullName() + tr(".strength * ") + sDat->value(tr("translation"),0);
+									sDat->value(tr("translation"),0) = s;
+									if (!dataTables.contains(sDat))
+									{
+										targetHandles += connections[j];
+										hashStrings += tr("Rate equations");
+										dataTables += sDat;
+									}
 								}
 							}
-						}
+						
 
 						QList<NodeHandle*> rna = connections[j]->nodesOut();
 							for (int k=0; k < rna.size(); ++k)
@@ -914,109 +832,28 @@ namespace Tinkercell
 														delete sDat2;
 												}
 											}
-											else
-											{
-												DataTable<QString> * sDat2 = new DataTable<QString>(connections2[l]->data->textData[tr("Rate equations")]);
-												if (sDat2->value(0,0).contains(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*"))))
-												{
-													sDat2->value(0,0).replace(QRegExp(tr("\\S+\\.strength\\s*\\*\\s*")),tr(""));
-													targetHandles += connections2[l];
-													hashStrings += tr("Rate equations");
-													dataTables += sDat2;
-												}
-												else
-													delete sDat2;
-											}
 								}
 					}
-
-					activators.clear();
-					repressors.clear();
-					TFconnections.clear();
+					
 					rbs = 0;
 				}
-				else
-				if (i == (parts.size() - 1))
-				{
-					/*if (!promoter && regulator)
-						promoter = regulator;
-					if (promoter && promoter->hasTextData(tr("Assignments"))
-						&& promoter->hasNumericalData(tr("Numerical Attributes"))
-						&& promoter->data->numericalData[tr("Numerical Attributes")].getRowNames().contains(tr("strength")))
-					{
-						DataTable<QString> * sDat = new DataTable<QString>(promoter->data->textData[tr("Assignments")]);
-						QString s0 = tr("");
-
-						bool missing = false;
-						if (sDat->getRowNames().contains(tr("rate")))
-						{
-							s0 = sDat->value(tr("rate"),0);
-							for (int j=0; j < activators.size(); ++j)
-								if (activators[j] && !s0.contains(activators[j]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-							for (int j=0; j < repressors.size(); ++j)
-								if (repressors[j] && !s0.contains(repressors[j]->fullName()))
-								{
-									missing = true;
-									break;
-								}
-						}
-
-						if (!sDat->getRowNames().contains(tr("rate")) || missing)
-						{
-							QString s = hillEquation(TFconnections,activators,repressors);
-
-							if (!s.isNull() && !s.isEmpty())
-								s = promoter->fullName() + tr(".strength*") + s;
-							else
-								s = promoter->fullName() + tr(".strength");
-
-							if (!sDat->getRowNames().contains(tr("rate")) ||
-								 sDat->value(tr("rate"),0) != s)
-								{
-									sDat->value(tr("rate"),0) = s;
-									targetHandles += promoter;
-									hashStrings += tr("Assignments");
-									dataTables += sDat;
-								}
-								else
-								{
-									delete sDat;
-								}
-						}
-						else
-						{
-							delete sDat;
-						}
-
-						activators.clear();
-						repressors.clear();
-						TFconnections.clear();
-						rbs = 0;
-						promoter = 0;
-						regulator = 0;
-					}*/
-				}
-
+				
 				if ((parts[i]->isA(tr("Terminator")) || parts[i]->isA(tr("Vector")) ) && NodeHandle::cast(parts[i]))
 				{
-					regulator = 0;
 					promoter = 0;
 					rbs = 0;
 				}
 			}
+		}
 
-			if (dataTables.size() > 0)
-			{
-				scene->network->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
-			}
+		if (dataTables.size() > 0)
+		{
+			scene->network->changeData(tr("gene regulation kinetics changed"),targetHandles,hashStrings,dataTables);
+		}
 
-			for (int i=0; i < dataTables.size(); ++i)
-				if (dataTables[i])
-					delete dataTables[i];
+		for (int i=0; i < dataTables.size(); ++i)
+			if (dataTables[i])
+				delete dataTables[i];
 	}
 
 	bool AutoGeneRegulatoryTool::setMainWindow(MainWindow * main)
@@ -1035,8 +872,8 @@ namespace Tinkercell
 					  this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
                           this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
-			connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
-						  this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
+			connect(mainWindow,SIGNAL(itemsAboutToBeMoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<QPointF>&, QList<QUndoCommand*>& commands)),
+						  this, SLOT(itemsMoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<QPointF>&, QList<QUndoCommand*>& commands)));
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 
@@ -1304,13 +1141,12 @@ namespace Tinkercell
 		}
 	}
 
-	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
+	void AutoGeneRegulatoryTool::itemsMoved(GraphicsScene* scene, QList<QGraphicsItem*>& items, QList<QPointF>& distance, QList<QUndoCommand*>& commands)
 	{
 		if (!scene) return;
 
 		QList<NodeHandle*> parts2;
 
-		QList<ItemHandle*> moving;
 		QList<ItemHandle*> connections;
 		NodeHandle * handle = 0;
 		QString rate;
@@ -1322,7 +1158,7 @@ namespace Tinkercell
 			{
 				connections = scene->network->symbolsTable.handlesFamily.values(tr("Transcription"));
 				connections += scene->network->symbolsTable.handlesFamily.values(tr("Translation"));
-				connections += scene->network->symbolsTable.handlesFamily.values(tr("Synthesis"));
+				connections += scene->network->symbolsTable.handlesFamily.values(tr("Production"));
 				for (int j=0; j < connections.size(); ++j)
 				{
 					if (connections[j] && connections[j]->hasTextData(tr("Rate equations")))
@@ -1336,7 +1172,8 @@ namespace Tinkercell
 							QList<ConnectionGraphicsItem*> nodeConnections0, nodeConnections;
 							for (int k=0; k < connections[j]->graphicsItems.size(); ++k)
 							{
-								if (connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k]))
+								if ((connection = ConnectionGraphicsItem::cast(connections[j]->graphicsItems[k]))
+									&& !items.contains(connection))
 									nodeConnections << connection;
 							}
 
@@ -1385,9 +1222,10 @@ namespace Tinkercell
 								DataTable<QString> newRates(connections[j]->data->textData[tr("Rate equations")]);
 								newRates.value(0,0) = tr("0.0");
 								QString s = connections[j]->fullName() + tr(" rate = 0.0");
-								scene->network->changeData(s,connections[j],tr("Rate equations"),&newRates);
-								if (console())
-									console()->message(s);
+								
+								commands << new ChangeTextDataCommand(s,&(connections[j]->textDataTable(tr("Rate equations"))),&newRates);
+								//if (console())
+									//console()->message(s);
 							}
 						}
 					}

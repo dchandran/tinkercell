@@ -986,8 +986,11 @@ namespace Tinkercell
 		}
 	}
 	/*! \brief a simple move operation with undo*/
-	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QPointF& distance)
+	void GraphicsScene::move(const QList<QGraphicsItem*>& items0, const QPointF& distance0)
 	{
+		QList<QGraphicsItem*> items = items0;
+		QPointF distance = distance0;
+		
 		QPointF change = distance;
 		if (gridSz > 0)
 		{
@@ -999,6 +1002,7 @@ namespace Tinkercell
 		while (dists.size() < items.size()) dists << change;
 
 		QList<QUndoCommand*> commands;
+		
 		emit itemsAboutToBeMoved(this,items,dists,commands);
 
 		QUndoCommand * command = new MoveCommand(this,items, distance);
@@ -1034,8 +1038,9 @@ namespace Tinkercell
 
 	}
 	/*! \brief a simple move operation with undo*/
-	void GraphicsScene::move(const QList<QGraphicsItem*>& items, const QList<QPointF>& distance)
+	void GraphicsScene::move(const QList<QGraphicsItem*>& items0, const QList<QPointF>& distance)
 	{
+		QList<QGraphicsItem*> items = items0;
 		QList<QPointF> dists = distance;
 
 		if (gridSz > 0)

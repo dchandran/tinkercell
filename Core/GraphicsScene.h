@@ -364,7 +364,7 @@ namespace Tinkercell
 		* \param Qt::KeyboardModifiers modifier keys being used when mouse clicked
 		* \param QList<QUndoCommand*>& list of commands that will be executed right before items are inserted
 		* \return void*/
-		void itemsAboutToBeMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance, QList<QUndoCommand*>&);
+		void itemsAboutToBeMoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<QPointF>& distance, QList<QUndoCommand*>&);
 		/*! \brief signals whenever items are being moved (each item is the top-most item)
 		* \param GraphicsScene* scene where the items were moved
 		* \param QList<QGraphicsItem*>& list of pointers to all moving items

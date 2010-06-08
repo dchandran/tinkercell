@@ -62,8 +62,8 @@ namespace Tinkercell
 			connect(scene,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)),
 				main ,SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
 				
-			connect(scene,SIGNAL(itemsAboutToBeMoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<QPointF>& , QList<QUndoCommand*>&)),
-				main ,SIGNAL(itemsAboutToBeMoved(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<QPointF>& , QList<QUndoCommand*>&)));
+			connect(scene,SIGNAL(itemsAboutToBeMoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<QPointF>& , QList<QUndoCommand*>&)),
+				main ,SIGNAL(itemsAboutToBeMoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<QPointF>& , QList<QUndoCommand*>&)));
 
 			connect(scene,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 				main ,SIGNAL(itemsRemoved(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));

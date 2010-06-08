@@ -189,6 +189,7 @@ namespace Tinkercell
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
 
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
+
 			toolLoaded(mainWindow->tool(tr("Save and Load")));
         }
 
@@ -488,8 +489,48 @@ namespace Tinkercell
 				}
 		}
 
-		RenameCommand * rename = new RenameCommand(tr("module linkers"),scene->network,oldNames,newNames);
-		commands << rename;
+		if (!oldNames.isEmpty())
+		{
+			RenameCommand * rename = new RenameCommand(tr("module linkers"),scene->network,oldNames,newNames);
+			commands << rename;
+		}
+
+		QStringList visited;
+
+		for (int i=0; i < handles.size(); ++i)
+			if (handles[i] && handles[i]->family())
+			{
+				QString s = handles[i]->family()->name.toLower();
+				s.replace(tr(" "),tr("_"));
+				QString dirname = homeDir() + tr("/") + s;
+				QDir dir(dirname);
+		
+				if (dir.exists())
+				{
+					dir.setFilter(QDir::Files);
+					dir.setSorting(QDir::Time);
+					QFileInfoList list = dir.entryInfoList();
+				
+					if (!list.isEmpty())
+					{	
+						QString filename = list.last().absoluteFilePath();
+				
+						if (QFile::exists(filename) && !visited.contains(filename))
+						{			
+							visited << filename;
+							QList<QGraphicsItem*> items;
+							emit loadItems(items, filename);
+						
+							QList<ItemHandle*> handles2 = getHandle(items);
+						
+							handles << handles2;
+						
+							for (int j=0; j < handles2.size(); ++j)
+								handles2[j]->setParent(handles[i]);
+						}
+					}
+				}
+			}
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
@@ -825,6 +866,23 @@ namespace Tinkercell
 		ItemHandle * handle = getHandle(item);
 		if (handle && handle->family())
 		{
+			QList<TextEditor*> editors = scene->network->editors();
+			QList<GraphicsScene*> scenes = scene->network->scenes();
+
+			for (int i=0; i < editors.size(); ++i)
+				if (editors[i]->localHandle() == handle)
+				{
+					editors[i]->popOut();
+					return;
+				}
+			
+			for (int i=0; i < scenes.size(); ++i)
+				if (scenes[i]->localHandle() == handle)
+				{
+					scenes[i]->popOut();
+					return;
+				}
+			
 			QDockWidget * dock = makeDockWidget(handle->family()->name);
 			if (dock)
 			{

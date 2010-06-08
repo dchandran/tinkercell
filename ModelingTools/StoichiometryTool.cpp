@@ -98,7 +98,6 @@ namespace Tinkercell
 				connect(this,SIGNAL(setMiddleBox(int,const QString&)),connectionSelection, SLOT(showMiddleBox(int,const QString&)));
 			}
 		}
-
 	}
 
 	void StoichiometryTool::historyUpdate(int )
@@ -1001,8 +1000,18 @@ namespace Tinkercell
 
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			if (connectionHandles[i])
 			{
+				if (!connectionHandles[i]->children.isEmpty())
+				{
+					QList<ItemHandle*> children = connectionHandles[i]->children;
+					for (int j=0; j < children.size(); ++j)
+						if (children[j] && ConnectionHandle::cast(children[j]) && !connectionHandles.contains(children[j]))
+							connectionHandles << children[j];
+							
+					continue;
+				}
+				
 				QStringList fixedSpecies;
 				if (!includeFixed && ConnectionHandle::cast(connectionHandles[i]))
 				{
@@ -1268,8 +1277,18 @@ namespace Tinkercell
 
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			if (connectionHandles[i])
 			{
+				if (!connectionHandles[i]->children.isEmpty())
+				{
+					QList<ItemHandle*> children = connectionHandles[i]->children;
+					for (int j=0; j < children.size(); ++j)
+						if (children[j] && ConnectionHandle::cast(children[j]) && !connectionHandles.contains(children[j]))
+							connectionHandles << children[j];
+							
+					continue;
+				}
+
 			    if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
 					sDataTable = &(connectionHandles[i]->data->textData[QObject::tr("Rate equations")]);

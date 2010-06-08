@@ -8,8 +8,8 @@
  
 ****************************************************************************/
 
-#ifndef TINKERCELL_CFUNCTIONSMENULIST_H
-#define TINKERCELL_CFUNCTIONSMENULIST_H
+#ifndef TINKERCELL_PYTHONTOOL_H
+#define TINKERCELL_PYTHONTOOL_H
 
 #include <QMainWindow>
 #include <QHash>

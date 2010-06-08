@@ -102,24 +102,24 @@ namespace Tinkercell
 
 	protected slots:
 		void convertCodeToButton();
+		void languageChanged();
 
 	protected:
 
 		void setupEditor();
 		void setupMenu();
-//		void setupDialog();
 		void runC(const QString&);
+		void convertCodeToButtonOctave();
 		void convertCodeToButtonPy();
 		void convertCodeToButtonC();
 
 		QTimeLine timer;
 		QMainWindow * window;
 		QRadioButton * cButton, * octaveButton, *pythonButton;
-//		QTabWidget * tabWidget;
 		RuntimeCodeEditor *editor;
+		QWidget * editorWidget;
 		QToolBar * toolBar;
 
-		RuntimeCodeEditor *editorR;
 		QLineEdit *commandCEdit, *commandPyEdit, *fileNameEdit;
 		CandPythonSyntaxHighlighter *highlighter;
 

@@ -8,8 +8,8 @@
  
 ****************************************************************************/
 
-#ifndef TINKERCELL_CFUNCTIONSMENULIST_H
-#define TINKERCELL_CFUNCTIONSMENULIST_H
+#ifndef TINKERCELL_OCTAVETOOL_H
+#define TINKERCELL_OCTAVETOOL_H
 
 #include <QMainWindow>
 #include <QHash>
@@ -23,7 +23,6 @@
 #include "Tool.h"
 #include "DynamicLibraryMenu.h"
 #include "OctaveInterpreterThread.h"
-
 
 namespace Tinkercell
 {

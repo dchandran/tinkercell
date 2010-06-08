@@ -78,7 +78,7 @@ namespace Tinkercell
 			while (!file.atEnd()) //inside octave script file
 			{
 				QString line(file.readLine());
-				commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%")));				
+				commentsLine = line.toLower().contains(tr("#")) || line.toLower().contains(tr("%"));				
 				if (!commentsLine) continue;
 				
 				line.remove(tr("#"));

@@ -40,28 +40,27 @@ namespace Tinkercell
 		 fileName = homeDir + tr("/code.c");
 		 
 		 toolBar = 0;
-		 window = new QMainWindow;
-
-		 tabWidget =  new QTabWidget;
-		 editorC = editorPy = editorR = 0;
+		 window = new QMainWindow(this);
 
 		 setupEditor();
 		 setupMenu();
-		 setupDialog();
 	}
 	
 	void CodingWindow::convertCodeToButton()
 	{
-		if (editorPy && tabWidget->currentIndex() == 1)
+		if (pythonButton->isChecked())
 			convertCodeToButtonPy();
 		else
-		if (editorC && tabWidget->currentIndex() == 0)
+		if (octaveButton->isChecked())
+			convertCodeToButtonOctave();
+		else
+		if (cButton->isChecked())
 			convertCodeToButtonC();
 	}
 
 	void CodingWindow::convertCodeToButtonC()
 	{
-		QString code = editorC->toPlainText();
+		QString code = editor->toPlainText();
 		if (!code.contains("tc_addFunction"))
 		{
 			code += 
@@ -73,7 +72,7 @@ namespace Tinkercell
 \"Category\", \n\
 \"plugins/c/default.png\", \n\
 \"\", 1, 0, 0); \n}\n\n");
-			editorC->setPlainText(code);
+			editor->setPlainText(code);
 			QMessageBox::information(this,tr("Program description missing"),tr("tc_main and tc_addFunction are required for adding a new C function to the programs menu. Take a look at the code."));
 			return;
 		}
@@ -121,20 +120,20 @@ namespace Tinkercell
 	
 	void CodingWindow::convertCodeToButtonPy()
 	{
-		if (!editorPy) return;
+		if (!editor) return;
 		
-		QString text = editorPy->toPlainText();
+		QString text = editor->toPlainText();
 		if (!text.startsWith("\"\"\""))
 		{
 			text = tr("\"\"\"\n\
 category: Miscellaneous\n\
-name: My function\n\
-description: This program does something\n\
+name: name of program\n\
+description: what does this program do?\n\
 icon: plugins/c/default.png\n\
 menu: yes\n\
 tool: yes\n\
 specific for:\n\"\"\"\n\n") + text;
-			editorPy->setPlainText(text);
+			editor->setPlainText(text);
 			QMessageBox::information(this,tr("Program description missing"),tr("Please enter the program description in comments"));
 			return;
 		}		
@@ -162,8 +161,55 @@ specific for:\n\"\"\"\n\n") + text;
 			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + filename);
 
 		QTextStream outpy(&pyfile);
-		outpy << (editorPy->toPlainText());
+		outpy << (editor->toPlainText());
 		pyfile.close();
+		
+		loadPyFromDir(userHomeDir);
+	}
+	
+	void CodingWindow::convertCodeToButtonOctave()
+	{
+		QString text = editor->toPlainText();
+		if (!text.contains("#category") || !text.contains("#name"))
+		{
+			text = tr("\
+#category: Miscellaneous\n\
+#name: My function\n\
+#description: This program does something\n\
+#icon: plugins/c/default.png\n\
+#menu: yes\n\
+#tool: yes\n\
+#specific for:\n\n") + text;
+			editor->setPlainText(text);
+			QMessageBox::information(this,tr("Program description missing"),tr("Please enter the program description in comments"));
+			return;
+		}		
+		
+		QString homeDir = MainWindow::homeDir();
+		QDir userHomeDir(homeDir);
+		
+		if (!userHomeDir.cd(tr("octave")))
+		{
+			userHomeDir.mkdir(tr("octave"));
+			if (!userHomeDir.cd(tr("octave")))
+			{
+				QMessageBox::information(this,tr("Error"),tr("TinkerCell is not able to write to the Documents folder"));
+				return;
+			}
+		}
+		
+		QString filename = QFileDialog::getSaveFileName(this,tr("Save your program"),userHomeDir.absolutePath(),tr("*.py"));
+		
+		QFile octfile(filename);
+		
+		if (!octfile.open(QIODevice::WriteOnly | QIODevice::Text))
+			return;
+		else
+			QMessageBox::information(this,tr("Saved"),tr("Your program has been saved as ") + filename);
+
+		QTextStream outoct(&octfile);
+		outoct << (editor->toPlainText());
+		octfile.close();
 		
 		loadPyFromDir(userHomeDir);
 	}
@@ -174,22 +220,12 @@ specific for:\n\"\"\"\n\n") + text;
 
 		QString appDir = QCoreApplication::applicationDirPath();
 
-		QSplitter * splitter1 = new QSplitter(Qt::Horizontal);
-        splitter1->addWidget(editorC);
-        splitter1->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editorC));
-        splitter1->setStretchFactor(0,2);
+		QSplitter * splitter = new QSplitter(Qt::Horizontal);
+        splitter->addWidget(editorWidget);
+        splitter->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editor));
+        splitter->setStretchFactor(0,2);
 
-        QSplitter * splitter2 = new QSplitter(Qt::Horizontal);
-        splitter2->addWidget(editorPy);
-
-        splitter2->addWidget(new TCFunctionsListView(mainWindow, appDir + tr("/c/API"), editorPy));
-        splitter2->setStretchFactor(0,2);
-
-        tabWidget->addTab(splitter1,tr("C"));
-        tabWidget->addTab(splitter2,tr("Python"));
-        tabWidget->setCurrentIndex(1);
-
-        window->setCentralWidget(tabWidget);
+        window->setCentralWidget(splitter);
         window->setWindowTitle(name);
 
         QHBoxLayout * layout = new QHBoxLayout;
@@ -308,18 +344,55 @@ specific for:\n\"\"\"\n\n") + text;
 
 	 void CodingWindow::setupEditor()
 	 {
-		 QFont font;
-		 font.setFamily("Courier");
-		 font.setFixedPitch(true);
-		 font.setPointSize(10);
+		QFont font;
+		font.setFamily("Courier");
+		font.setFixedPitch(true);
+		font.setPointSize(10);
 
-		 editor = new RuntimeCodeEditor;
-		 editor->setFont(font);
+		editor = new RuntimeCodeEditor;
+		editor->setFont(font);
 
-		 highlighter = new CandPythonSyntaxHighlighter(editor->document());
-
-         editorC->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
-		 editorPy->setPlainText(tr("from tinkercell import *\n"));
+		highlighter = new CandPythonSyntaxHighlighter(editor->document());
+		 
+		cButton = new QRadioButton("C");
+		octaveButton = new QRadioButton("Octave");
+		pythonButton = new QRadioButton("Python");
+		
+		connect(cButton,SIGNAL(released()),this,SLOT(languageChanged()));
+		connect(pythonButton,SIGNAL(released()),this,SLOT(languageChanged()));
+		connect(octaveButton,SIGNAL(released()),this,SLOT(languageChanged()));
+		 
+ 		QHBoxLayout * layout1 = new QHBoxLayout;
+ 		layout1->addWidget(cButton,0);
+ 		layout1->addWidget(pythonButton,0);
+ 		layout1->addWidget(octaveButton,0);
+ 		layout1->addStretch(1);
+ 		
+ 		QVBoxLayout * layout2 = new QVBoxLayout;
+ 		layout2->addLayout(layout1);
+		layout2->addWidget(editor);
+		//layout2->setContentsMargins(0,0,0,0);
+		
+		editorWidget = new QWidget(this);
+		editorWidget->setLayout(layout2);
+	 }
+	 
+	 void CodingWindow::languageChanged()
+	 {
+	 	if (cButton->isChecked())
+	 	{
+	 		editor->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
+	 	}
+	 	else
+	 	if (pythonButton->isChecked())
+	 	{
+			 editor->setPlainText(tr("from tinkercell import *\n"));
+	 	}
+	 	else
+	 	if (octaveButton->isChecked())
+	 	{
+	 		editor->setPlainText(tr("tinkercell('global')\n"));
+	 	}
 	 }
 
 	 void CodingWindow::setupMenu()
@@ -373,105 +446,97 @@ specific for:\n\"\"\"\n\n") + text;
 
 	void CodingWindow::newDoc()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
+			if (cButton->isChecked())
 			{
-				editorC->clear();
-				editorC->defaultSavedFilename.clear();
-                                editorC->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return 1; \n}\n"));
+				editor->clear();
+				editor->defaultSavedFilename.clear();
+                                editor->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return 1; \n}\n"));
 			}
-			if (editorPy && tabWidget->currentIndex() == 1)
+			else
+			if (pythonButton->isChecked())
 			{
-				editorPy->clear();
-				editorPy->defaultSavedFilename.clear();
-				editorPy->setPlainText(tr("import pytc\n"));
+				editor->clear();
+				editor->defaultSavedFilename.clear();
+				editor->setPlainText(tr("import pytc\n"));
 			}
-			if (editorR && tabWidget->currentIndex() == 2)
+			else
+			if (octaveButton->isChecked())
 			{
-				editorR->clear();
-				editorR->defaultSavedFilename.clear();
+				editor->clear();
+				editor->defaultSavedFilename.clear();
+				editor->setPlainText(tr("tinkercell('global')\n"));
 			}
 		}
 	}
 
 	void CodingWindow::selectAll()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				editorC->selectAll();
-			if (editorPy && tabWidget->currentIndex() == 1)
-				editorPy->selectAll();
-			if (editorR && tabWidget->currentIndex() == 2)
-				editorR->selectAll();
+			editor->selectAll();
 		}
 	}
 
 	void CodingWindow::open()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				editorC->open("C Files (*.c *.cpp *.h)");
-			if (editorPy && tabWidget->currentIndex() == 1)
-				editorPy->open("Python Files (*.py)");
-			if (editorR && tabWidget->currentIndex() == 2)
-				editorR->open("R Files (*.R)");
+			if (cButton->isChecked())
+				editor->open("C Files (*.c)");
+			else
+			if (pythonButton->isChecked())
+				editor->open("Python Files (*.py)");
+			else
+			if (octaveButton->isChecked())
+				editor->open("Octave Files (*.m)");
 		}
 	}
 
 	void CodingWindow::save()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				editorC->save("C Files (*.c *.cpp *.h)");
-			if (editorPy && tabWidget->currentIndex() == 1)
-				editorPy->save("Python Files (*.py)");
-			if (editorR && tabWidget->currentIndex() == 2)
-				editorR->save("R Files (*.R)");
+			if (cButton->isChecked())
+				editor->save("C Files (*.c)");
+			else
+			if (pythonButton->isChecked())
+				editor->save("Python Files (*.py)");
+			else
+			if (octaveButton->isChecked())
+				editor->save("Octave Files (*.m)");
 		}
 	}
 
 	void CodingWindow::undo()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				editorC->undo();
-			if (editorPy && tabWidget->currentIndex() == 1)
-				editorPy->undo();
-			if (editorR && tabWidget->currentIndex() == 2)
-				editorR->undo();
+			editor->undo();
 		}
 	}
 
 	void CodingWindow::redo()
 	{
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				editorC->redo();
-			if (editorPy && tabWidget->currentIndex() == 1)
-				editorPy->redo();
-			if (editorR && tabWidget->currentIndex() == 2)
-				editorR->redo();
+			editor->redo();
 		}
 	}
 
 	 void CodingWindow::run()
 	 {
-		if (tabWidget)
+		if (editor)
 		{
-			if (editorC && tabWidget->currentIndex() == 0)
-				runC(editorC->toPlainText());
+			if (cButton->isChecked())
+				runC(editor->toPlainText());
 
-			if (editorPy && tabWidget->currentIndex() == 1)
-				emit runPython(editorPy->toPlainText());
+			if (pythonButton->isChecked())
+				emit runPython(editor->toPlainText());
 
-			if (editorR && tabWidget->currentIndex() == 2)
-				return;
+			if (octaveButton->isChecked())
+				emit runOctave(editor->toPlainText());
 		}
 	 }
 
@@ -498,41 +563,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 		emit compileBuildLoadC(tr("code.c -lode -lssa"),tr("run"),tr("C code"));
 	 }
-/*
-	 void CodingWindow::setupDialog()
-	 {
-		QGridLayout * layout = new QGridLayout;
-		QPushButton * okButton = new QPushButton("Set");
-		connect(okButton,SIGNAL(released()),&commandDialog,SLOT(accept()));
-		QPushButton * cancelButton = new QPushButton("Cancel");
-		connect(cancelButton,SIGNAL(released()),&commandDialog,SLOT(reject()));
-		QLabel * label1 = new QLabel(tr("save code as:"));
-		QLabel * label2 = new QLabel(tr("compile C using:"));
-		QLabel * label3 = new QLabel(tr("compile Python using: "));
 
-		fileNameEdit = new QLineEdit(fileName);
-
-		layout->addWidget(label1,0,0,Qt::AlignLeft);
-		layout->addWidget(label2,1,0,Qt::AlignLeft);
-		layout->addWidget(label3,2,0,Qt::AlignLeft);
-
-		layout->addWidget(fileNameEdit,0,1);//,Qt::AlignRight);
-
-		layout->addWidget(okButton,3,0,Qt::AlignRight);
-		layout->addWidget(cancelButton,3,1);//,Qt::AlignCenter);
-		commandDialog.setWindowTitle(tr("Change Build Command"));
-		layout->setColumnStretch(1,3);
-		commandDialog.setLayout(layout);
-		commandDialog.setSizeGripEnabled(true);
-		connect(&commandDialog,SIGNAL(accepted()),this,SLOT(dialogFinished()));
-	 }
-
-	 void CodingWindow::dialogFinished()
-	 {
-		if (fileNameEdit == 0) return;
-		fileName = fileNameEdit->text();
-	 }
-*/
 	 QSize CodingWindow::sizeHint() const
 	 {
 		 return QSize(500,300);

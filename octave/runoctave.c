@@ -12,7 +12,7 @@ TCAPIEXPORT void exec(const char * input, const char * output)
 	char * argv[1];	
 	FILE * save_stdout = stdout;
 	stdout = fopen(output, "w");
-	argv[0] = (char*)filename;
+	argv[0] = (char*)input;
 	octave_main(argc, argv, 1);
 	close(stdout);
 	stdout = save_stdout;

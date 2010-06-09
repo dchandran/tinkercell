@@ -9,7 +9,7 @@ This file defines the ItemFamily, NodeFamily, and ConnectionFamily classes.
 Each item in Tinkercell has an associated family.
 
 ****************************************************************************/
-
+#include "ConsoleWindow.h"
 #include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "TextGraphicsItem.h"
@@ -850,7 +850,7 @@ namespace Tinkercell
 				typeout = family->textAttributes["typeout"];
 
 		QList<NodeHandle*> in = nodesIn(), out = nodesOut();
-
+		
 		for (int i=0; i < in.size(); ++i)
 			if (!in[i] || !in[i]->isA(typein))
 				return false;

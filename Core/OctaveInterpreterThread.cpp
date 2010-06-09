@@ -36,7 +36,7 @@ namespace Tinkercell
 		script += code;
 
         if (!f)
-            f = (execFunc)lib->resolve("exec");
+            f = (execFunc)lib->resolve("tcexec");
            
         QDir dir(MainWindow::tempDir());
 		QString filename(dir.absoluteFilePath("octave.m"));
@@ -52,10 +52,10 @@ namespace Tinkercell
 #else
 				header += MainWindow::homeDir() + tr("/octave')\n");
 #endif
-	        	header += QObject::tr("tinkercell(\"global\")\n\n");
+	        	header += QObject::tr("tinkercell('global')\n\n");
 	        }
 
-        	file.write(header.toAscii());
+        	//file.write(header.toAscii());
 			file.write(script.toAscii());
 			file.close();
 

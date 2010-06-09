@@ -650,7 +650,7 @@ namespace Tinkercell
 		QHash<QString,qreal> constants;
 		QHash<QString,QString> equations;
 		QHash<QString,QWidget*> widgets;
-		QList<QGraphicsItem*> items = scene->selected();
+		QList<QGraphicsItem*> & items = scene->selected();
 
 		ItemHandle * handle;
 		itemHandles.clear();
@@ -664,7 +664,8 @@ namespace Tinkercell
 				else
 					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]) &&
 						(handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem)) &&
-						handle->family())
+						handle->family() &&
+						(handle->children.isEmpty() || !ConnectionHandle::cast(handle)))
 						itemHandles += handle;
 
 			}

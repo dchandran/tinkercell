@@ -45,8 +45,7 @@ namespace Tinkercell
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
         arrowButton.setIconSize(QSize(20,20));
 
-		connect(&otherButtonsGroup,SIGNAL(buttonPressed(QAbstractButton*)),
-				this,SLOT(otherButtonPressed(QAbstractButton*)));
+		connect(&otherButtonsGroup,SIGNAL(buttonPressed(QAbstractButton*)),this,SLOT(otherButtonPressed(QAbstractButton*)));
 	}
 
 	void CatalogWidget::setTreeMode(bool b)
@@ -132,6 +131,7 @@ namespace Tinkercell
 			emit nodeSelected(nodes[n]);
 		}
 	}
+
 	void CatalogWidget::connectionButtonPressed ( int n )
 	{
 		if (connections.size() > n && connections[n])
@@ -579,19 +579,21 @@ namespace Tinkercell
 	{
 		if (!family) return false;
 		
-		if (!familiesInCatalog.isEmpty())
-			return familiesInCatalog.contains(family->name);
+		//if (familiesInCatalog.size() > 10)
+			//return familiesInCatalog.contains(family->name);
 		
-		if (NodeFamily::cast(family) && !family->children().isEmpty())
-			return false;
+		bool b = false;
 		
-		if (ConnectionFamily::cast(family) && family->parent()) //ad-hoc
-			return family->parent()->isA("Biochemical");
+		if (NodeFamily::cast(family))
+			b = family->children().isEmpty();
 		
-		if (!familiesInCatalog.contains(family->name))
+		if (ConnectionFamily::cast(family)) //ad-hoc
+			b = family->parent() && family->parent()->name == tr("Biochemical");
+		
+		if (b && !familiesInCatalog.contains(family->name))
 			familiesInCatalog << family->name;
 
-		return true;
+		return b;
 	}
 
 	void CatalogWidget::setUpTabView()
@@ -614,12 +616,12 @@ namespace Tinkercell
 													QStringList() << "Compartment")
 
 					<< QPair<QString, QStringList>(
-													tr("Reaction"),
-													QStringList() << "Biochemical" << "Production" << "PoPS")
-
-					<< QPair<QString, QStringList>(
 													tr("Regulation"),
-													QStringList() << "Regulation");
+													QStringList() << "Regulation")
+					
+					<< QPair<QString, QStringList>(
+													tr("Reaction"),
+													QStringList());
 
 		numNodeTabs = 4;
 

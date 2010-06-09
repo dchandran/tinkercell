@@ -228,17 +228,19 @@ specific for:\n\"\"\"\n\n") + text;
         window->setCentralWidget(splitter);
         window->setWindowTitle(name);
 
+        /*
         QHBoxLayout * layout = new QHBoxLayout;
         layout->addWidget(window);
         layout->setContentsMargins(0,0,0,0);
         setLayout(layout);
+        */
 
 		if (mainWindow)
 		{
 			QDockWidget * dock = 0;
 			setWindowTitle(name);
 			setWindowIcon(QIcon(tr(":/images/cmd.png")));
-			dock = mainWindow->addToolWindow(this, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
+			dock = mainWindow->addToolWindow(window, MainWindow::DockWidget, Qt::BottomDockWidgetArea, Qt::BottomDockWidgetArea);
 			dock->move(mainWindow->geometry().bottomRight() - QPoint(sizeHint().width()*2,sizeHint().height()));
 			dock->hide();
 			dock->setFloating(true);
@@ -550,6 +552,7 @@ specific for:\n\"\"\"\n\n") + text;
 
 		QTextStream out(&qfile);
         if (code.contains( QRegExp(tr("TCAPIEXPORT void\\s+run\\s*\\(\\s*\\)")) ))
+
 		{
 			out << code;
 		}

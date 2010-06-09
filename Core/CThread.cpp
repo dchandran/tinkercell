@@ -324,12 +324,15 @@ namespace Tinkercell
 
 		if (!loaded)
 		{
+			MainWindow::instance()->console()->message(libname + QObject::tr(" not loaded"));
 			if (!lib->parent())
 			{
 				delete lib;
 				lib = 0;
 			}
 		}
+		else
+			MainWindow::instance()->console()->message(libname + QObject::tr(" loaded"));
 		
 		return lib;
 	}

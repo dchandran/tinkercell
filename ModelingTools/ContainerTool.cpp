@@ -912,14 +912,14 @@ namespace Tinkercell
             for (int j=0; j < speciesIn.size(); ++j)
                 if ((handle = speciesIn[j]->parentOfFamily(tr("Compartment"))) && !dilutionFactorIn.contains(handle->fullName()))
                 {
-                dilutionFactorIn << handle->fullName();
-            }
+					dilutionFactorIn << handle->fullName();
+            	}
 
             for (int j=0; j < speciesOut.size(); ++j)
                 if ((handle = speciesOut[j]->parentOfFamily(tr("Compartment"))) && !dilutionFactorOut.contains(handle->fullName()))
                 {
-                dilutionFactorOut << handle->fullName();
-            }
+					dilutionFactorOut << handle->fullName();
+      		    }
 
             for (int j=0; j < rates->rows(); ++j)
                 if (!rates->value(j,0).contains(reactions[i]->fullName() + tr(".DilutionFactor")))

@@ -38,6 +38,9 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 	Tinkercell::PythonTool * pythonTool = new Tinkercell::PythonTool;
 	main->addTool(pythonTool);
+	
+	Tinkercell::OctaveTool * octaveTool = new Tinkercell::OctaveTool;
+	main->addTool(octaveTool);
 
 	Tinkercell::CodingWindow * cScriptWindow = new Tinkercell::CodingWindow;
 	main->addTool(cScriptWindow);

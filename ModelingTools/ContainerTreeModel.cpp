@@ -90,7 +90,10 @@ namespace Tinkercell
 					return QVariant(itemHandle->numericalData(QString("Initial Value")));
 				else
 					if (itemHandle->hasTextData(QString("Rate equations")))
-						return QVariant(itemHandle->textData(QString("Rate equations")));
+						if (itemHandle->children.isEmpty())
+							return QVariant(itemHandle->textData(QString("Rate equations")));
+						else
+							return QVariant("<abstraction>");
 			}
 		}
 
@@ -463,7 +466,7 @@ namespace Tinkercell
 					}
 				}
 				else
-					if (handle->hasTextData(QString("Rate equations")))
+					if (handle->hasTextData(QString("Rate equations")) && handle->children.isEmpty())
 					{
 						QString s = value.toString();
 						if (EquationParser::validate(network, handle, s, QStringList() << "time"))

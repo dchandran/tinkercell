@@ -526,7 +526,8 @@ namespace Tinkercell
 							handles << handles2;
 						
 							for (int j=0; j < handles2.size(); ++j)
-								handles2[j]->setParent(handles[i]);
+								if (handles2[j])
+									handles2[j]->setParent(handles[i],false);
 						}
 					}
 				}
@@ -776,14 +777,16 @@ namespace Tinkercell
 				emit loadItems(items, filename);
 								
 				NetworkWindow * window = currentNetwork()->currentWindow();
-				if (window && !items.isEmpty())
+				if (window && window->scene && !items.isEmpty())
 				{
 					ItemHandle * h;
 					for (int i=0; i < items.size(); ++i)
 						if (h = getHandle(items[i]))
 							h->setParent(window->handle);
 
-					GraphicsScene * scene = window->newScene();
+					GraphicsScene * scene = window->scene;
+					
+					scene->remove(tr("remove model"),scene->items());
 					scene->insert(tr("new model"),items);
 					
 					QRectF rect;
@@ -898,12 +901,13 @@ namespace Tinkercell
 					{
 						QList<QGraphicsItem*> items, items2;
 						for (int i=0; i < handle->children.size(); ++i)
-						{
-							items2 = handle->children[i]->graphicsItems;
-							
-							if (items2[i] && !items2[i]->scene())
-								items << items2[i];
-						}
+							if (handle->children[i])
+							{
+								items2 = handle->children[i]->graphicsItems;
+								for (int j=0; j < items2.size(); ++j)							
+									if (items2[j] && !items2[j]->scene())
+										items << items2[j];
+							}
 						
 						if (!items.isEmpty())
 							newScene->insert(handle->name + tr(" expanded"),items);

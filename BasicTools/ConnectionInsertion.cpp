@@ -693,7 +693,11 @@ namespace Tinkercell
 								insertList += selectedConnections[j]->centerRegionItem;
 								selectedNodes += selectedConnections[j]->centerRegionItem;
 								if (!handle)
+								{
 									handle = static_cast<ConnectionHandle*>(selectedConnections[j]->handle());
+									if (handle->family() != selectedFamily)
+										scene->network->setHandleFamily(handle,selectedFamily);
+								}
 							}
 						}
 					ConnectionGraphicsItem * item = familyToGraphicsItem(selectedFamily);
@@ -741,6 +745,12 @@ namespace Tinkercell
 						setHandle(item,handle);
 						item->defaultPen.setStyle(Qt::DashLine);
 						item->setPen(item->defaultPen);
+					}
+
+					ArrowHeadItem temparrow;
+					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
+					{
+						item->curveSegments[i].arrowStart = &temparrow;
 					}
 					
 					handle->setFamily(handle->findValidSubfamilies().last());

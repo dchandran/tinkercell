@@ -76,6 +76,8 @@ namespace Tinkercell
 	private:
 		/*! \brief inserted handles*/
 		QList<ItemHandle*> items;
+		/*! \brief parent handles of the items that were inserted*/
+		QList<ItemHandle*> parentHandles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
 		/*! \brief Rename any duplicate names*/
@@ -107,6 +109,8 @@ namespace Tinkercell
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief removed handles*/
 		QList<ItemHandle*> items;
+		/*! \brief parent handles of the items that were removed*/
+		QList<ItemHandle*> parentHandles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
 	};
@@ -182,6 +186,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> parentGraphicsItems;
 		/*! \brief item handles of the items that were inserted*/
 		QList<ItemHandle*> handles;
+		/*! \brief parent handles of the items that were inserted*/
+		QList<ItemHandle*> parentHandles;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
 	};
@@ -219,6 +225,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> itemParents;
 		/*! \brief removed items' handles*/
 		QList<ItemHandle*> itemHandles;
+		/*! \brief parent handles of the items that were inserted*/
+		QList<ItemHandle*> parentHandles;
 		/*! \brief the set of data that are changed as a result of the removal*/
 		QList< ItemHandle* > affectedHandles;
 	};

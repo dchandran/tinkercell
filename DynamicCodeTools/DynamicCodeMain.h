@@ -11,8 +11,8 @@
 #include "MainWindow.h"
 #include "LoadCLibraries.h"
 #include "PythonTool.h"
+#include "OctaveTool.h"
 #include "CodingWindow.h"
-#include "DynamicLibraryMenu.h"
 #include "DynamicLibraryMenu.h"
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);

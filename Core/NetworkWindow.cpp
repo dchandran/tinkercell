@@ -285,7 +285,7 @@ namespace Tinkercell
 			QList<QGraphicsView*> views = scene->views();
 			delete scene;
 			for (int i=0; i < views.size(); ++i)
-				if (views[i] && views[i]->parentWidget() == this)
+				if (views[i])
 					delete views[i];
 			scene = 0;
 		}
@@ -306,9 +306,16 @@ namespace Tinkercell
 		scene->networkWindow = this;
 		scene->network = network;
 		
-		GraphicsView * view = new GraphicsView(this);		
-		centralWidgetLayout->addWidget(view);
+		GraphicsView * view = new GraphicsView(this);
 		
+		if (centralWidgetLayout)
+			delete centralWidgetLayout;
+		centralWidgetLayout = new QHBoxLayout;
+		centralWidgetLayout->setContentsMargins(0,0,0,0);
+		centralWidgetLayout->addWidget(view);
+	
+		if (centralWidget())
+			centralWidget()->setLayout(centralWidgetLayout);
 		connectToMainWindow();
 		
 		return scene;
@@ -337,8 +344,16 @@ namespace Tinkercell
 		editor = new TextEditor(network);
 		editor->networkWindow = this;
 		editor->network = network;
-			
+	
+		if (centralWidgetLayout)
+			delete centralWidgetLayout;
+		centralWidgetLayout = new QHBoxLayout;
+		centralWidgetLayout->setContentsMargins(0,0,0,0);
 		centralWidgetLayout->addWidget(editor);
+	
+		if (centralWidget())
+			centralWidget()->setLayout(centralWidgetLayout);		
+		
 		
 		connectToMainWindow();
 		

@@ -3,10 +3,25 @@
 <ConnectionsTree version="1.0">
 <connection family="Biochemical" typein="Node" numin="1" typeout="Node" numout="1">
 <text>This is a generic class representing any biological reaction with reactant(s) and/or product(s).</text>
-    <connection family="1 to 1" numin="1" numout="1"></connection>
-    <connection family="Degradation" typein="Molecule" numin="1" typeout="Empty" numout="1">
-      <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
-    </connection>  
+    
+    <connection family="1 to 1" numin="1" numout="1">
+
+      <connection family="Degradation" typein="Molecule" numin="1" typeout="Empty" numout="1">
+        <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
+      </connection>
+
+      <connection family="Production" typein="Empty" numin="1" typeout="Molecule" numout="1">
+        <text>This connection represents production or influx of a molecular species.</text>
+        <connection family="Transcription" typein="Empty" numin="1" typeout="mRNA" numout="1">
+          <text>This connection represents a production of mRNA.</text>
+        </connection>
+        <connection family="Translation" typein="Empty" numin="1" typeout="Protein" numout="1">
+          <text>This connection represents production of protein. </text>
+        </connection>      
+      </connection>
+    
+    </connection>
+
     <connection family="2 to 1" numin="2" numout="1"></connection>
     <connection family="3 to 1" numin="3" numout="1"></connection>
     <connection family="1 to 2" numin="1" numout="2"></connection>
@@ -15,37 +30,33 @@
     <connection family="1 to 3" numin="1" numout="3"></connection>
     <connection family="2 to 3" numin="2" numout="3"></connection>
     <connection family="3 to 3" numin="3" numout="3"></connection>
-  <connection family="Regulation" typein="Molecule" numin="1" typeout="Node" numout="1">    
-    <text>This connection represents a molecule regulating another.</text>
-    <connection family="Enzyme Catalysis" typein="Protein" numin="1" typeout="Biochemical" numout="1">
-    </connection> 
-    <connection family="Activation" typein="Molecule" numin="1" typeout="Node" numout="1">
-        <connection family="Transcription Activation" typein="Transcription Factor" numin="1" typeout="Inducible Promoter" numout="1">
-        </connection> 
-    </connection>
-	<connection family="Repression" typein="Molecule" numin="1" typeout="Node" numout="1">
+    
+    <connection family="Regulation" typein="Node" numin="1" typeout="anything" numout="1">    
+      <text>This connection represents a molecule regulating another.</text>
+      
+      <connection family="Enzyme Catalysis" typein="Protein" numin="1" typeout="Biochemical" numout="1">
+      </connection> 
+      
+      <connection family="Activation" typein="Molecule" numin="1" typeout="Node" numout="1">
+          <connection family="Transcription Activation" typein="Transcription Factor" numin="1" typeout="Inducible Promoter" numout="1">
+          </connection> 
+      </connection>
+      
+      <connection family="Repression" typein="Molecule" numin="1" typeout="Node" numout="1">
         <connection family="Transcription Repression" typein="Transcription Factor" numin="1" typeout="Repressible Promoter" numout="1">
         </connection>
+      </connection>
+
+      <connection family="Direct Gene Regulation" typein="Coding" numin="1" typeout="Promoter" numout="1">
+        <text>This connection represents a gene regulating another gene.</text>
+        <connection family="Direct Gene Activation" typein="Coding" numin="1" typeout="Inducible Promoter" numout="1">
+        </connection>
+  	    <connection family="Direct Gene Repression" typein="Coding" numin="1" typeout="Repressible Promoter" numout="1">
+        </connection>
+      </connection>
     </connection>
-  </connection>
-  <connection family="Direct Gene Regulation" typein="Coding" numin="1" typeout="Promoter" numout="1">
-    <text>This connection represents a gene regulating another gene.</text>
-    <connection family="Direct Gene Activation" typein="Coding" numin="1" typeout="Inducible Promoter" numout="1">
-    </connection>
-	<connection family="Direct Gene Repression" typein="Coding" numin="1" typeout="Repressible Promoter" numout="1">
-    </connection>
-  </connection>
   <connection family="PoPS" typein="Part" numin="1" typeout="Part" numout="1">
     <text>This connection represents the movement of RNA polymerase along a strand of DNA.</text>
-  </connection>
-  <connection family="Production" typein="Empty" numin="1" typeout="Molecule" numout="1">
-    <text>This connection represents production or influx of a molecular species.</text>
-    <connection family="Transcription" typein="Empty" numin="1" typeout="mRNA" numout="1">
-      <text>This connection represents a production of mRNA.</text>
-    </connection>
-    <connection family="Translation" typein="Empty" numin="1" typeout="Protein" numout="1">
-      <text>This connection represents production of protein. </text>
-    </connection>
-  </connection>
+  </connection>  
 </connection>
 </ConnectionsTree>

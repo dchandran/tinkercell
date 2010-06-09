@@ -292,10 +292,16 @@ namespace Tinkercell
 			bool isNum;
 			
 			QList<ItemHandle*>& list = textEditor->items();
+			
+			while (parentHandles.size() < items.size()) parentHandles += 0;
+			
 			for (int i=0; i < items.size(); ++i)
 			{
 				if (items[i] && !list.contains(items[i]))
 				{
+					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
+						items[i]->setParent(parentHandles[i],false);					
+
 					items[i]->network = textEditor->network;
 					list << items[i];
 					if (!renameCommand && !nameChangeHandles.contains(items[i]))
@@ -347,6 +353,15 @@ namespace Tinkercell
 					items[i]->network = 0;
 					list.removeAll(items[i]);
 				}
+			
+			while (parentHandles.size() < items.size()) parentHandles += 0;
+			
+			for (int i=0; i < items.size(); ++i)
+			{
+				parentHandles[i] = items[i]->parent;
+				items[i]->setParent(0,false);
+			}
+			
 			if (renameCommand)
 				renameCommand->undo();
 		}
@@ -382,10 +397,12 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && !list.contains(items[i]))
 				{
+					if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
+					{
+						items[i]->setParent(parentHandles[i],false);
+					}
 					items[i]->network = textEditor->network;
 					list << items[i];
-					//if (handles.size() > i)
-						//items[i]->setHandle(handles[i]);
 				}
 		}
 	}
@@ -395,9 +412,15 @@ namespace Tinkercell
 		if (textEditor)
 		{
 			QList<ItemHandle*>& list = textEditor->items();
+			
+			while (parentHandles.size() < items.size()) parentHandles += 0;
+			
 			for (int i=0; i < items.size(); ++i)
 				if (items[i] && list.contains(items[i]))
 				{
+					parentHandles[i] = items[i]->parent;
+					items[i]->setParent(0,false);
+
 					items[i]->network = 0;
 					list.removeAll(items[i]);
 				}
@@ -409,6 +432,8 @@ namespace Tinkercell
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
+		
+		item = getGraphicsItem(item);
 		graphicsItems.append(item);
 		handles.clear();
 		handles += getHandle(item);
@@ -419,17 +444,15 @@ namespace Tinkercell
 		: QUndoCommand(name)
 	{
 		graphicsScene = scene;
-		graphicsItems = items;
 		handles.clear();
+		QGraphicsItem * item;
 		for (int i=0; i < items.size(); ++i)
-		{
-			if (items[i])
-				parentGraphicsItems += items[i]->parentItem();
-			else
-				parentGraphicsItems += 0;
-
-			handles += getHandle(items[i]);
-		}
+			if (item = getGraphicsItem(items[i]))
+			{
+				graphicsItems += item;
+				parentGraphicsItems += item->parentItem();	
+				handles += getHandle(item);
+			}
 		renameCommand = 0;
 	}
 
@@ -468,6 +491,9 @@ namespace Tinkercell
 						setHandle(graphicsItems[i],handles[i]);
 						if (handles[i] && !renameCommand && !nameChangeHandles.contains(handles[i]))
 						{
+							if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(parentHandles[i]))
+								handles[i]->setParent(parentHandles[i],false);
+							
 							handles[i]->network = graphicsScene->network;
 							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
@@ -559,6 +585,15 @@ namespace Tinkercell
 					}
 				}
 			}
+			
+			while (parentHandles.size() < handles.size()) parentHandles += 0;
+			
+			for (int i=0; i < handles.size(); ++i)
+			{
+				parentHandles[i] = handles[i]->parent;
+				handles[i]->setParent(0,false);
+			}
+			
 			if (renameCommand)
 				renameCommand->undo();
 		}
@@ -623,7 +658,7 @@ namespace Tinkercell
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
-		graphicsItems.append(item);
+		graphicsItems.append( getGraphicsItem(item) );
 
 		itemHandles.append(getHandle(item));
 		if (item)
@@ -638,15 +673,15 @@ namespace Tinkercell
 		graphicsScene = scene;
 		graphicsItems.clear();
 		itemParents.clear();
+		
+		QGraphicsItem * item;
+		
 		for (int i=0; i < items.size(); ++i)
-			if (items[i] != 0)
+			if ( (item = getGraphicsItem(items[i]) ) )
 			{
-				graphicsItems.append(items[i]);
-				itemHandles.append(getHandle(items[i]));
-				if (items[i])
-					itemParents.append(items[i]->parentItem());
-				else
-					itemParents.append(0);
+				graphicsItems.append(item);
+				itemHandles.append(getHandle(item));
+				itemParents.append(item->parentItem());
 			}
 	}
 
@@ -698,6 +733,14 @@ namespace Tinkercell
 				}
 			}
 
+		}
+		
+		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
+			
+		for (int i=0; i < itemHandles.size(); ++i)
+		{
+			parentHandles[i] = itemHandles[i]->parent;
+			itemHandles[i]->setParent(0,false);
 		}
 
 		bool firstTime = (changeDataCommand == 0);
@@ -903,6 +946,9 @@ namespace Tinkercell
 
 			if (itemHandles.size() > i && itemHandles[i])
 			{
+				if (parentHandles.size() > i && !MainWindow::invalidPointers.contains(itemHandles[i]))
+					itemHandles[i]->setParent(parentHandles[i],false);
+				
 				itemHandles[i]->network = graphicsScene->network;
 				setHandle(graphicsItems[i],itemHandles[i]);
 

@@ -734,14 +734,6 @@ namespace Tinkercell
 			}
 
 		}
-		
-		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
-			
-		for (int i=0; i < itemHandles.size(); ++i)
-		{
-			parentHandles[i] = itemHandles[i]->parent;
-			itemHandles[i]->setParent(0,false);
-		}
 
 		bool firstTime = (changeDataCommand == 0);
 
@@ -915,6 +907,14 @@ namespace Tinkercell
 		{
 			if (changeDataCommand)
 				changeDataCommand->undo();
+		}
+		
+		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
+			
+		for (int i=0; i < itemHandles.size(); ++i)
+		{
+			parentHandles[i] = itemHandles[i]->parent;
+			itemHandles[i]->setParent(0,false);
 		}
 	}
 

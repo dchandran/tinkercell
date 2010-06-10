@@ -47,7 +47,7 @@ namespace Tinkercell
 	
 	QBrush GraphicsScene::ToolTipBackgroundBrush = QBrush(QColor(36,28,28,125));
 	
-	QPen GraphicsScene::ToolTipTextPen = QPen(QColor(255,255,255,255));
+	QBrush GraphicsScene::ToolTipTextBrush = QBrush(QColor(255,255,255,255));
 
 	qreal GraphicsScene::MIN_DRAG_DISTANCE = 2.0;
 
@@ -438,8 +438,8 @@ namespace Tinkercell
 		QPointF point1 = mouseEvent->scenePos(), point0 = mouseEvent->lastScenePos();
 		QPointF change = QPointF(point1.x()-point0.x(),point1.y()-point0.y());
 		
-		if (!toolTips.isEmpty() && ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE/2.0))
-			hideToolTips();
+		//if (!toolTips.isEmpty() && ((change.x()*change.x() + change.y()*change.y()) > MIN_DRAG_DISTANCE*20.0))
+			//hideToolTips();
 
 		if (useDefaultBehavior)
 		{
@@ -2235,23 +2235,25 @@ namespace Tinkercell
 	void GraphicsScene::showToolTip(QPointF p, const QString & text)
 	{
 		QGraphicsSimpleTextItem * textItem = new QGraphicsSimpleTextItem(text);
-		textItem->setBrush(Qt::NoBrush);
-		textItem->setPen(ToolTipTextPen);
+		textItem->setPen(Qt::NoPen);
+		textItem->setBrush(ToolTipTextBrush);
 		
 		QRectF viewport = this->viewport();
-		qreal scale = 0.5 * (viewport.width() + viewport.height());		
+		qreal scale = 0.001 * (viewport.width() + viewport.height());		
 		textItem->scale(scale,scale);
+		QGraphicsScene::addItem(textItem);
 		textItem->setPos(p);
 		
-		QGraphicsRectItem * rectItem = new QGraphicsRectItem(textItem->boundingRect().adjusted(-5,-5,10,10));
+		QGraphicsRectItem * rectItem = new QGraphicsRectItem;
 		rectItem->setPen(Qt::NoPen);
-		rectItem->setBrush(ToolTipBackgroundBrush);
-		
+		rectItem->setBrush(ToolTipBackgroundBrush);		
 		QGraphicsScene::addItem(rectItem);
-		QGraphicsScene::addItem(textItem);
+		rectItem->setRect(textItem->sceneBoundingRect().adjusted(-5,-5,10,10));
 		
 		rectItem->setZValue(lastZ + 1.0);
 		textItem->setZValue(lastZ + 2.0);
+		
+		toolTips << rectItem << textItem;
 	}
 
 	void GraphicsScene::hideToolTips()

@@ -295,7 +295,7 @@ namespace Tinkercell
 		if (cthreads.contains(thread))
 			thread->emitSignal(progress);
 	}
-	
+
 	QLibrary * CThread::loadLibrary(const QString& libname, QObject * parent)
 	{
 		QString  home = MainWindow::homeDir(),
@@ -312,7 +312,7 @@ namespace Tinkercell
 			};
 
 		QLibrary * lib = new QLibrary(parent);
-		
+
 		bool loaded = false;
 		for (int i=0; i < 5; ++i) //try different possibilities
 		{
@@ -324,15 +324,12 @@ namespace Tinkercell
 
 		if (!loaded)
 		{
-			MainWindow::instance()->console()->message(libname + QObject::tr(" not loaded"));
 			if (!lib->parent())
 			{
 				delete lib;
 				lib = 0;
 			}
 		}
-		else
-			MainWindow::instance()->console()->message(libname + QObject::tr(" loaded"));
 		
 		return lib;
 	}

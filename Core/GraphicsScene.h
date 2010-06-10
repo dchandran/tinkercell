@@ -87,7 +87,7 @@ namespace Tinkercell
 		/*! \brief brush used to draw the background of tool tips*/
 		static QBrush ToolTipBackgroundBrush;
 		/*! \brief brush used to draw the text for tool tips*/
-		static QPen ToolTipTextPen;
+		static QBrush ToolTipTextBrush;
 		/*! \brief the minimum distance that gets classified as a "drag". Anything less will be considered just a click.*/
 		static qreal MIN_DRAG_DISTANCE;
 

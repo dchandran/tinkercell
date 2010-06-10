@@ -177,13 +177,13 @@ namespace Tinkercell
 			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
 			
 			ConsoleWindow * outWin = console();
-			if (outWin)
+			/*if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runOctaveCode(const QString&)));
 				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopOctave()));					
 				connect(this,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
 				connect(this,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
-			}
+			}*/
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -246,11 +246,6 @@ namespace Tinkercell
                     {
                         opened = opened || loadFromDir(libMenu,dir);
                     }
-                }
-                if (!opened)
-                {
-                    if (console())
-						console()->message(tr("No octave plugins found (located in the /octave folder)"));
                 }
             }
         }

@@ -434,48 +434,66 @@ namespace Tinkercell
 
 		FixMultipleConnections(connection,nodes,inputs);
 
-		ItemHandle * h;
+		ItemHandle * h1, *h2;
 
 		if (connection->lineType == ConnectionGraphicsItem::line
 			&& nodes.size() > 1 
 			&& nodes[0] 
 			&& nodes[1]
-			&& (h = getHandle(nodes[1])) 
-			&& (h->isA(tr("Part"))))
+			&& (h1 = getHandle(nodes[0]))
+			&& (h2 = getHandle(nodes[1])) 
+			&& (h2->isA(tr("Part"))))
 		{
 			ConnectionGraphicsItem::ControlPoint * cp;
-			
-					qreal x1 = nodes[1]->sceneBoundingRect().left() + 20.0,
-						  x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
-					
-					if ( (scene->lastPoint().x() - x1)*(scene->lastPoint().x() - x1) <
-						  (scene->lastPoint().x() - x2)*(scene->lastPoint().x() - x2) )
-						cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x1,nodes[0]->scenePos().y()),connection);
-					else
-						cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x2,nodes[0]->scenePos().y()),connection);
+			qreal x1,x2,y;
 
-					if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
-					{
-						cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
-					}
-					AddControlPointCommand command(tr(""),scene,cp);
-					command.redo();
-					connection->setPen(connection->defaultPen);					
+			if (h1->isA("Part"))
+			{
+				y = nodes[0]->sceneBoundingRect().top() - nodes[0]->sceneBoundingRect().height();
+
+				cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[0]->scenePos().x(),y),connection);
+
+				AddControlPointCommand command1(tr(""),scene,cp);
+				command1.redo();
+			}
+			else
+			{
+				y = nodes[0]->scenePos().y();
+			}
+
+			x1 = nodes[1]->sceneBoundingRect().left() + 20.0;
+			x2 = nodes[1]->sceneBoundingRect().right() - 20.0;
+
+			if ( (scene->lastPoint().x() - x1)*(scene->lastPoint().x() - x1) <
+				  (scene->lastPoint().x() - x2)*(scene->lastPoint().x() - x2) )
+				cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x1,y),connection);
+			else
+				cp = new ConnectionGraphicsItem::ControlPoint(QPointF(x2,y),connection);
+
+			if (nodes[0]->sceneBoundingRect().contains(cp->pos()))
+			{
+				cp->setPos( cp->pos() + QPointF( 0.0, 1.5 * nodes[0]->sceneBoundingRect().height() ) );
+			}
+		
+			AddControlPointCommand command1(tr(""),scene,cp);
+			command1.redo();
+			connection->setPen(connection->defaultPen);
 		}
 		
-		for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
-			if (nodes[i])
-			{
-				QList<ConnectionGraphicsItem*> otherConnections = nodes[i]->connections();
-				for (int j=0; j < otherConnections.size(); ++j)
-					if (otherConnections[j] && otherConnections[j]->lineType == ConnectionGraphicsItem::line)
-					{
-						connection->lineType = ConnectionGraphicsItem::line;
-						break;
-					}
+		if (connection->lineType != ConnectionGraphicsItem::line)
+			for (int i=0; i < nodes.size(); ++i) //line type = line if any other connection is a line
+				if (nodes[i])
+				{
+					QList<ConnectionGraphicsItem*> otherConnections = nodes[i]->connections();
+					for (int j=0; j < otherConnections.size(); ++j)
+						if (otherConnections[j] && otherConnections[j]->lineType == ConnectionGraphicsItem::line)
+						{
+							connection->lineType = ConnectionGraphicsItem::line;
+							break;
+						}
 					if (connection->lineType == ConnectionGraphicsItem::line)
 						break;
-			}
+				}
 	}
 
 	void ConnectionMaker::FixMultipleConnections(ConnectionGraphicsItem * connection, const QList<NodeGraphicsItem*>& nodes, int inputs)

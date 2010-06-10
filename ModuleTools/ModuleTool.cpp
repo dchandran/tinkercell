@@ -580,19 +580,32 @@ namespace Tinkercell
 
     void ModuleTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
 	{
+		GraphicsScene * scene = network->currentScene();
+		if (scene)
+		{
+			ConnectionGraphicsItem * c;
+			for (int i=0; i < handles.size(); ++i)
+	    		if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty())
+	    		{
+	    			for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
+	    				if (c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))
+			    			scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
+	    		}
+	    }
+
     	NetworkWindow * window = network->currentWindow();    	
     	if (!window || !window->handle) return;
 
     	QStringList oldNames, newNames;
     	for (int i=0; i < handles.size(); ++i)
 	    	if (handles[i] && !handles[i]->parent)
-    		{
-    			oldNames << handles[i]->fullName();
-    			handles[i]->setParent(window->handle,false);
-    			newNames << handles[i]->fullName();
-    			if (!handles[i]->tools.contains(this))
-	    			handles[i]->tools += this;
-    		}
+			{
+				oldNames << handles[i]->fullName();
+				handles[i]->setParent(window->handle,false);
+				newNames << handles[i]->fullName();
+				if (!handles[i]->tools.contains(this))
+					handles[i]->tools += this;
+			}
     	RenameCommand rename(tr(""),network,oldNames,newNames);
     	rename.redo();
     }

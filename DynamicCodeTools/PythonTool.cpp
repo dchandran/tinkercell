@@ -182,13 +182,13 @@ namespace Tinkercell
 			connect(pythonInterpreter,SIGNAL(terminated()),this,SIGNAL(pythonFinished()));
 			
 			ConsoleWindow * outWin = console();
-			/*if (outWin)
+			if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runPythonCode(const QString&)));
 				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopPython()));					
 				connect(this,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
 				connect(this,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
-			}*/
+			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -252,11 +252,12 @@ namespace Tinkercell
                         opened = opened || loadFromDir(libMenu,dir);
                     }
                 }
+                /*
                 if (!opened)
                 {
                     if (console())
 						console()->message(tr("No python plugins found (located in the /python folder)"));
-                }
+                }*/
             }
         }
 

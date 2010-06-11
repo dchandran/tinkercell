@@ -95,7 +95,7 @@ namespace Tinkercell
 		QGraphicsLineItem lineItem;
 		QDockWidget * makeDockWidget(const QString&);
 
-		QList<QGraphicsItem*> createLinks(NodeGraphicsItem*);
+		QGraphicsItem* createLink(NodeGraphicsItem* module, ItemHandle * handle);
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
 

@@ -162,6 +162,9 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),
                     this,SLOT(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
+            
+            connect(mainWindow,SIGNAL(keyPressed(GraphicsScene*,QKeyEvent *)),
+				this ,SLOT(keyPressed(GraphicsScene*,QKeyEvent *)));
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
                     this,SLOT(mouseMoved(GraphicsScene* , QGraphicsItem*, QPointF , Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
@@ -331,7 +334,7 @@ namespace Tinkercell
 
     void ModuleTool::escapeSignal(const QWidget* )
     {
-		if (mode == inserting && currentScene())
+		if (mode != inserting && currentScene())
 			currentScene()->useDefaultBehavior = true;
 		mode = none;
 		for (int i=0; i < selectedItems.size(); ++i)
@@ -401,6 +404,14 @@ namespace Tinkercell
 
 		if (mode == linking)
 		{
+			ItemHandle * h;
+			if (nodeItems.size() == 1 && (h = getHandle(nodeItems[0])))
+			{
+				NodeGraphicsItem * interface = new NodeGraphicsItem(interfaceFileName);
+				interface->setPos(QPointF(nodeItems[0]->sceneBoundingRect().left() - interface->boundingRect().width(),nodeItems[0]->scenePos().y()));
+				interface->setHandle(h);
+				scene->insert(h->name + tr(" interface inserted"),interface);
+			}
 			return;
 		}
 
@@ -412,7 +423,7 @@ namespace Tinkercell
 			if (selectedItems.size() == 2)
 			{
 				ItemHandle * handle1 = selectedItems[0]->handle(),
-								* handle2 = selectedItems[1]->handle();
+						   * handle2 = selectedItems[1]->handle();
 
 				if (!handle1 || !handle2 || !handle1->family() || !handle2->family())
 				{
@@ -874,8 +885,20 @@ namespace Tinkercell
 		
 		return dock;
 	}
+	
+	void ModuleTool::keyPressed(GraphicsScene* scene,QKeyEvent * keyEvent)
+	{
+		if (!keyEvent || keyEvent->modifiers() || !scene || !scene->useDefaultBehavior) return;
 
-	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers modifier)
+		QList<QGraphicsItem*> & selected = scene->selected();
+		
+		if (selected.size() == 1 && keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
+		{
+			mouseDoubleClicked(scene,QPointF(),selected[0],Qt::LeftButton,(Qt::KeyboardModifiers)0);
+		}
+	}
+
+	void ModuleTool::mouseDoubleClicked (GraphicsScene * scene, QPointF , QGraphicsItem * item, Qt::MouseButton, Qt::KeyboardModifiers)
     {
 		if (!scene || !scene->network || !item || !mainWindow) return;
 		

@@ -357,10 +357,11 @@ namespace Tinkercell
 			while (parentHandles.size() < items.size()) parentHandles += 0;
 			
 			for (int i=0; i < items.size(); ++i)
-			{
-				parentHandles[i] = items[i]->parent;
-				items[i]->setParent(0,false);
-			}
+				if (items[i])
+				{
+					parentHandles[i] = items[i]->parent;
+					items[i]->setParent(0,false);
+				}
 			
 			if (renameCommand)
 				renameCommand->undo();
@@ -589,10 +590,11 @@ namespace Tinkercell
 			while (parentHandles.size() < handles.size()) parentHandles += 0;
 			
 			for (int i=0; i < handles.size(); ++i)
-			{
-				parentHandles[i] = handles[i]->parent;
-				handles[i]->setParent(0,false);
-			}
+				if (handles[i])
+				{
+					parentHandles[i] = handles[i]->parent;
+					handles[i]->setParent(0,false);
+				}
 			
 			if (renameCommand)
 				renameCommand->undo();
@@ -912,10 +914,11 @@ namespace Tinkercell
 		while (parentHandles.size() < itemHandles.size()) parentHandles += 0;
 			
 		for (int i=0; i < itemHandles.size(); ++i)
-		{
-			parentHandles[i] = itemHandles[i]->parent;
-			itemHandles[i]->setParent(0,false);
-		}
+			if (itemHandles[i])
+			{
+				parentHandles[i] = itemHandles[i]->parent;
+				itemHandles[i]->setParent(0,false);
+			}
 	}
 
 	void RemoveGraphicsCommand::undo()

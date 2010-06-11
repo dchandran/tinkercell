@@ -76,6 +76,8 @@ namespace Tinkercell
 		QString name;
 		/*! Constructor: does nothing */
 		NodeGraphicsItem(QGraphicsItem * parent = 0 );
+		/*! Construct from file using NodeGraphicsReader */
+		NodeGraphicsItem(const QString& filename, QGraphicsItem * parent=0);
 		/*! Copy Constructor */
 		NodeGraphicsItem(const NodeGraphicsItem& copy);
 		/*! basically does the same as copy constructor */

@@ -73,6 +73,8 @@ namespace Tinkercell
 		qreal angle;
 		/*! \brief constructor -- initializes the angle and connection item*/
 		ArrowHeadItem(ConnectionGraphicsItem * c = 0);
+		/*! \brief construct from file */
+		ArrowHeadItem(const QString&, ConnectionGraphicsItem * c = 0);
 		/*! \brief copy constructor */
 		ArrowHeadItem(const ArrowHeadItem&);
 		/*! \brief paint this arrow item. performs rotation using the angle member.
@@ -225,6 +227,9 @@ namespace Tinkercell
 		/*! \brief hide control points. same as setControlPointsVisible(false)
 		* \return void*/
 		void hideControlPoints();
+		/*! \brief check is this connection represents a modifier, i.e. points to the centerRegion of another connection
+		* \return boolean*/
+		virtual bool isModifier() const;
 		/*! \brief get all nodes that are connected
 		* \return node item list*/
 		virtual QList<NodeGraphicsItem*> nodes() const;

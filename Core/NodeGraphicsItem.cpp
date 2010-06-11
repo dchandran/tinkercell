@@ -24,6 +24,7 @@ to draw movable points.
 #include "NodeGraphicsItem.h"
 #include "ItemHandle.h"
 #include "UndoCommands.h"
+#include "NodeGraphicsReader.h"
 
 namespace Tinkercell
 {
@@ -102,6 +103,46 @@ namespace Tinkercell
 		boundingBoxItem->setRect(boundingRect());
 		
 		setBoundingBoxVisible(false);
+	}
+	
+	NodeGraphicsItem::NodeGraphicsItem(const QString & filename,QGraphicsItem * parent) : 
+		QGraphicsItemGroup (parent), itemHandle(0), boundingBoxItem(0)
+	{
+		setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+		setFlag(QGraphicsItem::ItemIsMovable, false);
+		setFlag(QGraphicsItem::ItemIsSelectable, false);
+
+		className = NodeGraphicsItem::CLASSNAME;
+		ControlPoint * topleft = new ControlPoint(this);
+		topleft->setPos( boundingRect().topLeft() );
+		topleft->setVisible(false);
+		topleft->scale(0.75,0.75);
+		topleft->setPen(topleft->defaultPen = QPen(QColor(255,100,100),2.0));
+		topleft->setBrush(topleft->defaultBrush = QBrush(QColor(255,255,255,255)));
+
+		ControlPoint * bottomright = new ControlPoint(this);
+		bottomright->setPos( boundingRect().bottomRight() );
+		bottomright->setVisible(false);
+		bottomright->scale(0.75,0.75);
+		bottomright->setPen(bottomright->defaultPen = QPen(QColor(255,100,100),2.0));
+		bottomright->setBrush(bottomright->defaultBrush = QBrush(QColor(255,255,255,255)));
+
+		bottomright->shapeType = topleft->shapeType = ControlPoint::square;
+		boundaryControlPoints << topleft << bottomright;
+
+		boundingBoxItem = new QGraphicsRectItem(this);
+		boundingBoxItem->setPen(QPen(QColor(255,100,100),getPenWidthForBoundingRect(),Qt::DashLine));
+		boundingBoxItem->setBrush(Qt::NoBrush);
+		boundingBoxItem->setVisible(false);
+		boundingBoxItem->setPos(0,0);
+		boundingBoxItem->setRect(boundingRect());
+		
+		setBoundingBoxVisible(false);
+		
+		NodeGraphicsReader reader;
+        reader.readXml(this, filename);
+        normalize();
+        scale(defaultSize.width()/boundingRect().width(),defaultSize.height()/boundingRect().height());
 	}
 
 	/*! reset of control points that control the bounding box of this figure */

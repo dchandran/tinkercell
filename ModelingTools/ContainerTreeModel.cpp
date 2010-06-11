@@ -396,14 +396,13 @@ namespace Tinkercell
 		
 			if (role == Qt::ToolTipRole)
 			{
+				if (!item->attributeName.isEmpty())
+					return QVariant(tr("Parameter"));
+				
 				if (ConnectionHandle::cast(handle))
-				{
 					return QVariant(tr("Reaction rate equation"));
-				}
-				else
-				{
-					return QVariant(handle->family()->measurementUnit.property);
-				}
+				
+				return QVariant(handle->family()->measurementUnit.property);
 			}
 		}
 				

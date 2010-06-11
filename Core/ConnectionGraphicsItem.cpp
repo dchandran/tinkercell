@@ -107,6 +107,14 @@ namespace Tinkercell
 		connectionItem = connection;
 		angle = 0.0;
 	}
+	
+	/*! Constructor: init everything */
+	ArrowHeadItem::ArrowHeadItem(const QString& filename, ConnectionGraphicsItem* connection) : NodeGraphicsItem(filename)
+	{
+		className = ArrowHeadItem::CLASSNAME;
+		connectionItem = connection;
+		angle = 0.0;
+	}
 
 	/*! Constructor: init everything */
 	ArrowHeadItem::ArrowHeadItem(const ArrowHeadItem& copy) : NodeGraphicsItem(copy)
@@ -1753,6 +1761,35 @@ namespace Tinkercell
 
 		return idptr2;
 	}
+	
+	bool ConnectionGraphicsItem::isModifier() const
+	{
+		NodeGraphicsItem* node;
+		ArrowHeadItem * arrow;
+		
+		for (int i=0; i < curveSegments.size(); ++i)
+			if (curveSegments[i].size() > 0 && curveSegments[i][0])
+			{
+				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
+				if (node && node->isVisible() && node->className == ArrowHeadItem::CLASSNAME)
+				{
+					arrow = static_cast<ArrowHeadItem*>(node);
+					if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
+						return true;
+				}
+				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
+				{
+					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
+					if (node && node->isVisible() && node->className == ArrowHeadItem::CLASSNAME)
+					{
+						arrow = static_cast<ArrowHeadItem*>(node);
+						if (arrow->connectionItem && arrow->connectionItem->centerRegionItem == arrow)
+							return true;
+					}
+				}
+			}
+		return false;
+	}
 
 	/*! \brief find all the nodes that are connected
 	* \return node item list or 0*/
@@ -1767,7 +1804,7 @@ namespace Tinkercell
 				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
 				if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (curveSegments[i].size() > 1)
+				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
 				{
 					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
 					if (node && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
@@ -1775,7 +1812,7 @@ namespace Tinkercell
 				}
 			}
 
-			return nodes;
+		return nodes;
 	}
 
 
@@ -1792,7 +1829,7 @@ namespace Tinkercell
 				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
 				if (node && curveSegments[i].arrowStart && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (curveSegments[i].size() > 1)
+				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
 				{
 					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
 					if (node && curveSegments[i].arrowEnd && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
@@ -1816,7 +1853,7 @@ namespace Tinkercell
 				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
 				if (node && !curveSegments[i].arrowStart && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)
 					nodes += node;
-				if (curveSegments[i].size() > 1)
+				if (curveSegments[i].size() > 1 && curveSegments[i][curveSegments[i].size()-1])
 				{
 					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
 					if (node && !curveSegments[i].arrowEnd && node->isVisible() && node != curveSegments[i].arrowStart && node != curveSegments[i].arrowEnd)

@@ -613,7 +613,7 @@ namespace Tinkercell
 			NodeGraphicsItem * node = 0;
 			for (int i=0; i < graphicsItems.size(); ++i)
 			{
-				node = NodeGraphicsItem::topLevelNodeItem(graphicsItems[i]);
+				node = NodeGraphicsItem::cast(graphicsItems[i]);
 				if (node)
 				{
 					connections = node->connections();
@@ -713,11 +713,13 @@ namespace Tinkercell
 
 		if (graphicsItems.size() > 0)
 		{
+			if (role == -1 ) return nodesIn();
+			if (role == 1 ) return nodesOut();
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
 				ConnectionGraphicsItem * connection;
 				QList<NodeGraphicsItem*> nodes;
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(graphicsItems[j]);
+				connection = ConnectionGraphicsItem::cast(graphicsItems[j]);
 				if (connection)
 				{
 					nodes = connection->nodes();
@@ -748,8 +750,8 @@ namespace Tinkercell
 			QList<NodeGraphicsItem*> nodesDisconnected, nodesIn, nodesOut;
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(graphicsItems[j]);
-				if (connection)
+				connection = ConnectionGraphicsItem::cast(graphicsItems[j]);
+				if (connection && !connection->isModifier())
 				{
 					nodesIn = connection->nodesWithoutArrows();
 					nodesOut = connection->nodesWithArrows();
@@ -793,8 +795,8 @@ namespace Tinkercell
 			ConnectionGraphicsItem * connection;
 			for (int j=0; j < graphicsItems.size(); ++j)
 			{
-				connection = ConnectionGraphicsItem::topLevelConnectionItem(graphicsItems[j]);
-				if (connection)
+				connection = ConnectionGraphicsItem::cast(graphicsItems[j]);
+				if (connection && !connection->isModifier())
 				{
 					nodesIn = connection->nodesWithoutArrows();
 					nodesOut = connection->nodesWithArrows();
@@ -848,16 +850,72 @@ namespace Tinkercell
 		
 		QString typein = family->textAttributes["typein"],
 				typeout = family->textAttributes["typeout"];
-
-		QList<NodeHandle*> in = nodesIn(), out = nodesOut();
 		
-		for (int i=0; i < in.size(); ++i)
-			if (!in[i] || !in[i]->isA(typein))
-				return false;
-
-		for (int i=0; i < out.size(); ++i)
-			if (!out[i] || !out[i]->isA(typeout))
-				return false;
+		QList<NodeHandle*> in, out, other;
+		ConnectionGraphicsItem * connection;
+		NodeHandle * h;
+		
+		QList<NodeGraphicsItem*> nodesIn, nodesOut, nodesDisconnected;
+		
+		if (!graphicsItems.isEmpty())
+		{
+			for (int i=0; i < graphicsItems.size(); ++i)
+				if (connection = ConnectionGraphicsItem::cast(graphicsItems[i]))
+				{
+					if (connection->isModifier())
+					{
+						nodesIn.clear();
+						nodesOut.clear();
+						nodesDisconnected = connection->nodes();
+					}
+					else
+					{
+						nodesIn = connection->nodesWithoutArrows();
+						nodesOut = connection->nodesWithArrows();
+						nodesDisconnected = connection->nodesDisconnected();
+					}
+					for (int j=0; j < nodesIn.size(); ++j)				
+						if (nodesIn[j] && (h = NodeHandle::cast(nodesIn[j]->handle())) && !in.contains(h))
+							in << h;
+					for (int j=0; j < nodesOut.size(); ++j)				
+						if (nodesOut[j] && (h = NodeHandle::cast(nodesOut[j]->handle())) && !out.contains(h))
+							out << h;
+					for (int j=0; j < nodesDisconnected.size(); ++j)				
+						if (nodesDisconnected[j] && (h = NodeHandle::cast(nodesDisconnected[j]->handle())) && !other.contains(h))
+							other << h;
+				}
+		}
+		else
+		{
+			in = nodes(-1);
+			out = nodes(1);
+			other = nodes(2);
+		}
+		
+		if (other.isEmpty())
+		{
+			for (int i=0; i < in.size(); ++i)
+				if (!in[i] || !in[i]->isA(typein))
+					return false;
+			
+			for (int i=0; i < out.size(); ++i)
+				if (!out[i] || !out[i]->isA(typeout))
+					return false;
+		}
+		else
+		{
+			for (int i=0; i < other.size(); ++i)
+				if (!other[i] || !other[i]->isA(typein))
+					return false;
+			
+			for (int i=0; i < in.size(); ++i)
+				if (in[i] && in[i]->isA(typeout))
+					return false;
+			
+			for (int i=0; i < out.size(); ++i)
+				if (out[i] && out[i]->isA(typeout))
+					return false;
+		}
 
 		return true;
 	}

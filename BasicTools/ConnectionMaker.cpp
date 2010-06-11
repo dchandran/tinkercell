@@ -68,7 +68,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < inserts.size(); ++i)
 			{
-				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(inserts.at(i));
+				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(inserts.at(i));
 				if (connection)
 				{
 					items << connection;
@@ -95,7 +95,7 @@ namespace Tinkercell
 
 		for (int i=0; i < items.size(); ++i)
 		{
-			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(items.at(i));
+			ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(items.at(i));
 			if (connection)
 			{
 				int inputs = 0, outputs = 0;
@@ -449,7 +449,10 @@ namespace Tinkercell
 
 			if (h1->isA("Part"))
 			{
-				y = nodes[0]->sceneBoundingRect().top() - nodes[0]->sceneBoundingRect().height();
+				if (nodes[0]->sceneBoundingRect().top() < nodes[1]->sceneBoundingRect().top())
+					y = nodes[0]->sceneBoundingRect().top() - 2*nodes[0]->sceneBoundingRect().height();
+				else
+					y = nodes[1]->sceneBoundingRect().top() - 2*nodes[1]->sceneBoundingRect().height();
 
 				cp = new ConnectionGraphicsItem::ControlPoint(QPointF(nodes[0]->scenePos().x(),y),connection);
 

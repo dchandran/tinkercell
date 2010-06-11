@@ -33,9 +33,9 @@ namespace Tinkercell
 		connectTCFunctions();
 
 		addAction(QIcon(":/images/blueDot.png"),tr("Add control point"),tr("Insert new control point"));
-		addAction(QIcon(),tr("Use Bezier lines"),tr("Use Bezier curves to draw the selected connectors"));
 		addAction(QIcon(),tr("Use straight lines"),tr("Use straight lines to draw the selected connectors"));
-		addAction(QIcon(":/images/blueRect.png"),tr("Show middle region"),tr("Show information box for connector(s)"));
+		addAction(QIcon(),tr("Use Bezier lines"),tr("Use Bezier curves to draw the selected connectors"));
+		addAction(QIcon(),tr("Show middle region"),tr("Show information box for connector(s)"));
 		addAction(QIcon(),tr("Hide middle region"),tr("Hide information box for connector(s)"));
 	}
 	

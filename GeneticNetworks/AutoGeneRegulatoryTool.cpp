@@ -372,7 +372,7 @@ namespace Tinkercell
 
 						qreal w = proteinItem->sceneBoundingRect().width();
 
-						proteinItem->setPos(xpos, ypos - 2*proteinItem->sceneBoundingRect().height());
+						proteinItem->setPos(xpos, ypos - 4.0*proteinItem->sceneBoundingRect().height());
 
 						proteinItem->setBoundingBoxVisible(false);
 
@@ -395,7 +395,7 @@ namespace Tinkercell
 				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
 				usedNames << emptyNode->name;
 
-				xpos = (proteinItem->sceneBoundingRect().right() + 100.0);
+				xpos = (proteinItem->sceneBoundingRect().right() + 4.0*proteinItem->sceneBoundingRect().width());
 				ypos = (proteinItem->scenePos().y());
 				height = 0.0;
 
@@ -474,7 +474,7 @@ namespace Tinkercell
 				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
 				usedNames << emptyNode->name;
 
-				xpos = (proteinItem->sceneBoundingRect().left() - 100.0);
+				xpos = (proteinItem->sceneBoundingRect().left() - 4.0*proteinItem->sceneBoundingRect().width());
 				ypos = (proteinItem->scenePos().y());
 				height = 0.0;
 
@@ -523,15 +523,7 @@ namespace Tinkercell
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-					NodeGraphicsReader imageReader;
-					arrow = new ArrowHeadItem(item);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
+					arrow = new ArrowHeadItem(nodeImageFile, item);
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
 
@@ -547,17 +539,10 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					
-					ArrowHeadItem * middleItem = new ArrowHeadItem(item);
-					item->centerRegionItem = middleItem;
-					
 					nodeImageFile = appDir + tr("/OtherItems/simplecircle.xml");
-					imageReader.readXml(middleItem,nodeImageFile);
-					middleItem->normalize();
-					
-					w = 0.1;
-					if (middleItem->defaultSize.width() > 0 && middleItem->defaultSize.height() > 0)
-						w = middleItem->defaultSize.width()/arrow->sceneBoundingRect().width();
-					middleItem->scale(w,w);
+					ArrowHeadItem * middleItem = new ArrowHeadItem(nodeImageFile,item);
+					item->centerRegionItem = middleItem;
+					list += middleItem;
 					
 					nameItem = new TextGraphicsItem(proteinNode,0);
 					font = nameItem->font();
@@ -565,27 +550,25 @@ namespace Tinkercell
 					nameItem->setFont(font);
 					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), proteinItem->scenePos().y());
 					list += nameItem;
-
-					ConnectionGraphicsItem * translation = new ConnectionGraphicsItem;
-					translation->setHandle(connection);
-					list += translation;
-
-					translation->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,selected[i]));
-
-					translation->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,middleItem));
-
-					nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");
 					
-					arrow = new ArrowHeadItem(translation);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
+					if (middleItem->isValid())
+					{
+						ConnectionGraphicsItem * translation = new ConnectionGraphicsItem;
+						translation->setHandle(connection);
+						translation->lineType = ConnectionGraphicsItem::line;
+						list += translation;
 
-					translation->curveSegments.last().arrowStart = arrow;
-					list += arrow;
+						translation->curveSegments +=
+							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,selected[i]));
+
+						translation->curveSegments +=
+							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,middleItem));
+
+						nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");					
+						arrow = new ArrowHeadItem(nodeImageFile, translation);
+						translation->curveSegments.last().arrowStart = arrow;
+						list += arrow;
+					}
 
 				}
 			}
@@ -687,6 +670,7 @@ namespace Tinkercell
 
 					ArrowHeadItem * arrow = 0;
 					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
+
 
 					NodeGraphicsReader imageReader;
 					arrow = new ArrowHeadItem(item);
@@ -865,16 +849,22 @@ namespace Tinkercell
 		{
 			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
 					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+
 			connect(this,SIGNAL(itemsInsertedSignal(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 						mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+
 			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)),
 					this,SLOT(itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&)));
+
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)),
 					  this, SLOT(itemsInserted(NetworkHandle*,const QList<ItemHandle*>&)));
+
             connect(mainWindow,SIGNAL(itemsAboutToBeRemoved(GraphicsScene*,QList<QGraphicsItem*>&,QList<ItemHandle*>&,QList<QUndoCommand*>&)),
                           this, SLOT(itemsRemoved(GraphicsScene*,QList<QGraphicsItem*>&, QList<ItemHandle*>&,QList<QUndoCommand*>&)));
+
 			connect(mainWindow,SIGNAL(itemsAboutToBeMoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<QPointF>&, QList<QUndoCommand*>&)),
 						  this, SLOT(itemsMoved(GraphicsScene*, QList<QGraphicsItem*>&, QList<QPointF>&, QList<QUndoCommand*>&)));
+
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 						this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
 

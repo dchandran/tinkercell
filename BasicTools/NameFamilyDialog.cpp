@@ -281,72 +281,7 @@ namespace Tinkercell
 			return;
 		}
 
-		QList<QGraphicsItem*> newitems;
-		QList<ItemHandle*> handles;
-
-		QList<QUndoCommand*> commands;
-		if (NodeHandle::cast(selectedItem))
-		{
-			ItemHandle * handle = selectedItem;
-			if (handle && handle->family() && handle->family()->name != family)
-			{
-				QString oldFamily = handle->family()->name;
-
-				NodeHandle * node = NodeHandle::cast(selectedItem);
-				if (node && node == handle)
-				{
-					if (node->connections().isEmpty())
-					{
-						if (handle->type == NodeHandle::TYPE)
-						{
-							NodeHandle * handle2 = new NodeHandle(nodesTree->nodeFamilies[family]);
-							handle2->name = handle->name;
-
-							QGraphicsItem * q = 0;
-							for (int j=0; j < handle->graphicsItems.size(); ++j)
-							{
-								if ((q = cloneGraphicsItem(handle->graphicsItems[j])))
-								{
-									newitems << q;
-									setHandle(q,handle2);
-								}
-							}
-							handles << handle2;
-							ItemHandle * noHandle = 0;
-
-							GraphicsScene * scene = net->currentScene();
-							QList<QUndoCommand*> undolist;
-							emit itemsAboutToBeInserted(scene,newitems,handles,undolist);
-
-							commands << (new RemoveGraphicsCommand(tr(""),scene,handle->graphicsItems))
-								<< (new InsertGraphicsCommand(tr(""),scene,newitems));
-							if (handle->parent)
-							{
-								commands << (new SetParentHandleCommand(tr(""),net,handle,noHandle))
-									<< (new SetParentHandleCommand(tr(""),net,handle2,handle->parent));
-							}
-						}
-					}
-					else
-					{
-						if (console())
-                            console()->error(tr("Cannot change family of connected items."));
-						return;
-					}
-				}
-				else
-				{
-
-				}
-			}
-		}
-		if (!commands.isEmpty())
-		{
-			CompositeCommand * command = new CompositeCommand(tr("family changed"),commands);
-			net->push(command);
-			emit itemsInserted(net->currentScene(),newitems,handles);
-		}
-
+		currentNetwork()->setHandleFamily(handle, nodesTree->nodeFamilies[family]);
 
 		selectedItem = 0;
 

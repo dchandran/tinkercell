@@ -65,8 +65,8 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 		QSize sizeHint() const;
 
-	signals:
-        void parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
+//signals:
+  //      void parentHandleChanged(NetworkHandle * , const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 
 	public slots:
 		void updateTree(int);

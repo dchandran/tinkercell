@@ -155,10 +155,13 @@ namespace Tinkercell
 		cursor.setPosition(currentPosition);
 
 		cursor.setCharFormat(errorFormat);
-		cursor.insertText(tr("\nError: ") + s + tr("\n"));
+		cursor.insertText(tr("Error: ") + s + tr("\n"));
 
-		cursor.setCharFormat(normalFormat);
-		cursor.insertText(ConsoleWindow::Prompt);
+		if (!frozen)
+		{
+	        cursor.setCharFormat(normalFormat);
+    	    cursor.insertText(ConsoleWindow::Prompt);
+    	}
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();

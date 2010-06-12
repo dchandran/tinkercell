@@ -9,7 +9,7 @@ Two types of attributes are added -- "Parameters" and "Text Attributes".
 Attributes are essentially a <name,value> pair that are used to characterize an item.
 
 The BasicInformationTool contains two tools, one for text attributes and one
-for numerical attributes. The buttons are drawn as NodeGraphicsItems using the datasheet.xml and
+for parameters. The buttons are drawn as NodeGraphicsItems using the datasheet.xml and
 textsheet.xml files that define the NodeGraphicsItems.
 
 ****************************************************************************/
@@ -538,8 +538,8 @@ namespace Tinkercell
 				if (type == BasicInformationTool::numerical)
 				{
 					reader.readXml(&item,appDir + tr("/OtherItems/datasheet.xml"));
-					item.setToolTip(tr("Numerical attributes"));
-					toolGraphicsItem->setToolTip(tr("Numerical attributes"));
+					item.setToolTip(tr("Parameters"));
+					toolGraphicsItem->setToolTip(tr("Parameters"));
 				}
 				else
 				{
@@ -577,7 +577,7 @@ namespace Tinkercell
 				//tableWidget.setItemDelegate(&delegate);
 				//tableWidget.setFixedWidth(160);
 				groupBox->setMinimumWidth(100);
-				message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
+				message = tr("This table shows the set of parameters belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
 			}
 			else
 				if (type == BasicInformationTool::text)
@@ -590,7 +590,7 @@ namespace Tinkercell
 				{
 					addAttribAction->setToolTip(tr("Add attribute"));
 					removeAttribAction->setToolTip(tr("Remove attribute"));
-					message = tr("This table shows the set of parameters, or numerical attributes, belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
+					message = tr("This table shows the set of parameters belonging with the selected objects. Parameters can be used inside rate equations or other equations. For example, if the name of the parameter is k0 and it belongs with an object name J0, then you can use J0.k0 inside questions in order to address this value. You may change the name or value of the parameter using this table. Changing the name will automatically update all the equations where it is used.");
 					message += tr("\nThis table also shows the text attributes belonging with the selected objects. Text attributes are any properties of an object that is represented as a string. Examples include DNA sequence, database IDs, etc.");
 				}
 

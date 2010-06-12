@@ -206,6 +206,9 @@ namespace Tinkercell
 		if (handle == 0) return rootItem;
 		if (!root) return 0;
 		
+		
+		if (attribute.isEmpty() && treeItems.contains(handle)) return treeItems[handle];
+		
 		QList<ContainerTreeItem*> queue = root->childItems;
 		
 		for (int i=0; i < queue.size(); ++i)
@@ -217,7 +220,8 @@ namespace Tinkercell
 
 				queue << queue[i]->childItems;
 			}
-		}		
+		}
+		
 		return 0;
 	}
 	
@@ -229,6 +233,8 @@ namespace Tinkercell
 			{
 				delete rootItem;
 				rootItem = 0;
+				
+				treeItems.clear();
 				
 				for (int i=0; i < markedForDeletion.size(); ++i)
 					if (markedForDeletion[i])
@@ -254,8 +260,10 @@ namespace Tinkercell
 					if (handle && !visited.contains(handle) && handle->family())
 					{	
 						visited += handle;
-						if ((treeItem = makeBranch(handle,newRootItem)))
+						if ((treeItem = makeBranch(handle,newRootItem)))						
+						{
 							newRootItem->appendChild(treeItem);
+						}
 					}
 				}
 			
@@ -276,6 +284,8 @@ namespace Tinkercell
 			item = findTreeItem(rootItem, handle,attribute);
 		else
 			item = findTreeItem(parentItem, handle,attribute);
+
+		treeItems.remove(handle);
 		
 		if (item)
 		{
@@ -316,7 +326,7 @@ namespace Tinkercell
 			item = new ContainerTreeItem(handle,parentItem);
 			item->attributeName = attribute;
 			if (!attribute.isEmpty())
-				return item;			
+				return item;
 		}
 		
 		ItemHandle * childHandle = 0;
@@ -345,7 +355,9 @@ namespace Tinkercell
 				}
 			}
 		}
-		
+
+		treeItems[handle] = item;
+
 		return item;
 	}
 
@@ -380,10 +392,10 @@ namespace Tinkercell
 		ContainerTreeItem *item = static_cast<ContainerTreeItem*>(index.internalPointer());
 
 		ItemHandle * handle = item->handle();
+
 		
 		if (handle && handle->family())
 		{
-
 			if (role == Qt::DecorationRole && index.column() == 0 && item->text().isEmpty())
 			{	
 				QPixmap pixmap = handle->family()->pixmap;
@@ -581,8 +593,8 @@ namespace Tinkercell
 	
 	void ContainerTreeModel::sort ( int , Qt::SortOrder )
 	{
-		if (rootItem)		
-			rootItem->sortChildren();
+		//if (rootItem)
+			//rootItem->sortChildren();
 	}
 
 }

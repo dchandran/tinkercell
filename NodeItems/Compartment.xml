@@ -9,9 +9,9 @@
             </radialGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="compartment" width="200" height="150">
+            <style idList="compartment" width="500" height="350">
                 <g>
-                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#88bc66" stroke-width="3" stroke-alpha="0.882353"/>
+                    <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#88bc66" stroke-width="1" stroke-alpha="0.882353"/>
                 </g>
             </style>
         </listOfStyles>

@@ -61,6 +61,7 @@ namespace Tinkercell
 
 	signals:
 
+		//void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
 		void addNewButtons(const QList<QToolButton*>&,const QString& group);
 		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		void loadItems(QList<QGraphicsItem*>&, const QString&);
@@ -71,7 +72,6 @@ namespace Tinkercell
 		void escapeSignal(const QWidget *);
 		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-		void parentHandleChanged(NetworkHandle * scene, const QList<ItemHandle*>&, const QList<ItemHandle*>&);
 		void toolLoaded (Tool * tool);
 		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
 		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
@@ -98,6 +98,8 @@ namespace Tinkercell
 		QGraphicsItem* createLink(NodeGraphicsItem* module, ItemHandle * handle);
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
+		
+		static ItemHandle * findCorrespondingHandle(ItemHandle*,ConnectionHandle*);
 
 		QList<NodeGraphicsItem*> selectedItems;
 		QAction * viewModule;

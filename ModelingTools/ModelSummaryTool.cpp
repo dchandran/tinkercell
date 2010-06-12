@@ -659,14 +659,14 @@ namespace Tinkercell
 			if (!TextGraphicsItem::cast(items[i]))
 			{
 				handle = getHandle(items[i]);
-				if (handle && handle->family() && !itemHandles.contains(handle))
+				
+				if (!handle && qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]))
+					handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem);
+				
+				if ( handle &&
+					( handle->isA(tr("Molecule")) || handle->isA(tr("Part")) || handle->isA(tr("Compartment")) || handle->isA(tr("Connection")) ) &&
+					(handle->children.isEmpty() || handle->isA(tr("Compartment"))))
 					itemHandles += handle;
-				else
-					if (qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]) &&
-						(handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem)) &&
-						handle->family() &&
-						(handle->children.isEmpty() || !ConnectionHandle::cast(handle)))
-						itemHandles += handle;
 
 			}
 

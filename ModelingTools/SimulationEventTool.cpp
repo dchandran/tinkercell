@@ -428,6 +428,9 @@ namespace Tinkercell
 
 	void SimulationEventsTool::escapeSignal(const QWidget* )
     {
+		if (mode != none && currentScene())
+			currentScene()->useDefaultBehavior = true;
+
 		mode = none;
     }
 

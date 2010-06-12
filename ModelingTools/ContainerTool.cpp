@@ -68,8 +68,8 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(networkClosed(NetworkHandle *)),this,SLOT(windowClosed(NetworkHandle *)));
 
-            connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
-                    mainWindow,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
+//          connect(this,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)),
+   //                 mainWindow,SIGNAL(parentHandleChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemHandle*>&)));
 
             windowChanged(0,mainWindow->currentWindow());
 

@@ -15,6 +15,7 @@
 #include <QModelIndex>
 #include <QVariant>
 #include <QList>
+#include <QHash>
 #include <QVariant>
 
 #include "NetworkHandle.h"
@@ -79,6 +80,7 @@ namespace Tinkercell
 
 	private:
 
+		QHash<ItemHandle*,ContainerTreeItem*> treeItems;
 		ContainerTreeItem *rootItem;
 		NetworkHandle * network;
 		ContainerTreeItem* makeBranch(ItemHandle*,ContainerTreeItem*,const QString& attribute=QString());

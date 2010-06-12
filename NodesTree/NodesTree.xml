@@ -41,7 +41,7 @@
 	<node family="Promoter" strength="1.0">
 		<text>RNA Polymerase binding site; may or may not include the operator sites, depending on the model</text>
 		<node family="Constitutive Promoter" composite="true">
-		  <text>A promoter that is active by default</text>
+		  <text>A promoter that is always active</text>
 		</node>
 		<node family="Inducible Promoter" composite="true">
 		  <text>A promoter that is requires a transcription factor for activation</text>
@@ -70,6 +70,6 @@
 	</node>
 </node>
 <node family="Empty">
-   <text>This item can be used to represent multiple things such as degradation, dilution, or even a transcriptional terminator.</text>
+   <text>Degradation or dilution</text>
 </node>
 </NodesTree>

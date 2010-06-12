@@ -312,18 +312,12 @@ namespace Tinkercell
 		ConnectionsTree * connectionsTree = static_cast<ConnectionsTree*>(treeWidget);
 
 		if (!nodesTree->nodeFamilies.contains("Protein") ||
-			!nodesTree->nodeFamilies.contains("Empty") ||
-			!connectionsTree->connectionFamilies.contains("Translation") ||
-			!connectionsTree->connectionFamilies.contains("Degradation")
+			!connectionsTree->connectionFamilies.contains("Protein production")
 			)
 			return;
 
-
-		NodeFamily * emptyFamily = nodesTree->nodeFamilies["Empty"];
 		NodeFamily * proteinFamily = nodesTree->nodeFamilies["Protein"];
-
-		ConnectionFamily * degradationFamily = connectionsTree->connectionFamilies["Degradation"];
-		ConnectionFamily * productionFamily = connectionsTree->connectionFamilies["Translation"];
+		ConnectionFamily * productionFamily = connectionsTree->connectionFamilies["Protein production"];
 
 		QList<QGraphicsItem*>& selected = scene->selected();
 		ItemHandle * handle = 0;
@@ -358,7 +352,7 @@ namespace Tinkercell
 					ypos -= (selected[i]->sceneBoundingRect().height() * 1.0);
 				}
 
-				NodeGraphicsItem * proteinItem = 0, * emptyItem = 0;
+				NodeGraphicsItem * proteinItem = 0;
 
 				for (int j=0; j < proteinFamily->graphicsItems.size(); ++j)
 				{
@@ -388,125 +382,8 @@ namespace Tinkercell
 					}
 				}
 
-				if (!proteinItem) continue;
-				
-				NodeHandle * emptyNode = new NodeHandle(emptyFamily);
-				emptyNode->name = tr("emp");
-				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
-				usedNames << emptyNode->name;
-
-				xpos = (proteinItem->sceneBoundingRect().right() + 4.0*proteinItem->sceneBoundingRect().width());
-				ypos = (proteinItem->scenePos().y());
-				height = 0.0;
-
-				for (int j=0; j < emptyFamily->graphicsItems.size(); ++j)
-				{
-					emptyItem = (NodeGraphicsItem::topLevelNodeItem(emptyFamily->graphicsItems[j]));
-					if (emptyItem)
-					{
-						emptyItem = emptyItem->clone();
-
-						if (emptyItem->defaultSize.width() > 0 && emptyItem->defaultSize.height() > 0)
-							emptyItem->scale(emptyItem->defaultSize.width()/emptyItem->sceneBoundingRect().width(),emptyItem->defaultSize.height()/emptyItem->sceneBoundingRect().height());
-
-						qreal w = emptyItem->sceneBoundingRect().width();
-
-						emptyItem->setPos(xpos, ypos);
-
-						emptyItem->setBoundingBoxVisible(false);
-
-						if (emptyItem->isValid())
-						{
-							xpos += w;
-							setHandle(emptyItem,emptyNode);
-							list += emptyItem;
-						}
-						if (emptyItem->sceneBoundingRect().height() > height)
-							height = emptyItem->sceneBoundingRect().height();
-					}
-				}
-
-				if (emptyItem)
-				{
-					TextGraphicsItem * nameItem;
-					QFont font;
-
-					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
-					ConnectionHandle * connection = new ConnectionHandle(degradationFamily,item);
-
-					item->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,proteinItem));
-
-					item->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,emptyItem));
-
-					list += item;
-
-					ArrowHeadItem * arrow = 0;
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-					NodeGraphicsReader imageReader;
-					arrow = new ArrowHeadItem(item);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
-					//arrow->scale(0.1,0.1);
-					double w = 0.1;
-					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
-						w = arrow->defaultSize.width()/arrow->sceneBoundingRect().width();
-					arrow->scale(w,w);
-					item->curveSegments.last().arrowStart = arrow;
-					list += arrow;
-
-					connection->name = tr("J1");
-					item->lineType = ConnectionGraphicsItem::line;
-					connection->name = scene->network->makeUnique(connection->name,usedNames);
-                    usedNames << emptyNode->name << connection->name;
-
-					nameItem = new TextGraphicsItem(connection,0);
-					list += nameItem;
-					nameItem->setPos( 0.5*(proteinItem->pos() + emptyItem->scenePos() ) );
-					font = nameItem->font();
-					font.setPointSize(22);
-					nameItem->setFont(font);
-				}
-
-				emptyNode = new NodeHandle(emptyFamily);
-				emptyNode->name = tr("emp");
-				emptyNode->name = scene->network->makeUnique(emptyNode->name,usedNames);
-				usedNames << emptyNode->name;
-
-				xpos = (proteinItem->sceneBoundingRect().left() - 4.0*proteinItem->sceneBoundingRect().width());
-				ypos = (proteinItem->scenePos().y());
-				height = 0.0;
-
-				for (int j=0; j < emptyFamily->graphicsItems.size(); ++j)
-				{
-					emptyItem = (NodeGraphicsItem::topLevelNodeItem(emptyFamily->graphicsItems[j]));
-					if (emptyItem)
-					{
-						emptyItem = emptyItem->clone();
-
-						if (emptyItem->defaultSize.width() > 0 && emptyItem->defaultSize.height() > 0)
-							emptyItem->scale(emptyItem->defaultSize.width()/emptyItem->sceneBoundingRect().width(),emptyItem->defaultSize.height()/emptyItem->sceneBoundingRect().height());
-
-						qreal w = emptyItem->sceneBoundingRect().width();
-
-						emptyItem->setPos(xpos, ypos);
-
-						emptyItem->setBoundingBoxVisible(false);
-
-						if (emptyItem->isValid())
-						{
-							xpos += w;
-							setHandle(emptyItem,emptyNode);
-							list += emptyItem;
-						}
-						if (emptyItem->sceneBoundingRect().height() > height)
-							height = emptyItem->sceneBoundingRect().height();
-					}
-				}
-
-				if (emptyItem)
-				{
+				if (proteinItem)
+				{	
 					TextGraphicsItem * nameItem;
 					QFont font;
 
@@ -514,7 +391,7 @@ namespace Tinkercell
 					ConnectionHandle * connection = new ConnectionHandle(productionFamily,item);
 
 					item->curveSegments +=
-						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,emptyItem));
+						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,selected[i]));
 
 					item->curveSegments +=
 						ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(item,proteinItem));
@@ -522,7 +399,7 @@ namespace Tinkercell
 					list += item;
 
 					ArrowHeadItem * arrow = 0;
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
+					QString nodeImageFile = appDir + tr("/ArrowItems/Production.xml");
 					arrow = new ArrowHeadItem(nodeImageFile, item);
 					item->curveSegments.last().arrowStart = arrow;
 					list += arrow;
@@ -530,16 +407,16 @@ namespace Tinkercell
 					connection->name = tr("J1");
 					item->lineType = ConnectionGraphicsItem::line;
 					connection->name = scene->network->makeUnique(connection->name,usedNames);
-                    usedNames << emptyNode->name << connection->name;
+                    usedNames << connection->name;
 
 					nameItem = new TextGraphicsItem(connection,0);
 					list += nameItem;
-					nameItem->setPos( 0.5*(proteinItem->pos() + emptyItem->scenePos() ) );
+					nameItem->setPos( 0.5*(proteinItem->pos() + selected[i]->scenePos() ) );
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					
-					nodeImageFile = appDir + tr("/OtherItems/simplecircle.xml");
+					nodeImageFile = appDir + tr("/OtherItems/UpCircle.xml");
 					ArrowHeadItem * middleItem = new ArrowHeadItem(nodeImageFile,item);
 					item->centerRegionItem = middleItem;
 					list += middleItem;
@@ -548,27 +425,8 @@ namespace Tinkercell
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
-					nameItem->setPos(proteinItem->sceneBoundingRect().left() - nameItem->sceneBoundingRect().width(), proteinItem->scenePos().y());
+					nameItem->setPos(proteinItem->scenePos().x(), proteinItem->sceneBoundingRect().bottom() + 5.0);
 					list += nameItem;
-					
-					if (middleItem->isValid())
-					{
-						ConnectionGraphicsItem * translation = new ConnectionGraphicsItem;
-						translation->setHandle(connection);
-						translation->lineType = ConnectionGraphicsItem::line;
-						list += translation;
-
-						translation->curveSegments +=
-							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,selected[i]));
-
-						translation->curveSegments +=
-							ConnectionGraphicsItem::CurveSegment(1,new ConnectionGraphicsItem::ControlPoint(translation,middleItem));
-
-						nodeImageFile = appDir + tr("/ArrowItems/Transcription.xml");					
-						arrow = new ArrowHeadItem(nodeImageFile, translation);
-						translation->curveSegments.last().arrowStart = arrow;
-						list += arrow;
-					}
 
 				}
 			}

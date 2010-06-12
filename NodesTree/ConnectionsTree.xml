@@ -13,11 +13,15 @@
       <connection family="Production" typein="Empty" numin="1" typeout="Molecule" numout="1">
         <text>This connection represents production or influx of a molecular species.</text>
         <connection family="Transcription" typein="Empty" numin="1" typeout="mRNA" numout="1">
-          <text>This connection represents a production of mRNA.</text>
+          <text>Production of mRNA from DNA template.</text>
         </connection>
         <connection family="Translation" typein="Empty" numin="1" typeout="Protein" numout="1">
-          <text>This connection represents production of protein. </text>
+          <text>Production of protein from mRNA template. </text>
         </connection>      
+      </connection>
+      
+      <connection family="Protein production" typein="Coding" numin="1" typeout="Protein" numout="1">
+        <text>The complete process of producing a protein from the template DNA.</text>
       </connection>
     
     </connection>

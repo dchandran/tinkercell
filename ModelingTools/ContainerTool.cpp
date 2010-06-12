@@ -126,27 +126,7 @@ namespace Tinkercell
 
     void CompartmentTool::windowChanged(NetworkWindow * , NetworkWindow * )
     {
-        treeView->setUpdatesEnabled(false);
-
-        if (treeView->model())
-        {
-            delete (treeView->model());
-			treeView->setModel(0);
-        }
-
-		ContainerTreeModel * model = 0;
-
-		NetworkHandle * net = currentNetwork();
-
-		if (net)
-			model = new ContainerTreeModel(net);
-
-        treeView->setModel(model);
-
-        treeView->setSortingEnabled(true);
-        treeView->sortByColumn(0,Qt::DescendingOrder);
-
-        treeView->setUpdatesEnabled(true);
+        updateTree(0);
     }
 
     void CompartmentTool::updateTree(int)

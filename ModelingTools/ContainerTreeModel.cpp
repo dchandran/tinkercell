@@ -231,6 +231,7 @@ namespace Tinkercell
 		{
 			if (net != this->network)
 			{
+				treeItems.clear();
 				delete rootItem;
 				rootItem = 0;
 				
@@ -365,6 +366,7 @@ namespace Tinkercell
 	{
 		if (rootItem)
 		{
+			treeItems.clear();
 			markedForDeletion.removeAll(rootItem);
 			delete rootItem;
 		}

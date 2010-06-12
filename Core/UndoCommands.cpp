@@ -435,7 +435,17 @@ namespace Tinkercell
 		graphicsItems.clear();
 		
 		item = getGraphicsItem(item);
-		graphicsItems.append(item);
+		
+		ConnectionGraphicsItem * connection = ConnectionGraphicsItem::cast(item);
+		if (connection)
+		{
+			QList<NodeGraphicsItem*> nodes = connection->nodes();
+			for (int i=0; i < nodes.size(); ++i)
+				if (nodes[i] && !nodes[i]->scene())
+					graphicsItems += nodes[i];
+		}
+		
+		graphicsItems += item;
 		handles.clear();
 		handles += getHandle(item);
 		renameCommand = 0;
@@ -447,9 +457,18 @@ namespace Tinkercell
 		graphicsScene = scene;
 		handles.clear();
 		QGraphicsItem * item;
+		ConnectionGraphicsItem * connection;
 		for (int i=0; i < items.size(); ++i)
 			if (item = getGraphicsItem(items[i]))
 			{
+				connection = ConnectionGraphicsItem::cast(item);
+				if (connection)
+				{
+					QList<NodeGraphicsItem*> nodes = connection->nodes();
+					for (int j=0; j < nodes.size(); ++j)
+						if (nodes[j] && !nodes[j]->scene() && !items.contains(nodes[j]))
+							graphicsItems += nodes[j];
+				}
 				graphicsItems += item;
 				parentGraphicsItems += item->parentItem();	
 				handles += getHandle(item);
@@ -660,7 +679,19 @@ namespace Tinkercell
 	{
 		graphicsScene = scene;
 		graphicsItems.clear();
-		graphicsItems.append( getGraphicsItem(item) );
+		
+		item = getGraphicsItem(item);
+		
+		NodeGraphicsItem * node = NodeGraphicsItem::cast(item);
+		if (node)
+		{
+			QList<ConnectionGraphicsItem*> connections = node->connections();
+			for (int j=0; j < connections.size(); ++j)
+				if (connections[j] && connections[j]->scene() == scene)
+					graphicsItems += connections[j];
+		}
+		
+		graphicsItems.append( item );
 
 		itemHandles.append(getHandle(item));
 		if (item)
@@ -677,10 +708,19 @@ namespace Tinkercell
 		itemParents.clear();
 		
 		QGraphicsItem * item;
+		NodeGraphicsItem * node;
 		
 		for (int i=0; i < items.size(); ++i)
 			if ( (item = getGraphicsItem(items[i]) ) )
 			{
+				node = NodeGraphicsItem::cast(item);
+				if (node)
+				{
+					QList<ConnectionGraphicsItem*> connections = node->connections();
+					for (int j=0; j < connections.size(); ++j)
+						if (connections[j] && connections[j]->scene() == scene && !items.contains(connections[j]))
+							graphicsItems += connections[j];
+				}
 				graphicsItems.append(item);
 				itemHandles.append(getHandle(item));
 				itemParents.append(item->parentItem());
@@ -811,8 +851,8 @@ namespace Tinkercell
 								affected = true;
 							}
 						}
-						if (affected && graphicsScene->console())
-                            graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+						//if (affected && graphicsScene->console())
+                          //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 
 					keys = affectedHandles[i]->data->textData.keys();
@@ -880,8 +920,8 @@ namespace Tinkercell
 									affected = true;
 								}
 							}
-							if (affected && graphicsScene->console())
-								graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+							//if (affected && graphicsScene->console())
+								//graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
 					}
 				}
 			}

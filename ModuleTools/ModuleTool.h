@@ -104,6 +104,7 @@ namespace Tinkercell
 		QList<NodeGraphicsItem*> selectedItems;
 		QAction * viewModule;
 		NodeGraphicsItem image;
+		bool permitDelete;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 		static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item);

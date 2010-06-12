@@ -34,11 +34,11 @@ namespace Tinkercell
 			NumericalDataTable reactants, products;
 			TextDataTable rates;
 			
-			rates.value(0,0) = QString("0.0");
+			rates.value(handle->fullName(),QObject::tr("rate")) = QString("0.0");
 			if (handle->hasNumericalData(QString("Parameters")))
 			{
 				handle->data->numericalData[QString("Parameters")].value(QString("k0"),0) = 1.0;
-				rates.value(0,0) = handle->fullName() + QString(".k0");
+				rates.value(handle->fullName(),QObject::tr("rate")) = handle->fullName() + QString(".k0");
 			}
 
 			nodes.clear();

@@ -425,9 +425,8 @@ namespace Tinkercell
 					font = nameItem->font();
 					font.setPointSize(22);
 					nameItem->setFont(font);
-					nameItem->setPos(proteinItem->scenePos().x(), proteinItem->sceneBoundingRect().bottom() + 5.0);
+					nameItem->setPos(proteinItem->sceneBoundingRect().right() + 10.0, proteinItem->scenePos().y());
 					list += nameItem;
-
 				}
 			}
 		}

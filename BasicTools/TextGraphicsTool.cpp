@@ -417,7 +417,7 @@ namespace Tinkercell
 						for (int k=0; k < handles[i]->graphicsItems.size(); ++k)
 							if (!TextGraphicsItem::cast(handles[i]->graphicsItems[k]) &&
 								!items.contains(handles[i]->graphicsItems[k]) &&
-								handles[i]->graphicsItems[k]->sceneBoundingRect().adjusted(-100,-100,100,100).contains(text->scenePos()))
+								handles[i]->graphicsItems[k]->sceneBoundingRect().adjusted(-100,-100,200,200).intersects(text->sceneBoundingRect()))
 							{
 								del = false;
 								break;

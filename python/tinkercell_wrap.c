@@ -4607,20 +4607,20 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_deleteTableOfReals(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_deleteMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   TableOfReals *arg1 = (TableOfReals *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:deleteTableOfReals",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:deleteMatrix",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteTableOfReals" "', argument " "1"" of type '" "TableOfReals *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteMatrix" "', argument " "1"" of type '" "TableOfReals *""'"); 
   }
   arg1 = (TableOfReals *)(argp1);
-  deleteTableOfReals(arg1);
+  deleteMatrix(arg1);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9291,6 +9291,42 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_tc_OctaveTool_api(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  void (*arg1)(String) = (void (*)(String)) 0 ;
+  void (*arg2)(String) = (void (*)(String)) 0 ;
+  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:tc_OctaveTool_api",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    int res = SWIG_ConvertFunctionPtr(obj0, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj1, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(obj2, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+    }
+  }
+  tc_OctaveTool_api(arg1,arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_tc_surface(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   TableOfReals arg1 ;
@@ -10723,7 +10759,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"setNthString", _wrap_setNthString, METH_VARARGS, NULL},
 	 { (char *)"nthItem", _wrap_nthItem, METH_VARARGS, NULL},
 	 { (char *)"setNthItem", _wrap_setNthItem, METH_VARARGS, NULL},
-	 { (char *)"deleteTableOfReals", _wrap_deleteTableOfReals, METH_VARARGS, NULL},
+	 { (char *)"deleteMatrix", _wrap_deleteMatrix, METH_VARARGS, NULL},
 	 { (char *)"deleteTableOfStrings", _wrap_deleteTableOfStrings, METH_VARARGS, NULL},
 	 { (char *)"deleteArrayOfItems", _wrap_deleteArrayOfItems, METH_VARARGS, NULL},
 	 { (char *)"deleteArrayOfStrings", _wrap_deleteArrayOfStrings, METH_VARARGS, NULL},
@@ -10857,6 +10893,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"tc_DynamicLibraryMenu_api", _wrap_tc_DynamicLibraryMenu_api, METH_VARARGS, NULL},
 	 { (char *)"tc_LoadCLibraries_api", _wrap_tc_LoadCLibraries_api, METH_VARARGS, NULL},
 	 { (char *)"tc_PythonTool_api", _wrap_tc_PythonTool_api, METH_VARARGS, NULL},
+	 { (char *)"tc_OctaveTool_api", _wrap_tc_OctaveTool_api, METH_VARARGS, NULL},
 	 { (char *)"tc_surface", _wrap_tc_surface, METH_VARARGS, NULL},
 	 { (char *)"tc_plot", _wrap_tc_plot, METH_VARARGS, NULL},
 	 { (char *)"tc_scatterplot", _wrap_tc_scatterplot, METH_VARARGS, NULL},

@@ -161,8 +161,8 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 
 	tc_printTable(output);
 
-	deleteTableOfReals(&output);
-	deleteTableOfReals(&input);
+	deleteMatrix(&output);
+	deleteMatrix(&input);
 	free(soln);
 	delete_lp(lp);
 

@@ -91,7 +91,7 @@ void * nthItem(ArrayOfItems A, int i);
 void setNthItem(ArrayOfItems A, int i, void * o);
 
 /*!\brief delete a matrix*/
-void deleteTableOfReals(TableOfReals *M);
+void deleteMatrix(TableOfReals *M);
 
 /*!\brief delete a strings table*/
 void deleteTableOfStrings(TableOfStrings *M);

@@ -53,8 +53,8 @@ void loadAllNames()
 			setNthString(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
-		deleteTableOfReals(&params);
-		deleteTableOfReals(&N);
+		deleteMatrix(&params);
+		deleteMatrix(&N);
 		deleteArrayOfItems(&A);
 	}
 }
@@ -210,7 +210,7 @@ void run(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -228,8 +228,8 @@ void run(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
-		deleteTableOfReals(&params);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -242,7 +242,7 @@ void run(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		return;
 	}
 
@@ -252,7 +252,7 @@ void run(TableOfReals input)
 	{
 		tc_print("steady state: no valid variable selected\0");
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		return;
 	}
 
@@ -330,10 +330,10 @@ TCAPIEXPORT void run(%s) \n\
 				}\n\
 				free(model);\n\
 				tc_plot(dat,0,\"Steady State Plot\",0);\n\
-				deleteTableOfReals(&dat);\n",param,start,dt,param,rateplot,rateplot);
+				deleteMatrix(&dat);\n",param,start,dt,param,rateplot,rateplot);
 
 	if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -342,7 +342,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ss.c -lode\0","run\0","Steady state\0",allParams);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("ss.c -lode\0","run\0","Steady state\0");
@@ -448,7 +448,7 @@ void run2D(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		deleteArrayOfStrings(&names);
-		deleteTableOfReals(&params);
+		deleteMatrix(&params);
 		tc_errorReport("2D steady state: cannot choose the same variable twice\0");
 		return;
 	}
@@ -462,7 +462,7 @@ void run2D(TableOfReals input)
 	{
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -480,7 +480,7 @@ void run2D(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
+		deleteMatrix(&initVals);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -489,8 +489,8 @@ void run2D(TableOfReals input)
 
 	if (index1 < 0 || index2 < 0 || index3 < 0)
 	{
-		deleteTableOfReals(&params);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&params);
+		deleteMatrix(&allParams);
 		deleteArrayOfStrings(&names);
 		tc_print("2D steady state: no valid variable selected\0");
 		return;
@@ -554,7 +554,7 @@ void run2D(TableOfReals input)
       tc_surface(dat,\"Steady State Plot\");\n    free(dat.values);\n",param1,startx, dx, param2,starty, dy, target);
       
       if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	  else
 		fprintf(out, "    return;\n}\n");
 
@@ -563,13 +563,13 @@ void run2D(TableOfReals input)
 	  if (slider)
 	  {
 		  tc_compileBuildLoadSliders("ss2D.c -lode\0","run\0","2-parameter steady state\0",allParams);
-		  deleteTableOfReals(&allParams);
+		  deleteMatrix(&allParams);
   	  }
 	  else
 		  tc_compileBuildLoad("ss2D.c -lode\0","run\0","2-parameter steady state\0");
 
 
-	deleteTableOfReals(&params);
+	deleteMatrix(&params);
 	return;
 }
 

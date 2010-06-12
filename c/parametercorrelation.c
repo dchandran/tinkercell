@@ -133,7 +133,7 @@ void run(TableOfReals input)
 	
 	{
 		deleteArrayOfItems(&A);   
-		deleteTableOfReals(&params);
+		deleteMatrix(&params);
 		tc_errorReport("Correlation Text: cannot choose the same variable twice\0");
 		return;
 	}
@@ -148,7 +148,7 @@ void run(TableOfReals input)
 		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
-		deleteTableOfReals(&params);
+		deleteMatrix(&params);
 		tc_print("Correlation Text: no valid variable selected\0");
 		return;
 	}
@@ -260,7 +260,7 @@ void run(TableOfReals input)
 
 	deleteArrayOfStrings(&allNames);
 	deleteArrayOfStrings(&names);
-	deleteTableOfReals(&params);
+	deleteMatrix(&params);
 	return;  
 }
 

@@ -1807,17 +1807,17 @@ attr(`setNthItem`, 'returnType') = 'void'
 attr(`setNthItem`, "inputTypes") = c('_p_ArrayOfItems', 'integer', '_p_void')
 class(`setNthItem`) = c("SWIGFunction", class('setNthItem'))
 
-# Start of deleteTableOfReals
+# Start of deleteMatrix
 
-`deleteTableOfReals` = function(M)
+`deleteMatrix` = function(M)
 {
-  .Call('R_swig_deleteTableOfReals', M, PACKAGE='tinkercell')
+  .Call('R_swig_deleteMatrix', M, PACKAGE='tinkercell')
   
 }
 
-attr(`deleteTableOfReals`, 'returnType') = 'void'
-attr(`deleteTableOfReals`, "inputTypes") = c('_p_TableOfReals')
-class(`deleteTableOfReals`) = c("SWIGFunction", class('deleteTableOfReals'))
+attr(`deleteMatrix`, 'returnType') = 'void'
+attr(`deleteMatrix`, "inputTypes") = c('_p_TableOfReals')
+class(`deleteMatrix`) = c("SWIGFunction", class('deleteMatrix'))
 
 # Start of deleteTableOfStrings
 
@@ -4849,6 +4849,48 @@ class(`tc_LoadCLibraries_api`) = c("SWIGFunction", class('tc_LoadCLibraries_api'
 attr(`tc_PythonTool_api`, 'returnType') = 'void'
 attr(`tc_PythonTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
 class(`tc_PythonTool_api`) = c("SWIGFunction", class('tc_PythonTool_api'))
+
+# Start of tc_OctaveTool_api
+
+`tc_OctaveTool_api` = function(runOctaveCode, runPythonFile, addOctavePlugin)
+{
+  if(is.function(runOctaveCode)) {
+    assert('...' %in% names(formals(runOctaveCode)) || length(formals(runOctaveCode)) >= 0)
+  } else {
+    if(is.character(runOctaveCode)) {
+      runOctaveCode = getNativeSymbolInfo(runOctaveCode)
+    }
+    if(is(runOctaveCode, "NativeSymbolInfo")) {
+      runOctaveCode = runOctaveCode$address
+    }
+  }
+  if(is.function(runPythonFile)) {
+    assert('...' %in% names(formals(runPythonFile)) || length(formals(runPythonFile)) >= 0)
+  } else {
+    if(is.character(runPythonFile)) {
+      runPythonFile = getNativeSymbolInfo(runPythonFile)
+    }
+    if(is(runPythonFile, "NativeSymbolInfo")) {
+      runPythonFile = runPythonFile$address
+    }
+  }
+  if(is.function(addOctavePlugin)) {
+    assert('...' %in% names(formals(addOctavePlugin)) || length(formals(addOctavePlugin)) >= 0)
+  } else {
+    if(is.character(addOctavePlugin)) {
+      addOctavePlugin = getNativeSymbolInfo(addOctavePlugin)
+    }
+    if(is(addOctavePlugin, "NativeSymbolInfo")) {
+      addOctavePlugin = addOctavePlugin$address
+    }
+  }
+  .Call('R_swig_tc_OctaveTool_api', runOctaveCode, runPythonFile, addOctavePlugin, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_OctaveTool_api`, 'returnType') = 'void'
+attr(`tc_OctaveTool_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void')
+class(`tc_OctaveTool_api`) = c("SWIGFunction", class('tc_OctaveTool_api'))
 
 # Start of tc_surface
 

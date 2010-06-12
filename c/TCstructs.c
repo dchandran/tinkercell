@@ -173,7 +173,7 @@ void setNthItem(ArrayOfItems A, int i, void * o)
 		A.items[ i ] = o;
 }
 
-void deleteTableOfReals(TableOfReals * M)
+void deleteMatrix(TableOfReals * M)
 {
 	if (!M) return;
 	if (M->values)

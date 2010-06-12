@@ -233,9 +233,9 @@ def setNthItem(*args):
   return _tinkercell.setNthItem(*args)
 setNthItem = _tinkercell.setNthItem
 
-def deleteTableOfReals(*args):
-  return _tinkercell.deleteTableOfReals(*args)
-deleteTableOfReals = _tinkercell.deleteTableOfReals
+def deleteMatrix(*args):
+  return _tinkercell.deleteMatrix(*args)
+deleteMatrix = _tinkercell.deleteMatrix
 
 def deleteTableOfStrings(*args):
   return _tinkercell.deleteTableOfStrings(*args)
@@ -768,6 +768,10 @@ tc_LoadCLibraries_api = _tinkercell.tc_LoadCLibraries_api
 def tc_PythonTool_api(*args):
   return _tinkercell.tc_PythonTool_api(*args)
 tc_PythonTool_api = _tinkercell.tc_PythonTool_api
+
+def tc_OctaveTool_api(*args):
+  return _tinkercell.tc_OctaveTool_api(*args)
+tc_OctaveTool_api = _tinkercell.tc_OctaveTool_api
 
 def tc_surface(*args):
   return _tinkercell.tc_surface(*args)

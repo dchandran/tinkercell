@@ -124,7 +124,7 @@ void run(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -142,8 +142,8 @@ void run(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
-		deleteTableOfReals(&params);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -156,7 +156,7 @@ void run(TableOfReals input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteTableOfReals(&allParams);
+				deleteMatrix(&allParams);
 			return;
 		}
 	}
@@ -164,7 +164,7 @@ void run(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -175,7 +175,7 @@ void run(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -271,8 +271,8 @@ fprintf( out , "\
 	   tc_displayNumber(x,getValue(ss2,i,0));\n\
 	}\n\
 	deleteArrayOfItems(&A);\n\
-	deleteTableOfReals(&ss1);\n\
-	deleteTableOfReals(&ss2);\n\
+	deleteMatrix(&ss1);\n\
+	deleteMatrix(&ss2);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	if (%i)\n\
@@ -294,12 +294,12 @@ fprintf( out , "\
 		setColumnName(data,1+i,nthString(names,i));\n\
 	}\n\
 	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
-	deleteTableOfReals(&data);\n\
+	deleteMatrix(&data);\n\
 	free(model);\n", start, end, dt, sz, update, rateplot, xaxis);
 	
 
 	if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -308,7 +308,7 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lode -lssa\0","run\0","Deterministic simulation\0",allParams);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&allParams);
 	}
 
 	else

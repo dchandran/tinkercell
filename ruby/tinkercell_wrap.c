@@ -3648,7 +3648,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_deleteTableOfReals(int argc, VALUE *argv, VALUE self) {
+_wrap_deleteMatrix(int argc, VALUE *argv, VALUE self) {
   TableOfReals *arg1 = (TableOfReals *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
@@ -3658,10 +3658,10 @@ _wrap_deleteTableOfReals(int argc, VALUE *argv, VALUE self) {
   }
   res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "TableOfReals *","deleteTableOfReals", 1, argv[0] )); 
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "TableOfReals *","deleteMatrix", 1, argv[0] )); 
   }
   arg1 = (TableOfReals *)(argp1);
-  deleteTableOfReals(arg1);
+  deleteMatrix(arg1);
   return Qnil;
 fail:
   return Qnil;
@@ -8287,6 +8287,40 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_tc_OctaveTool_api(int argc, VALUE *argv, VALUE self) {
+  void (*arg1)(String) = (void (*)(String)) 0 ;
+  void (*arg2)(String) = (void (*)(String)) 0 ;
+  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_OctaveTool_api", 1, argv[0] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_OctaveTool_api", 2, argv[1] )); 
+    }
+  }
+  {
+    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String,String,String,String,String)","tc_OctaveTool_api", 3, argv[2] )); 
+    }
+  }
+  tc_OctaveTool_api(arg1,arg2,arg3);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_tc_surface(int argc, VALUE *argv, VALUE self) {
   TableOfReals arg1 ;
   String arg2 = (String) 0 ;
@@ -10316,7 +10350,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "setNthString", _wrap_setNthString, -1);
   rb_define_module_function(mTinkercell, "nthItem", _wrap_nthItem, -1);
   rb_define_module_function(mTinkercell, "setNthItem", _wrap_setNthItem, -1);
-  rb_define_module_function(mTinkercell, "deleteTableOfReals", _wrap_deleteTableOfReals, -1);
+  rb_define_module_function(mTinkercell, "deleteMatrix", _wrap_deleteMatrix, -1);
   rb_define_module_function(mTinkercell, "deleteTableOfStrings", _wrap_deleteTableOfStrings, -1);
   rb_define_module_function(mTinkercell, "deleteArrayOfItems", _wrap_deleteArrayOfItems, -1);
   rb_define_module_function(mTinkercell, "deleteArrayOfStrings", _wrap_deleteArrayOfStrings, -1);
@@ -10450,6 +10484,7 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_DynamicLibraryMenu_api", _wrap_tc_DynamicLibraryMenu_api, -1);
   rb_define_module_function(mTinkercell, "tc_LoadCLibraries_api", _wrap_tc_LoadCLibraries_api, -1);
   rb_define_module_function(mTinkercell, "tc_PythonTool_api", _wrap_tc_PythonTool_api, -1);
+  rb_define_module_function(mTinkercell, "tc_OctaveTool_api", _wrap_tc_OctaveTool_api, -1);
   rb_define_module_function(mTinkercell, "tc_surface", _wrap_tc_surface, -1);
   rb_define_module_function(mTinkercell, "tc_plot", _wrap_tc_plot, -1);
   rb_define_module_function(mTinkercell, "tc_scatterplot", _wrap_tc_scatterplot, -1);

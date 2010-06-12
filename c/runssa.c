@@ -74,7 +74,7 @@ void runSSA(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -92,8 +92,8 @@ void runSSA(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
-		deleteTableOfReals(&params);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -106,7 +106,7 @@ void runSSA(TableOfReals input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteTableOfReals(&allParams);
+				deleteMatrix(&allParams);
 			return;
 		}
 	}
@@ -114,7 +114,7 @@ void runSSA(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -125,7 +125,7 @@ void runSSA(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -252,11 +252,11 @@ fprintf(out, "\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	deleteTableOfReals(&data);\n\
+	deleteMatrix(&data);\n\
 	free(model);\n",time,maxsz,rateplot,xaxis);
 
 	if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -265,7 +265,7 @@ fprintf(out, "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -489,7 +489,7 @@ void runLangevin(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -507,8 +507,8 @@ void runLangevin(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
-		deleteTableOfReals(&params);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -521,7 +521,7 @@ void runLangevin(TableOfReals input)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteTableOfReals(&allParams);
+				deleteMatrix(&allParams);
 			return;
 		}
 	}
@@ -529,7 +529,7 @@ void runLangevin(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -540,7 +540,7 @@ void runLangevin(TableOfReals input)
 	{
 		deleteArrayOfItems(&A);
 		if (slider)
-			deleteTableOfReals(&allParams);
+			deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -668,11 +668,11 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	tc_multiplot(2,1);\n\
 	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
 	tc_hist(data,1,\"Histogram\");\n\
-	deleteTableOfReals(&data);\n\
+	deleteMatrix(&data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot,xaxis);
 
 	if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -681,7 +681,7 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");

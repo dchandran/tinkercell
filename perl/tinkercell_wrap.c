@@ -3701,7 +3701,7 @@ XS(_wrap_setNthItem) {
 }
 
 
-XS(_wrap_deleteTableOfReals) {
+XS(_wrap_deleteMatrix) {
   {
     TableOfReals *arg1 = (TableOfReals *) 0 ;
     void *argp1 = 0 ;
@@ -3710,14 +3710,14 @@ XS(_wrap_deleteTableOfReals) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: deleteTableOfReals(M);");
+      SWIG_croak("Usage: deleteMatrix(M);");
     }
     res1 = SWIG_ConvertPtr(ST(0), &argp1,SWIGTYPE_p_TableOfReals, 0 |  0 );
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteTableOfReals" "', argument " "1"" of type '" "TableOfReals *""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteMatrix" "', argument " "1"" of type '" "TableOfReals *""'"); 
     }
     arg1 = (TableOfReals *)(argp1);
-    deleteTableOfReals(arg1);
+    deleteMatrix(arg1);
     ST(argvi) = sv_newmortal();
     
     XSRETURN(argvi);
@@ -9160,6 +9160,50 @@ XS(_wrap_tc_PythonTool_api) {
 }
 
 
+XS(_wrap_tc_OctaveTool_api) {
+  {
+    void (*arg1)(String) = (void (*)(String)) 0 ;
+    void (*arg2)(String) = (void (*)(String)) 0 ;
+    void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+    int argvi = 0;
+    dXSARGS;
+    
+    if ((items < 3) || (items > 3)) {
+      SWIG_croak("Usage: tc_OctaveTool_api(runOctaveCode,runPythonFile,addOctavePlugin);");
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+      }
+    }
+    {
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+      }
+    }
+    tc_OctaveTool_api(arg1,arg2,arg3);
+    ST(argvi) = sv_newmortal();
+    
+    
+    
+    XSRETURN(argvi);
+  fail:
+    
+    
+    
+    SWIG_croak_null();
+  }
+}
+
+
 XS(_wrap_tc_surface) {
   {
     TableOfReals arg1 ;
@@ -11163,7 +11207,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::setNthString", _wrap_setNthString},
 {"tinkercellc::nthItem", _wrap_nthItem},
 {"tinkercellc::setNthItem", _wrap_setNthItem},
-{"tinkercellc::deleteTableOfReals", _wrap_deleteTableOfReals},
+{"tinkercellc::deleteMatrix", _wrap_deleteMatrix},
 {"tinkercellc::deleteTableOfStrings", _wrap_deleteTableOfStrings},
 {"tinkercellc::deleteArrayOfItems", _wrap_deleteArrayOfItems},
 {"tinkercellc::deleteArrayOfStrings", _wrap_deleteArrayOfStrings},
@@ -11297,6 +11341,7 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_DynamicLibraryMenu_api", _wrap_tc_DynamicLibraryMenu_api},
 {"tinkercellc::tc_LoadCLibraries_api", _wrap_tc_LoadCLibraries_api},
 {"tinkercellc::tc_PythonTool_api", _wrap_tc_PythonTool_api},
+{"tinkercellc::tc_OctaveTool_api", _wrap_tc_OctaveTool_api},
 {"tinkercellc::tc_surface", _wrap_tc_surface},
 {"tinkercellc::tc_plot", _wrap_tc_plot},
 {"tinkercellc::tc_scatterplot", _wrap_tc_scatterplot},

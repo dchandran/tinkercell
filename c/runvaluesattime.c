@@ -44,8 +44,8 @@ void loadAllNames()
 			setNthString(allNames,i+params.rows,getRowName(N,i));
 		
 		params.rownames = newArrayOfStrings(0);
-		deleteTableOfReals(&params);
-		deleteTableOfReals(&N);
+		deleteMatrix(&params);
+		deleteMatrix(&N);
 		deleteArrayOfItems(&A);
 	}
 }
@@ -183,7 +183,7 @@ void run(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteTableOfReals(&N);
+		deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
 		allParams = newMatrix(initVals.rows+params.rows,2);
@@ -201,8 +201,8 @@ void run(TableOfReals input)
 			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
 		}
 		
-		deleteTableOfReals(&initVals);
-		deleteTableOfReals(&params);
+		deleteMatrix(&initVals);
+		deleteMatrix(&params);
 		deleteArrayOfItems(&B);
 		runfunc = runfuncInput;
 	}
@@ -296,7 +296,7 @@ TCAPIEXPORT void run(%s) \n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 
 	if (slider)
-		fprintf(out, "    deleteTableOfReals(&input);\n    return;\n}\n");
+		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -305,7 +305,7 @@ TCAPIEXPORT void run(%s) \n\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("timet.c -lode -lssa\0","run\0","At Time T\0",allParams);
-		deleteTableOfReals(&allParams);
+		deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("timet.c -lode -lssa\0","run\0","At Time T\0");

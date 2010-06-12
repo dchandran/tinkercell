@@ -279,6 +279,7 @@ namespace Tinkercell
 				{
 					insertDataMatrix(connectionHandle);
 				}
+				/*
 				else  //just for modifier arcs
 					if (connectionHandle->data &&
 						connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) &&
@@ -333,7 +334,7 @@ namespace Tinkercell
 							}
 							delete sDat;
 							delete nDat;
-					}
+					}*/
 			}
 		}
 	}
@@ -981,6 +982,7 @@ namespace Tinkercell
 				updatePlotWidget();
 				updateStoichiometryWidget();
 			}
+
 	}
 
 	//get the stoiciometry of the items and return the matrix

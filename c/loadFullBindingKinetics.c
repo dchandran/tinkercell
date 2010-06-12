@@ -93,7 +93,7 @@ void run()
 
   deleteArrayOfItems(&js); 
   deleteArrayOfItems(&tfs);  
-  deleteTableOfReals(&m);
+  deleteMatrix(&m);
 
   deleteArrayOfStrings(&names);
   deleteArrayOfStrings(&jnames);

@@ -2960,7 +2960,7 @@ R_swig_setNthItem ( SEXP A, SEXP i, SEXP o)
 
 
 SWIGEXPORT SEXP
-R_swig_deleteTableOfReals ( SEXP M)
+R_swig_deleteMatrix ( SEXP M)
 {
   TableOfReals *arg1 = (TableOfReals *) 0 ;
   void *argp1 = 0 ;
@@ -2971,10 +2971,10 @@ R_swig_deleteTableOfReals ( SEXP M)
   
   res1 = SWIG_R_ConvertPtr(M, &argp1, SWIGTYPE_p_TableOfReals, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteTableOfReals" "', argument " "1"" of type '" "TableOfReals *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "deleteMatrix" "', argument " "1"" of type '" "TableOfReals *""'"); 
   }
   arg1 = (TableOfReals *)(argp1);
-  deleteTableOfReals(arg1);
+  deleteMatrix(arg1);
   r_ans = R_NilValue;
   
   vmaxset(r_vmax);
@@ -11273,6 +11273,61 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
 
 
 SWIGEXPORT SEXP
+R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctavePlugin)
+{
+  void (*arg1)(String) = (void (*)(String)) 0 ;
+  void (*arg2)(String) = (void (*)(String)) 0 ;
+  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  unsigned int r_nprotect = 0;
+  SEXP r_ans = R_NilValue ;
+  VMAXTYPE r_vmax = vmaxget() ;
+  
+  if(TYPEOF(runOctaveCode) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(runOctaveCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      }
+    }
+  } else {
+    arg1 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(runOctaveCode, NULL);
+  }
+  if(TYPEOF(runPythonFile) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(runPythonFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+      }
+    }
+  } else {
+    arg2 = _p_f_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(runPythonFile, NULL);
+  }
+  if(TYPEOF(addOctavePlugin) != CLOSXP) {
+    {
+      int res = SWIG_R_ConvertPtr(addOctavePlugin, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
+      if (!SWIG_IsOK(res)) {
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+      }
+    }
+  } else {
+    arg3 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void;
+    R_SWIG_pushCallbackFunctionData(addOctavePlugin, NULL);
+  }
+  tc_OctaveTool_api(arg1,arg2,arg3);
+  r_ans = R_NilValue;
+  
+  
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return r_ans;
+}
+
+
+SWIGEXPORT SEXP
 R_swig_tc_surface ( SEXP z, SEXP title)
 {
   TableOfReals arg1 ;
@@ -14021,6 +14076,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
+   {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
    {"R_swig_tc_PlotTool_api", (DL_FUNC) &R_swig_tc_PlotTool_api, 8},
    {"R_swig_tc_SimulationEventsTool_api", (DL_FUNC) &R_swig_tc_SimulationEventsTool_api, 3},
    {"R_swig_tc_AssignmentFunctionsTool_api", (DL_FUNC) &R_swig_tc_AssignmentFunctionsTool_api, 3},
@@ -14087,7 +14143,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_rbind", (DL_FUNC) &R_swig_rbind, 3},
    {"R_swig_delete_TableOfReals", (DL_FUNC) &R_swig_delete_TableOfReals, 1},
    {"R_swig_new_TableOfReals", (DL_FUNC) &R_swig_new_TableOfReals, 0},
-   {"R_swig_deleteTableOfReals", (DL_FUNC) &R_swig_deleteTableOfReals, 1},
    {"R_swig_tc_callWhenExiting", (DL_FUNC) &R_swig_tc_callWhenExiting, 1},
    {"R_swig_tc_setColor", (DL_FUNC) &R_swig_tc_setColor, 3},
    {"R_swig_tc_getColor", (DL_FUNC) &R_swig_tc_getColor, 2},
@@ -14170,6 +14225,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_ArrayOfItems_items_get", (DL_FUNC) &R_swig_ArrayOfItems_items_get, 1},
    {"R_swig_tc_hist", (DL_FUNC) &R_swig_tc_hist, 3},
    {"R_swig_newMatrix", (DL_FUNC) &R_swig_newMatrix, 3},
+   {"R_swig_deleteMatrix", (DL_FUNC) &R_swig_deleteMatrix, 1},
    {"R_swig_tc_getConnectedNodesOther", (DL_FUNC) &R_swig_tc_getConnectedNodesOther, 2},
    {"R_swig_tc_openNewWindow", (DL_FUNC) &R_swig_tc_openNewWindow, 1},
    {"R_swig_tc_insert", (DL_FUNC) &R_swig_tc_insert, 3},

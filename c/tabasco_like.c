@@ -76,7 +76,7 @@ void run()
 	                 tc_setStoichiometry(flux , newN);
 	                 newN.colnames = rates;
 					 tc_setRates(flux,rates);
-	                 deleteTableOfReals(&newN);
+	                 deleteMatrix(&newN);
 		        }
 		        deleteArrayOfItems(&parts);
 		    }

@@ -59,7 +59,7 @@ namespace Tinkercell
 					k = nodesIn.indexOf(node);
 					if (k > -1)
 					{
-						reactants.value(QObject::tr("rate"), node->fullName()) += 1.0;
+						reactants.value(QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QString("*") + node->fullName();						
 					}
 					else
@@ -67,7 +67,7 @@ namespace Tinkercell
 						k = nodesOut.indexOf(node);
 						if (k > -1)
 						{
-							products.value( QObject::tr("rate"), node->fullName()) += 1.0;
+							products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 						}
 					}
 				}

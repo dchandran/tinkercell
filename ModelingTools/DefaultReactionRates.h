@@ -34,11 +34,11 @@ namespace Tinkercell
 			NumericalDataTable reactants, products;
 			TextDataTable rates;
 			
-			rates.value(handle->fullName(),QObject::tr("rate")) = QString("0.0");
+			rates.value(Qbject::tr("rate"),QObject::tr("formula")) = QString("0.0");
 			if (handle->hasNumericalData(QString("Parameters")))
 			{
 				handle->data->numericalData[QString("Parameters")].value(QString("k0"),0) = 1.0;
-				rates.value(handle->fullName(),QObject::tr("rate")) = handle->fullName() + QString(".k0");
+				rates.value(Qbject::tr("rate"),QObject::tr("rate")) = handle->fullName() + QString(".k0");
 			}
 
 			nodes.clear();
@@ -59,15 +59,15 @@ namespace Tinkercell
 					k = nodesIn.indexOf(node);
 					if (k > -1)
 					{
-						reactants.value(handle->fullName(), node->fullName()) += 1.0;
-						rates.value(handle->fullName(),QObject::tr("rate")) += QString("*") + node->fullName();						
+						reactants.value(Qbject::tr("rate"), node->fullName()) += 1.0;
+						rates.value(Qbject::tr("rate"),QObject::tr("formula")) += QString("*") + node->fullName();						
 					}
 					else
 					{
 						k = nodesOut.indexOf(node);
 						if (k > -1)
 						{
-							products.value( handle->fullName(), node->fullName()) += 1.0;
+							products.value( Qbject::tr("rate"), node->fullName()) += 1.0;
 						}
 					}
 				}

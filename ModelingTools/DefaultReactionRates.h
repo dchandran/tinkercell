@@ -38,7 +38,7 @@ namespace Tinkercell
 			if (handle->hasNumericalData(QString("Parameters")))
 			{
 				handle->data->numericalData[QString("Parameters")].value(QString("k0"),0) = 1.0;
-				rates.value(QObject::tr("rate"),QObject::tr("rate")) = handle->fullName() + QString(".k0");
+				rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QString(".k0");
 			}
 
 			nodes.clear();

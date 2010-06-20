@@ -60,10 +60,11 @@ namespace Tinkercell
 			alias->setToolTip(tr("Add a decoration item to selected object"));
 			//toolBar->addAction(alias);
 
-			if (mainWindow->toolBarEdits)
+			/*if (mainWindow->toolBarEdits)
 			{
 				mainWindow->toolBarEdits->addAction(decorate);
-			}
+			}*/
+
 			mainWindow->contextItemsMenu.addAction(alias);
 			mainWindow->contextItemsMenu.addAction(decorate);
 

@@ -27,10 +27,19 @@ namespace Tinkercell
 	BasicGraphicsToolbox::BasicGraphicsToolbox() : Tool(tr("Basic Graphics Toolbox"),tr("Basic GUI"))
 	{
 		mode = none;
-		colorToolBar = new QToolBar(name,this);
+	}
+	
+	void BasicGraphicsToolbox::init()
+	{
+		QToolBar * zoomToolBar = mainWindow->toolBarForTools;
+		zoomToolBar->setObjectName(tr("Zoom tool"));
+		
+		zoomToolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
+		zoomToolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
+		
+		QToolBar * colorToolBar = mainWindow->toolBarForTools;
 		colorToolBar->setObjectName(name);
 
-		gradientType = QGradient::NoGradient;
 		QToolButton * changeBrush = new QToolButton(colorToolBar);
 		changeBrush->setPopupMode(QToolButton::MenuButtonPopup);
 		changeBrush->setIcon(QIcon(tr(":/images/bucket.png")));
@@ -47,6 +56,7 @@ namespace Tinkercell
 		gradientMenu->addAction(noGradient);
 		gradientMenu->addAction(linearGradient);
 		gradientMenu->addAction(radialGradient);
+		gradientType = QGradient::NoGradient;
 
 		brushColor1 = QColor(255,255,255,255);
 		brushColor2 = QColor(80,80,255,255);
@@ -121,14 +131,6 @@ namespace Tinkercell
 		changePenMenu->addAction(changePenColor);
 		changePen->setMenu(changePenMenu);
 
-		//QToolButton * group = new QToolButton;
-		//group->setIcon(QIcon(tr(":/images/group.png")));
-		//connect(group,SIGNAL(pressed()),this,SLOT(group()));
-
-		//QToolButton * ungroup = new QToolButton;
-		//ungroup->setIcon(QIcon(tr(":/images/ungroup.png")));
-		//connect(ungroup,SIGNAL(pressed()),this,SLOT(ungroup()));
-
 		QToolButton * bringFront = new QToolButton(colorToolBar);
 		bringFront->setIcon(QIcon(tr(":/images/bringFront.png")));
 		connect(bringFront,SIGNAL(pressed()),this,SLOT(bringToFront()));
@@ -183,11 +185,6 @@ namespace Tinkercell
 		alignButton->setToolTip(tr("Align items"));
 		colorToolBar->addWidget(alignButton);
 
-		//group->setToolTip(tr("group selected items"));
-		//colorToolBar->addWidget(group);
-		//ungroup->setToolTip(tr("ungroup selected items"));
-		//colorToolBar->addWidget(ungroup);
-
 		changePenWidth = new QAction(tr("Width = ") + QString::number(penWidth),changePenMenu);
 		connect(changePenWidth,SIGNAL(triggered()),this,SLOT(selectPenWidth()));
 		changePenMenu->addAction(changePenWidth);
@@ -212,16 +209,7 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (main != 0)
 		{
-			QToolBar * zoomToolBar = new QToolBar(tr("Zoom tool"),main->centralWidget());
-			zoomToolBar->setObjectName(tr("Zoom tool"));
-			
-			zoomToolBar->addAction(QIcon(tr(":/images/zoomin.png")),tr("Zoom in"),this,SLOT(zoomIn()));
-			zoomToolBar->addAction(QIcon(tr(":/images/zoomout.png")),tr("Zoom out"),this,SLOT(zoomOut()));
-
-			mainWindow->addToolBar(zoomToolBar);
-
-			if (colorToolBar)
-				mainWindow->addToolBar(colorToolBar);
+			init();
 
 			findText = new QLineEdit;
 			replaceText = new QLineEdit;
@@ -307,9 +295,6 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)),
 				this,SLOT(mouseDragged(GraphicsScene*,QPointF,QPointF,Qt::MouseButton,Qt::KeyboardModifiers)));
-
-			connect(mainWindow,SIGNAL(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-				this,SLOT(mouseReleased(GraphicsScene*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
 			connect(mainWindow,SIGNAL(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)),
 				this,SLOT(mouseMoved(GraphicsScene*, QGraphicsItem*, QPointF, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>&)));
@@ -844,28 +829,28 @@ namespace Tinkercell
 				else
 					if (mode == brush || mode == pen || mode == gradient)
 					{
-						if (mode != pen)
+						/*if (mode != pen)
 						{
 							point.rx() += 1;
 							point.ry() += 0.5;
 						}
 						else
 						{
-							point.rx() -= 1.5;
-							point.ry() += 1.5;
-						}
+							point.rx() -= 1;
+							point.ry() += 0.5;
+						}*/
 
-						QGraphicsItem * item = scene->itemAt(point);
+						QGraphicsItem * item = getGraphicsItem(scene->itemAt(point));
 						if (!item || (!ConnectionGraphicsItem::cast(item) && (item->sceneBoundingRect().width() > 500 || item->sceneBoundingRect().height() > 500)))
 						{
 							QList<QGraphicsItem*> ps = scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0));
 							if (!ps.isEmpty())
 							{
 								int i=0;
-								item = ps[i];
-								while (i < ps.size() && TextGraphicsItem::cast(item))
+								item = getGraphicsItem(ps[i]);
+								while (!item)
 								{
-									item = ps[i];
+									item = getGraphicsItem(ps[i]);
 									++i;
 								}
 							}
@@ -908,11 +893,14 @@ namespace Tinkercell
 								if (connection != 0)
 								{
 									connection->setControlPointsVisible(true);
-									connection->setPen(QPen(QPen(penColor,penWidth,Qt::DashLine)));
-									if (mode == this->brush || mode == this->gradient)
-										scene->setBrush(tr("brush changed"), connection, QBrush(brushColor1));
-									else
-										scene->setPen(tr("pen changed"), connection, QPen(penColor,penWidth));
+									QPen pen = connection->defaultPen;
+									pen.setColor(penColor);
+									pen.setWidthF(penWidth);
+									connection->setPen(pen);
+									//if (mode == this->brush || mode == this->gradient)
+										//scene->setBrush(tr("brush changed"), connection, QBrush(brushColor1));
+									//else
+										scene->setPen(tr("pen changed"), connection, pen);
 									connection->refresh();
 									connection->setControlPointsVisible(false);
 								}

@@ -97,11 +97,12 @@ namespace Tinkercell
 
 		void moveTextGraphicsItems(QList<QGraphicsItem*> &, QList<QPointF> &);
 		void moveChildItems(QList<QGraphicsItem*> &, QList<QPointF> &);
+		void init();
 
 		QList<QGraphicsItem*> targetItems;
 		QGradient::Type gradientType;
 		QPointF gradientPos1, gradientPos2;
-		QToolBar* colorToolBar, * findToolBar;
+		QToolBar * findToolBar;
 		QColor brushColor1, brushColor2, penColor;
 		qreal penWidth;
 		QAction * changeBrushColor1, * changeBrushColor2, * changePenColor, *changePenWidth, *changeBrushAlpha1, *changeBrushAlpha2;

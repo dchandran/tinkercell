@@ -17,6 +17,7 @@ scripting interface.
 #include <QtGui>
 #include <QColor>
 #include <QMainWindow>
+#include <QTextCursor>
 #include <QTextEdit>
 #include <QCompleter>
 #include <QSyntaxHighlighter>
@@ -114,10 +115,14 @@ namespace Tinkercell
 	private:
 		/*! \brief text under the cursor*/
 		QString textUnderCursor() const;
-		/*! \brief used for code completion*/
+		/*! \brief used for auto completion*/
 		QCompleter *c;
 		/*! \brief used for auto completion*/
 		MainWindow * mainWindow;
+		/*! \brief used for auto completion*/
+		bool printValue(QTextCursor&, const QString&);
+		/*! \brief used for auto completion*/
+		void printHandleSummary(QTextCursor&, ItemHandle *);
 	};
 
 	/*! \brief Used to create an output window that can display outputs

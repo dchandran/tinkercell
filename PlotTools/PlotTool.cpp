@@ -188,13 +188,13 @@ namespace Tinkercell
 				dockWidget->setFloating(true);
 			}
 
-			QToolBar * toolBar = mainWindow->toolBarForTools;
-			QAction * action = new QAction(tr("Plot Window"),toolBar);
-			action->setIcon(QIcon(tr(":/images/graph.png")));
+			//QToolBar * toolBar = mainWindow->toolBarForTools;
+			//QAction * action = new QAction(tr("Plot Window"),toolBar);
+			//action->setIcon(QIcon(tr(":/images/graph.png")));
 
 			if (dockWidget)
 			{
-				connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
+				//connect(action,SIGNAL(triggered()),dockWidget,SLOT(show()));
 			}
 			else
 			{
@@ -204,9 +204,9 @@ namespace Tinkercell
 					toggle->setCheckable(true);
 					connect(toggle,SIGNAL(toggled(bool)),this,SLOT(setVisible(bool)));
 				}
-				connect(action,SIGNAL(triggered()),this,SLOT(show()));
+				//connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
-			toolBar->addAction(action);
+			//toolBar->addAction(action);
 
 			return true;
 		}

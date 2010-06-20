@@ -345,7 +345,8 @@ namespace Tinkercell
 				if (command.trimmed().toLower() == tr("clear"))
 	            	clearText();
 	            else
-					emit commandExecuted(command);
+		            if (!printValue(cursor,command))
+						emit commandExecuted(command);
 			}
 
 			if (cursor.block().text() != ConsoleWindow::Prompt)
@@ -620,6 +621,129 @@ namespace Tinkercell
 	CommandTextEdit * ConsoleWindow::editor()
 	{
 		return &commandTextEdit;
+	}
+	
+	bool CommandTextEdit::printValue(QTextCursor& cursor, const QString& s)
+	{
+		if (s.isEmpty() || !mainWindow) return false;
+		
+		NetworkHandle * network = mainWindow->currentNetwork();
+		
+		if (!network) return false;
+		
+		QList<ItemHandle*> list = network->findItem(s);		
+		ItemHandle * h = 0;
+		
+		if (!list.isEmpty()) h = list[0];
+		
+		if (h)
+		{
+			printHandleSummary(cursor,h);
+			return true;
+		}
+		
+		QList< QPair<ItemHandle*,QString> > pairs = network->findData(s);
+		
+		if (pairs.isEmpty() || !pairs[0].first || pairs[0].second.isEmpty()) return false;
+		
+		h = pairs[0].first;
+		QString id = pairs[0].second;
+		
+		cursor.setCharFormat(messageFormat);
+		if (h->hasTextData(id))
+		{
+			QString s2 = s;
+			s2.remove(h->fullName(".") + tr("."));
+			s2.remove(h->fullName("_") + tr("_"));
+			if (h->textDataTable(id).getRowNames().contains(s2))
+			{
+				cursor.insertText(h->textData(id,s2) + tr("\n"));
+				cursor.setCharFormat(normalFormat);
+				cursor.insertText(ConsoleWindow::Prompt);
+				return true;
+			}
+		}
+		
+		if (h->hasNumericalData(id))
+		{
+			QString s2 = s;
+			s2.remove(h->fullName(".") + tr("."));
+			s2.remove(h->fullName("_") + tr("_"));
+			if (h->numericalDataTable(id).getRowNames().contains(s2))
+			{
+				cursor.insertText(QString::number(h->numericalData(id,s2)) + tr("\n"));
+				cursor.setCharFormat(normalFormat);
+				cursor.insertText(ConsoleWindow::Prompt);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	void CommandTextEdit::printHandleSummary(QTextCursor& cursor, ItemHandle * h)
+	{
+		if (!h) return;
+		
+		QString s;
+		
+		if (h->family())
+			s += tr("family: ") + h->family()->name + tr("\n");
+		
+		if (h->data)
+		{
+			QList<QString> keys = h->data->numericalData.keys();
+			for (int i=0; i < keys.size(); ++i)
+			{
+				NumericalDataTable & dat = h->data->numericalData[ keys[i] ];
+				if (dat.rows() > 0 && dat.cols() > 0)
+				{
+					s += keys[i] + tr(":\n");
+					if (dat.cols() > 1)
+					{
+						for (int k=0; k < dat.cols(); ++k)
+							s += tr("\t\t") + dat.colName(k);
+						s += tr("\n");
+					}
+					for (int j=0; j < dat.rows(); ++j)
+					{
+						s += tr("\t") + dat.rowName(j) + tr(":\t");
+						
+						for (int k=0; k < dat.cols(); ++k)
+							s += QString::number(dat.at(j,k)) + tr("\t");
+						s += tr("\n");
+					}
+				}
+			}
+			
+			keys = h->data->textData.keys();
+			for (int i=0; i < keys.size(); ++i)
+			{
+				TextDataTable & dat = h->data->textData[ keys[i] ];
+				if (dat.rows() > 0 && dat.cols() > 0)
+				{
+					s += keys[i] + tr(":\n");
+					if (dat.cols() > 1)
+					{
+						for (int k=0; k < dat.cols(); ++k)
+							s += tr("\t\t") + dat.colName(k);
+						s += tr("\n");
+					}
+					for (int j=0; j < dat.rows(); ++j)
+					{
+						s += tr("\t") + dat.rowName(j) + tr(":\t");
+						
+						for (int k=0; k < dat.cols(); ++k)
+							s += (dat.at(j,k)) + tr("\t");
+						s += tr("\n");
+					}
+				}
+			}
+		}
+
+		cursor.setCharFormat(messageFormat);
+		cursor.insertText(tr("\n") + s);
+		cursor.setCharFormat(normalFormat);
+		cursor.insertText(ConsoleWindow::Prompt);
 	}
 
 }

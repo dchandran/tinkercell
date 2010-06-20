@@ -63,7 +63,6 @@ namespace Tinkercell
 		TextGraphicsItem * targetItem;
 		QString oldText;
 		QWidget widget;
-		QToolBar* toolBar;
 		bool inserting;
 		ChangeParentCommand * command;
 		QFont font;

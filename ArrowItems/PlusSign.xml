@@ -12,7 +12,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="circle and plus" width="20" height="20">
+            <style idList="circle and plus" width="40" height="40">
                 <g>
                     <ellipse cx="50%" cy="50%" rx="50%" ry="50%" angleStart="0" angleEnd="360" fill="shape0color" stroke="#2a3d66" stroke-width="8" stroke-alpha="1"/>
                     <polygon fill="shape1color" stroke="#2a3d66" stroke-width="1" stroke-alpha="1">

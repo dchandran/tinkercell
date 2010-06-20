@@ -26,46 +26,8 @@ namespace Tinkercell
 		command = 0;
 		targetItem = 0;
 		oldText = tr("");
-
-		toolBar = new QToolBar(tr("Text tool"),this);
-		toolBar->setObjectName(tr("Text tool"));
-		QToolButton * insertText = new QToolButton(toolBar);
-		insertText->setIcon(QIcon(tr(":/images/text.png")));
-		insertText->setToolTip(tr("Insert text"));
-		connect(insertText,SIGNAL(pressed()),this,SLOT(insertText()));
-
-		QMenu * fontMenu = new QMenu(toolBar);
-		fontMenu->addAction(tr("Set Font"),this,SLOT(getFont()));
-		insertText->setMenu(fontMenu);
-		insertText->setPopupMode(QToolButton::MenuButtonPopup);
-		toolBar->addWidget(insertText);
-
 		font.setPointSize(22);
 
-		/*
-
-
-		widget.setPalette(QPalette(QColor(255,255,255,255)));
-		widget.setAutoFillBackground(true);
-
-		QSlider * scaleSlider = new QSlider;
-		scaleSlider->setRange(1,100);
-		scaleSlider->setValue(50);
-		scaleSlider->setOrientation(Qt::Horizontal);
-
-		QVBoxLayout * layout = new QVBoxLayout;
-
-		QHBoxLayout * scaleLayout = new QHBoxLayout;
-		QGroupBox * scaleGroup = new QGroupBox(tr("Scale"));
-		scaleLayout->addWidget(scaleSlider);
-		scaleGroup->setLayout(scaleLayout);
-		layout->addWidget(scaleGroup);
-
-		QTextEdit * textBox = new QTextEdit;
-
-		layout->addWidget(textBox);
-
-		widget.setLayout(layout);*/
 	}
 
 	bool TextGraphicsTool::setMainWindow(MainWindow * main)
@@ -73,7 +35,20 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
-			mainWindow->addToolBar(toolBar);
+			QToolBar * toolBar = mainWindow->toolBarForTools;
+			if (toolBar)
+			{
+				QToolButton * insertText = new QToolButton(toolBar);
+				insertText->setIcon(QIcon(tr(":/images/text.png")));
+				insertText->setToolTip(tr("Insert text"));
+				connect(insertText,SIGNAL(pressed()),this,SLOT(insertText()));
+
+				QMenu * fontMenu = new QMenu(toolBar);
+				fontMenu->addAction(tr("Set Font"),this,SLOT(getFont()));
+				insertText->setMenu(fontMenu);
+				insertText->setPopupMode(QToolButton::MenuButtonPopup);
+				toolBar->addWidget(insertText);
+			}
 
 			QAction * insertText = new QAction("Insert text",this);
 			insertText->setIcon(QIcon(tr(":/images/text.png")));

@@ -37,14 +37,12 @@ namespace Tinkercell
 		{
 			makeNodeSelectionDialog();
 
-			QToolBar * toolBar = mainWindow->toolBarEdits;
-
 			QAction * replaceNode = new QAction(QIcon(":/images/parts.png"),tr("Replace graphics"),mainWindow->centralWidget());
 			replaceNode->setToolTip(tr("Replace node graphics"));
 			connect(replaceNode,SIGNAL(triggered()),this,SLOT(substituteNodeGraphics()));
-
-			if (toolBar)
-				toolBar->addAction(replaceNode);
+			//QToolBar * toolBar = mainWindow->toolBarEdits;
+			//if (toolBar)
+			//	toolBar->addAction(replaceNode);
 
 			mainWindow->editMenu->addAction(replaceNode);
 			mainWindow->contextItemsMenu.addAction(replaceNode);

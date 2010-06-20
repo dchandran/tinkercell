@@ -65,10 +65,10 @@ SET(C_LIBRARY_OUTPUT_PATH
 # BOOST library
 #----------------
 
-find_package( Boost 1.41 COMPONENTS threads regex)
-set(Boost_USE_STATIC_LIBS   ON)
-set(Boost_USE_MULTITHREADED ON)
-INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIRS} )
+#find_package( Boost 1.41 COMPONENTS threads regex)
+#set(Boost_USE_STATIC_LIBS   ON)
+#set(Boost_USE_MULTITHREADED ON)
+#INCLUDE_DIRECTORIES ( ${Boost_INCLUDE_DIRS} )
 
 #---------------------------------------------------------------------------
 # Qt4
@@ -207,6 +207,10 @@ IF( QT4_FOUND )
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml_odeSolver/src
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
+	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
     ${TINKERCELL_SOURCE_DIR}/c/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/Core/

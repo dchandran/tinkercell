@@ -427,6 +427,7 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 	
 	if (mode == 2 && nodeItems.size() == 2)
 	{	
+		//scene->remove("remove temp",nodeItems);
 		QList<NodeGraphicsItem*> list1, list2;
 		list1 << NodeGraphicsItem::cast(nodeItems[0]);
 		list2 << NodeGraphicsItem::cast(nodeItems[1]);

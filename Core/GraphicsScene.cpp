@@ -2239,7 +2239,7 @@ namespace Tinkercell
 		textItem->setBrush(ToolTipTextBrush);
 		
 		QRectF viewport = this->viewport();
-		qreal scale = 0.001 * (viewport.width() + viewport.height());		
+		qreal scale = 0.004 * (viewport.width() + viewport.height());		
 		textItem->scale(scale,scale);
 		QGraphicsScene::addItem(textItem);
 		textItem->setPos(p);

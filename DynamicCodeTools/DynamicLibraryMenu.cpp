@@ -29,8 +29,10 @@ namespace Tinkercell
 	/***************************
 	RUN LIB FILES MENU
 	***************************/
-	DynamicLibraryMenu::DynamicLibraryMenu() : Tool(tr("Dynamic Library Menu"),tr("Coding")), actionGroup(this)
+	DynamicLibraryMenu::DynamicLibraryMenu() : Tool(tr("Dynamic Library Menu"),tr("Coding")), 
+	    actionGroup(this), functionsMenu(tr("&Run")), functionsToolbarMenu(tr("Run"))
 	{
+	    functionsToolbarMenu.setToolTip(tr("Select analysis program"));
 		treeWidget.setHeaderHidden(true);
 		treeWidget.setColumnCount(1);
 
@@ -74,9 +76,9 @@ namespace Tinkercell
 	{
 		if (menuButton)
 		{
-			disconnect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
-			functionsMenu.setDefaultAction(action);
-			connect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
+			disconnect(menuButton,SIGNAL(pressed()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
+			functionsToolbarMenu.setDefaultAction(action);
+			connect(menuButton,SIGNAL(pressed()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
 		}
 	}
 
@@ -128,26 +130,27 @@ namespace Tinkercell
 
 			if (!menu)
 			{
-				menu = new QMenu(&functionsMenu);
+				menu = new QMenu(&functionsToolbarMenu);
 				menu->setTitle(category);
 				menu->setIcon(icon);
 				functionsSubMenus.append(menu);
-				functionsMenu.addMenu(menu);
+				functionsToolbarMenu.addMenu(menu);
 			}
 
 			menu->addAction(action);
+			functionsMenu.addAction(action);
 
-			if (!functionsMenu.defaultAction() || defaultAction)
+			if (!functionsToolbarMenu.defaultAction() || defaultAction)
 			{
-				if (functionsMenu.defaultAction())
-					disconnect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
+				if (functionsToolbarMenu.defaultAction())
+					disconnect(menuButton,SIGNAL(pressed()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
 
 				if (menu->defaultAction())
 					disconnect(menu,SIGNAL(pressed()),menu->defaultAction(),SIGNAL(triggered()));
 
 				menu->setDefaultAction(action);
-				functionsMenu.setDefaultAction(action);
-				connect(menuButton,SIGNAL(pressed()),functionsMenu.defaultAction(),SIGNAL(triggered()));
+				functionsToolbarMenu.setDefaultAction(action);
+				connect(menuButton,SIGNAL(pressed()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
 			}
 
 			actionGroup.addAction(action);
@@ -190,7 +193,6 @@ namespace Tinkercell
 	{
 	}
 
-
 	bool DynamicLibraryMenu::setMainWindow(MainWindow * main)
 	{
 		Tool::setMainWindow(main);
@@ -199,16 +201,19 @@ namespace Tinkercell
 			QToolBar * toolBar = mainWindow->toolBarForTools;
 			menuButton = new QToolButton(toolBar);
 			menuButton->setIcon(QIcon(":/images/play.png"));
-			menuButton->setMenu(&functionsMenu);
+			menuButton->setMenu(&functionsToolbarMenu);
 
 			menuButton->setPopupMode(QToolButton::MenuButtonPopup);
-			//connect(menuButton,SIGNAL(released()),functionsMenu.defaultAction(),SIGNAL(triggered()));
+			//connect(menuButton,SIGNAL(released()),functionsToolbarMenu.defaultAction(),SIGNAL(triggered()));
 
 			toolBar->addWidget(menuButton);
 
 			setWindowTitle(tr("Programs"));
 			setWindowIcon(QIcon(tr(":/images/play.png")));
 			mainWindow->addToolWindow(this, MainWindow::defaultToolWindowOption, Qt::BottomDockWidgetArea);
+			
+			if (mainWindow->menuBar())
+    			mainWindow->menuBar()->insertMenu(mainWindow->helpMenu->menuAction(),&functionsMenu);
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));

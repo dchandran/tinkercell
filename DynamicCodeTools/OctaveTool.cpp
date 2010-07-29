@@ -177,13 +177,13 @@ namespace Tinkercell
 			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
 			
 			ConsoleWindow * outWin = console();
-			/*if (outWin)
+			if (outWin)
 			{
 				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runOctaveCode(const QString&)));
 				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopOctave()));					
 				connect(this,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
 				connect(this,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
-			}*/
+			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -199,7 +199,7 @@ namespace Tinkercell
 			QString octdir = appDir + tr("/octave");
 			#endif
 			
-			QString s = tr("import sys\nsys.path.append(\"")+octdir+tr("\")\n");
+			QString s;// = tr("addpath(\"")+octdir+tr("\")\n");
 			
 			QFile file(appDir + tr("/octave/init.m"));
 			if (file.open(QFile::ReadOnly | QFile::Text))

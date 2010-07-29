@@ -127,6 +127,8 @@ namespace Tinkercell
         /*! \brief The menu with the functions that is placed in the main window's toolbar*/
         QMenu functionsMenu;
         /*! \brief The menu with the functions that is placed in the main window's toolbar*/
+        QMenu functionsToolbarMenu;
+        /*! \brief The menu with the functions that is placed in the main window's toolbar*/
         QList<QMenu*> functionsSubMenus;
         /*! \brief The tree widget with all the functions in categories*/
         QTreeWidget treeWidget;

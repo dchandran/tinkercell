@@ -19,10 +19,16 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 		
+		typedef void (*initFunc)();
 		typedef void (*execFunc)(const char*,const char*);
+		typedef void (*finalFunc)();
 		
 	public:
 		OctaveInterpreterThread(const QString&, MainWindow* main);
+
+	public slots:
+		virtual void initialize();
+		virtual void finalize();
 
 	protected:
 		virtual void run();

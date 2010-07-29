@@ -26,6 +26,50 @@ namespace Tinkercell
     	f = 0;
     }
     
+    void OctaveInterpreterThread::finalize()
+    {
+        if (!lib || !lib->isLoaded()) return;
+
+        finalFunc f = (finalFunc)lib->resolve("finalize");
+        if (f)
+        {
+            QString currentDir = QDir::currentPath();
+
+            QDir::setCurrent(MainWindow::tempDir());
+
+            f();
+
+            QDir::setCurrent(currentDir);
+        }
+    }
+    
+    void OctaveInterpreterThread::initialize()
+    {
+        if (!mainWindow || !lib || !lib->isLoaded())
+		{
+			//qDebug() << "Octave interpreter: lib not loaded" << mainWindow << " " << lib;
+			return;
+		}
+
+        QString appDir = QCoreApplication::applicationDirPath();
+
+        initFunc f = (initFunc)lib->resolve("initialize");
+        if (f)
+        {
+            mainWindow->console()->message(tr("Octave initialized"));
+            QString currentDir = QDir::currentPath();
+
+            QDir::setCurrent(MainWindow::tempDir());
+
+            setCPointers();
+            f();
+
+            QDir::setCurrent(currentDir);
+            
+            mainWindow->statusBar()->showMessage(tr("Octave initialized"));
+        }
+    }
+    
     void OctaveInterpreterThread::run()
     {
        if (!lib || !lib->isLoaded() || code.isEmpty()) return;
@@ -33,16 +77,15 @@ namespace Tinkercell
        static QString header;
 
         QString script;
-		script += code;
-
+		
         if (!f)
-            f = (execFunc)lib->resolve("tcexec");
+            f = (execFunc)lib->resolve("exec");
            
-        QDir dir(MainWindow::tempDir());
-		QString filename(dir.absoluteFilePath("octave.m"));
-		QFile file(filename);
+        //QDir dir(MainWindow::tempDir());
+		//QString filename(dir.absoluteFilePath("octave.m"));
+		//QFile file(filename);
 
-        if (f && file.open(QIODevice::WriteOnly))
+        if (f)// && file.open(QIODevice::WriteOnly))
         {
         	if (header.isEmpty())
         	{
@@ -56,13 +99,16 @@ namespace Tinkercell
 	        }
 
         	//file.write(header.toAscii());
-			file.write(script.toAscii());
-			file.close();
+			//file.write(script.toAscii());
+			//file.close();
+			
+			//script = header;
+			script += code;
 
             QString currentDir = QDir::currentPath();
             QDir::setCurrent(MainWindow::tempDir());
 
-            f("octave.m","octav.out");
+            f(script.toAscii().data(),"octav.out");
             if (mainWindow && mainWindow->console())
             {
             	QFile file(tr("octav.out"));

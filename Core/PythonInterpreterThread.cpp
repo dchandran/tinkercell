@@ -47,7 +47,6 @@ namespace Tinkercell
     {
         if (!mainWindow || !lib || !lib->isLoaded())
 		{
-			qDebug() << "Python interpreter: lib not loaded" << mainWindow << " " << lib;
 			return;
 		}
 

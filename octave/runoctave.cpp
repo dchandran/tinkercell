@@ -2,7 +2,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "TC_api.h"
+extern "C"
+{
+    #include "TC_api.h"
+}
 
 #include <octave/config.h>
 #include <octave/octave.h>

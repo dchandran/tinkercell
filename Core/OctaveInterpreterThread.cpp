@@ -72,37 +72,33 @@ namespace Tinkercell
     
     void OctaveInterpreterThread::run()
     {
-       if (!lib || !lib->isLoaded() || code.isEmpty()) return;
+        if (!lib || !lib->isLoaded() || code.isEmpty()) return;
        
-       static QString header;
+        static QString header;
 
         QString script;
 		
         if (!f)
             f = (execFunc)lib->resolve("exec");
-           
-        //QDir dir(MainWindow::tempDir());
-		//QString filename(dir.absoluteFilePath("octave.m"));
-		//QFile file(filename);
 
-        if (f)// && file.open(QIODevice::WriteOnly))
+        if (f)
         {
         	if (header.isEmpty())
         	{
+        	    QString appDir = QCoreApplication::applicationDirPath();
+        	    
         		header = QObject::tr("addpath('");
 #ifdef Q_WS_WIN
-				header += tr("\"") + MainWindow::homeDir() + tr("\"\\\\octave')\n");
+                appDir.replace(tr("/"),tr("\\\\"));
+				header += tr("\"") + appDir + tr("\"\\\\octave')\n");
 #else
-				header += MainWindow::homeDir() + tr("/octave')\n");
+				header += appDir + tr("/octave')\n");
 #endif
 	        	header += QObject::tr("tinkercell('global')\n\n");
+	        	
+	        	script = header;
 	        }
-
-        	//file.write(header.toAscii());
-			//file.write(script.toAscii());
-			//file.close();
 			
-			//script = header;
 			script += code;
 
             QString currentDir = QDir::currentPath();

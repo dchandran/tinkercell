@@ -1,6 +1,11 @@
 #ifndef TINKERCELL_TCAPI_H
 #define TINKERCELL_TCAPI_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include "TCstructs.h"
 #include "API/TC_Main_api.h"
 
@@ -17,5 +22,10 @@
 #include "API/TC_NameFamily_api.h"
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
 #include "API/TC_Antimony_api.h"
+
+#ifdef __cplusplus
+}
+#endif
+
 
 #endif

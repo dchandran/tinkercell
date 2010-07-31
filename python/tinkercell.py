@@ -1020,3 +1020,4 @@ def toMatrix(lists, row_wise = False , rows = [], cols = []):
 def toHex(r,g,b):
     hexchars = "0123456789ABCDEF0";
     return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];
+

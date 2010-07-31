@@ -168,7 +168,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/tcrunoct"), mainWindow);
+			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/tinkercell.oct"), mainWindow);
 			octaveInterpreter->initialize();
 			
 

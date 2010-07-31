@@ -14,3 +14,13 @@ ELSE ( WIN32 )
   INSTALL(TARGETS tinkercellapi ARCHIVE DESTINATION c)
 ENDIF( WIN32 )
 
+#IF( WIN32 )
+#  INSTALL(TARGETS tinkercellapi
+#    DESTINATION bin/../
+#  )
+#ELSE( WIN32 )
+#  INSTALL(TARGETS tinkercellapi
+#    LIBRARY DESTINATION bin/../
+#  )
+#ENDIF( WIN32 )
+

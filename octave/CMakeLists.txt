@@ -10,34 +10,24 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
 
    INCLUDE_DIRECTORIES( BEFORE ${OCTAVE_INCLUDE_DIR} )
    
+   ADD_DEFINITIONS(-D__cplusplus)
+   
    ADD_LIBRARY( tcoct
   	  SHARED
 	  tinkercell_wrap.cpp
+	  runoctave.cpp
   )
   
   #extend
   TARGET_LINK_LIBRARIES( tcoct
     tcoct
-    #${OCTAVE_CRUFT_LIBRARY}
-    #${OCTAVE_OCTAVE_LIBRARY}
-    #${OCTAVE_OCTAVEINTERP_LIBRARY}
-  )
-
-  ADD_LIBRARY( tcrunoct
-  	  SHARED
-  	  runoctave.cpp
-  )
-
-  #enbed
-  TARGET_LINK_LIBRARIES( tcrunoct
-    tcrunoct
-    #tinkercellapi
+    tinkercellapi
     ${OCTAVE_CRUFT_LIBRARY}
     ${OCTAVE_OCTAVE_LIBRARY}
     ${OCTAVE_OCTAVEINTERP_LIBRARY}
   )
-  
-  INSTALL(TARGETS tcrunoct DESTINATION octave)
+ 
+  #INSTALL(TARGETS tcoct DESTINATION octave)
   
   IF ( WIN32 )
     
@@ -46,10 +36,10 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
           COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
       )
     
-    ADD_CUSTOM_COMMAND (
-          TARGET tcrunoct POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcrunoct.dll ${TINKERCELL_BINARY_DIR}/bin/octave/tcrunoct.dll
-      )
+    #ADD_CUSTOM_COMMAND (
+    #      TARGET tcoct POST_BUILD
+    #      COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/bin/octave/tcrunoct.dll
+    #  )
     
   ELSE ( WIN32 )
 
@@ -58,10 +48,10 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
          COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
     )
     
-    ADD_CUSTOM_COMMAND (
-          TARGET tcrunoct POST_BUILD
-          COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcrunoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/libtcrunoct.so
-    )
+    #ADD_CUSTOM_COMMAND (
+    #      TARGET tcoct POST_BUILD
+    #      COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/libtcoct.so
+    #)
       
   ENDIF( WIN32 )
   

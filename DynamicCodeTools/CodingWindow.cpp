@@ -40,6 +40,7 @@ namespace Tinkercell
 		 fileName = homeDir + tr("/code.c");
 		 
 		 toolBar = 0;
+		 progressBar = 0;
 		 window = new QMainWindow(this);
 
 		 setupEditor();
@@ -48,13 +49,13 @@ namespace Tinkercell
 	
 	void CodingWindow::convertCodeToButton()
 	{
-		if (pythonButton->isChecked())
+		if (selectedLanguage == Python)
 			convertCodeToButtonPy();
 		else
-		if (octaveButton->isChecked())
+		if (selectedLanguage == Octave)
 			convertCodeToButtonOctave();
 		else
-		if (cButton->isChecked())
+		if (selectedLanguage == C)
 			convertCodeToButtonC();
 	}
 
@@ -213,6 +214,124 @@ specific for:\n\"\"\"\n\n") + text;
 		
 		loadPyFromDir(userHomeDir);
 	}
+	
+	void CodingWindow::enableC(bool b)
+	{
+	    if (!b || selectedLanguage == C) return;
+	    
+	    selectedLanguage = C;
+	    
+	    if (cButton)
+	        cButton->setChecked(true);
+	    
+	    if (cAction)
+	        cAction->setChecked(true);
+	    
+	    if (editor)
+	 		editor->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
+	}
+	
+	void CodingWindow::enableOctave(bool b)
+	{  
+	    if (!b || selectedLanguage == Octave) return;
+	    
+	    selectedLanguage = Octave;
+	    disablePython();
+	    
+  	    if (octaveButton)
+	        octaveButton->setChecked(true);
+	    
+	    if (octaveAction)
+	        octaveAction->setChecked(true);
+
+	    QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
+		if (widget)
+		{
+			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
+    	    ConsoleWindow * outWin = console();
+			if (outWin)
+			{
+				connect(outWin,SIGNAL(commandExecuted(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
+				connect(outWin,SIGNAL(commandInterrupted()),ocTool,SLOT(stopOctave()));					
+				connect(ocTool,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
+				connect(ocTool,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
+			}
+			connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
+		}
+		
+		if (editor)
+	 		editor->setPlainText(tr("tinkercell('global')\n"));
+	}
+	
+	void CodingWindow::disableOctave()
+	{
+	    QWidget * widget = mainWindow->tool(tr("Octave Interpreter"));
+		if (widget)
+		{
+			OctaveTool * ocTool = static_cast<OctaveTool*>(widget);
+    	    ConsoleWindow * outWin = console();
+			if (outWin)
+			{
+				disconnect(outWin,SIGNAL(commandExecuted(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
+				disconnect(outWin,SIGNAL(commandInterrupted()),ocTool,SLOT(stopOctave()));					
+				disconnect(ocTool,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
+				disconnect(ocTool,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
+			}
+			disconnect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
+		}
+	}
+	
+	void CodingWindow::enablePython(bool b)
+	{
+	    if (!b || selectedLanguage == Python) return;
+	    
+	    selectedLanguage = Python;
+	    
+   	    if (pythonButton)
+	        pythonButton->setChecked(true);
+	    
+	    if (pythonAction)
+	        pythonAction->setChecked(true);
+	    
+	    disableOctave();
+
+	    QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
+		if (widget)
+		{
+			PythonTool * pyTool = static_cast<PythonTool*>(widget);
+    	    ConsoleWindow * outWin = console();
+			if (outWin)
+			{
+				connect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
+				connect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
+				connect(pyTool,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
+				connect(pyTool,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
+			}
+			connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
+		}
+		
+	 	if (editor)
+    		editor->setPlainText(tr("from tinkercell import *\n"));
+	 	
+	}
+	
+	void CodingWindow::disablePython()
+	{
+	    QWidget * widget = mainWindow->tool(tr("Python Interpreter"));
+		if (widget)
+		{
+			PythonTool * pyTool = static_cast<PythonTool*>(widget);
+    	    ConsoleWindow * outWin = console();
+			if (outWin)
+			{
+				disconnect(outWin,SIGNAL(commandExecuted(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
+				disconnect(outWin,SIGNAL(commandInterrupted()),pyTool,SLOT(stopPython()));					
+				disconnect(pyTool,SIGNAL(pythonStarted()),outWin->editor(),SLOT(freeze()));
+				disconnect(pyTool,SIGNAL(pythonFinished()),outWin->editor(),SLOT(unfreeze()));
+			}
+			disconnect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
+		}
+	}
 
 	bool CodingWindow::setMainWindow(MainWindow* main)
 	{
@@ -227,13 +346,6 @@ specific for:\n\"\"\"\n\n") + text;
 
         window->setCentralWidget(splitter);
         window->setWindowTitle(name);
-
-        /*
-        QHBoxLayout * layout = new QHBoxLayout;
-        layout->addWidget(window);
-        layout->setContentsMargins(0,0,0,0);
-        setLayout(layout);
-        */
 
 		if (mainWindow)
 		{
@@ -261,7 +373,15 @@ specific for:\n\"\"\"\n\n") + text;
 				}
 				connect(action,SIGNAL(triggered()),this,SLOT(show()));
 			}
+			
 			toolBar->addAction(action);
+			if (this->toolBar)
+			{
+			    progressBar = new QProgressBar(this->toolBar);
+				progressBar->setRange(0,100);
+				this->toolBar->addWidget(progressBar);
+				progressBar->setToolTip("Progress meter for running code");
+			}
 
 			if (mainWindow->tool(tr("Python Interpreter")))
 			{
@@ -273,15 +393,6 @@ specific for:\n\"\"\"\n\n") + text;
 					connect(this,SIGNAL(runPython(const QString&)),pyTool,SLOT(runPythonCode(const QString&)));
 					connect(this,SIGNAL(stopPython()),pyTool,SLOT(stopPython()));
 					connect(this,SIGNAL(loadPyFromDir( QDir& )),pyTool,SLOT(loadFromDir( QDir& )));
-
-					if (this->toolBar)
-					{
-						QProgressBar * progressBar = new QProgressBar(this->toolBar);
-						progressBar->setRange(0,100);
-						this->toolBar->addWidget(progressBar);
-						progressBar->setToolTip("Python progress meter");
-						connect(pyTool->pythonInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
-					}
 				}
 			}
 			
@@ -295,15 +406,6 @@ specific for:\n\"\"\"\n\n") + text;
 					connect(this,SIGNAL(runOctave(const QString&)),ocTool,SLOT(runOctaveCode(const QString&)));
 					connect(this,SIGNAL(stopOctave()),ocTool,SLOT(stopOctave()));
 					connect(this,SIGNAL(loadOctFromDir( QDir& )),ocTool,SLOT(loadFromDir( QDir& )));
-
-					if (this->toolBar)
-					{
-						QProgressBar * progressBar = new QProgressBar(this->toolBar);
-						progressBar->setRange(0,100);
-						this->toolBar->addWidget(progressBar);
-						progressBar->setToolTip("Octave progress meter");
-						connect(ocTool->octaveInterpreter,SIGNAL(progress(int)),progressBar,SLOT(setValue(int)));
-					}
 				}
 			}
 
@@ -323,8 +425,32 @@ specific for:\n\"\"\"\n\n") + text;
 			if (mainWindow->helpMenu)
 			{
 				mainWindow->helpMenu->addAction(tr("PySCeS user manual"),this,SLOT(pyscesHelp()));
-
 			}
+
+			if (mainWindow->optionsMenu && cButton && pythonButton && octaveButton)
+			{
+				QMenu * langMenu = mainWindow->optionsMenu->addMenu(tr("Console language"));
+				QActionGroup * actionGroup = new QActionGroup(this);
+				
+				cAction = langMenu->addAction(tr("C"));
+				pythonAction = langMenu->addAction(tr("Python"));
+				octaveAction = langMenu->addAction(tr("Octave"));
+				
+				connect(cAction,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
+				connect(pythonAction,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));
+				connect(octaveAction,SIGNAL(toggled(bool)),this,SLOT(enableOctave(bool)));
+                
+				cAction->setCheckable(true);
+				pythonAction->setCheckable(true);
+				octaveAction->setCheckable(true);
+
+				actionGroup->addAction(cAction);
+				actionGroup->addAction(pythonAction);
+				actionGroup->addAction(octaveAction);
+				actionGroup->setExclusive(true);
+			}
+			
+			enablePython();
 
 			return true;
 		}
@@ -355,14 +481,16 @@ specific for:\n\"\"\"\n\n") + text;
 		editor->setFont(font);
 
 		highlighter = new CandPythonSyntaxHighlighter(editor->document());
-		 
-		cButton = new QRadioButton("C");
-		octaveButton = new QRadioButton("Octave");
-		pythonButton = new QRadioButton("Python");
 		
-		connect(cButton,SIGNAL(released()),this,SLOT(languageChanged()));
-		connect(pythonButton,SIGNAL(released()),this,SLOT(languageChanged()));
-		connect(octaveButton,SIGNAL(released()),this,SLOT(languageChanged()));
+		cAction = octaveAction = pythonAction = 0;
+		 
+		cButton = new QRadioButton("C"),
+        octaveButton = new QRadioButton("Octave"),
+        pythonButton = new QRadioButton("Python");
+		
+		connect(cButton,SIGNAL(toggled(bool)),this,SLOT(enableC(bool)));
+		connect(pythonButton,SIGNAL(toggled(bool)),this,SLOT(enablePython(bool)));
+		connect(octaveButton,SIGNAL(toggled(bool)),this,SLOT(enableOctave(bool)));
 		 
  		QHBoxLayout * layout1 = new QHBoxLayout;
  		layout1->addWidget(cButton,0);
@@ -377,24 +505,6 @@ specific for:\n\"\"\"\n\n") + text;
 		
 		editorWidget = new QWidget(this);
 		editorWidget->setLayout(layout2);
-	 }
-	 
-	 void CodingWindow::languageChanged()
-	 {
-	 	if (cButton->isChecked())
-	 	{
-	 		editor->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return; \n}\n"));
-	 	}
-	 	else
-	 	if (pythonButton->isChecked())
-	 	{
-			 editor->setPlainText(tr("from tinkercell import *\n"));
-	 	}
-	 	else
-	 	if (octaveButton->isChecked())
-	 	{
-	 		editor->setPlainText(tr("tinkercell('global')\n"));
-	 	}
 	 }
 
 	 void CodingWindow::setupMenu()
@@ -450,25 +560,22 @@ specific for:\n\"\"\"\n\n") + text;
 	{
 		if (editor)
 		{
-			if (cButton->isChecked())
+		    editor->clear();
+			editor->defaultSavedFilename.clear();
+
+			if (selectedLanguage == C)
 			{
-				editor->clear();
-				editor->defaultSavedFilename.clear();
-                                editor->setPlainText(tr("#include \"TC_api.h\"\nTCAPIEXPORT void run()\n{\n\n\n\n   return 1; \n}\n"));
+                enableC();
 			}
 			else
-			if (pythonButton->isChecked())
+			if (selectedLanguage == Python)
 			{
-				editor->clear();
-				editor->defaultSavedFilename.clear();
-				editor->setPlainText(tr("import pytc\n"));
+                enablePython();
 			}
 			else
-			if (octaveButton->isChecked())
+			if (selectedLanguage == Octave)
 			{
-				editor->clear();
-				editor->defaultSavedFilename.clear();
-				editor->setPlainText(tr("tinkercell('global')\n"));
+                enableOctave();
 			}
 		}
 	}
@@ -485,13 +592,13 @@ specific for:\n\"\"\"\n\n") + text;
 	{
 		if (editor)
 		{
-			if (cButton->isChecked())
+			if (selectedLanguage == C)
 				editor->open("C Files (*.c)");
 			else
-			if (pythonButton->isChecked())
+			if (selectedLanguage == Python)
 				editor->open("Python Files (*.py)");
 			else
-			if (octaveButton->isChecked())
+			if (selectedLanguage == Octave)
 				editor->open("Octave Files (*.m)");
 		}
 	}
@@ -500,13 +607,13 @@ specific for:\n\"\"\"\n\n") + text;
 	{
 		if (editor)
 		{
-			if (cButton->isChecked())
+			if (selectedLanguage == C)
 				editor->save("C Files (*.c)");
 			else
-			if (pythonButton->isChecked())
+			if (selectedLanguage == Python)
 				editor->save("Python Files (*.py)");
 			else
-			if (octaveButton->isChecked())
+			if (selectedLanguage == Octave)
 				editor->save("Octave Files (*.m)");
 		}
 	}
@@ -531,13 +638,13 @@ specific for:\n\"\"\"\n\n") + text;
 	 {
 		if (editor)
 		{
-			if (cButton->isChecked())
+			if (selectedLanguage == C)
 				runC(editor->toPlainText());
-
-			if (pythonButton->isChecked())
+            else
+			if (selectedLanguage == Python)
 				emit runPython(editor->toPlainText());
-
-			if (octaveButton->isChecked())
+            else
+			if (selectedLanguage == Octave)
 				emit runOctave(editor->toPlainText());
 		}
 	 }

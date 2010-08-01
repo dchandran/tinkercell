@@ -96,7 +96,7 @@ namespace Tinkercell
 			setWindowTitle(tr("Parts and Connections"));
 			setWindowIcon(QIcon(tr(":/images/appicon.png")));
 
-			if (layoutMode == TreeView)
+			/*if (layoutMode == TreeView)
 			{
 				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -104,10 +104,10 @@ namespace Tinkercell
 				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
-			{
+			{*/
 				setUpTabView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-			}
+			/*}
 
 			if (mainWindow->optionsMenu)
 			{
@@ -117,7 +117,7 @@ namespace Tinkercell
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
 
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
-			}
+			}*/
 
 			return true;
 		}

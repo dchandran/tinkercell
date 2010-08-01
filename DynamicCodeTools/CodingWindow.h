@@ -99,23 +99,32 @@ namespace Tinkercell
 		void selectAll();
 		virtual void setVisible(bool);
 		void pyscesHelp();
+		void enablePython(bool b=true);
+        void enableOctave(bool b=true);
+        void enableC(bool b=true);
 
 	protected slots:
 		void convertCodeToButton();
-		void languageChanged();
 
 	protected:
-
 		void setupEditor();
 		void setupMenu();
 		void runC(const QString&);
 		void convertCodeToButtonOctave();
 		void convertCodeToButtonPy();
 		void convertCodeToButtonC();
+		void disablePython();
+		void disableOctave();
 
+        QProgressBar * progressBar;
 		QTimeLine timer;
 		QMainWindow * window;
+
+        enum Languages { C, Octave, Python };
+        Languages selectedLanguage;
+
 		QRadioButton * cButton, * octaveButton, *pythonButton;
+		QAction * cAction, * octaveAction, *pythonAction; 
 		RuntimeCodeEditor *editor;
 		QWidget * editorWidget;
 		QToolBar * toolBar;

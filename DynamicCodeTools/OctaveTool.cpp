@@ -175,15 +175,6 @@ namespace Tinkercell
 			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
 			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
 			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
-			
-			ConsoleWindow * outWin = console();
-			if (outWin)
-			{
-				connect(outWin,SIGNAL(commandExecuted(const QString&)),this,SLOT(runOctaveCode(const QString&)));
-				connect(outWin,SIGNAL(commandInterrupted()),this,SLOT(stopOctave()));					
-				connect(this,SIGNAL(octaveStarted()),outWin->editor(),SLOT(freeze()));
-				connect(this,SIGNAL(octaveFinished()),outWin->editor(),SLOT(unfreeze()));
-			}
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));

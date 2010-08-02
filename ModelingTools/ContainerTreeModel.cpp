@@ -206,7 +206,6 @@ namespace Tinkercell
 		if (handle == 0) return rootItem;
 		if (!root) return 0;
 		
-		
 		if (attribute.isEmpty() && treeItems.contains(handle)) return treeItems[handle];
 		
 		QList<ContainerTreeItem*> queue = root->childItems;
@@ -221,7 +220,7 @@ namespace Tinkercell
 				queue << queue[i]->childItems;
 			}
 		}
-		
+
 		return 0;
 	}
 	
@@ -233,9 +232,7 @@ namespace Tinkercell
 			{
 				treeItems.clear();
 				delete rootItem;
-				rootItem = 0;
-				
-				treeItems.clear();
+				rootItem = 0;				
 				
 				for (int i=0; i < markedForDeletion.size(); ++i)
 					if (markedForDeletion[i])
@@ -267,9 +264,19 @@ namespace Tinkercell
 						}
 					}
 				}
+				
+            QList<ContainerTreeItem*> queue = rootItem->childItems;
+		
+	        for (int i=0; i < queue.size(); ++i)
+		        if (queue[i])
+		        {
+			        treeItems.remove(queue[i]->handle());
+			        queue << queue[i]->childItems;
+		        }
 			
 			if (rootItem)
 				delete rootItem;
+
 			rootItem = newRootItem;
 			emit layoutChanged();
 		}
@@ -278,16 +285,16 @@ namespace Tinkercell
 	ContainerTreeItem* ContainerTreeModel::makeBranch(ItemHandle* handle, ContainerTreeItem * parentItem, const QString & attribute)
 	{
 		if (!handle) return 0;
-		
+
 		ContainerTreeItem * item;
-		
+
 		if (attribute.isEmpty())
-			item = findTreeItem(rootItem, handle,attribute);
+			item = findTreeItem(rootItem, handle, attribute);
 		else
-			item = findTreeItem(parentItem, handle,attribute);
+			item = findTreeItem(parentItem, handle, attribute);
 
 		treeItems.remove(handle);
-		
+
 		if (item)
 		{
 			if (item->parentItem && item->parentItem != parentItem)
@@ -295,11 +302,11 @@ namespace Tinkercell
 				item->parentItem->childItems.removeAll(item);
 			}
 			item->parentItem = parentItem;
+
 			if (!attribute.isEmpty())			
 				return item;
 		}		
 	
-
 		int k = 0;
 		NumericalDataTable * params = 0;
 		
@@ -318,8 +325,7 @@ namespace Tinkercell
 		{
 			if (item)
 			{
-				if (item->parentItem)
-					item->parentItem = 0;
+				item->parentItem = 0;
 				item->childItems.clear();
 				if (!markedForDeletion.contains(item))
 					markedForDeletion << item;
@@ -419,7 +425,7 @@ namespace Tinkercell
 				return QVariant(handle->family()->measurementUnit.property);
 			}
 		}
-				
+
 		if (role != Qt::DisplayRole)
 			return QVariant();
 
@@ -436,9 +442,9 @@ namespace Tinkercell
 		if (!item) return false;
 
 		ItemHandle * handle = item->handle();
-		
+
 		QString attributeName = item->text();
-		
+
 		if (!handle || !handle->data || !handle->family()) return false;
 
 		if (index.column() == 0)
@@ -457,7 +463,7 @@ namespace Tinkercell
 		}
 		else
 		if (index.column() == 1)
-		{			
+		{
 			if (attributeName.isEmpty())
 			{
 				if (handle->hasNumericalData(QString("Initial Value")))

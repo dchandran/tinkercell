@@ -98,6 +98,7 @@ namespace Tinkercell
 		QGraphicsItem* createLink(NodeGraphicsItem* module, ItemHandle * handle);
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
+		QUndoCommand * addModuleLayerInfo(const QList<ItemHandle*> & items);
 		
 		static ItemHandle * findCorrespondingHandle(ItemHandle*,ConnectionHandle*);
 

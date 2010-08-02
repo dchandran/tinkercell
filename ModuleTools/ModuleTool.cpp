@@ -420,6 +420,42 @@ namespace Tinkercell
 			}
 		}
 	}
+	
+	QUndoCommand * ModuleTool::addModuleLayerInfo(const QList<ItemHandle*> & list)
+	{
+	    QList<ItemHandle*> handles, children;
+	    QList<NumericalDataTable*> newTables, oldTables;
+	    ItemHandle * root;
+	    for (int i=0; i < list.size(); ++i)
+		    if (list[i])
+			{
+				root = list[i]->root();
+				if (root && (root->isA(tr("module")) || ConnectionHandle::cast(root)))
+				{
+					if (root->hasNumericalData(tr("Hidden module")))
+					{
+						NumericalDataTable * oldDat = &(root->numericalDataTable(tr("Hidden module")));
+						NumericalDataTable * newDat = new NumericalDataTable(*oldDat);
+						newDat->value(0,0) = 0.0;
+						handles << root;
+						oldTables << oldDat
+						newTables << newDat;
+					}
+					
+					children = root->children;
+					for (int j=0; j < children.size(); ++j)
+						if (children[j])
+						{
+							if (!handles.contains(children[j]))
+							{
+								
+								handles << children[j];
+							}
+							children << children[j]->children;
+						}
+				}
+			}
+	}
 
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{

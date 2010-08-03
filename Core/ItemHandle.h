@@ -147,6 +147,10 @@ namespace Tinkercell
 		\param ItemHandle* parent handle
 		\return Boolean is child*/
 		virtual bool isChildOf(ItemHandle * handle) const;
+		/*! \brief counts the number of parents that have to be traversed in order to reach the root handle. 
+		If this handle has no parents, the values returned is 0. If its parent has no parent, then the value is 1, and so on.
+		\return int*/
+		virtual int depth() const;
 		/*! \brief gets the graphics items belonging to this handle and all child handes
 		\return QList<QGraphicsItem*> list of graphics items*/
 		virtual QList<QGraphicsItem*> allGraphicsItems() const;

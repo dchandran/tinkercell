@@ -432,13 +432,13 @@ namespace Tinkercell
 				root = list[i]->root();
 				if (root && (root->isA(tr("module")) || ConnectionHandle::cast(root)))
 				{
-					if (root->hasNumericalData(tr("Hidden module")))
+					if (root->hasNumericalData(tr("Hidden Module")))
 					{
-						NumericalDataTable * oldDat = &(root->numericalDataTable(tr("Hidden module")));
+						NumericalDataTable * oldDat = &(root->numericalDataTable(tr("Hidden Module")));
 						NumericalDataTable * newDat = new NumericalDataTable(*oldDat);
 						newDat->value(0,0) = 0.0;
 						handles << root;
-						oldTables << oldDat
+						oldTables << oldDat;
 						newTables << newDat;
 					}
 					
@@ -448,13 +448,25 @@ namespace Tinkercell
 						{
 							if (!handles.contains(children[j]))
 							{
-								
+								if (!children[j]->hasNumericalData(tr("Hidden Module")))
+									children[j]->numericalData(tr("Hidden Module")) = 0.0;
+								NumericalDataTable * oldDat = &(children[j]->numericalDataTable(tr("Hidden Module")));
+								NumericalDataTable * newDat = new NumericalDataTable(*oldDat);
+								newDat->value(0,0) = (double)children[j]->depth();
 								handles << children[j];
+								oldTables << oldDat;
+								newTables << newDat;
 							}
 							children << children[j]->children;
 						}
 				}
 			}
+		QUndoCommand * command = new ChangeNumericalDataCommand(tr("Hidden module data"), oldTables, newTables);
+		
+		for (int i=0; i < newTables.size(); ++i)
+			delete newTables[i];
+		
+		return command;
 	}
 
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)

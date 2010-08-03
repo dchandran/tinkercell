@@ -291,6 +291,19 @@ namespace Tinkercell
 		}
 		return false;
 	}
+	
+	int ItemHandle::depth() const
+	{
+		int n = 0;
+		ItemHandle * p = parent;
+
+		while (p)
+		{
+			p = p->parent;
+			++n;
+		}
+		return n;
+	}
 
 	QString ItemHandle::fullName(const QString& sep) const
 	{

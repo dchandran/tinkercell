@@ -19,6 +19,7 @@
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
 #include "GraphicsScene.h"
+#include "TextEditor.h"
 #include "ConsoleWindow.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -101,7 +102,7 @@ namespace Tinkercell
 				scene->insert(tr("Interfaces created"),itemsToInsert);
 		}
     }
-    
+
     QGraphicsItem* ModuleTool::createLink(NodeGraphicsItem* module, ItemHandle * handle)
     {
     	if (!module || !module->handle() || !handle) return 0;
@@ -473,11 +474,10 @@ namespace Tinkercell
 		for (int i=0; i < items.size(); ++i)
 			if ((c = ConnectionGraphicsItem::cast(items[i])) && (c->className == connectionClassName))
 			{
-				QList<NodeGraphicsItem*> nodesIn = c->nodesIn(),
-										 nodesOut = c->nodesOut();
-				if (nodesIn.size() == 1 && nodesIn[0] && nodesOut.size() == 1 && nodesOut[0])
+				QList<NodeGraphicsItem*> nodes = c->nodes();
+				if (nodes.size() == 2 && nodes[0] && nodes[1])
 				{
-					ItemHandle * h1 = nodesIn[0]->handle(), * h2 = nodesOut[0]->handle();
+					ItemHandle * h1 = nodes[0]->handle(), * h2 = nodes[1]->handle();
 					if (h1 && h2 && h1 != h2)
 					{
 						int k = substituteFrom.indexOf(h2->fullName());
@@ -554,18 +554,22 @@ namespace Tinkercell
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
+
+		commands << addModuleLayerInfo(handles)
+				 << moduleConnectionsInserted(items)
+				 << substituteStrings(handles);
 		
-		
+		removeSubnetworks(items,handles);
 
 		ItemHandle * h1 = 0, * h2 = 0;
-		
+
 		ConnectionGraphicsItem * connection = 0;
 		NodeGraphicsItem * node = 0;
 		QList<NodeGraphicsItem*> nodes;
 		QStringList oldNames, newNames;
 		QGraphicsItem* newLinker, * newLinkerText;
 		ItemHandle * nodeHandle;
-		
+
 		for (int i=0; i < items.size(); ++i)
 		{
 			if ((connection = ConnectionGraphicsItem::cast(items[i])) && connection->className == connectionClassName)
@@ -582,7 +586,7 @@ namespace Tinkercell
 					}
 				}
 			}
-			
+
 			if ((node = NodeGraphicsItem::cast(items[i])) 
 				&& (node->className == interfaceClassName)
 				&& (nodeHandle = node->handle())
@@ -670,14 +674,6 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->network) return;
 		
-		if (!permitDelete && ConnectionHandle::cast(scene->localHandle()))
-		{
-			items.clear();
-			handles.clear();
-			commands.clear();
-			return;
-		}
-
 		ItemHandle * h1 = 0, * h2 = 0;
 		
 		ConnectionGraphicsItem * connection = 0;
@@ -692,8 +688,13 @@ namespace Tinkercell
 				{
 					h1 = getHandle(nodes[0]);
 					h2 = getHandle(nodes[1]);
-					if (h1 && h2 && h1 != h2)
-						commands << new RenameCommand(tr("module connection removed"),scene->network,handles,h2->fullName(),h1->fullName());
+					if (h1 && h2 && h1->parent && h1 != h2)
+					{
+						QList<ItemHandle*> moduleHandles;
+						moduleHandles << h1->parent;
+						moduleHandles << h1->parent->allChildren();
+						commands << new RenameCommand(tr("module connection removed"),scene->network,moduleHandles,h2->fullName(),h1->fullName());
+					}
 				}
 			}
 		
@@ -715,8 +716,7 @@ namespace Tinkercell
 					}
 			}
 
-		if (interfaces.size() > 0)
-			commands << new RemoveGraphicsCommand(tr("module interfaces removed"),scene,interfaces);
+		items << interfaces;
 	}
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)

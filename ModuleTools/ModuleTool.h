@@ -45,7 +45,7 @@
 
 namespace Tinkercell
 {
-	class MY_EXPORT ModuleTool : public Tool
+	class TINKERCELLEXPORT ModuleTool : public Tool
 	{
 		Q_OBJECT
 

@@ -203,9 +203,16 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::saveItems(NetworkHandle * network, const QList<QGraphicsItem*>& allitems, const QString& filename)
+	void LoadSaveTool::saveItems(NetworkHandle * network, const QString& filename)
 	{
-		if (!network || allitems.isEmpty() || filename.isEmpty()) return;
+		if (!network || filename.isEmpty()) return;
+		
+		QList<GraphicsScene*> scenes = network->scenes();		
+		QList<QGraphicsItem*> allitems;
+		
+		for (int i=0; i < scenes.size(); ++i)
+			if (scenes[i])
+				allitems << scenes[i]->items();
 
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
@@ -232,7 +239,7 @@ namespace Tinkercell
 		modelWriter.writeStartElement("Model");
 
 		modelWriter.writeStartElement("Handles");
-		modelWriter.writeModel(scene,&file);
+		modelWriter.writeModel(network,&file);
 		modelWriter.writeEndElement();
 
 		QList<NodeGraphicsItem*> nodeItems;
@@ -268,7 +275,7 @@ namespace Tinkercell
 		for (int i=0; i < nodeItems.size(); ++i)
 		{
 			node = nodeItems[i];
-			writeNode(scene,node,modelWriter);
+			writeNode(node,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -288,12 +295,12 @@ namespace Tinkercell
 		for (int i=0; i < firstSetofConnections.size(); ++i)
 		{
 			connection = firstSetofConnections[i];
-			writeConnection(scene,connection,modelWriter);
+			writeConnection(connection,modelWriter);
 		}
 		for (int i=0; i < connectionItems.size(); ++i)
 		{
 			connection = connectionItems[i];
-			writeConnection(scene,connection,modelWriter);
+			writeConnection(connection,modelWriter);
 		}
 		modelWriter.writeEndElement();
 
@@ -302,7 +309,7 @@ namespace Tinkercell
 		for (int i=0; i < textItems.size(); ++i)
 		{
 			text = textItems[i];
-			writeText(scene,text,modelWriter);
+			writeText(text,modelWriter);
 		}
 
 		modelWriter.writeEndElement();
@@ -310,7 +317,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 		modelWriter.writeEndDocument();
 
-		savedNetworks[scene->network] = true;
+		savedNetworks[network] = true;
 
 		QRegExp regex(tr(".*\\/([^\\/]+)\\.\\S+$"));
 		QString filename2 = filename;
@@ -322,7 +329,7 @@ namespace Tinkercell
 			mainWindow->currentNetwork()->setWindowTitle(filename2);
 		}
 
-		emit networkSaved(scene->network);
+		emit networkSaved(network);
 
 		mainWindow->statusBar()->showMessage(tr("model saved in ") + filename);
 		//if (console())
@@ -332,17 +339,8 @@ namespace Tinkercell
 	void LoadSaveTool::saveNetwork(const QString& filename)
 	{
 		NetworkHandle * network = currentNetwork();
-		if (!network) return;
-		
-		QList<GraphicsScene*> scenes = network->scenes();
-		
-		QList<QGraphicsItem*> allitems;
-		
-		for (int i=0; i < scenes.size(); ++i)
-			if (scenes[i])
-				allitems << scenes[i]->items();
-		
-		saveItems(scene,allitems,filename);
+		if (network)
+			saveItems(network,filename);
 	}
 
 	void LoadSaveTool::loadNetwork(const QString& filename)
@@ -449,7 +447,7 @@ namespace Tinkercell
 		modelReader.readNext();
 
 		//read all the handles
-		QList<QPair<QString,ItemHandle*> > handlesList = modelReader.readHandles(scene,&file1);
+		QList<QPair<QString,ItemHandle*> > handlesList = modelReader.readHandles(scene->network,&file1);
 
 		QHash<QString,ItemHandle*> handlesHash;  //hash name->handle
 		NodeHandle * nodeHandle;

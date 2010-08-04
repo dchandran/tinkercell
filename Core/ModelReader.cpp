@@ -31,7 +31,7 @@ namespace Tinkercell
 	/*! \brief Reads a list of <family,handles> pairs from an XML file using the IO device provided 
 	* \param QIODevice to use
 	* \return list of item handles*/ 
-	QList< QPair<QString,ItemHandle*> > ModelReader::readHandles(GraphicsScene * scene, QIODevice * device)
+	QList< QPair<QString,ItemHandle*> > ModelReader::readHandles(NetworkHandle * network, QIODevice * device)
 	{
 		QList< QPair<QString,ItemHandle*> > list;
 		if (!device) return list;
@@ -44,9 +44,9 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,QStringList> > nodes, roles;
 		
 		handle = readHandle(list,nodes,roles);
-		if (scene && scene->network && handle.second && handle.second->name.isEmpty())
+		if (network && handle.second && handle.second->name.isEmpty())
 		{
-			(*scene->network->globalHandle()) = (*handle.second);
+			(*network->globalHandle()) = (*handle.second);
 			delete handle.second;
 			handle = readHandle(list,nodes,roles);
 		}

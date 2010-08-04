@@ -52,12 +52,12 @@ namespace Tinkercell
 
 	public slots:
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
-		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
+		void saveItems(NetworkHandle*, const QString& filename);
 		void loadItems(QList<QGraphicsItem*>&, const QString& filename);
 		void saveNetwork(const QString& filename);
 		void loadNetwork(const QString& filename);
 		void historyChanged( int );
-		void networkClosing(NetworkHandle * win, bool * close);
+		void networkClosing(NetworkHandle *, bool * close);
 		void restore(int);
 
 	protected:
@@ -65,9 +65,9 @@ namespace Tinkercell
 		static NodeGraphicsItem* readNode(NodeGraphicsReader&,QString&,QTransform&,QPointF&,qreal&);
 		static ConnectionGraphicsItem* readConnection(NodeGraphicsReader &,QList<NodeGraphicsItem*>&, QList<ConnectionGraphicsItem*>& , QString&,qreal&);
 		static TextGraphicsItem * readText(QXmlStreamReader & ,QString&, QTransform&,QPointF&, qreal&);
-		static void writeNode(GraphicsScene * scene, NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
-		static void writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
-		static void writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
+		static void writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter);
+		static void writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter);
+		static void writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter);	
 
 		QHash<NetworkHandle*,bool> savedNetworks;
 		int countHistory;

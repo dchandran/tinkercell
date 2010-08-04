@@ -938,7 +938,7 @@ def tc_Antimony_api(*args):
 tc_Antimony_api = _tinkercell.tc_Antimony_api
 
 
-def toItems(array):
+def toArrayOfItems(array):
     n = len(array);
     A = newArrayOfItems(n);
     for i in range(0, n):
@@ -946,7 +946,7 @@ def toItems(array):
 
     return A;
 
-def fromItems(array):
+def fromArrayOfItems(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
@@ -955,7 +955,7 @@ def fromItems(array):
     deleteArrayOfItems(array);
     return A;
 
-def toStrings(array):
+def toArrayOfStrings(array):
     n = len(array);
     A = newArrayOfStrings(n);
     for i in range(0, n):
@@ -963,7 +963,7 @@ def toStrings(array):
 
     return A;
 
-def fromStrings(array):
+def fromArrayOfStrings(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
@@ -1020,4 +1020,16 @@ def toMatrix(lists, row_wise = False , rows = [], cols = []):
 def toHex(r,g,b):
     hexchars = "0123456789ABCDEF0";
     return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];
+
+def fromTC(x)
+    if type(x) == type(newMatrix(0,0)): return fromMatrix(x)
+    if type(x) == type(newArrayOfStrings(0)): return fromArrayOfStrings(x)
+    if type(x) == type(newArrayOfItems(0)): return fromArrayOfItems(x)
+    return null
+
+def toTC(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]): return toMatrix(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return toArrayOfStrings(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type(10): return toArrayOfItems(x)
+    return null
 

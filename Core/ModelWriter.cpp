@@ -21,22 +21,13 @@ namespace Tinkercell
 		setAutoFormatting(true);
 	}
 	
-	bool ModelWriter::writeModel(TextEditor * editor,QIODevice * device)
+	bool ModelWriter::writeModel(NetworkHandle * network, QIODevice * device)
 	{
-		if (!editor || !device) return false;
+		if (!network || !device) return false;
 
 		setDevice(device);
 
-		return writeModel(editor,const_cast<ModelWriter*>(this));
-	}
-	
-	bool ModelWriter::writeModel(GraphicsScene * scene, QIODevice * device)
-	{
-		if (!scene || !device) return false;
-
-		setDevice(device);
-
-		return writeModel(scene,const_cast<ModelWriter*>(this));
+		return writeModel(network,const_cast<ModelWriter*>(this));
 	}
 	
 	bool ModelWriter::writeModel(const QList<ItemHandle*>& list, QIODevice * device)
@@ -47,62 +38,22 @@ namespace Tinkercell
 
 		return writeModel(list,const_cast<ModelWriter*>(this));
 	}
-	
-	bool ModelWriter::writeModel(TextEditor * editor,QXmlStreamWriter * writer)
-	{
-		if (!editor || !writer) return false;
 
-		QList<ItemHandle*> allItems = editor->items();
+	bool ModelWriter::writeModel(NetworkHandle * network, QXmlStreamWriter * writer)
+	{
+		if (!network || !writer) return false;
+
+		QList<ItemHandle*> allItems = network->handles();
 
 		QList<ItemHandle*> topLevelHandles, childHandles;
 
-		if (editor->network)
-			writeHandle(editor->network->globalHandle(),writer);
+		if (network)
+			writeHandle(network->globalHandle(),writer);
 
 		ItemHandle* handle = 0;
 		for (int i=0; i < allItems.size(); ++i)
 		{
 			handle = allItems[i];
-			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
-			{
-				writeHandle(handle,writer);
-				topLevelHandles << handle;
-			}
-		}
-
-		for (int i=0; i < topLevelHandles.size(); ++i)
-		{
-			childHandles << topLevelHandles[i]->children;
-		}
-
-		for (int i=0; i < childHandles.size(); ++i)
-		{
-			handle = childHandles[i];
-			if (handle)
-			{
-				writeHandle(handle,writer);
-				childHandles << handle->children; //queue -- assures that parents are written first
-			}
-		}
-
-		return true;
-	}
-
-	bool ModelWriter::writeModel(GraphicsScene * scene, QXmlStreamWriter * writer)
-	{
-		if (!scene || !writer) return false;
-
-		QList<QGraphicsItem*> allItems = scene->items();
-
-		QList<ItemHandle*> topLevelHandles, childHandles;
-
-		if (scene->network)
-			writeHandle(scene->network->globalHandle(),writer);
-
-		ItemHandle* handle = 0;
-		for (int i=0; i < allItems.size(); ++i)
-		{
-			handle = getHandle(allItems[i]);
 			if (handle && !topLevelHandles.contains(handle) && !handle->parent)
 			{
 				writeHandle(handle,writer);

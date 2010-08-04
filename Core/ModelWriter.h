@@ -18,8 +18,7 @@ data.
 #include <QStatusBar>
 #include <QXmlStreamWriter>
 #include "DataTable.h"
-#include "TextEditor.h"
-#include "GraphicsScene.h"
+#include "NetworkHandle.h"
 #include "ItemHandle.h"
 
 #ifdef Q_WS_WIN
@@ -39,35 +38,25 @@ namespace Tinkercell
 		/*! \brief default constructor*/
 		ModelWriter();
 		/*! \brief Writes the handles and data for that handle 
-		* \param NetworkWindow text editor
+		* \param NetworkHandle* network
 		* \param QIODevice device to use
 		* \return void*/ 
-		bool writeModel(TextEditor * ,QIODevice * device);
-		/*! \brief Writes the handles and data for that handle 
-		* \param GraphicsScene* scene
-		* \param QIODevice device to use
-		* \return void*/ 
-		bool writeModel(GraphicsScene * ,QIODevice * device);
+		bool writeModel(NetworkHandle * ,QIODevice * device);
 		/*! \brief Writes the handles and data for that handle 
 		* \param QList<ItemHandle*> list of handles (top level)
 		* \param QIODevice device to use
 		* \return void*/ 
 		bool writeModel(const QList<ItemHandle*>& ,QIODevice * device);
 		/*! \brief Writes the handles and data for that handle 
-		* \param TextEditor* 
+		* \param NetworkHandle* network
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/ 
-		static bool writeModel(TextEditor * editor,QXmlStreamWriter *);
-		/*! \brief Writes the handles and data for that handle 
-		* \param GraphicsScene* scene
-		* \param QXmlStreamWriter* xml writer to use
-		* \return void*/ 
-		static bool writeModel(GraphicsScene * scene,QXmlStreamWriter *);
+		static bool writeModel(NetworkHandle * network, QXmlStreamWriter *);
 		/*! \brief Writes the handles and data for that handle 
 		* \param QList<ItemHandle*> list of handles (top level)
 		* \param QXmlStreamWriter* xml writer to use
 		* \return void*/ 
-		static bool writeModel(const QList<ItemHandle*>& ,QXmlStreamWriter *);
+		static bool writeModel(const QList<ItemHandle*>&, QXmlStreamWriter *);
 		/*! \brief Writes a data table of doubles into an XML file
 		* \param DataTable<qreal> datatable
 		* \param QXmlStreamWriter* xml writer to use

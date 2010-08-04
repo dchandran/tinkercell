@@ -1615,7 +1615,17 @@ namespace Tinkercell
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QString& oldname, const QString& newname)
 		: QUndoCommand(name), changeDataCommand(0), network(net)
 	{
-		this->allhandles = allItems;
+		allhandles = allItems;
+		
+		for (int i=0; i < allhandles.size(); ++i)
+			if (allhandles[i])
+			{
+				QList<ItemHandle*> & children = allhandles[i]->children;
+				for (int j=0; j < children.size(); ++j)
+					if (children[j] && !allhandles.contains(children[j]))
+						allhandles << children[j];
+			}
+		
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
@@ -1632,6 +1642,7 @@ namespace Tinkercell
 	{
 		if (net)
 			this->allhandles = net->handles();
+
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
@@ -1646,7 +1657,16 @@ namespace Tinkercell
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<QString>& oldname, const QList<QString>& newname)
 		: QUndoCommand(name), changeDataCommand(0), network(net)
 	{
-		this->allhandles = allItems;
+		allhandles = allItems;
+		for (int i=0; i < allhandles.size(); ++i)
+			if (allhandles[i])
+			{
+				QList<ItemHandle*> & children = allhandles[i]->children;
+				for (int j=0; j < children.size(); ++j)
+					if (children[j] && !allhandles.contains(children[j]))
+						allhandles << children[j];
+			}
+		
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
@@ -1677,7 +1697,16 @@ namespace Tinkercell
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, ItemHandle * handle, const QString& newname)
 		: QUndoCommand(name), changeDataCommand(0), network(net)
 	{
-		this->allhandles = allItems;
+		allhandles = allItems;
+		for (int i=0; i < allhandles.size(); ++i)
+			if (allhandles[i])
+			{
+				QList<ItemHandle*> & children = allhandles[i]->children;
+				for (int j=0; j < children.size(); ++j)
+					if (children[j] && !allhandles.contains(children[j]))
+						allhandles << children[j];
+			}
+
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();
@@ -1735,7 +1764,16 @@ namespace Tinkercell
 	RenameCommand::RenameCommand(const QString& name, NetworkHandle * net, const QList<ItemHandle*>& allItems, const QList<ItemHandle*>& items, const QList<QString>& newnames)
 		: QUndoCommand(name), changeDataCommand(0), network(net)
 	{
-		this->allhandles = allItems;
+		allhandles = allItems;
+		for (int i=0; i < allhandles.size(); ++i)
+			if (allhandles[i])
+			{
+				QList<ItemHandle*> & children = allhandles[i]->children;
+				for (int j=0; j < children.size(); ++j)
+					if (children[j] && !allhandles.contains(children[j]))
+						allhandles << children[j];
+			}
+
 		handles.clear();
 		oldNames.clear();
 		newNames.clear();

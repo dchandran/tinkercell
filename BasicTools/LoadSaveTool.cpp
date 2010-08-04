@@ -113,7 +113,7 @@ namespace Tinkercell
 			(*b) = true;
 	}
 
-	void LoadSaveTool::writeNode(GraphicsScene * scene, NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeNode(NodeGraphicsItem* node, QXmlStreamWriter& modelWriter)
 	{
 		if (!node) return;
 		ItemHandle * handle = getHandle(node);
@@ -150,7 +150,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeConnection(GraphicsScene * scene, ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeConnection(ConnectionGraphicsItem* connection, QXmlStreamWriter& modelWriter)
 	{
 		if (!connection) return;
 		ItemHandle * handle = getHandle(connection);
@@ -168,7 +168,7 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::writeText(GraphicsScene * scene, TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
+	void LoadSaveTool::writeText(TextGraphicsItem* text, QXmlStreamWriter& modelWriter)
 	{
 		if (!text) return;
 
@@ -203,9 +203,9 @@ namespace Tinkercell
 		modelWriter.writeEndElement();
 	}
 
-	void LoadSaveTool::saveItems(GraphicsScene * scene, const QList<QGraphicsItem*>& allitems, const QString& filename)
+	void LoadSaveTool::saveItems(NetworkHandle * network, const QList<QGraphicsItem*>& allitems, const QString& filename)
 	{
-		if (!scene || allitems.isEmpty() || filename.isEmpty()) return;
+		if (!network || allitems.isEmpty() || filename.isEmpty()) return;
 
 		NodeGraphicsItem * node = 0;
 		ConnectionGraphicsItem * connection = 0;
@@ -339,7 +339,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> allitems;
 		
 		for (int i=0; i < scenes.size(); ++i)
-			allitems << scene->items();
+			if (scenes[i])
+				allitems << scenes[i]->items();
 		
 		saveItems(scene,allitems,filename);
 	}

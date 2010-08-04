@@ -52,7 +52,7 @@ namespace Tinkercell
 
 	public slots:
 		void prepareNetworkForSaving(NetworkHandle*,bool*);
-		void saveItems(GraphicsScene *, const QList<QGraphicsItem*>&, const QString& filename);
+		void saveItems(const QList<QGraphicsItem*>&, const QString& filename);
 		void loadItems(QList<QGraphicsItem*>&, const QString& filename);
 		void saveNetwork(const QString& filename);
 		void loadNetwork(const QString& filename);

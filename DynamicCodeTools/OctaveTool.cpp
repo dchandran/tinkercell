@@ -146,7 +146,7 @@ namespace Tinkercell
 					hashOctFile[menuItem] = octFile;
 				}
 			}
-			
+
 			if (!specific.isEmpty())
 			{
 				QAction * contextAction = libMenu->addContextMenuItem(specific, name, pixmap, tool);
@@ -156,7 +156,7 @@ namespace Tinkercell
 					actionsGroup.addAction(contextAction);
 					hashOctFile[contextAction] = octFile;
 				}
-			}	
+			}
 		} //done reading one oct script file
 
 		return filesFound;

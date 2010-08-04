@@ -16,15 +16,9 @@
 #include "Tool.h"
 #include "CodeEditor.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {	
-	class MY_EXPORT GnuplotTool : public Tool
+	class TINKERCELLEXPORT GnuplotTool : public Tool
 	{
 	    Q_OBJECT
 

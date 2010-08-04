@@ -32,7 +32,6 @@
 
 #include "antimony_api.h"
 
-
 namespace Tinkercell
 {
 	AntimonyEditor_FtoS AntimonyEditor::fToS;
@@ -1240,7 +1239,7 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 

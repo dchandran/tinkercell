@@ -27,11 +27,7 @@
 #include "ItemHandle.h"
 #include "ConnectionGraphicsItem.h"
 #include "ConnectionsTreeReader.h"
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
+
 namespace Tinkercell
 {
 
@@ -46,7 +42,7 @@ namespace Tinkercell
       attributes belonging to each family.
       \ingroup plugins
     */
-    class MY_EXPORT ConnectionsTree : public Tool
+    class TINKERCELLEXPORT ConnectionsTree : public Tool
     {
         Q_OBJECT
 

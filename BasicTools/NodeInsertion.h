@@ -37,12 +37,6 @@ This tool allows insertion of nodes from the NodesTree
 #include "ConnectionsTree.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*! \brief This class provides the C API for the NodeInsertion class
@@ -64,7 +58,7 @@ signals:
 	is exited, the default behaviors are returned, i.e. useDefaultBehavior is set to true.
 	\ingroup plugins
 	*/
-	class MY_EXPORT NodeInsertion : public Tool
+	class TINKERCELLEXPORT NodeInsertion : public Tool
 	{
 		Q_OBJECT
 

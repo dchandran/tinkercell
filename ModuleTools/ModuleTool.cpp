@@ -44,7 +44,6 @@ namespace Tinkercell
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
         mode = none;
-        permitDelete = false;
         lineItem.setPen(QPen(QColor(255,10,10,255),2.0,Qt::DotLine));
         
         QString appDir = QCoreApplication::applicationDirPath();
@@ -93,15 +92,13 @@ namespace Tinkercell
 
 		if (!itemsToInsert.isEmpty())
 		{
-			permitDelete = true;
 			if (scene->localHandle())
 				scene->insert(scene->localHandle()->name + tr(" interface created"),itemsToInsert);
 			else
 			if (itemsToInsert.size() == 1)
 				scene->insert(getHandle(itemsToInsert[0])->name + tr(" interface created"),itemsToInsert);
 			else
-				scene->insert(tr(" interface created"),itemsToInsert);
-			permitDelete = false;
+				scene->insert(tr("Interfaces created"),itemsToInsert);
 		}
     }
     
@@ -469,17 +466,96 @@ namespace Tinkercell
 		return command;
 	}
 
+	QUndoCommand * ModuleTool::moduleConnectionsInserted(QList<QGraphicsItem*>& items)
+	{
+		QStringList from, to;
+		ConnectionGraphicsItem * c;
+		for (int i=0; i < items.size(); ++i)
+			if ((c = ConnectionGraphicsItem::cast(items[i])) && (c->className == connectionClassName))
+			{
+				QList<NodeGraphicsItem*> nodesIn = c->nodesIn(),
+										 nodesOut = c->nodesOut();
+				if (nodesIn.size() == 1 && nodesIn[0] && nodesOut.size() == 1 && nodesOut[0])
+				{
+					ItemHandle * h1 = nodesIn[0]->handle(), * h2 = nodesOut[0]->handle();
+					if (h1 && h2 && h1 != h2)
+					{
+						int k = substituteFrom.indexOf(h2->fullName());
+						if (k >= 0)
+						{
+							substituteWith << substituteFrom[k];
+							to << substituteFrom[k];
+							
+							substituteFrom << h1->fullName();
+							from << h1->fullName();
+						}
+						else
+						{
+							substituteFrom << h1->fullName();
+							from << h1->fullName();
+							
+							substituteWith << h2->fullName();
+							to << h2->fullName();
+						}
+					}
+				}
+			}
+		return new RenameCommand(tr("Substitute items"),currentNetwork(),from,to);
+	}
+
+	QUndoCommand * ModuleTool::substituteStrings(const QList<ItemHandle*> & items)
+	{
+		return new RenameCommand(tr("Substitute items"),currentNetwork(),items,substituteFrom,substituteWith);
+	}
+	
+	void ModuleTool::removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles)
+	{
+		ItemHandle * handle, * h;
+		NodeGraphicsItem * node;
+		for (int i=0; i < items.size(); ++i)
+			if (handle = getHandle(items[i]))
+			{
+				if (ConnectionGraphicsItem::cast(items[i]))
+				{
+					for (int j=0; j < handle->children.size(); ++j)
+						if (handle->children[j])
+						{
+							QList<QGraphicsItem*> childItems = handle->children[j]->allGraphicsItems();
+							for (int k=0; k < childItems.size(); ++k)
+							{
+								items.removeAll(childItems[k]);
+								handles.removeAll( getHandle(childItems[k]) );
+							}
+						}
+				}
+				else
+				if (handle->isA(tr("module")))
+				{
+					for (int j=0; j < handle->children.size(); ++j)
+						if (handle->children[j])
+						{
+							QList<QGraphicsItem*> childItems = handle->children[j]->allGraphicsItems();
+							for (int k=0; k < childItems.size(); ++k)
+								if (childItems[k] && !(
+									(node = NodeGraphicsItem::cast(childItems[k])) &&
+									(h = getHandle(childItems[k])) && 
+									(h->parent == handle) && 
+									(node->className == linkerClassName))
+								)
+							{
+								items.removeAll(childItems[k]);
+								handles.removeAll(h);
+							}
+						}
+				}
+			}
+	}
+
 	void ModuleTool::itemsAboutToBeInserted(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || !scene->network) return;
 		
-		if (!permitDelete && ConnectionHandle::cast(scene->localHandle()) && !scene->localHandle()->children.isEmpty())
-		{
-			items.clear();
-			handles.clear();
-			commands.clear();
-			return;
-		}
+		
 
 		ItemHandle * h1 = 0, * h2 = 0;
 		
@@ -933,10 +1009,8 @@ namespace Tinkercell
 
 					GraphicsScene * scene = window->scene;
 					
-					permitDelete = true;
 					scene->remove(tr("remove model"),scene->items());
 					scene->insert(tr("new model"),items);
-					permitDelete = false;
 					
 					QRectF rect;
 					for (int i=0; i < items.size(); ++i)
@@ -1072,9 +1146,7 @@ namespace Tinkercell
 						
 						if (!items.isEmpty())
 						{
-							permitDelete = true;
 							newScene->insert(handle->name + tr(" expanded"),items);
-							permitDelete = false;
 						}
 					}
 				}
@@ -1234,7 +1306,7 @@ namespace Tinkercell
 	}
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
     if (!main) return;
 

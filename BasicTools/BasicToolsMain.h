@@ -24,10 +24,4 @@ Function that loads dll into main window
 #include "TinkerCellAboutBox.h"
 #include "LoadSaveTool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);

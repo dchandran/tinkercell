@@ -24,19 +24,13 @@ A special ConnectionGraphicsItem that draws a DNA-like connection
 #include <QList>
 #include "ConnectionGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 /*! \brief A simple figure made from one or more polygons
 * the class can be represented in an XML file */
 
 namespace Tinkercell
 {
 
-	class MY_EXPORT DnaGraphicsItem : public ConnectionGraphicsItem
+	class TINKERCELLEXPORT DnaGraphicsItem : public ConnectionGraphicsItem
 	{
 	public:
 		/*! Constructor: does nothing */

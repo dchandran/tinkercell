@@ -45,16 +45,10 @@ A GraphicsTool is also defined that brings up the transformations window
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
-	class MY_EXPORT GraphicsTransformTool : public Tool
+	class TINKERCELLEXPORT GraphicsTransformTool : public Tool
 	{
 		Q_OBJECT;
 

@@ -46,11 +46,6 @@
 #include "qwt_plot_zoomer.h"
 #include "qwt_legend_item.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
 
 namespace Tinkercell
 {

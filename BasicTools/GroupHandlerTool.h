@@ -28,12 +28,6 @@ in the MainWindow toolbar.
 #include "Tool.h"
 #include "MainWindow.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -48,7 +42,7 @@ namespace Tinkercell
 		void separate(void*);
 	};
 
-	class MY_EXPORT GroupHandlerTool : public Tool
+	class TINKERCELLEXPORT GroupHandlerTool : public Tool
 	{
 		Q_OBJECT;
 

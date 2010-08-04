@@ -24,12 +24,6 @@
 #include "Tool.h"
 #include "DynamicLibraryMenu.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -59,7 +53,7 @@ namespace Tinkercell
 			void unload(VoidFunction);
 	};
 
-	class MY_EXPORT LoadCLibrariesTool : public Tool
+	class TINKERCELLEXPORT LoadCLibrariesTool : public Tool
 	{
 		Q_OBJECT
 

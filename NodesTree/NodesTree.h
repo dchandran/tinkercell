@@ -31,13 +31,6 @@
 #include "NodesTreeReader.h"
 #include "TreeButton.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
-
 namespace Tinkercell
 {
 
@@ -51,7 +44,7 @@ namespace Tinkercell
       attributes belonging to each family.
       \ingroup plugins
     */
-    class MY_EXPORT NodesTree : public Tool
+    class TINKERCELLEXPORT NodesTree : public Tool
     {
         Q_OBJECT
 

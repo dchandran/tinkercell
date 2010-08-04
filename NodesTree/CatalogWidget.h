@@ -19,12 +19,6 @@
 #include "NodesTree.h"
 #include "ConnectionsTree.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
     /*!
@@ -33,7 +27,7 @@ namespace Tinkercell
 			holds the nodes tree and connections tree as separate tool boxes.
       \ingroup plugins
     */
-    class MY_EXPORT CatalogWidget : public Tool
+    class TINKERCELLEXPORT CatalogWidget : public Tool
     {
         Q_OBJECT
 
@@ -168,4 +162,4 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);

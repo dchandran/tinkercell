@@ -26,16 +26,10 @@ the context menu (mouse right-click).
 #include "Tool.h"
 #include "GraphicsScene.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
-	class MY_EXPORT GraphicsReplaceTool : public Tool
+	class TINKERCELLEXPORT GraphicsReplaceTool : public Tool
 	{
 		Q_OBJECT
 

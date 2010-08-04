@@ -35,16 +35,10 @@ This tool allows the loading and saving of models.
 #include "ConnectionGraphicsWriter.h"
 #include "ConnectionGraphicsReader.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
-	class MY_EXPORT LoadSaveTool : public Tool
+	class TINKERCELLEXPORT LoadSaveTool : public Tool
 	{
 		Q_OBJECT
 

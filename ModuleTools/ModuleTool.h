@@ -43,12 +43,6 @@
 #include "Tool.h"
 #include "ModuleConnectionGraphicsItem.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	class MY_EXPORT ModuleTool : public Tool
@@ -99,13 +93,16 @@ namespace Tinkercell
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		void adjustLinkerPositions(NodeGraphicsItem*);
 		QUndoCommand * addModuleLayerInfo(const QList<ItemHandle*> & items);
+		QUndoCommand * moduleConnectionsInserted(QList<QGraphicsItem*>& items);
+		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
+		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		
 		static ItemHandle * findCorrespondingHandle(ItemHandle*,ConnectionHandle*);
 
 		QList<NodeGraphicsItem*> selectedItems;
+		QStringList substituteFrom, substituteWith;
 		QAction * viewModule;
 		NodeGraphicsItem image;
-		bool permitDelete;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
 		static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item);
@@ -114,7 +111,7 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 
 #endif

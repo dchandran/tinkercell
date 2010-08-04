@@ -37,12 +37,6 @@ for connecting items using the connections in the ConnectionsTree
 #include "Tool.h"
 #include "NodesTree.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 	/*!
@@ -77,7 +71,7 @@ namespace Tinkercell
 	/*!\brief This class allows users to select items from the connection tree and insert them onto the scene.
 	When user selects an item from the connections tree,
 	\ingroup plugins*/
-	class MY_EXPORT ConnectionInsertion : public Tool
+	class TINKERCELLEXPORT ConnectionInsertion : public Tool
 	{
 		Q_OBJECT
 

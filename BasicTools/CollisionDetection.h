@@ -34,12 +34,6 @@ This class sends a signal whenever two items in the current scene intersect.
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
@@ -50,7 +44,7 @@ namespace Tinkercell
 	This plug-in also makes items on the screen glow when the mouse is on top.
 	\ingroup plugins
 	*/
-	class MY_EXPORT CollisionDetection : public Tool
+	class TINKERCELLEXPORT CollisionDetection : public Tool
 	{
 		Q_OBJECT
 

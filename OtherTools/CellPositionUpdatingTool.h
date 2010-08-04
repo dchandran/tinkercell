@@ -22,16 +22,10 @@
 #include "ItemHandle.h"
 #include "Tool.h"
 
-#ifdef Q_WS_WIN
-#define MY_EXPORT __declspec(dllexport)
-#else
-#define MY_EXPORT
-#endif
-
 namespace Tinkercell
 {
 
-	class MY_EXPORT CellPositionUpdateTool : public Tool
+	class TINKERCELLEXPORT CellPositionUpdateTool : public Tool
 	{
 		Q_OBJECT
 
@@ -49,7 +43,7 @@ namespace Tinkercell
 
 }
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main);
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main);
 
 
 #endif

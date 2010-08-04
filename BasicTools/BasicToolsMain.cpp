@@ -11,7 +11,7 @@ Function that loads dll into main window
 #include "BasicToolsMain.h"
 
 
-extern "C" MY_EXPORT void loadTCTool(Tinkercell::MainWindow * main)
+extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
 

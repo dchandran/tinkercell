@@ -331,10 +331,16 @@ namespace Tinkercell
 
 	void LoadSaveTool::saveNetwork(const QString& filename)
 	{
-		GraphicsScene * scene = currentScene();
-		if (!scene) return;
-
-		QList<QGraphicsItem*> allitems = scene->items();
+		NetworkHandle * network = currentNetwork();
+		if (!network) return;
+		
+		QList<GraphicsScene*> scenes = network->scenes();
+		
+		QList<QGraphicsItem*> allitems;
+		
+		for (int i=0; i < scenes.size(); ++i)
+			allitems << scene->items();
+		
 		saveItems(scene,allitems,filename);
 	}
 

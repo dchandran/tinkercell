@@ -73,7 +73,7 @@ namespace Tinkercell
 		NodeGraphicsReader reader;
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-		
+
 		for (int i=0; i < selected.size(); ++i)
 			if ((h = getHandle(selected[i])) && NodeHandle::cast(h))
 			{
@@ -88,7 +88,6 @@ namespace Tinkercell
 				node->className = interfaceClassName;
 				node->setHandle(h);
 				itemsToInsert << node;
-				h->textData("Text Attributes","Module interface") = tr("true");
 			}
 
 		if (!itemsToInsert.isEmpty())
@@ -629,18 +628,18 @@ namespace Tinkercell
 					if (!list.isEmpty())
 					{	
 						QString filename = list.first().absoluteFilePath();
-				
+
 						if (QFile::exists(filename) && !visited.contains(filename))
 						{			
 							visited << filename;
 							QList<QGraphicsItem*> items;
 							emit loadItems(items, filename);
-						
+
 							QList<ItemHandle*> handles2 = getHandle(items);
 							QList<ItemHandle*> visited;
-							
+
 							ItemHandle * h;
-						
+
 							for (int j=0; j < handles2.size(); ++j)
 								if (handles2[j] && !visited.contains(handles2[j]))
 								{

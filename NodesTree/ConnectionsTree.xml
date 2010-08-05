@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE ConnectionsTree>
 <ConnectionsTree version="1.0">
-<connection family="Biochemical" typein="Node" numin="1" typeout="Node" numout="1">
+<connection family="Biochemical" participants="Node,Node" participant_roles="Reactant,Product">
 <text>This is a generic class representing any biological reaction with reactant(s) and/or product(s).</text>
     
-    <connection family="1 to 1" numin="1" numout="1">
+    <connection family="1 to 1" participants="Node,Node" participant_roles="Reactant,Product">
 
-      <connection family="Degradation" typein="Molecule" numin="1" typeout="Empty" numout="1">
+      <connection family="Degradation" participants="Molecule,Empty" participant_roles="Reactant,Empty">
         <text>This connection represents degradation, dilution, or secretion of a molecular species.</text>
       </connection>
 
-      <connection family="Production" typein="Empty" numin="1" typeout="Molecule" numout="1">
+      <connection family="Production" participants="Empty,Molecule" participant_roles="Empty,Product">
         <text>This connection represents production or influx of a molecular species.</text>
-        <connection family="Transcription" typein="Empty" numin="1" typeout="mRNA" numout="1">
+        <connection family="Transcription" participants="Empty,mRNA" participant_roles="Empty,Product">
           <text>Production of mRNA from DNA template.</text>
         </connection>
-        <connection family="Translation" typein="Empty" numin="1" typeout="Protein" numout="1">
+        <connection family="Translation" participants="Empty,Protein" participant_roles="Empty,Product">
           <text>Production of protein from mRNA template. </text>
-        </connection>      
+        </connection>
       </connection>
       
-      <connection family="Protein production" typein="Coding" numin="1" typeout="Protein" numout="1">
+      <connection family="Protein production" participants="Coding,mRNA" participant_roles="Template,Product">
         <text>The complete process of producing a protein from the template DNA.</text>
       </connection>
     
     </connection>
 
-    <connection family="2 to 1" numin="2" numout="1"></connection>
-    <connection family="3 to 1" numin="3" numout="1"></connection>
-    <connection family="1 to 2" numin="1" numout="2"></connection>
-    <connection family="2 to 2" numin="2" numout="2"></connection>
-    <connection family="3 to 2" numin="3" numout="2"></connection>
-    <connection family="1 to 3" numin="1" numout="3"></connection>
-    <connection family="2 to 3" numin="2" numout="3"></connection>
-    <connection family="3 to 3" numin="3" numout="3"></connection>
+    <connection family="2 to 1" participants="Node,Node,Node" participant_roles="Reactant,Reactant,Product"></connection>
+    <connection family="3 to 1" participants="Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product"></connection>
+    <connection family="1 to 2" participants="Node,Node,Node" participant_roles="Reactant,Product,Product"></connection>
+    <connection family="2 to 2" participants="Node,Node,Node,Node" participant_roles="Reactant,Reactant,Product,Product"></connection>
+    <connection family="3 to 2" participants="Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product,Product"></connection>
+    <connection family="1 to 3" participants="Node,Node,Node,Node" participant_roles="Reactant,Product,Product,Product"></connection>
+    <connection family="2 to 3" participants="Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Product,Product,Product"></connection>
+    <connection family="3 to 3" participants="Node,Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product,Product,Product"></connection>
     
-    <connection family="Regulation" typein="Node" numin="1" typeout="anything" numout="1">    
+    <connection family="Regulation" participants="Node,anything" participant_roles="Regulator,Target">    
       <text>This connection represents a molecule regulating another.</text>
       
-      <connection family="Enzyme Catalysis" typein="Protein" numin="1" typeout="Biochemical" numout="1">
+      <connection family="Enzyme Catalysis" participants="Protein,Biochemical">
       </connection> 
       
       <connection family="Activation" typein="Molecule" numin="1" typeout="Node" numout="1">

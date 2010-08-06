@@ -4,17 +4,17 @@
 
 CURPATH=$1
 LIBFILES='*.dylib'
-PLUGINFILES='Plugins/*.dylib'
-CPLUGINFILES='Plugins/c/*.dylib'
+PLUGINFILES='plugins/*.dylib'
+CPLUGINFILES='plugins/c/*.dylib'
 
 #copy other supporting files
 
-cp -R Plugins Tinkercell.app/Contents/MacOS/
+cp -R plugins Tinkercell.app/Contents/MacOS/
 cp -R ../../c Tinkercell.app/Contents/MacOS/
 cp -R ../../Main/tinkercell.qss Tinkercell.app/Contents/MacOS/
-cp -R ../../c/icons/*.png Tinkercell.app/Contents/MacOS/Plugins/c
-cp -R ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/Plugins/c
-cp Plugins/c/lib*.a Tinkercell.app/Contents/MacOS/c/
+cp -R ../../c/icons/*.png Tinkercell.app/Contents/MacOS/plugins/c
+cp -R ../../c/icons/*.PNG Tinkercell.app/Contents/MacOS/plugins/c
+cp plugins/c/lib*.a Tinkercell.app/Contents/MacOS/c/
 cp lib*.a Tinkercell.app/Contents/MacOS/c/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
@@ -22,8 +22,7 @@ cp -R ../../OtherItems Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/NodesTree/
 cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/
-cp -R ../../py Tinkercell.app/Contents/MacOS/
-cp ../../py/python*.txt Tinkercell.app/Contents/MacOS/
+cp -R ../../python Tinkercell.app/Contents/MacOS/
 cp ../../*.txt Tinkercell.app/Contents/MacOS/
 
 

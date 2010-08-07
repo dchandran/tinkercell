@@ -855,14 +855,10 @@ namespace Tinkercell
 		nodesWithRoles.clear();
 	}
 	
-	bool 
-	
-	bool ConnectionHandle::isValidFamily(ItemFamily * p) const
+	bool ConnectionHandle::isValidFamily(const QList<NodeHandle*> nodes, ItemFamily * family)
 	{
-		ConnectionFamily * family = ConnectionFamily::cast(p);		
-		if (!family) return false;		
-		
-		QList<NodeHandle*> nodes = this->nodes();
+		if (!family || nodes.isEmpty()) return false;
+
 		NodeHandle * h;
 		
 		if (nodes.size() != family->nodeFunctions.size())
@@ -885,6 +881,14 @@ namespace Tinkercell
 		}
 		
 		return true;
+	}
+	
+	bool ConnectionHandle::isValidFamily(ItemFamily * p) const
+	{
+		ConnectionFamily * family = ConnectionFamily::cast(p);		
+		if (!family) return false;		
+
+		return isValidFamily(nodes(),p);
 	}
 	
 	QList<ItemFamily*> ConnectionHandle::findValidSubfamilies() const

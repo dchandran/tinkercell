@@ -7,7 +7,7 @@
  \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
  \ingroup Connections
 */
-TCAPIEXPORT Item tc_insertConnection(ArrayOfItems partsFrom, ArrayOfItems partsTo, String name, String family);
+TCAPIEXPORT Item tc_insertConnection(ArrayOfItems parts, String name, String family);
 
 /*! 
  \brief get the connected parts for a connection
@@ -55,7 +55,7 @@ TCAPIEXPORT ArrayOfItems tc_getConnectionsOther(Item part);
  \ingroup init
 */
 TCAPIEXPORT void tc_ConnectionInsertion_api(
-		Item (*insertConnection)(ArrayOfItems, ArrayOfItems, String, String),
+		Item (*insertConnection)(ArrayOfItems, String, String),
 		ArrayOfItems (*getConnectedParts)(Item),
 		ArrayOfItems (*getConnectedPartsIn)(Item),
 		ArrayOfItems (*getConnectedPartsOut)(Item),

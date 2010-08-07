@@ -326,6 +326,9 @@ namespace Tinkercell
 		/*! \brief family for this handle
 		\return ItemFamily* connection family as item family*/
 		virtual ItemFamily* family() const;
+		/*! \brief checks if a family is compatible with a connection composed of the given set of nodes
+		\return Boolean*/
+		static bool isValidFamily(const QList<NodeHandle*>& , ItemFamily *);
 		/*! \brief checks if a family is compatible with this connection
 		\return Boolean*/
 		virtual bool isValidFamily(ItemFamily * p) const;

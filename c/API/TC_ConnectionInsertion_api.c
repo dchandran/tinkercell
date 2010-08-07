@@ -1,14 +1,14 @@
 #include "TC_ConnectionInsertion_api.h"
 
-Item (*_tc_insertConnection)(ArrayOfItems partsFrom, ArrayOfItems partsTo, String name, String family) = 0;
+Item (*_tc_insertConnection)(ArrayOfItems parts, String name, String family) = 0;
 /*! 
  \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
  \ingroup Connections
 */
-Item tc_insertConnection(ArrayOfItems partsFrom, ArrayOfItems partsTo, String name, String family) 
+Item tc_insertConnection(ArrayOfItems parts, String name, String family) 
 {
 	if (_tc_insertConnection)
-		return _tc_insertConnection(partsFrom, partsTo, name, family);
+		return _tc_insertConnection(parts, name, family);
 	return 0;
 }
 
@@ -113,7 +113,7 @@ ArrayOfItems tc_getConnectionsOther(Item part)
  \ingroup init
 */
 void tc_ConnectionInsertion_api(
-		Item (*insertConnection)(ArrayOfItems, ArrayOfItems, String, String),
+		Item (*insertConnection)(ArrayOfItems, String, String),
 		ArrayOfItems (*getConnectedParts)(Item),
 		ArrayOfItems (*getConnectedPartsIn)(Item),
 		ArrayOfItems (*getConnectedPartsOut)(Item),

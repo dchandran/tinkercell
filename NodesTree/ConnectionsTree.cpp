@@ -96,7 +96,7 @@ namespace Tinkercell
                     layout->setContentsMargins(0,0,0,0);
                     QWidget * widget = new QWidget;
                     widget->setPalette(QPalette(QColor(255,255,255)));
-                    widget->setAutoFillBackground (true);
+                    widget->setAutoFillBackground(true);
                     widget->setLayout(layout);
 
                     treeWidget.setItemWidget(treeItem[j],0,widget);

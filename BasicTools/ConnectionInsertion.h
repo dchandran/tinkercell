@@ -47,7 +47,7 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 	signals:
-		void insertConnection(QSemaphore*,ItemHandle** item,const QList<ItemHandle*>&,const QList<ItemHandle*>&,const QString&, const QString&);
+		void insertConnection(QSemaphore*,ItemHandle** item,const QList<ItemHandle*>&,const QString&, const QString&);
 		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
@@ -57,7 +57,7 @@ namespace Tinkercell
 		void getConnectionsOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectionsOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 	public slots:
-		void* insertConnection(ArrayOfItems, ArrayOfItems, const char*, const char*);
+		void* insertConnection(ArrayOfItems, const char*, const char*);
 		ArrayOfItems getConnectedNodes(void*);
 		ArrayOfItems getConnectedNodesIn(void*);
 		ArrayOfItems getConnectedNodesOut(void*);
@@ -114,7 +114,7 @@ namespace Tinkercell
 
 			private slots:
 				/*!\brief C API function*/
-				void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QList<ItemHandle*>&,const QString&, const QString&);
+				void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
 				/*!\brief C API function*/
 				void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 				/*!\brief C API function*/
@@ -159,7 +159,7 @@ namespace Tinkercell
 		int numRequiredIn, numRequiredOut;
 		/*!\brief the type of nodes to be selected in order to make a connection.
 		This number is determined by the ConnectionsTree*/
-		QString typeIn, typeOut;
+		QStringList typeIn, typeOut;
 		/*!\brief set the number and types of nodes to be selected in order to make a connection.
 		This number is determined using the ConnectionsTree*/
 		void setRequirements();
@@ -178,7 +178,7 @@ namespace Tinkercell
 		static ConnectionInsertion_FToS fToS;
 
 		/*!\brief C API function*/
-		static void* _insertConnection(ArrayOfItems, ArrayOfItems, const char*, const char*);
+		static void* _insertConnection(ArrayOfItems, const char*, const char*);
 		/*!\brief C API function*/
 		static ArrayOfItems _getConnectedNodes(void*);
 		/*!\brief C API function*/
@@ -195,6 +195,10 @@ namespace Tinkercell
 		static ArrayOfItems _getConnectionsOut(void*);
 		/*!\brief C API function*/
 		static ArrayOfItems _getConnectionsOther(void*);
+		
+		bool isReactant(NodeHandle*);
+		bool isProduct(NodeHandle*);
+		static bool isReactant(const QString&);
 	};
 
 }

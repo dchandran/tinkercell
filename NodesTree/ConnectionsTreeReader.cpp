@@ -116,6 +116,16 @@ namespace Tinkercell
                               family->measurementUnit = Unit(units[0],units[1]);
                     }
                     else
+                    if (vec.at(i).name().toString().toLower() == QObject::tr("participant_types"))  //family types for nodes in this connection
+                    {
+                         family->nodeFamilies = vec.at(i).value().toString().split(",");
+                    }
+                    else
+                    if (vec.at(i).name().toString().toLower() == QObject::tr("participant_roles"))  //family types for nodes in this connection
+                    {
+                         family->nodeFunctions = vec.at(i).value().toString().split(",");
+                    }
+                    else
                     {
                          atrib = vec.at(i).name().toString();         //get other attributes
                          value = vec.at(i).value().toString();
@@ -151,9 +161,21 @@ namespace Tinkercell
 
                     if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
+                        
+					if (family->nodeFamilies.isEmpty())
+                    	family->nodeFamilies = parentFamily->nodeFamilies;
+					
+					if (family->nodeFamilies.isEmpty())
+                    	family->nodeFamilies = parentFamily->nodeFamilies;
 
                     family->description = parentFamily->description;
                }
+               
+               if (family->nodeFamilies.isEmpty())
+               	    family->nodeFamilies << "anything";
+
+			   while (family->nodeFamilies.size() < family->nodeFunctions.size())
+			   		family->nodeFamilies << family->nodeFamilies.last();
 
                //set arrow head
 

@@ -148,8 +148,12 @@ namespace Tinkercell
 		static int TYPE;
 		/*! \brief cast to connection family*/
 		static ConnectionFamily * cast(ItemFamily*);
-		/*! \brief arrow used to represent this family in text-based networks*/
-		QString string;
+		
+		/*! \brief the type of each node that is involved in this connection*/
+		QStringList nodeFamilies;
+		/*! \brief the role of each node in this connection*/
+		QStringList nodeFunctions;
+		
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 		virtual bool isA(const QString& familyName) const;
 		/*! \brief get the parent for this family. If there are more than one parents, returns the first*/

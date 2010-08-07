@@ -855,81 +855,35 @@ namespace Tinkercell
 		nodesWithRoles.clear();
 	}
 	
+	bool 
+	
 	bool ConnectionHandle::isValidFamily(ItemFamily * p) const
 	{
 		ConnectionFamily * family = ConnectionFamily::cast(p);		
 		if (!family) return false;		
-		if (!family->textAttributes.contains("typein") || !family->textAttributes.contains("typeout")) return false;
 		
-		QString typein = family->textAttributes["typein"],
-				typeout = family->textAttributes["typeout"];
-		
-		QList<NodeHandle*> in, out, other;
-		ConnectionGraphicsItem * connection;
+		QList<NodeHandle*> nodes = this->nodes();
 		NodeHandle * h;
 		
-		QList<NodeGraphicsItem*> nodesIn, nodesOut, nodesDisconnected;
+		if (nodes.size() != family->nodeFunctions.size())
+			return false;
 		
-		if (!graphicsItems.isEmpty())
+		bool b;
+		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
 		{
-			for (int i=0; i < graphicsItems.size(); ++i)
-				if (connection = ConnectionGraphicsItem::cast(graphicsItems[i]))
+			b = false;
+			
+			for (int j=0; j < family->nodeFamilies.size(); ++j)   //check of the family allows it
+				if (nodes[i] && nodes[i]->isA(family->nodeFamilys[i]))
 				{
-					if (connection->isModifier())
-					{
-						nodesIn.clear();
-						nodesOut.clear();
-						nodesDisconnected = connection->nodes();
-					}
-					else
-					{
-						nodesIn = connection->nodesWithoutArrows();
-						nodesOut = connection->nodesWithArrows();
-						nodesDisconnected = connection->nodesDisconnected();
-					}
-					for (int j=0; j < nodesIn.size(); ++j)				
-						if (nodesIn[j] && (h = NodeHandle::cast(nodesIn[j]->handle())) && !in.contains(h))
-							in << h;
-					for (int j=0; j < nodesOut.size(); ++j)				
-						if (nodesOut[j] && (h = NodeHandle::cast(nodesOut[j]->handle())) && !out.contains(h))
-							out << h;
-					for (int j=0; j < nodesDisconnected.size(); ++j)				
-						if (nodesDisconnected[j] && (h = NodeHandle::cast(nodesDisconnected[j]->handle())) && !other.contains(h))
-							other << h;
+					b = true;
+					break;
 				}
-		}
-		else
-		{
-			in = nodes(-1);
-			out = nodes(1);
-			other = nodes(2);
+			
+			if (!b)
+				return false;
 		}
 		
-		if (other.isEmpty())
-		{
-			for (int i=0; i < in.size(); ++i)
-				if (!in[i] || !in[i]->isA(typein))
-					return false;
-			
-			for (int i=0; i < out.size(); ++i)
-				if (!out[i] || !out[i]->isA(typeout))
-					return false;
-		}
-		else
-		{
-			for (int i=0; i < other.size(); ++i)
-				if (!other[i] || !other[i]->isA(typein))
-					return false;
-			
-			for (int i=0; i < in.size(); ++i)
-				if (in[i] && in[i]->isA(typeout))
-					return false;
-			
-			for (int i=0; i < out.size(); ++i)
-				if (out[i] && out[i]->isA(typeout))
-					return false;
-		}
-
 		return true;
 	}
 	

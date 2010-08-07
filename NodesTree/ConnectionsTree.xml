@@ -26,19 +26,19 @@
     
     </connection>
 
-    <connection family="2 to 1" participant_types="Node,Node,Node" participant_roles="Reactant,Reactant,Product"></connection>
-    <connection family="3 to 1" participant_types="Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product"></connection>
-    <connection family="1 to 2" participant_types="Node,Node,Node" participant_roles="Reactant,Product,Product"></connection>
-    <connection family="2 to 2" participant_types="Node,Node,Node,Node" participant_roles="Reactant,Reactant,Product,Product"></connection>
-    <connection family="3 to 2" participant_types="Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product,Product"></connection>
-    <connection family="1 to 3" participant_types="Node,Node,Node,Node" participant_roles="Reactant,Product,Product,Product"></connection>
-    <connection family="2 to 3" participant_types="Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Product,Product,Product"></connection>
-    <connection family="3 to 3" participant_types="Node,Node,Node,Node,Node,Node" participant_roles="Reactant,Reactant,Reactant,Product,Product,Product"></connection>
-    
-    <connection family="Regulation" participant_types="Node,anything" participant_roles="Regulator,Target">    
+    <connection family="2 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Product"></connection>
+    <connection family="3 to 1" participant_types="Node" participant_roles="Reactant1,Reactant2,Reactant3,Product"></connection>
+    <connection family="1 to 2" participant_types="Node" participant_roles="Reactant1,Product,Product"></connection>
+    <connection family="2 to 2" participant_types="Node" participant_roles="Reactant,Reactant,Product,Product"></connection>
+    <connection family="3 to 2" participant_types="Node" participant_roles="Reactant,Reactant,Reactant,Product,Product"></connection>
+    <connection family="1 to 3" participant_types="Node" participant_roles="Reactant,Product,Product,Product"></connection>
+    <connection family="2 to 3" participant_types="Node" participant_roles="Reactant,Reactant,Product,Product,Product"></connection>
+    <connection family="3 to 3" participant_types="Node" participant_roles="Reactant,Reactant,Reactant,Product,Product,Product"></connection>
+
+    <connection family="Regulation" participant_types="Node" participant_roles="Regulator,Target">    
       <text>This connection represents a molecule regulating another.</text>
       
-      <connection family="Enzyme Catalysis" participant_types="Protein,Biochemical">
+      <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Enzyme,Reactant,Product">
       </connection> 
       
       <connection family="Activation" participant_types="Molecule,Node">

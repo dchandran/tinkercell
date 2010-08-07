@@ -22,44 +22,60 @@ for connecting items using the connections in the ConnectionsTree
 
 namespace Tinkercell
 {
-
-	void ConnectionInsertion::initializeHashes()
+	
+	bool ConnectionInsertion::isReactant(const QString& s)
 	{
-		defaultInputs.insert(tr("Connection"),1); defaultOutputs.insert(tr("Connection"),1);
-		defaultInputs.insert(tr("Biochemical"),1); defaultOutputs.insert(tr("Biochemical"),1);
+		return !(s.toLower() == tr("target") || s.toLower() == tr("product"));
 	}
-
+	
+	bool ConnectionInsertion::isReactant(NodeHandle * node)
+	{
+		if (!node) return false;
+		for (int i=0; i < typeIn.size(); ++i)
+			if (node->isA(typeIn[i]))
+				return true;
+		return false;
+	}
+	
+	bool ConnectionInsertion::isProduct(NodeHandle * node)
+	{
+		if (!node) return false;
+		for (int i=0; i < typeOut.size(); ++i)
+			if (node->isA(typeOut[i]))
+				return true;
+		return false;
+	}
+	
 	void ConnectionInsertion::setRequirements()
 	{
 		numRequiredIn = numRequiredOut = 0;
-		typeOut = typeIn = tr("");
+		typeOut.clear();
+		typeIn.clear();
 
 		if (selectedFamily != 0)
 		{
-			/*if (defaultInputs.contains(selectedFamily->name) && defaultOutputs.contains(selectedFamily->name))
+			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeFunctions.size(); ++i)
+				if (isReactant(selectedFamily->nodeFunctions[i]))
+				{
+					++numRequiredIn;
+					typeIn << selectedFamily->nodeFamilies[i];
+				}
+				else
+				{
+					++numRequiredOut;
+					typeOut << selectedFamily->nodeFamilies[i];
+				}
+			
+			if (numRequiredIn < 1)
 			{
-				numRequiredIn = defaultInputs.value(selectedFamily->name);
-				numRequiredOut = defaultOutputs.value(selectedFamily->name);
+				numRequiredIn = 1;
+				typeIn << "anything";
 			}
-			else
-			{*/
-			if (selectedFamily->numericalAttributes.contains(tr("numin")) && selectedFamily->numericalAttributes.contains(tr("numout")))
+
+			if (numRequiredOut < 1)
 			{
-				numRequiredIn = (int)selectedFamily->numericalAttributes.value("numin");
-				numRequiredOut = (int)selectedFamily->numericalAttributes.value("numout");
-
-				if (numRequiredIn < 1)
-					numRequiredIn = 1;
-
-				if (numRequiredOut < 1)
-					numRequiredOut = 1;
-			}
-
-
-			if (selectedFamily->textAttributes.contains(tr("typein")) && selectedFamily->textAttributes.contains(tr("typeout")))
-			{
-				typeIn = selectedFamily->textAttributes[tr("typein")];
-				typeOut = selectedFamily->textAttributes[tr("typeout")];
+				numRequiredOut = 1;
+				typeIn << "anything";
 			}
 		}
 	}
@@ -74,7 +90,6 @@ namespace Tinkercell
 		mainWindow = 0;
 		connectionsTree = tree;
 		selectedFamily = 0;
-		initializeHashes();
 		connectTCFunctions();
 	}
 
@@ -107,8 +122,8 @@ namespace Tinkercell
 
 	void ConnectionInsertion::connectTCFunctions()
 	{
-		connect(&fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QList<ItemHandle*>&,const QString&, const QString&)),
-			this,SLOT(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QList<ItemHandle*>&,const QString&, const QString&)));
+		connect(&fToS,SIGNAL(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)),
+			this,SLOT(insertConnection(QSemaphore*,ItemHandle**,const QList<ItemHandle*>&,const QString&, const QString&)));
 
 		connect(&fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
 			this,SLOT(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
@@ -136,7 +151,7 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		void* (*insertConnection)(ArrayOfItems, ArrayOfItems, const char*, const char*),
+		void* (*insertConnection)(ArrayOfItems, const char*, const char*),
 		ArrayOfItems (*getConnectedNodes)(void*),
 		ArrayOfItems (*getConnectedNodesIn)(void*),
 		ArrayOfItems (*getConnectedNodesOut)(void*),
@@ -279,7 +294,7 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void ConnectionInsertion::insertConnection(QSemaphore* sem,ItemHandle** retitem,const QList<ItemHandle*>& in,const QList<ItemHandle*>& out,const QString& name, const QString& family)
+	void ConnectionInsertion::insertConnection(QSemaphore* sem,ItemHandle** retitem,const QList<ItemHandle*>& nodes,const QString& name, const QString& family)
 	{
 		if (!mainWindow || !connectionsTree)
 		{
@@ -313,7 +328,8 @@ namespace Tinkercell
 		selectedFamily = connectionsTree->connectionFamilies.value(family);
 		setRequirements();
 
-		if (family != tr("Connection") && !(defaultInputs.contains(family) || defaultInputs.contains(family.toLower())) && (in.size() != numRequiredIn || out.size() != numRequiredOut))
+		if (family != tr("Connection") && 
+			!(nodes.size() != (numRequiredIn + numRequiredOut)))
 		{
 			if (retitem)
 				(*retitem) = 0;
@@ -322,10 +338,10 @@ namespace Tinkercell
 			return;
 		}
 		ItemHandle * handle;
-		for (int i=0; i < in.size(); ++i)
+		for (int i=0; i < nodes.size(); ++i)
 		{
-			handle = in[i];
-			if (!handle || !handle->family() || !(handle->family()->isA(typeIn) || handle->family()->isA(tr("empty"))))
+			handle = nodes[i];			
+			if (!handle || !handle->family())
 			{
 				if (retitem)
 					(*retitem) = 0;
@@ -334,38 +350,24 @@ namespace Tinkercell
 				return;
 			}
 		}
-		for (int i=0; i < out.size(); ++i)
-		{
-			handle = out[i];
-			if (!handle ||!handle->family() || !(handle->family()->isA(typeOut) || handle->family()->isA(tr("empty"))))
-			{
-				if (retitem)
-					(*retitem) = 0;
-				if (sem)
-					sem->release();
-				return;
-			}
-		}
+
 		ConnectionGraphicsItem * connection;
 		NodeGraphicsItem * node;
 		QList<ConnectionGraphicsItem*> selectedConnections;
 		QList<NodeGraphicsItem*> selectedNodes;
-		for (int i=0; i < in.size(); ++i)
+		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (!in[i]->graphicsItems.isEmpty())
+			for (int j=0; j < nodes[i]->graphicsItems.size(); ++j)
 			{
-				for (int j=0; j < in[i]->graphicsItems.size(); ++j)
+				if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(in[i]->graphicsItems[j])))
 				{
-					if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(in[i]->graphicsItems[j])))
-					{
-						selectedConnections += connection;
-						break;
-					}
-					if ((node = NodeGraphicsItem::topLevelNodeItem(in[i]->graphicsItems[j])))
-					{
-						selectedNodes += node;
-						break;
-					}
+					selectedConnections += connection;
+					break;
+				}
+				if ((node = NodeGraphicsItem::topLevelNodeItem(in[i]->graphicsItems[j])))
+				{
+					selectedNodes += node;
+					break;
 				}
 			}
 		}
@@ -928,19 +930,18 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS ConnectionInsertion::fToS;
 
-	void* ConnectionInsertion::_insertConnection(ArrayOfItems A1, ArrayOfItems A2, const char* a0, const char* a1)
+	void* ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
 	{
-		return fToS.insertConnection(A1, A2, a0, a1);
+		return fToS.insertConnection(A, a0, a1);
 	}
 
-	void* ConnectionInsertion_FToS::insertConnection(ArrayOfItems A1, ArrayOfItems A2, const char* a0, const char* a1)
+	void* ConnectionInsertion_FToS::insertConnection(ArrayOfItems A, const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;
 		s->acquire();
-		QList<ItemHandle*> * list1 = ConvertValue(A1);
-		QList<ItemHandle*> * list2 = ConvertValue(A2);
-		emit insertConnection(s,&item,*list1,*list2,ConvertValue(a0),ConvertValue(a1));
+		QList<ItemHandle*> * list = ConvertValue(A);
+		emit insertConnection(s,&item,*list,ConvertValue(a0),ConvertValue(a1));
 		s->acquire();
 		s->release();
 		delete s;

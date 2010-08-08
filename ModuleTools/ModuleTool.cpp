@@ -186,7 +186,6 @@ namespace Tinkercell
 
 				moduleFamily->graphicsItems += image;
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
-				moduleFamily->color = QColor(0,0,255);
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
 				tree->nodeFamilies[moduleFamily->name] = moduleFamily;

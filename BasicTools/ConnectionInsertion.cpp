@@ -388,21 +388,21 @@ namespace Tinkercell
 			if (h2 = ConnectionHandle::cast(items[i]))
 				nodes << h2->nodes();
 		
-		QList<ConnectionFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
+		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
+		selectedFamily = 0;
+		if (!subFamilies.isEmpty())
+			selectedFamily = ConnectionFamily::cast(subFamilies.last());
 		
-		if (subFamilies.isEmpty())
+		if (!selectedFamily)
 		{
-			selectedFamily = 0;
 			if (console())
-				console()->errorMessage(tr("Given set of nodes are not appropriate for a ") + family);
+				console()->error(tr("Given set of nodes are not appropriate for a ") + family);
 			if (retitem)
 				(*retitem) = 0;
 			if (sem)
 				sem->release();
 			return;
 		}
-		
-		selectedFamily = subFamilies.last();
 		
 		QList<NodeGraphicsItem*> saveSelectedNodes = selectedNodes;
 		QList<ConnectionGraphicsItem*> saveSelectedConnections = selectedConnections;
@@ -418,14 +418,14 @@ namespace Tinkercell
 			if (items[i])
 			{
 				for (int j=0; j < items[i]->graphicsItems.size(); ++j)
-					if (nodes[i]->graphicsItems[j])
+					if (items[i]->graphicsItems[j])
 					{
-						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(nodes[i]->graphicsItems[j])))
+						if ((connection = ConnectionGraphicsItem::topLevelConnectionItem(items[i]->graphicsItems[j])))
 						{
 							selectedConnections += connection;
 							break;
 						}
-						if ((node = NodeGraphicsItem::topLevelNodeItem(in[i]->graphicsItems[j])))
+						if ((node = NodeGraphicsItem::topLevelNodeItem(items[i]->graphicsItems[j])))
 						{
 							selectedNodes += node;
 							break;
@@ -546,7 +546,7 @@ namespace Tinkercell
 					nodeHandles << h;
 		}
 
-		QList<ItemFamily*> * childFamilies = selectedFamily->findValidChildFamilies(nodeHandles);
+		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles);
 		
 		if (childFamilies.isEmpty())
 		{
@@ -554,8 +554,8 @@ namespace Tinkercell
 			if (root) //search all families under root
 			{	
 				childFamilies = root->findValidChildFamilies(nodeHandles);
-				if (!childFamilies.isEmpty())  //found one
-					selectedFamily = childFamilies[0];
+				if (!childFamilies.isEmpty() && ConnectionFamily::cast(childFamilies[0]))  //found one
+					selectedFamily = ConnectionFamily::cast(childFamilies[0]);
 			}
 		}
 		
@@ -652,9 +652,9 @@ namespace Tinkercell
 
 				if (!selected)
 				{
-					QString messageString = tr("Select ") +
-						QString::number(numRequiredIn) + tr(" \"") + typeIn + tr("\" item and ") +
-						QString::number(numRequiredOut) + tr(" \"") + typeOut + tr("\" item");
+					QString messageString = tr("Invalid selection: ") + 
+						selectedFamily->name + tr(" consists of ") +
+						selectedFamily->nodeFamilies.join(tr(", "));
 					mainWindow->statusBar()->showMessage(messageString);
 					if (console())
                         console()->message(messageString);
@@ -939,8 +939,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		delete list1;
-		delete list2;
+		delete list;
 		return ConvertValue(item);
 	}
 

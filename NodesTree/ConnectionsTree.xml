@@ -38,7 +38,7 @@
     <connection family="Regulation" participant_types="Node" participant_roles="Regulator,Target">    
       <text>This connection represents a molecule regulating another.</text>
       
-      <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Enzyme,Reactant,Product">
+      <connection family="Enzyme Catalysis" participant_types="Protein,Molecule,Molecule" participant_roles="Catalyst,Reactant,Product">
       </connection> 
       
       <connection family="Activation" participant_types="Molecule,Node">

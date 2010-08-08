@@ -121,8 +121,6 @@ namespace Tinkercell
           if (tree && isStartElement() && name().toString().toLower() == QObject::tr("node"))
           {
                node = new NodeFamily;
-               if (parentNode)
-                   node->color = parentNode->color;
 
                treeItem = new QTreeWidgetItem;
 
@@ -146,16 +144,6 @@ namespace Tinkercell
                               tree->nodeFamilies[node->name] = node;
                          }
                          tree->treeItems.insertMulti(node->name,treeItem);
-                    }
-                    else
-                    if (vec.at(i).name().toString().toLower() == QObject::tr("color"))  //get measuring unit for the node
-                    {
-                         QString s = vec.at(i).value().toString();
-                         QColor color(s);
-                         if (color.isValid())
-                         {
-                              node->color = color;
-                         }
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node

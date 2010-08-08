@@ -73,8 +73,6 @@ namespace Tinkercell
 		QHash<QString,QString> textAttributes;
 		/*! \brief the default set of graphics items used to represent items of this family*/
 		QList<QGraphicsItem*> graphicsItems;
-		/*! \brief color used to identify this family*/
-		QColor color;
 		/*! \brief the icon representing this family*/
 		QPixmap pixmap;
 		/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
@@ -168,6 +166,12 @@ namespace Tinkercell
 		virtual ~ConnectionFamily();
 		/*! \brief constructor.*/
 		ConnectionFamily(const QString& name = QString());
+		/*! \brief checks if this family is compatible with a connection composed of the given set of nodes
+		\return Boolean*/
+		virtual bool isValidSet(const QList<NodeHandle*>& nodes);
+		/*! \brief find child-families of this family that the given set of nodes can potentially belong with
+		\return QList<ItemFamily*> valid connection families*/
+		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&);
 	protected:
 		/*! \brief all the parents*/
 		QList<ConnectionFamily*> parentFamilies;

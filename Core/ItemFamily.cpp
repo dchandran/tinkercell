@@ -11,6 +11,7 @@ Each item in Tinkercell has an associated family.
 ****************************************************************************/
 #include <QtDebug>
 #include "ItemFamily.h"
+#include "ItemHandle.h"
 
 namespace Tinkercell
 {
@@ -207,5 +208,61 @@ namespace Tinkercell
 			parentFamilies.append(p);
 		if (!p->childFamilies.contains(this))
 			p->childFamilies.append(this);
+	}
+	
+	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes)
+	{
+		if (nodes.isEmpty()) return false;
+
+		NodeHandle * h;
+		
+		if (nodes.size() != nodeFunctions.size())
+			return false;
+		
+		bool b;
+		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
+		{
+			b = false;
+			
+			for (int j=0; j < nodeFamilies.size(); ++j)   //check of the family allows it
+				if (nodes[i] && nodes[i]->isA(nodeFamilies[i]))
+				{
+					b = true;
+					break;
+				}
+			
+			if (!b)
+				return false;
+		}
+
+		return true;
+	}
+
+	QList<ItemFamily*> ConnectionFamily::findValidChildFamilies(const QList<NodeHandle*>& nodes)
+	{
+		QList<ItemFamily*> validFamilies, list;
+		
+		//breadth first search starting from current family
+		
+		ConnectionFamily * connection = this;
+		
+		if (isValidSet(nodes))
+			validFamilies << connection;
+
+		for (int i=0; i < validFamilies.size(); ++i)
+			if (validFamilies[i])
+			{
+				list = validFamilies[i]->children();
+				for (int j=0; j < list.size(); ++j)
+				{
+					connection = ConnectionFamily::cast(list[j]);
+					if (connection &&
+						!validFamilies.contains(connection) && 
+						connection->isValidSet(nodes))
+						validFamilies << connection;
+				}
+			}
+		
+		return validFamilies;
 	}
 }

@@ -65,11 +65,6 @@ namespace Tinkercell
           if (tree && isStartElement() && name().toString().toLower() == QObject::tr("connection"))
           {
                family = new ConnectionFamily;
-               if (parentFamily)
-               {
-                   family->color = parentFamily->color;
-                   family->string = parentFamily->string;
-               }
 
                treeItem = new QTreeWidgetItem;
 
@@ -93,20 +88,6 @@ namespace Tinkercell
                               tree->connectionFamilies[family->name] = family;
                          }
                          tree->treeItems.insertMulti(family->name,treeItem);
-                    }
-                    else
-                    if (vec.at(i).name().toString().toLower() == QObject::tr("color"))  //get measuring unit for the node
-                    {
-                         QColor color(vec.at(i).value().toString());
-                         if (color.isValid())
-                         {
-                              family->color = color;
-                         }
-                    }
-                    else
-                    if (vec.at(i).name().toString().toLower() == QObject::tr("syntax"))  //get measuring unit for the node
-                    {
-                         family->string = vec.at(i).value().toString();
                     }
                     else
                     if (vec.at(i).name().toString().toLower() == QObject::tr("units"))  //get measuring unit for the node

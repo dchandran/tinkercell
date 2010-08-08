@@ -557,6 +557,16 @@ namespace Tinkercell
 		return 0;
 	}
 
+	QList<NodeHandle*> NodeHandle::cast(const QList<ItemHandle*>& items)
+	{
+		QList<NodeHandle*> nodes;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] && items[i]->type == NodeHandle::TYPE)
+				nodes << static_cast<NodeHandle*>(items[i]);
+		return nodes;
+	}
+
 	NodeHandle::NodeHandle(const QString& s) : ItemHandle(s)
 	{
 		nodeFamily = 0;
@@ -649,6 +659,16 @@ namespace Tinkercell
 		if (item && item->type == ConnectionHandle::TYPE)
 			return static_cast<ConnectionHandle*>(item);
 		return 0;
+	}
+	
+	QList<ConnectionHandle*> ConnectionHandle::cast(const QList<ItemHandle*>& items)
+	{
+		QList<ConnectionHandle*> nodes;
+		
+		for (int i=0; i < items.size(); ++i)
+			if (items[i] && items[i]->type == ConnectionHandle::TYPE)
+				nodes << static_cast<ConnectionHandle*>(items[i]);
+		return nodes;
 	}
 
 	ConnectionHandle::ConnectionHandle(const QString& s) : ItemHandle(s)
@@ -854,62 +874,14 @@ namespace Tinkercell
 	{
 		nodesWithRoles.clear();
 	}
-	
-	bool ConnectionHandle::isValidFamily(const QList<NodeHandle*> nodes, ItemFamily * family)
-	{
-		if (!family || nodes.isEmpty()) return false;
 
-		NodeHandle * h;
-		
-		if (nodes.size() != family->nodeFunctions.size())
-			return false;
-		
-		bool b;
-		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
-		{
-			b = false;
-			
-			for (int j=0; j < family->nodeFamilies.size(); ++j)   //check of the family allows it
-				if (nodes[i] && nodes[i]->isA(family->nodeFamilys[i]))
-				{
-					b = true;
-					break;
-				}
-			
-			if (!b)
-				return false;
-		}
-		
-		return true;
-	}
-	
-	bool ConnectionHandle::isValidFamily(ItemFamily * p) const
+	QList<ItemFamily*> ConnectionHandle::findValidChildFamilies() const
 	{
-		ConnectionFamily * family = ConnectionFamily::cast(p);		
-		if (!family) return false;		
-
-		return isValidFamily(nodes(),p);
-	}
-	
-	QList<ItemFamily*> ConnectionHandle::findValidSubfamilies() const
-	{
-		QList<ItemFamily*> validFamilies, list;
-		
-		//breadth first search starting from current family
-		if (family())
-			validFamilies << family();
-			
-		for (int i=0; i < validFamilies.size(); ++i)
-			if (validFamilies[i])
-			{
-				list = validFamilies[i]->children();
-				for (int j=0; j < list.size(); ++j)
-					if (!validFamilies.contains(list[j]) && isValidFamily(list[j]))
-						validFamilies << list[j];	
-			}
-		
-		
-		return validFamilies;
+		QList<ItemFamily*> list;
+		ConnectionFamily * connection = ConnectionFamily::cast(family());
+		if (connection)
+			list = connection->findValidChildFamilies(nodes());
+		return list;
 	}
 
 }

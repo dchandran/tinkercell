@@ -263,6 +263,10 @@ namespace Tinkercell
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
 		static NodeHandle* cast(ItemHandle *);
+		/*! \brief checks if the item handles are node handles and casts then as node items.
+		Returns QList<NodeHandle*>
+		\param Returns QList<ItemHandle*> items*/
+		static QList<NodeHandle*> cast(const QList<ItemHandle*>&);
 	};
 
 	/*! \brief
@@ -326,19 +330,17 @@ namespace Tinkercell
 		/*! \brief family for this handle
 		\return ItemFamily* connection family as item family*/
 		virtual ItemFamily* family() const;
-		/*! \brief checks if a family is compatible with a connection composed of the given set of nodes
-		\return Boolean*/
-		static bool isValidFamily(const QList<NodeHandle*>& , ItemFamily *);
-		/*! \brief checks if a family is compatible with this connection
-		\return Boolean*/
-		virtual bool isValidFamily(ItemFamily * p) const;
-		/*! \brief find sub-families of the current family that this connection can potentially belong with
+		/*! \brief find child-families of the current family that this connection can potentially belong with
 		\return QList<ItemFamily*> valid connection families*/
-		virtual QList<ItemFamily*> findValidSubfamilies() const;
-		/*! \brief checks if the item handle is a node handle and casts it as a node item.
+		virtual QList<ItemFamily*> findValidChildFamilies() const;
+		/*! \brief checks if the item handle is a connection handle and casts it as a connection item.
 		Returns 0 if it is not a node item
 		\param ItemHandle* item*/
-		static ConnectionHandle* cast(ItemHandle *);
+		static ConnectionHandle * cast(ItemHandle *);
+		/*! \brief checks if the item handles are connection handles and casts then as connection items.
+		Returns QList<ConnectionHandle*>
+		\param Returns QList<ItemHandle*> items*/
+		static QList<ConnectionHandle*> cast(const QList<ItemHandle*>&);
 		/*! \brief the nodes that are connected by this connection and the role of each node.
 		     this list is ONLY used for connections with NO graphics items
 		    -1 and 1 are reseved roles, indicating in and out nodes

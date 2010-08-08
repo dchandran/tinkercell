@@ -111,26 +111,28 @@ namespace Tinkercell
 			void toolLoaded(Tool*);
 			/*!\brief setup the C API pointers when a new C library is loaded*/
 			void setupFunctionPointers( QLibrary * );
+			/*!\brief add Participants table in each connection*/
+			void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 
-			private slots:
-				/*!\brief C API function*/
-				void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
-				/*!\brief C API function*/
-				void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectionsIn(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectionsOut(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-				/*!\brief C API function*/
-				void getConnectionsOther(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+		private slots:
+			/*!\brief C API function*/
+			void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
+			/*!\brief C API function*/
+			void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectionsIn(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectionsOut(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+			/*!\brief C API function*/
+			void getConnectionsOther(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
 
 	protected:
 
@@ -138,17 +140,12 @@ namespace Tinkercell
 		ConnectionFamily * selectedFamily;
 		/*! \brief the connection tree with all the connection families*/
 		ConnectionsTree * connectionsTree;
-		/*! \brief generate a graphics item fromt the family
-		\param the family
-		\return the connection item corresponding to the family
-		*/
-		ConnectionGraphicsItem * familyToGraphicsItem(ConnectionFamily * family);
 		/*! \brief stores the default number of inputs and outputs*/
 		QHash<QString,int> defaultInputs, defaultOutputs;
 		/*! \brief set the default number of inputs and outputs for different reactions*/
 		void initializeHashes();
 		/*! \brief if user selects wrong node types, then change that selected connection type to match user's selected nodes*/
-		bool changeSelectedFamilyToMatchSelection(NodeGraphicsItem * );
+		bool changeSelectedFamilyToMatchSelection();
 		/*!\brief the currently selected set of nodes under insertion mode that are to be connected*/
 		QList<NodeGraphicsItem*> selectedNodes;
 		/*!\brief the currently selected set of connections that are to be connected*/
@@ -198,6 +195,7 @@ namespace Tinkercell
 		
 		bool isReactant(NodeHandle*);
 		bool isProduct(NodeHandle*);
+		
 		static bool isReactant(const QString&);
 	};
 

@@ -1501,5 +1501,15 @@ namespace Tinkercell
 		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 		return qgraphicsitem_cast<NodeGraphicsItem*>(q);
 	}
-
+	
+	QList<NodeGraphicsItem*> NodeGraphicsItem::cast(const QList<QGraphicsItem*>& list)
+	{
+		QList<NodeGraphicsItem*> nodes;
+		NodeGraphicsItem* q;
+		for (int i=0; i < list.size(); ++i)
+			if (!MainWindow::invalidPointers.contains( (void*)(list[i]) ) && 
+				(q = qgraphicsitem_cast<NodeGraphicsItem*>(list[i])))
+				nodes << q;
+		return nodes;
+	}
 }

@@ -533,7 +533,7 @@ namespace Tinkercell
 		adjustConnectorPoints(movingItems);
 	}
 
-	void ConnectionSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&)
+	void ConnectionSelection::itemsRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
 		if (!scene || items.isEmpty()) return;
 
@@ -569,35 +569,27 @@ namespace Tinkercell
 			else
 			{
 				p = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i]);
-				if (p)
+				if (p && p->connectionItem)
 					points << p;
 			}
+			
+			int k;
 			for (int j=0; j < points.size(); ++j)
 			{
 				if ((p = points[j]) && !items.contains(p->connectionItem))
 				{
-					//items.removeAt(i);
-					RemoveControlPointCommand * cmmd1 = new RemoveControlPointCommand("control point removed",scene,p);
-					cmmd1->redo();
-					cmmd1->undo();
-
-					if (cmmd1->graphicsItems.size() >= 1)
+					k = p->connectionItem->indexOf(p);
+					if (k > -1 && p->connectionItem->curveSegments[k].size() > 4)
 					{
-						if (scene->network)
-							scene->network->push(cmmd1);
+						RemoveControlPointCommand * cmmd1 = new RemoveControlPointCommand("control point removed",scene,p);
+						commands << cmmd1;
 					}
 					else
 					{
 						RemoveCurveSegmentCommand * cmmd2 = new RemoveCurveSegmentCommand("path removed",scene,p);
 						if (cmmd2->curveSegments.size() > 0)
 						{
-							if (scene->network)
-								scene->network->push(cmmd2);
-							else
-							{
-								cmmd2->redo();
-								delete cmmd2;
-							}
+							commands << cmmd2;
 						}
 						else
 						{

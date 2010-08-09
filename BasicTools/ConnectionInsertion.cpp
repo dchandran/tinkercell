@@ -296,51 +296,78 @@ namespace Tinkercell
 			sem->release();
 	}
 	
-	void ConnectionInsertion::itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	void ConnectionInsertion::itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
-		NodeHandle * node;
-		QList<ConnectionHandle*> connections, visited;
-		ConnectionHandle * connection;
+		NodeGraphicsItem * nodeItem;
+		QList<ConnectionGraphicsItem*> tempList1;
+		QList<NodeGraphicsItem*> tempList2;
+		QHash<ConnectionGraphicsItem*,int> toBeRemoved;
+		
+		ItemHandle * connectionHandle, * nodeHandle;
+		ConnectionGraphicsItem * connectionItem;
+		ConnectionGraphicsItem::ControlPoint * controlPoint;
 		ConnectionFamily * family;
 		ItemFamily * nodeFamily;
 
 		TextDataTable * oldTable, * newTable;
 		QList<TextDataTable*> oldTables, newTables;
-		QList<NodeHandle*> nodes;
+		int k;
 		
-		
-		for (int i=0; i < handles.size(); ++i)
-			if (node = NodeHandle::cast(handles[i]))
+		for (int i=0; i < items.size(); ++i)
+		{
+			if (nodeItem = NodeGraphicsItem::cast(items[i]))
 			{
-				connections << node->connections();
+				tempList1 = nodeItem->connections();
+				for (int j=0; j < tempList1.size(); ++j)
+					if (tempList1[j] && (k = tempList1[j]->indexOf(nodeItem)) > -1)
+						toBeRemoved.insertMulti(tempList1[j],k);
 			}
-		
-		for (int i=0; i < connections.size(); ++i)
-			if ((connection = connections[i]) && !visited.contains(connection))
+			
+			if ((connectionItem = ConnectionGraphicsItem::cast(items[i])) &&
+				(connectionHandle = connectionItem->handle()) &&
+				(ConnectionGraphicsItem::cast(connectionHandle->graphicsItems)).size() > 1)
 			{
-				visited << connection;
-				for (int i2=0; i2 < connections.size(); ++i2)
-					if((connection = connections[i2]) && (family = ConnectionFamily::cast(connection->family())))
-					{
-						oldTable = &(connection->textDataTable(tr("Participants")));
-						newTable = new TextDataTable(*oldTable);
-				
-						nodes = connection->nodes();
-						QStringList oldRowNames = oldTable->getRowNames();
-				
-						for (int j=0; j < nodes.size(); ++j) //for each node
-							if (!handles.contains(nodes[j]))
-								oldRowNames.removeAll(nodes[j]->fullName());
-				
-						for (int j=0; j < oldRowNames.size(); ++j)
-							newTable->removeRow(oldRowNames[j]);
+				tempList2 = connectionItem->nodes();
+				for (int j=0; j < tempList2.size(); ++j)
+					if (tempList2[j] && (k = connectionItem->indexOf(tempList2[j])) > -1)
+						toBeRemoved.insertMulti(connectionItem,k);
+			}
+			
+			if ((controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])) &&
+				controlPoint->connectionItem)
+			{
+				k = controlPoint->connectionItem->indexOf(controlPoint);
+				if (controlPoint->connectionItem->curveSegments[k].size() < 5)
+					toBeRemoved.insertMulti(controlPoint->connectionItem,k);
+			}
+		}
 
-						if (!oldRowNames.isEmpty())
-						{
-							oldTables << oldTable;
-							newTables << newTable;
-						}
-					}
+		QList<ConnectionGraphicsItem*> keys = toBeRemoved.keys();
+		QList<int> indices;
+		
+		for (int i=0; i < keys.size(); ++i)
+			if (connectionHandle = keys[i]->handle())
+			{
+				oldTable = &(connectionHandle->textDataTable(tr("Participants")));
+				newTable = new TextDataTable(*oldTable);
+				
+				QStringList removeRowNames;
+				indices = toBeRemoved.values(keys[i]);
+
+				for (int j=0; j < indices.size(); ++j)
+				{
+					nodeHandle = getHandle(keys[i]->nodeAt(indices[j]));
+					if (nodeHandle)
+						removeRowNames << nodeHandle->fullName();
+				}
+				
+				if (!removeRowNames.isEmpty())
+				{
+					for (int j=0; j < removeRowNames.size(); ++j)
+						newTable->removeRow(removeRowNames[j]);
+					oldTables << oldTable;
+					newTables << newTable;
+				}
 			}
 
 		if (newTables.size() > 0)

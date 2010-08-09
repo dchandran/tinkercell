@@ -1985,7 +1985,7 @@ namespace Tinkercell
 	* \return node item or 0*/
 	NodeGraphicsItem* ConnectionGraphicsItem::nodeAt(int index) const
 	{
-		NodeGraphicsItem * node;
+		NodeGraphicsItem * node = 0;
 		if (curveSegments.size() == 1)
 		{
 			if (index < 0 || index > 1 ||
@@ -1995,8 +1995,11 @@ namespace Tinkercell
 				node = NodeGraphicsItem::cast(curveSegments[0][0]->parentItem());
 			else
 				node = NodeGraphicsItem::cast(curveSegments[0][curveSegments[0].size()-1]->parentItem());
+
 			if (node == curveSegments[0].arrowStart || node == curveSegments[0].arrowEnd)
 				node = 0;
+			
+			return node;
 		}
 
 		if (index < 0 || index >= curveSegments.size() ||
@@ -2019,25 +2022,40 @@ namespace Tinkercell
 	* \return index, -1 if node not found*/
 	int ConnectionGraphicsItem::indexOf(QGraphicsItem * target) const
 	{
-		NodeGraphicsItem* node;
+		if (!target) return -1;
+		
+		if (curveSegments.size() == 1 && (curveSegments[0].size() > 1 && curveSegments[0][0]))
+		{
+			for (int i=0; i < curveSegments[0].size(); ++i)
+				if (target == curveSegments[0][i])
+					return 0;
+
+			if (target == curveSegments[0].arrowStart) return 0;
+			
+			if (target == curveSegments[0].arrowEnd) return 1;
+
+			if (target == curveSegments[0][0]->parentItem()) return 0;
+			
+			if (curveSegments[0][curveSegments[0].size()-1] && 
+				(target == curveSegments[0][curveSegments[0].size()-1]->parentItem())) return 1;
+		}
 
 		for (int i=0; i < curveSegments.size(); ++i)
-			if (curveSegments[i].size() > 0 && curveSegments[i][0])
+			if (curveSegments[i].size() > 1 && curveSegments[i][0])
 			{
-				node = NodeGraphicsItem::cast(curveSegments[i][0]->parentItem());
-				if (node && node == target)
-					return i;
-				if (curveSegments[i].size() > 1)
-				{
-					node = NodeGraphicsItem::cast(curveSegments[i][curveSegments[i].size()-1]->parentItem());
-					if (node && node == target)
+				if (target == curveSegments[i].arrowStart || 
+					target == curveSegments[i].arrowEnd ||
+					target == curveSegments[i][0]->parentItem() ||
+					target == curveSegments[i][curveSegments[i].size()-1]->parentItem()) return i;
+					
+				for (int j=0; j < curveSegments[j].size(); ++j)
+					if (target == curveSegments[i][j])
 						return i;
-				}
 			}
 
-			return -1;
+		return -1;
 	}
-
+	
 	/*! \brief find the arrow head at the particular index
 	* \param index less than size of curveSegments
 	* \return node item or 0*/
@@ -2289,6 +2307,17 @@ namespace Tinkercell
 	{
 		if (MainWindow::invalidPointers.contains( (void*)q )) return 0;
 		return qgraphicsitem_cast<ConnectionGraphicsItem*>(q);
+	}
+	
+	QList<ConnectionGraphicsItem*> ConnectionGraphicsItem::cast(const QList<QGraphicsItem*>& list)
+	{
+		QList<ConnectionGraphicsItem*> connections;
+		ConnectionGraphicsItem* q;
+		for (int i=0; i < list.size(); ++i)
+			if (!MainWindow::invalidPointers.contains( (void*)(list[i]) ) && 
+				(q = qgraphicsitem_cast<ConnectionGraphicsItem*>(list[i])))
+				connections << q;
+		return connections;
 	}
 
 	ConnectionGraphicsItem::ConnectionGraphicsItem(const QList<NodeGraphicsItem*>& from, const QList<NodeGraphicsItem*>& to, QGraphicsItem * parent) :

@@ -99,6 +99,11 @@ namespace Tinkercell
 		\return ConnectionGraphicsItem* can be 0 if the cast is invalid
 		*/
 		static ConnectionGraphicsItem* cast(QGraphicsItem*);
+		/*! \brief cast a list of graphics item to a list of connection graphics items using qgraphicsitem_cast
+		\param QList<QGraphicsItem*> graphics items
+		\return QList<ConnectionGraphicsItem*> can be empty if no cast is invalid
+		*/
+		static QList<ConnectionGraphicsItem*> cast(const QList<QGraphicsItem*>&);
 		/*! \brief used for checking type before static casts */
 		static const QString CLASSNAME;
 		/*! \brief used to initialize the middle item for a connection */

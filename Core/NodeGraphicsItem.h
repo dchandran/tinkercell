@@ -58,7 +58,12 @@ namespace Tinkercell
 		\param QGraphicsItem* graphics item
 		\return NodeGraphicsItem* can be 0 if the cast is invalid
 		*/
-		static NodeGraphicsItem* cast(QGraphicsItem * q);
+		static NodeGraphicsItem* cast(QGraphicsItem *);
+		/*! \brief cast a list of graphics item to a list of node graphics items using qgraphicsitem_cast
+		\param QList<QGraphicsItem*> graphics items
+		\return QList<NodeGraphicsItem*> can be empty if no cast is invalid
+		*/
+		static QList<NodeGraphicsItem*> cast(const QList<QGraphicsItem*>&);
 		/*! \brief get the handle of this node*/
 		virtual ItemHandle * handle() const;
 		/*! \brief set the handle of this node*/

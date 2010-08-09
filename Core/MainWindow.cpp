@@ -114,15 +114,10 @@ namespace Tinkercell
 		QString home = QFileDialog::getExistingDirectory(this,tr("Select new user home directory"),homeDir());
 		if (home.isEmpty() || home.isNull()) return;
 
-		QCoreApplication::setOrganizationName(ORGANIZATIONNAME);
-		QCoreApplication::setOrganizationDomain(PROJECTWEBSITE);
-		QCoreApplication::setApplicationName(ORGANIZATIONNAME);
-		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
-
-		settings.beginGroup("MainWindow");
-		settings.setValue("home", home);
-		homeDirPath = home;
-		settings.endGroup();
+		//home must be inside user's home directory to avoid write permission problems
+		QDir dir = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
+		if (home.contains(dir.absolutePath()))  
+			homeDirPath = home;
 	}
 
 	typedef void (*progress_api_initialize)(void (*tc_showProgress)(const char *, int));
@@ -304,6 +299,8 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
+		
+		settings.setValue("home", homeDirPath);
 		settings.setValue("size", size());
 		settings.setValue("pos", pos());
 		settings.setValue("maximized",(isMaximized()));
@@ -325,11 +322,16 @@ namespace Tinkercell
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
 		settings.beginGroup("MainWindow");
+		
+		QDir dir = QDesktopServices::storageLocation(QDesktopServices::HomeLocation);
+		QString home = settings.value("home", tr("")).toString();
+		
+		if (!home.isNull() && !home.isEmpty() && home.contains(dir.absolutePath()))  
+			homeDirPath = home;
 
 		resize(settings.value("size", QSize(1000, 800)).toSize());
 		move(settings.value("pos", QPoint(100, 100)).toPoint());
-		if (settings.value("maximized",false).toBool())
-			showMaximized();
+		if (settings.value("maximized",false).toBool()) showMaximized();
 		previousFileName = settings.value("previousFileName", tr("")).toString();
 		defaultToolWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultToolWindowOption", (int)defaultToolWindowOption).toInt());
 		defaultHistoryWindowOption = (TOOL_WINDOW_OPTION)(settings.value("defaultHistoryWindowOption", (int)defaultHistoryWindowOption).toInt());

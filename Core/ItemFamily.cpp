@@ -210,13 +210,14 @@ namespace Tinkercell
 			p->childFamilies.append(this);
 	}
 	
-	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes)
+	bool ConnectionFamily::isValidSet(const QList<NodeHandle*>& nodes, bool full)
 	{
 		if (nodes.isEmpty()) return false;
 
 		NodeHandle * h;
 		
-		if (nodes.size() != nodeFunctions.size())
+		if ((full && nodes.size() != nodeFunctions.size()) ||
+			(nodes.size() > nodeFunctions.size()))
 			return false;
 		
 		bool b;
@@ -238,31 +239,35 @@ namespace Tinkercell
 		return true;
 	}
 
-	QList<ItemFamily*> ConnectionFamily::findValidChildFamilies(const QList<NodeHandle*>& nodes)
+	QList<ItemFamily*> ConnectionFamily::findValidChildFamilies(const QList<NodeHandle*>& nodes, bool full)
 	{
-		QList<ItemFamily*> validFamilies, list;
-		
-		//breadth first search starting from current family
-		
-		ConnectionFamily * connection = this;
-		
-		if (isValidSet(nodes))
-			validFamilies << connection;
+		QList<ItemFamily*> validFamilies, childFamilies, list;
 
-		for (int i=0; i < validFamilies.size(); ++i)
-			if (validFamilies[i])
+		//breadth first search starting from current family
+
+		ConnectionFamily * connection;
+
+		if (isValidSet(nodes,full))
+			validFamilies << this;
+
+		childFamilies << this;
+
+		for (int i=0; i < childFamilies.size(); ++i)
+			if (childFamilies[i])
 			{
-				list = validFamilies[i]->children();
+				list = childFamilies[i]->children();
 				for (int j=0; j < list.size(); ++j)
 				{
 					connection = ConnectionFamily::cast(list[j]);
-					if (connection &&
-						!validFamilies.contains(connection) && 
-						connection->isValidSet(nodes))
-						validFamilies << connection;
+					if (connection && !childFamilies.contains(connection))
+					{
+						childFamilies << connection; 
+						if (connection->isValidSet(nodes,full))
+							validFamilies << connection;
+					}
 				}
 			}
-		
+
 		return validFamilies;
 	}
 }

@@ -167,11 +167,15 @@ namespace Tinkercell
 		/*! \brief constructor.*/
 		ConnectionFamily(const QString& name = QString());
 		/*! \brief checks if this family is compatible with a connection composed of the given set of nodes
+		\param bool QList<NodeHandle*> node handles
+		\param bool use false here if the list of nodes is a partial list
 		\return Boolean*/
-		virtual bool isValidSet(const QList<NodeHandle*>& nodes);
+		virtual bool isValidSet(const QList<NodeHandle*>& nodes, bool checkFull=true);
 		/*! \brief find child-families of this family that the given set of nodes can potentially belong with
+		\param bool QList<NodeHandle*> node handles
+		\param bool use false here if the list of nodes is a partial list
 		\return QList<ItemFamily*> valid connection families*/
-		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&);
+		virtual QList<ItemFamily*> findValidChildFamilies(const QList<NodeHandle*>&, bool checkFull=true);
 	protected:
 		/*! \brief all the parents*/
 		QList<ConnectionFamily*> parentFamilies;

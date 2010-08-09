@@ -488,9 +488,9 @@ setClass('_p_f_p_void_p_q_const__char_double__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_ArrayOfItems', '_p_char', '_p_char'),
-                        returnType = '_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void'),
+setClass('_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void',
+        prototype = list(parameterTypes = c('_ArrayOfItems', '_p_char', '_p_char'),
+                        returnType = '_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -3763,11 +3763,11 @@ class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_Basic
 
 # Start of tc_insertConnection
 
-`tc_insertConnection` = function(partsFrom, partsTo, name, family, .copy = FALSE)
+`tc_insertConnection` = function(parts, name, family, .copy = FALSE)
 {
   name = as(name, "character") 
   family = as(family, "character") 
-  ans = .Call('R_swig_tc_insertConnection', partsFrom, partsTo, name, family, as.logical(.copy), PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_insertConnection', parts, name, family, as.logical(.copy), PACKAGE='tinkercell')
   class(ans) <- "_p_void"
   
   ans
@@ -3775,7 +3775,7 @@ class(`tc_BasicInformationTool_Numeric_api`) = c("SWIGFunction", class('tc_Basic
 }
 
 attr(`tc_insertConnection`, 'returnType') = '_p_void'
-attr(`tc_insertConnection`, "inputTypes") = c('_p_ArrayOfItems', '_p_ArrayOfItems', 'character', 'character')
+attr(`tc_insertConnection`, "inputTypes") = c('_p_ArrayOfItems', 'character', 'character')
 class(`tc_insertConnection`) = c("SWIGFunction", class('tc_insertConnection'))
 
 # Start of tc_getConnectedNodes
@@ -3903,7 +3903,7 @@ class(`tc_getConnectionsOther`) = c("SWIGFunction", class('tc_getConnectionsOthe
 `tc_ConnectionInsertion_api` = function(insertConnection, getConnectedParts, getConnectedPartsIn, getConnectedPartsOut, getConnectedPartsOther, getConnections, getConnectionsIn, getConnectionsOut, getConnectionsOther)
 {
   if(is.function(insertConnection)) {
-    assert('...' %in% names(formals(insertConnection)) || length(formals(insertConnection)) >= 4)
+    assert('...' %in% names(formals(insertConnection)) || length(formals(insertConnection)) >= 3)
   } else {
     if(is.character(insertConnection)) {
       insertConnection = getNativeSymbolInfo(insertConnection)
@@ -3997,7 +3997,7 @@ class(`tc_getConnectionsOther`) = c("SWIGFunction", class('tc_getConnectionsOthe
 }
 
 attr(`tc_ConnectionInsertion_api`, 'returnType') = 'void'
-attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_ArrayOfItems_ArrayOfItems_p_q_const__char_p_q_const__char__p_void', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems')
+attr(`tc_ConnectionInsertion_api`, "inputTypes") = c('_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems')
 class(`tc_ConnectionInsertion_api`) = c("SWIGFunction", class('tc_ConnectionInsertion_api'))
 
 # Start of tc_getControlPointX

@@ -104,6 +104,9 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
 
+			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
+					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+
 			connectToConnectionsTree();
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
@@ -293,6 +296,61 @@ namespace Tinkercell
 			sem->release();
 	}
 	
+	void ConnectionInsertion::itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	{
+		NodeHandle * node;
+		QList<ConnectionHandle*> connections, visited;
+		ConnectionHandle * connection;
+		ConnectionFamily * family;
+		ItemFamily * nodeFamily;
+
+		TextDataTable * oldTable, * newTable;
+		QList<TextDataTable*> oldTables, newTables;
+		QList<NodeHandle*> nodes;
+		
+		
+		for (int i=0; i < handles.size(); ++i)
+			if (node = NodeHandle::cast(handles[i]))
+			{
+				connections << node->connections();
+			}
+		
+		for (int i=0; i < connections.size(); ++i)
+			if ((connection = connections[i]) && !visited.contains(connection))
+			{
+				visited << connection;
+				for (int i2=0; i2 < connections.size(); ++i2)
+					if((connection = connections[i2]) && (family = ConnectionFamily::cast(connection->family())))
+					{
+						oldTable = &(connection->textDataTable(tr("Participants")));
+						newTable = new TextDataTable(*oldTable);
+				
+						nodes = connection->nodes();
+						QStringList oldRowNames = oldTable->getRowNames();
+				
+						for (int j=0; j < nodes.size(); ++j) //for each node
+							if (!handles.contains(nodes[j]))
+								oldRowNames.removeAll(nodes[j]->fullName());
+				
+						for (int j=0; j < oldRowNames.size(); ++j)
+							newTable->removeRow(oldRowNames[j]);
+
+						if (!oldRowNames.isEmpty())
+						{
+							oldTables << oldTable;
+							newTables << newTable;
+						}
+					}
+			}
+
+		if (newTables.size() > 0)
+		{
+			commands << new ChangeTextDataCommand(tr("Add node roles"),oldTables,newTables);
+			for (int i=0; i < newTables.size(); ++i)
+				delete newTables[i];
+		}
+	}
+	
 	//adds the Participants data table
 	void ConnectionInsertion::itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{
@@ -315,17 +373,25 @@ namespace Tinkercell
 				nodes = connection->nodes();
 				
 				bool in;
+				QStringList nodeFunctions = family->nodeFunctions,
+							nodeFamilies = family->nodeFamilies,
+							oldRowNames = oldTable->getRowNames();
+				
 				for (int j=0; j < nodes.size(); ++j) //for each node
-					if (nodes[j] && (nodeFamily = nodes[j]->family()))
+					if (nodes[j] &&
+						!oldRowNames.contains(nodes[j]->fullName()) &&
+						(nodeFamily = nodes[j]->family()))
 					{
 						in = nodesIn.contains(nodes[j]);
 						//look for suitable role for this node
-						for (int k=0; k < family->nodeFunctions.size() && k < family->nodeFamilies.size(); ++k)
-							if (nodeFamily->isA(family->nodeFamilies[k]) &&
-								(!in || (in && isReactant(family->nodeFunctions[k]))) //if in-node, then must be reactant
+						for (int k=0; k < nodeFunctions.size() && k < nodeFamilies.size(); ++k)
+							if (!nodeFunctions[k].isEmpty() && 
+								nodeFamily->isA(nodeFamilies[k]) &&
+								(!in || (in && isReactant(nodeFunctions[k]))) //if in-node, then must be reactant
 								)
 							{
-								newTable->value(nodesIn[j]->fullName(),0) = family->nodeFunctions[k];
+								newTable->value(nodes[j]->fullName(),0) = nodeFunctions[k];
+								nodeFunctions[k] = tr("");
 								break;
 							}
 					}
@@ -512,7 +578,6 @@ namespace Tinkercell
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
-
 			setRequirements();
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
@@ -526,7 +591,7 @@ namespace Tinkercell
 		}
 	}	
 
-	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection()
+	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection(bool all)
 	{
 		if (!(selectedFamily && connectionsTree)) return false;
 		
@@ -546,20 +611,19 @@ namespace Tinkercell
 					nodeHandles << h;
 		}
 
-		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles);
+		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
 		if (childFamilies.isEmpty())
 		{
 			ConnectionFamily * root = ConnectionFamily::cast(selectedFamily->root());
 			if (root) //search all families under root
 			{	
-				childFamilies = root->findValidChildFamilies(nodeHandles);
-				if (!childFamilies.isEmpty() && ConnectionFamily::cast(childFamilies[0]))  //found one
-					selectedFamily = ConnectionFamily::cast(childFamilies[0]);
+				childFamilies = root->findValidChildFamilies(nodeHandles,all);
 			}
 		}
-		
+
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
+		selectedFamily = ConnectionFamily::cast(childFamilies[0]);
 		
 		setRequirements();
 		return true;
@@ -593,7 +657,7 @@ namespace Tinkercell
 					}
 
 					if (!node && !connection)
-					{				
+					{
 						items = scene->items(QRectF(point.rx()-10.0,point.ry()-10.0,20.0,20.0));
 						for (int i=0; i < items.size(); ++i)
 							if (node = NodeGraphicsItem::cast(items[i]))
@@ -605,7 +669,6 @@ namespace Tinkercell
 					}
 				}
 
-				int totalSelected = selectedNodes.size() + selectedConnections.size();
 				bool selected = false;
 
 				if (node)
@@ -626,26 +689,20 @@ namespace Tinkercell
 					}
 				}
 
-				if (!selected)
+				if (!selected && connection)
 				{
-					for (int i=0; i < items.size(); ++i)
-						if (connection = ConnectionGraphicsItem::cast(items[i]))
-							break;
-					if (connection)
+					ItemHandle * handle2 = getHandle(connection);
+					if (handle2 && handle2->family())
 					{
-						ItemHandle * handle2 = getHandle(connection);
-						if (handle2 && handle2->family())
+						selectedConnections.push_back(connection);
+						if (!changeSelectedFamilyToMatchSelection())
 						{
-							selectedConnections.push_back(connection);
-							if (!changeSelectedFamilyToMatchSelection())
-							{
-								selectedConnections.pop_back();
-							}
-							else
-							{
-								scene->selected() += connection;
-								selected = true;
-							}
+							selectedConnections.pop_back();
+						}
+						else
+						{
+							scene->selected() += connection;
+							selected = true;
 						}
 					}
 				}
@@ -662,7 +719,7 @@ namespace Tinkercell
 
 				QString appDir = QCoreApplication::applicationDirPath();
 				//check if enough items have been selected to make the connection
-				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut))
+				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && changeSelectedFamilyToMatchSelection(true))
 				{
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();
@@ -754,8 +811,6 @@ namespace Tinkercell
 					{
 						item->curveSegments[i].arrowStart = &temparrow;
 					}
-
-					handle->setFamily(handle->findValidChildFamilies().last());
 
 					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
 					{

@@ -1021,15 +1021,15 @@ def toHex(r,g,b):
     hexchars = "0123456789ABCDEF0";
     return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];
 
-def fromTC(x)
+def fromTC(x):
     if type(x) == type(newMatrix(0,0)): return fromMatrix(x)
     if type(x) == type(newArrayOfStrings(0)): return fromArrayOfStrings(x)
     if type(x) == type(newArrayOfItems(0)): return fromArrayOfItems(x)
     return null
 
-def toTC(x)
+def toTC(x):
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]): return toMatrix(x)
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return toArrayOfStrings(x)
-    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type(10): return toArrayOfItems(x)
+    if type(x) == type([]) and len(x) > 0 and str(type(x[0])) == '<type \'SwigPyObject\'>': return toArrayOfItems(x)
     return null
 

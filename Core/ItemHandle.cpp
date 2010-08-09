@@ -586,6 +586,8 @@ namespace Tinkercell
 
 	void NodeHandle::setFamily(ItemFamily * p, bool useCommand)
 	{
+		if (nodeFamily == p) return;
+
 		if (useCommand && network)
 		{
 			ItemHandle * item = const_cast<NodeHandle*>(this);
@@ -594,12 +596,12 @@ namespace Tinkercell
 		else
 		{
 			if (!p)
-				this->nodeFamily = 0;
+				nodeFamily = 0;
 			else
 			{
 				NodeFamily * itemFamily = NodeFamily::cast(p);
-				if (itemFamily);
-					this->nodeFamily = itemFamily;
+				if (itemFamily)
+					nodeFamily = itemFamily;
 			}
 		}
 	}
@@ -698,6 +700,8 @@ namespace Tinkercell
 	
 	void ConnectionHandle::setFamily(ItemFamily * p, bool useCommand)
 	{	
+		if (connectionFamily == p) return;
+
 		if (useCommand && network)
 		{
 			ItemHandle * item = const_cast<ConnectionHandle*>(this);
@@ -706,11 +710,11 @@ namespace Tinkercell
 		else
 		{
 			if (!p)
-				this->connectionFamily = 0;
+				connectionFamily = 0;
 			else
 			{
 				ConnectionFamily * itemFamily = ConnectionFamily::cast(p);
-				if (itemFamily);
+				if (itemFamily)
 					this->connectionFamily = itemFamily;
 			}
 		}

@@ -471,8 +471,8 @@ namespace Tinkercell
 		GraphicsScene * graphicsScene;	
 		/*! \brief graphics item from which control points were removed*/
 		ConnectionGraphicsItem* connectionItem;
-		/*! \brief the poisition(s) at which the control point vectors were added*/
-		QList<int> listK1;
+		/*! \brief the nodes belonging with the control point vectors*/
+		QList<QGraphicsItem*> parentsAtStart, parentsAtEnd;
 	};
 
 }

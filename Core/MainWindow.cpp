@@ -1303,9 +1303,12 @@ namespace Tinkercell
 	
 	bool MainWindow::isValidHandlePointer(void * p)
 	{
+		if (!p || MainWindow::invalidPointers.contains(p)) return false;
+
 		for (int i=0; i < allNetworks.size(); ++i)
 			if (allNetworks[i] && allNetworks[i]->symbolsTable.isValidPointer(p))
 				return true;
+
 		return false;
 	}
 }

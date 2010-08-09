@@ -405,6 +405,10 @@ namespace Tinkercell
 					items[i]->network = textEditor->network;
 					list << items[i];
 				}
+			
+			if (changeDataCommand)
+				changeDataCommand->redo();
+			
 		}
 	}
 
@@ -425,6 +429,174 @@ namespace Tinkercell
 					items[i]->network = 0;
 					list.removeAll(items[i]);
 				}
+			
+			bool firstTime = (changeDataCommand == 0);
+
+			if (firstTime)
+			{
+				QList< DataTable<qreal>* > oldData1, newData1;
+				QList< DataTable<QString>* > oldData2, newData2;
+
+				QStringList namesToKill;
+				for (int i=0; i < items.size(); ++i)
+					if (items[i] && items[i]->graphicsItems.isEmpty())
+						namesToKill << items[i]->fullName();
+
+				QList<ItemHandle*> affectedHandles = textEditor->items();
+
+				for (int i=0; i < affectedHandles.size(); ++i)
+					if (affectedHandles[i]->data)
+					{
+						QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
+						QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+
+						for (int j=0; j < keys1.size(); ++j)
+							oldData1 += new DataTable<qreal>(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+
+						for (int j=0; j < keys2.size(); ++j)
+							oldData2 += new DataTable<QString>(affectedHandles[i]->data->textData[ keys2[j] ]);
+					}
+
+				DataTable<qreal> * nDat = 0;
+				DataTable<QString> * sDat = 0;
+
+				for (int i=0; i < affectedHandles.size(); ++i) //change all the handle data
+				{
+					bool affected = false;
+					for (int i2=0; i2 < namesToKill.size(); ++i2)
+					{
+						QString oldname(namesToKill[i2]);
+
+						QRegExp regexp1(QString("^") + oldname + QString("$")),  //just old name
+							regexp2(QString("^") + oldname + QString("([^A-Za-z0-9_])")),  //oldname+(!letter/num)
+							regexp3(QString("([^A-Za-z0-9_.])") + oldname + QString("$")), //(!letter/num)+oldname
+							regexp4(QString("([^A-Za-z0-9_.])") + oldname + QString("([^A-Za-z0-9_])")); //(!letter/num)+oldname+(!letter/num)
+
+						QList< QString > keys = affectedHandles[i]->data->numericalData.keys();
+						for (int j=0; j < keys.size(); ++j)  //go through each numeric data
+						{
+							affected = false;
+							nDat = &(affectedHandles[i]->data->numericalData[ keys[j] ]);
+							for (int k=0; k < nDat->rows(); ++k)
+							{
+								if (nDat->rowName(k).contains(regexp1) || nDat->rowName(k).contains(regexp2) ||
+									nDat->rowName(k).contains(regexp3) || nDat->rowName(k).contains(regexp4))
+								{
+									nDat->removeRow(k);
+									--k;
+									affected = true;
+								}
+							}
+							for (int k=0; k < nDat->cols(); ++k)
+							{
+								if (nDat->colName(k).contains(regexp1) || nDat->colName(k).contains(regexp2) ||
+									nDat->colName(k).contains(regexp3) || nDat->colName(k).contains(regexp4))
+								{
+									nDat->removeCol(k);
+									--k;
+									affected = true;
+								}
+							}
+							//if (affected && graphicsScene->console())
+			                  //  graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+						}
+
+						keys = affectedHandles[i]->data->textData.keys();
+
+						for (int j=0; j < keys.size(); ++j)  //go through each text data
+						{
+							affected = false;
+							sDat = &(affectedHandles[i]->data->textData[ keys[j] ]);
+							for (int k=0; k < sDat->rows(); ++k)
+							{
+								if (sDat->rowName(k).contains(regexp1) || sDat->rowName(k).contains(regexp2) ||
+									sDat->rowName(k).contains(regexp3) || sDat->rowName(k).contains(regexp4))
+								{
+									sDat->removeRow(k);
+									--k;
+									affected = true;
+								}
+							}
+							for (int k=0; k < sDat->cols(); ++k)
+							{
+								if (sDat->colName(k).contains(regexp1) || sDat->colName(k).contains(regexp2) ||
+									sDat->colName(k).contains(regexp3) || sDat->colName(k).contains(regexp4))
+								{
+									sDat->removeCol(k);
+									--k;
+									affected = true;
+								}
+							}
+
+							QString newname("1.0");
+							for (int k=0; k < sDat->rows(); ++k) //substitute each value in the table
+								for (int l=0; l < sDat->cols(); ++l)
+								{
+									QString & target = sDat->value(k,l);// = QString("0.0");
+
+									int n = regexp1.indexIn(target);
+									if (n != -1)
+									{
+										target = newname;
+										//target.replace(oldname,newname);
+										//n = regexp1.indexIn(target);
+										affected = true;
+									}
+									n = regexp2.indexIn(target);
+									if (n != -1)
+									{
+										target = newname;
+										//target.replace(regexp2,newname+QString("\\1"));
+										//n = regexp2.indexIn(target);
+										affected = true;
+									}
+									n = regexp3.indexIn(target);
+									if (n != -1)
+									{
+										target = newname;
+										//target.replace(regexp3,QString("\\1")+newname);
+										//n = regexp3.indexIn(target);
+										affected = true;
+									}
+									n = regexp4.indexIn(target);
+									if (n != -1)
+									{
+										target = newname;
+										//n = regexp4.indexIn(target);
+										affected = true;
+									}
+								}
+								//if (affected && graphicsScene->console())
+									//graphicsScene->console()->message(QObject::tr("data changed : ") + keys[j] + QObject::tr(" in ") + affectedHandles[i]->fullName());
+						}
+					}
+				}
+				for (int i=0; i < affectedHandles.size(); ++i)
+					if (affectedHandles[i]->data)
+					{
+						QList<QString> keys1 = affectedHandles[i]->data->numericalData.keys();
+						QList<QString> keys2 = affectedHandles[i]->data->textData.keys();
+
+						for (int j=0; j < keys1.size(); ++j)
+							newData1 += &(affectedHandles[i]->data->numericalData[ keys1[j] ]);
+
+						for (int j=0; j < keys2.size(); ++j)
+							newData2 += &(affectedHandles[i]->data->textData[ keys2[j] ]);
+					}
+				changeDataCommand = new Change2DataCommand<qreal,QString>(QString(""), newData1, oldData1, newData2, oldData2);
+				for (int i=0; i < oldData1.size(); ++i)
+					if (oldData1[i])
+						delete oldData1[i];
+				for (int i=0; i < oldData2.size(); ++i)
+					if (oldData2[i])
+						delete oldData2[i];
+			}
+			else
+			{
+				if (changeDataCommand)
+					changeDataCommand->undo();
+			}
+			
 		}
 	}
 
@@ -794,7 +966,7 @@ namespace Tinkercell
 			for (int i=0; i < items.size(); ++i)
 			{
 				handle = getHandle(items[i]);
-				if (handle && handle->data && !itemHandles.contains(handle) && !affectedHandles.contains(handle))
+				if (handle && handle->data && handle->graphicsItems.size() > 0 && !affectedHandles.contains(handle))
 					affectedHandles += handle;
 			}
 

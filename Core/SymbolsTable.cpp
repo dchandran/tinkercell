@@ -265,7 +265,7 @@ namespace Tinkercell
 
 	bool SymbolsTable::isValidPointer(void * p) const
 	{
-		return (!MainWindow::invalidPointers.contains(p) && handlesAddress.contains(p));
+		return (p!=0 && !MainWindow::invalidPointers.contains(p) && handlesAddress.contains(p));
 	}
 
 }

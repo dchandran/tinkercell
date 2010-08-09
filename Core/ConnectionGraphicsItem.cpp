@@ -1518,18 +1518,18 @@ namespace Tinkercell
 		graphicsScene = scene;
 		connectionItem = item->connectionItem;
 		if (connectionItem == 0 || connectionItem->curveSegments.size() < 2) return;
-
+		
 		QList<ArrowHeadItem*> arrowHeads = connectionItem->arrowHeads();
-		int only_reactant = -1, only_product = -1;
+		int only_in_node = -1, only_out_node = -1;
 		for (int i=0; i < arrowHeads.size(); ++i)
 		{
 			if (arrowHeads[i] == 0)
 			{
-				if (only_reactant == -1)
-					only_reactant = i;
+				if (only_in_node == -1)
+					only_in_node = i;
 				else
 				{
-					only_reactant = -1;
+					only_in_node = -1;
 					break;
 				}
 			}
@@ -1538,11 +1538,11 @@ namespace Tinkercell
 		{
 			if (arrowHeads[i] != 0)
 			{
-				if (only_product == -1)
-					only_product = i;
+				if (only_out_node == -1)
+					only_out_node = i;
 				else
 				{
-					only_product = -1;
+					only_out_node = -1;
 					break;
 				}
 			}
@@ -1554,8 +1554,18 @@ namespace Tinkercell
 			{
 				if (connectionItem->curveSegments[i][j] != 0 && connectionItem->curveSegments[i][j] == item)
 				{
-					if (i != only_reactant && i != only_product)
+					if (i != only_in_node && i != only_out_node)
+					{
 						curveSegments.append(connectionItem->curveSegments[i]);
+						if (connectionItem->curveSegments[i][0])
+							parentsAtStart.append(connectionItem->curveSegments[i][0]->parentItem());
+						else
+							parentsAtStart.append(0);
+						if (connectionItem->curveSegments[i].last())
+							parentsAtEnd.append(connectionItem->curveSegments[i].last()->parentItem());
+						else
+							parentsAtEnd.append(0);
+					}
 					break;
 				}
 			}
@@ -1584,6 +1594,14 @@ namespace Tinkercell
 					if (connectionItem->curveSegments[i][j] != 0 && connectionItem->curveSegments[i][j] == items[k])
 					{
 						curveSegments.append(connectionItem->curveSegments[i]);
+						if (connectionItem->curveSegments[i][0])
+							parentsAtStart.append(connectionItem->curveSegments[i][0]->parentItem());
+						else
+							parentsAtStart.append(0);
+						if (connectionItem->curveSegments[i].last())
+							parentsAtEnd.append(connectionItem->curveSegments[i].last()->parentItem());
+						else
+							parentsAtEnd.append(0);
 						done = true;
 						break;
 					}
@@ -1591,7 +1609,6 @@ namespace Tinkercell
 				if (done) break;
 			}
 		}
-
 	}
 
 	void RemoveCurveSegmentCommand::undo()
@@ -1608,6 +1625,13 @@ namespace Tinkercell
 		}
 		for (int i=0; i < curveSegments.size(); ++i)
 		{
+			if (curveSegments[i][0] && parentsAtStart.size() > i && parentsAtStart[i] &&
+				!MainWindow::invalidPointers.contains((void*)parentsAtStart[i]))
+				curveSegments[i][0]->setParentItem(parentsAtStart[i]);
+			if (curveSegments[i].last() && parentsAtEnd.size() > i && parentsAtEnd[i] &&
+				!MainWindow::invalidPointers.contains((void*)parentsAtEnd[i]))
+				curveSegments[i].last()->setParentItem(parentsAtStart[i]);
+
 			connectionItem->curveSegments.append(curveSegments[i]);
 			for (int j=0; j < curveSegments[i].size(); ++j)
 				if (curveSegments[i][j] != 0)
@@ -1631,7 +1655,11 @@ namespace Tinkercell
 				connectionItem->curveSegments.removeAt(k);
 			for (int j=0; j < curveSegments[i].size(); ++j)
 				if (curveSegments[i][j] != 0)
+				{
 					curveSegments[i][j]->setVisible(false);
+					if (curveSegments[i][j]->parentItem())
+						curveSegments[i][j]->setParentItem(0);
+				}
 			if (curveSegments[i].arrowStart)
 				curveSegments[i].arrowStart->setVisible(false);
 			if (curveSegments[i].arrowEnd)
@@ -2045,10 +2073,12 @@ namespace Tinkercell
 			{
 				if (target == curveSegments[i].arrowStart || 
 					target == curveSegments[i].arrowEnd ||
-					target == curveSegments[i][0]->parentItem() ||
+					target == curveSegments[i][0]->parentItem()) return i;
+				
+				if (curveSegments[i][curveSegments[i].size()-1] &&
 					target == curveSegments[i][curveSegments[i].size()-1]->parentItem()) return i;
 					
-				for (int j=0; j < curveSegments[j].size(); ++j)
+				for (int j=0; j < curveSegments[i].size(); ++j)
 					if (target == curveSegments[i][j])
 						return i;
 			}

@@ -119,6 +119,8 @@ namespace Tinkercell
 		void historyUpdate(int);
 		/*! \brief sets the C pointers for getRates, setRates, getStoichiometry, setStoic...etc*/
 		void setupFunctionPointers(QLibrary*);
+		/*!\brief remove items from stoichiometry table in each connection*/
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 
 	signals:
 		/*! \brief set the middle region of a connection for reversible reactions*/

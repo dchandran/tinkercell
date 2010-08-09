@@ -640,14 +640,14 @@ namespace Tinkercell
 
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
-		if (childFamilies.isEmpty())
+		/*if (childFamilies.isEmpty()) //search all families under root
 		{
 			ConnectionFamily * root = ConnectionFamily::cast(selectedFamily->root());
-			if (root) //search all families under root
+			if (root) 
 			{	
 				childFamilies = root->findValidChildFamilies(nodeHandles,all);
 			}
-		}
+		}*/
 
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
 		selectedFamily = ConnectionFamily::cast(childFamilies[0]);

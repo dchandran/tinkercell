@@ -57,6 +57,9 @@ namespace Tinkercell
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
+			
+			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
+				this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -693,6 +696,7 @@ namespace Tinkercell
 		if (!connectionHandle) return false;
 		
 		QList< QPair<QString,qreal> > values;
+
 		mu::Parser parser;
 		bool b = true;
 		
@@ -1461,6 +1465,123 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
+	}
+	
+	void StoichiometryTool::itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
+	{
+		NodeGraphicsItem * nodeItem;
+		QList<ConnectionGraphicsItem*> tempList1;
+		QList<NodeGraphicsItem*> tempList2;
+		QHash<ConnectionGraphicsItem*,int> toBeRemoved;
+		
+		ItemHandle * connectionHandle, * nodeHandle;
+		ConnectionGraphicsItem * connectionItem;
+		ConnectionGraphicsItem::ControlPoint * controlPoint;
+		ConnectionFamily * family;
+		ItemFamily * nodeFamily;
+
+		TextDataTable * oldTextTable, * newTextTable;
+		QList<TextDataTable*> oldTextTables, newTextTables;
+		
+		NumericalDataTable * oldNumTable, * newNumTable;
+		QList<NumericalDataTable*> oldNumTables, newNumTables;
+
+		int k;
+		
+		for (int i=0; i < items.size(); ++i)
+		{
+			if (nodeItem = NodeGraphicsItem::cast(items[i]))
+			{
+				tempList1 = nodeItem->connections();
+				for (int j=0; j < tempList1.size(); ++j)
+					if (tempList1[j] && (k = tempList1[j]->indexOf(nodeItem)) > -1)
+						toBeRemoved.insertMulti(tempList1[j],k);
+			}
+			
+			if ((connectionItem = ConnectionGraphicsItem::cast(items[i])) &&
+				(connectionHandle = connectionItem->handle()) &&
+				(ConnectionGraphicsItem::cast(connectionHandle->graphicsItems)).size() > 1)
+			{
+				tempList2 = connectionItem->nodes();
+				for (int j=0; j < tempList2.size(); ++j)
+					if (tempList2[j] && (k = connectionItem->indexOf(tempList2[j])) > -1)
+						toBeRemoved.insertMulti(connectionItem,k);
+			}
+			
+			if ((controlPoint = qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])) &&
+				controlPoint->connectionItem)
+			{
+				k = controlPoint->connectionItem->indexOf(controlPoint);
+				if (controlPoint->connectionItem->curveSegments[k].size() < 5)
+					toBeRemoved.insertMulti(controlPoint->connectionItem,k);
+			}
+		}
+
+		QList<ConnectionGraphicsItem*> keys = toBeRemoved.keys();
+		QList<int> indices;
+		
+		for (int i=0; i < keys.size(); ++i)
+			if (connectionHandle = keys[i]->handle())
+			{
+				oldTextTable = &(connectionHandle->textDataTable(tr("Rate equations")));
+				newTextTable = new TextDataTable(*oldTextTable);
+				
+				QStringList removeRowNames;
+				indices = toBeRemoved.values(keys[i]);
+
+				for (int j=0; j < indices.size(); ++j)
+				{
+					nodeHandle = getHandle(keys[i]->nodeAt(indices[j]));
+					if (nodeHandle)
+						removeRowNames << nodeHandle->fullName();
+				}
+				
+				if (!removeRowNames.isEmpty())
+				{
+					for (int j1=0; j1 < removeRowNames.size(); ++j1)
+						for (int j2=0; j2 < newTextTable->rows(); ++j2)
+							newTextTable->value(j2,0).replace(removeRowNames[j1],tr("1.0"));
+					oldTextTables << oldTextTable;
+					newTextTables << newTextTable;
+				}
+				
+				oldNumTable = &(connectionHandle->numericalDataTable(tr("Reactant stoichiometries")));
+				newNumTable = new NumericalDataTable(*oldNumTable);
+				
+				if (!removeRowNames.isEmpty())
+				{
+					for (int j=0; j < removeRowNames.size(); ++j)
+						newNumTable->removeRow(removeRowNames[j]);
+					oldNumTables << oldNumTable;
+					newNumTables << newNumTable;
+				}
+				
+				oldNumTable = &(connectionHandle->numericalDataTable(tr("Product stoichiometries")));
+				newNumTable = new NumericalDataTable(*oldNumTable);
+				
+				if (!removeRowNames.isEmpty())
+				{
+					for (int j=0; j < removeRowNames.size(); ++j)
+						newNumTable->removeRow(removeRowNames[j]);
+					oldNumTables << oldNumTable;
+					newNumTables << newNumTable;
+				}
+				
+			}
+
+		if (newTextTables.size() > 0)
+		{
+			commands << new ChangeTextDataCommand(tr("Add node roles"),oldTextTables,newTextTables);
+			for (int i=0; i < newTextTables.size(); ++i)
+				delete newTextTables[i];
+		}
+		
+		if (newNumTables.size() > 0)
+		{
+			commands << new ChangeNumericalDataCommand(tr("Add node roles"),oldNumTables,newNumTables);
+			for (int i=0; i < newNumTables.size(); ++i)
+				delete newNumTables[i];
+		}
 	}
 }
 

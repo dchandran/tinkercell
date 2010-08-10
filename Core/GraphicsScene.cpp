@@ -826,6 +826,7 @@ namespace Tinkercell
 		}
 		}
 		emit filesDropped(files);*/
+		if (console()) console()->message("drag n drop");
 		event->acceptProposedAction();
 		//QGraphicsScene::dropEvent(event);
 	}

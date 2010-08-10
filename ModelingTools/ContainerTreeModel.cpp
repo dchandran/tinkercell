@@ -264,18 +264,20 @@ namespace Tinkercell
 						}
 					}
 				}
-				
-            QList<ContainerTreeItem*> queue = rootItem->childItems;
-		
-	        for (int i=0; i < queue.size(); ++i)
-		        if (queue[i])
-		        {
-			        treeItems.remove(queue[i]->handle());
-			        queue << queue[i]->childItems;
-		        }
 			
 			if (rootItem)
+			{
+	            QList<ContainerTreeItem*> queue = rootItem->childItems;
+		
+		        for (int i=0; i < queue.size(); ++i)
+			        if (queue[i])
+			        {
+				        treeItems.remove(queue[i]->handle());
+				        queue << queue[i]->childItems;
+			        }
+			
 				delete rootItem;
+			}
 
 			rootItem = newRootItem;
 			emit layoutChanged();

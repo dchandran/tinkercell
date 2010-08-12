@@ -729,65 +729,68 @@ namespace Tinkercell
 			keyEvent->accept();
 		}
 
-		if ((key == Qt::Key_Plus || key == Qt::Key_Equal || key == Qt::Key_Underscore || key == Qt::Key_Minus)
-			&& (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier)))
+		if (useDefaultBehavior)
 		{
-			if (key == Qt::Key_Plus || key == Qt::Key_Equal)
+			if ((key == Qt::Key_Plus || key == Qt::Key_Equal || key == Qt::Key_Underscore || key == Qt::Key_Minus)
+				&& (selectedItems.isEmpty() || (keyEvent->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier))))
 			{
-				scaleView(qreal(1.2));
-				keyEvent->accept();
-			}
-			else
-				if (key == Qt::Key_Underscore || key == Qt::Key_Minus)
+				if (key == Qt::Key_Plus || key == Qt::Key_Equal)
 				{
-					scaleView(1/qreal(1.2));
-					keyEvent->accept();
-				}
-		}
-		else
-			if (useDefaultBehavior && (key == Qt::Key_Delete || key == Qt::Key_Backspace))
-			{
-				if (selectedItems.size() > 0)
-				{
-					if (movingItemsGroup)
-					{
-						destroyItemGroup(movingItemsGroup);
-						movingItemsGroup = 0;
-					}
-					movingItems.clear();
-					remove(tr("items deleted"), selectedItems);
-					selectedItems.clear();
-					keyEvent->accept();
-				}
-			}
-			else
-			{
-				if (useDefaultBehavior && !movingItems.isEmpty() &&
-					(key == Qt::Key_Up || key == Qt::Key_Down ||
-					key == Qt::Key_Left || key == Qt::Key_Right))
-				{
-					qreal dx = 1;
-					if (keyEvent->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier))
-						dx = 20;
-					QPointF change;
-					if (keyEvent->key() == Qt::Key_Up) change = QPointF(0,-dx);
-					if (keyEvent->key() == Qt::Key_Down) change = QPointF(0,dx);
-					if (keyEvent->key() == Qt::Key_Left) change = QPointF(-dx,0);
-					if (keyEvent->key() == Qt::Key_Right) change = QPointF(dx,0);
-
-					if (gridSz > 0)
-					{
-						change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
-						change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
-					}
-
-					move(movingItems,change);
-
+					scaleView(qreal(1.2));
 					keyEvent->accept();
 				}
 				else
-					QGraphicsScene::keyPressEvent(keyEvent);
+					if (key == Qt::Key_Underscore || key == Qt::Key_Minus)
+					{
+						scaleView(1/qreal(1.2));
+						keyEvent->accept();
+					}
 			}
+			else
+				if (key == Qt::Key_Delete || key == Qt::Key_Backspace)
+				{
+					if (selectedItems.size() > 0)
+					{
+						if (movingItemsGroup)
+						{
+							destroyItemGroup(movingItemsGroup);
+							movingItemsGroup = 0;
+						}
+						movingItems.clear();
+						remove(tr("items deleted"), selectedItems);
+						selectedItems.clear();
+						keyEvent->accept();
+					}
+				}
+				else
+				{
+					if (!movingItems.isEmpty() &&
+						(key == Qt::Key_Up || key == Qt::Key_Down ||
+						key == Qt::Key_Left || key == Qt::Key_Right))
+					{
+						qreal dx = 1;
+						if (keyEvent->modifiers() & (Qt::ControlModifier | Qt::ShiftModifier))
+							dx = 20;
+						QPointF change;
+						if (keyEvent->key() == Qt::Key_Up) change = QPointF(0,-dx);
+						if (keyEvent->key() == Qt::Key_Down) change = QPointF(0,dx);
+						if (keyEvent->key() == Qt::Key_Left) change = QPointF(-dx,0);
+						if (keyEvent->key() == Qt::Key_Right) change = QPointF(dx,0);
+
+						if (gridSz > 0)
+						{
+							change.rx() = gridSz * (int)(change.rx() / (double)gridSz + 0.5);
+							change.ry() = gridSz * (int)(change.ry() / (double)gridSz + 0.5);
+						}
+
+						move(movingItems,change);
+
+						keyEvent->accept();
+					}
+					else
+						QGraphicsScene::keyPressEvent(keyEvent);
+				}
+		}
 	}
 	/*! \brief when key is released
 	* Precondition: None
@@ -798,43 +801,6 @@ namespace Tinkercell
 	{
 		emit keyReleased(this, keyEvent);
 		QGraphicsScene::keyReleaseEvent(keyEvent);
-	}
-
-	void GraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
-	{
-		event->acceptProposedAction();
-	}
-
-	void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
-	{
-		/*QList<QUrl> urlList;
-		QList<QFileInfo> files;
-		QString fName;
-		QFileInfo info;
-
-		if (event->mimeData()->hasUrls())
-		{
-		urlList = event->mimeData()->urls(); // returns list of QUrls
-
-		// if just text was dropped, urlList is empty (size == 0)
-		if ( urlList.size() > 0) // if at least one QUrl is present in list
-		{
-		fName = urlList[0].toLocalFile(); // convert first QUrl to local path
-		info.setFile( fName ); // information about file
-		if ( info.isFile() )
-		files += info;
-		}
-		}
-		emit filesDropped(files);*/
-		if (console()) console()->message("drag n drop");
-		event->acceptProposedAction();
-		//QGraphicsScene::dropEvent(event);
-	}
-
-	void GraphicsScene::dragMoveEvent ( QGraphicsSceneDragDropEvent * event )
-	{
-		//QGraphicsScene::dragMoveEvent(event);
-		event->acceptProposedAction();
 	}
 
 	/*! \brief select items*/

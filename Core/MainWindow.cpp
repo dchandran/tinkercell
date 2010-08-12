@@ -1020,36 +1020,7 @@ namespace Tinkercell
 		event->accept();
 	}
 
-	void MainWindow::dragEnterEvent(QDragEnterEvent *event)
-	{
-		event->acceptProposedAction();
-	}
-
-	void MainWindow::dropEvent(QDropEvent * event)
-	{
-		QList<QUrl> urlList;
-		QList<QFileInfo> files;
-		QString fName;
-		QFileInfo info;
-
-		if (event->mimeData()->hasUrls())
-		{
-			urlList = event->mimeData()->urls(); // returns list of QUrls
-
-			// if just text was dropped, urlList is empty (size == 0)
-			if ( urlList.size() > 0) // if at least one QUrl is present in list
-			{
-				fName = urlList[0].toLocalFile(); // convert first QUrl to local path
-				info.setFile( fName ); // information about file
-				if ( info.isFile() )
-					files += info;
-			}
-		}
-		event->acceptProposedAction();
-		dragAndDropFiles(files);
-	}
-
-	void MainWindow::dragAndDropFiles(const QList<QFileInfo>& files)
+	void MainWindow::loadFiles(const QList<QFileInfo>& files)
 	{
 		for (int i=0; i < files.size(); ++i)
 		{
@@ -1067,7 +1038,7 @@ namespace Tinkercell
 			}
 		}
 
-		emit filesDropped(files);
+		emit filesLoaded(files);
 	}
 
 	void MainWindow::itemsRemovedSlot(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles)

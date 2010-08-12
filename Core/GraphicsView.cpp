@@ -18,6 +18,7 @@ The GraphicsView class provides a view for a GraphicsScene. It
 #include "UndoCommands.h"
 #include "ConsoleWindow.h"
 #include "CloneItems.h"
+#include "NetworkHandle.h"
 #include "GraphicsScene.h"
 #include "GraphicsView.h"
 
@@ -65,37 +66,6 @@ namespace Tinkercell
 		return QSize(500,500);
 	}
 
-	void GraphicsView::dragEnterEvent(QDragEnterEvent * /*event*/)
-	{
-		//event->acceptProposedAction();
-	}
-
-	void GraphicsView::dropEvent(QDropEvent * /*event*/)
-	{
-		/*if (parentWidget())
-		{
-		QList<QUrl> urlList;
-		QList<QFileInfo> files;
-		QString fName;
-		QFileInfo info;
-
-		if (event->mimeData()->hasUrls())
-		{
-		urlList = event->mimeData()->urls(); // returns list of QUrls
-
-		// if just text was dropped, urlList is empty (size == 0)
-		if ( urlList.size() > 0) // if at least one QUrl is present in list
-		{
-		fName = urlList[0].toLocalFile(); // convert first QUrl to local path
-		info.setFile( fName ); // information about file
-		if ( info.isFile() )
-		files += info;
-		}
-		}
-		MainWindow * main = static_cast<MainWindow*>(parentWidget());
-		main->dragAndDropFiles(files);
-		}*/
-	}
 	/*! \brief Constructor: connects all the signals of the new window to that of the main window */
 	GraphicsView::GraphicsView(NetworkWindow * network)
 		: QGraphicsView (network->scene,network), scene(network->scene)
@@ -142,4 +112,38 @@ namespace Tinkercell
 		}
 		QGraphicsView::keyPressEvent(event);
 	}
+	
+	void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
+	{
+		event->acceptProposedAction();
+	}
+
+	void GraphicsView::dropEvent(QDropEvent * event)
+	{
+		QList<QUrl> urlList;
+		QList<QFileInfo> files;
+		QString fName;
+		QFileInfo info;
+
+		if (event->mimeData()->hasUrls())
+		{
+			urlList = event->mimeData()->urls(); // returns list of QUrls
+
+			// if just text was dropped, urlList is empty (size == 0)
+			if ( urlList.size() > 0) // if at least one QUrl is present in list
+			{
+				fName = urlList[0].toLocalFile(); // convert first QUrl to local path
+				info.setFile( fName ); // information about file
+				if ( info.isFile() )
+					files += info;
+			}
+		}
+		event->acceptProposedAction();
+		
+		if (!files.isEmpty() && scene && scene->network && scene->network->mainWindow)
+		{
+			scene->network->mainWindow->loadFiles(files);
+		}
+	}
+
 }

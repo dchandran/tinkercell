@@ -617,6 +617,9 @@ namespace Tinkercell
 				s.replace(tr(" "),tr("_"));
 				QString dirname = homeDir() + tr("/") + s;
 				QDir dir(dirname);
+				
+				if (!dir.exists())
+					dir.setPath(QCoreApplication::applicationDirPath() + tr("/") + s);
 		
 				if (dir.exists())
 				{
@@ -635,20 +638,40 @@ namespace Tinkercell
 							emit loadItems(items, filename);
 
 							QList<ItemHandle*> handles2 = getHandle(items);
-							QList<ItemHandle*> visited;
-
 							ItemHandle * h;
-
+							
+							QList<ItemHandle*> visited;
+							QList< QPair<ItemHandle*, ItemHandle*> > mappings;
+							
+							bool validModel = true;
 							for (int j=0; j < handles2.size(); ++j)
 								if (handles2[j] && !visited.contains(handles2[j]))
 								{
 									visited << handles2[j];
-									//handles << handles2[j];
-									ItemHandle * h = 0;
-									if (handles2[j]->hasTextData(tr("Text Attributes")) && 
-										handles2[j]->textData("Text Attributes","Module interface") == tr("true"))
-										h = findCorrespondingHandle(handles2[j],ConnectionHandle::cast(handles[i]));
-									
+									h = findCorrespondingHandle(handles2[j],ConnectionHandle::cast(handles[i]));
+									if (!h || visited.contains(h))
+									{
+										validModel = false;
+										break;
+									}
+									else
+									{
+										visited << h;
+										mappings.append( QPair<ItemHandle*,ItemHandle*>(handles2[j],h) );
+									}
+								}
+								
+							if (validModel)
+							{
+								for (int j=0; j < mappings.size(); ++j)
+								{
+									delete mappings[j]
+								}
+							}
+
+							for (int j=0; j < handles2.size(); ++j)
+								if (handles2[j] && !visited.contains(handles2[j]))
+								{
 									oldNames << handles2[j]->fullName();
 									handles2[j]->setParent(handles[i],false);
 									if (h)
@@ -719,12 +742,19 @@ namespace Tinkercell
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
 	{
-		if (!connection || !node) return 0;
+		if (!connection || !node || !connection->hasTextData(tr("Participants")) return 0;
 		QList<NodeHandle*> nodes = connection->nodes();
+		
+		TextDataTable & participants = connection->textDataTable(tr("Participants"));
+		QStringList rownames = participants.getRowNames();
+		QString s;
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (nodes[i]->isA(node->family()))
+			if (rownames.contains(nodes[i]->fullNames()))
+				s = participants.value(nodes[i]->fullNames(),0);
+			
+			if (node->name == s)
 				return nodes[i];
 		}
 		return 0;
@@ -1024,8 +1054,12 @@ namespace Tinkercell
 	{
 		QString s = family.toLower();
 		s.replace(tr(" "),tr("_"));
+		
 		QString dirname = homeDir() + tr("/") + s;
 		QDir dir(dirname);
+		
+		if (!dir.exists())
+			dir.setPath(QCoreApplication::applicationDirPath() + tr("/") + s);
 		
 		if (!dir.exists())
 			return 0;

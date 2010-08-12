@@ -497,18 +497,6 @@ namespace Tinkercell
 		/*! \brief populate the context menu using selected items' tools actions
 		* \return void*/
 		virtual void populateContextMenu();
-		/*! \brief drag and drop event
-		* \param QGraphicsSceneDragDropEvent * drag and drop event
-		* \return void*/
-		virtual void dragEnterEvent(QGraphicsSceneDragDropEvent * event);
-		/*! \brief drag and drop event
-		* \param QGraphicsSceneDragDropEvent * drag and drop event
-		* \return void*/
-		virtual void dropEvent(QGraphicsSceneDragDropEvent * event);
-		/*! \brief drag and drop event
-		* \param QGraphicsSceneDragDropEvent * drag and drop event
-		* \return void*/
-		virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event);
 		/*! \brief draw background grid if in grid mode*/
 		virtual void drawBackground ( QPainter * painter, const QRectF & rect );
 		/*! \brief used to select the entire connection during mouse click*/

@@ -1551,7 +1551,7 @@ namespace Tinkercell
 				if (!removeRowNames.isEmpty())
 				{
 					for (int j=0; j < removeRowNames.size(); ++j)
-						newNumTable->removeRow(removeRowNames[j]);
+						newNumTable->removeCol(removeRowNames[j]);
 					oldNumTables << oldNumTable;
 					newNumTables << newNumTable;
 				}
@@ -1562,7 +1562,7 @@ namespace Tinkercell
 				if (!removeRowNames.isEmpty())
 				{
 					for (int j=0; j < removeRowNames.size(); ++j)
-						newNumTable->removeRow(removeRowNames[j]);
+						newNumTable->removeCol(removeRowNames[j]);
 					oldNumTables << oldNumTable;
 					newNumTables << newNumTable;
 				}

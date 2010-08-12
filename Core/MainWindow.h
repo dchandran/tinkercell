@@ -426,7 +426,6 @@ namespace Tinkercell
 		
 		/*! \brief pop-in the given window*/
 		void popIn(NetworkWindow *);
-		
 		/*!
 		* \brief sets the active window
 		*/
@@ -436,7 +435,7 @@ namespace Tinkercell
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void
 		*/
-		void dragAndDropFiles(const QList<QFileInfo>& files);
+		void loadFiles(const QList<QFileInfo>& files);
 		/*!
 		* \brief change console background color
 		* \return void
@@ -777,10 +776,10 @@ namespace Tinkercell
 		* \param QWidget * the widget that send the signal
 		* \return void*/
 		void escapeSignal(const QWidget * sender);
-		/*! \brief signals whenever file(s) are dropped on the canvas
+		/*! \brief signals whenever file(s) are loaded. Each file can be a model or a plugin
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void*/
-		void filesDropped(const QList<QFileInfo>& files);
+		void filesLoaded(const QList<QFileInfo>& files);
 
 	protected:
 		/*! \brief allowed views*/
@@ -792,14 +791,6 @@ namespace Tinkercell
 		/*! \brief save initial settings to settingsFileName
 		* \return void*/
 		void saveSettings();
-		/*! \brief affects drag and drop of files
-		* \param drop event
-		* \return void*/
-		void dropEvent(QDropEvent *);
-		/*! \brief affects drag and drop of files
-		* \param drag event
-		* \return void*/
-		void dragEnterEvent(QDragEnterEvent *event);
 		/*! \brief close window event -- asks whether to save file
 		* \param QCloseEvent * event
 		* \return void*/

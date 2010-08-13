@@ -2596,6 +2596,7 @@ namespace Tinkercell
 					node->sceneBoundingRect().height() > sz.height())
 				{
 					mainNode = node;
+					sz = node->sceneBoundingRect().sizeF();
 				}
 			if (mainNode)
 			{
@@ -2618,6 +2619,7 @@ namespace Tinkercell
 					node->sceneBoundingRect().height() > sz.height())
 				{
 					mainNode = node;
+					z = node->sceneBoundingRect().sizeF();
 				}
 			if (mainNode)
 			{

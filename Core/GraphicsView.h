@@ -83,10 +83,12 @@ namespace Tinkercell
 		virtual void drawBackground( QPainter * painter, const QRectF & rect );
 		/*! \brief draw foreground*/
 		virtual void drawForeground( QPainter * painter, const QRectF & rect );
-		/*! \brief drag on top event */
+		/*! \brief drag and drop */
 		virtual void dropEvent(QDropEvent *);
-		/*! \brief drag and drop event*/
+		/*! \brief drag and drop*/
 		virtual void dragEnterEvent(QDragEnterEvent *event);
+		/*! \brief drag and drop*/
+		virtual void dragMoveEvent(QDragMoveEvent *event);
 		/*! \brief mouse wheel event*/
 		virtual void wheelEvent(QWheelEvent * event);
 		/*! \brief scroll event*/

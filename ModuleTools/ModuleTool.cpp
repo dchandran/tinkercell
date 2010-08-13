@@ -665,7 +665,7 @@ namespace Tinkercell
 							{
 								for (int j=0; j < mappings.size(); ++j)
 								{
-									delete mappings[j]
+									delete mappings[j].first;
 								}
 							}
 
@@ -742,7 +742,7 @@ namespace Tinkercell
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
 	{
-		if (!connection || !node || !connection->hasTextData(tr("Participants")) return 0;
+		if (!connection || !node || !connection->hasTextData(tr("Participants"))) return 0;
 		QList<NodeHandle*> nodes = connection->nodes();
 		
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
@@ -751,8 +751,8 @@ namespace Tinkercell
 		
 		for (int i=0; i < nodes.size(); ++i)
 		{
-			if (rownames.contains(nodes[i]->fullNames()))
-				s = participants.value(nodes[i]->fullNames(),0);
+			if (rownames.contains(nodes[i]->fullName()))
+				s = participants.value(nodes[i]->fullName(),0);
 			
 			if (node->name == s)
 				return nodes[i];

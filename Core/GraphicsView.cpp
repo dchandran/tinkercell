@@ -115,7 +115,11 @@ namespace Tinkercell
 	
 	void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
 	{
-		event->acceptProposedAction();
+		event->accept();
+	}
+	
+	void GraphicsView::dragMoveEvent(QDragMoveEvent *event)
+	{
 	}
 
 	void GraphicsView::dropEvent(QDropEvent * event)
@@ -124,11 +128,10 @@ namespace Tinkercell
 		QList<QFileInfo> files;
 		QString fName;
 		QFileInfo info;
-
+		
 		if (event->mimeData()->hasUrls())
 		{
 			urlList = event->mimeData()->urls(); // returns list of QUrls
-
 			// if just text was dropped, urlList is empty (size == 0)
 			if ( urlList.size() > 0) // if at least one QUrl is present in list
 			{
@@ -138,7 +141,9 @@ namespace Tinkercell
 					files += info;
 			}
 		}
-		event->acceptProposedAction();
+		
+		
+		event->accept();
 		
 		if (!files.isEmpty() && scene && scene->network && scene->network->mainWindow)
 		{

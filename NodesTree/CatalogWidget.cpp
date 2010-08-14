@@ -15,6 +15,7 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include "ConsoleWindow.h"
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "CatalogWidget.h"
@@ -25,7 +26,6 @@ namespace Tinkercell
 
 	CatalogWidget::CatalogWidget(NodesTree * nodesTree, ConnectionsTree * connectionsTree, QWidget * parent) :
 		Tool(tr("Parts and Connections Catalog"),tr("Parts Catalog"),parent),
-		otherButtonsGroup(this),
 		nodesButtonGroup(this),
 		connectionsButtonGroup(this),
 		toolBox(0),
@@ -44,8 +44,6 @@ namespace Tinkercell
         arrowButton.setAutoFillBackground (true);
         arrowButton.setIcon(QIcon(QObject::tr(":/images/arrow.png")));
         arrowButton.setIconSize(QSize(20,20));
-
-		connect(&otherButtonsGroup,SIGNAL(buttonPressed(QAbstractButton*)),this,SLOT(otherButtonPressed(QAbstractButton*)));
 	}
 
 	void CatalogWidget::setTreeMode(bool b)
@@ -57,20 +55,18 @@ namespace Tinkercell
 		QMessageBox::information(this,tr("Parts Layout"),tr("The change in display will take effect the next time TinkerCell starts"));
 	}
 
-	void CatalogWidget::otherButtonPressed(QAbstractButton * button)
+	void CatalogWidget::otherButtonPressed(const QString& text, const QPixmap& pixmap)
 	{
-		if (!button) return;
-
 		emit sendEscapeSignal(this);
 
-		QCursor cursor(button->icon().pixmap(2 * button->iconSize()));
+		QCursor cursor(pixmap);
 		mainWindow->setCursor(cursor);
 		
 		for (int i=0; i < widgetsToUpdate.size(); ++i)
 			if (widgetsToUpdate[i])
 				widgetsToUpdate[i]->setCursor(cursor);
 
-		emit buttonPressed(button->text());
+		emit buttonPressed(text);
 	}
 
 	void CatalogWidget::escapeSignalSlot(const QWidget* widget)
@@ -537,28 +533,33 @@ namespace Tinkercell
 		}
 	}
 
-	void CatalogWidget::addNewButtons(const QList<QToolButton*>& buttons,const QString& group)
+	QList<QToolButton*> CatalogWidget::addNewButtons(const QStringList& names,const QString& group)
 	{
-		if (!tabWidget) return;
+		QList<QToolButton*> newButtons;
+		
 		int i = 0;
 
-		for (i=0; i < buttons.size(); ++i)
-			if (!nodesButtonGroup.buttons().contains(buttons[i]) &&
-				!connectionsButtonGroup.buttons().contains(buttons[i]) &&
-				!otherButtonsGroup.buttons().contains(buttons[i]))
-				otherButtonsGroup.addButton(buttons[i]);
-
+		for (i=0; i < names.size(); ++i)
+		{
+			FamilyTreeButton * button = new FamilyTreeButton(names[i],this);
+			connect(button,SIGNAL(pressed(const QString&,const QPixmap&)),this,SLOT(otherButtonPressed(const QString&, const QPixmap&)));
+			newButtons << button;
+		}
+		
 		for (i=0; i < tabGroupButtons.size(); ++i)
 			if (group.toLower() == tabGroupButtons[i].first.toLower())
 			{
 				break;
 			}
-		if (i < tabGroupButtons.size())
-			tabGroupButtons[i].second << buttons;
-		else
-			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,buttons);
-		makeTabWidget();
 
+		if (i < tabGroupButtons.size())
+			tabGroupButtons[i].second << newButtons;
+		else
+			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,newButtons);
+
+		makeTabWidget();
+		
+		return newButtons;
 		//if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
 

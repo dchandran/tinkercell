@@ -80,9 +80,6 @@ namespace Tinkercell
 			connect(scene,SIGNAL(escapeSignal(const QWidget*)),
 				main ,SIGNAL(escapeSignal(const QWidget*)));
 
-			connect(scene,SIGNAL(filesDropped(const QList<QFileInfo>&)),
-				main,SLOT(dragAndDropFiles(const QList<QFileInfo>&)));
-
 			connect(scene,SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)),
 				main, SIGNAL(copyItems(GraphicsScene*, QList<QGraphicsItem*>& , QList<ItemHandle*>&)));
 		}
@@ -123,7 +120,8 @@ namespace Tinkercell
 			scene->networkWindow = this;
 			scene->network = network;
 			
-			GraphicsView * view = new GraphicsView(this);		
+			GraphicsView * view = new GraphicsView(this);
+			connect(view,SIGNAL(itemsDropped(const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(const QString&,const QPointF&)));
 			centralWidgetLayout->addWidget(view);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
@@ -307,7 +305,8 @@ namespace Tinkercell
 		scene->network = network;
 		
 		GraphicsView * view = new GraphicsView(this);
-		
+		connect(view,SIGNAL(itemsDropped(const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(const QString&,const QPointF&)));
+	
 		if (centralWidgetLayout)
 			delete centralWidgetLayout;
 		centralWidgetLayout = new QHBoxLayout;

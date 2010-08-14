@@ -382,21 +382,6 @@ namespace Tinkercell
 	{
 		return treeWidget;
 	}
-	
-	void DragWidget::mouseMoveEvent(QMouseEvent *event)
- {
-     if (!(event->buttons() & Qt::LeftButton))
-         return;
-
-     QDrag *drag = new QDrag(this);
-     QMimeData *mimeData = new QMimeData;
-
-     mimeData->setData(mimeType, data);
-     drag->setMimeData(mimeData);
-
-     Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
-     ...
- }
  
 }
 

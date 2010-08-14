@@ -68,7 +68,6 @@ namespace Tinkercell
         void sceneClosing(NetworkHandle * , bool * );
 
 	signals:
-		void addNewButtons(const QList<QToolButton*>&,const QString& group);
 		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
 
     private slots:

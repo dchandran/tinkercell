@@ -55,6 +55,7 @@ ADD_LIBRARY( ModelingTools
 
 TARGET_LINK_LIBRARIES( ModelingTools
   ModelingTools
+  NodesTree
   TinkerCellCore
   muparser
   PlotTool

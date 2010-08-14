@@ -29,6 +29,7 @@ ADD_LIBRARY( ModuleTool
 
 TARGET_LINK_LIBRARIES( ModuleTool
   ModuleTool
+  NodesTree
   TinkerCellCore
 )
 

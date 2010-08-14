@@ -80,39 +80,28 @@ namespace Tinkercell
 		{
 			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
 
-			connect(this,SIGNAL(addNewButtons(const QList<QToolButton*>&,const QString&)),
-					catalog,SLOT(addNewButtons(const QList<QToolButton*>&,const QString&)));
-			
 			connect(catalog,SIGNAL(buttonPressed(const QString&)),
 					this,SLOT(insertButtonPressed(const QString&)));
+			
+			QList<QToolButton*> newButtons = catalog->addNewButtons(
+				QStringList() << tr("New event") << tr("Step input") << tr("Impulse") << tr("Wave input"),
+				tr("Inputs"));
 
-			QToolButton * clockButton = new QToolButton;
-			clockButton->setText(tr("New event"));
+			QToolButton * clockButton = newButtons[0];
 			clockButton->setIcon(QIcon(QPixmap(tr(":/images/clock.png"))));
-			clockButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			clockButton->setToolTip(tr("An event is an action that occurs as a reponse to a given condition"));
 
-			QToolButton * stepButton = new QToolButton;
-			stepButton->setText(tr("Step input"));
+			QToolButton * stepButton = newButtons[1];
 			stepButton->setIcon(QIcon(QPixmap(tr(":/images/stepFunc.png"))));
-			stepButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			stepButton->setToolTip(tr("Insert a step function as input for one of the variables in the model"));
 
-			QToolButton * pulseButton = new QToolButton;
-			pulseButton->setText(tr("Impulse"));
+			QToolButton * pulseButton = newButtons[2];
 			pulseButton->setIcon(QIcon(QPixmap(tr(":/images/pulseFunc.png"))));
-			pulseButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			pulseButton->setToolTip(tr("Insert an delta function as as input for one of the variables in the model"));
 
-			QToolButton * sinButton = new QToolButton;
-			sinButton->setText(tr("Wave input"));
+			QToolButton * sinButton = newButtons[3];
 			sinButton->setIcon(QIcon(QPixmap(tr(":/images/sinFunc.png"))));
-			sinButton->setToolButtonStyle (Qt::ToolButtonTextUnderIcon);
 			sinButton->setToolTip(tr("Insert a sin function as as input for one of the variables in the model"));
-
-			emit addNewButtons(
-				QList<QToolButton*>() << clockButton << stepButton << pulseButton << sinButton,
-				tr("Inputs"));
 		}
 	}
 

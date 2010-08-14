@@ -780,6 +780,11 @@ namespace Tinkercell
 		* \param QList<QFileInfo>& the name(s) of the file(s)
 		* \return void*/
 		void filesLoaded(const QList<QFileInfo>& files);
+		/*! \brief signal is emitted when some object OTHER than files are dropped on the canvas
+		* \param QString the string describing the object that was dropped
+		* \param QPointF the Scene position where it was dropped
+		* \return void*/
+		void itemsDropped(const QString&, const QPointF&);
 
 	protected:
 		/*! \brief allowed views*/

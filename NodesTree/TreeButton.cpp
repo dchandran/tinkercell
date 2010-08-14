@@ -7,15 +7,35 @@
 
 ****************************************************************************/
 
+#include <QMimeData>
+#include <QDrag>
+#include "MainWindow.h"
+#include "ConsoleWindow.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "ConnectionGraphicsItem.h"
-//#include "NodesTree.h"
 #include "TreeButton.h"
 
 
 namespace Tinkercell
 {
+
+	FamilyTreeButton::FamilyTreeButton(const QString& name, QWidget * parent) : 
+		QToolButton(parent), nodeFamily(0), connectionFamily(0)
+	{
+		setPalette(QPalette(QColor(255,255,255)));
+		setAutoFillBackground (true);
+		setAcceptDrops(true);
+		
+		QString s = name;
+		int sz = 16 - s.length();
+		if (sz > 0)
+		{
+			s = s.leftJustified(sz/2 + s.length());
+			s = s.rightJustified(16);
+		}
+		setText(s);
+	}
 
 	FamilyTreeButton::FamilyTreeButton(NodeFamily* family , QWidget * parent) : QToolButton(parent), nodeFamily(family), connectionFamily(0)
 	{
@@ -31,6 +51,7 @@ namespace Tinkercell
 		setToolTip(nodeFamily->name + tr(": ") + nodeFamily->description);
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
+		setAcceptDrops(true);
 		
 		QString s = nodeFamily->name;
 		int sz = 16 - s.length();
@@ -57,6 +78,8 @@ namespace Tinkercell
 			if (h > 50) h = 50;
 			setIconSize(QSize(20, h));
 		}
+		
+		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	}
 
 	FamilyTreeButton::FamilyTreeButton(ConnectionFamily* family, QWidget * parent) : QToolButton(parent), nodeFamily(0), connectionFamily(family)
@@ -78,6 +101,7 @@ namespace Tinkercell
 
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
+		setAcceptDrops(true);
 		
 		QString s = connectionFamily->name;
 		int sz = 16 - s.length();
@@ -104,6 +128,8 @@ namespace Tinkercell
 			if (h > 50) h = 50;
 			setIconSize(QSize(20, h));
 		}
+		
+		setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	}
 	void FamilyTreeButton::contextMenuEvent(QContextMenuEvent * event)
 	{
@@ -117,8 +143,22 @@ namespace Tinkercell
 		}
 		menu.exec(pos);
 	}
+	
+	void FamilyTreeButton::mousePressEvent(QMouseEvent *event)
+	{
+		if (event->button() == Qt::LeftButton) 
+		{
+			QDrag *drag = new QDrag(this);
+			QMimeData *mimeData = new QMimeData;
+			drag->setPixmap(icon().pixmap(QSize(30,30)));
+			mimeData->setText(text());	
+			drag->setMimeData(mimeData);
+			drag->exec();
+		}
+	}
 
-	void FamilyTreeButton::mousePressEvent(QMouseEvent * event)
+/*
+	void FamilyTreeButton::mouseReleaseEvent(QMouseEvent * event)
 	{
 		if (event->button() == Qt::LeftButton)
 		{
@@ -129,6 +169,7 @@ namespace Tinkercell
 				emit connectionSelected(connectionFamily);
 		}
 	}
+*/
 
 	void FamilyTreeButton::about()
 	{
@@ -278,6 +319,22 @@ namespace Tinkercell
 		if (connectionFamily)
 			return connectionFamily;
 		return 0;
+	}
+	
+	void FamilyTreeButton::dragEnterEvent(QDragEnterEvent *event)
+	{
+		event->accept();
+	}
+	
+	void FamilyTreeButton::dropEvent(QDropEvent * event)
+	{
+		if (nodeFamily)
+				emit nodeSelected(nodeFamily);
+		else
+		if (connectionFamily)
+			emit connectionSelected(connectionFamily);	
+		else
+			emit pressed(text(),icon().pixmap(30));
 	}
 
 }

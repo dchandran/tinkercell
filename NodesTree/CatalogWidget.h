@@ -62,8 +62,10 @@ namespace Tinkercell
 	public slots:
 		/*! \brief connect to escape signal and add docking widget*/
 		bool setMainWindow(MainWindow * );
-		/*! \brief insert new button into the widget under the specific group*/
-        void addNewButtons(const QList<QToolButton*>&,const QString& group);
+		/*! \brief insert new button into the widget under the specific group
+		* \param QStringList names of the buttons
+		* \param QString category of the button*/
+        QList<QToolButton*> addNewButtons(const QStringList&,const QString& group);
 	
 	signals:
         /*! \brief key pressed inside this widget*/
@@ -105,7 +107,7 @@ namespace Tinkercell
 		/*! \brief make one of the groups visible*/
         void showGroup(const QString& group);
 		/*! \brief set the cursor icon when button pressed*/
-		void otherButtonPressed ( QAbstractButton * button );
+		void otherButtonPressed ( const QString&, const QPixmap & );
 
     private:
 
@@ -115,8 +117,6 @@ namespace Tinkercell
         QToolButton arrowButton;
         /*! \brief the tree item containing the arrow button at the very top of the tree of nodes*/
         QTreeWidgetItem arrowItem;
-		/*! \brief stores all node and connection buttons*/
-		QButtonGroup otherButtonsGroup;
 		/*! \brief stores the recently selected node button indices*/
 		QButtonGroup nodesButtonGroup;
 		/*! \brief stores the recently selected connection button indices*/

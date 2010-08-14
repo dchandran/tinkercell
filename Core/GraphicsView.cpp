@@ -8,6 +8,7 @@ The GraphicsView class provides a view for a GraphicsScene. It
 
 ****************************************************************************/
 
+#include <QMimeData>
 #include "NetworkWindow.h"
 #include "MainWindow.h"
 #include "NodeGraphicsItem.h"
@@ -129,7 +130,9 @@ namespace Tinkercell
 		QString fName;
 		QFileInfo info;
 		
-		if (event->mimeData()->hasUrls())
+		const QMimeData * mimeData = event->mimeData();
+		
+		if (mimeData->hasUrls())
 		{
 			urlList = event->mimeData()->urls(); // returns list of QUrls
 			// if just text was dropped, urlList is empty (size == 0)
@@ -142,12 +145,16 @@ namespace Tinkercell
 			}
 		}
 		
-		
-		event->accept();
-		
 		if (!files.isEmpty() && scene && scene->network && scene->network->mainWindow)
 		{
+			event->accept();
 			scene->network->mainWindow->loadFiles(files);
+		}
+		else
+		{
+			QString text = mimeData->text();
+			if (!text.isNull() && !text.isEmpty())
+				emit itemsDropped(text, mapToScene(event->pos()));
 		}
 	}
 

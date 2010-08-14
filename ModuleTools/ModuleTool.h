@@ -56,7 +56,6 @@ namespace Tinkercell
 	signals:
 
 		//void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
-		void addNewButtons(const QList<QToolButton*>&,const QString& group);
 		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		void loadItems(QList<QGraphicsItem*>&, const QString&);
 

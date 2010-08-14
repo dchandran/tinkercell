@@ -78,6 +78,9 @@ namespace Tinkercell
 		*/
 		GraphicsView(NetworkWindow * networkWindow = 0);		
 
+	signals:
+		/*! \brief signal is emitted when some object OTHER than files are dropped on the canvas*/
+		void itemsDropped(const QString&, const QPointF&);
 	protected:
 		/*! \brief draw background*/
 		virtual void drawBackground( QPainter * painter, const QRectF & rect );

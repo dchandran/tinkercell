@@ -37,10 +37,12 @@ class FamilyTreeButton : public QToolButton
 signals:
 	void nodeSelected(NodeFamily*);
 	void connectionSelected(ConnectionFamily*);
-
+	void pressed(const QString& name, const QPixmap& pixmap);
+	
 public:
 	FamilyTreeButton(NodeFamily* family = 0, QWidget * parent = 0);
 	FamilyTreeButton(ConnectionFamily* family, QWidget * parent = 0);
+	FamilyTreeButton(const QString& custon, QWidget * parent = 0);
 	ItemFamily * family() const;
 
 protected slots:
@@ -49,9 +51,12 @@ protected slots:
 	
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent * event);
-	virtual void mousePressEvent(QMouseEvent * event);
-	
+	//virtual void mouseReleaseEvent(QMouseEvent * event);
+	virtual void mousePressEvent(QMouseEvent *event);
+	virtual void dragEnterEvent(QDragEnterEvent *event);
+	virtual void dropEvent(QDropEvent * event);
 	QMenu menu;
+	
 	NodeFamily * nodeFamily;
 	ConnectionFamily* connectionFamily;
 	QString newFileName;

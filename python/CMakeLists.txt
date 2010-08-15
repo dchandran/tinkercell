@@ -24,34 +24,28 @@ IF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
     ${PYTHON_LIBRARIES}
   )
   
-  #SET_TARGET_PROPERTIES( tcpy PROPERTIES PREFIX "")
-  
   IF ( WIN32 )
-	#SET_TARGET_PROPERTIES( tcpy PROPERTIES SUFFIX ".pyd" )
-    #INSTALL(TARGETS tcpy DESTINATION python)
-    
     ADD_CUSTOM_COMMAND ( 
           TARGET tcpy POST_BUILD
           COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcpy.dll ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.pyd
       )
-    
+     FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.pyd)
   ELSE ( WIN32 )
      IF( APPLE )
-        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD
               COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcpy.dylib ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.dylib
         )
+        FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.dylib)
     ELSE( APPLE )
-        #INSTALL(TARGETS tcpy LIBRARY DESTINATION python)
         ADD_CUSTOM_COMMAND ( 
               TARGET tcpy POST_BUILD 
               COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcpy.so ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.so
-        )    
+        )
+        FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.so)
     ENDIF( APPLE )
   ENDIF( WIN32 )
   
-  FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.*)
   FILE(GLOB PYTHON_SCRIPTS *.py)
 
   INSTALL(FILES ${PYTHON_SCRIPTS}

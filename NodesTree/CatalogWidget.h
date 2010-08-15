@@ -100,10 +100,6 @@ namespace Tinkercell
         void setNumberOfRecentItems();
 		/*! \brief set tab mode (false = tree view)*/
 		void setTreeMode(bool);
-		/*! \brief intial attributes for families have changed*/
-		void initialValuesChanged();
-		/*! \brief intial attributes combo box selection changed*/
-		void initialValueComboBoxChanged(const QString&);
 		/*! \brief make one of the groups visible*/
         void showGroup(const QString& group);
 		/*! \brief set the cursor icon when button pressed*/

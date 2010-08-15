@@ -21,7 +21,7 @@ namespace Tinkercell
 {
 
 	FamilyTreeButton::FamilyTreeButton(const QString& name, QWidget * parent) : 
-		QToolButton(parent), nodeFamily(0), connectionFamily(0)
+		QToolButton(parent), name(name), nodeFamily(0), connectionFamily(0)
 	{
 		setPalette(QPalette(QColor(255,255,255)));
 		setAutoFillBackground (true);
@@ -40,6 +40,8 @@ namespace Tinkercell
 	FamilyTreeButton::FamilyTreeButton(NodeFamily* family , QWidget * parent) : QToolButton(parent), nodeFamily(family), connectionFamily(0)
 	{
 		if (!nodeFamily) return;
+		
+		name = nodeFamily->name;
 
 		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + nodeFamily->name, this);
 		QAction* graphicsAction = new QAction(QIcon(":/images/replace.png"),tr("change graphics"), this);
@@ -85,6 +87,8 @@ namespace Tinkercell
 	FamilyTreeButton::FamilyTreeButton(ConnectionFamily* family, QWidget * parent) : QToolButton(parent), nodeFamily(0), connectionFamily(family)
 	{
 		if (!connectionFamily) return;
+
+		name = connectionFamily->name;
 
 		QAction* infoAction = new QAction(QIcon(":/images/about.png"),tr("about ") + connectionFamily->name, this);
 		connect(infoAction,SIGNAL(triggered()),this,SLOT(about()));
@@ -151,7 +155,7 @@ namespace Tinkercell
 			QDrag *drag = new QDrag(this);
 			QMimeData *mimeData = new QMimeData;
 			drag->setPixmap(icon().pixmap(QSize(30,30)));
-			mimeData->setText(text());	
+			mimeData->setText(name);	
 			drag->setMimeData(mimeData);
 			drag->exec();
 		}
@@ -329,7 +333,7 @@ namespace Tinkercell
 	void FamilyTreeButton::dropEvent(QDropEvent * event)
 	{
 		if (nodeFamily)
-				emit nodeSelected(nodeFamily);
+			emit nodeSelected(nodeFamily);
 		else
 		if (connectionFamily)
 			emit connectionSelected(connectionFamily);	

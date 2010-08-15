@@ -57,6 +57,7 @@ protected:
 	virtual void dropEvent(QDropEvent * event);
 	QMenu menu;
 	
+	QString name;
 	NodeFamily * nodeFamily;
 	ConnectionFamily* connectionFamily;
 	QString newFileName;

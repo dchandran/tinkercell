@@ -37,8 +37,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
-			//connect(mainWindow,SIGNAL(sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers)),
-			//	this, SLOT(sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers)));
+			connect(mainWindow,SIGNAL(itemsDropped(const QString&, const QPointF&)),
+				this, SLOT(itemsDropped(const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -207,6 +207,18 @@ namespace Tinkercell
 	{
 		connectToNodesTree();
 	}
+	
+	void NodeInsertion::itemsDropped(const QString& family, const QPointF& point)
+	{
+		console()->message(family);
+		if (mainWindow && currentScene() && !family.isEmpty() && 
+			nodesTree && nodesTree->nodeFamilies.contains(family))
+		{
+			selectedNodeFamily = nodesTree->nodeFamilies[family];
+			sceneClicked(currentScene(),point,Qt::LeftButton,Qt::NoModifier);
+			selectedNodeFamily = 0;
+		}
+	}
 
 	void NodeInsertion::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers)
 	{
@@ -216,6 +228,7 @@ namespace Tinkercell
 			{
 				//QList<ItemFamily*> subfamilies = selectedNodeFamily->subFamilies();
 				QList<NodeFamily*> allFamilies;
+				
 				/*if (!subfamilies.isEmpty() && selectedNodeFamily->graphicsItems.isEmpty())
 				{
 				for (int i=0; i < subfamilies.size(); ++i)
@@ -223,6 +236,7 @@ namespace Tinkercell
 				allFamilies += static_cast<NodeFamily*>(subfamilies[i]);
 				}
 				if (allFamilies.isEmpty())*/
+				
 				allFamilies += selectedNodeFamily;
 
 				QString text;

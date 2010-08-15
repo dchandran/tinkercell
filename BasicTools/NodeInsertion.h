@@ -45,8 +45,8 @@ namespace Tinkercell
 	class NodeInsertion_FToS : public QObject
 	{
 		Q_OBJECT
-signals:
-		void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
+		signals:
+			void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
 		public slots:
 			void* insertItem(const char* , const char* );
 	};
@@ -72,30 +72,33 @@ signals:
 		\param MainWindow* TinkerCell's main window*/
 		bool setMainWindow(MainWindow * main);
 
-		public slots:
-			/*! \brief one of the nodes in the tree of nodes has been selected. Enters insertion mode.
-			\param NodeFamily* the selected family*/
-			void nodeSelected(NodeFamily * nodeFamily);
+	public slots:
+		/*! \brief one of the nodes in the tree of nodes has been selected. Enters insertion mode.
+		\param NodeFamily* the selected family*/
+		void nodeSelected(NodeFamily * nodeFamily);
 
-			/*! \brief User clicked on the screen. This would insert a new node if in insertion mode.*/
-			void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+		/*! \brief User clicked on the screen. This would insert a new node if in insertion mode.*/
+		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
-			/*! \brief Right click on the screen exits from the insertion mode*/
-			void sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers);
+		/*! \brief Right click on the screen exits from the insertion mode*/
+		void sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers);
 
-			/*! \brief exit from current operations such as insertion mode*/
-			void escapeSignal(const QWidget * widget);
+		/*! \brief exit from current operations such as insertion mode*/
+		void escapeSignal(const QWidget * widget);
 
-			/*! \brief exit from current operations such as insertion mode*/
-			void toolLoaded(Tool*);
+		/*! \brief exit from current operations such as insertion mode*/
+		void toolLoaded(Tool*);
 
-			/*! \brief this function sets up the C API function pointers whenever a C library is loaded*/
-			void setupFunctionPointers( QLibrary * f );
+		/*! \brief this function sets up the C API function pointers whenever a C library is loaded*/
+		void setupFunctionPointers( QLibrary * f );
 
-			private slots:
+		/*! \brief insert parts*/
+		void itemsDropped(const QString&, const QPointF&);
 
-				/*! \brief A C API function*/
-				void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
+	private slots:
+
+		/*! \brief A C API function*/
+		void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
 
 	private:
 		/*! \brief the currently selected item from the nodes tree*/

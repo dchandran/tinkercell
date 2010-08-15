@@ -297,7 +297,7 @@ inline void SystemsBiologyWorkbench::sbwDataBlockReader::getWithoutType(std::com
 	double dReal; double dImag;
 	getWithoutType(dReal);
 	getWithoutType(dImag);
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN) && !defined(MINGW)
 	x.real(dReal);
 	x.imag(dImag);
 #else

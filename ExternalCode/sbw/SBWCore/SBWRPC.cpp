@@ -61,7 +61,7 @@
 #include "stdafx.h"
 #include "SBWRPC.h"
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN) && !defined(MINGW)
 #include <crtdbg.h>
 #endif
 

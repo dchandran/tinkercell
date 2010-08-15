@@ -308,7 +308,7 @@ std::string Config::getLibDirectory()
 }
 
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN) && !defined(MINGW)
 typedef BOOL (STDMETHODCALLTYPE FAR * LPFNGETUSERPROFILEDIR) (
 	HANDLE hToken,
 	LPTSTR lpProfileDir,
@@ -349,7 +349,7 @@ std::string Config::getSBWUserDir()
 		return userDir;
 	}
 
-#ifdef WIN32
+#if defined(WIN32) && !defined(CYGWIN) && !defined(MINGW)
 	OSVERSIONINFO osVersionInfo ;
 
 	osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO) ;

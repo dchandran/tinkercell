@@ -97,7 +97,7 @@ namespace Tinkercell
 		void setupFunctionPointers( QLibrary * f );
 
 		/*! \brief insert parts*/
-		void itemsDropped(const QString&, const QPointF&);
+		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
 
 	private slots:
 

@@ -117,7 +117,7 @@ namespace Tinkercell
 			/*!\brief remove items from Participants table in each connection*/
 			void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 			/*! \brief insert parts and connections*/
-			void itemsDropped(QGraphicsScene *, const QString&, const QPointF&);
+			void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
 
 		private slots:
 			/*!\brief C API function*/

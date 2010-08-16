@@ -107,8 +107,8 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
 					this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 
-			connect(mainWindow,SIGNAL(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
+				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
@@ -665,7 +665,7 @@ namespace Tinkercell
 		return true;
 	}
 
-	void ConnectionInsertion::itemsDropped(QGraphicsScene * scene, const QString& family, const QPointF& point)
+	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		if (mainWindow && currentScene() && !family.isEmpty() && 
 			connectionsTree && connectionsTree->connectionFamilies.contains(family))
@@ -796,7 +796,7 @@ namespace Tinkercell
 
 				if (!selected)
 				{
-					insertList = autoInsertNodes(point);					
+					insertList = autoInsertNodes(scene,point);					
 					for (int i=0; i < insertList.size(); ++i)
 						if (node = NodeGraphicsItem::cast(insertList[i]))
 							selectedNodes << node;

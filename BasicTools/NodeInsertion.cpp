@@ -37,8 +37,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
-			connect(mainWindow,SIGNAL(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(GraphicsScene *, const QString&, const QPointF&)),
+				this, SLOT(itemsDropped(GraphicsScene *, const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -188,9 +188,9 @@ namespace Tinkercell
 			GraphicsScene * scene = mainWindow->currentScene();
 			if (item)
 				(*item) = 0;
-			if (selectedFamily && scene)
+			if (nodeFamily && scene)
 			{
-				QList<QGraphicsItem*> list = createNewNode(scene->lastPoint(), name, nodeFamily)
+				QList<QGraphicsItem*> list = createNewNode(scene, scene->lastPoint(), name, nodeFamily);
 				if (!list.isEmpty())
 				{
 					scene->insert(name + tr("inserted"),list);
@@ -210,7 +210,7 @@ namespace Tinkercell
 		connectToNodesTree();
 	}
 	
-	void NodeInsertion::itemsDropped(QGraphicsScene * scene, const QString& family, const QPointF& point)
+	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		console()->message(family);
 		if (mainWindow && currentScene() && !family.isEmpty() && 
@@ -228,7 +228,7 @@ namespace Tinkercell
 		{
 			if (button == Qt::LeftButton)
 			{
-				QList<QGraphicsItem*> list = createNewNode(point, tr(""), selectedNodeFamily)
+				QList<QGraphicsItem*> list = createNewNode(scene, point, tr(""), selectedNodeFamily);
 				if (!list.isEmpty())
 				{
 					QString text;

@@ -19,7 +19,7 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 
 	QProcess proc;
     QString appDir = QCoreApplication::applicationDirPath();
-	QString homeDir = Tinkercell::MainWindow::userTemp();
+	QString homeDir = Tinkercell::MainWindow::tempDir();
 
 	proc.setWorkingDirectory(appDir);
 	homeDir.replace(QObject::tr("/"),QObject::tr("\\"));

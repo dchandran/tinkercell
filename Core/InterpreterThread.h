@@ -19,10 +19,16 @@
 #include <QFile>
 #include "CThread.h"
 
+#ifdef Q_WS_WIN
+#define TINKERCELLEXPORT __declspec(dllexport)
+#else
+#define TINKERCELLEXPORT
+#endif
+
 namespace Tinkercell
 {
 
-    class InterpreterThread : public CThread
+    class TINKERCELLEXPORT InterpreterThread : public CThread
 	{
 		Q_OBJECT
 

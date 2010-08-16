@@ -76,8 +76,6 @@ namespace Tinkercell
 	private slots:
 
 		void moduleButtonPressed(const QString&);
-		void createScene();
-		void createScene(GraphicsScene *, QGraphicsItem *);
 		void modelButtonClicked (QAbstractButton *);
 
 	private:

@@ -85,7 +85,7 @@ namespace Tinkercell
 	/*!
 	\brief A docking widget that contains many PlotWidget instances
 	*/
-	class PlotTool : public Tool
+	class TINKERCELLEXPORT PlotTool : public Tool
 	{
 		Q_OBJECT
 		

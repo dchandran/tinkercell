@@ -15,7 +15,7 @@
 namespace Tinkercell
 {
 
-    class OctaveInterpreterThread : public InterpreterThread
+    class TINKERCELLEXPORT OctaveInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT
 		

@@ -7,100 +7,81 @@
  are much slower than function calls. But they can be used to communicate between threads, which is the
  main reason why they are used in TinkerCell. 
 
- The API uses six main data structures:
-
-Item: just a reference to a TinkerCell object (memory pointer)
+ The API uses six main data structures: 
  
-@section String 
-exactly what the name means
+<Item>: just a reference to a TinkerCell object (memory pointer)
 
-@section ArrayOfItems
-array of Items
-    
-@subsection example
+<String>: exactly what the name means
 
-         ArrayOfItems A = tc_allItems()
-         
-    	 A.length
-    	 
+<ArrayOfItems> array of Items
+
+<examples>
+\code
+         ArrayOfItems A = tc_allItems()         
+    	 A.length    	 
     	 nthItem(A,3)
+\endcode
 
-@section ArrayOfStrings
-array of Strings
+<ArrayOfStrings>: array of Strings
 
-@subsection	example
-
+<example>
+\code
 	     ArrayOfStrings S = tc_getNames( tc_allItems() )
-
 		 S.length
-
 		 nthString(S,3)
+\endcode
 
-@section Matrix
-Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
+<Matrix>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
 
-@subsection example
-	
-	     Matrix M = tc_getNumericalData( tc_find("a"), "Numerical Attributes" )
-	     
-		 M.rows
-		 
-		 M.cols
-		 
+<example>
+\code	
+	     Matrix M = tc_getNumericalData( tc_find("a"), "Numerical Attributes" )	     
+		 M.rows		 
+		 M.cols		 
 		 getColumnName(M,2)
-		 
-		 setColumnName(M,2,"col2")
-		 
-		 getRowName(M,1)
-		 
-		 setRowName(M,1,"row1")
-		 
-		 getValue(M,2,3)
-		 
+		 setColumnName(M,2,"col2")		 
+		 getRowName(M,1)		 
+		 setRowName(M,1,"row1")		 
+		 getValue(M,2,3)		 
 		 setValue(M,2,3,0.5)
+\endcode
 
-@section TableOfStrings
-Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
+<TableOfStrings>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
 
-@subsection example
-	
-	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )
-	     
-		 S.rows
-		 
-		 S.cols
-		 
-		 nthString( S.rownames, 1)
-		 
-		 nthString( S.colnames, 2)
-		 
-		 getString(S,2,3)
-		 
+<example>
+\code	
+	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )	     
+		 S.rows		 
+		 S.cols		 
+		 nthString( S.rownames, 1)		 
+		 nthString( S.colnames, 2)		 
+		 getString(S,2,3)		 
 		 setString(S,2,3,"hello")
+\endcode
 */
 
-/*! \defgroup Appearance 
+/*! \defgroup Appearance Appearance
 \brief get/set position, color, size, etc*/
 
-/*! \defgroup Get Get items 
+/*! \defgroup Get Get items
 \brief get selected items or items of a family*/
 
-/*! \defgroup Annotation 
+/*! \defgroup Annotation Annotations
 \brief get annotation information about items*/
 
-/*! \defgroup Input Input and Output 
+/*! \defgroup Input Input and Output
 \brief display dialogs or get user inputs*/
 
-/*! \defgroup System System information 
+/*! \defgroup System System information
 \brief get information about the OS and program directory*/
 
 /*! \defgroup Network Network data 
 \brief get/set information about the individual items in the network*/
 
-/*! \defgroup Modeling
+/*! \defgroup Modeling Modeling
 \brief get/set parameters, equations, and so on*/
 
-/*! \defgroup Connections
+/*! \defgroup Connections Connections
 \brief change appearance of connection arcs*/
 
 /*! \defgroup Antimony Antimony and SBML

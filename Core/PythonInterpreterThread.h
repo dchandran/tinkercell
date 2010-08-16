@@ -15,7 +15,7 @@
 namespace Tinkercell
 {
 
-    class PythonInterpreterThread : public InterpreterThread
+    class TINKERCELLEXPORT PythonInterpreterThread : public InterpreterThread
 	{
 		Q_OBJECT
 		

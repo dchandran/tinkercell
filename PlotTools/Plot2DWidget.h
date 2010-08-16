@@ -126,7 +126,7 @@ namespace Tinkercell
 	/*!
 	\brief A widget containing a data plot, legend and options
 	*/
-	class Plot2DWidget : public PlotWidget
+	class TINKERCELLEXPORT Plot2DWidget : public PlotWidget
 	{
 		Q_OBJECT
 	public:

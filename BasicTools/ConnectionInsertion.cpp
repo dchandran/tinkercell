@@ -690,7 +690,11 @@ namespace Tinkercell
 			QList<ItemHandle*> selectedHandles;
 			for (int i=0; i < selectedNodes.size(); ++i)
 				selectedHandles << selectedNodes[i]->handle();
+			
 			NodeFamily * nodeFamily;
+			NodeFamily * moleculeFamily = 0;
+			if (nodesTree->nodeFamilies.contains(tr("Molecule")))
+				moleculeFamily = nodesTree->nodeFamilies[ tr("Molecule") ];
 
 			for (int i=0; i < alltypes.size(); ++i)
 				if (nodesTree->nodeFamilies.contains(alltypes[i]))
@@ -707,6 +711,8 @@ namespace Tinkercell
 					if (!alreadyPresent)
 					{
 						p = point + QPointF(200.0 * cos(i * dtheta), 200.0 * sin(i * dtheta));
+						if (moleculeFamily && !nodeFamily->parent())
+							nodeFamily = moleculeFamily;
 						newNodes << nodeInsertionTool->createNewNode(scene, p,tr(""),nodeFamily);
 					}
 				}

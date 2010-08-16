@@ -178,7 +178,7 @@ namespace Tinkercell
 		/*!\brief connect to the connections tree*/
 		void connectToConnectionsTree();
 		/*!\brief insert nodes that have not been selected*/
-		QList<QGraphicsItem*> autoInsertNodes(const QPointF & point);
+		QList<QGraphicsItem*> autoInsertNodes(GraphicsScene *, const QPointF & point);
 
 		/*!\brief connect the C API functions and signals*/
 		void connectTCFunctions();

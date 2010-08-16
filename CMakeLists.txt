@@ -35,8 +35,10 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( VERSION 2.4 )
   CMAKE_POLICY( SET CMP0005 NEW )
   CMAKE_POLICY( SET CMP0003 NEW )
-#  CMAKE_POLICY( SET CMP0002 OLD )
-   CMAKE_POLICY( SET CMP0015 OLD )
+# CMAKE_POLICY( SET CMP0002 OLD )
+  IF (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.8)
+    CMAKE_POLICY( SET CMP0015 OLD )
+  ENDIF(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.8)
 ENDIF(COMMAND CMAKE_POLICY)
 
 #---------------------------------------------------------------------------
@@ -75,7 +77,7 @@ SET(C_LIBRARY_OUTPUT_PATH
 # Qt4
 #---------------------------------------------------------------------------
 FIND_PACKAGE( Qt4 )
-FIND_PACKAGE (OPENGL )
+FIND_PACKAGE ( OpenGL )
 #--------------------------------------------
 # Build only if the version of qt is newer
 # than Qt4.4. Note Qt starts being LGPL with

@@ -75,23 +75,23 @@ SET(C_LIBRARY_OUTPUT_PATH
 # Qt4
 #---------------------------------------------------------------------------
 FIND_PACKAGE( Qt4 )
-
+FIND_PACKAGE (OPENGL )
 #--------------------------------------------
 # Build only if the version of qt is newer
 # than Qt4.4. Note Qt starts being LGPL with
 # Qt4.5
 # IF( QT4_FOUND AND QT_VERSION_MINOR GREATER 4 )
-IF( QT4_FOUND )
+IF( QT4_FOUND AND OPENGL_FOUND )
   IF( QT_USE_FILE )
 	  SET( QT_USE_QTCORE TRUE )
 	  SET( QT_USE_QTGUI TRUE )
 	  SET( QT_USE_QTXML TRUE )
 	  SET( QT_USE_QTOPENGL TRUE )
-    SET( QT_USE_QT3SUPPORT FALSE )
-    #SET( QT_USE_QTSVG TRUE )
-    INCLUDE( ${QT_USE_FILE} )
+      SET( QT_USE_QT3SUPPORT FALSE )
+     #SET( QT_USE_QTSVG TRUE )
+     INCLUDE( ${QT_USE_FILE} )
   ELSE( QT_USE_FILE )
-    SET( QT_LIBRARIES ${QT_QT_LIBRARY} )
+     SET( QT_LIBRARIES ${QT_QT_LIBRARY} )
   ENDIF( QT_USE_FILE )
 
   LINK_DIRECTORIES(
@@ -316,4 +316,4 @@ INCLUDE( CMake/TinkercellCPack.cmake )
 # --------------------
 
 
-ENDIF( QT4_FOUND )
+ENDIF( QT4_FOUND AND OPENGL_FOUND  )

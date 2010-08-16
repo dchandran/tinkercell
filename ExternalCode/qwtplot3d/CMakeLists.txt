@@ -77,6 +77,7 @@ ADD_LIBRARY( qwtplot3d
 TARGET_LINK_LIBRARIES( qwtplot3d
   qwtplot3d
   ${QT_LIBRARIES}
+  ${OPENGL_LIBRARY}
   )
   
 IF (WIN32)

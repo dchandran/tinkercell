@@ -36,6 +36,7 @@ IF( COMMAND CMAKE_POLICY )
   CMAKE_POLICY( SET CMP0005 NEW )
   CMAKE_POLICY( SET CMP0003 NEW )
 #  CMAKE_POLICY( SET CMP0002 OLD )
+   CMAKE_POLICY( SET CMP0015 OLD )
 ENDIF(COMMAND CMAKE_POLICY)
 
 #---------------------------------------------------------------------------

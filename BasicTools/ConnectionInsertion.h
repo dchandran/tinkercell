@@ -36,6 +36,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "NodesTree.h"
+#include "NodeInsertion.h"
 
 namespace Tinkercell
 {
@@ -115,7 +116,9 @@ namespace Tinkercell
 			void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 			/*!\brief remove items from Participants table in each connection*/
 			void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-			
+			/*! \brief insert parts and connections*/
+			void itemsDropped(QGraphicsScene *, const QString&, const QPointF&);
+
 		private slots:
 			/*!\brief C API function*/
 			void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
@@ -142,6 +145,10 @@ namespace Tinkercell
 		ConnectionFamily * selectedFamily;
 		/*! \brief the connection tree with all the connection families*/
 		ConnectionsTree * connectionsTree;
+		/*! \brief the nodes tree*/
+		NodesTree * nodesTree;
+		/*! \brief the node insertion tool*/
+		NodeInsertion * nodeInsertionTool;
 		/*! \brief stores the default number of inputs and outputs*/
 		QHash<QString,int> defaultInputs, defaultOutputs;
 		/*! \brief set the default number of inputs and outputs for different reactions*/
@@ -170,6 +177,8 @@ namespace Tinkercell
 		void revertColors();
 		/*!\brief connect to the connections tree*/
 		void connectToConnectionsTree();
+		/*!\brief insert nodes that have not been selected*/
+		QList<QGraphicsItem*> autoInsertNodes(const QPointF & point);
 
 		/*!\brief connect the C API functions and signals*/
 		void connectTCFunctions();

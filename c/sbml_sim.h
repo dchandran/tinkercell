@@ -15,7 +15,7 @@
 #include "sbml/ListOf.h"
 #include "sbml/Model.h"
 #include "sbml/Rule.h"
-#include <boost/algorithm/string.hpp>
+//#include <boost/algorithm/string.hpp>
 extern "C"
 {
 	#include "cvodesim.h"

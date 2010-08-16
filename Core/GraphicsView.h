@@ -80,7 +80,7 @@ namespace Tinkercell
 
 	signals:
 		/*! \brief signal is emitted when some object OTHER than files are dropped on the canvas*/
-		void itemsDropped(const QString&, const QPointF&);
+		void itemsDropped(GraphicsScene*, const QString&, const QPointF&);
 	protected:
 		/*! \brief draw background*/
 		virtual void drawBackground( QPainter * painter, const QRectF & rect );

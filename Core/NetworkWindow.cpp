@@ -121,7 +121,7 @@ namespace Tinkercell
 			scene->network = network;
 			
 			GraphicsView * view = new GraphicsView(this);
-			connect(view,SIGNAL(itemsDropped(const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(const QString&,const QPointF&)));
+			connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 			centralWidgetLayout->addWidget(view);
 			setAttribute(Qt::WA_DeleteOnClose);
 		}
@@ -305,7 +305,7 @@ namespace Tinkercell
 		scene->network = network;
 		
 		GraphicsView * view = new GraphicsView(this);
-		connect(view,SIGNAL(itemsDropped(const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(const QString&,const QPointF&)));
+		connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 	
 		if (centralWidgetLayout)
 			delete centralWidgetLayout;

@@ -33,6 +33,7 @@ This tool allows insertion of nodes from the NodesTree
 #include "NodeGraphicsReader.h"
 #include "NodeGraphicsWriter.h"
 #include "NodesTree.h"
+#include "ItemFamily.h"
 #include "ItemHandle.h"
 #include "ConnectionsTree.h"
 #include "Tool.h"
@@ -71,6 +72,9 @@ namespace Tinkercell
 		/* !\brief load this plug-in into the TinkerCell main window
 		\param MainWindow* TinkerCell's main window*/
 		bool setMainWindow(MainWindow * main);
+
+		/*! \brief create a new item with the given name and family*/
+		QList<QGraphicsItem*> createNewNode(GraphicsScene *, const QPointF& point, const QString& name, NodeFamily * family);
 
 	public slots:
 		/*! \brief one of the nodes in the tree of nodes has been selected. Enters insertion mode.

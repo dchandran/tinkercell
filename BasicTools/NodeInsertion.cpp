@@ -37,8 +37,8 @@ namespace Tinkercell
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
-			connect(mainWindow,SIGNAL(itemsDropped(const QString&, const QPointF&)),
-				this, SLOT(itemsDropped(const QString&, const QPointF&)));
+			connect(mainWindow,SIGNAL(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)),
+				this, SLOT(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -84,117 +84,119 @@ namespace Tinkercell
 		}
 	}
 
+	QList<QGraphicsItem*> NodeInsertion::createNewNode(GraphicsScene * scene, const QPointF& point, const QString& s, NodeFamily * family)
+	{
+		QList<QGraphicsItem*> list;
+		if (family && scene)
+		{
+			QString name = s;
+			if (s.isNull() || s.isEmpty())
+			{
+				name = family->name.toLower() + tr("1");
+				QStringList words = name.split(tr(" "));
+				if (words.size() > 1)
+				{
+					name = tr("");
+					for (int i=0; i < words.size(); ++i)
+						name += words[i].left(1);
+					name += tr("1");
+				}
+				
+				if (name.length() > 3)
+					name = name.left( 3 ) + tr("1");
+			}
+
+			QList<NodeFamily*> allFamilies;		
+			allFamilies += family;
+			qreal xpos = point.x();
+			qreal height = 0.0;
+			qreal width = 0.0;
+
+			for (int j=0; j < allFamilies.size(); ++j)
+			{
+				NodeFamily * nodeFamily = allFamilies[j];
+
+				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
+					if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
+						width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
+			}
+
+			xpos -= width/2.0;
+			bool alternate = false;
+
+			for (int j=0; j < allFamilies.size(); ++j)
+			{
+				NodeFamily * nodeFamily = allFamilies[j];
+
+				NodeHandle * handle = new NodeHandle(nodeFamily);
+				handle->name = RemoveDisallowedCharactersFromName(name);
+				handle->name = scene->network->makeUnique(handle->name);
+
+				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
+				{
+					NodeGraphicsItem * image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
+					if (image)
+					{
+						image = image->clone();
+						if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
+							image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
+
+						qreal w = image->sceneBoundingRect().width();
+
+						image->setPos(xpos + w/2.0, point.y());
+
+						image->setBoundingBoxVisible(false);
+
+						if (image->isValid())
+						{
+							xpos += w;
+							setHandle(image,handle);
+							list += image;
+						}
+						if (image->sceneBoundingRect().height() > height)
+							height = image->sceneBoundingRect().height();
+					}
+				}
+
+				if (nodeFamily->graphicsItems.size() > 0)
+				{
+					if (handle->family() && !handle->family()->isA("Empty"))
+					{
+						TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
+						QFont font = nameItem->font();
+						font.setPointSize(22);
+						nameItem->setFont(font);
+						if (alternate)
+							nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() - height/2.0 - 40.0);
+						else
+							nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() + height/2.0 + 5.0);
+						list += nameItem;
+						alternate = !alternate;
+					}
+				}
+			}
+		}
+		return list;
+	}
+
 	void NodeInsertion::insertItem(QSemaphore * sem, ItemHandle** item, QString name, QString family)
 	{
 		if (mainWindow && mainWindow->currentScene() && !name.isEmpty() && !family.isEmpty() && nodesTree
 			&& nodesTree->nodeFamilies.contains(family))
 		{
-			NodeFamily * selectedFamily = nodesTree->nodeFamilies[family];
+			NodeFamily * nodeFamily = nodesTree->nodeFamilies[family];
 			GraphicsScene * scene = mainWindow->currentScene();
 			if (item)
 				(*item) = 0;
 			if (selectedFamily && scene)
 			{
-				QPointF point = scene->lastPoint();
-
-				//QList<ItemFamily*> subfamilies = selectedFamily->parents();
-				QList<NodeFamily*> allFamilies;
-				/*if (!subfamilies.isEmpty() && selectedFamily->graphicsItems.isEmpty())
-				{
-				for (int i=0; i < subfamilies.size(); ++i)
-				if (subfamilies[i] && subfamilies[i]->isA("node"))
-				allFamilies += static_cast<NodeFamily*>(subfamilies[i]);
-				}
-				if (allFamilies.isEmpty())*/
-				allFamilies += selectedFamily;
-
-				QString text;
-				QList<QGraphicsItem*> list;
-				qreal xpos = point.x();
-				qreal height = 0.0;
-				qreal width = 0.0;
-
-				for (int j=0; j < allFamilies.size(); ++j)
-				{
-					NodeFamily * nodeFamily = allFamilies[j];
-
-					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-						if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
-							width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
-				}
-
-				xpos -= width/2.0;
-				bool alternate = false;
-
-				for (int j=0; j < allFamilies.size(); ++j)
-				{
-					NodeFamily * nodeFamily = allFamilies[j];
-
-					NodeHandle * handle = new NodeHandle(nodeFamily);
-
-					if (allFamilies.size() == 1)
-						handle->name = name;
-					else
-					{
-						handle->name = nodeFamily->name.toLower();
-						if (handle->name.length() > 4)
-							handle->name.chop( handle->name.length() - 1 );
-						handle->name = name + tr("_") + handle->name;
-					}
-					handle->name = scene->network->makeUnique(handle->name);
-					if (item)
-						(*item) = handle;
-
-					text += handle->name + tr(" ");
-
-					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-					{
-						NodeGraphicsItem * image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
-						if (image)
-						{
-							image = image->clone();
-
-							if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
-								image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
-
-							qreal w = image->sceneBoundingRect().width();
-
-							image->setPos(xpos + w/2.0, point.y());
-
-							image->setBoundingBoxVisible(false);
-
-							if (image->isValid())
-							{
-								xpos += w;
-								setHandle(image,handle);
-								list += image;
-							}
-							if (image->sceneBoundingRect().height() > height)
-								height = image->sceneBoundingRect().height();
-						}
-					}
-
-					if (nodeFamily->graphicsItems.size() > 0)
-					{
-						if (handle->family() && !handle->family()->isA("Empty"))
-						{
-							TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
-							QFont font = nameItem->font();
-							font.setPointSize(22);
-							nameItem->setFont(font);
-							if (alternate)
-								nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() - height/2.0 - 40.0);
-							else
-								nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() + height/2.0 + 5.0);
-							list += nameItem;
-							alternate = !alternate;
-						}
-					}
-				}
-
+				QList<QGraphicsItem*> list = createNewNode(scene->lastPoint(), name, nodeFamily)
 				if (!list.isEmpty())
 				{
-					scene->insert(text + tr("inserted"),list);
+					scene->insert(name + tr("inserted"),list);
+					QList<ItemHandle*> handles = getHandle(list);
+					if (handles.size() > 0)
+						(*item) = handles[0];
 				}
 			}
 		}
@@ -208,14 +210,14 @@ namespace Tinkercell
 		connectToNodesTree();
 	}
 	
-	void NodeInsertion::itemsDropped(const QString& family, const QPointF& point)
+	void NodeInsertion::itemsDropped(QGraphicsScene * scene, const QString& family, const QPointF& point)
 	{
 		console()->message(family);
 		if (mainWindow && currentScene() && !family.isEmpty() && 
 			nodesTree && nodesTree->nodeFamilies.contains(family))
 		{
 			selectedNodeFamily = nodesTree->nodeFamilies[family];
-			sceneClicked(currentScene(),point,Qt::LeftButton,Qt::NoModifier);
+			sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
 			selectedNodeFamily = 0;
 		}
 	}
@@ -226,104 +228,14 @@ namespace Tinkercell
 		{
 			if (button == Qt::LeftButton)
 			{
-				//QList<ItemFamily*> subfamilies = selectedNodeFamily->subFamilies();
-				QList<NodeFamily*> allFamilies;
-				
-				/*if (!subfamilies.isEmpty() && selectedNodeFamily->graphicsItems.isEmpty())
-				{
-				for (int i=0; i < subfamilies.size(); ++i)
-				if (subfamilies[i] && subfamilies[i]->isA("node"))
-				allFamilies += static_cast<NodeFamily*>(subfamilies[i]);
-				}
-				if (allFamilies.isEmpty())*/
-				
-				allFamilies += selectedNodeFamily;
-
-				QString text;
-				QList<QGraphicsItem*> list;
-				qreal xpos = point.x();
-				qreal height = 0.0;
-				qreal width = 0.0;
-
-				for (int j=0; j < allFamilies.size(); ++j)
-				{
-					NodeFamily * nodeFamily = allFamilies[j];
-
-					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-						if (NodeGraphicsItem::cast(nodeFamily->graphicsItems[i]))
-							width += NodeGraphicsItem::cast(nodeFamily->graphicsItems[i])->defaultSize.width();
-				}
-
-				xpos -= width/2.0;
-				bool alternate = false;
-
-				for (int j=0; j < allFamilies.size(); ++j)
-				{
-					NodeFamily * nodeFamily = allFamilies[j];
-
-					NodeHandle * handle = new NodeHandle(nodeFamily);
-					handle->name = nodeFamily->name.toLower() + tr("1");
-					QStringList words = handle->name.split(tr(" "));
-					if (words.size() > 1)
-					{
-						handle->name = tr("");
-						for (int i=0; i < words.size(); ++i)
-							handle->name += words[i].left(1);
-						handle->name += tr("1");
-					}
-					
-					if (handle->name.length() > 3)
-						handle->name = handle->name.left( 3 ) + tr("1");
-					handle->name = scene->network->makeUnique(handle->name);
-
-					text += handle->name + tr(" ");
-
-					for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-					{
-						NodeGraphicsItem * image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
-						if (image)
-						{
-							image = image->clone();
-							if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
-								image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
-
-							qreal w = image->sceneBoundingRect().width();
-
-							image->setPos(xpos + w/2.0, point.y());
-
-							image->setBoundingBoxVisible(false);
-
-							if (image->isValid())
-							{
-								xpos += w;
-								setHandle(image,handle);
-								list += image;
-							}
-							if (image->sceneBoundingRect().height() > height)
-								height = image->sceneBoundingRect().height();
-						}
-					}
-
-					if (nodeFamily->graphicsItems.size() > 0)
-					{
-						if (handle->family() && !handle->family()->isA("Empty"))
-						{
-							TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
-							QFont font = nameItem->font();
-							font.setPointSize(22);
-							nameItem->setFont(font);
-							if (alternate)
-								nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() - height/2.0 - 40.0);
-							else
-								nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() + height/2.0 + 5.0);
-							list += nameItem;
-							alternate = !alternate;
-						}
-					}
-				}
-
+				QList<QGraphicsItem*> list = createNewNode(point, tr(""), selectedNodeFamily)
 				if (!list.isEmpty())
 				{
+					QString text;
+					QList<ItemHandle*> handles = getHandle(list);
+					for (int i=0; i < handles.size(); ++i)
+						if (handles[i])
+							text += handles[i]->name + " ";
 					scene->insert(text + tr("inserted"),list);
 				}
 			}

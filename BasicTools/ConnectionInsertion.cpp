@@ -9,6 +9,7 @@ for connecting items using the connections in the ConnectionsTree
 
 ****************************************************************************/
 
+#include <math.h>
 #include "GraphicsScene.h"
 #include "UndoCommands.h"
 #include "MainWindow.h"
@@ -86,7 +87,9 @@ namespace Tinkercell
 		ConnectionGraphicsItem::DefaultMiddleItemFile = appDir + QString("/OtherItems/simplecircle.xml");
 		ConnectionGraphicsItem::DefaultArrowHeadFile = appDir + QString("/ArrowItems/Reaction.xml");
 
+		nodeInsertionTool = 0;
 		mainWindow = 0;
+		nodesTree = 0;
 		connectionsTree = tree;
 		selectedFamily = 0;
 		connectTCFunctions();
@@ -100,6 +103,12 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+
+			connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
+					this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
+
+			connect(mainWindow,SIGNAL(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)),
+				this, SLOT(itemsDropped(QGraphicsScene *, const QString&, const QPointF&)));
 
 			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)),
 					this, SLOT(itemsAboutToBeInserted(GraphicsScene*,QList<QGraphicsItem *>&, QList<ItemHandle*>&, QList<QUndoCommand*>&)));
@@ -656,6 +665,55 @@ namespace Tinkercell
 		return true;
 	}
 
+	void ConnectionInsertion::itemsDropped(QGraphicsScene * scene, const QString& family, const QPointF& point)
+	{
+		if (mainWindow && currentScene() && !family.isEmpty() && 
+			connectionsTree && connectionsTree->connectionFamilies.contains(family))
+		{
+			selectedFamily = connectionsTree->connectionFamilies[family];
+			setRequirements();
+			sceneClicked(currentScene(),point,Qt::LeftButton,Qt::NoModifier);
+			selectedFamily = 0;
+		}
+	}
+
+	QList<QGraphicsItem*> ConnectionInsertion::autoInsertNodes(GraphicsScene * scene, const QPointF & point)
+	{
+		QList<QGraphicsItem*> newNodes;
+		if (nodesTree)
+		{
+			QStringList alltypes;
+			alltypes << typeIn << typeOut;
+			double dtheta = 2*3.14159 / alltypes.size();
+			QPointF p;
+			bool alreadyPresent;
+			QList<ItemHandle*> selectedHandles;
+			for (int i=0; i < selectedNodes.size(); ++i)
+				selectedHandles << selectedNodes[i]->handle();
+			NodeFamily * nodeFamily;
+
+			for (int i=0; i < alltypes.size(); ++i)
+				if (nodesTree->nodeFamilies.contains(alltypes[i]))
+				{
+					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
+					alreadyPresent = false;
+					for (int j=0; j < selectedHandles.size(); ++j)
+						if (selectedHandles[j] && selectedHandles[j]->isA(nodeFamily))
+						{
+							alreadyPresent = true;
+							break;
+						}
+					
+					if (!alreadyPresent)
+					{
+						p = point + QPointF(200.0 * cos(i * dtheta), 200.0 * sin(i * dtheta));
+						newNodes << nodeInsertionTool->createNewNode(scene, p,tr(""),nodeFamily);
+					}
+				}
+		}
+		return newNodes;
+	}
+
 	void ConnectionInsertion::sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers )
 	{
 		if (mainWindow && scene && selectedFamily)
@@ -734,14 +792,14 @@ namespace Tinkercell
 					}
 				}
 
+				QList<QGraphicsItem*> insertList;
+
 				if (!selected)
 				{
-					QString messageString = tr("Invalid selection: ") + 
-						selectedFamily->name + tr(" consists of ") +
-						selectedFamily->nodeFamilies.join(tr(", "));
-					mainWindow->statusBar()->showMessage(messageString);
-					if (console())
-                        console()->message(messageString);
+					insertList = autoInsertNodes(point);					
+					for (int i=0; i < insertList.size(); ++i)
+						if (node = NodeGraphicsItem::cast(insertList[i]))
+							selectedNodes << node;
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
@@ -751,7 +809,6 @@ namespace Tinkercell
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();
 					ConnectionHandle * handle = 0;
-					QList<QGraphicsItem*> insertList;
 
 					for (int j=0; j < selectedConnections.size(); ++j)
 						if (selectedConnections[j])
@@ -985,9 +1042,15 @@ namespace Tinkercell
 
 	void ConnectionInsertion::connectToConnectionsTree()
 	{
-		if (connectionsTree || !mainWindow) return;
+		if ((nodeInsertionTool && connectionsTree && nodesTree) || !mainWindow) return;
 
-		if (mainWindow->tool(tr("Connections Tree")))
+		if (!nodeInsertionTool && mainWindow->tool(tr("Node Insertion")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Node Insertion"));
+			nodeInsertionTool = static_cast<NodeInsertion *> (widget);
+		}
+
+		if (!connectionsTree && mainWindow->tool(tr("Connections Tree")))
 		{
 			QWidget * treeWidget = mainWindow->tool(tr("Connections Tree"));
 			connectionsTree = static_cast<ConnectionsTree *> (treeWidget);
@@ -995,9 +1058,17 @@ namespace Tinkercell
 			{
 				connect(connectionsTree,SIGNAL(connectionSelected(ConnectionFamily*)),
 					this,SLOT(connectionSelected(ConnectionFamily*)));
+			}
+		}
 
-				connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),
-					this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
+		if (!nodesTree && mainWindow->tool(tr("Nodes Tree")))
+		{
+			QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
+			nodesTree = static_cast<NodesTree*>(treeWidget);
+			if (nodesTree != 0)
+			{
+				connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelected(NodeFamily*)));
+				connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			}
 		}
 	}

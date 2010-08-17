@@ -5,37 +5,31 @@
  interact with TinkerCell's visual interface. SWIG is used to extend this API to other languages, such
  as Python, Perl, R, etc. The functions provided in this API are coverted to Signals, which 
  are much slower than function calls. But they can be used to communicate between threads, which is the
- main reason why they are used in TinkerCell. 
+ main reason why they are used in TinkerCell.
 
- The API uses six main data structures: 
+ The API uses <b>six main data structures</b>: 
  
-<Item>: just a reference to a TinkerCell object (memory pointer)
+<b>Item</b>: just a reference to a TinkerCell object (memory pointer)
 
-<String>: exactly what the name means
+<b>String</b>: exactly what the name means
 
-<ArrayOfItems> array of Items
-
-<examples>
+<b>ArrayOfItems</b> array of Items
 \code
          ArrayOfItems A = tc_allItems()         
     	 A.length    	 
     	 nthItem(A,3)
 \endcode
 
-<ArrayOfStrings>: array of Strings
-
-<example>
+<b>ArrayOfStrings</b>: array of Strings
 \code
 	     ArrayOfStrings S = tc_getNames( tc_allItems() )
 		 S.length
 		 nthString(S,3)
 \endcode
 
-<Matrix>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
-
-<example>
+<b>Matrix</b>: Two dimensional array of reals with row and column names. The rownames and colnames fields are ArrayOfString objects
 \code	
-	     Matrix M = tc_getNumericalData( tc_find("a"), "Numerical Attributes" )	     
+	     Matrix M = tc_getNumericalData( tc_find("a"), "Parameters" )	     
 		 M.rows		 
 		 M.cols		 
 		 getColumnName(M,2)
@@ -46,9 +40,7 @@
 		 setValue(M,2,3,0.5)
 \endcode
 
-<TableOfStrings>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
-
-<example>
+<b>TableOfStrings</b>: Two dimensional array of Strings with row and column names. The rownames and colnames fields are ArrayOfString objects
 \code	
 	     TableOfStrings S = tc_getTextData( tc_find("a"), "Text Attributes" )	     
 		 S.rows		 

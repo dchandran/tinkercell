@@ -688,7 +688,6 @@ namespace Tinkercell
 			if (allowFlips)
 			{
 				selectedFamily = ConnectionFamily::cast(childFamilies.last());
-				console()->message(selectedFamily->name);
 				setRequirements();
 			}
 			else

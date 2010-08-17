@@ -757,10 +757,7 @@ namespace Tinkercell
 
 			QStringList alltypes;
 			alltypes << typeIn << typeOut;
-			
-			console()->message(tr("type-in = ") + typeIn.join(","));
-			console()->message(tr("type-out = ") + typeOut.join(","));
-						
+
 			double dtheta = 2*3.14159 / alltypes.size();
 			QPointF p;
 			bool alreadyPresent;

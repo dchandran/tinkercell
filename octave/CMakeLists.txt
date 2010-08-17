@@ -33,7 +33,7 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
     
     ADD_CUSTOM_COMMAND (
           TARGET tcoct POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
+          COMMAND copy "${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll" "${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct"
       )
     
     #ADD_CUSTOM_COMMAND (

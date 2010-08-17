@@ -27,7 +27,7 @@ IF(EMBED_PYTHON AND PYTHONLIBS_FOUND)
   IF ( WIN32 )
     ADD_CUSTOM_COMMAND ( 
           TARGET tcpy POST_BUILD
-          COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcpy.dll ${TINKERCELL_BINARY_DIR}/bin/python/_tinkercell.pyd
+          COMMAND copy "${TINKERCELL_BINARY_DIR}\bin\plugins\c\tcpy.dll" "${TINKERCELL_BINARY_DIR}\bin\python\_tinkercell.pyd"
       )
      FILE(GLOB PYTHON_LOADER ${TINKERCELL_BINARY_DIR}/python/_tinkercell.pyd)
   ELSE ( WIN32 )

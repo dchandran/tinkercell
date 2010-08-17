@@ -81,24 +81,41 @@ namespace Tinkercell
 						--numRequiredOut;
 			}
 			
-			ItemHandle * h;
-			QList<NodeGraphicsItem*> orderedNodeItems;
+			NodeHandle * h;
+			QList<NodeGraphicsItem*> reactants, products, both;
 			inOrder = true;
 			
+			bool isR, isP;
+			
 			for (int i=0; i < selectedNodes.size(); ++i)
-				if ((h = selectedNodes[i]->handle()) && isReactant(NodeHandle::cast(h)))
-				{
-					if (i >= numRequiredIn)	
-						inOrder = false;
+			{
+				h = NodeHandle::cast(selectedNodes[i]->handle());
+				if (!h) continue;
+				
+				isR = isReactant(h);
+				isP = isProduct(h);
+				
+				if (isR && i >= numRequiredIn)	
+					inOrder = false;
 
-					orderedNodeItems.push_front(selectedNodes[i]);
-				}
+				if (isR && isP)
+					both << selectedNodes[i];
 				else
-				{
-					orderedNodeItems.push_back(selectedNodes[i]);
-				}
-
-			selectedNodes = orderedNodeItems;
+				if (isR)
+					reactants << selectedNodes[i];
+				else
+				if (isP)
+					products << selectedNodes[i];
+			}
+			
+			selectedNodes.clear();
+			selectedNodes << reactants;
+			for (int i=0; i < both.size(); ++i)
+				if (selectedNodes.size() < numRequiredIn)
+					selectedNodes.push_front(both[i]);
+				else
+					selectedNodes.push_back(both[i]);
+			selectedNodes << products;
 		}
 		return inOrder;
 	}

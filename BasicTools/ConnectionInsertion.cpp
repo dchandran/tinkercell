@@ -47,30 +47,28 @@ namespace Tinkercell
 		return false;
 	}
 	
-	void ConnectionInsertion::setRequirements()
+	bool ConnectionInsertion::setRequirements()
 	{
 		numRequiredIn = numRequiredOut = 0;
 		typeOut.clear();
 		typeIn.clear();
+		bool inOrder = false;
 
 		if (selectedFamily != 0)
 		{
-			QString s = selectedFamily->name;
 			QList<NodeHandle*> nodes, visited;
 			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeFunctions.size(); ++i)
-				if (isReactant(selectedFamily->nodeFunctions[i]))
+				if (isReactant(selectedFamily->nodeFunctions[i]) 
+					&& (numRequiredOut > 0 || i < (selectedFamily->nodeFunctions.size()-1)))
 				{
 					++numRequiredIn;
 					typeIn << selectedFamily->nodeFamilies[i];
-					s += tr(" ") + selectedFamily->nodeFamilies[i];
 				}
 				else
 				{
 					++numRequiredOut;
 					typeOut << selectedFamily->nodeFamilies[i];
-					s += tr(" ") + selectedFamily->nodeFamilies[i];
 				}
-			console()->message(s);
 			for (int i=0; i < selectedConnections.size(); ++i)
 			{
 				nodes = NodeHandle::cast( getHandle(selectedConnections[i]->nodesAsGraphicsItems()) );
@@ -84,14 +82,24 @@ namespace Tinkercell
 			
 			ItemHandle * h;
 			QList<NodeGraphicsItem*> orderedNodeItems;
+			inOrder = true;
 			
 			for (int i=0; i < selectedNodes.size(); ++i)
 				if ((h = selectedNodes[i]->handle()) && isReactant(NodeHandle::cast(h)))
+				{
+					if (i >= numRequiredIn)	
+						inOrder = false;
+
 					orderedNodeItems.push_front(selectedNodes[i]);
+				}
 				else
+				{
 					orderedNodeItems.push_back(selectedNodes[i]);
+				}
+
 			selectedNodes = orderedNodeItems;
 		}
+		return inOrder;
 	}
 
 	ConnectionInsertion::ConnectionInsertion(ConnectionsTree * tree) : Tool(tr("Connection Insertion"),tr("Basic GUI")), selectedFamily(0)
@@ -672,16 +680,36 @@ namespace Tinkercell
 		}
 
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
+		ConnectionFamily * finalSelectedFamily = 0;
+		QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
 		
-		selectedFamily = ConnectionFamily::cast(childFamilies.last());
-		
-		setRequirements();
+		if (!all)
+			selectedFamily = ConnectionFamily::cast(childFamilies.first());
+		else
+		{
+			for (int i=0; i < childFamilies.size(); ++i)
+			{
+				selectedFamily = ConnectionFamily::cast(childFamilies[i]);
+				selectedNodes = originalNodesList;
+				if (setRequirements())
+				{
+					finalSelectedFamily = selectedFamily;
+				}
+			}
+
+			if (finalSelectedFamily && selectedFamily != finalSelectedFamily)
+			{
+				selectedFamily = finalSelectedFamily;
+				setRequirements();
+			}
+		}
+
 		return true;
 	}
 
 	void ConnectionInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
-		if (mainWindow && currentScene() && !family.isEmpty() && 
+		if (mainWindow && scene && scene->useDefaultBehavior && !selectedFamily && !family.isEmpty() && 
 			connectionsTree && connectionsTree->connectionFamilies.contains(family))
 		{
 			selectedFamilyOriginal = selectedFamily = connectionsTree->connectionFamilies[family];
@@ -716,7 +744,6 @@ namespace Tinkercell
 			for (int i=0; i < alltypes.size(); ++i)
 				if (nodesTree->nodeFamilies.contains(alltypes[i]))
 				{
-					console()->message(alltypes[i]);
 					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
 					alreadyPresent = false;
 					for (int j=0; j < selectedHandles.size(); ++j)

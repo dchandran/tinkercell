@@ -7,7 +7,7 @@
  XML reader that populates the connections tree
 
 ****************************************************************************/
-
+#include "ConsoleWindow.h"
 #include "ConnectionsTreeReader.h"
 namespace Tinkercell
 {
@@ -164,15 +164,19 @@ namespace Tinkercell
                NodeGraphicsReader imageReader;
                ArrowHeadItem * nodeitem = new ArrowHeadItem;
                imageReader.readXml(nodeitem,nodeImageFile);
-               nodeitem->normalize();
-               family->graphicsItems += nodeitem;
+               
+               if (!nodeitem->isValid())
+                   delete nodeitem;
+               else
+               {
+               	   nodeitem->normalize();
+	               family->graphicsItems += nodeitem;
+	           }
 
                //if no arrow file, same as parent's arrow
-               if (family != 0 && family->graphicsItems.size() > 0 &&
-                   NodeGraphicsItem::topLevelNodeItem(family->graphicsItems.last()) != 0 &&
-                   !NodeGraphicsItem::topLevelNodeItem(family->graphicsItems.last())->isValid() && parentFamily)
+               if (family->graphicsItems.isEmpty() && parentFamily)
                {
-                    family->graphicsItems.clear();
+               		family->graphicsItems.clear();
                     for (int i=0; i < parentFamily->graphicsItems.size(); ++i)
                          if (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[i]))
                               family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[i]))->clone();
@@ -192,8 +196,8 @@ namespace Tinkercell
                               family->description = readElementText();
                          }
                          else
-                              if (name().toString().toLower() == QObject::tr("connection"))
-                              {
+                         if (name().toString().toLower() == QObject::tr("connection"))
+                         {
                               pair = readConnection(tree, family);
                               treeItem->addChild(pair.second);
                               pair.first->setParent(family);

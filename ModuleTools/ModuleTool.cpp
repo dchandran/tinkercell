@@ -201,20 +201,17 @@ namespace Tinkercell
 					this,SLOT(moduleButtonPressed(const QString&)));
 
 			QList<QToolButton*> newButtons = catalog->addNewButtons(
-				QStringList() << tr("New module") << tr("Insert input/output") << tr("Connect input/output"),
-				tr("Modules"));
-
-			QToolButton * moduleButton = newButtons[0];
-			moduleButton->setIcon(QIcon(QPixmap(tr(":/images/module.png"))));
-			moduleButton->setToolTip(tr("A module is a self-contained subsystem that can be used to build larger systems"));
-
-			QToolButton * linkButton = newButtons[1];
-			linkButton->setIcon(QIcon(QPixmap(tr(":/images/moduleInput.png"))));
-			linkButton->setToolTip(tr("Use this to set an item inside a module as an input or ouput for that module"));
-
-			QToolButton * connectButton = newButtons[2];
-			connectButton->setIcon(QIcon(QPixmap(tr(":/images/connectmodules.png"))));
-			connectButton->setToolTip(tr("Use this to connect inputs and ouputs of two modules"));
+				tr("Modules"),
+				QStringList() 	<< tr("New module") 
+								<< tr("Insert input/output") 
+								<< tr("Connect input/output"),
+				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/module.png"))) 
+								<< QIcon(QPixmap(tr(":/images/moduleInput.png")))
+								<< QIcon(QPixmap(tr(":/images/connectmodules.png"))),
+				QStringList() 	<< tr("A module is a self-contained subsystem that can be used to build larger systems")
+								<< tr("Use this to set an item inside a module as an input or ouput for that module")
+								<< tr("Use this to connect inputs and ouputs of two modules")
+				);
 
 			connected2 = true;
 		}

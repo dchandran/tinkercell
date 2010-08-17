@@ -533,7 +533,7 @@ namespace Tinkercell
 		}
 	}
 
-	QList<QToolButton*> CatalogWidget::addNewButtons(const QStringList& names,const QString& group)
+	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
 		
@@ -542,6 +542,10 @@ namespace Tinkercell
 		for (i=0; i < names.size(); ++i)
 		{
 			FamilyTreeButton * button = new FamilyTreeButton(names[i],this);
+			if (icons.size() > i)
+				button->setIcon(icons[i]);
+			if (tooltips.size() > i)
+				button->setToolTip(tooltips[i]);
 			connect(button,SIGNAL(pressed(const QString&,const QPixmap&)),this,SLOT(otherButtonPressed(const QString&, const QPixmap&)));
 			newButtons << button;
 		}

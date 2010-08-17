@@ -65,7 +65,7 @@ namespace Tinkercell
 		/*! \brief insert new button into the widget under the specific group
 		* \param QStringList names of the buttons
 		* \param QString category of the button*/
-        QList<QToolButton*> addNewButtons(const QStringList&,const QString& group);
+        QList<QToolButton*> addNewButtons(const QString& group, const QStringList&, const QList<QIcon>& icons = QList<QIcon>(), const QStringList& tooltips = QStringList());
 	
 	signals:
         /*! \brief key pressed inside this widget*/

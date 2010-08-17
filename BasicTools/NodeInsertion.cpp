@@ -212,8 +212,7 @@ namespace Tinkercell
 	
 	void NodeInsertion::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)
 	{
-		console()->message(family);
-		if (mainWindow && currentScene() && !family.isEmpty() && 
+		if (mainWindow && scene->useDefaultBehavior && !selectedNodeFamily && !family.isEmpty() && 
 			nodesTree && nodesTree->nodeFamilies.contains(family))
 		{
 			selectedNodeFamily = nodesTree->nodeFamilies[family];

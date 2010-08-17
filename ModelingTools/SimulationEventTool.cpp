@@ -74,9 +74,10 @@ namespace Tinkercell
 
 	void SimulationEventsTool::toolLoaded(Tool * tool)
 	{
+		static bool connected = false;
 		if (!tool) return;
 
-		if (tool->name == tr("Parts and Connections Catalog"))
+		if (tool->name == tr("Parts and Connections Catalog") && !connected)
 		{
 			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
 
@@ -84,24 +85,22 @@ namespace Tinkercell
 					this,SLOT(insertButtonPressed(const QString&)));
 			
 			QList<QToolButton*> newButtons = catalog->addNewButtons(
-				QStringList() << tr("New event") << tr("Step input") << tr("Impulse") << tr("Wave input"),
-				tr("Inputs"));
-
-			QToolButton * clockButton = newButtons[0];
-			clockButton->setIcon(QIcon(QPixmap(tr(":/images/clock.png"))));
-			clockButton->setToolTip(tr("An event is an action that occurs as a reponse to a given condition"));
-
-			QToolButton * stepButton = newButtons[1];
-			stepButton->setIcon(QIcon(QPixmap(tr(":/images/stepFunc.png"))));
-			stepButton->setToolTip(tr("Insert a step function as input for one of the variables in the model"));
-
-			QToolButton * pulseButton = newButtons[2];
-			pulseButton->setIcon(QIcon(QPixmap(tr(":/images/pulseFunc.png"))));
-			pulseButton->setToolTip(tr("Insert an delta function as as input for one of the variables in the model"));
-
-			QToolButton * sinButton = newButtons[3];
-			sinButton->setIcon(QIcon(QPixmap(tr(":/images/sinFunc.png"))));
-			sinButton->setToolTip(tr("Insert a sin function as as input for one of the variables in the model"));
+				tr("Inputs"),
+				QStringList() 	<< tr("New event") 
+								<< tr("Step input") 
+								<< tr("Impulse") 
+								<< tr("Wave input"),
+				QList<QIcon>() 	<< QIcon(QPixmap(tr(":/images/clock.png")))
+								<< QIcon(QPixmap(tr(":/images/stepFunc.png")))
+								<< QIcon(QPixmap(tr(":/images/pulseFunc.png")))
+								<< QIcon(QPixmap(tr(":/images/sinFunc.png"))),
+				QStringList() 	<< tr("An event is an action that occurs as a reponse to a given condition")
+								<< tr("Insert a step function as input for one of the variables in the model")
+								<< tr("Insert an delta function as as input for one of the variables in the model")
+								<< tr("Insert a sin function as as input for one of the variables in the model")
+				);
+			
+			connected = true;
 		}
 	}
 

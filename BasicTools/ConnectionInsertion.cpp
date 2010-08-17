@@ -69,6 +69,7 @@ namespace Tinkercell
 					++numRequiredOut;
 					typeOut << selectedFamily->nodeFamilies[i];
 				}
+
 			for (int i=0; i < selectedConnections.size(); ++i)
 			{
 				nodes = NodeHandle::cast( getHandle(selectedConnections[i]->nodesAsGraphicsItems()) );
@@ -739,6 +740,10 @@ namespace Tinkercell
 
 			QStringList alltypes;
 			alltypes << typeIn << typeOut;
+			
+			console()->message(tr("type-in = ") + typeIn.join(","));
+			console()->message(tr("type-out = ") + typeOut.join(","));
+						
 			double dtheta = 2*3.14159 / alltypes.size();
 			QPointF p;
 			bool alreadyPresent;
@@ -758,7 +763,6 @@ namespace Tinkercell
 				if (nodesTree->nodeFamilies.contains(alltypes[i]))
 				{
 					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
-					console()->message(alltypes[i]);
 					alreadyPresent = false;
 					for (int j=0; j < selectedHandles.size(); ++j)
 						if (selectedHandles[j] && selectedHandles[j]->isA(nodeFamily))
@@ -866,11 +870,18 @@ namespace Tinkercell
 
 				if (!selected)
 				{
-					allowFlips = true;
-					insertList = autoInsertNodes(scene,point);					
-					for (int i=0; i < insertList.size(); ++i)
-						if (node = NodeGraphicsItem::cast(insertList[i]))
-							selectedNodes << node;
+					if (node || connection)
+					{
+						console()->error(tr("Please select one of each: ") + selectedFamily->nodeFamilies.join(tr(",")));
+					}
+					else
+					{
+						allowFlips = true;
+						insertList = autoInsertNodes(scene,point);					
+						for (int i=0; i < insertList.size(); ++i)
+							if (node = NodeGraphicsItem::cast(insertList[i]))
+								selectedNodes << node;
+					}
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();

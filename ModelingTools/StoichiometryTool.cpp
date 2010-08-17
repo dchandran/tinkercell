@@ -52,8 +52,8 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
-				this, SLOT(itemsAboutToBeInserted(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -263,7 +263,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::itemsAboutToBeInserted(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& handles, QList<QUndoCommand*>& )
+	void StoichiometryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& handles)
 	{
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
@@ -282,62 +282,6 @@ namespace Tinkercell
 				{
 					insertDataMatrix(connectionHandle);
 				}
-				/*
-				else  //just for modifier arcs
-					if (connectionHandle->data &&
-						connectionHandle->hasNumericalData(tr("Reactant stoichiometries")) &&
-						connectionHandle->hasNumericalData(tr("Product stoichiometries")) &&
-						connectionHandle->hasNumericalData(tr("Parameters")) &&
-						connectionHandle->hasTextData(tr("Rate equations")) &&
-						(connectionHandle->nodes().size() > (connectionHandle->nodesIn().size() +connectionHandle->nodesOut().size())) &&
-						(connectionHandle->data->textData[tr("Rate equations")].rows() == 1))
-					{
-
-						QList<NodeHandle*> nodesIn = connectionHandle->nodesIn(),
-							nodesOut = connectionHandle->nodesOut(),
-							nodes = connectionHandle->nodes();
-						QStringList s1,s2;
-						for (int j=0; j < nodesIn.size(); ++j)
-							if (nodesIn[j] && !nodesIn[j]->isA(tr("empty")))
-								s1 += nodesIn[j]->fullName();
-						for (int j=0; j < nodes.size(); ++j)
-							if (nodes[j] && !nodesIn.contains(nodes[j]) && !nodesOut.contains(nodes[j]))
-								s2 += nodes[j]->fullName();
-						QString name = connectionHandle->fullName();
-
-						NumericalDataTable* nDat = new NumericalDataTable(connectionHandle->data->numericalData[tr("Parameters")]);
-						TextDataTable* sDat = new TextDataTable(connectionHandle->data->textData[tr("Rate equations")]);
-						QString oldRate = sDat->value(0,0);
-						bool alreadyDone = true;
-						for (int j=0; j < s2.size(); ++j)
-							if (!oldRate.contains(s2[j]))
-							{
-								alreadyDone = false;
-								break;
-							}
-							if (scene && scene->network && !alreadyDone)
-							{
-								if (s1.isEmpty())
-								{
-									sDat->value(0,0) = name + tr(".k0 * ") + s2.join(tr("*"));
-								}
-								else
-								{
-									nDat->value(tr("Vmax"),0) = 1.0;
-									nDat->value(tr("Km"),0) = 1.0;
-									sDat->value(0,0) = name + tr(".Vmax * ") + s2.join(tr("*")) + tr("*") + s1.join(tr("*")) + tr("/(") + name + tr(".Km + ") + s1.join(tr("*")) + tr(")");
-								}
-								scene->network->changeData(connectionHandle->fullName() + tr("'s kinetics changed"),
-												QList<ItemHandle*>() << connectionHandle << connectionHandle,
-												QList<QString>() << tr("Parameters") << tr("Rate equations"),
-												QList<NumericalDataTable*>() << nDat,
-												QList<TextDataTable*>() << sDat);
-								if (console())
-                                    console()->message(tr("Rate for ") + name + tr(" = ") + sDat->value(0,0));
-							}
-							delete sDat;
-							delete nDat;
-					}*/
 			}
 		}
 	}
@@ -1210,6 +1154,7 @@ namespace Tinkercell
 					int k = 0;
 
 					//determine which cols to pick
+
 					for (k=0; (last || k < nDat1->rows()) && k < nDat2->rows() && n0 < stoicMatrix.rows(); ++k, ++n0, ++rows)
 					{
 						for (int j=0; j < stoicMatrix.cols(); ++j)

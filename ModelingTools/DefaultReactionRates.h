@@ -34,41 +34,34 @@ namespace Tinkercell
 			NumericalDataTable reactants, products;
 			TextDataTable rates;
 			
-			rates.value(QObject::tr("rate"),QObject::tr("formula")) = QString("0.0");
-			if (handle->hasNumericalData(QString("Parameters")))
+			rates.value(QObject::tr("rate"),QObject::tr("formula")) = QObject::tr("0.0");
+			if (handle->hasNumericalData(QObject::tr("Parameters")))
 			{
-				handle->data->numericalData[QString("Parameters")].value(QString("k0"),0) = 1.0;
-				rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QString(".k0");
+				handle->data->numericalData[QObject::tr("Parameters")].value(QObject::tr("k0"),0) = 1.0;
+				rates.value(QObject::tr("rate"),QObject::tr("formula")) = handle->fullName() + QObject::tr(".k0");
 			}
 
 			nodes.clear();
 			QList<NodeHandle*> connectedNodes = handle->nodes();
-			QList<NodeHandle*> nodesIn = handle->nodesIn();
-			QList<NodeHandle*> nodesOut = handle->nodesOut();
+			TextDataTable & participants = handle->textDataTable(QObject::tr("Participants"));
 			NodeHandle * node;
 			QStringList names;
 			
 			int k;
-
-
 			for (int i=0; i < connectedNodes.size(); ++i)
 			{
 				node = connectedNodes[i];
 				if (node && !(node->isA(QString("Empty"))))
 				{
-					k = nodesIn.indexOf(node);
-					if (k > -1)
+					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("reactant")))
 					{
 						reactants.value(QObject::tr("stoichiometry"), node->fullName()) += 1.0;
-						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QString("*") + node->fullName();						
+						rates.value(QObject::tr("rate"),QObject::tr("formula")) += QObject::tr("*") + node->fullName();						
 					}
 					else
+					if (participants.value(node->fullName(),0).toLower().contains(QObject::tr("product")))
 					{
-						k = nodesOut.indexOf(node);
-						if (k > -1)
-						{
-							products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
-						}
+						products.value( QObject::tr("stoichiometry"), node->fullName()) += 1.0;
 					}
 				}
 			}
@@ -77,9 +70,9 @@ namespace Tinkercell
 			products.description() = QString("Number of each product participating in this reaction");
 			rates.description() = QString("Rates: a set of rates, one for each reaction represented by this item. Row names correspond to reaction names. The number of rows in this table and the stoichiometry table will be the same.");
 
-			handle->data->numericalData.insert(QString("Reactant stoichiometries"),reactants);
-			handle->data->numericalData.insert(QString("Product stoichiometries"),products);
-			handle->data->textData.insert(QString("Rate equations"),rates);
+			handle->data->numericalData.insert(QObject::tr("Reactant stoichiometries"),reactants);
+			handle->data->numericalData.insert(QObject::tr("Product stoichiometries"),products);
+			handle->data->textData.insert(QObject::tr("Rate equations"),rates);
 
 		}
 	};

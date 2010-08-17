@@ -84,7 +84,7 @@ namespace Tinkercell
 		}
 	}
 
-	QList<QGraphicsItem*> NodeInsertion::createNewNode(GraphicsScene * scene, const QPointF& point, const QString& s, NodeFamily * family)
+	QList<QGraphicsItem*> NodeInsertion::createNewNode(GraphicsScene * scene, const QPointF& point, const QString& s, NodeFamily * family, const QStringList & usedNames)
 	{
 		QList<QGraphicsItem*> list;
 		if (family && scene)
@@ -130,7 +130,7 @@ namespace Tinkercell
 
 				NodeHandle * handle = new NodeHandle(nodeFamily);
 				handle->name = RemoveDisallowedCharactersFromName(name);
-				handle->name = scene->network->makeUnique(handle->name);
+				handle->name = scene->network->makeUnique(handle->name,usedNames);
 
 				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
 				{

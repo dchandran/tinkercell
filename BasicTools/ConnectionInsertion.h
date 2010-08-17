@@ -88,61 +88,63 @@ namespace Tinkercell
 		*/
 		virtual bool setMainWindow(MainWindow * main);
 
-		public slots:
-			/*!\brief Event that is fired when a tree item is selected
-			\param the connection family that is selected
-			\return nothing
-			*/
-			void connectionSelected(ConnectionFamily * family);
-			/*!\brief Event that is fired when the scene is clicked.
-			If a tree item was selected, a new connection will be inserted
-			\param the scene that was clicked on
-			\param the location where clicked
-			\param the mouse button used to click (not used)
-			\param keyboard modifiers used (not used)
-			\return nothing
-			*/
-			void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+	public slots:
+		/*!\brief Event that is fired when a tree item is selected
+		\param the connection family that is selected
+		\return nothing
+		*/
+		void connectionSelected(ConnectionFamily * family);
+		/*!\brief Event that is fired when the scene is clicked.
+		If a tree item was selected, a new connection will be inserted
+		\param the scene that was clicked on
+		\param the location where clicked
+		\param the mouse button used to click (not used)
+		\param keyboard modifiers used (not used)
+		\return nothing
+		*/
+		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
 
-			/*!\brief Exit from insertion mode*/
-			void sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers);
-			/*!\brief Exit from insertion mode*/
-			void escapeSignal(const QWidget * widget);
-			/*!\brief connects to ConnectionsTree if it is available in MainWindow's Tool hash*/
-			void toolLoaded(Tool*);
-			/*!\brief setup the C API pointers when a new C library is loaded*/
-			void setupFunctionPointers( QLibrary * );
-			/*!\brief add Participants table in each connection*/
-			void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-			/*!\brief remove items from Participants table in each connection*/
-			void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-			/*! \brief insert parts and connections*/
-			void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
+		/*!\brief Exit from insertion mode*/
+		void sceneRightClick(GraphicsScene *, QGraphicsItem*, QPointF, Qt::KeyboardModifiers);
+		/*!\brief Exit from insertion mode*/
+		void escapeSignal(const QWidget * widget);
+		/*!\brief connects to ConnectionsTree if it is available in MainWindow's Tool hash*/
+		void toolLoaded(Tool*);
+		/*!\brief setup the C API pointers when a new C library is loaded*/
+		void setupFunctionPointers( QLibrary * );
+		/*!\brief add Participants table in each connection*/
+		void itemsAboutToBeInserted (GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
+		/*!\brief remove items from Participants table in each connection*/
+		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
+		/*! \brief insert parts and connections*/
+		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
 
-		private slots:
-			/*!\brief C API function*/
-			void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
-			/*!\brief C API function*/
-			void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectionsIn(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectionsOut(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
-			/*!\brief C API function*/
-			void getConnectionsOther(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+	private slots:
+		/*!\brief C API function*/
+		void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);
+		/*!\brief C API function*/
+		void getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnections(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectionsIn(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectionsOut(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
+		/*!\brief C API function*/
+		void getConnectionsOther(QSemaphore*,QList<ItemHandle*>* list,ItemHandle*);
 
 	protected:
 
-		/*!\brief the family that was selected from the connections tree*/
+		/*!\brief the family that was selected from the connections tree, but might be updated automatically*/
 		ConnectionFamily * selectedFamily;
+		/*!\brief the family that was selected from the connections tree by user*/
+		ConnectionFamily * selectedFamilyOriginal;
 		/*! \brief the connection tree with all the connection families*/
 		ConnectionsTree * connectionsTree;
 		/*! \brief the nodes tree*/

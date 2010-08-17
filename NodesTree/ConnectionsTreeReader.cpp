@@ -143,8 +143,8 @@ namespace Tinkercell
                     if (family->measurementUnit.name.isEmpty())
                          family->measurementUnit = parentFamily->measurementUnit;
                         
-					if (family->nodeFamilies.isEmpty())
-                    	family->nodeFamilies = parentFamily->nodeFamilies;
+					if (family->nodeFunctions.isEmpty())
+                    	family->nodeFunctions = parentFamily->nodeFunctions;
 					
 					if (family->nodeFamilies.isEmpty())
                     	family->nodeFamilies = parentFamily->nodeFamilies;

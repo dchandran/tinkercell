@@ -74,7 +74,7 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * main);
 
 		/*! \brief create a new item with the given name and family*/
-		QList<QGraphicsItem*> createNewNode(GraphicsScene *, const QPointF& point, const QString& name, NodeFamily * family);
+		QList<QGraphicsItem*> createNewNode(GraphicsScene *, const QPointF& point, const QString& name, NodeFamily * family, const QStringList& usedNames = QStringList());
 
 	public slots:
 		/*! \brief one of the nodes in the tree of nodes has been selected. Enters insertion mode.

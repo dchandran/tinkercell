@@ -12,6 +12,7 @@ Each item in Tinkercell has an associated family.
 #include <QtDebug>
 #include "ItemFamily.h"
 #include "ItemHandle.h"
+#include "ConsoleWindow.h"
 
 namespace Tinkercell
 {
@@ -218,22 +219,39 @@ namespace Tinkercell
 		
 		if ((full && nodes.size() != nodeFunctions.size()) ||
 			(nodes.size() > nodeFunctions.size()))
+		{
 			return false;
+		}
 		
 		bool b;
+		QList<bool> allIncluded;
+		for (int i=0; i < nodeFamilies.size(); ++i)
+			allIncluded << false;
+		
 		for (int i=0; i < nodes.size(); ++i)  //for each node in this connection
 		{
 			b = false;
-			
 			for (int j=0; j < nodeFamilies.size(); ++j)   //check of the family allows it
-				if (nodes[i] && nodes[i]->isA(nodeFamilies[i]))
+			{
+				if (!allIncluded[j] && nodes[i] && nodes[i]->isA(nodeFamilies[j]))
 				{
+					allIncluded[j] = true;
 					b = true;
 					break;
 				}
+			}
 			
 			if (!b)
 				return false;
+		}
+		
+		if (full)
+		{
+			for (int i=0; i < allIncluded.size(); ++i)
+				if (!allIncluded[i])
+				{
+					return false;
+				}
 		}
 
 		return true;

@@ -55,18 +55,22 @@ namespace Tinkercell
 
 		if (selectedFamily != 0)
 		{
+			QString s = selectedFamily->name;
 			QList<NodeHandle*> nodes, visited;
 			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeFunctions.size(); ++i)
 				if (isReactant(selectedFamily->nodeFunctions[i]))
 				{
 					++numRequiredIn;
 					typeIn << selectedFamily->nodeFamilies[i];
+					s += tr(" ") + selectedFamily->nodeFamilies[i];
 				}
 				else
 				{
 					++numRequiredOut;
 					typeOut << selectedFamily->nodeFamilies[i];
+					s += tr(" ") + selectedFamily->nodeFamilies[i];
 				}
+			console()->message(s);
 			for (int i=0; i < selectedConnections.size(); ++i)
 			{
 				nodes = NodeHandle::cast( getHandle(selectedConnections[i]->nodesAsGraphicsItems()) );
@@ -77,6 +81,16 @@ namespace Tinkercell
 					if (isProduct(nodes[j]))
 						--numRequiredOut;
 			}
+			
+			ItemHandle * h;
+			QList<NodeGraphicsItem*> orderedNodeItems;
+			
+			for (int i=0; i < selectedNodes.size(); ++i)
+				if ((h = selectedNodes[i]->handle()) && isReactant(NodeHandle::cast(h)))
+					orderedNodeItems.push_front(selectedNodes[i]);
+				else
+					orderedNodeItems.push_back(selectedNodes[i]);
+			selectedNodes = orderedNodeItems;
 		}
 	}
 
@@ -92,6 +106,7 @@ namespace Tinkercell
 		nodesTree = 0;
 		connectionsTree = tree;
 		selectedFamily = 0;
+		selectedFamilyOriginal = 0;
 		connectTCFunctions();
 	}
 
@@ -478,7 +493,7 @@ namespace Tinkercell
 			return;
 		}
 
-		selectedFamily = connectionsTree->connectionFamilies.value(family);
+		selectedFamilyOriginal = selectedFamily = connectionsTree->connectionFamilies.value(family);
 		
 		QList<NodeHandle*> nodes;
 		NodeHandle * h1;
@@ -491,7 +506,7 @@ namespace Tinkercell
 				nodes << h2->nodes();
 		
 		QList<ItemFamily*> subFamilies = selectedFamily->findValidChildFamilies(nodes);
-		selectedFamily = 0;
+		selectedFamilyOriginal = selectedFamily = 0;
 		if (!subFamilies.isEmpty())
 			selectedFamily = ConnectionFamily::cast(subFamilies.last());
 		
@@ -602,6 +617,7 @@ namespace Tinkercell
 		selectedNodes = saveSelectedNodes;
 		selectedConnections = saveSelectedConnections;
 		selectedFamily = 0;
+		selectedFamilyOriginal = 0;
 
 		if (sem)
 			sem->release();
@@ -614,6 +630,7 @@ namespace Tinkercell
 			&& connectionFamily && connectionsTree)
 		{
 			selectedFamily = connectionFamily;
+			selectedFamilyOriginal = connectionFamily;
 			setRequirements();
 
 			while (connectionFamily != 0 && connectionFamily->pixmap.isNull())
@@ -649,17 +666,14 @@ namespace Tinkercell
 
 		QList<ItemFamily*> childFamilies = selectedFamily->findValidChildFamilies(nodeHandles,all);
 		
-		/*if (childFamilies.isEmpty()) //search all families under root
+		if (childFamilies.isEmpty() && selectedFamilyOriginal) //search all families under root
 		{
-			ConnectionFamily * root = ConnectionFamily::cast(selectedFamily->root());
-			if (root) 
-			{	
-				childFamilies = root->findValidChildFamilies(nodeHandles,all);
-			}
-		}*/
+			childFamilies = selectedFamilyOriginal->findValidChildFamilies(nodeHandles,all);
+		}
 
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
-		selectedFamily = ConnectionFamily::cast(childFamilies[0]);
+		
+		selectedFamily = ConnectionFamily::cast(childFamilies.last());
 		
 		setRequirements();
 		return true;
@@ -670,10 +684,10 @@ namespace Tinkercell
 		if (mainWindow && currentScene() && !family.isEmpty() && 
 			connectionsTree && connectionsTree->connectionFamilies.contains(family))
 		{
-			selectedFamily = connectionsTree->connectionFamilies[family];
+			selectedFamilyOriginal = selectedFamily = connectionsTree->connectionFamilies[family];
 			setRequirements();
-			sceneClicked(currentScene(),point,Qt::LeftButton,Qt::NoModifier);
-			selectedFamily = 0;
+			sceneClicked(scene,point,Qt::LeftButton,Qt::NoModifier);
+			selectedFamilyOriginal = selectedFamily = 0;
 		}
 	}
 
@@ -696,14 +710,19 @@ namespace Tinkercell
 			if (nodesTree->nodeFamilies.contains(tr("Molecule")))
 				moleculeFamily = nodesTree->nodeFamilies[ tr("Molecule") ];
 
+			QStringList usedNames;
+			ItemHandle * handle;
+			
 			for (int i=0; i < alltypes.size(); ++i)
 				if (nodesTree->nodeFamilies.contains(alltypes[i]))
 				{
+					console()->message(alltypes[i]);
 					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
 					alreadyPresent = false;
 					for (int j=0; j < selectedHandles.size(); ++j)
 						if (selectedHandles[j] && selectedHandles[j]->isA(nodeFamily))
 						{
+							selectedHandles[j] = 0;
 							alreadyPresent = true;
 							break;
 						}
@@ -713,7 +732,10 @@ namespace Tinkercell
 						p = point + QPointF(200.0 * cos(i * dtheta), 200.0 * sin(i * dtheta));
 						if (moleculeFamily && !nodeFamily->parent())
 							nodeFamily = moleculeFamily;
-						newNodes << nodeInsertionTool->createNewNode(scene, p,tr(""),nodeFamily);
+						newNodes << nodeInsertionTool->createNewNode(scene, p,tr(""),nodeFamily, usedNames);
+						for (int j=0; j < newNodes.size(); ++j)
+							if (handle = getHandle(newNodes[j]))
+								usedNames << handle->fullName();
 					}
 				}
 		}
@@ -809,8 +831,10 @@ namespace Tinkercell
 				}
 
 				QString appDir = QCoreApplication::applicationDirPath();
+				
+				bool valid = changeSelectedFamilyToMatchSelection(true);
 				//check if enough items have been selected to make the connection
-				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && changeSelectedFamilyToMatchSelection(true))
+				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && valid)
 				{
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();
@@ -944,8 +968,11 @@ namespace Tinkercell
 				}
 				else
 				{
-					if (selectedNodes.size() > 0 || selectedConnections.size() > 0)
-						setSelectColor();
+					if (selectedNodes.size() >= (numRequiredIn + numRequiredOut))
+						mainWindow->sendEscapeSignal(this);
+					else
+						if (selectedNodes.size() > 0 || selectedConnections.size() > 0)
+							setSelectColor();
 				}
 			}
 		}
@@ -954,6 +981,7 @@ namespace Tinkercell
 	void ConnectionInsertion::clear(bool arrows)
 	{
 		selectedFamily = 0;
+		selectedFamilyOriginal = 0;
 		revertColors();
 		selectedConnections.clear();
 		selectedNodes.clear();
@@ -1074,7 +1102,6 @@ namespace Tinkercell
 			if (nodesTree != 0)
 			{
 				connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelected(NodeFamily*)));
-				connect(mainWindow,SIGNAL(mousePressed(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneClicked(GraphicsScene *, QPointF, Qt::MouseButton, Qt::KeyboardModifiers)));
 			}
 		}
 	}

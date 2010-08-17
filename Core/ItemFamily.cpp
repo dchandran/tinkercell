@@ -249,9 +249,7 @@ namespace Tinkercell
 		{
 			for (int i=0; i < allIncluded.size(); ++i)
 				if (!allIncluded[i])
-				{
 					return false;
-				}
 		}
 
 		return true;

@@ -5,6 +5,7 @@ ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
+
 CONFIGURE_FILE( TinkerCellAboutBox.cpp.in
   ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
   @ONLY
@@ -62,6 +63,7 @@ ADD_LIBRARY( BasicTools
 
 TARGET_LINK_LIBRARIES( BasicTools
   BasicTools
+  NodesTree
   TinkerCellCore
 )
 

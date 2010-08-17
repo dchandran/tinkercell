@@ -37,6 +37,7 @@ for connecting items using the connections in the ConnectionsTree
 #include "Tool.h"
 #include "NodesTree.h"
 #include "NodeInsertion.h"
+#include "CatalogWidget.h"
 
 namespace Tinkercell
 {
@@ -208,6 +209,8 @@ namespace Tinkercell
 		
 		bool isReactant(NodeHandle*);
 		bool isProduct(NodeHandle*);
+		
+		CatalogWidget * catalogWidget;
 		
 		static bool isReactant(const QString&);
 	};

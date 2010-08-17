@@ -113,6 +113,7 @@ namespace Tinkercell
 		mainWindow = 0;
 		nodesTree = 0;
 		connectionsTree = tree;
+		catalogWidget = 0;
 		selectedFamily = 0;
 		selectedFamilyOriginal = 0;
 		connectTCFunctions();
@@ -680,9 +681,11 @@ namespace Tinkercell
 		}
 
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
-		
+		QString s;
 		if (!all)
-			selectedFamily = ConnectionFamily::cast(childFamilies.first());
+		{
+			selectedFamily = ConnectionFamily::cast(childFamilies.last());
+		}
 		else
 		{
 			if (allowFlips)
@@ -732,6 +735,8 @@ namespace Tinkercell
 		QList<QGraphicsItem*> newNodes;
 		if (nodesTree)
 		{
+			setRequirements();
+
 			QStringList alltypes;
 			alltypes << typeIn << typeOut;
 			double dtheta = 2*3.14159 / alltypes.size();
@@ -753,6 +758,7 @@ namespace Tinkercell
 				if (nodesTree->nodeFamilies.contains(alltypes[i]))
 				{
 					nodeFamily = nodesTree->nodeFamilies[ alltypes[i] ];
+					console()->message(alltypes[i]);
 					alreadyPresent = false;
 					for (int j=0; j < selectedHandles.size(); ++j)
 						if (selectedHandles[j] && selectedHandles[j]->isA(nodeFamily))
@@ -999,6 +1005,8 @@ namespace Tinkercell
 					}
 					
 					scene->insert(handle->name + tr(" inserted"), insertList);
+					if (catalogWidget)
+						catalogWidget->showButtons(QStringList() << selectedFamily->name);
 
 					selectedNodes.clear();
 					selectedConnections.clear();
@@ -1140,6 +1148,12 @@ namespace Tinkercell
 			{
 				connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelected(NodeFamily*)));
 			}
+		}
+		
+		if (!catalogWidget && mainWindow->tool(tr("Parts and Connections Catalog")))
+		{
+			QWidget * widget = mainWindow->tool(tr("Parts and Connections Catalog"));
+			catalogWidget = static_cast<CatalogWidget*>(widget);
 		}
 	}
 

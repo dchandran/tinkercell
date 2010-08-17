@@ -808,10 +808,20 @@ namespace Tinkercell
 		connect (changeUserHome, SIGNAL(triggered()),this,SLOT(setUserHome()));
 
 		QMenu * setGridModeMenu = optionsMenu->addMenu(tr("&Grid mode"));
+		QActionGroup * actionGroup = new QActionGroup(this);
+		
+		QAction * gridOn = setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));
+		QAction * gridOff = setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));
+		QAction * gridSz = setGridModeMenu->addAction(tr("Grid size"),this,SLOT(setGridSize()));
+		
+		gridOn->setCheckable(true);
+		gridOff->setCheckable(true);
+		gridSz->setCheckable(true);
 
-		setGridModeMenu->addAction(tr("Grid ON"),this,SLOT(gridOn()));
-		setGridModeMenu->addAction(tr("Grid OFF"),this,SLOT(gridOff()));
-		setGridModeMenu->addAction(tr("Grid size"),this,SLOT(setGridSize()));
+		actionGroup->addAction(gridOn);
+		actionGroup->addAction(gridOff);
+		actionGroup->addAction(gridSz);
+		actionGroup->setExclusive(true);
 
 		helpMenu = menuBar()->addMenu(tr("&Help"));
 

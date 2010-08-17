@@ -64,9 +64,15 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow * );
 		/*! \brief insert new button into the widget under the specific group
 		* \param QStringList names of the buttons
-		* \param QString category of the button*/
+		* \param QString category of the button
+		* \param QList<QIcon> icons for the buttons
+		* \param QStringList tool tip text for each button
+		*/
         QList<QToolButton*> addNewButtons(const QString& group, const QStringList&, const QList<QIcon>& icons = QList<QIcon>(), const QStringList& tooltips = QStringList());
-	
+		/*! \brief show button for one or more families
+		* \param QStringList names of the families
+		*/
+        void showButtons(const QStringList&);
 	signals:
         /*! \brief key pressed inside this widget*/
         void keyPressed(int, Qt::KeyboardModifiers);
@@ -150,6 +156,9 @@ namespace Tinkercell
 		
 		/*! \brief buttons inside each tab of the tabview*/
 		QList< QPair<QString,QList<QToolButton*> > > tabGroupButtons;
+		
+		/*! \brief buttons already visible*/
+		QList<QToolButton*> usedButtons;
 		
 		/*! \brief families that should be displayed in the catalog*/
 		QStringList familiesInCatalog;

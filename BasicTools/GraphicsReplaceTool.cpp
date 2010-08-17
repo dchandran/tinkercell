@@ -237,6 +237,13 @@ namespace Tinkercell
 			nodesList = arrowHeadList;
 		
 		if (nodesList.isEmpty()) return;
+		
+		for (int i=0; i < nodesList.size(); ++i)
+			if (nodesList[i]->className == ArrowHeadItem::CLASSNAME)
+			{
+				_transform = false;
+				break;
+			}
 
 		QList<QString> filenames;
 		for (int i=0; i < nodesList.size(); ++i)

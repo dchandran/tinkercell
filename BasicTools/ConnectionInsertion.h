@@ -156,7 +156,7 @@ namespace Tinkercell
 		/*! \brief set the default number of inputs and outputs for different reactions*/
 		void initializeHashes();
 		/*! \brief if user selects wrong node types, then change that selected connection type to match user's selected nodes*/
-		bool changeSelectedFamilyToMatchSelection(bool all=false);
+		bool changeSelectedFamilyToMatchSelection(bool all=false, bool allowFlips=false);
 		/*!\brief the currently selected set of nodes under insertion mode that are to be connected*/
 		QList<NodeGraphicsItem*> selectedNodes;
 		/*!\brief the currently selected set of connections that are to be connected*/

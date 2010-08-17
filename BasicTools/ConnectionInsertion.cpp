@@ -652,7 +652,7 @@ namespace Tinkercell
 		}
 	}	
 
-	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection(bool all)
+	bool ConnectionInsertion::changeSelectedFamilyToMatchSelection(bool all, bool allowFlips)
 	{
 		if (!(selectedFamily && connectionsTree)) return false;
 		
@@ -680,27 +680,36 @@ namespace Tinkercell
 		}
 
 		if (childFamilies.isEmpty()) return false; //no suitable connection family found
-		ConnectionFamily * finalSelectedFamily = 0;
-		QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
 		
 		if (!all)
 			selectedFamily = ConnectionFamily::cast(childFamilies.first());
 		else
 		{
-			for (int i=0; i < childFamilies.size(); ++i)
+			if (allowFlips)
 			{
-				selectedFamily = ConnectionFamily::cast(childFamilies[i]);
-				selectedNodes = originalNodesList;
-				if (setRequirements())
-				{
-					finalSelectedFamily = selectedFamily;
-				}
-			}
-
-			if (finalSelectedFamily && selectedFamily != finalSelectedFamily)
-			{
-				selectedFamily = finalSelectedFamily;
+				selectedFamily = ConnectionFamily::cast(childFamilies.last());
+				console()->message(selectedFamily->name);
 				setRequirements();
+			}
+			else
+			{
+				ConnectionFamily * finalSelectedFamily = 0;
+				QList<NodeGraphicsItem*> originalNodesList = selectedNodes;
+				for (int i=0; i < childFamilies.size(); ++i)
+				{
+					selectedFamily = ConnectionFamily::cast(childFamilies[i]);
+					selectedNodes = originalNodesList;
+					if (setRequirements())
+					{
+						finalSelectedFamily = selectedFamily;
+					}
+				}
+
+				if (finalSelectedFamily && selectedFamily != finalSelectedFamily)
+				{
+					selectedFamily = finalSelectedFamily;
+					setRequirements();
+				}
 			}
 		}
 
@@ -848,9 +857,11 @@ namespace Tinkercell
 				}
 
 				QList<QGraphicsItem*> insertList;
+				bool allowFlips = false;
 
 				if (!selected)
 				{
+					allowFlips = true;
 					insertList = autoInsertNodes(scene,point);					
 					for (int i=0; i < insertList.size(); ++i)
 						if (node = NodeGraphicsItem::cast(insertList[i]))
@@ -859,7 +870,7 @@ namespace Tinkercell
 
 				QString appDir = QCoreApplication::applicationDirPath();
 				
-				bool valid = changeSelectedFamilyToMatchSelection(true);
+				bool valid = changeSelectedFamilyToMatchSelection(true,allowFlips);
 				//check if enough items have been selected to make the connection
 				if (selectedNodes.size() >= (numRequiredIn + numRequiredOut) && valid)
 				{

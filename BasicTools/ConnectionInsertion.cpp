@@ -1005,7 +1005,7 @@ namespace Tinkercell
 					}
 					
 					scene->insert(handle->name + tr(" inserted"), insertList);
-					if (catalogWidget)
+					if (catalogWidget && selectedFamily->children().isEmpty())
 						catalogWidget->showButtons(QStringList() << selectedFamily->name);
 
 					selectedNodes.clear();

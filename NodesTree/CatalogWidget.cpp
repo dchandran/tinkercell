@@ -841,8 +841,12 @@ namespace Tinkercell
 			}
 		}
 
-		if (widgetChanged)
+		if (widgetChanged && tabWidget)
+		{
+			int k = tabWidget->currentIndex();
 			makeTabWidget();
+			if (k < tabWidget->count()) tabWidget->setCurrentIndex(k);
+		}
 	}
 
 }

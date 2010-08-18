@@ -965,12 +965,19 @@ namespace Tinkercell
 					if (!handle)
 					{
 						handle = new ConnectionHandle(selectedFamily,item);
-
-						handle->name = tr("J1");
-						/*ItemHandle * h = 0;
-						for (int j=0; j < selectedNodes.size(); ++j)
-							if (h = getHandle(selectedNodes[j]))
-								handle->name += h->name + tr("_");*/
+						
+						handle->name = selectedFamily->name.toLower() + tr("1");
+						QStringList words = handle->name.split(tr(" "));
+						if (words.size() > 1)
+						{
+							handle->name = tr("");
+							for (int i=0; i < words.size(); ++i)
+								handle->name += words[i].left(1);
+							handle->name += tr("1");
+						}
+			
+						if (handle->name.length() > 3)
+							handle->name = handle->name.left( 3 ) + tr("1");
 
 						handle->name = scene->network->makeUnique(handle->name);
 

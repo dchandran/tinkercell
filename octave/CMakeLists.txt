@@ -11,6 +11,10 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
    INCLUDE_DIRECTORIES( BEFORE ${OCTAVE_INCLUDE_DIR} )
    
    ADD_DEFINITIONS(-D__cplusplus)
+
+  IF ( WIN32 AND MINGW)
+      ADD_DEFINITIONS(-D__MINGW32__)
+  ENDIF( WIN32 AND MINGW)
    
    ADD_LIBRARY( tcoct
   	  SHARED
@@ -33,29 +37,18 @@ IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OC
     
     ADD_CUSTOM_COMMAND (
           TARGET tcoct POST_BUILD
-          COMMAND copy "${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll" "${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct"
+          COMMAND move /Y ..\\bin\\plugins\\c\\libtcoct.dll ..\\bin\\octave\\tinkercell.oct
       )
-    
-    #ADD_CUSTOM_COMMAND (
-    #      TARGET tcoct POST_BUILD
-    #      COMMAND copy ${TINKERCELL_BINARY_DIR}/bin/plugins/c/tcoct.dll ${TINKERCELL_BINARY_DIR}/bin/octave/tcrunoct.dll
-    #  )
-    
+	 FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)
   ELSE ( WIN32 )
 
     ADD_CUSTOM_COMMAND (
          TARGET tcoct POST_BUILD
          COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
     )
-    
-    #ADD_CUSTOM_COMMAND (
-    #      TARGET tcoct POST_BUILD
-    #      COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/libtcoct.so
-    #)
-      
+  	FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)  
   ENDIF( WIN32 )
   
-  FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)
   FILE(GLOB OCTAVE_SCRIPTS *.m)
 
   INSTALL(FILES  ${OCTAVE_CRUFT_LIBRARY} ${OCTAVE_OCTAVE_LIBRARY} ${OCTAVE_OCTAVEINTERP_LIBRARY}

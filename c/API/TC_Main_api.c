@@ -649,7 +649,7 @@ double (*_tc_getWidth)(Item) = 0;
 double tc_getWidth(Item item)
 {
 	if (_tc_getWidth)
-		_tc_getWidth(item);
+		return _tc_getWidth(item);
 	return 1.0;
 }
 
@@ -661,7 +661,7 @@ double (*_tc_getHeight)(Item) = 0;
 double tc_getHeight(Item item)
 {
 	if (_tc_getHeight)
-		_tc_getHeight(item);
+		return _tc_getHeight(item);
 	return 1.0;
 }
 
@@ -684,7 +684,7 @@ double (*_tc_getAngle)(Item) = 0;
 double tc_getAngle(Item item)
 {
 	if (_tc_getAngle)
-		_tc_getAngle(item);
+		return _tc_getAngle(item);
 	return 1.0;
 }
 

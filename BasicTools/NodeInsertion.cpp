@@ -104,6 +104,9 @@ namespace Tinkercell
 				
 				if (name.length() > 3)
 					name = name.left( 3 ) + tr("1");
+				
+				if (!name[0].isLetter())
+						name = tr("S") + name;
 			}
 
 			QList<NodeFamily*> allFamilies;		
@@ -130,6 +133,8 @@ namespace Tinkercell
 
 				NodeHandle * handle = new NodeHandle(nodeFamily);
 				handle->name = RemoveDisallowedCharactersFromName(name);
+				if (!handle->name[0].isLetter())
+						handle->name = tr("S") + handle->name;
 				handle->name = scene->network->makeUnique(handle->name,usedNames);
 
 				for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)

@@ -630,6 +630,8 @@ namespace Tinkercell
 			center /= selectedNodes.size();
 
 		handle->name = name;
+		if (!handle->name[0].isLetter())
+			handle->name = tr("J") + handle->name;
 		handle->name = scene->network->makeUnique(name);
 
 		TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
@@ -975,9 +977,12 @@ namespace Tinkercell
 								handle->name += words[i].left(1);
 							handle->name += tr("1");
 						}
-			
+						
 						if (handle->name.length() > 3)
 							handle->name = handle->name.left( 3 ) + tr("1");
+							
+						if (!handle->name[0].isLetter())
+							handle->name = tr("J") + handle->name;
 
 						handle->name = scene->network->makeUnique(handle->name);
 

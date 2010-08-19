@@ -632,7 +632,7 @@ namespace Tinkercell
 
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
-		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		//familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		settings.endGroup();
 
 		for (int i=0; i < tabGroups.size(); ++i)

@@ -320,10 +320,10 @@ namespace Tinkercell
 		
 		QString libs;
 		
-		if (filename.contains(tr("ode")) || filename.contains(tr("ssa")))
-			libs = tr(" -lm -ltinkercellapi -lsundials_cvode -lsundials_nvecserial -llapack -lblas -lf2c -fpic");
-		else
-			libs = tr(" -lm -ltinkercellapi -fpic");
+		//if (filename.contains(tr("ode")) || filename.contains(tr("ssa")))
+			libs = tr(" -lm -ltinkercellapi -lsundials_cvode -lsundials_nvecserial -llapack -lblas -lf2c");
+		//else
+			//libs = tr(" -lm -ltinkercellapi -fpic");
 
 
 #ifdef Q_WS_WIN

@@ -16,7 +16,6 @@ extern "C"
 {
 	#include "TC_api.h"
 }
-
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {

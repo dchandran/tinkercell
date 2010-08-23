@@ -7,13 +7,14 @@ See COPYRIGHT.TXT
 Function that loads dll into main window
 
 ****************************************************************************/
-
+#include "ConsoleWindow.h"
 #include "BasicToolsMain.h"
-
 
 extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
 {
 	if (!main) return;
+
+	main->console()->message("Im here");
 
 	Tinkercell::CollisionDetection * collisionDetection = new Tinkercell::CollisionDetection;
 	main->addTool(collisionDetection);

@@ -813,6 +813,10 @@ namespace Tinkercell
 		NetworkWindow * currentNetworkWindow;
 		/*! \brief all the tools (plug-ins) are stored here, indexed by their names*/
 		QHash<QString,Tool*> toolsHash;
+		/*! \brief drag and drop */
+		virtual void dropEvent(QDropEvent *);
+		/*! \brief drag and drop*/
+		virtual void dragEnterEvent(QDragEnterEvent *event);
 	private:
 		/*! \brief home directory path*/
 		static QString homeDirPath;

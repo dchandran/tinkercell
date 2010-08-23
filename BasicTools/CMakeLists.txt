@@ -5,6 +5,16 @@ ADD_DEFINITIONS(-DQT_PLUGIN)
 ADD_DEFINITIONS(-DQT_NO_DEBUG)
 ADD_DEFINITIONS(-DQT_SHARED)
 
+SET( TINKERCELL_CORE_HDRS
+  ../Core/MainWindow.h 
+  ../Core/NetworkHandle.h
+  ../Core/CodeEditor.h
+  ../Core/TextEditor.h 
+  ../Core/GraphicsScene.h 
+  ../Core/Tool.h 
+  ../Core/ItemHandle.h 
+  ../Core/ItemFamily.h
+  )
 
 CONFIGURE_FILE( TinkerCellAboutBox.cpp.in
   ${TINKERCELL_BINARY_DIR}/BasicTools/TinkerCellAboutBox.cpp
@@ -51,12 +61,11 @@ SET(TINKERCELL_BASICTOOLS_HDR
   BasicToolsMain.cpp
 )
 
-QT4_WRAP_CPP( BasicTools_MOC ${TINKERCELL_BASICTOOLS_HDR})
+QT4_WRAP_CPP( BasicTools_MOC ${TINKERCELL_BASICTOOLS_HDR} ${TINKERCELL_CORE_HDRS})
 
 ADD_LIBRARY( BasicTools 
   SHARED
   ${BasicTools_MOC}
-  ${TinkercellCore_MOC}
   ${TINKERCELL_BASICTOOLS_SRC}
   ${TINKERCELL_BASICTOOLS_QRC}
 )

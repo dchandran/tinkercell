@@ -194,6 +194,8 @@ namespace Tinkercell
 		}
 		else
 		{
+			if (consoleWindow)
+				consoleWindow->message(lib->fileName() + tr(" could not be opened"));
 			statusBar()->showMessage(lib->fileName() + tr(" could not be opened"));
 			delete lib;
 		}
@@ -230,7 +232,6 @@ namespace Tinkercell
 		currentNetworkWindow = 0;
 		toolBox = 0;
 		setAutoFillBackground(true);
-		setAcceptDrops(true);
 
 		initializeMenus(enableScene,enableText);
 		//setIconSize(QSize(25,25));
@@ -1291,5 +1292,15 @@ namespace Tinkercell
 				return true;
 
 		return false;
+	}
+
+	void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+	{
+		//event->accept();
+	}
+
+	void MainWindow::dropEvent(QDropEvent * event)
+	{
+		//event->accept();
 	}
 }

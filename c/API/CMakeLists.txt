@@ -10,19 +10,19 @@ ADD_LIBRARY( tinkercellapi
 	${API_SRC}
 )
  
-#IF ( WIN32 )
-#  INSTALL(TARGETS tinkercellapi DESTINATION c)
-#ELSE ( WIN32 )
-#  INSTALL(TARGETS tinkercellapi ARCHIVE DESTINATION c)
-#ENDIF( WIN32 )
-
-IF( WIN32 )
-  INSTALL(TARGETS tinkercellapi
-    DESTINATION bin/../
-  )
-ELSE( WIN32 )
-  INSTALL(TARGETS tinkercellapi
-    LIBRARY DESTINATION bin/../
-  )
+IF ( WIN32 )
+  INSTALL(TARGETS tinkercellapi DESTINATION c)
+ELSE ( WIN32 )
+  INSTALL(TARGETS tinkercellapi ARCHIVE DESTINATION c)
 ENDIF( WIN32 )
+
+#IF( WIN32 )
+#  INSTALL(TARGETS tinkercellapi
+#    DESTINATION bin/../
+#  )
+#ELSE( WIN32 )
+#  INSTALL(TARGETS tinkercellapi
+#    LIBRARY DESTINATION bin/../
+#  )
+#ENDIF( WIN32 )
 

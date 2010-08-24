@@ -73,6 +73,7 @@ ADD_LIBRARY( LPSolveInput
   SHARED
   LPSolveInput.cpp
   ${LPSolveInput_MOC}
+  ${TinkercellCore_MOC}
 )
 
 TARGET_LINK_LIBRARIES( LPSolveInput

@@ -1,11 +1,5 @@
-//#define OCTINTERP_API
-
 #include <stdlib.h>
 #include <stdio.h>
-extern "C"
-{
-    #include "TC_api.h"
-}
 
 #include <octave/config.h>
 #include <octave/octave.h>
@@ -20,6 +14,8 @@ extern "C"
 #include <octave/variables.h>
 #include <octave/sighandlers.h>
 #include <octave/sysdep.h>
+
+#include "TC_api.h"
 
 void recover_from_exception (void)
 {
@@ -46,7 +42,7 @@ void print_octave_value_list(const octave_value_list& list, std::ofstream& file)
 
 int octave_call(const char *string,const char* filename)
 {
-  int parse_status;
+  int parse_status = 0;
 
   octave_save_signal_mask ();
   if (octave_set_current_context)
@@ -98,13 +94,13 @@ int octave_call(const char *string,const char* filename)
   catch (octave_interrupt_exception)
     {
       recover_from_exception ();
-      //std::cout << "\n"; 
+     // std::cout << "2\n"; 
       error_state = -2; 
     }
   catch (std::bad_alloc)
     {
       recover_from_exception ();
-      //std::cout << "\n"; 
+    // std::cout << "3\n"; 
       error_state = -3;
     }
 
@@ -116,20 +112,19 @@ int octave_call(const char *string,const char* filename)
   return error_state;
 }
 
-
-extern "C" TCAPIEXPORT void initialize()
+extern "C" OCTINTERP_API void initialize()
 {
 	int argc = 0;
 	char * argv[0];
 	octave_main(argc,argv,1);
 }
 
-extern "C" TCAPIEXPORT void exec(const char * input, const char * filename)
+extern "C" OCTINTERP_API void exec(const char * input, const char * filename)
 {
 	octave_call(input,filename);
 }
 
-extern "C" TCAPIEXPORT void finalize()
+extern "C" OCTINTERP_API void finalize()
 {
 	do_octave_atexit();
 }

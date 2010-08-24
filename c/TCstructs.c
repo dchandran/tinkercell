@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 #include "TCstructs.h"
 
 TableOfReals newMatrix(int rows, int cols)

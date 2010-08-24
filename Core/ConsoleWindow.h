@@ -89,6 +89,10 @@ namespace Tinkercell
 
 		/*! \brief list of previously executed commands*/
 		QStringList historyStack;
+		/*! \brief list of messages pending*/
+		QStringList messagesStack;
+		/*! \brief list of errors pending*/
+		QStringList errorsStack;
 		/*! \brief current position in the history of commands*/
 		int currentHistoryIndex;
 		/*! \brief current position of the cursor in the text box*/

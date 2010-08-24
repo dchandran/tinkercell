@@ -170,7 +170,6 @@ namespace Tinkercell
 			QString appDir = QCoreApplication::applicationDirPath();
 			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/tinkercell.oct"), mainWindow);
 			octaveInterpreter->initialize();
-			
 
 			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
 			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));

@@ -1,17 +1,12 @@
 #include <Python.h>
 #include "TC_api.h"
 
-#cmakedefine CMAKE_WIN32
-
-#ifndef CMAKE_WIN32
+#ifndef _WIN32
 #include "dlfcn.h"
 #endif
 
-FILE * pyout;
-
 PyObject* main_dict;
 PyObject* dlfl_dict;
-PyObject * s;
 PyObject *evalVal;
 PyObject *errobj;
 PyObject *errdata;
@@ -21,7 +16,7 @@ TCAPIEXPORT void initialize()
 {
 	PyObject *mainmod;
 	PyObject *dlfl;
-#ifndef CMAKE_WIN32
+#ifndef _WIN32
 	dlopen("@PYTHON_LIBRARIES@", RTLD_LAZY | RTLD_GLOBAL);	
 	Py_SetProgramName("Tinkercell");
 #endif
@@ -36,6 +31,7 @@ TCAPIEXPORT void initialize()
 
 TCAPIEXPORT void exec(const char * code,const char * outfile)
 {
+	FILE * file;
 	char *retString, 
 	 	   *errString;
 	PyObject * s,
@@ -64,6 +60,11 @@ TCAPIEXPORT void exec(const char * code,const char * outfile)
 		s = PyObject_Str(errdata); 
 		errString = PyString_AsString(s);
 		tc_errorReport(errString);
+		file = fopen(outfile,"w");
+		if (file)
+		{
+			fclose(file);
+		}
 		Py_DECREF(s); 
 	}
 	

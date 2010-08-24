@@ -1,9 +1,6 @@
 #ifndef TINKERCELL_CSTRUCTS_H
 #define TINKERCELL_CSTRUCTS_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 typedef void* Item;
 typedef const char * String;
 
@@ -108,19 +105,21 @@ TableOfReals cbind(TableOfReals A, TableOfReals B);
 /*!\brief combine two matrices by appending their row. column sizes must be equal for both matrices*/
 TableOfReals rbind(TableOfReals A, TableOfReals B);
 
-# if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
-#   if defined(STATIC_LINKED)
-#     define TCAPIEXPORT
-#   else
-#     define TCAPIEXPORT __declspec(dllexport)
-#   endif
-# else
-#   if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
-#     define TCAPIEXPORT __attribute__ ((visibility("default")))
-#   else
-#     define TCAPIEXPORT
-#   endif
-# endif
+# ifndef TCAPIEXPORT
+#  if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+#    if defined(STATIC_LINKED)
+#      define TCAPIEXPORT
+#    else
+#      define TCAPIEXPORT __declspec(dllexport)
+#    endif
+#  else
+#    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
+#      define TCAPIEXPORT __attribute__ ((visibility("default")))
+#    else
+#      define TCAPIEXPORT
+#    endif
+#  endif
+# endif //TCAPIEXPORT
 
 #endif
 

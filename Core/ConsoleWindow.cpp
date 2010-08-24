@@ -151,17 +151,20 @@ namespace Tinkercell
 
 	void CommandTextEdit::error(const QString& s)
 	{
+		if (frozen)
+		{
+			errorsStack << s;
+			return;
+		}
+		
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(currentPosition);
 
 		cursor.setCharFormat(errorFormat);
 		cursor.insertText(tr("Error: ") + s + tr("\n"));
 
-		if (!frozen)
-		{
-	        cursor.setCharFormat(normalFormat);
-    	    cursor.insertText(ConsoleWindow::Prompt);
-    	}
+		cursor.setCharFormat(normalFormat);
+    	cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -170,17 +173,20 @@ namespace Tinkercell
 
 	void CommandTextEdit::message(const QString& s)
 	{
+		if (frozen)
+		{
+			messagesStack << s;
+			return;
+		}
+		
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(currentPosition);
 
 		cursor.setCharFormat(messageFormat);
 		cursor.insertText(s + tr("\n"));
-		
-		if (!frozen)
-		{
-	        cursor.setCharFormat(normalFormat);
-    	    cursor.insertText(ConsoleWindow::Prompt);
-    	}
+
+		cursor.setCharFormat(normalFormat);
+    	cursor.insertText(ConsoleWindow::Prompt);
 
 		if (cursor.position() > currentPosition)
 			currentPosition = cursor.position();
@@ -209,6 +215,25 @@ namespace Tinkercell
 	void CommandTextEdit::setFreeze(bool frozen)
 	{
 		QTextCursor cursor = textCursor();
+
+		if (!frozen)
+		{
+			if (!messagesStack.isEmpty())
+			{
+				cursor.setCharFormat(messageFormat);
+				cursor.insertText(messagesStack.join(tr("\n")) + tr("\n"));
+				messagesStack.clear();
+				currentPosition = cursor.position();
+			}
+
+			if (!errorsStack.isEmpty())
+			{
+				cursor.setCharFormat(errorFormat);
+				cursor.insertText(tr("Error: ") + errorsStack.join(tr("\n")) +  tr("\n"));
+				errorsStack.clear();
+				currentPosition = cursor.position();
+			}
+		}
 
 		if (this->frozen == frozen)
 		{

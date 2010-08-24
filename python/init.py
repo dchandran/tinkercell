@@ -1,5 +1,6 @@
 try:
     from tinkercell import *
+    from tc2py import *
 except ImportError:
     print 'TinkerCell Python module not found'
 

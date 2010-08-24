@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 
-
 #include "TCstructs.h"
 #include "API/TC_Main_api.h"
 

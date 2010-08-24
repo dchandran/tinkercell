@@ -11,4 +11,3 @@ move /Y tinkercell_wrap.c ..\ruby
 swig -r tinkercell.i
 move /Y tinkercell_wrap.c ..\R
 move /Y tinkercell.R ..\R
-more ..\python\tc2py.py >> ..\python\tinkercell.py

@@ -4,9 +4,9 @@ Asks user for a parameter or variable name (string), and then generates a code t
 the steady state table by changing this value.
 
 ****************************************************************************/
-
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-
 #include "TC_api.h"
 
 static char selected_var[100];

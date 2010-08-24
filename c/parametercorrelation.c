@@ -8,6 +8,8 @@
 ** 
 ****************************************************************************/
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "TC_api.h"
 

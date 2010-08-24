@@ -7,7 +7,8 @@
 ** the Gillespie simulation, and outputs the data to TinkerCell
 **
 ****************************************************************************/
-
+#include <stdlib.h>
+#include <stdio.h>
 #include "TC_api.h"
 
 void runSSA(TableOfReals input)

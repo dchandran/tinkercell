@@ -12,10 +12,8 @@
 #define SWIG_name_d      "tinkercell"
 #define SWIG_name        tinkercell
 #define OCTAVE_API_VERSION_OPTION 0
-extern "C"
-{
-	#include "TC_api.h"
-}
+#include "TC_api.h"
+
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
 template<typename T> class SwigValueWrapper {
@@ -2080,7 +2078,10 @@ octave_value_typeinfo::register_binary_op(octave_value::op_##name,tid1,tid2,swig
     SWIG_InstallUnaryOps(tid);
     SWIG_InstallBinaryOps(tid, tid);
     for (int j = 0; j < tid; ++j) {
+
+
       SWIG_InstallBinaryOps(j, tid);
+
       SWIG_InstallBinaryOps(tid, j);
     }
   }
@@ -3648,6 +3649,7 @@ static octave_value_list _wrap_getRowName (const octave_value_list& args, int na
     SWIG_fail;
   }
   {
+
     res1 = SWIG_ConvertPtr(args(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res1)) {
       SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getRowName" "', argument " "1"" of type '" "TableOfReals""'"); 

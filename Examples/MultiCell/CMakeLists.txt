@@ -60,6 +60,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( MultiCell
       TinkerCellCore
+      ${QT_LIBRARIES}
     )
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
@@ -72,6 +73,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
       TARGET_LINK_LIBRARIES( MultiCell
         TinkerCellCore
+        ${QT_LIBRARIES}
       )
     ENDIF( WIN32 )
   ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )

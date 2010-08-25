@@ -1,6 +1,5 @@
 SET(LIBRARY_OUTPUT_PATH ${CPP_LIBRARY_OUTPUT_PATH})
 
-
 QT4_WRAP_CPP( SIMPLEDESIGNER_MOC SimpleDesigner.h)
 
 QT4_ADD_RESOURCES( SIMPLEDESIGNER_QRC simpledesigner.qrc )
@@ -26,6 +25,7 @@ IF( APPLE AND BUILD_BUNDLE )
 
   TARGET_LINK_LIBRARIES( SimpleDesigner
     TinkerCellCore
+    ${QT_LIBRARIES}
   )
   
   INSTALL(TARGETS SimpleDesigner 
@@ -36,16 +36,17 @@ IF( APPLE AND BUILD_BUNDLE )
       COMMAND mkdir ARGS -p
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks
-      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
+        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/MacOS
+      COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtCore.framework
         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks/
-      COMMAND cp ARGS ${EXECUTABLE_OUTPUT_PATH}/libTinkerCellCore.dylib
-         ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/MacOS/
-#      COMMAND cp ARGS ${MACOSX_TINKERCELL_BUNDLE_ICON_FILE}
-#        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
-      COMMAND cp ARGS -rf ${LIBRARY_OUTPUT_PATH}
-        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/MacOS/
-#      COMMAND cp ARGS *.qm
-#        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources 
+ 	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtGui.framework
+        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks/
+	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtXml.framework
+        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks/
+	  COMMAND cp ARGS -rf ${QT_LIBRARY_DIR}/QtOpenGL.framework
+        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Frameworks/
+      COMMAND cp ARGS ${MACOSX_BUNDLE_ICON_FILE}
+        ${EXECUTABLE_OUTPUT_PATH}/SimpleDesigner.app/Contents/Resources
   )
 
 ELSE( APPLE AND BUILD_BUNDLE )
@@ -58,7 +59,9 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
     TARGET_LINK_LIBRARIES( SimpleDesigner
       TinkerCellCore
+      ${QT_LIBRARIES}
     )
+    
   ELSE( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )
     IF( WIN32 )
 	
@@ -70,6 +73,7 @@ ELSE( APPLE AND BUILD_BUNDLE )
 
       TARGET_LINK_LIBRARIES( SimpleDesigner
         TinkerCellCore
+        ${QT_LIBRARIES}
       )
     ENDIF( WIN32 )
   ENDIF( UNIX OR ( APPLE AND NOT BUILD_BUNDLE ) )

@@ -327,8 +327,9 @@ namespace Tinkercell
 		{
 			selectFamilyWidget = new QDialog(this);
 			QTableWidget * table = new QTableWidget;
-			table->setVerticalHeaderLabels( QStringList() << tr("show") << tr("family") );
 			table->setColumnCount(2);
+			table->setColumnWidth(0,50);
+			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") );
 			table->setRowCount(allNames.size());
 			table->setWindowFlags(Qt::Window);
 			table->setWindowTitle(tr("Show/hide catalog items"));
@@ -347,7 +348,11 @@ namespace Tinkercell
 				table->setCellWidget(i,0,checkbox);
 				QToolButton * tempButton = new QToolButton;
 				if (family)
+				{
 					tempButton->setIcon(QIcon(family->pixmap));
+					tempButton->setToolTip(family->description);
+				}
+				connect(tempButton,SIGNAL(pressed()),checkbox,SLOT(toggle()));
 				tempButton->setText(allNames[i]);
 				tempButton->setToolButtonStyle ( Qt::ToolButtonTextBesideIcon );
 				table->setCellWidget(i,1,tempButton);

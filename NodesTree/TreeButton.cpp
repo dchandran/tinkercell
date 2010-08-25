@@ -247,15 +247,7 @@ namespace Tinkercell
 			if (!family->measurementUnit.name.isEmpty() && !family->measurementUnit.property.isEmpty())
 				text += tr("Unit of measurement: ") + family->measurementUnit.name + tr("\n\n");
 
-			if (family->textAttributes.contains(tr("typein")) && family->textAttributes.contains(tr("typeout")) &&
-				family->numericalAttributes.contains(tr("numin")) && family->numericalAttributes.contains(tr("numout")))
-			{
-				text += tr("Connects: ")
-						+ QString::number(family->numericalAttributes[tr("numin")]) + tr(" ")
-						+ family->textAttributes[tr("typein")] + tr(" to ")
-						+ QString::number(family->numericalAttributes[tr("numout")]) + tr(" ")
-						+ family->textAttributes[tr("typeout")] + tr(" \n\n");
-			}
+			text += tr("Participants: ") + family->nodeFunctions.join(" , ");
 
 			text += tr("Attributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")

@@ -70,6 +70,7 @@ namespace Tinkercell
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void keyPressed(GraphicsScene*,QKeyEvent *);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
+		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
 		void mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items);
 
 	private slots:
@@ -83,12 +84,13 @@ namespace Tinkercell
 		Mode mode;
 
 		QGraphicsLineItem lineItem;
+		
 		QDockWidget * makeDockWidget(const QString&);
 
-		QGraphicsItem* createLink(NodeGraphicsItem* module, ItemHandle * handle);
+		QDialog * newModuleDialog;
+		void showNewModuleDialog();
+
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
-		void adjustLinkerPositions(NodeGraphicsItem*);
-		QUndoCommand * addModuleLayerInfo(const QList<ItemHandle*> & items);
 		QUndoCommand * moduleConnectionsInserted(QList<QGraphicsItem*>& items);
 		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
 		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
@@ -101,7 +103,6 @@ namespace Tinkercell
 		NodeGraphicsItem image;
 
 		static QList<QPointF> pathAroundRect(QRectF,QRectF,QPointF,QPointF);
-		static QPointF getPoint(QGraphicsItem* module, QPointF scenePos, QGraphicsItem * item);
 	};
 
 

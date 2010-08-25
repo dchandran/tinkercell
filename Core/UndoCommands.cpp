@@ -2415,11 +2415,6 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = newNodes[i];
-				if (!transform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
-				{
-					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
-					arrow->angle = 0.0;
-				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -2455,12 +2450,6 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = oldNodes[i];
-				
-				if (!transform && targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
-				{
-					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
-					arrow->angle = 0.0;
-				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -2523,6 +2512,8 @@ namespace Tinkercell
 		{
 			QRectF rect = node->boundingRect();
 			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
+			if (node->className == ArrowHeadItem::CLASSNAME)
+				node->setTransform( QTransform(t0.m11(), t0.m12(), t0.m21(), t0.m22(), 0, 0) );			
 		}
 
 		//node->setParentItem(parent);

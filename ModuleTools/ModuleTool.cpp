@@ -514,7 +514,7 @@ namespace Tinkercell
 							}
 						}
 				}
-				else
+/*				else
 				if (handle->isA(tr("module")))
 				{
 					for (int j=0; j < handle->children.size(); ++j)
@@ -534,6 +534,7 @@ namespace Tinkercell
 							}
 						}
 				}
+*/
 			}
 	}
 
@@ -541,8 +542,7 @@ namespace Tinkercell
 	{
 		if (!scene || !scene->network) return;
 
-		commands << addModuleLayerInfo(handles)
-				 << moduleConnectionsInserted(items)
+		commands << moduleConnectionsInserted(items)
 				 << substituteStrings(handles);
 		
 		removeSubnetworks(items,handles);
@@ -572,7 +572,7 @@ namespace Tinkercell
 					}
 				}
 			}
-
+/*
 			if ((node = NodeGraphicsItem::cast(items[i])) 
 				&& (node->className == interfaceClassName)
 				&& (nodeHandle = node->handle())
@@ -594,6 +594,7 @@ namespace Tinkercell
 						commands << new InsertGraphicsCommand(tr("module linkers"),moduleScene,QList<QGraphicsItem*>() << newLinker << newLinkerText);
 					}
 			}
+*/
 		}
 
 		QStringList visited;
@@ -706,7 +707,7 @@ namespace Tinkercell
 					}
 				}
 			}
-		
+/*		
 		QList<QGraphicsItem*> interfaces;
 		NodeGraphicsItem * node;
 		ItemHandle * handle;
@@ -724,8 +725,8 @@ namespace Tinkercell
 						interfaces << node;
 					}
 			}
-
 		items << interfaces;
+*/
 	}
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
@@ -759,8 +760,8 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i])
 				{
-					if (NodeHandle::cast(handles[i]) && !handles[i]->tools.contains(this))
-						handles[i]->tools += this;
+					//if (NodeHandle::cast(handles[i]) && !handles[i]->tools.contains(this))
+						//handles[i]->tools += this;
 										
 					if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty())
 					{
@@ -771,6 +772,7 @@ namespace Tinkercell
 								break;
 							}
 					}
+/*
 					else
 					if (handles[i]->isA(tr("module")))
 					{
@@ -796,6 +798,7 @@ namespace Tinkercell
 							}
 						}
 					}
+*/
 				}
 	    }
 

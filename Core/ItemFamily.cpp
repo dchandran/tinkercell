@@ -113,9 +113,10 @@ namespace Tinkercell
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 	bool NodeFamily::isA(const QString& familyName) const
 	{
-		if (familyName.toLower() == QObject::tr("anything") || 
-			familyName.toLower() == QObject::tr("node") ||
-			familyName.toLower() == name.toLower()) return true;
+		if (familyName.toLower() == name.toLower() ||
+			//familyName.toLower() == QObject::tr("node") ||
+			familyName.toLower() == QObject::tr("anything") || 
+			familyName.toLower() == QObject::tr("thing")) return true;
 
 		QList<NodeFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
@@ -167,9 +168,10 @@ namespace Tinkercell
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 	bool ConnectionFamily::isA(const QString& familyName) const
 	{
-		if (familyName.toLower() == QObject::tr("connection") || 
+		if (familyName.toLower() == name.toLower() ||
+			//familyName.toLower() == QObject::tr("connection") ||
 			familyName.toLower() == QObject::tr("anything") ||
-			familyName.toLower() == name.toLower()) return true;
+			familyName.toLower() == QObject::tr("thing")) return true;
 
 		QList<ConnectionFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)

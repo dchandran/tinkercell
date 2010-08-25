@@ -2,29 +2,28 @@
 <!DOCTYPE NodeGraphicsItem>
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-        <listOfColorDefinitions>
-            <colorDefinition id="shape0color" value="#00aa00" alpha="255"/>
-        </listOfColorDefinitions>
+        <listOfGradientDefinitions>
+            <linearGradient id="shape0color" x1="64.1539%" y1="44.2623%" x2="4.00962%" y2="42.623%">
+                <stop offset="0%" stop-color="#00ff00" stop-alpha="1"/>
+                <stop offset="100%" stop-color="#005500" stop-alpha="1"/>
+            </linearGradient>
+        </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="green arrow" width="40" height="30" class="NodeGraphicsItem">
+            <style idList="green arrow" width="35" height="35">
                 <g>
-                    <polygon fill="shape0color" stroke="#00aa00" stroke-width="1" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#005500" stroke-width="5" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="27.933%" y="47.3333%"/>
-                                <end x="0%" y="0%"/>
-                            </curveSegment>
-                            <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="0%" y="0%"/>
-                                <end x="100%" y="47.3333%"/>
+                                <end x="100%" y="46.5729%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="100%" y="47.3333%"/>
+                                <start x="100%" y="46.5729%"/>
                                 <end x="0%" y="100%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="0%" y="100%"/>
-                                <end x="27.933%" y="47.3333%"/>
+                                <end x="0%" y="0%"/>
                             </curveSegment>
                         </listOfCurveSegments>
                     </polygon>

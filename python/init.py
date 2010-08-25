@@ -9,19 +9,19 @@ try:
     from scipy import *
     print 'Python modules loaded: Numpy and Scipy'
 except ImportError:
-    print 'Python modules not found: Numpy and Scipy'
+    print 'Python modules not loaded: Numpy and Scipy'
 
 try:
     from pysces import *
     from tc2pysces import *
     print 'Python module loaded: PySCeS'
 except ImportError:
-    print 'Python module not found: PySCeS'
+    print 'Python module not loaded: PySCeS'
 
 try:
     import networkx as nx
     from nxAutoLayout import *
     print 'Python module loaded: NetworkX'
 except ImportError:
-    print 'Python module not found: NetworkX'
+    print 'Python module not loaded: NetworkX'
 

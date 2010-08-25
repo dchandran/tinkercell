@@ -11,6 +11,7 @@
 #include <QButtonGroup>
 #include <QToolBox>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QTableWidget>
 #include <QHash>
 #include "ItemFamily.h"
@@ -73,6 +74,10 @@ namespace Tinkercell
 		* \param QStringList names of the families
 		*/
         void showButtons(const QStringList&);
+		/*! \brief hide button for one or more families
+		* \param QStringList names of the families
+		*/
+        void hideButtons(const QStringList&);
 	signals:
         /*! \brief key pressed inside this widget*/
         void keyPressed(int, Qt::KeyboardModifiers);
@@ -151,7 +156,8 @@ namespace Tinkercell
 		
 		/*! \brief checks whether this family is too generic to include in the catalog*/
 		bool includeFamilyInCatalog(ItemFamily*);
-		
+
+		/*! \brief tab-view widget*/
 		QTabWidget * tabWidget;
 		
 		/*! \brief buttons inside each tab of the tabview*/
@@ -162,6 +168,13 @@ namespace Tinkercell
 		
 		/*! \brief families that should be displayed in the catalog*/
 		QStringList familiesInCatalog;
+		
+		/*! \brief check boxes to select the families to show*/
+		QList<QCheckBox*> selectFamilyCheckBoxes;		
+		/*! \brief widget to select the families to show*/
+		QDialog * selectFamilyWidget;	
+		/*! \brief select the families to show*/
+		void selectFamiliesToShow();
     };
 
 

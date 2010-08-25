@@ -129,7 +129,7 @@ namespace Tinkercell
 			writer->writeAttribute("idList", node->name);
 			writer->writeAttribute("width", QString::number(node->defaultSize.width()));
 			writer->writeAttribute("height", QString::number(node->defaultSize.height()));
-			writer->writeAttribute("class", node->className);
+			//writer->writeAttribute("class", node->className);
 		writer->writeStartElement("g");
 		
 		//normalize

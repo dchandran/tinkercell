@@ -15,6 +15,7 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 #include "ConsoleWindow.h"
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
@@ -31,7 +32,8 @@ namespace Tinkercell
 		toolBox(0),
 		tabWidget(0),
 		nodesTree(nodesTree),
-		connectionsTree(connectionsTree)
+		connectionsTree(connectionsTree),
+		selectFamilyWidget(0)
 	{
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 
@@ -92,7 +94,7 @@ namespace Tinkercell
 			setWindowTitle(tr("Parts and Connections"));
 			setWindowIcon(QIcon(tr(":/images/appicon.png")));
 
-			/*if (layoutMode == TreeView)
+			if (layoutMode == TreeView)
 			{
 				setUpTreeView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::LeftDockWidgetArea,Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -100,20 +102,19 @@ namespace Tinkercell
 				connect (setNumRows, SIGNAL(triggered()),this,SLOT(setNumberOfRecentItems()));
 			}
 			else
-			{*/
+			{
 				setUpTabView();
 				mainWindow->addToolWindow(this,MainWindow::DockWidget,Qt::TopDockWidgetArea,Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-			/*}
+			}
 
 			if (mainWindow->optionsMenu)
 			{
 				mainWindow->optionsMenu->addSeparator();
-				QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Use Tree view of parts and connections"));
+				QAction * treeViewAction = mainWindow->optionsMenu->addAction(tr("Tree-view catalog"));
 				treeViewAction->setCheckable(true);
 				treeViewAction->setChecked(CatalogWidget::layoutMode == CatalogWidget::TreeView);
-
 				connect(treeViewAction,SIGNAL(toggled(bool)),this,SLOT(setTreeMode(bool)));
-			}*/
+			}
 
 			return true;
 		}
@@ -304,8 +305,88 @@ namespace Tinkercell
 	}
 
 	void CatalogWidget::contextMenuEvent(QContextMenuEvent *)
+	{		
+		//emit sendEscapeSignal(this);
+		selectFamiliesToShow();
+	}
+	
+	void CatalogWidget::selectFamiliesToShow()
 	{
-		emit sendEscapeSignal(this);
+		QStringList allNames;
+
+		if (nodesTree)
+			allNames << nodesTree->nodeFamilies.keys();
+		if (connectionsTree)
+			allNames << connectionsTree->connectionFamilies.keys();
+
+		if (allNames.isEmpty()) return;
+
+		allNames.sort();
+
+		if (!selectFamilyWidget)
+		{
+			selectFamilyWidget = new QDialog(this);
+			QTableWidget * table = new QTableWidget;
+			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") );
+			table->setColumnCount(2);
+			table->setRowCount(allNames.size());
+			table->setWindowFlags(Qt::Window);
+			table->setWindowTitle(tr("Show/hide catalog items"));
+
+			for (int i=0; i < allNames.size(); ++i)
+			{
+				QCheckBox * checkbox = new QCheckBox;
+				ItemFamily * family = 0;
+				if (nodesTree && nodesTree->nodeFamilies.contains(allNames[i]))
+					family = nodesTree->nodeFamilies[ allNames[i] ];
+				else
+					if (connectionsTree && connectionsTree->connectionFamilies.contains(allNames[i]))
+					family = connectionsTree->connectionFamilies[ allNames[i] ];
+				checkbox->setChecked(includeFamilyInCatalog(family));
+				selectFamilyCheckBoxes << checkbox;
+				table->setCellWidget(i,0,checkbox);
+				QToolButton * tempButton = new QToolButton;
+				if (family)
+					tempButton->setIcon(QIcon(family->pixmap));
+				tempButton->setText(allNames[i]);
+				tempButton->setToolButtonStyle ( Qt::ToolButtonTextBesideIcon );
+				table->setCellWidget(i,1,tempButton);
+			}
+			
+			QHBoxLayout * hlayout = new QHBoxLayout;
+			QPushButton * okButton = new QPushButton("OK");
+			connect(okButton,SIGNAL(pressed()),selectFamilyWidget,SLOT(accept()));
+			QPushButton * cancelButton = new QPushButton("Cancel");
+			connect(cancelButton,SIGNAL(pressed()),selectFamilyWidget,SLOT(reject()));
+			hlayout->addStretch(1);
+			hlayout->addWidget(okButton);
+			hlayout->addWidget(cancelButton);
+			hlayout->addStretch(1);
+			
+			QVBoxLayout * vlayout = new QVBoxLayout;
+			vlayout->addWidget(table,1);
+			vlayout->addLayout(hlayout,0);
+			selectFamilyWidget->setLayout(vlayout);
+		}
+		
+		//run dialog
+		selectFamilyWidget->exec();
+		
+		if (selectFamilyWidget->result() != QDialog::Accepted) 
+			return;
+
+		//if OK, then update catalog	
+		QStringList showlist, hidelist;
+		for (int i=0; i < allNames.size() && selectFamilyCheckBoxes.size(); ++i)
+		{
+			if (selectFamilyCheckBoxes[i]->isChecked())
+				showlist << allNames[i];
+			else
+				hidelist << allNames[i];
+		}
+		showButtons(showlist);
+		hideButtons(hidelist);
+		
 	}
 
 	void CatalogWidget::setNumberOfRecentItems()
@@ -484,6 +565,8 @@ namespace Tinkercell
 
 	void CatalogWidget::makeTabWidget()
 	{
+		if (!tabWidget) return;
+
 		QStringList tabGroups;
 
 		for (int i=0; i < tabGroupButtons.size(); ++i)
@@ -536,6 +619,7 @@ namespace Tinkercell
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
 	{
 		QList<QToolButton*> newButtons;
+		if (!tabWidget) return newButtons;
 		
 		int i = 0;
 
@@ -584,9 +668,9 @@ namespace Tinkercell
 	{
 		if (!family) return false;
 		
-		bool b = familiesInCatalog.contains(family->name);
-		
-		if (!b)
+		bool b;
+
+		if (familiesInCatalog.size() < 10)
 		{		
 			if (NodeFamily::cast(family))
 				b = family->children().isEmpty();
@@ -596,6 +680,10 @@ namespace Tinkercell
 	
 			if (b && !familiesInCatalog.contains(family->name))
 				familiesInCatalog << family->name;
+		}
+		else 
+		{
+			b = familiesInCatalog.contains(family->name);
 		}
 
 		return b;
@@ -632,7 +720,7 @@ namespace Tinkercell
 
 		QSettings settings(ORGANIZATIONNAME, ORGANIZATIONNAME);
 		settings.beginGroup("CatalogWidget");
-		//familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
+		familiesInCatalog = settings.value(tr("familiesInCatalog"),QStringList()).toStringList();
 		settings.endGroup();
 
 		for (int i=0; i < tabGroups.size(); ++i)
@@ -698,6 +786,8 @@ namespace Tinkercell
 		
 	void CatalogWidget::showButtons(const QStringList& familyNames)
 	{
+		if (!tabWidget) return;
+				
 		bool widgetChanged = false;
 
 		for (int i=0; i < familyNames.size(); ++i)
@@ -713,7 +803,7 @@ namespace Tinkercell
 
 			for (int i=0; i < families.size(); ++i)
 			{
-				if (!families[i]) continue;
+				if (!families[i] || nodes.contains(families[i])) continue;
 				
 				nodes << families[i];
 
@@ -783,7 +873,7 @@ namespace Tinkercell
 
 			for (int i=0; i < families.size(); ++i)
 			{
-				if (!families[i]) continue;
+				if (!families[i] || connections.contains(families[i])) continue;
 
 				connections << families[i];
 
@@ -834,6 +924,139 @@ namespace Tinkercell
 									tabGroupButtons << QPair< QString,QList<QToolButton*> >(tabName,tempList);
 									widgetChanged = true;
 								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (widgetChanged && tabWidget)
+		{
+			int k = tabWidget->currentIndex();
+			makeTabWidget();
+			if (k < tabWidget->count()) tabWidget->setCurrentIndex(k);
+		}
+	}
+
+	void CatalogWidget::hideButtons(const QStringList& familyNames)
+	{
+		if (!tabWidget) return;
+				
+		bool widgetChanged = false;
+
+		if (nodesTree)
+		{
+			QList<NodeFamily*> families;
+			for (int i=0; i < familyNames.size(); ++i)
+				if (nodesTree->nodeFamilies.contains(familyNames[i]))
+					families << nodesTree->nodeFamilies.value(familyNames[i]);
+
+			for (int i=0; i < families.size(); ++i)
+			{
+				if (!families[i] || !nodes.contains(families[i])) continue;
+				
+				nodes.removeAll(families[i]);
+
+				for (int j=0; j < tabGroups.size(); ++j)
+				{					
+					bool isA = false;
+
+					if (j == 0 && families[i]->name.toLower() == tr("node"))
+						isA = true;
+
+					if (j == (tabGroups.size()-1))
+						isA = true;
+
+					QString tabName = tabGroups[j].first;
+					
+					if  (!isA)
+					{
+						for (int k=0; k < tabGroups[j].second.size(); ++k)
+						{
+							if (families[i]->isA(tabGroups[j].second[k]))
+							{
+								isA = true;
+								break;
+							}
+						}
+					}
+
+					if (isA)
+					{
+						QList<QToolButton*> buttons = nodesTree->treeButtons.values(families[i]->name);
+						if (buttons[0] && usedButtons.contains(buttons[0]))
+						{
+							usedButtons.removeAll(buttons[0]);
+							if (!tabName.isEmpty())
+							{
+								bool found = false;
+								for (int j=0; j < tabGroupButtons.size(); ++j)
+									if (tabGroupButtons[j].first == tabName)
+									{
+										found = true;
+										tabGroupButtons[j].second.removeAll(buttons[0]);
+										widgetChanged = true;
+									}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if (connectionsTree)
+		{
+			QList<ConnectionFamily*> families;
+				for (int i=0; i < familyNames.size(); ++i)
+					if (connectionsTree->connectionFamilies.contains(familyNames[i]))
+						families << connectionsTree->connectionFamilies.value(familyNames[i]);
+
+			for (int i=0; i < families.size(); ++i)
+			{
+				if (!families[i] || !connections.contains(families[i])) continue;
+
+				connections.removeAll(families[i]);
+
+				for (int j=0; j < tabGroups.size(); ++j)
+				{
+					bool isA = false;
+
+					if (j == numNodeTabs && families[i]->name.toLower() == tr("connection"))
+						isA = true;
+
+					if (j == (tabGroups.size()-1))
+						isA = true;
+
+					QString tabName = tabGroups[j].first;
+					if (!isA)
+					{
+						for (int k=0; k < tabGroups[j].second.size(); ++k)
+						{
+							if (families[i]->isA(tabGroups[j].second[k]))
+							{
+								isA = true;
+								break;
+							}
+						}
+					}
+
+					if (isA)
+					{
+						QList<QToolButton*> buttons = connectionsTree->treeButtons.values(families[i]->name);
+						if (buttons[0] && usedButtons.contains(buttons[0]))
+						{
+							usedButtons.removeAll(buttons[0]);
+							if (!tabName.isEmpty())
+							{
+								bool found = false;
+								for (int j=0; j < tabGroupButtons.size(); ++j)
+									if (tabGroupButtons[j].first == tabName)
+									{
+										found = true;
+										tabGroupButtons[j].second.removeAll(buttons[0]);
+										widgetChanged = true;
+									}
 							}
 						}
 					}

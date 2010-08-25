@@ -791,7 +791,7 @@ namespace Tinkercell
 					if (!alreadyPresent)
 					{
 						p = point + QPointF(200.0 * cos(i * dtheta), 200.0 * sin(i * dtheta));
-						if (moleculeFamily && !nodeFamily->parent())
+						if (moleculeFamily && nodeFamily->isA(tr("Node")) && !nodeFamily->parent())
 							nodeFamily = moleculeFamily;
 						newNodes << nodeInsertionTool->createNewNode(scene, p,tr(""),nodeFamily, usedNames);
 						for (int j=0; j < newNodes.size(); ++j)
@@ -915,13 +915,9 @@ namespace Tinkercell
 						{
 							if (!selectedConnections[j]->centerRegionItem)
 							{
-								NodeGraphicsReader imageReader;
-								ArrowHeadItem * node = new ArrowHeadItem(selectedConnections[j]);
-								imageReader.readXml(node,ConnectionGraphicsItem::DefaultMiddleItemFile);
+								ArrowHeadItem * node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, selectedConnections[j]);
 								if (node->isValid())
 								{
-									node->normalize();
-									
 									if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
 										node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
 
@@ -1008,23 +1004,19 @@ namespace Tinkercell
 
 					for (int i=numRequiredIn; i < item->curveSegments.size(); ++i)
 					{
-						ArrowHeadItem * arrow = 0;
+						ArrowHeadItem * arrow = 0, * arrow0 = 0;
 						if (!selectedFamily->graphicsItems.isEmpty() &&
-							(arrow = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.last())) &&
-							arrow->isValid())
+							(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.last())) &&
+							arrow0->isValid())
 						{
-							arrow = new ArrowHeadItem(*arrow);
+							arrow = new ArrowHeadItem(*arrow0);
 							arrow->connectionItem = item;
 							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 						}
 						else
 						{
-							QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-							NodeGraphicsReader imageReader;
-							arrow = new ArrowHeadItem(item);
-							imageReader.readXml(arrow,nodeImageFile);
-							arrow->normalize();
+							arrow = new ArrowHeadItem(ConnectionGraphicsItem::DefaultArrowHeadFile, item);
 							if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 								arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 						}
@@ -1181,10 +1173,6 @@ namespace Tinkercell
 		{
 			QWidget * treeWidget = mainWindow->tool(tr("Nodes Tree"));
 			nodesTree = static_cast<NodesTree*>(treeWidget);
-			if (nodesTree != 0)
-			{
-				connect(nodesTree,SIGNAL(nodeSelected(NodeFamily*)),this,SLOT(nodeSelected(NodeFamily*)));
-			}
 		}
 		
 		if (!catalogWidget && mainWindow->tool(tr("Parts and Connections Catalog")))

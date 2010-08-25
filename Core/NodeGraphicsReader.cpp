@@ -292,9 +292,9 @@ namespace Tinkercell
 						if (vec.at(i).name().toString() == QObject::tr("idList"))
 							node->name = vec.at(i).value().toString();
 						else
-						if (vec.at(i).name().toString() == QObject::tr("class"))
+						/*if (vec.at(i).name().toString() == QObject::tr("class"))
 							node->className = vec.at(i).value().toString();
-						else
+						else*/
 						if (vec.at(i).name().toString() == QObject::tr("width"))
 						{
 							width = vec.at(i).value().toString().toDouble(&ok);

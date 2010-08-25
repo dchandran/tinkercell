@@ -1638,28 +1638,35 @@ namespace Tinkercell
 		QList<QUndoCommand*> commands;
 
 		QPointF center;
+		int n = 0;
 		for (int i=0; i < items.size(); ++i)
 			if (items[i])
 			{
-				center += items[i]->scenePos();
 				if ((connection = ConnectionGraphicsItem::cast(items[i])))
 				{
 					QList<ConnectionGraphicsItem::ControlPoint*> cps = connection->controlPoints();
 					for (int j=0; j < cps.size(); ++j)
+					{
 						moveitems += cps[j];
+						center += cps[j]->scenePos();
+						++n;
+					}
 				}
 				else
 				{
 					moveitems += items[i];
+					center += items[i]->scenePos();
+					++n;
 				}
 			}
 
-		if (items.size() > 1)
-			center /= items.size();
+		if (n > 1)
+			center /= n;
 
 		if (!lastPoint().isNull())
 		{
 			commands << new MoveCommand(this,moveitems,lastPoint() - center);
+			lastPoint() += QPointF(10.0,10.0);
 		}
 
 		QList<QString> allItems = network->symbolsTable.uniqueItems.keys();

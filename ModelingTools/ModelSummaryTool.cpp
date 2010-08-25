@@ -664,7 +664,6 @@ namespace Tinkercell
 					handle = getHandle(qgraphicsitem_cast<ConnectionGraphicsItem::ControlPoint*>(items[i])->connectionItem);
 				
 				if ( handle &&
-					( handle->isA(tr("Molecule")) || handle->isA(tr("Part")) || handle->isA(tr("Compartment")) || handle->isA(tr("Connection")) ) &&
 					(handle->children.isEmpty() || handle->isA(tr("Compartment"))))
 					itemHandles += handle;
 

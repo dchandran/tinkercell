@@ -277,7 +277,7 @@ namespace Tinkercell
 			midpt.ry() /= fullList.size();
 
 			QVector<QPointF> closePointsIn(inputList.size()),
-				closePointsOut(outputList.size());
+									closePointsOut(outputList.size());
 
 			for (int i = 0; i < inputList.size(); ++i)
 			{
@@ -319,8 +319,8 @@ namespace Tinkercell
 				if (inputList[0] == outputList[0]) //self loop
 				{
 					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt1,connection));
-					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt1 * 0.25),connection));
-					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt * 0.75 + midpt2 * 0.25),connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + QPointF(0,50)),connection));
+					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint((midpt + QPointF(0,-50)),connection));
 					connection->curveSegments[0].append(new ConnectionGraphicsItem::ControlPoint(midpt2,connection));
 				}
 				else

@@ -327,7 +327,7 @@ namespace Tinkercell
 		{
 			selectFamilyWidget = new QDialog(this);
 			QTableWidget * table = new QTableWidget;
-			table->setHorizontalHeaderLabels( QStringList() << tr("show") << tr("family") );
+			table->setVerticalHeaderLabels( QStringList() << tr("show") << tr("family") );
 			table->setColumnCount(2);
 			table->setRowCount(allNames.size());
 			table->setWindowFlags(Qt::Window);

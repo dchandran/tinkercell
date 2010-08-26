@@ -9,12 +9,6 @@
 ****************************************************************************/
 
 #include <math.h>
-#include <QDir>
-#include <QToolBar>
-#include <QMessageBox>
-#include <QButtonGroup>
-#include <QDockWidget>
-#include <QScrollArea>
 #include "ItemFamily.h"
 #include "NetworkHandle.h"
 #include "ItemHandle.h"
@@ -28,8 +22,6 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "LoadSaveTool.h"
-#include "NodesTree.h"
-#include "CatalogWidget.h"
 #include "ModuleTool.h"
 
 namespace Tinkercell
@@ -40,7 +32,8 @@ namespace Tinkercell
 	static QString interfaceClassName("module interface item");
 	static QString connectionClassName("module connection item");
 
-    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools")), newModuleDialog(0)
+    ModuleTool::ModuleTool() : Tool(tr("Module Connection Tool"),tr("Module tools")), 
+    	newModuleDialog(0), newModuleTable(0), newModuleName(0), connectionsTree(0), nodesTree(0)
     {
         setPalette(QPalette(QColor(255,255,255,255)));
         setAutoFillBackground(true);
@@ -131,15 +124,14 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)),
                     this, SLOT(itemsInserted(NetworkHandle*, const QList<ItemHandle*>&)));
 
-            connect(mainWindow,SIGNAL(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)),
-                    this, SLOT(itemsMoved(GraphicsScene*, const QList<QGraphicsItem*>&, const QList<QPointF>&)));
-
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 					this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
 
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(mainWindow->tool(tr("Nodes Tree")));
+			
+			toolLoaded(mainWindow->tool(tr("Connections Tree")));
 
 			toolLoaded(mainWindow->tool(tr("Parts and Connections Catalog")));
 
@@ -152,38 +144,34 @@ namespace Tinkercell
 	void ModuleTool::toolLoaded(Tool * tool)
 	{
 		if (!tool) return;
-		static bool connected1 = false, connected2 = false, connected3 = false;
-
-		if (tool->name == tr("Nodes Tree") && !connected1)
+		static bool connected2 = false, connected3 = false;
+		
+		if (tool->name == tr("Nodes Tree") && !nodesTree)
 		{
-			NodesTree * tree = static_cast<NodesTree*>(tool);
-			if (!tree->nodeFamilies.contains(tr("Module")))
+			nodesTree = static_cast<NodesTree*>(tool);
+		}
+		
+		if (tool->name == tr("Connections Tree") && !connectionsTree)
+		{
+			connectionsTree = static_cast<ConnectionsTree*>(tool);
+			if (!connectionsTree->connectionFamilies.contains(tr("Module")))
 			{
-				NodeFamily * moduleFamily = new NodeFamily(tr("Module"));
-
-				QString appDir = QCoreApplication::applicationDirPath();
-				NodeGraphicsItem * image = new NodeGraphicsItem;
-				NodeGraphicsReader reader;
-				reader.readXml(image, appDir + tr("/NodeItems/Module.xml"));
-				image->normalize();
-
-				moduleFamily->graphicsItems += image;
+				ConnectionFamily * moduleFamily = new ConnectionFamily(tr("Module"));
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
-				tree->nodeFamilies[moduleFamily->name] = moduleFamily;
-				connected1 = true;
+				connectionsTree->connectionFamilies[moduleFamily->name] = moduleFamily;
 			}
 		}
 
 		if (tool->name == tr("Parts and Connections Catalog") && !connected2)
 		{
-			CatalogWidget * catalog = static_cast<CatalogWidget*>(tool);
+			catalogWidget = static_cast<CatalogWidget*>(tool);
 
-			connect(catalog,SIGNAL(buttonPressed(const QString&)),
+			connect(catalogWidget,SIGNAL(buttonPressed(const QString&)),
 					this,SLOT(moduleButtonPressed(const QString&)));
 
-			QList<QToolButton*> newButtons = catalog->addNewButtons(
+			QList<QToolButton*> newButtons = catalogWidget->addNewButtons(
 				tr("Modules"),
 				QStringList() 	<< tr("New module") 
 								//<< tr("Insert input/output")
@@ -536,26 +524,6 @@ namespace Tinkercell
 					}
 				}
 			}
-/*		
-		QList<QGraphicsItem*> interfaces;
-		NodeGraphicsItem * node;
-		ItemHandle * handle;
-		for (int i=0; i < items.size(); ++i)
-			if ((node = NodeGraphicsItem::cast(items[i])) 
-				&& (handle = node->handle())
-				&& (node->className == linkerClassName || node->className == interfaceClassName))
-			{
-				handle->textData("Text Attributes","Module interface") = tr("false");
-				for (int j=0; j < handle->graphicsItems.size(); ++j)
-					if ((node = NodeGraphicsItem::cast(handle->graphicsItems[j]))
-						&& !interfaces.contains(node)
-						&& (node->className == linkerClassName || node->className == interfaceClassName))
-					{
-						interfaces << node;
-					}
-			}
-		items << interfaces;
-*/
 	}
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
@@ -622,45 +590,6 @@ namespace Tinkercell
 	    	RenameCommand rename(tr(""),network,oldNames,newNames);
     		rename.redo();
     	}
-    }
-
-    void ModuleTool::itemsMoved(GraphicsScene* scene, const QList<QGraphicsItem*>& list, const QList<QPointF>&)
-    {
-		if (!scene) return;
-
-		QList<QGraphicsItem*> items = list;
-        NodeGraphicsItem* node;
-        ItemHandle * handle;
-		QList<NodeGraphicsItem*> visited;
-		NodeGraphicsItem::ControlPoint * cp;
-
-        for (int i=0; i < items.size(); ++i)
-            if ((	(node = NodeGraphicsItem::cast(items[i])) ||
-            		( (cp = qgraphicsitem_cast<NodeGraphicsItem::ControlPoint*>(items[i])) && (node = cp->nodeItem) )
-            	)
-            	&& (handle = node->handle()) && !visited.contains(node))
-            {
-            	visited << node;
-            	if (handle->isA(tr("module")))
-            	{
-            		items << handle->allGraphicsItems();
-            	}
-            	else
-            	{
-            		if (node->className == linkerClassName
-          			  	&& handle->parent
-         			   	&& handle->parent->isA(tr("module")))
-				    {
-				    	handle = handle->parent;
-				    	for (int j=0; j < handle->graphicsItems.size(); ++j)
-				    		if (NodeGraphicsItem::cast(handle->graphicsItems[j]))
-				    		{
-					    		node->setPos(getPoint(handle->graphicsItems[j],node->scenePos(),node));
-					    		break;
-					    	}
-					}
-				}
-			}		
     }
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)
@@ -984,13 +913,13 @@ namespace Tinkercell
 	void ModuleTool::moduleButtonPressed(const QString& name)
 	{
 		GraphicsScene * scene = currentScene();
-		if (!mainWindow || !scene) return;
+		if (!scene) return;
 
 		if (name == tr("New module"))
-			mode = inserting;
-
-	//if (name == tr("Insert input/output"))
-	//		mode = linking;
+		{
+			mainWindow->setCursor(Qt::ArrowCursor);
+			showNewModuleDialog();
+		}
 
 		if (name == tr("Connect input/output"))
 			mode = connecting;
@@ -998,15 +927,136 @@ namespace Tinkercell
 		if (mode != none)
 			scene->useDefaultBehavior = false;
 	}
+	
+	void ModuleTool::updateNumberForNewModule(int n)
+	{
+		if (!newModuleTable || !nodesTree) return;
+		
+		for (int i=0; i < newModuleTable->rowCount(); ++i)
+		{
+			QWidget * widget = newModuleTable->cellWidget(i,1);
+			delete widget;
+		}
+		newModuleTable->setRowCount(n);
+		QStringList names(nodesTree->nodeFamilies.keys());
+		names.sort();
+		
+		int k = names.indexOf(tr("Molecule"));
+		if (k < 0)
+			k = 0;
+		QComboBox * comboBox;
+		
+		for (int i=0; i < newModuleTable->rowCount(); ++i)
+		{
+			comboBox = new QComboBox;
+			comboBox->addItems(names);
+			comboBox->setCurrentIndex(k);
+			newModuleTable->setCellWidget(i,1,comboBox);
+		}
+	}
 
 	void ModuleTool::showNewModuleDialog()
 	{
+		if (!nodesTree || !connectionsTree)
+		{
+			QMessageBox::information(mainWindow, tr("No catalog"), tr("Cannot create new modules because no catalog of components is available"));
+			return;
+		}
+		
 		if (!newModuleDialog)
 		{
-			newModuleDialog = new QDialog(this);
+			newModuleDialog = new QDialog(mainWindow);
 			QVBoxLayout * layout = new QVBoxLayout;
+			
+			QGroupBox * group1 = new QGroupBox(tr(""));
+			QVBoxLayout * layout1 = new QVBoxLayout;
+			QHBoxLayout * layout1a = new QHBoxLayout, * layout1b = new QHBoxLayout;
+			newModuleName = new QLineEdit;
+			layout1a->addStretch(1);
+			layout1a->addWidget(new QLabel(tr(" Module name : ")),0);
+			layout1a->addWidget(newModuleName,0);
+			layout1a->addStretch(1);
+
+			layout1b->addStretch(1);
+			layout1b->addWidget(new QLabel(tr(" Number of inputs/outputs : ")),0);
+			QSpinBox * spinBox = new QSpinBox;
+			spinBox->setRange(2,20);
+			connect(spinBox,SIGNAL(valueChanged(int)),this,SLOT(updateNumberForNewModule(int)));
+			layout1b->addWidget(spinBox,0);
+			layout1b->addStretch(1);
+
+			layout1->addLayout(layout1a);
+			layout1->addLayout(layout1b);
+
+			group1->setLayout(layout1);
+			layout->addWidget(group1);
+
+			newModuleTable = new QTableWidget;
+			newModuleTable->setColumnCount(2);
+			newModuleTable->setHorizontalHeaderLabels(QStringList() << "Name" << "Family" );
+			QGroupBox * group2 = new QGroupBox(tr(""));
+			QHBoxLayout * layout2 = new QHBoxLayout;
+			layout2->addWidget(newModuleTable,1,Qt::AlignCenter);
+			group2->setLayout(layout2);
+			layout->addWidget(group2);
+
+			QPushButton * okButton = new QPushButton("&Make Module");
+			QPushButton * cancelButton = new QPushButton("&Cancel");
+			connect(okButton,SIGNAL(pressed()),newModuleDialog,SLOT(accept()));
+			connect(cancelButton,SIGNAL(pressed()),newModuleDialog,SLOT(reject()));
+			QGroupBox * group3 = new QGroupBox(tr(""));
+			QHBoxLayout * layout3 = new QHBoxLayout;
+			layout3->addStretch(1);
+			layout3->addWidget(okButton);
+			layout3->addWidget(cancelButton);
+			layout3->addStretch(1);
+			group3->setLayout(layout3);
+			layout->addWidget(group3);
+
 			newModuleDialog->setLayout(layout);
+			spinBox->setValue(3);
 		}
+
+		newModuleDialog->exec();
+		
+		if (newModuleDialog->result() == QDialog::Accepted)		
+			makeNewModule();
+	}
+	
+	void ModuleTool::makeNewModule()
+	{
+		if (!catalogWidget || !nodesTree || !connectionsTree || !newModuleName || !newModuleTable || 
+			!connectionsTree->connectionFamilies.contains(tr("Module"))) 
+			return;
+		
+		QString name = newModuleName->text();
+		if (name.isNull() || name.isEmpty()) return;
+		
+		ConnectionFamily * moduleFamily = connectionsTree->connectionFamilies[ tr("Module") ];
+		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
+		newModuleFamily->setParent(moduleFamily);
+		connectionsTree->connectionFamilies[name] = newModuleFamily;
+		newModuleFamily->pixmap = moduleFamily->pixmap;
+		newModuleFamily->description = moduleFamily->description;
+		
+		QTableWidgetItem * tableItem;
+		QComboBox * comboBox;
+/*
+		for (int i=0; i < newModuleTable->rowCount(); ++i)
+		{
+			tableItem = newModuleTable->item(i,0);
+			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));
+			
+			newModuleFamily->nodeFunctions += tableItem->text();
+			newModuleFamily->nodeFamilies += comboBox->currentText();
+		}
+*/		
+		catalogWidget->addNewButtons(
+				tr("Modules"),
+				QStringList() << moduleFamily->name,
+				QList<QIcon>() 	<< QIcon(newModuleFamily->pixmap),
+				QStringList() << moduleFamily->description);
+		
 	}
 
 	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)

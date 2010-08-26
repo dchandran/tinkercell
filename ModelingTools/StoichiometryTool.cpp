@@ -29,7 +29,6 @@ the stoichiometry and rates tables.
 #include "DefaultReactionRates.h"
 #include "ConnectionsTree.h"
 #include "EquationParser.h"
-#include "ModuleTool.h"
 #include "muParserDef.h"
 #include "muParser.h"
 #include "muParserInt.h"

@@ -33,12 +33,26 @@
 #include <QTableWidgetItem>
 #include <QPair>
 #include <QAbstractButton>
+#include <QComboBox>
+#include <QLabel>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QDir>
+#include <QToolBar>
+#include <QMessageBox>
+#include <QButtonGroup>
+#include <QDockWidget>
+#include <QScrollArea>
+
 
 #include "GraphicsScene.h"
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "NodeGraphicsWriter.h"
 #include "NodesTree.h"
+#include "ConnectionsTree.h"
+#include "CatalogWidget.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "ModuleConnectionGraphicsItem.h"
@@ -55,7 +69,6 @@ namespace Tinkercell
 
 	signals:
 
-		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		void loadItems(QList<QGraphicsItem*>&, const QString&);
 
 	public slots:
@@ -66,7 +79,6 @@ namespace Tinkercell
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		void toolLoaded (Tool * tool);
 		void itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles);
-		void itemsMoved(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<QPointF>& distance);
 		void mouseDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem *, Qt::MouseButton, Qt::KeyboardModifiers modifiers);
 		void keyPressed(GraphicsScene*,QKeyEvent *);
 		void sceneClicked(GraphicsScene *scene, QPointF point, Qt::MouseButton button, Qt::KeyboardModifiers modifiers);
@@ -77,6 +89,8 @@ namespace Tinkercell
 
 		void moduleButtonPressed(const QString&);
 		void modelButtonClicked (QAbstractButton *);
+		void showNewModuleDialog();
+		void updateNumberForNewModule(int);
 
 	private:
 
@@ -86,9 +100,14 @@ namespace Tinkercell
 		QGraphicsLineItem lineItem;
 		
 		QDockWidget * makeDockWidget(const QString&);
-
+		void makeNewModule();
+		
 		QDialog * newModuleDialog;
-		void showNewModuleDialog();
+		QLineEdit * newModuleName;
+		QTableWidget * newModuleTable;
+		ConnectionsTree * connectionsTree;
+		NodesTree * nodesTree;
+		CatalogWidget * catalogWidget;
 
 		void makeModuleConnection(NodeGraphicsItem*,NodeGraphicsItem*,GraphicsScene*);
 		QUndoCommand * moduleConnectionsInserted(QList<QGraphicsItem*>& items);

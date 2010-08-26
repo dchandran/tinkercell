@@ -359,9 +359,9 @@ namespace Tinkercell
 			}
 			
 			QHBoxLayout * hlayout = new QHBoxLayout;
-			QPushButton * okButton = new QPushButton("OK");
+			QPushButton * okButton = new QPushButton("&OK");
 			connect(okButton,SIGNAL(pressed()),selectFamilyWidget,SLOT(accept()));
-			QPushButton * cancelButton = new QPushButton("Cancel");
+			QPushButton * cancelButton = new QPushButton("&Cancel");
 			connect(cancelButton,SIGNAL(pressed()),selectFamilyWidget,SLOT(reject()));
 			hlayout->addStretch(1);
 			hlayout->addWidget(okButton);

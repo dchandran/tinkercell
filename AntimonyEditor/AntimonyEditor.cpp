@@ -19,7 +19,6 @@
 #include "ConnectionsTree.h"
 #include "AntimonyEditor.h"
 #include "ModelSummaryTool.h"
-#include "ModuleTool.h"
 #include "CloneItems.h"
 #include <QToolButton>
 #include <QRegExp>
@@ -82,122 +81,7 @@ namespace Tinkercell
 		}
 		return false;
 	}
-/*
-	void AntimonyEditor::insertModule()
-	{
-		if (!currentTextEditor()) return;
-		QList<TextItem*>& textItems = currentTextEditor()->items();
 
-		QList<ItemHandle*> modules;
-		ItemHandle * handle;
-		for (int i=0; i < textItems.size(); ++i)
-			if ((handle = getHandle(textItems[i])) && handle->isA(tr("Module")) && !handle->name.isEmpty())
-				modules += handle;
-
-		if (modules.isEmpty()) return;
-
-		NodeFamily * moduleFamily = 0;
-
-		if (mainWindow->tool(tr("Nodes Tree")))
-		{
-			NodesTree * partsTree = static_cast<NodesTree*>(mainWindow->tool(tr("Nodes Tree")));
-			if (partsTree->nodeFamilies.contains(tr("Module")))
-				moduleFamily = partsTree->nodeFamilies.value(tr("Module"));
-		}
-
-		if (!moduleFamily) return;
-
-		QList<NetworkWindow*> windows = mainWindow->allWindows();
-
-		GraphicsScene * scene = 0;
-
-		for (int i = windows.size()-1; i >= 0; --i)
-			if (windows[i] && windows[i]->scene)
-			{
-				scene = windows[i]->scene;
-				break;
-			}
-
-		if (!scene) return;
-
-		QList<TextItem*> clones = clone(textItems);
-		modules.clear();
-
-		QString text;
-		QList<QGraphicsItem*> list;
-
-		QPointF point = scene->lastPoint();
-
-		for (int i=0; i < clones.size(); ++i)
-			if ((handle = getHandle(clones[i])) && handle->isA(tr("Module")))
-			{
-                    qreal xpos = point.x();
-                    qreal height = 0.0;
-                    qreal width = 0.0;
-
-                    for (int i=0; i < moduleFamily->graphicsItems.size(); ++i)
-                        if (qgraphicsitem_cast<NodeGraphicsItem*>(moduleFamily->graphicsItems[i]))
-                            width += qgraphicsitem_cast<NodeGraphicsItem*>(moduleFamily->graphicsItems[i])->defaultSize.width();
-
-                    xpos -= width/2.0;
-                    bool alternate = false;
-
-                    text += handle->name + tr(" ");
-
-					NodeFamily * nodeFamily = moduleFamily;
-
-                    for (int i=0; i < nodeFamily->graphicsItems.size(); ++i)
-					{
-						NodeGraphicsItem * image = (NodeGraphicsItem::topLevelNodeItem(nodeFamily->graphicsItems[i]));
-						if (image)
-						{
-							   image = image->clone();
-
-							   if (image->defaultSize.width() > 0 && image->defaultSize.height() > 0)
-									image->scale(image->defaultSize.width()/image->sceneBoundingRect().width(),image->defaultSize.height()/image->sceneBoundingRect().height());
-
-							   qreal w = image->sceneBoundingRect().width();
-							   image->setPos(xpos + w/2.0, point.y());
-							   image->adjustBoundaryControlPoints();
-							   image->setBoundingBoxVisible(false);
-
-							   if (image->isValid())
-							   {
-									xpos += w;
-									setHandle(image,handle);
-									list += image;
-							   }
-							   if (image->sceneBoundingRect().height() > height)
-									height = image->sceneBoundingRect().height();
-						  }
-					 }
-
-					 if (nodeFamily->graphicsItems.size() > 0)
-					 {
-						  if (handle->family())
-						  {
-							   TextGraphicsItem * nameItem = new TextGraphicsItem(handle,0);
-							   QFont font = nameItem->font();
-							   font.setPointSize(22);
-							   nameItem->setFont(font);
-							   if (alternate)
-									nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() - height/2.0 - 40.0);
-							   else
-									nameItem->setPos(xpos - nameItem->boundingRect().width(), point.y() + height/2.0 + 5.0);
-							   list += nameItem;
-							   alternate = !alternate;
-						  }
-					}
-			}
-
-			if (!list.isEmpty())
-			{
-				scene->insert(text + tr("inserted"),list);
-				if (scene->networkWindow)
-					mainWindow->setCurrentWindow(scene->networkWindow);
-			}
-	}
-*/
 	void AntimonyEditor::networkOpened(NetworkHandle * win)
 	{
 		if (win && win->currentTextEditor() && TextParser::currentParser() == this)
@@ -573,8 +457,8 @@ namespace Tinkercell
 
 	void AntimonyEditor::toolLoaded(Tool*)
 	{
-		static bool connected1 = false, connected2 = false;
-		if (connected1 && connected2) return;
+		static bool connected1 = false;
+		if (connected1) return;
 
 		if (mainWindow && mainWindow->tool(tr("Model Summary")))
 		{
@@ -585,14 +469,6 @@ namespace Tinkercell
 					//this,SLOT(displayModel(QTabWidget&, const QList<ItemHandle*>&, QHash<QString,qreal>&, QHash<QString,QString>&)));
 		}
 
-		if (mainWindow && mainWindow->tool(tr("Module Connection Tool")))
-		{
-		    connected2 = true;
-			QWidget * widget = mainWindow->tool(tr("Module Connection Tool"));
-			ModuleTool * moduleTool = static_cast<ModuleTool*>(widget);
-			connect(moduleTool,SIGNAL(createTextWindow(TextEditor*, const QList<ItemHandle*>&)),
-					this,SLOT(createTextWindow(TextEditor*, const QList<ItemHandle*>&)));
-		}
 	}
 
 	/*void AntimonyEditor::displayModel(QTabWidget& widgets, const QList<ItemHandle*>& items, QHash<QString,qreal>& constants, QHash<QString,QString>& )

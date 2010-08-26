@@ -249,7 +249,7 @@ namespace Tinkercell
 
 			text += tr("Participants: ") + family->nodeFunctions.join(" , ");
 
-			text += tr("Attributes: ")
+			text += tr("\n\nAttributes: ")
 					+ ( QStringList() << family->numericalAttributes.keys() << family->textAttributes.keys() ).join(" , ")
 					+ "\n";
 			textBox->setText(text);
@@ -330,7 +330,7 @@ namespace Tinkercell
 		if (connectionFamily)
 			emit connectionSelected(connectionFamily);	
 		else
-			emit pressed(text(),icon().pixmap(30));
+			emit pressed(text().trimmed(),icon().pixmap(30));
 	}
 
 }

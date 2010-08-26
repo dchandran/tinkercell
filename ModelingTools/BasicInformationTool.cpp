@@ -134,8 +134,8 @@ namespace Tinkercell
 			
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)),
+				this,SLOT(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -352,7 +352,7 @@ namespace Tinkercell
 
 	}
 
-	void BasicInformationTool::itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& handles)
+	void BasicInformationTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
 	{
 		for (int i=0; i < handles.size(); ++i)
 		{

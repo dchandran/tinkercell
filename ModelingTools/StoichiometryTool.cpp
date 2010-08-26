@@ -51,8 +51,8 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
-			connect(mainWindow,SIGNAL(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&)),
-				this, SLOT(itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>& )));
+			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)),
+				this, SLOT(itemsInserted(NetworkHandle * , const QList<ItemHandle*>& )));
 
 			connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),
 				this,SLOT(itemsSelected(GraphicsScene*, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
@@ -262,7 +262,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& , const QList<ItemHandle*>& handles)
+	void StoichiometryTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
 	{
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)

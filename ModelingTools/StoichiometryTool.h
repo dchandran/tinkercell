@@ -110,7 +110,7 @@ namespace Tinkercell
 		/*! \brief this widget has been deselected. Argument does nothing */
 		void deselect(int i=0);
 		/*! \brief inserts the Rates and Stoichiometry tables for any new connection handle */
-		void itemsInserted(GraphicsScene * , const QList<QGraphicsItem*>& , const QList<ItemHandle*>&);
+		void itemsInserted(NetworkHandle * , const QList<ItemHandle*>& );
 		/*! \brief updates the internal connectionHandles list, which is used to display the rates and stoichiometry*/
 		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
 		/*! \brief connects to ModelSummaryTool and ConnectionSelectionTool*/

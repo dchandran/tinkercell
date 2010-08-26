@@ -373,6 +373,8 @@ namespace Tinkercell
 
             adjustRates(scene, newChildren, parentItems);
         }
+        
+        updateTree(0);
     }
 
     void CompartmentTool::nodeCollided(const QList<QGraphicsItem*>& movingItems0, NodeGraphicsItem * nodeHit, const QList<QPointF>& )

@@ -2511,9 +2511,9 @@ namespace Tinkercell
 		else
 		{
 			QRectF rect = node->boundingRect();
-			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
 			if (node->className == ArrowHeadItem::CLASSNAME)
-				node->setTransform( QTransform(t0.m11(), t0.m12(), t0.m21(), t0.m22(), 0, 0) );			
+				node->setTransform( QTransform(t0.m11(), t0.m12(), t0.m21(), t0.m22(), 0, 0) );
+			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
 		}
 
 		//node->setParentItem(parent);

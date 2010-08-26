@@ -22,6 +22,7 @@
 #include "ConnectionGraphicsItem.h"
 #include "TextGraphicsItem.h"
 #include "LoadSaveTool.h"
+#include "TreeButton.h"
 #include "ModuleTool.h"
 
 namespace Tinkercell
@@ -1033,14 +1034,19 @@ namespace Tinkercell
 		if (!catalogWidget || !nodesTree || !connectionsTree || !newModuleName || !newModuleTable || 
 			!connectionsTree->connectionFamilies.contains(tr("Module"))) 
 			return;
-		
+
 		QString name = newModuleName->text();
 		if (name.isNull() || name.isEmpty()) return;
-		
+
 		ConnectionFamily * moduleFamily = connectionsTree->connectionFamilies[ tr("Module") ];
 		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
 		newModuleFamily->setParent(moduleFamily);
+
 		connectionsTree->connectionFamilies[name] = newModuleFamily;
+		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);
+		connectionsTree->treeButtons[name] = button;
+		connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SLOT(buttonPressed(ConnectionFamily*)));
+
 		newModuleFamily->pixmap = moduleFamily->pixmap;
 		newModuleFamily->description = moduleFamily->description;
 		
@@ -1056,12 +1062,7 @@ namespace Tinkercell
 			newModuleFamily->nodeFamilies += comboBox->currentText();
 		}
 	
-		catalogWidget->addNewButtons(
-				tr("Modules"),
-				QStringList() << newModuleFamily->name,
-				QList<QIcon>() 	<< QIcon(newModuleFamily->pixmap),
-				QStringList() << newModuleFamily->description);
-		
+		catalogWidget->showButtons(QStringList() << newModuleFamily->name);
 	}
 
 	void ModuleTool::itemsDropped(GraphicsScene * scene, const QString& family, const QPointF& point)

@@ -571,6 +571,8 @@ namespace Tinkercell
 	void CatalogWidget::makeTabWidget()
 	{
 		if (!tabWidget) return;
+		
+		int k = tabWidget->currentIndex();
 
 		QStringList tabGroups;
 
@@ -619,6 +621,8 @@ namespace Tinkercell
 		{
 			tabWidget->addTab(tabs[i],tabGroups[i]);
 		}
+		
+		if (k < tabWidget->count() && k >= 0) tabWidget->setCurrentIndex(k);
 	}
 
 	QList<QToolButton*> CatalogWidget::addNewButtons(const QString& group, const QStringList& names, const QList<QIcon>& icons, const QStringList& tooltips)
@@ -648,12 +652,14 @@ namespace Tinkercell
 		if (i < tabGroupButtons.size())
 			tabGroupButtons[i].second << newButtons;
 		else
+		{
 			tabGroupButtons << QPair< QString,QList<QToolButton*> >(group,newButtons);
+			tabGroups << QPair<QString, QStringList>(group,QStringList());
+		}
 
 		makeTabWidget();
 		
 		return newButtons;
-		//if (i < tabWidget->count()) tabWidget->setCurrentIndex(i);
 	}
 
 	void CatalogWidget::showGroup(const QString& group)
@@ -719,7 +725,7 @@ namespace Tinkercell
 					
 					<< QPair<QString, QStringList>(
 													tr("Reaction"),
-													QStringList());
+													QStringList() << tr("Biochemical"));
 
 		numNodeTabs = 4;
 
@@ -814,16 +820,12 @@ namespace Tinkercell
 
 				for (int j=0; j < tabGroups.size(); ++j)
 				{
-					
 					bool isA = false;
-
-					if (j == 0 && families[i]->name.toLower() == tr("node"))
-						isA = true;
-
-					if (j == (tabGroups.size()-1))
-						isA = true;
-
+					
 					QString tabName = tabGroups[j].first;
+
+					if (families[i]->isA(tabName))
+						isA = true;
 					
 					if  (!isA)
 					{
@@ -880,19 +882,15 @@ namespace Tinkercell
 			{
 				if (!families[i] || connections.contains(families[i])) continue;
 
-				connections << families[i];
-
 				for (int j=0; j < tabGroups.size(); ++j)
 				{
 					bool isA = false;
 
-					if (j == numNodeTabs && families[i]->name.toLower() == tr("connection"))
-						isA = true;
-
-					if (j == (tabGroups.size()-1))
-						isA = true;
-
 					QString tabName = tabGroups[j].first;
+					
+					if (families[i]->isA(tabName))
+						isA = true;
+
 					if (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
@@ -938,9 +936,7 @@ namespace Tinkercell
 
 		if (widgetChanged && tabWidget)
 		{
-			int k = tabWidget->currentIndex();
 			makeTabWidget();
-			if (k < tabWidget->count()) tabWidget->setCurrentIndex(k);
 		}
 	}
 
@@ -966,14 +962,10 @@ namespace Tinkercell
 				for (int j=0; j < tabGroups.size(); ++j)
 				{					
 					bool isA = false;
-
-					if (j == 0 && families[i]->name.toLower() == tr("node"))
-						isA = true;
-
-					if (j == (tabGroups.size()-1))
-						isA = true;
-
+					
 					QString tabName = tabGroups[j].first;
+					if (families[i]->isA(tabName))
+						isA = true;
 					
 					if  (!isA)
 					{
@@ -1027,13 +1019,10 @@ namespace Tinkercell
 				{
 					bool isA = false;
 
-					if (j == numNodeTabs && families[i]->name.toLower() == tr("connection"))
-						isA = true;
-
-					if (j == (tabGroups.size()-1))
-						isA = true;
-
 					QString tabName = tabGroups[j].first;
+					if (families[i]->isA(tabName))
+						isA = true;
+
 					if (!isA)
 					{
 						for (int k=0; k < tabGroups[j].second.size(); ++k)
@@ -1071,9 +1060,7 @@ namespace Tinkercell
 
 		if (widgetChanged && tabWidget)
 		{
-			int k = tabWidget->currentIndex();
 			makeTabWidget();
-			if (k < tabWidget->count()) tabWidget->setCurrentIndex(k);
 		}
 	}
 

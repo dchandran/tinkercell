@@ -944,13 +944,18 @@ namespace Tinkercell
 		int k = names.indexOf(tr("Molecule"));
 		if (k < 0)
 			k = 0;
+		QTableWidgetItem * item;
 		QComboBox * comboBox;
 		
 		for (int i=0; i < newModuleTable->rowCount(); ++i)
 		{
+			item = new QTableWidgetItem;
 			comboBox = new QComboBox;
+			
 			comboBox->addItems(names);
 			comboBox->setCurrentIndex(k);
+			
+			newModuleTable->setItem(i,0,item);
 			newModuleTable->setCellWidget(i,1,comboBox);
 		}
 	}
@@ -1041,7 +1046,7 @@ namespace Tinkercell
 		
 		QTableWidgetItem * tableItem;
 		QComboBox * comboBox;
-/*
+
 		for (int i=0; i < newModuleTable->rowCount(); ++i)
 		{
 			tableItem = newModuleTable->item(i,0);
@@ -1050,12 +1055,12 @@ namespace Tinkercell
 			newModuleFamily->nodeFunctions += tableItem->text();
 			newModuleFamily->nodeFamilies += comboBox->currentText();
 		}
-*/		
+	
 		catalogWidget->addNewButtons(
 				tr("Modules"),
-				QStringList() << moduleFamily->name,
+				QStringList() << newModuleFamily->name,
 				QList<QIcon>() 	<< QIcon(newModuleFamily->pixmap),
-				QStringList() << moduleFamily->description);
+				QStringList() << newModuleFamily->description);
 		
 	}
 

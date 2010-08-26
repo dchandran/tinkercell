@@ -113,18 +113,24 @@ namespace Tinkercell
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 	bool NodeFamily::isA(const QString& familyName) const
 	{
-		if (familyName.toLower() == name.toLower() ||
-			//familyName.toLower() == QObject::tr("node") ||
-			familyName.toLower() == QObject::tr("anything") || 
-			familyName.toLower() == QObject::tr("thing")) return true;
+		QString familyName2 = familyName;
+		
+		if (familyName2.endsWith(QChar('s')))
+			familyName2.chop(1);
+
+		if (familyName.compare(name, Qt::CaseInsensitive) == 0 ||
+			familyName2.compare(name, Qt::CaseInsensitive) == 0 ||
+			familyName.compare(QObject::tr("anything"), Qt::CaseInsensitive) == 0 || 
+			familyName.compare(QObject::tr("thing"), Qt::CaseInsensitive) == 0) return true;
 
 		QList<NodeFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
-			//qDebug() << familyName << " is A? " << families[i]->name;
-			if (families[i]->name.toLower() == familyName.toLower()) return true;
+			if (familyName.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
+			if (familyName2.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
 			families += families[i]->parentFamilies;
 		}
+		
 		return false;
 	}
 
@@ -168,17 +174,24 @@ namespace Tinkercell
 	/*! \brief indicates whether or not the given string is the name of this family or any of its parent families*/
 	bool ConnectionFamily::isA(const QString& familyName) const
 	{
-		if (familyName.toLower() == name.toLower() ||
-			//familyName.toLower() == QObject::tr("connection") ||
-			familyName.toLower() == QObject::tr("anything") ||
-			familyName.toLower() == QObject::tr("thing")) return true;
+		QString familyName2 = familyName;
+		
+		if (familyName2.endsWith(QChar('s')))
+			familyName2.chop(1);
+
+		if (familyName.compare(name, Qt::CaseInsensitive) == 0 ||
+			familyName2.compare(name, Qt::CaseInsensitive) == 0 ||
+			familyName.compare(QObject::tr("anything"), Qt::CaseInsensitive) == 0 || 
+			familyName.compare(QObject::tr("thing"), Qt::CaseInsensitive) == 0) return true;
 
 		QList<ConnectionFamily*> families = parentFamilies;
 		for (int i=0; i < families.size(); ++i)
 		{
-			if (families[i]->name.toLower() == familyName.toLower()) return true;
+			if (familyName.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
+			if (familyName2.compare(families[i]->name, Qt::CaseInsensitive) == 0) return true;
 			families += families[i]->parentFamilies;
 		}
+
 		return false;
 	}
 

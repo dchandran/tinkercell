@@ -58,8 +58,8 @@ namespace Tinkercell
 		{
 			QList<NodeHandle*> nodes, visited;
 			for (int i=0; i < selectedFamily->nodeFamilies.size() && i < selectedFamily->nodeFunctions.size(); ++i)
-				if (isReactant(selectedFamily->nodeFunctions[i]) 
-					&& (numRequiredOut > 0 || i < (selectedFamily->nodeFunctions.size()-1)))
+				if (isReactant(selectedFamily->nodeFunctions[i])) 
+					//&& (numRequiredOut > 0 || i < (selectedFamily->nodeFunctions.size()-1)))
 				{
 					++numRequiredIn;
 					typeIn << selectedFamily->nodeFamilies[i];

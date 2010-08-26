@@ -113,11 +113,11 @@ TableOfReals rbind(TableOfReals A, TableOfReals B);
 #      define TCAPIEXPORT __declspec(dllexport)
 #    endif
 #  else
-#    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
-#      define TCAPIEXPORT __attribute__ ((visibility("default")))
-#    else
+//#    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)
+//#      define TCAPIEXPORT __attribute__ ((visibility("default")))
+//#    else
 #      define TCAPIEXPORT
-#    endif
+//#    endif
 #  endif
 # endif //TCAPIEXPORT
 

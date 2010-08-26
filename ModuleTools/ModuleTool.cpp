@@ -945,18 +945,18 @@ namespace Tinkercell
 		int k = names.indexOf(tr("Molecule"));
 		if (k < 0)
 			k = 0;
-		QTableWidgetItem * item;
+		QLineEdit * lineEdit;
 		QComboBox * comboBox;
 		
 		for (int i=0; i < newModuleTable->rowCount(); ++i)
 		{
-			item = new QTableWidgetItem;
+			lineEdit = new QLineEdit;
 			comboBox = new QComboBox;
 			
 			comboBox->addItems(names);
 			comboBox->setCurrentIndex(k);
 			
-			newModuleTable->setItem(i,0,item);
+			newModuleTable->setCellWidget(i,0,lineEdit);
 			newModuleTable->setCellWidget(i,1,comboBox);
 		}
 	}
@@ -1041,24 +1041,23 @@ namespace Tinkercell
 		ConnectionFamily * moduleFamily = connectionsTree->connectionFamilies[ tr("Module") ];
 		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
 		newModuleFamily->setParent(moduleFamily);
+		newModuleFamily->pixmap = moduleFamily->pixmap;
+		newModuleFamily->description = moduleFamily->description;
 
 		connectionsTree->connectionFamilies[name] = newModuleFamily;
 		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);
 		connectionsTree->treeButtons[name] = button;
 		connect(button,SIGNAL(connectionSelected(ConnectionFamily*)),connectionsTree,SLOT(buttonPressed(ConnectionFamily*)));
-
-		newModuleFamily->pixmap = moduleFamily->pixmap;
-		newModuleFamily->description = moduleFamily->description;
-		
-		QTableWidgetItem * tableItem;
+				
+		QLineEdit * lineEdit;
 		QComboBox * comboBox;
 
 		for (int i=0; i < newModuleTable->rowCount(); ++i)
 		{
-			tableItem = newModuleTable->item(i,0);
+			lineEdit = static_cast<QLineEdit*>(newModuleTable->cellWidget(i,0));
 			comboBox = static_cast<QComboBox*>(newModuleTable->cellWidget(i,1));
 			
-			newModuleFamily->nodeFunctions += tableItem->text();
+			newModuleFamily->nodeFunctions += lineEdit->text();
 			newModuleFamily->nodeFamilies += comboBox->currentText();
 		}
 	

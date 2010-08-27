@@ -86,7 +86,7 @@ namespace Tinkercell
 		/*! Copy Constructor */
 		NodeGraphicsItem(const NodeGraphicsItem& copy);
 		/*! basically does the same as copy constructor */
-		NodeGraphicsItem& operator = (const NodeGraphicsItem& copy);
+		virtual NodeGraphicsItem& operator = (const NodeGraphicsItem& copy);
 		/*! \brief make a copy of this node item*/
 		virtual NodeGraphicsItem* clone() const;
 		/*! \brief paint method. Call's parent's paint after setting antialiasing to true*/

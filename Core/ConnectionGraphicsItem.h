@@ -131,9 +131,9 @@ namespace Tinkercell
 		/*! Copy Constructor: copies handle but not control points */
 		ConnectionGraphicsItem(const ConnectionGraphicsItem& copy);
 		/*! operator =: remove everything from original connection and copy everything from the given connection */
-		ConnectionGraphicsItem& operator = (const ConnectionGraphicsItem& copy);
+		virtual ConnectionGraphicsItem& operator = (const ConnectionGraphicsItem& copy);
 		/*! operator =: copy just the control point positions and pen */
-		ConnectionGraphicsItem& copyPoints (const ConnectionGraphicsItem& copy);
+		virtual ConnectionGraphicsItem& copyPoints (const ConnectionGraphicsItem& copy);
 		/*! \brief make a copy of this connection item*/
 		virtual ConnectionGraphicsItem* clone() const;
 		/*! \brief returns the bounding rectangle for this reaction figure*/

@@ -530,20 +530,20 @@ namespace Tinkercell
 			
 			if (type == BasicInformationTool::both)
 			{
-				reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
+				reader.readXml(&item,appDir + tr("/DecoratorItems/textsheet.xml"));
 				item.setToolTip(tr("Attributes"));
 				toolGraphicsItem->setToolTip(tr("Attributes"));
 			}
 			else
 				if (type == BasicInformationTool::numerical)
 				{
-					reader.readXml(&item,appDir + tr("/OtherItems/datasheet.xml"));
+					reader.readXml(&item,appDir + tr("/DecoratorItems/datasheet.xml"));
 					item.setToolTip(tr("Parameters"));
 					toolGraphicsItem->setToolTip(tr("Parameters"));
 				}
 				else
 				{
-					reader.readXml(&item,appDir + tr("/OtherItems/textsheet.xml"));
+					reader.readXml(&item,appDir + tr("/DecoratorItems/textsheet.xml"));
 					item.setToolTip(tr("Text attributes"));
 					toolGraphicsItem->setToolTip(tr("Text attributes"));
 				}
@@ -980,6 +980,7 @@ namespace Tinkercell
 					&(_getAllTextDataNamed),
 					&(_setTextData)
 					);
+
 			}
 		}
 	}

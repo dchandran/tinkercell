@@ -456,7 +456,7 @@ namespace Tinkercell
 		else
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			QString filename = appDir + tr("/OtherItems/Reversible.xml");
+			QString filename = appDir + tr("/DecoratorItems/Reversible.xml");
 			emit setMiddleBox(1,filename);
 		}
 	}

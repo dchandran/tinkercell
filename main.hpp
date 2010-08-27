@@ -42,14 +42,14 @@ of items in the scene as well as their data column and row names. This is design
 any string that exists in the model. All full names are stored using the dot delimiter and underscore.
 
 * @section GraphicsItem Graphics Items
-The major graphics classes are: NodeGraphicsItem, ConnectionGraphicsItem, ControlPoint, and GraphicalTool. 
+The major graphics classes are: NodeGraphicsItem, ConnectionGraphicsItem, ControlPoint, and Tool::GraphicsItem. 
 NodeGraphicsItem is a class that can be represented in XML format. It is a collection of polygons (class Shape). 
 ArrowHeadItem inherits from NodeGraphicsItem and is used inside ConnectionGraphicsItem.
 ConnectionGraphicsItem is a collection of path objects with arrow heads on each path and a NodeGraphicsItem at the
 center for decoration purpose.
 ControlPoint is a graphical item that usually does not have an associated handle. It is used to modify other graphical
 items, thus is it not a object in a model.
-GraphicalTool is a graphical item that is used for a unique user interface. They pop up when objects in a scene are 
+Tool::GraphicsItem is a graphical item that is used for a unique user interface. They pop up when objects in a scene are 
 selected. They are usually associated with plug-ins
 * @section Tools Tools (plug-ins)
 Tools represent a genetic class which can connect with the MainWindow and modify TinkerCell. 
@@ -74,3 +74,8 @@ Tools represent a genetic class which can connect with the MainWindow and modify
 /*! \defgroup CAPI C API
    \brief C functions that are provided by the TinkerCell Core library and Plug-ins (tools)
  */
+
+/*! \defgroup plugins TinkerCell plug-ins
+   \brief Plug-ins, which are classes that inheir from Tool class, provide the large majority of the important features in TinkerCell
+ */
+ 

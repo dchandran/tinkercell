@@ -63,7 +63,7 @@ namespace Tinkercell
 		QStringList headers;
 		QStringList paths;
 		headers << "Nodes, Cells, etc." << "Arrow heads" << "Decorations";
-		paths << "/NodeItems/" << "/ArrowItems/" << "/OtherItems/";
+		paths << "/NodeItems/" << "/ArrowItems/" << "/DecoratorItems/";
 
 		for (int i=0; i < headers.size() && paths.size(); ++i)
 		{

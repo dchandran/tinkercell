@@ -31,7 +31,7 @@ namespace Tinkercell
 
 		QString appDir = QCoreApplication::applicationDirPath();
 		NodeGraphicsReader reader;
-		reader.readXml(&idcard,appDir + tr("/OtherItems/idcard.xml"));
+		reader.readXml(&idcard,appDir + tr("/DecoratorItems/idcard.xml"));
 		idcard.normalize();
 		idcard.scale(40.0/idcard.sceneBoundingRect().width(),30.0/idcard.sceneBoundingRect().height());
 

@@ -416,7 +416,7 @@ namespace Tinkercell
 					font.setPointSize(22);
 					nameItem->setFont(font);
 					
-					nodeImageFile = appDir + tr("/OtherItems/UpCircle.xml");
+					nodeImageFile = appDir + tr("/DecoratorItems/UpCircle.xml");
 					ArrowHeadItem * middleItem = new ArrowHeadItem(nodeImageFile,item);
 					item->centerRegionItem = middleItem;
 					list += middleItem;

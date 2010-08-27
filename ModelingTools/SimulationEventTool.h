@@ -50,7 +50,12 @@ namespace Tinkercell
         void addEvent(const char*, const char*);
     };
 
-
+	/*! \brief This class adds the Events and Assignments string data 
+				to each node and connection that is inserted and provides the widget
+				for editting those tables. It also adds a new tab to the catalog widget
+				for inserting events.
+	\ingroup plugins
+	*/
     class TINKERCELLEXPORT SimulationEventsTool : public Tool
     {
         Q_OBJECT

@@ -403,13 +403,17 @@ namespace Tinkercell
 
 					QStringList reactants;
 					for (int j=0; j < nDat1->cols(); ++j)
+						nDat2->value(1,nDat1->colName(j)) = nDat1->value(0,j);
+
+					for (int j=0; j < nDat2->cols(); ++j)
 					{
-						if (nDat1->value(1,j) > 0)
+						nDat1->value(1,nDat2->colName(j)) = nDat2->value(0,j);
+						if (nDat2->value(0,j) > 0)
 						{
-							if (nDat1->value(1,j) == 1)
-								reactants << nDat1->colName(j);
+							if (nDat2->value(0,j) == 1)
+								reactants << nDat2->colName(j);
 							else
-								reactants << ( nDat1->colName(j) + tr("^") + QString::number(nDat1->value(1,j)) );
+								reactants << ( nDat2->colName(j) + tr("^") + QString::number(nDat2->value(0,j)) );
 						}
 					}
 

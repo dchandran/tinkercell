@@ -160,28 +160,32 @@ namespace Tinkercell
 
                //set arrow head
 
-               QString nodeImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name);
-               NodeGraphicsReader imageReader;
-               ArrowHeadItem * nodeitem = new ArrowHeadItem;
-               imageReader.readXml(nodeitem,nodeImageFile);
+               QString arrowImageFile = appDir + QString("/") + ConnectionsTree::arrowImageFile(family->name);
+               ArrowHeadItem * nodeitem = new ArrowHeadItem(arrowImageFile);
+
+               if (!nodeitem->isValid())
+                   delete nodeitem;
+               else
+	               family->graphicsItems += nodeitem;
+
+               //if no arrow file, same as parent's arrow
+               if (parentFamily && family->graphicsItems.isEmpty() && 
+               		!parentFamily->graphicsItems.isEmpty() &&
+                    NodeGraphicsItem::cast(parentFamily->graphicsItems[0]))
+                    family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[0]))->clone();
+               
+               QString decoratorImageFile = appDir + QString("/") + ConnectionsTree::decoratorImageFile(family->name);
+               nodeitem = new ArrowHeadItem(decoratorImageFile);
                
                if (!nodeitem->isValid())
                    delete nodeitem;
                else
-               {
-               	   nodeitem->normalize();
 	               family->graphicsItems += nodeitem;
-	           }
-
-               //if no arrow file, same as parent's arrow
-               if (family->graphicsItems.isEmpty() && parentFamily)
-               {
-               		family->graphicsItems.clear();
-                    for (int i=0; i < parentFamily->graphicsItems.size(); ++i)
-                         if (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[i]))
-                              family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems[i]))->clone();
-               }
-
+	           
+	           if (parentFamily &&
+	           		(family->graphicsItems.size() < parentFamily->graphicsItems.size()) &&
+                    NodeGraphicsItem::cast(parentFamily->graphicsItems.last()))
+                    family->graphicsItems += (NodeGraphicsItem::topLevelNodeItem(parentFamily->graphicsItems.last()))->clone();
 
                //read sub nodes and child nodes
                QString text;

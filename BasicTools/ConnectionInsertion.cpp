@@ -580,16 +580,27 @@ namespace Tinkercell
 		setRequirements();
 		
 		QString appDir = QCoreApplication::applicationDirPath();
-
+		
+		QList<QGraphicsItem*> insertList;
 		ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
+		insertList += item;
+		
+		if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
+		{
+			NodeGraphicsItem * node = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
+			if (node && node->className == ArrowHeadItem::CLASSNAME)
+			{
+				item->centerRegionItem = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node));
+				if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
+					node->scale(node->defaultSize.width()/node->sceneBoundingRect().width(),node->defaultSize.height()/node->sceneBoundingRect().height());
+				insertList += item->centerRegionItem;
+			}
+		}
 
 		//making new connections
 		handle = new ConnectionHandle(selectedFamily,item);
 		if (retitem)
 			(*retitem) = handle;
-
-		QList<QGraphicsItem*> insertList;
-		insertList += item;
 
 		QPointF center;
 
@@ -601,23 +612,19 @@ namespace Tinkercell
 
 			if (i >= numRequiredIn)
 			{
-				ArrowHeadItem * arrow = 0;
+				ArrowHeadItem * arrow0 = 0, * arrow = 0;
 				if (!selectedFamily->graphicsItems.isEmpty() &&
-					(arrow = qgraphicsitem_cast<ArrowHeadItem*>(selectedFamily->graphicsItems.last())) &&
-					arrow->isValid())
+					(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(selectedFamily->graphicsItems.first())) &&
+					arrow0->isValid())
 				{
-					arrow = new ArrowHeadItem(*arrow);
+					arrow = new ArrowHeadItem(*arrow0);
 					arrow->connectionItem = item;
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 				}
 				else
 				{
-					QString nodeImageFile = appDir + tr("/ArrowItems/Reaction.xml");
-					NodeGraphicsReader imageReader;
-					arrow = new ArrowHeadItem(item);
-					imageReader.readXml(arrow,nodeImageFile);
-					arrow->normalize();
+					arrow = new ArrowHeadItem(ConnectionGraphicsItem::DefaultArrowHeadFile, item);
 					if (arrow->defaultSize.width() > 0 && arrow->defaultSize.height() > 0)
 						arrow->scale(arrow->defaultSize.width()/arrow->sceneBoundingRect().width(),arrow->defaultSize.height()/arrow->sceneBoundingRect().height());
 				}
@@ -909,13 +916,22 @@ namespace Tinkercell
 					scene->selected().clear();
 					mainWindow->statusBar()->clearMessage();
 					ConnectionHandle * handle = 0;
+					bool createdCenterItem = false;
 
 					for (int j=0; j < selectedConnections.size(); ++j)
 						if (selectedConnections[j])
 						{
 							if (!selectedConnections[j]->centerRegionItem)
 							{
-								ArrowHeadItem * node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, selectedConnections[j]);
+								ArrowHeadItem * node;
+								if (selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
+								{
+									NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
+									if (node0 && node0->className == ArrowHeadItem::CLASSNAME)
+										node = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node0));										
+								}
+								else
+									node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile, selectedConnections[j]);
 								if (node->isValid())
 								{
 									if (node->defaultSize.width() > 0 && node->defaultSize.height() > 0)
@@ -929,6 +945,7 @@ namespace Tinkercell
 							if (selectedConnections[j]->centerRegionItem && selectedConnections[j]->handle() &&
 								selectedConnections[j]->handle()->type == ConnectionHandle::TYPE)
 							{
+								createdCenterItem = true;
 								insertList += selectedConnections[j]->centerRegionItem;
 								selectedNodes += selectedConnections[j]->centerRegionItem;
 								if (!handle)
@@ -939,9 +956,22 @@ namespace Tinkercell
 								}
 							}
 						}
-					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
-					if (item == 0 || selectedNodes.size() < 2)
+					if (selectedNodes.size() < 2)
 						return;
+
+					ConnectionGraphicsItem * item = new ConnectionGraphicsItem;
+		
+					if (!createdCenterItem && selectedFamily->graphicsItems.size() > 1 && selectedFamily->graphicsItems.last())
+					{
+						NodeGraphicsItem * node0 = NodeGraphicsItem::cast(selectedFamily->graphicsItems.last());
+						if (node0 && node0->className == ArrowHeadItem::CLASSNAME)
+						{
+							item->centerRegionItem = new ArrowHeadItem(*static_cast<ArrowHeadItem*>(node0));
+							if (node0->defaultSize.width() > 0 && node0->defaultSize.height() > 0)
+								node0->scale(node0->defaultSize.width()/node0->sceneBoundingRect().width(),node0->defaultSize.height()/node0->sceneBoundingRect().height());
+							insertList += item->centerRegionItem;
+						}
+					}
 
 					//making new connections
 
@@ -1006,7 +1036,7 @@ namespace Tinkercell
 					{
 						ArrowHeadItem * arrow = 0, * arrow0 = 0;
 						if (!selectedFamily->graphicsItems.isEmpty() &&
-							(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.last())) &&
+							(arrow0 = qgraphicsitem_cast<ArrowHeadItem*>(handle->family()->graphicsItems.first())) &&
 							arrow0->isValid())
 						{
 							arrow = new ArrowHeadItem(*arrow0);

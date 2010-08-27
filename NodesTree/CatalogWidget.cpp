@@ -881,6 +881,8 @@ namespace Tinkercell
 			for (int i=0; i < families.size(); ++i)
 			{
 				if (!families[i] || connections.contains(families[i])) continue;
+				
+				connections << families[i];
 
 				for (int j=0; j < tabGroups.size(); ++j)
 				{

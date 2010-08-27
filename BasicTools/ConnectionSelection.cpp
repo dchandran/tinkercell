@@ -677,8 +677,18 @@ namespace Tinkercell
 			}
 			controlHeld = true;
 			return;
-
 		}
+		else
+			if (keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return)
+			{
+				NodeGraphicsItem * node;
+				QList<QGraphicsItem*> & list = scene->selected();
+				for (int i=0; i < list.size(); ++i)
+					if (!((node = NodeGraphicsItem::cast(list[i])) && node->className == ArrowHeadItem::CLASSNAME))
+						return;
+				
+				emit substituteNodeGraphics();
+			}
 	}
 
 	void ConnectionSelection::sceneKeyReleased(GraphicsScene * scene, QKeyEvent * )
@@ -1043,99 +1053,7 @@ namespace Tinkercell
 			}
 		}
 	}
-	/*
-	void ConnectionSelection::ShowHideMiddleRegion::undo()
-	{
-	for (int i=0; i < list.size(); ++i)
-	{
-	ConnectionGraphicsItem * connectionPtr = list[i];
-	if (!connectionPtr) continue;
 
-	if (!show)
-	{
-	if (!connectionPtr->centerRegionItem)
-	{
-	ArrowHeadItem * node = new ArrowHeadItem;
-	NodeGraphicsReader imageReader;
-	imageReader.readXml(node,filename);
-	if (node->isValid())
-	{
-	node->normalize();
-	node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-	connectionPtr->centerRegionItem = node;
-	}
-	else
-	{
-	delete node;
-	}
-	}
-	else
-	if (currentScene())
-	{
-	currentScene()->addItem(connectionPtr->centerRegionItem);
-	connectionPtr->centerRegionItem->setVisible(true);
-	}
-	}
-	else
-	{
-	if (connectionPtr->centerRegionItem)
-	{
-	if (currentScene())
-	currentScene()->remove(connectionPtr->centerRegionItem);
-	//connectionPtr->centerRegionItem->setVisible(false);
-	//connectionPtr->centerRegionItem = 0;
-	}
-	}
-	connectionPtr->refresh();
-	}
-	}
-
-	void ConnectionSelection::ShowHideMiddleRegion::redo()
-	{
-	for (int i=0; i < list.size(); ++i)
-	{
-	ConnectionGraphicsItem * connectionPtr = list[i];
-	if (!connectionPtr) continue;
-
-	if (show)
-	{
-	if (!connectionPtr->centerRegionItem)
-	{
-	ArrowHeadItem * node = new ArrowHeadItem;
-	NodeGraphicsReader imageReader;
-	imageReader.readXml(node,filename);
-	if (node->isValid())
-	{
-	node->normalize();
-	node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
-	connectionPtr->centerRegionItem = node;
-	}
-	else
-	{
-	delete node;
-	}
-	}
-	else
-	if (currentScene())
-	{
-	currentScene()->addItem(connectionPtr->centerRegionItem);
-	connectionPtr->centerRegionItem->setVisible(true);
-	}
-	}
-	else
-	{
-	if (connectionPtr->centerRegionItem)
-	{
-	if (currentScene())
-	currentScene()->remove(connectionPtr->centerRegionItem);
-	//connectionPtr->centerRegionItem->setVisible(false);
-	//connectionPtr->centerRegionItem = 0;
-	}
-	}
-	connectionPtr->refresh();
-	}
-	}
-	*/
 	void ConnectionSelection::ChangeArrowHeadDistance::undo()
 	{
 		for (int i=0; i < list.size() && i < dists.size(); ++i)
@@ -1191,12 +1109,9 @@ namespace Tinkercell
 			{
 				if (!connectionPtr->centerRegionItem)
 				{
-					NodeGraphicsReader imageReader;
-					ArrowHeadItem * node = new ArrowHeadItem(connectionPtr);
-					imageReader.readXml(node,ConnectionGraphicsItem::DefaultMiddleItemFile);
+					ArrowHeadItem * node = new ArrowHeadItem(ConnectionGraphicsItem::DefaultMiddleItemFile,connectionPtr);
 					if (node->isValid())
 					{
-						node->normalize();
 						node->scale(25.0/node->sceneBoundingRect().height(),25.0/node->sceneBoundingRect().height());
 						connectionPtr->centerRegionItem = node;
 					}

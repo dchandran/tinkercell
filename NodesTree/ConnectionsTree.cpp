@@ -224,6 +224,15 @@ namespace Tinkercell
 		return  file;
 	}
 	
+	QString ConnectionsTree::decoratorImageFile(QString name)
+	{
+		QString file = tr("DecoratorItems/");
+		file += name;
+		file.replace(tr(" "),tr(""));
+		file += tr(".xml");
+		return  file;
+	}
+	
 	QTreeWidget & ConnectionsTree::widget()
 	{ 
 		return treeWidget; 

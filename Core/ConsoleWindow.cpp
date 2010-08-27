@@ -20,7 +20,8 @@ namespace Tinkercell
 	QColor ConsoleWindow::BackgroundColor = QColor("#000000");
 	QColor ConsoleWindow::PlainTextColor = QColor("#FEFFEC");
 	QColor ConsoleWindow::ErrorTextColor = QColor("#FF6F0F");
-	QColor ConsoleWindow::OutputTextColor = QColor("#00FF12");
+	QColor ConsoleWindow::OutputTextColor = QColor("#33FF00");
+	QColor ConsoleWindow::TableTextColor = QColor("#FFFF00");
 	
 	void CommandTextEdit::setBackgroundColor(const QColor& c)
 	{
@@ -43,6 +44,12 @@ namespace Tinkercell
 	void CommandTextEdit::setErrorTextColor(const QColor& c)
 	{
 		errorFormat.setForeground( ConsoleWindow::ErrorTextColor = c );
+		update();
+	}
+
+	void CommandTextEdit::setTableTextColor(const QColor& c)
+	{
+		tableHeaderFormat.setForeground( ConsoleWindow::TableTextColor = c );
 		update();
 	}
 
@@ -113,11 +120,14 @@ namespace Tinkercell
 		currentHistoryIndex = 0;
 		frozen = false;
 
-		errorFormat.setFontWeight(QFont::Bold);
+		//errorFormat.setFontWeight(QFont::Bold);
 		errorFormat.setForeground(ConsoleWindow::ErrorTextColor);
 
 		//messageFormat.setFontWeight(QFont::Bold);
 		messageFormat.setForeground(ConsoleWindow::OutputTextColor);
+		
+		tableHeaderFormat.setFontWeight(QFont::Bold);
+		tableHeaderFormat.setForeground(ConsoleWindow::TableTextColor);
 
 		normalFormat.setFontWeight(QFont::Bold);
 		normalFormat.setForeground(ConsoleWindow::PlainTextColor);
@@ -712,7 +722,12 @@ namespace Tinkercell
 		QString s;
 		
 		if (h->family())
-			s += tr("family: ") + h->family()->name + tr("\n");
+		{
+			cursor.setCharFormat(tableHeaderFormat);
+			cursor.insertText(tr("family: "));
+			cursor.setCharFormat(messageFormat);
+			cursor.insertText(h->family()->name + tr("\n"));
+		}
 		
 		if (h->data)
 		{
@@ -722,13 +737,14 @@ namespace Tinkercell
 				NumericalDataTable & dat = h->data->numericalData[ keys[i] ];
 				if (dat.rows() > 0 && dat.cols() > 0)
 				{
-					s += keys[i] + tr(":\n");
-					if (dat.cols() > 1)
-					{
-						for (int k=0; k < dat.cols(); ++k)
-							s += tr("\t\t") + dat.colName(k);
-						s += tr("\n");
-					}
+					cursor.setCharFormat(tableHeaderFormat);
+					cursor.insertText(keys[i] + tr(":\n"));
+					
+					s = tr("");
+					cursor.setCharFormat(messageFormat);
+					for (int k=0; k < dat.cols(); ++k)
+						s += tr("\t\t") + dat.colName(k);
+					s += tr("\n");
 					for (int j=0; j < dat.rows(); ++j)
 					{
 						s += tr("\t") + dat.rowName(j) + tr(":\t");
@@ -737,6 +753,7 @@ namespace Tinkercell
 							s += QString::number(dat.at(j,k)) + tr("\t");
 						s += tr("\n");
 					}
+					cursor.insertText(s);
 				}
 			}
 			
@@ -746,13 +763,14 @@ namespace Tinkercell
 				TextDataTable & dat = h->data->textData[ keys[i] ];
 				if (dat.rows() > 0 && dat.cols() > 0)
 				{
-					s += keys[i] + tr(":\n");
-					if (dat.cols() > 1)
-					{
-						for (int k=0; k < dat.cols(); ++k)
-							s += tr("\t\t") + dat.colName(k);
-						s += tr("\n");
-					}
+					cursor.setCharFormat(tableHeaderFormat);
+					cursor.insertText(keys[i] + tr(":\n"));
+					
+					s = tr("");
+					cursor.setCharFormat(messageFormat);
+					for (int k=0; k < dat.cols(); ++k)
+						s += tr("\t\t") + dat.colName(k);
+					s += tr("\n");
 					for (int j=0; j < dat.rows(); ++j)
 					{
 						s += tr("\t") + dat.rowName(j) + tr(":\t");
@@ -761,12 +779,11 @@ namespace Tinkercell
 							s += (dat.at(j,k)) + tr("\t");
 						s += tr("\n");
 					}
+					cursor.insertText(s);
 				}
 			}
 		}
 
-		cursor.setCharFormat(messageFormat);
-		cursor.insertText(tr("\n") + s);
 		cursor.setCharFormat(normalFormat);
 		cursor.insertText(ConsoleWindow::Prompt);
 	}

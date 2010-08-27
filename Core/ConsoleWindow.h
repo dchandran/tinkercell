@@ -84,6 +84,8 @@ namespace Tinkercell
 		virtual void setOutputTextColor(const QColor&);
 		/*! \brief set error message color*/
 		virtual void setErrorTextColor(const QColor&);
+		/*! \brief set table headers color*/
+		virtual void setTableTextColor(const QColor&);
 
 	protected:
 
@@ -103,6 +105,8 @@ namespace Tinkercell
 		QTextCharFormat errorFormat;
 		/*! \brief font format for regular messages*/
 		QTextCharFormat messageFormat;
+		/*! \brief font format for table headers*/
+		QTextCharFormat tableHeaderFormat;
 		/*! \brief font format for user inputs*/
 		QTextCharFormat normalFormat;
 		/*! \brief manages the console-type interface, where the user is not allowed to type outside the >> */
@@ -152,6 +156,9 @@ namespace Tinkercell
 		
 		/*! \brief the font color for outputs*/
 		static QColor OutputTextColor;
+		
+		/*! \brief the font color for table headers*/
+		static QColor TableTextColor;
 
 		/*! \brief constructor -- initialize main window*/
 		ConsoleWindow(MainWindow * main = 0);

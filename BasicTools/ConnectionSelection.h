@@ -87,6 +87,8 @@ namespace Tinkercell
 	signals:
 		/*! \brief signal sent to main window when a center box is inserted*/
 		void itemsInserted(GraphicsScene * scene, const QList<QGraphicsItem*>& item, const QList<ItemHandle*>& handles);
+		
+		void substituteNodeGraphics();
 
 	public slots:
 		void select(int);
@@ -108,6 +110,8 @@ namespace Tinkercell
 		\return nothing
 		*/
 		void sceneKeyPressed(GraphicsScene *scene, QKeyEvent*);
+		
+		void toolLoaded(Tool*);
 
 		void sceneKeyReleased(GraphicsScene *scene, QKeyEvent*);
 		/*! \brief event that reponds to items moved.
@@ -127,8 +131,6 @@ namespace Tinkercell
 		void connectionCollided(const QList<QGraphicsItem*>& , ConnectionGraphicsItem * , QPointF );
 
 		void itemsRemoved(GraphicsScene * , QList<QGraphicsItem*>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
-
-		void toolLoaded(Tool*);
 
 		void setupFunctionPointers( QLibrary * );
 

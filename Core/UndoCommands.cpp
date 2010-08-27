@@ -2511,9 +2511,17 @@ namespace Tinkercell
 		else
 		{
 			QRectF rect = node->boundingRect();
+			QTransform t(node->defaultSize.width()/rect.width(), 0, 0, node->defaultSize.height()/rect.height(), 0, 0);
 			if (node->className == ArrowHeadItem::CLASSNAME)
-				node->setTransform( QTransform(t0.m11(), t0.m12(), t0.m21(), t0.m22(), 0, 0) );
-			node->scale( node->defaultSize.width()/rect.width() , node->defaultSize.height()/rect.height() );
+			{
+				MainWindow::instance()->console()->message("arrow changed");
+				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
+				double sinx = sin(arrow->angle * 3.14/180.0),
+					   cosx = cos(arrow->angle * 3.14/180.0);
+				QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
+				t = (t * rotate);
+			}
+			node->setTransform(t);
 		}
 
 		//node->setParentItem(parent);

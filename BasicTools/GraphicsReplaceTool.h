@@ -44,7 +44,6 @@ namespace Tinkercell
 
 	private slots:
 		void selectNewNodeFile();
-		void replaceNode();
 		void replaceNode(QListWidgetItem*);
 
 	private:

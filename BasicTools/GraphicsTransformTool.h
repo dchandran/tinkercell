@@ -55,35 +55,35 @@ namespace Tinkercell
 	public:
 		GraphicsTransformTool();
 		bool setMainWindow(MainWindow * main);
-		public slots:
-			void select(int i=0);
-			void deselect(int i=0);
+	public slots:
+		void select(int i=0);
+		void deselect(int i=0);
 
-			void selectPenColor();
-			void selectFillColor();
-			void scale(int);
-			void rotate(int);
-			void scaleStart();
-			void scaleEnd();
-			void rotateStart();
-			void rotateEnd();
-			void reset();
-			void onHide(bool);
-			void flipVertically();
-			void flipHorizontally();
-			void updateTable();
+		void selectPenColor();
+		void selectFillColor();
+		void scale(int);
+		void rotate(int);
+		void scaleStart();
+		void scaleEnd();
+		void rotateStart();
+		void rotateEnd();
+		void reset();
+		void onHide(bool);
+		void flipVertically();
+		void flipHorizontally();
+		void updateTable();
 
-			void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
-			void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
-			void toolLoaded(Tool*);
+		void itemsInserted(GraphicsScene* scene, const QList<QGraphicsItem *>& items, const QList<ItemHandle*>& handles);
+		void itemsSelected(GraphicsScene * scene, const QList<QGraphicsItem*>& items, QPointF point, Qt::KeyboardModifiers modifiers);
+		void toolLoaded(Tool*);
 
-			void xchanged(double dx);
-			void ychanged(double dy);
-			void wchanged(double dw);
-			void hchanged(double dh);
-			void linewchanged(double value);
-			void alphaChanged(double value);
-			void changePenType(int);
+		void xchanged(double dx);
+		void ychanged(double dy);
+		void wchanged(double dw);
+		void hchanged(double dh);
+		void linewchanged(double value);
+		void alphaChanged(double value);
+		void changePenType(int);
 
 	protected:
 

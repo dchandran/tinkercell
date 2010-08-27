@@ -135,8 +135,6 @@ namespace Tinkercell
 		connect(cancel,SIGNAL(released()),nodeSelectionDialog,SLOT(reject()));
 		connect(otherFile,SIGNAL(released()),this,SLOT(selectNewNodeFile()));
 
-		connect(nodeSelectionDialog,SIGNAL(accepted()),this,SLOT(replaceNode()));
-
 		buttonsLayout->addWidget(ok);
 		buttonsLayout->addWidget(cancel);
 		buttonsLayout->addWidget(otherFile);
@@ -183,20 +181,30 @@ namespace Tinkercell
 	
 	void GraphicsReplaceTool::substituteNodeGraphics()
 	{
-		substituteNodeGraphics(true);
+		GraphicsScene * scene = currentScene();
+		if (!scene) return;
+
+		bool b = true;
+		QList<QGraphicsItem*> & list = scene->selected();
+		NodeGraphicsItem * node;
+		for (int i=0; i < list.size(); ++i)
+			if ((node = NodeGraphicsItem::cast(list[i])) && node->className == ArrowHeadItem::CLASSNAME)
+			{
+				b = false;
+				break;
+			}
+		substituteNodeGraphics(b);
 	}
 
 	void GraphicsReplaceTool::substituteNodeGraphics(bool b)
 	{
 		_transform = b;
 		nodeSelectionDialog->exec();
-	}
-	
-	void GraphicsReplaceTool::replaceNode()
-	{
-		if (!tabWidget || tabWidget->currentIndex() < 0 || tabWidget->currentIndex() >= nodesListWidgets.size()) return;
-
-		replaceNode(nodesListWidgets[tabWidget->currentIndex()]->currentItem());
+		if (nodeSelectionDialog->result() == QDialog::Accepted)
+		{
+			if (!tabWidget || tabWidget->currentIndex() < 0 || tabWidget->currentIndex() >= nodesListWidgets.size()) return;
+			replaceNode(nodesListWidgets[tabWidget->currentIndex()]->currentItem());
+		}
 	}
 
 	void GraphicsReplaceTool::replaceNode(QListWidgetItem * item)
@@ -249,7 +257,7 @@ namespace Tinkercell
 		for (int i=0; i < nodesList.size(); ++i)
 			filenames += fileName;
 
-		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("nodes image replaced"),nodesList,filenames,_transform);
+		ReplaceNodeGraphicsCommand * command = new ReplaceNodeGraphicsCommand(tr("Image replaced"),nodesList,filenames,_transform);
 		if (scene->network)
 			scene->network->push(command);
 		else

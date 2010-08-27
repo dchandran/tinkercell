@@ -21,6 +21,7 @@ points.
 #include "NodeGraphicsItem.h"
 #include "NodeGraphicsReader.h"
 #include "NodeGraphicsWriter.h"
+#include "GraphicsReplaceTool.h"
 
 namespace Tinkercell
 {
@@ -63,6 +64,8 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
+			
+			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			connect(mainWindow,SIGNAL(keyPressed(GraphicsScene *, QKeyEvent*)),
 				this,SLOT(sceneKeyPressed(GraphicsScene *, QKeyEvent*)));
@@ -91,8 +94,6 @@ namespace Tinkercell
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
 			connectCollisionDetector();
-
-			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			return true;
 		}
@@ -433,16 +434,23 @@ namespace Tinkercell
 		static bool alreadyConnected = false;
 		if (alreadyConnected || !mainWindow) return;
 
-		if (mainWindow->tool(tr("Collision Detection")))
+		/*if (mainWindow->tool(tr("Collision Detection")))
 		{
 			QWidget * widget = mainWindow->tool(tr("Collision Detection"));
 			CollisionDetection * collisionDetection = static_cast<CollisionDetection*>(widget);
 			if (collisionDetection)
 			{
 				alreadyConnected = true;
-				//connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )),
-					//this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )));
+				connect(collisionDetection,SIGNAL(nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )),
+					this, SLOT( nodeCollided(const QList<QGraphicsItem*>& , NodeGraphicsItem * , const QList<QPointF>& , Qt::KeyboardModifiers )));
 			}
+		}*/
+		
+		if (mainWindow->tool(tr("Graphics Replace Tool")))
+		{
+			alreadyConnected = true;
+			GraphicsReplaceTool * replaceTool = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
+			connect(this,SIGNAL(substituteNodeGraphics()),replaceTool,SLOT(substituteNodeGraphics()));
 		}
 	}
 
@@ -469,16 +477,26 @@ namespace Tinkercell
 
 	void ConnectionSelection::sceneDoubleClicked (GraphicsScene * scene, QPointF point, QGraphicsItem * qitem, Qt::MouseButton , Qt::KeyboardModifiers modifiers)
 	{
-		ConnectionGraphicsItem * item = ConnectionGraphicsItem::topLevelConnectionItem(qitem);
-		if (scene && item)
+		if (scene)
 		{
-			if (modifiers == Qt::ControlModifier)
+			ConnectionGraphicsItem * item = ConnectionGraphicsItem::cast(qitem);
+			if (item && modifiers == Qt::ControlModifier)
 			{
 				ConnectionGraphicsItem::ControlPoint * cp = new ConnectionGraphicsItem::ControlPoint(item);
 				cp->setPos(point);
 				scene->addItem(cp);
 				if (scene->network)
 					scene->network->push(new AddControlPointCommand("control point added",scene,cp));
+			}
+			else
+			{
+				NodeGraphicsItem * node = NodeGraphicsItem::cast(qitem);
+				if (node && node->className == ArrowHeadItem::CLASSNAME)
+				{
+					scene->selected().clear();
+					scene->selected() += node;
+					emit substituteNodeGraphics();
+				}
 			}
 		}
 	}

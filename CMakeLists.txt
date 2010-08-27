@@ -261,6 +261,7 @@ ENDIF(UNIX AND NOT APPLE)
   ADD_SUBDIRECTORY( Documentation )
   ADD_SUBDIRECTORY( AntimonyEditor )
   ADD_SUBDIRECTORY( GeneticNetworks )
+  ADD_SUBDIRECTORY( ImportExportTools )
   ADD_SUBDIRECTORY( DB )
   ADD_SUBDIRECTORY( c )
   

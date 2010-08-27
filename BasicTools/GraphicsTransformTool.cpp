@@ -117,8 +117,8 @@ namespace Tinkercell
 		if (!alreadyConnected2 && replaceButton && mainWindow->tool(tr("Graphics Replace Tool")))
 		{
 			alreadyConnected2 = true;
-			GraphicsReplaceTool * copyPaste = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
-			connect(replaceButton,SIGNAL(pressed()),copyPaste,SLOT(substituteNodeGraphics()));
+			GraphicsReplaceTool * replaceTool = static_cast<GraphicsReplaceTool*>(mainWindow->tool(tr("Graphics Replace Tool")));
+			connect(replaceButton,SIGNAL(pressed()),replaceTool,SLOT(substituteNodeGraphics()));
 		}
 	}
 

@@ -163,7 +163,6 @@ namespace Tinkercell
 			if (NodeHandle::cast(handles[i]) && handles[i]->family() 
 				&& handles[i]->hasNumericalData(tr("Initial Value")))
 			{
-				console()->message(handles[i]->name);
 				QString s = handles[i]->family()->name + tr(": ") + handles[i]->fullName() + tr("\n")
 							+ handles[i]->family()->measurementUnit.property + tr(" = ")
 							+ QString::number(handles[i]->numericalData(tr("Initial Value")))

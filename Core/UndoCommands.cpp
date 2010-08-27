@@ -2415,6 +2415,13 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = newNodes[i];
+				if (targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				{
+					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
+					arrow->angle = 0.0;
+					if (arrow->connectionItem)
+						arrow->connectionItem->refresh();
+				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -2450,6 +2457,13 @@ namespace Tinkercell
 				targetNodes[i]->boundaryControlPoints.clear();
 
 				(*targetNodes[i]) = oldNodes[i];
+				if (targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
+				{
+					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
+					arrow->angle = 0.0;
+					if (arrow->connectionItem)
+						arrow->connectionItem->refresh();
+				}
 			}
 		}
 		for (int i=0; i < itemsToDelete.size(); ++i)
@@ -2512,15 +2526,6 @@ namespace Tinkercell
 		{
 			QRectF rect = node->boundingRect();
 			QTransform t(node->defaultSize.width()/rect.width(), 0, 0, node->defaultSize.height()/rect.height(), 0, 0);
-			if (node->className == ArrowHeadItem::CLASSNAME)
-			{
-				MainWindow::instance()->console()->message("arrow changed");
-				ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(node);
-				double sinx = sin(arrow->angle * 3.14/180.0),
-					   cosx = cos(arrow->angle * 3.14/180.0);
-				QTransform rotate(cosx, sinx, -sinx, cosx, 0, 0);
-				t = (t * rotate);
-			}
 			node->setTransform(t);
 		}
 

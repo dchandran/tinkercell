@@ -2460,7 +2460,6 @@ namespace Tinkercell
 				if (targetNodes[i]->className == ArrowHeadItem::CLASSNAME)
 				{
 					ArrowHeadItem * arrow = static_cast<ArrowHeadItem*>(targetNodes[i]);
-					arrow->angle = 0.0;
 					if (arrow->connectionItem)
 						arrow->connectionItem->refresh();
 				}

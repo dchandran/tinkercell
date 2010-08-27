@@ -13,7 +13,7 @@
             </linearGradient>
         </listOfGradientDefinitions>
         <listOfStyles>
-            <style idList="arrow and bar" width="20" height="20">
+            <style idList="arrow and bar" width="35" height="40">
                 <g>
                     <polygon fill="shape0color" stroke="#2238ff" stroke-width="1" stroke-alpha="1">
                         <listOfCurveSegments>

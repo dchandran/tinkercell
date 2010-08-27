@@ -422,11 +422,11 @@ namespace Tinkercell
 			{
 				QString s = handles[i]->family()->name.toLower();
 				s.replace(tr(" "),tr("_"));
-				QString dirname = homeDir() + tr("/") + s;
+				QString dirname = homeDir() + tr("/Modules/") + s;
 				QDir dir(dirname);
 				
 				if (!dir.exists())
-					dir.setPath(QCoreApplication::applicationDirPath() + tr("/") + s);
+					dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
 		
 				if (dir.exists())
 				{
@@ -778,11 +778,11 @@ namespace Tinkercell
 		QString s = family.toLower();
 		s.replace(tr(" "),tr("_"));
 		
-		QString dirname = homeDir() + tr("/") + s;
+		QString dirname = homeDir() + tr("/Modules/") + s;
 		QDir dir(dirname);
 		
 		if (!dir.exists())
-			dir.setPath(QCoreApplication::applicationDirPath() + tr("/") + s);
+			dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
 		
 		if (!dir.exists())
 			return 0;

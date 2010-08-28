@@ -27,8 +27,9 @@
 
 namespace Tinkercell
 {
-	static QString linkerFileName("/OtherItems/moduleLinker.xml");
-	static QString interfaceFileName("/OtherItems/moduleInterface.xml");
+	static QString linkerFileName("/DecoratorItems/moduleLinker.xml");
+	static QString interfaceFileName("/DecoratorItems/moduleInterface.xml");
+	static QString moduleFileName("/DecoratorItems/Module.xml");
 	static QString linkerClassName("module linker item");
 	static QString interfaceClassName("module interface item");
 	static QString connectionClassName("module connection item");
@@ -157,10 +158,14 @@ namespace Tinkercell
 			connectionsTree = static_cast<ConnectionsTree*>(tool);
 			if (!connectionsTree->connectionFamilies.contains(tr("Module")))
 			{
+				QString appDir = QCoreApplication::applicationDirPath();
+				
 				ConnectionFamily * moduleFamily = new ConnectionFamily(tr("Module"));
 				moduleFamily->pixmap = QPixmap(tr(":/images/module.png"));
 				moduleFamily->description = tr("Self-contained subsystem that can be used to build larger systems");
 				moduleFamily->textAttributes[tr("Functional description")] = tr("");
+				moduleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
+											 << new ArrowHeadItem(appDir + moduleFileName);				
 				connectionsTree->connectionFamilies[moduleFamily->name] = moduleFamily;
 			}
 		}
@@ -1032,12 +1037,16 @@ namespace Tinkercell
 
 		QString name = newModuleName->text();
 		if (name.isNull() || name.isEmpty()) return;
+		
+		QString appDir = QCoreApplication::applicationDirPath();
 
 		ConnectionFamily * moduleFamily = connectionsTree->connectionFamilies[ tr("Module") ];
 		ConnectionFamily * newModuleFamily = new ConnectionFamily(name);
 		newModuleFamily->setParent(moduleFamily);
 		newModuleFamily->pixmap = moduleFamily->pixmap;
 		newModuleFamily->description = moduleFamily->description;
+		newModuleFamily->graphicsItems << new ArrowHeadItem(appDir + interfaceFileName)
+										<< new ArrowHeadItem(appDir + moduleFileName);
 
 		connectionsTree->connectionFamilies[name] = newModuleFamily;
 		FamilyTreeButton * button = new FamilyTreeButton(newModuleFamily);

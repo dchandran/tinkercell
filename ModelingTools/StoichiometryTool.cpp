@@ -633,7 +633,7 @@ namespace Tinkercell
 
 	void StoichiometryTool::insertDataMatrix(ConnectionHandle * handle)
 	{
-		if (!handle || !handle->data) return;
+		if (!ConnectionHandle::cast(handle) || !handle->data || !handle->isA(tr("Biochemical"))) return;
 
 		DefaultRateAndStoichiometry::setDefault(handle);
 	}

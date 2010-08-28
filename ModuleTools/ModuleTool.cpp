@@ -420,14 +420,20 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
 			{
-				QString s = handles[i]->family()->name.toLower();
-				s.replace(tr(" "),tr("_"));
+				QString s = handles[i]->family()->name;
+				s.replace(tr(" "),tr(""));
 				QString dirname = homeDir() + tr("/Modules/") + s;
 				QDir dir(dirname);
-				
+		
+				if (!dir.exists())		
+					dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
+		
 				if (!dir.exists())
 					dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
 		
+				if (!dir.exists())
+					dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
+				
 				if (dir.exists())
 				{
 					dir.setFilter(QDir::Files);
@@ -448,7 +454,6 @@ namespace Tinkercell
 							ItemHandle * h;
 							
 							QList<ItemHandle*> visited;
-							QList< QPair<ItemHandle*, ItemHandle*> > mappings;
 							
 							bool validModel = true;
 							for (int j=0; j < handles2.size(); ++j)
@@ -456,46 +461,26 @@ namespace Tinkercell
 								{
 									visited << handles2[j];
 									h = findCorrespondingHandle(handles2[j],ConnectionHandle::cast(handles[i]));
-									if (!h || visited.contains(h))
-									{
-										validModel = false;
-										break;
-									}
-									else
+									/*if (h && !visited.contains(h))
 									{
 										visited << h;
-										mappings.append( QPair<ItemHandle*,ItemHandle*>(handles2[j],h) );
+										commands << new MergeHandlesCommand(tr("merge"), 
+																				scene->network, 
+																				QList<ItemHandle*>() << h << handles2[j]);
+										for (int k=0; k < handles2[j]->graphicsItems.size(); ++k)
+											setHandle(handles2[j]->graphicsItems[k],h);
+										for (int k=0; k < handles2[j]->children.size(); ++k)
+											handles2[j]->children[k]->setParent(h);
+										delete handles2[j];
 									}
-								}
-								
-							if (validModel)
-							{
-								for (int j=0; j < mappings.size(); ++j)
-								{
-									delete mappings[j].first;
-								}
-							}
-
-							for (int j=0; j < handles2.size(); ++j)
-								if (handles2[j] && !visited.contains(handles2[j]))
-								{
-									oldNames << handles2[j]->fullName();
-									handles2[j]->setParent(handles[i],false);
-									if (h)
-										newNames << h->fullName();
-									else
-										newNames << handles2[j]->fullName();
+									else*/
+										if (!handles2[j]->parent)
+											handles2[j]->setParent(handles[i]);
 								}
 						}
 					}
 				}
 			}
-
-		if (!oldNames.isEmpty())
-		{
-			RenameCommand * rename = new RenameCommand(tr("module linkers"),scene->network,oldNames,newNames);
-			commands << rename;
-		}
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
@@ -529,7 +514,7 @@ namespace Tinkercell
 	
 	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
 	{
-		if (!connection || !node || !connection->hasTextData(tr("Participants"))) return 0;
+		if (!NodeHandle::cast(node) || !connection || !node || !connection->hasTextData(tr("Participants"))) return 0;
 		QList<NodeHandle*> nodes = connection->nodes();
 		
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
@@ -539,10 +524,14 @@ namespace Tinkercell
 		for (int i=0; i < nodes.size(); ++i)
 		{
 			if (rownames.contains(nodes[i]->fullName()))
+			{
 				s = participants.value(nodes[i]->fullName(),0);
-			
-			if (node->name == s)
-				return nodes[i];
+				if (node->name.compare(s,Qt::CaseInsensitive) == 0)
+				{
+					MainWindow::instance()->console()->message(nodes[i]->fullName() + QString(" == ") + node->fullName());
+					return nodes[i];
+				}
+			}
 		}
 		return 0;
 	}
@@ -775,14 +764,20 @@ namespace Tinkercell
 	
 	QDockWidget * ModuleTool::makeDockWidget(const QString & family)
 	{
-		QString s = family.toLower();
-		s.replace(tr(" "),tr("_"));
+		QString s = family;
+		s.replace(tr(" "),tr(""));
 		
 		QString dirname = homeDir() + tr("/Modules/") + s;
 		QDir dir(dirname);
 		
+		if (!dir.exists())		
+			dir.setPath(homeDir() + tr("/Modules/") + s.toLower());
+		
 		if (!dir.exists())
 			dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s);
+		
+		if (!dir.exists())
+			dir.setPath(QCoreApplication::applicationDirPath() + tr("/Modules/") + s.toLower());
 		
 		if (!dir.exists())
 			return 0;
@@ -1060,7 +1055,7 @@ namespace Tinkercell
 			newModuleFamily->nodeFunctions += lineEdit->text();
 			newModuleFamily->nodeFamilies += comboBox->currentText();
 		}
-	
+
 		catalogWidget->showButtons(QStringList() << newModuleFamily->name);
 	}
 
@@ -1083,3 +1078,4 @@ extern "C" TINKERCELLEXPORT void loadTCTool(Tinkercell::MainWindow * main)
     main->addTool(tool);
 
 }
+

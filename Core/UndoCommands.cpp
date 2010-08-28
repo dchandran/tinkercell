@@ -654,7 +654,7 @@ namespace Tinkercell
 		ConnectionGraphicsItem * connection;
 		bool isNum;
 		
-		if (graphicsScene && graphicsScene->network)
+		if (graphicsScene && !MainWindow::invalidPointers.contains(graphicsScene) && graphicsScene->network)
 		{
 			QHash<QString,ItemHandle*>& allNames = graphicsScene->network->symbolsTable.uniqueItems;
 			QHash<QString, QPair<ItemHandle*,QString> >& allDataNames = graphicsScene->network->symbolsTable.uniqueData;
@@ -739,7 +739,7 @@ namespace Tinkercell
 	void InsertGraphicsCommand::undo()
 	{
 		ConnectionGraphicsItem * connection = 0;
-		if (graphicsScene)
+		if (graphicsScene && !MainWindow::invalidPointers.contains(graphicsScene))
 		{
 			for (int i=0; i<graphicsItems.size(); ++i)
 			{
@@ -901,7 +901,7 @@ namespace Tinkercell
 
 	void RemoveGraphicsCommand::redo()
 	{
-		if (!graphicsScene) return;
+		if (!graphicsScene || MainWindow::invalidPointers.contains(graphicsScene)) return;
 		for (int i=0; i<graphicsItems.size(); ++i)
 		{
 			if (graphicsItems[i] && graphicsItems[i]->scene() == graphicsScene)
@@ -1135,7 +1135,7 @@ namespace Tinkercell
 
 	void RemoveGraphicsCommand::undo()
 	{
-		if (!graphicsScene) return;
+		if (!graphicsScene || MainWindow::invalidPointers.contains(graphicsScene)) return;
 
 		QList<ConnectionGraphicsItem*> connections;
 		ConnectionGraphicsItem * connection;

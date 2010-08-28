@@ -8,7 +8,7 @@
             <colorDefinition id="shape2color" value="#6464ff" alpha="255"/>
         </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="reversible reaction" width="251" height="165">
+            <style idList="reversible reaction" width="40" height="30">
                 <g>
                     <polygon fill="shape0color" stroke="#7a7a7a" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>

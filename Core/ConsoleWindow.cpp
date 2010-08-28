@@ -574,6 +574,7 @@ namespace Tinkercell
 		{
 			if (parentWidget())
 				parentWidget()->show();
+
 			else
 				show();
 		}
@@ -737,20 +738,25 @@ namespace Tinkercell
 				NumericalDataTable & dat = h->data->numericalData[ keys[i] ];
 				if (dat.rows() > 0 && dat.cols() > 0)
 				{
+					int maxsz = 0;
+					for (int j=0; j < dat.rows(); ++j)
+						if (dat.rowName(j).size() > maxsz)
+							maxsz = dat.rowName(j).size();
+					s = QString("").leftJustified(maxsz+1);
+					
 					cursor.setCharFormat(tableHeaderFormat);
 					cursor.insertText(keys[i] + tr(":\n"));
 					
-					s = tr("");
 					cursor.setCharFormat(messageFormat);
 					for (int k=0; k < dat.cols(); ++k)
-						s += tr("\t\t") + dat.colName(k);
+						s += tr("    ") + dat.colName(k);
 					s += tr("\n");
 					for (int j=0; j < dat.rows(); ++j)
 					{
-						s += tr("\t") + dat.rowName(j) + tr(":\t");
+						s += dat.rowName(j) + tr(":    ");
 						
 						for (int k=0; k < dat.cols(); ++k)
-							s += QString::number(dat.at(j,k)) + tr("\t");
+							s += QString::number(dat.at(j,k)) + tr("    ");
 						s += tr("\n");
 					}
 					cursor.insertText(s);
@@ -763,20 +769,25 @@ namespace Tinkercell
 				TextDataTable & dat = h->data->textData[ keys[i] ];
 				if (dat.rows() > 0 && dat.cols() > 0)
 				{
+					int maxsz = 0;
+					for (int j=0; j < dat.rows(); ++j)
+						if (dat.rowName(j).size() > maxsz)
+							maxsz = dat.rowName(j).size();
+					s = QString("").leftJustified(maxsz+1);
+					
 					cursor.setCharFormat(tableHeaderFormat);
 					cursor.insertText(keys[i] + tr(":\n"));
 					
-					s = tr("");
 					cursor.setCharFormat(messageFormat);
 					for (int k=0; k < dat.cols(); ++k)
-						s += tr("\t\t") + dat.colName(k);
+						s += tr("    ") + dat.colName(k);
 					s += tr("\n");
 					for (int j=0; j < dat.rows(); ++j)
 					{
-						s += tr("\t") + dat.rowName(j) + tr(":\t");
+						s += dat.rowName(j) + tr(":    ");
 						
 						for (int k=0; k < dat.cols(); ++k)
-							s += (dat.at(j,k)) + tr("\t");
+							s += (dat.at(j,k)) + tr("    ");
 						s += tr("\n");
 					}
 					cursor.insertText(s);

@@ -11,6 +11,7 @@ buttons for all these functions.
 ****************************************************************************/
 
 #include "GraphicsScene.h"
+#include "ConsoleWindow.h"
 #include "TextEditor.h"
 #include "NetworkHandle.h"
 #include "UndoCommands.h"
@@ -840,7 +841,7 @@ namespace Tinkercell
 							point.ry() += 0.5;
 						}*/
 
-						QGraphicsItem * item = getGraphicsItem(scene->itemAt(point));
+						QGraphicsItem * item = scene->itemAt(point);
 						if (!item || (!ConnectionGraphicsItem::cast(item) && (item->sceneBoundingRect().width() > 500 || item->sceneBoundingRect().height() > 500)))
 						{
 							QList<QGraphicsItem*> ps = scene->items(QRectF(point.rx()-50.0,point.ry()-50.0,100.0,100.0));
@@ -866,10 +867,10 @@ namespace Tinkercell
 						{
 							if (qgraphicsitem_cast<NodeGraphicsItem::Shape*>(item) || ControlPoint::cast(item))
 							{
-								if (mode == this->brush)
+								if (mode == brush)
 									scene->setBrush(tr("brush changed"),item,QBrush(brushColor1));
 								else
-									if (mode == this->gradient)
+									if (mode == gradient)
 									{
 										QPointF colorPt1 = item->sceneBoundingRect().topLeft(),
 											colorPt2 = item->sceneBoundingRect().bottomRight();
@@ -885,7 +886,9 @@ namespace Tinkercell
 										}
 									}
 									else
+									{
 										scene->setPen(tr("pen changed"),item,QPen(penColor,penWidth));
+									}
 							}
 							else
 							{

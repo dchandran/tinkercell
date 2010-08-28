@@ -165,6 +165,17 @@ namespace Tinkercell
 		select(0);
 		if (GraphicsScene::copiedFromScene == this)
 			GraphicsScene::copiedFromScene = 0;
+			
+		QList<ItemHandle*> handles = network->handles();
+		
+		for (int i=0; i < handles.size(); ++i)
+		{
+			QList<QGraphicsItem*> & items = handles[i]->graphicsItems;
+			for (int j=0; j < items.size(); ++j)
+				if (items[j]->scene() == this)
+					removeItem(items[j]);
+		}
+		
 		network = 0;
 		networkWindow = 0;
 		
@@ -1232,7 +1243,7 @@ namespace Tinkercell
 	}
 	/*! \brief this command changes the pen of an item*/
 	void GraphicsScene::setPen(const QString& name, QGraphicsItem * item, const QPen& to)
-	{
+	{	
 		QUndoCommand * command = new ChangePenCommand(name, item, to);
 
 		if (network)

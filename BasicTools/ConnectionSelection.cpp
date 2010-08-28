@@ -760,7 +760,6 @@ namespace Tinkercell
 
 	void ConnectionSelection::mouseMoved(GraphicsScene * scene, QGraphicsItem* , QPointF , Qt::MouseButton, Qt::KeyboardModifiers modifiers, QList<QGraphicsItem*>& moving)
 	{
-		controlHeld = false;
 		if (!scene || moving.size() != 1) return;
 
 		if (!moving.at(0)) return;
@@ -784,13 +783,10 @@ namespace Tinkercell
 		if (!cp) return;
 
 		bool avoidBoundary = false;
-		controlHeld = modifiers == Qt::ControlModifier;
+		controlHeld = (modifiers == Qt::ControlModifier);
 		
 		if (!controlHeld)
-		{
-			controlHeld = false;
 			return;
-		}
 
 		QRectF viewport = scene->viewport();
 		QList<QGraphicsItem*> items = scene->items( viewport );

@@ -422,7 +422,7 @@ namespace Tinkercell
 					else
 						sDat->value(1,0) = handle->fullName() + tr(".k0*") + reactants.join(tr("*"));
 
-					nDataNew << nDat2 << nDat1;
+					nDataNew << nDat1 << nDat2;
 					sDataNew << sDat;
 
 					nDataOld << &(handle->data->numericalData[tr("Reactant stoichiometries")]) 

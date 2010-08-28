@@ -444,8 +444,15 @@ namespace Tinkercell
 			if ((connection = ConnectionHandle::cast(handles[i])) && 
 				(family = ConnectionFamily::cast(connection->family())))
 			{
-				oldTable = &(connection->textDataTable(tr("Participants")));
-				newTable = new TextDataTable(*oldTable);
+				if (connection->hasTextData(tr("Participants")))
+				{
+					oldTable = &(connection->textDataTable(tr("Participants")));
+					newTable = new TextDataTable(*oldTable);
+				}
+				else
+				{
+					oldTable = newTable = &(connection->textDataTable(tr("Participants")));
+				}
 				
 				nodesIn = connection->nodesIn();
 				nodes = connection->nodes();
@@ -473,9 +480,12 @@ namespace Tinkercell
 								break;
 							}
 					}
-
-				oldTables << oldTable;
-				newTables << newTable;
+				
+				if (oldTable && oldTable != newTable)
+				{
+					oldTables << oldTable;
+					newTables << newTable;
+				}
 			}
 		if (newTables.size() > 0)
 		{

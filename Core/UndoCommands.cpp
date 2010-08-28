@@ -613,8 +613,21 @@ namespace Tinkercell
 		{
 			QList<NodeGraphicsItem*> nodes = connection->nodes();
 			for (int i=0; i < nodes.size(); ++i)
-				if (nodes[i] && !nodes[i]->scene())
+				if (nodes[i] && !(nodes[i]->scene() == scene))
+				{
 					graphicsItems += nodes[i];
+					parentGraphicsItems += nodes[i]->parentItem();	
+					handles += getHandle(nodes[i]);
+				}
+			
+			QList<ArrowHeadItem*> arrows = connection->arrowHeads();
+			for (int i=0; i < arrows.size(); ++i)
+				if (arrows[i] && !(arrows[i]->scene() == scene))
+				{
+					graphicsItems += arrows[i];
+					parentGraphicsItems += arrows[i]->parentItem();	
+					handles += getHandle(arrows[i]);
+				}
 		}
 		
 		graphicsItems += item;
@@ -638,8 +651,21 @@ namespace Tinkercell
 				{
 					QList<NodeGraphicsItem*> nodes = connection->nodes();
 					for (int j=0; j < nodes.size(); ++j)
-						if (nodes[j] && !nodes[j]->scene() && !items.contains(nodes[j]))
+						if (nodes[j] && !(nodes[j]->scene() || items.contains(nodes[j])))
+						{
 							graphicsItems += nodes[j];
+							parentGraphicsItems += nodes[j]->parentItem();	
+							handles += getHandle(nodes[j]);
+						}
+						
+					QList<ArrowHeadItem*> arrows = connection->arrowHeads();
+					for (int j=0; j < arrows.size(); ++j)
+						if (arrows[j] && !(items.contains(arrows[j]) || arrows[j]->scene() == scene))
+						{
+							graphicsItems += arrows[j];
+							parentGraphicsItems += arrows[j]->parentItem();	
+							handles += getHandle(arrows[j]);
+						}
 				}
 				graphicsItems += item;
 				parentGraphicsItems += item->parentItem();	
@@ -860,11 +886,14 @@ namespace Tinkercell
 			QList<ConnectionGraphicsItem*> connections = node->connections();
 			for (int j=0; j < connections.size(); ++j)
 				if (connections[j] && connections[j]->scene() == scene)
+				{
 					graphicsItems += connections[j];
+					itemHandles.append(getHandle(connections[j]));
+					itemParents.append(connections[j]->parentItem());
+				}
 		}
 		
 		graphicsItems.append( item );
-
 		itemHandles.append(getHandle(item));
 		if (item)
 			itemParents.append(item->parentItem());
@@ -891,7 +920,11 @@ namespace Tinkercell
 					QList<ConnectionGraphicsItem*> connections = node->connections();
 					for (int j=0; j < connections.size(); ++j)
 						if (connections[j] && connections[j]->scene() == scene && !items.contains(connections[j]))
+						{
 							graphicsItems += connections[j];
+							itemHandles.append(getHandle(connections[j]));
+							itemParents.append(connections[j]->parentItem());
+						}
 				}
 				graphicsItems.append(item);
 				itemHandles.append(getHandle(item));

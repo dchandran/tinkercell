@@ -114,7 +114,7 @@ namespace Tinkercell
 		QUndoCommand * substituteStrings(const QList<ItemHandle*> & items);
 		void removeSubnetworks(QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles);
 		
-		static ItemHandle * findCorrespondingHandle(ItemHandle*,ConnectionHandle*);
+		static ItemHandle * findCorrespondingHandle(NodeHandle*,ConnectionHandle*);
 
 		QList<NodeGraphicsItem*> selectedItems;
 		QStringList substituteFrom, substituteWith;

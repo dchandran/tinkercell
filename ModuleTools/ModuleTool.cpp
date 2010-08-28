@@ -420,7 +420,7 @@ namespace Tinkercell
 			}
 		}
 
-		QStringList visited;
+		QStringList visitedFiles;
 
 		for (int i=0; i < handles.size(); ++i)
 			if (handles[i] && handles[i]->children.isEmpty() && ConnectionFamily::cast(handles[i]->family()))
@@ -449,38 +449,22 @@ namespace Tinkercell
 					{	
 						QString filename = list.first().absoluteFilePath();
 
-						if (QFile::exists(filename) && !visited.contains(filename))
+						if (QFile::exists(filename) && !visitedFiles.contains(filename))
 						{			
-							visited << filename;
+							visitedFiles << filename;
 							QList<QGraphicsItem*> items;
 							emit loadItems(items, filename);
 
 							QList<ItemHandle*> handles2 = getHandle(items);
-							ItemHandle * h;
 							
-							QList<ItemHandle*> visited;
+							QList<ItemHandle*> visitedHandles;
 							
-							bool validModel = true;
 							for (int j=0; j < handles2.size(); ++j)
-								if (handles2[j] && !visited.contains(handles2[j]))
+								if (handles2[j] && !visitedHandles.contains(handles2[j]))
 								{
-									visited << handles2[j];
-									h = findCorrespondingHandle(handles2[j],ConnectionHandle::cast(handles[i]));
-									/*if (h && !visited.contains(h))
-									{
-										visited << h;
-										commands << new MergeHandlesCommand(tr("merge"), 
-																				scene->network, 
-																				QList<ItemHandle*>() << h << handles2[j]);
-										for (int k=0; k < handles2[j]->graphicsItems.size(); ++k)
-											setHandle(handles2[j]->graphicsItems[k],h);
-										for (int k=0; k < handles2[j]->children.size(); ++k)
-											handles2[j]->children[k]->setParent(h);
-										delete handles2[j];
-									}
-									else*/
-										if (!handles2[j]->parent)
-											handles2[j]->setParent(handles[i]);
+									visitedHandles << handles2[j];
+									if (!handles2[j]->parent)
+										handles2[j]->setParent(handles[i]);
 								}
 						}
 					}
@@ -517,10 +501,12 @@ namespace Tinkercell
 			}
 	}
 	
-	ItemHandle * ModuleTool::findCorrespondingHandle(ItemHandle * node, ConnectionHandle * connection)
+	ItemHandle * ModuleTool::findCorrespondingHandle(NodeHandle * node, ConnectionHandle * connection)
 	{
-		if (!NodeHandle::cast(node) || !connection || !node || !connection->hasTextData(tr("Participants"))) return 0;
+		if (!node || !connection || !node || !connection->hasTextData(tr("Participants"))) return 0;
 		QList<NodeHandle*> nodes = connection->nodes();
+		
+		if (nodes.contains(node)) return 0;
 		
 		TextDataTable & participants = connection->textDataTable(tr("Participants"));
 		QStringList rownames = participants.getRowNames();
@@ -532,10 +518,7 @@ namespace Tinkercell
 			{
 				s = participants.value(nodes[i]->fullName(),0);
 				if (node->name.compare(s,Qt::CaseInsensitive) == 0)
-				{
-					MainWindow::instance()->console()->message(nodes[i]->fullName() + QString(" == ") + node->fullName());
 					return nodes[i];
-				}
 			}
 		}
 		return 0;
@@ -548,6 +531,7 @@ namespace Tinkercell
 		{
 			ConnectionGraphicsItem * c;
 			NodeGraphicsItem * node, * module;
+			QList<QUndoCommand*> commands;
 			
 			for (int i=0; i < handles.size(); ++i)
 				if (handles[i])
@@ -557,34 +541,35 @@ namespace Tinkercell
 										
 					if (ConnectionHandle::cast(handles[i]) && !handles[i]->children.isEmpty())
 					{
+						ItemHandle * h;
+						
 						for (int j=0; j < handles[i]->graphicsItems.size(); ++j)
 							if (c = ConnectionGraphicsItem::cast(handles[i]->graphicsItems[j]))
 							{
 								scene->showToolTip(c->centerLocation(),handles[i]->name + tr(" contains a model inside"));
 								break;
 							}
+
+						for (int j=0; j < handles[i]->children.size(); ++j)
+						{
+							h = findCorrespondingHandle(NodeHandle::cast(handles[i]->children[j]),ConnectionHandle::cast(handles[i]));
+							if (h)
+							{
+								commands << new MergeHandlesCommand(
+										tr("merge"), network, QList<ItemHandle*>() << h << handles[i]->children[j]);
+								/*for (int k=0; k < handles[i]->children[j]->graphicsItems.size(); ++k)
+									setHandle(handles[i]->children[j]->graphicsItems[k],h);
+								for (int k=0; k < handles[i]->children[j]->children.size(); ++k)
+									handles[i]->children[j]->children[k]->setParent(h);*/
+							}
+						}
 					}
 				}
+			
+			if (!commands.isEmpty())
+				network->push( new CompositeCommand(tr("Merged models"),commands) );
 	    }
 
-    	NetworkWindow * window = network->currentWindow();    	
-    	if (!window || !window->handle) return;
-
-    	QStringList oldNames, newNames;
-    	for (int i=0; i < handles.size(); ++i)
-	    	if (handles[i] && !handles[i]->parent)
-			{
-				oldNames << handles[i]->fullName();
-				handles[i]->setParent(window->handle,false);
-				newNames << handles[i]->fullName();
-				if (NodeHandle::cast(handles[i]) && !handles[i]->tools.contains(this))
-					handles[i]->tools += this;
-			}
-		if (oldNames.size() > 0)
-		{
-	    	RenameCommand rename(tr(""),network,oldNames,newNames);
-    		rename.redo();
-    	}
     }
 
     void ModuleTool::mouseMoved(GraphicsScene* scene, QGraphicsItem*, QPointF point, Qt::MouseButton, Qt::KeyboardModifiers, QList<QGraphicsItem*>& items)

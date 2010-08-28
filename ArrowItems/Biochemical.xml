@@ -2,16 +2,13 @@
 <!DOCTYPE NodeGraphicsItem>
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-        <listOfGradientDefinitions>
-            <linearGradient id="shape0color" x1="50.838%" y1="46%" x2="23.4637%" y2="49.3333%">
-                <stop offset="0%" stop-color="#f9ad6f" stop-alpha="1"/>
-                <stop offset="100%" stop-color="#ff0303" stop-alpha="1"/>
-            </linearGradient>
-        </listOfGradientDefinitions>
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#09b600" alpha="255"/>
+        </listOfColorDefinitions>
         <listOfStyles>
             <style idList="arrow" width="40" height="30">
                 <g>
-                    <polygon fill="shape0color" stroke="#d81111" stroke-width="0" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#00557f" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="27.933%" y="47.3333%"/>

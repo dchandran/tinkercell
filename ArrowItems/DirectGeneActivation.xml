@@ -2,23 +2,20 @@
 <!DOCTYPE NodeGraphicsItem>
 <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
     <renderInformation id="TinkerCell_Style" programName="TinkerCell">
-        <listOfGradientDefinitions>
-            <linearGradient id="shape0color" x1="13.8786%" y1="14.453%" x2="0.867415%" y2="13.9177%">
-                <stop offset="0%" stop-color="#00ff00" stop-alpha="1"/>
-                <stop offset="100%" stop-color="#005500" stop-alpha="1"/>
-            </linearGradient>
-        </listOfGradientDefinitions>
+        <listOfColorDefinitions>
+            <colorDefinition id="shape0color" value="#00d800" alpha="255"/>
+        </listOfColorDefinitions>
         <listOfStyles>
-            <style idList="green arrow" width="35" height="35">
+            <style idList="green arrow" width="40" height="25">
                 <g>
-                    <polygon fill="shape0color" stroke="#005500" stroke-width="5" stroke-alpha="1">
+                    <polygon fill="shape0color" stroke="#1a940d" stroke-width="8" stroke-alpha="1">
                         <listOfCurveSegments>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                                 <start x="0%" y="0%"/>
-                                <end x="100%" y="46.5729%"/>
+                                <end x="100%" y="49.5785%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-                                <start x="100%" y="46.5729%"/>
+                                <start x="100%" y="49.5785%"/>
                                 <end x="0%" y="100%"/>
                             </curveSegment>
                             <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">

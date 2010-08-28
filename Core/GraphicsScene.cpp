@@ -176,12 +176,9 @@ namespace Tinkercell
 					removeItem(items[j]);
 		}
 		
-		network = 0;
-		networkWindow = 0;
-		
 		QList<QGraphicsItem *> allitems = items();
 		for (int i=0; i < allitems.size(); ++i)
-			removeItem(allitems[i]);
+			removeItem(allitems[i]->topLevelItem());
 		/*
 		removeItem(&selectionRect);
 		QList<QGraphicsItem *> allitems1 = items();

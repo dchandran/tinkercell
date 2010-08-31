@@ -2124,7 +2124,7 @@ namespace Tinkercell
 		if (firstTime)
 		{
 			for (int i=0; i < allhandles.size(); ++i)
-				if (allhandles[i]->data)
+				if (allhandles[i] && allhandles[i]->data)
 				{
 					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
 					QList<QString> keys2 = allhandles[i]->data->textData.keys();
@@ -2191,7 +2191,7 @@ namespace Tinkercell
 
 
 			for (int i=0; i < allhandles.size(); ++i)
-				if (allhandles[i]->data)
+				if (allhandles[i] && allhandles[i]->data)
 				{
 					QList<QString> keys1 = allhandles[i]->data->numericalData.keys();
 					QList<QString> keys2 = allhandles[i]->data->textData.keys();

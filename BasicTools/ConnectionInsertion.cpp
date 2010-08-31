@@ -142,6 +142,15 @@ namespace Tinkercell
 		Tool::setMainWindow(main);
 		if (mainWindow)
 		{
+			connect(this,SIGNAL(aboutToInsertItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&)),
+						 mainWindow,SIGNAL(itemsAboutToBeInserted( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&)));
+			
+			connect(this,SIGNAL(insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& )),
+						 mainWindow,SIGNAL(itemsInserted( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& )));
+						 
+			connect(this,SIGNAL(handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& )),
+						 mainWindow,SIGNAL(handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& )));
+			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
@@ -461,6 +470,13 @@ namespace Tinkercell
 				QStringList nodeFunctions = family->nodeFunctions,
 							nodeFamilies = family->nodeFamilies,
 							oldRowNames = oldTable->getRowNames();
+
+				for (int j=0; j < oldTable->rows(); ++j)
+				{
+					int k = nodeFunctions.indexOf(oldTable->value(j,0));
+					if (k > -1)
+						nodeFunctions[k] = tr("");
+				}
 				
 				for (int j=0; j < nodes.size(); ++j) //for each node
 					if (nodes[j] &&
@@ -1070,11 +1086,32 @@ namespace Tinkercell
 						if (handle->family()->name.contains(tr("Activation")))
 							item->defaultPen.setColor(QColor(tr("#049102")));
 					}
+
+					QList<QUndoCommand*> commands;
+					QList<ItemFamily*> oldFamilies;
 					
-					scene->insert(handle->name + tr(" inserted"), insertList);
 					if (handle->family() != selectedFamily)
-						scene->network->setHandleFamily(handle,selectedFamily);
+					{
+						oldFamilies << handle->family();
+						commands << new SetHandleFamilyCommand(tr("new family"),handle,selectedFamily);
+						handle->setFamily(selectedFamily,false);
+					}
 										
+					QList<ItemHandle*> handles = getHandle(insertList);
+					
+					emit aboutToInsertItems(scene, insertList, handles,commands);
+					commands << new InsertGraphicsCommand(tr("new connection"), scene, insertList);
+					
+					if (selectedConnections.isEmpty())
+						scene->network->push(new CompositeCommand(handle->name + tr(" inserted"),commands));
+					else
+						scene->network->push(new CompositeCommand(handle->name + tr(" modified"),commands));
+					
+					emit insertedItems( scene, insertList, handles);
+					
+					if (!oldFamilies.isEmpty())
+						emit handleFamilyChanged(scene->network, QList<ItemHandle*>() << handle, oldFamilies);
+
 					if (catalogWidget && selectedFamily->children().isEmpty())
 						catalogWidget->showButtons(QStringList() << selectedFamily->name);
 

@@ -245,7 +245,7 @@ namespace Tinkercell
 			return 0.0;
 		}
 
-		QString p,n;
+		QString p,n,q;
 		QRegExp regex1(QString("[\\n\\s]"));
 		QRegExp regex2(QString("\\.(?!\\d)"));
 		QRegExp regex3(QString("\\.([^\\.]+)"));
@@ -302,38 +302,26 @@ namespace Tinkercell
 				for (; item!=variables.end(); ++item)
 				{
 					n = QString(item->first.data());
-					n.replace(QString("_"),QString("."));
-
 					if (existingNames.contains(n)) continue;
-
 					if (symbolsTable.uniqueItems.contains(n) && (handle = symbolsTable.uniqueItems[n]))
 					{
-						if (handle->data && handle->hasNumericalData(QString("Initial Value")))
+						if (handle->hasNumericalData(QString("Initial Value")))
 						{
-							if (handle->data->numericalData[QString("Initial Value")].value(0,0) == 0)
-								parser.DefineVar(item->first.data(), &d);
-							else
-							{
-								assignments += sd_pair(n,handle->data->numericalData[QString("Initial Value")].value(0,0));
-								parser.DefineVar(item->first.data(), &(assignments.last().second));
-							}
+							assignments += sd_pair(n,handle->data->numericalData[QString("Initial Value")].value(0,0));
+							parser.DefineVar(item->first.data(), &(assignments.last().second));
 						}
 						continue;
 					}
 
 					if (symbolsTable.uniqueData.contains(n) && (handle = symbolsTable.uniqueData[n].first))
 					{
-						QString n0 = n;
 						p = symbolsTable.uniqueData[n].second;
-						regex3.indexIn(n);
-
-						if (regex3.numCaptures() > 0)
-							n = regex3.cap(1);
-
+						q = n;
+						q.remove(handle->fullName("_") + QString("_"));
 						if (handle->data && handle->hasNumericalData(p)
-							&& handle->data->numericalData[p].getRowNames().contains(n))
+							&& handle->data->numericalData[p].getRowNames().contains(q))
 							{
-								assignments += sd_pair(n0,handle->data->numericalData[p].value(n,0));
+								assignments += sd_pair(n,handle->data->numericalData[p].value(q,0));
 								parser.DefineVar(item->first.data(), &(assignments.last().second));
 							}
 					}

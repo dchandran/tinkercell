@@ -268,7 +268,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void StoichiometryTool::handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>& handles, const QList<ItemFamily*>& families)
+	void StoichiometryTool::handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>& handles, const QList<ItemFamily*>& )
 	{
 		ConnectionFamily * connectionFamily;
 		ConnectionHandle * connectionHandle;
@@ -277,29 +277,40 @@ namespace Tinkercell
 		QList<TextDataTable*> oldequations, newequations;
 		
 		QList<ItemHandle*> changedHandles;
-		
-		for (int i=0; i < handles.size() && i < families.size(); ++i)
+
+		for (int i=0; i < handles.size(); ++i)
 		{
 			if ((connectionHandle = ConnectionHandle::cast(handles[i])) &&
-				(connectionFamily = ConnectionFamily::cast(families[i])) &&
+				(connectionFamily = ConnectionFamily::cast(connectionHandle->family())) &&
 				connectionFamily->nodeFunctions.contains(tr("Catalyst")) &&
 				connectionHandle->hasNumericalData(tr("Parameters")) &&
 				connectionHandle->hasTextData(tr("Rate equations")) &&
 				connectionHandle->hasTextData(tr("Participants")) &&
 				!changedHandles.contains(connectionHandle))
 				{
-					changedHandles << connectionHandle;
 					
 					NumericalDataTable * oldparams = &connectionHandle->numericalDataTable(tr("Parameters"));
 					TextDataTable * oldeqns = &connectionHandle->textDataTable(tr("Rate equations"));
 					TextDataTable & participants = connectionHandle->textDataTable(tr("Participants"));
+
+					bool validEquation = true;
+					for (int j=0; j < participants.rows(); ++j)
+						if (!oldeqns->value(0,0).contains(participants.rowName(j)))
+						{
+							validEquation = false;
+							break;
+						}
 					
+					if (validEquation) continue;
+
+					changedHandles << connectionHandle;
 					if (!oldparams->rowNames().contains(tr("Vmax")) ||
 						!oldparams->rowNames().contains(tr("Km")))
 					{
 						oldparameters << oldparams;
 						NumericalDataTable * newparams = new NumericalDataTable(*oldparams);
-						newparams->value(tr("Vmax"),0) = newparams->value(tr("Km"),0) = 1.0;
+						newparams->value(tr("Vmax"),0) = 1.0;
+						newparams->value(tr("Km"),0) = 1.0;
 						newparameters << newparams;
 					}
 					
@@ -350,7 +361,7 @@ namespace Tinkercell
 		}
 	}
 
-	void StoichiometryTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
+	void StoichiometryTool::itemsInserted(NetworkHandle * network, const QList<ItemHandle*>& handles)
 	{
 		ConnectionHandle * connectionHandle = 0;
 		for (int i=0; i < handles.size(); ++i)
@@ -368,6 +379,7 @@ namespace Tinkercell
 					))
 				{
 					insertDataMatrix(connectionHandle);
+					handleFamilyChanged(network, QList<ItemHandle*>() << handles[i],  QList<ItemFamily*>() );
 				}
 			}
 		}

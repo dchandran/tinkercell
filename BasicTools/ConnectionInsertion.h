@@ -119,7 +119,10 @@ namespace Tinkercell
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
 		/*! \brief insert parts and connections*/
 		void itemsDropped(GraphicsScene *, const QString&, const QPointF&);
-
+	signals:
+		void aboutToInsertItems( GraphicsScene* , QList<QGraphicsItem *>& , QList<ItemHandle*>& , QList<QUndoCommand*>&);
+		void insertedItems( GraphicsScene* ,  const QList<QGraphicsItem *>& , const QList<ItemHandle*>& );
+		void handleFamilyChanged(NetworkHandle * , const QList<ItemHandle*>& , const QList<ItemFamily*>& );
 	private slots:
 		/*!\brief C API function*/
 		void insertConnection(QSemaphore*,ItemHandle** ,const QList<ItemHandle*>&,const QString&, const QString&);

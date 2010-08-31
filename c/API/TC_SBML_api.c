@@ -31,7 +31,7 @@ TableOfReals (*_tc_simulateODE)(double, double) = 0;
  \param double time increment (step size)
  \ingroup Simulation
 */
-TableOfReals tc_simulateODE(double a, double b);
+TableOfReals tc_simulateODE(double a, double b)
 {
 	if (_tc_simulateODE)
 		return _tc_simulateODE(a,b);
@@ -44,7 +44,7 @@ TableOfReals (*_tc_simulateSSA)(double) = 0;
  \param double total time for simulation
  \ingroup Simulation
 */
-TableOfReals tc_simulateSSA(double t);
+TableOfReals tc_simulateSSA(double t)
 {
 	if (_tc_simulateSSA)
 		return _tc_simulateSSA(t);

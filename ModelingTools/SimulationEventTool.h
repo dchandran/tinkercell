@@ -74,6 +74,7 @@ namespace Tinkercell
 
 	signals:
 		void itemsInserted(GraphicsScene *, const QList<QGraphicsItem*>&, const QList<ItemHandle*>&);
+		void dataChanged(const QList<ItemHandle*>&);
 
     private slots:
 

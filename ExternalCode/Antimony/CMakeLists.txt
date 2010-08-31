@@ -4,8 +4,6 @@ INCLUDE_DIRECTORIES(
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony/src
 )
 
-#FILE( GLOB ANTIMONY_SRC src/*.cpp )
-
 SET( ANTIMONY_SRC
 #    src/antimony2sbml.cpp
     src/antimony_api.cpp
@@ -30,6 +28,7 @@ SET( ANTIMONY_SRC
 #ADD_DEFINITIONS(-DNSBML)
 ADD_DEFINITIONS(-DNCELLML)
 ADD_DEFINITIONS(-DLIB_EXPORTS)
+#ADD_DEFINITIONS(-D__cplusplus)
 
 ADD_LIBRARY ( antimony
    SHARED
@@ -48,3 +47,4 @@ IF ( WIN32 )
 ELSE ( WIN32 )
   INSTALL(TARGETS antimony LIBRARY DESTINATION bin/../)
 ENDIF( WIN32 )
+

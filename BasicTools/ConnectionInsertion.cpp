@@ -961,8 +961,6 @@ namespace Tinkercell
 								if (!handle)
 								{
 									handle = static_cast<ConnectionHandle*>(selectedConnections[j]->handle());
-									if (handle->family() != selectedFamily)
-										scene->network->setHandleFamily(handle,selectedFamily);
 								}
 							}
 						}
@@ -1074,6 +1072,9 @@ namespace Tinkercell
 					}
 					
 					scene->insert(handle->name + tr(" inserted"), insertList);
+					if (handle->family() != selectedFamily)
+						scene->network->setHandleFamily(handle,selectedFamily);
+										
 					if (catalogWidget && selectedFamily->children().isEmpty())
 						catalogWidget->showButtons(QStringList() << selectedFamily->name);
 

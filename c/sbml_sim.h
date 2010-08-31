@@ -37,12 +37,27 @@ class SBML_sim
 {
 public:
 	
-	/*! \brief make a simulation
+	/*! \brief constructor for simulating from SBML file or string
 	 * \param char* model file or model string
 	 * \param bool if first argument is file name, then use true (default).
 	 			   if first argument is model string, then use false
 	*/
 	SBML_sim(std::string sbml_file, bool isFile=true);
+
+	/*! \brief constructor for simulating from SBML document
+	 * \param SBMLDocument* sbml document
+	*/
+	SBML_sim(SBMLDocument *);
+
+	/*! \brief load new SBML document
+	 * \param SBMLDocument* sbml document
+	*/
+	void loadSBML(SBMLDocument *);
+	
+	/*! \brief load new SBML file
+	 * \param SBMLDocument* sbml document
+	*/
+	void loadSBML(std::string sbml_file, bool isFile=true);
 
 	/*! \brief deterministic simulation of the model
 	 * \param double end time

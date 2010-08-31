@@ -51,6 +51,9 @@ namespace Tinkercell
 
 		if (mainWindow)
 		{
+			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
+					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle * , const QList<ItemHandle*>&)),
 				this, SLOT(itemsInserted(NetworkHandle * , const QList<ItemHandle*>& )));
 
@@ -59,6 +62,9 @@ namespace Tinkercell
 			
 			connect(mainWindow, SIGNAL(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )),
 				this, SLOT(itemsAboutToBeRemoved(GraphicsScene *, QList<QGraphicsItem*>& , QList<ItemHandle*>&, QList<QUndoCommand*>& )));
+			
+			connect(mainWindow, SIGNAL(handleFamilyChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemFamily*>&)),
+				this, SLOT(handleFamilyChanged(NetworkHandle*, const QList<ItemHandle*>&, const QList<ItemFamily*>&)));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 
@@ -261,6 +267,88 @@ namespace Tinkercell
 			widgets.insertTab(1,stoichiometryWidget,tr("Reaction stoichiometry"));
 		}
 	}
+	
+	void StoichiometryTool::handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>& handles, const QList<ItemFamily*>& families)
+	{
+		ConnectionFamily * connectionFamily;
+		ConnectionHandle * connectionHandle;
+		
+		QList<NumericalDataTable*> oldparameters, newparameters;
+		QList<TextDataTable*> oldequations, newequations;
+		
+		QList<ItemHandle*> changedHandles;
+		
+		for (int i=0; i < handles.size() && i < families.size(); ++i)
+		{
+			if ((connectionHandle = ConnectionHandle::cast(handles[i])) &&
+				(connectionFamily = ConnectionFamily::cast(families[i])) &&
+				connectionFamily->nodeFunctions.contains(tr("Catalyst")) &&
+				connectionHandle->hasNumericalData(tr("Parameters")) &&
+				connectionHandle->hasTextData(tr("Rate equations")) &&
+				connectionHandle->hasTextData(tr("Participants")) &&
+				!changedHandles.contains(connectionHandle))
+				{
+					changedHandles << connectionHandle;
+					
+					NumericalDataTable * oldparams = &connectionHandle->numericalDataTable(tr("Parameters"));
+					TextDataTable * oldeqns = &connectionHandle->textDataTable(tr("Rate equations"));
+					TextDataTable & participants = connectionHandle->textDataTable(tr("Participants"));
+					
+					if (!oldparams->rowNames().contains(tr("Vmax")) ||
+						!oldparams->rowNames().contains(tr("Km")))
+					{
+						oldparameters << oldparams;
+						NumericalDataTable * newparams = new NumericalDataTable(*oldparams);
+						newparams->value(tr("Vmax"),0) = newparams->value(tr("Km"),0) = 1.0;
+						newparameters << newparams;
+					}
+					
+					QString enz;
+					QStringList reacs;
+					
+					for (int j=0; j < participants.rows(); ++j)
+					{
+						if (participants.value(j,0) == tr("Catalyst"))
+							enz = participants.rowName(j);
+						else
+						if (participants.value(j,0).contains(tr("Reactant")))
+							reacs += participants.rowName(j);
+					}
+					
+					if (!enz.isEmpty() && !reacs.isEmpty())
+					{
+						QString s = connectionHandle->fullName();
+						QString r = reacs.join(tr("*"));
+						s += tr(".Vmax * ");
+						s += enz;
+						s += tr(" * "); 
+						s += r;
+						s += tr("/( ");
+						s += connectionHandle->fullName();
+						s += tr(".Km + ");
+						s += r;
+						s += tr(")");
+						TextDataTable * neweqns = new TextDataTable(*oldeqns);
+						neweqns->value(0,0) = s;
+						oldequations << oldeqns;
+						newequations << neweqns;
+					}
+				}
+		}
+		
+		if (!newequations.isEmpty())
+		{
+			network->push(new Change2DataCommand<double,QString>(
+								tr("Rate equations updated"),
+								oldparameters, newparameters,
+								oldequations, newequations));
+
+			for (int i=0; i < newparameters.size(); ++i) delete newparameters[i];
+			for (int i=0; i < newequations.size(); ++i) delete newequations[i];
+
+			emit dataChanged(changedHandles);
+		}
+	}
 
 	void StoichiometryTool::itemsInserted(NetworkHandle * , const QList<ItemHandle*>& handles)
 	{
@@ -443,6 +531,8 @@ namespace Tinkercell
 				command->redo();
 				delete command;
 			}
+			
+			emit dataChanged(items);
 
 			for (int i=0; i < nDataNew.size(); ++i)
 				delete nDataNew[i];
@@ -1434,6 +1524,7 @@ namespace Tinkercell
 		NumericalDataTable * oldNumTable, * newNumTable;
 		QList<NumericalDataTable*> oldNumTables, newNumTables;
 
+		QList<ItemHandle*> changedHandles;
 		int k;
 		
 		for (int i=0; i < items.size(); ++i)
@@ -1442,7 +1533,7 @@ namespace Tinkercell
 			{
 				tempList1 = nodeItem->connections();
 				for (int j=0; j < tempList1.size(); ++j)
-					if (tempList1[j] && (k = tempList1[j]->indexOf(nodeItem)) > -1)
+					if (tempList1[j] && (k = tempList1[j]->indexOf(nodeItem)) > -1)					
 						toBeRemoved.insertMulti(tempList1[j],k);
 			}
 			
@@ -1471,6 +1562,8 @@ namespace Tinkercell
 		for (int i=0; i < keys.size(); ++i)
 			if (connectionHandle = keys[i]->handle())
 			{
+				changedHandles << connectionHandle;
+				
 				oldTextTable = &(connectionHandle->textDataTable(tr("Rate equations")));
 				newTextTable = new TextDataTable(*oldTextTable);
 				
@@ -1530,6 +1623,8 @@ namespace Tinkercell
 			for (int i=0; i < newNumTables.size(); ++i)
 				delete newNumTables[i];
 		}
+		
+		emit dataChanged(changedHandles);
 	}
 }
 

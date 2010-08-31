@@ -20,7 +20,7 @@ extern "C" {
 #include "API/TC_EventsAssignments_api.h"
 #include "API/TC_NameFamily_api.h"
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
-#include "API/TC_Antimony_api.h"
+#include "API/TC_SBML_api.h"
 
 #ifdef __cplusplus
 }

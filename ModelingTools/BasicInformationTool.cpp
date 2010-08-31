@@ -132,6 +132,9 @@ namespace Tinkercell
 		{
 			loadInitialValues();
 			
+			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
+					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
+			
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(windowClosing(NetworkHandle * , bool *)));
 
 			connect(mainWindow,SIGNAL(itemsInserted(NetworkHandle *, const QList<ItemHandle*>&)),
@@ -488,6 +491,7 @@ namespace Tinkercell
 								commands);
 
 							win->history.push(command);
+							emit dataChanged(QList<ItemHandle*>() << handle);
 						}
 					}
 				}

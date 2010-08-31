@@ -410,11 +410,7 @@ namespace Tinkercell
 
 	void NetworkHandle::setHandleFamily(ItemHandle * handle, ItemFamily * newfamily)
 	{
-		QList<ItemHandle*> list1;
-		QList<ItemFamily*> list2;
-		list1 << handle;
-		list2 << newfamily;
-		setHandleFamily(list1,list2);
+		setHandleFamily(QList<ItemHandle*>() << handle, QList<ItemFamily*>() << newfamily);
 	}
 
 	void NetworkHandle::setHandleFamily(const QList<ItemHandle*> handles, ItemFamily * newfamily)

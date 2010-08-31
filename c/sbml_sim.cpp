@@ -53,7 +53,18 @@ static void addSBMLFunctions(mu::Parser & p)
 	p.DefineFun("lt", &lt , false);
 }
 
-SBML_sim::SBML_sim(string sbml_text, bool isFile)
+
+SBML_sim::SBML_sim(std::string sbml_file, bool isFile)
+{
+	loadSBML(sbml_file, isFile);
+}
+
+SBML_sim::SBML_sim(SBMLDocument * doc)
+{
+	loadSBML(doc);
+}
+
+void SBML_sim::loadSBML(std::string sbml_text, bool isFile)
 {
 	SBMLReader * sbmlreader = new SBMLReader;
 	SBMLDocument * doc;
@@ -62,7 +73,13 @@ SBML_sim::SBML_sim(string sbml_text, bool isFile)
 		doc = sbmlreader->readSBML(sbml_text);
 	else
 		doc = sbmlreader->readSBMLFromString(sbml_text); 
+		
+	loadSBML(doc);
+	delete sbmlreader;
+}
 
+void SBML_sim::loadSBML(SBMLDocument * doc)
+{
 	if (!doc || doc->getNumErrors() > 0)
 	{
 	}

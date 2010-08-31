@@ -121,10 +121,17 @@ namespace Tinkercell
 		void setupFunctionPointers(QLibrary*);
 		/*!\brief remove items from stoichiometry table in each connection*/
 		void itemsAboutToBeRemoved(GraphicsScene * scene, QList<QGraphicsItem*>& item, QList<ItemHandle*>& handles, QList<QUndoCommand*>&);
-
+		/*! \brief used to update rate equation for enzyme catalyzed reactions
+		* \param NetworkHandle* network where the event took place
+		* \param QList<ItemHandle*>& child items
+		* \param QList<ItemFamily*>& old families
+		* \return void*/
+		void handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemFamily*>&);
 	signals:
 		/*! \brief set the middle region of a connection for reversible reactions*/
 		void setMiddleBox(int,const QString&);
+		/*! \brief indicate the some data have changed*/
+		void dataChanged(const QList<ItemHandle*>&);
 
 	private slots:
 		/*! \brief used for the C API*/

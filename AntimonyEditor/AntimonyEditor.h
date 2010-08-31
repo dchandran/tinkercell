@@ -37,31 +37,6 @@
 
 namespace Tinkercell
 {
-	class AntimonyEditor_FtoS : public QObject
-	{
-		Q_OBJECT
-
-	signals:
-		void loadSBMLStringSignal(QSemaphore*,const QString&);
-		void loadAntimonyStringSignal(QSemaphore*,const QString&);
-		void loadSBMLFileSignal(QSemaphore*,const QString&);
-		void loadAntimonyFileSignal(QSemaphore*,const QString&);
-		void getSBMLStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*);
-		void getAntimonyStringSignal(QSemaphore*,const QList<ItemHandle*>&, QString*);
-		void writeSBMLFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
-		void writeAntimonyFileSignal(QSemaphore*,const QList<ItemHandle*>&, const QString&);
-	public slots:
-		void loadSBMLString(const char *);
-		void loadAntimonyString(const char *);
-		void loadSBMLFile(const char *);
-		void loadAntimonyFile(const char *);
-		const char* getSBMLString(ArrayOfItems);
-		const char* getAntimonyString(ArrayOfItems);
-		void writeSBMLFile(ArrayOfItems,const char*);
-		void writeAntimonyFile(ArrayOfItems,const char*);
-
-	};
-
 	class AntimonyEditor : public TextParser
 	{
 	    Q_OBJECT
@@ -107,13 +82,6 @@ namespace Tinkercell
         */
 		void copyItems(GraphicsScene * scene, QList<QGraphicsItem*>& , QList<ItemHandle*>& );
 
-		void loadSBMLFile();
-		void pasteSBMLText();
-		void saveSBMLFile();
-		void copySBMLText();
-		void saveAntimonyFile();
-		void copyAntimonyText();
-
 	signals:
 		/*! \brief invalid syntax*/
 		void validSyntax(bool);
@@ -133,26 +101,8 @@ namespace Tinkercell
 		void createTextWindow(TextEditor *, const QList<ItemHandle*>&);
 		/*! \brief used to connect to modelSummaryTool*/
 		void toolLoaded(Tool*);
-		void setupFunctionPointers( QLibrary * library);
-		void loadSBMLStringSlot(QSemaphore*,const QString&);
-		void loadAntimonyStringSlot(QSemaphore*,const QString&);
-		void loadSBMLFileSlot(QSemaphore*,const QString&);
-		void loadAntimonyFileSlot(QSemaphore*,const QString&);
-		void getSBMLStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*);
-		void getAntimonyStringSlot(QSemaphore*,const QList<ItemHandle*>&, QString*);
-		void writeSBMLFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&);
-		void writeAntimonyFileSlot(QSemaphore*,const QList<ItemHandle*>&, const QString&);
 
 	private:
-		static AntimonyEditor_FtoS fToS;
-		static void _loadSBMLString(const char *);
-		static void _loadAntimonyString(const char *);
-		static void _loadSBMLFile(const char *);
-		static void _loadAntimonyFile(const char *);
-		static const char* _getSBMLString(ArrayOfItems);
-		static const char* _getAntimonyString(ArrayOfItems);
-		static void _writeSBMLFile(ArrayOfItems,const char*);
-		static void _writeAntimonyFile(ArrayOfItems,const char*);
 		void connectTCFunctions();
 		static void appendScript(QString&, const QList<ItemHandle*>&);
 

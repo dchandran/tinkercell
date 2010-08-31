@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "TC_StoichiometryTool_api.h"
 
 TableOfReals (*_tc_getStoichiometry)(ArrayOfItems ) = 0;

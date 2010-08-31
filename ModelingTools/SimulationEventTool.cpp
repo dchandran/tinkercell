@@ -113,6 +113,9 @@ namespace Tinkercell
 		{
 			eventDialog = new QDialog(mainWindow);
 			setupDialogs();
+			
+			connect(this,SIGNAL(dataChanged(const QList<ItemHandle*>&)),
+					mainWindow,SIGNAL(dataChanged(const QList<ItemHandle*>&)));
 
 			connect(mainWindow,SIGNAL(networkClosing(NetworkHandle * , bool *)),this,SLOT(sceneClosing(NetworkHandle * , bool *)));
 			
@@ -411,6 +414,7 @@ namespace Tinkercell
 			 << (new ChangeDataCommand<QString>(command, &handle->textDataTable(tr("Assignments")), &assignments));
 		
 		scene->network->push(new CompositeCommand(command,list));
+		emit dataChanged(QList<ItemHandle*>() << handle);
 		emit itemsInserted(scene,newItems,QList<ItemHandle*>());
 	}
 

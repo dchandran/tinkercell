@@ -104,6 +104,10 @@ namespace Tinkercell
 		enum Type { numerical, text, both };
 		Type type;
 
+	signals:
+		/*! \brief indicate the some data have changed*/
+		void dataChanged(const QList<ItemHandle*>&);
+
 	public slots:
 		void select(int i=0);
 		void deselect(int i=0);

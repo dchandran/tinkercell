@@ -208,9 +208,14 @@ IF( QT4_FOUND AND OPENGL_FOUND )
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/lapack/INCLUDE
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include
     ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/cvode
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/sundials
+    ${TINKERCELL_SOURCE_DIR}/ExternalCode/cvode260/include/nvector
+    ${TINKERCELL_BINARY_DIR}/ExternalCode/cvode260/include/nvector
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml
     ${TINKERCELL_SOURCE_DIR}/ExternalCode/Antimony
-    ${TINKERCELL_SOURCE_DIR}/ExternalCode/sbml_odeSolver/src
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
@@ -238,49 +243,70 @@ IF (UNIX AND NOT APPLE)
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 ENDIF(UNIX AND NOT APPLE)
 
+SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
+
 #----------------------------------------------------------------------------
-#   Tinkercell plugins and other components
+#   TinkerCellCore and needed files
 #----------------------------------------------------------------------------
 
-  SET(TINKERCELL_BINARY_BIN_DIR TINKERCELL_BINARY_DIR/bin)
-  
-  ADD_SUBDIRECTORY( Core )
-  ADD_SUBDIRECTORY( Main )
-  ADD_SUBDIRECTORY( ExternalCode )  
-  ADD_SUBDIRECTORY( NodeGraphicsItem )
-  ADD_SUBDIRECTORY( NodesTree )
-  ADD_SUBDIRECTORY( BasicTools )
-  ADD_SUBDIRECTORY( PlotTools )
-  ADD_SUBDIRECTORY( DynamicCodeTools )
-  ADD_SUBDIRECTORY( ModuleTools )
+ADD_SUBDIRECTORY( Core )
+ADD_SUBDIRECTORY( Main )
+ADD_SUBDIRECTORY( ExternalCode )  
+ADD_SUBDIRECTORY( ArrowItems )
+ADD_SUBDIRECTORY( NodeItems )
+ADD_SUBDIRECTORY( DecoratorItems )
+ADD_SUBDIRECTORY( NodeGraphicsItem )
+
+#----------------------------------------------------------------------------
+#   TinkerCell plugins
+#----------------------------------------------------------------------------
+
+OPTION( PLUGIN_BASIC "Plug-in for enabling basic features" ON )
+OPTION( PLUGIN_MODELING "Plug-in for enabling modeling functions" ON )
+OPTION( PLUGIN_MODULES "Plug-in for enabling modules" ON )
+OPTION( PLUGIN_C_PLUGINS "Enable C plug-ins" ON )
+
+IF( PLUGIN_BASIC )
+   ADD_SUBDIRECTORY( BasicTools )
+   ADD_SUBDIRECTORY( NodesTree )
+   ADD_SUBDIRECTORY( PlotTools )
+ENDIF( PLUGIN_BASIC )
+
+IF( PLUGIN_C_PLUGINS )
+   ADD_SUBDIRECTORY( DynamicCodeTools )
+   ADD_SUBDIRECTORY( DB )
+   ADD_SUBDIRECTORY( c )
+ENDIF( PLUGIN_C_PLUGINS )
+
+IF( PLUGIN_MODELING )
   ADD_SUBDIRECTORY( ModelingTools )
-  ADD_SUBDIRECTORY( OtherTools )
-  ADD_SUBDIRECTORY( ArrowItems )
-  ADD_SUBDIRECTORY( NodeItems )
-  ADD_SUBDIRECTORY( DecoratorItems )
-  ADD_SUBDIRECTORY( Documentation )
-  ADD_SUBDIRECTORY( AntimonyEditor )
   ADD_SUBDIRECTORY( GeneticNetworks )
+  ADD_SUBDIRECTORY( OtherTools )
+  ADD_SUBDIRECTORY( AntimonyEditor )  
   ADD_SUBDIRECTORY( ImportExportTools )
-  ADD_SUBDIRECTORY( DB )
-  ADD_SUBDIRECTORY( c )
-  
+ENDIF( PLUGIN_MODELING )
+
+IF( PLUGIN_MODULES )
+   ADD_SUBDIRECTORY( ModuleTools )
+ENDIF( PLUGIN_MODULES )
+
 #---------------------------------------------------------------------------
 # Doxygen documentation
 #---------------------------------------------------------------------------
 OPTION( DOXYGENDOC "Generate Doxygen Documentation" OFF )
-
+IF( DOXYGENDOC )
+   ADD_SUBDIRECTORY( Documentation )
+ENDIF( DOXYGENDOC )
 #---------------------------------------------------------------------------
 # SWIG
 #---------------------------------------------------------------------------
 
-SET_PROPERTY(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS)
+#SET_PROPERTY(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS)
 ADD_SUBDIRECTORY( python )
 ADD_SUBDIRECTORY( ruby )
 ADD_SUBDIRECTORY( perl )
 ADD_SUBDIRECTORY( octave )
 ADD_SUBDIRECTORY( R )
-
 
 #----------------------------------------------------------------------------
 # Other programs (not really part of Tinkercell)

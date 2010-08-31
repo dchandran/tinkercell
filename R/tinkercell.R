@@ -632,15 +632,15 @@ setClass('_p_f_p_void_ArrayOfStrings__void',
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems__p_char',
-        prototype = list(parameterTypes = c('_ArrayOfItems'),
-                        returnType = '_p_f_ArrayOfItems__p_char'),
+setClass('_p_f_double_double__TableOfReals',
+        prototype = list(parameterTypes = c('_double', '_double'),
+                        returnType = '_p_f_double_double__TableOfReals'),
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_ArrayOfItems_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_ArrayOfItems', '_p_char'),
-                        returnType = '_p_f_ArrayOfItems_p_q_const__char__void'),
+setClass('_p_f_double__TableOfReals',
+        prototype = list(parameterTypes = c('_double'),
+                        returnType = '_p_f_double__TableOfReals'),
         contains = 'CRoutinePointer')
 
 ##
@@ -5609,198 +5609,112 @@ attr(`tc_AutoGeneRegulatoryTool_api`, 'returnType') = 'void'
 attr(`tc_AutoGeneRegulatoryTool_api`, "inputTypes") = c('_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_Item__ArrayOfItems', '_p_f_ArrayOfItems__void')
 class(`tc_AutoGeneRegulatoryTool_api`) = c("SWIGFunction", class('tc_AutoGeneRegulatoryTool_api'))
 
-# Start of tc_loadSBMLString
+# Start of tc_exportSBML
 
-`tc_loadSBMLString` = function(sbml)
-{
-  sbml = as(sbml, "character") 
-  .Call('R_swig_tc_loadSBMLString', sbml, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_loadSBMLString`, 'returnType') = 'void'
-attr(`tc_loadSBMLString`, "inputTypes") = c('character')
-class(`tc_loadSBMLString`) = c("SWIGFunction", class('tc_loadSBMLString'))
-
-# Start of tc_loadAntimonyString
-
-`tc_loadAntimonyString` = function(antimony)
-{
-  antimony = as(antimony, "character") 
-  .Call('R_swig_tc_loadAntimonyString', antimony, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_loadAntimonyString`, 'returnType') = 'void'
-attr(`tc_loadAntimonyString`, "inputTypes") = c('character')
-class(`tc_loadAntimonyString`) = c("SWIGFunction", class('tc_loadAntimonyString'))
-
-# Start of tc_loadSBMLFile
-
-`tc_loadSBMLFile` = function(sbml)
-{
-  sbml = as(sbml, "character") 
-  .Call('R_swig_tc_loadSBMLFile', sbml, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_loadSBMLFile`, 'returnType') = 'void'
-attr(`tc_loadSBMLFile`, "inputTypes") = c('character')
-class(`tc_loadSBMLFile`) = c("SWIGFunction", class('tc_loadSBMLFile'))
-
-# Start of tc_loadAntimonyFile
-
-`tc_loadAntimonyFile` = function(antimony)
-{
-  antimony = as(antimony, "character") 
-  .Call('R_swig_tc_loadAntimonyFile', antimony, PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_loadAntimonyFile`, 'returnType') = 'void'
-attr(`tc_loadAntimonyFile`, "inputTypes") = c('character')
-class(`tc_loadAntimonyFile`) = c("SWIGFunction", class('tc_loadAntimonyFile'))
-
-# Start of tc_getSBMLString
-
-`tc_getSBMLString` = function(items, .copy = FALSE)
-{
-  .Call('R_swig_tc_getSBMLString', items, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getSBMLString`, 'returnType') = 'character'
-attr(`tc_getSBMLString`, "inputTypes") = c('_p_ArrayOfItems')
-class(`tc_getSBMLString`) = c("SWIGFunction", class('tc_getSBMLString'))
-
-# Start of tc_getAntimonyString
-
-`tc_getAntimonyString` = function(items, .copy = FALSE)
-{
-  .Call('R_swig_tc_getAntimonyString', items, as.logical(.copy), PACKAGE='tinkercell')
-  
-}
-
-attr(`tc_getAntimonyString`, 'returnType') = 'character'
-attr(`tc_getAntimonyString`, "inputTypes") = c('_p_ArrayOfItems')
-class(`tc_getAntimonyString`) = c("SWIGFunction", class('tc_getAntimonyString'))
-
-# Start of tc_writeSBMLFile
-
-`tc_writeSBMLFile` = function(items, file)
+`tc_exportSBML` = function(file)
 {
   file = as(file, "character") 
-  .Call('R_swig_tc_writeSBMLFile', items, file, PACKAGE='tinkercell')
+  .Call('R_swig_tc_exportSBML', file, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_writeSBMLFile`, 'returnType') = 'void'
-attr(`tc_writeSBMLFile`, "inputTypes") = c('_p_ArrayOfItems', 'character')
-class(`tc_writeSBMLFile`) = c("SWIGFunction", class('tc_writeSBMLFile'))
+attr(`tc_exportSBML`, 'returnType') = 'void'
+attr(`tc_exportSBML`, "inputTypes") = c('character')
+class(`tc_exportSBML`) = c("SWIGFunction", class('tc_exportSBML'))
 
-# Start of tc_writeAntimonyFile
+# Start of tc_importSBML
 
-`tc_writeAntimonyFile` = function(items, file)
+`tc_importSBML` = function(file)
 {
   file = as(file, "character") 
-  .Call('R_swig_tc_writeAntimonyFile', items, file, PACKAGE='tinkercell')
+  .Call('R_swig_tc_importSBML', file, PACKAGE='tinkercell')
   
 }
 
-attr(`tc_writeAntimonyFile`, 'returnType') = 'void'
-attr(`tc_writeAntimonyFile`, "inputTypes") = c('_p_ArrayOfItems', 'character')
-class(`tc_writeAntimonyFile`) = c("SWIGFunction", class('tc_writeAntimonyFile'))
+attr(`tc_importSBML`, 'returnType') = 'void'
+attr(`tc_importSBML`, "inputTypes") = c('character')
+class(`tc_importSBML`) = c("SWIGFunction", class('tc_importSBML'))
 
-# Start of tc_Antimony_api
+# Start of tc_simulateODE
 
-`tc_Antimony_api` = function(loadAntimonyString, loadSBMLString, loadSBMLFile, loadAntimonyFile, getSBMLString, getAntimonyString, writeSBMLFile, writeAntimonyFile)
+`tc_simulateODE` = function(time, step_size, .copy = FALSE)
 {
-  if(is.function(loadAntimonyString)) {
-    assert('...' %in% names(formals(loadAntimonyString)) || length(formals(loadAntimonyString)) >= 0)
-  } else {
-    if(is.character(loadAntimonyString)) {
-      loadAntimonyString = getNativeSymbolInfo(loadAntimonyString)
-    }
-    if(is(loadAntimonyString, "NativeSymbolInfo")) {
-      loadAntimonyString = loadAntimonyString$address
-    }
-  }
-  if(is.function(loadSBMLString)) {
-    assert('...' %in% names(formals(loadSBMLString)) || length(formals(loadSBMLString)) >= 0)
-  } else {
-    if(is.character(loadSBMLString)) {
-      loadSBMLString = getNativeSymbolInfo(loadSBMLString)
-    }
-    if(is(loadSBMLString, "NativeSymbolInfo")) {
-      loadSBMLString = loadSBMLString$address
-    }
-  }
-  if(is.function(loadSBMLFile)) {
-    assert('...' %in% names(formals(loadSBMLFile)) || length(formals(loadSBMLFile)) >= 0)
-  } else {
-    if(is.character(loadSBMLFile)) {
-      loadSBMLFile = getNativeSymbolInfo(loadSBMLFile)
-    }
-    if(is(loadSBMLFile, "NativeSymbolInfo")) {
-      loadSBMLFile = loadSBMLFile$address
-    }
-  }
-  if(is.function(loadAntimonyFile)) {
-    assert('...' %in% names(formals(loadAntimonyFile)) || length(formals(loadAntimonyFile)) >= 0)
-  } else {
-    if(is.character(loadAntimonyFile)) {
-      loadAntimonyFile = getNativeSymbolInfo(loadAntimonyFile)
-    }
-    if(is(loadAntimonyFile, "NativeSymbolInfo")) {
-      loadAntimonyFile = loadAntimonyFile$address
-    }
-  }
-  if(is.function(getSBMLString)) {
-    assert('...' %in% names(formals(getSBMLString)) || length(formals(getSBMLString)) >= 1)
-  } else {
-    if(is.character(getSBMLString)) {
-      getSBMLString = getNativeSymbolInfo(getSBMLString)
-    }
-    if(is(getSBMLString, "NativeSymbolInfo")) {
-      getSBMLString = getSBMLString$address
-    }
-  }
-  if(is.function(getAntimonyString)) {
-    assert('...' %in% names(formals(getAntimonyString)) || length(formals(getAntimonyString)) >= 0)
-  } else {
-    if(is.character(getAntimonyString)) {
-      getAntimonyString = getNativeSymbolInfo(getAntimonyString)
-    }
-    if(is(getAntimonyString, "NativeSymbolInfo")) {
-      getAntimonyString = getAntimonyString$address
-    }
-  }
-  if(is.function(writeSBMLFile)) {
-    assert('...' %in% names(formals(writeSBMLFile)) || length(formals(writeSBMLFile)) >= 2)
-  } else {
-    if(is.character(writeSBMLFile)) {
-      writeSBMLFile = getNativeSymbolInfo(writeSBMLFile)
-    }
-    if(is(writeSBMLFile, "NativeSymbolInfo")) {
-      writeSBMLFile = writeSBMLFile$address
-    }
-  }
-  if(is.function(writeAntimonyFile)) {
-    assert('...' %in% names(formals(writeAntimonyFile)) || length(formals(writeAntimonyFile)) >= 0)
-  } else {
-    if(is.character(writeAntimonyFile)) {
-      writeAntimonyFile = getNativeSymbolInfo(writeAntimonyFile)
-    }
-    if(is(writeAntimonyFile, "NativeSymbolInfo")) {
-      writeAntimonyFile = writeAntimonyFile$address
-    }
-  }
-  .Call('R_swig_tc_Antimony_api', loadAntimonyString, loadSBMLString, loadSBMLFile, loadAntimonyFile, getSBMLString, getAntimonyString, writeSBMLFile, writeAntimonyFile, PACKAGE='tinkercell')
+  ans = .Call('R_swig_tc_simulateODE', time, step_size, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_TableOfReals"
+  
+  ans
   
 }
 
-attr(`tc_Antimony_api`, 'returnType') = 'void'
-attr(`tc_Antimony_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_ArrayOfItems__p_char', '_p_f_ArrayOfItems__p_char', '_p_f_ArrayOfItems_p_q_const__char__void', '_p_f_ArrayOfItems_p_q_const__char__void')
-class(`tc_Antimony_api`) = c("SWIGFunction", class('tc_Antimony_api'))
+attr(`tc_simulateODE`, 'returnType') = '_p_TableOfReals'
+attr(`tc_simulateODE`, "inputTypes") = c('numeric', 'numeric')
+class(`tc_simulateODE`) = c("SWIGFunction", class('tc_simulateODE'))
+
+# Start of tc_simulateSSA
+
+`tc_simulateSSA` = function(time, .copy = FALSE)
+{
+  ans = .Call('R_swig_tc_simulateSSA', time, as.logical(.copy), PACKAGE='tinkercell')
+  class(ans) <- "_p_TableOfReals"
+  
+  ans
+  
+}
+
+attr(`tc_simulateSSA`, 'returnType') = '_p_TableOfReals'
+attr(`tc_simulateSSA`, "inputTypes") = c('numeric')
+class(`tc_simulateSSA`) = c("SWIGFunction", class('tc_simulateSSA'))
+
+# Start of tc_SBML_api
+
+`tc_SBML_api` = function(exportSBML, importSBML, simulateODE, simulateSSA)
+{
+  if(is.function(exportSBML)) {
+    assert('...' %in% names(formals(exportSBML)) || length(formals(exportSBML)) >= 0)
+  } else {
+    if(is.character(exportSBML)) {
+      exportSBML = getNativeSymbolInfo(exportSBML)
+    }
+    if(is(exportSBML, "NativeSymbolInfo")) {
+      exportSBML = exportSBML$address
+    }
+  }
+  if(is.function(importSBML)) {
+    assert('...' %in% names(formals(importSBML)) || length(formals(importSBML)) >= 0)
+  } else {
+    if(is.character(importSBML)) {
+      importSBML = getNativeSymbolInfo(importSBML)
+    }
+    if(is(importSBML, "NativeSymbolInfo")) {
+      importSBML = importSBML$address
+    }
+  }
+  if(is.function(simulateODE)) {
+    assert('...' %in% names(formals(simulateODE)) || length(formals(simulateODE)) >= 2)
+  } else {
+    if(is.character(simulateODE)) {
+      simulateODE = getNativeSymbolInfo(simulateODE)
+    }
+    if(is(simulateODE, "NativeSymbolInfo")) {
+      simulateODE = simulateODE$address
+    }
+  }
+  if(is.function(simulateSSA)) {
+    assert('...' %in% names(formals(simulateSSA)) || length(formals(simulateSSA)) >= 1)
+  } else {
+    if(is.character(simulateSSA)) {
+      simulateSSA = getNativeSymbolInfo(simulateSSA)
+    }
+    if(is(simulateSSA, "NativeSymbolInfo")) {
+      simulateSSA = simulateSSA$address
+    }
+  }
+  .Call('R_swig_tc_SBML_api', exportSBML, importSBML, simulateODE, simulateSSA, PACKAGE='tinkercell')
+  
+}
+
+attr(`tc_SBML_api`, 'returnType') = 'void'
+attr(`tc_SBML_api`, "inputTypes") = c('_p_f_p_q_const__char__void', '_p_f_p_q_const__char__void', '_p_f_double_double__TableOfReals', '_p_f_double__TableOfReals')
+class(`tc_SBML_api`) = c("SWIGFunction", class('tc_SBML_api'))
 
 

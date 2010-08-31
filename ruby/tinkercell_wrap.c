@@ -1798,30 +1798,30 @@ int SWIG_Ruby_arity( VALUE proc, int minimal )
 #define SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void swig_types[9]
 #define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[10]
 #define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[11]
-#define SWIGTYPE_p_f_ArrayOfItems__p_char swig_types[12]
-#define SWIGTYPE_p_f_ArrayOfItems__void swig_types[13]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void swig_types[14]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[15]
-#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[16]
-#define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[17]
-#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[18]
-#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[19]
-#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[20]
-#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[21]
-#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[22]
-#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[23]
-#define SWIGTYPE_p_f_TableOfReals__void swig_types[24]
-#define SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void swig_types[25]
-#define SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void swig_types[26]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[27]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[28]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[29]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[30]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[31]
-#define SWIGTYPE_p_f___int swig_types[32]
-#define SWIGTYPE_p_f___p_char swig_types[33]
-#define SWIGTYPE_p_f___void swig_types[34]
-#define SWIGTYPE_p_f_double__void swig_types[35]
+#define SWIGTYPE_p_f_ArrayOfItems__void swig_types[12]
+#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[13]
+#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[14]
+#define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[15]
+#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[16]
+#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[17]
+#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[18]
+#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[19]
+#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[20]
+#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[21]
+#define SWIGTYPE_p_f_TableOfReals__void swig_types[22]
+#define SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void swig_types[23]
+#define SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void swig_types[24]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[25]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[26]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[27]
+#define SWIGTYPE_p_f___ArrayOfItems swig_types[28]
+#define SWIGTYPE_p_f___ArrayOfStrings swig_types[29]
+#define SWIGTYPE_p_f___int swig_types[30]
+#define SWIGTYPE_p_f___p_char swig_types[31]
+#define SWIGTYPE_p_f___void swig_types[32]
+#define SWIGTYPE_p_f_double__TableOfReals swig_types[33]
+#define SWIGTYPE_p_f_double__void swig_types[34]
+#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[35]
 #define SWIGTYPE_p_f_double_double__void swig_types[36]
 #define SWIGTYPE_p_f_int__TableOfReals swig_types[37]
 #define SWIGTYPE_p_f_int__void swig_types[38]
@@ -1907,7 +1907,7 @@ static VALUE mTinkercell;
 #include "API/TC_EventsAssignments_api.h"
 #include "API/TC_NameFamily_api.h"
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
-#include "API/TC_Antimony_api.h"
+#include "API/TC_SBML_api.h"
 
 
 #include <limits.h>
@@ -1927,7 +1927,7 @@ SWIG_ruby_failed(void)
 } 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2LONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -1985,7 +1985,7 @@ SWIG_From_int  (int value)
   #define SWIG_From_double   rb_float_new 
 
 
-/*@SWIG:C:\\Swig\\Lib\\ruby\\rubyprimtypes.swg,23,%ruby_aux_method@*/
+/*@SWIG:/usr/share/swig1.3/ruby/rubyprimtypes.swg,23,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2DBL(VALUE *args)
 {
   VALUE obj = args[0];
@@ -9359,7 +9359,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_loadSBMLString(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_exportSBML(int argc, VALUE *argv, VALUE self) {
   String arg1 = (String) 0 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -9370,10 +9370,10 @@ _wrap_tc_loadSBMLString(int argc, VALUE *argv, VALUE self) {
   }
   res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_loadSBMLString", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_exportSBML", 1, argv[0] ));
   }
   arg1 = (String)(buf1);
-  tc_loadSBMLString((char const *)arg1);
+  tc_exportSBML((char const *)arg1);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return Qnil;
 fail:
@@ -9383,7 +9383,7 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_loadAntimonyString(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_importSBML(int argc, VALUE *argv, VALUE self) {
   String arg1 = (String) 0 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -9394,10 +9394,10 @@ _wrap_tc_loadAntimonyString(int argc, VALUE *argv, VALUE self) {
   }
   res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_loadAntimonyString", 1, argv[0] ));
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_importSBML", 1, argv[0] ));
   }
   arg1 = (String)(buf1);
-  tc_loadAntimonyString((char const *)arg1);
+  tc_importSBML((char const *)arg1);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   return Qnil;
 fail:
@@ -9407,77 +9407,31 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_loadSBMLFile(int argc, VALUE *argv, VALUE self) {
-  String arg1 = (String) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
-  }
-  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_loadSBMLFile", 1, argv[0] ));
-  }
-  arg1 = (String)(buf1);
-  tc_loadSBMLFile((char const *)arg1);
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  return Qnil;
-fail:
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_loadAntimonyFile(int argc, VALUE *argv, VALUE self) {
-  String arg1 = (String) 0 ;
-  int res1 ;
-  char *buf1 = 0 ;
-  int alloc1 = 0 ;
-  
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
-  }
-  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "String","tc_loadAntimonyFile", 1, argv[0] ));
-  }
-  arg1 = (String)(buf1);
-  tc_loadAntimonyFile((char const *)arg1);
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  return Qnil;
-fail:
-  if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_getSBMLString(int argc, VALUE *argv, VALUE self) {
-  ArrayOfItems arg1 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  String result;
+_wrap_tc_simulateODE(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double arg2 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  TableOfReals result;
   VALUE vresult = Qnil;
   
-  if ((argc < 1) || (argc > 1)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
   }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "ArrayOfItems","tc_getSBMLString", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfItems","tc_getSBMLString", 1, argv[0]));
-    } else {
-      arg1 = *((ArrayOfItems *)(argp1));
-    }
-  }
-  result = (String)tc_getSBMLString(arg1);
-  vresult = SWIG_FromCharPtr((const char *)result);
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateODE", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  ecode2 = SWIG_AsVal_double(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "double","tc_simulateODE", 2, argv[1] ));
+  } 
+  arg2 = (double)(val2);
+  result = tc_simulateODE(arg1,arg2);
+  vresult = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
   return Qnil;
@@ -9485,29 +9439,23 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_getAntimonyString(int argc, VALUE *argv, VALUE self) {
-  ArrayOfItems arg1 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  String result;
+_wrap_tc_simulateSSA(int argc, VALUE *argv, VALUE self) {
+  double arg1 ;
+  double val1 ;
+  int ecode1 = 0 ;
+  TableOfReals result;
   VALUE vresult = Qnil;
   
   if ((argc < 1) || (argc > 1)) {
     rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
   }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "ArrayOfItems","tc_getAntimonyString", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfItems","tc_getAntimonyString", 1, argv[0]));
-    } else {
-      arg1 = *((ArrayOfItems *)(argp1));
-    }
-  }
-  result = (String)tc_getAntimonyString(arg1);
-  vresult = SWIG_FromCharPtr((const char *)result);
+  ecode1 = SWIG_AsVal_double(argv[0], &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), Ruby_Format_TypeError( "", "double","tc_simulateSSA", 1, argv[0] ));
+  } 
+  arg1 = (double)(val1);
+  result = tc_simulateSSA(arg1);
+  vresult = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   return vresult;
 fail:
   return Qnil;
@@ -9515,144 +9463,40 @@ fail:
 
 
 SWIGINTERN VALUE
-_wrap_tc_writeSBMLFile(int argc, VALUE *argv, VALUE self) {
-  ArrayOfItems arg1 ;
-  String arg2 = (String) 0 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "ArrayOfItems","tc_writeSBMLFile", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfItems","tc_writeSBMLFile", 1, argv[0]));
-    } else {
-      arg1 = *((ArrayOfItems *)(argp1));
-    }
-  }
-  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "String","tc_writeSBMLFile", 2, argv[1] ));
-  }
-  arg2 = (String)(buf2);
-  tc_writeSBMLFile(arg1,(char const *)arg2);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_writeAntimonyFile(int argc, VALUE *argv, VALUE self) {
-  ArrayOfItems arg1 ;
-  String arg2 = (String) 0 ;
-  void *argp1 ;
-  int res1 = 0 ;
-  int res2 ;
-  char *buf2 = 0 ;
-  int alloc2 = 0 ;
-  
-  if ((argc < 2) || (argc > 2)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
-  }
-  {
-    res1 = SWIG_ConvertPtr(argv[0], &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "ArrayOfItems","tc_writeAntimonyFile", 1, argv[0] )); 
-    }  
-    if (!argp1) {
-      SWIG_exception_fail(SWIG_ValueError, Ruby_Format_TypeError("invalid null reference ", "ArrayOfItems","tc_writeAntimonyFile", 1, argv[0]));
-    } else {
-      arg1 = *((ArrayOfItems *)(argp1));
-    }
-  }
-  res2 = SWIG_AsCharPtrAndSize(argv[1], &buf2, NULL, &alloc2);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "String","tc_writeAntimonyFile", 2, argv[1] ));
-  }
-  arg2 = (String)(buf2);
-  tc_writeAntimonyFile(arg1,(char const *)arg2);
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-fail:
-  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
-  return Qnil;
-}
-
-
-SWIGINTERN VALUE
-_wrap_tc_Antimony_api(int argc, VALUE *argv, VALUE self) {
+_wrap_tc_SBML_api(int argc, VALUE *argv, VALUE self) {
   void (*arg1)(String) = (void (*)(String)) 0 ;
   void (*arg2)(String) = (void (*)(String)) 0 ;
-  void (*arg3)(String) = (void (*)(String)) 0 ;
-  void (*arg4)(String) = (void (*)(String)) 0 ;
-  String (*arg5)(ArrayOfItems) = (String (*)(ArrayOfItems)) 0 ;
-  String (*arg6)(ArrayOfItems) = (String (*)(ArrayOfItems)) 0 ;
-  void (*arg7)(ArrayOfItems,String) = (void (*)(ArrayOfItems,String)) 0 ;
-  void (*arg8)(ArrayOfItems,String) = (void (*)(ArrayOfItems,String)) 0 ;
+  TableOfReals (*arg3)(double,double) = (TableOfReals (*)(double,double)) 0 ;
+  TableOfReals (*arg4)(double) = (TableOfReals (*)(double)) 0 ;
   
-  if ((argc < 8) || (argc > 8)) {
-    rb_raise(rb_eArgError, "wrong # of arguments(%d for 8)",argc); SWIG_fail;
+  if ((argc < 4) || (argc > 4)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 4)",argc); SWIG_fail;
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[0], (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Antimony_api", 1, argv[0] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_SBML_api", 1, argv[0] )); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(argv[1], (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Antimony_api", 2, argv[1] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_SBML_api", 2, argv[1] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[2], (void**)(&arg3), SWIGTYPE_p_f_double_double__TableOfReals);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Antimony_api", 3, argv[2] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "TableOfReals (*)(double,double)","tc_SBML_api", 3, argv[2] )); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(argv[3], (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(argv[3], (void**)(&arg4), SWIGTYPE_p_f_double__TableOfReals);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(String)","tc_Antimony_api", 4, argv[3] )); 
+      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "TableOfReals (*)(double)","tc_SBML_api", 4, argv[3] )); 
     }
   }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[4], (void**)(&arg5), SWIGTYPE_p_f_ArrayOfItems__p_char);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(ArrayOfItems)","tc_Antimony_api", 5, argv[4] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[5], (void**)(&arg6), SWIGTYPE_p_f_ArrayOfItems__p_char);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "String (*)(ArrayOfItems)","tc_Antimony_api", 6, argv[5] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[6], (void**)(&arg7), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfItems,String)","tc_Antimony_api", 7, argv[6] )); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(argv[7], (void**)(&arg8), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), Ruby_Format_TypeError( "", "void (*)(ArrayOfItems,String)","tc_Antimony_api", 8, argv[7] )); 
-    }
-  }
-  tc_Antimony_api(arg1,arg2,arg3,arg4,(char const *(*)(ArrayOfItems))arg5,(char const *(*)(ArrayOfItems))arg6,arg7,arg8);
+  tc_SBML_api(arg1,arg2,arg3,arg4);
   return Qnil;
 fail:
   return Qnil;
@@ -9674,9 +9518,7 @@ static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__void = {"_p_f_Arr
 static swig_type_info _swigt__p_f_ArrayOfItems_TableOfReals__void = {"_p_f_ArrayOfItems_TableOfReals__void", "void (*)(ArrayOfItems,TableOfReals)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__p_char = {"_p_f_ArrayOfItems__p_char", "char *(*)(ArrayOfItems)|String (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__void = {"_p_f_ArrayOfItems__void", "void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char__void = {"_p_f_ArrayOfItems_p_q_const__char__void", "void (*)(ArrayOfItems,String)|void (*)(ArrayOfItems,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void = {"_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void", "Item (*)(ArrayOfItems,String,String)|void *(*)(ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings_p_double__void = {"_p_f_ArrayOfStrings_p_double__void", "void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
@@ -9697,7 +9539,9 @@ static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()|String (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "TableOfReals (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "TableOfReals (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
@@ -9759,9 +9603,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_ArrayOfItems_TableOfReals__void,
   &_swigt__p_f_ArrayOfItems__ArrayOfStrings,
   &_swigt__p_f_ArrayOfItems__TableOfReals,
-  &_swigt__p_f_ArrayOfItems__p_char,
   &_swigt__p_f_ArrayOfItems__void,
-  &_swigt__p_f_ArrayOfItems_p_q_const__char__void,
   &_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   &_swigt__p_f_ArrayOfStrings__ArrayOfItems,
   &_swigt__p_f_ArrayOfStrings_p_double__void,
@@ -9782,7 +9624,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___void,
+  &_swigt__p_f_double__TableOfReals,
   &_swigt__p_f_double__void,
+  &_swigt__p_f_double_double__TableOfReals,
   &_swigt__p_f_double_double__void,
   &_swigt__p_f_int__TableOfReals,
   &_swigt__p_f_int__void,
@@ -9844,9 +9688,7 @@ static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__void[] = {  {&_sw
 static swig_cast_info _swigc__p_f_ArrayOfItems_TableOfReals__void[] = {  {&_swigt__p_f_ArrayOfItems_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems__p_char[] = {  {&_swigt__p_f_ArrayOfItems__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__void[] = {  {&_swigt__p_f_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char__void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings__ArrayOfItems[] = {  {&_swigt__p_f_ArrayOfStrings__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -9867,7 +9709,9 @@ static swig_cast_info _swigc__p_f___ArrayOfStrings[] = {  {&_swigt__p_f___ArrayO
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double__TableOfReals[] = {  {&_swigt__p_f_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double_double__TableOfReals[] = {  {&_swigt__p_f_double_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__TableOfReals[] = {  {&_swigt__p_f_int__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -9929,9 +9773,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_ArrayOfItems_TableOfReals__void,
   _swigc__p_f_ArrayOfItems__ArrayOfStrings,
   _swigc__p_f_ArrayOfItems__TableOfReals,
-  _swigc__p_f_ArrayOfItems__p_char,
   _swigc__p_f_ArrayOfItems__void,
-  _swigc__p_f_ArrayOfItems_p_q_const__char__void,
   _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   _swigc__p_f_ArrayOfStrings__ArrayOfItems,
   _swigc__p_f_ArrayOfStrings_p_double__void,
@@ -9952,7 +9794,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___void,
+  _swigc__p_f_double__TableOfReals,
   _swigc__p_f_double__void,
+  _swigc__p_f_double_double__TableOfReals,
   _swigc__p_f_double_double__void,
   _swigc__p_f_int__TableOfReals,
   _swigc__p_f_int__void,
@@ -10503,14 +10347,10 @@ SWIGEXPORT void Init_tinkercell(void) {
   rb_define_module_function(mTinkercell, "tc_partsDownstream", _wrap_tc_partsDownstream, -1);
   rb_define_module_function(mTinkercell, "tc_alignParts", _wrap_tc_alignParts, -1);
   rb_define_module_function(mTinkercell, "tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api, -1);
-  rb_define_module_function(mTinkercell, "tc_loadSBMLString", _wrap_tc_loadSBMLString, -1);
-  rb_define_module_function(mTinkercell, "tc_loadAntimonyString", _wrap_tc_loadAntimonyString, -1);
-  rb_define_module_function(mTinkercell, "tc_loadSBMLFile", _wrap_tc_loadSBMLFile, -1);
-  rb_define_module_function(mTinkercell, "tc_loadAntimonyFile", _wrap_tc_loadAntimonyFile, -1);
-  rb_define_module_function(mTinkercell, "tc_getSBMLString", _wrap_tc_getSBMLString, -1);
-  rb_define_module_function(mTinkercell, "tc_getAntimonyString", _wrap_tc_getAntimonyString, -1);
-  rb_define_module_function(mTinkercell, "tc_writeSBMLFile", _wrap_tc_writeSBMLFile, -1);
-  rb_define_module_function(mTinkercell, "tc_writeAntimonyFile", _wrap_tc_writeAntimonyFile, -1);
-  rb_define_module_function(mTinkercell, "tc_Antimony_api", _wrap_tc_Antimony_api, -1);
+  rb_define_module_function(mTinkercell, "tc_exportSBML", _wrap_tc_exportSBML, -1);
+  rb_define_module_function(mTinkercell, "tc_importSBML", _wrap_tc_importSBML, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateODE", _wrap_tc_simulateODE, -1);
+  rb_define_module_function(mTinkercell, "tc_simulateSSA", _wrap_tc_simulateSSA, -1);
+  rb_define_module_function(mTinkercell, "tc_SBML_api", _wrap_tc_SBML_api, -1);
 }
 

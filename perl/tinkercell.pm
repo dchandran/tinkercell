@@ -232,15 +232,11 @@ package tinkercell;
 *tc_partsDownstream = *tinkercellc::tc_partsDownstream;
 *tc_alignParts = *tinkercellc::tc_alignParts;
 *tc_AutoGeneRegulatoryTool_api = *tinkercellc::tc_AutoGeneRegulatoryTool_api;
-*tc_loadSBMLString = *tinkercellc::tc_loadSBMLString;
-*tc_loadAntimonyString = *tinkercellc::tc_loadAntimonyString;
-*tc_loadSBMLFile = *tinkercellc::tc_loadSBMLFile;
-*tc_loadAntimonyFile = *tinkercellc::tc_loadAntimonyFile;
-*tc_getSBMLString = *tinkercellc::tc_getSBMLString;
-*tc_getAntimonyString = *tinkercellc::tc_getAntimonyString;
-*tc_writeSBMLFile = *tinkercellc::tc_writeSBMLFile;
-*tc_writeAntimonyFile = *tinkercellc::tc_writeAntimonyFile;
-*tc_Antimony_api = *tinkercellc::tc_Antimony_api;
+*tc_exportSBML = *tinkercellc::tc_exportSBML;
+*tc_importSBML = *tinkercellc::tc_importSBML;
+*tc_simulateODE = *tinkercellc::tc_simulateODE;
+*tc_simulateSSA = *tinkercellc::tc_simulateSSA;
+*tc_SBML_api = *tinkercellc::tc_SBML_api;
 
 ############# Class : tinkercell::ArrayOfStrings ##############
 

@@ -1500,30 +1500,30 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 #define SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void swig_types[9]
 #define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[10]
 #define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[11]
-#define SWIGTYPE_p_f_ArrayOfItems__p_char swig_types[12]
-#define SWIGTYPE_p_f_ArrayOfItems__void swig_types[13]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void swig_types[14]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[15]
-#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[16]
-#define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[17]
-#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[18]
-#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[19]
-#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[20]
-#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[21]
-#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[22]
-#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[23]
-#define SWIGTYPE_p_f_TableOfReals__void swig_types[24]
-#define SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void swig_types[25]
-#define SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void swig_types[26]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[27]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[28]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[29]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[30]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[31]
-#define SWIGTYPE_p_f___int swig_types[32]
-#define SWIGTYPE_p_f___p_char swig_types[33]
-#define SWIGTYPE_p_f___void swig_types[34]
-#define SWIGTYPE_p_f_double__void swig_types[35]
+#define SWIGTYPE_p_f_ArrayOfItems__void swig_types[12]
+#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[13]
+#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[14]
+#define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[15]
+#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[16]
+#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[17]
+#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[18]
+#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[19]
+#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[20]
+#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[21]
+#define SWIGTYPE_p_f_TableOfReals__void swig_types[22]
+#define SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void swig_types[23]
+#define SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void swig_types[24]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[25]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[26]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[27]
+#define SWIGTYPE_p_f___ArrayOfItems swig_types[28]
+#define SWIGTYPE_p_f___ArrayOfStrings swig_types[29]
+#define SWIGTYPE_p_f___int swig_types[30]
+#define SWIGTYPE_p_f___p_char swig_types[31]
+#define SWIGTYPE_p_f___void swig_types[32]
+#define SWIGTYPE_p_f_double__TableOfReals swig_types[33]
+#define SWIGTYPE_p_f_double__void swig_types[34]
+#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[35]
 #define SWIGTYPE_p_f_double_double__void swig_types[36]
 #define SWIGTYPE_p_f_int__TableOfReals swig_types[37]
 #define SWIGTYPE_p_f_int__void swig_types[38]
@@ -1619,7 +1619,7 @@ SWIGEXPORT void SWIG_init (CV *cv, CPerlObj *);
 #include "API/TC_EventsAssignments_api.h"
 #include "API/TC_NameFamily_api.h"
 #include "API/TC_AutoGeneRegulatoryTool_api.h"
-#include "API/TC_Antimony_api.h"
+#include "API/TC_SBML_api.h"
 
 
 #include <limits.h>
@@ -10436,7 +10436,7 @@ XS(_wrap_tc_AutoGeneRegulatoryTool_api) {
 }
 
 
-XS(_wrap_tc_loadSBMLString) {
+XS(_wrap_tc_exportSBML) {
   {
     String arg1 = (String) 0 ;
     int res1 ;
@@ -10446,14 +10446,14 @@ XS(_wrap_tc_loadSBMLString) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_loadSBMLString(sbml);");
+      SWIG_croak("Usage: tc_exportSBML(file);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadSBMLString" "', argument " "1"" of type '" "String""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportSBML" "', argument " "1"" of type '" "String""'");
     }
     arg1 = (String)(buf1);
-    tc_loadSBMLString((char const *)arg1);
+    tc_exportSBML((char const *)arg1);
     ST(argvi) = sv_newmortal();
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
@@ -10464,7 +10464,7 @@ XS(_wrap_tc_loadSBMLString) {
 }
 
 
-XS(_wrap_tc_loadAntimonyString) {
+XS(_wrap_tc_importSBML) {
   {
     String arg1 = (String) 0 ;
     int res1 ;
@@ -10474,14 +10474,14 @@ XS(_wrap_tc_loadAntimonyString) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_loadAntimonyString(antimony);");
+      SWIG_croak("Usage: tc_importSBML(file);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadAntimonyString" "', argument " "1"" of type '" "String""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importSBML" "', argument " "1"" of type '" "String""'");
     }
     arg1 = (String)(buf1);
-    tc_loadAntimonyString((char const *)arg1);
+    tc_importSBML((char const *)arg1);
     ST(argvi) = sv_newmortal();
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
@@ -10492,290 +10492,116 @@ XS(_wrap_tc_loadAntimonyString) {
 }
 
 
-XS(_wrap_tc_loadSBMLFile) {
+XS(_wrap_tc_simulateODE) {
   {
-    String arg1 = (String) 0 ;
-    int res1 ;
-    char *buf1 = 0 ;
-    int alloc1 = 0 ;
+    double arg1 ;
+    double arg2 ;
+    double val1 ;
+    int ecode1 = 0 ;
+    double val2 ;
+    int ecode2 = 0 ;
     int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_loadSBMLFile(sbml);");
-    }
-    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadSBMLFile" "', argument " "1"" of type '" "String""'");
-    }
-    arg1 = (String)(buf1);
-    tc_loadSBMLFile((char const *)arg1);
-    ST(argvi) = sv_newmortal();
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    XSRETURN(argvi);
-  fail:
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_loadAntimonyFile) {
-  {
-    String arg1 = (String) 0 ;
-    int res1 ;
-    char *buf1 = 0 ;
-    int alloc1 = 0 ;
-    int argvi = 0;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_loadAntimonyFile(antimony);");
-    }
-    res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
-    if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadAntimonyFile" "', argument " "1"" of type '" "String""'");
-    }
-    arg1 = (String)(buf1);
-    tc_loadAntimonyFile((char const *)arg1);
-    ST(argvi) = sv_newmortal();
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    XSRETURN(argvi);
-  fail:
-    if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getSBMLString) {
-  {
-    ArrayOfItems arg1 ;
-    void *argp1 ;
-    int res1 = 0 ;
-    int argvi = 0;
-    String result;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getSBMLString(items);");
-    }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getSBMLString" "', argument " "1"" of type '" "ArrayOfItems""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getSBMLString" "', argument " "1"" of type '" "ArrayOfItems""'");
-      } else {
-        arg1 = *((ArrayOfItems *)(argp1));
-      }
-    }
-    result = (String)tc_getSBMLString(arg1);
-    ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
-    XSRETURN(argvi);
-  fail:
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_getAntimonyString) {
-  {
-    ArrayOfItems arg1 ;
-    void *argp1 ;
-    int res1 = 0 ;
-    int argvi = 0;
-    String result;
-    dXSARGS;
-    
-    if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_getAntimonyString(items);");
-    }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAntimonyString" "', argument " "1"" of type '" "ArrayOfItems""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getAntimonyString" "', argument " "1"" of type '" "ArrayOfItems""'");
-      } else {
-        arg1 = *((ArrayOfItems *)(argp1));
-      }
-    }
-    result = (String)tc_getAntimonyString(arg1);
-    ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
-    XSRETURN(argvi);
-  fail:
-    SWIG_croak_null();
-  }
-}
-
-
-XS(_wrap_tc_writeSBMLFile) {
-  {
-    ArrayOfItems arg1 ;
-    String arg2 = (String) 0 ;
-    void *argp1 ;
-    int res1 = 0 ;
-    int res2 ;
-    char *buf2 = 0 ;
-    int alloc2 = 0 ;
-    int argvi = 0;
+    TableOfReals result;
     dXSARGS;
     
     if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_writeSBMLFile(items,file);");
+      SWIG_croak("Usage: tc_simulateODE(time,step_size);");
     }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeSBMLFile" "', argument " "1"" of type '" "ArrayOfItems""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_writeSBMLFile" "', argument " "1"" of type '" "ArrayOfItems""'");
-      } else {
-        arg1 = *((ArrayOfItems *)(argp1));
-      }
-    }
-    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_writeSBMLFile" "', argument " "2"" of type '" "String""'");
-    }
-    arg2 = (String)(buf2);
-    tc_writeSBMLFile(arg1,(char const *)arg2);
-    ST(argvi) = sv_newmortal();
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateODE" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
+    if (!SWIG_IsOK(ecode2)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_simulateODE" "', argument " "2"" of type '" "double""'");
+    } 
+    arg2 = (double)(val2);
+    result = tc_simulateODE(arg1,arg2);
+    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
+    
     XSRETURN(argvi);
   fail:
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    
+    
     SWIG_croak_null();
   }
 }
 
 
-XS(_wrap_tc_writeAntimonyFile) {
+XS(_wrap_tc_simulateSSA) {
   {
-    ArrayOfItems arg1 ;
-    String arg2 = (String) 0 ;
-    void *argp1 ;
-    int res1 = 0 ;
-    int res2 ;
-    char *buf2 = 0 ;
-    int alloc2 = 0 ;
+    double arg1 ;
+    double val1 ;
+    int ecode1 = 0 ;
     int argvi = 0;
+    TableOfReals result;
     dXSARGS;
     
-    if ((items < 2) || (items > 2)) {
-      SWIG_croak("Usage: tc_writeAntimonyFile(items,file);");
+    if ((items < 1) || (items > 1)) {
+      SWIG_croak("Usage: tc_simulateSSA(time);");
     }
-    {
-      res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_ArrayOfItems,  0 );
-      if (!SWIG_IsOK(res1)) {
-        SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeAntimonyFile" "', argument " "1"" of type '" "ArrayOfItems""'"); 
-      }  
-      if (!argp1) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_writeAntimonyFile" "', argument " "1"" of type '" "ArrayOfItems""'");
-      } else {
-        arg1 = *((ArrayOfItems *)(argp1));
-      }
-    }
-    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_writeAntimonyFile" "', argument " "2"" of type '" "String""'");
-    }
-    arg2 = (String)(buf2);
-    tc_writeAntimonyFile(arg1,(char const *)arg2);
-    ST(argvi) = sv_newmortal();
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    ecode1 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(0), &val1);
+    if (!SWIG_IsOK(ecode1)) {
+      SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_simulateSSA" "', argument " "1"" of type '" "double""'");
+    } 
+    arg1 = (double)(val1);
+    result = tc_simulateSSA(arg1);
+    ST(argvi) = SWIG_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN | SWIG_SHADOW); argvi++ ;
+    
     XSRETURN(argvi);
   fail:
-    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
+    
     SWIG_croak_null();
   }
 }
 
 
-XS(_wrap_tc_Antimony_api) {
+XS(_wrap_tc_SBML_api) {
   {
     void (*arg1)(String) = (void (*)(String)) 0 ;
     void (*arg2)(String) = (void (*)(String)) 0 ;
-    void (*arg3)(String) = (void (*)(String)) 0 ;
-    void (*arg4)(String) = (void (*)(String)) 0 ;
-    String (*arg5)(ArrayOfItems) = (String (*)(ArrayOfItems)) 0 ;
-    String (*arg6)(ArrayOfItems) = (String (*)(ArrayOfItems)) 0 ;
-    void (*arg7)(ArrayOfItems,String) = (void (*)(ArrayOfItems,String)) 0 ;
-    void (*arg8)(ArrayOfItems,String) = (void (*)(ArrayOfItems,String)) 0 ;
+    TableOfReals (*arg3)(double,double) = (TableOfReals (*)(double,double)) 0 ;
+    TableOfReals (*arg4)(double) = (TableOfReals (*)(double)) 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 8) || (items > 8)) {
-      SWIG_croak("Usage: tc_Antimony_api(loadAntimonyString,loadSBMLString,loadSBMLFile,loadAntimonyFile,getSBMLString,getAntimonyString,writeSBMLFile,writeAntimonyFile);");
+    if ((items < 4) || (items > 4)) {
+      SWIG_croak("Usage: tc_SBML_api(exportSBML,importSBML,simulateODE,simulateSSA);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
       }
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_double_double__TableOfReals);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "3"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "3"" of type '" "TableOfReals (*)(double,double)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_double__TableOfReals);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "4"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "4"" of type '" "TableOfReals (*)(double)""'"); 
       }
     }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_ArrayOfItems__p_char);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "5"" of type '" "String (*)(ArrayOfItems)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(5), (void**)(&arg6), SWIGTYPE_p_f_ArrayOfItems__p_char);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "6"" of type '" "String (*)(ArrayOfItems)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(6), (void**)(&arg7), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "7"" of type '" "void (*)(ArrayOfItems,String)""'"); 
-      }
-    }
-    {
-      int res = SWIG_ConvertFunctionPtr(ST(7), (void**)(&arg8), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char__void);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Antimony_api" "', argument " "8"" of type '" "void (*)(ArrayOfItems,String)""'"); 
-      }
-    }
-    tc_Antimony_api(arg1,arg2,arg3,arg4,(char const *(*)(ArrayOfItems))arg5,(char const *(*)(ArrayOfItems))arg6,arg7,arg8);
+    tc_SBML_api(arg1,arg2,arg3,arg4);
     ST(argvi) = sv_newmortal();
-    
-    
-    
-    
     
     
     
     
     XSRETURN(argvi);
   fail:
-    
-    
-    
-    
     
     
     
@@ -10800,9 +10626,7 @@ static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__void = {"_p_f_Arr
 static swig_type_info _swigt__p_f_ArrayOfItems_TableOfReals__void = {"_p_f_ArrayOfItems_TableOfReals__void", "void (*)(ArrayOfItems,TableOfReals)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__p_char = {"_p_f_ArrayOfItems__p_char", "char *(*)(ArrayOfItems)|String (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__void = {"_p_f_ArrayOfItems__void", "void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char__void = {"_p_f_ArrayOfItems_p_q_const__char__void", "void (*)(ArrayOfItems,String)|void (*)(ArrayOfItems,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void = {"_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void", "Item (*)(ArrayOfItems,String,String)|void *(*)(ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings_p_double__void = {"_p_f_ArrayOfStrings_p_double__void", "void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
@@ -10823,7 +10647,9 @@ static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()|String (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "TableOfReals (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "TableOfReals (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
@@ -10885,9 +10711,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_ArrayOfItems_TableOfReals__void,
   &_swigt__p_f_ArrayOfItems__ArrayOfStrings,
   &_swigt__p_f_ArrayOfItems__TableOfReals,
-  &_swigt__p_f_ArrayOfItems__p_char,
   &_swigt__p_f_ArrayOfItems__void,
-  &_swigt__p_f_ArrayOfItems_p_q_const__char__void,
   &_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   &_swigt__p_f_ArrayOfStrings__ArrayOfItems,
   &_swigt__p_f_ArrayOfStrings_p_double__void,
@@ -10908,7 +10732,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f___int,
   &_swigt__p_f___p_char,
   &_swigt__p_f___void,
+  &_swigt__p_f_double__TableOfReals,
   &_swigt__p_f_double__void,
+  &_swigt__p_f_double_double__TableOfReals,
   &_swigt__p_f_double_double__void,
   &_swigt__p_f_int__TableOfReals,
   &_swigt__p_f_int__void,
@@ -10970,9 +10796,7 @@ static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__void[] = {  {&_sw
 static swig_cast_info _swigc__p_f_ArrayOfItems_TableOfReals__void[] = {  {&_swigt__p_f_ArrayOfItems_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems__p_char[] = {  {&_swigt__p_f_ArrayOfItems__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__void[] = {  {&_swigt__p_f_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char__void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings__ArrayOfItems[] = {  {&_swigt__p_f_ArrayOfStrings__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -10993,7 +10817,9 @@ static swig_cast_info _swigc__p_f___ArrayOfStrings[] = {  {&_swigt__p_f___ArrayO
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___p_char[] = {  {&_swigt__p_f___p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___void[] = {  {&_swigt__p_f___void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double__TableOfReals[] = {  {&_swigt__p_f_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_double_double__TableOfReals[] = {  {&_swigt__p_f_double_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__TableOfReals[] = {  {&_swigt__p_f_int__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -11055,9 +10881,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_ArrayOfItems_TableOfReals__void,
   _swigc__p_f_ArrayOfItems__ArrayOfStrings,
   _swigc__p_f_ArrayOfItems__TableOfReals,
-  _swigc__p_f_ArrayOfItems__p_char,
   _swigc__p_f_ArrayOfItems__void,
-  _swigc__p_f_ArrayOfItems_p_q_const__char__void,
   _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   _swigc__p_f_ArrayOfStrings__ArrayOfItems,
   _swigc__p_f_ArrayOfStrings_p_double__void,
@@ -11078,7 +10902,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f___int,
   _swigc__p_f___p_char,
   _swigc__p_f___void,
+  _swigc__p_f_double__TableOfReals,
   _swigc__p_f_double__void,
+  _swigc__p_f_double_double__TableOfReals,
   _swigc__p_f_double_double__void,
   _swigc__p_f_int__TableOfReals,
   _swigc__p_f_int__void,
@@ -11360,15 +11186,11 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_partsDownstream", _wrap_tc_partsDownstream},
 {"tinkercellc::tc_alignParts", _wrap_tc_alignParts},
 {"tinkercellc::tc_AutoGeneRegulatoryTool_api", _wrap_tc_AutoGeneRegulatoryTool_api},
-{"tinkercellc::tc_loadSBMLString", _wrap_tc_loadSBMLString},
-{"tinkercellc::tc_loadAntimonyString", _wrap_tc_loadAntimonyString},
-{"tinkercellc::tc_loadSBMLFile", _wrap_tc_loadSBMLFile},
-{"tinkercellc::tc_loadAntimonyFile", _wrap_tc_loadAntimonyFile},
-{"tinkercellc::tc_getSBMLString", _wrap_tc_getSBMLString},
-{"tinkercellc::tc_getAntimonyString", _wrap_tc_getAntimonyString},
-{"tinkercellc::tc_writeSBMLFile", _wrap_tc_writeSBMLFile},
-{"tinkercellc::tc_writeAntimonyFile", _wrap_tc_writeAntimonyFile},
-{"tinkercellc::tc_Antimony_api", _wrap_tc_Antimony_api},
+{"tinkercellc::tc_exportSBML", _wrap_tc_exportSBML},
+{"tinkercellc::tc_importSBML", _wrap_tc_importSBML},
+{"tinkercellc::tc_simulateODE", _wrap_tc_simulateODE},
+{"tinkercellc::tc_simulateSSA", _wrap_tc_simulateSSA},
+{"tinkercellc::tc_SBML_api", _wrap_tc_SBML_api},
 {0,0}
 };
 /* -----------------------------------------------------------------------------

@@ -76,6 +76,10 @@
 /*! \defgroup Connections Connections
 \brief change appearance of connection arcs*/
 
-/*! \defgroup Antimony Antimony and SBML
-\brief SBML and Antimony related functions*/
+/*! \defgroup Export Import/Export
+\brief Import/Export different file formats*/
+
+/*! \defgroup Simulation Simulation
+\brief Simulations and other numerical analysis*/
+
 

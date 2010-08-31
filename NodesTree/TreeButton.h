@@ -30,7 +30,7 @@ namespace Tinkercell
 
 class NodesTree;
 
-class FamilyTreeButton : public QToolButton
+class TINKERCELLEXPORT FamilyTreeButton : public QToolButton
 {
 	Q_OBJECT
 

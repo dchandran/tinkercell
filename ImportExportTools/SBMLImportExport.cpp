@@ -11,6 +11,7 @@
 #include "BasicInformationTool.h"
 #include "StoichiometryTool.h"
 #include "sbml_sim.h"
+#include "ConsoleWindow.h"
 
 using namespace Tinkercell;
 using namespace std;
@@ -207,7 +208,8 @@ void SBMLImportExport::exportSBML(QSemaphore * sem, const QString & str)
 	if (modelNeedsUpdate)
 		updateSBMLModel();
 
-	writeSBML (sbmlDocument, ConvertValue(str) );
+	if (sbmlDocument)
+		writeSBML (sbmlDocument, ConvertValue(str) );
 	if (sem)
 		sem->release();
 }
@@ -221,12 +223,16 @@ void SBMLImportExport::importSBML(QSemaphore * sem, const QString& str)
 
 void SBMLImportExport::simulateODE(QSemaphore * sem, NumericalDataTable * dat, double time, double dt)
 {
+	if (modelNeedsUpdate)
+		updateSBMLModel();
 	QThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::ODE, mainWindow);
 	thread->start();
 }
 
 void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * dat, double time)
 {
+	if (modelNeedsUpdate)
+		updateSBMLModel();
 	QThread * thread = new SimulationThread(sem, dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
 	thread->start();
 }
@@ -239,6 +245,7 @@ void SBMLImportExport::updateSBMLModel()
 {
 	if (sbmlDocument)
 		SBMLDocument_free(sbmlDocument);
+	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;
 }
@@ -258,28 +265,40 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
-	QStringList species, initValues, eventTriggers, eventActions, assignmentNames,
+	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 		
 	species = stoicMatrix.getRowNames();
 	QVector<double> initialValues(species.size(),0.0);
-	QList<double> fixedValues;
-		
+	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
+	QList<double> fixedValues, compartmentVolumes;
+	ItemHandle * parentHandle;
+	
 	QRegExp regex(tr("\\.(?!\\d)"));	
 	int i,j;
 	QString s1,s2;
-
+	
 	for (i=0; i < handles.size(); ++i)
 	{
 		if (handles[i])// && handles[i]->family())
 		{
-			if (handles[i]->data)
+			if (handles[i]->isA(tr("Compartment")))
+			{
+				compartments << handles[i]->fullName(tr("_"));
+				if (handles[i]->hasNumericalData(tr("Initial Value")))
+					compartmentVolumes += handles[i]->numericalData(tr("Initial Value"));
+			}
+			if (handles[i]->children.isEmpty())
 			{
 				if (handles[i]->hasNumericalData(tr("Initial Value")))
 				{
 					int k = species.indexOf(handles[i]->fullName(tr("_")));
 					if (k >= 0)
-						initValues[k] = handles[i]->numericalData(tr("Initial Value"));
+					{
+						initialValues[k] = handles[i]->numericalData(tr("Initial Value"));
+						if (parentHandle = handles[i]->parentOfFamily(tr("Compartment")))
+							speciesCompartments[k] = parentHandle->fullName(tr("_"));
+					}
 
 					if (handles[i]->hasNumericalData(tr("Fixed")) &&
 						handles[i]->numericalData(tr("Fixed")) > 0)
@@ -362,6 +381,12 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		}
 	}
 	
+	if (compartments.isEmpty())
+	{
+		compartments << tr("DefaultCompartment");
+		compartmentVolumes << 1.0;
+	}
+	
 	//Make list of species types and units
 	QVector<ItemHandle*> speciesHandles(species.size(),0);
 	QList<ItemFamily*> families;
@@ -389,6 +414,15 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			UnitDefinition_setName(unitDef, ConvertValue(families[i]->measurementUnit.name));
 		}
 	}
+	//create compartments
+	for (int i=0; i < compartments.size(); ++i)
+	{
+		Compartment_t * comp = Model_createCompartment (model);
+		Compartment_setId(comp, ConvertValue(compartments[i]));
+		Compartment_setName(comp, ConvertValue(compartments[i]));
+		Compartment_setVolume(comp, compartmentVolumes[i]);
+		Compartment_setUnits(comp, "uL");
+	}
 	
 	//create list of species
 	for (int i=0; i < species.size(); ++i)
@@ -398,7 +432,8 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		Species_setName(s,ConvertValue(species[i]));
 		Species_setConstant(s,0);
 		Species_setInitialConcentration(s,initialValues[i]);
-		Species_setInitialAmount(s,initialValues[i]);
+		Species_setInitialAmount(s,initialValues[i]);		
+		Species_setCompartment(s, ConvertValue(speciesCompartments[i]));
 		if (speciesHandles[i] && speciesHandles[i]->family())
 		{
 			Species_setSpeciesType(s,ConvertValue(speciesHandles[i]->family()->name));
@@ -447,7 +482,9 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		Reaction_setId(reac, ConvertValue(stoicMatrix.colName(i)));
 		Reaction_setName(reac, ConvertValue(stoicMatrix.colName(i)));
 		Reaction_setId(reac, ConvertValue(stoicMatrix.colName(i)));
-		
+		KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
+		KineticLaw_setFormula( kinetic, ConvertValue( rates[i] ));
+
 		for (int j=0; j < stoicMatrix.rows(); ++j)
 			if (stoicMatrix.value(j,i) < 0)
 			{

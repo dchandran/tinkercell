@@ -244,7 +244,7 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 void SBMLImportExport::updateSBMLModel()
 {
 	if (sbmlDocument)
-		SBMLDocument_free(sbmlDocument);
+		delete sbmlDocument;
 	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;

@@ -56,7 +56,6 @@ void run(TableOfReals input)
 	FILE * out;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
-	int xaxis = 0;
 	int selection = 0;
 	int rateplot = 0;
 	int slider = 1;
@@ -294,9 +293,9 @@ fprintf( out , "\
 	{\n\
 		setColumnName(data,1+i,nthString(names,i));\n\
 	}\n\
-	tc_plot(data,%i,\"Time Course Simulation\",0);\n\
+	tc_plot(data,\"Time Course Simulation\");\n\
 	deleteMatrix(&data);\n\
-	free(model);\n", start, end, dt, sz, update, rateplot, xaxis);
+	free(model);\n", start, end, dt, sz, update, rateplot);
 	
 
 	if (slider)

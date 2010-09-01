@@ -15,7 +15,7 @@ void runSSA(TableOfReals input)
 {
 	int maxsz = 100000,i;
 	double time = 50.0;
-	int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
+	int k, sz = 0, selection = 0, rateplot = 0;
 	ArrayOfItems A,B;
 	FILE * out;
 	int slider = 1;
@@ -251,10 +251,10 @@ fprintf(out, "\
 	setColumnName(data,0,\"time\\0\");\n\
 	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
-	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+	tc_plot(data,\"Stochastic Simulation\");\n\
 	tc_hist(data,1,\"Histogram\");\n\
 	deleteMatrix(&data);\n\
-	free(model);\n",time,maxsz,rateplot,xaxis);
+	free(model);\n",time,maxsz,rateplot);
 
 	if (slider)
 		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
@@ -277,7 +277,6 @@ fprintf(out, "\
 void runCellSSA(TableOfReals input)
 {
 	double time = 50.0;
-	int xaxis = 0;
 	int selection = 0, k;
 	int numcells = 10;
 	double replication = 0.05;
@@ -384,8 +383,8 @@ void runCellSSA(TableOfReals input)
 				   data1.colnames.length = 1+TCvars;\n\
 				   data1.colnames.strings[0] = \"time\\0\";\n\
 				   for(i=0; i<TCvars; ++i) data1.colnames.strings[1+i] = names[i];\n\
-				   tc_plot(data1,0,\"Multi-cell simulation\",0);\n\
-				   tc_plot(data2,0,\"Cell growth\",1);\n\
+				   tc_plot(data1,\"Multi-cell simulation\");\n\
+				   tc_plot(data2,\"Cell growth\");\n\
 				   free(data1.colnames.strings);\n\
 				   free(data2.colnames.strings);\n\
 				   free(y[0]);\n\
@@ -431,7 +430,7 @@ void runLangevin(TableOfReals input)
 {
 	int i;
 	double time = 50.0, dt = 0.1;
-	int xaxis = 0, k, sz = 0, selection = 0, rateplot = 0;
+	int k, sz = 0, selection = 0, rateplot = 0;
 	ArrayOfItems A,B;
 	FILE * out;
 	int slider = 1;
@@ -667,10 +666,10 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	setColumnName(data,0,\"time\\0\");\n\
 	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
-	tc_plot(data,%i,\"Stochastic Simulation\",0);\n\
+	tc_plot(data,\"Stochastic Simulation\");\n\
 	tc_hist(data,1,\"Histogram\");\n\
 	deleteMatrix(&data);\n\
-	free(model);\n",time,dt,(int)(time/dt),rateplot,xaxis);
+	free(model);\n",time,dt,(int)(time/dt),rateplot);
 
 	if (slider)
 		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");

@@ -92,69 +92,76 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 		ListOfSpeciesTypes * types = model->getListOfSpeciesTypes();
 		ListOfEvents * events = model->getListOfEvents();
 		ListOfRules * rules = model->getListOfRules();
-		
+
 		vector<string> assignmentEquations, rateEquations, eventTriggers;
 		vector< vector<string> > eventResponses;
 
-		for (int i=0; i < events->size(); ++i)
-		{
-			Event * e = events->get(i);
-			eventTriggers.push_back( SBML_formulaToString( e->getTrigger()->getMath() ) );
-			ListOfEventAssignments * eventAssn = e->getListOfEventAssignments();
-			vector<string> responses;
-			string s;
-			for (int j=0; j < eventAssn->size(); ++j)
+		if (events)
+			for (int i=0; i < events->size(); ++i)
 			{
-				s = eventAssn->get(j)->getVariable();
-				s.append("=");
-				s.append( SBML_formulaToString( eventAssn->get(j)->getMath() ) );
-				responses.push_back(s);
+				Event * e = events->get(i);
+				eventTriggers.push_back( SBML_formulaToString( e->getTrigger()->getMath() ) );
+				ListOfEventAssignments * eventAssn = e->getListOfEventAssignments();
+				vector<string> responses;
+				string s;
+				for (int j=0; j < eventAssn->size(); ++j)
+				{
+					s = eventAssn->get(j)->getVariable();
+					s.append("=");
+					s.append( SBML_formulaToString( eventAssn->get(j)->getMath() ) );
+					responses.push_back(s);
+				}
+
+				eventResponses.push_back( responses );
 			}
 
-			eventResponses.push_back( responses );
-		}
-		
-		for (int i=0; i < rules->size(); ++i)
-		{
-			Rule * r = rules->get(i);
+		if (rules)
+			for (int i=0; i < rules->size(); ++i)
+			{
+				Rule * r = rules->get(i);
 			
-			if (r->isAssignment())
-			{
-				AssignmentRule * ar  = (AssignmentRule*)r;
-				assignmentVariables.push_back(ar->getVariable());
-				assignmentValues.push_back(0.0);
-				assignmentEquations.push_back(ar->getFormula());
+				if (r->isAssignment())
+				{
+					AssignmentRule * ar  = (AssignmentRule*)r;
+					assignmentVariables.push_back(ar->getVariable());
+					assignmentValues.push_back(0.0);
+					assignmentEquations.push_back(ar->getFormula());
+				}
 			}
-		}
+
+		if (species)
+			for (int i=0; i < species->size(); ++i)
+				if (!species->get(i)->getConstant() && !species->get(i)->getBoundaryCondition())
+				{
+					variableNames.push_back(species->get(i)->getId());
+					if (species->get(i)->getInitialAmount() != 0)
+						variableValues.push_back(species->get(i)->getInitialAmount());
+					else
+						variableValues.push_back(species->get(i)->getInitialConcentration());
+				}
+				else
+				{
+					parameterNames.push_back(species->get(i)->getId());
+					if (species->get(i)->getInitialAmount() != 0)
+						parameterValues.push_back(species->get(i)->getInitialAmount());
+					else
+						parameterValues.push_back(species->get(i)->getInitialConcentration());
+				}
+
+		if (params)
+			for (int i=0; i < params->size(); ++i)
+			{
+				parameterNames.push_back(params->get(i)->getId());
+				parameterValues.push_back(params->get(i)->getValue());
+			}
+
+		int numReacs = 0;
 		
-		for (int i=0; i < species->size(); ++i)
-			if (!species->get(i)->getConstant() && !species->get(i)->getBoundaryCondition())
-			{
-				variableNames.push_back(species->get(i)->getId());
-				if (species->get(i)->getInitialAmount() != 0)
-					variableValues.push_back(species->get(i)->getInitialAmount());
-				else
-					variableValues.push_back(species->get(i)->getInitialConcentration());
-			}
-			else
-			{
-				parameterNames.push_back(species->get(i)->getId());
-				if (species->get(i)->getInitialAmount() != 0)
-					parameterValues.push_back(species->get(i)->getInitialAmount());
-				else
-					parameterValues.push_back(species->get(i)->getInitialConcentration());
-			}
-
-		for (int i=0; i < params->size(); ++i)
-		{
-			parameterNames.push_back(params->get(i)->getId());
-			parameterValues.push_back(params->get(i)->getValue());
-		}
-
-		int numReacs = reacs->size();
+		if (reacs)
+			numReacs = reacs->size();
 
 		stoichiometryMatrix = new double[ numReacs * variableNames.size() ];
-		
+
 		for (int i=0; i < numReacs; ++i)
 		{
 			Reaction * r = reacs->get(i);

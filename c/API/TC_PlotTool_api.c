@@ -11,15 +11,15 @@ void tc_surface(TableOfReals z, String title)
 		_tc_surface(z,title);
 }
 
-void (*_tc_plot)(TableOfReals data,int xaxis,String title, int includeAll) = 0;
+void (*_tc_plot)(TableOfReals data, String title) = 0;
 /*!
  \brief plot the data in the matrix (with headers) with the given x-axis and title
  \ingroup Plotting
 */
-void tc_plot(TableOfReals data,int xaxis,String title, int includeAll)
+void tc_plot(TableOfReals data,String title)
 {
 	if (_tc_plot)
-		_tc_plot(data,xaxis,title,includeAll);
+		_tc_plot(data,title);
 }
 
 void (*_tc_scatterplot)(TableOfReals data,String title) = 0;
@@ -33,26 +33,26 @@ void tc_scatterplot(TableOfReals data,String title)
 		_tc_scatterplot(data,title);
 }
 
-void (*_tc_errorBars)(TableOfReals data,int xaxis,String title, int includeAll) = 0;
+void (*_tc_errorBars)(TableOfReals data,String title) = 0;
 /*!
  \brief plot the data in the matrix (with headers) with the given x-axis and title. For each column i, the i+1 and i+2 columns should contain the upper and lower bounds (errors).
  \ingroup Plotting
 */
-void tc_errorBars(TableOfReals data,int xaxis,String title, int includeAll)
+void tc_errorBars(TableOfReals data,String title)
 {
 	if (_tc_errorBars)
-		_tc_errorBars(data,xaxis,title,includeAll);
+		_tc_errorBars(data,title);
 }
 
-void (*_tc_hist)(TableOfReals data,double binSize,String title) = 0;
+void (*_tc_hist)(TableOfReals data,String title) = 0;
 /*!
  \brief plot histogram for each column of the given matrix with the given bin size.
  \ingroup Plotting
 */
-void tc_hist(TableOfReals data,double binSize,String title)
+void tc_hist(TableOfReals data,String title)
 {
 	if (_tc_hist)
-		_tc_hist(data,binSize,title);
+		_tc_hist(data,title);
 }
 
 void (*_tc_multiplot)(int r, int c) = 0;
@@ -100,11 +100,11 @@ void tc_gnuplot(const char * s)
  \ingroup init
 */
 void tc_PlotTool_api(
-	void (*plot)(TableOfReals,int,String,int),
+	void (*plot)(TableOfReals, String),
 	void (*surface)(TableOfReals M, String),
-	void (*hist)(TableOfReals data,double bins,String title),
-	void (*errorBars)(TableOfReals data,int xaxis,String title, int),
-	void (*scatterplot)(TableOfReals data,String title) ,
+	void (*hist)(TableOfReals data, String title),
+	void (*errorBars)(TableOfReals data, String title),
+	void (*scatterplot)(TableOfReals data, String title) ,
 	void (*multiplot)(int r, int c),
 	TableOfReals (*plotData)(int),
 	void (*gnuplot)(const char*))

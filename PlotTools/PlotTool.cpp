@@ -522,10 +522,10 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_PlotTool_api)(
-		void (*plot)(Matrix,int,const char*,int) ,
+		void (*plot)(Matrix,const char*) ,
 		void (*surface)(Matrix,const char*) ,
-		void (*hist)(Matrix,double,const char*) ,
-		void (*errorbars)(Matrix,int,const char*) ,
+		void (*hist)(Matrix,const char*) ,
+		void (*errorbars)(Matrix,const char*) ,
 		void (*scatterplot)(Matrix data,const char* title) ,
 		void (*multiplot)(int,int),
 		Matrix (*plotData)(int),
@@ -895,8 +895,9 @@ namespace Tinkercell
 		delete s;
 	}
 	
-	void PlotTool::plotMatrix(Matrix m, int x, const char* title, int all)
+	void PlotTool::plotMatrix(Matrix m, const char* title)
 	{
+		int x = 0, all = 1;
 		fToS.plotMatrix(m,x,title,all);
 	}
 
@@ -905,13 +906,15 @@ namespace Tinkercell
 		fToS.plotMatrix3D(m,title);
 	}
 
-	void PlotTool::plotHistC(Matrix m, double bins, const char * title)
+	void PlotTool::plotHistC(Matrix m, const char * title)
 	{
+		int bins = 100;
 		fToS.plotHistC(m,bins,title);
 	}
 
-	void PlotTool::plotErrorbarsC(Matrix m, int x, const char* title)
+	void PlotTool::plotErrorbarsC(Matrix m, const char* title)
 	{
+		int x = 0;
 		fToS.plotErrorbarsC(m,x,title);
 	}
 	

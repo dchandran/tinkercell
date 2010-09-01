@@ -108,6 +108,16 @@ namespace Tinkercell
 		* \return NetworkWindow* current window
 		*/
 		virtual NetworkWindow * currentWindow() const;
+		/*!
+		* \brief show the window that contains the given scene
+		* \return GraphicsScene * scene
+		*/
+		virtual void showScene(GraphicsScene *);
+		/*!
+		* \brief show the window that contains the given text editor
+		* \return TextEditor * text editor
+		*/
+		virtual void showTextEditor(TextEditor *);
 		/*! \brief same as main window's console()*/
 		ConsoleWindow * console() const;
 

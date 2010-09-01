@@ -1511,68 +1511,66 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 #define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[20]
 #define SWIGTYPE_p_f_String__ArrayOfItems swig_types[21]
 #define SWIGTYPE_p_f_TableOfReals__void swig_types[22]
-#define SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void swig_types[23]
-#define SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void swig_types[24]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[25]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[26]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[27]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[28]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[29]
-#define SWIGTYPE_p_f___int swig_types[30]
-#define SWIGTYPE_p_f___p_char swig_types[31]
-#define SWIGTYPE_p_f___void swig_types[32]
-#define SWIGTYPE_p_f_double__TableOfReals swig_types[33]
-#define SWIGTYPE_p_f_double__void swig_types[34]
-#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[35]
-#define SWIGTYPE_p_f_double_double__void swig_types[36]
-#define SWIGTYPE_p_f_int__TableOfReals swig_types[37]
-#define SWIGTYPE_p_f_int__void swig_types[38]
-#define SWIGTYPE_p_f_int_int__void swig_types[39]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[40]
-#define SWIGTYPE_p_f_p_f_void__void__void swig_types[41]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[43]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[44]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int swig_types[54]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[56]
-#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[57]
-#define SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void swig_types[58]
-#define SWIGTYPE_p_f_p_void__double swig_types[59]
-#define SWIGTYPE_p_f_p_void__p_char swig_types[60]
-#define SWIGTYPE_p_f_p_void__p_void swig_types[61]
-#define SWIGTYPE_p_f_p_void__void swig_types[62]
-#define SWIGTYPE_p_f_p_void_double__void swig_types[63]
-#define SWIGTYPE_p_f_p_void_double_double__void swig_types[64]
-#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[65]
-#define SWIGTYPE_p_f_p_void_double_int__void swig_types[66]
-#define SWIGTYPE_p_f_p_void_int__void swig_types[67]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void swig_types[68]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[69]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[70]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[71]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[72]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[73]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[74]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[75]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[76]
-#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[77]
-#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[78]
-#define SWIGTYPE_p_f_void__void swig_types[79]
-#define SWIGTYPE_p_p_char swig_types[80]
-#define SWIGTYPE_p_p_void swig_types[81]
-#define SWIGTYPE_p_void swig_types[82]
-static swig_type_info *swig_types[84];
-static swig_module_info swig_module = {swig_types, 83, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[23]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[24]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[25]
+#define SWIGTYPE_p_f___ArrayOfItems swig_types[26]
+#define SWIGTYPE_p_f___ArrayOfStrings swig_types[27]
+#define SWIGTYPE_p_f___int swig_types[28]
+#define SWIGTYPE_p_f___p_char swig_types[29]
+#define SWIGTYPE_p_f___void swig_types[30]
+#define SWIGTYPE_p_f_double__TableOfReals swig_types[31]
+#define SWIGTYPE_p_f_double__void swig_types[32]
+#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[33]
+#define SWIGTYPE_p_f_double_double__void swig_types[34]
+#define SWIGTYPE_p_f_int__TableOfReals swig_types[35]
+#define SWIGTYPE_p_f_int__void swig_types[36]
+#define SWIGTYPE_p_f_int_int__void swig_types[37]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[38]
+#define SWIGTYPE_p_f_p_f_void__void__void swig_types[39]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[40]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[41]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[42]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[43]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[44]
+#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[45]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[46]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[47]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[48]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[54]
+#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[55]
+#define SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void swig_types[56]
+#define SWIGTYPE_p_f_p_void__double swig_types[57]
+#define SWIGTYPE_p_f_p_void__p_char swig_types[58]
+#define SWIGTYPE_p_f_p_void__p_void swig_types[59]
+#define SWIGTYPE_p_f_p_void__void swig_types[60]
+#define SWIGTYPE_p_f_p_void_double__void swig_types[61]
+#define SWIGTYPE_p_f_p_void_double_double__void swig_types[62]
+#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[63]
+#define SWIGTYPE_p_f_p_void_double_int__void swig_types[64]
+#define SWIGTYPE_p_f_p_void_int__void swig_types[65]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void swig_types[66]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[67]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[68]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[69]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[70]
+#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[71]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[72]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[73]
+#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[74]
+#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[75]
+#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[76]
+#define SWIGTYPE_p_f_void__void swig_types[77]
+#define SWIGTYPE_p_p_char swig_types[78]
+#define SWIGTYPE_p_p_void swig_types[79]
+#define SWIGTYPE_p_void swig_types[80]
+static swig_type_info *swig_types[82];
+static swig_module_info swig_module = {swig_types, 81, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -9235,23 +9233,17 @@ XS(_wrap_tc_surface) {
 XS(_wrap_tc_plot) {
   {
     TableOfReals arg1 ;
-    int arg2 ;
-    String arg3 = (String) 0 ;
-    int arg4 ;
+    String arg2 = (String) 0 ;
     void *argp1 ;
     int res1 = 0 ;
-    int val2 ;
-    int ecode2 = 0 ;
-    int res3 ;
-    char *buf3 = 0 ;
-    int alloc3 = 0 ;
-    int val4 ;
-    int ecode4 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: tc_plot(data,xaxis,title,includeAll);");
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_plot(data,title);");
     }
     {
       res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
@@ -9264,31 +9256,17 @@ XS(_wrap_tc_plot) {
         arg1 = *((TableOfReals *)(argp1));
       }
     }
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_plot" "', argument " "2"" of type '" "int""'");
-    } 
-    arg2 = (int)(val2);
-    res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_plot" "', argument " "3"" of type '" "String""'");
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_plot" "', argument " "2"" of type '" "String""'");
     }
-    arg3 = (String)(buf3);
-    ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
-    if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_plot" "', argument " "4"" of type '" "int""'");
-    } 
-    arg4 = (int)(val4);
-    tc_plot(arg1,arg2,(char const *)arg3,arg4);
+    arg2 = (String)(buf2);
+    tc_plot(arg1,(char const *)arg2);
     ST(argvi) = sv_newmortal();
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
   fail:
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     SWIG_croak_null();
   }
 }
@@ -9339,23 +9317,17 @@ XS(_wrap_tc_scatterplot) {
 XS(_wrap_tc_errorBars) {
   {
     TableOfReals arg1 ;
-    int arg2 ;
-    String arg3 = (String) 0 ;
-    int arg4 ;
+    String arg2 = (String) 0 ;
     void *argp1 ;
     int res1 = 0 ;
-    int val2 ;
-    int ecode2 = 0 ;
-    int res3 ;
-    char *buf3 = 0 ;
-    int alloc3 = 0 ;
-    int val4 ;
-    int ecode4 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 4) || (items > 4)) {
-      SWIG_croak("Usage: tc_errorBars(data,xaxis,title,includeAll);");
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_errorBars(data,title);");
     }
     {
       res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
@@ -9368,31 +9340,17 @@ XS(_wrap_tc_errorBars) {
         arg1 = *((TableOfReals *)(argp1));
       }
     }
-    ecode2 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "int""'");
-    } 
-    arg2 = (int)(val2);
-    res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_errorBars" "', argument " "3"" of type '" "String""'");
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "String""'");
     }
-    arg3 = (String)(buf3);
-    ecode4 = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(3), &val4);
-    if (!SWIG_IsOK(ecode4)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "tc_errorBars" "', argument " "4"" of type '" "int""'");
-    } 
-    arg4 = (int)(val4);
-    tc_errorBars(arg1,arg2,(char const *)arg3,arg4);
+    arg2 = (String)(buf2);
+    tc_errorBars(arg1,(char const *)arg2);
     ST(argvi) = sv_newmortal();
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
   fail:
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
-    
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     SWIG_croak_null();
   }
 }
@@ -9401,20 +9359,17 @@ XS(_wrap_tc_errorBars) {
 XS(_wrap_tc_hist) {
   {
     TableOfReals arg1 ;
-    double arg2 ;
-    String arg3 = (String) 0 ;
+    String arg2 = (String) 0 ;
     void *argp1 ;
     int res1 = 0 ;
-    double val2 ;
-    int ecode2 = 0 ;
-    int res3 ;
-    char *buf3 = 0 ;
-    int alloc3 = 0 ;
+    int res2 ;
+    char *buf2 = 0 ;
+    int alloc2 = 0 ;
     int argvi = 0;
     dXSARGS;
     
-    if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_hist(data,binSize,title);");
+    if ((items < 2) || (items > 2)) {
+      SWIG_croak("Usage: tc_hist(data,title);");
     }
     {
       res1 = SWIG_ConvertPtr(ST(0), &argp1, SWIGTYPE_p_TableOfReals,  0 );
@@ -9427,24 +9382,17 @@ XS(_wrap_tc_hist) {
         arg1 = *((TableOfReals *)(argp1));
       }
     }
-    ecode2 = SWIG_AsVal_double SWIG_PERL_CALL_ARGS_2(ST(1), &val2);
-    if (!SWIG_IsOK(ecode2)) {
-      SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_hist" "', argument " "2"" of type '" "double""'");
-    } 
-    arg2 = (double)(val2);
-    res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
-    if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_hist" "', argument " "3"" of type '" "String""'");
+    res2 = SWIG_AsCharPtrAndSize(ST(1), &buf2, NULL, &alloc2);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_hist" "', argument " "2"" of type '" "String""'");
     }
-    arg3 = (String)(buf3);
-    tc_hist(arg1,arg2,(char const *)arg3);
+    arg2 = (String)(buf2);
+    tc_hist(arg1,(char const *)arg2);
     ST(argvi) = sv_newmortal();
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     XSRETURN(argvi);
   fail:
-    
-    if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
+    if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
     SWIG_croak_null();
   }
 }
@@ -9545,10 +9493,10 @@ XS(_wrap_tc_gnuplot) {
 
 XS(_wrap_tc_PlotTool_api) {
   {
-    void (*arg1)(TableOfReals,int,String,int) = (void (*)(TableOfReals,int,String,int)) 0 ;
+    void (*arg1)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
     void (*arg2)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-    void (*arg3)(TableOfReals,double,String) = (void (*)(TableOfReals,double,String)) 0 ;
-    void (*arg4)(TableOfReals,int,String,int) = (void (*)(TableOfReals,int,String,int)) 0 ;
+    void (*arg3)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
+    void (*arg4)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
     void (*arg5)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
     void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
     TableOfReals (*arg7)(int) = (TableOfReals (*)(int)) 0 ;
@@ -9560,9 +9508,9 @@ XS(_wrap_tc_PlotTool_api) {
       SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,int,String,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,String)""'"); 
       }
     }
     {
@@ -9572,15 +9520,15 @@ XS(_wrap_tc_PlotTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_TableOfReals_double_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,double,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,String)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_TableOfReals_int_p_q_const__char_int__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,int,String,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,String)""'"); 
       }
     }
     {
@@ -10637,8 +10585,6 @@ static swig_type_info _swigt__p_f_Item__ArrayOfStrings = {"_p_f_Item__ArrayOfStr
 static swig_type_info _swigt__p_f_String_ArrayOfItems__ArrayOfItems = {"_p_f_String_ArrayOfItems__ArrayOfItems", "ArrayOfItems (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_String__ArrayOfItems = {"_p_f_String__ArrayOfItems", "ArrayOfItems (*)(String)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_TableOfReals__void = {"_p_f_TableOfReals__void", "void (*)(TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_double_p_q_const__char__void = {"_p_f_TableOfReals_double_p_q_const__char__void", "void (*)(TableOfReals,double,String)|void (*)(TableOfReals,double,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_int_p_q_const__char_int__void = {"_p_f_TableOfReals_int_p_q_const__char_int__void", "void (*)(TableOfReals,int,char const *,int)|void (*)(TableOfReals,int,String,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char__void", "void (*)(TableOfReals,String)|void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void = {"_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))|void (*)(TableOfReals,String,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)|void (*)(TableOfReals,String,String,String)", 0, 0, (void*)0, 0};
@@ -10722,8 +10668,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_String_ArrayOfItems__ArrayOfItems,
   &_swigt__p_f_String__ArrayOfItems,
   &_swigt__p_f_TableOfReals__void,
-  &_swigt__p_f_TableOfReals_double_p_q_const__char__void,
-  &_swigt__p_f_TableOfReals_int_p_q_const__char_int__void,
   &_swigt__p_f_TableOfReals_p_q_const__char__void,
   &_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
   &_swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
@@ -10807,8 +10751,6 @@ static swig_cast_info _swigc__p_f_Item__ArrayOfStrings[] = {  {&_swigt__p_f_Item
 static swig_cast_info _swigc__p_f_String_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_String_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_String__ArrayOfItems[] = {  {&_swigt__p_f_String__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals__void[] = {  {&_swigt__p_f_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals_double_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_double_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals_int_p_q_const__char_int__void[] = {  {&_swigt__p_f_TableOfReals_int_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -10892,8 +10834,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_String_ArrayOfItems__ArrayOfItems,
   _swigc__p_f_String__ArrayOfItems,
   _swigc__p_f_TableOfReals__void,
-  _swigc__p_f_TableOfReals_double_p_q_const__char__void,
-  _swigc__p_f_TableOfReals_int_p_q_const__char_int__void,
   _swigc__p_f_TableOfReals_p_q_const__char__void,
   _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
   _swigc__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,

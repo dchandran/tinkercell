@@ -572,21 +572,9 @@ setClass('_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p
         contains = 'CRoutinePointer')
 
 ##
-setClass('_p_f_TableOfReals_int_p_q_const__char_int__void',
-        prototype = list(parameterTypes = c('_TableOfReals', '_int', '_p_char', '_int'),
-                        returnType = '_p_f_TableOfReals_int_p_q_const__char_int__void'),
-        contains = 'CRoutinePointer')
-
-##
 setClass('_p_f_TableOfReals_p_q_const__char__void',
         prototype = list(parameterTypes = c('_TableOfReals', '_p_char'),
                         returnType = '_p_f_TableOfReals_p_q_const__char__void'),
-        contains = 'CRoutinePointer')
-
-##
-setClass('_p_f_TableOfReals_double_p_q_const__char__void',
-        prototype = list(parameterTypes = c('_TableOfReals', '_double', '_p_char'),
-                        returnType = '_p_f_TableOfReals_double_p_q_const__char__void'),
         contains = 'CRoutinePointer')
 
 ##
@@ -4907,27 +4895,15 @@ class(`tc_surface`) = c("SWIGFunction", class('tc_surface'))
 
 # Start of tc_plot
 
-`tc_plot` = function(data, xaxis, title, includeAll)
+`tc_plot` = function(data, title)
 {
-  xaxis = as.integer(xaxis) 
-  
-  if(length(xaxis) > 1) {
-    warning("using only the first element of xaxis")
-  }
-  
   title = as(title, "character") 
-  includeAll = as.integer(includeAll) 
-  
-  if(length(includeAll) > 1) {
-    warning("using only the first element of includeAll")
-  }
-  
-  .Call('R_swig_tc_plot', data, xaxis, title, includeAll, PACKAGE='tinkercell')
+  .Call('R_swig_tc_plot', data, title, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_plot`, 'returnType') = 'void'
-attr(`tc_plot`, "inputTypes") = c('_p_TableOfReals', 'integer', 'character', 'integer')
+attr(`tc_plot`, "inputTypes") = c('_p_TableOfReals', 'character')
 class(`tc_plot`) = c("SWIGFunction", class('tc_plot'))
 
 # Start of tc_scatterplot
@@ -4945,40 +4921,28 @@ class(`tc_scatterplot`) = c("SWIGFunction", class('tc_scatterplot'))
 
 # Start of tc_errorBars
 
-`tc_errorBars` = function(data, xaxis, title, includeAll)
+`tc_errorBars` = function(data, title)
 {
-  xaxis = as.integer(xaxis) 
-  
-  if(length(xaxis) > 1) {
-    warning("using only the first element of xaxis")
-  }
-  
   title = as(title, "character") 
-  includeAll = as.integer(includeAll) 
-  
-  if(length(includeAll) > 1) {
-    warning("using only the first element of includeAll")
-  }
-  
-  .Call('R_swig_tc_errorBars', data, xaxis, title, includeAll, PACKAGE='tinkercell')
+  .Call('R_swig_tc_errorBars', data, title, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_errorBars`, 'returnType') = 'void'
-attr(`tc_errorBars`, "inputTypes") = c('_p_TableOfReals', 'integer', 'character', 'integer')
+attr(`tc_errorBars`, "inputTypes") = c('_p_TableOfReals', 'character')
 class(`tc_errorBars`) = c("SWIGFunction", class('tc_errorBars'))
 
 # Start of tc_hist
 
-`tc_hist` = function(data, binSize, title)
+`tc_hist` = function(data, title)
 {
   title = as(title, "character") 
-  .Call('R_swig_tc_hist', data, binSize, title, PACKAGE='tinkercell')
+  .Call('R_swig_tc_hist', data, title, PACKAGE='tinkercell')
   
 }
 
 attr(`tc_hist`, 'returnType') = 'void'
-attr(`tc_hist`, "inputTypes") = c('_p_TableOfReals', 'numeric', 'character')
+attr(`tc_hist`, "inputTypes") = c('_p_TableOfReals', 'character')
 class(`tc_hist`) = c("SWIGFunction", class('tc_hist'))
 
 # Start of tc_multiplot
@@ -5044,7 +5008,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
 `tc_PlotTool_api` = function(plot, surface, hist, errorBars, scatterplot, multiplot, plotData, gnuplot)
 {
   if(is.function(plot)) {
-    assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 4)
+    assert('...' %in% names(formals(plot)) || length(formals(plot)) >= 2)
   } else {
     if(is.character(plot)) {
       plot = getNativeSymbolInfo(plot)
@@ -5054,7 +5018,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
     }
   }
   if(is.function(surface)) {
-    assert('...' %in% names(formals(surface)) || length(formals(surface)) >= 2)
+    assert('...' %in% names(formals(surface)) || length(formals(surface)) >= 0)
   } else {
     if(is.character(surface)) {
       surface = getNativeSymbolInfo(surface)
@@ -5064,7 +5028,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
     }
   }
   if(is.function(hist)) {
-    assert('...' %in% names(formals(hist)) || length(formals(hist)) >= 3)
+    assert('...' %in% names(formals(hist)) || length(formals(hist)) >= 0)
   } else {
     if(is.character(hist)) {
       hist = getNativeSymbolInfo(hist)
@@ -5128,7 +5092,7 @@ class(`tc_gnuplot`) = c("SWIGFunction", class('tc_gnuplot'))
 }
 
 attr(`tc_PlotTool_api`, 'returnType') = 'void'
-attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_TableOfReals_int_p_q_const__char_int__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_TableOfReals_double_p_q_const__char__void', '_p_f_TableOfReals_int_p_q_const__char_int__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__TableOfReals', '_p_f_p_q_const__char__void')
+attr(`tc_PlotTool_api`, "inputTypes") = c('_p_f_TableOfReals_p_q_const__char__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_TableOfReals_p_q_const__char__void', '_p_f_int_int__void', '_p_f_int__TableOfReals', '_p_f_p_q_const__char__void')
 class(`tc_PlotTool_api`) = c("SWIGFunction", class('tc_PlotTool_api'))
 
 # Start of tc_writeModel

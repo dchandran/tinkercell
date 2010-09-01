@@ -80,6 +80,8 @@ namespace Tinkercell
 		QList<ItemHandle*> parentHandles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
+		/*! \brief network where change happened*/
+		NetworkHandle * network;
 		/*! \brief Rename any duplicate names*/
 		RenameCommand * renameCommand;
 	};
@@ -113,6 +115,8 @@ namespace Tinkercell
 		QList<ItemHandle*> parentHandles;
 		/*! \brief TextEditor where the change happened*/
 		TextEditor * textEditor;
+		/*! \brief network where change happened*/
+		NetworkHandle * network;
 	};
 
 	/*! \brief this command performs a move and allows redo/undo of that move
@@ -180,6 +184,8 @@ namespace Tinkercell
 	private:
 		/*! \brief scene where change happened*/
 		GraphicsScene * graphicsScene;
+		/*! \brief network where change happened*/
+		NetworkHandle * network;
 		/*! \brief items that were inserted*/
 		QList<QGraphicsItem*> graphicsItems;
 		/*! \brief parent items of the items that were inserted*/
@@ -219,6 +225,8 @@ namespace Tinkercell
 		Change2DataCommand<qreal,QString> * changeDataCommand;
 		/*! \brief scene where change happened*/
 		GraphicsScene * graphicsScene;
+		/*! \brief network where change happened*/
+		NetworkHandle * network;
 		/*! \brief items that were removed*/
 		QList<QGraphicsItem*> graphicsItems;
 		/*! \brief removed items' parents*/

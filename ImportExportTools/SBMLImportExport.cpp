@@ -29,9 +29,8 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 
 SBMLImportExport::~SBMLImportExport()
 {
-	modelNeedsUpdate = true;
 	if (sbmlDocument)
-		SBMLDocument_free(sbmlDocument);
+		delete (sbmlDocument);
 }
 
 bool SBMLImportExport::setMainWindow(MainWindow * main)
@@ -243,8 +242,8 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 
 void SBMLImportExport::updateSBMLModel()
 {
-	if (sbmlDocument)
-		delete sbmlDocument;
+//	if (sbmlDocument)
+	//	delete sbmlDocument;
 	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;
@@ -414,6 +413,9 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 			UnitDefinition_setName(unitDef, ConvertValue(families[i]->measurementUnit.name));
 		}
 	}
+	
+	cout << "here 1\n";
+	
 	//create compartments
 	for (int i=0; i < compartments.size(); ++i)
 	{
@@ -423,7 +425,9 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		Compartment_setVolume(comp, compartmentVolumes[i]);
 		Compartment_setUnits(comp, "uL");
 	}
-	
+
+	cout << "here 2\n";
+
 	//create list of species
 	for (int i=0; i < species.size(); ++i)
 	{
@@ -441,7 +445,9 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
 		}
 	}
-	
+
+	cout << "here 3\n";
+
 	//create list of fixed species
 	for (int i=0; i < fixedVars.size(); ++i)
 	{

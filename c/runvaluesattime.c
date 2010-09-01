@@ -293,7 +293,7 @@ TCAPIEXPORT void run(%s) \n\
         tc_showProgress((100*i)/dat.rows);\n\
     }\n\
     free(model);\n\
-    tc_plot(dat,0,\"At time=%lf\",0);\n\
+    tc_plot(dat,\"At time=%lf\");\n\
     free(dat.colnames.strings);\n\
     free(dat.values);\n",param,start,dt,param,time,doStochastic,time,time,rateplot,rateplot,time);
 

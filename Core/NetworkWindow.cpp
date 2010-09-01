@@ -123,7 +123,7 @@ namespace Tinkercell
 			GraphicsView * view = new GraphicsView(this);
 			connect(view,SIGNAL(itemsDropped(GraphicsScene*, const QString&, const QPointF&)),network->mainWindow,SIGNAL(itemsDropped(GraphicsScene*, const QString&,const QPointF&)));
 			centralWidgetLayout->addWidget(view);
-			setAttribute(Qt::WA_DeleteOnClose);
+			//setAttribute(Qt::WA_DeleteOnClose);
 		}
 
 		//if (!network->networkWindows.contains(this))
@@ -163,7 +163,7 @@ namespace Tinkercell
 			editor->networkWindow = this;
 			editor->network = network;
 			centralWidgetLayout->addWidget(editor);
-			setAttribute(Qt::WA_DeleteOnClose);
+			//setAttribute(Qt::WA_DeleteOnClose);
 		}
 
 		MainWindow * main = network->mainWindow;
@@ -187,16 +187,9 @@ namespace Tinkercell
 		setWindowIcon(QIcon(tr(":/images/newtext.png")));
 	}
 
+
 	void NetworkWindow::closeEvent(QCloseEvent * event)
-	{		
-		if (scene)
-		{
-			scene->deselect();
-			delete scene;
-			MainWindow::invalidPointers[ (void*)scene ] = true;
-			scene = 0;
-		}
-		
+	{
 		if (network && network->networkWindows.contains(this))
 		{
 			if (network->networkWindows.size() <= 1)
@@ -209,14 +202,35 @@ namespace Tinkercell
 				if (b)
 				{
 					emit networkClosed(network);
-					network->networkWindows.removeAll(this);
-
+				
 					if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
 						network->mainWindow->currentNetworkWindow = 0;
-
-					network->close();
 					event->accept();
 				}
+			}
+		}
+	}
+	
+	NetworkWindow::~NetworkWindow()
+	{
+		if (scene)
+		{
+			scene->deselect();
+			delete scene;
+			MainWindow::invalidPointers[ (void*)scene ] = true;
+			scene = 0;
+		}
+		
+		if (network && network->networkWindows.contains(this))
+		{
+			if (network->networkWindows.size() <= 1)
+			{
+				network->networkWindows.removeAll(this);
+
+				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
+					network->mainWindow->currentNetworkWindow = 0;
+
+				network->close();
 			}
 			else
 			{
@@ -224,12 +238,8 @@ namespace Tinkercell
 
 				if (network->mainWindow && network->mainWindow->currentNetworkWindow == this)
 					network->mainWindow->currentNetworkWindow = 0;
-
-				event->accept();
 			}
 		}
-		else
-			event->accept();
 	}
 	
 	void NetworkWindow::focusInEvent ( QFocusEvent * )

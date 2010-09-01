@@ -193,16 +193,16 @@ namespace Tinkercell
 		static PlotTool_FtoS fToS;
 
 		 /*! \brief launch gnuplot and plot the given matrix*/
-        static void plotMatrix(Matrix m, int x, const char* title, int all);
+        static void plotMatrix(Matrix m, const char* title);
 
         /*! \brief launch gnuplot and plot the given surface matrix*/
         static void plotMatrix3D(Matrix m, const char * title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
-        static void plotHistC(Matrix m, double bins, const char * title);
+        static void plotHistC(Matrix m, const char * title);
 
         /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
-        static void plotErrorbarsC(Matrix m, int x, const char* title);
+        static void plotErrorbarsC(Matrix m, const char* title);
 		
 		/*! \brief rows and columns for multiple  plots*/
 		static void plotMultiplotC(int x, int y);

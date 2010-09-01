@@ -329,7 +329,7 @@ TCAPIEXPORT void run(%s) \n\
 					tc_showProgress((100*i)/dat.rows);\n\
 				}\n\
 				free(model);\n\
-				tc_plot(dat,0,\"Steady State Plot\",0);\n\
+				tc_plot(dat,\"Steady State Plot\");\n\
 				deleteMatrix(&dat);\n",param,start,dt,param,rateplot,rateplot);
 
 	if (slider)

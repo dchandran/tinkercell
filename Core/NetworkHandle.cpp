@@ -33,6 +33,15 @@ namespace Tinkercell
 	NetworkHandle::~NetworkHandle()
 	{
 		close();
+		QList<NetworkWindow*> list = networkWindows;
+		networkWindows.clear();
+
+		for (int i=0; i < list.size(); ++i)
+			if (list[i])
+			{
+				delete list[i];
+			}
+		history.clear();
 	}
 	
 	QList<ItemHandle*> NetworkHandle::findItem(const QString& s) const
@@ -122,8 +131,7 @@ namespace Tinkercell
 		//disconnect(&history, SIGNAL(indexChanged(int)), this, SLOT(updateSymbolsTable(int)));
 		//disconnect(&history, SIGNAL(indexChanged(int)), mainWindow, SIGNAL(historyChanged(int)));
 		
-		QList<NetworkWindow*> list = networkWindows;
-		networkWindows.clear();
+		QList<NetworkWindow*> & list = networkWindows;
 
 		for (int i=0; i < list.size(); ++i)
 			if (list[i])
@@ -133,11 +141,7 @@ namespace Tinkercell
 			}
 
 		if (mainWindow)
-		{
 			mainWindow->allNetworks.removeAll(this);
-		}
-		
-		history.clear();
 	}
 	
 	void NetworkHandle::setWindowTitle(const QString& title)
@@ -163,6 +167,20 @@ namespace Tinkercell
 			if (networkWindows[i] && networkWindows[i]->editor)
 				list << networkWindows[i]->editor;
 		return list;
+	}
+	
+	void NetworkHandle::showScene(GraphicsScene * scene)
+	{
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i] && networkWindows[i]->scene == scene && !networkWindows[i]->isVisible())
+				networkWindows[i]->popOut();
+	}
+
+	void NetworkHandle::showTextEditor(TextEditor * editor)
+	{
+		for (int i=0; i < networkWindows.size(); ++i)
+			if (networkWindows[i] && networkWindows[i]->editor == editor && !networkWindows[i]->isVisible())
+				networkWindows[i]->popOut();
 	}
 	
 	TextEditor * NetworkHandle::createTextEditor(const QString& text)

@@ -12,7 +12,7 @@ TCAPIEXPORT void tc_surface(TableOfReals z, String title);
  \brief plot the data in the matrix (with headers) with the given x-axis and title
  \ingroup Plotting
 */
-TCAPIEXPORT void tc_plot(TableOfReals data,int xaxis,String title, int includeAll);
+TCAPIEXPORT void tc_plot(TableOfReals data,String title);
 /*!
  \brief plot the 2-columns in the matrix (with headers) as a scatter plot
  \ingroup Plotting
@@ -22,12 +22,12 @@ TCAPIEXPORT void tc_scatterplot(TableOfReals data,String title);
  \brief plot the data in the matrix (with headers) with the given x-axis and title. For each column i, the i+1 and i+2 columns should contain the upper and lower bounds (errors).
  \ingroup Plotting
 */
-TCAPIEXPORT void tc_errorBars(TableOfReals data,int xaxis,String title, int includeAll);
+TCAPIEXPORT void tc_errorBars(TableOfReals data,String title);
 /*!
  \brief plot histogram for each column of the given matrix with the given bin size.
  \ingroup Plotting
 */
-TCAPIEXPORT void tc_hist(TableOfReals data,double binSize,String title);
+TCAPIEXPORT void tc_hist(TableOfReals data,String title);
 /*!
  \brief enable multi-plot, i.e. multiple plots on one screen. specify the number of rows and columns for the layout.
  \ingroup Plotting
@@ -48,12 +48,12 @@ TCAPIEXPORT void tc_gnuplot(const char*);
  \ingroup init
 */
 TCAPIEXPORT void tc_PlotTool_api(
-	void (*plot)(TableOfReals,int,String,int),
-	void (*surface)(TableOfReals M, String),
-	void (*hist)(TableOfReals data,double bins,String title),
-	void (*errorBars)(TableOfReals data,int xaxis,String title, int),
-	void (*scatterplot)(TableOfReals data,String title) ,
-	void (*multiplot)(int r, int c),
+	void (*plot)(TableOfReals,String),
+	void (*surface)(TableOfReals, String),
+	void (*hist)(TableOfReals,String),
+	void (*errorBars)(TableOfReals,String),
+	void (*scatterplot)(TableOfReals,String) ,
+	void (*multiplot)(int, int),
 	TableOfReals (*plotData)(int),
 	void (*gnuplot)(const char*));
 

@@ -212,7 +212,7 @@ void run(TableOfReals input)
 							free(y);\n\
 						TCinitialize();\n\
 					}\n\
-					tc_plot(ss,0,\"Target curve for correlation test\",0);\n\
+					tc_plot(ss,\"Target curve for correlation test\");\n\
 					free(ss.values);\n\
 					free(ss.colnames);\n",arraysz,arraysz,var,target,arraysz,arraysz,var,startvar,dvar,target);
 
@@ -253,7 +253,7 @@ void run(TableOfReals input)
 				  }\n\
 				  fclose(out);\n\
 				  if (__Y) free(__Y);\n\
-				  tc_surface(dat,\"Correlation Test\",dat.rows,dat.cols);\n\
+				  tc_surface(dat,\"Correlation Test\");\n\
 				  free(dat.colnames);\n}\n",param1,startx, dx, param2,starty,dy,arraysz, arraysz, var,startvar, dvar, target, arraysz, minsz);
 
 	fclose(out);

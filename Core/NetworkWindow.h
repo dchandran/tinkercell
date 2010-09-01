@@ -90,6 +90,9 @@ namespace Tinkercell
 		/*!\brief constructor with text editor*/
 		NetworkWindow(NetworkHandle * network, TextEditor * editor);
 		
+		/*!\brief destructor*/
+		virtual ~NetworkWindow();
+		
 		/*!\brief filename associated with this window*/
 		QString filename;
 		

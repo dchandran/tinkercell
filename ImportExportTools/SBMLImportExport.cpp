@@ -37,7 +37,7 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 {
 	Tool::setMainWindow(main);	
 	if (!mainWindow) return false;
-	
+
 	if (mainWindow->fileMenu)
 	{
 		QList<QAction*> actions = mainWindow->fileMenu->actions();
@@ -137,7 +137,6 @@ void SBMLImportExport::historyChanged(int)
     C Interface
 ********************************************/
 
-
 SBMLImportExport_FtoS SBMLImportExport::fToS;
 
 void SBMLImportExport::exportSBMLFile(const char * s)
@@ -159,6 +158,7 @@ TableOfReals SBMLImportExport::GillespieSim(double time)
 {
 	return fToS.GillespieSim(time);
 }
+
 void SBMLImportExport_FtoS::exportSBMLFile(const char * c)
 {
 	QSemaphore * s = new QSemaphore(1);
@@ -236,14 +236,14 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 	thread->start();
 }
 
-/*******************************************
+/***************************************************
     Move SBML to TinkerCell format and vice versa
-********************************************/
+*****************************************************/
 
 void SBMLImportExport::updateSBMLModel()
 {
-//	if (sbmlDocument)
-	//	delete sbmlDocument;
+	if (sbmlDocument)
+		delete sbmlDocument;
 	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;
@@ -272,7 +272,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
 	QList<double> fixedValues, compartmentVolumes;
 	ItemHandle * parentHandle;
-	
+
 	QRegExp regex(tr("\\.(?!\\d)"));	
 	int i,j;
 	QString s1,s2;
@@ -414,8 +414,6 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		}
 	}
 	
-	cout << "here 1\n";
-	
 	//create compartments
 	for (int i=0; i < compartments.size(); ++i)
 	{
@@ -425,8 +423,6 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		Compartment_setVolume(comp, compartmentVolumes[i]);
 		Compartment_setUnits(comp, "uL");
 	}
-
-	cout << "here 2\n";
 
 	//create list of species
 	for (int i=0; i < species.size(); ++i)
@@ -445,8 +441,6 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 				Species_setUnits(s, ConvertValue(speciesHandles[i]->family()->measurementUnit.name));
 		}
 	}
-
-	cout << "here 3\n";
 
 	//create list of fixed species
 	for (int i=0; i < fixedVars.size(); ++i)

@@ -18,7 +18,7 @@ ADD_LIBRARY( ode
   ${TINKERCELL_SOURCE_DIR}/ExternalCode/optim/neldermead.c
 )
 
-TARGET_LINK_LIBRARIES( ode ode lapack blas f2c sundials_cvode sundials_nvecserial)
+TARGET_LINK_LIBRARIES( ode ode lapack blas f2c sundials_cvode sundials_nvecserial )
 
 SET_TARGET_PROPERTIES(ode PROPERTIES LINKER_LANGUAGE C)
 

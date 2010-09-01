@@ -260,13 +260,13 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 {
 	SBMLDocument_t * doc = SBMLDocument_create();
 	Model_t * model = SBMLDocument_createModel(doc);
-	
+
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
 	NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
-		
+
 	species = stoicMatrix.getRowNames();
 	QVector<double> initialValues(species.size(),0.0);
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
@@ -276,7 +276,7 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	QRegExp regex(tr("\\.(?!\\d)"));	
 	int i,j;
 	QString s1,s2;
-	
+
 	for (i=0; i < handles.size(); ++i)
 	{
 		if (handles[i])// && handles[i]->family())

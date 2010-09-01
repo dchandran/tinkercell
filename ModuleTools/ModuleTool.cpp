@@ -465,7 +465,7 @@ namespace Tinkercell
 									visitedHandles << handles2[j];
 									if (!handles2[j]->parent)
 									{
-										handles2[j]->setParent(handles[i]);
+										handles2[j]->setParent(handles[i],false);
 										RenameCommand::findReplaceAllHandleData(handles2,handles2[j]->name,handles2[j]->fullName());
 									}
 								}

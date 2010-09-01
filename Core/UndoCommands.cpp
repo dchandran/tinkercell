@@ -2794,7 +2794,15 @@ namespace Tinkercell
 		for (int i=0; i < handles.size(); ++i)
 			allHandles.removeAll(handles[i]);
 
-		renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames);
+		renameCommand = 0;
+		if (newHandle)
+		{
+			net->symbolsTable.uniqueItems.remove(newHandle->fullName());
+			net->symbolsTable.uniqueItems.remove(newHandle->fullName(QObject::tr("_")));
+			renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames);
+			net->symbolsTable.uniqueItems[ newHandle->fullName() ] = newHandle;
+			net->symbolsTable.uniqueItems[ newHandle->fullName(QObject::tr("_"))] = newHandle;
+		}
 	}
 
 	MergeHandlesCommand::~MergeHandlesCommand()

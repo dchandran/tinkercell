@@ -45,7 +45,13 @@ void runSSA(TableOfReals input)
 	
 	if (maxsz < time) 
 	{
-		tc_errorReport("maximum array size is set to be less than the simulation time itself");
+		maxsz = time;
+		return;
+	}
+	
+	if (tc_isMac())
+	{
+		tc_plot(tc_simulateSSA(time),"Stochastic Simulation");
 		return;
 	}
 	
@@ -413,6 +419,10 @@ void setupSSA()
 	ArrayOfStrings a3 = { 2, options3 };
 
 	m.rows = 5;
+	if (tc_isMac())
+	{
+		m.rows = 2;
+	}
 	m.cols = 1;
 	m.colnames.length = 1;
 	m.colnames.strings = cols;
@@ -421,9 +431,12 @@ void setupSSA()
 	m.values = values;
 
 	tc_createInputWindow(m,"Gillespie algorithm",&runSSA);
-	tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
-	tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
-	tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
+	if (!tc_isMac())
+	{
+		tc_addInputWindowOptions("Gillespie algorithm",0, 0, a1);
+		tc_addInputWindowOptions("Gillespie algorithm",3, 0, a2);
+		tc_addInputWindowOptions("Gillespie algorithm",4, 0, a3);
+	}
 }
 
 void runLangevin(TableOfReals input)
@@ -739,6 +752,9 @@ TCAPIEXPORT void tc_main()
 {
 	//add function to menu. args : function, name, description, category, icon file, target part/connection family, in functions list?, in context menu?
 	tc_addFunction(&setupSSA, "Stochastic simulation (Discrete)", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "plugins/c/stochastic.png", "", 1, 0, 0);
-	tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "plugins/c/stochastic.png", "", 1, 0, 0);
+	
+	if (!tc_isMac())
+		tc_addFunction(&setupLangevin, "Stochastic simulation (Continuous)", "uses Langevin method (compiles to C program)", "Simulate", "plugins/c/stochastic.png", "", 1, 0, 0);
+	
 	//tc_addFunction(&setupCellSSA, "Multi-cell stochastic simulation", "uses custom Gillespie algorithm (compiles to C program)", "Simulate", "plugins/c/cells.png", "", 1, 0, 0);
 }

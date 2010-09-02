@@ -14,6 +14,7 @@
 #include <QThread>
 #include <QSemaphore>
 #include <QStringList>
+#include "NetworkWindow.h"
 #include "ItemHandle.h"
 #include "Tool.h"
 #include "common/sbmlfwd.h"
@@ -63,6 +64,7 @@ namespace Tinkercell
 
 	private slots:
 
+		void windowChanged(NetworkWindow*,NetworkWindow*);
 		void historyChanged(int);
 		void setupFunctionPointers( QLibrary * );
 		void loadSBMLFile();

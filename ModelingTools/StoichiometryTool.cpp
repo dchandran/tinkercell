@@ -1161,7 +1161,9 @@ namespace Tinkercell
 
 		int n = 0, j0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] != 0 
+				&& connectionHandles[i]->children.isEmpty() 
+				&& connectionHandles[i]->data != 0)
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
 				{
@@ -1242,7 +1244,7 @@ namespace Tinkercell
 		int n=0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
 			{
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
@@ -1385,7 +1387,7 @@ namespace Tinkercell
 		bool change = false;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
 			{
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{

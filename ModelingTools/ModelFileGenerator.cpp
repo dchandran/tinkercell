@@ -101,18 +101,17 @@ namespace Tinkercell
 
 		filename.replace(QRegExp(tr("\\.\\s+$")),QString(""));
 		QFile cfile (filename + QString(".c"));
-		QFile pyfile (filename + QString(".py"));
 		QString name;
 
 		QList<ItemHandle*> namelessHandles;
 
 		int i,j;
 
-		if (!cfile.open(QFile::WriteOnly | QFile::Text) || !pyfile.open(QFile::WriteOnly | QFile::Text))
+		if (!cfile.open(QFile::WriteOnly | QFile::Text))
 		{
 			return 0;
 		}
-		QStringList code, pycode;
+		QStringList code;
 
 		//multiple cells
 
@@ -330,7 +329,6 @@ namespace Tinkercell
 		}
 
 		code += tr("typedef struct\n{\n");
-		pycode += "class TCmodel:\n";
 
 		QStringList allValues;
 		QStringList allSymbols;
@@ -351,12 +349,6 @@ namespace Tinkercell
 
                 allSymbols << vars[i];
                 allValues << initValues[i];
-
-                pycode += tr("    ");
-                pycode += vars[i];
-                pycode += tr(" = ");
-                pycode += initValues[i];
-                pycode += tr(";\n");
             }
 
 		fluxes = N.getColNames();
@@ -367,10 +359,6 @@ namespace Tinkercell
 			code += fluxes[i];
 			code += tr(";\n");
 			allValues << tr("0.0");
-
-			pycode += tr("    ");
-			pycode += fluxes[i];
-			pycode += tr(" = 0.0;\n");
 		}
 
 		for (i=0; i < assignmentNames.size(); ++i)
@@ -382,10 +370,6 @@ namespace Tinkercell
 
 				allValues << tr("0.0");
 				allSymbols << assignmentNames[i];
-
-				pycode += tr("    ");
-				pycode += assignmentNames[i];
-				pycode += tr(" = 0.0;\n");
 			}
 
 		QStringList trueParams;
@@ -399,12 +383,6 @@ namespace Tinkercell
 				code += params.rowName(i);
 				code += tr(";\n");
 				allValues << toString(params.at(i,0));
-
-				pycode += tr("    ");
-				pycode += params.rowName(i);
-				pycode += tr(" = ");
-				pycode += toString(params.at(i,0));
-				pycode += tr(";\n");
 			}
 
 		code += tr("} TCmodel;\n\n");
@@ -412,14 +390,6 @@ namespace Tinkercell
 		code += allValues.join(tr(","));
 		code += tr("};\n\n");
 
-		for (i=0; i < functionNames.size(); ++i)
-            if (!allSymbols.contains(functionNames[i]))
-            {
-                name = functionNames[i];
-                s2 = functionArgs[i];
-                s1 = functionDefs[i];
-                pycode += tr("    defn ") + name + s2 + tr(": return ") + s1 + tr(";\n");
-            }
 
 		/*if (fixedVars.size() < N.rows())
 		{
@@ -457,9 +427,6 @@ namespace Tinkercell
 		code += QString::number(trueParams.size());
 		code += tr("*sizeof(double));\n");
 
-		pycode += tr("    defn TCgetParameters ():\n    k = range(0,");
-		pycode += QString::number(trueParams.size());
-		pycode += tr(");\n");
 
 		for (i = 0; i < trueParams.size(); ++i)
 		{
@@ -468,25 +435,14 @@ namespace Tinkercell
 			code += tr("] = model->");
 			code += trueParams[i];
 			code += tr(";\n");
-
-			pycode += tr("        k[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += trueParams[i];
-			pycode += tr(";\n");
 		}
 		code += tr("    return k;\n}\n\n");
-		pycode += tr("        return k;\n\n");
 
 		//get array of current variable values
 		code += tr("\ndouble * TCgetVars( TCmodel * model )\n{ \n");
 		code += tr("   double * k = (double*)malloc(");
 		code += QString::number(r);
 		code += tr("*sizeof(double));\n");
-
-		pycode += tr("    defn TCgetVars ():\n    k = range(0,");
-		pycode += QString::number(r);
-		pycode += tr(");\n");
 
 		for (i = 0; i < r; ++i)
 		{
@@ -495,25 +451,14 @@ namespace Tinkercell
 			code += tr("] = model->");
 			code += N.rowName(i);
 			code += tr(";\n");
-
-			pycode += tr("        k[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += N.rowName(i);
-			pycode += tr(";\n");
 		}
 		code += tr("    return k;\n}\n\n");
-		pycode += tr("        return k;\n\n");
 
 		//get array of current rates
 		code += tr("\ndouble * TCgetRates( TCmodel * model )\n{ \n");
 		code += tr("   double * k = (double*)malloc(");
 		code += QString::number(c);
 		code += tr("*sizeof(double));\n");
-
-		pycode += tr("    defn TCgetRates ():\n    k = range(0,");
-		pycode += QString::number(c);
-		pycode += tr(");\n");
 
 		for (i = 0; i < c; ++i)
 		{
@@ -522,20 +467,12 @@ namespace Tinkercell
 			code += tr("] = model->");
 			code += N.colName(i);
 			code += tr(";\n");
-
-			pycode += tr("        k[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += N.colName(i);
-			pycode += tr(";\n");
 		}
 
 		code += tr("    return k;\n}\n\n");
-		pycode += tr("        return k;\n\n");
 
 		//write assign-parameters function (not needed for simulation, but could be useful for some purpose)
 		code += tr("\nvoid TCassignParameters( double * k, TCmodel * model )\n{ \n");
-		pycode += tr("    defn TCassignParameters ( k ):\n");
 
 		for (i = 0; i < trueParams.size(); ++i)
 		{
@@ -544,19 +481,11 @@ namespace Tinkercell
 			code += tr(" = k[");
 			code += QString::number(i);
 			code += "];\n";
-
-			pycode += tr("        ");
-			pycode += trueParams[i];
-			pycode += tr(" = k[");
-			pycode += QString::number(i);
-			pycode += tr("];\n");
 		}
 
 		code += tr("}\n\n");
-		pycode += tr("\n\n");
 		
 		code += tr("\nvoid TCassignVars( double * k, TCmodel * model )\n{ \n");
-		pycode += tr("    defn TCassignVar ( k ):\n");
 
 		for (i = 0; i < r; ++i)
 		{
@@ -565,19 +494,11 @@ namespace Tinkercell
 			code += tr(" = k[");
 			code += QString::number(i);
 			code += "];\n";
-
-			pycode += tr("        ");
-			pycode += N.rowName(i);
-			pycode += tr(" = k[");
-			pycode += QString::number(i);
-			pycode += tr("];\n");
 		}
 
 		code += tr("}\n\n");
-		pycode += tr("\n\n");
 		/*
 		code += tr("\nvoid TCassignParametersAndVars( double * k, TCmodel * model )\n{ \n");
-		pycode += tr("    defn TCassignParametersAndVars ( k ):\n");
 
 		for (i = 0; i < trueParams.size(); ++i)
 		{
@@ -586,12 +507,6 @@ namespace Tinkercell
 			code += tr(" = k[");
 			code += QString::number(i);
 			code += "];\n";
-
-			pycode += tr("        ");
-			pycode += trueParams[i];
-			pycode += tr(" = k[");
-			pycode += QString::number(i);
-			pycode += tr("];\n");
 		}
 		
 		for (i = 0; i < r; ++i)
@@ -601,20 +516,12 @@ namespace Tinkercell
 			code += tr(" = k[");
 			code += QString::number(i+trueParams.size());
 			code += "];\n";
-
-			pycode += tr("        ");
-			pycode += N.rowName(i);
-			pycode += tr(" = k[");
-			pycode += QString::number(i+trueParams.size());
-			pycode += tr("];\n");
 		}
 
-		code += tr("}\n\n");
-		pycode += tr("\n\n");*/
+		code += tr("}\n\n");*/
 
 		//print header and beginning of propensity function
 		code += tr("\nvoid TCpropensity(double time, double * u, double * rates, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
-		pycode += tr("\n    defn TCpropensity(u, time):\n");
 
 		//declare variables
 		for (i = 0; i < N.rows(); ++i)
@@ -624,12 +531,6 @@ namespace Tinkercell
 			code += tr(" = u[");
 			code += QString::number(i);
 			code += tr("];\n");
-
-			pycode += tr("        ");
-			pycode += N.rowName(i);
-			pycode += tr(" = u[");
-			pycode += QString::number(i);
-			pycode += tr("];\n");
 		}
 
 		//assignments
@@ -637,12 +538,6 @@ namespace Tinkercell
 		{
 			for (i=0; i < assignmentNames.size(); ++i)
 			{
-				pycode += tr("        ");
-				pycode += assignmentNames[i];
-				pycode += tr(" = ");
-				pycode += assignmentDefs[i];
-				pycode += tr(";\n");
-
 				code += tr("    model->");
 				code += assignmentNames[i];
 				code += tr(" = ");
@@ -657,17 +552,10 @@ namespace Tinkercell
 				code += tr("] = model->");
 				code += N.rowName(i);
 				code += tr(";\n");
-
-				pycode += tr("        u[");
-				pycode += QString::number(i);
-				pycode += tr("] = ");
-				pycode += N.rowName(i);
-				pycode += tr(";\n");
 			}
 		}
 
 		//print the rates
-		pycode += tr("        rates = range(0,") + QString::number(rates.size()) + tr(");\n");
 		for (i = 0; i < rates.size() && i < c; ++i)
 		{
 			code += tr("    rates[");
@@ -677,69 +565,41 @@ namespace Tinkercell
 			code += tr(" = ");
 			code += insertPrefix(handles,tr("model->"),rates[i],replaceDot);
 			code += tr(";\n");
-
-			pycode += tr("        rates[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += N.colName(i);
-			pycode += tr(" = ");
-			pycode += rates[i];
-			pycode += tr(";\n");
 		}
 
 		code += tr("}\n\ndouble TCstoic[] = { ");
-		pycode << tr("        return rates;\n    TCstoic = ( ");
-
 
 		for (i = 0; i < r; ++i)
 			for (j=0; j < c; ++j)
 			{
 				code += toString( N.at(i,j) );
-				pycode += QString::number( N.at(i,j) );
 
 				if (i < (r-1) || j < (c-1))
 				{
 					code += tr(",");
-					pycode += tr(",");
 				}
 			}
 
 		code += tr("};\n\n");
-		pycode += tr(");\n\n");
 		
 		//events
 		
 		if (eventTriggers.size() > 0)
 		{		
 			code += tr("int TCtriggers(int i, double time, double * y, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
-			pycode += tr("TCtriggers(i,time, u)\n");
 			for (i=0; i < eventTriggers.size(); ++i)
 			{
-				pycode += tr("    if (i == ");
-				pycode += QString::number(i);
-				pycode += tr("): return ");
-				pycode += eventTriggers[i];
-				pycode += tr(";\n");
-			
 				code += tr("    if (i == ");
 				code += QString::number(i);
 				code += tr(") return (");
 				code += insertPrefix(handles,tr("model->"),eventTriggers[i],replaceDot);
 				code += tr(");\n");
 			}
-			pycode += tr("    return 0\n");
 			code += tr("    return 0;\n}\n");
 		
 			code += tr("void TCresponses(int i, double * u, void * data)\n{\n    TCmodel * model = (TCmodel*)data;\n");
-			pycode += tr("TCresponses(u)\n");
 			for (i=0; i < eventActions.size(); ++i)
-			{
-				pycode += tr("    if (i == ");
-				pycode += QString::number(i);
-				pycode += tr("): ");
-				pycode += eventActions[i];
-				pycode += tr(";\n");
-			
+			{			
 				code += tr("    if (i == ");
 				code += QString::number(i);
 				code += tr(") { ");
@@ -754,24 +614,14 @@ namespace Tinkercell
 				code += tr("] = model->");
 				code += N.rowName(i);
 				code += tr(";\n");
-
-				pycode += tr("        u[");
-				pycode += QString::number(i);
-				pycode += tr("] = ");
-				pycode += N.rowName(i);
-				pycode += tr(";\n");
 			}
 			
-			pycode += tr("\n");
 			code += tr("}\n");
 		}
 		else
 		{
 			code += tr("int (*TCtriggers)(int i, double time, double * y, void * data) = 0;\n");
-			pycode += tr("TCtriggers(i,time, u): return;\n");
-			
 			code += tr("void (*TCresponses)(int i, double * u, void * data) = 0;\n");
-			pycode += tr("TCresponses(u): return;\n");
 		}
 		
 
@@ -796,28 +646,16 @@ namespace Tinkercell
 		code += N.getRowNames().join("\",\"");
 		code += tr("\",0};\n\n");
 
-		pycode += tr("    TCvarnames = (\"");
-		pycode += N.getRowNames().join("\",\"");
-		pycode += tr("\");\n\n");
-
 		//reaction names
 		code += tr("char * TCreactionnames[] = {\"");
 		code += N.getColNames().join("\",\"");
 		code += tr("\",0};\n\n");
 
-		pycode += tr("    TCreactionnames = (\"");
-		pycode += N.getColNames().join("\",\"");
-		pycode += tr("\");\n\n");
-
 		code += tr("double TCinit[");
 		code += QString::number(r);
 		code += tr("];\n");
-		pycode += tr("TCinit = range(0,");
-		pycode += QString::number(r);
-		pycode += tr(");\n");
 
 		code += tr("\nvoid TCinitialize(TCmodel * model)\n{\n");
-		pycode += tr("\n    defn TCinitialize():\n");
 
 		for (i = 0; i < r; ++i)
 		{
@@ -826,17 +664,9 @@ namespace Tinkercell
 			code += tr("] = model->");
 			code += N.rowName(i);
 			code += tr(";\n");
-
-			pycode += tr("        ");
-			pycode += tr(" = TCinit[");
-			pycode += QString::number(i);
-			pycode += tr("] = ");
-			pycode += N.rowName(i);
-			pycode += tr(";\n");
 		}
 
 		code += tr("}\n\n");
-		pycode += tr("\n\n");
 		
 		/*for (i=0; i < namelessHandles.size(); ++i)
 			if (namelessHandles[i])
@@ -844,9 +674,6 @@ namespace Tinkercell
 
 		cfile.write(code.join("").toAscii());
 		cfile.close();
-
-		pyfile.write(pycode.join("").toAscii());
-		pyfile.close();
 		return 1;
 	}
 

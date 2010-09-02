@@ -36,16 +36,21 @@ void setup()
 	ArrayOfStrings a3 = {2,options3};
 
 	m.rows = m.rownames.length = 6;
+	if (tc_isMac())
+		m.rows = m.rownames.length = 3;
 	m.cols = m.colnames.length =  1;
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
 	m.values = values;
 
 	tc_createInputWindow(m,"Deterministic simulation (CVODE)",&run);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  a1);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
-	tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  a3);
+	if (!tc_isMac())
+	{
+		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",0, 0,  a1);
+		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",3, 0,  a2);
+		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",4, 0,  a3);
+		tc_addInputWindowOptions("Deterministic Simulation (CVODE)",5, 0,  a3);
+	}
 
 	return;
 }
@@ -89,6 +94,12 @@ void run(TableOfReals input)
 	if (dt > end/2.0) 
 	{
 		tc_errorReport("step size is too small");
+		return;
+	}
+	
+	if (tc_isMac())
+	{
+		tc_plot(tc_simulateODE(end,dt),"Time Course Simulation");
 		return;
 	}
 	
@@ -318,7 +329,4 @@ fprintf( out , "\
 	return;
 
 }
-
-
-
 

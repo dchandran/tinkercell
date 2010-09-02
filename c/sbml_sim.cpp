@@ -175,11 +175,11 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 				stoichiometryMatrix[ j*numReacs + i ] = 0.0;
 
 				for (int k=0; k < reactants->size(); ++k)
-					if (reactants->get(k)->getSpecies() == variableNames[j])
+					if (reactants->get(k) && reactants->get(k)->getSpecies() == variableNames[j])
 						stoichiometryMatrix[ j*numReacs + i ] -= ((SpeciesReference*)(reactants->get(k)))->getStoichiometry();
 					
 				for (int k=0; k < products->size(); ++k)
-					if (products->get(k)->getSpecies() == variableNames[j])
+					if (products->get(k) && products->get(k)->getSpecies() == variableNames[j])
 						stoichiometryMatrix[ j*numReacs + i ] += ((SpeciesReference*)(reactants->get(k)))->getStoichiometry();;
 			}
 		}

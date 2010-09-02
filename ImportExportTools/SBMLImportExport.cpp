@@ -94,6 +94,8 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 	}
 	connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 	connect(main,SIGNAL(historyChanged(int)),this, SLOT(historyChanged(int)));
+	connect(main,SIGNAL(windowChanged(NetworkWindow*,NetworkWindow*)),this, SLOT(windowChanged(NetworkWindow*,NetworkWindow*)));
+	
 	return true;
 }
 
@@ -132,6 +134,12 @@ void SBMLImportExport::historyChanged(int)
 {
 	modelNeedsUpdate = true;
 }
+
+void SBMLImportExport::windowChanged(NetworkWindow*,NetworkWindow*)
+{
+	modelNeedsUpdate = true;
+}
+
 
 /*******************************************
     C Interface
@@ -654,10 +662,16 @@ void SimulationThread::run()
 	}
 	else
 	{
-		if (simType == Gillespie)
-			output = sim.ssa(time);
-		else
-			output = sim.simulate(time,stepSize);
+		try
+		{
+			if (simType == Gillespie)
+				output = sim.ssa(time);
+			else
+				output = sim.simulate(time,stepSize);
+		}
+		catch(...)
+		{
+		}
 
 		if (output.size() > 0)
 		{

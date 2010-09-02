@@ -238,18 +238,7 @@ void SimpleDesigner::mousePressed(GraphicsScene * scene, QPointF point, Qt::Mous
 	QGraphicsItem * item = new SimpleNode;
 	NodeHandle * handle = new NodeHandle;
 	
-	QList<QString> names = scene->network->symbolsTable.uniqueItems.keys();
-	names += scene->network->symbolsTable.uniqueData.keys();
-	
-	int i = 1;
-	handle->name = tr("s1");
-	
-	while (names.contains(handle->name))
-	{
-		++i;
-		handle->name = tr("s") + QString::number(i);
-	}
-	
+	handle->name = scene->network->makeUnique(tr("s1"));
 	setHandle(item,handle);
 	item->setPos(point);
 	
@@ -433,18 +422,8 @@ void SimpleDesigner::itemsSelected(GraphicsScene * scene, const QList<QGraphicsI
 		list2 << NodeGraphicsItem::cast(nodeItems[1]);
 		ConnectionGraphicsItem * item = new ConnectionGraphicsItem(list1,list2);
 		ConnectionHandle * handle = new ConnectionHandle;
-		QList<QString> names = scene->network->symbolsTable.uniqueItems.keys();
-		names += scene->network->symbolsTable.uniqueData.keys();
 
-		int i = 1;
-		handle->name = tr("J1");
-
-		while (names.contains(handle->name))
-		{
-			++i;
-			handle->name = tr("J") + QString::number(i);
-		}
-		
+		handle->name = scene->network->makeUnique(tr("J1"));
 		setHandle(item,handle);
 		scene->insert(tr("connection inserted"),item);
 		

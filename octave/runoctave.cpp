@@ -1,10 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <octave/config.h>
-#include <octave/octave.h>
+#define CRUFT_DLL
+#define OCTAVE_DLL
+#define OCTINTERP_DLL
+
 #include <iostream>
 #include <fstream>
+
+#include <octave/config.h>
+#include <octave/octave.h>
 #include <octave/symtab.h>
 #include <octave/parse.h>
 #include <octave/unwind-prot.h>
@@ -16,6 +21,9 @@
 #include <octave/sysdep.h>
 
 #include "TC_api.h"
+
+extern "C" TCAPIEXPORT int octave_main(int,char**,int);
+extern "C++" TCAPIEXPORT void do_octave_atexit();
 
 void recover_from_exception (void)
 {
@@ -112,19 +120,19 @@ int octave_call(const char *string,const char* filename)
   return error_state;
 }
 
-extern "C" OCTINTERP_API void initialize()
+extern "C" TCAPIEXPORT void initialize()
 {
 	int argc = 0;
 	char * argv[0];
 	octave_main(argc,argv,1);
 }
 
-extern "C" OCTINTERP_API void exec(const char * input, const char * filename)
+extern "C" TCAPIEXPORT void exec(const char * input, const char * filename)
 {
 	octave_call(input,filename);
 }
 
-extern "C" OCTINTERP_API void finalize()
+extern "C" TCAPIEXPORT void finalize()
 {
 	do_octave_atexit();
 }

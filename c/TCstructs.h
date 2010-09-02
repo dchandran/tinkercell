@@ -110,11 +110,7 @@ TableOfReals rbind(TableOfReals A, TableOfReals B);
 #    if defined(STATIC_LINKED)
 #      define TCAPIEXPORT
 #    else
-#       if LIB_EXPORTS
-#           define TCAPIEXPORT __declspec(dllexport)
-#       else
-#           define TCAPIEXPORT __declspec(dllimport)
-#      endif
+#      define TCAPIEXPORT __declspec(dllexport)
 #     endif
 #  else
 //#    if defined(__GNUC__) && defined(GCC_HASCLASSVISIBILITY)

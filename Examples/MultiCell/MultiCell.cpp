@@ -156,7 +156,7 @@ namespace Multicell
 				{
 					NodeHandle * nodeHandle = new NodeHandle;
 					nodeHandle->setFamily(currentFamily);
-					nodeHandle->name = uniqueName();
+					nodeHandle->name = scene->network->makeUnique("cell1");
 					handle = nodeHandle;
 				}
 
@@ -275,7 +275,7 @@ namespace Multicell
 				if (!handle)
 				{
 					handle = new NodeHandle;
-					handle->name = uniqueName();
+					handle->name = scene->network->makeUnique("cell1");
 				}
 
 				cell->setHandle(handle);
@@ -330,24 +330,6 @@ namespace Multicell
 	void MulticellInterface::escapeSignal(const QWidget * sender)
 	{
 	}
-
-	QString MulticellInterface::uniqueName()
-	{
-		if (!currentNetwork()) return QString("x");
-
-		QStringList list(currentNetwork()->symbolsTable.uniqueItems.keys());
-		list << currentNetwork()->symbolsTable.uniqueData.keys();
-
-		int i = 1;
-		QString name = tr("cell") + QString::number(i);
-		while (list.contains(name))
-		{
-			++i;
-			name = tr("cell") + QString::number(i);
-		}
-		return name;
-	}
-
 }
 
 

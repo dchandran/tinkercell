@@ -18,13 +18,13 @@ cp plugins/c/lib*.a Tinkercell.app/Contents/MacOS/c/
 cp lib*.a Tinkercell.app/Contents/MacOS/c/
 cp -R ../../ArrowItems Tinkercell.app/Contents/MacOS/
 cp -R ../../NodeItems Tinkercell.app/Contents/MacOS/
-cp -R ../../OtherItems Tinkercell.app/Contents/MacOS/
+cp -R ../../DecoratorItems Tinkercell.app/Contents/MacOS/
 mkdir Tinkercell.app/Contents/MacOS/NodesTree/
 cp ../../NodesTree/*.xml Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R ../../NodesTree/Icons Tinkercell.app/Contents/MacOS/NodesTree/
 cp -R ../../python Tinkercell.app/Contents/MacOS/
+cp ../../python/python*.txt Tinkercell.app/Contents/MacOS/
 cp ../../*.txt Tinkercell.app/Contents/MacOS/
-
 
 #QT frameworks install for TinkerCell.app
 

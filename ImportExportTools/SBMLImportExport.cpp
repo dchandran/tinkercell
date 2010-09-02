@@ -29,8 +29,8 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 
 SBMLImportExport::~SBMLImportExport()
 {
-	if (sbmlDocument)
-		delete (sbmlDocument);
+//	if (sbmlDocument)
+	//	delete (sbmlDocument);
 }
 
 bool SBMLImportExport::setMainWindow(MainWindow * main)
@@ -250,8 +250,8 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 
 void SBMLImportExport::updateSBMLModel()
 {
-	if (sbmlDocument)
-		delete sbmlDocument;
+	//if (sbmlDocument)
+		//delete sbmlDocument;
 	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;
@@ -496,20 +496,26 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 		for (int j=0; j < stoicMatrix.rows(); ++j)
 			if (stoicMatrix.value(j,i) < 0)
 			{
-				SpeciesReference_t * sref = Reaction_createReactant(reac);
-				SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setStoichiometry( sref, -stoicMatrix.value(j,i) );
+				for (int k=0; k < -stoicMatrix.value(j,i); ++k)
+				{ 
+					SpeciesReference_t * sref = Reaction_createReactant(reac);
+					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
+					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+					//SpeciesReference_setStoichiometry( sref, -stoicMatrix.value(j,i) );
+				}
 			}
 			else
 			if (stoicMatrix.value(j,i) > 0)
 			{
-				SpeciesReference_t * sref = Reaction_createProduct(reac);
-				SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
-				SpeciesReference_setStoichiometry( sref, stoicMatrix.value(j,i) );
+				for (int k=0; k < stoicMatrix.value(j,i); ++k)
+				{
+					SpeciesReference_t * sref = Reaction_createProduct(reac);
+					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
+					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
+					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
+					//SpeciesReference_setStoichiometry( sref, stoicMatrix.value(j,i) );
+				}
 			}		
 	}
 	

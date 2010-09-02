@@ -473,12 +473,6 @@ namespace Tinkercell
 					}
 				}
 			}
-			
-		QList<ItemHandle*> all = scene->network->handles();	
-		QStringList allnames;
-		for (int i=0; i < all.size(); ++i)
-			allnames << all[i]->fullName();
-		console()->message(allnames.join("\n"));
 	}
 
 	void ModuleTool::itemsAboutToBeRemoved(GraphicsScene* scene, QList<QGraphicsItem *>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)

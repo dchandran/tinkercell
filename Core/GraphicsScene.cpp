@@ -1677,7 +1677,10 @@ namespace Tinkercell
 			lastPoint() += QPointF(10.0,10.0);
 		}
 
-		QList<QString> allItems = network->symbolsTable.uniqueItems.keys();
+		QStringList allItems (network->symbolsTable.uniqueHandlesWithDot.keys());
+		allItems << network->symbolsTable.uniqueHandlesWithUnderscore.keys()
+				 << network->symbolsTable.uniqueDataWithDot.keys()
+				 << network->symbolsTable.uniqueDataWithUnderscore.keys();
 		QList<ItemHandle*> itemsToRename;
 		QList<QString> newNames;
 		ItemHandle *handle1;
@@ -1751,15 +1754,23 @@ namespace Tinkercell
 		NodeGraphicsItem* node = 0;
 		ConnectionGraphicsItem* connection = 0;
 
-		if (symbolsTable->uniqueItems.contains(text) ||
-			symbolsTable->uniqueData.contains(text))
+		if (symbolsTable->uniqueHandlesWithDot.contains(text) ||
+			symbolsTable->uniqueHandlesWithUnderscore.contains(text) ||
+			symbolsTable->uniqueDataWithDot.contains(text) || 
+			symbolsTable->uniqueDataWithUnderscore.contains(text))
 		{
 			ItemHandle * handle = 0;
-			if (symbolsTable->uniqueItems.contains(text))
-				handle = symbolsTable->uniqueItems[text];
+			if (symbolsTable->uniqueHandlesWithDot.contains(text))
+				handle = symbolsTable->uniqueHandlesWithDot[text];
 			else
-			if (symbolsTable->uniqueData.contains(text))
-				handle = symbolsTable->uniqueData[text].first;
+			if (symbolsTable->uniqueHandlesWithUnderscore.contains(text))
+				handle = symbolsTable->uniqueHandlesWithUnderscore[text];
+			else
+			if (symbolsTable->uniqueDataWithDot.contains(text))
+				handle = symbolsTable->uniqueDataWithDot[text].first;
+			else
+			if (symbolsTable->uniqueDataWithUnderscore.contains(text))
+				handle = symbolsTable->uniqueDataWithUnderscore[text].first;
 				
 			if (!handle) return;
 
@@ -1788,15 +1799,15 @@ namespace Tinkercell
 				}
 		}
 		
-		if (symbolsTable->nonuniqueItems.contains(text) ||
+		if (symbolsTable->nonuniqueHandles.contains(text) ||
 			symbolsTable->nonuniqueData.contains(text))
 		{
 		
 			QList<ItemHandle*> items;
 			
-			if (symbolsTable->nonuniqueItems.contains(text))
+			if (symbolsTable->nonuniqueHandles.contains(text))
 			{
-				items = symbolsTable->nonuniqueItems.values(text);
+				items = symbolsTable->nonuniqueHandles.values(text);
 			}
 			
 			if (symbolsTable->nonuniqueData.contains(text))

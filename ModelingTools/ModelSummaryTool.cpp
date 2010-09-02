@@ -728,8 +728,8 @@ namespace Tinkercell
 		
 		QStringList vars = constants.keys();
 		for (int i=0; i < vars.size(); ++i)
-			if (network->symbolsTable.uniqueData.contains(vars[i]))
-				itemHandles << network->symbolsTable.uniqueData[ vars[i] ].first;
+			if (network->symbolsTable.uniqueDataWithDot.contains(vars[i]))
+				itemHandles << network->symbolsTable.uniqueDataWithDot[ vars[i] ].first;
 		
 		if (tabWidget)
 		{

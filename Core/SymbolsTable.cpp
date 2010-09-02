@@ -29,13 +29,6 @@ namespace Tinkercell
 	
 	void SymbolsTable::update()
 	{
-		nonuniqueItems.clear();
-		uniqueItems.clear();
-		uniqueData.clear();
-		nonuniqueData.clear();
-		handlesFamily.clear();
-		handlesAddress.clear();
-
 		if (!network) return;
 		
 		GraphicsScene* scene = 0;
@@ -88,10 +81,19 @@ namespace Tinkercell
 
 	void SymbolsTable::update(const QList<ItemHandle*>& items)
 	{
+		nonuniqueHandles.clear();
+		uniqueHandlesWithDot.clear();
+		uniqueHandlesWithUnderscore.clear();
+		uniqueDataWithDot.clear();
+		uniqueDataWithUnderscore.clear();
+		nonuniqueData.clear();
+		handlesByFamily.clear();
+		handlesAddress.clear();
+
 		ItemHandle * handle = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((handle = items[i]) && !uniqueItems.contains(handle->fullName()))
+			if ((handle = items[i]) && !uniqueHandlesWithDot.contains(handle->fullName()))
 			{
 				handle->network = network;
 
@@ -99,15 +101,15 @@ namespace Tinkercell
 
 				if (handle != &globalHandle)
 				{
-					uniqueItems[handle->fullName()] = handle;
-					uniqueItems[handle->fullName(QObject::tr("_"))] = handle;
-					nonuniqueItems.insertMulti(handle->fullName(),handle);
-					nonuniqueItems.insertMulti(handle->fullName(QObject::tr("_")),handle);
-					nonuniqueItems.insertMulti(handle->name,handle);
+					uniqueHandlesWithDot[handle->fullName()] = handle;
+					uniqueHandlesWithUnderscore[handle->fullName(QObject::tr("_"))] = handle;
+					nonuniqueHandles.insertMulti(handle->fullName(),handle);
+					nonuniqueHandles.insertMulti(handle->fullName(QObject::tr("_")),handle);
+					nonuniqueHandles.insertMulti(handle->name,handle);
 				}
 
 				if (handle->family())
-					handlesFamily.insertMulti(handle->family()->name, handle);
+					handlesByFamily.insertMulti(handle->family()->name, handle);
 
 				if (handle->data)
 				{
@@ -122,9 +124,9 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									uniqueData[handle->fullName() + QObject::tr(".") + nDat.rowName(k)] = 
+									uniqueDataWithDot[handle->fullName() + QObject::tr(".") + nDat.rowName(k)] = 
 										QPair<ItemHandle*,QString>(handle,keys[j]);
-									uniqueData[handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k)] = 
+									uniqueDataWithUnderscore[handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.rowName(k)] = 
 										QPair<ItemHandle*,QString>(handle,keys[j]);
 									
 									nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.rowName(k),
@@ -137,17 +139,18 @@ namespace Tinkercell
 							}
 						}
 
+						/*
 						for (int k=0; k < nDat.cols(); ++k)
-						{
+						{						
 							if (!nDat.colName(k).isEmpty())
 							{
-								/*if (!handle->name.isEmpty())
+								if (!handle->name.isEmpty())
 								{
-									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
+									uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
+									uniqueDataWithUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-								}*/
+								}
 								nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + nDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
 								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + nDat.colName(k), 
@@ -156,6 +159,7 @@ namespace Tinkercell
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 						}
+						*/
 					}
 
 					keys = handle->data->textData.keys();
@@ -169,9 +173,9 @@ namespace Tinkercell
 							{
 								if (!handle->name.isEmpty())
 								{
-									uniqueData[handle->fullName() + QObject::tr(".") + sDat.rowName(k)] =
+									uniqueDataWithDot[handle->fullName() + QObject::tr(".") + sDat.rowName(k)] =
 										QPair<ItemHandle*,QString>(handle,keys[j]);
-									uniqueData[handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k)] =
+									uniqueDataWithUnderscore[handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.rowName(k)] =
 										QPair<ItemHandle*,QString>(handle,keys[j]);
 									
 									nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.rowName(k),
@@ -183,18 +187,19 @@ namespace Tinkercell
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
 						}
-
+						
 						for (int k=0; k < sDat.cols(); ++k)
 						{
+							/*
 							if (!sDat.colName(k).isEmpty())
 							{
-								/*if (!handle->name.isEmpty())
+								if (!handle->name.isEmpty())
 								{
-									uniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
+									uniqueDataWithDot.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-									uniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
+									uniqueDataWothUnderscore.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
 										QPair<ItemHandle*,QString>(handle,keys[j]));
-								}*/
+								}
 								nonuniqueData.insertMulti(handle->fullName() + QObject::tr(".") + sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 								nonuniqueData.insertMulti(handle->fullName(QObject::tr("_")) + QObject::tr("_") + sDat.colName(k),
@@ -202,6 +207,7 @@ namespace Tinkercell
 								nonuniqueData.insertMulti(sDat.colName(k),
 									QPair<ItemHandle*,QString>(handle,keys[j]));
 							}
+							*/
 							
 							for (int l=0; l < sDat.rows(); ++l)
 								nonuniqueData.insertMulti(sDat.at(l,k),
@@ -228,7 +234,7 @@ namespace Tinkercell
 	{
 		QList<ItemFamily*> allRootFamilies;
 		ItemFamily * root = 0;
-		QList<ItemHandle*> allHandles = uniqueItems.values();
+		QList<ItemHandle*> allHandles = uniqueHandlesWithDot.values();
 		
 		for (int i=0; i < allHandles.size(); ++i)
 			if (allHandles[i] && allHandles[i]->family())
@@ -245,20 +251,20 @@ namespace Tinkercell
 		
 		allHandles.clear();
 		for (int i=0; i < sortedFamilies.size(); ++i)
-			allHandles += handlesFamily.values(sortedFamilies[i]->name);
+			allHandles += handlesByFamily.values(sortedFamilies[i]->name);
 		
 		return allHandles;
 	}
 	
 	QList<ItemHandle*> SymbolsTable::allHandlesSortedByName() const
 	{
-		QStringList names = uniqueItems.keys();
+		QStringList names = uniqueHandlesWithDot.keys();
 		names.sort();
 		
 		QList<ItemHandle*> allHandles;
 		
 		for (int i=0; i < names.size(); ++i)
-			allHandles << uniqueItems[ names[i] ];
+			allHandles << uniqueHandlesWithDot[ names[i] ];
 
 		return allHandles;
 	}

@@ -258,8 +258,8 @@ namespace Tinkercell
 
 				int k = 0;
 				while (
-					(win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + var)) &&
-					!(win->symbolsTable.uniqueData[handle->fullName() + tr(".") + var].second == tr("Assignments"))
+					(win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + var)) &&
+					!(win->symbolsTable.uniqueDataWithDot[handle->fullName() + tr(".") + var].second == tr("Assignments"))
 					)
 					var = regex1.cap(1) + QString::number(++k);
 
@@ -750,8 +750,8 @@ namespace Tinkercell
 			s = s0;
 
 			while (
-				(win->symbolsTable.uniqueData.contains(s)) &&
-				!(win->symbolsTable.uniqueData[s].second == tr("Assignments"))
+				(win->symbolsTable.uniqueDataWithDot.contains(s)) &&
+				!(win->symbolsTable.uniqueDataWithDot[s].second == tr("Assignments"))
 				)
 				s = s0 + QString::number(++k);
 			

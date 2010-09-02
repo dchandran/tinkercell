@@ -559,7 +559,8 @@ namespace Tinkercell
 		QHash<QString,int> hash;
 		for (int i=0; i < allNetworks.size(); ++i)
 		{
-			names = allNetworks[i]->symbolsTable.uniqueItems.keys();
+			names = allNetworks[i]->symbolsTable.uniqueHandlesWithDot.keys();
+			names << allNetworks[i]->symbolsTable.uniqueHandlesWithUnderscore.keys();
 			for (int j=0; j < names.size(); ++j)
 				hash[ names[j] ] = 1;
 		}

@@ -48,7 +48,7 @@ namespace Tinkercell
 		parser.SetVarFactory(AddVariable, 0);
 
 		SymbolsTable * symbolsTable = &win->symbolsTable;
-		QList<ItemHandle*> allHandles = symbolsTable->uniqueItems.values();
+		QList<ItemHandle*> allHandles = symbolsTable->uniqueHandlesWithDot.values();
 
 		for (int i=0; i < allHandles.size(); ++i)
 		{
@@ -82,9 +82,10 @@ namespace Tinkercell
 					str.replace(QRegExp(QString("[^A-Za-z0-9_]")),QString(""));
 					str.replace(QString("__Q_X_Z_W__"),QString("."));
 					QString str2 = str;
-					//str2.replace(QString("_"),QString("."));
+
 					if (handle && !reservedWords.contains(str) &&
-						!symbolsTable->uniqueItems.contains(str)) //maybe new symbol in the formula
+						!symbolsTable->uniqueHandlesWithDot.contains(str) &&
+						!symbolsTable->uniqueHandlesWithUnderscore.contains(str)) //maybe new symbol in the formula
 					{
 						if (symbolsTable->nonuniqueData.contains(str) && symbolsTable->nonuniqueData[str].first)
 						{
@@ -137,18 +138,18 @@ namespace Tinkercell
 							}
 							else
 							{
-								if (symbolsTable->nonuniqueItems.contains(str) && symbolsTable->nonuniqueItems[str])
+								if (symbolsTable->nonuniqueHandles.contains(str) && symbolsTable->nonuniqueHandles[str])
 								{
-									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueItems[str]->fullName() + QString("\\1"));
-									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueItems[str]->fullName() + QString("\\2"));
-									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueItems[str]->fullName());
+									s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueHandles[str]->fullName() + QString("\\1"));
+									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueHandles[str]->fullName() + QString("\\2"));
+									s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueHandles[str]->fullName());
 								}
 								else
-									if (symbolsTable->nonuniqueItems.contains(str2) && symbolsTable->nonuniqueItems[str2])
+									if (symbolsTable->nonuniqueHandles.contains(str2) && symbolsTable->nonuniqueHandles[str2])
 									{
-										s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueItems[str2]->fullName() + QString("\\1"));
-										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueItems[str2]->fullName() + QString("\\2"));
-										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueItems[str2]->fullName());
+										s.replace(QRegExp(QString("^")+str+QString("([^a-zA-Z0-9_])")),symbolsTable->nonuniqueHandles[str2]->fullName() + QString("\\1"));
+										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("([^a-zA-Z0-9_])")), QString("\\1") + symbolsTable->nonuniqueHandles[str2]->fullName() + QString("\\2"));
+										s.replace(QRegExp(QString("([^a-zA-Z0-9_])")+str+QString("$")),QString("\\1") + symbolsTable->nonuniqueHandles[str2]->fullName());
 									}
 									else
 									{
@@ -161,15 +162,21 @@ namespace Tinkercell
 										{
 											newp = newp.left(k);
 											
-											if (symbolsTable->uniqueItems.contains(newp))
+											if (symbolsTable->uniqueHandlesWithDot.contains(newp))
 											{
-												handle2 = symbolsTable->uniqueItems[newp];
+												handle2 = symbolsTable->uniqueHandlesWithDot[newp];
 												found = true;
 											}
 											else
-											if (symbolsTable->nonuniqueItems.contains(newp))
+											if (symbolsTable->uniqueHandlesWithUnderscore.contains(newp))
 											{
-												handle2 = symbolsTable->nonuniqueItems[newp];
+												handle2 = symbolsTable->uniqueHandlesWithUnderscore[newp];
+												found = true;
+											}
+											else
+											if (symbolsTable->nonuniqueHandles.contains(newp))
+											{
+												handle2 = symbolsTable->nonuniqueHandles[newp];
 												found = true;
 											}
 											
@@ -251,7 +258,7 @@ namespace Tinkercell
 		QRegExp regex3(QString("\\.([^\\.]+)"));
 
 		SymbolsTable * symbolsTable = &net->symbolsTable;
-		QList<ItemHandle*> allHandles = symbolsTable->uniqueItems.values();
+		QList<ItemHandle*> allHandles = symbolsTable->uniqueHandlesWithDot.values();
 
 		QStringList functionNames;
 		QList<QStringList> argsList;
@@ -303,7 +310,8 @@ namespace Tinkercell
 				{
 					n = QString(item->first.data());
 					if (existingNames.contains(n)) continue;
-					if (symbolsTable.uniqueItems.contains(n) && (handle = symbolsTable.uniqueItems[n]))
+					if ((symbolsTable.uniqueHandlesWithDot.contains(n) && (handle = symbolsTable.uniqueHandlesWithDot[n])) ||
+						(symbolsTable.uniqueHandlesWithUnderscore.contains(n) && (handle = symbolsTable.uniqueHandlesWithUnderscore[n])))
 					{
 						if (handle->hasNumericalData(QString("Initial Value")))
 						{
@@ -313,9 +321,13 @@ namespace Tinkercell
 						continue;
 					}
 
-					if (symbolsTable.uniqueData.contains(n) && (handle = symbolsTable.uniqueData[n].first))
+					if ((symbolsTable.uniqueDataWithDot.contains(n) && (handle = symbolsTable.uniqueDataWithDot[n].first)) ||
+					    (symbolsTable.uniqueDataWithUnderscore.contains(n) && (handle = symbolsTable.uniqueDataWithUnderscore[n].first)))
 					{
-						p = symbolsTable.uniqueData[n].second;
+						if (symbolsTable.uniqueDataWithDot.contains(n))
+							p = symbolsTable.uniqueDataWithDot[n].second;
+						else
+							p = symbolsTable.uniqueDataWithUnderscore[n].second;
 						q = n;
 						q.remove(handle->fullName("_") + QString("_"));
 						if (handle->data && handle->hasNumericalData(p)

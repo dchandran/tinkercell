@@ -819,7 +819,7 @@ namespace Tinkercell
 				DataTable<qreal> nDat(lastItem->data->numericalData[this->name]);
 				i = 0;
 				name = tr("k0");
-				while (win->symbolsTable.uniqueData.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("k") + QString::number(++i);
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
 				tableWidget.setItem(n,0,new QTableWidgetItem(name));
@@ -841,7 +841,7 @@ namespace Tinkercell
 
 				i = 0;
 				name = tr("s0");
-				while (win->symbolsTable.uniqueData.contains(lastItem->fullName() + tr(".") + name))
+				while (win->symbolsTable.uniqueDataWithDot.contains(lastItem->fullName() + tr(".") + name))
 					name = tr("s") + QString::number(++i);
 
 				tableWidget.setItem(n,1,new QTableWidgetItem(tr("1.0")));
@@ -1530,7 +1530,7 @@ namespace Tinkercell
 						QString s = text;
 
 						int k = 0;
-						while (win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + s))
+						while (win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + s))
 							s = text + QString::number(++k);
 
 						newData->insertRow(rownames.size(),s);
@@ -1575,7 +1575,7 @@ namespace Tinkercell
 							QString s = text;
 
 							int k = 0;
-							while (win->symbolsTable.uniqueData.contains(handle->fullName() + tr(".") + s))
+							while (win->symbolsTable.uniqueDataWithDot.contains(handle->fullName() + tr(".") + s))
 								s = text + QString::number(++k);
 
 							newData->insertRow(rownames.size(),s);

@@ -1004,9 +1004,9 @@ namespace Tinkercell
 			handle = NodeHandle::cast( getHandle(items[i]) );
 			if (NodeGraphicsItem::cast(items[i]) && handle && (handle->isA(tr("Promoter")) || handle->isA(tr("RBS"))))
 			{
-				connections = scene->network->symbolsTable.handlesFamily.values(tr("Transcription"));
-				connections += scene->network->symbolsTable.handlesFamily.values(tr("Translation"));
-				connections += scene->network->symbolsTable.handlesFamily.values(tr("Production"));
+				connections = scene->network->symbolsTable.handlesByFamily.values(tr("Transcription"));
+				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Translation"));
+				connections += scene->network->symbolsTable.handlesByFamily.values(tr("Production"));
 				for (int j=0; j < connections.size(); ++j)
 				{
 					if (connections[j] && connections[j]->hasTextData(tr("Rate equations")))

@@ -438,7 +438,7 @@ namespace Tinkercell
 				if (key == Qt::Key_Tab && mainWindow && mainWindow->currentNetwork())
 				{
 					QString text = cursor.block().text().remove(0,ConsoleWindow::Prompt.size());
-					QStringList keys = mainWindow->currentNetwork()->symbolsTable.uniqueItems.keys();
+					QStringList keys = mainWindow->currentNetwork()->symbolsTable.uniqueHandlesWithDot.keys();
 					QStringList options;
 					for (int i=0; i < keys.size(); ++i)
 						if (keys[i].startsWith(text))
@@ -448,7 +448,7 @@ namespace Tinkercell
 						}
 					if (options.isEmpty())
 					{
-						keys = mainWindow->currentNetwork()->symbolsTable.uniqueData.keys();
+						keys = mainWindow->currentNetwork()->symbolsTable.uniqueDataWithDot.keys();
 						for (int i=0; i < keys.size(); ++i)
 							if (keys[i].startsWith(text))
 							{
@@ -574,6 +574,7 @@ namespace Tinkercell
 		{
 			if (parentWidget())
 				parentWidget()->show();
+
 
 			else
 				show();

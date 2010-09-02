@@ -296,8 +296,10 @@ namespace Tinkercell
 		{
 			network->showTextEditor(textEditor);
 			
-			QHash<QString,ItemHandle*>& allNames = textEditor->network->symbolsTable.uniqueItems;
-			QHash<QString, QPair<ItemHandle*,QString> >& allData = textEditor->network->symbolsTable.uniqueData;
+			QHash<QString,ItemHandle*>& allNames1 = textEditor->network->symbolsTable.uniqueHandlesWithDot;
+			QHash<QString,ItemHandle*>& allNames2 = textEditor->network->symbolsTable.uniqueHandlesWithUnderscore;
+			QHash<QString, QPair<ItemHandle*,QString> >& allData1 = textEditor->network->symbolsTable.uniqueDataWithDot;
+			QHash<QString, QPair<ItemHandle*,QString> >& allData2 = textEditor->network->symbolsTable.uniqueDataWithUnderscore;
 			
 			QStringList oldNames, newNames;
 			QList<ItemHandle*> nameChangeHandles;
@@ -322,8 +324,10 @@ namespace Tinkercell
 						nameChangeHandles << items[i];
 						s0 = s1 = items[i]->fullName();
 						if (newNames.contains(s0) || 
-							(allNames.contains(s0) && items[i] != allNames[s0] && !items[i]->parent) ||
-							(allData.contains(s0) && items[i] != allData[s0].first && !items[i]->parent))
+							(allNames1.contains(s0) && items[i] != allNames1[s0] && !items[i]->parent) ||
+							(allNames2.contains(s0) && items[i] != allNames2[s0] && !items[i]->parent) ||
+							(allData1.contains(s0) && items[i] != allData1[s0].first && !items[i]->parent) ||
+							(allData2.contains(s0) && items[i] != allData2[s0].first && !items[i]->parent))
 						{
 							oldNames << items[i]->fullName();
 							
@@ -332,7 +336,8 @@ namespace Tinkercell
 								s0 = s0.left( s0.length()-1 );
 							int k=0;
 							s1 = s0 + QString::number(k);
-							while (allNames.contains(s1))
+							while (allNames1.contains(s1) || allNames2.contains(s1) ||
+								  allData1.contains(s1) || allData2.contains(s1))
 								s1 = s0 + QString::number(++k);								
 							newNames << s1;
 						}
@@ -735,8 +740,10 @@ namespace Tinkercell
 		{
 			network->showScene(graphicsScene);
 
-			QHash<QString,ItemHandle*>& allNames = graphicsScene->network->symbolsTable.uniqueItems;
-			QHash<QString, QPair<ItemHandle*,QString> >& allDataNames = graphicsScene->network->symbolsTable.uniqueData;
+			QHash<QString,ItemHandle*>& allNames1 = graphicsScene->network->symbolsTable.uniqueHandlesWithDot;
+			QHash<QString,ItemHandle*>& allNames2 = graphicsScene->network->symbolsTable.uniqueHandlesWithUnderscore;
+			QHash<QString, QPair<ItemHandle*,QString> >& allData1 = graphicsScene->network->symbolsTable.uniqueDataWithDot;
+			QHash<QString, QPair<ItemHandle*,QString> >& allData2 = graphicsScene->network->symbolsTable.uniqueDataWithUnderscore;
 			
 			QStringList newNames, oldNames;
 			QList<ItemHandle*> nameChangeHandles;
@@ -769,8 +776,10 @@ namespace Tinkercell
 							nameChangeHandles << handles[i];
 							s0 = s1 = handles[i]->fullName();
 							if (newNames.contains(s0) || 
-								(allNames.contains(s0) && handles[i] != allNames[s0] && !handles[i]->parent) ||
-								(allDataNames.contains(s0) && handles[i] != allDataNames[s0].first && !handles[i]->parent))
+								(allNames1.contains(s0) && handles[i] != allNames1[s0] && !handles[i]->parent) ||
+								(allNames2.contains(s0) && handles[i] != allNames2[s0] && !handles[i]->parent) ||
+								(allData1.contains(s0) && handles[i] != allData1[s0].first && !handles[i]->parent) ||
+								(allData2.contains(s0) && handles[i] != allData2[s0].first && !handles[i]->parent))
 							{
 								oldNames << s0;
 								
@@ -779,7 +788,9 @@ namespace Tinkercell
 									s0 = s0.left( s0.length()-1 );
 								int k=0;
 								s1 = s0 + QString::number(k);
-								while (allNames.contains(s1))
+								while (allNames1.contains(s1) || allNames2.contains(s1) ||
+									  allData1.contains(s1) || allData2.contains(s1))
+								
 									s1 = s0 + QString::number(++k);
 								
 								newNames << s1;
@@ -2797,11 +2808,11 @@ namespace Tinkercell
 		renameCommand = 0;
 		if (newHandle)
 		{
-			net->symbolsTable.uniqueItems.remove(newHandle->fullName());
-			net->symbolsTable.uniqueItems.remove(newHandle->fullName(QObject::tr("_")));
+			net->symbolsTable.uniqueHandlesWithDot.remove(newHandle->fullName());
+			net->symbolsTable.uniqueHandlesWithUnderscore.remove(newHandle->fullName(QObject::tr("_")));
 			renameCommand = new RenameCommand(QString("rename"),net,allHandles,oldNames,newNames);
-			net->symbolsTable.uniqueItems[ newHandle->fullName() ] = newHandle;
-			net->symbolsTable.uniqueItems[ newHandle->fullName(QObject::tr("_"))] = newHandle;
+			net->symbolsTable.uniqueHandlesWithDot[ newHandle->fullName() ] = newHandle;
+			net->symbolsTable.uniqueHandlesWithUnderscore[ newHandle->fullName(QObject::tr("_"))] = newHandle;
 		}
 	}
 
@@ -3007,8 +3018,8 @@ namespace Tinkercell
 						oldNames += children[i]->fullName();
 						
 						if (allNames.contains(s1) || 
-							(net->symbolsTable.uniqueItems.contains(s1) && net->symbolsTable.uniqueItems[s1] != children[i]) ||
-							(net->symbolsTable.uniqueData.contains(s1) && net->symbolsTable.uniqueData[s1].first != children[i])
+							(net->symbolsTable.uniqueHandlesWithDot.contains(s1) && net->symbolsTable.uniqueHandlesWithDot[s1] != children[i]) ||
+							(net->symbolsTable.uniqueDataWithDot.contains(s1) && net->symbolsTable.uniqueDataWithDot[s1].first != children[i])
 							)
 							s2 = net->makeUnique(s1,allNames);
 						else

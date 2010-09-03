@@ -30,35 +30,19 @@ ADD_LIBRARY( ssa
 )
 
 SET_TARGET_PROPERTIES(ssa PROPERTIES LINKER_LANGUAGE C)
-
-ADD_LIBRARY( sbml_sim sbml_sim.cpp )
-
-TARGET_LINK_LIBRARIES( sbml_sim 
-   sbml_sim 
-   sbml 
-   ode
-   ssa 
-   muparser
-)
- 
 IF ( WIN32 )
-  INSTALL(TARGETS ssa ode sbml_sim DESTINATION lib)
+  INSTALL(TARGETS ssa ode DESTINATION lib)
 ELSE ( WIN32 )
-  INSTALL(TARGETS ssa ode sbml_sim ARCHIVE DESTINATION lib)
+  INSTALL(TARGETS ssa ode ARCHIVE DESTINATION lib)
 ENDIF( WIN32 )
 
-IF( WIN32 AND NOT UNIX)
-   OPTION( CMAKE_WIN32 "This is a Windows OS" ON )
-ELSE( WIN32 AND NOT UNIX)
-   OPTION( CMAKE_WIN32 "This is a Windows OS" OFF )
-ENDIF( WIN32 AND NOT UNIX)
+SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
 
 ADD_LIBRARY( runsteadystate 
   SHARED
   runsteadystate.c
 )
-
-TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi sbml_sim)
+TARGET_LINK_LIBRARIES( runsteadystate runsteadystate tinkercellapi )
 
 IF ( WIN32 )
   INSTALL(TARGETS runsteadystate DESTINATION plugins/c)
@@ -71,14 +55,14 @@ ADD_LIBRARY( runcvode
   runcvode.c
 )
 
-TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi sbml_sim)
+TARGET_LINK_LIBRARIES( runcvode runcvode tinkercellapi )
 
 ADD_LIBRARY( runssa 
   SHARED
   runssa.c
 )
 
-TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi sbml_sim)
+TARGET_LINK_LIBRARIES( runssa runssa tinkercellapi )
 
 ADD_LIBRARY( runloops 
   SHARED
@@ -243,3 +227,6 @@ INSTALL( FILES ${C_ICON_FILES}
   DESTINATION plugins/c
   COMPONENT plugins
 )
+
+ADD_SUBDIRECTORY( sbml_sim )
+

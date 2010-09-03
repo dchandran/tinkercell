@@ -29,8 +29,8 @@ SBMLImportExport::SBMLImportExport() : Tool("SBML Tool")
 
 SBMLImportExport::~SBMLImportExport()
 {
-//	if (sbmlDocument)
-	//	delete (sbmlDocument);
+	if (sbmlDocument)
+		delete (sbmlDocument);
 }
 
 bool SBMLImportExport::setMainWindow(MainWindow * main)
@@ -250,8 +250,8 @@ void SBMLImportExport::simulateGillespie(QSemaphore * sem, NumericalDataTable * 
 
 void SBMLImportExport::updateSBMLModel()
 {
-	//if (sbmlDocument)
-		//delete sbmlDocument;
+	if (sbmlDocument)
+		delete sbmlDocument;
 	sbmlDocument = 0;
 	sbmlDocument = exportSBML();
 	modelNeedsUpdate = false;
@@ -579,7 +579,9 @@ NumericalDataTable SBMLImportExport::integrateODEs(double time, double printstep
 	NumericalDataTable dat;
 	QSemaphore * s = new QSemaphore(1);
 	s->acquire();
-	QThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	SimulationThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::ODE, mainWindow);
+	thread->setTime(time);
+	thread->setStepSize(printstep);
 	thread->start();
 	s->acquire();
 	s->release();
@@ -594,7 +596,8 @@ NumericalDataTable SBMLImportExport::Gillespie(double time)
 	NumericalDataTable dat;
 	QSemaphore * s = new QSemaphore(1);
 	s->acquire();
-	QThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	SimulationThread * thread = new SimulationThread(s, &dat, sbmlDocument, SimulationThread::Gillespie, mainWindow);
+	thread->setTime(time);
 	thread->start();
 	s->acquire();
 	s->release();

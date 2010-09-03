@@ -8,6 +8,7 @@ ADD_DEFINITIONS(-DQT_SHARED)
 SET( TINKERCELL_CORE_HDRS
   ../Core/MainWindow.h 
   ../Core/NetworkHandle.h
+  ../Core/CodeEditor.h
   ../Core/TextEditor.h 
   ../Core/GraphicsScene.h 
   ../Core/Tool.h 

@@ -1,0 +1,23 @@
+SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH})
+IF (WIN32)
+   ADD_DEFINITIONS(-D_WIN32)
+ENDIF (WIN32)
+
+ADD_LIBRARY( sbml_sim 
+	SHARED 
+	sbml_sim.cpp )
+
+TARGET_LINK_LIBRARIES( sbml_sim 
+   sbml_sim 
+   sbml 
+   ode
+   ssa 
+   muparser
+)
+ 
+IF ( WIN32 )
+  INSTALL(TARGETS sbml_sim DESTINATION bin/../)
+ELSE ( WIN32 )
+  INSTALL(TARGETS sbml_sim LIBRARY DESTINATION bin/../)
+ENDIF( WIN32 )
+

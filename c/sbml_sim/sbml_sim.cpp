@@ -1,5 +1,10 @@
 #include "sbml_sim.h"
 #include <iostream>
+extern "C"
+{
+	#include "cvodesim.h"
+	#include "ssa.h"
+}
 
 using namespace std;
 
@@ -75,6 +80,7 @@ void SBML_sim::loadSBML(std::string sbml_text, bool isFile)
 		doc = sbmlreader->readSBMLFromString(sbml_text); 
 		
 	loadSBML(doc);
+	delete doc;
 	delete sbmlreader;
 }
 
@@ -292,7 +298,6 @@ void SBML_sim::loadSBML(SBMLDocument * doc)
 
 		//delete params;
 		//delete reacs;
-		delete doc;
 	}
 }
 

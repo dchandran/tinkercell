@@ -195,8 +195,8 @@ namespace Tinkercell
 		else
 		{
 			if (consoleWindow)
-				consoleWindow->message(lib->fileName() + tr(" could not be opened"));
-			statusBar()->showMessage(lib->fileName() + tr(" could not be opened"));
+				consoleWindow->message(dllFile + tr(" could not be opened"));
+			statusBar()->showMessage(dllFile + tr(" could not be opened"));
 			delete lib;
 		}
 	}

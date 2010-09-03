@@ -16,16 +16,16 @@
 #include "sbml/Model.h"
 #include "sbml/Rule.h"
 //#include <boost/algorithm/string.hpp>
-extern "C"
-{
-	#include "cvodesim.h"
-	#include "ssa.h"
-}
 
 void sbml_rates_function(double t, double * y, double * rates, void * data);
 int sbml_event_function(int i, double t, double * y, void * data);
 void sbml_response_function(int i, double * y, void * data);
 
+#ifdef _WIN32
+#define SBML_SIM_EXPORT __declspec(dllexport)
+#else
+#define SBML_SIM_EXPORT
+#endif
 
 /*! \brief Simulation class for simulating SBML models (deterministic and stochastic). 
   Supports events. Functions are available for getting the assignment values, rate values, 
@@ -33,7 +33,7 @@ void sbml_response_function(int i, double * y, void * data);
   setting functions are also available.
  \ingroup simulation
 */
-class SBML_sim
+class SBML_SIM_EXPORT SBML_sim
 {
 public:
 	

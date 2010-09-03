@@ -258,7 +258,7 @@ fprintf(out, "\
 	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
-	tc_hist(data,1,\"Histogram\");\n\
+	tc_hist(data,\"Histogram\");\n\
 	deleteMatrix(&data);\n\
 	free(model);\n",time,maxsz,rateplot);
 
@@ -680,7 +680,7 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
-	tc_hist(data,1,\"Histogram\");\n\
+	tc_hist(data,\"Histogram\");\n\
 	deleteMatrix(&data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot);
 

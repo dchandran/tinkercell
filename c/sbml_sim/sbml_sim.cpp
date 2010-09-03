@@ -361,9 +361,9 @@ vector< vector<double> > SBML_sim::ssa(double time) const
 		
 	int sz;
 	double * y = SSA(n, reactionNames.size(), stoichiometryMatrix , &sbml_rates_function, y0, 0.0, time, 100000, &sz, (void*)this, triggerEqns.size(), sbml_event_function, sbml_response_function);
-	
+
 	vector< vector<double> > res;
-	
+
 	if (y)
 	{
 		for (int j=0; j <= n; ++j)
@@ -375,7 +375,7 @@ vector< vector<double> > SBML_sim::ssa(double time) const
 		}
 		free(y);
 	}
-	
+
 	free(y0);
 	return res;
 }

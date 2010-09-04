@@ -38,9 +38,9 @@ namespace Tinkercell
 			void displayText(ItemHandle*,const QString&);
 			void setLabelColor(QColor, QColor);
 		public slots:
-			void highlightItem(void*,const char *);
-			void displayText(void*,const char*);
-			void displayNumber(void*,double);
+			void highlightItem(int,const char *);
+			void displayText(int,const char*);
+			void displayNumber(int,double);
 			void setDisplayLabelColor(const char *, const char *);
 	};
 
@@ -73,9 +73,9 @@ namespace Tinkercell
 		QColor bgColor, textColor;
 		
 		static CLabelsTool_FToS fToS;
-		static void _highlightItem(void*,const char *);
-		static void _displayText(void*,const char*);
-		static void _displayNumber(void*,double);
+		static void _highlightItem(int,const char *);
+		static void _displayText(int,const char*);
+		static void _displayNumber(int,double);
 		static void _setDisplayLabelColor(const char *, const char *);
 	};
 

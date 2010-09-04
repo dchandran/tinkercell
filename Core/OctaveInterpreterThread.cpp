@@ -1,3 +1,4 @@
+
 /****************************************************************************
 
  Copyright (c) 2008 Deepak Chandran
@@ -20,10 +21,18 @@ The octave interpreter that runs as a separate thread and can accept strings to 
 namespace Tinkercell
 {
 	
-    OctaveInterpreterThread::OctaveInterpreterThread(const QString & dllname, MainWindow* main)
-        : InterpreterThread(dllname,main)
+    OctaveInterpreterThread::OctaveInterpreterThread(const QString& dir, const QString & dllname, MainWindow* main)
+        : InterpreterThread(dir + QObject::tr("/") + dllname,main), octaveFolder(dir)
     {
+		addpathDone = false;
     	f = 0;
+		connect(this,SIGNAL(setupSwigLibrary( QLibrary * )),mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )));
+		QLibrary * swig = CThread::loadLibrary(dir + tr("/tinkercell.oct"), mainWindow);
+		if (swig->isLoaded())
+			emit setupSwigLibrary(swig);
+	#ifdef Q_WS_WIN
+		octaveFolder.replace(tr("/"),tr("\\\\"));
+	#endif
     }
     
     void OctaveInterpreterThread::finalize()
@@ -42,7 +51,7 @@ namespace Tinkercell
             QDir::setCurrent(currentDir);
         }
     }
-    
+
     void OctaveInterpreterThread::initialize()
     {
         if (!mainWindow || !lib || !lib->isLoaded())
@@ -74,8 +83,6 @@ namespace Tinkercell
     {
         if (!lib || !lib->isLoaded() || code.isEmpty()) return;
        
-        static QString header;
-
         QString script;
 		
         if (!f)
@@ -83,20 +90,10 @@ namespace Tinkercell
 
         if (f)
         {
-        	if (header.isEmpty())
+        	if (!addpathDone)
         	{
-        	    QString appDir = QCoreApplication::applicationDirPath();
-        	    
-        		header = QObject::tr("addpath('");
-#ifdef Q_WS_WIN
-                appDir.replace(tr("/"),tr("\\\\"));
-				header += tr("\"") + appDir + tr("\"\\\\octave')\n");
-#else
-				header += appDir + tr("/octave')\n");
-#endif
-	        	header += QObject::tr("tinkercell('global')\n\n");
-	        	
-	        	script = header;
+	        	script = QObject::tr("addpath(\"") + octaveFolder + QObject::tr("\")\ntinkercell('global')\n");	        	
+	        	addpathDone = true;
 	        }
 			
 			script += code;

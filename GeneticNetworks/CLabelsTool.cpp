@@ -30,13 +30,9 @@ namespace Tinkercell
 		
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			
-			//connect(mainWindow,SIGNAL(historyChanged(int)),this,SLOT(historyChanged(int)));
-			
 			connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSignal(const QWidget*)));
-			//connect(mainWindow,SIGNAL(itemsSelected(GraphicsScene *, const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)),this,SLOT(itemsSelected(GraphicsScene *,const QList<QGraphicsItem*>&, QPointF, Qt::KeyboardModifiers)));
-			//connect(mainWindow,SIGNAL(keyReleased(GraphicsScene *, QKeyEvent *)),this,SLOT(keyPressed(GraphicsScene*, QKeyEvent *)));
+
 			connect(mainWindow,SIGNAL(mouseDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)),this,SLOT(sceneDoubleClicked(GraphicsScene*, QPointF, QGraphicsItem*, Qt::MouseButton, Qt::KeyboardModifiers)));
-			
 			
 			connect(&fToS,SIGNAL(displayText(ItemHandle*,const QString&)),this,SLOT(displayText(ItemHandle*,const QString&)));
 			connect(&fToS,SIGNAL(setLabelColor(QColor,QColor)),this,SLOT(setDisplayLabelColor(QColor,QColor)));
@@ -46,10 +42,10 @@ namespace Tinkercell
 	}
 	
 	typedef void (*tc_CLabelsTool_api)(
-		 void (*displayText)(void* item,String),
-		void (*displayNumber)(void* item,double),
+		 void (*displayText)(int item,const char*),
+		void (*displayNumber)(int item,double),
 		void (*setDisplayLabelColor)(const char *, const char *),
-		void (*highlight)(void*,const char*)
+		void (*highlight)(int,const char*)
 	);
 	
 	void CLabelsTool::historyChanged( int )
@@ -91,18 +87,18 @@ namespace Tinkercell
 	
 	void CLabelsTool::escapeSignal(const QWidget*)
 	{
-		if (!currentScene() || !currentScene()->useDefaultBehavior) 
+		if (!currentScene() || !currentScene()->useDefaultBehavior)
 			return;
 		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
 			clearLabels();
 	}
-	
+
 	void CLabelsTool::networkClosing(NetworkHandle * , bool *)
 	{
 		if (!textItems.isEmpty() || !rectItems.isEmpty() || !ellipseItems.isEmpty())
 			clearLabels();
 	}
-	
+
 	void CLabelsTool::clearLabels(ItemHandle * h)
 	{
 		if (textItems.isEmpty() && rectItems.isEmpty() && ellipseItems.isEmpty()) return;
@@ -257,12 +253,12 @@ namespace Tinkercell
 	
 	CLabelsTool_FToS CLabelsTool::fToS;
 	
-	void CLabelsTool::_displayText(void* o,const char* c)
+	void CLabelsTool::_displayText(int o,const char* c)
 	{
 		fToS.displayText(o,c);
 	}
 	
-	void CLabelsTool::_displayNumber(void* o,double d)
+	void CLabelsTool::_displayNumber(int o,double d)
 	{
 		fToS.displayNumber(o,d);
 	}
@@ -272,17 +268,17 @@ namespace Tinkercell
 		fToS.setDisplayLabelColor(a,b);
 	}
 	
-	void CLabelsTool::_highlightItem(void* o, const char * c)
+	void CLabelsTool::_highlightItem(int o, const char * c)
 	{
 		fToS.highlightItem(o,c);
 	}
 	
-	void CLabelsTool_FToS::displayText(void* o,const char* c)
+	void CLabelsTool_FToS::displayText(int o,const char* c)
 	{
 		emit displayText(ConvertValue(o),ConvertValue(c));
 	}
 	
-	void CLabelsTool_FToS::displayNumber(void* o,double d)
+	void CLabelsTool_FToS::displayNumber(int o,double d)
 	{
 		emit displayText(ConvertValue(o),QString::number(d));
 	}
@@ -292,7 +288,7 @@ namespace Tinkercell
 		emit setLabelColor(QColor(tr(c1)), QColor(tr(c2)));
 	}
 	
-	void CLabelsTool_FToS::highlightItem(void* o, const char* c)
+	void CLabelsTool_FToS::highlightItem(int o, const char* c)
 	{
 		emit highlightItem(ConvertValue(o),QColor(tr(c)));
 	}

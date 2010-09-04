@@ -168,34 +168,22 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/libtcoct"), mainWindow);
-			octaveInterpreter->initialize();
-
-			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
-			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
-			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
-
-			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
-			connect(this,SIGNAL(setupSwigLibrary( QLibrary * )),mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )));
 			
+			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
 			
-			QLibrary * swig = CThread::loadLibrary(appDir + tr("/octave/tinkercell.oct"), mainWindow);
-			if (swig->isLoaded())
-				emit setupFunctionPointers(swig);
+			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave"), tr("libtcoct"), mainWindow);
+			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
+			connect(octaveInterpreter,SIGNAL(finished()),this,SIGNAL(octaveFinished()));
+			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
 			
 			if (console())
 				console()->message(tr("Octave initializing (init.m) ...\n"));
-
-			#ifdef Q_WS_WIN
-			QString octdir = appDir.replace("/","\\\\") + tr("\\\\octave");
-			#else
-			QString octdir = appDir + tr("/octave");
-			#endif
 			
-			QString s;// = tr("addpath(\"")+octdir+tr("\")\n");
+			octaveInterpreter->initialize();
+			QString s;
 			
 			QFile file(appDir + tr("/octave/init.m"));
 			if (file.open(QFile::ReadOnly | QFile::Text))

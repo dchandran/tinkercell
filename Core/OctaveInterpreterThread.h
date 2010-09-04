@@ -1,3 +1,4 @@
+
 /****************************************************************************
  Copyright (c) 2008 Deepak Chandran
  Contact: Deepak Chandran (dchandran1@gmail.com)
@@ -24,7 +25,15 @@ namespace Tinkercell
 		typedef void (*finalFunc)();
 		
 	public:
-		OctaveInterpreterThread(const QString&, MainWindow* main);
+		/*! \brief initialize the thread that will embed and extend octave. 
+			The embed library is ASSUMED to be named tinkercell.oct
+		* \param QString folder where the two octave libraries are located
+		* \param QString name of the octave embed library
+		*/
+		OctaveInterpreterThread(const QString&, const QString&, MainWindow* main);
+
+	signals:	
+		void setupSwigLibrary( QLibrary * );
 
 	public slots:
 		virtual void initialize();
@@ -33,6 +42,8 @@ namespace Tinkercell
 	protected:
 		virtual void run();
 		execFunc f;
+		QString octaveFolder;
+		bool addpathDone;
 	};
 }
 

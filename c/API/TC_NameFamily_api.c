@@ -1,23 +1,23 @@
 #include "TC_NameFamily_api.h"
 
-ArrayOfStrings (*_tc_getAnnotation)(long) = 0;
+tc_strings (*_tc_getAnnotation)(long) = 0;
 /*! 
  \brief get annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
 */
-ArrayOfStrings tc_getAnnotation(long o)
+tc_strings tc_getAnnotation(long o)
 {
 	if (_tc_getAnnotation)
 		return _tc_getAnnotation(o);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-void (*_tc_setAnnotation)(long,ArrayOfStrings) = 0;
+void (*_tc_setAnnotation)(long,tc_strings) = 0;
 /*! 
  \brief set annotation for this item, i.e. family, author, descriptions, etc.
  \ingroup Annotation
 */
-void tc_setAnnotation(long o,ArrayOfStrings annot)
+void tc_setAnnotation(long o,tc_strings annot)
 {
 	if (_tc_setAnnotation)
 		_tc_setAnnotation(o,annot);
@@ -28,8 +28,8 @@ void tc_setAnnotation(long o,ArrayOfStrings annot)
  \ingroup init
 */
 void tc_NameFamily_api_initialize(
-	   ArrayOfStrings (*tc_getAnnotation0)(long),
-		void (*tc_setAnnotation0)(long,ArrayOfStrings)
+	   tc_strings (*tc_getAnnotation0)(long),
+		void (*tc_setAnnotation0)(long,tc_strings)
 	)
 {
 	_tc_getAnnotation = tc_getAnnotation0;

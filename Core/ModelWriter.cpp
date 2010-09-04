@@ -149,7 +149,7 @@ namespace Tinkercell
 
 				if (nkeys.size() > 0)
 				{
-					writer->writeStartElement("TableOfReals");
+					writer->writeStartElement("tc_matrix");
 					for (int i=0; i < nkeys.size(); ++i)
 					{
 						writer->writeStartElement("Table");
@@ -162,7 +162,7 @@ namespace Tinkercell
 
 				if (skeys.size() > 0)
 				{
-					writer->writeStartElement("TableOfStrings");
+					writer->writeStartElement("tc_table");
 					for (int i=0; i < skeys.size(); ++i)
 					{
 						writer->writeStartElement("Table");
@@ -186,7 +186,7 @@ namespace Tinkercell
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
+		writer->writeAttribute("rowNames",table.tc_getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
 		writer->writeAttribute("desc",table.description());
 
@@ -208,10 +208,10 @@ namespace Tinkercell
 	* \return void*/
 	void ModelWriter::writeDataTable(const DataTable<QString>& table, QXmlStreamWriter * writer)
 	{
-		//writeStartElement("TableOfStrings");
+		//writeStartElement("tc_table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
+		writer->writeAttribute("rowNames",table.tc_getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
 
 		QStringList values;

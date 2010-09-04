@@ -286,7 +286,7 @@ namespace Tinkercell
 				name = tr("row") + QString::number(n);
 			}
 		}
-		QStringList names = dataTable.getRowNames();
+		QStringList names = dataTable.tc_getRowNames();
 
 		while (names.contains(name))  //find a unique row name
 		{
@@ -363,7 +363,7 @@ namespace Tinkercell
 		tableWidget.clear();
 		tableWidget.setColumnCount(c);
 		tableWidget.setRowCount(r);
-		tableWidget.setVerticalHeaderLabels(dataTable.getRowNames());
+		tableWidget.setVerticalHeaderLabels(dataTable.tc_getRowNames());
 		tableWidget.setHorizontalHeaderLabels(dataTable.getColNames());
 
 		for (int i=0; i < dataTable.rows(); ++i)
@@ -446,7 +446,7 @@ namespace Tinkercell
 		{
 			double value = index.model()->data(index, Qt::EditRole).toDouble();
 			/*QDoubleSpinBox *spinBox = static_cast<QDoubleSpinBox*>(editor);
-			spinBox->setValue(value);*/
+			spinBox->tc_setMatrixValue(value);*/
 			QLineEdit * lineEdit = static_cast<QLineEdit*>(editor);
 			lineEdit->setText(QString::number(value));
 		}

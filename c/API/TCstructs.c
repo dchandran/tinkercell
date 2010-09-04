@@ -4,14 +4,14 @@
 
 #include "TCstructs.h"
 
-TableOfReals newMatrix(int rows, int cols)
+tc_matrix tc_createMatrix(int rows, int cols)
 {
 	int i;
-	TableOfReals M;
+	tc_matrix M;
 	M.rows = rows;
 	M.cols = cols;
-	M.colnames = newArrayOfStrings(cols);
-	M.rownames = newArrayOfStrings(rows);
+	M.colnames = tc_createStringsArray(cols);
+	M.rownames = tc_createStringsArray(rows);
 	
 	if (rows > 0 && cols > 0)
 	{
@@ -28,15 +28,15 @@ TableOfReals newMatrix(int rows, int cols)
 	return M;
 }
 
-TableOfStrings newTableOfStrings(int rows, int cols)
+tc_table tc_createTable(int rows, int cols)
 {
 	int i;
-	TableOfStrings M;
+	tc_table M;
 	M.rows = rows;
 	M.cols = cols;
 
-	M.colnames = newArrayOfStrings(cols);
-	M.rownames = newArrayOfStrings(rows);
+	M.colnames = tc_createStringsArray(cols);
+	M.rownames = tc_createStringsArray(rows);
 	if (rows > 0 && cols > 0)
 	{
 		M.strings = (char**)malloc( rows * cols * sizeof(char*) );
@@ -52,10 +52,10 @@ TableOfStrings newTableOfStrings(int rows, int cols)
 	return M;
 }
 
-ArrayOfStrings newArrayOfStrings(int len)
+tc_strings tc_createStringsArray(int len)
 {
 	int i;
-	ArrayOfStrings A;
+	tc_strings A;
 	if (len < 1)
 	{
 		A.length = 0;
@@ -71,10 +71,10 @@ ArrayOfStrings newArrayOfStrings(int len)
 	return A;
 }
 
-ArrayOfItems newArrayOfItems(int len)
+tc_items tc_createItemsArray(int len)
 {
 	int i;
-	ArrayOfItems A;
+	tc_items A;
 	if (len < 1)
 	{
 		A.length = 0;
@@ -89,47 +89,47 @@ ArrayOfItems newArrayOfItems(int len)
 	}
 	return A;
 }
-double getValue(TableOfReals M, int i, int j)
+double tc_getMatrixValue(tc_matrix M, int i, int j)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		return M.values[ i*M.cols + j ];
 	return 0.0;
 }
 
-void setValue(TableOfReals M, int i, int j, double d)
+void tc_setMatrixValue(tc_matrix M, int i, int j, double d)
 { 
 	if (i >= 0 && j >= 0 && i < M.rows && j < M.cols)
 		M.values[ i*M.cols + j ] = d;
 }
 
-const char * getRowName(TableOfReals M, int i)
+const char * tc_getRowName(tc_matrix M, int i)
 { 
-	return nthString(M.rownames,i);
+	return tc_getString(M.rownames,i);
 }
 
-void setRowName(TableOfReals M, int i, const char * s)
+void tc_setRowName(tc_matrix M, int i, const char * s)
 {
-	setNthString(M.rownames,i,s);
+	tc_setString(M.rownames,i,s);
 }
 
-const char * getColumnName(TableOfReals M, int i)
+const char * tc_getColumnName(tc_matrix M, int i)
 { 
-	return nthString(M.colnames,i);
+	return tc_getString(M.colnames,i);
 }
 
-void setColumnName(TableOfReals M, int i, const char * s)
+void tc_setColumnName(tc_matrix M, int i, const char * s)
 {
-	setNthString(M.colnames,i,s);
+	tc_setString(M.colnames,i,s);
 }
 
-const char* getString(TableOfStrings S, int i, int j)
+const char* tc_getTableValue(tc_table S, int i, int j)
 {
 	if (i >= 0 && j >= 0 && i < S.rows && j < S.cols)
 		return S.strings[ i*S.cols + j ];
 	return 0;
 }
 
-void setString(TableOfStrings S, int i, int j, const char * s)
+void tc_setTableValue(tc_table S, int i, int j, const char * s)
 {
 	int n=0;
 	char * str;
@@ -143,14 +143,14 @@ void setString(TableOfStrings S, int i, int j, const char * s)
 	}
 }
 
-const char* nthString(ArrayOfStrings S, int i)
+const char* tc_getString(tc_strings S, int i)
 {
 	if (i >= 0 && i < S.length)
 		return S.strings[ i ];
 	return 0;
 }
 
-void setNthString(ArrayOfStrings S, int i, const char * s)
+void tc_setString(tc_strings S, int i, const char * s)
 {
 	int n=0;
 	char * str;
@@ -164,44 +164,44 @@ void setNthString(ArrayOfStrings S, int i, const char * s)
 	}
 }
 
-long nthItem(ArrayOfItems A, int i)
+long tc_getItem(tc_items A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void setNthItem(ArrayOfItems A, int i, long o)
+void tc_setItem(tc_items A, int i, long o)
 {
 	if (i >= 0 && i < A.length)
 		A.items[ i ] = o;
 }
 
-void deleteMatrix(TableOfReals * M)
+void tc_deleteMatrix(tc_matrix * M)
 {
 	if (!M) return;
 	if (M->values)
 		free(M->values);
 	M->rows = M->cols = 0;	
 	M->values = 0;
-	deleteArrayOfStrings(&M->rownames);
-	deleteArrayOfStrings(&M->colnames);
+	tc_deleteStringsArray(&M->rownames);
+	tc_deleteStringsArray(&M->colnames);
 
 }
 
-void deleteTableOfStrings(TableOfStrings * M)
+void tc_deleteTable(tc_table * M)
 {
 	if (!M) return;
 	if (M->strings)
 		free(M->strings);
 	M->rows = M->cols = 0;
 	M->strings = 0;
-	deleteArrayOfStrings(&M->rownames);
-	deleteArrayOfStrings(&M->colnames);
+	tc_deleteStringsArray(&M->rownames);
+	tc_deleteStringsArray(&M->colnames);
 
 }
 
-void deleteArrayOfItems(ArrayOfItems * A)
+void tc_deleteItemsArray(tc_items * A)
 {
 	if (!A) return;
 	if (A->items) 
@@ -210,7 +210,7 @@ void deleteArrayOfItems(ArrayOfItems * A)
 	A->items = 0;
 }
 
-void deleteArrayOfStrings(ArrayOfStrings * C)
+void tc_deleteStringsArray(tc_strings * C)
 {
 	int i;
 	if (!C) return;
@@ -225,10 +225,10 @@ void deleteArrayOfStrings(ArrayOfStrings * C)
 	C->strings = 0;
 }
 
-TableOfReals cbind(TableOfReals A, TableOfReals B)
+tc_matrix tc_appendColumns(tc_matrix A, tc_matrix B)
 {
 	int i,j,k=0;
-	TableOfReals C;
+	tc_matrix C;
 	int fromA = 0, toA = A.cols, fromB = 0, toB = B.cols;
 
 	C.colnames.length = C.rownames.length = 0;
@@ -303,10 +303,10 @@ TableOfReals cbind(TableOfReals A, TableOfReals B)
 	return C;
 }
 
-TableOfReals rbind(TableOfReals A, TableOfReals B)
+tc_matrix tc_appendRows(tc_matrix A, tc_matrix B)
 {
 	int i,j,k=0;
-	TableOfReals C;
+	tc_matrix C;
 	int fromA = 0, toA = A.rows, fromB = 0, toB = B.rows;
 
 	C.colnames.strings = C.rownames.strings = 0;

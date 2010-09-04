@@ -13,42 +13,42 @@ TCAPIEXPORT void tc_main()
 void run()
 {
    int i,j,k;
-   ArrayOfItems A = tc_selectedItems(), parts;
+   tc_items A = tc_selectedItems(), parts;
    int numSteps = (int)(tc_getNumber("number of steps:\0"));
    const char* rxnname;
-   ArrayOfStrings partnames, rates;
-   TableOfReals newN;
-   ArrayOfItems flux = newArrayOfItems(1);
+   tc_strings partnames, rates;
+   tc_matrix newN;
+   tc_items flux = tc_createItemsArray(1);
    
    if (numSteps > 0) 
-	   for (i=0; nthItem(A,i)!=0; ++i)
+	   for (i=0; tc_getItem(A,i)!=0; ++i)
 	   {
-		    if (tc_isA( nthItem(A,i),"Connection"))
+		    if (tc_isA( tc_getItem(A,i),"Connection"))
 		    {
-		        parts = tc_getConnectedNodes( nthItem(A,i) );
-		        if (nthItem(parts,0) && nthItem(parts,1) && parts.length == 2)
+		        parts = tc_getConnectedNodes( tc_getItem(A,i) );
+		        if (tc_getItem(parts,0) && tc_getItem(parts,1) && parts.length == 2)
 		        {
-		        	newN = newMatrix(numSteps + 1,numSteps + 1);
+		        	newN = tc_createMatrix(numSteps + 1,numSteps + 1);
 		            
-					rxnname = tc_getUniqueName(nthItem(A,i));
+					rxnname = tc_getUniqueName(tc_getItem(A,i));
 	                partnames = tc_getUniqueNames(parts);
-	                setRowName(newN,0, nthString(partnames,0) );
-	                setRowName(newN,newN.rows-1,nthString(partnames,1));
+	                tc_setRowName(newN,0, tc_getString(partnames,0) );
+	                tc_setRowName(newN,newN.rows-1,tc_getString(partnames,1));
 					 
 	                 for (j=0; j < newN.rows; ++j)
 						 for (k=0; k < newN.cols; ++k)
-						        setValue(newN,j,k,0.0);
+						        tc_setMatrixValue(newN,j,k,0.0);
 				
 	                 for (k=0; k < newN.cols; ++k)
 	                 {
 						if ((k+1) < newN.rows)
 						{
-							setValue(newN,k,k,-1.0);														
-							setValue(newN,k+1,k,1.0);
+							tc_setMatrixValue(newN,k,k,-1.0);														
+							tc_setMatrixValue(newN,k+1,k,1.0);
 						}
 						else
 						{
-							setValue(newN,k-1,k,-1.0);
+							tc_setMatrixValue(newN,k-1,k,-1.0);
 						}
 					
 						newN.colnames.strings[k] = malloc(100 * sizeof(char));
@@ -60,31 +60,31 @@ void run()
 						}
 					
 						if ((k+1) < newN.rows)
-							sprintf(newN.colnames.strings[k], "%s.k0*%s\0",rxnname,getRowName(newN,k));
+							sprintf(newN.colnames.strings[k], "%s.k0*%s\0",rxnname,tc_getRowName(newN,k));
 						else
-							sprintf(newN.colnames.strings[k], "%s.leak*%s\0",rxnname,getRowName(newN,k-1));
+							sprintf(newN.colnames.strings[k], "%s.leak*%s\0",rxnname,tc_getRowName(newN,k-1));
 					
 					 }
-					 if (tc_isA( nthItem(parts,0),"Part\0") )
-						setValue(newN,0,0, 0.0);
-					 if ((tc_isA( nthItem(parts,1),"Terminator\0") || tc_isA( nthItem(parts,1),"Empty\0") )&& newN.cols > 2)
-						setValue(newN,newN.rows-1,newN.cols-2,0.0);
-					 tc_setParameter( nthItem(A,i),"k0",0.1);
-					 tc_setParameter( nthItem(A,i),"leak",0.01);
-	                 setNthItem(flux, 0, nthItem(A,i));
+					 if (tc_isA( tc_getItem(parts,0),"Part\0") )
+						tc_setMatrixValue(newN,0,0, 0.0);
+					 if ((tc_isA( tc_getItem(parts,1),"Terminator\0") || tc_isA( tc_getItem(parts,1),"Empty\0") )&& newN.cols > 2)
+						tc_setMatrixValue(newN,newN.rows-1,newN.cols-2,0.0);
+					 tc_setParameter( tc_getItem(A,i),"k0",0.1);
+					 tc_setParameter( tc_getItem(A,i),"leak",0.01);
+	                 tc_setItem(flux, 0, tc_getItem(A,i));
 	                 rates = newN.colnames;
-	                 newN.colnames = newArrayOfStrings(0);
+	                 newN.colnames = tc_createStringsArray(0);
 	                 tc_setStoichiometry(flux , newN);
 	                 newN.colnames = rates;
 					 tc_setRates(flux,rates);
-	                 deleteMatrix(&newN);
+	                 tc_deleteMatrix(&newN);
 		        }
-		        deleteArrayOfItems(&parts);
+		        tc_deleteItemsArray(&parts);
 		    }
    	}
 
-  deleteArrayOfItems(&A);
-  deleteArrayOfItems(&flux);
+  tc_deleteItemsArray(&A);
+  tc_deleteItemsArray(&flux);
 
   return; 
 }

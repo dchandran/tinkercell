@@ -1,11 +1,11 @@
 #include "TC_GroupHandlerTool_api.h"
 
-void (*_tc_merge)(ArrayOfItems parts) = 0;
+void (*_tc_merge)(tc_items parts) = 0;
 /*! 
  \brief merge an array of items
  \ingroup Merging
 */
-void tc_merge(ArrayOfItems parts)
+void tc_merge(tc_items parts)
 {
 	if (_tc_merge)
 		_tc_merge(parts);
@@ -26,7 +26,7 @@ void tc_separate(long part)
  \ingroup init
 */
 void tc_GroupHandlerTool_api(
-		void (*merge)(ArrayOfItems),
+		void (*merge)(tc_items),
 		void (*separate)(long)
 	)
 {

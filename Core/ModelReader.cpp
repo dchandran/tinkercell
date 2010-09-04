@@ -160,17 +160,17 @@ namespace Tinkercell
 
 		while (handle && !(isEndElement() && name() == "Handle"))
 		{
-			if (isStartElement() && name() == "TableOfReals")
+			if (isStartElement() && name() == "tc_matrix")
 			{
-				while (!(isEndElement() && name() == "TableOfReals"))
+				while (!(isEndElement() && name() == "tc_matrix"))
 				{
 					readRealsTable(handle);
 					readNext();
 				}
 			}
-			if (isStartElement() && name() == "TableOfStrings")
+			if (isStartElement() && name() == "tc_table")
 			{
-				while (!(isEndElement() && name() == "TableOfStrings"))
+				while (!(isEndElement() && name() == "tc_table"))
 				{
 					readStringsTable(handle);
 					readNext();

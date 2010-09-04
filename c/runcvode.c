@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "TC_api.h"
 
-void run(TableOfReals input);
+void run(tc_matrix input);
 void setup();
 
 TCAPIEXPORT void tc_main()
@@ -23,7 +23,7 @@ TCAPIEXPORT void tc_main()
 
 void setup()
 {
-	TableOfReals m;
+	tc_matrix m;
 	char * cols[] = { "value",0 };
 	char * rows[] = { "model", "time", "step size", "plot", "update model", "use sliders", 0 };
 	double values[] = { 0, 100, 0.1, 0, 1, 1 };
@@ -31,9 +31,9 @@ void setup()
 	char * options2[] = { "Variables", "Rates" };
 	char * options3[] = { "Yes", "No"};
 	FILE * file;
-	ArrayOfStrings a1 = {2,options1};
-	ArrayOfStrings a2 = {2,options2};
-	ArrayOfStrings a3 = {2,options3};
+	tc_strings a1 = {2,options1};
+	tc_strings a2 = {2,options2};
+	tc_strings a3 = {2,options3};
 
 	m.rows = m.rownames.length = 6;
 	if (tc_isMac())
@@ -55,9 +55,9 @@ void setup()
 	return;
 }
 
-void run(TableOfReals input)
+void run(tc_matrix input)
 {
-	ArrayOfItems A,B;
+	tc_items A,B;
 	FILE * out;
 	double start = 0.0, end = 50.0;
 	double dt = 0.1;
@@ -65,24 +65,24 @@ void run(TableOfReals input)
 	int rateplot = 0;
 	int slider = 1;
 	int i=0, sz = 0, k = 0, update = 1;
-	char * runfuncInput = "TableOfReals input";
+	char * runfuncInput = "tc_matrix input";
 	char * runfunc = "";
-	TableOfReals params, initVals, allParams, N;
+	tc_matrix params, initVals, allParams, N;
 	
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)getValue(input,0,0);
+			selection = (int)tc_getMatrixValue(input,0,0);
 		if (input.rows > 1)
-			end = getValue(input,1,0);
+			end = tc_getMatrixValue(input,1,0);
 		if (input.rows > 2)
-			dt = getValue(input,2,0);
+			dt = tc_getMatrixValue(input,2,0);
 		if (input.rows > 3)
-			rateplot = (int)getValue(input,3,0);
+			rateplot = (int)tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
-			update = (int)getValue(input,4,0);
+			update = (int)tc_getMatrixValue(input,4,0);
 		if (input.rows > 5)
-			slider = (int)getValue(input,5,0);
+			slider = (int)tc_getMatrixValue(input,5,0);
 	}
 	
 	if (end < 0) 
@@ -118,9 +118,9 @@ void run(TableOfReals input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (nthItem(A,0) == 0)
+		if (tc_getItem(A,0) == 0)
 		{
-			deleteArrayOfItems(&A);
+			tc_deleteItemsArray(&A);
 			tc_errorReport("No Model Selected\0");
 			return;
 		}
@@ -135,47 +135,47 @@ void run(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		tc_deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = tc_createMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
-			setRowName(allParams,i, getRowName(params,i));
-			setValue(allParams,i,0,getValue(params,i,0)/10.0);
-			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
+			tc_setRowName(allParams,i, tc_getRowName(params,i));
+			tc_setMatrixValue(allParams,i,0,tc_getMatrixValue(params,i,0)/10.0);
+			tc_setMatrixValue(allParams,i,1, 2*tc_getMatrixValue(params,i,0) - tc_getMatrixValue(allParams,i,0));
 		}
 		for (i=0; i < initVals.rows; ++i)
 		{
-			setRowName(allParams,i+params.rows, getRowName(initVals,i));
-			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
-			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
+			tc_setRowName(allParams,i+params.rows, tc_getRowName(initVals,i));
+			tc_setMatrixValue(allParams,i+params.rows,0,tc_getMatrixValue(initVals,i,0)/10.0);
+			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
-		deleteArrayOfItems(&B);
+		tc_deleteMatrix(&initVals);
+		tc_deleteMatrix(&params);
+		tc_deleteItemsArray(&B);
 		runfunc = runfuncInput;
 	}
 	
-	if (nthItem(A,0))
+	if (tc_getItem(A,0))
 	{
 		k = tc_writeModel( "ode", A );
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				tc_deleteMatrix(&allParams);
 			return;
 		}
 	}
 	else
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -184,9 +184,9 @@ void run(TableOfReals input)
 	
 	if (!out)
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file ode.c in user directory\0");
 		return;
 	}
@@ -225,9 +225,9 @@ TCAPIEXPORT void run(%s) \n\
 	int i,j;\n\
 	double mx=0;\n\
 	void * x;\n\
-	ArrayOfItems A;\n\
-	TableOfReals data, ss1, ss2;\n\
-	ArrayOfStrings names;\n\
+	tc_items A;\n\
+	tc_matrix data, ss1, ss2;\n\
+	tc_strings names;\n\
 	double * y, *y0;\n\
 	rates = malloc(TCreactions * sizeof(double));\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
@@ -237,7 +237,7 @@ TCAPIEXPORT void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = tc_getMatrixValue(input,%i,0);\n",tc_getRowName(allParams,i),i);
 }
 
 fprintf( out , "\
@@ -256,7 +256,7 @@ fprintf( out , "\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	A = tc_findItems(names);\n\
-	ss1 = ss2 = newMatrix(0,0);\n\
+	ss1 = ss2 = tc_createMatrix(0,0);\n\
 	ss1.values = TCgetVars(model);\n\
 	ss1.rows = TCvars;\n\
 	ss1.cols = 1;\n\
@@ -265,25 +265,25 @@ fprintf( out , "\
 	ss2.cols = 1;\n\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
-	   x = nthItem(A,i);\n\
-	   tc_displayNumber(x,getValue(ss1,i,0));\n\
+	   x = tc_getItem(A,i);\n\
+	   tc_displayNumber(x,tc_getMatrixValue(ss1,i,0));\n\
 	}\n\
 	if (%i)\n\
 	{\n\
 	   tc_setInitialValues(A,ss1);\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
+	tc_deleteItemsArray(&A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
-	   x = nthItem(A,i);\n\
-	   tc_displayNumber(x,getValue(ss2,i,0));\n\
+	   x = tc_getItem(A,i);\n\
+	   tc_displayNumber(x,tc_getMatrixValue(ss2,i,0));\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
-	deleteMatrix(&ss1);\n\
-	deleteMatrix(&ss2);\n\
+	tc_deleteItemsArray(&A);\n\
+	tc_deleteMatrix(&ss1);\n\
+	tc_deleteMatrix(&ss2);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	if (%i)\n\
@@ -297,20 +297,20 @@ fprintf( out , "\
 	}\n\
 	data.cols = 1+TCvars;\n\
 	data.values = y;\n\
-	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(data.cols);\n\
-	setColumnName(data,0,\"time\\0\");\n\
+	data.rownames = tc_createStringsArray(0);\n\
+	data.colnames = tc_createStringsArray(data.cols);\n\
+	tc_setColumnName(data,0,\"time\\0\");\n\
 	for (i=0; i<TCvars; ++i)\n\
 	{\n\
-		setColumnName(data,1+i,nthString(names,i));\n\
+		tc_setColumnName(data,1+i,tc_getString(names,i));\n\
 	}\n\
 	tc_plot(data,\"Time Course Simulation\");\n\
-	deleteMatrix(&data);\n\
+	tc_deleteMatrix(&data);\n\
 	free(model);\n", start, end, dt, sz, update, rateplot);
 	
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -319,7 +319,7 @@ fprintf( out , "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("ode.c -lode -lssa\0","run\0","Deterministic simulation\0",allParams);
-		deleteMatrix(&allParams);
+		tc_deleteMatrix(&allParams);
 	}
 
 	else

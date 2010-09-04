@@ -1,63 +1,63 @@
 #include "TC_ConnectionInsertion_api.h"
 
-long (*_tc_insertConnection)(ArrayOfItems parts, const char* name, const char* family) = 0;
+long (*_tc_insertConnection)(tc_items parts, const char* name, const char* family) = 0;
 /*! 
  \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
  \ingroup Connections
 */
-long tc_insertConnection(ArrayOfItems parts, const char* name, const char* family) 
+long tc_insertConnection(tc_items parts, const char* name, const char* family) 
 {
 	if (_tc_insertConnection)
 		return _tc_insertConnection(parts, name, family);
 	return 0;
 }
 
-ArrayOfItems (*_tc_getConnectedNodes)(long connection) = 0;
+tc_items (*_tc_getConnectedNodes)(long connection) = 0;
 /*! 
  \brief get the connected parts for a connection
  \ingroup Connections
 */
-ArrayOfItems tc_getConnectedNodes(long connection)
+tc_items tc_getConnectedNodes(long connection)
 {
 	if (_tc_getConnectedNodes)
 		return _tc_getConnectedNodes(connection);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_getConnectedNodesWithRole)(long connection, const char* role) = 0;
+tc_items (*_tc_getConnectedNodesWithRole)(long connection, const char* role) = 0;
 /*! 
  \brief get the parts with a role in a connection, such as reactants
  \ingroup Connections
 */
-ArrayOfItems tc_getConnectedNodesWithRole(long connection, const char* role)
+tc_items tc_getConnectedNodesWithRole(long connection, const char* role)
 {
 	if (_tc_getConnectedNodesWithRole)
 		return _tc_getConnectedNodesWithRole(connection,role);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_getConnections)(long part) = 0;
+tc_items (*_tc_getConnections)(long part) = 0;
 /*! 
  \brief get connections for a part
  \ingroup Connections
 */
-ArrayOfItems tc_getConnections(long part)
+tc_items tc_getConnections(long part)
 {
 	if (_tc_getConnections)
 		return _tc_getConnections(part);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_getConnectionsWithRole)(long part, const char* role) = 0;
+tc_items (*_tc_getConnectionsWithRole)(long part, const char* role) = 0;
 /*! 
  \brief get connections where the given part has the given role, e.g. reactant
  \ingroup Connections
 */
-ArrayOfItems tc_getConnectionsWithRole(long part, const char* role)
+tc_items tc_getConnectionsWithRole(long part, const char* role)
 {
 	if (_tc_getConnectionsWithRole)
 		return _tc_getConnectionsWithRole(part,role);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
 /*! 
@@ -65,11 +65,11 @@ ArrayOfItems tc_getConnectionsWithRole(long part, const char* role)
  \ingroup init
 */
 void tc_ConnectionInsertion_api(
-		long (*insertConnection)(ArrayOfItems, const char*,const char*),
-		ArrayOfItems (*getConnectedParts)(long),
-		ArrayOfItems (*getConnectedPartsWithRole)(long,const char*),
-		ArrayOfItems (*getConnections)(long),
-		ArrayOfItems (*getConnectionsWithRole)(long,const char*)
+		long (*insertConnection)(tc_items, const char*,const char*),
+		tc_items (*getConnectedParts)(long),
+		tc_items (*getConnectedPartsWithRole)(long,const char*),
+		tc_items (*getConnections)(long),
+		tc_items (*getConnectionsWithRole)(long,const char*)
 	)
 {
 	_tc_insertConnection = insertConnection;

@@ -24,14 +24,14 @@ TCAPIEXPORT void tc_importSBML(const char* file);
  \param double time increment (step size)
  \ingroup Simulation
 */
-TCAPIEXPORT TableOfReals tc_simulateODE(double time, double step_size);
+TCAPIEXPORT tc_matrix tc_simulateODE(double time, double step_size);
 
 /*!
  \brief load sbml model as string
  \param const char* sbml model file or string
  \ingroup Simulation
 */
-TCAPIEXPORT TableOfReals tc_simulateSSA(double time);
+TCAPIEXPORT tc_matrix tc_simulateSSA(double time);
 
 /*!
  \brief initializing function
@@ -40,8 +40,8 @@ TCAPIEXPORT TableOfReals tc_simulateSSA(double time);
 TCAPIEXPORT void tc_SBML_api(
 	void (*exportSBML)(const char*),
 	void (*importSBML)(const char*),
-	TableOfReals (*simulateODE)(double, double),
-	TableOfReals (*simulateSSA)(double));
+	tc_matrix (*simulateODE)(double, double),
+	tc_matrix (*simulateSSA)(double));
 
 END_C_DECLS
 #endif

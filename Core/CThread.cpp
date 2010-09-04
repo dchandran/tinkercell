@@ -273,7 +273,7 @@ namespace Tinkercell
 			layout->addWidget(progressbar);
 			progressbar->setRange(0,100);
 			cthreads << newThread;
-			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(setValue(int)));
+			connect(newThread,SIGNAL(progress(int)),progressbar,SLOT(tc_setMatrixValue(int)));
 		}
 
 		layout->addWidget(killButton);

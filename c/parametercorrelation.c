@@ -18,7 +18,7 @@ char selected_var2[100];
 char target_x_var[100];
 char target_y_var[100];
 
-void run(TableOfReals input);
+void run(tc_matrix input);
 void setup();
 
 TCAPIEXPORT void tc_main()
@@ -29,12 +29,12 @@ TCAPIEXPORT void tc_main()
 
 void setup()
 {
-	TableOfReals m;
+	tc_matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "var start", "var end", "parameter 1 start", "parameter 1 end", "parameter 2 start", "parameter 2 end", "increments size", 0 };
 	double values[] = { 0.0, 0.0, 10.0, 0.0, 10.0, 0.0, 10.0, 1.0 };
 	char * options1[] = { "Full model", "Selected only", 0 }; //null terminated -- very important 
-	ArrayOfStrings a1 = {2, options1};
+	tc_strings a1 = {2, options1};
 	m.rownames.length = m.rows = 8;
 	m.colnames.length = m.cols = 1;
 	m.colnames.strings = cols;
@@ -48,7 +48,7 @@ void setup()
 	return; 
 }
 
-void run(TableOfReals input) 
+void run(tc_matrix input) 
 {
 	double startx = 0.0, endx = 50.0, starty = 0.0, endy = 50.0, startvar = 0.0, endvar = 100.0;
 	double dx = 0.1, dy = 0.1, dvar = 5.0;
@@ -56,45 +56,45 @@ void run(TableOfReals input)
 	int index1 = 0, index2 = 1, index3 = 2, index4 = 3;
 	int minsz = 10, arraysz = 20;
 	int rateplot = 0;
-	ArrayOfItems A;
+	tc_items A;
 	int i, len;
-	TableOfReals params;
-	ArrayOfStrings names, allNames;
+	tc_matrix params;
+	tc_strings names, allNames;
 	char * param1, * param2, * target, * var;
 	FILE * out;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)getValue(input,0,0);
+			selection = (int)tc_getMatrixValue(input,0,0);
 		
 		if (input.rows > 1)
-			startvar = getValue(input,1,0);
+			startvar = tc_getMatrixValue(input,1,0);
 		if (input.rows > 2)
 		{
-			endvar = getValue(input,2,0);
+			endvar = tc_getMatrixValue(input,2,0);
 			dvar = (endvar - startvar)/((double)arraysz);
 		}
 			
 		if (input.rows > 3)
-			startx = getValue(input,3,0);
+			startx = tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
-			endx = getValue(input,4,0);
+			endx = tc_getMatrixValue(input,4,0);
 			
 		if (input.rows > 5)
-			starty = getValue(input,5,0);
+			starty = tc_getMatrixValue(input,5,0);
 		if (input.rows > 6)
-			endy = getValue(input,6,0);
+			endy = tc_getMatrixValue(input,6,0);
 		if (input.rows > 7)
-			dy = dx = getValue(input,7,0);
+			dy = dx = tc_getMatrixValue(input,7,0);
 	}
 
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (nthItem(A,0) == 0)
+		if (tc_getItem(A,0) == 0)
 		{
-			deleteArrayOfItems(&A);
+			tc_deleteItemsArray(&A);
 			A = tc_allItems();
 		}
 	}
@@ -104,13 +104,13 @@ void run(TableOfReals input)
 	}   
 
 
-	if (nthItem(A,0) != 0)
+	if (tc_getItem(A,0) != 0)
 	{
 		tc_writeModel( "corr", A );  //writes to ss2D.c and ss2D.py
 	}
 	else
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		return;  
 	}
 
@@ -119,38 +119,38 @@ void run(TableOfReals input)
 
 	len = names.length;
 
-	allNames = newArrayOfStrings(len+params.rows);
+	allNames = tc_createStringsArray(len+params.rows);
 
-	for (i=0; i < params.rows; ++i) setNthString(allNames,i,getRowName(params,i));
+	for (i=0; i < params.rows; ++i) tc_setString(allNames,i,tc_getRowName(params,i));
 
-	for (i=0; i < len; ++i) setNthString(allNames,i+params.rows,nthString(names,i));
+	for (i=0; i < len; ++i) tc_setString(allNames,i+params.rows,tc_getString(names,i));
 
-	index1 = tc_getStringFromList("Select First Parameter",allNames,selected_var1); 
+	index1 = tc_tc_getTableValueFromList("Select First Parameter",allNames,selected_var1); 
 	if (index1 >= 0)
-		index2 = tc_getStringFromList("Select Second Parameter",allNames,selected_var2);
+		index2 = tc_tc_getTableValueFromList("Select Second Parameter",allNames,selected_var2);
 	if (index1 >= 0 && index2 >= 0)
-		index3 = tc_getStringFromList("Select Variable for Steady State Analysis",allNames,target_x_var);
+		index3 = tc_tc_getTableValueFromList("Select Variable for Steady State Analysis",allNames,target_x_var);
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0 &&
 		(index1 == index2 || index1 == index3 || index2 == index3))
 	
 	{
-		deleteArrayOfItems(&A);   
-		deleteMatrix(&params);
+		tc_deleteItemsArray(&A);   
+		tc_deleteMatrix(&params);
 		tc_errorReport("Correlation Text: cannot choose the same variable twice\0");
 		return;
 	}
 	
 	if (index1 >= 0 && index2 >= 0 && index3 >= 0)
-		index4 = tc_getStringFromList("Select Target for Steady State Analysis",names,target_y_var);
+		index4 = tc_tc_getTableValueFromList("Select Target for Steady State Analysis",names,target_y_var);
 
-	deleteArrayOfItems(&A);   
+	tc_deleteItemsArray(&A);   
 
 	if (index1 < 0 || index1 >= (params.rows+len) || 
 		index2 < 0 || index2 >= (params.rows+len) || 
 		index3 < 0 || index3 >= (params.rows+len) ||
 		index4 < 0 || index4 > len)
 	{
-		deleteMatrix(&params);
+		tc_deleteMatrix(&params);
 		tc_print("Correlation Text: no valid variable selected\0");
 		return;
 	}
@@ -171,7 +171,7 @@ void run(TableOfReals input)
 	fprintf( out , "#include \"TC_api.h\"\n#include \"cvodesim.h\"\n#include \"correlation.c\"\n\n\
 				   TCAPIEXPORT void run() \n\
 				   {\n\
-					TableOfReals dat;\n\
+					tc_matrix dat;\n\
 					int i,j,k;\n" );
 
 	fprintf( out, "   \
@@ -191,7 +191,7 @@ void run(TableOfReals input)
 				  endx,startx,dx,endy,starty,dy,param1,param2);
 
 	fprintf( out, "\n\
-					TableOfReals ss;\n\
+					tc_matrix ss;\n\
 					double * __Y = (double*)malloc(%i * sizeof(double));\n\
 					ss.rows = %i;\n\
 					ss.cols = 2;\n\
@@ -260,9 +260,9 @@ void run(TableOfReals input)
 
 	tc_compileBuildLoad("corr.c -lode\0","run\0","2-Parameter Correlation Test\0");
 
-	deleteArrayOfStrings(&allNames);
-	deleteArrayOfStrings(&names);
-	deleteMatrix(&params);
+	tc_deleteStringsArray(&allNames);
+	tc_deleteStringsArray(&names);
+	tc_deleteMatrix(&params);
 	return;  
 }
 

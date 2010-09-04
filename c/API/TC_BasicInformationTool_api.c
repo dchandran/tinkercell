@@ -1,64 +1,64 @@
 #include "TC_BasicInformationTool_api.h"
 
-TableOfReals (*_tc_getParameters)(ArrayOfItems) = 0;
+tc_matrix (*_tc_getParameters)(tc_items) = 0;
 /*! 
  \brief get all the parameters
  \ingroup Attributes
 */
-TableOfReals tc_getParameters(ArrayOfItems a)
+tc_matrix tc_getParameters(tc_items a)
 {
 	if (_tc_getParameters)
 		return _tc_getParameters(a);
 
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-TableOfReals (*_tc_getInitialValues)(ArrayOfItems) = 0;
+tc_matrix (*_tc_getInitialValues)(tc_items) = 0;
 /*! 
  \brief get initial values of the given items. Fixed varianbles are included.
  \ingroup Attributes
 */
-TableOfReals tc_getInitialValues(ArrayOfItems a)
+tc_matrix tc_getInitialValues(tc_items a)
 {
 	if (_tc_getInitialValues)
 		return _tc_getInitialValues(a);
 		
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-void (*_tc_setInitialValues)(ArrayOfItems items,TableOfReals values) = 0;
+void (*_tc_setInitialValues)(tc_items items,tc_matrix values) = 0;
 /*! 
  \brief set initial values of the given items. 
  \ingroup Attributes
 */
-void tc_setInitialValues(ArrayOfItems items,TableOfReals values)
+void tc_setInitialValues(tc_items items,tc_matrix values)
 {
 	if (_tc_setInitialValues)
 		_tc_setInitialValues(items,values);
 }
 
-TableOfReals (*_tc_getFixedVariables)(ArrayOfItems) = 0;
+tc_matrix (*_tc_getFixedVariables)(tc_items) = 0;
 /*! 
  \brief get all fixed variables
  \ingroup Attributes
 */
-TableOfReals tc_getFixedVariables(ArrayOfItems a)
+tc_matrix tc_getFixedVariables(tc_items a)
 {
 	if (_tc_getFixedVariables)
 		return _tc_getFixedVariables(a);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-TableOfReals (*_tc_getParametersAndFixedVariables)(ArrayOfItems) = 0;
+tc_matrix (*_tc_getParametersAndFixedVariables)(tc_items) = 0;
 /*! 
  \brief get all the parameters and fixed variables
  \ingroup Attributes
 */
-TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a)
+tc_matrix tc_getParametersAndFixedVariables(tc_items a)
 {
 	if (_tc_getParametersAndFixedVariables)
 		return _tc_getParametersAndFixedVariables(a);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
 const char* (*_tc_getTextAttribute)(long item,const char* attribute) = 0;
@@ -85,40 +85,40 @@ double tc_getParameter(long item,const char* attribute)
 	return 0.0;
 }
 
-TableOfReals (*_tc_getParametersNamed)(ArrayOfItems,ArrayOfStrings attibutes) = 0;
+tc_matrix (*_tc_getParametersNamed)(tc_items,tc_strings attibutes) = 0;
 /*! 
  \brief get all numerical attributes with the given names for the given items
  \ingroup Attributes
 */
-TableOfReals tc_getParametersNamed(ArrayOfItems a,ArrayOfStrings attibutes)
+tc_matrix tc_getParametersNamed(tc_items a,tc_strings attibutes)
 {
 	if (_tc_getParametersNamed)
 		return _tc_getParametersNamed(a,attibutes);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-TableOfReals (*_tc_getParametersExcept)(ArrayOfItems,ArrayOfStrings attributes) = 0;
+tc_matrix (*_tc_getParametersExcept)(tc_items,tc_strings attributes) = 0;
 /*! 
  \brief get all numerical attributes EXCEPT the given names
  \ingroup Attributes
 */
-TableOfReals tc_getParametersExcept(ArrayOfItems a,ArrayOfStrings attributes)
+tc_matrix tc_getParametersExcept(tc_items a,tc_strings attributes)
 {
 	if (_tc_getParametersExcept)
 		return _tc_getParametersExcept(a,attributes);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-ArrayOfStrings (*_tc_getAllTextNamed)(ArrayOfItems,ArrayOfStrings attributes) = 0;
+tc_strings (*_tc_getAllTextNamed)(tc_items,tc_strings attributes) = 0;
 /*! 
  \brief get all text attributes with the given name for the given items
  \ingroup Attributes
 */
-ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings attributes)
+tc_strings tc_getAllTextNamed(tc_items a,tc_strings attributes)
 {
 	if (_tc_getAllTextNamed)
 		return _tc_getAllTextNamed(a,attributes);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
 void (*_tc_setTextAttribute)(long item,const char* attribute,const char* value) = 0;
@@ -149,7 +149,7 @@ void tc_setParameter(long item,const char* attribute,double value)
 */
 void tc_BasicInformationTool_Text_api(
 		const char* (*getTextData)(long ,const char* ),
-		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
+		tc_strings (*getAllTextDataNamed)(tc_items,tc_strings),
 		void (*setTextData)(long ,const char* ,const char* ))
 {
 	_tc_getTextAttribute = getTextData;
@@ -158,14 +158,14 @@ void tc_BasicInformationTool_Text_api(
 }
 
 void tc_BasicInformationTool_Numeric_api(
-		TableOfReals (*getInitialValues)(ArrayOfItems ),
-		void (*setInitialValues)(ArrayOfItems,TableOfReals),
-		TableOfReals (*getParameters)(ArrayOfItems ),
-		TableOfReals (*getFixedVariabes)(ArrayOfItems),
-		TableOfReals (*getParametersAndFixedVariabes)(ArrayOfItems ),
+		tc_matrix (*getInitialValues)(tc_items ),
+		void (*setInitialValues)(tc_items,tc_matrix),
+		tc_matrix (*getParameters)(tc_items ),
+		tc_matrix (*getFixedVariabes)(tc_items),
+		tc_matrix (*getParametersAndFixedVariabes)(tc_items ),
 		double (*getNumericalData)(long ,const char* ),
-		TableOfReals (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
-		TableOfReals (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
+		tc_matrix (*getParametersNamed)(tc_items,tc_strings),
+		tc_matrix (*getParametersExcept)(tc_items,tc_strings),
 		void (*setNumericalData)(long ,const char* ,double )
 	)
 {

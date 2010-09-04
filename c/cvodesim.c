@@ -148,7 +148,7 @@ static void odeFunc( double time, double * u, double * du, void * udata )
 {
    int i,j;
    ODEsim2Struct * s = (ODEsim2Struct*)udata;
-   double * StoichiometryTableOfReals = s->N;
+   double * Stoichiometrytc_matrix = s->N;
    double * rates = s->rates;
    int numReactions = s->numReactions;
    int numVars = s->numVars;
@@ -164,8 +164,8 @@ static void odeFunc( double time, double * u, double * du, void * udata )
       du[i] = 0;
       for (j=0; j < numReactions; ++j)
       {
-         if (StoichiometryTableOfReals[numReactions*i + j] != 0)
-            du[i] += rates[j]*StoichiometryTableOfReals[numReactions*i + j];
+         if (Stoichiometrytc_matrix[numReactions*i + j] != 0)
+            du[i] += rates[j]*Stoichiometrytc_matrix[numReactions*i + j];
        }
    }
 }

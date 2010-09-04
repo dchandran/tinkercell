@@ -1,27 +1,27 @@
 #include "TC_EventsAssignments_api.h"
 
-ArrayOfStrings (*_tc_getEventTriggers)() = 0;
+tc_strings (*_tc_getEventTriggers)() = 0;
 /*! 
  \brief get the event triggers for a set of items
  \ingroup Events and forcing functions
 */
-ArrayOfStrings tc_getEventTriggers()
+tc_strings tc_getEventTriggers()
 {
 	if (_tc_getEventTriggers)
 		return _tc_getEventTriggers();
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-ArrayOfStrings (*_tc_getEventResponses)() = 0;
+tc_strings (*_tc_getEventResponses)() = 0;
 /*! 
  \brief get the event responses for a set of items
  \ingroup Events and forcing functions
 */
-ArrayOfStrings tc_getEventResponses()
+tc_strings tc_getEventResponses()
 {
 	if (_tc_getEventResponses)
 		return _tc_getEventResponses();
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
 void (*_tc_addEvent)(const char* trigger, const char* event) = 0;
@@ -40,8 +40,8 @@ void tc_addEvent(const char* trigger, const char* event)
  \ingroup init
 */
 void tc_SimulationEventsTool_api(
-		ArrayOfStrings (*getEventTriggers)(),
-		 ArrayOfStrings (*getEventResponses)(),
+		tc_strings (*getEventTriggers)(),
+		 tc_strings (*getEventResponses)(),
 		 void (*addEvent)(const char*, const char*)
 	)
 {
@@ -50,28 +50,28 @@ void tc_SimulationEventsTool_api(
 	_tc_addEvent = addEvent;
 }
 
-ArrayOfStrings (*_tc_getForcingFunctionNames)(ArrayOfItems) = 0;
+tc_strings (*_tc_getForcingFunctionNames)(tc_items) = 0;
 /*! 
  \brief get the forcing function names for a set of items
  \ingroup Events and forcing functions
 */
-ArrayOfStrings tc_getForcingFunctionNames(ArrayOfItems a)
+tc_strings tc_getForcingFunctionNames(tc_items a)
 {
 	if (_tc_getForcingFunctionNames)
 		return _tc_getForcingFunctionNames(a);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-ArrayOfStrings (*_tc_getForcingFunctionAssignments)(ArrayOfItems) = 0;
+tc_strings (*_tc_getForcingFunctionAssignments)(tc_items) = 0;
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Events and forcing functions
 */
-ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a)
+tc_strings tc_getForcingFunctionAssignments(tc_items a)
 {
 	if (_tc_getForcingFunctionAssignments)
 		return _tc_getForcingFunctionAssignments(a);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
 void (*_tc_addForcingFunction)(long item,const char* functionName, const char* assignmentRule) = 0;
@@ -90,8 +90,8 @@ void tc_addForcingFunction(long item,const char* functionName, const char* assig
  \ingroup init
 */
 void tc_AssignmentFunctionsTool_api(
-		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
-		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
+		tc_strings (*getForcingFunctionNames)(tc_items),
+		 tc_strings (*getForcingFunctionAssignments)(tc_items),
 		 void (*addForcingFunction)(long,const char*, const char*)
 	)
 {

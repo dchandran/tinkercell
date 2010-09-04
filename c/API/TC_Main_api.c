@@ -1,51 +1,51 @@
 #include "TC_Main_api.h"
 
-ArrayOfItems (*_tc_allItems)() = 0;
+tc_items (*_tc_allItems)() = 0;
 /*! 
  \brief get all visible items
  \ingroup Get items
 */
-ArrayOfItems tc_allItems()
+tc_items tc_allItems()
 {
 	if (_tc_allItems)
 		return _tc_allItems();
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_selectedItems)() = 0;
+tc_items (*_tc_selectedItems)() = 0;
 /*! 
  \brief get all selected items
  \ingroup Get items
 */
-ArrayOfItems tc_selectedItems()
+tc_items tc_selectedItems()
 {
 	if (_tc_selectedItems)
 		return _tc_selectedItems();
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_itemsOfFamily)(const char* family) = 0;
+tc_items (*_tc_itemsOfFamily)(const char* family) = 0;
 /*!
  \brief get all items of the given family items
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamily(const char* family)
+tc_items tc_itemsOfFamily(const char* family)
 {
 	if (_tc_itemsOfFamily)
 		return _tc_itemsOfFamily(family);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
-ArrayOfItems (*_tc_itemsOfFamilyFrom)(const char* family, ArrayOfItems itemsToSelectFrom) = 0;
+tc_items (*_tc_itemsOfFamilyFrom)(const char* family, tc_items itemsToSelectFrom) = 0;
 /*! 
  \brief get subset of items that belong to the given family
  \ingroup Get items
 */
-ArrayOfItems tc_itemsOfFamilyFrom(const char* family, ArrayOfItems itemsToSelectFrom)
+tc_items tc_itemsOfFamilyFrom(const char* family, tc_items itemsToSelectFrom)
 {
 	if (_tc_itemsOfFamilyFrom)
 		return _tc_itemsOfFamilyFrom(family,itemsToSelectFrom);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
 long (*_tc_find)(const char* fullname) = 0;
@@ -60,16 +60,16 @@ long tc_find(const char* fullname)
 	return 0;
 }
 
-ArrayOfItems (*_tc_findItems)(ArrayOfStrings names) = 0;
+tc_items (*_tc_findItems)(tc_strings names) = 0;
 /*! 
  \brief get all items with the given names (full names)
  \ingroup Get items
 */
-ArrayOfItems tc_findItems(ArrayOfStrings names)
+tc_items tc_findItems(tc_strings names)
 {
 	if (_tc_findItems)
 		return _tc_findItems(names);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
 void (*_tc_select)(long item) = 0;
@@ -129,28 +129,28 @@ void tc_rename(long item,const char* name)
 		_tc_rename(item,name);
 }
 
-ArrayOfStrings (*_tc_getNames)(ArrayOfItems items) = 0;
+tc_strings (*_tc_getNames)(tc_items items) = 0;
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
 */
-ArrayOfStrings tc_getNames(ArrayOfItems items)
+tc_strings tc_getNames(tc_items items)
 {
 	if (_tc_getNames)
 		return _tc_getNames(items);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-ArrayOfStrings (*_tc_getUniqueNames)(ArrayOfItems items) = 0;
+tc_strings (*_tc_getUniqueNames)(tc_items items) = 0;
 /*! 
  \brief get the full names of several items
  \ingroup Annotation
 */
-ArrayOfStrings tc_getUniqueNames(ArrayOfItems items)
+tc_strings tc_getUniqueNames(tc_items items)
 {
 	if (_tc_getUniqueNames)
 		return _tc_getUniqueNames(items);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
 
@@ -200,12 +200,12 @@ void tc_errorReport(const char* text)
 		_tc_errorReport(text);
 }
 
-void (*_tc_printTable)(TableOfReals data) = 0;
+void (*_tc_printTable)(tc_matrix data) = 0;
 /*! 
  \brief show table in the output window.
  \ingroup Input and Output
 */
-void tc_printTable(TableOfReals data)
+void tc_printTable(tc_matrix data)
 {
 	if (_tc_printTable)
 		_tc_printTable(data);
@@ -269,16 +269,16 @@ double tc_getX(long item)
 	return 0.0;
 }
 
-TableOfReals (*_tc_getPos)(ArrayOfItems items) = 0;
+tc_matrix (*_tc_getPos)(tc_items items) = 0;
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
  \ingroup Appearance
 */
-TableOfReals tc_getPos(ArrayOfItems items)
+tc_matrix tc_getPos(tc_items items)
 {
 	if (_tc_getPos)
 		return _tc_getPos(items);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
 void (*_tc_setPos)(long item,double x,double y) = 0;
@@ -292,12 +292,12 @@ void tc_setPos(long item,double x,double y)
 		_tc_setPos(item,x,y);
 }
 
-void (*_tc_setPosMulti)(ArrayOfItems items, TableOfReals positions) = 0;
+void (*_tc_setPosMulti)(tc_items items, tc_matrix positions) = 0;
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
  \ingroup Appearance
 */
-void tc_setPosMulti(ArrayOfItems items, TableOfReals positions)
+void tc_setPosMulti(tc_items items, tc_matrix positions)
 {
 	if (_tc_setPosMulti && items.length > 0 && items.items && positions.rows == items.length)
 		_tc_setPosMulti(items,positions);
@@ -362,34 +362,34 @@ const char* tc_appDir()
 	return 0;
 }
 
-void (*_tc_createInputWindowFromFile)(TableOfReals input, const char* filename,const char* functionname, const char* title) = 0;
+void (*_tc_createInputWindowFromFile)(tc_matrix input, const char* filename,const char* functionname, const char* title) = 0;
 /*! 
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindowFromFile(TableOfReals input, const char* filename,const char* functionname, const char* title)
+void tc_createInputWindowFromFile(tc_matrix input, const char* filename,const char* functionname, const char* title)
 {
 	if (_tc_createInputWindowFromFile)
 		_tc_createInputWindowFromFile(input,filename,functionname,title);
 }
 
-void (*_tc_createInputWindow)(TableOfReals, const char* title, void (*f)(TableOfReals)) = 0;
+void (*_tc_createInputWindow)(tc_matrix, const char* title, void (*f)(tc_matrix)) = 0;
 /*!
  \brief create an input window that can call a dynamic library
  \ingroup Input and Output
 */
-void tc_createInputWindow(TableOfReals input, const char* title, void (*f)(TableOfReals))
+void tc_createInputWindow(tc_matrix input, const char* title, void (*f)(tc_matrix))
 {
 	if (_tc_createInputWindow)
 		_tc_createInputWindow(input,title,f);
 }
 
-void (*_tc_addInputWindowOptions)(const char*, int i, int j, ArrayOfStrings) = 0;
+void (*_tc_addInputWindowOptions)(const char*, int i, int j, tc_strings) = 0;
 /*! 
  \brief add options to an existing input window at the i,j-th cell. Options will appear in a list
  \ingroup Input and Output
 */
-void tc_addInputWindowOptions(const char* title, int i, int j, ArrayOfStrings options)
+void tc_addInputWindowOptions(const char* title, int i, int j, tc_strings options)
 {
 	if (_tc_addInputWindowOptions)
 		_tc_addInputWindowOptions(title,i,j,options);
@@ -417,16 +417,16 @@ void tc_openNewWindow(const char* title)
 		_tc_openNewWindow(title);
 }
 
-ArrayOfItems (*_tc_getChildren)(long) = 0;
+tc_items (*_tc_getChildren)(long) = 0;
 /*! 
  \brief get child items of the given item
  \ingroup Get items
 */
-ArrayOfItems tc_getChildren(long o)
+tc_items tc_getChildren(long o)
 {
 	if (_tc_getChildren)
 		return _tc_getChildren(o);
-	return newArrayOfItems(0);
+	return tc_createItemsArray(0);
 }
 
 long (*_tc_getParent)(long) = 0;
@@ -441,75 +441,75 @@ long tc_getParent(long o)
 	return 0;
 }
 
-TableOfReals (*_tc_getNumericalData)(long item,const char* data) = 0;
+tc_matrix (*_tc_getNumericalData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
 */
-TableOfReals tc_getNumericalData(long item,const char* data)
+tc_matrix tc_getNumericalData(long item,const char* data)
 {
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-void (*_tc_setNumericalData)(long,const char*,TableOfReals) = 0;
+void (*_tc_setNumericalData)(long,const char*,tc_matrix) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
 */
-void tc_setNumericalData(long o,const char* title,TableOfReals data)
+void tc_setNumericalData(long o,const char* title,tc_matrix data)
 {
 	if (_tc_setNumericalData)
 		_tc_setNumericalData(o, title, data);
 }
 
-TableOfStrings (*_tc_getTextData)(long item,const char* data) = 0;
+tc_table (*_tc_getTextData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-TableOfStrings tc_getTextData(long item,const char* data)
+tc_table tc_getTextData(long item,const char* data)
 {
 	if (_tc_getTextData)
 		return _tc_getTextData(item,data);
-	return newTableOfStrings(0,0);
+	return tc_createTable(0,0);
 }
 
-void (*_tc_setTextData)(long,const char*,TableOfStrings) = 0;
+void (*_tc_setTextData)(long,const char*,tc_table) = 0;
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-void tc_setTextData(long o,const char* title,TableOfStrings data)
+void tc_setTextData(long o,const char* title,tc_table data)
 {
 	if (_tc_setTextData)
 		_tc_setTextData(o, title, data);
 }
 
 
-ArrayOfStrings (*_tc_getNumericalDataNames)(long) = 0;
+tc_strings (*_tc_getNumericalDataNames)(long) = 0;
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-ArrayOfStrings tc_getNumericalDataNames(long o)
+tc_strings tc_getNumericalDataNames(long o)
 {
 	if (_tc_getNumericalDataNames)
 		return _tc_getNumericalDataNames(o);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-ArrayOfStrings (*_tc_getTextDataNames)(long) = 0;
+tc_strings (*_tc_getTextDataNames)(long) = 0;
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-ArrayOfStrings tc_getTextDataNames(long o)
+tc_strings tc_getTextDataNames(long o)
 {
 	if (_tc_getTextDataNames)
 		return _tc_getTextDataNames(o);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
 void (*_tc_zoom)(double factor) = 0;
@@ -523,15 +523,15 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
-const char* (*_tc_getString)(const char* title) = 0;
+const char* (*_tc_tc_getTableValue)(const char* title) = 0;
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Input and Output
 */
-const char* tc_getString(const char* title)
+const char* tc_tc_getTableValue(const char* title)
 {
-	if (_tc_getString)
-		return _tc_getString(title);
+	if (_tc_tc_getTableValue)
+		return _tc_tc_getTableValue(title);
 	return 0;
 }
 
@@ -547,15 +547,15 @@ const char* tc_getFilename()
 	return 0;
 }
 
-int (*_tc_getStringFromList)(const char* title, ArrayOfStrings list,const char* selectedString) = 0;
+int (*_tc_tc_getTableValueFromList)(const char* title, tc_strings list,const char* selectedString) = 0;
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-int tc_getStringFromList(const char* title, ArrayOfStrings list,const char* selectedString)
+int tc_tc_getTableValueFromList(const char* title, tc_strings list,const char* selectedString)
 {
-	if (_tc_getStringFromList)
-		return _tc_getStringFromList(title,list,selectedString);
+	if (_tc_tc_getTableValueFromList)
+		return _tc_tc_getTableValueFromList(title,list,selectedString);
 	return 0;
 }
 
@@ -571,12 +571,12 @@ double tc_getNumber(const char* title)
 	return 0.0;
 }
 
-void (*_tc_getNumbers)(ArrayOfStrings labels, double* result) = 0;
+void (*_tc_getNumbers)(tc_strings labels, double* result) = 0;
 /*! 
  \brief get a list of numbers from the user (dialog) into the argument array
  \ingroup Input and Output
 */
-void tc_getNumbers(ArrayOfStrings labels, double* result)
+void tc_getNumbers(tc_strings labels, double* result)
 {
 	if (_tc_getNumbers && result)
 		_tc_getNumbers(labels,result);
@@ -619,12 +619,12 @@ long tc_thisThread()
 }
 
 
-void (*_tc_createSliders)(long, TableOfReals, void (*f)(TableOfReals)) = 0;
+void (*_tc_createSliders)(long, tc_matrix, void (*f)(tc_matrix)) = 0;
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
 */
-void tc_createSliders(TableOfReals input, void (*f)(TableOfReals))
+void tc_createSliders(tc_matrix input, void (*f)(tc_matrix))
 {
 	if (_tc_createSliders && _cthread_ptr)
 		_tc_createSliders(_cthread_ptr, input,f);
@@ -739,36 +739,36 @@ void tc_changeArrowHead(long connection,const char* filename)
  \ingroup init
 */
 void tc_Main_api_initialize(
-	    ArrayOfItems (*tc_allItems0)(),
-		ArrayOfItems (*tc_selectedItems0)(),
-		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
-		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
+	    tc_items (*tc_allItems0)(),
+		tc_items (*tc_selectedItems0)(),
+		tc_items (*tc_itemsOfFamily0)(const char*),
+		tc_items (*tc_itemsOfFamily1)(const char*, tc_items),
 		long (*tc_find0)(const char*),
 
-		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
+		tc_items (*tc_findItems0)(tc_strings),
 		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),
 		const char* (*tc_getUniqueName0)(long),
 		void (*tc_setName0)(long item,const char* name),
-		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
+		tc_strings (*tc_getNames0)(tc_items),
+		tc_strings (*tc_getUniqueNames0)(tc_items),
 		const char* (*tc_getFamily0)(long),
 		int (*tc_isA0)(long,const char*),
 
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
 		void (*tc_errorReport0)(const char*),
-		void (*tc_outputTable0)(TableOfReals),
+		void (*tc_outputTable0)(tc_matrix),
 		void (*tc_printFile0)(const char*),
 
 		void (*tc_removeItem0)(long),
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),
-		TableOfReals (*tc_getPos0)(ArrayOfItems),
+		tc_matrix (*tc_getPos0)(tc_items),
 		void (*tc_setPos0)(long,double,double),
-		void (*tc_setPos1)(ArrayOfItems,TableOfReals),
+		void (*tc_setPos1)(tc_items,tc_matrix),
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
@@ -776,31 +776,31 @@ void tc_Main_api_initialize(
 		int (*tc_isLinux0)(),
 		const char* (*tc_appDir0)(),
 		
-		void (*tc_createInputWindow0)(TableOfReals,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(TableOfReals, const char*, void (*f)(TableOfReals)),
-		void (*createSliders0)(long, TableOfReals, void (*f)(TableOfReals)),
+		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
+        void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
+		void (*createSliders0)(long, tc_matrix, void (*f)(tc_matrix)),
 		
-		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
+		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const const char* title),
 		
-		ArrayOfItems (*tc_getChildren0)(long),
+		tc_items (*tc_getChildren0)(long),
 		long (*tc_getParent0)(long),
 		
-		TableOfReals (*tc_getNumericalData0)(long,const char*),
-		void (*tc_setNumericalData0)(long,const char*,TableOfReals),
-		TableOfStrings (*tc_getTextData0)(long,const char*),
-		void (*tc_setTextData0)(long,const char*, TableOfStrings),
+		tc_matrix (*tc_getNumericalData0)(long,const char*),
+		void (*tc_setNumericalData0)(long,const char*,tc_matrix),
+		tc_table (*tc_getTextData0)(long,const char*),
+		void (*tc_setTextData0)(long,const char*, tc_table),
 				
-		ArrayOfStrings (*tc_getNumericalDataNames0)(long),
-		ArrayOfStrings (*tc_getTextDataNames0)(long),
+		tc_strings (*tc_getNumericalDataNames0)(long),
+		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
 		
-		const char* (*getString0)(const char*),
-		int (*getSelectedString0)(const char*, ArrayOfStrings, const char*),
+		const char* (*tc_getTableValue0)(const char*),
+		int (*getSelectedString0)(const char*, tc_strings, const char*),
 		double (*getNumber0)(const char*),
-		void (*getNumbers0)( ArrayOfStrings, double * ),
+		void (*getNumbers0)( tc_strings, double * ),
 		const char* (*getFilename0)(),
 		
 		int (*askQuestion0)(const char*),
@@ -874,8 +874,8 @@ void tc_Main_api_initialize(
 	
 	_tc_zoom = tc_zoom0;
 	
-	_tc_getString = getString0;
-	_tc_getStringFromList = getSelectedString0;
+	_tc_tc_getTableValue = tc_getTableValue0;
+	_tc_tc_getTableValueFromList = getSelectedString0;
 	_tc_getNumber = getNumber0;
 	_tc_getNumbers = getNumbers0;
 	_tc_getFilename = getFilename0;

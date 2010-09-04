@@ -10,7 +10,7 @@
 #include <math.h>
 #include "TCstructs.h"
 
-TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
+tc_matrix fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 {
 	int total = (1 << N) * N - N;
 	int * matrix = malloc(total * 3 * sizeof(int)); //[a + b <--> c] x N
@@ -19,8 +19,8 @@ TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	int * js, * usedSpecies;
 	int j2 = 1, j3 = 0;
 	int a,b,c;
-	TableOfReals M;
-	TableOfReals M2;
+	tc_matrix M;
+	tc_matrix M2;
 
 	//double * ks = malloc(total * 2 * sizeof(double));
 
@@ -43,8 +43,8 @@ TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	M.rows = 2*N2-1;
 	M.cols = k*2;
 	M.values = (double*)malloc(M.cols * M.rows * sizeof(double));
-	M.rownames = newArrayOfStrings(M.rows);
-	M.colnames = newArrayOfStrings(M.cols);
+	M.rownames = tc_createStringsArray(M.rows);
+	M.colnames = tc_createStringsArray(M.cols);
 
 	js = (int*)malloc(M.rows * sizeof(int));
 
@@ -86,13 +86,13 @@ TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 
 		//printf("a=%i  b=%i  c=%i\n",a,b,c);
 
-		setValue(M,a,i*2+0, -1.0);
-		setValue(M,b,i*2+0, -1.0);
-		setValue(M,c,i*2+0, 1.0);
+		tc_setMatrixValue(M,a,i*2+0, -1.0);
+		tc_setMatrixValue(M,b,i*2+0, -1.0);
+		tc_setMatrixValue(M,c,i*2+0, 1.0);
 
-		setValue(M,a,i*2+1, 1.0);
-		setValue(M,b,i*2+1, 1.0);
-		setValue(M,c,i*2+1, -1.0);
+		tc_setMatrixValue(M,a,i*2+1, 1.0);
+		tc_setMatrixValue(M,b,i*2+1, 1.0);
+		tc_setMatrixValue(M,c,i*2+1, -1.0);
 
 		M.colnames.strings[i*2+0] = (char*)malloc(100*sizeof(char));  //rate bind
 		sprintf(M.colnames.strings[i*2+0],"%s*%s\0",M.rownames.strings[a],M.rownames.strings[b]);
@@ -108,7 +108,7 @@ TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 	M2.cols = M.cols;
 	M2.values = (double*)malloc(M2.cols * M2.rows * sizeof(double));
 	M2.colnames = M.colnames;
-	M2.rownames = newArrayOfStrings(k);
+	M2.rownames = tc_createStringsArray(k);
 	for (i=0,j=0; i<M.rows; ++i)
 		if (usedSpecies[i])
 		{
@@ -126,7 +126,7 @@ TableOfReals fullBindingKinetics(int N, char ** rxnNames, char ** proteinNames)
 			{
 				for (j=0; j<M.cols; ++j)
 				{
-					setValue(M2,k,j,getValue(M,i,j));
+					tc_setMatrixValue(M2,k,j,tc_getMatrixValue(M,i,j));
 				}
 				++k;
 			}
@@ -145,7 +145,7 @@ int main()
 	int N = 3;
 	char* proteinNames[] = { "P\0", "A\0","B\0" };
 	char* fluxNames[] = {"j0"};
-	TableOfReals M = fullBindingKinetics(2,fluxNames,proteinNames);
+	tc_matrix M = fullBindingKinetics(2,fluxNames,proteinNames);
 	int i=0,j=0;
 
 	//double kon[] = {10.0, 0.5, 0.9};
@@ -162,7 +162,7 @@ int main()
 		printf("%s ",M.rownames.strings[i]);
 		for (j=0; j < M.cols; ++j)
 		{
-			printf("%lf ",getValue(M,i,j));
+			printf("%lf ",tc_getMatrixValue(M,i,j));
 		}
 		printf("\n");
 	}

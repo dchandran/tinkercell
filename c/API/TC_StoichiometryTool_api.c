@@ -1,47 +1,47 @@
 #include <stdlib.h>
 #include "TC_StoichiometryTool_api.h"
 
-TableOfReals (*_tc_getStoichiometry)(ArrayOfItems ) = 0;
+tc_matrix (*_tc_getStoichiometry)(tc_items ) = 0;
 /*! 
 \brief get stoichiometry for the given items
 \ingroup Stoichiometry
 */
-TableOfReals tc_getStoichiometry(ArrayOfItems A)
+tc_matrix tc_getStoichiometry(tc_items A)
 {
 	if (_tc_getStoichiometry)
 		return _tc_getStoichiometry(A);
-	return newMatrix(0,0);
+	return tc_createMatrix(0,0);
 }
 
-void (*_tc_setStoichiometry)(ArrayOfItems ,TableOfReals N) = 0;
+void (*_tc_setStoichiometry)(tc_items ,tc_matrix N) = 0;
 /*! 
 \brief set stoichiometry for the given items (must be labeled)
 \ingroup Stoichiometry
 */
-void tc_setStoichiometry(ArrayOfItems A,TableOfReals N)
+void tc_setStoichiometry(tc_items A,tc_matrix N)
 {
 	if (_tc_setStoichiometry)
 		_tc_setStoichiometry(A,N);
 }
 
-ArrayOfStrings (*_tc_getRates)(ArrayOfItems A) = 0;
+tc_strings (*_tc_getRates)(tc_items A) = 0;
 /*! 
 \brief get rates for the given items
 \ingroup Stoichiometry
 */
-ArrayOfStrings tc_getRates(ArrayOfItems A)
+tc_strings tc_getRates(tc_items A)
 {
 	if (_tc_getRates)
 		return _tc_getRates(A);
-	return newArrayOfStrings(0);
+	return tc_createStringsArray(0);
 }
 
-void (*_tc_setRates)(ArrayOfItems ,ArrayOfStrings rates) = 0;
+void (*_tc_setRates)(tc_items ,tc_strings rates) = 0;
 /*! 
 \brief set rates for the given items (same order as N)
 \ingroup Stoichiometry
 */
-void tc_setRates(ArrayOfItems A,ArrayOfStrings rates)
+void tc_setRates(tc_items A,tc_strings rates)
 {
 	if (_tc_setRates)
 		_tc_setRates(A,rates);
@@ -51,10 +51,10 @@ void tc_setRates(ArrayOfItems A,ArrayOfStrings rates)
 \brief get stoichiometry for the given items
 \ingroup init
 */
-TableOfReals tc_getStoichiometryFor(long x)
+tc_matrix tc_getStoichiometryFor(long x)
 {
 	long a[] = { x };
-	ArrayOfItems A;
+	tc_items A;
 	A.length = 1;
 	A.items = a;
 	return _tc_getStoichiometry(A);
@@ -66,12 +66,12 @@ TableOfReals tc_getStoichiometryFor(long x)
 const char* tc_getRate(long x)
 {
 	long a[] = { x };
-	ArrayOfItems A;
-	ArrayOfStrings s;
+	tc_items A;
+	tc_strings s;
 	A.length = 1;
 	A.items = a;
 	s = tc_getRates(A);
-	return nthString(s,0);
+	return tc_getString(s,0);
 }
 /*! 
 \brief set rate for the given items
@@ -80,8 +80,8 @@ const char* tc_getRate(long x)
 void tc_setRate(long x, const char* r)
 {
 	long a[] = { x };
-	ArrayOfStrings c;
-	ArrayOfItems A;
+	tc_strings c;
+	tc_items A;
 
 	if (!x) return;
 
@@ -91,19 +91,19 @@ void tc_setRate(long x, const char* r)
 	if (!c.strings || c.length < 1 || !c.strings[0]) return;
 	
 	free(c.strings[0]);
-	setNthString(c,0,r);
+	tc_setString(c,0,r);
 	_tc_setRates(A,c);
 
-	deleteArrayOfStrings(&c);
+	tc_deleteStringsArray(&c);
 }
 /*!
 \brief set stoichiometry for the given items
 \ingroup init
 */
-void tc_setStoichiometryFor(long x, TableOfReals N)
+void tc_setStoichiometryFor(long x, tc_matrix N)
 {
 	long a[] = { x };
-	ArrayOfItems A;
+	tc_items A;
 	A.length = 1;
 	A.items = a;
 	_tc_setStoichiometry(A,N);
@@ -113,10 +113,10 @@ void tc_setStoichiometryFor(long x, TableOfReals N)
 \ingroup init
 */
 void tc_StoichiometryTool_api(
-							  TableOfReals (*getStoichiometry)(ArrayOfItems ),
-							  void (*setStoichiometry)(ArrayOfItems ,TableOfReals ),
-							  ArrayOfStrings (*getRates)(ArrayOfItems ),
-							  void (*setRates)(ArrayOfItems ,ArrayOfStrings )
+							  tc_matrix (*getStoichiometry)(tc_items ),
+							  void (*setStoichiometry)(tc_items ,tc_matrix ),
+							  tc_strings (*getRates)(tc_items ),
+							  void (*setRates)(tc_items ,tc_strings )
 							  )
 {
 	_tc_getStoichiometry = getStoichiometry;

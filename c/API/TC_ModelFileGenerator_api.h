@@ -8,14 +8,14 @@ BEGIN_C_DECLS
  \brief write the ODE, stoichiometry, and rates functions to a file
  \ingroup Programming
 */
-TCAPIEXPORT int tc_writeModel(const char* file, ArrayOfItems items);
+TCAPIEXPORT int tc_writeModel(const char* file, tc_items items);
 
 /*! 
  \brief initialize model generator functions
  \ingroup init
 */
 TCAPIEXPORT void tc_ModelFileGenerator_api(
-	int (*modelgen)(const char*, ArrayOfItems )
+	int (*modelgen)(const char*, tc_items )
 );
 
 END_C_DECLS

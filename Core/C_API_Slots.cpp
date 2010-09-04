@@ -24,7 +24,7 @@ namespace Tinkercell
 {
 	Core_FtoS C_API_Slots::fToS;
 	
-	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0)
+	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), tc_getTableValueDialog(0)
 	{ 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
@@ -53,19 +53,19 @@ namespace Tinkercell
 	}
 
 	typedef void (*main_api_func)(
-		ArrayOfItems (*tc_allItems0)(),
-		ArrayOfItems (*tc_selectedItems0)(),
-		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
-		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
+		tc_items (*tc_allItems0)(),
+		tc_items (*tc_selectedItems0)(),
+		tc_items (*tc_itemsOfFamily0)(const char*),
+		tc_items (*tc_itemsOfFamily1)(const char*, tc_items),
 		long (*tc_find0)(const char*),
-		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
+		tc_items (*tc_findItems0)(tc_strings),
 		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
 		const char* (*tc_getName0)(long),
 		const char* (*tc_getUniqueName0)(long),
 		void (*tc_setName0)(long item,const char* name),
-		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
-		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
+		tc_strings (*tc_getNames0)(tc_items),
+		tc_strings (*tc_getUniqueNames0)(tc_items),
 		const char* (*tc_getFamily0)(long),
 		int (*tc_isA0)(long,const char*),
 
@@ -79,9 +79,9 @@ namespace Tinkercell
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),
-		Matrix (*tc_getPos0)(ArrayOfItems),
+		Matrix (*tc_getPos0)(tc_items),
 		void (*tc_setPos0)(long,double,double),
-		void (*tc_setPos1)(ArrayOfItems,Matrix),
+		void (*tc_setPos1)(tc_items,Matrix),
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
@@ -93,27 +93,27 @@ namespace Tinkercell
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
 		void (*createSliders)(long, Matrix, void (*f)(Matrix)),
 		
-		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
+		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
 		
-		ArrayOfItems (*tc_getChildren0)(long),
+		tc_items (*tc_getChildren0)(long),
 		long (*tc_getParent0)(long),
 		
 		Matrix (*tc_getNumericalData0)(long,const char*),
 		void (*tc_setNumericalData0)(long,const char*,Matrix),
-		TableOfStrings (*tc_getTextData0)(long,const char*),
-		void (*tc_setTextData0)(long,const char*, TableOfStrings),
+		tc_table (*tc_getTextData0)(long,const char*),
+		void (*tc_setTextData0)(long,const char*, tc_table),
 				
-		ArrayOfStrings (*tc_getNumericalDataNames0)(long),
-		ArrayOfStrings (*tc_getTextDataNames0)(long),
+		tc_strings (*tc_getNumericalDataNames0)(long),
+		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
 		
-		const char* (*getString)(const char*),
-		int (*getSelectedString)(const char*, ArrayOfStrings, const char*),
+		const char* (*tc_getTableValue)(const char*),
+		int (*getSelectedString)(const char*, tc_strings, const char*),
 		double (*getNumber)(const char*),
-		void (*getNumbers)( ArrayOfStrings, double * ),
+		void (*getNumbers)( tc_strings, double * ),
 		const char* (*getFilename)(),
 		
 		int (*askQuestion)(const char*),
@@ -184,7 +184,7 @@ namespace Tinkercell
 				&(_getNumericalDataNames),
 				&(_getTextDataNames),
 				&(_zoom),
-				&(_getString),
+				&(_tc_getTableValue),
 				&(_getSelectedString),
 				&(_getNumber),
 				&(_getNumbers),
@@ -272,7 +272,7 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
 
-		connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
+		connect(&fToS,SIGNAL(tc_getTableValue(QSemaphore*,QString*,const QString&)),this,SLOT(tc_getTableValue(QSemaphore*,QString*,const QString&)));
         connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
         connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
         connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
@@ -397,7 +397,7 @@ namespace Tinkercell
 			
 			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
 			
-			QStringList names(data.getRowNames());
+			QStringList names(data.tc_getRowNames());
 			QList<double> min, max;
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1020,7 +1020,7 @@ namespace Tinkercell
 		return fToS.find(c);
 	}
 
-	ArrayOfItems C_API_Slots::_findItems(ArrayOfStrings c)
+	tc_items C_API_Slots::_findItems(tc_strings c)
 	{
 		return fToS.findItems(c);
 	}
@@ -1035,22 +1035,22 @@ namespace Tinkercell
 		return fToS.deselect();
 	}
 
-	ArrayOfItems C_API_Slots::_allItems()
+	tc_items C_API_Slots::_allItems()
 	{
 		return fToS.allItems();
 	}
 
-	ArrayOfItems C_API_Slots::_itemsOfFamily(const char* f)
+	tc_items C_API_Slots::_itemsOfFamily(const char* f)
 	{
 		return fToS.itemsOfFamily(f);
 	}
 
-	ArrayOfItems C_API_Slots::_itemsOfFamily2(const char* f, ArrayOfItems a)
+	tc_items C_API_Slots::_itemsOfFamily2(const char* f, tc_items a)
 	{
 		return fToS.itemsOfFamily(f,a);
 	}
 
-	ArrayOfItems C_API_Slots::_selectedItems()
+	tc_items C_API_Slots::_selectedItems()
 	{
 		return fToS.selectedItems();
 	}
@@ -1071,12 +1071,12 @@ namespace Tinkercell
 		return fToS.setName(o,c);
 	}
 
-	ArrayOfStrings C_API_Slots::_getNames(ArrayOfItems a)
+	tc_strings C_API_Slots::_getNames(tc_items a)
 	{
 		return fToS.getNames(a);
 	}
 
-	ArrayOfStrings C_API_Slots::_getUniqueNames(ArrayOfItems a)
+	tc_strings C_API_Slots::_getUniqueNames(tc_items a)
 	{
 		return fToS.getUniqueNames(a);
 	}
@@ -1101,12 +1101,12 @@ namespace Tinkercell
 		return fToS.setPos(o,x,y);
 	}
 
-	void C_API_Slots::_setPos2(ArrayOfItems a,Matrix m)
+	void C_API_Slots::_setPos2(tc_items a,Matrix m)
 	{
 		return fToS.setPos(a,m);
 	}
 
-	Matrix C_API_Slots::_getPos(ArrayOfItems a)
+	Matrix C_API_Slots::_getPos(tc_items a)
 	{
 		return fToS.getPos(a);
 	}
@@ -1166,7 +1166,7 @@ namespace Tinkercell
 		return fToS.createSliders(c,m,f);
 	}
 
-	void  C_API_Slots::_addInputWindowOptions(const char* a,int i, int j, ArrayOfStrings c)
+	void  C_API_Slots::_addInputWindowOptions(const char* a,int i, int j, tc_strings c)
 	{
 		return fToS.addInputWindowOptions(a,i,j,c);
 	}
@@ -1211,27 +1211,27 @@ namespace Tinkercell
 		return fToS.setNumericalData(o,a,m);
 	}
 	
-	TableOfStrings C_API_Slots::_getTextData(long o,const char* a)
+	tc_table C_API_Slots::_getTextData(long o,const char* a)
 	{
 		return fToS.getTextData(o,a);
 	}
 
-	void C_API_Slots::_setTextData(long o ,const char* a,TableOfStrings m)
+	void C_API_Slots::_setTextData(long o ,const char* a,tc_table m)
 	{
 		return fToS.setTextData(o,a,m);
 	}
 	
-	ArrayOfStrings C_API_Slots::_getTextDataNames(long o)
+	tc_strings C_API_Slots::_getTextDataNames(long o)
 	{
 		return fToS.getTextDataNames(o);
 	}
 	
-	ArrayOfStrings C_API_Slots::_getNumericalDataNames(long o)
+	tc_strings C_API_Slots::_getNumericalDataNames(long o)
 	{
 		return fToS.getNumericalDataNames(o);
 	}
 
-	ArrayOfItems C_API_Slots::_getChildren(long o)
+	tc_items C_API_Slots::_getChildren(long o)
 	{
 		return fToS.getChildren(o);
 	}
@@ -1258,7 +1258,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfItems Core_FtoS::findItems(ArrayOfStrings c)
+	tc_items Core_FtoS::findItems(tc_strings c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1267,7 +1267,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
@@ -1292,7 +1292,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	ArrayOfItems Core_FtoS::allItems()
+	tc_items Core_FtoS::allItems()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1301,12 +1301,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	ArrayOfItems Core_FtoS::itemsOfFamily(const char * f)
+	tc_items Core_FtoS::itemsOfFamily(const char * f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1315,12 +1315,12 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
 
-	ArrayOfItems Core_FtoS::itemsOfFamily(const char * f, ArrayOfItems a)
+	tc_items Core_FtoS::itemsOfFamily(const char * f, tc_items a)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a);
@@ -1330,13 +1330,13 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		delete list;
 		return A;
 	}
 
-	ArrayOfItems Core_FtoS::selectedItems()
+	tc_items Core_FtoS::selectedItems()
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1345,7 +1345,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
@@ -1385,7 +1385,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	ArrayOfStrings Core_FtoS::getNames(ArrayOfItems a0)
+	tc_strings Core_FtoS::getNames(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -1399,7 +1399,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfStrings Core_FtoS::getUniqueNames(ArrayOfItems a0)
+	tc_strings Core_FtoS::getUniqueNames(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -1457,7 +1457,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void Core_FtoS::setPos(ArrayOfItems a0,Matrix m)
+	void Core_FtoS::setPos(tc_items a0,Matrix m)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1471,7 +1471,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Matrix Core_FtoS::getPos(ArrayOfItems a0)
+	Matrix Core_FtoS::getPos(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1619,7 +1619,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void Core_FtoS::addInputWindowOptions(const char * a, int i, int j, ArrayOfStrings list)
+	void Core_FtoS::addInputWindowOptions(const char * a, int i, int j, tc_strings list)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1731,7 +1731,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	TableOfStrings Core_FtoS::getTextData(long o,const char* c)
+	tc_table Core_FtoS::getTextData(long o,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<QString> * p = new DataTable<QString>;
@@ -1740,7 +1740,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		TableOfStrings m;
+		tc_table m;
 		if (p)
 		{
 			m = ConvertValue(*p);
@@ -1753,7 +1753,7 @@ namespace Tinkercell
 		return m;
 	}
 	
-	void Core_FtoS::setTextData(long o, const char * c, TableOfStrings M)
+	void Core_FtoS::setTextData(long o, const char * c, tc_table M)
 	{
 		DataTable<QString>* dat = ConvertValue(M);
 		QSemaphore * s = new QSemaphore(1);
@@ -1765,7 +1765,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	ArrayOfStrings Core_FtoS::getNumericalDataNames(long o)
+	tc_strings Core_FtoS::getNumericalDataNames(long o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
@@ -1777,7 +1777,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfStrings Core_FtoS::getTextDataNames(long o)
+	tc_strings Core_FtoS::getTextDataNames(long o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
@@ -1789,7 +1789,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfItems Core_FtoS::getChildren(long o)
+	tc_items Core_FtoS::getChildren(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1798,7 +1798,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*p);
+		tc_items A = ConvertValue(*p);
 		delete p;
 		return A;
 	}
@@ -1825,7 +1825,7 @@ namespace Tinkercell
             s->release();
     }
 
-    void C_API_Slots::getString(QSemaphore* s,QString* p,const QString& name)
+    void C_API_Slots::tc_getTableValue(QSemaphore* s,QString* p,const QString& name)
     {
         if (p)
         {
@@ -1883,40 +1883,40 @@ namespace Tinkercell
             s->release();
     }
 
-    void C_API_Slots::getStringListItemSelected(QListWidgetItem * item)
+    void C_API_Slots::tc_getTableValueListItemSelected(QListWidgetItem * item)
     {
         if (item)
-            getStringListNumber = getStringList.currentRow();
-        if (getStringDialog)
-            getStringDialog->accept();
+            tc_getTableValueListNumber = tc_getTableValueList.currentRow();
+        if (tc_getTableValueDialog)
+            tc_getTableValueDialog->accept();
     }
 
-    void C_API_Slots::getStringListRowChanged ( int  )
+    void C_API_Slots::tc_getTableValueListRowChanged ( int  )
     {
-        if (getStringList.currentItem())
-            getStringListNumber = getStringListText.indexOf(getStringList.currentItem()->text());
+        if (tc_getTableValueList.currentItem())
+            tc_getTableValueListNumber = tc_getTableValueListText.indexOf(tc_getTableValueList.currentItem()->text());
     }
 
-    void C_API_Slots::getStringListCanceled (  )
+    void C_API_Slots::tc_getTableValueListCanceled (  )
     {
-        getStringListNumber = -1;
+        tc_getTableValueListNumber = -1;
     }
 
-    void C_API_Slots::getStringSearchTextEdited ( const QString & text )
+    void C_API_Slots::tc_getTableValueSearchTextEdited ( const QString & text )
     {
-        getStringList.clear();
+        tc_getTableValueList.clear();
 
         QStringList list;
 
         if (text.isEmpty())
-            list = getStringListText;
+            list = tc_getTableValueListText;
         else
-            for (int i=0; i < getStringListText.size(); ++i)
-                if (getStringListText[i].toLower().contains(text.toLower()))
-                    list << getStringListText[i];
+            for (int i=0; i < tc_getTableValueListText.size(); ++i)
+                if (tc_getTableValueListText[i].toLower().contains(text.toLower()))
+                    list << tc_getTableValueListText[i];
 
-        getStringList.addItems(list);
-        getStringList.setCurrentRow(0);
+        tc_getTableValueList.addItems(list);
+        tc_getTableValueList.setCurrentRow(0);
     }
 
     void C_API_Slots::getSelectedString(QSemaphore* s,int* p,const QString& name, const QStringList& list0,const QString& init)
@@ -1925,23 +1925,23 @@ namespace Tinkercell
     	
         if (p)
         {
-            getStringListText.clear();
-            if (option == 0 && !getStringDialog)
+            tc_getTableValueListText.clear();
+            if (option == 0 && !tc_getTableValueDialog)
             {
-                getStringDialog = new QDialog(mainWindow);
-                getStringDialog->setSizeGripEnabled (true);
+                tc_getTableValueDialog = new QDialog(mainWindow);
+                tc_getTableValueDialog->setSizeGripEnabled (true);
                 QVBoxLayout * layout = new QVBoxLayout;
-                layout->addWidget(&getStringListLabel);
-                layout->addWidget(&getStringList);
+                layout->addWidget(&tc_getTableValueListLabel);
+                layout->addWidget(&tc_getTableValueList);
                 QHBoxLayout * buttonsLayout = new QHBoxLayout;
 
                 QLineEdit * search = new QLineEdit(tr("Search"));
-                connect(search,SIGNAL(textEdited(const QString &)),this,SLOT(getStringSearchTextEdited(const QString &)));
+                connect(search,SIGNAL(textEdited(const QString &)),this,SLOT(tc_getTableValueSearchTextEdited(const QString &)));
 
                 QPushButton * okButton = new QPushButton(tr("OK"));
                 QPushButton * cancelButton = new QPushButton(tr("Cancel"));
-                connect(okButton,SIGNAL(released()),getStringDialog,SLOT(accept()));
-                connect(cancelButton,SIGNAL(released()),getStringDialog,SLOT(reject()));
+                connect(okButton,SIGNAL(released()),tc_getTableValueDialog,SLOT(accept()));
+                connect(cancelButton,SIGNAL(released()),tc_getTableValueDialog,SLOT(reject()));
 
                 buttonsLayout->addWidget(okButton,1,Qt::AlignLeft);
                 buttonsLayout->addWidget(cancelButton,1,Qt::AlignLeft);
@@ -1950,11 +1950,11 @@ namespace Tinkercell
 
                 layout->addLayout(buttonsLayout);
 
-                connect(&getStringList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(getStringListItemSelected(QListWidgetItem * item)));
-                connect(&getStringList,SIGNAL(currentRowChanged (int)),this,SLOT(getStringListRowChanged (int)));
-                connect(getStringDialog,SIGNAL(rejected()),this,SLOT(getStringListCanceled()));
+                connect(&tc_getTableValueList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(tc_getTableValueListItemSelected(QListWidgetItem * item)));
+                connect(&tc_getTableValueList,SIGNAL(currentRowChanged (int)),this,SLOT(tc_getTableValueListRowChanged (int)));
+                connect(tc_getTableValueDialog,SIGNAL(rejected()),this,SLOT(tc_getTableValueListCanceled()));
 
-                getStringDialog->setLayout(layout);
+                tc_getTableValueDialog->setLayout(layout);
             }
 
             QStringList list = list0;
@@ -1969,13 +1969,13 @@ namespace Tinkercell
 
             if (option == 0 && !list0.isEmpty())
             {
-                getStringListLabel.setText(name);
-                getStringListText = list;
-                getStringList.clear();
-                getStringList.addItems(list);
-                getStringList.setCurrentRow(index);
-                getStringDialog->exec();
-                (*p) = getStringListNumber;
+                tc_getTableValueListLabel.setText(name);
+                tc_getTableValueListText = list;
+                tc_getTableValueList.clear();
+                tc_getTableValueList.addItems(list);
+                tc_getTableValueList.setCurrentRow(index);
+                tc_getTableValueDialog->exec();
+                (*p) = tc_getTableValueListNumber;
             }
             else
             {
@@ -2013,9 +2013,9 @@ namespace Tinkercell
 			s->release();
 	}
 
-    const char* C_API_Slots::_getString(const char* title)
+    const char* C_API_Slots::_tc_getTableValue(const char* title)
     {
-        return fToS.getString(title);
+        return fToS.tc_getTableValue(title);
     }
 
     const char* C_API_Slots::_getFilename()
@@ -2023,7 +2023,7 @@ namespace Tinkercell
         return fToS.getFilename();
     }
 
-    int C_API_Slots::_getSelectedString(const char* title,ArrayOfStrings list,const char* c)
+    int C_API_Slots::_getSelectedString(const char* title,tc_strings list,const char* c)
     {
         return fToS.getSelectedString(title,list,c);
     }
@@ -2033,7 +2033,7 @@ namespace Tinkercell
         return fToS.getNumber(title);
     }
 
-    void C_API_Slots::_getNumbers(ArrayOfStrings names, double * res)
+    void C_API_Slots::_getNumbers(tc_strings names, double * res)
     {
         return fToS.getNumbers(names,res);
     }
@@ -2061,7 +2061,7 @@ namespace Tinkercell
         return (double)p;
     }
 
-    void Core_FtoS::getNumbers(ArrayOfStrings c, double * d)
+    void Core_FtoS::getNumbers(tc_strings c, double * d)
     {
         //qDebug() << "get number dialog";
         QSemaphore * s = new QSemaphore(1);
@@ -2072,13 +2072,13 @@ namespace Tinkercell
         delete s;
     }
 
-    const char* Core_FtoS::getString(const char* c)
+    const char* Core_FtoS::tc_getTableValue(const char* c)
     {
         //qDebug() << "get string dialog";
         QSemaphore * s = new QSemaphore(1);
         QString p;
         s->acquire();
-        emit getString(s,&p,ConvertValue(c));
+        emit tc_getTableValue(s,&p,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;
@@ -2119,7 +2119,7 @@ namespace Tinkercell
         delete s;
     }
 
-    int Core_FtoS::getSelectedString(const char* c, ArrayOfStrings list,const char* c1)
+    int Core_FtoS::getSelectedString(const char* c, tc_strings list,const char* c1)
     {
         //qDebug() << "get item dialog";
         QSemaphore * s = new QSemaphore(1);

@@ -1,7 +1,7 @@
 #include "TC_api.h"
 #include "lp_lib.h"
 
-void run(TableOfReals input) //first row = objective, rest = contraints, first two cols = arguments
+void run(tc_matrix input) //first row = objective, rest = contraints, first two cols = arguments
 {
 	lprec *lp;
 	int i,j,k;
@@ -10,7 +10,7 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 	REAL * soln;
 	void* o;
 	double max = 0.0;
-	TableOfReals output;
+	tc_matrix output;
 
 
 	/***get the stoichiometry matrix**
@@ -48,14 +48,14 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 
 	for (i=1; i < (input.cols-1); ++i)
 	{
-		obj[i] = getValue(input,0,i+1);
+		obj[i] = tc_getMatrixValue(input,0,i+1);
 		set_lowbo(lp,i,0.0);
 		set_upbo(lp,i,100.0);
 	}
 
 	set_obj_fn(lp, obj);
 
-	if (getValue(input,0,0) > 0)
+	if (tc_getMatrixValue(input,0,0) > 0)
 		set_maxim(lp);
 	else
 		set_minim(lp);
@@ -67,15 +67,15 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 	{
 		row[0] = 0;
 		for (j=1; j < (input.cols-1); ++j)
-			row[j] = getValue(input,i,j+1);
+			row[j] = tc_getMatrixValue(input,i,j+1);
 
-		if (getValue(input,i,0) == 0)
-			add_constraint(lp, row, EQ , getValue(input,i,1));
+		if (tc_getMatrixValue(input,i,0) == 0)
+			add_constraint(lp, row, EQ , tc_getMatrixValue(input,i,1));
 		else
-			if (getValue(input,i,0) == 1)
-				add_constraint(lp, row, LE , getValue(input,i,1));
+			if (tc_getMatrixValue(input,i,0) == 1)
+				add_constraint(lp, row, LE , tc_getMatrixValue(input,i,1));
 			else
-				add_constraint(lp, row, GE , getValue(input,i,1));
+				add_constraint(lp, row, GE , tc_getMatrixValue(input,i,1));
 	}
 
 	free(row);
@@ -135,7 +135,7 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 
 	/**output**/
 
-	output = newMatrix(1,input.cols-2);
+	output = tc_createMatrix(1,input.cols-2);
 
 	for (i=0; i < (input.cols-2); ++i)
 		if (max < soln[input.rows+i])
@@ -146,8 +146,8 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 	tc_deselect();
 	for (i=0; i < (input.cols-2); ++i)
 	{
-		setColumnName(output,i, getColumnName(input,i+2));
-		o = tc_find(getColumnName(input,i+2));  //find the item with the column name
+		tc_setColumnName(output,i, tc_getColumnName(input,i+2));
+		o = tc_find(tc_getColumnName(input,i+2));  //find the item with the column name
 		if (o)
 		{
 			tc_displayNumber(o,soln[input.rows+i]);
@@ -161,8 +161,8 @@ void run(TableOfReals input) //first row = objective, rest = contraints, first t
 
 	tc_printTable(output);
 
-	deleteMatrix(&output);
-	deleteMatrix(&input);
+	tc_deleteMatrix(&output);
+	tc_deleteMatrix(&input);
 	free(soln);
 	delete_lp(lp);
 

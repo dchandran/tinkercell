@@ -24,12 +24,12 @@ int tc_compileBuildLoad(const char* filename,const char* function,const char* ti
 	return 0;
 }
 
-int (*_tc_compileBuildLoadSliders)(const char* filename,const char* function,const char* title, TableOfReals inputs) = 0;
+int (*_tc_compileBuildLoadSliders)(const char* filename,const char* function,const char* title, tc_matrix inputs) = 0;
 /*! 
  \brief compile a c file, generate the library, and load it
  \ingroup Programming interface
 */
-int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, TableOfReals inputs)
+int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, tc_matrix inputs)
 {
 	if (_tc_compileBuildLoadSliders)
 		return _tc_compileBuildLoadSliders(filename,function,title,inputs);
@@ -182,7 +182,7 @@ void tc_DynamicLibraryMenu_api(
 void tc_LoadCLibraries_api(
 		int (*compileAndRun)(const char* ,const char* ),
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
-		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , TableOfReals ),
+		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
 		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
 		void (*callback)(void (*f)(void)),

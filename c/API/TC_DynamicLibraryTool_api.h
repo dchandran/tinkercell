@@ -18,7 +18,7 @@ TCAPIEXPORT int tc_compileBuildLoad(const char* filename,const char* function,co
  \brief compile a c file, generate the library, and load it
  \ingroup Programming
 */
-TCAPIEXPORT int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, TableOfReals inputs);
+TCAPIEXPORT int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, tc_matrix inputs);
 /*! 
  \brief run the Python code given by the string
  \ingroup Programming
@@ -73,7 +73,7 @@ TCAPIEXPORT void tc_DynamicLibraryMenu_api(void (*callFunction)(const char*));
 TCAPIEXPORT void tc_LoadCLibraries_api(
 		int (*compileAndRun)(const char* ,const char* ),
 		int (*compileBuildLoad)(const char* ,const char* , const char*),
-		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , TableOfReals ),
+		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , tc_matrix ),
 		void (*loadLibrary)(const char*),
 		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
 		void (*callback)(void (*f)(void)),

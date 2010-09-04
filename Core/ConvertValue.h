@@ -36,7 +36,7 @@ namespace Tinkercell
 {
 	class MainWindow;
 	class ItemHandle;
-	typedef TableOfReals Matrix;
+	typedef tc_matrix Matrix;
 
 	/*! \brief construct a Matrix with 0 rows and columns
 	\ingroup helper
@@ -53,16 +53,16 @@ namespace Tinkercell
 	\return void* 
 	*/
 	TINKERCELLEXPORT long ConvertValue(ItemHandle*);
-	/*! \brief convert ArrayOfItems to QList of ItemHandle pointers
+	/*! \brief convert tc_items to QList of ItemHandle pointers
 	\ingroup helper
 	\return QList<ItemHandle*>
 	*/
-	TINKERCELLEXPORT QList<ItemHandle*>* ConvertValue(ArrayOfItems);
-	/*! \brief convert QList of ItemHandle pointers to ArrayOfItems
+	TINKERCELLEXPORT QList<ItemHandle*>* ConvertValue(tc_items);
+	/*! \brief convert QList of ItemHandle pointers to tc_items
 	\ingroup helper
-	\return ArrayOfItems
+	\return tc_items
 	*/
-	TINKERCELLEXPORT ArrayOfItems ConvertValue(const QList<ItemHandle*>&);
+	TINKERCELLEXPORT tc_items ConvertValue(const QList<ItemHandle*>&);
 	/*! \brief convert char* to QString
 	\ingroup helper
 	\return QString
@@ -73,16 +73,16 @@ namespace Tinkercell
 	\return null-terminated char* 
 	*/
 	TINKERCELLEXPORT const char* ConvertValue(const QString&);
-	/*! \brief convert TableOfStrings to DataTable of QString
+	/*! \brief convert tc_table to DataTable of QString
 	\ingroup helper
 	\return QStringList
 	*/
-	TINKERCELLEXPORT DataTable<QString>* ConvertValue(TableOfStrings);
-	/*! \brief convert DataTable of QStrings to TableOfStrings
+	TINKERCELLEXPORT DataTable<QString>* ConvertValue(tc_table);
+	/*! \brief convert DataTable of QStrings to tc_table
 	\ingroup helper
-	\return TableOfStrings
+	\return tc_table
 	*/
-	TINKERCELLEXPORT TableOfStrings ConvertValue(const DataTable<QString>&);
+	TINKERCELLEXPORT tc_table ConvertValue(const DataTable<QString>&);
 	/*! \brief convert matrix to datatable<double> (see DataTable.h and TCstructs.h)
 	\ingroup helper
 	\return DataTable of qreals
@@ -93,16 +93,16 @@ namespace Tinkercell
 	\return Matrix
 	*/
 	TINKERCELLEXPORT Matrix ConvertValue(const DataTable<qreal>&);
-	/*! \brief convert ArrayOfStrings to QStringList
+	/*! \brief convert tc_strings to QStringList
 	\ingroup helper
 	\return QStringList
 	*/
-	TINKERCELLEXPORT QStringList ConvertValue(ArrayOfStrings);
-	/*! \brief convert QStringList to ArrayOfStrings
+	TINKERCELLEXPORT QStringList ConvertValue(tc_strings);
+	/*! \brief convert QStringList to tc_strings
 	\ingroup helper
-	\return ArrayOfStrings
+	\return tc_strings
 	*/
-	TINKERCELLEXPORT ArrayOfStrings ConvertValue(const QStringList& );
+	TINKERCELLEXPORT tc_strings ConvertValue(const QStringList& );
 }
 #endif
 

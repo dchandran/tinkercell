@@ -11,30 +11,30 @@
 #include <stdio.h>
 #include "TC_api.h"
 
-void runSSA(TableOfReals input)
+void runSSA(tc_matrix input)
 {
 	int maxsz = 100000,i;
 	double time = 50.0;
 	int k, sz = 0, selection = 0, rateplot = 0;
-	ArrayOfItems A,B;
+	tc_items A,B;
 	FILE * out;
 	int slider = 1;
-	char * runfuncInput = "TableOfReals input";
+	char * runfuncInput = "tc_matrix input";
 	char * runfunc = "";
-	TableOfReals params, initVals, allParams, N;
+	tc_matrix params, initVals, allParams, N;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)getValue(input,0,0);
+			selection = (int)tc_getMatrixValue(input,0,0);
 		if (input.rows > 1)
-			time = getValue(input,1,0);
+			time = tc_getMatrixValue(input,1,0);
 		if (input.rows > 2)
-			maxsz = (int)getValue(input,2,0);
+			maxsz = (int)tc_getMatrixValue(input,2,0);
 		if (input.rows > 3)
-			rateplot = (int)getValue(input,3,0);
+			rateplot = (int)tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
-			slider = (int)getValue(input,4,0);
+			slider = (int)tc_getMatrixValue(input,4,0);
 	}
 	
 	if (time < 0) 
@@ -63,9 +63,9 @@ void runSSA(TableOfReals input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (nthItem(A,0) == 0)
+		if (tc_getItem(A,0) == 0)
 		{
-			deleteArrayOfItems(&A);
+			tc_deleteItemsArray(&A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -81,47 +81,47 @@ void runSSA(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		tc_deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = tc_createMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
-			setRowName(allParams,i, getRowName(params,i));
-			setValue(allParams,i,0,getValue(params,i,0)/10.0);
-			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
+			tc_setRowName(allParams,i, tc_getRowName(params,i));
+			tc_setMatrixValue(allParams,i,0,tc_getMatrixValue(params,i,0)/10.0);
+			tc_setMatrixValue(allParams,i,1, 2*tc_getMatrixValue(params,i,0) - tc_getMatrixValue(allParams,i,0));
 		}
 		for (i=0; i < initVals.rows; ++i)
 		{
-			setRowName(allParams,i+params.rows, getRowName(initVals,i));
-			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
-			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
+			tc_setRowName(allParams,i+params.rows, tc_getRowName(initVals,i));
+			tc_setMatrixValue(allParams,i+params.rows,0,tc_getMatrixValue(initVals,i,0)/10.0);
+			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
-		deleteArrayOfItems(&B);
+		tc_deleteMatrix(&initVals);
+		tc_deleteMatrix(&params);
+		tc_deleteItemsArray(&B);
 		runfunc = runfuncInput;
 	}
 	
-	if (nthItem(A,0) != 0)
+	if (tc_getItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				tc_deleteMatrix(&allParams);
 			return;
 		}
 	}
 	else
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -130,9 +130,9 @@ void runSSA(TableOfReals input)
 	
 	if (!out)
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -151,7 +151,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-static void computeStats(double * mu, double * var, TableOfReals * values, void * data)\n\
+static void computeStats(double * mu, double * var, tc_matrix * values, void * data)\n\
 {\n\
 	int i,j;\n\
 	double * sum_xx = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
@@ -164,7 +164,7 @@ static void computeStats(double * mu, double * var, TableOfReals * values, void 
 	{\n\
 		for (j=0; j < TCvars; ++j)\n\
 		{\n\
-			u[j] = getValue((*values),i,j+1);\n\
+			u[j] = tc_getMatrixValue((*values),i,j+1);\n\
 			sum_x[j] += u[j];\n\
 			sum_xx[j] += u[j]*u[j];\n\
 		}\n\
@@ -190,9 +190,9 @@ TCAPIEXPORT void run(%s) \n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
 	double * y, *y0, * mu, * var;\n\
-	TableOfReals data;\n\
-	ArrayOfItems A;\n\
-	ArrayOfStrings names;\n\
+	tc_matrix data;\n\
+	tc_items A;\n\
+	tc_strings names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
@@ -200,7 +200,7 @@ TCAPIEXPORT void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = tc_getMatrixValue(input,%i,0);\n",tc_getRowName(allParams,i),i);
 }
 
 fprintf(out, "\
@@ -224,9 +224,9 @@ fprintf(out, "\
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
-	   tc_displayText(nthItem(A,i),s);\n\
+	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
+	tc_deleteItemsArray(&A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -235,9 +235,9 @@ fprintf(out, "\
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
-	   tc_displayText(nthItem(A,i),s);\n\
+	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
+	tc_deleteItemsArray(&A);\n\
 	names.length = TCvars;\n\
 	names.strings = TCvarnames;\n\
 	free(mu);\n\
@@ -252,18 +252,18 @@ fprintf(out, "\
 	}\n\
 	data.cols = 1+names.length;\n\
 	data.values = y;\n\
-	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(names.length+1);\n\
-	setColumnName(data,0,\"time\\0\");\n\
-	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
+	data.rownames = tc_createStringsArray(0);\n\
+	data.colnames = tc_createStringsArray(names.length+1);\n\
+	tc_setColumnName(data,0,\"time\\0\");\n\
+	for(i=0; i<names.length; ++i) tc_setColumnName(data,1+i,tc_getString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
 	tc_hist(data,\"Histogram\");\n\
-	deleteMatrix(&data);\n\
+	tc_deleteMatrix(&data);\n\
 	free(model);\n",time,maxsz,rateplot);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -272,7 +272,7 @@ fprintf(out, "\
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteMatrix(&allParams);
+		tc_deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -280,7 +280,7 @@ fprintf(out, "\
 	return;
 }
 
-void runCellSSA(TableOfReals input)
+void runCellSSA(tc_matrix input)
 {
 	double time = 50.0;
 	int selection = 0, k;
@@ -290,32 +290,32 @@ void runCellSSA(TableOfReals input)
 	double mutants = 0.001;
 	int gridsz = 100;
 	FILE * out;
-	ArrayOfItems A;
+	tc_items A;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)getValue(input,0,0);
+			selection = (int)tc_getMatrixValue(input,0,0);
 		if (input.rows > 1)
-			time = getValue(input,1,0);
+			time = tc_getMatrixValue(input,1,0);
 		if (input.rows > 2)
-			numcells = (int)getValue(input,2,0);
+			numcells = (int)tc_getMatrixValue(input,2,0);
 		if (input.rows > 3)
-			replication = getValue(input,3,0);
+			replication = tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
-			death = getValue(input,4,0);
+			death = tc_getMatrixValue(input,4,0);
 		if (input.rows > 5)
-			mutants = (int)getValue(input,5,0);
+			mutants = (int)tc_getMatrixValue(input,5,0);
 		if (input.rows > 6)
-			gridsz = (int)getValue(input,6,0);
+			gridsz = (int)tc_getMatrixValue(input,6,0);
 	}
 
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (nthItem(A,0) == 0)
+		if (tc_getItem(A,0) == 0)
 		{
-			deleteArrayOfItems(&A);
+			tc_deleteItemsArray(&A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -326,10 +326,10 @@ void runCellSSA(TableOfReals input)
 		A = tc_allItems();
 	}
 
-	if (nthItem(A,0))
+	if (tc_getItem(A,0))
 	{
 		k = tc_writeModel( "cells_ssa", A );
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
@@ -338,7 +338,7 @@ void runCellSSA(TableOfReals input)
 	}
 	else
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -369,8 +369,8 @@ void runCellSSA(TableOfReals input)
 				   tc_errorReport(\"Simulation failed! Possible cause of failure: some values are becoming negative. Double check your model.\");\n\
 				   return;\n\
 				   }\n\
-				   TableOfReals data1;\n\
-				   TableOfReals data2;\n\
+				   tc_matrix data1;\n\
+				   tc_matrix data2;\n\
 				   data2.rows = sz;\n\
 				   data2.cols = 2;\n\
 				   data2.values = y[0];\n\
@@ -407,16 +407,16 @@ void runCellSSA(TableOfReals input)
 
 void setupSSA()
 {
-	TableOfReals m;
+	tc_matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "max size", "plot", "show sliders", 0 };
 	double values[] = { 0, 100, 100000, 0 , 1 };
 	char * options1[] = { "Full model", "Selected only" };
 	char * options2[] = { "Variables", "Rates"};
 	char * options3[] = { "Yes", "No" };
-	ArrayOfStrings a1 = { 2, options1 };
-	ArrayOfStrings a2 = { 2, options2 };
-	ArrayOfStrings a3 = { 2, options3 };
+	tc_strings a1 = { 2, options1 };
+	tc_strings a2 = { 2, options2 };
+	tc_strings a3 = { 2, options3 };
 
 	m.rows = 5;
 	if (tc_isMac())
@@ -439,30 +439,30 @@ void setupSSA()
 	}
 }
 
-void runLangevin(TableOfReals input)
+void runLangevin(tc_matrix input)
 {
 	int i;
 	double time = 50.0, dt = 0.1;
 	int k, sz = 0, selection = 0, rateplot = 0;
-	ArrayOfItems A,B;
+	tc_items A,B;
 	FILE * out;
 	int slider = 1;
-	char * runfuncInput = "TableOfReals input";
+	char * runfuncInput = "tc_matrix input";
 	char * runfunc = "";
-	TableOfReals params, initVals, allParams, N;
+	tc_matrix params, initVals, allParams, N;
 
 	if (input.cols > 0)
 	{
 		if (input.rows > 0)
-			selection = (int)getValue(input,0,0);
+			selection = (int)tc_getMatrixValue(input,0,0);
 		if (input.rows > 1)
-			time = getValue(input,1,0);
+			time = tc_getMatrixValue(input,1,0);
 		if (input.rows > 2)
-			dt = getValue(input,2,0);
+			dt = tc_getMatrixValue(input,2,0);
 		if (input.rows > 3)
-			rateplot = (int)getValue(input,3,0);
+			rateplot = (int)tc_getMatrixValue(input,3,0);
 		if (input.rows > 4)
-			slider = (int)getValue(input,4,0);
+			slider = (int)tc_getMatrixValue(input,4,0);
 	}
 	
 	if (time < 0) 
@@ -484,9 +484,9 @@ void runLangevin(TableOfReals input)
 	if (selection > 0)
 	{
 		A = tc_selectedItems();
-		if (nthItem(A,0) == 0)
+		if (tc_getItem(A,0) == 0)
 		{
-			deleteArrayOfItems(&A);
+			tc_deleteItemsArray(&A);
 			tc_errorReport("No Model Selected\0");
 			return;
 
@@ -502,47 +502,47 @@ void runLangevin(TableOfReals input)
 		params = tc_getParameters(A);
 		N = tc_getStoichiometry(A);
 		B = tc_findItems(N.rownames);
-		deleteMatrix(&N);
+		tc_deleteMatrix(&N);
 		initVals = tc_getInitialValues(B);
 
-		allParams = newMatrix(initVals.rows+params.rows,2);
+		allParams = tc_createMatrix(initVals.rows+params.rows,2);
 
 		for (i=0; i < params.rows; ++i)
 		{
-			setRowName(allParams,i, getRowName(params,i));
-			setValue(allParams,i,0,getValue(params,i,0)/10.0);
-			setValue(allParams,i,1, 2*getValue(params,i,0) - getValue(allParams,i,0));
+			tc_setRowName(allParams,i, tc_getRowName(params,i));
+			tc_setMatrixValue(allParams,i,0,tc_getMatrixValue(params,i,0)/10.0);
+			tc_setMatrixValue(allParams,i,1, 2*tc_getMatrixValue(params,i,0) - tc_getMatrixValue(allParams,i,0));
 		}
 		for (i=0; i < initVals.rows; ++i)
 		{
-			setRowName(allParams,i+params.rows, getRowName(initVals,i));
-			setValue(allParams,i+params.rows,0,getValue(initVals,i,0)/10.0);
-			setValue(allParams,i+params.rows,1, 2*getValue(initVals,i,0) - getValue(allParams,i+params.rows,0));
+			tc_setRowName(allParams,i+params.rows, tc_getRowName(initVals,i));
+			tc_setMatrixValue(allParams,i+params.rows,0,tc_getMatrixValue(initVals,i,0)/10.0);
+			tc_setMatrixValue(allParams,i+params.rows,1, 2*tc_getMatrixValue(initVals,i,0) - tc_getMatrixValue(allParams,i+params.rows,0));
 		}
 		
-		deleteMatrix(&initVals);
-		deleteMatrix(&params);
-		deleteArrayOfItems(&B);
+		tc_deleteMatrix(&initVals);
+		tc_deleteMatrix(&params);
+		tc_deleteItemsArray(&B);
 		runfunc = runfuncInput;
 	}
 	
-	if (nthItem(A,0) != 0)
+	if (tc_getItem(A,0) != 0)
 	{
 		k = tc_writeModel( "runssa", A );
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (!k)
 		{
 			tc_errorReport("No Model\0");
 			if (slider)
-				deleteMatrix(&allParams);
+				tc_deleteMatrix(&allParams);
 			return;
 		}
 	}
 	else
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("No Model\0");
 		return;
 	}
@@ -551,9 +551,9 @@ void runLangevin(TableOfReals input)
 	
 	if (!out)
 	{
-		deleteArrayOfItems(&A);
+		tc_deleteItemsArray(&A);
 		if (slider)
-			deleteMatrix(&allParams);
+			tc_deleteMatrix(&allParams);
 		tc_errorReport("Cannot write to file runssa.c in user directory\0");
 		return;
 	}
@@ -572,7 +572,7 @@ void ssaFunc(double time, double * u, double * rates, void * data)\n\
 	}\n\
 }\n\
 \n\
-static void computeStats(double * mu, double * var, TableOfReals * values, void * data)\n\
+static void computeStats(double * mu, double * var, tc_matrix * values, void * data)\n\
 {\n\
 	int i,j;\n\
 	double * sum_xx = (double*)malloc((TCvars+TCreactions) * sizeof(double));\n\
@@ -585,7 +585,7 @@ static void computeStats(double * mu, double * var, TableOfReals * values, void 
 	{\n\
 		for (j=0; j < TCvars; ++j)\n\
 		{\n\
-			u[j] = getValue((*values),i,j+1);\n\
+			u[j] = tc_getMatrixValue((*values),i,j+1);\n\
 			sum_x[j] += u[j];\n\
 			sum_xx[j] += u[j]*u[j];\n\
 		}\n\
@@ -611,9 +611,9 @@ TCAPIEXPORT void run(%s) \n\
 	initMTrand();\n\
 	int sz = 0,i,j;\n\
 	double * y, *y0, * mu, * var;\n\
-	TableOfReals data;\n\
-	ArrayOfItems A;\n\
-	ArrayOfStrings names;\n\
+	tc_matrix data;\n\
+	tc_items A;\n\
+	tc_strings names;\n\
 	char s[100];\n\
 	TCmodel * model = (TCmodel*)malloc(sizeof(TCmodel));\n\
 	(*model) = TC_initial_model;\n",time,time/20.0,runfunc);
@@ -621,7 +621,7 @@ TCAPIEXPORT void run(%s) \n\
 if (slider)
 {
 	for (i=0; i < allParams.rows; ++i)
-		fprintf(out, "    model->%s = getValue(input,%i,0);\n",getRowName(allParams,i),i);
+		fprintf(out, "    model->%s = tc_getMatrixValue(input,%i,0);\n",tc_getRowName(allParams,i),i);
 }
 
 fprintf(out, "\
@@ -646,9 +646,9 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	for (i=0; i < TCvars; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i],sqrt(var[i]));\n\
-	   tc_displayText(nthItem(A,i),s);\n\
+	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
+	tc_deleteItemsArray(&A);\n\
 	names.length = TCreactions;\n\
 	names.strings = TCreactionnames;\n\
 	A = tc_findItems(names);\n\
@@ -657,9 +657,9 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	for (i=0; i < TCreactions; ++i)\n\
 	{\n\
 	   sprintf(s, \"mean=%%.3lf \\nsd=%%.3lf\",mu[i+TCvars],sqrt(var[i+TCvars]));\n\
-	   tc_displayText(nthItem(A,i),s);\n\
+	   tc_displayText(tc_getItem(A,i),s);\n\
 	}\n\
-	deleteArrayOfItems(&A);\n\
+	tc_deleteItemsArray(&A);\n\
 	free(mu);\n\
 	free(var);\n\
 	names.length = TCvars;\n\
@@ -674,18 +674,18 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	}\n\
 	data.cols = 1+names.length;\n\
 	data.values = y;\n\
-	data.rownames = newArrayOfStrings(0);\n\
-	data.colnames = newArrayOfStrings(names.length+1);\n\
-	setColumnName(data,0,\"time\\0\");\n\
-	for(i=0; i<names.length; ++i) setColumnName(data,1+i,nthString(names,i));\n\
+	data.rownames = tc_createStringsArray(0);\n\
+	data.colnames = tc_createStringsArray(names.length+1);\n\
+	tc_setColumnName(data,0,\"time\\0\");\n\
+	for(i=0; i<names.length; ++i) tc_setColumnName(data,1+i,tc_getString(names,i));\n\
 	tc_multiplot(2,1);\n\
 	tc_plot(data,\"Stochastic Simulation\");\n\
 	tc_hist(data,\"Histogram\");\n\
-	deleteMatrix(&data);\n\
+	tc_deleteMatrix(&data);\n\
 	free(model);\n",time,dt,(int)(time/dt),rateplot);
 
 	if (slider)
-		fprintf(out, "    deleteMatrix(&input);\n    return;\n}\n");
+		fprintf(out, "    tc_deleteMatrix(&input);\n    return;\n}\n");
 	else
 		fprintf(out, "    return;\n}\n");
 
@@ -694,7 +694,7 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 	if (slider)
 	{
 		tc_compileBuildLoadSliders("runssa.c -lssa\0","run\0","Gillespie algorithm\0",allParams);
-		deleteMatrix(&allParams);
+		tc_deleteMatrix(&allParams);
 	}
 	else
 		tc_compileBuildLoad("runssa.c -lssa\0","run\0","Gillespie algorithm\0");
@@ -704,12 +704,12 @@ s	y = Langevin(TCvars, TCreactions, TCstoic, &(ssaFunc), TCinit, %lf, %lf, (void
 
 void setupCellSSA()
 {
-	TableOfReals m;
+	tc_matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "num. cells", "growth rate", "death rate", "mutation rate", "num. points" , 0 };
 	double values[] = { 0, 100, 100, 0.05, 0.001, 0.001, 100 };
 	char * options1[] = { "Full model", "Selected only" }; 
-	ArrayOfStrings a1 = {2, options1};
+	tc_strings a1 = {2, options1};
 	m.colnames.strings = cols;
 	m.rownames.strings = rows;
 	m.values = values;
@@ -723,16 +723,16 @@ void setupCellSSA()
 
 void setupLangevin()
 {
-	TableOfReals m;
+	tc_matrix m;
 	char * cols[] = { "value" };
 	char * rows[] = { "model", "time", "step size", "plot", "show sliders", 0 };
 	double values[] = { 0, 100, 0.1, 0 , 1 };
 	char * options1[] = { "Full model", "Selected only" };
 	char * options2[] = { "Variables", "Rates"};
 	char * options3[] = { "Yes", "No" };
-	ArrayOfStrings a1 = {2, options1};
-	ArrayOfStrings a2 = {2, options2};
-	ArrayOfStrings a3 = {2, options3};
+	tc_strings a1 = {2, options1};
+	tc_strings a2 = {2, options2};
+	tc_strings a3 = {2, options3};
 
 	m.rows = 5;
 	m.cols = 1;

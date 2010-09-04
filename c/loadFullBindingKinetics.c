@@ -18,15 +18,15 @@ TCAPIEXPORT void tc_main()
 
 void run()
 {
-  ArrayOfItems selected = tc_selectedItems();
+  tc_items selected = tc_selectedItems();
   void* p; 
-  ArrayOfItems C;
+  tc_items C;
   int i, j, k, N = 0;
-  ArrayOfItems js, tfs, parts;
-  ArrayOfStrings names, jnames;
-  TableOfReals m;
+  tc_items js, tfs, parts;
+  tc_strings names, jnames;
+  tc_matrix m;
   
-  p = nthItem(selected,0);
+  p = tc_getItem(selected,0);
   if (p == 0) return;
 
   //if (! tc_isA(p,"Regulator")) return;
@@ -36,45 +36,45 @@ void run()
   //count the number of repressors/activators
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(nthItem(C,i),"Binding"))
+     if (tc_isA(tc_getItem(C,i),"Binding"))
      {
         ++N;
      }
   }
   
   
-  js = newArrayOfItems(N);
+  js = tc_createItemsArray(N);
 
   //get kon,koff,and trans.reg. connections
   j = 0;
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(nthItem(C,i),"Binding"))
+     if (tc_isA(tc_getItem(C,i),"Binding"))
      {
-        setNthItem(js,j, nthItem(C,i));
+        tc_setItem(js,j, tc_getItem(C,i));
         ++j;
      }         
   }
 
   //get the repressors/activators names
 
-  tfs = newArrayOfItems(N+1);
-  setNthItem(tfs,0,p);
+  tfs = tc_createItemsArray(N+1);
+  tc_setItem(tfs,0,p);
   k = 1;
   for (i=0; i < C.length; ++i)
   {
-     if (tc_isA(nthItem(C,i),"Binding"))
+     if (tc_isA(tc_getItem(C,i),"Binding"))
      {
-        parts = tc_getConnectedNodes(nthItem(C,i));
+        parts = tc_getConnectedNodes(tc_getItem(C,i));
         for (j=0; i < parts.length; ++j)
         {
-           if (nthItem(parts,j) != p)
+           if (tc_getItem(parts,j) != p)
            {
-              setNthItem( tfs, k, nthItem(parts,j));  //save tfs
+              tc_setItem( tfs, k, tc_getItem(parts,j));  //save tfs
               ++k;
            }
         }
-        deleteArrayOfItems(&parts);
+        tc_deleteItemsArray(&parts);
      }
   }
   
@@ -88,15 +88,15 @@ void run()
   tc_printTable(m);
   tc_setRates(js,m.colnames);
   if (m.colnames.strings)  free(m.colnames.strings);
-  m.colnames = newArrayOfStrings(0);
+  m.colnames = tc_createStringsArray(0);
   tc_setStoichiometry(js,m);
 
-  deleteArrayOfItems(&js); 
-  deleteArrayOfItems(&tfs);  
-  deleteMatrix(&m);
+  tc_deleteItemsArray(&js); 
+  tc_deleteItemsArray(&tfs);  
+  tc_deleteMatrix(&m);
 
-  deleteArrayOfStrings(&names);
-  deleteArrayOfStrings(&jnames);
-  deleteArrayOfItems(&selected);
+  tc_deleteStringsArray(&names);
+  tc_deleteStringsArray(&jnames);
+  tc_deleteItemsArray(&selected);
   return; 
 }

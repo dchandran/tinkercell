@@ -24,31 +24,31 @@ void tc_importSBML(const char* s)
 		_tc_importSBML(s);
 }
 
-TableOfReals (*_tc_simulateODE)(double, double) = 0;
+tc_matrix (*_tc_simulateODE)(double, double) = 0;
 /*!
  \brief simulate the current model
  \param double total time for simulation
  \param double time increment (step size)
  \ingroup Simulation
 */
-TableOfReals tc_simulateODE(double a, double b)
+tc_matrix tc_simulateODE(double a, double b)
 {
 	if (_tc_simulateODE)
 		return _tc_simulateODE(a,b);
-	return (newMatrix(0,0));
+	return (tc_createMatrix(0,0));
 }
 
-TableOfReals (*_tc_simulateSSA)(double) = 0;
+tc_matrix (*_tc_simulateSSA)(double) = 0;
 /*!
  \brief load sbml model as string
  \param double total time for simulation
  \ingroup Simulation
 */
-TableOfReals tc_simulateSSA(double t)
+tc_matrix tc_simulateSSA(double t)
 {
 	if (_tc_simulateSSA)
 		return _tc_simulateSSA(t);
-	return (newMatrix(0,0));
+	return (tc_createMatrix(0,0));
 }
 
 /*!
@@ -58,8 +58,8 @@ TableOfReals tc_simulateSSA(double t)
 void tc_SBML_api(
 	void (*exportSBML)(const char*),
 	void (*importSBML)(const char*),
-	TableOfReals (*simulateODE)(double, double),
-	TableOfReals (*simulateSSA)(double))
+	tc_matrix (*simulateODE)(double, double),
+	tc_matrix (*simulateSSA)(double))
 {
 	_tc_exportSBML = exportSBML;
 	_tc_importSBML = importSBML;

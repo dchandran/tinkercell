@@ -16,18 +16,18 @@ TCAPIEXPORT void tc_main()
 void run()
 {
 	int k;
-	ArrayOfItems A;
+	tc_items A;
 	FILE * out;
 	
 	A = tc_selectedItems();
 	
-	if (nthItem(A,0) == 0)
+	if (tc_getItem(A,0) == 0)
 		A = tc_allItems();
     
-	if (nthItem(A,0) != 0)
+	if (tc_getItem(A,0) != 0)
 	{
 	   k = tc_writeModel( "runloops", A );
-       deleteArrayOfItems(&A);
+       tc_deleteItemsArray(&A);
 	   if (!k)
 	   {
 			tc_errorReport("No Model\0");
@@ -36,7 +36,7 @@ void run()
 	}
 	else
 	{
-       deleteArrayOfItems(&A);
+       tc_deleteItemsArray(&A);
 	   tc_errorReport("No Model\0");
        return;  
 	}
@@ -47,7 +47,7 @@ void run()
 #include \"TC_api.h\"\n\
 #include \"cvodesim.h\"\n\
 #include \"loops.h\"\n\
-int run(TableOfReals M)\n\
+int run(tc_matrix M)\n\
 {\n\
    int i,j;\n\
    TCinitialize();\n\

@@ -47,7 +47,7 @@ namespace Tinkercell
 		return (long)(p);
 	}
 
-	QList<ItemHandle*>* ConvertValue(ArrayOfItems A)
+	QList<ItemHandle*>* ConvertValue(tc_items A)
 	{
 		MainWindow * main = MainWindow::instance();
 		QList<ItemHandle*> * list = new QList<ItemHandle*>();
@@ -60,9 +60,9 @@ namespace Tinkercell
 		return list;
 	}
 
-	ArrayOfItems ConvertValue(const QList<ItemHandle*>& list)
+	tc_items ConvertValue(const QList<ItemHandle*>& list)
 	{
-		ArrayOfItems A;
+		tc_items A;
 		void * p = 0;
 		A.length = list.size();
 		A.items = 0;
@@ -110,7 +110,7 @@ namespace Tinkercell
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				D->value(i,j) = getValue(m,i,j);
+				D->value(i,j) = tc_getMatrixValue(m,i,j);
 			}
 
 		return D;
@@ -159,13 +159,13 @@ namespace Tinkercell
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				setValue(m,i,j,D.at(i,j));
+				tc_setMatrixValue(m,i,j,D.at(i,j));
 			}
 
 		return m;
 	}
 	
-	DataTable<QString>* ConvertValue(TableOfStrings m)
+	DataTable<QString>* ConvertValue(tc_table m)
 	{
 		DataTable<QString>* D = new DataTable<QString>;
 		if (m.rows < 0 || m.cols < 0) return D;
@@ -180,15 +180,15 @@ namespace Tinkercell
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				D->value(i,j) = QString(getString(m,i,j));
+				D->value(i,j) = QString(tc_getTableValue(m,i,j));
 			}
 
 		return D;
 	}
 	
-	TableOfStrings ConvertValue(const DataTable<QString>& D)
+	tc_table ConvertValue(const DataTable<QString>& D)
 	{
-		TableOfStrings m;
+		tc_table m;
 
 		m.rownames.length = m.rows = D.rows();
 		m.colnames.length = m.cols = D.cols();		
@@ -229,13 +229,13 @@ namespace Tinkercell
 		for (int i=0; i < m.rows; ++i)
 			for (int j=0; j < m.cols; ++j)
 			{
-				setString(m,i,j,D.at(i,j).toAscii().data());
+				tc_setTableValue(m,i,j,D.at(i,j).toAscii().data());
 			}
 
 		return m;
 	}
 	
-	QStringList ConvertValue(ArrayOfStrings c)
+	QStringList ConvertValue(tc_strings c)
 	{
 		QStringList slist;
 		for (int i=0; i < c.length && c.strings && c.strings[i]; ++i)
@@ -243,9 +243,9 @@ namespace Tinkercell
 		return slist;
 	}
 
-	ArrayOfStrings ConvertValue(const QStringList& list)
+	tc_strings ConvertValue(const QStringList& list)
 	{
-		ArrayOfStrings A;
+		tc_strings A;
 		if (list.size() < 1)
 		{
 			A.length = 0;

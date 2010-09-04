@@ -8,12 +8,12 @@ BEGIN_C_DECLS
  \brief get the event triggers for a set of items
  \ingroup Modeling
 */
-TCAPIEXPORT ArrayOfStrings tc_getEventTriggers();
+TCAPIEXPORT tc_strings tc_getEventTriggers();
 /*! 
  \brief get the event responses for a set of items
  \ingroup Modeling
 */
-TCAPIEXPORT ArrayOfStrings tc_getEventResponses();
+TCAPIEXPORT tc_strings tc_getEventResponses();
 /*! 
  \brief set the event trigger and response
  \ingroup Modeling
@@ -24,8 +24,8 @@ TCAPIEXPORT void tc_addEvent(const char* trigger, const char* event);
  \ingroup init
 */
 TCAPIEXPORT void tc_SimulationEventsTool_api(
-		ArrayOfStrings (*getEventTriggers)(),
-		 ArrayOfStrings (*getEventResponses)(),
+		tc_strings (*getEventTriggers)(),
+		 tc_strings (*getEventResponses)(),
 		 void (*addEvent)(const char*, const char*)
 	);
 
@@ -33,12 +33,12 @@ TCAPIEXPORT void tc_SimulationEventsTool_api(
  \brief get the forcing function names for a set of items
  \ingroup Modeling
 */
-TCAPIEXPORT ArrayOfStrings tc_getForcingFunctionNames(ArrayOfItems a);
+TCAPIEXPORT tc_strings tc_getForcingFunctionNames(tc_items a);
 /*! 
  \brief get the forcing function definitions for a set of items
  \ingroup Modeling
 */
-TCAPIEXPORT ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a);
+TCAPIEXPORT tc_strings tc_getForcingFunctionAssignments(tc_items a);
 
 /*! 
  \brief set the forcing function for an item
@@ -51,8 +51,8 @@ TCAPIEXPORT void tc_addForcingFunction(long item,const char* functionName, const
  \ingroup init
 */
 TCAPIEXPORT void tc_AssignmentFunctionsTool_api(
-		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
-		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
+		tc_strings (*getForcingFunctionNames)(tc_items),
+		 tc_strings (*getForcingFunctionAssignments)(tc_items),
 		 void (*addForcingFunction)(long,const char*, const char*)
 	);
 /*! 

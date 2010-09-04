@@ -39,7 +39,7 @@ namespace Tinkercell
 	class CThread;
 	class NodeGraphicsItem;
 	
-	typedef TableOfReals Matrix;
+	typedef tc_matrix Matrix;
 	typedef void (*MatrixInputFunction)(Matrix);
 	
 	/*! \brief Function to Signal converter for MainWindow*/
@@ -98,7 +98,7 @@ namespace Tinkercell
 		void getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
 		
-        void getString(QSemaphore*,QString*,const QString&);
+        void tc_getTableValue(QSemaphore*,QString*,const QString&);
         void getFilename(QSemaphore*,QString*);
         void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&);
         void getNumber(QSemaphore*,qreal*,const QString&);
@@ -120,25 +120,25 @@ namespace Tinkercell
 
 	public:
 		void zoom(double);
-		ArrayOfItems allItems();
-		ArrayOfItems itemsOfFamily(const char*);
-		ArrayOfItems itemsOfFamily(const char*, ArrayOfItems);
-		ArrayOfItems selectedItems();
+		tc_items allItems();
+		tc_items itemsOfFamily(const char*);
+		tc_items itemsOfFamily(const char*, tc_items);
+		tc_items selectedItems();
 		long find(const char*);
-		ArrayOfItems findItems(ArrayOfStrings);
+		tc_items findItems(tc_strings);
 		void select(long);
 		void deselect();
 		const char* getName(long);
 		const char* getUniqueName(long);
 		void setName(long,const char*);
-		ArrayOfStrings getNames(ArrayOfItems);
-		ArrayOfStrings getUniqueNames(ArrayOfItems);
+		tc_strings getNames(tc_items);
+		tc_strings getUniqueNames(tc_items);
 		const char* getFamily(long);
 		int isA(long,const char*);
 		void removeItem(long);
 		void setPos(long,double ,double );
-		void setPos(ArrayOfItems,Matrix);
-		Matrix getPos(ArrayOfItems);
+		void setPos(tc_items,Matrix);
+		Matrix getPos(tc_items);
 		double getY(long);
 		double getX(long);
 		void moveSelected(double ,double );
@@ -150,7 +150,7 @@ namespace Tinkercell
 		void createInputWindow(Matrix, const char*, const char*,const char*);
 		void createInputWindow(Matrix, const char*, MatrixInputFunction);
 		void createSliders(long, Matrix, MatrixInputFunction);
-		void addInputWindowOptions(const char*, int i, int j, ArrayOfStrings);
+		void addInputWindowOptions(const char*, int i, int j, tc_strings);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
 		int isWindows();
@@ -158,23 +158,23 @@ namespace Tinkercell
 		int isLinux();
 		const char* appDir();
 
-		ArrayOfStrings getNumericalDataNames(long);
-		ArrayOfStrings getTextDataNames(long);
+		tc_strings getNumericalDataNames(long);
+		tc_strings getTextDataNames(long);
 
 		Matrix getNumericalData(long,const char*);
 		void setNumericalData(long,const char*, Matrix);
 		
-		TableOfStrings getTextData(long,const char*);
-		void setTextData(long,const char*,TableOfStrings);
+		tc_table getTextData(long,const char*);
+		void setTextData(long,const char*,tc_table);
 
-		ArrayOfItems getChildren(long);
+		tc_items getChildren(long);
 		long getParent(long);
 		
-		const char* getString(const char*);
+		const char* tc_getTableValue(const char*);
         const char* getFilename();
-        int getSelectedString(const char*, ArrayOfStrings,const char*);
+        int getSelectedString(const char*, tc_strings,const char*);
         double getNumber(const char*);
-        void getNumbers(ArrayOfStrings, double*);
+        void getNumbers(tc_strings, double*);
         
 		int askQuestion(const char*);
 		void messageDialog(const char*);
@@ -212,25 +212,25 @@ namespace Tinkercell
 		GraphicsScene * currentScene() const;
 	
 		static void _zoom(double);
-		static ArrayOfItems _allItems();
-		static ArrayOfItems _itemsOfFamily(const char*);
-		static ArrayOfItems _itemsOfFamily2(const char*, ArrayOfItems);
-		static ArrayOfItems _selectedItems();
+		static tc_items _allItems();
+		static tc_items _itemsOfFamily(const char*);
+		static tc_items _itemsOfFamily2(const char*, tc_items);
+		static tc_items _selectedItems();
 		static long _find(const char*);
-		static ArrayOfItems _findItems(ArrayOfStrings);
+		static tc_items _findItems(tc_strings);
 		static void _select(long);
 		static void _deselect();
 		static const char* _getName(long);
 		static const char* _getUniqueName(long);
 		static void _setName(long,const char*);
-		static ArrayOfStrings _getNames(ArrayOfItems);
-		static ArrayOfStrings _getUniqueNames(ArrayOfItems);
+		static tc_strings _getNames(tc_items);
+		static tc_strings _getUniqueNames(tc_items);
 		static const char* _getFamily(long);
 		static int _isA(long,const char*);
 		static void _removeItem(long);
 		static void _setPos(long,double ,double );
-		static void _setPos2(ArrayOfItems,Matrix);
-		static Matrix _getPos(ArrayOfItems);
+		static void _setPos2(tc_items,Matrix);
+		static Matrix _getPos(tc_items);
 		static double _getY(long);
 		static double _getX(long);
 		static void _moveSelected(double ,double );
@@ -242,25 +242,25 @@ namespace Tinkercell
 		static void _createInputWindow1(Matrix, const char*, const char*,const char*);
 		static void _createInputWindow2(Matrix, const char*, MatrixInputFunction);
 		static void _createSliders(long, Matrix, MatrixInputFunction);
-		static void _addInputWindowOptions(const char*, int i, int j, ArrayOfStrings);
+		static void _addInputWindowOptions(const char*, int i, int j, tc_strings);
 		static void _addInputWindowCheckbox(const char*, int i, int j);
 		static void _openNewWindow(const char*);
 		static int _isWindows();
 		static int _isMac();
 		static int _isLinux();
 		static const char* _appDir();
-		static ArrayOfStrings _getNumericalDataNames(long);
-		static ArrayOfStrings _getTextDataNames(long);
+		static tc_strings _getNumericalDataNames(long);
+		static tc_strings _getTextDataNames(long);
 		static Matrix _getNumericalData(long,const char*);
 		static void _setNumericalData(long, const char *, Matrix);
-		static TableOfStrings _getTextData(long,const char*);
-		static void _setTextData(long, const char *, TableOfStrings);
-		static ArrayOfItems _getChildren(long);
+		static tc_table _getTextData(long,const char*);
+		static void _setTextData(long, const char *, tc_table);
+		static tc_items _getChildren(long);
 		static long _getParent(long);
-		static const char* _getString(const char*);
-        static int _getSelectedString(const char*, ArrayOfStrings,const char*);
+		static const char* _tc_getTableValue(const char*);
+        static int _getSelectedString(const char*, tc_strings,const char*);
         static double _getNumber(const char*);
-        static void _getNumbers(ArrayOfStrings, double *);
+        static void _getNumbers(tc_strings, double *);
         static const char* _getFilename();
 		static void _setSize(long,double,double,int);
 		static double _getWidth(long);
@@ -276,23 +276,23 @@ namespace Tinkercell
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
-        QDialog * getStringDialog;
+        QDialog * tc_getTableValueDialog;
         /*! 
 		* \brief widget for selecting strings. 
 		*/
-        QListWidget getStringList;
+        QListWidget tc_getTableValueList;
         /*! 
 		* \brief number for selecting strings. 
 		*/
-        int getStringListNumber;
+        int tc_getTableValueListNumber;
         /*! 
 		* \brief list for selecting numbers. 
 		*/
-        QStringList getStringListText;
+        QStringList tc_getTableValueListText;
         /*! 
 		* \brief label for selecting numbers. 
 		*/
-        QLabel getStringListLabel;
+        QLabel tc_getTableValueListLabel;
 		/*!
 		* \brief initializes all the functions in the fToS object
 		*/
@@ -659,23 +659,23 @@ namespace Tinkercell
 		/*! \brief Stores the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-        void getStringListItemSelected(QListWidgetItem *);
+        void tc_getTableValueListItemSelected(QListWidgetItem *);
         /*! \brief Stores the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-        void getStringListRowChanged(int);
+        void tc_getTableValueListRowChanged(int);
         /*! \brief Negates the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-		void getStringListCanceled();
+		void tc_getTableValueListCanceled();
         /*! \brief Searches the list of strings displayed to user
 		*	\sa getSelectedString
 		*/
-        void getStringSearchTextEdited(const QString & text);
+        void tc_getTableValueSearchTextEdited(const QString & text);
 		/*!
         * \brief Get string from user. Part of the TinkerCell C interface.
         */
-        void getString(QSemaphore*,QString*,const QString&);
+        void tc_getTableValue(QSemaphore*,QString*,const QString&);
         /*!
         * \brief Get string from user from a list. Part of the TinkerCell C interface.
         */

@@ -8,7 +8,7 @@ BEGIN_C_DECLS
  \brief merge an array of items
  \ingroup Merging
 */
-TCAPIEXPORT void tc_merge(ArrayOfItems parts);
+TCAPIEXPORT void tc_merge(tc_items parts);
 
 /*! 
  \brief separate all the graphical items in the handle 
@@ -21,7 +21,7 @@ TCAPIEXPORT void tc_separate(long part);
  \ingroup init
 */
 TCAPIEXPORT void tc_GroupHandlerTool_api(
-		void (*merge)(ArrayOfItems),
+		void (*merge)(tc_items),
 		void (*separate)(long)
 	);
 

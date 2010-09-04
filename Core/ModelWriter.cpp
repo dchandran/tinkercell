@@ -186,7 +186,7 @@ namespace Tinkercell
 		//writeStartElement("Table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.tc_getRowNames().join(sep));
+		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
 		writer->writeAttribute("desc",table.description());
 
@@ -211,7 +211,7 @@ namespace Tinkercell
 		//writeStartElement("tc_table");
 		writer->writeAttribute("rows",QString::number(table.rows()));
 		writer->writeAttribute("cols",QString::number(table.cols()));
-		writer->writeAttribute("rowNames",table.tc_getRowNames().join(sep));
+		writer->writeAttribute("rowNames",table.getRowNames().join(sep));
 		writer->writeAttribute("colNames",table.getColNames().join(sep));
 
 		QStringList values;

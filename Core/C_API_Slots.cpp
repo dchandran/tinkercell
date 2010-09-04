@@ -24,7 +24,7 @@ namespace Tinkercell
 {
 	Core_FtoS C_API_Slots::fToS;
 	
-	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), tc_getTableValueDialog(0)
+	C_API_Slots::C_API_Slots(MainWindow * main) : mainWindow(main), getStringDialog(0)
 	{ 
 		connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
 		connect(mainWindow,SIGNAL(escapeSignal(const QWidget*)),this,SLOT(escapeSlot(const QWidget*)));
@@ -187,7 +187,7 @@ namespace Tinkercell
 				&(_getNumericalDataNames),
 				&(_getTextDataNames),
 				&(_zoom),
-				&(_tc_getTableValue),
+				&(_getString),
 				&(_getSelectedString),
 				&(_getNumber),
 				&(_getNumbers),
@@ -275,7 +275,7 @@ namespace Tinkercell
 
 		connect(&fToS,SIGNAL(zoom(QSemaphore*,qreal)),this,SLOT(zoom(QSemaphore*,qreal)));
 
-		connect(&fToS,SIGNAL(tc_getTableValue(QSemaphore*,QString*,const QString&)),this,SLOT(tc_getTableValue(QSemaphore*,QString*,const QString&)));
+		connect(&fToS,SIGNAL(getString(QSemaphore*,QString*,const QString&)),this,SLOT(getString(QSemaphore*,QString*,const QString&)));
         connect(&fToS,SIGNAL(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)),this,SLOT(getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&)));
         connect(&fToS,SIGNAL(getNumber(QSemaphore*,qreal*,const QString&)),this,SLOT(getNumber(QSemaphore*,qreal*,const QString&)));
         connect(&fToS,SIGNAL(getNumbers(QSemaphore*,const QStringList&,qreal*)),this,SLOT(getNumbers(QSemaphore*,const QStringList&,qreal*)));
@@ -400,7 +400,7 @@ namespace Tinkercell
 			
 			MultithreadedSliderWidget * widget = new MultithreadedSliderWidget(mainWindow, cthread, Qt::Horizontal);
 			
-			QStringList names(data.tc_getRowNames());
+			QStringList names(data.getRowNames());
 			QList<double> min, max;
 			for (int i=0; i < names.size(); ++i)
 			{
@@ -1828,7 +1828,7 @@ namespace Tinkercell
             s->release();
     }
 
-    void C_API_Slots::tc_getTableValue(QSemaphore* s,QString* p,const QString& name)
+    void C_API_Slots::getString(QSemaphore* s,QString* p,const QString& name)
     {
         if (p)
         {
@@ -1886,40 +1886,40 @@ namespace Tinkercell
             s->release();
     }
 
-    void C_API_Slots::tc_getTableValueListItemSelected(QListWidgetItem * item)
+    void C_API_Slots::getStringListItemSelected(QListWidgetItem * item)
     {
         if (item)
-            tc_getTableValueListNumber = tc_getTableValueList.currentRow();
-        if (tc_getTableValueDialog)
-            tc_getTableValueDialog->accept();
+            getStringListNumber = getStringList.currentRow();
+        if (getStringDialog)
+            getStringDialog->accept();
     }
 
-    void C_API_Slots::tc_getTableValueListRowChanged ( int  )
+    void C_API_Slots::getStringListRowChanged ( int  )
     {
-        if (tc_getTableValueList.currentItem())
-            tc_getTableValueListNumber = tc_getTableValueListText.indexOf(tc_getTableValueList.currentItem()->text());
+        if (getStringList.currentItem())
+            getStringListNumber = getStringListText.indexOf(getStringList.currentItem()->text());
     }
 
-    void C_API_Slots::tc_getTableValueListCanceled (  )
+    void C_API_Slots::getStringListCanceled (  )
     {
-        tc_getTableValueListNumber = -1;
+        getStringListNumber = -1;
     }
 
-    void C_API_Slots::tc_getTableValueSearchTextEdited ( const QString & text )
+    void C_API_Slots::getStringSearchTextEdited ( const QString & text )
     {
-        tc_getTableValueList.clear();
+        getStringList.clear();
 
         QStringList list;
 
         if (text.isEmpty())
-            list = tc_getTableValueListText;
+            list = getStringListText;
         else
-            for (int i=0; i < tc_getTableValueListText.size(); ++i)
-                if (tc_getTableValueListText[i].toLower().contains(text.toLower()))
-                    list << tc_getTableValueListText[i];
+            for (int i=0; i < getStringListText.size(); ++i)
+                if (getStringListText[i].toLower().contains(text.toLower()))
+                    list << getStringListText[i];
 
-        tc_getTableValueList.addItems(list);
-        tc_getTableValueList.setCurrentRow(0);
+        getStringList.addItems(list);
+        getStringList.setCurrentRow(0);
     }
 
     void C_API_Slots::getSelectedString(QSemaphore* s,int* p,const QString& name, const QStringList& list0,const QString& init)
@@ -1928,23 +1928,23 @@ namespace Tinkercell
     	
         if (p)
         {
-            tc_getTableValueListText.clear();
-            if (option == 0 && !tc_getTableValueDialog)
+            getStringListText.clear();
+            if (option == 0 && !getStringDialog)
             {
-                tc_getTableValueDialog = new QDialog(mainWindow);
-                tc_getTableValueDialog->setSizeGripEnabled (true);
+                getStringDialog = new QDialog(mainWindow);
+                getStringDialog->setSizeGripEnabled (true);
                 QVBoxLayout * layout = new QVBoxLayout;
-                layout->addWidget(&tc_getTableValueListLabel);
-                layout->addWidget(&tc_getTableValueList);
+                layout->addWidget(&getStringListLabel);
+                layout->addWidget(&getStringList);
                 QHBoxLayout * buttonsLayout = new QHBoxLayout;
 
                 QLineEdit * search = new QLineEdit(tr("Search"));
-                connect(search,SIGNAL(textEdited(const QString &)),this,SLOT(tc_getTableValueSearchTextEdited(const QString &)));
+                connect(search,SIGNAL(textEdited(const QString &)),this,SLOT(getStringSearchTextEdited(const QString &)));
 
                 QPushButton * okButton = new QPushButton(tr("OK"));
                 QPushButton * cancelButton = new QPushButton(tr("Cancel"));
-                connect(okButton,SIGNAL(released()),tc_getTableValueDialog,SLOT(accept()));
-                connect(cancelButton,SIGNAL(released()),tc_getTableValueDialog,SLOT(reject()));
+                connect(okButton,SIGNAL(released()),getStringDialog,SLOT(accept()));
+                connect(cancelButton,SIGNAL(released()),getStringDialog,SLOT(reject()));
 
                 buttonsLayout->addWidget(okButton,1,Qt::AlignLeft);
                 buttonsLayout->addWidget(cancelButton,1,Qt::AlignLeft);
@@ -1953,11 +1953,11 @@ namespace Tinkercell
 
                 layout->addLayout(buttonsLayout);
 
-                connect(&tc_getTableValueList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(tc_getTableValueListItemSelected(QListWidgetItem * item)));
-                connect(&tc_getTableValueList,SIGNAL(currentRowChanged (int)),this,SLOT(tc_getTableValueListRowChanged (int)));
-                connect(tc_getTableValueDialog,SIGNAL(rejected()),this,SLOT(tc_getTableValueListCanceled()));
+                connect(&getStringList,SIGNAL(itemActivated(QListWidgetItem * item)),this,SLOT(getStringListItemSelected(QListWidgetItem * item)));
+                connect(&getStringList,SIGNAL(currentRowChanged (int)),this,SLOT(getStringListRowChanged (int)));
+                connect(getStringDialog,SIGNAL(rejected()),this,SLOT(getStringListCanceled()));
 
-                tc_getTableValueDialog->setLayout(layout);
+                getStringDialog->setLayout(layout);
             }
 
             QStringList list = list0;
@@ -1972,13 +1972,13 @@ namespace Tinkercell
 
             if (option == 0 && !list0.isEmpty())
             {
-                tc_getTableValueListLabel.setText(name);
-                tc_getTableValueListText = list;
-                tc_getTableValueList.clear();
-                tc_getTableValueList.addItems(list);
-                tc_getTableValueList.setCurrentRow(index);
-                tc_getTableValueDialog->exec();
-                (*p) = tc_getTableValueListNumber;
+                getStringListLabel.setText(name);
+                getStringListText = list;
+                getStringList.clear();
+                getStringList.addItems(list);
+                getStringList.setCurrentRow(index);
+                getStringDialog->exec();
+                (*p) = getStringListNumber;
             }
             else
             {
@@ -2016,9 +2016,9 @@ namespace Tinkercell
 			s->release();
 	}
 
-    const char* C_API_Slots::_tc_getTableValue(const char* title)
+    const char* C_API_Slots::_getString(const char* title)
     {
-        return fToS.tc_getTableValue(title);
+        return fToS.getString(title);
     }
 
     const char* C_API_Slots::_getFilename()
@@ -2075,13 +2075,13 @@ namespace Tinkercell
         delete s;
     }
 
-    const char* Core_FtoS::tc_getTableValue(const char* c)
+    const char* Core_FtoS::getString(const char* c)
     {
         //qDebug() << "get string dialog";
         QSemaphore * s = new QSemaphore(1);
         QString p;
         s->acquire();
-        emit tc_getTableValue(s,&p,ConvertValue(c));
+        emit getString(s,&p,ConvertValue(c));
         s->acquire();
         s->release();
         delete s;

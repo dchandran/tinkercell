@@ -301,15 +301,15 @@ namespace Tinkercell
 
 		settings.beginGroup("MainWindow");
 		
-		settings.tc_setMatrixValue("home", homeDirPath);
-		settings.tc_setMatrixValue("size", size());
-		settings.tc_setMatrixValue("pos", pos());
-		settings.tc_setMatrixValue("maximized",(isMaximized()));
-		settings.tc_setMatrixValue("previousFileName", previousFileName);
-		settings.tc_setMatrixValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
-		settings.tc_setMatrixValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
-		settings.tc_setMatrixValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
-		settings.tc_setMatrixValue("windowState", saveState());
+		settings.setValue("home", homeDirPath);
+		settings.setValue("size", size());
+		settings.setValue("pos", pos());
+		settings.setValue("maximized",(isMaximized()));
+		settings.setValue("previousFileName", previousFileName);
+		settings.setValue("defaultToolWindowOption", (int)(defaultToolWindowOption));
+		settings.setValue("defaultHistoryWindowOption", (int)(defaultHistoryWindowOption));
+		settings.setValue("defaultConsoleWindowOption", (int)(defaultConsoleWindowOption));
+		settings.setValue("windowState", saveState());
 
 		settings.endGroup();
 	}

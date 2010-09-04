@@ -611,7 +611,7 @@ namespace Tinkercell
 	{
 		QString outputs;
 
-		QStringList colnames = table.getColNames(), rownames = table.tc_getRowNames();
+		QStringList colnames = table.getColNames(), rownames = table.getRowNames();
 
 		outputs += tr("\n");
 		for (int i=0; i < colnames.size(); ++i)
@@ -692,7 +692,7 @@ namespace Tinkercell
 			QString s2 = s;
 			s2.remove(h->fullName(".") + tr("."));
 			s2.remove(h->fullName("_") + tr("_"));
-			if (h->textDataTable(id).tc_getRowNames().contains(s2))
+			if (h->textDataTable(id).getRowNames().contains(s2))
 			{
 				cursor.insertText(h->textData(id,s2) + tr("\n"));
 				cursor.setCharFormat(normalFormat);
@@ -706,7 +706,7 @@ namespace Tinkercell
 			QString s2 = s;
 			s2.remove(h->fullName(".") + tr("."));
 			s2.remove(h->fullName("_") + tr("_"));
-			if (h->numericalDataTable(id).tc_getRowNames().contains(s2))
+			if (h->numericalDataTable(id).getRowNames().contains(s2))
 			{
 				cursor.insertText(QString::number(h->numericalData(id,s2)) + tr("\n"));
 				cursor.setCharFormat(normalFormat);

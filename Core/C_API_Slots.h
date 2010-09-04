@@ -97,7 +97,7 @@ namespace Tinkercell
 		void getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
 		
-        void tc_getTableValue(QSemaphore*,QString*,const QString&);
+        void getValue(QSemaphore*,QString*,const QString&);
         void getFilename(QSemaphore*,QString*);
         void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&);
         void getNumber(QSemaphore*,qreal*,const QString&);
@@ -171,7 +171,7 @@ namespace Tinkercell
 		tc_items getChildren(long);
 		long getParent(long);
 		
-		const char* tc_getTableValue(const char*);
+		const char* getString(const char*);
         const char* getFilename();
         int getSelectedString(const char*, tc_strings,const char*);
         double getNumber(const char*);
@@ -283,23 +283,23 @@ namespace Tinkercell
 		/*! 
 		* \brief Dialog for selecting strings. 
 		*/
-        QDialog * tc_getTableValueDialog;
+        QDialog * getStringDialog;
         /*! 
 		* \brief widget for selecting strings. 
 		*/
-        QListWidget tc_getTableValueList;
+        QListWidget getStringList;
         /*! 
 		* \brief number for selecting strings. 
 		*/
-        int tc_getTableValueListNumber;
+        int getStringListNumber;
         /*! 
 		* \brief list for selecting numbers. 
 		*/
-        QStringList tc_getTableValueListText;
+        QStringList getStringListText;
         /*! 
 		* \brief label for selecting numbers. 
 		*/
-        QLabel tc_getTableValueListLabel;
+        QLabel getStringListLabel;
 		/*!
 		* \brief initializes all the functions in the fToS object
 		*/
@@ -666,23 +666,23 @@ namespace Tinkercell
 		/*! \brief Stores the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-        void tc_getTableValueListItemSelected(QListWidgetItem *);
+        void getStringListItemSelected(QListWidgetItem *);
         /*! \brief Stores the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-        void tc_getTableValueListRowChanged(int);
+        void getStringListRowChanged(int);
         /*! \brief Negates the index that the user selected from a list of strings
 		*	\sa getSelectedString
 		*/
-		void tc_getTableValueListCanceled();
+		void getStringListCanceled();
         /*! \brief Searches the list of strings displayed to user
 		*	\sa getSelectedString
 		*/
-        void tc_getTableValueSearchTextEdited(const QString & text);
+        void getStringSearchTextEdited(const QString & text);
 		/*!
         * \brief Get string from user. Part of the TinkerCell C interface.
         */
-        void tc_getTableValue(QSemaphore*,QString*,const QString&);
+        void getString(QSemaphore*,QString*,const QString&);
         /*!
         * \brief Get string from user from a list. Part of the TinkerCell C interface.
         */

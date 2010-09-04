@@ -84,7 +84,7 @@ namespace Tinkercell
 					maxline[i]->setText(QString::number(max[i]));
 					
 				range = (max[i]-min[i]);
-				sliders[i]->tc_setMatrixValue((int)((values.value(i,0) - min[i]) * 100.0/range));
+				sliders[i]->setValue((int)((values.value(i,0) - min[i]) * 100.0/range));
 			}
 		for (int i=0; i < sliders.size(); ++i)
 			if (sliders[i])
@@ -121,7 +121,7 @@ namespace Tinkercell
 					}
 					range = (max[i]-min[i]);
 					values.value(i,0) = x;
-					sliders[i]->tc_setMatrixValue((int)((x - min[i]) * 100.0/range));
+					sliders[i]->setValue((int)((x - min[i]) * 100.0/range));
 				}
 				else
 				{
@@ -184,7 +184,7 @@ namespace Tinkercell
 		maxline.clear();
 		valueline.clear();
 		values.resize(options.size(),1);
-		values.tc_setRowNames(options);
+		values.setRowNames(options);
 		values.setColNames(QStringList() << "value");
 		
 		QHBoxLayout* layout = new QHBoxLayout;
@@ -212,7 +212,7 @@ namespace Tinkercell
 			slider = new QSlider;
 			slider->setOrientation(orientation);
 			slider->setRange(0,100);
-			slider->tc_setMatrixValue(50);
+			slider->setValue(50);
 			slider->setMinimumWidth(100);
 			layout->addWidget(slider,5);
 			sliders << slider;

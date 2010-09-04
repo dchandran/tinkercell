@@ -67,7 +67,7 @@ namespace Tinkercell
 		/*! \brief get the row names
 		\return QStringList row names as QStringList (copy)
 		*/
-		virtual QStringList tc_getRowNames() const;
+		virtual QStringList getRowNames() const;
 		/*! \brief get the ith column name reference. can be used to change the column name
 		\param int col number
 		\return QString reference to the ith column name
@@ -102,7 +102,7 @@ namespace Tinkercell
 		\param QVector vector of strings
 		\return void
 		*/
-		virtual void tc_setRowNames(const QVector<QString>& names);
+		virtual void setRowNames(const QVector<QString>& names);
 		
 		/*! \brief set all the column names. 
 		\param QVector vector of strings
@@ -114,7 +114,7 @@ namespace Tinkercell
 		\param QVector vector of strings
 		\return void
 		*/
-		virtual void tc_setRowNames(const QStringList& names);
+		virtual void setRowNames(const QStringList& names);
 		
 		/*! \brief get the number of rows
 		\return int number of rows
@@ -374,7 +374,7 @@ namespace Tinkercell
 	/*! \brief get the row names
 	\return QStringList row names as QStringList (copy)
 	*/
-	template <typename T>  QStringList DataTable<T>::tc_getRowNames() const { return QStringList::fromVector(rowHeaders); }
+	template <typename T>  QStringList DataTable<T>::getRowNames() const { return QStringList::fromVector(rowHeaders); }
 	/*! \brief get the ith column name reference. can be used to change the column name
 	\param int col number
 	\return QString reference to the ith column name
@@ -439,7 +439,7 @@ namespace Tinkercell
 	\param QVector vector of strings
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::tc_setRowNames(const QVector<QString>& names)
+	template <typename T>  void DataTable<T>::setRowNames(const QVector<QString>& names)
 	{
 		if (names.size() != colHeaders.size())
 			resize(names.size(),colHeaders.size());
@@ -460,7 +460,7 @@ namespace Tinkercell
 	\param QVector vector of strings
 	\return void
 	*/
-	template <typename T>  void DataTable<T>::tc_setRowNames(const QStringList& names)
+	template <typename T>  void DataTable<T>::setRowNames(const QStringList& names)
 	{
 		if (names.size() != rowHeaders.size())
 			resize(names.size(),colHeaders.size());

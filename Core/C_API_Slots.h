@@ -97,7 +97,7 @@ namespace Tinkercell
 		void getChildren(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getParent(QSemaphore*,ItemHandle**,ItemHandle*);
 		
-        void getValue(QSemaphore*,QString*,const QString&);
+        void getString(QSemaphore*,QString*,const QString&);
         void getFilename(QSemaphore*,QString*);
         void getSelectedString(QSemaphore*,int*,const QString&,const QStringList&,const QString&);
         void getNumber(QSemaphore*,qreal*,const QString&);

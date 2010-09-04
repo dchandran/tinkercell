@@ -125,7 +125,7 @@ namespace Tinkercell
 		* \param NetworkHandle* network where the event took place
 		* \param QList<ItemHandle*>& child items
 		* \param QList<ItemFamily*>& old families
-		* \return void*/
+		*/
 		void handleFamilyChanged(NetworkHandle * network, const QList<ItemHandle*>&, const QList<ItemFamily*>&);
 	signals:
 		/*! \brief set the middle region of a connection for reversible reactions*/

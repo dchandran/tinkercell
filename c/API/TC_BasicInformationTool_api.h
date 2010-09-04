@@ -3,6 +3,8 @@
 
 #include "../TCstructs.h"
 
+BEGIN_C_DECLS
+
 /*! 
  \brief get all the parameters
  \ingroup Modeling
@@ -32,12 +34,12 @@ TCAPIEXPORT TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a);
  \brief get the text attribute with the given name for the given item
  \ingroup Network data
 */
-TCAPIEXPORT String tc_getTextAttribute(Item item,String attribute);
+TCAPIEXPORT const char* tc_getTextAttribute(int item,const char* attribute);
 /*! 
  \brief get the numerical attribute with the given name for the given item
  \ingroup Modeling
 */
-TCAPIEXPORT double tc_getParameter(Item item,String attribute);
+TCAPIEXPORT double tc_getParameter(int item,const char* attribute);
 /*! 
  \brief get all numerical Modeling with the given names for the given items
  \ingroup Modeling
@@ -57,20 +59,20 @@ TCAPIEXPORT ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings Mode
  \brief set text attribute for the given item
  \ingroup Network data
 */
-TCAPIEXPORT void tc_setTextAttribute(Item item,String attribute,String value);
+TCAPIEXPORT void tc_setTextAttribute(int item,const char* attribute,const char* value);
 /*! 
  \brief set numerical attribute for the given item
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setParameter(Item item,String attribute,double value);
+TCAPIEXPORT void tc_setParameter(int item,const char* attribute,double value);
 /*! 
  \brief initialize attribute functions
  \ingroup init
 */
 TCAPIEXPORT void tc_BasicInformationTool_Text_api(
-		String (*getTextData)(Item ,String ),
+		const char* (*getTextData)(int ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
-		void (*setTextData)(Item ,String ,String ));
+		void (*setTextData)(int ,const char* ,const char* ));
 
 TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
 		TableOfReals (*getInitialValues)(ArrayOfItems ),
@@ -78,9 +80,12 @@ TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
 		TableOfReals (*getParameters)(ArrayOfItems ),
 		TableOfReals (*getFixedVariabes)(ArrayOfItems),
 		TableOfReals (*getParametersAndFixedVariabes)(ArrayOfItems ),
-		double (*getNumericalData)(Item ,String ),
+		double (*getNumericalData)(int ,const char* ),
 		TableOfReals (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
 		TableOfReals (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
-		void (*setNumericalData)(Item ,String ,double )
+		void (*setNumericalData)(int ,const char* ,double )
 	);
+
+END_C_DECLS
 #endif
+

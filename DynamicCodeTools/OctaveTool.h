@@ -49,6 +49,9 @@ namespace Tinkercell
 		bool setMainWindow(MainWindow*);
 		OctaveInterpreterThread * octaveInterpreter;
 
+	signals:
+		void setupSwigLibrary( QLibrary * );
+
 	public slots:
 		void setupFunctionPointers( QLibrary * );
 		bool loadFromDir( QDir& );

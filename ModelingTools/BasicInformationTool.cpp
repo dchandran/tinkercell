@@ -937,9 +937,9 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_BasicInformationTool_Text_api)(
-		char* (*getTextData)(void* ,const char* ),
+		char* (*getTextData)(int ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems, ArrayOfStrings),
-		void (*setTextData)(void* ,const char* ,const char* ));
+		void (*setTextData)(int ,const char* ,const char* ));
 
 	typedef void (*tc_BasicInformationTool_Numeric_api)(
 		Matrix (*getInitialValues)(ArrayOfItems ),
@@ -947,10 +947,10 @@ namespace Tinkercell
 		Matrix (*getParameters)(ArrayOfItems ),
 		Matrix (*getFixedVars)(ArrayOfItems),
 		Matrix (*getFixedAndParameters)(ArrayOfItems),
-		double (*getNumericalData)(void* ,const char* ),
+		double (*getNumericalData)(int ,const char* ),
 		Matrix (*getParametersNamed)(ArrayOfItems, ArrayOfStrings),
 		Matrix (*getParametersExcept)(ArrayOfItems, ArrayOfStrings),
-		void (*setNumericalData)(void* ,const char* ,double ));
+		void (*setNumericalData)(int ,const char* ,double ));
 
 	void BasicInformationTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -1009,7 +1009,6 @@ namespace Tinkercell
 			connect(&fToS,SIGNAL(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersNamed(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
 			connect(&fToS,SIGNAL(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)),this,SLOT(getParametersExcept(QSemaphore*,DataTable<qreal>*,const QList<ItemHandle*>&,const QStringList&)));
 		}
-
 	}
 
 	DataTable<qreal> BasicInformationTool::getParameters(const QList<QGraphicsItem*>& items, const QStringList& mustHave, const QStringList& exclude, const QString& sep)
@@ -1140,7 +1139,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (handle && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					//if (handle->hasNumericalData(tr("Fixed")) && handle->data->numericalData[tr("Fixed")].value(0,0) > 0)
 						//continue;
@@ -1162,7 +1161,6 @@ namespace Tinkercell
 				(*ptr).rowName(rows + i) = names[i];
 				(*ptr).value(rows + i, 0) = values[i];
 			}
-
 		}
 		if (s)
 			s->release();
@@ -1183,7 +1181,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size() && i < dat.rows(); ++i)
 			{
 				handle = handles.at(i);
-				if (NodeHandle::cast(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
+				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Initial Value")))
 				{
 					dataTable = new DataTable<qreal>(handle->data->numericalData[tr("Initial Value")]);
 					dataTable->value(0,0) = dat.at(i,0);
@@ -1218,7 +1216,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (handle && handle->data && handle->hasNumericalData(tr("Fixed")))
+				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->data->numericalData[tr("Fixed")]);
 					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
@@ -1282,7 +1280,7 @@ namespace Tinkercell
 
 			for (i=0; i < handles.size(); ++i)
 			{
-				if (!handles[i])
+				if (!mainWindow->isValidHandlePointer(handles[i]))
 					continue;
 
 				if (handles[i]->hasTextData(tr("Events")))
@@ -1374,7 +1372,7 @@ namespace Tinkercell
 			for (int i=0; i < handles.size(); ++i)
 			{
 				handle = handles.at(i);
-				if (handle && handle->data && handle->hasNumericalData(tr("Fixed")))
+				if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(tr("Fixed")))
 				{
 					dataTable = &(handle->data->numericalData[tr("Fixed")]);
 					if (dataTable && dataTable->cols() > 0 && dataTable->rows() > 0 && (dataTable->value(0,0) > 0))
@@ -1404,7 +1402,11 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			QList<ItemHandle*> handles = list;
+			QList<ItemHandle*> handles;
+			for (int i=0; i < list.size(); ++i)
+				if (mainWindow->isValidHandlePointer(list[i]))
+					handles << list[i];
+
 			if (currentNetwork() && currentNetwork()->globalHandle())
 				if (!handles.contains(currentNetwork()->globalHandle()))
 					handles << currentNetwork()->globalHandle();
@@ -1419,7 +1421,11 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			QList<ItemHandle*> handles = list;
+			QList<ItemHandle*> handles;
+			for (int i=0; i < list.size(); ++i)
+				if (mainWindow->isValidHandlePointer(list[i]))
+					handles << list[i];
+
 			if (currentNetwork() && currentNetwork()->globalHandle())
 				if (!handles.contains(currentNetwork()->globalHandle()))
 					handles << currentNetwork()->globalHandle();
@@ -1434,7 +1440,11 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			QList<ItemHandle*> handles = list;
+			QList<ItemHandle*> handles;
+			for (int i=0; i < list.size(); ++i)
+				if (mainWindow->isValidHandlePointer(list[i]))
+					handles << list[i];
+
 			if (currentNetwork() && currentNetwork()->globalHandle())
 				if (!handles.contains(currentNetwork()->globalHandle()))
 					handles << currentNetwork()->globalHandle();
@@ -1449,7 +1459,11 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			QList<ItemHandle*> handles = list;
+			QList<ItemHandle*> handles;
+			for (int i=0; i < list.size(); ++i)
+				if (mainWindow->isValidHandlePointer(list[i]))
+					handles << list[i];
+
 			if (currentNetwork() && currentNetwork()->globalHandle())
 				if (!handles.contains(currentNetwork()->globalHandle()))
 					handles << currentNetwork()->globalHandle();
@@ -1469,7 +1483,7 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			if (handle && handle->data && handle->hasTextData(this->name))
+			if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasTextData(this->name))
 			{
 				const QVector<QString>& rownames = handle->data->textData[name].rowNames();
 				for (int i=0; i < rownames.size(); ++i)
@@ -1490,7 +1504,7 @@ namespace Tinkercell
 	{
 		if (ptr)
 		{
-			if (handle && handle->data && handle->hasNumericalData(name))
+			if (mainWindow->isValidHandlePointer(handle) && handle->data && handle->hasNumericalData(name))
 			{
 				(*ptr) = 0.0;
 				const QVector<QString>& rownames = handle->data->numericalData[name].rowNames();
@@ -1508,7 +1522,7 @@ namespace Tinkercell
 	}
 	void BasicInformationTool::setTextData(QSemaphore* s,ItemHandle* handle,const QString& text,const QString& value)
 	{
-		if (handle)
+		if (mainWindow->isValidHandlePointer(handle))
 		{
 			if (handle->data && handle->hasTextData(name))
 			{
@@ -1552,7 +1566,7 @@ namespace Tinkercell
 
 	void BasicInformationTool::setNumericalData(QSemaphore* s,ItemHandle* handle,const QString& text,qreal value)
 	{
-		if (handle)
+		if (mainWindow->isValidHandlePointer(handle))
 		{
 			if (handle->data && handle->hasNumericalData(name))
 			{
@@ -1624,12 +1638,12 @@ namespace Tinkercell
 		return fToS.getFixedAndParameters(A);
 	}
 
-	char* BasicInformationTool::_getTextData(void* o,const char* c)
+	char* BasicInformationTool::_getTextData(int o,const char* c)
 	{
 		return fToS.getTextData(o,c);
 	}
 
-	double BasicInformationTool::_getNumericalData(void* o,const char* c)
+	double BasicInformationTool::_getNumericalData(int o,const char* c)
 	{
 		return fToS.getNumericalData(o,c);
 	}
@@ -1649,12 +1663,12 @@ namespace Tinkercell
 		return fToS.getAllTextDataNamed(A,c);
 	}
 
-	void BasicInformationTool::_setTextData(void* o,const char* a,const char* b)
+	void BasicInformationTool::_setTextData(int o,const char* a,const char* b)
 	{
 		return fToS.setTextData(o,a,b);
 	}
 
-	void BasicInformationTool::_setNumericalData(void* o,const char* a,double b)
+	void BasicInformationTool::_setNumericalData(int o,const char* a,double b)
 	{
 		return fToS.setNumericalData(o,a,b);
 	}
@@ -1812,7 +1826,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char* BasicInformationTool_FToS::getTextData(void* a0,const char* a1)
+	char* BasicInformationTool_FToS::getTextData(int a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1824,7 +1838,7 @@ namespace Tinkercell
 		return (char*)ConvertValue(p);
 	}
 
-	double BasicInformationTool_FToS::getNumericalData(void* a0,const char* a1)
+	double BasicInformationTool_FToS::getNumericalData(int a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -1836,7 +1850,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	void BasicInformationTool_FToS::setTextData(void* a0,const char* a1,const char* a2)
+	void BasicInformationTool_FToS::setTextData(int a0,const char* a1,const char* a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1846,7 +1860,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void BasicInformationTool_FToS::setNumericalData(void* a0,const char* a1,double a2)
+	void BasicInformationTool_FToS::setNumericalData(int a0,const char* a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1867,27 +1881,8 @@ namespace Tinkercell
 	DataTable<qreal> BasicInformationTool::getUsedParameters(QList<ItemHandle*>& handles, const QString& replaceDot)
 	{
 		int i,j;
-		QStringList rates = StoichiometryTool::getRates(handles, replaceDot);
 		DataTable<qreal> params = BasicInformationTool::getParameters(handles,QStringList(), QStringList(), replaceDot);
 		params.insertCol(1,tr("used"));
-
-		bool used = false;
-		for (i=0; i < params.rows(); ++i)
-		{
-			used = false;
-			for (j=0; j < rates.size(); ++j)
-			{
-				if (rates[j].contains(params.rowName(i)))
-				{
-					used = true;
-					break;
-				}
-			}
-			if (used)
-				params.value(i,1) = 1.0;
-			else
-				params.value(i,1) = 0.0;
-		}
 
 		QRegExp regex(tr("\\.(?!\\d)"));
 		QString s1,s2;
@@ -1896,6 +1891,23 @@ namespace Tinkercell
 		{
 			if (!handles[i])
 				continue;
+
+			if (handles[i]->hasTextData(tr("Rate equations")))
+			{
+				DataTable<QString>& dat = handles[i]->data->textData[tr("Rate equations")];
+				if (dat.cols() == 1)
+					for (j=0; j < dat.rows(); ++j)
+					{
+						s2 =  dat.value(j,0);
+						s2.replace(regex,replaceDot);
+
+						if (s2.isEmpty()) continue;
+
+						for (int k=0; k < params.rows(); ++k)
+							if (s2.contains(params.rowName(k)))
+								params.value(k,1) = 1.0;
+					}
+			}
 
 			if (handles[i]->hasTextData(tr("Events")))
 			{

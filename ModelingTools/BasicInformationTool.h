@@ -73,13 +73,13 @@ namespace Tinkercell
 		Matrix getParameters(ArrayOfItems );
 		Matrix getFixedVars(ArrayOfItems);
 		Matrix getFixedAndParameters(ArrayOfItems);
-		char* getTextData(void* ,const char* );
-		double getNumericalData(void* ,const char* );
+		char* getTextData(int ,const char* );
+		double getNumericalData(int ,const char* );
 		Matrix getParametersNamed(ArrayOfItems, ArrayOfStrings);
 		Matrix getParametersExcept(ArrayOfItems, ArrayOfStrings);
 		ArrayOfStrings getAllTextDataNamed(ArrayOfItems, ArrayOfStrings);
-		void setTextData(void* ,const char* ,const char* );
-		void setNumericalData(void* ,const char* ,double );
+		void setTextData(int ,const char* ,const char* );
+		void setNumericalData(int ,const char* ,double );
 	};
 
 	/*!
@@ -155,13 +155,13 @@ namespace Tinkercell
 		static Matrix _getParameters(ArrayOfItems );
 		static Matrix _getFixedVars(ArrayOfItems);
 		static Matrix _getFixedAndParameters(ArrayOfItems);
-		static char* _getTextData(void* ,const char* );
-		static double _getNumericalData(void* ,const char* );
+		static char* _getTextData(int ,const char* );
+		static double _getNumericalData(int ,const char* );
 		static Matrix _getParametersNamed(ArrayOfItems, ArrayOfStrings);
 		static Matrix _getParametersExcept(ArrayOfItems, ArrayOfStrings);
 		static ArrayOfStrings _getAllTextDataNamed(ArrayOfItems, ArrayOfStrings);
-		static void _setTextData(void* ,const char* ,const char* );
-		static void _setNumericalData(void* ,const char* ,double );
+		static void _setTextData(int ,const char* ,const char* );
+		static void _setNumericalData(int ,const char* ,double );
 
 		virtual void keyPressEvent ( QKeyEvent * event );
 

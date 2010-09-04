@@ -585,33 +585,17 @@ def tc_getConnectedNodes(*args):
   return _tinkercell.tc_getConnectedNodes(*args)
 tc_getConnectedNodes = _tinkercell.tc_getConnectedNodes
 
-def tc_getConnectedNodesIn(*args):
-  return _tinkercell.tc_getConnectedNodesIn(*args)
-tc_getConnectedNodesIn = _tinkercell.tc_getConnectedNodesIn
-
-def tc_getConnectedNodesOut(*args):
-  return _tinkercell.tc_getConnectedNodesOut(*args)
-tc_getConnectedNodesOut = _tinkercell.tc_getConnectedNodesOut
-
-def tc_getConnectedNodesOther(*args):
-  return _tinkercell.tc_getConnectedNodesOther(*args)
-tc_getConnectedNodesOther = _tinkercell.tc_getConnectedNodesOther
+def tc_getConnectedNodesWithRole(*args):
+  return _tinkercell.tc_getConnectedNodesWithRole(*args)
+tc_getConnectedNodesWithRole = _tinkercell.tc_getConnectedNodesWithRole
 
 def tc_getConnections(*args):
   return _tinkercell.tc_getConnections(*args)
 tc_getConnections = _tinkercell.tc_getConnections
 
-def tc_getConnectionsIn(*args):
-  return _tinkercell.tc_getConnectionsIn(*args)
-tc_getConnectionsIn = _tinkercell.tc_getConnectionsIn
-
-def tc_getConnectionsOut(*args):
-  return _tinkercell.tc_getConnectionsOut(*args)
-tc_getConnectionsOut = _tinkercell.tc_getConnectionsOut
-
-def tc_getConnectionsOther(*args):
-  return _tinkercell.tc_getConnectionsOther(*args)
-tc_getConnectionsOther = _tinkercell.tc_getConnectionsOther
+def tc_getConnectionsWithRole(*args):
+  return _tinkercell.tc_getConnectionsWithRole(*args)
+tc_getConnectionsWithRole = _tinkercell.tc_getConnectionsWithRole
 
 def tc_ConnectionInsertion_api(*args):
   return _tinkercell.tc_ConnectionInsertion_api(*args)

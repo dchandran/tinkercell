@@ -69,10 +69,10 @@ namespace Tinkercell
 
 	void NodeInsertion::connectTCFunctions( )
 	{
-		connect(&fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,QString,QString)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,QString,QString)));
+		connect(&fToS,SIGNAL(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)),this,SLOT(insertItem(QSemaphore*,ItemHandle**,const QString&,const QString&)));
 	}
 
-	typedef void (*tc_NodeInsertion_api)(void* (*insertItem)(const char* , const char* ));
+	typedef void (*tc_NodeInsertion_api)(int (*insertItem)(const char* , const char* ));
 
 	void NodeInsertion::setupFunctionPointers( QLibrary * library )
 	{
@@ -184,7 +184,7 @@ namespace Tinkercell
 		return list;
 	}
 
-	void NodeInsertion::insertItem(QSemaphore * sem, ItemHandle** item, QString name, QString family)
+	void NodeInsertion::insertItem(QSemaphore * sem, ItemHandle** item, const QString& name, const QString& family)
 	{
 		if (mainWindow && mainWindow->currentScene() && !name.isEmpty() && !family.isEmpty() && nodesTree
 			&& nodesTree->nodeFamilies.contains(family))
@@ -288,12 +288,12 @@ namespace Tinkercell
 
 	NodeInsertion_FToS NodeInsertion::fToS;
 
-	void* NodeInsertion::_insertItem(const char* a, const char* b)
+	int NodeInsertion::_insertItem(const char* a, const char* b)
 	{
 		return fToS.insertItem(a,b);
 	}
 
-	void* NodeInsertion_FToS::insertItem(const char* a0, const char* a1)
+	int NodeInsertion_FToS::insertItem(const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;

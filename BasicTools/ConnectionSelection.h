@@ -55,15 +55,15 @@ namespace Tinkercell
 		void setAllStraight(QSemaphore*,int);
 
 	public slots:
-		double getControlPointX(void* a0,void* a1,int a2);
-		double getControlPointY(void* a0,void* a1,int a2);
-		void setControlPoint(void* a0,void* a1,int i,double a2,double a3);
-		void setCenterPoint(void* a0,double a1,double a2);
-		double getCenterPointX(void*);
-		double getCenterPointY(void*);
-		void setStraight(void*,int);
+		double getControlPointX(int a0,int a1,int a2);
+		double getControlPointY(int a0,int a1,int a2);
+		void setControlPoint(int a0,int a1,int i,double a2,double a3);
+		void setCenterPoint(int a0,double a1,double a2);
+		double getCenterPointX(int);
+		double getCenterPointY(int);
+		void setStraight(int,int);
 		void setAllStraight(int);
-		void setLineWidth(void*,double,int);
+		void setLineWidth(int,double,int);
 	};
 
 	/*! \brief This class listens to selection events from the scene and responds by changing colors
@@ -165,15 +165,15 @@ namespace Tinkercell
 		//QMenu connectorsMenu;
 		void connectTCFunctions();
 		static ConnectionSelection_FToS fToS;
-		static double _getControlPointX(void* ,void* ,int );
-		static double _getControlPointY(void* ,void* ,int );
-		static void _setControlPoint(void* ,void* ,int i, double ,double );
-		static double _getCenterPointX(void*);
-		static double _getCenterPointY(void*);
-		static void _setCenterPoint(void*,double,double);
-		static void _setStraight(void*,int);
+		static double _getControlPointX(int ,int ,int );
+		static double _getControlPointY(int ,int ,int );
+		static void _setControlPoint(int ,int ,int i, double ,double );
+		static double _getCenterPointX(int);
+		static double _getCenterPointY(int);
+		static void _setCenterPoint(int,double,double);
+		static void _setStraight(int,int);
 		static void _setAllStraight(int);
-		static void _setLineWidth(void*,double,int);
+		static void _setLineWidth(int,double,int);
 
 		class LineTypeChanged : public QUndoCommand
 		{

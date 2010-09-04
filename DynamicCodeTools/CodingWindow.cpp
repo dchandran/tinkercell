@@ -873,12 +873,16 @@ specific for:\n\"\"\"\n\n") + text;
 			QRegExp regexComments(tr("brief\\s*([^\\n\\r]+)"));
 			QRegExp regexGroup(tr("ingroup\\s*([^\\n\\r]+)"));
 			QRegExp regexFunction(tr("\\s*(\\S+)\\s*(tc_[A-Za-z0-9]+)\\s*(\\([^\\)]*\\))"));
+			QRegExp charstar(tr("char\\s*\\*"));
+			QRegExp voidstar(tr("void\\s*\\*"));
 			QTreeWidgetItem * currentItem = 0;
 			QString currentComment;
 
 			 while (!file.atEnd())
 			 {
 				 QString line(file.readLine());
+				 line.replace(charstar,tr("string"));
+				 line.replace(voidstar,tr("item"));
 				 
 				 regexGroup.indexIn(line);
 				 regexComments.indexIn(line);

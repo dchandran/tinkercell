@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define CRUFT_DLL
-#define OCTAVE_DLL
-#define OCTINTERP_DLL
+//#define CRUFT_DLL
+//#define OCTAVE_DLL
+//#define OCTINTERP_DLL
 
 #include <iostream>
 #include <fstream>
@@ -20,10 +20,7 @@
 #include <octave/sighandlers.h>
 #include <octave/sysdep.h>
 
-#include "TC_api.h"
-
-extern "C" TCAPIEXPORT int octave_main(int,char**,int);
-extern "C++" TCAPIEXPORT void do_octave_atexit();
+//#include "TC_api.h"
 
 void recover_from_exception (void)
 {
@@ -120,20 +117,24 @@ int octave_call(const char *string,const char* filename)
   return error_state;
 }
 
-extern "C" TCAPIEXPORT void initialize()
+extern "C"
 {
-	int argc = 0;
-	char * argv[0];
-	octave_main(argc,argv,1);
-}
 
-extern "C" TCAPIEXPORT void exec(const char * input, const char * filename)
-{
-	octave_call(input,filename);
-}
+	OCTAVE_EXPORT void initialize()
+	{
+		int argc = 0;
+		char * argv[0];
+		octave_main(argc,argv,1);
+	}
 
-extern "C" TCAPIEXPORT void finalize()
-{
-	do_octave_atexit();
-}
+	OCTAVE_EXPORT void exec(const char * input, const char * filename)
+	{
+		octave_call(input,filename);
+	}
 
+	OCTAVE_EXPORT void finalize()
+	{
+		do_octave_atexit();
+	}
+
+}

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+
 #include "TCstructs.h"
 
 TableOfReals newMatrix(int rows, int cols)
@@ -82,7 +83,7 @@ ArrayOfItems newArrayOfItems(int len)
 	else
 	{
 		A.length = len;
-		A.items = (void**)malloc(len * sizeof(void*));
+		A.items = (int*)malloc(len * sizeof(int));
 		for (i=0; i < len; ++i)
 			A.items[i] = 0;
 	}
@@ -163,14 +164,14 @@ void setNthString(ArrayOfStrings S, int i, const char * s)
 	}
 }
 
-void * nthItem(ArrayOfItems A, int i)
+int nthItem(ArrayOfItems A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void setNthItem(ArrayOfItems A, int i, void * o)
+void setNthItem(ArrayOfItems A, int i, int o)
 {
 	if (i >= 0 && i < A.length)
 		A.items[ i ] = o;

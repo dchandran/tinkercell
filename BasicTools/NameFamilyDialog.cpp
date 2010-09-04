@@ -328,7 +328,7 @@ namespace Tinkercell
 
 	void NameFamilyDialog::getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item)
 	{
-		if (item && list)
+		if (mainWindow->isValidHandlePointer(item) && list)
 		{
 			(*list).clear();
 
@@ -348,7 +348,7 @@ namespace Tinkercell
 
 	void NameFamilyDialog::setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list)
 	{
-		if (item && item->data)
+		if (mainWindow->isValidHandlePointer(item) && item->data)
 		{
 			DataTable<QString> data;
 
@@ -371,17 +371,17 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	ArrayOfStrings NameFamilyDialog::_getAnnotation(void* o)
+	ArrayOfStrings NameFamilyDialog::_getAnnotation(int o)
 	{
 		return fToS.getAnnotation(o);
 	}
 
-	void NameFamilyDialog::_setAnnotation(void* o, ArrayOfStrings a)
+	void NameFamilyDialog::_setAnnotation(int o, ArrayOfStrings a)
 	{
 		return fToS.setAnnotation(o,a);
 	}
 
-	ArrayOfStrings NameFamilyDialog_FtoS::getAnnotation(void* o)
+	ArrayOfStrings NameFamilyDialog_FtoS::getAnnotation(int o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -393,7 +393,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	void NameFamilyDialog_FtoS::setAnnotation(void* o, ArrayOfStrings a)
+	void NameFamilyDialog_FtoS::setAnnotation(int o, ArrayOfStrings a)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -412,8 +412,8 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_NameFamily_api_func)(
-		ArrayOfStrings (*tc_getAnnotation)(void*),
-		void (*tc_setAnnotation)(void*,ArrayOfStrings)
+		ArrayOfStrings (*tc_getAnnotation)(int),
+		void (*tc_setAnnotation)(int,ArrayOfStrings)
 		);
 
 	void NameFamilyDialog::setupFunctionPointers(QLibrary * library)

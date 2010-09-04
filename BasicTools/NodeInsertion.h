@@ -47,9 +47,9 @@ namespace Tinkercell
 	{
 		Q_OBJECT
 		signals:
-			void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
+			void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
 		public slots:
-			void* insertItem(const char* , const char* );
+			int insertItem(const char* , const char* );
 	};
 
 	/*! \brief This class listens to the NodesTree signals and allows users to insert items from
@@ -102,7 +102,7 @@ namespace Tinkercell
 	private slots:
 
 		/*! \brief A C API function*/
-		void insertItem(QSemaphore*, ItemHandle** item, QString name, QString family);
+		void insertItem(QSemaphore*, ItemHandle** item, const QString& name, const QString& family);
 
 	private:
 		/*! \brief the currently selected item from the nodes tree*/
@@ -119,7 +119,7 @@ namespace Tinkercell
 		/*! \brief the C API function to signal converter*/
 		static NodeInsertion_FToS fToS;
 		/*! \brief the C API function*/
-		static void* _insertItem(const char* , const char* );
+		static int _insertItem(const char* , const char* );
 
 	};
 

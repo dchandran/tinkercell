@@ -114,15 +114,15 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionSelection_api)(
-		double (*getControlPointX)(void*,void*,int),
-		double (*getControlPointY)(void*,void*,int),
-		void (*setControlPoint)(void*,void*,int,double,double),
-		void (*setCenterPoint)(void*,double,double),
-		double (*getCenterPointX)(void*),
-		double (*getCenterPointY)(void*),
-		void (*setStraight)(void*,int),
+		double (*getControlPointX)(int,int,int),
+		double (*getControlPointY)(int,int,int),
+		void (*setControlPoint)(int,int,int,double,double),
+		void (*setCenterPoint)(int,double,double),
+		double (*getCenterPointX)(int),
+		double (*getCenterPointY)(int),
+		void (*setStraight)(int,int),
 		void (*setAllStraight)(int),
-		void (*setLineWidth)(void*,double,int)
+		void (*setLineWidth)(int,double,int)
 		);
 
 
@@ -148,7 +148,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::setStraight(QSemaphore* sem,ItemHandle* h,int value)
 	{
-		if (h && !h->graphicsItems.isEmpty() && currentScene())
+		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
 		{
 			LineTypeChanged * command = new LineTypeChanged;
 			command->straight = value;
@@ -217,7 +217,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::setLineWidth(QSemaphore* sem,ItemHandle* h,qreal value,int permanent)
 	{
-		if (h && !h->graphicsItems.isEmpty() && currentScene())
+		if (mainWindow->isValidHandlePointer(h) && !h->graphicsItems.isEmpty() && currentScene())
 		{
 			for (int j=0; j < h->graphicsItems.size(); ++j)
 			{
@@ -278,7 +278,10 @@ namespace Tinkercell
 
 	void ConnectionSelection::getControlPointX(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
 	{
-		if (ptr && h1 && h2 && !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+		if (mainWindow->isValidHandlePointer(ptr) && 
+			mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2) && 
+			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
 			for (int j=0; j < h1->graphicsItems.size(); ++j)
 			{
 				QGraphicsItem * item1 = h1->graphicsItems[j];
@@ -307,7 +310,10 @@ namespace Tinkercell
 
 	void ConnectionSelection::getControlPointY(QSemaphore* sem,qreal* ptr,ItemHandle* h1,ItemHandle* h2,int index)
 	{
-		if (ptr && h1 && h2 && !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+		if (mainWindow->isValidHandlePointer(ptr) && 
+			mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2)
+			&& !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
 			for (int j=0; j < h1->graphicsItems.size(); ++j)
 			{
 				QGraphicsItem * item1 = h1->graphicsItems[j];
@@ -334,7 +340,9 @@ namespace Tinkercell
 
 	void ConnectionSelection::setControlPoint(QSemaphore* sem,ItemHandle* h1,ItemHandle* h2,int index,qreal x,qreal y)
 	{
-		if (h1 && h2 && !h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
+		if (mainWindow->isValidHandlePointer(h1) && 
+			mainWindow->isValidHandlePointer(h2) &&
+			!h1->graphicsItems.isEmpty() && !h2->graphicsItems.isEmpty())
 			for (int j=0; j < h1->graphicsItems.size(); ++j)
 			{
 				QGraphicsItem * item1 = h1->graphicsItems[j];
@@ -370,7 +378,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::setCenterPoint(QSemaphore* sem,ItemHandle* h1,qreal x,qreal y)
 	{
-		if (h1)
+		if (mainWindow->isValidHandlePointer(h1))
 			for (int i=0; i < h1->graphicsItems.size(); ++i)
 			{
 				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
@@ -393,7 +401,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::getCenterPointX(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
 	{
-		if (ptr && h1)
+		if (mainWindow->isValidHandlePointer(ptr) && mainWindow->isValidHandlePointer(h1))
 			for (int i=0; i < h1->graphicsItems.size(); ++i)
 			{
 				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
@@ -412,7 +420,7 @@ namespace Tinkercell
 
 	void ConnectionSelection::getCenterPointY(QSemaphore* sem,qreal* ptr, ItemHandle* h1)
 	{
-		if (h1)
+		if (mainWindow->isValidHandlePointer(h1))
 			for (int i=0; i < h1->graphicsItems.size(); ++i)
 			{
 				ConnectionGraphicsItem * connection = ConnectionGraphicsItem::topLevelConnectionItem(h1->graphicsItems[i]);
@@ -870,37 +878,37 @@ namespace Tinkercell
 
 	ConnectionSelection_FToS ConnectionSelection::fToS;
 
-	double ConnectionSelection::_getControlPointX(void* a,void* b,int c)
+	double ConnectionSelection::_getControlPointX(int a,int b,int c)
 	{
 		return fToS.getControlPointX(a,b,c);
 	}
 
-	double ConnectionSelection::_getControlPointY(void* a,void* b,int c)
+	double ConnectionSelection::_getControlPointY(int a,int b,int c)
 	{
 		return fToS.getControlPointY(a,b,c);
 	}
 
-	void ConnectionSelection::_setControlPoint(void* a,void* b,int i, double x,double y)
+	void ConnectionSelection::_setControlPoint(int a,int b,int i, double x,double y)
 	{
 		return fToS.setControlPoint(a,b,i,x,y);
 	}
 
-	double ConnectionSelection::_getCenterPointX(void* x)
+	double ConnectionSelection::_getCenterPointX(int x)
 	{
 		return fToS.getCenterPointX(x);
 	}
 
-	double ConnectionSelection::_getCenterPointY(void* x)
+	double ConnectionSelection::_getCenterPointY(int x)
 	{
 		return fToS.getCenterPointY(x);
 	}
 
-	void ConnectionSelection::_setCenterPoint(void* a,double x,double y)
+	void ConnectionSelection::_setCenterPoint(int a,double x,double y)
 	{
 		return fToS.setCenterPoint(a,x,y);
 	}
 
-	double ConnectionSelection_FToS::getControlPointX(void* a0,void* a1,int a2)
+	double ConnectionSelection_FToS::getControlPointX(int a0,int a1,int a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p = 0.0;
@@ -912,7 +920,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	double ConnectionSelection_FToS::getControlPointY(void* a0,void* a1,int a2)
+	double ConnectionSelection_FToS::getControlPointY(int a0,int a1,int a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p = 0.0;
@@ -925,7 +933,7 @@ namespace Tinkercell
 	}
 
 
-	void ConnectionSelection_FToS::setControlPoint(void* a0,void* a1,int i,double a2,double a3)
+	void ConnectionSelection_FToS::setControlPoint(int a0,int a1,int i,double a2,double a3)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -935,7 +943,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void ConnectionSelection_FToS::setCenterPoint(void* a0,double a1,double a2)
+	void ConnectionSelection_FToS::setCenterPoint(int a0,double a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -946,7 +954,7 @@ namespace Tinkercell
 	}
 
 
-	double ConnectionSelection_FToS::getCenterPointX(void* a0)
+	double ConnectionSelection_FToS::getCenterPointX(int a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal x = 0.0;
@@ -958,7 +966,7 @@ namespace Tinkercell
 		return (double)x;
 	}
 
-	double ConnectionSelection_FToS::getCenterPointY(void* a0)
+	double ConnectionSelection_FToS::getCenterPointY(int a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal x = 0.0;
@@ -970,13 +978,13 @@ namespace Tinkercell
 		return (double)x;
 	}
 
-	void ConnectionSelection::_setStraight(void* o,int v)
+	void ConnectionSelection::_setStraight(int o,int v)
 	{
 		return fToS.setStraight(o,v);
 	}
 
 
-	void ConnectionSelection_FToS::setStraight(void* o,int v)
+	void ConnectionSelection_FToS::setStraight(int o,int v)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1001,12 +1009,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void ConnectionSelection::_setLineWidth(void* o,double v, int b)
+	void ConnectionSelection::_setLineWidth(int o,double v, int b)
 	{
 		return fToS.setLineWidth(o,v,b);
 	}
 
-	void ConnectionSelection_FToS::setLineWidth(void* o,double v, int b)
+	void ConnectionSelection_FToS::setLineWidth(int o,double v, int b)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

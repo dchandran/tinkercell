@@ -1695,7 +1695,7 @@ namespace Tinkercell
 	            C API
 	******************************************/
 
-	typedef void (*tc_GRN_api) (ArrayOfItems (*f1)(void*), ArrayOfItems (*f2)(void*), ArrayOfItems (*f3)(void*), void (*f4)(ArrayOfItems) );
+	typedef void (*tc_GRN_api) (ArrayOfItems (*f1)(int), ArrayOfItems (*f2)(int), ArrayOfItems (*f3)(int), void (*f4)(ArrayOfItems) );
 
 	void AutoGeneRegulatoryTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -1724,7 +1724,7 @@ namespace Tinkercell
 			QPointF p;
 
 			for (int i=0; i < items.size(); ++i)
-				if (NodeHandle::cast(items[i]))
+				if (mainWindow->isValidHandlePointer(items[i]) && NodeHandle::cast(items[i]))
 				{
 					for (int j=0; j < items[i]->graphicsItems.size(); ++j)
 						if (qgraphicsitem_cast<NodeGraphicsItem*>(items[i]->graphicsItems[j]))
@@ -1773,7 +1773,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsIn(QSemaphore * s, ItemHandle* h,  QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && h)
+		if (parts && scene && mainWindow->isValidHandlePointer(h))
 		{
 			qreal y = -1.0;
 			QList<ItemHandle*> allChildren = h->allChildren();
@@ -1816,12 +1816,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	ArrayOfItems AutoGeneRegulatoryTool::_partsIn(void* o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsIn(int o)
     {
         return fToS.partsIn(o);
     }
 
-    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsIn(void* o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsIn(int o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1838,7 +1838,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsUpstream(QSemaphore * s, ItemHandle* h, QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && h && h->graphicsItems.size() > 0)
+		if (parts && scene && mainWindow->isValidHandlePointer(h) && h->graphicsItems.size() > 0)
 		{
 			qreal y = -1.0;
 			NodeGraphicsItem * node = 0;
@@ -1877,12 +1877,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	ArrayOfItems AutoGeneRegulatoryTool::_partsUpstream(void* o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsUpstream(int o)
     {
         return fToS.partsUpstream(o);
     }
 
-    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsUpstream(void* o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsUpstream(int o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1899,7 +1899,7 @@ namespace Tinkercell
 	void AutoGeneRegulatoryTool::partsDownstream(QSemaphore * s, ItemHandle* h, QList<ItemHandle*>* parts)
 	{
 		GraphicsScene * scene = currentScene();
-		if (parts && scene && h && h->graphicsItems.size() > 0)
+		if (parts && scene && mainWindow->isValidHandlePointer(h) && h->graphicsItems.size() > 0)
 		{
 			qreal y = -1.0;
 			NodeGraphicsItem * node = 0;
@@ -1932,12 +1932,12 @@ namespace Tinkercell
 			s->release();
 	}
 
-	ArrayOfItems AutoGeneRegulatoryTool::_partsDownstream(void* o)
+	ArrayOfItems AutoGeneRegulatoryTool::_partsDownstream(int o)
     {
         return fToS.partsDownstream(o);
     }
 
-    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsDownstream(void* o)
+    ArrayOfItems AutoGeneRegulatoryTool_FtoS::partsDownstream(int o)
     {
         QSemaphore * s = new QSemaphore(1);
         QList<ItemHandle*>* p = new QList<ItemHandle*>;

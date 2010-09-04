@@ -13,7 +13,6 @@
 #define SWIG_name        tinkercell
 #define OCTAVE_API_VERSION_OPTION 0
 
-#include "TC_api.h"
 
 #ifdef __cplusplus
 /* SwigValueWrapper is described in swig.swg */
@@ -2178,76 +2177,72 @@ SWIGRUNTIME void SWIG_Octave_SetModule(void *clientdata, swig_module_info *point
 #define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[10]
 #define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[11]
 #define SWIGTYPE_p_f_ArrayOfItems__void swig_types[12]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[13]
+#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int swig_types[13]
 #define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[14]
 #define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[15]
-#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[16]
-#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[17]
-#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[18]
-#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[19]
-#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[20]
-#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[21]
-#define SWIGTYPE_p_f_TableOfReals__void swig_types[22]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[23]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[24]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[25]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[26]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[27]
-#define SWIGTYPE_p_f___int swig_types[28]
-#define SWIGTYPE_p_f___p_char swig_types[29]
-#define SWIGTYPE_p_f___void swig_types[30]
-#define SWIGTYPE_p_f_double__TableOfReals swig_types[31]
-#define SWIGTYPE_p_f_double__void swig_types[32]
-#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[33]
-#define SWIGTYPE_p_f_double_double__void swig_types[34]
-#define SWIGTYPE_p_f_int__TableOfReals swig_types[35]
-#define SWIGTYPE_p_f_int__void swig_types[36]
-#define SWIGTYPE_p_f_int_int__void swig_types[37]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[38]
-#define SWIGTYPE_p_f_p_f_void__void__void swig_types[39]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[40]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[41]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[43]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[44]
-#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[54]
-#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[55]
-#define SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void swig_types[56]
-#define SWIGTYPE_p_f_p_void__double swig_types[57]
-#define SWIGTYPE_p_f_p_void__p_char swig_types[58]
-#define SWIGTYPE_p_f_p_void__p_void swig_types[59]
-#define SWIGTYPE_p_f_p_void__void swig_types[60]
-#define SWIGTYPE_p_f_p_void_double__void swig_types[61]
-#define SWIGTYPE_p_f_p_void_double_double__void swig_types[62]
-#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[63]
-#define SWIGTYPE_p_f_p_void_double_int__void swig_types[64]
-#define SWIGTYPE_p_f_p_void_int__void swig_types[65]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void swig_types[66]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[67]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[68]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[69]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[70]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[71]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[72]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[73]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[74]
-#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[75]
-#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[76]
-#define SWIGTYPE_p_f_void__void swig_types[77]
-#define SWIGTYPE_p_p_char swig_types[78]
-#define SWIGTYPE_p_p_void swig_types[79]
-#define SWIGTYPE_p_void swig_types[80]
-static swig_type_info *swig_types[82];
-static swig_module_info swig_module = {swig_types, 81, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_TableOfReals__void swig_types[16]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[17]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[18]
+#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[19]
+#define SWIGTYPE_p_f___ArrayOfItems swig_types[20]
+#define SWIGTYPE_p_f___ArrayOfStrings swig_types[21]
+#define SWIGTYPE_p_f___int swig_types[22]
+#define SWIGTYPE_p_f___p_char swig_types[23]
+#define SWIGTYPE_p_f___void swig_types[24]
+#define SWIGTYPE_p_f_double__TableOfReals swig_types[25]
+#define SWIGTYPE_p_f_double__void swig_types[26]
+#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[27]
+#define SWIGTYPE_p_f_double_double__void swig_types[28]
+#define SWIGTYPE_p_f_int_ArrayOfStrings__void swig_types[29]
+#define SWIGTYPE_p_f_int_TableOfReals_p_f_TableOfReals__void__void swig_types[30]
+#define SWIGTYPE_p_f_int__ArrayOfItems swig_types[31]
+#define SWIGTYPE_p_f_int__ArrayOfStrings swig_types[32]
+#define SWIGTYPE_p_f_int__TableOfReals swig_types[33]
+#define SWIGTYPE_p_f_int__double swig_types[34]
+#define SWIGTYPE_p_f_int__int swig_types[35]
+#define SWIGTYPE_p_f_int__p_char swig_types[36]
+#define SWIGTYPE_p_f_int__void swig_types[37]
+#define SWIGTYPE_p_f_int_double__void swig_types[38]
+#define SWIGTYPE_p_f_int_double_double__void swig_types[39]
+#define SWIGTYPE_p_f_int_double_double_int__void swig_types[40]
+#define SWIGTYPE_p_f_int_double_int__void swig_types[41]
+#define SWIGTYPE_p_f_int_int__void swig_types[42]
+#define SWIGTYPE_p_f_int_int_int__double swig_types[43]
+#define SWIGTYPE_p_f_int_int_int_double_double__void swig_types[44]
+#define SWIGTYPE_p_f_int_p_q_const__char_TableOfReals__void swig_types[45]
+#define SWIGTYPE_p_f_int_p_q_const__char_TableOfStrings__void swig_types[46]
+#define SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems swig_types[47]
+#define SWIGTYPE_p_f_int_p_q_const__char__TableOfReals swig_types[48]
+#define SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings swig_types[49]
+#define SWIGTYPE_p_f_int_p_q_const__char__double swig_types[50]
+#define SWIGTYPE_p_f_int_p_q_const__char__int swig_types[51]
+#define SWIGTYPE_p_f_int_p_q_const__char__p_char swig_types[52]
+#define SWIGTYPE_p_f_int_p_q_const__char__void swig_types[53]
+#define SWIGTYPE_p_f_int_p_q_const__char_double__void swig_types[54]
+#define SWIGTYPE_p_f_int_p_q_const__char_int__void swig_types[55]
+#define SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void swig_types[56]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[57]
+#define SWIGTYPE_p_f_p_f_void__void__void swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char__ArrayOfItems swig_types[62]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[63]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[64]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[65]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[66]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[67]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[68]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[69]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[70]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int swig_types[71]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[72]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_f_void__void swig_types[74]
+#define SWIGTYPE_p_int swig_types[75]
+#define SWIGTYPE_p_p_char swig_types[76]
+static swig_type_info *swig_types[78];
+static swig_module_info swig_module = {swig_types, 77, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -2631,7 +2626,7 @@ fail:
 
 static octave_value_list _wrap_ArrayOfItems_items_set (const octave_value_list& args, int nargout) {
   ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
-  void **arg2 = (void **) 0 ;
+  int *arg2 = (int *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -2648,11 +2643,11 @@ static octave_value_list _wrap_ArrayOfItems_items_set (const octave_value_list& 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_set" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
   }
   arg1 = (ArrayOfItems *)(argp1);
-  res2 = SWIG_ConvertPtr(args(1), &argp2,SWIGTYPE_p_p_void, 0 |  0 );
+  res2 = SWIG_ConvertPtr(args(1), &argp2,SWIGTYPE_p_int, SWIG_POINTER_DISOWN |  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayOfItems_items_set" "', argument " "2"" of type '" "void **""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayOfItems_items_set" "', argument " "2"" of type '" "int *""'"); 
   }
-  arg2 = (void **)(argp2);
+  arg2 = (int *)(argp2);
   if (arg1) (arg1)->items = arg2;
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -2668,7 +2663,7 @@ static octave_value_list _wrap_ArrayOfItems_items_get (const octave_value_list& 
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  void **result = 0 ;
+  int *result = 0 ;
   
   if (!SWIG_check_num_args("ArrayOfItems_items_get",args.length(),1,1,0)) {
     SWIG_fail;
@@ -2678,8 +2673,8 @@ static octave_value_list _wrap_ArrayOfItems_items_get (const octave_value_list& 
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_get" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
   }
   arg1 = (ArrayOfItems *)(argp1);
-  result = (void **) ((arg1)->items);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_p_void, 0 |  0 );
+  result = (int *) ((arg1)->items);
+  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_int, 0 |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
@@ -4003,7 +3998,7 @@ static octave_value_list _wrap_nthItem (const octave_value_list& args, int nargo
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  void *result = 0 ;
+  int result;
   
   if (!SWIG_check_num_args("nthItem",args.length(),2,2,0)) {
     SWIG_fail;
@@ -4024,8 +4019,8 @@ static octave_value_list _wrap_nthItem (const octave_value_list& args, int nargo
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "nthItem" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = (int)(val2);
-  result = (void *)nthItem(arg1,arg2);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  result = (int)nthItem(arg1,arg2);
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
@@ -4035,12 +4030,13 @@ fail:
 static octave_value_list _wrap_setNthItem (const octave_value_list& args, int nargout) {
   ArrayOfItems arg1 ;
   int arg2 ;
-  void *arg3 = (void *) 0 ;
+  int arg3 ;
   void *argp1 ;
   int res1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
-  int res3 ;
+  int val3 ;
+  int ecode3 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -4064,10 +4060,11 @@ static octave_value_list _wrap_setNthItem (const octave_value_list& args, int na
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setNthItem" "', argument " "2"" of type '" "int""'");
   } 
   arg2 = (int)(val2);
-  res3 = SWIG_ConvertPtr(args(2),SWIG_as_voidptrptr(&arg3), 0, 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setNthItem" "', argument " "3"" of type '" "void *""'"); 
-  }
+  ecode3 = SWIG_AsVal_int(args(2), &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setNthItem" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = (int)(val3);
   setNthItem(arg1,arg2,arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4297,7 +4294,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_itemsOfFamily (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4311,9 +4308,9 @@ static octave_value_list _wrap_tc_itemsOfFamily (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamily" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamily" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = tc_itemsOfFamily((char const *)arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4324,7 +4321,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_itemsOfFamilyFrom (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -4341,9 +4338,9 @@ static octave_value_list _wrap_tc_itemsOfFamilyFrom (const octave_value_list& ar
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamilyFrom" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamilyFrom" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -4365,25 +4362,25 @@ fail:
 
 
 static octave_value_list _wrap_tc_find (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  Item result;
+  int result;
   
   if (!SWIG_check_num_args("tc_find",args.length(),1,1,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
-  result = (Item)tc_find((char const *)arg1);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  arg1 = (char *)(buf1);
+  result = (int)tc_find((char const *)arg1);
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
 fail:
@@ -4423,8 +4420,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_select (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -4432,10 +4430,11 @@ static octave_value_list _wrap_tc_select (const octave_value_list& args, int nar
   if (!SWIG_check_num_args("tc_select",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_select" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_select" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   tc_select(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4461,21 +4460,23 @@ fail:
 
 
 static octave_value_list _wrap_tc_getName (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getName",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getName" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getName(arg1);
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getName" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (char *)tc_getName(arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -4484,21 +4485,23 @@ fail:
 
 
 static octave_value_list _wrap_tc_getUniqueName (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getUniqueName",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getUniqueName(arg1);
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (char *)tc_getUniqueName(arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -4507,9 +4510,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_rename (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4520,15 +4524,16 @@ static octave_value_list _wrap_tc_rename (const octave_value_list& args, int nar
   if (!SWIG_check_num_args("tc_rename",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_rename" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_rename" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_rename" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_rename" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_rename(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4601,21 +4606,23 @@ fail:
 
 
 static octave_value_list _wrap_tc_getFamily (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getFamily",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getFamily" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getFamily(arg1);
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getFamily" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (char *)tc_getFamily(arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -4624,9 +4631,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_isA (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4638,15 +4646,16 @@ static octave_value_list _wrap_tc_isA (const octave_value_list& args, int nargou
   if (!SWIG_check_num_args("tc_isA",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_isA" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_isA" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_isA" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_isA" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (int)tc_isA(arg1,(char const *)arg2);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4657,7 +4666,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_print (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4670,9 +4679,9 @@ static octave_value_list _wrap_tc_print (const octave_value_list& args, int narg
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_print" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_print" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_print((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4683,7 +4692,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_errorReport (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4696,9 +4705,9 @@ static octave_value_list _wrap_tc_errorReport (const octave_value_list& args, in
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorReport" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorReport" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_errorReport((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4739,7 +4748,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_printFile (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4752,9 +4761,9 @@ static octave_value_list _wrap_tc_printFile (const octave_value_list& args, int 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printFile" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printFile" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_printFile((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4781,8 +4790,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_remove (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -4790,10 +4800,11 @@ static octave_value_list _wrap_tc_remove (const octave_value_list& args, int nar
   if (!SWIG_check_num_args("tc_remove",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_remove" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_remove" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   tc_remove(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4803,8 +4814,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getY (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -4813,10 +4825,11 @@ static octave_value_list _wrap_tc_getY (const octave_value_list& args, int nargo
   if (!SWIG_check_num_args("tc_getY",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getY" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getY" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getY(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4826,8 +4839,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getX (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -4836,10 +4850,11 @@ static octave_value_list _wrap_tc_getX (const octave_value_list& args, int nargo
   if (!SWIG_check_num_args("tc_getX",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getX" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getX" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getX(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -4880,10 +4895,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setPos (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
@@ -4895,10 +4911,11 @@ static octave_value_list _wrap_tc_setPos (const octave_value_list& args, int nar
   if (!SWIG_check_num_args("tc_setPos",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setPos" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setPos" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setPos" "', argument " "2"" of type '" "double""'");
@@ -5048,12 +5065,12 @@ static octave_value_list _wrap_tc_appDir (const octave_value_list& args, int nar
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_appDir",args.length(),0,0,0)) {
     SWIG_fail;
   }
-  result = (String)tc_appDir();
+  result = (char *)tc_appDir();
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -5063,9 +5080,9 @@ fail:
 
 static octave_value_list _wrap_tc_createInputWindowFromFile (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -5097,19 +5114,19 @@ static octave_value_list _wrap_tc_createInputWindowFromFile (const octave_value_
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindowFromFile" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindowFromFile" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_createInputWindowFromFile" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_createInputWindowFromFile" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(args(3), &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_createInputWindowFromFile" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_createInputWindowFromFile" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   tc_createInputWindowFromFile(arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5123,7 +5140,7 @@ fail:
 
 static octave_value_list _wrap_tc_createInputWindow (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void (*arg3)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -5150,9 +5167,9 @@ static octave_value_list _wrap_tc_createInputWindow (const octave_value_list& ar
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindow" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindow" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_TableOfReals__void);
     if (!SWIG_IsOK(res)) {
@@ -5169,7 +5186,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_addInputWindowOptions (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   ArrayOfStrings arg4 ;
@@ -5191,9 +5208,9 @@ static octave_value_list _wrap_tc_addInputWindowOptions (const octave_value_list
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowOptions" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowOptions" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   ecode2 = SWIG_AsVal_int(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_addInputWindowOptions" "', argument " "2"" of type '" "int""'");
@@ -5225,7 +5242,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_addInputWindowCheckbox (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   int res1 ;
@@ -5244,9 +5261,9 @@ static octave_value_list _wrap_tc_addInputWindowCheckbox (const octave_value_lis
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowCheckbox" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowCheckbox" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   ecode2 = SWIG_AsVal_int(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_addInputWindowCheckbox" "', argument " "2"" of type '" "int""'");
@@ -5267,7 +5284,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_openNewWindow (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5280,9 +5297,9 @@ static octave_value_list _wrap_tc_openNewWindow (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openNewWindow" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openNewWindow" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_openNewWindow((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5293,8 +5310,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getChildren (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -5303,10 +5321,11 @@ static octave_value_list _wrap_tc_getChildren (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_getChildren",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getChildren" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getChildren" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getChildren(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5316,22 +5335,24 @@ fail:
 
 
 static octave_value_list _wrap_tc_getParent (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  Item result;
+  int result;
   
   if (!SWIG_check_num_args("tc_getParent",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParent" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (Item)tc_getParent(arg1);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParent" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (int)tc_getParent(arg1);
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
@@ -5339,9 +5360,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_getNumericalData (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5353,15 +5375,16 @@ static octave_value_list _wrap_tc_getNumericalData (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_getNumericalData",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumericalData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalData" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getNumericalData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getNumericalData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = tc_getNumericalData(arg1,(char const *)arg2);
   _outv = SWIG_NewPointerObj((new TableOfReals((const TableOfReals&)(result))), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5372,10 +5395,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setNumericalData (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfReals arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5388,15 +5412,16 @@ static octave_value_list _wrap_tc_setNumericalData (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_setNumericalData",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setNumericalData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setNumericalData" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setNumericalData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setNumericalData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   {
     res3 = SWIG_ConvertPtr(args(2), &argp3, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res3)) {
@@ -5418,9 +5443,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_getTextData (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5432,15 +5458,16 @@ static octave_value_list _wrap_tc_getTextData (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_getTextData",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextData" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = tc_getTextData(arg1,(char const *)arg2);
   _outv = SWIG_NewPointerObj((new TableOfStrings((const TableOfStrings&)(result))), SWIGTYPE_p_TableOfStrings, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5451,10 +5478,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setTextData (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfStrings arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5467,15 +5495,16 @@ static octave_value_list _wrap_tc_setTextData (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_setTextData",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextData" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   {
     res3 = SWIG_ConvertPtr(args(2), &argp3, SWIGTYPE_p_TableOfStrings,  0 );
     if (!SWIG_IsOK(res3)) {
@@ -5497,8 +5526,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getNumericalDataNames (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -5507,10 +5537,11 @@ static octave_value_list _wrap_tc_getNumericalDataNames (const octave_value_list
   if (!SWIG_check_num_args("tc_getNumericalDataNames",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumericalDataNames" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getNumericalDataNames" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getNumericalDataNames(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfStrings((const ArrayOfStrings&)(result))), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5520,8 +5551,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getTextDataNames (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -5530,10 +5562,11 @@ static octave_value_list _wrap_tc_getTextDataNames (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_getTextDataNames",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextDataNames" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextDataNames" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getTextDataNames(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfStrings((const ArrayOfStrings&)(result))), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5567,24 +5600,24 @@ fail:
 
 
 static octave_value_list _wrap_tc_getString (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getString",args.length(),1,1,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
-  result = (String)tc_getString((char const *)arg1);
+  arg1 = (char *)(buf1);
+  result = (char *)tc_getString((char const *)arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
@@ -5597,12 +5630,12 @@ static octave_value_list _wrap_tc_getFilename (const octave_value_list& args, in
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getFilename",args.length(),0,0,0)) {
     SWIG_fail;
   }
-  result = (String)tc_getFilename();
+  result = (char *)tc_getFilename();
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -5611,9 +5644,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getStringFromList (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfStrings arg2 ;
-  String arg3 = (String) 0 ;
+  char *arg3 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5632,9 +5665,9 @@ static octave_value_list _wrap_tc_getStringFromList (const octave_value_list& ar
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -5648,9 +5681,9 @@ static octave_value_list _wrap_tc_getStringFromList (const octave_value_list& ar
   }
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5662,7 +5695,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_getNumber (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5676,9 +5709,9 @@ static octave_value_list _wrap_tc_getNumber (const octave_value_list& args, int 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumber" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumber" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = (double)tc_getNumber((char const *)arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5727,7 +5760,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_askQuestion (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5741,9 +5774,9 @@ static octave_value_list _wrap_tc_askQuestion (const octave_value_list& args, in
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_askQuestion" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_askQuestion" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = (int)tc_askQuestion((char const *)arg1);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5754,7 +5787,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_messageDialog (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -5767,9 +5800,9 @@ static octave_value_list _wrap_tc_messageDialog (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_messageDialog" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_messageDialog" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_messageDialog((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5783,13 +5816,13 @@ static octave_value_list _wrap_tc_thisThread (const octave_value_list& args, int
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  Item result;
+  int result;
   
   if (!SWIG_check_num_args("tc_thisThread",args.length(),0,0,0)) {
     SWIG_fail;
   }
-  result = (Item)tc_thisThread();
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  result = (int)tc_thisThread();
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
   return _out;
@@ -5834,21 +5867,23 @@ fail:
 
 
 static octave_value_list _wrap_tc_getColor (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getColor",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getColor" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getColor(arg1);
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getColor" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (char *)tc_getColor(arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -5857,10 +5892,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setColor (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5873,15 +5909,16 @@ static octave_value_list _wrap_tc_setColor (const octave_value_list& args, int n
   if (!SWIG_check_num_args("tc_setColor",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setColor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setColor" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setColor" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setColor" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   ecode3 = SWIG_AsVal_int(args(2), &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setColor" "', argument " "3"" of type '" "int""'");
@@ -5897,9 +5934,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_changeNodeImage (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5910,15 +5948,16 @@ static octave_value_list _wrap_tc_changeNodeImage (const octave_value_list& args
   if (!SWIG_check_num_args("tc_changeNodeImage",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_changeNodeImage" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeNodeImage" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeNodeImage" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeNodeImage" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_changeNodeImage(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5929,9 +5968,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_changeArrowHead (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -5942,15 +5982,16 @@ static octave_value_list _wrap_tc_changeArrowHead (const octave_value_list& args
   if (!SWIG_check_num_args("tc_changeArrowHead",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_changeArrowHead" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_changeArrowHead" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeArrowHead" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeArrowHead" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_changeArrowHead(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -5961,11 +6002,12 @@ fail:
 
 
 static octave_value_list _wrap_tc_setSize (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
   int arg4 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
@@ -5979,10 +6021,11 @@ static octave_value_list _wrap_tc_setSize (const octave_value_list& args, int na
   if (!SWIG_check_num_args("tc_setSize",args.length(),4,4,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setSize" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setSize" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setSize" "', argument " "2"" of type '" "double""'");
@@ -6007,8 +6050,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getWidth (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -6017,10 +6061,11 @@ static octave_value_list _wrap_tc_getWidth (const octave_value_list& args, int n
   if (!SWIG_check_num_args("tc_getWidth",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getWidth" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getWidth" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getWidth(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -6030,8 +6075,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getHeight (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -6040,10 +6086,11 @@ static octave_value_list _wrap_tc_getHeight (const octave_value_list& args, int 
   if (!SWIG_check_num_args("tc_getHeight",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getHeight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getHeight" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getHeight(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -6053,10 +6100,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setAngle (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   int arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   int val3 ;
@@ -6068,10 +6116,11 @@ static octave_value_list _wrap_tc_setAngle (const octave_value_list& args, int n
   if (!SWIG_check_num_args("tc_setAngle",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setAngle" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAngle" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setAngle" "', argument " "2"" of type '" "double""'");
@@ -6091,8 +6140,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getAngle (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -6101,10 +6151,11 @@ static octave_value_list _wrap_tc_getAngle (const octave_value_list& args, int n
   if (!SWIG_check_num_args("tc_getAngle",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getAngle(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -6116,66 +6167,66 @@ fail:
 static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& args, int nargout) {
   ArrayOfItems (*arg1)() = (ArrayOfItems (*)()) 0 ;
   ArrayOfItems (*arg2)() = (ArrayOfItems (*)()) 0 ;
-  ArrayOfItems (*arg3)(String) = (ArrayOfItems (*)(String)) 0 ;
-  ArrayOfItems (*arg4)(String,ArrayOfItems) = (ArrayOfItems (*)(String,ArrayOfItems)) 0 ;
-  Item (*arg5)(String) = (Item (*)(String)) 0 ;
+  ArrayOfItems (*arg3)(char const *) = (ArrayOfItems (*)(char const *)) 0 ;
+  ArrayOfItems (*arg4)(char const *,ArrayOfItems) = (ArrayOfItems (*)(char const *,ArrayOfItems)) 0 ;
+  int (*arg5)(char const *) = (int (*)(char const *)) 0 ;
   ArrayOfItems (*arg6)(ArrayOfStrings) = (ArrayOfItems (*)(ArrayOfStrings)) 0 ;
-  void (*arg7)(Item) = (void (*)(Item)) 0 ;
+  void (*arg7)(int) = (void (*)(int)) 0 ;
   void (*arg8)() = (void (*)()) 0 ;
-  String (*arg9)(Item) = (String (*)(Item)) 0 ;
-  String (*arg10)(Item) = (String (*)(Item)) 0 ;
-  void (*arg11)(Item,String) = (void (*)(Item,String)) 0 ;
+  char *(*arg9)(int) = (char *(*)(int)) 0 ;
+  char *(*arg10)(int) = (char *(*)(int)) 0 ;
+  void (*arg11)(int,char const *) = (void (*)(int,char const *)) 0 ;
   ArrayOfStrings (*arg12)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
   ArrayOfStrings (*arg13)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  String (*arg14)(Item) = (String (*)(Item)) 0 ;
-  int (*arg15)(Item,String) = (int (*)(Item,String)) 0 ;
+  char *(*arg14)(int) = (char *(*)(int)) 0 ;
+  int (*arg15)(int,char const *) = (int (*)(int,char const *)) 0 ;
   void (*arg16)() = (void (*)()) 0 ;
-  void (*arg17)(String) = (void (*)(String)) 0 ;
-  void (*arg18)(String) = (void (*)(String)) 0 ;
+  void (*arg17)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg18)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg19)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
-  void (*arg20)(String) = (void (*)(String)) 0 ;
-  void (*arg21)(Item) = (void (*)(Item)) 0 ;
-  double (*arg22)(Item) = (double (*)(Item)) 0 ;
-  double (*arg23)(Item) = (double (*)(Item)) 0 ;
+  void (*arg20)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg21)(int) = (void (*)(int)) 0 ;
+  double (*arg22)(int) = (double (*)(int)) 0 ;
+  double (*arg23)(int) = (double (*)(int)) 0 ;
   TableOfReals (*arg24)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-  void (*arg25)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
+  void (*arg25)(int,double,double) = (void (*)(int,double,double)) 0 ;
   void (*arg26)(ArrayOfItems,TableOfReals) = (void (*)(ArrayOfItems,TableOfReals)) 0 ;
   void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
   int (*arg28)() = (int (*)()) 0 ;
   int (*arg29)() = (int (*)()) 0 ;
   int (*arg30)() = (int (*)()) 0 ;
-  String (*arg31)() = (String (*)()) 0 ;
-  void (*arg32)(TableOfReals,String,String,String) = (void (*)(TableOfReals,String,String,String)) 0 ;
-  void (*arg33)(TableOfReals,String,void (*)(TableOfReals)) = (void (*)(TableOfReals,String,void (*)(TableOfReals))) 0 ;
-  void (*arg34)(Item,TableOfReals,void (*)(TableOfReals)) = (void (*)(Item,TableOfReals,void (*)(TableOfReals))) 0 ;
-  void (*arg35)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
-  void (*arg36)(String,int,int) = (void (*)(String,int,int)) 0 ;
-  void (*arg37)(String) = (void (*)(String)) 0 ;
-  ArrayOfItems (*arg38)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  Item (*arg39)(Item) = (Item (*)(Item)) 0 ;
-  TableOfReals (*arg40)(Item,String) = (TableOfReals (*)(Item,String)) 0 ;
-  void (*arg41)(Item,String,TableOfReals) = (void (*)(Item,String,TableOfReals)) 0 ;
-  TableOfStrings (*arg42)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
-  void (*arg43)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
-  ArrayOfStrings (*arg44)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  ArrayOfStrings (*arg45)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  char *(*arg31)() = (char *(*)()) 0 ;
+  void (*arg32)(TableOfReals,char const *,char const *,char const *) = (void (*)(TableOfReals,char const *,char const *,char const *)) 0 ;
+  void (*arg33)(TableOfReals,char const *,void (*)(TableOfReals)) = (void (*)(TableOfReals,char const *,void (*)(TableOfReals))) 0 ;
+  void (*arg34)(int,TableOfReals,void (*)(TableOfReals)) = (void (*)(int,TableOfReals,void (*)(TableOfReals))) 0 ;
+  void (*arg35)(char const *,int,int,ArrayOfStrings) = (void (*)(char const *,int,int,ArrayOfStrings)) 0 ;
+  void (*arg36)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
+  void (*arg37)(char const *) = (void (*)(char const *)) 0 ;
+  ArrayOfItems (*arg38)(int) = (ArrayOfItems (*)(int)) 0 ;
+  int (*arg39)(int) = (int (*)(int)) 0 ;
+  TableOfReals (*arg40)(int,char const *) = (TableOfReals (*)(int,char const *)) 0 ;
+  void (*arg41)(int,char const *,TableOfReals) = (void (*)(int,char const *,TableOfReals)) 0 ;
+  TableOfStrings (*arg42)(int,char const *) = (TableOfStrings (*)(int,char const *)) 0 ;
+  void (*arg43)(int,char const *,TableOfStrings) = (void (*)(int,char const *,TableOfStrings)) 0 ;
+  ArrayOfStrings (*arg44)(int) = (ArrayOfStrings (*)(int)) 0 ;
+  ArrayOfStrings (*arg45)(int) = (ArrayOfStrings (*)(int)) 0 ;
   void (*arg46)(double) = (void (*)(double)) 0 ;
-  String (*arg47)(String) = (String (*)(String)) 0 ;
-  int (*arg48)(String,ArrayOfStrings,String) = (int (*)(String,ArrayOfStrings,String)) 0 ;
-  double (*arg49)(String) = (double (*)(String)) 0 ;
+  char *(*arg47)(char const *) = (char *(*)(char const *)) 0 ;
+  int (*arg48)(char const *,ArrayOfStrings,char const *) = (int (*)(char const *,ArrayOfStrings,char const *)) 0 ;
+  double (*arg49)(char const *) = (double (*)(char const *)) 0 ;
   void (*arg50)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
-  String (*arg51)() = (String (*)()) 0 ;
-  int (*arg52)(String) = (int (*)(String)) 0 ;
-  void (*arg53)(String) = (void (*)(String)) 0 ;
-  void (*arg54)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
-  double (*arg55)(void *) = (double (*)(void *)) 0 ;
-  double (*arg56)(void *) = (double (*)(void *)) 0 ;
-  void (*arg57)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
-  double (*arg58)(void *) = (double (*)(void *)) 0 ;
-  String (*arg59)(void *) = (String (*)(void *)) 0 ;
-  void (*arg60)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
-  void (*arg61)(void *,String) = (void (*)(void *,String)) 0 ;
-  void (*arg62)(void *,String) = (void (*)(void *,String)) 0 ;
+  char *(*arg51)() = (char *(*)()) 0 ;
+  int (*arg52)(char const *) = (int (*)(char const *)) 0 ;
+  void (*arg53)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg54)(int,double,double,int) = (void (*)(int,double,double,int)) 0 ;
+  double (*arg55)(int) = (double (*)(int)) 0 ;
+  double (*arg56)(int) = (double (*)(int)) 0 ;
+  void (*arg57)(int,double,int) = (void (*)(int,double,int)) 0 ;
+  double (*arg58)(int) = (double (*)(int)) 0 ;
+  char *(*arg59)(int) = (char *(*)(int)) 0 ;
+  void (*arg60)(int,char const *,int) = (void (*)(int,char const *,int)) 0 ;
+  void (*arg61)(int,char const *) = (void (*)(int,char const *)) 0 ;
+  void (*arg62)(int,char const *) = (void (*)(int,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -6196,21 +6247,21 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_String__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "ArrayOfItems (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "ArrayOfItems (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "ArrayOfItems (*)(String,ArrayOfItems)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "ArrayOfItems (*)(char const *,ArrayOfItems)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__p_void);
+    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "Item (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "int (*)(char const *)""'"); 
     }
   }
   {
@@ -6220,9 +6271,9 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_p_void__void);
+    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(int)""'"); 
     }
   }
   {
@@ -6232,21 +6283,21 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_int__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "String (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "char const *(*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(9), (void**)(&arg10), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(9), (void**)(&arg10), SWIGTYPE_p_f_int__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "String (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "char const *(*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(10), (void**)(&arg11), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(10), (void**)(&arg11), SWIGTYPE_p_f_int_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(int,char const *)""'"); 
     }
   }
   {
@@ -6262,15 +6313,15 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(13), (void**)(&arg14), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(13), (void**)(&arg14), SWIGTYPE_p_f_int__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "String (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "char const *(*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(14), (void**)(&arg15), SWIGTYPE_p_f_p_void_p_q_const__char__int);
+    int res = SWIG_ConvertFunctionPtr(args(14), (void**)(&arg15), SWIGTYPE_p_f_int_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(int,char const *)""'"); 
     }
   }
   {
@@ -6282,13 +6333,13 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   {
     int res = SWIG_ConvertFunctionPtr(args(16), (void**)(&arg17), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(17), (void**)(&arg18), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "18"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "18"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
@@ -6300,25 +6351,25 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   {
     int res = SWIG_ConvertFunctionPtr(args(19), (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(20), (void**)(&arg21), SWIGTYPE_p_f_p_void__void);
+    int res = SWIG_ConvertFunctionPtr(args(20), (void**)(&arg21), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(21), (void**)(&arg22), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(21), (void**)(&arg22), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(22), (void**)(&arg23), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(22), (void**)(&arg23), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(int)""'"); 
     }
   }
   {
@@ -6328,9 +6379,9 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(24), (void**)(&arg25), SWIGTYPE_p_f_p_void_double_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(24), (void**)(&arg25), SWIGTYPE_p_f_int_double_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(Item,double,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(int,double,double)""'"); 
     }
   }
   {
@@ -6366,91 +6417,91 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   {
     int res = SWIG_ConvertFunctionPtr(args(30), (void**)(&arg31), SWIGTYPE_p_f___p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "String (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "char const *(*)()""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(31), (void**)(&arg32), SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(TableOfReals,String,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(TableOfReals,char const *,char const *,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(32), (void**)(&arg33), SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(TableOfReals,String,void (*)(TableOfReals))""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(TableOfReals,char const *,void (*)(TableOfReals))""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(33), (void**)(&arg34), SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void);
+    int res = SWIG_ConvertFunctionPtr(args(33), (void**)(&arg34), SWIGTYPE_p_f_int_TableOfReals_p_f_TableOfReals__void__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(Item,TableOfReals,void (*)(TableOfReals))""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(int,TableOfReals,void (*)(TableOfReals))""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(34), (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(String,int,int,ArrayOfStrings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(char const *,int,int,ArrayOfStrings)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(35), (void**)(&arg36), SWIGTYPE_p_f_p_q_const__char_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(String,int,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(char const *,int,int)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(36), (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(37), (void**)(&arg38), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(37), (void**)(&arg38), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(38), (void**)(&arg39), SWIGTYPE_p_f_p_void__p_void);
+    int res = SWIG_ConvertFunctionPtr(args(38), (void**)(&arg39), SWIGTYPE_p_f_int__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "Item (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "int (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(39), (void**)(&arg40), SWIGTYPE_p_f_Item_String__TableOfReals);
+    int res = SWIG_ConvertFunctionPtr(args(39), (void**)(&arg40), SWIGTYPE_p_f_int_p_q_const__char__TableOfReals);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfReals (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfReals (*)(int,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(40), (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void);
+    int res = SWIG_ConvertFunctionPtr(args(40), (void**)(&arg41), SWIGTYPE_p_f_int_p_q_const__char_TableOfReals__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(Item,String,TableOfReals)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(int,char const *,TableOfReals)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(41), (void**)(&arg42), SWIGTYPE_p_f_Item_String__TableOfStrings);
+    int res = SWIG_ConvertFunctionPtr(args(41), (void**)(&arg42), SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(int,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(42), (void**)(&arg43), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void);
+    int res = SWIG_ConvertFunctionPtr(args(42), (void**)(&arg43), SWIGTYPE_p_f_int_p_q_const__char_TableOfStrings__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(Item,String,TableOfStrings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(int,char const *,TableOfStrings)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(43), (void**)(&arg44), SWIGTYPE_p_f_Item__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(args(43), (void**)(&arg44), SWIGTYPE_p_f_int__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(44), (void**)(&arg45), SWIGTYPE_p_f_Item__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(args(44), (void**)(&arg45), SWIGTYPE_p_f_int__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(int)""'"); 
     }
   }
   {
@@ -6462,19 +6513,19 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   {
     int res = SWIG_ConvertFunctionPtr(args(46), (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "String (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "char const *(*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(String,ArrayOfStrings,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(char const *,ArrayOfStrings,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(48), (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "double (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "double (*)(char const *)""'"); 
     }
   }
   {
@@ -6486,76 +6537,76 @@ static octave_value_list _wrap_tc_Main_api_initialize (const octave_value_list& 
   {
     int res = SWIG_ConvertFunctionPtr(args(50), (void**)(&arg51), SWIGTYPE_p_f___p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "String (*)()""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "char const *(*)()""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(51), (void**)(&arg52), SWIGTYPE_p_f_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "int (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "int (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(52), (void**)(&arg53), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(53), (void**)(&arg54), SWIGTYPE_p_f_p_void_double_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(53), (void**)(&arg54), SWIGTYPE_p_f_int_double_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(void *,double,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(int,double,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(54), (void**)(&arg55), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(54), (void**)(&arg55), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(void *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(55), (void**)(&arg56), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(55), (void**)(&arg56), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(void *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(56), (void**)(&arg57), SWIGTYPE_p_f_p_void_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(56), (void**)(&arg57), SWIGTYPE_p_f_int_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(void *,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(int,double,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(57), (void**)(&arg58), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(57), (void**)(&arg58), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(void *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(58), (void**)(&arg59), SWIGTYPE_p_f_p_void__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(58), (void**)(&arg59), SWIGTYPE_p_f_int__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "String (*)(void *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "char const *(*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(59), (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(59), (void**)(&arg60), SWIGTYPE_p_f_int_p_q_const__char_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(void *,String,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(int,char const *,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(60), (void**)(&arg61), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(60), (void**)(&arg61), SWIGTYPE_p_f_int_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(void *,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(int,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(61), (void**)(&arg62), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(61), (void**)(&arg62), SWIGTYPE_p_f_int_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(void *,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(int,char const *)""'"); 
     }
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,(char const *(*)(void *))arg10,arg11,arg12,arg13,(char const *(*)(void *))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(void *))arg59,arg60,arg61,arg62);
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(int))arg9,(char const *(*)(int))arg10,arg11,arg12,arg13,(char const *(*)(int))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(int))arg59,arg60,arg61,arg62);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -6588,9 +6639,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_CThread_api_initialize (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  void (*arg2)(Item,int) = (void (*)(Item,int)) 0 ;
-  int res1 ;
+  int arg1 ;
+  void (*arg2)(int,int) = (void (*)(int,int)) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -6598,14 +6650,15 @@ static octave_value_list _wrap_tc_CThread_api_initialize (const octave_value_lis
   if (!SWIG_check_num_args("tc_CThread_api_initialize",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_void_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(Item,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(int,int)""'"); 
     }
   }
   tc_CThread_api_initialize(arg1,arg2);
@@ -6785,30 +6838,32 @@ fail:
 
 
 static octave_value_list _wrap_tc_getTextAttribute (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getTextAttribute",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextAttribute" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getTextAttribute" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextAttribute" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextAttribute" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
-  result = (String)tc_getTextAttribute(arg1,(char const *)arg2);
+  arg2 = (char *)(buf2);
+  result = (char *)tc_getTextAttribute(arg1,(char const *)arg2);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
@@ -6818,9 +6873,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_getParameter (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -6832,15 +6888,16 @@ static octave_value_list _wrap_tc_getParameter (const octave_value_list& args, i
   if (!SWIG_check_num_args("tc_getParameter",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParameter" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getParameter" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParameter" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParameter" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (double)tc_getParameter(arg1,(char const *)arg2);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -6986,10 +7043,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setTextAttribute (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -7003,20 +7061,21 @@ static octave_value_list _wrap_tc_setTextAttribute (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_setTextAttribute",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextAttribute" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setTextAttribute" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttribute" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttribute" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextAttribute" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextAttribute" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   tc_setTextAttribute(arg1,(char const *)arg2,(char const *)arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7028,10 +7087,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setParameter (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   double arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -7044,15 +7104,16 @@ static octave_value_list _wrap_tc_setParameter (const octave_value_list& args, i
   if (!SWIG_check_num_args("tc_setParameter",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setParameter" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setParameter" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setParameter" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setParameter" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   ecode3 = SWIG_AsVal_double(args(2), &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setParameter" "', argument " "3"" of type '" "double""'");
@@ -7068,9 +7129,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_BasicInformationTool_Text_api (const octave_value_list& args, int nargout) {
-  String (*arg1)(Item,String) = (String (*)(Item,String)) 0 ;
+  char *(*arg1)(int,char const *) = (char *(*)(int,char const *)) 0 ;
   ArrayOfStrings (*arg2)(ArrayOfItems,ArrayOfStrings) = (ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-  void (*arg3)(Item,String,String) = (void (*)(Item,String,String)) 0 ;
+  void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7079,9 +7140,9 @@ static octave_value_list _wrap_tc_BasicInformationTool_Text_api (const octave_va
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_void_p_q_const__char__p_char);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__p_char);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "String (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(int,char const *)""'"); 
     }
   }
   {
@@ -7091,12 +7152,12 @@ static octave_value_list _wrap_tc_BasicInformationTool_Text_api (const octave_va
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(Item,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
     }
   }
-  tc_BasicInformationTool_Text_api((char const *(*)(void *,char const *))arg1,arg2,arg3);
+  tc_BasicInformationTool_Text_api((char const *(*)(int,char const *))arg1,arg2,arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -7110,10 +7171,10 @@ static octave_value_list _wrap_tc_BasicInformationTool_Numeric_api (const octave
   TableOfReals (*arg3)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
   TableOfReals (*arg4)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
   TableOfReals (*arg5)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-  double (*arg6)(Item,String) = (double (*)(Item,String)) 0 ;
+  double (*arg6)(int,char const *) = (double (*)(int,char const *)) 0 ;
   TableOfReals (*arg7)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
   TableOfReals (*arg8)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-  void (*arg9)(Item,String,double) = (void (*)(Item,String,double)) 0 ;
+  void (*arg9)(int,char const *,double) = (void (*)(int,char const *,double)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7152,9 +7213,9 @@ static octave_value_list _wrap_tc_BasicInformationTool_Numeric_api (const octave
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_p_void_p_q_const__char__double);
+    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_int_p_q_const__char__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(int,char const *)""'"); 
     }
   }
   {
@@ -7170,9 +7231,9 @@ static octave_value_list _wrap_tc_BasicInformationTool_Numeric_api (const octave
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_p_void_p_q_const__char_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_int_p_q_const__char_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(Item,String,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(int,char const *,double)""'"); 
     }
   }
   tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -7185,8 +7246,8 @@ fail:
 
 static octave_value_list _wrap_tc_insertConnection (const octave_value_list& args, int nargout) {
   ArrayOfItems arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -7198,7 +7259,7 @@ static octave_value_list _wrap_tc_insertConnection (const octave_value_list& arg
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  Item result;
+  int result;
   
   if (!SWIG_check_num_args("tc_insertConnection",args.length(),3,3,0)) {
     SWIG_fail;
@@ -7216,16 +7277,16 @@ static octave_value_list _wrap_tc_insertConnection (const octave_value_list& arg
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insertConnection" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insertConnection" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_insertConnection" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_insertConnection" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
-  result = (Item)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  arg3 = (char *)(buf3);
+  result = (int)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
   if (alloc3 == SWIG_NEWOBJ) delete[] buf3;
@@ -7235,8 +7296,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getConnectedNodes (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7245,10 +7307,11 @@ static octave_value_list _wrap_tc_getConnectedNodes (const octave_value_list& ar
   if (!SWIG_check_num_args("tc_getConnectedNodes",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodes" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodes" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getConnectedNodes(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7257,78 +7320,45 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_getConnectedNodesIn (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+static octave_value_list _wrap_tc_getConnectedNodesWithRole (const octave_value_list& args, int nargout) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   ArrayOfItems result;
   
-  if (!SWIG_check_num_args("tc_getConnectedNodesIn",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_getConnectedNodesWithRole",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesIn" "', argument " "1"" of type '" "Item""'"); 
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectedNodesWithRole" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectedNodesWithRole" "', argument " "2"" of type '" "char const *""'");
   }
-  result = tc_getConnectedNodesIn(arg1);
+  arg2 = (char *)(buf2);
+  result = tc_getConnectedNodesWithRole(arg1,(char const *)arg2);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getConnectedNodesOut (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  ArrayOfItems result;
-  
-  if (!SWIG_check_num_args("tc_getConnectedNodesOut",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesOut" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectedNodesOut(arg1);
-  _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getConnectedNodesOther (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  ArrayOfItems result;
-  
-  if (!SWIG_check_num_args("tc_getConnectedNodesOther",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesOther" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectedNodesOther(arg1);
-  _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
 fail:
   return _out;
 }
 
 
 static octave_value_list _wrap_tc_getConnections (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7337,10 +7367,11 @@ static octave_value_list _wrap_tc_getConnections (const octave_value_list& args,
   if (!SWIG_check_num_args("tc_getConnections",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnections" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnections" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getConnections(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7349,147 +7380,85 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_getConnectionsIn (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+static octave_value_list _wrap_tc_getConnectionsWithRole (const octave_value_list& args, int nargout) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   ArrayOfItems result;
   
-  if (!SWIG_check_num_args("tc_getConnectionsIn",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_getConnectionsWithRole",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsIn" "', argument " "1"" of type '" "Item""'"); 
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getConnectionsWithRole" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectionsWithRole" "', argument " "2"" of type '" "char const *""'");
   }
-  result = tc_getConnectionsIn(arg1);
+  arg2 = (char *)(buf2);
+  result = tc_getConnectionsWithRole(arg1,(char const *)arg2);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getConnectionsOut (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  ArrayOfItems result;
-  
-  if (!SWIG_check_num_args("tc_getConnectionsOut",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsOut" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectionsOut(arg1);
-  _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
-fail:
-  return _out;
-}
-
-
-static octave_value_list _wrap_tc_getConnectionsOther (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  octave_value_list _out;
-  octave_value_list *_outp=&_out;
-  octave_value _outv;
-  ArrayOfItems result;
-  
-  if (!SWIG_check_num_args("tc_getConnectionsOther",args.length(),1,1,0)) {
-    SWIG_fail;
-  }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsOther" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectionsOther(arg1);
-  _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
+  if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
 fail:
   return _out;
 }
 
 
 static octave_value_list _wrap_tc_ConnectionInsertion_api (const octave_value_list& args, int nargout) {
-  Item (*arg1)(ArrayOfItems,String,String) = (Item (*)(ArrayOfItems,String,String)) 0 ;
-  ArrayOfItems (*arg2)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg3)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg4)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg5)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg6)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg7)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg8)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg9)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  int (*arg1)(ArrayOfItems,char const *,char const *) = (int (*)(ArrayOfItems,char const *,char const *)) 0 ;
+  ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg3)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
+  ArrayOfItems (*arg4)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg5)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
   
-  if (!SWIG_check_num_args("tc_ConnectionInsertion_api",args.length(),9,9,0)) {
+  if (!SWIG_check_num_args("tc_ConnectionInsertion_api",args.length(),5,5,0)) {
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "Item (*)(ArrayOfItems,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "int (*)(ArrayOfItems,char const *,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
     }
   }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_Item__ArrayOfItems);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "6"" of type '" "ArrayOfItems (*)(Item)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_Item__ArrayOfItems);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "7"" of type '" "ArrayOfItems (*)(Item)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(7), (void**)(&arg8), SWIGTYPE_p_f_Item__ArrayOfItems);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "8"" of type '" "ArrayOfItems (*)(Item)""'"); 
-    }
-  }
-  {
-    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_Item__ArrayOfItems);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "9"" of type '" "ArrayOfItems (*)(Item)""'"); 
-    }
-  }
-  tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -7498,11 +7467,13 @@ fail:
 
 
 static octave_value_list _wrap_tc_getControlPointX (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
-  int res1 ;
-  int res2 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   octave_value_list _out;
@@ -7513,14 +7484,16 @@ static octave_value_list _wrap_tc_getControlPointX (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_getControlPointX",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
   ecode3 = SWIG_AsVal_int(args(2), &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointX" "', argument " "3"" of type '" "int""'");
@@ -7535,11 +7508,13 @@ fail:
 
 
 static octave_value_list _wrap_tc_getControlPointY (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
-  int res1 ;
-  int res2 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   octave_value_list _out;
@@ -7550,14 +7525,16 @@ static octave_value_list _wrap_tc_getControlPointY (const octave_value_list& arg
   if (!SWIG_check_num_args("tc_getControlPointY",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
   ecode3 = SWIG_AsVal_int(args(2), &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_getControlPointY" "', argument " "3"" of type '" "int""'");
@@ -7572,13 +7549,15 @@ fail:
 
 
 static octave_value_list _wrap_tc_setControlPoint (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
   double arg4 ;
   double arg5 ;
-  int res1 ;
-  int res2 ;
+  int val1 ;
+  int ecode1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
   int val3 ;
   int ecode3 = 0 ;
   double val4 ;
@@ -7592,14 +7571,16 @@ static octave_value_list _wrap_tc_setControlPoint (const octave_value_list& args
   if (!SWIG_check_num_args("tc_setControlPoint",args.length(),5,5,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_ConvertPtr(args(1),SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  ecode2 = SWIG_AsVal_int(args(1), &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = (int)(val2);
   ecode3 = SWIG_AsVal_int(args(2), &val3);
   if (!SWIG_IsOK(ecode3)) {
     SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "tc_setControlPoint" "', argument " "3"" of type '" "int""'");
@@ -7624,10 +7605,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setCenterPoint (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   double val3 ;
@@ -7639,10 +7621,11 @@ static octave_value_list _wrap_tc_setCenterPoint (const octave_value_list& args,
   if (!SWIG_check_num_args("tc_setCenterPoint",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setCenterPoint" "', argument " "2"" of type '" "double""'");
@@ -7662,8 +7645,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getCenterPointX (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7672,10 +7656,11 @@ static octave_value_list _wrap_tc_getCenterPointX (const octave_value_list& args
   if (!SWIG_check_num_args("tc_getCenterPointX",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getCenterPointX(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7685,8 +7670,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getCenterPointY (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7695,10 +7681,11 @@ static octave_value_list _wrap_tc_getCenterPointY (const octave_value_list& args
   if (!SWIG_check_num_args("tc_getCenterPointY",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = (double)tc_getCenterPointY(arg1);
   _outv = SWIG_From_double((double)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7708,9 +7695,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_setStraight (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   int arg2 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int val2 ;
   int ecode2 = 0 ;
   octave_value_list _out;
@@ -7720,10 +7708,11 @@ static octave_value_list _wrap_tc_setStraight (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_setStraight",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_int(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setStraight" "', argument " "2"" of type '" "int""'");
@@ -7762,10 +7751,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_setLineWidth (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   int arg3 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   int val3 ;
@@ -7777,10 +7767,11 @@ static octave_value_list _wrap_tc_setLineWidth (const octave_value_list& args, i
   if (!SWIG_check_num_args("tc_setLineWidth",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_setLineWidth" "', argument " "2"" of type '" "double""'");
@@ -7800,15 +7791,15 @@ fail:
 
 
 static octave_value_list _wrap_tc_ConnectionSelection_api (const octave_value_list& args, int nargout) {
-  double (*arg1)(Item,Item,int) = (double (*)(Item,Item,int)) 0 ;
-  double (*arg2)(Item,Item,int) = (double (*)(Item,Item,int)) 0 ;
-  void (*arg3)(Item,Item,int,double,double) = (void (*)(Item,Item,int,double,double)) 0 ;
-  void (*arg4)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
-  double (*arg5)(Item) = (double (*)(Item)) 0 ;
-  double (*arg6)(Item) = (double (*)(Item)) 0 ;
-  void (*arg7)(Item,int) = (void (*)(Item,int)) 0 ;
+  double (*arg1)(int,int,int) = (double (*)(int,int,int)) 0 ;
+  double (*arg2)(int,int,int) = (double (*)(int,int,int)) 0 ;
+  void (*arg3)(int,int,int,double,double) = (void (*)(int,int,int,double,double)) 0 ;
+  void (*arg4)(int,double,double) = (void (*)(int,double,double)) 0 ;
+  double (*arg5)(int) = (double (*)(int)) 0 ;
+  double (*arg6)(int) = (double (*)(int)) 0 ;
+  void (*arg7)(int,int) = (void (*)(int,int)) 0 ;
   void (*arg8)(int) = (void (*)(int)) 0 ;
-  void (*arg9)(Item,double,int) = (void (*)(Item,double,int)) 0 ;
+  void (*arg9)(int,double,int) = (void (*)(int,double,int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7817,45 +7808,45 @@ static octave_value_list _wrap_tc_ConnectionSelection_api (const octave_value_li
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_void_p_void_int__double);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_int_int_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(Item,Item,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(int,int,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_void_p_void_int__double);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int_int_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(Item,Item,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(int,int,int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_void_p_void_int_double_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_int_int_int_double_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(Item,Item,int,double,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(int,int,int,double,double)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_p_void_double_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_int_double_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(Item,double,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(int,double,double)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_p_void__double);
+    int res = SWIG_ConvertFunctionPtr(args(5), (void**)(&arg6), SWIGTYPE_p_f_int__double);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_p_void_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(6), (void**)(&arg7), SWIGTYPE_p_f_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(Item,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(int,int)""'"); 
     }
   }
   {
@@ -7865,9 +7856,9 @@ static octave_value_list _wrap_tc_ConnectionSelection_api (const octave_value_li
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_p_void_double_int__void);
+    int res = SWIG_ConvertFunctionPtr(args(8), (void**)(&arg9), SWIGTYPE_p_f_int_double_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(Item,double,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(int,double,int)""'"); 
     }
   }
   tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -7909,8 +7900,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_separate (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7918,10 +7910,11 @@ static octave_value_list _wrap_tc_separate (const octave_value_list& args, int n
   if (!SWIG_check_num_args("tc_separate",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_separate" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_separate" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   tc_separate(arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -7932,7 +7925,7 @@ fail:
 
 static octave_value_list _wrap_tc_GroupHandlerTool_api (const octave_value_list& args, int nargout) {
   void (*arg1)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
-  void (*arg2)(Item) = (void (*)(Item)) 0 ;
+  void (*arg2)(int) = (void (*)(int)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -7947,9 +7940,9 @@ static octave_value_list _wrap_tc_GroupHandlerTool_api (const octave_value_list&
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_void__void);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(int)""'"); 
     }
   }
   tc_GroupHandlerTool_api(arg1,arg2);
@@ -7972,7 +7965,7 @@ static octave_value_list _wrap_tc_insert (const octave_value_list& args, int nar
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  Item result;
+  int result;
   
   if (!SWIG_check_num_args("tc_insert",args.length(),2,2,0)) {
     SWIG_fail;
@@ -7987,8 +7980,8 @@ static octave_value_list _wrap_tc_insert (const octave_value_list& args, int nar
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insert" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = (char *)(buf2);
-  result = (Item)tc_insert((char const *)arg1,(char const *)arg2);
-  _outv = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, 0 |  0 );
+  result = (int)tc_insert((char const *)arg1,(char const *)arg2);
+  _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
   if (alloc2 == SWIG_NEWOBJ) delete[] buf2;
@@ -7998,7 +7991,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_NodeInsertion_api (const octave_value_list& args, int nargout) {
-  Item (*arg1)(char const *,char const *) = (Item (*)(char const *,char const *)) 0 ;
+  int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -8007,9 +8000,9 @@ static octave_value_list _wrap_tc_NodeInsertion_api (const octave_value_list& ar
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "Item (*)(char const *,char const *)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "int (*)(char const *,char const *)""'"); 
     }
   }
   tc_NodeInsertion_api(arg1);
@@ -8171,8 +8164,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getStoichiometryFor (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -8181,10 +8175,11 @@ static octave_value_list _wrap_tc_getStoichiometryFor (const octave_value_list& 
   if (!SWIG_check_num_args("tc_getStoichiometryFor",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStoichiometryFor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getStoichiometryFor" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getStoichiometryFor(arg1);
   _outv = SWIG_NewPointerObj((new TableOfReals((const TableOfReals&)(result))), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8194,21 +8189,23 @@ fail:
 
 
 static octave_value_list _wrap_tc_getRate (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
-  String result;
+  char *result = 0 ;
   
   if (!SWIG_check_num_args("tc_getRate",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRate" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getRate(arg1);
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getRate" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
+  result = (char *)tc_getRate(arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
 fail:
@@ -8217,9 +8214,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_setRate (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -8230,15 +8228,16 @@ static octave_value_list _wrap_tc_setRate (const octave_value_list& args, int na
   if (!SWIG_check_num_args("tc_setRate",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setRate" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setRate" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRate" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRate" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_setRate(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8249,9 +8248,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_setStoichiometryFor (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   TableOfReals arg2 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   void *argp2 ;
   int res2 = 0 ;
   octave_value_list _out;
@@ -8261,10 +8261,11 @@ static octave_value_list _wrap_tc_setStoichiometryFor (const octave_value_list& 
   if (!SWIG_check_num_args("tc_setStoichiometryFor",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStoichiometryFor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setStoichiometryFor" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -8329,8 +8330,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_compileAndRun (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8347,14 +8348,14 @@ static octave_value_list _wrap_tc_compileAndRun (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileAndRun" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileAndRun" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileAndRun" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileAndRun" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (int)tc_compileAndRun((char const *)arg1,(char const *)arg2);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8366,9 +8367,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_compileBuildLoad (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8388,19 +8389,19 @@ static octave_value_list _wrap_tc_compileBuildLoad (const octave_value_list& arg
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoad" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoad" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoad" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoad" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoad" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoad" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   result = (int)tc_compileBuildLoad((char const *)arg1,(char const *)arg2,(char const *)arg3);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8413,9 +8414,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_compileBuildLoadSliders (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   TableOfReals arg4 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -8438,19 +8439,19 @@ static octave_value_list _wrap_tc_compileBuildLoadSliders (const octave_value_li
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoadSliders" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoadSliders" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoadSliders" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoadSliders" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoadSliders" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoadSliders" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   {
     res4 = SWIG_ConvertPtr(args(3), &argp4, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res4)) {
@@ -8474,7 +8475,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_runPythonCode (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8487,9 +8488,9 @@ static octave_value_list _wrap_tc_runPythonCode (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonCode" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonCode" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_runPythonCode((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8500,7 +8501,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_runPythonFile (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8513,9 +8514,9 @@ static octave_value_list _wrap_tc_runPythonFile (const octave_value_list& args, 
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonFile" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonFile" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_runPythonFile((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8526,11 +8527,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_addPythonPlugin (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8555,29 +8556,29 @@ static octave_value_list _wrap_tc_addPythonPlugin (const octave_value_list& args
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addPythonPlugin" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addPythonPlugin" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addPythonPlugin" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addPythonPlugin" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addPythonPlugin" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addPythonPlugin" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(args(3), &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addPythonPlugin" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addPythonPlugin" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   res5 = SWIG_AsCharPtrAndSize(args(4), &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addPythonPlugin" "', argument " "5"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addPythonPlugin" "', argument " "5"" of type '" "char const *""'");
   }
-  arg5 = (String)(buf5);
+  arg5 = (char *)(buf5);
   tc_addPythonPlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8592,7 +8593,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_callFunction (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8605,9 +8606,9 @@ static octave_value_list _wrap_tc_callFunction (const octave_value_list& args, i
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_callFunction" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_callFunction" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_callFunction((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8618,7 +8619,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_loadLibrary (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -8631,9 +8632,9 @@ static octave_value_list _wrap_tc_loadLibrary (const octave_value_list& args, in
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadLibrary" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadLibrary" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_loadLibrary((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8645,11 +8646,11 @@ fail:
 
 static octave_value_list _wrap_tc_addFunction (const octave_value_list& args, int nargout) {
   void (*arg1)() = (void (*)()) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
-  String arg6 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  char *arg6 = (char *) 0 ;
   int arg7 ;
   int arg8 ;
   int arg9 ;
@@ -8689,29 +8690,29 @@ static octave_value_list _wrap_tc_addFunction (const octave_value_list& args, in
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addFunction" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addFunction" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addFunction" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addFunction" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(args(3), &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addFunction" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addFunction" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   res5 = SWIG_AsCharPtrAndSize(args(4), &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addFunction" "', argument " "5"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addFunction" "', argument " "5"" of type '" "char const *""'");
   }
-  arg5 = (String)(buf5);
+  arg5 = (char *)(buf5);
   res6 = SWIG_AsCharPtrAndSize(args(5), &buf6, NULL, &alloc6);
   if (!SWIG_IsOK(res6)) {
-    SWIG_exception_fail(SWIG_ArgError(res6), "in method '" "tc_addFunction" "', argument " "6"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res6), "in method '" "tc_addFunction" "', argument " "6"" of type '" "char const *""'");
   }
-  arg6 = (String)(buf6);
+  arg6 = (char *)(buf6);
   ecode7 = SWIG_AsVal_int(args(6), &val7);
   if (!SWIG_IsOK(ecode7)) {
     SWIG_exception_fail(SWIG_ArgError(ecode7), "in method '" "tc_addFunction" "', argument " "7"" of type '" "int""'");
@@ -8787,7 +8788,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_DynamicLibraryMenu_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -8798,7 +8799,7 @@ static octave_value_list _wrap_tc_DynamicLibraryMenu_api (const octave_value_lis
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_DynamicLibraryMenu_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_DynamicLibraryMenu_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
     }
   }
   tc_DynamicLibraryMenu_api(arg1);
@@ -8810,11 +8811,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_LoadCLibraries_api (const octave_value_list& args, int nargout) {
-  int (*arg1)(String,String) = (int (*)(String,String)) 0 ;
-  int (*arg2)(String,String,String) = (int (*)(String,String,String)) 0 ;
-  int (*arg3)(String,String,String,TableOfReals) = (int (*)(String,String,String,TableOfReals)) 0 ;
-  void (*arg4)(String) = (void (*)(String)) 0 ;
-  void (*arg5)(void (*)(),String,String,String,String,String,int,int,int) = (void (*)(void (*)(),String,String,String,String,String,int,int,int)) 0 ;
+  int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
+  int (*arg2)(char const *,char const *,char const *) = (int (*)(char const *,char const *,char const *)) 0 ;
+  int (*arg3)(char const *,char const *,char const *,TableOfReals) = (int (*)(char const *,char const *,char const *,TableOfReals)) 0 ;
+  void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int) = (void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)) 0 ;
   void (*arg6)(void (*)(void)) = (void (*)(void (*)(void))) 0 ;
   void (*arg7)(void (*)(void)) = (void (*)(void (*)(void))) 0 ;
   octave_value_list _out;
@@ -8827,31 +8828,31 @@ static octave_value_list _wrap_tc_LoadCLibraries_api (const octave_value_list& a
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "1"" of type '" "int (*)(String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "1"" of type '" "int (*)(char const *,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "2"" of type '" "int (*)(String,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "2"" of type '" "int (*)(char const *,char const *,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(String,String,String,TableOfReals)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(char const *,char const *,char const *,TableOfReals)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "4"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "5"" of type '" "void (*)(void (*)(),String,String,String,String,String,int,int,int)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "5"" of type '" "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)""'"); 
     }
   }
   {
@@ -8875,9 +8876,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_PythonTool_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
-  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -8888,19 +8889,19 @@ static octave_value_list _wrap_tc_PythonTool_api (const octave_value_list& args,
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
     }
   }
   tc_PythonTool_api(arg1,arg2,arg3);
@@ -8912,9 +8913,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_OctaveTool_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
-  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -8925,19 +8926,19 @@ static octave_value_list _wrap_tc_OctaveTool_api (const octave_value_list& args,
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
     }
   }
   tc_OctaveTool_api(arg1,arg2,arg3);
@@ -8950,7 +8951,7 @@ fail:
 
 static octave_value_list _wrap_tc_surface (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -8976,9 +8977,9 @@ static octave_value_list _wrap_tc_surface (const octave_value_list& args, int na
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_surface" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_surface" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_surface(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -8990,7 +8991,7 @@ fail:
 
 static octave_value_list _wrap_tc_plot (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -9016,9 +9017,9 @@ static octave_value_list _wrap_tc_plot (const octave_value_list& args, int nargo
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_plot" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_plot" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_plot(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9030,7 +9031,7 @@ fail:
 
 static octave_value_list _wrap_tc_scatterplot (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -9056,9 +9057,9 @@ static octave_value_list _wrap_tc_scatterplot (const octave_value_list& args, in
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_scatterplot" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_scatterplot" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_scatterplot(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9070,7 +9071,7 @@ fail:
 
 static octave_value_list _wrap_tc_errorBars (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -9096,9 +9097,9 @@ static octave_value_list _wrap_tc_errorBars (const octave_value_list& args, int 
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_errorBars(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9110,7 +9111,7 @@ fail:
 
 static octave_value_list _wrap_tc_hist (const octave_value_list& args, int nargout) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -9136,9 +9137,9 @@ static octave_value_list _wrap_tc_hist (const octave_value_list& args, int nargo
   }
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_hist" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_hist" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_hist(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9232,11 +9233,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg2)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg3)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg4)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg5)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
+  void (*arg1)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg2)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg3)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg4)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg5)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
   TableOfReals (*arg7)(int) = (TableOfReals (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
@@ -9250,31 +9251,31 @@ static octave_value_list _wrap_tc_PlotTool_api (const octave_value_list& args, i
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(TableOfReals,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(TableOfReals,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(4), (void**)(&arg5), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(TableOfReals,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(TableOfReals,char const *)""'"); 
     }
   }
   {
@@ -9304,7 +9305,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_writeModel (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -9321,9 +9322,9 @@ static octave_value_list _wrap_tc_writeModel (const octave_value_list& args, int
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeModel" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeModel" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -9345,7 +9346,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_ModelFileGenerator_api (const octave_value_list& args, int nargout) {
-  int (*arg1)(String,ArrayOfItems) = (int (*)(String,ArrayOfItems)) 0 ;
+  int (*arg1)(char const *,ArrayOfItems) = (int (*)(char const *,ArrayOfItems)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9356,7 +9357,7 @@ static octave_value_list _wrap_tc_ModelFileGenerator_api (const octave_value_lis
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(String,ArrayOfItems)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(char const *,ArrayOfItems)""'"); 
     }
   }
   tc_ModelFileGenerator_api(arg1);
@@ -9402,8 +9403,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_addEvent (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -9419,14 +9420,14 @@ static octave_value_list _wrap_tc_addEvent (const octave_value_list& args, int n
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addEvent" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addEvent" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addEvent" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addEvent" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_addEvent((char const *)arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9440,7 +9441,7 @@ fail:
 static octave_value_list _wrap_tc_SimulationEventsTool_api (const octave_value_list& args, int nargout) {
   ArrayOfStrings (*arg1)() = (ArrayOfStrings (*)()) 0 ;
   ArrayOfStrings (*arg2)() = (ArrayOfStrings (*)()) 0 ;
-  void (*arg3)(String,String) = (void (*)(String,String)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9463,7 +9464,7 @@ static octave_value_list _wrap_tc_SimulationEventsTool_api (const octave_value_l
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "3"" of type '" "void (*)(String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
     }
   }
   tc_SimulationEventsTool_api(arg1,arg2,arg3);
@@ -9537,10 +9538,11 @@ fail:
 
 
 static octave_value_list _wrap_tc_addForcingFunction (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -9554,20 +9556,21 @@ static octave_value_list _wrap_tc_addForcingFunction (const octave_value_list& a
   if (!SWIG_check_num_args("tc_addForcingFunction",args.length(),3,3,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addForcingFunction" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_addForcingFunction" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addForcingFunction" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addForcingFunction" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   tc_addForcingFunction(arg1,(char const *)arg2,(char const *)arg3);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9581,7 +9584,7 @@ fail:
 static octave_value_list _wrap_tc_AssignmentFunctionsTool_api (const octave_value_list& args, int nargout) {
   ArrayOfStrings (*arg1)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
   ArrayOfStrings (*arg2)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  void (*arg3)(Item,String,String) = (void (*)(Item,String,String)) 0 ;
+  void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9602,9 +9605,9 @@ static octave_value_list _wrap_tc_AssignmentFunctionsTool_api (const octave_valu
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(Item,String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
     }
   }
   tc_AssignmentFunctionsTool_api(arg1,arg2,arg3);
@@ -9616,9 +9619,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_displayText (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -9629,15 +9633,16 @@ static octave_value_list _wrap_tc_displayText (const octave_value_list& args, in
   if (!SWIG_check_num_args("tc_displayText",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_displayText" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayText" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_displayText(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9648,9 +9653,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_displayNumber (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   double val2 ;
   int ecode2 = 0 ;
   octave_value_list _out;
@@ -9660,10 +9666,11 @@ static octave_value_list _wrap_tc_displayNumber (const octave_value_list& args, 
   if (!SWIG_check_num_args("tc_displayNumber",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   ecode2 = SWIG_AsVal_double(args(1), &val2);
   if (!SWIG_IsOK(ecode2)) {
     SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "tc_displayNumber" "', argument " "2"" of type '" "double""'");
@@ -9678,8 +9685,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_setDisplayLabelColor (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -9695,14 +9702,14 @@ static octave_value_list _wrap_tc_setDisplayLabelColor (const octave_value_list&
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9714,9 +9721,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_highlight (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int val1 ;
+  int ecode1 = 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -9727,15 +9735,16 @@ static octave_value_list _wrap_tc_highlight (const octave_value_list& args, int 
   if (!SWIG_check_num_args("tc_highlight",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_highlight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_highlight" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   res2 = SWIG_AsCharPtrAndSize(args(1), &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_highlight(arg1,(char const *)arg2);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9746,10 +9755,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_CLabelsTool_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(Item,String) = (void (*)(Item,String)) 0 ;
-  void (*arg2)(Item,double) = (void (*)(Item,double)) 0 ;
-  void (*arg3)(String,String) = (void (*)(String,String)) 0 ;
-  void (*arg4)(Item,String) = (void (*)(Item,String)) 0 ;
+  void (*arg1)(int,char const *) = (void (*)(int,char const *)) 0 ;
+  void (*arg2)(int,double) = (void (*)(int,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(int,char const *) = (void (*)(int,char const *)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9758,27 +9767,27 @@ static octave_value_list _wrap_tc_CLabelsTool_api (const octave_value_list& args
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(int,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_void_double__void);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int_double__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(Item,double)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(int,double)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(String,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_p_void_p_q_const__char__void);
+    int res = SWIG_ConvertFunctionPtr(args(3), (void**)(&arg4), SWIGTYPE_p_f_int_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(Item,String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(int,char const *)""'"); 
     }
   }
   tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
@@ -9790,8 +9799,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_getAnnotation (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9800,10 +9810,11 @@ static octave_value_list _wrap_tc_getAnnotation (const octave_value_list& args, 
   if (!SWIG_check_num_args("tc_getAnnotation",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAnnotation" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_getAnnotation" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_getAnnotation(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfStrings((const ArrayOfStrings&)(result))), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9813,9 +9824,10 @@ fail:
 
 
 static octave_value_list _wrap_tc_setAnnotation (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   ArrayOfStrings arg2 ;
-  int res1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   void *argp2 ;
   int res2 = 0 ;
   octave_value_list _out;
@@ -9825,10 +9837,11 @@ static octave_value_list _wrap_tc_setAnnotation (const octave_value_list& args, 
   if (!SWIG_check_num_args("tc_setAnnotation",args.length(),2,2,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setAnnotation" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_setAnnotation" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -9849,8 +9862,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_NameFamily_api_initialize (const octave_value_list& args, int nargout) {
-  ArrayOfStrings (*arg1)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  void (*arg2)(Item,ArrayOfStrings) = (void (*)(Item,ArrayOfStrings)) 0 ;
+  ArrayOfStrings (*arg1)(int) = (ArrayOfStrings (*)(int)) 0 ;
+  void (*arg2)(int,ArrayOfStrings) = (void (*)(int,ArrayOfStrings)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9859,15 +9872,15 @@ static octave_value_list _wrap_tc_NameFamily_api_initialize (const octave_value_
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_Item__ArrayOfStrings);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfStrings);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "ArrayOfStrings (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_void_ArrayOfStrings__void);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int_ArrayOfStrings__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(Item,ArrayOfStrings)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(int,ArrayOfStrings)""'"); 
     }
   }
   tc_NameFamily_api_initialize(arg1,arg2);
@@ -9879,8 +9892,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_partsIn (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9889,10 +9903,11 @@ static octave_value_list _wrap_tc_partsIn (const octave_value_list& args, int na
   if (!SWIG_check_num_args("tc_partsIn",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsIn" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsIn" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_partsIn(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9902,8 +9917,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_partsUpstream (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9912,10 +9928,11 @@ static octave_value_list _wrap_tc_partsUpstream (const octave_value_list& args, 
   if (!SWIG_check_num_args("tc_partsUpstream",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsUpstream" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsUpstream" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_partsUpstream(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9925,8 +9942,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_partsDownstream (const octave_value_list& args, int nargout) {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  int val1 ;
+  int ecode1 = 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
   octave_value _outv;
@@ -9935,10 +9953,11 @@ static octave_value_list _wrap_tc_partsDownstream (const octave_value_list& args
   if (!SWIG_check_num_args("tc_partsDownstream",args.length(),1,1,0)) {
     SWIG_fail;
   }
-  res1 = SWIG_ConvertPtr(args(0),SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsDownstream" "', argument " "1"" of type '" "Item""'"); 
-  }
+  ecode1 = SWIG_AsVal_int(args(0), &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "tc_partsDownstream" "', argument " "1"" of type '" "int""'");
+  } 
+  arg1 = (int)(val1);
   result = tc_partsDownstream(arg1);
   _outv = SWIG_NewPointerObj((new ArrayOfItems((const ArrayOfItems&)(result))), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -9978,9 +9997,9 @@ fail:
 
 
 static octave_value_list _wrap_tc_AutoGeneRegulatoryTool_api (const octave_value_list& args, int nargout) {
-  ArrayOfItems (*arg1)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg2)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg3)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  ArrayOfItems (*arg1)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg3)(int) = (ArrayOfItems (*)(int)) 0 ;
   void (*arg4)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
   octave_value_list _out;
   octave_value_list *_outp=&_out;
@@ -9990,21 +10009,21 @@ static octave_value_list _wrap_tc_AutoGeneRegulatoryTool_api (const octave_value
     SWIG_fail;
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
-    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_Item__ArrayOfItems);
+    int res = SWIG_ConvertFunctionPtr(args(2), (void**)(&arg3), SWIGTYPE_p_f_int__ArrayOfItems);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "ArrayOfItems (*)(Item)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int)""'"); 
     }
   }
   {
@@ -10022,7 +10041,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_exportSBML (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10035,9 +10054,9 @@ static octave_value_list _wrap_tc_exportSBML (const octave_value_list& args, int
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportSBML" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportSBML" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_exportSBML((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -10048,7 +10067,7 @@ fail:
 
 
 static octave_value_list _wrap_tc_importSBML (const octave_value_list& args, int nargout) {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10061,9 +10080,9 @@ static octave_value_list _wrap_tc_importSBML (const octave_value_list& args, int
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importSBML" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importSBML" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_importSBML((char const *)arg1);
   _outv = octave_value();
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
@@ -10132,8 +10151,8 @@ fail:
 
 
 static octave_value_list _wrap_tc_SBML_api (const octave_value_list& args, int nargout) {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   TableOfReals (*arg3)(double,double) = (TableOfReals (*)(double,double)) 0 ;
   TableOfReals (*arg4)(double) = (TableOfReals (*)(double)) 0 ;
   octave_value_list _out;
@@ -10146,13 +10165,13 @@ static octave_value_list _wrap_tc_SBML_api (const octave_value_list& args, int n
   {
     int res = SWIG_ConvertFunctionPtr(args(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
     int res = SWIG_ConvertFunctionPtr(args(1), (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void);
     if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
     }
   }
   {
@@ -10317,13 +10336,9 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_BasicInformationTool_Numeric_api",_wrap_tc_BasicInformationTool_Numeric_api,0,0,2,0},
 {"tc_insertConnection",_wrap_tc_insertConnection,0,0,2,0},
 {"tc_getConnectedNodes",_wrap_tc_getConnectedNodes,0,0,2,0},
-{"tc_getConnectedNodesIn",_wrap_tc_getConnectedNodesIn,0,0,2,0},
-{"tc_getConnectedNodesOut",_wrap_tc_getConnectedNodesOut,0,0,2,0},
-{"tc_getConnectedNodesOther",_wrap_tc_getConnectedNodesOther,0,0,2,0},
+{"tc_getConnectedNodesWithRole",_wrap_tc_getConnectedNodesWithRole,0,0,2,0},
 {"tc_getConnections",_wrap_tc_getConnections,0,0,2,0},
-{"tc_getConnectionsIn",_wrap_tc_getConnectionsIn,0,0,2,0},
-{"tc_getConnectionsOut",_wrap_tc_getConnectionsOut,0,0,2,0},
-{"tc_getConnectionsOther",_wrap_tc_getConnectionsOther,0,0,2,0},
+{"tc_getConnectionsWithRole",_wrap_tc_getConnectionsWithRole,0,0,2,0},
 {"tc_ConnectionInsertion_api",_wrap_tc_ConnectionInsertion_api,0,0,2,0},
 {"tc_getControlPointX",_wrap_tc_getControlPointX,0,0,2,0},
 {"tc_getControlPointY",_wrap_tc_getControlPointY,0,0,2,0},
@@ -10419,74 +10434,70 @@ static swig_type_info _swigt__p_f_ArrayOfItems_TableOfReals__void = {"_p_f_Array
 static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfItems__void = {"_p_f_ArrayOfItems__void", "void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void = {"_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void", "Item (*)(ArrayOfItems,String,String)|void *(*)(ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int = {"_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int", "int (*)(ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_ArrayOfStrings_p_double__void = {"_p_f_ArrayOfStrings_p_double__void", "void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item_String__TableOfReals = {"_p_f_Item_String__TableOfReals", "TableOfReals (*)(Item,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item_String__TableOfStrings = {"_p_f_Item_String__TableOfStrings", "TableOfStrings (*)(Item,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item__ArrayOfItems = {"_p_f_Item__ArrayOfItems", "ArrayOfItems (*)(Item)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item__ArrayOfStrings = {"_p_f_Item__ArrayOfStrings", "ArrayOfStrings (*)(Item)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_String_ArrayOfItems__ArrayOfItems = {"_p_f_String_ArrayOfItems__ArrayOfItems", "ArrayOfItems (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_String__ArrayOfItems = {"_p_f_String__ArrayOfItems", "ArrayOfItems (*)(String)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_TableOfReals__void = {"_p_f_TableOfReals__void", "void (*)(TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char__void", "void (*)(TableOfReals,String)|void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void = {"_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))|void (*)(TableOfReals,String,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)|void (*)(TableOfReals,String,String,String)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char__void", "void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void = {"_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___ArrayOfItems = {"_p_f___ArrayOfItems", "ArrayOfItems (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "ArrayOfStrings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()|String (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "TableOfReals (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_ArrayOfStrings__void = {"_p_f_int_ArrayOfStrings__void", "void (*)(int,ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_TableOfReals_p_f_TableOfReals__void__void = {"_p_f_int_TableOfReals_p_f_TableOfReals__void__void", "void (*)(int,TableOfReals,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__ArrayOfItems = {"_p_f_int__ArrayOfItems", "ArrayOfItems (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__ArrayOfStrings = {"_p_f_int__ArrayOfStrings", "ArrayOfStrings (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "TableOfReals (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__double = {"_p_f_int__double", "double (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__int = {"_p_f_int__int", "int (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__p_char = {"_p_f_int__p_char", "char *(*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double__void = {"_p_f_int_double__void", "void (*)(int,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_double__void = {"_p_f_int_double_double__void", "void (*)(int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_double_int__void = {"_p_f_int_double_double_int__void", "void (*)(int,double,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_int__void = {"_p_f_int_double_int__void", "void (*)(int,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)|void (*)(void (*)(),String,String,String,String,String,int,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_int_int__double = {"_p_f_int_int_int__double", "double (*)(int,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_int_int_double_double__void = {"_p_f_int_int_int_double_double__void", "void (*)(int,int,int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_TableOfReals__void = {"_p_f_int_p_q_const__char_TableOfReals__void", "void (*)(int,char const *,TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_TableOfStrings__void = {"_p_f_int_p_q_const__char_TableOfStrings__void", "void (*)(int,char const *,TableOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__ArrayOfItems = {"_p_f_int_p_q_const__char__ArrayOfItems", "ArrayOfItems (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfReals = {"_p_f_int_p_q_const__char__TableOfReals", "TableOfReals (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfStrings = {"_p_f_int_p_q_const__char__TableOfStrings", "TableOfStrings (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__double = {"_p_f_int_p_q_const__char__double", "double (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__int = {"_p_f_int_p_q_const__char__int", "int (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__p_char = {"_p_f_int_p_q_const__char__p_char", "char *(*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__void = {"_p_f_int_p_q_const__char__void", "void (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_double__void = {"_p_f_int_p_q_const__char_double__void", "void (*)(int,char const *,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_int__void = {"_p_f_int_p_q_const__char_int__void", "void (*)(int,char const *,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_p_q_const__char__void = {"_p_f_int_p_q_const__char_p_q_const__char__void", "void (*)(int,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)|int (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int", "int (*)(String,ArrayOfStrings,String)|int (*)(char const *,ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(String)|double (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(String)|int (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "String (*)(String)|char *(*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__p_void = {"_p_f_p_q_const__char__p_void", "Item (*)(String)|void *(*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(String)|void (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void = {"_p_f_p_q_const__char_int_int_ArrayOfStrings__void", "void (*)(char const *,int,int,ArrayOfStrings)|void (*)(String,int,int,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)|void (*)(String,int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(String,String)|int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__p_void = {"_p_f_p_q_const__char_p_q_const__char__p_void", "void *(*)(char const *,char const *)|Item (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(String,String)|void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int", "int (*)(String,String,String,TableOfReals)|int (*)(char const *,char const *,char const *,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(String,String,String)|int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)|void (*)(String,String,String,String,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_ArrayOfStrings__void = {"_p_f_p_void_ArrayOfStrings__void", "void (*)(void *,ArrayOfStrings)|void (*)(Item,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void = {"_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void", "void (*)(Item,TableOfReals,void (*)(TableOfReals))|void (*)(void *,TableOfReals,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__double = {"_p_f_p_void__double", "double (*)(Item)|double (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__p_char = {"_p_f_p_void__p_char", "String (*)(Item)|char *(*)(void *)|String (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__p_void = {"_p_f_p_void__p_void", "Item (*)(Item)|void *(*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__void = {"_p_f_p_void__void", "void (*)(Item)|void (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double__void = {"_p_f_p_void_double__void", "void (*)(void *,double)|void (*)(Item,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_double__void = {"_p_f_p_void_double_double__void", "void (*)(void *,double,double)|void (*)(Item,double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_double_int__void = {"_p_f_p_void_double_double_int__void", "void (*)(void *,double,double,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_int__void = {"_p_f_p_void_double_int__void", "void (*)(void *,double,int)|void (*)(Item,double,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_int__void = {"_p_f_p_void_int__void", "void (*)(Item,int)|void (*)(void *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_TableOfReals__void = {"_p_f_p_void_p_q_const__char_TableOfReals__void", "void (*)(void *,char const *,TableOfReals)|void (*)(Item,String,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_TableOfStrings__void = {"_p_f_p_void_p_q_const__char_TableOfStrings__void", "void (*)(void *,char const *,TableOfStrings)|void (*)(Item,String,TableOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__double = {"_p_f_p_void_p_q_const__char__double", "double (*)(Item,String)|double (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__int = {"_p_f_p_void_p_q_const__char__int", "int (*)(Item,String)|int (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__p_char = {"_p_f_p_void_p_q_const__char__p_char", "String (*)(Item,String)|char *(*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__void = {"_p_f_p_void_p_q_const__char__void", "void (*)(Item,String)|void (*)(void *,String)|void (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_double__void = {"_p_f_p_void_p_q_const__char_double__void", "void (*)(void *,char const *,double)|void (*)(Item,String,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_int__void = {"_p_f_p_void_p_q_const__char_int__void", "void (*)(void *,char const *,int)|void (*)(void *,String,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_p_q_const__char__void = {"_p_f_p_void_p_q_const__char_p_q_const__char__void", "void (*)(Item,String,String)|void (*)(void *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_void_int__double = {"_p_f_p_void_p_void_int__double", "double (*)(Item,Item,int)|double (*)(void *,void *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_void_int_double_double__void = {"_p_f_p_void_p_void_int_double_double__void", "void (*)(void *,void *,int,double,double)|void (*)(Item,Item,int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems = {"_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems", "ArrayOfItems (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int", "int (*)(char const *,ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__ArrayOfItems = {"_p_f_p_q_const__char__ArrayOfItems", "ArrayOfItems (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void = {"_p_f_p_q_const__char_int_int_ArrayOfStrings__void", "void (*)(char const *,int,int,ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int", "int (*)(char const *,char const *,char const *,TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_char = {"_p_p_char", "char **", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_p_void = {"_p_p_void", "void **", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_void = {"_p_void", "void *|Item", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ArrayOfItems,
@@ -10502,15 +10513,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_ArrayOfItems__ArrayOfStrings,
   &_swigt__p_f_ArrayOfItems__TableOfReals,
   &_swigt__p_f_ArrayOfItems__void,
-  &_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
+  &_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_ArrayOfStrings__ArrayOfItems,
   &_swigt__p_f_ArrayOfStrings_p_double__void,
-  &_swigt__p_f_Item_String__TableOfReals,
-  &_swigt__p_f_Item_String__TableOfStrings,
-  &_swigt__p_f_Item__ArrayOfItems,
-  &_swigt__p_f_Item__ArrayOfStrings,
-  &_swigt__p_f_String_ArrayOfItems__ArrayOfItems,
-  &_swigt__p_f_String__ArrayOfItems,
   &_swigt__p_f_TableOfReals__void,
   &_swigt__p_f_TableOfReals_p_q_const__char__void,
   &_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
@@ -10524,52 +10529,54 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__TableOfReals,
   &_swigt__p_f_double_double__void,
+  &_swigt__p_f_int_ArrayOfStrings__void,
+  &_swigt__p_f_int_TableOfReals_p_f_TableOfReals__void__void,
+  &_swigt__p_f_int__ArrayOfItems,
+  &_swigt__p_f_int__ArrayOfStrings,
   &_swigt__p_f_int__TableOfReals,
+  &_swigt__p_f_int__double,
+  &_swigt__p_f_int__int,
+  &_swigt__p_f_int__p_char,
   &_swigt__p_f_int__void,
+  &_swigt__p_f_int_double__void,
+  &_swigt__p_f_int_double_double__void,
+  &_swigt__p_f_int_double_double_int__void,
+  &_swigt__p_f_int_double_int__void,
   &_swigt__p_f_int_int__void,
+  &_swigt__p_f_int_int_int__double,
+  &_swigt__p_f_int_int_int_double_double__void,
+  &_swigt__p_f_int_p_q_const__char_TableOfReals__void,
+  &_swigt__p_f_int_p_q_const__char_TableOfStrings__void,
+  &_swigt__p_f_int_p_q_const__char__ArrayOfItems,
+  &_swigt__p_f_int_p_q_const__char__TableOfReals,
+  &_swigt__p_f_int_p_q_const__char__TableOfStrings,
+  &_swigt__p_f_int_p_q_const__char__double,
+  &_swigt__p_f_int_p_q_const__char__int,
+  &_swigt__p_f_int_p_q_const__char__p_char,
+  &_swigt__p_f_int_p_q_const__char__void,
+  &_swigt__p_f_int_p_q_const__char_double__void,
+  &_swigt__p_f_int_p_q_const__char_int__void,
+  &_swigt__p_f_int_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
+  &_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
   &_swigt__p_f_p_q_const__char_ArrayOfItems__int,
   &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char__ArrayOfItems,
   &_swigt__p_f_p_q_const__char__double,
   &_swigt__p_f_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__p_char,
-  &_swigt__p_f_p_q_const__char__p_void,
   &_swigt__p_f_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void,
   &_swigt__p_f_p_q_const__char_int_int__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
-  &_swigt__p_f_p_q_const__char_p_q_const__char__p_void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_void_ArrayOfStrings__void,
-  &_swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void,
-  &_swigt__p_f_p_void__double,
-  &_swigt__p_f_p_void__p_char,
-  &_swigt__p_f_p_void__p_void,
-  &_swigt__p_f_p_void__void,
-  &_swigt__p_f_p_void_double__void,
-  &_swigt__p_f_p_void_double_double__void,
-  &_swigt__p_f_p_void_double_double_int__void,
-  &_swigt__p_f_p_void_double_int__void,
-  &_swigt__p_f_p_void_int__void,
-  &_swigt__p_f_p_void_p_q_const__char_TableOfReals__void,
-  &_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void,
-  &_swigt__p_f_p_void_p_q_const__char__double,
-  &_swigt__p_f_p_void_p_q_const__char__int,
-  &_swigt__p_f_p_void_p_q_const__char__p_char,
-  &_swigt__p_f_p_void_p_q_const__char__void,
-  &_swigt__p_f_p_void_p_q_const__char_double__void,
-  &_swigt__p_f_p_void_p_q_const__char_int__void,
-  &_swigt__p_f_p_void_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_void_p_void_int__double,
-  &_swigt__p_f_p_void_p_void_int_double_double__void,
   &_swigt__p_f_void__void,
+  &_swigt__p_int,
   &_swigt__p_p_char,
-  &_swigt__p_p_void,
-  &_swigt__p_void,
 };
 
 static swig_cast_info _swigc__p_ArrayOfItems[] = {  {&_swigt__p_ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
@@ -10585,15 +10592,9 @@ static swig_cast_info _swigc__p_f_ArrayOfItems_TableOfReals__void[] = {  {&_swig
 static swig_cast_info _swigc__p_f_ArrayOfItems__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__void[] = {  {&_swigt__p_f_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings__ArrayOfItems[] = {  {&_swigt__p_f_ArrayOfStrings__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item_String__TableOfReals[] = {  {&_swigt__p_f_Item_String__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item_String__TableOfStrings[] = {  {&_swigt__p_f_Item_String__TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item__ArrayOfItems[] = {  {&_swigt__p_f_Item__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item__ArrayOfStrings[] = {  {&_swigt__p_f_Item__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_String_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_String_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_String__ArrayOfItems[] = {  {&_swigt__p_f_String__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals__void[] = {  {&_swigt__p_f_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
@@ -10607,52 +10608,54 @@ static swig_cast_info _swigc__p_f_double__TableOfReals[] = {  {&_swigt__p_f_doub
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__TableOfReals[] = {  {&_swigt__p_f_double_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_ArrayOfStrings__void[] = {  {&_swigt__p_f_int_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_TableOfReals_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_int_TableOfReals_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__ArrayOfItems[] = {  {&_swigt__p_f_int__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__ArrayOfStrings[] = {  {&_swigt__p_f_int__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__TableOfReals[] = {  {&_swigt__p_f_int__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__double[] = {  {&_swigt__p_f_int__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__int[] = {  {&_swigt__p_f_int__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__p_char[] = {  {&_swigt__p_f_int__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double__void[] = {  {&_swigt__p_f_int_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_double__void[] = {  {&_swigt__p_f_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_double_int__void[] = {  {&_swigt__p_f_int_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_int__void[] = {  {&_swigt__p_f_int_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_int_int__double[] = {  {&_swigt__p_f_int_int_int__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_int_int_double_double__void[] = {  {&_swigt__p_f_int_int_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_TableOfReals__void[] = {  {&_swigt__p_f_int_p_q_const__char_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_TableOfStrings__void[] = {  {&_swigt__p_f_int_p_q_const__char_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_int_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfReals[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfStrings[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__double[] = {  {&_swigt__p_f_int_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__int[] = {  {&_swigt__p_f_int_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__p_char[] = {  {&_swigt__p_f_int_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_double__void[] = {  {&_swigt__p_f_int_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_int__void[] = {  {&_swigt__p_f_int_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char__p_void[] = {  {&_swigt__p_f_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_void_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__double[] = {  {&_swigt__p_f_p_void__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__p_char[] = {  {&_swigt__p_f_p_void__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__p_void[] = {  {&_swigt__p_f_p_void__p_void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__void[] = {  {&_swigt__p_f_p_void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double__void[] = {  {&_swigt__p_f_p_void_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_double__void[] = {  {&_swigt__p_f_p_void_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_double_int__void[] = {  {&_swigt__p_f_p_void_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_int__void[] = {  {&_swigt__p_f_p_void_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_int__void[] = {  {&_swigt__p_f_p_void_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_TableOfReals__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__double[] = {  {&_swigt__p_f_p_void_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__int[] = {  {&_swigt__p_f_p_void_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_void_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__void[] = {  {&_swigt__p_f_p_void_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_double__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_int__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_void_int__double[] = {  {&_swigt__p_f_p_void_p_void_int__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_void_int_double_double__void[] = {  {&_swigt__p_f_p_void_p_void_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_char[] = {  {&_swigt__p_p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_p_void[] = {  {&_swigt__p_p_void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ArrayOfItems,
@@ -10668,15 +10671,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_ArrayOfItems__ArrayOfStrings,
   _swigc__p_f_ArrayOfItems__TableOfReals,
   _swigc__p_f_ArrayOfItems__void,
-  _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
+  _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_ArrayOfStrings__ArrayOfItems,
   _swigc__p_f_ArrayOfStrings_p_double__void,
-  _swigc__p_f_Item_String__TableOfReals,
-  _swigc__p_f_Item_String__TableOfStrings,
-  _swigc__p_f_Item__ArrayOfItems,
-  _swigc__p_f_Item__ArrayOfStrings,
-  _swigc__p_f_String_ArrayOfItems__ArrayOfItems,
-  _swigc__p_f_String__ArrayOfItems,
   _swigc__p_f_TableOfReals__void,
   _swigc__p_f_TableOfReals_p_q_const__char__void,
   _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
@@ -10690,52 +10687,54 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__TableOfReals,
   _swigc__p_f_double_double__void,
+  _swigc__p_f_int_ArrayOfStrings__void,
+  _swigc__p_f_int_TableOfReals_p_f_TableOfReals__void__void,
+  _swigc__p_f_int__ArrayOfItems,
+  _swigc__p_f_int__ArrayOfStrings,
   _swigc__p_f_int__TableOfReals,
+  _swigc__p_f_int__double,
+  _swigc__p_f_int__int,
+  _swigc__p_f_int__p_char,
   _swigc__p_f_int__void,
+  _swigc__p_f_int_double__void,
+  _swigc__p_f_int_double_double__void,
+  _swigc__p_f_int_double_double_int__void,
+  _swigc__p_f_int_double_int__void,
   _swigc__p_f_int_int__void,
+  _swigc__p_f_int_int_int__double,
+  _swigc__p_f_int_int_int_double_double__void,
+  _swigc__p_f_int_p_q_const__char_TableOfReals__void,
+  _swigc__p_f_int_p_q_const__char_TableOfStrings__void,
+  _swigc__p_f_int_p_q_const__char__ArrayOfItems,
+  _swigc__p_f_int_p_q_const__char__TableOfReals,
+  _swigc__p_f_int_p_q_const__char__TableOfStrings,
+  _swigc__p_f_int_p_q_const__char__double,
+  _swigc__p_f_int_p_q_const__char__int,
+  _swigc__p_f_int_p_q_const__char__p_char,
+  _swigc__p_f_int_p_q_const__char__void,
+  _swigc__p_f_int_p_q_const__char_double__void,
+  _swigc__p_f_int_p_q_const__char_int__void,
+  _swigc__p_f_int_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
+  _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
   _swigc__p_f_p_q_const__char_ArrayOfItems__int,
   _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char__ArrayOfItems,
   _swigc__p_f_p_q_const__char__double,
   _swigc__p_f_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__p_char,
-  _swigc__p_f_p_q_const__char__p_void,
   _swigc__p_f_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_int_int_ArrayOfStrings__void,
   _swigc__p_f_p_q_const__char_int_int__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
-  _swigc__p_f_p_q_const__char_p_q_const__char__p_void,
   _swigc__p_f_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_void_ArrayOfStrings__void,
-  _swigc__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void,
-  _swigc__p_f_p_void__double,
-  _swigc__p_f_p_void__p_char,
-  _swigc__p_f_p_void__p_void,
-  _swigc__p_f_p_void__void,
-  _swigc__p_f_p_void_double__void,
-  _swigc__p_f_p_void_double_double__void,
-  _swigc__p_f_p_void_double_double_int__void,
-  _swigc__p_f_p_void_double_int__void,
-  _swigc__p_f_p_void_int__void,
-  _swigc__p_f_p_void_p_q_const__char_TableOfReals__void,
-  _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void,
-  _swigc__p_f_p_void_p_q_const__char__double,
-  _swigc__p_f_p_void_p_q_const__char__int,
-  _swigc__p_f_p_void_p_q_const__char__p_char,
-  _swigc__p_f_p_void_p_q_const__char__void,
-  _swigc__p_f_p_void_p_q_const__char_double__void,
-  _swigc__p_f_p_void_p_q_const__char_int__void,
-  _swigc__p_f_p_void_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_void_p_void_int__double,
-  _swigc__p_f_p_void_p_void_int_double_double__void,
   _swigc__p_f_void__void,
+  _swigc__p_int,
   _swigc__p_p_char,
-  _swigc__p_p_void,
-  _swigc__p_void,
 };
 
 

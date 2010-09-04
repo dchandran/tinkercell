@@ -93,7 +93,7 @@ namespace Tinkercell
 		ItemHandle * handle = 0;
 		for (int i=0; i < items.size(); ++i)
 		{
-			if ((handle = items[i]) && !uniqueHandlesWithDot.contains(handle->fullName()))
+			if ((handle = items[i]) && !handlesAddress.contains((void*)handle))
 			{
 				handle->network = network;
 

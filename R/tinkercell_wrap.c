@@ -1089,81 +1089,77 @@ SWIG_R_ConvertPacked(SEXP obj, void *ptr, size_t sz, swig_type_info *ty) {
 #define SWIGTYPE_p_double swig_types[5]
 #define SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings swig_types[6]
 #define SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals swig_types[7]
-#define SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__void swig_types[8]
-#define SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void swig_types[9]
-#define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[10]
-#define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[11]
-#define SWIGTYPE_p_f_ArrayOfItems__void swig_types[12]
-#define SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void swig_types[13]
-#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[14]
-#define SWIGTYPE_p_f_ArrayOfStrings_p_double__void swig_types[15]
-#define SWIGTYPE_p_f_Item_String__TableOfReals swig_types[16]
-#define SWIGTYPE_p_f_Item_String__TableOfStrings swig_types[17]
-#define SWIGTYPE_p_f_Item__ArrayOfItems swig_types[18]
-#define SWIGTYPE_p_f_Item__ArrayOfStrings swig_types[19]
-#define SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems swig_types[20]
-#define SWIGTYPE_p_f_String__ArrayOfItems swig_types[21]
-#define SWIGTYPE_p_f_TableOfReals__void swig_types[22]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char__void swig_types[23]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void swig_types[24]
-#define SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[25]
-#define SWIGTYPE_p_f___ArrayOfItems swig_types[26]
-#define SWIGTYPE_p_f___ArrayOfStrings swig_types[27]
-#define SWIGTYPE_p_f___int swig_types[28]
-#define SWIGTYPE_p_f___p_char swig_types[29]
-#define SWIGTYPE_p_f___void swig_types[30]
-#define SWIGTYPE_p_f_double__TableOfReals swig_types[31]
-#define SWIGTYPE_p_f_double__void swig_types[32]
-#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[33]
-#define SWIGTYPE_p_f_double_double__void swig_types[34]
-#define SWIGTYPE_p_f_int__TableOfReals swig_types[35]
-#define SWIGTYPE_p_f_int__void swig_types[36]
-#define SWIGTYPE_p_f_int_int__void swig_types[37]
-#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[38]
-#define SWIGTYPE_p_f_p_f_void__void__void swig_types[39]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int swig_types[40]
-#define SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int swig_types[41]
-#define SWIGTYPE_p_f_p_q_const__char__double swig_types[42]
-#define SWIGTYPE_p_f_p_q_const__char__int swig_types[43]
-#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[44]
-#define SWIGTYPE_p_f_p_q_const__char__p_void swig_types[45]
-#define SWIGTYPE_p_f_p_q_const__char__void swig_types[46]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void swig_types[47]
-#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[48]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void swig_types[50]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[51]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int swig_types[52]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[53]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[54]
-#define SWIGTYPE_p_f_p_void_ArrayOfStrings__void swig_types[55]
-#define SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void swig_types[56]
-#define SWIGTYPE_p_f_p_void__double swig_types[57]
-#define SWIGTYPE_p_f_p_void__p_char swig_types[58]
-#define SWIGTYPE_p_f_p_void__p_void swig_types[59]
-#define SWIGTYPE_p_f_p_void__void swig_types[60]
-#define SWIGTYPE_p_f_p_void_double__void swig_types[61]
-#define SWIGTYPE_p_f_p_void_double_double__void swig_types[62]
-#define SWIGTYPE_p_f_p_void_double_double_int__void swig_types[63]
-#define SWIGTYPE_p_f_p_void_double_int__void swig_types[64]
-#define SWIGTYPE_p_f_p_void_int__void swig_types[65]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void swig_types[66]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void swig_types[67]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__double swig_types[68]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__int swig_types[69]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__p_char swig_types[70]
-#define SWIGTYPE_p_f_p_void_p_q_const__char__void swig_types[71]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_double__void swig_types[72]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_int__void swig_types[73]
-#define SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void swig_types[74]
-#define SWIGTYPE_p_f_p_void_p_void_int__double swig_types[75]
-#define SWIGTYPE_p_f_p_void_p_void_int_double_double__void swig_types[76]
-#define SWIGTYPE_p_f_void__void swig_types[77]
-#define SWIGTYPE_p_p_char swig_types[78]
-#define SWIGTYPE_p_p_void swig_types[79]
-#define SWIGTYPE_p_void swig_types[80]
-static swig_type_info *swig_types[82];
-static swig_module_info swig_module = {swig_types, 81, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_ArrayOfItems__ArrayOfStrings swig_types[8]
+#define SWIGTYPE_p_f_ArrayOfItems__TableOfReals swig_types[9]
+#define SWIGTYPE_p_f_ArrayOfStrings__ArrayOfItems swig_types[10]
+#define SWIGTYPE_p_f___ArrayOfItems swig_types[11]
+#define SWIGTYPE_p_f___ArrayOfStrings swig_types[12]
+#define SWIGTYPE_p_f___int swig_types[13]
+#define SWIGTYPE_p_f___p_char swig_types[14]
+#define SWIGTYPE_p_f___void swig_types[15]
+#define SWIGTYPE_p_f_double__TableOfReals swig_types[16]
+#define SWIGTYPE_p_f_double__void swig_types[17]
+#define SWIGTYPE_p_f_double_double__TableOfReals swig_types[18]
+#define SWIGTYPE_p_f_double_double__void swig_types[19]
+#define SWIGTYPE_p_f_int__ArrayOfItems swig_types[20]
+#define SWIGTYPE_p_f_int__ArrayOfStrings swig_types[21]
+#define SWIGTYPE_p_f_int__TableOfReals swig_types[22]
+#define SWIGTYPE_p_f_int__double swig_types[23]
+#define SWIGTYPE_p_f_int__int swig_types[24]
+#define SWIGTYPE_p_f_int__p_char swig_types[25]
+#define SWIGTYPE_p_f_int__void swig_types[26]
+#define SWIGTYPE_p_f_int_double__void swig_types[27]
+#define SWIGTYPE_p_f_int_double_double__void swig_types[28]
+#define SWIGTYPE_p_f_int_double_double_int__void swig_types[29]
+#define SWIGTYPE_p_f_int_double_int__void swig_types[30]
+#define SWIGTYPE_p_f_int_int__void swig_types[31]
+#define SWIGTYPE_p_f_int_int_int__double swig_types[32]
+#define SWIGTYPE_p_f_int_int_int_double_double__void swig_types[33]
+#define SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems swig_types[34]
+#define SWIGTYPE_p_f_int_p_q_const__char__TableOfReals swig_types[35]
+#define SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings swig_types[36]
+#define SWIGTYPE_p_f_int_p_q_const__char__double swig_types[37]
+#define SWIGTYPE_p_f_int_p_q_const__char__int swig_types[38]
+#define SWIGTYPE_p_f_int_p_q_const__char__p_char swig_types[39]
+#define SWIGTYPE_p_f_int_p_q_const__char__void swig_types[40]
+#define SWIGTYPE_p_f_int_p_q_const__char_double__void swig_types[41]
+#define SWIGTYPE_p_f_int_p_q_const__char_int__void swig_types[42]
+#define SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void swig_types[43]
+#define SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfReals__void swig_types[44]
+#define SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfStrings__void swig_types[45]
+#define SWIGTYPE_p_f_int_struct_ArrayOfStrings__void swig_types[46]
+#define SWIGTYPE_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void swig_types[47]
+#define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[48]
+#define SWIGTYPE_p_f_p_f_void__void__void swig_types[49]
+#define SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char__ArrayOfItems swig_types[51]
+#define SWIGTYPE_p_f_p_q_const__char__double swig_types[52]
+#define SWIGTYPE_p_f_p_q_const__char__int swig_types[53]
+#define SWIGTYPE_p_f_p_q_const__char__p_char swig_types[54]
+#define SWIGTYPE_p_f_p_q_const__char__void swig_types[55]
+#define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[59]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[60]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[61]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int swig_types[62]
+#define SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfItems__int swig_types[63]
+#define SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int swig_types[64]
+#define SWIGTYPE_p_f_struct_ArrayOfItems__void swig_types[65]
+#define SWIGTYPE_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int swig_types[66]
+#define SWIGTYPE_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void swig_types[67]
+#define SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void swig_types[68]
+#define SWIGTYPE_p_f_struct_ArrayOfStrings_p_double__void swig_types[69]
+#define SWIGTYPE_p_f_struct_TableOfReals__void swig_types[70]
+#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void swig_types[71]
+#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void swig_types[72]
+#define SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[73]
+#define SWIGTYPE_p_f_void__void swig_types[74]
+#define SWIGTYPE_p_int swig_types[75]
+#define SWIGTYPE_p_p_char swig_types[76]
+static swig_type_info *swig_types[78];
+static swig_module_info swig_module = {swig_types, 77, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1641,11 +1637,9 @@ SWIGEXPORT SEXP
 R_swig_ArrayOfItems_items_set ( SEXP self, SEXP s_items)
 {
   ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
-  void **arg2 = (void **) 0 ;
+  int *arg2 = (int *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -1655,14 +1649,21 @@ R_swig_ArrayOfItems_items_set ( SEXP self, SEXP s_items)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_set" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
   }
   arg1 = (ArrayOfItems *)(argp1);
-  res2 = SWIG_R_ConvertPtr(s_items, &argp2, SWIGTYPE_p_p_void, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ArrayOfItems_items_set" "', argument " "2"" of type '" "void **""'"); 
+  {
+    {
+      int _rswigi;
+      int _rswiglen = LENGTH(s_items);
+      arg2 = (int *)(calloc(sizeof(int), _rswiglen));
+      for (_rswigi=0; _rswigi< _rswiglen; _rswigi++) {
+        arg2[_rswigi] = INTEGER(s_items)[_rswigi];
+      }
+    }
   }
-  arg2 = (void **)(argp2);
   if (arg1) (arg1)->items = arg2;
   r_ans = R_NilValue;
   
+  
+  free(arg2);
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -1674,7 +1675,7 @@ R_swig_ArrayOfItems_items_set ( SEXP self, SEXP s_items)
 SWIGEXPORT SEXP
 R_swig_ArrayOfItems_items_get ( SEXP self)
 {
-  void **result = 0 ;
+  int *result = 0 ;
   ArrayOfItems *arg1 = (ArrayOfItems *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
@@ -1687,8 +1688,8 @@ R_swig_ArrayOfItems_items_get ( SEXP self)
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ArrayOfItems_items_get" "', argument " "1"" of type '" "ArrayOfItems *""'"); 
   }
   arg1 = (ArrayOfItems *)(argp1);
-  result = (void **) ((arg1)->items);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_p_void, R_SWIG_EXTERNAL |  0 );
+  result = (int *) ((arg1)->items);
+  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_int, R_SWIG_EXTERNAL |  0 );
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -2884,9 +2885,9 @@ R_swig_setNthString ( SEXP S, SEXP i, SEXP c)
 
 
 SWIGEXPORT SEXP
-R_swig_nthItem ( SEXP A, SEXP i)
+R_swig_nthItem ( SEXP A, SEXP i, SEXP s_swig_copy)
 {
-  void *result = 0 ;
+  int result;
   ArrayOfItems arg1 ;
   int arg2 ;
   void *argp1 ;
@@ -2907,8 +2908,8 @@ R_swig_nthItem ( SEXP A, SEXP i)
     }
   }
   arg2 = (int)(INTEGER(i)[0]);
-  result = (void *)nthItem(arg1,arg2);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  result = (int)nthItem(arg1,arg2);
+  r_ans = Rf_ScalarInteger(result);
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -2922,10 +2923,9 @@ R_swig_setNthItem ( SEXP A, SEXP i, SEXP o)
 {
   ArrayOfItems arg1 ;
   int arg2 ;
-  void *arg3 = (void *) 0 ;
+  int arg3 ;
   void *argp1 ;
   int res1 = 0 ;
-  int res3 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -2942,10 +2942,7 @@ R_swig_setNthItem ( SEXP A, SEXP i, SEXP o)
     }
   }
   arg2 = (int)(INTEGER(i)[0]);
-  res3 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg3), 0, 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "setNthItem" "', argument " "3"" of type '" "void *""'"); 
-  }
+  arg3 = (int)(INTEGER(o)[0]);
   setNthItem(arg1,arg2,arg3);
   r_ans = R_NilValue;
   
@@ -3185,7 +3182,7 @@ SWIGEXPORT SEXP
 R_swig_tc_itemsOfFamily ( SEXP family, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -3195,9 +3192,9 @@ R_swig_tc_itemsOfFamily ( SEXP family, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(family, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamily" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamily" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = tc_itemsOfFamily((char const *)arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -3212,7 +3209,7 @@ SWIGEXPORT SEXP
 R_swig_tc_itemsOfFamilyFrom ( SEXP family, SEXP itemsToSelectFrom, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -3225,9 +3222,9 @@ R_swig_tc_itemsOfFamilyFrom ( SEXP family, SEXP itemsToSelectFrom, SEXP s_swig_c
   
   res1 = SWIG_AsCharPtrAndSize(family, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamilyFrom" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_itemsOfFamilyFrom" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_R_ConvertPtr(itemsToSelectFrom, &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -3252,8 +3249,8 @@ R_swig_tc_itemsOfFamilyFrom ( SEXP family, SEXP itemsToSelectFrom, SEXP s_swig_c
 SWIGEXPORT SEXP
 R_swig_tc_find ( SEXP fullname, SEXP s_swig_copy)
 {
-  Item result;
-  String arg1 = (String) 0 ;
+  int result;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -3263,11 +3260,11 @@ R_swig_tc_find ( SEXP fullname, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(fullname, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_find" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
-  result = (Item)tc_find((char const *)arg1);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  arg1 = (char *)(buf1);
+  result = (int)tc_find((char const *)arg1);
+  r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -3310,16 +3307,12 @@ R_swig_tc_findItems ( SEXP names, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_select ( SEXP item)
 {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_select" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   tc_select(arg1);
   r_ans = R_NilValue;
   
@@ -3347,20 +3340,16 @@ R_swig_tc_deselect ( )
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getName ( SEXP item, SEXP s_swig_copy)
+R_swig_tc_getName ( SEXP item)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getName" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getName(arg1);
+  arg1 = (int)(INTEGER(item)[0]);
+  result = (char *)tc_getName(arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   vmaxset(r_vmax);
@@ -3371,20 +3360,16 @@ R_swig_tc_getName ( SEXP item, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getUniqueName ( SEXP item, SEXP s_swig_copy)
+R_swig_tc_getUniqueName ( SEXP item)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getUniqueName" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getUniqueName(arg1);
+  arg1 = (int)(INTEGER(item)[0]);
+  result = (char *)tc_getUniqueName(arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   vmaxset(r_vmax);
@@ -3397,9 +3382,8 @@ R_swig_tc_getUniqueName ( SEXP item, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_rename ( SEXP item, SEXP name)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -3407,15 +3391,12 @@ R_swig_tc_rename ( SEXP item, SEXP name)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_rename" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_rename" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_rename" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_rename(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -3490,20 +3471,16 @@ R_swig_tc_getUniqueNames ( SEXP items, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getFamily ( SEXP item, SEXP s_swig_copy)
+R_swig_tc_getFamily ( SEXP item)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getFamily" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getFamily(arg1);
+  arg1 = (int)(INTEGER(item)[0]);
+  result = (char *)tc_getFamily(arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   vmaxset(r_vmax);
@@ -3517,9 +3494,8 @@ SWIGEXPORT SEXP
 R_swig_tc_isA ( SEXP item, SEXP family, SEXP s_swig_copy)
 {
   int result;
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -3527,15 +3503,12 @@ R_swig_tc_isA ( SEXP item, SEXP family, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_isA" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(family, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_isA" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_isA" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (int)tc_isA(arg1,(char const *)arg2);
   r_ans = Rf_ScalarInteger(result);
   
@@ -3550,7 +3523,7 @@ R_swig_tc_isA ( SEXP item, SEXP family, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_print ( SEXP text)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -3560,9 +3533,9 @@ R_swig_tc_print ( SEXP text)
   
   res1 = SWIG_AsCharPtrAndSize(text, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_print" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_print" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_print((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -3576,7 +3549,7 @@ R_swig_tc_print ( SEXP text)
 SWIGEXPORT SEXP
 R_swig_tc_errorReport ( SEXP text)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -3586,9 +3559,9 @@ R_swig_tc_errorReport ( SEXP text)
   
   res1 = SWIG_AsCharPtrAndSize(text, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorReport" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_errorReport" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_errorReport((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -3632,7 +3605,7 @@ R_swig_tc_printTable ( SEXP data)
 SWIGEXPORT SEXP
 R_swig_tc_printFile ( SEXP filename)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -3642,9 +3615,9 @@ R_swig_tc_printFile ( SEXP filename)
   
   res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printFile" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_printFile" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_printFile((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -3674,16 +3647,12 @@ R_swig_tc_clear ( )
 SWIGEXPORT SEXP
 R_swig_tc_remove ( SEXP item)
 {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_remove" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   tc_remove(arg1);
   r_ans = R_NilValue;
   
@@ -3698,16 +3667,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getY ( SEXP item, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getY" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   result = (double)tc_getY(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -3722,16 +3687,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getX ( SEXP item, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getX" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   result = (double)tc_getX(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -3776,18 +3737,14 @@ R_swig_tc_getPos ( SEXP items, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setPos ( SEXP item, SEXP x, SEXP y)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setPos" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (double)(REAL(x)[0]);
   arg3 = (double)(REAL(y)[0]);
   tc_setPos(arg1,arg2,arg3);
@@ -3920,14 +3877,14 @@ R_swig_tc_isLinux ( SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_appDir ( SEXP s_swig_copy)
+R_swig_tc_appDir ( )
 {
-  String result;
+  char *result = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = (String)tc_appDir();
+  result = (char *)tc_appDir();
   r_ans = SWIG_FromCharPtr((const char *)result);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -3940,9 +3897,9 @@ SWIGEXPORT SEXP
 R_swig_tc_createInputWindowFromFile ( SEXP input, SEXP filename, SEXP functionname, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -3971,19 +3928,19 @@ R_swig_tc_createInputWindowFromFile ( SEXP input, SEXP filename, SEXP functionna
   }
   res2 = SWIG_AsCharPtrAndSize(filename, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindowFromFile" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindowFromFile" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(functionname, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_createInputWindowFromFile" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_createInputWindowFromFile" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(title, &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_createInputWindowFromFile" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_createInputWindowFromFile" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   tc_createInputWindowFromFile(arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -3996,7 +3953,7 @@ R_swig_tc_createInputWindowFromFile ( SEXP input, SEXP filename, SEXP functionna
 }
 
 
-void _p_f_TableOfReals__void(TableOfReals s_arg1) {
+void _p_f_struct_TableOfReals__void(TableOfReals s_arg1) {
   TableOfReals arg1 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -4021,7 +3978,7 @@ void _p_f_TableOfReals__void(TableOfReals s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_TableOfReals__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_TableOfReals__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -4036,7 +3993,7 @@ SWIGEXPORT SEXP
 R_swig_tc_createInputWindow ( SEXP input, SEXP title, SEXP f)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void (*arg3)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
   void *argp1 ;
   int res1 = 0 ;
@@ -4060,18 +4017,18 @@ R_swig_tc_createInputWindow ( SEXP input, SEXP title, SEXP f)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindow" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_createInputWindow" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   if(TYPEOF(f) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f, (void**)(&arg3), SWIGTYPE_p_f_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(f, (void**)(&arg3), SWIGTYPE_p_f_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createInputWindow" "', argument " "3"" of type '" "void (*)(TableOfReals)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_TableOfReals__void;
+    arg3 = _p_f_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(f, NULL);
   }
   tc_createInputWindow(arg1,(char const *)arg2,arg3);
@@ -4088,7 +4045,7 @@ R_swig_tc_createInputWindow ( SEXP input, SEXP title, SEXP f)
 SWIGEXPORT SEXP
 R_swig_tc_addInputWindowOptions ( SEXP title, SEXP i, SEXP j, SEXP options)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   ArrayOfStrings arg4 ;
@@ -4103,9 +4060,9 @@ R_swig_tc_addInputWindowOptions ( SEXP title, SEXP i, SEXP j, SEXP options)
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowOptions" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowOptions" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   arg2 = (int)(INTEGER(i)[0]);
   arg3 = (int)(INTEGER(j)[0]);
   {
@@ -4134,7 +4091,7 @@ R_swig_tc_addInputWindowOptions ( SEXP title, SEXP i, SEXP j, SEXP options)
 SWIGEXPORT SEXP
 R_swig_tc_addInputWindowCheckbox ( SEXP title, SEXP i, SEXP j)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   int res1 ;
@@ -4146,9 +4103,9 @@ R_swig_tc_addInputWindowCheckbox ( SEXP title, SEXP i, SEXP j)
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowCheckbox" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addInputWindowCheckbox" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   arg2 = (int)(INTEGER(i)[0]);
   arg3 = (int)(INTEGER(j)[0]);
   tc_addInputWindowCheckbox((char const *)arg1,arg2,arg3);
@@ -4166,7 +4123,7 @@ R_swig_tc_addInputWindowCheckbox ( SEXP title, SEXP i, SEXP j)
 SWIGEXPORT SEXP
 R_swig_tc_openNewWindow ( SEXP title)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4176,9 +4133,9 @@ R_swig_tc_openNewWindow ( SEXP title)
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openNewWindow" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_openNewWindow" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_openNewWindow((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -4193,16 +4150,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getChildren ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getChildren" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_getChildren(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -4216,19 +4169,15 @@ R_swig_tc_getChildren ( SEXP o, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_getParent ( SEXP o, SEXP s_swig_copy)
 {
-  Item result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int result;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParent" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (Item)tc_getParent(arg1);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  arg1 = (int)(INTEGER(o)[0]);
+  result = (int)tc_getParent(arg1);
+  r_ans = Rf_ScalarInteger(result);
   
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -4241,9 +4190,8 @@ SWIGEXPORT SEXP
 R_swig_tc_getNumericalData ( SEXP item, SEXP data, SEXP s_swig_copy)
 {
   TableOfReals result;
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4251,15 +4199,12 @@ R_swig_tc_getNumericalData ( SEXP item, SEXP data, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumericalData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(data, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getNumericalData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getNumericalData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = tc_getNumericalData(arg1,(char const *)arg2);
   r_ans = SWIG_R_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   
@@ -4274,10 +4219,9 @@ R_swig_tc_getNumericalData ( SEXP item, SEXP data, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setNumericalData ( SEXP o, SEXP title, SEXP data)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfReals arg3 ;
-  int res1 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4287,15 +4231,12 @@ R_swig_tc_setNumericalData ( SEXP o, SEXP title, SEXP data)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setNumericalData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setNumericalData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setNumericalData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   {
     res3 = SWIG_R_ConvertPtr(data, &argp3, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res3)) {
@@ -4322,9 +4263,8 @@ SWIGEXPORT SEXP
 R_swig_tc_getTextData ( SEXP item, SEXP data, SEXP s_swig_copy)
 {
   TableOfStrings result;
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4332,15 +4272,12 @@ R_swig_tc_getTextData ( SEXP item, SEXP data, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(data, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = tc_getTextData(arg1,(char const *)arg2);
   r_ans = SWIG_R_NewPointerObj((TableOfStrings *)memcpy((TableOfStrings *)malloc(sizeof(TableOfStrings)),&result,sizeof(TableOfStrings)), SWIGTYPE_p_TableOfStrings, SWIG_POINTER_OWN |  0 );
   
@@ -4355,10 +4292,9 @@ R_swig_tc_getTextData ( SEXP item, SEXP data, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setTextData ( SEXP o, SEXP title, SEXP data)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfStrings arg3 ;
-  int res1 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4368,15 +4304,12 @@ R_swig_tc_setTextData ( SEXP o, SEXP title, SEXP data)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextData" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextData" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextData" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   {
     res3 = SWIG_R_ConvertPtr(data, &argp3, SWIGTYPE_p_TableOfStrings,  0 );
     if (!SWIG_IsOK(res3)) {
@@ -4403,16 +4336,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getNumericalDataNames ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfStrings result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumericalDataNames" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_getNumericalDataNames(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   
@@ -4427,16 +4356,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getTextDataNames ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfStrings result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextDataNames" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_getTextDataNames(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   
@@ -4467,10 +4392,10 @@ R_swig_tc_zoom ( SEXP factor)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getString ( SEXP title, SEXP s_swig_copy)
+R_swig_tc_getString ( SEXP title)
 {
-  String result;
-  String arg1 = (String) 0 ;
+  char *result = 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4480,10 +4405,10 @@ R_swig_tc_getString ( SEXP title, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getString" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
-  result = (String)tc_getString((char const *)arg1);
+  arg1 = (char *)(buf1);
+  result = (char *)tc_getString((char const *)arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   vmaxset(r_vmax);
@@ -4494,14 +4419,14 @@ R_swig_tc_getString ( SEXP title, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getFilename ( SEXP s_swig_copy)
+R_swig_tc_getFilename ( )
 {
-  String result;
+  char *result = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = (String)tc_getFilename();
+  result = (char *)tc_getFilename();
   r_ans = SWIG_FromCharPtr((const char *)result);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
@@ -4514,9 +4439,9 @@ SWIGEXPORT SEXP
 R_swig_tc_getStringFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfStrings arg2 ;
-  String arg3 = (String) 0 ;
+  char *arg3 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4531,9 +4456,9 @@ R_swig_tc_getStringFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP s
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_R_ConvertPtr(list, &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -4547,9 +4472,9 @@ R_swig_tc_getStringFromList ( SEXP title, SEXP list, SEXP selectedString, SEXP s
   }
   res3 = SWIG_AsCharPtrAndSize(selectedString, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
   r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -4565,7 +4490,7 @@ SWIGEXPORT SEXP
 R_swig_tc_getNumber ( SEXP title, SEXP s_swig_copy)
 {
   double result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4575,9 +4500,9 @@ R_swig_tc_getNumber ( SEXP title, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(title, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumber" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getNumber" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = (double)tc_getNumber((char const *)arg1);
   r_ans = SWIG_From_double((double)(result));
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -4636,7 +4561,7 @@ SWIGEXPORT SEXP
 R_swig_tc_askQuestion ( SEXP message, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4646,9 +4571,9 @@ R_swig_tc_askQuestion ( SEXP message, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(message, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_askQuestion" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_askQuestion" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   result = (int)tc_askQuestion((char const *)arg1);
   r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -4662,7 +4587,7 @@ R_swig_tc_askQuestion ( SEXP message, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_messageDialog ( SEXP message)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -4672,9 +4597,9 @@ R_swig_tc_messageDialog ( SEXP message)
   
   res1 = SWIG_AsCharPtrAndSize(message, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_messageDialog" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_messageDialog" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_messageDialog((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -4688,13 +4613,13 @@ R_swig_tc_messageDialog ( SEXP message)
 SWIGEXPORT SEXP
 R_swig_tc_thisThread ( SEXP s_swig_copy)
 {
-  Item result;
+  int result;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  result = (Item)tc_thisThread();
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  result = (int)tc_thisThread();
+  r_ans = Rf_ScalarInteger(result);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -4726,13 +4651,13 @@ R_swig_tc_createSliders ( SEXP input, SEXP f)
   }
   if(TYPEOF(f) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f, (void**)(&arg2), SWIGTYPE_p_f_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(f, (void**)(&arg2), SWIGTYPE_p_f_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createSliders" "', argument " "2"" of type '" "void (*)(TableOfReals)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_TableOfReals__void;
+    arg2 = _p_f_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(f, NULL);
   }
   tc_createSliders(arg1,arg2);
@@ -4746,20 +4671,16 @@ R_swig_tc_createSliders ( SEXP input, SEXP f)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getColor ( SEXP item, SEXP s_swig_copy)
+R_swig_tc_getColor ( SEXP item)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getColor" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getColor(arg1);
+  arg1 = (int)(INTEGER(item)[0]);
+  result = (char *)tc_getColor(arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   vmaxset(r_vmax);
@@ -4772,10 +4693,9 @@ R_swig_tc_getColor ( SEXP item, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setColor ( SEXP item, SEXP name, SEXP permanent)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int arg3 ;
-  int res1 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4783,15 +4703,12 @@ R_swig_tc_setColor ( SEXP item, SEXP name, SEXP permanent)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setColor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setColor" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setColor" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   arg3 = (int)(INTEGER(permanent)[0]);
   tc_setColor(arg1,(char const *)arg2,arg3);
   r_ans = R_NilValue;
@@ -4808,9 +4725,8 @@ R_swig_tc_setColor ( SEXP item, SEXP name, SEXP permanent)
 SWIGEXPORT SEXP
 R_swig_tc_changeNodeImage ( SEXP item, SEXP filename)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4818,15 +4734,12 @@ R_swig_tc_changeNodeImage ( SEXP item, SEXP filename)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_changeNodeImage" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(filename, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeNodeImage" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeNodeImage" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_changeNodeImage(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -4841,9 +4754,8 @@ R_swig_tc_changeNodeImage ( SEXP item, SEXP filename)
 SWIGEXPORT SEXP
 R_swig_tc_changeArrowHead ( SEXP connection, SEXP filename)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -4851,15 +4763,12 @@ R_swig_tc_changeArrowHead ( SEXP connection, SEXP filename)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_changeArrowHead" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
   res2 = SWIG_AsCharPtrAndSize(filename, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeArrowHead" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_changeArrowHead" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_changeArrowHead(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -4874,19 +4783,15 @@ R_swig_tc_changeArrowHead ( SEXP connection, SEXP filename)
 SWIGEXPORT SEXP
 R_swig_tc_setSize ( SEXP item, SEXP width, SEXP height, SEXP permanent)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
   int arg4 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setSize" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (double)(REAL(width)[0]);
   arg3 = (double)(REAL(height)[0]);
   arg4 = (int)(INTEGER(permanent)[0]);
@@ -4907,16 +4812,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getWidth ( SEXP item, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getWidth" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   result = (double)tc_getWidth(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -4931,16 +4832,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getHeight ( SEXP item, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getHeight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   result = (double)tc_getHeight(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -4954,18 +4851,14 @@ R_swig_tc_getHeight ( SEXP item, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setAngle ( SEXP item, SEXP t, SEXP permanent)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   int arg3 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setAngle" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (double)(REAL(t)[0]);
   arg3 = (int)(INTEGER(permanent)[0]);
   tc_setAngle(arg1,arg2,arg3);
@@ -4984,16 +4877,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getAngle ( SEXP item, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAngle" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   result = (double)tc_getAngle(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -5050,8 +4939,8 @@ ArrayOfItems _p_f___ArrayOfItems() {
 }
 
 
-ArrayOfItems _p_f_String__ArrayOfItems(String s_arg1) {
-  String arg1 = (String) 0 ;
+ArrayOfItems _p_f_p_q_const__char__ArrayOfItems(char const * s_arg1) {
+  char *arg1 = (char *) 0 ;
   ArrayOfItems result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -5078,7 +4967,7 @@ ArrayOfItems _p_f_String__ArrayOfItems(String s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_String__ArrayOfItems)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char__ArrayOfItems)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_ArrayOfItems,  0 );
@@ -5101,8 +4990,8 @@ ArrayOfItems _p_f_String__ArrayOfItems(String s_arg1) {
 }
 
 
-ArrayOfItems _p_f_String_ArrayOfItems__ArrayOfItems(String s_arg1, ArrayOfItems s_arg2) {
-  String arg1 = (String) 0 ;
+ArrayOfItems _p_f_p_q_const__char_ArrayOfItems__ArrayOfItems(char const * s_arg1, ArrayOfItems s_arg2) {
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   ArrayOfItems result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -5134,7 +5023,7 @@ ArrayOfItems _p_f_String_ArrayOfItems__ArrayOfItems(String s_arg1, ArrayOfItems 
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_String_ArrayOfItems__ArrayOfItems)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_ArrayOfItems,  0 );
@@ -5157,15 +5046,14 @@ ArrayOfItems _p_f_String_ArrayOfItems__ArrayOfItems(String s_arg1, ArrayOfItems 
 }
 
 
-Item _p_f_p_q_const__char__p_void(String s_arg1) {
-  String arg1 = (String) 0 ;
-  Item result;
+int _p_f_p_q_const__char__int(char const * s_arg1) {
+  char *arg1 = (char *) 0 ;
+  int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
-  int res ;
   
   Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
   r_nprotect++;
@@ -5184,12 +5072,9 @@ Item _p_f_p_q_const__char__p_void(String s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char__p_void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char__int)");
   }
-  res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, SWIG_as_voidptrptr(&result), 0, 0);
-  if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "Item""'"); 
-  }
+  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -5251,8 +5136,8 @@ ArrayOfItems _p_f_ArrayOfStrings__ArrayOfItems(ArrayOfStrings s_arg1) {
 }
 
 
-void _p_f_p_void__void(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int__void(int s_arg1) {
+  int arg1 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5266,7 +5151,7 @@ void _p_f_p_void__void(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5276,7 +5161,7 @@ void _p_f_p_void__void(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5318,9 +5203,9 @@ void _p_f___void() {
 }
 
 
-String _p_f_p_void__p_char(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
-  String result;
+char const * _p_f_int__p_char(int s_arg1) {
+  int arg1 ;
+  char *result = 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5337,7 +5222,7 @@ String _p_f_p_void__p_char(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5347,13 +5232,13 @@ String _p_f_p_void__p_char(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void__p_char)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__p_char)");
   }
   res = SWIG_AsCharPtrAndSize(r_swig_cb_data->retValue, &buf, NULL, &alloc);
   if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "char const *""'");
   }
-  result = (String)(buf);
+  result = (char *)(buf);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -5364,9 +5249,9 @@ String _p_f_p_void__p_char(Item s_arg1) {
 }
 
 
-void _p_f_p_void_p_q_const__char__void(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_int_p_q_const__char__void(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5380,7 +5265,7 @@ void _p_f_p_void_p_q_const__char__void(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5394,7 +5279,7 @@ void _p_f_p_void_p_q_const__char__void(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5456,9 +5341,9 @@ ArrayOfStrings _p_f_ArrayOfItems__ArrayOfStrings(ArrayOfItems s_arg1) {
 }
 
 
-int _p_f_p_void_p_q_const__char__int(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+int _p_f_int_p_q_const__char__int(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -5473,7 +5358,7 @@ int _p_f_p_void_p_q_const__char__int(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5487,7 +5372,7 @@ int _p_f_p_void_p_q_const__char__int(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char__int)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__int)");
   }
   result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -5500,8 +5385,8 @@ int _p_f_p_void_p_q_const__char__int(Item s_arg1, String s_arg2) {
 }
 
 
-void _p_f_p_q_const__char__void(String s_arg1) {
-  String arg1 = (String) 0 ;
+void _p_f_p_q_const__char__void(char const * s_arg1) {
+  char *arg1 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5536,8 +5421,8 @@ void _p_f_p_q_const__char__void(String s_arg1) {
 }
 
 
-double _p_f_p_void__double(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
+double _p_f_int__double(int s_arg1) {
+  int arg1 ;
   double result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -5552,7 +5437,7 @@ double _p_f_p_void__double(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5562,7 +5447,7 @@ double _p_f_p_void__double(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void__double)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__double)");
   }
   result = (double)(REAL(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -5626,8 +5511,8 @@ TableOfReals _p_f_ArrayOfItems__TableOfReals(ArrayOfItems s_arg1) {
 }
 
 
-void _p_f_p_void_double_double__void(Item s_arg1, double s_arg2, double s_arg3) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int_double_double__void(int s_arg1, double s_arg2, double s_arg3) {
+  int arg1 ;
   double arg2 ;
   double arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -5643,7 +5528,7 @@ void _p_f_p_void_double_double__void(Item s_arg1, double s_arg2, double s_arg3) 
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5661,7 +5546,7 @@ void _p_f_p_void_double_double__void(Item s_arg1, double s_arg2, double s_arg3) 
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_double_double__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_double_double__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5672,7 +5557,7 @@ void _p_f_p_void_double_double__void(Item s_arg1, double s_arg2, double s_arg3) 
 }
 
 
-void _p_f_ArrayOfItems_TableOfReals__void(ArrayOfItems s_arg1, TableOfReals s_arg2) {
+void _p_f_struct_ArrayOfItems_struct_TableOfReals__void(ArrayOfItems s_arg1, TableOfReals s_arg2) {
   ArrayOfItems arg1 ;
   TableOfReals arg2 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -5702,7 +5587,7 @@ void _p_f_ArrayOfItems_TableOfReals__void(ArrayOfItems s_arg1, TableOfReals s_ar
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_ArrayOfItems_TableOfReals__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_ArrayOfItems_struct_TableOfReals__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5788,8 +5673,8 @@ int _p_f___int() {
 }
 
 
-String _p_f___p_char() {
-  String result;
+char const * _p_f___p_char() {
+  char *result = 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5816,9 +5701,9 @@ String _p_f___p_char() {
   }
   res = SWIG_AsCharPtrAndSize(r_swig_cb_data->retValue, &buf, NULL, &alloc);
   if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "char const *""'");
   }
-  result = (String)(buf);
+  result = (char *)(buf);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -5829,11 +5714,11 @@ String _p_f___p_char() {
 }
 
 
-void _p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void(TableOfReals s_arg1, String s_arg2, String s_arg3, String s_arg4) {
+void _p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void(TableOfReals s_arg1, char const * s_arg2, char const * s_arg3, char const * s_arg4) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -5869,7 +5754,7 @@ void _p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void(Tab
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5880,9 +5765,9 @@ void _p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void(Tab
 }
 
 
-void _p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void(TableOfReals s_arg1, String s_arg2, void (*)(TableOfReals) s_arg3) {
+void _p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void(TableOfReals s_arg1, char const * s_arg2, void (*)(TableOfReals) s_arg3) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void (*arg3)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -5905,7 +5790,7 @@ void _p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void(TableOfReals
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj((void *)(s_arg3), SWIGTYPE_p_f_TableOfReals__void, 0);
+  r_tmp = SWIG_R_NewPointerObj((void *)(s_arg3), SWIGTYPE_p_f_struct_TableOfReals__void, 0);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5915,7 +5800,7 @@ void _p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void(TableOfReals
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5926,8 +5811,8 @@ void _p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void(TableOfReals
 }
 
 
-void _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void(Item s_arg1, TableOfReals s_arg2, void (*)(TableOfReals) s_arg3) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void(int s_arg1, TableOfReals s_arg2, void (*)(TableOfReals) s_arg3) {
+  int arg1 ;
   TableOfReals arg2 ;
   void (*arg3)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -5943,7 +5828,7 @@ void _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void(Item s_arg1, TableOfR
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5951,7 +5836,7 @@ void _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void(Item s_arg1, TableOfR
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj((void *)(s_arg3), SWIGTYPE_p_f_TableOfReals__void, 0);
+  r_tmp = SWIG_R_NewPointerObj((void *)(s_arg3), SWIGTYPE_p_f_struct_TableOfReals__void, 0);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -5961,7 +5846,7 @@ void _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void(Item s_arg1, TableOfR
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -5972,8 +5857,8 @@ void _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void(Item s_arg1, TableOfR
 }
 
 
-void _p_f_p_q_const__char_int_int_ArrayOfStrings__void(String s_arg1, int s_arg2, int s_arg3, ArrayOfStrings s_arg4) {
-  String arg1 = (String) 0 ;
+void _p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void(char const * s_arg1, int s_arg2, int s_arg3, ArrayOfStrings s_arg4) {
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   ArrayOfStrings arg4 ;
@@ -6012,7 +5897,7 @@ void _p_f_p_q_const__char_int_int_ArrayOfStrings__void(String s_arg1, int s_arg2
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_int_int_ArrayOfStrings__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6023,8 +5908,8 @@ void _p_f_p_q_const__char_int_int_ArrayOfStrings__void(String s_arg1, int s_arg2
 }
 
 
-void _p_f_p_q_const__char_int_int__void(String s_arg1, int s_arg2, int s_arg3) {
-  String arg1 = (String) 0 ;
+void _p_f_p_q_const__char_int_int__void(char const * s_arg1, int s_arg2, int s_arg3) {
+  char *arg1 = (char *) 0 ;
   int arg2 ;
   int arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -6069,8 +5954,8 @@ void _p_f_p_q_const__char_int_int__void(String s_arg1, int s_arg2, int s_arg3) {
 }
 
 
-ArrayOfItems _p_f_Item__ArrayOfItems(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
+ArrayOfItems _p_f_int__ArrayOfItems(int s_arg1) {
+  int arg1 ;
   ArrayOfItems result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6087,7 +5972,7 @@ ArrayOfItems _p_f_Item__ArrayOfItems(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6097,7 +5982,7 @@ ArrayOfItems _p_f_Item__ArrayOfItems(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_Item__ArrayOfItems)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__ArrayOfItems)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_ArrayOfItems,  0 );
@@ -6120,15 +6005,14 @@ ArrayOfItems _p_f_Item__ArrayOfItems(Item s_arg1) {
 }
 
 
-Item _p_f_p_void__p_void(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
-  Item result;
+int _p_f_int__int(int s_arg1) {
+  int arg1 ;
+  int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
-  int res ;
   
   Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
   r_nprotect++;
@@ -6137,7 +6021,7 @@ Item _p_f_p_void__p_void(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6147,12 +6031,9 @@ Item _p_f_p_void__p_void(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void__p_void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__int)");
   }
-  res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, SWIG_as_voidptrptr(&result), 0, 0);
-  if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "Item""'"); 
-  }
+  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -6163,9 +6044,9 @@ Item _p_f_p_void__p_void(Item s_arg1) {
 }
 
 
-TableOfReals _p_f_Item_String__TableOfReals(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+TableOfReals _p_f_int_p_q_const__char__TableOfReals(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfReals result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6182,7 +6063,7 @@ TableOfReals _p_f_Item_String__TableOfReals(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6196,7 +6077,7 @@ TableOfReals _p_f_Item_String__TableOfReals(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_Item_String__TableOfReals)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__TableOfReals)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_TableOfReals,  0 );
@@ -6219,9 +6100,9 @@ TableOfReals _p_f_Item_String__TableOfReals(Item s_arg1, String s_arg2) {
 }
 
 
-void _p_f_p_void_p_q_const__char_TableOfReals__void(Item s_arg1, String s_arg2, TableOfReals s_arg3) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_int_p_q_const__char_struct_TableOfReals__void(int s_arg1, char const * s_arg2, TableOfReals s_arg3) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfReals arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6236,7 +6117,7 @@ void _p_f_p_void_p_q_const__char_TableOfReals__void(Item s_arg1, String s_arg2, 
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6254,7 +6135,7 @@ void _p_f_p_void_p_q_const__char_TableOfReals__void(Item s_arg1, String s_arg2, 
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char_TableOfReals__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char_struct_TableOfReals__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6265,9 +6146,9 @@ void _p_f_p_void_p_q_const__char_TableOfReals__void(Item s_arg1, String s_arg2, 
 }
 
 
-TableOfStrings _p_f_Item_String__TableOfStrings(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+TableOfStrings _p_f_int_p_q_const__char__TableOfStrings(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfStrings result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6284,7 +6165,7 @@ TableOfStrings _p_f_Item_String__TableOfStrings(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6298,7 +6179,7 @@ TableOfStrings _p_f_Item_String__TableOfStrings(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_Item_String__TableOfStrings)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__TableOfStrings)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_TableOfStrings,  0 );
@@ -6321,9 +6202,9 @@ TableOfStrings _p_f_Item_String__TableOfStrings(Item s_arg1, String s_arg2) {
 }
 
 
-void _p_f_p_void_p_q_const__char_TableOfStrings__void(Item s_arg1, String s_arg2, TableOfStrings s_arg3) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_int_p_q_const__char_struct_TableOfStrings__void(int s_arg1, char const * s_arg2, TableOfStrings s_arg3) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   TableOfStrings arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6338,7 +6219,7 @@ void _p_f_p_void_p_q_const__char_TableOfStrings__void(Item s_arg1, String s_arg2
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6356,7 +6237,7 @@ void _p_f_p_void_p_q_const__char_TableOfStrings__void(Item s_arg1, String s_arg2
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char_TableOfStrings__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char_struct_TableOfStrings__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6367,8 +6248,8 @@ void _p_f_p_void_p_q_const__char_TableOfStrings__void(Item s_arg1, String s_arg2
 }
 
 
-ArrayOfStrings _p_f_Item__ArrayOfStrings(Item s_arg1) {
-  Item arg1 = (Item) 0 ;
+ArrayOfStrings _p_f_int__ArrayOfStrings(int s_arg1) {
+  int arg1 ;
   ArrayOfStrings result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6385,7 +6266,7 @@ ArrayOfStrings _p_f_Item__ArrayOfStrings(Item s_arg1) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6395,7 +6276,7 @@ ArrayOfStrings _p_f_Item__ArrayOfStrings(Item s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_Item__ArrayOfStrings)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int__ArrayOfStrings)");
   }
   {
     res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_ArrayOfStrings,  0 );
@@ -6454,9 +6335,9 @@ void _p_f_double__void(double s_arg1) {
 }
 
 
-String _p_f_p_q_const__char__p_char(String s_arg1) {
-  String arg1 = (String) 0 ;
-  String result;
+char const * _p_f_p_q_const__char__p_char(char const * s_arg1) {
+  char *arg1 = (char *) 0 ;
+  char *result = 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -6487,9 +6368,9 @@ String _p_f_p_q_const__char__p_char(String s_arg1) {
   }
   res = SWIG_AsCharPtrAndSize(r_swig_cb_data->retValue, &buf, NULL, &alloc);
   if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "char const *""'");
   }
-  result = (String)(buf);
+  result = (char *)(buf);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -6500,10 +6381,10 @@ String _p_f_p_q_const__char__p_char(String s_arg1) {
 }
 
 
-int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int(String s_arg1, ArrayOfStrings s_arg2, String s_arg3) {
-  String arg1 = (String) 0 ;
+int _p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int(char const * s_arg1, ArrayOfStrings s_arg2, char const * s_arg3) {
+  char *arg1 = (char *) 0 ;
   ArrayOfStrings arg2 ;
-  String arg3 = (String) 0 ;
+  char *arg3 = (char *) 0 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6536,7 +6417,7 @@ int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int(String s_arg1, Arra
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int)");
   }
   result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -6549,8 +6430,8 @@ int _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int(String s_arg1, Arra
 }
 
 
-double _p_f_p_q_const__char__double(String s_arg1) {
-  String arg1 = (String) 0 ;
+double _p_f_p_q_const__char__double(char const * s_arg1) {
+  char *arg1 = (char *) 0 ;
   double result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6588,7 +6469,7 @@ double _p_f_p_q_const__char__double(String s_arg1) {
 }
 
 
-void _p_f_ArrayOfStrings_p_double__void(ArrayOfStrings s_arg1, double * s_arg2) {
+void _p_f_struct_ArrayOfStrings_p_double__void(ArrayOfStrings s_arg1, double * s_arg2) {
   ArrayOfStrings arg1 ;
   double *arg2 = (double *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -6618,7 +6499,7 @@ void _p_f_ArrayOfStrings_p_double__void(ArrayOfStrings s_arg1, double * s_arg2) 
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_ArrayOfStrings_p_double__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_ArrayOfStrings_p_double__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6629,47 +6510,8 @@ void _p_f_ArrayOfStrings_p_double__void(ArrayOfStrings s_arg1, double * s_arg2) 
 }
 
 
-int _p_f_p_q_const__char__int(String s_arg1) {
-  String arg1 = (String) 0 ;
-  int result;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char__int)");
-  }
-  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return result;
-  
-}
-
-
-void _p_f_p_void_double_double_int__void(void * s_arg1, double s_arg2, double s_arg3, int s_arg4) {
-  void *arg1 = (void *) 0 ;
+void _p_f_int_double_double_int__void(int s_arg1, double s_arg2, double s_arg3, int s_arg4) {
+  int arg1 ;
   double arg2 ;
   double arg3 ;
   int arg4 ;
@@ -6686,7 +6528,7 @@ void _p_f_p_void_double_double_int__void(void * s_arg1, double s_arg2, double s_
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6708,7 +6550,7 @@ void _p_f_p_void_double_double_int__void(void * s_arg1, double s_arg2, double s_
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_double_double_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_double_double_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6719,8 +6561,8 @@ void _p_f_p_void_double_double_int__void(void * s_arg1, double s_arg2, double s_
 }
 
 
-void _p_f_p_void_double_int__void(void * s_arg1, double s_arg2, int s_arg3) {
-  void *arg1 = (void *) 0 ;
+void _p_f_int_double_int__void(int s_arg1, double s_arg2, int s_arg3) {
+  int arg1 ;
   double arg2 ;
   int arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -6736,7 +6578,7 @@ void _p_f_p_void_double_int__void(void * s_arg1, double s_arg2, int s_arg3) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6754,7 +6596,7 @@ void _p_f_p_void_double_int__void(void * s_arg1, double s_arg2, int s_arg3) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_double_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_double_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6765,9 +6607,9 @@ void _p_f_p_void_double_int__void(void * s_arg1, double s_arg2, int s_arg3) {
 }
 
 
-void _p_f_p_void_p_q_const__char_int__void(void * s_arg1, String s_arg2, int s_arg3) {
-  void *arg1 = (void *) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_int_p_q_const__char_int__void(int s_arg1, char const * s_arg2, int s_arg3) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -6782,7 +6624,7 @@ void _p_f_p_void_p_q_const__char_int__void(void * s_arg1, String s_arg2, int s_a
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -6800,7 +6642,7 @@ void _p_f_p_void_p_q_const__char_int__void(void * s_arg1, String s_arg2, int s_a
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -6816,66 +6658,66 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
 {
   ArrayOfItems (*arg1)() = (ArrayOfItems (*)()) 0 ;
   ArrayOfItems (*arg2)() = (ArrayOfItems (*)()) 0 ;
-  ArrayOfItems (*arg3)(String) = (ArrayOfItems (*)(String)) 0 ;
-  ArrayOfItems (*arg4)(String,ArrayOfItems) = (ArrayOfItems (*)(String,ArrayOfItems)) 0 ;
-  Item (*arg5)(String) = (Item (*)(String)) 0 ;
+  ArrayOfItems (*arg3)(char const *) = (ArrayOfItems (*)(char const *)) 0 ;
+  ArrayOfItems (*arg4)(char const *,ArrayOfItems) = (ArrayOfItems (*)(char const *,ArrayOfItems)) 0 ;
+  int (*arg5)(char const *) = (int (*)(char const *)) 0 ;
   ArrayOfItems (*arg6)(ArrayOfStrings) = (ArrayOfItems (*)(ArrayOfStrings)) 0 ;
-  void (*arg7)(Item) = (void (*)(Item)) 0 ;
+  void (*arg7)(int) = (void (*)(int)) 0 ;
   void (*arg8)() = (void (*)()) 0 ;
-  String (*arg9)(Item) = (String (*)(Item)) 0 ;
-  String (*arg10)(Item) = (String (*)(Item)) 0 ;
-  void (*arg11)(Item,String) = (void (*)(Item,String)) 0 ;
+  char *(*arg9)(int) = (char *(*)(int)) 0 ;
+  char *(*arg10)(int) = (char *(*)(int)) 0 ;
+  void (*arg11)(int,char const *) = (void (*)(int,char const *)) 0 ;
   ArrayOfStrings (*arg12)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
   ArrayOfStrings (*arg13)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  String (*arg14)(Item) = (String (*)(Item)) 0 ;
-  int (*arg15)(Item,String) = (int (*)(Item,String)) 0 ;
+  char *(*arg14)(int) = (char *(*)(int)) 0 ;
+  int (*arg15)(int,char const *) = (int (*)(int,char const *)) 0 ;
   void (*arg16)() = (void (*)()) 0 ;
-  void (*arg17)(String) = (void (*)(String)) 0 ;
-  void (*arg18)(String) = (void (*)(String)) 0 ;
+  void (*arg17)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg18)(char const *) = (void (*)(char const *)) 0 ;
   void (*arg19)(TableOfReals) = (void (*)(TableOfReals)) 0 ;
-  void (*arg20)(String) = (void (*)(String)) 0 ;
-  void (*arg21)(Item) = (void (*)(Item)) 0 ;
-  double (*arg22)(Item) = (double (*)(Item)) 0 ;
-  double (*arg23)(Item) = (double (*)(Item)) 0 ;
+  void (*arg20)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg21)(int) = (void (*)(int)) 0 ;
+  double (*arg22)(int) = (double (*)(int)) 0 ;
+  double (*arg23)(int) = (double (*)(int)) 0 ;
   TableOfReals (*arg24)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-  void (*arg25)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
+  void (*arg25)(int,double,double) = (void (*)(int,double,double)) 0 ;
   void (*arg26)(ArrayOfItems,TableOfReals) = (void (*)(ArrayOfItems,TableOfReals)) 0 ;
   void (*arg27)(double,double) = (void (*)(double,double)) 0 ;
   int (*arg28)() = (int (*)()) 0 ;
   int (*arg29)() = (int (*)()) 0 ;
   int (*arg30)() = (int (*)()) 0 ;
-  String (*arg31)() = (String (*)()) 0 ;
-  void (*arg32)(TableOfReals,String,String,String) = (void (*)(TableOfReals,String,String,String)) 0 ;
-  void (*arg33)(TableOfReals,String,void (*)(TableOfReals)) = (void (*)(TableOfReals,String,void (*)(TableOfReals))) 0 ;
-  void (*arg34)(Item,TableOfReals,void (*)(TableOfReals)) = (void (*)(Item,TableOfReals,void (*)(TableOfReals))) 0 ;
-  void (*arg35)(String,int,int,ArrayOfStrings) = (void (*)(String,int,int,ArrayOfStrings)) 0 ;
-  void (*arg36)(String,int,int) = (void (*)(String,int,int)) 0 ;
-  void (*arg37)(String) = (void (*)(String)) 0 ;
-  ArrayOfItems (*arg38)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  Item (*arg39)(Item) = (Item (*)(Item)) 0 ;
-  TableOfReals (*arg40)(Item,String) = (TableOfReals (*)(Item,String)) 0 ;
-  void (*arg41)(Item,String,TableOfReals) = (void (*)(Item,String,TableOfReals)) 0 ;
-  TableOfStrings (*arg42)(Item,String) = (TableOfStrings (*)(Item,String)) 0 ;
-  void (*arg43)(Item,String,TableOfStrings) = (void (*)(Item,String,TableOfStrings)) 0 ;
-  ArrayOfStrings (*arg44)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  ArrayOfStrings (*arg45)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
+  char *(*arg31)() = (char *(*)()) 0 ;
+  void (*arg32)(TableOfReals,char const *,char const *,char const *) = (void (*)(TableOfReals,char const *,char const *,char const *)) 0 ;
+  void (*arg33)(TableOfReals,char const *,void (*)(TableOfReals)) = (void (*)(TableOfReals,char const *,void (*)(TableOfReals))) 0 ;
+  void (*arg34)(int,TableOfReals,void (*)(TableOfReals)) = (void (*)(int,TableOfReals,void (*)(TableOfReals))) 0 ;
+  void (*arg35)(char const *,int,int,ArrayOfStrings) = (void (*)(char const *,int,int,ArrayOfStrings)) 0 ;
+  void (*arg36)(char const *,int,int) = (void (*)(char const *,int,int)) 0 ;
+  void (*arg37)(char const *) = (void (*)(char const *)) 0 ;
+  ArrayOfItems (*arg38)(int) = (ArrayOfItems (*)(int)) 0 ;
+  int (*arg39)(int) = (int (*)(int)) 0 ;
+  TableOfReals (*arg40)(int,char const *) = (TableOfReals (*)(int,char const *)) 0 ;
+  void (*arg41)(int,char const *,TableOfReals) = (void (*)(int,char const *,TableOfReals)) 0 ;
+  TableOfStrings (*arg42)(int,char const *) = (TableOfStrings (*)(int,char const *)) 0 ;
+  void (*arg43)(int,char const *,TableOfStrings) = (void (*)(int,char const *,TableOfStrings)) 0 ;
+  ArrayOfStrings (*arg44)(int) = (ArrayOfStrings (*)(int)) 0 ;
+  ArrayOfStrings (*arg45)(int) = (ArrayOfStrings (*)(int)) 0 ;
   void (*arg46)(double) = (void (*)(double)) 0 ;
-  String (*arg47)(String) = (String (*)(String)) 0 ;
-  int (*arg48)(String,ArrayOfStrings,String) = (int (*)(String,ArrayOfStrings,String)) 0 ;
-  double (*arg49)(String) = (double (*)(String)) 0 ;
+  char *(*arg47)(char const *) = (char *(*)(char const *)) 0 ;
+  int (*arg48)(char const *,ArrayOfStrings,char const *) = (int (*)(char const *,ArrayOfStrings,char const *)) 0 ;
+  double (*arg49)(char const *) = (double (*)(char const *)) 0 ;
   void (*arg50)(ArrayOfStrings,double *) = (void (*)(ArrayOfStrings,double *)) 0 ;
-  String (*arg51)() = (String (*)()) 0 ;
-  int (*arg52)(String) = (int (*)(String)) 0 ;
-  void (*arg53)(String) = (void (*)(String)) 0 ;
-  void (*arg54)(void *,double,double,int) = (void (*)(void *,double,double,int)) 0 ;
-  double (*arg55)(void *) = (double (*)(void *)) 0 ;
-  double (*arg56)(void *) = (double (*)(void *)) 0 ;
-  void (*arg57)(void *,double,int) = (void (*)(void *,double,int)) 0 ;
-  double (*arg58)(void *) = (double (*)(void *)) 0 ;
-  String (*arg59)(void *) = (String (*)(void *)) 0 ;
-  void (*arg60)(void *,String,int) = (void (*)(void *,String,int)) 0 ;
-  void (*arg61)(void *,String) = (void (*)(void *,String)) 0 ;
-  void (*arg62)(void *,String) = (void (*)(void *,String)) 0 ;
+  char *(*arg51)() = (char *(*)()) 0 ;
+  int (*arg52)(char const *) = (int (*)(char const *)) 0 ;
+  void (*arg53)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg54)(int,double,double,int) = (void (*)(int,double,double,int)) 0 ;
+  double (*arg55)(int) = (double (*)(int)) 0 ;
+  double (*arg56)(int) = (double (*)(int)) 0 ;
+  void (*arg57)(int,double,int) = (void (*)(int,double,int)) 0 ;
+  double (*arg58)(int) = (double (*)(int)) 0 ;
+  char *(*arg59)(int) = (char *(*)(int)) 0 ;
+  void (*arg60)(int,char const *,int) = (void (*)(int,char const *,int)) 0 ;
+  void (*arg61)(int,char const *) = (void (*)(int,char const *)) 0 ;
+  void (*arg62)(int,char const *) = (void (*)(int,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -6904,35 +6746,35 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_itemsOfFamily0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_itemsOfFamily0, (void**)(&arg3), SWIGTYPE_p_f_String__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(tc_itemsOfFamily0, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "ArrayOfItems (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "3"" of type '" "ArrayOfItems (*)(char const *)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_String__ArrayOfItems;
+    arg3 = _p_f_p_q_const__char__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(tc_itemsOfFamily0, NULL);
   }
   if(TYPEOF(tc_itemsOfFamily1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_itemsOfFamily1, (void**)(&arg4), SWIGTYPE_p_f_String_ArrayOfItems__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(tc_itemsOfFamily1, (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "ArrayOfItems (*)(String,ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "4"" of type '" "ArrayOfItems (*)(char const *,ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_String_ArrayOfItems__ArrayOfItems;
+    arg4 = _p_f_p_q_const__char_ArrayOfItems__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(tc_itemsOfFamily1, NULL);
   }
   if(TYPEOF(tc_find0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_find0, (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__p_void, 0);
+      int res = SWIG_R_ConvertPtr(tc_find0, (void**)(&arg5), SWIGTYPE_p_f_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "Item (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "5"" of type '" "int (*)(char const *)""'"); 
       }
     }
   } else {
-    arg5 = _p_f_p_q_const__char__p_void;
+    arg5 = _p_f_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(tc_find0, NULL);
   }
   if(TYPEOF(tc_findItems0) != CLOSXP) {
@@ -6948,13 +6790,13 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_select0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_select0, (void**)(&arg7), SWIGTYPE_p_f_p_void__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_select0, (void**)(&arg7), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "7"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg7 = _p_f_p_void__void;
+    arg7 = _p_f_int__void;
     R_SWIG_pushCallbackFunctionData(tc_select0, NULL);
   }
   if(TYPEOF(tc_deselect0) != CLOSXP) {
@@ -6970,35 +6812,35 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_getName0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getName0, (void**)(&arg9), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(tc_getName0, (void**)(&arg9), SWIGTYPE_p_f_int__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "String (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "9"" of type '" "char const *(*)(int)""'"); 
       }
     }
   } else {
-    arg9 = _p_f_p_void__p_char;
+    arg9 = _p_f_int__p_char;
     R_SWIG_pushCallbackFunctionData(tc_getName0, NULL);
   }
   if(TYPEOF(tc_getUniqueName0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getUniqueName0, (void**)(&arg10), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(tc_getUniqueName0, (void**)(&arg10), SWIGTYPE_p_f_int__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "String (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "10"" of type '" "char const *(*)(int)""'"); 
       }
     }
   } else {
-    arg10 = _p_f_p_void__p_char;
+    arg10 = _p_f_int__p_char;
     R_SWIG_pushCallbackFunctionData(tc_getUniqueName0, NULL);
   }
   if(TYPEOF(tc_setName0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setName0, (void**)(&arg11), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setName0, (void**)(&arg11), SWIGTYPE_p_f_int_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "11"" of type '" "void (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg11 = _p_f_p_void_p_q_const__char__void;
+    arg11 = _p_f_int_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_setName0, NULL);
   }
   if(TYPEOF(tc_getNames0) != CLOSXP) {
@@ -7025,24 +6867,24 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_getFamily0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getFamily0, (void**)(&arg14), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(tc_getFamily0, (void**)(&arg14), SWIGTYPE_p_f_int__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "String (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "14"" of type '" "char const *(*)(int)""'"); 
       }
     }
   } else {
-    arg14 = _p_f_p_void__p_char;
+    arg14 = _p_f_int__p_char;
     R_SWIG_pushCallbackFunctionData(tc_getFamily0, NULL);
   }
   if(TYPEOF(tc_isA0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_isA0, (void**)(&arg15), SWIGTYPE_p_f_p_void_p_q_const__char__int, 0);
+      int res = SWIG_R_ConvertPtr(tc_isA0, (void**)(&arg15), SWIGTYPE_p_f_int_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "15"" of type '" "int (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg15 = _p_f_p_void_p_q_const__char__int;
+    arg15 = _p_f_int_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(tc_isA0, NULL);
   }
   if(TYPEOF(tc_clearText) != CLOSXP) {
@@ -7060,7 +6902,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(tc_outputText0, (void**)(&arg17), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "17"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7071,7 +6913,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(tc_errorReport0, (void**)(&arg18), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "18"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "18"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7080,20 +6922,20 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_outputTable0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_outputTable0, (void**)(&arg19), SWIGTYPE_p_f_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_outputTable0, (void**)(&arg19), SWIGTYPE_p_f_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(TableOfReals)""'"); 
       }
     }
   } else {
-    arg19 = _p_f_TableOfReals__void;
+    arg19 = _p_f_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(tc_outputTable0, NULL);
   }
   if(TYPEOF(tc_printFile0) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(tc_printFile0, (void**)(&arg20), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "20"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7102,35 +6944,35 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_removeItem0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_removeItem0, (void**)(&arg21), SWIGTYPE_p_f_p_void__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_removeItem0, (void**)(&arg21), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "21"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg21 = _p_f_p_void__void;
+    arg21 = _p_f_int__void;
     R_SWIG_pushCallbackFunctionData(tc_removeItem0, NULL);
   }
   if(TYPEOF(tc_getY0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getY0, (void**)(&arg22), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(tc_getY0, (void**)(&arg22), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "22"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg22 = _p_f_p_void__double;
+    arg22 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(tc_getY0, NULL);
   }
   if(TYPEOF(tc_getX0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getX0, (void**)(&arg23), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(tc_getX0, (void**)(&arg23), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "23"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg23 = _p_f_p_void__double;
+    arg23 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(tc_getX0, NULL);
   }
   if(TYPEOF(tc_getPos0) != CLOSXP) {
@@ -7146,24 +6988,24 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_setPos0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setPos0, (void**)(&arg25), SWIGTYPE_p_f_p_void_double_double__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setPos0, (void**)(&arg25), SWIGTYPE_p_f_int_double_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(Item,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "25"" of type '" "void (*)(int,double,double)""'"); 
       }
     }
   } else {
-    arg25 = _p_f_p_void_double_double__void;
+    arg25 = _p_f_int_double_double__void;
     R_SWIG_pushCallbackFunctionData(tc_setPos0, NULL);
   }
   if(TYPEOF(tc_setPos1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setPos1, (void**)(&arg26), SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setPos1, (void**)(&arg26), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
       }
     }
   } else {
-    arg26 = _p_f_ArrayOfItems_TableOfReals__void;
+    arg26 = _p_f_struct_ArrayOfItems_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(tc_setPos1, NULL);
   }
   if(TYPEOF(tc_moveSelected0) != CLOSXP) {
@@ -7214,7 +7056,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(tc_appDir0, (void**)(&arg31), SWIGTYPE_p_f___p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "String (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "31"" of type '" "char const *(*)()""'"); 
       }
     }
   } else {
@@ -7223,53 +7065,53 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_createInputWindow0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_createInputWindow0, (void**)(&arg32), SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_createInputWindow0, (void**)(&arg32), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(TableOfReals,String,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(TableOfReals,char const *,char const *,char const *)""'"); 
       }
     }
   } else {
-    arg32 = _p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void;
+    arg32 = _p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(tc_createInputWindow0, NULL);
   }
   if(TYPEOF(tc_createInputWindow1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_createInputWindow1, (void**)(&arg33), SWIGTYPE_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_createInputWindow1, (void**)(&arg33), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(TableOfReals,String,void (*)(TableOfReals))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(TableOfReals,char const *,void (*)(TableOfReals))""'"); 
       }
     }
   } else {
-    arg33 = _p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void;
+    arg33 = _p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void;
     R_SWIG_pushCallbackFunctionData(tc_createInputWindow1, NULL);
   }
   if(TYPEOF(createSliders) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(createSliders, (void**)(&arg34), SWIGTYPE_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void, 0);
+      int res = SWIG_R_ConvertPtr(createSliders, (void**)(&arg34), SWIGTYPE_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(Item,TableOfReals,void (*)(TableOfReals))""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(int,TableOfReals,void (*)(TableOfReals))""'"); 
       }
     }
   } else {
-    arg34 = _p_f_p_void_TableOfReals_p_f_TableOfReals__void__void;
+    arg34 = _p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void;
     R_SWIG_pushCallbackFunctionData(createSliders, NULL);
   }
   if(TYPEOF(tc_addInputWindowOptions0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_addInputWindowOptions0, (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_ArrayOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_addInputWindowOptions0, (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(String,int,int,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(char const *,int,int,ArrayOfStrings)""'"); 
       }
     }
   } else {
-    arg35 = _p_f_p_q_const__char_int_int_ArrayOfStrings__void;
+    arg35 = _p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void;
     R_SWIG_pushCallbackFunctionData(tc_addInputWindowOptions0, NULL);
   }
   if(TYPEOF(tc_addInputWindowCheckbox0) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(tc_addInputWindowCheckbox0, (void**)(&arg36), SWIGTYPE_p_f_p_q_const__char_int_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(String,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "36"" of type '" "void (*)(char const *,int,int)""'"); 
       }
     }
   } else {
@@ -7280,7 +7122,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(tc_openNewWindow0, (void**)(&arg37), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "37"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7289,90 +7131,90 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(tc_getChildren0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getChildren0, (void**)(&arg38), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(tc_getChildren0, (void**)(&arg38), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "38"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg38 = _p_f_Item__ArrayOfItems;
+    arg38 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(tc_getChildren0, NULL);
   }
   if(TYPEOF(tc_getParent0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getParent0, (void**)(&arg39), SWIGTYPE_p_f_p_void__p_void, 0);
+      int res = SWIG_R_ConvertPtr(tc_getParent0, (void**)(&arg39), SWIGTYPE_p_f_int__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "Item (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "39"" of type '" "int (*)(int)""'"); 
       }
     }
   } else {
-    arg39 = _p_f_p_void__p_void;
+    arg39 = _p_f_int__int;
     R_SWIG_pushCallbackFunctionData(tc_getParent0, NULL);
   }
   if(TYPEOF(tc_getNumericalData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getNumericalData0, (void**)(&arg40), SWIGTYPE_p_f_Item_String__TableOfReals, 0);
+      int res = SWIG_R_ConvertPtr(tc_getNumericalData0, (void**)(&arg40), SWIGTYPE_p_f_int_p_q_const__char__TableOfReals, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfReals (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "40"" of type '" "TableOfReals (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg40 = _p_f_Item_String__TableOfReals;
+    arg40 = _p_f_int_p_q_const__char__TableOfReals;
     R_SWIG_pushCallbackFunctionData(tc_getNumericalData0, NULL);
   }
   if(TYPEOF(tc_setNumericalData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setNumericalData0, (void**)(&arg41), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setNumericalData0, (void**)(&arg41), SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(Item,String,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(int,char const *,TableOfReals)""'"); 
       }
     }
   } else {
-    arg41 = _p_f_p_void_p_q_const__char_TableOfReals__void;
+    arg41 = _p_f_int_p_q_const__char_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(tc_setNumericalData0, NULL);
   }
   if(TYPEOF(tc_getTextData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getTextData0, (void**)(&arg42), SWIGTYPE_p_f_Item_String__TableOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getTextData0, (void**)(&arg42), SWIGTYPE_p_f_int_p_q_const__char__TableOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "42"" of type '" "TableOfStrings (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg42 = _p_f_Item_String__TableOfStrings;
+    arg42 = _p_f_int_p_q_const__char__TableOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getTextData0, NULL);
   }
   if(TYPEOF(tc_setTextData0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setTextData0, (void**)(&arg43), SWIGTYPE_p_f_p_void_p_q_const__char_TableOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setTextData0, (void**)(&arg43), SWIGTYPE_p_f_int_p_q_const__char_struct_TableOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(Item,String,TableOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(int,char const *,TableOfStrings)""'"); 
       }
     }
   } else {
-    arg43 = _p_f_p_void_p_q_const__char_TableOfStrings__void;
+    arg43 = _p_f_int_p_q_const__char_struct_TableOfStrings__void;
     R_SWIG_pushCallbackFunctionData(tc_setTextData0, NULL);
   }
   if(TYPEOF(tc_getNumericalDataNames0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getNumericalDataNames0, (void**)(&arg44), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getNumericalDataNames0, (void**)(&arg44), SWIGTYPE_p_f_int__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "44"" of type '" "ArrayOfStrings (*)(int)""'"); 
       }
     }
   } else {
-    arg44 = _p_f_Item__ArrayOfStrings;
+    arg44 = _p_f_int__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getNumericalDataNames0, NULL);
   }
   if(TYPEOF(tc_getTextDataNames0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getTextDataNames0, (void**)(&arg45), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getTextDataNames0, (void**)(&arg45), SWIGTYPE_p_f_int__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "45"" of type '" "ArrayOfStrings (*)(int)""'"); 
       }
     }
   } else {
-    arg45 = _p_f_Item__ArrayOfStrings;
+    arg45 = _p_f_int__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getTextDataNames0, NULL);
   }
   if(TYPEOF(tc_zoom0) != CLOSXP) {
@@ -7390,7 +7232,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(getString, (void**)(&arg47), SWIGTYPE_p_f_p_q_const__char__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "String (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "47"" of type '" "char const *(*)(char const *)""'"); 
       }
     }
   } else {
@@ -7399,20 +7241,20 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(getSelectedString) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getSelectedString, (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0);
+      int res = SWIG_R_ConvertPtr(getSelectedString, (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(String,ArrayOfStrings,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(char const *,ArrayOfStrings,char const *)""'"); 
       }
     }
   } else {
-    arg48 = _p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int;
+    arg48 = _p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(getSelectedString, NULL);
   }
   if(TYPEOF(getNumber) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(getNumber, (void**)(&arg49), SWIGTYPE_p_f_p_q_const__char__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "double (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "49"" of type '" "double (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7421,20 +7263,20 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(getNumbers) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg50), SWIGTYPE_p_f_ArrayOfStrings_p_double__void, 0);
+      int res = SWIG_R_ConvertPtr(getNumbers, (void**)(&arg50), SWIGTYPE_p_f_struct_ArrayOfStrings_p_double__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "void (*)(ArrayOfStrings,double *)""'"); 
       }
     }
   } else {
-    arg50 = _p_f_ArrayOfStrings_p_double__void;
+    arg50 = _p_f_struct_ArrayOfStrings_p_double__void;
     R_SWIG_pushCallbackFunctionData(getNumbers, NULL);
   }
   if(TYPEOF(getFilename) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(getFilename, (void**)(&arg51), SWIGTYPE_p_f___p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "String (*)()""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "51"" of type '" "char const *(*)()""'"); 
       }
     }
   } else {
@@ -7445,7 +7287,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(askQuestion, (void**)(&arg52), SWIGTYPE_p_f_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "int (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "52"" of type '" "int (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7456,7 +7298,7 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
     {
       int res = SWIG_R_ConvertPtr(messageDialog, (void**)(&arg53), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "53"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -7465,104 +7307,104 @@ R_swig_tc_Main_api_initialize ( SEXP tc_allItems0, SEXP tc_selectedItems0, SEXP 
   }
   if(TYPEOF(setSize0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setSize0, (void**)(&arg54), SWIGTYPE_p_f_p_void_double_double_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setSize0, (void**)(&arg54), SWIGTYPE_p_f_int_double_double_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(void *,double,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "54"" of type '" "void (*)(int,double,double,int)""'"); 
       }
     }
   } else {
-    arg54 = _p_f_p_void_double_double_int__void;
+    arg54 = _p_f_int_double_double_int__void;
     R_SWIG_pushCallbackFunctionData(setSize0, NULL);
   }
   if(TYPEOF(getWidth0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getWidth0, (void**)(&arg55), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getWidth0, (void**)(&arg55), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "55"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg55 = _p_f_p_void__double;
+    arg55 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(getWidth0, NULL);
   }
   if(TYPEOF(getHeight0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getHeight0, (void**)(&arg56), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getHeight0, (void**)(&arg56), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "56"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg56 = _p_f_p_void__double;
+    arg56 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(getHeight0, NULL);
   }
   if(TYPEOF(setAngle0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setAngle0, (void**)(&arg57), SWIGTYPE_p_f_p_void_double_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setAngle0, (void**)(&arg57), SWIGTYPE_p_f_int_double_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(void *,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "57"" of type '" "void (*)(int,double,int)""'"); 
       }
     }
   } else {
-    arg57 = _p_f_p_void_double_int__void;
+    arg57 = _p_f_int_double_int__void;
     R_SWIG_pushCallbackFunctionData(setAngle0, NULL);
   }
   if(TYPEOF(getAngle0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getAngle0, (void**)(&arg58), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getAngle0, (void**)(&arg58), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "58"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg58 = _p_f_p_void__double;
+    arg58 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(getAngle0, NULL);
   }
   if(TYPEOF(getColor) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getColor, (void**)(&arg59), SWIGTYPE_p_f_p_void__p_char, 0);
+      int res = SWIG_R_ConvertPtr(getColor, (void**)(&arg59), SWIGTYPE_p_f_int__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "String (*)(void *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "59"" of type '" "char const *(*)(int)""'"); 
       }
     }
   } else {
-    arg59 = _p_f_p_void__p_char;
+    arg59 = _p_f_int__p_char;
     R_SWIG_pushCallbackFunctionData(getColor, NULL);
   }
   if(TYPEOF(setColor0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setColor0, (void**)(&arg60), SWIGTYPE_p_f_p_void_p_q_const__char_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setColor0, (void**)(&arg60), SWIGTYPE_p_f_int_p_q_const__char_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(void *,String,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "60"" of type '" "void (*)(int,char const *,int)""'"); 
       }
     }
   } else {
-    arg60 = _p_f_p_void_p_q_const__char_int__void;
+    arg60 = _p_f_int_p_q_const__char_int__void;
     R_SWIG_pushCallbackFunctionData(setColor0, NULL);
   }
   if(TYPEOF(changeGraphics0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(changeGraphics0, (void**)(&arg61), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(changeGraphics0, (void**)(&arg61), SWIGTYPE_p_f_int_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(void *,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "61"" of type '" "void (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg61 = _p_f_p_void_p_q_const__char__void;
+    arg61 = _p_f_int_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(changeGraphics0, NULL);
   }
   if(TYPEOF(changeArrowHead0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(changeArrowHead0, (void**)(&arg62), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(changeArrowHead0, (void**)(&arg62), SWIGTYPE_p_f_int_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(void *,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "62"" of type '" "void (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg62 = _p_f_p_void_p_q_const__char__void;
+    arg62 = _p_f_int_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(changeArrowHead0, NULL);
   }
-  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(void *))arg9,(char const *(*)(void *))arg10,arg11,arg12,arg13,(char const *(*)(void *))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(void *))arg59,arg60,arg61,arg62);
+  tc_Main_api_initialize(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,(char const *(*)(int))arg9,(char const *(*)(int))arg10,arg11,arg12,arg13,(char const *(*)(int))arg14,arg15,arg16,arg17,arg18,arg19,arg20,arg21,arg22,arg23,arg24,arg25,arg26,arg27,arg28,arg29,arg30,(char const *(*)())arg31,arg32,arg33,arg34,arg35,arg36,arg37,arg38,arg39,arg40,arg41,arg42,arg43,arg44,arg45,arg46,(char const *(*)(char const *))arg47,arg48,arg49,arg50,(char const *(*)())arg51,arg52,arg53,arg54,arg55,arg56,arg57,arg58,(char const *(*)(int))arg59,arg60,arg61,arg62);
   r_ans = R_NilValue;
   
   
@@ -7652,8 +7494,8 @@ R_swig_tc_showProgress ( SEXP progress)
 }
 
 
-void _p_f_p_void_int__void(Item s_arg1, int s_arg2) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int_int__void(int s_arg1, int s_arg2) {
+  int arg1 ;
   int arg2 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -7668,7 +7510,7 @@ void _p_f_p_void_int__void(Item s_arg1, int s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -7682,7 +7524,7 @@ void _p_f_p_void_int__void(Item s_arg1, int s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_int__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -7696,26 +7538,22 @@ void _p_f_p_void_int__void(Item s_arg1, int s_arg2) {
 SWIGEXPORT SEXP
 R_swig_tc_CThread_api_initialize ( SEXP cthread, SEXP showProgress)
 {
-  Item arg1 = (Item) 0 ;
-  void (*arg2)(Item,int) = (void (*)(Item,int)) 0 ;
-  int res1 ;
+  int arg1 ;
+  void (*arg2)(int,int) = (void (*)(int,int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(cthread, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_CThread_api_initialize" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(cthread)[0]);
   if(TYPEOF(showProgress) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(showProgress, (void**)(&arg2), SWIGTYPE_p_f_p_void_int__void, 0);
+      int res = SWIG_R_ConvertPtr(showProgress, (void**)(&arg2), SWIGTYPE_p_f_int_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(Item,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CThread_api_initialize" "', argument " "2"" of type '" "void (*)(int,int)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_void_int__void;
+    arg2 = _p_f_int_int__void;
     R_SWIG_pushCallbackFunctionData(showProgress, NULL);
   }
   tc_CThread_api_initialize(arg1,arg2);
@@ -7898,12 +7736,11 @@ R_swig_tc_getParametersAndFixedVariables ( SEXP a, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getTextAttribute ( SEXP item, SEXP attribute, SEXP s_swig_copy)
+R_swig_tc_getTextAttribute ( SEXP item, SEXP attribute)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -7911,16 +7748,13 @@ R_swig_tc_getTextAttribute ( SEXP item, SEXP attribute, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getTextAttribute" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(attribute, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextAttribute" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getTextAttribute" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
-  result = (String)tc_getTextAttribute(arg1,(char const *)arg2);
+  arg2 = (char *)(buf2);
+  result = (char *)tc_getTextAttribute(arg1,(char const *)arg2);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -7935,9 +7769,8 @@ SWIGEXPORT SEXP
 R_swig_tc_getParameter ( SEXP item, SEXP attribute, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -7945,15 +7778,12 @@ R_swig_tc_getParameter ( SEXP item, SEXP attribute, SEXP s_swig_copy)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getParameter" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(attribute, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParameter" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getParameter" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (double)tc_getParameter(arg1,(char const *)arg2);
   r_ans = SWIG_From_double((double)(result));
   
@@ -8103,10 +7933,9 @@ R_swig_tc_getAllTextNamed ( SEXP a, SEXP Modeling, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setTextAttribute ( SEXP item, SEXP attribute, SEXP value)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -8117,20 +7946,17 @@ R_swig_tc_setTextAttribute ( SEXP item, SEXP attribute, SEXP value)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setTextAttribute" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(attribute, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttribute" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setTextAttribute" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(value, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextAttribute" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_setTextAttribute" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   tc_setTextAttribute(arg1,(char const *)arg2,(char const *)arg3);
   r_ans = R_NilValue;
   
@@ -8146,10 +7972,9 @@ R_swig_tc_setTextAttribute ( SEXP item, SEXP attribute, SEXP value)
 SWIGEXPORT SEXP
 R_swig_tc_setParameter ( SEXP item, SEXP attribute, SEXP value)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   double arg3 ;
-  int res1 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -8157,15 +7982,12 @@ R_swig_tc_setParameter ( SEXP item, SEXP attribute, SEXP value)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setParameter" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(attribute, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setParameter" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setParameter" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   arg3 = (double)(REAL(value)[0]);
   tc_setParameter(arg1,(char const *)arg2,arg3);
   r_ans = R_NilValue;
@@ -8179,10 +8001,10 @@ R_swig_tc_setParameter ( SEXP item, SEXP attribute, SEXP value)
 }
 
 
-String _p_f_p_void_p_q_const__char__p_char(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String result;
+char const * _p_f_int_p_q_const__char__p_char(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *result = 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -8199,7 +8021,7 @@ String _p_f_p_void_p_q_const__char__p_char(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -8213,13 +8035,13 @@ String _p_f_p_void_p_q_const__char__p_char(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char__p_char)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__p_char)");
   }
   res = SWIG_AsCharPtrAndSize(r_swig_cb_data->retValue, &buf, NULL, &alloc);
   if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "char const *""'");
   }
-  result = (String)(buf);
+  result = (char *)(buf);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -8286,10 +8108,10 @@ ArrayOfStrings _p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings(ArrayOfItems s_a
 }
 
 
-void _p_f_p_void_p_q_const__char_p_q_const__char__void(Item s_arg1, String s_arg2, String s_arg3) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+void _p_f_int_p_q_const__char_p_q_const__char__void(int s_arg1, char const * s_arg2, char const * s_arg3) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -8303,7 +8125,7 @@ void _p_f_p_void_p_q_const__char_p_q_const__char__void(Item s_arg1, String s_arg
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -8321,7 +8143,7 @@ void _p_f_p_void_p_q_const__char_p_q_const__char__void(Item s_arg1, String s_arg
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char_p_q_const__char__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char_p_q_const__char__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -8335,22 +8157,22 @@ void _p_f_p_void_p_q_const__char_p_q_const__char__void(Item s_arg1, String s_arg
 SWIGEXPORT SEXP
 R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataNamed, SEXP setTextData)
 {
-  String (*arg1)(Item,String) = (String (*)(Item,String)) 0 ;
+  char *(*arg1)(int,char const *) = (char *(*)(int,char const *)) 0 ;
   ArrayOfStrings (*arg2)(ArrayOfItems,ArrayOfStrings) = (ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-  void (*arg3)(Item,String,String) = (void (*)(Item,String,String)) 0 ;
+  void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(getTextData) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getTextData, (void**)(&arg1), SWIGTYPE_p_f_p_void_p_q_const__char__p_char, 0);
+      int res = SWIG_R_ConvertPtr(getTextData, (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__p_char, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "String (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "1"" of type '" "char const *(*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_p_void_p_q_const__char__p_char;
+    arg1 = _p_f_int_p_q_const__char__p_char;
     R_SWIG_pushCallbackFunctionData(getTextData, NULL);
   }
   if(TYPEOF(getAllTextDataNamed) != CLOSXP) {
@@ -8366,16 +8188,16 @@ R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataN
   }
   if(TYPEOF(setTextData) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setTextData, (void**)(&arg3), SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(setTextData, (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(Item,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Text_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_p_void_p_q_const__char_p_q_const__char__void;
+    arg3 = _p_f_int_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(setTextData, NULL);
   }
-  tc_BasicInformationTool_Text_api((char const *(*)(void *,char const *))arg1,arg2,arg3);
+  tc_BasicInformationTool_Text_api((char const *(*)(int,char const *))arg1,arg2,arg3);
   r_ans = R_NilValue;
   
   
@@ -8387,9 +8209,9 @@ R_swig_tc_BasicInformationTool_Text_api ( SEXP getTextData, SEXP getAllTextDataN
 }
 
 
-double _p_f_p_void_p_q_const__char__double(Item s_arg1, String s_arg2) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+double _p_f_int_p_q_const__char__double(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   double result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -8404,7 +8226,7 @@ double _p_f_p_void_p_q_const__char__double(Item s_arg1, String s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -8418,7 +8240,7 @@ double _p_f_p_void_p_q_const__char__double(Item s_arg1, String s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char__double)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__double)");
   }
   result = (double)(REAL(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -8487,9 +8309,9 @@ TableOfReals _p_f_ArrayOfItems_ArrayOfStrings__TableOfReals(ArrayOfItems s_arg1,
 }
 
 
-void _p_f_p_void_p_q_const__char_double__void(Item s_arg1, String s_arg2, double s_arg3) {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_int_p_q_const__char_double__void(int s_arg1, char const * s_arg2, double s_arg3) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   double arg3 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -8504,7 +8326,7 @@ void _p_f_p_void_p_q_const__char_double__void(Item s_arg1, String s_arg2, double
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -8522,7 +8344,7 @@ void _p_f_p_void_p_q_const__char_double__void(Item s_arg1, String s_arg2, double
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_q_const__char_double__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char_double__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -8541,10 +8363,10 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
   TableOfReals (*arg3)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
   TableOfReals (*arg4)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
   TableOfReals (*arg5)(ArrayOfItems) = (TableOfReals (*)(ArrayOfItems)) 0 ;
-  double (*arg6)(Item,String) = (double (*)(Item,String)) 0 ;
+  double (*arg6)(int,char const *) = (double (*)(int,char const *)) 0 ;
   TableOfReals (*arg7)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
   TableOfReals (*arg8)(ArrayOfItems,ArrayOfStrings) = (TableOfReals (*)(ArrayOfItems,ArrayOfStrings)) 0 ;
-  void (*arg9)(Item,String,double) = (void (*)(Item,String,double)) 0 ;
+  void (*arg9)(int,char const *,double) = (void (*)(int,char const *,double)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -8562,13 +8384,13 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
   }
   if(TYPEOF(setInitialValues) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setInitialValues, (void**)(&arg2), SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(setInitialValues, (void**)(&arg2), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_ArrayOfItems_TableOfReals__void;
+    arg2 = _p_f_struct_ArrayOfItems_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(setInitialValues, NULL);
   }
   if(TYPEOF(getParameters) != CLOSXP) {
@@ -8606,13 +8428,13 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
   }
   if(TYPEOF(getNumericalData) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getNumericalData, (void**)(&arg6), SWIGTYPE_p_f_p_void_p_q_const__char__double, 0);
+      int res = SWIG_R_ConvertPtr(getNumericalData, (void**)(&arg6), SWIGTYPE_p_f_int_p_q_const__char__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "6"" of type '" "double (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg6 = _p_f_p_void_p_q_const__char__double;
+    arg6 = _p_f_int_p_q_const__char__double;
     R_SWIG_pushCallbackFunctionData(getNumericalData, NULL);
   }
   if(TYPEOF(getParametersNamed) != CLOSXP) {
@@ -8639,13 +8461,13 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
   }
   if(TYPEOF(setNumericalData) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setNumericalData, (void**)(&arg9), SWIGTYPE_p_f_p_void_p_q_const__char_double__void, 0);
+      int res = SWIG_R_ConvertPtr(setNumericalData, (void**)(&arg9), SWIGTYPE_p_f_int_p_q_const__char_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(Item,String,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "9"" of type '" "void (*)(int,char const *,double)""'"); 
       }
     }
   } else {
-    arg9 = _p_f_p_void_p_q_const__char_double__void;
+    arg9 = _p_f_int_p_q_const__char_double__void;
     R_SWIG_pushCallbackFunctionData(setNumericalData, NULL);
   }
   tc_BasicInformationTool_Numeric_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -8669,10 +8491,10 @@ R_swig_tc_BasicInformationTool_Numeric_api ( SEXP getInitialValues, SEXP setInit
 SWIGEXPORT SEXP
 R_swig_tc_insertConnection ( SEXP parts, SEXP name, SEXP family, SEXP s_swig_copy)
 {
-  Item result;
+  int result;
   ArrayOfItems arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -8698,16 +8520,16 @@ R_swig_tc_insertConnection ( SEXP parts, SEXP name, SEXP family, SEXP s_swig_cop
   }
   res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insertConnection" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insertConnection" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(family, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_insertConnection" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_insertConnection" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
-  result = (Item)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  arg3 = (char *)(buf3);
+  result = (int)tc_insertConnection(arg1,(char const *)arg2,(char const *)arg3);
+  r_ans = Rf_ScalarInteger(result);
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
   vmaxset(r_vmax);
@@ -8721,16 +8543,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getConnectedNodes ( SEXP connection, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodes" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
   result = tc_getConnectedNodes(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -8742,70 +8560,28 @@ R_swig_tc_getConnectedNodes ( SEXP connection, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getConnectedNodesIn ( SEXP connection, SEXP s_swig_copy)
+R_swig_tc_getConnectedNodesWithRole ( SEXP connection, SEXP role, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesIn" "', argument " "1"" of type '" "Item""'"); 
+  arg1 = (int)(INTEGER(connection)[0]);
+  res2 = SWIG_AsCharPtrAndSize(role, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectedNodesWithRole" "', argument " "2"" of type '" "char const *""'");
   }
-  result = tc_getConnectedNodesIn(arg1);
+  arg2 = (char *)(buf2);
+  result = tc_getConnectedNodesWithRole(arg1,(char const *)arg2);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getConnectedNodesOut ( SEXP connection, SEXP s_swig_copy)
-{
-  ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesOut" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectedNodesOut(arg1);
-  r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getConnectedNodesOther ( SEXP connection, SEXP s_swig_copy)
-{
-  ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectedNodesOther" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectedNodesOther(arg1);
-  r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -8817,16 +8593,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getConnections ( SEXP part, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnections" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(part)[0]);
   result = tc_getConnections(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -8838,22 +8610,28 @@ R_swig_tc_getConnections ( SEXP part, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getConnectionsIn ( SEXP part, SEXP s_swig_copy)
+R_swig_tc_getConnectionsWithRole ( SEXP part, SEXP role, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  int res2 ;
+  char *buf2 = 0 ;
+  int alloc2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsIn" "', argument " "1"" of type '" "Item""'"); 
+  arg1 = (int)(INTEGER(part)[0]);
+  res2 = SWIG_AsCharPtrAndSize(role, &buf2, NULL, &alloc2);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getConnectionsWithRole" "', argument " "2"" of type '" "char const *""'");
   }
-  result = tc_getConnectionsIn(arg1);
+  arg2 = (char *)(buf2);
+  result = tc_getConnectionsWithRole(arg1,(char const *)arg2);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
+  if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   vmaxset(r_vmax);
   if(r_nprotect)  Rf_unprotect(r_nprotect);
   
@@ -8861,65 +8639,16 @@ R_swig_tc_getConnectionsIn ( SEXP part, SEXP s_swig_copy)
 }
 
 
-SWIGEXPORT SEXP
-R_swig_tc_getConnectionsOut ( SEXP part, SEXP s_swig_copy)
-{
-  ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsOut" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectionsOut(arg1);
-  r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-SWIGEXPORT SEXP
-R_swig_tc_getConnectionsOther ( SEXP part, SEXP s_swig_copy)
-{
-  ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
-  unsigned int r_nprotect = 0;
-  SEXP r_ans = R_NilValue ;
-  VMAXTYPE r_vmax = vmaxget() ;
-  
-  res1 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getConnectionsOther" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = tc_getConnectionsOther(arg1);
-  r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return r_ans;
-}
-
-
-Item _p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void(ArrayOfItems s_arg1, String s_arg2, String s_arg3) {
+int _p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int(ArrayOfItems s_arg1, char const * s_arg2, char const * s_arg3) {
   ArrayOfItems arg1 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  Item result;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
-  int res ;
   
   Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 4));
   r_nprotect++;
@@ -8946,11 +8675,64 @@ Item _p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void(ArrayOfItems s_ar
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int)");
   }
-  res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, SWIG_as_voidptrptr(&result), 0, 0);
-  if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "Item""'"); 
+  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
+  R_SWIG_popCallbackFunctionData(1);
+  
+  vmaxset(r_vmax);
+  if(r_nprotect)  Rf_unprotect(r_nprotect);
+  
+  return result;
+  
+}
+
+
+ArrayOfItems _p_f_int_p_q_const__char__ArrayOfItems(int s_arg1, char const * s_arg2) {
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  ArrayOfItems result;
+  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
+  SEXP r_tmp;
+  int r_nprotect = 0;
+  char * r_vmax= 0;
+  int ecode = 0;
+  void *argp ;
+  int res = 0 ;
+  
+  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
+  r_nprotect++;
+  r_swig_cb_data->el = r_swig_cb_data->expr;
+  
+  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = Rf_ScalarInteger(s_arg1);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  r_tmp = SWIG_FromCharPtr((const char *)s_arg2);
+  SETCAR(r_swig_cb_data->el, r_tmp);
+  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
+  
+  
+  
+  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
+  
+  if(r_swig_cb_data->errorOccurred) {
+    R_SWIG_popCallbackFunctionData(1);
+    Rf_error("error in calling R function as a function pointer (_p_f_int_p_q_const__char__ArrayOfItems)");
+  }
+  {
+    res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, &argp, SWIGTYPE_p_ArrayOfItems,  0 );
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "ArrayOfItems""'"); 
+    }  
+    if (!argp) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "$symname" "', argument " "$argnum"" of type '" "ArrayOfItems""'");
+    } else {
+      result = *((ArrayOfItems *)(argp));
+    }
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -8963,126 +8745,74 @@ Item _p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void(ArrayOfItems s_ar
 
 
 SWIGEXPORT SEXP
-R_swig_tc_ConnectionInsertion_api ( SEXP insertConnection, SEXP getConnectedParts, SEXP getConnectedPartsIn, SEXP getConnectedPartsOut, SEXP getConnectedPartsOther, SEXP getConnections, SEXP getConnectionsIn, SEXP getConnectionsOut, SEXP getConnectionsOther)
+R_swig_tc_ConnectionInsertion_api ( SEXP insertConnection, SEXP getConnectedParts, SEXP getConnectedPartsWithRole, SEXP getConnections, SEXP getConnectionsWithRole)
 {
-  Item (*arg1)(ArrayOfItems,String,String) = (Item (*)(ArrayOfItems,String,String)) 0 ;
-  ArrayOfItems (*arg2)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg3)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg4)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg5)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg6)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg7)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg8)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg9)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  int (*arg1)(ArrayOfItems,char const *,char const *) = (int (*)(ArrayOfItems,char const *,char const *)) 0 ;
+  ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg3)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
+  ArrayOfItems (*arg4)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg5)(int,char const *) = (ArrayOfItems (*)(int,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(insertConnection) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(insertConnection, (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void, 0);
+      int res = SWIG_R_ConvertPtr(insertConnection, (void**)(&arg1), SWIGTYPE_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "Item (*)(ArrayOfItems,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "int (*)(ArrayOfItems,char const *,char const *)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void;
+    arg1 = _p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(insertConnection, NULL);
   }
   if(TYPEOF(getConnectedParts) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getConnectedParts, (void**)(&arg2), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(getConnectedParts, (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_Item__ArrayOfItems;
+    arg2 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(getConnectedParts, NULL);
   }
-  if(TYPEOF(getConnectedPartsIn) != CLOSXP) {
+  if(TYPEOF(getConnectedPartsWithRole) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getConnectedPartsIn, (void**)(&arg3), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(getConnectedPartsWithRole, (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectedPartsIn, NULL);
-  }
-  if(TYPEOF(getConnectedPartsOut) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getConnectedPartsOut, (void**)(&arg4), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "ArrayOfItems (*)(Item)""'"); 
-      }
-    }
-  } else {
-    arg4 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectedPartsOut, NULL);
-  }
-  if(TYPEOF(getConnectedPartsOther) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getConnectedPartsOther, (void**)(&arg5), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "ArrayOfItems (*)(Item)""'"); 
-      }
-    }
-  } else {
-    arg5 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectedPartsOther, NULL);
+    arg3 = _p_f_int_p_q_const__char__ArrayOfItems;
+    R_SWIG_pushCallbackFunctionData(getConnectedPartsWithRole, NULL);
   }
   if(TYPEOF(getConnections) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getConnections, (void**)(&arg6), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(getConnections, (void**)(&arg4), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "6"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "4"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg6 = _p_f_Item__ArrayOfItems;
+    arg4 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(getConnections, NULL);
   }
-  if(TYPEOF(getConnectionsIn) != CLOSXP) {
+  if(TYPEOF(getConnectionsWithRole) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getConnectionsIn, (void**)(&arg7), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(getConnectionsWithRole, (void**)(&arg5), SWIGTYPE_p_f_int_p_q_const__char__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "7"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "5"" of type '" "ArrayOfItems (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg7 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectionsIn, NULL);
+    arg5 = _p_f_int_p_q_const__char__ArrayOfItems;
+    R_SWIG_pushCallbackFunctionData(getConnectionsWithRole, NULL);
   }
-  if(TYPEOF(getConnectionsOut) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getConnectionsOut, (void**)(&arg8), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "8"" of type '" "ArrayOfItems (*)(Item)""'"); 
-      }
-    }
-  } else {
-    arg8 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectionsOut, NULL);
-  }
-  if(TYPEOF(getConnectionsOther) != CLOSXP) {
-    {
-      int res = SWIG_R_ConvertPtr(getConnectionsOther, (void**)(&arg9), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
-      if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "9"" of type '" "ArrayOfItems (*)(Item)""'"); 
-      }
-    }
-  } else {
-    arg9 = _p_f_Item__ArrayOfItems;
-    R_SWIG_pushCallbackFunctionData(getConnectionsOther, NULL);
-  }
-  tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
+  tc_ConnectionInsertion_api(arg1,arg2,arg3,arg4,arg5);
   r_ans = R_NilValue;
-  
-  
-  
-  
   
   
   
@@ -9099,23 +8829,15 @@ SWIGEXPORT SEXP
 R_swig_tc_getControlPointX ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
-  int res1 ;
-  int res2 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getControlPointX" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getControlPointX" "', argument " "2"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
+  arg2 = (int)(INTEGER(part)[0]);
   arg3 = (int)(INTEGER(whichPoint)[0]);
   result = (double)tc_getControlPointX(arg1,arg2,arg3);
   r_ans = SWIG_From_double((double)(result));
@@ -9133,23 +8855,15 @@ SWIGEXPORT SEXP
 R_swig_tc_getControlPointY ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
-  int res1 ;
-  int res2 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getControlPointY" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getControlPointY" "', argument " "2"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
+  arg2 = (int)(INTEGER(part)[0]);
   arg3 = (int)(INTEGER(whichPoint)[0]);
   result = (double)tc_getControlPointY(arg1,arg2,arg3);
   r_ans = SWIG_From_double((double)(result));
@@ -9166,25 +8880,17 @@ R_swig_tc_getControlPointY ( SEXP connection, SEXP part, SEXP whichPoint, SEXP s
 SWIGEXPORT SEXP
 R_swig_tc_setControlPoint ( SEXP connection, SEXP part, SEXP whichPoint, SEXP x, SEXP y)
 {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
   double arg4 ;
   double arg5 ;
-  int res1 ;
-  int res2 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setControlPoint" "', argument " "1"" of type '" "Item""'"); 
-  }
-  res2 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg2), 0, 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setControlPoint" "', argument " "2"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
+  arg2 = (int)(INTEGER(part)[0]);
   arg3 = (int)(INTEGER(whichPoint)[0]);
   arg4 = (double)(REAL(x)[0]);
   arg5 = (double)(REAL(y)[0]);
@@ -9205,18 +8911,14 @@ R_swig_tc_setControlPoint ( SEXP connection, SEXP part, SEXP whichPoint, SEXP x,
 SWIGEXPORT SEXP
 R_swig_tc_setCenterPoint ( SEXP connection, SEXP y, SEXP x)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   double arg3 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setCenterPoint" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
   arg2 = (double)(REAL(y)[0]);
   arg3 = (double)(REAL(x)[0]);
   tc_setCenterPoint(arg1,arg2,arg3);
@@ -9235,16 +8937,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getCenterPointX ( SEXP connection, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getCenterPointX" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
   result = (double)tc_getCenterPointX(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -9259,16 +8957,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getCenterPointY ( SEXP connection, SEXP s_swig_copy)
 {
   double result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(connection, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getCenterPointY" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(connection)[0]);
   result = (double)tc_getCenterPointY(arg1);
   r_ans = SWIG_From_double((double)(result));
   
@@ -9282,17 +8976,13 @@ R_swig_tc_getCenterPointY ( SEXP connection, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setStraight ( SEXP item, SEXP straight)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   int arg2 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStraight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (int)(INTEGER(straight)[0]);
   tc_setStraight(arg1,arg2);
   r_ans = R_NilValue;
@@ -9327,18 +9017,14 @@ R_swig_tc_setAllStraight ( SEXP straight)
 SWIGEXPORT SEXP
 R_swig_tc_setLineWidth ( SEXP item, SEXP width, SEXP permanent)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
   int arg3 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setLineWidth" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (double)(REAL(width)[0]);
   arg3 = (int)(INTEGER(permanent)[0]);
   tc_setLineWidth(arg1,arg2,arg3);
@@ -9353,9 +9039,9 @@ R_swig_tc_setLineWidth ( SEXP item, SEXP width, SEXP permanent)
 }
 
 
-double _p_f_p_void_p_void_int__double(Item s_arg1, Item s_arg2, int s_arg3) {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+double _p_f_int_int_int__double(int s_arg1, int s_arg2, int s_arg3) {
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
   double result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -9371,11 +9057,11 @@ double _p_f_p_void_p_void_int__double(Item s_arg1, Item s_arg2, int s_arg3) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg2), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg2);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -9389,7 +9075,7 @@ double _p_f_p_void_p_void_int__double(Item s_arg1, Item s_arg2, int s_arg3) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_void_int__double)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_int_int__double)");
   }
   result = (double)(REAL(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -9402,9 +9088,9 @@ double _p_f_p_void_p_void_int__double(Item s_arg1, Item s_arg2, int s_arg3) {
 }
 
 
-void _p_f_p_void_p_void_int_double_double__void(Item s_arg1, Item s_arg2, int s_arg3, double s_arg4, double s_arg5) {
-  Item arg1 = (Item) 0 ;
-  Item arg2 = (Item) 0 ;
+void _p_f_int_int_int_double_double__void(int s_arg1, int s_arg2, int s_arg3, double s_arg4, double s_arg5) {
+  int arg1 ;
+  int arg2 ;
   int arg3 ;
   double arg4 ;
   double arg5 ;
@@ -9421,11 +9107,11 @@ void _p_f_p_void_p_void_int_double_double__void(Item s_arg1, Item s_arg2, int s_
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg2), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg2);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -9447,43 +9133,7 @@ void _p_f_p_void_p_void_int_double_double__void(Item s_arg1, Item s_arg2, int s_
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_p_void_int_double_double__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-void _p_f_int__void(int s_arg1) {
-  int arg1 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 2));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_int_int_double_double__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -9497,94 +9147,94 @@ void _p_f_int__void(int s_arg1) {
 SWIGEXPORT SEXP
 R_swig_tc_ConnectionSelection_api ( SEXP getControlPointX, SEXP getControlPointY, SEXP setControlPoint, SEXP setCenterPoint, SEXP getCenterPointX, SEXP getCenterPointY, SEXP setStraight, SEXP setAllStraight, SEXP setLineWidth)
 {
-  double (*arg1)(Item,Item,int) = (double (*)(Item,Item,int)) 0 ;
-  double (*arg2)(Item,Item,int) = (double (*)(Item,Item,int)) 0 ;
-  void (*arg3)(Item,Item,int,double,double) = (void (*)(Item,Item,int,double,double)) 0 ;
-  void (*arg4)(Item,double,double) = (void (*)(Item,double,double)) 0 ;
-  double (*arg5)(Item) = (double (*)(Item)) 0 ;
-  double (*arg6)(Item) = (double (*)(Item)) 0 ;
-  void (*arg7)(Item,int) = (void (*)(Item,int)) 0 ;
+  double (*arg1)(int,int,int) = (double (*)(int,int,int)) 0 ;
+  double (*arg2)(int,int,int) = (double (*)(int,int,int)) 0 ;
+  void (*arg3)(int,int,int,double,double) = (void (*)(int,int,int,double,double)) 0 ;
+  void (*arg4)(int,double,double) = (void (*)(int,double,double)) 0 ;
+  double (*arg5)(int) = (double (*)(int)) 0 ;
+  double (*arg6)(int) = (double (*)(int)) 0 ;
+  void (*arg7)(int,int) = (void (*)(int,int)) 0 ;
   void (*arg8)(int) = (void (*)(int)) 0 ;
-  void (*arg9)(Item,double,int) = (void (*)(Item,double,int)) 0 ;
+  void (*arg9)(int,double,int) = (void (*)(int,double,int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(getControlPointX) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getControlPointX, (void**)(&arg1), SWIGTYPE_p_f_p_void_p_void_int__double, 0);
+      int res = SWIG_R_ConvertPtr(getControlPointX, (void**)(&arg1), SWIGTYPE_p_f_int_int_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(Item,Item,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "1"" of type '" "double (*)(int,int,int)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_p_void_p_void_int__double;
+    arg1 = _p_f_int_int_int__double;
     R_SWIG_pushCallbackFunctionData(getControlPointX, NULL);
   }
   if(TYPEOF(getControlPointY) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getControlPointY, (void**)(&arg2), SWIGTYPE_p_f_p_void_p_void_int__double, 0);
+      int res = SWIG_R_ConvertPtr(getControlPointY, (void**)(&arg2), SWIGTYPE_p_f_int_int_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(Item,Item,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "2"" of type '" "double (*)(int,int,int)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_void_p_void_int__double;
+    arg2 = _p_f_int_int_int__double;
     R_SWIG_pushCallbackFunctionData(getControlPointY, NULL);
   }
   if(TYPEOF(setControlPoint) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setControlPoint, (void**)(&arg3), SWIGTYPE_p_f_p_void_p_void_int_double_double__void, 0);
+      int res = SWIG_R_ConvertPtr(setControlPoint, (void**)(&arg3), SWIGTYPE_p_f_int_int_int_double_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(Item,Item,int,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "3"" of type '" "void (*)(int,int,int,double,double)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_p_void_p_void_int_double_double__void;
+    arg3 = _p_f_int_int_int_double_double__void;
     R_SWIG_pushCallbackFunctionData(setControlPoint, NULL);
   }
   if(TYPEOF(setCenterPoint) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setCenterPoint, (void**)(&arg4), SWIGTYPE_p_f_p_void_double_double__void, 0);
+      int res = SWIG_R_ConvertPtr(setCenterPoint, (void**)(&arg4), SWIGTYPE_p_f_int_double_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(Item,double,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "4"" of type '" "void (*)(int,double,double)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_p_void_double_double__void;
+    arg4 = _p_f_int_double_double__void;
     R_SWIG_pushCallbackFunctionData(setCenterPoint, NULL);
   }
   if(TYPEOF(getCenterPointX) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getCenterPointX, (void**)(&arg5), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getCenterPointX, (void**)(&arg5), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "5"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg5 = _p_f_p_void__double;
+    arg5 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(getCenterPointX, NULL);
   }
   if(TYPEOF(getCenterPointY) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(getCenterPointY, (void**)(&arg6), SWIGTYPE_p_f_p_void__double, 0);
+      int res = SWIG_R_ConvertPtr(getCenterPointY, (void**)(&arg6), SWIGTYPE_p_f_int__double, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "6"" of type '" "double (*)(int)""'"); 
       }
     }
   } else {
-    arg6 = _p_f_p_void__double;
+    arg6 = _p_f_int__double;
     R_SWIG_pushCallbackFunctionData(getCenterPointY, NULL);
   }
   if(TYPEOF(setStraight) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setStraight, (void**)(&arg7), SWIGTYPE_p_f_p_void_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setStraight, (void**)(&arg7), SWIGTYPE_p_f_int_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(Item,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "7"" of type '" "void (*)(int,int)""'"); 
       }
     }
   } else {
-    arg7 = _p_f_p_void_int__void;
+    arg7 = _p_f_int_int__void;
     R_SWIG_pushCallbackFunctionData(setStraight, NULL);
   }
   if(TYPEOF(setAllStraight) != CLOSXP) {
@@ -9600,13 +9250,13 @@ R_swig_tc_ConnectionSelection_api ( SEXP getControlPointX, SEXP getControlPointY
   }
   if(TYPEOF(setLineWidth) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setLineWidth, (void**)(&arg9), SWIGTYPE_p_f_p_void_double_int__void, 0);
+      int res = SWIG_R_ConvertPtr(setLineWidth, (void**)(&arg9), SWIGTYPE_p_f_int_double_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(Item,double,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionSelection_api" "', argument " "9"" of type '" "void (*)(int,double,int)""'"); 
       }
     }
   } else {
-    arg9 = _p_f_p_void_double_int__void;
+    arg9 = _p_f_int_double_int__void;
     R_SWIG_pushCallbackFunctionData(setLineWidth, NULL);
   }
   tc_ConnectionSelection_api(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9);
@@ -9660,16 +9310,12 @@ R_swig_tc_merge ( SEXP parts)
 SWIGEXPORT SEXP
 R_swig_tc_separate ( SEXP part)
 {
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(part, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_separate" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(part)[0]);
   tc_separate(arg1);
   r_ans = R_NilValue;
   
@@ -9680,7 +9326,7 @@ R_swig_tc_separate ( SEXP part)
 }
 
 
-void _p_f_ArrayOfItems__void(ArrayOfItems s_arg1) {
+void _p_f_struct_ArrayOfItems__void(ArrayOfItems s_arg1) {
   ArrayOfItems arg1 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -9705,7 +9351,7 @@ void _p_f_ArrayOfItems__void(ArrayOfItems s_arg1) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_ArrayOfItems__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_ArrayOfItems__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -9720,31 +9366,31 @@ SWIGEXPORT SEXP
 R_swig_tc_GroupHandlerTool_api ( SEXP merge, SEXP separate)
 {
   void (*arg1)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
-  void (*arg2)(Item) = (void (*)(Item)) 0 ;
+  void (*arg2)(int) = (void (*)(int)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(merge) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(merge, (void**)(&arg1), SWIGTYPE_p_f_ArrayOfItems__void, 0);
+      int res = SWIG_R_ConvertPtr(merge, (void**)(&arg1), SWIGTYPE_p_f_struct_ArrayOfItems__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "1"" of type '" "void (*)(ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_ArrayOfItems__void;
+    arg1 = _p_f_struct_ArrayOfItems__void;
     R_SWIG_pushCallbackFunctionData(merge, NULL);
   }
   if(TYPEOF(separate) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(separate, (void**)(&arg2), SWIGTYPE_p_f_p_void__void, 0);
+      int res = SWIG_R_ConvertPtr(separate, (void**)(&arg2), SWIGTYPE_p_f_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "2"" of type '" "void (*)(int)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_void__void;
+    arg2 = _p_f_int__void;
     R_SWIG_pushCallbackFunctionData(separate, NULL);
   }
   tc_GroupHandlerTool_api(arg1,arg2);
@@ -9761,7 +9407,7 @@ R_swig_tc_GroupHandlerTool_api ( SEXP merge, SEXP separate)
 SWIGEXPORT SEXP
 R_swig_tc_insert ( SEXP name, SEXP family, SEXP s_swig_copy)
 {
-  Item result;
+  int result;
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
   int res1 ;
@@ -9784,8 +9430,8 @@ R_swig_tc_insert ( SEXP name, SEXP family, SEXP s_swig_copy)
     SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_insert" "', argument " "2"" of type '" "char const *""'");
   }
   arg2 = (char *)(buf2);
-  result = (Item)tc_insert((char const *)arg1,(char const *)arg2);
-  r_ans = SWIG_R_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  result = (int)tc_insert((char const *)arg1,(char const *)arg2);
+  r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
   vmaxset(r_vmax);
@@ -9795,16 +9441,15 @@ R_swig_tc_insert ( SEXP name, SEXP family, SEXP s_swig_copy)
 }
 
 
-Item _p_f_p_q_const__char_p_q_const__char__p_void(char const * s_arg1, char const * s_arg2) {
+int _p_f_p_q_const__char_p_q_const__char__int(char const * s_arg1, char const * s_arg2) {
   char *arg1 = (char *) 0 ;
   char *arg2 = (char *) 0 ;
-  Item result;
+  int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
   char * r_vmax= 0;
   int ecode = 0;
-  int res ;
   
   Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
   r_nprotect++;
@@ -9827,12 +9472,9 @@ Item _p_f_p_q_const__char_p_q_const__char__p_void(char const * s_arg1, char cons
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char__p_void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char__int)");
   }
-  res = SWIG_R_ConvertPtr(r_swig_cb_data->retValue, SWIG_as_voidptrptr(&result), 0, 0);
-  if (!SWIG_IsOK(res)) {
-    SWIG_exception_fail(SWIG_ArgError(res), "in method '" "$symname" "', argument " "$argnum"" of type '" "Item""'"); 
-  }
+  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
   
   vmaxset(r_vmax);
@@ -9846,20 +9488,20 @@ Item _p_f_p_q_const__char_p_q_const__char__p_void(char const * s_arg1, char cons
 SWIGEXPORT SEXP
 R_swig_tc_NodeInsertion_api ( SEXP insertItem)
 {
-  Item (*arg1)(char const *,char const *) = (Item (*)(char const *,char const *)) 0 ;
+  int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(insertItem) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(insertItem, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__p_void, 0);
+      int res = SWIG_R_ConvertPtr(insertItem, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "Item (*)(char const *,char const *)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NodeInsertion_api" "', argument " "1"" of type '" "int (*)(char const *,char const *)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_p_q_const__char_p_q_const__char__p_void;
+    arg1 = _p_f_p_q_const__char_p_q_const__char__int;
     R_SWIG_pushCallbackFunctionData(insertItem, NULL);
   }
   tc_NodeInsertion_api(arg1);
@@ -10026,16 +9668,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getStoichiometryFor ( SEXP x, SEXP s_swig_copy)
 {
   TableOfReals result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(x, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStoichiometryFor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(x)[0]);
   result = tc_getStoichiometryFor(arg1);
   r_ans = SWIG_R_NewPointerObj((TableOfReals *)memcpy((TableOfReals *)malloc(sizeof(TableOfReals)),&result,sizeof(TableOfReals)), SWIGTYPE_p_TableOfReals, SWIG_POINTER_OWN |  0 );
   
@@ -10047,20 +9685,16 @@ R_swig_tc_getStoichiometryFor ( SEXP x, SEXP s_swig_copy)
 
 
 SWIGEXPORT SEXP
-R_swig_tc_getRate ( SEXP x, SEXP s_swig_copy)
+R_swig_tc_getRate ( SEXP x)
 {
-  String result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  char *result = 0 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(x, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getRate" "', argument " "1"" of type '" "Item""'"); 
-  }
-  result = (String)tc_getRate(arg1);
+  arg1 = (int)(INTEGER(x)[0]);
+  result = (char *)tc_getRate(arg1);
   r_ans = SWIG_FromCharPtr((const char *)result);
   
   vmaxset(r_vmax);
@@ -10073,9 +9707,8 @@ R_swig_tc_getRate ( SEXP x, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setRate ( SEXP x, SEXP r)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -10083,15 +9716,12 @@ R_swig_tc_setRate ( SEXP x, SEXP r)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(x, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setRate" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(x)[0]);
   res2 = SWIG_AsCharPtrAndSize(r, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRate" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setRate" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_setRate(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -10106,19 +9736,15 @@ R_swig_tc_setRate ( SEXP x, SEXP r)
 SWIGEXPORT SEXP
 R_swig_tc_setStoichiometryFor ( SEXP x, SEXP N)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   TableOfReals arg2 ;
-  int res1 ;
   void *argp2 ;
   int res2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(x, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setStoichiometryFor" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(x)[0]);
   {
     res2 = SWIG_R_ConvertPtr(N, &argp2, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -10140,7 +9766,7 @@ R_swig_tc_setStoichiometryFor ( SEXP x, SEXP N)
 }
 
 
-void _p_f_ArrayOfItems_ArrayOfStrings__void(ArrayOfItems s_arg1, ArrayOfStrings s_arg2) {
+void _p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void(ArrayOfItems s_arg1, ArrayOfStrings s_arg2) {
   ArrayOfItems arg1 ;
   ArrayOfStrings arg2 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -10170,7 +9796,7 @@ void _p_f_ArrayOfItems_ArrayOfStrings__void(ArrayOfItems s_arg1, ArrayOfStrings 
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_ArrayOfItems_ArrayOfStrings__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -10205,13 +9831,13 @@ R_swig_tc_StoichiometryTool_api ( SEXP getStoichiometry, SEXP setStoichiometry, 
   }
   if(TYPEOF(setStoichiometry) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setStoichiometry, (void**)(&arg2), SWIGTYPE_p_f_ArrayOfItems_TableOfReals__void, 0);
+      int res = SWIG_R_ConvertPtr(setStoichiometry, (void**)(&arg2), SWIGTYPE_p_f_struct_ArrayOfItems_struct_TableOfReals__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "2"" of type '" "void (*)(ArrayOfItems,TableOfReals)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_ArrayOfItems_TableOfReals__void;
+    arg2 = _p_f_struct_ArrayOfItems_struct_TableOfReals__void;
     R_SWIG_pushCallbackFunctionData(setStoichiometry, NULL);
   }
   if(TYPEOF(getRates) != CLOSXP) {
@@ -10227,13 +9853,13 @@ R_swig_tc_StoichiometryTool_api ( SEXP getStoichiometry, SEXP setStoichiometry, 
   }
   if(TYPEOF(setRates) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(setRates, (void**)(&arg4), SWIGTYPE_p_f_ArrayOfItems_ArrayOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(setRates, (void**)(&arg4), SWIGTYPE_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "4"" of type '" "void (*)(ArrayOfItems,ArrayOfStrings)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_ArrayOfItems_ArrayOfStrings__void;
+    arg4 = _p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void;
     R_SWIG_pushCallbackFunctionData(setRates, NULL);
   }
   tc_StoichiometryTool_api(arg1,arg2,arg3,arg4);
@@ -10253,8 +9879,8 @@ SWIGEXPORT SEXP
 R_swig_tc_compileAndRun ( SEXP command, SEXP s_args, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10267,14 +9893,14 @@ R_swig_tc_compileAndRun ( SEXP command, SEXP s_args, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(command, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileAndRun" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileAndRun" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(s_args, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileAndRun" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileAndRun" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   result = (int)tc_compileAndRun((char const *)arg1,(char const *)arg2);
   r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10290,9 +9916,9 @@ SWIGEXPORT SEXP
 R_swig_tc_compileBuildLoad ( SEXP filename, SEXP s_arg2, SEXP title, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10308,19 +9934,19 @@ R_swig_tc_compileBuildLoad ( SEXP filename, SEXP s_arg2, SEXP title, SEXP s_swig
   
   res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoad" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoad" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(s_arg2, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoad" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoad" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(title, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoad" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoad" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   result = (int)tc_compileBuildLoad((char const *)arg1,(char const *)arg2,(char const *)arg3);
   r_ans = Rf_ScalarInteger(result);
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10337,9 +9963,9 @@ SWIGEXPORT SEXP
 R_swig_tc_compileBuildLoadSliders ( SEXP filename, SEXP s_arg2, SEXP title, SEXP inputs, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   TableOfReals arg4 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -10358,19 +9984,19 @@ R_swig_tc_compileBuildLoadSliders ( SEXP filename, SEXP s_arg2, SEXP title, SEXP
   
   res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoadSliders" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_compileBuildLoadSliders" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(s_arg2, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoadSliders" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_compileBuildLoadSliders" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(title, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoadSliders" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_compileBuildLoadSliders" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   {
     res4 = SWIG_R_ConvertPtr(inputs, &argp4, SWIGTYPE_p_TableOfReals,  0 );
     if (!SWIG_IsOK(res4)) {
@@ -10397,7 +10023,7 @@ R_swig_tc_compileBuildLoadSliders ( SEXP filename, SEXP s_arg2, SEXP title, SEXP
 SWIGEXPORT SEXP
 R_swig_tc_runPythonCode ( SEXP code)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10407,9 +10033,9 @@ R_swig_tc_runPythonCode ( SEXP code)
   
   res1 = SWIG_AsCharPtrAndSize(code, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonCode" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonCode" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_runPythonCode((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10423,7 +10049,7 @@ R_swig_tc_runPythonCode ( SEXP code)
 SWIGEXPORT SEXP
 R_swig_tc_runPythonFile ( SEXP filename)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10433,9 +10059,9 @@ R_swig_tc_runPythonFile ( SEXP filename)
   
   res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonFile" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_runPythonFile" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_runPythonFile((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10449,11 +10075,11 @@ R_swig_tc_runPythonFile ( SEXP filename)
 SWIGEXPORT SEXP
 R_swig_tc_addPythonPlugin ( SEXP file, SEXP name, SEXP description, SEXP category, SEXP icon)
 {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10475,29 +10101,29 @@ R_swig_tc_addPythonPlugin ( SEXP file, SEXP name, SEXP description, SEXP categor
   
   res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addPythonPlugin" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addPythonPlugin" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(name, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addPythonPlugin" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addPythonPlugin" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(description, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addPythonPlugin" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addPythonPlugin" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(category, &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addPythonPlugin" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addPythonPlugin" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   res5 = SWIG_AsCharPtrAndSize(icon, &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addPythonPlugin" "', argument " "5"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addPythonPlugin" "', argument " "5"" of type '" "char const *""'");
   }
-  arg5 = (String)(buf5);
+  arg5 = (char *)(buf5);
   tc_addPythonPlugin((char const *)arg1,(char const *)arg2,(char const *)arg3,(char const *)arg4,(char const *)arg5);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10515,7 +10141,7 @@ R_swig_tc_addPythonPlugin ( SEXP file, SEXP name, SEXP description, SEXP categor
 SWIGEXPORT SEXP
 R_swig_tc_callFunction ( SEXP functionTitle)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10525,9 +10151,9 @@ R_swig_tc_callFunction ( SEXP functionTitle)
   
   res1 = SWIG_AsCharPtrAndSize(functionTitle, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_callFunction" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_callFunction" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_callFunction((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10541,7 +10167,7 @@ R_swig_tc_callFunction ( SEXP functionTitle)
 SWIGEXPORT SEXP
 R_swig_tc_loadLibrary ( SEXP filename)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -10551,9 +10177,9 @@ R_swig_tc_loadLibrary ( SEXP filename)
   
   res1 = SWIG_AsCharPtrAndSize(filename, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadLibrary" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_loadLibrary" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_loadLibrary((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -10568,11 +10194,11 @@ SWIGEXPORT SEXP
 R_swig_tc_addFunction ( SEXP f, SEXP title, SEXP description, SEXP category, SEXP iconFile, SEXP target_family, SEXP show_menu, SEXP in_tool_menu, SEXP make_default)
 {
   void (*arg1)() = (void (*)()) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
-  String arg6 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  char *arg6 = (char *) 0 ;
   int arg7 ;
   int arg8 ;
   int arg9 ;
@@ -10608,29 +10234,29 @@ R_swig_tc_addFunction ( SEXP f, SEXP title, SEXP description, SEXP category, SEX
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addFunction" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addFunction" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(description, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addFunction" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addFunction" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   res4 = SWIG_AsCharPtrAndSize(category, &buf4, NULL, &alloc4);
   if (!SWIG_IsOK(res4)) {
-    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addFunction" "', argument " "4"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "tc_addFunction" "', argument " "4"" of type '" "char const *""'");
   }
-  arg4 = (String)(buf4);
+  arg4 = (char *)(buf4);
   res5 = SWIG_AsCharPtrAndSize(iconFile, &buf5, NULL, &alloc5);
   if (!SWIG_IsOK(res5)) {
-    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addFunction" "', argument " "5"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res5), "in method '" "tc_addFunction" "', argument " "5"" of type '" "char const *""'");
   }
-  arg5 = (String)(buf5);
+  arg5 = (char *)(buf5);
   res6 = SWIG_AsCharPtrAndSize(target_family, &buf6, NULL, &alloc6);
   if (!SWIG_IsOK(res6)) {
-    SWIG_exception_fail(SWIG_ArgError(res6), "in method '" "tc_addFunction" "', argument " "6"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res6), "in method '" "tc_addFunction" "', argument " "6"" of type '" "char const *""'");
   }
-  arg6 = (String)(buf6);
+  arg6 = (char *)(buf6);
   arg7 = (int)(INTEGER(show_menu)[0]);
   arg8 = (int)(INTEGER(in_tool_menu)[0]);
   arg9 = (int)(INTEGER(make_default)[0]);
@@ -10748,7 +10374,7 @@ R_swig_tc_callWhenExiting ( SEXP f)
 SWIGEXPORT SEXP
 R_swig_tc_DynamicLibraryMenu_api ( SEXP callFunction)
 {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -10757,7 +10383,7 @@ R_swig_tc_DynamicLibraryMenu_api ( SEXP callFunction)
     {
       int res = SWIG_R_ConvertPtr(callFunction, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_DynamicLibraryMenu_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_DynamicLibraryMenu_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -10774,54 +10400,10 @@ R_swig_tc_DynamicLibraryMenu_api ( SEXP callFunction)
 }
 
 
-int _p_f_p_q_const__char_p_q_const__char__int(String s_arg1, String s_arg2) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  int result;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = SWIG_FromCharPtr((const char *)s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char__int)");
-  }
-  result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  return result;
-  
-}
-
-
-int _p_f_p_q_const__char_p_q_const__char_p_q_const__char__int(String s_arg1, String s_arg2, String s_arg3) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+int _p_f_p_q_const__char_p_q_const__char_p_q_const__char__int(char const * s_arg1, char const * s_arg2, char const * s_arg3) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -10867,10 +10449,10 @@ int _p_f_p_q_const__char_p_q_const__char_p_q_const__char__int(String s_arg1, Str
 }
 
 
-int _p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int(String s_arg1, String s_arg2, String s_arg3, TableOfReals s_arg4) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
+int _p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int(char const * s_arg1, char const * s_arg2, char const * s_arg3, TableOfReals s_arg4) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   TableOfReals arg4 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -10908,7 +10490,7 @@ int _p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int(Strin
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int)");
   }
   result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -10921,13 +10503,13 @@ int _p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int(Strin
 }
 
 
-void _p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void(void (*)() s_arg1, String s_arg2, String s_arg3, String s_arg4, String s_arg5, String s_arg6, int s_arg7, int s_arg8, int s_arg9) {
+void _p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void(void (*)() s_arg1, char const * s_arg2, char const * s_arg3, char const * s_arg4, char const * s_arg5, char const * s_arg6, int s_arg7, int s_arg8, int s_arg9) {
   void (*arg1)() = (void (*)()) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
-  String arg6 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
+  char *arg6 = (char *) 0 ;
   int arg7 ;
   int arg8 ;
   int arg9 ;
@@ -11036,11 +10618,11 @@ void _p_f_p_f_void__void__void(void (*)(void) s_arg1) {
 SWIGEXPORT SEXP
 R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP compileBuildLoadSliders, SEXP loadLibrary, SEXP addFunction, SEXP callback, SEXP unload)
 {
-  int (*arg1)(String,String) = (int (*)(String,String)) 0 ;
-  int (*arg2)(String,String,String) = (int (*)(String,String,String)) 0 ;
-  int (*arg3)(String,String,String,TableOfReals) = (int (*)(String,String,String,TableOfReals)) 0 ;
-  void (*arg4)(String) = (void (*)(String)) 0 ;
-  void (*arg5)(void (*)(),String,String,String,String,String,int,int,int) = (void (*)(void (*)(),String,String,String,String,String,int,int,int)) 0 ;
+  int (*arg1)(char const *,char const *) = (int (*)(char const *,char const *)) 0 ;
+  int (*arg2)(char const *,char const *,char const *) = (int (*)(char const *,char const *,char const *)) 0 ;
+  int (*arg3)(char const *,char const *,char const *,TableOfReals) = (int (*)(char const *,char const *,char const *,TableOfReals)) 0 ;
+  void (*arg4)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg5)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int) = (void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)) 0 ;
   void (*arg6)(void (*)(void)) = (void (*)(void (*)(void))) 0 ;
   void (*arg7)(void (*)(void)) = (void (*)(void (*)(void))) 0 ;
   unsigned int r_nprotect = 0;
@@ -11051,7 +10633,7 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
     {
       int res = SWIG_R_ConvertPtr(compileAndRun, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "1"" of type '" "int (*)(String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "1"" of type '" "int (*)(char const *,char const *)""'"); 
       }
     }
   } else {
@@ -11062,7 +10644,7 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
     {
       int res = SWIG_R_ConvertPtr(compileBuildLoad, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "2"" of type '" "int (*)(String,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "2"" of type '" "int (*)(char const *,char const *,char const *)""'"); 
       }
     }
   } else {
@@ -11071,20 +10653,20 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
   }
   if(TYPEOF(compileBuildLoadSliders) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(compileBuildLoadSliders, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int, 0);
+      int res = SWIG_R_ConvertPtr(compileBuildLoadSliders, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(String,String,String,TableOfReals)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(char const *,char const *,char const *,TableOfReals)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int;
+    arg3 = _p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int;
     R_SWIG_pushCallbackFunctionData(compileBuildLoadSliders, NULL);
   }
   if(TYPEOF(loadLibrary) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(loadLibrary, (void**)(&arg4), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "4"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "4"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -11095,7 +10677,7 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
     {
       int res = SWIG_R_ConvertPtr(addFunction, (void**)(&arg5), SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "5"" of type '" "void (*)(void (*)(),String,String,String,String,String,int,int,int)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "5"" of type '" "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)""'"); 
       }
     }
   } else {
@@ -11140,12 +10722,12 @@ R_swig_tc_LoadCLibraries_api ( SEXP compileAndRun, SEXP compileBuildLoad, SEXP c
 }
 
 
-void _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void(String s_arg1, String s_arg2, String s_arg3, String s_arg4, String s_arg5) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  String arg4 = (String) 0 ;
-  String arg5 = (String) 0 ;
+void _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void(char const * s_arg1, char const * s_arg2, char const * s_arg3, char const * s_arg4, char const * s_arg5) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  char *arg4 = (char *) 0 ;
+  char *arg5 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -11199,9 +10781,9 @@ void _p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_co
 SWIGEXPORT SEXP
 R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPythonPlugin)
 {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
-  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -11210,7 +10792,7 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
     {
       int res = SWIG_R_ConvertPtr(runPythonCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -11221,7 +10803,7 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
     {
       int res = SWIG_R_ConvertPtr(runPythonFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -11232,7 +10814,7 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
     {
       int res = SWIG_R_ConvertPtr(addPythonPlugin, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PythonTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
       }
     }
   } else {
@@ -11254,9 +10836,9 @@ R_swig_tc_PythonTool_api ( SEXP runPythonCode, SEXP runPythonFile, SEXP addPytho
 SWIGEXPORT SEXP
 R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctavePlugin)
 {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
-  void (*arg3)(String,String,String,String,String) = (void (*)(String,String,String,String,String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg3)(char const *,char const *,char const *,char const *,char const *) = (void (*)(char const *,char const *,char const *,char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -11265,7 +10847,7 @@ R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctav
     {
       int res = SWIG_R_ConvertPtr(runOctaveCode, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -11276,7 +10858,7 @@ R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctav
     {
       int res = SWIG_R_ConvertPtr(runPythonFile, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -11287,7 +10869,7 @@ R_swig_tc_OctaveTool_api ( SEXP runOctaveCode, SEXP runPythonFile, SEXP addOctav
     {
       int res = SWIG_R_ConvertPtr(addOctavePlugin, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(String,String,String,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_OctaveTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *,char const *,char const *,char const *)""'"); 
       }
     }
   } else {
@@ -11310,7 +10892,7 @@ SWIGEXPORT SEXP
 R_swig_tc_surface ( SEXP z, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -11333,9 +10915,9 @@ R_swig_tc_surface ( SEXP z, SEXP title)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_surface" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_surface" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_surface(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11350,7 +10932,7 @@ SWIGEXPORT SEXP
 R_swig_tc_plot ( SEXP data, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -11373,9 +10955,9 @@ R_swig_tc_plot ( SEXP data, SEXP title)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_plot" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_plot" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_plot(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11390,7 +10972,7 @@ SWIGEXPORT SEXP
 R_swig_tc_scatterplot ( SEXP data, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -11413,9 +10995,9 @@ R_swig_tc_scatterplot ( SEXP data, SEXP title)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_scatterplot" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_scatterplot" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_scatterplot(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11430,7 +11012,7 @@ SWIGEXPORT SEXP
 R_swig_tc_errorBars ( SEXP data, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -11453,9 +11035,9 @@ R_swig_tc_errorBars ( SEXP data, SEXP title)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_errorBars" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_errorBars(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11470,7 +11052,7 @@ SWIGEXPORT SEXP
 R_swig_tc_hist ( SEXP data, SEXP title)
 {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   void *argp1 ;
   int res1 = 0 ;
   int res2 ;
@@ -11493,9 +11075,9 @@ R_swig_tc_hist ( SEXP data, SEXP title)
   }
   res2 = SWIG_AsCharPtrAndSize(title, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_hist" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_hist" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_hist(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc2 == SWIG_NEWOBJ) free((char*)buf2);
@@ -11574,9 +11156,9 @@ R_swig_tc_gnuplot ( SEXP s_arg1)
 }
 
 
-void _p_f_TableOfReals_p_q_const__char__void(TableOfReals s_arg1, String s_arg2) {
+void _p_f_struct_TableOfReals_p_q_const__char__void(TableOfReals s_arg1, char const * s_arg2) {
   TableOfReals arg1 ;
-  String arg2 = (String) 0 ;
+  char *arg2 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -11604,48 +11186,7 @@ void _p_f_TableOfReals_p_q_const__char__void(TableOfReals s_arg1, String s_arg2)
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_TableOfReals_p_q_const__char__void)");
-  }
-  R_SWIG_popCallbackFunctionData(1);
-  
-  vmaxset(r_vmax);
-  if(r_nprotect)  Rf_unprotect(r_nprotect);
-  
-  
-}
-
-
-void _p_f_int_int__void(int s_arg1, int s_arg2) {
-  int arg1 ;
-  int arg2 ;
-  RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
-  SEXP r_tmp;
-  int r_nprotect = 0;
-  char * r_vmax= 0;
-  int ecode = 0;
-  
-  Rf_protect(r_swig_cb_data->expr = Rf_allocVector(LANGSXP, 3));
-  r_nprotect++;
-  r_swig_cb_data->el = r_swig_cb_data->expr;
-  
-  SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg1);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  r_tmp = Rf_ScalarInteger(s_arg2);
-  SETCAR(r_swig_cb_data->el, r_tmp);
-  r_swig_cb_data->el = CDR(r_swig_cb_data->el);
-  
-  
-  
-  r_swig_cb_data->retValue = R_tryEval(r_swig_cb_data->expr, R_GlobalEnv, &r_swig_cb_data->errorOccurred);
-  
-  if(r_swig_cb_data->errorOccurred) {
-    R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_int_int__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_struct_TableOfReals_p_q_const__char__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -11710,11 +11251,11 @@ TableOfReals _p_f_int__TableOfReals(int s_arg1) {
 SWIGEXPORT SEXP
 R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEXP scatterplot, SEXP multiplot, SEXP plotData, SEXP gnuplot)
 {
-  void (*arg1)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg2)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg3)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg4)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
-  void (*arg5)(TableOfReals,String) = (void (*)(TableOfReals,String)) 0 ;
+  void (*arg1)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg2)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg3)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg4)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
+  void (*arg5)(TableOfReals,char const *) = (void (*)(TableOfReals,char const *)) 0 ;
   void (*arg6)(int,int) = (void (*)(int,int)) 0 ;
   TableOfReals (*arg7)(int) = (TableOfReals (*)(int)) 0 ;
   void (*arg8)(char const *) = (void (*)(char const *)) 0 ;
@@ -11724,57 +11265,57 @@ R_swig_tc_PlotTool_api ( SEXP plot, SEXP surface, SEXP hist, SEXP errorBars, SEX
   
   if(TYPEOF(plot) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(plot, (void**)(&arg1), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(plot, (void**)(&arg1), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(TableOfReals,char const *)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_TableOfReals_p_q_const__char__void;
+    arg1 = _p_f_struct_TableOfReals_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(plot, NULL);
   }
   if(TYPEOF(surface) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(surface, (void**)(&arg2), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(surface, (void**)(&arg2), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(TableOfReals,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(TableOfReals,char const *)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_TableOfReals_p_q_const__char__void;
+    arg2 = _p_f_struct_TableOfReals_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(surface, NULL);
   }
   if(TYPEOF(hist) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(hist, (void**)(&arg3), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(hist, (void**)(&arg3), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(TableOfReals,char const *)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_TableOfReals_p_q_const__char__void;
+    arg3 = _p_f_struct_TableOfReals_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(hist, NULL);
   }
   if(TYPEOF(errorBars) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(errorBars, (void**)(&arg4), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(errorBars, (void**)(&arg4), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(TableOfReals,char const *)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_TableOfReals_p_q_const__char__void;
+    arg4 = _p_f_struct_TableOfReals_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(errorBars, NULL);
   }
   if(TYPEOF(scatterplot) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(scatterplot, (void**)(&arg5), SWIGTYPE_p_f_TableOfReals_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(scatterplot, (void**)(&arg5), SWIGTYPE_p_f_struct_TableOfReals_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(TableOfReals,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(TableOfReals,char const *)""'"); 
       }
     }
   } else {
-    arg5 = _p_f_TableOfReals_p_q_const__char__void;
+    arg5 = _p_f_struct_TableOfReals_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(scatterplot, NULL);
   }
   if(TYPEOF(multiplot) != CLOSXP) {
@@ -11831,7 +11372,7 @@ SWIGEXPORT SEXP
 R_swig_tc_writeModel ( SEXP file, SEXP items, SEXP s_swig_copy)
 {
   int result;
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -11844,9 +11385,9 @@ R_swig_tc_writeModel ( SEXP file, SEXP items, SEXP s_swig_copy)
   
   res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeModel" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_writeModel" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   {
     res2 = SWIG_R_ConvertPtr(items, &argp2, SWIGTYPE_p_ArrayOfItems,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -11868,8 +11409,8 @@ R_swig_tc_writeModel ( SEXP file, SEXP items, SEXP s_swig_copy)
 }
 
 
-int _p_f_p_q_const__char_ArrayOfItems__int(String s_arg1, ArrayOfItems s_arg2) {
-  String arg1 = (String) 0 ;
+int _p_f_p_q_const__char_struct_ArrayOfItems__int(char const * s_arg1, ArrayOfItems s_arg2) {
+  char *arg1 = (char *) 0 ;
   ArrayOfItems arg2 ;
   int result;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
@@ -11899,7 +11440,7 @@ int _p_f_p_q_const__char_ArrayOfItems__int(String s_arg1, ArrayOfItems s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_ArrayOfItems__int)");
+    Rf_error("error in calling R function as a function pointer (_p_f_p_q_const__char_struct_ArrayOfItems__int)");
   }
   result = (int)(INTEGER(r_swig_cb_data->retValue)[0]);
   R_SWIG_popCallbackFunctionData(1);
@@ -11915,20 +11456,20 @@ int _p_f_p_q_const__char_ArrayOfItems__int(String s_arg1, ArrayOfItems s_arg2) {
 SWIGEXPORT SEXP
 R_swig_tc_ModelFileGenerator_api ( SEXP modelgen)
 {
-  int (*arg1)(String,ArrayOfItems) = (int (*)(String,ArrayOfItems)) 0 ;
+  int (*arg1)(char const *,ArrayOfItems) = (int (*)(char const *,ArrayOfItems)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(modelgen) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(modelgen, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_ArrayOfItems__int, 0);
+      int res = SWIG_R_ConvertPtr(modelgen, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_struct_ArrayOfItems__int, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(String,ArrayOfItems)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(char const *,ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_p_q_const__char_ArrayOfItems__int;
+    arg1 = _p_f_p_q_const__char_struct_ArrayOfItems__int;
     R_SWIG_pushCallbackFunctionData(modelgen, NULL);
   }
   tc_ModelFileGenerator_api(arg1);
@@ -11978,8 +11519,8 @@ R_swig_tc_getEventResponses ( SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_addEvent ( SEXP trigger, SEXP event)
 {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -11992,14 +11533,14 @@ R_swig_tc_addEvent ( SEXP trigger, SEXP event)
   
   res1 = SWIG_AsCharPtrAndSize(trigger, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addEvent" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addEvent" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(event, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addEvent" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addEvent" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_addEvent((char const *)arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -12057,9 +11598,9 @@ ArrayOfStrings _p_f___ArrayOfStrings() {
 }
 
 
-void _p_f_p_q_const__char_p_q_const__char__void(String s_arg1, String s_arg2) {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+void _p_f_p_q_const__char_p_q_const__char__void(char const * s_arg1, char const * s_arg2) {
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
   int r_nprotect = 0;
@@ -12103,7 +11644,7 @@ R_swig_tc_SimulationEventsTool_api ( SEXP getEventTriggers, SEXP getEventRespons
 {
   ArrayOfStrings (*arg1)() = (ArrayOfStrings (*)()) 0 ;
   ArrayOfStrings (*arg2)() = (ArrayOfStrings (*)()) 0 ;
-  void (*arg3)(String,String) = (void (*)(String,String)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12134,7 +11675,7 @@ R_swig_tc_SimulationEventsTool_api ( SEXP getEventTriggers, SEXP getEventRespons
     {
       int res = SWIG_R_ConvertPtr(addEvent, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "3"" of type '" "void (*)(String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SimulationEventsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
       }
     }
   } else {
@@ -12218,10 +11759,9 @@ R_swig_tc_getForcingFunctionAssignments ( SEXP a, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_addForcingFunction ( SEXP item, SEXP functionName, SEXP assignmentRule)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  String arg3 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -12232,20 +11772,17 @@ R_swig_tc_addForcingFunction ( SEXP item, SEXP functionName, SEXP assignmentRule
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_addForcingFunction" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(functionName, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_addForcingFunction" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   res3 = SWIG_AsCharPtrAndSize(assignmentRule, &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addForcingFunction" "', argument " "3"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_addForcingFunction" "', argument " "3"" of type '" "char const *""'");
   }
-  arg3 = (String)(buf3);
+  arg3 = (char *)(buf3);
   tc_addForcingFunction(arg1,(char const *)arg2,(char const *)arg3);
   r_ans = R_NilValue;
   
@@ -12263,7 +11800,7 @@ R_swig_tc_AssignmentFunctionsTool_api ( SEXP getForcingFunctionNames, SEXP getFo
 {
   ArrayOfStrings (*arg1)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
   ArrayOfStrings (*arg2)(ArrayOfItems) = (ArrayOfStrings (*)(ArrayOfItems)) 0 ;
-  void (*arg3)(Item,String,String) = (void (*)(Item,String,String)) 0 ;
+  void (*arg3)(int,char const *,char const *) = (void (*)(int,char const *,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
@@ -12292,13 +11829,13 @@ R_swig_tc_AssignmentFunctionsTool_api ( SEXP getForcingFunctionNames, SEXP getFo
   }
   if(TYPEOF(addForcingFunction) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(addForcingFunction, (void**)(&arg3), SWIGTYPE_p_f_p_void_p_q_const__char_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(addForcingFunction, (void**)(&arg3), SWIGTYPE_p_f_int_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(Item,String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AssignmentFunctionsTool_api" "', argument " "3"" of type '" "void (*)(int,char const *,char const *)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_p_void_p_q_const__char_p_q_const__char__void;
+    arg3 = _p_f_int_p_q_const__char_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(addForcingFunction, NULL);
   }
   tc_AssignmentFunctionsTool_api(arg1,arg2,arg3);
@@ -12316,9 +11853,8 @@ R_swig_tc_AssignmentFunctionsTool_api ( SEXP getForcingFunctionNames, SEXP getFo
 SWIGEXPORT SEXP
 R_swig_tc_displayText ( SEXP item, SEXP text)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -12326,15 +11862,12 @@ R_swig_tc_displayText ( SEXP item, SEXP text)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_displayText" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(text, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_displayText" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_displayText(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -12349,17 +11882,13 @@ R_swig_tc_displayText ( SEXP item, SEXP text)
 SWIGEXPORT SEXP
 R_swig_tc_displayNumber ( SEXP item, SEXP number)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   double arg2 ;
-  int res1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_displayNumber" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   arg2 = (double)(REAL(number)[0]);
   tc_displayNumber(arg1,arg2);
   r_ans = R_NilValue;
@@ -12375,8 +11904,8 @@ R_swig_tc_displayNumber ( SEXP item, SEXP number)
 SWIGEXPORT SEXP
 R_swig_tc_setDisplayLabelColor ( SEXP color1, SEXP color2)
 {
-  String arg1 = (String) 0 ;
-  String arg2 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
+  char *arg2 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -12389,14 +11918,14 @@ R_swig_tc_setDisplayLabelColor ( SEXP color1, SEXP color2)
   
   res1 = SWIG_AsCharPtrAndSize(color1, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setDisplayLabelColor" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   res2 = SWIG_AsCharPtrAndSize(color2, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_setDisplayLabelColor" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_setDisplayLabelColor((char const *)arg1,(char const *)arg2);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -12411,9 +11940,8 @@ R_swig_tc_setDisplayLabelColor ( SEXP color1, SEXP color2)
 SWIGEXPORT SEXP
 R_swig_tc_highlight ( SEXP item, SEXP color)
 {
-  Item arg1 = (Item) 0 ;
-  String arg2 = (String) 0 ;
-  int res1 ;
+  int arg1 ;
+  char *arg2 = (char *) 0 ;
   int res2 ;
   char *buf2 = 0 ;
   int alloc2 = 0 ;
@@ -12421,15 +11949,12 @@ R_swig_tc_highlight ( SEXP item, SEXP color)
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(item, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_highlight" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(item)[0]);
   res2 = SWIG_AsCharPtrAndSize(color, &buf2, NULL, &alloc2);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_highlight" "', argument " "2"" of type '" "char const *""'");
   }
-  arg2 = (String)(buf2);
+  arg2 = (char *)(buf2);
   tc_highlight(arg1,(char const *)arg2);
   r_ans = R_NilValue;
   
@@ -12441,8 +11966,8 @@ R_swig_tc_highlight ( SEXP item, SEXP color)
 }
 
 
-void _p_f_p_void_double__void(Item s_arg1, double s_arg2) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int_double__void(int s_arg1, double s_arg2) {
+  int arg1 ;
   double arg2 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -12457,7 +11982,7 @@ void _p_f_p_void_double__void(Item s_arg1, double s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -12471,7 +11996,7 @@ void _p_f_p_void_double__void(Item s_arg1, double s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_double__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_double__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -12485,41 +12010,41 @@ void _p_f_p_void_double__void(Item s_arg1, double s_arg2) {
 SWIGEXPORT SEXP
 R_swig_tc_CLabelsTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDisplayLabelColor, SEXP highlight)
 {
-  void (*arg1)(Item,String) = (void (*)(Item,String)) 0 ;
-  void (*arg2)(Item,double) = (void (*)(Item,double)) 0 ;
-  void (*arg3)(String,String) = (void (*)(String,String)) 0 ;
-  void (*arg4)(Item,String) = (void (*)(Item,String)) 0 ;
+  void (*arg1)(int,char const *) = (void (*)(int,char const *)) 0 ;
+  void (*arg2)(int,double) = (void (*)(int,double)) 0 ;
+  void (*arg3)(char const *,char const *) = (void (*)(char const *,char const *)) 0 ;
+  void (*arg4)(int,char const *) = (void (*)(int,char const *)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(displayText) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(displayText, (void**)(&arg1), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(displayText, (void**)(&arg1), SWIGTYPE_p_f_int_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "1"" of type '" "void (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_p_void_p_q_const__char__void;
+    arg1 = _p_f_int_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(displayText, NULL);
   }
   if(TYPEOF(displayNumber) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(displayNumber, (void**)(&arg2), SWIGTYPE_p_f_p_void_double__void, 0);
+      int res = SWIG_R_ConvertPtr(displayNumber, (void**)(&arg2), SWIGTYPE_p_f_int_double__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(Item,double)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "2"" of type '" "void (*)(int,double)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_void_double__void;
+    arg2 = _p_f_int_double__void;
     R_SWIG_pushCallbackFunctionData(displayNumber, NULL);
   }
   if(TYPEOF(setDisplayLabelColor) != CLOSXP) {
     {
       int res = SWIG_R_ConvertPtr(setDisplayLabelColor, (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(String,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "3"" of type '" "void (*)(char const *,char const *)""'"); 
       }
     }
   } else {
@@ -12528,13 +12053,13 @@ R_swig_tc_CLabelsTool_api ( SEXP displayText, SEXP displayNumber, SEXP setDispla
   }
   if(TYPEOF(highlight) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(highlight, (void**)(&arg4), SWIGTYPE_p_f_p_void_p_q_const__char__void, 0);
+      int res = SWIG_R_ConvertPtr(highlight, (void**)(&arg4), SWIGTYPE_p_f_int_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(Item,String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_CLabelsTool_api" "', argument " "4"" of type '" "void (*)(int,char const *)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_p_void_p_q_const__char__void;
+    arg4 = _p_f_int_p_q_const__char__void;
     R_SWIG_pushCallbackFunctionData(highlight, NULL);
   }
   tc_CLabelsTool_api(arg1,arg2,arg3,arg4);
@@ -12554,16 +12079,12 @@ SWIGEXPORT SEXP
 R_swig_tc_getAnnotation ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfStrings result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getAnnotation" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_getAnnotation(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfStrings *)memcpy((ArrayOfStrings *)malloc(sizeof(ArrayOfStrings)),&result,sizeof(ArrayOfStrings)), SWIGTYPE_p_ArrayOfStrings, SWIG_POINTER_OWN |  0 );
   
@@ -12577,19 +12098,15 @@ R_swig_tc_getAnnotation ( SEXP o, SEXP s_swig_copy)
 SWIGEXPORT SEXP
 R_swig_tc_setAnnotation ( SEXP o, SEXP annot)
 {
-  Item arg1 = (Item) 0 ;
+  int arg1 ;
   ArrayOfStrings arg2 ;
-  int res1 ;
   void *argp2 ;
   int res2 = 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_setAnnotation" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   {
     res2 = SWIG_R_ConvertPtr(annot, &argp2, SWIGTYPE_p_ArrayOfStrings,  0 );
     if (!SWIG_IsOK(res2)) {
@@ -12611,8 +12128,8 @@ R_swig_tc_setAnnotation ( SEXP o, SEXP annot)
 }
 
 
-void _p_f_p_void_ArrayOfStrings__void(Item s_arg1, ArrayOfStrings s_arg2) {
-  Item arg1 = (Item) 0 ;
+void _p_f_int_struct_ArrayOfStrings__void(int s_arg1, ArrayOfStrings s_arg2) {
+  int arg1 ;
   ArrayOfStrings arg2 ;
   RCallbackFunctionData *r_swig_cb_data = R_SWIG_getCallbackFunctionData();
   SEXP r_tmp;
@@ -12627,7 +12144,7 @@ void _p_f_p_void_ArrayOfStrings__void(Item s_arg1, ArrayOfStrings s_arg2) {
   SETCAR(r_swig_cb_data->el, r_swig_cb_data->fun);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
-  r_tmp = SWIG_R_NewPointerObj(SWIG_as_voidptr(s_arg1), SWIGTYPE_p_void, R_SWIG_EXTERNAL |  0 );
+  r_tmp = Rf_ScalarInteger(s_arg1);
   SETCAR(r_swig_cb_data->el, r_tmp);
   r_swig_cb_data->el = CDR(r_swig_cb_data->el);
   
@@ -12641,7 +12158,7 @@ void _p_f_p_void_ArrayOfStrings__void(Item s_arg1, ArrayOfStrings s_arg2) {
   
   if(r_swig_cb_data->errorOccurred) {
     R_SWIG_popCallbackFunctionData(1);
-    Rf_error("error in calling R function as a function pointer (_p_f_p_void_ArrayOfStrings__void)");
+    Rf_error("error in calling R function as a function pointer (_p_f_int_struct_ArrayOfStrings__void)");
   }
   R_SWIG_popCallbackFunctionData(1);
   
@@ -12655,32 +12172,32 @@ void _p_f_p_void_ArrayOfStrings__void(Item s_arg1, ArrayOfStrings s_arg2) {
 SWIGEXPORT SEXP
 R_swig_tc_NameFamily_api_initialize ( SEXP tc_getAnnotation0, SEXP tc_setAnnotation0)
 {
-  ArrayOfStrings (*arg1)(Item) = (ArrayOfStrings (*)(Item)) 0 ;
-  void (*arg2)(Item,ArrayOfStrings) = (void (*)(Item,ArrayOfStrings)) 0 ;
+  ArrayOfStrings (*arg1)(int) = (ArrayOfStrings (*)(int)) 0 ;
+  void (*arg2)(int,ArrayOfStrings) = (void (*)(int,ArrayOfStrings)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
   if(TYPEOF(tc_getAnnotation0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_getAnnotation0, (void**)(&arg1), SWIGTYPE_p_f_Item__ArrayOfStrings, 0);
+      int res = SWIG_R_ConvertPtr(tc_getAnnotation0, (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfStrings, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "ArrayOfStrings (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "1"" of type '" "ArrayOfStrings (*)(int)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_Item__ArrayOfStrings;
+    arg1 = _p_f_int__ArrayOfStrings;
     R_SWIG_pushCallbackFunctionData(tc_getAnnotation0, NULL);
   }
   if(TYPEOF(tc_setAnnotation0) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(tc_setAnnotation0, (void**)(&arg2), SWIGTYPE_p_f_p_void_ArrayOfStrings__void, 0);
+      int res = SWIG_R_ConvertPtr(tc_setAnnotation0, (void**)(&arg2), SWIGTYPE_p_f_int_struct_ArrayOfStrings__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(Item,ArrayOfStrings)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(int,ArrayOfStrings)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_p_void_ArrayOfStrings__void;
+    arg2 = _p_f_int_struct_ArrayOfStrings__void;
     R_SWIG_pushCallbackFunctionData(tc_setAnnotation0, NULL);
   }
   tc_NameFamily_api_initialize(arg1,arg2);
@@ -12698,16 +12215,12 @@ SWIGEXPORT SEXP
 R_swig_tc_partsIn ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsIn" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_partsIn(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -12722,16 +12235,12 @@ SWIGEXPORT SEXP
 R_swig_tc_partsUpstream ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsUpstream" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_partsUpstream(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -12746,16 +12255,12 @@ SWIGEXPORT SEXP
 R_swig_tc_partsDownstream ( SEXP o, SEXP s_swig_copy)
 {
   ArrayOfItems result;
-  Item arg1 = (Item) 0 ;
-  int res1 ;
+  int arg1 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
   VMAXTYPE r_vmax = vmaxget() ;
   
-  res1 = SWIG_R_ConvertPtr(o, SWIG_as_voidptrptr(&arg1), 0, 0);
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_partsDownstream" "', argument " "1"" of type '" "Item""'"); 
-  }
+  arg1 = (int)(INTEGER(o)[0]);
   result = tc_partsDownstream(arg1);
   r_ans = SWIG_R_NewPointerObj((ArrayOfItems *)memcpy((ArrayOfItems *)malloc(sizeof(ArrayOfItems)),&result,sizeof(ArrayOfItems)), SWIGTYPE_p_ArrayOfItems, SWIG_POINTER_OWN |  0 );
   
@@ -12799,9 +12304,9 @@ R_swig_tc_alignParts ( SEXP a)
 SWIGEXPORT SEXP
 R_swig_tc_AutoGeneRegulatoryTool_api ( SEXP f1, SEXP f2, SEXP f3, SEXP f4)
 {
-  ArrayOfItems (*arg1)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg2)(Item) = (ArrayOfItems (*)(Item)) 0 ;
-  ArrayOfItems (*arg3)(Item) = (ArrayOfItems (*)(Item)) 0 ;
+  ArrayOfItems (*arg1)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg2)(int) = (ArrayOfItems (*)(int)) 0 ;
+  ArrayOfItems (*arg3)(int) = (ArrayOfItems (*)(int)) 0 ;
   void (*arg4)(ArrayOfItems) = (void (*)(ArrayOfItems)) 0 ;
   unsigned int r_nprotect = 0;
   SEXP r_ans = R_NilValue ;
@@ -12809,46 +12314,46 @@ R_swig_tc_AutoGeneRegulatoryTool_api ( SEXP f1, SEXP f2, SEXP f3, SEXP f4)
   
   if(TYPEOF(f1) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f1, (void**)(&arg1), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(f1, (void**)(&arg1), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "1"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg1 = _p_f_Item__ArrayOfItems;
+    arg1 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(f1, NULL);
   }
   if(TYPEOF(f2) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f2, (void**)(&arg2), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(f2, (void**)(&arg2), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "2"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg2 = _p_f_Item__ArrayOfItems;
+    arg2 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(f2, NULL);
   }
   if(TYPEOF(f3) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f3, (void**)(&arg3), SWIGTYPE_p_f_Item__ArrayOfItems, 0);
+      int res = SWIG_R_ConvertPtr(f3, (void**)(&arg3), SWIGTYPE_p_f_int__ArrayOfItems, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "ArrayOfItems (*)(Item)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "3"" of type '" "ArrayOfItems (*)(int)""'"); 
       }
     }
   } else {
-    arg3 = _p_f_Item__ArrayOfItems;
+    arg3 = _p_f_int__ArrayOfItems;
     R_SWIG_pushCallbackFunctionData(f3, NULL);
   }
   if(TYPEOF(f4) != CLOSXP) {
     {
-      int res = SWIG_R_ConvertPtr(f4, (void**)(&arg4), SWIGTYPE_p_f_ArrayOfItems__void, 0);
+      int res = SWIG_R_ConvertPtr(f4, (void**)(&arg4), SWIGTYPE_p_f_struct_ArrayOfItems__void, 0);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "4"" of type '" "void (*)(ArrayOfItems)""'"); 
       }
     }
   } else {
-    arg4 = _p_f_ArrayOfItems__void;
+    arg4 = _p_f_struct_ArrayOfItems__void;
     R_SWIG_pushCallbackFunctionData(f4, NULL);
   }
   tc_AutoGeneRegulatoryTool_api(arg1,arg2,arg3,arg4);
@@ -12867,7 +12372,7 @@ R_swig_tc_AutoGeneRegulatoryTool_api ( SEXP f1, SEXP f2, SEXP f3, SEXP f4)
 SWIGEXPORT SEXP
 R_swig_tc_exportSBML ( SEXP file)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -12877,9 +12382,9 @@ R_swig_tc_exportSBML ( SEXP file)
   
   res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportSBML" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_exportSBML" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_exportSBML((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -12893,7 +12398,7 @@ R_swig_tc_exportSBML ( SEXP file)
 SWIGEXPORT SEXP
 R_swig_tc_importSBML ( SEXP file)
 {
-  String arg1 = (String) 0 ;
+  char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
   int alloc1 = 0 ;
@@ -12903,9 +12408,9 @@ R_swig_tc_importSBML ( SEXP file)
   
   res1 = SWIG_AsCharPtrAndSize(file, &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importSBML" "', argument " "1"" of type '" "String""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_importSBML" "', argument " "1"" of type '" "char const *""'");
   }
-  arg1 = (String)(buf1);
+  arg1 = (char *)(buf1);
   tc_importSBML((char const *)arg1);
   r_ans = R_NilValue;
   if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
@@ -13069,8 +12574,8 @@ TableOfReals _p_f_double__TableOfReals(double s_arg1) {
 SWIGEXPORT SEXP
 R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP simulateODE, SEXP simulateSSA)
 {
-  void (*arg1)(String) = (void (*)(String)) 0 ;
-  void (*arg2)(String) = (void (*)(String)) 0 ;
+  void (*arg1)(char const *) = (void (*)(char const *)) 0 ;
+  void (*arg2)(char const *) = (void (*)(char const *)) 0 ;
   TableOfReals (*arg3)(double,double) = (TableOfReals (*)(double,double)) 0 ;
   TableOfReals (*arg4)(double) = (TableOfReals (*)(double)) 0 ;
   unsigned int r_nprotect = 0;
@@ -13081,7 +12586,7 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP simulateODE, SEXP si
     {
       int res = SWIG_R_ConvertPtr(exportSBML, (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "1"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "1"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -13092,7 +12597,7 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP simulateODE, SEXP si
     {
       int res = SWIG_R_ConvertPtr(importSBML, (void**)(&arg2), SWIGTYPE_p_f_p_q_const__char__void, 0);
       if (!SWIG_IsOK(res)) {
-        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(String)""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_SBML_api" "', argument " "2"" of type '" "void (*)(char const *)""'"); 
       }
     }
   } else {
@@ -13140,87 +12645,83 @@ R_swig_tc_SBML_api ( SEXP exportSBML, SEXP importSBML, SEXP simulateODE, SEXP si
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static swig_type_info _swigt__p_ArrayOfItems = {"_p_ArrayOfItems", "ArrayOfItems *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_ArrayOfStrings = {"_p_ArrayOfStrings", "ArrayOfStrings *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_TableOfReals = {"_p_TableOfReals", "TableOfReals *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_TableOfStrings = {"_p_TableOfStrings", "TableOfStrings *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ArrayOfItems = {"_p_ArrayOfItems", "struct ArrayOfItems *|ArrayOfItems *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_ArrayOfStrings = {"_p_ArrayOfStrings", "struct ArrayOfStrings *|ArrayOfStrings *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_TableOfReals = {"_p_TableOfReals", "struct TableOfReals *|TableOfReals *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_TableOfStrings = {"_p_TableOfStrings", "struct TableOfStrings *|TableOfStrings *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings = {"_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals = {"_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals", "TableOfReals (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__void = {"_p_f_ArrayOfItems_ArrayOfStrings__void", "void (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_TableOfReals__void = {"_p_f_ArrayOfItems_TableOfReals__void", "void (*)(ArrayOfItems,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems__void = {"_p_f_ArrayOfItems__void", "void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void = {"_p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void", "Item (*)(ArrayOfItems,String,String)|void *(*)(ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_ArrayOfStrings_p_double__void = {"_p_f_ArrayOfStrings_p_double__void", "void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item_String__TableOfReals = {"_p_f_Item_String__TableOfReals", "TableOfReals (*)(Item,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item_String__TableOfStrings = {"_p_f_Item_String__TableOfStrings", "TableOfStrings (*)(Item,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item__ArrayOfItems = {"_p_f_Item__ArrayOfItems", "ArrayOfItems (*)(Item)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_Item__ArrayOfStrings = {"_p_f_Item__ArrayOfStrings", "ArrayOfStrings (*)(Item)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_String_ArrayOfItems__ArrayOfItems = {"_p_f_String_ArrayOfItems__ArrayOfItems", "ArrayOfItems (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_String__ArrayOfItems = {"_p_f_String__ArrayOfItems", "ArrayOfItems (*)(String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals__void = {"_p_f_TableOfReals__void", "void (*)(TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char__void", "void (*)(TableOfReals,String)|void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void = {"_p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))|void (*)(TableOfReals,String,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)|void (*)(TableOfReals,String,String,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___ArrayOfItems = {"_p_f___ArrayOfItems", "ArrayOfItems (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "ArrayOfStrings (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings = {"_p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings", "ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)|struct ArrayOfStrings (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals = {"_p_f_ArrayOfItems_ArrayOfStrings__TableOfReals", "TableOfReals (*)(ArrayOfItems,ArrayOfStrings)|struct TableOfReals (*)(ArrayOfItems,ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfItems__ArrayOfStrings = {"_p_f_ArrayOfItems__ArrayOfStrings", "struct ArrayOfStrings (*)(ArrayOfItems)|ArrayOfStrings (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfItems__TableOfReals = {"_p_f_ArrayOfItems__TableOfReals", "struct TableOfReals (*)(ArrayOfItems)|TableOfReals (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_ArrayOfStrings__ArrayOfItems = {"_p_f_ArrayOfStrings__ArrayOfItems", "struct ArrayOfItems (*)(ArrayOfStrings)|ArrayOfItems (*)(ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___ArrayOfItems = {"_p_f___ArrayOfItems", "struct ArrayOfItems (*)()|ArrayOfItems (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___ArrayOfStrings = {"_p_f___ArrayOfStrings", "struct ArrayOfStrings (*)()|ArrayOfStrings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()|String (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "TableOfReals (*)(double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double__TableOfReals = {"_p_f_double__TableOfReals", "struct TableOfReals (*)(double)|TableOfReals (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double__TableOfReals = {"_p_f_double_double__TableOfReals", "struct TableOfReals (*)(double,double)|TableOfReals (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "TableOfReals (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__ArrayOfItems = {"_p_f_int__ArrayOfItems", "struct ArrayOfItems (*)(int)|ArrayOfItems (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__ArrayOfStrings = {"_p_f_int__ArrayOfStrings", "struct ArrayOfStrings (*)(int)|ArrayOfStrings (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__TableOfReals = {"_p_f_int__TableOfReals", "struct TableOfReals (*)(int)|TableOfReals (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__double = {"_p_f_int__double", "double (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__int = {"_p_f_int__int", "int (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__p_char = {"_p_f_int__p_char", "char *(*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double__void = {"_p_f_int_double__void", "void (*)(int,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_double__void = {"_p_f_int_double_double__void", "void (*)(int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_double_int__void = {"_p_f_int_double_double_int__void", "void (*)(int,double,double,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_double_int__void = {"_p_f_int_double_int__void", "void (*)(int,double,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)|void (*)(void (*)(),String,String,String,String,String,int,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_int_int__double = {"_p_f_int_int_int__double", "double (*)(int,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_int_int_double_double__void = {"_p_f_int_int_int_double_double__void", "void (*)(int,int,int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__ArrayOfItems = {"_p_f_int_p_q_const__char__ArrayOfItems", "struct ArrayOfItems (*)(int,char const *)|ArrayOfItems (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfReals = {"_p_f_int_p_q_const__char__TableOfReals", "struct TableOfReals (*)(int,char const *)|TableOfReals (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__TableOfStrings = {"_p_f_int_p_q_const__char__TableOfStrings", "struct TableOfStrings (*)(int,char const *)|TableOfStrings (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__double = {"_p_f_int_p_q_const__char__double", "double (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__int = {"_p_f_int_p_q_const__char__int", "int (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__p_char = {"_p_f_int_p_q_const__char__p_char", "char *(*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char__void = {"_p_f_int_p_q_const__char__void", "void (*)(int,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_double__void = {"_p_f_int_p_q_const__char_double__void", "void (*)(int,char const *,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_int__void = {"_p_f_int_p_q_const__char_int__void", "void (*)(int,char const *,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_p_q_const__char__void = {"_p_f_int_p_q_const__char_p_q_const__char__void", "void (*)(int,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_struct_TableOfReals__void = {"_p_f_int_p_q_const__char_struct_TableOfReals__void", "void (*)(int,char const *,struct TableOfReals)|void (*)(int,char const *,TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void = {"_p_f_int_p_q_const__char_struct_TableOfStrings__void", "void (*)(int,char const *,struct TableOfStrings)|void (*)(int,char const *,TableOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_struct_ArrayOfStrings__void = {"_p_f_int_struct_ArrayOfStrings__void", "void (*)(int,struct ArrayOfStrings)|void (*)(int,ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void = {"_p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void", "void (*)(int,TableOfReals,void (*)(TableOfReals))|void (*)(int,struct TableOfReals,void (*)(struct TableOfReals))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__int = {"_p_f_p_q_const__char_ArrayOfItems__int", "int (*)(char const *,ArrayOfItems)|int (*)(String,ArrayOfItems)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int", "int (*)(String,ArrayOfStrings,String)|int (*)(char const *,ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(String)|double (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(String)|int (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "String (*)(String)|char *(*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__p_void = {"_p_f_p_q_const__char__p_void", "Item (*)(String)|void *(*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(String)|void (*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void = {"_p_f_p_q_const__char_int_int_ArrayOfStrings__void", "void (*)(char const *,int,int,ArrayOfStrings)|void (*)(String,int,int,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)|void (*)(String,int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(String,String)|int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__p_void = {"_p_f_p_q_const__char_p_q_const__char__p_void", "void *(*)(char const *,char const *)|Item (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(String,String)|void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int", "int (*)(String,String,String,TableOfReals)|int (*)(char const *,char const *,char const *,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(String,String,String)|int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)|void (*)(String,String,String,String,String)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_ArrayOfStrings__void = {"_p_f_p_void_ArrayOfStrings__void", "void (*)(void *,ArrayOfStrings)|void (*)(Item,ArrayOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void = {"_p_f_p_void_TableOfReals_p_f_TableOfReals__void__void", "void (*)(Item,TableOfReals,void (*)(TableOfReals))|void (*)(void *,TableOfReals,void (*)(TableOfReals))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__double = {"_p_f_p_void__double", "double (*)(Item)|double (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__p_char = {"_p_f_p_void__p_char", "String (*)(Item)|char *(*)(void *)|String (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__p_void = {"_p_f_p_void__p_void", "Item (*)(Item)|void *(*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void__void = {"_p_f_p_void__void", "void (*)(Item)|void (*)(void *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double__void = {"_p_f_p_void_double__void", "void (*)(void *,double)|void (*)(Item,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_double__void = {"_p_f_p_void_double_double__void", "void (*)(void *,double,double)|void (*)(Item,double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_double_int__void = {"_p_f_p_void_double_double_int__void", "void (*)(void *,double,double,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_double_int__void = {"_p_f_p_void_double_int__void", "void (*)(void *,double,int)|void (*)(Item,double,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_int__void = {"_p_f_p_void_int__void", "void (*)(Item,int)|void (*)(void *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_TableOfReals__void = {"_p_f_p_void_p_q_const__char_TableOfReals__void", "void (*)(void *,char const *,TableOfReals)|void (*)(Item,String,TableOfReals)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_TableOfStrings__void = {"_p_f_p_void_p_q_const__char_TableOfStrings__void", "void (*)(void *,char const *,TableOfStrings)|void (*)(Item,String,TableOfStrings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__double = {"_p_f_p_void_p_q_const__char__double", "double (*)(Item,String)|double (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__int = {"_p_f_p_void_p_q_const__char__int", "int (*)(Item,String)|int (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__p_char = {"_p_f_p_void_p_q_const__char__p_char", "String (*)(Item,String)|char *(*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char__void = {"_p_f_p_void_p_q_const__char__void", "void (*)(Item,String)|void (*)(void *,String)|void (*)(void *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_double__void = {"_p_f_p_void_p_q_const__char_double__void", "void (*)(void *,char const *,double)|void (*)(Item,String,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_int__void = {"_p_f_p_void_p_q_const__char_int__void", "void (*)(void *,char const *,int)|void (*)(void *,String,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_q_const__char_p_q_const__char__void = {"_p_f_p_void_p_q_const__char_p_q_const__char__void", "void (*)(Item,String,String)|void (*)(void *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_void_int__double = {"_p_f_p_void_p_void_int__double", "double (*)(Item,Item,int)|double (*)(void *,void *,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_void_p_void_int_double_double__void = {"_p_f_p_void_p_void_int_double_double__void", "void (*)(void *,void *,int,double,double)|void (*)(Item,Item,int,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems = {"_p_f_p_q_const__char_ArrayOfItems__ArrayOfItems", "struct ArrayOfItems (*)(char const *,ArrayOfItems)|ArrayOfItems (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__ArrayOfItems = {"_p_f_p_q_const__char__ArrayOfItems", "struct ArrayOfItems (*)(char const *)|ArrayOfItems (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void = {"_p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void", "void (*)(char const *,int,int,ArrayOfStrings)|void (*)(char const *,int,int,struct ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int", "int (*)(char const *,char const *,char const *,struct TableOfReals)|int (*)(char const *,char const *,char const *,TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_struct_ArrayOfItems__int = {"_p_f_p_q_const__char_struct_ArrayOfItems__int", "int (*)(char const *,struct ArrayOfItems)|int (*)(char const *,ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int = {"_p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int", "int (*)(char const *,ArrayOfStrings,char const *)|int (*)(char const *,struct ArrayOfStrings,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_ArrayOfItems__void = {"_p_f_struct_ArrayOfItems__void", "void (*)(struct ArrayOfItems)|void (*)(ArrayOfItems)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int = {"_p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int", "int (*)(ArrayOfItems,char const *,char const *)|int (*)(struct ArrayOfItems,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void = {"_p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void", "void (*)(ArrayOfItems,ArrayOfStrings)|void (*)(struct ArrayOfItems,struct ArrayOfStrings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void = {"_p_f_struct_ArrayOfItems_struct_TableOfReals__void", "void (*)(struct ArrayOfItems,struct TableOfReals)|void (*)(ArrayOfItems,TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_ArrayOfStrings_p_double__void = {"_p_f_struct_ArrayOfStrings_p_double__void", "void (*)(struct ArrayOfStrings,double *)|void (*)(ArrayOfStrings,double *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_TableOfReals__void = {"_p_f_struct_TableOfReals__void", "void (*)(struct TableOfReals)|void (*)(TableOfReals)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char__void = {"_p_f_struct_TableOfReals_p_q_const__char__void", "void (*)(struct TableOfReals,char const *)|void (*)(TableOfReals,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void = {"_p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void", "void (*)(TableOfReals,char const *,void (*)(TableOfReals))|void (*)(struct TableOfReals,char const *,void (*)(struct TableOfReals))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(TableOfReals,char const *,char const *,char const *)|void (*)(struct TableOfReals,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_int = {"_p_int", "int *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_char = {"_p_p_char", "char **", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_p_void = {"_p_p_void", "void **", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_void = {"_p_void", "void *|Item", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_ArrayOfItems,
@@ -13231,24 +12732,9 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_double,
   &_swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings,
   &_swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals,
-  &_swigt__p_f_ArrayOfItems_ArrayOfStrings__void,
-  &_swigt__p_f_ArrayOfItems_TableOfReals__void,
   &_swigt__p_f_ArrayOfItems__ArrayOfStrings,
   &_swigt__p_f_ArrayOfItems__TableOfReals,
-  &_swigt__p_f_ArrayOfItems__void,
-  &_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   &_swigt__p_f_ArrayOfStrings__ArrayOfItems,
-  &_swigt__p_f_ArrayOfStrings_p_double__void,
-  &_swigt__p_f_Item_String__TableOfReals,
-  &_swigt__p_f_Item_String__TableOfStrings,
-  &_swigt__p_f_Item__ArrayOfItems,
-  &_swigt__p_f_Item__ArrayOfStrings,
-  &_swigt__p_f_String_ArrayOfItems__ArrayOfItems,
-  &_swigt__p_f_String__ArrayOfItems,
-  &_swigt__p_f_TableOfReals__void,
-  &_swigt__p_f_TableOfReals_p_q_const__char__void,
-  &_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
-  &_swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f___ArrayOfItems,
   &_swigt__p_f___ArrayOfStrings,
   &_swigt__p_f___int,
@@ -13258,52 +12744,63 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_double__void,
   &_swigt__p_f_double_double__TableOfReals,
   &_swigt__p_f_double_double__void,
+  &_swigt__p_f_int__ArrayOfItems,
+  &_swigt__p_f_int__ArrayOfStrings,
   &_swigt__p_f_int__TableOfReals,
+  &_swigt__p_f_int__double,
+  &_swigt__p_f_int__int,
+  &_swigt__p_f_int__p_char,
   &_swigt__p_f_int__void,
+  &_swigt__p_f_int_double__void,
+  &_swigt__p_f_int_double_double__void,
+  &_swigt__p_f_int_double_double_int__void,
+  &_swigt__p_f_int_double_int__void,
   &_swigt__p_f_int_int__void,
+  &_swigt__p_f_int_int_int__double,
+  &_swigt__p_f_int_int_int_double_double__void,
+  &_swigt__p_f_int_p_q_const__char__ArrayOfItems,
+  &_swigt__p_f_int_p_q_const__char__TableOfReals,
+  &_swigt__p_f_int_p_q_const__char__TableOfStrings,
+  &_swigt__p_f_int_p_q_const__char__double,
+  &_swigt__p_f_int_p_q_const__char__int,
+  &_swigt__p_f_int_p_q_const__char__p_char,
+  &_swigt__p_f_int_p_q_const__char__void,
+  &_swigt__p_f_int_p_q_const__char_double__void,
+  &_swigt__p_f_int_p_q_const__char_int__void,
+  &_swigt__p_f_int_p_q_const__char_p_q_const__char__void,
+  &_swigt__p_f_int_p_q_const__char_struct_TableOfReals__void,
+  &_swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void,
+  &_swigt__p_f_int_struct_ArrayOfStrings__void,
+  &_swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void,
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
-  &_swigt__p_f_p_q_const__char_ArrayOfItems__int,
-  &_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
+  &_swigt__p_f_p_q_const__char__ArrayOfItems,
   &_swigt__p_f_p_q_const__char__double,
   &_swigt__p_f_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char__p_char,
-  &_swigt__p_f_p_q_const__char__p_void,
   &_swigt__p_f_p_q_const__char__void,
-  &_swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void,
   &_swigt__p_f_p_q_const__char_int_int__void,
+  &_swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
-  &_swigt__p_f_p_q_const__char_p_q_const__char__p_void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_void_ArrayOfStrings__void,
-  &_swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void,
-  &_swigt__p_f_p_void__double,
-  &_swigt__p_f_p_void__p_char,
-  &_swigt__p_f_p_void__p_void,
-  &_swigt__p_f_p_void__void,
-  &_swigt__p_f_p_void_double__void,
-  &_swigt__p_f_p_void_double_double__void,
-  &_swigt__p_f_p_void_double_double_int__void,
-  &_swigt__p_f_p_void_double_int__void,
-  &_swigt__p_f_p_void_int__void,
-  &_swigt__p_f_p_void_p_q_const__char_TableOfReals__void,
-  &_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void,
-  &_swigt__p_f_p_void_p_q_const__char__double,
-  &_swigt__p_f_p_void_p_q_const__char__int,
-  &_swigt__p_f_p_void_p_q_const__char__p_char,
-  &_swigt__p_f_p_void_p_q_const__char__void,
-  &_swigt__p_f_p_void_p_q_const__char_double__void,
-  &_swigt__p_f_p_void_p_q_const__char_int__void,
-  &_swigt__p_f_p_void_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_void_p_void_int__double,
-  &_swigt__p_f_p_void_p_void_int_double_double__void,
+  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int,
+  &_swigt__p_f_p_q_const__char_struct_ArrayOfItems__int,
+  &_swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int,
+  &_swigt__p_f_struct_ArrayOfItems__void,
+  &_swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int,
+  &_swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void,
+  &_swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void,
+  &_swigt__p_f_struct_ArrayOfStrings_p_double__void,
+  &_swigt__p_f_struct_TableOfReals__void,
+  &_swigt__p_f_struct_TableOfReals_p_q_const__char__void,
+  &_swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void,
+  &_swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_void__void,
+  &_swigt__p_int,
   &_swigt__p_p_char,
-  &_swigt__p_p_void,
-  &_swigt__p_void,
 };
 
 static swig_cast_info _swigc__p_ArrayOfItems[] = {  {&_swigt__p_ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
@@ -13314,24 +12811,9 @@ static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0,
 static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_ArrayOfStrings__void[] = {  {&_swigt__p_f_ArrayOfItems_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_TableOfReals__void[] = {  {&_swigt__p_f_ArrayOfItems_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__ArrayOfStrings[] = {  {&_swigt__p_f_ArrayOfItems__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfItems__TableOfReals[] = {  {&_swigt__p_f_ArrayOfItems__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems__void[] = {  {&_swigt__p_f_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_ArrayOfStrings__ArrayOfItems[] = {  {&_swigt__p_f_ArrayOfStrings__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item_String__TableOfReals[] = {  {&_swigt__p_f_Item_String__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item_String__TableOfStrings[] = {  {&_swigt__p_f_Item_String__TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item__ArrayOfItems[] = {  {&_swigt__p_f_Item__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_Item__ArrayOfStrings[] = {  {&_swigt__p_f_Item__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_String_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_String_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_String__ArrayOfItems[] = {  {&_swigt__p_f_String__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals__void[] = {  {&_swigt__p_f_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___ArrayOfItems[] = {  {&_swigt__p_f___ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___ArrayOfStrings[] = {  {&_swigt__p_f___ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f___int[] = {  {&_swigt__p_f___int, 0, 0, 0},{0, 0, 0, 0}};
@@ -13341,52 +12823,63 @@ static swig_cast_info _swigc__p_f_double__TableOfReals[] = {  {&_swigt__p_f_doub
 static swig_cast_info _swigc__p_f_double__void[] = {  {&_swigt__p_f_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__TableOfReals[] = {  {&_swigt__p_f_double_double__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__void[] = {  {&_swigt__p_f_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__ArrayOfItems[] = {  {&_swigt__p_f_int__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__ArrayOfStrings[] = {  {&_swigt__p_f_int__ArrayOfStrings, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__TableOfReals[] = {  {&_swigt__p_f_int__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__double[] = {  {&_swigt__p_f_int__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__int[] = {  {&_swigt__p_f_int__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int__p_char[] = {  {&_swigt__p_f_int__p_char, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int__void[] = {  {&_swigt__p_f_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double__void[] = {  {&_swigt__p_f_int_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_double__void[] = {  {&_swigt__p_f_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_double_int__void[] = {  {&_swigt__p_f_int_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_double_int__void[] = {  {&_swigt__p_f_int_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_int_int__void[] = {  {&_swigt__p_f_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_int_int__double[] = {  {&_swigt__p_f_int_int_int__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_int_int_double_double__void[] = {  {&_swigt__p_f_int_int_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_int_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfReals[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfReals, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__TableOfStrings[] = {  {&_swigt__p_f_int_p_q_const__char__TableOfStrings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__double[] = {  {&_swigt__p_f_int_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__int[] = {  {&_swigt__p_f_int_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__p_char[] = {  {&_swigt__p_f_int_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_double__void[] = {  {&_swigt__p_f_int_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_int__void[] = {  {&_swigt__p_f_int_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_int_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_struct_TableOfReals__void[] = {  {&_swigt__p_f_int_p_q_const__char_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_p_q_const__char_struct_TableOfStrings__void[] = {  {&_swigt__p_f_int_p_q_const__char_struct_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_int_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void[] = {  {&_swigt__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char__ArrayOfItems[] = {  {&_swigt__p_f_p_q_const__char__ArrayOfItems, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char__p_void[] = {  {&_swigt__p_f_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_int_int_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__p_void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__p_void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_ArrayOfStrings__void[] = {  {&_swigt__p_f_p_void_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void[] = {  {&_swigt__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__double[] = {  {&_swigt__p_f_p_void__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__p_char[] = {  {&_swigt__p_f_p_void__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__p_void[] = {  {&_swigt__p_f_p_void__p_void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void__void[] = {  {&_swigt__p_f_p_void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double__void[] = {  {&_swigt__p_f_p_void_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_double__void[] = {  {&_swigt__p_f_p_void_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_double_int__void[] = {  {&_swigt__p_f_p_void_double_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_double_int__void[] = {  {&_swigt__p_f_p_void_double_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_int__void[] = {  {&_swigt__p_f_p_void_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_TableOfReals__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_TableOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__double[] = {  {&_swigt__p_f_p_void_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__int[] = {  {&_swigt__p_f_p_void_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__p_char[] = {  {&_swigt__p_f_p_void_p_q_const__char__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char__void[] = {  {&_swigt__p_f_p_void_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_double__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_int__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_void_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_void_int__double[] = {  {&_swigt__p_f_p_void_p_void_int__double, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_void_p_void_int_double_double__void[] = {  {&_swigt__p_f_p_void_p_void_int_double_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_struct_ArrayOfItems__int[] = {  {&_swigt__p_f_p_q_const__char_struct_ArrayOfItems__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_ArrayOfItems__void[] = {  {&_swigt__p_f_struct_ArrayOfItems__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void[] = {  {&_swigt__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_ArrayOfItems_struct_TableOfReals__void[] = {  {&_swigt__p_f_struct_ArrayOfItems_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_ArrayOfStrings_p_double__void[] = {  {&_swigt__p_f_struct_ArrayOfStrings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_TableOfReals__void[] = {  {&_swigt__p_f_struct_TableOfReals__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_int[] = {  {&_swigt__p_int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_char[] = {  {&_swigt__p_p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_p_void[] = {  {&_swigt__p_p_void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_ArrayOfItems,
@@ -13397,24 +12890,9 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_double,
   _swigc__p_f_ArrayOfItems_ArrayOfStrings__ArrayOfStrings,
   _swigc__p_f_ArrayOfItems_ArrayOfStrings__TableOfReals,
-  _swigc__p_f_ArrayOfItems_ArrayOfStrings__void,
-  _swigc__p_f_ArrayOfItems_TableOfReals__void,
   _swigc__p_f_ArrayOfItems__ArrayOfStrings,
   _swigc__p_f_ArrayOfItems__TableOfReals,
-  _swigc__p_f_ArrayOfItems__void,
-  _swigc__p_f_ArrayOfItems_p_q_const__char_p_q_const__char__p_void,
   _swigc__p_f_ArrayOfStrings__ArrayOfItems,
-  _swigc__p_f_ArrayOfStrings_p_double__void,
-  _swigc__p_f_Item_String__TableOfReals,
-  _swigc__p_f_Item_String__TableOfStrings,
-  _swigc__p_f_Item__ArrayOfItems,
-  _swigc__p_f_Item__ArrayOfStrings,
-  _swigc__p_f_String_ArrayOfItems__ArrayOfItems,
-  _swigc__p_f_String__ArrayOfItems,
-  _swigc__p_f_TableOfReals__void,
-  _swigc__p_f_TableOfReals_p_q_const__char__void,
-  _swigc__p_f_TableOfReals_p_q_const__char_p_f_TableOfReals__void__void,
-  _swigc__p_f_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
   _swigc__p_f___ArrayOfItems,
   _swigc__p_f___ArrayOfStrings,
   _swigc__p_f___int,
@@ -13424,52 +12902,63 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_double__void,
   _swigc__p_f_double_double__TableOfReals,
   _swigc__p_f_double_double__void,
+  _swigc__p_f_int__ArrayOfItems,
+  _swigc__p_f_int__ArrayOfStrings,
   _swigc__p_f_int__TableOfReals,
+  _swigc__p_f_int__double,
+  _swigc__p_f_int__int,
+  _swigc__p_f_int__p_char,
   _swigc__p_f_int__void,
+  _swigc__p_f_int_double__void,
+  _swigc__p_f_int_double_double__void,
+  _swigc__p_f_int_double_double_int__void,
+  _swigc__p_f_int_double_int__void,
   _swigc__p_f_int_int__void,
+  _swigc__p_f_int_int_int__double,
+  _swigc__p_f_int_int_int_double_double__void,
+  _swigc__p_f_int_p_q_const__char__ArrayOfItems,
+  _swigc__p_f_int_p_q_const__char__TableOfReals,
+  _swigc__p_f_int_p_q_const__char__TableOfStrings,
+  _swigc__p_f_int_p_q_const__char__double,
+  _swigc__p_f_int_p_q_const__char__int,
+  _swigc__p_f_int_p_q_const__char__p_char,
+  _swigc__p_f_int_p_q_const__char__void,
+  _swigc__p_f_int_p_q_const__char_double__void,
+  _swigc__p_f_int_p_q_const__char_int__void,
+  _swigc__p_f_int_p_q_const__char_p_q_const__char__void,
+  _swigc__p_f_int_p_q_const__char_struct_TableOfReals__void,
+  _swigc__p_f_int_p_q_const__char_struct_TableOfStrings__void,
+  _swigc__p_f_int_struct_ArrayOfStrings__void,
+  _swigc__p_f_int_struct_TableOfReals_p_f_struct_TableOfReals__void__void,
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
-  _swigc__p_f_p_q_const__char_ArrayOfItems__int,
-  _swigc__p_f_p_q_const__char_ArrayOfStrings_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char_ArrayOfItems__ArrayOfItems,
+  _swigc__p_f_p_q_const__char__ArrayOfItems,
   _swigc__p_f_p_q_const__char__double,
   _swigc__p_f_p_q_const__char__int,
   _swigc__p_f_p_q_const__char__p_char,
-  _swigc__p_f_p_q_const__char__p_void,
   _swigc__p_f_p_q_const__char__void,
-  _swigc__p_f_p_q_const__char_int_int_ArrayOfStrings__void,
   _swigc__p_f_p_q_const__char_int_int__void,
+  _swigc__p_f_p_q_const__char_int_int_struct_ArrayOfStrings__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
-  _swigc__p_f_p_q_const__char_p_q_const__char__p_void,
   _swigc__p_f_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_TableOfReals__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_void_ArrayOfStrings__void,
-  _swigc__p_f_p_void_TableOfReals_p_f_TableOfReals__void__void,
-  _swigc__p_f_p_void__double,
-  _swigc__p_f_p_void__p_char,
-  _swigc__p_f_p_void__p_void,
-  _swigc__p_f_p_void__void,
-  _swigc__p_f_p_void_double__void,
-  _swigc__p_f_p_void_double_double__void,
-  _swigc__p_f_p_void_double_double_int__void,
-  _swigc__p_f_p_void_double_int__void,
-  _swigc__p_f_p_void_int__void,
-  _swigc__p_f_p_void_p_q_const__char_TableOfReals__void,
-  _swigc__p_f_p_void_p_q_const__char_TableOfStrings__void,
-  _swigc__p_f_p_void_p_q_const__char__double,
-  _swigc__p_f_p_void_p_q_const__char__int,
-  _swigc__p_f_p_void_p_q_const__char__p_char,
-  _swigc__p_f_p_void_p_q_const__char__void,
-  _swigc__p_f_p_void_p_q_const__char_double__void,
-  _swigc__p_f_p_void_p_q_const__char_int__void,
-  _swigc__p_f_p_void_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_void_p_void_int__double,
-  _swigc__p_f_p_void_p_void_int_double_double__void,
+  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_TableOfReals__int,
+  _swigc__p_f_p_q_const__char_struct_ArrayOfItems__int,
+  _swigc__p_f_p_q_const__char_struct_ArrayOfStrings_p_q_const__char__int,
+  _swigc__p_f_struct_ArrayOfItems__void,
+  _swigc__p_f_struct_ArrayOfItems_p_q_const__char_p_q_const__char__int,
+  _swigc__p_f_struct_ArrayOfItems_struct_ArrayOfStrings__void,
+  _swigc__p_f_struct_ArrayOfItems_struct_TableOfReals__void,
+  _swigc__p_f_struct_ArrayOfStrings_p_double__void,
+  _swigc__p_f_struct_TableOfReals__void,
+  _swigc__p_f_struct_TableOfReals_p_q_const__char__void,
+  _swigc__p_f_struct_TableOfReals_p_q_const__char_p_f_struct_TableOfReals__void__void,
+  _swigc__p_f_struct_TableOfReals_p_q_const__char_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_void__void,
+  _swigc__p_int,
   _swigc__p_p_char,
-  _swigc__p_p_void,
-  _swigc__p_void,
 };
 
 
@@ -13724,21 +13213,20 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_gnuplot", (DL_FUNC) &R_swig_tc_gnuplot, 1},
    {"R_swig_tc_exportSBML", (DL_FUNC) &R_swig_tc_exportSBML, 1},
    {"R_swig_tc_importSBML", (DL_FUNC) &R_swig_tc_importSBML, 1},
-   {"R_swig_tc_getString", (DL_FUNC) &R_swig_tc_getString, 2},
+   {"R_swig_tc_getString", (DL_FUNC) &R_swig_tc_getString, 1},
    {"R_swig_getString", (DL_FUNC) &R_swig_getString, 3},
    {"R_swig_setString", (DL_FUNC) &R_swig_setString, 4},
    {"R_swig_nthString", (DL_FUNC) &R_swig_nthString, 2},
    {"R_swig_setNthString", (DL_FUNC) &R_swig_setNthString, 3},
    {"R_swig_tc_setTextAttribute", (DL_FUNC) &R_swig_tc_setTextAttribute, 3},
-   {"R_swig_tc_getTextAttribute", (DL_FUNC) &R_swig_tc_getTextAttribute, 3},
-   {"R_swig_tc_getConnectedNodesIn", (DL_FUNC) &R_swig_tc_getConnectedNodesIn, 2},
+   {"R_swig_tc_getTextAttribute", (DL_FUNC) &R_swig_tc_getTextAttribute, 2},
    {"R_swig_tc_insertConnection", (DL_FUNC) &R_swig_tc_insertConnection, 4},
    {"R_swig_tc_loadLibrary", (DL_FUNC) &R_swig_tc_loadLibrary, 1},
-   {"R_swig_tc_getNames", (DL_FUNC) &R_swig_tc_getNames, 2},
    {"R_swig_tc_separate", (DL_FUNC) &R_swig_tc_separate, 1},
+   {"R_swig_tc_getNames", (DL_FUNC) &R_swig_tc_getNames, 2},
    {"R_swig_tc_plot", (DL_FUNC) &R_swig_tc_plot, 2},
    {"R_swig_tc_ConnectionSelection_api", (DL_FUNC) &R_swig_tc_ConnectionSelection_api, 9},
-   {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 9},
+   {"R_swig_tc_ConnectionInsertion_api", (DL_FUNC) &R_swig_tc_ConnectionInsertion_api, 5},
    {"R_swig_tc_NodeInsertion_api", (DL_FUNC) &R_swig_tc_NodeInsertion_api, 1},
    {"R_swig_tc_setDisplayLabelColor", (DL_FUNC) &R_swig_tc_setDisplayLabelColor, 2},
    {"R_swig_tc_getStoichiometryFor", (DL_FUNC) &R_swig_tc_getStoichiometryFor, 2},
@@ -13748,8 +13236,8 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_surface", (DL_FUNC) &R_swig_tc_surface, 2},
    {"R_swig_tc_getAnnotation", (DL_FUNC) &R_swig_tc_getAnnotation, 2},
    {"R_swig_tc_setAnnotation", (DL_FUNC) &R_swig_tc_setAnnotation, 2},
-   {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
    {"R_swig_tc_GroupHandlerTool_api", (DL_FUNC) &R_swig_tc_GroupHandlerTool_api, 2},
+   {"R_swig_tc_getParent", (DL_FUNC) &R_swig_tc_getParent, 2},
    {"R_swig_tc_StoichiometryTool_api", (DL_FUNC) &R_swig_tc_StoichiometryTool_api, 4},
    {"R_swig_tc_PythonTool_api", (DL_FUNC) &R_swig_tc_PythonTool_api, 3},
    {"R_swig_tc_OctaveTool_api", (DL_FUNC) &R_swig_tc_OctaveTool_api, 3},
@@ -13777,7 +13265,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_zoom", (DL_FUNC) &R_swig_tc_zoom, 1},
    {"R_swig_tc_setAllStraight", (DL_FUNC) &R_swig_tc_setAllStraight, 1},
    {"R_swig_tc_setStraight", (DL_FUNC) &R_swig_tc_setStraight, 2},
-   {"R_swig_tc_getRate", (DL_FUNC) &R_swig_tc_getRate, 2},
+   {"R_swig_tc_getRate", (DL_FUNC) &R_swig_tc_getRate, 1},
    {"R_swig_tc_setRate", (DL_FUNC) &R_swig_tc_setRate, 2},
    {"R_swig_ArrayOfStrings_length_set", (DL_FUNC) &R_swig_ArrayOfStrings_length_set, 2},
    {"R_swig_ArrayOfItems_length_set", (DL_FUNC) &R_swig_ArrayOfItems_length_set, 2},
@@ -13794,8 +13282,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_setAngle", (DL_FUNC) &R_swig_tc_setAngle, 3},
    {"R_swig_tc_addInputWindowOptions", (DL_FUNC) &R_swig_tc_addInputWindowOptions, 4},
    {"R_swig_tc_moveSelected", (DL_FUNC) &R_swig_tc_moveSelected, 2},
-   {"R_swig_tc_appDir", (DL_FUNC) &R_swig_tc_appDir, 1},
-   {"R_swig_tc_getConnectedNodesOut", (DL_FUNC) &R_swig_tc_getConnectedNodesOut, 2},
+   {"R_swig_tc_appDir", (DL_FUNC) &R_swig_tc_appDir, 0},
    {"R_swig_new_ArrayOfItems", (DL_FUNC) &R_swig_new_ArrayOfItems, 0},
    {"R_swig_delete_ArrayOfItems", (DL_FUNC) &R_swig_delete_ArrayOfItems, 1},
    {"R_swig_newArrayOfItems", (DL_FUNC) &R_swig_newArrayOfItems, 2},
@@ -13817,7 +13304,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_new_TableOfReals", (DL_FUNC) &R_swig_new_TableOfReals, 0},
    {"R_swig_tc_callWhenExiting", (DL_FUNC) &R_swig_tc_callWhenExiting, 1},
    {"R_swig_tc_setColor", (DL_FUNC) &R_swig_tc_setColor, 3},
-   {"R_swig_tc_getColor", (DL_FUNC) &R_swig_tc_getColor, 2},
+   {"R_swig_tc_getColor", (DL_FUNC) &R_swig_tc_getColor, 1},
    {"R_swig_tc_getConnectedNodes", (DL_FUNC) &R_swig_tc_getConnectedNodes, 2},
    {"R_swig_tc_getForcingFunctionAssignments", (DL_FUNC) &R_swig_tc_getForcingFunctionAssignments, 2},
    {"R_swig_tc_getNumbers", (DL_FUNC) &R_swig_tc_getNumbers, 2},
@@ -13849,7 +13336,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_partsDownstream", (DL_FUNC) &R_swig_tc_partsDownstream, 2},
    {"R_swig_tc_setTextData", (DL_FUNC) &R_swig_tc_setTextData, 3},
    {"R_swig_tc_getTextData", (DL_FUNC) &R_swig_tc_getTextData, 3},
-   {"R_swig_tc_getUniqueName", (DL_FUNC) &R_swig_tc_getUniqueName, 2},
+   {"R_swig_tc_getUniqueName", (DL_FUNC) &R_swig_tc_getUniqueName, 1},
    {"R_swig_tc_getStringFromList", (DL_FUNC) &R_swig_tc_getStringFromList, 4},
    {"R_swig_tc_isMac", (DL_FUNC) &R_swig_tc_isMac, 1},
    {"R_swig_tc_CThread_api_initialize", (DL_FUNC) &R_swig_tc_CThread_api_initialize, 2},
@@ -13863,7 +13350,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_askQuestion", (DL_FUNC) &R_swig_tc_askQuestion, 2},
    {"R_swig_tc_simulateODE", (DL_FUNC) &R_swig_tc_simulateODE, 3},
    {"R_swig_tc_itemsOfFamily", (DL_FUNC) &R_swig_tc_itemsOfFamily, 2},
-   {"R_swig_tc_getFamily", (DL_FUNC) &R_swig_tc_getFamily, 2},
+   {"R_swig_tc_getFamily", (DL_FUNC) &R_swig_tc_getFamily, 1},
    {"R_swig_tc_find", (DL_FUNC) &R_swig_tc_find, 2},
    {"R_swig_tc_getChildren", (DL_FUNC) &R_swig_tc_getChildren, 2},
    {"R_swig_tc_getX", (DL_FUNC) &R_swig_tc_getX, 2},
@@ -13872,8 +13359,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_findItems", (DL_FUNC) &R_swig_tc_findItems, 2},
    {"R_swig_tc_getParameters", (DL_FUNC) &R_swig_tc_getParameters, 2},
    {"R_swig_tc_createInputWindow", (DL_FUNC) &R_swig_tc_createInputWindow, 3},
-   {"R_swig_tc_getConnectionsOut", (DL_FUNC) &R_swig_tc_getConnectionsOut, 2},
-   {"R_swig_tc_getConnectionsIn", (DL_FUNC) &R_swig_tc_getConnectionsIn, 2},
    {"R_swig_tc_simulateSSA", (DL_FUNC) &R_swig_tc_simulateSSA, 2},
    {"R_swig_tc_getPos", (DL_FUNC) &R_swig_tc_getPos, 2},
    {"R_swig_tc_BasicInformationTool_Text_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Text_api, 3},
@@ -13886,7 +13371,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_merge", (DL_FUNC) &R_swig_tc_merge, 1},
    {"R_swig_tc_getParametersNamed", (DL_FUNC) &R_swig_tc_getParametersNamed, 3},
    {"R_swig_tc_showProgress", (DL_FUNC) &R_swig_tc_showProgress, 1},
-   {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 2},
+   {"R_swig_tc_getName", (DL_FUNC) &R_swig_tc_getName, 1},
    {"R_swig_tc_errorBars", (DL_FUNC) &R_swig_tc_errorBars, 2},
    {"R_swig_tc_getEventTriggers", (DL_FUNC) &R_swig_tc_getEventTriggers, 1},
    {"R_swig_tc_highlight", (DL_FUNC) &R_swig_tc_highlight, 2},
@@ -13897,7 +13382,6 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_hist", (DL_FUNC) &R_swig_tc_hist, 2},
    {"R_swig_newMatrix", (DL_FUNC) &R_swig_newMatrix, 3},
    {"R_swig_deleteMatrix", (DL_FUNC) &R_swig_deleteMatrix, 1},
-   {"R_swig_tc_getConnectedNodesOther", (DL_FUNC) &R_swig_tc_getConnectedNodesOther, 2},
    {"R_swig_tc_openNewWindow", (DL_FUNC) &R_swig_tc_openNewWindow, 1},
    {"R_swig_tc_insert", (DL_FUNC) &R_swig_tc_insert, 3},
    {"R_swig_tc_setControlPoint", (DL_FUNC) &R_swig_tc_setControlPoint, 5},
@@ -13905,7 +13389,7 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_ArrayOfStrings_strings_set", (DL_FUNC) &R_swig_ArrayOfStrings_strings_set, 2},
    {"R_swig_ArrayOfStrings_length_get", (DL_FUNC) &R_swig_ArrayOfStrings_length_get, 2},
    {"R_swig_ArrayOfItems_length_get", (DL_FUNC) &R_swig_ArrayOfItems_length_get, 2},
-   {"R_swig_tc_getFilename", (DL_FUNC) &R_swig_tc_getFilename, 1},
+   {"R_swig_tc_getFilename", (DL_FUNC) &R_swig_tc_getFilename, 0},
    {"R_swig_TableOfStrings_colnames_set", (DL_FUNC) &R_swig_TableOfStrings_colnames_set, 2},
    {"R_swig_TableOfStrings_rownames_set", (DL_FUNC) &R_swig_TableOfStrings_rownames_set, 2},
    {"R_swig_TableOfReals_colnames_set", (DL_FUNC) &R_swig_TableOfReals_colnames_set, 2},
@@ -13934,15 +13418,16 @@ SWIGINTERN R_CallMethodDef CallEntries[] = {
    {"R_swig_tc_getParameter", (DL_FUNC) &R_swig_tc_getParameter, 3},
    {"R_swig_tc_isA", (DL_FUNC) &R_swig_tc_isA, 3},
    {"R_swig_tc_runPythonCode", (DL_FUNC) &R_swig_tc_runPythonCode, 1},
-   {"R_swig_nthItem", (DL_FUNC) &R_swig_nthItem, 2},
+   {"R_swig_nthItem", (DL_FUNC) &R_swig_nthItem, 3},
    {"R_swig_setNthItem", (DL_FUNC) &R_swig_setNthItem, 3},
-   {"R_swig_tc_getConnectionsOther", (DL_FUNC) &R_swig_tc_getConnectionsOther, 2},
    {"R_swig_tc_getConnections", (DL_FUNC) &R_swig_tc_getConnections, 2},
    {"R_swig_tc_BasicInformationTool_Numeric_api", (DL_FUNC) &R_swig_tc_BasicInformationTool_Numeric_api, 9},
    {"R_swig_tc_getRates", (DL_FUNC) &R_swig_tc_getRates, 2},
    {"R_swig_tc_setRates", (DL_FUNC) &R_swig_tc_setRates, 2},
    {"R_swig_tc_addEvent", (DL_FUNC) &R_swig_tc_addEvent, 2},
    {"R_swig_tc_print", (DL_FUNC) &R_swig_tc_print, 1},
+   {"R_swig_tc_getConnectionsWithRole", (DL_FUNC) &R_swig_tc_getConnectionsWithRole, 3},
+   {"R_swig_tc_getConnectedNodesWithRole", (DL_FUNC) &R_swig_tc_getConnectedNodesWithRole, 3},
    {"R_swig_tc_remove", (DL_FUNC) &R_swig_tc_remove, 1},
    {NULL, NULL, 0}
 };

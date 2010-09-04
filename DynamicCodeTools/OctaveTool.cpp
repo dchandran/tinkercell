@@ -168,7 +168,7 @@ namespace Tinkercell
 		if (mainWindow)
 		{
 			QString appDir = QCoreApplication::applicationDirPath();
-			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/tinkercell.oct"), mainWindow);
+			octaveInterpreter = new OctaveInterpreterThread(appDir + tr("/octave/libtcoct"), mainWindow);
 			octaveInterpreter->initialize();
 
 			connect(octaveInterpreter,SIGNAL(started()),this,SIGNAL(octaveStarted()));
@@ -176,9 +176,15 @@ namespace Tinkercell
 			connect(octaveInterpreter,SIGNAL(terminated()),this,SIGNAL(octaveFinished()));
 
 			connect(mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )),this,SLOT(setupFunctionPointers( QLibrary * )));
+			connect(this,SIGNAL(setupSwigLibrary( QLibrary * )),mainWindow,SIGNAL(setupFunctionPointers( QLibrary * )));
+			
 			connect(mainWindow,SIGNAL(toolLoaded(Tool*)),this,SLOT(toolLoaded(Tool*)));
 
 			toolLoaded(0);
+			
+			QLibrary * swig = CThread::loadLibrary(appDir + tr("/octave/tinkercell.oct"), mainWindow);
+			if (swig->isLoaded())
+				emit setupFunctionPointers(swig);
 			
 			if (console())
 				console()->message(tr("Octave initializing (init.m) ...\n"));

@@ -149,7 +149,11 @@ namespace Tinkercell
 	{
 		if (p)
 		{
-			(*p) = (getStoichiometry(items));
+			QList<ItemHandle*> handles;
+			for (int i=0; i < items.size(); ++i)
+				if (mainWindow->isValidHandlePointer(items[i]))
+					handles << items[i];
+			(*p) = (getStoichiometry(handles));
 		}
 		if (s)
 			s->release();
@@ -159,7 +163,11 @@ namespace Tinkercell
 	{
 		if (p)
 		{
-			(*p) = getRates(items);
+			QList<ItemHandle*> handles;
+			for (int i=0; i < items.size(); ++i)
+				if (mainWindow->isValidHandlePointer(items[i]))
+					handles << items[i];
+			(*p) = getRates(handles);
 		}
 		if (s)
 			s->release();
@@ -170,7 +178,11 @@ namespace Tinkercell
 	{
 		if (mainWindow && mainWindow->currentNetwork())
 		{
-			setStoichiometry(mainWindow->currentNetwork(),items,table);
+			QList<ItemHandle*> handles;
+			for (int i=0; i < items.size(); ++i)
+				if (mainWindow->isValidHandlePointer(items[i]))
+					handles << items[i];
+			setStoichiometry(mainWindow->currentNetwork(),handles,table);
 		}
 		if (s)
 			s->release();
@@ -179,7 +191,13 @@ namespace Tinkercell
 	void StoichiometryTool::setRatesSlot(QSemaphore * s, QList<ItemHandle*>& items, const QStringList& rates)
 	{
 		if (mainWindow && mainWindow->currentNetwork())
-			setRates(mainWindow->currentNetwork(),items,rates);
+		{
+			QList<ItemHandle*> handles;
+			for (int i=0; i < items.size(); ++i)
+				if (mainWindow->isValidHandlePointer(items[i]))
+					handles << items[i];
+			setRates(mainWindow->currentNetwork(),handles,rates);
+		}
 		if (s)
 			s->release();
 	}
@@ -1244,7 +1262,7 @@ namespace Tinkercell
 		int n=0;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
 			{
 				if (connectionHandles[i]->hasNumericalData(QObject::tr("Reactant stoichiometries")) &&
 					connectionHandles[i]->hasNumericalData(QObject::tr("Product stoichiometries")))
@@ -1387,7 +1405,7 @@ namespace Tinkercell
 		bool change = false;
 		for (int i=0; i < connectionHandles.size(); ++i) //build combined matrix for all selected reactions
 		{
-			if (connectionHandles[i] != 0 && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
+			if (connectionHandles[i] && connectionHandles[i]->children.isEmpty() && connectionHandles[i]->data != 0)
 			{
 				if (connectionHandles[i]->hasTextData(QObject::tr("Rate equations")))
 				{
@@ -1518,6 +1536,7 @@ namespace Tinkercell
 		delete s;
 		delete list;
 	}
+
 	
 	void StoichiometryTool::itemsAboutToBeRemoved(GraphicsScene * , QList<QGraphicsItem*>& items, QList<ItemHandle*>& handles, QList<QUndoCommand*>& commands)
 	{

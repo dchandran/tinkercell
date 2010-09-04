@@ -1,4 +1,4 @@
-SET(LIBRARY_OUTPUT_PATH ${C_LIBRARY_OUTPUT_PATH})
+SET(LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/octave)
 
 OPTION( EMBED_OCTAVE "Embed Octave in TinkerCell" OFF )
 FIND_PATH( OCTAVE_INCLUDE_DIR octave.h ${TINKERCELL_SOURCE_DIR}/octave )
@@ -8,52 +8,68 @@ FIND_LIBRARY( OCTAVE_OCTAVEINTERP_LIBRARY NAMES octinterp PATH  ${TINKERCELL_SOU
 
 IF(EMBED_OCTAVE AND OCTAVE_CRUFT_LIBRARY AND OCTAVE_OCTAVE_LIBRARY AND OCTAVE_OCTAVEINTERP_LIBRARY AND OCTAVE_INCLUDE_DIR)
 
-   INCLUDE_DIRECTORIES( BEFORE ${OCTAVE_INCLUDE_DIR} )
-   
-   ADD_DEFINITIONS(-D__cplusplus)
+   INCLUDE_DIRECTORIES( BEFORE ${OCTAVE_INCLUDE_DIR} )   
+#  ADD_DEFINITIONS(-D__cplusplus)
 
   IF ( WIN32 )
       ADD_DEFINITIONS(-D_WIN32)
+      ADD_DEFINITIONS(-DTCAPIEXPORT=)
       IF (MINGW)
          ADD_DEFINITIONS(-D__MINGW32__)
       ENDIF(MINGW)
   ENDIF( WIN32 )
 
-#  FILE(GLOB TC_API_SRC ${TINKERCELL_SOURCE_DIR}/c/API/*.c)
-   
+   FILE(GLOB TCAPI_SRC ${TINKERCELL_SOURCE_DIR}/c/TCstructs.c ${TINKERCELL_SOURCE_DIR}/c/API/*.c)
    ADD_LIBRARY( tcoct
   	  SHARED
-	  tinkercell_wrap.cpp
-	  runoctave.cpp
+  	  runoctave.cpp
+  	  tinkercell_wrap.cpp
+ 	  ${TCAPI_SRC}
   )
-  
-  #extend
+  #  extend
+  ADD_LIBRARY( swigtcoct
+  	  SHARED
+        tinkercell_wrap.cpp
+        ${TCAPI_SRC}
+  )
+
+ #embed
   TARGET_LINK_LIBRARIES( tcoct
     tcoct
-    tinkercellapi
+    ${OCTAVE_CRUFT_LIBRARY}
+    ${OCTAVE_OCTAVE_LIBRARY}
+    ${OCTAVE_OCTAVEINTERP_LIBRARY}
+  )
+
+    TARGET_LINK_LIBRARIES( swigtcoct
+    swigtcoct
     ${OCTAVE_CRUFT_LIBRARY}
     ${OCTAVE_OCTAVE_LIBRARY}
     ${OCTAVE_OCTAVEINTERP_LIBRARY}
   )
  
-  #INSTALL(TARGETS tcoct DESTINATION octave)
+  INSTALL(TARGETS tcoct DESTINATION octave)
   
-  IF ( WIN32 )
-    
+  IF ( WIN32 )    
     ADD_CUSTOM_COMMAND (
-          TARGET tcoct POST_BUILD
-          COMMAND move /Y ..\\bin\\plugins\\c\\libtcoct.dll ..\\bin\\octave\\tinkercell.oct
+          TARGET swigtcoct POST_BUILD
+          COMMAND move /Y ..\\bin\\octave\\libswigtcoct.dll ..\\bin\\octave\\tinkercell.oct
       )
-	 FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)
   ELSE ( WIN32 )
-
+  IF( APPLE )
     ADD_CUSTOM_COMMAND (
-         TARGET tcoct POST_BUILD
-         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/plugins/c/libtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
+         TARGET swigtcoct POST_BUILD
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/octave/libswigtcoct.dylib ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
     )
-  	FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)  
+  ELSE ( APPLE )
+    ADD_CUSTOM_COMMAND (
+         TARGET swigtcoct POST_BUILD
+         COMMAND cp ${TINKERCELL_BINARY_DIR}/bin/octave/libswigtcoct.so ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct
+    )
+  ENDIF( APPLE )
   ENDIF( WIN32 )
-  
+
+  FILE(GLOB OCTAVE_LOADER ${TINKERCELL_BINARY_DIR}/bin/octave/tinkercell.oct)
   FILE(GLOB OCTAVE_SCRIPTS *.m)
 
   INSTALL(FILES  ${OCTAVE_CRUFT_LIBRARY} ${OCTAVE_OCTAVE_LIBRARY} ${OCTAVE_OCTAVEINTERP_LIBRARY}

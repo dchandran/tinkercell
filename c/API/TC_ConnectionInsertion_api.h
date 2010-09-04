@@ -2,68 +2,47 @@
 #define TINKERCELL_TC_CONNECTIONINSERTION_API_H
 
 #include "../TCstructs.h"
+BEGIN_C_DECLS
 
 /*! 
  \brief connect a set of parts (in) to another (out). give the connection name and family. returns the inserted connection
  \ingroup Connections
 */
-TCAPIEXPORT Item tc_insertConnection(ArrayOfItems parts, String name, String family);
+TCAPIEXPORT int tc_insertConnection(ArrayOfItems parts, const char* name, const char* family);
 
 /*! 
  \brief get the connected parts for a connection
  \ingroup Connections
 */
-TCAPIEXPORT ArrayOfItems tc_getConnectedNodes(Item connection);
+TCAPIEXPORT ArrayOfItems tc_getConnectedNodes(int connection);
 /*! 
- \brief get the parts going IN to a connection, such as reactants
+ \brief get the parts with a specific role in the given connection, such as "Reactant"
  \ingroup Connections
 */
-TCAPIEXPORT ArrayOfItems tc_getConnectedNodesIn(Item connection);
-/*! 
- \brief get the parts going OUT to a connection, such as products
- \ingroup Connections
-*/
-TCAPIEXPORT ArrayOfItems tc_getConnectedNodesOut(Item connection);
-/*! 
- \brief get the parts that are neither IN nor OUT, such as modifiers
- \ingroup Connections
-*/
-TCAPIEXPORT ArrayOfItems tc_getConnectedNodesOther(Item connection);
+TCAPIEXPORT ArrayOfItems tc_getConnectedNodesWithRole(int connection, const char* role);
 /*! 
  \brief get connections for a part
  \ingroup Connections
 */
-TCAPIEXPORT ArrayOfItems tc_getConnections(Item part);
+TCAPIEXPORT ArrayOfItems tc_getConnections(int part);
 /*! 
- \brief get connections where the given part is an in-node, e.g. reactant
+ \brief get connections where the given parts has a specific role, such as "Reactant"
  \ingroup Connections
 */
-TCAPIEXPORT ArrayOfItems tc_getConnectionsIn(Item part);
-/*! 
- \brief get connections where the given part is an out-node, e.g. product
- \ingroup Connections
-*/
-TCAPIEXPORT ArrayOfItems tc_getConnectionsOut(Item part);
-/*! 
- \brief get connections where the given part is not an in-node or out-node, e.g. modifier
- \ingroup Connections
-*/
-TCAPIEXPORT ArrayOfItems tc_getConnectionsOther(Item part);
+TCAPIEXPORT ArrayOfItems tc_getConnectionsWithRole(int part, const char* role);
 
 /*! 
  \brief initialize connections
  \ingroup init
 */
 TCAPIEXPORT void tc_ConnectionInsertion_api(
-		Item (*insertConnection)(ArrayOfItems, String, String),
-		ArrayOfItems (*getConnectedParts)(Item),
-		ArrayOfItems (*getConnectedPartsIn)(Item),
-		ArrayOfItems (*getConnectedPartsOut)(Item),
-		ArrayOfItems (*getConnectedPartsOther)(Item),
-		ArrayOfItems (*getConnections)(Item),
-		ArrayOfItems (*getConnectionsIn)(Item),
-		ArrayOfItems (*getConnectionsOut)(Item),
-		ArrayOfItems (*getConnectionsOther)(Item)
+		int (*insertConnection)(ArrayOfItems, const char*, const char*),
+		ArrayOfItems (*getConnectedParts)(int),
+		ArrayOfItems (*getConnectedPartsWithRole)(int,const char*),
+		ArrayOfItems (*getConnections)(int),
+		ArrayOfItems (*getConnectionsWithRole)(int,const char*)
 	);
 
+END_C_DECLS
 #endif
+

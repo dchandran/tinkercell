@@ -28,7 +28,7 @@ namespace Tinkercell
 
 	/*! \brief refresh the path if any controlpoints have moved
 	* \param void
-	* \return void*/
+	*/
 	void DnaGraphicsItem::refresh()
 	{
 		setPos(0,0);

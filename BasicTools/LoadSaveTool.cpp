@@ -84,8 +84,8 @@ namespace Tinkercell
 			if (file.open(QFile::ReadOnly | QFile::Text))
 			{
 				restoreDialog = new QMessageBox(QMessageBox::Question,tr("Restore"), tr("TinkerCell closed unexpectedly.\nRestore previous network?"), 0, mainWindow, Qt::Dialog);
-				restoreDialog->addButton(tr("No"), QMessageBox::NoRole);
-				restoreButton = restoreDialog->addButton(tr("Yes"), QMessageBox::YesRole);
+				restoreDialog->addButton(tr("&No"), QMessageBox::NoRole);
+				restoreButton = restoreDialog->addButton(tr("&Yes"), QMessageBox::YesRole);
 				restoreDialog->show();
 				connect(restoreDialog,SIGNAL(finished(int)),this,SLOT(restore(int)));
 			}

@@ -636,7 +636,7 @@ namespace Tinkercell
 	typedef void (*tc_AssignmentFunctionsTool_api)(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
-		void (*addForcingFunction)(void*,const char*, const char*)
+		void (*addForcingFunction)(int,const char*, const char*)
 		);
 
 	void AssignmentFunctionsTool::setupFunctionPointers( QLibrary * library )
@@ -666,7 +666,7 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments")))
+				if (mainWindow->isValidHandlePointer(items[i]) && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments")))
 				{
 					QString s;
 					QStringList lst = items[i]->data->textData[tr("Assignments")].getRowNames();
@@ -702,7 +702,7 @@ namespace Tinkercell
 			QRegExp regex(tr("\\.(?!\\d)"));
 			for (int i=0; i < items.size(); ++i)
 			{
-				if (items[i] && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments"))
+				if (mainWindow->isValidHandlePointer(items[i]) && !visited.contains(items[i]) && items[i]->data && items[i]->hasTextData(tr("Assignments"))
 					&& items[i]->data->textData[tr("Assignments")].cols() > 0)
 				{
 					DataTable<QString>& dat = items[i]->data->textData[tr("Assignments")];
@@ -728,7 +728,7 @@ namespace Tinkercell
 		if (!item)
 			item = win->globalHandle();
 
-		if (item && item->data && !func.isEmpty() && !var.isEmpty())
+		if (mainWindow->isValidHandlePointer(item) && item->data && !func.isEmpty() && !var.isEmpty())
 		{
 			if (!item->hasTextData(tr("Assignments")))
 				item->data->textData[tr("Assignments")] = DataTable<QString>();
@@ -809,12 +809,12 @@ namespace Tinkercell
 		return (ArrayOfStrings)ConvertValue(p);
 	}
 
-	void AssignmentFunctionsTool::_addForcingFunction(void* o, const char* a, const char* b)
+	void AssignmentFunctionsTool::_addForcingFunction(int o, const char* a, const char* b)
 	{
 		return fToS.addForcingFunction(o,a,b);
 	}
 
-	void AssignmentFunctionsTool_FToS::addForcingFunction(void* o, const char* a, const char* b)
+	void AssignmentFunctionsTool_FToS::addForcingFunction(int o, const char* a, const char* b)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

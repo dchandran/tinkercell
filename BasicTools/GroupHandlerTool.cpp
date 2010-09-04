@@ -441,7 +441,7 @@ namespace Tinkercell
 
 	typedef void (*tc_GroupHandlerTool_api)(
 		void (*merge)(ArrayOfItems),
-		void (*separate)(void*)
+		void (*separate)(int)
 		);
 
 	void GroupHandlerTool::setupFunctionPointers( QLibrary * library)
@@ -464,7 +464,7 @@ namespace Tinkercell
 		{
 			QList<QGraphicsItem*> items;
 			for (int i=0; i < handles.size(); ++i)
-				if (handles[i])
+				if (mainWindow->isValidHandlePointer(handles[i]))
 					items << handles[i]->graphicsItems;
 			mergeItems(scene,items);
 		}
@@ -477,7 +477,7 @@ namespace Tinkercell
 		GraphicsScene * scene = currentScene();
 		if (scene)
 		{
-			if (handle)
+			if (mainWindow->isValidHandlePointer(handle))
 				separateItems(scene,handle->graphicsItems);
 		}
 		if (sem)
@@ -694,7 +694,7 @@ namespace Tinkercell
 		return fToS.merge(A);
 	}
 
-	void GroupHandlerTool::_separate(void* o)
+	void GroupHandlerTool::_separate(int o)
 	{
 		return fToS.separate(o);
 	}
@@ -711,7 +711,7 @@ namespace Tinkercell
 		delete list;
 	}
 
-	void GroupHandlerTool_FToS::separate(void* a0)
+	void GroupHandlerTool_FToS::separate(int a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

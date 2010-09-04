@@ -36,8 +36,8 @@ namespace Tinkercell
 		void getAnnotation(QSemaphore* sem, QStringList* list, ItemHandle* item);
 		void setAnnotation(QSemaphore* sem, ItemHandle* item, const QStringList& list);
 	public slots:
-		ArrayOfStrings getAnnotation(void*);
-		void setAnnotation(void*,ArrayOfStrings);
+		ArrayOfStrings getAnnotation(int);
+		void setAnnotation(int,ArrayOfStrings);
 	};
 
 	class TINKERCELLEXPORT NameFamilyDialog : public Tool
@@ -90,9 +90,9 @@ namespace Tinkercell
 	private:
 		void connectTCFunctions();
 		/*! \brief node of the C API framework*/
-		static ArrayOfStrings _getAnnotation(void*);
+		static ArrayOfStrings _getAnnotation(int);
 		/*! \brief node of the C API framework*/
-		static void _setAnnotation(void*,ArrayOfStrings);
+		static void _setAnnotation(int,ArrayOfStrings);
 		/*! \brief node of the C API framework*/
 		static NameFamilyDialog_FtoS fToS;
 	};

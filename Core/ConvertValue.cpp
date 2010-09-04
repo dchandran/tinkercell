@@ -5,7 +5,7 @@ Contact: Deepak Chandran (dchandran1@gmail.com)
 See COPYRIGHT.TXT
 
 This file defines a set of functions that can be used to convert C data types, 
-such as char**, char*, and void* to Qt data types, such as QStringList, QString, 
+such as char**, char*, and int to Qt data types, such as QStringList, QString, 
 and QGraphicsItem.
 
 ****************************************************************************/
@@ -33,18 +33,17 @@ namespace Tinkercell
 		return m;
 	}
 
-	ItemHandle* ConvertValue(void * o)
+	ItemHandle* ConvertValue(int o)
 	{
 		MainWindow * main = MainWindow::instance();
-		if (main && main->isValidHandlePointer(o)
-			)
-			return static_cast<ItemHandle*>(o);
+		if (main && main->isValidHandlePointer((void*)o))
+			return static_cast<ItemHandle*>((void*)o);
 		return 0;
 	}
 
-	void * ConvertValue(ItemHandle* item)
+	int ConvertValue(ItemHandle* item)
 	{
-		return (void *)(item);
+		return (int)(item);
 	}
 
 	QList<ItemHandle*>* ConvertValue(ArrayOfItems A)
@@ -54,8 +53,8 @@ namespace Tinkercell
 		if (main)
 		{
 			for (int i=0; i < A.length; ++i)
-				if (main->isValidHandlePointer(A.items[i]))
-					(*list) += static_cast<ItemHandle*>(A.items[i]);
+				if (main->isValidHandlePointer((void*)(A.items[i])))
+					(*list) += static_cast<ItemHandle*>((void*)(A.items[i]));
 		}
 		return list;
 	}
@@ -67,9 +66,9 @@ namespace Tinkercell
 		A.items = 0;
 		if (A.length > 0)
 		{
-			A.items = new void*[A.length];
+			A.items = new int[A.length];
 			for (int i=0; i < list.size(); ++i)
-				A.items[i] = (void*)list[i];
+				A.items[i] = (int)(list[i]);
 		}
 		return A;
 	}

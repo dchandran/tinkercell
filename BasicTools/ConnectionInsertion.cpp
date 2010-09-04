@@ -190,38 +190,22 @@ namespace Tinkercell
 		connect(&fToS,SIGNAL(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
 			this,SLOT(getConnectedNodes(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectedNodesIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-
-		connect(&fToS,SIGNAL(getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectedNodesOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-
-		connect(&fToS,SIGNAL(getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectedNodesOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
+			this,SLOT(getConnectedNodesWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
 
 		connect(&fToS,SIGNAL(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
 			this,SLOT(getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
 
-		connect(&fToS,SIGNAL(getConnectionsIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectionsIn(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-
-		connect(&fToS,SIGNAL(getConnectionsOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectionsOut(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
-
-		connect(&fToS,SIGNAL(getConnectionsOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)),
-			this,SLOT(getConnectionsOther(QSemaphore*,QList<ItemHandle*>*,ItemHandle*)));
+		connect(&fToS,SIGNAL(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)),
+			this,SLOT(getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&)));
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		void* (*insertConnection)(ArrayOfItems, const char*, const char*),
-		ArrayOfItems (*getConnectedNodes)(void*),
-		ArrayOfItems (*getConnectedNodesIn)(void*),
-		ArrayOfItems (*getConnectedNodesOut)(void*),
-		ArrayOfItems (*getConnectedNodesOther)(void*),
-		ArrayOfItems (*getConnections)(void*),
-		ArrayOfItems (*getConnectionsIn)(void*),
-		ArrayOfItems (*getConnectionsOut)(void*),
-		ArrayOfItems (*getConnectionsOther)(void*));
+		int (*insertConnection)(ArrayOfItems, const char*, const char*),
+		ArrayOfItems (*getConnectedNodes)(int),
+		ArrayOfItems (*getConnectedNodesWithRole)(int,const char*),
+		ArrayOfItems (*getConnections)(int),
+		ArrayOfItems (*getConnectionsWithRole)(int,const char*));
 
 
 	void ConnectionInsertion::setupFunctionPointers( QLibrary * library )
@@ -232,20 +216,16 @@ namespace Tinkercell
 			f(
 				&(_insertConnection),
 				&(_getConnectedNodes),
-				&(_getConnectedNodesIn),
-				&(_getConnectedNodesOut),
-				&(_getConnectedNodesOther),
+				&(_getConnectedNodesWithRole),
 				&(_getConnections),
-				&(_getConnectionsIn),
-				&(_getConnectionsOut),
-				&(_getConnectionsOther)
+				&(_getConnectionsWithRole)
 				);
 		}
 	}
 
 	void ConnectionInsertion::getConnectedNodes(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && list && item->type == ConnectionHandle::TYPE)
+		if (mainWindow->isValidHandlePointer(item) && list && item->type == ConnectionHandle::TYPE)
 		{
 			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
 			for (int i=0; i < nodes.size(); ++i)
@@ -256,102 +236,52 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	void ConnectionInsertion::getConnectedNodesIn(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
+	void ConnectionInsertion::getConnectedNodesWithRole(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item, const QString & role)
 	{
-		if (item && list && item->type == ConnectionHandle::TYPE)
+		ConnectionHandle * connectionHandle = 0;
+		if (mainWindow->isValidHandlePointer(item) && list && 
+			(connectionHandle = ConnectionHandle::cast(item)) &&
+			connectionHandle->hasTextData(tr("Participants")))
 		{
-			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodesIn();
+			TextDataTable & table = connectionHandle->textDataTable(tr("Participants"));
+			QList<NodeHandle*> nodes = connectionHandle->nodes();
+
 			for (int i=0; i < nodes.size(); ++i)
-				(*list) += nodes[i];
+				if (nodes[i] && table.at(nodes[i]->fullName(),0).contains(role))
+					(*list) += nodes[i];
 		}
 
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionInsertion::getConnectedNodesOut(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (item && list && item->type == ConnectionHandle::TYPE)
-		{
-			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodesOut();
-			for (int i=0; i < nodes.size(); ++i)
-				(*list) += nodes[i];
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionInsertion::getConnectedNodesOther(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (item && list && item->type == ConnectionHandle::TYPE)
-		{
-			QList<NodeHandle*> nodes = (static_cast<ConnectionHandle*>(item))->nodes();
-			QList<NodeHandle*> nodesIn = (static_cast<ConnectionHandle*>(item))->nodesIn();
-			QList<NodeHandle*> nodesOut = (static_cast<ConnectionHandle*>(item))->nodesOut();
-			for (int i=0; i < nodes.size(); ++i)
-				if (nodes[i] && !nodesIn.contains(nodes[i]) && !nodesOut.contains(nodes[i]) && !((*list).contains(nodes[i])))
-					(*list) << nodes[i];
-		}
 		if (sem)
 			sem->release();
 	}
 
 	void ConnectionInsertion::getConnections(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
 	{
-		if (item && item->type == NodeHandle::TYPE && list)
+		if (mainWindow->isValidHandlePointer(item) && item->type == NodeHandle::TYPE && list)
 		{
 			QList<ConnectionHandle*> connections = (static_cast<NodeHandle*>(item))->connections();
 			for (int i=0; i < connections.size(); ++i)
 				(*list) += connections[i];
 		}
 
-
 		if (sem)
 			sem->release();
 	}
 
-	void ConnectionInsertion::getConnectionsIn(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
+	void ConnectionInsertion::getConnectionsWithRole(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item, const QString & role)
 	{
-		if (item && item->type == NodeHandle::TYPE && list)
+		NodeHandle * node;
+		if (mainWindow->isValidHandlePointer(item) && (node = NodeHandle::cast(item)) && list)
 		{
-			NodeHandle * node = static_cast<NodeHandle*>(item);
 			QList<ConnectionHandle*> connections = node->connections();
 			for (int i=0; i < connections.size(); ++i)
-				if (connections[i] && connections[i]->nodesOut().contains(node) && !(*list).contains(connections[i]))
-					(*list) << connections[i];
+				if (connections[i] && connections[i]->hasTextData(tr("Participants")) && !(*list).contains(connections[i]))
+				{
+					TextDataTable & table = connections[i]->textDataTable(tr("Participants"));
+					if (table.at(item->fullName(),0).contains(role))
+						(*list) << connections[i];
+				}
 		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionInsertion::getConnectionsOut(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (item && item->type == NodeHandle::TYPE && list)
-		{
-			NodeHandle * node = static_cast<NodeHandle*>(item);
-			QList<ConnectionHandle*> connections = node->connections();
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i] && connections[i]->nodesIn().contains(node) && !(*list).contains(connections[i]))
-					(*list) << connections[i];
-		}
-		if (sem)
-			sem->release();
-	}
-
-	void ConnectionInsertion::getConnectionsOther(QSemaphore* sem,QList<ItemHandle*>* list,ItemHandle* item)
-	{
-		if (item && item->type == NodeHandle::TYPE && list)
-		{
-			NodeHandle * node = static_cast<NodeHandle*>(item);
-			QList<ConnectionHandle*> connections = node->connections();
-			for (int i=0; i < connections.size(); ++i)
-				if (connections[i] &&
-					!connections[i]->nodesIn().contains(node) &&
-					!connections[i]->nodesOut().contains(node) &&
-					!(*list).contains(connections[i]))
-					(*list) << connections[i];
-		}
-
 		if (sem)
 			sem->release();
 	}
@@ -1264,12 +1194,12 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS ConnectionInsertion::fToS;
 
-	void* ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
+	int ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
 	{
 		return fToS.insertConnection(A, a0, a1);
 	}
 
-	void* ConnectionInsertion_FToS::insertConnection(ArrayOfItems A, const char* a0, const char* a1)
+	int ConnectionInsertion_FToS::insertConnection(ArrayOfItems A, const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;
@@ -1283,12 +1213,12 @@ namespace Tinkercell
 		return ConvertValue(item);
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodes(void* x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodes(int x)
 	{
 		return fToS.getConnectedNodes(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(void* x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(int x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1302,17 +1232,18 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodesIn(void* x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodesWithRole(int x, const char * s)
 	{
-		return fToS.getConnectedNodesIn(x);
+		return fToS.getConnectedNodesWithRole(x,s);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesIn(void* x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesWithRole(int x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
 		s->acquire();
-		emit getConnectedNodesIn(s,list,ConvertValue(x));
+		QString qs = ConvertValue(c);
+		emit getConnectedNodesWithRole(s,list,ConvertValue(x), qs);
 		s->acquire();
 		s->release();
 		delete s;
@@ -1321,50 +1252,12 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodesOut(void* x)
-	{
-		return fToS.getConnectedNodesOut(x);
-	}
-
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesOut(void* x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnectedNodesOut(s,list,ConvertValue(x));
-		s->acquire();
-		s->release();
-		delete s;
-		ArrayOfItems A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
-	ArrayOfItems ConnectionInsertion::_getConnectedNodesOther(void* x)
-	{
-		return fToS.getConnectedNodesOther(x);
-	}
-
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesOther(void* x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnectedNodesOther(s,list,ConvertValue(x));
-		s->acquire();
-		s->release();
-		delete s;
-		ArrayOfItems A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
-	ArrayOfItems ConnectionInsertion::_getConnections(void* x)
+	ArrayOfItems ConnectionInsertion::_getConnections(int x)
 	{
 		return fToS.getConnections(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnections(void* x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnections(int x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1378,55 +1271,18 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectionsIn(void* x)
+	ArrayOfItems ConnectionInsertion::_getConnectionsWithRole(int x, const char * c)
 	{
-		return fToS.getConnectionsIn(x);
+		return fToS.getConnectionsWithRole(x,c);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectionsIn(void* x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectionsWithRole(int x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
 		s->acquire();
-		emit getConnectionsIn(s,list,ConvertValue(x));
-		s->acquire();
-		s->release();
-		delete s;
-		ArrayOfItems A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
-	ArrayOfItems ConnectionInsertion::_getConnectionsOut(void* x)
-	{
-		return fToS.getConnectionsOut(x);
-	}
-
-	ArrayOfItems ConnectionInsertion_FToS::getConnectionsOut(void* x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnectionsOut(s,list,ConvertValue(x));
-		s->acquire();
-		s->release();
-		delete s;
-		ArrayOfItems A = ConvertValue(*list);
-		delete list;
-		return A;
-	}
-
-	ArrayOfItems ConnectionInsertion::_getConnectionsOther(void* x)
-	{
-		return fToS.getConnectionsOther(x);
-	}
-
-	ArrayOfItems ConnectionInsertion_FToS::getConnectionsOther(void* x)
-	{
-		QSemaphore * s = new QSemaphore(1);
-		QList<ItemHandle*>* list = new QList<ItemHandle*>;
-		s->acquire();
-		emit getConnectionsOther(s,list,ConvertValue(x));
+		QString qs = ConvertValue(c);
+		emit getConnectionsWithRole(s,list,ConvertValue(x),qs);
 		s->acquire();
 		s->release();
 		delete s;

@@ -1,24 +1,24 @@
 #include "TC_SBML_api.h"
 
-void (*_tc_exportSBML)(String) = 0;
+void (*_tc_exportSBML)(const char*) = 0;
 /*!
  \brief save sbml format to a file
- \param char* file name
+ \param const char* file name
  \ingroup Export
 */
-void tc_exportSBML(String s)
+void tc_exportSBML(const char* s)
 {
 	if (_tc_exportSBML)
 		_tc_exportSBML(s);
 }
 
-void (*_tc_importSBML)(String) = 0;
+void (*_tc_importSBML)(const char*) = 0;
 /*!
  \brief load sbml model as string
- \param char* sbml model file or string
+ \param const char* sbml model file or string
  \ingroup Export
 */
-void tc_importSBML(String s)
+void tc_importSBML(const char* s)
 {
 	if (_tc_importSBML)
 		_tc_importSBML(s);
@@ -56,8 +56,8 @@ TableOfReals tc_simulateSSA(double t)
  \ingroup init
 */
 void tc_SBML_api(
-	void (*exportSBML)(String),
-	void (*importSBML)(String),
+	void (*exportSBML)(const char*),
+	void (*importSBML)(const char*),
 	TableOfReals (*simulateODE)(double, double),
 	TableOfReals (*simulateSSA)(double))
 {

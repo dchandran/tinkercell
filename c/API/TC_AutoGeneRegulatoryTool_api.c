@@ -1,35 +1,35 @@
 #include "TC_AutoGeneRegulatoryTool_api.h"
 
-ArrayOfItems (*_tc_partsIn)(Item) = 0;
+ArrayOfItems (*_tc_partsIn)(int) = 0;
 /*! 
  \brief Get all DNA parts inside the given container or module
  \ingroup Get items
 */
-ArrayOfItems tc_partsIn(Item o)
+ArrayOfItems tc_partsIn(int o)
 {
 	if (_tc_partsIn)
 		return _tc_partsIn(o);
 	return newArrayOfItems(0);
 }
 
-ArrayOfItems (*_tc_partsUpstream)(Item) = 0;
+ArrayOfItems (*_tc_partsUpstream)(int) = 0;
 /*! 
  \brief Get all DNA parts upstream of the given part
  \ingroup Get items
 */
-ArrayOfItems tc_partsUpstream(Item o)
+ArrayOfItems tc_partsUpstream(int o)
 {
 	if (_tc_partsUpstream)
 		return _tc_partsUpstream(o);
 	return newArrayOfItems(0);
 }
 
-ArrayOfItems (*_tc_partsDownstream)(Item) = 0;
+ArrayOfItems (*_tc_partsDownstream)(int) = 0;
 /*! 
  \brief Get all DNA parts downstream of the given part
  \ingroup Get items
 */
-ArrayOfItems tc_partsDownstream(Item o)
+ArrayOfItems tc_partsDownstream(int o)
 {
 	if (_tc_partsDownstream)
 		return _tc_partsDownstream(o);
@@ -52,7 +52,7 @@ void tc_alignParts(ArrayOfItems a)
  \ingroup init
 */
 void tc_AutoGeneRegulatoryTool_api(
-		ArrayOfItems (*f1)(Item), ArrayOfItems (*f2)(Item), ArrayOfItems (*f3)(Item), void (*f4)(ArrayOfItems)
+		ArrayOfItems (*f1)(int), ArrayOfItems (*f2)(int), ArrayOfItems (*f3)(int), void (*f4)(ArrayOfItems)
 	)
 {
 	_tc_partsIn = f1;

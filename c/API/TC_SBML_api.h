@@ -2,20 +2,21 @@
 #define TINKERCELL_TC_SBML_API_H
 
 #include "../TCstructs.h"
+BEGIN_C_DECLS
 
 /*!
  \brief save sbml format to a file
- \param char* file name
+ \param const char* file name
  \ingroup Export
 */
-TCAPIEXPORT void tc_exportSBML(String file);
+TCAPIEXPORT void tc_exportSBML(const char* file);
 
 /*!
  \brief load sbml model as string
- \param char* sbml model file or string
+ \param const char* sbml model file or string
  \ingroup Export
 */
-TCAPIEXPORT void tc_importSBML(String file);
+TCAPIEXPORT void tc_importSBML(const char* file);
 
 /*!
  \brief simulate the current model
@@ -27,7 +28,7 @@ TCAPIEXPORT TableOfReals tc_simulateODE(double time, double step_size);
 
 /*!
  \brief load sbml model as string
- \param char* sbml model file or string
+ \param const char* sbml model file or string
  \ingroup Simulation
 */
 TCAPIEXPORT TableOfReals tc_simulateSSA(double time);
@@ -37,9 +38,11 @@ TCAPIEXPORT TableOfReals tc_simulateSSA(double time);
  \ingroup init
 */
 TCAPIEXPORT void tc_SBML_api(
-	void (*exportSBML)(String),
-	void (*importSBML)(String),
+	void (*exportSBML)(const char*),
+	void (*importSBML)(const char*),
 	TableOfReals (*simulateODE)(double, double),
 	TableOfReals (*simulateSSA)(double));
+
+END_C_DECLS
 #endif
 

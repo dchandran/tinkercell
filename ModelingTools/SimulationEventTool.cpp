@@ -789,7 +789,7 @@ namespace Tinkercell
 		NetworkHandle * win = currentNetwork();
 		if (list && win)
 		{
-			QList<ItemHandle*> items;
+			QList<ItemHandle*> items = win->handles();
 
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));
@@ -819,8 +819,7 @@ namespace Tinkercell
 		NetworkHandle * win = currentNetwork();
 		if (list && win)
 		{
-			QList<ItemHandle*> items;
-			items << win->globalHandle();
+			QList<ItemHandle*> items = win->handles();
 
 			QList<ItemHandle*> visited;
 			QRegExp regex(tr("\\.(?!\\d)"));

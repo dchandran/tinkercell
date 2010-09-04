@@ -2,52 +2,53 @@
 #define TINKERCELL_TC_DYNAMICLIBRARYTOOL_API_H
 
 #include "../TCstructs.h"
+BEGIN_C_DECLS
 
 /*! 
  \brief compile and run a c file
  \ingroup Programming
 */
-TCAPIEXPORT int tc_compileAndRun(String command,String args);
+TCAPIEXPORT int tc_compileAndRun(const char* command,const char* args);
 /*! 
  \brief compile a c file, generate the library, and load it
  \ingroup Programming
 */
-TCAPIEXPORT int tc_compileBuildLoad(String filename,String function,String title);
+TCAPIEXPORT int tc_compileBuildLoad(const char* filename,const char* function,const char* title);
 /*! 
  \brief compile a c file, generate the library, and load it
  \ingroup Programming
 */
-TCAPIEXPORT int tc_compileBuildLoadSliders(String filename,String function,String title, TableOfReals inputs);
+TCAPIEXPORT int tc_compileBuildLoadSliders(const char* filename,const char* function,const char* title, TableOfReals inputs);
 /*! 
  \brief run the Python code given by the string
  \ingroup Programming
 */
-TCAPIEXPORT void tc_runPythonCode(String code);
+TCAPIEXPORT void tc_runPythonCode(const char* code);
 /*! 
  \brief run the Python code in the given file
  \ingroup Programming
 */
-TCAPIEXPORT void tc_runPythonFile(String filename);
+TCAPIEXPORT void tc_runPythonFile(const char* filename);
 /*! 
  \brief add a python script to the functions menu
  \ingroup Programming
 */
-TCAPIEXPORT void tc_addPythonPlugin(String file,String name,String description,String category, String icon);
+TCAPIEXPORT void tc_addPythonPlugin(const char* file,const char* name,const char* description,const char* category, const char* icon);
 /*! 
  \brief call a function listed in the functions menu, e.g. "Deterministic simulation"
  \ingroup Programming
 */
-TCAPIEXPORT void tc_callFunction(String functionTitle);
+TCAPIEXPORT void tc_callFunction(const char* functionTitle);
 /*! 
  \brief run a dynamic C library that contains the function "tc_main"
  \ingroup Programming
 */
-TCAPIEXPORT void tc_loadLibrary(String filename);
+TCAPIEXPORT void tc_loadLibrary(const char* filename);
 /*! 
  \brief add a function to the menu of functions
  \ingroup Programming
 */
-TCAPIEXPORT void tc_addFunction(void (*f)(), String title, String description, String category, String iconFile, String target_family, int show_menu, int in_tool_menu, int make_default);
+TCAPIEXPORT void tc_addFunction(void (*f)(), const char* title, const char* description, const char* category, const char* iconFile, const char* target_family, int show_menu, int in_tool_menu, int make_default);
 /*! 
  \brief this function will be called whenever the model is changed
  \ingroup Programming
@@ -63,18 +64,18 @@ TCAPIEXPORT void tc_callWhenExiting(void (*f)(void));
  \brief initialize dialogs and c interface
  \ingroup init
 */
-TCAPIEXPORT void tc_DynamicLibraryMenu_api(void (*callFunction)(String));
+TCAPIEXPORT void tc_DynamicLibraryMenu_api(void (*callFunction)(const char*));
 
 /*! 
  \brief initialize dialogs and c interface
  \ingroup init
 */
 TCAPIEXPORT void tc_LoadCLibraries_api(
-		int (*compileAndRun)(String ,String ),
-		int (*compileBuildLoad)(String ,String , String),
-		int (*compileBuildLoadSliders)(String ,String ,String , TableOfReals ),
-		void (*loadLibrary)(String),
-		void  (*addFunction)(void (*f)(), String, String, String, String, String, int, int, int),
+		int (*compileAndRun)(const char* ,const char* ),
+		int (*compileBuildLoad)(const char* ,const char* , const char*),
+		int (*compileBuildLoadSliders)(const char* ,const char* ,const char* , TableOfReals ),
+		void (*loadLibrary)(const char*),
+		void  (*addFunction)(void (*f)(), const char*, const char*, const char*, const char*, const char*, int, int, int),
 		void (*callback)(void (*f)(void)),
 		void (*unload)(void (*f)(void))
 );
@@ -84,9 +85,9 @@ TCAPIEXPORT void tc_LoadCLibraries_api(
  \ingroup init
 */
 TCAPIEXPORT void tc_PythonTool_api(
-		void (*runPythonCode)(String),
-		void (*runPythonFile)(String),
-		void (*addPythonPlugin)(String,String,String,String,String)
+		void (*runPythonCode)(const char*),
+		void (*runPythonFile)(const char*),
+		void (*addPythonPlugin)(const char*,const char*,const char*,const char*,const char*)
 );
 
 /*! 
@@ -94,10 +95,11 @@ TCAPIEXPORT void tc_PythonTool_api(
  \ingroup init
 */
 TCAPIEXPORT void tc_OctaveTool_api(
-		void (*runOctaveCode)(String),
-		void (*runPythonFile)(String),
-		void (*addOctavePlugin)(String,String,String,String,String)
+		void (*runOctaveCode)(const char*),
+		void (*runPythonFile)(const char*),
+		void (*addOctavePlugin)(const char*,const char*,const char*,const char*,const char*)
 );
 
-
+END_C_DECLS
 #endif
+

@@ -120,7 +120,7 @@ namespace Tinkercell
 		QList< QPair<ItemHandle*,double> > modifiedHandles;
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (handles[i] && handles[i]->data && handles[i]->hasNumericalData(QString("Parameters"))
+			if (currentNetwork->symbolsTable.isValidPointer(handles[i]) && handles[i]->data && handles[i]->hasNumericalData(QString("Parameters"))
 				&& handles[i]->family() && handles[i]->family()->isA("Cell"))
 			{
 				QList<ItemHandle*> handlesInCell;
@@ -207,7 +207,7 @@ namespace Tinkercell
 
 		for (i=0; i < handles.size(); ++i)
 		{
-			if (handles[i])// && handles[i]->family())
+			if (currentNetwork->symbolsTable.isValidPointer(handles[i]))// && handles[i]->family())
 			{
 				if (handles[i]->data)
 				{

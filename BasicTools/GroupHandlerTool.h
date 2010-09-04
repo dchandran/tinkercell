@@ -39,7 +39,7 @@ namespace Tinkercell
 		void separate(QSemaphore*,ItemHandle*);
 	public slots:
 		void merge(ArrayOfItems);
-		void separate(void*);
+		void separate(int);
 	};
 
 	class TINKERCELLEXPORT GroupHandlerTool : public Tool
@@ -76,7 +76,7 @@ namespace Tinkercell
 		void connectTCFunctions();
 		static GroupHandlerTool_FToS fToS;
 		static void _merge( ArrayOfItems );
-		static void _separate(void* );
+		static void _separate(int );
 		static ItemFamily* findBestFamilyOption(QList<ItemFamily*>&);
 	};
 

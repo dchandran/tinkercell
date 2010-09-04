@@ -25,15 +25,15 @@ mod.showCC();
 names = [];
 
 if selected.length == 1:   #if selected items
-    s = nthItem(selected,0);
+    s = tc_getItem(selected,0);
     name = tc_getUniqueName(s);
     inN = False;
     for i in range(0,N.rows):
-        if getRowName(N,i) == name:
+        if tc_getRowName(N,i) == name:
             inN = True;
             break;
     for i in range(0,N.cols):
-        s = getColumnName(N,i);
+        s = tc_getColumnName(N,i);
         names.append(s);
         if s == name:
             inN = True;

@@ -35,7 +35,7 @@ else:
     tfs = [];
 
     for n in range(0,items.length):
-        i = nthItem(items,n);
+        i = tc_getItem(items,n);
         
         if tc_isA(i,"Promoter"):
             promoters.append(i);
@@ -67,11 +67,11 @@ else:
         connections = tc_getConnectionsIn(p);
         
         for j in range(0, connections.length):  #look at parts regulating the promoter
-            parts = tc_getConnectedNodesIn( nthItem(connections,j) );
+            parts = tc_getConnectedNodesIn( tc_getItem(connections,j) );
             pnames = tc_getUniqueNames(parts);
             for k in range(0, parts.length ):
-                if tc_isA( nthItem(parts,k) ,"Protein"): #if a protein regulator
-                    regulators.append( nthString(pnames,k) );  #get its name
+                if tc_isA( tc_getItem(parts,k) ,"Protein"): #if a protein regulator
+                    regulators.append( tc_getString(pnames,k) );  #get its name
         
         displayList = [];
         displayList0 = [];
@@ -92,11 +92,11 @@ else:
         key = "";
         if len(displayList) == 0:
             displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS2.keys();
-            k = tc_getStringFromList("Available regulatory sites from Regulon DB: ", toStrings(displayList) ,"");
+            k = tc_tc_getTableValueFromList("Available regulatory sites from Regulon DB: ", toStrings(displayList) ,"");
             if k > -1:
                 key = displayList[k];
         else:
-            k = tc_getStringFromList("Available sites regulated by " + ", ".join(regulators) + " : ", toStrings(displayList) ,"");
+            k = tc_tc_getTableValueFromList("Available sites regulated by " + ", ".join(regulators) + " : ", toStrings(displayList) ,"");
             if k > -1:
                 key = displayList0[k];
         
@@ -115,11 +115,11 @@ else:
         connections = tc_getConnectionsOut(p);
         
         for j in range(0,connections.length):  #look at parts regulated by this tf
-            parts = tc_getConnectedNodesOut( nthItem(connections,j) );
+            parts = tc_getConnectedNodesOut( tc_getItem(connections,j) );
             pnames = tc_getUniqueNames(parts);
             for k in range(0,parts.length):
-                if tc_isA( nthItem(parts,k) ,"Regulator"): #if regulatory element
-                    promoters.append( nthString(pnames,k));  #get its name
+                if tc_isA( tc_getItem(parts,k) ,"Regulator"): #if regulatory element
+                    promoters.append( tc_getString(pnames,k));  #get its name
         
         displayList = [];
         displayList0 = [];
@@ -141,11 +141,11 @@ else:
         key = "";
         if len(displayList) == 0:
             displayList = RegulonDB.ECOLI_BINDING_SITES_INTERACTIONS1.keys();
-            k = tc_getStringFromList("Available transcription factors from Regulon DB: ", toStrings(displayList),"");
+            k = tc_tc_getTableValueFromList("Available transcription factors from Regulon DB: ", toStrings(displayList),"");
             if k > -1:
                 key = displayList[k];
         else:
-            k = tc_getStringFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ", toStrings(displayList),"");
+            k = tc_tc_getTableValueFromList("Transcription factors known to bind " + ", ".join(promoters) + " : ", toStrings(displayList),"");
             if k > -1:
                 key = displayList0[k];
         
@@ -169,7 +169,7 @@ else:
         k = -1;
         key = "";
         displayList = RegulonDB.ECOLI_RBS.keys();
-        k = tc_getStringFromList("Available RBS sites from Regulon DB: ",toStrings(displayList),"");
+        k = tc_tc_getTableValueFromList("Available RBS sites from Regulon DB: ",toStrings(displayList),"");
         if k > -1:
             key = displayList[k];
         
@@ -189,7 +189,7 @@ else:
         k = -1;
         key = "";
         displayList = RegulonDB.ECOLI_TERMINATORS.keys();
-        k = tc_getStringFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",toStrings(displayList),"");
+        k = tc_tc_getTableValueFromList("Available terminator sites \n (from listed orfs) from Regulon DB: ",toStrings(displayList),"");
         if k > -1:
             key = displayList[k];
         

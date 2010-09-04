@@ -12,14 +12,14 @@ from tinkercell import *
 items = tc_selectedItems();
 synthesis = [];
 for i in range(0,items.length):
-	if tc_isA( nthItem(items,i),"Synthesis"):
-		synthesis.append( nthItem(items,i) );
-deleteArrayOfItems(items);
+	if tc_isA( tc_getItem(items,i),"Synthesis"):
+		synthesis.append( tc_getItem(items,i) );
+tc_deleteItemsArray(items);
 
 if (len(synthesis) > 0):
 	strList = toStrings(("Auto","Activation","Repression","AND","OR","NOR","XOR"));
-	t = tc_getStringFromList("Select the logical function to approximate:",strList,"Auto");
-	deleteArrayOfStrings(strList);
+	t = tc_tc_getTableValueFromList("Select the logical function to approximate:",strList,"Auto");
+	tc_deleteStringsArray(strList);
 	if t > -1:
 		for i in synthesis:
 			fracs = [];
@@ -28,32 +28,32 @@ if (len(synthesis) > 0):
 			connectors = [];
 			promotername = "";
 			genes = tc_getConnectedNodesIn( i );
-			if genes.length > 0 and tc_isA( nthItem(genes,0) ,"Part" ):
-				upstream = tc_partsUpstream( nthItem(genes,0) );
+			if genes.length > 0 and tc_isA( tc_getItem(genes,0) ,"Part" ):
+				upstream = tc_partsUpstream( tc_getItem(genes,0) );
 				for j in range(0,upstream.length):
-					p = nthItem(upstream,j);
+					p = tc_getItem(upstream,j);
 					if tc_isA(p,"Promoter"): promotername = tc_getUniqueName(p);
 					connectors2 = tc_getConnectionsIn(p);
 					isRepressor = False;
 					for k in range(0,connectors2.length):
-						c = nthItem(connectors2,k);
+						c = tc_getItem(connectors2,k);
 						connectors.append(c);
 						isRepressor = (t==0 and tc_isA(c,"Transcription Repression"));
 						cname = tc_getUniqueName(c);
 						parts = tc_getConnectedNodesIn(c);
 						pnames = tc_getUniqueNames(parts);
 						for n in range(0,pnames.length):
-							s = "((" + nthString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
+							s = "((" + tc_getString(pnames,n) + "/" + cname + ".Kd)^" + cname + ".h)";
 							if not isRepressor:
 								indiv.append(s);
 							indiv2.append(s);
 							s = "(1+" + s + ")";
 							fracs.append(s);
-					deleteArrayOfItems(connectors2);
-				p = nthItem(genes,0);
+					tc_deleteItemsArray(connectors2);
+				p = tc_getItem(genes,0);
 				if tc_isA(p,"Promoter"):
 					promotername = tc_getUniqueName(p);
-			deleteArrayOfItems(genes);
+			tc_deleteItemsArray(genes);
 			rate = "0.0";			
 			if len(promotername) > 0:
 				rate = "";

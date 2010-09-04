@@ -12,7 +12,7 @@ import networkx as nx
 def getIndex(item,array):
 	n = array.length
 	for i in range(0,n):
-			if nthItem(array,i) == item:
+			if tc_getItem(array,i) == item:
 				return i;
 	return null;
 
@@ -29,12 +29,12 @@ M = [];
 
 #make the adjacency matrix
 for  i in range(0,numConnections):
-	connected_nodes = tc_getConnectedNodes( nthItem(connections,i) );
+	connected_nodes = tc_getConnectedNodes( tc_getItem(connections,i) );
 	n = connected_nodes.length;
 	for j1 in range(0, n-1):
-		k1 = getIndex( nthItem(connected_nodes,j1) , nodes);
+		k1 = getIndex( tc_getItem(connected_nodes,j1) , nodes);
 		for j2 in range(j1, n):
-			k2 = getIndex( nthItem(connected_nodes,j2) , nodes);
+			k2 = getIndex( tc_getItem(connected_nodes,j2) , nodes);
 			M.append(  (k1,k2) );   #nodes k1 and k2 are connected via connection i
 
 #make the graph
@@ -44,8 +44,8 @@ G.add_edges_from(M);
 
 #user interface
 strList = toStrings( ("degree centrality", "betweenness centrality", "load centrality", "closeness centrality") );
-option = tc_getStringFromList("Select type of centrality:", strList, "degree centrality");
-deleteArrayOfStrings(strList);
+option = tc_tc_getTableValueFromList("Select type of centrality:", strList, "degree centrality");
+tc_deleteStringsArray(strList);
 
 N = [];
 
@@ -65,7 +65,7 @@ if len(N) == numNodes:  #print and display the values
 	minV = -1;
 	maxV = -1;
 	for i in range(0,numNodes):
-		tc_displayNumber( nthItem(nodes,i), round(N[i],3));
+		tc_displayNumber( tc_getItem(nodes,i), round(N[i],3));
 		if minV < 0 or minV > N[i]:
 			worst = i;
 			minV = N[i];
@@ -75,6 +75,6 @@ if len(N) == numNodes:  #print and display the values
 		s += nodeNames[i] + "\t" + str(N[i]) + "\n";
 	tc_print(s);
 	if worst > -1 and best > -1:
-		tc_highlight( nthItem(nodes,best) , "#FF0000" );
-		tc_highlight( nthItem(nodes,worst) , "#00FF00");
+		tc_highlight( tc_getItem(nodes,best) , "#FF0000" );
+		tc_highlight( tc_getItem(nodes,worst) , "#00FF00");
 

@@ -1,35 +1,35 @@
-def toArrayOfItems(array):
+def totc_items(array):
     n = len(array);
-    A = newArrayOfItems(n);
+    A = tc_createItemsArray(n);
     for i in range(0, n):
-        setNthItem(A, i, array[i]);
+        tc_setItem(A, i, array[i]);
 
     return A;
 
-def fromArrayOfItems(array):
+def fromtc_items(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
-        A[i] = nthItem(array,i);
+        A[i] = tc_getItem(array,i);
 
-    deleteArrayOfItems(array);
+    tc_deleteItemsArray(array);
     return A;
 
-def toArrayOfStrings(array):
+def totc_strings(array):
     n = len(array);
-    A = newArrayOfStrings(n);
+    A = tc_createStringsArray(n);
     for i in range(0, n):
-        setNthString(A, i, array[i]);
+        tc_setString(A, i, array[i]);
 
     return A;
 
-def fromArrayOfStrings(array):
+def fromtc_strings(array):
     n = array.length;
     A = range(0,n);
     for i in range(0, n):
-        A[i] = nthString(array,i);
+        A[i] = tc_getString(array,i);
 
-    deleteArrayOfStrings(array);
+    tc_deleteStringsArray(array);
     return A;
 
 def fromMatrix(matrix, row_wise = False):
@@ -42,24 +42,24 @@ def fromMatrix(matrix, row_wise = False):
         for i in range(0, n):
             A[i] = range(0,m);
             for j in range(0,m):
-                A[i][j] = getValue(matrix,i,j);
+                A[i][j] = tc_getMatrixValue(matrix,i,j);
     else:
         A = range(0,m);
         for i in range(0, m):
             A[i] = range(0,n);
             for j in range(0,n):
-                A[i][j] = getValue(matrix,j,i);
+                A[i][j] = tc_getMatrixValue(matrix,j,i);
 
-    deleteMatrix(matrix);
+    tc_deleteMatrix(matrix);
     return [rows, cols, A];
 
 def toMatrix(lists, row_wise = False , rows = [], cols = []):
     n = len(lists);
     m = len(lists[0]);
     if row_wise:
-        A = newMatrix(n,m);
+        A = tc_createMatrix(n,m);
     else:
-        A = newMatrix(m,n);
+        A = tc_createMatrix(m,n);
     for i in range(0, n):
         for j in range(0,m):
             if row_wise:
@@ -70,7 +70,7 @@ def toMatrix(lists, row_wise = False , rows = [], cols = []):
     m = len(cols);
 
     for i in range(0,n):
-        setRowName(matrix,i,rows[i]);
+        tc_setRowName(matrix,i,rows[i]);
 
     for i in range(0,m):
         setColName(matrix,i,cols[i]);
@@ -82,14 +82,14 @@ def toHex(r,g,b):
     return "#" + hexchars[r / 16] + hexchars[r % 16] + hexchars[g / 16] + hexchars[g % 16] + hexchars[b / 16] + hexchars[b % 16];
 
 def fromTC(x):
-    if type(x) == type(newMatrix(0,0)): return fromMatrix(x)
-    if type(x) == type(newArrayOfStrings(0)): return fromArrayOfStrings(x)
-    if type(x) == type(newArrayOfItems(0)): return fromArrayOfItems(x)
+    if type(x) == type(tc_createMatrix(0,0)): return fromMatrix(x)
+    if type(x) == type(tc_createStringsArray(0)): return fromtc_strings(x)
+    if type(x) == type(tc_createItemsArray(0)): return fromtc_items(x)
     return null
 
 def toTC(x):
     if type(x) == type([]) and len(x) > 0 and type(x[0]) == type([]): return toMatrix(x)
-    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return toArrayOfStrings(x)
-    if type(x) == type([]) and len(x) > 0 and str(type(x[0])) == '<type \'SwigPyObject\'>': return toArrayOfItems(x)
+    if type(x) == type([]) and len(x) > 0 and type(x[0]) == type('hello'): return totc_strings(x)
+    if type(x) == type([]) and len(x) > 0 and str(type(x[0])) == '<type \'SwigPyObject\'>': return totc_items(x)
     return null
 

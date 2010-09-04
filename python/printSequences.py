@@ -17,7 +17,7 @@ if A.length > 0:
   n = seqs.length;
   s = '';
   for i in range(0,n):
-    s += '>' + nthString(names,i) + '\n' + nthString(seqs,i) + '\n';
+    s += '>' + tc_getString(names,i) + '\n' + tc_getString(seqs,i) + '\n';
 
   tc_print(s);
 

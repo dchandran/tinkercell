@@ -41,6 +41,6 @@ def text(itemNames, text):
     if (len(itemNames) < n):
         n = len(itemNames);
     for i in range(0,items.length):
-        if not nthItem(items,i) == 0:
-            tc_displayText( nthItem(items,i) ,text[i]);
+        if not tc_getItem(items,i) == 0:
+            tc_displayText( tc_getItem(items,i) ,text[i]);
 

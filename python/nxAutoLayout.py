@@ -14,11 +14,11 @@ def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, g
 	M = [];
 
 	for  i in range(0,numConnections):
-		connected_nodes = tc_getConnectedNodes( nthItem(connections,i) );
+		connected_nodes = tc_getConnectedNodes( tc_getItem(connections,i) );
 		for j in range(0,connected_nodes.length):
 			n = 0;
 			for k in range(0,numNodes):
-				if nthItem(nodes,k) == nthItem(connected_nodes,j):
+				if tc_getItem(nodes,k) == tc_getItem(connected_nodes,j):
 					n = k;
 					break;
 			
@@ -85,14 +85,14 @@ def doLayout(type): #type = (spring, circular, random, spectral, shell, pydot, g
 
 	tc_setAllStraight();
 	
-	Array2 = newArrayOfItems( len(Array) );
+	Array2 = tc_createItemsArray( len(Array) );
 	for i in Array:
-		setNthItem(Array2,i);
+		tc_setItem(Array2,i);
 	
-	Pos = newMatrix( len(PosX), 2 );
+	Pos = tc_createMatrix( len(PosX), 2 );
 	for i in range(0,len(PosX)):
-		setValue(Pos, i, 0, PosX[i]);
-		setValue(Pos, i, 1, PosY[i]);
+		tc_setMatrixValue(Pos, i, 0, PosX[i]);
+		tc_setMatrixValue(Pos, i, 1, PosY[i]);
 	
 	tc_setPosMulti(Array,Pos);
 

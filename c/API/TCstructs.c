@@ -83,7 +83,7 @@ ArrayOfItems newArrayOfItems(int len)
 	else
 	{
 		A.length = len;
-		A.items = (int*)malloc(len * sizeof(int));
+		A.items = (long*)malloc(len * sizeof(long));
 		for (i=0; i < len; ++i)
 			A.items[i] = 0;
 	}
@@ -164,14 +164,14 @@ void setNthString(ArrayOfStrings S, int i, const char * s)
 	}
 }
 
-int nthItem(ArrayOfItems A, int i)
+long nthItem(ArrayOfItems A, int i)
 {
 	if (i >= 0 && i < A.length)
 		return A.items[ i ];
 	return 0;
 }
 
-void setNthItem(ArrayOfItems A, int i, int o)
+void setNthItem(ArrayOfItems A, int i, long o)
 {
 	if (i >= 0 && i < A.length)
 		A.items[ i ] = o;

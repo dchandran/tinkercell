@@ -371,17 +371,17 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	ArrayOfStrings NameFamilyDialog::_getAnnotation(int o)
+	ArrayOfStrings NameFamilyDialog::_getAnnotation(long o)
 	{
 		return fToS.getAnnotation(o);
 	}
 
-	void NameFamilyDialog::_setAnnotation(int o, ArrayOfStrings a)
+	void NameFamilyDialog::_setAnnotation(long o, ArrayOfStrings a)
 	{
 		return fToS.setAnnotation(o,a);
 	}
 
-	ArrayOfStrings NameFamilyDialog_FtoS::getAnnotation(int o)
+	ArrayOfStrings NameFamilyDialog_FtoS::getAnnotation(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -393,7 +393,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	void NameFamilyDialog_FtoS::setAnnotation(int o, ArrayOfStrings a)
+	void NameFamilyDialog_FtoS::setAnnotation(long o, ArrayOfStrings a)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -412,8 +412,8 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_NameFamily_api_func)(
-		ArrayOfStrings (*tc_getAnnotation)(int),
-		void (*tc_setAnnotation)(int,ArrayOfStrings)
+		ArrayOfStrings (*tc_getAnnotation)(long),
+		void (*tc_setAnnotation)(long,ArrayOfStrings)
 		);
 
 	void NameFamilyDialog::setupFunctionPointers(QLibrary * library)

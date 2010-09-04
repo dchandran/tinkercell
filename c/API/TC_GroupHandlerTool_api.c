@@ -11,12 +11,12 @@ void tc_merge(ArrayOfItems parts)
 		_tc_merge(parts);
 }
 
-void (*_tc_separate)(int part) = 0;
+void (*_tc_separate)(long part) = 0;
 /*! 
  \brief separate all the graphical items in the handle 
  \ingroup Merging
 */
-void tc_separate(int part)
+void tc_separate(long part)
 {
 	if (_tc_separate)
 		_tc_separate(part);
@@ -27,7 +27,7 @@ void tc_separate(int part)
 */
 void tc_GroupHandlerTool_api(
 		void (*merge)(ArrayOfItems),
-		void (*separate)(int)
+		void (*separate)(long)
 	)
 {
 	_tc_merge = merge;

@@ -220,6 +220,7 @@ IF( QT4_FOUND AND OPENGL_FOUND )
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/SBW
 	${TINKERCELL_SOURCE_DIR}/ExternalCode/sbw/include/libxml
     ${TINKERCELL_SOURCE_DIR}/c/
+    ${TINKERCELL_SOURCE_DIR}/c/API
     ${TINKERCELL_SOURCE_DIR}/c/sbml_sim/
     ${TINKERCELL_SOURCE_DIR}/c/lpsolve/
     ${TINKERCELL_SOURCE_DIR}/Core/

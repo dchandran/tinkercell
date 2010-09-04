@@ -42,10 +42,10 @@ namespace Tinkercell
 	}
 	
 	typedef void (*tc_CLabelsTool_api)(
-		 void (*displayText)(int item,const char*),
-		void (*displayNumber)(int item,double),
+		 void (*displayText)(long item,const char*),
+		void (*displayNumber)(long item,double),
 		void (*setDisplayLabelColor)(const char *, const char *),
-		void (*highlight)(int,const char*)
+		void (*highlight)(long,const char*)
 	);
 	
 	void CLabelsTool::historyChanged( int )
@@ -253,12 +253,12 @@ namespace Tinkercell
 	
 	CLabelsTool_FToS CLabelsTool::fToS;
 	
-	void CLabelsTool::_displayText(int o,const char* c)
+	void CLabelsTool::_displayText(long o,const char* c)
 	{
 		fToS.displayText(o,c);
 	}
 	
-	void CLabelsTool::_displayNumber(int o,double d)
+	void CLabelsTool::_displayNumber(long o,double d)
 	{
 		fToS.displayNumber(o,d);
 	}
@@ -268,17 +268,17 @@ namespace Tinkercell
 		fToS.setDisplayLabelColor(a,b);
 	}
 	
-	void CLabelsTool::_highlightItem(int o, const char * c)
+	void CLabelsTool::_highlightItem(long o, const char * c)
 	{
 		fToS.highlightItem(o,c);
 	}
 	
-	void CLabelsTool_FToS::displayText(int o,const char* c)
+	void CLabelsTool_FToS::displayText(long o,const char* c)
 	{
 		emit displayText(ConvertValue(o),ConvertValue(c));
 	}
 	
-	void CLabelsTool_FToS::displayNumber(int o,double d)
+	void CLabelsTool_FToS::displayNumber(long o,double d)
 	{
 		emit displayText(ConvertValue(o),QString::number(d));
 	}
@@ -288,7 +288,7 @@ namespace Tinkercell
 		emit setLabelColor(QColor(tr(c1)), QColor(tr(c2)));
 	}
 	
-	void CLabelsTool_FToS::highlightItem(int o, const char* c)
+	void CLabelsTool_FToS::highlightItem(long o, const char* c)
 	{
 		emit highlightItem(ConvertValue(o),QColor(tr(c)));
 	}

@@ -55,11 +55,11 @@ namespace Tinkercell
 		void getConnections(QSemaphore*,QList<ItemHandle*>*,ItemHandle*);
 		void getConnectionsWithRole(QSemaphore*,QList<ItemHandle*>*,ItemHandle*,const QString&);
 	public slots:
-		int insertConnection(ArrayOfItems, const char*, const char*);
-		ArrayOfItems getConnectedNodes(int);
-		ArrayOfItems getConnectedNodesWithRole(int,const char*);
-		ArrayOfItems getConnections(int);
-		ArrayOfItems getConnectionsWithRole(int,const char*);
+		long insertConnection(ArrayOfItems, const char*, const char*);
+		ArrayOfItems getConnectedNodes(long);
+		ArrayOfItems getConnectedNodesWithRole(long,const char*);
+		ArrayOfItems getConnections(long);
+		ArrayOfItems getConnectionsWithRole(long,const char*);
 	};
 
 	/*!\brief This class allows users to select items from the connection tree and insert them onto the scene.
@@ -176,15 +176,15 @@ namespace Tinkercell
 		static ConnectionInsertion_FToS fToS;
 
 		/*!\brief C API function*/
-		static int _insertConnection(ArrayOfItems, const char*, const char*);
+		static long _insertConnection(ArrayOfItems, const char*, const char*);
 		/*!\brief C API function*/
-		static ArrayOfItems _getConnectedNodes(int);
+		static ArrayOfItems _getConnectedNodes(long);
 		/*!\brief C API function*/
-		static ArrayOfItems _getConnectedNodesWithRole(int,const char*);
+		static ArrayOfItems _getConnectedNodesWithRole(long,const char*);
 		/*!\brief C API function*/
-		static ArrayOfItems _getConnections(int);
+		static ArrayOfItems _getConnections(long);
 		/*!\brief C API function*/
-		static ArrayOfItems _getConnectionsWithRole(int,const char*);
+		static ArrayOfItems _getConnectionsWithRole(long,const char*);
 		
 		bool isReactant(NodeHandle*);
 		bool isProduct(NodeHandle*);

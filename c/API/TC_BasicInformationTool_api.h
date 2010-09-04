@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TC_BASICINFORMATIONTOOL_API_H
 #define TINKERCELL_TC_BASICINFORMATIONTOOL_API_H
 
-#include "../TCstructs.h"
+#include "TCstructs.h"
 
 BEGIN_C_DECLS
 
@@ -34,12 +34,12 @@ TCAPIEXPORT TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a);
  \brief get the text attribute with the given name for the given item
  \ingroup Network data
 */
-TCAPIEXPORT const char* tc_getTextAttribute(int item,const char* attribute);
+TCAPIEXPORT const char* tc_getTextAttribute(long item,const char* attribute);
 /*! 
  \brief get the numerical attribute with the given name for the given item
  \ingroup Modeling
 */
-TCAPIEXPORT double tc_getParameter(int item,const char* attribute);
+TCAPIEXPORT double tc_getParameter(long item,const char* attribute);
 /*! 
  \brief get all numerical Modeling with the given names for the given items
  \ingroup Modeling
@@ -59,20 +59,20 @@ TCAPIEXPORT ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings Mode
  \brief set text attribute for the given item
  \ingroup Network data
 */
-TCAPIEXPORT void tc_setTextAttribute(int item,const char* attribute,const char* value);
+TCAPIEXPORT void tc_setTextAttribute(long item,const char* attribute,const char* value);
 /*! 
  \brief set numerical attribute for the given item
  \ingroup Modeling
 */
-TCAPIEXPORT void tc_setParameter(int item,const char* attribute,double value);
+TCAPIEXPORT void tc_setParameter(long item,const char* attribute,double value);
 /*! 
  \brief initialize attribute functions
  \ingroup init
 */
 TCAPIEXPORT void tc_BasicInformationTool_Text_api(
-		const char* (*getTextData)(int ,const char* ),
+		const char* (*getTextData)(long ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
-		void (*setTextData)(int ,const char* ,const char* ));
+		void (*setTextData)(long ,const char* ,const char* ));
 
 TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
 		TableOfReals (*getInitialValues)(ArrayOfItems ),
@@ -80,10 +80,10 @@ TCAPIEXPORT void tc_BasicInformationTool_Numeric_api(
 		TableOfReals (*getParameters)(ArrayOfItems ),
 		TableOfReals (*getFixedVariabes)(ArrayOfItems),
 		TableOfReals (*getParametersAndFixedVariabes)(ArrayOfItems ),
-		double (*getNumericalData)(int ,const char* ),
+		double (*getNumericalData)(long ,const char* ),
 		TableOfReals (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
 		TableOfReals (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
-		void (*setNumericalData)(int ,const char* ,double )
+		void (*setNumericalData)(long ,const char* ,double )
 	);
 
 END_C_DECLS

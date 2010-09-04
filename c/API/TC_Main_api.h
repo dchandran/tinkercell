@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TC_MAIN_API_H
 #define TINKERCELL_TC_MAIN_API_H
 
-#include "../TCstructs.h"
+#include "TCstructs.h"
 BEGIN_C_DECLS
 
 /*! 
@@ -32,7 +32,7 @@ TCAPIEXPORT ArrayOfItems tc_itemsOfFamilyFrom(const char* family, ArrayOfItems i
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
-TCAPIEXPORT int tc_find(const char* fullname);
+TCAPIEXPORT long tc_find(const char* fullname);
 
 /*! 
  \brief get all items with the given names (full names)
@@ -44,7 +44,7 @@ TCAPIEXPORT ArrayOfItems tc_findItems(ArrayOfStrings names);
  \brief select an item
  \ingroup Get items
 */
-TCAPIEXPORT void tc_select(int item);
+TCAPIEXPORT void tc_select(long item);
 
 /*! 
  \brief deselect all items
@@ -56,19 +56,19 @@ TCAPIEXPORT void tc_deselect();
  \brief get the name of an item
  \ingroup Get items
 */
-TCAPIEXPORT const char* tc_getName(int item);
+TCAPIEXPORT const char* tc_getName(long item);
 
 /*! 
  \brief get the full name of an item
  \ingroup Get items
 */
-TCAPIEXPORT const char* tc_getUniqueName(int item);
+TCAPIEXPORT const char* tc_getUniqueName(long item);
 
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Get items
 */
-TCAPIEXPORT void tc_rename(int item,const char* name);
+TCAPIEXPORT void tc_rename(long item,const char* name);
 
 /*! 
  \brief get the names of several items
@@ -86,13 +86,13 @@ TCAPIEXPORT ArrayOfStrings tc_getUniqueNames(ArrayOfItems items);
  \brief get the family name of an item
  \ingroup Annotation
 */
-TCAPIEXPORT const char* tc_getFamily(int item);
+TCAPIEXPORT const char* tc_getFamily(long item);
 
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
 */
-TCAPIEXPORT int tc_isA(int item,const char* family);
+TCAPIEXPORT int tc_isA(long item,const char* family);
 
 /*! 
  \brief show text in the output window.
@@ -128,19 +128,19 @@ TCAPIEXPORT void tc_clear();
  \brief delete an item
  \ingroup Insert and remove
 */
-TCAPIEXPORT void tc_remove(int item);
+TCAPIEXPORT void tc_remove(long item);
 
 /*! 
  \brief get the x location of an item
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getY(int item);
+TCAPIEXPORT double tc_getY(long item);
 
 /*! 
  \brief get the y location of an item
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getX(int item);
+TCAPIEXPORT double tc_getX(long item);
 
 /*! 
  \brief get the y location of a list item. Output is a N x 2 matrix
@@ -152,7 +152,7 @@ TCAPIEXPORT TableOfReals tc_getPos(ArrayOfItems items);
  \brief set the x and y location of an item
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setPos(int item,double x,double y);
+TCAPIEXPORT void tc_setPos(long item,double x,double y);
 
 /*! 
  \brief set the x and y location of a list of N items. Input a matrix of positions, with N rows and 2 columns (x,y)
@@ -223,49 +223,49 @@ TCAPIEXPORT void tc_openNewWindow(const char* title);
  \brief get child items of the given item
  \ingroup Get items
 */
-TCAPIEXPORT ArrayOfItems tc_getChildren(int o);
+TCAPIEXPORT ArrayOfItems tc_getChildren(long o);
 
 /*! 
  \brief get parent item of the given item
  \ingroup Get items
 */
-TCAPIEXPORT int tc_getParent(int o);
+TCAPIEXPORT long tc_getParent(long o);
 
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Network data
 */
-TCAPIEXPORT TableOfReals tc_getNumericalData(int item,const char* data);
+TCAPIEXPORT TableOfReals tc_getNumericalData(long item,const char* data);
 
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Network data
 */
-TCAPIEXPORT void tc_setNumericalData(int o,const char* title,TableOfReals data);
+TCAPIEXPORT void tc_setNumericalData(long o,const char* title,TableOfReals data);
 
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Network data
 */
-TCAPIEXPORT TableOfStrings tc_getTextData(int item,const char* data);
+TCAPIEXPORT TableOfStrings tc_getTextData(long item,const char* data);
 
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Network data
 */
-TCAPIEXPORT void tc_setTextData(int o,const char* title,TableOfStrings data);
+TCAPIEXPORT void tc_setTextData(long o,const char* title,TableOfStrings data);
 
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Network data
 */
-TCAPIEXPORT ArrayOfStrings tc_getNumericalDataNames(int o);
+TCAPIEXPORT ArrayOfStrings tc_getNumericalDataNames(long o);
 
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Network data
 */
-TCAPIEXPORT ArrayOfStrings tc_getTextDataNames(int o);
+TCAPIEXPORT ArrayOfStrings tc_getTextDataNames(long o);
 
 /*! 
  \brief zoom by the given factor (0 - 1)
@@ -319,7 +319,7 @@ TCAPIEXPORT void tc_messageDialog(const char* message);
  \brief get pointer to the current thread
  \ingroup Programming
 */
-TCAPIEXPORT int tc_thisThread();
+TCAPIEXPORT long tc_thisThread();
 
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
@@ -331,55 +331,55 @@ TCAPIEXPORT void tc_createSliders(TableOfReals input, void (*f)(TableOfReals));
  \brief get the color of the item
  \ingroup Appearance
 */
-TCAPIEXPORT const char* tc_getColor(int item);
+TCAPIEXPORT const char* tc_getColor(long item);
 
 /*! 
  \brief set the rgb color  of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setColor(int item,const char* name, int permanent);
+TCAPIEXPORT void tc_setColor(long item,const char* name, int permanent);
 
 /*! 
  \brief change the graphics file for drawing one of the nodes
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_changeNodeImage(int item,const char* filename);
+TCAPIEXPORT void tc_changeNodeImage(long item,const char* filename);
 
 /*! 
  \brief change the graphics file for drawing the arrowheads for the given connection
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_changeArrowHead(int connection,const char* filename);
+TCAPIEXPORT void tc_changeArrowHead(long connection,const char* filename);
 
 /*!
  \brief Change the size of an item
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setSize(int item,double width,double height,int permanent);
+TCAPIEXPORT void tc_setSize(long item,double width,double height,int permanent);
 
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getWidth(int item);
+TCAPIEXPORT double tc_getWidth(long item);
 
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getHeight(int item);
+TCAPIEXPORT double tc_getHeight(long item);
 
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-TCAPIEXPORT void tc_setAngle(int item, double t,int permanent);
+TCAPIEXPORT void tc_setAngle(long item, double t,int permanent);
 
 /*!
  \brief get the angle of an item
  \ingroup Appearance
 */
-TCAPIEXPORT double tc_getAngle(int item);
+TCAPIEXPORT double tc_getAngle(long item);
 
 /*! 
  \brief initialize main
@@ -390,17 +390,17 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		ArrayOfItems (*tc_selectedItems0)(),
 		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
 		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
-		int (*tc_find0)(const char*),
+		long (*tc_find0)(const char*),
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
-		void (*tc_select0)(int),
+		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
-		const char* (*tc_getName0)(int),
-		const char* (*tc_getUniqueName0)(int),
-		void (*tc_setName0)(int item,const char* name),
+		const char* (*tc_getName0)(long),
+		const char* (*tc_getUniqueName0)(long),
+		void (*tc_setName0)(long item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
 		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
-		const char* (*tc_getFamily0)(int),
-		int (*tc_isA0)(int,const char*),
+		const char* (*tc_getFamily0)(long),
+		int (*tc_isA0)(long,const char*),
 
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
@@ -408,12 +408,12 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		void (*tc_outputTable0)(TableOfReals),
 		void (*tc_printFile0)(const char*),
 
-		void (*tc_removeItem0)(int),
+		void (*tc_removeItem0)(long),
 
-		double (*tc_getY0)(int),
-		double (*tc_getX0)(int),
+		double (*tc_getY0)(long),
+		double (*tc_getX0)(long),
 		TableOfReals (*tc_getPos0)(ArrayOfItems),
-		void (*tc_setPos0)(int,double,double),
+		void (*tc_setPos0)(long,double,double),
 		void (*tc_setPos1)(ArrayOfItems,TableOfReals),
 		void (*tc_moveSelected0)(double,double),
 
@@ -424,22 +424,22 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		
 		void (*tc_createInputWindow0)(TableOfReals,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(TableOfReals, const char*, void (*f)(TableOfReals)),
-		void (*createSliders)(int, TableOfReals, void (*f)(TableOfReals)),
+		void (*createSliders)(long, TableOfReals, void (*f)(TableOfReals)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char* title),
 		
-		ArrayOfItems (*tc_getChildren0)(int),
-		int (*tc_getParent0)(int),
+		ArrayOfItems (*tc_getChildren0)(long),
+		long (*tc_getParent0)(long),
 		
-		TableOfReals (*tc_getNumericalData0)(int,const char*),
-		void (*tc_setNumericalData0)(int,const char*,TableOfReals),
-		TableOfStrings (*tc_getTextData0)(int,const char*),
-		void (*tc_setTextData0)(int,const char*, TableOfStrings),
+		TableOfReals (*tc_getNumericalData0)(long,const char*),
+		void (*tc_setNumericalData0)(long,const char*,TableOfReals),
+		TableOfStrings (*tc_getTextData0)(long,const char*),
+		void (*tc_setTextData0)(long,const char*, TableOfStrings),
 				
-		ArrayOfStrings (*tc_getNumericalDataNames0)(int),
-		ArrayOfStrings (*tc_getTextDataNames0)(int),
+		ArrayOfStrings (*tc_getNumericalDataNames0)(long),
+		ArrayOfStrings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
 		
@@ -452,16 +452,16 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
 		
-		void (*setSize0)(int,double,double,int),
-		double (*getWidth0)(int),
-		double (*getHeight0)(int),
-		void (*setAngle0)(int,double,int),
-		double (*getAngle0)(int),
-		const char* (*getColor)(int),
-		void (*setColor0)(int,const char*,int),
+		void (*setSize0)(long,double,double,int),
+		double (*getWidth0)(long),
+		double (*getHeight0)(long),
+		void (*setAngle0)(long,double,int),
+		double (*getAngle0)(long),
+		const char* (*getColor)(long),
+		void (*setColor0)(long,const char*,int),
 		
-		void (*changeGraphics0)(int,const char*),
-		void (*changeArrowHead0)(int,const char*)
+		void (*changeGraphics0)(long,const char*),
+		void (*changeArrowHead0)(long,const char*)
 	);
 
 /*! 
@@ -475,8 +475,8 @@ TCAPIEXPORT void tc_showProgress(int progress);
  \ingroup init
 */
 TCAPIEXPORT void tc_CThread_api_initialize( 
-	int cthread,
-	void (*showProgress)(int, int)	);
+	long cthread,
+	void (*showProgress)(long, int)	);
 
 END_C_DECLS
 #endif

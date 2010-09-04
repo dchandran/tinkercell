@@ -61,24 +61,24 @@ TableOfReals tc_getParametersAndFixedVariables(ArrayOfItems a)
 	return newMatrix(0,0);
 }
 
-const char* (*_tc_getTextAttribute)(int item,const char* attribute) = 0;
+const char* (*_tc_getTextAttribute)(long item,const char* attribute) = 0;
 /*! 
  \brief get the text attribute with the given name for the given item
  \ingroup Attributes
 */
-const char* tc_getTextAttribute(int item,const char* attribute)
+const char* tc_getTextAttribute(long item,const char* attribute)
 {
 	if (_tc_getTextAttribute)
 		return _tc_getTextAttribute(item,attribute);
 	return 0;
 }
 
-double (*_tc_getParameter)(int item,const char* attribute) = 0;
+double (*_tc_getParameter)(long item,const char* attribute) = 0;
 /*! 
  \brief get the numerical attribute with the given name for the given item
  \ingroup Attributes
 */
-double tc_getParameter(int item,const char* attribute)
+double tc_getParameter(long item,const char* attribute)
 {
 	if (_tc_getParameter)
 		return _tc_getParameter(item,attribute);
@@ -121,23 +121,23 @@ ArrayOfStrings tc_getAllTextNamed(ArrayOfItems a,ArrayOfStrings attributes)
 	return newArrayOfStrings(0);
 }
 
-void (*_tc_setTextAttribute)(int item,const char* attribute,const char* value) = 0;
+void (*_tc_setTextAttribute)(long item,const char* attribute,const char* value) = 0;
 /*! 
  \brief set text attribute for the given item
  \ingroup Attributes
 */
-void tc_setTextAttribute(int item,const char* attribute,const char* value)
+void tc_setTextAttribute(long item,const char* attribute,const char* value)
 {
 	if (_tc_setTextAttribute)
 		_tc_setTextAttribute(item,attribute,value);
 }
 
-void (*_tc_setParameter)(int item,const char* attribute,double value) = 0;
+void (*_tc_setParameter)(long item,const char* attribute,double value) = 0;
 /*! 
  \brief set numerical attribute for the given item
  \ingroup Attributes
 */
-void tc_setParameter(int item,const char* attribute,double value)
+void tc_setParameter(long item,const char* attribute,double value)
 {
 	if (_tc_setParameter)
 		_tc_setParameter(item,attribute,value);
@@ -148,9 +148,9 @@ void tc_setParameter(int item,const char* attribute,double value)
  \ingroup init
 */
 void tc_BasicInformationTool_Text_api(
-		const char* (*getTextData)(int ,const char* ),
+		const char* (*getTextData)(long ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems,ArrayOfStrings),
-		void (*setTextData)(int ,const char* ,const char* ))
+		void (*setTextData)(long ,const char* ,const char* ))
 {
 	_tc_getTextAttribute = getTextData;
 	_tc_getAllTextNamed = getAllTextDataNamed;
@@ -163,10 +163,10 @@ void tc_BasicInformationTool_Numeric_api(
 		TableOfReals (*getParameters)(ArrayOfItems ),
 		TableOfReals (*getFixedVariabes)(ArrayOfItems),
 		TableOfReals (*getParametersAndFixedVariabes)(ArrayOfItems ),
-		double (*getNumericalData)(int ,const char* ),
+		double (*getNumericalData)(long ,const char* ),
 		TableOfReals (*getParametersNamed)(ArrayOfItems,ArrayOfStrings),
 		TableOfReals (*getParametersExcept)(ArrayOfItems,ArrayOfStrings),
-		void (*setNumericalData)(int ,const char* ,double )
+		void (*setNumericalData)(long ,const char* ,double )
 	)
 {
 	_tc_getInitialValues = getInitialValues;

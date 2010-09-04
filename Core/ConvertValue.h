@@ -47,12 +47,12 @@ namespace Tinkercell
 	\ingroup helper
 	\return ItemHandle*
 	*/
-	TINKERCELLEXPORT ItemHandle* ConvertValue(int);
+	TINKERCELLEXPORT ItemHandle* ConvertValue(long);
 	/*! \brief convert ItemHandle pointer to void *
 	\ingroup helper
 	\return void* 
 	*/
-	TINKERCELLEXPORT int ConvertValue(ItemHandle*);
+	TINKERCELLEXPORT long ConvertValue(ItemHandle*);
 	/*! \brief convert ArrayOfItems to QList of ItemHandle pointers
 	\ingroup helper
 	\return QList<ItemHandle*>

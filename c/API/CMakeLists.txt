@@ -6,7 +6,6 @@ ADD_DEFINITIONS(-DLIB_EXPORTS=1)
 ADD_LIBRARY( tinkercellapi
 	STATIC
 #    SHARED
-	../TCstructs.c
 	${API_SRC}
 )
 

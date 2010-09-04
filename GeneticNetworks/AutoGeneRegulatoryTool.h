@@ -38,9 +38,9 @@ namespace Tinkercell
 			void alignParts(QSemaphore*,const QList<ItemHandle*>&);
 			
 		public slots:
-			ArrayOfItems partsIn(int);
-			ArrayOfItems partsUpstream(int);
-			ArrayOfItems partsDownstream(int);
+			ArrayOfItems partsIn(long);
+			ArrayOfItems partsUpstream(long);
+			ArrayOfItems partsDownstream(long);
 			void alignParts(ArrayOfItems);
 	};
 
@@ -96,9 +96,9 @@ namespace Tinkercell
 		bool doAssignment;
 		bool justAdjustedPlasmid;
 		
-		static ArrayOfItems _partsIn(int);
-		static ArrayOfItems _partsUpstream(int);
-		static ArrayOfItems _partsDownstream(int);
+		static ArrayOfItems _partsIn(long);
+		static ArrayOfItems _partsUpstream(long);
+		static ArrayOfItems _partsDownstream(long);
 		static void _alignParts(ArrayOfItems);
 		
 		static AutoGeneRegulatoryTool_FtoS fToS;

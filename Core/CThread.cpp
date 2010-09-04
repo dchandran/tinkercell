@@ -121,18 +121,19 @@ namespace Tinkercell
 	}
 
 	typedef void (*cthread_api_initialize)(
-		void * cthread,
-		void (*showProgress)(void* , int) );
+		long cthread,
+		void (*showProgress)(long , int) );
 		
 	void CThread::setupCFunctionPointers()
 	{
 		if (lib)
 		{
 			cthread_api_initialize f0 = (cthread_api_initialize)lib->resolve("tc_CThread_api_initialize");
+			void * p = (void*)this;
 			if (f0)
 			{
 				f0( 
-					static_cast<void*>(this),
+					(long)(p),
 					&(setProgress)
 				);
 			}
@@ -289,8 +290,9 @@ namespace Tinkercell
 
 	QList<CThread*> CThread::cthreads;
 
-	void CThread::setProgress(void * ptr, int progress)
+	void CThread::setProgress(long address, int progress)
 	{
+		void * ptr = (void*)address;
 		CThread * thread = static_cast<CThread*>(ptr);
 		if (cthreads.contains(thread))
 			thread->emitSignal(progress);

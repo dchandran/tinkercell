@@ -57,17 +57,17 @@ namespace Tinkercell
 		ArrayOfItems (*tc_selectedItems0)(),
 		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
 		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
-		int (*tc_find0)(const char*),
+		long (*tc_find0)(const char*),
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
-		void (*tc_select0)(int),
+		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
-		const char* (*tc_getName0)(int),
-		const char* (*tc_getUniqueName0)(int),
-		void (*tc_setName0)(int item,const char* name),
+		const char* (*tc_getName0)(long),
+		const char* (*tc_getUniqueName0)(long),
+		void (*tc_setName0)(long item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
 		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
-		const char* (*tc_getFamily0)(int),
-		int (*tc_isA0)(int,const char*),
+		const char* (*tc_getFamily0)(long),
+		int (*tc_isA0)(long,const char*),
 
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
@@ -75,12 +75,12 @@ namespace Tinkercell
 		void (*tc_outputTable0)(Matrix),
 		void (*tc_printFile0)(const char*),
 
-		void (*tc_removeItem0)(int),
+		void (*tc_removeItem0)(long),
 
-		double (*tc_getY0)(int),
-		double (*tc_getX0)(int),
+		double (*tc_getY0)(long),
+		double (*tc_getX0)(long),
 		Matrix (*tc_getPos0)(ArrayOfItems),
-		void (*tc_setPos0)(int,double,double),
+		void (*tc_setPos0)(long,double,double),
 		void (*tc_setPos1)(ArrayOfItems,Matrix),
 		void (*tc_moveSelected0)(double,double),
 
@@ -91,22 +91,22 @@ namespace Tinkercell
 		
 		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
-		void (*createSliders)(int, Matrix, void (*f)(Matrix)),
+		void (*createSliders)(long, Matrix, void (*f)(Matrix)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const char * title),
 		
-		ArrayOfItems (*tc_getChildren0)(int),
-		int (*tc_getParent0)(int),
+		ArrayOfItems (*tc_getChildren0)(long),
+		long (*tc_getParent0)(long),
 		
-		Matrix (*tc_getNumericalData0)(int,const char*),
-		void (*tc_setNumericalData0)(int,const char*,Matrix),
-		TableOfStrings (*tc_getTextData0)(int,const char*),
-		void (*tc_setTextData0)(int,const char*, TableOfStrings),
+		Matrix (*tc_getNumericalData0)(long,const char*),
+		void (*tc_setNumericalData0)(long,const char*,Matrix),
+		TableOfStrings (*tc_getTextData0)(long,const char*),
+		void (*tc_setTextData0)(long,const char*, TableOfStrings),
 				
-		ArrayOfStrings (*tc_getNumericalDataNames0)(int),
-		ArrayOfStrings (*tc_getTextDataNames0)(int),
+		ArrayOfStrings (*tc_getNumericalDataNames0)(long),
+		ArrayOfStrings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
 		
@@ -119,16 +119,16 @@ namespace Tinkercell
 		int (*askQuestion)(const char*),
 		void (*messageDialog)(const char*),
 		
-		void (*setSize)(int,double,double,int),
-		double (*getWidth)(int),
-		double (*getHeight)(int),
-		void (*setAngle)(int,double,int),
-		double (*getAngle)(int),
-		const char* (*getColor)(int),
-		void (*setColor)(int,const char*,int),
+		void (*setSize)(long,double,double,int),
+		double (*getWidth)(long),
+		double (*getHeight)(long),
+		void (*setAngle)(long,double,int),
+		double (*getAngle)(long),
+		const char* (*getColor)(long),
+		void (*setColor)(long,const char*,int),
 		
-		void (*changeGraphics)(int,const char*),
-		void (*changeArrowHead)(int,const char*)
+		void (*changeGraphics)(long,const char*),
+		void (*changeArrowHead)(long,const char*)
 
 	);
 	
@@ -1015,7 +1015,7 @@ namespace Tinkercell
 		fToS.zoom(x);
 	}
 
-	int C_API_Slots::_find(const char* c)
+	long C_API_Slots::_find(const char* c)
 	{
 		return fToS.find(c);
 	}
@@ -1025,7 +1025,7 @@ namespace Tinkercell
 		return fToS.findItems(c);
 	}
 
-	void C_API_Slots::_select(int o)
+	void C_API_Slots::_select(long o)
 	{
 		return fToS.select(o);
 	}
@@ -1055,18 +1055,18 @@ namespace Tinkercell
 		return fToS.selectedItems();
 	}
 
-	const char* C_API_Slots::_getName(int o)
+	const char* C_API_Slots::_getName(long o)
 	{
 		return fToS.getName(o);
 	}
 
-	const char* C_API_Slots::_getUniqueName(int o)
+	const char* C_API_Slots::_getUniqueName(long o)
 	{
 		return fToS.getUniqueName(o);
 	}
 
 
-	void C_API_Slots::_setName(int o,const char* c)
+	void C_API_Slots::_setName(long o,const char* c)
 	{
 		return fToS.setName(o,c);
 	}
@@ -1081,22 +1081,22 @@ namespace Tinkercell
 		return fToS.getUniqueNames(a);
 	}
 
-	const char* C_API_Slots::_getFamily(int o)
+	const char* C_API_Slots::_getFamily(long o)
 	{
 		return fToS.getFamily(o);
 	}
 
-	int C_API_Slots::_isA(int o,const char* c)
+	int C_API_Slots::_isA(long o,const char* c)
 	{
 		return fToS.isA(o,c);
 	}
 
-	void C_API_Slots::_removeItem(int o)
+	void C_API_Slots::_removeItem(long o)
 	{
 		return fToS.removeItem(o);
 	}
 
-	void C_API_Slots::_setPos(int o,double x,double y)
+	void C_API_Slots::_setPos(long o,double x,double y)
 	{
 		return fToS.setPos(o,x,y);
 	}
@@ -1111,12 +1111,12 @@ namespace Tinkercell
 		return fToS.getPos(a);
 	}
 
-	double C_API_Slots::_getY(int o)
+	double C_API_Slots::_getY(long o)
 	{
 		return fToS.getY(o);
 	}
 
-	double C_API_Slots::_getX(int o)
+	double C_API_Slots::_getX(long o)
 	{
 		return fToS.getX(o);
 	}
@@ -1161,7 +1161,7 @@ namespace Tinkercell
 		return fToS.createInputWindow(m,a,f);
 	}
 	
-	void  C_API_Slots::_createSliders(int c, Matrix m,MatrixInputFunction f)
+	void  C_API_Slots::_createSliders(long c, Matrix m,MatrixInputFunction f)
 	{
 		return fToS.createSliders(c,m,f);
 	}
@@ -1201,42 +1201,42 @@ namespace Tinkercell
 		return fToS.appDir();
 	}
 
-	Matrix C_API_Slots::_getNumericalData(int o,const char* a)
+	Matrix C_API_Slots::_getNumericalData(long o,const char* a)
 	{
 		return fToS.getNumericalData(o,a);
 	}
 
-	void C_API_Slots::_setNumericalData(int o ,const char* a,Matrix m)
+	void C_API_Slots::_setNumericalData(long o ,const char* a,Matrix m)
 	{
 		return fToS.setNumericalData(o,a,m);
 	}
 	
-	TableOfStrings C_API_Slots::_getTextData(int o,const char* a)
+	TableOfStrings C_API_Slots::_getTextData(long o,const char* a)
 	{
 		return fToS.getTextData(o,a);
 	}
 
-	void C_API_Slots::_setTextData(int o ,const char* a,TableOfStrings m)
+	void C_API_Slots::_setTextData(long o ,const char* a,TableOfStrings m)
 	{
 		return fToS.setTextData(o,a,m);
 	}
 	
-	ArrayOfStrings C_API_Slots::_getTextDataNames(int o)
+	ArrayOfStrings C_API_Slots::_getTextDataNames(long o)
 	{
 		return fToS.getTextDataNames(o);
 	}
 	
-	ArrayOfStrings C_API_Slots::_getNumericalDataNames(int o)
+	ArrayOfStrings C_API_Slots::_getNumericalDataNames(long o)
 	{
 		return fToS.getNumericalDataNames(o);
 	}
 
-	ArrayOfItems C_API_Slots::_getChildren(int o)
+	ArrayOfItems C_API_Slots::_getChildren(long o)
 	{
 		return fToS.getChildren(o);
 	}
 
-	int C_API_Slots::_getParent(int o)
+	long C_API_Slots::_getParent(long o)
 	{
 		return fToS.getParent(o);
 	}
@@ -1246,7 +1246,7 @@ namespace Tinkercell
 		emit zoom(0,x);
 	}
 
-	int Core_FtoS::find(const char* c)
+	long Core_FtoS::find(const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * p;
@@ -1272,7 +1272,7 @@ namespace Tinkercell
 		return A;
 	}
 
-	void Core_FtoS::select(int o)
+	void Core_FtoS::select(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1350,7 +1350,7 @@ namespace Tinkercell
 		return A;
 	}
 
-	const char* Core_FtoS::getName(int o)
+	const char* Core_FtoS::getName(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1362,7 +1362,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 	
-	const char* Core_FtoS::getUniqueName(int o)
+	const char* Core_FtoS::getUniqueName(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1375,7 +1375,7 @@ namespace Tinkercell
 	}
 
 
-	void Core_FtoS::setName(int o, const char* c)
+	void Core_FtoS::setName(long o, const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1413,7 +1413,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	const char* Core_FtoS::getFamily(int a0)
+	const char* Core_FtoS::getFamily(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1425,7 +1425,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	int Core_FtoS::isA(int a0, const char* name)
+	int Core_FtoS::isA(long a0, const char* name)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		int p = 0;
@@ -1437,7 +1437,7 @@ namespace Tinkercell
 		return p;
 	}
 
-	void Core_FtoS::removeItem(int a0)
+	void Core_FtoS::removeItem(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1447,7 +1447,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void Core_FtoS::setPos(int a0,double a1,double a2)
+	void Core_FtoS::setPos(long a0,double a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1496,7 +1496,7 @@ namespace Tinkercell
 	}
 
 
-	double Core_FtoS::getY(int a0)
+	double Core_FtoS::getY(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -1508,7 +1508,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	double Core_FtoS::getX(int a0)
+	double Core_FtoS::getX(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -1606,7 +1606,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	void Core_FtoS::createSliders(int c, Matrix m, MatrixInputFunction f)
+	void Core_FtoS::createSliders(long c, Matrix m, MatrixInputFunction f)
 	{
 		CThread * cthread = static_cast<CThread*>((void*)(c));
 		DataTable<qreal>* dat = ConvertValue(m);
@@ -1651,7 +1651,7 @@ namespace Tinkercell
 
 	int Core_FtoS::isWindows()
 	{
-		int i;
+		int i=0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit isWindows(s,&i);
@@ -1663,7 +1663,7 @@ namespace Tinkercell
 
 	int Core_FtoS::isMac()
 	{
-		int i;
+		int i=0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit isMac(s,&i);
@@ -1675,7 +1675,7 @@ namespace Tinkercell
 
 	int Core_FtoS::isLinux()
 	{
-		int i;
+		int i=0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit isLinux(s,&i);
@@ -1697,7 +1697,7 @@ namespace Tinkercell
 		return ConvertValue(dir);
 	}
 
-	Matrix Core_FtoS::getNumericalData(int o,const char* c)
+	Matrix Core_FtoS::getNumericalData(long o,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * p = new DataTable<qreal>;
@@ -1719,7 +1719,7 @@ namespace Tinkercell
 		return m;
 	}
 
-	void Core_FtoS::setNumericalData(int o, const char * c, Matrix M)
+	void Core_FtoS::setNumericalData(long o, const char * c, Matrix M)
 	{
 		DataTable<qreal>* dat = ConvertValue(M);
 		QSemaphore * s = new QSemaphore(1);
@@ -1731,7 +1731,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	TableOfStrings Core_FtoS::getTextData(int o,const char* c)
+	TableOfStrings Core_FtoS::getTextData(long o,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<QString> * p = new DataTable<QString>;
@@ -1753,7 +1753,7 @@ namespace Tinkercell
 		return m;
 	}
 	
-	void Core_FtoS::setTextData(int o, const char * c, TableOfStrings M)
+	void Core_FtoS::setTextData(long o, const char * c, TableOfStrings M)
 	{
 		DataTable<QString>* dat = ConvertValue(M);
 		QSemaphore * s = new QSemaphore(1);
@@ -1765,7 +1765,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	ArrayOfStrings Core_FtoS::getNumericalDataNames(int o)
+	ArrayOfStrings Core_FtoS::getNumericalDataNames(long o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
@@ -1777,7 +1777,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfStrings Core_FtoS::getTextDataNames(int o)
+	ArrayOfStrings Core_FtoS::getTextDataNames(long o)
 	{
 		QStringList p;
 		QSemaphore * s = new QSemaphore(1);
@@ -1789,7 +1789,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	ArrayOfItems Core_FtoS::getChildren(int o)
+	ArrayOfItems Core_FtoS::getChildren(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* p = new QList<ItemHandle*>;
@@ -1803,7 +1803,7 @@ namespace Tinkercell
 		return A;
 	}
 
-	int Core_FtoS::getParent(int o)
+	long Core_FtoS::getParent(long o)
 	{
 		ItemHandle * p = 0;
 		QSemaphore * s = new QSemaphore(1);
@@ -2236,12 +2236,12 @@ namespace Tinkercell
 			s->release();
 	}
 	
-	void C_API_Slots::_setSize(int o, double w, double h, int p)
+	void C_API_Slots::_setSize(long o, double w, double h, int p)
 	{
 		fToS.setSize(o,w,h,p);
 	}
 
-	void Core_FtoS::setSize(int o,double w, double h,int p)
+	void Core_FtoS::setSize(long o,double w, double h,int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2250,12 +2250,12 @@ namespace Tinkercell
 		s->release();
 	}
 	
-	void C_API_Slots::_setAngle(int o, double t,int p)
+	void C_API_Slots::_setAngle(long o, double t,int p)
 	{
 		fToS.setAngle(o,t,p);
 	}
 
-	void Core_FtoS::setAngle(int o,double t,int p)
+	void Core_FtoS::setAngle(long o,double t,int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2264,14 +2264,14 @@ namespace Tinkercell
 		s->release();
 	}
 
-	double C_API_Slots::_getWidth(int o)
+	double C_API_Slots::_getWidth(long o)
 	{
 		return fToS.getWidth(o);
 	}
 
-	double Core_FtoS::getWidth(int o)
+	double Core_FtoS::getWidth(long o)
 	{
-		double d;
+		double d=1.0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit getWidth(s,ConvertValue(o),&d);
@@ -2280,14 +2280,14 @@ namespace Tinkercell
 		return d;
 	}
 	
-	double C_API_Slots::_getHeight(int o)
+	double C_API_Slots::_getHeight(long o)
 	{
 		return fToS.getHeight(o);
 	}
 
-	double Core_FtoS::getHeight(int o)
+	double Core_FtoS::getHeight(long o)
 	{
-		double d;
+		double d=1.0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit getHeight(s,ConvertValue(o),&d);
@@ -2296,14 +2296,14 @@ namespace Tinkercell
 		return d;
 	}
 	
-	double C_API_Slots::_getAngle(int o)
+	double C_API_Slots::_getAngle(long o)
 	{
 		return fToS.getAngle(o);
 	}
 
-	double Core_FtoS::getAngle(int o)
+	double Core_FtoS::getAngle(long o)
 	{
-		double d;
+		double d=0.0;
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
 		emit getAngle(s,ConvertValue(o),&d);
@@ -2312,15 +2312,15 @@ namespace Tinkercell
 		return d;
 	}
 
-	const char* C_API_Slots::_getColor(int o)
+	const char* C_API_Slots::_getColor(long o)
 	{
 		return fToS.getColor(o);
 	}
 
-	const char* Core_FtoS::getColor(int o)
+	const char* Core_FtoS::getColor(long o)
 	{
 		QSemaphore * s = new QSemaphore(1);
-		QString name;
+		QString name("#000000");
 		s->acquire();
 		emit getColor(s,&name,ConvertValue(o));
 		s->acquire();
@@ -2328,12 +2328,12 @@ namespace Tinkercell
 		return ConvertValue(name);
 	}
 
-	void C_API_Slots::_setColor(int o,const char * c, int p)
+	void C_API_Slots::_setColor(long o,const char * c, int p)
 	{
 		return fToS.setColor(o,c,p);
 	}
 
-	void Core_FtoS::setColor(int o,const char * c, int p)
+	void Core_FtoS::setColor(long o,const char * c, int p)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2343,12 +2343,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void C_API_Slots::_changeGraphics(int o,const char* f)
+	void C_API_Slots::_changeGraphics(long o,const char* f)
 	{
 		fToS.changeGraphics(o,f);
 	}
 
-	void Core_FtoS::changeGraphics(int o,const char* f)
+	void Core_FtoS::changeGraphics(long o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -2358,12 +2358,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void C_API_Slots::_changeArrowHead(int o,const char* f)
+	void C_API_Slots::_changeArrowHead(long o,const char* f)
 	{
 		fToS.changeArrowHead(o,f);
 	}
 
-	void Core_FtoS::changeArrowHead(int o,const char* f)
+	void Core_FtoS::changeArrowHead(long o,const char* f)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

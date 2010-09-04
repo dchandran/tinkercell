@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TC_PLOTTOOL_API_H
 #define TINKERCELL_TC_PLOTTOOL_API_H
 
-#include "../TCstructs.h"
+#include "TCstructs.h"
 BEGIN_C_DECLS
 
 /*!

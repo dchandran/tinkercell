@@ -1,11 +1,11 @@
 #include "TC_NodeInsertion_api.h"
 
-int (*_tc_insert)(const char* name, const char* family) = 0;
+long (*_tc_insert)(const char* name, const char* family) = 0;
 /*! 
  \brief insert an item with the given name and family. returns the inserted connection
  \ingroup Insert and remove
 */
-int tc_insert(const char* name, const char* family)
+long tc_insert(const char* name, const char* family)
 {
 	if (_tc_insert)
 		return _tc_insert(name,family);
@@ -17,7 +17,7 @@ int tc_insert(const char* name, const char* family)
  \ingroup init
 */
 void tc_NodeInsertion_api(
-		int (*insertItem)(const char* , const char* )
+		long (*insertItem)(const char* , const char* )
 )
 {
 	_tc_insert = insertItem;

@@ -74,12 +74,12 @@ ArrayOfStrings tc_getForcingFunctionAssignments(ArrayOfItems a)
 	return newArrayOfStrings(0);
 }
 
-void (*_tc_addForcingFunction)(int item,const char* functionName, const char* assignmentRule) = 0;
+void (*_tc_addForcingFunction)(long item,const char* functionName, const char* assignmentRule) = 0;
 /*! 
  \brief set the forcing function for an item
  \ingroup Events and forcing functions
 */
-void tc_addForcingFunction(int item,const char* functionName, const char* assignmentRule)
+void tc_addForcingFunction(long item,const char* functionName, const char* assignmentRule)
 {
 	if (_tc_addForcingFunction)
 		_tc_addForcingFunction(item,functionName,assignmentRule);
@@ -92,7 +92,7 @@ void tc_addForcingFunction(int item,const char* functionName, const char* assign
 void tc_AssignmentFunctionsTool_api(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		 ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
-		 void (*addForcingFunction)(int,const char*, const char*)
+		 void (*addForcingFunction)(long,const char*, const char*)
 	)
 {
 	_tc_getForcingFunctionNames = getForcingFunctionNames;
@@ -100,23 +100,23 @@ void tc_AssignmentFunctionsTool_api(
 	_tc_addForcingFunction = addForcingFunction;
 }
 
-void (*_tc_displayText)(int item,const char* text) = 0;
+void (*_tc_displayText)(long item,const char* text) = 0;
 /*! 
  \brief displays the given text on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayText(int item,const char* text)
+void tc_displayText(long item,const char* text)
 {
 	if (_tc_displayText)
 		_tc_displayText(item,text);
 }
 
-void (*_tc_displayNumber)(int item,double number) = 0;
+void (*_tc_displayNumber)(long item,double number) = 0;
 /*! 
  \brief displays the given number on the given item (the text is temporary)
  \ingroup Input and Output
 */
-void tc_displayNumber(int item,double number)
+void tc_displayNumber(long item,double number)
 {
 	if (_tc_displayNumber)
 		_tc_displayNumber(item,number);
@@ -133,12 +133,12 @@ void tc_setDisplayLabelColor(const char * a, const char * b)
 		_tc_setDisplayLabelColor(a,b);
 }
 
-void (*_tc_highlight)(int item,const char*) = 0;
+void (*_tc_highlight)(long item,const char*) = 0;
 /*! 
  \brief highlights an item (the highlight is temporary) with the given color (hex)
  \ingroup Input and Output
 */
-void tc_highlight(int item,const char* color)
+void tc_highlight(long item,const char* color)
 {
 	if (_tc_highlight)
 		_tc_highlight(item,color);
@@ -148,10 +148,10 @@ void tc_highlight(int item,const char* color)
  \ingroup init
 */
 void tc_CLabelsTool_api(
-		void (*displayText)(int item,const char*),
-		void (*displayNumber)(int item,double),
+		void (*displayText)(long item,const char*),
+		void (*displayNumber)(long item,double),
 		void (*setDisplayLabelColor)(const char *, const char *),
-		void (*highlight)(int,const char*)
+		void (*highlight)(long,const char*)
 	)
 {
 	_tc_displayText = displayText;

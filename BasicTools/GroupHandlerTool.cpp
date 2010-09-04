@@ -441,7 +441,7 @@ namespace Tinkercell
 
 	typedef void (*tc_GroupHandlerTool_api)(
 		void (*merge)(ArrayOfItems),
-		void (*separate)(int)
+		void (*separate)(long)
 		);
 
 	void GroupHandlerTool::setupFunctionPointers( QLibrary * library)
@@ -694,7 +694,7 @@ namespace Tinkercell
 		return fToS.merge(A);
 	}
 
-	void GroupHandlerTool::_separate(int o)
+	void GroupHandlerTool::_separate(long o)
 	{
 		return fToS.separate(o);
 	}
@@ -711,7 +711,7 @@ namespace Tinkercell
 		delete list;
 	}
 
-	void GroupHandlerTool_FToS::separate(int a0)
+	void GroupHandlerTool_FToS::separate(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

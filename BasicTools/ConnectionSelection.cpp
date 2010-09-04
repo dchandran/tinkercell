@@ -114,15 +114,15 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionSelection_api)(
-		double (*getControlPointX)(int,int,int),
-		double (*getControlPointY)(int,int,int),
-		void (*setControlPoint)(int,int,int,double,double),
-		void (*setCenterPoint)(int,double,double),
-		double (*getCenterPointX)(int),
-		double (*getCenterPointY)(int),
-		void (*setStraight)(int,int),
+		double (*getControlPointX)(long,long,int),
+		double (*getControlPointY)(long,long,int),
+		void (*setControlPoint)(long,long,int,double,double),
+		void (*setCenterPoint)(long,double,double),
+		double (*getCenterPointX)(long),
+		double (*getCenterPointY)(long),
+		void (*setStraight)(long,int),
 		void (*setAllStraight)(int),
-		void (*setLineWidth)(int,double,int)
+		void (*setLineWidth)(long,double,int)
 		);
 
 
@@ -878,37 +878,37 @@ namespace Tinkercell
 
 	ConnectionSelection_FToS ConnectionSelection::fToS;
 
-	double ConnectionSelection::_getControlPointX(int a,int b,int c)
+	double ConnectionSelection::_getControlPointX(long a,long b,int c)
 	{
 		return fToS.getControlPointX(a,b,c);
 	}
 
-	double ConnectionSelection::_getControlPointY(int a,int b,int c)
+	double ConnectionSelection::_getControlPointY(long a,long b,int c)
 	{
 		return fToS.getControlPointY(a,b,c);
 	}
 
-	void ConnectionSelection::_setControlPoint(int a,int b,int i, double x,double y)
+	void ConnectionSelection::_setControlPoint(long a,long b,int i, double x,double y)
 	{
 		return fToS.setControlPoint(a,b,i,x,y);
 	}
 
-	double ConnectionSelection::_getCenterPointX(int x)
+	double ConnectionSelection::_getCenterPointX(long x)
 	{
 		return fToS.getCenterPointX(x);
 	}
 
-	double ConnectionSelection::_getCenterPointY(int x)
+	double ConnectionSelection::_getCenterPointY(long x)
 	{
 		return fToS.getCenterPointY(x);
 	}
 
-	void ConnectionSelection::_setCenterPoint(int a,double x,double y)
+	void ConnectionSelection::_setCenterPoint(long a,double x,double y)
 	{
 		return fToS.setCenterPoint(a,x,y);
 	}
 
-	double ConnectionSelection_FToS::getControlPointX(int a0,int a1,int a2)
+	double ConnectionSelection_FToS::getControlPointX(long a0,long a1,int a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p = 0.0;
@@ -920,7 +920,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	double ConnectionSelection_FToS::getControlPointY(int a0,int a1,int a2)
+	double ConnectionSelection_FToS::getControlPointY(long a0,long a1,int a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p = 0.0;
@@ -933,7 +933,7 @@ namespace Tinkercell
 	}
 
 
-	void ConnectionSelection_FToS::setControlPoint(int a0,int a1,int i,double a2,double a3)
+	void ConnectionSelection_FToS::setControlPoint(long a0,long a1,int i,double a2,double a3)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -943,7 +943,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void ConnectionSelection_FToS::setCenterPoint(int a0,double a1,double a2)
+	void ConnectionSelection_FToS::setCenterPoint(long a0,double a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -954,7 +954,7 @@ namespace Tinkercell
 	}
 
 
-	double ConnectionSelection_FToS::getCenterPointX(int a0)
+	double ConnectionSelection_FToS::getCenterPointX(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal x = 0.0;
@@ -966,7 +966,7 @@ namespace Tinkercell
 		return (double)x;
 	}
 
-	double ConnectionSelection_FToS::getCenterPointY(int a0)
+	double ConnectionSelection_FToS::getCenterPointY(long a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal x = 0.0;
@@ -978,13 +978,13 @@ namespace Tinkercell
 		return (double)x;
 	}
 
-	void ConnectionSelection::_setStraight(int o,int v)
+	void ConnectionSelection::_setStraight(long o,int v)
 	{
 		return fToS.setStraight(o,v);
 	}
 
 
-	void ConnectionSelection_FToS::setStraight(int o,int v)
+	void ConnectionSelection_FToS::setStraight(long o,int v)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1009,12 +1009,12 @@ namespace Tinkercell
 		return;
 	}
 
-	void ConnectionSelection::_setLineWidth(int o,double v, int b)
+	void ConnectionSelection::_setLineWidth(long o,double v, int b)
 	{
 		return fToS.setLineWidth(o,v,b);
 	}
 
-	void ConnectionSelection_FToS::setLineWidth(int o,double v, int b)
+	void ConnectionSelection_FToS::setLineWidth(long o,double v, int b)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

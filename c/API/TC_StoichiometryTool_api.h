@@ -1,7 +1,7 @@
 #ifndef TINKERCELL_TC_ModelingTOOL_API_H
 #define TINKERCELL_TC_ModelingTOOL_API_H
 
-#include "../TCstructs.h"
+#include "TCstructs.h"
 BEGIN_C_DECLS
 
 /*! 
@@ -28,22 +28,22 @@ TCAPIEXPORT void tc_setRates(ArrayOfItems A,ArrayOfStrings rates);
 \brief get Modeling for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT TableOfReals tc_getStoichiometryFor(int x);
+TCAPIEXPORT TableOfReals tc_getStoichiometryFor(long x);
 /*! 
 \brief get rate for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT const char* tc_getRate(int x);
+TCAPIEXPORT const char* tc_getRate(long x);
 /*! 
 \brief set rate for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT void tc_setRate(int x, const char* r);
+TCAPIEXPORT void tc_setRate(long x, const char* r);
 /*! 
 \brief set Modeling for the given items
 \ingroup Modeling
 */
-TCAPIEXPORT void tc_setStoichiometryFor(int x, TableOfReals N);
+TCAPIEXPORT void tc_setStoichiometryFor(long x, TableOfReals N);
 /*! 
 \brief initialize stiochiometry functions
 \ingroup Modeling

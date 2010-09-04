@@ -48,12 +48,12 @@ ArrayOfItems tc_itemsOfFamilyFrom(const char* family, ArrayOfItems itemsToSelect
 	return newArrayOfItems(0);
 }
 
-int (*_tc_find)(const char* fullname) = 0;
+long (*_tc_find)(const char* fullname) = 0;
 /*! 
  \brief get the first item with the given name (full name)
  \ingroup Get items
 */
-int tc_find(const char* fullname)
+long tc_find(const char* fullname)
 {
 	if (_tc_find)
 		return _tc_find(fullname);
@@ -72,12 +72,12 @@ ArrayOfItems tc_findItems(ArrayOfStrings names)
 	return newArrayOfItems(0);
 }
 
-void (*_tc_select)(int item) = 0;
+void (*_tc_select)(long item) = 0;
 /*! 
  \brief select an item
  \ingroup Get items
 */
-void tc_select(int item)
+void tc_select(long item)
 {
 	if (_tc_select && item)
 		_tc_select(item);
@@ -94,36 +94,36 @@ void tc_deselect()
 		_tc_deselect();
 }
 
-const char* (*_tc_getName)(int item) = 0;
+const char* (*_tc_getName)(long item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-const char* tc_getName(int item)
+const char* tc_getName(long item)
 {
 	if (_tc_getName)
 		return _tc_getName(item);
 	return 0;
 }
 
-const char* (*_tc_getUniqueName)(int item) = 0;
+const char* (*_tc_getUniqueName)(long item) = 0;
 /*! 
  \brief get the full name of an item
  \ingroup Annotation
 */
-const char* tc_getUniqueName(int item)
+const char* tc_getUniqueName(long item)
 {
 	if (_tc_getUniqueName)
 		return _tc_getUniqueName(item);
 	return 0;
 }
 
-void (*_tc_rename)(int item,const char* name) = 0;
+void (*_tc_rename)(long item,const char* name) = 0;
 /*! 
  \brief set the name of an item (not full name)
  \ingroup Annotation
 */
-void tc_rename(int item,const char* name)
+void tc_rename(long item,const char* name)
 {
 	if (_tc_rename)
 		_tc_rename(item,name);
@@ -154,24 +154,24 @@ ArrayOfStrings tc_getUniqueNames(ArrayOfItems items)
 }
 
 
-const char* (*_tc_getFamily)(int item) = 0;
+const char* (*_tc_getFamily)(long item) = 0;
 /*! 
  \brief get the family name of an item
  \ingroup Annotation
 */
-const char* tc_getFamily(int item)
+const char* tc_getFamily(long item)
 {
 	if (_tc_getFamily)
 		return _tc_getFamily(item);
 	return 0;
 }
 
-int (*_tc_isA)(int item,const char* family) = 0;
+int (*_tc_isA)(long item,const char* family) = 0;
 /*! 
  \brief check is an item belongs in a family (or in a sub-family)
  \ingroup Annotation
 */
-int tc_isA(int item,const char* family)
+int tc_isA(long item,const char* family)
 {
 	if (_tc_isA)
 		return _tc_isA(item,family);
@@ -233,36 +233,36 @@ void tc_clear()
 		_tc_clear();
 }
 
-void (*_tc_remove)(int item) = 0;
+void (*_tc_remove)(long item) = 0;
 /*! 
  \brief delete an item
  \ingroup Insert and remove
 */
-void tc_remove(int item)
+void tc_remove(long item)
 {
 	if (_tc_remove)
 		_tc_remove(item);
 }
 
-double (*_tc_getY)(int item) = 0;
+double (*_tc_getY)(long item) = 0;
 
 /*! 
  \brief get the x location of an item
  \ingroup Appearance
 */
-double tc_getY(int item)
+double tc_getY(long item)
 {
 	if (_tc_getY && item)
 		return _tc_getY(item);
 	return 0.0;
 }
 
-double (*_tc_getX)(int item) = 0;
+double (*_tc_getX)(long item) = 0;
 /*! 
  \brief get the y location of an item
  \ingroup Appearance
 */
-double tc_getX(int item)
+double tc_getX(long item)
 {
 	if (_tc_getX)
 		return _tc_getX(item);
@@ -281,12 +281,12 @@ TableOfReals tc_getPos(ArrayOfItems items)
 	return newMatrix(0,0);
 }
 
-void (*_tc_setPos)(int item,double x,double y) = 0;
+void (*_tc_setPos)(long item,double x,double y) = 0;
 /*! 
  \brief set the x and y location of an item
  \ingroup Appearance
 */
-void tc_setPos(int item,double x,double y)
+void tc_setPos(long item,double x,double y)
 {
 	if (_tc_setPos && item)
 		_tc_setPos(item,x,y);
@@ -417,95 +417,95 @@ void tc_openNewWindow(const char* title)
 		_tc_openNewWindow(title);
 }
 
-ArrayOfItems (*_tc_getChildren)(int) = 0;
+ArrayOfItems (*_tc_getChildren)(long) = 0;
 /*! 
  \brief get child items of the given item
  \ingroup Get items
 */
-ArrayOfItems tc_getChildren(int o)
+ArrayOfItems tc_getChildren(long o)
 {
 	if (_tc_getChildren)
 		return _tc_getChildren(o);
 	return newArrayOfItems(0);
 }
 
-int (*_tc_getParent)(int) = 0;
+long (*_tc_getParent)(long) = 0;
 /*! 
  \brief get parent item of the given item
  \ingroup Get items
 */
-int tc_getParent(int o)
+long tc_getParent(long o)
 {
 	if (_tc_getParent)
 		return _tc_getParent(o);
 	return 0;
 }
 
-TableOfReals (*_tc_getNumericalData)(int item,const char* data) = 0;
+TableOfReals (*_tc_getNumericalData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given numerical data table of the given item
  \ingroup Data
 */
-TableOfReals tc_getNumericalData(int item,const char* data)
+TableOfReals tc_getNumericalData(long item,const char* data)
 {
 	if (_tc_getNumericalData)
 		return _tc_getNumericalData(item,data);
 	return newMatrix(0,0);
 }
 
-void (*_tc_setNumericalData)(int,const char*,TableOfReals) = 0;
+void (*_tc_setNumericalData)(long,const char*,TableOfReals) = 0;
 /*! 
  \brief set a new data matrix for an item. Use 0 for the global model item.
  \ingroup Data
 */
-void tc_setNumericalData(int o,const char* title,TableOfReals data)
+void tc_setNumericalData(long o,const char* title,TableOfReals data)
 {
 	if (_tc_setNumericalData)
 		_tc_setNumericalData(o, title, data);
 }
 
-TableOfStrings (*_tc_getTextData)(int item,const char* data) = 0;
+TableOfStrings (*_tc_getTextData)(long item,const char* data) = 0;
 /*! 
  \brief get the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-TableOfStrings tc_getTextData(int item,const char* data)
+TableOfStrings tc_getTextData(long item,const char* data)
 {
 	if (_tc_getTextData)
 		return _tc_getTextData(item,data);
 	return newTableOfStrings(0,0);
 }
 
-void (*_tc_setTextData)(int,const char*,TableOfStrings) = 0;
+void (*_tc_setTextData)(long,const char*,TableOfStrings) = 0;
 /*! 
  \brief set the entire data matrix for the given strings data table of the given item
  \ingroup Data
 */
-void tc_setTextData(int o,const char* title,TableOfStrings data)
+void tc_setTextData(long o,const char* title,TableOfStrings data)
 {
 	if (_tc_setTextData)
 		_tc_setTextData(o, title, data);
 }
 
 
-ArrayOfStrings (*_tc_getNumericalDataNames)(int) = 0;
+ArrayOfStrings (*_tc_getNumericalDataNames)(long) = 0;
 /*! 
  \brief get all the numeric data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-ArrayOfStrings tc_getNumericalDataNames(int o)
+ArrayOfStrings tc_getNumericalDataNames(long o)
 {
 	if (_tc_getNumericalDataNames)
 		return _tc_getNumericalDataNames(o);
 	return newArrayOfStrings(0);
 }
 
-ArrayOfStrings (*_tc_getTextDataNames)(int) = 0;
+ArrayOfStrings (*_tc_getTextDataNames)(long) = 0;
 /*! 
  \brief get all the text data table names for the given item. Use 0 for the global tables.
  \ingroup Data
 */
-ArrayOfStrings tc_getTextDataNames(int o)
+ArrayOfStrings tc_getTextDataNames(long o)
 {
 	if (_tc_getTextDataNames)
 		return _tc_getTextDataNames(o);
@@ -607,19 +607,19 @@ void tc_messageDialog(const char* message)
 		_tc_messageDialog(message);
 }
 
-static int _cthread_ptr = 0;
+static long _cthread_ptr = 0;
 
 /*!
  \brief get pointer to the current thread
  \ingroup Programming interface
 */
-int tc_thisThread()
+long tc_thisThread()
 {
 	return _cthread_ptr;
 }
 
 
-void (*_tc_createSliders)(int, TableOfReals, void (*f)(TableOfReals)) = 0;
+void (*_tc_createSliders)(long, TableOfReals, void (*f)(TableOfReals)) = 0;
 /*!
  \brief create a window with several sliders. when the sliders change, the given function will be called with the values in the sliders
  \ingroup Input and Output
@@ -630,104 +630,104 @@ void tc_createSliders(TableOfReals input, void (*f)(TableOfReals))
 		_tc_createSliders(_cthread_ptr, input,f);
 }
 
-void (*_tc_setSize)(int,double,double,int) = 0;
+void (*_tc_setSize)(long,double,double,int) = 0;
 /*!
  \brief Change the size of an item
  \ingroup Appearance
 */
-void tc_setSize(int item,double width,double height,int permanent)
+void tc_setSize(long item,double width,double height,int permanent)
 {
 	if (_tc_setSize)
 		_tc_setSize(item,width,height,permanent);
 }
 
-double (*_tc_getWidth)(int) = 0;
+double (*_tc_getWidth)(long) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-double tc_getWidth(int item)
+double tc_getWidth(long item)
 {
 	if (_tc_getWidth)
 		return _tc_getWidth(item);
 	return 1.0;
 }
 
-double (*_tc_getHeight)(int) = 0;
+double (*_tc_getHeight)(long) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-double tc_getHeight(int item)
+double tc_getHeight(long item)
 {
 	if (_tc_getHeight)
 		return _tc_getHeight(item);
 	return 1.0;
 }
 
-void (*_tc_setAngle)(int,double,int) = 0;
+void (*_tc_setAngle)(long,double,int) = 0;
 /*!
  \brief get the width of an item
  \ingroup Appearance
 */
-void tc_setAngle(int item, double t,int permanent)
+void tc_setAngle(long item, double t,int permanent)
 {
 	if (_tc_setAngle)
 		_tc_setAngle(item,t,permanent);
 }
 
-double (*_tc_getAngle)(int) = 0;
+double (*_tc_getAngle)(long) = 0;
 /*!
  \brief get the angle of an item
  \ingroup Appearance
 */
-double tc_getAngle(int item)
+double tc_getAngle(long item)
 {
 	if (_tc_getAngle)
 		return _tc_getAngle(item);
 	return 0.0;
 }
 
-const char* (*_tc_getColor)(int item) = 0;
+const char* (*_tc_getColor)(long item) = 0;
 /*! 
  \brief get the color of the item
  \ingroup Appearance
 */
-const char* tc_getColor(int item)
+const char* tc_getColor(long item)
 {
 	if (_tc_getColor)
 		return _tc_getColor(item);
 	return "#000000";
 }
 
-void (*_tc_setColor)(int item,const char* name, int permanent) = 0;
+void (*_tc_setColor)(long item,const char* name, int permanent) = 0;
 /*! 
  \brief set the color of the item and indicate whether or not the color is permanenet
  \ingroup Appearance
 */
-void tc_setColor(int item,const char* name, int permanent)
+void tc_setColor(long item,const char* name, int permanent)
 {
 	if (_tc_setColor)
 		_tc_setColor(item,name,permanent);
 }
 
-void (*_tc_changeNodeImage)(int,const char*) = 0;
+void (*_tc_changeNodeImage)(long,const char*) = 0;
 /*! 
  \brief change the graphics file for drawing one of the nodes
  \ingroup Appearance
 */
-void tc_changeNodeImage(int item,const char* filename)
+void tc_changeNodeImage(long item,const char* filename)
 {
 	if (_tc_changeNodeImage)
 		_tc_changeNodeImage(item,filename);
 }
 
-void (*_tc_changeArrowHead)(int,const char*) = 0;
+void (*_tc_changeArrowHead)(long,const char*) = 0;
 /*! 
  \brief change the graphics file for drawing the arrowheads for the given connection
  \ingroup Appearance
 */
-void tc_changeArrowHead(int connection,const char* filename)
+void tc_changeArrowHead(long connection,const char* filename)
 {
 	if (_tc_changeArrowHead)
 		_tc_changeArrowHead(connection,filename);
@@ -743,18 +743,18 @@ void tc_Main_api_initialize(
 		ArrayOfItems (*tc_selectedItems0)(),
 		ArrayOfItems (*tc_itemsOfFamily0)(const char*),
 		ArrayOfItems (*tc_itemsOfFamily1)(const char*, ArrayOfItems),
-		int (*tc_find0)(const char*),
+		long (*tc_find0)(const char*),
 
 		ArrayOfItems (*tc_findItems0)(ArrayOfStrings),
-		void (*tc_select0)(int),
+		void (*tc_select0)(long),
 		void (*tc_deselect0)(),
-		const char* (*tc_getName0)(int),
-		const char* (*tc_getUniqueName0)(int),
-		void (*tc_setName0)(int item,const char* name),
+		const char* (*tc_getName0)(long),
+		const char* (*tc_getUniqueName0)(long),
+		void (*tc_setName0)(long item,const char* name),
 		ArrayOfStrings (*tc_getNames0)(ArrayOfItems),
 		ArrayOfStrings (*tc_getUniqueNames0)(ArrayOfItems),
-		const char* (*tc_getFamily0)(int),
-		int (*tc_isA0)(int,const char*),
+		const char* (*tc_getFamily0)(long),
+		int (*tc_isA0)(long,const char*),
 
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
@@ -762,12 +762,12 @@ void tc_Main_api_initialize(
 		void (*tc_outputTable0)(TableOfReals),
 		void (*tc_printFile0)(const char*),
 
-		void (*tc_removeItem0)(int),
+		void (*tc_removeItem0)(long),
 
-		double (*tc_getY0)(int),
-		double (*tc_getX0)(int),
+		double (*tc_getY0)(long),
+		double (*tc_getX0)(long),
 		TableOfReals (*tc_getPos0)(ArrayOfItems),
-		void (*tc_setPos0)(int,double,double),
+		void (*tc_setPos0)(long,double,double),
 		void (*tc_setPos1)(ArrayOfItems,TableOfReals),
 		void (*tc_moveSelected0)(double,double),
 
@@ -778,22 +778,22 @@ void tc_Main_api_initialize(
 		
 		void (*tc_createInputWindow0)(TableOfReals,const char*,const char*, const char*),
         void (*tc_createInputWindow1)(TableOfReals, const char*, void (*f)(TableOfReals)),
-		void (*createSliders0)(int, TableOfReals, void (*f)(TableOfReals)),
+		void (*createSliders0)(long, TableOfReals, void (*f)(TableOfReals)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, ArrayOfStrings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
 		void (*tc_openNewWindow0)(const const char* title),
 		
-		ArrayOfItems (*tc_getChildren0)(int),
-		int (*tc_getParent0)(int),
+		ArrayOfItems (*tc_getChildren0)(long),
+		long (*tc_getParent0)(long),
 		
-		TableOfReals (*tc_getNumericalData0)(int,const char*),
-		void (*tc_setNumericalData0)(int,const char*,TableOfReals),
-		TableOfStrings (*tc_getTextData0)(int,const char*),
-		void (*tc_setTextData0)(int,const char*, TableOfStrings),
+		TableOfReals (*tc_getNumericalData0)(long,const char*),
+		void (*tc_setNumericalData0)(long,const char*,TableOfReals),
+		TableOfStrings (*tc_getTextData0)(long,const char*),
+		void (*tc_setTextData0)(long,const char*, TableOfStrings),
 				
-		ArrayOfStrings (*tc_getNumericalDataNames0)(int),
-		ArrayOfStrings (*tc_getTextDataNames0)(int),
+		ArrayOfStrings (*tc_getNumericalDataNames0)(long),
+		ArrayOfStrings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
 		
@@ -806,16 +806,16 @@ void tc_Main_api_initialize(
 		int (*askQuestion0)(const char*),
 		void (*messageDialog0)(const char*),
 		
-		void (*setSize0)(int,double,double,int),
-		double (*getWidth0)(int),
-		double (*getHeight0)(int),
-		void (*setAngle0)(int,double,int),
-		double (*getAngle0)(int),
-		const char* (*getColor0)(int),
-		void (*setColor0)(int,const char*,int),
+		void (*setSize0)(long,double,double,int),
+		double (*getWidth0)(long),
+		double (*getHeight0)(long),
+		void (*setAngle0)(long,double,int),
+		double (*getAngle0)(long),
+		const char* (*getColor0)(long),
+		void (*setColor0)(long,const char*,int),
 		
-		void (*changeGraphics0)(int,const char*),
-		void (*changeArrowHead0)(int,const char*)
+		void (*changeGraphics0)(long,const char*),
+		void (*changeArrowHead0)(long,const char*)
 	)
 {
 	_tc_allItems = tc_allItems0;
@@ -897,7 +897,7 @@ void tc_Main_api_initialize(
 	_tc_changeArrowHead = changeArrowHead0;
 }
 
-void (*_tc_showProgress)(int thread, int progress);
+void (*_tc_showProgress)(long thread, int progress);
 /*! 
  \brief show progress of current operation
  \ingroup Input and Output
@@ -913,8 +913,8 @@ void tc_showProgress(int progress)
  \ingroup init
 */
 void tc_CThread_api_initialize( 
-	int cthread,
-	void (*showProgress)(int, int)	)
+	long cthread,
+	void (*showProgress)(long, int)	)
 {
 	_tc_showProgress = showProgress;
 	_cthread_ptr = cthread;

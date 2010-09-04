@@ -70,7 +70,7 @@ namespace Tinkercell
 		virtual void emitSignal(int i) { emit progress(i); }
 
 		/*! \brief set progress on a thread. the first arg is the id returned from createProgressMeter*/
-		static void setProgress(void * ptr, int progress);
+		static void setProgress(long ptr, int progress);
 		
 		/*! \brief search the default tinkercell folders for the library and load it
 		* \param QString name of library (with or without full path)

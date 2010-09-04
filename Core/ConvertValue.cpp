@@ -33,7 +33,7 @@ namespace Tinkercell
 		return m;
 	}
 
-	ItemHandle* ConvertValue(int o)
+	ItemHandle* ConvertValue(long o)
 	{
 		MainWindow * main = MainWindow::instance();
 		if (main && main->isValidHandlePointer((void*)o))
@@ -41,9 +41,10 @@ namespace Tinkercell
 		return 0;
 	}
 
-	int ConvertValue(ItemHandle* item)
+	long ConvertValue(ItemHandle* item)
 	{
-		return (int)(item);
+		void * p = (void*)item;
+		return (long)(p);
 	}
 
 	QList<ItemHandle*>* ConvertValue(ArrayOfItems A)
@@ -62,13 +63,17 @@ namespace Tinkercell
 	ArrayOfItems ConvertValue(const QList<ItemHandle*>& list)
 	{
 		ArrayOfItems A;
+		void * p = 0;
 		A.length = list.size();
 		A.items = 0;
 		if (A.length > 0)
 		{
-			A.items = new int[A.length];
+			A.items = new long[A.length];
 			for (int i=0; i < list.size(); ++i)
-				A.items[i] = (int)(list[i]);
+			{
+				p = (void*)list[i];
+				A.items[i] = (long)(p);
+			}
 		}
 		return A;
 	}

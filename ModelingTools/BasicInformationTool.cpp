@@ -937,9 +937,9 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_BasicInformationTool_Text_api)(
-		char* (*getTextData)(int ,const char* ),
+		char* (*getTextData)(long ,const char* ),
 		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems, ArrayOfStrings),
-		void (*setTextData)(int ,const char* ,const char* ));
+		void (*setTextData)(long ,const char* ,const char* ));
 
 	typedef void (*tc_BasicInformationTool_Numeric_api)(
 		Matrix (*getInitialValues)(ArrayOfItems ),
@@ -947,10 +947,10 @@ namespace Tinkercell
 		Matrix (*getParameters)(ArrayOfItems ),
 		Matrix (*getFixedVars)(ArrayOfItems),
 		Matrix (*getFixedAndParameters)(ArrayOfItems),
-		double (*getNumericalData)(int ,const char* ),
+		double (*getNumericalData)(long ,const char* ),
 		Matrix (*getParametersNamed)(ArrayOfItems, ArrayOfStrings),
 		Matrix (*getParametersExcept)(ArrayOfItems, ArrayOfStrings),
-		void (*setNumericalData)(int ,const char* ,double ));
+		void (*setNumericalData)(long ,const char* ,double ));
 
 	void BasicInformationTool::setupFunctionPointers( QLibrary * library )
 	{
@@ -1638,12 +1638,12 @@ namespace Tinkercell
 		return fToS.getFixedAndParameters(A);
 	}
 
-	char* BasicInformationTool::_getTextData(int o,const char* c)
+	char* BasicInformationTool::_getTextData(long o,const char* c)
 	{
 		return fToS.getTextData(o,c);
 	}
 
-	double BasicInformationTool::_getNumericalData(int o,const char* c)
+	double BasicInformationTool::_getNumericalData(long o,const char* c)
 	{
 		return fToS.getNumericalData(o,c);
 	}
@@ -1663,12 +1663,12 @@ namespace Tinkercell
 		return fToS.getAllTextDataNamed(A,c);
 	}
 
-	void BasicInformationTool::_setTextData(int o,const char* a,const char* b)
+	void BasicInformationTool::_setTextData(long o,const char* a,const char* b)
 	{
 		return fToS.setTextData(o,a,b);
 	}
 
-	void BasicInformationTool::_setNumericalData(int o,const char* a,double b)
+	void BasicInformationTool::_setNumericalData(long o,const char* a,double b)
 	{
 		return fToS.setNumericalData(o,a,b);
 	}
@@ -1826,7 +1826,7 @@ namespace Tinkercell
 		return ConvertValue(p);
 	}
 
-	char* BasicInformationTool_FToS::getTextData(int a0,const char* a1)
+	char* BasicInformationTool_FToS::getTextData(long a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QString p;
@@ -1838,7 +1838,7 @@ namespace Tinkercell
 		return (char*)ConvertValue(p);
 	}
 
-	double BasicInformationTool_FToS::getNumericalData(int a0,const char* a1)
+	double BasicInformationTool_FToS::getNumericalData(long a0,const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		qreal p;
@@ -1850,7 +1850,7 @@ namespace Tinkercell
 		return (double)p;
 	}
 
-	void BasicInformationTool_FToS::setTextData(int a0,const char* a1,const char* a2)
+	void BasicInformationTool_FToS::setTextData(long a0,const char* a1,const char* a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1860,7 +1860,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void BasicInformationTool_FToS::setNumericalData(int a0,const char* a1,double a2)
+	void BasicInformationTool_FToS::setNumericalData(long a0,const char* a1,double a2)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

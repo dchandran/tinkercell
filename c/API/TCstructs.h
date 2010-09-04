@@ -37,7 +37,7 @@ typedef struct TCAPIEXPORT ArrayOfStrings
 typedef struct TCAPIEXPORT ArrayOfItems
 {
 	int length;
-	int* items;
+	long* items;
 } ArrayOfItems;
 
 
@@ -104,11 +104,11 @@ TCAPIEXPORT const char* nthString(ArrayOfStrings S, int i);
 /*!\brief set ith string in array of strings*/
 TCAPIEXPORT void setNthString(ArrayOfStrings S, int i, const char * c);
 
-/*!\brief get ith int item in array of items*/
-TCAPIEXPORT int nthItem(ArrayOfItems A, int i);
+/*!\brief get ith long item in array of items*/
+TCAPIEXPORT long nthItem(ArrayOfItems A, int i);
 
-/*!\brief set ith int item in array of items*/
-TCAPIEXPORT void setNthItem(ArrayOfItems A, int i, int o);
+/*!\brief set ith long item in array of items*/
+TCAPIEXPORT void setNthItem(ArrayOfItems A, int i, long o);
 
 /*!\brief delete a matrix*/
 TCAPIEXPORT void deleteMatrix(TableOfReals *M);

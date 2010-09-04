@@ -201,11 +201,11 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		int (*insertConnection)(ArrayOfItems, const char*, const char*),
-		ArrayOfItems (*getConnectedNodes)(int),
-		ArrayOfItems (*getConnectedNodesWithRole)(int,const char*),
-		ArrayOfItems (*getConnections)(int),
-		ArrayOfItems (*getConnectionsWithRole)(int,const char*));
+		long (*insertConnection)(ArrayOfItems, const char*, const char*),
+		ArrayOfItems (*getConnectedNodes)(long),
+		ArrayOfItems (*getConnectedNodesWithRole)(long,const char*),
+		ArrayOfItems (*getConnections)(long),
+		ArrayOfItems (*getConnectionsWithRole)(long,const char*));
 
 
 	void ConnectionInsertion::setupFunctionPointers( QLibrary * library )
@@ -1194,7 +1194,7 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS ConnectionInsertion::fToS;
 
-	int ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
+	long ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
 	{
 		return fToS.insertConnection(A, a0, a1);
 	}
@@ -1213,12 +1213,12 @@ namespace Tinkercell
 		return ConvertValue(item);
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodes(int x)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodes(long x)
 	{
 		return fToS.getConnectedNodes(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(int x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(long x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1232,12 +1232,12 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodesWithRole(int x, const char * s)
+	ArrayOfItems ConnectionInsertion::_getConnectedNodesWithRole(long x, const char * s)
 	{
 		return fToS.getConnectedNodesWithRole(x,s);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesWithRole(int x, const char * c)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesWithRole(long x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1252,12 +1252,12 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnections(int x)
+	ArrayOfItems ConnectionInsertion::_getConnections(long x)
 	{
 		return fToS.getConnections(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnections(int x)
+	ArrayOfItems ConnectionInsertion_FToS::getConnections(long x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1271,12 +1271,12 @@ namespace Tinkercell
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectionsWithRole(int x, const char * c)
+	ArrayOfItems ConnectionInsertion::_getConnectionsWithRole(long x, const char * c)
 	{
 		return fToS.getConnectionsWithRole(x,c);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectionsWithRole(int x, const char * c)
+	ArrayOfItems ConnectionInsertion_FToS::getConnectionsWithRole(long x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;

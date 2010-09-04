@@ -636,7 +636,7 @@ namespace Tinkercell
 	typedef void (*tc_AssignmentFunctionsTool_api)(
 		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
 		ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
-		void (*addForcingFunction)(int,const char*, const char*)
+		void (*addForcingFunction)(long, const char*, const char*)
 		);
 
 	void AssignmentFunctionsTool::setupFunctionPointers( QLibrary * library )
@@ -809,12 +809,12 @@ namespace Tinkercell
 		return (ArrayOfStrings)ConvertValue(p);
 	}
 
-	void AssignmentFunctionsTool::_addForcingFunction(int o, const char* a, const char* b)
+	void AssignmentFunctionsTool::_addForcingFunction(long o, const char* a, const char* b)
 	{
 		return fToS.addForcingFunction(o,a,b);
 	}
 
-	void AssignmentFunctionsTool_FToS::addForcingFunction(int o, const char* a, const char* b)
+	void AssignmentFunctionsTool_FToS::addForcingFunction(long o, const char* a, const char* b)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

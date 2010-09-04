@@ -149,7 +149,7 @@ namespace Tinkercell
 
 	}
 
-	SimpleInputWindow::SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(Matrix), const DataTable<qreal>& data)
+	SimpleInputWindow::SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
 		: AbstractInputWindow(title)
 	{
 		CThread * thread = new CThread(main,0);
@@ -244,7 +244,7 @@ namespace Tinkercell
 		}
 	}
 
-	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, void (*f)(Matrix), const DataTable<qreal>& data)
+	void SimpleInputWindow::CreateWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>& data)
 	{
 		if (!main || title.isEmpty() || !f) return;
 		SimpleInputWindow * inputWindow = 0;

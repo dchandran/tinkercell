@@ -119,7 +119,7 @@ namespace Tinkercell
 		* \brief set the function to run inside this threads
 		* \param void function pointer
 		*/
-		virtual void setFunction( void (*f)(Matrix) );
+		virtual void setFunction( void (*f)(tc_matrix) );
 		/*!
 		* \brief set the function to run inside this threads
 		* \param void name of the function inside the library that has been loaded in this thread.
@@ -223,7 +223,7 @@ namespace Tinkercell
 		/*!
 		* \brief one of the functions that can be run inside this thread
 		*/
-		void (*f4)(Matrix);
+		void (*f4)(tc_matrix);
 		/*!
 		* \brief the library where the functions are located that can be run inside this thread
 		*/

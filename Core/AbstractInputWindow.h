@@ -121,10 +121,10 @@ namespace Tinkercell
 		run a function in a separate thread
 		* \param MainWindow
 		* \param QString title
-		* \param inputMatrixFunction* function that is triggered by the run button in the input window
+		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
 		*/
-		static void CreateWindow(MainWindow * main, const QString& title, void (*f)(Matrix), const DataTable<qreal>&);
+		static void CreateWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
 		/*! \brief add a list of options (combo box) to an existing input window
 		* \param QString title
 		* \param int row
@@ -158,10 +158,10 @@ namespace Tinkercell
 		run a function in a separate thread
 		* \param MainWindow
 		* \param QString title
-		* \param inputMatrixFunction* function that is triggered by the run button in the input window
+		* \param inputtc_matrixFunction* function that is triggered by the run button in the input window
 		* \param QDataTable<qreal> input table and its default values
 		*/
-		SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(Matrix), const DataTable<qreal>&);
+		SimpleInputWindow(MainWindow * main, const QString& title, void (*f)(tc_matrix), const DataTable<qreal>&);
 		/*! \brief constructor -- does nothing*/
 		SimpleInputWindow();
 		/*! \brief copy constructor*/

@@ -36,13 +36,12 @@ namespace Tinkercell
 {
 	class MainWindow;
 	class ItemHandle;
-	typedef tc_matrix Matrix;
 
-	/*! \brief construct a Matrix with 0 rows and columns
+	/*! \brief construct a tc_matrix with 0 rows and columns
 	\ingroup helper
-	\return Matrix 
+	\return tc_matrix 
 	*/
-	TINKERCELLEXPORT Matrix emptyMatrix();
+	TINKERCELLEXPORT tc_matrix emptyMatrix();
 	/*! \brief convert void* to ItemHandle pointer
 	\ingroup helper
 	\return ItemHandle*
@@ -87,12 +86,12 @@ namespace Tinkercell
 	\ingroup helper
 	\return DataTable of qreals
 	*/
-	TINKERCELLEXPORT DataTable<qreal>* ConvertValue(Matrix);
-	/*! \brief convert Datatable<double> to Matrix (see DataTable.h and TCstructs.h)
+	TINKERCELLEXPORT DataTable<qreal>* ConvertValue(tc_matrix);
+	/*! \brief convert Datatable<double> to tc_matrix (see DataTable.h and TCstructs.h)
 	\ingroup helper
-	\return Matrix
+	\return tc_matrix
 	*/
-	TINKERCELLEXPORT Matrix ConvertValue(const DataTable<qreal>&);
+	TINKERCELLEXPORT tc_matrix ConvertValue(const DataTable<qreal>&);
 	/*! \brief convert tc_strings to QStringList
 	\ingroup helper
 	\return QStringList

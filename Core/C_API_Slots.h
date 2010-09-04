@@ -39,8 +39,7 @@ namespace Tinkercell
 	class CThread;
 	class NodeGraphicsItem;
 	
-	typedef tc_matrix Matrix;
-	typedef void (*MatrixInputFunction)(Matrix);
+	typedef void (*MatrixInputFunction)(tc_matrix);
 	
 	/*! \brief Function to Signal converter for MainWindow*/
 	class TINKERCELLEXPORT Core_FtoS : public QObject
@@ -137,19 +136,21 @@ namespace Tinkercell
 		int isA(long,const char*);
 		void removeItem(long);
 		void setPos(long,double ,double );
-		void setPos(tc_items,Matrix);
-		Matrix getPos(tc_items);
+
+		void setPos(tc_items,tc_matrix);
+		tc_matrix getPos(tc_items);
+
 		double getY(long);
 		double getX(long);
 		void moveSelected(double ,double );
-		void outputTable(Matrix m);
+		void outputTable(tc_matrix m);
 		void outputText(const char*);
 		void errorReport(const char*);
 		void clearText();
 		void printFile(const char*);
-		void createInputWindow(Matrix, const char*, const char*,const char*);
-		void createInputWindow(Matrix, const char*, MatrixInputFunction);
-		void createSliders(long, Matrix, MatrixInputFunction);
+		void createInputWindow(tc_matrix, const char*, const char*,const char*);
+		void createInputWindow(tc_matrix, const char*, MatrixInputFunction);
+		void createSliders(long, tc_matrix, MatrixInputFunction);
 		void addInputWindowOptions(const char*, int i, int j, tc_strings);
 		void addInputWindowCheckbox(const char*, int i, int j);
 		void openNewWindow(const char*);
@@ -161,8 +162,8 @@ namespace Tinkercell
 		tc_strings getNumericalDataNames(long);
 		tc_strings getTextDataNames(long);
 
-		Matrix getNumericalData(long,const char*);
-		void setNumericalData(long,const char*, Matrix);
+		tc_matrix getNumericalData(long,const char*);
+		void setNumericalData(long,const char*, tc_matrix);
 		
 		tc_table getTextData(long,const char*);
 		void setTextData(long,const char*,tc_table);
@@ -229,19 +230,22 @@ namespace Tinkercell
 		static int _isA(long,const char*);
 		static void _removeItem(long);
 		static void _setPos(long,double ,double );
-		static void _setPos2(tc_items,Matrix);
-		static Matrix _getPos(tc_items);
+
+		static void _setPos2(tc_items,tc_matrix);
+		static tc_matrix _getPos(tc_items);
+
 		static double _getY(long);
 		static double _getX(long);
 		static void _moveSelected(double ,double );
-		static void _outputTable(Matrix m);
+		static void _outputTable(tc_matrix m);
 		static void _outputText(const char*);
 		static void _errorReport(const char*);
 		static void _clearText();
 		static void _printFile(const char*);
-		static void _createInputWindow1(Matrix, const char*, const char*,const char*);
-		static void _createInputWindow2(Matrix, const char*, MatrixInputFunction);
-		static void _createSliders(long, Matrix, MatrixInputFunction);
+
+		static void _createInputWindow1(tc_matrix, const char*, const char*,const char*);
+		static void _createInputWindow2(tc_matrix, const char*, MatrixInputFunction);
+		static void _createSliders(long, tc_matrix, MatrixInputFunction);
 		static void _addInputWindowOptions(const char*, int i, int j, tc_strings);
 		static void _addInputWindowCheckbox(const char*, int i, int j);
 		static void _openNewWindow(const char*);
@@ -249,15 +253,18 @@ namespace Tinkercell
 		static int _isMac();
 		static int _isLinux();
 		static const char* _appDir();
+
 		static tc_strings _getNumericalDataNames(long);
 		static tc_strings _getTextDataNames(long);
-		static Matrix _getNumericalData(long,const char*);
-		static void _setNumericalData(long, const char *, Matrix);
+		static tc_matrix _getNumericalData(long,const char*);
+		static void _setNumericalData(long, const char *, tc_matrix);
 		static tc_table _getTextData(long,const char*);
 		static void _setTextData(long, const char *, tc_table);
 		static tc_items _getChildren(long);
+
 		static long _getParent(long);
-		static const char* _tc_getTableValue(const char*);
+
+		static const char* _getString(const char*);
         static int _getSelectedString(const char*, tc_strings,const char*);
         static double _getNumber(const char*);
         static void _getNumbers(tc_strings, double *);

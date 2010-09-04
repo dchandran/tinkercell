@@ -20,9 +20,9 @@ and QGraphicsItem.
 namespace Tinkercell
 {
 
-	Matrix emptyMatrix()
+	tc_matrix emptyMatrix()
 	{
-		Matrix m;
+		tc_matrix m;
 		m.values = 0;
 		m.rownames.length = 0;
 		m.colnames.length = 0;
@@ -95,7 +95,7 @@ namespace Tinkercell
 		return c;
 	}	
 
-	DataTable<qreal>* ConvertValue(Matrix m)
+	DataTable<qreal>* ConvertValue(tc_matrix m)
 	{
 		DataTable<qreal>* D = new DataTable<qreal>;
 		if (m.rows < 0 || m.cols < 0) return D;
@@ -116,9 +116,9 @@ namespace Tinkercell
 		return D;
 	}
 	
-	Matrix ConvertValue(const DataTable<qreal>& D)
+	tc_matrix ConvertValue(const DataTable<qreal>& D)
 	{
-		Matrix m;
+		tc_matrix m;
 
 		m.rownames.length = m.rows = D.rows();
 		m.colnames.length = m.cols = D.cols();

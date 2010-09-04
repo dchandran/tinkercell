@@ -72,16 +72,19 @@ namespace Tinkercell
 		void (*tc_clearText)(),
 		void (*tc_outputText0)(const char*),
 		void (*tc_errorReport0)(const char*),
-		void (*tc_outputTable0)(Matrix),
+		void (*tc_outputTable0)(tc_matrix),
 		void (*tc_printFile0)(const char*),
 
 		void (*tc_removeItem0)(long),
 
 		double (*tc_getY0)(long),
 		double (*tc_getX0)(long),
-		Matrix (*tc_getPos0)(tc_items),
+
+		tc_matrix (*tc_getPos0)(tc_items),
 		void (*tc_setPos0)(long,double,double),
-		void (*tc_setPos1)(tc_items,Matrix),
+
+		void (*tc_setPos1)(tc_items,tc_matrix),
+
 		void (*tc_moveSelected0)(double,double),
 
 		int (*tc_isWindows0)(),
@@ -89,9 +92,9 @@ namespace Tinkercell
 		int (*tc_isLinux0)(),
 		const char* (*tc_appDir0)(),
 		
-		void (*tc_createInputWindow0)(Matrix,const char*,const char*, const char*),
-        void (*tc_createInputWindow1)(Matrix, const char*, void (*f)(Matrix)),
-		void (*createSliders)(long, Matrix, void (*f)(Matrix)),
+		void (*tc_createInputWindow0)(tc_matrix,const char*,const char*, const char*),
+        void (*tc_createInputWindow1)(tc_matrix, const char*, void (*f)(tc_matrix)),
+		void (*createSliders)(long, tc_matrix, void (*f)(tc_matrix)),
 		
 		void (*tc_addInputWindowOptions0)(const char*, int i, int j, tc_strings),
 		void (*tc_addInputWindowCheckbox0)(const char*, int i, int j),
@@ -99,9 +102,9 @@ namespace Tinkercell
 		
 		tc_items (*tc_getChildren0)(long),
 		long (*tc_getParent0)(long),
-		
-		Matrix (*tc_getNumericalData0)(long,const char*),
-		void (*tc_setNumericalData0)(long,const char*,Matrix),
+	
+		tc_matrix (*tc_getNumericalData0)(long,const char*),
+		void (*tc_setNumericalData0)(long,const char*,tc_matrix),
 		tc_table (*tc_getTextData0)(long,const char*),
 		void (*tc_setTextData0)(long,const char*, tc_table),
 				
@@ -109,8 +112,8 @@ namespace Tinkercell
 		tc_strings (*tc_getTextDataNames0)(long),
 		
 		void (*tc_zoom0)(double factor),
-		
-		const char* (*tc_getTableValue)(const char*),
+
+		const char* (*getString)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( tc_strings, double * ),
@@ -1101,12 +1104,12 @@ namespace Tinkercell
 		return fToS.setPos(o,x,y);
 	}
 
-	void C_API_Slots::_setPos2(tc_items a,Matrix m)
+	void C_API_Slots::_setPos2(tc_items a,tc_matrix m)
 	{
 		return fToS.setPos(a,m);
 	}
 
-	Matrix C_API_Slots::_getPos(tc_items a)
+	tc_matrix C_API_Slots::_getPos(tc_items a)
 	{
 		return fToS.getPos(a);
 	}
@@ -1131,7 +1134,7 @@ namespace Tinkercell
 		return fToS.clearText();
 	}
 
-	void C_API_Slots::_outputTable(Matrix m)
+	void C_API_Slots::_outputTable(tc_matrix m)
 	{
 		return fToS.outputTable(m);
 	}
@@ -1151,17 +1154,17 @@ namespace Tinkercell
 		return fToS.printFile(c);
 	}
 
-	void  C_API_Slots::_createInputWindow1(Matrix m,const char* a,const char* b, const char* c)
+	void  C_API_Slots::_createInputWindow1(tc_matrix m,const char* a,const char* b, const char* c)
 	{
 		return fToS.createInputWindow(m,a,b,c);
 	}
 
-	void  C_API_Slots::_createInputWindow2(Matrix m,const char* a, MatrixInputFunction f)
+	void  C_API_Slots::_createInputWindow2(tc_matrix m,const char* a, MatrixInputFunction f)
 	{
 		return fToS.createInputWindow(m,a,f);
 	}
 	
-	void  C_API_Slots::_createSliders(long c, Matrix m,MatrixInputFunction f)
+	void  C_API_Slots::_createSliders(long c, tc_matrix m,MatrixInputFunction f)
 	{
 		return fToS.createSliders(c,m,f);
 	}
@@ -1201,12 +1204,12 @@ namespace Tinkercell
 		return fToS.appDir();
 	}
 
-	Matrix C_API_Slots::_getNumericalData(long o,const char* a)
+	tc_matrix C_API_Slots::_getNumericalData(long o,const char* a)
 	{
 		return fToS.getNumericalData(o,a);
 	}
 
-	void C_API_Slots::_setNumericalData(long o ,const char* a,Matrix m)
+	void C_API_Slots::_setNumericalData(long o ,const char* a,tc_matrix m)
 	{
 		return fToS.setNumericalData(o,a,m);
 	}
@@ -1457,7 +1460,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void Core_FtoS::setPos(tc_items a0,Matrix m)
+	void Core_FtoS::setPos(tc_items a0,tc_matrix m)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1471,7 +1474,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Matrix Core_FtoS::getPos(tc_items a0)
+	tc_matrix Core_FtoS::getPos(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1482,7 +1485,7 @@ namespace Tinkercell
 		s->release();
 		delete list;
 		delete s;
-		Matrix m;
+		tc_matrix m;
 		if (p)
 		{
 			m = ConvertValue(*p);
@@ -1540,7 +1543,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void Core_FtoS::outputTable(Matrix m)
+	void Core_FtoS::outputTable(tc_matrix m)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -1582,7 +1585,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	void Core_FtoS::createInputWindow(Matrix m, const char* cfile,const char* fname, const char* title)
+	void Core_FtoS::createInputWindow(tc_matrix m, const char* cfile,const char* fname, const char* title)
 	{
 		DataTable<qreal>* dat = ConvertValue(m);
 		QSemaphore * s = new QSemaphore(1);
@@ -1594,7 +1597,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void Core_FtoS::createInputWindow(Matrix m, const char* title, MatrixInputFunction f)
+	void Core_FtoS::createInputWindow(tc_matrix m, const char* title, MatrixInputFunction f)
 	{
 		DataTable<qreal>* dat = ConvertValue(m);
 		QSemaphore * s = new QSemaphore(1);
@@ -1606,7 +1609,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	void Core_FtoS::createSliders(long c, Matrix m, MatrixInputFunction f)
+	void Core_FtoS::createSliders(long c, tc_matrix m, MatrixInputFunction f)
 	{
 		CThread * cthread = static_cast<CThread*>((void*)(c));
 		DataTable<qreal>* dat = ConvertValue(m);
@@ -1697,7 +1700,7 @@ namespace Tinkercell
 		return ConvertValue(dir);
 	}
 
-	Matrix Core_FtoS::getNumericalData(long o,const char* c)
+	tc_matrix Core_FtoS::getNumericalData(long o,const char* c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * p = new DataTable<qreal>;
@@ -1706,7 +1709,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		Matrix m;
+		tc_matrix m;
 		if (p)
 		{
 			m = ConvertValue(*p);
@@ -1719,7 +1722,7 @@ namespace Tinkercell
 		return m;
 	}
 
-	void Core_FtoS::setNumericalData(long o, const char * c, Matrix M)
+	void Core_FtoS::setNumericalData(long o, const char * c, tc_matrix M)
 	{
 		DataTable<qreal>* dat = ConvertValue(M);
 		QSemaphore * s = new QSemaphore(1);

@@ -74,7 +74,7 @@ namespace Tinkercell
 
 	typedef void (*CharFunction)(const char*);
 
-	typedef void (*MatrixFunction)(Matrix);
+	typedef void (*MatrixFunction)(tc_matrix);
 
 	void CThread::setFunction( void (*f)(void) )
 	{
@@ -109,7 +109,7 @@ namespace Tinkercell
 		f3 = (CharFunction)lib->resolve(f);
 	}
 
-	void CThread::setFunction( void (*f)(Matrix) )
+	void CThread::setFunction( void (*f)(tc_matrix) )
 	{
 		f4 = f;
 	}

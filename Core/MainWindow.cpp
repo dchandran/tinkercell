@@ -1275,7 +1275,8 @@ namespace Tinkercell
 
 		qRegisterMetaType< MatrixInputFunction >("MatrixInputFunction");
 
-		qRegisterMetaType< Matrix >("Matrix");
+
+		qRegisterMetaType< tc_matrix >("tc_matrix");
 		qRegisterMetaType< tc_table >("tc_table");
 		qRegisterMetaType< tc_strings >("tc_strings");
 		qRegisterMetaType< tc_items >("tc_items");

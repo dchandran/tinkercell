@@ -634,8 +634,8 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_AssignmentFunctionsTool_api)(
-		ArrayOfStrings (*getForcingFunctionNames)(ArrayOfItems),
-		ArrayOfStrings (*getForcingFunctionAssignments)(ArrayOfItems),
+		tc_strings (*getForcingFunctionNames)(tc_items),
+		tc_strings (*getForcingFunctionAssignments)(tc_items),
 		void (*addForcingFunction)(long, const char*, const char*)
 		);
 
@@ -771,12 +771,12 @@ namespace Tinkercell
 			sem->release();
 	}
 
-	ArrayOfStrings AssignmentFunctionsTool::_getForcingFunctionNames(ArrayOfItems a0)
+	tc_strings AssignmentFunctionsTool::_getForcingFunctionNames(tc_items a0)
 	{
 		return fToS.getForcingFunctionNames(a0);
 	}
 
-	ArrayOfStrings AssignmentFunctionsTool_FToS::getForcingFunctionNames(ArrayOfItems a0)
+	tc_strings AssignmentFunctionsTool_FToS::getForcingFunctionNames(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -787,15 +787,15 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-		return (ArrayOfStrings)ConvertValue(p);
+		return (tc_strings)ConvertValue(p);
 	}
 
-	ArrayOfStrings AssignmentFunctionsTool::_getForcingFunctionAssignments(ArrayOfItems a0)
+	tc_strings AssignmentFunctionsTool::_getForcingFunctionAssignments(tc_items a0)
 	{
 		return fToS.getForcingFunctionAssignments(a0);
 	}
 
-	ArrayOfStrings AssignmentFunctionsTool_FToS::getForcingFunctionAssignments(ArrayOfItems a0)
+	tc_strings AssignmentFunctionsTool_FToS::getForcingFunctionAssignments(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -806,7 +806,7 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-		return (ArrayOfStrings)ConvertValue(p);
+		return (tc_strings)ConvertValue(p);
 	}
 
 	void AssignmentFunctionsTool::_addForcingFunction(long o, const char* a, const char* b)

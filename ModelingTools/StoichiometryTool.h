@@ -56,10 +56,10 @@ namespace Tinkercell
 		void getRates(QSemaphore*,QStringList*, QList<ItemHandle*>&);
 		void setRates(QSemaphore*,QList<ItemHandle*>&,const QStringList&);
 	public slots:
-		Matrix getStoichiometry(ArrayOfItems);
-		void setStoichiometry(ArrayOfItems,Matrix );
-		ArrayOfStrings getRates(ArrayOfItems);
-		void setRates(ArrayOfItems,ArrayOfStrings );
+		tc_matrix getStoichiometry(tc_items);
+		void setStoichiometry(tc_items,tc_matrix );
+		tc_strings getRates(tc_items);
+		void setRates(tc_items,tc_strings );
 	};
 
 	/*! \brief This class adds the Rates string data and Stoichiometry numerical data 
@@ -165,13 +165,13 @@ namespace Tinkercell
 		/*! \brief connect to the the C API static class*/
 		void connectCFuntions();
 		/*! \brief used for the C API*/
-		static Matrix _getStoichiometry(ArrayOfItems);
+		static tc_matrix _getStoichiometry(tc_items);
 		/*! \brief used for the C API*/
-		static void _setStoichiometry(ArrayOfItems ,Matrix );
+		static void _setStoichiometry(tc_items ,tc_matrix );
 		/*! \brief used for the C API*/
-		static ArrayOfStrings _getRates(ArrayOfItems );
+		static tc_strings _getRates(tc_items );
 		/*! \brief used for the C API*/
-		static void _setRates(ArrayOfItems ,ArrayOfStrings );
+		static void _setRates(tc_items ,tc_strings );
 
 	private:
 		/*! \brief handles that are currectly selected and being displayed by the table table widgets*/

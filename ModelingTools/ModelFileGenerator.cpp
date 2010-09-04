@@ -41,7 +41,7 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ModelFileGenerator_api)(
-		int (*writeModel)(const char*,ArrayOfItems)
+		int (*writeModel)(const char*,tc_items)
 		);
 
 	void ModelFileGenerator::setupFunctionPointers( QLibrary * library)
@@ -62,12 +62,12 @@ namespace Tinkercell
 
 	ModelFileGenerator_FToS ModelFileGenerator::fToS;
 
-	int ModelFileGenerator::_generateModelFile(const char* filename, ArrayOfItems a0)
+	int ModelFileGenerator::_generateModelFile(const char* filename, tc_items a0)
 	{
 		return fToS.generateModelFile(filename,a0);
 	}
 
-	int ModelFileGenerator_FToS::generateModelFile(const char* filename, ArrayOfItems a0)
+	int ModelFileGenerator_FToS::generateModelFile(const char* filename, tc_items a0)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);

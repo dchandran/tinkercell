@@ -522,13 +522,13 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_PlotTool_api)(
-		void (*plot)(Matrix,const char*) ,
-		void (*surface)(Matrix,const char*) ,
-		void (*hist)(Matrix,const char*) ,
-		void (*errorbars)(Matrix,const char*) ,
-		void (*scatterplot)(Matrix data,const char* title) ,
+		void (*plot)(tc_matrix,const char*) ,
+		void (*surface)(tc_matrix,const char*) ,
+		void (*hist)(tc_matrix,const char*) ,
+		void (*errorbars)(tc_matrix,const char*) ,
+		void (*scatterplot)(tc_matrix data,const char* title) ,
 		void (*multiplot)(int,int),
-		Matrix (*plotData)(int),
+		tc_matrix (*plotData)(int),
 		void (*gnuplot)(const char*)
 	);
 
@@ -804,7 +804,7 @@ namespace Tinkercell
 		}
 	}
 	
-	void PlotTool_FtoS::plotMatrix(Matrix m, int x, const char* title, int all)
+	void PlotTool_FtoS::plotMatrix(tc_matrix m, int x, const char* title, int all)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -816,7 +816,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotTool_FtoS::plotMatrix3D(Matrix m, const char * title)
+	void PlotTool_FtoS::plotMatrix3D(tc_matrix m, const char * title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -828,7 +828,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotTool_FtoS::plotHistC(Matrix m, double bins, const char * title)
+	void PlotTool_FtoS::plotHistC(tc_matrix m, double bins, const char * title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -840,7 +840,7 @@ namespace Tinkercell
 		delete dat;
 	}
 
-	void PlotTool_FtoS::plotErrorbarsC(Matrix m, int x, const char* title)
+	void PlotTool_FtoS::plotErrorbarsC(tc_matrix m, int x, const char* title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -852,7 +852,7 @@ namespace Tinkercell
 		delete dat;
 	}
 	
-	void PlotTool_FtoS::plotScatterC(Matrix m, const char* title)
+	void PlotTool_FtoS::plotScatterC(tc_matrix m, const char* title)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		DataTable<qreal> * dat = ConvertValue(m);
@@ -874,7 +874,7 @@ namespace Tinkercell
 		delete s;
 	}
 
-	Matrix PlotTool_FtoS::getDataMatrix(int index)
+	tc_matrix PlotTool_FtoS::getDataMatrix(int index)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();
@@ -896,30 +896,30 @@ namespace Tinkercell
 		delete s;
 	}
 	
-	void PlotTool::plotMatrix(Matrix m, const char* title)
+	void PlotTool::plotMatrix(tc_matrix m, const char* title)
 	{
 		int x = 0, all = 1;
 		fToS.plotMatrix(m,x,title,all);
 	}
 
-	void PlotTool::plotMatrix3D(Matrix m, const char * title)
+	void PlotTool::plotMatrix3D(tc_matrix m, const char * title)
 	{
 		fToS.plotMatrix3D(m,title);
 	}
 
-	void PlotTool::plotHistC(Matrix m, const char * title)
+	void PlotTool::plotHistC(tc_matrix m, const char * title)
 	{
 		int bins = 100;
 		fToS.plotHistC(m,bins,title);
 	}
 
-	void PlotTool::plotErrorbarsC(Matrix m, const char* title)
+	void PlotTool::plotErrorbarsC(tc_matrix m, const char* title)
 	{
 		int x = 0;
 		fToS.plotErrorbarsC(m,x,title);
 	}
 	
-	void PlotTool::plotScatterC(Matrix m, const char* title)
+	void PlotTool::plotScatterC(tc_matrix m, const char* title)
 	{
 		fToS.plotScatterC(m,title);
 	}
@@ -929,7 +929,7 @@ namespace Tinkercell
 		fToS.plotMultiplotC(x,y);
 	}
 
-	Matrix PlotTool::getDataMatrix(int index)
+	tc_matrix PlotTool::getDataMatrix(int index)
 	{
 		return fToS.getDataMatrix(index);
 	}

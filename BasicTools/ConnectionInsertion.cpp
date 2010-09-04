@@ -201,11 +201,11 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_ConnectionInsertion_api)(
-		long (*insertConnection)(ArrayOfItems, const char*, const char*),
-		ArrayOfItems (*getConnectedNodes)(long),
-		ArrayOfItems (*getConnectedNodesWithRole)(long,const char*),
-		ArrayOfItems (*getConnections)(long),
-		ArrayOfItems (*getConnectionsWithRole)(long,const char*));
+		long (*insertConnection)(tc_items, const char*, const char*),
+		tc_items (*getConnectedNodes)(long),
+		tc_items (*getConnectedNodesWithRole)(long,const char*),
+		tc_items (*getConnections)(long),
+		tc_items (*getConnectionsWithRole)(long,const char*));
 
 
 	void ConnectionInsertion::setupFunctionPointers( QLibrary * library )
@@ -1194,12 +1194,12 @@ namespace Tinkercell
 
 	ConnectionInsertion_FToS ConnectionInsertion::fToS;
 
-	long ConnectionInsertion::_insertConnection(ArrayOfItems A, const char* a0, const char* a1)
+	long ConnectionInsertion::_insertConnection(tc_items A, const char* a0, const char* a1)
 	{
 		return fToS.insertConnection(A, a0, a1);
 	}
 
-	int ConnectionInsertion_FToS::insertConnection(ArrayOfItems A, const char* a0, const char* a1)
+	long ConnectionInsertion_FToS::insertConnection(tc_items A, const char* a0, const char* a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		ItemHandle * item = 0;
@@ -1213,12 +1213,12 @@ namespace Tinkercell
 		return ConvertValue(item);
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodes(long x)
+	tc_items ConnectionInsertion::_getConnectedNodes(long x)
 	{
 		return fToS.getConnectedNodes(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodes(long x)
+	tc_items ConnectionInsertion_FToS::getConnectedNodes(long x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1227,17 +1227,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*list);
+		tc_items A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectedNodesWithRole(long x, const char * s)
+	tc_items ConnectionInsertion::_getConnectedNodesWithRole(long x, const char * s)
 	{
 		return fToS.getConnectedNodesWithRole(x,s);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectedNodesWithRole(long x, const char * c)
+	tc_items ConnectionInsertion_FToS::getConnectedNodesWithRole(long x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1247,17 +1247,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*list);
+		tc_items A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnections(long x)
+	tc_items ConnectionInsertion::_getConnections(long x)
 	{
 		return fToS.getConnections(x);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnections(long x)
+	tc_items ConnectionInsertion_FToS::getConnections(long x)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1266,17 +1266,17 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*list);
+		tc_items A = ConvertValue(*list);
 		delete list;
 		return A;
 	}
 
-	ArrayOfItems ConnectionInsertion::_getConnectionsWithRole(long x, const char * c)
+	tc_items ConnectionInsertion::_getConnectionsWithRole(long x, const char * c)
 	{
 		return fToS.getConnectionsWithRole(x,c);
 	}
 
-	ArrayOfItems ConnectionInsertion_FToS::getConnectionsWithRole(long x, const char * c)
+	tc_items ConnectionInsertion_FToS::getConnectionsWithRole(long x, const char * c)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*>* list = new QList<ItemHandle*>;
@@ -1286,7 +1286,7 @@ namespace Tinkercell
 		s->acquire();
 		s->release();
 		delete s;
-		ArrayOfItems A = ConvertValue(*list);
+		tc_items A = ConvertValue(*list);
 		delete list;
 		return A;
 	}

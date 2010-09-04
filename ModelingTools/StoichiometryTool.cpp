@@ -125,10 +125,10 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_StoichiometryTool_api)(
-		Matrix (*getStoichiometry)(ArrayOfItems ),
-		void (*setStoichiometry)(ArrayOfItems ,Matrix ),
-		ArrayOfStrings (*getRates)(ArrayOfItems ),
-		void (*setRates)(ArrayOfItems ,ArrayOfStrings )
+		tc_matrix (*getStoichiometry)(tc_items ),
+		void (*setStoichiometry)(tc_items ,tc_matrix ),
+		tc_strings (*getRates)(tc_items ),
+		void (*setRates)(tc_items ,tc_strings )
 		);
 
 	void StoichiometryTool::setupFunctionPointers( QLibrary * library)
@@ -1457,12 +1457,12 @@ namespace Tinkercell
 
 	StoichiometryTool_FToS StoichiometryTool::fToS;
 
-	Matrix StoichiometryTool::_getStoichiometry(ArrayOfItems a0)
+	tc_matrix StoichiometryTool::_getStoichiometry(tc_items a0)
 	{
 		return fToS.getStoichiometry(a0);
 	}
 
-	Matrix StoichiometryTool_FToS::getStoichiometry(ArrayOfItems a0)
+	tc_matrix StoichiometryTool_FToS::getStoichiometry(tc_items a0)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1475,19 +1475,19 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	void StoichiometryTool::_setStoichiometry(ArrayOfItems a0,Matrix a1)
+	void StoichiometryTool::_setStoichiometry(tc_items a0,tc_matrix a1)
 	{
 		return fToS.setStoichiometry(a0,a1);
 	}
 
-	void StoichiometryTool_FToS::setStoichiometry(ArrayOfItems a0,Matrix a1)
+	void StoichiometryTool_FToS::setStoichiometry(tc_items a0,tc_matrix a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1501,12 +1501,12 @@ namespace Tinkercell
 		delete list;
 	}
 
-	ArrayOfStrings StoichiometryTool::_getRates(ArrayOfItems a0)
+	tc_strings StoichiometryTool::_getRates(tc_items a0)
 	{
 		return fToS.getRates(a0);
 	}
 
-	ArrayOfStrings StoichiometryTool_FToS::getRates(ArrayOfItems a0)
+	tc_strings StoichiometryTool_FToS::getRates(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QStringList p;
@@ -1517,15 +1517,15 @@ namespace Tinkercell
 		s->release();
 		delete s;
 		delete list;
-		return (ArrayOfStrings)ConvertValue(p);
+		return (tc_strings)ConvertValue(p);
 	}
 
-	void StoichiometryTool::_setRates(ArrayOfItems a0,ArrayOfStrings a1)
+	void StoichiometryTool::_setRates(tc_items a0,tc_strings a1)
 	{
 		return fToS.setRates(a0,a1);
 	}
 
-	void StoichiometryTool_FToS::setRates(ArrayOfItems a0,ArrayOfStrings a1)
+	void StoichiometryTool_FToS::setRates(tc_items a0,tc_strings a1)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);

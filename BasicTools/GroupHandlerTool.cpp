@@ -440,7 +440,7 @@ namespace Tinkercell
 	}
 
 	typedef void (*tc_GroupHandlerTool_api)(
-		void (*merge)(ArrayOfItems),
+		void (*merge)(tc_items),
 		void (*separate)(long)
 		);
 
@@ -689,7 +689,7 @@ namespace Tinkercell
 
 	GroupHandlerTool_FToS  GroupHandlerTool::fToS;
 
-	void GroupHandlerTool::_merge( ArrayOfItems A)
+	void GroupHandlerTool::_merge( tc_items A)
 	{
 		return fToS.merge(A);
 	}
@@ -699,7 +699,7 @@ namespace Tinkercell
 		return fToS.separate(o);
 	}
 
-	void GroupHandlerTool_FToS::merge(ArrayOfItems a0)
+	void GroupHandlerTool_FToS::merge(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		s->acquire();

@@ -211,7 +211,7 @@ namespace Tinkercell
     typedef void (*tc_LoadCLibraries_api)(
             int (*compileAndRun)(const char * ,const char* ),
             int (*compileBuildLoad)(const char *, const char* , const char*),
-			int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , Matrix),
+			int (*compileBuildLoadSliders)(const char * ,const char* ,const char* , tc_matrix),
             void (*loadLib)(const char*),
             void (*addf)(void (*f)(),const char * , const char* , const char* , const char* , const char * , int , int , int ),
             void (*callback)(void (*f)()),
@@ -459,7 +459,7 @@ namespace Tinkercell
         return fToS.compileBuildLoad(cfile,f,t);
     }
 	
-	int LoadCLibrariesTool::_compileBuildLoadSliders(const char * cfile,const char* f,const char* t, Matrix m)
+	int LoadCLibrariesTool::_compileBuildLoadSliders(const char * cfile,const char* f,const char* t, tc_matrix m)
 	{
 		return fToS.compileBuildLoadSliders(cfile,f,t,m);
 	}
@@ -508,7 +508,7 @@ namespace Tinkercell
         return p;
     }
 	
-	int LoadCLibrariesTool_FToS::compileBuildLoadSliders(const char * cfile,const char* f,const char* t, Matrix m)
+	int LoadCLibrariesTool_FToS::compileBuildLoadSliders(const char * cfile,const char* f,const char* t, tc_matrix m)
     {
         QSemaphore * s = new QSemaphore(1);
         int p;

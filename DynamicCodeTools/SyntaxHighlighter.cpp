@@ -19,7 +19,7 @@ namespace Tinkercell
 						 << "\\btypedef\\b" << "\\btypename\\b" << "\\b#define"
 						 << "\\bunsigned\\b" << "\\bvoid\\b" 
 						 << "\\bOBJ\\b" << "\\bimport\\b" << "\\bfor\\b" << "\\bwhile\\b"
-						 << "\\bArray\\b" << "\\barray\\b" << "\\bMatrix\\b"
+						 << "\\bArray\\b" << "\\barray\\b" << "\\btc_matrix\\b"
 						 << "\\bmatrix\\b" << "\\bTCFunctions\\b" << "\\breturn\\b"
 						 << "\\bif\\b" << "\\belse\\b" << "\\belif\\b" << "\\bdef\\b";
 		 foreach (QString pattern, keywordPatterns) {

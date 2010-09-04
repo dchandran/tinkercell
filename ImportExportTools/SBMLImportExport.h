@@ -33,8 +33,8 @@ namespace Tinkercell
 		public:
 			void exportSBMLFile(const char *);
 			void importSBMLString(const char*);
-			TableOfReals ODEsim(double, double);
-			TableOfReals GillespieSim(double);
+			tc_matrix ODEsim(double, double);
+			tc_matrix GillespieSim(double);
 	};
 	
 	
@@ -84,8 +84,8 @@ namespace Tinkercell
 		static SBMLImportExport_FtoS fToS;
 		static void exportSBMLFile(const char *);
 		static void importSBMLString(const char*);
-		static TableOfReals ODEsim(double, double);
-		static TableOfReals GillespieSim(double);
+		static tc_matrix ODEsim(double, double);
+		static tc_matrix GillespieSim(double);
 	};
 
 	class SimulationThread : public QThread

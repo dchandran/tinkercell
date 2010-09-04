@@ -70,13 +70,13 @@ namespace Tinkercell
 
 		private slots:
 
-			void plotMatrix(Matrix m, int x, const char* title, int all);
-			void plotMatrix3D(Matrix m, const char * title);
-			void plotHistC(Matrix m, double bins, const char * title);
-			void plotErrorbarsC(Matrix m, int x, const char* title);
+			void plotMatrix(tc_matrix m, int x, const char* title, int all);
+			void plotMatrix3D(tc_matrix m, const char * title);
+			void plotHistC(tc_matrix m, double bins, const char * title);
+			void plotErrorbarsC(tc_matrix m, int x, const char* title);
 			void plotMultiplotC(int x, int y);
-			void plotScatterC(Matrix m, const char* title);
-			Matrix getDataMatrix(int index);
+			void plotScatterC(tc_matrix m, const char* title);
+			tc_matrix getDataMatrix(int index);
 			void gnuplot(const char * script);
 			
 			friend class PlotTool;
@@ -193,25 +193,25 @@ namespace Tinkercell
 		static PlotTool_FtoS fToS;
 
 		 /*! \brief launch gnuplot and plot the given matrix*/
-        static void plotMatrix(Matrix m, const char* title);
+        static void plotMatrix(tc_matrix m, const char* title);
 
         /*! \brief launch gnuplot and plot the given surface matrix*/
-        static void plotMatrix3D(Matrix m, const char * title);
+        static void plotMatrix3D(tc_matrix m, const char * title);
 
         /*! \brief launch gnuplot and plot histogram of each column in the given matrix*/
-        static void plotHistC(Matrix m, const char * title);
+        static void plotHistC(tc_matrix m, const char * title);
 
         /*! \brief launch gnuplot and plot each column with errors listed in the next 2 columns. So every 3rd column is the data.*/
-        static void plotErrorbarsC(Matrix m, const char* title);
+        static void plotErrorbarsC(tc_matrix m, const char* title);
 		
 		/*! \brief rows and columns for multiple  plots*/
 		static void plotMultiplotC(int x, int y);
 		
         /*! \brief get plotted data*/
-        static Matrix getDataMatrix(int index);
+        static tc_matrix getDataMatrix(int index);
 		
 		/*! \brief scatterplot*/
-		static void plotScatterC(Matrix data,const char* title);
+		static void plotScatterC(tc_matrix data,const char* title);
 		
 		/*! \brief gnuplot*/
 		static void _gnuplot(const char* script);

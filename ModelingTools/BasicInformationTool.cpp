@@ -938,18 +938,18 @@ namespace Tinkercell
 
 	typedef void (*tc_BasicInformationTool_Text_api)(
 		char* (*getTextData)(long ,const char* ),
-		ArrayOfStrings (*getAllTextDataNamed)(ArrayOfItems, ArrayOfStrings),
+		tc_strings (*getAllTextDataNamed)(tc_items, tc_strings),
 		void (*setTextData)(long ,const char* ,const char* ));
 
 	typedef void (*tc_BasicInformationTool_Numeric_api)(
-		Matrix (*getInitialValues)(ArrayOfItems ),
-		void (*setInitialValues)(ArrayOfItems,Matrix),
-		Matrix (*getParameters)(ArrayOfItems ),
-		Matrix (*getFixedVars)(ArrayOfItems),
-		Matrix (*getFixedAndParameters)(ArrayOfItems),
+		tc_matrix (*getInitialValues)(tc_items ),
+		void (*setInitialValues)(tc_items,tc_matrix),
+		tc_matrix (*getParameters)(tc_items ),
+		tc_matrix (*getFixedVars)(tc_items),
+		tc_matrix (*getFixedAndParameters)(tc_items),
 		double (*getNumericalData)(long ,const char* ),
-		Matrix (*getParametersNamed)(ArrayOfItems, ArrayOfStrings),
-		Matrix (*getParametersExcept)(ArrayOfItems, ArrayOfStrings),
+		tc_matrix (*getParametersNamed)(tc_items, tc_strings),
+		tc_matrix (*getParametersExcept)(tc_items, tc_strings),
 		void (*setNumericalData)(long ,const char* ,double ));
 
 	void BasicInformationTool::setupFunctionPointers( QLibrary * library )
@@ -1613,27 +1613,27 @@ namespace Tinkercell
 
 	BasicInformationTool_FToS BasicInformationTool::fToS;
 
-	Matrix BasicInformationTool::_getParameters(ArrayOfItems A)
+	tc_matrix BasicInformationTool::_getParameters(tc_items A)
 	{
 		return fToS.getParameters(A);
 	}
 
-	Matrix BasicInformationTool::_getInitialValues(ArrayOfItems A)
+	tc_matrix BasicInformationTool::_getInitialValues(tc_items A)
 	{
 		return fToS.getInitialValues(A);
 	}
 
-	void BasicInformationTool::_setInitialValues(ArrayOfItems A, Matrix M)
+	void BasicInformationTool::_setInitialValues(tc_items A, tc_matrix M)
 	{
 		fToS.setInitialValues(A,M);
 	}
 
-	Matrix BasicInformationTool::_getFixedVars(ArrayOfItems A)
+	tc_matrix BasicInformationTool::_getFixedVars(tc_items A)
 	{
 		return fToS.getFixedVars(A);
 	}
 
-	Matrix BasicInformationTool::_getFixedAndParameters(ArrayOfItems A)
+	tc_matrix BasicInformationTool::_getFixedAndParameters(tc_items A)
 	{
 		return fToS.getFixedAndParameters(A);
 	}
@@ -1648,17 +1648,17 @@ namespace Tinkercell
 		return fToS.getNumericalData(o,c);
 	}
 
-	Matrix BasicInformationTool::_getParametersNamed(ArrayOfItems A, ArrayOfStrings c)
+	tc_matrix BasicInformationTool::_getParametersNamed(tc_items A, tc_strings c)
 	{
 		return fToS.getParametersNamed(A,c);
 	}
 
-	Matrix BasicInformationTool::_getParametersExcept(ArrayOfItems A, ArrayOfStrings c)
+	tc_matrix BasicInformationTool::_getParametersExcept(tc_items A, tc_strings c)
 	{
 		return fToS.getParametersExcept(A,c);
 	}
 
-	ArrayOfStrings BasicInformationTool::_getAllTextDataNamed(ArrayOfItems A, ArrayOfStrings c)
+	tc_strings BasicInformationTool::_getAllTextDataNamed(tc_items A, tc_strings c)
 	{
 		return fToS.getAllTextDataNamed(A,c);
 	}
@@ -1673,7 +1673,7 @@ namespace Tinkercell
 		return fToS.setNumericalData(o,a,b);
 	}
 
-	Matrix BasicInformationTool_FToS::getParameters(ArrayOfItems a0)
+	tc_matrix BasicInformationTool_FToS::getParameters(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1686,14 +1686,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	Matrix BasicInformationTool_FToS::getInitialValues(ArrayOfItems a0)
+	tc_matrix BasicInformationTool_FToS::getInitialValues(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1706,14 +1706,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	void BasicInformationTool_FToS::setInitialValues(ArrayOfItems a0, Matrix M)
+	void BasicInformationTool_FToS::setInitialValues(tc_items a0, tc_matrix M)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1732,7 +1732,7 @@ namespace Tinkercell
 		}
 	}
 
-	Matrix BasicInformationTool_FToS::getFixedVars(ArrayOfItems a0)
+	tc_matrix BasicInformationTool_FToS::getFixedVars(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1745,14 +1745,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	Matrix BasicInformationTool_FToS::getFixedAndParameters(ArrayOfItems a0)
+	tc_matrix BasicInformationTool_FToS::getFixedAndParameters(tc_items a0)
 	{
 		QSemaphore * s = new QSemaphore(1);
 		QList<ItemHandle*> * list = ConvertValue(a0);
@@ -1765,14 +1765,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	Matrix BasicInformationTool_FToS::getParametersNamed(ArrayOfItems a0,ArrayOfStrings name)
+	tc_matrix BasicInformationTool_FToS::getParametersNamed(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1785,14 +1785,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	Matrix BasicInformationTool_FToS::getParametersExcept(ArrayOfItems a0,ArrayOfStrings name)
+	tc_matrix BasicInformationTool_FToS::getParametersExcept(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);
@@ -1805,14 +1805,14 @@ namespace Tinkercell
 		delete list;
 		if (p)
 		{
-			Matrix m = ConvertValue(*p);
+			tc_matrix m = ConvertValue(*p);
 			delete p;
 			return m;
 		}
 		return emptyMatrix();
 	}
 
-	ArrayOfStrings BasicInformationTool_FToS::getAllTextDataNamed(ArrayOfItems a0,ArrayOfStrings name)
+	tc_strings BasicInformationTool_FToS::getAllTextDataNamed(tc_items a0,tc_strings name)
 	{
 		QList<ItemHandle*> * list = ConvertValue(a0);
 		QSemaphore * s = new QSemaphore(1);

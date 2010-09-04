@@ -102,8 +102,8 @@ bool SBMLImportExport::setMainWindow(MainWindow * main)
 typedef void (*tc_SBML_api)(
 		void (*exportSBMLFile)(const char *),
 		void (*importSBMLString)(const char*),
-		TableOfReals (*ODEsim)(double, double),
-		TableOfReals (*GillespieSim)(double));
+		tc_matrix (*ODEsim)(double, double),
+		tc_matrix (*GillespieSim)(double));
 
 void SBMLImportExport::setupFunctionPointers( QLibrary * library)
 {
@@ -157,12 +157,12 @@ void SBMLImportExport::importSBMLString(const char* s)
 	fToS.importSBMLString(s);
 }
 
-TableOfReals SBMLImportExport::ODEsim(double time, double dt)
+tc_matrix SBMLImportExport::ODEsim(double time, double dt)
 {
 	return fToS.ODEsim(time,dt);
 }
 
-TableOfReals SBMLImportExport::GillespieSim(double time)
+tc_matrix SBMLImportExport::GillespieSim(double time)
 {
 	return fToS.GillespieSim(time);
 }
@@ -186,7 +186,7 @@ void SBMLImportExport_FtoS::importSBMLString(const char* c)
 	s->release();
 }
 
-TableOfReals SBMLImportExport_FtoS::ODEsim(double time, double dt)
+tc_matrix SBMLImportExport_FtoS::ODEsim(double time, double dt)
 {
 	QSemaphore * s = new QSemaphore(1);
 	NumericalDataTable t;
@@ -198,7 +198,7 @@ TableOfReals SBMLImportExport_FtoS::ODEsim(double time, double dt)
 	return ConvertValue(t);
 }
 
-TableOfReals SBMLImportExport_FtoS::GillespieSim(double time)
+tc_matrix SBMLImportExport_FtoS::GillespieSim(double time)
 {
 	QSemaphore * s = new QSemaphore(1);
 	NumericalDataTable t;
@@ -270,12 +270,12 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	Model_t * model = SBMLDocument_createModel(doc);
 
 	NumericalDataTable params = BasicInformationTool::getUsedParameters(handles);
-	NumericalDataTable stoicMatrix = StoichiometryTool::getStoichiometry(handles);
+	NumericalDataTable stoictc_matrix = StoichiometryTool::getStoichiometry(handles);
 	QStringList rates = StoichiometryTool::getRates(handles);
 	QStringList species, compartments, eventTriggers, eventActions, assignmentNames,
 				assignmentDefs, fixedVars, functionNames, functionDefs, functionArgs;
 
-	species = stoicMatrix.getRowNames();
+	species = stoictc_matrix.getRowNames();
 	QVector<double> initialValues(species.size(),0.0);
 	QVector<QString> speciesCompartments(species.size(),tr("DefaultCompartment"));
 	QList<double> fixedValues, compartmentVolumes;
@@ -484,37 +484,37 @@ SBMLDocument_t* SBMLImportExport::exportSBML( QList<ItemHandle*>& handles)
 	}
 	
 	//create list of reactions
-	for (int i=0; i < stoicMatrix.cols(); ++i)
+	for (int i=0; i < stoictc_matrix.cols(); ++i)
 	{
 		Reaction_t * reac = Model_createReaction(model);
-		Reaction_setId(reac, ConvertValue(stoicMatrix.colName(i)));
-		Reaction_setName(reac, ConvertValue(stoicMatrix.colName(i)));
-		Reaction_setId(reac, ConvertValue(stoicMatrix.colName(i)));
+		Reaction_setId(reac, ConvertValue(stoictc_matrix.colName(i)));
+		Reaction_setName(reac, ConvertValue(stoictc_matrix.colName(i)));
+		Reaction_setId(reac, ConvertValue(stoictc_matrix.colName(i)));
 		KineticLaw_t  * kinetic = Reaction_createKineticLaw(reac);
 		KineticLaw_setFormula( kinetic, ConvertValue( rates[i] ));
 
-		for (int j=0; j < stoicMatrix.rows(); ++j)
-			if (stoicMatrix.value(j,i) < 0)
+		for (int j=0; j < stoictc_matrix.rows(); ++j)
+			if (stoictc_matrix.value(j,i) < 0)
 			{
-				for (int k=0; k < -stoicMatrix.value(j,i); ++k)
+				for (int k=0; k < -stoictc_matrix.value(j,i); ++k)
 				{ 
 					SpeciesReference_t * sref = Reaction_createReactant(reac);
-					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
-					//SpeciesReference_setStoichiometry( sref, -stoicMatrix.value(j,i) );
+					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					//SpeciesReference_setStoichiometry( sref, -stoictc_matrix.value(j,i) );
 				}
 			}
 			else
-			if (stoicMatrix.value(j,i) > 0)
+			if (stoictc_matrix.value(j,i) > 0)
 			{
-				for (int k=0; k < stoicMatrix.value(j,i); ++k)
+				for (int k=0; k < stoictc_matrix.value(j,i); ++k)
 				{
 					SpeciesReference_t * sref = Reaction_createProduct(reac);
-					SpeciesReference_setId(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setName(sref, ConvertValue(stoicMatrix.rowName(j)));
-					SpeciesReference_setSpecies(sref, ConvertValue(stoicMatrix.rowName(j)));
-					//SpeciesReference_setStoichiometry( sref, stoicMatrix.value(j,i) );
+					SpeciesReference_setId(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setName(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					SpeciesReference_setSpecies(sref, ConvertValue(stoictc_matrix.rowName(j)));
+					//SpeciesReference_setStoichiometry( sref, stoictc_matrix.value(j,i) );
 				}
 			}		
 	}

@@ -38,7 +38,7 @@ namespace Tinkercell
 		void merge(QSemaphore*, QList<ItemHandle*>&);
 		void separate(QSemaphore*,ItemHandle*);
 	public slots:
-		void merge(ArrayOfItems);
+		void merge(tc_items);
 		void separate(long);
 	};
 
@@ -75,7 +75,7 @@ namespace Tinkercell
 		static QString findUniqueName(const QStringList&);
 		void connectTCFunctions();
 		static GroupHandlerTool_FToS fToS;
-		static void _merge( ArrayOfItems );
+		static void _merge( tc_items );
 		static void _separate(long );
 		static ItemFamily* findBestFamilyOption(QList<ItemFamily*>&);
 	};

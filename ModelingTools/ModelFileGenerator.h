@@ -33,7 +33,7 @@ namespace Tinkercell
 		void generateModelFile(QSemaphore*,int*, const QString&, QList<ItemHandle*>&);
 
 	public slots:
-		int generateModelFile(const char*, ArrayOfItems);
+		int generateModelFile(const char*, tc_items);
 	};
 
 	class TINKERCELLEXPORT ModelFileGenerator : public Tool
@@ -58,7 +58,7 @@ namespace Tinkercell
 	protected:
 		static ModelFileGenerator_FToS fToS;
 		void connectCFuntions();
-		static int _generateModelFile(const char*,ArrayOfItems);
+		static int _generateModelFile(const char*,tc_items);
 		
 	private:
 		static QString insertPrefix(const QList<ItemHandle*>& handles, const QString& pref, const QString& s, const QString& sep=QString("_"));

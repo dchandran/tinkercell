@@ -54,8 +54,8 @@ namespace Tinkercell
 		void addForcingFunction(QSemaphore*,ItemHandle*,const QString&, const QString&);
 		
 	public slots:
-		ArrayOfStrings getForcingFunctionNames(ArrayOfItems);
-		ArrayOfStrings getForcingFunctionAssignments(ArrayOfItems);
+		tc_strings getForcingFunctionNames(tc_items);
+		tc_strings getForcingFunctionAssignments(tc_items);
 		void addForcingFunction(long,const char*, const char*);
 	};
 
@@ -117,8 +117,8 @@ namespace Tinkercell
 		NodeGraphicsItem item;
 		QDockWidget * dockWidget;
 
-		static ArrayOfStrings _getForcingFunctionNames(ArrayOfItems);
-		static ArrayOfStrings _getForcingFunctionAssignments(ArrayOfItems);
+		static tc_strings _getForcingFunctionNames(tc_items);
+		static tc_strings _getForcingFunctionAssignments(tc_items);
 		static void _addForcingFunction(long,const char*, const char*);
 	};
 

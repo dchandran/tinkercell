@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "TC_api.h"
 
 void run();

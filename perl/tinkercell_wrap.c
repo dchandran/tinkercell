@@ -1525,10 +1525,10 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 #define SWIGTYPE_p_f_long_p_q_const__char_double__void swig_types[34]
 #define SWIGTYPE_p_f_long_p_q_const__char_int__void swig_types[35]
 #define SWIGTYPE_p_f_long_p_q_const__char_p_q_const__char__void swig_types[36]
-#define SWIGTYPE_p_f_long_p_q_const__char_struct_tc_matrix__void swig_types[37]
-#define SWIGTYPE_p_f_long_p_q_const__char_struct_tc_table__void swig_types[38]
-#define SWIGTYPE_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void swig_types[39]
-#define SWIGTYPE_p_f_long_struct_tc_strings__void swig_types[40]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void swig_types[37]
+#define SWIGTYPE_p_f_long_p_q_const__char_tc_table__void swig_types[38]
+#define SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void swig_types[39]
+#define SWIGTYPE_p_f_long_tc_strings__void swig_types[40]
 #define SWIGTYPE_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void swig_types[41]
 #define SWIGTYPE_p_f_p_f_void__void__void swig_types[42]
 #define SWIGTYPE_p_f_p_q_const__char__double swig_types[43]
@@ -1538,30 +1538,30 @@ SWIG_Perl_SetModule(swig_module_info *module) {
 #define SWIGTYPE_p_f_p_q_const__char__tc_items swig_types[47]
 #define SWIGTYPE_p_f_p_q_const__char__void swig_types[48]
 #define SWIGTYPE_p_f_p_q_const__char_int_int__void swig_types[49]
-#define SWIGTYPE_p_f_p_q_const__char_int_int_struct_tc_strings__void swig_types[50]
+#define SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void swig_types[50]
 #define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__int swig_types[51]
 #define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__long swig_types[52]
 #define SWIGTYPE_p_f_p_q_const__char_p_q_const__char__void swig_types[53]
 #define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int swig_types[54]
 #define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[55]
-#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int swig_types[56]
-#define SWIGTYPE_p_f_p_q_const__char_struct_tc_items__int swig_types[57]
-#define SWIGTYPE_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int swig_types[58]
-#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[59]
-#define SWIGTYPE_p_f_struct_tc_items__void swig_types[60]
-#define SWIGTYPE_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long swig_types[61]
-#define SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void swig_types[62]
-#define SWIGTYPE_p_f_struct_tc_items_struct_tc_strings__void swig_types[63]
-#define SWIGTYPE_p_f_struct_tc_matrix__void swig_types[64]
-#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void swig_types[65]
-#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void swig_types[66]
-#define SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[67]
-#define SWIGTYPE_p_f_struct_tc_strings_p_double__void swig_types[68]
-#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[69]
-#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[70]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[71]
-#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[72]
-#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[73]
+#define SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int swig_types[56]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__int swig_types[57]
+#define SWIGTYPE_p_f_p_q_const__char_tc_items__tc_items swig_types[58]
+#define SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int swig_types[59]
+#define SWIGTYPE_p_f_tc_items__tc_matrix swig_types[60]
+#define SWIGTYPE_p_f_tc_items__tc_strings swig_types[61]
+#define SWIGTYPE_p_f_tc_items__void swig_types[62]
+#define SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long swig_types[63]
+#define SWIGTYPE_p_f_tc_items_tc_matrix__void swig_types[64]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_matrix swig_types[65]
+#define SWIGTYPE_p_f_tc_items_tc_strings__tc_strings swig_types[66]
+#define SWIGTYPE_p_f_tc_items_tc_strings__void swig_types[67]
+#define SWIGTYPE_p_f_tc_matrix__void swig_types[68]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char__void swig_types[69]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void swig_types[70]
+#define SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void swig_types[71]
+#define SWIGTYPE_p_f_tc_strings__tc_items swig_types[72]
+#define SWIGTYPE_p_f_tc_strings_p_double__void swig_types[73]
 #define SWIGTYPE_p_f_void__void swig_types[74]
 #define SWIGTYPE_p_long swig_types[75]
 #define SWIGTYPE_p_p_char swig_types[76]
@@ -4884,7 +4884,7 @@ XS(_wrap_tc_createInputWindow) {
     }
     arg2 = (char *)(buf2);
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createInputWindow" "', argument " "3"" of type '" "void (*)(tc_matrix)""'"); 
       }
@@ -5361,7 +5361,7 @@ XS(_wrap_tc_zoom) {
 }
 
 
-XS(_wrap_tc_tc_getTableValue) {
+XS(_wrap_tc_getStringDialog) {
   {
     char *arg1 = (char *) 0 ;
     int res1 ;
@@ -5372,14 +5372,14 @@ XS(_wrap_tc_tc_getTableValue) {
     dXSARGS;
     
     if ((items < 1) || (items > 1)) {
-      SWIG_croak("Usage: tc_tc_getTableValue(title);");
+      SWIG_croak("Usage: tc_getStringDialog(title);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValue" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringDialog" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
-    result = (char *)tc_tc_getTableValue((char const *)arg1);
+    result = (char *)tc_getStringDialog((char const *)arg1);
     ST(argvi) = SWIG_FromCharPtr((const char *)result); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     XSRETURN(argvi);
@@ -5408,7 +5408,7 @@ XS(_wrap_tc_getFilename) {
 }
 
 
-XS(_wrap_tc_tc_getTableValueFromList) {
+XS(_wrap_tc_getStringFromList) {
   {
     char *arg1 = (char *) 0 ;
     tc_strings arg2 ;
@@ -5426,30 +5426,30 @@ XS(_wrap_tc_tc_getTableValueFromList) {
     dXSARGS;
     
     if ((items < 3) || (items > 3)) {
-      SWIG_croak("Usage: tc_tc_getTableValueFromList(title,list,selectedString);");
+      SWIG_croak("Usage: tc_getStringFromList(title,list,selectedString);");
     }
     res1 = SWIG_AsCharPtrAndSize(ST(0), &buf1, NULL, &alloc1);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValueFromList" "', argument " "1"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "char const *""'");
     }
     arg1 = (char *)(buf1);
     {
       res2 = SWIG_ConvertPtr(ST(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
       if (!SWIG_IsOK(res2)) {
-        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'"); 
+        SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "tc_strings""'"); 
       }  
       if (!argp2) {
-        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'");
+        SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "tc_strings""'");
       } else {
         arg2 = *((tc_strings *)(argp2));
       }
     }
     res3 = SWIG_AsCharPtrAndSize(ST(2), &buf3, NULL, &alloc3);
     if (!SWIG_IsOK(res3)) {
-      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_tc_getTableValueFromList" "', argument " "3"" of type '" "char const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "char const *""'");
     }
     arg3 = (char *)(buf3);
-    result = (int)tc_tc_getTableValueFromList((char const *)arg1,arg2,(char const *)arg3);
+    result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
     ST(argvi) = SWIG_From_int  SWIG_PERL_CALL_ARGS_1((int)(result)); argvi++ ;
     if (alloc1 == SWIG_NEWOBJ) free((char*)buf1);
     if (alloc3 == SWIG_NEWOBJ) free((char*)buf3);
@@ -5631,7 +5631,7 @@ XS(_wrap_tc_createSliders) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_createSliders" "', argument " "2"" of type '" "void (*)(tc_matrix)""'"); 
       }
@@ -6055,7 +6055,7 @@ XS(_wrap_tc_Main_api_initialize) {
     dXSARGS;
     
     if ((items < 62) || (items > 62)) {
-      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getTableValue,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0);");
+      SWIG_croak("Usage: tc_Main_api_initialize(tc_allItems0,tc_selectedItems0,tc_itemsOfFamily0,tc_itemsOfFamily1,tc_find0,tc_findItems0,tc_select0,tc_deselect0,tc_getName0,tc_getUniqueName0,tc_setName0,tc_getNames0,tc_getUniqueNames0,tc_getFamily0,tc_isA0,tc_clearText,tc_outputText0,tc_errorReport0,tc_outputTable0,tc_printFile0,tc_removeItem0,tc_getY0,tc_getX0,tc_getPos0,tc_setPos0,tc_setPos1,tc_moveSelected0,tc_isWindows0,tc_isMac0,tc_isLinux0,tc_appDir0,tc_createInputWindow0,tc_createInputWindow1,createSliders,tc_addInputWindowOptions0,tc_addInputWindowCheckbox0,tc_openNewWindow0,tc_getChildren0,tc_getParent0,tc_getNumericalData0,tc_setNumericalData0,tc_getTextData0,tc_setTextData0,tc_getNumericalDataNames0,tc_getTextDataNames0,tc_zoom0,tc_getStringDialog0,getSelectedString,getNumber,getNumbers,getFilename,askQuestion,messageDialog,setSize0,getWidth0,getHeight0,setAngle0,getAngle0,getColor,setColor0,changeGraphics0,changeArrowHead0);");
     }
     {
       int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f___tc_items);
@@ -6166,7 +6166,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(18), (void**)(&arg19), SWIGTYPE_p_f_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "19"" of type '" "void (*)(tc_matrix)""'"); 
       }
@@ -6208,7 +6208,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(25), (void**)(&arg26), SWIGTYPE_p_f_tc_items_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "26"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
@@ -6244,25 +6244,25 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(31), (void**)(&arg32), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(31), (void**)(&arg32), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "32"" of type '" "void (*)(tc_matrix,char const *,char const *,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(32), (void**)(&arg33), SWIGTYPE_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "33"" of type '" "void (*)(tc_matrix,char const *,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void);
+      int res = SWIG_ConvertFunctionPtr(ST(33), (void**)(&arg34), SWIGTYPE_p_f_long_tc_matrix_p_f_tc_matrix__void__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "34"" of type '" "void (*)(long,tc_matrix,void (*)(tc_matrix))""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_struct_tc_strings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(34), (void**)(&arg35), SWIGTYPE_p_f_p_q_const__char_int_int_tc_strings__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "35"" of type '" "void (*)(char const *,int,int,tc_strings)""'"); 
       }
@@ -6298,7 +6298,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_long_p_q_const__char_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(40), (void**)(&arg41), SWIGTYPE_p_f_long_p_q_const__char_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "41"" of type '" "void (*)(long,char const *,tc_matrix)""'"); 
       }
@@ -6310,7 +6310,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_long_p_q_const__char_struct_tc_table__void);
+      int res = SWIG_ConvertFunctionPtr(ST(42), (void**)(&arg43), SWIGTYPE_p_f_long_p_q_const__char_tc_table__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "43"" of type '" "void (*)(long,char const *,tc_table)""'"); 
       }
@@ -6340,7 +6340,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int);
+      int res = SWIG_ConvertFunctionPtr(ST(47), (void**)(&arg48), SWIGTYPE_p_f_p_q_const__char_tc_strings_p_q_const__char__int);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "48"" of type '" "int (*)(char const *,tc_strings,char const *)""'"); 
       }
@@ -6352,7 +6352,7 @@ XS(_wrap_tc_Main_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_struct_tc_strings_p_double__void);
+      int res = SWIG_ConvertFunctionPtr(ST(49), (void**)(&arg50), SWIGTYPE_p_f_tc_strings_p_double__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_Main_api_initialize" "', argument " "50"" of type '" "void (*)(tc_strings,double *)""'"); 
       }
@@ -7179,7 +7179,7 @@ XS(_wrap_tc_BasicInformationTool_Numeric_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_BasicInformationTool_Numeric_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
@@ -7455,7 +7455,7 @@ XS(_wrap_tc_ConnectionInsertion_api) {
       SWIG_croak("Usage: tc_ConnectionInsertion_api(insertConnection,getConnectedParts,getConnectedPartsWithRole,getConnections,getConnectionsWithRole);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items_p_q_const__char_p_q_const__char__long);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ConnectionInsertion_api" "', argument " "1"" of type '" "long (*)(tc_items,char const *,char const *)""'"); 
       }
@@ -8047,7 +8047,7 @@ XS(_wrap_tc_GroupHandlerTool_api) {
       SWIG_croak("Usage: tc_GroupHandlerTool_api(merge,separate);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_items__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_items__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_GroupHandlerTool_api" "', argument " "1"" of type '" "void (*)(tc_items)""'"); 
       }
@@ -8445,7 +8445,7 @@ XS(_wrap_tc_StoichiometryTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_items_struct_tc_matrix__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_items_tc_matrix__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "2"" of type '" "void (*)(tc_items,tc_matrix)""'"); 
       }
@@ -8457,7 +8457,7 @@ XS(_wrap_tc_StoichiometryTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_items_struct_tc_strings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_tc_items_tc_strings__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_StoichiometryTool_api" "', argument " "4"" of type '" "void (*)(tc_items,tc_strings)""'"); 
       }
@@ -9036,7 +9036,7 @@ XS(_wrap_tc_LoadCLibraries_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_LoadCLibraries_api" "', argument " "3"" of type '" "int (*)(char const *,char const *,char const *,tc_matrix)""'"); 
       }
@@ -9496,31 +9496,31 @@ XS(_wrap_tc_PlotTool_api) {
       SWIG_croak("Usage: tc_PlotTool_api(plot,surface,hist,errorBars,scatterplot,multiplot,plotData,gnuplot);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "1"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "2"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(2), (void**)(&arg3), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "3"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "4"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_struct_tc_matrix_p_q_const__char__void);
+      int res = SWIG_ConvertFunctionPtr(ST(4), (void**)(&arg5), SWIGTYPE_p_f_tc_matrix_p_q_const__char__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_PlotTool_api" "', argument " "5"" of type '" "void (*)(tc_matrix,char const *)""'"); 
       }
@@ -9621,7 +9621,7 @@ XS(_wrap_tc_ModelFileGenerator_api) {
       SWIG_croak("Usage: tc_ModelFileGenerator_api(modelgen);");
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_struct_tc_items__int);
+      int res = SWIG_ConvertFunctionPtr(ST(0), (void**)(&arg1), SWIGTYPE_p_f_p_q_const__char_tc_items__int);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_ModelFileGenerator_api" "', argument " "1"" of type '" "int (*)(char const *,tc_items)""'"); 
       }
@@ -10204,7 +10204,7 @@ XS(_wrap_tc_NameFamily_api_initialize) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_struct_tc_strings__void);
+      int res = SWIG_ConvertFunctionPtr(ST(1), (void**)(&arg2), SWIGTYPE_p_f_long_tc_strings__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_NameFamily_api_initialize" "', argument " "2"" of type '" "void (*)(long,tc_strings)""'"); 
       }
@@ -10368,7 +10368,7 @@ XS(_wrap_tc_AutoGeneRegulatoryTool_api) {
       }
     }
     {
-      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_struct_tc_items__void);
+      int res = SWIG_ConvertFunctionPtr(ST(3), (void**)(&arg4), SWIGTYPE_p_f_tc_items__void);
       if (!SWIG_IsOK(res)) {
         SWIG_exception_fail(SWIG_ArgError(res), "in method '" "tc_AutoGeneRegulatoryTool_api" "', argument " "4"" of type '" "void (*)(tc_items)""'"); 
       }
@@ -10572,21 +10572,21 @@ static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___int = {"_p_f___int", "int (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___p_char = {"_p_f___p_char", "char *(*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "struct tc_items (*)()|tc_items (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "struct tc_strings (*)()|tc_strings (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_items = {"_p_f___tc_items", "tc_items (*)()", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f___tc_strings = {"_p_f___tc_strings", "tc_strings (*)()", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f___void = {"_p_f___void", "void (*)()", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double__tc_matrix = {"_p_f_double__tc_matrix", "struct tc_matrix (*)(double)|tc_matrix (*)(double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double__tc_matrix = {"_p_f_double__tc_matrix", "tc_matrix (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double__void = {"_p_f_double__void", "void (*)(double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_double_double__tc_matrix = {"_p_f_double_double__tc_matrix", "struct tc_matrix (*)(double,double)|tc_matrix (*)(double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_double_double__tc_matrix = {"_p_f_double_double__tc_matrix", "tc_matrix (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__void = {"_p_f_double_double__void", "void (*)(double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "struct tc_matrix (*)(int)|tc_matrix (*)(int)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_int__tc_matrix = {"_p_f_int__tc_matrix", "tc_matrix (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int__void = {"_p_f_int__void", "void (*)(int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_int_int__void = {"_p_f_int_int__void", "void (*)(int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long__double = {"_p_f_long__double", "double (*)(long)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long__long = {"_p_f_long__long", "long (*)(long)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long__p_char = {"_p_f_long__p_char", "char *(*)(long)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long__tc_items = {"_p_f_long__tc_items", "struct tc_items (*)(long)|tc_items (*)(long)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long__tc_strings = {"_p_f_long__tc_strings", "struct tc_strings (*)(long)|tc_strings (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__tc_items = {"_p_f_long__tc_items", "tc_items (*)(long)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long__tc_strings = {"_p_f_long__tc_strings", "tc_strings (*)(long)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long__void = {"_p_f_long__void", "void (*)(long)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_double__void = {"_p_f_long_double__void", "void (*)(long,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_double_double__void = {"_p_f_long_double_double__void", "void (*)(long,double,double)", 0, 0, (void*)0, 0};
@@ -10598,57 +10598,57 @@ static swig_type_info _swigt__p_f_long_long_int_double_double__void = {"_p_f_lon
 static swig_type_info _swigt__p_f_long_p_q_const__char__double = {"_p_f_long_p_q_const__char__double", "double (*)(long,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char__int = {"_p_f_long_p_q_const__char__int", "int (*)(long,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char__p_char = {"_p_f_long_p_q_const__char__p_char", "char *(*)(long,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_p_q_const__char__tc_items = {"_p_f_long_p_q_const__char__tc_items", "struct tc_items (*)(long,char const *)|tc_items (*)(long,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_p_q_const__char__tc_matrix = {"_p_f_long_p_q_const__char__tc_matrix", "struct tc_matrix (*)(long,char const *)|tc_matrix (*)(long,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_p_q_const__char__tc_table = {"_p_f_long_p_q_const__char__tc_table", "struct tc_table (*)(long,char const *)|tc_table (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_items = {"_p_f_long_p_q_const__char__tc_items", "tc_items (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_matrix = {"_p_f_long_p_q_const__char__tc_matrix", "tc_matrix (*)(long,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char__tc_table = {"_p_f_long_p_q_const__char__tc_table", "tc_table (*)(long,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char__void = {"_p_f_long_p_q_const__char__void", "void (*)(long,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char_double__void = {"_p_f_long_p_q_const__char_double__void", "void (*)(long,char const *,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char_int__void = {"_p_f_long_p_q_const__char_int__void", "void (*)(long,char const *,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_long_p_q_const__char_p_q_const__char__void = {"_p_f_long_p_q_const__char_p_q_const__char__void", "void (*)(long,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_p_q_const__char_struct_tc_matrix__void = {"_p_f_long_p_q_const__char_struct_tc_matrix__void", "void (*)(long,char const *,struct tc_matrix)|void (*)(long,char const *,tc_matrix)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_p_q_const__char_struct_tc_table__void = {"_p_f_long_p_q_const__char_struct_tc_table__void", "void (*)(long,char const *,struct tc_table)|void (*)(long,char const *,tc_table)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void = {"_p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void", "void (*)(long,struct tc_matrix,void (*)(struct tc_matrix))|void (*)(long,tc_matrix,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_struct_tc_strings__void = {"_p_f_long_struct_tc_strings__void", "void (*)(long,struct tc_strings)|void (*)(long,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_tc_matrix__void = {"_p_f_long_p_q_const__char_tc_matrix__void", "void (*)(long,char const *,tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_p_q_const__char_tc_table__void = {"_p_f_long_p_q_const__char_tc_table__void", "void (*)(long,char const *,tc_table)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_tc_matrix_p_f_tc_matrix__void__void = {"_p_f_long_tc_matrix_p_f_tc_matrix__void__void", "void (*)(long,tc_matrix,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_tc_strings__void = {"_p_f_long_tc_strings__void", "void (*)(long,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void = {"_p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void", "void (*)(void (*)(),char const *,char const *,char const *,char const *,char const *,int,int,int)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_f_void__void__void = {"_p_f_p_f_void__void__void", "void (*)(void (*)(void))", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__double = {"_p_f_p_q_const__char__double", "double (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__int = {"_p_f_p_q_const__char__int", "int (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__long = {"_p_f_p_q_const__char__long", "long (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__p_char = {"_p_f_p_q_const__char__p_char", "char *(*)(char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "struct tc_items (*)(char const *)|tc_items (*)(char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char__tc_items = {"_p_f_p_q_const__char__tc_items", "tc_items (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char__void = {"_p_f_p_q_const__char__void", "void (*)(char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_int_int__void = {"_p_f_p_q_const__char_int_int__void", "void (*)(char const *,int,int)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void = {"_p_f_p_q_const__char_int_int_struct_tc_strings__void", "void (*)(char const *,int,int,struct tc_strings)|void (*)(char const *,int,int,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_int_int_tc_strings__void = {"_p_f_p_q_const__char_int_int_tc_strings__void", "void (*)(char const *,int,int,tc_strings)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__long = {"_p_f_p_q_const__char_p_q_const__char__long", "long (*)(char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char__int", "int (*)(char const *,char const *,char const *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(char const *,char const *,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int", "int (*)(char const *,char const *,char const *,tc_matrix)|int (*)(char const *,char const *,char const *,struct tc_matrix)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_struct_tc_items__int = {"_p_f_p_q_const__char_struct_tc_items__int", "int (*)(char const *,struct tc_items)|int (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int = {"_p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int", "int (*)(char const *,tc_strings,char const *)|int (*)(char const *,struct tc_strings,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_p_q_const__char_tc_items__tc_items = {"_p_f_p_q_const__char_tc_items__tc_items", "struct tc_items (*)(char const *,tc_items)|tc_items (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_items__void = {"_p_f_struct_tc_items__void", "void (*)(struct tc_items)|void (*)(tc_items)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long = {"_p_f_struct_tc_items_p_q_const__char_p_q_const__char__long", "long (*)(struct tc_items,char const *,char const *)|long (*)(tc_items,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_items_struct_tc_matrix__void = {"_p_f_struct_tc_items_struct_tc_matrix__void", "void (*)(struct tc_items,struct tc_matrix)|void (*)(tc_items,tc_matrix)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_items_struct_tc_strings__void = {"_p_f_struct_tc_items_struct_tc_strings__void", "void (*)(struct tc_items,struct tc_strings)|void (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_matrix__void = {"_p_f_struct_tc_matrix__void", "void (*)(struct tc_matrix)|void (*)(tc_matrix)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char__void = {"_p_f_struct_tc_matrix_p_q_const__char__void", "void (*)(struct tc_matrix,char const *)|void (*)(tc_matrix,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void = {"_p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void", "void (*)(struct tc_matrix,char const *,void (*)(struct tc_matrix))|void (*)(tc_matrix,char const *,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *,char const *)|void (*)(struct tc_matrix,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_struct_tc_strings_p_double__void = {"_p_f_struct_tc_strings_p_double__void", "void (*)(struct tc_strings,double *)|void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_items__tc_matrix = {"_p_f_tc_items__tc_matrix", "struct tc_matrix (*)(tc_items)|tc_matrix (*)(tc_items)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_items__tc_strings = {"_p_f_tc_items__tc_strings", "struct tc_strings (*)(tc_items)|tc_strings (*)(tc_items)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_matrix = {"_p_f_tc_items_tc_strings__tc_matrix", "struct tc_matrix (*)(tc_items,tc_strings)|tc_matrix (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_strings = {"_p_f_tc_items_tc_strings__tc_strings", "struct tc_strings (*)(tc_items,tc_strings)|tc_strings (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "struct tc_items (*)(tc_strings)|tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int = {"_p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int", "int (*)(char const *,char const *,char const *,tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_tc_items__int = {"_p_f_p_q_const__char_tc_items__int", "int (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_tc_items__tc_items = {"_p_f_p_q_const__char_tc_items__tc_items", "tc_items (*)(char const *,tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_p_q_const__char_tc_strings_p_q_const__char__int = {"_p_f_p_q_const__char_tc_strings_p_q_const__char__int", "int (*)(char const *,tc_strings,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items__tc_matrix = {"_p_f_tc_items__tc_matrix", "tc_matrix (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items__tc_strings = {"_p_f_tc_items__tc_strings", "tc_strings (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items__void = {"_p_f_tc_items__void", "void (*)(tc_items)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_p_q_const__char_p_q_const__char__long = {"_p_f_tc_items_p_q_const__char_p_q_const__char__long", "long (*)(tc_items,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_matrix__void = {"_p_f_tc_items_tc_matrix__void", "void (*)(tc_items,tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_matrix = {"_p_f_tc_items_tc_strings__tc_matrix", "tc_matrix (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_strings__tc_strings = {"_p_f_tc_items_tc_strings__tc_strings", "tc_strings (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_items_tc_strings__void = {"_p_f_tc_items_tc_strings__void", "void (*)(tc_items,tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_matrix__void = {"_p_f_tc_matrix__void", "void (*)(tc_matrix)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char__void", "void (*)(tc_matrix,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void = {"_p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void", "void (*)(tc_matrix,char const *,void (*)(tc_matrix))", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void = {"_p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void", "void (*)(tc_matrix,char const *,char const *,char const *)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_strings__tc_items = {"_p_f_tc_strings__tc_items", "tc_items (*)(tc_strings)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_tc_strings_p_double__void = {"_p_f_tc_strings_p_double__void", "void (*)(tc_strings,double *)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_void__void = {"_p_f_void__void", "void (*)(void)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_long = {"_p_long", "long *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_p_char = {"_p_p_char", "char **", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_tc_items = {"_p_tc_items", "struct tc_items *|tc_items *", 0, 0, (void*)"tinkercell::tc_items", 0};
-static swig_type_info _swigt__p_tc_matrix = {"_p_tc_matrix", "struct tc_matrix *|tc_matrix *", 0, 0, (void*)"tinkercell::tc_matrix", 0};
-static swig_type_info _swigt__p_tc_strings = {"_p_tc_strings", "struct tc_strings *|tc_strings *", 0, 0, (void*)"tinkercell::tc_strings", 0};
-static swig_type_info _swigt__p_tc_table = {"_p_tc_table", "struct tc_table *|tc_table *", 0, 0, (void*)"tinkercell::tc_table", 0};
+static swig_type_info _swigt__p_tc_items = {"_p_tc_items", "tc_items *", 0, 0, (void*)"tinkercell::tc_items", 0};
+static swig_type_info _swigt__p_tc_matrix = {"_p_tc_matrix", "tc_matrix *", 0, 0, (void*)"tinkercell::tc_matrix", 0};
+static swig_type_info _swigt__p_tc_strings = {"_p_tc_strings", "tc_strings *", 0, 0, (void*)"tinkercell::tc_strings", 0};
+static swig_type_info _swigt__p_tc_table = {"_p_tc_table", "tc_table *", 0, 0, (void*)"tinkercell::tc_table", 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_char,
@@ -10688,10 +10688,10 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_long_p_q_const__char_double__void,
   &_swigt__p_f_long_p_q_const__char_int__void,
   &_swigt__p_f_long_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_long_p_q_const__char_struct_tc_matrix__void,
-  &_swigt__p_f_long_p_q_const__char_struct_tc_table__void,
-  &_swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void,
-  &_swigt__p_f_long_struct_tc_strings__void,
+  &_swigt__p_f_long_p_q_const__char_tc_matrix__void,
+  &_swigt__p_f_long_p_q_const__char_tc_table__void,
+  &_swigt__p_f_long_tc_matrix_p_f_tc_matrix__void__void,
+  &_swigt__p_f_long_tc_strings__void,
   &_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   &_swigt__p_f_p_f_void__void__void,
   &_swigt__p_f_p_q_const__char__double,
@@ -10701,30 +10701,30 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_p_q_const__char__tc_items,
   &_swigt__p_f_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_int_int__void,
-  &_swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void,
+  &_swigt__p_f_p_q_const__char_int_int_tc_strings__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char__long,
   &_swigt__p_f_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int,
-  &_swigt__p_f_p_q_const__char_struct_tc_items__int,
-  &_swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int,
+  &_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int,
+  &_swigt__p_f_p_q_const__char_tc_items__int,
   &_swigt__p_f_p_q_const__char_tc_items__tc_items,
-  &_swigt__p_f_struct_tc_items__void,
-  &_swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long,
-  &_swigt__p_f_struct_tc_items_struct_tc_matrix__void,
-  &_swigt__p_f_struct_tc_items_struct_tc_strings__void,
-  &_swigt__p_f_struct_tc_matrix__void,
-  &_swigt__p_f_struct_tc_matrix_p_q_const__char__void,
-  &_swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void,
-  &_swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  &_swigt__p_f_struct_tc_strings_p_double__void,
+  &_swigt__p_f_p_q_const__char_tc_strings_p_q_const__char__int,
   &_swigt__p_f_tc_items__tc_matrix,
   &_swigt__p_f_tc_items__tc_strings,
+  &_swigt__p_f_tc_items__void,
+  &_swigt__p_f_tc_items_p_q_const__char_p_q_const__char__long,
+  &_swigt__p_f_tc_items_tc_matrix__void,
   &_swigt__p_f_tc_items_tc_strings__tc_matrix,
   &_swigt__p_f_tc_items_tc_strings__tc_strings,
+  &_swigt__p_f_tc_items_tc_strings__void,
+  &_swigt__p_f_tc_matrix__void,
+  &_swigt__p_f_tc_matrix_p_q_const__char__void,
+  &_swigt__p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void,
+  &_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
   &_swigt__p_f_tc_strings__tc_items,
+  &_swigt__p_f_tc_strings_p_double__void,
   &_swigt__p_f_void__void,
   &_swigt__p_long,
   &_swigt__p_p_char,
@@ -10771,10 +10771,10 @@ static swig_cast_info _swigc__p_f_long_p_q_const__char__void[] = {  {&_swigt__p_
 static swig_cast_info _swigc__p_f_long_p_q_const__char_double__void[] = {  {&_swigt__p_f_long_p_q_const__char_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_long_p_q_const__char_int__void[] = {  {&_swigt__p_f_long_p_q_const__char_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_long_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_long_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_long_p_q_const__char_struct_tc_matrix__void[] = {  {&_swigt__p_f_long_p_q_const__char_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_long_p_q_const__char_struct_tc_table__void[] = {  {&_swigt__p_f_long_p_q_const__char_struct_tc_table__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void[] = {  {&_swigt__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_long_struct_tc_strings__void[] = {  {&_swigt__p_f_long_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_tc_matrix__void[] = {  {&_swigt__p_f_long_p_q_const__char_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_p_q_const__char_tc_table__void[] = {  {&_swigt__p_f_long_p_q_const__char_tc_table__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_tc_matrix_p_f_tc_matrix__void__void[] = {  {&_swigt__p_f_long_tc_matrix_p_f_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_tc_strings__void[] = {  {&_swigt__p_f_long_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void[] = {  {&_swigt__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_f_void__void__void[] = {  {&_swigt__p_f_p_f_void__void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__double[] = {  {&_swigt__p_f_p_q_const__char__double, 0, 0, 0},{0, 0, 0, 0}};
@@ -10784,30 +10784,30 @@ static swig_cast_info _swigc__p_f_p_q_const__char__p_char[] = {  {&_swigt__p_f_p
 static swig_cast_info _swigc__p_f_p_q_const__char__tc_items[] = {  {&_swigt__p_f_p_q_const__char__tc_items, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_int_int__void[] = {  {&_swigt__p_f_p_q_const__char_int_int__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_int_int_struct_tc_strings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_int_int_tc_strings__void[] = {  {&_swigt__p_f_p_q_const__char_int_int_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__long[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_struct_tc_items__int[] = {  {&_swigt__p_f_p_q_const__char_struct_tc_items__int, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int[] = {  {&_swigt__p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_tc_items__int[] = {  {&_swigt__p_f_p_q_const__char_tc_items__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_p_q_const__char_tc_items__tc_items[] = {  {&_swigt__p_f_p_q_const__char_tc_items__tc_items, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_items__void[] = {  {&_swigt__p_f_struct_tc_items__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long[] = {  {&_swigt__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_items_struct_tc_matrix__void[] = {  {&_swigt__p_f_struct_tc_items_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_items_struct_tc_strings__void[] = {  {&_swigt__p_f_struct_tc_items_struct_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_matrix__void[] = {  {&_swigt__p_f_struct_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_f_struct_tc_strings_p_double__void[] = {  {&_swigt__p_f_struct_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_p_q_const__char_tc_strings_p_q_const__char__int[] = {  {&_swigt__p_f_p_q_const__char_tc_strings_p_q_const__char__int, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_items__tc_matrix[] = {  {&_swigt__p_f_tc_items__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_items__tc_strings[] = {  {&_swigt__p_f_tc_items__tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items__void[] = {  {&_swigt__p_f_tc_items__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items_p_q_const__char_p_q_const__char__long[] = {  {&_swigt__p_f_tc_items_p_q_const__char_p_q_const__char__long, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items_tc_matrix__void[] = {  {&_swigt__p_f_tc_items_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_items_tc_strings__tc_matrix[] = {  {&_swigt__p_f_tc_items_tc_strings__tc_matrix, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_items_tc_strings__tc_strings[] = {  {&_swigt__p_f_tc_items_tc_strings__tc_strings, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_items_tc_strings__void[] = {  {&_swigt__p_f_tc_items_tc_strings__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_matrix__void[] = {  {&_swigt__p_f_tc_matrix__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void[] = {  {&_swigt__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_tc_strings__tc_items[] = {  {&_swigt__p_f_tc_strings__tc_items, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_tc_strings_p_double__void[] = {  {&_swigt__p_f_tc_strings_p_double__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_void__void[] = {  {&_swigt__p_f_void__void, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_long[] = {  {&_swigt__p_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_p_char[] = {  {&_swigt__p_p_char, 0, 0, 0},{0, 0, 0, 0}};
@@ -10854,10 +10854,10 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_long_p_q_const__char_double__void,
   _swigc__p_f_long_p_q_const__char_int__void,
   _swigc__p_f_long_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_long_p_q_const__char_struct_tc_matrix__void,
-  _swigc__p_f_long_p_q_const__char_struct_tc_table__void,
-  _swigc__p_f_long_struct_tc_matrix_p_f_struct_tc_matrix__void__void,
-  _swigc__p_f_long_struct_tc_strings__void,
+  _swigc__p_f_long_p_q_const__char_tc_matrix__void,
+  _swigc__p_f_long_p_q_const__char_tc_table__void,
+  _swigc__p_f_long_tc_matrix_p_f_tc_matrix__void__void,
+  _swigc__p_f_long_tc_strings__void,
   _swigc__p_f_p_f___void_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_int_int_int__void,
   _swigc__p_f_p_f_void__void__void,
   _swigc__p_f_p_q_const__char__double,
@@ -10867,30 +10867,30 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_p_q_const__char__tc_items,
   _swigc__p_f_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_int_int__void,
-  _swigc__p_f_p_q_const__char_int_int_struct_tc_strings__void,
+  _swigc__p_f_p_q_const__char_int_int_tc_strings__void,
   _swigc__p_f_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_p_q_const__char_p_q_const__char__long,
   _swigc__p_f_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char__int,
   _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_struct_tc_matrix__int,
-  _swigc__p_f_p_q_const__char_struct_tc_items__int,
-  _swigc__p_f_p_q_const__char_struct_tc_strings_p_q_const__char__int,
+  _swigc__p_f_p_q_const__char_p_q_const__char_p_q_const__char_tc_matrix__int,
+  _swigc__p_f_p_q_const__char_tc_items__int,
   _swigc__p_f_p_q_const__char_tc_items__tc_items,
-  _swigc__p_f_struct_tc_items__void,
-  _swigc__p_f_struct_tc_items_p_q_const__char_p_q_const__char__long,
-  _swigc__p_f_struct_tc_items_struct_tc_matrix__void,
-  _swigc__p_f_struct_tc_items_struct_tc_strings__void,
-  _swigc__p_f_struct_tc_matrix__void,
-  _swigc__p_f_struct_tc_matrix_p_q_const__char__void,
-  _swigc__p_f_struct_tc_matrix_p_q_const__char_p_f_struct_tc_matrix__void__void,
-  _swigc__p_f_struct_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
-  _swigc__p_f_struct_tc_strings_p_double__void,
+  _swigc__p_f_p_q_const__char_tc_strings_p_q_const__char__int,
   _swigc__p_f_tc_items__tc_matrix,
   _swigc__p_f_tc_items__tc_strings,
+  _swigc__p_f_tc_items__void,
+  _swigc__p_f_tc_items_p_q_const__char_p_q_const__char__long,
+  _swigc__p_f_tc_items_tc_matrix__void,
   _swigc__p_f_tc_items_tc_strings__tc_matrix,
   _swigc__p_f_tc_items_tc_strings__tc_strings,
+  _swigc__p_f_tc_items_tc_strings__void,
+  _swigc__p_f_tc_matrix__void,
+  _swigc__p_f_tc_matrix_p_q_const__char__void,
+  _swigc__p_f_tc_matrix_p_q_const__char_p_f_tc_matrix__void__void,
+  _swigc__p_f_tc_matrix_p_q_const__char_p_q_const__char_p_q_const__char__void,
   _swigc__p_f_tc_strings__tc_items,
+  _swigc__p_f_tc_strings_p_double__void,
   _swigc__p_f_void__void,
   _swigc__p_long,
   _swigc__p_p_char,
@@ -11016,9 +11016,9 @@ static swig_command_info swig_commands[] = {
 {"tinkercellc::tc_getNumericalDataNames", _wrap_tc_getNumericalDataNames},
 {"tinkercellc::tc_getTextDataNames", _wrap_tc_getTextDataNames},
 {"tinkercellc::tc_zoom", _wrap_tc_zoom},
-{"tinkercellc::tc_tc_getTableValue", _wrap_tc_tc_getTableValue},
+{"tinkercellc::tc_getStringDialog", _wrap_tc_getStringDialog},
 {"tinkercellc::tc_getFilename", _wrap_tc_getFilename},
-{"tinkercellc::tc_tc_getTableValueFromList", _wrap_tc_tc_getTableValueFromList},
+{"tinkercellc::tc_getStringFromList", _wrap_tc_getStringFromList},
 {"tinkercellc::tc_getNumber", _wrap_tc_getNumber},
 {"tinkercellc::tc_getNumbers", _wrap_tc_getNumbers},
 {"tinkercellc::tc_askQuestion", _wrap_tc_askQuestion},

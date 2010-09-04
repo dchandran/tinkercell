@@ -19,7 +19,7 @@ TCAPIEXPORT void tc_main()
 void run()
 {
   tc_items selected = tc_selectedItems();
-  void* p; 
+  long p; 
   tc_items C;
   int i, j, k, N = 0;
   tc_items js, tfs, parts;

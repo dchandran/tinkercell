@@ -5603,7 +5603,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_tc_getTableValue (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_getStringDialog (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
   int res1 ;
   char *buf1 = 0 ;
@@ -5613,15 +5613,15 @@ static octave_value_list _wrap_tc_tc_getTableValue (const octave_value_list& arg
   octave_value _outv;
   char *result = 0 ;
   
-  if (!SWIG_check_num_args("tc_tc_getTableValue",args.length(),1,1,0)) {
+  if (!SWIG_check_num_args("tc_getStringDialog",args.length(),1,1,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValue" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringDialog" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
-  result = (char *)tc_tc_getTableValue((char const *)arg1);
+  result = (char *)tc_getStringDialog((char const *)arg1);
   _outv = SWIG_FromCharPtr((const char *)result);
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
@@ -5647,7 +5647,7 @@ fail:
 }
 
 
-static octave_value_list _wrap_tc_tc_getTableValueFromList (const octave_value_list& args, int nargout) {
+static octave_value_list _wrap_tc_getStringFromList (const octave_value_list& args, int nargout) {
   char *arg1 = (char *) 0 ;
   tc_strings arg2 ;
   char *arg3 = (char *) 0 ;
@@ -5664,31 +5664,31 @@ static octave_value_list _wrap_tc_tc_getTableValueFromList (const octave_value_l
   octave_value _outv;
   int result;
   
-  if (!SWIG_check_num_args("tc_tc_getTableValueFromList",args.length(),3,3,0)) {
+  if (!SWIG_check_num_args("tc_getStringFromList",args.length(),3,3,0)) {
     SWIG_fail;
   }
   res1 = SWIG_AsCharPtrAndSize(args(0), &buf1, NULL, &alloc1);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_tc_getTableValueFromList" "', argument " "1"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "tc_getStringFromList" "', argument " "1"" of type '" "char const *""'");
   }
   arg1 = (char *)(buf1);
   {
     res2 = SWIG_ConvertPtr(args(1), &argp2, SWIGTYPE_p_tc_strings,  0 );
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'"); 
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "tc_strings""'"); 
     }  
     if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_tc_getTableValueFromList" "', argument " "2"" of type '" "tc_strings""'");
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "tc_getStringFromList" "', argument " "2"" of type '" "tc_strings""'");
     } else {
       arg2 = *((tc_strings *)(argp2));
     }
   }
   res3 = SWIG_AsCharPtrAndSize(args(2), &buf3, NULL, &alloc3);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_tc_getTableValueFromList" "', argument " "3"" of type '" "char const *""'");
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "tc_getStringFromList" "', argument " "3"" of type '" "char const *""'");
   }
   arg3 = (char *)(buf3);
-  result = (int)tc_tc_getTableValueFromList((char const *)arg1,arg2,(char const *)arg3);
+  result = (int)tc_getStringFromList((char const *)arg1,arg2,(char const *)arg3);
   _outv = SWIG_From_int((int)(result));
   if (_outv.is_defined()) _outp = SWIG_Octave_AppendOutput(_outp, _outv);
   if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
@@ -10303,9 +10303,9 @@ static const struct swig_octave_member swig_globals[] = {
 {"tc_getNumericalDataNames",_wrap_tc_getNumericalDataNames,0,0,2,0},
 {"tc_getTextDataNames",_wrap_tc_getTextDataNames,0,0,2,0},
 {"tc_zoom",_wrap_tc_zoom,0,0,2,0},
-{"tc_tc_getTableValue",_wrap_tc_tc_getTableValue,0,0,2,0},
+{"tc_getStringDialog",_wrap_tc_getStringDialog,0,0,2,0},
 {"tc_getFilename",_wrap_tc_getFilename,0,0,2,0},
-{"tc_tc_getTableValueFromList",_wrap_tc_tc_getTableValueFromList,0,0,2,0},
+{"tc_getStringFromList",_wrap_tc_getStringFromList,0,0,2,0},
 {"tc_getNumber",_wrap_tc_getNumber,0,0,2,0},
 {"tc_getNumbers",_wrap_tc_getNumbers,0,0,2,0},
 {"tc_askQuestion",_wrap_tc_askQuestion,0,0,2,0},

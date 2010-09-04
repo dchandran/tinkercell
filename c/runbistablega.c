@@ -7,6 +7,7 @@ and performs the bistabilty analysis. Then this file resumes and sends the outpu
 ****************************************************************************/
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "TC_api.h"
 
 void run();

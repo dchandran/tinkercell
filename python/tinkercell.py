@@ -437,17 +437,17 @@ def tc_zoom(*args):
   return _tinkercell.tc_zoom(*args)
 tc_zoom = _tinkercell.tc_zoom
 
-def tc_tc_getTableValue(*args):
-  return _tinkercell.tc_tc_getTableValue(*args)
-tc_tc_getTableValue = _tinkercell.tc_tc_getTableValue
+def tc_getStringDialog(*args):
+  return _tinkercell.tc_getStringDialog(*args)
+tc_getStringDialog = _tinkercell.tc_getStringDialog
 
 def tc_getFilename():
   return _tinkercell.tc_getFilename()
 tc_getFilename = _tinkercell.tc_getFilename
 
-def tc_tc_getTableValueFromList(*args):
-  return _tinkercell.tc_tc_getTableValueFromList(*args)
-tc_tc_getTableValueFromList = _tinkercell.tc_tc_getTableValueFromList
+def tc_getStringFromList(*args):
+  return _tinkercell.tc_getStringFromList(*args)
+tc_getStringFromList = _tinkercell.tc_getStringFromList
 
 def tc_getNumber(*args):
   return _tinkercell.tc_getNumber(*args)

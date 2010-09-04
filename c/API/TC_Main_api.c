@@ -523,15 +523,15 @@ void tc_zoom(double factor)
 		_tc_zoom(factor);
 }
 
-const char* (*_tc_tc_getTableValue)(const char* title) = 0;
+const char* (*_tc_getStringDialog)(const char* title) = 0;
 /*! 
  \brief get a text from the user (dialog)
  \ingroup Input and Output
 */
-const char* tc_tc_getTableValue(const char* title)
+const char* tc_getStringDialog(const char* title)
 {
-	if (_tc_tc_getTableValue)
-		return _tc_tc_getTableValue(title);
+	if (_tc_getStringDialog)
+		return _tc_getStringDialog(title);
 	return 0;
 }
 
@@ -547,15 +547,15 @@ const char* tc_getFilename()
 	return 0;
 }
 
-int (*_tc_tc_getTableValueFromList)(const char* title, tc_strings list,const char* selectedString) = 0;
+int (*_tc_getStringFromList)(const char* title, tc_strings list,const char* selectedString) = 0;
 /*! 
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-int tc_tc_getTableValueFromList(const char* title, tc_strings list,const char* selectedString)
+int tc_getStringFromList(const char* title, tc_strings list,const char* selectedString)
 {
-	if (_tc_tc_getTableValueFromList)
-		return _tc_tc_getTableValueFromList(title,list,selectedString);
+	if (_tc_getStringFromList)
+		return _tc_getStringFromList(title,list,selectedString);
 	return 0;
 }
 
@@ -797,7 +797,7 @@ void tc_Main_api_initialize(
 		
 		void (*tc_zoom0)(double factor),
 		
-		const char* (*tc_getTableValue0)(const char*),
+		const char* (*tc_getString0)(const char*),
 		int (*getSelectedString0)(const char*, tc_strings, const char*),
 		double (*getNumber0)(const char*),
 		void (*getNumbers0)( tc_strings, double * ),
@@ -874,8 +874,8 @@ void tc_Main_api_initialize(
 	
 	_tc_zoom = tc_zoom0;
 	
-	_tc_tc_getTableValue = tc_getTableValue0;
-	_tc_tc_getTableValueFromList = getSelectedString0;
+	_tc_getStringDialog = tc_getString0;
+	_tc_getStringFromList = getSelectedString0;
 	_tc_getNumber = getNumber0;
 	_tc_getNumbers = getNumbers0;
 	_tc_getFilename = getFilename0;

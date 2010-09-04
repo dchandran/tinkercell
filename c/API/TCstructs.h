@@ -25,8 +25,10 @@
 #  endif
 # endif //TCAPIEXPORT
 
+BEGIN_C_DECLS
+
 /*!\brief An array of strings with length information. Use tc_getString(M,i) to get the i-th string.*/
-typedef struct TCAPIEXPORT tc_strings
+typedef struct
 {
 	int length;
 	char ** strings;
@@ -34,7 +36,7 @@ typedef struct TCAPIEXPORT tc_strings
 
 
 /*!\brief An array of int objects with length information. Use tc_getItem(M,i) to get the i-th item.*/
-typedef struct TCAPIEXPORT tc_items
+typedef struct
 {
 	int length;
 	long* items;
@@ -42,7 +44,7 @@ typedef struct TCAPIEXPORT tc_items
 
 
 /*!\brief A 2D table of doubles with row and column names. Use tc_getMatrixValue(M,i,j) to get the i,j-th value in tc_matrix M.*/
-typedef struct TCAPIEXPORT tc_matrix
+typedef struct
 {
 	int rows, cols;
 	double * values;
@@ -52,15 +54,13 @@ typedef struct TCAPIEXPORT tc_matrix
 
 
 /*!\brief A 2D table of strings with row and column names. Use tc_getTableValue(M,i,j) to get the i,j-th value in tc_matrix M.*/
-typedef struct TCAPIEXPORT tc_table
+typedef struct
 {
 	int rows, cols;
 	char ** strings;
 	tc_strings rownames;
 	tc_strings colnames;
 } tc_table;
-
-BEGIN_C_DECLS
 
 /*!\brief Create a matrix with the given rows and columns*/
 TCAPIEXPORT tc_matrix tc_createMatrix(int rows, int cols);

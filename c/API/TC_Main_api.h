@@ -277,7 +277,7 @@ TCAPIEXPORT void tc_zoom(double factor);
  \brief get a text from the user (dialog)
  \ingroup Input and Output
 */
-TCAPIEXPORT const char* tc_tc_getTableValue(const char* title);
+TCAPIEXPORT const char* tc_getStringDialog(const char* title);
 /*! 
  \brief get a file from the user (dialog)
  \ingroup Input and Output
@@ -288,7 +288,7 @@ TCAPIEXPORT const char* tc_getFilename();
  \brief get a text from the user (dialog) from a list of selections
  \ingroup Input and Output
 */
-TCAPIEXPORT int tc_tc_getTableValueFromList(const char* title, tc_strings list,const char* selectedString);
+TCAPIEXPORT int tc_getStringFromList(const char* title, tc_strings list,const char* selectedString);
 /*! 
  \brief get a number from the user (dialog)
  \ingroup Input and Output
@@ -443,7 +443,7 @@ TCAPIEXPORT void tc_Main_api_initialize(
 		
 		void (*tc_zoom0)(double factor),
 		
-		const char* (*tc_getTableValue)(const char*),
+		const char* (*tc_getStringDialog0)(const char*),
 		int (*getSelectedString)(const char*, tc_strings, const char*),
 		double (*getNumber)(const char*),
 		void (*getNumbers)( tc_strings, double * ),

@@ -8,7 +8,7 @@ void run(tc_matrix input) //first row = objective, rest = contraints, first two 
 	REAL * row;
 	REAL * obj;
 	REAL * soln;
-	void* o;
+	long o;
 	double max = 0.0;
 	tc_matrix output;
 
